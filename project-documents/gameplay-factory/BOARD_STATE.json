@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-11 2:20 PM Boston time (EST)",
+ "generated": "2026-11-11 2:30 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 237,
+  "count": 248,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2111,6 +2111,24 @@
     "boston": "Mon 9 Nov 4:35 PM"
    },
    {
+    "time": "2026-11-11 15:03",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-069 SENT",
+    "subject": "HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops",
+    "reply": "yes (receive it)",
+    "boston": "Wed 11 Nov 10:03 AM"
+   },
+   {
+    "time": "2026-11-11 15:04",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-069 SENT",
+    "subject": "HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops",
+    "reply": "yes (receive it)",
+    "boston": "Wed 11 Nov 10:04 AM"
+   },
+   {
     "time": "2026-11-11 15:06",
     "from": "Team V",
     "to": "Team G",
@@ -2118,6 +2136,15 @@
     "subject": "HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops",
     "reply": "no",
     "boston": "Wed 11 Nov 10:06 AM"
+   },
+   {
+    "time": "2026-11-11 15:39",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-070 SENT",
+    "subject": "Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866",
+    "reply": "yes (receive it)",
+    "boston": "Wed 11 Nov 10:39 AM"
    },
    {
     "time": "2026-11-11 18:54",
@@ -2136,6 +2163,78 @@
     "subject": "Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866",
     "reply": "no",
     "boston": "Wed 11 Nov 1:59 PM"
+   },
+   {
+    "time": "2026-11-11 19:24",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-071 SENT",
+    "subject": "One handcrafted title family for every screen (no AI look, not shiny)",
+    "reply": "yes (receive it)",
+    "boston": "Wed 11 Nov 2:24 PM"
+   },
+   {
+    "time": "2026-11-11 19:24",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-072 SENT",
+    "subject": "Loading screen (Marco Reus cover) rebuilt in the HC family, sharp",
+    "reply": "yes (receive it)",
+    "boston": "Wed 11 Nov 2:24 PM"
+   },
+   {
+    "time": "2026-11-11 19:24",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-073 SENT",
+    "subject": "Home: crowd and stands behind the glass, higher quality, handcrafted",
+    "reply": "yes (receive it)",
+    "boston": "Wed 11 Nov 2:24 PM"
+   },
+   {
+    "time": "2026-11-11 19:24",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-074 SENT",
+    "subject": "Lighting pass: one lamp logic per room, no rim without a source",
+    "reply": "yes (receive it)",
+    "boston": "Wed 11 Nov 2:24 PM"
+   },
+   {
+    "time": "2026-11-11 19:28",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-071 RECEIVED",
+    "subject": "One handcrafted title family for every screen (no AI look, not shiny)",
+    "reply": "no",
+    "boston": "Wed 11 Nov 2:28 PM"
+   },
+   {
+    "time": "2026-11-11 19:28",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-072 RECEIVED",
+    "subject": "Loading screen (Marco Reus cover) rebuilt in the HC family, sharp",
+    "reply": "no",
+    "boston": "Wed 11 Nov 2:28 PM"
+   },
+   {
+    "time": "2026-11-11 19:28",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-074 RECEIVED",
+    "subject": "Lighting pass: one lamp logic per room, no rim without a source",
+    "reply": "no",
+    "boston": "Wed 11 Nov 2:28 PM"
+   },
+   {
+    "time": "2026-11-11 19:28",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-073 RECEIVED",
+    "subject": "Home: crowd and stands behind the glass, higher quality, handcrafted",
+    "reply": "no",
+    "boston": "Wed 11 Nov 2:28 PM"
    }
   ],
   "g2v": {
@@ -2156,8 +2255,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "15f5f19",
-  "head_boston": "Wed 11 Nov 1:59 PM",
+  "head": "b053263",
+  "head_boston": "Wed 11 Nov 2:28 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2200,7 +2299,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1387 has waited 250 min for a machine; Showdown Gate on #1378 has waited 22 min for a machine; Showdown Gate on #1384 has waited 22 min for a machine; Showdown Gate on #1391 has waited 19 min for a machine; Showdown Gate on #1393 has waited 16 min for a machine; Showdown Gate on #1394 has waited 15 min for a machine; POS20 on #312 has waited 15 min for a machine; Showdown Gate on #1395 has waited 5 min for a machine; Showdown Gate on #1357 has waited 4 min for a machine; Showdown Gate on #1364 has waited 4 min for a machine; Showdown Gate on #1396 has waited 2 min for a machine.",
+   "line": "Barking: Showdown Gate on #1383 has waited 30 min for a machine; POS20 has waited 25 min for a machine; Showdown Gate on #1395 has waited 15 min for a machine; Showdown Gate on #1357 has waited 14 min for a machine; Showdown Gate on #1364 has waited 14 min for a machine; Showdown Gate on #1396 has waited 12 min for a machine; Showdown Gate on #1397 has waited 11 min for a machine; Showdown Gate on #1398 has waited 5 min for a machine; Showdown Gate on #1399 has waited 3 min for a machine; Showdown Gate on #1400 has waited 1 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -2987,7 +3086,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5295
+    "waiting_min": 5305
    },
    {
     "id": "HO-059",
@@ -3144,6 +3243,58 @@
     "worker": "",
     "pickup_min": 190,
     "waiting_min": null
+   },
+   {
+    "id": "HO-071",
+    "from": "G",
+    "to": "V",
+    "title": "One handcrafted title family for every screen (no AI look, not shiny)",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-071_one-handcrafted-title-family-for-every-s.md",
+    "worker": "images",
+    "pickup_min": 0,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-072",
+    "from": "G",
+    "to": "V",
+    "title": "Loading screen (Marco Reus cover) rebuilt in the HC family, sharp",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-072_loading-screen-marco-reus-cover-rebuilt-.md",
+    "worker": "images",
+    "pickup_min": 0,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-073",
+    "from": "G",
+    "to": "V",
+    "title": "Home: crowd and stands behind the glass, higher quality, handcrafted",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-073_home-crowd-and-stands-behind-the-glass-h.md",
+    "worker": "images",
+    "pickup_min": 0,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-074",
+    "from": "G",
+    "to": "V",
+    "title": "Lighting pass: one lamp logic per room, no rim without a source",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-074_lighting-pass-one-lamp-logic-per-room-no.md",
+    "worker": "images",
+    "pickup_min": 0,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -3215,7 +3366,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,

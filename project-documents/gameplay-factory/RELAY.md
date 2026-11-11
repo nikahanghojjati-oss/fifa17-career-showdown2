@@ -1,12 +1,172 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-11 2:20 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-11 2:30 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `15f5f19` (Wed 11 Nov 1:59 PM Boston time) · 237 messages · 71 hand-offs · 457 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b053263` (Wed 11 Nov 2:28 PM Boston time) · 248 messages · 75 hand-offs · 468 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-074 · G → V · Lighting pass: one lamp logic per room, no rim without a source
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Wed 11 Nov 2:28 PM · Team V · Received · V lighting thread starting now: room relights, brass wheel rim, glow removal
+- Wed 11 Nov 2:24 PM · Team G · Sent
+- Wed 11 Nov 2:29 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# TV-D · Lighting pass: one lamp logic per room, no rim without a source (kind: design, worker: images, priority: normal)
+
+Nik (11 Nov 12:36 Eastern): "the lighting should look logical professional and handcrafted on heroes and other elements of screen".
+
+### Found (2X plates, crops in the shots folder)
+1. Hair rim. Every room draws a warm copper outline round the managers' hair on all sides.
+   - Tunnel: the wall lamp is on the right; the rim also runs round the left of Daniel's hair (`tunnel_daniel_hair_2x.jpg`).
+   - Box: the only lights behind the glass are cool white floodlights; the rim is copper, all round (`rim_box_office.jpg`, left).
+   - Office: the lamp is far right; the rim is on the left back of Daniel's head (`rim_box_office.jpg`, right).
+   - Board, archive, home: same outline with no lamp on that side.
+2. League wheel. `WHEEL_RIM_V1.webp` is the old mirror-gold riveted rim, shown in the brushed-brass box room; pointer and hub are code gradients in another gold.
+3. Transfer War cards. In your bundle (`tr2/slice-02-plate/plate.css`) the cards, clock and labels carry gold glows up to 30 px, so they read as lit screens on the desk instead of objects in the room. Team G is removing the same kind of glow from its own files in one small PR; please match in your bundle, or say "go" and Team G will do it there too.
+4. Shared title style (`shared/showdown-type.css` line 39) adds `drop-shadow(0 0 12px rgba(242,196,91,.25))` to every title. Team G will override it until you drop it.
+
+### Ask
+- One relight per room: rim only on the side facing a lamp, in that lamp's colour and strength; no outline on the far side. Faces, hair shape, poses, clothes and room stay exactly as Nik picked them (HO-068).
+- League wheel rim in brushed brass matching the box room rail, same size and centre as today (alpha WebP), plus pointer and hub if you prefer them drawn.
+- Drop the glow terms in the Transfer War bundle and the shared title style.
+
+### Accept when
+- For each room, a viewer can point at the lamp that makes every highlight on the two managers.
+- At 1920 x 866 no card, clock or label looks like it emits light.
+
+
+Source: Team G art ledger gameplay/r91/art/ART_LEDGER.md (shared project files), gallery https://claude.ai/artifact/B36Gj4iHoAighBW3zDQ9AX. Nik's bar (2026-11-11): no AI look, fully handcrafted, looks like a team of 30 senior UI/UX designers built it; not overly shiny; logical lighting.
+
+</details>
+
+### HO-073 · G → V · Home: crowd and stands behind the glass, higher quality, handcrafted
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Wed 11 Nov 2:28 PM · Team V · Received · Home crowd plate edit: V writes the picture ticket for Nik (ChatGPT edit), starting now
+- Wed 11 Nov 2:24 PM · Team G · Sent
+- Wed 11 Nov 2:29 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# TV-C · Home: crowd and stands behind the glass (kind: design, worker: images, priority: normal)
+
+Nik (11 Nov 12:34 Eastern): "the attendance and like the visitors can be leveled up in terms of visual quality in the background image of the home screen ... we can improve usually the details without making it like any art".
+
+### Found
+`ENV_HOME_PLATE_HC_V2_1X/2X.webp` is one flat picture (not layered), so this is an edit of the plate, not a setting. In the 2X file the stands are soft blobs with no heads, shoulders, scarves or seat rows, and one dark empty block of seats (`home_crowd_2x.jpg`). The box room (League, Club) has the better crowd: seat rows and small figures read correctly there.
+
+### Ask
+Edit of the Home plate only behind the glass: a believable evening crowd at the right scale for that distance (rows, aisle steps, a few scarves in club yellow and black, scattered empty seats, floodlight falloff). Keep it quiet: darker than the room, no faces that pull the eye, no generated-looking repeated figures. Nothing else on the plate changes: room, managers, lamp, props stay pixel-for-pixel so Team G's positions hold.
+Same edit on the Home phone plate. If any other room shows people in the background, hold it to the same bar (the box room already passes).
+
+### Accept when
+- Side by side with the current plate at 1920 x 866, the stands read as people in seats, not as texture.
+- The managers and the menu still win the first glance.
+
+---
+
+
+Source: Team G art ledger gameplay/r91/art/ART_LEDGER.md (shared project files), gallery https://claude.ai/artifact/B36Gj4iHoAighBW3zDQ9AX. Nik's bar (2026-11-11): no AI look, fully handcrafted, looks like a team of 30 senior UI/UX designers built it; not overly shiny; logical lighting.
+
+</details>
+
+### HO-072 · G → V · Loading screen (Marco Reus cover) rebuilt in the HC family, sharp
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Wed 11 Nov 2:28 PM · Team V · Received · V thread starting now: Reus cut-out + HC room plate
+- Wed 11 Nov 2:24 PM · Team G · Sent
+- Wed 11 Nov 2:29 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# TV-B · Loading screen (Marco Reus cover) rebuilt in the HC family, sharp (kind: design, worker: images, priority: top)
+
+Nik (11 Nov 12:31 Eastern): "make sure the loading screen become part of new family design and score 100 while keeping reus but fixing sharpness issue and other issues".
+
+### Cause of the softness (measured by Team G)
+1. Reus was cut from the repo's 900 x 1520 copy of the photo. In `assets/LOADING_REUS_DESKTOP.webp` (1920 x 1080) his head is about 155 px wide, the same as in that copy: no detail in reserve.
+2. The cut-out was smoothed (waxy skin and hair).
+3. Reus, the tunnel and all lettering are one flat picture, saved at 94 KB. No 2x file.
+4. `assets/LOADING_REUS_PHONE.webp` is 1080 x 1920 (the page declares 1179 x 2096). A 3x phone stretches it 1.32 times.
+5. The Chromebook draws it 1:1, so the softness is in the file.
+
+### Other defects on the same screen
+- Old look: glowing gold-vein tunnel, glowing brush wordmark with crown, medallion, baked "THE RIVALRY STARTS HERE" and a boxed "TWO MANAGERS · ONE LEGACY".
+- Reus is lit by flat daylight while the room behind him is back-lit gold: no rim, no warm bounce, hard cut edge.
+- Upright tablet (820 x 1180): the flat picture cannot fill the window, black bars left and right.
+- Phone: the status line and the photo credit run across his shorts and boots.
+
+### Ask (layers, so code can fill any window)
+1. Room plate with no people and no words, in the HC V2 family (a tunnel mouth or the Dortmund-yellow end of a tunnel is fine). Desktop 1920 x 1080 and 3840 x 2160; phone at the HC room phone size plus the 590 wide cut. Leave a calm area for Reus and a calm strip at the bottom for the status line.
+2. Reus cut-out, alpha WebP, from the full-size original of the same photo ("Marco Reus (16204330530) (cropped).jpg", Tim Reckmann, CC BY 2.0, Wikimedia Commons). Team G's container cannot reach Wikimedia, so the download is on your side. Keep the real photo grain: no smoothing, no repainting of the face. Heights 1080 and 2160 for desktop, 1400 and 2100 for phone. Relight only as much as needed so he belongs in the room (soft warm edge on the lamp side, contact shadow at the feet).
+3. No lettering in any layer. Team G sets the title (TV-A family), one tagline and the status line as live type, and keeps the credit line with "edited" clear of his body.
+4. Keep the Dortmund crest on his shirt as in the photo.
+
+### Accept when
+- At 1920 x 866, 1920 x 1035 and on a 3x phone, eyes, hair and shirt print are crisp with no upscaling.
+- Reus and the room share one light direction.
+- Total first-paint weight for the loading screen stays at or under today's on phone, and under 220 KB on desktop at 1x (2x files load only on sharp screens).
+- No black bars at 820 x 1180, 1363 x 936, 844 x 390.
+
+---
+
+
+Source: Team G art ledger gameplay/r91/art/ART_LEDGER.md (shared project files), gallery https://claude.ai/artifact/B36Gj4iHoAighBW3zDQ9AX. Nik's bar (2026-11-11): no AI look, fully handcrafted, looks like a team of 30 senior UI/UX designers built it; not overly shiny; logical lighting.
+
+</details>
+
+### HO-071 · G → V · One handcrafted title family for every screen (no AI look, not shiny)
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Wed 11 Nov 2:28 PM · Team V · Received · Team V starting now: 3 matte handcrafted title samples (TRANSFER WAR + SETTINGS) for Nik, then the full set in his pick.
+- Wed 11 Nov 2:24 PM · Team G · Sent
+- Wed 11 Nov 2:29 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# TV-A · One handcrafted title family for every screen (kind: design, worker: images, priority: top)
+
+### What is wrong today
+1. Three unrelated lettering styles: brush-gold pictures (12 screens), Kaushan Script live text (Club Assignment and the big "VS"), heavy italic 3D gold picture (Career Statistics, TITLE_CS_V2).
+2. The brush pictures have polished gold with a baked shine and soft halo. Next to the HC V2 rooms (brushed brass, walnut, matte marble) they read as generated.
+3. Each title is stacked with a crown glyph and a "CAREER MODE SHOWDOWN 17" kicker. Team G removes the crown, the kicker and the added CSS glow in code (its own PR). The lettering itself is yours.
+
+### Ask
+One lettering family that looks made by one hand for this club: matte, like brass inlay or sign-writer's paint on the room's own materials. No mirror shine, no bevel, no glow, no sparkle, no crown, no kicker, nothing baked but the letters (alpha).
+
+Please show Nik 3 short samples first (the words "TRANSFER WAR" and "SETTINGS" in each), then cut the full set in the one he picks.
+
+### Set (same slots as today, so wiring is a file swap)
+Shared wordmarks, each at 480 / 960 / 1920 / 3840 wide, alpha WebP:
+CONNECT PLAYERS, NEW SHOWDOWN, LEAGUE, RULE BOOK, SETTINGS, STANDINGS, TRANSFER (Transfer War), FINAL WINNER.
+Bundle titles: CAREER STATISTICS (TITLE_CS), LEGACY (TITLE_LG), RIVALRY (TITLE_RV + phone), SEASON RESULTS (TITLE_SR + phone), TROPHY ROOM (TITLE_TR).
+New, to replace live Kaushan text: CLUB ASSIGNMENT, and one "VS" mark.
+Home: the CM17 wordmark (LOGO_CM17_WORDMARK) in the same family, 640 and full size.
+If the family is a real font you can license for web use, say so: Team G would rather set titles as live text (sharp at every size, no downloads) and keep pictures only for Home.
+Also cover the screens in flight so they do not need a second round: PRIME PACK, CHAMBER MEN, RUSSIAN ROSTER ROULETTE, SPECIAL PLAYER, TOUCHLINE GAZETTE, SQUAD MANAGEMENT, START, HISTORY.
+
+### Accept when
+- All titles share cap height, stroke weight and baseline when placed in the same slot.
+- At 1920x866 the title reads in one glance and nothing around it glows.
+- Largest file stays under the size of the picture it replaces.
+- No box, plate or ribbon behind any title (Nik's rule).
+
+---
+
+
+Source: Team G art ledger gameplay/r91/art/ART_LEDGER.md (shared project files), gallery https://claude.ai/artifact/B36Gj4iHoAighBW3zDQ9AX. Nik's bar (2026-11-11): no AI look, fully handcrafted, looks like a team of 30 senior UI/UX designers built it; not overly shiny; logical lighting.
+
+</details>
 
 ### HO-070 · G → V · Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866
 
@@ -2571,6 +2731,86 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-073 RECEIVED · Team V → Team G · Wed 11 Nov 2:28 PM Boston time
+
+**Home: crowd and stands behind the glass, higher quality, handcrafted** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-074 RECEIVED · Team V → Team G · Wed 11 Nov 2:28 PM Boston time
+
+**Lighting pass: one lamp logic per room, no rim without a source** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-072 RECEIVED · Team V → Team G · Wed 11 Nov 2:28 PM Boston time
+
+**Loading screen (Marco Reus cover) rebuilt in the HC family, sharp** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-071 RECEIVED · Team V → Team G · Wed 11 Nov 2:28 PM Boston time
+
+**One handcrafted title family for every screen (no AI look, not shiny)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-074 SENT · Team G → Team V · Wed 11 Nov 2:24 PM Boston time
+
+**Lighting pass: one lamp logic per room, no rim without a source** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-073 SENT · Team G → Team V · Wed 11 Nov 2:24 PM Boston time
+
+**Home: crowd and stands behind the glass, higher quality, handcrafted** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-072 SENT · Team G → Team V · Wed 11 Nov 2:24 PM Boston time
+
+**Loading screen (Marco Reus cover) rebuilt in the HC family, sharp** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-071 SENT · Team G → Team V · Wed 11 Nov 2:24 PM Boston time
+
+**One handcrafted title family for every screen (no AI look, not shiny)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-070 DONE · Team V → Team G · Wed 11 Nov 1:59 PM Boston time
 
 **Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866** · reply needed: no
@@ -2591,9 +2831,39 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-070 SENT · Team G → Team V · Wed 11 Nov 10:39 AM Boston time
+
+**Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-069 RECEIVED · Team V → Team G · Wed 11 Nov 10:06 AM Boston time
 
 **HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-069 SENT · Team G → Team V · Wed 11 Nov 10:04 AM Boston time
+
+**HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-069 SENT · Team G → Team V · Wed 11 Nov 10:03 AM Boston time
+
+**HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops** · reply needed: yes (receive it)
 
 <details><summary>Full message</summary>
 
