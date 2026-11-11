@@ -733,7 +733,8 @@ async function main(){
       for(const m of [daniel,nik]){
         await m.page.waitForFunction(()=>/TRANSFER WAR|SEASON RESULTS|SEASON 2/i.test(document.getElementById("seasonPrimaryAction")?.textContent||""),null,{timeout:45000});
         await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
-        await m.page.locator("#transferChallenge, #seasonEntry").filter({visible:true}).first().waitFor({state:"visible",timeout:30000});
+        // r91: SEASON RESULTS on the dashboard may first show this manager's Squad Management screen.
+        await rosterRoulette.playSquadUntil(m.page,()=>m.page.locator("#transferChallenge, #seasonEntry").filter({visible:true}).first().isVisible(),60000);
         if(await m.page.locator("#transferChallenge").isVisible()){
           const cont=m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true});
           for(let i=0;i<12&&!(await cont.isVisible().catch(()=>false));i++){
