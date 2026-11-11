@@ -548,7 +548,11 @@
     desk.style.zoom="";
     const screen=state.page.querySelector(".cmx-fp-screen"),paper=desk.firstElementChild;if(!screen||!paper)return;
     const top=state.page.getBoundingClientRect().top,avail=root.innerHeight-Math.max(0,top);
-    const over=screen.scrollHeight-avail;if(over<=0)return;
+    // 2.3.0 strict look: on a laptop-height window INSIDE TODAY starts on one line (so CONTINUE fits); its second row of
+    // teasers is shown whenever the window still has room for it with CONTINUE in view.
+    const band=compact?null:paper.querySelector(".cmx-gz__inside");if(band)band.classList.remove("is-open");
+    let over=screen.scrollHeight-avail;
+    if(over<=0){if(band&&band.scrollHeight>band.clientHeight){band.classList.add("is-open");if(screen.scrollHeight>avail)band.classList.remove("is-open");}return;}
     const k=Math.max(compact?FIT_FLOOR.phone:FIT_FLOOR.desktop,Math.min(1,(paper.offsetHeight-over)/paper.offsetHeight));desk.style.zoom=String(Math.round(k*1000)/1000);
   }
   function tgClose(){

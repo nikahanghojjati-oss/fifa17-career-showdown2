@@ -248,8 +248,8 @@ html[data-gazette] #commentaryV3Bar { display: none !important; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .tgz-race__line { display: inline; margin-right: 8px; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .tgz-race__chips { display: inline-flex; vertical-align: 1px; gap: 3px; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .tgz-race__chips li { padding: 2px 4px 1px; }
-/* the band under the desk: 13px, two whole lines at most (a teaser that does not fit is left out whole, never cut) */
-#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__inside { box-sizing: border-box; font-size: 13px; line-height: 16px; max-height: calc(32px + 7px); padding: 4px 9px 3px; }
+/* the band under the desk: 13px, two whole lines at most (16px lines with a 2px row gap) (a teaser that does not fit is left out whole, never cut) */
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__inside { box-sizing: border-box; font-size: 13px; line-height: 16px; max-height: calc(34px + 7px); padding: 4px 9px 3px; }
 /* (the desktop page only: the phone edition keeps its face-safe top lines below) */
 @media (min-width: 701px) and (min-height: 521px), (min-width: 1001px) {
   #touchlineGazette .cmx-fp-screen { padding-top: calc(var(--sd-nav-top-h, 52px) + 10px); padding-bottom: 14px; }
@@ -264,6 +264,8 @@ html[data-gazette] #commentaryV3Bar { display: none !important; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__brief p { line-height: 1.22; }
   #touchlineGazette .cmx-gz.cmx-paper:not(.cmx-gz--compact) { padding: 9px 16px 10px; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__inside { max-height: calc(16px + 7px); }
+  /* (js/touchlineGazette.js fit() opens the second row when it fits with CONTINUE in view) */
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__inside.is-open { max-height: calc(34px + 7px); }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-paper__subhead { margin-bottom: 5px; }
 }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__side h4 { letter-spacing: .14em; }
