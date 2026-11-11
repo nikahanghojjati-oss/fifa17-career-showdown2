@@ -329,7 +329,7 @@
     background: repeating-linear-gradient(115deg, var(--sd-gold-500, #f5c518) 0 3px, transparent 3px 7px); opacity: .85;
   }
   #app #transferChallenge .tw-host .panel-title .own-heading { transform: none; font-size: 17px; letter-spacing: .06em; }
-  #app #transferChallenge .tw-host .panel-title .chip { height: 22px; padding: 0 9px; font-size: 11.5px; }
+  #app #transferChallenge .tw-host .panel-title .chip { height: 22px; padding: 0 9px; font-size: 12px; }
   #app #transferChallenge .tw-host .panel-title .chip-private { margin: 0 0 0 auto; }
   #app #transferChallenge .tw-host .panel-title .chip-private + .chip-you { margin-left: 0; }
   #app #transferChallenge .tw-host .panel-title > .chip-you:last-child:not(.chip-private + .chip-you) { margin-left: auto; }
@@ -404,7 +404,7 @@
   #app #transferChallenge .tw-host .vr-meta { white-space: normal; }
   #app #transferChallenge .tw-host .vr-meta { font-size: 12px; }
   #app #transferChallenge .tw-host .vr-word { font-size: 14px; }
-  #app #transferChallenge .tw-host .vr-why { font-size: 11.5px; }
+  #app #transferChallenge .tw-host .vr-why { font-size: 12px; }
   #app #transferChallenge .tw-host .verdict-empty { font-size: 15px; padding: 4px 0; }
   #app #transferChallenge .tw-host .guess-reveal { font-size: 12.5px; column-gap: 8px; }
   #app #transferChallenge .tw-host .rules-card.with-continue .rule-note { display: none; }
@@ -676,11 +676,14 @@
   #app #transferChallenge .tw-host :is(.scene-atmos, .scene .plane, .scene .plate) { display: none; }
   #app #transferChallenge .tw-host .scene {
     position: relative; inset: auto; display: flex; align-items: flex-end;
-    flex: 0 0 auto; height: clamp(96px, calc(100svh - 392px), 330px);
+    flex: 0 0 auto; height: max(clamp(96px, calc(100svh - 392px), 330px), calc(max(177.78vw, 100svh) * .2835 + 41px - min(78vw, 330px) * .2085)); /* C3/D4 chin floor */
     min-height: 0; max-height: none; margin: 0 -12px; background: transparent;
   }
+  /* D4: the status bar sits at the scene's foot; keep its top 7 px+ under Nik's chin (art row .2835 of the fixed
+     office plate, plate height max(177.78vw, 100svh)); scene top = 12 px + wordmark (min(78vw,330px) x .2085), bar 44 px. */
   #app #transferChallenge .tw-host .stage:is([data-phase="GUESS_ENTRY"], [data-phase="SIGNING_ENTRY"], [data-phase="COMPLETED"]) .scene {
-    height: clamp(72px, calc(100svh - 540px), 210px); min-height: 0; max-height: none;
+    height: max(clamp(72px, calc(100svh - 540px), 210px), calc(max(177.78vw, 100svh) * .2835 + 41px - min(78vw, 330px) * .2085));
+    min-height: 0; max-height: none;
   }
   #app #transferChallenge .tw-host .phone-hero-art { --tw-top: 56px; }
   #app #transferChallenge .tw-host .phone-hero-bg { height: var(--tw-window, 45svh); }
@@ -1272,3 +1275,19 @@ html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-bg { backgrou
   #app #transferChallenge .tw-host .world > .rules-card { translate: 0 calc(var(--k) * -32px); }
   #app #transferChallenge .tw-host .world > .rules-card > .rules-inner.reg { min-height: calc(var(--k) * 205px); justify-content: space-evenly; }
 }
+
+/* B5/D5 strict look: 12 px floor for the plate's 11.5 px status, verdict reason and continue lines; on desktop (every phase,
+   B5/E3) the YOU chip rides in its own panel title instead of floating beside Daniel. */
+@media (min-width: 1101px) {
+  #app #transferChallenge .tw-host .sign-status.full,
+  #app #transferChallenge .tw-host .btn-continue { font-size: max(12px, calc(var(--k) * 13px)); }
+  #app #transferChallenge .tw-host .vr-why { font-size: max(12px, calc(var(--k) * 12.5px)); }
+  #app #transferChallenge .tw-host .you-chip { display: none !important; }
+  #app #transferChallenge .tw-host .panel-title .chip-you.m-only { display: inline-flex !important; }
+}
+/* C11: 12 px floor for the footer title (phone 10 px, short sideways 11 px) and the rail step numbers (plate 11 px). */
+@media (max-width: 760px) and (orientation: portrait), (orientation: landscape) and (max-height: 500px) and (max-width: 1100px) {
+  #app #transferChallenge .tw-host .hud-title { font-size: 12px; }
+  #app #transferChallenge .tw-host .chip { font-size: 12px; }
+}
+@media (max-width: 1100px) { #app #transferChallenge .tw-host .rail .num { font-size: 12px; } }
