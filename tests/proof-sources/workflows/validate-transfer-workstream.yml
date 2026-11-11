@@ -40,7 +40,7 @@ jobs:
           const leagues = context.FIFA17_TRANSFER_LEAGUES;
           const nationalities = context.FIFA17_TRANSFER_NATIONALITIES;
           assert.strictEqual(leagues.length, 36, 'Transfer league dataset must contain 35 domestic competitions plus Rest of World.');
-          assert.strictEqual(nationalities.length, 164, 'FIFA 17 player-nationality dataset must contain 164 nationalities.');
+          assert.strictEqual(nationalities.length, 166, 'FIFA 17 player-nationality dataset must contain 166 nationalities (r91 adds Kyrgyzstan and Sudan).');
           assert.strictEqual(new Set(leagues.map(item => item.id)).size, leagues.length, 'Transfer league IDs must be unique.');
           assert.strictEqual(new Set(nationalities.map(item => item.id)).size, nationalities.length, 'Nationality IDs must be unique.');
 

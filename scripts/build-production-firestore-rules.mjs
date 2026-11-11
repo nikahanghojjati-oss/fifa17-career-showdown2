@@ -42,7 +42,7 @@ function loadTransferCatalog(){
   vm.runInNewContext(fs.readFileSync(transferOptionsPath,'utf8'),sandbox,{filename:'data/transferOptions.js'});
   const leagues=sandbox.window.FIFA17_TRANSFER_LEAGUES;
   const nationalities=sandbox.window.FIFA17_TRANSFER_NATIONALITIES;
-  if(!Array.isArray(leagues)||leagues.length!==36||!Array.isArray(nationalities)||nationalities.length!==164)throw new Error('Canonical FIFA 17 Transfer Challenge catalog shape changed unexpectedly.');
+  if(!Array.isArray(leagues)||leagues.length!==36||!Array.isArray(nationalities)||nationalities.length!==166)throw new Error('Canonical FIFA 17 Transfer Challenge catalog shape changed unexpectedly.');
   const normalize=(items,label)=>{
     const ids=items.map(item=>item&&item.id);
     if(ids.some(id=>typeof id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)))throw new Error(`Canonical ${label} catalog contains an invalid Rules ID.`);
