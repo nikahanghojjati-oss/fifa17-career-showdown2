@@ -16,7 +16,7 @@ const names=list=>list.map(p=>p?p.name:null);
 const ids=sheet=>[...sheet.xi,...sheet.bench,...sheet.reserves].filter(Boolean).map(p=>p.id);
 const fifteenIds=sheet=>[...sheet.xi,...sheet.bench].filter(Boolean).map(p=>p.id).sort();
 const ref=(zone,index)=>({zone,index});
-const resRef=(sheet,name)=>ref('res',sheet.reserves.findIndex(p=>p.name===name));
+const resRef=(sheet,name)=>{const b=sheet.bench.findIndex(p=>p&&p.name===name);return b>=0?ref('bench',b):ref('res',sheet.reserves.findIndex(p=>p.name===name));};
 const xiRef=(sheet,pred)=>ref('xi',sheet.xi.findIndex(pred));
 
 // C1 lines and flex in Nik's words.
@@ -33,13 +33,15 @@ for(const club of clubs){
   const sheet=S.launch(club),squad=Squads.squads[club];
   assert.equal(sheet.formation,Players.clubs[club].formation,club);
   assert.deepEqual(names(sheet.xi).slice().sort(),squad.xi.map(r=>r[1]).sort(),club);
-  assert.deepEqual(names(sheet.bench),squad.subs.map(r=>r[1]),club);
+  assert.deepEqual(names(sheet.bench).slice(0,4),squad.subs.map(r=>r[1]),club);
+  assert.deepEqual(names(sheet.bench).slice(4),squad.reserves.map(r=>r[1]),`${club}: subs 5-7 are the next three`);
+  assert.deepEqual(S.board(sheet).slice(11).map(r=>r.name),squad.subs.map(r=>r[1]),`${club}: the Roulette board keeps the original 4 subs`);
   assert.deepEqual(sheet.slots,Players.formations[sheet.formation],club);
   sheet.xi.forEach((p,i)=>assert.equal(squad.xi.find(r=>r[1]===p.name&&r[2]===p.number)[0],sheet.slots[i],`${club} ${p.name} keeps his launch slot`));
   assert.equal(ids(sheet).length,Players.clubs[club].players.length,`${club}: everyone else is in the reserves`);
   assert.ok(S.validate(sheet).ok,club);
 }
-ok('C2','season 1 for all 98 clubs is the FIFA 17 launch XI in its default formation and slots plus the original 4 subs; every other club player is a reserve');
+ok('C2','season 1 for all 98 clubs is the FIFA 17 launch XI in its default formation and slots, 7 subs (the original 4, on the Roulette board, then the next 3); every other club player is a reserve');
 
 // C3 every club x every formation.
 let shaped=0,refused=0;
@@ -73,15 +75,16 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   assert.equal(S.canSwap(s1,gk,cb).ok,false);
   assert.equal(S.canSwap(s1,ref('bench',0),cb).ok,true,'Mertesacker (CB) for Koscielny');
   assert.equal(S.canSwap(s1,ref('bench',3),cb).ok,false,'a striker cannot play centre back');
-  assert.match(S.canSwap(s1,resRef(s1,'M. Debuchy'),xiRef(s1,p=>p.name==='Héctor Bellerín')).reason,/season 2/);
+  assert.match(S.canSwap(s1,resRef(s1,'C. Jenkinson'),ref('bench',4)).reason,/season 2/);
   const s2=S.advance(S.advance(s1,{}),{});
   const bel=xiRef(s2,p=>p.name==='Héctor Bellerín');
   assert.equal(S.canSwap(s2,resRef(s2,'M. Debuchy'),bel).ok,true,'Debuchy 80 for Bellerín 79 (same line, not weaker)');
   const giroud=xiRef(s2,p=>p.name==='O. Giroud');
   assert.match(S.canSwap(s2,resRef(s2,'D. Welbeck'),giroud).reason,/better/,'Giroud 83 cannot be dragged out for Welbeck 80');
-  assert.match(S.canSwap(s2,resRef(s2,'K. Gibbs'),giroud).reason,/can't play/,'a left back cannot replace a striker');
+  assert.match(S.canSwap(s2,resRef(s2,'K. Gibbs'),giroud).reason,/can't play|better/,'a left back cannot replace a striker');
+  assert.match(S.canSwap(s2,ref('bench',1),giroud).reason,/can't play/,'Coquelin (CDM) cannot play striker');
   const swapped=S.swap(s2,resRef(s2,'M. Debuchy'),bel);
-  assert.ok(swapped.ok&&swapped.sheet.xi[bel.index].name==='M. Debuchy'&&swapped.sheet.reserves.some(p=>p.name==='Héctor Bellerín'));
+  assert.ok(swapped.ok&&swapped.sheet.xi[bel.index].name==='M. Debuchy'&&swapped.sheet.bench.some(p=>p&&p.name==='Héctor Bellerín'));
   // XI <-> XI inside a line, and AUTO restores natural seats
   const rb=xiRef(s2,p=>p.name==='Héctor Bellerín'),lb=xiRef(s2,p=>p.name==='Nacho Monreal');
   const crossed=S.swap(s2,rb,lb);assert.ok(crossed.ok);
@@ -90,6 +93,11 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   // XI <-> bench across lines is refused; bench order is free
   assert.equal(S.canSwap(s2,ref('bench',3),rb).ok,false);
   assert.ok(S.swap(s2,ref('bench',0),ref('bench',3)).ok);
+  // subs 5-7 are outside the Roulette 15: a better sub can't be pushed out of seats 1-4 for a weaker one
+  const b4=s2.bench[4],b0=s2.bench[0];
+  assert.ok(b0.rating>b4.rating);
+  assert.match(S.canSwap(s2,ref('bench',0),ref('bench',4)).reason,/15 on the Roulette board/);
+  assert.match(S.canSwap(s2,ref('bench',4),xiRef(s2,p=>p.name==='O. Giroud')).reason||'',/better|can't play/);
 }
 ok('C4','moves: no keeper outfield, no cross-line swap, no reserve before season 2, never a better player out to the reserves, same-line equal-or-better comes in, AUTO reseats');
 
@@ -160,7 +168,7 @@ for(let c=0;c<196;c+=1){
       if(r()<0.4)ops.push({t:'formation',name:formationNames[Math.floor(r()*formationNames.length)]});
       if(season>=2){
         const pool=[...sheet.xi,...sheet.bench,...sheet.reserves].filter(Boolean);
-        if(r()<0.6&&pool.length){const p=pool[Math.floor(r()*pool.length)];ops.push({t:'leave',id:p.id,reason:S.leaveReasons[Math.floor(r()*5)]});everOut.add(p.id);}
+        if(r()<0.6&&pool.length){const p=pool[Math.floor(r()*pool.length)];ops.push({t:'leave',id:p.id,reason:S.leaveReasons[Math.floor(r()*S.leaveReasons.length)]});everOut.add(p.id);}
         if(r()<0.5&&pool.length){const p=pool[Math.floor(r()*pool.length)];ops.push({t:'rate',id:p.id,overall:50+Math.floor(r()*45)});}
       }
       for(let m=0;m<6;m+=1){const zone=['xi','bench','res'][Math.floor(r()*3)],zone2=['xi','bench','res'][Math.floor(r()*3)];ops.push({t:'swap',a:{zone,index:Math.floor(r()*11)},b:{zone:zone2,index:Math.floor(r()*11)}});}
@@ -184,13 +192,37 @@ for(let c=0;c<196;c+=1){
       assert.ok(back,`${club} s${season} ${stage}: document rebuilds`);
       assert.deepEqual(names(back.xi),names(sheet.xi));assert.deepEqual(names(back.bench),names(sheet.bench));
       assert.deepEqual(S.board(back).map(row=>row.name),S.board(sheet).map(row=>row.name));
-      assert.ok(Array.isArray(doc.names)&&doc.names.length===15&&!JSON.stringify(doc).includes('{"'+'id'),'flat lists only');
+      assert.ok(Array.isArray(doc.names)&&doc.names.length===18&&!JSON.stringify(doc).includes('{"'+'id'),'flat lists only');
       sheets+=1;
     }
   }
   careers+=1;
 }
 ok('C7',`${careers} seeded 10-season careers (${sheets} screens): every sheet validates, nobody twice, the shot/guessed/departed never return, no Special Player, club players only from the club, and the stored document rebuilds the same board`);
+
+// C9 loans (Nik 2026-11-11 00:26 UTC): a loaned player is out for the rest of the season and back in the reserves next
+// season; a player who left can be bought back later (not a shot player).
+{
+  const s2=S.advance(S.advance(S.launch('Arsenal'),{}),{});
+  const ozil=s2.xi.find(p=>p.name==='M. Özil');
+  const loaned=S.leave(s2,ozil.id,'loaned');assert.ok(loaned.ok);
+  assert.ok(!ids(loaned.sheet).includes(ozil.id));
+  const post=S.advance(loaned.sheet,{});assert.ok(!ids(post).includes(ozil.id),'still away after Transfer War');
+  const s3=S.advance(post,{});
+  assert.ok(s3.reserves.some(p=>p.id===ozil.id)&&!s3.excluded.includes(ozil.id),'back in the reserves in season 3');
+  assert.equal(s3.reserves.find(p=>p.id===ozil.id).rating,89);
+  assert.ok(S.validate(s3).ok);
+  // he can come straight back in for a weaker player of his line
+  const cam=s3.xi.findIndex((p,i)=>s3.slots[i]==='CAM');
+  assert.ok(S.canSwap(s3,{zone:'res',index:s3.reserves.findIndex(p=>p.id===ozil.id)},{zone:'xi',index:cam}).ok);
+  // buy back: a sold club player may return as a signing; a shot player never
+  const giroud=s2.xi.find(p=>p.name==='O. Giroud');
+  const sold=S.leave(s2,giroud.id,'sold').sheet;
+  const back=S.advance(sold,{kept:[{name:'O. Giroud',overall:83,position:'ST'}]});
+  assert.ok(ids(back).includes('s|o. giroud'),'bought back');
+  assert.ok(S.leaveReasons.includes('loaned'));
+}
+ok('C9','a loaned player is away for the season and back in the reserves next season; a sold player can be bought back, a shot player never');
 
 // C8 board rows for RRR: XI in slot order then 4 subs.
 {

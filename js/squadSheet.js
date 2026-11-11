@@ -26,10 +26,13 @@
   // Identity follows js/rosterRoulette.js exactly (Sol SQ-4-01): a club player is "c|name#shirt", a Transfer War signing
   // "s|name", names folded for accents and case.
   const VERSION=1;
-  const XI_SIZE=11,BENCH_SIZE=4,MAX_SEASONS=10,OVERALL_MIN=30,OVERALL_MAX=99;
+  // Nik 2026-11-11 00:29 UTC: FIFA's bench has 7 substitutes; the first 4 are the ones on the Russian Roulette board (the
+  // 15 = XI + subs 1-4), subs 5-7 and the reserves sit outside it.
+  const XI_SIZE=11,BENCH_SIZE=7,FEATURED=4,MAX_SEASONS=10,OVERALL_MIN=30,OVERALL_MAX=99;
   const STAGES=Object.freeze(["pre","post"]);
   const LINES=Object.freeze(["GK","DEF","MID","ATT"]);
-  const LEAVE_REASONS=Object.freeze(["contract","retired","swapped","sold","other"]);
+  const LEAVE_REASONS=Object.freeze(["contract","retired","swapped","sold","loaned","other"]);
+  // Nik 2026-11-11 00:26 UTC: a player can be loaned out; he comes back to the club (the reserves) at the next season.
   // Q9 default (plan v2): a player who left may be signed again in a later Transfer War. A shot player never can.
   const BUY_BACK=true;
 
@@ -152,7 +155,7 @@
   const clone=sheet=>JSON.parse(JSON.stringify(sheet));
 
   // ---------- the sheet ----------
-  // {v, club, season, stage, formation, slots[11], xi[11], bench[4], reserves[], out[], ratings{}, excluded[], launchPos{},
+  // {v, club, season, stage, formation, slots[11], xi[11], bench[7] (seats 0-3 on the RRR board), reserves[], out[], ratings{}, excluded[], launchPos{},
   //  stopgaps[], notes[]}. Players are plain objects {id, name, number, rating, positions, signedSeason}; null = empty seat.
   const excludedSet=sheet=>new Set(sheet.excluded);
   const inSquad=sheet=>[...sheet.xi,...sheet.bench].filter(Boolean);
@@ -217,7 +220,8 @@
       const s=free.findIndex(f=>f.pos===pos);if(s<0)return null;
       sheet.xi[free[s].i]=p;sheet.launchPos[p.id]=pos;used.add(p.id);free.splice(s,1);
     }
-    squad.subs.forEach(([,name,number],i)=>{const p=byIdent(name,number);if(p){sheet.bench[i]=p;used.add(p.id);}});
+    // The original 4 subs, then the club's next 3 (the build script's hidden reserves: next highest overall, lower shirt).
+    [...squad.subs,...squad.reserves].slice(0,BENCH_SIZE).forEach(([,name,number],i)=>{const p=byIdent(name,number);if(p){sheet.bench[i]=p;used.add(p.id);}});
     sheet.reserves=pool.filter(p=>!used.has(p.id));
     sortReserves(sheet);
     for(const sp of specialsOf(options&&options.special))excludeSpecial(sheet,sp,pool);
@@ -225,6 +229,8 @@
     sheet.reserves=sheet.reserves.filter(p=>!ex.has(p.id));
     for(let i=0;i<XI_SIZE;i+=1)if(sheet.xi[i]&&ex.has(sheet.xi[i].id)){const gone=sheet.xi[i];sheet.xi[i]=null;refillXi(sheet,i,[],gone);}
     for(let i=0;i<BENCH_SIZE;i+=1)if(sheet.bench[i]&&ex.has(sheet.bench[i].id)){const gone=sheet.bench[i];sheet.bench[i]=null;refillBench(sheet,i,gone);}
+    for(let i=0;i<BENCH_SIZE;i+=1)if(!sheet.bench[i])refillBench(sheet,i,null);
+    settleBench(sheet);
     return sheet;
   }
 
@@ -271,16 +277,26 @@
     const p=same[0]||any[0]||null;
     if(p)takeReserve(sheet,p.id);
     sheet.bench[b]=p;
+    settleBench(sheet);
   }
-  // A player who has to leave the 15 for a stronger player of his line: to the bench in place of the weakest sub of his
-  // line when he is better, else to the reserves. An empty bench seat takes him first.
+  // A player who has to leave the XI: an empty bench seat first, else in place of the weakest sub when he is better, else
+  // the reserves. Then the bench settles.
   function benchOrReserve(sheet,player){
     const empty=sheet.bench.findIndex(p=>!p);
-    if(empty>=0){sheet.bench[empty]=player;return "bench";}
+    if(empty>=0){sheet.bench[empty]=player;settleBench(sheet);return "bench";}
     let w=-1;
-    for(let b=0;b<BENCH_SIZE;b+=1){const p=sheet.bench[b];if(p&&shareLine(p,player)&&(w<0||order(sheet.bench[w],p)<0))w=b;}
-    if(w>=0&&player.rating>sheet.bench[w].rating){sheet.reserves.push(sheet.bench[w]);sheet.bench[w]=player;sortReserves(sheet);return "bench";}
+    for(let b=0;b<BENCH_SIZE;b+=1){const p=sheet.bench[b];if(p&&(w<0||order(sheet.bench[w],p)<0))w=b;}
+    if(w>=0&&player.rating>sheet.bench[w].rating){sheet.reserves.push(sheet.bench[w]);sheet.bench[w]=player;sortReserves(sheet);settleBench(sheet);return "bench";}
     sheet.reserves.push(player);sortReserves(sheet);return "reserves";
+  }
+  // After any automatic change the 4 subs on the Roulette board are the best 4 of the 7 (as at launch: the original 4 subs
+  // are the 4 best non-starters). Each group keeps its own seat order; empty seats go last. Manual moves never run this.
+  function settleBench(sheet){
+    const seated=sheet.bench.map((p,i)=>({p,i})).filter(x=>x.p);
+    const top=new Set(seated.slice().sort((x,y)=>y.p.rating-x.p.rating||x.i-y.i).slice(0,FEATURED).map(x=>x.i));
+    const next=[...seated.filter(x=>top.has(x.i)),...seated.filter(x=>!top.has(x.i))].map(x=>x.p);
+    while(next.length<BENCH_SIZE)next.push(null);
+    sheet.bench=next;
   }
   // Sol SQ-2-01, kept: a stopgap hands his slot back the moment someone of the line is available again.
   function repairStopgaps(sheet,kept){
@@ -305,7 +321,19 @@
     const sheet=clone(locked);sheet.notes=[];
     if(sheet.stage==="post"){
       if(sheet.season>=MAX_SEASONS)return null;
-      sheet.season+=1;sheet.stage="pre";return sheet;
+      sheet.season+=1;sheet.stage="pre";
+      // Loans end: every player loaned out in an earlier season is back at the club, in the reserves.
+      const ex=new Set(sheet.excluded);
+      for(const o of sheet.out){
+        if(o.reason!=="loaned"||o.returned||o.season>=sheet.season||!o.player)continue;
+        if(sheet.out.some(x=>x.id===o.id&&x!==o&&x.reason!=="loaned"))continue;
+        o.returned=sheet.season;
+        if(findPlayer(sheet,o.id))continue;
+        ex.delete(o.id);sheet.reserves.push(o.player);sheet.notes.push({name:o.name,reason:"loan-back"});
+      }
+      sheet.excluded=[...ex].sort();sortReserves(sheet);
+      repairStopgaps(sheet,[]);// a keeper back from loan takes his place from an outfielder standing in
+      return sheet;
     }
     sheet.stage="post";
     const ev=events||{},ex=new Set(sheet.excluded);
@@ -338,6 +366,7 @@
     if(vacancy&&vacancy.zone==="bench"&&!sheet.bench[vacancy.index])refillBench(sheet,vacancy.index,vacancy.gone);
     for(let b=0;b<BENCH_SIZE;b+=1)if(!sheet.bench[b])refillBench(sheet,b,null);
     repairStopgaps(sheet,[]);
+    settleBench(sheet);
     for(const p of kept){const r=findPlayer(sheet,p.id);if(r&&r.zone==="res")sheet.notes.push({name:p.name,reason:"reserve"});}
     return sheet;
   }
@@ -386,7 +415,12 @@
       if(pb&&pb.rating>pa.rating)return {ok:false,reason:`${pb.name} (${pb.rating}) is better than ${pa.name} (${pa.rating}). A better player can't go to the reserves.`};
       return {ok:true};
     }
-    // Inside the 15: XI and bench.
+    // XI and bench.
+    const inside=r=>r.zone==="xi"||r.index<FEATURED;
+    if(inside(a)!==inside(b)){
+      const [inn,out]=inside(a)?[a,b]:[b,a],pin=at(sheet,inn),pout=at(sheet,out);
+      if(pin&&pout&&pin.rating>pout.rating&&!(inn.zone==="xi"&&isStopgap(sheet,inn.index)))return {ok:false,reason:`${pin.name} (${pin.rating}) is better than ${pout.name} (${pout.rating}). A better player can't drop out of the 15 on the Roulette board.`};
+    }
     for(const [into,p] of [[a,pb],[b,pa]]){
       if(into.zone!=="xi"||!p)continue;
       if(!allowed(sheet,p,sheet.slots[into.index]))return {ok:false,reason:`${p.name} can't play ${sheet.slots[into.index]}.`};
@@ -425,7 +459,7 @@
     const next=clone(sheet),p=at(next,ref);
     put(next,ref,null);
     const ex=new Set(next.excluded);ex.add(p.id);if(!BUY_BACK&&!isSigning(p))ex.add(`s|${sqKey(p.name)}`);next.excluded=[...ex].sort();
-    next.out.push({id:p.id,name:p.name,number:p.number,signedSeason:p.signedSeason,reason,season:next.season,stage:next.stage});
+    next.out.push({id:p.id,name:p.name,number:p.number,signedSeason:p.signedSeason,reason,season:next.season,stage:next.stage,player:reason==="loaned"?clone(p):null});
     if(ref.zone==="xi"){setStopgap(next,ref.index,false);refillXi(next,ref.index,[],p);}
     else if(ref.zone==="bench")refillBench(next,ref.index,p);
     return {ok:true,sheet:next};
@@ -562,7 +596,7 @@
   // The RRR board for a locked "pre" sheet: XI in slot order (0-10), then the 4 subs (11-14), as rosterRoulette rows.
   function board(sheet){
     const row=(slot,pos,p)=>Object.freeze({slot,bench:slot>=XI_SIZE,pos,name:p?p.name:null,number:p?p.number:null,rating:p?p.rating:0,positions:p?p.positions:Object.freeze([]),special:false,signedSeason:p?p.signedSeason:null});
-    return Object.freeze([...sheet.xi.map((p,i)=>row(i,sheet.slots[i],p)),...sheet.bench.map((p,i)=>row(XI_SIZE+i,"SUB",p))]);
+    return Object.freeze([...sheet.xi.map((p,i)=>row(i,sheet.slots[i],p)),...sheet.bench.slice(0,FEATURED).map((p,i)=>row(XI_SIZE+i,"SUB",p))]);
   }
 
   // ---------- the stored document (rivalries/{rid}/squadSheets/season_N_stage_role, create-only) ----------
@@ -595,7 +629,8 @@
       const id=idFor(doc.outNames[i],doc.outNumbers[i],doc.outSigned[i]);
       if(known.has(id))continue;
       const p=everyone(sheet).find(q=>q.id===id);if(!p)return null;
-      sheet.out.push({id,name:p.name,number:p.number,signedSeason:p.signedSeason,reason:doc.outReasons[i],season:doc.outSeasons[i],stage:doc.stage});
+      if(!LEAVE_REASONS.includes(doc.outReasons[i]))return null;
+      sheet.out.push({id,name:p.name,number:p.number,signedSeason:p.signedSeason,reason:doc.outReasons[i],season:doc.outSeasons[i],stage:doc.stage,player:doc.outReasons[i]==="loaned"?clone(p):null});
       ex.add(id);known.add(id);
     }
     sheet.excluded=[...ex].sort();
@@ -610,7 +645,7 @@
   }
 
   return Object.freeze({
-    version:VERSION,feature:"cms-squad-sheet",xiSize:XI_SIZE,benchSize:BENCH_SIZE,maxSeasons:MAX_SEASONS,
+    version:VERSION,feature:"cms-squad-sheet",xiSize:XI_SIZE,benchSize:BENCH_SIZE,boardSubs:FEATURED,maxSeasons:MAX_SEASONS,
     lines:LINES,stages:STAGES,leaveReasons:LEAVE_REASONS,buyBack:BUY_BACK,flex:FLEX,
     lineOf,family,fit:sqFit,playerLines,formations,formationSlots,lineCounts,pitchSpots,titleOf,idOf,allowedIn:(sheet,player,slot)=>allowed(sheet,player,slot),slotFit:(sheet,player,slot)=>slotFit(sheet,player,slot),findPlayer,
     launch,advance,canSwap,swap,leave,rate,setFormation,autoPlace,apply:sqApply,validate,board,toDoc,fromDoc

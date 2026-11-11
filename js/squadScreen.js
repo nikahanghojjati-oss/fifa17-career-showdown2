@@ -16,7 +16,7 @@
   const LINE_CLASS={GK:"gk",DEF:"def",MID:"mid",ATT:"att"};
   const FIT_WORD={3:"Natural position",2:"Can play here",1:"Out of position",0:"Stand-in"};
   const STAGE_WORD={pre:"Before Russian Roulette",post:"After Transfer War"};
-  const REASON_WORD={contract:"Contract ended",retired:"Retired",swapped:"Swapped",sold:"Sold",other:"Other"};
+  const REASON_WORD={contract:"Contract ended",retired:"Retired",swapped:"Swapped",sold:"Sold",loaned:"Loaned out",other:"Other"};
   const el=(tag,cls,text)=>{const n=doc.createElement(tag);if(cls)n.className=cls;if(text!==undefined&&text!==null)n.textContent=String(text);return n;};
   const shortName=name=>{const s=String(name||"");const dot=s.indexOf(". ");return dot>0&&dot<4?s.slice(dot+2):s;};
 
@@ -46,6 +46,14 @@
     return box;
   }
 
+  // Nationality from the FIFA 17 data (club row first, then any club for a signing).
+  let nations=null;
+  function nationOf(club,p){
+    const d=root.CareerModeFifa17Players;if(!d||!p)return "";
+    if(!nations){nations=new Map();for(const [c,data] of Object.entries(d.clubs))for(const row of data.players){nations.set(`${c}|${row[0]}|${row[4]}`,row[5]);if(!nations.has(`*|${row[0]}`))nations.set(`*|${row[0]}`,row[5]);}}
+    return (p.signedSeason?null:nations.get(`${club}|${p.name}|${p.number}`))||nations.get(`*|${p.name}`)||"";
+  }
+
   // ---------- pitch geometry: a fixed trapezoid (FIFA's tilted pitch) ----------
   const TOP=.74;// top edge width as a share of the bottom edge
   function project(x,y){
@@ -59,6 +67,7 @@
     let stripes="";
     for(let i=0;i<10;i+=1){const y0=i*10,y1=y0+10;stripes+=`<polygon class="${i%2?"b":"a"}" points="${P(0,y0)} ${P(100,y0)} ${P(100,y1)} ${P(0,y1)}" />`;}
     return `<svg class="sqmPitchSvg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <polygon class="side" points="${P(-3,102)} ${P(103,102)} ${P(103,102).split(",")[0]},${project(103,102).top+3.2} ${P(-3,102).split(",")[0]},${project(-3,102).top+3.2}" />
       <polygon class="edge" points="${P(-3,-2)} ${P(103,-2)} ${P(103,102)} ${P(-3,102)}" />
       ${stripes}
       <g class="lines">${line([[0,0],[100,0],[100,100],[0,100],[0,0]])}${line([[0,50],[100,50]])}${arc(50,50,9,0,Math.PI*2,40)}
@@ -75,7 +84,7 @@
     const base=options.sheet,club=options.club||base.club;
     const formations=S.formations(),byName=new Map(formations.map(f=>[f.name,f]));
     let ops=readDraft(),sheet=S.apply(base,ops).sheet;
-    let tab="squad",shelfOpen=false,cursor={zone:"xi",index:0},picked=null,drag=null,locked=Boolean(options.locked);
+    let tab="squad",cursor={zone:"xi",index:0},picked=null,drag=null,locked=Boolean(options.locked);
     let carousel=Math.max(0,formations.findIndex(f=>f.name===sheet.formation)),message="",messageKind="";
     let pendingLeave=null;
 
@@ -95,12 +104,14 @@
 
     host.classList.add("sqm");
     host.innerHTML="";
+    const backdrop=el("div","sqmBackdrop");backdrop.setAttribute("aria-hidden","true");
+    backdrop.innerHTML='<i class="sky"></i><i class="roof"></i><i class="stand"></i><i class="ads"></i><i class="grass"></i>';
     const layout=el("div","sqmLayout");
     const panel=el("section","sqmPanel");panel.setAttribute("aria-label","Squad");
     const side=el("aside","sqmSide");
     layout.append(panel,side);
     const live=el("p","sqmLive");live.setAttribute("role","status");live.setAttribute("aria-live","polite");
-    host.append(layout);
+    host.append(backdrop,layout);
 
     // ----- render -----
     function sqmRender(){
@@ -124,12 +135,16 @@
       const pos=el("span","sqmCardPos "+LINE_CLASS[line]);pos.appendChild(el("i","sqmDot fit"+(slot?f:3)));pos.appendChild(doc.createTextNode(slot||player.positions[0]||"SUB"));
       const ovr=el("span","sqmCardOvr",player.rating);
       const name=el("span","sqmCardName",shortName(player.name));
-      const meta=el("span","sqmCardMeta");
-      meta.textContent=`${player.positions.join(" · ")||"Position unknown"}${player.number?`  ·  #${player.number}`:""}${player.signedSeason?`  ·  Signed season ${player.signedSeason}`:""}`;
-      const where=el("span","sqmCardWhere",ref.zone==="xi"?FIT_WORD[f]:ref.zone==="bench"?"Substitute":"Reserve");
-      const main=el("div","sqmCardMain");main.append(pos,ovr,name);
-      const info=el("div","sqmCardInfo");info.append(meta,where);
-      c.append(main,info);
+      const main=el("div","sqmCardMain");main.append(pos,ovr);
+      const id=el("div","sqmCardId");id.append(main,name,el("span","sqmCardBar "+LINE_CLASS[line]));
+      const info=el("dl","sqmCardInfo");
+      const row=(k,v,cls)=>{const w=el("div",cls||"");w.append(el("dt",null,k),el("dd",null,v));info.appendChild(w);};
+      row("Plays",player.positions.join("  ")||"Unknown");
+      const nation=nationOf(club,player);if(nation)row("Nation",nation);
+      row(ref.zone==="xi"?"Here":"Squad",ref.zone==="xi"?FIT_WORD[sheet.stopgaps.includes(ref.index)?0:f]:ref.zone==="bench"?"Substitute":"Reserve","fit"+(ref.zone==="xi"?(sheet.stopgaps.includes(ref.index)?0:f):3));
+      if(player.number)row("Shirt",`#${player.number}`);
+      if(player.signedSeason)row("Signed",`Season ${player.signedSeason}`);
+      c.append(id,info);
       return c;
     }
 
@@ -154,7 +169,7 @@
 
     function shelfCard(ref){
       const p=playerAt(ref);
-      const b=el("button","sqmShelfCard");b.type="button";b.dataset.zone=ref.zone;b.dataset.index=ref.index;
+      const b=el("button","sqmShelfCard"+(ref.zone==="bench"&&ref.index<4?" is-board":""));b.type="button";b.dataset.zone=ref.zone;b.dataset.index=ref.index;
       if(same(ref,picked))b.classList.add("is-picked");
       if(same(ref,cursor))b.classList.add("is-cursor");
       if(picked&&!same(ref,picked)&&S.canSwap(sheet,picked,ref).ok)b.classList.add("is-target");
@@ -163,14 +178,14 @@
       const pos=el("span","sqmShelfPos "+LINE_CLASS[line]);pos.appendChild(el("i","sqmDot fit3"));pos.appendChild(doc.createTextNode(p.positions[0]||"?"));
       b.append(pos,shirt(club,p,null),el("span","sqmShelfOvr",p.rating),el("span","sqmShelfName",shortName(p.name)),el("span","sqmShelfBar "+LINE_CLASS[line]));
       if(p.signedSeason&&p.signedSeason===sheet.season)b.appendChild(el("span","sqmBadge","New"));
-      b.setAttribute("aria-label",`${ref.zone==="bench"?"Substitute":"Reserve"}: ${p.name}, ${p.positions[0]||""} ${p.rating}`);
+      b.setAttribute("aria-label",`${ref.zone==="bench"?`Substitute ${ref.index+1}${ref.index<4?", on the Roulette board":""}`:"Reserve"}: ${p.name}, ${p.positions[0]||""} ${p.rating}`);
       return b;
     }
 
     function renderSquad(){
       const focus=playerAt(picked)||playerAt(cursor);
       panel.appendChild(card(focus,playerAt(picked)?picked:cursor));
-      const stage=el("div","sqmStage"+(shelfOpen?" is-shelf-open":""));
+      const stage=el("div","sqmStage");
       const pitch=el("div","sqmPitch");pitch.innerHTML=pitchSvg();
       const spots=S.pitchSpots(sheet.slots);
       sheet.xi.forEach((p,i)=>{
@@ -179,31 +194,31 @@
         pitch.appendChild(c);
       });
       stage.appendChild(pitch);
+      panel.appendChild(stage);
+      // Nik 2026-11-11 00:29 UTC: the 7 substitutes and then the reserves sit under the pitch, always visible; the page scrolls.
       const shelf=el("div","sqmShelf");
       const head=el("div","sqmShelfHead");
       head.appendChild(el("h3","sqmShelfTitle","Substitutes"));
-      const tog=el("button","sqmShelfToggle",shelfOpen?"Show the pitch":"Show reserves");tog.type="button";tog.setAttribute("aria-expanded",String(shelfOpen));
-      tog.addEventListener("click",()=>{shelfOpen=!shelfOpen;sqmRender();});
-      head.appendChild(tog);
+      const tag=el("span","sqmShelfTag");tag.append(el("i"),doc.createTextNode("1-4 on the Russian Roulette board"));
+      head.appendChild(tag);
       shelf.appendChild(head);
-      const scroll=el("div","sqmShelfScroll");
-      const subs=el("div","sqmShelfGrid");
+      const subs=el("div","sqmShelfGrid is-subs");
       sheet.bench.forEach((p,i)=>subs.appendChild(shelfCard({zone:"bench",index:i})));
-      scroll.appendChild(subs);
-      scroll.appendChild(el("h3","sqmShelfTitle sqmResTitle",`Reserves  ${sheet.reserves.length}`));
-      if(sheet.season<2)scroll.appendChild(el("p","sqmShelfNote","Reserves can come into the squad from season 2."));
+      shelf.appendChild(subs);
+      const rhead=el("div","sqmShelfHead is-res");
+      rhead.appendChild(el("h3","sqmShelfTitle",`Reserves  ${sheet.reserves.length}`));
+      if(sheet.season<2)rhead.appendChild(el("span","sqmShelfTag is-plain","Reserves can come in from season 2"));
+      shelf.appendChild(rhead);
       const res=el("div","sqmShelfGrid");
       sheet.reserves.forEach((p,i)=>res.appendChild(shelfCard({zone:"res",index:i})));
       if(!sheet.reserves.length)res.appendChild(el("p","sqmShelfNote","Nobody else is at the club."));
-      scroll.appendChild(res);
-      shelf.appendChild(scroll);
-      // Moving down into the shelf slides it up over the pitch; wheel or swipe on the collapsed shelf does the same.
-      shelf.addEventListener("wheel",e=>{if(!shelfOpen&&e.deltaY>0){shelfOpen=true;sqmRender();e.preventDefault();}else if(shelfOpen&&e.deltaY<0&&scroll.scrollTop<=0){shelfOpen=false;sqmRender();e.preventDefault();}},{passive:false});
-      stage.appendChild(shelf);
-      panel.appendChild(stage);
-      if(shelfOpen){const keep=panel.querySelector(".sqmShelfScroll");if(keep&&renderSquad.scrollTop)keep.scrollTop=renderSquad.scrollTop;keep&&keep.addEventListener("scroll",()=>{renderSquad.scrollTop=keep.scrollTop;},{passive:true});}
-      const hint=el("p","sqmHint");
-      hint.textContent=locked?"Your squad is locked for this screen.":picked?"Now tap where he should go. Green rings show where he can play. Tap him again to cancel.":"Tap a player, then another, to swap them. On a computer you can also drag. Arrow keys move the cursor.";
+      shelf.appendChild(res);
+      panel.appendChild(shelf);
+      const hint=el("div","sqmHint");
+      hint.appendChild(el("p",null,locked?"Your squad is locked for this screen.":picked?"Now tap where he should go. Green rings show where he can play. Tap him again to cancel.":"Tap a player, then another, to swap them. On a computer you can also drag."));
+      const legend=el("ul","sqmLegend");legend.setAttribute("aria-label","What the dots mean");
+      for(const [f,word] of [[3,"Natural"],[2,"Can play"],[1,"Out of position"],[0,"Stand-in"]]){const li=el("li");li.append(el("i","sqmDot fit"+f),doc.createTextNode(word));legend.appendChild(li);}
+      hint.appendChild(legend);
       panel.appendChild(hint);
     }
 
@@ -258,7 +273,7 @@
     function defaultFormation(){const d=root.CareerModeFifa17Players;return d&&d.clubs[club]?d.clubs[club].formation:"";}
     function useFormation(){
       const f=formations[carousel];if(!f||locked)return;
-      if(commit({t:"formation",name:f.name})){say(`${f.title} ${f.variant} is in. Starters who still fit kept their places.`,"ok");tab="squad";}
+      if(commit({t:"formation",name:f.name})){say(`${[f.title,f.variant].filter(Boolean).join(" ")} is in. Starters who still fit kept their places.`,"ok");tab="squad";}
       sqmRender();
     }
 
@@ -282,7 +297,7 @@
         if(pendingLeave){
           box.appendChild(el("p","sqmSideNote","Why did he leave the club?"));
           const chips=el("div","sqmReasons");
-          for(const r of S.leaveReasons){const b=el("button","sqmBtn",REASON_WORD[r]);b.type="button";b.addEventListener("click",()=>{const name=sel.name;if(commit({t:"leave",id:sel.id,reason:r})){say(`${name} has left (${REASON_WORD[r].toLowerCase()}). His place went to the best player of his line.`,"ok");}picked=null;pendingLeave=null;sqmRender();});chips.appendChild(b);}
+          for(const r of S.leaveReasons){const b=el("button","sqmBtn",REASON_WORD[r]);b.type="button";b.addEventListener("click",()=>{const name=sel.name;if(commit({t:"leave",id:sel.id,reason:r})){say(r==="loaned"?`${name} is out on loan and comes back next season. His place went to the best player of his line.`:`${name} has left (${REASON_WORD[r].toLowerCase()}). His place went to the best player of his line.`,"ok");}picked=null;pendingLeave=null;sqmRender();});chips.appendChild(b);}
           const back=el("button","sqmBtn is-quiet","Cancel");back.type="button";back.addEventListener("click",()=>{pendingLeave=null;sqmRender();});chips.appendChild(back);
           box.appendChild(chips);
         }else{
@@ -290,7 +305,8 @@
           const ov=el("div","sqmOverall");
           const minus=el("button","sqmBtn is-step","−");minus.type="button";minus.setAttribute("aria-label","Lower overall");
           const plus=el("button","sqmBtn is-step","+");plus.type="button";plus.setAttribute("aria-label","Raise overall");
-          const val=el("span","sqmOverallVal",sel.rating);
+          const val=el("input","sqmOverallVal");val.type="number";val.min="30";val.max="99";val.inputMode="numeric";val.value=String(sel.rating);val.setAttribute("aria-label",`${sel.name}'s overall`);
+          val.addEventListener("change",()=>{const n=Number(val.value);if(n!==sel.rating)step(n-sel.rating);});
           const step=d=>{const id=sel.id,next=sel.rating+d;if(commit({t:"rate",id,overall:next})){const r=S.findPlayer(sheet,id);picked=r;say(`New overall saved: ${next}.`,"ok");}sqmRender();};
           minus.addEventListener("click",()=>step(-1));plus.addEventListener("click",()=>step(1));
           ov.append(el("span","sqmSideNote","Overall in your save"),minus,val,plus);
@@ -300,7 +316,7 @@
       }
       if(sheet.out.length){
         const gone=el("div","sqmGone");gone.appendChild(el("h3","sqmSideTitle","Left the club"));
-        const list=el("ul");for(const o of sheet.out.slice().reverse().slice(0,8))list.appendChild(el("li",null,`${shortName(o.name)}  ·  ${REASON_WORD[o.reason]||o.reason}  ·  S${o.season}`));
+        const list=el("ul");for(const o of sheet.out.slice().reverse().slice(0,8))list.appendChild(el("li",null,`${shortName(o.name)}  ·  ${REASON_WORD[o.reason]||o.reason}${o.returned?", back":""}  ·  S${o.season}`));
         gone.appendChild(list);side.appendChild(gone);
       }
       const actions=el("div","sqmActions");
@@ -320,11 +336,15 @@
     }
 
     // ----- input: tap to pick and swap, drag, keys -----
+    function scrollerOf(node){
+      for(let n=node&&node.parentElement;n&&n!==doc.body;n=n.parentElement){const o=root.getComputedStyle(n).overflowY;if((o==="auto"||o==="scroll")&&n.scrollHeight>n.clientHeight)return n;}
+      return root;
+    }
     function refFrom(node){const b=node&&node.closest&&node.closest("[data-zone]");if(!b||!panel.contains(b))return null;return {zone:b.dataset.zone,index:Number(b.dataset.index)};}
     function tapOn(ref){
       if(locked){cursor=ref;sqmRender();return;}
       cursor=ref;
-      if(!picked){if(playerAt(ref)||ref.zone!=="res"){picked=ref;pendingLeave=null;if(ref.zone==="res"||ref.zone==="bench")shelfOpen=ref.zone==="res"&&false;}sqmRender();return;}
+      if(!picked){if(playerAt(ref)||ref.zone!=="res"){picked=ref;pendingLeave=null;}sqmRender();return;}
       if(same(picked,ref)){picked=null;pendingLeave=null;sqmRender();return;}
       trySwap(picked,ref);
     }
@@ -365,7 +385,6 @@
       const node=panel.querySelector(`[data-zone="${drag.ref.zone}"][data-index="${drag.ref.index}"]`);
       if(!node)return;
       drag.moved=true;picked=drag.ref;
-      if(drag.ref.zone!=="xi")shelfOpen=false;
       sqmRender();
       const g=node.cloneNode(true);g.classList.add("sqmGhost");g.style.left=e.clientX+"px";g.style.top=e.clientY+"px";g.style.width=node.offsetWidth+"px";
       doc.body.appendChild(g);drag.ghost=g;
@@ -376,7 +395,12 @@
       const dist=Math.hypot(e.clientX-drag.x,e.clientY-drag.y);
       if(!drag.ready){if(dist>8){clearTimeout(drag.timer);drag=null;}return;}
       if(!drag.ghost&&dist>6)start(e);
-      if(drag.ghost){e.preventDefault();drag.ghost.style.left=e.clientX+"px";drag.ghost.style.top=e.clientY+"px";}
+      if(drag.ghost){
+        e.preventDefault();drag.ghost.style.left=e.clientX+"px";drag.ghost.style.top=e.clientY+"px";
+        // Near the top or bottom edge the page scrolls, so a reserve can be carried up to the pitch.
+        const edge=56,h=root.innerHeight||800,dy=e.clientY<edge?-14:e.clientY>h-edge?14:0;
+        if(dy){const sc=scrollerOf(host);sc.scrollBy(0,dy);}
+      }
     });
     function endDrag(e){
       if(!drag)return;clearTimeout(drag.timer);
@@ -404,11 +428,9 @@
       if(e.key==="Enter"||e.key===" "){if(e.target.closest&&e.target.closest(".sqmSide"))return;e.preventDefault();tapOn(cursor);focusCursor();return;}
       e.preventDefault();
       cursor=moveCursor(cursor,e.key);
-      shelfOpen=cursor.zone==="res"||(cursor.zone==="bench"&&shelfOpen);
-      if(cursor.zone==="xi")shelfOpen=false;
       sqmRender();focusCursor();
     });
-    function focusCursor(){const n=panel.querySelector(`[data-zone="${cursor.zone}"][data-index="${cursor.index}"]`);if(n){n.focus({preventScroll:true});n.scrollIntoView({block:"nearest"});}}
+    function focusCursor(){const n=panel.querySelector(`[data-zone="${cursor.zone}"][data-index="${cursor.index}"]`);if(n){n.focus({preventScroll:true});n.scrollIntoView({block:"nearest",behavior:root.matchMedia&&root.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});}}
     function moveCursor(c,key){
       const spots=S.pitchSpots(sheet.slots);
       if(c.zone==="xi"){
