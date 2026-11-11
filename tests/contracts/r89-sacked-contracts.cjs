@@ -2,8 +2,7 @@
 // r89 Sacked (Nik 2026-11-03): on Season Results either manager may tick "I was sacked" for himself (with a confirm step).
 // Any sacking ends the Showdown after that season; the points so far decide (equal = DRAW, being sacked is not losing); it
 // counts on every career screen as a COMPLETED Showdown, never the hidden "ended early" kind. A sacking in the planned last
-// season is a full-length Showdown (Golden still possible). Only Showdowns confirmed from SACKED_FROM_MS (the r89 release,
-// set with tools/set-release-time.cjs --r89) show the tick. The Rules side is proven in tests/firebase/sacked-rules-emulator.cjs.
+// season is a full-length Showdown (Golden still possible). Every Showdown with a readable confirm time shows the tick. The Rules side is proven in tests/firebase/sacked-rules-emulator.cjs.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -106,13 +105,9 @@ const SESSION="session_"+"c".repeat(64);
   for(const id of ["p1Sacked","p2Sacked"])assert.match(html,new RegExp(`<input id="${id}" type="checkbox">`),`${id} tick`);
   assert.match(html,/I was sacked this season/);
   const src=read("js/productionSharedSeasonResults.js");
-  assert.match(src,/const SACKED_FROM_MS=Date\.parse\("[0-9TZ:.-]+"\);/);
-  assert.match(src,/CMS_SACKED/);assert.match(src,/PUBLISH · I WAS SACKED/);assert.match(src,/YES, I WAS SACKED · PUBLISH/);
+  assert.doesNotMatch(src,/SACKED_FROM_MS|CMS_SACKED/);assert.match(src,/PUBLISH · I WAS SACKED/);assert.match(src,/YES, I WAS SACKED · PUBLISH/);
   assert.match(src,/THIS SHOWDOWN ENDS AFTER SEASON/);
-  const times=require("../../tools/set-release-time.cjs");
-  assert.deepEqual(times.R89_RELEASE_TIME_CONSTANTS.map(c=>`${c.file}:${c.name}`),["js/productionSharedSeasonResults.js:SACKED_FROM_MS"]);
-  assert.match(read("tools/set-release-time.cjs"),/--r89/);
-  ok("S6","each card has its own \"I was sacked this season\" tick; PUBLISH needs a second tap to confirm; only Showdowns confirmed from SACKED_FROM_MS (set by --r89) show it");
+  ok("S6","each card has its own \"I was sacked this season\" tick; PUBLISH needs a second tap to confirm; no start time or off switch");
 }
 
 // S7 the rest of the release: Rule Book card, shell path, quiet booth, Rules builder needles, no new listener.

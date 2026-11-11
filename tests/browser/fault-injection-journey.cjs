@@ -580,7 +580,7 @@ async function main(){
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
       await drive(first,p=>startBtn(p,first).isVisible(),{label:"I STARTED AT"});await startBtn(first.page,first).click({timeout:10000});await sleep(1500);
       // After Career Start each phone plays this season's roulette; the settle stops at the roulette (spin-mark is the next point).
-      const atRoulette=async page=>await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await onTransfer(page);
+      const atRoulette=async page=>await visible(page,"#cmStage")||await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await onTransfer(page);
       await writePoint(ctx,"career-start",{writer:X,ready:p=>startBtn(p,X).isVisible(),tap:p=>startBtn(p,X).click({timeout:10000}),
         settle:async(m,page)=>{
           // pathForward plays the roulette, so this settle only waits for Career Start to be gone from the screen.
@@ -598,6 +598,7 @@ async function main(){
     // --- spin-mark (season 1): the other phone plays its roulette first; the fault phone's last roulette tap writes its mark.
     const spinMarkPoint=async(point,season)=>{
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
+      await playChamberMenBoth(ctx,season);
       await playRouletteToEnd(first,season);
       await writePoint(ctx,point,{writer:X,ready:async page=>await rouletteFinalTapReady(page),tap:async page=>{await page.locator("#rrStepPanel .rrStepPrimary").click({timeout:10000});markRouletteFinished(X,season,true);},
         settle:(m,page)=>drive(m,async p=>await atPrime(p)||await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} Prime Pack or transfer window with both marks`}),
@@ -619,7 +620,7 @@ async function main(){
     {
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
       const contReady=p=>p.evaluate(()=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent==="CONTINUE TO SEASON 2").catch(()=>false);
-      const atS2=async p=>await seasonIs(p,2,TOTAL)&&(await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p));
+      const atS2=async p=>await seasonIs(p,2,TOTAL)&&(await visible(p,"#cmStage")||await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p));
       await drive(first,async p=>await contReady(p)||await atS2(p),{label:"CONTINUE TO SEASON 2"});
       let paper="(resumed in season 2)";
       if(await contReady(first.page)){await first.page.locator("#sharedMultiSeasonContinueAction").click({timeout:10000});paper=await gazette.passGazette(first.page,"season").catch(()=>null);}
@@ -741,6 +742,26 @@ async function main(){
     else markRouletteFinished(m,season);
   }
 }
+// Chamber Men (7 kicks each, turn by turn, 10 s clock) needs BOTH phones tapping at the same time, so both play it together and stop
+// when it is over and the roulette shows (the roulette itself is played by the caller, phone by phone). Not drive(): its generic
+// path-forward would tap the roulette's panels the moment they show, and "wait" (the rival's turn) is not a dead tap here.
+async function playChamberMenBoth(ctx,season){
+  // Chamber Men stays on screen underneath the roulette, so the roulette showing is what ends it.
+  const over=async p=>await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await atPrime(p)||await onTransfer(p);
+  const one=async m=>{
+    const until=Date.now()+240000;let idleSince=Date.now();
+    for(;;){
+      if(await over(m.page).catch(()=>false))return;
+      let did="";
+      if(await visible(m.page,"#cmStage").catch(()=>false)){did=await rosterRoulette.playChamberMen(m.page).catch(()=>"")||"";if(did!=="wait"||DEBUG)log(`  ${m.user} season ${season} Chamber Men: ${did}`);idleSince=Date.now();}
+      else did=await pathForwardNoRoulette(m,m.page).catch(()=>"");
+      if(did&&did!=="wait")idleSince=Date.now();
+      if(Date.now()-idleSince>STUCK_MS||Date.now()>until)throw Object.assign(new Error(`${m.user} stuck on the way to season ${season} Chamber Men: ${await describe(m,m.page)}`),{stuck:true,page:m.page});
+      await sleep(600);
+    }
+  };
+  await Promise.all([ctx.daniel,ctx.nik].map(one));
+}
 // The last roulette tap: the result panel's GO TO THE PRIME PACK / GO TO THE TRANSFER WAR (or I'VE RELEASED HIM when it is the last).
 async function rouletteFinalTapReady(page){
   const b=page.locator("#rrStepPanel .rrStepPrimary");
@@ -750,7 +771,7 @@ async function rouletteFinalTapReady(page){
 }
 async function spunBoth(page){const s=await tcState(page);return Boolean(s&&(s.state||Array.isArray(s.spunRoles)&&s.spunRoles.includes("playerOne")&&s.spunRoles.includes("playerTwo")));}
 // pathForward without playing the roulette (the Career Start settle stops at the roulette).
-async function pathForwardNoRoulette(m,page){if(await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await atPrime(page))return "";return pathForward(m,page);}
+async function pathForwardNoRoulette(m,page){if(await visible(page,"#cmStage")||await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await atPrime(page))return "";return pathForward(m,page);}
 
 async function transfersWithFaults(ctx,R,season){
   const {daniel,nik}=ctx;const both=[daniel,nik];
@@ -838,6 +859,10 @@ async function plainContinue(ctx,next,total){
     await drive(m,p=>p.evaluate(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next).catch(()=>false),{label:`CONTINUE TO SEASON ${next}`});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:10000});
     await gazette.passGazette(m.page,"season").catch(()=>null);
+  }
+  // Chamber Men opens the season on both phones at once (they play it together), then the roulette.
+  await playChamberMenBoth(ctx,next);
+  for(const m of [ctx.daniel,ctx.nik]){
     // The Prime Pack round needs both phones: each one stops at it here (or at the window), and the caller plays it.
     await drive(m,async p=>await seasonIs(p,next,total)&&(await atPrime(p)||await onTransfer(p)),{label:`season ${next} Prime Pack or transfer`});
     markRouletteFinished(m,next);
@@ -949,7 +974,7 @@ async function commitWithFaults(ctx,R,season,final){
     // Closed: the Showdown Champion screen, or (a phone that reloaded after the close) Showdown Home with no live Showdown.
     if(final)return (await finalShown(p)&&await closedPhase(p)==="CLOSED")||(await closedInDb()&&await visible(p,"#mainMenu")&&!(await p.locator("#mainMenu").filter({hasText:/CONTINUE SHOWDOWN|Daniel vs Nik · Season \d+ of/}).count()));
     // A phone that reloads after the acknowledgement resumes in the next season (its roulette or Transfer Challenge).
-    if(await seasonIs(p,season+1,3)&&(await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p)))return true;
+    if(await seasonIs(p,season+1,3)&&(await visible(p,"#cmStage")||await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p)))return true;
     return await commitLabel(p)==="SEASON CONFIRMED ✓"&&await p.evaluate(n=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n;},season).catch(()=>false);
   };
   await writePoint(ctx,point,{writer:nik,landed:async()=>(await commitDoc())?.phase==="ACKNOWLEDGED",ready:async p=>await commitLabel(p)==="CONFIRM SEASON",tap:p=>p.locator("#sharedSeasonCommitAction").click({timeout:10000}),

@@ -4,6 +4,7 @@
 // writes; part B runs the real production Transfer Challenge module (js/productionSharedTransferChallenge.js) in a VM with a
 // fake page, a fake provider and a fake roulette step, and checks the coordinator's START panel and taps.
 const assert=require("node:assert/strict");
+const ROULETTE_T=Date.parse("2026-11-02T05:00:00Z");
 const fs=require("node:fs");
 const path=require("node:path");
 const vm=require("node:vm");
@@ -54,8 +55,7 @@ function createHarness(setupUpdatedAtMs){
 async function partA(){
   assert.equal(typeof Provider.markSpun,"function","the provider writes a manager's own spun mark");
 
-  assert.equal(Provider.rouletteFromMs,Step.fromMs,"the provider and the roulette step share RRR_FROM_MS");
-  const ELIGIBLE=Step.fromMs+60_000,BEFORE=Step.fromMs-60_000;
+  const ELIGIBLE=ROULETTE_T+60_000;
 
   // A0 (Codex P2 on #1101): in a roulette-eligible season a START with no flag and no mark is refused by the provider itself.
   const bare=createHarness(ELIGIBLE);
@@ -102,23 +102,13 @@ async function partA(){
   view=await Provider.read(h.options("playerTwo",1_000_090));
   assert.equal(view.state.phase,"WINDOW_OPEN");assert.equal(view.spunRoles,null);
 
-  // A5: an old Showdown (confirmed before RRR_FROM_MS), one with no confirm time, and the switched-off roulette: no marks, opens at once.
-  for(const [label,at,off] of [["old Showdown",BEFORE,false],["no confirm time",undefined,false],["roulette off",ELIGIBLE,true]]){
-    const old=createHarness(at);if(off)globalThis.CMS_ROSTER_ROULETTE="off";
-    try{result=await Provider.startWindow({...old.options("playerOne",2_000_000),operationId:op(5),baseRevision:0});}finally{delete globalThis.CMS_ROSTER_ROULETTE;}
+  // A5: a Setup with no readable confirm time has no marks and opens at once.
+  for(const [label,at] of [["no confirm time",undefined]]){
+    const old=createHarness(at);
+    result=await Provider.startWindow({...old.options("playerOne",2_000_000),operationId:op(5),baseRevision:0});
     assert.equal(result.ok,true,`${label}: a season the roulette does not apply to never blocks`);assert.equal(result.state.phase,"WINDOW_OPEN");
   }
-  // A5b: the roulette is switched off after one mark: START still waits for both; the partner's own mark (allowed with the
-  // roulette off) then lets START open the window.
-  {const flip=createHarness(ELIGIBLE);await Provider.markSpun({...flip.options("playerOne",3_000_000),managerRole:"playerOne"});globalThis.CMS_ROSTER_ROULETTE="off";
-    try{
-      result=await Provider.startWindow({...flip.options("playerOne",3_000_010),operationId:op(11),baseRevision:0});
-      assert.equal(result.code,"TRANSFER_ROULETTE_PENDING","a stored mark keeps START waiting for both after the switch");
-      assert.equal((await Provider.markSpun({...flip.options("playerTwo",3_000_020),managerRole:"playerTwo"})).ok,true);
-      result=await Provider.startWindow({...flip.options("playerOne",3_000_030),operationId:op(12),baseRevision:0});
-      assert.equal(result.ok,true,JSON.stringify(result));assert.equal(result.state.phase,"WINDOW_OPEN");
-    }finally{delete globalThis.CMS_ROSTER_ROULETTE;}}
-  assert.equal(Provider.rouletteEligible(Step.fromMs),true);assert.equal(Provider.rouletteEligible(Step.fromMs-1),false);assert.equal(Provider.rouletteEligible(Number.NaN),false);
+  assert.equal(Provider.rouletteEligible(ROULETTE_T),true);assert.equal(Provider.rouletteEligible(Number.NaN),false);
 
   // A6: the mark names only a real role and a valid season.
   result=await Provider.markSpun({...createHarness().options("playerOne",1),managerRole:"referee"});
@@ -152,9 +142,9 @@ function fakeProvider(store,eligible){
 }
 async function settle(){for(let i=0;i<30;i+=1)await new Promise(resolve=>setImmediate(resolve));}
 // One phone: the real module, a fake page, the given role and confirm time, a roulette step that is already done on this browser.
-async function phone({role,confirmedAtMs,store,killSwitch=false,step=null,awaitOpen=true}){
+async function phone({role,confirmedAtMs,store,step=null,awaitOpen=true}){
   const page=fakePage(),intervals=[];let sandbox=null;
-  const provider=fakeProvider(store,ms=>Number.isFinite(ms)&&ms>=Provider.rouletteFromMs&&sandbox.CMS_ROSTER_ROULETTE!=="off");
+  const provider=fakeProvider(store,ms=>Number.isFinite(ms));
   sandbox={
     console,Date,Promise,JSON,Math,Number,String,Array,Object,Set,Map,Error,Boolean,RegExp,Uint8Array,
     setTimeout:(fn,ms)=>ms>=1000?0:setTimeout(fn,ms),clearTimeout:()=>{},setInterval:fn=>{intervals.push(fn);return 0;},clearInterval:()=>{},
@@ -167,12 +157,11 @@ async function phone({role,confirmedAtMs,store,killSwitch=false,step=null,awaitO
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role==="playerOne"?uid1:uid2,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
     // r91 Squad Management: this harness plays a Showdown whose squads are not asked here (tests/contracts/r91-squad-sheet-contracts.cjs).
     CareerModeSquadSheetStep:{applies:()=>false,isDone:()=>true,close(){}},
-    CareerModeRosterRouletteStep:step||{fromMs:Step.fromMs,decide:()=>false,runBeforeTransfers:async()=>true,close(){}},
+    CareerModeRosterRouletteStep:step||{fromMs:ROULETTE_T,decide:()=>false,runBeforeTransfers:async()=>true,close(){}},
     // r87 Prime Pack runs after the roulette; here it is already played on this browser (the step resolves true at once).
-    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}
+    CareerModeChamberMenStep:{ensure:async()=>true,applies:()=>false,markDone(){},close(){}},CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}
   };
-  if(killSwitch)sandbox.CMS_ROSTER_ROULETTE="off";
-  sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(SOURCE,sandbox,{filename:"productionSharedTransferChallenge.js"});
+    sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(SOURCE,sandbox,{filename:"productionSharedTransferChallenge.js"});
   const api=sandbox.CareerModeProductionSharedTransferChallenge;api.install();await settle();
   if(awaitOpen){assert.equal(await api.open(),true,`${role} reaches the Transfer Challenge`);await settle();}else{void api.open();await settle();}
   const tick=async()=>{for(const fn of intervals)fn();await settle();};
@@ -181,7 +170,7 @@ async function phone({role,confirmedAtMs,store,killSwitch=false,step=null,awaitO
 }
 
 async function partB(){
-  const R87=Step.fromMs+60_000,OLD=Step.fromMs-60_000;
+  const R87=ROULETTE_T+60_000;
 
   // B1: Daniel has spun, Nik has not: his own mark is written once, START is the waiting line (shown, gold, not tappable).
   const store={spins:[],state:null};
@@ -217,15 +206,6 @@ async function partB(){
   const nik=await phone({role:"playerTwo",confirmedAtMs:R87,store:nikStore});
   assert.deepEqual(nik.provider.calls.markSpun,["playerTwo"]);assert.deepEqual(nikStore.spins,["playerOne","playerTwo"]);
   assert.equal(nik.start.classList.contains("hidden"),true,"Nik never sees START");
-
-  // B5: an old Showdown (confirmed before the roulette) and the switched-off roulette pass by themselves: no mark, no wait.
-  for(const [label,options] of [["old Showdown",{confirmedAtMs:OLD}],["roulette off",{confirmedAtMs:R87,killSwitch:true}]]){
-    const s={spins:[],state:null},p=await phone({role:"playerOne",store:s,...options});
-    assert.deepEqual(p.provider.calls.markSpun,[],`${label}: no mark is written`);
-    assert.equal(p.start.textContent,"START 15-MINUTE WINDOW",`${label}: START is ready at once`);assert.equal(p.start.disabled,false);
-    p.page.tap("startTransferTimer");await settle();
-    assert.deepEqual(p.provider.calls.startWindow,["plain"],`${label}: START goes straight to the provider`);
-  }
 
   // B5b (Fable F2-05): no confirm time after the Setup refresh means the Setup could not be read (every ledger carries
   // updatedAt), so it is never a silent pass: the window stays shut with that reason and no mark is written.
@@ -265,30 +245,14 @@ async function partB(){
     assert.equal(nikSaving.status(),"READY · WAITING FOR DANIEL TO START","once saved, the normal waiting line");
   }
 
-  // B7: the gate helper follows RRR_FROM_MS exactly.
+  // B7: the gate helper is true for a readable confirm time and false for an unreadable one.
   const applies=daniel.api.rouletteAppliesTo;
-  assert.equal(applies(Step.fromMs,Step),true);assert.equal(applies(Step.fromMs-1,Step),false);assert.equal(applies(Number.NaN,Step),false);
-
-  // B8 (Codex P2 #1101, comment 4431577474): the roulette is switched off after Daniel's mark was saved. The provider still waits
-  // for both (a mark exists), so Daniel's START keeps waiting, Nik's phone writes his own mark on reaching the step with no
-  // roulette shown, and Daniel's START then opens the window.
-  const flipped={spins:["playerOne"],state:null};
-  const danielOff=await phone({role:"playerOne",confirmedAtMs:R87,store:flipped,killSwitch:true});
-  assert.deepEqual(danielOff.provider.calls.markSpun,[],"Daniel's mark is already stored");
-  assert.equal(danielOff.start.textContent,"WAITING FOR NIK TO SPIN THE ROULETTE","with a stored mark START still waits, as the provider does");
-  danielOff.page.tap("startTransferTimer");await settle();assert.equal(danielOff.provider.calls.startWindow.length,0);
-  const nikOff=await phone({role:"playerTwo",confirmedAtMs:R87,store:flipped,killSwitch:true});
-  assert.deepEqual(nikOff.provider.calls.markSpun,["playerTwo"],"Nik's phone writes his own mark automatically (the roulette is off, so none is shown)");
-  assert.deepEqual(flipped.spins,["playerOne","playerTwo"]);
-  await danielOff.api.refresh();await settle();
-  assert.equal(danielOff.start.textContent,"START 15-MINUTE WINDOW");assert.equal(danielOff.start.disabled,false);
-  danielOff.page.tap("startTransferTimer");await settle();
-  assert.deepEqual(danielOff.provider.calls.startWindow,["plain"],"START succeeds once Nik's automatic mark landed");
+  assert.equal(applies(ROULETTE_T,Step),true);assert.equal(applies(Number.NaN,Step),false);
 
   // B9 (Codex P1 #1101, comment 4431666801): only Daniel has marked; Nik's phone is installed with the roulette on and his roulette
   // showing but not spun. The partner's mark alone never counts as his: no playerTwo write from install, refresh or any check.
   const unspun={spins:["playerOne"],state:null};
-  const spinning={fromMs:Step.fromMs,decide:()=>true,runBeforeTransfers:()=>new Promise(()=>{}),close(){}};
+  const spinning={fromMs:ROULETTE_T,decide:()=>true,runBeforeTransfers:()=>new Promise(()=>{}),close(){}};
   const nikSpinning=await phone({role:"playerTwo",confirmedAtMs:R87,store:unspun,step:spinning,awaitOpen:false});
   await nikSpinning.api.refresh();await settle();await nikSpinning.tick();await nikSpinning.tick();
   assert.deepEqual(nikSpinning.provider.calls.markSpun,[],"no mark for Nik before his own roulette is done");

@@ -36,11 +36,6 @@
   const DRAW_SLACK_MS=2000; // the Rules' guess window ends at L+97 s, 2 s after the stage 4 window (L+95 s)
   const LEAD_MS=3000;   // after the second manager arrives, both phones count in together before the card rises
   const RECORD_VERSION=1;
-  // Nik 2026-10-31 (N1), moved to r87 on 2026-11-01: the game runs only in Showdowns confirmed on the release that ships it,
-  // like Roster Roulette, so one Showdown never mixes 11-point and 15-point seasons. ICON_FROM_MS is the same boundary as
-  // js/rosterRouletteStep.js RRR_FROM_MS (a contract keeps them equal); the r87 release PR pins both to the release time.
-  // Do not change it outside the release PR.
-  const ICON_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
 
   // ---------- the draw ----------
   // The id's first hex digit is the season count (js/persistentNikDanielPair.js), so it is left out: a new season must
@@ -89,9 +84,9 @@
     if(at instanceof Date){const value=at.getTime();return Number.isFinite(value)?value:null;}
     return null;
   }
-  function igEligible(rivalryId,confirmedAt,{fromMs=ICON_FROM_MS}={}){
+  function igEligible(rivalryId,confirmedAt){
     const at=igMillis(confirmedAt);
-    return Boolean(igHex(rivalryId))&&at!==null&&at>=fromMs;
+    return Boolean(igHex(rivalryId))&&at!==null;
   }
 
   // ---------- the reveal clock ----------
@@ -196,7 +191,7 @@
   return Object.freeze({
     contractVersion:1,feature:"cms-icon-guess",roles:ROLES,stats:STATS,maxSeasons:MAX_SEASONS,chips:CHIPS,
     beats:BEATS,lastBeat:LAST_BEAT,stagePoints:STAGE_POINTS,maxPoints:MAX_POINTS,stages:STAGES,stageStarts:STAGE_STARTS,roundMs:ROUND_MS,leadMs:LEAD_MS,
-    fromMs:ICON_FROM_MS,eligible:igEligible,order:igOrder,statOrder:igStatOrder,draw:igDraw,
+    eligible:igEligible,order:igOrder,statOrder:igStatOrder,draw:igDraw,
     endsAt:igEndsAt,drawSlackMs:DRAW_SLACK_MS,beatAt:igBeatAt,revealed:igRevealed,stagePointsAt:igStagePoints,
     validRecord:igValid,startMs:igStartMs,outcome:igOutcome,applyGuess:igApplyGuess,points:igPoints
   });

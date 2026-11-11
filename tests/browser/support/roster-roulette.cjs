@@ -10,8 +10,8 @@
 // registered with track().
 // See playPrimePack for the primeGuesser option. Every phone then taps Continue on the result.
 //
-// r88 Chamber Men (js/chamberMenStep.js, #cmStage) runs before the roulette in Showdowns confirmed from CHAMBER_FROM_MS on
-// (journeys run it now with CMS_CHAMBER_MEN_NOW=1). Each phone picks a shot and a dive and taps LOCK IN for each of the seven
+// r88 Chamber Men (js/chamberMenStep.js, #cmStage) runs before the roulette in every Showdown
+// (every journey runs it). Each phone picks a shot and a dive and taps LOCK IN for each of the seven
 // rounds, then SPIN THE CYLINDER. The picks follow a fixed pattern by round and role, so a run gives a mix of goals and saves.
 //
 // r91 Squad Management (js/squadSheetStep.js, #sqStage) runs after Chamber Men and before the roulette ("pre": both squads
@@ -191,9 +191,8 @@ async function onTransfer(page){
 async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
   const targets=(Array.isArray(pages)?pages:[pages]).filter(Boolean);track(targets);
   // A planned Prime Pack round can run its four stages out (~95 s); Chamber Men's 14 kicks (turn by turn) show for about 37 s.
-  // Chamber Men also runs without CMS_CHAMBER_MEN_NOW once CHAMBER_FROM_MS has passed, so the first chamber step seen
-  // grants the same extra time.
-  const chamberNow=process.env.CMS_CHAMBER_MEN_NOW==="1",seen=[];
+  // Every Showdown plays Chamber Men, so the extra time is granted up front.
+  const chamberNow=true,seen=[];
   let until=Date.now()+(prime.enabled()?Math.max(timeout,210000):timeout)+(chamberNow?150000:0),chamberTime=chamberNow;
   for(;;){
     const drive=[...new Set([...targets,...tracked,...browserPages(targets)])].filter(page=>!page.isClosed());

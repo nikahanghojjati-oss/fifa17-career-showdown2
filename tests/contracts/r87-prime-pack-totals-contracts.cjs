@@ -26,17 +26,13 @@ function loadSeam(extra={}){
   return context.CareerModeCareerScreenSeam;
 }
 const Seam=loadSeam();
-const AFTER=IG.fromMs+60_000,BEFORE=IG.fromMs-60_000;
+const AFTER=Date.parse("2026-11-03T00:00:00Z"),BEFORE=Date.parse("2026-11-01T00:00:00Z");
 const perfect=(pack)=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,topScorer:true,...(pack?{primePack:pack}:{})}); // 11 + pack
 const plainSeason=()=>result({leaguePosition:4,leaguePoints:70});
 
-// T1 one boundary: the seam and the Gazette start Prime Pack totals where the round itself starts.
-assert.equal(Seam.PRIME_PACK_FROM_MS,IG.fromMs,'the seam boundary is js/iconGuess.js fromMs');
-assert.match(read('js/touchlineGazette.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the Gazette boundary is js/iconGuess.js fromMs');
-assert.match(read('js/sharedCareerAnalytics.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the Career Stats boundary is js/iconGuess.js fromMs');
-assert.match(read('js/productionSharedTransferChallenge.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the transfer hook boundary is js/iconGuess.js fromMs');
-assert.match(read('js/productionSharedSeasonResults.js'),new RegExp(`PRIME_PACK_FROM_MS=Date\\.parse\\("${new Date(IG.fromMs).toISOString().replace('.000Z','Z').replace(/[.]/g,'\\.')}"\\)`),'the Season Results boundary (old Showdowns never load the step) is js/iconGuess.js fromMs');
-{const src=read('js/productionSharedSeasonResults.js'),fn=src.slice(src.indexOf('async function pssrWithPrimePack('));assert.ok(fn.indexOf('confirmedAtMs<PRIME_PACK_FROM_MS')>0&&fn.indexOf('confirmedAtMs<PRIME_PACK_FROM_MS')<fn.indexOf('loadRuntimeScript'),'a Showdown from before Prime Pack publishes its Season Result without loading the Prime Pack step or reading a round');}
+// T1 no boundary: Prime Pack totals are 15 a season in every Showdown, so no file carries a start time for them.
+assert.equal(Seam.PRIME_PACK_FROM_MS,undefined,'the seam has no Prime Pack boundary');
+for(const file of ['js/touchlineGazette.js','js/sharedCareerAnalytics.js','js/productionSharedTransferChallenge.js','js/productionSharedSeasonResults.js','js/careerScreenSeam.js'])assert.doesNotMatch(read(file),/PRIME_PACK_FROM_MS/,`${file} has no Prime Pack boundary`);
 assert.deepEqual(plain(Seam.SEASON_MAX),{primePack:15},'one season maximum (Nik 2026-11-01 18:32 UTC)');assert.equal(IG.maxPoints+11,15);
 ok('T1','the seam, the Gazette and the transfer hook use the round\'s own start boundary, and 11 + 4 = 15 a season');
 

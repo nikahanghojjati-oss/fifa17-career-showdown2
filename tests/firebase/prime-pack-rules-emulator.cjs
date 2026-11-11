@@ -15,7 +15,6 @@
 // Run inside the Firestore emulator:
 //   npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-terminal \
 //     "node tests/firebase/prime-pack-rules-emulator.cjs"
-require("../support/release-time-started.cjs");
 const assert=require("node:assert/strict");
 const crypto=require("node:crypto");
 const fs=require("node:fs");
@@ -129,7 +128,6 @@ const stamp=deviceId=>({activeSessionId:SID,updatedByDeviceId:deviceId,updatedAt
     const roundRef=(db,season=1)=>doc(db,"rivalries",RID,"primePackRounds",`season_${season}`);
     const read=async(season=1)=>{let data;await env.withSecurityRulesDisabled(async context=>{data=(await getDoc(roundRef(context.firestore(),season))).data();});return data;};
     assert.equal(Step.applies(ctx("playerOne")),true,"a Showdown confirmed now plays Prime Pack");
-    assert.equal(Step.applies({...ctx("playerOne"),confirmedAtMs:Date.parse("2026-10-01T00:00:00Z")}),false,"a Showdown confirmed before r87 does not");
 
     // 1. Arrivals.
     await assertPlainDenial(setDoc(roundRef(dbB),{schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:1,arrived:{playerOne:serverTimestamp(),playerTwo:null},chipsUsed:{playerOne:0,playerTwo:0},namedBy:null,revision:1,...stamp(DB)}),"Nik creates the round with Daniel's arrival");

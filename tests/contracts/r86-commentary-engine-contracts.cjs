@@ -248,7 +248,7 @@ const aliasSource=/const CLUB_IDENTITY_ALIASES = Object\.freeze\((\{[\s\S]*?\})\
   x=sp(row(20),row(19));assert.deepEqual(one(x,'special-both-elite'),{managerA:'Alex',managerB:'Sam',mpClubA:'FC Porto',mpClubB:'FC Porto',mpNameA:'Player 20',mpNameB:'Player 19',mpNation:'Portugal',mpPosition:'central midfielder',mpRankA:'20',mpRankB:'19'});
   none(sp(row(20),row(21)),'special-both-elite');
   assert.deepEqual(run('special-player',{managers:MANAGERS,specialPlayers:null}),[],'a Showdown with no Special Player has no Special Player commentary');
-  const drawn=MP.forShowdown('pair_a'+'0123456789abcdef'.repeat(4).slice(1),MP.fromMs+1);x=sp(drawn.playerOne,drawn.playerTwo);assert.equal(x.filter(e=>/^special-(top|rest)/.test(e.situation)).length,2,'the real draw gives each manager one tier line');
+  const drawn=MP.forShowdown('pair_a'+'0123456789abcdef'.repeat(4).slice(1),MP.fromMs+1,{clubs:{playerOne:'No Such Club A',playerTwo:'No Such Club B'}});x=sp(drawn.playerOne,drawn.playerTwo);assert.equal(x.filter(e=>/^special-(top|rest)/.test(e.situation)).length,2,'the real draw gives each manager one tier line');
   ok('C10','tiers split at 3/4, 10/11, 20/21 and 50/51 like the badge; own club through the Special Player club names; same nation and position name only what is shared; rank gap at 100; both elite at 20');
 
   // C11 previews
