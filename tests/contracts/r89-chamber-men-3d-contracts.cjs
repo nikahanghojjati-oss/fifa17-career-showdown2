@@ -268,6 +268,8 @@ async function c3d2(){
   assert.ok(/react\[k\]=list\.filter\(n=>TK\[n\]\)\.map\(reaction\)/.test(scene),"reactions present in the file only");
   assert.ok(/react:pool\[\(luck>>>8\)%pool\.length\]/.test(scene)&&/const luck=cm3Hash\(`ball\|\$\{lineup\.taker\}\|\$\{round\}/.test(scene),"picked from the kick's hash");
   assert.ok(/const rooted=k\.goal&&k\.shot&&side==="M"&&KC\.defeated\?ROOTED:null;/.test(scene)&&scene.includes('const ROOTED={c:"defeated",m:0,tc:-.15,s:1,rooted:1};'),"rooted keeper on a goal past him");
+  // r91: the next lineup's shot starts where the last kick's shot ended and eases back, so a dissolve never doubles the goal.
+  assert.ok(scene.includes("carry.p.copy(camera.position);carry.l.copy(camLook);carry.at=snapAt;")&&/k<1&&!reducedMotion\(\)\)\{p\.lerpVectors\(carry\.p,p,k\);l\.lerpVectors\(carry\.l,l,k\);\}/.test(scene),"dissolve keeps one framing");
   const tool=read("tools/chamber-men-players/clips_r90.json");
   for(const n of ["victory2","cheer","salute","defeated"])assert.ok(tool.includes(`"${n}"`),`clips_r90.json bakes ${n}`);
   const fbx=require("node:child_process").execFileSync("git",["ls-files","*.fbx","*.FBX","*.zip"],{cwd:path.join(__dirname,"../.."),encoding:"utf8"}).trim();
