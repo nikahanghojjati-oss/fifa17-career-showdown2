@@ -726,7 +726,6 @@
         if(kickT<end){
           const k={clip:TK.penaltyKick,time:kickT,w:1};
           if(st.jog&&kickT<.12){const j=cm3Easy(kickT/.12);taker.pose([{clip:jog,time:JOG_JOIN+kickT*st.rate,w:1-j},{...k,w:j}]);return;}
-          if(!st.jog&&kickT<.001){taker.pose([idle]);return;}
           taker.pose([k]);return;
         }
         const r=plan.react,rt=kickT-end,b=cm3Easy(rt/.4);
@@ -734,7 +733,7 @@
       }
       if(!st.jog){
         // Two steps from a standstill: he waits, then goes.
-        const b=cm3Easy((kickT+.28)/.28);taker.pose([idle,{clip:TK.penaltyKick,time:0,w:b}]);return;
+        const b=cm3Easy((kickT+.28)/.28);taker.pose([{...idle,w:1-b},{clip:TK.penaltyKick,time:0,w:b}]);return;
       }
       if(t<runStart){taker.pose([idle]);return;}
       const jt=JOG_JOIN-st.total+st.clipAt(t-runStart),b=cm3Easy((t-runStart)/.3);
