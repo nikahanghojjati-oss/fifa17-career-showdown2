@@ -26,6 +26,15 @@ const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
 const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
     "production-authorization-acceptance.html"
 ]);
+// r91 (Sol 6.1 review of 2.3.0): the Device check (Settings > 3D QUALITY > Device check…) and its Chamber Men frame are
+// pages of their own at the root. 2.3.0 answered a navigation to them with the shell's index.html, so the check showed
+// Home. They always come from the network (the check plays the 3D screens, which need their files anyway) and never from
+// the shell's index.html; without a connection the answer is a short page that says so, with the way back to the game.
+const STANDALONE_PAGE_NAVIGATION_PATHS = new Set([
+    "device-check.html",
+    "device-check-chamber.html"
+]);
+function standalonePageOffline(){ return new Response('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Device check · Career Mode Showdown</title><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#050505;color:#f5f1e8;font:400 16px/1.5 system-ui,sans-serif;text-align:center"><main style="padding:24px"><h1 style="margin:0 0 8px;font-size:28px;letter-spacing:.06em;color:#f5c518">DEVICE CHECK</h1><p style="margin:0 0 16px">The Device check needs a connection. Try again when you are online.</p><a href="./" style="color:#f5c518">Back to the game</a></main></body></html>',{status:503,headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store"}}); }
 // r86: the Special Player page is its own document in a frame (js/specialPlayerReveal.js). A frame load is a navigation:
 // it gets that page from the shell the app runs (then the network), never the shell's index.html. Its images follow the
 // Team V cache-first image rule.
@@ -615,6 +624,7 @@ self.addEventListener("fetch",event=>{
     if(request.mode==="navigate"){
         const path=relativeScopePath(url);
         if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
+        if(STANDALONE_PAGE_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request)).catch(()=>standalonePageOffline())); return; }
         if(SHELL_FRAME_NAVIGATION_PATHS.has(path)){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); const cached=selected?await cachedShellResponse(path,selected.revision):null; return cached||((!selected||selected.revision===RUNTIME_REVISION)&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):fetch(request)); })()); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }

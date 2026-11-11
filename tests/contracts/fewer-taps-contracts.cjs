@@ -163,7 +163,7 @@ async function r1TransferContracts(){
     assert.equal(h.api.isWaitingForRival(),false,`${label}: the new phase is this manager's turn again`);
     assert.deepEqual(h.calls.mutations,[],`${label}: no write`);
   }
-  ok("R1 Transfer: after early-end / guess lock / signing lock the rival's step arrives by the 3 s read, no REFRESH CHALLENGE tap");
+  ok("R1 Transfer: after early-end / guess lock / signing lock the rival's step arrives by the 3 s read, no REFRESH tap");
   {
     const h=transferHarness(transferState("WINDOW_OPEN"),{role:"playerOne"});await walkTo(h,"GUESS_ENTRY",{guessLockedRoles:["playerOne"]});h.api.install();await settle();
     assert.equal(await fastReads(h),1);

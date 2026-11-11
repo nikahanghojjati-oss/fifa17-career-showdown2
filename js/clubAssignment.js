@@ -250,8 +250,8 @@ function renderClubRevealStage(stage){
     if(stage === "opening"){
         resetClubRevealCards();
         if(ui.confirmation){ ui.confirmation.classList.add("hidden"); }
-        setClubText(ui.status, "CLUB DRAW SAVED · PREPARING PACK 01");
-        setClubText(ui.revealButton, "DRAW LOCKED...");
+        setClubText(ui.status, "CLUB DRAW SAVED · PREPARING PACK 1");
+        setClubText(ui.revealButton, "DRAW LOCKED…");
         setRevealControls({
             showOpen: true,
             openDisabled: true,
@@ -265,14 +265,14 @@ function renderClubRevealStage(stage){
     if(stage === "manager-one"){
         applyClubRevealCard(ui.cardOne, ui.clubOne, ui.cardStateOne, currentShowdown.clubs.playerOne);
         resetClubRevealCard(ui.cardTwo, ui.clubTwo, ui.cardStateTwo);
-        setClubText(ui.status, `${currentShowdown.managers.playerOne.toUpperCase()} · PACK 01 OPEN`);
+        setClubText(ui.status, `${currentShowdown.managers.playerOne.toUpperCase()} · PACK 1 OPEN`);
         return;
     }
 
     if(stage === "manager-two"){
         applyClubRevealCard(ui.cardOne, ui.clubOne, ui.cardStateOne, currentShowdown.clubs.playerOne);
         applyClubRevealCard(ui.cardTwo, ui.clubTwo, ui.cardStateTwo, currentShowdown.clubs.playerTwo);
-        setClubText(ui.status, `${currentShowdown.managers.playerTwo.toUpperCase()} · PACK 02 OPEN`);
+        setClubText(ui.status, `${currentShowdown.managers.playerTwo.toUpperCase()} · PACK 2 OPEN`);
         return;
     }
 
@@ -281,7 +281,7 @@ function renderClubRevealStage(stage){
         applyClubRevealCard(ui.cardTwo, ui.clubTwo, ui.cardStateTwo, currentShowdown.clubs.playerTwo);
         populateClubConfirmation();
         if(ui.confirmation){ ui.confirmation.classList.remove("hidden"); }
-        setClubText(ui.status, "BOTH CLUBS REVEALED · LOCKING CLUBS");
+        setClubText(ui.status, "BOTH CLUBS REVEALED · LOCKING IN");
         setRevealControls({
             showOpen: false,
             openDisabled: true,
@@ -395,9 +395,9 @@ function assignClubs(){
     const ui = getClubAssignmentUI();
 
     if(!pair){
-        setClubText(ui.status, "NO CLUB DATA AVAILABLE");
+        setClubText(ui.status, "NO CLUBS FOUND");
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Club assignment data is unavailable for the selected league.", "error");
+            window.showAppNotice("No clubs are listed for this league.", "error");
         }
         return;
     }
@@ -420,7 +420,7 @@ function assignClubs(){
         renderReadyAssignmentState();
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
-                "The club assignment could not be saved. No clubs were locked.",
+                "Club Assignment did not save. No clubs were locked.",
                 "error",
                 9000
             );
@@ -444,7 +444,7 @@ function continueToShowdownHome(){
 
     if(!integrity.valid){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("Assign two clubs before you confirm.", "error");
+            window.showAppNotice("Draw both clubs before you confirm.", "error");
         }
         renderClubAssignmentState();
         return;

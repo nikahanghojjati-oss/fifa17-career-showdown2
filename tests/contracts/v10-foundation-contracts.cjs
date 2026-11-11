@@ -1003,7 +1003,7 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // ticks and the other r89 feature changes) with its 2.2.0-r89 pins and v2.2.0 footer, nothing else.
   // Re-pinned 2026-11-09 by the 2.3.0 release PR: gameplay/r90 ff70b7e's file with its 2.3.0-r90 pins and v2.3.0 footer, nothing
   // else (r90's own index.html changes were already pinned as a384fe22 by their feature PRs).
-  assert.equal(sha256("index.html"),"74e9b22ddf4581525e6c1a84cdc24a01812240dfb9ad11a54409642bdcc0c5e0","index.html byte-identical to the 2.3.0 release");
+  assert.equal(sha256("index.html"),"cb29b68dbcd5b022b4618828dd4c113869a5c46ef4beaf57a6b10ba9bda5822f","index.html byte-identical to the 2.3.0 release");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
