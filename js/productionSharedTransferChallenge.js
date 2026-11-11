@@ -589,6 +589,7 @@
       if(!provided){rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
       if(!pstcRequestMatches(request))return false;
       const options=provided.options,io={firestore:options.firestore,sdk:options.firebaseSdk,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId};
+      ctx.replayHits=k=>pstcSquadReplayHits(request,ctx,io,steps,confirmedAtMs,k);
       const go=await steps.step.run(ctx,io);
       if(go!==true){if(!steps.step.wentHome?.())rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
       const boards=await steps.step.boards(ctx,io);
@@ -600,24 +601,54 @@
   // After the Transfer War (verdicts revealed) and before Season Results: this manager's squad with his kept signings in and
   // the roulette's shot gone. He does not wait for the rival here. true = Season Results may open; false = he went back to
   // Showdown Home, or the screen could not load (he taps again; nothing is lost). Not in the Showdown's last season.
+  // P3 (review of #1358): a screen that cannot load says why, on the Transfer War screen and on the dashboard; never a silent tap.
+  let squadError="";
+  function pstcSquadFail(steps){
+    if(steps?.step?.wentHome?.())return false;
+    squadError=PSTC_ROULETTE_TEXT.squadLoad;pstcSetError(squadError);try{pstcDecorateDashboard();}catch(_error){}
+    return false;
+  }
   async function pstcSquadAfterTransfers(){
+    squadError="";
+    let steps=null;
     try{
       const request=pstcRequestContext();
       if(!view||!view.managerRole||!request||view.state?.phase!=="COMPLETED"||viewContextKey!==request.key)return true;
       const confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
-      if(!Number.isFinite(confirmedAtMs))return false;
-      const steps=await pstcSquadSteps();if(!steps)return false;
+      if(!Number.isFinite(confirmedAtMs))return pstcSquadFail(null);
+      steps=await pstcSquadSteps();if(!steps)return pstcSquadFail(null);
       const clubs={playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")};
       const ctx=pstcSquadContext(request,"post",null);
       if(!steps.step.applies(ctx)||steps.step.isDone(ctx))return true;
       ctx.special=await pstcSquadSpecial(steps,request,confirmedAtMs,clubs);
-      if(ctx.special===undefined)return false;
+      if(ctx.special===undefined)return pstcSquadFail(steps);
       const provided=await pstcProviderOptions(request,true);
-      if(!provided||!pstcRequestMatches(request))return false;
-      const options=provided.options;
-      const go=await steps.step.run(ctx,{firestore:options.firestore,sdk:options.firebaseSdk,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId});
-      return go===true;
-    }catch(_error){return false;}
+      if(!provided)return pstcSquadFail(steps);
+      if(!pstcRequestMatches(request))return false;
+      const options=provided.options,io={firestore:options.firestore,sdk:options.firebaseSdk,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId};
+      ctx.replayHits=k=>pstcSquadReplayHits(request,ctx,io,steps,confirmedAtMs,k);
+      const go=await steps.step.run(ctx,io);
+      return go===true?true:pstcSquadFail(steps);
+    }catch(_error){return pstcSquadFail(steps);}
+  }
+  // A season whose spin mark lost its outcome: both managers' shots replayed with the roulette engine from that season's two
+  // locked squads and its Chamber Men cylinders (as the roulette did before squads, Fable F17-01). {playerOne, playerTwo} or null.
+  async function pstcSquadReplayHits(request,ctx,io,steps,confirmedAtMs,k){
+    const loaded=await Promise.all([
+      pstcLoadScript("roster-roulette","js/rosterRoulette.js",()=>root.CareerModeRosterRoulette),
+      pstcLoadScript("chamber-men-step","js/chamberMenStep.js",()=>root.CareerModeChamberMenStep)
+    ]).then(()=>true,()=>false);
+    const engine=root.CareerModeRosterRoulette,chamber=root.CareerModeChamberMenStep;
+    if(!loaded||!engine||typeof engine.forSeason!=="function"||typeof engine.outcome!=="function"||!chamber||!await chamber.ensure())return null;
+    const cyl=await chamber.cylinders({rivalryId:ctx.rivalryId,managerRole:ctx.managerRole,season:k,confirmedAtMs,clubs:ctx.clubs},io);
+    const chambers=cyl&&cyl.ok===true&&cyl.chambers?cyl.chambers:cyl&&cyl.reason==="NOT_FINISHED"?Object.freeze({oneBullet:true}):null;
+    if(!chambers)return null;
+    const boards=await steps.step.boards({...ctx,season:k,stage:"pre"},io);
+    if(!boards||boards.ok!==true)return null;
+    const plan=engine.forSeason(ctx.rivalryId,ctx.clubs,k,{special:ctx.special,history:[null],hits:{},chamberMen:true,chambers:{[k]:chambers},sheets:boards.sheets});
+    if(!plan)return null;
+    const out={playerOne:engine.outcome(plan,"playerOne","replay"),playerTwo:engine.outcome(plan,"playerTwo","replay")};
+    return out.playerOne&&out.playerTwo?out:null;
   }
   // r50: the first open loads the Transfer runtime and reads authority; show it and share one attempt.
   // r87 Russian Roster Roulette (js/rosterRouletteStep.js): before this season's Transfer Challenge opens, this manager does
@@ -926,5 +957,5 @@
   }
   function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("input",pstcSigningDraftChange);root.document.addEventListener("change",pstcSigningDraftChange);if(typeof root.addEventListener==="function")root.addEventListener("storage",pstcSigningDraftStorage);root.document.addEventListener("input",pstcGuessDraftChange,true);root.document.addEventListener("change",pstcGuessDraftChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("online",pstcVisibilityChange);root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",rouletteBlocked:pstcRouletteBlocked,nameKey:pstcNameKey,blockedSignings:async()=>[...(await pstcBlockedNow()).values()],productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),spinsMissing:()=>[...pstcSpinsMissing()],rouletteError:()=>rouletteError||(primePackLoadError?PSTC_PRIME_PACK_TEXT:""),rouletteAppliesTo:pstcRouletteAppliesTo,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView,squadAfterTransfers:pstcSquadAfterTransfers});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",rouletteBlocked:pstcRouletteBlocked,nameKey:pstcNameKey,blockedSignings:async()=>[...(await pstcBlockedNow()).values()],productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),spinsMissing:()=>[...pstcSpinsMissing()],rouletteError:()=>rouletteError||(primePackLoadError?PSTC_PRIME_PACK_TEXT:""),rouletteAppliesTo:pstcRouletteAppliesTo,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView,squadError:()=>squadError,squadAfterTransfers:pstcSquadAfterTransfers});
 });

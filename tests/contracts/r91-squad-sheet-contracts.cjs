@@ -339,4 +339,31 @@ ok('C8','the RRR board from a sheet is 11 slots then 4 subs');
   }
   ok('C10',`${careers10} seeded 10-season careers through the store's chain (${screens} locked screens): a phone with only the latest document gets the same proposal as one with all of them, every locked document rebuilds the exact squad from the automatic chain alone, and the Roulette's boards are the locked sheets`);
 }
-console.log(`PASS r91 squad sheet contracts (${checks} checks)`);
+// C11 (review of #1358, P3): a season whose spin mark lost its outcome replays the shot (ctx.replayHits: that season's two
+// locked squads + its Chamber Men cylinders through the roulette engine); without a replay the screen names the season and
+// asks TRY AGAIN, never a guess. A failed Squad Management load before Season Results is said on screen, never silent.
+(async()=>{
+  const fs=require('node:fs'),path=require('node:path');
+  const Step=require('../../js/squadSheetStep.js');
+  const shot={fired:true,hitName:'M. Reus',hitNumber:11,hitSlot:9,hitSignedSeason:null,version:'v'};
+  const base={rivalryId:'pair_'+'a'.repeat(64),managerRole:'playerOne',season:2,stage:'pre',clubs:{playerOne:'Borussia Dortmund',playerTwo:'Arsenal'}};
+  const verdicts=async()=>({ok:true,verdicts:{playerOne:[],playerTwo:[]},hits:{playerOne:null,playerTwo:{fired:false}}});
+  let asked=[];
+  const ok1=await Step.history({...base,verdicts,replayHits:async k=>{asked.push(k);return {playerOne:shot,playerTwo:{fired:false}};}});
+  assert.equal(ok1.ok,true);assert.deepEqual(asked,[1],'only the season with a lost outcome is replayed');
+  assert.equal(ok1.results[1].hits.playerOne.hitName,'M. Reus');assert.equal(ok1.results[1].hits.playerTwo.fired,false,'a saved outcome is kept');
+  assert.equal(Step.events(ok1.results[1],'playerOne').shot.name,'M. Reus','the replayed shot leaves the squad');
+  const bad=await Step.history({...base,verdicts,replayHits:async()=>null});
+  assert.deepEqual({ok:bad.ok,season:bad.season,reason:bad.reason},{ok:false,season:1,reason:'SHOT'});
+  const none=await Step.history({...base,verdicts});
+  assert.equal(none.reason,'SHOT','no replay reader: TRY AGAIN, never a squad with the shot player still in');
+  const saved=await Step.history({...base,verdicts:async()=>({ok:true,verdicts:{playerOne:[],playerTwo:[]},hits:{playerOne:shot,playerTwo:{fired:false}}}),replayHits:async()=>{throw new Error('not asked');}});
+  assert.equal(saved.ok,true,'saved outcomes need no replay');
+  const pstc=fs.readFileSync(path.join(__dirname,'../../js/productionSharedTransferChallenge.js'),'utf8');
+  assert.equal((pstc.match(/ctx\.replayHits=k=>pstcSquadReplayHits\(request,ctx,io,steps,confirmedAtMs,k\);/g)||[]).length,2,'both squad screens can replay a lost shot');
+  assert.match(pstc,/engine\.forSeason\(ctx\.rivalryId,ctx\.clubs,k,\{special:ctx\.special,history:\[null\],hits:\{\},chamberMen:true,chambers:\{\[k\]:chambers\},sheets:boards\.sheets\}\)/);
+  assert.match(pstc,/squadError=PSTC_ROULETTE_TEXT\.squadLoad;pstcSetError\(squadError\);/,'a failed load is said on the Transfer War screen');
+  assert.match(fs.readFileSync(path.join(__dirname,'../../js/productionSharedSeasonResultsRoute.js'),'utf8'),/const squad=routeTransfer\(\)\?\.squadError\?\.\(\)\|\|"";routeSetText\(status,squad\|\|label\);/,'and on the dashboard');
+  ok('C11','a lost spin outcome is replayed from that season\'s squads and Chamber Men (or TRY AGAIN names the season); a failed load before Season Results is said on screen');
+  console.log(`PASS r91 squad sheet contracts (${checks} checks)`);
+})().catch(error=>{console.error(error);process.exit(1);});

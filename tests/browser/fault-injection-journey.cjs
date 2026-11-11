@@ -251,6 +251,8 @@ async function pathForward(m,page=m.page){
   if(await gazette.tapGazetteIfShown(page))return "gazette";
   for(const name of ["SIGN IN WITH GOOGLE",new RegExp(`^${NAMES[m.account]} · PLAYER`,"i"),"TRY AGAIN"]){if(await clickIf(page,page.locator("#onlinePlayerIdentityOverlay button,[id^='onlinePlayerIdentity'] button").filter({hasText:name})))return `identity:${name}`;}
   if(await atPrime(page)){const st=await rosterRoulette.playPrimePack(page,{primeGuesser:PRIME});return st&&st!=="wait"?st:"prime-wait";}
+  // r91 Squad Management (#sqStage): before the roulette and before Season Results; Lock my squad, then the next button.
+  {const squad=await rosterRoulette.playSquad(page).catch(()=>null);if(squad)return squad==="wait"?"squad-wait":squad;}
   if(await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")){return await rouletteStep(m,page)||"roulette-wait";}
   // The roulette is off this tab's screen: one seen again in this tab for a finished season after this is a replay (a panel a
   // second tab still shows from before the finish is not).
@@ -306,12 +308,12 @@ async function drive(m,goal,{page=null,stepTaps=null,firstTaps=null,timeout=1800
     if(!did&&stepTaps)did=await stepTaps(p()).catch(()=>"")||"";
     if(!did)did=await retryTap(m,p()).catch(()=>"");
     // A tap that changes nothing (a dead button) is not progress: after five in a row a player gives up on it and goes Home.
-    if(did&&did===lastDid&&!["loading","roulette-wait","prime-wait"].includes(did)){repeats+=1;if(repeats>=5){const home=p().locator("button:visible").filter({hasText:/^\s*(BACK TO HOME|BACK TO SHOWDOWN HOME|HOME)\s*$/}).first();if(await clickIf(p(),home)){deadTaps.push(`${pointNow}: ${m.user} ${did} x${repeats}`);{const note=`${pointNow}: ${m.user} tapped ${did} ${repeats} times with nothing happening (dead button), then went Home`;if(!report.notes.includes(note))report.notes.push(note);}log(`  ${m.user} ${label}: ${did} did nothing ${repeats} times -> BACK TO HOME`);did="home-after-dead-tap";}repeats=0;}}else repeats=0;
+    if(did&&did===lastDid&&!["loading","roulette-wait","prime-wait","squad-wait"].includes(did)){repeats+=1;if(repeats>=5){const home=p().locator("button:visible").filter({hasText:/^\s*(BACK TO HOME|BACK TO SHOWDOWN HOME|HOME)\s*$/}).first();if(await clickIf(p(),home)){deadTaps.push(`${pointNow}: ${m.user} ${did} x${repeats}`);{const note=`${pointNow}: ${m.user} tapped ${did} ${repeats} times with nothing happening (dead button), then went Home`;if(!report.notes.includes(note))report.notes.push(note);}log(`  ${m.user} ${label}: ${did} did nothing ${repeats} times -> BACK TO HOME`);did="home-after-dead-tap";}repeats=0;}}else repeats=0;
     lastDid=did;
     // A running Prime Pack round is progress (its stages run out in about 95 s, longer than STUCK_MS); a round that never ends
     // still fails on the drive's own timeout.
-    if(did==="prime-wait")idleSince=Date.now();
-    if(did&&did!=="loading"&&did!=="roulette-wait"&&did!=="prime-wait"){idleSince=Date.now();log(`  ${m.user} ${label}: ${did}`);if(DEBUG){const d=await describe(m,p());if(d!==lastDesc){lastDesc=d;log(`    ${d.slice(0,600)}`);}}}
+    if(did==="prime-wait"||did==="squad-wait")idleSince=Date.now();
+    if(did&&did!=="loading"&&did!=="roulette-wait"&&did!=="prime-wait"&&did!=="squad-wait"){idleSince=Date.now();log(`  ${m.user} ${label}: ${did}`);if(DEBUG){const d=await describe(m,p());if(d!==lastDesc){lastDesc=d;log(`    ${d.slice(0,600)}`);}}}
     const now=Date.now();
     if(now-idleSince>STUCK_MS||now>until){
       lastDesc=await describe(m,p());
@@ -532,7 +534,7 @@ async function startAndJoin(daniel,nik,length){
 }
 async function fillCombo(page,id,value){await page.locator(`#${id}`).fill(value);await page.waitForFunction(fieldId=>Boolean(document.getElementById(fieldId)?.dataset.canonicalId),id,{timeout:5000});}
 const tcState=page=>page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()||null).catch(()=>null);
-const onTransfer=async page=>await visible(page,"#transferChallenge")&&!(await page.locator("#rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
+const onTransfer=async page=>await visible(page,"#transferChallenge")&&!(await page.locator("#sqStage, #rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
 const atPrime=async page=>await visible(page,"#igStage")||await visible(page,"#igStepPanel");
 const primeState=async page=>{const f=page.frames().find(fr=>/\/icon-guess\//.test(fr.url()));return f?await f.evaluate(()=>window.__ig?.state?.()||null).catch(()=>null):null;};
 const transferPhase=page=>page.evaluate(()=>document.getElementById("transferChallenge")?.dataset.transferPhase||"").catch(()=>"");
@@ -753,7 +755,11 @@ async function playChamberMenBoth(ctx,season){
     for(;;){
       if(await over(m.page).catch(()=>false))return;
       let did="";
-      if(await visible(m.page,"#cmStage").catch(()=>false)){did=await rosterRoulette.playChamberMen(m.page).catch(()=>"")||"";if(did!=="wait"||DEBUG)log(`  ${m.user} season ${season} Chamber Men: ${did}`);idleSince=Date.now();}
+      // r91: the Squad Management screen comes up over Chamber Men before the roulette; both phones lock (the screen waits
+      // for the rival's lock).
+      const squad=await rosterRoulette.playSquad(m.page).catch(()=>null);
+      if(squad){did=squad;if(did!=="wait"||DEBUG)log(`  ${m.user} season ${season} Squad Management: ${did}`);}
+      else if(await visible(m.page,"#cmStage").catch(()=>false)){did=await rosterRoulette.playChamberMen(m.page).catch(()=>"")||"";if(did!=="wait"||DEBUG)log(`  ${m.user} season ${season} Chamber Men: ${did}`);idleSince=Date.now();}
       else did=await pathForwardNoRoulette(m,m.page).catch(()=>"");
       if(did&&did!=="wait")idleSince=Date.now();
       if(Date.now()-idleSince>STUCK_MS||Date.now()>until)throw Object.assign(new Error(`${m.user} stuck on the way to season ${season} Chamber Men: ${await describe(m,m.page)}`),{stuck:true,page:m.page});

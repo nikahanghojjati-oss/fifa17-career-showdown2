@@ -167,6 +167,14 @@
     for(let k=1;k<=last;k+=1){
       let result=null;try{result=await ctx.verdicts(k);}catch(_error){result=null;}
       if(!result||result.ok!==true||!result.verdicts)return {ok:false,season:k};
+      // A season whose spin mark lost its outcome (the mark is there, the shot is not): the shot is replayed from that
+      // season's two locked squads and its Chamber Men cylinders (ctx.replayHits, the roulette engine), never guessed.
+      const missing=ROLES.filter(role=>!result.hits||!result.hits[role]);
+      if(missing.length){
+        let replayed=null;try{replayed=typeof ctx.replayHits==="function"?await ctx.replayHits(k):null;}catch(_error){replayed=null;}
+        if(!replayed||missing.some(role=>!replayed[role]))return {ok:false,season:k,reason:"SHOT"};
+        result={...result,hits:{...(result.hits||{}),...Object.fromEntries(missing.map(role=>[role,replayed[role]]))}};
+      }
       results.push(result);
     }
     return {ok:true,results};
@@ -251,6 +259,7 @@
     });
   }
   function sqsReadText(built){
+    if(built.reason==="SHOT")return `Season ${built.season||""}'s roulette shot was not saved and could not be replayed from that season's squads and Chamber Men. Check the connection and try again.`.replace("  "," ");
     if(built.reason==="VERDICTS")return `Season ${built.season||""} Transfer War verdicts could not be read, and your squad is built from them. Check the connection and try again.`.replace("  "," ");
     if(built.reason==="READ")return "Your squad could not be read. Check the connection and try again. Nothing was changed.";
     return "Your squad could not be built from what is saved. Nothing was changed. Try again, or go back to Showdown Home.";
@@ -339,7 +348,7 @@
       if(!await sqsEnsure())answer={retry:true,text:"The squad screen could not load. Check the connection and try again."};
       else{
         const history=await sqsHistory(ctx);
-        const built=history.ok?await sqsBuild(ctx,io,ctx.managerRole,history):{ok:false,reason:"VERDICTS",season:history.season};
+        const built=history.ok?await sqsBuild(ctx,io,ctx.managerRole,history):{ok:false,reason:history.reason==="SHOT"?"SHOT":"VERDICTS",season:history.season};
         if(!built.ok)answer={retry:true,text:sqsReadText(built),error:built.error};
         // After the Transfer War nobody waits for anyone: a squad already locked (on another device) is simply kept.
         else if(built.sheet&&ctx.stage==="post"){sqsMarkDone(ctx);return true;}
@@ -369,7 +378,7 @@
     const memo=boardsMemo.get(`${ctx.rivalryId}|${ctx.season}`);if(memo)return {ok:true,sheets:memo};
     if(!await sqsEnsure())return {ok:false,reason:"NOT_LOADED"};
     const pre={...ctx,stage:"pre"},history=await sqsHistory(pre);
-    if(!history.ok)return {ok:false,reason:"VERDICTS"};
+    if(!history.ok)return {ok:false,reason:history.reason==="SHOT"?"SHOT":"VERDICTS"};
     const sheets={};
     for(const role of ROLES){
       const read=await sqsGet(io,pre,role,ctx.season,"pre",false);
@@ -384,6 +393,6 @@
   }
 
   return Object.freeze({contractVersion:1,feature:"cms-squad-management-step",stageId:STAGE_ID,collection:COLLECTION,keptKey:KEPT_KEY,doneKey:DONE_KEY,
-    applies:sqsApplies,ensure:sqsEnsure,run:sqsRun,boards:sqsBoards,close:sqsClose,isDone:sqsIsDone,markDone:sqsMarkDone,wentHome:()=>wentHome,
+    applies:sqsApplies,ensure:sqsEnsure,run:sqsRun,boards:sqsBoards,history:sqsHistory,close:sqsClose,isDone:sqsIsDone,markDone:sqsMarkDone,wentHome:()=>wentHome,
     events:sqsEvents,parse:sqsParse,docId:sqsDocId,store:Object.freeze({get:sqsGet,create:sqsCreate,watch:sqsWatch})});
 });
