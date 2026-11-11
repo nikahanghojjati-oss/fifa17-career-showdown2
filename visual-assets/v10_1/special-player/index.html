@@ -597,6 +597,16 @@ const crack=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:cra
 crack.position.z=(PACK_D+.06)/2+.05; pack.add(crack);
 const pillarMat=new T.MeshBasicMaterial({map:crackTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, color:new T.Color(0,0,0)});
 const pillarGeo=new T.PlaneGeometry(1,1); pillarGeo.translate(0,.5,0); const pillar=new T.Mesh(pillarGeo,pillarMat); pillar.visible=false; scene.add(pillar);
+/* ================= giant nation flags (unroll from the roof) =================
+   r91 (Nik 2026-11-11 "yes to nation flag"): 2.2.0's five roof flags are back at the nation clue, with their gold drizzle. They hang
+   from the roof edge of the stand photo (29 deg up from the pitch camera, about 46 m away) as sunlit cloth (2.2.0's plain colour;
+   ?look=night keeps r90's floodlit .42). The flag is drawn and uploaded once per player in prepareSteps, like the coin. */
+const flagMounts=[]; [-25,-12.5,0,12.5,25].forEach(x=>flagMounts.push({pos:new T.Vector3(x,19.8,-40),rotY:0,w:9.0,h:6.0}));
+const FLAG_TEX0=canvasTex(4,4,null).tx, flagMat=new T.MeshStandardMaterial({map:FLAG_TEX0, side:DIRECT?T.FrontSide:T.DoubleSide, /* Light: the flags face the camera, so one side keeps the program count */ roughness:.8, color:NIGHT?new T.Color(.42,.42,.42):new T.Color(1,1,1)});
+const flags=flagMounts.map((m)=>{ const geo=new T.PlaneGeometry(m.w,m.h,12,18); geo.translate(0,-m.h/2,0);
+  const mesh=new T.Mesh(geo,flagMat); mesh.position.copy(m.pos); mesh.rotation.y=m.rotY; mesh.scale.y=.001; mesh.visible=false; mesh.castShadow=true; scene.add(mesh);
+  return {mesh, base:geo.attributes.position.array.slice(), drop:0, target:0, h:m.h}; });
+function setFlagTex(tx){ flagMat.map=tx; } /* one material for all five, so a nation swap is one map change */
 const packLight=new T.PointLight(L(0xffc457),0,9,2); packLight.position.set(0,1.3,-.4); if(!DIRECT) scene.add(packLight); /* r90 Light: one key light and the sky light only */
 /* r90 L40 (round 3): the burst breaks into the pack's own foil. Quarter edges in lit gold foil (a little glow of its own, so they
    never read as brown planks at night), no side struts, and six thin foil chips cut from the pack art. */
@@ -759,7 +769,7 @@ function stepBoards(now){ if(!boardTex) return; const P=5, R=.6, k=now%P, n=Math
   const y=((n+r)*.5)%1; boardTex.offset.y=y; boardTex2.offset.y=(y+.5)%1; }
 function loadPlate(){ return new Promise(res=>loadTex("assets/stand_soft_V1.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
 function buildEnv(){
-  const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); keep.add(boards);
+  const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); keep.add(boards); flags.forEach(f=>keep.add(f.mesh));
   scene.children.slice().forEach(o=>{ if(!keep.has(o)&&!o.isLight) scene.remove(o); });
   scene.fog=null; scene.add(panoSphere,shadowGround,boards);
   panoMat.uniforms.tex.value=pano;
@@ -789,10 +799,10 @@ function* prepareSteps(){
   for(const role of ["daniel","nik"]){ const p=pair[role], set={back:[]}; PREP[role]=set;
     for(let n=0;n<4;n++){ set.back.push(card(c=>drawCardBack(c,p,n))); yield; }
     set.bare=card(c=>drawCardFront(c,p,true)); yield; set.face=card(c=>drawCardFront(c,p)); yield; set.scout=card(c=>drawScoutBack(c,p)); yield;
-    set.coin=up(prepTex(512,512,c=>coinFace(c,p.club,256,256,255))); yield; }
-  const swap=new Map(); Object.keys(old).forEach(role=>{ const a=old[role], b=PREP[role]; if(!b) return; a.back.forEach((t,i)=>swap.set(t,b.back[i])); ["bare","face","scout","coin"].forEach(k=>swap.set(a[k],b[k])); });
-  [frontMat,backMat,coinFaceMat].forEach(m=>{ const n=swap.get(m.map); if(n) m.map=n; });
-  Object.values(old).forEach(set=>[...set.back,set.bare,set.face,set.scout,set.coin].forEach(tx=>tx.dispose()));
+    set.coin=up(prepTex(512,512,c=>coinFace(c,p.club,256,256,255))); yield; set.flag=up(prepTex(384,256,c=>drawFlag(c,p.nation,0,0,384,256,true))); yield; }
+  const swap=new Map(); Object.keys(old).forEach(role=>{ const a=old[role], b=PREP[role]; if(!b) return; a.back.forEach((t,i)=>swap.set(t,b.back[i])); ["bare","face","scout","coin","flag"].forEach(k=>swap.set(a[k],b[k])); });
+  [frontMat,backMat,coinFaceMat,flagMat].forEach(m=>{ const n=swap.get(m.map); if(n) m.map=n; });
+  Object.values(old).forEach(set=>[...set.back,set.bare,set.face,set.scout,set.coin,set.flag].forEach(tx=>tx.dispose()));
 }
 /* r90 Light rule: after the GPU drops this page's context (a Chromebook under memory pressure), three keeps the page and the clock
    keeps running; on restore the card art (its canvases were let go after upload) is drawn and uploaded again, with the
@@ -812,7 +822,7 @@ function sceneTextures(){ const seen=new Set(), add=(t)=>{ if(t&&t.isTexture&&!t
 
 /* r90: one draw with every object out (pack, card, coin, chunks) so the shadow pass and the main pass have every
    program and texture ready before the game shows the page; startPlayer then puts everything back */
-const warmShown=()=>[pack,card,coin,pillar,aura,ovrMesh,...CHUNKS.map(q=>q.m)];
+const warmShown=()=>[pack,card,coin,pillar,aura,ovrMesh,...CHUNKS.map(q=>q.m),...flags.map(f=>f.mesh)];
 function warmPose(on){ warmShown().forEach(o=>o.visible=on); if(!on) return; pack.position.copy(PACK_REST); card.position.copy(CARD_POS); coin.position.set(0,1,-.5); camera.position.copy(camRest); camera.lookAt(lookRest); }
 function warmDraw(){ warmPose(true); try{ render(); }catch(e){} warmPose(false); }
 /* r90 lean load: every program is compiled with every object out (compileAsync: in parallel where the driver can), then each
@@ -860,7 +870,7 @@ function startPlayer(i,bridge){
   if(bridge){ camBlendAt=clock(); camFrom.copy(camPos); lookFrom.copy(camLook); } flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig(); tiltX=tiltY=tiltTX=tiltTY=0;
   if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(Lc(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
   const pp=prep(); backMat.map=pp.back[0]; frontFull=false; count=null; ovrMesh.visible=false; coinFaceMat.map=pp.coin; /* the flag swaps at the nation clue (Codex P2 #1259: Daniel's flags are still rolling up during the handover) */
-  if(!bridge){ clearConfetti(); parts.forEach(q=>q.life=0); pDirty=true; } /* idea 3: Daniel's flags roll up and his confetti lands */
+  if(!bridge){ flags.forEach(f=>{f.target=0; f.drop=0; f.rolling=false; f.mesh.visible=false; f.mesh.scale.y=.001;}); clearConfetti(); parts.forEach(q=>q.life=0); pDirty=true; } /* idea 3: Daniel's flags roll up and his confetti lands */
   clearChunks(); pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
   frontMat.map=backMat.map;
   card.visible=false; coin.visible=false; pack.visible=true; rays.material.opacity=0; l3.classList.remove("on");
@@ -1028,7 +1038,9 @@ function run(tt){
   /* 4  clues one at a time: position (5.0), nation (5.8) */
   at(tt,5.0,"pos",()=>{ clueMaps(1); pulse=1; burst(new T.Vector3(-.62,2.9,-1.1),[0xfff1c2,0xffd77a],32,3.2,.6,.16); });
   sweep(5.0);
-  at(tt,5.8,"nat",()=>{ clueMaps(2); pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,40,3.4,.7,.16); });
+  at(tt,5.8,"nat",()=>{ clueMaps(2); setFlagTex(prep().flag); pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,40,3.4,.7,.16);
+    flags.forEach((f,i)=>{ f.mesh.visible=true; f.rolling=false; f.drop=Math.min(f.drop,.001); later(()=>f.target=1,i*110); }); });
+  if(tt>5.8&&tt<7.6) flagMounts.forEach(m=>{ if(Math.random()<.5) emit(new T.Vector3(m.pos.x+(Math.random()-.5)*m.w,m.pos.y+.3,m.pos.z+.5),new T.Vector3((Math.random()-.5)*.6,-1-Math.random()*2,0),Math.random()<.5?0xfff1c2:0xffd77a,1.6,.55,-4,.3,1); });
   sweep(5.8);
   /* 5  the club badge coin rolls in, then flies onto the card (6.4 - 8.0 s); confetti cannons fire from both sides */
   const rollT=S(6.4,1.1,tt), flyT=S(7.5,.5,tt);
@@ -1101,7 +1113,7 @@ const BRIDGE_T0=.7; let hoAt=0, hoDur=0, camBlendAt=-1; const camFrom=new T.Vect
 function popWho(text){ setWho(text); if(REDUCED) return; const r=document.createRange(); r.selectNodeContents(who); const w=r.getBoundingClientRect().width||1;
   who.style.setProperty("--pop",Math.max(1,Math.min(2.1,(innerWidth-32)/w)).toFixed(2)); who.classList.add("big"); }
 function startHandover(){ const d=cur(); phase="handover"; hoAt=clock(); hoDur=.45+tierLevel(d.tier)*.09; tiltTX=tiltTY=0; l3.classList.remove("on");
-  SFX.play("whoosh"); SFX.play("hit",2); popWho("Nik's Special Player");
+  flags.forEach(f=>{ if(f.mesh.visible){ f.target=0; f.rolling=true; } }); SFX.play("whoosh"); SFX.play("hit",2); popWho("Nik's Special Player");
   later(()=>who.classList.remove("big"),(hoDur+.9)*1000); if(REDUCED) startPlayer(1,true); }
 function stepHandover(now,dt){ const k=clamp01((now-hoAt)/hoDur), e=k*k;
   camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest);
@@ -1203,6 +1215,8 @@ function tick(draw){
     if(!REDUCED){ const ec=encoreFor(cur().tier); for(let i=0;i<ec.length;i++){ const t=ec[i]; if(k>=t&&!fired["enc"+i]){ fired["enc"+i]=1; if(k-t<.3&&k<SCOUT_IN-ENCORE_TAIL) encore(cur(),i); } } }
     if(idx===0&&k>SCOUT_END+.15) startHandover(); }
   if(camBlendAt>=0){ const b=ease.inOut(clamp01((now-camBlendAt)/.8)); camPos.lerpVectors(camFrom,camPos,b); camLook.lerpVectors(lookFrom,camLook,b); if(b>=1) camBlendAt=-1; }
+  flags.forEach((f,i)=>{ if(!f.mesh.visible) return; if(f.rolling&&f.drop<.02){ f.rolling=false; f.mesh.visible=false; return; } f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
+    const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
   stepSig(now); stepCount(now);
   stepParticles(dt*ps); stepChunks(dt*ps); stepConfetti(dt,now,card.visible?cardShield():null); sheenMat.uniforms.t.value=now%1000;
   stepBoards(now);
