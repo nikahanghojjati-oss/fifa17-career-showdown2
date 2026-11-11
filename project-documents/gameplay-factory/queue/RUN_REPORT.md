@@ -1,6 +1,6 @@
-# Mega factory run report · 2026-11-11T19:36:56Z
+# Mega factory run report · 2026-11-11T19:54:43Z
 
-Taken 552 of 552 jobs. By state: blocked 1, closed 82, merged 226, pr_open 34, retired 209
+Taken 551 of 552 jobs. By state: closed 82, merged 226, pr_open 34, retired 209, waiting 1
 
 ## By stage
 Stage | name | total | picked up | merged
@@ -8,7 +8,7 @@ Stage | name | total | picked up | merged
 1 | audits | 146 | 146 | 112
 2 | screen fixes | 266 | 266 | 85
 3 | mockup match | 14 | 14 | 5
-4 | phone studies | 70 | 70 | 23
+4 | phone studies | 70 | 69 | 23
 5 | desktop studies | 56 | 56 | 1
 
 ## Code trains (5 fixes per pull request)
@@ -178,7 +178,6 @@ Number | job | title | state | link
 262 | 1140 | Select League: phone mockup, version B (bold hierarchy) | closed | [PR #657](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/657)
 264 | 1314 | Legacy: phone mockup, version B (bold hierarchy) | closed | [PR #647](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/647)
 266 | 1372 | Rivalry Statistics: phone mockup, version B (bold hierarchy) | merged | [PR #604](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/604)
-268 | 1430 | Rule Book: phone mockup, version B (bold hierarchy) | blocked | study/job-1430-blocked
 270 | 1227 | Season Results: phone mockup, version B (bold hierarchy) | closed | [PR #620](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/620)
 272 | 1459 | Settings: phone mockup, version B (bold hierarchy) | closed | [PR #648](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/648)
 274 | 1256 | Standings: phone mockup, version B (bold hierarchy) | pr_open | [PR #699](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/699)
@@ -319,5 +318,4 @@ Number | job | title | state | link
 552 | 1694 | Audit js/productionSharedSeasonResultsRoute.js for gameplay bugs (second half) | retired | 
 
 ## Needs a look (blocked, no change needed, needs Team V or mockup)
-- number 268, job 1430: blocked (study/job-1430-blocked)
 

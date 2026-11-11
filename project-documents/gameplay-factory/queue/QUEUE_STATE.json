@@ -282,7 +282,7 @@
    "265": "closed",
    "266": "merged",
    "267": "retired",
-   "268": "blocked",
+   "268": "waiting",
    "269": "retired",
    "270": "closed",
    "271": "retired",
@@ -569,13 +569,13 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-11T19:36:56Z",
+ "updated": "2026-11-11T19:54:43Z",
  "counts": {
   "merged": 226,
   "retired": 209,
   "closed": 82,
   "pr_open": 34,
-  "blocked": 1
+  "waiting": 1
  },
  "stages": {
   "2": {
@@ -590,7 +590,7 @@
   },
   "4": {
    "total": 70,
-   "taken": 70,
+   "taken": 69,
    "merged": 23
   },
   "5": {
@@ -3744,7 +3744,7 @@
    "pr": 729,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/729",
-   "branch": "study/job-1405-desktop-polish"
+   "branch": null
   },
   "1406": {
    "state": "retired",
@@ -3912,35 +3912,35 @@
    "pr": 696,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/696",
-   "branch": "study/job-1429-rule-book-phone-a"
+   "branch": null
   },
   "1430": {
-   "state": "blocked",
+   "state": "waiting",
    "pr": null,
    "draft": false,
    "pr_url": null,
-   "branch": "study/job-1430-blocked"
+   "branch": null
   },
   "1431": {
    "state": "pr_open",
    "pr": 718,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/718",
-   "branch": "study/job-1431-rule-book-phone-c"
+   "branch": null
   },
   "1432": {
    "state": "pr_open",
    "pr": 724,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/724",
-   "branch": "study/job-1432-sideways-rule-book"
+   "branch": null
   },
   "1433": {
    "state": "pr_open",
    "pr": 726,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/726",
-   "branch": "study/job-1433-upright-rule-book"
+   "branch": null
   },
   "1434": {
    "state": "retired",
@@ -4115,7 +4115,7 @@
    "pr": 645,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/645",
-   "branch": "study/job-1458-blocked"
+   "branch": null
   },
   "1459": {
    "state": "closed",

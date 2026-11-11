@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 11 Nov, 2:36 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 11 Nov, 2:54 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
 
-🐕 **Barking: Showdown Gate on #1383 has waited 39 min for a machine; Showdown Gate on #1357 has waited 23 min for a machine; Showdown Gate on #1364 has waited 22 min for a machine; Showdown Gate on #1396 has waited 21 min for a machine; Showdown Gate on #1397 has waited 20 min for a machine; Showdown Gate on #1400 has waited 10 min for a machine; Showdown Gate on #1389 has waited 9 min for a machine; Showdown Gate on #1399 has waited 9 min for a machine; Showdown Gate on #1398 has waited 8 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1391 has waited 56 min for a machine; Showdown Gate on #1394 has waited 52 min for a machine; Showdown Gate on #1357 has waited 40 min for a machine; Showdown Gate on #1397 has waited 38 min for a machine; Showdown Gate on #1400 has waited 28 min for a machine; Showdown Gate on #1399 has waited 26 min for a machine; Showdown Gate on #1398 has waited 26 min for a machine; Showdown Gate on #1402 has waited 14 min for a machine; Showdown Gate on #1401 has waited 13 min for a machine; Showdown Gate on #1403 has waited 8 min for a machine; Showdown Gate on #1404 has waited 4 min for a machine; POS20 on #312 has waited 3 min for a machine; Showdown Gate on #1389 has waited 1 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -46,11 +46,11 @@ Updated Wed 11 Nov, 2:36 PM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 697 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 698 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 654 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 655 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -2045,7 +2045,7 @@ Open code PRs: 0/8.
 | audits | 146 | 112/146 | 146/146 |
 | screen fixes | 266 | 85/266 | 266/266 |
 | mockup match | 14 | 5/14 | 14/14 |
-| phone studies | 70 | 23/70 | 70/70 |
+| phone studies | 70 | 23/70 | 69/70 |
 | desktop studies | 56 | 1/56 | 56/56 |
 
 **Last taken numbers**
@@ -2132,6 +2132,12 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 
 ## Other Team V work
+
+**Fixing now**
+
+| Lane | Item | What | State |
+| --- | --- | --- | --- |
+| ⬛ ? | [V-HO-074](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1404) | one lamp logic per room, brushed-brass wheel rim, no gold glows | in progress · 0 % (0 of 1 steps) |
 
 **Up next**
 

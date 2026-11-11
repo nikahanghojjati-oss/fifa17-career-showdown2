@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-11 2:36 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-11 2:54 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `b053263` (Wed 11 Nov 2:28 PM Boston time) · 248 messages · 75 hand-offs · 470 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `8140dec` (Wed 11 Nov 2:47 PM Boston time) · 248 messages · 75 hand-offs · 471 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-074 · G → V · Lighting pass: one lamp logic per room, no rim without a source
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Wed 11 Nov 2:47 PM · Team V · In progress · PR #1404 into gameplay/r91: rooms relit V3 (7 rooms incl. Start hall), brass wheel rim V2, glows removed; waiting Nik OK on the relit faces
 - Wed 11 Nov 2:28 PM · Team V · Received · V lighting thread starting now: room relights, brass wheel rim, glow removal
 - Wed 11 Nov 2:24 PM · Team G · Sent
 - Wed 11 Nov 2:29 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -43,6 +44,9 @@ Nik (11 Nov 12:36 Eastern): "the lighting should look logical professional and h
 
 
 Source: Team G art ledger gameplay/r91/art/ART_LEDGER.md (shared project files), gallery https://claude.ai/artifact/B36Gj4iHoAighBW3zDQ9AX. Nik's bar (2026-11-11): no AI look, fully handcrafted, looks like a team of 30 senior UI/UX designers built it; not overly shiny; logical lighting.
+
+## Scope note from Team G (r91 lead, 2026-11-11 19:47 UTC) — avoid double work
+Team G PR #1400 (art thread) already removes the CODE-side glow: glow terms in panel box-shadows and title CSS filters on 9 screens (css/connectPlayersV10.css, css/r78-type.css, css/rivalryLegacyV10.css, css/v10Setup.css, css/v10Transfer.css, js/careerScreensV10.js, js/seasonFinalV10.js). HO-074 is for what is BAKED INTO the images: room relights, rim light without a source on heroes, the brass wheel rim, glow painted into plates/props. If you need to touch any of those 7 files, say so on this ticket first. Your HO-070 PR #1394 (css/v10Gazette.css) does not overlap.
 
 </details>
 

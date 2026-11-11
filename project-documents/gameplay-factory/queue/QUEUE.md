@@ -1,11 +1,11 @@
-# Mega factory queue · updated 2026-11-11T19:36:56Z
+# Mega factory queue · updated 2026-11-11T19:54:43Z
 
 Stage | tickets | picked up | merged
 --- | --- | --- | ---
 1 | 146 | 146 | 112
 2 | 266 | 266 | 85
 3 | 14 | 14 | 5
-4 | 70 | 70 | 23
+4 | 70 | 69 | 23
 5 | 56 | 56 | 1
 
 Type now, ChatGPT chat (batches of up to 3, in order): []
