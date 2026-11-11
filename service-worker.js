@@ -509,11 +509,16 @@ async function populateCurrentCache(){
     catch(error){ await caches.delete(CACHE_NAME); throw error; }
 }
 let deployedRevisionCheck=null;
-function deployedRevisionIsCurrent(){
-    const now=Date.now(); if(deployedRevisionCheck&&now-deployedRevisionCheck.at<DEPLOYED_CHECK_MS){ return deployedRevisionCheck.result; }
-    const url=scopeUrl("service-worker.js"); url.searchParams.set("pack-check",String(now));
-    const result=fetch(new Request(url.href,{cache:"no-store",credentials:"same-origin"})).then(async response=>response.ok&&(await response.text()).includes(`const RUNTIME_REVISION = "${RUNTIME_REVISION}";`)).catch(()=>false);
+// fresh skips the memo: the end-of-fill check and every on-demand pack write ask the network again.
+function deployedRevisionIsCurrent(fresh=false){
+    const now=Date.now(); if(deployedRevisionCheck&&!fresh&&now-deployedRevisionCheck.at<DEPLOYED_CHECK_MS){ return deployedRevisionCheck.result; }
+    const result=deployedRevisionProbe(now).then(state=>state===true);
     deployedRevisionCheck={at:now,result}; return result;
+}
+// true: the deployed worker is this revision; false: it names another one; null: the probe could not tell (offline, error).
+function deployedRevisionProbe(now=Date.now()){
+    const url=scopeUrl("service-worker.js"); url.searchParams.set("pack-check",String(now));
+    return fetch(new Request(url.href,{cache:"no-store",credentials:"same-origin"})).then(async response=>response.ok?(await response.text()).includes(`const RUNTIME_REVISION = "${RUNTIME_REVISION}";`):null).catch(()=>null);
 }
 async function verifyOfflinePack(){
     const expected=SHELL_PATHS.filter(path=>OFFLINE_PACK_PATHS.has(path)); if(!(await cacheExists(CACHE_NAME))){ return { ok:false, expected:expected.length, missing:expected }; }
@@ -525,10 +530,18 @@ let offlinePackFill=null;
 function fillOfflinePack(){
     return offlinePackFill||(offlinePackFill=(async()=>{ try{
         const status=await verifyOfflinePack(); if(status.ok||!(await cacheExists(CACHE_NAME))||!(await deployedRevisionIsCurrent())){ return status; }
-        await cacheShellPaths(await caches.open(CACHE_NAME),status.missing,OFFLINE_PACK_LANES,false); return verifyOfflinePack();
+        const cache=await caches.open(CACHE_NAME); await cacheShellPaths(cache,status.missing,OFFLINE_PACK_LANES,false);
+        // The deployed check is memoised for DEPLOYED_CHECK_MS, so a release published mid-fill could slip newer bytes in under
+        // this revision's URLs. Re-check fresh at the end; if another release is now deployed, drop what this run kept, so the
+        // pack stays incomplete and this revision is never treated as a full rollback target with mixed files.
+        // A probe that cannot tell is asked once more; only a confirmed current revision keeps this run's files.
+        let state=await deployedRevisionProbe(); if(state===null){ state=await deployedRevisionProbe(); }
+        if(state!==true){ await Promise.all(status.missing.map(path=>cache.delete(versionedShellUrl(path)))); }
+        return verifyOfflinePack();
     } finally { offlinePackFill=null; } })());
 }
-async function keepOfflinePackFile(path,response){ if(await cacheExists(CACHE_NAME)&&await deployedRevisionIsCurrent()){ await (await caches.open(CACHE_NAME)).put(versionedShellUrl(path),response); } }
+// Checked fresh AFTER the fetch: if this revision is still the deployed one now, the bytes fetched before are this revision's.
+async function keepOfflinePackFile(path,response){ if(await cacheExists(CACHE_NAME)&&await deployedRevisionIsCurrent(true)){ await (await caches.open(CACHE_NAME)).put(versionedShellUrl(path),response); } }
 // A pack file this revision's page asks for before the pack is in: the same request the install makes, kept for next time.
 async function offlinePackResponse(event,path){
     try{ const response=await fetch(requestForShellPath(path)); if(response.ok&&!response.redirected){ event.waitUntil(keepOfflinePackFile(path,response.clone()).catch(()=>{})); } return response; }
