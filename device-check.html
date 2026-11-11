@@ -165,7 +165,9 @@ td small{overflow-wrap:anywhere}
     const m=T&&T.measured();forgetBtn.hidden=!m;
     const extra=note?`${note} `:"";
     if(!m){result.innerHTML=note?`No result saved<small>${esc(note)} Auto uses its starting guess until a check finishes.</small>`:"";return;}
-    result.innerHTML=`Auto here: ${LEVELS[m.level]}<small>${esc(extra)}Measured ${new Date(m.at).toLocaleString()} on Chamber Men, Russian Roulette and the Special Player pack. Settings › 3D QUALITY can still pick any level.</small>`;
+    // A crash cap from play outlives the check (js/gfxTier.js): say what Auto really draws until it ends.
+    let low="";try{const s=T.suggested();if(s&&s.lowered)low=` Auto draws ${LEVELS[s.now]} for now: a graphics error in play lowered it. That ends after 7 days, after 3 clean 3D screens, or when you pick a level in Settings.`;}catch(_error){low="";}
+    result.innerHTML=`Auto here: ${LEVELS[m.level]}<small>${esc(extra)}Measured ${new Date(m.at).toLocaleString()} on Chamber Men, Russian Roulette and the Special Player pack. Settings › 3D QUALITY can still pick any level.${esc(low)}</small>`;
   }
   // The measurement under way, so a hidden tab can stop it at once (Codex on #1266).
   let cancelWait=null;

@@ -109,10 +109,14 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
     const k = await run(allGood, {gpu8k: true});
     assert.deepEqual(k.asked, order(5)); assert.equal(k.saved.level, 5, "a GPU with an 8K buffer that holds 8K in all three gets 8K on Auto");
     assert.equal(k.tier.profile().level, 5);
-    // A finished check lifts an older crash cap (the measurement is newer evidence); an unfinished one leaves it.
-    const CAP = "careerModeShowdown.gfxCap.v1", cap = JSON.stringify({level: 0, reason: "the GPU ran out of memory", at: Date.now(), clean: 0});
-    const lifted = await run(allGood, {storage: {[CAP]: cap}});
-    assert.equal(lifted.store[CAP], "null"); assert.equal(lifted.tier.profile().level, 4);
+    // A crash cap from play outlives the check, finished or not (review on #1389): the frames ignore it while timed, the
+    // result is saved, and Auto draws the lower of the two until the cap ends by its own rules. The page says so.
+    const CAP = "careerModeShowdown.gfxCap.v1", cap = JSON.stringify({level: 1, reason: "the GPU ran out of memory", at: Date.now(), clean: 0});
+    const capped = await run(allGood, {storage: {[CAP]: cap}});
+    assert.deepEqual(capped.asked, order(4), "the check still plays every level");
+    assert.equal(capped.saved.level, 4); assert.equal(capped.store[CAP], cap, "a finished check leaves the cap alone");
+    assert.equal(capped.tier.profile().level, 1, "play stays at the capped level");
+    assert.match(capped.result, /Auto here: Ultra \(4K\)/); assert.match(capped.result, /draws Balanced for now/);
     const kept = await run((scene, level) => level === 1 ? "silent" : allGood(scene, level), {storage: {[CAP]: cap}});
     assert.equal(kept.store[CAP], cap, "an unfinished check leaves the cap alone");
     ok("V2", "a clean run saves the top level: Ultra (4K), or 8K where the GPU has the buffer (never asked otherwise)");
@@ -231,6 +235,21 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
     assert.ok(/<th scope="col">Chamber Men<\/th><th scope="col">Russian Roulette<\/th><th scope="col">Special Player<\/th><th scope="col">Result<\/th>/.test(PAGE), "one column per 3D screen");
     assert.ok(!/font-size:\s*(?:[0-9]|1[01])px/.test(PAGE), "no text under 12 px");
     ok("V10", "the page: two scripts, the 60 fps rule, one column per 3D screen, 12 px floor");
+  }
+  // V11 (review on #1389): the timed frames play the whole beat under Reduce Motion too. It is a measurement of the
+  // level, not the player's view: a cut reveal held and settled in one tick (no beat ever timed), a still Chamber Men
+  // scene drew too few frames.
+  {
+    const read = f => fs.readFileSync(path.join(ROOT, f), "utf8");
+    const sp = read("visual-assets/v10_1/special-player/index.html"), rr = read("visual-assets/v10_1/roulette/index.html"), cm = read("js/chamberMenScene3d.js");
+    assert.match(sp, /const REDUCED = matchMedia\("\(prefers-reduced-motion: reduce\)"\)\.matches && new URLSearchParams\(location\.search\)\.get\("bench"\)!=="1";/);
+    assert.match(rr, /const REDUCED=matchMedia\("\(prefers-reduced-motion: reduce\)"\)\.matches&&new URLSearchParams\(location\.search\)\.get\("bench"\)!=="1";/);
+    assert.equal((sp.match(/prefers-reduced-motion: reduce\)"\)\.matches/g) || []).length, 1, "the pack reads the setting once");
+    assert.equal((rr.match(/prefers-reduced-motion: reduce\)"\)\.matches/g) || []).length, 1, "Roulette reads the setting once");
+    assert.match(cm, /let benchMount=false;\n  function reducedMotion\(\)\{if\(benchMount\)return false;/);
+    assert.match(cm, /benchMount=Boolean\(opts&&opts\.fullFiles\);/);
+    assert.equal((cm.match(/prefers-reduced-motion/g) || []).length, 1, "Chamber Men reads the setting in one place");
+    ok("V11", "under Reduce Motion the timed frames still play the whole kick, turn and reveal; the game's own screens keep the setting");
   }
   console.log(`PASS r91 device check verdict contracts (${checks} checks)`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

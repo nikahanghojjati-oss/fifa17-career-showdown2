@@ -58,7 +58,7 @@ names and no others.
   different level drawn, a smaller buffer than asked. The check ends there, nothing is saved, and the last good result
   stays.
 - 8K is tried only where `can8k()` is true, and counts only when the browser gave the whole 7680x4320 buffer.
-- While it is timed a frame ignores an older crash cap (it must draw the level asked). A finished check lifts the cap.
+- While it is timed a frame ignores an older crash cap (it must draw the level asked). A finished check does not lift the cap: Auto draws the lower of the two until the cap ends by its own rules, and the page says so.
 - The saved result records, per level and screen, the frame rate, pixel ratio and buffer size that were drawn.
 - Results saved by 2.3.0's check are not read: that check could save a level one screen never drew.
 
