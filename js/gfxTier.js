@@ -3,7 +3,8 @@
 
   // One quality system for every 3D screen (r90): adapt to the device, so a Chromebook runs smooth and a high-end PC gets up to 4K. Plain script, no imports: the root page and the roulette page (../../../js/gfxTier.js) load the same file.
   // Use: p=profile() before the WebGLRenderer (antialias is fixed at context creation), then setPixelRatio(p.pixelRatio); await calibrate(renderer,draw) behind the loading screen (skipped on software GL); gov=governor(renderer,{key,draw,onChange}) (without draw it only steps down), then gov.frame(now) each frame, gov.hold(false) between beats, gov.end() on dispose; overlay(()=>({calls,tris})) shows only with ?fps=1.
-  // Levels: 0 light (Chromebook class), 1 medium, 2 high, 3 extra, 4 ultra (picked only: native size, up to 2x past it within 3840x2160), 5 8k (picked only, on a GPU with a 7680 px buffer, never a phone: up to 4x past native within 7680x4320; a lost context or refused buffer falls back to ultra, said in the ?fps=1 overlay). Auto never picks ultra or 8k and never renders above devicePixelRatio.
+  // Levels: 0 light (Chromebook class), 1 medium, 2 high, 3 extra, 4 ultra (native size, up to 2x past it within 3840x2160), 5 8k (only on a GPU with a 7680 px buffer, never a phone: up to 4x past native within 7680x4320; a lost context or refused buffer falls back to ultra, said in the ?fps=1 overlay).
+  // r91 (Nik 2026-11-11: "Auto should allow all qualities based on device real test ... from light to 8k"): Auto covers every level. Its guess from the GPU name stays conservative (never past extra); the Device check (device-check.html) replaces the guess with the best level Chamber Men, Russian Roulette and the Special Player pack all held, up to ultra and, where the GPU can hold it, 8k. Below ultra, Auto never renders above devicePixelRatio.
   // A picked level is held as picked (the governor moves only Auto). Scene knobs (crowd, bloom, shadow size) read the profile; the governor only moves the pixel ratio: down when frames run long, up only after a timed frame shows room, never back to a step that ran slow (no see-saw).
   const KEY="careerModeShowdown.gfxQuality.v1";
   const CHOICES=["auto","light","medium","high","extra","ultra","8k"];
@@ -18,7 +19,7 @@
     {pr:1.5,max:2,shadowSize:2048,density:1,bloom:true},
     {pr:2,max:3,shadowSize:2048,density:1,bloom:true},
     {pr:2,max:4,shadowSize:4096,density:1,bloom:true},
-    // r90 (Nik 2026-11-07, "8K as well as 4K"): picked only, on a GPU that can hold a 7680 px buffer, never on a phone.
+    // r90 (Nik 2026-11-07, "8K as well as 4K"): on a GPU that can hold a 7680 px buffer, never on a phone; picked, or (r91) measured by the Device check.
     {pr:2,max:8,shadowSize:4096,density:1,bloom:true}
   ];
   const BUDGET_MS=16.7,BUFFER_CAP=3840*2160,BUFFER_CAP_8K=7680*4320,PHONE_MAX_PR=3;
@@ -28,9 +29,13 @@
   const CAP_KEY="careerModeShowdown.gfxCap.v1";
   const MEMORY_KEY=key=>`careerModeShowdown.gfxSettled.v1.${key}`;
   // The Device check (device-check.html) saves the best level this device held at 60 fps; Auto starts there.
-  const MEASURED_KEY="careerModeShowdown.gfxMeasured.v1";
-  // ?bench=1 (Device check frames): no adapting; frame times are recorded for BENCH_MS after BENCH_SETTLE_MS and posted once.
-  const BENCH_SETTLE_MS=500,BENCH_MS=10000;
+  // r91: a new key. A 2.3.0 result (…gfxMeasured.v1) came from a check that timed two scenes and could save a level one of
+  // them never drew, so it is not read; Auto goes back to its guess until the check is run again.
+  const MEASURED_KEY="careerModeShowdown.gfxMeasured.v2";
+  // ?bench=1 (Device check frames): no adapting. Frame times are recorded after BENCH_SETTLE_MS for at least BENCH_MS and until
+  // the scene has played one whole beat (a kick, a turn, a reveal: one gov.hold(true) .. gov.hold(false)); a scene that has not
+  // finished one by BENCH_MAX_MS posts what it has, marked incomplete. Posted once.
+  const BENCH_SETTLE_MS=500,BENCH_MS=10000,BENCH_MAX_MS=60000;
   let cached=null,active=null;
 
   // Saved through the app's own storage helpers (js/storage.js); the roulette page is a same-origin frame and uses its parent's.
@@ -51,7 +56,7 @@
   // A picked choice is its level: light 0 .. ultra 4, 8k 5.
   function gfxChoiceLevel(c){return CHOICES.indexOf(c)-1;}
   function gfxMeasured(){
-    try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");return m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=4?m:null;}catch(_error){return null;}
+    try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");return m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=5?m:null;}catch(_error){return null;}
   }
 
   // The GPU's own name and its largest buffer and texture, from a throwaway context (released at once). r90 MOTION round 2:
@@ -117,7 +122,9 @@
   function gfxBuild(level,base){
     let fellBack=null;
     if(level===5&&!base.can8k)level=4;
-    const cap=gfxCap();if(cap&&level>cap.level){fellBack={...cap,from:level};level=cap.level;}
+    // The Device check asks for one exact level and reports what was drawn; an older crash cap does not stand in for it (a
+    // failure during the check writes the cap as always, and from then on this frame honours it and reports the failure).
+    const cap=base.bench&&!benchFailed?null:gfxCap();if(cap&&level>cap.level){fellBack={...cap,from:level};level=cap.level;}
     const L=LEVELS[level],dpr=base.dpr,phone=Boolean(base.phone);
     // Auto and the named levels stay at or under the screen's own ratio; ultra and 8K always reach it (a 4K or 8K screen
     // draws at native size) and may draw past it (2x, 4x) while the buffer stays within 3840x2160 (8K: 7680x4320; the
@@ -142,8 +149,11 @@
     const forced=gfxQuery("gfx"),forcedLevel=forced!==null&&/^[0-5]$/.test(forced)?Number(forced):null;
     const measured=gfxMeasured(),autoLevel=measured?measured.level:auto.level;
     let level=forcedLevel!==null?forcedLevel:c==="auto"?autoLevel:gfxChoiceLevel(c);
-    cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,slowNet:gfxSlowNet(),choice:forcedLevel!==null?`gfx=${forcedLevel}`:c});
+    const bench=forcedLevel!==null&&gfxQuery("bench")==="1";
+    cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,slowNet:gfxSlowNet(),choice:forcedLevel!==null?`gfx=${forcedLevel}`:c,bench});
     cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=autoLevel;cached.measured=Boolean(measured);cached.guessLevel=auto.level;cached.strongPhone=Boolean(auto.strongPhone);
+    // What was asked for by ?gfx=N (null otherwise): the Device check compares it with what was drawn.
+    cached.asked=forcedLevel;
     gfxMarkRoot(cached.level,cached.assetLevel);
     return cached;
   }
@@ -167,13 +177,13 @@
   // The device could not hold this level (a lost context, an out-of-memory error, an 8K buffer or target refused): one
   // level down, remembered, the live governor moved at once. Scenes call gov.end() before forceContextLoss() on dispose,
   // so their own clean-up never counts; neither does a context lost while the page is hidden (the browser reclaiming it).
-  let failCount=0;
+  let failCount=0,benchFailed="";
   function gfxFail(reason){
     if(root.document&&root.document.visibilityState==="hidden")return gfxProfile();
     failCount+=1;
     const cur=(cached||gfxProfile()).level,old=gfxCap();
     const level=Math.max(0,Math.min(cur>=5?4:cur-1,old?old.level:4));
-    gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),at:Date.now()}));cached=null;
+    gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),at:Date.now()}));cached=null;benchFailed=String(reason||"failed");
     try{active?.sync();}catch(_error){}
     const p=gfxProfile();gfxMarkRoot(p.level,p.assetLevel);return p;
   }
@@ -270,7 +280,7 @@
     const bad=new Set(),born=gfxNow(),fails0=failCount;let held=false,last=0,avg=BUDGET_MS,slowFor=0,smoothFor=0,ended=false;
     const lost=()=>{if(!ended)gfxFail("the GPU dropped the picture (context lost)");};
     try{renderer.domElement?.addEventListener?.("webglcontextlost",lost);}catch(_error){}
-    const bench=gfxQuery("bench")==="1"?gfxBench(renderer,o.draw,key,p,()=>list[at]):null;
+    const bench=gfxQuery("bench")==="1"?gfxBench(renderer,o.draw,key,()=>p,()=>list[at],o.info):null;
     const apply=i=>{at=i;try{renderer.setPixelRatio(list[at]);}catch(_error){}
       // 8K: a browser that quietly gives a smaller drawing buffer than asked (its own limit) means 8K cannot hold here.
       if(p.level===5){try{const gl=renderer.getContext(),c=renderer.domElement,s=size();
@@ -282,7 +292,7 @@
       frame(t){
         if(ended)return;
         // Device check: the level stays as forced and every frame counts, held or not.
-        if(bench){bench(t);return;}
+        if(bench){bench.frame(t);return;}
         const dt=last?Math.min(100,t-last):BUDGET_MS;last=t;avg+=(dt-avg)*.08;
         if(avg>20.5){slowFor+=dt;smoothFor=0;}else{slowFor=0;smoothFor=avg<17.6?smoothFor+dt:0;}
         // A level the player picked stays as picked: no steps either way.
@@ -296,7 +306,7 @@
         }
       },
       // Between beats only: a held governor never changes the picture mid-shot.
-      hold(v){held=Boolean(v);if(!held){slowFor=0;smoothFor=0;}},
+      hold(v){held=Boolean(v);if(!held){slowFor=0;smoothFor=0;}bench?.hold(held);},
       resize(){const cur=list[at];p=gfxProfile();list=gfxSteps(p,capOf());at=nearest(cur);bad.clear();if(list[at]!==cur)apply(at);},
       // Codex on #1263: calibrate() may move Auto after the governor was made. Take the new profile's steps and ratio, so a
       // step down never comes back as a higher ratio (calibrate calls this itself; scenes need not).
@@ -319,22 +329,44 @@
     const ms=total/n,worstMs=worst.reduce((a,b)=>a+b,0)/worst.length;
     return {frames:n,avg:+(1000/ms).toFixed(1),p1low:+(1000/worstMs).toFixed(1),ms:+ms.toFixed(2)};
   }
-  function gfxBench(renderer,draw,key,p,pr){
-    let start=0,last=0,done=false;const dts=[];
-    return t=>{
-      if(done)return;
-      if(!start){start=t;last=t;return;}
-      const dt=t-last;last=t;
-      if(t-start<BENCH_SETTLE_MS)return;
-      dts.push(dt);
-      if(t-start<BENCH_SETTLE_MS+BENCH_MS)return;
-      done=true;
-      const draws=[];if(typeof draw==="function")for(let i=0;i<5;i+=1){try{draws.push(gfxTimedDraw(renderer,draw));}catch(_error){}}
+  // What the canvas really is: its CSS box and the drawing buffer the browser gave (8K: a browser may give less than asked).
+  function gfxBenchSize(renderer){
+    try{const c=renderer.domElement,gl=renderer.getContext();
+      return {css:[c?.clientWidth||0,c?.clientHeight||0],size:[gl?.drawingBufferWidth||c?.width||0,gl?.drawingBufferHeight||c?.height||0],
+        bufferOk:!(gl&&c&&gl.drawingBufferWidth&&c.width&&gl.drawingBufferWidth<c.width-2)};}
+    catch(_error){return {css:[0,0],size:[0,0],bufferOk:true};}
+  }
+  // r91 (Sol 6.1 review of 2.3.0): the result says what was asked (?gfx=N), what was drawn (level, pixel ratio, buffer size),
+  // whether a whole beat was played and whether the GPU gave up on the way, so the Device check can refuse a result that is
+  // not a clean measurement of the level it asked for. "started" is posted when the scene is built and about to draw.
+  function gfxBench(renderer,draw,key,prof,pr,info){
+    let start=0,last=0,done=false,beats=0,heldAt=0,holding=false;const dts=[],scene=key||"scene",first=prof();
+    const post=m=>{try{root.dispatchEvent?.(new root.CustomEvent("cms-gfx-bench",{detail:m}));}catch(_error){}
+      try{if(root.parent&&root.parent!==root)root.parent.postMessage(m,root.location.origin);}catch(_error){}};
+    const finish=complete=>{
+      if(done)return;done=true;
+      const p=prof(),draws=[];if(typeof draw==="function"&&!benchFailed)for(let i=0;i<5;i+=1){try{draws.push(gfxTimedDraw(renderer,draw));}catch(_error){}}
       draws.sort((a,b)=>a-b);
-      const result={type:"cms-gfx-bench",scene:key||"scene",level:p.level,name:p.name,label:LABELS[p.level],pixelRatio:pr(),software:Boolean(p.software),gpu:p.gpu,
-        ...gfxBenchStats(dts),drawMs:draws.length?+draws[Math.floor(draws.length/2)].toFixed(2):null};
-      try{root.dispatchEvent?.(new root.CustomEvent("cms-gfx-bench",{detail:result}));}catch(_error){}
-      try{if(root.parent&&root.parent!==root)root.parent.postMessage(result,root.location.origin);}catch(_error){}
+      let extra=null;try{extra=typeof info==="function"?info():null;}catch(_error){extra=null;}
+      post({type:"cms-gfx-bench",phase:"result",scene,asked:first.asked,level:p.level,name:p.name,label:LABELS[p.level],pixelRatio:pr(),...gfxBenchSize(renderer),
+        beats,complete:Boolean(complete),failed:benchFailed||null,software:Boolean(p.software),gpu:p.gpu,
+        ...gfxBenchStats(dts),drawMs:draws.length?+draws[Math.floor(draws.length/2)].toFixed(2):null,...(extra&&typeof extra==="object"?{info:extra}:{})});
+    };
+    post({type:"cms-gfx-bench",phase:"started",scene,asked:first.asked,level:first.level});
+    return {
+      frame(t){
+        if(done)return;
+        // The GPU gave up at this level (a lost context, out of memory, a refused 8K buffer): that is the result.
+        if(benchFailed){finish(false);return;}
+        if(!start){start=t;last=t;return;}
+        const dt=t-last;last=t;
+        if(t-start<BENCH_SETTLE_MS)return;
+        dts.push(dt);
+        if(t-start>=BENCH_SETTLE_MS+BENCH_MAX_MS){finish(false);return;}
+        if(t-start>=BENCH_SETTLE_MS+BENCH_MS&&beats>=1)finish(true);
+      },
+      // One beat is one hold(true) .. hold(false) that lasted (a kick, a turn, a reveal).
+      hold(v){const now=gfxNow();if(v&&!holding){holding=true;heldAt=now;}else if(!v&&holding){holding=false;if(now-heldAt>=500)beats+=1;}}
     };
   }
 
@@ -380,9 +412,12 @@
     device(){const p=gfxProfile();return {phone:Boolean(p.phone),gpu:p.gpu,software:Boolean(p.software),strongPhone:Boolean(p.strongPhone),
       guessLevel:p.guessLevel,guessName:NAMES[p.guessLevel],can8k:Boolean(p.can8k),dpr:p.dpr};},
     // Device check: the best level this device held, saved as its Auto; clearMeasured() goes back to the GPU-name guess.
+    // r91 (Nik 2026-11-11): any level, Light to 8K (8K only where the GPU can hold it). A fresh, complete measurement also
+    // lifts an older crash cap: the check has just played every scene at that level.
     measured:gfxMeasured,benchStats:gfxBenchStats,
-    setMeasured(level,detail){const l=Math.max(0,Math.min(4,Math.round(Number(level))));if(!Number.isFinite(l))return null;
-      gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;gfxRemark();return l;},
+    setMeasured(level,detail){const n=Math.round(Number(level));if(!Number.isFinite(n))return null;
+      const l=Math.max(0,Math.min(gfxProfile().can8k?5:4,n));
+      gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));gfxWrite(CAP_KEY,"null");cached=null;gfxRemark();return l;},
     clearMeasured(){gfxWrite(MEASURED_KEY,"null");cached=null;gfxRemark();},
     choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);gfxWrite(CAP_KEY,"null");cached=null;gfxRemark();return v;},
     // 8K is offered only where it can run (Settings shows it only then); samples()/checkTarget() size MSAA for render targets.

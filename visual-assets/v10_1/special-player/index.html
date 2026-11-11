@@ -851,6 +851,8 @@ const quadInOut=(t)=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
 const CRES=[0,0,.5,1,1];
 const lerp=(a,b,k)=>a+(b-a)*k;
 const mpByIdx=(i)=>mpCard(MP_LIST[Math.max(0,Math.min(MP_LIST.length-1,i))]); let pickD=4, pickN=12; const qs=new URLSearchParams(location.search); if(qs.get('d')) pickD=+qs.get('d'); if(qs.get('n')) pickN=+qs.get('n');
+/* r91: ?bench=1 is the Device check (device-check.html). The page plays its two demo reveals on a loop; js/gfxTier.js times the frames and posts the result */
+const BENCH=qs.get("bench")==="1";
 let bothShown=false, guardUntil=0, whoText="", PK=1, packPulse=0;
 let roll=0, pair={daniel:mpByIdx(pickD), nik:mpByIdx(pickN)}, order=["daniel","nik"], idx=0, t0=0, phase="run", shake=0, settledAt=0, fired={}, flash=0, pulse=0;
 const $=(id)=>document.getElementById(id);
@@ -872,6 +874,7 @@ const paceAt=(t)=>{ for(const [a,b,k] of PACE) if(t>=a&&t<b) return k; return 1;
 let vtt=0; const slowAt=(t)=>REDUCED?1:Math.min(1-.5*Math.max(0,Math.min(1,(t-3.6)/.12,(4.15-t)/.2)),freezeAt(t))*paceAt(t); let camK=1, camRest=new T.Vector3(0,1.05,6.6), lookRest=new T.Vector3(0,2.15,-1.2), coinStopX=-2.2, coinLift=0;
 const COIN_ON_CARD=new T.Vector3(-1.1+112/CW*2.2, CARD_POS.y+1.6-304/CH*3.2, CARD_POS.z+.07);
 function startPlayer(i,bridge){
+  if(BENCH&&gov) gov.hold(true); /* r91 Device check: one reveal, pack to settled card, is one beat */
   idx=i; const p=cur(); fired={}; t0=clock(); vtt=bridge?BRIDGE_T0:0; phase="run"; camBlendAt=-1; if(!bridge) who.classList.remove("big");
   if(bridge){ camBlendAt=clock(); camFrom.copy(camPos); lookFrom.copy(camLook); } flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig(); tiltX=tiltY=tiltTX=tiltTY=0;
   if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(Lc(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
@@ -910,6 +913,7 @@ function settle(natural){
   l3.classList.add("on");
   live.textContent=`${order[idx]==="daniel"?"Daniel":"Nik"}'s FIFA 17 Showdown Special Player: ${p.name}, ${p.pos}, ${NATION[p.nation]}, ${p.club||"no club"}, number ${p.number}, overall ${p.ovr}, potential ${p.pot}, rank ${p.rank}.`;
   if(idx===1){ bothShown=true; if(!cta.dataset.sent){ cta.disabled=false; $("again").hidden=false; } ending(); }
+  if(BENCH&&gov){ gov.hold(false); if(idx===1) later(replay,1500); } /* r91 Device check: the reveal is done; after the second one both play again */
 }
 const S=(at,dur,tt)=>clamp01((tt-at)/dur);
 
@@ -1184,7 +1188,7 @@ function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").
 /* r90: the frame governor and the ?fps=1 counter are js/gfxTier.js's (startGfx, after the warm-up). It only moves the pixel
    ratio; every change re-sizes the scene and bloom targets through resize(). */
 function startGfx(){ if(!GFX) return;
-  gov=GFX.governor(renderer,{key:"sp",draw:render,onChange(p){ PR=p.pixelRatio; resize(); }});
+  gov=GFX.governor(renderer,{key:"sp",draw:render,onChange(p){ PR=p.pixelRatio; resize(); },info:()=>({bloom:BLOOM,direct:DIRECT,samples:sceneRT.samples|0})});
   GFX.overlay(()=>({extra:`${renderer.domElement.width}x${renderer.domElement.height} · card ${SC}x`}));
   addEventListener("resize",()=>gov.resize()); addEventListener("pagehide",()=>gov.end()); }
 /* allocate the scene target now and check it once (gfxTier.checkTarget): an incomplete framebuffer steps down 8 -> 4 -> 0 samples

@@ -921,7 +921,8 @@
     // second of slow frames, up only when a timed frame shows room, never back to a step that ran slow, and never during a
     // kick (held from kick() to the next reset). Motion never depends on the frame rate: every pose is read from the clock.
     const GFX=root.CareerModeGfxTier;
-    const gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:paint,onChange:()=>{cssW=0;layoutDirty=true;}}):null;
+    // info: what the Device check records beside the frame times (the file set drawn, and whether it is the lighter stand-in).
+    const gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:paint,onChange:()=>{cssW=0;layoutDirty=true;},info:()=>({assets:Q.assets,lite:Boolean(Q.full),crowd:S.crowdCount})}):null;
     const fps=GFX?GFX.overlay(()=>({calls:renderer.info.render.calls,tris:renderer.info.render.triangles,extra:`crowd ${S.crowdCount}`})):null;
     // The box is measured only when it changes (a ResizeObserver, a window resize), never every frame.
     let layoutDirty=true;
@@ -1024,7 +1025,9 @@
   // The device's level (js/gfxTier.js, in the shell); light and phone screens take the lighter player and ball files.
   const GFX_JS="js/gfxTier.js";
   const GFX_FALLBACK={level:1,name:"medium",pixelRatio:1,antialias:true,shadowSize:1024,density:.7,bloom:false};
-  async function cm3Quality(clubs){
+  // full (r91, the Device check): the level's own file set is waited for even on a slow line, so the level is timed on what it
+  // really draws.
+  async function cm3Quality(clubs,full){
     const ok=await cm3Script("gfx-tier",GFX_JS,()=>Boolean(root.CareerModeGfxTier)).catch(()=>false);
     let p=GFX_FALLBACK;try{if(ok)p=root.CareerModeGfxTier.profile();}catch(_error){}
     // Asset size follows the texture level (a phone below High is one size down; a strong phone at High+ gets the full set).
@@ -1034,7 +1037,7 @@
     // level) until its own set is in the cache: the season page fetches that at low priority after the lighter set, so a
     // later open has it.
     // A light set the season page already parsed is used before a full set that came in since (no parse at the tap).
-    if(q.assets==="desktop"&&cm3SlowLink()&&(cm3Parsed?.lite||!await cm3Scripts()||!(await Promise.all(cm3Urls(q,clubs).map(cm3Cached))).every(Boolean))){
+    if(!full&&q.assets==="desktop"&&cm3SlowLink()&&(cm3Parsed?.lite||!await cm3Scripts()||!(await Promise.all(cm3Urls(q,clubs).map(cm3Cached))).every(Boolean))){
       q.full={textureLevel:q.textureLevel??q.level};q.assets="phone";q.textureLevel=1;}
     return q;
   }
@@ -1056,7 +1059,7 @@
     if(!svg||!svg.parentNode||root.CMS_CHAMBER_MEN_3D==="off"||!hasWebgl2()||off())return null;
     cm3Mounting+=1;
     try{
-      const Q=await cm3Quality(opts&&opts.clubs);if(off())return null;
+      const Q=await cm3Quality(opts&&opts.clubs,Boolean(opts&&opts.fullFiles));if(off())return null;
       // r90 Light: a file that fails to come in (a dropped connection on a slow line) is fetched once more before the
       // drawn goal is used: a failed download is not a missing GPU.
       // The season page's parse for this level and these clubs, when it made one (a parse for others is let go).
