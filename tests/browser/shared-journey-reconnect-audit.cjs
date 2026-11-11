@@ -67,7 +67,7 @@ async function prepare(page,{role,accepted=1,withSession=true,fresh=0}){
       getState:()=>({authoritative:true,rivalryId,state:multiState()})
     };
     const storageBefore=Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)]));
-    const loadCandidate=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load candidate ${path}`));document.head.appendChild(script);});
+    const loadCandidate=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Could not load candidate ${path}`));document.head.appendChild(script);});
     await loadCandidate('js/sharedHistoryConvergence.js');
     await loadCandidate('js/sharedMultiSeasonProgression.js');
     await loadCandidate('js/sharedJourneyReconnect.js');

@@ -187,7 +187,7 @@ const VIEWPORTS={1:{daniel:{width:393,height:660},nik:{width:390,height:844}},2:
 const NAMES={daniel:"Daniel",nik:"Nik"};
 const ROLE={daniel:"playerOne",nik:"playerTwo"};
 const meter=createMeter();
-let billedModel=null;const budgetWaits=[];
+let billedModel=null;const budgetWaits=[];const squadSteps=[];
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // Report
@@ -688,6 +688,8 @@ async function publishThroughOutage(m,k){
 async function playSeasonResults(daniel,nik,k,planSeason){
   for(const m of [daniel,nik]){
     await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
+    // r91 Squad Management: this manager's squad for next season comes first (not in the Showdown's last season).
+    squadSteps.push(...await rosterRoulette.playSquadUntil(m.page,()=>m.page.locator("#seasonEntry").isVisible()));
     await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
   }
   await budgetWait("results-entry");
@@ -1014,14 +1016,14 @@ function extract(raw){
   o.compareAvgPoints=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE POINTS\s+([\d.]+)/);o.compareAvgGoals=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE GOALS\s+([\d.]+)/);
   o.leadWins=lead(cs,/MOST SEASON WINS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+wins?/);o.leadTrophies=lead(cs,/MOST TROPHIES\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+troph/);
   o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts?/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts?/);
-  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions Leagues","cl"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));s.leader=(/\b(DANIEL|NIK) LEADS\b/i.exec(text)||[])[1]?.toUpperCase()||null;s.unavailable=/unavailable|could not/i.test(text);return s;};
+  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions League","cl"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));s.leader=(/\b(DANIEL|NIK) LEADS\b/i.exec(text)||[])[1]?.toUpperCase()||null;s.unavailable=/unavailable|could not/i.test(text);return s;};
   o.standings=standings(stCareer);o.standingsFirst=standings(stFirst);
   o.standingsCareerText=stCareer.toUpperCase();o.standingsFirstCareerText=stFirst.toUpperCase();
   const live=raw?.standings?.["THIS SHOWDOWN"]||"";o.thisShowdownText=live;
   o.thisShowdown={season:pair(live,/SEASON (\d+) OF (\d+)/),points:pair(live,/SHOWDOWN POINTS\s+(\d+)\s*:\s*(\d+)/)};
   for(const [word,key] of [["SEASON WINS","W"],["SEASON DRAWS","D"],["SEASON LOSSES","L"],["CHAMPIONS LEAGUES","cl"],["LEAGUE TITLES","league"],["DOMESTIC CUPS","cup"],["TOTAL TROPHIES","trophies"]])o.thisShowdown[key]=pair(live,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));
   const rv=corpus(raw,"statistics");
-  o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions Leagues\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
+  o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions League\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
   o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);
   const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],(r[1]==="\u2014"?"":(r[2]||"")).toUpperCase()]:null;};
   // r87 career fixes: a level record reads LEVEL (never "Shared"), and a best of 0 is held by nobody: "—" with no holder (B5).
@@ -1073,7 +1075,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
     const withLive=Boolean(wantWithLive)&&JSON.stringify(got)===JSON.stringify(wantWithLive);
     if(withLive){const note=`${label} ${m.user}: Standings (Career, ${which}) counted the live Showdown's ${liveEntry.seasons.length} played season(s) (shared history in memory)`;report.notes=(report.notes||[]).concat(note);console.log(`NOTE ${note}`);}
     if(E.completedCount===0){await check(m,id(`${key}.career`),`Standings (Career, ${which}) shows no completed-career figures before the first completed Showdown (or only the live seasons so far)`,withLive||(!s.points||s.points.join()==="0,0")&&/after your first finished Showdown|0\s*:\s*0/i.test(text),text.slice(0,300),scr("Standings (Career)"));continue;}
-    await check(m,id(`${key}.career`),`Standings (Career, ${which}): career points, season W/D/L, Champions Leagues, league titles, cups, trophies (D / N)`,withLive||JSON.stringify(got)===JSON.stringify(wantStandings),`expected ${JSON.stringify(wantStandings)}${wantWithLive?` (or with the live seasons ${JSON.stringify(wantWithLive)})`:""} but the screen shows ${JSON.stringify(got)}`,scr("Standings (Career)"));
+    await check(m,id(`${key}.career`),`Standings (Career, ${which}): career points, season W/D/L, Champions League, league titles, cups, trophies (D / N)`,withLive||JSON.stringify(got)===JSON.stringify(wantStandings),`expected ${JSON.stringify(wantStandings)}${wantWithLive?` (or with the live seasons ${JSON.stringify(wantWithLive)})`:""} but the screen shows ${JSON.stringify(got)}`,scr("Standings (Career)"));
   }
   // Trophy Room
   const winners=career.filter(s=>s.state==="completed").map(s=>overallWinner(tally(s.seasons)));
@@ -1111,7 +1113,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   // Standings (This Showdown) while a Showdown is live: its committed seasons only.
   if(live){
     const t=tally(live.seasons),g=f.thisShowdown;
-    await eq(m,id("standings.thisShowdown"),"Standings (This Showdown): season counter, Showdown points, season W/D/L, Champions Leagues, league titles, cups, trophies (D / N)",
+    await eq(m,id("standings.thisShowdown"),"Standings (This Showdown): season counter, Showdown points, season W/D/L, Champions League, league titles, cups, trophies (D / N)",
       {season:g.season,points:g.points,W:g.W,D:g.D,L:g.L,cl:g.cl,league:g.league,cup:g.cup,trophies:g.trophies},
       {season:two(live.seasons.length+1,live.totalSeasons),points:two(t.daniel.total,t.nik.total),W:two(t.daniel.W,t.nik.W),D:two(t.daniel.D,t.nik.D),L:two(t.daniel.L,t.nik.L),cl:two(t.daniel.cl,t.nik.cl),league:two(t.daniel.league,t.nik.league),cup:two(t.daniel.cup,t.nik.cup),trophies:two(t.daniel.trophies,t.nik.trophies)},scr("Standings (This Showdown)"));
   }
@@ -1121,7 +1123,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   const rivalrySource=live||[...career].reverse().find(s=>s.state==="completed")||null;
   if(rivalrySource&&rivalrySource.seasons.length){
     const t=tally(rivalrySource.seasons),g=f.rivalryFigures;
-    await eq(m,id("rivalry"),`Rivalry Statistics shows ${live?"the live":"the newest completed"} Showdown ${rivalrySource.name}: seasons completed, Showdown points, season wins, trophies, Champions Leagues, league titles, cups (D / N)`,
+    await eq(m,id("rivalry"),`Rivalry Statistics shows ${live?"the live":"the newest completed"} Showdown ${rivalrySource.name}: seasons completed, Showdown points, season wins, trophies, Champions League, league titles, cups (D / N)`,
       {completed:g.completed,points:g.points,W:g.W,trophies:g.trophies,cl:g.cl,league:g.league,cup:g.cup},
       {completed:two(rivalrySource.seasons.length,rivalrySource.totalSeasons),points:two(t.daniel.total,t.nik.total),W:two(t.daniel.W,t.nik.W),trophies:two(t.daniel.trophies,t.nik.trophies),cl:two(t.daniel.cl,t.nik.cl),league:two(t.daniel.league,t.nik.league),cup:two(t.daniel.cup,t.nik.cup)},scr("Rivalry Statistics"));
   }
@@ -1436,6 +1438,10 @@ function meterEntry(label,from,to,{play=null}={}){
   const b=seasonBilled(t(play?play[0]:from),t(play?play[1]:to));
   const topOf=billedMeter.price(billedModel,meter.events.filter(e=>e.t>=t(play?play[0]:from)&&e.t<t(play?play[1]:to)&&(e.k==="read"||e.k==="write"||e.k==="listener")));
   entry.billed={check:b.check,measured:{docReads:b.measured.docReads,rulesReads:b.measured.rulesReads,rulesOnWrites:b.measured.rulesOnWrites,billed:b.measured.billed,writes:b.measured.writes,selfLookups:b.measured.selfLookups,byUser:b.measured.byUser,ms:b.measured.ms},profiles:b.profiles,waits:b.rows,sampledMinutes:b.sampledMinutes,topModules:billedMeter.top(topOf.byModule,5),topPaths:billedMeter.top(topOf.byPath,5)};
+  // r91 Squad Management: what its documents cost this season (reads, listener deliveries, creates), both phones.
+  const sq=billedMeter.price(billedModel,meter.events.filter(e=>e.t>=t(from)&&e.t<t(to)&&(e.k==="read"||e.k==="write"||e.k==="listener")&&/\/squadSheets\//.test(String(e.path||""))));
+  entry.squadSheets={docReads:sq.docReads,rulesReads:sq.rulesReads,rulesOnWrites:sq.rulesOnWrites,billed:sq.billed,writes:sq.writes};
+  console.log(`SQUAD ${label}: ${sq.docReads} doc reads + ${sq.rulesReads} lookups (+${sq.rulesOnWrites} on writes) = ${sq.billed} billed, ${sq.writes} writes`);
   printBilled(label,b);
   report.meter.push(entry);return entry;
 }

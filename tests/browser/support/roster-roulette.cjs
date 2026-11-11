@@ -13,6 +13,10 @@
 // r88 Chamber Men (js/chamberMenStep.js, #cmStage) runs before the roulette in every Showdown
 // (every journey runs it). Each phone picks a shot and a dive and taps LOCK IN for each of the seven
 // rounds, then SPIN THE CYLINDER. The picks follow a fixed pattern by round and role, so a run gives a mix of goals and saves.
+//
+// r91 Squad Management (js/squadSheetStep.js, #sqStage) runs after Chamber Men and before the roulette ("pre": both squads
+// locked, then GO TO THE RUSSIAN ROULETTE) and again after the Transfer War, before Season Results ("post", not in the
+// Showdown's last season). playSquad taps the screen's own Lock my squad on the proposed squad, then the next button.
 const prime=require("./prime-pack.cjs");
 const STEP_MS=500;
 const tracked=new Set();
@@ -22,6 +26,7 @@ async function playRoulette(page,opts={}){
   track(page);
   const prime=await playPrimePack(page,opts);if(prime)return prime;
   const chamber=await playChamberMen(page);if(chamber)return chamber;
+  const squad=await playSquad(page);if(squad)return squad;
   const stage=page.locator("#rrStage");
   if(await stage.isVisible().catch(()=>false)){
     const cta=page.frameLocator("#rrStage iframe").locator("#cta");
@@ -33,6 +38,38 @@ async function playRoulette(page,opts={}){
   return null;
 }
 
+// One Squad Management step on this phone: "squad-next" (GO TO THE RUSSIAN ROULETTE / GO TO SEASON RESULTS), "squad-lock"
+// (Lock my squad on the proposed squad), "squad-retry" (TRY AGAIN on a fault), "wait" (saving, or waiting for the rival's
+// lock) or null (no Squad Management on screen).
+async function playSquad(page){
+  const stage=page.locator("#sqStage");
+  if(!await stage.isVisible().catch(()=>false))return null;
+  // Left with its next button: it stays up under the next screen until that screen is on top.
+  if(await stage.getAttribute("data-state").catch(()=>null)==="leaving")return null;
+  const next=stage.locator(".sqNext");
+  if(await next.isVisible().catch(()=>false)&&await next.isEnabled().catch(()=>false)){
+    const label=process.env.CMS_ROULETTE_DEBUG==="1"?`:${await stage.getAttribute("data-stage").catch(()=>"")}`:"";
+    await next.click({timeout:5000}).catch(()=>{});return `squad-next${label}`;
+  }
+  const lock=stage.locator(".sqmBtn.is-primary");
+  if(await lock.isVisible().catch(()=>false)&&await lock.isEnabled().catch(()=>false)){await lock.click({timeout:5000}).catch(()=>{});return "squad-lock";}
+  const retry=stage.locator(".sqRetry");
+  if(await retry.isVisible().catch(()=>false)&&await retry.isEnabled().catch(()=>false)){await retry.click({timeout:5000}).catch(()=>{});return "squad-retry";}
+  return "wait";
+}
+// After CONTINUE TO SEASON RESULTS: plays the squad screen (if any) until Season Results (#seasonEntry) is on screen.
+async function toSeasonEntry(page,timeout=60000){return playSquadUntil(page,()=>page.locator("#seasonEntry").isVisible(),timeout);}
+// Plays the squad screen that comes between the Transfer War and Season Results until #seasonEntry (or whatever Season
+// Results shows first) is on screen. Returns the steps seen.
+async function playSquadUntil(page,ready,timeout=60000){
+  const seen=[],until=Date.now()+timeout;
+  while(Date.now()<until){
+    if(await ready().catch(()=>false))return seen;
+    const step=await playSquad(page);if(step&&step!=="wait")seen.push(step);
+    await page.waitForTimeout(STEP_MS);
+  }
+  throw new Error(`Season Results did not open within ${timeout} ms (squad steps: ${seen.join(",")||"none"})`);
+}
 // One Chamber Men step on this phone: "chamber-kick" (picked and locked in), "chamber-continue" (SPIN THE CYLINDER),
 // "chamber-retry" (TRY AGAIN on a fault), "wait" or null (no Chamber Men on screen). Real taps: anything standing over the
 // buttons fails them. Turn by turn (Nik 2026-11-03): on each kick this phone shows only its own part, YOU SHOOT with the
@@ -147,7 +184,7 @@ async function playPrimePack(page,{primeGuesser=null}={}){
 function browserPages(pages){const out=[];for(const page of pages){try{for(const context of page.context().browser()?.contexts()||[])out.push(...context.pages());}catch(_error){}}return out;}
 function track(...pages){for(const page of pages.flat())if(page)tracked.add(page);}
 async function onTransfer(page){
-  return await page.locator("#transferChallenge").isVisible().catch(()=>false)&&!(await page.locator("#cmStage, #rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
+  return await page.locator("#transferChallenge").isVisible().catch(()=>false)&&!(await page.locator("#cmStage, #sqStage, #rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
 }
 // Plays every roulette and Prime Pack step on the given phones (and any tracked partner phone) until each given phone shows
 // the Transfer Challenge. Returns the steps seen.
@@ -172,4 +209,4 @@ async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
   throw new Error(`Transfer Challenge did not open within ${timeout} ms (roulette steps: ${seen.join(",")||"none"})`);
 }
 
-module.exports={playRoulette,playPrimePack,playChamberMen,chamberSide,primeNames,track,waitForTransfer};
+module.exports={playRoulette,playPrimePack,playChamberMen,playSquad,playSquadUntil,toSeasonEntry,chamberSide,primeNames,track,waitForTransfer};

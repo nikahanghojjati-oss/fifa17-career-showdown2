@@ -11,7 +11,7 @@ async function prepare(page,role){
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   return page.evaluate(async({role,rivalryId,canonicalKeys})=>{
-    const load=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load ${path}`));document.head.appendChild(script);});
+    const load=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Could not load ${path}`));document.head.appendChild(script);});
     await load('js/sharedJourneyConflicts.js');
     await load('js/productionSharedJourneyConflicts.js');
     CareerModeProductionSharedJourneyConflicts.install();

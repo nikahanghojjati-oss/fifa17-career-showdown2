@@ -21,7 +21,7 @@
   function csmCanonicalize(value){if(value===null||value===undefined)return null;if(value&&typeof value.toMillis==="function")return{$timestamp:value.toMillis()};if(Array.isArray(value))return value.map(csmCanonicalize);if(typeof value==="object"){const out={};for(const key of Object.keys(value).sort())out[key]=csmCanonicalize(value[key]);return out;}return value;}
   async function csmSha256(value,cryptoImpl){
     const crypto=cryptoImpl||root.crypto;
-    if(!crypto?.subtle||typeof crypto.subtle.digest!=="function")throw csmError("CAREER_START_CRYPTO_UNAVAILABLE","Secure browser hashing is unavailable.");
+    if(!crypto?.subtle||typeof crypto.subtle.digest!=="function")throw csmError("CAREER_START_CRYPTO_UNAVAILABLE","The security check the game needs cannot run here.");
     const digest=new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(JSON.stringify(csmCanonicalize(value)))));
     return "sha256:"+Array.from(digest,byte=>byte.toString(16).padStart(2,"0")).join("");
   }

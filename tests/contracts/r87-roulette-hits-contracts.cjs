@@ -121,7 +121,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     assert.equal(R.version({playerOne:"Not A Club",playerTwo:"Arsenal"},{}),null);
     // The engine revision is pinned to the engine's text: any change to js/rosterRoulette.js must decide whether a board or a
     // shot can come out differently (then bump ENGINE_REVISION) and update this pin.
-    const PIN={revision:2,sha256:"64e32ac578566bf52b5de9b08c2517b334dbf936d8254210f2f4ddc8ce599e2e"};
+    const PIN={revision:3,sha256:"803bda8a1d2f4bede82ca06b473f09e281eab3ddb47a676420d55fe797b929d3"};
     const sha=crypto.createHash("sha256").update(read("js/rosterRoulette.js")).digest("hex");
     assert.equal(R.engineRevision,PIN.revision,"ENGINE_REVISION changed: update the pin below with the file's sha256");
     assert.equal(sha,PIN.sha256,"js/rosterRoulette.js changed: if a board or a shot can come out differently, bump ENGINE_REVISION; then update this pin");
@@ -254,6 +254,8 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
       CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
       CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider,
       CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"manager_one",getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{getDoc:async()=>null,doc:()=>null}})},
+      // r91 Squad Management: not asked in this harness (tests/contracts/r91-squad-sheet-contracts.cjs).
+      CareerModeSquadSheetStep:{applies:()=>false,isDone:()=>true,close(){}},
       CareerModeRosterRouletteStep:step,
     // r87 Prime Pack runs after the roulette; here it is already done.
     CareerModeChamberMenStep:{ensure:async()=>true,applies:()=>false,markDone(){},close(){}},CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}};

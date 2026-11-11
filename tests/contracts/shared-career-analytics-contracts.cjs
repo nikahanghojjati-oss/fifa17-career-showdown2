@@ -10,7 +10,7 @@ const entry=(p,classification="completed",final=finalFor(p))=>({rivalryId:p.riva
 const model=(showdowns,extra={})=>Analytics.buildCareerModel({indexStatus:"ready",showdowns,...extra});
 const perfect=result({leaguePosition:1,leaguePoints:101,leagueGoals:101,championsLeague:true,domesticCup:true,topScorer:true,topAssist:true});
 const record=(m,label)=>m.trophyRoom.records.find(row=>row.label===label);
-const labels=["Highest season score","Highest league points","Highest league goals","Biggest Showdown win","Most perfect seasons"];
+const labels=["Best season score","Best league points","Best league goals","Biggest Showdown win","Perfect seasons"];
 let cases=0;
 function check(name,fn){try{fn();cases+=1;}catch(error){error.message=name+": "+error.message;throw error;}}
 
@@ -116,7 +116,7 @@ check("7. Abandoned removal",()=>{
   assert.equal(m.managers.nik.averageLeaguePoints,70);
   assert.deepEqual(m.history.showdowns[1],{number:2,rivalryId:b.rivalryId,status:"abandoned",leagueId:null,clubs:null,seasonsPlayed:null,totalSeasons:null,totals:null,winner:null,seasons:[],setupConfirmedAt:null});
   assert.deepEqual(m.coverage,{readable:2,indexed:2});
-  assert.equal(record(m,"Highest season score").value,1);
+  assert.equal(record(m,"Best season score").value,1);
 });
 check("8. Completion pending",()=>{
   const p=projection({totalSeasons:1,seasons:[[perfect,result()]]}),m=model([entry(p,"completion-pending")]);
@@ -180,8 +180,8 @@ check("12. Status",()=>{
   assert.equal(empty.managers.daniel.seasons,0);
   assert.equal(empty.managers.daniel.averageSeasonScore,null);
   assert.equal(empty.managers.daniel.bestLeaguePosition,null);
-  assert.equal(record(empty,"Highest season score").value,null);
-  assert.equal(record(empty,"Most perfect seasons").value,null,"no data is unknown, not a zero record");
+  assert.equal(record(empty,"Best season score").value,null);
+  assert.equal(record(empty,"Perfect seasons").value,null,"no data is unknown, not a zero record");
   assert.equal(model([{rivalryId:p.rivalryId,classification:"pending",projection:null,final:null}]).status,"empty");
   const m=model([{rivalryId:p.rivalryId,classification:"unavailable",projection:null,final:null}]);
   assert.equal(m.status,"partial");assert.deepEqual(m.coverage,{readable:0,indexed:1});
@@ -196,16 +196,16 @@ check("13. Left/right",()=>{
   assert.deepEqual(m.history.showdowns[0].seasons[0],{season:1,score:{daniel:0,nik:11},winner:"nik",tiebreak:"none",leaguePosition:{daniel:5,nik:1},leaguePoints:{daniel:60,nik:101},leagueGoals:{daniel:55,nik:101}});
   assert.deepEqual(m.biggestShowdownWin,{manager:"nik",margin:11,showdownRef:p.rivalryId});
   assert.equal(m.trophyRoom.standings[0].manager,"nik");
-  assert.equal(record(m,"Highest season score").manager,"nik");
+  assert.equal(record(m,"Best season score").manager,"nik");
 });
 check("14. Records and standings",()=>{
   const a=projection({totalSeasons:1,seasons:[[perfect,perfect]]}),tie=model([entry(a)]);
   assert.deepEqual(tie.trophyRoom.records.map(r=>r.label),labels);
   for(const row of tie.trophyRoom.records)assert.equal(row.manager,"shared");
   assert.deepEqual(tie.trophyRoom.standings,[{manager:"daniel",careerPoints:11,seasonWins:0,level:true},{manager:"nik",careerPoints:11,seasonWins:0,level:true}]);
-  assert.deepEqual(record(tie,"Highest season score").ref,{rivalryId:a.rivalryId,season:1});
+  assert.deepEqual(record(tie,"Best season score").ref,{rivalryId:a.rivalryId,season:1});
   const b=projection({seed:"2",totalSeasons:1,seasons:[[perfect,perfect]]});
-  assert.equal(record(model([entry(a),entry(b)]),"Highest season score").ref,null,"tied across different places has no single ref");
+  assert.equal(record(model([entry(a),entry(b)]),"Best season score").ref,null,"tied across different places has no single ref");
   const c=projection({seed:"3",totalSeasons:1,seasons:[[result(),result({domesticCup:true})]]});
   const d=projection({seed:"4",totalSeasons:1,seasons:[[perfect,result()]]});
   const m=model([entry(a),entry(c),entry(d,"active",null),entry(d,"completion-pending")]);
@@ -224,7 +224,7 @@ check("14. Records and standings",()=>{
   assert.deepEqual(record(model([entry(c),entry(sameMargin)]),"Biggest Showdown win"),{label:labels[3],manager:"shared",value:1,ref:null});
 });
 check("15. Interim label",()=>{
-  assert.equal(model([],{currentShowdownOnly:true}).interimLabel,"Current Showdown only. Career history is not yet available.");
+  assert.equal(model([],{currentShowdownOnly:true}).interimLabel,"This Showdown only. Career history is not available yet.");
   assert.equal(model([]).interimLabel,null);
 });
 check("16. Pure and frozen",()=>{

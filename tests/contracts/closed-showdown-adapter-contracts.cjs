@@ -214,7 +214,7 @@ await check("C15 abandoning later rebuilds the career without those seasons",()=
   assert.equal(before.managers.nik.careerPoints,3);assert.equal(before.managers.nik.perfectSeasons,0);
   const after=model({index:index([p.rivalryId,q.rivalryId]),reads:readsOf([completedRead(p),statusRead("abandoned",q.rivalryId)]),current:noCurrent()});
   assert.equal(after.managers.nik.careerPoints,3);assert.equal(after.managers.nik.perfectSeasons,0);assert.equal(after.managers.nik.bestSeasonScore,3);
-  assert.equal(after.trophyRoom.records.find(r=>r.label==="Highest season score").value,5);
+  assert.equal(after.trophyRoom.records.find(r=>r.label==="Best season score").value,5);
 });
 
 await check("C16 never throws, frozen, pure",()=>{
