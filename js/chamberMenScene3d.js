@@ -668,8 +668,12 @@
       const rooted=k.goal&&k.shot&&side==="M"&&KC.defeated?ROOTED:null;
       // r91: two kicks in three the keeper shuffles one step along his line during the run-up and back (the same step played
       // backwards, so he lands where he started and every save still meets the ball), done before he sets for the strike.
-      const shuffle=KC.gkStepL&&KC.gkStepR&&(luck>>>12)%3?{c:(luck>>>14)%2?"gkStepL":"gkStepR",at:-1.95+((luck>>>16)%5)*.06}:null;
-      return {...k,round,shuffle,move:rooted||move,react:pool[(luck>>>8)%pool.length],style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart:FLIGHT-(rooted||move).tc/(rooted||move).s,netHit:false};
+      // It always ends before he sets for the dive: an early dive moves it earlier, and one too early for it leaves it out.
+      const kStart=FLIGHT-(rooted||move).tc/(rooted||move).s;
+      let shuffle=null;
+      if(KC.gkStepL&&KC.gkStepR&&(luck>>>12)%3){const c=(luck>>>14)%2?"gkStepL":"gkStepR",len=2*(KC[c].duration-1e-3)+.12+.22;
+        const at=Math.min(-1.95+((luck>>>16)%5)*.06,kStart-.05-len);if(at>=-RUNUP+.1)shuffle={c,at};}
+      return {...k,round,shuffle,move:rooted||move,react:pool[(luck>>>8)%pool.length],style:styleOf(lineup.taker,round),start,target,v0,acc,spinAxis,spinRate,after,hold,kStart,netHit:false};
     };
     // The taker at time t (seconds from the strike); idle while waiting.
     const takerAt=(t,live)=>{
