@@ -581,11 +581,11 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     const bore=new T.Mesh(new T.CircleGeometry(.0055,24),GM.bore); bore.position.set(0,BY,.1912); g.add(bore);
     const crown=new T.Mesh(new T.TorusGeometry(.0068,.0014,8,32),GM.bright); crown.position.set(0,BY,.1908); g.add(crown);
     muzzle.position.set(0,BY,.192); g.add(muzzle);
-    const sight=extrude([[0,0],[.014,0],[.012,.0062],[.006,.009],[.002,.0075]],.0022,.0004,GM.bright,2); sight.position.set(0,BY+.0086,.166); g.add(sight);
+    const sight=extrude([[0,0],[.014,0],[.012,.0062],[.006,.009],[.002,.0075]],.0022,.0004,GM.bluedPlain,2);   /* r91: a blued blade like the barrel; bright steel flashed white at the muzzle end of the resting gun */ sight.position.set(0,BY+.0086,.166); g.add(sight);
     /* ejector rod housing on the right of the barrel, rod and its thumb head */
     const eh=new T.Mesh(new T.CylinderGeometry(.0044,.0044,.1,18),GM.bluedPlain); eh.rotation.x=Math.PI/2; eh.position.set(.0108,BY-.0112,.1); g.add(eh);
     const rod=new T.Mesh(new T.CylinderGeometry(.002,.002,.06,10),GM.bright); rod.rotation.x=Math.PI/2; rod.position.set(.0108,BY-.0112,.165); g.add(rod);
-    const head=new T.Mesh(new T.LatheGeometry([[0,0],[.0044,0],[.005,.004],[.0036,.009],[0,.009]].map(p=>new T.Vector2(p[0],p[1])),16),GM.bright); head.rotation.x=Math.PI/2; head.position.set(.0108,BY-.0112,.183); g.add(head); }
+    const head=new T.Mesh(new T.LatheGeometry([[0,0],[.0044,0],[.005,.004],[.0036,.009],[0,.009]].map(p=>new T.Vector2(p[0],p[1])),16),GM.bluedPlain); head.rotation.x=Math.PI/2; head.position.set(.0108,BY-.0112,.183);   /* r91: blued, as on the real gun (it flashed white under the muzzle) */ g.add(head); }
   /* CYLINDER: fluted front section cut as a scalloped profile with 7 real chamber holes, plain rear ring with chamfer, ratchet star; rotates on Z */
   /* the cylinder sits in a crane hinged below its left side; the crane swings it out (up, as the gun lies on its right side) to show the chambers */
   crane.position.set(-.0165,-.016,0); g.add(crane); cyl.position.set(.0165,.016,0); crane.add(cyl);
