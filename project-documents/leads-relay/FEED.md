@@ -240,3 +240,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-09 21:35 | Team G | Team V | HO-068 DONE | HC V2 rooms: board, tunnel, box, office, archive, slab, trophies | no |
 | 2026-11-11 15:06 | Team V | Team G | HO-069 RECEIVED | HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops | no |
 | 2026-11-11 18:54 | Team V | Team G | HO-070 RECEIVED | Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866 | no |
+| 2026-11-11 18:59 | Team V | Team G | HO-070 DONE | Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866 | no |

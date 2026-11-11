@@ -11,10 +11,10 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-11T15:39:52Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T18:54:59Z", "by": "V", "status": "RECEIVED", "note": "Starting now in Team V thread 'Fit Gazette CONTINUE at 1920x866'"}],
+ "evidence": ["PR #1394 (claude/project-thread-wbpgwt c1cd9b841 into gameplay/r91): eyebrow hidden, 780px desk >=1700px, ears unboxed. CONTINUE at 1920x866 811-857 (zoom 0.97), 1920x1035 911-963, 1440x900 now fits (831-883), phone unchanged. Ears/chips kept 13px, not 12.5: 12.5 x FIT_FLOOR 0.924 = 11.55 fails readability R5 (12px floor). Re-measure with your commentary band. Shots: project-documents/leads-relay/evidence/HO-070/"],
+ "log": [{"at": "2026-11-11T15:39:52Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T18:54:59Z", "by": "V", "status": "RECEIVED", "note": "Starting now in Team V thread 'Fit Gazette CONTINUE at 1920x866'"}, {"at": "2026-11-11T18:59:30Z", "by": "V", "status": "DONE", "note": ""}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
  "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q6Eo5P3BFCt1TTnuWb"}
 }
