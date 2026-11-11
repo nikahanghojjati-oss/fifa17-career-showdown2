@@ -43,9 +43,12 @@ function remyScale(o){o.updateMatrixWorld(true);const bb=new THREE.Box3();o.trav
 if(mode==='remix'){
   // r90: the committed anims_<tier>.glb (its rig and clips kept as they are) minus the clips nothing plays, plus new
   // clips from Nik's Mixamo files (Remy, 30 fps), each cut to the seconds the scene shows (clips_r90.json).
-  const spec=await (await fetch('clips_r90.json?'+Date.now())).json();
+  // r91: ?spec= picks the clip list (clips_r90.json by default); the committed file is meshopt-packed since r90 M1, so it is
+  // unpacked here (pack it again with pack-meshopt.mjs after).
+  const spec=await (await fetch((q.get('spec')||'clips_r90.json')+'?'+Date.now())).json();
   const {GLTFLoader}=await import('three/addons/loaders/GLTFLoader.js');
-  const base=await new GLTFLoader().loadAsync(`out/anims_${tier}.glb`);
+  const {MeshoptDecoder}=await import('./node_modules/meshoptimizer/meshopt_decoder.module.js');
+  const base=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(`out/anims_${tier}.glb`);
   const rig=base.scene.children[0],s=rig.scale.x;
   const clips=base.animations.filter(c=>!spec.drop.includes(c.name));
   for(const [file,name,from,to] of spec.add){

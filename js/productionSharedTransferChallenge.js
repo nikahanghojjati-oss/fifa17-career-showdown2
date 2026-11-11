@@ -24,28 +24,29 @@
   // The reason the roulette could not start on this phone (shown on the dashboard and on Career Start), or "" (Fable F2-05).
   let rouletteError="",primePackLoadError=false;
   const PSTC_PRIME_PACK_TEXT="Prime Pack could not load. Check the connection and tap again.";
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
-  // r88 Chamber Men: Showdowns confirmed before it never load the step (tools/set-release-time.cjs --r88 pins it).
-  const CHAMBER_FROM_MS=Date.parse("2026-11-04T17:00:00Z");
   const PSTC_ROULETTE_TEXT=Object.freeze({
     load:"The roulette could not load. Check the connection and tap again.",
-    setup:"This season's roulette needs the Showdown's confirmed Setup, and it could not be read just now. Tap again to retry.",
+    setup:"The roulette needs this Showdown's confirmed Setup, and it could not be read just now. Tap again.",
     draw:"The Special Player list could not load, so the Transfer War stays shut. Tap again to retry.",
     error:"The roulette hit an error before it could start. Nothing was spun or saved. Tap again to retry.",
     // r88 Chamber Men: the roulette's cylinders come from this season's shootout, so the roulette never runs without it.
     chamberLoad:"Chamber Men could not load. Check the connection and tap again. Every pick already sent is kept.",
-    chamberCylinders:"This season's Chamber Men result could not be read, and the roulette's bullets come from it. Nothing was spun. Tap again to retry."
+    chamberCylinders:"This season's Chamber Men result could not be read, and the roulette's bullets come from it. Nothing was spun. Tap again to retry.",
+    // r91 Squad Management: the roulette's boards are the two locked squads, so it never runs without them.
+    squadLoad:"Squad Management could not load. Check the connection and tap again. A squad already locked is kept.",
+    squadBoards:"The two locked squads could not be read for the roulette board. Nothing was spun. Tap again to retry."
   });
   // r88 Chamber Men (js/chamberMenStep.js): the request whose shootout is finished on this phone and its two cylinders, for
-  // the roulette ({key, season, chambers}); null until then. CHAMBER_FROM_MS mirrors js/chamberMen.js (old Showdowns never
-  // load the step).
+  // the roulette ({key, season, chambers}); null until then. (Every Showdown plays the step.)
   let chamberGate=null;
+  // r91 Squad Management (js/squadSheetStep.js): this season's two locked "pre" squads for the roulette's boards
+  // ({key, season, sheets}); null until both are locked.
+  let squadGate=null;
   // r87 RT5-FLOW-02 (Nik 2026-10-31): the shared window waits until both managers have spun this season's roulette. The gate is
-  // known where the roulette runs (pstcRouletteFirst): does the roulette apply to this Showdown (confirmed on r87 or later, not
-  // switched off)? spinPendingKey: this manager has spun (or his roulette is done on this browser) and his own mark is not on the
+  // known where the roulette runs (pstcRouletteFirst): does the roulette apply to this Showdown (its confirm time is readable)? spinPendingKey: this manager has spun (or his roulette is done on this browser) and his own mark is not on the
   // server yet; the next check writes it again until it lands.
   // rouletteClearedKey (Codex P1 #1101): the request whose roulette this phone has finished, or that the roulette does not apply to
-  // on this phone (no confirm time, kill switch, decide() false). Only then may his own mark be written; a partner's mark never counts.
+  // on this phone (no confirm time, decide() false). Only then may his own mark be written; a partner's mark never counts.
   let rouletteGate={key:"",applies:false},spinPendingKey="",spinRefusedKey="",spinWriting=null,rouletteClearedKey="";
 
   function pstcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -86,19 +87,19 @@
   function pstcExpiryPermissionRefused(error,request){if(["permission-denied","firestore/permission-denied","permission_denied"].includes(error?.code)&&pstcRequestMatches(request)&&view?.state?.phase==="WINDOW_OPEN"){expiryAttemptContextKey=request.key;expiryAttemptRevision=Number(view.revision);expiryPermissionDenied=true;}}
   function pstcClearClock(){clockContextKey="";clockServerEpochMs=0;clockPerformanceMs=0;clockRefreshPerformanceMs=0;}
   function pstcClearCachedContext(){view=null;viewContextKey="";openedKey="";replayContextKey="";replayQueue=[];pstcResetExpiryAttempts();expiryNeedsAuthority=false;pstcClearClock();}
-  function pstcMonotonicNow(){const value=Number(root.performance&&typeof root.performance.now==="function"?root.performance.now():Number.NaN);if(!Number.isFinite(value)||value<0)pstcFail("TRANSFER_CLOCK_UNAVAILABLE","A monotonic browser clock is required for the shared Transfer Challenge.");return value;}
+  function pstcMonotonicNow(){const value=Number(root.performance&&typeof root.performance.now==="function"?root.performance.now():Number.NaN);if(!Number.isFinite(value)||value<0)pstcFail("TRANSFER_CLOCK_UNAVAILABLE","A steady clock is not available here, and the Transfer War needs one.");return value;}
   function pstcClockReady(request){return Boolean(request&&clockContextKey===request.key&&Number.isFinite(clockServerEpochMs)&&clockServerEpochMs>0&&Number.isFinite(clockPerformanceMs));}
-  function pstcAuthoritativeNow(request=pstcRequestContext()){if(!pstcClockReady(request))pstcFail("TRANSFER_CLOCK_UNAVAILABLE","Server time has not been established for this shared Transfer Challenge.");return Math.floor(clockServerEpochMs+Math.max(0,pstcMonotonicNow()-clockPerformanceMs));}
+  function pstcAuthoritativeNow(request=pstcRequestContext()){if(!pstcClockReady(request))pstcFail("TRANSFER_CLOCK_UNAVAILABLE","The Transfer War has no server time yet. Try again in a moment.");return Math.floor(clockServerEpochMs+Math.max(0,pstcMonotonicNow()-clockPerformanceMs));}
   async function pstcEnsureServerClock(user,request){
     if(!request||!pstcRequestMatches(request))return false;
     const monotonicNow=pstcMonotonicNow();
     if(pstcClockReady(request)&&Number.isFinite(clockRefreshPerformanceMs)&&monotonicNow-clockRefreshPerformanceMs<CLOCK_REFRESH_MS)return true;
-    if(!user||typeof user.getIdTokenResult!=="function")pstcFail("TRANSFER_CLOCK_UNAVAILABLE","Connected account server time is unavailable.");
+    if(!user||typeof user.getIdTokenResult!=="function")pstcFail("TRANSFER_CLOCK_UNAVAILABLE","Server time is not available right now.");
     const requestPerformanceMs=pstcMonotonicNow();
     const token=await user.getIdTokenResult(true);
     if(!pstcRequestMatches(request))return false;
     const issuedAtEpochMs=Date.parse(String(token?.issuedAtTime||""));
-    if(!Number.isFinite(issuedAtEpochMs)||issuedAtEpochMs<=0)pstcFail("TRANSFER_CLOCK_UNAVAILABLE","The connected account did not provide a valid server time anchor.");
+    if(!Number.isFinite(issuedAtEpochMs)||issuedAtEpochMs<=0)pstcFail("TRANSFER_CLOCK_UNAVAILABLE","The server sent a time the game cannot use.");
     const receiptPerformanceMs=pstcMonotonicNow();
     clockContextKey=request.key;
     clockServerEpochMs=issuedAtEpochMs+(issuedAtEpochMs%1000===0?500:0);
@@ -162,7 +163,7 @@
     if(!career||!career.state||career.state.phase!=="CAREER_START_READY"||career.state.revision!==2)pstcFail("TRANSFER_CAREER_START_NOT_READY","Both managers must finish Career Start before the Transfer War.");
     const runtime=root.CareerModeProductionFirebaseRuntime,services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
     if(expiryOnly&&pstcExpiryPaused())return null;
-    if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE","Connected account services are unavailable.");
+    if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pstcFail("TRANSFER_PROVIDER_UNAVAILABLE","The online service is unavailable.");
     if(!await pstcEnsureServerClock(services.auth.currentUser,request))pstcFail("TRANSFER_CONTEXT_STALE");
     if(!pstcRequestMatches(request))pstcFail("TRANSFER_CONTEXT_STALE");
     return {state,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:state.rivalryId,sessionId:state.sessionId,deviceId:state.deviceId,seasonNumber:request.seasonNumber,cryptoImpl:root.crypto,nowEpochMs:pstcAuthoritativeNow(request)}};
@@ -172,7 +173,7 @@
   async function pstcRefreshNow(request=pstcRequestContext(),light=false,expiryOnly=false){
     if(!request)return null;
     const ctx=await pstcProviderOptions(request,light,expiryOnly);if(!ctx||!pstcRequestMatches(request,ctx)||(expiryOnly&&pstcExpiryPaused()))return null;
-    const result=pstcResultError(await provider.read(ctx.options),"The Transfer War could not be loaded.");if(!pstcRequestMatches(request,ctx))return null;
+    const result=pstcResultError(await provider.read(ctx.options),"The Transfer War could not load.");if(!pstcRequestMatches(request,ctx))return null;
     if(!pstcBindView(result,ctx,request))return null;if(pstcTransferScreenVisible())pstcPrepareReplay();pstcSetError("");pstcRender();pstcDecorateDashboard();return view;
   }
   // Routine polls and concurrent-expiry reconciliation must not replenish the automatic retry budget. A poll that lands while
@@ -208,8 +209,8 @@
   // BUG-3: the provider rejects a signing name over 80 characters with only a code, so the inputs are capped to the same limit and the known codes read as plain sentences.
   const SIGNING_NAME_MAX=80;
   // Red team R87-B-05: a dropped connection or an expired session reads as what to do next, never as a raw code.
-  const PSTC_CONNECTION_TEXT="Could not confirm this step. Check the connection, tap REFRESH CHALLENGE to see if it saved, then try again if it did not.";
-  const PSTC_SESSION_TEXT="Your Showdown session has lapsed. Go back to Showdown Home and open the Showdown again; nothing saved is lost.";
+  const PSTC_CONNECTION_TEXT="That step did not confirm. Check the connection, tap REFRESH to see if it saved, then try again if it did not.";
+  const PSTC_SESSION_TEXT="Your Showdown session expired. Go back to Showdown Home and open the Showdown again. Nothing saved is lost.";
   const PLAIN_PROVIDER_CODES=Object.freeze({TRANSFER_ROULETTE_PENDING:"Both managers spin the roulette before the Transfer War opens.",TRANSFER_SIGNINGS_INVALID:"Check each signing: a player name (80 characters at most), a previous league and a nationality.",TRANSFER_GUESSES_INVALID:"Check each guess: choose a FIFA 17 league or nationality."});
   function pstcCapSigningNames(){if(!root.document)return;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(input&&typeof input.setAttribute==="function")input.setAttribute("maxlength",String(SIGNING_NAME_MAX));}}
   function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.plain===true&&message)return message;if(error&&error.providerResult!==true&&message&&message!==code&&!/\b\w+(?:[-_/]\w+)+\b|[(){}]|undefined|null/.test(message))return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];if(/unavailable|deadline|offline|network|aborted/i.test(code))return PSTC_CONNECTION_TEXT;if(/permission/i.test(code))return PSTC_SESSION_TEXT;/* r87: never a raw code on screen */return fallback;}
@@ -244,7 +245,7 @@
           return true;
         }
       });
-    }catch(error){if(method==="advanceExpiredWindow")pstcExpiryPermissionRefused(error,request);if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The Transfer War did not update. Try again."));pstcReport("Unable to update Shared Transfer Challenge",error);}return false;}
+    }catch(error){if(method==="advanceExpiredWindow")pstcExpiryPermissionRefused(error,request);if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The Transfer War did not update. Try again."));pstcReport("Could not update the Transfer War",error);}return false;}
     finally{busy=false;if(pstcRequestMatches(request))pstcRender();}
   }
   // ---- F2-08: a lock that is saved while its verdicts are still loading ----
@@ -282,7 +283,7 @@
     const signing=pstcRolePrefix(role),guess=pstcGuessPrefix(role);
     for(let i=1;i<=3;i+=1){
       const name=pstcField(`${signing}Signing${i}Name`),overall=pstcField(`${signing}Signing${i}Overall`),position=pstcField(`${signing}Signing${i}Position`),league=pstcField(`${signing}Signing${i}League`),nationality=pstcField(`${signing}Signing${i}Nationality`),type=pstcField(`${guess}Guess${i}Type`),value=pstcField(`${guess}Guess${i}Value`);
-      if(name)name.value="";if(overall)overall.value="";if(position)position.value="";pstcSetSelector(league,"league","");pstcSetSelector(nationality,"nationality","");if(type)type.value="";if(value){value.value="";delete value.dataset.canonicalId;delete value.dataset.canonicalLabel;value.disabled=true;}
+      if(name){name.value="";delete name.dataset.playerId;}if(overall)overall.value="";if(position)position.value="";pstcSetSelector(league,"league","");pstcSetSelector(nationality,"nationality","");if(type)type.value="";if(value){value.value="";delete value.dataset.canonicalId;delete value.dataset.canonicalLabel;value.disabled=true;}
     }
   }
   function pstcResetForContext(key,role){const guessRef=pstcGuessDraftRef(role);if(guessDraftRef&&guessRef&&!pstcSameGuessDraftRef(guessDraftRef,guessRef))pstcRemoveGuessDraft(guessDraftRef);if(guessRef)guessDraftRef=guessRef;const draftKey=pstcSigningDraftKey(role);if(signingDraftKey&&draftKey&&signingDraftKey!==draftKey)pstcRemoveSigningDraft(signingDraftKey);if(draftKey)signingDraftKey=draftKey;if(openedKey===key)return;openedKey=key;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`);if(name&&typeof name.setAttribute==="function")name.setAttribute("maxlength","80");}pstcResetExpiryAttempts();pstcClearRole("playerOne");pstcClearRole("playerTwo");pstcSetError("");}
@@ -355,17 +356,57 @@
     run.catch(()=>{if(blockedMemo&&blockedMemo.run===run)blockedMemo=null;});
     return run;
   }
+  // r91 (2.4.0) Transfer War name autocomplete (js/playerSearch.js + the "player" kind of js/transferSelector.js).
+  // - The list file is fetched at idle once the Transfer War screen shows, never on Home, and no screen waits on it.
+  // - A pick fills POS (his first FIFA position) and nationality in every season, and OVR and previous league in season 1
+  //   only: ratings and clubs move in every save from season 2 (Nik 2026-11-11 00:07 UTC). Every field stays editable.
+  // - The list marks a player LOCK would refuse (guessed before, shot, own Special Player) with LOCK's own words. It asks
+  //   only what this page already holds: the blocked map once LOCK's check has run here (warmed on the first name-box focus,
+  //   the same reads LOCK would make, memoised so LOCK then reads nothing). LOCK stays the authority either way.
+  // - The SoFIFA id stays on the box and in this phone's draft. It is not written to Firestore until the r91 Rules deploy
+  //   allows the optional playerId key (thread 1, rules-change-playbook).
+  let playerListAsked=false,blockedSeen=null;
+  function pstcWarmPlayerList(){
+    if(playerListAsked||!pstcTransferScreenVisible()||typeof root.ensureTransferPlayerList!=="function")return;playerListAsked=true;root.ensureTransferPlayerList(null);
+  }
+  function pstcEnhancePlayerNames(role,enabled){
+    if(typeof root.enhanceTransferSelector!=="function")return;const prefix=pstcRolePrefix(role);
+    for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(!input)continue;if(enabled)root.enhanceTransferSelector(input,"player");}
+  }
+  function pstcPlayerSlot(input){const match=/^(p1|p2)Signing([1-3])Name$/.exec(input?.id||"");return match?{prefix:match[1],slot:Number(match[2]),role:match[1]==="p1"?"playerOne":"playerTwo"}:null;}
+  function pstcBlockedText(role,name){
+    const key=pstcNameKey(name);const out=key&&blockedSeen&&blockedSeen.key===`${pstcRequestContext()?.key}|${role}`?blockedSeen.map.get(key):null;
+    if(out)return out.reason==="shot"?`${name} was shot in the roulette. He can't come back.`:`${name} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You can't sign him again.`;
+    if(pstcIsOwnSpecial(role,name))return `${name} is your Special Player. He is a free extra signing, so don't enter him here.`;
+    return "";
+  }
+  root.CareerModeTransferPlayerBlocked=(input,name)=>{const where=pstcPlayerSlot(input);return where&&where.role===view?.managerRole?pstcBlockedText(where.role,name):"";};
+  function pstcPlayerFocus(event){
+    const where=pstcPlayerSlot(event?.target);if(!where||where.role!==view?.managerRole||view?.state?.phase!=="SIGNING_ENTRY"||pstcReplayPhase())return;
+    const request=pstcRequestContext(),role=where.role,key=request?`${request.key}|${role}`:"";if(!key||(blockedSeen&&blockedSeen.key===key))return;
+    pstcBlockedNow(request,role).then(map=>{if(map instanceof Map)blockedSeen={key,map};},()=>{});
+  }
+  function pstcPlayerPick(event){
+    const where=pstcPlayerSlot(event?.target),player=event?.detail?.player;if(!where||!player||where.role!==view?.managerRole)return;
+    const base=`${where.prefix}Signing${where.slot}`,pos=pstcField(`${base}Position`),ovr=pstcField(`${base}Overall`),league=pstcField(`${base}League`),nationality=pstcField(`${base}Nationality`);
+    const season=Number(view?.seasonNumber||pstcRequestContext()?.seasonNumber||0);
+    if(pos&&SIGNING_POSITIONS.includes(player.position))pos.value=player.position;
+    const nationalityId=player.nationalityId||(typeof root.resolveFifa17TransferOption==="function"?root.resolveFifa17TransferOption("nationality",player.nationality)?.id:"")||"";
+    if(nationality&&nationalityId)pstcSetSelector(nationality,"nationality",nationalityId);
+    if(season===1){if(ovr&&Number.isInteger(player.overall))ovr.value=String(player.overall);if(league&&player.leagueId)pstcSetSelector(league,"league",player.leagueId);}
+    // No save here: the selector sends "change" on the name box right after this event, and the draft save reads every field.
+  }
   // A refusal the manager can act on: shown word for word (a hyphenated name never turns it into the generic error).
   function pstcRefuse(code,message){const error=new Error(message);error.code=code;error.plain=true;throw error;}
   function pstcBuildSignings(role,blocked=null){
     const prefix=pstcRolePrefix(role),rows=[];
-    for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`),league=pstcField(`${prefix}Signing${i}League`),nationality=pstcField(`${prefix}Signing${i}Nationality`),player=String(name?.value||"").trim(),ovrText=String(ovr?.value||"").trim(),posText=String(pos?.value||"").trim(),leagueId=pstcCanonical(league),nationalityId=pstcCanonical(nationality),hasAny=Boolean(player||ovrText||posText||String(league?.value||"").trim()||String(nationality?.value||"").trim());if(!hasAny)continue;const out=player&&blocked&&blocked.get(pstcNameKey(player));if(out)pstcRefuse(out.reason==="shot"?"TRANSFER_SIGNING_SHOT":"TRANSFER_SIGNING_GUESSED_BEFORE",out.reason==="shot"?`${player} was shot in the roulette. He can't come back.`:`${player} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You can't sign him again.`);if(!player||!leagueId||!nationalityId||(ovr&&!/^[3-9][0-9]$/.test(ovrText))||(pos&&!SIGNING_POSITIONS.includes(posText)))pstcFail("TRANSFER_SIGNINGS_INVALID",`Complete signing ${i} with player name, position, overall (30-99), previous league and nationality.`);if(pstcIsOwnSpecial(role,player))pstcFail("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing ${i} is your Special Player. He is a free extra signing that a guess can never release, so don't enter him here.`);const row={slot:i,name:player,leagueId,nationalityId};if(ovr)row.overall=Number(ovrText);if(pos)row.position=posText;rows.push(row);}
+    for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`),league=pstcField(`${prefix}Signing${i}League`),nationality=pstcField(`${prefix}Signing${i}Nationality`),player=String(name?.value||"").trim(),ovrText=String(ovr?.value||"").trim(),posText=String(pos?.value||"").trim(),leagueId=pstcCanonical(league),nationalityId=pstcCanonical(nationality),hasAny=Boolean(player||ovrText||posText||String(league?.value||"").trim()||String(nationality?.value||"").trim());if(!hasAny)continue;const out=player&&blocked&&blocked.get(pstcNameKey(player));if(out)pstcRefuse(out.reason==="shot"?"TRANSFER_SIGNING_SHOT":"TRANSFER_SIGNING_GUESSED_BEFORE",out.reason==="shot"?`${player} was shot in the roulette. He can't come back.`:`${player} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You can't sign him again.`);if(!player||!leagueId||!nationalityId||(ovr&&!/^[3-9][0-9]$/.test(ovrText))||(pos&&!SIGNING_POSITIONS.includes(posText)))pstcFail("TRANSFER_SIGNINGS_INVALID",`Complete signing ${i} with player name, position, overall (30-99), previous league and nationality.`);if(pstcIsOwnSpecial(role,player))pstcFail("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing ${i} is your Special Player, a free extra signing that no guess can release. Do not enter him here.`);const row={slot:i,name:player,leagueId,nationalityId};if(ovr)row.overall=Number(ovrText);if(pos)row.position=posText;rows.push(row);}
     return rows;
   }
   function pstcSyncGuessValue(type,value,editable){
     if(!value)return;const kind=String(type?.value||""),valid=kind==="league"||kind==="nationality";
     if(valid){if(typeof root.updateTransferSelectorKind==="function")root.updateTransferSelectorKind(value,kind);value.placeholder=kind==="league"?"Search FIFA 17 league":"Search nationality";pstcDisable(value,!editable);return;}
-    value.value="";delete value.dataset.canonicalId;delete value.dataset.canonicalLabel;value.placeholder="Choose League or Nationality first";pstcDisable(value,true);
+    value.value="";delete value.dataset.canonicalId;delete value.dataset.canonicalLabel;value.placeholder="Pick League or Nationality first";pstcDisable(value,true);
   }
   function pstcSyncOwnGuessControls(role,editable){
     const prefix=pstcGuessPrefix(role);for(let i=1;i<=3;i+=1)pstcSyncGuessValue(pstcField(`${prefix}Guess${i}Type`),pstcField(`${prefix}Guess${i}Value`),editable);
@@ -376,7 +417,7 @@
     pstcSyncGuessValue(target,pstcField(`${prefix}Guess${match[1]}Value`),!busy&&!view?.state?.guessLockedRoles?.includes(role));
   }
   function pstcPopulateGuesses(role,guesses){const prefix=pstcGuessPrefix(role);for(let i=1;i<=3;i+=1){const row=(guesses||[]).find(item=>item.slot===i),type=pstcField(`${prefix}Guess${i}Type`),value=pstcField(`${prefix}Guess${i}Value`);if(type)type.value=row?.type||"";if(value&&row){if(typeof root.updateTransferSelectorKind==="function")root.updateTransferSelectorKind(value,row.type);pstcSetSelector(value,row.type,row.valueId);}else if(value){value.value="";delete value.dataset.canonicalId;delete value.dataset.canonicalLabel;}}}
-  function pstcPopulateSignings(role,signings){const prefix=pstcRolePrefix(role);for(let i=1;i<=3;i+=1){const row=(signings||[]).find(item=>item.slot===i),name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`);if(name)name.value=row?.name||"";if(ovr)ovr.value=Number.isInteger(row?.overall)?String(row.overall):"";if(pos)pos.value=SIGNING_POSITIONS.includes(row?.position)?row.position:"";pstcSetSelector(pstcField(`${prefix}Signing${i}League`),"league",row?.leagueId||"");pstcSetSelector(pstcField(`${prefix}Signing${i}Nationality`),"nationality",row?.nationalityId||"");}}
+  function pstcPopulateSignings(role,signings){const prefix=pstcRolePrefix(role);for(let i=1;i<=3;i+=1){const row=(signings||[]).find(item=>item.slot===i),name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`);if(name){name.value=row?.name||"";delete name.dataset.playerId;}if(ovr)ovr.value=Number.isInteger(row?.overall)?String(row.overall):"";if(pos)pos.value=SIGNING_POSITIONS.includes(row?.position)?row.position:"";pstcSetSelector(pstcField(`${prefix}Signing${i}League`),"league",row?.leagueId||"");pstcSetSelector(pstcField(`${prefix}Signing${i}Nationality`),"nationality",row?.nationalityId||"");}}
   function pstcPopulateRole(role,inputs){if(!inputs)return;if(inputs.guesses)pstcPopulateGuesses(role,inputs.guesses);if(inputs.signings)pstcPopulateSignings(role,inputs.signings);}
   let signingDraftKey="";
   function pstcSigningDraftKey(role){const request=pstcRequestContext();return request&&role?(`cms.signingDraft.v1:${request.rivalryId}:${request.seasonNumber}:${role}`):"";}
@@ -386,7 +427,7 @@
     const request=pstcRequestContext(),state=view?.state;
     if(!request||!state||state.phase!=="SIGNING_ENTRY"||state.signingLockedRoles?.includes(role)||view.managerRole!==role||pstcReplayPhase())return false;
     const prefix=pstcRolePrefix(role),rows=[];
-    for(let slot=1;slot<=3;slot+=1){const name=pstcField(`${prefix}Signing${slot}Name`),ovr=pstcField(`${prefix}Signing${slot}Overall`),pos=pstcField(`${prefix}Signing${slot}Position`),league=pstcField(`${prefix}Signing${slot}League`),nationality=pstcField(`${prefix}Signing${slot}Nationality`);rows.push({slot,name:String(name?.value||""),overall:String(ovr?.value||""),position:String(pos?.value||""),leagueId:pstcCanonical(league),league:String(league?.value||""),nationalityId:pstcCanonical(nationality),nationality:String(nationality?.value||"")});}
+    for(let slot=1;slot<=3;slot+=1){const name=pstcField(`${prefix}Signing${slot}Name`),ovr=pstcField(`${prefix}Signing${slot}Overall`),pos=pstcField(`${prefix}Signing${slot}Position`),league=pstcField(`${prefix}Signing${slot}League`),nationality=pstcField(`${prefix}Signing${slot}Nationality`);rows.push({slot,name:String(name?.value||""),...(/^[1-9][0-9]{0,5}$/.test(name?.dataset?.playerId||"")?{playerId:Number(name.dataset.playerId)}:{}),overall:String(ovr?.value||""),position:String(pos?.value||""),leagueId:pstcCanonical(league),league:String(league?.value||""),nationalityId:pstcCanonical(nationality),nationality:String(nationality?.value||"")});}
     const key=pstcSigningDraftKey(role);if(!key||typeof root.writeStorageValue!=="function")return false;if(!root.writeStorageValue(key,JSON.stringify({version:1,rivalryId:request.rivalryId,seasonNumber:request.seasonNumber,role,rows})))return false;signingDraftKey=key;return true;
   }
   function pstcRestoreSigningDraft(role,own,force=false){
@@ -397,7 +438,7 @@
     let draft;try{draft=JSON.parse((typeof root.readStorageValue==="function"?root.readStorageValue(key):null)||"null");}catch(_error){return false;}
     if(!draft||draft.version!==1||draft.rivalryId!==request.rivalryId||Number(draft.seasonNumber)!==request.seasonNumber||draft.role!==role||!Array.isArray(draft.rows))return false;
     const prefix=pstcRolePrefix(role);
-    for(let slot=1;slot<=3;slot+=1){if(shared.some(row=>Number(row.slot)===slot))continue;const row=draft.rows.find(item=>Number(item.slot)===slot);if(!row)continue;const name=pstcField(`${prefix}Signing${slot}Name`),ovr=pstcField(`${prefix}Signing${slot}Overall`),pos=pstcField(`${prefix}Signing${slot}Position`),league=pstcField(`${prefix}Signing${slot}League`),nationality=pstcField(`${prefix}Signing${slot}Nationality`);const fill=node=>node&&(force||!String(node.value||""));if(fill(name))name.value=String(row.name||"");if(fill(ovr))ovr.value=String(row.overall||"").replace(/\D/g,"").slice(0,2);if(fill(pos)&&(force||SIGNING_POSITIONS.includes(row.position)))pos.value=SIGNING_POSITIONS.includes(row.position)?row.position:"";if(fill(league)){if(row.leagueId)pstcSetSelector(league,"league",row.leagueId);else{league.value=String(row.league||"");delete league.dataset.canonicalId;delete league.dataset.canonicalLabel;}}if(fill(nationality)){if(row.nationalityId)pstcSetSelector(nationality,"nationality",row.nationalityId);else{nationality.value=String(row.nationality||"");delete nationality.dataset.canonicalId;delete nationality.dataset.canonicalLabel;}}}
+    for(let slot=1;slot<=3;slot+=1){if(shared.some(row=>Number(row.slot)===slot))continue;const row=draft.rows.find(item=>Number(item.slot)===slot);if(!row)continue;const name=pstcField(`${prefix}Signing${slot}Name`),ovr=pstcField(`${prefix}Signing${slot}Overall`),pos=pstcField(`${prefix}Signing${slot}Position`),league=pstcField(`${prefix}Signing${slot}League`),nationality=pstcField(`${prefix}Signing${slot}Nationality`);const fill=node=>node&&(force||!String(node.value||""));if(fill(name)){name.value=String(row.name||"");if(Number.isInteger(row.playerId)&&row.playerId>0)name.dataset.playerId=String(row.playerId);else delete name.dataset.playerId;}if(fill(ovr))ovr.value=String(row.overall||"").replace(/\D/g,"").slice(0,2);if(fill(pos)&&(force||SIGNING_POSITIONS.includes(row.position)))pos.value=SIGNING_POSITIONS.includes(row.position)?row.position:"";if(fill(league)){if(row.leagueId)pstcSetSelector(league,"league",row.leagueId);else{league.value=String(row.league||"");delete league.dataset.canonicalId;delete league.dataset.canonicalLabel;}}if(fill(nationality)){if(row.nationalityId)pstcSetSelector(nationality,"nationality",row.nationalityId);else{nationality.value=String(row.nationality||"");delete nationality.dataset.canonicalId;delete nationality.dataset.canonicalLabel;}}}
     signingDraftKey=key;return true;
   }
   // QoL 6: half-typed guesses against the rival survive a reload. Own manager only, this device only, through the js/storage.js draft helpers; removed on lock.
@@ -466,9 +507,24 @@
   // shows the new state) instead of on the next 3 s check, so the partner's move is seen as soon as it lands.
   let pstcWatchedKey=null;
   function pstcWatchSync(){let key="";try{key=pstcWaitingKey()+"|"+(root.document?.visibilityState||"");}catch(_error){key="";}if(key===pstcWatchedKey)return;pstcWatchedKey=key;try{pstcWatchWait();}catch(_error){}}
+  // r91: every render disables both cards' fields and enables this manager's own again, and disabling a focused box blurs it.
+  // A render comes on every poll and every rival move, so the box being typed in gets its focus, caret and list back when it
+  // is still enabled after the render (a lock or phase change leaves it disabled, and then it stays blurred).
   function pstcRender(){
+    const doc=root.document,node=doc&&doc.activeElement,screen=pstcField("transferChallenge");
+    const keep=node&&screen&&screen.contains(node)&&/^(INPUT|SELECT|TEXTAREA)$/.test(node.tagName)?node:null;
+    let sel=null,listOpen=false;if(keep){try{if(typeof keep.selectionStart==="number")sel=[keep.selectionStart,keep.selectionEnd,keep.selectionDirection||"none"];}catch(_error){sel=null;}listOpen=keep.getAttribute("aria-expanded")==="true";}
+    try{return pstcRenderNow();}
+    finally{
+      if(keep&&keep.isConnected&&!keep.disabled&&doc.activeElement!==keep){
+        try{keep.focus({preventScroll:true});if(sel)keep.setSelectionRange(sel[0],sel[1],sel[2]);}catch(_error){}
+        if(!listOpen&&keep.getAttribute("aria-expanded")==="true"&&typeof root.closeAllTransferSelectors==="function")root.closeAllTransferSelectors();
+      }
+    }
+  }
+  function pstcRenderNow(){
     if(!root.document||!pstcSharedMarker())return false;
-    pstcCapSigningNames();pstcWatchSync();
+    pstcCapSigningNames();pstcWatchSync();pstcWarmPlayerList();
     const state=view?.state||null,role=view?.managerRole||pstcSetupState()?.managerRole||null;
     if(!role)return false;
     const key=viewContextKey||pstcBoundContextKey(view?.rivalryId||pstcSetupState()?.rivalryId||"",view?.seasonNumber||pstcSeason());pstcResetForContext(key,role);
@@ -499,9 +555,9 @@
       if(isReplay){pstcText("transferPhaseStatus","REPLAY · TRANSFER WINDOW");pstcText("transferTimerDisplay","REPLAY");}
       else{const requested=state.endRequestedRoles?.includes(role);pstcText("transferPhaseStatus",requested?"TRANSFER WINDOW LIVE · YOU ASKED TO END EARLY":"TRANSFER WINDOW LIVE · BUILD YOUR FIFA 17 SQUAD");pstcHidden(end,false);end.textContent=requested?"EARLY END REQUESTED ✓":"REQUEST EARLY END";pstcDisable(end,busy||requested);pstcRenderTimer();}
     }else if(phase==="GUESS_ENTRY"){
-      const locked=state.guessLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"REPLAY · GUESSES":locked?"GUESSES LOCKED · WAITING FOR YOUR RIVAL":"GUESSES · HIDDEN FROM YOUR RIVAL UNTIL YOU BOTH LOCK");pstcHidden(guessGrid,false);pstcHidden(privacy,false);if(privacy)privacy.textContent=isReplay?"Replay: read-only. Nothing new about your rival is shown.":"Enter your guesses. Your rival can't see them until you both finish.";if(!isReplay&&!locked){const card=pstcOwnGuessCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcSyncOwnGuessControls(role,true);pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY GUESSES";pstcDisable(complete,busy);}
+      const locked=state.guessLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"REPLAY · GUESSES":locked?"GUESSES LOCKED · WAITING FOR YOUR RIVAL":"GUESSES · HIDDEN FROM YOUR RIVAL UNTIL YOU BOTH LOCK");pstcHidden(guessGrid,false);pstcHidden(privacy,false);if(privacy)privacy.textContent=isReplay?"Replay: read-only. Nothing new about your rival is shown.":"Enter your guesses. Your rival cannot see them until you both lock.";if(!isReplay&&!locked){const card=pstcOwnGuessCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcSyncOwnGuessControls(role,true);pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY GUESSES";pstcDisable(complete,busy);}
     }else if(phase==="SIGNING_ENTRY"){
-      const locked=state.signingLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"REPLAY · SIGNINGS":locked?"SIGNINGS LOCKED · WAITING FOR YOUR RIVAL":"SIGNINGS · ENTER YOUR FIFA 17 TRANSFERS");pstcHidden(signingGrid,false);pstcHidden(summary,false);if(summary)summary.textContent=isReplay?"Replay: your signings are read-only. Nothing here changes the game or your save.":"Both sets of guesses are locked. Enter your own signings; your rival still can't see them.";if(!isReplay&&!locked){const card=pstcOwnSigningCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY SIGNINGS";pstcDisable(complete,busy);}
+      const locked=state.signingLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"REPLAY · SIGNINGS":locked?"SIGNINGS LOCKED · WAITING FOR YOUR RIVAL":"SIGNINGS · ENTER YOUR FIFA 17 TRANSFERS");pstcHidden(signingGrid,false);pstcHidden(summary,false);if(summary)summary.textContent=isReplay?"Replay: your signings are read-only. Nothing here changes the game or your save.":"Both sets of guesses are locked. Enter your own signings; your rival still can't see them.";if(!isReplay&&!locked){pstcEnhancePlayerNames(role,true);const card=pstcOwnSigningCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY SIGNINGS";pstcDisable(complete,busy);}
     }else if(phase==="COMPLETED"){
       // F2-08: COMPLETED without its verdicts yet (the follow-up read after the lock failed): saved, loading, never "No signings".
       const loadingVerdicts=!view?.verdicts;
@@ -511,21 +567,18 @@
     pstcMarkWitness(key,phase);
     const refresh=pstcEnsureRefreshButton();pstcDisable(refresh,busy||isReplay);return true;
   }
-  function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer War did not refresh. Try again."));pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
+  function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer War did not refresh. Try again."));pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
   function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const currentKey=pstcCurrentContextKey();if(viewContextKey&&currentKey&&viewContextKey!==currentKey)return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=Boolean(openPromise);if(openPromise){button.setAttribute("aria-busy","true");button.textContent="OPENING TRANSFER WAR…";return true;}if(button.hasAttribute("aria-busy"))button.removeAttribute("aria-busy");const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} TRANSFER WAR`;status.textContent="Transfer War: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN TRANSFER WAR";status.textContent="Transfer War: window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="ENTER GUESSES";status.textContent="Transfer War: guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="ENTER SIGNINGS";status.textContent="Transfer War: signings";}else{button.textContent="VIEW TRANSFER VERDICTS";status.textContent="Transfer War: complete";}if(rouletteError)status.textContent=rouletteError;else if(primePackLoadError)status.textContent=PSTC_PRIME_PACK_TEXT;return true;}
   // r88 Chamber Men (Nik 2026-11-02): before this season's roulette, both managers play a 7-round shootout; each goal loads one
-  // live round in the rival's cylinder (js/chamberMen.js). Only Showdowns the step applies to load it (confirmed from the r88
-  // release on, kill switch on). false keeps the window shut: he went back to Showdown Home, or the step or its result could
+  // live round in the rival's cylinder (js/chamberMen.js). false keeps the window shut: he went back to Showdown Home, or the step or its result could
   // not load (the dashboard says so; tapping again comes back). On true, chamberGate holds this season's two cylinders.
   async function pstcChamberMenFirst(request){
     chamberGate=null;rouletteError="";
     try{
       if(!view||!view.managerRole||!request)return true;
-      if(root.CMS_CHAMBER_MEN==="off")return true;
       let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
       if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
       if(!Number.isFinite(confirmedAtMs)){rouletteError=PSTC_ROULETTE_TEXT.setup;return false;}
-      if(confirmedAtMs<CHAMBER_FROM_MS)return true;
       let timer;const step=await Promise.race([pstcLoadScript("chamber-men-step","js/chamberMenStep.js",()=>root.CareerModeChamberMenStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step||!await step.ensure()){rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
       const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,confirmedAtMs,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")}};
@@ -546,6 +599,114 @@
       chamberGate={key:request.key,season:request.seasonNumber,chambers:cylinders.chambers,score:cylinders.score,earlier:k=>step.cylinders({...ctx,season:k},io)};
       return true;
     }catch(_error){rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
+  }
+  // r91 Squad Management (Nik 2026-11-11): after Chamber Men and before the roulette, each manager sets and locks his squad
+  // for the season; his XI and subs 1-4 are his roulette board. The roulette waits until both are locked. false keeps the
+  // window shut: he went back to Showdown Home, or the step or a squad could not load (the dashboard says so; tapping again
+  // comes back, and a locked squad is never asked again). The same screen runs after the Transfer War (pstcSquadAfterTransfers).
+  function pstcSquadContext(request,stage,special){
+    const seasons=Number(pstcShowdown()?.totalRounds);
+    return {rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,stage,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")},special,seasons:Number.isInteger(seasons)?seasons:null,
+      verdicts:season=>pstcRouletteVerdicts(request,season)};
+  }
+  // The roulette step (the Special Player draw lives there) and the squad step, loaded; null when either cannot load.
+  async function pstcSquadSteps(){
+    let timer;const loaded=await Promise.race([Promise.all([
+      pstcLoadScript("squad-sheet-step","js/squadSheetStep.js",()=>root.CareerModeSquadSheetStep),
+      pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep)
+    ]).then(()=>true,()=>false),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(false),10000);})]).finally(()=>root.clearTimeout(timer));
+    const step=root.CareerModeSquadSheetStep,rr=root.CareerModeRosterRouletteStep;
+    if(!loaded||!step||!rr)return null;
+    return {step,rr};
+  }
+  // The season's Special Player (never on a squad), drawn once the screen applies; undefined when the draw cannot load.
+  async function pstcSquadSpecial(steps,request,confirmedAtMs,clubs){
+    if(typeof steps.rr.ensureDraw==="function"&&!await steps.rr.ensureDraw())return undefined;
+    return typeof steps.rr.special==="function"?steps.rr.special({rivalryId:request.rivalryId,confirmedAtMs,clubs}):null;
+  }
+  async function pstcSquadFirst(request){
+    squadGate=null;rouletteError="";
+    try{
+      if(!view||!view.managerRole||!request)return true;
+      // The Transfer War started: both squads were locked and the roulette spun on them (nothing finished is shown again).
+      if(view.state)return true;
+      let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
+      if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
+      if(!Number.isFinite(confirmedAtMs)){rouletteError=PSTC_ROULETTE_TEXT.setup;return false;}
+      const steps=await pstcSquadSteps();
+      if(!steps){rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
+      const clubs={playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")};
+      const ctx=pstcSquadContext(request,"pre",null);
+      if(!steps.step.applies(ctx))return true;
+      ctx.special=await pstcSquadSpecial(steps,request,confirmedAtMs,clubs);
+      if(ctx.special===undefined){rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
+      const provided=await pstcProviderOptions(request,true);
+      if(!provided){rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
+      if(!pstcRequestMatches(request))return false;
+      const options=provided.options,io={firestore:options.firestore,sdk:options.firebaseSdk,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId};
+      ctx.replayHits=k=>pstcSquadReplayHits(request,ctx,io,steps,confirmedAtMs,k);
+      const go=await steps.step.run(ctx,io);
+      if(go!==true){if(!steps.step.wentHome?.())rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
+      const boards=await steps.step.boards(ctx,io);
+      if(!boards||boards.ok!==true){rouletteError=PSTC_ROULETTE_TEXT.squadBoards;return false;}
+      squadGate={key:request.key,season:request.seasonNumber,sheets:boards.sheets};
+      // the Touchline Gazette's squad news: last season's two "pre" sheets kept too (no read when this phone has them)
+      Promise.resolve(steps.step.gazetteWarm?.(ctx,io)).catch(()=>null);
+      return true;
+    }catch(_error){rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
+  }
+  // After the Transfer War (verdicts revealed) and before Season Results: this manager's squad with his kept signings in and
+  // the roulette's shot gone. He does not wait for the rival here. true = Season Results may open; false = he went back to
+  // Showdown Home, or the screen could not load (he taps again; nothing is lost). Not in the Showdown's last season.
+  // P3 (review of #1358): a screen that cannot load says why, on the Transfer War screen and on the dashboard; never a silent tap.
+  let squadError="";
+  function pstcSquadFail(steps){
+    if(steps?.step?.wentHome?.())return false;
+    squadError=PSTC_ROULETTE_TEXT.squadLoad;pstcSetError(squadError);try{pstcDecorateDashboard();}catch(_error){}
+    return false;
+  }
+  async function pstcSquadAfterTransfers(){
+    squadError="";
+    let steps=null;
+    try{
+      const request=pstcRequestContext();
+      if(!view||!view.managerRole||!request||view.state?.phase!=="COMPLETED"||viewContextKey!==request.key)return true;
+      const confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
+      if(!Number.isFinite(confirmedAtMs))return pstcSquadFail(null);
+      steps=await pstcSquadSteps();if(!steps)return pstcSquadFail(null);
+      const clubs={playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")};
+      const ctx=pstcSquadContext(request,"post",null);
+      if(!steps.step.applies(ctx)||steps.step.isDone(ctx))return true;
+      ctx.special=await pstcSquadSpecial(steps,request,confirmedAtMs,clubs);
+      if(ctx.special===undefined)return pstcSquadFail(steps);
+      const provided=await pstcProviderOptions(request,true);
+      if(!provided)return pstcSquadFail(steps);
+      if(!pstcRequestMatches(request))return false;
+      const options=provided.options,io={firestore:options.firestore,sdk:options.firebaseSdk,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId};
+      ctx.replayHits=k=>pstcSquadReplayHits(request,ctx,io,steps,confirmedAtMs,k);
+      Promise.resolve(steps.step.gazetteWarm?.(ctx,io)).catch(()=>null);
+      const go=await steps.step.run(ctx,io);
+      return go===true?true:pstcSquadFail(steps);
+    }catch(_error){return pstcSquadFail(steps);}
+  }
+  // A season whose spin mark lost its outcome: both managers' shots replayed with the roulette engine from that season's two
+  // locked squads and its Chamber Men cylinders (as the roulette did before squads, Fable F17-01). {playerOne, playerTwo} or null.
+  async function pstcSquadReplayHits(request,ctx,io,steps,confirmedAtMs,k){
+    const loaded=await Promise.all([
+      pstcLoadScript("roster-roulette","js/rosterRoulette.js",()=>root.CareerModeRosterRoulette),
+      pstcLoadScript("chamber-men-step","js/chamberMenStep.js",()=>root.CareerModeChamberMenStep)
+    ]).then(()=>true,()=>false);
+    const engine=root.CareerModeRosterRoulette,chamber=root.CareerModeChamberMenStep;
+    if(!loaded||!engine||typeof engine.forSeason!=="function"||typeof engine.outcome!=="function"||!chamber||!await chamber.ensure())return null;
+    const cyl=await chamber.cylinders({rivalryId:ctx.rivalryId,managerRole:ctx.managerRole,season:k,confirmedAtMs,clubs:ctx.clubs},io);
+    const chambers=cyl&&cyl.ok===true&&cyl.chambers?cyl.chambers:cyl&&cyl.reason==="NOT_FINISHED"?Object.freeze({oneBullet:true}):null;
+    if(!chambers)return null;
+    const boards=await steps.step.boards({...ctx,season:k,stage:"pre"},io);
+    if(!boards||boards.ok!==true)return null;
+    const plan=engine.forSeason(ctx.rivalryId,ctx.clubs,k,{special:ctx.special,history:[null],hits:{},chamberMen:true,chambers:{[k]:chambers},sheets:boards.sheets});
+    if(!plan)return null;
+    const out={playerOne:engine.outcome(plan,"playerOne","replay"),playerTwo:engine.outcome(plan,"playerTwo","replay")};
+    return out.playerOne&&out.playerTwo?out:null;
   }
   // r50: the first open loads the Transfer runtime and reads authority; show it and share one attempt.
   // r87 Russian Roster Roulette (js/rosterRouletteStep.js): before this season's Transfer Challenge opens, this manager does
@@ -574,7 +735,9 @@
         primePackNext:()=>pstcPrimePackNext(request,confirmedAtMs),passed:Boolean(view.state)&&pstcPrimePackApplies(request,confirmedAtMs),
         // r88 Chamber Men: this season's cylinders (a Showdown that plays it never spins one bullet; earlier seasons replay
         // their saved spin marks).
-        chamberMen:chamberGate&&chamberGate.key===request.key?{active:true,chambers:{[chamberGate.season]:chamberGate.chambers},score:chamberGate.score,earlier:chamberGate.earlier}:null};
+        chamberMen:chamberGate&&chamberGate.key===request.key?{active:true,chambers:{[chamberGate.season]:chamberGate.chambers},score:chamberGate.score,earlier:chamberGate.earlier}:null,
+        // r91 Squad Management: the two locked squads are this season's boards.
+        squads:squadGate&&squadGate.key===request.key?squadGate.sheets:null};
       let timer;const step=await Promise.race([pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step){rouletteError=PSTC_ROULETTE_TEXT.load;return false;}
       // The Special Player draw for the signing form (R87-SP-02), also when the roulette is already done here (Fable F2-06).
@@ -591,10 +754,10 @@
   // (js/iconGuessStep.js). Only Showdowns confirmed on r87 or later play it (the same boundary as the roulette); for the
   // rest nothing is loaded. false keeps the window shut: he went back to Showdown Home, or the step could not load (the
   // dashboard then says so and tapping again retries). The round runs on the Transfer Challenge's server clock.
-  // The Prime Pack's own gate (pstcPrimePackFirst + js/iconGuess.js eligible), without loading it: r87 or later, seasons 1
-  // to 10, the kill switch on. Next: also not yet passed on this phone (its done key) and the Transfer War not started.
+  // The Prime Pack's own gate (pstcPrimePackFirst + js/iconGuess.js eligible), without loading it: seasons 1 to 10 with a
+  // readable confirm time. Next: also not yet passed on this phone (its done key) and the Transfer War not started.
   const PRIME_PACK_DONE_KEY="careerModeShowdown.primePackDone.v1";
-  function pstcPrimePackApplies(request,confirmedAtMs){return root.CMS_PRIME_PACK!=="off"&&Number.isFinite(confirmedAtMs)&&confirmedAtMs>=PRIME_PACK_FROM_MS&&Number.isInteger(request?.seasonNumber)&&request.seasonNumber>=1&&request.seasonNumber<=10;}
+  function pstcPrimePackApplies(request,confirmedAtMs){return Number.isFinite(confirmedAtMs)&&Number.isInteger(request?.seasonNumber)&&request.seasonNumber>=1&&request.seasonNumber<=10;}
   function pstcPrimePackNext(request,confirmedAtMs){
     if(!pstcPrimePackApplies(request,confirmedAtMs)||view?.state)return false;
     try{const list=JSON.parse(typeof root.readStorageValue==="function"&&root.readStorageValue(PRIME_PACK_DONE_KEY)||"[]");return !(Array.isArray(list)&&list.includes(`${request.rivalryId}|${request.seasonNumber}|${view?.managerRole}`));}catch(_error){return true;}
@@ -603,13 +766,10 @@
     primePackLoadError=false;
     try{
       if(!view||!view.managerRole||!request)return true;
-      if(root.CMS_PRIME_PACK==="off")return true;
       let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
       if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
       // Fable F13-04: an unknown confirm time keeps the window shut (TRY AGAIN) instead of skipping a Prime Pack that may apply.
       if(!Number.isFinite(confirmedAtMs)){primePackLoadError=true;return false;}
-      // Old Showdowns never load the Prime Pack step (the boundary is js/iconGuess.js fromMs).
-      if(confirmedAtMs<PRIME_PACK_FROM_MS)return true;
       let timer;const step=await Promise.race([pstcLoadScript("prime-pack-step","js/iconGuessStep.js",()=>root.CareerModeIconGuessStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step){primePackLoadError=true;return false;}
       // applies() needs the round engine (js/iconGuess.js): load it first, or an r87 Showdown would skip the Prime Pack.
@@ -692,8 +852,8 @@
   let pendingOutcome=null;
   function pstcPendingOutcome(request,role){const key=pstcOutcomeKey(request,role);if(pendingOutcome&&pendingOutcome.key===key)return pendingOutcome.outcome;const found=pstcOutcomeList().find(item=>item[0]===key);return found?pstcOutcomeCopy(found[1]):null;}
   // ---- RT5-FLOW-02: both spins before the shared window ----
-  // The roulette applies to a Showdown confirmed at or after the step's RRR_FROM_MS while it is not switched off; any other
-  // season (an older Showdown) passes by itself and never writes or waits for a mark.
+  // The roulette applies to every Showdown whose confirm time is readable; any other season passes by itself and never
+  // writes or waits for a mark.
   // The provider's own eligibility rule (it enforces START with it), so the screen and the provider can never disagree.
   function pstcRouletteAppliesTo(confirmedAtMs,step){return Boolean(step&&typeof provider?.rouletteEligible==="function"&&provider.rouletteEligible(confirmedAtMs));}
   // The same answer START gets from the provider: the season is roulette-eligible, or any mark is already stored. The second
@@ -737,12 +897,12 @@
     })().catch(()=>false).finally(()=>{if(spinWriting===run)spinWriting=null;});
     spinWriting=run;return run;
   }
-  function pstcCloseRoulette(){try{root.CareerModeChamberMenStep?.close?.();}catch(_error){}try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}try{root.CareerModeIconGuessStep?.close?.();}catch(_error){}}
+  function pstcCloseRoulette(){try{root.CareerModeChamberMenStep?.close?.();}catch(_error){}try{root.CareerModeSquadSheetStep?.close?.();}catch(_error){}try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}try{root.CareerModeIconGuessStep?.close?.();}catch(_error){}}
   function pstcOpen(){if(openPromise)return openPromise;const run=Promise.resolve().then(pstcOpenNow);openPromise=run;run.finally(()=>{if(openPromise===run)openPromise=null;pstcDecorateDashboard();}).catch(()=>{});try{pstcDecorateDashboard();}catch(_error){}return run;}
   // Fable F2-11: an earlier BACK from the roulette is forgotten first. Fable F2-14: the replay of phases this phone did not see
   // is set before the screen shows, so it never mounts the live phase first. Fable F2-01: the roulette's card and stage come
   // down on every way out, a navigation that fails included.
-  async function pstcOpenNow(){if(!pstcSharedMarker())return false;try{root.CareerModeRosterRouletteStep?.forgetHome?.();}catch(_error){}await pstcEnsureDependencies();const request=pstcRequestContext(),result=await pstcRefresh();if(!request||!result||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;if(typeof root.navigateTo!=="function")pstcFail("TRANSFER_NAVIGATION_UNAVAILABLE");if(!await pstcChamberMenFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}const rouletteGo=await pstcRouletteFirst(request);try{root.CareerModeChamberMenStep?.close?.();}catch(_error){}if(!rouletteGo||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}if(!await pstcPrimePackFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}let shown=false;try{pstcPrepareReplay();pstcRender();shown=await root.navigateTo("transferChallenge");}finally{pstcCloseRoulette();}if(shown===false||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;pstcPrepareReplay();pstcRender();return true;}
+  async function pstcOpenNow(){if(!pstcSharedMarker())return false;try{root.CareerModeRosterRouletteStep?.forgetHome?.();}catch(_error){}await pstcEnsureDependencies();const request=pstcRequestContext(),result=await pstcRefresh();if(!request||!result||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;if(typeof root.navigateTo!=="function")pstcFail("TRANSFER_NAVIGATION_UNAVAILABLE");if(!await pstcChamberMenFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}if(!await pstcSquadFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}const rouletteGo=await pstcRouletteFirst(request);try{root.CareerModeChamberMenStep?.close?.();}catch(_error){}try{root.CareerModeSquadSheetStep?.close?.();}catch(_error){}if(!rouletteGo||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}if(!await pstcPrimePackFirst(request)||!pstcRequestMatches(request)||viewContextKey!==request.key){pstcCloseRoulette();return false;}let shown=false;try{pstcPrepareReplay();pstcRender();shown=await root.navigateTo("transferChallenge");}finally{pstcCloseRoulette();}if(shown===false||!pstcRequestMatches(request)||viewContextKey!==request.key)return false;pstcPrepareReplay();pstcRender();return true;}
   async function pstcHandleAction(id){
     if(id==="seasonPrimaryAction")return pstcOpen();
     if(id==="continueFromTransfers"&&pstcReplayPhase())return pstcAdvanceReplay();
@@ -755,7 +915,7 @@
     if(id==="continueFromTransfers"){pstcSetError("Season results are not open yet. Tap REFRESH, then try again.");return false;}
     return false;
   }
-  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.id==="seasonPrimaryAction"&&pstcShowdownComplete()){void pstcOpenFinalResult();return;}void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer War did not load. Try again."));if(!pstcFormMistake(error))pstcReport("Shared Transfer Challenge action failed",error);});}
+  function pstcCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||!CONTROL_IDS.includes(target.id)||!pstcSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.id==="seasonPrimaryAction"&&pstcShowdownComplete()){void pstcOpenFinalResult();return;}void pstcHandleAction(target.id).catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer War did not load. Try again."));if(!pstcFormMistake(error))pstcReport("Could not complete that Transfer War action",error);});}
   // F1 (fault suite): every season of this Showdown is accepted (or it is closed), so there is no Transfer Challenge left to
   // start. With no view of its own the dashboard fell back to "START SEASON 1 TRANSFER CHALLENGE", a button that did nothing.
   // It now says VIEW FINAL RESULT and opens the final season's results (Final Winner follows there), or the closed Showdown's
@@ -767,7 +927,7 @@
       return Boolean(rivalryId&&progression?.authoritative===true&&String(progression.rivalryId||"")===rivalryId&&progression.state?.terminal===true);
     }catch(_error){return false;}
   }
-  function pstcOpenFinalResult(){const entry=root.CareerModeProductionSharedJourneyEntry;return typeof entry?.openFinalResult==="function"?Promise.resolve(entry.openFinalResult()).catch(error=>{pstcReport("Unable to open the final result",error);return false;}):Promise.resolve(false);}
+  function pstcOpenFinalResult(){const entry=root.CareerModeProductionSharedJourneyEntry;return typeof entry?.openFinalResult==="function"?Promise.resolve(entry.openFinalResult()).catch(error=>{pstcReport("Could not open the final result",error);return false;}):Promise.resolve(false);}
   // r90 M1 (MOTION hunt): this season's Chamber Men opens on the next tap, so its 3D files (players, clips, stadium) come
   // down now, 1.5 s after the season page shows and at an idle moment (js/chamberMenScene3d.js warm(): fetched only,
   // nothing parsed or drawn). The browser and the app's worker keep them, so a first open on a slow line mounts the 3D pitch
@@ -775,9 +935,9 @@
   let chamberWarmKey="";
   function pstcWarmChamberMen(){
     try{
-      if(!view||view.state||!view.managerRole||root.CMS_CHAMBER_MEN==="off"||root.CMS_CHAMBER_MEN_3D==="off"||!root.WebGL2RenderingContext)return;
+      if(!view||view.state||!view.managerRole||root.CMS_CHAMBER_MEN_3D==="off"||!root.WebGL2RenderingContext)return;
       const key=pstcCurrentContextKey(),confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
-      if(!key||chamberWarmKey===key||!Number.isFinite(confirmedAtMs)||confirmedAtMs<CHAMBER_FROM_MS)return;
+      if(!key||chamberWarmKey===key||!Number.isFinite(confirmedAtMs))return;
       chamberWarmKey=key;
       const clubs={playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")};
       const go=()=>{if(chamberWarmKey!==key||root.document?.visibilityState==="hidden")return;
@@ -812,7 +972,7 @@
       if(request&&spinPendingKey===request.key&&!busy&&view&&!view.state)void pstcMarkSpun(request);
     }catch(_error){}
   }
-  // Read-only: the fast lane only calls pstcTick (the same provider read as REFRESH CHALLENGE), never a write.
+  // Read-only: the fast lane only calls pstcTick (the same provider read as REFRESH), never a write.
   function pstcWaitingKey(){
     if(!view||!view.managerRole||!pstcTransferScreenVisible()||pstcReplayPhase())return "";
     const state=view.state||{phase:"NOT_STARTED"},role=view.managerRole,other=role==="playerOne"?"playerTwo":"playerOne",has=(list,item)=>Array.isArray(list)&&list.includes(item);
@@ -853,7 +1013,7 @@
     // Keep the shared deadline; refresh its clock and authority before expiry may act again.
     pstcClearClock();expiryNeedsAuthority=true;pstcScreenFresh();void pstcRefresh().catch(()=>{});
   }
-  function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("input",pstcSigningDraftChange);root.document.addEventListener("change",pstcSigningDraftChange);if(typeof root.addEventListener==="function")root.addEventListener("storage",pstcSigningDraftStorage);root.document.addEventListener("input",pstcGuessDraftChange,true);root.document.addEventListener("change",pstcGuessDraftChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("online",pstcVisibilityChange);root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
+  function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("transfer-player-pick",pstcPlayerPick);root.document.addEventListener("focusin",pstcPlayerFocus);root.document.addEventListener("input",pstcSigningDraftChange);root.document.addEventListener("change",pstcSigningDraftChange);if(typeof root.addEventListener==="function")root.addEventListener("storage",pstcSigningDraftStorage);root.document.addEventListener("input",pstcGuessDraftChange,true);root.document.addEventListener("change",pstcGuessDraftChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("online",pstcVisibilityChange);root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",rouletteBlocked:pstcRouletteBlocked,nameKey:pstcNameKey,blockedSignings:async()=>[...(await pstcBlockedNow()).values()],productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),spinsMissing:()=>[...pstcSpinsMissing()],rouletteError:()=>rouletteError||(primePackLoadError?PSTC_PRIME_PACK_TEXT:""),rouletteAppliesTo:pstcRouletteAppliesTo,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",rouletteBlocked:pstcRouletteBlocked,nameKey:pstcNameKey,blockedSignings:async()=>[...(await pstcBlockedNow()).values()],productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),spinsMissing:()=>[...pstcSpinsMissing()],rouletteError:()=>rouletteError||(primePackLoadError?PSTC_PRIME_PACK_TEXT:""),rouletteAppliesTo:pstcRouletteAppliesTo,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView,squadError:()=>squadError,squadAfterTransfers:pstcSquadAfterTransfers});
 });

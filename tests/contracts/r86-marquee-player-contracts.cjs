@@ -66,13 +66,15 @@ ok('L3','both managers always get different players, the draw depends only on th
 
 // L4 which Showdowns have one
 const id='pair_a'+'0123456789abcdef'.repeat(4).slice(1);
-const both=MP.forShowdown(id,MP.fromMs+1);
+const NO_CLUBS={playerOne:'No Such Club A',playerTwo:'No Such Club B'};
+const both=MP.forShowdown(id,MP.fromMs+1,{clubs:NO_CLUBS});
 assert.ok(both&&both.playerOne.name&&both.playerTwo.name&&both.playerOne.name!==both.playerTwo.name);
 assert.deepEqual(Object.keys(both.playerOne),['listVersion','rank','name','club','overall','potential','number','nation','nationCode','position','stats','tier']);
-// GC-04: from 2.0.0 the draw takes both clubs; clubs no listed player plays for leave the r86 pair unchanged.
+// GC-04: the draw takes both clubs; clubs no listed player plays for leave the plain pair unchanged. No clubs, no pair.
+assert.equal(MP.forShowdown(id,MP.fromMs+1),null,'no clubs: no Special Player rather than a wrong one');
 assert.deepEqual(MP.forShowdown(id,Number.MAX_SAFE_INTEGER,{fromMs:0,clubs:{playerOne:'No Such Club A',playerTwo:'No Such Club B'}}),both,'the reveal and the career screens show the same players');
-assert.deepEqual(MP.forShowdown(id,{toMillis:()=>MP.fromMs+1}),both,'a Firestore Timestamp works too');
-for(const old of [MP.fromMs-1,null,undefined,'2026-10-29',NaN,{}])assert.equal(MP.forShowdown(id,old),null,`no MP for ${String(old)}`);
+assert.deepEqual(MP.forShowdown(id,{toMillis:()=>MP.fromMs+1},{clubs:NO_CLUBS}),both,'a Firestore Timestamp works too');
+for(const old of [MP.fromMs-1,null,undefined,'2026-10-29',NaN,{}])assert.equal(MP.forShowdown(id,old,{clubs:NO_CLUBS}),null,`no MP for ${String(old)}`);
 ok('L4','a Showdown confirmed before r86 (or with no confirm time at all) has no Special Player; one confirmed after has the same pair the reveal showed');
 
 // L5 old reads and the career model
@@ -104,18 +106,18 @@ ok('L6','all launch-list clubs draw a real crest: 15 new ones (HO-038) plus the 
 // a free extra signing that a guess can never release). R87-D-01: the one database-name alias is listed.
 {
   const AT=Date.parse('2026-10-31T00:00:00Z'),id='pair_a0000000000000030000012d0000000000000000000000000000000000000045';
-  const pair=MP.forShowdown(id,AT);assert.equal(pair.playerOne.name,'L. Messi');assert.equal(pair.playerTwo.name,'Neymar');
-  for(const typed of ['L. Messi',' l. messi ','L. MESSI'])assert.equal(MP.isOwnSpecial(id,AT,'playerOne',typed),true,typed);
-  assert.equal(MP.isOwnSpecial(id,AT,'playerOne','Neymar'),false,'the rival’s Special Player is an ordinary signing for this manager');
-  assert.equal(MP.isOwnSpecial(id,AT,'playerTwo','Neymar'),true);
-  assert.equal(MP.isOwnSpecial(id,AT,'playerOne','Lionel Messi'),false,'no initials guessing');
-  assert.equal(MP.isOwnSpecial(id,MP.fromMs-1,'playerOne','L. Messi'),false,'a Showdown before r86 has no Special Player');
+  const NC={playerOne:'No Such Club A',playerTwo:'No Such Club B'},pair=MP.forShowdown(id,AT,{clubs:NC});assert.equal(pair.playerOne.name,'L. Messi');assert.equal(pair.playerTwo.name,'Neymar');
+  for(const typed of ['L. Messi',' l. messi ','L. MESSI'])assert.equal(MP.isOwnSpecial(id,AT,'playerOne',typed,NC),true,typed);
+  assert.equal(MP.isOwnSpecial(id,AT,'playerOne','Neymar',NC),false,'the rival’s Special Player is an ordinary signing for this manager');
+  assert.equal(MP.isOwnSpecial(id,AT,'playerTwo','Neymar',NC),true);
+  assert.equal(MP.isOwnSpecial(id,AT,'playerOne','Lionel Messi',NC),false,'no initials guessing');
+  assert.equal(MP.isOwnSpecial(id,MP.fromMs-1,'playerOne','L. Messi',NC),false,'a Showdown before r86 has no Special Player');
   assert.deepEqual({...List.sourceNames},{'K. Mbappé':'K. Mbappe Lottin'});
   const mb='pair_f13088c76395207270826b4fd7993470f9e24eeab5eb59952ffe87c2b474e4bd';
-  assert.equal(MP.forShowdown(mb,AT).playerOne.name,'K. Mbappé');
-  for(const typed of ['K. Mbappé','K. Mbappe','K. Mbappe Lottin'])assert.equal(MP.isOwnSpecial(mb,AT,'playerOne',typed),true,typed);
+  assert.equal(MP.forShowdown(mb,AT,{clubs:NC}).playerOne.name,'K. Mbappé');
+  for(const typed of ['K. Mbappé','K. Mbappe','K. Mbappe Lottin'])assert.equal(MP.isOwnSpecial(mb,AT,'playerOne',typed,NC),true,typed);
   const pstc=read('js/productionSharedTransferChallenge.js');
-  assert.match(pstc,/if\(pstcIsOwnSpecial\(role,player\)\)pstcFail\("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing \$\{i\} is your Special Player\./,'the signing form refuses him with a plain line');
+  assert.match(pstc,/if\(pstcIsOwnSpecial\(role,player\)\)pstcFail\("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing \$\{i\} is your Special Player,/,'the signing form refuses him with a plain line');
   assert.match(pstc,/step\.isOwnSpecial\(request\.rivalryId,at,role,name,setup\?\.setup\?\.clubs\)/,'asked of the season step with the Setup confirm time the page holds');
   assert.match(read('js/rosterRouletteStep.js'),/draw\.isOwnSpecial\(rivalryId,confirmedAtMs,role,name,clubs\)/,'the step asks the draw');
 }

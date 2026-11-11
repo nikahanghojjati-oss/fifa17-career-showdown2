@@ -843,6 +843,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"d6e94fed85ed77554e648130ba7169600fd6dd278a90a39b88ccb9dd14c877a2",
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp":"3a7b0a2f1330e1a163e475ee4955cda5337d9494e8cba62340b4e709b00e4c09",   // r90 Team V HO-059: the café room on Extra (1920 px)
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp":"81e9927ce81f12ccb258fa49269b11f278d3778c7a351dad92973a24863c48c5",   // r90 Team V HO-059: the café room on Ultra and 8K (3840 px)
+    "visual-assets/v10_1/special-player/assets/board.jpg":"e5eff37ae5c37939bb82117b20ee971caae8c3be4cd74f58990f4fabfbd6788e",   // r91: r89's yellow boards back, the same bytes as their 2.2.0 pin
     "visual-assets/v10_1/special-player/assets/board_night_V1.jpg":"86bf0242453d8dcb4eb3dfd8d1f670fd3926c6348b8fb6eaeaa6c62f2e90bbac",
     "visual-assets/v10_1/special-player/assets/card_black.jpg":"44c96b79f9b039d15c060d0a324f30ba03e25a9430f2bfab485685e3875881fb",
     "visual-assets/v10_1/special-player/assets/card_blue.jpg":"aa09951a2b4ada2fa263c539032d0acb4610bc4b30b2924f3fac5359b34eb9fc",
@@ -945,6 +946,7 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/roulette/assets/RR_HAND.webp",
   "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp",
   "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp",
+  "visual-assets/v10_1/special-player/assets/board.jpg",
   "visual-assets/v10_1/special-player/assets/card_black.jpg",
   "visual-assets/v10_1/special-player/assets/card_blue.jpg",
   "visual-assets/v10_1/special-player/assets/card_bronze.jpg",
@@ -1001,7 +1003,7 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // ticks and the other r89 feature changes) with its 2.2.0-r89 pins and v2.2.0 footer, nothing else.
   // Re-pinned 2026-11-09 by the 2.3.0 release PR: gameplay/r90 ff70b7e's file with its 2.3.0-r90 pins and v2.3.0 footer, nothing
   // else (r90's own index.html changes were already pinned as a384fe22 by their feature PRs).
-  assert.equal(sha256("index.html"),"74e9b22ddf4581525e6c1a84cdc24a01812240dfb9ad11a54409642bdcc0c5e0","index.html byte-identical to the 2.3.0 release");
+  assert.equal(sha256("index.html"),"cb29b68dbcd5b022b4618828dd4c113869a5c46ef4beaf57a6b10ba9bda5822f","index.html byte-identical to the 2.3.0 release");
   const html=read("index.html");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);

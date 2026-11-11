@@ -26,7 +26,7 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "It creaked loudest on Nik’s Chromebook. On the evening of 7 November the roulette crashed Chrome on its first open and ran choppy after that, the packs stuttered, and the Season Results boxes slid over faces in a window that was not full screen. The owner cancelled the polishing round that night and gave 2.3.0 one goal instead: cut the waste, and put quality first. Faster on the weakest machine, at its best picture, and never a crash on the first try."
+     "text": "It creaked loudest on Nik’s Chromebook. On the evening of 7 November the roulette crashed Chrome on its first open and ran choppy after that, the packs stuttered, and the Season Results boxes slid over faces in a window that was not full screen. Nik cancelled the polishing round that night and gave 2.3.0 one goal instead: cut the waste, and put quality first. Faster on the weakest machine, at its best picture, and never a crash on the first try."
     },
     {
      "type": "h2",
@@ -50,7 +50,7 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "The eight Home tiles lost their painted pictures as well. In their place stands one set of gold icons, drawn by the game itself with a single light falling on their relief, so every tile now speaks the same language. Fourteen picture files went with the old art. Nik turned down the first, thinner line icons, and approved this set."
+     "text": "The eight Home tiles lost their painted pictures as well. In their place stands one set of gold icons, drawn by the game itself with a single light falling on their relief, so every tile speaks the same language. Fourteen picture files went with the old art. Nik turned down the first, thinner line icons, and approved this set."
     },
     {
      "type": "h2",
@@ -58,11 +58,11 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "Quality had grown the same way the loft had, one screen at a time, each with its own idea of what “high” meant. 2.3.0 gives the whole game one ladder: Light, Balanced, High, Extra, Ultra (4K) and 8K, with Auto choosing for each device. Settings now says which level Auto picked. A strong PC climbs to 4K, and to 8K if a manager asks for it; a strong phone gets a rich picture too; a weak machine stays lean. No screen is allowed its own names or its own levels any more, and a check keeps it that way."
+     "text": "Quality had grown the way the loft had, one screen at a time, each with its own idea of what “high” meant. 2.3.0 gives the whole game one ladder: Light, Balanced, High, Extra, Ultra (4K) and 8K, with Auto choosing for each device. Settings now says which level Auto picked. A strong PC climbs to 4K, and to 8K if a manager asks for it; a strong phone gets a rich picture too; a weak machine stays lean. No screen is allowed its own names or its own levels any more, and a check keeps it that way."
     },
     {
      "type": "p",
-     "text": "Two smaller cuts answered the owner directly. The yellow LEFT, MIDDLE and RIGHT words no longer hang over the Chamber Men goal. And the roulette no longer gives away its aim: nothing on screen tells a manager whose player the gun will find before the shot does."
+     "text": "Two smaller cuts answered Nik directly. The yellow LEFT, MIDDLE and RIGHT words no longer hang over the Chamber Men goal. And the roulette no longer gives away its aim: nothing on screen tells a manager whose player the gun will find before the shot does."
     }
    ],
    "sources": [
@@ -153,7 +153,7 @@ window.CHRONICLE_VOLUME18={
     "Home",
     "Quality levels"
    ],
-   "words": 706,
+   "words": 702,
    "minutes": 3
   },
   {
@@ -170,11 +170,11 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "Most games are tuned for the machine their makers wish you owned. This one was tuned, in the end, for the machine Nik actually plays on. On 8 November the owner ran a small check page on it and pasted back what it found: an Intel UHD graphics chip, 4 GB of memory, two processor threads, a 1920x866 window and a line of 8.7 Mbps. Then the check drew a test scene, and the answer surprised everyone. 307,200 lit triangles a frame, at the full window size, and it held 60 frames a second the whole way."
+     "text": "On 8 November Nik ran a small check page on his Chromebook and pasted back what it found: an Intel UHD graphics chip, 4 GB of memory, two processor threads, a 1920x866 window and a line of 8.7 Mbps. Then the check drew a test scene, and the answer surprised everyone. 307,200 lit triangles a frame, at the full window size, and it held 60 frames a second the whole way."
     },
     {
      "type": "p",
-     "text": "So the graphics chip was never the problem. The problem was two threads of processor doing everything else: unpacking files, preparing shaders, moving players, and all of it while trying to keep the picture still. The fix had to move that work out of the way, not shrink the picture."
+     "text": "So the graphics chip was never the problem. The problem was two threads of processor doing everything else: unpacking files, preparing shaders, moving players, and all of it while trying to keep the picture still. The fix had to move that work out of the way and leave the picture alone."
     },
     {
      "type": "h2",
@@ -182,7 +182,7 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "Nik’s rule came the same day, and it was short. Chamber Men above all, then the roulette, the Special Player pack and the Prime Pack stay as they are designed on Light, the level the Chromebook gets. A flat screen is allowed only on a device that cannot draw 3D at all. Light is not a lesser game. It is the same game, made to fit."
+     "text": "Most games are tuned for the machine their makers wish you owned. Nik’s rule came the same day, and it was short. Chamber Men above all, then the roulette and the Special Player pack stay as they are designed on Light, the level the Chromebook gets, and the Prime Pack keeps its 2D design. A flat screen is otherwise allowed only on a device that cannot draw 3D at all. Light is the same game, made to fit."
     },
     {
      "type": "h2",
@@ -290,7 +290,7 @@ window.CHRONICLE_VOLUME18={
     "RRR",
     "Light"
    ],
-   "words": 720,
+   "words": 707,
    "minutes": 3
   },
   {
@@ -327,7 +327,7 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "The Prime Pack was never a 3D scene. It is a marble plate, a card, a clock ring and five stages of clues. The owner was asked whether it should become 3D or stay flat and be made smooth, and chose smooth. It is a guessing screen, the clues have to read at a glance, and the Chromebook’s two threads were better spent on the stadium and the roulette."
+     "text": "The Prime Pack was never a 3D scene. It is a marble plate, a card, a clock ring and five stages of clues. Nik was asked whether it should become 3D or stay flat and be made smooth, and chose smooth. It is a guessing screen, the clues have to read at a glance, and the Chromebook’s two threads were better spent on the stadium and the roulette."
     },
     {
      "type": "p",
@@ -343,7 +343,7 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "None of this changes a rule. Chamber Men still loads the roulette, the Prime Pack still pays 4, 3, 2 or 1, and a Showdown is still won fifteen points at a time. 2.3.0 only makes sure the weakest machine at the table sees the same game as the strongest."
+     "text": "None of this changes a rule. Chamber Men still loads the roulette, the Prime Pack still pays 4, 3, 2 or 1, and a Showdown is still won fifteen points at a time. 2.3.0 only makes sure the weakest machine at the table, Nik’s Chromebook, sees the same game as the strongest."
     }
    ],
    "sources": [
@@ -411,9 +411,9 @@ window.CHRONICLE_VOLUME18={
     "2D screens",
     "Light"
    ],
-   "words": 601,
+   "words": 602,
    "minutes": 3
   }
  ],
- "wordCount": 2027
+ "wordCount": 2011
 };

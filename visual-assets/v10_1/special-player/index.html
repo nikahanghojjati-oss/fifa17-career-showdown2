@@ -464,6 +464,9 @@ const GFX=window.CareerModeGfxTier||null, GP=GFX?GFX.profile():null;
    edges, no scene target, no composite pass). The same film curve and exposure as the composite (exposure .9, the simple ACES fit)
    runs in each material through three's custom tone mapping, so Light and High show the same picture. */
 const DIRECT=Boolean(GP&&GP.level===0);
+/* r91 (Nik 2026-11-11: "I want the yellow vibrant stadium we had"): r89's sunlit yellow stadium, its light and its yellow boards are
+   the look again on every level; ?look=night keeps r90 L06's floodlit night (Chamber Men's light) for comparison */
+const NIGHT=/[?&]look=night(?:&|$)/.test(location.search);
 const renderer=new T.WebGLRenderer({antialias:DIRECT, powerPreference:"high-performance"});
 /* r90: phones are not a tier of their own here; js/gfxTier.js decides every device's level (docs/QUALITY_LEVELS.md). */
 /* r90 (Nik 2026-11-07: quality follows the device): the pixel ratio comes from js/gfxTier.js, the same quality system as the
@@ -502,17 +505,17 @@ const compMat=new T.ShaderMaterial({uniforms:{tex:{value:sceneRT.texture},b0:{va
   fragmentShader:`uniform sampler2D tex,b0,b1,b2,b3; uniform float strength,exposure,flash,bloomOn; varying vec2 vUv;
   vec3 aces(vec3 x){ return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.); }
   void main(){ vec3 c=texture2D(tex,vUv).rgb; vec3 b; if(bloomOn>.5) b=texture2D(b0,vUv).rgb*.6+texture2D(b1,vUv).rgb*.8+texture2D(b2,vUv).rgb*1.0+texture2D(b3,vUv).rgb*1.2; else b=max(c-vec3(.8),vec3(0.))*1.6; /* r90 M4: Light keeps a cheap in-place glow, no blur passes */
-    c=(c+b*strength)*exposure+vec3(flash); c=aces(c); c=pow(c,vec3(1./2.2)); gl_FragColor=vec4(c,1.); }`});
+    c=(c+b*strength)*exposure*(1.+flash*2.)+vec3(1.,.9,.75)*flash*.5; c=aces(c); /* r91: the flash brightens what is lit and adds a little warm light, instead of a flat grey lift that veiled the night stand after the burst */ c=pow(c,vec3(1./2.2)); gl_FragColor=vec4(c,1.); }`});
 const quadScene=new T.Scene(), quadCam=new T.OrthographicCamera(-1,1,1,-1,0,1), quad=new T.Mesh(new T.PlaneGeometry(2,2),compMat); quad.frustumCulled=false; quadScene.add(quad);
 function pass(mat,target){ quad.material=mat; renderer.setRenderTarget(target); renderer.render(quadScene,quadCam); }
 
 const scene=new T.Scene(); scene.fog=new T.Fog(L(0xc9dcef),70,240);
 const camera=new T.PerspectiveCamera(40,1,0.1,900);
-/* r90 L06 (Nik 2026-11-07: one night light for both 3D scenes): Chamber Men's night match light, a cool sky and dark ground
-   with one warm floodlight key from high over a corner; the stadium photo is graded to night in the panorama shader */
-scene.add(new T.HemisphereLight(L(0xdde6ff),L(0x15200f),0.55));
+/* r89 daylight: a pale sky light over green ground. ?look=night: r90 L06's Chamber Men night match light, a cool sky and dark
+   ground with one warm floodlight key from high over a corner; the stadium photo is then graded to night in the panorama shader */
+scene.add(NIGHT?new T.HemisphereLight(L(0xdde6ff),L(0x15200f),0.55):new T.HemisphereLight(L(0xcfe4ff),L(0x2d5a22),0.45));
 const SUN=new T.Vector3(-36,79,49);
-const sun=new T.DirectionalLight(L(0xfff3e2),2.7); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
+const sun=NIGHT?new T.DirectionalLight(L(0xfff3e2),2.7):new T.DirectionalLight(L(0xfff0d8),2.3); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
 sun.shadow.mapSize.set(GQ.shadow,GQ.shadow); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
 
 /* r90 lean load: the drawn stadium (sky, clouds, pitch, goals, lofted bowl, roof, glare sprites) was built here and thrown
@@ -594,6 +597,22 @@ const crack=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:cra
 crack.position.z=(PACK_D+.06)/2+.05; pack.add(crack);
 const pillarMat=new T.MeshBasicMaterial({map:crackTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, color:new T.Color(0,0,0)});
 const pillarGeo=new T.PlaneGeometry(1,1); pillarGeo.translate(0,.5,0); const pillar=new T.Mesh(pillarGeo,pillarMat); pillar.visible=false; scene.add(pillar);
+/* idea 5: light beams at the flash. r91 (Nik 2026-11-11: "bring back the sparkle and beams that were far from the card, not the ones
+   that washed over the player card"): 2.2.0's two side beams of the top 10 are back; its centre beam (top 20), which rose straight up
+   behind the card into the title, stays out. A side beam only shows where it stands clear of the card on that screen (clearOfCard),
+   so on a narrow phone, where it would pass behind the card, it is left out */
+const beamMat=new T.MeshBasicMaterial({map:crackTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, color:new T.Color(0,0,0)});
+const beams=[-1,1].map(()=>{ const b=new T.Mesh(pillarGeo,beamMat); b.visible=false; scene.add(b); return b; });
+/* ================= giant nation flags (unroll from the roof) =================
+   r91 (Nik 2026-11-11 "yes to nation flag"): 2.2.0's five roof flags are back at the nation clue, with their gold drizzle. They hang
+   from the roof edge of the stand photo (29 deg up from the pitch camera, about 46 m away) as sunlit cloth (2.2.0's plain colour;
+   ?look=night keeps r90's floodlit .42). The flag is drawn and uploaded once per player in prepareSteps, like the coin. */
+const flagMounts=[]; [-25,-12.5,0,12.5,25].forEach(x=>flagMounts.push({pos:new T.Vector3(x,19.8,-40),rotY:0,w:9.0,h:6.0}));
+const FLAG_TEX0=canvasTex(4,4,null).tx, flagMat=new T.MeshStandardMaterial({map:FLAG_TEX0, side:DIRECT?T.FrontSide:T.DoubleSide, /* Light: the flags face the camera, so one side keeps the program count */ roughness:.8, color:NIGHT?new T.Color(.42,.42,.42):new T.Color(1,1,1)});
+const flags=flagMounts.map((m)=>{ const geo=new T.PlaneGeometry(m.w,m.h,12,18); geo.translate(0,-m.h/2,0);
+  const mesh=new T.Mesh(geo,flagMat); mesh.position.copy(m.pos); mesh.rotation.y=m.rotY; mesh.scale.y=.001; mesh.visible=false; mesh.castShadow=true; scene.add(mesh);
+  return {mesh, base:geo.attributes.position.array.slice(), drop:0, target:0, h:m.h}; });
+function setFlagTex(tx){ flagMat.map=tx; } /* one material for all five, so a nation swap is one map change */
 const packLight=new T.PointLight(L(0xffc457),0,9,2); packLight.position.set(0,1.3,-.4); if(!DIRECT) scene.add(packLight); /* r90 Light: one key light and the sky light only */
 /* r90 L40 (round 3): the burst breaks into the pack's own foil. Quarter edges in lit gold foil (a little glow of its own, so they
    never read as brown planks at night), no side struts, and six thin foil chips cut from the pack art. */
@@ -666,7 +685,8 @@ const coin=new T.Mesh(new T.CylinderGeometry(1,1,.2,96,1), [new T.MeshStandardMa
 coin.castShadow=true; scene.add(coin);
 const COIN_R=.62, COIN_SPIN=Math.PI/2;
 
-const raysTex=canvasTex(512,512,(c)=>{ c.translate(256,256); const r=seeded(9); for(let i=0;i<36;i++){ const a=i/36*Math.PI*2+r()*.08, w=.025+r()*.05; const g=c.createLinearGradient(0,0,Math.cos(a)*256,Math.sin(a)*256); g.addColorStop(0,"rgba(255,255,255,.9)"); g.addColorStop(1,"rgba(255,255,255,0)"); c.fillStyle=g; c.beginPath(); c.moveTo(0,0); c.arc(0,0,256,a-w,a+w); c.closePath(); c.fill(); } }, true);
+const raysTex=canvasTex(512,512,(c)=>{ c.translate(256,256); const r=seeded(9); for(let i=0;i<36;i++){ const a=i/36*Math.PI*2+r()*.08, w=.025+r()*.05; const g=c.createLinearGradient(0,0,Math.cos(a)*256,Math.sin(a)*256); g.addColorStop(0,"rgba(255,255,255,.9)"); g.addColorStop(1,"rgba(255,255,255,0)"); c.fillStyle=g; c.beginPath(); c.moveTo(0,0); c.arc(0,0,256,a-w,a+w); c.closePath(); c.fill(); }
+  /* r91: the rays thin out well before the edge of their square (the ends no longer reach the stand as long grey spokes) */ const f=c.createRadialGradient(0,0,0,0,0,256); f.addColorStop(0,"rgba(0,0,0,1)"); f.addColorStop(.35,"rgba(0,0,0,.8)"); f.addColorStop(.75,"rgba(0,0,0,.18)"); f.addColorStop(1,"rgba(0,0,0,0)"); c.globalCompositeOperation="destination-in"; c.fillStyle=f; c.fillRect(-256,-256,512,512); }, true);
 const rays=new T.Mesh(new T.PlaneGeometry(1,1), new T.MeshBasicMaterial({map:raysTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, opacity:0, fog:false, color:new T.Color(.35,.35,.35)}));
 rays.position.set(0,1.9,-1.5); rays.scale.set(8,8,1); scene.add(rays); /* r90 L31: a halo round the card; at 14 m it washed the whole night stand in the tier colour */
 const glowTex=canvasTex(256,256,(c)=>{ const g=c.createRadialGradient(128,128,0,128,128,128); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.2,"rgba(255,255,255,.5)"); g.addColorStop(1,"rgba(255,255,255,0)"); c.fillStyle=g; c.fillRect(0,0,256,256); }, true);
@@ -681,9 +701,19 @@ function setEnv(){ if(DIRECT){ scene.environment=null; return; }
   if(!pmrem) pmrem=new T.PMREMGenerator(renderer); const e=pano.clone(); e.needsUpdate=true; e.mapping=T.EquirectangularReflectionMapping; e.colorSpace=T.SRGBColorSpace; scene.environment=pmrem.fromEquirectangular(e).texture;
   scene.environmentIntensity=panoMat.uniforms.night.value?.6:1; /* r90 L06: the daylight photo reflects less at night */ }
 function lightMetals(){ if(!DIRECT) return; [[goldMetal,.5,.34,0x3a2606],[foilEdge,.6,.48,0x241604],[blackMetal,.35,.4,0],[coinFaceMat,.3,.34,0],[packFace,.25,.38,0]].forEach(([m,me,ro,em])=>{ m.metalness=me; m.roughness=ro; if(em) m.emissive.copy(L(em)); });
-  coin.material[0].metalness=.5; foilEdge.color.copy(L(0xb98a2c)); /* lit by the sun alone, a paler gold reads white */ }
+  coin.material[0].metalness=.5; foilEdge.color.copy(L(0xb98a2c)); /* lit by the sun alone, a paler gold reads white */
+  /* r91: with no reflection map the pack's gold sides lit as one flat yellow slab. A polished-gold picture stands in for the stadium the
+     metal would mirror: soft light and dark bands across it and a fine brush grain. It shares the pack art's program (a map on the same
+     material type), so Light keeps its program count; the card rim uses the same gold */
+  { const gt=canvasTex(256,256,(c)=>{ c.fillStyle="#c9c9c9"; c.fillRect(0,0,256,256); let sd=4111; const r=()=>(sd=(sd*16807)%2147483647)/2147483647;
+      c.save(); c.filter="blur(10px)"; for(let i=0;i<8;i++){ const x=r()*256, w=12+r()*36, lit=r()<.5; c.fillStyle=lit?`rgba(255,255,255,${(.65+r()*.35).toFixed(2)})`:`rgba(50,50,50,${(.45+r()*.3).toFixed(2)})`; for(const o of [-256,0,256]){ c.save(); c.translate(o,0); c.transform(1,0,-.3,1,0,0); c.fillRect(x,-60,w,380); c.restore(); } } c.restore();
+      for(let i=0;i<900;i++){ c.fillStyle=`rgba(${r()<.5?"255,255,255":"0,0,0"},${(.03+r()*.06).toFixed(3)})`; c.fillRect(r()*256,r()*256,8+r()*40,1); } });
+    gt.tx.wrapS=gt.tx.wrapT=T.RepeatWrapping; gt.tx.repeat.set(.9,.9); goldMetal.map=gt.tx; goldMetal.color.multiplyScalar(1.12); goldMetal.needsUpdate=true;
+    foilEdge.map=gt.tx; foilEdge.color.multiplyScalar(1.12); foilEdge.needsUpdate=true; /* the burst's foil quarters are the same gold */ }
+  grassMat.color.multiply(NIGHT?new T.Color(1.25,1.27,1.38):new T.Color(1.35,1.7,3)); /* r91: without the stadium reflection the pitch came out olive (night: 72/94/42 against Extra's 93/120/60 on the settled card; day: 109/154/54 against r89's 113/175/76); the same green at no cost */
+  if(!NIGHT) panoMat.uniforms.expo.value=.78; /* r91 day: Light has no bloom, which lifts the sunlit stands on High; the photo is drawn 15% brighter instead (r89's 128/103/38 on the right stand, 119/90/31 before) */ }
 let pano=null;
-const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest:false, fog:false, uniforms:{tex:{value:null},plate:{value:null},hasPlate:{value:0},plateL:{value:null},hasL:{value:0},plateR:{value:null},hasR:{value:0},yaw:{value:0},expo:{value:.9},warm:{value:0},night:{value:/[?&]look=day(?:&|$)/.test(location.search)?0:1}},
+const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest:false, fog:false, uniforms:{tex:{value:null},plate:{value:null},hasPlate:{value:0},plateL:{value:null},hasL:{value:0},plateR:{value:null},hasR:{value:0},yaw:{value:0},expo:{value:.9},warm:{value:NIGHT||/[?&]look=0(?:&|$)/.test(location.search)?0:1},night:{value:NIGHT?1:0}},
   vertexShader:"varying vec3 vD; void main(){ vD=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }",
   fragmentShader:`uniform sampler2D tex,plate,plateL,plateR; uniform float yaw,expo,hasPlate,hasL,hasR,warm,night; varying vec3 vD;
   vec3 plateMix(vec3 c, vec3 d, sampler2D pl, float a){ vec3 q=vec3(d.x*cos(a)+d.z*sin(a), d.y, -d.x*sin(a)+d.z*cos(a)); if(q.z>-.2) return c; vec2 g=q.xy/(-q.z); vec2 pu=vec2(.5+g.x/1.453, (g.y+.098)/.8177);
@@ -698,32 +728,42 @@ const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest
        line warm from the floodlights, and above it Chamber Men's night sky (deep navy) */
     if(night>.5){ float l=dot(c,vec3(.2126,.7152,.0722)); c=mix(vec3(l),c,.12)*vec3(.03,.031,.04); /* r90 L06 round 3: darker and warmer, not an overcast grey */
       /* floodlights: five lamps along the roof (small hot flares) each throwing a soft warm pool down onto the stands */
-      float lp=0.,fl=0.; for(int i=0;i<5;i++){ float dl=lon-(-1.2+float(i)*.6); dl-=6.2831853*floor((dl+3.1415926)/6.2831853); lp+=exp(-dl*dl*70.); fl+=exp(-dl*dl*1600.); }
+      float lp=0.,fl=0.,bk=0.; for(int i=0;i<5;i++){ float dl=lon-(-1.2+float(i)*.6); dl-=6.2831853*floor((dl+3.1415926)/6.2831853); lp+=exp(-dl*dl*70.); float f=exp(-dl*dl*1600.); fl+=f;
+        /* r91: a floodlight is a bank of lamps, not a soft ball: two rows of five hot points inside the glow (only near a lamp, so the sky costs nothing) */
+        if(f>.02){ for(int k=0;k<5;k++){ float u=dl-(float(k)-2.)*.0075; float eu=exp(-u*u*2e5); bk+=eu*(exp(-pow((d.y-.3055)*520.,2.))+exp(-pow((d.y-.3145)*520.,2.))); } } }
       c+=vec3(.95,.78,.5)*lp*(.004+.035*l)*smoothstep(-.06,.1,d.y)*smoothstep(.34,.18,d.y);
-      c+=vec3(1.,.86,.62)*fl*exp(-pow((d.y-.31)*60.,2.))*.75; float h=clamp(d.y,0.,1.); vec3 skyN=mix(vec3(.03,.035,.05),vec3(.006,.009,.02),smoothstep(.12,.6,h)); c=mix(c,skyN,smoothstep(.4,.62,d.y)); }
+      c+=vec3(1.,.86,.62)*fl*exp(-pow((d.y-.31)*60.,2.))*.55+vec3(1.,.95,.85)*bk*1.6; float h=clamp(d.y,0.,1.); vec3 skyN=mix(vec3(.03,.035,.05),vec3(.006,.009,.02),smoothstep(.12,.6,h)); c=mix(c,skyN,smoothstep(.4,.62,d.y)); }
     else if(warm>.5){ c*=vec3(1.07,.985,.87); float s=max(dot(d,normalize(vec3(-.62,.42,-.66))),0.); c+=vec3(1.,.72,.38)*(pow(s,10.)*.55+pow(s,60.)*1.4)*c.g*1.6+vec3(1.,.8,.5)*pow(s,200.)*.6; }
     gl_FragColor=vec4(min(invAces(c)/expo,vec3(1.35)),1.);
  #include <tonemapping_fragment>
  #include <colorspace_fragment>
   }`});
 const panoSphere=new T.Mesh(new T.SphereGeometry(400,64,32),panoMat); panoSphere.renderOrder=-1; panoSphere.frustumCulled=false;
-const grassMat=new T.MeshStandardMaterial({color:L(/[?&]look=day(?:&|$)/.test(location.search)?0xc9d9b4:0x93a184), /* r90 L06: a floodlit night pitch, as deep as Chamber Men's */ roughness:.92, metalness:0, transparent:true, depthWrite:true});
+const grassMat=new T.MeshStandardMaterial({color:L(NIGHT?0x93a184:0xc9d9b4), /* r89 sunlit pitch; ?look=night: r90 L06's floodlit night pitch, as deep as Chamber Men's */ roughness:.92, metalness:0, transparent:true, depthWrite:true});
 grassMat.onBeforeCompile=(sh)=>{
   sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying vec3 vWp;").replace("#include <worldpos_vertex>","#include <worldpos_vertex>\nvWp=(modelMatrix*vec4(transformed,1.)).xyz;");
   sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vWp;")
    .replace("#include <map_fragment>","#include <map_fragment>\n float st=smoothstep(.46,.54,abs(fract(vWp.x/11.+.25)-.5)*2.); diffuseColor.rgb*=mix(1.07,.88,st); float dd=length(vWp.xz-cameraPosition.xz); diffuseColor.a*=1.-smoothstep(26.,46.,dd);")
    .replace("#include <dithering_fragment>","#include <dithering_fragment>\n gl_FragColor.a=diffuseColor.a;"); };
 const shadowGround=new T.Mesh(new T.PlaneGeometry(110,110),grassMat); shadowGround.rotation.x=-Math.PI/2; shadowGround.position.y=0; shadowGround.receiveShadow=true;
-function loadGrass(){ return new Promise(res=>new T.TextureLoader().load("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
-function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.webp",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
+/* r91 (first open on a 2-thread Chromebook): each loaded picture is turned into an ImageBitmap, decoded and flipped for WebGL off the
+   main thread, so the upload at the first frame no longer decodes the pack art, grass and boards on the main thread (about 350 ms at 4x
+   CPU throttle). Without createImageBitmap, or if it fails, the plain image is used. The bitmap is kept, so a context restore re-uploads it.
+   Safari and every iOS browser keep the plain image, as three's own glTF loader does: older WebKit ignores the flip option (upside-down art) */
+const BITMAP_OK=typeof createImageBitmap==="function"&&!/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+function loadTex(url,onLoad,onProgress,onError){ return new T.TextureLoader().load(url,t=>{ const im=t.image;
+  if(!BITMAP_OK||!im) return onLoad(t);
+  createImageBitmap(im,{imageOrientation:"flipY"}).then(bm=>{ t.image=bm; t.flipY=false; t.needsUpdate=true; onLoad(t); },()=>onLoad(t)); },onProgress,onError); }
+function loadGrass(){ return new Promise(res=>loadTex("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
+function loadPackArt(){ return new Promise(res=>loadTex("assets/pack.webp",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
 /* r89 (Nik's look frame SP_LOOKFRAME_V1): a camera focused on the card sees the far stands soft, so the card stands out from them.
    r90 pack smooth: that soft focus (half size, then a sixth of the photo) is baked into the *_soft_V1.jpg files, so the page
    fetches 0.4 MB instead of 5.9 MB and no longer decodes and shrinks four big photos on the main thread at load. */
-function loadSide(f,u,h){ return new Promise(res=>new T.TextureLoader().load(f,t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms[u].value=t; panoMat.uniforms[h].value=1; res(); },undefined,()=>res())); }
+function loadSide(f,u,h){ return new Promise(res=>loadTex(f,t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms[u].value=t; panoMat.uniforms[h].value=1; res(); },undefined,()=>res())); }
 /* pitch-side LED boards (ticket 1850-5) in front of the main stand. HO-049: board.jpg holds two stacked messages, one per panel
    (FIFA 17 SHOWDOWN on top, SPECIAL PLAYER below); every panel shows one whole message and they roll up in turn, so no word crosses a join */
 const boards=new T.Group(); let boardTex=null, boardTex2=null;
-function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board_night_V1.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); boardTex=t;
+function loadBoards(){ return new Promise(res=>loadTex(NIGHT?"assets/board_night_V1.jpg":"assets/board.jpg", /* r91: r89's yellow boards again (same bytes); black and gold at night */t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); boardTex=t;
   boardTex2=t.clone(); boardTex2.needsUpdate=true;
   const face=new T.MeshBasicMaterial({map:t, fog:false, transparent:true}); /* r90 Light: shares the one basic program */ face.color.setScalar(1.25); const face2=face.clone(); face2.map=boardTex2;
   const frame=new T.MeshStandardMaterial({color:L(0x0b0b0c), roughness:.6, metalness:.3});
@@ -733,16 +773,16 @@ function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("asset
 /* HO-049: hold each message 4.4 s, then roll it up over .6 s (a cut with reduced motion) */
 function stepBoards(now){ if(!boardTex) return; const P=5, R=.6, k=now%P, n=Math.floor(now/P), r=REDUCED?(k>=P-R?1:0):ease.inOut(clamp01((k-(P-R))/R));
   const y=((n+r)*.5)%1; boardTex.offset.y=y; boardTex2.offset.y=(y+.5)%1; }
-function loadPlate(){ return new Promise(res=>new T.TextureLoader().load("assets/stand_soft_V1.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
+function loadPlate(){ return new Promise(res=>loadTex("assets/stand_soft_V1.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
 function buildEnv(){
-  const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); keep.add(boards);
+  const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); beams.forEach(b=>keep.add(b)); keep.add(boards); flags.forEach(f=>keep.add(f.mesh));
   scene.children.slice().forEach(o=>{ if(!keep.has(o)&&!o.isLight) scene.remove(o); });
   scene.fog=null; scene.add(panoSphere,shadowGround,boards);
   panoMat.uniforms.tex.value=pano;
   setEnv();
 }
 /* r86 (red team #2): the stadium is the one image the scene cannot draw without, so a failed load ends the page at once (the game skips the reveal) instead of waiting out the 15 s limit */
-function loadPano(retry){ return new Promise((res,rej)=>new T.TextureLoader().load("assets/stadium_soft_V1.jpg"+(retry?"?r=1":""),t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; t.magFilter=T.LinearFilter; t.anisotropy=1; pano=t; res(); },undefined,()=>retry?rej(new Error("The stadium image did not load.")):loadPano(true).then(res,rej))); } /* r90 Light rule: one retry first */
+function loadPano(retry){ return new Promise((res,rej)=>loadTex("assets/stadium_soft_V1.jpg"+(retry?"?r=1":""),t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; t.magFilter=T.LinearFilter; t.anisotropy=1; pano=t; res(); },undefined,()=>retry?rej(new Error("The stadium image did not load.")):loadPano(true).then(res,rej))); } /* r90 Light rule: one retry first */
 
 /* ================= r90 pack smooth: every card face, coin and flag prepared up front ================= */
 /* The card art is drawn at the size the card is seen at: its height on screen (the band between the title and the bar) in
@@ -765,10 +805,10 @@ function* prepareSteps(){
   for(const role of ["daniel","nik"]){ const p=pair[role], set={back:[]}; PREP[role]=set;
     for(let n=0;n<4;n++){ set.back.push(card(c=>drawCardBack(c,p,n))); yield; }
     set.bare=card(c=>drawCardFront(c,p,true)); yield; set.face=card(c=>drawCardFront(c,p)); yield; set.scout=card(c=>drawScoutBack(c,p)); yield;
-    set.coin=up(prepTex(512,512,c=>coinFace(c,p.club,256,256,255))); yield; }
-  const swap=new Map(); Object.keys(old).forEach(role=>{ const a=old[role], b=PREP[role]; if(!b) return; a.back.forEach((t,i)=>swap.set(t,b.back[i])); ["bare","face","scout","coin"].forEach(k=>swap.set(a[k],b[k])); });
-  [frontMat,backMat,coinFaceMat].forEach(m=>{ const n=swap.get(m.map); if(n) m.map=n; });
-  Object.values(old).forEach(set=>[...set.back,set.bare,set.face,set.scout,set.coin].forEach(tx=>tx.dispose()));
+    set.coin=up(prepTex(512,512,c=>coinFace(c,p.club,256,256,255))); yield; set.flag=up(prepTex(384,256,c=>drawFlag(c,p.nation,0,0,384,256,true))); yield; }
+  const swap=new Map(); Object.keys(old).forEach(role=>{ const a=old[role], b=PREP[role]; if(!b) return; a.back.forEach((t,i)=>swap.set(t,b.back[i])); ["bare","face","scout","coin","flag"].forEach(k=>swap.set(a[k],b[k])); });
+  [frontMat,backMat,coinFaceMat,flagMat].forEach(m=>{ const n=swap.get(m.map); if(n) m.map=n; });
+  Object.values(old).forEach(set=>[...set.back,set.bare,set.face,set.scout,set.coin,set.flag].forEach(tx=>tx.dispose()));
 }
 /* r90 Light rule: after the GPU drops this page's context (a Chromebook under memory pressure), three keeps the page and the clock
    keeps running; on restore the card art (its canvases were let go after upload) is drawn and uploaded again, with the
@@ -788,7 +828,7 @@ function sceneTextures(){ const seen=new Set(), add=(t)=>{ if(t&&t.isTexture&&!t
 
 /* r90: one draw with every object out (pack, card, coin, chunks) so the shadow pass and the main pass have every
    program and texture ready before the game shows the page; startPlayer then puts everything back */
-const warmShown=()=>[pack,card,coin,pillar,aura,ovrMesh,...CHUNKS.map(q=>q.m)];
+const warmShown=()=>[pack,card,coin,pillar,aura,ovrMesh,...CHUNKS.map(q=>q.m),...flags.map(f=>f.mesh),...beams];
 function warmPose(on){ warmShown().forEach(o=>o.visible=on); if(!on) return; pack.position.copy(PACK_REST); card.position.copy(CARD_POS); coin.position.set(0,1,-.5); camera.position.copy(camRest); camera.lookAt(lookRest); }
 function warmDraw(){ warmPose(true); try{ render(); }catch(e){} warmPose(false); }
 /* r90 lean load: every program is compiled with every object out (compileAsync: in parallel where the driver can), then each
@@ -836,7 +876,7 @@ function startPlayer(i,bridge){
   if(bridge){ camBlendAt=clock(); camFrom.copy(camPos); lookFrom.copy(camLook); } flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig(); tiltX=tiltY=tiltTX=tiltTY=0;
   if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(Lc(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
   const pp=prep(); backMat.map=pp.back[0]; frontFull=false; count=null; ovrMesh.visible=false; coinFaceMat.map=pp.coin; /* the flag swaps at the nation clue (Codex P2 #1259: Daniel's flags are still rolling up during the handover) */
-  if(!bridge){ clearConfetti(); parts.forEach(q=>q.life=0); pDirty=true; } /* idea 3: Daniel's flags roll up and his confetti lands */
+  if(!bridge){ flags.forEach(f=>{f.target=0; f.drop=0; f.rolling=false; f.mesh.visible=false; f.mesh.scale.y=.001;}); clearConfetti(); parts.forEach(q=>q.life=0); pDirty=true; } /* idea 3: Daniel's flags roll up and his confetti lands */
   clearChunks(); pillar.visible=false; crack.material.color.setScalar(0); packLight.intensity=0; pack.position.set(0,40,-1.2); pack.scale.setScalar(1);
   frontMat.map=backMat.map;
   card.visible=false; coin.visible=false; pack.visible=true; rays.material.opacity=0; l3.classList.remove("on");
@@ -979,13 +1019,13 @@ function run(tt){
     /* the crack opens (2.4 s) and a pillar of light shoots up through it */
     const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(Lc(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10)*(camera.aspect<1?.55:1)); /* r90 L05: a softer slit on a portrait screen, so the pack art reads through it */
     pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,-PACK_D/2-.12)); /* r90 L05: behind the pack, which hides its lower part, never across the pack face */ pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
-      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(Lc(0xfff0c8)).lerp(lad,.85).multiplyScalar((1.5+charge*charge*4)*(camera.aspect<1?.6:1)); }
-    packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.22; rays.material.color.copy(ladA).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(3.5+charge*2.5); /* r90 L31: a halo round the pack, not a sunburst over the stand */
+      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(Lc(0xfff0c8)).lerp(lad,.85).multiplyScalar((1.5+charge*charge*4)*(camera.aspect<1?.6:1)*(BLOOM?.42:1)); /* r91: with bloom on (Balanced and up) the 18 m pillar at full HDR strength fogged the whole frame grey through the widest blur; it keeps its glow at under half */ }
+    packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,PACK_REST.z-.4); rays.material.opacity=charge*charge*.3; rays.material.color.copy(lad).lerp(ladA,.25).multiplyScalar(.55); /* r91 (Nik 2026-11-11, "keep improving the pack"): the charge light bursts from BEHIND the pack in the tier colour; in front of it, in the pale accent, it washed the pack art and the whole stand grey on High and up */ rays.rotation.z=tt*.5; rays.scale.setScalar(3.5+charge*2.5); /* r90 L31: a halo round the pack, not a sunburst over the stand */
     /* gold glitter swirling round the pack */
     if(fall>=1) for(let i=0;i<3;i++){ const a=Math.random()*Math.PI*2, r=.8+Math.random()*.8; emit(new T.Vector3(Math.cos(a)*r,.3+Math.random()*1.6,PACK_REST.z+Math.sin(a)*r),new T.Vector3(-Math.sin(a)*1.2,.3+Math.random()*.5,Math.cos(a)*1.2),Math.random()<.6?0xffd77a:0xfff1c2,.9+Math.random()*.6,.05+Math.random()*.04,-.2,.6,1); } }
   else pillar.visible=false;
   /* a carpet of gold glitter on the grass under the pack and then the card */
-  if(tt>1.3&&tt<7){ const n=tt<4.5?8:4; for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, r=Math.sqrt(Math.random())*.7*Math.min(1,(tt-1.3)/.6); /* r90 L06: a small tight sparkle at the base only, not a carpet across the grass */ emit(new T.Vector3(Math.cos(a)*r,.03,PACK_REST.z+Math.sin(a)*r*.75),new T.Vector3(0,.05+Math.random()*.15,0),Math.random()<.7?0xffd77a:0xfff1c2,.5+Math.random()*.7,.08+Math.random()*.07,0,0,1); } }
+  if(tt>1.3&&tt<7){ const n=Math.round((tt<4.5?8:4)*(BLOOM?1:.6)); for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, r=Math.sqrt(Math.random())*.7*Math.max(.5,Math.min(1,(tt-1.3)/.6)); /* r91: as the pack landed every sparkle started on one spot and they summed to a white blob on the grass; they now start spread over half the ring, and Light (no bloom to soften them) throws fewer */ /* r90 L06: a small tight sparkle at the base only, not a carpet across the grass */ emit(new T.Vector3(Math.cos(a)*r,.03,PACK_REST.z+Math.sin(a)*r*.75),new T.Vector3(0,.05+Math.random()*.15,0),Math.random()<.7?0xffd77a:0xfff1c2,.5+Math.random()*.7,.08+Math.random()*.07,0,0,1); } }
   /* 2  blue comet swoops in (3.15 s) and the pack explodes into chunks (3.7 s) */
   comet(tt,2.95,.75,new T.Vector3(-7*side,3.4,1.5),new T.Vector3(-2.5*side,2.6,1.2),new T.Vector3(0,1.5,-.9),BLUE);
   sfxAt(tt,.9,"s_fall","whoosh"); sfxAt(tt,1.65,"s_land","land"); sfxAt(tt,2.3,"s_charge","charge"); sfxAt(tt,2.4,"s_crack","crack"); sfxAt(tt,2.95,"s_comet","comet",side);
@@ -1004,7 +1044,9 @@ function run(tt){
   /* 4  clues one at a time: position (5.0), nation (5.8) */
   at(tt,5.0,"pos",()=>{ clueMaps(1); pulse=1; burst(new T.Vector3(-.62,2.9,-1.1),[0xfff1c2,0xffd77a],32,3.2,.6,.16); });
   sweep(5.0);
-  at(tt,5.8,"nat",()=>{ clueMaps(2); pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,40,3.4,.7,.16); });
+  at(tt,5.8,"nat",()=>{ clueMaps(2); setFlagTex(prep().flag); pulse=1; shake=.1; burst(new T.Vector3(-.62,2.55,-1.1),nat,40,3.4,.7,.16);
+    flags.forEach((f,i)=>{ f.mesh.visible=true; f.rolling=false; f.drop=Math.min(f.drop,.001); later(()=>f.target=1,i*110); }); });
+  if(tt>5.8&&tt<7.6) flagMounts.forEach(m=>{ if(Math.random()<.5) emit(new T.Vector3(m.pos.x+(Math.random()-.5)*m.w,m.pos.y+.3,m.pos.z+.5),new T.Vector3((Math.random()-.5)*.6,-1-Math.random()*2,0),Math.random()<.5?0xfff1c2:0xffd77a,1.6,.55,-4,.3,1); });
   sweep(5.8);
   /* 5  the club badge coin rolls in, then flies onto the card (6.4 - 8.0 s); confetti cannons fire from both sides */
   const rollT=S(6.4,1.1,tt), flyT=S(7.5,.5,tt);
@@ -1025,7 +1067,8 @@ function run(tt){
   const cres=CRES[lvl], turnAt=cres?8.45:8.9, fl=S(turnAt,cres?1.65:1.2,tt);
   if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&!faceShown()){ frontMat.map=prep().bare; startCount(p); } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.22; }
   at(tt,9.6,"sig",()=>startSig(p));
-  at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(Lc(0xffd27a)); /* r90 L31 round 3: gold, not the tier colour over the whole frame */ burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[0xf1c35a,0xffd77a,0xfff1c2],Math.round(120*pw*CALM),11,1.3,.2); /* r90 L31 round 2: one short gold burst, no rain, volleys or fountains */ });
+  at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(Lc(0xffd27a)); /* r90 L31 round 3: gold, not the tier colour over the whole frame */ burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[0xf1c35a,0xffd77a,0xfff1c2],Math.round(120*pw*CALM),11,1.3,.2); /* r90 L31 round 2: one short gold burst, no rain or volleys */ litFountains(); });
+  if(tt>9.6&&tt<12.2) fountainsOn.forEach(([x,z])=>fountain(new T.Vector3(x,.1,z),Math.random()<.5?0xfff1c2:0xffffff,Math.round(3*pw)+1,8.5,.9)); /* r91: 2.2.0's floor fountains, far from the card */
   /* idea 1: the tier glow grows behind the card (depth-hidden by it, so never over its text) into the burst, then hands over */
   aura.visible=cres>0&&tt>8.0&&tt<10.3; if(aura.visible){ const a=ease.inOut(S(8.0,1.6,tt)); aura.material.color.copy(Lc(tc)).lerp(Lc(0xffd27a),.5).multiplyScalar(.9); aura.scale.setScalar(Math.min(5.2,(3.4+lvl*1.1)*(.5+cres*.5)*(.3+a*.7)*(1+S(9.6,.7,tt)*.4))); aura.material.opacity=(.4+.5*cres)*a*(1-S(9.6,.7,tt))*(lvl>=3?.67:1); } /* top 3/top 10 blue: a third lighter so the stands stay readable */
   const gs=S(9.6,1.2,tt); if(gs>0&&gs<1){ const s=Math.sin(gs*Math.PI)*4.5*pw*(camera.aspect<1?.6:1); glow.scale.set(s,s,1); glow.material.opacity=(1-gs)*.35; } /* r90 L31: on a portrait screen the flash glow no longer washes the night stand and the flags */ else if(gb<=0||gb>=1) glow.scale.set(0,0,1);
@@ -1054,12 +1097,30 @@ function stepCount(now){ if(!count) return; const k=clamp01((now-count.t0-.15)/c
   if(v!==count.shown){ count.shown=v; drawOvr(v); if(now-count.tickAt>.045||v===count.to){ count.tickAt=now; SFX.play("count",v===count.to); } } if(k>=1) finishCount(); }
 
 /* idea 5, r90 L31/L05 round 2 (night reveal): at the flash every tier gets the one short gold burst; top 50 add a gold ring of
-   light behind the card, top 3 a bloom spike. No beams, fountains or firework volleys. */
-let sigAt=-1, sigLvl=0;
-function startSig(p){ const lvl=tierLevel(p.tier); sigAt=clock(); sigLvl=lvl;
+   light behind the card, top 3 a bloom spike. r91 (Nik's pick): the floor fountains (every tier) and the top 10's two side beams are back
+   from 2.2.0, only where they stand clear of the card; no centre beam and no firework volleys. */
+let sigAt=-1, sigLvl=0; const sigCol=new T.Color(), WHITE=new T.Color(1,1,1);
+function startSig(p){ const lvl=tierLevel(p.tier); sigAt=clock(); sigLvl=lvl; sigCol.copy(Lc(TIER[p.tier].glow)); placeBeams();
   if(lvl>=1){ const n=Math.round(80*PK); for(let i=0;i<n;i++){ const a=i/n*Math.PI*2; tmpV.set(Math.cos(a),Math.sin(a),0).multiplyScalar(6.2+Math.random()*.5); emit(new T.Vector3(Math.cos(a)*.5,CARD_POS.y+Math.sin(a)*.5,CARD_POS.z-.55),tmpV,i%2?0xf1c35a:0xfff1c2,.95,.24,0,1.9,0); } } }
-function endSig(){ sigAt=-1; compMat.uniforms.strength.value=.3; }
+/* r91: does a beam or spark column at (x, z), hw wide each side, stand clear of the card on this screen? The card at rest
+   (1.2 m each side of its centre) and the column are projected at the card's height; a gap of 1.5% of the screen width is kept */
+const clrA=new T.Vector3(), clrB=new T.Vector3();
+function clearOfCard(x,z,hw){ camera.updateMatrixWorld(); const cx=clrA.set(-1.25,CARD_POS.y,CARD_POS.z).project(camera).x, cx1=clrB.set(1.25,CARD_POS.y,CARD_POS.z).project(camera).x;
+  const a=clrA.set(x-hw,CARD_POS.y,z).project(camera).x, b=clrB.set(x+hw,CARD_POS.y,z).project(camera).x; return Math.max(a,b)<cx-.03||Math.min(a,b)>cx1+.03; }
+function fountain(at,col,n,h,spread){ for(let i=0;i<n;i++){ tmpV.set((Math.random()-.5)*(spread||1.2),h*(.8+Math.random()*.4),(Math.random()-.5)*(spread||1.2)); emit(at,tmpV,col,1.1+Math.random()*.5,.2+Math.random()*.1,-9.8,.25,1); } }
+/* 2.2.0's four floor fountains far behind the card; only the ones clear of the card on this screen are lit (fixed at the flash) */
+const FOUNTAINS=[[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]]; let fountainsOn=[];
+function litFountains(){ fountainsOn=FOUNTAINS.map(([x,z])=>[fitX(x,z),z]).filter(([x,z])=>clearOfCard(x,z,.7)); }
+/* r91: each side beam stands where 2.2.0 put it (2.3 m out, pulled in on a narrow screen); if the card is in the way there, it moves
+   out until it is clear, and where there is no room left on the screen (a phone) it is not shown */
+const beamX=[null,null];
+function placeBeams(){ const z=CARD_POS.z-.9, edge=halfWAt(z)*.92; [-1,1].forEach((side,i)=>{ let x=Math.abs(fitX(2.3,z)); while(x<=edge&&!clearOfCard(side*x,z,.35)) x+=.1; beamX[i]=x<=edge?side*x:null; }); }
+function endSig(){ sigAt=-1; beams.forEach(b=>b.visible=false); compMat.uniforms.strength.value=.3; }
 function stepSig(now){ if(sigAt<0) return; const s=now-sigAt; if(s>2.6){ endSig(); return; }
+  const grow=ease.out(clamp01(s/.35)), fade=1-clamp01((s-1.1)/1.2);
+  beams.forEach((b,i)=>{ const side=i?1:-1, z=CARD_POS.z-.9, x=beamX[i]; b.visible=sigLvl>=3&&fade>0&&x!==null; if(!b.visible) return;
+    b.position.set(x,.05,z); b.rotation.set(0,Math.atan2(camera.position.x-x,camera.position.z-z),0); b.rotateZ(-side*.12); /* leaning out, away from the card */ b.scale.set(.7*(.35+grow*.65),24*grow,1); });
+  beamMat.color.copy(sigCol).lerp(WHITE,.2).multiplyScalar(2.6*grow*fade); /* 2.2.0's strength */
   compMat.uniforms.strength.value=.3+(sigLvl>=4?.5*Math.sin(clamp01((s-.2)/1.1)*Math.PI):0); }
 
 /* idea 11: the ending. Once both cards are out, the better pull's name in the bar gets a gold pulse (both on a tie), a closing
@@ -1077,7 +1138,7 @@ const BRIDGE_T0=.7; let hoAt=0, hoDur=0, camBlendAt=-1; const camFrom=new T.Vect
 function popWho(text){ setWho(text); if(REDUCED) return; const r=document.createRange(); r.selectNodeContents(who); const w=r.getBoundingClientRect().width||1;
   who.style.setProperty("--pop",Math.max(1,Math.min(2.1,(innerWidth-32)/w)).toFixed(2)); who.classList.add("big"); }
 function startHandover(){ const d=cur(); phase="handover"; hoAt=clock(); hoDur=.45+tierLevel(d.tier)*.09; tiltTX=tiltTY=0; l3.classList.remove("on");
-  SFX.play("whoosh"); SFX.play("hit",2); popWho("Nik's Special Player");
+  flags.forEach(f=>{ if(f.mesh.visible){ f.target=0; f.rolling=true; } }); SFX.play("whoosh"); SFX.play("hit",2); popWho("Nik's Special Player");
   later(()=>who.classList.remove("big"),(hoDur+.9)*1000); if(REDUCED) startPlayer(1,true); }
 function stepHandover(now,dt){ const k=clamp01((now-hoAt)/hoDur), e=k*k;
   camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest);
@@ -1173,12 +1234,15 @@ function tick(draw){
   else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); tiltX+=(tiltTX-tiltX)*Math.min(1,dt*6); tiltY+=(tiltTY-tiltY)*Math.min(1,dt*6);
     card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?scoutCut(k):scoutFlip(k))+tiltY; card.rotation.x=tiltX; card.scale.setScalar(1); card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
     if((k%4)<.9) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(k%4)/.9);
+    if(!REDUCED&&k<1.6&&Math.random()<.6) fountainsOn.forEach(([x,z])=>fountain(new T.Vector3(x,.1,z),0xfff1c2,1,8.5,.9)); /* r91: the fountains die down as the card settles, as in 2.2.0 */
     if(!REDUCED&&Math.random()<dt*1.2){ const v=SHIELD[(Math.random()*SHIELD.length)|0]; emit(card.localToWorld(new T.Vector3(v[0]*1.03,v[1]*1.03,.08)),new T.Vector3(0,0,0),0xfff6d8,.45,.5,0,0,0); }
     
     /* idea 2: encore volleys while the face holds (late ones, after a tap to the report, are dropped) */
     if(!REDUCED){ const ec=encoreFor(cur().tier); for(let i=0;i<ec.length;i++){ const t=ec[i]; if(k>=t&&!fired["enc"+i]){ fired["enc"+i]=1; if(k-t<.3&&k<SCOUT_IN-ENCORE_TAIL) encore(cur(),i); } } }
     if(idx===0&&k>SCOUT_END+.15) startHandover(); }
   if(camBlendAt>=0){ const b=ease.inOut(clamp01((now-camBlendAt)/.8)); camPos.lerpVectors(camFrom,camPos,b); camLook.lerpVectors(lookFrom,camLook,b); if(b>=1) camBlendAt=-1; }
+  flags.forEach((f,i)=>{ if(!f.mesh.visible) return; if(f.rolling&&f.drop<.02){ f.rolling=false; f.mesh.visible=false; return; } f.drop+=(f.target-f.drop)*Math.min(1,dt*2.6); f.mesh.scale.y=Math.max(.001,f.drop);
+    const a=f.mesh.geometry.attributes.position; for(let j=0;j<a.count;j++){ const x=f.base[j*3], y=f.base[j*3+1], d=-y/f.h; a.array[j*3+2]=(Math.sin(x*.9+now*2.2+i)*.5+Math.sin(y*.6+now*1.6+i*.5)*.35)*d; } a.needsUpdate=true; f.mesh.geometry.computeVertexNormals(); });
   stepSig(now); stepCount(now);
   stepParticles(dt*ps); stepChunks(dt*ps); stepConfetti(dt,now,card.visible?cardShield():null); sheenMat.uniforms.t.value=now%1000;
   stepBoards(now);

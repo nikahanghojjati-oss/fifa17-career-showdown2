@@ -1,4 +1,7 @@
 "use strict";
+// Prime Pack is played with the plan (CE2PG_PRIME=table: wins worth 4/3/2/1 and a season nobody names the Icon) unless the run says otherwise;
+// without it every phone only typed wrong names (B23-03: the Icon was never named). CE2PG_PRIME=off skips the plan.
+if(process.env.CE2PG_PRIME===undefined)process.env.CE2PG_PRIME="table";
 const rosterRoulette=require("./support/roster-roulette.cjs");
 const primePack=require("./support/prime-pack.cjs");
 const gazette=require("./support/touchline-gazette.cjs");
@@ -36,9 +39,7 @@ const gazette=require("./support/touchline-gazette.cjs");
 //   that tree first; the Showdown starts and plays CE2PG_UPGRADE_AFTER (default 1) season(s) on it, then, right after CONTINUE
 //   TO SEASON k+1, the server switches to this tree, both phones drop their service worker and caches (the update the phone
 //   applies on Home, proven on its own by tests/browser/r87-upgrade-from-r86-audit.cjs) and reload into the new build in the
-//   middle of the live Showdown, which then plays to the end with every check. CE2PG_UPGRADE_PIN=1 (default) also serves the
-//   roulette start time (RRR_FROM_MS / ROULETTE_FROM_MS) as the switch time, as the release PR pins it; 0 leaves the
-//   placeholder, so an r86 Showdown gets the roulette from the next season. The seasons played on r86 skip the r87-only
+//   middle of the live Showdown, which then plays to the end with every check. The seasons played on the old tree skip the r87-only
 //   checks (Gazette, signing overall/position, r87 Shared History wording); Daniel's emulator runs with the composed Rules of
 //   THIS tree throughout (the Rules deploy goes first).
 // Output: test-results/<tag>.json (every check, problem, raw screen text and the meter) and screenshots in test-results/<tag>/.
@@ -141,18 +142,16 @@ const BUDGET_MODE=process.env.CE2PG_BUDGET==="1";
 const SLIM=BUDGET_MODE&&process.env.CE2PG_BUDGET_FULL!=="1";
 const UPGRADE_FROM=process.env.CE2PG_UPGRADE_FROM?path.resolve(process.env.CE2PG_UPGRADE_FROM):"";
 const UPGRADE_AFTER=Number(process.env.CE2PG_UPGRADE_AFTER||1);
-const UPGRADE_PIN=process.env.CE2PG_UPGRADE_PIN!=="0";
-// The literal both start constants carry in this tree (tools/set-release-time.cjs sets them together); the upgrade run swaps it.
-const RRR_PLACEHOLDER=`Date.parse("${require("../../tools/set-release-time.cjs").read()[0].value}")`;
-// r88 Chamber Men starts at its own release time (CHAMBER_FROM_MS); CMS_CHAMBER_MEN_NOW=1 moves it into the past too.
-const CHAMBER_PLACEHOLDER=(()=>{const t=require("../../tools/set-release-time.cjs");return `Date.parse("${t.read(t.R88_RELEASE_TIME_CONSTANTS)[0].value}")`;})();
-const CHAMBER_NOW=process.env.CMS_CHAMBER_MEN_NOW==="1"?[[CHAMBER_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")']]:[];
 // r89 Sacked: CE2PG_SACKED="K:daniel|nik|both" ticks "I was sacked this season" for that manager in season K of the single
-// Showdown, which then ends after season K. The tick shows only from SACKED_FROM_MS; a sacked run (or CMS_SACKED_NOW=1)
-// moves that start into the past like the Chamber Men one.
+// Showdown, which then ends after season K. The tick is on every Season Results card.
 const SACKED=(()=>{const raw=process.env.CE2PG_SACKED||"";if(!raw)return null;const m=/^(\d+):(daniel|nik|both)$/.exec(raw);if(!m)throw new Error(`CE2PG_SACKED must be "K:daniel|nik|both", got "${raw}"`);return {season:Number(m[1]),who:m[2]==="both"?["daniel","nik"]:[m[2]]};})();
-const SACKED_PLACEHOLDER=(()=>{const t=require("../../tools/set-release-time.cjs");return `Date.parse("${t.read(t.R89_RELEASE_TIME_CONSTANTS)[0].value}")`;})();
-const SACKED_NOW=SACKED||process.env.CMS_SACKED_NOW==="1"?[[SACKED_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")']]:[];
+// r91 new device (release proof for the old-era cut): CE2PG_NEWDEVICE="K:chamber|transfer:daniel|nik,..." replaces that manager's whole
+// browser (a brand-new context: empty localStorage, sessionStorage and IndexedDB, no service worker) in season K, right after Chamber Men
+// (the manager's page reaches the Squad Management screen) or inside the Transfer War window. The same Google account signs in again and
+// the live Showdown must come back from Firebase by itself and play to the end with every check (points, History, career pages).
+const NEWDEVICE=(()=>{const raw=process.env.CE2PG_NEWDEVICE||"";if(!raw)return [];return raw.split(",").map(part=>{const m=/^(\d+):(chamber|transfer):(daniel|nik)$/.exec(part.trim());if(!m)throw new Error(`CE2PG_NEWDEVICE items must look like "2:chamber:nik", got "${part}"`);return {season:Number(m[1]),point:m[2],who:m[3],done:false};});})();
+const newDeviceRuns=[];
+const takeNewDevice=(season,point)=>NEWDEVICE.filter(n=>!n.done&&n.season===season&&n.point===point);
 let servingOld=Boolean(UPGRADE_FROM),appServer=null;
 function startAppServer(rewrites=[]){
   appServer=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...(servingOld?{CMS_TEST_ROOT:UPGRADE_FROM}:{}),CMS_TEST_REWRITE:JSON.stringify(rewrites)}});
@@ -195,7 +194,7 @@ const VIEWPORTS={1:{daniel:{width:393,height:660},nik:{width:390,height:844}},2:
 const NAMES={daniel:"Daniel",nik:"Nik"};
 const ROLE={daniel:"playerOne",nik:"playerTwo"};
 const meter=createMeter();
-let billedModel=null;const budgetWaits=[];
+let billedModel=null;const budgetWaits=[];const squadSteps=[];
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // Report
@@ -424,10 +423,10 @@ function wirePage(m){
   page.on("request",request=>{const u=new URL(request.url());if(FORBIDDEN_HOSTS.test(u.hostname))m.log.forbidden.push(u.hostname);if(/productionFirebaseRuntime\.js|firebase\.runtime-config\.json/.test(u.pathname))m.log.productionRuntime+=1;});
   page.on("dialog",dialog=>{void dialog.accept().catch(()=>{});});
 }
-async function openManager(browser,account,label=account){
+async function openManager(browser,account,label=account,reuse=null){
   const viewport=VIEWPORTS[account];
   const context=await browser.newContext({viewport});
-  const log={pageErrors:[],consoleErrors:[],failedRequests:[],httpErrors:[],forbidden:[],productionRuntime:0,taps:[]};
+  const log=reuse?reuse.log:{pageErrors:[],consoleErrors:[],failedRequests:[],httpErrors:[],forbidden:[],productionRuntime:0,taps:[]};
   await context.exposeBinding("__cmsTap",(_source,tap)=>{log.taps.push(tap);});
   await context.addInitScript(()=>{window.addEventListener("click",event=>{if(!event.isTrusted)return;const b=event.target&&event.target.closest&&event.target.closest("button,.menuTile");if(b&&typeof window.__cmsTap==="function")void window.__cmsTap({id:b.id||"",text:(b.textContent||"").replace(/\s+/g," ").trim().slice(0,60)});},true);});
   await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,route=>{
@@ -438,7 +437,8 @@ async function openManager(browser,account,label=account){
   await installFirestoreMeter(context,{sdkDir:SDK_DIR,user:label,sink:meter.events,firestoreOrigin:FIRESTORE});
   await context.addInitScript({path:SWITCH});
   const page=await context.newPage();
-  const m={user:label,account,context,page,log,viewport};
+  const m=reuse||{user:label,account,context,page,log,viewport};
+  if(reuse){m.context=context;m.page=page;}
   wirePage(m);
   await installMarbleConfirmAnswers(page,{answer:true});
   await page.goto(urlFor(account),{waitUntil:"domcontentloaded"});
@@ -595,6 +595,7 @@ async function playTransfers(daniel,nik,tag){
   await daniel.page.locator("#startTransferTimer").click({timeout:30000});
   await waitTransferPhase(daniel,"window");await waitTransferPhase(nik,"window");
   await budgetWait("transfer-window");
+  for(const item of takeNewDevice(seasonNow,"transfer"))await swapDevice(item.who==="daniel"?daniel:nik,item,seasonNow,0);
   const dark=outageKind(seasonNow)==="transfer";
   if(dark)await goDark(nik);
   await daniel.page.locator("#endTransferTimer").click({timeout:30000});
@@ -628,7 +629,7 @@ async function fillSeasonResult(m,prefix,result){
   await m.page.locator(`#${prefix}LeaguePoints`).fill(String(result.leaguePoints));
   await m.page.locator(`#${prefix}LeagueGoals`).fill(String(result.leagueGoals));
   for(const [suffix,key] of [["DomesticCup","domesticCup"],["ChampionsLeague","championsLeague"],["TopScorer","topScorer"],["TopAssist","topAssist"]])await m.page.locator(`#${prefix}${suffix}`).setChecked(Boolean(result[key]));
-  if(SACKED_NOW.length){
+  {
     // r89 Sacked: the manager's own tick is on his own card, shown and unticked until he ticks it.
     const tick=m.page.locator(`#${prefix}Sacked`);
     const shown=await tick.isVisible().catch(()=>false);
@@ -696,6 +697,8 @@ async function publishThroughOutage(m,k){
 async function playSeasonResults(daniel,nik,k,planSeason){
   for(const m of [daniel,nik]){
     await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
+    // r91 Squad Management: this manager's squad for next season comes first (not in the Showdown's last season).
+    squadSteps.push(...await rosterRoulette.playSquadUntil(m.page,()=>m.page.locator("#seasonEntry").isVisible()));
     await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
   }
   await budgetWait("results-entry");
@@ -834,6 +837,14 @@ async function continueToSeason(daniel,nik,next,total){
     await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${next} / ${total}`,{timeout:30000});
     toRoulette.push(m.page);
   }
+  const chamberSwaps=takeNewDevice(next,"chamber");
+  for(const item of chamberSwaps){
+    // Both phones play Chamber Men; the replaced manager's page is stopped when it shows Squad Management (Chamber Men is done there).
+    const target=item.who==="daniel"?daniel:nik;
+    await rosterRoulette.waitForTransfer(toRoulette,toRoulette.length>1?60000:30000,{stopWhen:()=>target.page.locator("#sqStage").isVisible().catch(()=>false)});
+    await swapDevice(target,item,next,total);
+    toRoulette.length=0;toRoulette.push(daniel.page,nik.page);
+  }
   if(toRoulette.length)await rosterRoulette.waitForTransfer(toRoulette,toRoulette.length>1?60000:30000);
 }
 // Back into the live Showdown from Showdown Home: CONTINUE SHOWDOWN, then (on the season dashboard) its primary action, until the
@@ -862,6 +873,58 @@ async function returnToGame(m,season,total){
   await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${season} / ${total}`,{timeout:20000}).catch(()=>{});
   await eq(m,`${showdownNow}.S${season-1}.return.indicator`,`back in the game on Season ${season} / ${total}`,await textOf(m,"#seasonIndicator"),`Season ${season} / ${total}`,{screen:"Shared Transfer Challenge"});
 }
+// r91 new device: this manager's browser is replaced by a brand-new one (see CE2PG_NEWDEVICE). The old context is closed (the phone is
+// gone), the new one starts empty and signs in as the same Google account; Showdown Home must offer the live Showdown (never the
+// OLD SHOWDOWN FOUND recovery screen) and CONTINUE SHOWDOWN must put the manager back into the season.
+async function swapDevice(m,item,k,total){
+  const id=`${showdownNow}.S${k}.newDevice.${item.point}.${m.user}`;
+  item.done=true;
+  const row={showdown:showdownNow,season:k,point:item.point,user:m.user,at:new Date().toISOString()};newDeviceRuns.push(row);report.newDevice=newDeviceRuns;
+  const before=await describe(m);row.before=before;
+  // The old phone only goes away once the window start it tapped has reached Firebase (the partner's page reads it); a phone that dies
+  // in the middle of that tap is a different case (Daniel would tap START again).
+  if(item.point==="transfer"){
+    const partner=m===ctxRef.daniel?ctxRef.nik:ctxRef.daniel;
+    await partner.page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.startedAtEpochMs),null,{timeout:30000});
+  }
+  await m.context.close().catch(()=>{});
+  await openManager(ctxRef.browser,m.account,m.user,m);
+  const storage=await m.page.evaluate(async()=>{let local=-1,dbs=-1;try{local=localStorage.length;}catch(_e){}try{dbs=(await indexedDB.databases()).length;}catch(_e){}return {local,dbs};});
+  row.storageBefore=storage;
+  await check(m,`${id}.empty`,"the new browser starts with empty local storage (its databases are only the ones the app creates while booting)",storage.local===0,JSON.stringify(storage),{screen:"New browser"});
+  await signIn(m,NAMES[m.account],{fresh:true});
+  await m.page.waitForFunction(()=>(document.querySelector("#newShowdown .menuTileLabel")?.textContent||"").trim()==="CONTINUE SHOWDOWN",null,{timeout:45000}).catch(()=>{});
+  const tile=await homeTile(m);row.tile=tile;
+  await check(m,`${id}.tile`,"on the new browser Showdown Home offers the live Showdown: LIVE / CONTINUE SHOWDOWN",Array.isArray(tile)&&tile[0]==="LIVE"&&tile[1]==="CONTINUE SHOWDOWN",JSON.stringify(tile),{screen:"Showdown Home"});
+  const pair=await m.page.evaluate(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.()||{};return {status:s.status,connectionState:s.connectionState,rivalryId:s.rivalryId||null,text:document.getElementById("persistentNikDanielPairPanel")?.textContent||""};});
+  row.pair={status:pair.status,connectionState:pair.connectionState};
+  await check(m,`${id}.noOldShowdown`,"the new browser shows no OLD SHOWDOWN FOUND and the pair is not in recovery",pair.status!=="recovery-required"&&!/OLD SHOWDOWN FOUND/.test(pair.text),JSON.stringify({status:pair.status,connection:pair.connectionState,text:pair.text.slice(0,120)}),{screen:"Connect Players"});
+  await check(m,`${id}.sameShowdown`,"the new browser is paired to the Showdown that is being played",pair.rivalryId===ctxRef.entry?.rivalryId,`${pair.rivalryId} != ${ctxRef.entry?.rivalryId}`,{screen:"Connect Players"});
+  await m.page.locator("#newShowdown").click({timeout:30000});
+  const gameScreens="#cmStage, #sqStage, #rrStage, #rrStepPanel, #igStage, #igStepPanel, #transferChallenge";
+  const deadline=Date.now()+90000;let landed=null;
+  while(Date.now()<deadline){
+    landed=await m.page.locator(gameScreens).filter({visible:true}).first().getAttribute("id").catch(()=>null);
+    if(landed)break;
+    const getReady=m.page.locator("#productionSharedJourneyEntryOverlay");
+    if(await getReady.isVisible().catch(()=>false)){const go=getReady.getByRole("button",{name:/^(START CAREER|CONTINUE CAREER)$/});if(await go.first().isVisible().catch(()=>false)&&await go.first().isEnabled().catch(()=>false))await go.first().click({timeout:5000}).catch(()=>{});}
+    else if(await m.page.locator("#dashboard").isVisible().catch(()=>false)){const label=await textOf(m,"#seasonPrimaryAction");if(/TRANSFER|SEASON/i.test(label)&&await m.page.locator("#seasonPrimaryAction").isEnabled().catch(()=>false))await m.page.locator("#seasonPrimaryAction").click({timeout:5000}).catch(()=>{});}
+    await m.page.waitForTimeout(700);
+  }
+  row.landedOn=landed;
+  await check(m,`${id}.landed`,"CONTINUE SHOWDOWN puts the new browser back into the live season",Boolean(landed),await describe(m),{screen:"Showdown Home"});
+  if(!landed)throw new Error(`${m.user}'s new browser did not get back into season ${k} (${await describe(m)})`);
+  try{await m.page.screenshot({path:path.join(SHOT_DIR,`newdevice-${item.point}-${m.user}-landing.png`)});}catch(_e){}
+  // Whatever the app puts in front of the manager on the new device is played through like on any phone (Chamber Men result, squad,
+  // roulette, Prime Pack); the steps seen are reported, then the Transfer War must show.
+  row.screensAtLanding=await m.page.locator(gameScreens).filter({visible:true}).evaluateAll(els=>els.map(e=>e.id)).catch(()=>[]);
+  if(item.point==="transfer"){
+    row.replaySteps=await rosterRoulette.waitForTransfer([m.page],90000);
+    await waitTransferPhase(m,"window");
+  }
+  const indicator=await m.page.evaluate(()=>document.getElementById("seasonIndicator")?.textContent||"");row.indicator=indicator;
+  console.log(`NEWDEVICE ${id}: tile ${JSON.stringify(tile)}, pair ${pair.status}/${pair.connectionState}, landed on #${landed}, ${indicator}`);
+}
 // The 2.0.0 update in the middle of a live Showdown: the server now sends this tree (with the release pin when asked),
 // each phone drops the old worker and caches and reloads on the screen it was on, then must be back in the same session
 // on the new build (its Transfer Challenge has r87's signing overall field) at season k+1.
@@ -869,7 +932,7 @@ async function upgradeBoth(daniel,nik,sessionCode,k){
   const at=new Date().toISOString();
   appServer.kill();await new Promise(resolve=>setTimeout(resolve,300));
   servingOld=false;
-  await startAppServer(UPGRADE_PIN?[[RRR_PLACEHOLDER,`Date.parse("${at}")`]]:[]);
+  await startAppServer([]);
   report.upgrade.switchedAt=at;report.upgrade.switchedAfterSeason=k;
   for(const m of [daniel,nik])await m.page.evaluate(async()=>{try{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister();}catch(_e){}try{for(const k of await caches.keys())await caches.delete(k);}catch(_e){}});
   await reloadBoth(daniel,nik,sessionCode);
@@ -1022,19 +1085,20 @@ function extract(raw){
   o.compareAvgPoints=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE POINTS\s+([\d.]+)/);o.compareAvgGoals=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE GOALS\s+([\d.]+)/);
   o.leadWins=lead(cs,/MOST SEASON WINS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+wins?/);o.leadTrophies=lead(cs,/MOST TROPHIES\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+troph/);
   o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts?/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts?/);
-  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions Leagues","cl"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));s.leader=(/\b(DANIEL|NIK) LEADS\b/i.exec(text)||[])[1]?.toUpperCase()||null;s.unavailable=/unavailable|could not/i.test(text);return s;};
+  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions League","cl"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));s.leader=(/\b(DANIEL|NIK) LEADS\b/i.exec(text)||[])[1]?.toUpperCase()||null;s.unavailable=/unavailable|could not/i.test(text);return s;};
   o.standings=standings(stCareer);o.standingsFirst=standings(stFirst);
   o.standingsCareerText=stCareer.toUpperCase();o.standingsFirstCareerText=stFirst.toUpperCase();
   const live=raw?.standings?.["THIS SHOWDOWN"]||"";o.thisShowdownText=live;
   o.thisShowdown={season:pair(live,/SEASON (\d+) OF (\d+)/),points:pair(live,/SHOWDOWN POINTS\s+(\d+)\s*:\s*(\d+)/)};
-  for(const [word,key] of [["SEASON WINS","W"],["SEASON DRAWS","D"],["SEASON LOSSES","L"],["CHAMPIONS LEAGUES","cl"],["LEAGUE TITLES","league"],["DOMESTIC CUPS","cup"],["TOTAL TROPHIES","trophies"]])o.thisShowdown[key]=pair(live,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));
+  for(const [word,key] of [["SEASON WINS","W"],["SEASON DRAWS","D"],["SEASON LOSSES","L"],["CHAMPIONS LEAGUES?","cl"],["LEAGUE TITLES","league"],["DOMESTIC CUPS","cup"],["TOTAL TROPHIES","trophies"]])o.thisShowdown[key]=pair(live,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));
   const rv=corpus(raw,"statistics");
-  o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions Leagues\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
+  o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions League\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
   o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);
   const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],(r[1]==="\u2014"?"":(r[2]||"")).toUpperCase()]:null;};
   // r87 career fixes: a level record reads LEVEL (never "Shared"), and a best of 0 is held by nobody: "—" with no holder (B5).
   const R=label=>new RegExp(label+String.raw`\s+(\d+|\u2014)\s*(DANIEL|NIK|LEVEL)?`);
-  o.recSeason=rec(R("HIGHEST SEASON SCORE"));o.recPoints=rec(R("HIGHEST LEAGUE POINTS"));o.recGoals=rec(R("HIGHEST LEAGUE GOALS"));o.recPerfect=rec(R("MOST PERFECT SEASONS"));o.recBiggest=rec(R("BIGGEST SHOWDOWN WIN"));
+  // r91 wording (c8e82464): "Best ..." and "Perfect seasons" (the old "Highest ..." / "Most perfect seasons" still read).
+  o.recSeason=rec(R("(?:BEST|HIGHEST) SEASON SCORE"));o.recPoints=rec(R("(?:BEST|HIGHEST) LEAGUE POINTS"));o.recGoals=rec(R("(?:BEST|HIGHEST) LEAGUE GOALS"));o.recPerfect=rec(R("(?:MOST )?PERFECT SEASONS"));o.recBiggest=rec(R("BIGGEST SHOWDOWN WIN"));
   const cards=Object.fromEntries((raw?.trophyRoom?.cards||[]).map(c=>[c.trophy,[c.sides.daniel??null,c.sides.nik??null]]));
   o.cabChampion=cards.showdown||null;o.cabLeague=cards.leagueTitles||null;o.cabCup=cards.domesticCups||null;o.cabCl=cards.championsLeague||null;
   o.legacyCards=(raw?.legacy?.cards||[]).map(c=>({status:c.status,text:c.text}));
@@ -1081,7 +1145,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
     const withLive=Boolean(wantWithLive)&&JSON.stringify(got)===JSON.stringify(wantWithLive);
     if(withLive){const note=`${label} ${m.user}: Standings (Career, ${which}) counted the live Showdown's ${liveEntry.seasons.length} played season(s) (shared history in memory)`;report.notes=(report.notes||[]).concat(note);console.log(`NOTE ${note}`);}
     if(E.completedCount===0){await check(m,id(`${key}.career`),`Standings (Career, ${which}) shows no completed-career figures before the first completed Showdown (or only the live seasons so far)`,withLive||(!s.points||s.points.join()==="0,0")&&/after your first finished Showdown|0\s*:\s*0/i.test(text),text.slice(0,300),scr("Standings (Career)"));continue;}
-    await check(m,id(`${key}.career`),`Standings (Career, ${which}): career points, season W/D/L, Champions Leagues, league titles, cups, trophies (D / N)`,withLive||JSON.stringify(got)===JSON.stringify(wantStandings),`expected ${JSON.stringify(wantStandings)}${wantWithLive?` (or with the live seasons ${JSON.stringify(wantWithLive)})`:""} but the screen shows ${JSON.stringify(got)}`,scr("Standings (Career)"));
+    await check(m,id(`${key}.career`),`Standings (Career, ${which}): career points, season W/D/L, Champions League, league titles, cups, trophies (D / N)`,withLive||JSON.stringify(got)===JSON.stringify(wantStandings),`expected ${JSON.stringify(wantStandings)}${wantWithLive?` (or with the live seasons ${JSON.stringify(wantWithLive)})`:""} but the screen shows ${JSON.stringify(got)}`,scr("Standings (Career)"));
   }
   // Trophy Room
   const winners=career.filter(s=>s.state==="completed").map(s=>overallWinner(tally(s.seasons)));
@@ -1119,7 +1183,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   // Standings (This Showdown) while a Showdown is live: its committed seasons only.
   if(live){
     const t=tally(live.seasons),g=f.thisShowdown;
-    await eq(m,id("standings.thisShowdown"),"Standings (This Showdown): season counter, Showdown points, season W/D/L, Champions Leagues, league titles, cups, trophies (D / N)",
+    await eq(m,id("standings.thisShowdown"),"Standings (This Showdown): season counter, Showdown points, season W/D/L, Champions League, league titles, cups, trophies (D / N)",
       {season:g.season,points:g.points,W:g.W,D:g.D,L:g.L,cl:g.cl,league:g.league,cup:g.cup,trophies:g.trophies},
       {season:two(live.seasons.length+1,live.totalSeasons),points:two(t.daniel.total,t.nik.total),W:two(t.daniel.W,t.nik.W),D:two(t.daniel.D,t.nik.D),L:two(t.daniel.L,t.nik.L),cl:two(t.daniel.cl,t.nik.cl),league:two(t.daniel.league,t.nik.league),cup:two(t.daniel.cup,t.nik.cup),trophies:two(t.daniel.trophies,t.nik.trophies)},scr("Standings (This Showdown)"));
   }
@@ -1129,7 +1193,7 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   const rivalrySource=live||[...career].reverse().find(s=>s.state==="completed")||null;
   if(rivalrySource&&rivalrySource.seasons.length){
     const t=tally(rivalrySource.seasons),g=f.rivalryFigures;
-    await eq(m,id("rivalry"),`Rivalry Statistics shows ${live?"the live":"the newest completed"} Showdown ${rivalrySource.name}: seasons completed, Showdown points, season wins, trophies, Champions Leagues, league titles, cups (D / N)`,
+    await eq(m,id("rivalry"),`Rivalry Statistics shows ${live?"the live":"the newest completed"} Showdown ${rivalrySource.name}: seasons completed, Showdown points, season wins, trophies, Champions League, league titles, cups (D / N)`,
       {completed:g.completed,points:g.points,W:g.W,trophies:g.trophies,cl:g.cl,league:g.league,cup:g.cup},
       {completed:two(rivalrySource.seasons.length,rivalrySource.totalSeasons),points:two(t.daniel.total,t.nik.total),W:two(t.daniel.W,t.nik.W),trophies:two(t.daniel.trophies,t.nik.trophies),cl:two(t.daniel.cl,t.nik.cl),league:two(t.daniel.league,t.nik.league),cup:two(t.daniel.cup,t.nik.cup)},scr("Rivalry Statistics"));
   }
@@ -1444,6 +1508,10 @@ function meterEntry(label,from,to,{play=null}={}){
   const b=seasonBilled(t(play?play[0]:from),t(play?play[1]:to));
   const topOf=billedMeter.price(billedModel,meter.events.filter(e=>e.t>=t(play?play[0]:from)&&e.t<t(play?play[1]:to)&&(e.k==="read"||e.k==="write"||e.k==="listener")));
   entry.billed={check:b.check,measured:{docReads:b.measured.docReads,rulesReads:b.measured.rulesReads,rulesOnWrites:b.measured.rulesOnWrites,billed:b.measured.billed,writes:b.measured.writes,selfLookups:b.measured.selfLookups,byUser:b.measured.byUser,ms:b.measured.ms},profiles:b.profiles,waits:b.rows,sampledMinutes:b.sampledMinutes,topModules:billedMeter.top(topOf.byModule,5),topPaths:billedMeter.top(topOf.byPath,5)};
+  // r91 Squad Management: what its documents cost this season (reads, listener deliveries, creates), both phones.
+  const sq=billedMeter.price(billedModel,meter.events.filter(e=>e.t>=t(from)&&e.t<t(to)&&(e.k==="read"||e.k==="write"||e.k==="listener")&&/\/squadSheets\//.test(String(e.path||""))));
+  entry.squadSheets={docReads:sq.docReads,rulesReads:sq.rulesReads,rulesOnWrites:sq.rulesOnWrites,billed:sq.billed,writes:sq.writes};
+  console.log(`SQUAD ${label}: ${sq.docReads} doc reads + ${sq.rulesReads} lookups (+${sq.rulesOnWrites} on writes) = ${sq.billed} billed, ${sq.writes} writes`);
   printBilled(label,b);
   report.meter.push(entry);return entry;
 }
@@ -1591,12 +1659,10 @@ async function main(){
   if(UPGRADE_FROM&&(PLAN_NAME!=="single"||!(Number.isInteger(UPGRADE_AFTER)&&UPGRADE_AFTER>=1&&UPGRADE_AFTER<SEASONS)))throw new Error("CE2PG_UPGRADE_FROM needs CE2PG_PLAN=single and 1 <= CE2PG_UPGRADE_AFTER < CE2PG_SEASONS");
   if(UPGRADE_FROM){
     const old=fs.readFileSync(path.join(UPGRADE_FROM,"service-worker.js"),"utf8").match(/const RUNTIME_REVISION = "([^"]+)"/)?.[1];
-    report.upgrade={from:UPGRADE_FROM,fromRevision:old,after:UPGRADE_AFTER,pinned:UPGRADE_PIN,switchedAt:null};
-    console.log(`UPGRADE run: ${old} for ${UPGRADE_AFTER} season(s), then this tree${UPGRADE_PIN?" (roulette start pinned to the switch time)":" (roulette start left at the placeholder)"}`);
+    report.upgrade={from:UPGRADE_FROM,fromRevision:old,after:UPGRADE_AFTER,switchedAt:null};
+    console.log(`UPGRADE run: ${old} for ${UPGRADE_AFTER} season(s), then this tree`);
   }
-  // The roulette starts at the 2.0.0 release time (tools/set-release-time.cjs). A run before that time still plays it: the
-  // server sends the r87 placeholder start (2026-10-30) unless CE2PG_REAL_RELEASE_TIME=1 (or this is the upgrade run).
-  if(!process.env.CMS_BASE_URL)await startAppServer(UPGRADE_FROM||process.env.CE2PG_REAL_RELEASE_TIME==="1"?[]:[[RRR_PLACEHOLDER,'Date.parse("2026-10-30T00:00:00Z")'],...CHAMBER_NOW,...SACKED_NOW]);
+  if(!process.env.CMS_BASE_URL)await startAppServer([]);
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const managers=[],retired=[];
@@ -1608,7 +1674,7 @@ async function main(){
     await phase("sign-in",async()=>{await signIn(daniel,"Daniel");await signIn(nik,"Nik");});
     daniel.uid=await accountId(daniel);nik.uid=await accountId(nik);
     await check(null,"boot.accounts","Daniel and Nik signed in as two distinct accounts",Boolean(daniel.uid&&nik.uid&&daniel.uid!==nik.uid),{daniel:daniel.uid,nik:nik.uid},{screen:"Sign in"});
-    const ctx={daniel,nik,career:[]};ctxRef=ctx;billedModel=billedMeter.loadModel();
+    const ctx={daniel,nik,career:[],browser};ctxRef=ctx;billedModel=billedMeter.loadModel();
     console.log(`BILLED model: Rules sha256 ${billedModel.rulesSha256.slice(0,16)}; waits ${BUDGET_MODE?`ON (${REALTIME_WAITS?`real time at the ${REALTIME_PROFILE} pace`:`sampled ${SAMPLE_LONG_MIN} min long / ${SAMPLE_SHORT_MIN} min short, extrapolated`}); paces ${JSON.stringify(WAIT_PROFILES)}`:"OFF (CE2PG_BUDGET=1 turns them on)"}`);
     const specs=PLAN_NAME==="main"?[
       {name:"T",length:1,firstRealStart:true,target:"nik",seed:91},

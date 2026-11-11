@@ -64,8 +64,6 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           CMS_AUDIT_RUN="stability-canonical" npm run test:runtime-boundary
-          CMS_AUDIT_RUN="stability-canonical" node tests/browser/save-library-ui-audit.cjs
-          CMS_AUDIT_RUN="stability-canonical" node tests/browser/manager-identity-linkage-audit.cjs
           CMS_AUDIT_RUN="stability-canonical" node tests/browser/identity-safe-career-analytics-audit.cjs
           CMS_AUDIT_RUN="stability-canonical" node tests/browser/offline-boundary-audit.cjs
           CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="stability-canonical" node tests/browser/settings-layout-audit.cjs
@@ -81,8 +79,6 @@ jobs:
             test-results/stability-audit-*.json
             test-results/save-library-ui-*.json
             test-results/save-library-*.png
-            test-results/manager-identity-linkage-*.json
-            test-results/manager-identity-linkage-*.png
             test-results/identity-safe-career-analytics-*.json
             test-results/identity-safe-career-analytics-*.png
           if-no-files-found: warn
@@ -129,18 +125,6 @@ jobs:
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: npm run test:home-visual
 
-      - name: Run visible Save Library audit against deployed Pages
-        env:
-          CMS_AUDIT_RUN: deployed-main
-          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
-        run: node tests/browser/save-library-ui-audit.cjs
-
-      - name: Run manager identity linkage audit against deployed Pages
-        env:
-          CMS_AUDIT_RUN: deployed-main
-          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
-        run: node tests/browser/manager-identity-linkage-audit.cjs
-
       - name: Run identity-safe Career Analytics audit against deployed Pages
         env:
           CMS_AUDIT_RUN: deployed-main
@@ -152,24 +136,6 @@ jobs:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: npm run test:football-visual
-
-      - name: Run Candidate A backup export audit against deployed Pages
-        env:
-          CMS_AUDIT_RUN: deployed-main
-          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
-        run: npm run test:backup-browser
-
-      - name: Run Candidate B import analysis against deployed Pages
-        env:
-          CMS_AUDIT_RUN: deployed-main
-          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
-        run: npm run test:import-browser
-
-      - name: Run Candidate C atomic restore and recovery audit against deployed Pages
-        env:
-          CMS_AUDIT_RUN: deployed-main
-          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
-        run: npm run test:restore-browser
 
       - name: Run install and offline boundary audit against deployed Pages
         env:

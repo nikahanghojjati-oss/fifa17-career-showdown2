@@ -126,7 +126,7 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
       assert.equal(statsUp(s).length,4,"stage 4: four stats");assert.equal(s.flag,false,"stage 4: flag still ??");assert.equal(s.overall,null,"stage 4: overall still ??");
       assert.equal(s.chips.playerOne,1,"the other manager's wrong guess shows only as a token count");assert.equal(s.boxes.playerOne.tokensLeft,1);
       await advanceTo(p,0,START[4]+.001);s=await state(p);
-      assert.equal(s.result,"draw");assert.equal(s.banner,"Nobody got him · 0 points");assert.equal(s.points,0);assert.equal(s.name,null,"the name comes after the result line");
+      assert.equal(s.result,"draw");assert.equal(s.banner,"Nobody named him · 0 points");assert.equal(s.points,0);assert.equal(s.name,null,"the name comes after the result line");
       assert.equal(s.namePlate,"Sample Icon","nobody after stage 4: guessing has ended, the #name plate gets the name");
       assert.equal(s.overall,"94");assert.equal(s.flag,true);assert.equal(s.source,"PRIME ICON · SAMPLE CARD");
       assert.deepEqual(statsUp(s),[...PREVIEW_ORDER].sort(),"the result turns up the last two stats");
@@ -145,7 +145,7 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
       assert.ok(boxTop[0]<=boxTop[1]+1,"the suggestions open above both boxes");await shot(p,"6-suggestions");
       await p.evaluate(()=>{window.__sent=[];addEventListener("cms-ig",e=>window.__sent.push(e.detail));});
       await type(p,"Nobody At All");await p.click("#go");s=await state(p);
-      assert.equal(await p.textContent("#note"),"Not an icon in the list");assert.equal(s.chips.playerTwo,2,"text that matches no icon costs no token");
+      assert.equal(await p.textContent("#note"),"That name is not on the list");assert.equal(s.chips.playerTwo,2,"text that matches no icon costs no token");
       await type(p,"Sample Striker");await p.click("#go");s=await state(p);
       assert.equal(s.chips.playerTwo,1);assert.equal(s.boxes.playerTwo.tokensLeft,1);assert.equal(await p.textContent("#note"),"Not him.");assert.equal(await p.inputValue("#guess"),"");
       assert.doesNotMatch(await p.textContent("#other"),/Striker/,"the other box never shows typed text");
@@ -202,7 +202,7 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
       s=await fstate();assert.deepEqual(s.chips,{playerOne:2,playerTwo:1});assert.equal(s.boxes.playerTwo.tokensLeft,1);
       assert.equal(await f.textContent("#note"),"","the other manager's guess shows nothing but the count");
       await p.evaluate(()=>window.send({type:"cms-ig-chips",role:"playerTwo",count:0}));
-      s=await fstate();assert.equal(s.boxes.playerTwo.out,true);assert.equal(s.boxes.playerTwo.text,"Out of guesses");
+      s=await fstate();assert.equal(s.boxes.playerTwo.out,true);assert.equal(s.boxes.playerTwo.text,"No guesses left");
       await f.fill("#guess","Test");
       await p.evaluate(()=>window.send({type:"cms-ig-suggestions",names:["Test Legend","<b>x</b>"]}));
       assert.deepEqual(await f.$$eval("#suggest li",l=>l.map(x=>x.textContent)),["Test Legend","<b>x</b>"],"suggestions are text, never markup");
@@ -229,7 +229,7 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
       assert.deepEqual(statsUp(s),ROUND.statOrder.slice(0,4).sort(),"stage 4: the round's first four stats");
       assert.equal(s.namePlate,"","stage 4: still empty");
       await p.evaluate(()=>window.send({type:"cms-ig-result",winner:"draw",points:0}));
-      s=await fstate();assert.equal(s.banner,"Nobody got him · 0 points");assert.equal(s.namePlate,"Test Legend","nobody after stage 4: the name is filled");
+      s=await fstate();assert.equal(s.banner,"Nobody named him · 0 points");assert.equal(s.namePlate,"Test Legend","nobody after stage 4: the name is filled");
       assert.deepEqual(statsUp(s),[...ROUND.statOrder].sort(),"and the last two stats");assert.equal(s.flag,true);assert.equal(s.overall,"93");
       await p.evaluate(()=>window.send({type:"cms-ig-start",round:{position:"ST"}}));
       got=await gotAfter(p,"cms-ig-error");assert.ok(got.some(m=>m.type==="cms-ig-error"&&/round/.test(m.message)),"a bad round is reported to the game, not drawn");

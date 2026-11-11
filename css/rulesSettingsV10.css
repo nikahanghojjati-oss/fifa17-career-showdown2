@@ -118,7 +118,7 @@
 /* Studio Z: the old engineering panels (Offline App install, Connected Rivalry, pairing, account, Save Library) are
    hidden by the identity module once it starts. In Daniel and Nik's 2026-10-08 test it started late and they showed;
    Settings now never shows them, whatever the start order. Their controls stay in the DOM for the internal flows. */
-#settingsOverlay #settingsContent :is(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, .settingsOfflinePanel):not([data-test-surface="internal-audit"]) { display:none !important; }
+#settingsOverlay #settingsContent :is(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, .settingsOfflinePanel):not([data-test-surface="internal-audit"]) { display:none !important; }
 
 /* JOB-1652: three motion choices, with a single-column phone layout. */
 #settingsOverlay.v10Settings .settingsMotionChoices {
@@ -1110,7 +1110,7 @@
   }
   body #settingsOverlay.v10Settings .settingsPanelHeading { border-bottom-color: rgba(214, 178, 96, .35); }
   /* buttons: black lacquer with a gold bevel */
-  body #settingsOverlay.v10Settings :is(.menuButton:not(.sd-btn):not(.settingsDeleteCurrentShowdown), .settingsApplicationUpdateButton, .settingsDataButton) {
+  body #settingsOverlay.v10Settings :is(.menuButton:not(.sd-btn):not(.settingsDeleteCurrentShowdown), .settingsApplicationUpdateButton) {
     border: 2px solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0; color: #fff1ae;
     background: linear-gradient(180deg, #141311, #070708); box-shadow: inset 0 0 0 1px #050505, inset 0 1px 0 2px rgba(255, 241, 184, .1);
   }
@@ -1122,7 +1122,6 @@
     background: linear-gradient(180deg, #b01720 0%, #7d0e15 55%, #5a0a10 100%) !important;
     box-shadow: inset 0 0 0 1px #2a0306, inset 0 1px 0 2px rgba(255, 190, 170, .28);
   }
-  body #settingsOverlay.v10Settings .settingsDataActions .settingsDataButton { flex: 1 1 0; }
   /* motion choices */
   body #settingsOverlay.v10Settings .settingsMotionChoice {
     border: 2px solid rgba(214, 178, 96, .5); border-radius: 0; background: linear-gradient(180deg, rgba(14, 14, 15, .92), rgba(6, 6, 7, .9));

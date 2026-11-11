@@ -13,8 +13,9 @@
 //   outfield stats (a HEA column is refused), a valid nation code, a card version that fits its game, an https source,
 //   and no accepted name shared by two players (accents, case, spaces, dots and hyphens ignored, as js/iconNames.js).
 //   icon_cards_considered.csv: the same rules per card, one card per player per game, and every icons.csv player's
-//   card must be the highest-overall card listed for him, the newer game winning a tie, an Icon card always beating a Hero
-//   or Hall of FUT card (Nik 2026-11-01). --icons and --cards also take several comma-separated files with the same header.
+//   card must be the highest-overall card listed for him across Legend, Icon, Hero and Hall of FUT (Nik 2026-11-11: each
+//   player appears once, with his highest-rated card); on a tie the Legend or Icon card wins, then the newer game.
+//   --icons and --cards also take several comma-separated files with the same header.
 // It writes nothing unless every check passes. It also prints the §6.3 value spot-check sample (at least 20 rows or
 // 15%, picked at random, plus the 10 highest overalls) with each row's source page, for a second-source check by hand.
 import fs from 'node:fs';
@@ -31,9 +32,9 @@ export const ICON_COLUMNS=Object.freeze(['id','card_name','full_name','accepted_
 export const CARD_COLUMNS=Object.freeze(['id','game','card_version','overall','source_url']);
 export const POSITIONS=Object.freeze(['ST','CF','CAM','CM','CDM','LM','RM','LW','RW','LB','RB','LWB','RWB','CB','LF','RF']);
 export const CARD_VERSIONS=Object.freeze(['Legend','Icon Prime','Icon Base','Hero','Hall of FUT']);
-// Nik 2026-11-01 (R88-ICON-02): FUT Heroes and Hall of FUT players join the list, and the Icon card always wins: a player with
-// any allowed Legend or Icon card uses the highest of those only; a Hero or Hall of FUT card is used only for a player with
-// no Legend or Icon card at all. Ties go to the newer game in both cases.
+// Nik 2026-11-01 (R88-ICON-02): FUT Heroes and Hall of FUT players join the list. Nik 2026-11-11 changed the choice: a player
+// who has been an Icon, a Legend, a Hero and/or a Hall of FUT player appears ONCE, with his highest-rated card of all of them.
+// On a tie the Legend or Icon card wins, then the newer game.
 export const ICON_VERSIONS=Object.freeze(['Legend','Icon Prime','Icon Base']);
 const ID_RE=/^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const HOME_NATIONS=new Set(['GB-ENG','GB-SCT','GB-WLS','GB-NIR']);
@@ -162,6 +163,10 @@ export function checkIcons({iconsCsv,cardsCsv,lastPrimeGame}){
     players.push(row);
   }
 
+  // One player, one row (Nik 2026-11-11): no full name may appear twice, however the id is spelled.
+  const fullNames=new Map();
+  for(const p of players){const key=Names.fold(p.fullName);if(!key)continue;if(fullNames.has(key))errors.push(`${p._where}: full name "${p.fullName}" is already used by ${fullNames.get(key)}; a player appears once, with his highest-rated card`);else fullNames.set(key,p.id);}
+
   // No accepted name may belong to two players. The one exception is a printed card name that two players share and
   // that neither lists in accepted_names (Brian and Michael Laudrup are both "Laudrup"): js/iconNames.js treats that text as
   // "ambiguous", so it costs no chip and the suggestions show both players; their full names still count. Reported as a warning.
@@ -205,8 +210,8 @@ export function checkIcons({iconsCsv,cardsCsv,lastPrimeGame}){
   const unused=[...considered.keys()].filter(id=>!ids.has(id));
   if(unused.length)warnings.push(`icon_cards_considered.csv lists players who are not in icons.csv: ${unused.join(', ')}`);
 
-  // The choice check: the Icon card always wins (Legend, Icon Prime, Icon Base: highest overall, newer game on a tie);
-  // only a player with none of those uses his highest Hero or Hall of FUT card.
+  // The choice check (Nik 2026-11-11): the highest overall of every card listed for the player, whatever its version; on a tie a
+  // Legend or Icon card beats a Hero or Hall of FUT card, then the newer game wins.
   for(const p of players){
     if(p._n===null||p.overall===null||!CARD_VERSIONS.includes(p.cardVersion))continue;
     const list=considered.get(p.id);
@@ -214,9 +219,9 @@ export function checkIcons({iconsCsv,cardsCsv,lastPrimeGame}){
     const own=list.find(c=>c.n===p._n&&c.version===p.cardVersion);
     if(!own){errors.push(`${p._where}: its card (${p.game} ${p.cardVersion}) is not listed in icon_cards_considered.csv`);continue;}
     if(own.overall!==p.overall)errors.push(`${p._where}: overall ${p.overall} differs from ${own.overall} in icon_cards_considered.csv`);
-    const iconCards=list.filter(c=>ICON_VERSIONS.includes(c.version)),pool=iconCards.length?iconCards:list;
-    const best=[...pool].sort((a,b)=>b.overall-a.overall||b.n-a.n)[0];
-    if(best!==own)errors.push(`${p._where}: the card to use is ${gameLabel(best.n)} ${best.version} (overall ${best.overall}), not ${p.game} ${p.cardVersion} (overall ${p.overall})${iconCards.length&&!ICON_VERSIONS.includes(p.cardVersion)?'; the Icon card always wins (Nik 2026-11-01)':''}`);
+    const isIcon=c=>ICON_VERSIONS.includes(c.version)?1:0;
+    const best=[...list].sort((a,b)=>b.overall-a.overall||isIcon(b)-isIcon(a)||b.n-a.n)[0];
+    if(best!==own)errors.push(`${p._where}: the card to use is ${gameLabel(best.n)} ${best.version} (overall ${best.overall}), not ${p.game} ${p.cardVersion} (overall ${p.overall}); a player uses his highest-rated card across Legend, Icon, Hero and Hall of FUT (Nik 2026-11-11)`);
   }
 
   const count=v=>players.filter(p=>p.cardVersion===v).length;
@@ -240,8 +245,7 @@ export function renderIconsJs(players,{generatedOn,summary,listVersion=1}){
   "use strict";
 
   // R88 Prime Pack (Nik 2026-10-31/11-01): male outfield Legends, Icons, FUT Heroes and Hall of FUT players, one card each
-  // (the Icon card always wins: the highest Legend or Icon card; a Hero or Hall of FUT card only for a player with none; the
-  // newer game wins a tie). Written by scripts/r88-icons-from-csv.mjs on ${generatedOn} from the checked CSVs:
+  // (Nik 2026-11-11: the highest-rated card of any version; on a tie the Legend or Icon card, then the newer game). Written by scripts/r88-icons-from-csv.mjs on ${generatedOn} from the checked CSVs:
   // ${summary.players} players (${summary.legend} Legend, ${summary.iconPrime} Icon Prime, ${summary.iconBase} Icon Base, ${summary.hero} Hero, ${summary.hallOfFut} Hall of FUT),
   // Prime cards up to ${summary.lastPrimeGame}. Do not edit by hand: fix the CSVs and run the script again.
   // The order is part of the draw: never reorder rows or change who is in them once released; a new list is a new LIST_VERSION.

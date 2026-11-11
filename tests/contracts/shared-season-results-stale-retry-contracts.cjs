@@ -81,7 +81,7 @@ async function scenario(publishScript){
     reportApplicationError:(context,error)=>reports.push({context,code:error&&error.code,message:error&&error.message}),
     ensureGameplayModules:async()=>true,
     loadRuntimeScript:async key=>{throw new Error(`unexpected runtime load ${key}`);},
-    CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:"playerOne",rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setupUpdatedAtMs:Date.parse("2026-10-01T00:00:00Z")})},
+    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>false,markDone(){}},CareerModeChamberMenStep:{ensure:async()=>true,applies:()=>false,markDone(){}},CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:"playerOne",rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setupUpdatedAtMs:Date.parse("2026-10-01T00:00:00Z")})},
     CareerModeProductionSharedTransferChallenge:{refresh:async()=>true,getState:()=>({seasonNumber:1,state:{phase:"COMPLETED"}})},
     CareerModeSharedShowdownCatalog:{catalog:{premier_league:new Array(20).fill("club")}},
     CareerModeSharedShowdownSetup:{},CareerModeSharedSeasonResults:{},
@@ -132,7 +132,7 @@ async function scenario(publishScript){
   assert.equal(run.reports.length,1);
   assert.equal(run.reports[0].code,"SEASON_RESULTS_STALE_BASE_REVISION");
   assert.equal(run.api.getState().ownResult,null);
-  assert.equal(run.document.getElementById("seasonReviewError").textContent||run.document.getElementById("seasonEntryError").textContent,"Your Season Result could not be published.");
+  assert.equal(run.document.getElementById("seasonReviewError").textContent||run.document.getElementById("seasonEntryError").textContent,"Your season result could not be published.");
   ok("second stale publish surfaces SEASON_RESULTS_STALE_BASE_REVISION after exactly two attempts");
 
   // (4) a non-stale rejection is never retried.

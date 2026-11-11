@@ -35,7 +35,7 @@ process.on('rejectionHandled',handled);
     assert.equal(result,false,'the failed open must settle without waiting for the slow Statistics script');
     assert.equal(context.getOptionalModuleState().careerStatistics,'error');
     assert.equal(button.busy,false,'the player can retry after the failed dependency settles');
-    assert.deepEqual(reported,['Unable to load css/analytics.css.']);
+    assert.deepEqual(reported,['Could not load css/analytics.css.']);
     assert.deepEqual(opened,[]);
     await first;
 

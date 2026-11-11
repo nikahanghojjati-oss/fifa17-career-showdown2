@@ -196,7 +196,7 @@ async function smokeDestinations(page,prefix){
   await page.locator("#settingsButton").click();
   await page.locator("#settingsOverlay").waitFor({state:"visible"});
   await page.waitForFunction(()=>{
-    const ids=["saveLibraryProductPanel","sparkConnectedAccountPanel","sparkPrivatePairingPanel","sparkConnectedRivalryPanel"];
+    const ids=["sparkConnectedAccountPanel","sparkPrivatePairingPanel","sparkConnectedRivalryPanel"];
     const hiddenByProduct=ids.every(id=>{const element=document.getElementById(id);return !element||element.hidden||getComputedStyle(element).display==="none";});
     const offline=[...document.querySelectorAll("#settingsContent .settingsOfflinePanel")];
     const data=document.querySelector("#settingsContent .settingsDataPanel");
@@ -207,12 +207,10 @@ async function smokeDestinations(page,prefix){
       && document.getElementById("settingsTitle")?.textContent?.trim()==="SETTINGS";
   },null,{timeout:15000});
   const settingsContainment=await page.evaluate(()=>({
-    saveLibrary:document.getElementById("saveLibraryProductPanel")?getComputedStyle(document.getElementById("saveLibraryProductPanel")).display:"absent",
     offline:[...document.querySelectorAll("#settingsContent .settingsOfflinePanel")].every(element=>element.hidden||getComputedStyle(element).display==="none"),
     dataVisible:(()=>{const element=document.querySelector("#settingsContent .settingsDataPanel");return Boolean(element&&element.hidden!==true&&getComputedStyle(element).display!=="none"&&/SHOWDOWN DATA/i.test(element.textContent||""));})(),
     title:document.getElementById("settingsTitle")?.textContent?.trim()||""
   }));
-  assert.notEqual(settingsContainment.saveLibrary,"block",`${prefix} Save Library recovery panel leaked into normal Settings.`);
   assert.equal(settingsContainment.offline,true,`${prefix} offline recovery panel leaked into normal Settings.`);
   assert.equal(settingsContainment.dataVisible,true,`${prefix} player-facing Showdown Data panel must stay visible in normal Settings.`);
   assert.equal(settingsContainment.title,"SETTINGS",`${prefix} Settings heading was reclaimed by recovery machinery.`);
@@ -222,7 +220,7 @@ async function runProductScenario(browser,config){
   const context=await browser.newContext({viewport:config.viewport,deviceScaleFactor:config.deviceScaleFactor||1,isMobile:Boolean(config.isMobile),hasTouch:Boolean(config.hasTouch),reducedMotion:config.reducedMotion,locale:"en-US"});
   const page=await context.newPage(),monitors=createPageMonitors(page);await installAuditRuntime(page);
   try{
-    await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await assertStableProductSurface(page,config.prefix);assert.equal(normalizeText(await page.locator("#seasonIndicator").textContent()),"No Active Showdown");assert.equal(await page.locator("#continueCareer").isEnabled(),false);await runAxe(page,`${config.prefix} Empty Home`);await assertLayout(page,`${config.prefix} Empty Home`);
+    await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await assertStableProductSurface(page,config.prefix);assert.equal(normalizeText(await page.locator("#seasonIndicator").textContent()),"No Showdown live");assert.equal(await page.locator("#continueCareer").isEnabled(),false);await runAxe(page,`${config.prefix} Empty Home`);await assertLayout(page,`${config.prefix} Empty Home`);
     await createShowdownWithRapidActivation(page,config.prefix);await selectAndConfirmLeague(page,config.prefix);await revealPermanentClubs(page,config.prefix);await verifyDashboardShellAndRecovery(page,config.prefix);
     if(config.fullOptional)await smokeDestinations(page,config.prefix);else{await runAxe(page,`${config.prefix} Dashboard Recovery`);await assertLayout(page,`${config.prefix} Dashboard Recovery`);}
     await assertNoDuplicateIds(page,`${config.prefix} final DOM`);monitors.assertClean(config.prefix);checkpoint(`${config.prefix} clean runtime and local assets`);
@@ -231,14 +229,14 @@ async function runProductScenario(browser,config){
 async function runCorruptStorageFixture(browser){
   const context=await browser.newContext({viewport:{width:1366,height:768},locale:"en-US"});
   await context.addInitScript(({origin,activeKey,legacyKey,preferencesKey})=>{if(location.origin!==origin)return;localStorage.setItem(activeKey,"{corrupt active");localStorage.setItem(legacyKey,"{corrupt legacy");localStorage.setItem(preferencesKey,"[]");},{origin:baseUrl.origin,activeKey:activeStorageKey,legacyKey:legacyStorageKey,preferencesKey:preferencesStorageKey});
-  const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to parse the active showdown/,/Unable to parse Legacy history/,/Unable to parse application preferences/,/Unable to prepare local Save Library authority/,/Save Library activation failed/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
+  const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to parse the active showdown/,/Unable to parse Legacy history/,/Unable to parse application preferences/,/Could not prepare local Save Library authority/,/Save Library activation failed/,/Could not prepare Showdown/]);await installAuditRuntime(page);
   try{
     await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);assert.equal(await page.locator("#continueCareer").isEnabled(),false);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active");
     await page.locator("#newShowdown").click();await expectSeasonsStraightFromHome(page);await waitForScreen(page,"createShowdown");await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active","Unreadable legacy singleton bytes must remain byte-for-byte untouched when canonical Start fails closed.");assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null,"Corrupt singleton failure must not fabricate Save Library authority.");monitors.assertClean("Corrupt storage fixture");checkpoint("Corrupt singleton bytes fail closed at canonical Start");
   }finally{await context.close();}
 }
 async function runQuotaFailureFixture(browser){
-  const context=await browser.newContext({viewport:{width:1366,height:768},locale:"en-US"});const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to write saved data/,/Unable to prepare local Save Library authority/,/Save Library/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
+  const context=await browser.newContext({viewport:{width:1366,height:768},locale:"en-US"});const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to write saved data/,/Could not prepare local Save Library authority/,/Save Library/,/Could not prepare Showdown/]);await installAuditRuntime(page);
   try{
     await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await page.locator("#newShowdown").click();await expectSeasonsStraightFromHome(page);await waitForScreen(page,"createShowdown");
     await page.evaluate(key=>{window.__cmsQuotaOriginalSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(storageKey,value){if(storageKey===key)throw new DOMException("Simulated quota exhaustion","QuotaExceededError");return window.__cmsQuotaOriginalSetItem.call(this,storageKey,value);};},saveLibraryStorageKey);

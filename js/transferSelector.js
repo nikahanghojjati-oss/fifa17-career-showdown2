@@ -4,6 +4,10 @@
 ===================================================== */
 
 // Every match is listed (the list scrolls), so an empty box browses the whole FIFA 17 list (Nik 2026-10-30).
+// r91 (2.4.0): a third kind, "player", on the Transfer War signing name. It searches the full FIFA 17 launch list
+// (js/playerSearch.js, loaded on demand) from two letters, at most 20 rows. The typed text is always the truth: nothing is
+// highlighted until an arrow key moves, so Enter or a tap away keeps a custom name exactly as typed. A pick fills the name,
+// keeps the player's SoFIFA id on the box (data-player-id, cleared on the next edit) and sends "transfer-player-pick".
 const TRANSFER_SELECTOR_RESULT_LIMIT = 400;
 const transferSelectorStates = new WeakMap();
 let transferSelectorDocumentBound = false;
@@ -37,7 +41,7 @@ function getTransferSelectorOptionMeta(kind, option){
     }
     const tier = Number(option.tier);
     if(option.id === "rest-of-world"){
-        return "Other / fallback";
+        return "Other";
     }
     return tier > 1 ? `${option.country} · Tier ${tier}` : option.country;
 }
@@ -77,6 +81,8 @@ function finishTransferSelectorPress(){
 
 function closeTransferSelectorAfterBlur(input){
     window.setTimeout(() => {
+        // r91: focus that came straight back (Team V's card re-mounted around the box) keeps the list open.
+        if(document.activeElement === input){ return; }
         if(transferSelectorPressActive){ transferSelectorCloseAfterPress = true; return; }
         closeTransferSelector(input);
     }, 120);
@@ -97,7 +103,47 @@ function bindTransferSelectorDocumentDismiss(){
     window.addEventListener("pointercancel", finishTransferSelectorPress, true);
 }
 
+function getTransferPlayerSearch(){
+    return window.CareerModePlayerSearch || null;
+}
+
+// The search code (js/playerSearch.js, a few KB) loads the first time a name box becomes a player search, through the app's
+// own lazy loader (js/optionalModules.js loadRuntimeScript), so Home's startup files stay as they are.
+let transferPlayerSearchLoad = null;
+function loadTransferPlayerSearch(){
+    if(getTransferPlayerSearch()){ return Promise.resolve(getTransferPlayerSearch()); }
+    if(transferPlayerSearchLoad){ return transferPlayerSearchLoad; }
+    if(typeof window.loadRuntimeScript !== "function"){ return Promise.resolve(null); }
+    transferPlayerSearchLoad = window.loadRuntimeScript(
+        "player-search",
+        "js/playerSearch.js",
+        () => Boolean(window.CareerModePlayerSearch && typeof window.CareerModePlayerSearch.ensure === "function")
+    ).then(getTransferPlayerSearch, () => { transferPlayerSearchLoad = null; return null; });
+    return transferPlayerSearchLoad;
+}
+
+function filterTransferPlayerOptions(query){
+    const search = getTransferPlayerSearch();
+    const db = search && typeof search.ready === "function" ? search.ready() : null;
+    return db ? db.suggest(query) : [];
+}
+
+// The page's own blocked check (js/productionSharedTransferChallenge.js): the same refusal LOCK gives, or "".
+function getTransferPlayerBlockedText(input, player){
+    if(typeof window.CareerModeTransferPlayerBlocked !== "function"){ return ""; }
+    try{ return String(window.CareerModeTransferPlayerBlocked(input, player.name) || ""); }catch(_error){ return ""; }
+}
+
+function getTransferPlayerEmptyText(input){
+    const search = getTransferPlayerSearch();
+    const status = search && typeof search.status === "function" ? search.status() : "failed";
+    if(status === "failed"){ return "Player list unavailable. Type the name."; }
+    if(status !== "ready"){ return "Loading the FIFA 17 players…"; }
+    return "Not in the FIFA 17 list. Your name stays as typed.";
+}
+
 function filterTransferSelectorOptions(kind, query){
+    if(kind === "player"){ return filterTransferPlayerOptions(query); }
     const options = getTransferSelectorOptions(kind);
     const normalizedQuery = transferSelectorNormalize(query);
 
@@ -130,9 +176,43 @@ function filterTransferSelectorOptions(kind, query){
     return [...starts, ...includes].slice(0, TRANSFER_SELECTOR_RESULT_LIMIT);
 }
 
+function chooseTransferPlayerOption(input, player){
+    const blocked = getTransferPlayerBlockedText(input, player);
+    if(blocked){
+        showTransferPlayerBlocked(input, blocked);
+        return;
+    }
+    input.value = player.name;
+    input.dataset.playerId = String(player.id);
+    closeTransferSelector(input);
+    input.dispatchEvent(new CustomEvent("transfer-player-pick", {
+        bubbles: true,
+        detail: { player }
+    }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+// A blocked player is listed (so the manager sees why) but can't be picked; the refusal shows in the list itself.
+function showTransferPlayerBlocked(input, text){
+    const state = transferSelectorStates.get(input);
+    if(!state){ return; }
+    let note = state.list.querySelector(".transferComboboxNotice");
+    if(!note){
+        note = document.createElement("div");
+        note.className = "transferComboboxNotice";
+        note.setAttribute("role", "status");
+        state.list.prepend(note);
+    }
+    note.textContent = text;
+}
+
 function chooseTransferSelectorOption(input, option, dispatch = true){
     const state = transferSelectorStates.get(input);
     if(!state || !option){ return; }
+    if(state.kind === "player"){
+        chooseTransferPlayerOption(input, option);
+        return;
+    }
 
     input.value = option.label;
     input.dataset.canonicalId = option.id;
@@ -152,16 +232,29 @@ function renderTransferSelectorList(input){
     const state = transferSelectorStates.get(input);
     if(!state){ return; }
 
+    const isPlayer = state.kind === "player";
+    if(isPlayer && transferPlayerQueryTooShort(input.value)){
+        closeTransferSelector(input);
+        return;
+    }
     const options = filterTransferSelectorOptions(state.kind, input.value);
     state.filteredOptions = options;
-    state.activeIndex = options.length ? 0 : -1;
+    state.activeIndex = options.length && !isPlayer ? 0 : -1;
 
     const fragment = document.createDocumentFragment();
     if(!options.length){
         const empty = document.createElement("div");
         empty.className = "transferComboboxEmpty";
-        empty.textContent = "No matching FIFA 17 option";
+        empty.textContent = isPlayer ? getTransferPlayerEmptyText(input) : "Nothing in FIFA 17 matches";
         fragment.appendChild(empty);
+    }else if(isPlayer){
+        options.forEach((player, index) => {
+            fragment.appendChild(renderTransferPlayerOption(input, state, player, index));
+        });
+        const hint = document.createElement("div");
+        hint.className = "transferComboboxHint";
+        hint.textContent = "FIFA 17 launch details. Check them against your save.";
+        fragment.appendChild(hint);
     }else{
         options.forEach((option, index) => {
             const item = document.createElement("div");
@@ -199,6 +292,44 @@ function renderTransferSelectorList(input){
     if(typeof state.list.scrollIntoView === "function"){ state.list.scrollIntoView({ block: "nearest" }); }
 }
 
+function transferPlayerQueryTooShort(text){
+    const search = getTransferPlayerSearch();
+    const min = search && search.MIN_LETTERS || 2;
+    const folded = search && typeof search.fold === "function" ? search.fold(text) : String(text || "").trim();
+    return folded.length < min;
+}
+
+function renderTransferPlayerOption(input, state, player, index){
+    const item = document.createElement("div");
+    item.id = `${state.list.id}-option-${index}`;
+    item.className = "transferComboboxOption transferComboboxPlayer";
+    item.setAttribute("role", "option");
+    item.setAttribute("aria-selected", "false");
+    item.dataset.playerId = String(player.id);
+
+    const label = document.createElement("strong");
+    label.textContent = player.name;
+    item.appendChild(label);
+
+    const meta = document.createElement("span");
+    meta.textContent = `${player.position} ${player.overall} · ${player.freeAgent ? "Free agent" : player.club}`;
+    item.appendChild(meta);
+
+    const blocked = getTransferPlayerBlockedText(input, player);
+    if(blocked){
+        item.classList.add("is-blocked");
+        item.setAttribute("aria-disabled", "true");
+        const why = document.createElement("em");
+        why.textContent = "Can't be signed";
+        item.appendChild(why);
+    }
+    item.addEventListener("click", event => {
+        event.preventDefault();
+        chooseTransferSelectorOption(input, player, true);
+    });
+    return item;
+}
+
 function updateTransferSelectorActiveDescendant(input){
     const state = transferSelectorStates.get(input);
     if(!state){ return; }
@@ -220,10 +351,16 @@ function updateTransferSelectorActiveDescendant(input){
 
 function handleTransferSelectorInput(event){
     const input = event.currentTarget;
+    const state = transferSelectorStates.get(input);
+    if(state && state.kind === "player"){
+        // The typed text is the truth; a pick's id never outlives an edit.
+        delete input.dataset.playerId;
+        renderTransferSelectorList(input);
+        return;
+    }
     delete input.dataset.canonicalId;
     delete input.dataset.canonicalLabel;
 
-    const state = transferSelectorStates.get(input);
     if(!state){ return; }
     const exact = typeof window.resolveFifa17TransferOption === "function"
         ? window.resolveFifa17TransferOption(state.kind, input.value)
@@ -302,6 +439,7 @@ function enhanceTransferSelector(input, kind){
     input.addEventListener("keydown", handleTransferSelectorKeydown);
     input.addEventListener("focus", () => {
         closeAllTransferSelectors(input);
+        if(state.kind === "player"){ ensureTransferPlayerList(input); }
         renderTransferSelectorList(input);
     });
     input.addEventListener("blur", () => closeTransferSelectorAfterBlur(input));
@@ -311,9 +449,30 @@ function enhanceTransferSelector(input, kind){
     return state;
 }
 
+// Fetches the player list (once per page; a failed fetch retries on the next focus) and refreshes an open list when it lands.
+function ensureTransferPlayerList(input){
+    loadTransferPlayerSearch().then(search => {
+        if(!search || typeof search.ensure !== "function"){ return null; }
+        return search.ensure();
+    }).then(() => {
+        if(input && document.activeElement === input){ renderTransferSelectorList(input); }
+    });
+}
+
 function updateTransferSelectorKind(input, kind){
     const state = transferSelectorStates.get(input);
     if(!state){ return; }
+    if(kind === "player"){
+        // The name box keeps its own label, placeholder and value: only the list is added.
+        if(state.kind === "player"){ return; }
+        state.kind = "player";
+        input.dataset.selectorKind = "player";
+        // Load the search code now and fetch the list at idle, so it is ready before the first letters are typed.
+        ensureTransferPlayerList(null);
+        input.setAttribute("aria-label", `${input.dataset.selectorContextLabel || "Player name"}. Search FIFA 17 players or type any name`);
+        closeTransferSelector(input);
+        return;
+    }
     const normalizedKind = kind === "league" ? "league" : "nationality";
     if(state.kind === normalizedKind){ return; }
 
@@ -321,7 +480,7 @@ function updateTransferSelectorKind(input, kind){
     input.dataset.selectorKind = normalizedKind;
     const actionLabel = normalizedKind === "league"
         ? "Search FIFA 17 previous league"
-        : "Search player nationality";
+        : "Search nationality";
     const contextLabel = input.dataset.selectorContextLabel;
     input.setAttribute("aria-label", contextLabel ? `${contextLabel}. ${actionLabel}` : actionLabel);
     delete input.dataset.canonicalId;
@@ -366,3 +525,4 @@ window.setTransferSelectorValue = setTransferSelectorValue;
 window.getTransferSelectorCanonicalValue = getTransferSelectorCanonicalValue;
 window.getTransferSelectorDisplayValue = getTransferSelectorDisplayValue;
 window.closeAllTransferSelectors = closeAllTransferSelectors;
+window.ensureTransferPlayerList = ensureTransferPlayerList;

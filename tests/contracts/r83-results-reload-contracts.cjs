@@ -52,6 +52,8 @@ function page({storage,role,season=1,rivalry=RID,stage="entry",phase="COMPLETED"
     CareerModeSparkRemoteJoining:{getState:()=>remote,subscribe:()=>()=>{}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
     CareerModeProductionSharedShowdownSetup:{refresh:async()=>setup,getState:()=>setup},
+    // r91 Squad Management: this harness plays a Showdown whose squads are not asked here (tests/contracts/r91-squad-sheet-contracts.cjs).
+    CareerModeSquadSheetStep:{applies:()=>false,isDone:()=>true,close(){}},
     CareerModeRosterRouletteStep:{decide:()=>false,runBeforeTransfers:async()=>true,close(){},ensureDraw:async()=>true},
     CareerModeProductionSharedCareerStart:{refresh:async()=>true,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}}),openPanel:async()=>{s.CareerModeProductionSharedTransferChallenge.install();return s.CareerModeProductionSharedTransferChallenge.open();}},
     CareerModeProductionSharedMultiSeasonProgression:{install(){},resolveSeason:()=>season,resumeFromAuthority:async()=>({acceptedSeasons:season-1,season,rivalryId:rivalry}),decorateDashboard(){}},

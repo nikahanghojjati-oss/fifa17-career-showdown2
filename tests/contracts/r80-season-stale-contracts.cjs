@@ -93,7 +93,7 @@ function boot(){
   // Showdown. Nothing refreshed this phone's Shared Setup, so it still holds R2's confirmed Setup.
   t.sandbox.currentShowdown=null;
   t.page.pair={initialized:true,busy:false,status:"unpaired",rivalryId:null,connectionState:null,closedRivalryId:R2,closedProviderSaveId:"save_aaaaaaaaaaaaaaaaaaaaaaaa"};
-  assert.equal(t.indicator(),"No Active Showdown","S3 Home after END has no live Showdown");
+  assert.equal(t.indicator(),"No Showdown live","S3 Home after END has no live Showdown");
   t.sandbox.currentShowdown=shell(1700000000002,"save_bbbbbbbbbbbbbbbbbbbbbbbb");
   t.page.pair={initialized:true,busy:true,status:"waiting",rivalryId:R3,connectionState:"pending-pair",closedRivalryId:R2,closedProviderSaveId:"save_aaaaaaaaaaaaaaaaaaaaaaaa"};
   assert.equal(t.page.setup.rivalryId,R2,"S3 precondition: the ending phone's Setup still holds the ended R2");

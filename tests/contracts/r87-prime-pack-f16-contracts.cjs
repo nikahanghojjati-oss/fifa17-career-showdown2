@@ -1,8 +1,8 @@
 "use strict";
 // Fable job 16 Prime Pack fixes for 2.0.0 (G Lead 2026-11-02):
 //   G1  F16-02 a phone locked after its arrival commits but before the first snapshot still withdraws (nobody plays alone)
-//   G2  F16-01 with CMS_PRIME_PACK="off" the season results never block a publish on the Prime Pack: a failed load or read
-//       scores 0, a point this phone already saw won still counts; with the switch on nothing changes (F13-04, F14-02)
+//   G2  a failed load or read of the Prime Pack stops the season-results publish (TRY AGAIN), never a dropped point (F13-04);
+//       there is no kill switch any more (old-era cut)
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -74,8 +74,8 @@ function harness({holdSnapshots=false}={}){
 }
 function restore(){globalThis.setTimeout=realSetTimeout;globalThis.setInterval=realSetInterval;globalThis.clearInterval=realClearInterval;Date.now=realNow;}
 function freshStep(){delete require.cache[require.resolve("../../js/iconGuessStep.js")];return require("../../js/iconGuessStep.js");}
-// Confirm times one hour after the release time the tool set (contracts must not depend on today's date).
-const ELIGIBLE_MS=Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000;
+// Confirm times one hour after a fixed date (contracts must not depend on today's date).
+const ELIGIBLE_MS=Date.parse("2026-11-02T05:00:00Z")+3600000;
 const ctx=(role="playerOne")=>({rivalryId:RID,managerRole:role,season:1,confirmedAtMs:Math.max(realNow(),ELIGIBLE_MS)});
 const other={playerOne:"playerTwo",playerTwo:"playerOne"};
 const arrivedOf=(h,role)=>h.stored&&h.stored.arrived[role]?h.stored.arrived[role].toMillis():null;
@@ -86,19 +86,19 @@ async function section(id,fn){
 }
 
 // pssrWithPrimePack from the shipped file, run in a sandbox with a fake setup, loader and step.
-function seasonResultsPack({off=false,step=null,loadFails=false,confirmedAtMs=ELIGIBLE_MS}={}){
+function seasonResultsPack({step=null,loadFails=false,confirmedAtMs=ELIGIBLE_MS}={}){
   const src=read("js/productionSharedSeasonResults.js");
-  const from=src.indexOf("  const PRIME_PACK_FROM_MS="),to=src.indexOf("  async function pssrPublish()");
+  const from=src.indexOf("  async function pssrWithPrimePack("),to=src.indexOf("  async function pssrPublish()");
   assert.ok(from>0&&to>from,"pssrWithPrimePack is where it was");
   const notes=[];
-  const sandbox={root:{CMS_PRIME_PACK:off?"off":undefined,CareerModeIconGuessStep:loadFails?null:step,loadRuntimeScript:async()=>{if(loadFails)throw new Error("offline");},CareerModeFirestoreBudget:{noteError:e=>notes.push(e)}},
+  const sandbox={root:{CareerModeIconGuessStep:loadFails?null:step,loadRuntimeScript:async()=>{if(loadFails)throw new Error("offline");},CareerModeFirestoreBudget:{noteError:e=>notes.push(e)}},
     setupApi:{refresh:async()=>true},pssrSetupState:()=>({setupUpdatedAtMs:confirmedAtMs}),
     pssrFail:(code,message)=>{const e=new Error(message||code);e.code=code;throw e;},Date,Number,Promise,Object};
   vm.createContext(sandbox);
   vm.runInContext(`${src.slice(from,to)};this.fn=pssrWithPrimePack;`,sandbox);
   return {run:()=>sandbox.fn({options:{rivalryId:RID,firestore:{},firebaseSdk:{}},setup:{managerRole:"playerOne"}},{seasonNumber:3},{leaguePosition:2,primePack:9}),notes};
 }
-const fakeStep=({ensure=true,points=0,readFails=false,memo=null}={})=>({ensure:async()=>ensure,applies:(c,o)=>Boolean(o&&o.ignoreSwitch),
+const fakeStep=({ensure=true,points=0,readFails=false,memo=null}={})=>({ensure:async()=>ensure,applies:()=>true,
   wonPoints:()=>memo,pointsFor:async()=>{if(readFails)throw Object.assign(new Error("unavailable"),{code:"unavailable"});return points;}});
 
 (async()=>{
@@ -124,27 +124,16 @@ const fakeStep=({ensure=true,points=0,readFails=false,memo=null}={})=>({ensure:a
     ok("G1","F16-02: a lock between the arrival and the first snapshot withdraws; before the page is ready nothing is written");
     void run;void run2;
   });
-  // G2 F16-01: the kill switch is a rescue: the Prime Pack never blocks the publish when it is off.
+  // G2: the Prime Pack never drops a won point: a failure stops the publish (TRY AGAIN).
   await section("G2",async()=>{
     const pub=async opts=>{const s=seasonResultsPack(opts);return {out:await s.run().then(v=>JSON.parse(JSON.stringify(v)),e=>({error:e.code||e.message})),notes:s.notes};};
-    let r=await pub({off:true,loadFails:true});
-    assert.deepEqual(r.out,{leaguePosition:2},"switch off, the step cannot load: published with no point");
-    r=await pub({off:true,step:fakeStep({ensure:false})});
-    assert.deepEqual(r.out,{leaguePosition:2},"switch off, ensure() fails: published with no point");
-    r=await pub({off:true,step:fakeStep({readFails:true})});
-    assert.deepEqual(r.out,{leaguePosition:2},"switch off, the round read fails: noted and scored 0");
-    assert.equal(r.notes.length,1,"the failed read is noted");
-    r=await pub({off:true,step:fakeStep({readFails:true,memo:3})});
-    assert.deepEqual(r.out,{leaguePosition:2,primePack:3},"switch off, a point this phone already saw won still counts");
-    r=await pub({off:true,step:fakeStep({points:4})});
-    assert.deepEqual(r.out,{leaguePosition:2,primePack:4},"switch off, a won round read from the record still counts (F14-02)");
-    // Switch on: unchanged, a failure stops the publish (TRY AGAIN), never a dropped point.
+    let r;
     r=await pub({loadFails:true});assert.equal(r.out.error,"SEASON_RESULTS_PRIME_PACK_UNAVAILABLE");
     r=await pub({step:fakeStep({ensure:false})});assert.equal(r.out.error,"SEASON_RESULTS_PRIME_PACK_UNAVAILABLE");
-    r=await pub({step:fakeStep({readFails:true})});assert.equal(r.out.error,"unavailable","switch on, a failed read stops the publish");
+    r=await pub({step:fakeStep({readFails:true})});assert.equal(r.out.error,"unavailable","a failed read stops the publish");
     r=await pub({step:fakeStep({points:2})});assert.deepEqual(r.out,{leaguePosition:2,primePack:2});
-    r=await pub({off:true,confirmedAtMs:Number.NaN,step:fakeStep()});assert.equal(r.out.error,"SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","an unknown confirm time still fails closed (F13-04)");
-    ok("G2","F16-01: with the switch off a failed load or read publishes with 0 (a remembered win still counts); with it on nothing changes");
+    r=await pub({confirmedAtMs:Number.NaN,step:fakeStep()});assert.equal(r.out.error,"SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","an unknown confirm time still fails closed (F13-04)");
+    ok("G2","a failed Prime Pack load or read stops the publish; a won round is scored from the record; an unknown confirm time fails closed");
   });
   if(failed){console.log(`FAIL r87 Prime Pack F16 contracts: ${failed} failed.`);process.exit(1);}
   console.log(`PASS r87 Prime Pack F16 contracts: ${checks} checks.`);

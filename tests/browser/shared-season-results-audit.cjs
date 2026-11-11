@@ -52,6 +52,7 @@ async function prepare(page,{role,saveId,entry}){
       setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo']}
     };
     const transfer={ok:true,revision:7,seasonNumber:1,managerRole:role,rivalryId,setup:setup.setup,state:{phase:'COMPLETED',revision:7,guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']}};
+    window.CareerModeIconGuessStep={ensure:async()=>true,applies:()=>false,pointsFor:async()=>0}; // r91: the audit plays no Prime Pack round; this stub keeps the season publish off its Firestore read
     window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
     window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer,refresh:async()=>transfer};
     window.CareerModeSparkSharedSeasonResults={
@@ -178,9 +179,9 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
   await page.evaluate(({prefix,value})=>{document.getElementById(`${prefix}LeaguePoints`).value=String(value);},{prefix,value:result.leaguePoints+1});
   const before=server.publishes.length;
   await page.locator('#confirmSeasonCompletion').click();
-  await page.waitForFunction(()=>/changed after review/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:4000});
+  await page.waitForFunction(()=>/changed after you reviewed/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:4000});
   await page.evaluate(()=>window.__ssjrResultsAudit.refreshResults());
-  assert.match(await page.locator('#seasonReviewError').textContent(),/changed after review/i,'refresh must not erase a publication/review error before the player can read it');
+  assert.match(await page.locator('#seasonReviewError').textContent(),/changed after you reviewed/i,'refresh must not erase a publication/review error before the player can read it');
   assert.equal(server.publishes.length,before,'review fingerprint mismatch must block provider publication');
   await page.locator('#editSeasonResults').click();
   await fillOwnResult(page,role,result);

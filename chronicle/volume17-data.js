@@ -26,7 +26,7 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "Nik called it a serious gap in the logic, and he was right. A sacking is not a failure of the game. It is part of the game, and the Showdown had to treat it with the same respect it gives a title."
+     "text": "Nik called it a serious gap in the logic, and he was right. A sacking is part of the game, and the Showdown had to treat it with the same respect it gives a title."
     },
     {
      "type": "h2",
@@ -34,7 +34,7 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "So 2.2.0 adds a single line to Season Results, on each manager’s own card: “I was sacked this season.” Only he can tick it, and only for himself. Daniel cannot sack Nik and Nik cannot sack Daniel; the card belongs to the man who lived the season. The line appears in Showdowns started once 2.2.0 is released. A Showdown already under way when the update arrives keeps the cards it began with, so a sacking there can only be handled the old way, by ending the Showdown early."
+     "text": "So 2.2.0 adds a single line to Season Results, on each manager’s own card: “I was sacked this season.” Only he can tick it, and only for himself. Daniel cannot sack Nik and Nik cannot sack Daniel; the card belongs to the man who lived the season. The line sits on the Season Results card in every Showdown."
     },
     {
      "type": "p",
@@ -142,7 +142,7 @@ window.CHRONICLE_VOLUME17={
     "Rules",
     "2.2.0"
    ],
-   "words": 931,
+   "words": 920,
    "minutes": 4
   },
   {
@@ -159,7 +159,7 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "Every season now begins at the penalty spot. Before the roulette spins, Daniel and Nik take a shootout of seven shots each, and the shootout decides what the roulette will hold. It arrived in 2.1.0, and it plays in every Showdown started on 2.1.0 or later."
+     "text": "Every season now begins at the penalty spot. Before the roulette spins, Daniel and Nik take a shootout of seven shots each, and the shootout decides what the roulette will hold. It arrived in 2.1.0, and every Showdown opens each season with it."
     },
     {
      "type": "h2",
@@ -179,7 +179,7 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "A review of 2.2.0 found one honest weakness: a pick locked a moment before the clock ran out could reach the server after it, on a slow network or a retried write, and still be stored as a real side. 2.2.0 closes it from both ends. The phone checks the time on every try of its write, and a pick that lands more than 16.6 seconds after the rival’s lock-in (the 10-second clock, the 4.6 seconds the last kick is shown, and two seconds for the network) is stored as the timeout: a miss, or a keeper in the middle. The Rules hold the same 16.6 seconds and refuse a real side that arrives later. The timeout itself is always allowed, so nobody is ever stuck."
+     "text": "A review of 2.2.0 found a weakness: a pick locked a moment before the clock ran out could reach the server after it, on a slow network or a retried write, and still be stored as a real side. 2.2.0 closes it from both ends. The phone checks the time on every try of its write, and a pick that lands more than 16.6 seconds after the rival’s lock-in (the 10-second clock, the 4.6 seconds the last kick is shown, and two seconds for the network) is stored as the timeout: a miss, or a keeper in the middle. The Rules hold the same 16.6 seconds and refuse a real side that arrives later. The timeout itself is always allowed, so nobody is ever stuck."
     },
     {
      "type": "h2",
@@ -235,7 +235,7 @@ window.CHRONICLE_VOLUME17={
     "2.1.0",
     "2.2.0"
    ],
-   "words": 494,
+   "words": 512,
    "minutes": 2
   },
   {
@@ -280,7 +280,11 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "The 3D scene is a picture of the shootout, never its referee. The step that runs the game still owns every pick, clock and score, and the scene only shows what the step decides. The scene is built behind the loading screen, so the shootout appears with the stadium already drawn. If the stadium’s own files cannot come in time, a simpler 3D goal in a dark marble hall stands in for it. If it is not ready within six seconds, if the phone has no WebGL2, or if anything goes wrong, the marble goal plays that shootout as before, and a scene that arrives late is thrown away rather than swapped in mid-game. A review found that a slow load could hold the clock back, so when a rival locks in before the stadium is ready, the marble goal now appears at once, and a kick shown while the scene was loading is never lost."
+     "text": "The 3D scene is a picture of the shootout, never its referee. The step that runs the game still owns every pick, clock and score, and the scene only shows what the step decides. The scene is built behind the loading screen, so the shootout appears with the stadium already drawn."
+    },
+    {
+     "type": "p",
+     "text": "If the stadium’s own files cannot come in time, a simpler 3D goal in a dark marble hall stands in for it. If it is not ready within six seconds, if the phone has no WebGL2, or if anything goes wrong, the marble goal plays that shootout as before, and a scene that arrives late is thrown away rather than swapped in mid-game. A review found that a slow load could hold the clock back, so when a rival locks in before the stadium is ready, the marble goal now appears at once, and a kick shown while the scene was loading is never lost."
     }
    ],
    "sources": [
@@ -324,9 +328,9 @@ window.CHRONICLE_VOLUME17={
     "Kits",
     "2.2.0"
    ],
-   "words": 496,
-   "minutes": 2
+   "words": 527,
+   "minutes": 3
   }
  ],
- "wordCount": 1921
+ "wordCount": 1959
 };

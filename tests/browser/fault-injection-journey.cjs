@@ -251,6 +251,8 @@ async function pathForward(m,page=m.page){
   if(await gazette.tapGazetteIfShown(page))return "gazette";
   for(const name of ["SIGN IN WITH GOOGLE",new RegExp(`^${NAMES[m.account]} · PLAYER`,"i"),"TRY AGAIN"]){if(await clickIf(page,page.locator("#onlinePlayerIdentityOverlay button,[id^='onlinePlayerIdentity'] button").filter({hasText:name})))return `identity:${name}`;}
   if(await atPrime(page)){const st=await rosterRoulette.playPrimePack(page,{primeGuesser:PRIME});return st&&st!=="wait"?st:"prime-wait";}
+  // r91 Squad Management (#sqStage): before the roulette and before Season Results; Lock my squad, then the next button.
+  {const squad=await rosterRoulette.playSquad(page).catch(()=>null);if(squad)return squad==="wait"?"squad-wait":squad;}
   if(await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")){return await rouletteStep(m,page)||"roulette-wait";}
   // The roulette is off this tab's screen: one seen again in this tab for a finished season after this is a replay (a panel a
   // second tab still shows from before the finish is not).
@@ -306,12 +308,12 @@ async function drive(m,goal,{page=null,stepTaps=null,firstTaps=null,timeout=1800
     if(!did&&stepTaps)did=await stepTaps(p()).catch(()=>"")||"";
     if(!did)did=await retryTap(m,p()).catch(()=>"");
     // A tap that changes nothing (a dead button) is not progress: after five in a row a player gives up on it and goes Home.
-    if(did&&did===lastDid&&!["loading","roulette-wait","prime-wait"].includes(did)){repeats+=1;if(repeats>=5){const home=p().locator("button:visible").filter({hasText:/^\s*(BACK TO HOME|BACK TO SHOWDOWN HOME|HOME)\s*$/}).first();if(await clickIf(p(),home)){deadTaps.push(`${pointNow}: ${m.user} ${did} x${repeats}`);{const note=`${pointNow}: ${m.user} tapped ${did} ${repeats} times with nothing happening (dead button), then went Home`;if(!report.notes.includes(note))report.notes.push(note);}log(`  ${m.user} ${label}: ${did} did nothing ${repeats} times -> BACK TO HOME`);did="home-after-dead-tap";}repeats=0;}}else repeats=0;
+    if(did&&did===lastDid&&!["loading","roulette-wait","prime-wait","squad-wait"].includes(did)){repeats+=1;if(repeats>=5){const home=p().locator("button:visible").filter({hasText:/^\s*(BACK TO HOME|BACK TO SHOWDOWN HOME|HOME)\s*$/}).first();if(await clickIf(p(),home)){deadTaps.push(`${pointNow}: ${m.user} ${did} x${repeats}`);{const note=`${pointNow}: ${m.user} tapped ${did} ${repeats} times with nothing happening (dead button), then went Home`;if(!report.notes.includes(note))report.notes.push(note);}log(`  ${m.user} ${label}: ${did} did nothing ${repeats} times -> BACK TO HOME`);did="home-after-dead-tap";}repeats=0;}}else repeats=0;
     lastDid=did;
     // A running Prime Pack round is progress (its stages run out in about 95 s, longer than STUCK_MS); a round that never ends
     // still fails on the drive's own timeout.
-    if(did==="prime-wait")idleSince=Date.now();
-    if(did&&did!=="loading"&&did!=="roulette-wait"&&did!=="prime-wait"){idleSince=Date.now();log(`  ${m.user} ${label}: ${did}`);if(DEBUG){const d=await describe(m,p());if(d!==lastDesc){lastDesc=d;log(`    ${d.slice(0,600)}`);}}}
+    if(did==="prime-wait"||did==="squad-wait")idleSince=Date.now();
+    if(did&&did!=="loading"&&did!=="roulette-wait"&&did!=="prime-wait"&&did!=="squad-wait"){idleSince=Date.now();log(`  ${m.user} ${label}: ${did}`);if(DEBUG){const d=await describe(m,p());if(d!==lastDesc){lastDesc=d;log(`    ${d.slice(0,600)}`);}}}
     const now=Date.now();
     if(now-idleSince>STUCK_MS||now>until){
       lastDesc=await describe(m,p());
@@ -475,9 +477,9 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
 // other already opened season N+1 (a tab opened after the acknowledgement resumes there).
 function sameShowdownState(a,b){
   if(JSON.stringify(a)===JSON.stringify(b))return true;
-  // After the terminal close both tabs agree the Showdown is over whether one sits on the Champion screen (Showdown Complete)
-  // and the other on Home (No Active Showdown, its pair let go there).
-  const over=s=>/^(Showdown Complete|No Active Showdown)$/.test(String(s?.season||"").trim());
+  // After the terminal close both tabs agree the Showdown is over whether one sits on the Champion screen (Showdown complete)
+  // and the other on Home (No Showdown live, its pair let go there).
+  const over=s=>/^(Showdown complete|No Showdown live)$/.test(String(s?.season||"").trim());
   if(pointNow==="terminal-close"&&over(a)&&over(b))return true;
   const n=s=>Number((/Season (\d+)/.exec(s?.season||"")||[])[1]||0);
   const [lo,hi]=n(a)<=n(b)?[a,b]:[b,a];
@@ -532,7 +534,7 @@ async function startAndJoin(daniel,nik,length){
 }
 async function fillCombo(page,id,value){await page.locator(`#${id}`).fill(value);await page.waitForFunction(fieldId=>Boolean(document.getElementById(fieldId)?.dataset.canonicalId),id,{timeout:5000});}
 const tcState=page=>page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()||null).catch(()=>null);
-const onTransfer=async page=>await visible(page,"#transferChallenge")&&!(await page.locator("#rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
+const onTransfer=async page=>await visible(page,"#transferChallenge")&&!(await page.locator("#sqStage, #rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
 const atPrime=async page=>await visible(page,"#igStage")||await visible(page,"#igStepPanel");
 const primeState=async page=>{const f=page.frames().find(fr=>/\/icon-guess\//.test(fr.url()));return f?await f.evaluate(()=>window.__ig?.state?.()||null).catch(()=>null):null;};
 const transferPhase=page=>page.evaluate(()=>document.getElementById("transferChallenge")?.dataset.transferPhase||"").catch(()=>"");
@@ -580,7 +582,7 @@ async function main(){
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
       await drive(first,p=>startBtn(p,first).isVisible(),{label:"I STARTED AT"});await startBtn(first.page,first).click({timeout:10000});await sleep(1500);
       // After Career Start each phone plays this season's roulette; the settle stops at the roulette (spin-mark is the next point).
-      const atRoulette=async page=>await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await onTransfer(page);
+      const atRoulette=async page=>await visible(page,"#cmStage")||await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await onTransfer(page);
       await writePoint(ctx,"career-start",{writer:X,ready:p=>startBtn(p,X).isVisible(),tap:p=>startBtn(p,X).click({timeout:10000}),
         settle:async(m,page)=>{
           // pathForward plays the roulette, so this settle only waits for Career Start to be gone from the screen.
@@ -598,6 +600,7 @@ async function main(){
     // --- spin-mark (season 1): the other phone plays its roulette first; the fault phone's last roulette tap writes its mark.
     const spinMarkPoint=async(point,season)=>{
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
+      await playChamberMenBoth(ctx,season);
       await playRouletteToEnd(first,season);
       await writePoint(ctx,point,{writer:X,ready:async page=>await rouletteFinalTapReady(page),tap:async page=>{await page.locator("#rrStepPanel .rrStepPrimary").click({timeout:10000});markRouletteFinished(X,season,true);},
         settle:(m,page)=>drive(m,async p=>await atPrime(p)||await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} Prime Pack or transfer window with both marks`}),
@@ -619,7 +622,7 @@ async function main(){
     {
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
       const contReady=p=>p.evaluate(()=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent==="CONTINUE TO SEASON 2").catch(()=>false);
-      const atS2=async p=>await seasonIs(p,2,TOTAL)&&(await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p));
+      const atS2=async p=>await seasonIs(p,2,TOTAL)&&(await visible(p,"#cmStage")||await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p));
       await drive(first,async p=>await contReady(p)||await atS2(p),{label:"CONTINUE TO SEASON 2"});
       let paper="(resumed in season 2)";
       if(await contReady(first.page)){await first.page.locator("#sharedMultiSeasonContinueAction").click({timeout:10000});paper=await gazette.passGazette(first.page,"season").catch(()=>null);}
@@ -741,6 +744,30 @@ async function main(){
     else markRouletteFinished(m,season);
   }
 }
+// Chamber Men (7 kicks each, turn by turn, 10 s clock) needs BOTH phones tapping at the same time, so both play it together and stop
+// when it is over and the roulette shows (the roulette itself is played by the caller, phone by phone). Not drive(): its generic
+// path-forward would tap the roulette's panels the moment they show, and "wait" (the rival's turn) is not a dead tap here.
+async function playChamberMenBoth(ctx,season){
+  // Chamber Men stays on screen underneath the roulette, so the roulette showing is what ends it.
+  const over=async p=>await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await atPrime(p)||await onTransfer(p);
+  const one=async m=>{
+    const until=Date.now()+240000;let idleSince=Date.now();
+    for(;;){
+      if(await over(m.page).catch(()=>false))return;
+      let did="";
+      // r91: the Squad Management screen comes up over Chamber Men before the roulette; both phones lock (the screen waits
+      // for the rival's lock).
+      const squad=await rosterRoulette.playSquad(m.page).catch(()=>null);
+      if(squad){did=squad;if(did!=="wait"||DEBUG)log(`  ${m.user} season ${season} Squad Management: ${did}`);}
+      else if(await visible(m.page,"#cmStage").catch(()=>false)){did=await rosterRoulette.playChamberMen(m.page).catch(()=>"")||"";if(did!=="wait"||DEBUG)log(`  ${m.user} season ${season} Chamber Men: ${did}`);idleSince=Date.now();}
+      else did=await pathForwardNoRoulette(m,m.page).catch(()=>"");
+      if(did&&did!=="wait")idleSince=Date.now();
+      if(Date.now()-idleSince>STUCK_MS||Date.now()>until)throw Object.assign(new Error(`${m.user} stuck on the way to season ${season} Chamber Men: ${await describe(m,m.page)}`),{stuck:true,page:m.page});
+      await sleep(600);
+    }
+  };
+  await Promise.all([ctx.daniel,ctx.nik].map(one));
+}
 // The last roulette tap: the result panel's GO TO THE PRIME PACK / GO TO THE TRANSFER WAR (or I'VE RELEASED HIM when it is the last).
 async function rouletteFinalTapReady(page){
   const b=page.locator("#rrStepPanel .rrStepPrimary");
@@ -750,7 +777,7 @@ async function rouletteFinalTapReady(page){
 }
 async function spunBoth(page){const s=await tcState(page);return Boolean(s&&(s.state||Array.isArray(s.spunRoles)&&s.spunRoles.includes("playerOne")&&s.spunRoles.includes("playerTwo")));}
 // pathForward without playing the roulette (the Career Start settle stops at the roulette).
-async function pathForwardNoRoulette(m,page){if(await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await atPrime(page))return "";return pathForward(m,page);}
+async function pathForwardNoRoulette(m,page){if(await visible(page,"#cmStage")||await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await atPrime(page))return "";return pathForward(m,page);}
 
 async function transfersWithFaults(ctx,R,season){
   const {daniel,nik}=ctx;const both=[daniel,nik];
@@ -838,6 +865,10 @@ async function plainContinue(ctx,next,total){
     await drive(m,p=>p.evaluate(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next).catch(()=>false),{label:`CONTINUE TO SEASON ${next}`});
     await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:10000});
     await gazette.passGazette(m.page,"season").catch(()=>null);
+  }
+  // Chamber Men opens the season on both phones at once (they play it together), then the roulette.
+  await playChamberMenBoth(ctx,next);
+  for(const m of [ctx.daniel,ctx.nik]){
     // The Prime Pack round needs both phones: each one stops at it here (or at the window), and the caller plays it.
     await drive(m,async p=>await seasonIs(p,next,total)&&(await atPrime(p)||await onTransfer(p)),{label:`season ${next} Prime Pack or transfer`});
     markRouletteFinished(m,next);
@@ -853,6 +884,8 @@ async function fillSeasonResult(page,prefix,result){
 const reviewHeading=page=>page.evaluate(()=>{const e=document.getElementById("seasonEntry");if(!e||e.classList.contains("hidden")||!e.getClientRects().length)return "";const h=document.getElementById("seasonReviewHeading");if(!h||!h.getClientRects().length)return "";return h.textContent||"";}).catch(()=>"");
 async function toResults(m,page){
   if(await visible(page,"#seasonEntry"))return true;
+  // r91 Squad Management comes between the Transfer War and Season Results (not in the last season).
+  const squad=await rosterRoulette.playSquad(page);if(squad)return squad==="wait"?false:squad;
   const b=page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true});
   if(await clickIf(page,b))return "continue-to-results";
   return false;
@@ -947,7 +980,7 @@ async function commitWithFaults(ctx,R,season,final){
     // Closed: the Showdown Champion screen, or (a phone that reloaded after the close) Showdown Home with no live Showdown.
     if(final)return (await finalShown(p)&&await closedPhase(p)==="CLOSED")||(await closedInDb()&&await visible(p,"#mainMenu")&&!(await p.locator("#mainMenu").filter({hasText:/CONTINUE SHOWDOWN|Daniel vs Nik · Season \d+ of/}).count()));
     // A phone that reloads after the acknowledgement resumes in the next season (its roulette or Transfer Challenge).
-    if(await seasonIs(p,season+1,3)&&(await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p)))return true;
+    if(await seasonIs(p,season+1,3)&&(await visible(p,"#cmStage")||await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p)))return true;
     return await commitLabel(p)==="SEASON CONFIRMED ✓"&&await p.evaluate(n=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n;},season).catch(()=>false);
   };
   await writePoint(ctx,point,{writer:nik,landed:async()=>(await commitDoc())?.phase==="ACKNOWLEDGED",ready:async p=>await commitLabel(p)==="CONFIRM SEASON",tap:p=>p.locator("#sharedSeasonCommitAction").click({timeout:10000}),

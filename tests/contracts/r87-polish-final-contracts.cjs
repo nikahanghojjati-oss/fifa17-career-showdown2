@@ -100,7 +100,7 @@ check("C-08b once the shared state knows the season, the header names it",()=>{
 check("C-08c a code still waiting for Nik is season 1 for certain; a local save and a finished Showdown keep their text",()=>{
   assert.equal(menuSandbox({pair:"pending-pair"}).indicator,"Season 1 / 3","Daniel's waiting code reads Season 1 / 3 (r80 R1.1)");
   assert.equal(menuSandbox({shared:false,currentRound:2}).indicator,"Season 2 / 3");
-  assert.equal(menuSandbox({status:"Completed"}).indicator,"Showdown Complete");
+  assert.equal(menuSandbox({status:"Completed"}).indicator,"Showdown complete");
 });
 check("C-08e on a game screen the page is playing this Showdown, so its season 1 header stays (r79 P8: R2's Transfer Challenge)",()=>{
   for(const screen of ["leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary"])

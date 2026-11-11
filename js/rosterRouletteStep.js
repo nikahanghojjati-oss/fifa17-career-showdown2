@@ -5,17 +5,13 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r87 Russian Roster Roulette season step (Nik 2026-10-28/30; look Team V HO-040): before each manager's Transfer Challenge both spins play full-screen, Daniel first, outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); he then confirms the release in his FIFA 17 save. The app never releases anyone itself.
+  // r87 Roster Russian Roulette season step (Nik 2026-10-28/30; look Team V HO-040): before each manager's Transfer Challenge both spins play full-screen, Daniel first, outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); he then confirms the release in his FIFA 17 save. The app never releases anyone itself.
   // Boards build themselves, never saved or typed (Nik 2026-10-30): FIFA 17 launch board minus the Special Player, then each season's shot player out and kept signings in by position and overall, from Transfer War verdicts and saved shots (kept on this phone when shown, else plain reads of both verdict documents and the saved spins for every missing season at once; F2-12).
   // Shown once per manager per season on this browser (a watched spin is not replayed); never for a Showdown confirmed before r87. A page that fails to load skips only the animation: the result and the release still show.
   // Any other failure (engine, data, error) keeps the Transfer Challenge closed behind TRY AGAIN / BACK (red team R87-B-02): the seeded shot still counts on later boards, so a manager must never reach the window untold.
   const PAGE="visual-assets/v10_1/roulette/index.html";
   const STAGE_ID="rrStage",PANEL_ID="rrStepPanel";
   const DONE_KEY="careerModeShowdown.rouletteDone.v1",WATCHED_KEY="careerModeShowdown.rouletteWatched.v1",KEYS_MAX=60;
-  // RRR_FROM_MS is the 2.0.0 release time (red team R87-C-07): a Showdown confirmed before it (played on 1.9.10) gets no
-  // roulette. It and js/sparkSharedTransferChallenge.js ROULETTE_FROM_MS are one value, set only by
-  // `node tools/set-release-time.cjs <UTC time>` (release contract r86-release RR5 checks they match).
-  const RRR_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   // r90 BUG-02: the page now answers "armed" once it has drawn a frame with this Showdown's boards, so on a slow Chromebook
   // that can take a few seconds. The loading screen stays up meanwhile (Reus Gate).
   // r90 MOTION M9: MAX_LOADING_MS is the wait since the page last said it is still busy ("cms-rr-loading", sent as it builds
@@ -25,7 +21,7 @@
   // whole start may take 4 minutes, and a page that broke, hung or loaded without its 3D library is built again once in a
   // fresh frame (SCENE_TRIES) before the result card stands in. Only a page that says WebGL is missing (webgl:false) goes
   // straight to the card, and only that is remembered for the rest of the visit.
-  const MIN_LOADING_MS=1000,MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2;
+  const MIN_LOADING_MS=1000,MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2,RETRY_MIN_MS=30000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const sceneFailedHere=new Set();
   // holding (Fable F2-17): from START until close() (or the way back to Home), so the screens that open the Transfer Challenge
@@ -69,11 +65,11 @@
   // ctx = {rivalryId, managerRole, season, clubs:{playerOne,playerTwo}, confirmedAtMs, phase, verdicts(k)} from the Transfer
   // Challenge. True when this manager still has this season's roulette to do on this browser.
   function rrsDecide(ctx){
-    if(root.CMS_ROSTER_ROULETTE==="off"||!ctx)return false;
+    if(!ctx)return false;
     if(!/^pair_[0-9a-f]{64}$/.test(String(ctx.rivalryId||""))||!ROLES.includes(ctx.managerRole))return false;
     if(!Number.isInteger(ctx.season)||ctx.season<1||ctx.season>10)return false;
     if(!ctx.clubs||!ctx.clubs.playerOne||!ctx.clubs.playerTwo||ctx.phase==="COMPLETED")return false;
-    if(!Number.isFinite(ctx.confirmedAtMs)||ctx.confirmedAtMs<RRR_FROM_MS)return false;
+    if(!Number.isFinite(ctx.confirmedAtMs))return false;
     const key=rrsKey(ctx);
     return !rrsHas(DONE_KEY,key);
   }
@@ -86,7 +82,7 @@
     rrsRemovePanel();
     const overlay=rrsEl("div","remoteJoiningOverlay rrStepOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label",label);
     const shell=rrsEl("div","remoteJoiningShell rrStepShell"),header=rrsEl("div","remoteJoiningHeader");
-    header.append(rrsEl("strong","",`SEASON ${ctx.season} · RUSSIAN ROSTER ROULETTE`));
+    header.append(rrsEl("strong","",`SEASON ${ctx.season} · ROSTER RUSSIAN ROULETTE`));
     const body=rrsEl("div","rrStepBody");body.append(rrsEl("h2","rrStepTitle",heading));
     // No finished scene behind the card (WebGL missing, scene seen before a reload, history retry): stand it in the room, never on the page below.
     if(!rrsDoc().getElementById(STAGE_ID))overlay.classList.add("rrStepRoom");
@@ -117,10 +113,10 @@
   function rrsReadError(result,season){
     const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(result);if(quota)return quota;
     const code=String(result&&result.code||"");
-    if(/permission/i.test(code))return `Season ${season}'s Transfer War could not be read: the Showdown is not open here. Go back to Showdown Home and open it again.`;
+    if(/permission/i.test(code))return `Season ${season}'s Transfer War could not be read because this Showdown is not open here. Go back to Showdown Home and open it again.`;
     if(code==="TRANSFER_NOT_COMPLETED")return `Season ${season}'s Transfer War never reached its verdicts, and this season's boards are built from them. Nothing was spun or saved.`;
     if(/STALE|MISMATCH/.test(code))return `This Showdown moved on while this screen was open, so Season ${season}'s Transfer War no longer matches it. Go back to Showdown Home and open it again.`;
-    if(!code||/unavailable|deadline|offline|network|aborted|timeout|PROVIDER_FAILED/i.test(code))return `Season ${season}'s Transfer War could not be reached: the connection dropped. Try again when it is back.`;
+    if(!code||/unavailable|deadline|offline|network|aborted|timeout|PROVIDER_FAILED/i.test(code))return `Season ${season}'s Transfer War could not be reached because the connection dropped. Try again once it is back.`;
     return `Season ${season}'s Transfer War could not be read (${code}). Nothing was spun or saved.`;
   }
   // The Special Players both phones drew for this Showdown (js/marqueePlayer.js): {role:{name, overall, number,
@@ -186,19 +182,41 @@
     doc?.addEventListener?.("visibilitychange",onVisibility);arm();
     return stop;
   }
+  // r91 B23-02: on-screen time since a start began (a locked or switched-away phone does not use it up), so the start's one
+  // cold budget can be shared by both tries.
+  function rrsVisibleClock(){
+    const doc=rrsDoc(),hidden=()=>Boolean(doc&&doc.visibilityState==="hidden");let spent=0,since=Date.now(),away=hidden();
+    const on=()=>{const h=hidden();if(h&&!away){spent+=Date.now()-since;away=true;}else if(!h&&away){since=Date.now();away=false;}};
+    doc?.addEventListener?.("visibilitychange",on);
+    return {ms(){return spent+(away?0:Date.now()-since);},stop(){doc?.removeEventListener?.("visibilitychange",on);}};
+  }
+  // r91 B23-02 (Codex P2 on #1353): the start's cap reads that clock every time it wakes, so a phone hidden part-way through a try
+  // neither restarts the budget nor uses it up. Like rrsVisibleWait, a timer that fires much later than asked (the main thread was
+  // held by the scene's shader build) looks again shortly after instead of failing a page that was busy, not stuck.
+  function rrsBudgetWait(clock,budget,onTimeout){
+    const doc=rrsDoc();let timer=null,stopped=false,due=0,graced=false;
+    const arm=wait=>{due=Date.now()+wait;timer=root.setTimeout(check,wait);};
+    const check=()=>{if(stopped)return;const left=budget-clock.ms();
+      const away=Boolean(doc&&doc.visibilityState==="hidden");if(left>250||away){arm(away?1000:left);return;}
+      if(!graced&&Date.now()-due>1000){graced=true;arm(2000);return;}
+      stop();onTimeout();};
+    const stop=()=>{stopped=true;root.clearTimeout(timer);};
+    arm(Math.max(250,budget-clock.ms()));
+    return stop;
+  }
   function rrsRemoveStage(){const stage=rrsDoc()?.getElementById(STAGE_ID);if(stage)stage.remove();}
   function rrsCreateStage(ctx){
     const doc=rrsDoc();rrsRemoveStage();
-    const stage=doc.createElement("div");stage.id=STAGE_ID;stage.setAttribute("role","dialog");stage.setAttribute("aria-modal","true");stage.setAttribute("aria-label","Russian Roster Roulette");
+    const stage=doc.createElement("div");stage.id=STAGE_ID;stage.setAttribute("role","dialog");stage.setAttribute("aria-modal","true");stage.setAttribute("aria-label","Roster Russian Roulette");
     stage.style.cssText="position:fixed;inset:0;z-index:95;background:#050403;visibility:hidden";
-    const frame=doc.createElement("iframe");frame.title="Russian Roster Roulette";
+    const frame=doc.createElement("iframe");frame.title="Roster Russian Roulette";
     const base=typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(PAGE):PAGE;
     frame.src=`${base}${base.includes("?")?"&":"?"}embed=1&d=${encodeURIComponent(ctx.clubs.playerOne)}&n=${encodeURIComponent(ctx.clubs.playerTwo)}`;
     frame.style.cssText="display:block;width:100%;height:100%;border:0;background:#050403";
     stage.append(frame);doc.body.append(stage);
     return {stage,frame};
   }
-  function rrsListen(frame){
+  function rrsListen(frame,clock){
     const origin=root.location&&root.location.origin;let onReady,onDone,onArmed;
     const ready=new Promise(resolve=>{onReady=resolve;}),done=new Promise(resolve=>{onDone=resolve;}),armed=new Promise(resolve=>{onArmed=resolve;});
     const handler=event=>{
@@ -214,7 +232,7 @@
     frame.addEventListener("load",()=>{try{const view=frame.contentWindow;if(view&&String(view.location.href)==="about:blank")return;if(!view||!view.THREE)onReady("error");}catch(_error){onReady("error");}});
     frame.addEventListener("error",()=>onReady("error"));
     let stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout")),started=false;
-    const stopCap=rrsVisibleWait(COLD_LOADING_MS,()=>onReady("timeout"));
+    const stopCap=rrsBudgetWait(clock,COLD_LOADING_MS,()=>onReady("timeout"));
     // r90 Light: the "still busy" pings also keep the wait for "armed" open (the page draws the boards and its first frame)
     let armedWait=null;
     function renew(){if(armedWait){armedWait.renew();return;}if(started)return;stopWait();stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout"));}
@@ -225,10 +243,10 @@
   }
   // "watched" when both spins played to the end, "skipped" when the page could not run (the result still shows).
   // One try: a fresh frame, its page loaded, ready and armed with this season's spins. Resolves to the frame, or to why not.
-  async function rrsSceneTry(ctx,plan){
+  async function rrsSceneTry(ctx,plan,clock){
     let channel=null,stage=null,frame=null;
     try{
-      ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame);
+      ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame,clock);
       const started=await channel.ready;
       if(started!=="ready")throw new Error(started);
       const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null,number:p.name&&Number.isInteger(p.number)?p.number:null}));
@@ -249,12 +267,17 @@
     rrsLoadingOn();rrsRemovePanel();
     // r90 Light: a page that broke, hung or loaded without three.js is built once more in a fresh frame (a cold Chromebook's
     // second start is warm: files and shaders are cached); only a device without WebGL 2 is skipped for the rest of this visit.
-    const shownAt=Date.now();let run=null;
+    // r91 B23-02: COLD_LOADING_MS is the budget of the whole start, both tries together. Each try used to get its own 4 minutes,
+    // so a page that was slow but still reporting progress (software GL after a GPU crash) held the loading screen about 8 minutes
+    // before the card. A fresh frame is built only while at least RETRY_MIN_MS of the budget is left, and it gets what is left.
+    const shownAt=Date.now(),clock=rrsVisibleClock();let run=null;
     for(let attempt=1;attempt<=SCENE_TRIES;attempt++){
-      run=await rrsSceneTry(ctx,plan);
+      const budget=COLD_LOADING_MS-clock.ms();if(attempt>1&&budget<RETRY_MIN_MS)break;
+      run=await rrsSceneTry(ctx,plan,clock);
       if(!run.failed)break;
-      if(run.failed==="nowebgl"){sceneFailedHere.add(rrsKey(ctx));return "skipped";}// the result card takes over from the loading screen
+      if(run.failed==="nowebgl"){clock.stop();sceneFailedHere.add(rrsKey(ctx));return "skipped";}// the result card takes over from the loading screen
     }
+    clock.stop();
     if(run.failed)return "skipped";
     const {channel,stage,frame}=run;
     const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
@@ -378,10 +401,13 @@
       if(choice==="back")return false;
     }
     const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx),special=rrsSpecial(ctx);
-    const version=typeof engine.version==="function"?engine.version(ctx.clubs,{special}):null;
+    const version=typeof engine.version==="function"?engine.version(ctx.clubs,{special,sheets:ctx.squads||null}):null;
     if(!await rrsVersionStop(ctx,version))return false;
     const hits={};
-    const history=ctx.season>1?await rrsHistory(ctx,hits):[null];if(!history)return false;
+    // r91 Squad Management: with both locked squads as this season's boards, nothing earlier is replayed, so the earlier
+    // seasons' verdicts and shootouts are not read.
+    const squads=ctx.squads&&typeof ctx.squads==="object"?ctx.squads:null;
+    const history=ctx.season>1&&!squads?await rrsHistory(ctx,hits):[null];if(!history)return false;
     // This season: a saved mark (this manager's own on a second browser, the partner's always) is the authority for that turn.
     hits[ctx.season]=Object.fromEntries(ROLES.map(role=>[role,rrsOutcomeOf(ctx.marks&&ctx.marks[role])]));
     // Never skipped (Nik 2026-10-31): a short squad shows empty slots and the bullet only hits a real player. A club the data
@@ -390,8 +416,8 @@
     const known=ROLES.every(role=>engine.board(ctx.clubs[role])&&root.CareerModeFifa17Players?.clubs?.[ctx.clubs[role]]);
     // r88 Chamber Men: this season's two cylinders from the shootout (ctx.chamberMen), never one bullet in such a Showdown.
     const chamber=ctx.chamberMen&&ctx.chamberMen.active===true?ctx.chamberMen:null;
-    const chambers=chamber&&known?await rrsEarlierChambers(ctx,engine,hits,chamber):null;if(chamber&&known&&!chambers)return false;
-    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits,chamberMen:Boolean(chamber),chambers:chamber?chambers:null}):null;
+    const chambers=chamber&&known?(squads?{...(chamber.chambers||{})}:await rrsEarlierChambers(ctx,engine,hits,chamber)):null;if(chamber&&known&&!chambers)return false;
+    const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits,chamberMen:Boolean(chamber),chambers:chamber?chambers:null,sheets:squads}):null;
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){
       const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history,chamber?{chambers,hits}:null);
       await rrsAsk(ctx,{heading:"No roulette board",label:"No roulette board",lines:[reason],note:"The Transfer War stays shut until this season's roulette can run.",buttons:[{id:"back",label:"BACK TO SHOWDOWN HOME",primary:true}]});
@@ -453,5 +479,5 @@
   // Fable F2-11: a new open forgets an earlier BACK, so a later failure that never reached the roulette is not read as one.
   function rrsForgetHome(){leftForHome=false;return true;}
 
-  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,fromMs:RRR_FROM_MS,decide:rrsDecide,nextLabel:rrsNextLabel,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial,earlierChambers:rrsEarlierChambers});
+  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,decide:rrsDecide,nextLabel:rrsNextLabel,special:rrsSpecial,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial,earlierChambers:rrsEarlierChambers});
 });

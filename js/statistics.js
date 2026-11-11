@@ -46,7 +46,7 @@ function openRivalryLegacyV10(screen, getModel){
     window.CareerModeV10Screens?.expect?.(host);
     window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
         .then(() => window.CareerModeRivalryLegacyV10.mount(screen, getModel))
-        .catch(error => { window.CareerModeV10Screens?.settle?.(host); window.reportApplicationError?.("History and stats screens could not load", error); });
+        .catch(error => { window.CareerModeV10Screens?.settle?.(host); window.reportApplicationError?.("Legacy and stats screens could not load", error); });
 }
 window.openRivalryLegacyV10 = openRivalryLegacyV10;
 

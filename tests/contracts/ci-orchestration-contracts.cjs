@@ -10,8 +10,6 @@ function timeoutForJob(text, jobName){
 
 const guards = JSON.parse(read("CURRENT_PRODUCT_GUARDS.json"));
 const stability = read(".github/workflows/validate-stability-lane.yml");
-const candidateB = read(".github/workflows/validate-import-analysis.yml");
-const candidateC = read(".github/workflows/validate-atomic-restore.yml");
 const burnin = read(".github/workflows/validate-v110-release-burnin.yml");
 const burninScript = read("tests/support/run-release-burnin-pass.sh");
 
@@ -30,15 +28,9 @@ function assertArtifactFollowsSuccessfulBrowser(text, label){
 }
 
 assertRerunSafeConcurrency(stability, "Stability");
-assertRerunSafeConcurrency(candidateB, "Candidate B");
-assertRerunSafeConcurrency(candidateC, "Candidate C");
 assertRerunSafeConcurrency(burnin, "Burn-In");
 assertMarkdownOnlySkip(stability, "Stability");
-assertMarkdownOnlySkip(candidateB, "Candidate B");
-assertMarkdownOnlySkip(candidateC, "Candidate C");
 assertMarkdownOnlySkip(burnin, "Burn-In");
-assertArtifactFollowsSuccessfulBrowser(candidateB, "Candidate B");
-assertArtifactFollowsSuccessfulBrowser(candidateC, "Candidate C");
 
 const localStability = stability.split(/\n\s{2}deployed-site-smoke:/)[0];
 assert.equal(occurrences(localStability, "npm run test:runtime-boundary"), 1, "Local Stability must run runtime provenance exactly once.");
@@ -59,23 +51,10 @@ for(const required of [
   "npm run test:runtime-boundary",
   "npm run test:home-visual",
   "npm run test:football-visual",
-  "npm run test:backup-browser",
-  "npm run test:import-browser",
-  "npm run test:restore-browser",
   "npm run test:browser"
 ]){
   assert.ok(stability.includes(required), `Production deployed smoke must retain ${required}.`);
 }
-
-assert.equal(occurrences(candidateB, "npm run test:import-browser"), 1, "Candidate B must have one authoritative browser execution per workflow attempt.");
-assert.doesNotMatch(candidateB, /for attempt in 1 2/, "Candidate B repetition must use GitHub rerun attempts, not an internal duplicate loop.");
-const candidateBTimeout = timeoutForJob(candidateB, "import-browser");
-assert.ok(Number.isInteger(candidateBTimeout) && candidateBTimeout > 0 && candidateBTimeout <= 20, "Candidate B browser proof must stay time-bounded without pinning one historical timeout.");
-
-assert.equal(occurrences(candidateC, "npm run test:restore-browser"), 1, "Candidate C must have one authoritative browser execution per workflow attempt.");
-assert.doesNotMatch(candidateC, /for attempt in 1 2/, "Candidate C repetition must use GitHub rerun attempts, not an internal duplicate loop.");
-const candidateCTimeout = timeoutForJob(candidateC, "restore-browser");
-assert.ok(Number.isInteger(candidateCTimeout) && candidateCTimeout > 0 && candidateCTimeout <= 24, "Candidate C browser proof must stay time-bounded without pinning one historical timeout.");
 
 assert.doesNotMatch(burnin, /\n\s*pull_request\s*:/, "Burn-In must not run automatically on every PR commit.");
 assert.match(burnin, /pass:\s*\[1, 2\]/, "Release Burn-In remains two focused integration passes rather than repeated complete matrices.");

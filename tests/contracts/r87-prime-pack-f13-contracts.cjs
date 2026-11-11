@@ -77,8 +77,8 @@ function harness(){
 }
 function restore(){globalThis.setTimeout=realSetTimeout;globalThis.setInterval=realSetInterval;globalThis.clearInterval=realClearInterval;Date.now=realNow;}
 function freshStep(){delete require.cache[require.resolve("../../js/iconGuessStep.js")];return require("../../js/iconGuessStep.js");}
-// Confirm times one hour after the release time the tool set (contracts must not depend on today's date).
-const ELIGIBLE_MS=Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000;
+// Confirm times one hour after a fixed date (contracts must not depend on today's date).
+const ELIGIBLE_MS=Date.parse("2026-11-02T05:00:00Z")+3600000;
 const ctx=(role="playerOne")=>({rivalryId:RID,managerRole:role,season:1,confirmedAtMs:Math.max(realNow(),ELIGIBLE_MS)});
 const other={playerOne:"playerTwo",playerTwo:"playerOne"};
 const arrivedOf=(h,role)=>h.stored&&h.stored.arrived[role]?h.stored.arrived[role].toMillis():null;
@@ -199,24 +199,22 @@ async function section(id,fn){
     assert.doesNotMatch(fn,/!Number\.isFinite\(confirmedAtMs\)\|\|[^\n]*return result/,"an unknown confirm time no longer returns the result without its point");
     assert.match(fn,/if\(!Number\.isFinite\(confirmedAtMs\)\)pssrFail\("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE"/,"an unknown confirm time stops the publish (TRY AGAIN)");
     assert.ok(fn.indexOf("setupApi.refresh()")<fn.indexOf('pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","The Showdown'),"the setup is read once more first");
-    // F14-02: the kill switch never drops a point already won; the round record is still read (no record is 0 points).
-    assert.doesNotMatch(fn,/CMS_PRIME_PACK==="off"[^\n]*\)return result/,"the season results never skip the round record for the kill switch (F16-01 only stops a failed load or read from blocking)");
-    assert.match(fn,/step\.applies\(gameCtx,\{ignoreSwitch:true\}\)[\s\S]*step\.pointsFor\([^\n]*gameCtx,\{ignoreSwitch:true\}\)/);
+    // The round record is always read (no record is 0 points); there is no kill switch.
+    assert.doesNotMatch(fn,/CMS_PRIME_PACK|ignoreSwitch/,"no kill switch in the season results");
+    assert.match(fn,/step\.applies\(gameCtx\)[\s\S]*step\.pointsFor\([^\n]*gameCtx\)/);
     {
       const h=harness(),Step=freshStep(),L=realNow()-200_000;
       h.stored={schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:1,arrived:{playerOne:ts(L-4000),playerTwo:ts(L)},chipsUsed:{playerOne:1,playerTwo:0},namedBy:"playerOne",revision:4,updatedAt:ts(L+Guess.leadMs+1000)};
-      globalThis.CMS_PRIME_PACK="off";
       try{
-        assert.equal(Step.applies(ctx("playerOne")),false,"the switch still keeps the screen off");
-        assert.equal(await Step.pointsFor(h.io,ctx("playerOne"),{ignoreSwitch:true}),4,"a round already won keeps its 4 points with the switch on");
-        h.stored=null;assert.equal(await freshStep().pointsFor(h.io,ctx("playerOne"),{ignoreSwitch:true}),0,"no round record: no point");
-      }finally{delete globalThis.CMS_PRIME_PACK;restore();}
+        assert.equal(await Step.pointsFor(h.io,ctx("playerOne")),4,"a round already won keeps its 4 points");
+        h.stored=null;assert.equal(await freshStep().pointsFor(h.io,ctx("playerOne")),0,"no round record: no point");
+      }finally{restore();}
     }
     const pstc=read("js/productionSharedTransferChallenge.js"),first=pstc.slice(pstc.indexOf("async function pstcPrimePackFirst"),pstc.indexOf("async function pstcPrimePackFirst")+2600);
     assert.doesNotMatch(first,/!Number\.isFinite\(confirmedAtMs\)\|\|[^\n]*return true/,"the window never opens past an unknown confirm time");
     assert.match(first,/if\(!Number\.isFinite\(confirmedAtMs\)\)\{primePackLoadError=true;return false;\}/,"an unknown confirm time keeps the window shut with TRY AGAIN");
     assert.match(first,/resync:\(\)=>\{clockRefreshPerformanceMs=Number\.NaN;return pstcEnsureServerClock\(options\.user,request\);\}/,"the step can take a fresh server clock (F13-03)");
-    ok("F6","F13-04/F14-02: an unknown confirm time fails closed; the kill switch never drops a point already won");
+    ok("F6","F13-04: an unknown confirm time fails closed; a point already won is always read from the round record");
   });
   // F7 Sol r5 R5-01: the phone locks while its first arrival is still on its way (no round record seen yet). The arrival
   // lands while the phone is hidden: it is withdrawn, so the other manager can never start the round and win alone; back

@@ -43,7 +43,7 @@ async function run({mode}){
     runTransaction:async(_f,fn)=>fn({get:async()=>({exists:()=>true,data:()=>doc}),set(){},update(){}}),
     onSnapshot:(_r,_o,cb)=>{push=d=>cb({metadata:{},exists:()=>true,data:()=>d});setTimeout(()=>push(doc),50);return ()=>{};}};
   const t0=performance.now();
-  void step.run({rivalryId:rid,managerRole:'playerOne',season:2,confirmedAtMs:CM.fromMs,clubs},{firestore:{},sdk,rivalryId:rid,sessionId:'s',deviceId:'d',now:()=>Date.now()});
+  void step.run({rivalryId:rid,managerRole:'playerOne',season:2,confirmedAtMs:Date.parse('2026-11-05T00:00:00Z'),clubs},{firestore:{},sdk,rivalryId:rid,sessionId:'s',deviceId:'d',now:()=>Date.now()});
   if(mode==='reveal')setTimeout(()=>{doc={...doc,kicks:{playerOne:'LRMMRLML',playerTwo:'RLLMRRMR'},revision:14,updatedAt:{seconds:Date.now()/1000,nanoseconds:0}};push(doc);},1200);
   const stage=await new Promise((resolve,reject)=>{const tick=()=>{const s=document.getElementById('cmStage');if(s&&s.style.visibility==='visible')return resolve(s);if(performance.now()-t0>15000)return reject(new Error('stage never showed'));setTimeout(tick,25);};tick();});
   const out={shownAfter:Math.round(performance.now()-t0),firstClock:stage.querySelector('.cmClock').textContent,svg3d:stage.querySelector('svg')?.classList.contains('cm3d-on')||false,

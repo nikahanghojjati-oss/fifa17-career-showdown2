@@ -20,7 +20,8 @@ function revealWorld(){
   return {root,store,api:root.CareerModeSpecialPlayerReveal};
 }
 const RIVALRY='pair_'+'3a'.repeat(32);
-const confirmed=(extra={})=>({ready:true,rivalryId:RIVALRY,managerRole:'playerOne',setup:{phase:'SHOWDOWN_CONFIRMED',revision:6},setupUpdatedAtMs:MP.fromMs+60000,...extra});
+const NO_CLUBS={playerOne:'No Such Club A',playerTwo:'No Such Club B'};
+const confirmed=(extra={})=>({ready:true,rivalryId:RIVALRY,managerRole:'playerOne',setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,clubs:NO_CLUBS},setupUpdatedAtMs:MP.fromMs+60000,...extra});
 
 // R1 who sees it
 {
@@ -28,7 +29,7 @@ const confirmed=(extra={})=>({ready:true,rivalryId:RIVALRY,managerRole:'playerOn
   const pick=api.decide(confirmed());
   const picks=MP.picks(RIVALRY,List.players.length);
   assert.deepEqual({...pick},{key:`${RIVALRY}|playerOne`,d:picks.playerOne,n:picks.playerTwo},'Daniel (playerOne) left, Nik (playerTwo) right, from the shared draw');
-  assert.deepEqual(MP.forShowdown(RIVALRY,MP.fromMs+60000).playerOne.name,List.players[pick.d].name,'the reveal shows the pair the career screens show');
+  assert.deepEqual(MP.forShowdown(RIVALRY,MP.fromMs+60000,{clubs:NO_CLUBS}).playerOne.name,List.players[pick.d].name,'the reveal shows the pair the career screens show');
   assert.equal(api.decide(confirmed({setupUpdatedAtMs:MP.fromMs-1})),null,'a Showdown confirmed before r86 has no reveal');
   assert.equal(api.decide(confirmed({setupUpdatedAtMs:null})),null,'no confirm time, no reveal');
   assert.equal(api.decide(confirmed({setup:{phase:'CLUBS_COMMITTED',revision:5}})),null,'only a confirmed Setup');
