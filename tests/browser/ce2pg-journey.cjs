@@ -152,9 +152,13 @@ const SACKED=(()=>{const raw=process.env.CE2PG_SACKED||"";if(!raw)return null;co
 const NEWDEVICE=(()=>{const raw=process.env.CE2PG_NEWDEVICE||"";if(!raw)return [];return raw.split(",").map(part=>{const m=/^(\d+):(chamber|transfer):(daniel|nik)$/.exec(part.trim());if(!m)throw new Error(`CE2PG_NEWDEVICE items must look like "2:chamber:nik", got "${part}"`);return {season:Number(m[1]),point:m[2],who:m[3],done:false};});})();
 const newDeviceRuns=[];
 // r91 (review of #1390): CE2PG_GAZETTE_FORGET="daniel|nik" wipes that manager's kept squad sheets (careerModeShowdown.squadSheets.v1)
-// right before every Gazette tap, as a phone that never kept them would be (a new device, cleared storage); the run then checks
-// that both phones printed the same words on every paper.
+// right before every season paper's tap, as a phone that never kept them would be (cleared storage); the run then checks that both
+// phones printed the same words on every paper. Not before the final paper's tap: the final commit closes the rivalry, and the
+// Rules (by design) refuse reads of a closed rivalry, so a phone can only keep the final season's sheets while it plays that
+// season (its Squad screen and the screens after it read them); CE2PG_NEWDEVICE="3:transfer:nik" proves that path.
 const GAZETTE_FORGET=(process.env.CE2PG_GAZETTE_FORGET||"").split(/[|,]/).map(v=>v.trim()).filter(Boolean);
+// r91: where two phones' paper words part ways (key, offset, 160 characters of each side from just before it).
+function gazetteDiff({key,list}){const[a,b]=list;let i=0;while(i<a.length&&i<b.length&&a[i]===b[i])i++;const from=Math.max(0,i-40);return{key,at:i,lengths:list.map(w=>w.length),one:a.slice(from,from+160),two:(b||"").slice(from,from+160)};}
 async function gazetteForget(m){if(GAZETTE_FORGET.includes(m.user))await m.page.evaluate(()=>{try{localStorage.removeItem("careerModeShowdown.squadSheets.v1");}catch(_error){}}).catch(()=>{});}
 const takeNewDevice=(season,point)=>NEWDEVICE.filter(n=>!n.done&&n.season===season&&n.point===point);
 let servingOld=Boolean(UPGRADE_FROM),appServer=null;
@@ -1619,13 +1623,13 @@ async function playShowdown(ctx,spec){
       }
       entry.state="completed";billedModel?.markFinished(entry.rivalryId);
       for(const m of [daniel,nik]){
-        let landed=false,paper=null;try{await gazetteForget(m);await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});paper=await gazette.passGazette(m.page,"final",20000,SACKED?async()=>{await settled(m);return shot(m,`${spec.name}-gazette-final-sacked`);}:null);landed=Boolean(paper)&&await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
+        let landed=false,paper=null;try{await m.page.locator("#v10ExitSlot [data-smart-back]").first().click({timeout:8000});paper=await gazette.passGazette(m.page,"final",20000,SACKED?async()=>{await settled(m);return shot(m,`${spec.name}-gazette-final-sacked`);}:null);landed=Boolean(paper)&&await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).then(()=>true).catch(()=>false);}catch(_e){}
         await check(m,`${spec.name}.backHome`,"BACK TO SHOWDOWN HOME on the Showdown Champion screen shows the Touchline Gazette final paper once, then its CONTINUE opens Showdown Home",landed,`${paper||"no Gazette paper"} ${await describe(m)}`,{screen:"Showdown Champion"});
       }
       // r91 (Nik: "not synced"): every paper of this Showdown printed the same words on both phones (squad news included)
       {const mine=gazette.papersPrinted().filter(p=>p.key.startsWith(`${entry.rivalryId}|`)),bad=gazette.paperMismatches().filter(p=>p.key.startsWith(`${entry.rivalryId}|`));
         console.log(`GAZETTE ${spec.name}: ${mine.map(p=>`${p.key.split("|").slice(1).join(" ")} x${p.phones}${p.squad?" +squad":""}`).join(", ")}${GAZETTE_FORGET.length?` (kept sheets wiped before each tap: ${GAZETTE_FORGET.join(", ")})`:""}`);
-        await check(null,`${spec.name}.gazette.same`,"both phones printed the same words on every Touchline Gazette paper",!bad.length&&mine.length>0,bad.length?JSON.stringify(bad).slice(0,1500):"no paper was printed",{screen:"Touchline Gazette"});}
+        await check(null,`${spec.name}.gazette.same`,"both phones printed the same words on every Touchline Gazette paper",!bad.length&&mine.length>0,bad.length?JSON.stringify(bad.map(gazetteDiff)).slice(0,1500):"no paper was printed",{screen:"Touchline Gazette"});}
       if(!SLIM)await careerCheckpoint(ctx,`${spec.name}.end`,{settingsLive:false});
       const end=mark(`${spec.name}:S${k}:end`);
       meterEntry(`${spec.name} season ${k} (final${k===1?", incl. START, pairing, setup":""}, + both players' page checks)`,seasonStart,end,{play:[seasonStart,playEnd]});

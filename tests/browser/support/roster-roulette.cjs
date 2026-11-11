@@ -20,6 +20,7 @@
 const prime=require("./prime-pack.cjs");
 const STEP_MS=500;
 const tracked=new Set();
+const rated=new WeakMap();// page -> seasons whose "pre" screen already got its CE2PG_SQUAD_RATE change
 
 async function playRoulette(page,opts={}){
   // The Prime Pack first: while it runs, the roulette's panel can still sit underneath its stage.
@@ -52,6 +53,18 @@ async function playSquad(page){
     await next.click({timeout:5000}).catch(()=>{});return `squad-next${label}`;
   }
   const lock=stage.locator(".sqmBtn.is-primary");
+  // CE2PG_SQUAD_RATE=1 (r91 Gazette squad news proof): on each "pre" screen from season 2 this manager first raises one
+  // starter's overall by one (the screen's own + button), so the next paper has squad news to print.
+  if(process.env.CE2PG_SQUAD_RATE==="1"&&await stage.getAttribute("data-stage").catch(()=>null)==="pre"&&await lock.isVisible().catch(()=>false)){
+    const season=await page.evaluate(()=>document.getElementById("seasonIndicator")?.textContent||"").catch(()=>"");
+    const key=`${season}`;if(!rated.has(page))rated.set(page,new Set());
+    if(!/^Season 1 \//.test(season)&&!rated.get(page).has(key)){
+      rated.get(page).add(key);
+      await stage.locator('[data-zone="xi"][data-index="3"]').first().click({timeout:5000}).catch(()=>{});
+      await stage.locator('button[aria-label="Raise overall"]').first().click({timeout:5000}).catch(()=>{});
+      await page.waitForTimeout(300);return "squad-rate";
+    }
+  }
   if(await lock.isVisible().catch(()=>false)&&await lock.isEnabled().catch(()=>false)){await lock.click({timeout:5000}).catch(()=>{});return "squad-lock";}
   const retry=stage.locator(".sqRetry");
   if(await retry.isVisible().catch(()=>false)&&await retry.isEnabled().catch(()=>false)){await retry.click({timeout:5000}).catch(()=>{});return "squad-retry";}
