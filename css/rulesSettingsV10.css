@@ -1216,3 +1216,28 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
    The 28 px number circle holds two digits at 12 px (it already does at 12 px under 900 px, above). */
 #app #ruleBook.v10RuleBook .ruleSectionNumber,
 #app #ruleBook.v10RuleBook .ruleSpecialPlayer .ruleSpecialPlayerTag { font-size: 12px; }
+
+/* r91 Rule Book in game order (Nik 2026-11-11): the Season Results card opens with how a season is entered, the Prime Pack
+   card ends with its player list by card type (the scoring table's rows), and the Special Player card shows this
+   Showdown's two chips when there is one. Same thin gold rule as the other card notes; no boxes around titles. */
+#app #ruleBook.v10RuleBook .scoringRuleSection > ul + .ruleScoreTable,
+#app #ruleBook.v10RuleBook .primePackRuleSection .rulePackNotes { margin-top:.9em; padding-top:.8em; border-top:1px solid rgba(214,176,70,.35); }
+#app #ruleBook.v10RuleBook .primePackRuleSection .rulePackTable { margin-top:.7em; }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow { display:flex; flex-wrap:wrap; align-items:center; gap:.45em 1em; margin:.9em 0 0; padding-top:.8em; border-top:1px solid rgba(214,176,70,.35); }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow > strong { color:#f7c93e; font-weight:700; letter-spacing:.08em; white-space:nowrap; }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerLive { display:flex; flex-wrap:wrap; gap:.45em 1.2em; }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow .spChip { font-size:12px; }/* the chip's own sheet draws 10.5-11 px; the floor is 12 px */
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow[hidden],
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerLive[hidden] { display:none; }
+/* r91 (Nik 2026-11-11, "in game order, written by a human for another human"): on tablets, laptops and desktops the cards
+   are one column, read top to bottom like a printed rule book, each card sized to its own text (no stretched, half-empty
+   cards beside a longer neighbour). Lines run to about 75 characters and the tables line up with the rules.
+   Upright phones keep the one-open-card list and short sideways phones keep the tabs. */
+@media (min-width:761px) and (min-height:501px) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    grid-template-columns:minmax(0,1fr); align-items:start;
+    width:min(calc(100% - 32px),760px); margin-inline:auto;
+  }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { height:auto; }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid .ruleSection ul { max-width:none; }
+}

@@ -112,7 +112,9 @@ const SESSION="session_"+"c".repeat(64);
 
 // S7 the rest of the release: Rule Book card, shell path, quiet booth, Rules builder needles, no new listener.
 {
-  assert.match(read("js/ruleBook.js"),/createRuleSection\("10", "SACKED"/);
+  // r91: the tick is on the Season Results card (09), what a sacking does on End of the Showdown (10), in game order.
+  assert.match(read("js/ruleBook.js"),/Sacked in FIFA 17\? Tick \\u201cI was sacked this season\\u201d on your own card\./);
+  assert.match(read("js/ruleBook.js"),/createRuleSection\("10", "END OF THE SHOWDOWN"[\s\S]*?Any sacking ends the Showdown after that season/);
   const sw=read("service-worker.js");assert.match(sw,/"data\/gazetteSacked\.js",/);
   assert.match(read("js/commentaryV3.js"),/sacked===true\)return null;/);
   const builder=read("scripts/build-production-firestore-rules.mjs");
