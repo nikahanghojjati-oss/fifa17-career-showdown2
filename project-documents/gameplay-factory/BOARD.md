@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 11 Nov, 2:30 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 11 Nov, 2:34 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
 
-🐕 **Barking: Showdown Gate on #1383 has waited 30 min for a machine; POS20 has waited 25 min for a machine; Showdown Gate on #1395 has waited 15 min for a machine; Showdown Gate on #1357 has waited 14 min for a machine; Showdown Gate on #1364 has waited 14 min for a machine; Showdown Gate on #1396 has waited 12 min for a machine; Showdown Gate on #1397 has waited 11 min for a machine; Showdown Gate on #1398 has waited 5 min for a machine; Showdown Gate on #1399 has waited 3 min for a machine; Showdown Gate on #1400 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1383 has waited 39 min for a machine; Showdown Gate on #1357 has waited 23 min for a machine; Showdown Gate on #1364 has waited 22 min for a machine; Showdown Gate on #1396 has waited 21 min for a machine; Showdown Gate on #1397 has waited 20 min for a machine; Showdown Gate on #1400 has waited 10 min for a machine; Showdown Gate on #1389 has waited 9 min for a machine; Showdown Gate on #1399 has waited 9 min for a machine; Showdown Gate on #1398 has waited 8 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -42,7 +42,7 @@ Updated Wed 11 Nov, 2:30 PM Boston time. Bug hunting only, no new features until
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 726 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 727 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -54,7 +54,7 @@ Updated Wed 11 Nov, 2:30 PM Boston time. Bug hunting only, no new features until
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 650 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 651 h ago
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
