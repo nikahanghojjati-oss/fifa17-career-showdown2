@@ -217,7 +217,7 @@ async function c3d2(){
   assert.ok(/new T\.HemisphereLight\(0x9fb4e8,0x14200f,LIGHT_ONE\.hemi\)/.test(scene)&&/const LIGHT_ONE=L===0\?\{key:1\.5,env:1\.1,hemi:\.22\}:\{key:1,env:1,hemi:\.08\};/.test(scene),"night: a faint sky fill, the floodlights carry the picture (r90 Light: one light, the sky lifted to .22)");
   // r91: the three contact shadows are drawn by the turf (S.contact, capsules feet to head), no quad mesh of their own.
   assert.ok(!/cmBlobs/.test(scene)&&/const contactK=L<=0\?\.62:\.5,CONTACT=\{taker:1\.15,keeper:1\.25,ball:\.36\}/.test(scene),"three contact shadows at every level (lighter where the floodlights' own shadows are soft, several at once)");
-  assert.ok(/S\.contact\?\.\(\[contactOf\(taker,CONTACT\.taker,1\),contactOf\(keeper,CONTACT\.keeper,1\),contactOf\(null,CONTACT\.ball,BALL_R\)\]\)/.test(scene)&&/keeperPose\(t,live\);takerAt\(t,live\);ballAt\(t\);\n      contactAt\(\);/.test(scene),"they follow the players and the ball every frame");
+  assert.ok(/S\.contact\?\.\(\[contactOf\(taker,CONTACT\.taker,1\),contactOf\(keeper,CONTACT\.keeper,1\),contactOf\(null,CONTACT\.ball,BALL_R\)\]\)/.test(scene)&&/keeperPose\(t,live,still\);takerAt\(t,live\);ballAt\(t\);\n      contactAt\(\);/.test(scene),"they follow the players and the ball every frame");
   assert.ok(/homeAlt:altOf\(clubs\.playerOne\),awayAlt:altOf\(clubs\.playerTwo\),homeName:clubs\.playerOne,awayName:clubs\.playerTwo,crest,boardPx:L>=3\?2048:1024/.test(scene),"club names, crests and second colours go to the stadium");
   // L04: the low camera behind and
   // left of the taker, a squad number on the back, breathing on the idles.
@@ -268,6 +268,9 @@ async function c3d2(){
   assert.ok(/react\[k\]=list\.filter\(n=>TK\[n\]\)\.map\(reaction\)/.test(scene),"reactions present in the file only");
   assert.ok(/react:pool\[\(luck>>>8\)%pool\.length\]/.test(scene)&&/const luck=cm3Hash\(`ball\|\$\{lineup\.taker\}\|\$\{round\}/.test(scene),"picked from the kick's hash");
   assert.ok(/const rooted=k\.goal&&k\.shot&&side==="M"&&KC\.defeated\?ROOTED:null;/.test(scene)&&scene.includes('const ROOTED={c:"defeated",m:0,tc:-.15,s:1,rooted:1};'),"rooted keeper on a goal past him");
+  // r91: the keeper reacts once his move is over (a fist pump on a save or a miss, head down on a goal), from where that
+  // move ends, never after a catch or the rooted stand, and never under Reduce Motion.
+  assert.ok(/for\(const \[k,n\] of \[\["save","cheer"\],\["goal","disappointed"\]\]\)if\(keeper\.clips\[n\]\)/.test(scene)&&scene.includes('r=!still&&!m.rooted&&!m.hold&&KC.after[plan.goal&&plan.shot?"goal":"save"]?.[m.c]'),"keeper reaction after his move");
   const tool=read("tools/chamber-men-players/clips_r90.json");
   for(const n of ["victory2","cheer","salute","defeated"])assert.ok(tool.includes(`"${n}"`),`clips_r90.json bakes ${n}`);
   const fbx=require("node:child_process").execFileSync("git",["ls-files","*.fbx","*.FBX","*.zip"],{cwd:path.join(__dirname,"../.."),encoding:"utf8"}).trim();

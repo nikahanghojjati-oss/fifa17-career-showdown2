@@ -462,13 +462,13 @@
     // Root motion. A clip's hips track is in the hips' parent space; we move it in world space (the model at rest at the
     // origin): optionally drop its travel along x/z, then turn it by yaw about `from` and carry `from` to `to`.
     const hipsOf=(a,clip,time)=>{a.pose([{clip,time,w:1}]);a.hips.getWorldPosition(sample);a.hips.getWorldQuaternion(sampleQ);fwd.set(0,0,1).applyQuaternion(sampleQ);return {x:sample.x,z:sample.z,face:Math.atan2(fwd.x,fwd.z)};};
-    const rebase=(a,clip,name,{zero,from,to})=>{
+    const rebase=(a,clip,name,{zero,from,to,share})=>{
       const P=a.hips.parent;a.holder.updateMatrixWorld(true);
       const M=P.matrixWorld.clone(),Mi=M.clone().invert(),Pq=new T.Quaternion(),Ps=new T.Vector3(),Pp=new T.Vector3();M.decompose(Pp,Pq,Ps);
       const yaw=to&&from?to.face-from.face:0,Q=new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),yaw);
       const Lq=Pq.clone().invert().multiply(Q).multiply(Pq);
       const tracks=clip.tracks.map(t=>{
-        const n=t.name;if(!n.startsWith(`${a.hips.name}.`))return t.clone();
+        const n=t.name;if(!n.startsWith(`${a.hips.name}.`))return share&&!yaw?t:t.clone();
         const c=t.clone(),v=c.values;
         if(n.endsWith(".position")){
           const w0=new T.Vector3(v[0],v[1],v[2]).applyMatrix4(M),w=new T.Vector3();
@@ -522,6 +522,17 @@
       // r91: a keeper's shuffle along his line during the run-up (Nik's Soccer Game Pack, Mixamo "Goalkeeper Sidestep", both
       // ways): the step keeps its sideways travel, so the feet never slide.
       for(const n of ["gkStepL","gkStepR"])if(keeper.clips[n])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
+      // r91: once his dive or block is over and he is back on his feet, the keeper reacts: a fist pump when the ball stayed
+      // out, head down when it went in. Each reaction starts where that move ends (its hips carried there, no turn), so
+      // his feet never slide; only the hips track is new, the other tracks are shared with the clip. Reduce Motion shows
+      // the move's settled end, without a reaction.
+      KC.after={};
+      for(const [k,n] of [["save","cheer"],["goal","disappointed"]])if(keeper.clips[n]){
+        const c=keeper.clips[n],from=hipsOf(keeper,c,0),by={};
+        for(const m of new Set([...KEEPS.L,...KEEPS.R].filter(m=>!m.hold).map(m=>m.c))){
+          const to=hipsOf(keeper,KC[m],KC[m].duration-1e-3);
+          by[m]=rebase(keeper,c,`cm_gk_${k}_${m}`,{zero:"xz",from,to:{x:to.x,z:to.z,face:from.face},share:true});}
+        KC.after[k]=by;}
       keeper.holder.position.set(0,0,.25);
       return {a:keeper,KC};
     };
@@ -720,7 +731,7 @@
       const jt=JOG_JOIN-st.total+st.clipAt(t-runStart),b=cm3Easy((t-runStart)/.3);
       taker.pose([{...idle,w:1-b},{clip:jog,time:jt,w:b}]);
     };
-    const keeperPose=(t,live)=>{
+    const keeperPose=(t,live,still)=>{
       const idle={clip:KC.gkIdle,time:live%KC.gkIdle.duration,w:1};
       if(!plan||t<plan.kStart){keeper.holder.scale.x=1;
         const sh=plan&&plan.shuffle,c=sh&&KC[sh.c];
@@ -730,7 +741,10 @@
             keeper.pose([{...idle,w:1-w},{clip:c,time:ct,w}]);return;}}
         keeper.pose([idle]);breathe(keeper,live,.8);return;}
       const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*(m.rooted?.45:.12)));
-      keeper.holder.scale.x=m.m?-1:1;keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
+      keeper.holder.scale.x=m.m?-1:1;
+      const D=KC[m.c].duration-1e-3,r=!still&&!m.rooted&&!m.hold&&KC.after[plan.goal&&plan.shot?"goal":"save"]?.[m.c];
+      if(r&&ct>D){const rt=(ct-D)/m.s,w=cm3Easy(rt/.5);keeper.pose([{clip:KC[m.c],time:D,w:1-w},{clip:r,time:rt,w}]);return;}
+      keeper.pose([{...idle,w:1-b},{clip:KC[m.c],time:ct,w:b}]);
     };
     // The loose ball: gravity, air drag, bounces that lose speed, grass friction while it rolls, and inside the goal the
     // net (back, sides and roof) takes its pace; it rolls the way it moves.
@@ -863,7 +877,7 @@
       const still=frozenClock===null&&reducedMotion();
       const now=clockNow(),live=still?0:(now-t0)/1000;
       const t=frozenAt!==null?frozenAt:plan?(still?SETTLE:(now-plan.startAt)/1000):0;
-      keeperPose(t,live);takerAt(t,live);ballAt(t);
+      keeperPose(t,live,still);takerAt(t,live);ballAt(t);
       contactAt();netPushAt(still);
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
       const stadiumT=still?0:plan?(plan.startAt-t0)/1000+t:live;
