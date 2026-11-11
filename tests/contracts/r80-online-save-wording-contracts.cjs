@@ -161,7 +161,7 @@ check("W7 r80 Season Results: the result check speaks of the shared result, and 
   assert.match(lr,/"CHECKING…":"CHECK MY SAVE"/);
   const legacy=read("js/legacy.js");
   assert.match(legacy,/backupTitle\.textContent = "BACKUP FILE";/);
-  assert.match(legacy,/"Download a checksum-protected backup file before destructive maintenance\./);
+  assert.match(legacy,/"Download a checksum-protected backup file before you delete anything\./);
   const shown=[];
   for(const file of [...tracked("js/*.js"),"index.html",...tracked("visual-assets/**/*.js"),...tracked("visual-assets/**/strings.json")]){
     const text=file.endsWith(".js")?jsStrings(read(file)).join("\n"):read(file);
