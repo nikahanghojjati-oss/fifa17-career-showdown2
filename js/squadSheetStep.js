@@ -382,5 +382,5 @@
 
   return Object.freeze({contractVersion:1,feature:"cms-squad-management-step",stageId:STAGE_ID,collection:COLLECTION,keptKey:KEPT_KEY,doneKey:DONE_KEY,
     applies:sqsApplies,ensure:sqsEnsure,run:sqsRun,boards:sqsBoards,close:sqsClose,isDone:sqsIsDone,markDone:sqsMarkDone,wentHome:()=>wentHome,
-    events:sqsEvents,parse:sqsParse,docId:sqsDocId});
+    events:sqsEvents,parse:sqsParse,docId:sqsDocId,store:Object.freeze({get:sqsGet,create:sqsCreate,watch:sqsWatch})});
 });

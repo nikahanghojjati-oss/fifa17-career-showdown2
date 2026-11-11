@@ -195,7 +195,7 @@ const VIEWPORTS={1:{daniel:{width:393,height:660},nik:{width:390,height:844}},2:
 const NAMES={daniel:"Daniel",nik:"Nik"};
 const ROLE={daniel:"playerOne",nik:"playerTwo"};
 const meter=createMeter();
-let billedModel=null;const budgetWaits=[];
+let billedModel=null;const budgetWaits=[];const squadSteps=[];
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // Report
@@ -696,6 +696,8 @@ async function publishThroughOutage(m,k){
 async function playSeasonResults(daniel,nik,k,planSeason){
   for(const m of [daniel,nik]){
     await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
+    // r91 Squad Management: this manager's squad for next season comes first (not in the Showdown's last season).
+    squadSteps.push(...await rosterRoulette.playSquadUntil(m.page,()=>m.page.locator("#seasonEntry").isVisible()));
     await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
   }
   await budgetWait("results-entry");

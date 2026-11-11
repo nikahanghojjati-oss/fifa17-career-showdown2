@@ -569,8 +569,13 @@
       pstcLoadScript("roster-roulette-step","js/rosterRouletteStep.js",()=>root.CareerModeRosterRouletteStep)
     ]).then(()=>true,()=>false),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(false),10000);})]).finally(()=>root.clearTimeout(timer));
     const step=root.CareerModeSquadSheetStep,rr=root.CareerModeRosterRouletteStep;
-    if(!loaded||!step||!rr||typeof rr.ensureDraw!=="function"||!await rr.ensureDraw())return null;
+    if(!loaded||!step||!rr)return null;
     return {step,rr};
+  }
+  // The season's Special Player (never on a squad), drawn once the screen applies; undefined when the draw cannot load.
+  async function pstcSquadSpecial(steps,request,confirmedAtMs,clubs){
+    if(typeof steps.rr.ensureDraw==="function"&&!await steps.rr.ensureDraw())return undefined;
+    return typeof steps.rr.special==="function"?steps.rr.special({rivalryId:request.rivalryId,confirmedAtMs,clubs}):null;
   }
   async function pstcSquadFirst(request){
     squadGate=null;rouletteError="";
@@ -584,8 +589,10 @@
       const steps=await pstcSquadSteps();
       if(!steps){rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
       const clubs={playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")};
-      const ctx=pstcSquadContext(request,"pre",steps.rr.special({rivalryId:request.rivalryId,confirmedAtMs,clubs}));
+      const ctx=pstcSquadContext(request,"pre",null);
       if(!steps.step.applies(ctx))return true;
+      ctx.special=await pstcSquadSpecial(steps,request,confirmedAtMs,clubs);
+      if(ctx.special===undefined){rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
       const provided=await pstcProviderOptions(request,true);
       if(!provided){rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
       if(!pstcRequestMatches(request))return false;
@@ -609,8 +616,10 @@
       if(!Number.isFinite(confirmedAtMs))return false;
       const steps=await pstcSquadSteps();if(!steps)return false;
       const clubs={playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")};
-      const ctx=pstcSquadContext(request,"post",steps.rr.special({rivalryId:request.rivalryId,confirmedAtMs,clubs}));
+      const ctx=pstcSquadContext(request,"post",null);
       if(!steps.step.applies(ctx)||steps.step.isDone(ctx))return true;
+      ctx.special=await pstcSquadSpecial(steps,request,confirmedAtMs,clubs);
+      if(ctx.special===undefined)return false;
       const provided=await pstcProviderOptions(request,true);
       if(!provided||!pstcRequestMatches(request))return false;
       const options=provided.options;
