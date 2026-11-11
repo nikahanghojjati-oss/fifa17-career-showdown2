@@ -77,29 +77,38 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   assert.equal(S.canSwap(s1,ref('bench',3),cb).ok,false,'a striker cannot play centre back');
   assert.match(S.canSwap(s1,resRef(s1,'C. Jenkinson'),ref('bench',4)).reason,/season 2/);
   const s2=S.advance(S.advance(s1,{}),{});
-  const bel=xiRef(s2,p=>p.name==='Héctor Bellerín');
-  assert.equal(S.canSwap(s2,resRef(s2,'M. Debuchy'),bel).ok,true,'Debuchy 80 for Bellerín 79 (same line, not weaker)');
-  const giroud=xiRef(s2,p=>p.name==='O. Giroud');
-  assert.match(S.canSwap(s2,resRef(s2,'D. Welbeck'),giroud).reason,/better/,'Giroud 83 cannot be dragged out for Welbeck 80');
-  assert.match(S.canSwap(s2,resRef(s2,'K. Gibbs'),giroud).reason,/can't play|better/,'a left back cannot replace a striker');
+  const xiName=(sheet,n)=>sheet.xi.some(p=>p&&p.name===n),boardName=(sheet,n)=>sheet.bench.slice(0,4).some(p=>p&&p.name===n);
+  // Nik's no-hiding rule (2026-11-11): from season 2 the XI holds each line's best and subs 1-4 are the best 4 left.
+  assert.equal(S.hidingIssue(s2),null,'season 2 opens with nobody hidden');
+  assert.ok(xiName(s2,'P. Mertesacker')&&!xiName(s2,'Héctor Bellerín'),'Mertesacker 83 (DEF) starts over Bellerín 79');
+  assert.ok(!boardName(s2,'Héctor Bellerín')&&boardName(s2,'D. Welbeck'),'Welbeck 80 takes a board seat over Bellerín 79');
+  assert.equal(S.hidingIssue(s1),null,'season 1 is the launch squad as it is');
+  const mert=xiRef(s2,p=>p.name==='P. Mertesacker'),giroud=xiRef(s2,p=>p.name==='O. Giroud');
+  assert.match(S.canSwap(s2,ref('bench',4),mert).reason,/better/,'Debuchy 80 cannot replace Mertesacker 83');
+  assert.match(S.canSwap(s2,ref('bench',0),giroud).reason,/better/,'Giroud 83 cannot be dragged out for Welbeck 80');
+  assert.match(S.canSwap(s2,ref('bench',5),giroud).reason,/can't play|better/,'a left back cannot replace a striker');
   assert.match(S.canSwap(s2,ref('bench',1),giroud).reason,/can't play/,'Coquelin (CDM) cannot play striker');
-  const swapped=S.swap(s2,resRef(s2,'M. Debuchy'),bel);
-  assert.ok(swapped.ok&&swapped.sheet.xi[bel.index].name==='M. Debuchy'&&swapped.sheet.bench.some(p=>p&&p.name==='Héctor Bellerín'));
+  assert.match(S.canSwap(s2,resRef(s2,'D. Ospina'),xiRef(s2,p=>p.name==='P. Čech')).reason,/better/,'Čech 88 cannot be hidden for Ospina 79');
+  // ties are the manager's choice; subs 5-7 and the reserves (both off the board) swap freely
+  assert.ok(S.swap(s2,ref('bench',0),ref('bench',4)).ok,'Welbeck 80 and Debuchy 80: a tie');
+  assert.ok(S.swap(s2,resRef(s2,'C. Jenkinson'),ref('bench',6)).ok,'a reserve for sub 7');
+  assert.match(S.canSwap(s2,ref('bench',1),ref('bench',4)).reason,/15 on the Roulette board/,'Coquelin 81 cannot leave the board for Debuchy 80');
+  // a reported overall moves players by itself, both ways
+  const up=S.rate(s2,s2.reserves.find(p=>p.name==='C. Jenkinson').id,86);
+  assert.ok(up.ok&&xiName(up.sheet,'C. Jenkinson')&&boardName(up.sheet,'Nacho Monreal')&&!xiName(up.sheet,'Nacho Monreal')&&S.hidingIssue(up.sheet)===null&&S.validate(up.sheet).ok,'Jenkinson rated 86 starts; Monreal 81, now the weakest defender, drops to the board');
+  const down=S.rate(s2,giroud&&s2.xi[giroud.index].id,70);
+  assert.ok(down.ok&&!xiName(down.sheet,'O. Giroud')&&S.hidingIssue(down.sheet)===null&&S.validate(down.sheet).ok,'Giroud rated 70 leaves the XI');
   // XI <-> XI inside a line, and AUTO restores natural seats
-  const rb=xiRef(s2,p=>p.name==='Héctor Bellerín'),lb=xiRef(s2,p=>p.name==='Nacho Monreal');
-  const crossed=S.swap(s2,rb,lb);assert.ok(crossed.ok);
+  const lb=xiRef(s2,p=>p.name==='Nacho Monreal');
+  const crossed=S.swap(s2,mert,lb);assert.ok(crossed.ok);
   const auto=S.autoPlace(crossed.sheet);assert.ok(auto.ok);
-  assert.equal(auto.sheet.xi[rb.index].name,'Héctor Bellerín');assert.equal(auto.sheet.xi[lb.index].name,'Nacho Monreal');
-  // XI <-> bench across lines is refused; bench order is free
-  assert.equal(S.canSwap(s2,ref('bench',3),rb).ok,false);
-  assert.ok(S.swap(s2,ref('bench',0),ref('bench',3)).ok);
-  // subs 5-7 are outside the Roulette 15: a better sub can't be pushed out of seats 1-4 for a weaker one
-  const b4=s2.bench[4],b0=s2.bench[0];
-  assert.ok(b0.rating>b4.rating);
-  assert.match(S.canSwap(s2,ref('bench',0),ref('bench',4)).reason,/15 on the Roulette board/);
-  assert.match(S.canSwap(s2,ref('bench',4),xiRef(s2,p=>p.name==='O. Giroud')).reason||'',/better|can't play/);
+  assert.equal(auto.sheet.xi[lb.index].name,'Nacho Monreal');
+  // XI <-> bench across lines is refused; board order is free
+  assert.equal(S.canSwap(s2,ref('bench',3),mert).ok,false);
+  assert.ok(S.swap(s2,ref('bench',1),ref('bench',2)).ok);
+  assert.match(S.canSwap(s2,ref('bench',4),giroud).reason||'',/better|can't play/);
 }
-ok('C4','moves: no keeper outfield, no cross-line swap, no reserve before season 2, never a better player out to the reserves, same-line equal-or-better comes in, AUTO reseats');
+ok('C4','moves: no keeper outfield, no cross-line swap, no reserve before season 2, never a better player out to the reserves; from season 2 the XI holds each line\'s best and subs 1-4 the best 4 left (ties free), reported overalls move players, AUTO reseats');
 
 // C5 departures (season 2+) are refilled within the line.
 for(const club of clubs){
@@ -198,10 +207,10 @@ for(let c=0;c<196;c+=1){
   }
   careers+=1;
 }
-ok('C7',`${careers} seeded 10-season careers (${sheets} screens): every sheet validates, nobody twice, the shot/guessed/departed never return, no Special Player, club players only from the club, and the stored document rebuilds the same board`);
+ok('C7',`${careers} seeded 10-season careers (${sheets} screens): every sheet validates (from season 2 nobody better is hidden outside the XI or the board), nobody twice, the shot/guessed/departed never return, no Special Player, club players only from the club, and the stored document rebuilds the same board`);
 
-// C9 loans (Nik 2026-11-11 00:26 UTC): a loaned player is out for the rest of the season and back in the reserves next
-// season; a player who left can be bought back later (not a shot player).
+// C9 loans (Nik 2026-11-11 00:26 UTC): a loaned player is out for the rest of the season and back at the club next
+// season (in the XI if he is good enough); a player who left can be bought back later (not a shot player).
 {
   const s2=S.advance(S.advance(S.launch('Arsenal'),{}),{});
   const ozil=s2.xi.find(p=>p.name==='M. Özil');
@@ -209,12 +218,10 @@ ok('C7',`${careers} seeded 10-season careers (${sheets} screens): every sheet va
   assert.ok(!ids(loaned.sheet).includes(ozil.id));
   const post=S.advance(loaned.sheet,{});assert.ok(!ids(post).includes(ozil.id),'still away after Transfer War');
   const s3=S.advance(post,{});
-  assert.ok(s3.reserves.some(p=>p.id===ozil.id)&&!s3.excluded.includes(ozil.id),'back in the reserves in season 3');
-  assert.equal(s3.reserves.find(p=>p.id===ozil.id).rating,89);
-  assert.ok(S.validate(s3).ok);
-  // he can come straight back in for a weaker player of his line
-  const cam=s3.xi.findIndex((p,i)=>s3.slots[i]==='CAM');
-  assert.ok(S.canSwap(s3,{zone:'res',index:s3.reserves.findIndex(p=>p.id===ozil.id)},{zone:'xi',index:cam}).ok);
+  assert.ok(ids(s3).includes(ozil.id)&&!s3.excluded.includes(ozil.id),'back at the club in season 3');
+  assert.equal(S.findPlayer(s3,ozil.id).zone,'xi','at 89 he is the best midfielder, so he starts again by himself (no-hiding rule)');
+  assert.equal(s3.xi.find(p=>p&&p.id===ozil.id).rating,89);
+  assert.ok(S.validate(s3).ok&&S.hidingIssue(s3)===null);
   // buy back: a sold club player may return as a signing; a shot player never
   const giroud=s2.xi.find(p=>p.name==='O. Giroud');
   const sold=S.leave(s2,giroud.id,'sold').sheet;
@@ -222,7 +229,7 @@ ok('C7',`${careers} seeded 10-season careers (${sheets} screens): every sheet va
   assert.ok(ids(back).includes('s|o. giroud'),'bought back');
   assert.ok(S.leaveReasons.includes('loaned'));
 }
-ok('C9','a loaned player is away for the season and back in the reserves next season; a sold player can be bought back, a shot player never');
+ok('C9','a loaned player is away for the season and back next season (starting again when he is the best of his line); a sold player can be bought back, a shot player never');
 
 // C8 board rows for RRR: XI in slot order then 4 subs.
 {

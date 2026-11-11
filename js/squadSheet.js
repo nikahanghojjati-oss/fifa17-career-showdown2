@@ -310,6 +310,66 @@
     }
   }
 
+  // ---------- Nik's no-hiding rule (2026-11-11 00:38 UTC), from season 2 ----------
+  // The squad shows the save as it is: nobody better can be kept out of the XI or the Roulette board to protect him.
+  // (1) No bench or reserve player may be rated above a starter standing in a slot of his own line (GK/DEF/MID/ATT, from
+  //     his first FIFA 17 position),
+  //     so the XI always holds each line's best for the chosen formation; flex decides who covers which slot.
+  // (2) Subs 1-4 (on the Roulette board) are the best of the rest: nobody in subs 5-7 or the reserves is rated above them.
+  // Ties are the manager's choice. Season 1 keeps the launch squad as it is (only moves are checked there).
+  function hidingIssue(sheet){
+    if(!sheet||sheet.season<2)return null;
+    const outside=[...sheet.bench.map((p,b)=>({p,ref:{zone:"bench",index:b}})),...sheet.reserves.map((p,r)=>({p,ref:{zone:"res",index:r}}))].filter(x=>x.p).sort((x,y)=>order(x.p,y.p));
+    for(const {p:q,ref} of outside){
+      const line=lineOf(q.positions[0]||"");// his own line: a CDM who can cover CB is still a midfielder
+      let best=null;
+      sheet.xi.forEach((p,i)=>{
+        if(!p||isStopgap(sheet,i)||!(q.rating>p.rating)||line!==lineOf(sheet.slots[i])||!allowed(sheet,q,sheet.slots[i]))return;
+        const f=slotFit(sheet,q,sheet.slots[i]);
+        if(!best||f>best.fit||(f===best.fit&&p.rating<best.p.rating))best={kind:"xi",q,from:ref,p,index:i,fit:f};
+      });
+      if(best)return best;
+    }
+    const featured=sheet.bench.slice(0,FEATURED).map((p,b)=>({p,b})).filter(x=>x.p);
+    if(!featured.length)return null;
+    const weakest=featured.reduce((w,x)=>order(w.p,x.p)<0?x:w);
+    const rest=outside.filter(x=>x.ref.zone==="res"||x.ref.index>=FEATURED);
+    const top=rest[0];
+    if(top&&top.p.rating>weakest.p.rating)return {kind:"bench",q:top.p,from:top.ref,p:weakest.p,index:weakest.b};
+    // An empty board seat while someone waits outside is filled the same way.
+    const hole=sheet.bench.slice(0,FEATURED).findIndex(p=>!p);
+    if(hole>=0&&top)return {kind:"bench",q:top.p,from:top.ref,p:null,index:hole};
+    return null;
+  }
+  const hidingReason=issue=>!issue?"":!issue.p?`${issue.q.name} (${issue.q.rating}) has to fill the empty sub seat on the Roulette board.`
+    :issue.kind==="xi"?`${issue.q.name} (${issue.q.rating}) is better than ${issue.p.name} (${issue.p.rating}) and plays ${lineWord(lineOf(issue.q.positions[0]||""))}. The XI keeps the best of each line.`
+    :`${issue.q.name} (${issue.q.rating}) is better than ${issue.p.name} (${issue.p.rating}). Subs 1-4 on the Roulette board are the best of the rest.`;
+  const lineWord=line=>({GK:"in goal",DEF:"in defence",MID:"in midfield",ATT:"in attack"})[line]||"in his line";
+  // Puts every better player where the rule says. Each step raises the squad's total, so it always ends.
+  function enforceBest(sheet){
+    const moved=[];
+    for(let guard=0;guard<200;guard+=1){
+      const issue=hidingIssue(sheet);
+      if(!issue){
+        // A starter who dropped out may be able to play a slot a stopgap is holding: he takes it, and the check runs again.
+        const spare=[...sheet.bench.filter(Boolean),...sheet.reserves];
+        if(sheet.stopgaps.some(i=>spare.some(p=>allowed(sheet,p,sheet.slots[i])))){repairStopgaps(sheet,[]);continue;}
+        break;
+      }
+      const {q,from}=issue;
+      const target=issue.kind==="xi"?{zone:"xi",index:issue.index}:{zone:"bench",index:issue.index};
+      const p=at(sheet,target);
+      if(from.zone==="res"){takeReserve(sheet,q.id);if(p){sheet.reserves.push(p);sortReserves(sheet);}}
+      else sheet.bench[from.index]=p||null;
+      put(sheet,target,q);
+      if(target.zone==="xi")setStopgap(sheet,target.index,false);
+      moved.push({name:q.name,over:p?p.name:null});
+    }
+    for(let b=0;b<BENCH_SIZE;b+=1)if(!sheet.bench[b]&&sheet.reserves.length)refillBench(sheet,b,null);
+    if(moved.length)sheet.notes=[...(sheet.notes||[]),...moved.map(m=>({name:m.name,reason:"promoted",over:m.over}))];
+    return moved;
+  }
+
   // ---------- season events ----------
   // Moves a locked sheet to the next screen's starting proposal.
   // - locked "pre" (season N) -> "post" (season N): events.shot = the player the RRR hit ({name, number, signedSeason}) or
@@ -333,6 +393,7 @@
       }
       sheet.excluded=[...ex].sort();sortReserves(sheet);
       repairStopgaps(sheet,[]);// a keeper back from loan takes his place from an outfielder standing in
+      enforceBest(sheet);
       return sheet;
     }
     sheet.stage="post";
@@ -367,6 +428,7 @@
     for(let b=0;b<BENCH_SIZE;b+=1)if(!sheet.bench[b])refillBench(sheet,b,null);
     repairStopgaps(sheet,[]);
     settleBench(sheet);
+    enforceBest(sheet);
     for(const p of kept){const r=findPlayer(sheet,p.id);if(r&&r.zone==="res")sheet.notes.push({name:p.name,reason:"reserve"});}
     return sheet;
   }
@@ -409,11 +471,12 @@
       if(b.zone==="xi"){
         if(!allowed(sheet,pa,sheet.slots[b.index]))return {ok:false,reason:`${pa.name} can't play ${sheet.slots[b.index]}.`};
         if(pb&&pb.rating>pa.rating&&!isStopgap(sheet,b.index))return {ok:false,reason:`${pb.name} (${pb.rating}) is better than ${pa.name} (${pa.rating}). A better player can't go to the reserves.`};
-        return {ok:true};
+        return hidingCheck(sheet,a,b);
       }
+      if(b.index>=FEATURED)return hidingCheck(sheet,a,b);// subs 5-7 and the reserves are both off the board
       if(pb&&!shareLine(pa,pb))return {ok:false,reason:`${pa.name} doesn't play in ${pb.name}'s line.`};
       if(pb&&pb.rating>pa.rating)return {ok:false,reason:`${pb.name} (${pb.rating}) is better than ${pa.name} (${pa.rating}). A better player can't go to the reserves.`};
-      return {ok:true};
+      return hidingCheck(sheet,a,b);
     }
     // XI and bench.
     const inside=r=>r.zone==="xi"||r.index<FEATURED;
@@ -430,11 +493,20 @@
       const from=a.zone==="xi"?b:a;
       if(from.zone==="bench")return {ok:false,reason:"Every place in the XI needs a player."};
     }
-    return {ok:true};
+    return hidingCheck(sheet,a,b);
+  }
+  // From season 2 a move may not leave a better player hidden (it is refused, never undone by itself).
+  function hidingCheck(sheet,a,b){
+    if(sheet.season<2)return {ok:true};
+    const issue=hidingIssue(doSwap(sheet,a,b));
+    return issue?{ok:false,reason:hidingReason(issue)}:{ok:true};
   }
   function swap(sheet,a,b){
     const check=canSwap(sheet,a,b);
     if(!check.ok)return {ok:false,reason:check.reason,sheet};
+    return {ok:true,sheet:doSwap(sheet,a,b)};
+  }
+  function doSwap(sheet,a,b){
     const next=clone(sheet);
     if(b.zone==="res"&&a.zone!=="res")[a,b]=[b,a];
     const pa=at(next,a),pb=at(next,b);
@@ -447,7 +519,7 @@
       if(a.zone==="xi")setStopgap(next,a.index,false);
       if(b.zone==="xi")setStopgap(next,b.index,false);
     }
-    return {ok:true,sheet:next};
+    return next;
   }
   // From season 2 a manager reports a player who left the club in his FIFA save. He leaves for good (a player who left
   // may be signed again later: BUY_BACK) and his place is refilled within his line.
@@ -462,10 +534,11 @@
     next.out.push({id:p.id,name:p.name,number:p.number,signedSeason:p.signedSeason,reason,season:next.season,stage:next.stage,player:reason==="loaned"?clone(p):null});
     if(ref.zone==="xi"){setStopgap(next,ref.index,false);refillXi(next,ref.index,[],p);}
     else if(ref.zone==="bench")refillBench(next,ref.index,p);
+    next.notes=[];enforceBest(next);
     return {ok:true,sheet:next};
   }
-  // From season 2 a manager can report a new overall (30-99) for a player still at the club. It only changes who is
-  // "better" within his line; nobody moves by himself.
+  // From season 2 a manager can report a new overall (30-99) for a player still at the club. If that makes him better than
+  // a starter of his line (or a sub on the board), he moves up by himself, and a starter who drops below goes down.
   function rate(sheet,id,overall){
     if(!sheet||sheet.season<2)return {ok:false,reason:"Overalls change from season 2.",sheet};
     if(!validOverall(overall))return {ok:false,reason:`Overall must be ${OVERALL_MIN}-${OVERALL_MAX}.`,sheet};
@@ -474,6 +547,7 @@
     const next=clone(sheet),p=at(next,ref);
     p.rating=overall;next.ratings[p.id]=overall;
     if(ref.zone==="res")sortReserves(next);
+    next.notes=[];enforceBest(next);
     return {ok:true,sheet:next};
   }
 
@@ -541,6 +615,7 @@
     }
     for(let b=0;b<BENCH_SIZE;b+=1)if(!next.bench[b]&&useReserves)refillBench(next,b,null);
     sortReserves(next);
+    next.notes=[];enforceBest(next);
     return {ok:true,sheet:next};
   }
   // AUTO: the same XI, each player in his best slot. Nobody joins or leaves the XI.
@@ -551,6 +626,7 @@
     const pick=seat(next,next.slots,xi,xi.map(()=>2),prev);
     next.xi=pick.map(j=>j>=0?xi[j]:null);
     next.stopgaps=next.xi.map((p,i)=>p&&!allowed(next,p,next.slots[i])?i:-1).filter(i=>i>=0);
+    next.notes=[];enforceBest(next);
     return {ok:true,sheet:next};
   }
 
@@ -590,6 +666,8 @@
       if(!sheet.stopgaps.includes(i)||spare.some(q=>allowed(sheet,q,slot)))problems.push(`${p.name} can't play ${slot}.`);
     });
     if(sheet.bench.some(p=>!p)&&sheet.reserves.length)problems.push("A bench seat is empty.");
+    const hidden=problems.length?null:hidingIssue(sheet);
+    if(hidden)problems.push(hidingReason(hidden));
     return {ok:problems.length===0,problems};
   }
 
@@ -648,6 +726,7 @@
     version:VERSION,feature:"cms-squad-sheet",xiSize:XI_SIZE,benchSize:BENCH_SIZE,boardSubs:FEATURED,maxSeasons:MAX_SEASONS,
     lines:LINES,stages:STAGES,leaveReasons:LEAVE_REASONS,buyBack:BUY_BACK,flex:FLEX,
     lineOf,family,fit:sqFit,playerLines,formations,formationSlots,lineCounts,pitchSpots,titleOf,idOf,allowedIn:(sheet,player,slot)=>allowed(sheet,player,slot),slotFit:(sheet,player,slot)=>slotFit(sheet,player,slot),findPlayer,
-    launch,advance,canSwap,swap,leave,rate,setFormation,autoPlace,apply:sqApply,validate,board,toDoc,fromDoc
+    launch,advance,canSwap,swap,leave,rate,setFormation,autoPlace,apply:sqApply,validate,board,toDoc,fromDoc,
+    hidingIssue:sheet=>{const i=hidingIssue(sheet);return i?Object.freeze({kind:i.kind,better:i.q.name,over:i.p?i.p.name:null,reason:hidingReason(i)}):null;}
   });
 });

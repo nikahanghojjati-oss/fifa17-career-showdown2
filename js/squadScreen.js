@@ -97,7 +97,11 @@
       if(r.errors.length){say(r.errors[0].reason,"no");return false;}
       ops=ops.concat([op]);sheet=r.sheet;saveDraft();return true;
     }
-    function say(text,kind){message=text||"";messageKind=kind||"";const live=host.querySelector(".sqmLive");if(live){live.textContent=message;live.dataset.kind=messageKind;}}
+    function say(text,kind){
+      message=text||"";messageKind=kind||"";
+      const live=host.querySelector(".sqmLive");if(live){live.textContent=message;live.dataset.kind=messageKind;}
+      const echo=host.querySelector(".sqmCardMsg");if(echo){echo.textContent=message;echo.dataset.kind=messageKind;}
+    }
     const playerAt=ref=>!ref?null:ref.zone==="xi"?sheet.xi[ref.index]:ref.zone==="bench"?sheet.bench[ref.index]:sheet.reserves[ref.index]||null;
     const same=(a,b)=>a&&b&&a.zone===b.zone&&a.index===b.index;
     const slotOf=ref=>ref&&ref.zone==="xi"?sheet.slots[ref.index]:null;
@@ -145,6 +149,8 @@
       if(player.number)row("Shirt",`#${player.number}`);
       if(player.signedSeason)row("Signed",`Season ${player.signedSeason}`);
       c.append(id,info);
+      // The side panel's status, repeated on the card (which stays on screen while the page scrolls).
+      const msg=el("p","sqmCardMsg",message);msg.dataset.kind=messageKind;msg.setAttribute("aria-hidden","true");c.appendChild(msg);
       return c;
     }
 
@@ -363,21 +369,29 @@
       tapOn(ref);
     });
     // Keyboard focus moves FIFA's cursor too (the card on top follows it).
+    // Nothing may re-draw between a finger going down and its click: a taller or shorter card would move the pitch under
+    // the finger and the tap would land on the grass (Nik's first try on his phone, 2026-11-11).
+    let pressing=false,touchy=false;
+    panel.addEventListener("pointerdown",e=>{pressing=true;touchy=e.pointerType!=="mouse";},true);
+    const release=()=>{setTimeout(()=>{pressing=false;},0);};
+    panel.addEventListener("click",release,true);panel.addEventListener("pointercancel",release,true);
+    panel.addEventListener("pointerup",()=>{setTimeout(()=>{pressing=false;},350);},true);
     panel.addEventListener("focusin",e=>{
+      if(pressing)return;
       const ref=refFrom(e.target);if(!ref||same(ref,cursor))return;
       const prev=panel.querySelector(".is-cursor");if(prev)prev.classList.remove("is-cursor");
       cursor=ref;e.target.closest("[data-zone]").classList.add("is-cursor");
       const c=panel.querySelector(".sqmCard");if(c&&!picked)c.replaceWith(card(playerAt(cursor),cursor));
     });
     panel.addEventListener("mouseover",e=>{
-      if(drag||picked)return;const ref=refFrom(e.target);if(!ref||same(ref,cursor))return;
+      if(drag||picked||pressing||touchy)return;const ref=refFrom(e.target);if(!ref||same(ref,cursor))return;
       cursor=ref;const c=panel.querySelector(".sqmCard");if(c)c.replaceWith(card(playerAt(cursor),cursor));
     });
     // Drag: a mouse drags at once; a finger holds 300 ms first, so a swipe always scrolls and never moves a player.
     panel.addEventListener("pointerdown",e=>{
       if(locked||tab!=="squad"||e.button>0)return;
       const ref=refFrom(e.target);if(!ref||!playerAt(ref))return;
-      drag={ref,x:e.clientX,y:e.clientY,id:e.pointerId,moved:false,ready:e.pointerType==="mouse",ghost:null,timer:null};
+      drag={ref,x:e.clientX,y:e.clientY,id:e.pointerId,moved:false,ready:e.pointerType==="mouse",ghost:null,timer:null,travel:0,before:picked};
       if(!drag.ready)drag.timer=setTimeout(()=>{if(drag){drag.ready=true;start(e);}},300);
     });
     function start(e){
@@ -392,7 +406,7 @@
     }
     panel.addEventListener("pointermove",e=>{
       if(!drag||e.pointerId!==drag.id)return;
-      const dist=Math.hypot(e.clientX-drag.x,e.clientY-drag.y);
+      const dist=Math.hypot(e.clientX-drag.x,e.clientY-drag.y);drag.travel=Math.max(drag.travel,dist);
       if(!drag.ready){if(dist>8){clearTimeout(drag.timer);drag=null;}return;}
       if(!drag.ghost&&dist>6)start(e);
       if(drag.ghost){
@@ -405,7 +419,12 @@
     function endDrag(e){
       if(!drag)return;clearTimeout(drag.timer);
       const d=drag;
-      if(d.ghost){
+      if(d.ghost&&d.travel<=8){
+        // A slow tap (a finger held still) is still a tap: pick him, or swap with the player picked before.
+        d.ghost.remove();picked=d.before;
+        if(picked&&!same(picked,d.ref))trySwap(picked,d.ref);else{picked=same(picked,d.ref)?null:d.ref;cursor=d.ref;sqmRender();}
+        setTimeout(()=>{drag=null;},0);
+      }else if(d.ghost){
         d.ghost.remove();
         const under=doc.elementFromPoint(e.clientX,e.clientY),to=refFrom(under);
         if(to&&!same(to,d.ref))trySwap(d.ref,to);else{picked=null;sqmRender();}
@@ -413,7 +432,11 @@
       }else drag=null;
     }
     panel.addEventListener("pointerup",endDrag);
-    panel.addEventListener("pointercancel",e=>{if(drag&&drag.ghost)drag.ghost.remove();drag=null;picked=null;sqmRender();void e;});
+    // The browser cancels the pointer when a finger starts scrolling: forget the drag, keep the picked player, so a
+    // manager can pick on the pitch, scroll down to the reserves and tap the second player.
+    panel.addEventListener("pointercancel",()=>{if(!drag)return;clearTimeout(drag.timer);if(drag.ghost){drag.ghost.remove();picked=drag.before;sqmRender();}drag=null;});
+    // While a player is being carried, the finger moves him instead of scrolling the page.
+    panel.addEventListener("touchmove",e=>{if(drag&&drag.ghost&&e.cancelable)e.preventDefault();},{passive:false});
     panel.addEventListener("contextmenu",e=>{if(drag)e.preventDefault();});
     // Keys: arrows move the cursor like FIFA's (down from the back line goes to the substitutes, then the reserves),
     // Enter or Space picks and swaps, Escape cancels.

@@ -51,6 +51,10 @@
 .sqmCardInfo dt{font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--frostSoft)}
 .sqmCardInfo dd{margin:0;font-family:var(--text);font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sqmCardInfo .fit3 dd{color:#137a34}.sqmCardInfo .fit2 dd{color:#6e6000}.sqmCardInfo .fit1 dd{color:#a24f00}.sqmCardInfo .fit0 dd{color:#b3261b}
+.sqmCardMsg{grid-column:1/-1;margin:2px 0 0;padding:6px 10px;border-radius:2px;background:rgba(20,25,31,.07);font-family:var(--text);font-weight:600;font-size:14px;line-height:1.3}
+.sqmCardMsg:empty{display:none}
+.sqmCardMsg[data-kind="no"]{background:#ffe1dd;color:#7a1910}
+.sqmCardMsg[data-kind="ok"]{background:#dcf5e3;color:#0e5a26}
 .sqmCardEmpty{margin:0;font-size:18px;color:var(--frostSoft)}
 
 .sqmDot{display:inline-block;width:10px;height:10px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 1.5px rgba(0,0,0,.35)}
@@ -221,3 +225,4 @@
   .sqmFormPreview .sqmChipOvr{right:calc(50% + 16px);font-size:14px}
 }
 @media (prefers-reduced-motion:reduce){.sqm *{transition:none!important;scroll-behavior:auto!important}}
+@media (min-width:961px){.sqmCardMsg{display:none}}
