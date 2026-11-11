@@ -395,7 +395,44 @@
     return {ok:true,sheets};
   }
 
+  // ---------- the Touchline Gazette's squad news (Nik 2026-11-11: reported overalls and departures feed the Gazette) ----------
+  // Season N's paper tells what changed in both managers' squads since the paper before: season N's two "pre" sheets against
+  // season N-1's (the cumulative lists, so a departure or overall set on the post screen after the last Transfer War is told
+  // here too). Only "pre" sheets: both are on both phones before the Russian Roulette, so both papers say the same; the
+  // rival's "post" sheet may not exist yet when the paper prints. Read from this phone's kept copies only (no read, no
+  // write): null when one is missing, and the paper then prints without squad news. Season 1 has none (no departures).
+  function sqsIdOf(name,number,signed){return `${name}|${isInt(number)&&number>=0?number:""}|${isInt(signed)&&signed>0?signed:""}`;}
+  function sqsSheetFacts(data){
+    const out=new Map(),ov=new Map();
+    for(let i=0;i<data.outNames.length;i+=1)out.set(sqsIdOf(data.outNames[i],data.outNumbers[i],data.outSigned[i]),{name:data.outNames[i],reason:data.outReasons[i],season:data.outSeasons[i]});
+    for(let i=0;i<data.ovNames.length;i+=1)ov.set(sqsIdOf(data.ovNames[i],data.ovNumbers[i],data.ovSigned[i]),{name:data.ovNames[i],value:data.ovValues[i]});
+    return {out,ov};
+  }
+  function sqsGazetteNews({rivalryId,season}={}){
+    if(typeof rivalryId!=="string"||!rivalryId||!isInt(season)||season<2||season>10)return null;
+    const ctx={rivalryId},news={};
+    for(const role of ROLES){
+      const now=sqsKept(sqsPointKey(ctx,role,season,"pre")),before=sqsKept(sqsPointKey(ctx,role,season-1,"pre"));
+      if(!now||!before)return null;
+      const a=sqsSheetFacts(now),b=sqsSheetFacts(before);
+      // a loan that ended comes back (its old entry stays in the list): only departures new since the last paper
+      const left=[...a.out].filter(([id])=>!b.out.has(id)).map(([,o])=>({name:o.name,reason:o.reason}));
+      const gone=new Set([...a.out].filter(([,o])=>o.reason!=="loaned"||o.season===season).map(([id])=>id));
+      const rated=[...a.ov].filter(([id,o])=>!gone.has(id)&&(!b.ov.has(id)||b.ov.get(id).value!==o.value)).map(([,o])=>({name:o.name,value:o.value}));
+      news[role]={left,rated};
+    }
+    return Object.freeze(news);
+  }
+  // Keeps the sheets the paper needs on this phone (season N-1 and N "pre", both managers): a kept copy costs nothing, so
+  // this reads only on a phone that never saw one (a new device mid-Showdown). Never holds up or fails a screen.
+  async function sqsGazetteWarm(ctx,io){
+    try{
+      for(const k of [ctx.season-1,ctx.season])if(k>=1)for(const role of ROLES)await sqsGet(io,{rivalryId:ctx.rivalryId},role,k,"pre",true);
+    }catch(_error){}
+    return true;
+  }
+
   return Object.freeze({contractVersion:1,feature:"cms-squad-management-step",stageId:STAGE_ID,collection:COLLECTION,keptKey:KEPT_KEY,doneKey:DONE_KEY,
     applies:sqsApplies,ensure:sqsEnsure,run:sqsRun,boards:sqsBoards,history:sqsHistory,close:sqsClose,isDone:sqsIsDone,markDone:sqsMarkDone,wentHome:()=>wentHome,
-    events:sqsEvents,parse:sqsParse,docId:sqsDocId,store:Object.freeze({get:sqsGet,create:sqsCreate,watch:sqsWatch})});
+    events:sqsEvents,parse:sqsParse,gazetteNews:sqsGazetteNews,gazetteWarm:sqsGazetteWarm,docId:sqsDocId,store:Object.freeze({get:sqsGet,create:sqsCreate,watch:sqsWatch})});
 });
