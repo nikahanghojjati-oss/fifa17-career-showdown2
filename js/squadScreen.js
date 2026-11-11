@@ -22,24 +22,26 @@
 
   // ---------- shirts (js/kits17.js drawFlat, cached as images) ----------
   const shirtCache=new Map();
-  function shirtUrl(club,role,number){
-    const key=`${club}|${role}|${number||""}`;
+  // The same js/kits17.js shirts as the Russian Roulette board (all 98 approved clubs): the keeper's shade is picked
+  // against the rival's kit too (vsClub), exactly as the board does, so a keeper wears the same colour on both screens.
+  function shirtUrl(club,role,number,vsClub){
+    const key=`${club}|${role}|${number||""}|${vsClub||""}`;
     if(shirtCache.has(key))return shirtCache.get(key);
     let url="";
     try{
       const kits=root.CareerModeKits17;
       if(kits&&typeof kits.drawFlat==="function"){
         const c=doc.createElement("canvas");c.width=112;c.height=120;
-        const g=c.getContext("2d");kits.drawFlat(g,club,56,60,108,{role,number:number||undefined});
+        const g=c.getContext("2d");kits.drawFlat(g,club,56,60,108,{role,vsClub:vsClub||undefined});// no number: the board's shirts carry none either
         url=c.toDataURL("image/png");
       }
     }catch(e){url="";}
     shirtCache.set(key,url);
     return url;
   }
-  function shirt(club,player,slotPos){
+  function shirt(club,player,slotPos,vsClub){
     const role=(slotPos==="GK"||(!slotPos&&player&&player.positions[0]==="GK"))?"gk":"outfield";
-    const url=shirtUrl(club,role,player&&player.number);
+    const url=shirtUrl(club,role,player&&player.number,vsClub);
     const box=el("span","sqmShirt"+(role==="gk"?" is-gk":""));
     if(url){const im=el("img");im.alt="";im.src=url;im.draggable=false;box.appendChild(im);}
     else box.classList.add("is-plain");
@@ -81,7 +83,9 @@
   function sqmMount(host,options){
     const S=root.CareerModeSquadSheet;
     if(!host||!S||!options||!options.sheet)return null;
-    const base=options.sheet,club=options.club||base.club;
+    const base=options.sheet,club=options.club||base.club,rival=options.rival||null;
+    // Crests on the shirts come from js/visualIdentity.js; once they are loaded the shirts are painted again with them.
+    try{const kits=root.CareerModeKits17;if(kits&&typeof kits.prepare==="function")Promise.resolve(kits.prepare([club].concat(rival?[rival]:[]))).then(()=>{if(!host.isConnected||!host.classList.contains("sqm"))return;shirtCache.clear();sqmRender();}).catch(()=>{});}catch(e){}
     const formations=S.formations(),byName=new Map(formations.map(f=>[f.name,f]));
     let ops=readDraft(),sheet=S.apply(base,ops).sheet;
     let tab="squad",cursor={zone:"xi",index:0},picked=null,drag=null,locked=Boolean(options.locked);
@@ -139,7 +143,7 @@
       if(!player){c.appendChild(el("p","sqmCardEmpty","Empty place"));return c;}
       const slot=slotOf(ref),line=S.lineOf(slot||player.positions[0]||"")||"MID";
       const f=slot?S.slotFit(sheet,player,slot):3;
-      c.appendChild(shirt(club,player,slot));
+      c.appendChild(shirt(club,player,slot,rival));
       const pos=el("span","sqmCardPos "+LINE_CLASS[line]);pos.appendChild(el("i","sqmDot fit"+(slot?f:3)));pos.appendChild(doc.createTextNode(slot||player.positions[0]||"SUB"));
       const ovr=el("span","sqmCardOvr",player.rating);
       const name=el("span","sqmCardName",shortName(player.name));
@@ -165,7 +169,7 @@
       if(picked&&!same(ref,picked)&&S.canSwap(sheet,picked,ref).ok)b.classList.add("is-target");
       if(!p){b.classList.add("is-empty");b.appendChild(el("span","sqmChipName","Empty"));b.setAttribute("aria-label",`${slot||"Seat"}: empty`);return b;}
       const f=slot?S.slotFit(sheet,p,slot):3,gap=slot&&sheet.stopgaps.includes(ref.index);
-      b.appendChild(shirt(club,p,slot));
+      b.appendChild(shirt(club,p,slot,rival));
       b.appendChild(el("span","sqmChipOvr",p.rating));
       const name=el("span","sqmChipName");
       name.appendChild(el("i","sqmDot fit"+(gap?0:f)));name.appendChild(doc.createTextNode(shortName(p.name)));
@@ -184,7 +188,7 @@
       if(!p){b.classList.add("is-empty");b.appendChild(el("span","sqmShelfName","Empty seat"));return b;}
       const line=S.lineOf(p.positions[0]||"")||"MID";
       const pos=el("span","sqmShelfPos "+LINE_CLASS[line]);pos.appendChild(el("i","sqmDot fit3"));pos.appendChild(doc.createTextNode(p.positions[0]||"?"));
-      b.append(pos,shirt(club,p,null),el("span","sqmShelfOvr",p.rating),el("span","sqmShelfName",shortName(p.name)),el("span","sqmShelfBar "+LINE_CLASS[line]));
+      b.append(pos,shirt(club,p,null,rival),el("span","sqmShelfOvr",p.rating),el("span","sqmShelfName",shortName(p.name)),el("span","sqmShelfBar "+LINE_CLASS[line]));
       if(p.signedSeason&&p.signedSeason===sheet.season)b.appendChild(el("span","sqmBadge","New"));
       b.setAttribute("aria-label",`${ref.zone==="bench"?`Substitute ${ref.index+1}${ref.index<4?", on the Roulette board":""}`:"Reserve"}: ${p.name}, ${p.positions[0]||""} ${p.rating}`);
       return b;
@@ -254,7 +258,7 @@
       f.slots.forEach((pos,i)=>{
         const p=view?view.xi[i]:null,pr=project(spots[i][0],spots[i][1]);
         const m=el("span","sqmChip is-static");m.style.left=pr.left+"%";m.style.top=pr.top+"%";m.style.setProperty("--k",pr.scale.toFixed(3));
-        m.appendChild(shirt(club,p,pos));
+        m.appendChild(shirt(club,p,pos,rival));
         const name=el("span","sqmChipName");name.textContent=p?shortName(p.name):pos;m.appendChild(name);
         pitch.appendChild(m);
       });

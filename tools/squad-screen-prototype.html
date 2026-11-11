@@ -21,6 +21,7 @@
   <div class="proto">
     <b>Prototype</b>
     <label>Club <select id="club"></select></label>
+    <label>Rival <select id="rival"></select></label>
     <label>Screen <select id="scene">
       <option value="s1pre">Season 1 · before Russian Roulette</option>
       <option value="s1post">Season 1 · after Transfer War (sample signings, one shot)</option>
@@ -41,10 +42,14 @@
 (function(){
   const S=window.CareerModeSquadSheet,P=window.CareerModeFifa17Players;
   const clubSel=document.getElementById("club"),sceneSel=document.getElementById("scene"),host=document.getElementById("squad");
+  const rivalSel=document.getElementById("rival");
   for(const c of Object.keys(P.clubs).sort()){const o=document.createElement("option");o.value=o.textContent=c;clubSel.appendChild(o);}
   const q=new URLSearchParams(location.search);
   clubSel.value=q.get("club")&&P.clubs[q.get("club")]?q.get("club"):"Athletic Club" in P.clubs?"Athletic Club":"Arsenal";
   if(q.get("scene"))sceneSel.value=q.get("scene");
+  // The rival only changes the keeper's shirt colour (kept clear of both kits, as on the Russian Roulette board).
+  for(const c of Object.keys(P.clubs).sort()){const o=document.createElement("option");o.value=o.textContent=c;rivalSel.appendChild(o);}
+  rivalSel.value=q.get("rival")&&P.clubs[q.get("rival")]?q.get("rival"):clubSel.value==="Arsenal"?"Chelsea":"Arsenal";
   let screen=null;
   // Sample Transfer War signings: one strong player in each outfield line from other clubs, so the screen shows NEW players.
   function sampleSignings(club){
@@ -64,10 +69,9 @@
     }
     if(sceneSel.value==="s2pre")sheet=S.advance(sheet,{});
     if(screen)screen.destroy();
-    screen=window.CareerModeSquadScreen.mount(host,{sheet,club,draft:{read:()=>{try{return JSON.parse(localStorage.getItem(`sqm-proto|${club}|${sceneSel.value}`)||"[]");}catch(e){return [];}},write:ops=>{try{localStorage.setItem(`sqm-proto|${club}|${sceneSel.value}`,JSON.stringify(ops));}catch(e){}}},onLock:()=>{}});
-    if(window.CareerModeKits17&&window.CareerModeKits17.prepare)window.CareerModeKits17.prepare([club]).then(()=>{}).catch(()=>{});
+    screen=window.CareerModeSquadScreen.mount(host,{sheet,club,rival:rivalSel.value||null,draft:{read:()=>{try{return JSON.parse(localStorage.getItem(`sqm-proto|${club}|${sceneSel.value}`)||"[]");}catch(e){return [];}},write:ops=>{try{localStorage.setItem(`sqm-proto|${club}|${sceneSel.value}`,JSON.stringify(ops));}catch(e){}}},onLock:()=>{}});
   }
-  clubSel.addEventListener("change",build);sceneSel.addEventListener("change",build);
+  clubSel.addEventListener("change",build);sceneSel.addEventListener("change",build);rivalSel.addEventListener("change",build);
   document.getElementById("reset").addEventListener("click",()=>{try{localStorage.removeItem(`sqm-proto|${clubSel.value}|${sceneSel.value}`);}catch(e){}build();});
   build();
 })();
