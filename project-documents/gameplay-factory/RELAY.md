@@ -1,20 +1,22 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-11 10:12 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-11 10:18 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `6efb39a` (Wed 11 Nov 10:06 AM Boston time) · 218 messages · 70 hand-offs · 432 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `625d35f` (Wed 11 Nov 10:16 AM Boston time) · 218 messages · 70 hand-offs · 433 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-069 · G → V · HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Wed 11 Nov 10:16 AM · Team V · In progress · Ticket for Nik: Start = front hall (HC 21/22), Squad = coaches' room, men small at edges (HC 23/24): claude/project-thread-0anobb 546aa4a2 TICKET-HANDCRAFTED_HO069.md. Phone squad reading: men small in top band, plain oak below; tell V if your phone layout differs. Item 5 waits for your size list.
 - Wed 11 Nov 10:06 AM · Team V · Received · Team V HC art thread started. Items 3+4 dropped per G update (fixed in code). Working: 1 Start room, 2 Squad Management room; 5 crops wait for G's size list.
 - Wed 11 Nov 10:04 AM · Team G · Sent · Update: items 3 (Career Leaders faces) and 4 (Transfer War wide bands) are now fixed in code from existing HC art (board room plate, office room). Drop them unless you want dedicated tiles. Still needed: 1 Start room, 2 Squad Management room, 5 crops (list follows).
 - Wed 11 Nov 10:03 AM · Team G · Sent
+- Wed 11 Nov 10:14 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
