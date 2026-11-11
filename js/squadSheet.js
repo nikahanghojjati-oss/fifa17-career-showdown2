@@ -62,6 +62,9 @@
     if(own.includes(slot))return 3;
     if(slot==="GK"||own.includes("GK"))return 0;
     if(own.some(p=>(FLEX[p]||[]).includes(slot)))return 2;
+    // Out of position inside his own line (amber). Defence is the exception: only Nik's listed moves (RB/LB<->CB,
+    // CB->RB/LB, RWB<->RB, LWB<->LB), never right back to left back (r91 lead, 2026-11-11 00:55 UTC).
+    if(line==="DEF")return 0;
     return own.some(p=>lineOf(p)===line)?1:0;
   }
   const playerLines=player=>[...new Set((player&&player.positions||[]).map(lineOf).filter(Boolean))];

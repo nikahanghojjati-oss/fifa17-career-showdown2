@@ -25,7 +25,7 @@ const fit=(positions,slot)=>S.fit({positions},slot);
 assert.equal(fit(['RW'],'ST'),2);assert.equal(fit(['LW'],'LS'),2);assert.equal(fit(['RM'],'RCM'),2);assert.equal(fit(['CM'],'CDM'),2);assert.equal(fit(['CM'],'CAM'),2);
 assert.equal(fit(['RB'],'RCB'),2);assert.equal(fit(['CB'],'RB'),2);assert.equal(fit(['CB'],'LB'),2);assert.equal(fit(['LB'],'LCB'),2);
 assert.equal(fit(['GK'],'CB'),0);assert.equal(fit(['CB'],'GK'),0);assert.equal(fit(['CB'],'ST'),0);assert.equal(fit(['CDM'],'RW'),0);
-assert.equal(fit(['ST'],'ST'),3);assert.equal(fit(['CB'],'RWB'),1);assert.equal(fit(['CDM'],'LM'),1);
+assert.equal(fit(['ST'],'ST'),3);assert.equal(fit(['CB'],'RWB'),0);assert.equal(fit(['RB'],'LB'),0);assert.equal(fit(['LB'],'RWB'),0);assert.equal(fit(['RWB'],'RB'),2);assert.equal(fit(['LWB'],'LB'),2);assert.equal(fit(['CDM'],'LM'),1);
 // Nik 2026-11-11 00:54 UTC: the only moves across lines are RM<->RW, LM<->LW and CF->CAM (CAM->CF was already in).
 assert.equal(fit(['RM'],'RW'),2);assert.equal(fit(['RW'],'RM'),2);assert.equal(fit(['LM'],'LW'),2);assert.equal(fit(['LW'],'LM'),2);
 assert.equal(fit(['CF'],'CAM'),2);assert.equal(fit(['CAM'],'CF'),2);
@@ -116,8 +116,10 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   assert.ok(ox.ok&&oxAt>=0&&['RW','LW'].includes(ox.sheet.slots[oxAt])&&S.validate(ox.sheet).ok,'Oxlade-Chamberlain (RM) rated 90 starts on the wing in a 4-3-3');
   // XI <-> XI inside a line, and AUTO restores natural seats
   const lb=xiRef(s2,p=>p.name==='Nacho Monreal');
-  const crossed=S.swap(s2,mert,lb);assert.ok(crossed.ok);
-  const auto=S.autoPlace(crossed.sheet);assert.ok(auto.ok);
+  assert.match(S.canSwap(s2,mert,lb).reason,/can't play/,'no right back to left back across the defence');
+  const rcb=xiRef(s2,p=>p.name==='S. Mustafi');
+  const crossed=S.swap(s2,mert,rcb);assert.ok(crossed.ok,'two centre backs swap (CB -> RB is on the list)');
+  const auto=S.autoPlace(crossed.sheet);assert.ok(auto.ok&&S.validate(auto.sheet).ok);
   assert.equal(auto.sheet.xi[lb.index].name,'Nacho Monreal');
   // XI <-> bench across lines is refused; board order is free
   assert.equal(S.canSwap(s2,ref('bench',3),mert).ok,false);
