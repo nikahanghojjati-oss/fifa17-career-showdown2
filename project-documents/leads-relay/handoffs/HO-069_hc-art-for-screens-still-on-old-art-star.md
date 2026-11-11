@@ -14,7 +14,7 @@
  "status": "SENT",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-11T15:03:45Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-11T15:03:45Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T15:04:25Z", "by": "G", "status": "SENT", "note": "Update: items 3 (Career Leaders faces) and 4 (Transfer War wide bands) are now fixed in code from existing HC art (board room plate, office room). Drop them unless you want dedicated tiles. Still needed: 1 Start room, 2 Squad Management room, 5 crops (list follows)."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
  "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1"}
 }
