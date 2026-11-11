@@ -104,6 +104,8 @@
     return {dpr:Math.max(.5,Number(root.devicePixelRatio)||1),deviceMemory:root.navigator?.deviceMemory,cores:root.navigator?.hardwareConcurrency,
       phone:Math.min(s.width||1e4,s.height||1e4)<700};
   }
+  // The largest a canvas can be on this page, in CSS pixels (0 when the page has no size yet).
+  function gfxViewPx(){try{const w=Number(root.innerWidth)||0,h=Number(root.innerHeight)||0;return w>0&&h>0?w*h:0;}catch(_error){return 0;}}
   // 8K needs a GPU that can hold a 7680 px buffer and texture; never software GL, never a phone.
   function gfxCan8k(info,env){return Boolean(info&&!info.software&&!(env&&env.phone)&&info.maxBuffer>=7680&&info.maxTexture>=7680);}
   // The cap is not for ever (lead review on #1271): one stray driver reset must not cost a level for good. It expires after
@@ -132,10 +134,22 @@
     let max=level>=4?Math.max(dpr,(level===5?4:2)*dpr):Math.min(L.max,dpr);
     if(phone)max=Math.min(max,Math.max(1,Math.min(PHONE_MAX_PR,dpr)));
     const min=Math.min(1,dpr,max),assetLevel=Math.max(0,Math.min(4,phone&&level<2?level-1:level)-(base.slowNet?1:0));
+    // r91 (device lab, 2026-11-11): the buffer cap holds from the very first allocation. A scene sizes its first buffer from
+    // pixelRatio before its governor exists, and 2.3.0 capped only in the governor: 8K picked on a 4K monitor first asked for
+    // 15360x8640, on an 8K screen for 30720x17280; Ultra on a 4K monitor for 7680x4320. The starting
+    // ratio is now what the governor would allow a canvas the size of the window: native at least, past it only within the
+    // level's buffer (3840x2160; 8K: 7680x4320); a phone within 3840x2160 at any level.
+    let start=Math.max(min,Math.min(level===5?max:level===4?Math.max(L.pr,dpr):L.pr,max));
+    const view=gfxViewPx();
+    if(view){
+      if(level>=4)start=Math.min(start,Math.max(dpr,Math.sqrt((level===5?BUFFER_CAP_8K:BUFFER_CAP)/view)));
+      if(phone)start=Math.min(start,Math.sqrt(BUFFER_CAP/view));
+      start=Math.max(min,start);
+    }
     return {level,name:NAMES[level],choice:base.choice,gpu:base.gpu,software:base.software,dpr,phone,can8k:Boolean(base.can8k),fellBack,
       // Ultra starts at native at least (a 3x phone or 8K screen); 8K starts at its ceiling, which the governor holds to a
       // 7680x4320 buffer for the live canvas (a 1080p screen draws 4x). Past native always stays within the buffer cap.
-      pixelRatio:Math.max(min,Math.min(level===5?max:level===4?Math.max(L.pr,dpr):L.pr,max)),maxPixelRatio:max,minPixelRatio:min,
+      pixelRatio:start,maxPixelRatio:max,minPixelRatio:min,
       bufferCap:level===5?BUFFER_CAP_8K:BUFFER_CAP,
       // Textures and models by level; a phone below High loads one size down (iOS memory), and so does a slow or Save-Data
       // connection. 8K uses Ultra's assets. assetLevel is what screens download; textureLevel is the same value (older name).
