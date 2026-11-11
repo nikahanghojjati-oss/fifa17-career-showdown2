@@ -343,7 +343,7 @@
         // (r91 lead, 2026-11-11 00:59 UTC: a CDM who also plays CB must not push the left back out).
         if(!p||isStopgap(sheet,i)||!(q.rating>p.rating)||sqFit(q,sheet.slots[i])<3)return;
         const f=slotFit(sheet,q,sheet.slots[i]);
-        if(!best||f>best.fit||(f===best.fit&&p.rating<best.p.rating))best={kind:"xi",q,from:ref,p,index:i,fit:f,slot:sheet.slots[i]};
+        if(!best||f>best.fit||(f===best.fit&&p.rating<best.p.rating))best={kind:"xi",q,from:ref,p,index:i,fit:f,slot:family(sheet.slots[i])};
       });
       if(best)return best;
     }
