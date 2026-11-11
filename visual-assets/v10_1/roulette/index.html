@@ -283,12 +283,21 @@ function floorMarbleTex(){ const w=GFX.level>=2?2048:1024,h=w, VEIN=GFX.level>=2
   for(let j=0;j<N;j++) for(let i=0;i<N;i++){ const o=(j*N+i)*3; P1[o]=(i+.15+Math.random()*.7)*cs; P1[o+1]=(j+.15+Math.random()*.7)*cs; P1[o+2]=Math.random(); }
   const N2=36, cs2=q/N2, P2=new Float32Array(N2*N2*3); for(let j=0;j<N2;j++) for(let i=0;i<N2;i++){ const o=(j*N2+i)*3; P2[o]=(i+.1+Math.random()*.8)*cs2; P2[o+1]=(j+.1+Math.random()*.8)*cs2; }
   /* the web is worked out at half size and drawn up (r90: 2048 on the high levels, 1024 on light and medium): fast at load, crisp at floor distance */
-  let E=0, I=0; const edge=(P,n,s,wx,wy)=>{ const gi=Math.floor(wx/s), gj=Math.floor(wy/s); let f1=1e9,f2=1e9,i1=0; for(let dj=-1;dj<=1;dj++) for(let di=-1;di<=1;di++){ const ii=gi+di, jj=gj+dj, mi=(ii%n+n)%n, mj=(jj%n+n)%n, o=(mj*n+mi)*3; const dx=wx-(P[o]+(ii-mi)*s), dy=wy-(P[o+1]+(jj-mj)*s), dd=dx*dx+dy*dy; if(dd<f1){ f2=f1; f1=dd; i1=o; } else if(dd<f2) f2=dd; } E=Math.sqrt(f2)-Math.sqrt(f1); I=i1; };
+  /* r91 (first open on a 2-thread Chromebook): the web's seed points are laid out once in a padded grid, so the nearest-point search needs no
+     wrap arithmetic per pixel, and every wobble term that depends on x or y alone comes from a row or column table; same picture, about half
+     the work */
+  let E=0, I=0; const grid=(P,n,s)=>{ const m=n+8, X=new Float64Array(m*m), Y=new Float64Array(m*m), O=new Int32Array(m*m); for(let pj=0;pj<m;pj++) for(let pi=0;pi<m;pi++){ const ii=pi-4, jj=pj-4, mi=(ii%n+n)%n, mj=(jj%n+n)%n, o=(mj*n+mi)*3, k=pj*m+pi; X[k]=P[o]+(ii-mi)*s; Y[k]=P[o+1]+(jj-mj)*s; O[k]=o; } return {m,X,Y,O,s}; };
+  const edge=(G,wx,wy)=>{ const {m,X,Y,O,s}=G, gi=Math.floor(wx/s)+4, gj=Math.floor(wy/s)+4; let f1=1e9,f2=1e9,k1=0; for(let dj=-1;dj<=1;dj++){ const row=(gj+dj)*m+gi; for(let di=-1;di<=1;di++){ const k=row+di, dx=wx-X[k], dy=wy-Y[k], dd=dx*dx+dy*dy; if(dd<f1){ f2=f1; f1=dd; k1=k; } else if(dd<f2) f2=dd; } } E=Math.sqrt(f2)-Math.sqrt(f1); I=O[k1]; };
+  const G1=grid(P1,N,cs), G2=grid(P2,N2,cs2);
   const img=qx.createImageData(q,q), d=img.data, TAU=Math.PI*2, ph=[Math.random()*6,Math.random()*6,Math.random()*6,Math.random()*6];
-  for(let y=0;y<q;y++){ for(let x=0;x<q;x++){
-      const wx=x+Math.sin(y/q*TAU*3+ph[0])*13+Math.sin(y/q*TAU*11+ph[1])*3.5+Math.sin((x+y)/q*TAU*7)*2.5, wy=y+Math.sin(x/q*TAU*4+ph[2])*12+Math.sin(x/q*TAU*13+ph[3])*3;
-      edge(P1,N,cs,wx,wy); const e=E, s1=P1[I+2]; edge(P2,N2,cs2,wx+Math.sin(wy/q*TAU*9)*4.5,wy+Math.sin(wx/q*TAU*8)*4.5); const e2=E;
-      const cloud=.5+.5*Math.sin(x/q*TAU*2+Math.sin(y/q*TAU*2)*1.5)*Math.sin(y/q*TAU*3+ph[1]); const wob=.55+.45*Math.sin(x/q*TAU*17+y/q*TAU*5+ph[0])*Math.sin(y/q*TAU*13+ph[2]);
+  const TB=(n,f)=>{ const a=new Float64Array(n); for(let i=0;i<n;i++) a[i]=f(i); return a; };
+  const AY=TB(q,y=>Math.sin(y/q*TAU*3+ph[0])*13+Math.sin(y/q*TAU*11+ph[1])*3.5), SXY=TB(2*q,t=>Math.sin(t/q*TAU*7)*2.5), BX=TB(q,x=>Math.sin(x/q*TAU*4+ph[2])*12+Math.sin(x/q*TAU*13+ph[3])*3),
+    CSX=TB(q,x=>Math.sin(x/q*TAU*2)), CCX=TB(q,x=>Math.cos(x/q*TAU*2)), WSX=TB(q,x=>Math.sin(x/q*TAU*17)), WCX=TB(q,x=>Math.cos(x/q*TAU*17));
+  for(let y=0;y<q;y++){ const cb=Math.sin(y/q*TAU*2)*1.5, cS=Math.sin(cb), cC=Math.cos(cb), c2=Math.sin(y/q*TAU*3+ph[1]), wb=y/q*TAU*5+ph[0], wS=Math.sin(wb), wC=Math.cos(wb), w2=Math.sin(y/q*TAU*13+ph[2]), ay=AY[y];
+    for(let x=0;x<q;x++){
+      const wx=x+ay+SXY[x+y], wy=y+BX[x];
+      edge(G1,wx,wy); const e=E, s1=P1[I+2]; edge(G2,wx+Math.sin(wy/q*TAU*9)*4.5,wy+Math.sin(wx/q*TAU*8)*4.5); const e2=E;
+      const cloud=.5+.5*(CSX[x]*cC+CCX[x]*cS)*c2; const wob=.55+.45*(WSX[x]*wC+WCX[x]*wS)*w2;
       let r=240-cloud*9, g=238-cloud*9, b=235-cloud*8; const width=((s1<.16?4.6:2.6)*wob+.4)/qs, v=Math.max(0,1-e/width); let k=v*(s1<.16?.9:.78)*VEIN; const v2=Math.max(0,1-e2/((.9+wob*.8)/qs)); k=Math.max(k,v2*.3*wob*VEIN); const warm=s1>.93;
       r=r*(1-k)+(warm?150:70)*k; g=g*(1-k)+(warm?122:70)*k; b=b*(1-k)+(warm?84:76)*k;
       const o=(y*q+x)*4; d[o]=r; d[o+1]=g; d[o+2]=b; d[o+3]=255; } }
