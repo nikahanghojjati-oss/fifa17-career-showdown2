@@ -316,8 +316,13 @@ function g8(){
    // Named levels and Auto are untouched by this (they never draw past the screen's own ratio).
    for(const c of ['auto','light','medium','high','extra']){const a0=sandbox({gpu:strong,dpr:2,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile(),a1=sandbox({gpu:strong,dpr:2,memory:32,cores:16,view:[1920,1080],storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile();
      assert.deepEqual([a1.pixelRatio,a1.maxPixelRatio,a1.minPixelRatio],[a0.pixelRatio,a0.maxPixelRatio,a0.minPixelRatio],c);}
-   // Without a page size (a worker, a test) the profile is as it was.
-   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[3840,2160],storage:k8}).G.profile().pixelRatio,4);}
+   // A page with no size yet (a frame built before it is shown) counts as large as the screen, the most it can become
+   // (review on #1399: 2.3.0's uncapped start must not come back through this door). Neither known: native.
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[3840,2160],storage:k8}).G.profile().pixelRatio,2,'8K, no page size, 4K screen: 2x');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[3840,2160],storage:ul}).G.profile().pixelRatio,1,'Ultra, no page size, 4K screen: native');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[1920,1080],storage:k8}).G.profile().pixelRatio,4,'8K, no page size, 1080p screen: 4x, the full buffer');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[0,0],storage:k8}).G.profile().pixelRatio,1,'8K, nothing known: native');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[0,0],storage:ul}).G.profile().pixelRatio,1,'Ultra, nothing known: native');}
   const lost=[];const r={...fakeRenderer(s.clock,()=>1,[1920,1080])};r.domElement.addEventListener=(n,f)=>lost.push([n,f]);r.domElement.removeEventListener=()=>{};
   const gov=s.G.governor(r,{key:'chamber'});
   assert.equal(gov.pixelRatio(),4,'a 1080p canvas draws a 7680x4320 buffer');

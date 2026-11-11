@@ -19,7 +19,7 @@ names and no others.
 
 - Auto and every named level stay at or under the screen's own pixel ratio. Only Ultra (4K) and 8K draw past it.
 - A phone never draws past 3x its CSS size, nor past a 4K buffer.
-- The buffer cap holds from the first frame: a scene sizes its very first buffer within its level's cap (Ultra 3840x2160, 8K 7680x4320), not only once its governor is running.
+- The buffer cap holds from the first frame: a scene sizes its very first buffer within its level's cap (Ultra 3840x2160, 8K 7680x4320), not only once its governor is running. A frame with no size yet counts as large as the screen.
 - Below High, a phone downloads one size down. So does a Save-Data or 2g/3g connection, at any level. The drawing level stays the same.
 
 ## How the level is chosen
