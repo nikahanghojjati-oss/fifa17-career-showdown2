@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 11 Nov, 3:01 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 11 Nov, 3:12 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
 
-🐕 **Barking: Showdown Gate on #1394 has waited 56 min for a machine; Showdown Gate on #1357 has waited 45 min for a machine; Showdown Gate on #1396 has waited 43 min for a machine; Showdown Gate on #1397 has waited 42 min for a machine; Showdown Gate on #1400 has waited 32 min for a machine; Showdown Gate on #1399 has waited 31 min for a machine; Showdown Gate on #1398 has waited 30 min for a machine; Showdown Gate on #1401 has waited 17 min for a machine; Showdown Gate on #1403 has waited 13 min for a machine; Showdown Gate on #1404 has waited 8 min for a machine; POS20 on #312 has waited 8 min for a machine; Showdown Gate on #1389 has waited 6 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1357 has waited 60 min for a machine; Showdown Gate on #1364 has waited 59 min for a machine; Showdown Gate on #1399 has waited 46 min for a machine; Showdown Gate on #1401 has waited 32 min for a machine; Showdown Gate on #1404 has waited 23 min for a machine; POS20 on #312 has waited 22 min for a machine; Showdown Gate on #1389 has waited 20 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -70,7 +70,7 @@ Updated Wed 11 Nov, 3:01 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 624 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 625 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
