@@ -1,22 +1,13 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-11T15:31:53.195Z",
+  "at": "2026-11-11T15:32:56.285Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
       "head_sha": "7615821a05dfd9f87cbc04ab9cfdadf7ef587ef1",
       "pr": 1380,
-      "queued_minutes": 59.6,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "3665f0a84f4270b927490655d98122d04f03bb19",
-      "pr": 1381,
-      "queued_minutes": 52.4,
+      "queued_minutes": 60.7,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -25,7 +16,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "18effe8d8ca6b0ac12e39418e4c1e848e76eda2b",
       "pr": 1379,
-      "queued_minutes": 47.2,
+      "queued_minutes": 48.2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -34,7 +25,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "b979fbad52203694e6fd09b5156ca6f8c1e296d3",
       "pr": 1382,
-      "queued_minutes": 46.9,
+      "queued_minutes": 47.9,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -43,7 +34,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "3c90a19a3f0b11e88265beca8131ef8d7a00a2d7",
       "pr": 1385,
-      "queued_minutes": 39.2,
+      "queued_minutes": 40.3,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -52,7 +43,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "e0aafcf961b0f5d118c3c508816487fcf3c8c27b",
       "pr": 1386,
-      "queued_minutes": 34.1,
+      "queued_minutes": 35.1,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -61,7 +52,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "70ddb07939c26302882b82c22cb2608d0bf3d1b6",
       "pr": 1387,
-      "queued_minutes": 27.3,
+      "queued_minutes": 28.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -70,7 +61,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "9a886e1692936b69339c44c654cfe4806fb20c55",
       "pr": 1378,
-      "queued_minutes": 26.7,
+      "queued_minutes": 27.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -79,7 +70,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "f2a1b9f637671722216521133e64afee7ccf85f2",
       "pr": 1383,
-      "queued_minutes": 26.2,
+      "queued_minutes": 27.2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -88,7 +79,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "444d8966cc1e1d7ab893e302b5451fb830de021e",
       "pr": 1388,
-      "queued_minutes": 18.2,
+      "queued_minutes": 19.2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -97,7 +88,7 @@
       "workflow": "Validate POS20",
       "head_sha": "625d35f3c094c320d4a61e6c791464f6468521b4",
       "pr": 312,
-      "queued_minutes": 15.6,
+      "queued_minutes": 16.7,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -106,6 +97,15 @@
       "workflow": "Showdown Gate",
       "head_sha": "5ce19ed7c0caad8a9979e3d73193108c2bc4a02c",
       "pr": 1389,
+      "queued_minutes": 2.7,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "f2231f4855741817e562f4b00f3d14a6565148a0",
+      "pr": 1361,
       "queued_minutes": 1.7,
       "action": "none",
       "attempt": 0,
