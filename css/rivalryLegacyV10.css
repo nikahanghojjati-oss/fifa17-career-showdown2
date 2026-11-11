@@ -2208,3 +2208,13 @@
 @media (min-width:601px) and (max-width:699px) and (orientation:portrait) {
   #app #statistics[data-rivalry-legacy-v10] :is(.rv-phoneArt,.rv-phoneHero) { display:none; }
 }
+/* r91 old-art: desktop windows 901-1199 wide and up to 700 tall now stand in the archive room too, whose title row keeps
+   both chins clear; the History pane there takes the compact rows the long-career pane uses (it was 13px too tall at 1100x600). */
+@media (min-width:901px) and (max-width:1199px) and (max-height:700px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding-top:4px; padding-bottom:4px; row-gap:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .legacyHistoryClose { min-height:28px !important; padding:2px 12px !important; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable { margin-top:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(th,td) { padding-top:0 !important; padding-bottom:0 !important; line-height:15px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryPoints { font-size:15px; line-height:15px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) :is(.legacyHistoryDetail,.legacyHistoryWinner) { line-height:15px; }
+}

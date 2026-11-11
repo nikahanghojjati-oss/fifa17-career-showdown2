@@ -890,3 +890,8 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
   #app :is(#careerStatistics,#standings,#seasonEntry) .sd-stage .sd-stage__layer--plate { background:#1c1814; }
   #app :is(#careerStatistics,#standings,#seasonEntry) .sd-stage .sd-stage__layer--plate .sd-stage__plate { -webkit-mask-image:linear-gradient(180deg,#000 82%,transparent); mask-image:linear-gradient(180deg,#000 82%,transparent); }
 }
+/* r91 old-art: desktop windows 901-1199 wide now stand in the board room too; between the heads the Career Table's
+   headings ran into each other at 1024x768 and 1100x600, so there they may take two lines. */
+@media (min-width:901px) and (max-width:1199px) {
+  #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th { white-space: normal; line-height: 1.1; overflow-wrap: normal; vertical-align: bottom; padding-inline: 1px; letter-spacing: 0; font-size: 10px; }
+}
