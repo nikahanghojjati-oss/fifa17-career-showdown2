@@ -120,7 +120,8 @@ html.rm .banner { animation: fade 220ms linear both; }
 .rays, .glow, .shards { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
 
 /* ---------- the card: Nik's black marble Prime frame, standing on the pedestal ---------- */
-.card { position: absolute; z-index: 1; width: var(--card-w); height: var(--card-h); left: calc(50% - var(--card-w) / 2); top: calc(var(--ped) - var(--card-h)); container-type: size;
+/* strict look D13: --tf is the 12 px type floor of the card face; a card too small to hold 12 px rows (keyboard-open phone, under 180 px tall) keeps the proportional sizes (see layoutStage) */
+.card { --tf: 12px; position: absolute; z-index: 1; width: var(--card-w); height: var(--card-h); left: calc(50% - var(--card-w) / 2); top: calc(var(--ped) - var(--card-h)); container-type: size;
   opacity: 0; visibility: hidden; pointer-events: auto; }
 .card .foil { display: none; }
 .card .face { position: absolute; inset: 0; background: url("assets/card_frame.webp") center / 100% 100% no-repeat; overflow: hidden;
@@ -138,6 +139,7 @@ html.rm .banner { animation: fade 220ms linear both; }
 
 /* slots measured on Nik's frame (03_prime_card_frame, 1024x1536): shield = overall, plate under it = position,
    six stat plates in two columns, small plate at the foot = flag; the name sits on the gold line above the stats */
+#app.tinycard .card { --tf: 0px; }
 .side { position: absolute; inset: 0; z-index: 2; }
 /* a slot (and the overall, flag and name) shows "??" until its stage or the result; the value then rises into place. No flip. */
 .tile { position: relative; }
@@ -154,11 +156,11 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .ovr { color: var(--slot-ink); text-shadow: 0 0 2.4cqw rgba(241,207,122,.55); }
 .ovrtile.fresh .f { text-shadow: 0 0 3cqw rgba(241,207,122,.95); }
 .postile { left: 14.3cqw; top: 32.2cqh; width: 20.3cqw; height: 6.1cqh; }
-.postile .b, .pos { font: 700 max(12px, 7.4cqw)/1 var(--cond); letter-spacing: .06em; }
+.postile .b, .pos { font: 700 max(var(--tf), 7.4cqw)/1 var(--cond); letter-spacing: .06em; }
 .postile .b { color: var(--foil-3); }
 .pos { color: var(--slot-ink); }
 .flagtile { left: 42.2cqw; top: 84.5cqh; width: 16.8cqw; height: 6.6cqh; }
-.flagtile .b { justify-content: center; color: var(--foil-3); font: 700 max(12px, 6.4cqw)/1 var(--cond); }
+.flagtile .b { justify-content: center; color: var(--foil-3); font: 700 max(var(--tf), 6.4cqw)/1 var(--cond); }
 .flagtile .f { justify-content: center; }
 .flagtile canvas { width: 76%; height: 70%; display: block; border-radius: .5cqw; box-shadow: 0 0 0 .4cqw rgba(196,147,47,.7); }
 .flagtile.fresh .f canvas { box-shadow: 0 0 0 .4cqw rgba(196,147,47,.7), 0 0 4cqw rgba(241,207,122,.95); }
@@ -168,7 +170,7 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .nameplate { left: 15cqw; right: 15cqw; top: 55.3cqh; height: 6cqh; text-align: center; z-index: 2; border-radius: 1.3cqw; box-sizing: border-box;
   background: linear-gradient(180deg, #1a150d 0%, #0b0906 100%);
   box-shadow: inset 0 0 0 .55cqw #c99a3c, inset 0 0 0 .95cqw #3a2a0e, inset 0 0 0 1.25cqw rgba(241,207,122,.45), 0 .6cqw 1.6cqw rgba(0,0,0,.6);
-  font: 700 max(12px, 7.6cqw)/1 var(--cond); letter-spacing: .05em; text-transform: uppercase; color: var(--slot-ink); white-space: nowrap; }
+  font: 700 max(var(--tf), 7.6cqw)/1 var(--cond); letter-spacing: .05em; text-transform: uppercase; color: var(--slot-ink); white-space: nowrap; }
 .nametile .b { visibility: hidden; }
 .nametile .b, .nametile .f { justify-content: center; overflow: hidden; transform: none !important; }
 .nametile .f { left: 3cqw; right: 3cqw; opacity: 0; transition: opacity 650ms linear; text-shadow: 0 0 2cqw rgba(241,207,122,.45); }
@@ -176,10 +178,10 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .stats { position: absolute; left: 16cqw; right: 15.2cqw; top: 61.85cqh; display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column;
   grid-template-rows: repeat(3, 5.86cqh); column-gap: 11.7cqw; row-gap: 1.43cqh; z-index: 2; }
 /* strict look D13 (Nik 12 px floor): the stat type never scales below 12 px, so the label and value widths follow the type (em) when the card is small */
-.stat .b, .stat .f { justify-content: center; gap: 3cqw; font: 700 max(12px, 6.6cqw)/1 var(--cond); }
-.stat .b i { font-style: normal; color: var(--foil-3); letter-spacing: .06em; width: max(8cqw, 1.2em); text-align: right; }
-.stat .b span, .stat .f span { color: var(--slot-label); font-size: max(12px, 5.4cqw); letter-spacing: .08em; width: max(9cqw, 1.55em); }
-.stat .f em { font-style: normal; color: var(--slot-ink); width: max(8cqw, 1.2em); text-align: right; }
+.stat .b, .stat .f { justify-content: center; gap: max(3cqw, 2px); font: 700 max(var(--tf), 6.6cqw)/1 var(--cond); }
+.stat .b i { font-style: normal; color: var(--foil-3); letter-spacing: .06em; width: max(8cqw, 1.1em); text-align: right; }
+.stat .b span, .stat .f span { color: var(--slot-label); font-size: max(var(--tf), 5.4cqw); letter-spacing: .08em; width: max(9cqw, 1.45em); }
+.stat .f em { font-style: normal; color: var(--slot-ink); width: max(8cqw, 1.1em); text-align: right; }
 .stat.fresh .f em { color: #ffe08a; text-shadow: 0 0 2.4cqw rgba(241,207,122,.95); }
 
 /* ---------- the two boxes: Daniel's (left) and Nik's (right), both always on screen, each with his two guess tokens ---------- */
@@ -647,6 +649,7 @@ function layoutStage(){
     "--floor":floor, "--top":top, "--box-w":boxW, "--box-y":Math.max(top+8, ped - cardH*.55 - 60), "--boxes-h":boxesH };
   for(const k in v) app.style.setProperty(k, Math.round(v[k])+"px");
   app.classList.toggle("short", short || (!tall && H<480));
+  app.classList.toggle("tinycard", cardH < 180);
 }
 addEventListener("resize", layoutStage);
 // One line, never cut off: shrink the name's font until it fits the plate (in card units, so it holds at every size).
@@ -658,7 +661,8 @@ function fitName(){
   const m=measure();
   // strict look D13 (Nik's 12 px floor): the name stays at 12 px or more whenever it fits there (tightening its letter spacing
   // before shrinking); only a name too long even for 12 px with no spacing still shrinks to fit, because a cut name is worse
-  if(m.room>0 && m.need>m.room){
+  if(m.room>0 && m.need>m.room && $("app").classList.contains("tinycard")) el.style.fontSize=(NAME_CQW*m.room/m.need*.97).toFixed(2)+"cqw";
+  else if(m.room>0 && m.need>m.room){
     const cur=parseFloat(getComputedStyle(el).fontSize), card=$("card").clientWidth || 1, fitted=(cur*m.room/m.need*.97/card*100).toFixed(2)+"cqw";
     for(const ls of ["", "0"]){ el.style.letterSpacing=ls; el.style.fontSize="12px"; const k=measure(); if(k.need<=k.room) return; }
     el.style.letterSpacing=""; el.style.fontSize=fitted;
