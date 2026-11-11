@@ -848,7 +848,7 @@ async function returnToGame(m,season,total){
     if(Date.now()>deadline){await check(m,`${showdownNow}.S${season-1}.return`,"CONTINUE SHOWDOWN returns to the live season",false,await describe(m),{screen:"Showdown Home"});throw new Error(`${m.user} did not return to the game`);}
     // A season's roulette not played yet on this phone (the upgrade run reloads into 2.0.0 before it) plays here.
     if(await rosterRoulette.playRoulette(m.page)){await m.page.waitForTimeout(500);continue;}
-    // CONNECT FIRST (both connected) opens first: START CAREER continues into the season.
+    // GET READY (both connected) opens first: START CAREER continues into the season.
     const getReady=m.page.locator("#productionSharedJourneyEntryOverlay");
     if(await getReady.isVisible().catch(()=>false)){
       const go=getReady.getByRole("button",{name:/^(START CAREER|CONTINUE CAREER)$/});

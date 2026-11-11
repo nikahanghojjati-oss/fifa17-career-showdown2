@@ -7,7 +7,7 @@
 //   R3 The league reveal moves on to the club packs by itself on both devices (no CONTINUE TO CLUB PACKS tap).
 //   R4 The first confirmer opens Career Start by itself; Career Start moves on to the Transfer Challenge once BOTH attested.
 //   R5 (R5b) connected players without an ACTIVE session go straight to Remote Joining. R5a is not landed: START A SHOWDOWN keeps
-//      CONNECT FIRST over the locked canonical league screen, which the POS10 stability audit requires.
+//      GET READY over the locked canonical league screen, which the POS10 stability audit requires.
 //   R6 An ACTIVE private session continues into the Showdown by itself (no START CAREER tap); expired sessions never do.
 //   R7 Daniel's COMMIT & ACKNOWLEDGE tap commits, then records his own acknowledgement; Nik still acknowledges himself;
 //      if the second half fails Daniel gets the existing CONFIRM SEASON button.
@@ -809,7 +809,7 @@ async function r5r6EntryContracts(){
     assert.equal(h.calls.create,1,"a double tap never creates a second shell");
     assert.equal(h.calls.startPairing,1,"the pair code is created automatically, exactly once (no CREATE CODE FOR NIK tap)");
     assert.deepEqual(h.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],"WAITING opens once, staying on the league wheel");
-    assert.equal(visible(h.overlay()),false,"R5a: CONNECT FIRST is not shown after START A SHOWDOWN");
+    assert.equal(visible(h.overlay()),false,"R5a: GET READY is not shown after START A SHOWDOWN");
     assert.equal(h.calls.navigate.includes("mainMenu"),false,"START A SHOWDOWN never leaves the canonical league screen");
   }
   {
@@ -856,7 +856,7 @@ async function r5r6EntryContracts(){
     const WAIT_SAVE="save_"+"4".repeat(24);
     const waiting=entryHarness({pairState:{status:"waiting",initialized:true,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne",capability:"CMS17-"+RIVALRY,providerSaveId:WAIT_SAVE},
       library:{activeSaveId:WAIT_SAVE,saves:[{saveId:WAIT_SAVE,showdown:{identity:{saveId:WAIT_SAVE},status:"Created",totalRounds:3,rounds:[],selectedLeague:null,clubs:{playerOne:null,playerTwo:null},sharedJourney:{contractVersion:1,mode:"shared",setupPending:true}}}]}});waiting.api.install();await settle();
-    assert.deepEqual(waiting.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],"a reload with the pending marker reopens WAITING, not CONNECT FIRST");assert.equal(visible(waiting.overlay()),false,"no CONNECT FIRST after the reload");
+    assert.deepEqual(waiting.calls.layerOpen.map(options=>options&&options.stayOnScreen),[true],"a reload with the pending marker reopens WAITING, not GET READY");assert.equal(visible(waiting.overlay()),false,"no GET READY after the reload");
     // PR #901: startup leaves Home active; reload recovery puts WAITING back over the locked league wheel (closing it shows the
     // wheel and its CONTINUE CAREER, not Home), and js/ssjr.js holds the loading screen until this recovery has settled.
     assert.deepEqual(waiting.calls.screenAtOpen,["leagueWheelScreen"],"after a reload WAITING's underlying screen is leagueWheelScreen");
@@ -938,15 +938,15 @@ async function r5r6EntryContracts(){
   }
   {
     // PR #901 P2: CONTINUE CAREER on the locked league wheel (shown after BACK/Escape closes WAITING) reopens WAITING over the
-    // wheel, never the CONNECT FIRST overlay.
+    // wheel, never the GET READY overlay.
     const waiting=entryHarness({pairState:{status:"waiting",initialized:true,rivalryId:RIVALRY,connectionState:"pending-pair",managerRole:"playerOne",capability:"CMS17-"+RIVALRY}});waiting.api.install();await settle();
     const opened=waiting.calls.layerOpen.length;
     await Promise.all([waiting.api.continueFromLockedWheel(),waiting.api.continueFromLockedWheel()]);await settle();
     assert.deepEqual(waiting.calls.layerOpen.slice(opened).map(options=>options&&options.stayOnScreen),[true],"one WAITING reopen, on the same screen");
-    assert.equal(visible(waiting.overlay()),false,"no CONNECT FIRST");assert.equal(waiting.calls.create+waiting.calls.startPairing,0,"the code already out stays the code");
+    assert.equal(visible(waiting.overlay()),false,"no GET READY");assert.equal(waiting.calls.create+waiting.calls.startPairing,0,"the code already out stays the code");
     const source=read("js/productionSharedJourneyEntry.js");
     assert.ok(source.includes('resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void continueFromLockedWheel());'),"the wheel's CONTINUE CAREER goes through the START decision");
-    assert.ok(!source.includes('addEventListener("click",()=>void openPanel())'),"no button opens CONNECT FIRST directly");
+    assert.ok(!source.includes('addEventListener("click",()=>void openPanel())'),"no button opens GET READY directly");
   }
   ok("R5a Entry (r79): START A SHOWDOWN opens WAITING over the locked league screen, makes the code once, and over a live pair continues it instead");
   {// Codex #904 (P1): on a cold cache, START used to show the locked league wheel and only then load WAITING's script, stylesheet
@@ -973,33 +973,33 @@ async function r5r6EntryContracts(){
     const h=entryHarness({rivalryReady:true,active:false});
     await h.api.openPanel();await settle();
     assert.equal(h.calls.remoteOpen,1,"R5b: connected players without an ACTIVE session go straight to Remote Joining");
-    assert.equal(visible(h.overlay()),false,"R5b: CONNECT FIRST is not shown in between");
+    assert.equal(visible(h.overlay()),false,"R5b: GET READY is not shown in between");
     assert.equal(h.calls.host+h.calls.join,0,"hosting and joining stay manual taps");
     const before=entryHarness({rivalryReady:false});await before.api.openPanel();await settle();
-    assert.equal(visible(before.overlay()),true,"before pairing CONNECT FIRST still shows");
+    assert.equal(visible(before.overlay()),true,"before pairing GET READY still shows");
     assert.ok(before.overlay().button("CONNECT PLAYERS"),"with CONNECT PLAYERS");assert.equal(before.calls.remoteOpen,0);
     const ready=entryHarness({rivalryReady:true,active:true});await ready.api.openPanel();await settle();
-    assert.equal(visible(ready.overlay()),true,"with an ACTIVE session CONNECT FIRST still shows");assert.ok(ready.overlay().button("START CAREER"),"with START CAREER as before");
+    assert.equal(visible(ready.overlay()),true,"with an ACTIVE session GET READY still shows");assert.ok(ready.overlay().button("START CAREER"),"with START CAREER as before");
   }
-  ok("R5b Entry: a connected pair skips CONNECT FIRST's CONTINUE and opens Remote Joining; CONNECT FIRST remains before pairing and when ACTIVE");
+  ok("R5b Entry: a connected pair skips GET READY's CONTINUE and opens Remote Joining; GET READY remains before pairing and when ACTIVE");
   {
     const h=entryHarness({rivalryReady:true,active:false});await h.api.openPanel();await settle();
     await h.goActive();
     assert.equal(h.calls.presentation,1,"R6: an ACTIVE session continues into the league wheel without START CAREER");
     assert.ok(h.calls.remoteClose>=1,"the Remote Joining overlay closes");
-    assert.equal(visible(h.overlay()),false,"CONNECT FIRST is not shown");
+    assert.equal(visible(h.overlay()),false,"GET READY is not shown");
     const expired=entryHarness({rivalryReady:true,active:false});await expired.api.openPanel();await settle();
     await expired.goActive(true);
     assert.equal(expired.calls.presentation,0,"an expired session never auto-continues");
     const failing=entryHarness({rivalryReady:true,active:false,openExperience:"fail"});await failing.api.openPanel();await settle();
     const remoteOpens=failing.calls.remoteOpen;await failing.goActive();
     assert.equal(failing.calls.presentation,1);
-    assert.equal(visible(failing.overlay()),true,"a failed entry falls back to CONNECT FIRST");
+    assert.equal(visible(failing.overlay()),true,"a failed entry falls back to GET READY");
     assert.equal(failing.calls.remoteOpen,remoteOpens,"and does not bounce back into Remote Joining");
   }
   {
     // Codex P1 on #358: an ACTIVE session left in Remote Joining's page memory from another rivalry, account or device never
-    // auto-continues (no CONNECT FIRST loop after a new Showdown without a reload); the bound session still does.
+    // auto-continues (no GET READY loop after a new Showdown without a reload); the bound session still does.
     const h=entryHarness({rivalryReady:true,active:false});await h.api.openPanel();await settle();
     const bound={rivalryId:RIVALRY,accountId:"uid_daniel",deviceId:DEVICE};
     for(const [label,patch] of [["rivalry",{rivalryId:"pair_"+"8".repeat(64)}],["account",{accountId:"uid_other"}],["device",{deviceId:"device_"+"9".repeat(32)}]]){
@@ -1009,7 +1009,7 @@ async function r5r6EntryContracts(){
     Object.assign(h.remoteState,bound);await h.goActive();
     assert.equal(h.calls.presentation,1,"R6: the session bound to the current account, device and rivalry continues");
   }
-  ok("R6 Entry: an ACTIVE session bound to this account, device and rivalry continues into the Showdown by itself; foreign or expired sessions never do; a failure shows CONNECT FIRST without bouncing");
+  ok("R6 Entry: an ACTIVE session bound to this account, device and rivalry continues into the Showdown by itself; foreign or expired sessions never do; a failure shows GET READY without bouncing");
 }
 
 // ------------------------------------------------------------------ S. manual taps stay manual; R7 is not built

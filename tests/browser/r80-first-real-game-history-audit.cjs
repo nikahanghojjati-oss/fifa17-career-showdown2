@@ -249,7 +249,7 @@ async function reloadMidShowdown(m,{expectSession,expectShowdown,landing,button,
   assert.equal(await sessionOf(m),expectSession,`${m.user} is back in the same private session`);
   assert.deepEqual(await showdownOf(m),expectShowdown,`${m.user} is back in the same Showdown (same local save and rivalry)`);
   assert.equal(await m.page.locator("#productionSharedCareerStartOverlay").isVisible().catch(()=>false),false,`${m.user}: the reload does not replay Career Start`);
-  assert.equal(await m.page.locator("#productionSharedJourneyEntryOverlay").isVisible().catch(()=>false),false,`${m.user}: no CONNECT FIRST after the reload`);
+  assert.equal(await m.page.locator("#productionSharedJourneyEntryOverlay").isVisible().catch(()=>false),false,`${m.user}: no GET READY after the reload`);
   const firstScreens=after[0].screens;
   const landed=await m.page.evaluate(()=>({screens:[...document.querySelectorAll(".screen:not(.hidden)")].map(s=>s.id).join(","),replay:document.getElementById("transferChallenge")?.dataset.sharedTransferReplay||null,primary:(document.getElementById("continueFromTransfers")?.textContent||"").trim()}));
   await shot(m,`reload-landed`);
