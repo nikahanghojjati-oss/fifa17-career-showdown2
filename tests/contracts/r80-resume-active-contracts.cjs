@@ -1,13 +1,13 @@
 "use strict";
 // r80 resume (G7, Home items 5 and 6). Failing first on claude-gameplay/r80-real-vs-test dc08a9c (emulator proof,
 // tests/browser/r80-resume-active-audit.cjs): a page that already held the ACTIVE private session answered Home START /
-// CONTINUE CAREER with GET READY, whose START CAREER reopened Career Start for a game still in season 1; Career Start's
+// CONTINUE CAREER with CONNECT FIRST, whose START CAREER reopened Career Start for a game still in season 1; Career Start's
 // automatic move to the Transfer Challenge fires once per page, so the player stayed on Career Start until a reload.
 //   RA1 continuing with an ACTIVE session (resumeActive) enters the game as a reload does once Remote Joining is ACTIVE again
-//       (openSharedExperience): the league wheel / setup presentation, never a frame of GET READY.
-//   RA2 the same with a confirmed Setup and no accepted season: Career Start's own open (which goes on by itself), no GET READY.
-//   RA3 other callers keep their routes: openPanel() with an ACTIVE session still shows GET READY; a connected pair without an
-//       ACTIVE session still goes to Remote Joining; a failed entry still falls back to GET READY.
+//       (openSharedExperience): the league wheel / setup presentation, never a frame of CONNECT FIRST.
+//   RA2 the same with a confirmed Setup and no accepted season: Career Start's own open (which goes on by itself), no CONNECT FIRST.
+//   RA3 other callers keep their routes: openPanel() with an ACTIVE session still shows CONNECT FIRST; a connected pair without an
+//       ACTIVE session still goes to Remote Joining; a failed entry still falls back to CONNECT FIRST.
 //   RA4 the pair's continue (Home START, CONTINUE CAREER, the reload's tab resume) asks for resumeActive.
 //   RA5 Career Start opened again on a page where it is already READY (its automatic continue already used): straight to the
 //       Transfer Challenge, no panel frame, no provider read; the first open still shows the panel and continues by itself.
@@ -107,42 +107,42 @@ function careerStartHarness(){
 }
 
 async function main(){
-  await check("RA1 Home continue with an ACTIVE session enters the game (setup presentation) with no GET READY",async()=>{
+  await check("RA1 Home continue with an ACTIVE session enters the game (setup presentation) with no CONNECT FIRST",async()=>{
     const h=entryHarness({active:true});
     await h.api.openPanel({resumeActive:true});await settle();
     assert.equal(h.calls.presentation,1,"the game is entered as after a reload (openSharedExperience -> presentation)");
-    assert.equal(h.getReady(),false,`no GET READY: ${h.entryText()}`);
+    assert.equal(h.getReady(),false,`no CONNECT FIRST: ${h.entryText()}`);
     assert.equal(h.calls.remoteOpen,0,"no Remote Joining for a session already ACTIVE");
   });
   await check("RA2 a confirmed Setup in season 1 opens Career Start's own entry (it goes on by itself); season 2+ the dashboard",async()=>{
     const h=entryHarness({active:true,setupPhase:"SHOWDOWN_CONFIRMED"});
     await h.api.openPanel({resumeActive:true});await settle();
     assert.equal(h.calls.careerStart,1,"Career Start's open (RA5: straight on when it is READY here)");
-    assert.equal(h.getReady(),false,"no GET READY");
+    assert.equal(h.getReady(),false,"no CONNECT FIRST");
     const later=entryHarness({active:true,setupPhase:"SHOWDOWN_CONFIRMED",acceptedSeasons:1});
     await later.api.openPanel({resumeActive:true});await settle();
     assert.deepEqual([later.calls.careerStart,later.calls.navigate],[0,["dashboard"]],"an accepted season resumes on the season dashboard, as a reload");
-    assert.equal(later.getReady(),false,"no GET READY");
+    assert.equal(later.getReady(),false,"no CONNECT FIRST");
   });
-  await check("RA3 other callers keep GET READY / Remote Joining; a failed entry falls back to GET READY",async()=>{
+  await check("RA3 other callers keep CONNECT FIRST / Remote Joining; a failed entry falls back to CONNECT FIRST",async()=>{
     const plain=entryHarness({active:true});
     await plain.api.openPanel();await settle();
-    assert.equal(plain.getReady(),true,"openPanel() without resumeActive still renders GET READY");
-    assert.match(plain.entryText(),/GET READY/);assert.equal(plain.calls.presentation,0);
+    assert.equal(plain.getReady(),true,"openPanel() without resumeActive still renders CONNECT FIRST");
+    assert.match(plain.entryText(),/CONNECT FIRST/);assert.equal(plain.calls.presentation,0);
     const notActive=entryHarness({active:false});
     await notActive.api.openPanel({resumeActive:true});await settle();
     assert.deepEqual([notActive.calls.remoteOpen,notActive.calls.presentation,notActive.getReady()],[1,0,false],"no ACTIVE session: Remote Joining as before (its ACTIVE return enters the game)");
     const failing=entryHarness({active:true,presentationFails:true});
     await failing.api.openPanel({resumeActive:true});await settle();
     assert.equal(failing.calls.presentation,1);
-    assert.equal(failing.getReady(),true,"an entry that fails shows GET READY (with the reason reported), never a blank Home");
-    assert.ok(failing.calls.errors.includes("Unable to enter the Showdown"));
+    assert.equal(failing.getReady(),true,"an entry that fails shows CONNECT FIRST (with the reason reported), never a blank Home");
+    assert.ok(failing.calls.errors.includes("Could not enter the Showdown"));
   });
   await check("RA4 the pair's continue asks the entry to resume an ACTIVE session",async()=>{
     const src=read("js/persistentNikDanielPair.js");
     const body=src.slice(src.indexOf("async function pairContinueOnlineShowdown("),src.indexOf("\n",src.indexOf("async function pairContinueOnlineShowdown(")));
     assert.match(body,/await entry\.openPanel\(\{resumeActive:true\}\);return pairSetState\(\{status:"paired"/,"continuePair -> openPanel({resumeActive:true})");
-    assert.doesNotMatch(body,/await entry\.openPanel\(\);/,"no bare openPanel() (GET READY) from the continue");
+    assert.doesNotMatch(body,/await entry\.openPanel\(\);/,"no bare openPanel() (CONNECT FIRST) from the continue");
   });
   await check("RA5 Career Start already READY on this page: a later open goes straight to the Transfer Challenge, no panel frame, no read",async()=>{
     const h=careerStartHarness();

@@ -136,7 +136,7 @@ async function main(){
     const closedR1=await admin(`rivalries/${R1}`);
     assert.equal(field(closedR1,"data","connectionState").stringValue,"closed","R1 is closed");
     assert.equal(field(closedR1,"data","endedEarly","seasonsPlayed").integerValue,"0","the ended-early mark: 0 seasons (ended on the league wheel)");
-    await daniel.page.waitForFunction(()=>/^Ended the ".*" Showdown for both players\. History keeps it as Ended early\.$/.test(document.querySelector("#appRuntimeNotice .runtimeNoticeText")?.textContent?.trim()||""),null,{timeout:15000});
+    await daniel.page.waitForFunction(()=>/^Ended the ".*" Showdown for both players\. Legacy keeps it as Ended early\.$/.test(document.querySelector("#appRuntimeNotice .runtimeNoticeText")?.textContent?.trim()||""),null,{timeout:15000});
     await closeSettings(daniel);
     ok("D2","Daniel's END SHOWDOWN closed R1 with the ended-early mark (0 seasons) and said it ended");
 

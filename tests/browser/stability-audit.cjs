@@ -153,7 +153,7 @@ async function createShowdownWithRapidActivation(page,prefix){
   await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:12000});
   await page.waitForFunction(()=>window.__stabilityPairCodes===1,null,{timeout:12000});
   assert.deepEqual(await activeScreens(page),["leagueWheelScreen"],"START never leaves the canonical league screen.");
-  assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").isVisible().catch(()=>false),false,"No GET READY after START.");
+  assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").isVisible().catch(()=>false),false,"No CONNECT FIRST after START.");
   checkpoint(`${prefix} canonical rapid Start`,`paired-first lock active · WAITING over the league wheel · 1 code · 0 singleton writes`);
   await releasePairedFirstGateForGameplayStability(page,prefix);
 }
@@ -231,14 +231,14 @@ async function runProductScenario(browser,config){
 async function runCorruptStorageFixture(browser){
   const context=await browser.newContext({viewport:{width:1366,height:768},locale:"en-US"});
   await context.addInitScript(({origin,activeKey,legacyKey,preferencesKey})=>{if(location.origin!==origin)return;localStorage.setItem(activeKey,"{corrupt active");localStorage.setItem(legacyKey,"{corrupt legacy");localStorage.setItem(preferencesKey,"[]");},{origin:baseUrl.origin,activeKey:activeStorageKey,legacyKey:legacyStorageKey,preferencesKey:preferencesStorageKey});
-  const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to parse the active showdown/,/Unable to parse Legacy history/,/Unable to parse application preferences/,/Unable to prepare local Save Library authority/,/Save Library activation failed/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
+  const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to parse the active showdown/,/Unable to parse Legacy history/,/Unable to parse application preferences/,/Unable to prepare local Save Library authority/,/Save Library activation failed/,/Could not prepare the Showdown/]);await installAuditRuntime(page);
   try{
     await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);assert.equal(await page.locator("#continueCareer").isEnabled(),false);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active");
     await page.locator("#newShowdown").click();await expectSeasonsStraightFromHome(page);await waitForScreen(page,"createShowdown");await page.locator("#startShowdown").click();await page.waitForFunction(()=>!document.getElementById("startShowdown").disabled);assert.deepEqual(await activeScreens(page),["createShowdown"]);assert.equal(await page.evaluate(key=>localStorage.getItem(key),activeStorageKey),"{corrupt active","Unreadable legacy singleton bytes must remain byte-for-byte untouched when canonical Start fails closed.");assert.equal(await page.evaluate(key=>localStorage.getItem(key),saveLibraryStorageKey),null,"Corrupt singleton failure must not fabricate Save Library authority.");monitors.assertClean("Corrupt storage fixture");checkpoint("Corrupt singleton bytes fail closed at canonical Start");
   }finally{await context.close();}
 }
 async function runQuotaFailureFixture(browser){
-  const context=await browser.newContext({viewport:{width:1366,height:768},locale:"en-US"});const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to write saved data/,/Unable to prepare local Save Library authority/,/Save Library/,/Unable to prepare Showdown/]);await installAuditRuntime(page);
+  const context=await browser.newContext({viewport:{width:1366,height:768},locale:"en-US"});const page=await context.newPage(),monitors=createPageMonitors(page,[/Unable to write saved data/,/Unable to prepare local Save Library authority/,/Save Library/,/Could not prepare the Showdown/]);await installAuditRuntime(page);
   try{
     await openApplication(page);await installAuthorizedOnlineIdentityFixture(page);await page.locator("#newShowdown").click();await expectSeasonsStraightFromHome(page);await waitForScreen(page,"createShowdown");
     await page.evaluate(key=>{window.__cmsQuotaOriginalSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(storageKey,value){if(storageKey===key)throw new DOMException("Simulated quota exhaustion","QuotaExceededError");return window.__cmsQuotaOriginalSetItem.call(this,storageKey,value);};},saveLibraryStorageKey);

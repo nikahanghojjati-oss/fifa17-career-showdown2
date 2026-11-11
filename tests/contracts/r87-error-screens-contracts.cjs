@@ -40,7 +40,7 @@ check("E1 toasts keep plain detail and hide technical detail",()=>{
     toasts.length=0;sandbox.reportApplicationError("Season Results did not open",detail?new Error(detail):null);
     assert.equal(toasts[0],`error:Season Results did not open. ${SAFE}`,`technical detail hidden: ${JSON.stringify(detail)}`);
   }
-  for(const detail of ["Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.","Nik has not published yet. Tap COMMIT SHARED SEASON when both results are in."]){
+  for(const detail of ["Today's free online limit is used up. It resets at 3 a.m. Boston time. Your saved career is safe.","Nik has not published yet. Tap COMMIT SHARED SEASON when both results are in."]){
     toasts.length=0;sandbox.reportApplicationError("Online play is paused for today",new Error(detail));
     assert.equal(toasts[0],`error:Online play is paused for today. ${detail}`,"plain detail kept");
   }
@@ -199,7 +199,7 @@ async function homeQuota(browser,base,opts,shot){
         assert.deepEqual(q.overlaps,[],`${tag} the line touches no other tile words or art`);
       }else{
         assert.equal(q.line,null,`${tag} desktop keeps the note`);
-        assert.equal(q.note,"Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",tag);
+        assert.equal(q.note,"Today's free online limit is used up. It resets at 3 a.m. Boston time. Your saved career is safe.",tag);
       }
       assert.deepEqual(q.afterReset,{line:false,note:false},`${tag} resume clears it`);
     }

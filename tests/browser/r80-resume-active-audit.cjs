@@ -2,8 +2,8 @@
 const rosterRoulette=require("./support/roster-roulette.cjs");
 const gazette=require("./support/touchline-gazette.cjs");
 // r80 resume (G7 + Home items 5/6): from Home, an ACTIVE Showdown always resumes to the screen the game is on, the same place a
-// reload takes the player, on Daniel's and Nik's phones, with no frame of GET READY, Career Start or Remote Joining on the way.
-// Before: a page that already held the ACTIVE private session answered Home START / CONTINUE CAREER with GET READY, and its
+// reload takes the player, on Daniel's and Nik's phones, with no frame of CONNECT FIRST, Career Start or Remote Joining on the way.
+// Before: a page that already held the ACTIVE private session answered Home START / CONTINUE CAREER with CONNECT FIRST, and its
 // START CAREER reopened Career Start for a game still in season 1, whose automatic move to the Transfer Challenge had already
 // fired once on that page, so the player was stuck on Career Start; a reload fixed it.
 // Real app, two Chromium contexts, Auth + Firestore emulators with the composed production Rules (demo project only; a
@@ -16,7 +16,7 @@ const gazette=require("./support/touchline-gazette.cjs");
 //   G7w both go Home from the league wheel and tap START: back on the league wheel.
 //   G7a both reach the Transfer Challenge (season 1, Career Start done). Each reloads first (the reference landing), then goes
 //       Home and taps START (Daniel) / START and CONTINUE CAREER (Nik): each lands where the reload landed, in the same
-//       session, and no frame between the tap and the landing shows GET READY, Career Start or Remote Joining; on every Home
+//       session, and no frame between the tap and the landing shows CONNECT FIRST, Career Start or Remote Joining; on every Home
 //       frame of a resume (CONTINUE CAREER too) the START tile keeps the live wording, never START A SHOWDOWN or JOIN.
 //   G7b the transfer window is open on the server: Daniel reloads (reference), then goes Home and taps START: the same landing.
 //   G7c both on Season Results: each reloads (reference), then goes Home and taps START: the same landing.
@@ -376,13 +376,13 @@ async function main(){
       const reference=await reloadLanding(m,transferScreens);
       console.log(`PROBE G7a-reload ${m.user} landed=${reference}`);
       assert.equal(await m.page.locator("#productionSharedCareerStartOverlay").isVisible().catch(()=>false),false,`${m.user}: the reload does not stop on Career Start`);
-      assert.equal(await m.page.locator("#productionSharedJourneyEntryOverlay").isVisible().catch(()=>false),false,`${m.user}: no GET READY after the reload`);
+      assert.equal(await m.page.locator("#productionSharedJourneyEntryOverlay").isVisible().catch(()=>false),false,`${m.user}: no CONNECT FIRST after the reload`);
       const taps=m.user==="nik"?["newShowdown","continueCareer"]:["newShowdown","newShowdown","continueCareer"];
       for(const tile of taps)await homeTapResumes(m,tile,{expect:reference,session,screens:transferScreens,label:"G7a"});
     }
     await shot(daniel,"g7a-landed");
     await galleryShot(daniel,"transfer-after-home-start");
-    ok("G7a","both: Home START (twice on one page) and CONTINUE CAREER land where a reload lands (Transfer Challenge), same session, no GET READY / Career Start / Remote Joining frame, and the START tile never reads START or JOIN on the way");
+    ok("G7a","both: Home START (twice on one page) and CONTINUE CAREER land where a reload lands (Transfer Challenge), same session, no CONNECT FIRST / Career Start / Remote Joining frame, and the START tile never reads START or JOIN on the way");
 
     // ---------- G7b the live transfer window ----------
     await settleOn(daniel,"#transferChallenge");
@@ -406,7 +406,7 @@ async function main(){
       console.log(`PROBE G7c-reload ${m.user} landed=${reference}`);
       await homeTapResumes(m,"newShowdown",{expect:reference,session,screens:resultScreens,label:"G7c"});
     }
-    ok("G7c","both: Home START at Season Results lands where a reload lands, same session, no GET READY / Career Start / Remote Joining frame");
+    ok("G7c","both: Home START at Season Results lands where a reload lands, same session, no CONNECT FIRST / Career Start / Remote Joining frame");
 
     for(const m of managers){assert.deepEqual(m.log.forbidden,[],`${m.user} never contacted a production Firebase host`);assert.equal(m.log.productionRuntime,0);}
     for(const m of managers)if(m.log.errors.length)console.log(`PROBE Z-errors-${m.user} ${JSON.stringify(m.log.errors.slice(-8))}`);

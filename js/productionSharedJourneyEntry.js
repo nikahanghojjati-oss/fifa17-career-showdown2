@@ -168,7 +168,7 @@
   }
   // WAITING: the Connect Players layer over the locked league wheel (no trip back to Home). With createCode the pair code is made
   // here, once, from the shell START just prepared; Daniel no longer taps CREATE CODE FOR NIK. A layer that cannot open falls back
-  // to GET READY.
+  // to CONNECT FIRST.
   async function openWaiting(options={}){
     closePanel();
     try{
@@ -183,16 +183,16 @@
       await opening;
       pair.render?.();
       return true;
-    }catch(error){report("Unable to open the waiting screen",error);await openPanel({routeToRemote:false});return false;}
+    }catch(error){report("Could not open the waiting screen",error);await openPanel({routeToRemote:false});return false;}
   }
   // PR #901 P2: CONTINUE CAREER on the locked league wheel (shown once WAITING is closed with BACK or Escape) asks the same
-  // question START asks, so it reopens WAITING over the wheel (same stayOnScreen path) instead of the old GET READY overlay.
+  // question START asks, so it reopens WAITING over the wheel (same stayOnScreen path) instead of the old CONNECT FIRST overlay.
   let lockedWheelContinuePromise=null;
   function continueFromLockedWheel(){
     if(lockedWheelContinuePromise)return lockedWheelContinuePromise;
     lockedWheelContinuePromise=(async()=>{
       try{const decision=await whichShowdownIsLive();if(decision.action==="new")return openWaiting({createCode:false});return await followStartDecision(decision);}
-      catch(error){report("Unable to continue the Showdown",error);return openWaiting({createCode:false});}
+      catch(error){report("Could not continue the Showdown",error);return openWaiting({createCode:false});}
     })().finally(()=>{lockedWheelContinuePromise=null;});
     return lockedWheelContinuePromise;
   }
@@ -224,7 +224,7 @@
             ?"This Showdown has ended. It closes when Daniel and Nik are both connected; nothing new was started."
             :(result&&result.message)||"This Showdown has ended but could not be closed. Nothing new was started.");
         }
-      }catch(error){report("Unable to close the ended Showdown",error);await openPersistentPairControls();return false;}
+      }catch(error){report("Could not close the ended Showdown",error);await openPersistentPairControls();return false;}
       // Codex #904 (P2): the pair keeps a CLOSED rivalry until Home is shown (the final screen still runs on it). This path leaves
       // for the seasons screen instead, so it lets the closed Showdown go now; otherwise START there would find it live again and
       // reopen the same screen. No read, no write.
@@ -260,7 +260,7 @@
       // fallback does, instead of rendering into a hidden panel. Nothing is created.
       const next=await pair.continuePair();
       if(next&&next.busy!==true&&next.status!=="paired"){
-        report("Unable to continue the Showdown",Object.assign(new Error(next.message||"The career could not be opened."),{code:next.status}));
+        report("Could not continue the Showdown",Object.assign(new Error(next.message||"The career could not be opened."),{code:next.status}));
         try{const layer=await loadScript("connect-players-screen","js/connectPlayersScreenV10.js",()=>root.CareerModeConnectPlayersScreenV10);await layer?.open?.({sync:false,stayOnScreen:true});pair.render?.();}
         catch(_error){await openPersistentPairControls();}
         return false;
@@ -291,7 +291,7 @@
       if(typeof root.createShowdown!=="function")throw new Error("Showdown preparation is unavailable.");
       await waitingReady;const created=await root.createShowdown();shellCreated=Boolean(created);if(!created)throw new Error("The Showdown could not be prepared.");
       normalizeCanonicalPlayers();persistPendingMarker();markerPersisted=true;applyLocalDrawLock();await openWaiting({createCode:true});return true;
-    }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Unable to prepare Showdown",error);return false;}
+    }catch(error){if(shellCreated&&!markerPersisted)discardUnmarkedShell();setPending(false);report("Could not prepare the Showdown",error);return false;}
     finally{if(round&&priorRound!==null)round.value=priorRound;if(button)button.disabled=false;busy=false;syncStartButtonIdentity();}
   }
   async function openPersistentPairControls(){
@@ -305,7 +305,7 @@
       pair.render();
       const panel=root.document.getElementById("persistentNikDanielPairPanel");if(!panel)throw new Error("Player connection controls could not be opened.");
       panel.scrollIntoView?.({block:"center"});panel.querySelector("button,input")?.focus?.();
-    }catch(error){report("Unable to open player connection setup",error);}
+    }catch(error){report("Could not open connection setup",error);}
   }
   async function remoteState(){
     try{await Promise.all([loadStyle(),loadScript("rj","js/sparkRemoteJoining.js",()=>root.CareerModeSparkRemoteJoining)]);const remote=root.CareerModeSparkRemoteJoining;return remote&&typeof remote.getState==="function"?remote.getState():null;}catch(_error){return null;}
@@ -316,12 +316,12 @@
     const onState=next=>{
       if(!pending()||remoteReturnBusy||!next||next.sessionState!=="active"||next.pendingAction!=null)return;
       // Job 33 (R6): an ACTIVE private session continues straight into the Showdown (league wheel, Career Start or the
-      // current season); openSharedExperience shows GET READY again if that fails. An expired session never auto-continues.
+      // current season); openSharedExperience shows CONNECT FIRST again if that fails. An expired session never auto-continues.
       // Codex P1 on #358: Remote Joining keeps its last ACTIVE session in page memory, so after a new Showdown (no reload) it can
       // still belong to the previous rivalry. Only a session bound to the current account, device and rivalry auto-continues.
       if(!remoteBoundToAuthority(next,root.CareerModeSparkConnectedAccount?.getState?.(),root.CareerModeSparkPrivatePairing?.getState?.(),root.CareerModeSparkConnectedRivalry?.getState?.()))return;
       remoteReturnBusy=true;disarmRemoteReturn();
-      Promise.resolve().then(async()=>{if(typeof remote.closePanel==="function")remote.closePanel();await openSharedExperience();}).catch(error=>report("Unable to continue the Showdown after connection",error)).finally(()=>{remoteReturnBusy=false;});
+      Promise.resolve().then(async()=>{if(typeof remote.closePanel==="function")remote.closePanel();await openSharedExperience();}).catch(error=>report("Could not continue the Showdown after connecting",error)).finally(()=>{remoteReturnBusy=false;});
     };
     remoteUnsubscribe=remote.subscribe(onState);if(typeof remote.getState==="function")onState(remote.getState());return true;
   }
@@ -340,7 +340,7 @@
       const remote=root.CareerModeSparkRemoteJoining;if(!remote||typeof remote.openPanel!=="function")throw new Error("Player connection is unavailable.");
       // Studio Z3/Z4: connect by itself (this tab's session after a refresh, else the pair's shared session); no typed code.
       const auto=typeof remote.autoConnect==="function"?remote.autoConnect():null;await remote.openPanel();armRemoteReturn(remote);markLiveGame(remote);if(auto)void auto;
-    }catch(error){disarmRemoteReturn();report("Unable to connect the players",error);}
+    }catch(error){disarmRemoteReturn();report("Could not connect the players",error);}
   }
   async function confirmedSetupSnapshot(){
     try{
@@ -399,7 +399,7 @@
     return true;
   }
   // F1 (fault suite, a stale tab or a reload at the close): a Showdown that has already closed must never open its Season 1
-  // screens (the wheel, GET READY, Career Start) or a SHOWDOWN COMPLETE dashboard. Before any of those, the close is checked:
+  // screens (the wheel, CONNECT FIRST, Career Start) or a SHOWDOWN COMPLETE dashboard. Before any of those, the close is checked:
   // first what this page already holds (Terminal Close, the pair, the season count; no read), and only when this entry's own
   // reads came back without a usable session (which is what a close leaves) one Terminal Close read. A normal entry reads nothing more.
   const CHAMPION_KEY="cms.championPending.v1";
@@ -467,7 +467,7 @@
         close.install?.();const state=close.getState?.()?.phase==="CLOSED"?close.getState():await close.refresh();
         if(!state||state.phase!=="CLOSED"||state.terminal!==true||state.rivalryId!==rivalryId){if(state?.phase==="DELETED")clearChampionPending(rivalryId);return false;}
         return await openClosedShowdown();
-      }catch(error){report("Unable to open the Showdown Champion",error);return false;}
+      }catch(error){report("Could not open the Showdown Champion",error);return false;}
     })();
   }
   // Leaving the Champion screen of a closed Showdown (BACK TO SHOWDOWN HOME, REMATCH, any route) forgets the note. The close
@@ -497,7 +497,7 @@
       await loadScript("ssjr-polished-presentation","js/productionSharedShowdownPresentation.js",()=>root.CareerModeProductionSharedShowdownPresentation);
       const presentation=root.CareerModeProductionSharedShowdownPresentation;if(!presentation||typeof presentation.activate!=="function")throw new Error("Showdown presentation is unavailable.");
       await presentation.activate();applyLocalDrawLock();return true;
-    }catch(error){report("Unable to enter the Showdown",error);await openPanel({routeToRemote:false});return false;}
+    }catch(error){report("Could not enter the Showdown",error);await openPanel({routeToRemote:false});return false;}
   }
   function remoteBoundToAuthority(remote,account,pairing,rivalry){return Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&rivalry&&rivalry.rivalryId&&remote.rivalryId===rivalry.rivalryId&&account&&account.accountId&&remote.accountId===account.accountId&&pairing&&pairing.deviceId&&remote.deviceId===pairing.deviceId&&Number.isFinite(remote.expiresAtEpochMs)&&Date.now()<remote.expiresAtEpochMs);}
   async function statusSnapshot(){
@@ -521,7 +521,7 @@
     const status=options.status||await statusSnapshot();if(generation!==renderGeneration)return false;
     if(routesToRemote(status,options)){await openRemote();return false;}
     const confirmed=status.active?await confirmedSetupSnapshot():null;if(generation!==renderGeneration)return false;
-    body.replaceChildren();body.append(create("span","remoteJoiningEyebrow","CAREER MODE SHOWDOWN"),create("h2","","GET READY"),create("p","","Connect Daniel and Nik before the career starts."));
+    body.replaceChildren();body.append(create("span","remoteJoiningEyebrow","CAREER MODE SHOWDOWN"),create("h2","","CONNECT FIRST"),create("p","","Connect Daniel and Nik before the career starts."));
     const grid=create("div","settingsInfoGrid");
     grid.append(row("ACCOUNT",status.accountReady?"READY":"REQUIRED"),row("THIS BROWSER",status.deviceReady?"READY":"REQUIRED"),row("DANIEL + NIK",status.rivalryReady?"CONNECTED":"CONNECT"),row("CAREER",status.active?"READY":"WAITING"));body.append(grid);
     const actions=create("div","remoteJoiningActions");
@@ -532,7 +532,7 @@
     const note=create("p","remoteJoiningStatus",status.active?(confirmed?"Ready. Continue to Career Start.":"Ready. Continue when both players are set."):"Both players must be connected before league and club selection.");note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.append(note);return true;
   }
   // Job 33 (R5b): connected players without an ACTIVE private session go straight to Remote Joining instead of
-  // waiting on GET READY for a CONTINUE tap. GET READY still shows before pairing, once the session is ACTIVE, and
+  // waiting on CONNECT FIRST for a CONTINUE tap. CONNECT FIRST still shows before pairing, once the session is ACTIVE, and
   // after a failed Showdown entry (routeToRemote:false), so it never bounces between the two overlays.
   function routesToRemote(status,options){return Boolean(options.routeToRemote!==false&&status&&status.rivalryReady&&!status.active);}
   async function openPanel(options={}){
@@ -541,7 +541,7 @@
     if(routesToRemote(status,options)){await openRemote();return true;}
     // r80 resume (G7): continuing a Showdown whose private session this page already holds ACTIVE (Home START / CONTINUE CAREER
     // after going Home from the game) enters the game exactly as a reload does once Remote Joining is ACTIVE again
-    // (armRemoteReturn: openSharedExperience), instead of GET READY, whose START CAREER replayed Career Start. GET READY stays
+    // (armRemoteReturn: openSharedExperience), instead of CONNECT FIRST, whose START CAREER replayed Career Start. CONNECT FIRST stays
     // the fallback when that entry fails (routeToRemote:false) and for every other caller.
     if(options.resumeActive===true&&status&&status.active){closePanel();await openSharedExperience();return true;}
     let overlay=root.document.getElementById(PANEL_ID);
@@ -556,7 +556,7 @@
       const modes=await loadScript("showdown-modes","js/showdownModes.js",()=>root.CareerModeShowdownModes);
       if(modes&&typeof modes.beforeSeasonsStart==="function"){modes.install?.();return await modes.beforeSeasonsStart()===true;}
     }catch(_error){}
-    report("Unable to start the Showdown",new Error("Your career could not be checked, so nothing was started. Check your internet, then press START again."));
+    report("Could not start the Showdown",new Error("Your career could not be checked, so nothing was started. Check your internet, then press START again."));
     return false;
   }
   function installStartButton(){
@@ -570,8 +570,8 @@
     const note=root.document.getElementById("sharedShowdownOrderingNote");if(note)note.remove();
     return true;
   }
-  // Job 19: the shared marker is a permanent local-draw lock, so it cannot decide alone whether GET READY
-  // should open after a reload. Durable pair authority decides: a pre-pair shell still opens GET READY;
+  // Job 19: the shared marker is a permanent local-draw lock, so it cannot decide alone whether CONNECT FIRST
+  // should open after a reload. Durable pair authority decides: a pre-pair shell still opens CONNECT FIRST;
   // an ACTIVE pair resumes through the single CONTINUE CAREER action; a CLOSED Showdown never re-opens it.
   const AUTO_OPEN_IDENTITY_WAIT_MS=15000;
   function settledIdentity(){
@@ -594,9 +594,9 @@
     if(!pairState||!["unpaired","waiting"].includes(pairState.status)||pairAlreadyEstablished(pairState))return false;
     if(!pending())return false;
     // r79: a pending pre-pair shell reopens WAITING for Daniel (his code, or the code made now from his chosen seasons) and JOIN
-    // for Nik. GET READY stays only as the fallback when neither applies or the decision cannot be made.
+    // for Nik. CONNECT FIRST stays only as the fallback when neither applies or the decision cannot be made.
     let decision=null;try{decision=await whichShowdownIsLive(pairState);}catch(_error){decision=null;}
-    // An older closed Showdown is remembered: only Daniel's fresh code-less shell (resume-waiting) reopens; nothing else (no GET READY).
+    // An older closed Showdown is remembered: only Daniel's fresh code-less shell (resume-waiting) reopens; nothing else (no CONNECT FIRST).
     if(/^pair_[0-9a-f]{64}$/.test(String(pairState.closedRivalryId||""))&&!pairState.rivalryId&&!(decision&&decision.action==="resume-waiting"))return false;
     // PR #901: reload recovery puts Daniel's WAITING back over the locked league wheel (startup leaves Home active), so closing it
     // shows the wheel and its CONTINUE CAREER, not Home. The loading screen is held until this settles (js/ssjr.js, Reus Gate).
@@ -613,7 +613,7 @@
     try{
       if(!loadedShowdown()&&typeof root.resumeSavedShowdown==="function"){await ensureSaveAuthority();if(typeof root.loadSavedShowdown==="function"&&root.loadSavedShowdown())await root.resumeSavedShowdown();}
       if(root.getActiveScreenName?.()!=="leagueWheelScreen"){if(typeof root.navigateTo==="function")await root.navigateTo("leagueWheelScreen",{addToHistory:false});else root.showScreen?.("leagueWheelScreen");}
-    }catch(error){report("Unable to reopen the league screen",error);}
+    }catch(error){report("Could not reopen the league screen",error);}
     applyLocalDrawLock();
   }
   // The startup hold is kept only while this recovery can still end on the wheel: a player who is signed out, offline or still
@@ -624,7 +624,7 @@
     startupResumePromise=new Promise(resolve=>{releaseStartupHold=()=>resolve(true);});
     const identity=entryIdentity();let unsubscribe=null;const watch=()=>{if(!startupHoldWorthKeeping())releaseStartupHold();};
     try{unsubscribe=typeof identity?.subscribe==="function"?identity.subscribe(watch):null;}catch(_error){unsubscribe=null;}watch();
-    setTimeout(()=>void autoOpenAfterLoad().catch(error=>report("Unable to open career entry",error)).finally(()=>{releaseStartupHold();try{unsubscribe?.();}catch(_error){}}),0);
+    setTimeout(()=>void autoOpenAfterLoad().catch(error=>report("Could not open career entry",error)).finally(()=>{releaseStartupHold();try{unsubscribe?.();}catch(_error){}}),0);
   }
   function install(){if(installed)return true;installed=true;root.document?.addEventListener?.("career-mode-screen-shown",followChampionScreen);root.addEventListener?.("career-mode-shared-terminal-close-state-change",followClose);/* F1: a due Champion screen is a live game for the reload resume (and its loading screen) */if(championPending())try{root.sessionStorage?.setItem(LIVE_GAME_KEY,"1");}catch(_error){}installStartButton();applyLocalDrawLock();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())startStartupResume();return true;}
 

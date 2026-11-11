@@ -36,11 +36,11 @@ const SITES=[
   ["C7","js/restoreUI.js","restoreAskConfirm(\"Apply this exact restore plan? The selected file and browser data will be verified again before any write. Export Backup above now if you want an extra current-state recovery copy.\",\"primary\")",[]],
   ["C8","js/productionSharedTransferChallenge.js","pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You can't change them after locking.`,\"primary\")",[]],
   // r80: DELETE CURRENT SHOWDOWN became END SHOWDOWN (same red button, same marble box, Ended early wording).
-  ["C9","js/settings.js","settingsAskConfirm(\n        `End the \"${name}\" Showdown? Ends this Showdown for both players. History keeps it as Ended early. This cannot be undone.`,\n        \"danger\"",[]],
+  ["C9","js/settings.js","settingsAskConfirm(\n        `End the \"${name}\" Showdown? Ends this Showdown for both players. Legacy keeps it as Ended early. This cannot be undone.`,\n        \"danger\"",[]],
   // C10 (Settings START REAL CAREER) is retired in r79 PR4 (Nik 2026-10-17): the row is gone; the one-time checkmark on the
   // seasons screen needs no box. C13 is r79 PR4's UNPAIR in Settings (js/showdownModes.js).
   ["C13","js/showdownModes.js","smAskConfirm(`Unpair from ${v.partnerLabel}? Your Showdowns stay saved. To play again you pair again with a new code.`,\"danger\")",[]],
-  ["C11a","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete this old connection and start fresh? This closes the stale online connection and clears only its unfinished Showdown so Nik can join the new code Daniel creates.\",\"danger\")",[]],
+  ["C11a","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete this old connection and start fresh? This closes the old online connection and clears only its unfinished Showdown so Nik can join the new code Daniel creates.\",\"danger\")",[]],
   ["C11b","js/persistentNikDanielPair.js","pairAskConfirm(\"Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.\",\"danger\")",[]]
   // C12 (START A SHOWDOWN "Start a new Showdown? This will close the current ...") is retired in r79: START never offers to close
   // a live Showdown (owner rule); closing stays in Settings (C9). R2 checks the entry module has no confirm box left.

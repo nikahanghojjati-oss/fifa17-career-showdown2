@@ -91,7 +91,7 @@
 
   async function assertSessionProviderDeviceCredential(user,deviceId){
     if(!user||typeof user.getIdTokenResult!=="function"){
-      throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_REQUIRED","A provider-verifiable registered-device credential is required.");
+      throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_REQUIRED","A registered-device credential that can be verified is required.");
     }
     let tokenResult;
     try{
@@ -104,10 +104,10 @@
       ?claims[PROVIDER_DEVICE_CREDENTIAL_CLAIM].trim().toLowerCase()
       :"";
     if(!/^device_[0-9a-f]{32}$/.test(claimedDeviceId)){
-      throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_REQUIRED","A provider-verifiable registered-device credential is required.");
+      throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_REQUIRED","A registered-device credential that can be verified is required.");
     }
     if(claimedDeviceId!==deviceId){
-      throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_MISMATCH","The provider device credential does not match this registered browser.");
+      throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_MISMATCH","The device credential does not match this registered browser.");
     }
     return Object.freeze({claim:PROVIDER_DEVICE_CREDENTIAL_CLAIM,deviceId:claimedDeviceId});
   }
@@ -115,7 +115,7 @@
   function normalizeDeviceAuthorityMode(value){
     const mode=value===undefined?PROVIDER_DEVICE_CREDENTIAL_MODE:String(value||"");
     if(mode!==PROVIDER_DEVICE_CREDENTIAL_MODE&&mode!==STANDARD_AUTH_DEVICE_METADATA_MODE){
-      throw sessionError("PRIVATE_SESSION_DEVICE_AUTHORITY_MODE_INVALID","The private-session device authority mode is invalid.");
+      throw sessionError("PRIVATE_SESSION_DEVICE_AUTHORITY_MODE_INVALID","The private-session device mode is invalid.");
     }
     return mode;
   }
@@ -267,14 +267,14 @@
       || slots.some(slot=>!slot||slot.entitlementState!=="active"||typeof slot.accountId!=="string")
       || !authorized.every(id=>slots.some(slot=>slot.accountId===id))
     ){
-      throw sessionError("PRIVATE_SESSION_RIVALRY_INVALID","The rivalry manager authority is incomplete.");
+      throw sessionError("PRIVATE_SESSION_RIVALRY_INVALID","The rivalry's manager details are incomplete.");
     }
     return Object.freeze({value,authorizedAccountIds:Object.freeze([...authorized])});
   }
 
   function assertSessionShape(value,rivalryId,sessionId){
     if(!isSessionEnvelopeShape(value,"session",sessionId)){
-      throw sessionError("PRIVATE_SESSION_INVALID","Private session authority is invalid.");
+      throw sessionError("PRIVATE_SESSION_INVALID","Private session data is invalid.");
     }
     const data=value.data;
     if(JSON.stringify(Object.keys(data).sort())!==JSON.stringify(SESSION_DATA_FIELDS)){
@@ -304,7 +304,7 @@
       || (data.state==="revoked"&&(lastActivityEpochMs===null||revokedAtEpochMs===null))
       || ((data.state==="expired"||data.state==="closed")&&(lastActivityEpochMs===null||revokedAtEpochMs!==null))
     ){
-      throw sessionError("PRIVATE_SESSION_INVALID","Private session lifecycle authority is invalid.");
+      throw sessionError("PRIVATE_SESSION_INVALID","The private session's lifecycle state is invalid.");
     }
     return Object.freeze({value,data,members:Object.freeze([...members]),createdAtEpochMs,expiresAtEpochMs,lastActivityEpochMs,revokedAtEpochMs});
   }
@@ -385,7 +385,7 @@
         if(authority.sessionValue){
           const existing=await verifySession(authority.sessionValue,operation.rivalryId,operation.sessionId,operation.cryptoImpl);
           if(existing.data.hostAccountId!==operation.accountId){
-            throw sessionError("PRIVATE_SESSION_CONFLICT","This private session code is already bound to different host authority.");
+            throw sessionError("PRIVATE_SESSION_CONFLICT","This private session code is already tied to a different host.");
           }
           return resultFromSession(operation.sessionId,"replayed",true,authority.sessionValue);
         }

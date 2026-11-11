@@ -97,7 +97,7 @@
   function pjrShowdownEnded(){try{return root.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="DELETED";}catch(_){return false;}}
   function pjrMessage(value){
     if(!value)return "";
-    if(value.phase==="FRESH_SESSION_REQUIRED"&&pjrShowdownClosed())return "SHOWDOWN COMPLETE · Open the Final Winner or History from Home.";
+    if(value.phase==="FRESH_SESSION_REQUIRED"&&pjrShowdownClosed())return "SHOWDOWN COMPLETE · Open the Final Winner or Legacy from Home.";
     if(value.phase==="OFFLINE_HOLD")return "OFFLINE · Reconnect to carry on.";
     if(value.phase==="RECOVERY_PENDING")return "RECONNECTING · Finish reconnecting both players before continuing.";
     if(value.phase==="FRESH_SESSION_REQUIRED"&&!value.sessionId)return `NOT CONNECTED ON THIS PHONE · Reloading drops the connection. ${pjrNotConnectedStep(value.managerRole)}`;
@@ -136,7 +136,7 @@
       if(automatic||fresh||!pjrRemoteExactActive(held))pjrArmRecoveryReturn(!automatic&&fresh&&pjrRemoteExactActive(held)?held.sessionId:null,authority);
       if(auto)void auto;
       return true;
-    }catch(error){pjrReport("Unable to open private session recovery",error);return false;}
+    }catch(error){pjrReport("Could not open connection recovery",error);return false;}
   }
   async function pjrOpenSessionRecovery(){return pjrOpenRecovery();}
   // A paired phone reuses its exact ACTIVE session; manual recovery waits for a different session.
@@ -156,14 +156,14 @@
     try{
       const authority={rivalryId:state.rivalryId,accountId:state.accountId,deviceId:state.deviceId,managerRole:state.managerRole};
       return pjrPublish(protocol.observe({authority,previous:state,nowEpochMs:Date.now(),networkOnline:false,remote:null}));
-    }catch(error){pjrReport("Unable to hold Shared Journey offline",error);return pjrPublish(null);}
+    }catch(error){pjrReport("Could not hold the Showdown while offline",error);return pjrPublish(null);}
   }
   // Hunt 1018 (H1018-3): losing account, device or rivalry authority after recovery keeps the durable plan and history but
   // publishes a non-authoritative state (recovered and activeAuthorization false) until the identity is verified again.
   function pjrDropAuthority(){
     if(!state?.activeAuthorization||!protocol)return state;
     try{return pjrPublish(protocol.observe({authority:{rivalryId:state.rivalryId,accountId:state.accountId,deviceId:state.deviceId,managerRole:state.managerRole},previous:state,nowEpochMs:Date.now(),networkOnline:pjrOnline(),remote:null}));}
-    catch(error){pjrReport("Unable to drop Shared Journey authority",error);return pjrPublish(null);}
+    catch(error){pjrReport("Could not drop the Showdown connection",error);return pjrPublish(null);}
   }
   function pjrBootstrap(){return pjrEnsureDependencies().then(()=>{if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>pjrWake());});}
   async function pjrRefreshNow(){
@@ -201,7 +201,7 @@
   const PJR_PENDING_AUTHORITY_CODES=Object.freeze(["JOURNEY_RECONNECT_AUTH_REQUIRED","JOURNEY_RECONNECT_DEVICE_REQUIRED","JOURNEY_RECONNECT_RIVALRY_REQUIRED"]);
   function pjrRefresh(){
     if(refreshPromise)return refreshPromise;busy=true;
-    const run=pjrRefreshNow().then(value=>{lastReportedCode="";heldTransientCode="";return value;},error=>{if(pjrShowdownEnded()){heldTransientCode="";return state;}if(error?.code==="JOURNEY_RECONNECT_SUPERSEDED"){heldTransientCode="";return pjrOnline()?state:pjrOfflineHold();}if(PJR_PENDING_AUTHORITY_CODES.includes(error?.code)||error?.code==="JOURNEY_RECONNECT_CONTEXT_CHANGED"){heldTransientCode="";return pjrDropAuthority();}const code=`${String(accountApi?.getState?.()?.accountId||"")}|${String(pairingApi?.getState?.()?.deviceId||"")}|${String(pjrMarkerRivalry()||"")}|${String(error?.code||"JOURNEY_RECONNECT_FAILED")}|${String(multiApi?.lastError?.()||"")}`;if(PJR_HELD_CODES.includes(error?.code)&&code!==heldTransientCode&&code!==lastReportedCode){heldTransientCode=code;return state;}heldTransientCode="";if(code!==lastReportedCode)pjrReport("Unable to refresh Shared Journey recovery",error);lastReportedCode=code;return state;}).finally(()=>{busy=false;if(refreshPromise===run)refreshPromise=null;pjrRender();if(wakePending){wakePending=false;pjrWake();}});refreshPromise=run;return run;
+    const run=pjrRefreshNow().then(value=>{lastReportedCode="";heldTransientCode="";return value;},error=>{if(pjrShowdownEnded()){heldTransientCode="";return state;}if(error?.code==="JOURNEY_RECONNECT_SUPERSEDED"){heldTransientCode="";return pjrOnline()?state:pjrOfflineHold();}if(PJR_PENDING_AUTHORITY_CODES.includes(error?.code)||error?.code==="JOURNEY_RECONNECT_CONTEXT_CHANGED"){heldTransientCode="";return pjrDropAuthority();}const code=`${String(accountApi?.getState?.()?.accountId||"")}|${String(pairingApi?.getState?.()?.deviceId||"")}|${String(pjrMarkerRivalry()||"")}|${String(error?.code||"JOURNEY_RECONNECT_FAILED")}|${String(multiApi?.lastError?.()||"")}`;if(PJR_HELD_CODES.includes(error?.code)&&code!==heldTransientCode&&code!==lastReportedCode){heldTransientCode=code;return state;}heldTransientCode="";if(code!==lastReportedCode)pjrReport("Could not refresh connection recovery",error);lastReportedCode=code;return state;}).finally(()=>{busy=false;if(refreshPromise===run)refreshPromise=null;pjrRender();if(wakePending){wakePending=false;pjrWake();}});refreshPromise=run;return run;
   }
   // Codex #942: END landing while a refresh is in flight (busy) must not wait for that refresh: the banner and its action are
   // cleared at once and the in-flight refresh is superseded (it can no longer publish), then the usual wake follows.
@@ -210,7 +210,7 @@
   function pjrInstall(){
     // r75: an ordinary startup with no Shared Journey loads none of the recovery runtime (Remote Joining stays unloaded);
     // the first wake that finds the shared marker loads it through pjrRefreshNow.
-    if(installed)return true;installed=true;if(pjrSharedMarker())void pjrBootstrap().then(()=>pjrWake()).catch(error=>pjrReport("Shared Journey recovery bootstrap unavailable",error));
+    if(installed)return true;installed=true;if(pjrSharedMarker())void pjrBootstrap().then(()=>pjrWake()).catch(error=>pjrReport("Connection recovery could not start",error));
     root.addEventListener?.("career-mode-shared-wait-context-change",pjrWake);
     root.addEventListener?.("online",pjrWake);
     root.addEventListener?.("offline",()=>pjrOfflineHold());

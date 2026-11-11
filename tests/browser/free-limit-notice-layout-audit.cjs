@@ -7,7 +7,7 @@ const base=process.env.CMS_BASE_URL||"http://127.0.0.1:4511/";
 const out=path.resolve(process.env.CMS_TEST_RESULTS||"test-results/free-limit-layout");
 // r87: on a portrait phone the limit is a line inside Continue Career, not this note (tests/contracts/r87-error-screens-contracts.cjs E8).
 const sizes=[[740,360],[844,390],[768,1024],[1280,800],[1920,1080]];
-const TEXT="Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.";
+const TEXT="Today's free online limit is used up. It resets at 3 a.m. Boston time. Your saved career is safe.";
 fs.mkdirSync(out,{recursive:true});
 
 async function inspect(page,screen){
