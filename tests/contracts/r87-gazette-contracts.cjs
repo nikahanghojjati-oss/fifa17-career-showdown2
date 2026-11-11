@@ -451,7 +451,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
   }
   // G12 (2.0.0) THE RACE and the record book come from the seasons alone and are always true: level is "All square" (never a
   // lead), a lead beyond 15 x the seasons left cannot be caught, exactly that can only be levelled, a final draw is never a
-  // win; seasons won, trophies, streaks, perfect 15s and the Golden watch match the history; a 150-150 The The The Showdown is a drawn
+  // win; seasons won, trophies, streaks, perfect 15s and the Golden watch match the history; a 150-150 Showdown is a drawn
   // Golden Showdown for both. The strip is drawn above the trophy desk on desktop and phone.
   {
     const pool=Object.values(R),T=[3,5,10];let seen=new Set();
