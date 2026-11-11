@@ -23,6 +23,8 @@ const commands = {
   STAGE4_ABUSE_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage4 "node tests/firebase/stage4-abuse-hardening-emulator.cjs"`,
   STAGE4_MUTATION_RATE_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage4 "node tests/firebase/stage4-mutation-rate-limit-emulator.cjs"`,
   STAGE5C_AUTH_SESSION_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only auth,firestore --project demo-career-mode-showdown-stage5c "node tests/firebase/stage5c-zero-billing-standard-auth-session-emulator.cjs"`,
+  SHARED_SETUP_PROVIDER_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup "node tests/firebase/shared-showdown-setup-provider-emulator.cjs"`,
+  SHARED_SETUP_PROVIDER_SESSION_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup "node tests/firebase/shared-showdown-setup-provider-session-emulator.cjs"`,
   BUILD_PRODUCTION_RULES: `node scripts/build-production-firestore-rules.mjs`,
   SHARED_SETUP_PRODUCTION_PROVIDER_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"`,
   TRANSFER_RULES_DIAGNOSTIC: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-transfer-diagnostic "node tests/firebase/shared-transfer-rules-diagnostic-emulator.cjs"`,

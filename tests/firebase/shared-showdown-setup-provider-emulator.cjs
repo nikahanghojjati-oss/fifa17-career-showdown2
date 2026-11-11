@@ -15,6 +15,8 @@ global.localStorage={
 const provider=require("../../js/sparkSharedShowdownSetup.js");
 
 const PROJECT_ID="demo-career-mode-showdown-shared-setup-provider";
+// r91 cut step 4: the production Rules are built, not checked in. Build them here when a proof id runs this file before BUILD_PRODUCTION_RULES.
+if(!fs.existsSync("firestore.spark.generated.rules"))require("node:child_process").execFileSync(process.execPath,["scripts/build-production-firestore-rules.mjs"],{stdio:"inherit"});
 const RULES=fs.readFileSync("firestore.spark.generated.rules","utf8");
 const A="acct_setup_a",B="acct_setup_b",C="acct_setup_c";
 const R=`pair_${"a".repeat(64)}`;
