@@ -343,7 +343,7 @@
         // (r91 lead, 2026-11-11 00:59 UTC: a CDM who also plays CB must not push the left back out).
         if(!p||isStopgap(sheet,i)||!(q.rating>p.rating)||sqFit(q,sheet.slots[i])<3)return;
         const f=slotFit(sheet,q,sheet.slots[i]);
-        if(!best||f>best.fit||(f===best.fit&&p.rating<best.p.rating))best={kind:"xi",q,from:ref,p,index:i,fit:f};
+        if(!best||f>best.fit||(f===best.fit&&p.rating<best.p.rating))best={kind:"xi",q,from:ref,p,index:i,fit:f,slot:sheet.slots[i]};
       });
       if(best)return best;
     }
@@ -359,9 +359,8 @@
     return null;
   }
   const hidingReason=issue=>!issue?"":!issue.p?`${issue.q.name} (${issue.q.rating}) has to fill the empty sub seat on the Roulette board.`
-    :issue.kind==="xi"?`${issue.q.name} (${issue.q.rating}) is better than ${issue.p.name} (${issue.p.rating}) and plays ${lineWord(lineOf(issue.q.positions[0]||""))}. The XI keeps the best of each line.`
+    :issue.kind==="xi"?`${issue.q.name} (${issue.q.rating}) is better than ${issue.p.name} (${issue.p.rating}), and ${issue.slot} is his own position, so he has to start.`
     :`${issue.q.name} (${issue.q.rating}) is better than ${issue.p.name} (${issue.p.rating}). Subs 1-4 on the Roulette board are the best of the rest.`;
-  const lineWord=line=>({GK:"in goal",DEF:"in defence",MID:"in midfield",ATT:"in attack"})[line]||"in his line";
   // Puts every better player where the rule says. Each step raises the squad's total, so it always ends.
   function enforceBest(sheet){
     const moved=[];
