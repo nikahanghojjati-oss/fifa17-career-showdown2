@@ -610,7 +610,7 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     gripFrame.geometry.attributes.uv.needsUpdate=true; }
   const panelPts=smooth([[-.047,-.034],[-.054,-.05],[-.064,-.07],[-.074,-.09],[-.072,-.1],[-.062,-.103],[-.047,-.1],[-.038,-.088],[-.034,-.07],[-.034,-.052],[-.037,-.04]],80);
   [1,-1].forEach(sx=>{ const p=extrude(panelPts,.004,.003,GM.walnut,4); p.position.x=sx*.0138; g.add(p);
-    const med=new T.Mesh(new T.LatheGeometry([[0,0],[.0062,0],[.0068,.0004],[.0062,.0009],[0,.0011]].map(q=>new T.Vector2(q[0],q[1])),28),GM.gold); med.rotation.z=-sx*Math.PI/2; med.position.set(sx*.0186,-.071,-.054); g.add(med); });
+    const med=new T.Mesh(new T.LatheGeometry([[0,0],[.0062,0],[.0068,.0004],[.0064,.0009],[.0052,.0014],[.0032,.0018],[0,.002]].map(q=>new T.Vector2(q[0],q[1])),28),GM.gold);   /* r91: domed, so it catches the lamps; flat, it mirrored the dark ceiling and read as a hole in the grip */ med.rotation.z=-sx*Math.PI/2; med.position.set(sx*.0186,-.071,-.054); g.add(med); });
   /* BARREL: chamfered octagon 5.5", bore on the top chamber's axis, crowned muzzle, blade front sight */
   const BY=.0138, BR=.0097, CH=.0019; const sec=[]; for(let i=0;i<8;i++){ const a=i/8*Math.PI*2+Math.PI/8, a0=(i-1)/8*Math.PI*2+Math.PI/8, a1=(i+1)/8*Math.PI*2+Math.PI/8; const v=[Math.cos(a)*BR,Math.sin(a)*BR], p=[Math.cos(a0)*BR,Math.sin(a0)*BR], q=[Math.cos(a1)*BR,Math.sin(a1)*BR]; const e=Math.hypot(q[0]-v[0],q[1]-v[1]); sec.push([v[0]+(p[0]-v[0])/e*CH,v[1]+(p[1]-v[1])/e*CH],[v[0]+(q[0]-v[0])/e*CH,v[1]+(q[1]-v[1])/e*CH]); }
   { const bar=prism(sec,.147,[GM.bluedBarrel,GM.worn]); bar.position.set(0,BY,.044); bar.castShadow=true; bar.receiveShadow=true; g.add(bar);
