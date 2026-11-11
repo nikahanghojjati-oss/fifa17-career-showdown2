@@ -1,58 +1,31 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-11T14:05:10.284Z",
+  "at": "2026-11-11T14:11:52.842Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
-      "head_sha": "7c85e28c42587b042998f3663550dda187cdb121",
-      "pr": 1372,
-      "queued_minutes": 27.2,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "1898a3e3292e61b148caa4580bedfb1d0fa4e1b1",
-      "pr": 1373,
-      "queued_minutes": 17.3,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "4b66f5a06adb7514488aa9350fe9710abb391680",
-      "pr": 1357,
-      "queued_minutes": 16.3,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "53e72a4674fd52d717e13d363553f07c21146e50",
-      "pr": 1375,
-      "queued_minutes": 16,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "db0120e3b6664fb41518c7839a1f2a0ce8a76574",
-      "pr": 1366,
-      "queued_minutes": 12.6,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
       "head_sha": "6db86081e7096b944a79fba8353deab74c3110db",
       "pr": 1361,
-      "queued_minutes": 8.2,
+      "queued_minutes": 14.9,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "43a9555c1fd7234c60b4d5a08b0674540fb16928",
+      "pr": 1376,
+      "queued_minutes": 7.6,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "24c7a482ffacf1efb174224b44c1e469d1a85a0c",
+      "pr": 1357,
+      "queued_minutes": 2.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
