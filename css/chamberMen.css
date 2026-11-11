@@ -279,7 +279,8 @@
 }
 /* Not ready yet (no shot or dive picked, or already locked in): the same gold, flat and quiet, never dimmed over anything. */
 #cmStage .cmActions > button.menuButton:disabled {
-  color: #8a7a52;
+  opacity: 1; /* css/app.css fades a disabled .menuButton to .48, which left the name at 2.1:1 (colour hunt COL-04); solid and readable instead */
+  color: #b5a36a;
   background: #17140e;
   border-color: rgba(242, 196, 91, .45);
   box-shadow: none;
@@ -354,7 +355,7 @@
 #cmStage .cmHeader > :last-child { justify-self: end; text-align: right; }
 #cmStage .cmHeader .cmTitle { font-size: clamp(20px, 5.4vw, 30px); letter-spacing: .06em; }
 @media (max-width: 560px) {
-  #cmStage .cmHeader { grid-template-columns: 1fr auto; row-gap: 2px; font-size: 11px; letter-spacing: .12em; }
+  #cmStage .cmHeader { grid-template-columns: 1fr auto; row-gap: 2px; font-size: 12px; letter-spacing: .1em; } /* strict D11: 12 px floor */
   #cmStage .cmHeader .cmTitle { grid-column: 1 / -1; grid-row: 1; }
   #cmStage .cmSide .cmGoals { font-size: 28px; }
 }
