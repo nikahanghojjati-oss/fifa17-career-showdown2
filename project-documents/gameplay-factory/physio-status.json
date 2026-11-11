@@ -1,13 +1,13 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-11T20:02:33.952Z",
+  "at": "2026-11-11T20:03:52.171Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
       "head_sha": "c1cd9b841143be0bde2ce4cefd50edfe2f21f029",
       "pr": 1394,
-      "queued_minutes": 63.2,
+      "queued_minutes": 64.5,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -16,25 +16,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "5ec2c6bf64fa4582b648165b613828b3ce06d1cf",
       "pr": 1357,
-      "queued_minutes": 51.8,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "77b5fefe9dcbe29acab1c22113b7cfe3f358bad7",
-      "pr": 1396,
-      "queued_minutes": 50,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "5a1d4832abac20a696f9f8aa6241493f31327e38",
-      "pr": 1397,
-      "queued_minutes": 48.9,
+      "queued_minutes": 53.1,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -43,7 +25,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "886c82edceaf52723a6d928d1dc5f31cc6be0c18",
       "pr": 1398,
-      "queued_minutes": 37.4,
+      "queued_minutes": 38.7,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -52,7 +34,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "963507968d2b082fd9f6487cc042b6b24537136b",
       "pr": 1401,
-      "queued_minutes": 24.1,
+      "queued_minutes": 25.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -61,7 +43,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "b3318ee7e32038f20d4daa0aec87adf413ff8dea",
       "pr": 1403,
-      "queued_minutes": 19.7,
+      "queued_minutes": 21,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -70,7 +52,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "c30d8843a2e6cab3c72d2dea34dd96b5e364da93",
       "pr": 1404,
-      "queued_minutes": 15,
+      "queued_minutes": 16.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -79,7 +61,7 @@
       "workflow": "Validate POS20",
       "head_sha": "8140decd5e4a78e557508e019cc2ec4b31cdfbf6",
       "pr": 312,
-      "queued_minutes": 14.7,
+      "queued_minutes": 16,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -88,7 +70,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "cc87bb8a56a28931770e16ca728922b867032a74",
       "pr": 1389,
-      "queued_minutes": 12.5,
+      "queued_minutes": 13.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
