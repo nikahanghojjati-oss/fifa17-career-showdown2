@@ -650,6 +650,7 @@ function layoutStage(){
   for(const k in v) app.style.setProperty(k, Math.round(v[k])+"px");
   app.classList.toggle("short", short || (!tall && H<480));
   app.classList.toggle("tinycard", cardH < 180);
+  if($("nameValue").textContent) fitName();                     // the card size (and the 12 px floor) may have changed since the name was fitted
 }
 addEventListener("resize", layoutStage);
 // One line, never cut off: shrink the name's font until it fits the plate (in card units, so it holds at every size).
