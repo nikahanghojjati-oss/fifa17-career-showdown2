@@ -163,14 +163,14 @@ const Guess=require(path.join(ROOT,'js/iconGuess.js'));
   assert.ok(css.includes(hookRule),'the empty hooks are kept out of the layout');
   assert.ok(!/\b(shake|charge|burst)\b/i.test(css)&&!/\.(rays|glow|shards)\b(?![^{]*\{ position: absolute; left: 50%; top: 50%; width: 0)/.test(css),'no other style for them, and no shake or burst');
   const frames=[...css.matchAll(/@keyframes (\w+)/g)].map(m=>m[1]);
-  assert.deepEqual(frames,['pop','fade','sheen'],'the only keyframes are the result line\'s pop and fade and the card frame\'s slow sheen (off with reduced motion)');
+  assert.deepEqual(frames,['lowbreath','pop','fade','sheen'],'the only keyframes are the result line\'s pop and fade, the card frame\'s slow sheen and the last-5-seconds ring glow (all off with reduced motion)');
   assert.ok(!/rotateY|rotateX|backface|perspective|--flip|\bflip/i.test(code+css),'no card flip anywhere');
   assert.ok(!/rotate\(/.test(code+css.replace('.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }','')),'nothing spins (the timer ring only starts at 12 o\'clock)');
   assert.ok(!/flash/i.test(code+css),'no flash');
   assert.ok(!/brightness\(|backdrop-filter|vignette|scrim|invert\(|conic-gradient/i.test(page),'no dimming layers, no ray fans');
   assert.ok(!/position:\s*fixed;\s*inset:\s*0/.test(page),'nothing laid over the whole screen');
   const paint=one(/function paintCard\(t\)\{[\s\S]*?\n\}/,'paintCard');
-  assert.match(paint,/pack\.hidden = pp>=PACK_OUT;/,'the pack opens (fades out) first');
+  assert.match(paint,/pack\.hidden = pp>=PACK_OUT;/,'the pack fades out only after the card has started rising');
   assert.match(paint,/const packState = pp>=PACK_OUT \? "gone" : pp>0 \? "open" : "sealed";/,'the art follows the same clock');
   assert.match(paint,/card\.style\.transform = REDUCED \? "none" : `translateY\(\$\{\(\(1-rise\)\*16\)\.toFixed\(2\)\}%\)`;/,'then the card slides up: translate only');
   assert.match(paint,/const pp = S\.result \? 1 : S\.beat<0 \? 0 : progressOf\(0,t\);/,'driven by the stage clock');
@@ -203,9 +203,11 @@ const Guess=require(path.join(ROOT,'js/iconGuess.js'));
   const paint=one(/function paintCard\(t\)\{[\s\S]*?\n\}/,'paintCard');
   assert.match(paint,/pack\.style\.transform = REDUCED \? "translateX\(-50%\)" :/,'the pack only fades');assert.match(paint,/card\.style\.transform = REDUCED \? "none" :/,'the card only fades');
   assert.match(script,/visualViewport\.addEventListener\("resize",fitViewport\)/,'the screen follows the visual viewport, so the keyboard hides nothing');
-  assert.match(page,/\.suggest \{ position: absolute; left: 0; right: 0; bottom: calc\(100% \+ 6px\);/,'suggestions open upwards, above both boxes and the keyboard');
+  assert.match(page,/\.suggest \{ position: absolute; left: 0; right: 0; top: calc\(100% \+ 6px\);/,'suggestions open downwards into the free floor under the boxes, never over the card (r91 Prime Pack look 1)');
+  assert.match(script,/function fitSuggest\(\)\{[\s\S]*?--sg-max/,'the list is sized to the room under the boxes and scrolls inside it, so every name stays reachable');
+  assert.match(script,/const kbRoom = S\.round && !S\.result \? 92 : 0;/,'two suggestion rows of room stay free under the boxes while the round is on, with or without the keyboard');
   assert.ok(!/AudioContext|new Audio|\.play\(\)|navigator\.vibrate/.test(code),'no sound or vibration in the stand-in (off until a player turns it on)');
-  ok('P6','reduced motion: the pack, the card and the values only fade; the boxes and suggestions stay above the iPhone keyboard; no sound');
+  ok('P6','reduced motion: the pack, the card and the values only fade; the boxes and suggestions stay inside the visible viewport (above the iPhone keyboard); no sound');
 }
 
 // P7 light, offline and clean: no network, no photos, no EA assets
