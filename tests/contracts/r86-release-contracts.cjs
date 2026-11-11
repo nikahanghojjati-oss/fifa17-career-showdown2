@@ -79,25 +79,16 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   ok('RR4','2.3.0-r90 is the one version pinned everywhere');
 }
 
-// RR5 (red team R87-C-07): the roulette starts at the 2.0.0 release time. Every start constant that must equal it is set by
-// tools/set-release-time.cjs and they all hold the same fixed UTC time, after r86's release.
+// RR5 (old-era cut): there are no "live from date X" release gates. The only *_FROM_MS=Date.parse literal left in js/ is
+// MARQUEE_FROM_MS, a historical fact (a Showdown confirmed before r86 never had a Special Player), and nothing sets release times.
 {
-  const {read:readTimes,RELEASE_TIME_CONSTANTS,R88_RELEASE_TIME_CONSTANTS=[],R89_RELEASE_TIME_CONSTANTS=[],NOT_RELEASE_TIME}=require('../../tools/set-release-time.cjs');
-  const times=readTimes();
-  assert.equal(times.length,RELEASE_TIME_CONSTANTS.length);assert.ok(times.length>=10,'roulette, Prime Pack and own-club boundaries');
-  // Every *_FROM_MS=Date.parse("...") start literal in js/ is either a release-time constant or a named older boundary.
-  // r88's own start constants (Chamber Men) are set by the same tool's --r88 list (tests/contracts/r88-chamber-men-contracts.cjs checks them).
-  const listed=new Set([...RELEASE_TIME_CONSTANTS,...R88_RELEASE_TIME_CONSTANTS,...R89_RELEASE_TIME_CONSTANTS].map(c=>`${c.file}:${c.name}`));
-  for(const file of require('node:fs').readdirSync(require('node:path').join(__dirname,'../../js')).filter(f=>f.endsWith('.js')).map(f=>`js/${f}`))
-    for(const m of read(file).matchAll(/\b([A-Z][A-Z0-9_]*_FROM_MS)=Date\.parse\(/g))
-      assert.ok(listed.has(`${file}:${m[1]}`)||NOT_RELEASE_TIME.includes(m[1]),`${file} ${m[1]} is not set by tools/set-release-time.cjs`);
-  assert.deepEqual([...new Set(times.map(t=>t.value))].length,1,`the release-time constants differ: ${times.map(t=>`${t.name}=${t.value}`).join(', ')}`);
-  const at=Date.parse(times[0].value);
-  assert.ok(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(times[0].value)&&Number.isFinite(at));
-  assert.ok(at>Date.parse('2026-10-30T03:00:00Z'),'after the r86 release (MARQUEE_FROM_MS)');
-  const Step=require('../../js/rosterRouletteStep.js');
-  if(Step&&Number.isFinite(Step.fromMs))assert.equal(Step.fromMs,at,'the roulette step exports the release time');
-  ok('RR5',`the roulette, Prime Pack and own-club SP start at the release time ${times[0].value} (${times.map(t=>t.name).join(' = ')})`);
+  const fs=require('node:fs'),path=require('node:path');
+  const found=[];
+  for(const file of fs.readdirSync(path.join(__dirname,'../../js')).filter(f=>f.endsWith('.js')).map(f=>`js/${f}`))
+    for(const m of read(file).matchAll(/\b([A-Z][A-Z0-9_]*_FROM_MS)=Date\.parse\(/g))found.push(`${file}:${m[1]}`);
+  assert.deepEqual(found,['js/marqueePlayer.js:MARQUEE_FROM_MS'],'only the historical Special Player boundary remains');
+  assert.ok(!fs.existsSync(path.join(__dirname,'../../tools/set-release-time.cjs')),'the release-time tool is gone');
+  ok('RR5','no release-time gates remain: MARQUEE_FROM_MS is the one historical boundary');
 }
 
 // RR6 (arch audit D1): the seven acceptance-only scripts are not precached; a request for one is answered from the shell of the
@@ -115,22 +106,6 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   assert.deepEqual(acceptance.filter(p=>shell.includes(p)),[],'none of them is precached');
   for(const loader of [['js/ssjr.js','js/ssjrPhysicalJourneyAcceptance.js'],['js/offlineApp.js','js/remoteJoiningAcceptance.js']])assert.ok(read(loader[0]).includes(loader[1]),`${loader[0]} still loads ${loader[1]} on demand`);
   ok('RR6','the acceptance-only scripts load on demand outside the precache');
-}
-
-// RR7 (2.2.0): r89's own start time. Every r89 boundary (the Sacked tick, SACKED_FROM_MS; grep *_FROM_MS on the merged tree
-// at freeze) is set by  node tools/set-release-time.cjs --r89 <UTC>  and they all hold one fixed UTC time, after r88's.
-{
-  const tool=require('../../tools/set-release-time.cjs');
-  assert.ok(Array.isArray(tool.R89_RELEASE_TIME_CONSTANTS)&&tool.R89_RELEASE_TIME_CONSTANTS.length>=1,'set-release-time has an --r89 list');
-  assert.match(read('tools/set-release-time.cjs'),/args\.includes\("--r89"\)/);
-  assert.ok(tool.R89_RELEASE_TIME_CONSTANTS.some(c=>c.name==='SACKED_FROM_MS'),'the Sacked tick starts at the r89 release time');
-  const times=tool.read(tool.R89_RELEASE_TIME_CONSTANTS),r89=times[0].value,r88=tool.read(tool.R88_RELEASE_TIME_CONSTANTS)[0].value,r87=tool.read()[0].value;
-  assert.deepEqual([...new Set(times.map(t=>t.value))].length,1,`the r89 release-time constants differ: ${times.map(t=>`${t.file} ${t.name}=${t.value}`).join(', ')}`);
-  assert.ok(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(r89)&&Number.isFinite(Date.parse(r89)));
-  assert.ok(Date.parse(r89)>Date.parse(r88)&&Date.parse(r88)>Date.parse(r87),'r89 starts after r88, which starts after 2.0.0');
-  const all=[...tool.RELEASE_TIME_CONSTANTS,...tool.R88_RELEASE_TIME_CONSTANTS,...tool.R89_RELEASE_TIME_CONSTANTS].map(c=>`${c.file}:${c.name}`);
-  assert.equal(new Set(all).size,all.length,'no constant is in two release lists');
-  ok('RR7',`r89's boundaries start at ${r89} (${times.map(t=>t.name).join(' = ')})`);
 }
 
 console.log(`PASS r86 release contracts: ${checks} checks.`);

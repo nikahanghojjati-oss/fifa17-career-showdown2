@@ -2,7 +2,7 @@
 // r79 PR2: one start flow. js/whichShowdownIsLive.js is the single answer to "what does START do on this device?" and every
 // START entry (Home tile, seasons-screen START, completed hub NEW SHOWDOWN, recovery START OVER, reload) follows it.
 // Owner rules: only Daniel starts Showdowns (Nik never gets the seasons screen), START continues a live game by itself, START
-// never offers to close a live Showdown, GET READY only for reload fallback and failures, one device never acts for the other.
+// never offers to close a live Showdown, CONNECT FIRST only for reload fallback and failures, one device never acts for the other.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -98,7 +98,7 @@ await check("W4 every START entry routes through the one canonical START",()=>{
   assert.match(pairSource,/async function pairOpenCanonicalStart\(\)\{[\s\S]*identity\.openStart\(\)/,"recovery START OVER");
   assert.equal((pairSource.match(/await pairOpenCanonicalStart\(\)/g)||[]).length,2,"both START OVER exits");
   assert.match(entry,/const decision=await whichShowdownIsLive\(\),realStart=await needsCareerStart\(decision\);\s*if\(decision\.action!=="new"&&!realStart\)\{await followStartDecision\(decision\);return false;\}/,"seasons-screen START");
-  assert.match(entry,/\["resume-waiting","join","wait-for-daniel"\]\.includes\(decision\.action\)\)return followStartDecision\(decision\);\s*return openPanel\(\);/,"reload: WAITING / JOIN, GET READY only as the fallback");
+  assert.match(entry,/\["resume-waiting","join","wait-for-daniel"\]\.includes\(decision\.action\)\)return followStartDecision\(decision\);\s*return openPanel\(\);/,"reload: WAITING / JOIN, CONNECT FIRST only as the fallback");
   assert.match(read("js/connectPlayersScreenV10.js"),/async function chooseSeasons\(\)\{[\s\S]*managerId==="nik"\)return false;/,"Nik's device never opens the seasons screen from Connect Players");
 });
 

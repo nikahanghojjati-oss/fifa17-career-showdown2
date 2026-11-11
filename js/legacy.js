@@ -91,7 +91,7 @@ function getLegacyTotals(history){
 /* r87 career fixes (B1, Lane B P1): online the local Legacy list is never written, so History & Backup showed
    "0 Showdowns" under a Settings row that said 12. For Daniel's and Nik's phones this page now shows the same online career
    the other career screens use (the model Settings already loaded; this page makes no read of its own), one points figure
-   per manager, and an OPEN HISTORY button to the real History screen. Backup, restore and reset below are unchanged. */
+   per manager, and an OPEN LEGACY button to the real History screen. Backup, restore and reset below are unchanged. */
 function getLegacyOnlineCareer(){
     try{
         const legacy = window.CareerModeRivalryLegacyV10;
@@ -145,14 +145,14 @@ function createLegacyOnlineCareerSection(){
     note.textContent = career.status === "loading"
         ? "Loading your career…"
         : career.status === "unavailable"
-            ? "Your career could not be loaded right now. Nothing is lost. History shows it when you are connected."
+            ? "Your career could not be loaded right now. Nothing is lost. Legacy shows it when you are connected."
             : career.completed === 0
-                ? "No completed Showdowns yet. Finish one and it appears in History."
-                : "Every Showdown, season by season, is on the History screen.";
+                ? "No completed Showdowns yet. Finish one and it appears in Legacy."
+                : "Every Showdown, season by season, is on the Legacy screen.";
     const open = document.createElement("button");
     open.type = "button";
     open.className = "compactButton legacyOpenHistory";
-    open.textContent = "OPEN HISTORY";
+    open.textContent = "OPEN LEGACY";
     open.addEventListener("click", openLegacyHistoryFromTools);
     note.appendChild(document.createElement("br"));
     note.appendChild(open);
@@ -187,9 +187,9 @@ function createLegacyStat(label, value){
 
 function getWinnerLabel(showdown){
     const winner = getArchivedShowdownWinner(showdown);
-    if(winner === "playerOne"){ return `${showdown.managers.playerOne} wins the showdown`; }
-    if(winner === "playerTwo"){ return `${showdown.managers.playerTwo} wins the showdown`; }
-    return "Showdown is a draw";
+    if(winner === "playerOne"){ return `${showdown.managers.playerOne} wins the Showdown`; }
+    if(winner === "playerTwo"){ return `${showdown.managers.playerTwo} wins the Showdown`; }
+    return "The Showdown is a draw";
 }
 
 function getLegacyScoring(player){
@@ -334,7 +334,7 @@ function deleteLegacyShowdownTransaction(showdown){
 
     if(!deleteLegacyShowdown(showdown.id)){
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice("The Legacy showdown could not be deleted.", "error", 9000);
+            window.showAppNotice("That Showdown could not be deleted from Legacy.", "error", 9000);
         }
         return false;
     }
@@ -344,8 +344,8 @@ function deleteLegacyShowdownTransaction(showdown){
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
                 restored
-                    ? "The active completed copy could not be removed, so the Legacy deletion was rolled back."
-                    : "The active completed copy could not be removed and the Legacy rollback also failed. Refresh before making more data changes.",
+                    ? "The active copy could not be removed, so the Legacy deletion was undone."
+                    : "The active copy could not be removed and the Legacy deletion could not be undone either. Refresh before making more changes.",
                 "error",
                 12000
             );
@@ -450,8 +450,8 @@ function deleteAllLegacyHistoryTransaction(history){
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
                 restored
-                    ? "The completed active copy could not be removed, so Legacy history was restored."
-                    : "Legacy was cleared but the active completed copy could not be removed, and rollback failed. Refresh before continuing.",
+                    ? "The active copy could not be removed, so Legacy history was restored."
+                    : "Legacy history was cleared, but the active copy could not be removed and the restore failed. Refresh before continuing.",
                 "error",
                 12000
             );
@@ -468,7 +468,7 @@ function createLegacyDataControls(history){
     const heading = document.createElement("h3");
     heading.textContent = "DATA MANAGEMENT";
     const description = document.createElement("p");
-    description.textContent = "Download a checksum-protected backup file before destructive maintenance. Export is read-only: it does not change your active Showdown, Legacy history or application preferences.";
+    description.textContent = "Download a checksum-protected backup file before you delete anything. Exporting only reads your data: it does not change your active Showdown, Legacy history or settings.";
 
     const backupSummary = document.createElement("div");
     backupSummary.className = "legacyBackupSummary";
@@ -645,7 +645,7 @@ function renderLegacy(request = false){
         }else if(typeof window.loadRuntimeScript === "function"){
             window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
                 .then(() => window.CareerModeRivalryLegacyV10.mount("legacy", () => legacyModel))
-                .catch(error => window.reportApplicationError?.("History screen could not load", error));
+                .catch(error => window.reportApplicationError?.("Legacy screen could not load", error));
         }
         seamContainer.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("legacy", source === "model" ? legacyModel : null)));
         lastLegacyRenderedRevision = null;
@@ -698,7 +698,7 @@ function renderLegacy(request = false){
     }
 
     if(onlineCareer){
-        // nothing more: OPEN HISTORY above leads to the real History screen
+        // nothing more: OPEN LEGACY above leads to the real History screen
     }else if(history.length === 0){
         const empty = document.createElement("div");
         empty.className = "legacyEmpty";

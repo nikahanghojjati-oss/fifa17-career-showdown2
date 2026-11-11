@@ -29,7 +29,7 @@ const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 // Job 33 (fewer taps): every real button tap is logged per manager. These buttons were pure navigation or reads and are now
 // automatic, so the journey must never need them (Daniel's ACKNOWLEDGE is folded into his COMMIT & ACKNOWLEDGE tap, R7).
 // r79 one start flow: START makes the pair code itself and both managers continue by themselves once connected, so
-// CHOOSE SEASONS (Connect Players), CONNECT PLAYERS (GET READY) and CREATE CODE FOR NIK are no longer taps either.
+// CHOOSE SEASONS (Connect Players), CONNECT PLAYERS (CONNECT FIRST) and CREATE CODE FOR NIK are no longer taps either.
 const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO THE TRANSFER WAR","REFRESH","REFRESH CHALLENGE","#refreshSharedTransferChallenge"]);
 function assertNoRemovedTaps(m){
   const removed=m.log.taps.filter(tap=>REMOVED_TAPS.has(tap.text)||REMOVED_TAPS.has(`#${tap.id}`));
@@ -94,10 +94,10 @@ const sessionOf=m=>m.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getS
 async function assertNoCodeBox(m){assert.equal(await m.page.locator("#sparkRemoteJoiningOverlay input.remoteJoiningInput").isVisible().catch(()=>false),false,`${m.user}: no session code box is shown`);}
 // Job 31: the host page picks up the peer's JOIN by itself (quiet read every few seconds); nobody taps REFRESH / READ.
 // Job 33 (R6): the ACTIVE session then continues into the Showdown by itself, so Remote Joining closes on both pages.
-async function hostSeesJoin(m){await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:20000});await remote(m).waitFor({state:"hidden",timeout:20000});assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY after the peer joined`);}
+async function hostSeesJoin(m){await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:20000});await remote(m).waitFor({state:"hidden",timeout:20000});assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no CONNECT FIRST after the peer joined`);}
 const pairPanel=m=>m.page.locator("#connectPlayersScreen #persistentNikDanielPairPanel");
 // r79 one start flow: Home START goes straight to NEW SHOWDOWN (seasons), START opens WAITING over the locked league wheel and
-// makes the code by itself; no Connect Players hop, no GET READY, no CREATE CODE FOR NIK tap.
+// makes the code by itself; no Connect Players hop, no CONNECT FIRST, no CREATE CODE FOR NIK tap.
 async function danielStartsShowdown(m,length){
   await m.page.locator("#newShowdown").click({timeout:30000});
   await m.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
@@ -106,7 +106,7 @@ async function danielStartsShowdown(m,length){
   await m.page.locator("#startShowdown").click({timeout:30000});
   await pairPanel(m).locator("code").waitFor({timeout:30000});
   const waiting=await m.page.evaluate(()=>({screen:window.getActiveScreenName?.(),stay:document.getElementById("connectPlayersScreen")?.dataset.stayOnScreen,getReady:Boolean(document.getElementById("productionSharedJourneyEntryOverlay")&&!document.getElementById("productionSharedJourneyEntryOverlay").classList.contains("hidden"))}));
-  assert.deepEqual(waiting,{screen:"leagueWheelScreen",stay:"true",getReady:false},"WAITING over the locked league wheel, no GET READY");
+  assert.deepEqual(waiting,{screen:"leagueWheelScreen",stay:"true",getReady:false},"WAITING over the locked league wheel, no CONNECT FIRST");
   assert.equal(await m.page.locator("#mainMenu #persistentNikDanielPairPanel").count(),0,"Home must never contain the pair panel.");
   return (await pairPanel(m).locator("code").innerText()).trim();
 }
@@ -116,7 +116,7 @@ async function bothPairedAndContinuing(managers){
     await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.connectionState==="active");},null,{timeout:30000});
     await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active"||!document.getElementById("sparkRemoteJoiningOverlay")?.classList.contains("hidden"),null,{timeout:30000});
     assert.equal(await m.page.locator("#connectPlayersScreen").isVisible().catch(()=>false),false,`${m.user}: Connect Players closed by itself`);
-    assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY overlay before Remote Joining`);
+    assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no CONNECT FIRST overlay before Remote Joining`);
   }
 }
 async function waitTransferPhase(m,phase){
@@ -360,7 +360,7 @@ async function main(){
     for(const m of [nik,daniel]){
       await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:30000});
       assert.equal(await m.page.evaluate(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState),"active",`${m.user}: the private session is ACTIVE`);
-      assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: GET READY is not shown`);
+      assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: CONNECT FIRST is not shown`);
     }
     ok("J3.1","private session hosted by Daniel, joined by Nik; both reached the league wheel");if(process.env.ZP==="wheel"){await zProbe("wheel",daniel,nik);return;}
     await shot(daniel,"j3-setup");await shot(nik,"j3-setup");
@@ -559,7 +559,7 @@ async function main(){
 
       // Studio Z3 (was the known J9 gap): season-2 transfers are COMPLETED and both tabs reload. Each tab keeps its Google
       // session and its confirmed private session (sessionStorage, tab lifetime), so each manager goes back into the SAME
-      // session by itself: no CONTINUE CAREER tap, no code, no GET READY, no Career Start, no season 1.
+      // session by itself: no CONTINUE CAREER tap, no code, no CONNECT FIRST, no Career Start, no season 1.
       const verdictBeforeReload=(await daniel.page.locator("#transferChallengeResults").innerText()).replace(/\s+/g," ").trim();
       for(const m of [daniel,nik]){
         await m.page.reload({waitUntil:"domcontentloaded"});
@@ -570,9 +570,9 @@ async function main(){
         await m.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:45000});
         assert.equal(await sessionOf(m),sessionCode,`${m.user} is back in the same session after the reload`);
         await assertNoCodeBox(m);
-        assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no GET READY after reload`);
+        assert.equal(await entry(m).isVisible().catch(()=>false),false,`${m.user}: no CONNECT FIRST after reload`);
       }
-      ok("J9.1","after a reload both managers return by themselves to the same private session (no tap, no code, no GET READY)");
+      ok("J9.1","after a reload both managers return by themselves to the same private session (no tap, no code, no CONNECT FIRST)");
       // Job 33 (R6 + R1): the fresh ACTIVE session resumes both managers by itself (no REFRESH / READ, no START CAREER).
       for(const m of [nik,daniel]){
         try{
@@ -768,12 +768,12 @@ async function main(){
       await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
       await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
       assert.equal(await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),true,`${m.user} localhost emulator switch remains test-only after terminal reload`);
-      // Job 19: a CLOSED Showdown must not re-open the GET READY career entry overlay after reload.
+      // Job 19: a CLOSED Showdown must not re-open the CONNECT FIRST career entry overlay after reload.
       await m.page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedJourneyEntry),null,{timeout:30000});
       await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false);},null,{timeout:30000});
       await m.page.waitForTimeout(2500);
       const entryOverlay=m.page.locator("#productionSharedJourneyEntryOverlay");
-      assert.equal(await entryOverlay.isVisible().catch(()=>false),false,`${m.user}: a CLOSED Showdown must not re-open the GET READY career entry overlay after reload`);
+      assert.equal(await entryOverlay.isVisible().catch(()=>false),false,`${m.user}: a CLOSED Showdown must not re-open the CONNECT FIRST career entry overlay after reload`);
     }
     const pairCode2=await danielStartsShowdown(daniel,LENGTH);
     assert.match(pairCode2,/^CMS17-pair_/,"R2 pair code shape (already paired: no CMS17R-)");

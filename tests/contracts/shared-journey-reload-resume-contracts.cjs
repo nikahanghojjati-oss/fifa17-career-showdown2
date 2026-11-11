@@ -1,7 +1,7 @@
 "use strict";
 // Job 19: resume after reload. A reloaded tab keeps its Google session (browserSessionPersistence) but loses the
 // page-memory private-session capability and the page-memory season cursor. These contracts lock the fix:
-//   A. GET READY auto-opens after load only for a pre-pair shell; never over an ACTIVE paired or CLOSED Showdown.
+//   A. CONNECT FIRST auto-opens after load only for a pre-pair shell; never over an ACTIVE paired or CLOSED Showdown.
 //   B. After a fresh exact session, the multi-season cursor resumes at the provider-authoritative active season
 //      (acceptedSeasons+1, or the final season once all are accepted), forward-only.
 //   C. Continue Career with a confirmed setup and >=1 accepted season resumes on the dashboard, not Career Start;
@@ -102,23 +102,23 @@ function multiSandbox({accepted,total=3,terminal=false}){
 }
 
 (async()=>{
-  // A. GET READY auto-open decision after load.
+  // A. CONNECT FIRST auto-open decision after load.
   {
     // Real post-Terminal-Close shape: the remembered pair link resolves to no current pair, with the closed rivalry named.
     const t=bootEntry({pairState:{status:"unpaired",initialized:true,busy:false,rivalryId:null,connectionState:null,closedRivalryId:RIVALRY}});
     t.api.install();await settle();
-    assert.equal(t.overlayOpen(),false,"A1 a CLOSED Showdown must not re-open the GET READY overlay after reload");
+    assert.equal(t.overlayOpen(),false,"A1 a CLOSED Showdown must not re-open the CONNECT FIRST overlay after reload");
     const t2=bootEntry({knownPair:{status:"unpaired",initialized:true,busy:false,rivalryId:null,connectionState:null,closedRivalryId:RIVALRY},pairState:null});
     t2.api.install();await settle();
-    assert.equal(t2.overlayOpen(),false,"A1 an already-known CLOSED pair state keeps GET READY closed");
+    assert.equal(t2.overlayOpen(),false,"A1 an already-known CLOSED pair state keeps CONNECT FIRST closed");
     assert.equal(t2.calls.syncPair,0,"A1 no extra provider read when the closed pair state is already known");
-    console.log("ok A1 closed Showdown keeps GET READY closed after reload");
+    console.log("ok A1 closed Showdown keeps CONNECT FIRST closed after reload");
   }
   {
     const t=bootEntry({pairState:{status:"paired",rivalryId:RIVALRY,connectionState:"active"}});
     t.api.install();await settle();
-    assert.equal(t.overlayOpen(),false,"A2 an ACTIVE paired Showdown resumes through CONTINUE CAREER, not an auto-opened GET READY overlay");
-    console.log("ok A2 active paired Showdown keeps GET READY closed after reload");
+    assert.equal(t.overlayOpen(),false,"A2 an ACTIVE paired Showdown resumes through CONTINUE CAREER, not an auto-opened CONNECT FIRST overlay");
+    console.log("ok A2 active paired Showdown keeps CONNECT FIRST closed after reload");
   }
   {
     const t=bootEntry({knownPair:{initialized:true,busy:false,status:"paired",rivalryId:RIVALRY,connectionState:"active"},pairState:null});
@@ -130,25 +130,25 @@ function multiSandbox({accepted,total=3,terminal=false}){
   {
     const t=bootEntry({pairState:{status:"unpaired",rivalryId:null,connectionState:null}});
     t.api.install();await settle();
-    assert.equal(t.overlayOpen(),true,"A4 a pre-pair shell still re-opens GET READY after reload");
-    console.log("ok A4 pre-pair shell still re-opens GET READY");
+    assert.equal(t.overlayOpen(),true,"A4 a pre-pair shell still re-opens CONNECT FIRST after reload");
+    console.log("ok A4 pre-pair shell still re-opens CONNECT FIRST");
   }
   for(const unresolved of [{status:"unavailable",rivalryId:null,connectionState:null},{status:"error",rivalryId:null,connectionState:null}]){
     const t=bootEntry({pairState:unresolved});
     t.api.install();await settle();
-    assert.equal(t.overlayOpen(),false,`A6 unresolved pair authority (${unresolved.status}) keeps GET READY closed after reload`);
+    assert.equal(t.overlayOpen(),false,`A6 unresolved pair authority (${unresolved.status}) keeps CONNECT FIRST closed after reload`);
   }
   {
     const t=bootEntry({pairState:null});
     t.api.install();await settle();
-    assert.equal(t.overlayOpen(),false,"A6 a failed pair lookup keeps GET READY closed after reload");
+    assert.equal(t.overlayOpen(),false,"A6 a failed pair lookup keeps CONNECT FIRST closed after reload");
   }
-  console.log("ok A6 unresolved pair authority never reopens GET READY");
+  console.log("ok A6 unresolved pair authority never reopens CONNECT FIRST");
   {
     const t=bootEntry({pending:false,pairState:{status:"unpaired"}});
     t.api.install();await settle();
     assert.equal(t.overlayOpen(),false,"A5 no shared marker, no overlay");
-    console.log("ok A5 no shared marker keeps GET READY closed");
+    console.log("ok A5 no shared marker keeps CONNECT FIRST closed");
   }
 
   // B. Season cursor resumes from provider authority after a fresh exact session.
@@ -237,7 +237,7 @@ function multiSandbox({accepted,total=3,terminal=false}){
   assert.equal(remoteSource.includes("localStorage"),false,"D1 the private-session capability is never persisted by Remote Joining");
   assert.match(entrySource,/showdown\.sharedJourney=\{contractVersion:1,mode:"shared",setupPending:true\}/,"D2 the permanent shared-mode marker shape is unchanged (it is the local draw lock)");
   assert.match(entrySource,/if\(confirmed&&await resumeAcceptedSeason\(\)\)\{applyLocalDrawLock\(\);return true;\}\s*if\(await showdownClosedNow\(\)\)\{await openClosedShowdown\(\);return true;\}\s*if\(confirmed\)\{await openCareerStart\(\);applyLocalDrawLock\(\);return true;\}/,"D3 resume, then the close check (F1), are checked before the unchanged Career Start route");
-  assert.doesNotMatch(entrySource,/if\(pending\(\)\)setTimeout\(\(\)=>void openPanel\(\),0\)/,"D4 install no longer opens GET READY from the marker alone");
+  assert.doesNotMatch(entrySource,/if\(pending\(\)\)setTimeout\(\(\)=>void openPanel\(\),0\)/,"D4 install no longer opens CONNECT FIRST from the marker alone");
   assert.doesNotMatch(multiSource,/\blocalStorage\b|sessionStorage/,"D5 the season cursor stays page memory; resume reads provider authority");
   console.log("ok D page-memory capability, marker shape and Career Start route locks hold");
 
@@ -282,7 +282,7 @@ function multiSandbox({accepted,total=3,terminal=false}){
     assert.match(multi,/if\(key!==lastErrorKey&&key!==heldErrorKey\)\{heldErrorKey=key;return null;\}heldErrorKey="";if\(key!==lastErrorKey\)pmspReport\(/,"F2 Multi Season holds a first refresh failure for one poll");
     assert.match(multi,/lastErrorCode="";lastErrorKey="";heldErrorKey="";\}return value;/,"F2 a successful Multi Season refresh clears the held failure");
     const history=read("js/productionSharedHistoryConvergence.js");
-    assert.match(history,/if\(key!==heldErrorKey\)\{heldErrorKey=key;if\(view&&contextKey===request\.key\)return view;phcClear\(request\);return null;\}heldErrorKey="";phcClear\(request\);phcReport\("Unable to converge Shared History",error\);/,"F3 Shared History keeps its converged view through a first failure and clears and reports only when it repeats");
+    assert.match(history,/if\(key!==heldErrorKey\)\{heldErrorKey=key;if\(view&&contextKey===request\.key\)return view;phcClear\(request\);return null;\}heldErrorKey="";phcClear\(request\);phcReport\("Could not bring History up to date",error\);/,"F3 Shared History keeps its converged view through a first failure and clears and reports only when it repeats");
     assert.doesNotMatch(history,/error=>\{if\(phcContextMatches\(request\)\)\{phcClear\(request\);/,"F3 a first failure never clears the converged History before the hold decision");
     assert.match(history,/phcRefreshNow\(request,light===true\)\.then\(value=>\{heldErrorKey="";return value;\}/,"F3 a successful History refresh clears the held failure");
   console.log("ok F Reconnect, Multi Season and Shared History report a failure only when it repeats on the next poll");
@@ -297,5 +297,5 @@ function multiSandbox({accepted,total=3,terminal=false}){
   }
   console.log("ok G a confirmed Shared Setup survives one failed read and locks on a repeat");
 
-  console.log("PASS shared journey reload resume contracts: closed/active Showdowns never re-open GET READY, pre-pair shells still do, the season cursor resumes at provider authority after a fresh exact session, and Continue Career resumes on the dashboard instead of replaying Career Start.");
+  console.log("PASS shared journey reload resume contracts: closed/active Showdowns never re-open CONNECT FIRST, pre-pair shells still do, the season cursor resumes at provider authority after a fresh exact session, and Continue Career resumes on the dashboard instead of replaying Career Start.");
 })().catch(error=>{console.error(error);process.exit(1);});

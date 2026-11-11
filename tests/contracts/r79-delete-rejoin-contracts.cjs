@@ -108,7 +108,7 @@ async function terminalContracts(){
     // r80 END SHOWDOWN: this phone leaves the ended Showdown for Home once and says so (ended-early wording, no "deleted").
     const sb=t1.sandbox;
     assert.deepEqual([...sb.screens],["mainMenu"],"the partner phone goes Home");
-    assert.equal(sb.notices.length,1);assert.match(sb.notices[0].text,/ended for both players\. History keeps it as Ended early\./);assert.doesNotMatch(sb.notices[0].text,/delet/i);
+    assert.equal(sb.notices.length,1);assert.match(sb.notices[0].text,/ended for both players\. Legacy keeps it as Ended early\./);assert.doesNotMatch(sb.notices[0].text,/delet/i);
     await api.refresh();await api.refresh();
     assert.equal(env.readCalls,1,"a DELETED Showdown is never read again (reads do not go up)");
     assert.equal(sb.screens.length,1,"Home once");assert.equal(sb.notices.length,1,"one notice");

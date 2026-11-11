@@ -31,7 +31,7 @@ async function prepareShared(page){
     const library=JSON.parse(localStorage.getItem(key)||'null');
     return library?.saves.find(entry=>entry.saveId===library.activeSaveId)?.showdown.sharedJourney?.setupPending===true;
   },saveKey,{timeout:15000});
-  // r79: START opens WAITING (Connect Players over the locked league wheel) and makes the code once; no GET READY.
+  // r79: START opens WAITING (Connect Players over the locked league wheel) and makes the code once; no CONNECT FIRST.
   await page.locator('#connectPlayersScreen').waitFor({state:'visible'});
   await page.waitForFunction(()=>window.__markerAuditCodes===1,null,{timeout:15000});
   await page.evaluate(()=>CareerModeConnectPlayersScreenV10.close({restoreFocus:false}));

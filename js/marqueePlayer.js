@@ -10,17 +10,13 @@
   // read, no write and no Rules change, and nothing is added to any hashed document (Sol round 2 design rule). Only a
   // Showdown confirmed on r86 or later has a Special Player: older Showdowns and saves show none, never an error.
   // The confirm time is the shared Setup's last updatedAt (the Rules pin it to request.time at SHOWDOWN_CONFIRMED).
-  // MARQUEE_FROM_MS is the r86 release time (red team #3): the release PR's start, 2026-10-30 03:00 UTC. Showdowns
-  // confirmed before it get no Special Player.
+  // MARQUEE_FROM_MS is a historical fact, not a release gate: Showdowns confirmed before 2026-10-30 03:00 UTC (before r86)
+  // never had a Special Player and still show none (the finished Arsenal v Burnley game in History). Never move it.
   const MARQUEE_FROM_MS=Date.parse("2026-10-30T03:00:00Z");
-  // GC-04 (Nik 2026-11-01): from 2.0.0 a manager's Special Player never plays for that manager's own club (he would be a
-  // "free extra signing" of a player the manager already owns). The draw skips forward from the same id-derived positions
-  // to the next player not at his club, so it stays read-free and the same on both phones. Showdowns confirmed before
-  // OWN_CLUB_FROM_MS keep the r86 draw exactly. It is a placeholder at the planned 2.0.0 go-live that tools/set-release-time.cjs
-  // pins to the exact release time with RRR_FROM_MS (tests/contracts/r87-sp-own-club-contracts.cjs: never before the Roster
-  // Roulette boundary). From it the draw needs both managers' clubs: a caller without them gets no Special Player rather
-  // than a wrong one.
-  const OWN_CLUB_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
+  // GC-04 (Nik 2026-11-01): a manager's Special Player never plays for that manager's own club (he would be a "free extra
+  // signing" of a player the manager already owns). The draw skips forward from the same id-derived positions to the next
+  // player not at his club, so it stays read-free and the same on both phones. The draw needs both managers' clubs: a caller
+  // without them gets no Special Player rather than a wrong one.
   const RIVALRY_ID=/^pair_([0-9a-f]{64})$/;
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   // Ranking badge (Nik): top 3 black-blue-gold, top 10 blue-gold, top 20 gold, top 50 silver, others bronze.
@@ -70,23 +66,21 @@
   }
   // {playerOne, playerTwo} for a Showdown confirmed at confirmedAt (millis, Timestamp or Date), or null (none).
   // fromMs is for tests and galleries only.
-  // clubs: both managers' clubs (needed from OWN_CLUB_FROM_MS, GC-04). ownClubFromMs is for tests and galleries only.
-  function mpUsesClubs(at,ownClubFromMs){return at!==null&&at>=ownClubFromMs;}
-  function mpForShowdown(rivalryId,confirmedAt,{fromMs=MARQUEE_FROM_MS,clubs=null,ownClubFromMs=OWN_CLUB_FROM_MS}={}){
+  // clubs: both managers' clubs (needed, GC-04).
+  function mpForShowdown(rivalryId,confirmedAt,{fromMs=MARQUEE_FROM_MS,clubs=null}={}){
     const at=mpMillis(confirmedAt),list=mpList();
     if(at===null||at<fromMs||!list)return null;
-    const useClubs=mpUsesClubs(at,ownClubFromMs);
-    if(useClubs&&!mpClubs(clubs))return null;
-    const picks=mpPicks(rivalryId,list.players.length,useClubs?clubs:null);
+    if(!mpClubs(clubs))return null;
+    const picks=mpPicks(rivalryId,list.players.length,clubs);
     if(!picks)return null;
     return Object.freeze(Object.fromEntries(ROLES.map(role=>[role,mpPlayer(list.players[picks[role]],list.listVersion)])));
   }
   // The same pair for a Showdown being set up on this build right now (the reveal): no confirm time yet.
   // The list positions of the pair (the reveal animates the list): the same choice as mpForShowdown.
   function mpPicksForShowdown(rivalryId,confirmedAt,clubs){
-    const at=mpMillis(confirmedAt),list=mpList();
+    const list=mpList();
     if(!list||!mpForShowdown(rivalryId,confirmedAt,{clubs}))return null;
-    return mpPicks(rivalryId,list.players.length,mpUsesClubs(at,OWN_CLUB_FROM_MS)?clubs:null);
+    return mpPicks(rivalryId,list.players.length,clubs);
   }
   // Red team R87-SP-02: is a typed Transfer War signing name this manager's own Special Player? Names compare with accents
   // folded, trimmed and lower-cased, against the display name and the squad database name (data/marqueePlayers.js
@@ -99,5 +93,5 @@
     return [player.name,source].some(n=>n&&mpFold(n)===mpFold(name));
   }
 
-  return Object.freeze({contractVersion:1,feature:"cms-marquee-player",fromMs:MARQUEE_FROM_MS,ownClubFromMs:OWN_CLUB_FROM_MS,roles:ROLES,tier:mpTier,picks:mpPicks,picksForShowdown:mpPicksForShowdown,clubAliases:CLUB_ALIASES,forShowdown:mpForShowdown,isOwnSpecial:mpIsOwnSpecial});
+  return Object.freeze({contractVersion:1,feature:"cms-marquee-player",fromMs:MARQUEE_FROM_MS,roles:ROLES,tier:mpTier,picks:mpPicks,picksForShowdown:mpPicksForShowdown,clubAliases:CLUB_ALIASES,forShowdown:mpForShowdown,isOwnSpecial:mpIsOwnSpecial});
 });

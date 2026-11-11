@@ -38,7 +38,7 @@ async function mount({fail,keeper,timeout,picked,stale}){
   const sdk={doc:()=>({}),serverTimestamp:()=>'ts',
     runTransaction:async(_f,fn)=>window.__failSend?Promise.reject(Object.assign(new Error('offline'),{code:'unavailable'})):fn({get:async()=>({exists:()=>true,data:()=>doc}),set(){},update(_r,d){(window.__writes=window.__writes||[]).push(d);}}),
     onSnapshot:(_r,_o,cb)=>{setTimeout(()=>cb({metadata:{},exists:()=>true,data:()=>doc}),50);return ()=>{};}};
-  void step.run({rivalryId:rid,managerRole:'playerOne',season:2,confirmedAtMs:CM.fromMs},{firestore:{},sdk,rivalryId:rid,sessionId:'s',deviceId:'d',now:()=>Date.now()});
+  void step.run({rivalryId:rid,managerRole:'playerOne',season:2,confirmedAtMs:Date.parse('2026-11-05T00:00:00Z')},{firestore:{},sdk,rivalryId:rid,sessionId:'s',deviceId:'d',now:()=>Date.now()});
   const stage=await new Promise((resolve,reject)=>{const t0=Date.now();const tick=()=>{const s=document.getElementById('cmStage');if(s&&s.style.visibility!=='hidden'&&(stale||s.querySelector('.cmClock').textContent))return resolve(s);if(Date.now()-t0>8000)return reject(new Error('stage did not show'));setTimeout(tick,50);};tick();});
   const rect=sel=>{const r=stage.querySelector(sel).getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};};
   const hit=sel=>{const el=stage.querySelector(sel),r=el.getBoundingClientRect(),at=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return Boolean(at&&(at===el||el.contains(at)));};

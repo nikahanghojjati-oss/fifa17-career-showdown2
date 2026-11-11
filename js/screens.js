@@ -330,7 +330,7 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
             if(flushed === false){
                 if(typeof window.showAppNotice === "function"){
                     window.showAppNotice(
-                        "Your latest transfer entry could not be saved, so navigation was paused. Try again.",
+                        "Your latest transfer entry did not save, so you stayed on this screen. Try again.",
                         "error",
                         9000
                     );
@@ -415,13 +415,13 @@ function pushScreenHistory(screenName){
 
 function showScreen(screenName, addToHistory = true, options = {}){
     if(!screens.includes(screenName)){
-        reportRouteError(`Unknown screen requested: ${screenName}`);
+        reportRouteError(`That screen does not exist: ${screenName}`);
         return false;
     }
 
     const target = document.getElementById(screenName);
     if(!target){
-        reportRouteError(`Screen is not available: ${screenName}`);
+        reportRouteError(`That screen is not available: ${screenName}`);
         return false;
     }
 
@@ -437,7 +437,7 @@ function showScreen(screenName, addToHistory = true, options = {}){
     try{
         renderScreenBeforeEnter(screenName);
     }catch(error){
-        reportRouteError(`Unable to prepare ${screenName}`, error);
+        reportRouteError(`Could not prepare ${screenName}`, error);
         return false;
     }
 
@@ -522,7 +522,7 @@ async function navigateTo(screenName, options = {}){
             return showScreen("mainMenu", addToHistory, options);
         }
     }catch(error){
-        reportRouteError(`Unable to navigate to ${screenName}`, error);
+        reportRouteError(`Could not open ${screenName}`, error);
     }
 
     return false;
@@ -593,7 +593,7 @@ function openLegacy(){
         return window.openOptionalModule("legacy");
     }
 
-    reportRouteError("Legacy module loader is unavailable");
+    reportRouteError("Legacy could not be opened");
     return false;
 }
 
@@ -604,7 +604,7 @@ function surfaceIntegrityWarnings(showdown){
 
     if(typeof window.showAppNotice === "function"){
         window.showAppNotice(
-            `Saved showdown warning: ${showdown.integrityWarnings.join(" ")}`,
+            `Saved Showdown warning: ${showdown.integrityWarnings.join(" ")}`,
             "error",
             12000
         );
@@ -665,7 +665,7 @@ async function resumeSavedShowdown(){
         if(didNormalizationChange(saved, currentShowdown) && !saveCurrentShowdown()){
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice(
-                    "The saved showdown was loaded, but its repaired state could not be saved.",
+                    "Your saved Showdown loaded, but the repair to it could not be saved.",
                     "error",
                     10000
                 );
@@ -675,7 +675,7 @@ async function resumeSavedShowdown(){
         if(currentShowdown.status === "Completed"){
             if(!archiveShowdown(currentShowdown) && typeof window.showAppNotice === "function"){
                 window.showAppNotice(
-                    "The completed showdown is loaded, but its Legacy copy could not be refreshed.",
+                    "Your completed Showdown loaded, but its Legacy copy could not be refreshed.",
                     "error",
                     9000
                 );
@@ -699,7 +699,7 @@ async function resumeSavedShowdown(){
             throw new Error(`The saved showdown could not open its safe route (${canonical}).`);
         }
     }catch(error){
-        reportRouteError("Unable to resume the saved showdown", error);
+        reportRouteError("Could not resume your saved Showdown", error);
         await navigateTo("mainMenu", { addToHistory: false });
     }finally{
         navigationBusy = false;
@@ -731,7 +731,7 @@ async function startShowdownFromSetup(){
         await ensureGameplayRuntime();
         createShowdown();
     }catch(error){
-        reportRouteError("Unable to start the showdown", error);
+        reportRouteError("Could not start the Showdown", error);
     }finally{
         setNavigationBusyState(button, false);
         navigationBusy = false;

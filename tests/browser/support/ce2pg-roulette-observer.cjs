@@ -15,7 +15,7 @@
 //   R7 every board player comes from the manager's own club pool (launch XI/subs/reserves) or is one of his kept signings
 //   R8 (see ce2pg-roulette-r8.cjs for the timing proof) the window never shows a running phase while spunRoles holds one manager
 // r88 Chamber Men (owner, 2026-11-03: the roulette's live chambers must EXACTLY match the shootout's goals), for every season
-// on BOTH phones (a Showdown that plays Chamber Men, CMS_CHAMBER_MEN_NOW=1):
+// on BOTH phones (a Showdown that plays Chamber Men):
 //   C1 the finished shootout record (each phone's kept copy) is the same on both phones and complete (14 kicks)
 //   C2 the cylinders the roulette engine received (options.chambers[season]) are the ones js/chamberMen.js computes from it
 //   C3 each manager's turn loads exactly the chambers of the rival's goals: live count == rival's goals, chamber k live ==
@@ -182,7 +182,7 @@ function install(){
     const NAMES={playerOne:"Daniel",playerTwo:"Nik"},OTHER={playerOne:"playerTwo",playerTwo:"playerOne"};
     const problems=[],ok=[],rows=[];
     const phones=Object.keys(byRole).filter(r=>r==="playerOne"||r==="playerTwo");
-    const applies=process.env.CMS_CHAMBER_MEN_NOW==="1"||Object.values(byRole).some(r=>r.calls.some(c=>c.chamberMen));
+    const applies=Object.values(byRole).some(r=>r.calls.some(c=>c.chamberMen));
     if(!applies)return {applies:false,problems,ok,rows,seasons:0,table:""};
     let seasons=0;
     for(const id of showdownIds){

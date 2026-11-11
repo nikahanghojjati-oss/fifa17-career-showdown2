@@ -52,10 +52,9 @@
     return Promise.race([loads,cmsWait(LOAD_WAIT_MS).then(()=>false)]);
   }
   // ctx = {rivalryId, managerRole, season, confirmedAtMs}. Does this Showdown play Chamber Men this season? Needs
-  // js/chamberMen.js (a browser caller awaits ensure() first). The kill switch (CMS_CHAMBER_MEN="off") turns the screen off;
-  // the roulette then spins one bullet for a season with no finished shootout.
+  // js/chamberMen.js (a browser caller awaits ensure() first). 
   function cmsApplies(ctx){
-    if(root.CMS_CHAMBER_MEN==="off"||!ctx)return false;
+    if(!ctx)return false;
     if(!/^pair_[0-9a-f]{64}$/.test(String(ctx.rivalryId||""))||!ROLES.includes(ctx.managerRole))return false;
     if(!Number.isInteger(ctx.season)||ctx.season<1||ctx.season>10)return false;
     const engine=cmsEngine();

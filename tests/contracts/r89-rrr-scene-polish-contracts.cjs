@@ -197,8 +197,12 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   assert.match(step,/if\(event\.data\.type==="cms-rr-loading"\)renew\(\);/,'M9 progress renews the start wait');
   // r90 Light (Nik 2026-11-08: "3D light for Chamber Men and RRR is a guarantee"): no 15 s / 20 s give-ups; 45 s of silence, a
   // 4-minute cap, one fresh rebuild before any card, and only a missing WebGL is remembered for the visit
-  assert.match(step,/MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2;/,'Light: the start waits are long and a stuck page is built again once');
-  assert.match(step,/for\(let attempt=1;attempt<=SCENE_TRIES;attempt\+\+\)\{\n\s*run=await rrsSceneTry\(ctx,plan\);\n\s*if\(!run\.failed\)break;\n\s*if\(run\.failed==="nowebgl"\)\{sceneFailedHere\.add\(rrsKey\(ctx\)\);return "skipped";\}/,'Light: a broken or slow page gets a fresh frame; only no-WebGL skips at once');
+  assert.match(step,/MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2,RETRY_MIN_MS=30000;/,'Light: the start waits are long and a stuck page is built again once');
+  assert.match(step,/for\(let attempt=1;attempt<=SCENE_TRIES;attempt\+\+\)\{\n\s*const budget=COLD_LOADING_MS-clock\.ms\(\);if\(attempt>1&&budget<RETRY_MIN_MS\)break;\n\s*run=await rrsSceneTry\(ctx,plan,clock\);\n\s*if\(!run\.failed\)break;\n\s*if\(run\.failed==="nowebgl"\)\{clock\.stop\(\);sceneFailedHere\.add\(rrsKey\(ctx\)\);return "skipped";\}/,'Light: a broken or slow page gets a fresh frame; only no-WebGL skips at once');
+  // r91 B23-02: the 4-minute cap is one budget for the whole start (both tries), counted in on-screen time
+  assert.match(step,/const stopCap=rrsBudgetWait\(clock,COLD_LOADING_MS,\(\)=>onReady\("timeout"\)\);/,'B23-02 each try is capped by the start budget, read from the shared on-screen clock whenever its timer wakes');
+  assert.match(step,/run=await rrsSceneTry\(ctx,plan,clock\);/,'B23-02 both tries share one clock');
+  assert.match(step,/const shownAt=Date\.now\(\),clock=rrsVisibleClock\(\);let run=null;/,'B23-02 the start budget counts on-screen time from the first show');
   assert.match(step,/const why=event\.data\.webgl===false\?"nowebgl":"error";/,'Light: the page says when WebGL itself is missing');
   assert.match(html,/message:"WebGL is not available",webgl:false\}/,'Light: the no-WebGL report is the only one marked webgl:false');
   assert.match(step,/function renew\(\)\{if\(armedWait\)\{armedWait\.renew\(\);return;\}/,'Light: progress pings keep the armed wait open too');
@@ -257,9 +261,9 @@ ok('P14','M31 showcase loop on its own switch');
   has(/if\(LIGHT\)\{ const tex=M\.felt\.map, c=tex\.image, x=c\.getContext\("2d"\)/,'Light: the lamp pool is painted into the felt');
   has(/function loadLookEnv\(\)\{ if\(!T\.EXRLoader\|\|LIGHT\) return Promise\.resolve\(null\);/,'Light: no EXR');
   has(/scene\.environment=LIGHT\?loungeEnv\(pm\):pm\.fromEquirectangular\(LOOK\.hdri\)\.texture;/,'Light: a small lounge env of its own');
-  has(/function fxBatch\(n,map,blending,order,fleck\)\{/,'Light: particles batched into one draw per kind');
+  has(/function fxBatch\(n,map,blending,order,fleck,streak\)\{/,'Light: particles batched into one draw per kind');
   has(/const smokeFx=LIGHT\?fxBatch\(36,smokeT,T\.NormalBlending,25,false\):null;/,'Light: smoke batched');
-  has(/const sparkFx=LIGHT\?fxBatch\(40,sparkMat\.map,T\.AdditiveBlending,28,false\):null;/,'Light: sparks batched');
+  has(/const sparkFx=fxBatch\(40,streakTex\(\),T\.AdditiveBlending,28,false,true\);/,'sparks batched as streaks on every level (r91)');
   has(/const fleckFx=LIGHT\?fxBatch\(40,sparkTex\(\),T\.NormalBlending,26,true\):null;/,'Light: flecks batched');
   has(/camera\.updateMatrixWorld\(\); fxSync\(\); renderer\.render\(scene,camera\);/,'batches follow the camera every drawn frame');
   has(/if\(LIGHT\) mergeRounds\(\); \};/,'Light: every live round in one set of meshes');

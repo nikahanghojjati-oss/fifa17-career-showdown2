@@ -14,10 +14,6 @@
   const ROUNDS=7,KICKS_TOTAL=14,CHAMBERS=7,MAX_SEASONS=10;
   const SIDES=Object.freeze(["L","M","R"]),TIMEOUT="-";
   const KICKS=/^[LMR-]{0,14}$/;
-  // CHAMBER_FROM_MS is the r88 release time: only Showdowns confirmed at or after it play Chamber Men; every older
-  // Showdown keeps the one-bullet roulette exactly as 2.0.0 plays it. It is a placeholder until the r88 release PR pins it
-  // (tools/set-release-time.cjs R88 list). Never move it outside the release PR.
-  const CHAMBER_FROM_MS=Date.parse("2026-11-04T17:00:00Z");
 
   function cmMillis(at){
     if(Number.isFinite(at))return at;
@@ -26,9 +22,9 @@
     return null;
   }
   // Does this Showdown play Chamber Men? confirmedAt is the shared Setup's confirm time (millis, Timestamp or Date).
-  function cmEligible(rivalryId,confirmedAt,{fromMs=CHAMBER_FROM_MS}={}){
+  function cmEligible(rivalryId,confirmedAt){
     const at=cmMillis(confirmedAt);
-    return RIVALRY_ID.test(String(rivalryId||""))&&at!==null&&Number.isFinite(fromMs)&&at>=fromMs;
+    return RIVALRY_ID.test(String(rivalryId||""))&&at!==null;
   }
   const cmSeason=season=>Number.isInteger(season)&&season>=1&&season<=MAX_SEASONS;
   const cmKicks=value=>typeof value==="string"&&KICKS.test(value);
@@ -112,7 +108,7 @@
 
   return Object.freeze({
     contractVersion:2,feature:"cms-chamber-men",roles:ROLES,rounds:ROUNDS,kicks:KICKS_TOTAL,chambers:CHAMBERS,sides:SIDES,timeout:TIMEOUT,maxSeasons:MAX_SEASONS,
-    fromMs:CHAMBER_FROM_MS,eligible:cmEligible,validSeason:cmSeason,validKicks:cmKicks,kick:cmKick,roleOn:cmRole,
+    eligible:cmEligible,validSeason:cmSeason,validKicks:cmKicks,kick:cmKick,roleOn:cmRole,
     pick:cmPick,dive:cmDive,goal:cmGoal,record:cmRecord,progress:cmProgress,nextKick:cmNextKick,send:cmSend,
     kicksOf:cmKicksOf,score:cmScore,cylinders:cmCylinders,bullets:cmBullets,validCylinder:cmValidCylinder
   });
