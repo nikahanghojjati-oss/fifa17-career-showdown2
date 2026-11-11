@@ -1,4 +1,7 @@
 "use strict";
+// Prime Pack is played with the plan (CE2PG_PRIME=table: wins worth 4/3/2/1 and a season nobody names the Icon) unless the run says otherwise;
+// without it every phone only typed wrong names (B23-03: the Icon was never named). CE2PG_PRIME=off skips the plan.
+if(process.env.CE2PG_PRIME===undefined)process.env.CE2PG_PRIME="table";
 const rosterRoulette=require("./support/roster-roulette.cjs");
 const primePack=require("./support/prime-pack.cjs");
 const gazette=require("./support/touchline-gazette.cjs");
