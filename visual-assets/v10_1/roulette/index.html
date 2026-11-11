@@ -280,7 +280,7 @@ function feltTex(){ const F=HIGH_UP?2:1, [c,ctx]=cv(1024*F,1024*F); ctx.scale(F,
    Calacatta-like white with a dense crackle web of grey veins and a few warm ones. The web is a seamless cellular pattern (cell edges
    from the two nearest seed points, wrapped so the tile repeats without a seam), its lines wobbled by a periodic warp, with a few heavier
    veins and cloudy whites under it; slab joints are hair-thin like polished slabs laid tight */
-function floorMarbleTex(){ const w=GFX.level>=2?2048:1024,h=w, VEIN=GFX.level>=2?1:.5 /* r91: at 1024 px the full-strength web read as cracked mud from the overhead spin shot; Light and Balanced keep a calmer vein */,[c,ctx]=cv(w,h), q=w/2, qs=w/q, [qc,qx]=cv(q,q); const N=15, cs=q/N, P1=new Float32Array(N*N*3);
+function floorMarbleTex(){ const w=GFX.level>=2?2048:1024,h=w, VEIN=GFX.level>=3?1:GFX.level>=2?.6:.5 /* r91: at 1024 px the full-strength web read as cracked mud from the overhead spin shot; Light and Balanced keep a calmer vein. Round 11: so does High, whose room is dim too (only Extra up lights the floor as the bright café marble) */,[c,ctx]=cv(w,h), q=w/2, qs=w/q, [qc,qx]=cv(q,q); const N=15, cs=q/N, P1=new Float32Array(N*N*3);
   for(let j=0;j<N;j++) for(let i=0;i<N;i++){ const o=(j*N+i)*3; P1[o]=(i+.15+Math.random()*.7)*cs; P1[o+1]=(j+.15+Math.random()*.7)*cs; P1[o+2]=Math.random(); }
   const N2=36, cs2=q/N2, P2=new Float32Array(N2*N2*3); for(let j=0;j<N2;j++) for(let i=0;i<N2;i++){ const o=(j*N2+i)*3; P2[o]=(i+.1+Math.random()*.8)*cs2; P2[o+1]=(j+.1+Math.random()*.8)*cs2; }
   /* the web is worked out at half size and drawn up (r90: 2048 on the high levels, 1024 on light and medium): fast at load, crisp at floor distance */
