@@ -76,8 +76,23 @@ Wrong last time: something was added to the middle of the oak wall, the men move
 ```
 
 ## 4 of 4 · Phone · Squad Management · code `HC 24 SQUAD`
-- **Depends on:** HC 23 approved. Claude posts `GUIDE_HC24_SQUAD_P.png` and `RC_COACHES.png` in this thread, with links and the prompt.
-- **My reading of the phone screen:** on a phone the pitch board fills the width and scrolls, so the room only shows above and around it. The phone picture puts both men small in the top band (faces between about 8% and 24% of the height, under the title), with plain oak below for the board. If Team G's phone layout needs the men somewhere else, Claude changes the guide before you run it.
+- **Depends on:** HC 23 approved (try 1).
+- **My reading of the phone screen:** on a phone the pitch board fills the width and scrolls, so the room only shows above and around it. The men sit side by side in the top band (faces at about 16-26% of the height, under the title), and from 39% down it is plain marble for the board. If Team G's phone layout needs the men somewhere else, Claude changes the guide.
+- **Attach (2 files, in this order):** GUIDE_HC24_SQUAD_P.png, then RC_COACHES.png (links in the thread message, pinned to the commit).
+- **Save as:** `HC24_SQUAD_P.png`
+```
+Edit this photo. Keep the two men exactly as they are: same faces, hair, beards, skin, build, suits, shirts, hands, pose and position. The man on the left stays on the left and the man on the right stays on the right; never flip the picture. Do not redraw their faces. Picture 1 is the photo to edit. Picture 2 is the same coaches' room seen wide, with nobody in it: copy its oak panelling, marble and brass, nothing else from it. The solid cyan areas in picture 1 are empty: paint them as the room below so no cyan is left. The men are already in the right place and size; do not move or resize them.
+The same coaches' room in a tall frame, camera at chest height, 50 mm lens, straight on, everything sharp. Top 16% of the height: a plain flat dark plaster ceiling with no fixtures, nothing bright (title band). Around and between the two windows already behind the men: waxed dark smoked-oak panelling in plain raised panels, evenly dim, with nothing on it; no lamp in this frame. The counter's 1 cm brushed-brass lip runs straight and level across the whole width at exactly 39% of the height, where the men's bodies end, unlit. Below it, down to the bottom: only the plain matte honed black marble counter front with a few dull ochre and off-white veins, very low detail, calm for the pitch board. The light on the two men stays exactly as it is now; it comes from in front of them, from behind the camera. A real photograph taken by an interior photographer on a tripod: everything sharp, true colours, no grading.
+Remove: any leftover cyan. Never add: words, letters, numbers, slogans, banners, name tags, signs, logos, crests, sponsors, crowns, trophies, extra people, a tactics board, a chalkboard, a pitch drawing, light beams, sparkles, lens flare, bokeh dots, glow or outline around the men, dark overlay, vignette, blur, mirror-gloss surfaces, marble veins that give off light, LED strips, bright blue, daylight, any fixture on the ceiling, any lamp or plant, a visible bulb, matching pairs, gold objects, chrome or shiny metal, labels, screens, clocks, paintings, framed pictures, posters, mirrors, flowers, candles, string lights, plastic, steam, smoke, haze, floating objects, a city skyline, anything touching a head.
+Portrait 2:3, the largest size available.
+```
+**Pass check**
+- No cyan left; top sixth plain; no lamp; the oak around the windows plain.
+- The lip is straight at 39%, and everything below is plain marble.
+- Daniel is LEFT pointing in, Nik is RIGHT with his hand at his chin, not flipped.
+```
+Wrong last time: cyan is left, something was added on the oak or the marble, or the men moved. Paint every cyan part as plain oak above and plain marble below the lip; keep the two men exactly where and as big as they are, the man on the left on the left.
+```
 
 ## Intake (Claude)
 - Lock the original men back pixel for pixel (desktop: men-mask at the lip; Squad: the guide boxes; phones: the guide boxes).
