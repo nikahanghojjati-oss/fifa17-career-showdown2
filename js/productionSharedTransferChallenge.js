@@ -595,6 +595,8 @@
       const boards=await steps.step.boards(ctx,io);
       if(!boards||boards.ok!==true){rouletteError=PSTC_ROULETTE_TEXT.squadBoards;return false;}
       squadGate={key:request.key,season:request.seasonNumber,sheets:boards.sheets};
+      // the Touchline Gazette's squad news: last season's two "pre" sheets kept too (no read when this phone has them)
+      Promise.resolve(steps.step.gazetteWarm?.(ctx,io)).catch(()=>null);
       return true;
     }catch(_error){rouletteError=PSTC_ROULETTE_TEXT.squadLoad;return false;}
   }
@@ -627,6 +629,7 @@
       if(!pstcRequestMatches(request))return false;
       const options=provided.options,io={firestore:options.firestore,sdk:options.firebaseSdk,rivalryId:options.rivalryId,sessionId:options.sessionId,deviceId:options.deviceId};
       ctx.replayHits=k=>pstcSquadReplayHits(request,ctx,io,steps,confirmedAtMs,k);
+      Promise.resolve(steps.step.gazetteWarm?.(ctx,io)).catch(()=>null);
       const go=await steps.step.run(ctx,io);
       return go===true?true:pstcSquadFail(steps);
     }catch(_error){return pstcSquadFail(steps);}
