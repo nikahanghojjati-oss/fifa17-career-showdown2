@@ -476,11 +476,7 @@ window.openRivalryStatistics();
 }else if(name === "trophyRoom"){
 window.openTrophyRoom();
 }else if(name === "legacy"){
-const opened = showScreen("legacy");
-if(opened && typeof window.mountCareerModeRestorePanel === "function"){
-window.mountCareerModeRestorePanel();
-}
-return opened;
+return showScreen("legacy");
 }else if(name === "ruleBook"){
 window.openRuleBook();
 }else if(name === "settings"){

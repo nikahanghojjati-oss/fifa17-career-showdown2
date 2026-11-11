@@ -36,6 +36,7 @@ const commands = {
   SHARED_GAMEPLAY_PROVIDER_LIFECYCLE_EMULATOR: `npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-gameplay-lifecycle "CMS_SHOWDOWN_LENGTH=1 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=3 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=5 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=10 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"`,
   STAGE5F_ACCOUNT_CHOOSER_CONTRACT: `node tests/contracts/stage5f-account-chooser-contracts.cjs`,
   STAGE5F_AUTH_NEGATIVES_CONTRACT: `node tests/contracts/stage5f-authenticated-negatives-contracts.cjs`,
+  STORAGE_RUNTIME_CONTRACT: `node tests/contracts/save-library-runtime-contracts.cjs`,
   HOME_VISUAL: `CMS_AUDIT_RUN="pos10-impact-visual" npm run test:home-visual`,
   LOADING_VISUAL: `CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="pos10-impact-visual" npm run test:loading-visual`,
   FOOTBALL_VISUAL: `CMS_AUDIT_RUN="pos10-impact-visual" npm run test:football-visual`,

@@ -112,7 +112,9 @@
       "consumers": [
         "SHARED_SETUP"
       ],
-      "proofBundles": []
+      "proofBundles": [
+        "STORAGE_BROWSER"
+      ]
     },
     "IDENTITY_CLOUD_FOUNDATION": {
       "testIndexes": [
@@ -201,6 +203,9 @@
       "STAGE5F_ACCOUNT_CHOOSER_CONTRACT",
       "STAGE5F_AUTH_NEGATIVES_CONTRACT"
     ],
+    "STORAGE_BROWSER": [
+      "STORAGE_RUNTIME_CONTRACT"
+    ],
     "VISUAL_BROWSER": [
       "HOME_VISUAL",
       "LOADING_VISUAL",
@@ -235,6 +240,7 @@
     "STATIC_SPARK": "STATIC",
     "REMOTE_PROVIDER": "REMOTE",
     "STAGE5F_AUTH": "REMOTE",
+    "STORAGE_BROWSER": "STORAGE",
     "VISUAL_BROWSER": "VISUAL",
     "FULL_BROWSER": "FULL",
     "INLINE_HOME": "INLINE",
@@ -247,6 +253,7 @@
     "STATIC_SPARK": 8,
     "REMOTE_PROVIDER": 90,
     "STAGE5F_AUTH": 2,
+    "STORAGE_BROWSER": 4,
     "VISUAL_BROWSER": 16,
     "FULL_BROWSER": 36,
     "INLINE_HOME": 2,
@@ -494,6 +501,7 @@
     "STATIC_SPARK",
     "REMOTE_PROVIDER",
     "STAGE5F_AUTH",
+    "STORAGE_BROWSER",
     "VISUAL_BROWSER",
     "FULL_BROWSER",
     "INLINE_HOME",
