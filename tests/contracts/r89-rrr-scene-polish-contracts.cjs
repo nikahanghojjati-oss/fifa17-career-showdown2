@@ -197,6 +197,8 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   assert.match(step,/if\(event\.data\.type==="cms-rr-loading"\)renew\(\);/,'M9 progress renews the start wait');
   // r90 Light (Nik 2026-11-08: "3D light for Chamber Men and RRR is a guarantee"): no 15 s / 20 s give-ups; 45 s of silence, a
   // 4-minute cap, one fresh rebuild before any card, and only a missing WebGL is remembered for the visit
+  // r91 (Nik 2026-11-11 picked "Raise boards 8 cm (desktop)"): the desktop boards stand clear of the table rim; phones unchanged
+  assert.match(html,/const bx=PH\?\.5:1\.1, by=PH\?1\.2:1\.08, bz=PH\?-1\.05:-\.45, yaw=PH\?\.3:\.55, sc=PH\?\.8:\.92;/,'desktop boards 8 cm higher (sub names clear the rim), phone boards as before');
   assert.match(step,/MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2,RETRY_MIN_MS=30000;/,'Light: the start waits are long and a stuck page is built again once');
   assert.match(step,/for\(let attempt=1;attempt<=SCENE_TRIES;attempt\+\+\)\{\n\s*const budget=COLD_LOADING_MS-clock\.ms\(\);if\(attempt>1&&budget<RETRY_MIN_MS\)break;\n\s*run=await rrsSceneTry\(ctx,plan,clock\);\n\s*if\(!run\.failed\)break;\n\s*if\(run\.failed==="nowebgl"\)\{clock\.stop\(\);sceneFailedHere\.add\(rrsKey\(ctx\)\);return "skipped";\}/,'Light: a broken or slow page gets a fresh frame; only no-WebGL skips at once');
   // r91 B23-02: the 4-minute cap is one budget for the whole start (both tries), counted in on-screen time

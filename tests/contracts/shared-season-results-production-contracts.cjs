@@ -63,7 +63,7 @@ assert.match(route,/ENTER SEASON RESULTS/);
 assert.match(route,/seasonPrimaryAction/,'completed shared Transfer Challenge must route directly from Showdown Home');
 assert.match(route,/sharedSeasonResultsRouteStyle/,'shared review must preserve a visible escape to Showdown Home while local complete action stays hidden');
 assert.match(route,/productionSharedSeasonResults\.js/);
-assert.match(route,/api\.install\(\);const opened=await api\.open\(\)/);
+assert.match(route,/api\.install\(\);(?:const )?opened=await api\.open\(\)/);
 assert.match(route,/POST_RESULTS_MODULES/,'real Results routing must define one bounded downstream bootstrap list');
 for(const expected of ['productionSharedSeasonCommit.js','productionSharedCanonicalScoring.js','productionSharedHistoryConvergence.js','productionSharedMultiSeasonProgression.js','productionSharedJourneyReconnect.js','productionSharedLocalReconciliation.js','productionSharedFinalReconciliation.js','productionSharedTerminalClose.js'])assert.match(route,new RegExp(expected.replace(/\./g,'\\.')), `real Results routing must bootstrap ${expected}`);
 assert.match(route,/sharedLocalReconciliation\.js/,'Local Reconciliation protocol must be available before its production adapter installs');

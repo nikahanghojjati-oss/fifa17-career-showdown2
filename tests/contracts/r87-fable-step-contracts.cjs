@@ -240,6 +240,8 @@ async function phone({confirmedAtMs,step,state=null,navigateTo=null,readFails=fa
     CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
     CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider,
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:uid1,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
+    // r91 Squad Management: this harness plays a Showdown whose squads are not asked here (tests/contracts/r91-squad-sheet-contracts.cjs).
+    CareerModeSquadSheetStep:{applies:()=>false,isDone:()=>true,close(){}},
     CareerModeRosterRouletteStep:step,
     // r87 Prime Pack runs after the roulette; here it is already done.
     CareerModeChamberMenStep:{ensure:async()=>true,applies:()=>false,markDone(){},close(){}},CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}

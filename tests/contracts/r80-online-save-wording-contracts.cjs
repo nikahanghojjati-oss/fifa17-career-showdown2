@@ -44,14 +44,14 @@ const EXEMPT_FILES=Object.freeze({
 // Exact strings: sign-in, device registration, session presence, install/update support. Keyed by file.
 const SIGN_IN_AND_DEVICE=Object.freeze({
   "js/appUpdateBootstrap.js":["This browser cannot use the update service. Return to the game and reload it."],
-  "js/offlineApp.js":["INSTALLED ON THIS DEVICE","Career Mode Showdown is already installed on this device.","This browser does not support the application update service."],
+  "js/offlineApp.js":["INSTALLED ON THIS DEVICE","Career Mode Showdown is already installed on this device.","This browser does not support the update service."],
   "js/careerStartMarker.js":["This browser is not ready yet."],
   "js/onlinePlayerIdentity.js":["Who you are on this device.","THIS DEVICE","This browser could not be prepared."],
   "js/persistentNikDanielPair.js":["This browser is not ready yet."," for this phone on Home, then join again.","CHOOSE DANIEL OR NIK FOR THIS DEVICE FIRST"],
   "js/productionSharedJourneyEntry.js":["THIS BROWSER"],
   "js/productionSharedJourneyReconnect.js":["NOT CONNECTED ON THIS PHONE · Reloading drops the connection. "],
   "js/productionSharedShowdownSetup.js":["Register this browser before Shared Setup."],
-  "js/productionSharedTerminalClose.js":["This browser must remain an active registered device."],
+  "js/productionSharedTerminalClose.js":["This device must stay registered to this Showdown."],
   "js/sparkConnectedRivalry.js":["Private connected-rivalry pointer storage is unavailable in this browser.","This browser is not a registered private device.","Registered device identity does not match this browser.","Register this browser privately before using Connected Rivalry."],
   "js/sparkPrivatePairing.js":["Private pairing is available after your private account and this device are ready.","Private device identity storage is unavailable in this browser.","This browser is not registered to the signed-in private account.","Registered device identity does not match this browser."," for this phone on Home, then join again.","Registering this browser privately…","This browser is privately registered. Pairing only links the two manager identities; gameplay synchronization is still locked.","This browser could not be registered.","Sign in above to register this browser and use private pairing."],
   "js/sparkPrivateSession.js":["This browser is not a registered private device."],
@@ -161,7 +161,7 @@ check("W7 r80 Season Results: the result check speaks of the shared result, and 
   assert.match(lr,/"CHECKING…":"CHECK MY SAVE"/);
   const legacy=read("js/legacy.js");
   assert.match(legacy,/backupTitle\.textContent = "BACKUP FILE";/);
-  assert.match(legacy,/"Download a checksum-protected backup file before destructive maintenance\./);
+  assert.match(legacy,/"Download a checksum-protected backup file before you delete anything\./);
   const shown=[];
   for(const file of [...tracked("js/*.js"),"index.html",...tracked("visual-assets/**/*.js"),...tracked("visual-assets/**/strings.json")]){
     const text=file.endsWith(".js")?jsStrings(read(file)).join("\n"):read(file);

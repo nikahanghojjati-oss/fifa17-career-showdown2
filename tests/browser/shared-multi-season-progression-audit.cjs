@@ -55,7 +55,7 @@ async function installHarness(page,{role,saveId,totalSeasons,rivalrySeed}){
     historyPanel.classList.add('hidden');
     const preAuthorityLocalRound=currentShowdown.currentRound;
     const storageBefore=Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)]));
-    const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load candidate ${path}.`));document.head.appendChild(script);});
+    const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Could not load candidate ${path}.`));document.head.appendChild(script);});
     if(!window.CareerModeProductionSharedMultiSeasonProgression)await loadCandidateScript('js/productionSharedMultiSeasonProgression.js');
     CareerModeProductionSharedMultiSeasonProgression.install();
     const preAuthorityResolved=CareerModeProductionSharedMultiSeasonProgression.resolveSeason();

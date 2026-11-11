@@ -9,7 +9,7 @@
     const heading = document.createElement("h1");
     heading.textContent = "Update Career Mode Showdown";
     const copy = document.createElement("p");
-    copy.textContent = "Your saved Showdown, clubs and player identity stay in place. Finish any unsaved entry and close other game tabs before updating.";
+    copy.textContent = "Your saved Showdown, clubs and player identity stay as they are. Finish any entry you have not saved and close other game tabs before updating.";
     const button = document.createElement("button");
     button.type = "button";
     button.className = "acceptanceButton";

@@ -3076,6 +3076,16 @@
       ]
     },
     {
+      "path": "tests/contracts/r91-squad-sheet-contracts.cjs",
+      "patterns": [
+        "^js/squadSheet\\.js$",
+        "^data/fifa17Players\\.js$",
+        "^data/rosterSquads\\.js$",
+        "^tests/contracts/r91\\-squad\\-sheet\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r91-player-search-contracts.cjs",
       "patterns": [
         "^js/playerSearch\\.js$",

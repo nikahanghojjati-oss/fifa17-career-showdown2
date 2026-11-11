@@ -87,7 +87,7 @@
     const request=pfrRequest();pfrTrackRequest(request);const generation=authorityGeneration;if(pfrTerminalClosed())return Promise.resolve(pfrClearView({bump:true}));if(!request)return Promise.resolve(pfrClearView());
     if(viewContextKey&&(viewContextKey!==request.key||viewGeneration!==generation))pfrClearView();
     if(refreshPromise&&refreshContextKey===request.key&&refreshGeneration===generation)return refreshPromise;
-    busy=true;const current=pfrRefreshNow(request,generation).catch(error=>{if(pfrAuthorityMatches(request,generation)){pfrDiscard(request,generation);pfrReport("Unable to reconcile final Shared Showdown",error);}return null;}).finally(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";refreshGeneration=-1;busy=false;}if(wakePending&&!busy){wakePending=false;root.setTimeout?.(()=>pfrWake(),0);}});
+    busy=true;const current=pfrRefreshNow(request,generation).catch(error=>{if(pfrAuthorityMatches(request,generation)){pfrDiscard(request,generation);pfrReport("Could not confirm the final result",error);}return null;}).finally(()=>{if(refreshPromise===current){refreshPromise=null;refreshContextKey="";refreshGeneration=-1;busy=false;}if(wakePending&&!busy){wakePending=false;root.setTimeout?.(()=>pfrWake(),0);}});
     refreshPromise=current;refreshContextKey=request.key;refreshGeneration=generation;return current;
   }
   // r75: Terminal Close, Shared History and Local Reconciliation announce every refresh, even when nothing changed, and this

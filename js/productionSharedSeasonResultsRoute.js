@@ -54,7 +54,7 @@
     const dashboardButton=routeButton("seasonPrimaryAction"),status=routeButton("dashboardTransferStatus"),results=routeResults(),resultView=results&&typeof results.getState==="function"?results.getState():null;
     if(dashboardButton&&openPromise){routeSetText(dashboardButton,"OPENING SEASON RESULTS…");if(!dashboardButton.disabled)dashboardButton.disabled=true;dashboardButton.setAttribute("aria-busy","true");dashboardButton.dataset.sharedSeasonResultsRoute="true";}
     else if(dashboardButton){if(dashboardButton.hasAttribute("aria-busy"))dashboardButton.removeAttribute("aria-busy");const label=resultView?.state?.phase==="RESULTS_READY"?"VIEW SEASON RESULTS":resultView?.ownResult?"VIEW MY PUBLISHED RESULT":"ENTER SEASON RESULTS";routeSetText(dashboardButton,label);routeEnable(dashboardButton);dashboardButton.dataset.sharedSeasonResultsRoute="true";}
-    if(status){const label=resultView?.state?.phase==="RESULTS_READY"?"Season Results: both published":resultView?.ownResult?"Season Results: waiting for your rival":"Transfer War complete · Season Results ready";routeSetText(status,label);}
+    if(status){const label=resultView?.state?.phase==="RESULTS_READY"?"Season Results: both published":resultView?.ownResult?"Season Results: waiting for your rival":"Transfer War complete · Season Results ready";const squad=routeTransfer()?.squadError?.()||"";routeSetText(status,squad||label);}
     return true;
   }
   // r50: opening Results loads the Results, Commit and Scoring runtime and may wait on the Commit
@@ -69,11 +69,19 @@
   async function routeOpenNow(){
     if(!routeReady())return false;
     if(typeof root.loadRuntimeScript!=="function")throw new Error("Shared Season Results runtime loader is unavailable.");
+    // r91 Squad Management: before Season Results, this manager sets his squad for next season (kept signings in, the
+    // roulette's shot gone). Its stage stays up until Season Results is on screen, so the Transfer War never flashes between.
+    const transfer=routeTransfer(),closeSquad=()=>{try{root.CareerModeSquadSheetStep?.close?.();}catch(_error){}};
+    if(transfer&&typeof transfer.squadAfterTransfers==="function"&&!await transfer.squadAfterTransfers()){closeSquad();return false;}
     const navigationAtTap=typeof root.getNavigationRevision==="function"?root.getNavigationRevision():null;
-    await root.loadRuntimeScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);
-    if(navigationAtTap!==null&&root.getNavigationRevision()!==navigationAtTap)return false;
-    const api=root.CareerModeProductionSharedSeasonResults;if(!api||typeof api.install!=="function"||typeof api.open!=="function")throw new Error("Shared Season Results production adapter is unavailable.");
-    api.install();const opened=await api.open();if(!opened)return false;routeTransfer()?.rememberResultsView?.();await routeBootstrapPostResults();
+    let opened=false;
+    try{
+      await root.loadRuntimeScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);
+      if(navigationAtTap!==null&&root.getNavigationRevision()!==navigationAtTap)return false;
+      const api=root.CareerModeProductionSharedSeasonResults;if(!api||typeof api.install!=="function"||typeof api.open!=="function")throw new Error("Shared Season Results production adapter is unavailable.");
+      api.install();opened=await api.open();
+    }finally{closeSquad();}
+    const api=root.CareerModeProductionSharedSeasonResults;if(!opened)return false;routeTransfer()?.rememberResultsView?.();await routeBootstrapPostResults();
     if(api.getState?.()?.state?.phase==="RESULTS_READY"){
       const commit=root.CareerModeProductionSharedSeasonCommit;
       if(!commit||typeof commit.refresh!=="function")throw new Error("Shared Season Commit refresh API is unavailable.");

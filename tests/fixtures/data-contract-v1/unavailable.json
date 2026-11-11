@@ -105,7 +105,7 @@
   },
   "careerInterim": {
     "status": "unavailable",
-    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "interimLabel": "This Showdown only. Career history is not available yet.",
     "coverage": {
       "readable": null,
       "indexed": null

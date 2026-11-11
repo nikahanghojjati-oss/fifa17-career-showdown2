@@ -86,7 +86,7 @@
   }
   function v26Observe(state,target,options,fn){
     if(!target||typeof root.MutationObserver!=="function")return;
-    const observer=new root.MutationObserver(()=>{try{fn();}catch(error){v26Report("Team V setup skin could not update.",error);}});
+    const observer=new root.MutationObserver(()=>{try{fn();}catch(error){v26Report("The setup screen's look could not update.",error);}});
     observer.observe(target,options);state.observers.push(observer);
   }
   function v26Later(state,fn,ms){const timer=root.setTimeout(()=>{state.timers.delete(timer);fn();},ms);state.timers.add(timer);return timer;}
@@ -214,7 +214,7 @@
     doc.documentElement.dataset[HTML_ATTR]=frame.skin;
     if(!host.querySelector(":scope > .v26Art"))host.appendChild(v26Art(frame.skin));
     if(frame.skin==="league"){v26BindLeague(state);v26BoxLip(state);}
-    if(host.id==="createShowdown"){try{v26Seasons(state);}catch(error){v26Report("Team V season chips could not mount.",error);}}
+    if(host.id==="createShowdown"){try{v26Seasons(state);}catch(error){v26Report("The season chips could not load.",error);}}
   }
   function v26Unmount(host){
     const state=host?live.get(host):null;
@@ -252,7 +252,7 @@
     let queued=false;
     screenObserver=new root.MutationObserver(()=>{
       if(queued)return;queued=true;
-      Promise.resolve().then(()=>{queued=false;try{v26AnnounceScreen();}catch(error){v26Report("Team V setup skin could not follow the screen.",error);}});
+      Promise.resolve().then(()=>{queued=false;try{v26AnnounceScreen();}catch(error){v26Report("The setup screen's look could not keep up with the screen.",error);}});
     });
     Array.from(doc.querySelectorAll("main > .screen")).forEach(section=>screenObserver.observe(section,{attributes:true,attributeFilter:["class"]}));
   }
@@ -261,7 +261,7 @@
     const screens=v26Screens(),doc=v26Doc();
     if(installed||!screens||!doc)return api;
     installed=true;
-    if(typeof root.loadRuntimeStyle==="function")root.loadRuntimeStyle(STYLE[0],STYLE[1]).catch(error=>v26Report("Team V setup styles unavailable.",error));
+    if(typeof root.loadRuntimeStyle==="function")root.loadRuntimeStyle(STYLE[0],STYLE[1]).catch(error=>v26Report("The setup styles are unavailable.",error));
     doc.addEventListener(EVENT,event=>{lastShown=event&&event.detail?event.detail.screen||null:null;});
     for(const id of Object.keys(SCREENS)){
       screens.register(id,{css:[],js:[],frame:()=>FRAMES[id],mount:(frame,host)=>v26Mount(frame,host),unmount:host=>v26Unmount(host)});

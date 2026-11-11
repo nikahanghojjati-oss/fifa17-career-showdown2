@@ -191,7 +191,7 @@ async function finishTransferSeason(daniel,nik){
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
   for(const m of [daniel,nik]){
     await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
-    await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.toSeasonEntry(m.page);
   }
 }
 async function playSetupToTransferChallenge(daniel,nik){

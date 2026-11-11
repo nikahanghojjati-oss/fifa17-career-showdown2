@@ -183,6 +183,10 @@ const SHELL_PATHS = Object.freeze([
   "js/chamberMenStadium3d.js",
   "js/chamberMen.js",
   "css/chamberMen.css",
+  "js/squadSheetStep.js",
+  "js/squadSheet.js",
+  "js/squadScreen.js",
+  "css/squadScreen.css",
   "js/specialPlayerChip.js",
   "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
@@ -408,7 +412,7 @@ const OFFLINE_PACK_PATHS = new Set([
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt",
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
     "js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html","js/chamberMenStep.js",
-    "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/clubAssignment.js","js/dataEngine.js",
+    "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/clubAssignment.js","js/dataEngine.js",
     "js/leagueWheel.js","js/productionSharedShowdownPresentation.js","js/sharedTransferChallenge.js","js/sparkSharedTransferChallenge.js",
     "js/sparkSharedSeasonResults.js","js/ruleBook.js","js/seasonEngine.js","js/showdownUI.js","js/statistics.js","js/transferChallenge.js",
     "js/transferSelector.js","js/playerSearch.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
@@ -445,7 +449,7 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // Team V plates stay Team V images, V10_IMAGE_PATH runtime cache). Removed: the app's own Barlow Condensed 600/700 latin copies
 // (the sheet loads the shared ones) and js/analytics.js; a page rolled back to 2.2.0 still finds them in its own retained
 // shell. W8 (#1278) split install from the offline pack but keeps SHELL_PATHS the full list. The STORY site is never precached.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/gfxTier.js","js/playerSearch.js","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"]);
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/gfxTier.js","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/playerSearch.js","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","js/analytics.js"]);
 // Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
 // are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks

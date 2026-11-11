@@ -49,12 +49,12 @@ function getInstallGuidance(){
     const ua=navigator.userAgent||"";
     const isiOS=/iPad|iPhone|iPod/i.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
     if(isiOS){
-        return "In Safari, open Share and choose Add to Home Screen. Career Mode Showdown will launch like an app.";
+        return "In Safari, open Share and choose Add to Home Screen. Career Mode Showdown then opens like an app.";
     }
     if(/Android|CrOS/i.test(ua)){
         return "Use Install app from the browser address bar or menu when offered.";
     }
-    return "Use your browser's Install app or Add to Home Screen command when available. Installation support and wording vary by browser.";
+    return "Use your browser's Install app or Add to Home Screen command if it has one. Support and wording vary by browser.";
 }
 
 function getOfflineAppSettingsState(){
@@ -77,13 +77,13 @@ function getOfflineAppSettingsState(){
     }else if(!supported){
         installationLabel="Install support varies";
     }else if(offline){
-        installationLabel="Install requires browser controls";
+        installationLabel="Install from your browser menu";
     }
 
-    let shellLabel="Preparing offline shell";
-    if(!supported){ shellLabel="Service worker unavailable"; }
-    else if(offlineReady&&offlineRecoveryReady){ shellLabel="Recovery shell ready"; }
-    else if(offlineReady){ shellLabel="Offline shell ready"; }
+    let shellLabel="Preparing offline files";
+    if(!supported){ shellLabel="Offline support unavailable"; }
+    else if(offlineReady&&offlineRecoveryReady){ shellLabel="Recovery files ready"; }
+    else if(offlineReady){ shellLabel="Offline files ready"; }
 
     return{
         supported,
@@ -100,7 +100,7 @@ function getOfflineAppSettingsState(){
         installationLabel,
         installActionLabel,
         installActionDisabled,
-        updateActionLabel:waitingUpdate?"APPLY READY UPDATE":"UPDATE TO LATEST VERSION",
+        updateActionLabel:waitingUpdate?"APPLY UPDATE":"UPDATE TO LATEST VERSION",
         updateActionDisabled:!supported||(offline&&!waitingUpdate),
         installGuidance:getInstallGuidance(),
         cacheStatus:lastCacheStatus
@@ -306,7 +306,7 @@ async function requestOfflineAppInstall(){
             deferredInstallPrompt=prompt;
             dispatchOfflineState();
             window.reportApplicationError?.("The browser install prompt could not be opened",error);
-            return{kind:"error",message:"The browser install prompt could not be opened."};
+            return{kind:"error",message:"The browser's install prompt would not open. Try the install option in your browser menu."};
         }
     }
     return{kind:"guidance",message:getInstallGuidance()};
@@ -360,12 +360,12 @@ async function requestLatestOfflineUpdate(options={}){
     // Settings shows the result in its own status box (options.quiet), so it skips the Home toast.
     const notice=options?.quiet?()=>{}:(...args)=>window.showAppNotice?.(...args);
     if(!isServiceWorkerSupported()){
-        const message="This browser does not support the application update service.";
+        const message="This browser does not support the update service.";
         notice(message,"error",6500);
         return{ok:false,kind:"unsupported",message};
     }
     if(isOffline()){
-        const message="Connect to the internet before checking for the latest Career Mode Showdown version.";
+        const message="Go online to check for the latest version.";
         notice(message,"error",6500);
         return{ok:false,kind:"offline",message};
     }
@@ -404,12 +404,12 @@ async function requestLatestOfflineUpdate(options={}){
         }
 
         if(registration.installing){
-            const message="The latest application update is still downloading. Keep this page open and press Update to Latest Version again in a moment.";
+            const message="The update is still downloading. Keep this page open and tap Update to Latest Version again in a moment.";
             notice(message,"info",8000);
             return{ok:true,kind:"downloading",message};
         }
 
-        const message="You are already using the latest available Career Mode Showdown version.";
+        const message="You already have the latest version.";
         notice(message,"success",5000);
         return{ok:true,kind:"current",message};
     }catch(error){
@@ -432,7 +432,7 @@ async function activateWaitingUpdate(options={}){
     if(!boundary.safe){
         const message=boundary.recoveryBusy||boundary.uiBusy
             ? "Update is ready, but an application operation is still in progress. Finish it and return to Home or Showdown Home before updating."
-            : "Update is ready. Return to Home or Showdown Home before applying it so unsaved form work is never discarded.";
+            : "The update is ready. Return to Home or Showdown Home before applying it, so nothing unsaved is lost.";
         lastActivationMessage=message;
         if(!options?.quiet)window.showAppNotice?.(message,"error",8000);
         return false;
@@ -457,7 +457,7 @@ async function activateWaitingUpdate(options={}){
         lastActivationMessage=`The update was not applied because its offline files could not be verified. ${error?.message||""}`.trim();
         if(options?.quiet)console.error("[Career Mode Showdown] Update activation failed:",error);
         else window.reportApplicationError?.(
-            "The update was not activated because its offline shell could not be verified",
+            "The update was not activated because its offline files could not be verified",
             error
         );
         return false;
