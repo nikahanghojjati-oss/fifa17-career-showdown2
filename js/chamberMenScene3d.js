@@ -530,6 +530,16 @@
       // r91: a keeper's shuffle along his line during the run-up (Nik's Soccer Game Pack, Mixamo "Goalkeeper Sidestep", both
       // ways): the step keeps its sideways travel, so the feet never slide.
       for(const n of ["gkStepL","gkStepR"])if(keeper.clips[n])KC[n]=rebase(keeper,keeper.clips[n],`cm_${n}`,{zero:"z"});
+      // r91: a dive or block the other way is the same clip with the keeper flipped (holder scale.x -1). Flipped only when
+      // the move began, his stance, arms and head swapped sides in one frame (a hand jumped 74 cm). His waiting clips are
+      // also kept mirrored (left and right tracks swapped, the side-to-side parts negated): for a flipped move he is
+      // flipped from the kick's start and plays them mirrored, which shows exactly the plain clip, so nothing jumps.
+      const flipName=n=>n.replace(/^mixamorig(Left|Right)/,(_m,s)=>`mixamorig${s==="Left"?"Right":"Left"}`);
+      const mirror=c=>new T.AnimationClip(`${c.name}_m`,c.duration,c.tracks.map(t=>{const k=t.clone(),v=k.values;k.name=flipName(t.name);
+        if(t.name.endsWith(".quaternion"))for(let i=0;i<v.length;i+=4){v[i+1]=-v[i+1];v[i+2]=-v[i+2];}
+        else if(t.name.endsWith(".position"))for(let i=0;i<v.length;i+=3)v[i]=-v[i];
+        return k;}));
+      KC.mirror={};for(const n of ["gkIdle","gkStepL","gkStepR"])if(KC[n])KC.mirror[n]=mirror(KC[n]);
       // r91: once his dive or block is over and he is back on his feet, the keeper reacts: a fist pump when the ball stayed
       // out, head down when it went in. Each reaction starts where that move ends: the middle of his feet is carried there
       // (no turn), so going into it each foot moves only by the change of stance (10-14 cm, both feet alike), never a
@@ -740,12 +750,12 @@
       taker.pose([{...idle,w:1-b},{clip:jog,time:jt,w:b}]);
     };
     const keeperPose=(t,live,still)=>{
-      const idle={clip:KC.gkIdle,time:live%KC.gkIdle.duration,w:1};
-      if(!plan||t<plan.kStart){keeper.holder.scale.x=1;
-        const sh=plan&&plan.shuffle,c=sh&&KC[sh.c];
+      const flip=Boolean(plan&&plan.move.m),W=flip?KC.mirror:KC,idle={clip:W.gkIdle,time:live%W.gkIdle.duration,w:1};
+      if(!plan||t<plan.kStart){keeper.holder.scale.x=flip?-1:1;
+        const sh=plan&&plan.shuffle,c=sh&&W[sh.c];
         if(c){const D=c.duration-1e-3,H=.12,u=t-sh.at;
           // out, a beat on the far foot, back (the step backwards), then into his stance again
-          if(u>0&&u<2*D+H+.22){const ct=u<D?u:u<D+H?D:Math.max(0,2*D+H-u),w=u<.12?cm3Easy(u/.12):u>2*D+H?1-cm3Easy((u-2*D-H)/.22):1;
+          if(u>0&&u<2*D+H+.22){const ct=u<D?u:u<D+H?D:Math.max(0,2*D+H-u),w=u<.3?cm3Easy(u/.3):u>2*D+H?1-cm3Easy((u-2*D-H)/.22):1;
             keeper.pose([{...idle,w:1-w},{clip:c,time:ct,w}]);return;}}
         keeper.pose([idle]);breathe(keeper,live,.8);return;}
       const m=plan.move,ct=(t-plan.kStart)*m.s,b=cm3Easy(ct/(m.s*(m.rooted?.45:.12)));

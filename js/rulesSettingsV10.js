@@ -191,7 +191,6 @@
   }
   function buttons(host){
     const list=[];
-    host.querySelectorAll('.settingsDataButton').forEach(button=>list.push([button,'secondary']));
     const done=host.querySelector('.settingsFooter')?.querySelector('.menuButton');if(done)list.push([done,'primary']);
     return list;
   }

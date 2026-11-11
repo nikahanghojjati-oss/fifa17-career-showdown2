@@ -196,7 +196,7 @@ async function smokeDestinations(page,prefix){
   await page.locator("#settingsButton").click();
   await page.locator("#settingsOverlay").waitFor({state:"visible"});
   await page.waitForFunction(()=>{
-    const ids=["saveLibraryProductPanel","sparkConnectedAccountPanel","sparkPrivatePairingPanel","sparkConnectedRivalryPanel"];
+    const ids=["sparkConnectedAccountPanel","sparkPrivatePairingPanel","sparkConnectedRivalryPanel"];
     const hiddenByProduct=ids.every(id=>{const element=document.getElementById(id);return !element||element.hidden||getComputedStyle(element).display==="none";});
     const offline=[...document.querySelectorAll("#settingsContent .settingsOfflinePanel")];
     const data=document.querySelector("#settingsContent .settingsDataPanel");
@@ -207,12 +207,10 @@ async function smokeDestinations(page,prefix){
       && document.getElementById("settingsTitle")?.textContent?.trim()==="SETTINGS";
   },null,{timeout:15000});
   const settingsContainment=await page.evaluate(()=>({
-    saveLibrary:document.getElementById("saveLibraryProductPanel")?getComputedStyle(document.getElementById("saveLibraryProductPanel")).display:"absent",
     offline:[...document.querySelectorAll("#settingsContent .settingsOfflinePanel")].every(element=>element.hidden||getComputedStyle(element).display==="none"),
     dataVisible:(()=>{const element=document.querySelector("#settingsContent .settingsDataPanel");return Boolean(element&&element.hidden!==true&&getComputedStyle(element).display!=="none"&&/SHOWDOWN DATA/i.test(element.textContent||""));})(),
     title:document.getElementById("settingsTitle")?.textContent?.trim()||""
   }));
-  assert.notEqual(settingsContainment.saveLibrary,"block",`${prefix} Save Library recovery panel leaked into normal Settings.`);
   assert.equal(settingsContainment.offline,true,`${prefix} offline recovery panel leaked into normal Settings.`);
   assert.equal(settingsContainment.dataVisible,true,`${prefix} player-facing Showdown Data panel must stay visible in normal Settings.`);
   assert.equal(settingsContainment.title,"SETTINGS",`${prefix} Settings heading was reclaimed by recovery machinery.`);

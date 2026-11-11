@@ -158,11 +158,11 @@ async function c2PanelCopyMatchesItsControls(){
   assert.ok(tryAgain,"C2 the copy says how to try again on this screen");
   assert.equal(tryAgain[1],tileLabel,"C2 the copy names the Home tile by its real label (LOAD SHOWDOWN, from C1)");
   assert.match(connectSource,/<button class=\\"connectPlayersBack\\" type=\\"button\\">BACK<\/button>/,"C2 the BACK it names is the Connect Players layer's own button");
-  assert.match(text,/restore a backup/);assert.ok(labels.includes("RESTORE BACKUP"),"C2 'restore a backup' is the RESTORE BACKUP button");
+  assert.doesNotMatch(text,/restore a backup/,"C2 (r91) the backup-file restore was cut, so the copy no longer offers it");
   assert.match(text,/or start over\./);assert.ok(labels.some(label=>/START OVER$/.test(label)),"C2 'start over' is the START OVER button");
-  assert.deepEqual(labels,["RESTORE BACKUP","DELETE OLD SHOWDOWN & START OVER"],"C2 the two recovery buttons, their order and labels are unchanged (owner decision)");
+  assert.deepEqual(labels,["TRY AGAIN","DELETE OLD SHOWDOWN & START OVER"],"C2 the recovery buttons and their labels (r91: RESTORE BACKUP was cut, TRY AGAIN leads)");
   assert.equal(h.calls.writes,0,"C2 showing the panel writes nothing");
-  ok("C2 the recovery copy names only what the screen offers: BACK then LOAD SHOWDOWN, RESTORE BACKUP, START OVER; no reload");
+  ok("C2 the recovery copy names only what the screen offers: BACK then LOAD SHOWDOWN, START OVER; no reload");
 }
 async function c3TryAgainIsReal(){
   // The tile tap: openCanonicalStart -> which.read(root) -> identity.syncPair() -> pair.initialize({force:true}) -> the rebuild.

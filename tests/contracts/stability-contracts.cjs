@@ -109,9 +109,6 @@ for(const command of [
     'npm run test:runtime-boundary',
     'npm run test:home-visual',
     'npm run test:football-visual',
-    'npm run test:backup-browser',
-    'npm run test:import-browser',
-    'npm run test:restore-browser',
     'npm run test:browser',
     'npm run verify:deployment'
 ]){
@@ -119,11 +116,6 @@ for(const command of [
 }
 A.doesNotMatch(stability, /trusted-runtime\/Dockerfile|firebaseAdminProvider|career-mode-showdown-trusted-runtime/, 'Dormant trusted Cloud Run architecture must not consume current Stability CI.');
 A.ok(/canonical-stability-/.test(stability) && /stability-audit-\*\.json/.test(stability));
-
-const b = read('.github/workflows/validate-import-analysis.yml');
-const c = read('.github/workflows/validate-atomic-restore.yml');
-A.ok(/candidate-b-import-analysis-/.test(b) && /candidate-b-import-\*\.png/.test(b));
-A.ok(/candidate-c-atomic-restore-/.test(c) && /candidate-c-restore-\*\.png/.test(c));
 
 const burn = read('.github/workflows/validate-v110-release-burnin.yml');
 const burnScript = read('tests/support/run-release-burnin-pass.sh');

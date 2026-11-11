@@ -4,7 +4,7 @@ const vm=require("node:vm");
 const {webcrypto}=require("node:crypto");
 const {TextEncoder}=require("node:util");
 const read=file=>fs.readFileSync(file,"utf8");
-const source={storage:read("js/storage.js"),transaction:read("js/storageTransaction.js"),foundation:read("js/saveLibraryFoundation.js"),persistence:read("js/saveLibraryPersistence.js"),runtime:read("js/saveLibraryRuntime.js"),cutover:read("js/saveLibraryCutover.js"),app:read("js/app.js"),html:read("index.html"),worker:read("service-worker.js"),backup:read("js/backup.js"),restore:read("js/restore.js"),restoreUI:read("js/restoreUI.js"),showdown:read("js/showdown.js"),onlineIdentity:read("js/onlinePlayerIdentity.js")};
+const source={storage:read("js/storage.js"),transaction:read("js/storageTransaction.js"),foundation:read("js/saveLibraryFoundation.js"),persistence:read("js/saveLibraryPersistence.js"),runtime:read("js/saveLibraryRuntime.js"),cutover:read("js/saveLibraryCutover.js"),app:read("js/app.js"),html:read("index.html"),worker:read("service-worker.js"),backup:read("js/backup.js"),restore:read("js/restore.js"),showdown:read("js/showdown.js"),onlineIdentity:read("js/onlinePlayerIdentity.js")};
 const keys={saveLibrary:"careerModeShowdown.saveLibrary",activeShowdown:"careerModeShowdown.activeShowdown",legacyShowdowns:"careerModeShowdown.legacyShowdowns",preferences:"careerModeShowdown.preferences"};
 assert.ok(!/\blocalStorage\b/.test(source.runtime)&&!/\blocalStorage\b/.test(source.cutover),"Save Library runtime and cutover orchestration must never access localStorage directly.");
 assert.ok(!source.html.includes("js/saveLibraryFoundation.js")&&!source.html.includes("js/saveLibraryPersistence.js")&&!source.html.includes("js/saveLibraryRuntime.js")&&!source.html.includes("js/saveLibraryCutover.js"),"Save Library authority modules must remain outside eager production HTML.");
@@ -25,7 +25,6 @@ assert.ok(!source.runtime.includes("saveLibrary:SAVE_LIBRARY_KEY,activeShowdown:
 assert.ok(source.worker.includes('"js/saveLibraryCutover.js"')&&source.worker.includes('"js/saveLibraryFoundation.js"')&&source.worker.includes('"js/saveLibraryPersistence.js"')&&source.worker.includes('"js/saveLibraryRuntime.js"'),"All Save Library cutover modules must belong to the verified offline whole shell.");
 assert.ok(source.restore.includes("captureCareerModeRawRestoreSnapshot"),"Candidate C must retain the mandatory strict destructive restore snapshot authority.");
 assert.ok(source.restore.includes("captureCareerModeRawSaveLibraryMigrationSnapshot"),"Candidate C must additionally protect exact Save Library bytes after cutover.");
-assert.ok(source.restoreUI.includes("captureCareerModeRawRestoreSnapshot")&&source.restoreUI.includes("captureCareerModeRawSaveLibraryMigrationSnapshot"),"Restore review must confirm both exact raw authority views after cutover.");
 assert.ok(source.backup.includes("createBackupProjection"),"Candidate A must project the authoritative active save without changing the v1 envelope.");
 assert.ok(source.showdown.includes("await runtime.createShowdown(candidate)"),"New Showdowns must receive Save Library identity before becoming current runtime state.");
 assert.ok(source.showdown.includes("showdownCreationPromise"),"Asynchronous identity preparation must deduplicate concurrent creation attempts.");

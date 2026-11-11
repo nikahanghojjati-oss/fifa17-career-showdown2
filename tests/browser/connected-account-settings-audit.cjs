@@ -50,8 +50,6 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
     // before the deliberately deferred production Firebase runtime installs its bridge.
     await page.locator("#settingsButton").click();
     await page.locator("#settingsOverlay").waitFor({state:"visible",timeout:12000});
-    const recoveryPanel=page.locator("#saveLibraryProductPanel");
-    await recoveryPanel.waitFor({state:"attached",timeout:12000});
     const onlinePanel=page.locator("#onlinePlayerIdentitySettingsPanel");
     await onlinePanel.waitFor({state:"visible",timeout:12000});
     const internalPanel=page.locator("#sparkConnectedAccountPanel");
@@ -59,8 +57,6 @@ const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
     const dataPanel=page.locator(".settingsDataPanel");
     await dataPanel.waitFor({state:"visible",timeout:12000});
 
-    assert.equal(await recoveryPanel.isHidden(),true,"Save Library recovery must stay internal in ordinary Settings.");
-    assert.equal(await recoveryPanel.getAttribute("data-product-surface"),"internal","Save Library recovery must remain classified as an internal product surface.");
     assert.match(await onlinePanel.innerText(),/ACCOUNT/);
     assert.match(await onlinePanel.innerText(),/DANIEL & NIK|WELCOME (?:DANIEL|NIK)/);
     assert.match(await onlinePanel.innerText(),/WHO YOU ARE ON THIS DEVICE/i);
