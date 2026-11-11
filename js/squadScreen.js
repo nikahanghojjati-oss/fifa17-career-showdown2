@@ -25,8 +25,9 @@
   const shirtCache=new Map();
   // The same js/kits17.js shirts as the Russian Roulette board (all 98 approved clubs): the keeper's shade is picked
   // against the rival's kit too (vsClub), exactly as the board does, so a keeper wears the same colour on both screens.
-  function shirtUrl(club,role,number,vsClub){
-    const key=`${club}|${role}|${number||""}|${vsClub||""}`;
+  // (the shirts carry no number, so one image per club, role and rival: never one per shirt number)
+  function shirtUrl(club,role,vsClub){
+    const key=`${club}|${role}|${vsClub||""}`;
     if(shirtCache.has(key))return shirtCache.get(key);
     let url="";
     try{
@@ -42,7 +43,7 @@
   }
   function shirt(club,player,slotPos,vsClub){
     const role=(slotPos==="GK"||(!slotPos&&player&&player.positions[0]==="GK"))?"gk":"outfield";
-    const url=shirtUrl(club,role,player&&player.number,vsClub);
+    const url=shirtUrl(club,role,vsClub);
     const box=el("span","sqmShirt"+(role==="gk"?" is-gk":""));
     if(url){const im=el("img");im.alt="";im.src=url;im.draggable=false;box.appendChild(im);}
     else box.classList.add("is-plain");
