@@ -836,3 +836,13 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
 /* HO-068 (Team V's handcrafted V2 rooms): no slogans in the rooms. The "TWO MANAGERS. ONE LEGACY." line under the Career
    Statistics title keeps its place (nothing moves) but is not shown, at every size. */
 #app #careerStatistics.careerScreenV10 .titleBlock .sd-tagline { visibility: hidden !important; }
+
+/* r90 strict C9 (12 px type floor): the plinth caption "SHOWDOWN CHAMPION" was 10.5 px on tablets and phones, and the Daniel / Nik rank labels 11 px at 1180x820. */
+html[data-v10-screen="trophyRoom"] #trophyRoom .heroPlinth > span { font-size: 12px !important; }
+html[data-v10-screen="trophyRoom"] #trophyRoom .careerRank > span { font-size: 12px !important; }
+
+/* r90 strict D9 (Trophy Room, sideways phones, 761-900 x up to 500): the cup's box ran 14 px into the SHOWDOWN CHAMPION plaque
+   and its base cut the first line. The cup is 14% smaller, with the same top, so its box ends 3 px above the plaque (37 px high at 852x393). */
+@media (min-width: 761px) and (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  html[data-v10-screen="trophyRoom"] #trophyRoom .heroCeremony .heroTrophyPicture { height: 96px !important; bottom: 40px !important; }
+}
