@@ -291,7 +291,7 @@ async function stalePreviewBlocks(browser){
         await acceptNextConfirm(page);
         await page.locator("#careerModeRestorePanel .careerRestoreApply").click();
         const live = page.locator("#careerModeRestorePanel .careerRestoreStatus");
-        await live.filter({ hasText: /changed after you reviewed/i }).waitFor({ state: "visible", timeout: 8000 });
+        await live.filter({ hasText: /changed after review/i }).waitFor({ state: "visible", timeout: 8000 });
         assert.deepEqual(await snapshot(page), changed);
         assert.deepEqual(await page.evaluate(() => ({ ...window.__restoreWriteAudit })), { set: 0, remove: 0 }, "Stale-state block must perform zero writes/removals.");
         assert.equal(await page.locator('select[name="restore-active"]').inputValue(), "", "Stale-state block must discard old choices.");
