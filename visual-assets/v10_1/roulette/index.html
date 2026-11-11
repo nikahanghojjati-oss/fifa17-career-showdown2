@@ -721,7 +721,7 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     const lbl=new T.Mesh(new T.PlaneGeometry(.022,.00825),new T.MeshBasicMaterial({map:lblTex, transparent:true, depthWrite:false})); lbl.position.set(0,.0068,0); ptr.add(lbl);
     ptr.visible=false; ptr.scale.set(.001,.001,.001); }
   /* base pin through the cylinder with its knurled head out the front of the frame */
-  { const pin=new T.Mesh(new T.CylinderGeometry(.0028,.0028,.076,14),GM.bright); pin.rotation.x=Math.PI/2; pin.position.set(.0165,.016,.01); crane.add(pin);
+  { const pin=new T.Mesh(new T.CylinderGeometry(.0028,.0028,.07,14),GM.bright); pin.rotation.x=Math.PI/2; pin.position.set(.0165,.016,.013); crane.add(pin);   /* r91: the pin now ends inside the drum; its rear end poked through the star and showed as a black dot in the middle of the spinning drum */
     const head=new T.Mesh(new T.LatheGeometry([[0,0],[.0036,0],[.0042,.002],[.0042,.006],[.003,.0075],[0,.0075]].map(p=>new T.Vector2(p[0],p[1])),16),GM.bright); head.rotation.x=Math.PI/2; head.position.set(.0165,.016,.05); head.scale.set(.55,.55,.55); crane.add(head); }
   /* HAMMER: bevelled body, spur curling back over the recoil shield, pivots on the hammer screw */
   hammer.position.set(0,.006,-.041); g.add(hammer);
