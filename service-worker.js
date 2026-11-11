@@ -509,15 +509,12 @@ async function populateCurrentCache(){
     catch(error){ await caches.delete(CACHE_NAME); throw error; }
 }
 let deployedRevisionCheck=null;
-// fresh skips the memo. A newer release never goes away again, so once the deployed worker names another revision that answer is
-// kept for good (an offline or failed check is not; it only counts as false for its own memo window).
+// fresh skips the memo: the end-of-fill check and every on-demand pack write ask the network again.
 function deployedRevisionIsCurrent(fresh=false){
-    const now=Date.now(); if(deployedRevisionCheck&&(deployedRevisionCheck.superseded||(!fresh&&now-deployedRevisionCheck.at<DEPLOYED_CHECK_MS))){ return deployedRevisionCheck.result; }
+    const now=Date.now(); if(deployedRevisionCheck&&!fresh&&now-deployedRevisionCheck.at<DEPLOYED_CHECK_MS){ return deployedRevisionCheck.result; }
     const url=scopeUrl("service-worker.js"); url.searchParams.set("pack-check",String(now));
-    const check={at:now,result:null};
-    check.result=fetch(new Request(url.href,{cache:"no-store",credentials:"same-origin"})).then(async response=>{ if(!response.ok){ return false; }
-        if((await response.text()).includes(`const RUNTIME_REVISION = "${RUNTIME_REVISION}";`)){ return true; } check.superseded=true; return false; }).catch(()=>false);
-    deployedRevisionCheck=check; return check.result;
+    const result=fetch(new Request(url.href,{cache:"no-store",credentials:"same-origin"})).then(async response=>response.ok&&(await response.text()).includes(`const RUNTIME_REVISION = "${RUNTIME_REVISION}";`)).catch(()=>false);
+    deployedRevisionCheck={at:now,result}; return result;
 }
 async function verifyOfflinePack(){
     const expected=SHELL_PATHS.filter(path=>OFFLINE_PACK_PATHS.has(path)); if(!(await cacheExists(CACHE_NAME))){ return { ok:false, expected:expected.length, missing:expected }; }
