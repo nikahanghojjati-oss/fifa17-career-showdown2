@@ -744,6 +744,10 @@ function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGrad
 function ringShape(w,h,r,iw,ih,ir){ const sh=new T.Shape(); sh.moveTo(-w/2+r,-h/2); sh.lineTo(w/2-r,-h/2); sh.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r); sh.lineTo(w/2,h/2-r); sh.quadraticCurveTo(w/2,h/2,w/2-r,h/2); sh.lineTo(-w/2+r,h/2); sh.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r); sh.lineTo(-w/2,-h/2+r); sh.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);
   const hole=new T.Path(); hole.moveTo(-iw/2,-ih/2); hole.lineTo(-iw/2,ih/2); hole.lineTo(iw/2,ih/2); hole.lineTo(iw/2,-ih/2); hole.lineTo(-iw/2,-ih/2); sh.holes.push(hole); return sh; }
 /* board: a black-lacquer moulded frame with a gold fillet, the squad screen under glass; easel: walnut A-frame with gold ferrules, caps, a ledge rail and a finial */
+/* r91 (Nik 2026-11-11: Ultra and 8K may go further): the squad board is painted at 2 canvas pixels per board unit; in the hit close-up a
+   4K or 8K screen spreads each one over several screen pixels and the names went soft. Ultra and 8K (picked on a PC, never on a phone,
+   iOS canvas memory) paint at 3; every other level keeps 2 */
+const BS=GFX.level>=4&&!GFX.phone?3:2;
 function boardTex(c){ const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=GFX.level>=2?16:8; c.__tex=t; return t; }
 function makeBoard(key,label){ const g=new T.Group(); scene.add(g); const inner=new T.Group(); g.add(inner);
   const FW=.075; const frameG=new T.ExtrudeGeometry(ringShape(BOARD_W+FW*2,BOARD_H+FW*2,.02,BOARD_W+.01,BOARD_H+.01),{depth:.03, bevelEnabled:true, bevelThickness:.012, bevelSize:.012, bevelSegments:5, curveSegments:8}); creased(frameG,.7); frameG.translate(0,0,-.03);
@@ -751,7 +755,7 @@ function makeBoard(key,label){ const g=new T.Group(); scene.add(g); const inner=
   const filletG=new T.ExtrudeGeometry(ringShape(BOARD_W+.03,BOARD_H+.03,.004,BOARD_W+.004,BOARD_H+.004),{depth:.006, bevelEnabled:true, bevelThickness:.003, bevelSize:.003, bevelSegments:3}); creased(filletG,.7); filletG.translate(0,0,-.004); inner.add(new T.Mesh(filletG,GM.gold));
   const beadG=new T.ExtrudeGeometry(ringShape(BOARD_W+FW*2+.022,BOARD_H+FW*2+.022,.03,BOARD_W+FW*2+.002,BOARD_H+FW*2+.002),{depth:.014, bevelEnabled:true, bevelThickness:.004, bevelSize:.004, bevelSegments:3}); creased(beadG,.7); beadG.translate(0,0,-.024); inner.add(new T.Mesh(beadG,GM.gold));
   const backing=new T.Mesh(new T.BoxGeometry(BOARD_W+FW*2,BOARD_H+FW*2,.02),lacquer); backing.position.z=-.04; inner.add(backing);
-  const [c,ctx]=cv(2048,1560); const tex=boardTex(c);
+  const [c,ctx]=cv(1024*BS,780*BS); const tex=boardTex(c);
   /* r87 (Nik 2026-10-30: boards and players clearer): the squad screen glows a little by itself (emissive from its own picture), so it reads in the dim room.
      r89 (Nik 2026-11-03: "the board's lighting, quality and readability need a huge improvement"): it is lit mostly from within, like the game's screen,
      so the lamps no longer wash one corner and darken the other; a thin satin glass keeps a soft sheen without a glare spot over the names */
@@ -816,7 +820,7 @@ const surname=(name)=>name.includes(". ")?name.slice(name.indexOf(". ")+2):name;
 function fitText(ctx,text,weight,size,minSize,maxW){ let fs=size, t=String(text); const font=()=>{ ctx.font=`${weight} ${fs}px 'Barlow Condensed'`; }; font();
   while(fs>minSize&&ctx.measureText(t).width>maxW){ fs--; font(); }
   if(ctx.measureText(t).width>maxW){ while(t.length>2&&ctx.measureText(t+"…").width>maxW) t=t.slice(0,-1); t+="…"; } return t; }
-function textShadow(ctx,on){ ctx.shadowColor=on?"rgba(0,0,0,.85)":"transparent"; ctx.shadowBlur=on?5:0; ctx.shadowOffsetX=0; ctx.shadowOffsetY=on?2:0; }
+function textShadow(ctx,on){ ctx.shadowColor=on?"rgba(0,0,0,.85)":"transparent"; ctx.shadowBlur=on?2.5*BS:0; ctx.shadowOffsetX=0; ctx.shadowOffsetY=on?BS:0; }   /* canvas shadows are in canvas pixels: the same look at every board scale */
 /* one starter: shadow on the grass, shirt, overall at the shirt's left, a green bar (overall out of 99) and the surname; the selected
    player (the one the barrel is on) gets the game's yellow name plate and a glow under the shirt */
 function playerCard(ctx,sp,club,vsClub){ const {x,y,s}=sp;
@@ -829,7 +833,7 @@ function playerCard(ctx,sp,club,vsClub){ const {x,y,s}=sp;
   { const t=fitText(ctx,surname(sp.name),700,Math.round(s*.46),Math.round(s*.32),sp.nameW); textShadow(ctx,true); ctx.fillStyle="#fff"; ctx.fillText(t,x,ny+1); textShadow(ctx,false); } }
 function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; b.bubbles.length=0; b.club=club; const other=boards[key==="D"?"N":"D"].userData.club, vsClub=other&&other!==club?other.club:undefined;
   const form=(club.formation||formationOf(club.xi));
-  ctx.setTransform(2,0,0,2,0,0); ctx.clearRect(0,0,W,H); ctx.textBaseline="middle";
+  ctx.setTransform(BS,0,0,BS,0,0); ctx.clearRect(0,0,W,H); ctx.textBaseline="middle";
   { const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1b1e24"); g.addColorStop(1,"#101216"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
   /* r90 LOOK L10: no dead menu tabs (nothing on this board is a button). The header is the club's own: its crest and name on the right
      with the starting XI line, the club's best player on the left in the club's Kits 17 shirt */
@@ -880,13 +884,13 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
     /* Fable F11-19: a long bench surname shrinks, then ends in an ellipsis, and never runs past its card */
     const surW=cw-24; const sur=fitText(ctx,surname(name),700,25,18,surW); ctx.textAlign="center"; ctx.fillStyle="#fff"; ctx.fillText(sur,sx,cy+ch-16); });
   if(b.hit) drawHit(key,b.hit); b.canvas.__tex.needsUpdate=true; }
-function drawHit(key,hit){ const b=boards[key].userData, ctx=b.ctx; const {x,y}=hit; ctx.setTransform(2,0,0,2,0,0);
+function drawHit(key,hit){ const b=boards[key].userData, ctx=b.ctx; const {x,y}=hit; ctx.setTransform(BS,0,0,BS,0,0);
   /* a burnt hole with a charred rim through the shirt, then the red RELEASED stamp across it; the rim is the same on every redraw */
   let s=Math.floor(x*131+y*977)>>>0; const R=()=>{ s=(s*1664525+1013904223)>>>0; return s/4294967296; };
   const r=19; const g=ctx.createRadialGradient(x,y,r*.3,x,y,r*2.3); g.addColorStop(0,"rgba(0,0,0,1)"); g.addColorStop(.35,"rgba(25,10,4,.92)"); g.addColorStop(.6,"rgba(70,35,10,.6)"); g.addColorStop(1,"rgba(60,30,10,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*2.3,0,7); ctx.fill();
   ctx.fillStyle="#050302"; ctx.beginPath(); for(let i=0;i<14;i++){ const a=i/14*Math.PI*2, rr=r*(.7+R()*.5); ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr); } ctx.closePath(); ctx.fill();
   ctx.strokeStyle="rgba(255,120,40,.55)"; ctx.lineWidth=2; ctx.stroke();
-  ctx.save(); ctx.translate(x,y+10); ctx.rotate(-.1); /* across the shirt: the surname under it stays readable */ ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=6; ctx.fillStyle="rgba(196,22,22,.95)"; ctx.fillRect(-78,-17,156,34); ctx.shadowColor="transparent"; ctx.strokeStyle="#ffd6c8"; ctx.lineWidth=2.5; ctx.strokeRect(-74,-13,148,26); ctx.fillStyle="#fff"; ctx.font="900 24px 'Big Shoulders Display'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("RELEASED",0,1); ctx.restore(); }
+  ctx.save(); ctx.translate(x,y+10); ctx.rotate(-.1); /* across the shirt: the surname under it stays readable */ ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=3*BS; ctx.fillStyle="rgba(196,22,22,.95)"; ctx.fillRect(-78,-17,156,34); ctx.shadowColor="transparent"; ctx.strokeStyle="#ffd6c8"; ctx.lineWidth=2.5; ctx.strokeRect(-74,-13,148,26); ctx.fillStyle="#fff"; ctx.font="900 24px 'Big Shoulders Display'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("RELEASED",0,1); ctx.restore(); }
 function boardHitPoint(key,bubble){ if(!bubble) return boardAimWorld(key); const g=boards[key]; const p=new T.Vector3((bubble.u-.5)*BOARD_W,(bubble.v-.5)*BOARD_H,.012); g.updateMatrixWorld(true); return g.userData.inner.localToWorld(p); }
 function boardTargetWorld(key,bubble){ return boardHitPoint(key,bubble); }
 /* r90 spoiler rule (Nik 2026-11-07: "never reveal who the gun is aiming at"): until the shot the barrel, the hand and the shooter's eye all
@@ -1136,7 +1140,7 @@ const SETTLE_A=9, SETTLE_F=(u)=>{ const x=SETTLE_A*u; return 1-(1+x+x*x/2)*Math.
    texture. Nothing is redrawn or uploaded in the middle of the camera glide or the slow-motion hit. The board never marks the target
    player before the hit (r90 spoiler rule). */
 function boardFrames(key,pick,fire){ const b=boards[key].userData, i=b.bubbles.indexOf(pick); if(i<0) return null; const plain=b.canvas; if(!fire) return {i,plain,hit:null};
-  if(!b.spare){ b.spare=cv(2048,1560)[0]; boardTex(b.spare); } const c=plain===b.spare?b.first:b.spare, keep={ctx:b.ctx,canvas:b.canvas,hit:b.hit};
+  if(!b.spare){ b.spare=cv(1024*BS,780*BS)[0]; boardTex(b.spare); } const c=plain===b.spare?b.first:b.spare, keep={ctx:b.ctx,canvas:b.canvas,hit:b.hit};
   b.ctx=c.getContext("2d"); b.canvas=c; b.hit={x:pick.x,y:pick.y,i}; try{ drawBoard(key,b.club); } finally{ Object.assign(b,keep); }
   try{ renderer.initTexture(c.__tex); }catch(e){} return {i,plain,hit:c}; }
 function showFrame(key,canvas,hit){ const b=boards[key].userData; b.canvas=canvas; b.ctx=canvas.getContext("2d"); b.hit=hit; b.face.material.map=b.face.material.emissiveMap=canvas.__tex; }
