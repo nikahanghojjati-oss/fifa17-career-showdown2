@@ -194,7 +194,7 @@
   }
   #mainMenu.v10Home #persistentNikDanielPairPanel { left: 10px; right: 10px; width: auto; top: calc(max(10px, env(safe-area-inset-top)) + 44px); max-height: calc(100vh - 220px); }
   #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); gap: 6px; }
-  #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 11px !important; }
+  #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 30px; padding: 5px 9px !important; font-size: 12px !important; }
   #mainMenu.v10Home #continueCareer { padding-right: 96px; }
   #mainMenu.v10Home #continueCareer .tileArt, #mainMenu.v10Home #continueCareer:disabled .tileArt { top: 4px; right: 30px; height: 150%; }
   #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: 17px; line-height: 1; }
@@ -785,11 +785,11 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
   }
   #app:has(#mainMenu.v10Home:not(.hidden)) #topHeader #onlinePlayerIdentityBadge {
     flex: none; min-width: 44px; min-height: 44px;
-    padding: 5px 8px !important; font-size: 11px !important;
+    padding: 5px 8px !important; font-size: 12px !important;
   }
   #app:has(#mainMenu.v10Home:not(.hidden)) #topHeader #seasonIndicator {
     min-width: 0; max-width: 100%; min-height: 32px;
-    padding: 5px 8px !important; font-size: 11px !important;
+    padding: 5px 8px !important; font-size: 12px !important;
     white-space: normal; overflow-wrap: break-word; text-align: left;
   }
   #app:has(#mainMenu.v10Home:not(.hidden)) > footer {
@@ -1158,12 +1158,12 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
     display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 10px;
     padding: 0 40px 0 12px;
   }
-  #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .menuTileCode { position: static; margin: 0; font-size: 10px; letter-spacing: .14em; }
+  #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .menuTileCode { position: static; margin: 0; font-size: 12px; letter-spacing: .14em; }
   #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .menuTileLabel { position: static; flex: 0 0 auto; width: max-content; max-width: none; margin: 0; font-size: 17px; line-height: 1; }
   #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .menuTileMeta {
     position: static !important; display: block !important; width: auto !important; height: auto !important; clip: auto !important;
     clip-path: none !important; margin: 0 0 0 auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
-    font-size: 11px; color: rgba(244,236,220,.82);
+    font-size: 12px; color: rgba(244,236,220,.82);
   }
   #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .tileArt { top: 50%; bottom: auto; left: auto; right: 12px; width: 34px; height: 34px; max-width: none; aspect-ratio: auto; translate: 0 -50%; }
   #app #mainMenu.v10Home .fifaMenuGrid > #homeStoryButton.menuTile .menuTileMeta { flex: 0 1 auto; min-width: 0; margin-right: 46px; }
@@ -1303,3 +1303,31 @@ html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
     width: var(--home-logo-w);
   }
 }
+
+/* r90 strict C1 (tablet 700-760 CSS px wide, upright; 768x1024 = 760x1014, 820x1180 = 760x1094): HO-067 keeps the tiles on the
+   plate's stone, so up to 1135 px tall the rows are 50-91 px, not the 91 px the kicker, a two-line label and the tablet
+   padding need. The kicker (NEW, HONOURS, CAREER) shrank to 0 px and sat on the label, START A SHOWDOWN and TROPHY ROOM ran 2 px
+   past the 50 px tile, and "No Showdown live" fell out of the Continue tile. Here the kicker drops out (as screen-reader
+   text, as on the phone grid), the padding tightens and each label is sized to its tile. */
+@media (min-width: 700px) and (max-width: 760px) and (orientation: portrait) and (max-height: 1135px) {
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#homeStoryButton) { container-type: size; }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer):not(#homeStoryButton) { padding: 6px 8px 6px 16px; justify-content: center; }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#homeStoryButton) .menuTileCode {
+    position: absolute !important; width: 1px !important; height: 1px !important; margin: -1px !important; overflow: hidden !important;
+    clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important;
+  }
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer):not(#homeStoryButton) .menuTileLabel {
+    font-size: min(clamp(20px, 3vw, 24px), calc(100cqh / 2.1)); line-height: 1.05;
+  }
+  #app #mainMenu.v10Home #continueCareer { padding-top: 8px; padding-bottom: 8px; }
+  #app #mainMenu.v10Home #continueCareer .menuTileLabel { font-size: min(clamp(28px, 4.6vw, 36px), calc((100cqh - 4px - 19px) / 1.05)); line-height: 1.05; }
+}
+
+/* r90 strict C10: between 761 and 1366 px wide Continue's status line ("No Showdown live") took visual-fidelity-r3's 11 px; 12 px is the floor. */
+@media (min-width: 761px) and (max-width: 1366px) {
+  #app #mainMenu.v10Home #continueCareer .menuTileMeta { font-size: 12px; }
+}
+
+/* r90 strict COL-05 (latent): css/app.css:79 colours the START A SHOWDOWN and RULE BOOK subtitles #354650, slate on near-black
+   (1.4-2.0:1). Every tile subtitle is hidden today, but any size that shows them reads like the other tiles' #cfc6b4. */
+#mainMenu.v10Home .menuTile:not(#continueCareer) .menuTileMeta { color: #cfc6b4; }
