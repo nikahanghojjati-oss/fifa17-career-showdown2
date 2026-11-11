@@ -1289,6 +1289,7 @@ html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-bg { backgrou
 @media (max-width: 760px) and (orientation: portrait), (orientation: landscape) and (max-height: 500px) and (max-width: 1100px) {
   #app #transferChallenge .tw-host .hud-title { font-size: 12px; }
   #app #transferChallenge .tw-host .chip { font-size: 12px; }
+  #app #transferChallenge .tw-host .vr-why { font-size: 12px; } /* D5 upright phones: plate 11.5 px */
 }
 @media (max-width: 1100px) { #app #transferChallenge .tw-host .rail .num { font-size: 12px; } }
 /* COL-03: inactive rail steps (plate .45 alpha, 4.3:1) lifted to .55 for 4.5:1+ on the dark bar. */
