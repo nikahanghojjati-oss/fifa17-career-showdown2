@@ -66,9 +66,9 @@ await check("2. Online route",()=>{
 });
 await check("3. Source table",()=>{
   for(const identityState of [online,null]){
-    // r61: signed in or not, no model means Team V's unavailable state; only Legacy's data tools ask for the local page.
+    // r61: signed in or not, no model means Team V's unavailable state (r91: the local data-tools page was cut, nothing asks for "local").
     assert.equal(Seam.selectCareerScreenSource({identityState,model:null}),"unavailable");
-    assert.equal(Seam.selectCareerScreenSource({identityState,model:null,dataTools:true}),"local");
+    assert.equal(Seam.selectCareerScreenSource({identityState,model:null,dataTools:true}),"unavailable");
     assert.equal(Seam.selectCareerScreenSource({identityState,model:ready,dataTools:true}),"model");
     assert.equal(Seam.selectCareerScreenSource({identityState,model:ready}),"model");
     assert.equal(Seam.selectCareerScreenSource({identityState,model:{}}),"unavailable");
@@ -177,10 +177,10 @@ await check("11. Online or signed out never runs the local path",()=>{
     assert.equal(h.legacy.textContent,Seam.TEXT.unavailable);assert.equal(h.legacy.findByClass("legacyDataControls").length,0);
   }
 });
-await check("12. Legacy data tools keep the local page",()=>{
+await check("12. The old data-tools flag no longer selects a local page (r91)",()=>{
   const h=harness(null);h.context.careerModeLegacyDataTools=true;h.context.renderCareerStatistics();h.context.renderTrophyRoom();h.context.renderLegacy();
-  assert.equal(h.counts.buildCareerAnalytics,0);assert.equal(h.counts.loadLegacyShowdowns,1);assert.equal(h.counts.loadSavedShowdown,1);assert.equal(h.counts.importPanel,1);
-  assert.equal(h.legacy.findByClass("legacyDataControls").length,1);
+  assert.equal(h.counts.buildCareerAnalytics,0);assert.equal(h.counts.loadLegacyShowdowns,0);assert.equal(h.counts.loadSavedShowdown,0);assert.equal(h.counts.importPanel,0);
+  assert.equal(h.legacy.textContent,Seam.TEXT.unavailable);assert.equal(h.legacy.findByClass("legacyDataControls").length,0);
 });
 await check("13. Model given and remembered",()=>{
   const h=harness();
