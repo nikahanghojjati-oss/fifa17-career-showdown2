@@ -57,6 +57,8 @@ async function playSquad(page){
   if(await retry.isVisible().catch(()=>false)&&await retry.isEnabled().catch(()=>false)){await retry.click({timeout:5000}).catch(()=>{});return "squad-retry";}
   return "wait";
 }
+// After CONTINUE TO SEASON RESULTS: plays the squad screen (if any) until Season Results (#seasonEntry) is on screen.
+async function toSeasonEntry(page,timeout=60000){return playSquadUntil(page,()=>page.locator("#seasonEntry").isVisible(),timeout);}
 // Plays the squad screen that comes between the Transfer War and Season Results until #seasonEntry (or whatever Season
 // Results shows first) is on screen. Returns the steps seen.
 async function playSquadUntil(page,ready,timeout=60000){
@@ -208,4 +210,4 @@ async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
   throw new Error(`Transfer Challenge did not open within ${timeout} ms (roulette steps: ${seen.join(",")||"none"})`);
 }
 
-module.exports={playRoulette,playPrimePack,playChamberMen,playSquad,playSquadUntil,chamberSide,primeNames,track,waitForTransfer};
+module.exports={playRoulette,playPrimePack,playChamberMen,playSquad,playSquadUntil,toSeasonEntry,chamberSide,primeNames,track,waitForTransfer};

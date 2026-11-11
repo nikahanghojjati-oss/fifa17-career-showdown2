@@ -630,7 +630,7 @@ async function main(){
     // J7 season-1 results, privacy, and the exact raw facts that feed canonical scoring.
     for(const m of [daniel,nik]){
       await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
-      await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+      await rosterRoulette.toSeasonEntry(m.page);
     }
     const season1Daniel={leaguePosition:1,leaguePoints:87,leagueGoals:93,domesticCup:false,championsLeague:true,topScorer:true,topAssist:false};
     const season1Nik={leaguePosition:2,leaguePoints:84,leagueGoals:101,domesticCup:true,championsLeague:false,topScorer:false,topAssist:true};
@@ -750,7 +750,7 @@ async function main(){
       ok("J9.3","both resumed managers reopen the COMPLETED season-2 transfer verdicts unchanged and can continue to season-2 results");
 
       for(const m of [daniel,nik])if(!await m.page.locator("#seasonEntry").isVisible())await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
-      for(const m of [daniel,nik])await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+      for(const m of [daniel,nik])await rosterRoulette.toSeasonEntry(m.page);
       const season2Daniel={leaguePosition:3,leaguePoints:70,leagueGoals:66,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false};
       const season2Nik={leaguePosition:1,leaguePoints:100,leagueGoals:80,domesticCup:true,championsLeague:true,topScorer:true,topAssist:true};
       await fillSeasonResult(daniel,"p1",season2Daniel);await fillSeasonResult(nik,"p2",season2Nik);
@@ -776,7 +776,7 @@ async function main(){
         }
         await playTransferSeason(daniel,nik,3,"QWX3 Daniel Signing","ZPV3 Nik Signing");
         for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
-        for(const m of [daniel,nik])await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+        for(const m of [daniel,nik])await rosterRoulette.toSeasonEntry(m.page);
         const season3Daniel={leaguePosition:2,leaguePoints:78,leagueGoals:70,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false};
         const season3Nik={leaguePosition:4,leaguePoints:65,leagueGoals:60,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false};
         await fillSeasonResult(daniel,"p1",season3Daniel);await publishSeasonResult(daniel);

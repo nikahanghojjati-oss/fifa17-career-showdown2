@@ -257,7 +257,7 @@ async function tapThroughReplayToSeasonResults(m){
       await m.page.waitForTimeout(700);
     }
     await cont.click({timeout:30000});
-    await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.toSeasonEntry(m.page);
   }
   return replayTaps;
 }
@@ -386,7 +386,7 @@ async function playTransferSeason(daniel,nik,tokenD,tokenN){
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
   for(const m of [daniel,nik]){
     await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
-    await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.toSeasonEntry(m.page);
   }
 }
 // The shared setup through the real UI (as P2, without its reload): league, clubs, both confirm, both start their careers.

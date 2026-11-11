@@ -853,6 +853,8 @@ async function fillSeasonResult(page,prefix,result){
 const reviewHeading=page=>page.evaluate(()=>{const e=document.getElementById("seasonEntry");if(!e||e.classList.contains("hidden")||!e.getClientRects().length)return "";const h=document.getElementById("seasonReviewHeading");if(!h||!h.getClientRects().length)return "";return h.textContent||"";}).catch(()=>"");
 async function toResults(m,page){
   if(await visible(page,"#seasonEntry"))return true;
+  // r91 Squad Management comes between the Transfer War and Season Results (not in the last season).
+  const squad=await rosterRoulette.playSquad(page);if(squad)return squad==="wait"?false:squad;
   const b=page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true});
   if(await clickIf(page,b))return "continue-to-results";
   return false;
