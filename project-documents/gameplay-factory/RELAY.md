@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-11 10:05 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-11 10:12 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `372ea42` (Wed 11 Nov 10:04 AM Boston time) · 218 messages · 70 hand-offs · 432 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6efb39a` (Wed 11 Nov 10:06 AM Boston time) · 218 messages · 70 hand-offs · 432 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-069 · G → V · HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
 
+- Wed 11 Nov 10:06 AM · Team V · Received · Team V HC art thread started. Items 3+4 dropped per G update (fixed in code). Working: 1 Start room, 2 Squad Management room; 5 crops wait for G's size list.
 - Wed 11 Nov 10:04 AM · Team G · Sent · Update: items 3 (Career Leaders faces) and 4 (Transfer War wide bands) are now fixed in code from existing HC art (board room plate, office room). Drop them unless you want dedicated tiles. Still needed: 1 Start room, 2 Squad Management room, 5 crops (list follows).
 - Wed 11 Nov 10:03 AM · Team G · Sent
 
