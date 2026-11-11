@@ -24,9 +24,6 @@
   // The reason the roulette could not start on this phone (shown on the dashboard and on Career Start), or "" (Fable F2-05).
   let rouletteError="",primePackLoadError=false;
   const PSTC_PRIME_PACK_TEXT="Prime Pack could not load. Check the connection and tap again.";
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
-  // r88 Chamber Men: Showdowns confirmed before it never load the step (tools/set-release-time.cjs --r88 pins it).
-  const CHAMBER_FROM_MS=Date.parse("2026-11-04T17:00:00Z");
   const PSTC_ROULETTE_TEXT=Object.freeze({
     load:"The roulette could not load. Check the connection and tap again.",
     setup:"This season's roulette needs the Showdown's confirmed Setup, and it could not be read just now. Tap again to retry.",
@@ -37,15 +34,13 @@
     chamberCylinders:"This season's Chamber Men result could not be read, and the roulette's bullets come from it. Nothing was spun. Tap again to retry."
   });
   // r88 Chamber Men (js/chamberMenStep.js): the request whose shootout is finished on this phone and its two cylinders, for
-  // the roulette ({key, season, chambers}); null until then. CHAMBER_FROM_MS mirrors js/chamberMen.js (old Showdowns never
-  // load the step).
+  // the roulette ({key, season, chambers}); null until then. (Every Showdown plays the step.)
   let chamberGate=null;
   // r87 RT5-FLOW-02 (Nik 2026-10-31): the shared window waits until both managers have spun this season's roulette. The gate is
-  // known where the roulette runs (pstcRouletteFirst): does the roulette apply to this Showdown (confirmed on r87 or later, not
-  // switched off)? spinPendingKey: this manager has spun (or his roulette is done on this browser) and his own mark is not on the
+  // known where the roulette runs (pstcRouletteFirst): does the roulette apply to this Showdown (its confirm time is readable)? spinPendingKey: this manager has spun (or his roulette is done on this browser) and his own mark is not on the
   // server yet; the next check writes it again until it lands.
   // rouletteClearedKey (Codex P1 #1101): the request whose roulette this phone has finished, or that the roulette does not apply to
-  // on this phone (no confirm time, kill switch, decide() false). Only then may his own mark be written; a partner's mark never counts.
+  // on this phone (no confirm time, decide() false). Only then may his own mark be written; a partner's mark never counts.
   let rouletteGate={key:"",applies:false},spinPendingKey="",spinRefusedKey="",spinWriting=null,rouletteClearedKey="";
 
   function pstcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -514,18 +509,15 @@
   function pstcEnsureRefreshButton(){let button=pstcField("refreshSharedTransferChallenge");if(button)return button;const actions=root.document&&root.document.querySelector("#transferChallenge .transferTimerActions");if(!actions)return null;button=root.document.createElement("button");button.id="refreshSharedTransferChallenge";button.className="menuButton";button.type="button";button.textContent="REFRESH CHALLENGE";button.addEventListener("click",event=>{event.preventDefault();if(pstcReplayPhase())return;void pstcRefresh().catch(error=>{pstcSetError(pstcErrorText(error,"The Transfer War did not refresh. Try again."));pstcReport("Unable to refresh Shared Transfer Challenge",error);});});actions.append(button);return button;}
   function pstcDecorateDashboard(){if(!root.document||!pstcSharedMarker())return false;const currentKey=pstcCurrentContextKey();if(viewContextKey&&currentKey&&viewContextKey!==currentKey)return false;const button=pstcField("seasonPrimaryAction"),status=pstcField("dashboardTransferStatus"),state=view?.state||null;if(!button||!status)return false;button.dataset.sharedTransferChallenge="true";button.disabled=Boolean(openPromise);if(openPromise){button.setAttribute("aria-busy","true");button.textContent="OPENING TRANSFER WAR…";return true;}if(button.hasAttribute("aria-busy"))button.removeAttribute("aria-busy");const season=view?.seasonNumber||(()=>{try{return pstcSeason();}catch(_error){return 1;}})();if(!state){button.textContent=`START SEASON ${season} TRANSFER WAR`;status.textContent="Transfer War: ready";}else if(state.phase==="WINDOW_OPEN"){button.textContent="OPEN TRANSFER WAR";status.textContent="Transfer War: window live";}else if(state.phase==="GUESS_ENTRY"){button.textContent="ENTER GUESSES";status.textContent="Transfer War: guesses";}else if(state.phase==="SIGNING_ENTRY"){button.textContent="ENTER SIGNINGS";status.textContent="Transfer War: signings";}else{button.textContent="VIEW TRANSFER VERDICTS";status.textContent="Transfer War: complete";}if(rouletteError)status.textContent=rouletteError;else if(primePackLoadError)status.textContent=PSTC_PRIME_PACK_TEXT;return true;}
   // r88 Chamber Men (Nik 2026-11-02): before this season's roulette, both managers play a 7-round shootout; each goal loads one
-  // live round in the rival's cylinder (js/chamberMen.js). Only Showdowns the step applies to load it (confirmed from the r88
-  // release on, kill switch on). false keeps the window shut: he went back to Showdown Home, or the step or its result could
+  // live round in the rival's cylinder (js/chamberMen.js). false keeps the window shut: he went back to Showdown Home, or the step or its result could
   // not load (the dashboard says so; tapping again comes back). On true, chamberGate holds this season's two cylinders.
   async function pstcChamberMenFirst(request){
     chamberGate=null;rouletteError="";
     try{
       if(!view||!view.managerRole||!request)return true;
-      if(root.CMS_CHAMBER_MEN==="off")return true;
       let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
       if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
       if(!Number.isFinite(confirmedAtMs)){rouletteError=PSTC_ROULETTE_TEXT.setup;return false;}
-      if(confirmedAtMs<CHAMBER_FROM_MS)return true;
       let timer;const step=await Promise.race([pstcLoadScript("chamber-men-step","js/chamberMenStep.js",()=>root.CareerModeChamberMenStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step||!await step.ensure()){rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
       const ctx={rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,confirmedAtMs,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")}};
@@ -591,10 +583,10 @@
   // (js/iconGuessStep.js). Only Showdowns confirmed on r87 or later play it (the same boundary as the roulette); for the
   // rest nothing is loaded. false keeps the window shut: he went back to Showdown Home, or the step could not load (the
   // dashboard then says so and tapping again retries). The round runs on the Transfer Challenge's server clock.
-  // The Prime Pack's own gate (pstcPrimePackFirst + js/iconGuess.js eligible), without loading it: r87 or later, seasons 1
-  // to 10, the kill switch on. Next: also not yet passed on this phone (its done key) and the Transfer War not started.
+  // The Prime Pack's own gate (pstcPrimePackFirst + js/iconGuess.js eligible), without loading it: seasons 1 to 10 with a
+  // readable confirm time. Next: also not yet passed on this phone (its done key) and the Transfer War not started.
   const PRIME_PACK_DONE_KEY="careerModeShowdown.primePackDone.v1";
-  function pstcPrimePackApplies(request,confirmedAtMs){return root.CMS_PRIME_PACK!=="off"&&Number.isFinite(confirmedAtMs)&&confirmedAtMs>=PRIME_PACK_FROM_MS&&Number.isInteger(request?.seasonNumber)&&request.seasonNumber>=1&&request.seasonNumber<=10;}
+  function pstcPrimePackApplies(request,confirmedAtMs){return Number.isFinite(confirmedAtMs)&&Number.isInteger(request?.seasonNumber)&&request.seasonNumber>=1&&request.seasonNumber<=10;}
   function pstcPrimePackNext(request,confirmedAtMs){
     if(!pstcPrimePackApplies(request,confirmedAtMs)||view?.state)return false;
     try{const list=JSON.parse(typeof root.readStorageValue==="function"&&root.readStorageValue(PRIME_PACK_DONE_KEY)||"[]");return !(Array.isArray(list)&&list.includes(`${request.rivalryId}|${request.seasonNumber}|${view?.managerRole}`));}catch(_error){return true;}
@@ -603,13 +595,10 @@
     primePackLoadError=false;
     try{
       if(!view||!view.managerRole||!request)return true;
-      if(root.CMS_PRIME_PACK==="off")return true;
       let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
       if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
       // Fable F13-04: an unknown confirm time keeps the window shut (TRY AGAIN) instead of skipping a Prime Pack that may apply.
       if(!Number.isFinite(confirmedAtMs)){primePackLoadError=true;return false;}
-      // Old Showdowns never load the Prime Pack step (the boundary is js/iconGuess.js fromMs).
-      if(confirmedAtMs<PRIME_PACK_FROM_MS)return true;
       let timer;const step=await Promise.race([pstcLoadScript("prime-pack-step","js/iconGuessStep.js",()=>root.CareerModeIconGuessStep),new Promise(resolve=>{timer=root.setTimeout(()=>resolve(null),10000);})]).finally(()=>root.clearTimeout(timer));
       if(!step){primePackLoadError=true;return false;}
       // applies() needs the round engine (js/iconGuess.js): load it first, or an r87 Showdown would skip the Prime Pack.
@@ -692,8 +681,8 @@
   let pendingOutcome=null;
   function pstcPendingOutcome(request,role){const key=pstcOutcomeKey(request,role);if(pendingOutcome&&pendingOutcome.key===key)return pendingOutcome.outcome;const found=pstcOutcomeList().find(item=>item[0]===key);return found?pstcOutcomeCopy(found[1]):null;}
   // ---- RT5-FLOW-02: both spins before the shared window ----
-  // The roulette applies to a Showdown confirmed at or after the step's RRR_FROM_MS while it is not switched off; any other
-  // season (an older Showdown) passes by itself and never writes or waits for a mark.
+  // The roulette applies to every Showdown whose confirm time is readable; any other season passes by itself and never
+  // writes or waits for a mark.
   // The provider's own eligibility rule (it enforces START with it), so the screen and the provider can never disagree.
   function pstcRouletteAppliesTo(confirmedAtMs,step){return Boolean(step&&typeof provider?.rouletteEligible==="function"&&provider.rouletteEligible(confirmedAtMs));}
   // The same answer START gets from the provider: the season is roulette-eligible, or any mark is already stored. The second
@@ -775,9 +764,9 @@
   let chamberWarmKey="";
   function pstcWarmChamberMen(){
     try{
-      if(!view||view.state||!view.managerRole||root.CMS_CHAMBER_MEN==="off"||root.CMS_CHAMBER_MEN_3D==="off"||!root.WebGL2RenderingContext)return;
+      if(!view||view.state||!view.managerRole||root.CMS_CHAMBER_MEN_3D==="off"||!root.WebGL2RenderingContext)return;
       const key=pstcCurrentContextKey(),confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
-      if(!key||chamberWarmKey===key||!Number.isFinite(confirmedAtMs)||confirmedAtMs<CHAMBER_FROM_MS)return;
+      if(!key||chamberWarmKey===key||!Number.isFinite(confirmedAtMs))return;
       chamberWarmKey=key;
       const clubs={playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")};
       const go=()=>{if(chamberWarmKey!==key||root.document?.visibilityState==="hidden")return;
