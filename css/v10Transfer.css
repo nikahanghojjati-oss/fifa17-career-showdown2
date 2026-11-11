@@ -1260,3 +1260,15 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
 /* the sideways poster strip and the tablet hero band draw the same office plate */
 #app #transferChallenge .tw-host .phone-hero-bg { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2.webp"); }
 html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-bg { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2_590W.webp"); }
+/* 2.3.0 final pass F10 (Nik 2026-11-10 23:45 UTC: "they should be on the same height"; going over his finger is fine, faces
+   and bodies are not): in the window phase the three boxes on the desk share one band, Daniel's panel's own (plate y 520-772).
+   Nik's sealed panel rises 60 plate px and its frame and frost grow to the same 252 px; the rules card rises 32 px and grows to
+   the band, its figures and note spread inside it. Each box moves as one piece (frame and contents together); words, ids and
+   tap order are unchanged. */
+@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
+  #app #transferChallenge .tw-host .world > .panel[data-panel="A"] { translate: 0 calc(var(--k) * -60px); }
+  #app #transferChallenge .tw-host .world > .panel[data-panel="A"]::before { height: calc(var(--k) * 252px); }
+  #app #transferChallenge .tw-host .world > .panel[data-panel="A"] > .frost.reg { --h: 197 !important; }
+  #app #transferChallenge .tw-host .world > .rules-card { translate: 0 calc(var(--k) * -32px); }
+  #app #transferChallenge .tw-host .world > .rules-card > .rules-inner.reg { min-height: calc(var(--k) * 205px); justify-content: space-evenly; }
+}

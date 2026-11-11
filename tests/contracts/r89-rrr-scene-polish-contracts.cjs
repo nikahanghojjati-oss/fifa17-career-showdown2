@@ -284,10 +284,15 @@ ok('P17','L38 a status line before ready; L39 the pot back left and smaller, sof
 // P15 (r90 LOOK L37): at rest the picture is lens-shifted down just enough for each board face to clear the title (measured from the real
 // title box); the shift eases out during a turn
 {
-  has(/function fitUnderTitle\(\)\{ restShift=0; const t=document\.querySelector\("\.title"\), r=t&&t\.getBoundingClientRect\(\);/,'L37 the clearance comes from the real title box');
+  has(/function fitUnderTitle\(\)\{ restShift=0; restZoom=1; const t=document\.querySelector\("\.title"\), r=t&&t\.getBoundingClientRect\(\);/,'L37 the clearance comes from the real title box');
   has(/need=Math\.max\(need,r\.bottom\+10-Math\.min\(q\[0\]\.y,q\[1\]\.y\)\); \}\);/,'L37 every board face that sits under the title clears it by 10 px');
-  has(/const want=playing\?0:restShift;/,'L37 the shift is only for the rest shot');
-  has(/camera\.setViewOffset\(innerWidth,innerHeight,0,-viewShift,innerWidth,innerHeight\)/,'L37 a lens shift: nothing in the scene moves');
+  has(/const want=playing\?0:restShift, wantZ=playing\?1:restZoom,/,'L37 the shift (and the short-phone zoom) is only for the rest shot');
+  has(/camera\.setViewOffset\(W,H,0,-viewShift,W,H\)/,'L37 a lens shift: nothing in the scene moves');
+  // 2.3.0 final pass: on upright phones 700 px tall or less the rest picture is also zoomed out about its centre (a view offset) so the
+  // easel tops clear the title by 8 px and the revolver clears the caption by 8 px; taller phones and desktops keep the plain shift
+  has(/if\(PH&&h<=700\) fitShortPhone\(c,w,h,r\); \}/,'short phones: the zoom-out framing applies only to upright phones 700 px tall or less');
+  has(/const A=r\.bottom\+8, B=cap\.top-8;/,'short phones: 8 px under the title, 8 px above the caption');
+  has(/camera\.setViewOffset\(W,H,-\(viewZoom-1\)\*W\/2,H\/2-viewZoom\*\(H\/2\+viewShift\),W\*viewZoom,H\*viewZoom\)/,'short phones: a view offset, nothing in the scene moves');
   has(/camera\.updateProjectionMatrix\(\); \} applyViewShift\(dt\);/,'L37 applied every frame with the lens');
 }
 ok('P15','L37 the boards clear the title on a phone');
