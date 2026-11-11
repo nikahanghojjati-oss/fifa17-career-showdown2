@@ -1393,7 +1393,7 @@
   #app #trophyRoom .shelfGlass {
     border:clamp(3px,.4vh,4px) solid transparent;border-radius:0;
     background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("css/r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--tr-bevel) border-box #110f0c;
-    box-shadow:inset 0 0 0 2px #050505,0 14px 34px #000b,0 0 22px #f0c84b26;
+    box-shadow:inset 0 0 0 2px #050505,0 14px 34px #000b;
   }
   #app #trophyRoom .trophyCard {
     border:1px solid #d9aa3c99;border-radius:0;
