@@ -1,0 +1,18 @@
+{
+  "file": "data/fifa17/players-170002.0aeb6a8d.json",
+  "roster": 170002,
+  "sourceSha256": "f2d35920e5cddb28d750924281c4e4095fdc485a5d8358497cd579b1b7b5e03a",
+  "players": 17597,
+  "freeAgents": 224,
+  "clubs": 632,
+  "leagues": 36,
+  "nationalities": 162,
+  "pendingNationalities": [
+    "Kyrgyzstan",
+    "Sudan"
+  ],
+  "longNames": 2086,
+  "longNameMinOverall": 75,
+  "bytes": 904819,
+  "gzipBytes": 296372
+}
