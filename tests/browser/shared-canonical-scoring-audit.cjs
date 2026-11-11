@@ -58,7 +58,7 @@ async function prepare(page,{role,saveId,draw=false}){
 
   await page.evaluate(async()=>{
     const bounded=(promise,label,timeoutMs=8000)=>Promise.race([Promise.resolve(promise),new Promise((_,reject)=>setTimeout(()=>reject(new Error(`r11 scoring audit timed out during ${label}`)),timeoutMs))]);
-    const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load unpublished candidate ${path}.`));document.head.appendChild(script);});
+    const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Could not load unpublished candidate ${path}.`));document.head.appendChild(script);});
     if(!window.CareerModeSharedCanonicalScoring)await bounded(loadCandidateScript('js/sharedCanonicalScoring.js'),'candidate scoring core fallback load');
     if(!window.CareerModeProductionSharedCanonicalScoring)await bounded(loadCandidateScript('js/productionSharedCanonicalScoring.js'),'candidate production scoring fallback load');
     CareerModeProductionSharedCanonicalScoring.install();

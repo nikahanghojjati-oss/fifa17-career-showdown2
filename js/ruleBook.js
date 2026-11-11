@@ -41,7 +41,7 @@ function createRuleBookScreen(){
             "Most Showdown points across all seasons wins. Equal totals are a draw."
         ]),
         createRuleSection("02", "MATCH PLAY", [
-            "Simulate every match.",
+            "Simulate every match, apart from the finals below.",
             "You may play or simulate a Champions League or Europa League final.",
             "You may play or simulate the main domestic cup final.",
             "Skip pre-season in FIFA 17.",
@@ -56,12 +56,12 @@ function createRuleBookScreen(){
         // only what the player sees (10 seconds, then a miss or a keeper in the middle); the grace for the last kick and the
         // network stays in the code and the Rules.
         createRuleSection("03", "CHAMBER MEN", [
-            "Every season, before the Roster Roulette, Daniel and Nik take a penalty shootout: 7 shots each. It plays in every Showdown started from midday on 4 November 2026 (Boston time).",
+            "Every season, before Roster Russian Roulette, Daniel and Nik take a penalty shootout: 7 shots each. It plays in every Showdown started from midday on 4 November 2026 (Boston time).",
             "It goes turn by turn: Daniel shoots and Nik keeps, then Nik shoots and Daniel keeps, for 7 rounds. Nobody shoots and keeps on the same kick.",
             "The shooter picks LEFT, MIDDLE or RIGHT for his shot. The keeper picks where to dive. Neither sees the other's pick until both have locked in.",
             "The shot goes in when the keeper dives the other way. Both phones show the kick, then the next one starts.",
             "Once your rival has locked in, you have 10 seconds. Out of time, a shot is a miss and a keeper stays in the middle.",
-            "Each goal you score loads one live round into your rival's roulette cylinder for that season. 0 or 7 goals still spin.",
+            "Each goal you score loads one live round into your rival's roulette cylinder for that season. With 0 or 7 goals the roulette still spins.",
             "Chamber Men scores no Showdown points."
         ]),
         // r87 Russian Roster Roulette (Nik 2026-10-30: "in rule screen mention special player wont get hit").
@@ -89,8 +89,8 @@ function createRuleBookScreen(){
             "The transfer window lasts 15 minutes.",
             "In FIFA 17, you can sign players up to the transfer deadline.",
             "Both managers can agree to end the transfer window early. One manager cannot end it alone.",
-            "Your opponent gets three guesses. Each guess is a league or a nationality.",
-            "If a guess matches one of your signings, release that player before the season starts.",
+            "Your rival gets three guesses. Each guess is a league or a nationality.",
+            "If a guess matches one of your signings, you release that player before the season starts.",
             "A player your rival guesses is released, and you can never sign him again.",
             "Type each signing's FIFA 17 overall. Only you see it, and it is never part of a guess.",
             "Your Special Player is a free extra signing: he never counts toward the three, and guesses never release him."
@@ -108,7 +108,7 @@ function createRuleBookScreen(){
             "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own Season Results card. PUBLISH asks once more, because it is final. It is on the card in every Showdown started from 10:00 on 6 November 2026 (Boston time).",
             "Either manager, or both, can be sacked. Any sacking ends the Showdown after that season: no more seasons are played.",
             "Every point up to then counts. Most Showdown points wins, even for a sacked manager. Equal totals are a draw.",
-            "A sacked Showdown is a completed Showdown: it counts on History, Legacy, the Trophy Room and every stats screen, marked SACKED.",
+            "A sacked Showdown is a completed Showdown: it counts on Legacy, the Trophy Room and every stats screen, marked SACKED.",
             "Sacked in the last season still counts as the full length, so a Golden Showdown is still possible."
         ])
     );

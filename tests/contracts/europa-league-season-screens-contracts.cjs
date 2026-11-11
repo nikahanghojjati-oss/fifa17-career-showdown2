@@ -11,7 +11,7 @@
 //   E4  local form (js/seasonEngine.js): reset clears the EL box, the read sets the key only when ticked, the review fingerprint
 //       sees EL, both ticked is a validation message, the change handler keeps the boxes exclusive, the review chip and the
 //       breakdown line (only for a season that won it).
-//   E5  Standings: the Europa Leagues row after Champions Leagues (8 rows, phone board budget 8 rows), frames need the counter.
+//   E5  Standings: the Europa League row after Champions League (8 rows, phone board budget 8 rows), frames need the counter.
 //   E6  Final Winner: the Europa League honours row (TRO_EUROPA art) and the trophies line; a record without the counter fails closed;
 //       the honours grids have five metric rows and the short-window plaque leaves room for them.
 //   E7  Rule Book: EL +3 row, never both CL and EL wins in the same season (both count across seasons), the season 1 setup note, the EL final may be played, best season 11 / EL 9.
@@ -207,17 +207,17 @@ function standingsAndFinal(){
   const counts=(cl,el,lt,dc)=>({seasonWins:1,seasonDraws:0,seasonLosses:0,championsLeagues:cl,europaLeagues:el,leagueTitles:lt,domesticCups:dc,totalTrophies:cl+el+lt+dc});
   const frames=SF.standingsFrames({status:"ready",score:{daniel:7,nik:9},managers:{daniel:counts(0,1,1,1),nik:counts(1,0,1,0)}},null);
   assert.equal(frames.SHOWDOWN.model.status,"ready");
-  assert.equal(frames.SHOWDOWN.model.managerRecords.daniel.europaLeagues,1,"Standings carries the Europa Leagues counter");
+  assert.equal(frames.SHOWDOWN.model.managerRecords.daniel.europaLeagues,1,"Standings carries the Europa League counter");
   const {europaLeagues:_drop,...old}=counts(0,1,1,1);
   assert.equal(SF.standingsFrames({status:"ready",score:{daniel:7,nik:9},managers:{daniel:old,nik:counts(1,0,1,0)}},null).SHOWDOWN.model.status,"unavailable","a record without the counter fails closed");
   const st=read("visual-assets/v10_1/standings/standings.js"),strings=JSON.parse(read("visual-assets/v10_1/standings/app-strings.json")).strings;
   const rows=JSON.parse(/const SCOPE_ROWS = (\[[^\]]+\]);/.exec(st)[1]);
   assert.deepEqual(rows,["seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"]);
-  assert.equal(strings.fields.europaLeagues,"Europa Leagues");
+  assert.equal(strings.fields.europaLeagues,"Europa League");
   const css=read("visual-assets/v10_1/standings/standings.css"),sf=read("js/seasonFinalV10.js");
   assert.ok(css.includes("grid-template-rows:repeat(8,1fr)")&&css.includes("grid-template-rows:repeat(8,18px)")&&!/repeat\(7,/.test(css),"the board has room for 8 rows");
   assert.ok(sf.includes("--sg-board:calc(205px + 8 * var(--sg-row))")&&sf.includes("--sg-board:calc(296px + 8 * var(--sg-row))")&&!sf.includes("+ 7 * var(--sg-row)"),"the phone and tablet board budget counts 8 rows");
-  ok("E5 Standings: Europa Leagues row after Champions Leagues (8 rows, board budget 8 on phone and tablet); a record without the counter fails closed");
+  ok("E5 Standings: Europa League row after Champions League (8 rows, board budget 8 on phone and tablet); a record without the counter fails closed");
 
   const rec=(cl,el,lt,dc,total)=>({totalPoints:total,championsLeagues:cl,europaLeagues:el,leagueTitles:lt,domesticCups:dc,totalTrophies:cl+el+lt+dc});
   const recon={phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,winner:"playerOne",managerTotals:{playerOne:7,playerTwo:5},acceptedSeasons:1,totalSeasons:1,rivalryId:RIVALRY,acceptedRevisionKey:"k1"};

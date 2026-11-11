@@ -18,8 +18,8 @@
       "seasonDraws": "Season Draws",
       "seasonLosses": "Season Losses",
       "totalTrophies": "Total Trophies",
-      "championsLeagues": "Champions Leagues",
-      "europaLeagues": "Europa Leagues",
+      "championsLeagues": "Champions League",
+      "europaLeagues": "Europa League",
       "leagueTitles": "League Titles",
       "domesticCups": "Domestic Cups"
     },
@@ -28,7 +28,7 @@
     "leaderTemplate": "{manager} leads",
     "leaderSeasonWinsTemplate": "{manager} leads on season wins",
     "emptyShowdown": "No Showdown in progress. Start or join one from Home.",
-    "emptySeason": "No season has been completed yet. Statistics will build automatically as seasons are finished.",
+    "emptySeason": "No season has been completed yet. Statistics fill in by themselves as seasons are played.",
     "emptyCareer": "Career standings appear after your first finished Showdown.",
     "emptyShowdownAction": "SEE CAREER STANDINGS",
     "loading": "Loading standings.",
@@ -36,7 +36,7 @@
     "continueToLoad": "This Showdown's live numbers load once you continue it from Home. Nothing is lost.",
     "partial": "Some Showdowns could not be read. These totals cover available history only.",
     "coverageTemplate": "{readable} of {indexed} Showdowns available.",
-    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "interimLabel": "This Showdown only. Career history is not available yet.",
     "previewLabel": "Preview data",
     "navLocked": "Finish this step first"
   }

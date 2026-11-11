@@ -475,9 +475,9 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
 // other already opened season N+1 (a tab opened after the acknowledgement resumes there).
 function sameShowdownState(a,b){
   if(JSON.stringify(a)===JSON.stringify(b))return true;
-  // After the terminal close both tabs agree the Showdown is over whether one sits on the Champion screen (Showdown Complete)
-  // and the other on Home (No Active Showdown, its pair let go there).
-  const over=s=>/^(Showdown Complete|No Active Showdown)$/.test(String(s?.season||"").trim());
+  // After the terminal close both tabs agree the Showdown is over whether one sits on the Champion screen (Showdown complete)
+  // and the other on Home (No Showdown live, its pair let go there).
+  const over=s=>/^(Showdown complete|No Showdown live)$/.test(String(s?.season||"").trim());
   if(pointNow==="terminal-close"&&over(a)&&over(b))return true;
   const n=s=>Number((/Season (\d+)/.exec(s?.season||"")||[])[1]||0);
   const [lo,hi]=n(a)<=n(b)?[a,b]:[b,a];

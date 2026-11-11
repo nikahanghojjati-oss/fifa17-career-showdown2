@@ -736,7 +736,7 @@ async function main(){
 
     // ---------- R80d END SHOWDOWN mid-season 2 ----------
     // No reload between R1 and R2: both pages still hold R1's accepted season 1 (Commit and Scoring) while R2's season 1
-    // is played and committed, and Shared History must not take it for R2's (no "Unable to converge Shared History"; PZ
+    // is played and committed, and Shared History must not take it for R2's (no "Could not bring History up to date"; PZ
     // checks the errors).
     const sessionR2=await sessionOf(daniel);
     await playSetupToTransferChallenge(daniel,nik);

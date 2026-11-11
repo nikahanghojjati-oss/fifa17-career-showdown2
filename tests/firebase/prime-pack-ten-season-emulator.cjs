@@ -302,7 +302,7 @@ async function seedBase(env,now){
       const totals={playerOne:cumulative.playerOne,playerTwo:cumulative.playerTwo};
       assert.equal(lastHistory.projection.managerRecords.playerOne.totalPoints,totals.playerOne);
 
-      // ---- Final reconciliation and the real Terminal Close. ----
+      // ---- Final result check and the real Terminal Close. ----
       const finalA=Final.reconcile({sharedActive:true,multiSeason:lastMulti,history:lastHistory,localReconciliation:localAuthority("playerOne")});
       const finalB=Final.reconcile({sharedActive:true,multiSeason:lastMulti,history:lastHistory,localReconciliation:localAuthority("playerTwo")});
       assert.deepEqual(finalA,finalB,"both managers derive the same final");
@@ -329,7 +329,7 @@ async function seedBase(env,now){
       assert.equal(closed.ok,true,`${label} Terminal Close: ${JSON.stringify(closed)}`);assert.equal(closed.rivalryState,"closed");
       const closedDoc=(await getDoc(doc(dbB,"rivalries",rid))).data();
       assert.equal(closedDoc.data.connectionState,"closed");assert.deepEqual(closedDoc.data.terminalProgress.managerTotals,totals);assert.deepEqual(closedDoc.data.terminalClose.managerTotals,totals);
-      ok(`${tag}: Final reconciliation (Daniel ${totals.playerOne}, Nik ${totals.playerTwo}) and the real Terminal Close agree: forged intent refused, the 10-season close is accepted and stores the same totals as History`);
+      ok(`${tag}: Final result check (Daniel ${totals.playerOne}, Nik ${totals.playerTwo}) and the real Terminal Close agree: forged intent refused, the 10-season close is accepted and stores the same totals as History`);
       finals[spec.label]={totals,rid,confirmedAt,expected};
     }
 

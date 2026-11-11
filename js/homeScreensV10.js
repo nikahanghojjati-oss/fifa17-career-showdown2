@@ -116,7 +116,7 @@
   const STORY_OFFLINE_LINE="Connect to the internet to read the full story.";
   const STORY_SECTIONS=Object.freeze([
     Object.freeze(["THE BEGINNING","It started as a free way to keep score in a FIFA 17 Career Mode rivalry between two mates, Daniel and Nik: one league, two clubs kept for the whole Showdown, trophies for points and a timed Transfer War."]),
-    Object.freeze(["HOW IT GREW","The score sheet became a two-phone online game: private pairing, shared seasons on both phones, the league and club wheels, Roster Roulette, the Prime Pack and the marble look, each step tested on Daniel's and Nik's real phones before it shipped."]),
+    Object.freeze(["HOW IT GREW","The score sheet became a two-phone online game: private pairing, shared seasons on both phones, the league and club wheels, Roster Russian Roulette, the Prime Pack and the marble look. Each step was tested on Daniel's and Nik's real phones before it shipped."]),
     Object.freeze(["THE COLLABORATORS","Nik set the direction and played every test with Daniel. Claude worked in two teams, Team G for gameplay and Team V for the look, with GPT models coordinating, reviewing and writing the full history."])
   ]);
   const CHEVRON='<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -203,7 +203,7 @@
     page.innerHTML='<div class="storyInner">'+
       '<p class="storyKicker sd-label">CAREER MODE SHOWDOWN</p>'+
       '<h2 id="storyTitle" class="storyTitle">STORY</h2>'+
-      '<p class="storyLead">Two friends. One rivalry. A project that kept growing. Follow the people, ideas and teams that shaped Career Mode Showdown, from its first experiments to real-phone milestones and cinematic Roulette.</p>'+
+      '<p class="storyLead">Two friends. One rivalry. A project that kept growing. Meet the people, ideas and teams behind Career Mode Showdown, from the first experiments to real-phone tests and the cinematic Roster Russian Roulette.</p>'+
       '<div class="storySections">'+sections+'</div>'+
       '<p class="storyOffline" role="status" hidden>'+STORY_OFFLINE_LINE+'</p>'+
       '<div class="storyActions">'+

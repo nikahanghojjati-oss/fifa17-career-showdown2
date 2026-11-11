@@ -33,7 +33,7 @@ async function prepare(page,{role,saveId}){
     const scoringFor=(seasonNumber,scoring,winner,hash)=>({ok:true,authoritative:true,phase:'SCORING_RECONCILED',revision:1,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:hash,seasonNumber,scoring,winner});
     const seasonOne={commit:commitFor(1,{playerOne:resultA1,playerTwo:resultB1},'sha256:'+('1'.repeat(64))),scoring:scoringFor(1,{playerOne:scoreA1,playerTwo:scoreB1},'playerOne','sha256:'+('1'.repeat(64)))};
     const seasonTwo={commit:commitFor(2,{playerOne:resultA2,playerTwo:resultB2},'sha256:'+('2'.repeat(64))),scoring:scoringFor(2,{playerOne:scoreA2,playerTwo:scoreB2},'playerTwo','sha256:'+('2'.repeat(64)))};
-    const loadCandidate=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=resolve;script.onerror=()=>reject(new Error(`Unable to load ${path}`));document.head.appendChild(script);});
+    const loadCandidate=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=resolve;script.onerror=()=>reject(new Error(`Could not load ${path}`));document.head.appendChild(script);});
     if(!window.CareerModeSharedHistoryConvergence)await loadCandidate('js/sharedHistoryConvergence.js');
     const projection=CareerModeSharedHistoryConvergence.buildProjection({rivalryId,setup:setupLedger,managerSlots,seasons:[seasonOne,seasonTwo]});
     const setupState={status:'ready',ready:true,revision:6,phase:'SHOWDOWN_CONFIRMED',rivalryId,sessionId,accountId:role==='playerOne'?'account_one':'account_two',deviceId:'device_'+(role==='playerOne'?'1':'2').repeat(32),managerRole:role,setup:setupLedger};

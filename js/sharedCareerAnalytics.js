@@ -11,7 +11,7 @@
   const BESTS=Object.freeze(["bestSeasonScore","bestLeaguePoints","bestLeagueGoals","bestLeaguePosition"]);
   const AVERAGES=Object.freeze(["averageSeasonScore","averageLeaguePoints","averageLeagueGoals"]);
   const CABINET=Object.freeze(["championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"]);
-  const LABELS=Object.freeze(["Highest season score","Highest league points","Highest league goals","Biggest Showdown win","Most perfect seasons"]);
+  const LABELS=Object.freeze(["Best season score","Best league points","Best league goals","Biggest Showdown win","Perfect seasons"]);
 
   function caFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(caFreeze);Object.freeze(value);}return value;}
   function managerBase(unknown){
@@ -123,7 +123,7 @@
     return {cabinet,standings,records};
   }
   function buildCareerModel({indexStatus,showdowns=[],...options}={}){
-    const interimLabel=options["current"+"ShowdownOnly"]===true?"Current Showdown only. Career history is not yet available.":null;
+    const interimLabel=options["current"+"ShowdownOnly"]===true?"This Showdown only. Career history is not available yet.":null;
     const unknown=indexStatus!=="ready";
     const managers={daniel:managerBase(unknown),nik:managerBase(unknown)};
     if(unknown)return caFreeze({status:indexStatus==="loading"?"loading":"unavailable",interimLabel,coverage:{readable:null,indexed:null},managers,biggestShowdownWin:null,trophyRoom:trophyRoom(managers,[],true),history:{showdowns:[]}});
