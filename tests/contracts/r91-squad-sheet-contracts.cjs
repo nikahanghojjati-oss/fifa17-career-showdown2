@@ -365,5 +365,96 @@ ok('C8','the RRR board from a sheet is 11 slots then 4 subs');
   assert.match(pstc,/squadError=PSTC_ROULETTE_TEXT\.squadLoad;pstcSetError\(squadError\);/,'a failed load is said on the Transfer War screen');
   assert.match(fs.readFileSync(path.join(__dirname,'../../js/productionSharedSeasonResultsRoute.js'),'utf8'),/const squad=routeTransfer\(\)\?\.squadError\?\.\(\)\|\|"";routeSetText\(status,squad\|\|label\);/,'and on the dashboard');
   ok('C11','a lost spin outcome is replayed from that season\'s squads and Chamber Men (or TRY AGAIN names the season); a failed load before Season Results is said on screen');
+  // C12 (Nik 2026-11-11: reported overalls and departures feed the Gazette): season N's paper tells what changed in both
+  // managers' squads since the paper before, from the two "pre" sheets this phone keeps (no read); the reason words are the
+  // screen's own; at most 3 names a manager; nothing when nothing changed; season 1 never.
+  {
+    const store=new Map();
+    globalThis.readStorageValue=key=>store.has(key)?store.get(key):null;globalThis.writeStorageValue=(key,value)=>{store.set(key,value);};
+    const G=require('../../js/touchlineGazette.js');
+    const {projection,result}=require('../support/career-fixture-helpers.cjs');
+    const rid='pair_'+'c'.repeat(64);
+    const doc=(out=[],ov=[])=>({outNames:out.map(o=>o[0]),outNumbers:out.map(o=>o[1]),outSigned:out.map(()=>0),outReasons:out.map(o=>o[2]),outSeasons:out.map(o=>o[3]),
+      ovNames:ov.map(o=>o[0]),ovNumbers:ov.map(o=>o[1]),ovSigned:ov.map(()=>0),ovValues:ov.map(o=>o[2])});
+    const keep=list=>store.set(Step.keptKey,JSON.stringify(list.map(([role,season,data])=>[`${rid}|${role}|${season}_pre`,data])));
+    assert.equal(Step.gazetteNews({rivalryId:rid,season:1}),null,'season 1: no squad news');
+    keep([['playerOne',2,doc()],['playerTwo',2,doc()],['playerOne',1,doc()]]);
+    assert.equal(Step.gazetteNews({rivalryId:rid,season:2}),null,'a sheet this phone does not keep: no news (never a read)');
+    keep([['playerOne',1,doc()],['playerTwo',1,doc()],
+      ['playerOne',2,doc([['Marco Reus',11,'contract',1],['Mats Hummels',5,'sold',2],['Mario Götze',10,'loaned',2],['Sven Bender',6,'retired',2]],[['Thomas Müller',13,85]])],
+      ['playerTwo',2,doc([],[['Kevin De Bruyne',17,91]])],
+      ['playerOne',3,doc([['Marco Reus',11,'contract',1],['Mats Hummels',5,'sold',2],['Mario Götze',10,'loaned',2],['Sven Bender',6,'retired',2]],[['Thomas Müller',13,85],['Mario Götze',10,84]])],
+      ['playerTwo',3,doc([],[['Kevin De Bruyne',17,91]])]]);
+    const n2=Step.gazetteNews({rivalryId:rid,season:2});
+    assert.deepEqual(n2.playerOne.left.map(o=>o.name),['Marco Reus','Mats Hummels','Mario Götze','Sven Bender'],'departures set on the post screen after the last Transfer War are told too');
+    assert.deepEqual(n2.playerTwo,{left:[],rated:[{name:'Kevin De Bruyne',value:91}]});
+    const n3=Step.gazetteNews({rivalryId:rid,season:3});
+    assert.deepEqual(n3.playerOne,{left:[],rated:[{name:'Mario Götze',value:84}]},'only what changed since the paper before (a loan that ended can be rated)');
+    assert.deepEqual(n3.playerTwo,{left:[],rated:[]});
+    const p=projection({seed:'c',totalSeasons:3,seasons:[[result({leaguePosition:1}),result({domesticCup:true})],[result({championsLeague:true}),result({leaguePosition:9})]]});
+    const plainEd=G.seasonEdition({projection:p,seasonNumber:2});
+    const ed=G.seasonEdition({projection:p,seasonNumber:2,squadNews:k=>Step.gazetteNews({rivalryId:rid,season:k})});
+    assert.equal(ed.paper.headline,plainEd.paper.headline,'squad news never changes the rest of the paper');
+    assert.deepEqual(ed.paper.inside,plainEd.paper.inside,'INSIDE TODAY is unchanged');
+    const P=ed.paper.story.paragraphs,Q=plainEd.paper.story.paragraphs;
+    assert.deepEqual([P[0],...P.slice(2)],[Q[0],...Q.slice(2)],'squad news takes the place of the story\'s second paragraph only');
+    const forms=['Squad news: Daniel lost Marco Reus (contract ended), Mats Hummels (sold) and Mario Götze (loaned out), plus 2 more squad changes. Nik now rates Kevin De Bruyne 91.',
+      'Squad news: Daniel lost Marco Reus (contract ended) and Mats Hummels (sold), plus 3 more squad changes. Nik now rates Kevin De Bruyne 91.',
+      'Squad news: Daniel lost Marco Reus (contract ended), plus 4 more squad changes. Nik now rates Kevin De Bruyne 91.',
+      'Squad news: Daniel made 5 squad changes. Nik made 1 squad change.'];
+    assert.equal(P[1],forms.find(f=>f.length<=Q[1].length)||forms[3],'3 names a manager, fewer when the paragraph it replaces is shorter');
+    assert.equal(ed.paper.squad.sentence,P[1]);
+    // never longer than the paragraph it replaces (so the paper is never taller), on every paper of every Showdown shape
+    let papers=0;
+    for(const seed of '0123456789abcdef')for(const T of [3,5,10]){
+      const rows=Array.from({length:T},(_,i)=>[result({leaguePosition:1+(i*7+seed.charCodeAt(0))%9,championsLeague:(i+seed.charCodeAt(0))%3===0}),result({leaguePosition:1+(i*5)%9,domesticCup:i%2===0})]);
+      const pr=projection({seed,totalSeasons:T,seasons:rows});
+      for(let N=2;N<T;N+=1){
+        const a=G.seasonEdition({projection:pr,seasonNumber:N}),b=G.seasonEdition({projection:pr,seasonNumber:N,squadNews:()=>n2});
+        assert.ok(b.paper.story.paragraphs[1].length<=a.paper.story.paragraphs[1].length||b.paper.story.paragraphs[1]===forms[3]);
+        assert.ok(b.paper.story.paragraphs[1].startsWith('Squad news: '));papers+=1;
+      }
+      const fa=G.finalEdition({projection:pr}),fb=G.finalEdition({projection:pr,squadNews:()=>n2});
+      if(fa&&fb){assert.ok(fb.paper.story.paragraphs[1].length<=fa.paper.story.paragraphs[1].length||fb.paper.story.paragraphs[1]===forms[3]);assert.equal(fb.paper.headline,fa.paper.headline);papers+=1;}
+    }
+    assert.ok(papers>100,`${papers} papers`);
+    const words={contract:'contract ended',retired:'retired',swapped:'swapped',sold:'sold',loaned:'loaned out'};
+    const screen=fs.readFileSync(path.join(__dirname,'../../js/squadScreen.js'),'utf8');
+    for(const [k,w] of Object.entries(words))assert.ok(new RegExp(`${k}:"${w[0].toUpperCase()+w.slice(1)}"`).test(screen),`"${w}" is the screen's own word for ${k}`);
+    const quiet=G.seasonEdition({projection:p,seasonNumber:2,squadNews:()=>({playerOne:{left:[],rated:[]},playerTwo:{left:[],rated:[]}})});
+    assert.deepEqual({story:quiet.paper.story,squad:quiet.paper.squad},{story:plainEd.paper.story,squad:undefined},'nothing changed: no squad news, the story keeps its own second paragraph');
+    assert.equal(G.firestoreReads,0);
+    delete globalThis.readStorageValue;delete globalThis.writeStorageValue;
+    ok('C12','the Gazette\'s squad news: departures and reported overalls since the paper before, from the kept "pre" sheets (no read), the screen\'s own reason words, at most 3 names a manager, in the story\'s second paragraph and never longer than it, nothing when nothing changed');
+  }
+  // C13 (Nik 2026-11-11: "all the formations"): the FIFA 17 Formations screen's full list of 33, under FIFA 17's own names
+  // (checked against Nik's video), each with 1 GK and 10 outfield slots; and the Formations search finds them.
+  {
+    const S=require('../../js/squadSheet.js');
+    const FIFA17=['3-1-4-2','3-4-1-2','3-4-2-1','3-4-3 FLAT','3-4-3 DIAMOND','3-5-1-1','3-5-2',
+      '4-1-2-1-2 WIDE','4-1-2-1-2 NARROW','4-1-3-2','4-1-4-1','4-2-2-2','4-2-3-1 WIDE','4-2-3-1 NARROW','4-2-4','4-3-1-2','4-3-2-1',
+      '4-3-3 FLAT','4-3-3 HOLDING','4-3-3 DEFEND','4-3-3 ATTACK','4-3-3 FALSE 9','4-4-1-1 MIDFIELD','4-4-1-1 ATTACK','4-4-2 FLAT','4-4-2 HOLDING','4-5-1 FLAT','4-5-1 ATTACK',
+      '5-2-1-2','5-2-2-1','5-3-2','5-4-1 FLAT','5-4-1 DIAMOND'];
+    const list=S.formations(),names=list.map(f=>[f.title,f.variant].filter(Boolean).join(' '));
+    assert.equal(list.length,33);assert.deepEqual([...names].sort(),[...FIFA17].sort(),'every FIFA 17 formation, once, under its FIFA 17 name');
+    for(const f of list){assert.equal(f.slots.length,11);assert.equal(f.slots.filter(x=>x==='GK').length,1);assert.equal(new Set(f.slots).size,11,`${f.name}: no slot twice`);
+      const [d,m,a]=f.title.split('-').map(Number).reduce((acc,n,i,arr)=>i===0?[n,0,0]:i===arr.length-1?[acc[0],acc[1],acc[2]+n]:[acc[0],acc[1]+n,acc[2]],[0,0,0]);
+      assert.equal(f.counts.DEF,d,`${f.name}: the first number is the back line`);}
+    const by=name=>list.find(f=>f.name===name);
+    assert.ok(by('4-4-1-1 (2)').slots.includes('CAM')&&by('4-4-1-1 (2)').variant==='MIDFIELD','4-4-1-1 MIDFIELD has the CAM behind the striker');
+    assert.ok(by('4-4-1-1').slots.includes('CF')&&by('4-4-1-1').variant==='ATTACK','4-4-1-1 ATTACK has the CF');
+    assert.ok(by('4-3-3 (5)').slots.includes('CF')&&by('4-3-3 (5)').variant==='FALSE 9');
+    const find=q=>S.searchFormations(q).map(n=>{const f=by(n);return [f.title,f.variant].filter(Boolean).join(' ');});
+    assert.deepEqual(find('433').sort(),['4-3-3 ATTACK','4-3-3 DEFEND','4-3-3 FALSE 9','4-3-3 FLAT','4-3-3 HOLDING']);
+    assert.deepEqual(find('4-3-3'),find('433'),'with or without dashes');
+    assert.deepEqual(find('433 false 9'),['4-3-3 FALSE 9']);assert.deepEqual(find('false9').length,0,'(words, not glued)');
+    assert.deepEqual(find('diamond').sort(),['3-4-3 DIAMOND','5-4-1 DIAMOND']);
+    assert.deepEqual(find('523'),['5-2-2-1'],'5-2-2-1 is also listed as 5-2-3');
+    assert.equal(find('').length,33);assert.equal(find('xyz').length,0);
+    assert.ok(find('43').every(n=>n.startsWith('4-3'))&&find('43').length===7);
+    const screen=fs.readFileSync(path.join(__dirname,'../../js/squadScreen.js'),'utf8');
+    assert.match(screen,/input\.type="search"/);assert.match(screen,/S\.searchFormations\(query\)/);
+    ok('C13','all 33 FIFA 17 formations under their FIFA 17 names (1 GK + 10, the back line as named), and the Formations search finds them by numbers (with or without dashes), alias or variant');
+  }
   console.log(`PASS r91 squad sheet contracts (${checks} checks)`);
 })().catch(error=>{console.error(error);process.exit(1);});

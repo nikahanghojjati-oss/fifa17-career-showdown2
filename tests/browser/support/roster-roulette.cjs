@@ -188,7 +188,7 @@ async function onTransfer(page){
 }
 // Plays every roulette and Prime Pack step on the given phones (and any tracked partner phone) until each given phone shows
 // the Transfer Challenge. Returns the steps seen.
-async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
+async function waitForTransfer(pages,timeout=45000,{primeGuesser=null,stopWhen=null}={}){
   const targets=(Array.isArray(pages)?pages:[pages]).filter(Boolean);track(targets);
   // A planned Prime Pack round can run its four stages out (~95 s); Chamber Men's 14 kicks (turn by turn) show for about 37 s.
   // Every Showdown plays Chamber Men, so the extra time is granted up front.
@@ -198,6 +198,7 @@ async function waitForTransfer(pages,timeout=45000,{primeGuesser=null}={}){
     const drive=[...new Set([...targets,...tracked,...browserPages(targets)])].filter(page=>!page.isClosed());
     const done=[];for(const page of targets)done.push(await onTransfer(page));
     if(done.every(Boolean))return seen;
+    if(stopWhen&&await stopWhen())return seen;
     if(Date.now()>=until)break;
     for(const page of drive){
       if(targets.includes(page)&&done[targets.indexOf(page)])continue;

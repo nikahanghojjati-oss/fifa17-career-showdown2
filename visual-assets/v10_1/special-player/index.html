@@ -597,6 +597,12 @@ const crack=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:cra
 crack.position.z=(PACK_D+.06)/2+.05; pack.add(crack);
 const pillarMat=new T.MeshBasicMaterial({map:crackTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, color:new T.Color(0,0,0)});
 const pillarGeo=new T.PlaneGeometry(1,1); pillarGeo.translate(0,.5,0); const pillar=new T.Mesh(pillarGeo,pillarMat); pillar.visible=false; scene.add(pillar);
+/* idea 5: light beams at the flash. r91 (Nik 2026-11-11: "bring back the sparkle and beams that were far from the card, not the ones
+   that washed over the player card"): 2.2.0's two side beams of the top 10 are back; its centre beam (top 20), which rose straight up
+   behind the card into the title, stays out. A side beam only shows where it stands clear of the card on that screen (clearOfCard),
+   so on a narrow phone, where it would pass behind the card, it is left out */
+const beamMat=new T.MeshBasicMaterial({map:crackTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, fog:false, color:new T.Color(0,0,0)});
+const beams=[-1,1].map(()=>{ const b=new T.Mesh(pillarGeo,beamMat); b.visible=false; scene.add(b); return b; });
 /* ================= giant nation flags (unroll from the roof) =================
    r91 (Nik 2026-11-11 "yes to nation flag"): 2.2.0's five roof flags are back at the nation clue, with their gold drizzle. They hang
    from the roof edge of the stand photo (29 deg up from the pitch camera, about 46 m away) as sunlit cloth (2.2.0's plain colour;
@@ -769,7 +775,7 @@ function stepBoards(now){ if(!boardTex) return; const P=5, R=.6, k=now%P, n=Math
   const y=((n+r)*.5)%1; boardTex.offset.y=y; boardTex2.offset.y=(y+.5)%1; }
 function loadPlate(){ return new Promise(res=>loadTex("assets/stand_soft_V1.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
 function buildEnv(){
-  const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); keep.add(boards); flags.forEach(f=>keep.add(f.mesh));
+  const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); beams.forEach(b=>keep.add(b)); keep.add(boards); flags.forEach(f=>keep.add(f.mesh));
   scene.children.slice().forEach(o=>{ if(!keep.has(o)&&!o.isLight) scene.remove(o); });
   scene.fog=null; scene.add(panoSphere,shadowGround,boards);
   panoMat.uniforms.tex.value=pano;
@@ -822,7 +828,7 @@ function sceneTextures(){ const seen=new Set(), add=(t)=>{ if(t&&t.isTexture&&!t
 
 /* r90: one draw with every object out (pack, card, coin, chunks) so the shadow pass and the main pass have every
    program and texture ready before the game shows the page; startPlayer then puts everything back */
-const warmShown=()=>[pack,card,coin,pillar,aura,ovrMesh,...CHUNKS.map(q=>q.m),...flags.map(f=>f.mesh)];
+const warmShown=()=>[pack,card,coin,pillar,aura,ovrMesh,...CHUNKS.map(q=>q.m),...flags.map(f=>f.mesh),...beams];
 function warmPose(on){ warmShown().forEach(o=>o.visible=on); if(!on) return; pack.position.copy(PACK_REST); card.position.copy(CARD_POS); coin.position.set(0,1,-.5); camera.position.copy(camRest); camera.lookAt(lookRest); }
 function warmDraw(){ warmPose(true); try{ render(); }catch(e){} warmPose(false); }
 /* r90 lean load: every program is compiled with every object out (compileAsync: in parallel where the driver can), then each
@@ -1061,7 +1067,8 @@ function run(tt){
   const cres=CRES[lvl], turnAt=cres?8.45:8.9, fl=S(turnAt,cres?1.65:1.2,tt);
   if(tt>turnAt){ const k=cres?quadInOut(fl):ease.inOut(fl); if(k>=5/6&&!faceShown()){ frontMat.map=prep().bare; startCount(p); } card.rotation.set(0,Math.PI+k*Math.PI*3,0); card.position.y=CARD_POS.y+Math.sin(k*Math.PI)*.22; }
   at(tt,9.6,"sig",()=>startSig(p));
-  at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(Lc(0xffd27a)); /* r90 L31 round 3: gold, not the tier colour over the whole frame */ burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[0xf1c35a,0xffd77a,0xfff1c2],Math.round(120*pw*CALM),11,1.3,.2); /* r90 L31 round 2: one short gold burst, no rain, volleys or fountains */ });
+  at(tt,9.6,"flash",()=>{ shake=.3; glow.position.set(0,1.86,-1.3); flash=1.0*Math.min(1.4,pw); glow.material.color.copy(Lc(0xffd27a)); /* r90 L31 round 3: gold, not the tier colour over the whole frame */ burst(CARD_POS.clone().add(new T.Vector3(0,0,.3)),[0xf1c35a,0xffd77a,0xfff1c2],Math.round(120*pw*CALM),11,1.3,.2); /* r90 L31 round 2: one short gold burst, no rain or volleys */ litFountains(); });
+  if(tt>9.6&&tt<12.2) fountainsOn.forEach(([x,z])=>fountain(new T.Vector3(x,.1,z),Math.random()<.5?0xfff1c2:0xffffff,Math.round(3*pw)+1,8.5,.9)); /* r91: 2.2.0's floor fountains, far from the card */
   /* idea 1: the tier glow grows behind the card (depth-hidden by it, so never over its text) into the burst, then hands over */
   aura.visible=cres>0&&tt>8.0&&tt<10.3; if(aura.visible){ const a=ease.inOut(S(8.0,1.6,tt)); aura.material.color.copy(Lc(tc)).lerp(Lc(0xffd27a),.5).multiplyScalar(.9); aura.scale.setScalar(Math.min(5.2,(3.4+lvl*1.1)*(.5+cres*.5)*(.3+a*.7)*(1+S(9.6,.7,tt)*.4))); aura.material.opacity=(.4+.5*cres)*a*(1-S(9.6,.7,tt))*(lvl>=3?.67:1); } /* top 3/top 10 blue: a third lighter so the stands stay readable */
   const gs=S(9.6,1.2,tt); if(gs>0&&gs<1){ const s=Math.sin(gs*Math.PI)*4.5*pw*(camera.aspect<1?.6:1); glow.scale.set(s,s,1); glow.material.opacity=(1-gs)*.35; } /* r90 L31: on a portrait screen the flash glow no longer washes the night stand and the flags */ else if(gb<=0||gb>=1) glow.scale.set(0,0,1);
@@ -1090,12 +1097,30 @@ function stepCount(now){ if(!count) return; const k=clamp01((now-count.t0-.15)/c
   if(v!==count.shown){ count.shown=v; drawOvr(v); if(now-count.tickAt>.045||v===count.to){ count.tickAt=now; SFX.play("count",v===count.to); } } if(k>=1) finishCount(); }
 
 /* idea 5, r90 L31/L05 round 2 (night reveal): at the flash every tier gets the one short gold burst; top 50 add a gold ring of
-   light behind the card, top 3 a bloom spike. No beams, fountains or firework volleys. */
-let sigAt=-1, sigLvl=0;
-function startSig(p){ const lvl=tierLevel(p.tier); sigAt=clock(); sigLvl=lvl;
+   light behind the card, top 3 a bloom spike. r91 (Nik's pick): the floor fountains (every tier) and the top 10's two side beams are back
+   from 2.2.0, only where they stand clear of the card; no centre beam and no firework volleys. */
+let sigAt=-1, sigLvl=0; const sigCol=new T.Color(), WHITE=new T.Color(1,1,1);
+function startSig(p){ const lvl=tierLevel(p.tier); sigAt=clock(); sigLvl=lvl; sigCol.copy(Lc(TIER[p.tier].glow)); placeBeams();
   if(lvl>=1){ const n=Math.round(80*PK); for(let i=0;i<n;i++){ const a=i/n*Math.PI*2; tmpV.set(Math.cos(a),Math.sin(a),0).multiplyScalar(6.2+Math.random()*.5); emit(new T.Vector3(Math.cos(a)*.5,CARD_POS.y+Math.sin(a)*.5,CARD_POS.z-.55),tmpV,i%2?0xf1c35a:0xfff1c2,.95,.24,0,1.9,0); } } }
-function endSig(){ sigAt=-1; compMat.uniforms.strength.value=.3; }
+/* r91: does a beam or spark column at (x, z), hw wide each side, stand clear of the card on this screen? The card at rest
+   (1.2 m each side of its centre) and the column are projected at the card's height; a gap of 1.5% of the screen width is kept */
+const clrA=new T.Vector3(), clrB=new T.Vector3();
+function clearOfCard(x,z,hw){ camera.updateMatrixWorld(); const cx=clrA.set(-1.25,CARD_POS.y,CARD_POS.z).project(camera).x, cx1=clrB.set(1.25,CARD_POS.y,CARD_POS.z).project(camera).x;
+  const a=clrA.set(x-hw,CARD_POS.y,z).project(camera).x, b=clrB.set(x+hw,CARD_POS.y,z).project(camera).x; return Math.max(a,b)<cx-.03||Math.min(a,b)>cx1+.03; }
+function fountain(at,col,n,h,spread){ for(let i=0;i<n;i++){ tmpV.set((Math.random()-.5)*(spread||1.2),h*(.8+Math.random()*.4),(Math.random()-.5)*(spread||1.2)); emit(at,tmpV,col,1.1+Math.random()*.5,.2+Math.random()*.1,-9.8,.25,1); } }
+/* 2.2.0's four floor fountains far behind the card; only the ones clear of the card on this screen are lit (fixed at the flash) */
+const FOUNTAINS=[[-6.5,-6],[6.5,-6],[-3.2,-7],[3.2,-7]]; let fountainsOn=[];
+function litFountains(){ fountainsOn=FOUNTAINS.map(([x,z])=>[fitX(x,z),z]).filter(([x,z])=>clearOfCard(x,z,.7)); }
+/* r91: each side beam stands where 2.2.0 put it (2.3 m out, pulled in on a narrow screen); if the card is in the way there, it moves
+   out until it is clear, and where there is no room left on the screen (a phone) it is not shown */
+const beamX=[null,null];
+function placeBeams(){ const z=CARD_POS.z-.9, edge=halfWAt(z)*.92; [-1,1].forEach((side,i)=>{ let x=Math.abs(fitX(2.3,z)); while(x<=edge&&!clearOfCard(side*x,z,.35)) x+=.1; beamX[i]=x<=edge?side*x:null; }); }
+function endSig(){ sigAt=-1; beams.forEach(b=>b.visible=false); compMat.uniforms.strength.value=.3; }
 function stepSig(now){ if(sigAt<0) return; const s=now-sigAt; if(s>2.6){ endSig(); return; }
+  const grow=ease.out(clamp01(s/.35)), fade=1-clamp01((s-1.1)/1.2);
+  beams.forEach((b,i)=>{ const side=i?1:-1, z=CARD_POS.z-.9, x=beamX[i]; b.visible=sigLvl>=3&&fade>0&&x!==null; if(!b.visible) return;
+    b.position.set(x,.05,z); b.rotation.set(0,Math.atan2(camera.position.x-x,camera.position.z-z),0); b.rotateZ(-side*.12); /* leaning out, away from the card */ b.scale.set(.7*(.35+grow*.65),24*grow,1); });
+  beamMat.color.copy(sigCol).lerp(WHITE,.2).multiplyScalar(2.6*grow*fade); /* 2.2.0's strength */
   compMat.uniforms.strength.value=.3+(sigLvl>=4?.5*Math.sin(clamp01((s-.2)/1.1)*Math.PI):0); }
 
 /* idea 11: the ending. Once both cards are out, the better pull's name in the bar gets a gold pulse (both on a tie), a closing
@@ -1209,6 +1234,7 @@ function tick(draw){
   else { const k=now-settledAt; camPos.copy(camRest); camPos.z-=(camK>1?.1:.5); camLook.copy(lookRest); tiltX+=(tiltTX-tiltX)*Math.min(1,dt*6); tiltY+=(tiltTY-tiltY)*Math.min(1,dt*6);
     card.rotation.y=Math.sin(k*.7)*.14+(REDUCED?scoutCut(k):scoutFlip(k))+tiltY; card.rotation.x=tiltX; card.scale.setScalar(1); card.position.y=CARD_POS.y+Math.sin(k*1.5)*.03; rays.rotation.z=now*.06;
     if((k%4)<.9) sheenMat.uniforms.p.value=lerp(-2.6,2.6,(k%4)/.9);
+    if(!REDUCED&&k<1.6&&Math.random()<.6) fountainsOn.forEach(([x,z])=>fountain(new T.Vector3(x,.1,z),0xfff1c2,1,8.5,.9)); /* r91: the fountains die down as the card settles, as in 2.2.0 */
     if(!REDUCED&&Math.random()<dt*1.2){ const v=SHIELD[(Math.random()*SHIELD.length)|0]; emit(card.localToWorld(new T.Vector3(v[0]*1.03,v[1]*1.03,.08)),new T.Vector3(0,0,0),0xfff6d8,.45,.5,0,0,0); }
     
     /* idea 2: encore volleys while the face holds (late ones, after a tap to the report, are dropped) */

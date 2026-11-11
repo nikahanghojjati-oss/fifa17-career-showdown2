@@ -145,6 +145,13 @@ const UPGRADE_AFTER=Number(process.env.CE2PG_UPGRADE_AFTER||1);
 // r89 Sacked: CE2PG_SACKED="K:daniel|nik|both" ticks "I was sacked this season" for that manager in season K of the single
 // Showdown, which then ends after season K. The tick is on every Season Results card.
 const SACKED=(()=>{const raw=process.env.CE2PG_SACKED||"";if(!raw)return null;const m=/^(\d+):(daniel|nik|both)$/.exec(raw);if(!m)throw new Error(`CE2PG_SACKED must be "K:daniel|nik|both", got "${raw}"`);return {season:Number(m[1]),who:m[2]==="both"?["daniel","nik"]:[m[2]]};})();
+// r91 new device (release proof for the old-era cut): CE2PG_NEWDEVICE="K:chamber|transfer:daniel|nik,..." replaces that manager's whole
+// browser (a brand-new context: empty localStorage, sessionStorage and IndexedDB, no service worker) in season K, right after Chamber Men
+// (the manager's page reaches the Squad Management screen) or inside the Transfer War window. The same Google account signs in again and
+// the live Showdown must come back from Firebase by itself and play to the end with every check (points, History, career pages).
+const NEWDEVICE=(()=>{const raw=process.env.CE2PG_NEWDEVICE||"";if(!raw)return [];return raw.split(",").map(part=>{const m=/^(\d+):(chamber|transfer):(daniel|nik)$/.exec(part.trim());if(!m)throw new Error(`CE2PG_NEWDEVICE items must look like "2:chamber:nik", got "${part}"`);return {season:Number(m[1]),point:m[2],who:m[3],done:false};});})();
+const newDeviceRuns=[];
+const takeNewDevice=(season,point)=>NEWDEVICE.filter(n=>!n.done&&n.season===season&&n.point===point);
 let servingOld=Boolean(UPGRADE_FROM),appServer=null;
 function startAppServer(rewrites=[]){
   appServer=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...(servingOld?{CMS_TEST_ROOT:UPGRADE_FROM}:{}),CMS_TEST_REWRITE:JSON.stringify(rewrites)}});
@@ -416,10 +423,10 @@ function wirePage(m){
   page.on("request",request=>{const u=new URL(request.url());if(FORBIDDEN_HOSTS.test(u.hostname))m.log.forbidden.push(u.hostname);if(/productionFirebaseRuntime\.js|firebase\.runtime-config\.json/.test(u.pathname))m.log.productionRuntime+=1;});
   page.on("dialog",dialog=>{void dialog.accept().catch(()=>{});});
 }
-async function openManager(browser,account,label=account){
+async function openManager(browser,account,label=account,reuse=null){
   const viewport=VIEWPORTS[account];
   const context=await browser.newContext({viewport});
-  const log={pageErrors:[],consoleErrors:[],failedRequests:[],httpErrors:[],forbidden:[],productionRuntime:0,taps:[]};
+  const log=reuse?reuse.log:{pageErrors:[],consoleErrors:[],failedRequests:[],httpErrors:[],forbidden:[],productionRuntime:0,taps:[]};
   await context.exposeBinding("__cmsTap",(_source,tap)=>{log.taps.push(tap);});
   await context.addInitScript(()=>{window.addEventListener("click",event=>{if(!event.isTrusted)return;const b=event.target&&event.target.closest&&event.target.closest("button,.menuTile");if(b&&typeof window.__cmsTap==="function")void window.__cmsTap({id:b.id||"",text:(b.textContent||"").replace(/\s+/g," ").trim().slice(0,60)});},true);});
   await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,route=>{
@@ -430,7 +437,8 @@ async function openManager(browser,account,label=account){
   await installFirestoreMeter(context,{sdkDir:SDK_DIR,user:label,sink:meter.events,firestoreOrigin:FIRESTORE});
   await context.addInitScript({path:SWITCH});
   const page=await context.newPage();
-  const m={user:label,account,context,page,log,viewport};
+  const m=reuse||{user:label,account,context,page,log,viewport};
+  if(reuse){m.context=context;m.page=page;}
   wirePage(m);
   await installMarbleConfirmAnswers(page,{answer:true});
   await page.goto(urlFor(account),{waitUntil:"domcontentloaded"});
@@ -587,6 +595,7 @@ async function playTransfers(daniel,nik,tag){
   await daniel.page.locator("#startTransferTimer").click({timeout:30000});
   await waitTransferPhase(daniel,"window");await waitTransferPhase(nik,"window");
   await budgetWait("transfer-window");
+  for(const item of takeNewDevice(seasonNow,"transfer"))await swapDevice(item.who==="daniel"?daniel:nik,item,seasonNow,0);
   const dark=outageKind(seasonNow)==="transfer";
   if(dark)await goDark(nik);
   await daniel.page.locator("#endTransferTimer").click({timeout:30000});
@@ -828,6 +837,14 @@ async function continueToSeason(daniel,nik,next,total){
     await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${next} / ${total}`,{timeout:30000});
     toRoulette.push(m.page);
   }
+  const chamberSwaps=takeNewDevice(next,"chamber");
+  for(const item of chamberSwaps){
+    // Both phones play Chamber Men; the replaced manager's page is stopped when it shows Squad Management (Chamber Men is done there).
+    const target=item.who==="daniel"?daniel:nik;
+    await rosterRoulette.waitForTransfer(toRoulette,toRoulette.length>1?60000:30000,{stopWhen:()=>target.page.locator("#sqStage").isVisible().catch(()=>false)});
+    await swapDevice(target,item,next,total);
+    toRoulette.length=0;toRoulette.push(daniel.page,nik.page);
+  }
   if(toRoulette.length)await rosterRoulette.waitForTransfer(toRoulette,toRoulette.length>1?60000:30000);
 }
 // Back into the live Showdown from Showdown Home: CONTINUE SHOWDOWN, then (on the season dashboard) its primary action, until the
@@ -855,6 +872,58 @@ async function returnToGame(m,season,total){
   }
   await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${season} / ${total}`,{timeout:20000}).catch(()=>{});
   await eq(m,`${showdownNow}.S${season-1}.return.indicator`,`back in the game on Season ${season} / ${total}`,await textOf(m,"#seasonIndicator"),`Season ${season} / ${total}`,{screen:"Shared Transfer Challenge"});
+}
+// r91 new device: this manager's browser is replaced by a brand-new one (see CE2PG_NEWDEVICE). The old context is closed (the phone is
+// gone), the new one starts empty and signs in as the same Google account; Showdown Home must offer the live Showdown (never the
+// OLD SHOWDOWN FOUND recovery screen) and CONTINUE SHOWDOWN must put the manager back into the season.
+async function swapDevice(m,item,k,total){
+  const id=`${showdownNow}.S${k}.newDevice.${item.point}.${m.user}`;
+  item.done=true;
+  const row={showdown:showdownNow,season:k,point:item.point,user:m.user,at:new Date().toISOString()};newDeviceRuns.push(row);report.newDevice=newDeviceRuns;
+  const before=await describe(m);row.before=before;
+  // The old phone only goes away once the window start it tapped has reached Firebase (the partner's page reads it); a phone that dies
+  // in the middle of that tap is a different case (Daniel would tap START again).
+  if(item.point==="transfer"){
+    const partner=m===ctxRef.daniel?ctxRef.nik:ctxRef.daniel;
+    await partner.page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.startedAtEpochMs),null,{timeout:30000});
+  }
+  await m.context.close().catch(()=>{});
+  await openManager(ctxRef.browser,m.account,m.user,m);
+  const storage=await m.page.evaluate(async()=>{let local=-1,dbs=-1;try{local=localStorage.length;}catch(_e){}try{dbs=(await indexedDB.databases()).length;}catch(_e){}return {local,dbs};});
+  row.storageBefore=storage;
+  await check(m,`${id}.empty`,"the new browser starts with empty local storage (its databases are only the ones the app creates while booting)",storage.local===0,JSON.stringify(storage),{screen:"New browser"});
+  await signIn(m,NAMES[m.account],{fresh:true});
+  await m.page.waitForFunction(()=>(document.querySelector("#newShowdown .menuTileLabel")?.textContent||"").trim()==="CONTINUE SHOWDOWN",null,{timeout:45000}).catch(()=>{});
+  const tile=await homeTile(m);row.tile=tile;
+  await check(m,`${id}.tile`,"on the new browser Showdown Home offers the live Showdown: LIVE / CONTINUE SHOWDOWN",Array.isArray(tile)&&tile[0]==="LIVE"&&tile[1]==="CONTINUE SHOWDOWN",JSON.stringify(tile),{screen:"Showdown Home"});
+  const pair=await m.page.evaluate(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.()||{};return {status:s.status,connectionState:s.connectionState,rivalryId:s.rivalryId||null,text:document.getElementById("persistentNikDanielPairPanel")?.textContent||""};});
+  row.pair={status:pair.status,connectionState:pair.connectionState};
+  await check(m,`${id}.noOldShowdown`,"the new browser shows no OLD SHOWDOWN FOUND and the pair is not in recovery",pair.status!=="recovery-required"&&!/OLD SHOWDOWN FOUND/.test(pair.text),JSON.stringify({status:pair.status,connection:pair.connectionState,text:pair.text.slice(0,120)}),{screen:"Connect Players"});
+  await check(m,`${id}.sameShowdown`,"the new browser is paired to the Showdown that is being played",pair.rivalryId===ctxRef.entry?.rivalryId,`${pair.rivalryId} != ${ctxRef.entry?.rivalryId}`,{screen:"Connect Players"});
+  await m.page.locator("#newShowdown").click({timeout:30000});
+  const gameScreens="#cmStage, #sqStage, #rrStage, #rrStepPanel, #igStage, #igStepPanel, #transferChallenge";
+  const deadline=Date.now()+90000;let landed=null;
+  while(Date.now()<deadline){
+    landed=await m.page.locator(gameScreens).filter({visible:true}).first().getAttribute("id").catch(()=>null);
+    if(landed)break;
+    const getReady=m.page.locator("#productionSharedJourneyEntryOverlay");
+    if(await getReady.isVisible().catch(()=>false)){const go=getReady.getByRole("button",{name:/^(START CAREER|CONTINUE CAREER)$/});if(await go.first().isVisible().catch(()=>false)&&await go.first().isEnabled().catch(()=>false))await go.first().click({timeout:5000}).catch(()=>{});}
+    else if(await m.page.locator("#dashboard").isVisible().catch(()=>false)){const label=await textOf(m,"#seasonPrimaryAction");if(/TRANSFER|SEASON/i.test(label)&&await m.page.locator("#seasonPrimaryAction").isEnabled().catch(()=>false))await m.page.locator("#seasonPrimaryAction").click({timeout:5000}).catch(()=>{});}
+    await m.page.waitForTimeout(700);
+  }
+  row.landedOn=landed;
+  await check(m,`${id}.landed`,"CONTINUE SHOWDOWN puts the new browser back into the live season",Boolean(landed),await describe(m),{screen:"Showdown Home"});
+  if(!landed)throw new Error(`${m.user}'s new browser did not get back into season ${k} (${await describe(m)})`);
+  try{await m.page.screenshot({path:path.join(SHOT_DIR,`newdevice-${item.point}-${m.user}-landing.png`)});}catch(_e){}
+  // Whatever the app puts in front of the manager on the new device is played through like on any phone (Chamber Men result, squad,
+  // roulette, Prime Pack); the steps seen are reported, then the Transfer War must show.
+  row.screensAtLanding=await m.page.locator(gameScreens).filter({visible:true}).evaluateAll(els=>els.map(e=>e.id)).catch(()=>[]);
+  if(item.point==="transfer"){
+    row.replaySteps=await rosterRoulette.waitForTransfer([m.page],90000);
+    await waitTransferPhase(m,"window");
+  }
+  const indicator=await m.page.evaluate(()=>document.getElementById("seasonIndicator")?.textContent||"");row.indicator=indicator;
+  console.log(`NEWDEVICE ${id}: tile ${JSON.stringify(tile)}, pair ${pair.status}/${pair.connectionState}, landed on #${landed}, ${indicator}`);
 }
 // The 2.0.0 update in the middle of a live Showdown: the server now sends this tree (with the release pin when asked),
 // each phone drops the old worker and caches and reloads on the screen it was on, then must be back in the same session
@@ -1021,14 +1090,15 @@ function extract(raw){
   o.standingsCareerText=stCareer.toUpperCase();o.standingsFirstCareerText=stFirst.toUpperCase();
   const live=raw?.standings?.["THIS SHOWDOWN"]||"";o.thisShowdownText=live;
   o.thisShowdown={season:pair(live,/SEASON (\d+) OF (\d+)/),points:pair(live,/SHOWDOWN POINTS\s+(\d+)\s*:\s*(\d+)/)};
-  for(const [word,key] of [["SEASON WINS","W"],["SEASON DRAWS","D"],["SEASON LOSSES","L"],["CHAMPIONS LEAGUES","cl"],["LEAGUE TITLES","league"],["DOMESTIC CUPS","cup"],["TOTAL TROPHIES","trophies"]])o.thisShowdown[key]=pair(live,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));
+  for(const [word,key] of [["SEASON WINS","W"],["SEASON DRAWS","D"],["SEASON LOSSES","L"],["CHAMPIONS LEAGUES?","cl"],["LEAGUE TITLES","league"],["DOMESTIC CUPS","cup"],["TOTAL TROPHIES","trophies"]])o.thisShowdown[key]=pair(live,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));
   const rv=corpus(raw,"statistics");
   o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions League\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
   o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);
   const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],(r[1]==="\u2014"?"":(r[2]||"")).toUpperCase()]:null;};
   // r87 career fixes: a level record reads LEVEL (never "Shared"), and a best of 0 is held by nobody: "—" with no holder (B5).
   const R=label=>new RegExp(label+String.raw`\s+(\d+|\u2014)\s*(DANIEL|NIK|LEVEL)?`);
-  o.recSeason=rec(R("HIGHEST SEASON SCORE"));o.recPoints=rec(R("HIGHEST LEAGUE POINTS"));o.recGoals=rec(R("HIGHEST LEAGUE GOALS"));o.recPerfect=rec(R("MOST PERFECT SEASONS"));o.recBiggest=rec(R("BIGGEST SHOWDOWN WIN"));
+  // r91 wording (c8e82464): "Best ..." and "Perfect seasons" (the old "Highest ..." / "Most perfect seasons" still read).
+  o.recSeason=rec(R("(?:BEST|HIGHEST) SEASON SCORE"));o.recPoints=rec(R("(?:BEST|HIGHEST) LEAGUE POINTS"));o.recGoals=rec(R("(?:BEST|HIGHEST) LEAGUE GOALS"));o.recPerfect=rec(R("(?:MOST )?PERFECT SEASONS"));o.recBiggest=rec(R("BIGGEST SHOWDOWN WIN"));
   const cards=Object.fromEntries((raw?.trophyRoom?.cards||[]).map(c=>[c.trophy,[c.sides.daniel??null,c.sides.nik??null]]));
   o.cabChampion=cards.showdown||null;o.cabLeague=cards.leagueTitles||null;o.cabCup=cards.domesticCups||null;o.cabCl=cards.championsLeague||null;
   o.legacyCards=(raw?.legacy?.cards||[]).map(c=>({status:c.status,text:c.text}));
@@ -1604,7 +1674,7 @@ async function main(){
     await phase("sign-in",async()=>{await signIn(daniel,"Daniel");await signIn(nik,"Nik");});
     daniel.uid=await accountId(daniel);nik.uid=await accountId(nik);
     await check(null,"boot.accounts","Daniel and Nik signed in as two distinct accounts",Boolean(daniel.uid&&nik.uid&&daniel.uid!==nik.uid),{daniel:daniel.uid,nik:nik.uid},{screen:"Sign in"});
-    const ctx={daniel,nik,career:[]};ctxRef=ctx;billedModel=billedMeter.loadModel();
+    const ctx={daniel,nik,career:[],browser};ctxRef=ctx;billedModel=billedMeter.loadModel();
     console.log(`BILLED model: Rules sha256 ${billedModel.rulesSha256.slice(0,16)}; waits ${BUDGET_MODE?`ON (${REALTIME_WAITS?`real time at the ${REALTIME_PROFILE} pace`:`sampled ${SAMPLE_LONG_MIN} min long / ${SAMPLE_SHORT_MIN} min short, extrapolated`}); paces ${JSON.stringify(WAIT_PROFILES)}`:"OFF (CE2PG_BUDGET=1 turns them on)"}`);
     const specs=PLAN_NAME==="main"?[
       {name:"T",length:1,firstRealStart:true,target:"nik",seed:91},

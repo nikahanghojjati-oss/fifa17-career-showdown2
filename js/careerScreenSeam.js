@@ -44,10 +44,10 @@
     return Boolean(identityState&&identityState.registered===true&&["daniel","nik"].includes(identityState.managerId));
   }
   // The game is online only, so every career screen is Team V's (r61): with no model it shows the unavailable state,
-  // signed in or not. The old local page runs only when Legacy's data tools (backup, restore, reset) are asked for.
-  function selectCareerScreenSource({identityState,model,dataTools=false}){
+  // signed in or not (r91: the old local data-tools page was cut).
+  function selectCareerScreenSource({identityState,model}){
     if(model!==undefined&&model!==null)return model&&STATUSES.includes(model.status)?"model":"unavailable";
-    return dataTools===true?"local":"unavailable";
+    return "unavailable";
   }
   // r80 Ended early row: "Ended early · 18 Oct 2026 · 1 season"; an unknown date or count (closes before the mark) is a dash.
   // r87 career fixes (A-04): the date is the UTC day, so Daniel's and Nik's phones print the same date in any time zone.

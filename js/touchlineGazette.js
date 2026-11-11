@@ -134,6 +134,45 @@
     return {rivalryId:String(projection.rivalryId||""),totalSeasons:T,clubs,seasons,max:SEASON_MAX.primePack};
   }
   const totalsOf=seasons=>seasons.reduce((t,s)=>({playerOne:t.playerOne+s.score.playerOne,playerTwo:t.playerTwo+s.score.playerTwo}),{playerOne:0,playerTwo:0});
+  // r91 Squad news (Nik 2026-11-11: reported overalls and departures feed the Gazette): what changed in each manager's squad
+  // since the paper before, from the squad sheets both phones keep (js/squadSheetStep.js gazetteNews; no read). The reason
+  // words are the Squad Management screen's own; at most 3 names a manager. It takes the place of the story's second
+  // paragraph (the one every edition shows: laptop windows and phones keep two), and is never longer than the paragraph it
+  // replaces (fewer names, then none, until it fits), so the paper is never taller and CONTINUE never moves down. No changes:
+  // nothing (the story keeps its own second paragraph).
+  const SQUAD_MAX=3;
+  const LEFT_WORD=Object.freeze({contract:"contract ended",retired:"retired",swapped:"swapped",sold:"sold",loaned:"loaned out"});
+  const listOf=items=>items.length<=1?items.join(""):`${items.slice(0,-1).join(", ")} and ${items[items.length-1]}`;
+  function squadChanges(news){
+    if(!plain(news))return null;
+    const out=[];
+    for(const role of ROLES){
+      const n=news[role];if(!plain(n)||!Array.isArray(n.left)||!Array.isArray(n.rated))return null;
+      const all=[...n.left.map(o=>({o,left:true})),...n.rated.map(o=>({o,left:false}))];
+      if(all.length)out.push({role,all});
+    }
+    return out;
+  }
+  function squadSentence(changes,names){
+    const why=o=>LEFT_WORD[o.reason]?` (${LEFT_WORD[o.reason]})`:"";
+    const clauses=changes.map(({role,all})=>{
+      const shown=all.slice(0,names),more=all.length-shown.length;
+      if(!shown.length)return `${NAMES[role]} made ${plural(all.length,"squad change")}.`;
+      const left=shown.filter(x=>x.left).map(x=>x.o),rated=shown.filter(x=>!x.left).map(x=>x.o);
+      const parts=[left.length?`lost ${listOf(left.map(o=>o.name+why(o)))}`:"",rated.length?`now rates ${listOf(rated.map(o=>`${o.name} ${o.value}`))}`:""].filter(Boolean);
+      return `${NAMES[role]} ${parts.join(" and ")}${more?`, plus ${plural(more,"more squad change")}`:""}.`;
+    });
+    return `Squad news: ${clauses.join(" ")}`;
+  }
+  // squadNews: (season) => js/squadSheetStep.js gazetteNews for that season, or null. story: the filled story.
+  function squadPaper(squadNews,N,story){
+    let changes=null;try{changes=typeof squadNews==="function"?squadChanges(squadNews(N)):null;}catch(_error){changes=null;}
+    const paras=Array.isArray(story?.paragraphs)?story.paragraphs:[];
+    if(!changes||!changes.length||paras.length<2)return {story,squad:null};
+    const room=paras[1].length;let sentence=null;
+    for(let names=SQUAD_MAX;names>=0&&!sentence;names-=1){const t=squadSentence(changes,names);if(t.length<=room||names===0)sentence=t;}
+    return {story:{...story,paragraphs:[paras[0],sentence,...paras.slice(2)]},squad:{sentence}};
+  }
   function spOf(sp){return plain(sp)&&plain(sp.daniel)&&plain(sp.nik)&&typeof sp.daniel.name==="string"&&sp.daniel.name&&typeof sp.nik.name==="string"&&sp.nik.name?{daniel:sp.daniel.name,nik:sp.nik.name}:null;}
 
   // ---------- the Gazette desk (2.0.0): plain facts worked out from the seasons, never from copy ----------
@@ -253,14 +292,14 @@
   }
   // Each paper is built after the papers of the Showdown's earlier seasons (the same rows on both phones), so it can pass
   // over the rows they printed.
-  function seasonEdition({projection,seasonNumber,specialPlayers=null,primePack=null}={}){
+  function seasonEdition({projection,seasonNumber,specialPlayers=null,primePack=null,squadNews=null}={}){
     const C=tgCopy(),P=tgPages();if(!C||!P)return null;
     const N=seasonNumber,facts=readHistory(projection,N,primePack);if(!facts||N>=facts.totalSeasons)return null;
     const used=new Set();let edition=null;
-    for(let k=1;k<=N;k+=1)edition=buildSeason({...facts,seasons:facts.seasons.slice(0,k)},k,k===N?specialPlayers:null,used);
+    for(let k=1;k<=N;k+=1)edition=buildSeason({...facts,seasons:facts.seasons.slice(0,k)},k,k===N?specialPlayers:null,used,k===N?squadNews:null);
     return edition;
   }
-  function buildSeason(facts,N,specialPlayers,used){
+  function buildSeason(facts,N,specialPlayers,used,squadNews=null){
     const C=tgCopy(),P=tgPages();
     const T=facts.totalSeasons,season=facts.seasons[N-1],W=season.winner,draw=W==="draw",L=draw?null:OTHER[W];
     const key=`${facts.rivalryId}|season|${N}`,walk=walker(facts.rivalryId,"season",N-1,used);
@@ -302,6 +341,7 @@
     const briefs=ROLES.map((role,i)=>briefFor(walk,"brief"+i,role,season.items[role],facts.clubs,false));
     const ears=earsFor(walk,keep);
     walk.keep([`headline:${chosen.situation}`,`story:${chosen.situation}`,"quote","caption","brief0","brief1","ear1","ear2"]);
+    const told=squadPaper(squadNews,N,story);
     return Object.freeze({
       kind:"season",key,rivalryId:facts.rivalryId,seasonNumber:N,totalSeasons:T,situation:chosen.situation,winner:draw?"draw":NAMES[W],
       paper:{
@@ -309,7 +349,7 @@
         season:`Season ${N} of ${T}`,dateline:"Season review",edition:"Price: one point",issue:`Vol. I · No. ${N}`,ears,
         left:{name:NAMES.playerOne,club:facts.clubs.playerOne,score:season.score.playerOne},right:{name:NAMES.playerTwo,club:facts.clubs.playerTwo,score:season.score.playerTwo},
         photo:{name:photo,caption:caption?caption.text:"",credit:"Gazette photo"},
-        story:{byline:story.byline,paragraphs:story.paragraphs},
+        story:{byline:story.byline,paragraphs:told.story.paragraphs},...(told.squad?{squad:told.squad}:{}),
         numbersTitle:"Season in numbers",numbers,quote:quote?{text:quote.text,who:quote.who}:null,portrait,briefs,
         race:raceFor(facts,N,false),inside:recordBook(facts,N,false),specialPlayers:spOf(specialPlayers)
       },
@@ -318,7 +358,7 @@
   }
 
   // ---------- FINAL edition ----------
-  function finalEdition({projection,final=null,specialPlayers=null,primePack=null}={}){
+  function finalEdition({projection,final=null,specialPlayers=null,primePack=null,squadNews=null}={}){
     const C=tgCopy(),P=tgPages();if(!C||!P||!plain(projection))return null;
     const end=tgEndOf(projection),T=end.played,planned=projection.totalSeasons,facts=readHistory(projection,T,primePack);if(!facts||facts.seasons.length!==T)return null;
     const totals=totalsOf(facts.seasons),W=totals.playerOne>totals.playerTwo?"playerOne":totals.playerTwo>totals.playerOne?"playerTwo":"draw";
@@ -388,6 +428,7 @@
     const briefs=draw&&golden?ROLES.map(role=>({head:"Golden Showdown",text:`${NAMES[role]} reaches ${goldenPoints} points over ${T} seasons: a Golden Showdown, shared.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[role],id:`golden-shared:${role}`}))
       :draw?ROLES.map((role,i)=>briefFor(walk,"brief"+i,role,showdownItems(role),facts.clubs,true))
       :[{head:golden?"Golden Showdown won":"The Showdown trophy",text:golden?`${NAMES[W]} reaches ${goldenPoints} points, the target that wins the Golden Showdown.`:`${NAMES[W]}'s name goes on the trophy that outranks every cup in either cabinet.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[W],id:"showdown-trophy"},briefFor(walk,"brief1",L,showdownItems(L),facts.clubs,true)];
+    const told=squadPaper(squadNews,T,story);
     return Object.freeze({
       kind:"final",key,rivalryId:facts.rivalryId,seasonNumber:T,totalSeasons:planned,...(sackedRoles.length?{sacked:sackedRoles.map(role=>NAMES[role])}:{}),situation:chosen.situation,winner:draw?"draw":NAMES[W],golden,
       paper:{
@@ -395,7 +436,7 @@
         season:SK&&T<planned?`${T} of ${planned} seasons · sacked`:`${T} season${T===1?"":"s"}`,dateline:golden?"Golden edition":"Final edition",edition:golden?"Commemorative edition":"Price: one point",issue:golden?"Vol. I · Golden edition":"Vol. I · Final edition",ears:earsFor(walk,keep),
         left:{name:NAMES.playerOne,club:facts.clubs.playerOne,score:totals.playerOne},right:{name:NAMES.playerTwo,club:facts.clubs.playerTwo,score:totals.playerTwo},
         photo:{name:photo,caption:caption?caption.text:"",credit:"Gazette photo"},
-        story:{byline:story.byline,paragraphs:story.paragraphs},
+        story:{byline:story.byline,paragraphs:told.story.paragraphs},...(told.squad?{squad:told.squad}:{}),
         numbersTitle:golden?"The Golden Showdown":"The Showdown in numbers",numbers,quote:quote?{text:quote.text,who:quote.who}:null,portrait,briefs,
         race:raceFor({...facts,totalSeasons:T},T,true),inside:recordBook(facts,T,true),specialPlayers:spOf(specialPlayers)
       },
@@ -412,6 +453,8 @@
   // ---------- the inputs, read from what this screen already holds (no read, no write) ----------
   function tgState(name){try{return root[name]?.getState?.()??null;}catch(_error){return null;}}
   function tgSpecial(rivalryId){try{const chip=root.CareerModeSpecialPlayerChip;return chip&&typeof chip.liveFor==="function"?chip.liveFor(rivalryId):null;}catch(_error){return null;}}
+  // r91: the squad news comes from the squad sheets this phone keeps (js/squadSheetStep.js, one of the paper's files)
+  function tgSquad(rivalryId,season){try{const step=root.CareerModeSquadSheetStep;return step&&typeof step.gazetteNews==="function"?step.gazetteNews({rivalryId:String(rivalryId||""),season}):null;}catch(_error){return null;}}
   // F2-16: the chip is one of the paper's files (loadAssets), so it is read when the paper is built, never at the tap.
   function tgChip(load){return load("special-player-chip","js/specialPlayerChip.js",()=>Boolean(root.CareerModeSpecialPlayerChip)).then(()=>root.CareerModeSpecialPlayerChip?.ensure?.()).then(ready=>{if(ready===false)throw new Error("GAZETTE_SPECIAL_PLAYER_UNAVAILABLE");return true;});}
   // SEASON: the season this phone's CONTINUE TO SEASON N+1 belongs to (Shared History converged through it).
@@ -463,6 +506,7 @@
       load("gazette-headlines","data/frontPages.js",()=>Boolean(root.CareerModeFrontPages)),
       load("gazette-sacked","data/gazetteSacked.js",()=>Boolean(root.CareerModeGazetteSacked)),
       tgChip(load),
+      load("squad-sheet-step","js/squadSheetStep.js",()=>Boolean(root.CareerModeSquadSheetStep)).catch(()=>null),
       load("visual-identity","js/visualIdentity.js",()=>typeof root.getClubCrestSvg==="function").catch(()=>null)
     ]).then(()=>{tgFontRule(doc);return doc.fonts&&typeof doc.fonts.load==="function"?Promise.all(FONTS.map(f=>doc.fonts.load(`${f[1]} ${f[2]} 16px "${f[0]}"`).catch(()=>null))):null;}).then(()=>true);
     assetsPromise.catch(()=>{assetsPromise=null;});
@@ -497,6 +541,7 @@
     if(p.portrait)p.portrait={...p.portrait,src:art(p.portrait.name)};
     p.briefs=p.briefs.map(b=>({...b,trophy:b.trophy?art(b.trophy):null}));
     if(!p.quote)delete p.quote;
+    delete p.squad;
     return p;
   }
   function eyebrowFor(edition){return edition.kind==="final"?(edition.golden?"Golden Showdown · front page":"Final front page"):`Season ${edition.seasonNumber} of ${edition.totalSeasons} · front page`;}
@@ -638,13 +683,13 @@
       if(button.disabled||!progression||typeof progression.canContinue!=="function"||!progression.canContinue())return null;
       const history=tgState("CareerModeProductionSharedHistoryConvergence"),rivalryId=history?.rivalryId||history?.projection?.rivalryId;
       const input=seasonInput({history}),key=seasonKey(input);if(!key||seen(key))return null;
-      return {kind:"season",key,button,build:()=>seasonEdition({...input,specialPlayers:tgSpecial(rivalryId)}),proceed:()=>typeof progression.continueToNextSeason==="function"?progression.continueToNextSeason():clickThrough(()=>root.document.getElementById("sharedMultiSeasonContinueAction"))};
+      return {kind:"season",key,button,build:()=>seasonEdition({...input,specialPlayers:tgSpecial(rivalryId),squadNews:season=>tgSquad(input.projection.rivalryId,season)}),proceed:()=>typeof progression.continueToNextSeason==="function"?progression.continueToNextSeason():clickThrough(()=>root.document.getElementById("sharedMultiSeasonContinueAction"))};
     }
     if(host.classList.contains("v10FinalMode")&&!button.disabled&&finalExit(button)){
       const final=root.FINAL_WINNER_FIXTURES?.frames?.LIVE||null,history=root.CareerModeSeasonFinalV10?.gazetteHistory?.()||null;
       const input=finalInput({final,history}),key=finalKey(input);if(!key||seen(key))return null;
       const rematch=button.id==="finalWinnerRematch";
-      return {kind:"final",key,button,build:()=>finalEdition({...input,specialPlayers:input.specialPlayers||tgSpecial(input.projection.rivalryId)}),proceed:()=>clickThrough(()=>rematch?root.document.getElementById("finalWinnerRematch"):(button.isConnected?button:root.document.querySelector("#seasonEntry .seasonEntryActions .backButton")))};
+      return {kind:"final",key,button,build:()=>finalEdition({...input,specialPlayers:input.specialPlayers||tgSpecial(input.projection.rivalryId),squadNews:season=>tgSquad(input.projection.rivalryId,season)}),proceed:()=>clickThrough(()=>rematch?root.document.getElementById("finalWinnerRematch"):(button.isConnected?button:root.document.querySelector("#seasonEntry .seasonEntryActions .backButton")))};
     }
     return null;
   }
