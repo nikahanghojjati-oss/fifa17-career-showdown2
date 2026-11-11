@@ -554,7 +554,7 @@ function setSuggestions(names){
 // only the token count drop. "used": both tokens gone. Anything else just clears the pending state.
 function guessFeedback(kind){
   S.pending=false;
-  if(kind==="not-in-list") note("Not an icon in the list", true);
+  if(kind==="not-in-list") note("That name is not on the list", true);
   else if(kind==="wrong") { note("Not him."); $("guess").value=""; setSuggestions([]); }
   else if(kind==="used") note("No guesses left. Watch the rest.");
   else if(kind==="late") note("Too late for that one.");
@@ -575,7 +575,7 @@ function showResult(winner, points){
   S.nameAt = now() + NAME_AFTER_MS;
   $("nameValue").textContent=S.round.name;                          // guessing has ended: the only place the name is written
   const b=$("banner"); b.hidden=false;
-  if(S.result==="draw"){ b.textContent="Nobody got him · 0 points"; b.classList.add("draw"); }
+  if(S.result==="draw"){ b.textContent="Nobody named him · 0 points"; b.classList.add("draw"); }
   else { b.textContent=`${S.names[S.result]} +${S.points} Showdown point${S.points===1?"":"s"}`; b.classList.remove("draw"); }
   b.dataset.winner=S.result;
   $("boxOne").dataset.won = S.result==="playerOne" ? "1" : "0"; $("boxTwo").dataset.won = S.result==="playerTwo" ? "1" : "0";
@@ -733,7 +733,7 @@ function render(){
     [...el.children].forEach((c,i)=>c.classList.toggle("used", i>=S.chips[r])); });
   const w=$("waiting"), beat=$("beat"), ring=$("ring");
   w.hidden = Boolean(S.result) || !S.round || S.beat>=0 || (!S.waitingFor && !S.countIn);
-  if(S.waitingFor) w.textContent=`Waiting for ${S.names[S.waitingFor]}`; else if(S.countIn) w.textContent="Both here · Get ready";
+  if(S.waitingFor) w.textContent=`Waiting for ${S.names[S.waitingFor]}`; else if(S.countIn) w.textContent="Both here · Starting";
   $("status").hidden = Boolean(S.result);
   if(S.result || S.beat<0 || !S.round){ beat.textContent=""; beat.hidden=true; ring.hidden=true; }
   else {
@@ -748,11 +748,11 @@ function render(){
   const ok=canGuess(), mine=S.chips[S.me], oth=otherRole(), otherBox = oth==="playerOne" ? $("boxOne") : $("boxTwo"), mineBox = S.me==="playerOne" ? $("boxOne") : $("boxTwo");
   otherBox.dataset.out = S.round && S.chips[oth]<=0 ? "1" : "0"; mineBox.dataset.out = S.round && mine<=0 ? "1" : "0";
   const o=$("other");
-  o.textContent = !S.round ? "" : S.result ? (S.result===oth ? `Named him · +${S.points}` : S.chips[oth]<=0 ? "Out of guesses" : "No luck")
-    : S.chips[oth]<=0 ? "Out of guesses" : S.waitingFor===oth ? "Not here yet" : S.beat<0 ? "Ready" : "Guessing…";
+  o.textContent = !S.round ? "" : S.result ? (S.result===oth ? `Named him · +${S.points}` : S.chips[oth]<=0 ? "No guesses left" : "No luck")
+    : S.chips[oth]<=0 ? "No guesses left" : S.waitingFor===oth ? "Not here yet" : S.beat<0 ? "Ready" : "Guessing…";
   $("guess").disabled = !canType(); $("go").disabled = !ok;
   if(S.round){
-    $("guess").placeholder = S.result ? (S.result===S.me ? `Named him · +${S.points}` : "Round over") : S.waitingFor ? "Waiting…" : S.beat<0 ? "Get ready…" : mine<=0 ? "No guesses left" : S.pending ? "Checking…" : ok ? "Who is he?" : "Time's up";
+    $("guess").placeholder = S.result ? (S.result===S.me ? `Named him · +${S.points}` : "Round over") : S.waitingFor ? "Waiting…" : S.beat<0 ? "Starting…" : mine<=0 ? "No guesses left" : S.pending ? "Checking…" : ok ? "Who is he?" : "Time's up";
     if(!canType()) $("suggest").hidden=true;
   }
 }

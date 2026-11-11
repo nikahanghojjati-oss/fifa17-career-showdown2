@@ -168,7 +168,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT));
   const sp=Chip.forShowdown('pair_'+'e'.repeat(64),AT);
   const shown=[Chip.rule.label,Chip.rule.text,Chip.html(sp.daniel),Chip.html(sp.nik),Chip.title(sp.daniel),Chip.clubLine(sp.nik),...[...Chip.css.matchAll(/content:\s*("[^"]*"|'[^']*')/g)].map(m=>m[1])];
   for(const text of shown)assert.doesNotMatch(text,NOT_SHOWN,text);
-  assert.match(Chip.rule.text,/Your Special Player scores no points\. Full rules in card 09\./);
+  assert.match(Chip.rule.text,/Yours scores no points\. Full rules: Rule Book card 09\./);
   const rb=read('js/ruleBook.js'),pc=read('js/productionSharedCareerStart.js');
   for(const src of [rb,pc,read('js/specialPlayerChip.js'),...['career-statistics','trophy-room','legacy','rivalry-statistics','standings','final-winner'].map(d=>read(`visual-assets/v10_1/${d}/${d}.js`))]){
     for(const [,text] of src.matchAll(/(?:textContent\s*=\s*|pcstRow\(|pcstCreate\("[a-z0-9]+","[^"]*",)\s*"([^"]*)"/g))assert.doesNotMatch(text,NOT_SHOWN,text);
