@@ -95,7 +95,8 @@ ok("R90-PS4 Prime Pack: art decoded before ready, the pack and the card on their
 });
 ok("R90-PS5 Codex P2 #1259: the next player's flag only shows at his nation clue, never during the handover",()=>{
   const start=page.slice(page.indexOf("function startPlayer("),page.indexOf("function settle("));
-  assert.match(page,/at\(tt,5\.8,"nat",\(\)=>\{ clueMaps\(2\); pulse=1;/,"the nation shows at its clue (on the card; the roof flags are gone, L31 round 2)");
+  assert.match(page,/at\(tt,5\.8,"nat",\(\)=>\{ clueMaps\(2\); setFlagTex\(prep\(\)\.flag\); pulse=1;/,"the nation shows at its clue, on the card and (r91, back from 2.2.0) on the roof flags");
+  assert.ok(!/setFlagTex/.test(start),"startPlayer never swaps the flag: Daniel's flags keep his nation while they roll up");
 });
 ok("R90-PS6 Nik's tighter rhythm (2026-11-07 22:50 UTC): four quicker stretches, half-speed burst, 2.8 s scouting hold",()=>{
   assert.match(page,/const PACE=\[\[0,\.9,\.9\/\.4\],\[1\.65,2\.3,\.65\/\.35\],\[3\.7,5\.0,1\.3\/\.9\],\[6\.4,7\.5,1\.1\/\.8\]\];/);
@@ -177,7 +178,9 @@ ok("R90-PS11 LOOK round 2 L31/L05/L32: the reveal stays a night stadium, calmer 
   assert.match(page,/rays\.position\.set\(0,1\.9,-1\.5\); rays\.scale\.set\(8,8,1\); scene\.add\(rays\);/,"L31: the rays are a halo round the card, not a sky-wide sunburst");
   assert.ok(!/rays\.scale\.set\(14,14,1\)/.test(page));
   assert.match(page,/rays\.scale\.setScalar\(3\.5\+charge\*2\.5\)/,"L31: the charge halo stays round the pack");
-  assert.ok(!/flagMounts|setFlagTex|const flags=/.test(page),"L31 round 2: no giant roof flags");
+  assert.match(page,/const flags=flagMounts\.map\(/,"r91 (Nik 2026-11-11 \"yes to nation flag\"): 2.2.0's five roof flags are back");
+  assert.match(page,/set\.flag=up\(prepTex\(384,256,c=>drawFlag\(c,p\.nation,0,0,384,256,true\)\)\)/,"r91: the flag is drawn and uploaded once per player, behind the loading screen");
+  assert.match(page,/const warmShown=\(\)=>\[[^\]]*\.\.\.flags\.map\(f=>f\.mesh\)\]/,"r91: the flags are out in the warm draw, so their program and shadow pass are ready before the first frame");
   assert.match(page,/const CALM=\.55;/,"L31: about half the paper and sparks, same beats");
   assert.match(page,/burst\(CARD_POS\.clone\(\)\.add\(new T\.Vector3\(0,0,\.3\)\),\[0xf1c35a,0xffd77a,0xfff1c2\],Math\.round\(120\*pw\*CALM\)/,"L31 round 2/L40 round 3: one short gold burst at the flash, half as many sparks");
   assert.match(page,/confettiCannon\(1,cc,Math\.round\(200\*pw\*CALM\)\)/,"the club beat keeps its (calmer) cannons");
