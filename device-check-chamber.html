@@ -27,11 +27,12 @@ html,body{margin:0;height:100%;background:#050505;overflow:hidden}
   const CLUBS={playerOne:"Barcelona",playerTwo:"Chelsea"};
   // Every side, both keepers' guesses, saves and goals (some go in off the wood): the same list on every device.
   const KICKS=[["L","R",true],["R","R",false],["M","L",true],["R","L",true],["L","L",false],["M","M",false],["R","M",true],["L","M",true]];
-  const tell=msg=>{try{if(parent!==window)parent.postMessage({type:"cms-gfx-bench",scene:"chamber-men",...msg},location.origin);}catch(_error){}};
+  const tell=msg=>{try{if(parent!==window)parent.postMessage({type:"cms-gfx-bench",phase:"result",scene:"chamber-men",...msg},location.origin);}catch(_error){}};
   async function start(){
     const svg=document.querySelector(".cmGoal");
     let api=null;
-    try{api=await window.CareerModeChamberMen3d.mount(svg,{clubs:CLUBS});}catch(_error){api=null;}
+    // fullFiles: the asked level's own files are waited for, never the lighter stand-in a slow line opens with in the game.
+    try{api=await window.CareerModeChamberMen3d.mount(svg,{clubs:CLUBS,fullFiles:true});}catch(_error){api=null;}
     if(!api){tell({error:"The 3D scene did not start on this device (no WebGL2, or it loaded too slowly)."});return;}
     window.__cmBenchReady=true;
     let n=0;

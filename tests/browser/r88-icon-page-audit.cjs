@@ -88,7 +88,7 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
     // stages table, then nobody: 0 points, then the name
     {
       const p=await newPage();await p.goto(base+PAGE+"?still=1");await p.waitForFunction(()=>window.__ig&&window.PrimePackPage);
-      await p.evaluate(()=>document.fonts.ready);
+      await p.evaluate(()=>document.fonts.ready);await p.waitForFunction(()=>window.__ig.state().waitingFor!==null);
       assert.deepEqual(JSON.parse(JSON.stringify(await p.evaluate(()=>window.PrimePackPage.stages))),STAGES,"the preview plays the game's stages table");
       let s=await state(p);
       assert.equal(s.waitingFor,"playerOne");assert.equal(s.beat,-1);assert.equal(s.position,null);assert.equal(s.canGuess,false);
@@ -105,9 +105,12 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
       assert.equal(s.secondsLeft,sec(s1.guessMs),"the timer shows the stage's whole guessing time while the reveal plays");assert.equal(s.secondsLeft,25,"stage 1: a 25 s timer, no clamp");
       assert.equal(await p.textContent("#ringNum"),"25");
       assert.equal(s.namePlate,"","the name element is empty and hidden");
+      // r91 Prime Pack look 2 (Nik): the card starts rising behind the pack before the pack has gone, so the stand is never empty
+      const fade=()=>p.evaluate(()=>{const k=document.getElementById("pack"),c=document.getElementById("card");return{pack:k.hidden?0:Number(k.style.opacity),card:c.style.visibility==="visible"?Number(c.style.opacity):0};});
       await advance(p,sec(s1.revealMs)*.15);s=await state(p);assert.equal(s.packShown,true,"the pack opens first");await shot(p,"1-opening");
-      const mid=await p.evaluate(()=>Number(document.getElementById("pack").style.opacity));assert.ok(mid>0&&mid<1,`the pack fades out (${mid})`);
-      await advance(p,sec(s1.revealMs)*.35);s=await state(p);assert.equal(s.packShown,false,"then the pack is gone");assert.equal(s.cardUp,false,"and the card is still rising");assert.equal(s.position,null);await shot(p,"2-rising");
+      let f=await fade();assert.equal(f.pack,1,"the pack is still whole while the card begins to rise behind it");assert.ok(f.card>0&&f.card<1,`the card is already rising (${f.card})`);
+      for(const k of [.2,.1,.1,.1]){await advance(p,sec(s1.revealMs)*k);f=await fade();assert.ok(1-(1-f.pack)*(1-f.card)>=.9,`never an empty stand while the pack fades out and the card rises in (pack ${f.pack}, card ${f.card})`);}
+      s=await state(p);assert.equal(s.packShown,false,"then the pack is gone");assert.equal(s.cardUp,true,"and the card is up");assert.equal(s.position,null);await shot(p,"2-rising");
       await advance(p,sec(s1.revealMs)*.5);s=await state(p);
       assert.equal(s.revealing,false);assert.equal(s.cardUp,true,"the card has risen");assert.equal(s.position,"CAM");
       assert.deepEqual(statsUp(s),PREVIEW_ORDER.slice(0,s1.stats).sort(),"stage 1: the position and one stat");assert.equal(s.flag,false);assert.equal(s.overall,null);assert.equal(s.name,null);
@@ -141,8 +144,9 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
       await type(p,"s");assert.equal(await p.isHidden("#suggest"),true,"no suggestions under two letters");
       await type(p,"samp");assert.equal(await p.isVisible("#suggest"),true);assert.ok((await p.$$("#suggest li")).length>=2);
       s=await state(p);assert.equal(s.boxes.playerOne.visible&&s.boxes.playerTwo.visible,true,"the suggestions leave both boxes on screen");
-      const boxTop=await p.evaluate(()=>[document.getElementById("suggest").getBoundingClientRect().bottom,document.getElementById("boxOne").getBoundingClientRect().top]);
-      assert.ok(boxTop[0]<=boxTop[1]+1,"the suggestions open above both boxes");await shot(p,"6-suggestions");
+      const sg=await p.evaluate(()=>{const r=(id)=>document.getElementById(id).getBoundingClientRect(),u=r("suggest"),c=r("card"),h=innerHeight;return{overCard:!(u.bottom<=c.top||u.top>=c.bottom||u.right<=c.left||u.left>=c.right),inScreen:u.bottom<=h+1,reachable:document.getElementById("suggest").scrollHeight>=document.getElementById("suggest").clientHeight};});
+      assert.equal(sg.overCard,false,"the suggestions never cover the card (r91 Prime Pack look 1)");assert.equal(sg.inScreen,true,"the suggestions end inside the screen (the list scrolls inside the room that is left)");assert.equal(sg.reachable,true);
+      await shot(p,"6-suggestions");
       await p.evaluate(()=>{window.__sent=[];addEventListener("cms-ig",e=>window.__sent.push(e.detail));});
       await type(p,"Nobody At All");await p.click("#go");s=await state(p);
       assert.equal(await p.textContent("#note"),"That name is not on the list");assert.equal(s.chips.playerTwo,2,"text that matches no icon costs no token");
@@ -158,7 +162,7 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
       assert.equal(s.boxes.playerTwo.won,true);assert.equal(s.name,null);assert.equal(s.namePlate,"Sample Icon","a right guess ends guessing: the #name plate gets the name");await advance(p,1);s=await state(p);assert.equal(s.name,"Sample Icon");assert.equal(s.overall,"94");await shot(p,"7-win");
       await p.click("#cta");await p.click("#cta",{force:true}).catch(()=>{});
       assert.equal(await p.evaluate(()=>window.__sent.filter(m=>m.type==="cms-ig-continue").length),1,"Continue is sent once");
-      ok("I2","own box: suggestions from two letters above both boxes, a non-icon costs no token, a wrong guess uses a token and shows only here, a right one in stage 4 shows NIK +1 SHOWDOWN POINT then the name, Continue once");
+      ok("I2","own box: suggestions from two letters, opening under the boxes and never over the card, a non-icon costs no token, a wrong guess uses a token and shows only here, a right one in stage 4 shows NIK +1 SHOWDOWN POINT then the name, Continue once");
       // I3 two guesses for the whole round, then the box is shut but stays on screen
       t0=await restart(p);await advanceTo(p,t0,START[0]+sec(STAGES[0].revealMs)+1);
       for(const wrong of ["Sample Striker","Sample Winger"]){await type(p,wrong);await p.click("#go");}
@@ -221,7 +225,7 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
       await p.evaluate(r=>window.send({type:"cms-ig-start",round:r}),ROUND);
       const s1=STAGES[0];
       await p.evaluate(m=>window.send(m),{type:"cms-ig-reveal",index:0,phase:"reveal",remainingMs:s1.guessMs+1000,revealMsLeft:1000});
-      s=await fstate();assert.equal(s.packShown,false,"past its fade: the pack is already open");assert.equal(s.namePlate,"","a new round empties the name");assert.equal(s.cardUp,false);assert.equal(s.revealing,true);assert.equal(s.secondsLeft,sec(s1.guessMs));
+      s=await fstate();assert.equal(s.packShown,true,"mid-fade: the card is already up behind the last of the pack");assert.equal(s.namePlate,"","a new round empties the name");assert.equal(s.cardUp,false);assert.equal(s.revealing,true);assert.equal(s.secondsLeft,sec(s1.guessMs));
       await fadvance(1);s=await fstate();assert.equal(s.cardUp,true);assert.equal(s.position,"ST");assert.deepEqual(statsUp(s),ROUND.statOrder.slice(0,s1.stats).sort());
       // stage 4 straight from the game: four stats, the flag and the overall still ??
       await p.evaluate(()=>window.send({type:"cms-ig-reveal",index:3,phase:"window",remainingMs:5000,revealMsLeft:0}));
@@ -241,10 +245,10 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
     }
     // I5 reduced motion and a short (keyboard-open) screen
     {
-      const p=await newPage({reducedMotion:"reduce"});await p.goto(base+PAGE+"?still=1");await p.waitForFunction(()=>window.__ig);
+      const p=await newPage({reducedMotion:"reduce"});await p.goto(base+PAGE+"?still=1");await p.waitForFunction(()=>window.__ig&&window.__ig.state().waitingFor!==null);
       let s=await state(p);assert.equal(s.reduced,true);
       assert.equal(await p.evaluate(()=>document.documentElement.classList.contains("rm")),true);
-      await advance(p,START[0]+sec(STAGES[0].revealMs)*.6);
+      await advance(p,START[0]+sec(STAGES[0].revealMs)*.3);
       const mid=await p.evaluate(()=>({card:document.getElementById("card").style.transform,opacity:Number(document.getElementById("card").style.opacity)}));
       assert.equal(mid.card,"none","the card fades in, no slide");assert.ok(mid.opacity>0&&mid.opacity<1,"mid-fade");
       await p.evaluate(()=>document.documentElement.classList.remove("still"));
@@ -262,6 +266,16 @@ const statsUp=s=>Object.entries(s.stats).filter(([,v])=>v!==null).map(([k])=>k).
           return {inside:r.left>=0&&r.top>=0&&r.right<=W&&r.bottom<=H,hits:pts.every(([x,y])=>el.contains(document.elementFromPoint(x,y))),shape:document.getElementById("app").dataset.shape};});
         assert.equal(go.inside&&go.hits,true,`${size.width}x${size.height}: the Guess button is fully on screen and clickable (${go.shape} layout)`);
         if(size.width<500)assert.equal(go.shape,"tall",`${size.width}x${size.height}: a phone keeps the phone layout`);
+        // r91 Prime Pack look 1 (reviewer P3): the suggestion list ends inside the screen and never covers the card, whatever the
+        // height (it scrolls inside the room that is left), and moving through it with the keyboard scrolls only the list
+        await p.evaluate(()=>window.PrimePackPage.setSuggestions(["Sample Icon","Sample Striker","Sample Winger","Simon Sample","Samuel Example","Sam Long Name"]));
+        for(let k=0;k<6;k++)await p.keyboard.press("ArrowDown");
+        const sg=await p.evaluate(()=>{const r=(id)=>document.getElementById(id).getBoundingClientRect(),u=r("suggest"),c=r("card"),H=visualViewport.height,app=document.getElementById("app"),act=document.querySelector("#suggest li[aria-selected=true]"),ar=act&&act.getBoundingClientRect();
+          return{visible:!document.getElementById("suggest").hidden,inScreen:u.bottom<=H+1,overCard:!(u.bottom<=c.top||u.top>=c.bottom||u.right<=c.left||u.left>=c.right),appScroll:app.scrollTop+document.body.scrollTop+document.documentElement.scrollTop,activeInList:!ar||(ar.top>=u.top-1&&ar.bottom<=u.bottom+1)};});
+        assert.equal(sg.visible,true,`${size.width}x${size.height}: the suggestions show`);assert.equal(sg.inScreen,true,`${size.width}x${size.height}: the suggestion list ends inside the screen`);
+        if(size.height>=400)assert.equal(sg.overCard,false,`${size.width}x${size.height}: the suggestion list never covers the card`);   // under that (card at its smallest, keyboard open) it opens above the boxes rather than be cut by the screen edgeassert.equal(sg.appScroll,0,`${size.width}x${size.height}: the keyboard scrolls the list only, never the page`);
+        assert.equal(sg.activeInList,true,`${size.width}x${size.height}: the picked row stays inside the list`);
+        await p.evaluate(()=>window.PrimePackPage.setSuggestions([]));
         if(size.height===430)await shot(p,"8-keyboard-height");
         if(size.height===350)await shot(p,"8b-keyboard-350");
       }

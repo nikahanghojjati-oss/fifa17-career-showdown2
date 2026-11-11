@@ -78,7 +78,7 @@ ok("R90-PS3 quality follows the device: the shared gfxTier governor (Settings 3D
   assert.match(page,/const GFX=window\.CareerModeGfxTier\|\|null, GP=GFX\?GFX\.profile\(\):null;/);
   assert.match(page,/let PR=GP\?GP\.pixelRatio:1,/,"starts at the profile's ratio (Auto never above the screen's); 1x without the module (docs/QUALITY_LEVELS.md)");
   assert.match(page,/GFX\.calibrate\(renderer,render\)/,"timed frames behind the loading screen");
-  assert.match(page,/gov=GFX\.governor\(renderer,\{key:"sp",draw:render,onChange\(p\)\{ PR=p\.pixelRatio; resize\(\); \}\}\);/);
+  assert.match(page,/gov=GFX\.governor\(renderer,\{key:"sp",draw:render,onChange\(p\)\{ PR=p\.pixelRatio; resize\(\); \},info:\(\)=>\(\{bloom:BLOOM,direct:DIRECT,samples:sceneRT\.samples\|0\}\)\}\);/); // r91: info() tells the Device check what was built
   assert.match(page,/function frame\(\)\{ if\(manual===null\)\{ tick\(true\); if\(gov\) gov\.frame\(performance\.now\(\)\); \}/);
   assert.match(page,/GFX\.overlay\(/,"?fps=1 counter from the shared module");
   assert.ok(!/RS_STEPS|function govern\(|fpsEl/.test(page),"no second governor or counter left in the page");
