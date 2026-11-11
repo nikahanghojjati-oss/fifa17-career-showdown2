@@ -45,3 +45,6 @@ Nik (11 Nov 12:36 Eastern): "the lighting should look logical professional and h
 
 
 Source: Team G art ledger gameplay/r91/art/ART_LEDGER.md (shared project files), gallery https://claude.ai/artifact/B36Gj4iHoAighBW3zDQ9AX. Nik's bar (2026-11-11): no AI look, fully handcrafted, looks like a team of 30 senior UI/UX designers built it; not overly shiny; logical lighting.
+
+## Scope note from Team G (r91 lead, 2026-11-11 19:47 UTC) — avoid double work
+Team G PR #1400 (art thread) already removes the CODE-side glow: glow terms in panel box-shadows and title CSS filters on 9 screens (css/connectPlayersV10.css, css/r78-type.css, css/rivalryLegacyV10.css, css/v10Setup.css, css/v10Transfer.css, js/careerScreensV10.js, js/seasonFinalV10.js). HO-074 is for what is BAKED INTO the images: room relights, rim light without a source on heroes, the brass wheel rim, glow painted into plates/props. If you need to touch any of those 7 files, say so on this ticket first. Your HO-070 PR #1394 (css/v10Gazette.css) does not overlap.
