@@ -726,7 +726,6 @@
         if(kickT<end){
           const k={clip:TK.penaltyKick,time:kickT,w:1};
           if(st.jog&&kickT<.12){const j=cm3Easy(kickT/.12);taker.pose([{clip:jog,time:JOG_JOIN+kickT*st.rate,w:1-j},{...k,w:j}]);return;}
-          if(!st.jog&&kickT<.001){taker.pose([idle]);return;}
           taker.pose([k]);return;
         }
         const r=plan.react,rt=kickT-end,b=cm3Easy(rt/.4);
@@ -734,7 +733,7 @@
       }
       if(!st.jog){
         // Two steps from a standstill: he waits, then goes.
-        const b=cm3Easy((kickT+.28)/.28);taker.pose([idle,{clip:TK.penaltyKick,time:0,w:b}]);return;
+        const b=cm3Easy((kickT+.28)/.28);taker.pose([{...idle,w:1-b},{clip:TK.penaltyKick,time:0,w:b}]);return;
       }
       if(t<runStart){taker.pose([idle]);return;}
       const jt=JOG_JOIN-st.total+st.clipAt(t-runStart),b=cm3Easy((t-runStart)/.3);
@@ -821,6 +820,9 @@
           // taker standing on the spot no longer hides the keeper and both reactions read.
           const sl=cm3Easy((t-.35)/1.4);p.x+=CAMSLIDE*sl;l.x+=CAMSLIDE*.55*sl;}
       }
+      // r91: the next lineup's shot starts exactly where the last kick's shot ended (the camera has slid aside and pushed
+      // in by then) and eases back to the waiting shot, so the dissolve between them never shows two goals side by side.
+      if(carry.at>-1e8){const k=cm3Easy((clockNow()-carry.at)/1400);if(k<1&&!reducedMotion()){p.lerpVectors(carry.p,p,k);l.lerpVectors(carry.l,l,k);}else carry.at=-1e9;}
       camera.position.copy(p);camLook.copy(l);
       // Proofs only: a close camera on the foot or the gloves ({pos, look, fov}); the game never sets it.
       const cu=api.closeup;if(cu){camera.position.fromArray(cu.pos);camLook.fromArray(cu.look);camera.fov=cu.fov||20;camera.updateProjectionMatrix();}
@@ -839,7 +841,7 @@
     // ---------- the dissolve between kicks ----------
     // A new taker and keeper come in under a short broadcast dissolve: the last frame fades out over the new one (never
     // to black, never dimmed).
-    let snap=null,snapAt=-1e9;
+    let snap=null,snapAt=-1e9;const carry={p:new T.Vector3(),l:new T.Vector3(),at:-1e9};
     // Proof numbers for the quality gallery (probe only): draw calls, triangles and the textures' GPU size (mips included).
     const gpuFootprint=()=>{
       const seen=new Set();let bytes=0;
@@ -869,6 +871,7 @@
     const dissolveFrom=()=>{
       if(!cssW||(frozenClock===null&&reducedMotion()))return;
       snapTexture();renderer.setRenderTarget(null);renderer.render(scene,camera);renderer.copyFramebufferToTexture(snap);snapAt=clockNow();
+      carry.p.copy(camera.position);carry.l.copy(camLook);carry.at=snapAt;
     };
 
     // ---------- size, labels, drawing ----------

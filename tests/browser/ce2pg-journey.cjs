@@ -187,7 +187,7 @@ const VIEWPORTS={1:{daniel:{width:393,height:660},nik:{width:390,height:844}},2:
 const NAMES={daniel:"Daniel",nik:"Nik"};
 const ROLE={daniel:"playerOne",nik:"playerTwo"};
 const meter=createMeter();
-let billedModel=null;const budgetWaits=[];
+let billedModel=null;const budgetWaits=[];const squadSteps=[];
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // Report
@@ -688,6 +688,8 @@ async function publishThroughOutage(m,k){
 async function playSeasonResults(daniel,nik,k,planSeason){
   for(const m of [daniel,nik]){
     await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
+    // r91 Squad Management: this manager's squad for next season comes first (not in the Showdown's last season).
+    squadSteps.push(...await rosterRoulette.playSquadUntil(m.page,()=>m.page.locator("#seasonEntry").isVisible()));
     await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
   }
   await budgetWait("results-entry");
@@ -1436,6 +1438,10 @@ function meterEntry(label,from,to,{play=null}={}){
   const b=seasonBilled(t(play?play[0]:from),t(play?play[1]:to));
   const topOf=billedMeter.price(billedModel,meter.events.filter(e=>e.t>=t(play?play[0]:from)&&e.t<t(play?play[1]:to)&&(e.k==="read"||e.k==="write"||e.k==="listener")));
   entry.billed={check:b.check,measured:{docReads:b.measured.docReads,rulesReads:b.measured.rulesReads,rulesOnWrites:b.measured.rulesOnWrites,billed:b.measured.billed,writes:b.measured.writes,selfLookups:b.measured.selfLookups,byUser:b.measured.byUser,ms:b.measured.ms},profiles:b.profiles,waits:b.rows,sampledMinutes:b.sampledMinutes,topModules:billedMeter.top(topOf.byModule,5),topPaths:billedMeter.top(topOf.byPath,5)};
+  // r91 Squad Management: what its documents cost this season (reads, listener deliveries, creates), both phones.
+  const sq=billedMeter.price(billedModel,meter.events.filter(e=>e.t>=t(from)&&e.t<t(to)&&(e.k==="read"||e.k==="write"||e.k==="listener")&&/\/squadSheets\//.test(String(e.path||""))));
+  entry.squadSheets={docReads:sq.docReads,rulesReads:sq.rulesReads,rulesOnWrites:sq.rulesOnWrites,billed:sq.billed,writes:sq.writes};
+  console.log(`SQUAD ${label}: ${sq.docReads} doc reads + ${sq.rulesReads} lookups (+${sq.rulesOnWrites} on writes) = ${sq.billed} billed, ${sq.writes} writes`);
   printBilled(label,b);
   report.meter.push(entry);return entry;
 }

@@ -299,6 +299,8 @@ async function c3d2(){
   assert.ok(scene.includes("renderer.copyFramebufferToTexture(snap)")&&!/WebGLRenderTarget\(size/.test(scene)&&!/HalfFloatType,samples/.test(scene),"the dissolve copies the screen: no half-float target, no second shader per material");
   assert.ok(scene.includes('canvas.addEventListener("webglcontextrestored",restored);')&&scene.includes("const restored=()=>{if(disposed)return;wrapShadow();try{refilter();}catch(_error){}"),"a restored context: the shadow hook, the reflections and the warm-up again");
   assert.ok(scene.includes('canvas.removeEventListener("webglcontextrestored",restored);'),"and the hook goes with the scene");
+  // r91: the next lineup's shot starts where the last kick's shot ended and eases back, so a dissolve never doubles the goal.
+  assert.ok(scene.includes("carry.p.copy(camera.position);carry.l.copy(camLook);carry.at=snapAt;")&&/k<1&&!reducedMotion\(\)\)\{p\.lerpVectors\(carry\.p,p,k\);l\.lerpVectors\(carry\.l,l,k\);\}/.test(scene),"dissolve keeps one framing");
   // The season page (cm3Warm) also runs three.js, parses the stadium and players and paints the four kits at idle moments;
   // the mount takes them for the same level and clubs and never parses or paints twice.
   assert.ok(scene.includes("if(ok&&!cm3Mounting&&!cm3Parsed){")&&scene.includes("cm3Parsed={key:cm3ParseKey(Q,opts&&opts.clubs),work,lite:Boolean(Q.full)};"),"the season page parses ahead, once");

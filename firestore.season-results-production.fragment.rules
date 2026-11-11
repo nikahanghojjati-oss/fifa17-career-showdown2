@@ -381,6 +381,41 @@
           || request.time <= before.updatedAt + duration.value(16600, 'ms')
           || after.kicks[role][before.kicks[role].size():after.kicks[role].size()] == '-');
     }
+    // r91 Squad Management (2.4.0, Nik 2026-11-11; js/squadSheet.js, js/squadSheetStep.js): twice a season each manager locks
+    // his squad, "pre" after Chamber Men (its XI and subs 1-4 are his Russian Roulette board) and "post" after the Transfer
+    // War. One create-only document per manager per screen, rivalries/{rid}/squadSheets/season_N_<stage>_<role>, written
+    // only by that manager: his 18 (XI in slot order, then 7 subs) as flat lists, and his cumulative departures and reported
+    // overalls (flat lists: a map hit the expression ceiling in r87). The squad rules (lines, flex, nobody better hidden) are
+    // checked on both phones; the Rules hold the shape, the owner and the season. Lookups: the rivalry only.
+    function ssjrSquadSheetCreateValid(rivalryId, sheetId) {
+      let after = request.resource.data;
+      return after.keys().size() == 21
+        && after.keys().hasOnly(['schemaVersion','objectType','rivalryId','seasonNumber','stage','role','formation','names','numbers','signed','outNames','outNumbers','outSigned','outReasons','outSeasons','ovNames','ovNumbers','ovSigned','ovValues','engine','lockedAt'])
+        && after.schemaVersion == 1
+        && after.objectType == 'sharedSquadSheet'
+        && after.rivalryId == rivalryId
+        && after.seasonNumber is int && after.seasonNumber >= 1 && after.seasonNumber <= 10
+        && after.stage in ['pre', 'post']
+        && after.role in ['playerOne', 'playerTwo']
+        && sheetId == 'season_' + string(after.seasonNumber) + '_' + after.stage + '_' + after.role
+        && after.formation is string && after.formation.size() >= 3 && after.formation.size() <= 24
+        && after.names is list && after.names.size() == 18
+        && after.numbers is list && after.numbers.size() == 18
+        && after.signed is list && after.signed.size() == 18
+        && after.outNames is list && after.outNames.size() <= 100
+        && after.outNumbers is list && after.outNumbers.size() == after.outNames.size()
+        && after.outSigned is list && after.outSigned.size() == after.outNames.size()
+        && after.outReasons is list && after.outReasons.size() == after.outNames.size()
+        && after.outSeasons is list && after.outSeasons.size() == after.outNames.size()
+        && after.ovNames is list && after.ovNames.size() <= 150
+        && after.ovNumbers is list && after.ovNumbers.size() == after.ovNames.size()
+        && after.ovSigned is list && after.ovSigned.size() == after.ovNames.size()
+        && after.ovValues is list && after.ovValues.size() == after.ovNames.size()
+        && after.engine is string && after.engine.size() <= 16
+        && after.lockedAt == request.time
+        && ssjrEntitled(rivalryId)
+        && after.role == ssjrActorRole(rivalryId);
+    }
 // SSJR_SEASON_RESULTS_FUNCTIONS_END
 
 // SSJR_SEASON_RESULTS_MATCH_BEGIN
@@ -407,5 +442,10 @@
         allow list, delete: if false;
         allow create: if ssjrChamberCreateValid(rivalryId, seasonId);
         allow update: if ssjrChamberUpdateValid(rivalryId, seasonId);
+      }
+      match /squadSheets/{sheetId} {
+        allow get: if ssjrEntitled(rivalryId);
+        allow list, update, delete: if false;
+        allow create: if ssjrSquadSheetCreateValid(rivalryId, sheetId);
       }
 // SSJR_SEASON_RESULTS_MATCH_END

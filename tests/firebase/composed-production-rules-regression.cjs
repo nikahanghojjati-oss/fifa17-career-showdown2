@@ -59,6 +59,7 @@ const LABELS=Object.freeze({
   "tests/firebase/europa-league-rules-emulator.cjs":"Europa League result key, CL-or-EL rule and EL +3 Terminal Close score (r80)",
   "tests/firebase/prime-pack-rules-emulator.cjs":"Prime Pack round record and its result point (r87)",
   "tests/firebase/chamber-men-rules-emulator.cjs":"Chamber Men round record: own pick string, one letter a kick (turn by turn), never ahead (r88)",
+  "tests/firebase/squad-sheets-rules-emulator.cjs":"Squad Management sheets: create-only by the own role, exact shape, no update/delete/list, idempotent LOCK (r91)",
   "tests/firebase/sacked-rules-emulator.cjs":"Sacked tick: sparse sacked key, no Transfer War after it, Terminal Close ends after the sacked season (r89)",
   "tests/firebase/saved-showdowns-still-open-emulator.cjs":"Saved Showdowns still open (JOB-1841)",
   "tests/firebase/shared-season-commit-concurrent-acknowledge-emulator.cjs":"Season Commit concurrent acknowledge (r52)",

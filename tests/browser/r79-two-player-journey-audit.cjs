@@ -268,7 +268,8 @@ async function reloadMidShowdown(m,{expectSession,expectShowdown,landing,button,
     try{await m.page.waitForFunction(re=>new RegExp(re).test(document.getElementById("seasonPrimaryAction")?.textContent||""),button,{timeout:45000});}
     catch(error){throw new Error(`${m.user}: after the reload the dashboard button says "${await m.page.locator("#seasonPrimaryAction").textContent().catch(()=>"?")}", expected /${button}/`,{cause:error});}
     await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
-    await m.page.locator(landing).waitFor({state:"visible",timeout:30000});
+    // r91: the way to Season Results may first show this manager's Squad Management screen.
+    await rosterRoulette.playSquadUntil(m.page,()=>m.page.locator(landing).filter({visible:true}).first().isVisible(),60000);
   }
   return {firstScreens,frames:after.length,landed};
 }
@@ -285,7 +286,7 @@ async function tapThroughReplayToSeasonResults(m){
       await m.page.waitForTimeout(700);
     }
     await cont.click({timeout:30000});
-    await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.toSeasonEntry(m.page);
   }
   return replayTaps;
 }
@@ -308,7 +309,8 @@ async function moveToFreshBrowser(browser,managers,retired,old,label,viewport,{e
   if(await m.page.locator("#dashboard").isVisible().catch(()=>false)){
     await m.page.waitForFunction(re=>new RegExp(re).test(document.getElementById("seasonPrimaryAction")?.textContent||""),button,{timeout:45000});
     await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
-    await m.page.locator(landing).waitFor({state:"visible",timeout:30000});
+    // r91: the way to Season Results may first show this manager's Squad Management screen.
+    await rosterRoulette.playSquadUntil(m.page,()=>m.page.locator(landing).filter({visible:true}).first().isVisible(),60000);
   }
   return m;
 }
@@ -436,7 +438,7 @@ async function playTransferSeason(daniel,nik,tokenD,tokenN){
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
   for(const m of [daniel,nik]){
     await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
-    await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.toSeasonEntry(m.page);
   }
 }
 // The shared setup through the real UI (as P2, without its reload): league, clubs, both confirm, both start their careers.
@@ -634,13 +636,13 @@ async function main(){
     await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
     for(const m of [daniel,nik]){
       await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
-      await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+      await rosterRoulette.toSeasonEntry(m.page);
     }
     ok("P4.2","signings locked privately on both sides; the Transfer Challenge completed and both opened Season Results");
     // ---------- R80b both reload at the same time mid-season ----------
     const reloadBoth=await Promise.all([daniel,nik].map(m=>reloadMidShowdown(m,{expectSession:session1,expectShowdown:m===daniel?showdownD:showdownN,landing:"#seasonEntry",button:"^(ENTER SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SEASON RESULTS)$"})));
     const bothReplayTaps=[];for(const m of [daniel,nik])bothReplayTaps.push(await tapThroughReplayToSeasonResults(m));
-    for(const m of [daniel,nik])await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    for(const m of [daniel,nik])await rosterRoulette.toSeasonEntry(m.page);
     ok("R80b",`both reloaded at the same time mid-season: same Showdown and session each, both back on Season Results, no Home frame (${reloadBoth.map(r=>r.frames).join("/")} frames; replay taps ${bothReplayTaps.join("/")})`);
 
     // ---------- P5 Daniel publishes, Nik reloads mid-Showdown, then publishes ----------
@@ -658,7 +660,7 @@ async function main(){
     // ---------- R80c Nik continues the same season in a fresh browser ----------
     nik=await moveToFreshBrowser(browser,managers,retired,nik,"Nik",{width:390,height:844},{expectSession:session1,expectSaveId:showdownN.saveId,screens:"#dashboard, #transferChallenge, #seasonEntry",button:"^(ENTER SEASON RESULTS|VIEW MY PUBLISHED RESULT|VIEW SEASON RESULTS)$",landing:"#seasonEntry"});
     const freshReplayTaps=await tapThroughReplayToSeasonResults(nik);
-    await nik.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.toSeasonEntry(nik.page);
     assert.equal(await nik.page.locator("#seasonReviewOne").isVisible(),false,"Daniel's published result stays private from Nik in the fresh browser");
     await shot(nik,"r80c-fresh-browser");
     ok("R80c",`Nik opened the game in a fresh browser mid-season (Daniel already published): shell rebuilt with the exact save id, same session, back on Season Results, Daniel's result still private (replay taps ${freshReplayTaps})`);

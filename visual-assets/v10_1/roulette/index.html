@@ -1044,7 +1044,9 @@ const camRest=new T.Vector3(), lookRest=new T.Vector3(); let PH=false, fovRest=3
 function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspect=w/h; fovRest=PH?54:36;
   /* r87 (Nik 2026-10-30): the easels stand clear of the table on every screen (no leg or ledge inside the rim, R .78 + rim), and
      the boards never move during a turn. Desktop: beside and behind the table. Phone: behind it, raised, legs to the floor. */
-  const bx=PH?.5:1.1, by=PH?1.2:1.0, bz=PH?-1.05:-.45, yaw=PH?.3:.55, sc=PH?.8:.92;
+  /* r91 (Nik 2026-11-11, "Raise boards 8 cm (desktop)"; nothing covers anything): at rest the table's rim hid the nearest sub names on
+     both desktop boards (Schweinsteiger, Varane at 1920x1080 and 1920x866). The desktop boards stand 8 cm higher; phones keep theirs */
+  const bx=PH?.5:1.1, by=PH?1.2:1.08, bz=PH?-1.05:-.45, yaw=PH?.3:.55, sc=PH?.8:.92;
   [["D",-1],["N",1]].forEach(([k,s])=>{ const b=boards[k]; b.position.set(bx*s,by,bz); b.rotation.set(-.12,-yaw*s,0); b.scale.setScalar(sc); });
   /* r90 LOOK L08 (the revolver is the scene): the rest shot opens low and close over the gun like a broadcast frame, the revolver over a quarter of
      the width on any window shape, the boards standing behind it at the sides, and the gun sitting a little below the middle, clear of the words in

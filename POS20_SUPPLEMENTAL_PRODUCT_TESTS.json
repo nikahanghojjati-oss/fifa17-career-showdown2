@@ -3074,6 +3074,34 @@
         "^tests/contracts/r90\\-offline\\-shell\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-squad-sheet-contracts.cjs",
+      "patterns": [
+        "^js/squadSheet\\.js$",
+        "^data/fifa17Players\\.js$",
+        "^data/rosterSquads\\.js$",
+        "^tests/contracts/r91\\-squad\\-sheet\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-player-search-contracts.cjs",
+      "patterns": [
+        "^js/playerSearch\\.js$",
+        "^js/transferSelector\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/transferScreenV10\\.js$",
+        "^js/optionalModules\\.js$",
+        "^service\\-worker\\.js$",
+        "^index\\.html$",
+        "^data/fifa17/.+$",
+        "^data/transferOptions\\.js$",
+        "^data/fifa17Players\\.js$",
+        "^scripts/build\\-fifa17\\-database\\.py$",
+        "^tests/contracts/r91\\-player\\-search\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
