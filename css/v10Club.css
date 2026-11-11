@@ -752,12 +752,12 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
   }
 }
 
-/* r72 flaw 1: at 1200-1599px wide the CLUB ASSIGNMENT wordmark ran over the top of both managers' hair (the plate and the
+/* r72 flaw 1 (C6 2.3.0: from 1101 px, 1180x820 had the T 3-5 px from Nik's hair): at 1200-1599px wide the CLUB ASSIGNMENT wordmark ran over the top of both managers' hair (the plate and the
    wordmark scale together, but the 64px brush title is wider than the gap between the two heads once the stage is this
    small). A slightly smaller wordmark, nudged down so it keeps its place between the eyebrow and the league line, clears
    both heads. Desktop only; 1920x1080 keeps Team V's adopted study 1173 and short desktops (html.compact) keep their own
    36px title. Phone, sideways phone and tablet are outside this query. */
-@media (min-width: 1200px) and (max-width: 1599px) and (min-height: 700px) and (orientation: landscape) {
+@media (min-width: 1101px) and (max-width: 1599px) and (min-height: 700px) and (orientation: landscape) {
   html:not(.compact) #app #clubWheelScreen.cl-on h2 {
     font-size: calc(var(--s) * 53px);
     margin-top: calc(var(--s) * 5px);
