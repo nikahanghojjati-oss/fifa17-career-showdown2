@@ -86,7 +86,7 @@ const GL=SCREENS.filter(p=>/new (T|THREE)\.WebGLRenderer\(/.test(read(p)));
   assert.ok(settings.includes('value === "auto" ? "Auto" : tier.labels[index - 1]')&&settings.includes("tier.label(onAuto ? s.now : s.level)"),"Settings names levels from gfxTier.labels");
   assert.ok(!/SETTINGS_GFX_(CHOICES|NAMES)/.test(settings),"Settings keeps no list of its own");
   const dc=read("device-check.html");
-  assert.ok(dc.includes("const LEVELS=window.CareerModeGfxTier.labels.slice(0,5);"),"the Device check names levels from gfxTier.labels");
+  assert.ok(dc.includes("const LEVELS=window.CareerModeGfxTier.labels.slice();"),"the Device check names levels from gfxTier.labels (r91: all six, 8K where can8k())");
   assert.ok(tier.includes("`${LABELS[p.level]} (${p.auto?\"Auto\":\"picked\"}")&&tier.includes("fell back from ${LABELS[p.fellBack.from]} to ${LABELS[p.level]}"),"the ?fps=1 overlay names levels from the same list");
   // No other list of level names anywhere a player could read it.
   const OLD=/\[\s*["'](Light|Low)["']\s*,\s*["'](Balanced|Medium)["']/;

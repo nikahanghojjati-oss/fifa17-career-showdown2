@@ -137,7 +137,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   {const sx=sandbox({gpu:strong,dpr:1,memory:32,cores:16});sx.G.profile();
    sx.store['careerModeShowdown.gfxCap.v1']=JSON.stringify({level:1,reason:'frame',at:Date.now()});
    assert.deepEqual([sx.G.suggested().now,sx.G.suggested().lowered],[1,true],'a cap saved elsewhere lowers the Auto line');
-   sx.store['careerModeShowdown.gfxCap.v1']='null';sx.store['careerModeShowdown.gfxMeasured.v1']=JSON.stringify({level:2,at:Date.now()});
+   sx.store['careerModeShowdown.gfxCap.v1']='null';sx.store['careerModeShowdown.gfxMeasured.v2']=JSON.stringify({level:2,at:Date.now()});
    assert.deepEqual([sx.G.suggested().now,sx.G.suggested().measured],[2,true],'a Device check saved elsewhere shows as measured');}
   ok('G2','auto and named levels never above devicePixelRatio; ultra up to 2x within a 4K buffer; Settings key, unknown is auto, ?gfx forces');
 }
@@ -236,22 +236,41 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.deepEqual(scripts(bench),['js/chamberMenScene3d.js'],'the Chamber Men frame loads only the scene');
     assert.ok(!/firebase|firestore|onlineSync|app\.js/i.test((dc+bench).replace(/<!--[\s\S]*?-->/g,'')),'no game, sign-in or Firestore');
     assert.ok(dc.includes('const SMOOTH_AVG=57,SMOOTH_LOW=45')&&dc.includes('T.setMeasured(level,'),'60 fps rule, saved as Auto');
-    assert.ok(dc.includes('visual-assets/v10_1/roulette/index.html')&&dc.includes('frame.src=`${scene.path}?gfx=${level}&bench=1`;'),'both scenes, each level forced, bench mode');
+    assert.ok(dc.includes('visual-assets/v10_1/roulette/index.html')&&dc.includes('visual-assets/v10_1/special-player/index.html')&&dc.includes('device-check-chamber.html')&&dc.includes('frame.src=`${scene.path}?gfx=${level}&bench=1`;'),'all three scenes (r91), each level forced, bench mode');
     assert.ok(dc.includes('e.origin!==location.origin||e.source!==frame.contentWindow'),'only its own frame\'s message counts');
     // Codex on #1266: timed at the game's own size (the stage fills the window; the Chamber Men goal uses the game's clamps),
     // and a hidden tab ends the measurement under way at once.
     assert.ok(dc.includes('#stage.live{position:fixed;inset:0;')&&dc.includes('stage.classList.add("live");'),'each level runs full window');
     assert.ok(bench.includes('.cmGoal{display:block;width:100%;height:clamp(180px,calc(100dvh - 430px),66.7cqw)}')&&bench.includes('@media (min-width:900px){.cmGoalBox{width:calc(min(1180px,100%) - 32px);margin-top:14px}.cmGoal{height:clamp(260px,calc(100dvh - 300px),56.25cqw)}}'),'the goal at its game size');
     assert.ok(dc.includes('cancelWait=()=>finish({aborted:true});')&&dc.includes('if(cancelWait)cancelWait();')&&dc.includes('if(got&&got.aborted)break;'),'a hidden tab stops the measurement at once');
-    // The recorder: forced level, no adapting, held or not; one post with avg, 1% low and ms.
+    // The recorder: forced level, no adapting. r91: "started" first, then one result that says what was asked and drawn, and it
+    // waits for one whole beat (a hold that lasted) before it ends; without a beat it ends as not complete after 60 s more.
     {const s7=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=2&bench=1'});
      const posted=[];s7.ctx.parent={postMessage:m=>posted.push(m),location:{search:''}};s7.ctx.location.origin='http://x';
-     const r7=fakeRenderer(s7.clock,()=>3);const g7=s7.G.governor(r7,{key:'chamber-men',draw(){}});g7.hold(true);
-     let t=0;const pr0=g7.pixelRatio();while(t<12000){t+=t<6000?16.7:40;s7.clock.t=t;g7.frame(t);}
-     assert.equal(posted.length,1,'one result');const m=posted[0];
-     assert.deepEqual([m.type,m.scene,m.level,m.name],['cms-gfx-bench','chamber-men',2,'high']);assert.equal(g7.pixelRatio(),pr0,'no adapting in bench mode');
+     const r7=fakeRenderer(s7.clock,()=>3);const g7=s7.G.governor(r7,{key:'chamber-men',draw(){},info:()=>({crowd:1})});
+     assert.deepEqual(posted.map(m=>[m.type,m.phase,m.scene,m.asked,m.level]),[['cms-gfx-bench','started','chamber-men',2,2]],'started, with the level asked');
+     let t=0;const pr0=g7.pixelRatio();const step=()=>{t+=t<6000?16.7:40;s7.clock.t=t;g7.frame(t);};
+     while(t<1000)step();g7.hold(true);while(t<4000)step();g7.hold(false);while(t<12000)step();
+     assert.equal(posted.length,2,'one result');const m=posted[1];
+     assert.deepEqual([m.type,m.phase,m.scene,m.asked,m.level,m.name,m.beats,m.complete,m.failed],['cms-gfx-bench','result','chamber-men',2,2,'high',1,true,null]);assert.equal(g7.pixelRatio(),pr0,'no adapting in bench mode');
+     assert.equal(JSON.stringify([m.css,m.bufferOk,m.info]),'[[1280,720],true,{"crowd":1}]','what was drawn');
      assert.ok(m.avg>25&&m.avg<60&&m.p1low<=26&&m.ms>16&&m.frames>200&&m.drawMs===3,`stats ${JSON.stringify(m)}`);
-     const st=s7.G.benchStats([10,10,10,10,50]);assert.deepEqual([st.frames,st.avg,st.p1low],[5,55.6,20]);}
+     const st=s7.G.benchStats([10,10,10,10,50]);assert.deepEqual([st.frames,st.avg,st.p1low],[5,55.6,20]);
+     // No beat played: not complete, only after the long wait.
+     const s7b=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=1&bench=1'});
+     const postedB=[];s7b.ctx.parent={postMessage:m=>postedB.push(m),location:{search:''}};s7b.ctx.location.origin='http://x';
+     const gb=s7b.G.governor(fakeRenderer(s7b.clock,()=>3),{key:'rrr',draw(){}});let tb=0;
+     while(tb<30000){tb+=16.7;s7b.clock.t=tb;gb.frame(tb);}assert.equal(postedB.length,1,'no beat yet: it keeps timing');
+     while(tb<61000){tb+=16.7;s7b.clock.t=tb;gb.frame(tb);}assert.deepEqual([postedB.length,postedB[1].complete,postedB[1].beats],[2,false,0],'no beat in 60 s: a result marked not complete');
+     // An older crash cap does not lower the level the check asked for (the answer would be a lower level's); a failure
+     // during the check does lower it, and the result says so.
+     const cap={'careerModeShowdown.gfxCap.v1':JSON.stringify({level:0,reason:'the GPU ran out of memory',at:Date.now(),clean:0})};
+     const s7c=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=2&bench=1',storage:cap});
+     assert.deepEqual([s7c.G.profile().level,s7c.G.profile().asked],[2,2],'bench: the level asked, whatever an old cap says');
+     assert.equal(sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=2',storage:cap}).G.profile().level<2,true,'outside the check a forced level still obeys the cap');
+     const postedC=[];s7c.ctx.parent={postMessage:m=>postedC.push(m),location:{search:''}};s7c.ctx.location.origin='http://x';
+     const gc=s7c.G.governor(fakeRenderer(s7c.clock,()=>3),{key:'sp',draw(){}});gc.frame(16);gc.frame(32);s7c.G.fallback('the GPU dropped the picture (context lost)');gc.frame(48);
+     const mc=postedC[postedC.length-1];assert.deepEqual([mc.phase,mc.asked,mc.level<2,mc.complete,mc.failed],['result',2,true,false,'the GPU dropped the picture (context lost)'],'a failure during the check is the result');}
     {const s8=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8});
      assert.equal(s8.G.profile().level,2);s8.G.setMeasured(0);assert.deepEqual([s8.G.profile().level,s8.G.suggested().measured],[0,true],'a measured level is Auto');
      s8.G.setChoice('ultra');assert.equal(s8.G.profile().level,4,'a picked level still wins');s8.G.setChoice('auto');
@@ -286,7 +305,8 @@ function g8(){
   for(const [why,o] of [['small buffer',{maxBuffer:4096}],['small texture',{maxTexture:4096}],['phone',{screen:[402,874],dpr:3}],['software',{gpu:'SwiftShader'}]]){
     const n=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:pick,...o}).G;assert.equal(n.can8k(),false,why);assert.ok(n.profile().level<=4,`${why}: 8K pick plays Ultra`);
   }
-  const a=sandbox({gpu:strong,dpr:1,memory:32,cores:16}).G;assert.ok(a.profile().level<4,'Auto never Ultra or 8K');a.setMeasured(5);assert.equal(a.measured().level,4,'a measured level stops at Ultra');
+  const a=sandbox({gpu:strong,dpr:1,memory:32,cores:16}).G;assert.ok(a.profile().level<4,'Auto never Ultra or 8K');a.setMeasured(5);assert.equal(a.measured().level,5,'r91 (Nik 2026-11-11): a measured 8K is Auto where the GPU has the buffer');assert.equal(a.profile().level,5);
+  {const b=sandbox({gpu:strong,dpr:1,memory:32,cores:16,maxBuffer:4096}).G;b.setMeasured(5);assert.equal(b.measured().level,4,'without an 8K buffer a measured level stops at Ultra');}
   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,search:'?gfx=5'}).G.profile().level,5,'?gfx=5 forces 8K for proofs');
   // MSAA: the highest count both RGBA16F (or RGBA8) and DEPTH_COMPONENT24 support, at or under the wish.
   const gl={RENDERBUFFER:1,SAMPLES:2,RGBA16F:3,RGBA8:4,DEPTH_COMPONENT24:5,FRAMEBUFFER:6,FRAMEBUFFER_COMPLETE:7,
@@ -326,7 +346,7 @@ async function g10(){
   const html=sb=>sb.ctx.document.documentElement.dataset.gfx;
   const strong='ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)';
   assert.equal(html(sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'high'}})),'2','a picked level is marked on load');
-  assert.equal(html(sandbox({storage:{'careerModeShowdown.gfxMeasured.v1':JSON.stringify({level:1,at:1})}})),'1','a measured Auto is marked on load');
+  assert.equal(html(sandbox({storage:{'careerModeShowdown.gfxMeasured.v2':JSON.stringify({level:1,at:1})}})),'1','a measured Auto is marked on load');
   assert.equal(html(sandbox()),'0','a Chromebook reads Light once the profile runs');
   const s=sandbox({gpu:strong,dpr:1,memory:32,cores:16});assert.equal(html(s),'3');
   s.G.setChoice('light');assert.equal(html(s),'0','a new pick moves it at once');
