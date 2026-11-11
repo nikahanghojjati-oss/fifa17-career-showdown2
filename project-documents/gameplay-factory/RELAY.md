@@ -1,17 +1,19 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-11 1:51 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-11 2:00 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `ac339c0` (Wed 11 Nov 10:39 AM Boston time) · 218 messages · 71 hand-offs · 436 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `15f5f19` (Wed 11 Nov 1:59 PM Boston time) · 237 messages · 71 hand-offs · 455 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-070 · G → V · Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 3 h 10 min after delivery
 
+- Wed 11 Nov 1:59 PM · Team V · Done
+- Wed 11 Nov 1:54 PM · Team V · Received · Starting now in Team V thread 'Fit Gazette CONTINUE at 1920x866'
 - Wed 11 Nov 10:39 AM · Team G · Sent
 - Wed 11 Nov 10:45 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -2569,6 +2571,36 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-070 DONE · Team V → Team G · Wed 11 Nov 1:59 PM Boston time
+
+**Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-070 RECEIVED · Team V → Team G · Wed 11 Nov 1:54 PM Boston time
+
+**Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-069 RECEIVED · Team V → Team G · Wed 11 Nov 10:06 AM Boston time
+
+**HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-068 DONE · Team G → Team V · Mon 9 Nov 4:35 PM Boston time
 
 **HC V2 rooms: board, tunnel, box, office, archive, slab, trophies** · reply needed: no
@@ -2609,9 +2641,29 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-068 SENT · Team V → Team G · Mon 9 Nov 1:03 AM Boston time
+
+**HC V2 rooms: board, tunnel, box, office, archive, slab, trophies** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-068 RECEIVED · Team G → Team V · Mon 9 Nov 1:03 AM Boston time
 
 **HC V2 rooms: board, tunnel, box, office, archive, slab, trophies** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-067 DONE · Team V → Team G · Sun 8 Nov 11:45 PM Boston time
+
+**Gate B: wire the new handcrafted Home art alone** · reply needed: no
 
 <details><summary>Full message</summary>
 
@@ -2629,9 +2681,59 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-067 SENT · Team V → Team G · Sun 8 Nov 2:32 PM Boston time
+
+**Gate B: wire the new handcrafted Home art alone** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-066 DONE · Team V → Team G · Sun 8 Nov 1:35 PM Boston time
+
+**Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-066 RECEIVED · Team V → Team G · Sun 8 Nov 1:24 PM Boston time
+
+**Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-066 SENT · Team G → Team V · Sun 8 Nov 1:21 PM Boston time
 
 **Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-065 DONE · Team V → Team G · Sun 8 Nov 10:27 AM Boston time
+
+**Pause the Home icon part of the prompt job (Nik)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-065 RECEIVED · Team V → Team G · Sun 8 Nov 10:26 AM Boston time
+
+**Pause the Home icon part of the prompt job (Nik)** · reply needed: no
 
 <details><summary>Full message</summary>
 
@@ -2662,6 +2764,26 @@ _Full text not found in archive/._
 ### HO-064 RECEIVED · Team G → Team V · Sun 8 Nov 10:18 AM Boston time
 
 **Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-064 SENT · Team V → Team G · Sun 8 Nov 10:17 AM Boston time
+
+**Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-063 SENT · Team V → Team G · Sun 8 Nov 10:15 AM Boston time
+
+**Home icons: Team V prompt job owns them, W9 stops (Nik)** · reply needed: yes (receive it)
 
 <details><summary>Full message</summary>
 
@@ -2709,6 +2831,26 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-062 SENT · Team V → Team G · Sun 8 Nov 7:56 AM Boston time
+
+**Consult: no-AI-look bar for the new background and icon prompts** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-061 RECEIVED · Team V → Team G · Sun 8 Nov 3:22 AM Boston time
+
+**r90 plates: remove slogan banners (L11) + phone face crops (L23)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-061 SENT · Team G → Team V · Sun 8 Nov 3:21 AM Boston time
 
 **r90 plates: remove slogan banners (L11) + phone face crops (L23)** · reply needed: yes (receive it)
@@ -2719,9 +2861,39 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-059 DONE · Team V → Team G · Sun 8 Nov 3:09 AM Boston time
+
+**RR_ROOM_V2 café room 4K delivered (r90)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-059 RECEIVED · Team G → Team V · Sun 8 Nov 3:03 AM Boston time
 
 **RR_ROOM_V2 café room 4K delivered (r90)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-060 DONE · Team V → Team G · Sun 8 Nov 3:02 AM Boston time
+
+**r90 Prime Pack desktop stage 4K master (stage_desktop_4k_V1.webp)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-059 SENT · Team V → Team G · Sun 8 Nov 3:02 AM Boston time
+
+**RR_ROOM_V2 café room 4K delivered (r90)** · reply needed: yes (receive it)
 
 <details><summary>Full message</summary>
 
@@ -2742,6 +2914,26 @@ _Full text not found in archive/._
 ### HO-058 SENT · Team G → Team V · Sat 7 Nov 10:04 PM Boston time
 
 **r90 visualIdentity.js changed: flat crests + shared club-name lookup (info, rebase only)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-057 DONE · Team V → Team G · Wed 4 Nov 12:53 PM Boston time
+
+**4K page title wordmarks (all titles)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-057 RECEIVED · Team V → Team G · Wed 4 Nov 9:03 AM Boston time
+
+**4K page title wordmarks (all titles)** · reply needed: no
 
 <details><summary>Full message</summary>
 

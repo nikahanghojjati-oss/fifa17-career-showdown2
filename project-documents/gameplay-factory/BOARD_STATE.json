@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-11 1:51 PM Boston time (EST)",
+ "generated": "2026-11-11 2:00 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 218,
+  "count": 237,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -1805,6 +1805,24 @@
     "boston": "Wed 4 Nov 8:50 AM"
    },
    {
+    "time": "2026-11-04 14:03",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-057 RECEIVED",
+    "subject": "4K page title wordmarks (all titles)",
+    "reply": "no",
+    "boston": "Wed 4 Nov 9:03 AM"
+   },
+   {
+    "time": "2026-11-04 17:53",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-057 DONE",
+    "subject": "4K page title wordmarks (all titles)",
+    "reply": "no",
+    "boston": "Wed 4 Nov 12:53 PM"
+   },
+   {
     "time": "2026-11-08 03:04",
     "from": "Team G",
     "to": "Team V",
@@ -1823,6 +1841,24 @@
     "boston": "Sun 8 Nov 3:02 AM"
    },
    {
+    "time": "2026-11-08 08:02",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-059 SENT",
+    "subject": "RR_ROOM_V2 café room 4K delivered (r90)",
+    "reply": "yes (receive it)",
+    "boston": "Sun 8 Nov 3:02 AM"
+   },
+   {
+    "time": "2026-11-08 08:02",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-060 DONE",
+    "subject": "r90 Prime Pack desktop stage 4K master (stage_desktop_4k_V1.webp)",
+    "reply": "no",
+    "boston": "Sun 8 Nov 3:02 AM"
+   },
+   {
     "time": "2026-11-08 08:03",
     "from": "Team G",
     "to": "Team V",
@@ -1832,6 +1868,15 @@
     "boston": "Sun 8 Nov 3:03 AM"
    },
    {
+    "time": "2026-11-08 08:09",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-059 DONE",
+    "subject": "RR_ROOM_V2 café room 4K delivered (r90)",
+    "reply": "no",
+    "boston": "Sun 8 Nov 3:09 AM"
+   },
+   {
     "time": "2026-11-08 08:21",
     "from": "Team G",
     "to": "Team V",
@@ -1839,6 +1884,24 @@
     "subject": "r90 plates: remove slogan banners (L11) + phone face crops (L23)",
     "reply": "yes (receive it)",
     "boston": "Sun 8 Nov 3:21 AM"
+   },
+   {
+    "time": "2026-11-08 08:22",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-061 RECEIVED",
+    "subject": "r90 plates: remove slogan banners (L11) + phone face crops (L23)",
+    "reply": "no",
+    "boston": "Sun 8 Nov 3:22 AM"
+   },
+   {
+    "time": "2026-11-08 12:56",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-062 SENT",
+    "subject": "Consult: no-AI-look bar for the new background and icon prompts",
+    "reply": "yes (receive it)",
+    "boston": "Sun 8 Nov 7:56 AM"
    },
    {
     "time": "2026-11-08 12:58",
@@ -1877,6 +1940,24 @@
     "boston": "Sun 8 Nov 10:15 AM"
    },
    {
+    "time": "2026-11-08 15:15",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-063 SENT",
+    "subject": "Home icons: Team V prompt job owns them, W9 stops (Nik)",
+    "reply": "yes (receive it)",
+    "boston": "Sun 8 Nov 10:15 AM"
+   },
+   {
+    "time": "2026-11-08 15:17",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-064 SENT",
+    "subject": "Notice: Team V runs the handcrafted art prompt job; G threads hold off on new art",
+    "reply": "yes (receive it)",
+    "boston": "Sun 8 Nov 10:17 AM"
+   },
+   {
     "time": "2026-11-08 15:18",
     "from": "Team G",
     "to": "Team V",
@@ -1904,6 +1985,24 @@
     "boston": "Sun 8 Nov 10:25 AM"
    },
    {
+    "time": "2026-11-08 15:26",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-065 RECEIVED",
+    "subject": "Pause the Home icon part of the prompt job (Nik)",
+    "reply": "no",
+    "boston": "Sun 8 Nov 10:26 AM"
+   },
+   {
+    "time": "2026-11-08 15:27",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-065 DONE",
+    "subject": "Pause the Home icon part of the prompt job (Nik)",
+    "reply": "no",
+    "boston": "Sun 8 Nov 10:27 AM"
+   },
+   {
     "time": "2026-11-08 18:21",
     "from": "Team G",
     "to": "Team V",
@@ -1911,6 +2010,33 @@
     "subject": "Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow)",
     "reply": "yes (receive it)",
     "boston": "Sun 8 Nov 1:21 PM"
+   },
+   {
+    "time": "2026-11-08 18:24",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-066 RECEIVED",
+    "subject": "Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow)",
+    "reply": "no",
+    "boston": "Sun 8 Nov 1:24 PM"
+   },
+   {
+    "time": "2026-11-08 18:35",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-066 DONE",
+    "subject": "Fold 3 art rows into the handcrafted prompts (club labels, L49, TW narrow)",
+    "reply": "no",
+    "boston": "Sun 8 Nov 1:35 PM"
+   },
+   {
+    "time": "2026-11-08 19:32",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-067 SENT",
+    "subject": "Gate B: wire the new handcrafted Home art alone",
+    "reply": "yes (receive it)",
+    "boston": "Sun 8 Nov 2:32 PM"
    },
    {
     "time": "2026-11-09 04:35",
@@ -1922,12 +2048,30 @@
     "boston": "Sun 8 Nov 11:35 PM"
    },
    {
+    "time": "2026-11-09 04:45",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-067 DONE",
+    "subject": "Gate B: wire the new handcrafted Home art alone",
+    "reply": "no",
+    "boston": "Sun 8 Nov 11:45 PM"
+   },
+   {
     "time": "2026-11-09 06:03",
     "from": "Team G",
     "to": "Team V",
     "id": "HO-068 RECEIVED",
     "subject": "HC V2 rooms: board, tunnel, box, office, archive, slab, trophies",
     "reply": "no",
+    "boston": "Mon 9 Nov 1:03 AM"
+   },
+   {
+    "time": "2026-11-09 06:03",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-068 SENT",
+    "subject": "HC V2 rooms: board, tunnel, box, office, archive, slab, trophies",
+    "reply": "yes (receive it)",
     "boston": "Mon 9 Nov 1:03 AM"
    },
    {
@@ -1965,6 +2109,33 @@
     "subject": "HC V2 rooms: board, tunnel, box, office, archive, slab, trophies",
     "reply": "no",
     "boston": "Mon 9 Nov 4:35 PM"
+   },
+   {
+    "time": "2026-11-11 15:06",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-069 RECEIVED",
+    "subject": "HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops",
+    "reply": "no",
+    "boston": "Wed 11 Nov 10:06 AM"
+   },
+   {
+    "time": "2026-11-11 18:54",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-070 RECEIVED",
+    "subject": "Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866",
+    "reply": "no",
+    "boston": "Wed 11 Nov 1:54 PM"
+   },
+   {
+    "time": "2026-11-11 18:59",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-070 DONE",
+    "subject": "Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866",
+    "reply": "no",
+    "boston": "Wed 11 Nov 1:59 PM"
    }
   ],
   "g2v": {
@@ -1985,8 +2156,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "ac339c0",
-  "head_boston": "Wed 11 Nov 10:39 AM",
+  "head": "15f5f19",
+  "head_boston": "Wed 11 Nov 1:59 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2816,7 +2987,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5267
+    "waiting_min": 5276
    },
    {
     "id": "HO-059",
@@ -2966,13 +3137,13 @@
     "from": "G",
     "to": "V",
     "title": "Gazette look: hide boxed eyebrow, wider desk, 12.5-13 px ears/chips/caps so CONTINUE fits at 1920x866",
-    "stage": "DELIVERED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-070_gazette-look-hide-boxed-eyebrow-wider-de.md",
     "worker": "",
-    "pickup_min": null,
-    "waiting_min": 186
+    "pickup_min": 190,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -3044,7 +3215,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 45,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
