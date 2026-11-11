@@ -464,6 +464,9 @@ const GFX=window.CareerModeGfxTier||null, GP=GFX?GFX.profile():null;
    edges, no scene target, no composite pass). The same film curve and exposure as the composite (exposure .9, the simple ACES fit)
    runs in each material through three's custom tone mapping, so Light and High show the same picture. */
 const DIRECT=Boolean(GP&&GP.level===0);
+/* r91 (Nik 2026-11-11: "I want the yellow vibrant stadium we had"): r89's sunlit yellow stadium, its light and its yellow boards are
+   the look again on every level; ?look=night keeps r90 L06's floodlit night (Chamber Men's light) for comparison */
+const NIGHT=/[?&]look=night(?:&|$)/.test(location.search);
 const renderer=new T.WebGLRenderer({antialias:DIRECT, powerPreference:"high-performance"});
 /* r90: phones are not a tier of their own here; js/gfxTier.js decides every device's level (docs/QUALITY_LEVELS.md). */
 /* r90 (Nik 2026-11-07: quality follows the device): the pixel ratio comes from js/gfxTier.js, the same quality system as the
@@ -508,11 +511,11 @@ function pass(mat,target){ quad.material=mat; renderer.setRenderTarget(target); 
 
 const scene=new T.Scene(); scene.fog=new T.Fog(L(0xc9dcef),70,240);
 const camera=new T.PerspectiveCamera(40,1,0.1,900);
-/* r90 L06 (Nik 2026-11-07: one night light for both 3D scenes): Chamber Men's night match light, a cool sky and dark ground
-   with one warm floodlight key from high over a corner; the stadium photo is graded to night in the panorama shader */
-scene.add(new T.HemisphereLight(L(0xdde6ff),L(0x15200f),0.55));
+/* r89 daylight: a pale sky light over green ground. ?look=night: r90 L06's Chamber Men night match light, a cool sky and dark
+   ground with one warm floodlight key from high over a corner; the stadium photo is then graded to night in the panorama shader */
+scene.add(NIGHT?new T.HemisphereLight(L(0xdde6ff),L(0x15200f),0.55):new T.HemisphereLight(L(0xcfe4ff),L(0x2d5a22),0.45));
 const SUN=new T.Vector3(-36,79,49);
-const sun=new T.DirectionalLight(L(0xfff3e2),2.7); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
+const sun=NIGHT?new T.DirectionalLight(L(0xfff3e2),2.7):new T.DirectionalLight(L(0xfff0d8),2.3); sun.position.copy(SUN); sun.target.position.set(0,0,-10); sun.castShadow=true;
 sun.shadow.mapSize.set(GQ.shadow,GQ.shadow); Object.assign(sun.shadow.camera,{left:-14,right:14,top:14,bottom:-14,near:10,far:320}); sun.shadow.bias=-.0004; sun.shadow.normalBias=.06; scene.add(sun,sun.target);
 
 /* r90 lean load: the drawn stadium (sky, clouds, pitch, goals, lofted bowl, roof, glare sprites) was built here and thrown
@@ -691,9 +694,10 @@ function lightMetals(){ if(!DIRECT) return; [[goldMetal,.5,.34,0x3a2606],[foilEd
       for(let i=0;i<900;i++){ c.fillStyle=`rgba(${r()<.5?"255,255,255":"0,0,0"},${(.03+r()*.06).toFixed(3)})`; c.fillRect(r()*256,r()*256,8+r()*40,1); } });
     gt.tx.wrapS=gt.tx.wrapT=T.RepeatWrapping; gt.tx.repeat.set(.9,.9); goldMetal.map=gt.tx; goldMetal.color.multiplyScalar(1.12); goldMetal.needsUpdate=true;
     foilEdge.map=gt.tx; foilEdge.color.multiplyScalar(1.12); foilEdge.needsUpdate=true; /* the burst's foil quarters are the same gold */ }
-  grassMat.color.multiply(new T.Color(1.25,1.27,1.38)); /* r91: without the stadium reflection the floodlit pitch came out olive (measured 72/94/42 against Extra's 93/120/60 on the settled card); the same green at no cost */ }
+  grassMat.color.multiply(NIGHT?new T.Color(1.25,1.27,1.38):new T.Color(1.35,1.7,3)); /* r91: without the stadium reflection the pitch came out olive (night: 72/94/42 against Extra's 93/120/60 on the settled card; day: 109/154/54 against r89's 113/175/76); the same green at no cost */
+  if(!NIGHT) panoMat.uniforms.expo.value=.78; /* r91 day: Light has no bloom, which lifts the sunlit stands on High; the photo is drawn 15% brighter instead (r89's 128/103/38 on the right stand, 119/90/31 before) */ }
 let pano=null;
-const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest:false, fog:false, uniforms:{tex:{value:null},plate:{value:null},hasPlate:{value:0},plateL:{value:null},hasL:{value:0},plateR:{value:null},hasR:{value:0},yaw:{value:0},expo:{value:.9},warm:{value:0},night:{value:/[?&]look=day(?:&|$)/.test(location.search)?0:1}},
+const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest:false, fog:false, uniforms:{tex:{value:null},plate:{value:null},hasPlate:{value:0},plateL:{value:null},hasL:{value:0},plateR:{value:null},hasR:{value:0},yaw:{value:0},expo:{value:.9},warm:{value:NIGHT||/[?&]look=0(?:&|$)/.test(location.search)?0:1},night:{value:NIGHT?1:0}},
   vertexShader:"varying vec3 vD; void main(){ vD=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }",
   fragmentShader:`uniform sampler2D tex,plate,plateL,plateR; uniform float yaw,expo,hasPlate,hasL,hasR,warm,night; varying vec3 vD;
   vec3 plateMix(vec3 c, vec3 d, sampler2D pl, float a){ vec3 q=vec3(d.x*cos(a)+d.z*sin(a), d.y, -d.x*sin(a)+d.z*cos(a)); if(q.z>-.2) return c; vec2 g=q.xy/(-q.z); vec2 pu=vec2(.5+g.x/1.453, (g.y+.098)/.8177);
@@ -719,7 +723,7 @@ const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest
  #include <colorspace_fragment>
   }`});
 const panoSphere=new T.Mesh(new T.SphereGeometry(400,64,32),panoMat); panoSphere.renderOrder=-1; panoSphere.frustumCulled=false;
-const grassMat=new T.MeshStandardMaterial({color:L(/[?&]look=day(?:&|$)/.test(location.search)?0xc9d9b4:0x93a184), /* r90 L06: a floodlit night pitch, as deep as Chamber Men's */ roughness:.92, metalness:0, transparent:true, depthWrite:true});
+const grassMat=new T.MeshStandardMaterial({color:L(NIGHT?0x93a184:0xc9d9b4), /* r89 sunlit pitch; ?look=night: r90 L06's floodlit night pitch, as deep as Chamber Men's */ roughness:.92, metalness:0, transparent:true, depthWrite:true});
 grassMat.onBeforeCompile=(sh)=>{
   sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying vec3 vWp;").replace("#include <worldpos_vertex>","#include <worldpos_vertex>\nvWp=(modelMatrix*vec4(transformed,1.)).xyz;");
   sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vWp;")
@@ -743,7 +747,7 @@ function loadSide(f,u,h){ return new Promise(res=>loadTex(f,t=>{ t.generateMipma
 /* pitch-side LED boards (ticket 1850-5) in front of the main stand. HO-049: board.jpg holds two stacked messages, one per panel
    (FIFA 17 SHOWDOWN on top, SPECIAL PLAYER below); every panel shows one whole message and they roll up in turn, so no word crosses a join */
 const boards=new T.Group(); let boardTex=null, boardTex2=null;
-function loadBoards(){ return new Promise(res=>loadTex("assets/board_night_V1.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); boardTex=t;
+function loadBoards(){ return new Promise(res=>loadTex(NIGHT?"assets/board_night_V1.jpg":"assets/board.jpg", /* r91: r89's yellow boards again (same bytes); black and gold at night */t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); boardTex=t;
   boardTex2=t.clone(); boardTex2.needsUpdate=true;
   const face=new T.MeshBasicMaterial({map:t, fog:false, transparent:true}); /* r90 Light: shares the one basic program */ face.color.setScalar(1.25); const face2=face.clone(); face2.map=boardTex2;
   const frame=new T.MeshStandardMaterial({color:L(0x0b0b0c), roughness:.6, metalness:.3});
