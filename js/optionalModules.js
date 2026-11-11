@@ -218,7 +218,7 @@ await loadRuntimeScript(
 () => Array.isArray(window.FIFA17_TRANSFER_LEAGUES)
 && window.FIFA17_TRANSFER_LEAGUES.length === 36
 && Array.isArray(window.FIFA17_TRANSFER_NATIONALITIES)
-&& window.FIFA17_TRANSFER_NATIONALITIES.length === 164
+&& window.FIFA17_TRANSFER_NATIONALITIES.length === 166
 );
 await loadRuntimeScript(
 "transfer-selector",
