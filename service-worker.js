@@ -525,7 +525,12 @@ let offlinePackFill=null;
 function fillOfflinePack(){
     return offlinePackFill||(offlinePackFill=(async()=>{ try{
         const status=await verifyOfflinePack(); if(status.ok||!(await cacheExists(CACHE_NAME))||!(await deployedRevisionIsCurrent())){ return status; }
-        await cacheShellPaths(await caches.open(CACHE_NAME),status.missing,OFFLINE_PACK_LANES,false); return verifyOfflinePack();
+        const cache=await caches.open(CACHE_NAME); await cacheShellPaths(cache,status.missing,OFFLINE_PACK_LANES,false);
+        // The deployed check is memoised for DEPLOYED_CHECK_MS, so a release published mid-fill could slip newer bytes in under
+        // this revision's URLs. Re-check fresh at the end; if another release is now deployed, drop what this run kept, so the
+        // pack stays incomplete and this revision is never treated as a full rollback target with mixed files.
+        deployedRevisionCheck=null; if(!(await deployedRevisionIsCurrent())){ await Promise.all(status.missing.map(path=>cache.delete(versionedShellUrl(path)))); }
+        return verifyOfflinePack();
     } finally { offlinePackFill=null; } })());
 }
 async function keepOfflinePackFile(path,response){ if(await cacheExists(CACHE_NAME)&&await deployedRevisionIsCurrent()){ await (await caches.open(CACHE_NAME)).put(versionedShellUrl(path),response); } }

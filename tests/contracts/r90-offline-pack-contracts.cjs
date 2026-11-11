@@ -9,7 +9,8 @@ const SCOPE="https://cms.test/app/";
 function sandbox({deployed,fail=new Set(),delay=5}={}){
   const stores=new Map(),listeners={},log={fetched:[],open:0,peak:0};
   const cacheApi=name=>({async match(key){const r=stores.get(name)?.get(String(key?.url||key));return r?r.clone():undefined;},
-    async put(key,res){if(!stores.has(name))stores.set(name,new Map());stores.get(name).set(String(key?.url||key),res.clone());}});
+    async put(key,res){if(!stores.has(name))stores.set(name,new Map());stores.get(name).set(String(key?.url||key),res.clone());},
+    async delete(key){return !!stores.get(name)?.delete(String(key?.url||key));}});
   const caches={async open(name){if(!stores.has(name))stores.set(name,new Map());return cacheApi(name);},async keys(){return [...stores.keys()];},async delete(name){return stores.delete(name);}};
   const self={registration:{scope:SCOPE},clients:{claim:async()=>{}},skipWaiting:async()=>{},addEventListener:(type,fn)=>{listeners[type]=fn;}};
   async function fetchFake(input){const url=new URL(input.url||input);const rel=url.pathname.slice(new URL(SCOPE).pathname.length);
@@ -69,6 +70,10 @@ const fetchEvent=url=>{const waits=[];let reply=null;return {event:{request:new 
     s.log.fetched.length=0;await s.sw.fillOfflinePack();assert.equal(s.log.fetched.length,0,"a complete pack fetches nothing");
     const s2=sandbox({deployed:()=>"9.9.9-r999"});await s2.sw.populateCurrentCache().catch(()=>{});s2.log.fetched.length=0;const st=await s2.sw.fillOfflinePack();
     assert.equal(st.ok,false);assert.equal(s2.log.fetched.length,0,"no pack fill once a newer release is deployed");}
+  {let live=RUNTIME_REVISION;const s=sandbox({deployed:()=>live,delay:2});await s.sw.populateCurrentCache();s.log.fetched.length=0;
+    const run=s.sw.fillOfflinePack();await new Promise(r=>setTimeout(r,8));live="9.9.9-r999";const st=await run;
+    assert.equal(st.ok,false,"a release deployed mid-fill leaves the pack incomplete");
+    assert.equal(st.missing.length,st.expected,"files kept during a fill that ended under another release are dropped");}
   ok("P5","the idle fill fetches only missing pack files, two at a time, and stops when the deployed worker is another revision");
   // P6 the page asks once, after the worker is ready
   {const off=read("js/offlineApp.js");assert.match(off,/function markUpdateReady\(\)\{ dispatchOfflineState\(\); scheduleAutoApplyUpdate\(\); scheduleOfflinePack\(\); \}/);
