@@ -160,7 +160,7 @@ async function c2PanelCopyMatchesItsControls(){
   assert.match(connectSource,/<button class=\\"connectPlayersBack\\" type=\\"button\\">BACK<\/button>/,"C2 the BACK it names is the Connect Players layer's own button");
   assert.doesNotMatch(text,/restore a backup/,"C2 (r91) the backup-file restore was cut, so the copy no longer offers it");
   assert.match(text,/or start over\./);assert.ok(labels.some(label=>/START OVER$/.test(label)),"C2 'start over' is the START OVER button");
-  assert.deepEqual(labels,["DELETE OLD SHOWDOWN & START OVER"],"C2 the one recovery button and its label (r91: RESTORE BACKUP was cut)");
+  assert.deepEqual(labels,["TRY AGAIN","DELETE OLD SHOWDOWN & START OVER"],"C2 the recovery buttons and their labels (r91: RESTORE BACKUP was cut, TRY AGAIN leads)");
   assert.equal(h.calls.writes,0,"C2 showing the panel writes nothing");
   ok("C2 the recovery copy names only what the screen offers: BACK then LOAD SHOWDOWN, START OVER; no reload");
 }

@@ -334,6 +334,8 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
     await page.evaluate(async()=>{window.__pairProviderMode="active-recovery";window.__localRecoveryReady=false;window.__providerAbandonCount=0;await window.CareerModePersistentNikDanielPair.initialize({force:true});});
     await page.locator("#persistentNikDanielPairPanel",{hasText:"OLD SHOWDOWN FOUND"}).waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#persistentNikDanielPairPanel button",{hasText:"RESTORE BACKUP"}).count(),0,"r91: the backup-file restore was cut, so the recovery screen offers only START OVER.");
+    await page.locator("#persistentNikDanielPairPanel button",{hasText:"TRY AGAIN"}).waitFor({state:"visible"});
+    assert.match(await page.locator("#persistentNikDanielPairPanel").innerText(),/You can also open it on your other phone\./,"r91: the recovery screen leads with TRY AGAIN and says the Showdown can be opened on the other phone.");
     const startOver=page.locator("#persistentNikDanielPairPanel button",{hasText:"DELETE OLD SHOWDOWN & START OVER"});
     await startOver.waitFor({state:"visible"});
     assert.match(await panel.innerText(),/The online Showdown is still live, but it could not be loaded here\./i,"r80: a live Showdown that could not be rebuilt here says so plainly.");

@@ -46,7 +46,7 @@
     "</section>"
   ].join("\n");
   let layer=null,opening=null,opener=null,observer=null,homeObserver=null;
-  const PRIMARY=/^(START A SHOWDOWN|CHOOSE SEASONS|CREATE CODE FOR NIK|JOIN DANIEL'S SHOWDOWN|START CAREER|TRY CONTINUE AGAIN)$/;
+  const PRIMARY=/^(START A SHOWDOWN|CHOOSE SEASONS|CREATE CODE FOR NIK|JOIN DANIEL'S SHOWDOWN|START CAREER|TRY CONTINUE AGAIN|TRY AGAIN)$/;
   const inertBefore=new Map();
   function byId(id){return root.document?.getElementById(id)||null;}
   function report(error){root.reportApplicationError?.("Unable to open Connect Players",error);}

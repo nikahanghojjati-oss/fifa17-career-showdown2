@@ -112,14 +112,18 @@ async function q1RecoveryLeadsWithTheSafeButton(){
   const panel=h.panel();
   assert.match(panel.textContent,/OLD SHOWDOWN FOUND/);
   const found=buttons(panel);
-  assert.deepEqual(found.map(b=>b.textContent),["DELETE OLD SHOWDOWN & START OVER"],"Q1 the Recovery screen offers only the confirm-gated delete (r91: the backup-file restore was cut)");
-  const [remove]=found;
+  assert.deepEqual(found.map(b=>b.textContent),["TRY AGAIN","DELETE OLD SHOWDOWN & START OVER"],"Q1 the Recovery screen leads with TRY AGAIN, then the confirm-gated delete (r91: the backup-file restore was cut)");
+  const [again,remove]=found;
+  assert.equal(again.disabled,false);
+  assert.equal(classesOf(again).includes("dangerButton"),false,"Q1 TRY AGAIN is the safe primary, not a danger button");
+  assert.match(panel.textContent,/You can also open it on your other phone\./,"Q1 the other-phone hint is shown");
   assert.equal(remove.disabled,false);
   assert.equal(classesOf(remove).includes("dangerButton"),true,"Q1 the delete keeps its danger styling");
   assert.equal(classesOf(remove).includes("pairRecoverySecondary"),true,"Q1 the delete carries the smaller-secondary hook");
   assert.match(panel.textContent,/THIS SHOWDOWN COULD NOT BE LOADED HERE/,"Q1 the explanatory note is still shown");
-  assert.equal(remove.parent.children[0],remove,"Q1 the first child of the action row is the delete");
-  ok("Q1 the Recovery screen offers START OVER alone; the note is kept");
+  assert.equal(remove.parent.children[0],again,"Q1 the first child of the action row is TRY AGAIN");
+  assert.equal(remove.parent.children[1],remove,"Q1 the delete comes right after it");
+  ok("Q1 the Recovery screen leads with TRY AGAIN, then START OVER; the notes are kept");
 }
 
 async function q1HandlersAreUnchanged(){
@@ -127,12 +131,24 @@ async function q1HandlersAreUnchanged(){
   for(const confirm of [undefined,()=>false,()=>undefined,()=>"yes"]){
     const h=recoveryHarness({confirm});
     await h.pair.initialize({force:true});h.pair.render();
-    const remove=buttons(h.panel())[0];
-    assert.equal(remove.textContent,"DELETE OLD SHOWDOWN & START OVER");
+    const remove=buttons(h.panel()).find(b=>b.textContent==="DELETE OLD SHOWDOWN & START OVER");
+    assert.ok(remove,"Q1 the delete is on the screen");
     remove.click();await settle();
     assert.equal(h.docs.get(`rivalries/${RIVALRY}`).data.connectionState,"active","Q1 without an explicit yes the old Showdown is not closed");
     assert.equal(h.calls.navigate.length,0);
   }
+  {
+    // TRY AGAIN only re-checks: it never closes or changes the old Showdown, and the screen stays on OLD SHOWDOWN FOUND while the local copy is still missing.
+    const h=recoveryHarness();
+    await h.pair.initialize({force:true});h.pair.render();
+    const again=buttons(h.panel()).find(b=>b.textContent==="TRY AGAIN");
+    assert.ok(again,"Q1 TRY AGAIN is on the screen");
+    again.click();await settle();
+    assert.equal(h.docs.get(`rivalries/${RIVALRY}`).data.connectionState,"active","Q1 TRY AGAIN never closes the old Showdown");
+    assert.equal(h.calls.navigate.length,0);
+    assert.equal(h.pair.getState().busy,false,"Q1 TRY AGAIN ends its check");
+  }
+  assert.match(pairSource,/tryAgain\.addEventListener\("click",\(\)=>\{if\(state\.busy\)return;pairSetState\(\{busy:true,message:"Checking your Showdown connection…"\}\);void pairInitialize\(\{force:true\}\);\}\);/);
   // Same handler as before, in the source: delete -> pairStartOverFromRecovery.
   assert.match(pairSource,/startOver\.addEventListener\("click",\(\)=>void pairStartOverFromRecovery\(\)\);/);
   assert.match(pairSource,/const confirmed=await pairAskConfirm\("Delete the old Showdown and start over\?/);
@@ -141,7 +157,7 @@ async function q1HandlersAreUnchanged(){
 }
 
 function q2StylingAndNoScroller(){
-  assert.match(adapterSource,/const PRIMARY=\/\^\(START A SHOWDOWN\|CHOOSE SEASONS\|CREATE CODE FOR NIK\|JOIN DANIEL'S SHOWDOWN\|START CAREER\|TRY CONTINUE AGAIN\)\$\/;/,"Q2 the Connect Players adapter keeps the solid primary buttons (RESTORE BACKUP is gone)");
+  assert.match(adapterSource,/const PRIMARY=\/\^\(START A SHOWDOWN\|CHOOSE SEASONS\|CREATE CODE FOR NIK\|JOIN DANIEL'S SHOWDOWN\|START CAREER\|TRY CONTINUE AGAIN\|TRY AGAIN\)\$\/;/,"Q2 the Connect Players adapter keeps the solid primary buttons (TRY AGAIN joins them; RESTORE BACKUP is gone)");
   assert.equal(/DELETE OLD/.test(adapterSource.match(/const PRIMARY=[^\n]*/)[0]),false,"Q2 the delete is never a primary button");
   const rule=connectCss.match(/(^|\n)(#app #connectPlayersScreen #persistentNikDanielPairPanel \.menuButton\.pairRecoverySecondary)\{([^}]*)\}/);
   assert.ok(rule,"Q2 the smaller-secondary rule is #app-prefixed so it beats the Team V sheets that load later");
@@ -187,7 +203,8 @@ function q4NothingElseMoved(){
   // r79 Codex #915: +1, PAIR AGAIN replaces CREATE CODE FOR NIK for Daniel when Nik unpaired while he chose the seasons.
   // r87 Fable F4-02: +2, PAIR AGAIN replaces NEW CODE / the expired-code hint on Daniel's waiting panel when Nik unpaired.
   // r91 cut: -1, RESTORE BACKUP left the recovery screen with the backup-file restore.
-  assert.equal(createButtons,16,"Q4 only the r79 CHOOSE SEASONS and PAIR AGAIN buttons were added to the pair panel");
+  // r91 cut: +1, TRY AGAIN leads the recovery screen (re-checks the online Showdown; never deletes).
+  assert.equal(createButtons,17,"Q4 only the r79 CHOOSE SEASONS and PAIR AGAIN buttons were added to the pair panel");
   assert.equal((pairSource.match(/pairCreateElement\("button","menuButton","CHOOSE SEASONS"\)/g)||[]).length,1,"Q4 (r79) the one added button is CHOOSE SEASONS");
   ok("Q4 the creator guard, two-manager rule and sign-in mechanics are untouched and no control was added");
 }
