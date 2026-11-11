@@ -8,7 +8,7 @@
 .connectPlayersKicker{position:absolute;top:10.2%;left:50.3%;width:40%;margin:0;transform:translateX(-50%);font:600 clamp(13px,1.1vw,16px)/1.4 var(--sd-font-condensed,var(--f17-display));letter-spacing:.36em;white-space:nowrap;color:#d9c489;text-transform:uppercase;text-shadow:0 1px 6px #000;}
 #connectPlayersScreen h2#connectPlayersTitle{position:absolute;top:14.4%;left:50%;width:fit-content;max-width:90%;margin:0;padding:.04em .14em .14em;transform:translateX(-50%);border:0;box-shadow:none;background:linear-gradient(to bottom,#fff1b8,#f2c45b 55%,#b98a2f);-webkit-background-clip:text;background-clip:text;color:transparent;font:400 clamp(2.8rem,4.35vw,4.8rem)/1.12 var(--sd-font-title,"Kaushan Script","Brush Script MT",cursive);letter-spacing:.01em;text-align:center;white-space:nowrap;text-transform:uppercase;filter:drop-shadow(0 3px 1px #000000f5) drop-shadow(0 0 14px #f2c45b47);}
 #connectPlayersScreen h2#connectPlayersTitle::before,#connectPlayersScreen h2#connectPlayersTitle::after{display:none;}
-.connectPlayersTagline{position:absolute;top:23.7%;left:50.3%;width:60%;margin:0;transform:translateX(-50%);font:600 clamp(10px,.75vw,13px)/1.4 var(--sd-font-condensed,var(--f17-display));letter-spacing:.3em;white-space:nowrap;color:#e6d4a3;text-transform:uppercase;text-shadow:0 1px 6px #000;}
+.connectPlayersTagline{position:absolute;top:23.7%;left:50.3%;width:60%;margin:0;transform:translateX(-50%);font:600 clamp(12px,.75vw,13px)/1.4 var(--sd-font-condensed,var(--f17-display));letter-spacing:.3em;white-space:nowrap;color:#e6d4a3;text-transform:uppercase;text-shadow:0 1px 6px #000;}
 .connectPlayersWorkspace{position:absolute;z-index:2;left:23.7%;top:27.6%;width:51.3%;height:63.5%;box-sizing:border-box;min-height:0;display:flex;flex-direction:column;gap:12px;padding:14px;border:1px solid #e0b23080;background:linear-gradient(145deg,#070a0de8,#0c0e11bd);box-shadow:inset 0 1px #ffde6f24,0 12px 44px #0008;}
 .connectPlayersTabRow{display:contents;}
 .connectPlayersTabs{display:none;}
@@ -1204,13 +1204,13 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  #app #connectPlayersScreen[data-role="nik"] .connectPlayersRoleNik {
   border:clamp(3px,.45vh,5px) solid transparent;border-radius:6px;
   background:linear-gradient(180deg,#171512 0,#0c0c0d 18%,#09090a 100%) padding-box,var(--cp-bevel) border-box;
-  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81f,0 0 26px #f0c84b38,0 12px 34px #000b;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81f,0 12px 34px #000b;
  }
  /* the note card under them */
  #app #connectPlayersScreen #persistentNikDanielPairPanel {
   border:3px solid transparent;border-radius:6px;
   background:linear-gradient(160deg,#0f0e0ceb,#0a0a0bf0) padding-box,var(--cp-bevel) border-box;
-  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c70,0 0 22px #f0c84b2e,0 10px 28px #000b;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c70,0 10px 28px #000b;
  }
  #app #connectPlayersScreen[data-connection="active"] #persistentNikDanielPairPanel { border-color:transparent;box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #80c97a99,0 0 22px #80c97a33,0 10px 28px #000b; }
  /* CHOOSE SEASONS: polished gold */

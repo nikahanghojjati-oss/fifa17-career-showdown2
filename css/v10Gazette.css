@@ -34,20 +34,21 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
 #touchlineGazette .cmx-fp-screen {
   min-height: inherit;
   /* the top bar stays fixed over the page on desktop: the paper starts below it */
-  padding: calc(var(--sd-nav-top-h, 52px) + 16px) 20px 28px;
+  padding: calc(var(--sd-nav-top-h, 52px) + 10px) 20px 28px;
   background: none;
   justify-content: flex-start;
 }
-#touchlineGazette .cmx-fp-screen__eyebrow {
-  margin: 0 0 14px;
-  padding: 6px 14px 5px;
-  background: #07080a;
-  box-shadow: inset 0 0 0 1px rgba(212, 160, 23, .55);
-  text-align: center;
-}
+/* r91 HO-070 (Nik's no-title-box rule, 2026-11-04): the boxed "Season N of T · front page" label above the masthead read
+   like a title box, so it is not shown at any size (the paper's own dateline already says the season). */
+#touchlineGazette .cmx-fp-screen__eyebrow { display: none; }
 /* 2.0.0: the paper takes the room between the managers' faces (the plate's inner face edges sit 374px either side of its
    centre, 48vw of the window at the narrowest crop), so the type can be read on a laptop without leaning in */
 #touchlineGazette .cmx-fp-screen__desk { width: min(clamp(540px, calc(48vw - 40px), 700px), 100%); }
+/* r91 HO-070: on big screens the paper is a little wider (780px), so it runs shorter and CONTINUE stays in view at 1920x866;
+   at 1700px the plate's inner face edges are still clear of a 780px paper. */
+@media (min-width: 1700px) {
+  #touchlineGazette .cmx-fp-screen__desk { width: min(780px, 100%); }
+}
 /* 2.0.0 readability (Nik 2026-11-01: "the stories are good ... it's very hard to see the words"): the reading type is set
    at reading sizes, in full-strength ink, and js/touchlineGazette.js fit() no longer shrinks the paper under 92% on desktop
    (100% on phones), so what is printed here is what the eye gets. Headlines and the masthead keep Team V's sizes. */
@@ -59,7 +60,8 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__cap,
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__portrait figcaption { font-size: 13px; line-height: 1.25; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__cap span { font-size: 13px; }
-#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__ear { font-size: 13px; line-height: 1.15; padding: 3px 6px; }
+/* r91 HO-070: the masthead ears lose their boxes (no title boxes); 13px keeps them at 12px on screen even at the 92.4% fit floor */
+#touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__ear { font-size: 13px; line-height: 1.25; padding: 3px 6px; border-color: transparent; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__byline { font-size: 13px; }
 #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__quote cite { font-size: 13px; }
 /* a wider, shorter lead photo and a numbers column wide enough for one line a row keep the bigger paper inside the window */
@@ -253,7 +255,6 @@ html[data-gazette] #commentaryV3Bar { display: none !important; }
 /* (the desktop page only: the phone edition keeps its face-safe top lines below) */
 @media (min-width: 701px) and (min-height: 521px), (min-width: 1001px) {
   #touchlineGazette .cmx-fp-screen { padding-top: calc(var(--sd-nav-top-h, 52px) + 10px); padding-bottom: 14px; }
-  #touchlineGazette .cmx-fp-screen__eyebrow { margin-bottom: 8px; padding: 4px 14px 3px; }
   #touchlineGazette .cmx-continue { margin-top: 12px; }
 }
 @media (max-height: 960px) {
@@ -277,11 +278,10 @@ html[data-gazette] #commentaryV3Bar { display: none !important; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .tgz-race { margin-top: 4px; }
   #touchlineGazette .cmx-fp-screen__desk:has(.cmx-gz:not(.cmx-gz--compact)) ~ .cmx-continue { min-height: 44px; margin-top: 6px; }
   #touchlineGazette .cmx-fp-screen:has(.cmx-gz:not(.cmx-gz--compact)) { padding-top: calc(var(--sd-nav-top-h, 52px) + 6px); padding-bottom: 4px; }
-  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__ear { line-height: 1.08; padding: 2px 6px; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__ear { padding: 2px 6px; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text { line-height: 1.28; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__cap { line-height: 1.18; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__body { padding-top: 4px; }
-  #touchlineGazette .cmx-fp-screen:has(.cmx-gz:not(.cmx-gz--compact)) .cmx-fp-screen__eyebrow { margin-bottom: 6px; padding: 3px 14px 2px; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__edline { margin-bottom: 4px; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__brief { grid-template-columns: 32px 1fr; gap: 6px; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__tro { width: 32px; height: 40px; }
