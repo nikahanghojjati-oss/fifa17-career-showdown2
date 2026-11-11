@@ -264,15 +264,24 @@ function woodTex(w,h,base,dark,planks,rep,opts){ const o=opts||{}, sc=o.scale||1
       if(len<w){ ctx.fillStyle=dark; ctx.fillRect(x+len-2,y0,3,ph); ctx.fillStyle="rgba(255,225,180,.1)"; ctx.fillRect(x+len+1,y0,1,ph); } x+=len; }
     ctx.fillStyle=dark; ctx.fillRect(0,y0,w,3); ctx.fillStyle="rgba(255,230,190,.14)"; ctx.fillRect(0,y0+3,w,1); ctx.fillStyle="rgba(0,0,0,.22)"; ctx.fillRect(0,y0+ph-2,w,2); }
   grain(ctx,w*sc,h*sc,o.grain||24); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(rep[0],rep[1]); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
-function feltTex(){ const F=HIGH_UP?2:1, [c,ctx]=cv(1024*F,1024*F); ctx.scale(F,F); const g=ctx.createRadialGradient(512,512,60,512,512,620); g.addColorStop(0,"#2a6a3c"); g.addColorStop(.55,"#1b4f2d"); g.addColorStop(1,"#0e2c1b"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);
-  ctx.globalAlpha=.06; for(let i=0;i<1024;i+=2){ ctx.fillStyle=i%4?"#fff":"#000"; ctx.fillRect(i,0,1,1024); ctx.fillRect(0,i,1024,1); } ctx.globalAlpha=1; grain(ctx,1024*F,1024*F,26);
+/* r91 felt (Nik 2026-11-11, "keep improving the 3D screens"): a card-room baize, not a carpet. The old felt laid a 1 px grid and a
+   coarse noise tile at 22 %, which the camera magnifies into a grassy grain. Now: the dye's soft clouds, a fine fibre fuzz from one
+   small tile (cheap at load), a faint nap that catches the light one way, and a contact shade where the cloth meets the raised rim */
+function feltTex(){ const F=HIGH_UP?2:1, [c,ctx]=cv(1024*F,1024*F); ctx.scale(F,F); let sd=1709; const r=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  const g=ctx.createRadialGradient(512,512,40,512,512,560); g.addColorStop(0,"#2c6c40"); g.addColorStop(.6,"#1e5531"); g.addColorStop(1,"#143d23"); ctx.fillStyle=g; ctx.fillRect(0,0,1024,1024);
+  for(let i=0;i<46;i++){ const x=r()*1024, y=r()*1024, rad=60+r()*190, cg=ctx.createRadialGradient(x,y,0,x,y,rad), lt=r()<.5; cg.addColorStop(0,lt?"rgba(70,130,80,.07)":"rgba(5,25,12,.09)"); cg.addColorStop(1,"rgba(0,0,0,0)"); ctx.fillStyle=cg; ctx.fillRect(x-rad,y-rad,rad*2,rad*2); }
+  const [fc,fx]=cv(256,256); for(let i=0;i<5200;i++){ const x=r()*256, y=r()*256, a=r()*Math.PI, l=1.5+r()*4.5; fx.strokeStyle=r()<.5?`rgba(150,205,160,${(.10+r()*.16).toFixed(3)})`:`rgba(0,18,6,${(.12+r()*.18).toFixed(3)})`; fx.lineWidth=.5+r()*.6; fx.beginPath(); fx.moveTo(x,y); fx.lineTo(x+Math.cos(a)*l,y+Math.sin(a)*l); fx.stroke(); }
+  ctx.save(); ctx.globalAlpha=.55; ctx.fillStyle=ctx.createPattern(fc,"repeat"); ctx.fillRect(0,0,1024,1024); ctx.scale(.5,.5); ctx.rotate(.7); ctx.globalAlpha=.35; ctx.fillRect(-2048,-2048,6144,6144); ctx.restore();
+  const nap=ctx.createLinearGradient(0,0,1024,1024); nap.addColorStop(0,"rgba(120,170,120,.05)"); nap.addColorStop(.5,"rgba(0,0,0,0)"); nap.addColorStop(1,"rgba(0,10,4,.06)"); ctx.fillStyle=nap; ctx.fillRect(0,0,1024,1024);
+  const rim=ctx.createRadialGradient(512,512,455,512,512,512); rim.addColorStop(0,"rgba(0,0,0,0)"); rim.addColorStop(.75,"rgba(2,10,4,.22)"); rim.addColorStop(1,"rgba(2,8,3,.5)"); ctx.fillStyle=rim; ctx.fillRect(0,0,1024,1024);
+  grain(ctx,1024*F,1024*F,7);
   const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 /* cream marble with grey and warm veins */
 /* floor marble (r89, Nik 2026-11-03: "match the tile style of the background picture's flooring"): the cafe picture's floor is a bright
    Calacatta-like white with a dense crackle web of grey veins and a few warm ones. The web is a seamless cellular pattern (cell edges
    from the two nearest seed points, wrapped so the tile repeats without a seam), its lines wobbled by a periodic warp, with a few heavier
    veins and cloudy whites under it; slab joints are hair-thin like polished slabs laid tight */
-function floorMarbleTex(){ const w=GFX.level>=2?2048:1024,h=w,[c,ctx]=cv(w,h), q=w/2, qs=w/q, [qc,qx]=cv(q,q); const N=15, cs=q/N, P1=new Float32Array(N*N*3);
+function floorMarbleTex(){ const w=GFX.level>=2?2048:1024,h=w, VEIN=GFX.level>=2?1:.5 /* r91: at 1024 px the full-strength web read as cracked mud from the overhead spin shot; Light and Balanced keep a calmer vein */,[c,ctx]=cv(w,h), q=w/2, qs=w/q, [qc,qx]=cv(q,q); const N=15, cs=q/N, P1=new Float32Array(N*N*3);
   for(let j=0;j<N;j++) for(let i=0;i<N;i++){ const o=(j*N+i)*3; P1[o]=(i+.15+Math.random()*.7)*cs; P1[o+1]=(j+.15+Math.random()*.7)*cs; P1[o+2]=Math.random(); }
   const N2=36, cs2=q/N2, P2=new Float32Array(N2*N2*3); for(let j=0;j<N2;j++) for(let i=0;i<N2;i++){ const o=(j*N2+i)*3; P2[o]=(i+.1+Math.random()*.8)*cs2; P2[o+1]=(j+.1+Math.random()*.8)*cs2; }
   /* the web is worked out at half size and drawn up (r90: 2048 on the high levels, 1024 on light and medium): fast at load, crisp at floor distance */
@@ -282,7 +291,7 @@ function floorMarbleTex(){ const w=GFX.level>=2?2048:1024,h=w,[c,ctx]=cv(w,h), q
       const wx=x+Math.sin(y/q*TAU*3+ph[0])*13+Math.sin(y/q*TAU*11+ph[1])*3.5+Math.sin((x+y)/q*TAU*7)*2.5, wy=y+Math.sin(x/q*TAU*4+ph[2])*12+Math.sin(x/q*TAU*13+ph[3])*3;
       edge(P1,N,cs,wx,wy); const e=E, s1=P1[I+2]; edge(P2,N2,cs2,wx+Math.sin(wy/q*TAU*9)*4.5,wy+Math.sin(wx/q*TAU*8)*4.5); const e2=E;
       const cloud=.5+.5*Math.sin(x/q*TAU*2+Math.sin(y/q*TAU*2)*1.5)*Math.sin(y/q*TAU*3+ph[1]); const wob=.55+.45*Math.sin(x/q*TAU*17+y/q*TAU*5+ph[0])*Math.sin(y/q*TAU*13+ph[2]);
-      let r=240-cloud*9, g=238-cloud*9, b=235-cloud*8; const width=((s1<.16?4.6:2.6)*wob+.4)/qs, v=Math.max(0,1-e/width); let k=v*(s1<.16?.9:.78); const v2=Math.max(0,1-e2/((.9+wob*.8)/qs)); k=Math.max(k,v2*.3*wob); const warm=s1>.93;
+      let r=240-cloud*9, g=238-cloud*9, b=235-cloud*8; const width=((s1<.16?4.6:2.6)*wob+.4)/qs, v=Math.max(0,1-e/width); let k=v*(s1<.16?.9:.78)*VEIN; const v2=Math.max(0,1-e2/((.9+wob*.8)/qs)); k=Math.max(k,v2*.3*wob*VEIN); const warm=s1>.93;
       r=r*(1-k)+(warm?150:70)*k; g=g*(1-k)+(warm?122:70)*k; b=b*(1-k)+(warm?84:76)*k;
       const o=(y*q+x)*4; d[o]=r; d[o+1]=g; d[o+2]=b; d[o+3]=255; } }
   qx.putImageData(img,0,0); ctx.imageSmoothingQuality="high"; ctx.drawImage(qc,0,0,w,h);
@@ -601,15 +610,24 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
          drum's own material, so it sits in the scene's light instead of reading as a sticker */
       /* each ring is painted with the share of it that is bore: at the chamber circle 7 bores cover about three quarters, at the bore edges
          almost none. Bore share mixes the warm dark of the bores into the steel, which is how a real long exposure of the drum reads */
-      for(let px=Math.ceil(f(R+.0004));px>=0;px--){ const r=px/256*(R+.0004), d=r-CR, c=Math.abs(d)<HR&&r>0?Math.min(.92,7*2*Math.sqrt(HR*HR-d*d)/(2*Math.PI*r)):0;
-        const hub=r<.0088?.06*(1-r/.0088):0, edge=r>R-.0012?.1*(r-(R-.0012))/.0016:0, m=(a,b)=>Math.round(a+(b-a)*c);
-        bx.fillStyle=`rgb(${m(255*(1-edge)+0*hub,92)},${m(255*(1-edge),70)},${m(255*(1-edge),58)})`; bx.beginPath(); bx.arc(256,256,px+.5,0,7); bx.fill(); }
+      /* r91 (Nik 2026-11-11: keep improving the RRR scene): the old disc read as a grey plastic CD. A real long exposure of a spinning
+         nickel drum: bright steel, the seven bores smeared into a deep band (dark tubes over three quarters of that circle), the flutes darkening
+         the outer edge, the star a soft bright hub, the lathe lines, and (painted below, held still against the turn in onBeforeRender)
+         the "butterfly" glint a spinning polished face throws back at the light, which is what tells the eye it is metal and moving */
+      for(let px=Math.ceil(f(R+.0004));px>=0;px--){ const r=px/256*(R+.0004), d=r-CR, c=Math.abs(d)<HR&&r>0?Math.min(.8,7*2*Math.sqrt(HR*HR-d*d)/(2*Math.PI*r)):0;
+        const hub=r<.0088?.25*(1-r/.0088):0, flute=r>R-.0045?.28*Math.min(1,(r-(R-.0045))/.002):0, edge=r>R-.0010?.45*(r-(R-.0010))/.0014:0, lit=(1-flute-edge)*(.93+.07*Math.cos(r/R*7.5))+hub;
+        const s0=[236*lit,240*lit,248*lit], m=(a,b)=>Math.max(0,Math.min(255,Math.round(a+(b-a)*c)));
+        bx.fillStyle=`rgb(${m(s0[0],66)},${m(s0[1],60)},${m(s0[2],58)})`; bx.beginPath(); bx.arc(256,256,px+.5,0,7); bx.fill(); }
       /* faint fine rings, like the lathe lines a spinning face throws back */
       let sd=91; const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
-      for(let i=0;i<60;i++){ const r=rnd()*f(R); bx.strokeStyle=`rgba(${rnd()<.5?"255,255,255":"0,0,0"},${(.03+rnd()*.05).toFixed(3)})`; bx.lineWidth=.6+rnd()*1.2; bx.beginPath(); bx.arc(256,256,r,0,7); bx.stroke(); }
+      for(let i=0;i<70;i++){ const r=rnd()*f(R); bx.strokeStyle=`rgba(${rnd()<.5?"255,255,255":"0,0,0"},${(.03+rnd()*.06).toFixed(3)})`; bx.lineWidth=.6+rnd()*1.2; bx.beginPath(); bx.arc(256,256,r,0,7); bx.stroke(); }
+      /* the glint: two opposite soft wedges through the hub, brightest on the steel rings, fading on the bore band */
+      bx.save(); bx.globalCompositeOperation="lighter"; bx.translate(256,256); for(const s of [1,-1]){ for(let k=0;k<3;k++){ const w=[.22,.11,.045][k], al=[.10,.16,.22][k]; const gg=bx.createRadialGradient(0,0,f(.003),0,0,f(R)); gg.addColorStop(0,`rgba(255,250,240,${al})`); gg.addColorStop(.42,`rgba(255,250,240,${al*.35})`); gg.addColorStop(.62,`rgba(255,250,240,${al*.9})`); gg.addColorStop(1,`rgba(255,250,240,${al*.2})`); bx.fillStyle=gg; bx.beginPath(); bx.moveTo(0,0); bx.arc(0,0,f(R),(s>0?0:Math.PI)-w,(s>0?0:Math.PI)+w); bx.closePath(); bx.fill(); } } bx.restore();
       const bt=new T.CanvasTexture(bc); bt.colorSpace=T.SRGBColorSpace; bt.anisotropy=8;
       const bm=LIGHT?new T.MeshBasicMaterial({color:L("#b8c0cc").multiplyScalar(.3), map:bt, transparent:true, depthWrite:false, opacity:0}):GM.drumFace.clone(); if(!LIGHT){ bm.color=L("#b8c0cc"); bm.map=bt; bm.transparent=true; bm.depthWrite=false; bm.opacity=0; }   /* r90 Light: unlit, at about the lit steel's brightness (one shader program fewer) */
       const blur=new T.Mesh(new T.CircleGeometry(R+.0004,96),bm); blur.position.z=-.0262; blur.rotation.y=Math.PI; blur.renderOrder=2; blur.visible=false; cyl.add(blur);
+      /* r91: the glint stays where the light is while the drum turns under it (the disc turns back by the drum's own angle each frame) */
+      blur.onBeforeRender=()=>{ blur.rotation.z=cyl.rotation.z+.9; blur.updateMatrixWorld(); };
       /* the live round's red mark, smeared: one faint warm thread along the band's outer edge (1 chamber in 7, so it stays faint) */
       const [rc,rx]=cv(512,512); rx.strokeStyle="rgba(255,50,30,1)"; rx.lineWidth=f(.0008); rx.beginPath(); rx.arc(256,256,f(CR+HR*.98),0,7); rx.stroke();
       const rt=new T.CanvasTexture(rc); rt.colorSpace=T.SRGBColorSpace;
