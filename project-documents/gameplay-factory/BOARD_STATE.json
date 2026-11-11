@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-11 2:08 AM Boston time (EST)",
+ "generated": "2026-11-11 2:13 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 218,
@@ -2018,7 +2018,22 @@
    "revision": "2.2.0-r89",
    "when": "2026-11-06T08:49:27-05:00",
    "subject": "Release 2.2.0 (r89): Sacked, Chamber Men 3D, Studio Small Axe (#1254)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1348,
+     "title": "Release 2.3.0 (r90): cut the waste, quality first",
+     "draft": false,
+     "branch": "gameplay/r90",
+     "sha": "e675e1ff2a3b777ec4148716c47a85b4bfb22d41",
+     "updated": "2026-11-11T07:11:47Z",
+     "gates": {
+      "passed": 0,
+      "running": 8,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
@@ -2810,7 +2825,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 4564
+    "waiting_min": 4568
    },
    {
     "id": "HO-059",
@@ -3012,7 +3027,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -4228,7 +4243,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1348,
+    "title": "Release 2.3.0 (r90): cut the waste, quality first",
+    "draft": false,
+    "branch": "gameplay/r90",
+    "sha": "e675e1ff2a3b777ec4148716c47a85b4bfb22d41",
+    "updated": "2026-11-11T07:11:47Z",
+    "gates": {
+     "passed": 0,
+     "running": 8,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
