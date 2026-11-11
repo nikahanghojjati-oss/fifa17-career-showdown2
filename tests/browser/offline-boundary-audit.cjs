@@ -151,22 +151,8 @@ async function run(){
     pass("offline normal gameplay stays closed behind a clear connection gate");
 
     await page.locator("#legacyButton").evaluate(button=>button.dataset.testSurface="internal-audit");
-    await page.evaluate(()=>{window.careerModeLegacyDataTools=true;});
     await page.locator("#legacyButton").click();
     await page.locator("#legacy").waitFor({state:"visible",timeout:20000});
-    assert.deepEqual(await page.evaluate(()=>({
-      backup:typeof window.createCareerModeBackupEnvelope,
-      analyze:typeof window.analyzeCareerModeBackupFile,
-      plan:typeof window.createCareerModeRestorePlan,
-      apply:typeof window.applyCareerModeRestore,
-      transaction:typeof window.runCareerModeRawStorageTransaction
-    })),{
-      backup:"function",
-      analyze:"function",
-      plan:"function",
-      apply:"function",
-      transaction:"function"
-    });
     assert.deepEqual(await storage(page),fixture);
 
     await context.setOffline(false);

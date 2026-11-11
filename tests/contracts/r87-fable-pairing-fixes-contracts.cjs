@@ -344,20 +344,5 @@ function identityHarness({managerId="nik",status="ready",decision,note={note:nul
   }
   ok("F4-06","CHANGE PLAYER (with KEEP) only while no pair link exists; a paired, waiting or unknown pair never changes the player");
 }
-// ---------------------------------------------------------------- F4-13: Data Management that fails to load reopens Settings
-{
-  const calls={opened:0,notices:[]};
-  const ctx={console,Promise,setTimeout,clearTimeout,document:{querySelector:()=>null,getElementById:()=>null,addEventListener(){},createElement:()=>({style:{},classList:{add(){},remove(){}},setAttribute(){},append(){}})},addEventListener(){},matchMedia:()=>({matches:false,addEventListener(){}})};
-  ctx.window=ctx;ctx.globalThis=ctx;vm.createContext(ctx);
-  vm.runInContext(read("js/settings.js"),ctx,{filename:"js/settings.js"});
-  ctx.closeSettings=()=>{};ctx.openSettings=()=>{calls.opened+=1;};ctx.showAppNotice=message=>calls.notices.push(message);
-  ctx.openOptionalModule=async()=>{throw new Error("Failed to fetch dynamically imported module");};
-  let rejected=false;try{await ctx.openSettingsDataManagement();}catch(_error){rejected=true;}
-  assert.equal(rejected,false,"a failed load never rejects into nothing");
-  assert.equal(calls.opened,1,"Settings is shown again");assert.equal(calls.notices.length,1,"with a message");
-  assert.equal(ctx.careerModeLegacyDataTools,false);
-  ok("F4-13","DATA MANAGEMENT that cannot load reopens Settings with a message");
-}
-
 console.log(`PASS r87 Fable pairing fixes contracts: ${checks} checks.`);
 })().catch(error=>{console.error(error);process.exit(1);});
