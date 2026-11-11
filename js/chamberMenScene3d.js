@@ -236,12 +236,13 @@
   // floodlight, and fuller far stands. Pixel ratio, MSAA, shadow size and crowd density come from js/gfxTier.js.
   // r90 L04: the squad numbers a club's penalty taker wears (one per club for the Showdown, from its name).
   const SHIRT_NUMBERS=[7,8,9,10,11,14,17,19,20,23];
+  // r91 shells: the layers of real grass blades in front of the camera (js/chamberMenStadium3d.js), Extra and Ultra only.
   const CM3_LEVEL_EXTRAS=[
-    {aniso:4,softness:1.5,fullCrowd:false},
-    {aniso:8,softness:2,fullCrowd:false},
-    {aniso:16,softness:3,fullCrowd:false},
-    {aniso:16,softness:3.5,fullCrowd:true},
-    {aniso:16,softness:4,fullCrowd:true}
+    {aniso:4,softness:1.5,fullCrowd:false,shells:0},
+    {aniso:8,softness:2,fullCrowd:false,shells:0},
+    {aniso:16,softness:3,fullCrowd:false,shells:0},
+    {aniso:16,softness:3.5,fullCrowd:true,shells:10},
+    {aniso:16,softness:4,fullCrowd:true,shells:14}
   ];
   // r90 floodlight banks (metres; goal line z 0, pitch toward +z), on the roof ring 37 m up where both stadiums carry their
   // lamps, and how much of the box's light each throws (w).
@@ -327,7 +328,7 @@
     // Stadium: white posts like FIFA 17, the crowd in each club's colours, the boards with each club's crest and name.
     const crest=typeof root.getClubCrestSvg==="function"?name=>root.getClubCrestSvg(name):null;
     const S=x.S.build(T,x.tex,{phone,density:Q.density,full:QX.fullCrowd,posts:"white",home:colourOf(clubs.playerOne),away:colourOf(clubs.playerTwo),
-      homeAlt:altOf(clubs.playerOne),awayAlt:altOf(clubs.playerTwo),homeName:clubs.playerOne,awayName:clubs.playerTwo,crest,boardPx:L>=3?2048:1024,aniso,lean:L===0});
+      homeAlt:altOf(clubs.playerOne),awayAlt:altOf(clubs.playerTwo),homeName:clubs.playerOne,awayName:clubs.playerTwo,crest,boardPx:L>=3?2048:1024,aniso,lean:L===0,shells:QX.shells});
     scene.add(S.group);
     const ball=S.ball;
     // ---------- floodlights ----------

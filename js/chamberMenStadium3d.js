@@ -207,9 +207,14 @@
       ` c=max(c,cmDot(p,vec2(0.0,${SPOT_Z.toFixed(1)}),.1,dx,dy));c=max(c,cmDot(h,vec2(0.0),.15,dx,dy));`,
       // nothing past the touchlines and the goal lines
       ` return ax>${(PITCH_HALF_W+.3).toFixed(1)}||w.y<-.3||w.y>${(PITCH_L+.3).toFixed(1)}?0.0:c;}`].join("\n");
-    pitchMat.onBeforeCompile=sh=>{
-      sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying vec3 vCmWorld;").replace("#include <worldpos_vertex>","#include <worldpos_vertex>\nvCmWorld=(modelMatrix*vec4(transformed,1.0)).xyz;");
-      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vCmWorld;\n"+cmChalk).replace("#include <map_fragment>",
+    // r91 Extra and Ultra (o.shells layers): real grass in front of the camera. The turf is drawn again in thin layers up to
+    // 2.6 cm over the spot's half of the box, each layer keeping only the cross-sections of blades tall enough to reach it, so
+    // the blades stand up out of the pitch, darker at the root, the boots and the ball sitting in them. They thin out with
+    // distance (from 11 m, gone by 20 m), where a blade is under a pixel and the flat turf already reads the same. One draw.
+    const BLADE_H=.026;
+    const turf=blades=>sh=>{
+      sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying vec3 vCmWorld;"+(blades?"varying float vCmLayer;":"")).replace("#include <worldpos_vertex>","#include <worldpos_vertex>\nvCmWorld=(modelMatrix*vec4(transformed,1.0)).xyz;"+(blades?`vCmLayer=position.y*${(1/BLADE_H).toFixed(4)};`:""));
+      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vCmWorld;\n"+(blades?"varying float vCmLayer;\n":"")+cmChalk).replace("#include <map_fragment>",
         "#include <map_fragment>\n{float band=step(.5,fract(vCmWorld.z/11.0+.25));float edge=smoothstep(.0,.04,abs(fract(vCmWorld.z/5.5)-.5)*2.0-.0);"+
         "diffuseColor.rgb*=mix(.78,1.12,band);"+
         "float wear=exp(-pow(length(vCmWorld.xz-vec2(0.0,11.0))/1.3,2.0))*.45+exp(-pow(length((vCmWorld.xz-vec2(0.0,2.2))*vec2(.35,1.0))/1.6,2.0))*.25;"+
@@ -220,10 +225,32 @@
         // whole field within about 0.7 to 1 of its brightest point), the banks overlapping a little more on the box than far
         // out; the light falls away only past the touchlines and the goal line, where no bank is aimed.
         "float cmOut=max(abs(vCmWorld.x)-35.0,0.0)+max(-1.5-vCmWorld.z,0.0);"+
-        "diffuseColor.rgb*=mix(1.04,.86,smoothstep(8.0,45.0,length(vCmWorld.xz-vec2(0.0,9.0))))*mix(1.0,.5,smoothstep(0.0,8.0,cmOut));}");
+        "diffuseColor.rgb*=mix(1.04,.86,smoothstep(8.0,45.0,length(vCmWorld.xz-vec2(0.0,9.0))))*mix(1.0,.5,smoothstep(0.0,8.0,cmOut));}"+
+        (blades?["{float lay=vCmLayer;vec2 g=vCmWorld.xz*125.0+vec2(0.0,lay*.45);vec2 cell=floor(g),f=fract(g)-.5;",
+          // a blade per 8 mm cell: its height, its place in the cell and its width from an integer hash of the cell
+          " uvec2 q=uvec2(ivec2(cell)+ivec2(65536));uint hx=q.x*1664525u^q.y*1013904223u;hx^=hx>>16;hx*=2246822519u;hx^=hx>>13;",
+          " float h1=float(hx&1023u)/1023.0,h2=float((hx>>10)&1023u)/1023.0,h3=float((hx>>20)&1023u)/1023.0;",
+          " float hgt=(.4+.6*h1)*(1.0-smoothstep(11.0,20.0,distance(vCmWorld,cameraPosition)));",
+          " vec2 at=(vec2(h2,h3)-.5)*.45;float w=.3*(1.0-lay/max(hgt,1e-3))+.05;",
+          " if(lay>hgt||length((f-at)*vec2(1.0,.55))>w)discard;",
+          // dark at the root (light reaches the root only between blades), the tips catching the floodlights
+          " diffuseColor.rgb*=mix(.72,1.12,lay/max(hgt,1e-3));}"].join("\n"):"")+"");
     };
+    pitchMat.onBeforeCompile=turf(false);
     pitchMat.customProgramCacheKey=()=>"cmPitchChalk";
     const pitch=add(new T.PlaneGeometry(130,150),pitchMat);pitch.rotation.x=-Math.PI/2;pitch.position.set(0,0,PITCH_L/2);pitch.receiveShadow=true;
+    if(o.shells>0){
+      // The layers over x -15..15, z 1..19 (the taker, the spot and the box up to the goal), with the pitch plane's own uvs.
+      const n=Math.min(24,Math.floor(o.shells)),X0=-15,X1=15,Z0=1,Z1=19,pos=[],nrm=[],uv=[],idx=[];
+      const uvOf=(x,z)=>[x/130+.5,(PITCH_L/2-z)/150+.5];
+      for(let i=1;i<=n;i+=1){const y=BLADE_H*i/n,b=pos.length/3;
+        for(const [x,z] of [[X0,Z0],[X1,Z0],[X0,Z1],[X1,Z1]]){pos.push(x,y,z);nrm.push(0,1,0);uv.push(...uvOf(x,z));}
+        idx.push(b,b+2,b+1,b+1,b+2,b+3);}
+      const g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(pos,3));g.setAttribute("normal",new T.Float32BufferAttribute(nrm,3));
+      g.setAttribute("uv",new T.Float32BufferAttribute(uv,2));g.setIndex(idx);
+      const bladeMat=keep(pitchMat.clone());bladeMat.onBeforeCompile=turf(true);bladeMat.customProgramCacheKey=()=>"cmPitchBlades";
+      const blades=add(g,bladeMat);blades.receiveShadow=true;blades.name="cmBlades";
+    }
 
     // ---------- goal ----------
     const white=o.posts!=="gold";
