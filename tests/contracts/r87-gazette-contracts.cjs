@@ -245,7 +245,7 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
 // advance: replaces continueToNextSeason (a promise that takes its time, or fails). chipLate: the Special Player chip is not on
 // the page at the tap and arrives through loadRuntimeScript. chipFails: the chip is there but its data cannot load.
 // Timers of a second or more (safety timers, the asset cap) are captured in calls.longTimers and fired only by the test.
-function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne',advance=null,chipLate=false,chipFails=false,imageFails=false,renderThrows=false}={}){
+function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne',advance=null,chipLate=false,chipFails=false,imageFails=false,renderThrows=false,squadStep=null}={}){
   const capture=[],docListeners={},winListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,ownRematch:0,shown:[],loads:[],longTimers:[],images:[]};let compact=false;
   let screen='seasonEntry';
   class El{
@@ -261,7 +261,7 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
     matches(sel){return sel.split(',').some(one=>{one=one.trim();if(/\s/.test(one))return false;const m=one.match(/^([a-z]+)?(#[\w-]+)?((?:\.[\w-]+)*)$/i);if(!m)return false;if(m[1]&&m[1].toUpperCase()!==this.tagName)return false;if(m[2]&&m[2].slice(1)!==this.id)return false;return (m[3]||'').split('.').filter(Boolean).every(c=>this.classes.has(c));});}
     closest(sel){let n=this;while(n){if(n.matches(sel))return n;n=n.parent;}return null;}
     querySelector(sel){for(const c of this.children){if(c.matches(sel))return c;const d=c.querySelector(sel);if(d)return d;}return null;}
-    setAttribute(k,v){this.attrs[k]=String(v);}addEventListener(t,f){(this.listeners[t]=this.listeners[t]||[]).push(f);}
+    setAttribute(k,v){this.attrs[k]=String(v);}getAttribute(k){return k in this.attrs?this.attrs[k]:null;}removeAttribute(k){delete this.attrs[k];}addEventListener(t,f){(this.listeners[t]=this.listeners[t]||[]).push(f);}
     getBoundingClientRect(){return {top:0,left:0,width:0,height:0};}focus(){}
     click(){dispatch(this);}
   }
@@ -304,7 +304,8 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
     CareerModeProductionSharedHistoryConvergence:{getState:()=>({...history,managerRole})},
     CareerModeProductionSharedMultiSeasonProgression:{canContinue:()=>true,continueToNextSeason:()=>{calls.continue+=1;if(advance)return advance();if(proceedResult)go('dashboard');return proceedResult;}},
     CareerModeSpecialPlayerChip:{liveFor:()=>sp,...(chipFails?{ensure:()=>Promise.resolve(false)}:{})},
-    FINAL_WINNER_FIXTURES:final?{frames:{LIVE:final}}:undefined,CareerModeSeasonFinalV10:{gazetteHistory:()=>final?history:null}
+    FINAL_WINNER_FIXTURES:final?{frames:{LIVE:final}}:undefined,CareerModeSeasonFinalV10:{gazetteHistory:()=>final?history:null},
+    ...(squadStep?{CareerModeSquadSheetStep:squadStep}:{})
   };
   // lateFiles: the paper, the copy and the headlines are not on the page yet when the player taps (a tap before warm() ends)
   const late={'gazette-frontpage':['ShowdownContent',sandbox.ShowdownContent],'gazette-copy':['CareerModeGazetteCopy',Copy],'gazette-headlines':['CareerModeFrontPages',Pages],'special-player-chip':['CareerModeSpecialPlayerChip',sandbox.CareerModeSpecialPlayerChip]};
@@ -358,7 +359,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(off.page(),null);assert.equal(off.calls.continue,1,'offline: the tap simply went on');assert.equal(off.screen(),'dashboard');
     const stuck=world({history,proceedResult:false});stuck.dispatch(stuck.seasonButton);await settle();assert.ok(stuck.page());
     stuck.dispatch(stuck.continueButton());await settle();assert.equal(stuck.calls.continue,1);assert.equal(stuck.page(),null,'Season Results is back with its own button');assert.equal(stuck.host.dataset.gazette,undefined);
-    const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=9000,FINAL_SAFETY_MS=2500;/);
+    const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=9000,FINAL_SAFETY_MS=2500,SQUAD_CAP_MS=4000;/);
     ok('G9','the Gazette never holds anyone up: no files means the tap goes on, a step that cannot go on closes the paper');
   }
   // G11 a fast tap: CONTINUE pressed before the paper's files are on the page (warm() not finished) is still held for its
@@ -618,6 +619,38 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(s2.calls.images.length,0,'no season paper for a sacked season');
     const src=read('js/touchlineGazette.js');assert.ok(!/getDoc|onSnapshot|setDoc|runTransaction|collection\(/.test(src),'still no Firebase call');assert.match(src,/firestoreReads:0,firestoreWrites:0/);
     ok('G23','r91: the due paper (season, final, sacked final) is prepared while its screen is up, the tap waits up to 9 s with its button busy, a read paper is never prepared again, a sacked season prepares only the final paper, no Firebase');
+  }
+  // G24 (review of #1390): the busy mark always comes off, even when a render disabled the button during the wait (a stuck
+  // aria-busy holds js/offlineApp.js's update boundary), and a mark this tap did not set is left alone. Both phones print the
+  // same squad news: the paper asks js/squadSheetStep.js gazetteEnsure for the sheets it needs before it prints (a phone that
+  // lacks them, a new device or cleared storage, reads them first), and a squad read that never answers cannot hold the paper.
+  {
+    const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    const p=proj('3',3,[[R.clLeague,R.cupAward]]),history=fx.history(p);
+    const b=world({history,lateFiles:true});b.dispatch(b.seasonButton);assert.equal(b.seasonButton.attrs['aria-busy'],'true');
+    b.seasonButton.disabled=true;await wait(150);
+    assert.ok(b.page(),'the paper still opens');assert.equal(b.seasonButton.getAttribute('aria-busy'),null,'the busy mark is off although the button was disabled meanwhile');
+    const o=world({history,lateFiles:true});o.seasonButton.setAttribute('aria-busy','true');o.dispatch(o.seasonButton);await wait(150);
+    assert.equal(o.seasonButton.getAttribute('aria-busy'),'true','a busy mark this tap did not set stays');
+    // squad news, season 2: one phone keeps the sheets, the other (a new device) gets them only through gazetteEnsure
+    const q=proj('4',3,[[R.clLeague,R.cupAward],[R.cup,R.league]]),h2=fx.history(q);
+    const news={playerOne:{left:[{name:'Marco Reus',reason:'contract'}],rated:[]},playerTwo:{left:[],rated:[{name:'Kevin De Bruyne',value:91}]}};
+    const phone=kept=>{const asked=[];let have=kept;return {asked,step:{gazetteNews:({season})=>have&&season===2?news:null,gazetteEnsure:args=>{asked.push(args);return new Promise(resolve=>setTimeout(()=>{have=true;resolve(true);},40));}}};};
+    const A=phone(true),B=phone(false),wa=world({history:h2,squadStep:A.step}),wb=world({history:h2,managerRole:'playerTwo',squadStep:B.step});
+    wa.dispatch(wa.seasonButton);wb.dispatch(wb.seasonButton);await wait(250);
+    assert.ok(wa.page()&&wb.page(),'both papers are up');
+    assert.deepEqual(JSON.parse(JSON.stringify(B.asked)),[{rivalryId:q.rivalryId,season:2}],'the paper asks for exactly its own season\'s sheets');
+    const pa=wa.calls.shown[0].story.paragraphs,pb=wb.calls.shown[0].story.paragraphs;
+    assert.ok(pa[1].startsWith('Squad news: '),pa[1]);assert.deepEqual(JSON.parse(JSON.stringify(pb)),JSON.parse(JSON.stringify(pa)),'both phones print the same squad news');
+    // the final paper asks for its last season's sheets too
+    const fq=proj('5',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]]),ff=frame(fq),F=phone(false),wf=world({history:fx.history(fq),final:ff,squadStep:F.step});
+    wf.dispatch(wf.back);await wait(250);assert.ok(wf.page());assert.deepEqual(JSON.parse(JSON.stringify(F.asked)),[{rivalryId:fq.rivalryId,season:3}]);
+    // a squad read that never answers: the paper waits at most 4 s for it, then prints without squad news
+    const stuck=world({history:h2,squadStep:{gazetteNews:()=>null,gazetteEnsure:()=>new Promise(()=>{})}});stuck.dispatch(stuck.seasonButton);await wait(60);
+    const cap=stuck.calls.longTimers.find(t=>t.ms===4000);assert.ok(cap,'a 4 s cap on the squad read');assert.equal(stuck.page(),null);
+    cap.fn();await wait(80);assert.ok(stuck.page(),'the paper prints after the cap');assert.ok(!stuck.calls.shown[0].story.paragraphs[1].startsWith('Squad news'));
+    const src=read('js/touchlineGazette.js');assert.ok(!/getDoc|onSnapshot|setDoc|runTransaction|collection\(/.test(src),'the Gazette itself still makes no Firebase call');
+    ok('G24','review of #1390: the busy mark always comes off (only when this tap set it); both phones print the same squad news (a phone without the sheets has them read first, at most 4 s)');
   }
   console.log(`PASS r87 Touchline Gazette contracts: ${checks} checks.`);
 })().catch(error=>{console.error(error);process.exit(1);});

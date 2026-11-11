@@ -479,7 +479,7 @@
   // phone or a cold cache, often the final one: it has the most pictures). Now warm() prepares the whole paper (files, then the
   // edition, then its pictures) while Season Results or Final Winner is still being read, and a tap that still finds it not
   // ready waits up to ASSET_CAP_MS (its button marked busy) instead of 4 s. Files only: still no Firebase read or write.
-  const ASSET_CAP_MS=9000,FINAL_SAFETY_MS=2500;
+  const ASSET_CAP_MS=9000,FINAL_SAFETY_MS=2500,SQUAD_CAP_MS=4000;
   const BASE="visual-assets/v10_1/content/";
   const FONTS=Object.freeze([["Gazette Mast","normal",400,"unifrakturmaguntia-latin-400-normal"],["Gazette Head","normal",700,"playfair-display-latin-700-normal"],["Gazette Head","normal",900,"playfair-display-latin-900-normal"],["Gazette Head","italic",400,"playfair-display-latin-400-italic"],["Gazette Body","normal",400,"old-standard-tt-latin-400-normal"],["Gazette Body","italic",400,"old-standard-tt-latin-400-italic"],["Gazette Body","normal",700,"old-standard-tt-latin-700-normal"]]);
   const FONT_FILES=Object.freeze(FONTS.map(f=>`${BASE}gazette/fonts/${f[3]}.woff2`));
@@ -699,8 +699,18 @@
     return null;
   }
   // The files, then the paper, then its pictures, all inside the cap: resolves true only when the paper is ready to show.
+  // Review of #1390 (Nik: "not synced"): both phones must print the same squad news, so a phone that does not keep a sheet
+  // this paper needs (a new device, cleared storage) has it read first: js/squadSheetStep.js gazetteEnsure, at most 4 reads
+  // once (each kept), none on a phone that has them. Capped at SQUAD_CAP_MS and never fails the paper.
+  function tgSquadReady(key){
+    const m=/^(pair_[0-9a-f]{64})\|(?:season|final)\|(\d+)$/.exec(String(key||"")),step=root.CareerModeSquadSheetStep;
+    if(!m||!step||typeof step.gazetteEnsure!=="function")return Promise.resolve(false);
+    let timer=null;
+    const ask=Promise.resolve().then(()=>step.gazetteEnsure({rivalryId:m[1],season:Number(m[2])})).then(value=>value===true,()=>false);
+    return Promise.race([ask,new Promise(resolve=>{timer=root.setTimeout(()=>resolve(false),SQUAD_CAP_MS);})]).then(value=>{root.clearTimeout(timer);return value;});
+  }
   function tgReady(plan){
-    const work=loadAssets().then(()=>{const edition=plan.build();if(!edition||edition.key!==plan.key)return false;plan.edition=edition;return Promise.all(edPictures(edition).map(decode)).then(()=>true);}).then(value=>value===true,()=>false);
+    const work=loadAssets().then(()=>tgSquadReady(plan.key)).then(()=>{const edition=plan.build();if(!edition||edition.key!==plan.key)return false;plan.edition=edition;return Promise.all(edPictures(edition).map(decode)).then(()=>true);}).then(value=>value===true,()=>false);
     return Promise.race([work,new Promise(resolve=>root.setTimeout(()=>resolve(false),ASSET_CAP_MS))]);
   }
   function onClick(event){
@@ -719,11 +729,13 @@
     if(!plan)return;
     event.preventDefault();event.stopPropagation();event.stopImmediatePropagation?.();
     opening=plan;
-    // the tapped button says it is working while its paper is prepared (no dimming, nothing moves)
-    try{plan.button.setAttribute("aria-busy","true");}catch(_error){}
+    // the tapped button says it is working while its paper is prepared (no dimming, nothing moves). Review of #1390: the
+    // mark comes off whatever happened to the button meanwhile (a render may disable it during the wait), and only when this
+    // tap put it there: a stuck aria-busy would hold js/offlineApp.js's update boundary for good.
+    let mine=false;try{mine=plan.button.getAttribute?.("aria-busy")!=="true";if(mine)plan.button.setAttribute("aria-busy","true");}catch(_error){mine=false;}
     tgReady(plan).then(ready=>{
       opening=null;
-      try{if(plan.button.getAttribute?.("aria-busy")==="true"&&!plan.button.disabled)plan.button.removeAttribute?.("aria-busy");}catch(_error){}
+      try{if(mine)plan.button.removeAttribute?.("aria-busy");}catch(_error){}
       if(plan.cancelled)return;
       // The player went somewhere else meanwhile: nothing happens. Files or paper not ready: the tap goes on as before.
       if(activeScreen()!=="seasonEntry"||!plan.button.isConnected&&plan.kind==="season")return;
@@ -754,7 +766,7 @@
   function warmPaper(){
     let due=null;try{due=duePaper();}catch(_error){due=null;}
     if(!due)return false;if(warmed.has(due.key))return true;warmed.add(due.key);
-    loadAssets().then(()=>{const edition=due.build();if(!edition||edition.key!==due.key)throw new Error("GAZETTE_NOT_DUE");return Promise.all(edPictures(edition).map(keepPicture));}).catch(()=>{warmed.delete(due.key);});
+    loadAssets().then(()=>tgSquadReady(due.key)).then(()=>{const edition=due.build();if(!edition||edition.key!==due.key)throw new Error("GAZETTE_NOT_DUE");return Promise.all(edPictures(edition).map(keepPicture));}).catch(()=>{warmed.delete(due.key);});
     return true;
   }
   function warm(event){
