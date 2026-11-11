@@ -172,7 +172,19 @@
     else if(ref.zone==="bench")sheet.bench[ref.index]=player;
     else if(player)sheet.reserves[ref.index]=player;else sheet.reserves.splice(ref.index,1);
   }
-  const sortReserves=sheet=>{sheet.reserves.sort(order);};
+  // Reserves list best first, until the manager reorders them (Nik 2026-11-11: "move the reserve player within reserve").
+  // After that his order stays (sheet.resRank, ids) and a newcomer slots in above the first reserve rated below him. The
+  // order is only for show: it lives in the device draft and is never stored or read by the rules.
+  function sortReserves(sheet){
+    if(!Array.isArray(sheet.resRank)){sheet.reserves.sort(order);return;}
+    const rank=new Map(sheet.resRank.map((id,i)=>[id,i]));
+    const known=sheet.reserves.filter(p=>rank.has(p.id)).sort((a,b)=>rank.get(a.id)-rank.get(b.id));
+    for(const p of sheet.reserves.filter(p=>!rank.has(p.id)).sort(order)){
+      const at=known.findIndex(q=>q.rating<p.rating);
+      if(at<0)known.push(p);else known.splice(at,0,p);
+    }
+    sheet.reserves=known;sheet.resRank=known.map(p=>p.id);
+  }
   const takeReserve=(sheet,id)=>{const i=sheet.reserves.findIndex(p=>p.id===id);return i>=0?sheet.reserves.splice(i,1)[0]:null;};
   const isStopgap=(sheet,i)=>sheet.stopgaps.includes(i);
   const setStopgap=(sheet,i,on)=>{sheet.stopgaps=sheet.stopgaps.filter(s=>s!==i);if(on)sheet.stopgaps.push(i);sheet.stopgaps.sort((a,b)=>a-b);};
@@ -461,7 +473,7 @@
   function canSwap(sheet,a,b){
     if(!sheet||!placeOk(sheet,a)||!placeOk(sheet,b))return {ok:false,reason:"Pick two players."};
     if(a.zone===b.zone&&a.index===b.index)return {ok:false,reason:"Same place."};
-    if(a.zone==="res"&&b.zone==="res")return {ok:false,reason:"Both are reserves."};
+    if(a.zone==="res"&&b.zone==="res")return {ok:true};// reordering the reserves is free; it changes nothing else
     if(b.zone==="res"&&a.zone!=="res")[a,b]=[b,a];
     const pa=at(sheet,a),pb=at(sheet,b);
     if(!pa&&!pb)return {ok:false,reason:"Both places are empty."};
@@ -508,6 +520,10 @@
   }
   function doSwap(sheet,a,b){
     const next=clone(sheet);
+    if(a.zone==="res"&&b.zone==="res"){
+      const r=next.reserves,t=r[a.index];r[a.index]=r[b.index];r[b.index]=t;next.resRank=r.map(p=>p.id);
+      return next;
+    }
     if(b.zone==="res"&&a.zone!=="res")[a,b]=[b,a];
     const pa=at(next,a),pb=at(next,b);
     if(a.zone==="res"){

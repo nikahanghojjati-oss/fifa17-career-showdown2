@@ -93,6 +93,13 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   assert.ok(S.swap(s2,ref('bench',0),ref('bench',4)).ok,'Welbeck 80 and Debuchy 80: a tie');
   assert.ok(S.swap(s2,resRef(s2,'C. Jenkinson'),ref('bench',6)).ok,'a reserve for sub 7');
   assert.match(S.canSwap(s2,ref('bench',1),ref('bench',4)).reason,/15 on the Roulette board/,'Coquelin 81 cannot leave the board for Debuchy 80');
+  // the reserves can be reordered (only for show); the order survives later automatic changes, a newcomer slots in by overall
+  const firstTwo=s2.reserves.slice(0,2).map(p=>p.name);
+  const reordered=S.swap(s2,{zone:'res',index:0},{zone:'res',index:1});
+  assert.ok(reordered.ok&&reordered.sheet.reserves[0].name===firstTwo[1]&&reordered.sheet.reserves[1].name===firstTwo[0],'two reserves swap places');
+  assert.deepEqual(S.board(reordered.sheet),S.board(s2),'reserve order never touches the Roulette board');
+  const after=S.leave(reordered.sheet,reordered.sheet.xi.find(p=>p.name==='P. Čech').id,'sold');
+  assert.ok(after.ok&&after.sheet.reserves.findIndex(p=>p.name===firstTwo[1])<after.sheet.reserves.findIndex(p=>p.name===firstTwo[0]),'the manager\'s reserve order stays');
   // a reported overall moves players by itself, both ways
   const up=S.rate(s2,s2.reserves.find(p=>p.name==='C. Jenkinson').id,86);
   assert.ok(up.ok&&xiName(up.sheet,'C. Jenkinson')&&boardName(up.sheet,'Nacho Monreal')&&!xiName(up.sheet,'Nacho Monreal')&&S.hidingIssue(up.sheet)===null&&S.validate(up.sheet).ok,'Jenkinson rated 86 starts; Monreal 81, now the weakest defender, drops to the board');

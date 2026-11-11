@@ -85,6 +85,10 @@
     const formations=S.formations(),byName=new Map(formations.map(f=>[f.name,f]));
     let ops=readDraft(),sheet=S.apply(base,ops).sheet;
     let tab="squad",cursor={zone:"xi",index:0},picked=null,drag=null,locked=Boolean(options.locked);
+    // Where the last tap landed: the status repeats right there on a phone, so the reason a move was refused is in view
+    // without scrolling to the club panel (nothing floats over the squad).
+    let noteAt=null;
+    const note=zone=>{if(!message||noteAt!==zone)return null;const n=el("p","sqmNote",message);n.dataset.kind=messageKind;n.setAttribute("aria-hidden","true");return n;};
     let carousel=Math.max(0,formations.findIndex(f=>f.name===sheet.formation)),message="",messageKind="";
     let pendingLeave=null;
 
@@ -100,7 +104,7 @@
     function say(text,kind){
       message=text||"";messageKind=kind||"";
       const live=host.querySelector(".sqmLive");if(live){live.textContent=message;live.dataset.kind=messageKind;}
-      const echo=host.querySelector(".sqmCardMsg");if(echo){echo.textContent=message;echo.dataset.kind=messageKind;}
+      if(!text)noteAt=null;
     }
     const playerAt=ref=>!ref?null:ref.zone==="xi"?sheet.xi[ref.index]:ref.zone==="bench"?sheet.bench[ref.index]:sheet.reserves[ref.index]||null;
     const same=(a,b)=>a&&b&&a.zone===b.zone&&a.index===b.index;
@@ -149,8 +153,6 @@
       if(player.number)row("Shirt",`#${player.number}`);
       if(player.signedSeason)row("Signed",`Season ${player.signedSeason}`);
       c.append(id,info);
-      // The side panel's status, repeated on the card (which stays on screen while the page scrolls).
-      const msg=el("p","sqmCardMsg",message);msg.dataset.kind=messageKind;msg.setAttribute("aria-hidden","true");c.appendChild(msg);
       return c;
     }
 
@@ -201,6 +203,7 @@
       });
       stage.appendChild(pitch);
       panel.appendChild(stage);
+      const n1=note("xi");if(n1)panel.appendChild(n1);
       // Nik 2026-11-11 00:29 UTC: the 7 substitutes and then the reserves sit under the pitch, always visible; the page scrolls.
       const shelf=el("div","sqmShelf");
       const head=el("div","sqmShelfHead");
@@ -208,9 +211,19 @@
       const tag=el("span","sqmShelfTag");tag.append(el("i"),doc.createTextNode("1-4 on the Russian Roulette board"));
       head.appendChild(tag);
       shelf.appendChild(head);
-      const subs=el("div","sqmShelfGrid is-subs");
-      sheet.bench.forEach((p,i)=>subs.appendChild(shelfCard({zone:"bench",index:i})));
+      // Subs 1-4 are on the Roulette board; 5-7 sit in their own row, marked as off the board (Nik 00:29 and the lead, 00:52).
+      const subs=el("div","sqmShelfGrid is-board");
+      sheet.bench.slice(0,4).forEach((p,i)=>subs.appendChild(shelfCard({zone:"bench",index:i})));
       shelf.appendChild(subs);
+      const n2=note("board");if(n2)shelf.appendChild(n2);
+      const more=el("div","sqmShelfHead is-more");
+      more.appendChild(el("h4","sqmShelfSub","Subs 5-7"));
+      more.appendChild(el("span","sqmShelfTag is-plain","Not on the Russian Roulette board"));
+      shelf.appendChild(more);
+      const rest=el("div","sqmShelfGrid is-more");
+      sheet.bench.slice(4).forEach((p,i)=>rest.appendChild(shelfCard({zone:"bench",index:i+4})));
+      shelf.appendChild(rest);
+      const n3=note("more");if(n3)shelf.appendChild(n3);
       const rhead=el("div","sqmShelfHead is-res");
       rhead.appendChild(el("h3","sqmShelfTitle",`Reserves  ${sheet.reserves.length}`));
       if(sheet.season<2)rhead.appendChild(el("span","sqmShelfTag is-plain","Reserves can come in from season 2"));
@@ -218,6 +231,7 @@
       const res=el("div","sqmShelfGrid");
       sheet.reserves.forEach((p,i)=>res.appendChild(shelfCard({zone:"res",index:i})));
       if(!sheet.reserves.length)res.appendChild(el("p","sqmShelfNote","Nobody else is at the club."));
+      const n4=note("res");if(n4)shelf.appendChild(n4);
       shelf.appendChild(res);
       panel.appendChild(shelf);
       const hint=el("div","sqmHint");
@@ -356,6 +370,7 @@
     }
     function trySwap(a,b){
       const pa=playerAt(a),pb=playerAt(b);
+      noteAt=b.zone==="bench"?(b.index<4?"board":"more"):b.zone;
       if(commit({t:"swap",a,b})){
         say(pa&&pb?`${shortName(pa.name)} and ${shortName(pb.name)} swapped.`:`${shortName((pa||pb).name)} moved.`,"ok");
         picked=null;pendingLeave=null;cursor=b;
