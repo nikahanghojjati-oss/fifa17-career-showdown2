@@ -41,7 +41,7 @@ function getTransferSelectorOptionMeta(kind, option){
     }
     const tier = Number(option.tier);
     if(option.id === "rest-of-world"){
-        return "Other / fallback";
+        return "Other";
     }
     return tier > 1 ? `${option.country} · Tier ${tier}` : option.country;
 }
@@ -245,7 +245,7 @@ function renderTransferSelectorList(input){
     if(!options.length){
         const empty = document.createElement("div");
         empty.className = "transferComboboxEmpty";
-        empty.textContent = isPlayer ? getTransferPlayerEmptyText(input) : "No matching FIFA 17 option";
+        empty.textContent = isPlayer ? getTransferPlayerEmptyText(input) : "Nothing in FIFA 17 matches";
         fragment.appendChild(empty);
     }else if(isPlayer){
         options.forEach((player, index) => {
@@ -480,7 +480,7 @@ function updateTransferSelectorKind(input, kind){
     input.dataset.selectorKind = normalizedKind;
     const actionLabel = normalizedKind === "league"
         ? "Search FIFA 17 previous league"
-        : "Search player nationality";
+        : "Search nationality";
     const contextLabel = input.dataset.selectorContextLabel;
     input.setAttribute("aria-label", contextLabel ? `${contextLabel}. ${actionLabel}` : actionLabel);
     delete input.dataset.canonicalId;

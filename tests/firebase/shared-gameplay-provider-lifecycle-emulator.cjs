@@ -163,15 +163,15 @@ async function assertImpossibleBundesligaCommitDenied(env,db,season){
       assert.equal(transfer.state.phase,"SIGNING_ENTRY");
 
       transfer=await Transfer.lockSignings({...a(offset+600),seasonNumber:season,operationId:op("transfer_op_",season*10+6),baseRevision:5,signings:[
-        {slot:1,name:`Daniel S${season} A`,position:"ST",overall:80,leagueId:"spain-primera-division",nationalityId:"england"},
+        {slot:1,name:`Daniel S${season} A`,position:"ST",overall:80,leagueId:"spain-primera-division",nationalityId:"england",playerId:20800+season},
         {slot:2,name:`Daniel S${season} B`,position:"CB",overall:74,leagueId:"australia-a-league",nationalityId:"albania"},
-        {slot:3,name:`Daniel S${season} C`,position:"LW",overall:68,leagueId:"germany-bundesliga",nationalityId:"france"}
+        {slot:3,name:`Daniel S${season} C`,position:"LW",overall:68,leagueId:"germany-bundesliga",nationalityId:"sudan"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Daniel signings failed: ${JSON.stringify(transfer)}`);
       transfer=await Transfer.lockSignings({...b(offset+700),seasonNumber:season,operationId:op("transfer_op_",season*10+7),baseRevision:6,signings:[
         {slot:1,name:`Nik S${season} A`,position:"ST",overall:80,leagueId:"england-premier-league",nationalityId:"brazil"},
-        {slot:2,name:`Nik S${season} B`,position:"CB",overall:74,leagueId:"italy-serie-a",nationalityId:"germany"},
-        {slot:3,name:`Nik S${season} C`,position:"LW",overall:68,leagueId:"france-ligue-1",nationalityId:"albania"}
+        {slot:2,name:`Nik S${season} B`,position:"CB",overall:74,leagueId:"italy-serie-a",nationalityId:"germany",playerId:999999},
+        {slot:3,name:`Nik S${season} C`,position:"LW",overall:68,leagueId:"france-ligue-1",nationalityId:"kyrgyzstan"}
       ]});
       assert.equal(transfer.ok,true,`S${season} Nik signings failed: ${JSON.stringify(transfer)}`);
       assert.equal(transfer.state.phase,"COMPLETED");
@@ -183,6 +183,9 @@ async function assertImpossibleBundesligaCommitDenied(env,db,season){
       assert.deepEqual(transferA.verdicts.playerOne.map(row=>row.release),[true,true,false],`S${season} Daniel release verdicts must match Nik's locked league/nationality guesses`);
       assert.deepEqual(transferA.verdicts.playerTwo.map(row=>row.release),[true,false,false],`S${season} Nik release verdicts must match Daniel's locked league/nationality guesses`);
       assert.equal(transferA.opponentInputs.signings.length,3,`S${season} completed transfer reveal must contain all three rival signings`);
+      // r91 Rules deploy: a picked player's SoFIFA id (playerId) and the Kyrgyzstan/Sudan nationalities pass the Rules and come back on the reveal.
+      assert.deepEqual(transferA.opponentInputs.signings.map(row=>[row.playerId??null,row.nationalityId]),[[null,"brazil"],[999999,"germany"],[null,"kyrgyzstan"]],`S${season} Nik's revealed signings keep playerId and the new nationality`);
+      assert.deepEqual(transferB.opponentInputs.signings.map(row=>[row.playerId??null,row.nationalityId]),[[20800+season,"england"],[null,"albania"],[null,"sudan"]],`S${season} Daniel's revealed signings keep playerId and the new nationality`);
       assert.equal(transferB.opponentInputs.guesses.length,3,`S${season} completed transfer reveal must contain all three rival guesses`);
 
       if(season===1)await assertImpossibleBundesligaResultDenied(dbA,season);

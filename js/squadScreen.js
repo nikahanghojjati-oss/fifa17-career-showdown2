@@ -464,7 +464,14 @@
       if(locked||saving||tab!=="squad"||e.button>0)return;
       const ref=refFrom(e.target);if(!ref||!playerAt(ref))return;
       drag={ref,x:e.clientX,y:e.clientY,id:e.pointerId,moved:false,ready:e.pointerType==="mouse",ghost:null,timer:null,travel:0,before:picked};
-      if(!drag.ready)drag.timer=setTimeout(()=>{if(drag){drag.ready=true;start(e);}},300);
+      if(!drag.ready){
+        drag.timer=setTimeout(()=>{if(drag){drag.ready=true;start(e);}},300);
+        // The hold redraws the squad, so the finger's own node leaves the page and its touchmoves no longer reach the
+        // panel. The browser then scrolls and cancels the drag. Holding the scroll back on that node keeps the drag alive.
+        const held=e.target,hold=ev=>{if(drag&&drag.ghost&&ev.cancelable)ev.preventDefault();};
+        const done=()=>{held.removeEventListener("touchmove",hold);held.removeEventListener("touchend",done);held.removeEventListener("touchcancel",done);};
+        held.addEventListener("touchmove",hold,{passive:false});held.addEventListener("touchend",done);held.addEventListener("touchcancel",done);
+      }
     });
     function start(e){
       if(!drag||drag.ghost)return;

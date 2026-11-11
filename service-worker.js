@@ -23,6 +23,15 @@ const ON_DEMAND_DATA_PATH = /^data\/fifa17\/players-\d+\.[0-9a-f]{8}\.json$/;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
+// r91 (Sol 6.1 review of 2.3.0): the Device check (Settings > 3D QUALITY > Device check…) and its Chamber Men frame are
+// pages of their own at the root. 2.3.0 answered a navigation to them with the shell's index.html, so the check showed
+// Home. They always come from the network (the check plays the 3D screens, which need their files anyway) and never from
+// the shell's index.html; without a connection the answer is a short page that says so, with the way back to the game.
+const STANDALONE_PAGE_NAVIGATION_PATHS = new Set([
+    "device-check.html",
+    "device-check-chamber.html"
+]);
+function standalonePageOffline(){ return new Response('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Device check · Career Mode Showdown</title><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#050505;color:#f5f1e8;font:400 16px/1.5 system-ui,sans-serif;text-align:center"><main style="padding:24px"><h1 style="margin:0 0 8px;font-size:28px;letter-spacing:.06em;color:#f5c518">DEVICE CHECK</h1><p style="margin:0 0 16px">The Device check needs a connection. Try again when you are online.</p><a href="./" style="color:#f5c518">Back to the game</a></main></body></html>',{status:503,headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store"}}); }
 // r86: the Special Player page is its own document in a frame (js/specialPlayerReveal.js). A frame load is a navigation:
 // it gets that page from the shell the app runs (then the network), never the shell's index.html. Its images follow the
 // Team V cache-first image rule.
@@ -440,8 +449,8 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // shell. W8 (#1278) split install from the offline pack but keeps SHELL_PATHS the full list. The STORY site is never precached.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/gfxTier.js","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/playerSearch.js","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","css/restore.css","css/saveLibrary.css","js/analytics.js","js/restoreUI.js","js/saveLibraryUI.js"]);
-// Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
-// are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks
+// Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
+// one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.
 const ACCEPTANCE_ONLY_SCRIPT_PATHS = new Set(["js/ssjrPhysicalJourneyAcceptance.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze([...SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)),...SHELL_PATHS_REMOVED_SINCE_PREVIOUS]);
@@ -607,6 +616,7 @@ self.addEventListener("fetch",event=>{
     if(CHRONICLE_PATH.test(relativeScopePath(url))){return;}
     if(request.mode==="navigate"){
         const path=relativeScopePath(url);
+        if(STANDALONE_PAGE_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request)).catch(()=>standalonePageOffline())); return; }
         if(SHELL_FRAME_NAVIGATION_PATHS.has(path)){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); const cached=selected?await cachedShellResponse(path,selected.revision):null; return cached||((!selected||selected.revision===RUNTIME_REVISION)&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):fetch(request)); })()); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }

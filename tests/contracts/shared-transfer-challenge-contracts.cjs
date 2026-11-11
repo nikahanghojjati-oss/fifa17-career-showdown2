@@ -18,7 +18,7 @@ vm.runInNewContext(fs.readFileSync('data/transferOptions.js','utf8'),catalogSand
 const canonicalLeagueIds=Array.from(catalogSandbox.window.FIFA17_TRANSFER_LEAGUES,item=>item.id);
 const canonicalNationalityIds=Array.from(catalogSandbox.window.FIFA17_TRANSFER_NATIONALITIES,item=>item.id);
 assert.equal(canonicalLeagueIds.length,36);
-assert.equal(canonicalNationalityIds.length,164);
+assert.equal(canonicalNationalityIds.length,166);
 assert.match(generatedRules,/function ssjrTransferValidOptionId\(value\)/,'Firestore must retain bounded slug-shape validation for Transfer option IDs.');
 assert.match(generatedRules,/ssjrTransferValidOptionId\(value\.valueId\)/,'Guess IDs must remain structurally validated in Firestore Rules.');
 assert.match(generatedRules,/ssjrTransferValidOptionId\(value\.leagueId\)/,'Signing league IDs must remain structurally validated in Firestore Rules.');
@@ -43,7 +43,7 @@ assert.equal(generatedRules.includes('function ssjrTransferValidNationalityId(va
     assert.equal(nationalityRe.test(candidate),nationalitySet.has(candidate),`nationality pattern on ${JSON.stringify(candidate)}`);
     assert.equal(optionRe.test(candidate),leagueSet.has(candidate)||nationalitySet.has(candidate),`option pattern on ${JSON.stringify(candidate)}`);
   }
-  assert.ok(everyId.length===200&&leaguePattern.length+nationalityPattern.length<4000,'the two catalog patterns stay a few kilobytes');
+  assert.ok(everyId.length===202&&leaguePattern.length+nationalityPattern.length<4000,'the two catalog patterns stay a few kilobytes');
   assert.match(generatedRules,/\(value\.type == 'league' && ssjrTransferCatalogLeagueId\(value\.valueId\)\)\s*\|\| \(value\.type == 'nationality' && ssjrTransferCatalogNationalityId\(value\.valueId\)\)/,'a guess id must belong to the catalog of its own kind');
   assert.match(generatedRules,/ssjrTransferCatalogLeagueId\(value\.leagueId\)/);assert.match(generatedRules,/ssjrTransferCatalogNationalityId\(value\.nationalityId\)/);
   // The signing name rule is the reader's rule: 1..80 characters and unchanged by JavaScript String.trim().
@@ -130,7 +130,7 @@ for(const required of [
   'root.setTransferSelectorValue',
   'pstcSyncOwnGuessControls(role,true)',
   'root.document.addEventListener("change",pstcGuessTypeChange,true)',
-  'Choose League or Nationality first'
+  'Pick League or Nationality first'
 ])assert.ok(productionSource.includes(required),`Shared Transfer Challenge screen adapter missing ${required}`);
 assert.doesNotMatch(productionSource,/void pstcEnsureDependencies\(\)\.then\(\(\)=>pstcTick\(\)\)/,'Shared Transfer Challenge must stay dormant on ordinary non-shared startup.');
 assert.doesNotMatch(productionSource,/localStorage|sessionStorage|saveCurrentShowdown\s*\(|openTransferChallenge\s*\(/,'Shared Transfer Challenge screen adapter must not mutate or invoke local Transfer Challenge authority.');
@@ -146,7 +146,7 @@ const setup={
 };
 const careerStart={phase:'CAREER_START_READY',revision:2,acknowledgedRoles:['playerOne','playerTwo']};
 const leagueIds=['england-premier-league','spain-primera-division','italy-serie-a'];
-const nationalityIds=['england','spain','italy','brazil'];
+const nationalityIds=['england','spain','italy','brazil','kyrgyzstan','sudan'];
 const op=n=>`transfer_op_${Number(n).toString(16).padStart(32,'0')}`;
 const command=(type,n,base,extra={})=>({type,operationId:op(n),baseRevision:base,...extra});
 const run=(protocol,state,actorRole,cmd,nowEpochMs=1_000_000,seasonNumber=1,overrides={})=>protocol.apply({
@@ -231,9 +231,11 @@ const rejectsCode=async(promise,code)=>assert.rejects(promise,error=>error&&erro
   await rejectsCode(run(protocol,state,'playerTwo',command('lock-signings',21,6,{signings:[{slot:1,name:'Bad',leagueId:'bad-league',nationalityId:'england'}]}),1_103_001),'TRANSFER_SIGNINGS_INVALID');
 
   const p2Signings=[
-    {slot:1,name:'Player C',leagueId:'spain-primera-division',nationalityId:'england'},
-    {slot:2,name:'Player D',leagueId:'italy-serie-a',nationalityId:'italy'}
+    {slot:1,name:'Player C',leagueId:'spain-primera-division',nationalityId:'england',playerId:20801},
+    {slot:2,name:'Player D',leagueId:'italy-serie-a',nationalityId:'kyrgyzstan'}
   ];
+  // r91: a picked player's SoFIFA id rides on the row (optional, int 1..999999); Kyrgyzstan and Sudan are in the catalog.
+  for(const playerId of [0,1_000_000,'20801',20801.5,null])await rejectsCode(run(protocol,state,'playerTwo',command('lock-signings',21,6,{signings:[{...p2Signings[0],playerId}]}),1_103_001),'TRANSFER_SIGNINGS_INVALID');
   result=await run(protocol,state,'playerTwo',command('lock-signings',22,6,{signings:p2Signings}),1_104_000);
   state=result.state;
   assert.equal(state.phase,'COMPLETED');

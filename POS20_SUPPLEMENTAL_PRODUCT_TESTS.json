@@ -2677,6 +2677,7 @@
         "^js/iconNames\\.js$",
         "^data/icons\\.js$",
         "^scripts/r88\\-icons\\-from\\-csv\\.mjs$",
+        "^project\\-documents/r88\\-icon\\-guess/data/",
         "^tests/fixtures/r88\\-icons/",
         "^tests/contracts/r88\\-icon\\-names\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
@@ -3017,6 +3018,30 @@
         "^data/fifa17Players\\.js$",
         "^scripts/build\\-fifa17\\-database\\.py$",
         "^tests/contracts/r91\\-player\\-search\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-device-check-published-contracts.cjs",
+      "patterns": [
+        "^[^/]+\\.html$",
+        "^service\\-worker\\.js$",
+        "^js/.+\\.js$",
+        "^\\.github/workflows/deploy\\-github\\-pages\\.yml$",
+        "^tests/support/stage\\-pages\\-artifact\\.cjs$",
+        "^tests/contracts/r91\\-device\\-check\\-published\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-device-check-verdict-contracts.cjs",
+      "patterns": [
+        "^device-check(?:-chamber)?\\.html$",
+        "^js/gfxTier\\.js$",
+        "^js/chamberMenScene3d\\.js$",
+        "^visual-assets/v10_1/(?:roulette|special-player)/index\\.html$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/contracts/r91\\-device\\-check\\-verdict\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

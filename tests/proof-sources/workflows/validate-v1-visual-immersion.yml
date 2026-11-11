@@ -102,7 +102,7 @@ jobs:
           const normalDuration = Number((app.match(/STARTUP_SPLASH_MINIMUM_MS\s*=\s*(\d+)/) || [])[1]);
           const reducedDuration = Number((app.match(/STARTUP_SPLASH_REDUCED_MS\s*=\s*(\d+)/) || [])[1]);
           const exitDuration = Number((app.match(/STARTUP_SPLASH_EXIT_MS\s*=\s*(\d+)/) || [])[1]);
-          assert.ok(normalDuration >= 2600 && normalDuration <= 3000, 'Normal startup presentation must preserve the deliberate 2.7 second immersion hold while remaining finite.');
+          assert.ok(normalDuration >= 1500 && normalDuration <= 3000, 'Normal startup presentation must keep its deliberate immersion hold (r91: 1.5 s, Nik 2026-11-11) while remaining finite.');
           assert.ok(reducedDuration >= 0 && reducedDuration <= 300, 'Reduced-motion startup must remain brief.');
           assert.ok(exitDuration >= 0 && exitDuration <= 300, 'Startup exit must remain bounded.');
           assert.ok(app.includes('app.inert = true') && app.includes('app.inert = false'), 'The covered application is not interaction-isolated.');

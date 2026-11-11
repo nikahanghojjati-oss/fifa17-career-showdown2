@@ -1,5 +1,5 @@
 "use strict";
-// Fable job 2 (r87 between-seasons flow), sync and reads findings of the Russian Roster Roulette:
+// Fable job 2 (r87 between-seasons flow), sync and reads findings of the Roster Russian Roulette:
 //  H1 F2-02 persisted hits: each spin mark saves that season's outcome; replays take it as the authority, so a squad data fix
 //     after season 1 never changes season 1's shot (the saved player stays out, nobody else is removed).
 //  H2 F2-02 this season: the partner's saved outcome is the authority for his turn; a saved safe spin stays safe.
