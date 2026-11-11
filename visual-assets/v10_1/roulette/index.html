@@ -548,7 +548,9 @@ const GM={
   drum:new T.MeshStandardMaterial({color:L("#8f99a8"), metalness:.92, roughness:.26}),   /* r87 polish: nickel steel like the hand picture's cylinder, not cream */
   drumFace:new T.MeshStandardMaterial({color:L("#7e8898"), metalness:.88, roughness:.3}),
   drumGroove:new T.MeshStandardMaterial({color:L("#2a2f38"), metalness:.8, roughness:.5, side:T.DoubleSide}),
-  lead:new T.MeshStandardMaterial({color:L("#85888c"), metalness:.6, roughness:.52})
+  lead:new T.MeshStandardMaterial({color:L("#85888c"), metalness:.6, roughness:.52}),
+  /* r91: the hammer is case-hardened steel, darker and a touch blue; in polished bright steel its spur mirrored the sky as a white blade beside the resting gun */
+  hammer:new T.MeshStandardMaterial({color:L("#7a8292"), metalness:1, roughness:.34})
 };
 /* r90 Light: the steel keeps its one roughness (the fine roughness picture is a second shader program for a few pixels of sheen) */
 if(LIGHT){ ["blued","bluedPlain","worn","brass"].forEach(k=>{ GM[k].roughnessMap=null; }); LIGHT_AS.set(GM.bore,GM.boreIn); }
@@ -671,7 +673,7 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     const head=new T.Mesh(new T.LatheGeometry([[0,0],[.0036,0],[.0042,.002],[.0042,.006],[.003,.0075],[0,.0075]].map(p=>new T.Vector2(p[0],p[1])),16),GM.bright); head.rotation.x=Math.PI/2; head.position.set(.0165,.016,.05); head.scale.set(.55,.55,.55); crane.add(head); }
   /* HAMMER: bevelled body, spur curling back over the recoil shield, pivots on the hammer screw */
   hammer.position.set(0,.006,-.041); g.add(hammer);
-  const ham=extrude(smooth([[-.0045,-.008],[.0055,-.008],[.0065,.01],[.005,.024],[.0005,.034],[-.011,.042],[-.023,.047],[-.0305,.043],[-.031,.036],[-.021,.033],[-.012,.03],[-.008,.018],[-.007,.004]],70),.0085,.0011,GM.bright,3); ham.scale.set(1,.75,.75); hammer.add(ham);
+  const ham=extrude(smooth([[-.0045,-.008],[.0055,-.008],[.0065,.01],[.005,.024],[.0005,.034],[-.011,.042],[-.023,.047],[-.0305,.043],[-.031,.036],[-.021,.033],[-.012,.03],[-.008,.018],[-.007,.004]],70),.0085,.0011,GM.hammer,3); ham.scale.set(1,.75,.75); hammer.add(ham);
   /* TRIGGER HOUSING in brass: strap under the frame and the bow, bright trigger inside it, loading gate on the right */
   { const strap=extrude([[-.03,-.0335],[.034,-.0335],[.034,-.0375],[-.03,-.0375]],.024,.001,GM.brass,2); g.add(strap);
     const curve=new T.CatmullRomCurve3([[.032,-.035],[.03,-.046],[.02,-.058],[.004,-.064],[-.013,-.06],[-.024,-.05],[-.029,-.04],[-.03,-.034]].map(p=>new T.Vector3(0,p[1],p[0])),false,"catmullrom",.5);
