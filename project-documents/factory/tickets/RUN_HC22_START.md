@@ -2,8 +2,8 @@
 
 **New normal ChatGPT chat, outside any project.** Attach exactly these 2 pictures, in this order:
 
-1. [GUIDE_HC22_START_P.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/SHA/project-documents/factory/tickets/attach/HC/GUIDE_HC22_START_P.png) (tall cyan picture, you two side by side in the middle)
-2. [RC_HALL.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/SHA/project-documents/factory/tickets/attach/HC/RC_HALL.png) (the middle of the richer hall: doors, fanlight, console lamp, runner)
+1. [GUIDE_HC22_START_P.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/add256e2a4f48d5cbe89842aff15b83d6bcf15fd/project-documents/factory/tickets/attach/HC/GUIDE_HC22_START_P.png) (tall cyan picture, you two side by side in the middle)
+2. [RC_HALL.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/add256e2a4f48d5cbe89842aff15b83d6bcf15fd/project-documents/factory/tickets/attach/HC/RC_HALL.png) (the middle of the richer hall: doors, fanlight, console lamp, runner)
 
 Then paste this whole box, nothing else:
 
