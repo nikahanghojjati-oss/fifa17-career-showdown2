@@ -924,6 +924,14 @@ const stepChecks=(async()=>{
   const unversioned=swSource.slice(swSource.indexOf('const UNVERSIONED_SHELL_ASSET_PATHS'),swSource.indexOf(']);',swSource.indexOf('const UNVERSIONED_SHELL_ASSET_PATHS')));
   for(const file of ['visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr','visual-assets/v10_1/roulette/platemap.json','visual-assets/v10_1/roulette/assets/squads.json'])
     assert.ok(unversioned.includes(`"${file}"`),'offline scene file '+file);
+  // Codex #1348 P1: every shell script the 3D pages load without ?v= must be answered from the shell cache offline.
+  for(const page of ['visual-assets/v10_1/roulette','visual-assets/v10_1/special-player']){
+    const html=fs.readFileSync(path_.join(ROOT,page,'index.html'),'utf8');
+    for(const m of html.matchAll(/<script[^>]+src="([^"?]+)"/g)){
+      const file=path_.posix.normalize(path_.posix.join(page,m[1]));
+      if(swSource.includes(`"${file}"`)) assert.ok(unversioned.includes(`"${file}"`),`${page} loads ${file} without ?v=, so it must be an unversioned shell asset`);
+    }
+  }
   assert.match(pstc,/root\.addEventListener\("storage",pstcSigningDraftStorage\)/,'a newer draft from another tab is taken over');
   assert.match(pstc,/pstcRestoreSigningDraft\(role,view\.ownInputs\|\|null,true\)/);
   assert.match(pstc,/unavailable\|deadline\|offline\|network\|aborted/,'connection codes read as plain words');
