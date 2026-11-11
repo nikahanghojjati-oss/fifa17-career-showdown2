@@ -43,10 +43,14 @@ names and no others.
   - First the pixel ratio, a quarter at a time, down to the level's floor.
   - Then the scene's own heavy parts (crowd, shadows, glow), which the scene offers as `detail: {steps, apply}`:
     step 0 is the scene as built, the last step its lightest. `apply(step, why)` is the only place those parts move.
+    `why` is `"start"` (behind the loading screen), `"slow"`, `"smooth"` (a step back up) or `"restore"` (steps
+    that bought nothing are put back, possibly several at once): a scene must take any step from any other.
   - Steps are taken between beats only. While a scene holds (a kick, a turn, a reveal) nothing changes; a beat that
     ran slow steps down as it ends.
-  - A step down needs the scene to be the cost: a busy frame callback or a dear timed draw. A screen or power mode
-    that simply runs under 60 Hz is not a reason to drop quality.
+  - Slow frames for a second step down, whatever the cause (as in 2.3.0). Steps taken while the scene does not look
+    like the cost (an idle frame callback, a cheap timed draw) must buy frame time: two of them that leave the frames
+    within 10% of where they began are undone, and the screen's own pace (a 30 fps power mode, a 50 Hz screen) is what
+    slow and smooth are judged against from there on. A screen that simply runs under 60 Hz ends where it began.
   - It steps up only after a timed frame shows room, never back to a step that ran slow on that visit. A scene that
     plays in beats and started low steps up only after a beat ran smooth. A heavy part that came back and ran slow
     again stays off for a week of visits.

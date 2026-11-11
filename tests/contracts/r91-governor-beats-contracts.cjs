@@ -10,7 +10,7 @@
 //   B4 a heavy part taken off stays off for that visit; on a later visit it may come back after a smooth beat, 6 s smooth
 //      and a timed frame with room; one that then runs slow goes off again and stays off for a week of visits
 //   B5 a visit starts where the last one settled (same built level only); a picked level and the Device check never adapt
-//   B6 a screen that simply runs under 60 Hz (cheap frames at a steady 30 or 50 fps) is not a reason to step down;
+//   B6 a screen that simply runs under 60 Hz (cheap frames at a steady 30 or 50 fps) steps as 2.3.0 did, then ends where it began;
 //      a busy frame callback or a dear timed draw is
 //   B7 calibrate: the level the scene was built at stays what the governor reports; a slow warm-up starts the heavy parts
 //      one step down (at Light too); a level found slow is not tried again on the page; a framed scene marks its own page only
@@ -167,16 +167,26 @@ const j = v => JSON.stringify(v);
   }
   // B6
   {
-    // A phone in a 30 fps power mode, a 50 Hz screen: steady frames, the callback idle, the draw cheap.
+    // A phone in a 30 fps power mode, a 50 Hz screen: steady frames, the callback idle, the draw cheap. The governor steps
+    // down as 2.3.0 did, sees the steps buy nothing, and puts them back: the picture ends where it began.
     for (const ms of [33.3, 25]) {
-      const log = [], s = sandbox({gpu: GTX, dpr: 2, memory: 16, cores: 8, timeline: true}), gov = s.G.governor(fakeRenderer(s.clock, () => 3), {key: "p" + ms, draw() {}, detail: DETAIL(2, log)});
+      const log = [], s = sandbox({gpu: GTX, dpr: 2, memory: 16, cores: 8, timeline: true}), r = fakeRenderer(s.clock, () => 3);
+      const gov = s.G.governor(r, {key: "p" + ms, draw() {}, detail: DETAIL(2, log)}), first = gov.pixelRatio();
+      await run(s, gov, 1200, ms, 2); assert.ok(gov.pixelRatio() < first, `${ms} ms frames for a second: a step, as in 2.3.0`);
       await run(s, gov, 20000, ms, 2);
-      assert.ok(gov.pixelRatio() >= 1.5 && gov.detail() === 0, `${ms} ms frames with a 3 ms draw and a 2 ms callback: the screen's pace, not the scene's cost`);
+      assert.ok(gov.pixelRatio() >= first && gov.detail() === 0, `${ms} ms frames with a 3 ms draw and a 2 ms callback: two steps bought nothing, so they are undone`);
+      assert.equal(log.length, 0, "the heavy parts were never touched");
       const before = gov.pixelRatio();
       gov.hold(true); await run(s, gov, 3000, ms, 2); gov.hold(false); await run(s, gov, 3000, ms, 2);
       assert.ok(gov.pixelRatio() >= before && gov.detail() === 0, "a beat at the screen's own pace is not slow");
       // From that pace, real slowness still counts.
       const top = gov.pixelRatio(); await run(s, gov, 2500, ms * 1.6, 2 + ms); assert.ok(gov.pixelRatio() < top, "frames well under the screen's pace with a busy callback: a step");
+    }
+    // A visit that ends while steps are on probe remembers where the probe began, not the probe.
+    {
+      const s = sandbox({gpu: GTX, dpr: 2, memory: 16, cores: 8, timeline: true}), gov = s.G.governor(fakeRenderer(s.clock, () => 3), {key: "pe", draw() {}});
+      const first = gov.pixelRatio(); await run(s, gov, 1200, 33.3, 2); assert.ok(gov.pixelRatio() < first); gov.end();
+      assert.equal(Number(s.store["careerModeShowdown.gfxSettled.v1.pe"]), first);
     }
     // A power mode that ends: the pace taken at 30 fps is dropped once the screen shows 60 again, and 25 fps is slow again.
     {
@@ -197,7 +207,32 @@ const j = v => JSON.stringify(v);
     // Without a way to time the callback (no document.timeline), slow frames count as they always did.
     const o = sandbox(), go = o.G.governor(fakeRenderer(o.clock, () => 3), {key: "old", draw() {}, detail: DETAIL(2, [])});
     await run(o, go, 1500, 30); assert.equal(go.detail(), 1);
-    ok("B6", "a screen that runs under 60 Hz is not a reason to step down; a busy callback or a dear timed draw is");
+    ok("B6", "a screen that simply runs under 60 Hz ends where it began; a busy callback or a dear timed draw steps and stays");
+  }
+  // B9 (review on #1398): the cost that neither the callback nor a timed draw shows. A weak GPU spends its frame putting
+  // the canvas on the page; fewer pixels help, and nothing the scene can time says so. 2.3.0 stepped down on slow frames
+  // alone, and that must still happen and must stay.
+  {
+    // Frame time follows the picture's size: 14 ms of scene and page at 1x, falling with the pixel count; callback 2 ms, timed draw 3 ms.
+    const s = sandbox({gpu: GTX, dpr: 2, memory: 16, cores: 8, timeline: true}), r = fakeRenderer(s.clock, () => 3);
+    const log = [], gov = s.G.governor(r, {key: "comp", draw() {}, detail: DETAIL(2, log)}), first = gov.pixelRatio();
+    const frameMs = () => 6 + 9.5 * gov.pixelRatio() * gov.pixelRatio() - 3 * gov.detail();
+    const play = async total => { const end = s.clock.t + total; while (s.clock.t < end) await run(s, gov, 1, frameMs(), 2); };
+    assert.ok(frameMs() > 25, "starts well under 60 fps");
+    await play(1300); assert.ok(gov.pixelRatio() < first, "slow for a second with an idle callback and a cheap timed draw: still a step down");
+    await play(15000);
+    assert.ok(frameMs() <= 20.5, `the steps went on until the frames held (${gov.pixelRatio()}x, detail ${gov.detail()}, ${frameMs().toFixed(1)} ms)`);
+    const settled = [gov.pixelRatio(), gov.detail()];
+    await play(1500); assert.deepEqual([gov.pixelRatio(), gov.detail()], settled, "and they stay: steps that bought frame time are not undone");
+    assert.ok(!log.some(e => e[1] === "restore"));
+    // Light on a 1x Chromebook: no pixel-ratio step exists. The heavy parts are the ladder, and they are probed the same way.
+    const c = sandbox({timeline: true}), logC = [], gc = c.G.governor(fakeRenderer(c.clock, () => 3), {key: "comp1", draw() {}, detail: DETAIL(3, logC)});
+    const msC = () => 24 - 3 * gc.detail(), playC = async total => { const end = c.clock.t + total; while (c.clock.t < end) await run(c, gc, 1, msC(), 2); };
+    await playC(6000); assert.equal(gc.detail(), 2, "heavy parts step until the frames hold (18 ms), and stay");
+    // The same device where nothing helps: the steps are undone, the heavy parts come back.
+    const n = sandbox({timeline: true}), logN = [], gn = n.G.governor(fakeRenderer(n.clock, () => 3), {key: "comp0", draw() {}, detail: DETAIL(3, logN)});
+    await run(n, gn, 8000, 24, 2); assert.equal(gn.detail(), 0); assert.equal(j(logN), j([[1, "slow"], [2, "slow"], [0, "restore"]]));
+    ok("B9", "slow frames step down even when the scene does not look like the cost (2.3.0); steps that buy frame time stay, steps that buy nothing are undone");
   }
   // B7
   {

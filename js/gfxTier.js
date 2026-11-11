@@ -287,8 +287,9 @@
   // What changed from 2.3.0:
   //   - Slow frames seen during a beat are kept: the step is taken when the beat ends. (2.3.0 threw them away at
   //     hold(false), so a scene that was only slow in action never stepped down, and Roulette holds for its whole turn.)
-  //   - Before a step down, the governor checks the scene is really the cost: its frame callback is busy, or a timed draw
-  //     is dear. A screen or power mode that simply runs under 60 Hz is not a reason to drop quality.
+  //   - Slow frames still step down whatever the cause, as in 2.3.0. But steps taken while the scene does not look like the
+  //     cost (an idle frame callback, a cheap timed draw) must buy frame time: two that buy nothing are undone, and the
+  //     screen's own pace (a 30 fps power mode, a 50 Hz screen) is what slow and smooth are judged against from there on.
   //   - A step back up needs a smooth beat first when this visit started low or a beat ran slow, so it never see-saws
   //     between a calm table and a busy shot.
   const SLOW_MS=20.5,SMOOTH_MS=17.6,BEAT_SLOW_MS=700;
@@ -329,6 +330,8 @@
     // from memory steps up only after a beat ran smooth; one without beats steps up as it always did.
     let usesBeats=Boolean(o.beats);
     let beat=null,due=0,upOk=!(usesBeats&&fromMemory),calmFor=0,idleFor=0,pace=0,busy=0,busyKnown=false,timing=false,trial=-1;
+    // slowN: frames in the slow second under way. probe: steps being tried while the scene does not look like the cost.
+    let slowN=0,probe=null,probed=false;
     const lost=()=>{if(!ended)gfxFail("the GPU dropped the picture (context lost)");};
     try{renderer.domElement?.addEventListener?.("webglcontextlost",lost);}catch(_error){}
     const apply=i=>{at=i;try{renderer.setPixelRatio(list[at]);}catch(_error){}
@@ -337,7 +340,7 @@
         if(gl&&c&&s.w&&gl.drawingBufferWidth&&c.width&&gl.drawingBufferWidth<c.width-2){gfxFail("the browser capped the 8K buffer");return;}}catch(_error){}}
       try{o.onChange?.({...p,pixelRatio:list[at]});}catch(_error){}};
     const setDetail=(i,why)=>{dAt=i;try{detail.apply(dAt,why);}catch(_error){}};
-    const forget=()=>{slowFor=0;smoothFor=0;calmFor=0;due=0;avg=pace||BUDGET_MS;};
+    const forget=()=>{slowFor=0;slowN=0;smoothFor=0;calmFor=0;due=0;avg=pace||BUDGET_MS;};
     const slowLimit=()=>pace?Math.max(SLOW_MS,pace*1.25):SLOW_MS,smoothLimit=()=>pace?Math.max(SMOOTH_MS,pace*1.06):SMOOTH_MS;
     // One step down the ladder: pixel ratio first, then the heavy parts. The step left is never tried again in this visit;
     // a heavy part that was put back and ran slow stays off for a week of visits.
@@ -353,9 +356,28 @@
     const loaded=()=>{
       if(!busyKnown||busy>BUDGET_MS*.45||typeof o.draw!=="function")return true;
       let ms=0;try{ms=gfxTimedDraw(renderer,o.draw);}catch(_error){return true;}
-      if(ms>BUDGET_MS*.5)return true;
-      // Not the scene: this is the pace the screen runs at. Slow and smooth are judged against it from here on.
-      pace=Math.max(BUDGET_MS,Math.min(50,avg));slowFor=0;smoothFor=0;return false;
+      return ms>BUDGET_MS*.5;
+    };
+    // Slow for a second. 2.3.0 stepped down whatever the cause, and that stays (review on #1398): a weak GPU's cost of
+    // putting the canvas on the page shows neither in the frame callback nor in a timed draw, and a real Chromebook cannot
+    // be timed from a test machine. What is new: steps taken while the scene does not look like the cost have to buy frame
+    // time. Two of them (or the ladder's end) that leave the frames within 10% of where they began are undone, and that
+    // frame time is taken as the pace this screen runs at (a 30 fps power mode, a 50 Hz screen): slow and smooth are judged
+    // against it from there on. One such probe a visit.
+    const paceHere=ms=>{pace=Math.max(BUDGET_MS,Math.min(50,ms));slowFor=0;slowN=0;smoothFor=0;};
+    const undo=ms=>{const b=probe;probe=null;probed=true;
+      for(let i=b.at;i<at;i+=1)bad.delete(i);for(let i=b.dAt;i<dAt;i+=1)badD.delete(i);
+      if(detail&&dAt!==b.dAt)setDetail(b.dAt,"restore");if(at!==b.at)apply(b.at);
+      forget();upOk=b.upOk;paceHere(ms);avg=pace;};
+    const slowStep=seen=>{
+      if(loaded()){probe=null;stepDown("slow");return;}
+      if(probed){paceHere(seen);return;}
+      if(!probe)probe={at,dAt,ms:seen,n:0,upOk};
+      else if(seen<probe.ms*.9){probe=null;stepDown("slow");return;}
+      else if(probe.n>=2){undo(seen);return;}
+      if(stepDown("slow"))probe.n+=1;
+      else if(probe.n>0)undo(seen);
+      else{probe=null;probed=true;paceHere(seen);}
     };
     // The time this frame's callback kept the main thread, from the frame's own start to the end of the callback.
     const frameStart=()=>{try{const v=root.document?.timeline?.currentTime;return typeof v==="number"?v:null;}catch(_error){return null;}};
@@ -383,14 +405,14 @@
         const slow=avg>slowLimit();
         if(held){if(beat){beat.ms+=dt;if(slow)beat.slow+=dt;}return;}
         idleFor+=dt;
-        if(slow){slowFor+=dt;smoothFor=0;calmFor=0;}else{slowFor=0;const smooth=avg<smoothLimit();smoothFor=smooth?smoothFor+dt:0;calmFor=smooth?calmFor+dt:0;}
+        if(slow){slowFor+=dt;slowN+=1;smoothFor=0;calmFor=0;}else{slowFor=0;slowN=0;const smooth=avg<smoothLimit();smoothFor=smooth?smoothFor+dt:0;calmFor=smooth?calmFor+dt:0;}
         // A scene that never holds, running calm for 15 s, may step up without a beat.
         if(!upOk&&!usesBeats&&calmFor>=15000)upOk=true;
         // A beat ran slow while the calm scene before it did not: the scene's action is the cost. The step is taken now,
         // between beats. (Not known how the calm scene runs: wait until it shows; as slow as the beat means the check below.)
         if(due===1||(due===2&&!slow)){stepDown("slow");return;}
-        // Too slow for a second: one step down, and that step is never tried again here.
-        if(slowFor>=1000){slowFor=0;due=0;if(loaded())stepDown("slow");return;}
+        // Too slow for a second: one step down (see slowStep).
+        if(slowFor>=1000){const seen=slowFor/Math.max(1,slowN);slowFor=0;slowN=0;due=0;slowStep(seen);return;}
         if(!upOk||typeof o.draw!=="function")return;
         // Heavy parts come back first (they went last): smooth for 6 s and a timed frame under 40% of the budget.
         if(detail&&dAt>dFloor){
@@ -433,7 +455,8 @@
       // The frame callback's main-thread time, smoothed (null where it cannot be timed).
       workMs(){return busyKnown?+busy.toFixed(1):null;},
       end(){if(ended)return;ended=true;if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}
-        if(key&&adapts()){gfxWrite(MEMORY_KEY(key),list[at]);if(detail)gfxWrite(DETAIL_KEY(key),JSON.stringify({level:built,at:dAt,floor:dFloor,t:Date.now()}));}
+        // Steps still on probe are not what the scene settled at: the place the probe began is.
+        if(key&&adapts()){const sAt=probe?probe.at:at,sD=probe?probe.dAt:dAt;gfxWrite(MEMORY_KEY(key),list[sAt]);if(detail)gfxWrite(DETAIL_KEY(key),JSON.stringify({level:built,at:sD,floor:dFloor,t:Date.now()}));}
         if(active===api)active=null;}
     };
     active=api;
