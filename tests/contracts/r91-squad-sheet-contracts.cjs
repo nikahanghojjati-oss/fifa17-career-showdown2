@@ -456,5 +456,14 @@ ok('C8','the RRR board from a sheet is 11 slots then 4 subs');
     assert.match(screen,/input\.type="search"/);assert.match(screen,/S\.searchFormations\(query\)/);
     ok('C13','all 33 FIFA 17 formations under their FIFA 17 names (1 GK + 10, the back line as named), and the Formations search finds them by numbers (with or without dashes), alias or variant');
   }
+  // C14 a finger's drag survives the redraw at the 300 ms hold: the scroll is held back on the finger's own node, which
+  // leaves the page when the squad redraws, so its touchmoves never reach the panel (iPhone: the drag was cancelled).
+  {
+    const screen=fs.readFileSync(path.join(__dirname,'../../js/squadScreen.js'),'utf8');
+    assert.match(screen,/const held=e\.target,hold=ev=>\{if\(drag&&drag\.ghost&&ev\.cancelable\)ev\.preventDefault\(\);\};/);
+    assert.match(screen,/held\.addEventListener\("touchmove",hold,\{passive:false\}\);held\.addEventListener\("touchend",done\);held\.addEventListener\("touchcancel",done\);/);
+    assert.match(screen,/panel\.addEventListener\("touchmove",e=>\{if\(drag&&drag\.ghost&&e\.cancelable\)e\.preventDefault\(\);\},\{passive:false\}\);/,'the panel keeps its own hold too');
+    ok('C14','a finger drag holds the scroll back on its own node, so the redraw at the 300 ms hold no longer cancels it');
+  }
   console.log(`PASS r91 squad sheet contracts (${checks} checks)`);
 })().catch(error=>{console.error(error);process.exit(1);});
