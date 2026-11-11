@@ -153,7 +153,7 @@ async function createShowdownWithRapidActivation(page,prefix){
   await page.locator("#connectPlayersScreen").waitFor({state:"visible",timeout:12000});
   await page.waitForFunction(()=>window.__stabilityPairCodes===1,null,{timeout:12000});
   assert.deepEqual(await activeScreens(page),["leagueWheelScreen"],"START never leaves the canonical league screen.");
-  assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").isVisible().catch(()=>false),false,"No CONNECT FIRST after START.");
+  assert.equal(await page.locator("#productionSharedJourneyEntryOverlay").isVisible().catch(()=>false),false,"No GET READY after START.");
   checkpoint(`${prefix} canonical rapid Start`,`paired-first lock active · WAITING over the league wheel · 1 code · 0 singleton writes`);
   await releasePairedFirstGateForGameplayStability(page,prefix);
 }
