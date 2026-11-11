@@ -280,7 +280,8 @@
       let stopWatch=null,done=false;
       const finish=answer=>{if(done)return;done=true;try{stopWatch?.();}catch(_error){}resolve(answer);};
       back.addEventListener("click",()=>{back.disabled=true;finish("back");});
-      next.addEventListener("click",()=>{if(next.disabled)return;next.disabled=true;finish("next");});
+      // After NEXT the stage stays up (no flash) until the next screen is on top of it; it says so to assistive tech and tests.
+      next.addEventListener("click",()=>{if(next.disabled)return;next.disabled=true;stage.dataset.state="leaving";stage.setAttribute("aria-hidden","true");finish("next");});
       const say=text=>{status.textContent=text;};
       const ready=sheets=>{
         if(sheets)boardsMemo.set(`${ctx.rivalryId}|${ctx.season}`,sheets);

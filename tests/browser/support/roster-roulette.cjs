@@ -44,6 +44,8 @@ async function playRoulette(page,opts={}){
 async function playSquad(page){
   const stage=page.locator("#sqStage");
   if(!await stage.isVisible().catch(()=>false))return null;
+  // Left with its next button: it stays up under the next screen until that screen is on top.
+  if(await stage.getAttribute("data-state").catch(()=>null)==="leaving")return null;
   const next=stage.locator(".sqNext");
   if(await next.isVisible().catch(()=>false)&&await next.isEnabled().catch(()=>false)){
     const label=process.env.CMS_ROULETTE_DEBUG==="1"?`:${await stage.getAttribute("data-stage").catch(()=>"")}`:"";
