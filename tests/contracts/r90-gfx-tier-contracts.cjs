@@ -323,6 +323,26 @@ function g8(){
    assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[1920,1080],storage:k8}).G.profile().pixelRatio,4,'8K, no page size, 1080p screen: 4x, the full buffer');
    assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[0,0],storage:k8}).G.profile().pixelRatio,1,'8K, nothing known: native');
    assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[0,0],storage:ul}).G.profile().pixelRatio,1,'Ultra, nothing known: native');}
+  // The device lab's own target devices (tests/browser/device-lab.cjs PROFILES, read by tests/support/device-lab-profiles.cjs):
+  // on each of them, at Ultra and at 8K, shown or built before it has a size, the first buffer is within the level's
+  // buffer (or native, where the screen itself is larger), and a phone is within 3840x2160.
+  {const {PROFILES,deviceOf}=require('../support/device-lab-profiles.cjs');
+   assert.deepEqual(Object.keys(PROFILES).sort(),['chromebook1035','chromebook866','iphone17','pc4k','pc8k'],'the lab profiles this contract was written against');
+   for(const key of Object.keys(PROFILES)){const d=deviceOf(key);
+     for(const c of ['ultra','8k'])for(const hidden of [false,true]){
+       const q=sandbox({...d,view:hidden?null:d.view,storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile();
+       const [w,h]=hidden?d.screen:d.view,px=w*h*q.pixelRatio*q.pixelRatio,native=w*h*d.dpr*d.dpr;
+       const limit=q.phone?3840*2160:Math.max(q.level===5?7680*4320:3840*2160,native);
+       assert.ok(px<=limit+1,`${key} at ${c}${hidden?' (no size yet)':''}: first buffer ${Math.round(px/1e6)} Mpx is within ${Math.round(limit/1e6)} Mpx (x${q.pixelRatio})`);
+       assert.ok(q.pixelRatio>=Math.min(1,d.dpr),`${key} at ${c}: never under the floor`);}}
+   // The lab's finding, by its numbers: the 4K PC at 8K asked for 15360x8000 in 2.3.0 (4x), the 8K PC for 30720x16640.
+   const at=(key,c)=>{const d=deviceOf(key),q=sandbox({...d,storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile();return Math.round(d.view[0]*q.pixelRatio);};
+   // (The lab's windows are a little shorter than the screen, so the buffer's width may pass 7680 or 3840 by the few
+   // percent that keep the pixel count within the cap.)
+   assert.ok(at('pc4k','8k')>=7680&&at('pc4k','8k')<=7990,`4K PC at 8K: ${at('pc4k','8k')} px wide, not 15360`);
+   assert.ok(at('pc8k','8k')>=7680&&at('pc8k','8k')<=7830,`8K PC at 8K: ${at('pc8k','8k')} px wide, not 30720`);
+   assert.ok(at('pc4k','ultra')>=3840&&at('pc4k','ultra')<=3995,`4K PC at Ultra: ${at('pc4k','ultra')} px wide, not 7680`);assert.equal(at('pc8k','ultra'),7680);
+   assert.equal(at('chromebook866','ultra'),3840,'the Chromebook at Ultra: 2x of 1920, the 4K buffer');}
   const lost=[];const r={...fakeRenderer(s.clock,()=>1,[1920,1080])};r.domElement.addEventListener=(n,f)=>lost.push([n,f]);r.domElement.removeEventListener=()=>{};
   const gov=s.G.governor(r,{key:'chamber'});
   assert.equal(gov.pixelRatio(),4,'a 1080p canvas draws a 7680x4320 buffer');
