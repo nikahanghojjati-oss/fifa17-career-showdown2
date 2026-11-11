@@ -18,6 +18,7 @@
   const STAGE_WORD={pre:"Before Russian Roulette",post:"After Transfer War"};
   const REASON_WORD={contract:"Contract ended",retired:"Retired",swapped:"Swapped",sold:"Sold",loaned:"Loaned out",other:"Other"};
   const el=(tag,cls,text)=>{const n=doc.createElement(tag);if(cls)n.className=cls;if(text!==undefined&&text!==null)n.textContent=String(text);return n;};
+  const many=(n,word)=>`${n} ${word}${n===1?"":"s"}`;
   const shortName=name=>{const s=String(name||"");const dot=s.indexOf(". ");return dot>0&&dot<4?s.slice(dot+2):s;};
 
   // ---------- shirts (js/kits17.js drawFlat, cached as images) ----------
@@ -94,6 +95,13 @@
     let noteAt=null,lastRef=null;
     const note=zone=>{if(!message||noteAt!==zone)return null;const n=el("p","sqmNote",message);n.dataset.kind=messageKind;n.setAttribute("aria-hidden","true");return n;};
     let carousel=Math.max(0,formations.findIndex(f=>f.name===sheet.formation)),message="",messageKind="";
+    // The Formations search (Nik 2026-11-11: "they can search and find the full list"): the carousel walks the matches.
+    let formQuery="",shown=formations;
+    function searchFor(query){
+      const focus=shown[carousel]&&shown[carousel].name;
+      formQuery=query;const names=new Set(S.searchFormations(query));shown=formQuery.trim()?formations.filter(f=>names.has(f.name)):formations;
+      const at=shown.findIndex(f=>f.name===focus);carousel=at>=0?at:Math.max(0,shown.findIndex(f=>f.name===sheet.formation));
+    }
     let pendingLeave=null;
 
     // The draft (this phone only, until LOCK) goes through options.draft = {read() -> ops[], write(ops)}; the game wires it
@@ -248,7 +256,8 @@
     }
 
     function renderFormations(){
-      const f=formations[carousel]||byName.get(sheet.formation);
+      if(carousel>=shown.length)carousel=0;
+      const f=shown[carousel]||byName.get(sheet.formation);
       const preview=f.name===sheet.formation?{ok:true,sheet}:S.setFormation(sheet,f.name);
       const box=el("div","sqmFormPreview");
       const label=el("span","sqmFormLabel",f.name===sheet.formation?"Current":f.name===(base.launchFormation||defaultFormation())?"Default":"");
@@ -266,38 +275,52 @@
       panel.appendChild(box);
       if(!preview.ok)panel.appendChild(el("p","sqmFormNote",preview.reason));
       const rail=el("div","sqmFormRail");
-      rail.appendChild(el("h3","sqmShelfTitle",`${club} formations`));
-      const row=el("div","sqmFormRow");
-      const prev=el("button","sqmFormArrow","‹");prev.type="button";prev.setAttribute("aria-label","Previous formation");prev.disabled=carousel<=0;
-      const next=el("button","sqmFormArrow","›");next.type="button";next.setAttribute("aria-label","Next formation");next.disabled=carousel>=formations.length-1;
-      prev.addEventListener("click",()=>{carousel=Math.max(0,carousel-1);sqmRender();});
-      next.addEventListener("click",()=>{carousel=Math.min(formations.length-1,carousel+1);sqmRender();});
-      const cards=el("div","sqmFormCards");
-      const start=Math.min(Math.max(0,carousel-1),Math.max(0,formations.length-3));
-      for(let i=start;i<Math.min(formations.length,start+3);i+=1){
-        const g=formations[i];
-        const b=el("button","sqmFormCard"+(i===carousel?" is-on":"")+(g.name===sheet.formation?" is-current":""));b.type="button";
-        b.append(el("b",null,g.title),el("small",null,g.variant||" "));
-        const mini=el("span","sqmMini");
-        S.pitchSpots(g.slots).forEach(([x,y],k)=>{const d=el("i",g.slots[k]==="GK"?"gk":"");d.style.left=x+"%";d.style.top=y+"%";mini.appendChild(d);});
-        b.appendChild(mini);
-        b.setAttribute("aria-label",`${g.title} ${g.variant}${g.name===sheet.formation?", current":""}`);
-        b.addEventListener("click",()=>{if(carousel===i)useFormation();else{carousel=i;sqmRender();}});
-        cards.appendChild(b);
+      const head=el("div","sqmFormHead");
+      head.appendChild(el("h3","sqmShelfTitle",`${club} formations`));
+      const find=el("label","sqmFormSearch");
+      const input=el("input");input.type="search";input.value=formQuery;input.placeholder="Search: 433, 4-2-3-1, diamond";input.setAttribute("aria-label","Search the formations");
+      input.autocomplete="off";input.spellcheck=false;input.setAttribute("enterkeyhint","search");
+      input.addEventListener("input",()=>{const at=input.selectionStart;searchFor(input.value);sqmRender();const again=panel.querySelector(".sqmFormSearch input");if(again){again.focus({preventScroll:true});try{again.setSelectionRange(at,at);}catch(_e){}}});
+      input.addEventListener("keydown",e=>{if(e.key==="Escape"&&formQuery){e.stopPropagation();searchFor("");sqmRender();panel.querySelector(".sqmFormSearch input")?.focus({preventScroll:true});}});
+      find.appendChild(input);head.appendChild(find);
+      rail.appendChild(head);
+      if(!shown.length){
+        rail.appendChild(el("p","sqmFormNone",`No formation matches "${formQuery.trim()}". Try 433, 4-4-2 or 3-5-2.`));
+      }else{
+        const row=el("div","sqmFormRow");
+        const prev=el("button","sqmFormArrow","‹");prev.type="button";prev.setAttribute("aria-label","Previous formation");prev.disabled=carousel<=0;
+        const next=el("button","sqmFormArrow","›");next.type="button";next.setAttribute("aria-label","Next formation");next.disabled=carousel>=shown.length-1;
+        prev.addEventListener("click",()=>{carousel=Math.max(0,carousel-1);sqmRender();});
+        next.addEventListener("click",()=>{carousel=Math.min(shown.length-1,carousel+1);sqmRender();});
+        const cards=el("div","sqmFormCards");
+        const start=Math.min(Math.max(0,carousel-1),Math.max(0,shown.length-3));
+        for(let i=start;i<Math.min(shown.length,start+3);i+=1){
+          const g=shown[i];
+          const b=el("button","sqmFormCard"+(i===carousel?" is-on":"")+(g.name===sheet.formation?" is-current":""));b.type="button";
+          b.append(el("b",null,g.title),el("small",null,g.variant||" "));
+          const mini=el("span","sqmMini");
+          S.pitchSpots(g.slots).forEach(([x,y],k)=>{const d=el("i",g.slots[k]==="GK"?"gk":"");d.style.left=x+"%";d.style.top=y+"%";mini.appendChild(d);});
+          b.appendChild(mini);
+          b.setAttribute("aria-label",`${g.title} ${g.variant}${g.name===sheet.formation?", current":""}`);
+          b.addEventListener("click",()=>{if(carousel===i)useFormation();else{carousel=i;sqmRender();}});
+          cards.appendChild(b);
+        }
+        row.append(prev,cards,next);
+        rail.appendChild(row);
       }
-      row.append(prev,cards,next);
-      rail.appendChild(row);
       panel.appendChild(rail);
       const act=el("div","sqmFormActions");
-      const use=el("button","sqmBtn is-primary",f.name===sheet.formation?"In use":"Use this formation");use.type="button";use.disabled=locked||saving||f.name===sheet.formation||!preview.ok;
+      const has=shown.length>0&&shown[carousel]===f;
+      const use=el("button","sqmBtn is-primary",f.name===sheet.formation?"In use":"Use this formation");use.type="button";use.disabled=!has||locked||saving||f.name===sheet.formation||!preview.ok;
       use.addEventListener("click",useFormation);
       act.appendChild(use);
-      act.appendChild(el("span","sqmFormCount",`${carousel+1} of ${formations.length}  ·  ${f.counts.DEF} defenders, ${f.counts.MID} midfielders, ${f.counts.ATT} attackers`));
+      const of=formQuery.trim()&&shown.length?`${carousel+1} of ${shown.length} matching (${formations.length} formations)`:`${(has?carousel:formations.indexOf(f))+1} of ${formations.length}`;
+      act.appendChild(el("span","sqmFormCount",`${of}  ·  ${many(f.counts.DEF,"defender")}, ${many(f.counts.MID,"midfielder")}, ${many(f.counts.ATT,"attacker")}`));
       panel.appendChild(act);
     }
     function defaultFormation(){const d=root.CareerModeFifa17Players;return d&&d.clubs[club]?d.clubs[club].formation:"";}
     function useFormation(){
-      const f=formations[carousel];if(!f||locked||saving)return;
+      const f=shown[carousel];if(!f||locked||saving)return;
       if(commit({t:"formation",name:f.name})){say(`${[f.title,f.variant].filter(Boolean).join(" ")} is in. Starters who still fit kept their places.`,"ok");tab="squad";}
       sqmRender();
     }
@@ -354,7 +377,7 @@
       side.appendChild(el("p","sqmWhen",`Season ${sheet.season}  ·  ${STAGE_WORD[sheet.stage]||""}`));
       const f=byName.get(sheet.formation),c=S.lineCounts(sheet.slots);
       const lines=el("p","sqmLines");
-      lines.append(el("b",null,`${f?f.title:sheet.formation} ${f&&f.variant?f.variant:""}`),el("span",null,`1 goalkeeper · ${c.DEF} defenders · ${c.MID} midfielders · ${c.ATT} attackers`));
+      lines.append(el("b",null,`${f?f.title:sheet.formation} ${f&&f.variant?f.variant:""}`),el("span",null,`1 goalkeeper · ${many(c.DEF,"defender")} · ${many(c.MID,"midfielder")} · ${many(c.ATT,"attacker")}`));
       side.appendChild(lines);
       side.appendChild(live);live.textContent=message;live.dataset.kind=messageKind;
       if(sheet.out.length){
@@ -490,8 +513,9 @@
     // Enter or Space picks and swaps, Escape cancels.
     host.addEventListener("keydown",e=>{
       if(tab==="formations"){
+        if(e.target&&e.target.closest&&e.target.closest(".sqmFormSearch"))return;// arrows move the caret while typing
         if(e.key==="ArrowLeft"){carousel=Math.max(0,carousel-1);sqmRender();e.preventDefault();}
-        else if(e.key==="ArrowRight"){carousel=Math.min(formations.length-1,carousel+1);sqmRender();e.preventDefault();}
+        else if(e.key==="ArrowRight"){carousel=Math.min(shown.length-1,carousel+1);sqmRender();e.preventDefault();}
         return;
       }
       if(!["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Enter"," ","Escape"].includes(e.key))return;
