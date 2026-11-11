@@ -105,7 +105,7 @@ function setupSandbox(mutate){
   sandbox.cap();
   assert.equal(inputs.size,6,"all six signing name inputs are capped");
   for(const input of inputs.values())assert.equal(input.getAttribute("maxlength"),"80");
-  assert.match(transfer,/function pstcRender\(\)\{\s*if\(!root\.document\|\|!pstcSharedMarker\(\)\)return false;\s*pstcCapSigningNames\(\);/,"the cap is applied on every render");
+  assert.match(transfer,/function pstcRenderNow\(\)\{\s*if\(!root\.document\|\|!pstcSharedMarker\(\)\)return false;\s*pstcCapSigningNames\(\);/,"the cap is applied on every render");
   assert.equal(sandbox.text(Object.assign(new Error("Complete signing 1 with player name, previous league and nationality."),{code:"TRANSFER_SIGNINGS_INVALID"}),"x"),"Complete signing 1 with player name, previous league and nationality.","error.message comes before error.code");
   const providerRejected=Object.assign(new Error("The Transfer Challenge request was rejected."),{code:"TRANSFER_SIGNINGS_INVALID",providerResult:true});
   const shown=sandbox.text(providerRejected,"x");

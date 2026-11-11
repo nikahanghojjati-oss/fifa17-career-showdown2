@@ -426,7 +426,27 @@
     if(section)section.classList.remove("tw-on");
     stage=null;mountedFrame=null;
   }
+  // r91: a re-mount (the rival acts, a resize) moves the adopted boxes, and a moved element loses focus. The box being typed in
+  // gets its focus, caret and open list back, so a manager typing a signing name or a guess never loses his place.
+  function tfFocusSnapshot(section){
+    const doc=tfDoc(),node=doc&&doc.activeElement;
+    if(!node||!section||!section.contains(node)||!/^(INPUT|SELECT|TEXTAREA)$/.test(node.tagName))return null;
+    let sel=null;try{if(typeof node.selectionStart==="number")sel=[node.selectionStart,node.selectionEnd,node.selectionDirection||"none"];}catch(_error){sel=null;}
+    return {node,sel,listOpen:node.getAttribute("aria-expanded")==="true"};
+  }
+  function tfFocusRestore(snap){
+    if(!snap)return;const node=snap.node,doc=tfDoc();
+    if(!node.isConnected||node.disabled||doc.activeElement===node)return;
+    try{node.focus({preventScroll:true});}catch(_error){return;}
+    if(snap.sel)try{node.setSelectionRange(snap.sel[0],snap.sel[1],snap.sel[2]);}catch(_error){}
+    // Focusing a selector box opens its list (js/transferSelector.js); keep it closed if it was closed.
+    if(!snap.listOpen&&node.getAttribute("aria-expanded")==="true"&&typeof root.closeAllTransferSelectors==="function")root.closeAllTransferSelectors();
+  }
   function tfMount(frame,section){
+    const focus=tfFocusSnapshot(section);
+    try{tfMountNow(frame,section);}finally{tfFocusRestore(focus);}
+  }
+  function tfMountNow(frame,section){
     tfTeardown(section);
     try{
       const doc=tfDoc(),host=doc.createElement("div");

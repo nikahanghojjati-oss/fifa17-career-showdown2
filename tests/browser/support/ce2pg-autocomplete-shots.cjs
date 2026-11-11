@@ -58,6 +58,17 @@ function install(){
       if(state.phase!=="SIGNING_ENTRY")return;
       const prefix=state.role==="playerTwo"?"p2":"p1",tag=`s${state.season}-${prefix}`,name=page.locator(`#${prefix}Signing2Name`);
       const kind=await name.getAttribute("data-selector-kind");if(kind!=="player"){log(`PROBLEM ${tag}: the name box is not a player search (kind ${kind})`);return;}
+      // A re-layout mid-typing (here a resize; in play, the rival acting) must keep focus, caret and the open list.
+      {await name.click();await name.fill("");await name.pressSequentially("paul",{delay:30});await page.waitForTimeout(400);
+        const before=page.viewportSize(),mounts=await page.evaluate(()=>{const h=document.querySelector("#transferChallenge .tw-host");if(h)h.dataset.acProbe="1";return h?1:0;});
+        await page.setViewportSize({width:before.width+(before.width>600?-40:20),height:before.height});await page.waitForTimeout(1200);
+        // and a full render, as on every poll and every rival move (it disables and re-enables the fields)
+        await page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge.refresh()).catch(()=>{});await page.waitForTimeout(600);
+        await page.keyboard.press("End");await page.keyboard.type("inho",{delay:30});await page.waitForTimeout(400);
+        const kept=await page.evaluate(p=>{const n=document.getElementById(`${p}Signing2Name`);return {remounted:!document.querySelector("#transferChallenge .tw-host[data-ac-probe]"),value:n.value,focused:document.activeElement===n,open:n.getAttribute("aria-expanded"),rows:document.querySelectorAll(`#${p}Signing2Name-listbox .transferComboboxPlayer`).length};},prefix);
+        log(`${tag}: typed "paul", re-layout (${mounts} host), typed "inho" -> ${JSON.stringify(kept)}`);
+        if(kept.value!=="paulinho"||!kept.focused||kept.open!=="true"||!kept.rows)log(`PROBLEM ${tag}: a re-layout lost the name box's focus or list`);
+        await page.setViewportSize(before);await page.waitForTimeout(1200);}
       await name.click();await name.fill("");await name.pressSequentially("paulinho",{delay:40});
       try{await page.waitForFunction(p=>document.querySelectorAll(`#${p}Signing2Name-listbox .transferComboboxPlayer`).length>0,prefix,{timeout:30000});}
       catch(error){

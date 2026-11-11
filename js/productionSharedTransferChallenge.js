@@ -506,7 +506,22 @@
   // shows the new state) instead of on the next 3 s check, so the partner's move is seen as soon as it lands.
   let pstcWatchedKey=null;
   function pstcWatchSync(){let key="";try{key=pstcWaitingKey()+"|"+(root.document?.visibilityState||"");}catch(_error){key="";}if(key===pstcWatchedKey)return;pstcWatchedKey=key;try{pstcWatchWait();}catch(_error){}}
+  // r91: every render disables both cards' fields and enables this manager's own again, and disabling a focused box blurs it.
+  // A render comes on every poll and every rival move, so the box being typed in gets its focus, caret and list back when it
+  // is still enabled after the render (a lock or phase change leaves it disabled, and then it stays blurred).
   function pstcRender(){
+    const doc=root.document,node=doc&&doc.activeElement,screen=pstcField("transferChallenge");
+    const keep=node&&screen&&screen.contains(node)&&/^(INPUT|SELECT|TEXTAREA)$/.test(node.tagName)?node:null;
+    let sel=null,listOpen=false;if(keep){try{if(typeof keep.selectionStart==="number")sel=[keep.selectionStart,keep.selectionEnd,keep.selectionDirection||"none"];}catch(_error){sel=null;}listOpen=keep.getAttribute("aria-expanded")==="true";}
+    try{return pstcRenderNow();}
+    finally{
+      if(keep&&keep.isConnected&&!keep.disabled&&doc.activeElement!==keep){
+        try{keep.focus({preventScroll:true});if(sel)keep.setSelectionRange(sel[0],sel[1],sel[2]);}catch(_error){}
+        if(!listOpen&&keep.getAttribute("aria-expanded")==="true"&&typeof root.closeAllTransferSelectors==="function")root.closeAllTransferSelectors();
+      }
+    }
+  }
+  function pstcRenderNow(){
     if(!root.document||!pstcSharedMarker())return false;
     pstcCapSigningNames();pstcWatchSync();pstcWarmPlayerList();
     const state=view?.state||null,role=view?.managerRole||pstcSetupState()?.managerRole||null;

@@ -81,6 +81,8 @@ function finishTransferSelectorPress(){
 
 function closeTransferSelectorAfterBlur(input){
     window.setTimeout(() => {
+        // r91: focus that came straight back (Team V's card re-mounted around the box) keeps the list open.
+        if(document.activeElement === input){ return; }
         if(transferSelectorPressActive){ transferSelectorCloseAfterPress = true; return; }
         closeTransferSelector(input);
     }, 120);
