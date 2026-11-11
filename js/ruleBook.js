@@ -277,10 +277,10 @@ function createPrimePackRuleSection(){
     ], "rulePackNotes");
 
     const cards = createRuleTable([
-        ["Legend · FIFA 17", "17"],
+        ["Legend · FIFA 17", "16"],
         ["Icon Prime · FIFA 22 and FIFA 23", "103"],
         ["Icon Base · FC 27", "26"],
-        ["Hero · FC 25, FC 26 and FC 27", "68"],
+        ["Hero · FC 25, FC 26 and FC 27", "69"],
         ["Hall of FUT · FC 27", "18"]
     ], "ruleScoreTable rulePackTable");
 
