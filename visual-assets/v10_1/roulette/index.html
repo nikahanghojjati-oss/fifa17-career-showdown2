@@ -1230,7 +1230,7 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
   const fk=1-Math.exp(-dt*(p?12:3)), pk=1-Math.exp(-dt*(p?14:2));
   fovNow=lerp(fovNow,fov,fk); if(Math.abs(camera.fov-fovNow)>.01){ camera.fov=fovNow; camera.updateProjectionMatrix(); } applyViewShift(dt);
   camPos.lerp(pos,pk); camLook.lerp(look,pk);
-  camera.position.copy(camPos).add(camTmp.set((Math.sin(t*71)+Math.sin(t*43.7))*.5*shake,(Math.sin(t*59.3+1.3)+Math.sin(t*37.1))*.5*shake,0)); camera.lookAt(camLook); placeHand(); if(p&&tt>=B.close&&tt<(REDUCED?B.inside:B.inside+.15)) measureCloseLift(); else closeLift=0; }
+  camera.position.copy(camPos).add(camTmp.set((Math.sin(t*71)+Math.sin(t*43.7))*.5*shake,(Math.sin(t*59.3+1.3)+Math.sin(t*37.1))*.5*shake,0)); camera.lookAt(camLook); placeHand(); if(p&&tt>=B.close&&tt<(REDUCED?B.close+.6:B.inside+.15)) measureCloseLift(); else closeLift=0;   /* Reduce Motion has no look-inside beat (B.close = B.inside), so its window is the .6 s after the close cue, never empty */ }
 function gunInHand(){ gun.visible=!(handHold&&handK>.55); }   /* the revolver on the felt hides once the hand holds it, so it is never in two places */
 
 /* ================= tick ================= */
