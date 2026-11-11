@@ -736,7 +736,7 @@ async function main(){
 
     // ---------- R80d END SHOWDOWN mid-season 2 ----------
     // No reload between R1 and R2: both pages still hold R1's accepted season 1 (Commit and Scoring) while R2's season 1
-    // is played and committed, and Shared History must not take it for R2's (no "Unable to converge Shared History"; PZ
+    // is played and committed, and Shared History must not take it for R2's (no "Could not bring History up to date"; PZ
     // checks the errors).
     const sessionR2=await sessionOf(daniel);
     await playSetupToTransferChallenge(daniel,nik);
@@ -781,7 +781,7 @@ async function main(){
     assert.match(danielNotice.text,/^Ended the ".+" Showdown for both players\. History keeps it as Ended early\.$/);
     await nik.page.waitForFunction(id=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="DELETED"&&window.CareerModeProductionSharedTerminalClose.getState().rivalryId===id,R2,{timeout:60000});
     await nik.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
-    assert.match((await noticeText(nik))?.text||"",/^This Showdown was ended for both players\. History keeps it as Ended early\.$/);
+    assert.match((await noticeText(nik))?.text||"",/^This Showdown was ended for both players\. Legacy keeps it as Ended early\.$/);
     for(const m of [daniel,nik])assert.equal(await sessionOf(m),null,`${m.user}'s page forgot the ended Showdown's session`);
     await shot(daniel,"r80d-home");await shot(nik,"r80d-home");
     ok("R80d.2",`mid-season 2 (transfer window open) Daniel went Home and tapped END SHOWDOWN: R2 closed with endedEarly {seasonsPlayed: 1}; both phones are on Home with the ended-early notice`);
@@ -865,7 +865,7 @@ async function main(){
     assert.equal(nikNotice?.kind,"success",`Nik's notice is not an error: ${JSON.stringify(nikNotice)}`);
     await daniel.page.waitForFunction(id=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="DELETED"&&window.CareerModeProductionSharedTerminalClose.getState().rivalryId===id,R3,{timeout:60000});
     await daniel.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
-    assert.match((await noticeText(daniel))?.text||"",/^This Showdown was ended for both players\. History keeps it as Ended early\.$/);
+    assert.match((await noticeText(daniel))?.text||"",/^This Showdown was ended for both players\. Legacy keeps it as Ended early\.$/);
     ok("R80g.2","Nik opened a brand-new browser and, without CONTINUE (no setup state, no session on that page), tapped END SHOWDOWN in Settings: R3 closed with endedEarly {seasonsPlayed: 1}; Daniel's phone went Home by itself");
     // R3 can end on a later calendar day than R2 when a run crosses midnight: accept R2's date or the date now.
     const todayNow=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date()));

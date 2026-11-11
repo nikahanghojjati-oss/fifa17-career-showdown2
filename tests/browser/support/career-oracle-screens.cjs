@@ -176,7 +176,7 @@ async function captureSettings(m,shot){
   const s=await m.page.evaluate(()=>{const rows={};for(const r of document.querySelectorAll("#settingsOverlay .settingsInfoRow")){const k=(r.querySelector("span")?.textContent||"").trim();const v=(r.querySelector("strong")?.textContent||"").trim();if(k)rows[k]=v;}return {rows};});
   if(shot)await shot("settings");
   // History & Backup (r87 B1): the online career's completed count and each manager's career points.
-  const open=m.page.locator("#settingsOverlay button").filter({hasText:/OPEN HISTORY & BACKUP/i}).first();
+  const open=m.page.locator("#settingsOverlay button").filter({hasText:/OPEN LEGACY & BACKUP/i}).first();
   if(await open.isVisible().catch(()=>false)){
     await open.click({timeout:10000}).catch(()=>{});
     await m.page.waitForTimeout(1500);
@@ -211,12 +211,12 @@ function extract(raw){
   o.leadWins=lead(cs,/MOST SEASON WINS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+wins?/);o.leadTrophies=lead(cs,/MOST TROPHIES\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+troph/);
   o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);
   o.csGolden=/GOLDEN SHOWDOWN/i.test(cs);
-  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions Leagues","cl"],["Europa Leagues","el"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`));return s;};
+  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions League","cl"],["Europa League","el"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`));return s;};
   o.standings=standings(raw?.standings?.CAREER||"");o.standingsFirst=standings(raw?.standingsFirst?.CAREER||"");
   o.standingsText=raw?.standings?.CAREER||"";o.standingsFirstText=raw?.standingsFirst?.CAREER||"";
   o.thisShowdownText=raw?.standings?.["THIS SHOWDOWN"]||"";
   const rv=corpus(raw,"statistics");
-  o.rivalry={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions Leagues\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/)};
+  o.rivalry={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions League\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/)};
   o.rivalryText=rv;
   o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);
   const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],r[2].toUpperCase()]:null;};

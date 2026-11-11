@@ -82,7 +82,7 @@ function getSavedShowdownMenuMeta(){
             hasSave: false,
             label: "CONTINUE CAREER",
             meta: noLiveShowdownMeta(),
-            indicator: "No Active Showdown"
+            indicator: "No Showdown live"
         };
     }
 
@@ -100,7 +100,7 @@ function getSavedShowdownMenuMeta(){
         hasSave: true,
         label: completed ? "VIEW COMPLETED SHOWDOWN" : "CONTINUE CAREER",
         meta: `${managerOne} vs ${managerTwo} · ${status}`,
-        indicator: completed ? "Showdown Complete" : live || `Season ${currentRound} / ${totalRounds}`
+        indicator: completed ? "Showdown complete" : live || `Season ${currentRound} / ${totalRounds}`
     };
 }
 

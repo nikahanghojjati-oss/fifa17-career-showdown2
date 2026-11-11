@@ -77,7 +77,7 @@ function render(snapshot){
       const {document:doc,frames}=render({...snapshot,history,identity:F.identity(managerId),pair:F.pair(p.rivalryId,{managerId})});
       const rows=doc.getElementById("sdgRows");
       console.log(`THIS SHOWDOWN ${managerId}, History ${history?"lagging":"missing"}: status=${frames.SHOWDOWN.model.status}, rows=${rows.children.length}, state=${doc.getElementById("sdgState").textContent||"(none)"}`);
-      // r80: the Europa Leagues row joins the board (8 rows, after Champions Leagues).
+      // r80: the Europa League row joins the board (8 rows, after Champions League).
       assert.equal(rows.children.length,8,"2 committed seasons of a 5-season Showdown must render standings rows instead of Loading standings.");
       assert.deepEqual([...rows.children].map(row=>row.dataset.field),["seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"]);
       assert.equal(doc.getElementById("sdgState").hidden,true);assert.equal(rows.hidden,false);

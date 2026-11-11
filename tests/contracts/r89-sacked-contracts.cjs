@@ -89,14 +89,14 @@ const SESSION="session_"+"c".repeat(64);
 // S5 career screens: a sacked Showdown is completed, with its own label (never the ended-early text).
 {
   const row={status:"completed",endedBy:"sacked",sackedSeason:4,totalSeasons:10,sacked:{daniel:false,nik:true}};
-  assert.equal(Seam.sackedText(row),"Ended — sacked in season 4 of 10 (Nik)");
-  assert.equal(Seam.sackedText({...row,sacked:{daniel:true,nik:true}}),"Ended — sacked in season 4 of 10 (Daniel and Nik)");
+  assert.equal(Seam.sackedText(row),"Ended · sacked in season 4 of 10 (Nik)");
+  assert.equal(Seam.sackedText({...row,sacked:{daniel:true,nik:true}}),"Ended · sacked in season 4 of 10 (Daniel and Nik)");
   assert.equal(Seam.sackedText({status:"completed",totalSeasons:10}),"");
   assert.ok(!Seam.sackedText(row).includes(Seam.TEXT.historyStatus.abandoned),"never the ended-early wording");
   const analytics=read("js/sharedCareerAnalytics.js");
   assert.match(analytics,/endedBy/);assert.match(analytics,/sackedSeason/);
   for(const file of ["js/rivalryLegacyV10.js","visual-assets/v10_1/legacy/legacy.js","visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js","js/seasonFinalV10.js"])assert.match(read(file),/SACKED|sacked/i,`${file} shows the sacked mark`);
-  ok("S5","career rows say \"Ended — sacked in season X of N (Name)\" on a completed Showdown; History, Legacy, Rivalry Statistics and Final Winner carry the SACKED mark");
+  ok("S5","career rows say \"Ended · sacked in season X of N (Name)\" on a completed Showdown; History, Legacy, Rivalry Statistics and Final Winner carry the SACKED mark");
 }
 
 // S6 the Season Results tick: own card only, confirm step, release-gated.

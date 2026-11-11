@@ -193,7 +193,7 @@ function boot(){
   assert.equal((await n.multi.resumeFromAuthority())?.season,2,"N7 R2 is live on season 2");
   assert.equal(n.indicator(),"Season 2 / 3","N7 the live R2 reads Season 2 / 3");
   n.page.pair={initialized:true,busy:false,status:"unpaired",rivalryId:null,connectionState:null,closedRivalryId:R2,closedProviderSaveId:SAVE_A};
-  assert.equal(n.indicator(),"No Active Showdown","N7 Home after END has no live Showdown");
+  assert.equal(n.indicator(),"No Showdown live","N7 Home after END has no live Showdown");
   n.page.pair={initialized:true,busy:false,status:"unpaired",rivalryId:R3,connectionState:"pending-pair",closedRivalryId:R2,closedProviderSaveId:SAVE_A};
   assert.equal(n.sandbox.currentShowdown.identity.saveId,SAVE_A,"N7 precondition: the same save shell is reused for the next Showdown");
   assert.equal(n.indicator(),"Season 1 / 3",`N7 once the pair names R3 the reused shell reads Season 1 / 3, never the ended R2's season (got "${n.indicator()}")`);

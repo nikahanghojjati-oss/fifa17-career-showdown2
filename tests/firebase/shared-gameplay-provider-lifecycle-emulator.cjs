@@ -289,7 +289,7 @@ async function assertImpossibleBundesligaCommitDenied(env,db,season){
     assert.equal(finalA.completedSeason,TOTAL_SEASONS);
     assert.equal(finalA.nextSeason,null);
     assert.equal(finalA.extraSeasonAllowed,false);
-    assert.deepEqual(finalA.managerTotals,expectedTotals,"Final reconciliation must use the accumulated canonical score from every accepted season.");
+    assert.deepEqual(finalA.managerTotals,expectedTotals,"Final result check must use the accumulated canonical score from every accepted season.");
     assert.equal(finalA.winner,"playerOne","Final winner must be derived from the accumulated canonical totals.");
 
     process.stdout.write(`PASS production gameplay provider lifecycle (${TOTAL_SEASONS} season${TOTAL_SEASONS===1?"":"s"}): real generated Firestore Rules carried one exact two-manager Showdown through shared setup, Career Start, ${TOTAL_SEASONS} complete Transfer/Guess/Signing cycles, private Season Results with Bundesliga 102 accepted / direct-SDK 103 denied, league-bounded coordinator commit + dual acknowledgement, canonical scoring with exact numeric assertions, accumulated history/trophies/records, exact next-season progression, and final reconciliation from stored cumulative totals with fixed clubs and no reset${TOTAL_SEASONS===3?"; fresh sessions also took over after Daniel published Season 1 and after the Season 2 coordinator commit without losing accepted state":""}${TOTAL_SEASONS===10?"; the same ACTIVE private session continued through Season 10 after its original expiry timestamp passed":""}. Terminal Close remains independently production-emulator gated.\n`);

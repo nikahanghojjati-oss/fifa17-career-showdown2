@@ -78,7 +78,7 @@ jobs:
           assert.ok(initializer.includes('throw new Error'), 'Incomplete Home initialization must fail loudly instead of silently returning.');
           assert.ok(!appCss.includes('.menuMediaSelector'), 'The retired Home media selector CSS must not return.');
           assert.ok(integrity.includes('feedbackBound'), 'Home integrity check must cover menu feedback.');
-          assert.ok(saveMeta.includes('indicator: "No Active Showdown"') && saveMeta.includes('Showdown Complete') && saveMeta.includes('Season ${currentRound} / ${totalRounds}'), 'Saved-showdown header states are incomplete.');
+          assert.ok(saveMeta.includes('indicator: "No Showdown live"') && saveMeta.includes('Showdown complete') && saveMeta.includes('Season ${currentRound} / ${totalRounds}'), 'Saved-showdown header states are incomplete.');
           assert.ok(refresh.includes('document.getElementById("seasonIndicator")') && refresh.includes('saveMeta.indicator'), 'Home refresh must synchronize the global save indicator.');
 
           const creation = showdown.slice(showdown.indexOf('function createShowdown()'), showdown.indexOf('function isLeagueDatabaseReady()'));

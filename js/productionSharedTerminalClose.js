@@ -28,7 +28,7 @@
       automaticAttempts.set(key,{failed:false});
       ptcPublish(request,{...ptcCurrentState(),automaticSaving:true,automaticCloseFailed:false});
       // r87 arch S-05: a throw before the close's own try (intent check) is a failed save too, never "Saving..." forever.
-      void ptcClose(key).catch(error=>{ptcReport("Shared Showdown Terminal Close failed",error);return null;}).then(result=>{
+      void ptcClose(key).catch(error=>{ptcReport("Closing the Showdown failed.",error);return null;}).then(result=>{
         if(result?.ok===true)return;
         automaticAttempts.set(key,{failed:true});
         if(ptcStillCurrent(request,generation)&&ptcCurrentState()?.phase!=="CLOSED")ptcPublish(request,{...ptcCurrentState(),automaticSaving:false,automaticCloseFailed:true});
@@ -97,13 +97,13 @@
     const account=accountApi?.getState?.(),device=pairingApi?.getState?.(),rivalry=rivalryApi?.getState?.();
     const accountId=String(account?.accountId||"").trim(),deviceId=String(device?.deviceId||"").trim(),attachedRivalry=String(rivalry?.rivalryId||"").trim().toLowerCase();
     if(account?.connected!==true||!accountId)ptcFail("TERMINAL_CLOSE_AUTH_REQUIRED","Sign in with the same account before closing this Showdown.");
-    if(device?.registered!==true||!/^device_[0-9a-f]{32}$/.test(deviceId))ptcFail("TERMINAL_CLOSE_DEVICE_REQUIRED","This browser must remain an active registered device.");
+    if(device?.registered!==true||!/^device_[0-9a-f]{32}$/.test(deviceId))ptcFail("TERMINAL_CLOSE_DEVICE_REQUIRED","This device must stay registered to this Showdown.");
     if(rivalry?.attached!==true||attachedRivalry!==request.rivalryId)ptcFail("TERMINAL_CLOSE_RIVALRY_REQUIRED","Reconnect this Showdown before closing it.");
     if(rivalry.accountId&&rivalry.accountId!==accountId)ptcFail("TERMINAL_CLOSE_RIVALRY_ACCOUNT_MISMATCH");
     if(rivalry.deviceId&&rivalry.deviceId!==deviceId)ptcFail("TERMINAL_CLOSE_RIVALRY_DEVICE_MISMATCH");
     const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtimeApi.ensureAccountServices());
-    if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)ptcFail("TERMINAL_CLOSE_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable. No terminal state was changed.");
-    const user=services.auth.currentUser;if(!user||user.uid!==accountId)ptcFail("TERMINAL_CLOSE_AUTH_MISMATCH","The current Firebase account no longer matches Connected Account authority.");
+    if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)ptcFail("TERMINAL_CLOSE_PROVIDER_UNAVAILABLE","The online service is unavailable. Nothing was closed or changed.");
+    const user=services.auth.currentUser;if(!user||user.uid!==accountId)ptcFail("TERMINAL_CLOSE_AUTH_MISMATCH","The signed-in account no longer matches the one connected to this Showdown.");
     return Object.freeze({request,accountId,deviceId,user,services});
   }
   function ptcRemoteActive(context,exactSessionId=null){
@@ -137,10 +137,10 @@
     }
     ui.panel.dataset.terminal="false";
     if(current.phase==="RECOVERY_PENDING"){
-      ptcText(ui.heading,"SHOWDOWN NOT CLOSED YET");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticSaving?"Saving this Showdown to your career…":current.message||"It may have closed already. TRY CLOSING AGAIN checks.");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHOWDOWN");ptcHidden(ui.retry,false);ui.retry.disabled=busy;ptcText(ui.retry,"TRY CLOSING AGAIN");return true;
+      ptcText(ui.heading,"SHOWDOWN NOT CLOSED YET");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticSaving?"Saving this Showdown to your career…":current.message||"It may have closed already. TRY CLOSING AGAIN will check.");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHOWDOWN");ptcHidden(ui.retry,false);ui.retry.disabled=busy;ptcText(ui.retry,"TRY CLOSING AGAIN");return true;
     }
     if(current.phase==="BLOCKED"){
-      ptcText(ui.heading,"SHOWDOWN CAN CLOSE WHEN BOTH PLAYERS RECONNECT");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.message||"Final results are safe. Reconnect both players to this Showdown, then refresh.");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);return true;
+      ptcText(ui.heading,"BOTH PLAYERS MUST RECONNECT TO CLOSE");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.message||"Final results are safe. Reconnect both players to this Showdown, then refresh.");ptcHidden(ui.close,true);ptcHidden(ui.retry,true);return true;
     }
     ptcText(ui.heading,"FINAL RESULT READY TO CLOSE");ptcText(ui.summary,ptcWinnerText(witness));ptcText(ui.status,current.automaticCloseFailed?"This Showdown could not be saved. Tap CLOSE SHOWDOWN to try again.":"Saving this Showdown to your career…");ptcHidden(ui.close,!current.automaticCloseFailed);ui.close.disabled=busy;ptcText(ui.close,"CLOSE SHOWDOWN");ptcHidden(ui.retry,true);return true;
   }
@@ -167,7 +167,7 @@
       root.stopTransferTimerLoop?.();root.resetTransientSelectionOperations?.();root.resetNavigationState?.();
       if(typeof root.showScreen==="function")root.showScreen("mainMenu",false);else void root.navigateTo?.("mainMenu",{addToHistory:false});
       root.refreshMainMenuExperience?.();
-      root.showAppNotice?.("This Showdown was ended for both players. History keeps it as Ended early.","info",8000);
+      root.showAppNotice?.("This Showdown was ended for both players. Legacy keeps it as Ended early.","info",8000);
     }catch(_error){}
   }
   function ptcClear(){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
@@ -222,7 +222,7 @@
     // says so; this page then lets the dead Showdown go like the CLOSE path does (session forgotten, drafts swept) and announces
     // DELETED, so the pair holds the rivalry as closed and the next JOIN is not blocked by the deleted Showdown.
     if(deletedRead)return publishDeleted();
-    if(!terminalRead||terminalRead.ok!==true)ptcFail(terminalRead?.code||"TERMINAL_CLOSE_READ_FAILED",terminalRead?.message||"Could not check whether the Showdown is closed.");
+    if(!terminalRead||terminalRead.ok!==true)ptcFail(terminalRead?.code||"TERMINAL_CLOSE_READ_FAILED",terminalRead?.message||"The Showdown's closed status could not be checked.");
     let final=finalApi.getState();if(!final||final.phase!=="FINAL_SEASON_RECONCILED"||final.rivalryId!==request.rivalryId)final=await finalApi.refresh();
     if(ptcRequest()?.key!==request.key)return null;
     if(!final||final.phase!=="FINAL_SEASON_RECONCILED"||final.finalSeasonReconciled!==true||final.rivalryId!==request.rivalryId)return ptcClear();
@@ -241,7 +241,7 @@
     // wake reads again. While the browser itself says it is offline the hold lasts (the offline notice owns that); once online, the
     // same ambiguous failure on the next refresh too is reported. Any other failure is reported at once.
     const request=ptcRequest();
-    const run=ptcRefreshNow().then(value=>{heldRefreshFailure="";return value;},error=>{const key=ptcAmbiguous(error)&&request?`${request.key}|${ptcCode(error)}`:"";if(key&&(key!==heldRefreshFailure||root.navigator?.onLine===false)){heldRefreshFailure=key;root.console?.warn?.("[Career Mode Showdown] Shared Showdown Terminal Close is waiting for the connection.",ptcCode(error));return ptcCurrentState();}heldRefreshFailure="";ptcReport("Unable to refresh Shared Showdown Terminal Close",error);return ptcCurrentState();}).finally(()=>{if(refreshPromise===run)refreshPromise=null;busy=false;ptcRender();ptcWatchContext(ptcRequest());if(wakePending){wakePending=false;ptcWake();}});refreshPromise=run;return run;
+    const run=ptcRefreshNow().then(value=>{heldRefreshFailure="";return value;},error=>{const key=ptcAmbiguous(error)&&request?`${request.key}|${ptcCode(error)}`:"";if(key&&(key!==heldRefreshFailure||root.navigator?.onLine===false)){heldRefreshFailure=key;root.console?.warn?.("[Career Mode Showdown] Shared Showdown Terminal Close is waiting for the connection.",ptcCode(error));return ptcCurrentState();}heldRefreshFailure="";ptcReport("Could not refresh the close status",error);return ptcCurrentState();}).finally(()=>{if(refreshPromise===run)refreshPromise=null;busy=false;ptcRender();ptcWatchContext(ptcRequest());if(wakePending){wakePending=false;ptcWake();}});refreshPromise=run;return run;
   }
   // Job 31: when the 4-hour private session ends (or a reload drops it) every shared refresher fails at once. The RECONNECT
   // SESSION banner owns that state, so those failures wake the banner instead of stacking red error toasts.
@@ -309,7 +309,7 @@
         if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
         if(ptcAmbiguous(error)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"The close was not confirmed. Tap TRY CLOSING AGAIN.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}
         ptcPublish(request,{...current,automaticSaving:false,automaticCloseFailed:true,message:error.message});
-        ptcReport("Shared Showdown Terminal Close failed",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};
+        ptcReport("Closing the Showdown failed.",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};
       }
     })().finally(()=>{if(closePromise===run)closePromise=null;busy=false;ptcRender();if(wakePending){wakePending=false;ptcWake();}});closePromise=run;return run;
   }
@@ -334,7 +334,7 @@
         if(ptcAmbiguous(result)){ptcPublish(request,current);return {...result,recoverable:true};}
         const rivalClosed=await ptcClosedByRival(request,context,intent,result,generation);if(rivalClosed)return rivalClosed;
         ptcPublish(request,{...current,message:result?.message||"Closing again did not work. Your final results are kept."});return result||{ok:false,code:"TERMINAL_CLOSE_FAILED"};
-      }catch(error){if(ptcAmbiguous(error)){ptcPublish(request,current);return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}if(ptcStillCurrent(request,generation))ptcPublish(request,current);ptcReport("Shared Showdown Terminal Close retry failed",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};}
+      }catch(error){if(ptcAmbiguous(error)){ptcPublish(request,current);return {ok:false,code:error.code||"TERMINAL_CLOSE_RECOVERY_PENDING",message:error.message,recoverable:true};}if(ptcStillCurrent(request,generation))ptcPublish(request,current);ptcReport("Closing the Showdown failed again.",error);return {ok:false,code:error.code||"TERMINAL_CLOSE_FAILED",message:error.message};}
     })().finally(()=>{if(closePromise===run)closePromise=null;busy=false;ptcRender();if(wakePending){wakePending=false;ptcWake();}});closePromise=run;return run;
   }
   // BH-7: the one-shot wake below never asks again when an initialize left Connected Rivalry unattached and "unavailable".
@@ -397,7 +397,7 @@
     if(installed)return true;installed=true;
     // r75: an ordinary startup with no shared Showdown loads none of the close runtime (Remote Joining stays unloaded);
     // the first wake that finds a shared Showdown loads it through ptcRefreshNow.
-    if(ptcShowdown()?.sharedJourney?.mode==="shared")void ptcBootstrap().then(()=>ptcWake()).catch(error=>ptcReport("Shared Showdown Terminal Close bootstrap unavailable",error));
+    if(ptcShowdown()?.sharedJourney?.mode==="shared")void ptcBootstrap().then(()=>ptcWake()).catch(error=>ptcReport("Closing the Showdown is unavailable right now.",error));
     for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-final-reconciliation-state-change","career-mode-connected-account-state-change","career-mode-connected-rivalry-state-change","career-mode-active-save-changed","career-mode-save-library-authority-invalidated","career-mode-showdown-state-change"]){root.addEventListener?.(event,ptcWake);}
     root.document?.addEventListener?.("visibilitychange",ptcWake);
     root.addEventListener?.("career-mode-permanent-pair-ended",event=>ptcNoteEnded(event?.detail?.closedRivalryId));

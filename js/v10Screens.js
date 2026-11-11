@@ -312,7 +312,7 @@
     mounted.delete(id);
     vsUnwatchImages(id);
     const def=registry.get(id);
-    if(def&&def.unmount){try{def.unmount(state.host);}catch(error){vsReport("Team V screen could not close",error);}}
+    if(def&&def.unmount){try{def.unmount(state.host);}catch(error){vsReport("This screen could not close properly",error);}}
   }
   // The app draws its own screen at once and Team V's look mounts only after its files load. expect(id) keeps the
   // host's own content invisible meanwhile (css/v10Shell.css [data-v10-pending]); show() ends it on every outcome
@@ -506,7 +506,7 @@
     top.removeAttribute("aria-label");
   }
   function vsGo(key){
-    Promise.resolve().then(()=>vsNavigate(key,root)).catch(error=>vsReport(`Unable to open ${key}`,error));
+    Promise.resolve().then(()=>vsNavigate(key,root)).catch(error=>vsReport(`Could not open ${key}`,error));
   }
   function vsMountNav(){
     if(!navPromise)navPromise=(async()=>{
@@ -554,9 +554,9 @@
       const expected=def?(def.auto||def.hold)&&vsExpect(screen):lazy&&vsExpect(screen);
       if(!expected)vsSyncStyles();
       vsPaintNav(screen);
-      if(def&&def.auto)vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));
-      if(late){lateLoading.add(screen);Promise.resolve().then(late).catch(error=>vsReport("Team V screen could not load",error)).finally(()=>{lateLoading.delete(screen);if(!registry.has(screen))vsSettle(screen);});}
-    }catch(error){vsReport("Team V screen could not update",error);}
+      if(def&&def.auto)vsShow(screen).catch(error=>vsReport("This screen could not load",error));
+      if(late){lateLoading.add(screen);Promise.resolve().then(late).catch(error=>vsReport("This screen could not load",error)).finally(()=>{lateLoading.delete(screen);if(!registry.has(screen))vsSettle(screen);});}
+    }catch(error){vsReport("This screen could not update",error);}
   }
   function vsHookShowScreen(){
     const original=root.showScreen;
