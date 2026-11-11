@@ -426,6 +426,26 @@
       if(L===0)for(const m of Object.values(mats))if(m.isMeshStandardMaterial&&(m.map||/^kit/.test(m.name))&&!m.normalMap&&!m.transparent&&!(m.alphaTest>0)&&!m.alphaMap){
         if(!flatNormal){flatNormal=keep(new T.DataTexture(new Uint8Array([128,128,255,255]),1,1));flatNormal.needsUpdate=true;}
         m.normalMap=flatNormal;m.needsUpdate=true;}
+      // r91 keeper gloves: the keeper's hands were bare skin. His body's skin shader now covers every vertex the hand and finger
+      // bones carry with a padded glove (a little fuller than the hand, a light latex palm and back, a dark wrist strap). The
+      // hook goes on every piece of both players with the same key, so the pieces that shared a shader still share one (no new
+      // program at any level); only the keeper's body switches it on. A body whose hand bones are not in two runs keeps bare hands.
+      const glove=role=>{let body=null;model.traverse(o=>{if(o.isSkinnedMesh&&o.name==="Body")body=o;});
+        const runs=[];if(body){let s=-1;body.skeleton.bones.forEach((b,i,all)=>{const h=/Hand/.test(b.name);if(h&&s<0)s=i;if(s>=0&&(!h||i===all.length-1)){runs.push([s,h?i:i-1]);s=-1;}});}
+        const on=role==="keeper"&&runs.length===2,ws=body?body.getWorldScale(new T.Vector3()).x:1;
+        model.traverse(o=>{if(!o.isSkinnedMesh)return;for(const m of [].concat(o.material)){if(!m?.isMeshStandardMaterial)continue;
+          const u={uCmHand:{value:new T.Vector4(...(runs.length===2?[...runs[0],...runs[1]]:[-9,-9,-9,-9]))},uCmGlove:{value:on&&o===body?1:0},uCmInflate:{value:.004/(ws||1)}};
+          m.onBeforeCompile=sh=>{Object.assign(sh.uniforms,u);
+            sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nuniform vec4 uCmHand;uniform float uCmGlove,uCmInflate;varying float vCmGlove;").replace("#include <begin_vertex>",
+              "#include <begin_vertex>\nfloat cmG=0.0;\n#ifdef USE_SKINNING\nfor(int k=0;k<4;k++){float i=skinIndex[k];cmG+=skinWeight[k]*(step(uCmHand.x-.5,i)*step(i,uCmHand.y+.5)+step(uCmHand.z-.5,i)*step(i,uCmHand.w+.5));}\n#endif\n"+
+              "vCmGlove=cmG*uCmGlove;transformed+=normal*(uCmInflate*smoothstep(.35,.8,vCmGlove));");
+            sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying float vCmGlove;").replace("#include <map_fragment>",
+              "#include <map_fragment>\n{float g=smoothstep(.42,.62,vCmGlove),strap=g*(1.0-smoothstep(.72,.86,vCmGlove));"+
+              // the skin map's own creases and knuckles kept as folds in the glove
+              "float fold=1.0;\n#ifdef USE_MAP\nfold=clamp(dot(sampledDiffuseColor.rgb,vec3(.3,.59,.11))*2.2,.72,1.12);\n#endif\n"+
+              "diffuseColor.rgb=mix(diffuseColor.rgb,mix(vec3(.46,.48,.5)*fold,vec3(.04,.05,.06),strap),g);}");};
+          m.customProgramCacheKey=()=>"cmGlove";m.needsUpdate=true;}});};
+      glove(name.startsWith("cmKeeper")?"keeper":"taker");
       shadowBody(model);
       const clips=retarget(scaleOf(gltf));
       const mixer=new T.AnimationMixer(model),actions=new Map();

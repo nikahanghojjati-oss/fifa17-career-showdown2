@@ -334,6 +334,7 @@ const c3d17=(async()=>{
 {
   assert.ok(/lean:L===0/.test(scene),"Light builds the lean stadium");
   assert.ok(/if\(lash&&L===0\)o\.visible=false/.test(scene),"no eyelashes at Light");
+  assert.ok(/m\.customProgramCacheKey=\(\)=>"cmGlove"/.test(scene)&&/const on=role==="keeper"&&runs\.length===2/.test(scene),"r91 keeper gloves: one key on every player piece (no new program), only the keeper's body switches them on");
   assert.ok(/if\(L===0\)for\(const m of Object\.values\(mats\)\)if\(m\.isMeshStandardMaterial&&\(m\.map\|\|\/\^kit\/\.test\(m\.name\)\)&&!m\.normalMap/.test(scene)&&/new Uint8Array\(\[128,128,255,255\]\)/.test(scene),"a kit piece without a normal map reads a flat one at Light");
   assert.ok(/function cm3SlowLink\(\)\{const c=root\.navigator\?\.connection;return Boolean\(c&&Number\.isFinite\(c\.downlink\)&&c\.downlink>0&&c\.downlink<10\);\}/.test(scene),"a slow line is under 10 Mbps");
   assert.ok(/if\(q\.assets==="desktop"&&cm3SlowLink\(\)&&\(cm3Parsed\?\.lite\|\|!await cm3Scripts\(\)\|\|!\(await Promise\.all\(cm3Urls\(q,clubs\)\.map\(cm3Cached\)\)\)\.every\(Boolean\)\)\)\{\s*q\.full=\{textureLevel:q\.textureLevel\?\?q\.level\};q\.assets="phone";q\.textureLevel=1;\}/.test(scene),"a high level on a slow line opens on the lighter set until its own is cached");
