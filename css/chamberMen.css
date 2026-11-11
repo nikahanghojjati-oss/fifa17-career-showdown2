@@ -423,25 +423,3 @@
   #cmStage { background-image: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
   html[data-assets="0"] #cmStage { background-image: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp"); }
 }
-
-/* Strict look D12: a phone on its side (852x393, 740x360): the pitch was a 760x180 strip with the picks 250 px below it inside
-   the stage's own scroller, so the goal and the buttons were never on screen together. On a short landscape screen the pitch
-   (score and goal) takes the left column and the controls the right, each fitted to the height; nothing is hidden or covered. */
-@media (orientation: landscape) and (max-height: 520px) and (max-width: 899px) {
-  #cmStage .cmShell { width: 100%; padding-top: max(8px, env(safe-area-inset-top, 0px)); padding-bottom: max(8px, env(safe-area-inset-bottom, 0px)); gap: 6px; }
-  #cmStage .cmHeader { padding-bottom: 4px; font-size: 12px; letter-spacing: .1em; }
-  #cmStage .cmHeader .cmRound { white-space: nowrap; }
-  #cmStage .cmBoard { gap: 4px; padding: 6px 6px; }
-  #cmStage .cmSide { column-gap: 6px; }
-  #cmStage .cmCylinder { gap: 2px; padding: 4px 5px; }
-  #cmStage .cmChamber { width: 13px; height: 13px; border-width: 1.5px; outline-offset: -4px; }
-  #cmStage .cmPlay { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 12px; align-items: start; }
-  #cmStage .cmGoalBox { margin: 0; }
-  #cmStage .cmGoal { height: clamp(140px, calc(100dvh - 158px), 56.25cqw); border: 1px solid var(--r78-gold-edge, #d4a017); border-radius: 3px; }
-  #cmStage .cmGoal3d { border-radius: 3px; }
-  #cmStage .cmGoalBox.cm3d-wait::after { border: 1px solid var(--r78-gold-edge, #d4a017); }
-  #cmStage .cmControls { gap: 4px 10px; }
-  #cmStage .cmTurnHead { font-size: 24px; }
-  #cmStage .cmChoice, #cmStage .cmActions > button.menuButton, #cmStage .cmActions > button.cmBack { min-height: 44px; }
-  #cmStage .cmActions { gap: 6px; }
-}
