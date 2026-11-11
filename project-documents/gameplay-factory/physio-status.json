@@ -1,13 +1,13 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-11T06:20:29.427Z",
+  "at": "2026-11-11T06:22:13.242Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
-      "head_sha": "a6c9356afd432b33331a99aad3180f1b05f5e4d0",
-      "pr": 1341,
-      "queued_minutes": 3.4,
+      "head_sha": "4ceba06920042e3f1856376a018e0370b3bad6a2",
+      "pr": 1346,
+      "queued_minutes": 4.2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
