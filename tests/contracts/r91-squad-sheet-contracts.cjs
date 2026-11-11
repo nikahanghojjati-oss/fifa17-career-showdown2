@@ -427,5 +427,34 @@ ok('C8','the RRR board from a sheet is 11 slots then 4 subs');
     delete globalThis.readStorageValue;delete globalThis.writeStorageValue;
     ok('C12','the Gazette\'s squad news: departures and reported overalls since the paper before, from the kept "pre" sheets (no read), the screen\'s own reason words, at most 3 names a manager, in the story\'s second paragraph and never longer than it, nothing when nothing changed');
   }
+  // C13 (Nik 2026-11-11: "all the formations"): the FIFA 17 Formations screen's full list of 33, under FIFA 17's own names
+  // (checked against Nik's video), each with 1 GK and 10 outfield slots; and the Formations search finds them.
+  {
+    const S=require('../../js/squadSheet.js');
+    const FIFA17=['3-1-4-2','3-4-1-2','3-4-2-1','3-4-3 FLAT','3-4-3 DIAMOND','3-5-1-1','3-5-2',
+      '4-1-2-1-2 WIDE','4-1-2-1-2 NARROW','4-1-3-2','4-1-4-1','4-2-2-2','4-2-3-1 WIDE','4-2-3-1 NARROW','4-2-4','4-3-1-2','4-3-2-1',
+      '4-3-3 FLAT','4-3-3 HOLDING','4-3-3 DEFEND','4-3-3 ATTACK','4-3-3 FALSE 9','4-4-1-1 MIDFIELD','4-4-1-1 ATTACK','4-4-2 FLAT','4-4-2 HOLDING','4-5-1 FLAT','4-5-1 ATTACK',
+      '5-2-1-2','5-2-2-1','5-3-2','5-4-1 FLAT','5-4-1 DIAMOND'];
+    const list=S.formations(),names=list.map(f=>[f.title,f.variant].filter(Boolean).join(' '));
+    assert.equal(list.length,33);assert.deepEqual([...names].sort(),[...FIFA17].sort(),'every FIFA 17 formation, once, under its FIFA 17 name');
+    for(const f of list){assert.equal(f.slots.length,11);assert.equal(f.slots.filter(x=>x==='GK').length,1);assert.equal(new Set(f.slots).size,11,`${f.name}: no slot twice`);
+      const [d,m,a]=f.title.split('-').map(Number).reduce((acc,n,i,arr)=>i===0?[n,0,0]:i===arr.length-1?[acc[0],acc[1],acc[2]+n]:[acc[0],acc[1]+n,acc[2]],[0,0,0]);
+      assert.equal(f.counts.DEF,d,`${f.name}: the first number is the back line`);}
+    const by=name=>list.find(f=>f.name===name);
+    assert.ok(by('4-4-1-1 (2)').slots.includes('CAM')&&by('4-4-1-1 (2)').variant==='MIDFIELD','4-4-1-1 MIDFIELD has the CAM behind the striker');
+    assert.ok(by('4-4-1-1').slots.includes('CF')&&by('4-4-1-1').variant==='ATTACK','4-4-1-1 ATTACK has the CF');
+    assert.ok(by('4-3-3 (5)').slots.includes('CF')&&by('4-3-3 (5)').variant==='FALSE 9');
+    const find=q=>S.searchFormations(q).map(n=>{const f=by(n);return [f.title,f.variant].filter(Boolean).join(' ');});
+    assert.deepEqual(find('433').sort(),['4-3-3 ATTACK','4-3-3 DEFEND','4-3-3 FALSE 9','4-3-3 FLAT','4-3-3 HOLDING']);
+    assert.deepEqual(find('4-3-3'),find('433'),'with or without dashes');
+    assert.deepEqual(find('433 false 9'),['4-3-3 FALSE 9']);assert.deepEqual(find('false9').length,0,'(words, not glued)');
+    assert.deepEqual(find('diamond').sort(),['3-4-3 DIAMOND','5-4-1 DIAMOND']);
+    assert.deepEqual(find('523'),['5-2-2-1'],'5-2-2-1 is also listed as 5-2-3');
+    assert.equal(find('').length,33);assert.equal(find('xyz').length,0);
+    assert.ok(find('43').every(n=>n.startsWith('4-3'))&&find('43').length===7);
+    const screen=fs.readFileSync(path.join(__dirname,'../../js/squadScreen.js'),'utf8');
+    assert.match(screen,/input\.type="search"/);assert.match(screen,/S\.searchFormations\(query\)/);
+    ok('C13','all 33 FIFA 17 formations under their FIFA 17 names (1 GK + 10, the back line as named), and the Formations search finds them by numbers (with or without dashes), alias or variant');
+  }
   console.log(`PASS r91 squad sheet contracts (${checks} checks)`);
 })().catch(error=>{console.error(error);process.exit(1);});

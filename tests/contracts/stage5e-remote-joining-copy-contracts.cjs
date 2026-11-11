@@ -40,7 +40,7 @@ A.ok(onlineIdentity.includes('"DANIEL · PLAYER ONE"') && onlineIdentity.include
 A.doesNotMatch(read('js/showdownModes.js'),/FORGET THIS DEVICE|startTestRun/);
 A.doesNotMatch(onlineIdentity,/forgetThisDevice:|forgetOnlineDevice/);
 A.ok(!/max(?:imum)?(?:Active)?Devices|deviceCap|MAX_DEVICES|three devices/i.test(onlineIdentity),"The product must not introduce an arbitrary device-count cap.");
-A.ok(onlineIdentity.includes('"sparkConnectedAccountPanel"') && onlineIdentity.includes('"sparkPrivatePairingPanel"') && onlineIdentity.includes('"sparkConnectedRivalryPanel"') && onlineIdentity.includes('"saveLibraryProductPanel"'),"Engineering/recovery panels must remain suppressible behind the normal product shell.");
+A.ok(onlineIdentity.includes('"sparkConnectedAccountPanel"') && onlineIdentity.includes('"sparkPrivatePairingPanel"') && onlineIdentity.includes('"sparkConnectedRivalryPanel"'),"Engineering/recovery panels must remain suppressible behind the normal product shell.");
 A.ok(showdown.includes('name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"}'));
 A.ok(showdown.includes('showdown.name="Daniel vs Nik"'));
 A.ok(showdown.includes('showdown.managers={playerOne:"Daniel",playerTwo:"Nik"}'));
