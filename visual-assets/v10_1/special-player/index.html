@@ -502,7 +502,7 @@ const compMat=new T.ShaderMaterial({uniforms:{tex:{value:sceneRT.texture},b0:{va
   fragmentShader:`uniform sampler2D tex,b0,b1,b2,b3; uniform float strength,exposure,flash,bloomOn; varying vec2 vUv;
   vec3 aces(vec3 x){ return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.); }
   void main(){ vec3 c=texture2D(tex,vUv).rgb; vec3 b; if(bloomOn>.5) b=texture2D(b0,vUv).rgb*.6+texture2D(b1,vUv).rgb*.8+texture2D(b2,vUv).rgb*1.0+texture2D(b3,vUv).rgb*1.2; else b=max(c-vec3(.8),vec3(0.))*1.6; /* r90 M4: Light keeps a cheap in-place glow, no blur passes */
-    c=(c+b*strength)*exposure+vec3(flash); c=aces(c); c=pow(c,vec3(1./2.2)); gl_FragColor=vec4(c,1.); }`});
+    c=(c+b*strength)*exposure*(1.+flash*2.)+vec3(1.,.9,.75)*flash*.5; c=aces(c); /* r91: the flash brightens what is lit and adds a little warm light, instead of a flat grey lift that veiled the night stand after the burst */ c=pow(c,vec3(1./2.2)); gl_FragColor=vec4(c,1.); }`});
 const quadScene=new T.Scene(), quadCam=new T.OrthographicCamera(-1,1,1,-1,0,1), quad=new T.Mesh(new T.PlaneGeometry(2,2),compMat); quad.frustumCulled=false; quadScene.add(quad);
 function pass(mat,target){ quad.material=mat; renderer.setRenderTarget(target); renderer.render(quadScene,quadCam); }
 
@@ -666,7 +666,8 @@ const coin=new T.Mesh(new T.CylinderGeometry(1,1,.2,96,1), [new T.MeshStandardMa
 coin.castShadow=true; scene.add(coin);
 const COIN_R=.62, COIN_SPIN=Math.PI/2;
 
-const raysTex=canvasTex(512,512,(c)=>{ c.translate(256,256); const r=seeded(9); for(let i=0;i<36;i++){ const a=i/36*Math.PI*2+r()*.08, w=.025+r()*.05; const g=c.createLinearGradient(0,0,Math.cos(a)*256,Math.sin(a)*256); g.addColorStop(0,"rgba(255,255,255,.9)"); g.addColorStop(1,"rgba(255,255,255,0)"); c.fillStyle=g; c.beginPath(); c.moveTo(0,0); c.arc(0,0,256,a-w,a+w); c.closePath(); c.fill(); } }, true);
+const raysTex=canvasTex(512,512,(c)=>{ c.translate(256,256); const r=seeded(9); for(let i=0;i<36;i++){ const a=i/36*Math.PI*2+r()*.08, w=.025+r()*.05; const g=c.createLinearGradient(0,0,Math.cos(a)*256,Math.sin(a)*256); g.addColorStop(0,"rgba(255,255,255,.9)"); g.addColorStop(1,"rgba(255,255,255,0)"); c.fillStyle=g; c.beginPath(); c.moveTo(0,0); c.arc(0,0,256,a-w,a+w); c.closePath(); c.fill(); }
+  /* r91: the rays thin out well before the edge of their square (the ends no longer reach the stand as long grey spokes) */ const f=c.createRadialGradient(0,0,0,0,0,256); f.addColorStop(0,"rgba(0,0,0,1)"); f.addColorStop(.35,"rgba(0,0,0,.8)"); f.addColorStop(.75,"rgba(0,0,0,.18)"); f.addColorStop(1,"rgba(0,0,0,0)"); c.globalCompositeOperation="destination-in"; c.fillStyle=f; c.fillRect(-256,-256,512,512); }, true);
 const rays=new T.Mesh(new T.PlaneGeometry(1,1), new T.MeshBasicMaterial({map:raysTex.tx, transparent:true, depthWrite:false, blending:T.AdditiveBlending, opacity:0, fog:false, color:new T.Color(.35,.35,.35)}));
 rays.position.set(0,1.9,-1.5); rays.scale.set(8,8,1); scene.add(rays); /* r90 L31: a halo round the card; at 14 m it washed the whole night stand in the tier colour */
 const glowTex=canvasTex(256,256,(c)=>{ const g=c.createRadialGradient(128,128,0,128,128,128); g.addColorStop(0,"rgba(255,255,255,1)"); g.addColorStop(.2,"rgba(255,255,255,.5)"); g.addColorStop(1,"rgba(255,255,255,0)"); c.fillStyle=g; c.fillRect(0,0,256,256); }, true);
@@ -979,8 +980,8 @@ function run(tt){
     /* the crack opens (2.4 s) and a pillar of light shoots up through it */
     const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(Lc(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10)*(camera.aspect<1?.55:1)); /* r90 L05: a softer slit on a portrait screen, so the pack art reads through it */
     pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,-PACK_D/2-.12)); /* r90 L05: behind the pack, which hides its lower part, never across the pack face */ pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
-      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(Lc(0xfff0c8)).lerp(lad,.85).multiplyScalar((1.5+charge*charge*4)*(camera.aspect<1?.6:1)); }
-    packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,-.55); rays.material.opacity=charge*charge*.22; rays.material.color.copy(ladA).multiplyScalar(.5); rays.rotation.z=tt*.5; rays.scale.setScalar(3.5+charge*2.5); /* r90 L31: a halo round the pack, not a sunburst over the stand */
+      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(Lc(0xfff0c8)).lerp(lad,.85).multiplyScalar((1.5+charge*charge*4)*(camera.aspect<1?.6:1)*(BLOOM?.42:1)); /* r91: with bloom on (Balanced and up) the 18 m pillar at full HDR strength fogged the whole frame grey through the widest blur; it keeps its glow at under half */ }
+    packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,PACK_REST.z-.4); rays.material.opacity=charge*charge*.3; rays.material.color.copy(lad).lerp(ladA,.25).multiplyScalar(.55); /* r91 (Nik 2026-11-11, "keep improving the pack"): the charge light bursts from BEHIND the pack in the tier colour; in front of it, in the pale accent, it washed the pack art and the whole stand grey on High and up */ rays.rotation.z=tt*.5; rays.scale.setScalar(3.5+charge*2.5); /* r90 L31: a halo round the pack, not a sunburst over the stand */
     /* gold glitter swirling round the pack */
     if(fall>=1) for(let i=0;i<3;i++){ const a=Math.random()*Math.PI*2, r=.8+Math.random()*.8; emit(new T.Vector3(Math.cos(a)*r,.3+Math.random()*1.6,PACK_REST.z+Math.sin(a)*r),new T.Vector3(-Math.sin(a)*1.2,.3+Math.random()*.5,Math.cos(a)*1.2),Math.random()<.6?0xffd77a:0xfff1c2,.9+Math.random()*.6,.05+Math.random()*.04,-.2,.6,1); } }
   else pillar.visible=false;
