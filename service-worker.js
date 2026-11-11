@@ -512,9 +512,13 @@ let deployedRevisionCheck=null;
 // fresh skips the memo: the end-of-fill check and every on-demand pack write ask the network again.
 function deployedRevisionIsCurrent(fresh=false){
     const now=Date.now(); if(deployedRevisionCheck&&!fresh&&now-deployedRevisionCheck.at<DEPLOYED_CHECK_MS){ return deployedRevisionCheck.result; }
-    const url=scopeUrl("service-worker.js"); url.searchParams.set("pack-check",String(now));
-    const result=fetch(new Request(url.href,{cache:"no-store",credentials:"same-origin"})).then(async response=>response.ok&&(await response.text()).includes(`const RUNTIME_REVISION = "${RUNTIME_REVISION}";`)).catch(()=>false);
+    const result=deployedRevisionProbe(now).then(state=>state===true);
     deployedRevisionCheck={at:now,result}; return result;
+}
+// true: the deployed worker is this revision; false: it names another one; null: the probe could not tell (offline, error).
+function deployedRevisionProbe(now=Date.now()){
+    const url=scopeUrl("service-worker.js"); url.searchParams.set("pack-check",String(now));
+    return fetch(new Request(url.href,{cache:"no-store",credentials:"same-origin"})).then(async response=>response.ok?(await response.text()).includes(`const RUNTIME_REVISION = "${RUNTIME_REVISION}";`):null).catch(()=>null);
 }
 async function verifyOfflinePack(){
     const expected=SHELL_PATHS.filter(path=>OFFLINE_PACK_PATHS.has(path)); if(!(await cacheExists(CACHE_NAME))){ return { ok:false, expected:expected.length, missing:expected }; }
@@ -530,7 +534,9 @@ function fillOfflinePack(){
         // The deployed check is memoised for DEPLOYED_CHECK_MS, so a release published mid-fill could slip newer bytes in under
         // this revision's URLs. Re-check fresh at the end; if another release is now deployed, drop what this run kept, so the
         // pack stays incomplete and this revision is never treated as a full rollback target with mixed files.
-        if(!(await deployedRevisionIsCurrent(true))){ await Promise.all(status.missing.map(path=>cache.delete(versionedShellUrl(path)))); }
+        // A probe that cannot tell is asked once more; only a confirmed current revision keeps this run's files.
+        let state=await deployedRevisionProbe(); if(state===null){ state=await deployedRevisionProbe(); }
+        if(state!==true){ await Promise.all(status.missing.map(path=>cache.delete(versionedShellUrl(path)))); }
         return verifyOfflinePack();
     } finally { offlinePackFill=null; } })());
 }
