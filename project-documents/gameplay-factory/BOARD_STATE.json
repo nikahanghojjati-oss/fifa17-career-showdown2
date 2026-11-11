@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-11 12:37 PM Boston time (EST)",
+ "generated": "2026-11-11 12:41 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 218,
@@ -2816,7 +2816,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5193
+    "waiting_min": 5197
    },
    {
     "id": "HO-059",
@@ -2972,7 +2972,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-070_gazette-look-hide-boxed-eyebrow-wider-de.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 112
+    "waiting_min": 116
    }
   ],
   "relay_ok": true
