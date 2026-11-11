@@ -116,7 +116,7 @@ async function q1RecoveryLeadsWithTheSafeButton(){
   const [again,remove]=found;
   assert.equal(again.disabled,false);
   assert.equal(classesOf(again).includes("dangerButton"),false,"Q1 TRY AGAIN is the safe primary, not a danger button");
-  assert.match(panel.textContent,/You can also open it on your other phone\./,"Q1 the other-phone hint is shown");
+  assert.match(panel.textContent,/Your game is saved online\. You can also open it on another phone or computer\./,"Q1 the other-phone hint is shown");
   assert.equal(remove.disabled,false);
   assert.equal(classesOf(remove).includes("dangerButton"),true,"Q1 the delete keeps its danger styling");
   assert.equal(classesOf(remove).includes("pairRecoverySecondary"),true,"Q1 the delete carries the smaller-secondary hook");
