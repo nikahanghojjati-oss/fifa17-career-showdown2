@@ -1,8 +1,108 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-11T18:49:22.880Z",
-  "state": "ALL_CLEAR",
-  "checks": [],
+  "at": "2026-11-11T19:13:37.204Z",
+  "state": "BARKING",
+  "checks": [
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "13932430297ad2cd0ee290510930debe4a9cfbf0",
+      "pr": 1378,
+      "queued_minutes": 20.8,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "0c317d8719891db98fe483a97a8c1e931e0f3cb0",
+      "pr": 1384,
+      "queued_minutes": 20.7,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "e02f9931cd4290787d98fa656f7da7f1d6b5e3b3",
+      "pr": 1391,
+      "queued_minutes": 18.3,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "d2273c7df9db74adbb9983e392ce59a33dea9fb8",
+      "pr": 1386,
+      "queued_minutes": 17.9,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "644bd58d551a1a5a49410bf4d001ee5fae13d23c",
+      "pr": 1393,
+      "queued_minutes": 14.6,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "c1cd9b841143be0bde2ce4cefd50edfe2f21f029",
+      "pr": 1394,
+      "queued_minutes": 14.2,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Validate POS20",
+      "head_sha": "15f5f19ae265ba8f8115b7cbb5c70d85b738ddc0",
+      "pr": 312,
+      "queued_minutes": 14,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "083d1802774b6ae127bd8bb8498a95b54fcf5b63",
+      "pr": 1395,
+      "queued_minutes": 3.8,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "5ec2c6bf64fa4582b648165b613828b3ce06d1cf",
+      "pr": 1357,
+      "queued_minutes": 2.9,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "ce98fb7c12970dececd369737980218f6e873baf",
+      "pr": 1364,
+      "queued_minutes": 2.7,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "77b5fefe9dcbe29acab1c22113b7cfe3f358bad7",
+      "pr": 1396,
+      "queued_minutes": 1.1,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    }
+  ],
   "helpers_paused": [],
   "gate": null,
   "pos20": {
