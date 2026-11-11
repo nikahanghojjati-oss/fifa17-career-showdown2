@@ -1,4 +1,6 @@
 {
+  "schemaVersion": 1,
+  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.3.0 (main a85d286a) deploys the 2.2.0 Rules unchanged; r91 adds the squadSheets block, the optional playerId on Transfer War signing rows and the Kyrgyzstan + Sudan nationalities (catalog 164 -> 166). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
     "commit": "a85d286acf4cc8eb79d20610f729aacdc56fbb67",
     "sha256": "6d410197714d4c3d906e4f5115bf5c0c45e844b7dee63911f91d9b75eb942cc3",
@@ -10,6 +12,11 @@
     "gitBlobSha1": "4721e1d9fb8356ec873100d2b5d5c8a749a46a68",
     "bytes": 191531
   },
+  "allowedOwners": [
+    "R91-SQUAD",
+    "R91-SIGNING-ID",
+    "R91-NATIONALITIES"
+  ],
   "hunks": [
     {
       "mainLine": 395,
@@ -19,7 +26,9 @@
       ],
       "added": [
         "    function ssjrTransferValidOptionId(value) { return value.matches('^(argentina-primera-division|australia-a-league|austria-bundesliga|belgium-pro-league|brazil-serie-a|chile-campeonato-nacional|colombia-liga-dimayor|denmark-superliga|england-premier-league|england-championship|england-league-one|england-league-two|france-ligue-1|france-ligue-2|germany-bundesliga|germany-2-bundesliga|netherlands-eredivisie|italy-serie-a|italy-serie-b|japan-j1-league|korea-k-league-classic|mexico-liga-mx|norway-tippeligaen|poland-ekstraklasa|portugal-liga-nos|ireland-airtricity-league|russia-premier-league|saudi-dawry-jameel|scotland-premiership|spain-primera-division|spain-segunda-a|sweden-allsvenskan|switzerland-super-league|turkey-super-lig|usa-major-league-soccer|rest-of-world|afghanistan|albania|algeria|angola|antigua-and-barbuda|argentina|armenia|aruba|australia|austria|azerbaijan|barbados|belarus|belgium|belize|benin|bermuda|bolivia|bosnia-herzegovina|brazil|bulgaria|burkina-faso|cameroon|canada|cape-verde|central-african-republic|chad|chile|china-pr|chinese-taipei|colombia|comoros|congo|costa-rica|croatia|cuba|curacao|cyprus|czech-republic|denmark|dominican-republic|dr-congo|ecuador|egypt|el-salvador|england|equatorial-guinea|eritrea|estonia|ethiopia|faroe-islands|fiji|finland|france|gabon|gambia|georgia|germany|ghana|gibraltar|greece|grenada|guam|guatemala|guinea|guinea-bissau|guyana|haiti|honduras|hungary|iceland|india|iran|iraq|israel|italy|ivory-coast|jamaica|japan|kazakhstan|kenya|korea-dpr|kosovo|kuwait|kyrgyzstan|latvia|lebanon|lesotho|liberia|libya|liechtenstein|lithuania|luxembourg|madagascar|mali|malta|mauritania|mauritius|mexico|moldova|montenegro|montserrat|morocco|mozambique|namibia|netherlands|new-caledonia|new-zealand|niger|nigeria|fyr-macedonia|northern-ireland|norway|oman|pakistan|palestine|panama|papua-new-guinea|paraguay|peru|philippines|poland|portugal|puerto-rico|qatar|republic-of-ireland|korea-republic|romania|russia|san-marino|sao-tome-principe|saudi-arabia|scotland|senegal|serbia|sierra-leone|slovakia|slovenia|somalia|south-africa|spain|st-kitts-and-nevis|st-lucia|st-vincent-and-the-grenadines|sudan|suriname|sweden|switzerland|syria|tajikistan|tanzania|timor-leste|togo|trinidad-and-tobago|tunisia|turkey|uganda|ukraine|united-states|uruguay|uzbekistan|venezuela|vietnam|wales|zambia|zimbabwe)$'); }"
-      ]
+      ],
+      "owner": "R91-NATIONALITIES",
+      "why": "r91 (Nik 2026-11-11 00:17 UTC): Kyrgyzstan and Sudan join the generated FIFA 17 nationality pattern (catalog 164 -> 166), as the launch player list has them."
     },
     {
       "mainLine": 397,
@@ -29,7 +38,9 @@
       ],
       "added": [
         "    function ssjrTransferCatalogNationalityId(value) { return value.matches('^(afghanistan|albania|algeria|angola|antigua-and-barbuda|argentina|armenia|aruba|australia|austria|azerbaijan|barbados|belarus|belgium|belize|benin|bermuda|bolivia|bosnia-herzegovina|brazil|bulgaria|burkina-faso|cameroon|canada|cape-verde|central-african-republic|chad|chile|china-pr|chinese-taipei|colombia|comoros|congo|costa-rica|croatia|cuba|curacao|cyprus|czech-republic|denmark|dominican-republic|dr-congo|ecuador|egypt|el-salvador|england|equatorial-guinea|eritrea|estonia|ethiopia|faroe-islands|fiji|finland|france|gabon|gambia|georgia|germany|ghana|gibraltar|greece|grenada|guam|guatemala|guinea|guinea-bissau|guyana|haiti|honduras|hungary|iceland|india|iran|iraq|israel|italy|ivory-coast|jamaica|japan|kazakhstan|kenya|korea-dpr|kosovo|kuwait|kyrgyzstan|latvia|lebanon|lesotho|liberia|libya|liechtenstein|lithuania|luxembourg|madagascar|mali|malta|mauritania|mauritius|mexico|moldova|montenegro|montserrat|morocco|mozambique|namibia|netherlands|new-caledonia|new-zealand|niger|nigeria|fyr-macedonia|northern-ireland|norway|oman|pakistan|palestine|panama|papua-new-guinea|paraguay|peru|philippines|poland|portugal|puerto-rico|qatar|republic-of-ireland|korea-republic|romania|russia|san-marino|sao-tome-principe|saudi-arabia|scotland|senegal|serbia|sierra-leone|slovakia|slovenia|somalia|south-africa|spain|st-kitts-and-nevis|st-lucia|st-vincent-and-the-grenadines|sudan|suriname|sweden|switzerland|syria|tajikistan|tanzania|timor-leste|togo|trinidad-and-tobago|tunisia|turkey|uganda|ukraine|united-states|uruguay|uzbekistan|venezuela|vietnam|wales|zambia|zimbabwe)$'); }"
-      ]
+      ],
+      "owner": "R91-NATIONALITIES",
+      "why": "r91 (Nik 2026-11-11 00:17 UTC): Kyrgyzstan and Sudan join the generated FIFA 17 nationality pattern (catalog 164 -> 166), as the launch player list has them."
     },
     {
       "mainLine": 473,
@@ -39,7 +50,9 @@
       ],
       "added": [
         "        && value.keys().hasOnly(['slot','name','leagueId','nationalityId','overall','position','playerId'])"
-      ]
+      ],
+      "owner": "R91-SIGNING-ID",
+      "why": "r91 Transfer War autocomplete (2.4.0): a signing row may carry the optional SoFIFA playerId, an int 1..999999; same write, one more allowed key."
     },
     {
       "mainLine": 475,
@@ -48,7 +61,9 @@
       "added": [
         "        // r91 (2.4.0): the SoFIFA id of a player picked from the Transfer War autocomplete (optional; a typed name has none).",
         "        && (!('playerId' in value) || (value.playerId is int && value.playerId >= 1 && value.playerId <= 999999))"
-      ]
+      ],
+      "owner": "R91-SIGNING-ID",
+      "why": "r91 Transfer War autocomplete (2.4.0): a signing row may carry the optional SoFIFA playerId, an int 1..999999; same write, one more allowed key."
     },
     {
       "mainLine": 3040,
@@ -95,7 +110,9 @@
         "        allow get: if ssjrEntitled();",
         "        allow list, update, delete: if false;",
         "        allow create: if ssjrSquadSheetCreateValid();"
-      ]
+      ],
+      "owner": "R91-SQUAD",
+      "why": "r91 Squad Management (2.4.0, Nik 2026-11-11): the create-only squadSheets document per manager per screen; get for members, no list/update/delete."
     }
   ]
 }
