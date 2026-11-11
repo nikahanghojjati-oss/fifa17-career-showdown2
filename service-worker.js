@@ -37,6 +37,9 @@ const SHELL_FRAME_NAVIGATION_PATHS = new Set([
 const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "css/r78-marble-tile.webp",
     "visual-assets/v10_1/roulette/vendor/three-r187.min.js",
+    // r90 (Codex #1348 P1): the roulette and Special Player pages load the shared quality module without ?v=; without this
+    // entry an offline open falls through to the network and GFXT.profile() throws, so the scene cannot play.
+    "js/gfxTier.js",
     "visual-assets/v10_1/roulette/platemap.json",
     "visual-assets/v10_1/roulette/assets/squads.json",
     "visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr",
