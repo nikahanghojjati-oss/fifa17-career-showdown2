@@ -112,7 +112,21 @@
    90,
    380
   ],
-  "desktop_lipY_1X": 776
+  "desktop_lipY_1X": 776,
+  "phone": [
+   90,
+   149
+  ],
+  "590W": [
+   90,
+   51
+  ],
+  "phone_lipY": 1411,
+  "tall": [
+   90,
+   174
+  ],
+  "tall_lipY": 1411
  },
  "coaches": {
   "1X": [
