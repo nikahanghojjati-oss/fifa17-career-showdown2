@@ -754,6 +754,13 @@
       const cu=api.closeup;if(cu){camera.position.fromArray(cu.pos);camLook.fromArray(cu.look);camera.fov=cu.fov||20;camera.updateProjectionMatrix();}
       camera.lookAt(camLook);camera.updateMatrixWorld();
     };
+    const crowdMood=(t,still)=>{
+      if(!plan||still||t<FLIGHT)return [null,null];
+      const won=plan.goal&&plan.shot?lineup.taker:lineup.keeper,home=String(clubs.playerOne??""),away=String(clubs.playerTwo??"");
+      if(home===away)return [null,null];
+      const k=cm3Easy((t-FLIGHT)/.35),base=excitement(t),joy=Math.max(.55,1-Math.max(0,t-2.4)*.12),hush=.1;
+      return [base+((won===home?joy:hush)-base)*k,base+((won===away?joy:hush)-base)*k];
+    };
     const excitement=t=>{if(!plan)return .2;if(t<0)return .2+.4*cm3Easy((t+RUNUP)/RUNUP);if(t<FLIGHT)return .6;
       if(plan.goal&&plan.shot)return Math.max(.45,1-Math.max(0,t-1.6)*.2);return Math.max(.3,.7-(t-FLIGHT)*.35);};
 
@@ -818,6 +825,8 @@
       const netAt=FLIGHT+(plan&&plan.after.wood?.16:.07);
       if(!still&&plan&&plan.after.kind==="net"&&!plan.netHit&&t>=netAt){plan.netHit=true;S.update((plan.startAt-t0)/1000+netAt,1);S.hitNet(plan.target.x*(plan.after.wood?.8:1),plan.target.y*(plan.after.wood&&plan.after.wood.y<0?.4:.9),plan.v0.length());}
       S.update(stadiumT,still?.2:excitement(t));
+      // r91: once the ball is in or kept out, the club that won the kick erupts and the other end falls quiet.
+      S.mood?.(...crowdMood(t,still));
       cameraAt(t,live);
       renderer.render(scene,camera);
       const fade=still?0:1-(now-snapAt)/(DISSOLVE*1000);

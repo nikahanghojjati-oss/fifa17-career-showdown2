@@ -484,7 +484,7 @@
     const dummy=new T.Object3D();
     for(let i=0;i<N;i+=1){const f=fans[i];
       aPhase[i]=rnd()*6.283;
-      const awayEnd=f.si===3||(f.si===0&&f.p.x>AWAY_X);
+      const awayEnd=f.si===3||(f.si===0&&f.p.x>AWAY_X);f.away=awayEnd;
       const r=rnd(),plain=r<.1;
       aCell[i]=plain?pickCell(PLAIN_CELLS):pickCell(TINT_CELLS);
       const c=plain?new T.Color(.42,.42,.44):awayEnd?(r<.8?away:awayAlt):(r<.8?home:homeAlt);
@@ -498,20 +498,22 @@
     // The vendor build has no InstancedBufferAttribute, so the card data rides in the instance matrix: translation = seat, and the free row (elements 3, 7, 11) = cell,
     // phase, yaw; instanceColor = shirt tint.
     for(let i=0;i<N;i+=1){const f=fans[i];dummy.position.set(aOff[i*4],aOff[i*4+1]+f.lift,aOff[i*4+2]);dummy.rotation.set(0,aOff[i*4+3],0);dummy.scale.set(f.sx,f.sy,1);dummy.updateMatrix();
-      const e=dummy.matrix.elements;e[3]=aCell[i];e[7]=aPhase[i];e[11]=0;inst.setMatrixAt(i,dummy.matrix);
+      const e=dummy.matrix.elements;e[3]=aCell[i];e[7]=aPhase[i];e[11]=fans[i].away?1:0;inst.setMatrixAt(i,dummy.matrix);
       inst.setColorAt(i,new T.Color(aTint[i*3],aTint[i*3+1],aTint[i*3+2]));}
-    const crowdUniforms={uAtlas:{value:crowdTex},uTint:{value:tintTex},uTime:{value:0},uExcite:{value:0},uLight:{value:new T.Color(1,1,1)},uHaze:{value:new T.Color(.02,.028,.05)}};
+    const crowdUniforms={uAtlas:{value:crowdTex},uTint:{value:tintTex},uTime:{value:0},uExcite:{value:0},uMood:{value:new T.Vector2(-1,-1)},uLight:{value:new T.Color(1,1,1)},uHaze:{value:new T.Color(.02,.028,.05)}};
     const crowdMat=keep(new T.ShaderMaterial({
       uniforms:{...crowdUniforms,fogColor:{value:new T.Color(0,0,0)},fogNear:{value:1},fogFar:{value:2000},fogDensity:{value:.00025}},fog:true,
       vertexShader:[
-        "uniform float uTime;uniform float uExcite;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;varying float vLow;varying float vFlash;",
+        "uniform float uTime;uniform float uExcite;uniform vec2 uMood;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;varying float vLow;varying float vFlash;",
         "#include <fog_pars_vertex>",
         "void main(){",
-        " mat4 m=instanceMatrix;float cell=m[0][3],phase=m[1][3];m[0][3]=0.0;m[1][3]=0.0;m[2][3]=0.0;",
+        " mat4 m=instanceMatrix;float cell=m[0][3],phase=m[1][3],side=m[2][3];m[0][3]=0.0;m[1][3]=0.0;m[2][3]=0.0;",
+        // r91: each end reacts to its own club's fortune (mood(home, away)); -1 = the whole ground shares one excitement.
+        " float mo=side<.5?uMood.x:uMood.y;float ex=mo<0.0?uExcite:mo;",
         " float h=fract(sin(phase*91.7)*4375.85);",
         // Arms up when excitement passes this fan's own threshold; jumps grow with excitement.
-        " float up=step(h,uExcite*1.1-.08);",
-        " float bob=sin(uTime*(2.0+3.5*uExcite)+phase)*(.015+.11*uExcite*uExcite)*(.5+.5*h);",
+        " float up=step(h,ex*1.1-.08);",
+        " float bob=sin(uTime*(2.0+3.5*ex)+phase)*(.015+.11*ex*ex)*(.5+.5*h);",
         " float sway=sin(uTime*.9+phase*1.7)*.025;",
         " vec3 p=position;p.x+=sway*(p.y+.12);p.y+=max(bob,-.01);",
         " float col=mod(cell,8.0)*2.0+up,row=floor(cell/8.0);",
@@ -523,7 +525,7 @@
         // r91: phone camera flashes in the stand as the taker runs up and when the net bulges (one fan's phone, a fifth of a
         // second, a few at a time): a real light in the crowd, no glow added round it. Off while the crowd waits or stands still.
         " float slot=floor(uTime*5.0+phase*3.7),r=fract(sin(slot*12.9898+phase*78.233)*43758.545);",
-        " vFlash=step(1.0-.012*smoothstep(.3,1.0,uExcite),r)*(1.0-fract(uTime*5.0+phase*3.7))*step(.3,uExcite);",
+        " vFlash=step(1.0-.012*smoothstep(.3,1.0,ex),r)*(1.0-fract(uTime*5.0+phase*3.7))*step(.3,ex);",
         // Floodlit at the front, darker toward the back under the roof; a little light-to-light variation per fan.
         " vec3 wp=(m*vec4(0.0,0.0,0.0,1.0)).xyz;float back=length(wp.xz-vec2(0.0,52.5))-50.0;",
         " vShade=mix(.92,.4,smoothstep(0.0,30.0,back+wp.y*.6))*mix(1.0,.34,smoothstep(3.0,16.0,wp.y))*(.85+.3*h);",
@@ -637,6 +639,9 @@
     // ---------- live ----------
     const net={x:0,y:1.2,t0:-1,amp:0};
     function hitNet(x,y,speed){net.x=x;net.y=y;net.t0=crowdUniforms.uTime.value;net.amp=Math.min(1,(speed||20)/25);}
+    // r91: the two ends apart. mood(home, away): each club's fans at their own excitement (0..1); null for one shared crowd.
+    function mood(homeEx,awayEx){const u=crowdUniforms.uMood.value;
+      if(homeEx==null||awayEx==null)u.set(-1,-1);else u.set(Math.max(0,Math.min(1,homeEx)),Math.max(0,Math.min(1,awayEx)));}
     function update(t,excite){
       crowdUniforms.uTime.value=t;crowdUniforms.uExcite.value=Math.max(0,Math.min(1,excite||0));
       // LED boards change picture together every 9 s (a hard cut, the way real ones flip), never scroll: scrolling slid
@@ -669,7 +674,7 @@
       if(!white1){white1=keep(new T.DataTexture(new Uint8Array([255,255,255,255]),1,1));white1.colorSpace=T.SRGBColorSpace;white1.needsUpdate=true;}
       m.map=white1;m.needsUpdate=true;});}
     update(0,0);
-    return {group,ball,ballMaterial:ballMat,goal:{group:goal,back,postMaterial:postMat,netMaterial:netMat},crowd:inst,crowdCount:N,flares,stands,update,hitNet,dispose:stadiumDispose,
+    return {group,ball,ballMaterial:ballMat,goal:{group:goal,back,postMaterial:postMat,netMaterial:netMat},crowd:inst,crowdCount:N,flares,stands,update,mood,hitNet,dispose:stadiumDispose,
       dims:{GOAL_W,GOAL_H,BALL_R,SPOT_Z,DEPTH}};
   }
 
