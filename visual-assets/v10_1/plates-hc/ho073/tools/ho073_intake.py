@@ -21,6 +21,14 @@ from PIL import Image
 HERE = Path(__file__).resolve().parent.parent          # .../ho073
 PLATES = HERE.parent                                    # .../plates-hc
 Z = json.loads((HERE / "zones.json").read_text())
+import os
+# Base plates to build on (default: today's V2 next to this folder). HO-074 relit
+# heads first, so the final run uses: HO073_BASE=<dir with V3 files> HO073_TAG=V3
+BASE = Path(os.environ.get("HO073_BASE", PLATES))
+TAG = os.environ.get("HO073_TAG", "V2")
+def plate(kind):
+    return BASE / {"2X": f"ENV_HOME_PLATE_HC_{TAG}_2X.webp", "1X": f"ENV_HOME_PLATE_HC_{TAG}_1X.webp",
+                   "PH": f"ENV_HOME_PHONE_HC_{TAG}.webp", "590": f"ENV_HOME_PHONE_HC_{TAG}_590W.webp"}[kind]
 
 def load_rgb(p):
     return np.asarray(Image.open(p).convert("RGB")).astype(np.float32)
@@ -32,6 +40,17 @@ def people(name):
     m = np.asarray(Image.open(HERE / "masks" / name).convert("L")).astype(np.float32) / 255
     m = cv2.dilate((m > 0.35).astype(np.uint8), np.ones((5, 5), np.uint8)).astype(np.float32)
     return cv2.GaussianBlur(m, (0, 0), 2.0)              # 1 = keep original manager
+
+def protect_edits(P, base_img, v2_name):
+    """Keep every pixel an earlier pass (e.g. HO-074 head relight) changed vs V2."""
+    if TAG == "V2":
+        return P
+    v2 = load_rgb(PLATES / v2_name)
+    d = (np.abs(base_img - v2).max(2) > 10).astype(np.uint8)
+    near = cv2.dilate((P > 0.5).astype(np.uint8), np.ones((81, 81), np.uint8))   # heads only, not WebP noise
+    d = d * near
+    d = cv2.dilate(d, np.ones((7, 7), np.uint8)).astype(np.float32)
+    return np.maximum(P, cv2.GaussianBlur(d, (0, 0), 2.0))
 
 def band_weight(shape, box, pane, feather):
     """1 inside crop box ∩ pane, soft ramp of `feather` px at the crop's top/bottom."""
@@ -75,8 +94,8 @@ def align(res, ref, valid):
 
 def build_view(src):
     """Desktop-2X-sized layer holding the new stands, plus its weight."""
-    D = load_rgb(PLATES / "ENV_HOME_PLATE_HC_V2_2X.webp")
-    P = people("home_people_mask_2x.png")
+    D = load_rgb(plate("2X"))
+    P = protect_edits(people("home_people_mask_2x.png"), D, "ENV_HOME_PLATE_HC_V2_2X.webp")
     view = D.copy(); wgt = np.zeros(D.shape[:2], np.float32); report = {}
     for k, c in Z["crops"].items():
         x0, y0, x1, y1 = c["box"]
@@ -104,13 +123,13 @@ def compose(src, outdir):
     a2 = wgt * (1 - P)
     new2 = D * (1 - a2[..., None]) + view * a2[..., None]
     # 1X: original 1X everywhere alpha is 0
-    O1 = load_rgb(PLATES / "ENV_HOME_PLATE_HC_V2_1X.webp")
+    O1 = load_rgb(plate("1X"))
     a1 = cv2.resize(a2, (O1.shape[1], O1.shape[0]), interpolation=cv2.INTER_AREA)
     n1 = cv2.resize(new2, (O1.shape[1], O1.shape[0]), interpolation=cv2.INTER_LANCZOS4)
     new1 = O1 * (1 - a1[..., None]) + n1 * a1[..., None]
     # phone: same new stands, mapped per pane piece
-    Ph = load_rgb(PLATES / "ENV_HOME_PHONE_HC_V2.webp")
-    PP = people("phone_people_mask.png")
+    Ph = load_rgb(plate("PH"))
+    PP = protect_edits(people("phone_people_mask.png"), Ph, "ENV_HOME_PHONE_HC_V2.webp")
     H, W = Ph.shape[:2]
     newp = Ph.copy(); ap_all = np.zeros((H, W), np.float32)
     for piece, rect in Z["phone_panes"].items():
@@ -120,12 +139,12 @@ def compose(src, outdir):
         ap *= (1 - PP)
         newp = newp * (1 - ap[..., None]) + v * ap[..., None]
         ap_all = np.maximum(ap_all, ap)
-    O5 = load_rgb(PLATES / "ENV_HOME_PHONE_HC_V2_590W.webp")
+    O5 = load_rgb(plate("590"))
     a5 = cv2.resize(ap_all, (O5.shape[1], O5.shape[0]), interpolation=cv2.INTER_AREA)
     n5 = cv2.resize(newp, (O5.shape[1], O5.shape[0]), interpolation=cv2.INTER_LANCZOS4)
     new5 = O5 * (1 - a5[..., None]) + n5 * a5[..., None]
-    files = {"ENV_HOME_PLATE_HC_V2_2X.webp": (new2, 88), "ENV_HOME_PLATE_HC_V2_1X.webp": (new1, 86),
-             "ENV_HOME_PHONE_HC_V2.webp": (newp, 86), "ENV_HOME_PHONE_HC_V2_590W.webp": (new5, 86)}
+    files = {plate("2X").name: (new2, 88), plate("1X").name: (new1, 86),
+             plate("PH").name: (newp, 86), plate("590").name: (new5, 86)}
     for n, (arr, q) in files.items():
         save_webp(arr, outdir / n, q)
         report[n] = {"bytes": (outdir / n).stat().st_size,
@@ -157,7 +176,7 @@ def main():
     if cmd == "guides":
         guides(); return
     if cmd == "selftest":
-        D = load_rgb(PLATES / "ENV_HOME_PLATE_HC_V2_2X.webp")
+        D = load_rgb(plate("2X"))
         def src(k):
             x0, y0, x1, y1 = Z["crops"][k]["box"]
             return cv2.resize(D[y0:y1, x0:x1], tuple(Z["crops"][k]["send_size"]), interpolation=cv2.INTER_LANCZOS4)

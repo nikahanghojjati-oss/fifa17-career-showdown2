@@ -25,3 +25,8 @@ Box room passes (Team G). Office (empty distant seats) and Tunnel (tiny crowd at
 
 ## Weights
 Re-encoded at WebP q86-88: 2X ~290 KB, 1X ~110 KB, phone ~112 KB, 590W ~41 KB (all at or under the current files).
+
+## Build on HO-074 (head relight), 11 Nov
+HO-074 finished first: branch `claude/project-thread-maabxq` c30d8843a (PR #1404), files `ENV_HOME_*_HC_V3*`. Final intake runs on those:
+`HO073_BASE=<dir with the four V3 files> HO073_TAG=V3 python3 -I tools/ho073_intake.py intake`
+Every pixel HO-074 changed (difference to V2 above 10, within 40 px of a manager) is protected, so its hair rim light survives. Self-test on V3: 0 relit pixels under the crowd alpha, 0.0 change outside. If Nik rejects the relight, run with the default (V2).
