@@ -682,7 +682,8 @@ function setEnv(){ if(DIRECT){ scene.environment=null; return; }
   if(!pmrem) pmrem=new T.PMREMGenerator(renderer); const e=pano.clone(); e.needsUpdate=true; e.mapping=T.EquirectangularReflectionMapping; e.colorSpace=T.SRGBColorSpace; scene.environment=pmrem.fromEquirectangular(e).texture;
   scene.environmentIntensity=panoMat.uniforms.night.value?.6:1; /* r90 L06: the daylight photo reflects less at night */ }
 function lightMetals(){ if(!DIRECT) return; [[goldMetal,.5,.34,0x3a2606],[foilEdge,.6,.48,0x241604],[blackMetal,.35,.4,0],[coinFaceMat,.3,.34,0],[packFace,.25,.38,0]].forEach(([m,me,ro,em])=>{ m.metalness=me; m.roughness=ro; if(em) m.emissive.copy(L(em)); });
-  coin.material[0].metalness=.5; foilEdge.color.copy(L(0xb98a2c)); /* lit by the sun alone, a paler gold reads white */ }
+  coin.material[0].metalness=.5; foilEdge.color.copy(L(0xb98a2c)); /* lit by the sun alone, a paler gold reads white */
+  grassMat.color.multiply(new T.Color(1.25,1.27,1.38)); /* r91: without the stadium reflection the floodlit pitch came out olive (measured 72/94/42 against Extra's 93/120/60 on the settled card); the same green at no cost */ }
 let pano=null;
 const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest:false, fog:false, uniforms:{tex:{value:null},plate:{value:null},hasPlate:{value:0},plateL:{value:null},hasL:{value:0},plateR:{value:null},hasR:{value:0},yaw:{value:0},expo:{value:.9},warm:{value:0},night:{value:/[?&]look=day(?:&|$)/.test(location.search)?0:1}},
   vertexShader:"varying vec3 vD; void main(){ vD=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }",
