@@ -153,7 +153,8 @@ async function c3d2(){
   assert.ok(scene.includes("const stadiumT=still?0:")&&scene.includes("S.update(stadiumT,still?.2:excitement(t));"),"the crowd stands still");
   assert.ok(scene.includes("if(!still&&plan&&plan.after.kind===\"net\""),"no net bulge");
   assert.ok(scene.includes("const fade=still?0:")&&scene.includes("if(!cssW||(frozenClock===null&&reducedMotion()))return;"),"no dissolve");
-  assert.ok(read("js/chamberMenStadium3d.js").includes("if(net.t0<0||e<0||e>2.5){"),"a clock before the hit keeps the net flat");
+  // r91: the ball stretching the net (netPush) is off while still; with no push and no ripple the net is set flat again.
+  assert.ok(read("js/chamberMenStadium3d.js").includes("ripple=!(net.t0<0||e<0||e>2.5),pz=net.pz;")&&read("js/chamberMenStadium3d.js").includes("if(!ripple&&pz===null){if(arr.__moved){arr.set(backBase);")&&scene.includes("const on=Boolean(!still&&plan&&plan.after.kind===\"net\"&&ballFree.on);")&&scene.includes("netPushAt(still);"),"a clock before the hit keeps the net flat");
   ok("C3D8","Reduce Motion: players, crowd, net, camera and dissolve stand still; lineup and result still change");
 }
 // C3D9 r90 W4 (Nik 2026-11-07, "FC quality, light on every device"): the scene takes its quality from js/gfxTier.js
@@ -190,7 +191,9 @@ async function c3d2(){
 {
   const ex=/const CM3_LEVEL_EXTRAS=\[([\s\S]*?)\n  \];/.exec(scene);assert.ok(ex,"one extras table");
   assert.strictEqual((ex[1].match(/\{aniso:/g)||[]).length,5,"one row per level");
-  assert.ok(/\{aniso:4,softness:1\.5,fullCrowd:false\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
+  assert.ok(/\{aniso:4,softness:1\.5,fullCrowd:false,shells:0\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
+  // r91: the grass blade layers are an Extra and Ultra extra only.
+  assert.deepStrictEqual(ex[1].split("\n").slice(1,6).map(r=>Number((/shells:(\d+)/.exec(r)||[])[1])),[0,0,0,10,14],"grass blades at Extra and Ultra only");
   assert.ok(scene.includes("QX=CM3_LEVEL_EXTRAS[Math.max(0,Math.min(4,L))]"),"8K uses Ultra's extras");
   assert.ok(scene.includes('look={phone:Q.assets==="phone",level:Q.textureLevel??Q.level,meshopt};')&&scene.includes('S.load(T,look)'),"textures follow the texture level");
   const stadium=read("js/chamberMenStadium3d.js");
@@ -212,9 +215,9 @@ async function c3d2(){
 //    level (lighter where real shadows are sharper), the clubs' names, crests and second colours handed to the stadium.
 {
   assert.ok(/new T\.HemisphereLight\(0x9fb4e8,0x14200f,LIGHT_ONE\.hemi\)/.test(scene)&&/const LIGHT_ONE=L===0\?\{key:1\.5,env:1\.1,hemi:\.22\}:\{key:1,env:1,hemi:\.08\};/.test(scene),"night: a faint sky fill, the floodlights carry the picture (r90 Light: one light, the sky lifted to .22)");
-  assert.ok(/const blob=\(\(\)=>\{/.test(scene)&&/mesh\.name="cmBlobs"/.test(scene)&&/return \{taker:\{i:0,w:1\.15,d:\.9\},keeper:\{i:1,w:1\.25,d:\.85\},ball:\{i:2,w:\.36,d:\.36\},strength,geo,P,C\};/.test(scene),"three contact shadows (r90 Light draw budget: one mesh, a quad each)");
-  assert.ok(/blobAt\(blob\.taker,taker,1\);blobAt\(blob\.keeper,keeper,1\);blobAt\(blob\.ball,null,BALL_R\)/.test(scene),"they follow the players and the ball every frame");
-  assert.ok(/const strength=L<=0\?\.62:\.5/.test(scene),"at every level (the floodlights' own shadows are soft, several at once)");
+  // r91: the three contact shadows are drawn by the turf (S.contact, capsules feet to head), no quad mesh of their own.
+  assert.ok(!/cmBlobs/.test(scene)&&/const contactK=L<=0\?\.62:\.5,CONTACT=\{taker:1\.15,keeper:1\.25,ball:\.36\}/.test(scene),"three contact shadows at every level (lighter where the floodlights' own shadows are soft, several at once)");
+  assert.ok(/S\.contact\?\.\(\[contactOf\(taker,CONTACT\.taker,1\),contactOf\(keeper,CONTACT\.keeper,1\),contactOf\(null,CONTACT\.ball,BALL_R\)\]\)/.test(scene)&&/keeperPose\(t,live\);takerAt\(t,live\);ballAt\(t\);\n      contactAt\(\);/.test(scene),"they follow the players and the ball every frame");
   assert.ok(/homeAlt:altOf\(clubs\.playerOne\),awayAlt:altOf\(clubs\.playerTwo\),homeName:clubs\.playerOne,awayName:clubs\.playerTwo,crest,boardPx:L>=3\?2048:1024/.test(scene),"club names, crests and second colours go to the stadium");
   // L04: the low camera behind and
   // left of the taker, a squad number on the back, breathing on the idles.
@@ -331,6 +334,7 @@ const c3d17=(async()=>{
 {
   assert.ok(/lean:L===0/.test(scene),"Light builds the lean stadium");
   assert.ok(/if\(lash&&L===0\)o\.visible=false/.test(scene),"no eyelashes at Light");
+  assert.ok(/m\.customProgramCacheKey=\(\)=>"cmGlove"/.test(scene)&&/const on=role==="keeper"&&runs\.length===2/.test(scene),"r91 keeper gloves: one key on every player piece (no new program), only the keeper's body switches them on");
   assert.ok(/if\(L===0\)for\(const m of Object\.values\(mats\)\)if\(m\.isMeshStandardMaterial&&\(m\.map\|\|\/\^kit\/\.test\(m\.name\)\)&&!m\.normalMap/.test(scene)&&/new Uint8Array\(\[128,128,255,255\]\)/.test(scene),"a kit piece without a normal map reads a flat one at Light");
   assert.ok(/function cm3SlowLink\(\)\{const c=root\.navigator\?\.connection;return Boolean\(c&&Number\.isFinite\(c\.downlink\)&&c\.downlink>0&&c\.downlink<10\);\}/.test(scene),"a slow line is under 10 Mbps");
   assert.ok(/if\(q\.assets==="desktop"&&cm3SlowLink\(\)&&\(cm3Parsed\?\.lite\|\|!await cm3Scripts\(\)\|\|!\(await Promise\.all\(cm3Urls\(q,clubs\)\.map\(cm3Cached\)\)\)\.every\(Boolean\)\)\)\{\s*q\.full=\{textureLevel:q\.textureLevel\?\?q\.level\};q\.assets="phone";q\.textureLevel=1;\}/.test(scene),"a high level on a slow line opens on the lighter set until its own is cached");
