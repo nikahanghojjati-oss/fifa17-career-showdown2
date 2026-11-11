@@ -726,16 +726,22 @@ grassMat.onBeforeCompile=(sh)=>{
    .replace("#include <map_fragment>","#include <map_fragment>\n float st=smoothstep(.46,.54,abs(fract(vWp.x/11.+.25)-.5)*2.); diffuseColor.rgb*=mix(1.07,.88,st); float dd=length(vWp.xz-cameraPosition.xz); diffuseColor.a*=1.-smoothstep(26.,46.,dd);")
    .replace("#include <dithering_fragment>","#include <dithering_fragment>\n gl_FragColor.a=diffuseColor.a;"); };
 const shadowGround=new T.Mesh(new T.PlaneGeometry(110,110),grassMat); shadowGround.rotation.x=-Math.PI/2; shadowGround.position.y=0; shadowGround.receiveShadow=true;
-function loadGrass(){ return new Promise(res=>new T.TextureLoader().load("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
-function loadPackArt(){ return new Promise(res=>new T.TextureLoader().load("assets/pack.webp",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
+/* r91 (first open on a 2-thread Chromebook): each loaded picture is turned into an ImageBitmap, decoded and flipped for WebGL off the
+   main thread, so the upload at the first frame no longer decodes the pack art, grass and boards on the main thread (about 350 ms at 4x
+   CPU throttle). Without createImageBitmap, or if it fails, the plain image is used. The bitmap is kept, so a context restore re-uploads it */
+function loadTex(url,onLoad,onProgress,onError){ return new T.TextureLoader().load(url,t=>{ const im=t.image;
+  if(typeof createImageBitmap!=="function"||!im) return onLoad(t);
+  createImageBitmap(im,{imageOrientation:"flipY"}).then(bm=>{ t.image=bm; t.flipY=false; t.needsUpdate=true; onLoad(t); },()=>onLoad(t)); },onProgress,onError); }
+function loadGrass(){ return new Promise(res=>loadTex("assets/grass.jpg",t=>{ t.wrapS=t.wrapT=T.MirroredRepeatWrapping; t.repeat.set(110/2.4,110/2.4); t.colorSpace=T.SRGBColorSpace; t.anisotropy=renderer.capabilities.getMaxAnisotropy(); grassMat.map=t; grassMat.needsUpdate=true; res(); },undefined,()=>res())); }
+function loadPackArt(){ return new Promise(res=>loadTex("assets/pack.webp",t=>{ t.colorSpace=T.SRGBColorSpace; t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); packFace.map=t; packFace.metalness=.35; packFace.roughness=.35; packFace.needsUpdate=true; res(); },undefined,()=>res())); }
 /* r89 (Nik's look frame SP_LOOKFRAME_V1): a camera focused on the card sees the far stands soft, so the card stands out from them.
    r90 pack smooth: that soft focus (half size, then a sixth of the photo) is baked into the *_soft_V1.jpg files, so the page
    fetches 0.4 MB instead of 5.9 MB and no longer decodes and shrinks four big photos on the main thread at load. */
-function loadSide(f,u,h){ return new Promise(res=>new T.TextureLoader().load(f,t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms[u].value=t; panoMat.uniforms[h].value=1; res(); },undefined,()=>res())); }
+function loadSide(f,u,h){ return new Promise(res=>loadTex(f,t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms[u].value=t; panoMat.uniforms[h].value=1; res(); },undefined,()=>res())); }
 /* pitch-side LED boards (ticket 1850-5) in front of the main stand. HO-049: board.jpg holds two stacked messages, one per panel
    (FIFA 17 SHOWDOWN on top, SPECIAL PLAYER below); every panel shows one whole message and they roll up in turn, so no word crosses a join */
 const boards=new T.Group(); let boardTex=null, boardTex2=null;
-function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("assets/board_night_V1.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); boardTex=t;
+function loadBoards(){ return new Promise(res=>loadTex("assets/board_night_V1.jpg",t=>{ t.colorSpace=T.SRGBColorSpace; t.wrapT=T.RepeatWrapping; t.repeat.set(1,.5); t.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); boardTex=t;
   boardTex2=t.clone(); boardTex2.needsUpdate=true;
   const face=new T.MeshBasicMaterial({map:t, fog:false, transparent:true}); /* r90 Light: shares the one basic program */ face.color.setScalar(1.25); const face2=face.clone(); face2.map=boardTex2;
   const frame=new T.MeshStandardMaterial({color:L(0x0b0b0c), roughness:.6, metalness:.3});
@@ -745,7 +751,7 @@ function loadBoards(){ return new Promise(res=>new T.TextureLoader().load("asset
 /* HO-049: hold each message 4.4 s, then roll it up over .6 s (a cut with reduced motion) */
 function stepBoards(now){ if(!boardTex) return; const P=5, R=.6, k=now%P, n=Math.floor(now/P), r=REDUCED?(k>=P-R?1:0):ease.inOut(clamp01((k-(P-R))/R));
   const y=((n+r)*.5)%1; boardTex.offset.y=y; boardTex2.offset.y=(y+.5)%1; }
-function loadPlate(){ return new Promise(res=>new T.TextureLoader().load("assets/stand_soft_V1.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
+function loadPlate(){ return new Promise(res=>loadTex("assets/stand_soft_V1.jpg",t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; panoMat.uniforms.plate.value=t; panoMat.uniforms.hasPlate.value=1; res(); },undefined,()=>res())); }
 function buildEnv(){
   const keep=new Set([pack,card,coin,points,confetti,rays,glow,aura,blob,sun,sun.target,packLight]); CHUNKS.forEach(q=>keep.add(q.m)); keep.add(pillar); keep.add(boards);
   scene.children.slice().forEach(o=>{ if(!keep.has(o)&&!o.isLight) scene.remove(o); });
@@ -754,7 +760,7 @@ function buildEnv(){
   setEnv();
 }
 /* r86 (red team #2): the stadium is the one image the scene cannot draw without, so a failed load ends the page at once (the game skips the reveal) instead of waiting out the 15 s limit */
-function loadPano(retry){ return new Promise((res,rej)=>new T.TextureLoader().load("assets/stadium_soft_V1.jpg"+(retry?"?r=1":""),t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; t.magFilter=T.LinearFilter; t.anisotropy=1; pano=t; res(); },undefined,()=>retry?rej(new Error("The stadium image did not load.")):loadPano(true).then(res,rej))); } /* r90 Light rule: one retry first */
+function loadPano(retry){ return new Promise((res,rej)=>loadTex("assets/stadium_soft_V1.jpg"+(retry?"?r=1":""),t=>{ t.generateMipmaps=false; t.minFilter=T.LinearFilter; t.magFilter=T.LinearFilter; t.anisotropy=1; pano=t; res(); },undefined,()=>retry?rej(new Error("The stadium image did not load.")):loadPano(true).then(res,rej))); } /* r90 Light rule: one retry first */
 
 /* ================= r90 pack smooth: every card face, coin and flag prepared up front ================= */
 /* The card art is drawn at the size the card is seen at: its height on screen (the band between the title and the bar) in
