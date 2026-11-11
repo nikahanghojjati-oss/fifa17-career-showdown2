@@ -542,7 +542,7 @@
     const crowdMat=keep(new T.ShaderMaterial({
       uniforms:{...crowdUniforms,fogColor:{value:new T.Color(0,0,0)},fogNear:{value:1},fogFar:{value:2000},fogDensity:{value:.00025}},fog:true,
       vertexShader:[
-        "uniform float uTime;uniform float uExcite;uniform vec2 uMood;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;varying float vLow;varying float vFlash;",
+        "uniform float uTime;uniform float uExcite;uniform vec2 uMood;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;varying float vLow;varying float vFlash;varying float vKey;",
         "#include <fog_pars_vertex>",
         "void main(){",
         " mat4 m=instanceMatrix;float cell=m[0][3],phase=m[1][3],side=m[2][3];m[0][3]=0.0;m[1][3]=0.0;m[2][3]=0.0;",
@@ -560,6 +560,11 @@
         // r91 depth: the seat back and the heads of the row in front hide a fan's lower half from the floodlights, so each
         // row reads as standing behind the next one instead of a flat sheet of cards.
         " vLow=smoothstep(.05,.5,uv.y);",
+        // r91 volume: the main floodlight banks stand on the roof to the camera's right (the key, FLOOD_BANKS), so each fan
+        // is a little brighter on the side toward them and a stand that faces away from them a little darker: the stand
+        // reads as rows of people lit from one side, as the players are, not as flat cards lit from the front.
+        " vec3 kL=normalize(vec3(40.0,37.0,20.0));",
+        " vKey=(1.0+.5*(uv.x-.5)*dot(normalize(m[0].xyz),kL))*mix(.9,1.05,clamp(dot(normalize(m[2].xyz),kL)*.5+.5,0.0,1.0));",
         // r91: phone camera flashes in the stand as the taker runs up and when the net bulges (one fan's phone, a fifth of a
         // second, a few at a time): a real light in the crowd, no glow added round it. Off while the crowd waits or stands still.
         " float slot=floor(uTime*5.0+phase*3.7),r=fract(sin(slot*12.9898+phase*78.233)*43758.545);",
@@ -571,11 +576,11 @@
         " #include <fog_vertex>",
         "}"].join("\n"),
       fragmentShader:[
-        "uniform sampler2D uAtlas;uniform sampler2D uTint;uniform vec3 uLight;uniform vec3 uHaze;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;varying float vLow;varying float vFlash;",
+        "uniform sampler2D uAtlas;uniform sampler2D uTint;uniform vec3 uLight;uniform vec3 uHaze;varying vec2 vUv;varying vec3 vTint;varying float vShade;varying float vDist;varying float vLow;varying float vFlash;varying float vKey;",
         "#include <fog_pars_fragment>",
         // A slightly softer mip (bias .7): a TV stand reads as soft texture, not sharp speckle.
         "void main(){vec4 c=texture2D(uAtlas,vUv,.7);if(c.a<.5)discard;float k=texture2D(uTint,vUv,.7).r;",
-        " vec3 rgb=mix(c.rgb,c.rgb*vTint*1.15,k)*uLight*vShade*mix(.5,1.0,vLow);",
+        " vec3 rgb=mix(c.rgb,c.rgb*vTint*1.15,k)*uLight*vShade*mix(.5,1.0,vLow)*vKey;",
         // FIFA 17 stands are soft: less saturation and contrast, highlights held down, and a floodlight haze that grows with
         // distance so the back rows melt into the stand.
         " float l=dot(rgb,vec3(.2126,.7152,.0722));rgb=mix(vec3(l),rgb,.55+.3*k);rgb=rgb*.8/(1.0+rgb*.6);",
