@@ -15,7 +15,6 @@
   const v10Node=typeof module!=="undefined"&&module.exports;
   const BASE="visual-assets/v10_1/";
   const EVENT="career-mode-screen-shown";
-  const UI_KEY="cms.v10.ui";
   const STYLE_TIMEOUT_MS=4000;
   // r87 (lead, 2026-11-01): a shown screen whose Team V files are still arriving when STYLE_TIMEOUT_MS ends stays held (under
   // the in-app Reus) until they land or fail, up to this cap; only then does the app's own screen show.
@@ -78,6 +77,11 @@
   const styles=new Map();
   const routeOverrides=new Map();
   const pending=new Map();
+  // r90 W8 (Home first): screens whose Team V file js/ssjr.js loads only after Home is handed over. One shown before its file has
+  // registered it is held like LAZY_V10_SCREENS (old design never paints, Reus after GATE_GRACE_MS) and asks for that file at once;
+  // a file that fails to load lets the app's own screen show at once.
+  const deferred=new Map(),lateLoading=new Set();
+  function vsDefer(ids,load){if(typeof load!=="function")throw new TypeError("V10_DEFER_LOADER");for(const id of ids)if(!registry.has(id))deferred.set(id,load);return api;}
   let kitPromise=null,navPromise=null,navMounted=false,installed=false;
 
   function vsFreeze(value){if(value&&typeof value==="object"&&!Object.isFrozen(value)){Object.values(value).forEach(vsFreeze);Object.freeze(value);}return value;}
@@ -131,20 +135,6 @@
     routeOverrides.set(key,handler);
   }
 
-  // ---- UI-only preferences: one storage key (UI_KEY), never game data ----
-  // storage.js owns browser storage; its readStorageValue/writeStorageValue helpers are used with UI_KEY only.
-  function vsReadUi(){
-    if(typeof root.readStorageValue!=="function")return {};
-    try{const raw=root.readStorageValue(UI_KEY);const value=raw?JSON.parse(raw):{};return value&&typeof value==="object"&&!Array.isArray(value)?value:{};}
-    catch(error){return {};}
-  }
-  function vsGetUiPreference(name){const value=vsReadUi()[name];return value===undefined?null:value;}
-  function vsSetUiPreference(name,value){
-    if(typeof name!=="string"||!name||typeof root.writeStorageValue!=="function")return false;
-    try{const next=vsReadUi();next[name]=value;return root.writeStorageValue(UI_KEY,JSON.stringify(next))===true;}
-    catch(error){return false;}
-  }
-
   // ---- files ----
   const vsAssetUrl=file=>typeof root.optionalAssetUrl==="function"?root.optionalAssetUrl(file):file;
   function vsScript(key,file,ready){
@@ -154,7 +144,10 @@
   function vsStyle(file){
     if(styles.has(file))return styles.get(file).ready;
     const doc=vsDoc(),link=doc.createElement("link");
-    link.rel="stylesheet";link.href=vsAssetUrl(file);link.setAttribute("data-v10-style",file);
+    // r90 W8 (Club CLS): media="not all" until it settles. Chromium applies a loaded sheet a frame before its load handler can
+    // switch it off, so club.css painted ahead of the app glue loading beside it and moved the app's main. The request still goes
+    // out at once (only link.disabled drops it); the handler restores the media and vsSyncStyles sets the wanted state in one task.
+    link.rel="stylesheet";link.media="not all";link.href=vsAssetUrl(file);link.setAttribute("data-v10-style",file);
     // A link is left alone until it settles (load, error or timeout): disabling a stylesheet that is still loading
     // makes Chromium drop the request, and enabling it later never reloads it. On settling, the wanted state applies.
     const entry={link,ready:null,settled:false,loaded:null};
@@ -163,7 +156,7 @@
       let timer=null;
       // The timeout releases the screen, but a link whose sheet is still null is still loading: it stays unsettled (left
       // alone) until it really loads or errors. The sync runs in the load handler itself, so an unwanted sheet is off before paint.
-      const done=real=>{if(timer!==null)root.clearTimeout(timer);timer=null;if(real||link.sheet!==null)entry.settled=true;vsSyncStyles();if(resolve)resolve(true);resolve=null;};
+      const done=real=>{if(timer!==null)root.clearTimeout(timer);timer=null;if(real||link.sheet!==null){entry.settled=true;if(link.sheet&&link.sheet.disabled!==true)link.sheet.disabled=true;link.media="";}vsSyncStyles();if(resolve)resolve(true);resolve=null;};
       link.addEventListener("load",()=>done(true));link.addEventListener("error",()=>done(true));
       timer=root.setTimeout(()=>done(false),STYLE_TIMEOUT_MS);
     });
@@ -286,7 +279,9 @@
       const link=entry.link;
       if(!entry.settled)continue;
       let on=ALWAYS_ON.includes(file);
-      if(!on&&live.length)on=KIT.styles.some(kit=>BASE+kit===file)||live.some(def=>def.css.some(css=>BASE+css===file));
+      // r90 W8 (Club CLS): a screen's own sheets switch on together, once all of them have settled (or it has mounted), so a
+      // Team V sheet never applies a frame ahead of the app glue loaded before it (club.css moved the app's main for that frame).
+      if(!on&&live.length)on=KIT.styles.some(kit=>BASE+kit===file)||liveIds.some(id=>{const def=registry.get(id);return Boolean(def&&def.css.some(css=>BASE+css===file)&&(mounted.has(id)||def.css.every(css=>styles.get(BASE+css)?.settled===true)));});
       // JOB-1635 C-1: only the loaded CSSStyleSheet is toggled, never link.disabled. Chromium drops a disabled link's sheet and
       // fetches it again on enable, which blanked Home's tile and tab labels for about 100 ms on every return. A link that
       // errored has no sheet and nothing to toggle (js/rulesSettingsV10.js does the same for its own glue sheet).
@@ -297,6 +292,7 @@
     if(typeof id!=="string"||!id)throw new TypeError("V10_SCREEN_ID");
     if(!definition||typeof definition.frame!=="function"||typeof definition.mount!=="function")throw new TypeError("V10_SCREEN_DEFINITION");
     if(registry.has(id))throw new Error("V10_SCREEN_DUPLICATE");
+    deferred.delete(id);
     registry.set(id,Object.freeze({
       css:Object.freeze((definition.css||[]).slice()),
       js:Object.freeze((definition.js||[]).map(entry=>Object.freeze(entry.slice()))),
@@ -376,7 +372,7 @@
   function vsPendingTimeout(id){
     const entry=pending.get(id);
     if(!entry)return;
-    if((loadingNow.has(id)||vsHeld(id))&&vsIsShown(id)&&Date.now()-entry.since<LOAD_HOLD_MAX_MS){entry.timer=root.setTimeout(()=>vsPendingTimeout(id),250);return;}
+    if((loadingNow.has(id)||lateLoading.has(id)||vsHeld(id))&&vsIsShown(id)&&Date.now()-entry.since<LOAD_HOLD_MAX_MS){entry.timer=root.setTimeout(()=>vsPendingTimeout(id),250);return;}
     vsSettle(id);
   }
   function vsHeld(id){try{return !mounted.has(id)&&registry.get(id)?.frame?.()===HOLD;}catch(_error){return false;}}
@@ -551,13 +547,15 @@
       // file has not registered yet: its module's show() or the style timeout settles it).
       // Legacy's data tools page (backup, restore, reset) is the one career screen that keeps the app's own markup
       // (js/careerScreenSeam.js): it is never held for a Team V look that will not come.
-      const lazy=screen&&LAZY_V10_SCREENS.includes(screen)&&!(screen==="legacy"&&root.careerModeLegacyDataTools===true);
+      const late=screen&&!def?deferred.get(screen)||null:null;
+      const lazy=Boolean(late)||screen&&LAZY_V10_SCREENS.includes(screen)&&!(screen==="legacy"&&root.careerModeLegacyDataTools===true);
       // A screen its own module shows (auto:false) but registered with hold (Season Results / Final Winner) is held the same way:
       // without it html[data-v10-screen] and the dark page waited for the module's next tick and the old design painted first.
       const expected=def?(def.auto||def.hold)&&vsExpect(screen):lazy&&vsExpect(screen);
       if(!expected)vsSyncStyles();
       vsPaintNav(screen);
       if(def&&def.auto)vsShow(screen).catch(error=>vsReport("Team V screen could not load",error));
+      if(late){lateLoading.add(screen);Promise.resolve().then(late).catch(error=>vsReport("Team V screen could not load",error)).finally(()=>{lateLoading.delete(screen);if(!registry.has(screen))vsSettle(screen);});}
     }catch(error){vsReport("Team V screen could not update",error);}
   }
   function vsHookShowScreen(){
@@ -638,9 +636,9 @@
   }
 
   const api=Object.freeze({
-    contractVersion:1,BASE,EVENT,UI_KEY,KIT,NAV,R78_STYLES,NAV_SCREENS,ROUTES,HOLD,
-    install:vsInstall,mountNav:vsMountNav,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
-    navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute,getUiPreference:vsGetUiPreference,setUiPreference:vsSetUiPreference
+    contractVersion:1,BASE,EVENT,KIT,NAV,R78_STYLES,NAV_SCREENS,ROUTES,HOLD,
+    install:vsInstall,defer:vsDefer,mountNav:vsMountNav,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
+    navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute
   });
   return api;
 });

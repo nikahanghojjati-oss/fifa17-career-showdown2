@@ -25,7 +25,7 @@ function clone(value){return value==null?value:JSON.parse(JSON.stringify(value))
 
 async function proveLateSparkSetupResolution(page){
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.addScriptTag({url:new URL("js/sharedCareerStart.js",baseUrl).href});
   await page.evaluate(()=>{delete window.CareerModeSparkSharedShowdownSetup;});
   await page.addScriptTag({url:new URL("js/sparkSharedCareerStart.js",baseUrl).href});
@@ -105,7 +105,7 @@ async function prepareCareerPage(page,role,shared){
   });
 
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.evaluate(()=>document.getElementById("onlinePlayerIdentityOverlay")?.remove());
   await page.addScriptTag({url:new URL("js/sharedCareerStart.js",baseUrl).href});
   await page.evaluate(({role,setup,rivalryId,sessionId,accountId,deviceId})=>{

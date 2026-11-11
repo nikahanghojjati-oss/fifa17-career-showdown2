@@ -23,7 +23,7 @@ async function openHome(runtime){
   const pageErrors=[];
   page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:15000});
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:15000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.waitForFunction(()=>window.SDNav&&document.querySelector('.sd-nav-top [data-nav-key="career"]')&&typeof window.getActiveScreenName==="function",null,{timeout:15000});
   await page.waitForTimeout(1200);
   await page.evaluate(()=>{
@@ -81,13 +81,11 @@ const snapshot=page=>page.evaluate(()=>({
     const dashboardDelete=await tabRun.page.evaluate(()=>({
       dashboard:Boolean(document.getElementById("dashboard")),
       deleteButton:Boolean(document.getElementById("deleteActiveShowdown")),
-      dashboardDeleteCopy:[...document.querySelectorAll("#dashboard button")].some(button=>/DELETE CURRENT SHOWDOWN/i.test(button.textContent||"")),
-      deleteHandlerKept:typeof deleteCurrentShowdownFromDashboard==="function"
+      dashboardDeleteCopy:[...document.querySelectorAll("#dashboard button")].some(button=>/DELETE CURRENT SHOWDOWN/i.test(button.textContent||""))
     }));
     assert.equal(dashboardDelete.dashboard,true,"Showdown Home exists");
     assert.equal(dashboardDelete.deleteButton,false,"Showdown Home has no #deleteActiveShowdown");
     assert.equal(dashboardDelete.dashboardDeleteCopy,false,"Showdown Home shows no DELETE CURRENT SHOWDOWN copy");
-    assert.equal(dashboardDelete.deleteHandlerKept,true,"deleteCurrentShowdownFromDashboard stays available");
     assert.deepEqual(tabRun.pageErrors,[],"tab run has no page errors");
   }finally{await tabRun.browser.close();}
 

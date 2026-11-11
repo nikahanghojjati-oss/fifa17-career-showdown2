@@ -34,8 +34,8 @@ const CONTROL_IDS=JSON.parse(/const CONTROL_IDS=Object\.freeze\((\[[^\]]+\])\)/.
 const TEAM_V={
   "plate.js":"d294be928cdebcded385fd4e3e895de1e35269c36b6b7dd6f305698b70d7b040",
   "plate.css":"b876161a1d84367d6e8c6744431fbb726995496ff45d2549d773550c8cf61d3a",
-  "platemap.json":"5667a6e102cbdedef8616031eda759771d585841113280e09dee1a32dff909b9",
-  "assets/DER_TR2_PLATE_G_GLASS_C_V1.png":"b5c16f7491e9c30bf2e44478e552a26b3ef827df9d8d6787f8b47374910bc753",
+  "platemap.json":"710b219b746494ccb8cc0c543b8ad6d13517cbe833150555489236e012eb30da",
+  "assets/DER_TR2_PLATE_G_GLASS_C_V1.webp":"f32d2be2da963daf45342a7478dd439d3e8f19c2349cf3bd435d642bf6405925",
   "assets/ENV_TR2_PLATE_G_LOCKED_V1_1672.webp":"fc982425ed87ed54ccf4d8da1daa3a8530b026a17beb2d7bc4e4262ac967e494",
   "assets/ENV_TR2_PLATE_G_LOCKED_V1_3344.webp":"bde994738d4ad3dd78c2cfa05621b780772150e1406304e33175d11916bd0443",
   "assets/OVL_NIK_FINGERTIP_V1_1672.png":"09aa42ae27b63157cd89ce61ed75515b48b5c219f5828e27ca2b8b15f6b3cd50",
@@ -44,7 +44,6 @@ const TEAM_V={
   "assets/fonts/barlow-condensed-latin-700-normal.woff2":"3787a5a419171630e6890cfa47c4da067474d005cd0ff8dc11ec090fdc3ee2b8",
   "assets/fonts/barlow-latin-400-normal.woff2":"b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b",
   "assets/fonts/barlow-latin-600-normal.woff2":"4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3",
-  "../../shared/wordmarks/TITLE_TRANSFER_V1.webp":"692130a00695e41554036cd20061adcb9e1cf51c9384eda1ec108dfa86b8263d",
   "../../shared/wordmarks/TITLE_TRANSFER_V2_480.webp":"a73a62485c52d482916228d99280fe70e6c2fef91fc676686b0f465759f23b57",
   "../../shared/wordmarks/TITLE_TRANSFER_V2_960.webp":"d40abf2d4f45ad9f6e831526fdd116a61049bb9d924d3815c7d76e2b7b34d0fe",
   "../../shared/wordmarks/TITLE_TRANSFER_V2_1920.webp":"349af044418b7473f73439b0370a646065269ba1c90e2c5e4114dee60ed0c9c6",
@@ -149,9 +148,9 @@ check("5 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   assert.ok(!refs.includes("js/ssjr.js")&&!refs.includes("js/transferScreenV10.js"),"not a startup script");
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=33913,`startup gzip ${gzip} must stay <= 33913 (2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
+  assert.ok(gzip<=34000,`startup gzip ${gzip} must stay <= 34000 (r90 W8 +87 on js/menuExperience.js: the hidden Reus cover photo (89 KB) is no longer downloaded on every start, lead brief W8 2026-11-07; 2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
   assert.match(ssjr,/load\("v10-transfer","js\/transferScreenV10\.js",\(\)=>root\.CareerModeTransferScreenV10\)\.then\(\(\)=>root\.CareerModeTransferScreenV10\.install\(\)\)/);
-  assert.match(ssjr,/requestIdleCallback\(v10Transfer/);
+  assert.match(ssjr,/for\(const skin of \[[^\]]*v10Transfer[^\]]*\]\)afterHome\(skin\)/,"r90 W8: the skin loads after Home");
   const shell=new Set([...sw.matchAll(/^\s+"([^"]+)",?$/gm)].map(m=>m[1]));
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
   for(const file of ["js/transferScreenV10.js","css/v10Transfer.css",DIR+"plate.css",DIR+"plate.js",DIR+"platemap.json"])assert.ok(shell.has(file),`shell lists ${file}`);
@@ -233,6 +232,11 @@ async function browserChecks(){
     page.on("requestfinished",request=>{if(/\/v10_1\/home\/home\.css/.test(request.url())&&!lateSheet)lateSheet=Date.now();});
     await page.goto(`http://127.0.0.1:${port}/index.html`,{waitUntil:"load"});
     await page.waitForFunction(()=>window.CareerModeTransferScreenV10&&window.CareerModeV10Screens&&typeof window.showScreen==="function",null,{timeout:30000});
+    // r90 W8 (js/ssjr.js): the shared chain, js/productionSharedTransferChallenge.js included, loads after Home. The stub
+    // stage() installs as CareerModeProductionSharedTransferChallenge must come after it, or the real (inactive) module lands
+    // on top of the stub, the frame is null and Transfer War never mounts (a busy runner: 5 of 8 parallel runs timed out).
+    await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
+    await page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedTransferChallenge),null,{timeout:30000});
     await page.evaluate(()=>window.CareerModeTransferScreenV10.install());
     // Production's handler: one capture listener on document that acts on CONTROL_IDS buttons. The test listener
     // sits at the same place and records what reaches it (and stops it, so the local app does nothing).

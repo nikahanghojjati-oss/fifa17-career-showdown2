@@ -64,8 +64,8 @@ check("V3 Trophy Room carries exactly the model's numbers",()=>{
       assert.equal(frame.managers[m].seasonWins,model.managers[m].seasonWins,`${id} ${m} seasonWins`);
       assert.equal(frame.showdowns[m].wins,model.managers[m].showdowns.wins,`${id} ${m} Showdown wins`);
     }
-    // r87 career fixes (B5): a record nobody holds (no best yet, or a best of 0) is a dash with no holder, never "0 Shared".
-    const records=model.trophyRoom.records.map(r=>typeof r.value==="number"&&r.value>0?[r.manager,r.value]:["","\u2014"]);
+    // r87 career fixes (B5): never "0 Shared". r90 W9 (LOOK L26): a record nobody holds (no best yet, or a best of 0) is left out.
+    const records=model.trophyRoom.records.filter(r=>typeof r.value==="number"&&r.value>0).map(r=>[r.manager,r.value]);
     assert.deepEqual(frame.records.map(r=>[r.manager,r.value]),records,`${id} records`);
   }
 });
@@ -142,7 +142,7 @@ check("V9 startup shell unchanged; every new lazy file is shell-cached (images: 
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
   // r87: the roulette's sounds (.wav) follow the same runtime rule as the images.
   // r89: the Chamber Men player models (.glb) too.
-  const isImage=file=>/\.(webp|png|jpe?g|avif|gif|svg|wav|glb)$/i.test(file);
+  const isImage=file=>/\.(webp|png|jpe?g|avif|gif|svg|wav|ogg|glb)$/i.test(file);
   for(const file of lazy){
     if(isImage(file)){assert.ok(imageRule.test(file),`runtime image rule covers ${file}`);assert.ok(!shell.has(file),`${file} not precached`);}
     else assert.ok(shell.has(file),`shell lists ${file}`);
@@ -156,10 +156,11 @@ check("V9 startup shell unchanged; every new lazy file is shell-cached (images: 
   assert.ok(read("js/trophyRoom.js").includes('openCareerScreensV10("trophyRoom")'));
   for(const banned of ["index.html","preview.html","fixtures.json","evidence","review","tools"])for(const dir of ["trophy-room","career-statistics"])assert.ok(!fs.existsSync(path.join(ROOT,"visual-assets/v10_1",dir,banned)),`${dir}/${banned} not copied`);
   assert.ok(!lazy.some(f=>/\.md$|_SRC\.png$|GUIDE_|PHONE_PROOF/.test(f)),"no docs or review sources copied");
-  // Job 27: Transfer War ships three runtime PNGs (alpha overlays Team V delivers only as PNG); none elsewhere.
-  const runtimePng=new Set(["DER_TR2_PLATE_G_GLASS_C_V1.png","OVL_NIK_FINGERTIP_V1_1672.png","OVL_NIK_FINGERTIP_V1_3344.png"].map(f=>"visual-assets/v10_1/tr2/slice-02-plate/assets/"+f));
-  // r89: the Chamber Men kit maps are lossless data (wrap u, v and part per texel, read by kits17), so they stay PNG.
-  for(const b of ["ch38","ch42"])runtimePng.add(`visual-assets/v10_1/chamber-men/players/kitmap/${b}.png`);
+  // Job 27: Transfer War ships two runtime PNGs (alpha overlays Team V delivers only as PNG); none elsewhere. r90: the glass
+  // plate (no alpha) became lossless WebP, pixel for pixel.
+  const runtimePng=new Set(["OVL_NIK_FINGERTIP_V1_1672.png","OVL_NIK_FINGERTIP_V1_3344.png"].map(f=>"visual-assets/v10_1/tr2/slice-02-plate/assets/"+f));
+  // r89: the Chamber Men kit maps are lossless data (wrap u, v and part per texel, read by kits17). r90: lossless WebP, the
+  // same texels, read by kits17 through a canvas.
   assert.ok(!lazy.some(f=>/\.png$/.test(f)&&!runtimePng.has(f)),"no png copied");
 });
 check("V10 production never reads fixtures",()=>{

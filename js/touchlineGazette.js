@@ -5,26 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r87 Touchline Gazette (Nik 2026-10-31: "the Gazette is part of r87"). Team V's HO-041 newspaper
-  // (visual-assets/v10_1/content/frontpage.js) on its own page:
-  //   SEASON edition: after a season's Season Results, when the player taps CONTINUE TO SEASON N+1. Its one CONTINUE then
-  //     runs exactly what that tap ran (js/productionSharedMultiSeasonProgression.js continueToNextSeason).
-  //   FINAL edition: after Final Winner, when the player leaves it (BACK TO SHOWDOWN HOME or REMATCH). Its CONTINUE then
-  //     runs that same button (the same click, let through untouched).
-  //   The last season of a Showdown has no CONTINUE TO SEASON tap (Final Winner follows by itself), so it is told by the
-  //   FINAL edition, whose table carries every season.
-  // Every word comes from what the screen already holds (the converged Shared History projection, the Final Winner frame
-  // and the Special Player chip): no Firebase read, no write, nothing sent. Each phone builds its own copy; nothing waits for
-  // the partner. The text is chosen by a hash of the Showdown id, the edition and the season, never by who is looking, so
-  // both phones print the same paper. Equal points are a DRAW (no tiebreak) and the copy is picked only from the situations
-  // that are true (a 1-point win is never a big win, a draw is never a win). Screen words say "Special Player" or "SP".
-  // A paper already read on this phone (its CONTINUE tapped) is not shown again (one small local list,
-  // careerModeShowdown.gazetteSeen.v1). If its files or pictures cannot load within a few seconds the tap simply goes on as
-  // before, so the Gazette can never hold anyone up and never prints a broken picture.
-  // Fable job 2 F2-16: the Special Players line is read from the chip only after the chip and its data have loaded, as one of
-  // the paper's files, so a phone where the chip was still missing at the tap prints the same line as the other phone.
-  // F2-15: a SEASON paper stays up (its CONTINUE busy) until continueToNextSeason has finished or failed; no timer closes it
-  // mid-flight, and a step that fails or stays here gives Season Results back with its own working button.
+  // Touchline Gazette (r87): Team V's HO-041 newspaper (visual-assets/v10_1/content/frontpage.js) on its own page. SEASON edition: after Season Results, on CONTINUE TO SEASON N+1; its CONTINUE runs exactly that tap (js/productionSharedMultiSeasonProgression.js continueToNextSeason). FINAL edition: on leaving Final Winner (BACK TO SHOWDOWN HOME or REMATCH); its CONTINUE lets that same click through. The last season has no CONTINUE TO SEASON tap, so the FINAL edition (every season in its table) tells it.
+  // Every word comes from what the screen already holds (converged Shared History, the Final Winner frame, the Special Player chip): no Firebase read or write, nothing sent, nothing waits for the partner. Copy is chosen by a hash of Showdown id, edition and season (never the viewer), so both phones print the same paper, and only from true situations: equal points are a DRAW (no tiebreak), a 1-point win is never a big win, a draw never a win. Screen words say "Special Player" or "SP".
+  // A paper already read on this phone (CONTINUE tapped) is not shown again (careerModeShowdown.gazetteSeen.v1). If its files or pictures cannot load within a few seconds the tap goes on as before, so it never holds anyone up or prints a broken picture. F2-16: the Special Players line is read from the chip only after the chip and its data have loaded, so both phones print the same line.
+  // F2-15: a SEASON paper stays up (its CONTINUE busy) until continueToNextSeason has finished or failed; no timer closes it mid-flight, and a step that fails or stays here gives Season Results back with its own working button.
   const node=typeof module!=="undefined"&&module.exports;
   const NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
@@ -491,7 +475,17 @@
     assetsPromise.catch(()=>{assetsPromise=null;});
     return assetsPromise;
   }
-  const art=name=>root.ShowdownContent?.frontPage?.art?root.ShowdownContent.frontPage.art(name):`${BASE}gazette/${name}.webp`;
+  // HO-068 (lead queue 2): the press photos are Team V's handcrafted house set (GZ_*_HC, claude/project-thread-kxgun9
+  // a69f324c2 hc-art/gazette, same sizes and framing, saved here as GZ_*_HC_V1). The edition keeps the plain names; only
+  // the file changes, and the first set (GZ_*.webp) stays on disk as the rollback. The two winner portraits also have a 2X.
+  const art=name=>/^GZ_[A-Z_]+$/.test(name)?`${BASE}gazette/${name}_HC_V1.webp`:root.ShowdownContent?.frontPage?.art?root.ShowdownContent.frontPage.art(name):`${BASE}gazette/${name}.webp`;
+  function tgSharpPortraits(page){
+    if(typeof page?.querySelectorAll!=="function")return;
+    for(const img of page.querySelectorAll("img")){
+      const src=img.getAttribute?.("src")||"";
+      if(/gazette\/GZ_WIN_(?:DANIEL|NIK)_HC_V1\.webp$/.test(src))img.setAttribute("srcset",`${src} 1x, ${src.replace(/_HC_V1\.webp$/,"_HC_V1_2X.webp")} 2x`);
+    }
+  }
   function edPictures(edition){const p=edition.paper;return [p.photo?.name,p.portrait?.name,...p.briefs.map(b=>b.trophy)].filter(Boolean).map(art);}
   // Fable job 5 F5-01: a picture that cannot load (offline, 404) fails the paper: no edition is printed with a broken image
   // (the tap goes on as before and the paper is not marked seen, so it can print another time). A decode() that rejects for
@@ -545,7 +539,7 @@
   // The whole paper and its CONTINUE fit the window where they can: on desktop the paper is scaled down a little on short
   // windows, never below FIT_FLOOR (2.0.0 readability: the story stays at reading size), after which the page scrolls as
   // usual. The phone edition is never scaled (it scrolls). CONTINUE itself is never scaled.
-  const FIT_FLOOR=Object.freeze({desktop:0.92,phone:1});
+  const FIT_FLOOR=Object.freeze({desktop:0.924,phone:1});
   function fit(){
     const state=current;if(!state||!state.page.isConnected)return;
     const compact=compactNow();
@@ -554,7 +548,11 @@
     desk.style.zoom="";
     const screen=state.page.querySelector(".cmx-fp-screen"),paper=desk.firstElementChild;if(!screen||!paper)return;
     const top=state.page.getBoundingClientRect().top,avail=root.innerHeight-Math.max(0,top);
-    const over=screen.scrollHeight-avail;if(over<=0)return;
+    // 2.3.0 strict look: on a laptop-height window INSIDE TODAY starts on one line (so CONTINUE fits); its second row of
+    // teasers is shown whenever the window still has room for it with CONTINUE in view.
+    const band=compact?null:paper.querySelector(".cmx-gz__inside");if(band)band.classList.remove("is-open");
+    let over=screen.scrollHeight-avail;
+    if(over<=0){if(band&&band.scrollHeight>band.clientHeight){band.classList.add("is-open");if(screen.scrollHeight>avail)band.classList.remove("is-open");}return;}
     const k=Math.max(compact?FIT_FLOOR.phone:FIT_FLOOR.desktop,Math.min(1,(paper.offsetHeight-over)/paper.offsetHeight));desk.style.zoom=String(Math.round(k*1000)/1000);
   }
   function tgClose(){
@@ -590,6 +588,7 @@
     try{
       root.ShowdownContent.frontPage.screen(page,paperFor(plan.edition,compact),()=>proceed(),{eyebrow:eyebrowFor(plan.edition),title:"Read all about it",button:"Continue",still:Boolean(previous)});
       page.querySelector(".cmx-fp-screen__title")?.remove();
+      tgSharpPortraits(page);
       const paper=page.querySelector(".cmx-paper");if(paper){addSpecialPlayers(paper,plan.edition.paper.specialPlayers,doc);try{addRace(paper,plan.edition.paper.race,doc);}catch(_error){}}
       button=page.querySelector(".cmx-continue");if(!button)throw new Error("GAZETTE_CONTINUE_MISSING");
       button.id="touchlineGazetteContinue";
@@ -707,8 +706,6 @@
     root.document.addEventListener("career-mode-screen-shown",warm);
     return true;
   }
-  // Proof and test hook: draws an edition on the current Season Results screen exactly as a tap would.
-  function showForProof(edition,proceedFn){return within(tgPrepare(edition),ASSET_CAP_MS).then(ready=>ready&&tgRender({kind:edition.kind,edition,button:null,proceed:proceedFn||(()=>false)}));}
 
-  return Object.freeze({contractVersion:1,feature:"r87-touchline-gazette",firestoreReads:0,firestoreWrites:0,SEEN_KEY,FIT_FLOOR,FONT_FILES,hash:tgHash,fill,seasonSituations:(projection,N)=>{const f=readHistory(projection,N);return f?seasonSituations(f,N):null;},seasonEdition,finalEdition,seasonInput,finalInput,paperText,planFor,install:tgInstall,showForProof,isOpen:()=>Boolean(current),close:tgClose});
+  return Object.freeze({contractVersion:1,feature:"r87-touchline-gazette",firestoreReads:0,firestoreWrites:0,SEEN_KEY,FIT_FLOOR,FONT_FILES,hash:tgHash,fill,seasonSituations:(projection,N)=>{const f=readHistory(projection,N);return f?seasonSituations(f,N):null;},seasonEdition,finalEdition,seasonInput,finalInput,paperText,planFor,install:tgInstall,isOpen:()=>Boolean(current),close:tgClose});
 });

@@ -919,7 +919,7 @@ function renderTransferChallenge(challenge){
     renderTransferPhaseNavigator(phase);
 
     const statusLabels = {
-        not_started: "READY — 15 MINUTES · MAX 3 SIGNINGS EACH",
+        not_started: "READY · MAX 3 SIGNINGS EACH", // r90 L07: the clock beside it already shows 15:00
         active: "TRANSFER WINDOW LIVE",
         recording_guess: "WINDOW CLOSED — GUESS ENTRY",
         recording_signing: "GUESSES LOCKED — SIGNING ENTRY",

@@ -1,25 +1,15 @@
 {
-  "_about": "HO-040 Russian Roster Roulette (CC-010: no people). World units are metres; the felt is at y 0.75, the revolver lies at the table centre, Daniel's easel is LEFT (x negative), Nik's is RIGHT. Edit these numbers when a picture layer drops into assets/; no code change needed.",
+  "_about": "HO-040 Russian Roster Roulette (CC-010: no people). World units are metres; the felt is at y 0.75, the revolver lies at the table centre, Daniel's easel is LEFT (x negative), Nik's is RIGHT. r90: Light and Balanced draw a dark room; High adds a dark far wall with glowing lamps; Extra and up add the café picture, the café tables and a room light. The hand picture, the room picture and the sound files are the only layers.",
   "room": {
-    "file": "assets/RR_ROOM.jpg",
-    "ticket": "1851-5",
+    "file": "assets/RR_ROOM_V2_1080.webp",
+    "ticket": "1851-5 / HO-059",
     "z": -3.9,
     "height": 5.2,
     "floorCut": 0.405,
-    "note": "16:9 marble cafe plate (Nik 29 Oct); replaces the 3D back wall. floorCut = fraction of the picture height hidden under the 3D floor so the counter base meets the floor line"
-  },
-  "gunTop": {
-    "file": "assets/RR_GUN_TOP.png",
-    "ticket": "1853-1",
-    "length": 0.3,
-    "offsetZ": 0.05,
-    "rotation": 0,
-    "note": "top-down revolver photo with alpha, barrel pointing UP in the picture; laid flat on the felt for the top-down spin shots and cross-faded with the 3D model at the camera cut. length = barrel-to-grip size in metres, offsetZ shifts the picture along the barrel so the muzzle lines up with the model's muzzle (0.19 m ahead of the cylinder axis), rotation in radians if the picture is not straight"
-  },
-  "flash": {
-    "file": "assets/RR_FLASH.png",
-    "ticket": "1851-4",
-    "note": "additive sprite at the muzzle; procedural flash until it exists"
+    "tone": 1,
+    "levels": "Extra, Ultra and 8K only (gfxTier level 3+); High draws a dark far wall with glowing lamps, Light and Balanced the dark room",
+    "note": "16:9 marble cafe plate (Nik 29 Oct; back sharp on Extra+ 2026-11-08: 'a proper background, not a dimmed sticker'). Team V HO-059 RR_ROOM_V2: the same room at 4K with a calmer evening grade, already darker in the file, so it is drawn at tone 1 (never dimmed twice). 1080 below 2560 device px, 4K above. floorCut = fraction of the picture hidden under the 3D floor (bar base at 59%)",
+    "file4k": "assets/RR_ROOM_V2_4K.webp"
   },
   "boards": {
     "daniel": {
@@ -104,17 +94,17 @@
     ],
     "note": "gloved hand holding the revolver, black background keyed out in code; muzzle = where the flash sits (u from left, v from bottom)"
   },
-  "sfx_note": "HO-047 (Team G r87 lead, 29 Oct 2026): made in-house, synthesised by assets/sfx/make_sfx.py (numpy; no samples or third-party recordings). WAV, not MP3, so every cue lands on its frame (MP3 adds ~25 ms of encoder silence). handUp and roomTone are the two extras; roomTone is a seamless 24 s loop at 22.05 kHz. A listed file replaces the synthesized cue of that name; the page loads every entry, so keep only sound names in \"sfx\".",
+  "sfx_note": "HO-047 (Team G r87 lead, 29 Oct 2026): made in-house, synthesised by assets/sfx/make_sfx.py (numpy; no samples or third-party recordings). r90 M13: served as Ogg Opus (238 KB in all, was 1.85 MB of WAV), measured sample-exact against the WAV in Chromium decodeAudioData (same length, 0-sample lag; heart 4 samples), so every cue still lands on its frame (MP3 would add ~25 ms of encoder silence). The page loads them in parallel, starts the room tone the moment it lands, and fetches the .wav original of any cue whose .ogg does not decode (older Safari). handUp and roomTone are the two extras; roomTone is a seamless 24 s loop at 22.05 kHz. A listed file replaces the synthesized cue of that name; the page loads every entry, so keep only sound names in \"sfx\".",
   "sfx": {
-    "spinStart": "assets/sfx/spin_start.wav",
-    "felt": "assets/sfx/felt.wav",
-    "click": "assets/sfx/click.wav",
-    "cock": "assets/sfx/cock.wav",
-    "heart": "assets/sfx/heart.wav",
-    "dry": "assets/sfx/dry.wav",
-    "bang": "assets/sfx/bang.wav",
-    "splinter": "assets/sfx/splinter.wav",
-    "handUp": "assets/sfx/hand_up.wav",
-    "roomTone": "assets/sfx/room_tone.wav"
+    "spinStart": "assets/sfx/spin_start.ogg",
+    "felt": "assets/sfx/felt.ogg",
+    "click": "assets/sfx/click.ogg",
+    "cock": "assets/sfx/cock.ogg",
+    "heart": "assets/sfx/heart.ogg",
+    "dry": "assets/sfx/dry.ogg",
+    "bang": "assets/sfx/bang.ogg",
+    "splinter": "assets/sfx/splinter.ogg",
+    "handUp": "assets/sfx/hand_up.ogg",
+    "roomTone": "assets/sfx/room_tone.ogg"
   }
 }

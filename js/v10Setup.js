@@ -54,17 +54,6 @@
     const step=360/count,angle=((Number(match[1])%360)+360)%360;
     return ((count-Math.round(angle/step))%count+count)%count;
   }
-  // The clubs the product has revealed on the two packs (Daniel left/playerOne, Nik right/playerTwo), or null per side
-  // while that pack is still sealed. Read from the product's own DOM state only. (Pure helper; the Club screen's look
-  // is js/clubScreenV10.js since job 34.)
-  function v26PackResult(cardOne,nameOne,cardTwo,nameTwo){
-    const side=(card,name)=>{
-      const text=name?String(name.textContent||"").trim():"";
-      return card&&card.classList&&card.classList.contains("is-revealed")&&text&&text!=="?"?text:null;
-    };
-    return Object.freeze({playerOne:side(cardOne,nameOne),playerTwo:side(cardTwo,nameTwo)});
-  }
-
   // ---- browser binding ----
   const v26Doc=()=>root.document||null;
   const v26Byid=id=>{const doc=v26Doc();return doc?doc.getElementById(id):null;};
@@ -167,6 +156,23 @@
     sync();
   }
 
+  // HO-068: the league wheel stands on the counter lip of Team V's box room. Outside the desktop picture range the wheel's
+  // place comes from the live layout, so its bottom edge (viewport px) is published as --box-wb on <html>; css/v10Setup.css
+  // places the plate so its lip line meets it. Looks only: nothing in the layout reads it back.
+  function v26BoxLip(state){
+    const doc=v26Doc(),wheel=v26Byid("leagueWheel"),html=doc&&doc.documentElement;
+    if(!wheel||!html||typeof wheel.getBoundingClientRect!=="function"||!html.style)return;
+    let frame=0;
+    const measure=()=>{frame=0;const r=wheel.getBoundingClientRect();if(r&&r.height>0){html.style.setProperty("--box-wb",Math.round(r.bottom)+"px");html.style.setProperty("--box-wt",Math.round(r.top)+"px");}};
+    const queue=()=>{if(frame)return;frame=typeof root.requestAnimationFrame==="function"?root.requestAnimationFrame(measure):(measure(),0);};
+    measure();
+    if(typeof root.ResizeObserver==="function"){const observer=new root.ResizeObserver(queue);observer.observe(wheel);if(state.host)observer.observe(state.host);state.observers.push(observer);}
+    const main=wheel.closest?.("main");
+    if(typeof root.addEventListener==="function"){root.addEventListener("resize",queue);state.cleanups.push(()=>root.removeEventListener("resize",queue));}
+    if(main&&typeof main.addEventListener==="function"){main.addEventListener("scroll",queue,{passive:true});state.cleanups.push(()=>main.removeEventListener("scroll",queue));}
+    state.cleanups.push(()=>{if(frame&&typeof root.cancelAnimationFrame==="function")root.cancelAnimationFrame(frame);html.style.removeProperty("--box-wb");html.style.removeProperty("--box-wt");});
+  }
+
   // r87 HO-049: season chips. Four gold marble chips (1/3/5/10) drawn over the product's own #roundAmount, which stays
   // the value and the keyboard/screen-reader control (it is only visually tucked under the chips). A chip tap writes
   // the value into the select and fires its input/change events exactly as a pick in the list would; the chips then
@@ -207,7 +213,7 @@
     host.classList.add(SKIN_CLASS);
     doc.documentElement.dataset[HTML_ATTR]=frame.skin;
     if(!host.querySelector(":scope > .v26Art"))host.appendChild(v26Art(frame.skin));
-    if(frame.skin==="league")v26BindLeague(state);
+    if(frame.skin==="league"){v26BindLeague(state);v26BoxLip(state);}
     if(host.id==="createShowdown"){try{v26Seasons(state);}catch(error){v26Report("Team V season chips could not mount.",error);}}
   }
   function v26Unmount(host){
@@ -268,7 +274,7 @@
 
   const api=Object.freeze({
     contractVersion:1,BASE,EVENT,STYLE,SCREENS,HEROES,TRUTH_IDS,SETUP_IDS,SKIN_CLASS,
-    leagueFromText:v26LeagueFromText,topIndex:v26TopIndex,packResult:v26PackResult,
+    leagueFromText:v26LeagueFromText,topIndex:v26TopIndex,
     install:v26Install,mount:v26Mount,unmount:v26Unmount,syncLeague:host=>{const state=live.get(host);if(state)v26SyncLeague(state);},
     announceScreen:v26AnnounceScreen
   });

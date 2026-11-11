@@ -5,15 +5,15 @@
   const BASE = window.TROPHY_ROOM_BASE || "";
 
   const TROPHIES = [
-    { key: "showdown", category: "SHOWDOWN", asset: BASE + "../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp", value: f => f.showdowns },
-    { key: "leagueTitles", category: "LEAGUE TITLES", asset: BASE + "../shared/trophies/TRO_LEAGUE_TITLE_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.leagueTitles, nik:f.managers.nik.leagueTitles}) },
-    { key: "domesticCups", category: "DOMESTIC CUPS", asset: BASE + "../shared/trophies/TRO_DOMESTIC_CUP_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.domesticCups, nik:f.managers.nik.domesticCups}) },
-    { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: BASE + "../shared/trophies/TRO_CONTINENTAL_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) },
-    { key: "europaLeague", category: "EUROPA LEAGUE", asset: BASE + "../shared/trophies/TRO_EUROPA_V1_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.europaLeagues, nik:f.managers.nik.europaLeagues}) }
+    { key: "showdown", category: "SHOWDOWN", asset: BASE + "../shared/trophies-hc/TRO_HC_1_V2_512.webp", value: f => f.showdowns },
+    { key: "leagueTitles", category: "LEAGUE TITLES", asset: BASE + "../shared/trophies-hc/TRO_HC_2_V2_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.leagueTitles, nik:f.managers.nik.leagueTitles}) },
+    { key: "domesticCups", category: "DOMESTIC CUPS", asset: BASE + "../shared/trophies-hc/TRO_HC_3_V2_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.domesticCups, nik:f.managers.nik.domesticCups}) },
+    { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: BASE + "../shared/trophies-hc/TRO_HC_4_V2_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) },
+    { key: "europaLeague", category: "EUROPA LEAGUE", asset: BASE + "../shared/trophies-hc/TRO_HC_5_V2_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.europaLeagues, nik:f.managers.nik.europaLeagues}) }
   ];
   // r84 Golden Showdown: 150 points (r87: 15 a season) in a finished 10-season Showdown. Its gold case joins the ALL shelf only once a manager
   // has earned it (frame.goldenShowdowns is present only then).
-  const GOLDEN = { key: "goldenShowdown", category: "ALL", asset: BASE + "../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp", value: f => f.goldenShowdowns };
+  const GOLDEN = { key: "goldenShowdown", category: "ALL", asset: BASE + "../shared/trophies-hc/TRO_HC_1_V2_512.webp", value: f => f.goldenShowdowns };
   // r86 Special Player chip next to the manager's name (only when the frame carries one: js/specialPlayerChip.js).
   const spChip = (frame, manager) => { const api = window.CareerModeSpecialPlayerChip, sp = frame && frame.specialPlayers && frame.specialPlayers[manager]; return api && sp ? api.html(sp) : ""; };
 
@@ -69,7 +69,7 @@
   }
 
   function titleBlock(strings) {
-    return `<header class="trophyTitleBlock" data-sd-enter="title"><p class="sd-eyebrow trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><img class="trophyBrushTitle" src="${BASE}assets/TITLE_TR_V2_1920.webp" srcset="${BASE}assets/TITLE_TR_V2_480.webp 480w, ${BASE}assets/TITLE_TR_V2_960.webp 960w, ${BASE}assets/TITLE_TR_V2_1920.webp 1920w, ${BASE}assets/TITLE_TR_V2_3840.webp 3840w" sizes="(max-width: 900px) 92vw, 60vw" alt="" aria-hidden="true"><p class="sd-tagline trophyTagline">TWO MANAGERS. ONE LEGACY.</p></header>`;
+    return `<header class="trophyTitleBlock" data-sd-enter="title"><p class="sd-eyebrow trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><img class="trophyBrushTitle" src="${BASE}assets/TITLE_TR_V2_1920.webp" srcset="${BASE}assets/TITLE_TR_V2_480.webp 480w, ${BASE}assets/TITLE_TR_V2_960.webp 960w, ${BASE}assets/TITLE_TR_V2_1920.webp 1920w, ${BASE}assets/TITLE_TR_V2_3840.webp 3840w" sizes="(max-width: 900px) 92vw, 35vw" alt="" aria-hidden="true"><p class="sd-tagline trophyTagline">TWO MANAGERS. ONE LEGACY.</p></header>`;
   }
 
   function ranking(frame) {

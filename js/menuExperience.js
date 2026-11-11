@@ -1,5 +1,5 @@
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=2.2.0-r89",
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=2.3.0-r90",
     source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
     license: "https://creativecommons.org/licenses/by/2.0/"
 });
@@ -117,9 +117,9 @@ function ensureMarcoReusTreatment(){
         const image = document.createElement("img");
         image.alt = "";
         image.decoding = "async";
-        image.loading = "eager";
-        image.fetchPriority = "high";
-        image.src = MARCO_REUS_IMAGE.thumbnail;
+        // r90: only the app's own Home shows it (homeV10.css hides it)
+        const attach = n => window.careerModeHomeHold === 0 || n > 60 ? document.querySelector(".v10Home") || (image.src = MARCO_REUS_IMAGE.thumbnail) : setTimeout(attach, 250, n + 1);
+        attach(0);
         image.addEventListener("load", () => {
             image.dataset.loaded = "true";
             athlete.classList.remove("imageFailed");

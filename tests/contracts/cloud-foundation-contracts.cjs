@@ -22,8 +22,6 @@ const provider = read("CLOUD_PROVIDER_DECISION_2026-08-17.md");
 const privacy = read("REMOTE_DATA_PRIVACY_RETENTION_POLICY.md");
 const remoteContract = read("REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md");
 const phase1e = read("CLOUD_SYNC_READINESS_PHASE_1E.md");
-const harness = read("js/cloudSyncTwoDeviceHarness.js");
-const phase1eTest = read("tests/contracts/cloud-sync-two-device-harness-contracts.cjs");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
 const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const restore = read("js/restore.js");
@@ -194,9 +192,6 @@ assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/long-offline stale device cannot resurrect/i);
 assert.match(phase1e,/rollback refuses to overwrite those newer bytes/i);
 assert.match(phase1e,/Phase 1F remains blocked/i);
-assert.doesNotMatch(harness,/\blocalStorage\b|\bfetch\s*\(|firebase|firestore/i);
-assert.match(phase1eTest,/Object\.isFrozen\(a1\.intent\.content\)/);
-assert.match(phase1eTest,/rollback-failed-critical[\s\S]+rollbackOwnershipConflicts/i);
 assert.match(remoteRoadmap,/Phase 1A[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+Phase 1B[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+Phase 1C[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+Phase 1D[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE[\s\S]+Phase 1F[\s\S]+NEXT AFTER PHASE 1E MERGES \/ BLOCKED/i);
 
 assert.ok(!/\bfetch\s*\(/.test(restore),"Candidate C restore remains network-free.");

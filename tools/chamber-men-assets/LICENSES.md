@@ -1,25 +1,28 @@
 # Chamber Men stadium kit: licences
 
 Every file in this folder is original work made for Career Mode Showdown by code in
-`tools/chamber-men-assets/` (numpy + Pillow; rebuild with `python3 build_all.py`). No third-party
-picture, model, scan or texture is used, so there is no outside licence to follow, and no real
-ball maker, league, club or sponsor mark appears anywhere.
+`tools/chamber-men-assets/` (numpy + Pillow; rebuild with `python3 build_all.py`), except the pitch grass (r90), which is
+TextureCan "Ground 0040" (https://texturecan.com/details/469), released under CC0 1.0 (public domain; no attribution
+required, credited here anyway), resized and converted by `gen_grass.py`, and the match ball (r90), which is Innerscene "Soccer ball"
+(https://www.innerscene.com/tools/library/3d-parts/soccer-ball-f39dfd50), CC0 1.0, its mesh kept and its maps re-made with
+match wear by `gen_ball_v3.py`. No real ball maker, league, club or sponsor mark
+appears anywhere.
 
-The ad-board lettering is set in Inter (SIL Open Font Licence 1.1). Only the rendered letters are
-baked into the boards; no font file ships here. The boards show only our own marks: CHAMBER MEN,
-CMS, CAREER MODE SHOWDOWN.
+The LED ad boards are drawn at run time by js/chamberMenStadium3d.js (r90): the CM17 wordmark in
+the page's own font and the two clubs' crests from js/visualIdentity.js. No board image ships.
 
 Crowd fans are simple drawn figures with no likeness of any real person.
 
 | File | What | Made by |
 |---|---|---|
-| ball_color_4k.webp, ball_color_2k.webp | Showdown match ball colour (sRGB, equirectangular for SphereGeometry) | gen_ball.py |
-| ball_normal_4k.webp, ball_normal_2k.webp | ball normal map (OpenGL +Y): seams, print, pebble grain | gen_ball.py |
-| ball_orm_4k.webp, ball_orm_2k.webp | ball G roughness, B metalness (gold foil) | gen_ball.py |
+| ball_mesh_V3.glb | match ball mesh (32-panel UVs), Innerscene Soccer ball, CC0 | gen_ball_v3.py |
+| stadium_bowl_V1_1k.glb | big stadium for High and above (tiers, hospitality band, roof, floodlights, facade; seat rows in extras), Innerscene "Football stadium", CC0 1.0 (innerscene.com), trimmed, WebP textures | gen_bowl.py |
+| ball_color_V3_2k.webp, ball_color_V3_1k.webp, ball_color_V3_512.webp | ball colour with match wear (sRGB), one size per device level | gen_ball_v3.py |
+| ball_normal_V3_2k.webp, ball_normal_V3_1k.webp, ball_normal_V3_512.webp | ball normal map (glTF +Y), from the source | gen_ball_v3.py |
+| ball_orm_V3_2k.webp, ball_orm_V3_1k.webp, ball_orm_V3_512.webp | ball G roughness (worn panels rougher), B metalness 0 | gen_ball_v3.py |
 | crowd_atlas_2k.webp, crowd_atlas_1k.webp | 96 fans x 2 poses (arms down / up), 16 x 12 cards | gen_stadium.py |
 | crowd_tint_1k.webp | mask: where a fan's shirt takes the club colour | gen_stadium.py |
-| board_chamber_men.webp, board_cms.webp, board_chevrons.webp | LED ad boards | gen_stadium.py |
-| grass_color_1k.webp, grass_normal_1k.webp, grass_normal_512.webp | tiling grass (2 m a tile) | gen_stadium.py |
+| grass_color_V2_4k.webp, grass_color_V2_2k.webp, grass_color_V2_1k.webp, grass_normal_V2_2k.webp, grass_normal_V2_1k.webp, grass_normal_V2_512.webp | pitch grass, one size per device level (3.5 m a tile); TextureCan Ground 0040, CC0 | gen_grass.py |
 | net_cell_512.webp | one 12 cm knotted net cell, RGBA | gen_stadium.py |
 | seats_512.webp | one stand step: black and gold seats, riser | gen_stadium.py |
 | concrete_512.webp | stand concrete | gen_stadium.py |
@@ -34,3 +37,13 @@ with his own free Adobe account (2026-11-04) and converted by `tools/chamber-men
 characters and animations to be used royalty-free inside a game or project; they must not be redistributed as stand-alone
 assets, so the source FBX files are not kept in the repository. Socks mesh, kit material names, keyframe reduction and
 the uv layout pictures in `players/uv/` are ours.
+
+r90 (2026-11-08): the taker reactions `victory2` (Mixamo "Victory"), `cheer` ("Cheering"), `salute` ("Shake Fist") and
+`defeated` ("Defeated") come from Mixamo animations Nik downloaded on Remy (FBX, 30 fps) and uploaded to the project; they are
+cut to the seconds the scene shows and baked into `anims_*.glb` by `tools/chamber-men-players` (`clips_r90.json`). Same terms:
+the FBX files and the "Soccer Game Pack" zip stay out of the repository.
+
+r90 M1 (2026-11-08): every Chamber Men GLB (players, clips, `ball_mesh_V3.glb`, `stadium_bowl_V1_1k.glb`) is meshopt-packed by
+`tools/chamber-men-players/pack-meshopt.mjs` (glTF-Transform, MIT). The page unpacks them with meshoptimizer's decoder
+(MIT, Arseny Kapoulkine), shipped unchanged as `visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js` with
+its licence at the top of the file.

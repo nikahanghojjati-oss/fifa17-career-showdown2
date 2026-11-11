@@ -62,3 +62,48 @@ Approved skin and hair pairs (RGB multipliers on Bodymat and Hairmat colour; onl
   [.75,.7,.68]+[1,1,1]
 - ch42: [1,1,1]+[1,1,1]; [.92,.84,.78]+[1,1,1]; [.86,.76,.68]+[.6,.6,.6]; [.7,.56,.46]+[.5,.5,.5];
   [.52,.39,.31]+[.4,.4,.4]; [1,1,1]+[1.6,1.3,1]
+
+## r90 remix: new clips into the committed clip file (`clips_r90.json`)
+
+    node convert2.cjs remix - desktop new && node convert2.cjs remix - phone new
+
+Inputs: the committed `anims_{desktop,phone}.glb` copied to `out/`, and Nik's Mixamo uploads of 2026-11-08 (Remy, FBX,
+30 fps, without skin) in `in/` under the names in `clips_r90.json`: `victory2.fbx` ("Victory"), `cheering.fbx`
+("Cheering"), `shake_fist.fbx` ("Shake Fist"), `defeated.fbx` ("Defeated"). Not in the repo (Mixamo's terms).
+
+What it does: keeps the rig and every clip of the committed file as they are (checked bit for bit), drops the clips named in
+`drop` (nothing played idle, walk, run, strikeJog or gkCatch), and adds each new clip cut to `[from, to]` seconds (the part
+the scene shows: the reaction starts about 0.7 s after the strike and the next kick comes about 1.4 s later; the still frame
+for reduced motion shows 1.3 s in) with the same keyframe reduction as v2. Result: 17 clips, desktop 1,160,204 bytes (was
+1,257,612), phone 1,082,124 (was 1,178,328); parse 11.9 ms desktop, 7.9 ms phone (was 13.5 and 10.8; headless, median of 9).
+
+Checked against what the game already had: Nik's two "Goalkeeper Diving Save" files are gkDive and gkDive1 (same tracks); the
+Soccer Game Pack's catches and blocks are the gkCatch*/gkBlock* clips (its "catch (2)" is a shorter gkCatch1); its scoop and
+"catch (3)" run 4 m off the line (no use at a penalty). "Angry Gesture" and "Fist Pump" are too small to read from the
+broadcast camera; the crowd clips (Clapping, Cheering, Sitting Idle, Excited) wait for the crowd bake.
+
+## r90 M1: meshopt packing (`pack-meshopt.mjs`)
+
+A first Chamber Men on a 10 Mbps line never mounted the 3D pitch: about 7 MB at Light could not come down inside the
+scene's 4.2 s wait (MOTION hunt M1). Every GLB here and in `../chamber-men-assets` output is now packed with
+EXT_meshopt_compression (FILTER method: positions, UVs, joints, weights and key times stay exact; normals go to 8 bits and
+rotations to 16 bits, which no frame shows). Run it after `convert2.cjs` or `gen_bowl.py` writes a file; packed files are
+skipped. The scene loads the decoder (`visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js`) before parsing.
+
+| file | before | after |
+| --- | ---: | ---: |
+| anims_phone.glb | 1,082,124 | 581,064 |
+| anims_desktop.glb | 1,160,204 | 607,628 |
+| body_remy_phone.glb | 1,852,028 | 1,322,788 |
+| body_ch38_phone.glb | 1,986,460 | 822,768 (hair 512 px, `hair-light.py`) |
+| body_ch42_phone.glb | 2,179,192 | 955,568 (hair 512 px, `hair-light.py`) |
+| body_remy_desktop.glb | 2,591,820 | 1,709,840 |
+| body_ch38_desktop.glb | 4,221,644 | 2,953,196 |
+| body_ch42_desktop.glb | 4,609,848 | 3,288,224 |
+| ball_mesh_V3.glb | 283,836 | 101,940 |
+| stadium_bowl_V1_1k.glb | 2,346,404 | 1,257,512 |
+
+The body textures (WebP) are already compressed and are what is left of each body file. On the Light/Balanced
+(phone) files, Ch38's and Ch42's hair card texture goes to 512 px after packing (`python3 hair-light.py <glb>...`):
+almost all of it was soft strand alpha, and at the broadcast framing the GPU already samples a mip under 512.
+Close-ups before/after: `project-documents/factory/reviews/CHAMBER_MEN/r90-m1-hair/`. High and up keep the 2k texture.

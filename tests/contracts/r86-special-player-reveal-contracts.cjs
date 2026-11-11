@@ -72,7 +72,7 @@ function api_page(){return revealWorld().api.page;}
   assert.ok(!/cdnjs\.cloudflare\.com/.test(page),'no CDN script on the reveal page');
   assert.match(revealSource,/frame\.contentWindow\.postMessage\(\{type:"cms-sp-start"\},root\.location\.origin\);\s*spMarkSeen\(pick\.key\);/,'seen is kept as soon as the reveal is shown, not at Continue (red team #1)');
   assert.ok(!/failedHere/.test(revealSource),'no page-only skip list');
-  assert.match(page,/function loadPano\(\)\{ return new Promise\(\(res,rej\)=>[^\n]*,undefined,\(\)=>rej\(/,'a failed stadium image ends the page at once (red team #2)');
+  assert.match(page,/function loadPano\(retry\)\{ return new Promise\(\(res,rej\)=>[^\n]*,undefined,\(\)=>retry\?rej\(new Error\("The stadium image did not load\."\)\):loadPano\(true\)\.then\(res,rej\)\)\)/,'a failed stadium image is tried once more, then ends the page (red team #2, r90 Light rule)');
   assert.match(revealSource,/event\.data\.type==="cms-sp-error"\)\{onReady\("error"\);onContinue\("error"\);\}/,'an error after ready also ends the Continue wait (Codex P2 on #1035)');
   assert.match(revealSource,/if\(end==="error"\)\{spRemoveStage\(\);return null;\}/,'so the broken stage is removed and Career Start opens');
   assert.match(revealSource,/stage\.style\.visibility="visible";\s*frame\.contentWindow\.postMessage/,'the stage is shown before the loading screen fades');
@@ -104,7 +104,7 @@ function api_page(){return revealWorld().api.page;}
     assert.ok(JSON.parse(read('tests/fixtures/shell-paths/1.9.10-r86.json')).paths.includes(file),`${file} is in the r86 rollback shell`);
   }
   assert.match(sw,/const SHELL_FRAME_NAVIGATION_PATHS = new Set\(\[\s*"visual-assets\/v10_1\/special-player\/index\.html",\s*"visual-assets\/v10_1\/roulette\/index\.html",\s*\/\/[^\n]*\n\s*"visual-assets\/v10_1\/icon-guess\/index\.html"\s*\]\);/,"the Special Player page (and r87's roulette and Prime Pack pages) are frame navigations");
-  assert.match(sw,/if\(SHELL_FRAME_NAVIGATION_PATHS\.has\(path\)\)\{ event\.respondWith\(\(async\(\)=>\{ const selected=await chooseNavigationRuntime\(\); const cached=selected\?await cachedShellResponse\(path,selected\.revision\):null; return cached\|\|fetch\(request\); \}\)\(\)\); return; \}/,'the frame gets its own page, never index.html');
+  assert.match(sw,/if\(SHELL_FRAME_NAVIGATION_PATHS\.has\(path\)\)\{ event\.respondWith\(\(async\(\)=>\{ const selected=await chooseNavigationRuntime\(\); const cached=selected\?await cachedShellResponse\(path,selected\.revision\):null; return cached\|\|\(\(!selected\|\|selected\.revision===RUNTIME_REVISION\)&&OFFLINE_PACK_PATHS\.has\(path\)\?offlinePackResponse\(event,path\):fetch\(request\)\); \}\)\(\)\); return; \}/,'the frame gets its own page, never index.html (r90: a page of the offline pack not yet kept comes the way the install fetches it)');
   for(const image of fs.readdirSync(path.join(ROOT,'visual-assets/v10_1/special-player/assets')))assert.match(`visual-assets/v10_1/special-player/assets/${image}`,new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],'i'),`${image} uses the Team V image cache`);
   ok('R5','the reveal scripts and page are shell-cached for the release (and listed as new for rollback); the frame navigation is served its own page; its art uses the Team V image cache');
 }
@@ -166,7 +166,7 @@ const TIERS=['bronze','silver','gold','blue-gold','black-blue-gold'];
   for(const tier of TIERS)for(const t of hype.encoreFor(tier))assert.ok(t+hype.ENCORE_TAIL<hype.scoutInFor(tier),`${tier}: the volley at ${t} s ends before the report`);
   assert.deepEqual(TIERS.map(t=>hype.scoutInFor(t)),[3,4.5,6,7.5,9],'hold times unchanged (x2..x6 of 1.5 s)');
   assert.match(page,/if\(k>=t&&!fired\["enc"\+i\]\)\{ fired\["enc"\+i\]=1; if\(k-t<\.3&&k<SCOUT_IN-ENCORE_TAIL\) encore\(cur\(\),i\); \}/,'a volley made late by a jump to the report is dropped');
-  assert.match(page,/confettiRain\(natCols\(p\.nation\)\.concat\(\[0xf1c35a,0xfff3c4\]\),Math\.round\(110\*PK\),-6,6,3,4\);/,'encore confetti falls behind the card plane (z -9 to -3)');
+  assert.match(page,/function encore\(p,i\)\{ const lvl=tierLevel\(p\.tier\), side=i%2\?-1:1;\n  starburst\(skyPoint\(side\*\.7,[^\n]*-34\),\[0xf1c35a,0xffd77a,0xfff1c2\]/,'r90 L31: each encore is one gold volley far behind the card (z -34), no confetti rain');
   ok('R10','encore volleys: top 3 three, top 10 two, top 20 one, none below; behind the card and over before the scouting report');
 }
 // R11 vibration: feature-detected, guarded, silent when muted
@@ -192,4 +192,32 @@ const TIERS=['bronze','silver','gold','blue-gold','black-blue-gold'];
   ok('R12','no dimming, vignette or lowered exposure; Special Player wording; no network; reduced motion keeps no tilt or slow motion');
 }
 
-console.log(`PASS r86 Special Player reveal contracts: ${checks} numbered checks (who, same players, messages, Career Start order, offline shell, confirm time, journeys, hype ladder, skip guard, encore, vibration, no dimming).`);
+// R13 (r90 BUG-06): the 15 s load limit counts only visible time
+{
+  let clock=0,ticks=[];const listeners={};
+  const doc={visibilityState:'visible',addEventListener:(t,f)=>{listeners[t]=f;},removeEventListener:(t)=>{delete listeners[t];}};
+  const root={document:doc,performance:{now:()=>clock},setInterval:f=>{ticks.push(f);return ticks.length;},clearInterval:id=>{ticks[id-1]=null;},setTimeout,clearTimeout};
+  vm.runInNewContext(revealSource,{globalThis:root});const api=root.CareerModeSpecialPlayerReveal;
+  let fired=0;const t=api.visibleTimeout(api.maxLoadingMs,()=>{fired+=1;});
+  const run=()=>ticks.forEach(f=>f&&f());
+  clock=5000;run();assert.equal(fired,0);
+  doc.visibilityState='hidden';listeners.visibilitychange();
+  clock=60000;run();assert.equal(fired,0,'a minute in the background does not use up the limit');
+  doc.visibilityState='visible';listeners.visibilitychange();
+  clock=69000;run();assert.equal(fired,0,'5 s + 9 s visible: still waiting');
+  clock=70100;run();assert.equal(fired,1,'fires once 15 s of visible time have passed');
+  clock=90000;run();assert.equal(fired,1,'fires once');assert.ok(!listeners.visibilitychange,'cleans up its listener');
+  assert.match(revealSource,/let limit=spVisibleTimeout\(MAX_LOADING_MS,\(\)=>onReady\("timeout"\)\),settled=false;/,'the reveal uses it');
+  // r90 Light rule (Nik 2026-11-08): the pack stays 3D on Light. The 15 s limit is renewed by each "still busy" ping, under a
+  // 90 s cap of visible time; a lost context is not an error on the page any more (it rebuilds on restore).
+  assert.equal(api.coldLoadingMs,90000);
+  assert.match(revealSource,/event\.data\.type==="cms-sp-loading"\)spRenew\(\);/,'a busy ping renews the wait');
+  assert.match(revealSource,/const cap=spVisibleTimeout\(COLD_LOADING_MS,\(\)=>onReady\("timeout"\)\);/,'with a hard cap');
+  assert.match(page,/const busy=\(v\)=>\{ if\(EMBED\) toGame\("cms-sp-loading"\); return v; \}/,'the page says it is busy');
+  assert.ok(!/webglcontextlost/.test(page),'a lost context no longer skips the reveal');
+  assert.match(page,/addEventListener\("webglcontextrestored",\(\)=>\{ try\{ PREP_KEY=""; prepareCards\(\);/,'and rebuilds on restore');
+  assert.ok(!/setTimeout\(\(\)=>onReady\("timeout"\)/.test(revealSource),'no wall-clock load limit left');
+  ok('R13','the load limit counts only time the tab is visible (BUG-06)');
+}
+
+console.log(`PASS r86 Special Player reveal contracts: ${checks} numbered checks (who, same players, messages, Career Start order, offline shell, confirm time, journeys, hype ladder, skip guard, encore, vibration, no dimming, visible-time load limit).`);

@@ -15,6 +15,8 @@ async function prepare(page,{role,saveId,failInitialRead=false}){
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.navigateTo==='function',null,{timeout:12000});
+  // r90 W8 (js/ssjr.js): the shared chain, the real transfer module included, can load after Home; let it land before the stand-in below (#1336).
+  await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());await page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedTransferChallenge),null,{timeout:30000});
   await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,failInitialRead})=>{
     await ensureGameplayModules();
     currentShowdown={id:saveId,currentRound:1,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Daniel',playerTwo:'Nik'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};

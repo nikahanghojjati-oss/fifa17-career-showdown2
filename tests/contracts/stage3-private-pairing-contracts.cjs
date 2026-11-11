@@ -196,15 +196,7 @@ function binding(role,seed,label){
   assert.equal(reregister.ok,false);
   assert.equal(reregister.code,"PRIVATE_DEVICE_REVOKED");
 
-  const revokeCapability=`pair_${"f".repeat(64)}`;
-  const openToRevoke=await pairing.createPairing({user:aUser,firestore:h.firestore,firebaseSdk:h.sdk,identity:aIdentity,binding:aBinding,capability:revokeCapability,cryptoImpl:crypto.webcrypto,nowEpochMs:now});
-  assert.equal(openToRevoke.ok,true);
-  const deniedRevoke=await pairing.revokePairing({user:thirdUser,firestore:h.firestore,firebaseSdk:h.sdk,identity:cIdentity,capability:revokeCapability,cryptoImpl:crypto.webcrypto,nowEpochMs:now+1000});
-  assert.equal(deniedRevoke.ok,false);
-  assert.equal(deniedRevoke.code,"PAIRING_REVOKE_DENIED");
-  const creatorRevoke=await pairing.revokePairing({user:aUser,firestore:h.firestore,firebaseSdk:h.sdk,identity:aIdentity,capability:revokeCapability,cryptoImpl:crypto.webcrypto,nowEpochMs:now+1000});
-  assert.equal(creatorRevoke.ok,true);
-  assert.equal(h.docs.get(`rivalries/${revokeCapability}/invites/${revokeCapability}`).data.state,"revoked");
+  // r90: revokePairing (an export with no caller in the game) was deleted as dead code; open codes are replaced by a new code.
 
   console.log("PASS Stage 3 registered devices / private pairing deterministic client contracts");
 })().catch(error=>{console.error(error);process.exit(1);});

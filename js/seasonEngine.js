@@ -497,14 +497,6 @@ function getSeasonEntryValidationMessage(prefix, managerLabel){
     return "";
 }
 
-function validateSeasonEntry(prefix){
-    const label = prefix === "p1"
-        ? (currentShowdown ? currentShowdown.managers.playerOne : "Manager 1")
-        : (currentShowdown ? currentShowdown.managers.playerTwo : "Manager 2");
-
-    return getSeasonEntryValidationMessage(prefix, label) === "";
-}
-
 function buildSeasonRecord(seasonNumber, playerOne, playerTwo, completedAt = new Date().toISOString()){
     playerOne.scoring = calculatePlayerSeasonScore(playerOne);
     playerTwo.scoring = calculatePlayerSeasonScore(playerTwo);

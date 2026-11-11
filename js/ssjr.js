@@ -12,8 +12,18 @@
   const physicalEnabled=acceptanceEnabled&&!witnessEnabled&&params.get("ssjr-physical")==="1";
   const ssjrTestEnabled=params.get("ssjr")==="1";
   // JOB-24: Team V's screen loader and navigation bar, once the browser is idle (independent of the chain below).
-  const v10=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>root.CareerModeV10Screens.install()).then(()=>load("v10-home-screens","js/homeScreensV10.js",()=>root.CareerModeHomeScreensV10)).then(()=>root.CareerModeHomeScreensV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V screens unavailable.",error));
-  const resultsV10=()=>load("v10-season-final","js/seasonFinalV10.js",()=>root.CareerModeSeasonFinalV10).then(()=>root.CareerModeSeasonFinalV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Results visuals unavailable.",error));
+  const v10=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>{root.CareerModeV10Screens.install();deferSkins();}).then(()=>load("v10-home-screens","js/homeScreensV10.js",()=>root.CareerModeHomeScreensV10)).then(()=>root.CareerModeHomeScreensV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V screens unavailable.",error));
+  // r90 W8 (Home first, Nik 2026-11-07: "speed up the loading time"): the Team V files of the screens Home does not show
+  // (Start/League/Showdown Home, Club Assignment, Transfer War, Season Results/Final Winner/Standings) are asked for only once the
+  // startup loading screen has handed Home over, then when the browser is idle, so they no longer share the first load with Home.
+  // A screen opened before its file has arrived (a quick tap, or a reload resuming into a live game) is held under the loading
+  // screen and asks for that file at once (js/v10Screens.js defer()). once(): one load each; a failed one may be asked for again.
+  const once=fn=>{let p=null;return()=>p||(p=Promise.resolve().then(fn).then(ok=>{if(!ok)p=null;return ok;}));};
+  let resultsReady=false;
+  const resultsV10=once(()=>load("v10-season-final","js/seasonFinalV10.js",()=>root.CareerModeSeasonFinalV10).then(()=>root.CareerModeSeasonFinalV10.install()).then(ok=>{resultsReady=ok===true;return ok;}).catch(error=>root.console?.warn?.("[Career Mode Showdown] Results visuals unavailable.",error)));
+  // Bounded like the startup cap: after 20 s they load anyway.
+  const handedOver=()=>new Promise(resolve=>{let n=0;const check=()=>{const el=root.document&&root.document.getElementById("loadingScreen");if(++n>200||root.careerModeHomeHold===0&&(!el||el.hidden))resolve();else root.setTimeout(check,100);};check();});
+  const afterHome=fn=>handedOver().then(()=>typeof root.requestIdleCallback==="function"?root.requestIdleCallback(()=>fn(),{timeout:1500}):root.setTimeout(fn,200));
   // The Reus Gate (r75; owner, 2026-10-13: the old or half-loaded Home flashed for seconds as the Reus loading screen left on a slow
   // or cold start). Home is the first screen, so its Team V look starts loading at once instead of on idle, and js/app.js keeps the
   // loading screen up until Home is really ready, judged by ready signals and never by a fixed time: the Team V Home has mounted
@@ -92,17 +102,40 @@
   const liveGameGate=async()=>{while(liveGameResumeOpen())await new Promise(resolve=>root.setTimeout(resolve,50));};
   root.careerModeHomeHold=1;
   const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(liveGameGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});
-  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>home.then(resultsV10),{timeout:2500});else root.setTimeout?.(()=>home.then(resultsV10),600);
+  // r90 (Nik 2026-11-08, "every screen adapts to the device"): js/gfxTier.js once Home is up and the page is idle, so
+  // html[data-gfx] and html[data-assets] are set for the 2D screens too (a picked or measured level costs no GPU probe).
+  const gfxTier=()=>load("gfx-tier","js/gfxTier.js",()=>root.CareerModeGfxTier).catch(()=>null);
+  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(()=>home.then(gfxTier),{timeout:3000});else root.setTimeout?.(()=>home.then(gfxTier),700);
   // JOB-26: Team V's skin for Start/Join, the League wheel and the Club packs, registered with that loader.
-  const v10Setup=()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>load("v10-setup","js/v10Setup.js",()=>root.CareerModeV10Setup)).then(()=>root.CareerModeV10Setup.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V setup skin unavailable.",error));
-  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Setup,{timeout:3000});else root.setTimeout?.(v10Setup,700);
+  const v10Setup=once(()=>load("v10-screens","js/v10Screens.js",()=>root.CareerModeV10Screens).then(()=>load("v10-setup","js/v10Setup.js",()=>root.CareerModeV10Setup)).then(()=>root.loadRuntimeStyle?.(...root.CareerModeV10Setup.STYLE)?.catch(()=>null)).then(()=>root.CareerModeV10Setup.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Team V setup skin unavailable.",error)));
   // JOB-27: Team V's Transfer War skin for the shared Transfer Challenge (registers with the loader above).
-  const v10Transfer=()=>load("v10-transfer","js/transferScreenV10.js",()=>root.CareerModeTransferScreenV10).then(()=>root.CareerModeTransferScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Transfer War visuals unavailable.",error));
-  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Transfer,{timeout:3000});else root.setTimeout?.(v10Transfer,700);
+  const v10Transfer=once(()=>load("v10-transfer","js/transferScreenV10.js",()=>root.CareerModeTransferScreenV10).then(()=>root.CareerModeTransferScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Transfer War visuals unavailable.",error)));
   // JOB-34: Team V's Club Assignment for the club reveal (registers with the loader above; owns clubWheelScreen).
-  const v10Club=()=>load("v10-club","js/clubScreenV10.js",()=>root.CareerModeClubScreenV10).then(()=>root.CareerModeClubScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Club Assignment visuals unavailable.",error));
-  if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(v10Club,{timeout:3000});else root.setTimeout?.(v10Club,700);
-  (async()=>{
+  const v10Club=once(()=>load("v10-club","js/clubScreenV10.js",()=>root.CareerModeClubScreenV10).then(()=>root.CareerModeClubScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Club Assignment visuals unavailable.",error)));
+  function deferSkins(){
+    const V=root.CareerModeV10Screens;
+    if(!V||typeof V.defer!=="function")return;
+    V.defer(["createShowdown","leagueWheelScreen","dashboard"],v10Setup);V.defer(["clubWheelScreen"],v10Club);
+    V.defer(["transferChallenge"],v10Transfer);V.defer(["seasonEntry","standings"],resultsV10);
+    // The Standings tab before Season Results' file (which owns that route) is in: load it, then take its route.
+    V.setNavRoute("standings",app=>resultsV10().then(()=>resultsReady?V.navigate("standings",app):app.navigateTo("dashboard")));
+  }
+  for(const skin of [v10Setup,v10Club,v10Transfer,resultsV10])afterHome(skin);
+  // r90 W8 (Home first): the sign-in entry, its local-draw guard and the Firebase runtime start at once, as before. The rest of
+  // the Shared Journey chain (Career Start, Season Results, Transfer War, Season Commit, scoring, history, multi-season,
+  // reconnect, conflicts, reconciliation, Terminal Close: about 30 files) serves the game screens, not Home, so a device with
+  // no unfinished online Showdown asks for it only once Home has been handed over. Everything that needs it waits for it
+  // (CareerModeSharedJourneyReady): the game screens (navigateTo), the START/JOIN decision (js/whichShowdownIsLive.js)
+  // and Settings' sacked close. A pre-pair shell, a live game in this tab, an unfinished online Showdown on this device, an
+  // unreadable save, or a test/acceptance page loads it at startup exactly as before.
+  const firebaseRuntime=load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime);
+  const entry=install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry").then(api=>{entryInstalled(api);return api;},error=>{entryInstalled(null);throw error;});
+  const guard=install("ssjr-production-guard","js/productionSharedJourneyGuard.js","CareerModeProductionSharedJourneyGuard");
+  for(const started of [firebaseRuntime,entry,guard])started.catch(()=>null);// reported where the chain awaits them
+  const unfinishedOnline=()=>{let s=null;try{s=typeof currentShowdown!=="undefined"&&currentShowdown?currentShowdown:typeof root.readSaveLibraryActive==="function"?root.readSaveLibraryActive():undefined;}catch(_error){return true;}
+    if(s===undefined)return true;return Boolean(s&&s.sharedJourney&&s.sharedJourney.mode==="shared"&&s.status!=="Completed");};
+  const chainNow=acceptanceEnabled||ssjrTestEnabled||pendingShell()||liveGameHeld()||unfinishedOnline();
+  let chainRun=null,settled=false;const sharedChain=()=>chainRun||(chainRun=(async()=>{
     const seasonResultsRoute=install("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js","CareerModeProductionSharedSeasonResultsRoute");
     const seasonCommit=install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit");
     const canonicalScoring=(async()=>{
@@ -164,14 +197,30 @@
       return install("ssjr-production-terminal-close","js/productionSharedTerminalClose.js","CareerModeProductionSharedTerminalClose");
     })();
     await Promise.all([
-      load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),
-      install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry").then(api=>{entryInstalled(api);return api;},error=>{entryInstalled(null);throw error;}),
-      install("ssjr-production-guard","js/productionSharedJourneyGuard.js","CareerModeProductionSharedJourneyGuard"),
+      firebaseRuntime,entry,guard,
       install("ssjr-production-career-start","js/productionSharedCareerStart.js","CareerModeProductionSharedCareerStart"),
       install("ssjr-production-season-results","js/productionSharedSeasonResults.js","CareerModeProductionSharedSeasonResults"),
       seasonCommit,canonicalScoring,historyConvergence,multiSeason,journeyReconnect,journeyConflicts,localReconciliation,finalReconciliation,terminalClose,
       (async()=>{await seasonResultsRoute;return install("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js","CareerModeProductionSharedTransferChallenge");})()
     ]);
+    settled=true;return true;
+  })());
+  // Started at once, nothing waits on it (as before). Deferred: a game screen opened first (navigateTo), the START/JOIN decision
+  // and Settings' sacked close wait for it, bounded like the startup cap so a stuck file can never lock the player out.
+  const chainWarn=error=>root.console?.warn?.("[Career Mode Showdown] Shared Journey bootstrap unavailable.",error);
+  if(chainNow){sharedChain().catch(chainWarn);root.CareerModeSharedJourneyReady=()=>Promise.resolve(true);}
+  else{
+    const ready=()=>settled?Promise.resolve(true):Promise.race([sharedChain().catch(()=>false),new Promise(resolve=>root.setTimeout(()=>resolve(false),15e3))]);
+    afterHome(()=>sharedChain().catch(chainWarn));
+    root.CareerModeSharedJourneyReady=ready;
+    const GAME=new Set(["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary","standings"]);
+    const nav=root.navigateTo;
+    /* Codex #1283: every tap takes a turn; a game screen waiting for the chain opens only if no newer tap came meanwhile. */
+    let navTurn=0;if(typeof nav==="function")root.navigateTo=function(screen,...args){const turn=++navTurn;return settled||!GAME.has(screen)?nav.call(this,screen,...args):ready().then(()=>turn===navTurn?nav.call(this,screen,...args):undefined);};
+  }
+  (async()=>{
+    if(!acceptanceEnabled&&!ssjrTestEnabled)return;
+    await sharedChain();
     // r85: ?ssjr=1 is the simple SSJR test. Only its panel loads: none of the older acceptance tooling or guided aside.
     if(ssjrTestEnabled&&!acceptanceEnabled)return install("ssjr-physical-journey-acceptance","js/ssjrPhysicalJourneyAcceptance.js","CareerModeSSJRPhysicalJourneyAcceptance");
     if(!acceptanceEnabled)return;

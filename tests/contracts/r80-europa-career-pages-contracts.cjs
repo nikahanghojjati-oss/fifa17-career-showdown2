@@ -60,7 +60,7 @@ const model=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:p
   const foundation=read("tests/contracts/v10-foundation-contracts.cjs");
   for(const file of assets){const hash=createHash("sha256").update(fs.readFileSync(path.join(ROOT,file))).digest("hex");assert.ok(foundation.includes(hash),`${file} is pinned by hash in the foundation contract`);}
   const renderer=read("visual-assets/v10_1/trophy-room/trophy-room.js");
-  assert.match(renderer,/key: "europaLeague", category: "EUROPA LEAGUE", asset: BASE \+ "\.\.\/shared\/trophies\/TRO_EUROPA_V1_512\.webp"/);
+  assert.match(renderer,/key: "europaLeague", category: "EUROPA LEAGUE", asset: BASE \+ "\.\.\/shared\/trophies-hc\/TRO_HC_5_V2_512\.webp"/);
   assert.match(renderer,/europaLeagues/);
   const css=read("visual-assets/v10_1/trophy-room/trophy-room.css");
   assert.match(css,/\.trophyTabs\{[^}]*grid-template-columns:repeat\(6,1fr\)/,"six tabs on one row");
@@ -68,7 +68,7 @@ const model=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:p
   assert.match(css,/\.trophyTab:hover:not\(:disabled\):not\(\.is-active\)/,"a sticky phone hover never dims the active tab");
   const binder=read("js/careerScreensV10.js");
   assert.match(binder,/"EUROPA LEAGUE"/);assert.match(binder,/europaLeague:\s*"Europa League"|europaLeague:"Europa League"/);
-  assert.match(binder,/\[data-trophy="europaLeague"\] \.trophyCardPicture \{background-image:url\("visual-assets\/v10_1\/shared\/trophies\/TRO_EUROPA_V1_1536\.webp"\)\}/);
+  assert.match(binder,/\[data-trophy="europaLeague"\] \.trophyCardPicture \{background-image:url\("visual-assets\/v10_1\/shared\/trophies-hc\/TRO_HC_5_V2_512\.webp"\)\}/);
   assert.doesNotMatch(binder,/#trophyRoom \.trophyTabs \{[^}]*repeat\(5,/,"no layout keeps a five-tab row");
   assert.doesNotMatch(binder,/#trophyRoom \.trophyGrid \{[^}]*repeat\(4,/,"no layout keeps a four-case row");
   ok("E3 Trophy Room has the EUROPA LEAGUE tab and case with TRO_EUROPA_V1, and its layouts fit 6 tabs and 5 cases");
@@ -76,7 +76,7 @@ const model=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:p
 {
   const renderer=read("visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js");
   assert.match(renderer,/"Europa Leagues":"europaLeagues"/);
-  assert.match(renderer,/TRO_EUROPA_V1_512\.webp/);
+  assert.match(renderer,/TRO_HC_5_V2_512\.webp/);
   assert.match(renderer,/a\.europaLeagues\?\?"—",b\.europaLeagues\?\?"—"/);
   const strings=JSON.parse(read("visual-assets/v10_1/rivalry-statistics/strings.json"));
   assert.ok(JSON.stringify(strings).includes("Europa Leagues"),"strings list the Europa Leagues row");
@@ -98,10 +98,8 @@ const model=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:p
   assert.match(legacy,/season\.europaLeague && season\.europaLeague\[manager\] === true/);
   assert.match(legacy,/strings\.ui\.europaLeague \|\| "Europa League winner"/);
   assert.equal(JSON.parse(read("visual-assets/v10_1/legacy/strings.json")).ui.europaLeague,"Europa League winner");
-  assert.match(read("js/statistics.js"),/\["Europa Leagues", one\.europaLeagues \|\| 0, two\.europaLeagues \|\| 0\]/);
-  assert.match(read("js/trophyRoom.js"),/createTrophyCount\("Europa League", manager\.europaLeagues \|\| 0/);
   assert.match(read("js/legacy.js"),/player\.europaLeague === true/);
-  ok("E6 History marks each Europa League winner and the old local screens count the Europa League");
+  ok("E6 History marks each Europa League winner and the old local History counts the Europa League");
 }
 {
   const screen=read("js/connectPlayersScreenV10.js").replace(/\\"/g,"\"");

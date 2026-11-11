@@ -94,8 +94,8 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
 // stages in the last season never cancels its load (CE2PG net::ERR_FAILED); it never blocks longer than 2.5 s.
 {
   const src=read('js/seasonFinalV10.js');
-  assert.match(src,/const TROPHY_PATH="visual-assets\/v10_1\/shared\/trophies\/TRO_SHOWDOWN_CHAMPION_V1_512\.webp"/);
-  for(const shell of ['visual-assets/v10_1/final-winner/app-shell.html','visual-assets/v10_1/season-results/app-shell.html'])assert.ok(read(shell).includes('"visual-assets/v10_1/shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp"'),`${shell} uses the same URL`);
+  assert.match(src,/const TROPHY_PATH="visual-assets\/v10_1\/shared\/trophies-hc\/TRO_HC_1_V2_512\.webp"/);
+  for(const shell of ['visual-assets/v10_1/final-winner/app-shell.html','visual-assets/v10_1/season-results/app-shell.html'])assert.ok(read(shell).includes('"visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_512.webp"'),`${shell} uses the same URL`);
   assert.match(src,/if\(folder==="season-results"\|\|folder==="final-winner"\)await sfWarmTrophy\(\);/);
   assert.match(src,/root\.setTimeout\(\(\)=>finish\(false\),2500\)/);
   // Under node (no Image) the warm-up resolves false at once and prepare carries on.
@@ -162,5 +162,40 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
   assert.doesNotMatch(block,/\.hud-footer \{ position: fixed; \}/,'no fixed rail over the scrolling cards');
   assert.match(block,/min-height: calc\(100svh - 52px\)[^}]*padding-bottom: 4px;/,'world one rail short, no reserved fixed-rail gap');
   ok('M7','LOCK MY SIGNINGS and REFRESH never overlap on a sideways phone (sizes F11)');
+}
+{
+  // r90 LOOK L07: the live clock ran through "READY — 15 MINUTES" (1920x906 board, 1200x900 / 1024x768 painted sign).
+  const tw=read('css/v10Transfer.css'),tc=read('js/transferChallenge.js');
+  const at=tw.indexOf('r90 LOOK L07'),block=tw.slice(at,at+3200);
+  assert.ok(at>0,'L07 block present');
+  assert.match(block,/:has\(\.sign-screen\.is-live\) \.sign-status\.reg:not\(\.full\) \{\s*justify-content: flex-start;[^}]*padding-top: calc\(var\(--k\) \* 3px \+ var\(--l07-clock\) \+/,'while the clock shows, the status starts under it');
+  assert.match(block,/@media \(min-width: 761px\) and \(min-height: 501px\)/,'sideways phones keep their band');
+  assert.match(block,/--l07-clock: calc\(var\(--k\) \* 30px \* \.95 \+ var\(--k\) \* 2px\);[^\n]*\n[^\n]*\.sign-main\.timer \{ font-size: calc\(var\(--k\) \* 30px\); margin-bottom: calc\(var\(--k\) \* 2px\); \}/,'painted sign: --l07-clock matches the clock it reserves room for');
+  assert.match(block,/--l07-clock: calc\(max\(34px, calc\(var\(--k\) \* 52px\)\) \* \.95 \+ calc\(var\(--k\) \* 6px\)\);[^\n]*\n[^\n]*\n[^\n]*\.sign-main\.timer \{ font-size: max\(34px, calc\(var\(--k\) \* 52px\)\); margin-bottom: calc\(var\(--k\) \* 6px\); \}/,'gold board: the hero clock and its reserved room match');
+  assert.match(tc,/not_started: "READY · MAX 3 SIGNINGS EACH",/,'the status does not repeat the 15 minutes the clock shows');
+  ok('L07','the Transfer War clock and the READY status never overlap (r90 LOOK hunt)');
+}
+{
+  // r90 LOOK L33: the live TRANSFER WAR title slid under the top bar on wide windows (1920x906 19 px; 2560x1000 off the window).
+  const tw=read('css/v10Transfer.css'),js=read('js/transferScreenV10.js');
+  assert.match(tw,/top: calc\(var\(--k\) \* 62px \+ var\(--tw-wm-drop, 0px\)\); width: calc\(var\(--k\) \* 400px \* var\(--tw-wm-scale, 1\)\);/,'the title keeps its plate place unless it must drop');
+  assert.match(js,/function tfWordmarkClear\(\)\{[\s\S]*?querySelector\("\.sd-nav-top"\)[\s\S]*?const need=barBottom\+8-\(box\.top\+mark\.offsetTop\*scale\);[\s\S]*?Math\.max\(\.7,1-platePx\/400\)/,'drop only the pixels needed to clear the bar, shrink by as much (70 % floor)');
+  assert.match(js,/wordmarkClear=\(\)=>tfWordmarkClear\(\);root\.addEventListener\("resize",wordmarkClear\);\}\n\s*tfWordmarkClear\(\);/,'after the plate re-frames, on every resize');
+  assert.match(js,/if\(wordmarkClear\)\{root\.removeEventListener\("resize",wordmarkClear\);wordmarkClear=null;\}/,'teardown removes the listener');
+  ok('L33','the Transfer War title never sits under the top bar (r90 LOOK round 2)');
+}
+{
+  // r90 LOOK L35: a Chromebook window (1180x620) showed the old TR2 plate; only windows of 1200x600+ at 3:2 got Team V's V2.
+  const tw=read('css/v10Transfer.css'),js=read('js/transferScreenV10.js');
+  const q='@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {';
+  assert.ok(tw.includes(q+'\n  #app #transferChallenge .tw-host .stage {\n    --tp-bevel:'),'the V2 plate block covers every desktop-picture window');
+  assert.ok(!/min-width: 1200px\) and \(min-height: 600px\) and \(min-aspect-ratio: 3\/2\)/.test(tw),'no window falls back to the TR2 plate');
+  assert.match(tw,/\.transfer-wordmark \{ left: var\(--tw-wm-left, max\(/,'the title can move in from a cropped edge');
+  // HO-068: Team V's office room puts Daniel's hair at x 441, y 65 of the 1672 units (the old plate: x 446, y 103).
+  assert.match(js,/beside=\(431-leftPlate\)\/400,above=Math\.min\(1,\(boardLeft-16-leftPlate\)\/400,\(59-topPlate\)\/\(400\*ratio\)\)/,'the title stays off Daniel\'s hair and the clock board');
+  assert.match(tw,/@container \(max-width: 140px\) \{\s*#app #transferChallenge \.tw-host \.rules-line \.stat-l \{ letter-spacing: \.02em; \}/,'small rules cards: the labels lose their tracking, not their gaps');
+  assert.match(tw,/\.world > \.rules-card > \.rules-inner\.reg \{ height: auto; min-height: calc\(var\(--k\) \* var\(--h\) \* 1px\);/,'the rules card grows to its note instead of spilling out of its frame');
+  assert.ok(!/@container[^{]*\{[^}]*font-size: 1[01](\.\d+)?px/.test(tw),'the rules labels keep the 12 px floor (Codex P1 on #1318)');
+  ok('L35','every desktop window draws the V2 Transfer War plate, title readable and off the faces (r90 LOOK round 3)');
 }
 console.log(`PASS r87 match-day polish contracts (${checks} checks)`);

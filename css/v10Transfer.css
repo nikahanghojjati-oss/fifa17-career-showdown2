@@ -329,7 +329,7 @@
     background: repeating-linear-gradient(115deg, var(--sd-gold-500, #f5c518) 0 3px, transparent 3px 7px); opacity: .85;
   }
   #app #transferChallenge .tw-host .panel-title .own-heading { transform: none; font-size: 17px; letter-spacing: .06em; }
-  #app #transferChallenge .tw-host .panel-title .chip { height: 22px; padding: 0 9px; font-size: 11.5px; }
+  #app #transferChallenge .tw-host .panel-title .chip { height: 22px; padding: 0 9px; font-size: 12px; }
   #app #transferChallenge .tw-host .panel-title .chip-private { margin: 0 0 0 auto; }
   #app #transferChallenge .tw-host .panel-title .chip-private + .chip-you { margin-left: 0; }
   #app #transferChallenge .tw-host .panel-title > .chip-you:last-child:not(.chip-private + .chip-you) { margin-left: auto; }
@@ -404,7 +404,7 @@
   #app #transferChallenge .tw-host .vr-meta { white-space: normal; }
   #app #transferChallenge .tw-host .vr-meta { font-size: 12px; }
   #app #transferChallenge .tw-host .vr-word { font-size: 14px; }
-  #app #transferChallenge .tw-host .vr-why { font-size: 11.5px; }
+  #app #transferChallenge .tw-host .vr-why { font-size: 12px; }
   #app #transferChallenge .tw-host .verdict-empty { font-size: 15px; padding: 4px 0; }
   #app #transferChallenge .tw-host .guess-reveal { font-size: 12.5px; column-gap: 8px; }
   #app #transferChallenge .tw-host .rules-card.with-continue .rule-note { display: none; }
@@ -676,11 +676,14 @@
   #app #transferChallenge .tw-host :is(.scene-atmos, .scene .plane, .scene .plate) { display: none; }
   #app #transferChallenge .tw-host .scene {
     position: relative; inset: auto; display: flex; align-items: flex-end;
-    flex: 0 0 auto; height: clamp(96px, calc(100svh - 392px), 330px);
+    flex: 0 0 auto; height: max(clamp(96px, calc(100svh - 392px), 330px), calc(max(177.78vw, 100svh) * .2835 + 41px - min(78vw, 330px) * .2085)); /* C3/D4 chin floor */
     min-height: 0; max-height: none; margin: 0 -12px; background: transparent;
   }
+  /* D4: the status bar sits at the scene's foot; keep its top 7 px+ under Nik's chin (art row .2835 of the fixed
+     office plate, plate height max(177.78vw, 100svh)); scene top = 12 px + wordmark (min(78vw,330px) x .2085), bar 44 px. */
   #app #transferChallenge .tw-host .stage:is([data-phase="GUESS_ENTRY"], [data-phase="SIGNING_ENTRY"], [data-phase="COMPLETED"]) .scene {
-    height: clamp(72px, calc(100svh - 540px), 210px); min-height: 0; max-height: none;
+    height: max(clamp(72px, calc(100svh - 540px), 210px), calc(max(177.78vw, 100svh) * .2835 + 41px - min(78vw, 330px) * .2085));
+    min-height: 0; max-height: none;
   }
   #app #transferChallenge .tw-host .phone-hero-art { --tw-top: 56px; }
   #app #transferChallenge .tw-host .phone-hero-bg { height: var(--tw-window, 45svh); }
@@ -901,10 +904,11 @@
 }
 
 /* TRANSFER-PLATE-V2 (ticket 1610P): desktop Transfer War on Team V's clean office plate (visual-assets/v10_1/plates-v2/), drawn
-   to match NEXT_TRANSFER. Strictly the desktop picture range (wide landscape windows of at least 1200x600); phones, sideways
-   phones and tablets keep their art. The plate carries Daniel, Nik, both name tags and Nik's finger, so the old fingertip cut-out
+   to match NEXT_TRANSFER. r90 LOOK L35: every window that uses the desktop picture gets it (a Chromebook window of 1180x620
+   showed the old TR2 plate, so one resize swapped the whole picture); only upright phones (760 px and under), sideways
+   phones (500 px tall and 1100 px wide or less) and upright tablets (761-1100 px) keep their own art. The plate carries Daniel, Nik, both name tags and Nik's finger, so the old fingertip cut-out
    is hidden; the title, hanging sign, YOU chip, panels and buttons stay live on top. Every word, id and tap order is unchanged. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
   #app #transferChallenge .tw-host .stage {
     --tp-bevel: linear-gradient(135deg, #fff1b8 0%, #e8b94a 15%, #8a6a12 36%, #f2c45b 56%, #fff1b8 73%, #b8862a 100%);
   }
@@ -916,11 +920,12 @@
   /* the plate no longer paints the brush title: show the live one on the left wall */
   #app #transferChallenge .tw-host .world > .transfer-wordmark {
     display: block; position: absolute; z-index: 3; margin: 0; pointer-events: none;
-    left: calc(var(--k) * 36px); top: calc(var(--k) * 62px); width: calc(var(--k) * 400px); height: auto;
+    left: calc(var(--k) * 36px); top: calc(var(--k) * 62px + var(--tw-wm-drop, 0px)); width: calc(var(--k) * 400px * var(--tw-wm-scale, 1)); height: auto;
   }
   /* HO-033 item 9: when the plate is wider than the window (1440x900, 1280x800) the world is pushed left off-screen and the
-     title's first letter was clipped. Keep the title at least 16px inside the visible window; no change where the world fits. */
-  #app #transferChallenge .tw-host .world > .transfer-wordmark { left: max(calc(var(--k) * 36px), calc(100% - 100vw + 16px)); }
+     title's first letter was clipped. Keep the title at least 16px inside the visible window; no change where the world fits.
+     r90 L35: js/transferScreenV10.js tfWordmarkClear sets --tw-wm-left (and shrinks the title) from the real camera. */
+  #app #transferChallenge .tw-host .world > .transfer-wordmark { left: var(--tw-wm-left, max(calc(var(--k) * 36px), calc(100% - 100vw + 16px))); }
   #app #transferChallenge .tw-host .world > .transfer-wordmark img { display: block; width: 100%; height: auto; }
   /* the plate has no sign either: a live gold-bevel board behind the clock/status text, centred where NEXT_TRANSFER hangs it */
   #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) {
@@ -938,6 +943,15 @@
     background: linear-gradient(180deg, #14110bf2, #070607f5) padding-box, var(--tp-bevel) border-box;
     box-shadow: 0 0 calc(var(--k) * 26px) #f0c84b55, 0 calc(var(--k) * 10px) calc(var(--k) * 24px) #000a;
   }
+  /* 2.3.0 final pass F03 (Nik: nothing touches a face): in Chromebook-size windows (1280x720) the board's frame stood
+     24px from Daniel's hair and its glow reached into it. The clock stays where it hangs; the frame hugs the clock and
+     status lines tighter (56 plate px each side instead of 79), so it keeps about 40px from Daniel and 30px from Nik. */
+  @media (max-width: 1599px) {
+    #app #transferChallenge .tw-host .sign-screen::before { left: calc(var(--k) * -56px); right: calc(var(--k) * -56px); box-shadow: 0 0 calc(var(--k) * 14px) #f0c84b44, 0 calc(var(--k) * 10px) calc(var(--k) * 24px) #000a; }
+  }
+  /* F09 (2.3.0 final pass): Team V's plate.css draws the YOU / SEALED chips at max(10.5px, k x 13px), 10.5px in a 1280x720
+     window; the 12px type floor applies here too (their stylesheet stays as it is) */
+  #app #transferChallenge .tw-host .chip { font-size: max(12px, calc(var(--k) * 13px)); }
   #app #transferChallenge .tw-host .you-chip { --ay: 352 !important; --ax: 124 !important; }
   /* gold-bevel panels. In the entry and verdict phases the panels are real boxes in .tw-desktop-content and wear the bevel
      themselves; in the window phase they are zero-size shells over the plate, so each draws its frame at Team V's panel rect. */
@@ -1133,6 +1147,26 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
   }
   #app #transferChallenge .tw-host .stage:not([data-phase="WINDOW_OPEN"]) .sign-status.reg .part + .part { margin-top: 4px; }
 }
+/* r90 LOOK L07: the status line used to sit in the same box as the live clock (centred on the desktop board, bottom-aligned on
+   the painted sign), so "READY" ran through "15:00" (1920x906, 1200x900, 1024x768). While the clock shows, the status starts
+   on its own rows under it: the sign's top padding + the clock's line box (--l07-clock) + a gap. On the painted sign (windows
+   that do not get the gold board below) the clock is a little smaller so both fit on the sign. Sideways phones keep their band. */
+@media (min-width: 761px) and (min-height: 501px) {
+  #app #transferChallenge .tw-host .sign-status { --l07-clock: calc(var(--k) * 28px); }
+  #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"]:has(.sign-screen.is-live) .sign-status.reg:not(.full) {
+    justify-content: flex-start; padding-bottom: 0; letter-spacing: .1em; font-size: max(11px, calc(var(--k) * 13px));
+    padding-top: calc(var(--k) * 3px + var(--l07-clock) + max(3px, calc(var(--k) * 3px)));
+  }
+}
+@media (min-width: 1101px) and (min-height: 501px) {
+  #app #transferChallenge .tw-host .sign-status { --l07-clock: calc(var(--k) * 30px * .95 + var(--k) * 2px); }
+  #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"] .sign-screen.is-live .sign-main.timer { font-size: calc(var(--k) * 30px); margin-bottom: calc(var(--k) * 2px); }
+}
+@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
+  #app #transferChallenge .tw-host .sign-status { --l07-clock: calc(max(34px, calc(var(--k) * 52px)) * .95 + calc(var(--k) * 6px)); }
+  #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"]:has(.sign-screen.is-live) .sign-status.reg:not(.full) { letter-spacing: .14em; font-size: max(12px, calc(var(--k) * 14.5px)); }
+  #app #transferChallenge .tw-host .stage[data-phase="WINDOW_OPEN"] .sign-screen.is-live .sign-main.timer { font-size: max(34px, calc(var(--k) * 52px)); margin-bottom: calc(var(--k) * 6px); }
+}
 #app #transferChallenge .tw-host .verdict-row .vr-word {
   display: inline-block; align-self: flex-end; padding: 2px 9px 1px; margin-right: 0; border-radius: 999px;
   font-size: 13px; letter-spacing: .14em; line-height: 1.2; text-shadow: none;
@@ -1174,3 +1208,86 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
   #app #transferChallenge .tw-host[data-dd="countdown"] .sign-main.timer,
   #app #transferChallenge .tw-host .ddStrip:not([hidden]) { animation: none; }
 }
+/* r90 L35 follow-up (Nik: nothing crowds at any size): on a small desktop picture (800x600, a 1180x620 window) the rules
+   card is 110-145 px wide and its 12 px floor labels MIN SIGNINGS GUESSES ran into each other (0-4 px apart). Under 140 px
+   of room the labels lose most of their tracking, under 118 px all of it and the figures use the card's side padding
+   too (12 px floor kept);
+   1366x768 and up are unchanged. */
+@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
+  #app #transferChallenge .tw-host .rules-inner { container-type: inline-size; }
+  /* the note under the figures needs three to four lines at the 12 px floor, more than the plate's card holds on a small
+     picture (it ran 25-31 px out of the frame at 960x600 and 800x600): the window-phase card grows down to its content and
+     its gold frame is drawn on the card itself, so it follows. Where the content fits it is the plate's rect, as before. */
+  #app #transferChallenge .tw-host .world > .rules-card > .rules-inner.reg { height: auto; min-height: calc(var(--k) * var(--h) * 1px); isolation: isolate; }
+  #app #transferChallenge .tw-host .world > .rules-card::before { display: none; }
+  #app #transferChallenge .tw-host .world > .rules-card > .rules-inner.reg::before {
+    content: ""; position: absolute; z-index: -1; pointer-events: none; display: block; box-sizing: border-box;
+    left: calc(var(--k) * -14px); right: calc(var(--k) * -12px); top: calc(var(--k) * -35px); bottom: calc(var(--k) * -12px);
+    border: max(3px, calc(var(--k) * 5px)) solid transparent; border-radius: calc(var(--k) * 10px);
+    background: linear-gradient(180deg, #14110bf0, #070607f5 60%, #050506f8) padding-box, var(--tp-bevel) border-box;
+    box-shadow: inset 0 0 0 1px #050505, inset 0 0 0 calc(var(--k) * 2px) #0a0907, 0 0 calc(var(--k) * 22px) #f0c84b44, 0 calc(var(--k) * 10px) calc(var(--k) * 26px) #000b;
+  }
+  @container (max-width: 140px) {
+    #app #transferChallenge .tw-host .rules-line .stat-l { letter-spacing: .02em; }
+  }
+  /* 12 px is the floor (Studio Small Axe): under 118 px the labels lose all their tracking and the row takes the padding */
+  @container (max-width: 118px) {
+    #app #transferChallenge .tw-host .rules-line .stat-l { letter-spacing: 0; }
+    #app #transferChallenge .tw-host .rules-line { margin-inline: calc(var(--k) * -6px); }
+  }
+}
+
+/* HO-068 (2026-11-09): Transfer War sits in Team V's handcrafted V2 office room (visual-assets/v10_1/plates-hc/ENV_OFFICE_*,
+   Nik picked it): Daniel and Nik at the desk, the window between them for the hanging sign, and the panels on the table top
+   (plate y 525). Same plate units as the V2 office plate, so the camera, sign and panel rects are unchanged. 2X at High and
+   up; phones draw the tall office plate (590W on Light or Save-Data). The plates-v2 Transfer plates stay as rollback. */
+@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
+  #app #transferChallenge .tw-host .plate {
+    background: url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1X.webp') center / cover no-repeat;
+  }
+  html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #transferChallenge .tw-host .plate {
+    background-image: image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1X.webp') 1x, url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_2X.webp') 2x);
+  }  /* HO-068 (Nik: nothing may touch a face): on 3:2 and narrower windows (1180x820, 1024x768, 1280x1024) and windows under
+     1200px wide (a 1180x620 Chromebook window) the clock board's
+     gold frame reached Daniel's hair (his face ends at x 669 of the 1672 plate units, Nik's starts at 1061). The board hangs
+     44 plate px further right there, which centres its frame in the window between the two faces. */
+  @media (max-aspect-ratio: 3/2), (max-width: 1199px) {
+    #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) { transform: translate(0px, calc(var(--k) * 24px)) !important; }
+  }
+}
+@media (max-width: 760px) and (orientation: portrait),
+       (min-width: 761px) and (max-width: 1100px) and (orientation: portrait) {
+  #app #transferChallenge .tw-host .phone-hero-art { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2.webp"); }
+  html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-art { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2_590W.webp"); }
+}
+/* the sideways poster strip and the tablet hero band draw the same office plate */
+#app #transferChallenge .tw-host .phone-hero-bg { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2.webp"); }
+html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-bg { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2_590W.webp"); }
+/* 2.3.0 final pass F10 (Nik 2026-11-10 23:45 UTC: "they should be on the same height"; going over his finger is fine, faces
+   and bodies are not): in the window phase the three boxes on the desk share one band, Daniel's panel's own (plate y 520-772).
+   Nik's sealed panel rises 60 plate px and its frame and frost grow to the same 252 px; the rules card rises 32 px and grows to
+   the band, its figures and note spread inside it. Each box moves as one piece (frame and contents together); words, ids and
+   tap order are unchanged. */
+@media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
+  #app #transferChallenge .tw-host .world > .panel[data-panel="A"] { translate: 0 calc(var(--k) * -60px); }
+  #app #transferChallenge .tw-host .world > .panel[data-panel="A"]::before { height: calc(var(--k) * 252px); }
+  #app #transferChallenge .tw-host .world > .panel[data-panel="A"] > .frost.reg { --h: 197 !important; }
+  #app #transferChallenge .tw-host .world > .rules-card { translate: 0 calc(var(--k) * -32px); }
+  #app #transferChallenge .tw-host .world > .rules-card > .rules-inner.reg { min-height: calc(var(--k) * 205px); justify-content: space-evenly; }
+}
+
+/* B5/D5 strict look: 12 px floor for the plate's 11.5 px status, verdict reason and continue lines; on desktop (every phase,
+   B5/E3) the YOU chip rides in its own panel title instead of floating beside Daniel. */
+@media (min-width: 1101px) {
+  #app #transferChallenge .tw-host .sign-status.full,
+  #app #transferChallenge .tw-host .btn-continue { font-size: max(12px, calc(var(--k) * 13px)); }
+  #app #transferChallenge .tw-host .vr-why { font-size: max(12px, calc(var(--k) * 12.5px)); }
+  #app #transferChallenge .tw-host .you-chip { display: none !important; }
+  #app #transferChallenge .tw-host .panel-title .chip-you.m-only { display: inline-flex !important; }
+}
+/* C11: 12 px floor for the footer title (phone 10 px, short sideways 11 px) and the rail step numbers (plate 11 px). */
+@media (max-width: 760px) and (orientation: portrait), (orientation: landscape) and (max-height: 500px) and (max-width: 1100px) {
+  #app #transferChallenge .tw-host .hud-title { font-size: 12px; }
+  #app #transferChallenge .tw-host .chip { font-size: 12px; }
+}
+@media (max-width: 1100px) { #app #transferChallenge .tw-host .rail .num { font-size: 12px; } }

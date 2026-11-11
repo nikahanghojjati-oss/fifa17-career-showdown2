@@ -22,6 +22,13 @@ function getSettingsAssetRevision(){
     return meta && meta.content ? meta.content.trim() : "Unknown build";
 }
 
+function getSettingsVersionText(){
+    const version = getSettingsApplicationVersion();
+    const build = getSettingsAssetRevision();
+    const suffix = build.startsWith(`${version}-`) ? build.slice(version.length + 1) : build;
+    return suffix && suffix !== "Unknown build" ? `v${version} · ${suffix}` : `v${version}`;
+}
+
 function getSettingsApplicationVersion(){
     return typeof APP_VERSION === "string" ? APP_VERSION : "1.2.1";
 }
@@ -134,6 +141,8 @@ function refreshSettingsPartnerMeter(){
         const seasons = settingsContent.querySelector(".settingsSeasonsLeft");
         if(reads){ reads.textContent = getSettingsReadsTodayText(); }
         if(seasons){ seasons.textContent = getSettingsSeasonsLeftText(); }
+        const plain = settingsContent.querySelector(".settingsOnlinePlay");
+        if(plain){ plain.textContent = getSettingsOnlinePlayText(); }
     }, () => {});
 }
 
@@ -317,6 +326,106 @@ function createMenuFeedbackControl(){
     return row;
 }
 
+// r90 W4 (Nik 2026-11-07: "the player can pick a level ... 8K"): one 3D quality pick for this device, shared by every 3D
+// screen through js/gfxTier.js. Auto names the level it suggests here; a new pick applies from the next 3D screen (a
+// screen never changes quality mid-scene).
+// r90 (Nik 2026-11-08: "auto, medium, high, ultra, 4K ... let us know what was the automatic option for the device ... in the
+// setting"): the names Nik uses, and one quiet line under the pick that says what Auto chose here. Settings only, never on a
+// game screen.
+// The level names come from js/gfxTier.js (CareerModeGfxTier.labels), the one list every screen uses; Settings has none of
+// its own. Until the module is in, the pick shows Auto alone and stays disabled.
+const SETTINGS_GFX_CHECK = "device-check";
+function getSettingsGfxAutoText(tier){
+    try{
+        const s = tier.suggested();
+        const onAuto = tier.choice() === "auto";
+        const name = tier.label(onAuto ? s.now : s.level);
+        if(!name){ return ""; }
+        if(!onAuto){ return `Auto would pick ${name} here.`; }
+        if(s.lowered){ return `Auto picked ${name} here (lowered after a graphics error).`; }
+        return s.measured && s.now === s.level ? `Auto measured ${name} here.` : `Auto picked ${name} here.`;
+    }catch(_error){
+        return "";
+    }
+}
+function fillSettingsGfxSelect(select, note){
+    const tier = window.CareerModeGfxTier;
+    if(!tier || !select.isConnected){ return; }
+    if(note){
+        note.textContent = getSettingsGfxAutoText(tier);
+        note.hidden = !note.textContent;
+    }
+    // Auto, then every level by its shared name. 8K is only offered where the GPU can hold a 7680 px picture (never a phone,
+    // never software GL); Auto never picks it.
+    let can8k = false;
+    try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }
+    const check = select.querySelector(`option[value="${SETTINGS_GFX_CHECK}"]`);
+    for(const old of [...select.options]){ if(old !== check){ old.remove(); } }
+    tier.choices.forEach((value, index) => {
+        if(value === "8k" && !can8k && tier.choice() !== "8k"){ return; }
+        const option = createSettingsElement("option", "", value === "auto" ? "Auto" : tier.labels[index - 1]);
+        option.value = value;
+        select.insertBefore(option, check);
+    });
+    select.value = tier.choice();
+    select.disabled = false;
+}
+function setSettingsGfxChoice(select){
+    const tier = window.CareerModeGfxTier;
+    if(!tier){ return; }
+    // The last entry opens the Device check page (device-check.html); the pick itself stays as it was.
+    if(select.value === SETTINGS_GFX_CHECK){
+        select.value = tier.choice();
+        window.location.assign("device-check.html");
+        return;
+    }
+    const saved = tier.setChoice(select.value);
+    select.value = saved;
+    const note = select.parentElement?.querySelector(".settingsGfxAuto");
+    if(note){ note.textContent = getSettingsGfxAutoText(tier); note.hidden = !note.textContent; }
+    if(typeof window.showAppNotice === "function"){
+        window.showAppNotice(`3D quality: ${select.options[select.selectedIndex].textContent}. Applies from the next 3D screen.`, "success", 3000);
+    }
+}
+function createGfxQualityControl(){
+    const row = createSettingsElement("div", "settingsAudioRow settingsGfxRow");
+    const copy = createSettingsElement("div", "settingsAudioCopy");
+    const label = createSettingsElement("strong", "", "3D QUALITY");
+    label.id = "settingsGfxLabel";
+    copy.append(label, createSettingsElement("small", "", "Applies from the next 3D screen."));
+    const select = createSettingsElement("select", "settingsGfxSelect");
+    select.setAttribute("aria-labelledby", "settingsGfxLabel");
+    select.disabled = true;
+    const auto = createSettingsElement("option", "", "Auto");
+    auto.value = "auto";
+    select.append(auto);
+    const check = createSettingsElement("option", "", "Device check…");
+    check.value = SETTINGS_GFX_CHECK;
+    select.append(check);
+    select.addEventListener("change", () => setSettingsGfxChoice(select));
+    // The Auto line sits under the row's name, beside the pick: the landscape Settings plate has no height to spare.
+    const note = createSettingsElement("small", "settingsGfxAuto", "");
+    note.setAttribute("aria-live", "polite");
+    note.hidden = true;
+    copy.append(note);
+    // Part of the select's name (axe label-title-only fails a select described with no <label>): "3D QUALITY, Auto picked
+    // High here."
+    select.setAttribute("aria-labelledby", "settingsGfxLabel settingsGfxAuto");
+    note.id = "settingsGfxAuto";
+    row.append(copy, select);
+    const ready = () => Boolean(window.CareerModeGfxTier);
+    const load = ready() ? Promise.resolve(true)
+        : typeof window.loadRuntimeScript === "function" ? Promise.resolve(window.loadRuntimeScript("gfx-tier", "js/gfxTier.js", ready)) : Promise.resolve(false);
+    load.then(() => fillSettingsGfxSelect(select, note), () => {});
+    // A crash cap or a Device check result can move Auto; the line reads the saved state again while Settings is open.
+    const onLevel = () => {
+        if(!select.isConnected){ window.removeEventListener("cms-gfx-level", onLevel); return; }
+        if(window.CareerModeGfxTier){ note.textContent = getSettingsGfxAutoText(window.CareerModeGfxTier); note.hidden = !note.textContent; }
+    };
+    window.addEventListener("cms-gfx-level", onLevel);
+    return row;
+}
+
 // r86: today's free Firebase reads as Google bills them (documents plus the security-check lookups, priced per document).
 // r87 shared reads meter: once both phones have confirmed a season today, the total is the two phones' own meters added up, the same
 // number on both phones ("both phones after season N"), with this phone's part ("here"), the partner's and what this phone has
@@ -359,6 +468,26 @@ function getSettingsSeasonsLeftText(){
     }
 }
 
+// r90 W9 (LOOK hunt L14): the free daily quota in the player's words. The count comes from the same seasons-left estimate as
+// the DETAILS line; "plenty" is ten seasons or more, the longest Showdown.
+function getSettingsOnlinePlayText(){
+    try{
+        const budget = window.CareerModeFirestoreBudget;
+        const left = budget?.seasonsLeftToday?.();
+        if(!left || !Number.isFinite(left.seasons)){ return ""; }
+        const n = Math.max(0, Math.floor(left.seasons));
+        if(n >= 10){ return "Plenty left"; }
+        if(n >= 3){ return `Enough for about ${n} more seasons`; }
+        if(n >= 1){ return `Running low: about ${n} more ${n === 1 ? "season" : "seasons"}`; }
+        // Zero whole seasons is not "used up" while some free use is left and play is not paused: the count rounds down.
+        const paused = Boolean(budget?.paused?.());
+        if(!paused && Number(left.billedLeft) > 0){ return "Running low: less than one season left"; }
+        return "Used up for today, back at 3 a.m. Boston time";
+    }catch(_error){
+        return "";
+    }
+}
+
 function createApplicationPanel(){
     const panel = createSettingsPanel(
         "APPLICATION",
@@ -367,16 +496,26 @@ function createApplicationPanel(){
     );
     const info = createSettingsElement("div", "settingsInfoGrid");
     info.append(
-        createSettingsInfoRow("APPLICATION VERSION", `v${getSettingsApplicationVersion()}`),
-        createSettingsInfoRow("BUILD", getSettingsAssetRevision()),
+        // r90 W9 (LOOK hunt L45): one VERSION row; the build suffix (r89, r90...) rides on it for support, no separate BUILD row.
+        createSettingsInfoRow("VERSION", getSettingsVersionText()),
         createSettingsInfoRow("CAREER DATA", "Automatic Showdown storage"),
         createSettingsInfoRow("PLAY MODE", "Daniel vs Nik · two devices")
     );
-    const readsToday = getSettingsReadsTodayText();
-    if(readsToday){ info.appendChild(createSettingsInfoRow("FREE ONLINE USE TODAY", readsToday, "settingsReadsToday")); }
-    const seasonsLeft = getSettingsSeasonsLeftText();
-    if(seasonsLeft){ info.appendChild(createSettingsInfoRow("SEASONS LEFT TODAY", seasonsLeft, "settingsSeasonsLeft")); }
+    // r90 W9 (LOOK hunt L14): one plain line for the player; the free-quota numbers stay one tap away under DETAILS.
+    const onlinePlay = getSettingsOnlinePlayText();
+    if(onlinePlay){ info.appendChild(createSettingsInfoRow("ONLINE PLAY TODAY", onlinePlay, "settingsOnlinePlay")); }
     panel.appendChild(info);
+    const readsToday = getSettingsReadsTodayText();
+    const seasonsLeft = getSettingsSeasonsLeftText();
+    if(readsToday || seasonsLeft){
+        const details = createSettingsElement("details", "settingsUsageDetails");
+        const summary = createSettingsElement("summary", "", "DETAILS");
+        const grid = createSettingsElement("div", "settingsInfoGrid");
+        if(readsToday){ grid.appendChild(createSettingsInfoRow("FREE ONLINE USE TODAY", readsToday, "settingsReadsToday")); }
+        if(seasonsLeft){ grid.appendChild(createSettingsInfoRow("SEASONS LEFT TODAY", seasonsLeft, "settingsSeasonsLeft")); }
+        details.append(summary, grid);
+        panel.appendChild(details);
+    }
     const updateState = getSettingsOfflineState();
     const update = createSettingsElement("button", "menuButton settingsApplicationUpdateButton", updateState.updateActionLabel || "UPDATE TO LATEST VERSION");
     update.type = "button";
@@ -394,7 +533,7 @@ function createMotionPanel(){
     const panel = createSettingsPanel(
         "ACCESSIBILITY",
         "MOTION & FEEDBACK",
-        "Follow your device, cut motion, or turn the menu click on or off."
+        "Follow your device, cut motion, set 3D quality, or turn the menu click on or off."
     );
 
     const summary = createSettingsElement("div", "settingsMotionSummary");
@@ -433,7 +572,7 @@ function createMotionPanel(){
         )
     );
 
-    panel.append(summary, choices, createMenuFeedbackControl());
+    panel.append(summary, choices, createMenuFeedbackControl(), createGfxQualityControl());
     return panel;
 }
 
@@ -770,6 +909,7 @@ function sweepSettingsShowdownDrafts(){
    close panel says what to do (reconnect, then it saves). The active Showdown and its drafts stay until that close lands. */
 async function finishSettingsSackedShowdown(name){
     closeSettings(false);
+    await window.CareerModeSharedJourneyReady?.();
     const close = window.CareerModeProductionSharedTerminalClose;
     let phase = null;
     try{

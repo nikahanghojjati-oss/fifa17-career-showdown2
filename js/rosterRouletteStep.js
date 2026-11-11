@@ -5,17 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r87 Russian Roster Roulette, the season step (Nik 2026-10-28/29/30; look = Team V HO-040, approved 29 Oct). Every season,
-  // before this manager's Transfer Challenge opens, both spins play in Team V's page in a full-screen frame, Daniel first, with
-  // the outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); then he confirms the
-  // release in his FIFA 17 save. The app never releases anyone itself. The boards build themselves (Nik 2026-10-30): the
-  // FIFA 17 launch board excluding the Special Player, then each season's shot player out and kept signings in by position and overall, from
-  // last seasons' Transfer War verdicts and saved shots (kept on this phone when they were shown; otherwise plain reads of
-  // both verdict documents and the saved spins per missing season, all seasons at once; F2-12). No board is saved anywhere and nobody types one.
-  // Shown once per manager per season on this browser (the watched spin is not replayed); never for a Showdown confirmed
-  // before r87. A page that fails to load skips only the animation: the result and the release still show. Anything else that
-  // fails (engine, data, an error) keeps the Transfer Challenge closed behind TRY AGAIN / BACK (red team R87-B-02): the seeded
-  // shot still counts on later boards, so a manager must never reach the window without being told about it.
+  // r87 Russian Roster Roulette season step (Nik 2026-10-28/30; look Team V HO-040): before each manager's Transfer Challenge both spins play full-screen, Daniel first, outcome from js/rosterRoulette.js (the Showdown id decides, so both phones agree; HO040-M1); he then confirms the release in his FIFA 17 save. The app never releases anyone itself.
+  // Boards build themselves, never saved or typed (Nik 2026-10-30): FIFA 17 launch board minus the Special Player, then each season's shot player out and kept signings in by position and overall, from Transfer War verdicts and saved shots (kept on this phone when shown, else plain reads of both verdict documents and the saved spins for every missing season at once; F2-12).
+  // Shown once per manager per season on this browser (a watched spin is not replayed); never for a Showdown confirmed before r87. A page that fails to load skips only the animation: the result and the release still show.
+  // Any other failure (engine, data, error) keeps the Transfer Challenge closed behind TRY AGAIN / BACK (red team R87-B-02): the seeded shot still counts on later boards, so a manager must never reach the window untold.
   const PAGE="visual-assets/v10_1/roulette/index.html";
   const STAGE_ID="rrStage",PANEL_ID="rrStepPanel";
   const DONE_KEY="careerModeShowdown.rouletteDone.v1",WATCHED_KEY="careerModeShowdown.rouletteWatched.v1",KEYS_MAX=60;
@@ -23,7 +16,16 @@
   // roulette. It and js/sparkSharedTransferChallenge.js ROULETTE_FROM_MS are one value, set only by
   // `node tools/set-release-time.cjs <UTC time>` (release contract r86-release RR5 checks they match).
   const RRR_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
-  const MIN_LOADING_MS=1000,MAX_LOADING_MS=15000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=5000;
+  // r90 BUG-02: the page now answers "armed" once it has drawn a frame with this Showdown's boards, so on a slow Chromebook
+  // that can take a few seconds. The loading screen stays up meanwhile (Reus Gate).
+  // r90 MOTION M9: MAX_LOADING_MS is the wait since the page last said it is still busy ("cms-rr-loading", sent as it builds
+  // and after every batch of shaders); COLD_LOADING_MS caps the whole start (on-screen time only).
+  // r90 Light (Nik 2026-11-08: "3D light for Chamber Men and RRR is a guarantee"): a device with WebGL 2 always gets the 3D
+  // scene. The old 15 s and 20 s give-ups are gone: the page has 45 s of silence (on screen) before it counts as stuck, the
+  // whole start may take 4 minutes, and a page that broke, hung or loaded without its 3D library is built again once in a
+  // fresh frame (SCENE_TRIES) before the result card stands in. Only a page that says WebGL is missing (webgl:false) goes
+  // straight to the card, and only that is remembered for the rest of the visit.
+  const MIN_LOADING_MS=1000,MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const sceneFailedHere=new Set();
   // holding (Fable F2-17): from START until close() (or the way back to Home), so the screens that open the Transfer Challenge
@@ -175,7 +177,11 @@
     const doc=rrsDoc();let timer=null,stopped=false,away=false;
     const hidden=()=>Boolean(doc&&doc.visibilityState==="hidden");
     const onVisibility=()=>{if(hidden())away=true;};
-    const arm=()=>{timer=root.setTimeout(()=>{if(stopped)return;if(away||hidden()){away=hidden();arm();return;}stop();onTimeout();},ms);};
+    // r90 MOTION M9: a timer that fires much later than asked means the main thread was held (the frame shares it while the
+    // scene builds its shaders); the page's messages from that moment are still queued behind it, so it looks again shortly
+    // after instead of failing a page that was busy, not stuck.
+    let due=0,graced=false;
+    const arm=(wait=ms)=>{due=Date.now()+wait;timer=root.setTimeout(()=>{if(stopped)return;if(away||hidden()){away=hidden();arm();return;}if(!graced&&Date.now()-due>1000){graced=true;arm(2000);return;}stop();onTimeout();},wait);};
     const stop=()=>{stopped=true;root.clearTimeout(timer);doc?.removeEventListener?.("visibilitychange",onVisibility);};
     doc?.addEventListener?.("visibilitychange",onVisibility);arm();
     return stop;
@@ -197,45 +203,68 @@
     const ready=new Promise(resolve=>{onReady=resolve;}),done=new Promise(resolve=>{onDone=resolve;}),armed=new Promise(resolve=>{onArmed=resolve;});
     const handler=event=>{
       if(event.source!==frame.contentWindow||event.origin!==origin||!event.data)return;
-      if(event.data.type==="cms-rr-ready")onReady("ready");
+      if(event.data.type==="cms-rr-loading")renew();
+      else if(event.data.type==="cms-rr-ready")onReady("ready");
       else if(event.data.type==="cms-rr-armed")onArmed("armed");
-      else if(event.data.type==="cms-rr-error"){onReady("error");onArmed("error");onDone("error");}
+      else if(event.data.type==="cms-rr-error"){const why=event.data.webgl===false?"nowebgl":"error";onReady(why);onArmed(why);onDone(why);}
       else if(event.data.type==="cms-rr-continue")onDone("continue");
     };
     root.addEventListener("message",handler);
     // A page that loads without its 3D library, or not at all, is dropped at once instead of after the full wait.
     frame.addEventListener("load",()=>{try{const view=frame.contentWindow;if(view&&String(view.location.href)==="about:blank")return;if(!view||!view.THREE)onReady("error");}catch(_error){onReady("error");}});
     frame.addEventListener("error",()=>onReady("error"));
-    const stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout"));
-    return {ready:ready.finally(stopWait),armed,done,stop(){root.removeEventListener("message",handler);stopWait();}};
+    let stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout")),started=false;
+    const stopCap=rrsVisibleWait(COLD_LOADING_MS,()=>onReady("timeout"));
+    // r90 Light: the "still busy" pings also keep the wait for "armed" open (the page draws the boards and its first frame)
+    let armedWait=null;
+    function renew(){if(armedWait){armedWait.renew();return;}if(started)return;stopWait();stopWait=rrsVisibleWait(MAX_LOADING_MS,()=>onReady("timeout"));}
+    const stopAll=()=>{started=true;stopWait();stopCap();};
+    function waitArmed(){let stop=()=>{};const timedOut=new Promise(resolve=>{const arm=()=>{stop();stop=rrsVisibleWait(ARMED_WAIT_MS,()=>resolve("timeout"));};armedWait={renew:arm};arm();});
+      return Promise.race([armed,timedOut]).finally(()=>{stop();armedWait=null;});}
+    return {ready:ready.finally(stopAll),armed:waitArmed,done,stop(){root.removeEventListener("message",handler);stopAll();if(armedWait)armedWait.renew=()=>{};}};
   }
   // "watched" when both spins played to the end, "skipped" when the page could not run (the result still shows).
-  async function rrsScene(ctx,plan){
-    // The loading screen (held since START) covers a card left from a TRY AGAIN; the card goes now, so it can never stand over
-    // the scene with dead buttons (Fable F2-03).
-    rrsLoadingOn();rrsRemovePanel();
-    const shownAt=Date.now();let channel=null,stage=null,frame=null;
+  // One try: a fresh frame, its page loaded, ready and armed with this season's spins. Resolves to the frame, or to why not.
+  async function rrsSceneTry(ctx,plan){
+    let channel=null,stage=null,frame=null;
     try{
       ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame);
-      if(await channel.ready!=="ready")throw new Error("Roulette page did not start.");
+      const started=await channel.ready;
+      if(started!=="ready")throw new Error(started);
       const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null,number:p.name&&Number.isInteger(p.number)?p.number:null}));
       // The whole spin plan (red team R87-C-06): the scene loads bulletChamber, stops on stopChamber and aims at hitSlot
       // (a safe turn at aimSlot), so both phones show the same chambers and the same player.
       const turns=plan.turns.map(turn=>({fire:turn.fired,target:turn.player?turn.player.name:null,targetLabel:turn.player?rrsPlayerLabel(turn.player):null,targetNumber:turn.player?rrsPlayerFacts(turn.player).number:null,targetPosition:turn.player?rrsPlayerFacts(turn.player).position:null,targetRating:turn.player?rrsPlayerFacts(turn.player).rating:null,bulletChamber:turn.bulletChamber,stopChamber:turn.stopChamber,hitSlot:turn.hitSlot,aimSlot:turn.aimSlot,loadedChambers:Array.isArray(turn.loadedChambers)?[...turn.loadedChambers]:null}));
       frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns,seed:rrsSeed(ctx)},root.location.origin);
       // Red team RT5-FLOW-01: the stage stays hidden until the page says it took the setup ("cms-rr-armed"). A page that
-      // drops it (its squads file failed) or never answers is removed after ARMED_WAIT_MS and the result panel shows.
-      let stopArmed=()=>{};
-      const armed=await Promise.race([channel.armed,new Promise(resolve=>{stopArmed=rrsVisibleWait(ARMED_WAIT_MS,()=>resolve("timeout"));})]);
-      stopArmed();
-      if(armed!=="armed")throw new Error("Roulette page did not take the spins.");
-      const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
-      stage.style.visibility="visible";
-    }catch(_error){if(channel)channel.stop();sceneFailedHere.add(rrsKey(ctx));rrsRemoveStage();return "skipped";}// the result card takes over from the loading screen
+      // drops it (its squads file failed) or goes quiet for ARMED_WAIT_MS is removed and built again (or the result panel shows).
+      const armed=await channel.armed();
+      if(armed!=="armed")throw new Error(armed);
+      return {channel,stage,frame};
+    }catch(error){if(channel)channel.stop();rrsRemoveStage();return {failed:String(error&&error.message||"error")};}
+  }
+  async function rrsScene(ctx,plan){
+    // The loading screen (held since START) covers a card left from a TRY AGAIN; the card goes now, so it can never stand over
+    // the scene with dead buttons (Fable F2-03).
+    rrsLoadingOn();rrsRemovePanel();
+    // r90 Light: a page that broke, hung or loaded without three.js is built once more in a fresh frame (a cold Chromebook's
+    // second start is warm: files and shaders are cached); only a device without WebGL 2 is skipped for the rest of this visit.
+    const shownAt=Date.now();let run=null;
+    for(let attempt=1;attempt<=SCENE_TRIES;attempt++){
+      run=await rrsSceneTry(ctx,plan);
+      if(!run.failed)break;
+      if(run.failed==="nowebgl"){sceneFailedHere.add(rrsKey(ctx));return "skipped";}// the result card takes over from the loading screen
+    }
+    if(run.failed)return "skipped";
+    const {channel,stage,frame}=run;
+    const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
+    stage.style.visibility="visible";
     rrsLoadingOff();
     try{frame.focus();}catch(_error){}
+    // r90 Light: a lost GPU context no longer ends the scene; the page rebuilds itself when the context comes back and says
+    // cms-rr-error only if it never does (then the card, never a dead frame: F11-11).
     const end=await channel.done;channel.stop();
-    if(end!=="continue"){sceneFailedHere.add(rrsKey(ctx));rrsRemoveStage();return "skipped";}// F11-11: never a dead frame under the card
+    if(end!=="continue"){if(end==="nowebgl")sceneFailedHere.add(rrsKey(ctx));rrsRemoveStage();return "skipped";}
     return "watched";
   }
 

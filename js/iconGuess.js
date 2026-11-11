@@ -5,23 +5,10 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(){
   "use strict";
 
-  // r88 Prime Pack (named by Nik 2026-11-01; earlier working name Prime Pack; Nik 2026-10-31, spec project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md):
-  // once a season, after Roster Roulette and before the transfer window, both managers race to name a male outfield Legend,
-  // Icon, FUT Hero or Hall of FUT player from a card that reveals itself in four stages (Nik 2026-11-01): stage 1 shows the
-  // position and one random face stat, and each later stage adds one more stat. The first right guess the server records
-  // wins 4 Showdown points in stage 1, 3 in stage 2, 2 in stage 3 and 1 in stage 4; nobody by the end of stage 4 is a draw
-  // and the whole card is shown. Each manager has two guesses a card (default until Nik says otherwise).
-  //
-  // This module is the round logic only, with no IO, no clock and no randomness of its own:
-  //  - the draw: which icon each season and the stat order, read from the Showdown's own id like js/marqueePlayer.js and
-  //    js/rosterRoulette.js, so both phones agree with zero reads or writes, and no icon repeats in one Showdown;
-  //  - the reveal clock: which stage ("beat") is showing at a given server time, from the round's server start time; both
-  //    phones show each stage at the same server moment, and a guess counts for the stage its server write time falls in;
-  //  - the round record: the one small shared record per season round (arrivals, chips used, the winner). applyGuess is
-  //    the pure step the sync layer runs inside its transaction, so the first right guess the server records wins and
-  //    phone clocks never decide it. Wrong guesses are never stored: only the chip count moves.
-  // Name matching and the icon list live elsewhere (js/iconNames.js, data/icons.js); the round speaks in list indexes
-  // and icon ids only.
+  // Prime Pack round logic (r88; spec project-documents/r88-icon-guess/R88_ICON_GUESS_FEATURE_SPEC.md): once a season, after Roster Roulette and before the transfer window, both managers race to name a male outfield Legend, Icon, FUT Hero or Hall of FUT player from a card revealed in four stages (stage 1: position and one random face stat; each later stage adds one stat).
+  // The first right guess the server records wins 4 Showdown points in stage 1, 3 in stage 2, 2 in stage 3 and 1 in stage 4; nobody by the end of stage 4 is a draw and the whole card shows. Each manager has two guesses a card.
+  // Pure (no IO, clock or randomness of its own): the draw (icon and stat order from the Showdown id, like js/marqueePlayer.js and js/rosterRoulette.js: zero reads or writes, no repeat in a Showdown); the reveal clock (the stage showing at a server time, from the round's server start; a guess counts for the stage its server write time falls in); the round record (arrivals, chips used, winner).
+  // applyGuess is the pure step the sync layer runs inside its transaction, so the first right guess the server records wins and phone clocks never decide it; wrong guesses are never stored, only the chip count moves. Name matching and the icon list live in js/iconNames.js and data/icons.js; the round speaks in list indexes and icon ids only.
   const RIVALRY_ID=/^pair_([0-9a-f]{64})$/;
   const ROLES=Object.freeze(["playerOne","playerTwo"]); // playerOne = Daniel, playerTwo = Nik (app-wide convention)
   const STATS=Object.freeze(["PAC","SHO","PAS","DRI","DEF","PHY"]);
@@ -32,7 +19,7 @@
   // moment of a stage, reveal included, counts for that stage. stats is how many of the six real card stats are face up from
   // that stage on (1, 2, 3, 4; which stats is the seeded statOrder; the values are always the player's own). Stage 5 has no
   // guessing: when the round ends (a right guess at any stage, both out of guesses, or stage 4's timer) the result reveals
-  // the last two stats, the name, the flag and the overall (igResultView). The Rules hold the same stage edges
+  // the last two stats, the name, the flag and the overall. The Rules hold the same stage edges
   // (ssjrPackStagePoints and ssjrPackGuessInTime in firestore.season-results-production.fragment.rules); contract G8 fails
   // until they match this table.
   const STAGES=Object.freeze([
@@ -129,7 +116,7 @@
   }
   // Which parts of the card are face up once stage `beat` has started, straight from STAGES: the position and that stage's
   // stat count (in the seeded order). The last two stats, the flag, the overall and the name only show in the stage 5
-  // reveal (igResultView).
+  // reveal.
   function igRevealed(beat,statOrder){
     const stage=Number.isInteger(beat)&&beat>=0?STAGES[Math.min(beat,LAST_BEAT)]:null;
     const stats=stage&&Array.isArray(statOrder)?statOrder.slice(0,stage.stats):[];
@@ -137,20 +124,12 @@
   }
   // What a right guess in beat `beat` is worth (0 outside the four stages).
   function igStagePoints(beat){return Number.isInteger(beat)&&beat>=0&&beat<BEATS?STAGE_POINTS[beat]:0;}
-  // The result screen: everything face up.
-  function igResultView(statOrder){
-    return Object.freeze({position:true,stats:Object.freeze(Array.isArray(statOrder)?statOrder.slice():STATS.slice()),flag:true,overall:true,name:true});
-  }
 
   // ---------- the round record ----------
   // One record per season round, the only thing the two phones share for this game:
   //   {v, season, arrived:{playerOne, playerTwo} (server ms or null), chipsUsed:{playerOne, playerTwo},
   //    winner: null | {role, beat, atMs}}
   // The start time is never stored: both phones derive it from the two arrival times. Wrong guesses are never stored.
-  function igNewRecord(season){
-    if(!igSeason(season))return null;
-    return Object.freeze({v:RECORD_VERSION,season,arrived:Object.freeze({playerOne:null,playerTwo:null}),chipsUsed:Object.freeze({playerOne:0,playerTwo:0}),winner:null});
-  }
   const igMs=value=>Number.isFinite(value)&&value>0;
   function igValid(record){
     if(!record||record.v!==RECORD_VERSION||!igSeason(record.season))return false;
@@ -173,13 +152,6 @@
     if(!record||!record.arrived)return null;
     const a=record.arrived.playerOne,b=record.arrived.playerTwo;
     return igMs(a)&&igMs(b)?Math.max(a,b)+LEAD_MS:null;
-  }
-  // A manager opens the screen. The first arrival time stands: a reload never moves the start.
-  function igArrive(record,role,atMs){
-    if(!igValid(record))return {ok:false,reason:"BAD_RECORD"};
-    if(!ROLES.includes(role)||!igMs(atMs))return {ok:false,reason:"BAD_ARRIVAL"};
-    if(record.arrived[role]!==null)return {ok:true,changed:false,record};
-    return {ok:true,changed:true,record:Object.freeze({...record,arrived:Object.freeze({...record.arrived,[role]:atMs})})};
   }
   // How the round stands at server time nowMs: "waiting" (someone hasn't arrived), "live", or the end:
   // "won" (winner set), "draw" (stage 4 window closed, or both managers out of chips, with no winner).
@@ -225,7 +197,7 @@
     contractVersion:1,feature:"cms-icon-guess",roles:ROLES,stats:STATS,maxSeasons:MAX_SEASONS,chips:CHIPS,
     beats:BEATS,lastBeat:LAST_BEAT,stagePoints:STAGE_POINTS,maxPoints:MAX_POINTS,stages:STAGES,stageStarts:STAGE_STARTS,roundMs:ROUND_MS,leadMs:LEAD_MS,
     fromMs:ICON_FROM_MS,eligible:igEligible,order:igOrder,statOrder:igStatOrder,draw:igDraw,
-    endsAt:igEndsAt,drawSlackMs:DRAW_SLACK_MS,beatAt:igBeatAt,revealed:igRevealed,stagePointsAt:igStagePoints,resultView:igResultView,
-    newRecord:igNewRecord,validRecord:igValid,startMs:igStartMs,arrive:igArrive,outcome:igOutcome,applyGuess:igApplyGuess,points:igPoints
+    endsAt:igEndsAt,drawSlackMs:DRAW_SLACK_MS,beatAt:igBeatAt,revealed:igRevealed,stagePointsAt:igStagePoints,
+    validRecord:igValid,startMs:igStartMs,outcome:igOutcome,applyGuess:igApplyGuess,points:igPoints
   });
 });

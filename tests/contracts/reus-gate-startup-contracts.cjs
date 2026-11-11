@@ -26,7 +26,7 @@ for(const signal of [/V\.isMounted\("mainMenu"\)/,/fonts\.ready/,/\.decode\(\)/,
 assert.match(ssjr,/const home=v10\(\)\.then\(reusGate\)[^\n]*careerModeHomeHold=0/,"Reus Gate: Home's look starts at once and always reports back (ready or failed)");
 const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
 const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-assert.ok(gzip<=33913,`startup gzip ${gzip} must stay <= 33913 (2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
+assert.ok(gzip<=34000,`startup gzip ${gzip} must stay <= 34000 (r90 W8 +87 on js/menuExperience.js: the hidden Reus cover photo, 89 KB, is no longer downloaded on every start, lead brief W8 2026-11-07; 2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
 console.log("ok Reus Gate source: app.js hold with minimum and cap, ssjr.js ready signals, startup budget");
 
 // ---- browser ----
@@ -82,7 +82,9 @@ async function start(browser,base,{reducedMotion="no-preference",delay=true,stub
   return {context,page,rec};
 }
 
-const CLUB_OPEN=`(async()=>{await window.ensureGameplayModules();await window.CareerModeClubScreenV10.install();
+// r90: Club Assignment's skin loads at idle after Home (js/ssjr.js afterHome); load it first, as CC3 does (#1294), so a
+// runner whose idle comes late (the 3D probe now also waits for idle after loading, #1311) never reaches install before it.
+const CLUB_OPEN=`(async()=>{await window.ensureGameplayModules();await window.loadRuntimeScript('v10-club','js/clubScreenV10.js',()=>Boolean(window.CareerModeClubScreenV10));await window.CareerModeClubScreenV10.install();
   currentShowdown={id:"reus-gate-club",name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},selectedLeague:{id:"premier_league",name:"Premier League"},clubs:{playerOne:null,playerTwo:null},totalRounds:3,status:"League Confirmed",rounds:[]};
   initializeClubAssignment();showScreen("clubWheelScreen");populateClubAssignmentBase();renderReadyAssignmentState();})()`;
 async function plateGate(browser,base,label,hostId,plate,open){
@@ -146,8 +148,9 @@ function exposedOldHome(rec){
     // The same ready gate on a screen's first open: Rule Book's and Club's plates are CSS backgrounds (image-set). On a slow link a
     // screen was revealed as a dark stage and its plate painted in later (Club: a second show() of the same frame also settled the
     // cover early); the cover now stays until the plate is decoded (capped).
-    await plateGate(browser,base,"Rule Book","ruleBook",/ENV_RULE_BOOK_PLATE_V2_1X\.webp/,"window.openOptionalModule('ruleBook')");
-    await plateGate(browser,base,"Club","clubWheelScreen",/ENV_CLUB_PLATE_V2_1X\.webp/,CLUB_OPEN);
+    await plateGate(browser,base,"Rule Book","ruleBook",/ENV_SLAB_HC_V1_1X\.webp/,"window.openOptionalModule('ruleBook')");
+    // HO-068: Club stands in the box room (js/clubScreenV10.js BOX_ROOM), so its plate is the box room plate.
+    await plateGate(browser,base,"Club","clubWheelScreen",/ENV_BOX_PLATE_HC_V2_1X\.webp/,CLUB_OPEN);
     // Safety: with no lazy loader at all (idle callbacks never run, as some audits arrange) the loading screen still leaves.
     {
       const {context,rec}=await start(browser,base,{delay:false,stubIdle:true,cpu:1});

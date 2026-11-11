@@ -331,7 +331,7 @@
    On screen: panel intros, notes and row values 14px; motion/audio helper lines 13px; row labels 12px.
    Each size divides by the same zoom factor so it SHOWS at that size from 1440x900 up to 2560x1440; the type is paid for
    with tighter spacing inside the panels. Short laptop windows: see the block after this one. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   @supports (zoom: calc(1px / 1px)) {
     :root #settingsOverlay.v10Settings { --r78-settings-zoom: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
     :root #settingsOverlay.v10Settings :is(.settingsPanelHeading p, .settingsDataNote, .settingsOfflineNote,
@@ -357,11 +357,9 @@
        Panel sizes, positions and order are unchanged. */
     :root #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel { padding-top: 12px; padding-bottom: 12px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsPanelHeading { margin-bottom: 6px; padding-bottom: 6px; }
-    :root #settingsOverlay.v10Settings #settingsContent .settingsPanelHeading p { margin-top: 3px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsInfoGrid { row-gap: 2px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow { padding-top: 2px; padding-bottom: 2px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow strong { margin-top: 1px; }
-    :root #settingsOverlay.v10Settings #settingsContent .settingsMotionSummary { padding-top: 22px; }
     :root #settingsOverlay.v10Settings #settingsContent :is(.settingsOfflineNote, .settingsApplicationUpdateStatus) { margin-top: 6px; padding-top: 5px; padding-bottom: 5px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsOfflineActions { margin-top: 8px; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsDataNote { margin-top: 6px; }
@@ -385,6 +383,13 @@
   }
 }
 @media (min-width: 1200px) and (min-height: 600px) and (max-height: 899px) and (max-aspect-ratio: 169/100) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root #settingsOverlay.v10Settings { --r78-settings-zoom: max(min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5), 0.75); }
+  }
+}
+/* r90 W9: 4:3 to 3:2 laptop windows (1280x900, 1280x960) take the desktop Settings composition too; the same 0.75 floor
+   keeps its type from outgrowing the narrower panels. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (max-aspect-ratio: 3/2) and (orientation: landscape) {
   @supports (zoom: calc(1px / 1px)) {
     :root #settingsOverlay.v10Settings { --r78-settings-zoom: max(min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5), 0.75); }
   }
@@ -456,7 +461,7 @@
 /* 4a · Settings, big landscape desktops (same zoomed composition as 3d+): a real heading step between the gold
    eyebrow (12px) and the intro line (14px): panel titles were 13.6px on screen, below their own intro text.
    Panel buttons share one label size (they were 10.5 / 11 / 12.75px). */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   @supports (zoom: calc(1px / 1px)) {
     :root #settingsOverlay.v10Settings #settingsContent .settingsPanelEyebrow {
       font-size: calc(var(--sa-type-eyebrow) / var(--r78-settings-zoom));
@@ -472,7 +477,6 @@
     }
     :root #settingsOverlay.v10Settings #settingsContent .settingsPanelHeading p { margin-top: 0; }
     :root #settingsOverlay.v10Settings #settingsContent .settingsPanel .menuButton {
-      font-size: calc(var(--sa-type-small) / var(--r78-settings-zoom));
       letter-spacing: .12em;
     }
   }
@@ -689,7 +693,7 @@
    over Daniel's cheek and Nik's beard; the faces sit at ~23.3% and ~76% of the window on every desktop size, so the board
    now spans 25.3%-72.3%, clear of both faces from 1280 to 1440 wide. */
 @media (min-width: 901px) and (max-height: 1000px) {
-  :root #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) { width: 47%; margin-left: 25.3%; margin-right: auto; }
+  :root #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) { width: 47%; margin-right: auto; }
 }
 /* Transfer War guess entry: the board said WINDOW CLOSED twice (the closed sign, then the status "Window closed - Guess
    entry"). Hierarchy: one message, as the signing phase already does. */
@@ -1118,7 +1122,7 @@
    At the desktop plate only: Application and Motion side by side on top,
    Account and Data below, Application facts in two columns so the panels
    carry no empty space. Phones and tablets keep their layout. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--application { grid-column: 1 / 7 !important; grid-row: 1 !important; }
   :root #settingsOverlay.v10Settings #settingsContent .settingsPanel--motion { grid-column: 7 / 13 !important; grid-row: 1 !important; }
   :root #settingsOverlay.v10Settings #settingsContent :is(.settingsPanel--account, .settingsConnectedAccountPanel) { grid-column: 1 / 5 !important; grid-row: 2 !important; }
@@ -1148,7 +1152,7 @@
 :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow small.settingsInfoHint {
   display: block; margin-top: 0; color: #c1b9aa; font: 400 12px/1.3 var(--sd-font-body, inherit); letter-spacing: 0; text-transform: none;
 }
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   @supports (zoom: calc(1px / 1px)) {
     :root #settingsOverlay.v10Settings { --sa-settings-tz: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
     :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel :is(.settingsPanelEyebrow, .settingsStatus, .settingsAudioToggle strong) {
@@ -1185,6 +1189,35 @@
 :root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle.enabled .settingsAudioToggleTrack { background: var(--sd-gold-500, #f5c518); border-color: var(--sd-gold-500, #f5c518); }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle.enabled .settingsAudioToggleTrack::after { left: 20px; background: #15120c; }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsAudioRow .settingsAudioToggle:focus-visible { outline: 2px solid var(--sd-gold-500, #f5c518); outline-offset: 2px; }
+/* r90 W4: the 3D quality pick (js/settings.js) sits under MENU CLICK FEEDBACK in the same row style; one gold-edged
+   select, 44px tall like the toggle. The two rows share the space the old single row took (no extra margin above). */
+:root body #settingsOverlay.v10Settings #settingsContent .settingsPanel > .settingsAudioRow + .settingsGfxRow { margin-top: 6px; }
+/* Landscape desktops: the Settings plate has no height to spare (1366x640 fills it exactly), so the two rows share one
+   line: MENU CLICK FEEDBACK on the left, 3D QUALITY on the right. The panel wraps its children; every other child keeps a
+   full line, and the shared line stays at the panel's foot as the single row did. */
+@media (min-width: 1200px) and (orientation: landscape) {
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) { flex-flow: row wrap; align-content: flex-start; column-gap: 10px; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) > * { flex: 1 0 100%; min-width: 0; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsAudioRow:not(.settingsGfxRow) { flex: 1 1 0; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow { flex: 0 0 auto; margin-top: auto; gap: 12px; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy small:not(.settingsGfxAuto) { display: none; }
+}
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect {
+  flex: 0 0 auto; min-height: 44px; min-width: 0; max-width: 100%; padding: 0 30px 0 12px; border: 1px solid rgba(219, 178, 94, .55); border-radius: 0;
+  background: rgba(0, 0, 0, .6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23f5c518'/%3E%3C/svg%3E") no-repeat right 11px center;
+  color: #f5f1e8; font: inherit; font-weight: 600; letter-spacing: .04em; appearance: none; -webkit-appearance: none; cursor: pointer;
+}
+/* Touch widths (the one main scroller): the select drops under its words when they would wrap past two lines. */
+@media (max-width: 1199px) {
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow { flex-wrap: wrap; row-gap: 8px; }
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsAudioCopy { flex: 1 1 150px; }
+}
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect option { background: #15120c; color: #f5f1e8; }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:disabled { opacity: .6; cursor: default; }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:focus-visible { outline: 2px solid var(--sd-gold-500, #f5c518); outline-offset: 2px; }
+/* r90: what Auto chose on this device, one quiet line under 3D QUALITY (Settings only, never on a game screen). */
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxAuto { display: block; white-space: normal; color: rgba(245, 241, 232, .62); }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxAuto[hidden] { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionChoice, .settingsAudioToggle) {
     transition: transform var(--sa-press-ms, 120ms) var(--sa-press-ease, ease-out);
@@ -1193,12 +1226,12 @@
 }
 /* 4p.2 Short 16:9 laptops (1280x720): with the 12px floor the panel grid ends at 621px, under DONE's top edge (617px).
    DONE keeps its bottom-right corner and drops 34px closer to the window edge, 30px clear of the Showdown Data card. */
-@media (min-width: 1200px) and (min-height: 600px) and (max-height: 740px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 740px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   :root body #settingsOverlay.v10Settings .settingsFooter { bottom: max(20px, 3.5%); }
 }
 /* 4p.3 Nik 2026-11-04 ("Move both", Fable's spot): on the desktop plate DONE sits in the panel grid's last row,
    right-aligned with the cards' right edge, one grid gap under them. js/settings.js moves the footer into #settingsContent here. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   :root body #settingsOverlay.v10Settings #settingsContent > .settingsFooter[data-sa-in-grid] {
     position: static; inset: auto; grid-column: 1 / -1; grid-row: 3; justify-self: end; align-self: start;
     width: auto; margin: 0; transform: none;
@@ -1255,6 +1288,11 @@
 /* 4w.7 Career Statistics on sideways phones: the three action buttons wrapped to three lines and cut "STATISTICS" and "ROOM"; two lines at the 12px floor fit the 44px buttons. */
 @media (orientation: landscape) and (max-height: 500px) {
   :root #app #careerStatistics.careerScreenV10 .actionRow .actionButton .actionLabel { font-size: 12px; line-height: 1.08; letter-spacing: .02em; text-wrap: balance; min-width: 0; }
+}
+/* 4w.7b (2.3.0 final pass F02) Career Statistics on narrow upright phones (375x553, 360 wide): "CURRENT RIVALRY STATISTICS" ran to
+   three lines in its 117px label and the third was cut by the 42px button. Tighter tracking at 13px keeps it to two lines. */
+@media (max-width: 389px) and (orientation: portrait) {
+  :root #app #careerStatistics.careerScreenV10 .actionRow .actionButton .actionLabel { font-size: 13px; line-height: 1.1; letter-spacing: .03em; text-wrap: balance; min-width: 0; }
 }
 /* 4w.8 Sideways phones: the Rule Book summary and the Transfer War window status sit straight on busy photos; same dark marble strip as the upright info line. */
 @media (orientation: landscape) and (max-height: 500px) {
@@ -1593,4 +1631,29 @@
    rail and the sticky ACCOUNT card under it touched TWO MANAGERS. ONE LEGACY. The rail grows 6px; nothing else moves. */
 @media (max-width:1199px) and (max-height:500px) and (orientation:landscape) {
   :root :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) { --settings-touch-rail: 84px; }
+}
+
+/* r90 W9 (LOOK hunt L18): Final Winner's honours board reads as plain rows (number, honour, number). The tiny trophy pictures
+   and the "Σ" text glyph on TOTAL TROPHIES are gone; their columns stay, so every row keeps its alignment at every size. */
+#app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric > img,
+#app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric > .finalWinnerTotalMark { visibility: hidden !important; }
+#app #seasonEntry #finalWinnerHonours .finalWinnerTrophyMetric--total > span:not(.finalWinnerTotalMark) { justify-self: center !important; text-align: center !important; }
+/* r90 W9 (Codex on #1308 and #1315): in 4:3 to 3:2 windows the panels zoom to the window (0.625 at 1200x900), so the 12px
+   floor makes the eyebrows 18-19px before the zoom; their fixed 13px line let them run onto the panel titles. The line now
+   follows the type, so they render at 12px and clear the titles. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (max-aspect-ratio: 3/2) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel .settingsPanelEyebrow { line-height: 1.1; }
+  }
+}
+/* r90 W9: the DETAILS toggle under ONLINE PLAY TODAY takes the same 12px floor as the other small Settings type when the
+   panels zoom (it rendered at 7px at 1200x900). */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root body #settingsOverlay.v10Settings #settingsContent .settingsPanel .settingsUsageDetails > summary { font-size: max(12px, calc(12px / var(--sa-settings-tz))); }
+  }
+}
+/* r90 W9: on phones the two free-use row labels behind DETAILS were 10px; they take the 12px minimum like the rest. */
+@media (max-width: 480px) {
+  :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow span { font-size: 12px; }
 }

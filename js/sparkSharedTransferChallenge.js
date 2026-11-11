@@ -129,7 +129,6 @@
     if(value.schemaVersion!==1||value.objectType!=="sharedTransferChallenge"||value.rivalryId!==rivalryId||value.seasonNumber!==seasonNumber)stspFail("TRANSFER_PROVIDER_STATE_INVALID");
     return stspSpinEntries(value.spins);
   }
-  function stspSpins(value,rivalryId,seasonNumber){const marks=stspSpinMarks(value,rivalryId,seasonNumber);return marks?ROLES.filter(role=>marks[role]!==null):null;}
   function stspPublicState(value,rivalryId,seasonNumber,setup){
     if(!value||stspIsPreWindow(value))return null;stspExact(value,PUBLIC_KEYS);
     if(value.schemaVersion!==1||value.objectType!=="sharedTransferChallenge"||value.rivalryId!==rivalryId||value.seasonNumber!==seasonNumber||value.runtimeRevision!==protocol.runtimeRevision||value.coordinatorRole!==setup.coordinatorRole||!protocol.phases.includes(value.phase)||!Number.isInteger(value.revision)||value.revision<1||value.revision>7)stspFail("TRANSFER_PROVIDER_STATE_INVALID");

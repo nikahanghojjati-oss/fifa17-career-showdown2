@@ -19,7 +19,7 @@ const playerOneProfileId=`profile_${"d".repeat(24)}`;
   page.on("console",message=>{if(message.type()!=="error")return;const text=message.text();if(/^Failed to load resource/.test(text))return;if(baseUrl.origin==="https://nikahanghojjati-oss.github.io"&&text==="requestStorageAccess: Permission denied.")return;consoleErrors.push(text);});
   try{
     await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
-    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
     await page.waitForFunction(()=>typeof window.loadRuntimeScript==="function"&&window.CareerModeProductionSharedJourneyEntry,null,{timeout:12000});
     // Nik, 2026-10-05: Home shows all seven tiles. Legacy and Career Statistics read the shared career through the
     // career screen seam (job 28), not retired local data.

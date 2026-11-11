@@ -70,7 +70,7 @@ const both=MP.forShowdown(id,MP.fromMs+1);
 assert.ok(both&&both.playerOne.name&&both.playerTwo.name&&both.playerOne.name!==both.playerTwo.name);
 assert.deepEqual(Object.keys(both.playerOne),['listVersion','rank','name','club','overall','potential','number','nation','nationCode','position','stats','tier']);
 // GC-04: from 2.0.0 the draw takes both clubs; clubs no listed player plays for leave the r86 pair unchanged.
-assert.deepEqual(MP.forNewShowdown(id,{playerOne:'No Such Club A',playerTwo:'No Such Club B'}),both,'the reveal and the career screens show the same players');
+assert.deepEqual(MP.forShowdown(id,Number.MAX_SAFE_INTEGER,{fromMs:0,clubs:{playerOne:'No Such Club A',playerTwo:'No Such Club B'}}),both,'the reveal and the career screens show the same players');
 assert.deepEqual(MP.forShowdown(id,{toMillis:()=>MP.fromMs+1}),both,'a Firestore Timestamp works too');
 for(const old of [MP.fromMs-1,null,undefined,'2026-10-29',NaN,{}])assert.equal(MP.forShowdown(id,old),null,`no MP for ${String(old)}`);
 ok('L4','a Showdown confirmed before r86 (or with no confirm time at all) has no Special Player; one confirmed after has the same pair the reveal showed');

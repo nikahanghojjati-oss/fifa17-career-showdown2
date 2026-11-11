@@ -140,51 +140,18 @@
   /* JOB-1654: the Team V sheet (rule-book.css) loads after this file, so every rule here is #app-prefixed to win.
      The Rule Book leaves the fixed full-screen overlay and joins the page flow inside <main>, which is the only
      scroller: the section grows with its content and nothing inside it scrolls or clips. */
-  #app #ruleBook.v10RuleBook {
-    position:relative;
-    inset:auto;
-    width:100%;
-    height:auto;
-    min-height:0;
-    overflow:visible;
-  }
   /* The stage box stays exactly one viewport tall, so the Team V stage engine sizes the plate exactly as on the
      fixed screen (it measures this box). The cards flow out of it and <main> scrolls to the end of them. */
-  #app #ruleBook.v10RuleBook #v10RuleBookStage {
-    position:relative;
-    inset:auto;
-    width:100%;
-    height:100svh;
-    min-height:0;
-    overflow:visible;
-  }
-  #app #ruleBook.v10RuleBook #v10RuleBookStage .sd-stage__layer--ui {
-    position:relative;
-    inset:auto;
-    height:auto;
-    min-height:0;
-    overflow:visible;
-  }
   #app #ruleBook.v10RuleBook #v10RuleBookStage .sd-stage__layer--plate,
   #app #ruleBook.v10RuleBook #v10RuleBookStage .sd-stage__layer--atmosphere {
-    position:fixed;
     top:0;
     bottom:0;
-    height:100svh;
-    pointer-events:none;
   }
   #app #ruleBook.v10RuleBook .ruleBookV10Content {
-    position:relative;
-    inset:auto;
-    box-sizing:border-box;
     display:flex;
     flex-direction:column;
     gap:0;
-    width:100%;
-    height:auto;
-    min-height:0;
     padding:10px 0 calc(24px + env(safe-area-inset-bottom));
-    overflow:visible;
   }
   #app #ruleBook.v10RuleBook .ruleBookHero {
     position:relative;
@@ -206,40 +173,20 @@
     flex:0 0 auto;
   }
   #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
-    position:relative;
-    inset:auto;
-    top:auto;
-    bottom:auto;
     box-sizing:border-box;
     width:calc(100% - 20px);
-    height:auto;
-    max-height:none;
     margin:0 10px;
-    padding:0;
     flex:0 0 auto;
-    overflow:visible;
-    overscroll-behavior:auto;
   }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection {
-    box-sizing:border-box;
     width:100%;
-    height:auto;
-    max-height:none;
-    overflow:visible;
-    overflow-wrap:break-word;
     scroll-margin-top:12px;
   }
-  #app #ruleBook.v10RuleBook .ruleSectionHeader h3 { line-height:1.2; overflow-wrap:break-word; }
+  #app #ruleBook.v10RuleBook .ruleSectionHeader h3 { line-height:1.2; }
   #app #ruleBook.v10RuleBook .ruleScoreRow,
   #app #ruleBook.v10RuleBook .ruleScoreMaximum { flex-wrap:wrap; }
   #app #ruleBook.v10RuleBook .ruleBookActions {
-    position:relative;
-    left:auto;
-    bottom:auto;
-    width:min(72%,280px);
-    margin:16px auto 0;
     flex:0 0 auto;
-    transform:none;
   }
   #app #ruleBook.v10RuleBook .nav-reserve,
   #app #ruleBook.v10RuleBook .topbarReserve { display:none; }
@@ -262,30 +209,17 @@
     min-height:44px;
   }
   #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { display:flex; flex-direction:column; gap:12px; }
-  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { flex:0 0 auto; padding:12px 15px; overscroll-behavior:auto; }
+  #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { flex:0 0 auto; padding:12px 15px; }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader { min-height:34px; margin-bottom:8px; padding-bottom:8px; }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader h3 { font-size:14px; }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection ul { gap:4px; }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li { font-size:13px; line-height:1.35; }
   #app #ruleBook.v10RuleBook .ruleScoreRow,
   #app #ruleBook.v10RuleBook .ruleScoreMaximum { font-size:13px; line-height:1.35; }
-  #app #ruleBook.v10RuleBook #ruleBookBack { width:100%; min-width:0; min-height:44px; }
 }
 
 /* JOB-1415 / JOB-1416: preserve two columns on laptop and 1366x768 Chromebook;
    grow each row to fit its rules and keep Back after the entire grid. */
-@media (min-width:1240px) and (max-width:1320px) and (min-height:620px) and (max-height:680px) and (orientation:landscape),
-       (min-width:1340px) and (max-width:1390px) and (min-height:740px) and (max-height:800px) and (orientation:landscape),
-        (min-width:1880px) and (max-width:1960px) and (min-height:1040px) and (max-height:1120px) and (orientation:landscape),
-        (min-width:2500px) and (max-width:2620px) and (min-height:1040px) and (max-height:1120px) and (orientation:landscape) {
-  #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    grid-template-rows:repeat(3,max-content);
-    align-items:start;
-    gap:12px 16px;
-  }
-}
 
 /* JOB-1417 / JOB-1654: at 1920x1080 and 2560x1080 everything fits one view. <main> starts below the 52px top bar
    and pads 14px above and 34px below, so the stage is pulled back up and down by exactly that much. It then spans the
@@ -498,9 +432,9 @@
     width:min(36vw,275px); height:clamp(48px,6.5svh,75px);
     max-height:none; margin:1px auto; object-fit:contain;
   }
-  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow { font-size:10px; line-height:1.2; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow { font-size:12px; line-height:1.2; }
   #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow::before { margin-bottom:4px; }
-  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline { font-size:10px; line-height:1.25; letter-spacing:.17em; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline { font-size:12px; line-height:1.25; letter-spacing:.17em; }
   #app #ruleBook.v10RuleBook .ruleBookSummary {
     display:block; max-width:470px; margin:5px auto 0; font:400 11px/1.3 var(--sd-font-body);
   }
@@ -547,9 +481,9 @@
     width:100%; height:clamp(42px,9svh,100px); max-height:none;
     object-fit:contain; margin:0 auto;
   }
-  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow { font-size:clamp(10px,.8vw,16px); line-height:1.2; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow { font-size:clamp(12px,.8vw,16px); line-height:1.2; }
   #app #ruleBook.v10RuleBook .ruleBookHero .sd-eyebrow::before { block-size:12px; margin-bottom:4px; }
-  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline { font-size:clamp(10px,.8vw,16px); line-height:1.2; letter-spacing:.2em; }
+  #app #ruleBook.v10RuleBook .ruleBookHero .sd-tagline { font-size:clamp(12px,.8vw,16px); line-height:1.2; letter-spacing:.2em; }
   #app #ruleBook.v10RuleBook .ruleBookSummary {
     margin:5px auto 0; font:400 clamp(11px,.85vw,16px)/1.25 var(--sd-font-body);
   }
@@ -749,7 +683,7 @@
     flex:0 0 auto; display:grid; grid-template-columns:28px minmax(0,1fr); align-items:center; gap:10px;
     min-height:0; margin:0 0 7px; padding:0 0 7px; border-bottom:1px solid rgba(242,196,91,.28);
   }
-  #app #ruleBook.v10RuleBook .ruleSectionNumber { width:28px; height:28px; font-size:11px; }
+  #app #ruleBook.v10RuleBook .ruleSectionNumber { width:28px; height:28px; font-size:12px; }
   #app #ruleBook.v10RuleBook .ruleSectionHeader h3 { font-size:14px; line-height:1; letter-spacing:.12em; }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection ul { gap:5px; flex:0 0 auto; }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li {
@@ -834,6 +768,8 @@
     padding:max(7px,calc(var(--rbu) * 9)) max(14px,calc(var(--rbu) * 24)) max(9px,calc(var(--rbu) * 12)) max(14px,calc(var(--rbu) * 20));
     filter:drop-shadow(0 calc(var(--rbu) * 7) calc(var(--rbu) * 11) #000a);
   }
+  /* r90 M26 (Light): no drop-shadow filter pass on the six cards. */
+  html[data-gfx="0"] #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { filter:none; }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::before,
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::after {
     content:""; position:absolute; z-index:-1; pointer-events:none;
@@ -1145,7 +1081,7 @@
    started at 34% and scrolled), and gives the cards and buttons the picture's gold-bevel and polished-gold finish. Words, ids,
    the three motion choices (FOLLOW DEVICE, FULL MOTION, REDUCE MOTION) and every tap are untouched; phone, sideways phone and
    tablet are outside this query. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
   body #settingsOverlay.v10Settings {
     --st2-bevel: linear-gradient(135deg, #fff3b0 0%, #e2b645 16%, #8a6118 40%, #c99a33 62%, #f6dc86 82%, #9a6f1d 100%);
     --st2-bw: max(2px, calc(min(1vw, 1.7778vh) * .2));
@@ -1248,3 +1184,36 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
 #app #ruleBook.v10RuleBook .scoringRuleSection .ruleGoldenShowdown strong { color:#f7c93e; font-weight:700; letter-spacing:.08em; white-space:nowrap; }
 #app #ruleBook.v10RuleBook .scoringRuleSection .ruleGoldenShowdown span { min-width:0; }
 
+
+/* r90 W9 (window sweep): on short laptop windows (1280x720) the desktop composition sat 5 px over its box and scrolled inside.
+   The bottom padding and the row gap give back that room; the panels keep their places. */
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 760px) and (min-aspect-ratio: 4/3) and (orientation: landscape) {
+  body #settingsOverlay.v10Settings #settingsDialog #settingsContent { padding-bottom: 0; row-gap: 3px; }
+}
+/* r90 W9 (LOOK hunt L14): the free-quota numbers sit under a quiet DETAILS toggle below the plain ONLINE PLAY TODAY line. */
+#settingsOverlay.v10Settings .settingsUsageDetails { margin: 0 0 4px; }
+#settingsOverlay.v10Settings .settingsUsageDetails > summary {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 4px 2px; cursor: pointer; list-style: none;
+  font: 600 12px/1.2 var(--sd-font-condensed, inherit); letter-spacing: .14em; color: #c1b9aa;
+}
+#settingsOverlay.v10Settings .settingsUsageDetails > summary::-webkit-details-marker { display: none; }
+#settingsOverlay.v10Settings .settingsUsageDetails > summary::after { content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translateY(-2px); }
+#settingsOverlay.v10Settings .settingsUsageDetails[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
+#settingsOverlay.v10Settings .settingsUsageDetails > summary:hover, #settingsOverlay.v10Settings .settingsUsageDetails > summary:focus-visible { color: #f2c45b; }
+#settingsOverlay.v10Settings .settingsUsageDetails > .settingsInfoGrid { grid-template-columns: minmax(0, 1fr); margin-top: 4px; }
+
+/* HO-068 reading slab (Team V's handcrafted V1, visual-assets/v10_1/plates-hc/ENV_SLAB_*): Settings and the Rule Book sit on a
+   plain black marble surface with no people, no banners and no slogans, at every size. The stage plane draws the slab where
+   it showed the V2 picture plates or the old system plate (desktop, sideways, the wide tablet range); upright phones and
+   tablets draw the phone slab (picked in js/rulesSettingsV10.js). The set ships the slab at 1X only, so High and up use the
+   same file. The Settings line "TWO MANAGERS. ONE LEGACY." is not drawn (it keeps its room, so nothing moves). The
+   plates-v2 and shared/plates files stay as the rollback. */
+:is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate {
+  background-image:url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp');
+}
+:is(#app #settingsOverlay.v10Settings,#app ~ #settingsOverlay.v10Settings,body #settingsOverlay.v10Settings) .settingsTagline { visibility:hidden; }
+
+/* r90 strict C10: Team V's rule-book.css draws the section numbers and the Special Player tag at 11 px; the type floor is 12 px.
+   The 28 px number circle holds two digits at 12 px (it already does at 12 px under 900 px, above). */
+#app #ruleBook.v10RuleBook .ruleSectionNumber,
+#app #ruleBook.v10RuleBook .ruleSpecialPlayer .ruleSpecialPlayerTag { font-size: 12px; }

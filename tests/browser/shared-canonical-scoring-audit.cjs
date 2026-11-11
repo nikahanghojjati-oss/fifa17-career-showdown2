@@ -13,7 +13,7 @@ const scoreTwo={championsLeague:0,leagueTitle:0,domesticCup:0,performanceBonus:0
 
 async function prepare(page,{role,saveId,draw=false}){
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
-  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
+  await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.navigateTo==='function',null,{timeout:12000});
   await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,scoreOne,scoreTwo,draw})=>{
     if(draw){

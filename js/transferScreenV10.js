@@ -141,7 +141,7 @@
   const BASE="visual-assets/v10_1/";
   const ASSET_BASE=BASE+DIR;
   const ACTION_CLASSES=Object.freeze({start:"btn-end sd-btn sd-btn--secondary",continueReplay:"btn-continue sd-btn sd-btn--secondary",error:"error-line"});
-  let nameCells=[],installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null,reframe=null,desktopLayout=null;
+  let wordmarkClear=null,cameraWatch=null,nameCells=[],installed=false,registered=null,platemap=null,cached=null,mountedFrame=null,stage=null,adopted=[],cardSwaps=[],pending=false,timerNode=null,statusNode=null,stageSize=null,reframe=null,desktopLayout=null;
   const v10Screens=()=>root.CareerModeV10Screens;
   const tfDoc=()=>root.document||null;
   function tfWarn(context,error){if(root.console&&typeof root.console.warn==="function")root.console.warn(`[Career Mode Showdown] ${context}`,error);}
@@ -292,8 +292,8 @@
     const media="(max-width: 760px) and (orientation: portrait)",a=ASSET_BASE+"assets/";
     const pic=(cls,file,enter,size)=>`<picture class="${cls}"${enter?` data-sd-enter="${enter}"`:""}><source media="${media}" srcset="${file.includes("/")?BASE+file:a+file}" type="image/webp"><img alt=""${size||""} decoding="async"></picture>`;
     // r78 HO-031: the phone plate is Team V's ENV_TRANSFER_PHONE_V2 with both managers painted in (css/v10Transfer.css),
-    // so the phone cut-outs (OVL_TRANSFER_*_PHONE_V2) are gone.
-    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","plates-v2/ENV_TRANSFER_PHONE_V2.webp","",' width="1179" height="2096"')}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer War"></div>`;
+    // so the phone cut-outs (OVL_TRANSFER_*_PHONE_V2) are gone. HO-068: it is now the V2 office room (590W on Light or Save-Data).
+    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","plates-hc/ENV_OFFICE_PHONE_HC_V2"+(root.document?.documentElement?.dataset?.assets==="0"?"_590W":"")+".webp","",' width="1179" height="2096"')}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer War"></div>`;
   }
   // JOB-1699: on desktop the entry and verdict phases need more room than Team V's painted frames give them.
   // Only those phases move the existing panels (same nodes, ids, copy and listeners) as one ordered group beside the
@@ -351,6 +351,66 @@
     }};
     sync();
   }
+  // r90 LOOK L33: on wide windows (1920x906, 2560x1000) Team V's plate camera crops the top of the plate, and the live
+  // TRANSFER WAR title (plate y 62) slid under the top bar or off the window. Keep its place; drop it only by the pixels
+  // it needs to clear the bar (8 px gap), and shrink it by as much as it drops (down to 70 %) so "WAR" stays off Daniel's
+  // hair, which leans in under the title's right end. Runs after the plate's own re-frame on every resize.
+  // HO-068 (Nik: nothing may touch a face): Team V's desktop camera covers the window and keeps the panels in view, so on
+  // wide windows (1920x866, 2560x1000) it cropped the men's hair under the top bar and at 3440x1080 Daniel's whole face off
+  // the window. In the office room their hair starts at plate row 65; when rows 60 to the panels' bottom do not fit, the
+  // world is scaled down as one piece with the same "fit" look Team V's camera uses on short screens (the plate blurred in
+  // the side bands). The camera's own result stands everywhere else, and plate.js stays Team V's.
+  const TF_KEEP_TOP=60;
+  function tfCameraClear(){
+    const world=stage&&stage.querySelector(".world"),kv=platemap&&platemap.keepVisible;
+    if(!world||!kv||stage.dataset.mode!=="desktop"||stage.classList.contains("short"))return;
+    const vw=stage.clientWidth,vh=stage.clientHeight,k=+stage.dataset.k;
+    if(!vw||!vh||!k)return;
+    const footer=36,content=Math.max(kv.panelBottom,kv.contentBottom||0,+(stage.dataset.contentBottom||0));
+    const s=Math.min(1,(vh-footer-6)/((content-TF_KEEP_TOP)*k));
+    if(s>=1)return;
+    const Ws=1672*k*s,Hs=941*k*s,offY=Math.max(0,Math.min(Hs-vh,content*k*s+footer+6-vh));
+    const left=Ws<vw?(vw-Ws)/2:-Math.max(0,Math.min(Ws-vw,(kv.x[0]+kv.x[1])/2*k*s-vw/2)),top=-offY;
+    const now=/scale\(([\d.]+)\)/.exec(world.style.transform||"");
+    if(now&&Math.abs(+now[1]-s)<1e-4&&Math.abs(parseFloat(world.style.left)-left)<.5&&Math.abs(parseFloat(world.style.top)-top)<.5)return;
+    world.style.transform=`scale(${s.toFixed(5)})`;world.style.transformOrigin="0 0";
+    world.style.left=`${left.toFixed(1)}px`;world.style.top=`${top.toFixed(1)}px`;
+    stage.classList.toggle("fit",Ws<vw-1);stage.dataset.scale=s.toFixed(4);stage.dataset.offY=String(Math.round(offY));
+  }
+  function tfWordmarkClear(){
+    tfCameraClear();
+    const world=stage&&stage.querySelector(".world"),mark=world&&world.querySelector(":scope > .transfer-wordmark");
+    if(!mark)return;
+    mark.style.removeProperty("--tw-wm-drop");mark.style.removeProperty("--tw-wm-scale");mark.style.removeProperty("--tw-wm-left");
+    const view=mark.ownerDocument&&mark.ownerDocument.defaultView;
+    if(!view||view.getComputedStyle(mark).position!=="absolute"||!world.offsetHeight)return;// phones: the title is in flow
+    const bar=mark.ownerDocument.querySelector(".sd-nav-top"),barBox=bar&&bar.getBoundingClientRect();
+    const barBottom=barBox&&barBox.height>0?barBox.bottom:0,box=world.getBoundingClientRect(),scale=box.height/world.offsetHeight||1;
+    // r90 LOOK L35: a narrow window (4:3, 5:4) crops the plate's sides. The title then starts 16 px inside the window and
+    // keeps clear of Daniel's hair and of the clock board: it either ends 10 plate px left of his hair as the plate places
+    // it, shrinking a little, or, when that would leave it under 75 %, rises to 8 px under the top bar and ends 6 plate px
+    // above his hair, as wide as the board allows. HO-068: in Team V's office room his hair starts at x 441, y 65 of these
+    // 1672 units (x 405, y 60 of the 1536 plate), higher than on the old plate (x 446, y 103), so the title rode on it.
+    const k=world.offsetWidth/1672,ppx=k*scale,leftPlate=Math.max(36,(16-box.left)/ppx);
+    let fit=1;
+    if(leftPlate>36){
+      const ratio=mark.offsetHeight/Math.max(1,mark.offsetWidth)||.21,topPlate=Math.max(0,(barBottom+8-box.top)/ppx);
+      // the board's gold frame reaches 79 plate px left of the clock box (css/v10Transfer.css .sign-screen::before)
+      const sign=stage.querySelector(".sign-screen"),signBox=sign&&sign.getBoundingClientRect();
+      const boardLeft=signBox&&signBox.width>0?(signBox.left-box.left)/ppx-79:690;
+      const beside=(431-leftPlate)/400,above=Math.min(1,(boardLeft-16-leftPlate)/400,(59-topPlate)/(400*ratio));
+      mark.style.setProperty("--tw-wm-left",`${(leftPlate*k).toFixed(1)}px`);
+      if(beside<.75&&above>beside){fit=above;mark.style.setProperty("--tw-wm-drop",`${((topPlate-62)*k).toFixed(1)}px`);}
+      else fit=Math.min(1,beside);
+      mark.style.setProperty("--tw-wm-scale",fit.toFixed(3));
+      if(fit!==Math.min(1,beside))return;// raised under the bar already
+    }
+    const need=barBottom+8-(box.top+mark.offsetTop*scale);
+    if(need<=0)return;
+    const drop=Math.ceil(need/scale),platePx=drop/(world.offsetWidth/1672);
+    mark.style.setProperty("--tw-wm-drop",`${drop}px`);
+    mark.style.setProperty("--tw-wm-scale",Math.min(fit,Math.max(.7,1-platePx/400)).toFixed(3));
+  }
   function tfTeardown(section){
     try{root.CareerModeDeadlineDay?.detach?.();}catch(_error){}
     if(desktopLayout){desktopLayout.dispose();desktopLayout=null;}
@@ -359,6 +419,8 @@
     const host=section&&section.querySelector(":scope > .tw-host");
     if(stageSize){stageSize.disconnect();stageSize=null;}
     if(reframe!==null){root.cancelAnimationFrame(reframe);reframe=null;}
+    if(wordmarkClear){root.removeEventListener("resize",wordmarkClear);wordmarkClear=null;}
+    if(cameraWatch){cameraWatch.disconnect();cameraWatch=null;}
     if(host)host.remove();
     if(section)section.classList.remove("tw-on");
     stage=null;mountedFrame=null;
@@ -381,6 +443,24 @@
       if(typeof root.ResizeObserver==="function"&&typeof root.requestAnimationFrame==="function"){let last="";stageSize=new root.ResizeObserver(entries=>{const box=entries[0]&&entries[0].contentRect;const size=box?`${Math.round(box.width)}x${Math.round(box.height)}`:"";if(!size||size===last)return;last=size;if(reframe===null&&typeof root.dispatchEvent==="function"&&typeof root.Event==="function")reframe=root.requestAnimationFrame(()=>{reframe=null;root.dispatchEvent(new root.Event("resize"));});});stageSize.observe(stage);}
       tfAdoptAll(frame,section);
       tfFlowDesktop(frame);
+      // HO-068: the title was sometimes placed while the top bar was still hidden behind Loading (html[data-nav="none"],
+      // so the bar measured 0px) and kept that drop once the bar showed: at 1920x866 and 2560x1000 it then sat under the top
+      // bar. The camera also moves without a resize (the stage's first styled size), and the title image can load late.
+      // Whenever the bar shows or hides, the camera writes the world's place or the title image loads, the title is placed
+      // again on the next frame.
+      const world=stage.querySelector(".world");
+      if(world&&typeof root.MutationObserver==="function"&&typeof root.requestAnimationFrame==="function"){
+        let queued=false;
+        const again=()=>{if(queued)return;queued=true;root.requestAnimationFrame(()=>{queued=false;if(wordmarkClear)tfWordmarkClear();});};
+        cameraWatch=new root.MutationObserver(again);
+        cameraWatch.observe(world,{attributes:true,attributeFilter:["style"]});
+        if(doc.documentElement)cameraWatch.observe(doc.documentElement,{attributes:true,attributeFilter:["data-nav"]});
+        const markImg=world.querySelector(":scope > .transfer-wordmark img, :scope > img.transfer-wordmark");
+        if(markImg&&!markImg.complete)markImg.addEventListener("load",again,{once:true});
+      }
+      // after the plate's resize listener (registered by render above), so it reads the new camera
+      if(typeof root.addEventListener==="function"){wordmarkClear=()=>tfWordmarkClear();root.addEventListener("resize",wordmarkClear);}
+      tfWordmarkClear();
       if(drawn&&typeof drawn.catch==="function")drawn.catch(error=>tfWarn("Transfer War motion skipped.",error));
     }catch(error){
       // Any failure leaves the app's own screen exactly as production rendered it.

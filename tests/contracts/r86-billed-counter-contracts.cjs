@@ -158,5 +158,21 @@ const RID='pair_'+'a'.repeat(64);
     assert.equal(priced.docReads,2);assert.equal(priced.rulesReads,2*lookups,'lookups at attach and again at the reconnect');
   });
 
+  await check('B9 CE2PG meter: a snapshot of this page\'s own pending write is local (never billed); the server\'s copy that follows is (r90, as the app meter does)',async()=>{
+    const {WRAPPER_SOURCE}=require('../browser/support/firestore-meter.cjs');
+    const body=WRAPPER_SOURCE.replace(/^import[^\n]*\n/gm,'').replace(/^export \* [^\n]*\n/gm,'').replace(/export (async )?function/g,'$1function');
+    const events=[];let deliver=null;
+    const R={onSnapshot:(_ref,next)=>{deliver=next;return()=>{};}};
+    const ctx=vm.createContext({R,globalThis:{__cmsMeterEvent:e=>events.push(e)},Error,JSON,Date,Math,String,Proxy});
+    vm.runInContext(body+'\nglobalThis.onSnapshot=onSnapshot;',ctx);
+    const snap=(pending,data)=>({metadata:{fromCache:false,hasPendingWrites:pending},exists:()=>true,data:()=>data});
+    ctx.globalThis.onSnapshot({path:'rivalries/x/chamberMenRounds/season_1'},()=>{});
+    for(const s of [snap(false,{k:'L'}),snap(true,{k:'LM',t:null}),snap(false,{k:'LM',t:5})])deliver(s);
+    const reads=events.filter(e=>e.k==='read');
+    assert.equal(reads.length,2,'first result + the confirmed copy; the pending echo is free');
+    assert.ok(events.some(e=>e.k==='listenLocal'),'the pending echo is noted as local');
+    assert.match(read('js/sparkPrivatePairing.js'),/if\(listener&&meta&&meta\.hasPendingWrites===true\)return 0;/,'the app meter already leaves it out');
+  });
+
   console.log(`PASS r86 billed counter contracts: ${checks} checks`);
 })().catch(error=>{console.error(error);process.exit(1);});

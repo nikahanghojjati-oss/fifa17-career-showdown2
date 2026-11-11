@@ -213,16 +213,19 @@ const Guess=require(path.join(ROOT,'js/iconGuess.js'));
   const files=fs.readdirSync(path.join(ROOT,DIR));
   assert.deepEqual(files,['assets','index.html'],'the page and its art folder only');
   // HO-051 (Team V, 1 Nov 2026): Nik's Prime Pack art ships as seven local webp files; the flags stay drawn in code
-  const ART=['card_frame.webp','pack_opening.webp','pack_sealed.webp','stage_desktop.webp','stage_phone.webp','token_full.webp','token_spent.webp'];
-  assert.deepEqual(fs.readdirSync(path.join(ROOT,DIR,'assets')).sort(),ART,'exactly Nik\'s seven Prime Pack pictures');
-  const artBytes=ART.reduce((n,f)=>n+fs.statSync(path.join(ROOT,DIR,'assets',f)).size,0);
-  assert.ok(artBytes<1200*1024,`art stays light (${Math.round(artBytes/1024)} KB, well under the Special Player's 8.4 MB)`);
+  const ART=['card_frame.webp','card_shadow_V1.webp','pack_opening.webp','pack_sealed.webp','stage_desktop_4k_V3.webp','stage_desktop_V2.webp','stage_phone_V2.webp','token_full.webp','token_spent.webp']; // r90 HO-060: + the 4K stage master (Extra and up, past 2560 device px)
+  assert.deepEqual(fs.readdirSync(path.join(ROOT,DIR,'assets')).sort(),ART,'Nik\'s seven Prime Pack pictures plus the 4K stage master');
+  // a screen loads one of the three stage pictures (phone, 2560 or the 4K master), so the weight is the shared art plus the
+  // heaviest stage (HO-068: Team V's real 4K master, 412 KB, replaces the 3840 Lanczos cut)
+  const size=f=>fs.statSync(path.join(ROOT,DIR,'assets',f)).size,STAGES=ART.filter(f=>f.startsWith('stage_'));
+  const artBytes=ART.filter(f=>!STAGES.includes(f)).reduce((n,f)=>n+size(f),0)+Math.max(...STAGES.map(size));
+  assert.ok(artBytes<1200*1024,`art one screen loads stays light (${Math.round(artBytes/1024)} KB, well under the Special Player's 8.4 MB)`);
   for(const f of ART)assert.ok(page.includes(`url("assets/${f}")`),`${f} is used by the page`);
   assert.ok(Buffer.byteLength(page)<80*1024,'well under the Special Player page');
   assert.ok(!/\b(fetch|XMLHttpRequest|sendBeacon|WebSocket|EventSource|importScripts|firebase|firestore)\b/i.test(code),'no network or Firebase');
   assert.ok(!/https?:\/\//.test(page.replace(/<!--[\s\S]*?-->/g,'')),'no outside URL (no CDN, no fonts service)');
   assert.ok(!/<script[^>]+src=|<img|<link[^>]+stylesheet|\.(jpe?g|png|gif)\b/i.test(page),'no external scripts, stylesheets or other pictures');
-  for(const m of page.matchAll(/[\w./-]+\.webp\b/g))assert.match(m[0],/^assets\/[a-z_]+\.webp$/,`${m[0]}: pictures come only from ./assets`);
+  for(const m of page.matchAll(/[\w./-]+\.webp\b/g))assert.match(m[0],/^assets\/[a-z_]+(?:_4k)?(?:_V\d+)?\.webp$/,`${m[0]}: pictures come only from ./assets`);
   for(const font of page.matchAll(/url\("([^"]+\.woff2)"\)/g)){assert.match(font[1],/^\.\.\/shared\/fonts\/barlow-condensed-latin-(600|700)-normal\.woff2$/,`${font[1]}: only the two fonts r87 already serves to framed pages offline`);assert.ok(fs.existsSync(path.join(ROOT,DIR,font[1])),font[1]);}
   const visible=page.replace(/<script[\s\S]*?<\/script>/g,'').replace(/<style[\s\S]*?<\/style>/g,'').replace(/<!--[\s\S]*?-->/g,'').replace(/<[^>]+>/g,' ');
   assert.ok(!/\bEA\b|EA SPORTS|Ultimate Team|\bFUT\b/i.test(visible+script),'no EA names or marks');

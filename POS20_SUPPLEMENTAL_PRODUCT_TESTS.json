@@ -792,7 +792,6 @@
         "^css/homeV10\\.css$",
         "^js/diagnostics\\.js$",
         "^js/onlinePlayerIdentity\\.js$",
-        "^visual-assets/v10_1/shared/art/home-tiles/",
         "^tests/contracts/v10-home-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
@@ -2984,6 +2983,98 @@
         "^scripts/build-production-firestore-rules\\.mjs$",
         "^tools/set-release-time\\.cjs$",
         "^tests/contracts/r89\\-sacked\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r90-gfx-tier-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^service-worker\\.js$",
+        "^tests/contracts/r90\\-gfx\\-tier\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r90-no-dead-js-contracts.cjs",
+      "patterns": [
+        "^js/.+\\.js$",
+        "^index\\.html$",
+        "^service-worker\\.js$",
+        "^production-authorization-acceptance\\.html$",
+        "^visual-assets/.+\\.(?:html|js)$",
+        "^tests/contracts/r90\\-no\\-dead\\-js\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r90-offline-pack-contracts.cjs",
+      "patterns": [
+        "^service-worker\\.js$",
+        "^js/offlineApp\\.js$",
+        "^index\\.html$",
+        "^tests/contracts/r90\\-offline\\-pack\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r90-motion-2d-contracts.cjs",
+      "patterns": [
+        "^visual\\-assets/v10_1/final\\-winner/final\\-winner\\.js$",
+        "^visual\\-assets/v10_1/final\\-winner/final\\-winner\\.css$",
+        "^visual\\-assets/v10_1/shared/showdown\\-ui\\.css$",
+        "^visual\\-assets/v10_1/shared/stage\\.css$",
+        "^css/homeV10\\.css$",
+        "^css/rulesSettingsV10\\.css$",
+        "^css/v10Club\\.css$",
+        "^visual\\-assets/v10_1/club/club\\.js$",
+        "^js/gfxTier\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^visual\\-assets/v10_1/trophy\\-room/trophy\\-room\\.js$",
+        "^visual\\-assets/v10_1/season\\-results/app\\-shell\\.html$",
+        "^visual\\-assets/v10_1/final\\-winner/app\\-shell\\.html$",
+        "^js/rivalryLegacyV10Markup\\.js$",
+        "^tests/contracts/r90\\-motion\\-2d\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r90-quality-levels-contracts.cjs",
+      "patterns": [
+        "^js/.+\\.js$",
+        "^visual-assets/.+\\.(?:html|js|css)$",
+        "^css/.+\\.css$",
+        "^index\\.html$",
+        "^device-check(?:-chamber)?\\.html$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/contracts/r90\\-quality\\-levels\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r90-ssjr-defer-contracts.cjs",
+      "patterns": [
+        "^js/ssjr\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^js/settings\\.js$",
+        "^tests/contracts/r90\\-ssjr\\-defer\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r90-offline-shell-contracts.cjs",
+      "patterns": [
+        "^service\\-worker\\.js$",
+        "^index\\.html$",
+        "^manifest\\.webmanifest$",
+        "^js/app\\.js$",
+        "^js/offlineApp\\.js$",
+        "^css/offline\\.css$",
+        "^js/settings\\.js$",
+        "^css/settings\\.css$",
+        "^assets/icons/.+\\.svg$",
+        "^\\.github/workflows/validate\\-stability\\-lane\\.yml$",
+        "^tests/contracts/r90\\-offline\\-shell\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }

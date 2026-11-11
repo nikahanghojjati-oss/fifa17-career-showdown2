@@ -31,7 +31,6 @@ const TRUTH_MD_IDS=["newShowdown","createShowdown","createShowdownScreenTitle","
 // Team V files copied byte for byte from factory/v1-wtt5ye 5e05a1f (sha256 of `git show 5e05a1f:<path>`).
 const TEAM_V_FILES={
   "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V1.webp":"a35299752e9d3cfcc44b21ff882ac7fdd81b727af78002c5ce5d76459b29e322",
-  "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V1.webp":"a07b1e11254b36b7347b8f98e9682fa8a610d09713fcce8f028ca9ff4f024a85",
   "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_960.webp":"6bb7cabdc7dca0006dc46f5b05165e353eef5afdb9e565b2cdf252d82b1ab35e",
   "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_1920.webp":"78ec9b7fc62fc6c07732c18a5c0541b71ea122956a0030bbebf4f78b1e0d970b",
   "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp":"2af3ae7e8086a619e9e507e109b035e932e0b87c51d559111e5f239697cbaebb",
@@ -53,7 +52,7 @@ const TEAM_V_FILES={
   "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
   "visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp":"f5fdb5eedc90b83acd5225cc6b18078ddfcf9031c9b40128f91db3314c34a3cd",
   "visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp":"7564a129eccae2bbaf1a6b5280f0073dbba5770190c2547ae245b1bb07dc5b75",
-  "js/visualIdentity.js":"f513a9765f671f0a0bacbc3a4379988bf2e8b7847d5209cbbcda0e92921bbe7d"
+  "js/visualIdentity.js":"5a1632dbb9dedc1008b0f4102cf2b2654742eb0b123c3206c5f4704861a22797"
 };
 
 // ---- a small fake DOM: enough for js/v10Screens.js, Team V's navbar.js and js/v10Setup.js ----
@@ -300,7 +299,7 @@ const Setup=require(path.join(ROOT,"js/v10Setup.js"));
 const V10=require(path.join(ROOT,"js/v10Screens.js"));
 
 check("S1 the skin API is small, frozen and points at Team V's copied files",()=>{
-  for(const name of ["install","mount","unmount","syncLeague","announceScreen","leagueFromText","topIndex","packResult"])assert.equal(typeof Setup[name],"function",name);
+  for(const name of ["install","mount","unmount","syncLeague","announceScreen","leagueFromText","topIndex"])assert.equal(typeof Setup[name],"function",name);
   assert.ok(Object.isFrozen(Setup));
   assert.equal(Setup.BASE,V10.BASE);
   assert.equal(Setup.EVENT,V10.EVENT);
@@ -332,10 +331,6 @@ check("S2 pure helpers: league from shown text, pointer index, pack result",()=>
     assert.equal(Setup.topIndex(`rotate(${-(1800+index*72)}deg)`),index,"after full turns");
   });
   assert.equal(Setup.topIndex(""),null);assert.equal(Setup.topIndex("none"),null);
-  const card=(revealed)=>({classList:{contains:token=>revealed&&token==="is-revealed"}});
-  assert.deepEqual({...Setup.packResult(card(false),{textContent:"?"},card(false),{textContent:"?"})},{playerOne:null,playerTwo:null});
-  assert.deepEqual({...Setup.packResult(card(true),{textContent:"Barcelona"},card(false),{textContent:"?"})},{playerOne:"Barcelona",playerTwo:null});
-  assert.deepEqual({...Setup.packResult(card(true),{textContent:" Barcelona "},card(true),{textContent:"Real Madrid"})},{playerOne:"Barcelona",playerTwo:"Real Madrid"});
 });
 
 check("S3 install registers the two setup screens with the loader (not the Club screen) and loads one stylesheet, once",async()=>{
@@ -454,8 +449,6 @@ check("S6 the Club packs are no longer skinned here (JOB-34): revealing both pac
   assert.equal(byId(root,"clubPlayerOne").textContent,"Daniel");
   assert.equal(byId(root,"clubPlayerTwo").textContent,"Nik");
   assert.equal(host.dataset.clubRevealStage,"ready","the reveal stage stays the product's");
-  // The pure pack helper stays available (and exact) for callers.
-  assert.deepEqual({...Setup.packResult(byId(root,"clubCardOne"),byId(root,"clubNameOne"),byId(root,"clubCardTwo"),byId(root,"clubNameTwo"))},provider);
   root.showScreen("mainMenu");await flush();
   assert.ok(!/v26/.test(host.className));
 });
@@ -535,12 +528,14 @@ check("S9 static guards: skin only, lazy only, no new storage, Rules, Firestore,
       assert.ok(!/(button|menuButton|backButton|setupBox|wheelContainer|clubAssignmentShell|#spinLeague|#openClubPack|#startShowdown|selectedLeague|footballVisual)/.test(selector)||/(::before|::after|\.v26Art)/.test(selector),`never hides product controls or the licensed photographs: ${selector.trim()}`);
     }
   }
-  // Lazy: only js/ssjr.js (idle) loads it; index.html and the startup scripts do not grow.
+  // Lazy: only js/ssjr.js loads it (r90 W8: once Home is handed over, then idle, or at once when its screen opens first);
+  // index.html and the startup scripts do not grow.
   const html=read("index.html");
   assert.ok(!html.includes("v10Setup"),"index.html does not load the skin");
   const ssjr=read("js/ssjr.js");
   assert.ok(ssjr.includes('load("v10-setup","js/v10Setup.js"'),"js/ssjr.js loads the skin");
-  assert.match(ssjr,/requestIdleCallback\(v10Setup/);
+  assert.match(ssjr,/for\(const skin of \[v10Setup,[^\]]*\]\)afterHome\(skin\)/,"the skin loads after Home");
+  assert.match(ssjr,/V\.defer\(\["createShowdown","leagueWheelScreen","dashboard"\],v10Setup\)/,"its screens ask for it when opened first");
   const sw=read("service-worker.js");
   for(const file of ["js/v10Setup.js","css/v10Setup.css"])assert.ok(sw.includes(`"${file}"`),`${file} in SHELL_PATHS`);
   for(const file of fs.readdirSync(path.join(ROOT,"js")).filter(f=>/^(productionShared|spark|persistentNikDanielPair)/.test(f)))assert.ok(!read(`js/${file}`).includes("v10Setup"),`${file} untouched by the skin`);

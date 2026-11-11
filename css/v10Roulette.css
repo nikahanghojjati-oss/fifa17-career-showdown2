@@ -13,9 +13,10 @@
   backdrop-filter: none;
   overflow: auto;
 }
-/* No scene behind the card: the room photo fills the screen (opaque, not a scrim), so no page shows around the card. */
+/* No scene behind the card: the dark room colour fills the screen (opaque, not a scrim), so no page shows around the card.
+   r90: the room photo left with the marble hall (the roulette room is dark now), so this no longer asks for a missing file. */
 :root:not(#r78):not(#r78) #rrStepPanel.rrStepOverlay.rrStepRoom { /* beats the r78 overlay reset (7d) */
-  background: #050403 url("../visual-assets/v10_1/roulette/assets/RR_ROOM.jpg") center / cover no-repeat;
+  background: #050403;
 }
 #rrStepPanel .rrStepShell {
   width: min(640px, 100%);

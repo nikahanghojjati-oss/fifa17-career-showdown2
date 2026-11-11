@@ -876,7 +876,9 @@ async function r5r6EntryContracts(){
      assert.ok(ssjr.includes('const deadline=new Promise(resolve=>root.setTimeout(resolve,startupCapLeft()));'),"bounded by the overall startup cap only");
      assert.ok(ssjr.includes('const STARTUP_CAP_MS=15e3,')&&!ssjr.includes("setTimeout(resolve,3e3)"),"the cap is js/app.js's 15 s from the start of the load; no shorter deadline");
      assert.ok(read("js/app.js").includes("performance.now()<(window.careerModeHomeHold?15e3:6e3)"),"js/app.js hands over at 15 s from the start of the load, the same cap");
-     assert.ok(ssjr.includes('install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry").then(api=>{entryInstalled(api);return api;},error=>{entryInstalled(null);throw error;}),'));}
+     // r90 W8: the entry starts at once on its own line (the rest of the Shared Journey chain may follow Home), still releasing the hold.
+     assert.ok(ssjr.includes('const entry=install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry").then(api=>{entryInstalled(api);return api;},error=>{entryInstalled(null);throw error;});'));
+     assert.ok(/const chainNow=[^;]*pendingShell\(\)/.test(ssjr),"a pending pre-pair shell loads the whole chain at startup, as before");}
     {const source=read("js/productionSharedJourneyEntry.js");
      assert.ok(source.includes('if(decision&&decision.action==="resume-waiting")await showLockedWheel();'),"Daniel's WAITING reopens over the league wheel");
      assert.ok(source.includes('if(pending())startStartupResume();return true;}'),"only a pending shell holds startup");

@@ -49,6 +49,8 @@ async function openCareerStart(page, kase){
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 30000 });
     await page.evaluate(() => document.getElementById("onlinePlayerIdentityOverlay")?.remove());
     await page.waitForFunction(() => window.CareerModeClubScreenV10 && typeof window.ensureGameplayModules === "function", null, { timeout: 30000 });
+    // r90 W8 (js/ssjr.js): the shared chain, the real transfer module included, can load after Home; let it land before the stand-in below (#1336).
+    await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());await page.waitForFunction(()=>Boolean(window.CareerModeProductionSharedTransferChallenge),null,{timeout:30000});
     await page.evaluate(async ({ setup, rivalryId, sessionId, fromHome }) => {
         window.setApplicationReducedMotionPreference(true);
         if(!fromHome){ await window.ensureGameplayModules(); await window.CareerModeClubScreenV10.install(); }

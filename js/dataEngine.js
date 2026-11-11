@@ -7,16 +7,6 @@
 
 
 
-function getAllLeagues(){
-
-    return leagues;
-
-}
-
-
-
-
-
 function getLeagueById(id){
 
 

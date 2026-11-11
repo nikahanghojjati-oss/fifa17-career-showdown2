@@ -5,22 +5,12 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  // r89 Kits 17 (Nik 2026-11-04: "the player wears the penalty taker's team's kit ... high fidelity ... for all 98 teams ... the same
-  // kit can be used in Russian Roulette as well"). Every club's 2016-17 HOME kit as FIFA 17 shows it, and a keeper kit that never
-  // clashes, painted in canvas at runtime (no image files, any size). Club crests come from getClubCrestSvg (js/visualIdentity.js):
-  // our own drawings, never lettering. No sponsor words, no maker logos.
-  //
-  // UV layout ("wrap", the same as a LatheGeometry body): u runs around the body, front centre at u=0.5, back centre at u=0 and 1;
-  // u rises toward the wearer's LEFT (viewed from the front the texture reads left to right). v=0 is the hem, v=1 the neck.
-  // Sleeves: u around the arm (u=0.5 the front of the arm), v=0 cuff, v=1 shoulder. Shorts: one wrap around the hips, v=0 hem,
-  // v=1 waistband. Socks: v=0 ankle, v=1 top. Normal map: one tileable knit (repeat it ~24 x 12 on the shirt).
-  //
-  // API: kit(club) -> data (shirt, shorts, socks, collar, dominant); keeperKit(club,vsClub) -> the keeper's kit;
-  // textures(club,{role:"outfield"|"gk",vsClub,size:"full"|"phone"|"small",number,name}) -> {shirt,sleeveL,sleeveR,shorts,socks,
-  // normal,material,ready}; await ready before uploading (the crest is an SVG image); drawFlat(ctx,club,x,y,s,opts) draws a
-  // front-view (or back-view, opts.back) shirt for 2D boards; prepare(clubs) preloads crests for drawFlat.
+  // Kits 17 (r89): every club's 2016-17 HOME kit as FIFA 17 shows it, for all 98 clubs, plus a keeper kit that never clashes, painted in canvas at runtime (no image files, any size), shared by Chamber Men and Russian Roulette. Crests come from getClubCrestSvg (js/visualIdentity.js): our own drawings, never lettering. No sponsor words, no maker logos.
+  // UV ("wrap", as a LatheGeometry body): u runs around the body (front centre 0.5, back centre 0 and 1) and rises toward the wearer's LEFT; v=0 hem, v=1 neck. Sleeves: u around the arm (0.5 the front), v=0 cuff, v=1 shoulder. Shorts: one wrap around the hips, v=0 hem, v=1 waistband. Socks: v=0 ankle, v=1 top. Normal map: one tileable knit (repeat it ~24 x 12 on the shirt).
+  // API: kit(club) -> {shirt,shorts,socks,collar,dominant}; keeperKit(club,vsClub); textures(club,{role:"outfield"|"gk",vsClub,size:"full"|"phone"|"small",number,name}) -> {shirt,sleeveL,sleeveR,shorts,socks,normal,material,ready}; await ready before uploading (the crest is an SVG image).
+  // drawFlat(ctx,club,x,y,s,opts) draws a front-view (or back-view, opts.back) shirt for 2D boards; prepare(clubs) preloads crests for drawFlat.
 
-  // [pattern, body, second colour, sleeves (null: the pattern runs over the sleeves), trim] (the KIT17 table from the roulette)
+  // [pattern, body, second colour, sleeves (null: the pattern runs over the sleeves), trim] (r90: the only kit table; the roulette and SP copies are gone)
   // + [shorts, socks, sock top, collar]. Colour tokens: p body, s second, t trim, w white, k black, or a hex.
   const SHIRT={
     "Arsenal":["solid","#db0007",null,"#ffffff","#ffffff"], "Bournemouth":["stripes","#d71920","#141414","#141414","#141414"], "Burnley":["solid","#6c1d45",null,"#99d6ea","#99d6ea"],
@@ -107,8 +97,10 @@
   const deltaE=(a,b)=>{const x=lab(a),y=lab(b);return Math.hypot(x[0]-y[0],x[1]-y[1],x[2]-y[2]);};
 
   const cache=new Map();
+  // Game names ("FC Barcelona") and squad names ("Barcelona") meet in one table: CLUB_IDENTITY_ALIASES in js/visualIdentity.js.
+  const canonical=(n)=>{const raw=String(n||"").trim();try{return typeof root.getClubCanonicalName==="function"?root.getClubCanonicalName(raw):raw;}catch(e){return raw;}};
   function kit(club){
-    const name=String(club&&club.club||club||"");
+    const name=canonical(club&&club.club||club);
     if(cache.has(name))return cache.get(name);
     const k=SHIRT[name]||FALLBACK,l=LOWER[name]||["w","p","t","crew"];
     const second=Array.isArray(k[2])?k[2]:(k[2]?[k[2]]:[]);
@@ -191,6 +183,10 @@
       g.globalAlpha=.12;g.strokeStyle=s0;g.lineWidth=H*.012;
       for(let i=0;i<22;i++){const v=.08+i*.04;for(const c of [.5,0,1]){g.beginPath();g.moveTo(X(c-.25),Y(v+.05));g.lineTo(X(c),Y(v));g.lineTo(X(c+.25),Y(v+.05));g.stroke();}}
       g.globalAlpha=1;
+      // r90 L04: side panels in the darker shade from hem to armpit, piped in the trim, so a keeper's shirt reads as a real
+      // goalkeeper jersey, not a plain template (the sides of the wrap are u .25 and .75).
+      for(const c of [.25,.75]){g.fillStyle=s0;g.fillRect(X(c-.045),Y(.62),X(.09),H);
+        g.fillStyle=k.trim;for(const e of [-.045,.045])g.fillRect(X(c+e)-Math.max(1,W/700),Y(.62),Math.max(2,W/350),H);}
     }
   }
   function sleeveColour(k,side){
@@ -229,24 +225,38 @@
       g.fillStyle=shade(k.body,-.4);g.beginPath();g.ellipse(W*.5,0,W*.043,H*.045,0,0,Math.PI);g.fill();
     }
   }
+  // Print colour on a plain ground: the trim when it reads (4:1) on that ground, else near-black or near-white.
+  const printFont=(px)=>`800 ${px}px 'Barlow Condensed', 'Arial Narrow', sans-serif`,font=printFont;
+  function printInk(k,ground){
+    const ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);},bg=ground||k.body;
+    const plain=ratio("#141414",bg)>=ratio("#f4f4f2",bg)?"#141414":"#f4f4f2";
+    const ink=ground&&ratio(k.trim,bg)>=4?k.trim:plain;
+    return {ink,edge:lum(ink)>.5?"rgba(0,0,0,.55)":"rgba(255,255,255,.35)"};
+  }
+  // r90 L04/L30: keepers face the camera, so the keeper's number is also on the chest (under the crest) and the front of the
+  // left leg of his shorts, as on the 2016-17 keeper kits. Outfield kits keep the number on the back only.
+  function frontNumber(g,x,y,px,k,ground,number){
+    if(number==null||number==="")return;
+    const {ink,edge}=printInk(k,ground);g.font=printFont(Math.round(px));g.textAlign="center";g.textBaseline="middle";g.lineJoin="round";
+    // A keeper is small on screen, so the figure is fattened with a stroke in its own ink inside a fine edge: it reads at 70 px
+    // whichever fallback face the canvas gets.
+    const t=String(number);g.lineWidth=px*.2;g.strokeStyle=edge;g.strokeText(t,x,y);
+    g.lineWidth=px*.1;g.strokeStyle=ink;g.strokeText(t,x,y);g.fillStyle=ink;g.fillText(t,x,y);
+  }
   function backPrint(g,W,H,k,number,name){
     // Number and surname on the back (back centre is u=0 and u=1, so each is drawn at both edges and the seam meets in the middle).
     const solidBack=k.pattern==="solid"||k.pattern==="gk";
     // Striped and hooped backs carry a plain panel in the body colour behind the name and number, as the real shirts do.
     const panel=!solidBack;
-    const ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
-    const plain=ratio("#141414",k.body)>=ratio("#f4f4f2",k.body)?"#141414":"#f4f4f2";
-    const ink=solidBack&&ratio(k.trim,k.body)>=4?k.trim:plain;
+    const {ink,edge}=printInk(k,solidBack?k.body:null);
     if(panel){g.fillStyle=k.body;for(const cx of [0,W]){g.beginPath();const pw=W*.13,top=H*.13,bot=H*.7,r=W*.012;
       g.moveTo(cx-pw+r,top);g.lineTo(cx+pw-r,top);g.quadraticCurveTo(cx+pw,top,cx+pw,top+r);g.lineTo(cx+pw,bot-r);g.quadraticCurveTo(cx+pw,bot,cx+pw-r,bot);
       g.lineTo(cx-pw+r,bot);g.quadraticCurveTo(cx-pw,bot,cx-pw,bot-r);g.lineTo(cx-pw,top+r);g.quadraticCurveTo(cx-pw,top,cx-pw+r,top);g.fill();}}
-    const edge=lum(ink)>.5?"rgba(0,0,0,.55)":"rgba(255,255,255,.35)";
-    const font=(px)=>`800 ${px}px 'Barlow Condensed', 'Arial Narrow', sans-serif`;
     for(const cx of [0,W]){
       g.textAlign="center";g.textBaseline="middle";g.lineJoin="round";
       if(name){
-        let px=Math.round(H*.07);g.font=font(px);const label=String(name).toUpperCase();
-        while(px>H*.035&&g.measureText(label).width>W*.18){px--;g.font=font(px);}
+        let px=Math.round(H*.085);g.font=font(px);const label=String(name).toUpperCase();
+        while(px>H*.035&&g.measureText(label).width>W*.2){px--;g.font=font(px);}
         g.lineWidth=px*.12;g.strokeStyle=edge;g.strokeText(label,cx,H*.2);g.fillStyle=ink;g.fillText(label,cx,H*.2);
       }
       if(number!=null&&number!==""){
@@ -280,7 +290,8 @@
     // aspect: how much shorter a texel is than it is wide on the body (a wrap is 2:1 but a torso is not), so crest and numbers
     // stay true to shape on a mapped body.
     const a=opts.aspect||1,squash=(cy,fn)=>{g.save();g.translate(0,cy);g.scale(1,a);g.translate(0,-cy);fn();g.restore();};
-    if(opts.badge!==false)squash(H*.25,()=>drawCrest(g,im,W*.575,H*.25,H*(k.role==="gk"?.13:.15),k));
+    if(opts.badge!==false)squash(H*.25,()=>drawCrest(g,im,W*.575,H*.25,H*(k.role==="gk"?.18:.15),k));
+    if(k.role==="gk")squash(H*.5,()=>frontNumber(g,W*.5,H*.5,H*.3,k,k.body,opts.number));
     if(opts.number!=null||opts.name)squash(H*.4,()=>backPrint(g,W,H,k,opts.number,opts.name));
     overlayKnit(g,W,H,.22,Math.max(1,W/1024));
   }
@@ -296,7 +307,7 @@
     g.strokeStyle="rgba(0,0,0,.22)";g.lineWidth=Math.max(1,W/512);g.setLineDash([W/200,W/300]);g.beginPath();g.moveTo(1,0);g.lineTo(1,H);g.moveTo(W-1,0);g.lineTo(W-1,H);g.stroke();g.setLineDash([]);
     overlayKnit(g,W,H,.22,Math.max(1,W/512));
   }
-  function paintShorts(c,k,im,badge){
+  function paintShorts(c,k,im,badge,number){
     const W=c.width,H=c.height,g=c.getContext("2d");
     g.fillStyle=k.shorts;g.fillRect(0,0,W,H);
     const accent=deltaE(k.shorts,k.trim)>20?k.trim:(deltaE(k.shorts,k.body)>20?k.body:shade(k.shorts,lum(k.shorts)>.5?-.3:.3));
@@ -304,6 +315,7 @@
     g.fillStyle=shade(k.shorts,-.12);g.fillRect(0,0,W,H*.12);
     g.strokeStyle="rgba(0,0,0,.25)";g.lineWidth=Math.max(1,W/512);g.setLineDash([W/200,W/300]);g.beginPath();g.moveTo(0,H*.12);g.lineTo(W,H*.12);g.moveTo(0,H*.95);g.lineTo(W,H*.95);g.stroke();g.setLineDash([]);
     if(k.role!=="gk"&&badge!==false)drawCrest(g,im,W*.6,H*.34,H*.16,k);
+    if(k.role==="gk")frontNumber(g,W*.6,H*.42,H*.3,k,k.shorts,number);
     overlayKnit(g,W,H,.18,Math.max(1,W/512));
   }
   function paintSocks(c,k){
@@ -358,7 +370,7 @@
       neck(pts,curve);g.strokeStyle=k.trim;g.lineWidth=X(wd);g.stroke();
       neck(pts,curve);g.strokeStyle=shade(k.trim,lum(k.trim)>.5?-.25:.25);g.lineWidth=X(wd*.18);g.stroke();
     }
-    {const [cx,cy,cs]=REMY.crest;drawCrest(g,im,X(cx),X(cy),X(k.role==="gk"?cs*.85:cs),k);}
+    {const [cx,cy,cs]=REMY.crest;drawCrest(g,im,X(cx),X(cy),X(k.role==="gk"?cs*1.15:cs),k);}
     overlayKnit(g,N,N,.12,Math.max(1,N/1024));
     flipInto(out.shirt,c);
     // Shorts: the wrap turned half a turn so its front centre lands on x 0/1.
@@ -373,14 +385,14 @@
   function paintRemySocks(target,socks){const Q=target.width,c=canvas(Q,Q),g=c.getContext("2d");g.drawImage(socks,0,0,Q/2,Q);g.drawImage(socks,Q/2,0,Q/2,Q);flipInto(target,c);}
 
   // ---------- mapped bodies (Ch38, Ch42): a baked kit map per body ----------
-  // visual-assets/v10_1/chamber-men/players/kitmap/<body>.png, baked from the body's glTF by tools/kits17/bake_kitmap.py: per
+  // visual-assets/v10_1/chamber-men/players/kitmap/<body>.webp (lossless, r90; was .png), baked from the body's glTF by tools/kits17/bake_kitmap.py: per
   // atlas texel R = wrap u, G = wrap v, B = part<<5 | distance to the neck rim in mm (parts: 1 torso, 2 left sleeve, 3 right
   // sleeve, 4 shorts, 5 left sock, 6 right sock). Shirt, shorts (and Ch38's socks) share the body's atlas, so one canvas serves
   // every kit material; texels outside the kit get the body colour so mipmaps never bleed skin into the kit.
   const MAPPED={ch38:{socks:"map",aspect:.77},ch42:{socks:"remy",aspect:.77}};
   const mapCache=new Map();
   function loadKitMap(name,base){
-    const url=(base||"visual-assets/v10_1/chamber-men/players/kitmap/")+name+".png";
+    const url=(base||"visual-assets/v10_1/chamber-men/players/kitmap/")+name+".webp";
     if(!mapCache.has(url))mapCache.set(url,new Promise((res,rej)=>{const im=new Image();im.onload=()=>{
       const c=canvas(im.naturalWidth,im.naturalHeight),g=c.getContext("2d",{willReadFrequently:true});g.drawImage(im,0,0);
       res({w:c.width,h:c.height,d:g.getImageData(0,0,c.width,c.height).data});};im.onerror=()=>rej(new Error("kit map "+url));im.src=url;}));
@@ -435,7 +447,7 @@
     const paint=(im,map)=>{
       const shirtOpts=remy&&!mapped?Object.assign({},opts,{badge:false}):mapped?Object.assign({},opts,{aspect:mapped.aspect}):opts;
       paintShirt(wrap.shirt,k,im,shirtOpts);paintSleeve(wrap.sleeveL,k,"L");paintSleeve(wrap.sleeveR,k,"R");
-      paintShorts(wrap.shorts,k,im,!remy||Boolean(mapped));paintSocks(wrap.socks,k);
+      paintShorts(wrap.shorts,k,im,!remy||Boolean(mapped),opts.number);paintSocks(wrap.socks,k);
       if(remy&&!mapped)paintRemy(out,wrap,k,im);
       if(mapped&&mapped.socks==="remy")paintRemySocks(out.socks,wrap.socks);
       if(mapped&&map)paintMapped(out.shirt,map,wrap,k);
@@ -452,33 +464,73 @@
   const flatCache=new Map();
   function prepareCrests(clubs){return Promise.all([].concat(clubs||[]).map(c=>crestFor(String(c&&c.club||c))));}
   function drawFlat(ctx,club,x,y,s,opts){
-    // A front (or back) view of the shirt from the same painted textures: body from the wrap's front (or back) half, sleeves from
-    // the sleeve wraps, then cloth shading. s is the shirt's height in px; (x,y) its centre.
+    // r90 W7: a front (or back) view of the shirt painted from the same textures as the 3D kit, drawn like a garment: set-in
+    // sleeves with the cuff at the sleeve end, the collar as its own piece over the inside of the back neck, soft cloth shading
+    // and folds (no gloss), seams and a stitched hem. s is the shirt's height in px; (x,y) its centre.
     opts=opts||{};const name=String(club&&club.club||club||""),role=opts.role==="gk"?"gk":"outfield";
     const key=name+"|"+role+"|"+(opts.vsClub||"")+"|"+(opts.number||"")+"|"+(opts.name||"")+"|"+Boolean(crestNow(name));
     let t=flatCache.get(key);if(!t){t=textures(name,{role,vsClub:opts.vsClub,size:s>160?"phone":"small",number:opts.number,name:opts.name});flatCache.set(key,t);}
-    ctx.save();ctx.translate(x,y);ctx.scale(s,s);
-    const body=new Path2D();body.moveTo(-.2,-.5);body.quadraticCurveTo(0,-.42,.2,-.5);body.lineTo(.46,-.42);body.lineTo(.41,0);body.lineTo(.39,.5);body.quadraticCurveTo(0,.55,-.39,.5);body.lineTo(-.41,0);body.lineTo(-.46,-.42);body.closePath();
-    const sleeve=(sx)=>{const p=new Path2D();p.moveTo(sx*.44,-.43);p.lineTo(sx*.7,-.1);p.lineTo(sx*.47,.02);p.lineTo(sx*.38,-.22);p.closePath();return p;};
-    const S=t.shirt,SW=S.width,SH=S.height,back=Boolean(opts.back);
-    // Sleeves: viewed from the front, the wearer's right arm is on the viewer's left.
-    for(const [sx,tex] of [[-1,back?t.sleeveL:t.sleeveR],[1,back?t.sleeveR:t.sleeveL]]){
-      const p=sleeve(sx);ctx.save();ctx.clip(p);ctx.drawImage(tex,tex.width*.25,0,tex.width*.5,tex.height,sx<0?-.72:.36,-.46,.36,.5);ctx.restore();
-      ctx.lineWidth=.03;ctx.strokeStyle="rgba(0,0,0,.55)";ctx.stroke(p);
+    const k=t.kit,back=Boolean(opts.back),S=t.shirt,SW=S.width,SH=S.height,top=SH*.06,hair=Math.max(.006,1/s);
+    const collarKind=back?"back":k.collar,inner=shade(k.body,-.42),trim=k.trim,rib=shade(trim,lum(trim)>.5?-.22:.22);
+    const neckDip=collarKind==="vee"?.17:collarKind==="polo"?.07:collarKind==="back"?.025:.075;
+    ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.lineJoin="round";ctx.lineCap="round";
+    // Inside of the back neck (seen through the front opening) and the back collar band.
+    if(!back){ctx.fillStyle=trim;ctx.beginPath();ctx.ellipse(0,-.448,.152,.04,0,0,Math.PI*2);ctx.fill();ctx.fillStyle=inner;ctx.beginPath();ctx.ellipse(0,-.44,.128,.028,0,0,Math.PI*2);ctx.fill();}
+    // Sleeves: the sleeve texture runs from the shoulder seam (top) to the cuff (bottom) along the arm.
+    for(const sx of [-1,1]){
+      const A=[sx*.4,-.447],D=[sx*.358,-.1],ax=[sx*.225,.19],B=[A[0]+ax[0],A[1]+ax[1]],C=[D[0]+ax[0]*.88,D[1]+ax[1]*.88];
+      const p=new Path2D();p.moveTo(A[0],A[1]);p.quadraticCurveTo(A[0]+sx*.15,A[1]+.04,B[0],B[1]);p.lineTo(C[0],C[1]);p.quadraticCurveTo(D[0]+sx*.06,D[1]+.06,D[0],D[1]);p.closePath();
+      const tex=back?(sx<0?t.sleeveL:t.sleeveR):(sx<0?t.sleeveR:t.sleeveL);
+      ctx.save();ctx.clip(p);ctx.save();ctx.transform(D[0]-A[0],D[1]-A[1],ax[0],ax[1],A[0],A[1]);
+      ctx.drawImage(tex,tex.width*.1,0,tex.width*.8,tex.height,sx<0?1.35:-.35,0,sx<0?-1.7:1.7,.95);ctx.restore();
+      const g=ctx.createLinearGradient(A[0],A[1]+.1,B[0],B[1]+.06);g.addColorStop(0,"rgba(0,0,0,.16)");g.addColorStop(.45,"rgba(255,255,255,.04)");g.addColorStop(1,"rgba(0,0,0,.12)");ctx.fillStyle=g;ctx.fillRect(-.8,-.6,1.6,1.2);
+      ctx.restore();ctx.lineWidth=hair*1.4;ctx.strokeStyle="rgba(0,0,0,.5)";ctx.stroke(p);
     }
-    ctx.save();ctx.clip(body);
-    if(back){ctx.drawImage(S,SW*.75,0,SW*.25,SH,-.5,-.52,.5,1.08);ctx.drawImage(S,0,0,SW*.25,SH,0,-.52,.5,1.08);}
-    else ctx.drawImage(S,SW*.25,0,SW*.5,SH,-.5,-.52,1,1.08);
-    const gx=ctx.createLinearGradient(-.5,0,.5,0);gx.addColorStop(0,"rgba(0,0,0,.34)");gx.addColorStop(.3,"rgba(255,255,255,.1)");gx.addColorStop(.55,"rgba(255,255,255,.02)");gx.addColorStop(1,"rgba(0,0,0,.38)");
+    // Body, with the neckline cut for the collar kind.
+    const body=new Path2D();
+    body.moveTo(-.16,-.475);body.quadraticCurveTo(-.08,-.475+neckDip*.2,0,-.475+neckDip);
+    if(collarKind==="vee"){body.moveTo(-.16,-.475);body.lineTo(0,-.475+neckDip);}
+    body.quadraticCurveTo(.08,-.475+neckDip*.2,.16,-.475);
+    body.quadraticCurveTo(.3,-.458,.405,-.445);body.quadraticCurveTo(.37,-.3,.36,-.115);body.quadraticCurveTo(.35,.18,.385,.49);
+    body.quadraticCurveTo(0,.535,-.385,.49);body.quadraticCurveTo(-.35,.18,-.36,-.115);body.quadraticCurveTo(-.37,-.3,-.405,-.445);body.quadraticCurveTo(-.3,-.458,-.16,-.475);body.closePath();
+    const torso=new Path2D();
+    torso.moveTo(-.16,-.475);if(collarKind==="vee")torso.lineTo(0,-.475+neckDip);else torso.quadraticCurveTo(0,-.475+neckDip*1.7,0,-.475+neckDip);
+    if(collarKind==="vee")torso.lineTo(.16,-.475);else torso.quadraticCurveTo(0,-.475+neckDip*1.7,.16,-.475);
+    torso.quadraticCurveTo(.3,-.458,.405,-.445);torso.quadraticCurveTo(.37,-.3,.36,-.115);torso.quadraticCurveTo(.35,.18,.385,.49);
+    torso.quadraticCurveTo(0,.535,-.385,.49);torso.quadraticCurveTo(-.35,.18,-.36,-.115);torso.quadraticCurveTo(-.37,-.3,-.405,-.445);torso.quadraticCurveTo(-.3,-.458,-.16,-.475);torso.closePath();
+    ctx.save();ctx.clip(torso);
+    if(back){ctx.drawImage(S,SW*.75,top,SW*.25,SH-top,-.5,-.49,.5,1.04);ctx.drawImage(S,0,top,SW*.25,SH-top,0,-.49,.5,1.04);}
+    else ctx.drawImage(S,SW*.25,top,SW*.5,SH-top,-.5,-.49,1,1.04);
+    // Cloth light: soft side falloff, one broad chest light, folds from the arms and a drape at the waist; a stitched hem.
+    const gx=ctx.createLinearGradient(-.4,0,.4,0);gx.addColorStop(0,"rgba(0,0,0,.24)");gx.addColorStop(.2,"rgba(0,0,0,.03)");gx.addColorStop(.5,"rgba(0,0,0,0)");gx.addColorStop(.8,"rgba(0,0,0,.04)");gx.addColorStop(1,"rgba(0,0,0,.26)");
     ctx.fillStyle=gx;ctx.fillRect(-.6,-.6,1.2,1.2);
-    const gy=ctx.createLinearGradient(0,-.5,0,.55);gy.addColorStop(0,"rgba(255,255,255,.12)");gy.addColorStop(1,"rgba(0,0,0,.24)");ctx.fillStyle=gy;ctx.fillRect(-.6,-.6,1.2,1.2);
-    ctx.strokeStyle="rgba(0,0,0,.12)";ctx.lineWidth=.022;ctx.beginPath();ctx.moveTo(-.3,-.28);ctx.quadraticCurveTo(-.25,.1,-.31,.46);ctx.moveTo(.3,-.28);ctx.quadraticCurveTo(.25,.1,.31,.46);ctx.moveTo(-.12,.2);ctx.quadraticCurveTo(0,.26,.14,.18);ctx.stroke();
+    const gl=ctx.createRadialGradient(-.1,-.22,.02,-.1,-.22,.55);gl.addColorStop(0,"rgba(255,255,255,.08)");gl.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=gl;ctx.fillRect(-.6,-.6,1.2,1.2);
+    const gy=ctx.createLinearGradient(0,-.48,0,.52);gy.addColorStop(0,"rgba(0,0,0,.1)");gy.addColorStop(.12,"rgba(0,0,0,0)");gy.addColorStop(.75,"rgba(0,0,0,.02)");gy.addColorStop(1,"rgba(0,0,0,.16)");ctx.fillStyle=gy;ctx.fillRect(-.6,-.6,1.2,1.2);
+    const soft=lum(k.body)>.6?.6:1,fold=(pts,a,w)=>{a*=soft;for(const [lw,al] of [[w,a*.5],[w*.45,a]]){ctx.lineWidth=lw;ctx.strokeStyle=`rgba(0,0,0,${al})`;ctx.beginPath();ctx.moveTo(pts[0],pts[1]);ctx.quadraticCurveTo(pts[2],pts[3],pts[4],pts[5]);ctx.stroke();}};
+    const lift=(pts,a,w)=>{ctx.lineWidth=w;ctx.strokeStyle=`rgba(255,255,255,${a})`;ctx.beginPath();ctx.moveTo(pts[0],pts[1]);ctx.quadraticCurveTo(pts[2],pts[3],pts[4],pts[5]);ctx.stroke();};
+    fold([-.34,-.1,-.24,.02,-.2,.2],.05,.07);fold([.34,-.1,.25,.04,.22,.24],.05,.07);fold([-.22,.34,0,.4,.2,.33],.04,.08);fold([-.05,.06,.04,.16,.1,.3],.025,.06);
+    lift([-.27,-.05,-.18,.08,-.15,.26],.035,.04);lift([.29,-.02,.2,.12,.17,.3],.03,.04);
+    ctx.fillStyle="rgba(0,0,0,.1)";ctx.fillRect(-.6,.455,1.2,.1);
+    ctx.setLineDash([.012,.01]);ctx.lineWidth=hair;ctx.strokeStyle="rgba(0,0,0,.32)";ctx.beginPath();ctx.moveTo(-.4,.47);ctx.quadraticCurveTo(0,.51,.4,.47);ctx.stroke();
+    // Shoulder seams.
+    ctx.beginPath();ctx.moveTo(-.17,-.47);ctx.lineTo(-.4,-.44);ctx.moveTo(.17,-.47);ctx.lineTo(.4,-.44);ctx.strokeStyle="rgba(0,0,0,.22)";ctx.stroke();ctx.setLineDash([]);
     ctx.restore();
-    ctx.lineWidth=.03;ctx.strokeStyle="rgba(0,0,0,.6)";ctx.stroke(body);
+    // The collar, its own piece in the trim with a fine rib.
+    const band=(path,w)=>{ctx.lineWidth=w;ctx.strokeStyle=trim;ctx.stroke(path);ctx.lineWidth=w*.22;ctx.strokeStyle=rib;ctx.stroke(path);ctx.lineWidth=hair;ctx.strokeStyle="rgba(0,0,0,.35)";};
+    const neck=new Path2D();
+    if(collarKind==="vee"){neck.moveTo(-.15,-.468);neck.lineTo(0,-.475+neckDip-.012);neck.lineTo(.15,-.468);}
+    else {neck.moveTo(-.15,-.468);neck.quadraticCurveTo(0,-.475+neckDip*1.7-.01,.15,-.468);}
+    band(neck,collarKind==="back"?.03:.036);
+    if(collarKind==="polo"){
+      ctx.fillStyle=trim;ctx.beginPath();ctx.moveTo(-.025,-.42);ctx.lineTo(.025,-.42);ctx.lineTo(.025,-.3);ctx.lineTo(-.025,-.3);ctx.closePath();ctx.fill();
+      ctx.fillStyle=rib;for(const by of [-.385,-.335]){ctx.beginPath();ctx.arc(0,by,.008,0,Math.PI*2);ctx.fill();}
+      for(const sx of [-1,1]){ctx.fillStyle=trim;ctx.beginPath();ctx.moveTo(sx*.16,-.475);ctx.lineTo(sx*.005,-.42);ctx.lineTo(sx*.09,-.37);ctx.lineTo(sx*.2,-.44);ctx.closePath();ctx.fill();ctx.lineWidth=hair;ctx.strokeStyle="rgba(0,0,0,.35)";ctx.stroke();}
+    }
+    ctx.lineWidth=hair*1.4;ctx.strokeStyle="rgba(0,0,0,.5)";ctx.stroke(torso);
     ctx.restore();
     return t.ready;
   }
 
-  return Object.freeze({version:"r89-kits17-1",clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,drawFlat,prepare:prepareCrests,deltaE,
+  return Object.freeze({version:"r90-kits17-3",clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,drawFlat,prepare:prepareCrests,deltaE,
     layouts:Object.freeze(["wrap","remy","ch38","ch42"]),layout:Object.freeze({uv:"wrap",frontU:.5,backU:0,leftOfWearer:"u rises",vHem:0,vNeck:1,crestU:.575,crestV:.75})});
 });

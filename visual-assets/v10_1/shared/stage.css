@@ -163,6 +163,14 @@ html[data-sd-pointer-active] .sd-stage__flare { animation-play-state: paused; }
   mix-blend-mode: soft-light;
 }
 
+/* r90 M18 (Light): no settling dust, and the one flare sweep without its 18 px blur (the gradient is already soft). */
+html[data-gfx="0"] .sd-stage__dust { display: none; }
+html[data-gfx="0"] .sd-stage__flare { filter: none; }
+/* r90 MOTION M33: the dust particles were what kept the stage on its own compositor layer; without them, once the flare
+   ends, every scroll or movement repainted the whole stage (Season Results 140-178 ms a frame on a Chromebook). At Light the
+   stage asks for its layer itself. It is already isolated, so nothing about stacking or fixed elements changes. */
+html[data-gfx="0"] .sd-stage { will-change: opacity; }
+
 @media (prefers-reduced-motion: reduce) {
   .sd-stage__layer--atmosphere { display: none !important; }
   .sd-stage__dust i, .sd-stage__flare { animation: none !important; }

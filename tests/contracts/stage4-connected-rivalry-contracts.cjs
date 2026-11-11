@@ -229,8 +229,6 @@ function stage4Rivalry(fixture){
   assert.equal(connected.validPointer(validPointer),true);
   assert.equal(connected.validPointer({...validPointer,rivalryId:"bad"}),false);
 
-  const remoteContract=fs.readFileSync("js/cloudSyncRemoteContract.js","utf8");
-  assert.match(remoteContract,/mutationReceipt/,"Protected remote contract must name the rule-verifiable Stage 4 mutation receipt.");
   const rules=fs.readFileSync("firestore.spark.rules","utf8");
   assert.match(rules,/validSharedStateCreate/);
   assert.match(rules,/validSharedStateUpdate/);

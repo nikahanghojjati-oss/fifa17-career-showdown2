@@ -8,7 +8,7 @@
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   color: var(--r78-ivory, #f2ebdd);
-  background: #050403 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  background: #050403 url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp") 50% 50% / cover no-repeat;
   font: 500 16px/1.4 var(--r78-font-body, "Barlow", system-ui, sans-serif);
 }
 #cmStage .cmShell {
@@ -100,21 +100,24 @@
   outline: 1.5px dashed #c8a24a;
   outline-offset: -6px;
 }
+/* r90 LOOK L24: flat dots in the app's gold, no gloss or glow: a live round is a solid gold dot, an empty chamber a dark
+   one with a thin steel ring. */
 #cmStage .cmChamber.is-live {
-  border: 2px solid #ff2a1a;
+  border: 2px solid #d4a017;
   outline: none;
-  /* primer, brass case head, rim */
-  background: radial-gradient(circle at 50% 50%, #e9e2d0 0 14%, #8a6a2a 15% 20%, #ffe7a8 21% 34%, #d4a017 35% 58%, #8a5f12 59% 70%, #3d3f43 71% 100%);
-  box-shadow: 0 0 0 1px #050505, 0 0 7px #ff3b2f;
+  background: #d4a017;
+  box-shadow: none;
 }
 #cmStage .cmChamber.is-empty {
-  border: 2px solid #b9bcc2;
+  border: 2px solid #6d6f74;
   outline: none;
-  /* an empty bore: black all the way down */
-  background: radial-gradient(circle, #000 0 52%, #161718 53% 66%, #4a4c50 67% 100%);
-  box-shadow: inset 0 0 0 1px #050505, 0 0 0 1px #050505;
+  background: #0b0b0c;
+  box-shadow: none;
 }
-#cmStage .cmCylLabel { font-size: 13px; letter-spacing: .06em; color: var(--r78-ivory, #f2ebdd); white-space: nowrap; }
+/* r90 LOOK L24: the cylinders' counts, one quiet strip under the controls ("Nik's cylinder: 3 live rounds"). */
+#cmStage .cmCylStrip { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 28px; margin: 0; font-size: 13px; letter-spacing: .06em; color: var(--r78-ivory, #f2ebdd); }
+#cmStage .cmCylStrip[hidden] { display: none; }
+#cmStage .cmCylLabel { white-space: nowrap; }
 /* ---------- the goal (r88 Team V scene; art drawn in js/chamberMenStep.js cmsGoal) ---------- */
 #cmStage .cmGoal {
   width: 100%;
@@ -122,13 +125,12 @@
   margin: 0 auto;
   display: block;
   box-sizing: border-box;
-  background: #0b0906 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  background: #0b0906 url("../visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp") 0 0 / 256px 256px repeat;
   border: 1px solid var(--r78-gold-edge, #d4a017);
   border-radius: 3px;
   box-shadow: inset 0 0 0 3px #110f0c, inset 0 0 0 4px #6b5323;
   overflow: hidden;
 }
-#cmStage .cmGoal .cmZone { fill: #f2c45b; font: 600 11px/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: 2px; }
 #cmStage .cmGoal .cmNetBack { fill: none; stroke: #c9c1ae; stroke-width: 1.1; }
 #cmStage .cmGoal .cmNetMesh { fill: none; stroke: #8f887a; stroke-width: .7; }
 #cmStage .cmGoal .cmNet { transform-box: view-box; transform-origin: var(--cm-hit-x, 150px) var(--cm-hit-y, 60px); }
@@ -209,18 +211,35 @@
   text-transform: uppercase;
 }
 #cmStage .cmChoices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+/* r90 (Nik 2026-11-08, "less AI-made"; gameplay/r90/threads/HANDCRAFTED_LOOK_BRIEF.md): flat, matte picks with one solid colour
+   and a thin border, no gradient and no glow. Gold is only for the live choice: solid gold, black text. A small goal on each
+   pick shows the third it aims at. */
 #cmStage .cmChoice {
   min-height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 5px 4px;
   color: var(--r78-ivory, #f2ebdd);
-  background: #0d0b09;
-  border: 1px solid rgba(242, 196, 91, .7);
-  border-radius: 3px;
-  font: 700 17px/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
-  letter-spacing: .12em;
+  background: #16130f;
+  border: 1px solid rgba(242, 196, 91, .42);
+  border-radius: 2px;
+  box-shadow: none;
+  text-shadow: none;
+  font: 700 16px/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+  letter-spacing: .14em;
   text-transform: uppercase;
   cursor: pointer;
+  transition: background-color .12s linear, border-color .12s linear, color .12s linear;
 }
-#cmStage .cmChoice[aria-pressed="true"] { color: #140e04; background: linear-gradient(180deg, #fff6d2, #f2c45b 55%, #c4943e); border-color: #fff0b8; }
+#cmStage .cmChoice .cmAim { width: 32px; height: 13px; flex: none; color: #cdbf9f; }
+#cmStage .cmChoice:hover:not(:disabled):not([aria-pressed="true"]) { border-color: rgba(242, 196, 91, .85); }
+#cmStage .cmChoice:active:not(:disabled) { background: #221d15; }
+#cmStage .cmChoice:focus-visible { outline: 2px solid #fff3bd; outline-offset: 2px; }
+#cmStage .cmChoice[aria-pressed="true"] { color: #0b0906; background: #f2c45b; border-color: #f2c45b; }
+#cmStage .cmChoice[aria-pressed="true"] .cmAim { color: inherit; }
 #cmStage .cmChoice:disabled { cursor: default; }
 #cmStage .cmClock {
   min-height: 1em; /* round 1 keeps the clock's line before it starts, so nothing jumps when it does */
@@ -260,7 +279,8 @@
 }
 /* Not ready yet (no shot or dive picked, or already locked in): the same gold, flat and quiet, never dimmed over anything. */
 #cmStage .cmActions > button.menuButton:disabled {
-  color: #8a7a52;
+  opacity: 1; /* css/app.css fades a disabled .menuButton to .48, which left the name at 2.1:1 (colour hunt COL-04); solid and readable instead */
+  color: #b5a36a;
   background: #17140e;
   border-color: rgba(242, 196, 91, .45);
   box-shadow: none;
@@ -313,12 +333,18 @@
   #cmStage .cmBall, #cmStage .cmKeeper { transition: none !important; }
   #cmStage .cmGoal .cmBallArt, #cmStage .cmGoal .cmNet, #cmStage .cmGoal .cmHit { animation: none !important; }
 }
-/* ---------- r89 the 3D goal (js/chamberMenScene3d.js): the canvas under the SVG, the SVG keeps its frame and zone words ---------- */
+/* ---------- r89 the 3D goal (js/chamberMenScene3d.js): the canvas under the SVG, the SVG keeps its frame ---------- */
 #cmStage .cmGoalBox { position: relative; }
 #cmStage .cmGoal3d { position: absolute; display: block; pointer-events: none; z-index: 0; border-radius: 3px; background: #0a0806; }
 #cmStage .cmGoal.cm3d-on { position: relative; z-index: 1; background: transparent; }
-#cmStage .cmGoal.cm3d-on > :not(.cmZone) { display: none; }
-#cmStage .cmGoal.cm3d-on .cmZone { paint-order: stroke; stroke: #050403; stroke-width: 3px; stroke-linejoin: round; }
+#cmStage .cmGoal.cm3d-on > * { display: none; }
+/* r90 Light: the pick clock started before the 3D scene landed. The box holds a loading panel (never the drawn goal) until it does. */
+#cmStage .cmGoalBox.cm3d-wait .cmGoal { visibility: hidden; }
+#cmStage .cmGoalBox.cm3d-wait::after {
+  content: "LOADING CHAMBER MEN"; position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; border-radius: 3px;
+  background: #0b0906 url("../visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp") 0 0 / 256px 256px repeat;
+  color: var(--sd-gold-300, #ffd34d); font: 700 clamp(16px, 2.4vw, 24px)/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .12em;
+}
 
 /* ---------- r89 broadcast layout (Nik 2026-11-04, option A): the score, the pitch across the whole width, the controls under it ----------
    The pitch is a TV picture of the penalty (js/chamberMenScene3d.js). Its height is what the screen has left once the score and
@@ -329,7 +355,7 @@
 #cmStage .cmHeader > :last-child { justify-self: end; text-align: right; }
 #cmStage .cmHeader .cmTitle { font-size: clamp(20px, 5.4vw, 30px); letter-spacing: .06em; }
 @media (max-width: 560px) {
-  #cmStage .cmHeader { grid-template-columns: 1fr auto; row-gap: 2px; font-size: 11px; letter-spacing: .12em; }
+  #cmStage .cmHeader { grid-template-columns: 1fr auto; row-gap: 2px; font-size: 12px; letter-spacing: .1em; } /* strict D11: 12 px floor */
   #cmStage .cmHeader .cmTitle { grid-column: 1 / -1; grid-row: 1; }
   #cmStage .cmSide .cmGoals { font-size: 28px; }
 }
@@ -338,13 +364,12 @@
 #cmStage .cmSide { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: 8px; row-gap: 3px; }
 #cmStage .cmSide .cmGoals { font-size: 32px; line-height: 1; }
 #cmStage .cmSide .cmCylinder { flex-basis: auto; }
-#cmStage .cmSide .cmCylLabel { flex-basis: 100%; font-size: 11px; }
 #cmStage .cmGoalBox { container-type: inline-size; margin: 0 -16px; }
 #cmStage .cmGoal { max-width: none; width: 100%; height: clamp(180px, calc(100dvh - 430px), 66.7cqw); border-left: 0; border-right: 0; border-radius: 0; }
 #cmStage .cmGoal3d { border-radius: 0; }
 #cmStage .cmPlay { align-items: stretch; }
 #cmStage .cmControls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center;
-  grid-template-areas: "turn clock" "status status" "picks picks" "lines lines" "actions actions"; }
+  grid-template-areas: "turn clock" "status status" "picks picks" "lines lines" "actions actions" "cyl cyl"; }
 /* The rival's part and the kick count each take their own line, so they never read as one run of words (gallery 2026-11-06). */
 #cmStage .cmTurn { grid-template-columns: minmax(0, 1fr); }
 #cmStage .cmControls > .cmTurn { grid-area: turn; padding: 6px 10px; gap: 2px; }
@@ -353,6 +378,7 @@
 #cmStage .cmControls > .cmPicks { grid-area: picks; gap: 6px; }
 #cmStage .cmControls > .cmLines { grid-area: lines; }
 #cmStage .cmControls > .cmActions { grid-area: actions; }
+#cmStage .cmControls > .cmCylStrip { grid-area: cyl; }
 #cmStage .cmTurnHead { font-size: clamp(26px, 7vw, 34px); }
 #cmStage .cmTurnSub, #cmStage .cmTurnCount { font-size: 13px; }
 #cmStage .cmRowLabel { font-size: 12px; }
@@ -365,21 +391,35 @@
   #cmStage .cmTurnHead { font-size: 26px; }
 }
 @media (max-width: 560px) and (max-height: 660px) {
-  #cmStage .cmGoal { height: clamp(160px, calc(100dvh - 426px), 66.7cqw); }
+  #cmStage .cmGoal { height: clamp(160px, calc(100dvh - 428px), 66.7cqw); }
 }
 @media (min-width: 900px) {
-  #cmStage .cmShell { width: min(1180px, 100%); padding-top: 14px; gap: 10px; }
+  /* LOOK L48: on a tall window the stage grows with the height (the pitch keeps 16:9 and the 300 px the score and the
+     controls take), so a 1920x1080 screen has no empty band under the controls; 1180 px stays the narrowest. */
+  #cmStage .cmShell { width: min(max(1180px, calc((100dvh - 300px) * 16 / 9)), 100%); padding-top: 14px; gap: 10px; }
   #cmStage .cmPlay { display: flex; gap: 10px; }
   #cmStage .cmGoalBox { margin: 0; }
   #cmStage .cmGoal { height: clamp(260px, calc(100dvh - 300px), 56.25cqw); border: 1px solid var(--r78-gold-edge, #d4a017); border-radius: 3px; }
   #cmStage .cmGoal3d { border-radius: 3px; }
+  #cmStage .cmGoalBox.cm3d-wait::after { border: 1px solid var(--r78-gold-edge, #d4a017); }
   #cmStage .cmTurn { grid-template-columns: 1fr; }
   #cmStage .cmControls { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, .8fr); gap: 8px 16px; align-items: stretch;
-    grid-template-areas: "turn picks clock" "turn actions status" "lines lines lines"; padding-top: 0; }
+    grid-template-areas: "turn picks clock" "turn actions status" "lines lines lines" "cyl cyl cyl"; padding-top: 0; }
   #cmStage .cmControls > .cmClock { align-self: center; font-size: 34px; }
   #cmStage .cmControls > .cmStatus { align-self: center; text-align: center; }
   #cmStage .cmActions { flex-wrap: nowrap; }
   #cmStage .cmActions > button.menuButton, #cmStage .cmActions > button.cmBack { min-width: 0; }
   #cmStage .cmActions > button.cmLock, #cmStage .cmActions > button.cmNext { flex: 1 1 auto; }
   #cmStage .cmActions > button.cmBack { flex: 0 0 auto; padding: 10px 14px; font-size: 14px; }
+}
+
+/* HO-068 house slab (Team V's handcrafted V1, visual-assets/v10_1/plates-hc/ENV_SLAB_* and TILE_SLAB_HC_V1_512): the 2D page
+   around the shootout (score, controls, the full-time result) sits on the same black marble slab as Settings and the Rule Book,
+   in place of the old r78 tile. The slab covers the stage and stays put while the page scrolls inside it; the goal frame and
+   the loading panel use the slab tile (512 drawn at 256 so it is sharp on 2x screens). Upright phones and tablets draw the
+   phone slab, the smallest asset tier (html[data-assets="0"]) its 590W copy. The 3D shootout itself is unchanged.
+   css/r78-marble-tile.webp stays (other screens use it). */
+@media (max-width: 760px) and (orientation: portrait) {
+  #cmStage { background-image: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
+  html[data-assets="0"] #cmStage { background-image: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp"); }
 }

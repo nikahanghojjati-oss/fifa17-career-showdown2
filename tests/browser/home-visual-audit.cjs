@@ -34,10 +34,7 @@ async function waitForHome(page){
     await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 12000 });
     await page.locator("#continueCareer .tileArt").waitFor({ state: "visible", timeout: 12000 });
-    await page.waitForFunction(() => {
-        const art = document.querySelector("#continueCareer .tileArt");
-        return Boolean(art && art.complete && art.naturalWidth > 0);
-    }, null, { timeout: 12000 });
+    // r90 W9: the tile icons are drawn inline (SVG), so there is no picture to wait for.
 }
 
 function isExpectedProductionAppCheckConsoleNoise(message){
@@ -76,11 +73,10 @@ async function inspectHome(page){
         return {
             viewport: { width: innerWidth, height: innerHeight },
             dpr: devicePixelRatio,
-            src: art.currentSrc || art.src,
-            naturalWidth: art.naturalWidth,
+            icon: art.dataset.icon || "",
             opacity: artStyle.opacity,
             filter: artStyle.filter,
-            art: { left: artRect.left, right: artRect.right, top: artRect.top, width: artRect.width, height: artRect.height },
+            art: { left: artRect.left, right: artRect.right, top: artRect.top, bottom: artRect.bottom, width: artRect.width, height: artRect.height },
             tile: { left: tileRect.left, right: tileRect.right, top: tileRect.top, bottom: tileRect.bottom },
             labelRight: labelRect.right,
             reusShown: shown(reus),
@@ -190,13 +186,13 @@ function assertTiles(result, label, mode){
 }
 
 function assertCommon(result, label){
-    assert.match(result.src, /visual-assets\/v10_1\/shared\/art\/home-tiles\/TILE_CONTINUE_V1\.webp/, `${label}: Continue must use Team V's number-17 player.`);
-    assert.ok(result.naturalWidth > 0, `${label}: Continue art did not decode.`);
+    // r90 W9 (LOOK hunt L12): Continue shows the drawn number-17 shirt of the Home line-icon set, not the player photo.
+    assert.equal(result.icon, "continue", `${label}: Continue must show the drawn number-17 shirt.`);
     assert.equal(result.opacity, "1", `${label}: Continue art must render at full opacity.`);
     assert.doesNotMatch(result.filter, /brightness|grayscale|saturate/, `${label}: Continue art must not be dimmed or greyed.`);
-    assert.ok(result.art.width >= 30 && result.art.height >= 60, `${label}: Continue art is too small to see.`);
+    assert.ok(result.art.width >= 30 && result.art.height >= 30, `${label}: Continue art is too small to see.`);
     assert.ok(result.art.left >= result.tile.left && result.art.right <= result.tile.right + 1, `${label}: Continue art must sit inside its tile.`);
-    assert.ok(result.art.top >= result.tile.top && result.art.top < result.tile.bottom - 40, `${label}: the player's head must be inside the tile.`);
+    assert.ok(result.art.top >= result.tile.top - 1 && result.art.bottom <= result.tile.bottom + 1, `${label}: the drawn shirt must sit wholly inside the tile.`);
     assert.ok(result.labelRight <= result.art.left + 1, `${label}: the Continue label must not run under the player.`);
     assert.equal(result.reusShown, false, `${label}: the old Reus cover must not show on Home.`);
     assert.equal(result.creditShown, false, `${label}: the old Reus credit must not show on Home.`);

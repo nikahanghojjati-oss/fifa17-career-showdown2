@@ -41,11 +41,8 @@ async function checkFailure(kind){
     await tick();
     console.log(`${kind}: unhandled stylesheet rejections before script completes = ${unhandled.length}`);
     assert.equal(unhandled.length,0,'early stylesheet failure must stay handled while the script loads');
-    window.buildRivalryAnalytics=()=>{};window.buildCareerAnalytics=()=>{};
-    nodes.find(n=>n.dataset.runtimeScript==='analytics-engine').fire('load');
-    await tick();
     window.openCareerStatistics=()=>opened.push('careerStatistics');
-    window.openRivalryStatistics=()=>opened.push('statistics');window.createAnalyticsStat=()=>{};
+    window.openRivalryStatistics=()=>opened.push('statistics');
     nodes.find(n=>n.dataset.runtimeScript==='statistics-ui').fire('load');
     assert.equal(await first,false);
     assert.equal(reported.length,1,'normal module failure still reaches its caller');
@@ -60,7 +57,7 @@ async function checkFailure(kind){
     assert.equal(await window.openOptionalModule('careerStatistics'),true);
     assert.equal(await window.openOptionalModule('statistics'),true);
     assert.deepEqual(opened,['careerStatistics','careerStatistics','statistics']);
-    assert.equal(nodes.filter(n=>n.tag==='script').length,2,'loaded scripts must be reused on retry and reopen');
+    assert.equal(nodes.filter(n=>n.tag==='script').length,1,'loaded scripts must be reused on retry and reopen');
     assert.equal(nodes.filter(n=>n.tag==='link').length,2,'successful CSS must be reused');
     await tick();assert.equal(unhandled.length,0);
   }finally{process.removeListener('unhandledRejection',onUnhandled);}

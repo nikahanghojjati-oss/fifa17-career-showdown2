@@ -14,7 +14,6 @@ const model=(entries=[],extra={})=>buildCareerModel({indexStatus:"ready",showdow
 const perfect=result({leaguePosition:1,leaguePoints:101,leagueGoals:110,championsLeague:true,domesticCup:true,topScorer:true,topAssist:true});
 const p=projection({totalSeasons:1,seasons:[[result({domesticCup:true}),perfect]]});
 const ready=model([entry(p)]);
-const sourceByScreen={careerStatistics:"js/statistics.js",trophyRoom:"js/trophyRoom.js",legacy:"js/legacy.js",rivalryStatistics:"js/statistics.js"};
 const format=value=>value===null?"-":Number.isInteger(value)?String(value):value.toFixed(1);
 const careerFields=[["Career points","careerPoints"],["Seasons played","seasons"],["Season wins","seasonWins"],["Season draws","seasonDraws"],["Season losses","seasonLosses"]];
 const showdownFields=[["Showdowns completed","completed"],["Showdown wins","wins"],["Showdown draws","draws"],["Showdown losses","losses"]];
@@ -81,7 +80,6 @@ await check("4. Empty only when empty",()=>{
   for(const screen of Seam.SCREENS){
     const empty=Seam.careerScreenView(screen,model());
     assert.equal(empty.status,"empty");assert.equal(empty.message,Seam.TEXT.empty[screen]);assert.deepEqual(empty.sections,[]);
-    assert.ok(source(sourceByScreen[screen]).includes(Seam.TEXT.empty[screen]));
     for(const m of [null,ready,{...ready,status:"loading"},{...ready,status:"unavailable"},{...ready,status:"partial"}])assert.notEqual(Seam.careerScreenView(screen,m).message,Seam.TEXT.empty[screen]);
     assert.equal(Seam.careerScreenView(screen,{status:"loading"}).message,"Loading career history.");
   }
@@ -218,7 +216,8 @@ await check("16. Internal containment retained; History and Statistics reachable
   // JOB-28 completes the remaining Statistics/History containment removals.
   assert.equal(identity.includes("#careerStatisticsButton"),false,"Career Statistics is reachable online");
   assert.equal(source("index.html").includes("trophyRoomButton"),false);
-  assert.ok(source("service-worker.js").includes('    "js/analytics.js",\n    "js/careerScreenSeam.js",'));
+  // r90: the retired local analytics engine is deleted; the seam stays in the shell list.
+  assert.ok(source("service-worker.js").includes('    "js/careerScreenSeam.js",'));assert.equal(source("service-worker.js").includes('    "js/analytics.js",'),false,"analytics.js is off the shell list");
 });
 await check("17. Pure and frozen",()=>{
   frozenTree(Seam);assert.equal(Seam.contractVersion,1);

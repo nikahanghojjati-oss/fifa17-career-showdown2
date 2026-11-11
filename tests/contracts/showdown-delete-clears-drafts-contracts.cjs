@@ -9,8 +9,7 @@
 // The sweep is clearAllShowdownDraftKeys in js/diagnostics.js, loaded on demand through ensureDiagnosticsModule, because only storage.js
 // (a startup file with a FULL gzip budget) and diagnostics.js may touch localStorage (static-app-release and job-1652 contracts).
 // Node only; the real js/storage.js, js/diagnostics.js, js/showdownUI.js, js/legacy.js and js/settings.js run in one page context.
-//   D1  DELETE CURRENT SHOWDOWN (dashboard) removes every draft key of every rivalry; preferences, Legacy, the save library and other keys stay.
-//       This holds offline: no rivalry id on the Showdown and no pair module.
+//   (D1 was the unbound Showdown Home delete; r90 deleted it as dead code. Settings END SHOWDOWN is the one live path.)
 //   D2  END SHOWDOWN (r80; was DELETE CURRENT SHOWDOWN) in Settings (remote-first, Save Library authority) removes every draft key of every rivalry, also with no
 //       rivalry id on the Showdown and a pair module that only initializes later; the rest stays. END records the accepted seasons
 //       read from the rivalry's Shared Season Commits, also on a fresh browser before CONTINUE (D2d, D2e).
@@ -113,32 +112,6 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
 (async()=>{
   const ALL_DRAFTS=[...DRAFTS,...OTHER_DRAFTS,...PAIRED_DRAFTS].sort();
   const withAllDrafts=base=>{const initial={...base};for(const key of [...DRAFTS,...PAIRED_DRAFTS])initial[key]="{\"draft\":true}";return initial;};
-  // ---- D1 dashboard delete, raw (pre-Save-Library) storage ----
-  {
-    const initial=withAllDrafts({...KEPT,"careerModeShowdown.activeShowdown":JSON.stringify(active)});delete initial["careerModeShowdown.saveLibrary"];
-    const h=harness({initial});vm.runInContext(`currentShowdown=${JSON.stringify(active)};`,h.ctx);
-    assert.equal(h.localStorage.draftKeys().length,ALL_DRAFTS.length);
-    await h.ctx.deleteCurrentShowdownFromDashboard();
-    assert.equal(h.localStorage.getItem("careerModeShowdown.activeShowdown"),null,"the Showdown itself is deleted");
-    await h.settle();
-    assert.deepEqual(h.localStorage.draftKeys(),[],"every draft of every rivalry is gone, orphans included");
-    assertKept(h,["careerModeShowdown.saveLibrary"]);
-    assert.deepEqual(h.screens,["mainMenu"]);
-    assert.equal(h.diagnostics.loads,1,"diagnostics.js is loaded on demand, once");
-    ok("D1 dashboard delete clears every cms.draft.v1 and cms.signingDraft.v1 key of every rivalry and nothing else");
-  }
-  // ---- D1b dashboard delete while offline: no rivalry id on the Showdown, pair module not loaded ----
-  {
-    const bare={id:"s1",name:"Nik vs Daniel",status:"In progress",identity:{saveId:"save_1"}};
-    const initial=withAllDrafts({...KEPT,"careerModeShowdown.activeShowdown":JSON.stringify(bare)});delete initial["careerModeShowdown.saveLibrary"];
-    const h=harness({initial});vm.runInContext(`currentShowdown=${JSON.stringify(bare)};`,h.ctx);
-    assert.equal(h.ctx.CareerModePersistentNikDanielPair,undefined,"pair module is not loaded");
-    await h.ctx.deleteCurrentShowdownFromDashboard();
-    await h.settle();
-    assert.deepEqual(h.localStorage.draftKeys(),[],"no rivalry id is needed to clear the drafts");
-    assertKept(h,["careerModeShowdown.saveLibrary"]);
-    ok("D1b dashboard delete clears every draft when the Showdown has no rivalry id and the pair module is not loaded");
-  }
   // ---- D2 Settings remote-first delete ----
   {
     const initial=withAllDrafts({...KEPT});
@@ -171,14 +144,7 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     assert.equal(vm.runInContext("__releases",h.ctx),1,"one close attempt");assert.deepEqual(runtime.calls,["clearActive"]);
     assert.equal(h.notices.filter(n=>n.kind==="success").length,1);assert.equal(h.notices.filter(n=>n.kind==="error").length,0,"already closed is success, not an error");
     assert.match(h.notices[0].text,/History keeps it as Ended early\./);
-    const shared={...active,sharedJourney:{mode:"shared",rivalryId:RIVALRY}};
-    const d=harness({initial:withAllDrafts({...KEPT,"careerModeShowdown.activeShowdown":JSON.stringify(shared)})});
-    vm.runInContext(`currentShowdown=${JSON.stringify(shared)};var __ends=0;endSettingsCurrentShowdown=async function(){__ends+=1;return true;};`,d.ctx);
-    await d.ctx.deleteCurrentShowdownFromDashboard();await d.settle();
-    assert.equal(vm.runInContext("__ends",d.ctx),1,"a two-player Showdown ends through END SHOWDOWN");
-    assert.ok(d.localStorage.getItem("careerModeShowdown.activeShowdown"),"never removed from this browser alone");
-    assert.equal(d.localStorage.draftKeys().length,ALL_DRAFTS.length);
-    ok("D2c END SHOWDOWN: a double tap is one END and already-closed is success; the dashboard delete of a two-player Showdown routes to END");
+    ok("D2c END SHOWDOWN: a double tap is one END and already-closed is success");
   }
   // ---- D2d r80 (r89, Codex C3 re-check): the seasons count is made by the pair provider inside its own closing transaction
   // (the Rules check it against the same commits), so Settings reads no commits: an active Showdown's END passes no count,
@@ -285,18 +251,8 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
   // ---- D5 failure or cancel keeps drafts ----
   {
     const initial=withAllDrafts({...KEPT,"careerModeShowdown.activeShowdown":JSON.stringify(active)});
-    // Save Library present but its authority is not ready: clearSavedShowdown refuses.
-    let h=harness({initial});vm.runInContext(`currentShowdown=${JSON.stringify(active)};`,h.ctx);
-    await h.ctx.deleteCurrentShowdownFromDashboard();await h.settle();
-    assert.equal(h.localStorage.draftKeys().length,ALL_DRAFTS.length,"failed dashboard delete keeps drafts");
-    assert.ok(h.notices.some(n=>n.kind==="error"));
-    assert.equal(h.diagnostics.loads,0,"no sweep is even started");
-    // Cancelled confirm.
-    h=harness({initial,confirmAnswer:false});vm.runInContext(`currentShowdown=${JSON.stringify(active)};`,h.ctx);
-    await h.ctx.deleteCurrentShowdownFromDashboard();await h.settle();
-    assert.equal(h.localStorage.draftKeys().length,ALL_DRAFTS.length,"cancelled dashboard delete keeps drafts");
     // Settings: local removal fails after the online close.
-    h=harness({initial});const runtime=libraryRuntime(h.localStorage,{clearActive:false});h.ctx.CareerModeSaveLibraryRuntime=runtime;
+    let h=harness({initial});const runtime=libraryRuntime(h.localStorage,{clearActive:false});h.ctx.CareerModeSaveLibraryRuntime=runtime;
     vm.runInContext(`currentShowdown=${JSON.stringify(active)};ensureSettingsShowdownStorageAuthority=async function(){return true;};releaseSettingsCurrentShowdownConnection=async function(){return {ok:true};};`,h.ctx);
     assert.equal(await h.ctx.endSettingsCurrentShowdown(null),false);
     assert.equal(h.localStorage.draftKeys().length,ALL_DRAFTS.length,"failed Settings delete keeps drafts");
@@ -309,23 +265,13 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     assert.equal(h.localStorage.draftKeys().length,ALL_DRAFTS.length,"failed reset keeps drafts");
     ok("D5 a failed or cancelled delete leaves every draft in place");
   }
-  // ---- D5b the sweep module cannot load: the delete itself still completes ----
-  {
-    const initial=withAllDrafts({...KEPT,"careerModeShowdown.activeShowdown":JSON.stringify(active)});delete initial["careerModeShowdown.saveLibrary"];
-    const h=harness({initial});h.ctx.ensureDiagnosticsModule=async()=>{throw new Error("Unable to load js/diagnostics.js.");};
-    vm.runInContext(`currentShowdown=${JSON.stringify(active)};`,h.ctx);
-    await h.ctx.deleteCurrentShowdownFromDashboard();await h.settle();
-    assert.equal(h.localStorage.getItem("careerModeShowdown.activeShowdown"),null,"the Showdown is still deleted");
-    assert.deepEqual(h.screens,["mainMenu"]);
-    ok("D5b an unavailable sweep module never blocks or breaks the delete");
-  }
   // ---- D6 wiring ----
   {
     for(const file of ["js/storage.js","js/showdown.js","js/scoring.js","js/screens.js","js/menuExperience.js","js/optionalModules.js","js/app.js","css/app.css","index.html"])
       assert.ok(!/cms\.(draft|signingDraft)\.v1|DraftKeys/.test(read(file)),`${file} is a startup file and carries none of this`);
     for(const file of ["js/productionSharedSeasonResults.js","js/productionSharedTransferChallenge.js","js/productionSharedTerminalClose.js","js/showdownUI.js","js/legacy.js","js/settings.js"])
       assert.ok(!/\blocalStorage\b/.test(read(file)),`${file} never touches localStorage directly`);
-    for(const [file,name,calls] of [["js/showdownUI.js","sweepDashboardShowdownDrafts",1],["js/legacy.js","sweepLegacyShowdownDrafts",2],["js/settings.js","sweepSettingsShowdownDrafts",1]]){
+    for(const [file,name,calls] of [["js/legacy.js","sweepLegacyShowdownDrafts",2],["js/settings.js","sweepSettingsShowdownDrafts",1]]){
       const source=read(file);
       assert.equal((source.match(new RegExp(`\\b${name}\\(`,"g"))||[]).length,calls+1,`${file} defines ${name} once and calls it ${calls} time(s)`);
       assert.ok(!/\bget\w*DraftKeys|cms\.(draft|signingDraft)\.v1/.test(source),`${file} derives no per-rivalry draft keys`);

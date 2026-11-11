@@ -5,8 +5,8 @@
 // either refuses a whole cache (a path the old build never had) or serves a shell with holes (a path the old build needs
 // but the check skips). tests/fixtures/shell-paths/<revision>.json holds the exact SHELL_PATHS each live build shipped
 // (1.9.10-r86 = main 5b4337fd, the build live since 2026-10-30; 2.0.0-r87 = main 00ae2b72, live since 2026-11-02; 2.1.0-r88 =
-// main e6485d7d, live since 2026-11-04). 2.2.0 moves PREVIOUS to 2.1.0-r88: the added set must be exactly the paths r89 adds
-// to r88's 270; this test names them if it is not.
+// main e6485d7d, live since 2026-11-04; 2.2.0-r89 = main 2fe8d2f5, live since 2026-11-06). 2.3.0 moves PREVIOUS to 2.2.0-r89:
+// the added set must be exactly the paths r90 adds to r89's 275; this test names them if it is not.
 // Run: node tests/contracts/r87-upgrade-rollback-list-contracts.cjs
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -47,7 +47,7 @@ test("UR2 the rollback list equals the previous revision's real shell, path for 
   assert.deepEqual({missing,extra},{missing:[],extra:[]},`rollback list for ${w.previous} is wrong; SHELL_PATHS_ADDED_SINCE_PREVIOUS should be exactly: ${JSON.stringify(w.shell.filter(p=>!real.includes(p)))}`);
 });
 
-test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.2.0: three.js r128)",()=>{
+test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.3.0: the old Barlow Condensed 600/700 copies and js/analytics.js)",()=>{
   const real=fixture(w.previous),shell=new Set(w.shell);
   assert.deepEqual(real.filter(p=>!shell.has(p)),w.removed,"a path the previous build precached left SHELL_PATHS without being listed in SHELL_PATHS_REMOVED_SINCE_PREVIOUS");
   assert.deepEqual(w.removed.filter(p=>shell.has(p)),[],"a removed path is still in SHELL_PATHS");
@@ -60,9 +60,9 @@ test("UR4 every added path is a current shell path, listed once",()=>{
   assert.equal(new Set(w.shell).size,w.shell.length,"SHELL_PATHS lists a path twice");
 });
 
-test("UR5 a 2.2.0 worker rolls back to the live 2.1.0 build",()=>{
-  assert.equal(w.revision,"2.2.0-r89");
-  assert.equal(w.previous,"2.1.0-r88");
+test("UR5 a 2.3.0 worker rolls back to the live 2.2.0 build",()=>{
+  assert.equal(w.revision,"2.3.0-r90");
+  assert.equal(w.previous,"2.2.0-r89");
 });
 
 test("UR6 the r87 fixture is r86's list plus what 2.0.0 added, minus the seven acceptance-only scripts",()=>{
@@ -77,6 +77,13 @@ test("UR7 the r88 fixture is r87's list plus Chamber Men's step, rules and style
   assert.equal(r88.length,270);
   assert.deepEqual(r87.filter(p=>!r88.includes(p)),[]);
   assert.deepEqual(r88.filter(p=>!r87.includes(p)),["js/chamberMenStep.js","js/chamberMen.js","css/chamberMen.css"]);
+});
+
+test("UR8 the r89 fixture is r88's list plus r89's 3D engine, Kits 17, Sacked lines and Chamber Men 3D, minus three.js r128",()=>{
+  const r89=fixture("2.2.0-r89"),r88=fixture("2.1.0-r88");
+  assert.equal(r89.length,275);
+  assert.deepEqual(r88.filter(p=>!r89.includes(p)),["visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
+  assert.deepEqual(r89.filter(p=>!r88.includes(p)).sort(),["data/gazetteSacked.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js","js/kits17.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","visual-assets/v10_1/roulette/vendor/three-r187.min.js"]);
 });
 
 console.log(`r87 upgrade rollback-list contracts: ${passed} passed (revision ${w.revision}, previous ${w.previous}, ${w.added.length} added since it)`);

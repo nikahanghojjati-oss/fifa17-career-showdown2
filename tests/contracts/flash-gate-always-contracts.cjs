@@ -17,7 +17,7 @@ const FLASH="V10_FLASH_BROWSER";
   const routes={
     "doc-only":[["README.md"],"POS20_DOC_ONLY"],
     "operations-only":[["NEXT_TASK.md"],"POS20_OPS_ONLY"],
-    "small JS":[["js/analytics.js"],"POS20_IMPACT_STATISTICS_ANALYTICS"],
+    "small JS":[["js/statistics.js"],"POS20_IMPACT_STATISTICS_ANALYTICS"],
     "full seal":[["js/ui.js"],"POS20_FULL_SEAL"]
   };
   for(const [label,[files,profile]] of Object.entries(routes)){

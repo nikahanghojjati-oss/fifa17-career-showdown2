@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Device check · Career Mode Showdown</title>
+<!-- r90 Device check (Nik 2026-11-07: "very smooth based on each device capability ... choose that as auto"). Runs each 3D
+     screen on demo data for 10 s at every quality level (js/gfxTier.js ?gfx=N&bench=1 frames), shows the frame rate, and
+     saves the best level that holds 60 fps as this device's Auto. It loads no game, no sign-in and no Firestore: only
+     js/storage.js (the app's own storage helpers) and js/gfxTier.js. Settings > 3D QUALITY can still pick any level. -->
+<style>
+:root{--gold:#f5c518;--gold-dim:rgba(219,178,94,.55);--ink:#f5f1e8;--mute:#c1b9aa;--bad:#ff8a7a;--good:#9fe39f}
+*{box-sizing:border-box}
+html{background:#050505}
+body{margin:0;min-height:100vh;color:var(--ink);font:400 15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  background:#050505 url("css/r78-marble-tile.webp") center/480px repeat}
+main{max-width:1000px;margin:0 auto;padding:28px 16px 40px}
+h1{margin:0 0 4px;font:800 clamp(28px,5vw,44px)/1.05 system-ui,sans-serif;letter-spacing:.06em;color:var(--gold);text-align:center}
+.lede{margin:0 auto 18px;max-width:62ch;text-align:center;color:var(--mute)}
+.card{background:rgba(8,7,5,.88);border:1px solid var(--gold-dim);padding:16px;margin:0 0 14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+button,.btn{appearance:none;min-height:44px;padding:0 20px;border:1px solid var(--gold);background:rgba(0,0,0,.6);color:var(--ink);
+  font:700 14px/44px system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+button.primary{background:var(--gold);color:#15120c}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.device{margin:10px 0 0;text-align:center;color:var(--mute);font-size:14px;overflow-wrap:anywhere}
+.device b{color:var(--ink)}
+#status{min-height:1.5em;margin:10px 0 0;text-align:center;font-weight:600}
+#stage{position:relative;width:100%;aspect-ratio:16/9;max-height:60vh;margin:0 auto;background:#000;border:1px solid var(--gold-dim);overflow:hidden}
+#stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+/* Codex on #1266: each scene is measured at its real game size, so the stage fills the window while a level runs (RRR is a
+   full page in the game; the Chamber Men frame sizes its goal as css/chamberMen.css does). */
+#stage.live{position:fixed;inset:0;z-index:5;width:auto;max-height:none;aspect-ratio:auto;border:0}
+#stage .liveNote{position:absolute;left:0;right:0;bottom:max(12px,env(safe-area-inset-bottom,0px));margin:0 auto;width:max-content;max-width:calc(100% - 32px);
+  padding:6px 12px;background:rgba(5,5,5,.86);border:1px solid var(--gold-dim);color:var(--ink);font:600 13px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none}
+#stage .idle{position:absolute;inset:0;display:grid;place-items:center;color:var(--mute);padding:16px;text-align:center}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{padding:8px 6px;border-bottom:1px solid rgba(219,178,94,.25);text-align:left;vertical-align:top}
+th{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+td small{display:block;color:var(--mute);font-size:12px}
+.ok{color:var(--good)}.no{color:var(--bad)}.skip{color:var(--mute)}
+#result{text-align:center;font-weight:700;font-size:17px}
+#result small{display:block;font-weight:400;font-size:14px;color:var(--mute)}
+@media (max-width:520px){th{font-size:11px;letter-spacing:.04em}th,td{padding:7px 4px}td small{font-size:11px;overflow-wrap:anywhere}.card{padding:12px}}
+</style>
+</head>
+<body>
+<main>
+  <h1>DEVICE CHECK</h1>
+  <p class="lede">Plays Chamber Men and Russian Roulette on this device for 10 seconds at each 3D quality level, then sets Auto to the best level that stays smooth at 60 fps. It takes about 2 minutes. Keep this tab open and in front. Nothing in your Showdown changes.</p>
+  <section class="card">
+    <div class="row">
+      <button id="start" class="primary" type="button">Start check</button>
+      <button id="forget" type="button" hidden>Forget result</button>
+      <a class="btn" href="./">Back to the game</a>
+    </div>
+    <p id="device" class="device"></p>
+    <p id="status" role="status" aria-live="polite"></p>
+  </section>
+  <section class="card" aria-hidden="true"><div id="stage"><div class="idle">The 3D screens play here during the check.</div></div></section>
+  <section class="card">
+    <p id="result" aria-live="polite"></p>
+    <div class="wrap"><table>
+      <thead><tr><th scope="col">Level</th><th scope="col">Chamber Men</th><th scope="col">Russian Roulette</th><th scope="col">60 fps?</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+  </section>
+</main>
+<script src="js/storage.js"></script>
+<script src="js/gfxTier.js"></script>
+<script>
+(function(){
+  "use strict";
+  const T=window.CareerModeGfxTier;
+  // The shared level names (js/gfxTier.js); 8K is never benched (picked only, in Settings).
+  const LEVELS=window.CareerModeGfxTier.labels.slice(0,5);
+  const SCENES=[
+    {key:"chamber-men",name:"Chamber Men",path:"device-check-chamber.html"},
+    {key:"rrr",name:"Russian Roulette",path:"visual-assets/v10_1/roulette/index.html"}
+  ];
+  // Holds 60 fps: the average stays within 5% of 60 and the worst 1% of frames stays above 45 fps.
+  const SMOOTH_AVG=57,SMOOTH_LOW=45,WAIT_MS=45000;
+  const $=id=>document.getElementById(id);
+  const stage=$("stage"),status=$("status"),rows=$("rows"),result=$("result"),startBtn=$("start"),forgetBtn=$("forget");
+  const results=LEVELS.map(()=>({}));
+  let running=false,aborted="";
+
+  function cell(r){
+    if(!r)return "<span class=\"skip\">–</span>";
+    if(r.skipped)return "<span class=\"skip\">skipped</span>";
+    if(r.error)return `<span class="no">not measured</span><small>${esc(r.error)}</small>`;
+    return `${r.avg} fps<small>1% low ${r.p1low} · ${r.ms} ms${r.drawMs!=null?` · GPU ${r.drawMs} ms`:""} · ×${(+r.pixelRatio).toFixed(2)}</small>`;
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
+  function smooth(r){return Boolean(r&&!r.error&&!r.skipped&&r.avg>=SMOOTH_AVG&&r.p1low>=SMOOTH_LOW);}
+  // A level passes when every scene that could be measured holds 60 fps there (a scene that never starts does not count).
+  function verdict(i){
+    const got=SCENES.map(s=>results[i][s.key]).filter(r=>r&&!r.error&&!r.skipped);
+    if(SCENES.some(s=>results[i][s.key]&&results[i][s.key].skipped))return null;
+    if(!got.length)return SCENES.every(s=>results[i][s.key])?false:null;
+    return got.every(smooth);
+  }
+  function draw(){
+    rows.innerHTML=LEVELS.map((name,i)=>{
+      const v=verdict(i);
+      return `<tr><th scope="row">${name}</th>${SCENES.map(s=>`<td>${cell(results[i][s.key])}</td>`).join("")}<td>${v===null?"<span class=\"skip\">–</span>":v?"<span class=\"ok\">Yes</span>":"<span class=\"no\">No</span>"}</td></tr>`;
+    }).join("");
+  }
+  // The device class before any check: an iPhone 17 (Apple GPU) reads "Phone · Apple GPU · starts at High".
+  function showDevice(){
+    let d=null;try{d=T&&T.device();}catch(_error){d=null;}
+    if(!d){$("device").textContent="";return;}
+    const kind=d.software?"Software graphics":d.phone?(d.strongPhone?"Phone with a strong graphics chip":"Phone"):"Computer";
+    $("device").innerHTML=`This device: <b>${esc(kind)}</b> · ${esc(d.gpu||"graphics chip not named")} · Auto starts at <b>${esc(LEVELS[d.guessLevel]||"Balanced")}</b>${d.can8k?" · 8K available in Settings":""}`;
+  }
+  function showSaved(){
+    const m=T&&T.measured();forgetBtn.hidden=!m;
+    if(!m){result.innerHTML="";return;}
+    const when=new Date(m.at);
+    result.innerHTML=`Auto on this device: ${LEVELS[m.level]}<small>Measured ${when.toLocaleString()}. Settings › 3D QUALITY can still pick any level.</small>`;
+  }
+  // The measurement under way, so a hidden tab can stop it at once (Codex on #1266).
+  let cancelWait=null;
+  function wait(scene,level){
+    return new Promise(resolve=>{
+      const frame=document.createElement("iframe");
+      frame.title=`${scene.name} at ${LEVELS[level]}`;frame.setAttribute("tabindex","-1");
+      let done=false;
+      const finish=r=>{if(done)return;done=true;cancelWait=null;window.removeEventListener("message",onMsg);clearTimeout(timer);frame.remove();
+        stage.classList.remove("live");resolve(r);};
+      cancelWait=()=>finish({aborted:true});
+      const onMsg=e=>{
+        if(e.origin!==location.origin||e.source!==frame.contentWindow)return;
+        const d=e.data;if(!d||d.type!=="cms-gfx-bench"||d.scene!==scene.key)return;
+        finish(d.error?{error:d.error}:d);
+      };
+      const timer=setTimeout(()=>finish({error:"No result in 45 s."}),WAIT_MS);
+      window.addEventListener("message",onMsg);
+      const note=document.createElement("div");note.className="liveNote";note.textContent=`Measuring ${scene.name} · ${LEVELS[level]} (${level+1} of ${LEVELS.length})`;
+      stage.replaceChildren(frame,note);stage.classList.add("live");
+      frame.src=`${scene.path}?gfx=${level}&bench=1`;
+    });
+  }
+  async function run(){
+    if(running||!T)return;
+    running=true;aborted="";startBtn.disabled=true;forgetBtn.hidden=true;result.innerHTML="";
+    for(const r of results)for(const k of Object.keys(r))delete r[k];
+    draw();
+    let failedAt=-1;
+    for(let level=0;level<LEVELS.length;level+=1){
+      for(const scene of SCENES){
+        if(aborted)break;
+        if(failedAt>=0){results[level][scene.key]={skipped:true};continue;}
+        // A scene that could not start at a lower level will not start at a higher one.
+        const lower=level>0?results[level-1][scene.key]:null;
+        if(lower&&lower.error){results[level][scene.key]={error:lower.error};draw();continue;}
+        status.textContent=`${scene.name} · ${LEVELS[level]} (${level+1} of ${LEVELS.length})…`;
+        const got=await wait(scene,level);
+        if(got&&got.aborted)break;
+        results[level][scene.key]=got;
+        draw();
+      }
+      if(aborted)break;
+      if(failedAt<0&&verdict(level)===false)failedAt=level;
+    }
+    draw();
+    stage.innerHTML="<div class=\"idle\">Done.</div>";
+    running=false;startBtn.disabled=false;
+    if(aborted){status.textContent=aborted;showSaved();return;}
+    let best=-1;for(let i=0;i<LEVELS.length;i+=1){const v=verdict(i);if(v===true)best=i;else if(v===false)break;}
+    const measuredAny=results.some(r=>SCENES.some(s=>r[s.key]&&!r[s.key].error&&!r[s.key].skipped));
+    if(!measuredAny){status.textContent="The 3D screens did not start here, so nothing was saved. The game will show its 2D screens on this device.";showSaved();return;}
+    const level=Math.max(0,best);
+    T.setMeasured(level,{levels:results.map(r=>Object.fromEntries(SCENES.map(s=>[s.key,r[s.key]&&r[s.key].avg!=null?[r[s.key].avg,r[s.key].p1low]:null])))});
+    status.textContent=best<0?"Even Light ran under 60 fps here, so Auto is set to Light, the lightest level.":"Check done.";
+    showSaved();
+  }
+  // A hidden tab stops drawing, so its numbers would be wrong: stop and say so.
+  document.addEventListener("visibilitychange",()=>{if(running&&document.visibilityState==="hidden"){aborted="The tab was hidden, so the check stopped. Start it again and keep the tab in front.";if(cancelWait)cancelWait();stage.replaceChildren();}});
+  startBtn.addEventListener("click",run);
+  forgetBtn.addEventListener("click",()=>{T.clearMeasured();showSaved();status.textContent="Auto goes back to its guess from this device's graphics chip.";});
+  if(!T){startBtn.disabled=true;status.textContent="The check could not load. Reload the page.";}
+  draw();showDevice();showSaved();
+})();
+</script>
+</body>
+</html>

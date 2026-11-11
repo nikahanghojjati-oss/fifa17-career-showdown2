@@ -413,6 +413,9 @@ window.ShowdownLegacyBoot = function () {
     if (!ARCHIVE_FILTERS.some(([key]) => key === prefs.filter)) prefs.filter = "all";
     if (prefs.view !== "list") prefs.view = "cards";
     const allRecords = frame.showdowns || [];
+    // r90 W9 (Codex on #1298): with one Showdown or none the filter controls are hidden, so a filter kept from a longer
+    // history must not stay on and hide the only Showdown.
+    if (allRecords.length <= 1) prefs.filter = "all";
     const cardPageSize = Math.max(1, Number(frame.ui.pageSize) || 4);
     let listSize = LIST_PAGE_SIZE;
     let fitFrame = 0;
@@ -606,8 +609,14 @@ window.ShowdownLegacyBoot = function () {
         button.append(name, count);
         button.setAttribute("aria-label", archiveFilterLabel(key) === "this filter" ? "All Showdowns" : archiveFilterLabel(key));
         button.addEventListener("click", () => { if (prefs.filter !== key) { prefs.filter = key; rebuild(selected); } });
+        // r90 W9 (LOOK hunt L13): a filter with nothing in it is left out (unless it is the one chosen, see syncTools).
+        button.dataset.empty = String(key !== "all" && count.textContent === "0");
         filters.appendChild(button);
       });
+      // r90 W9 (LOOK hunt L13): the finder grows with the history. GO TO # shows past 20 Showdowns; the filters show once
+      // there are two Showdowns or more; with neither, the phone's FIND button has nothing to open and is left out too.
+      tools.dataset.jump = String(allRecords.length > 20);
+      tools.dataset.filters = String(allRecords.length > 1);
       // Phones: the Go to # box and the filters fold under one FIND button, so the hero and the pager keep their room.
       const find = document.createElement("button");
       find.type = "button";
@@ -627,7 +636,11 @@ window.ShowdownLegacyBoot = function () {
     function syncTools() {
       if (!tools) return;
       tools.querySelectorAll("[data-archive-view]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.archiveView === prefs.view)));
-      tools.querySelectorAll("[data-archive-filter]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.archiveFilter === prefs.filter)));
+      tools.querySelectorAll("[data-archive-filter]").forEach((button) => {
+        const chosen = button.dataset.archiveFilter === prefs.filter;
+        button.setAttribute("aria-pressed", String(chosen));
+        button.hidden = button.dataset.empty === "true" && !chosen;
+      });
       const find = tools.querySelector(".legacyFindToggle");
       if (find) find.textContent = prefs.filter === "all" ? "FIND" : "FIND · " + ARCHIVE_FILTERS.find(([key]) => key === prefs.filter)[1].split(" ")[0];
       const input = tools.querySelector("#legacyJumpInput");

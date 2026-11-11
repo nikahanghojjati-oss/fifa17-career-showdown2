@@ -123,9 +123,7 @@
  }
  #persistentNikDanielPairPanel,#persistentNikDanielPairPanel>div{min-width:0;}
  #connectPlayersScreen .menuButton{
-  min-width:0;
   max-width:100%;
-  min-height:44px;
   white-space:normal;
   overflow-wrap:anywhere;
  }
@@ -446,31 +444,12 @@
 /* JOB-1097: Chromebook 1366x768 keeps the complete start/join workflow in one page scroll. */
 @media (min-width:1320px) and (max-width:1400px) and (min-height:720px) and (max-height:820px) and (orientation:landscape) {
  #connectPlayersScreen {
-  overflow-x:hidden;
-  overflow-y:auto;
-  overscroll-behavior-y:contain;
   -webkit-overflow-scrolling:touch;
  }
- #connectPlayersScreen .connectPlayersWorkspace {
-  position:relative;
-  left:auto;
-  top:auto;
-  width:min(760px,calc(100% - 48px));
-  min-width:0;
-  height:auto;
-  margin:210px auto 28px;
-  padding:54px 14px 14px;
-  overflow:visible;
- }
- #connectPlayersScreen .connectPlayersBack { top:8px;right:8px; }
  #connectPlayersScreen .connectPlayersRole {
   min-width:0;
-  overflow-wrap:anywhere;
  }
  #connectPlayersScreen #connectPlayersPairSlot {
-  flex:0 0 auto;
-  min-height:0;
-  overflow:visible;
   overscroll-behavior:auto;
  }
  #connectPlayersScreen #persistentNikDanielPairPanel,
@@ -679,7 +658,7 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  #connectPlayersScreen { overflow-x:hidden; overflow-y:auto; overscroll-behavior-y:contain; }
  #connectPlayersScreen .connectPlayersKicker { top:calc(16.6vh - var(--cp-top)); font-size:clamp(13px,min(.95vw,1.7vh),30px); }
  #connectPlayersScreen h2#connectPlayersTitle { top:calc(22vh - var(--cp-top)); font-size:clamp(2.8rem,min(4.96vw,8.8vh),9rem); }
- #connectPlayersScreen .connectPlayersTagline { top:calc(32.6vh - var(--cp-top)); font-size:clamp(10px,min(.68vw,1.2vh),20px); color:#f1e2b5; text-shadow:0 0 3px #000,0 1px 2px #000,0 0 12px #000,0 0 22px #000c; }
+ #connectPlayersScreen .connectPlayersTagline { top:calc(32.6vh - var(--cp-top)); font-size:clamp(12px,min(.68vw,1.2vh),20px); color:#f1e2b5; text-shadow:0 0 3px #000,0 1px 2px #000,0 0 12px #000,0 0 22px #000c; }
  #connectPlayersScreen .connectPlayersWorkspace {
   position:absolute; left:25.5%; top:calc(38.3vh - var(--cp-top)); width:49.2%; min-width:0; height:auto;
   max-height:calc(100vh - 40.3vh); margin:0; padding:0; border:0; background:none; box-shadow:none; overflow:visible;
@@ -695,8 +674,8 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
   background:linear-gradient(160deg,#0b0b0c,#131211 60%,#0a0a0a);
   box-shadow:inset 0 0 0 clamp(3px,.45vh,6px) #0a0a0b, inset 0 0 0 clamp(4px,.55vh,7px) #c9962e99, 0 0 22px #e0b23033, 0 8px 28px #000a;
  }
- #connectPlayersScreen .connectPlayersRole>span { font-size:clamp(10px,1.43vh,24px); }
- #connectPlayersScreen .connectPlayersRole h3 { margin:clamp(4px,.7vh,10px) 0 clamp(6px,1vh,16px); font-size:clamp(22px,3.9vh,66px); line-height:1.05; letter-spacing:.02em; }
+ #connectPlayersScreen .connectPlayersRole>span { font-size:clamp(12px,1.43vh,24px); }
+ #connectPlayersScreen .connectPlayersRole h3 { margin:clamp(4px,.7vh,10px) 0 clamp(6px,1vh,16px); font-size:clamp(22px,min(3.9vh,4.6vw),66px); line-height:1.05; letter-spacing:.02em; }
  #connectPlayersScreen .connectPlayersRole p { margin:0 0 clamp(10px,1.6vh,28px); font-size:clamp(12px,1.68vh,28px); line-height:1.35; color:#e6e6e0; }
  #connectPlayersScreen #connectPlayersSetup {
   width:100%; margin-top:auto!important; min-height:clamp(44px,6.6vh,100px); border-radius:3px;
@@ -799,7 +778,7 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  #app #connectPlayersScreen .connectPlayersSceneDaniel { left:-4%; }
  #app #connectPlayersScreen .connectPlayersSceneNik { left:49%; }
  #app #connectPlayersScreen .connectPlayersPhoneScene::after {
-  content:"";position:absolute;inset:65% 0 0;height:auto;
+  position:absolute;inset:65% 0 0;height:auto;
   background:linear-gradient(transparent,#080909dd);
  }
  #app #connectPlayersScreen .connectPlayersHeader {
@@ -814,9 +793,9 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  #app #connectPlayersScreen h2#connectPlayersTitle {
   position:static;transform:none;width:auto;max-width:100%;margin:0;padding:0 0 3px;
   font:italic 900 clamp(27px,8.6vw,37px)/1.12 Impact,"Arial Narrow",sans-serif;
-  letter-spacing:-.03em;color:#ffda4e;background:none;-webkit-text-fill-color:#ffda4e;
+  letter-spacing:-.03em;
   filter:drop-shadow(0 2px 1px #000) drop-shadow(0 0 7px #e3b63670);
-  white-space:normal;overflow-wrap:normal;word-break:normal;
+  overflow-wrap:normal;word-break:normal;
  }
  #app #connectPlayersScreen .connectPlayersTagline {
   position:static;transform:none;display:block;width:100%;max-width:370px;margin:0;
@@ -1141,12 +1120,12 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  }
  #app #connectPlayersScreen h2#connectPlayersTitle {
   top:calc(22svh - var(--cp-top));left:50%;max-width:90%;
-  padding:.02em .14em .08em;line-height:1;
+  padding:.02em .14em .08em;
   font-size:clamp(44px,min(4.96vw,8svh),112px);
  }
  #app #connectPlayersScreen .connectPlayersTagline {
   top:calc(32.6svh - var(--cp-top));left:50%;width:80%;margin:0;
-  font-size:clamp(10px,min(.68vw,1.2svh),20px);
+  font-size:clamp(12px,min(.68vw,1.2svh),20px);
   white-space:normal;overflow-wrap:normal;
  }
  #app #connectPlayersScreen .connectPlayersWorkspace {
@@ -1271,4 +1250,74 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
 #app #connectPlayersScreen h2#connectPlayersTitle .connectPlayersTitleText{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;}
 @media (max-width:900px){
  #app #connectPlayersScreen h2#connectPlayersTitle .connectPlayersWordmark{width:9em;}
+}
+
+/* HO-068 (2026-11-09): Connect Players stands in Team V's handcrafted V2 tunnel room (visual-assets/v10_1/plates-hc/
+   ENV_TUNNEL_*, Nik picked it). Desktop and sideways phones draw the wide plate (Daniel left, Nik right, the tunnel
+   between them for the cards); upright phones and tablets draw the tall plate, pinned to its top. 2X at High and up,
+   590W on Light or Save-Data. The plates-v2 Connect Players plates stay in the repo as rollback. The dark pool that sat
+   behind the title is switched off: no scrims. Cards, tabs, words and tap order are unchanged. */
+@media (min-width:901px), (max-width:900px) and (orientation:landscape) {
+ #app #connectPlayersScreen {
+  background-color:#0b0a09;
+  background-image:url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp');
+  background-repeat:no-repeat;background-size:max(100vw,calc(100vh * 1536 / 864)) auto;background-position:50% calc(0px - var(--cp-top));
+ }
+ html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #connectPlayersScreen {
+  background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp') 1x,url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp') 2x);
+ }
+ #app #connectPlayersScreen .connectPlayersHeader::before { content:none; }
+}
+/* HO-068 (Nik: words and boxes touched faces, uneven spacing). Desktop: the screen starts under the top bar, so a plate
+   pinned to the window top lost the top of both men's hair under the bar. The plate now starts so the hair (1.74% down
+   the plate) begins 6px under the bar. Daniel's face ends 25.72% and Nik's starts 74.87% across, so the cards and the
+   status line stay inside the room between the two faces, centred, one gap clear of each. */
+@media (min-width:901px) {
+ #app #connectPlayersScreen {
+  --cp-pw:max(100vw,calc(100vh * 1536 / 864)); --cp-g:clamp(10px,1.3vh,14px);
+  background-position:50% calc(6px - var(--cp-pw) * 864 / 1536 * .0174);
+ }
+ #app #connectPlayersScreen .connectPlayersWorkspace { max-width:calc(var(--cp-pw) * .4856 - var(--cp-g) * 2);margin-inline:auto; }
+}
+/* Sideways phones: the tabs, BACK and the cards want about 430px, wider than the room between the faces on a plate the
+   width of the phone, so the plate is drawn a little wider (centred) until that room is 430px plus one gap each side, but
+   never so wide that Nik's face (to 87.24% across) passes under the settings button (56px from the right edge). On the
+   narrowest phones the cards take the room there is. */
+@media (max-width:900px) and (orientation:landscape) {
+ #app #connectPlayersScreen {
+  --cp-pw:max(100vw,calc(100vh * 1536 / 864),min(calc((430px + 20px) / .4856),calc((50vw - 56px) / .3724))); --cp-g:10px;
+  background-size:var(--cp-pw) auto;
+ }
+ #app #connectPlayersScreen .connectPlayersWorkspace { max-width:calc(var(--cp-pw) * .4856 - var(--cp-g) * 2); }
+}
+@media (max-width:900px) and (orientation:portrait) {
+ #app #connectPlayersScreen {
+  background:#0b0a09 url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp') center top/max(100vw,calc(100svh * 1179 / 2096)) auto no-repeat;
+ }
+ html[data-assets="0"] #app #connectPlayersScreen { background-image:url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2_590W.webp'); }
+}
+/* Upright phones: the tall plate is cut so x 15-85% shows (Team V's framing for a 390px iPhone), which brings both men
+   forward and fills the screen down to the counter. */
+@media (max-width:760px) and (orientation:portrait) {
+ #app #connectPlayersScreen { background-size:max(143vw,calc(100svh * 1179 / 2096)) auto; }
+}
+/* Shorter upright phones: the plate's plain ceiling band goes up out of view so both faces stay above the title, but only
+   so far that both heads (from 14.07% of the plate) stay 8px under the settings button (HO-068: at 360x740 and 375x553
+   Nik's hair ran under it). Below 600px tall the whole plate width shows (the men a little smaller) so both chins (26%)
+   still end above CAREER MODE SHOWDOWN. */
+@media (max-width:760px) and (max-height:760px) and (orientation:portrait) {
+ #app #connectPlayersScreen {
+  --cp-ph:calc(max(143vw,calc(100svh * 1179 / 2096)) * 2096 / 1179);
+  background-position:center max(calc(0px - var(--cp-ph) * .12),calc(60px - var(--cp-ph) * .1407));
+ }
+}
+@media (max-width:760px) and (max-height:600px) and (orientation:portrait) {
+ #app #connectPlayersScreen { --cp-ph:calc(max(100vw,calc(100svh * 1179 / 2096)) * 2096 / 1179); background-size:max(100vw,calc(100svh * 1179 / 2096)) auto; }
+}
+/* r90 strict C2 (tablet, 700-760 CSS px wide, upright; 768x1024 = 760x1014, 820x1180 = 760x1094): the plate is drawn 143vw wide, so
+   its chins end at 26% of 254vw = 66vw (502 px) and its hair starts at 14.07% (272 px), while the controls stay anchored to the bottom, so
+   the kicker (top 91.8vw above the window bottom) and the tagline ran across both faces. The plate rises until the chins end 18 px
+   above the kicker, never so far that the hair meets the settings button (27.6vw = 210 px, hair then 62 px down). Only the crop moves. */
+@media (min-width:700px) and (max-width:760px) and (min-height:701px) and (orientation:portrait) {
+ #app #connectPlayersScreen { background-position:center calc(-1 * min(max(0px, 157.9vw - 100svh + 18px), 27.6vw)); }
 }
