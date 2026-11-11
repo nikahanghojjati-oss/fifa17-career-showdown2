@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-11T19:24:06Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-11T19:24:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:26Z", "by": "V", "status": "RECEIVED", "note": "Team V starting now: 3 matte handcrafted title samples (TRANSFER WAR + SETTINGS) for Nik, then the full set in his pick."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
- "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1"}
+ "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q6xbGi3wPAd4kdiRKz"}
 }
 ```
 
