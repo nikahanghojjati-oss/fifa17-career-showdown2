@@ -1,0 +1,33 @@
+{
+ "room": "hc-art/box/ENV_BOX_PLATE_HC_V2_2X.webp (coat, scarf, blanket and drinks cabinet painted cyan: 2X px 0,270,205,705 + 205,270,385,640 + 2640,270,3072,628)",
+ "scale": 0.25,
+ "daniel_box": [
+  0,
+  138,
+  1137,
+  1304
+ ],
+ "nik_box": [
+  1905,
+  138,
+  3072,
+  1304
+ ],
+ "at": [
+  [
+   0,
+   348,
+   284,
+   640
+  ],
+  [
+   1244,
+   348,
+   1536,
+   640
+  ]
+ ],
+ "lip": 640,
+ "daniel_w": 284,
+ "nik_w": 292
+}
