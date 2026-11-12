@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-12T06:27:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-12T06:34:09Z", "by": "V", "status": "RECEIVED", "note": "Team V building both titles now."}],
+ "evidence": ["claude/project-thread-y5jwgo 0de2846cd: visual-assets/v10_1/shared/wordmarks/TITLE_{ROSTER_ROULETTE,SHOWDOWN_DRAW}_V3_{3840,1920,960,480}.webp, preview shared/wordmarks/v3/HO076_PREVIEW.jpg"],
+ "log": [{"at": "2026-11-12T06:27:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-12T06:34:09Z", "by": "V", "status": "RECEIVED", "note": "Team V building both titles now."}, {"at": "2026-11-12T06:34:45Z", "by": "V", "status": "DONE", "note": "ROSTER_ROULETTE now reads ROSTER RUSSIAN ROULETTE (same file names, overwritten); new TITLE_SHOWDOWN_DRAW_V3. Same family, same heights per step as all V3 titles (size by height), no glow. Largest 103 KB."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
  "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q6xbGi3wPAd4kdiRKz"}
 }
