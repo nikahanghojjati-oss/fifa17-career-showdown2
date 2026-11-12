@@ -93,12 +93,9 @@ const LISTED = {
 };
 
 // KNOWN_SHAPES: window shapes still waiting for a layout of their own. Findings there are printed as KNOWN and do not fail;
-// the list may only shrink. No phone or tablet has these shapes (phones are under 500 tall sideways, tablets are 1024+ wide
-// sideways); only a desktop window dragged under 901 wide but kept over 500 tall reaches them. Team V's screens use their
-// phone and tablet layouts there while the art follows the portrait or desktop rules.
-const KNOWN_SHAPES = [
-    { name: "small landscape window (under 901 wide, over 500 tall)", match: (w, h) => w <= 900 && w > h && h > 500, follow: "r91 old-art follow-up: one layout and room per screen for this band" }
-];
+// the list may only shrink. Empty since the r91 old-art follow-up gave small landscape windows (under 901 wide, over 500
+// tall) the current rooms too.
+const KNOWN_SHAPES = [];
 const SCENERY = /(ENV_|OVL_|_PLATE_|PACK_)/;
 const CURRENT = /visual-assets\/v10_1\/plates-hc\//;
 function drawnPictures(){

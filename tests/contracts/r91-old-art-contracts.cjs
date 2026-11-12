@@ -2,7 +2,7 @@
 // r91 old art (Sol's r90 review, Nik 2026-11-11: "old art comes back at some window shapes ... so that would never happen
 // again"). Static half of the guard; tests/browser/r91-old-art-audit.cjs opens every screen at every window shape and is the
 // proof that only current rooms are drawn. This contract keeps the code from drifting back:
-//   C1 no Team G stylesheet or script gates art on the retired desktop query (min-width 1024/1200 + min-height 600 +
+//   C1 no Team G stylesheet or script gates art (a block with a url() or image-set()) on the retired desktop query (min-width 1024/1200 + min-height 600 +
 //      min-aspect-ratio 3/2): outside it, Team V's base V1 plate showed. The art bands are now
 //      desktop (min-width:901px), upright (max-width:900px) and (orientation:portrait), and sideways phones;
 //   C2 references to retired pictures (Team V's V1 plates and cut-outs, the plates-v2/v3/v5 plates, the locked TR2 plate)
@@ -13,6 +13,8 @@
 //      own npm script;
 //   C4 the shared upright-window rule exists: windows wider than 900 held upright draw the room by width, so neither man
 //      is cut off the side.
+//   C5 sharp rooms (art ledger R4): windows wider than 1536 or taller than 864 draw the 1920px cut of each room at 1.25x
+//      (its drawn size is the 1X plate's), on every screen that stands in one.
 const fs = require("node:fs");
 const path = require("node:path");
 const assert = require("node:assert/strict");
@@ -28,7 +30,15 @@ const files = [
 
 // C1
 const OLD_GATE = /\(\s*min-width\s*:\s*(1200|1024)px\s*\)\s*and\s*\(\s*min-height\s*:\s*600px\s*\)(\s*and\s*\(\s*(max|min)-height\s*:\s*\d+px\s*\))*\s*and\s*\(\s*min-aspect-ratio\s*:\s*3\s*\/\s*2\s*\)/;
-const gateHits = files.filter(f => OLD_GATE.test(read(f)));
+// Only a block that draws a picture counts: a layout-only rule on that query (the Rule Book's card frames, #1413) draws no
+// art, so no window shape can bring old art back through it. A block draws art when it holds a url() or image-set().
+const blockAfter = (text, at) => { const open = text.indexOf("{", at); let depth = 0;
+    for(let i = open; i < text.length; i++){ if(text[i] === "{") depth++; else if(text[i] === "}" && --depth === 0) return text.slice(open, i + 1); }
+    return text.slice(open); };
+const drawsArt = text => { const re = new RegExp(OLD_GATE.source, "g"); let m;
+    while((m = re.exec(text))) if(/url\(|image-set\(/.test(blockAfter(text, m.index))) return true;
+    return false; };
+const gateHits = files.filter(f => drawsArt(read(f)));
 assert.deepEqual(gateHits, [], `C1 the retired 3:2 desktop art gate is back in: ${gateHits.join(", ")}`);
 
 // C2
@@ -61,4 +71,20 @@ assert.match(rl, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#
 assert.match(cs, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#app #trophyRoom \{--tr-k:calc\(100vw \/ 1536\)\}/, "C4 tall windows: Trophy Room draws the room by width");
 assert.match(sf, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#app main:has\(> #seasonEntry\.seasonScreenV10\.v10FinalMode:not\(\.hidden\)\) \{\s*--fw-k:calc\(100vw \/ 1536\);/, "C4 tall windows: Final Winner draws the room by width");
 
-console.log(`PASS r91 old-art contracts (C1 no 3:2 art gate in ${files.length} files; C2 ${Object.keys(counts).length} files at or under their retired-reference pin; C3 audit in the Gate; C4 tall-window rooms).`);
+// C5
+const BIG = "(min-width:1537px), (min-width:901px) and (min-height:865px)";
+for(const room of ["ARCHIVE", "BOARD", "BOX", "HOME", "OFFICE", "TUNNEL"]){
+    const file = `visual-assets/v10_1/plates-hc/ENV_${room}_PLATE_HC_V2_1920.webp`;
+    assert.ok(fs.existsSync(path.join(root, file)), `C5 ${file} exists`);
+}
+const sharp = { "css/homeV10.css": ["HOME"], "css/v10Shell.css": ["BOARD", "BOARD"], "css/v10Setup.css": ["BOX"], "css/v10Club.css": ["BOX"],
+    "css/connectPlayersV10.css": ["TUNNEL"], "css/v10Transfer.css": ["OFFICE", "OFFICE"], "css/rivalryLegacyV10.css": ["ARCHIVE", "TUNNEL"],
+    "js/seasonFinalV10.js": ["TUNNEL", "BOARD", "BOARD"], "js/careerScreensV10.js": ["ARCHIVE"] };
+for(const [file, rooms] of Object.entries(sharp)){
+    const text = read(file);
+    assert.ok(text.split(BIG).length - 1 >= rooms.length, `C5 ${file} keeps its ${rooms.length} big-window room rule(s)`);
+    for(const room of new Set(rooms)) assert.match(text, new RegExp(`ENV_${room}_PLATE_HC_V2_1920\\.webp[^ ]{0,6} 1\\.25x`), `C5 ${file} draws the ${room} 1920 cut at 1.25x`);
+}
+assert.match(read("js/touchlineGazette.js"), /PLATE_HC_V2_1920\.webp":"PLATE_HC_V2_1X\.webp"/, "C5 the Gazette takes the board room's 1920 cut on big windows");
+
+console.log(`PASS r91 old-art contracts (C1 no 3:2 art gate in ${files.length} files; C2 ${Object.keys(counts).length} files at or under their retired-reference pin; C3 audit in the Gate; C4 tall-window rooms; C5 sharp 1920 rooms).`);
