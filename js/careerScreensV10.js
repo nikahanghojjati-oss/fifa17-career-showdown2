@@ -1226,8 +1226,8 @@
      above the heads is what goes off the top; the plate still covers the whole stage below. */
   #app #careerStatistics.careerScreenV10 { --cs-ph:max(100vw * 2096 / 1179, 100svh); --cs-face-bottom:calc(var(--cs-ph) * .12 + 56px); }
   #app #careerStatistics.careerScreenV10 .phoneBackground img { object-position:50% min(0px, calc(56px - var(--cs-ph) * .195)); }
-  #app #careerStatistics.careerScreenV10 .phoneHub { top:calc(var(--cs-face-bottom) + 12px); }
-  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .phoneHub { top:calc(var(--cs-face-bottom) + 52px); }
+  #app #careerStatistics.careerScreenV10 .phoneHub { top:calc(var(--cs-face-bottom) + 24px); }
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .phoneHub { top:calc(var(--cs-face-bottom) + 64px); }
   #app #careerStatistics.careerScreenV10 .partialBanner { top:calc(var(--cs-face-bottom) + 10px); }
   #app #careerStatistics.careerScreenV10 .contentGrid>:is(.careerTablePanel,.comparisonPanel,.leadersPanel) { overflow-y:auto;overscroll-behavior:contain; }
 }
@@ -1237,8 +1237,8 @@
 @media (min-width:700px) and (max-width:900px) and (orientation:portrait) {
   #app #careerStatistics.careerScreenV10 { --cs-ph:max(100vw * 2096 / 1179, 100svh); --cs-head:104px; --cs-face-bottom:calc(var(--cs-ph) * .13 + var(--cs-head)); }
   #app #careerStatistics.careerScreenV10 .phoneBackground img { object-position:50% min(0px, calc(var(--cs-head) - var(--cs-ph) * .195)); }
-  #app #careerStatistics.careerScreenV10 .phoneHub { top:calc(var(--cs-face-bottom) + 16px); }
-  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .phoneHub { top:calc(var(--cs-face-bottom) + 60px); }
+  #app #careerStatistics.careerScreenV10 .phoneHub { top:calc(var(--cs-face-bottom) + 28px); }
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .phoneHub { top:calc(var(--cs-face-bottom) + 72px); }
   #app #careerStatistics.careerScreenV10 .partialBanner { top:calc(var(--cs-face-bottom) + 12px); }
 }
 /* Sideways phones (852x393): the upright plate ran the full width, so Nik's face sat behind the Career Table panel and

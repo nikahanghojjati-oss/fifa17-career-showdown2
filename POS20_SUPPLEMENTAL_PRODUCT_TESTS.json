@@ -3147,6 +3147,19 @@
         "^tests/contracts/r91\\-special\\-player\\-ladder\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-layout-faces-contracts.cjs",
+      "patterns": [
+        "^js/seasonFinalV10\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^css/v10Setup\\.css$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^css/v10Shell\\.css$",
+        "^css/r78\\-type\\.css$",
+        "^tests/contracts/r91\\-layout\\-faces\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

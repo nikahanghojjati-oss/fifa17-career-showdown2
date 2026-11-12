@@ -877,7 +877,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
   box-sizing:border-box; position:relative; min-width:0; width:100%;
   max-width:1000px; min-height:100%; height:auto; margin:0 auto;
-  padding:0 18px max(18px,env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:minmax(160px,1fr) 56px auto auto 64px;
+  padding:0 18px max(18px,env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:minmax(var(--sr-hero-min,160px),1fr) 56px auto auto 64px;
   gap:12px; overflow:visible; background:#090b0e;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
@@ -1462,8 +1462,12 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
 }
 @media (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
+ /* r91 L1 (820x1180): the title picture stands in the hero's bottom 27% and the tabs follow it, so with the hero at its
+    160px minimum both sat on the managers' faces and chins (Team V's room puts the chins at 14px + 21.3% of its width).
+    The hero is now tall enough to put the title just under the chins; main scrolls for the rest. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout { --sr-hero-min:max(160px,calc((26px + var(--sr-hc-w) * .2134) / .73)); }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
-  grid-template-rows:minmax(160px,1fr) 56px auto 64px;
+  grid-template-rows:minmax(var(--sr-hero-min),1fr) 56px auto 64px;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) .season-action-row { grid-row:4;padding:0; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { grid-template-columns:20% 1fr; }
@@ -2479,6 +2483,12 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { top:calc(var(--fw-lip) + 4px); }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot .finalWinnerOutcome { font-size:20px; line-height:1.05; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot .finalWinnerTotals strong { font-size:26px; line-height:1; }
+}
+/* r91 L3 (1180x820, 1280x650, 1366x768): below 1500px the title picture is as wide as the gap between the two managers
+   (they stand at 29.5% and 66.5% of the room), so its last letter stood on Nik's hair. It is centred between the faces
+   (48% of the room) and narrowed to fit the gap; 1500px and wider keep the approved size. */
+@media (min-width:901px) and (max-width:1499px) and (min-height:501px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #screen-title { left:29.8%; width:36.4%; }
 }
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3.webp")}"); }
