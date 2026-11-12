@@ -12,6 +12,7 @@
 //   B5 a visit starts where the last one settled (same built level only); a picked level and the Device check never adapt
 //   B6 a screen that simply runs under 60 Hz (cheap frames at a steady 30 or 50 fps) steps as 2.3.0 did, then ends where it began;
 //      a busy frame callback or a dear timed draw is
+//   B10 a scene that can fade is told ahead of every change in play (before()), never for the start
 //   B7 calibrate: the level the scene was built at stays what the governor reports; a slow warm-up starts the heavy parts
 //      one step down (at Light too); a level found slow is not tried again on the page; a framed scene marks its own page only
 const assert = require("node:assert/strict");
@@ -284,6 +285,34 @@ const j = v => JSON.stringify(v);
     const doc = fs.readFileSync(path.join(ROOT, "docs/QUALITY_LEVELS.md"), "utf8");
     assert.ok(/`detail: \{steps, apply\}`/.test(doc) && /Steps are taken between beats only/.test(doc) && !/it only moves the pixel ratio/.test(doc), "docs/QUALITY_LEVELS.md describes the ladder");
     ok("B8", "the module and docs/QUALITY_LEVELS.md describe the same governor");
+  }
+  // B10 (the Chamber Men ladder): a scene that can fade one picture into the next is told ahead of every change in play.
+  {
+    // Visit 1 (High, 2x): three slow beats take 1.5 to 1.25, to 1, then the heavy part. before() comes first each time.
+    const s = sandbox({gpu: GTX, dpr: 2, memory: 16, cores: 8}), r = fakeRenderer(s.clock, () => 12), seen = [], log = [];
+    let gov = null;
+    gov = s.G.governor(r, {key: "b10", draw() {}, beats: true, detail: DETAIL(1, log), before() { seen.push(`${r.pr}/${gov ? gov.detail() : "start"}/${log.length}`); }});
+    assert.deepEqual(seen, [], "the start is behind the loading screen: no call");
+    for (let i = 0; i < 3; i += 1) { await run(s, gov, 800, 16.7); gov.hold(true); await run(s, gov, 2000, 30); assert.equal(seen.length, i, "none inside a beat"); gov.hold(false); await run(s, gov, 50, 16.7); }
+    assert.deepEqual(seen, ["1.5/0/0", "1.25/0/0", "1/0/0"], "once ahead of each step down, with the old picture still set");
+    assert.equal(j(log), j([[1, "slow"]]));
+    gov.resize(); assert.equal(seen.length, 3, "a resize is not a step");
+    gov.end();
+    // Visit 2 starts from memory (no call), then a smooth beat, 6 s smooth and a cheap timed frame: the heavy part comes
+    // back, and later the pixel ratio; before() ahead of each.
+    const v = sandbox({gpu: GTX, dpr: 2, memory: 16, cores: 8, storage: s.store}), rv = fakeRenderer(v.clock, () => 2), seen2 = [], log2 = [];
+    let gv = null;
+    gv = v.G.governor(rv, {key: "b10", draw() {}, beats: true, detail: DETAIL(1, log2), before() { seen2.push(`${rv.pr}/${gv ? gv.detail() : "start"}/${log2.length}`); }});
+    assert.equal(j(log2), j([[1, "start"]])); assert.deepEqual(seen2, []);
+    gv.hold(true); await run(v, gv, 2000, 16.7); gv.hold(false); await run(v, gv, 7000, 16.7);
+    assert.equal(j(log2), j([[1, "start"], [0, "smooth"]])); assert.deepEqual(seen2, ["1/1/1"], "ahead of the step back up");
+    await run(v, gv, 4000, 16.7);
+    assert.equal(rv.pr, 1.25); assert.deepEqual(seen2, ["1/1/1", "1/0/2"], "and ahead of the pixel ratio's step up");
+    // A scene without before(), or one whose before() throws, steps as ever.
+    const t = sandbox(), lt = [], gt = t.G.governor(fakeRenderer(t.clock, () => 14), {key: "b10t", draw() {}, detail: DETAIL(1, lt), before() { throw new Error("no"); }});
+    await run(t, gt, 1200, 30); assert.equal(j(lt), j([[1, "slow"]]));
+    assert.ok(/A scene that can fade one picture into the next gives {2}before\(\)/.test(SRC));
+    ok("B10", "before() is called once ahead of every change in play (down and up), never for the start or a resize");
   }
   console.log(`PASS r91 governor beats contracts (${checks} checks)`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
