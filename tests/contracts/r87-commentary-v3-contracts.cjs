@@ -175,15 +175,18 @@ ok(leadSituations.size>=40,`the booth uses a wide range of v2 situations (${lead
 const src=read("js/commentaryV3.js");
 // r87 Prime Pack: the booth has one season maximum (15) and no per-Showdown boundary.
 ok(!/PRIME_PACK_FROM_MS/.test(src)&&!/primePack:Number\.isFinite\(at\)/.test(src),"the booth carries no Prime Pack release boundary");
-ok(/load\("ssjr-shared-setup-catalog","js\/sharedShowdownCatalog\.js"/.test(src),"Fable F5-17: the booth loads the league catalog itself");
-ok(!/getDoc|getDocs|onSnapshot|setDoc|updateDoc|runTransaction|firestore\b|fetch\(|XMLHttpRequest|localStorage|sessionStorage|indexedDB/.test(src),"the booth reads only what the screen holds: no Firebase, network or storage");
+// r91 (Nik 2026-11-11 picked the Gazette): the booth is pure and prints in the paper; no bar on Season Results or Final Winner.
+ok(!/document|addEventListener|commentaryV3Bar|commentaryV3Final|cmx-bar/.test(src.replace(/\/\/.*$/gm,"")),"the booth draws nothing on any screen");
+ok(!/getDoc|getDocs|onSnapshot|setDoc|updateDoc|runTransaction|firestore\b|fetch\(|XMLHttpRequest|localStorage|sessionStorage|indexedDB/.test(src),"the booth reads only what it is given: no Firebase, network or storage");
 ok(!/Math\.random|Date\.now|new Date/.test(src),"no randomness or clock: both phones show the same words");
-ok(/pointer-events:none/.test(src)&&!/position:fixed/.test(src)&&!/z-index/.test(src),"the bar is in flow, never on top, never tappable");
-ok(/sharedCanonicalScoringPanel/.test(src)&&!/finalWinner|rosterRoulette|specialPlayer|transfer/i.test(src.replace(/\/\/.*$/gm,"")),"only Season Results' SEASON SCORE box and Final Winner get the bar");
-ok(/host\.after\(parts\.wrap\)/.test(src)&&/frame\.totals\?\.daniel!==a\|\|frame\.totals\?\.nik!==b/.test(src),"Final Winner: the bar goes below the stage, never inside it, and only when the history matches the totals on screen");
-ok(!/filter:\s*brightness|backdrop-filter|rgba\(0,\s*0,\s*0,\s*\.[5-9]\)\s*;?\s*}/.test(src.replace(/text-shadow:[^;]*;/g,"")),"no dimming layer");
-const sf=read("js/seasonFinalV10.js");
-ok(/loadRuntimeScript\("commentary-v3","js\/commentaryV3\.js"/.test(sf),"Season Results installs the booth");
+const gz=read("js/touchlineGazette.js");
+ok(/load\("ssjr-shared-setup-catalog","js\/sharedShowdownCatalog\.js"/.test(gz)&&/load\("commentary-lines","data\/commentaryLines\.js"/.test(gz)&&/load\("commentary-v3","js\/commentaryV3\.js"/.test(gz),"Fable F5-17: the paper loads the booth, its lines and the league catalog itself");
+ok(!/commentary-v3/.test(read("js/seasonFinalV10.js")),"Season Results no longer installs a bar");
+{ // sacked: the numbers line for a Showdown that stopped early
+  const f=scripted("sk",[[9,2],[4,6],[0,0]]);f.history=f.history.slice(0,2);
+  const n=V.sackedNumbers(f);ok(n.text==="Full time after 2 of 3 seasons: Daniel 13, Nik 8. Seasons won: Daniel 1, Nik 1.",n.text);
+  const d=scripted("sk-level",[[5,3],[3,5],[0,0]]);d.history=d.history.slice(0,2);ok(V.sackedNumbers(d).text==="Level on 8 after 2 of 3 seasons, so the Showdown is drawn.","level: no seasons won");
+}
 const sw=read("service-worker.js"),added=new Set(JSON.parse(sw.match(/SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\((\[[^\]]*\])\)/)[1]));
 for(const file of ["js/commentaryV3.js","js/commentaryEngine.js","data/commentaryLines.js"]){
   ok(sw.includes(`"${file}",`),`${file} is in the offline shell (the service worker refuses files it does not know)`);
