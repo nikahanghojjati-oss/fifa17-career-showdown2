@@ -1380,8 +1380,9 @@
   /* the two rank cards, the tab row and the cases sit as in the picture */
   #app #trophyRoom .careerRank {
     border:2px solid transparent;border-radius:2px;
-    /* HO-033 follow-up: opaque black-gold marble (HO-029 kit tile), not the .90-.95 see-through glass (owner rule HO-027) */
-    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("css/r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--tr-bevel) border-box #110f0c;
+    /* HO-033 follow-up: opaque, not the .90-.95 see-through glass (owner rule HO-027). r91 art ledger R3: a flat dark slab
+       behind the numbers instead of the vein tile; the shelf, the room and the frames keep their marble. */
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,linear-gradient(#110f0c,#110f0c) padding-box,var(--tr-bevel) border-box #110f0c;
     box-shadow:inset 0 0 0 1px #000a,0 6px 18px #000a;
   }
   /* tabs: black with a gold edge, ALL in polished gold (HO-033 follow-up: solid black, no longer 90%) */

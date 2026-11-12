@@ -143,7 +143,7 @@ function assertKept(h,extra=[]){for(const key of Object.keys(KEPT))if(!extra.inc
     assert.equal(first,true);assert.equal(second,true,"the second tap is the same END");
     assert.equal(vm.runInContext("__releases",h.ctx),1,"one close attempt");assert.deepEqual(runtime.calls,["clearActive"]);
     assert.equal(h.notices.filter(n=>n.kind==="success").length,1);assert.equal(h.notices.filter(n=>n.kind==="error").length,0,"already closed is success, not an error");
-    assert.match(h.notices[0].text,/History keeps it as Ended early\./);
+    assert.match(h.notices[0].text,/Legacy keeps it as Ended early\./);
     ok("D2c END SHOWDOWN: a double tap is one END and already-closed is success");
   }
   // ---- D2d r80 (r89, Codex C3 re-check): the seasons count is made by the pair provider inside its own closing transaction

@@ -36,6 +36,37 @@
   function tgCopy(){return root.CareerModeGazetteCopy||(node?require("../data/gazetteCopy.js"):null);}
   function tgPages(){return root.CareerModeFrontPages||(node?require("../data/frontPages.js"):null);}
   function tgSacked(){return root.CareerModeGazetteSacked||(node?require("../data/gazetteSacked.js"):null);}
+  // r91 "From the commentary box" (Nik 2026-11-11 picked the paper for the commentary): Commentary v3's two lines (the
+  // booth's call and BY THE NUMBERS, js/commentaryV3.js) print in each paper, in place of the made-up pull quote. Built from
+  // the same verified history as the rest of the paper, so both phones print the same words; nothing read or stored.
+  // Season paper N: season N's call. Final paper: the FULL TIME call. A sacked Showdown: the numbers line only (the stock
+  // final lines speak of an "N-season Showdown", which a sacked one never was), and the boardroom quote stays.
+  function tgBoothApi(){return root.CareerModeCommentaryV3||(node?require("./commentaryV3.js"):null);}
+  function tgBoothLines(){return root.CareerModeCommentaryLines||(node?require("../data/commentaryLines.js"):null);}
+  function tgTeamCount(league){const c=root.CareerModeSharedShowdownCatalog||(node?require("./sharedShowdownCatalog.js"):null),teams=c?.catalog?.[league];return Array.isArray(teams)?teams.length:null;}
+  const BOOTH_TITLE="From the commentary box";
+  // BY THE NUMBERS prints only what the rest of the paper does not already say: THE RACE gives the gap, the seasons left
+  // and "decided"/"draw only"; INSIDE TODAY the seasons won, the trophies and the biggest win. So the paper keeps the
+  // decider maths, lead changes, runs and the Showdown's shape (comeback, wire to wire, the last-season swing, Golden).
+  const BOOTH_NUMBERS=new Set(["decider","decider-level","lead-change","first-lead","run","run-ended","back-to-back","final-comeback","final-wire","final-late","final-golden","final-golden-both"]);
+  function boothFor(projection,through,sacked=false){
+    const V=tgBoothApi(),lines=tgBoothLines();if(!V||!lines||!plain(projection)||!Array.isArray(projection.seasonHistory))return null;
+    const facts={showdownId:String(projection.rivalryId||""),seasons:projection.totalSeasons,league:projection.leagueId,
+      clubs:{playerOne:projection.managerRecords?.playerOne?.club,playerTwo:projection.managerRecords?.playerTwo?.club},teamCount:tgTeamCount(projection.leagueId),history:projection.seasonHistory.slice(0,through)};
+    try{
+      if(sacked){const n=V.sackedNumbers(facts);return n?Object.freeze({title:BOOTH_TITLE,lead:null,numbers:n.text}):null;}
+      const r=V.call(facts,through,lines);if(!r)return null;
+      const lead=r.lead?.text||null,leadTopic=r.lead?V.topicOf(r.lead.situation):null;
+      const pool=(through===facts.seasons?V.finalNumbers(facts):V.seasonNumbers(facts,through))||[];
+      const numbers=pool.find(item=>BOOTH_NUMBERS.has(item.id)&&item.topic!==leadTopic)?.text||null;
+      return lead||numbers?Object.freeze({title:BOOTH_TITLE,lead,numbers}):null;
+    }catch(_error){return null;}
+  }
+  // The booth's call takes the pull quote's place (a made-up line said by a manager); with no call the paper keeps its quote.
+  function withBooth(edition,booth){
+    if(!edition||!booth)return edition;
+    return Object.freeze({...edition,paper:{...edition.paper,booth,quote:booth.lead?null:edition.paper.quote}});
+  }
   // r89 Sacked: the season the Showdown ended after (the first with a sacked result) and who was sacked, read from the same
   // verified history rows; a Showdown with no sacking ends after its planned length.
   function tgEndOf(projection){
@@ -297,7 +328,7 @@
     const N=seasonNumber,facts=readHistory(projection,N,primePack);if(!facts||N>=facts.totalSeasons)return null;
     const used=new Set();let edition=null;
     for(let k=1;k<=N;k+=1)edition=buildSeason({...facts,seasons:facts.seasons.slice(0,k)},k,k===N?specialPlayers:null,used,k===N?squadNews:null);
-    return edition;
+    return withBooth(edition,edition?boothFor(projection,N):null);
   }
   function buildSeason(facts,N,specialPlayers,used,squadNews=null){
     const C=tgCopy(),P=tgPages();
@@ -429,7 +460,7 @@
       :draw?ROLES.map((role,i)=>briefFor(walk,"brief"+i,role,showdownItems(role),facts.clubs,true))
       :[{head:golden?"Golden Showdown won":"The Showdown trophy",text:golden?`${NAMES[W]} reaches ${goldenPoints} points, the target that wins the Golden Showdown.`:`${NAMES[W]}'s name goes on the trophy that outranks every cup in either cabinet.`,trophy:"TRO_SHOWDOWN_CHAMPION",club:facts.clubs[W],id:"showdown-trophy"},briefFor(walk,"brief1",L,showdownItems(L),facts.clubs,true)];
     const told=squadPaper(squadNews,T,story);
-    return Object.freeze({
+    return withBooth(Object.freeze({
       kind:"final",key,rivalryId:facts.rivalryId,seasonNumber:T,totalSeasons:planned,...(sackedRoles.length?{sacked:sackedRoles.map(role=>NAMES[role])}:{}),situation:chosen.situation,winner:draw?"draw":NAMES[W],golden,
       paper:{
         variant:golden?"gold":draw?"draw":"season",kicker:SK?head.kicker||"SACKED":draw?"DRAWN":head.kicker||"SHOWDOWN WINNER",headline:head.headline,subhead:head.subhead,
@@ -441,13 +472,13 @@
         race:raceFor({...facts,totalSeasons:T},T,true),inside:recordBook(facts,T,true),specialPlayers:spOf(specialPlayers)
       },
       ids:{headline:head.id,story:story.id,briefs:briefs.map(b=>b.id)}
-    });
+    }),boothFor(projection,T,sackedRoles.length>0));
   }
 
   // Every word a paper prints (for the contracts: no braces, no "Marquee", the same on both phones).
   function paperText(edition){
     const p=edition?.paper;if(!p)return "";
-    return [p.kicker,p.headline,p.subhead,p.season,p.dateline,p.edition,p.issue,...p.ears,p.left.name,p.left.club,p.right.name,p.right.club,p.photo.caption,p.photo.credit,p.story.byline,...p.story.paragraphs,p.numbersTitle,...p.numbers.map(n=>`${n.label} ${n.left} ${n.right}`),p.quote?.text,p.quote?.who,p.portrait?.caption,...p.briefs.map(b=>`${b.head} ${b.text}`),p.race?`${p.race.title} ${p.race.line} ${p.race.chips.map(c=>`${c.label} ${c.left} ${c.right}`).join(" ")}`:"",...p.inside,p.specialPlayers?`Special Players ${p.specialPlayers.daniel} ${p.specialPlayers.nik}`:""].filter(x=>x!==null&&x!==undefined).join("\n");
+    return [p.booth?.title,p.booth?.lead,p.booth?.numbers,p.kicker,p.headline,p.subhead,p.season,p.dateline,p.edition,p.issue,...p.ears,p.left.name,p.left.club,p.right.name,p.right.club,p.photo.caption,p.photo.credit,p.story.byline,...p.story.paragraphs,p.numbersTitle,...p.numbers.map(n=>`${n.label} ${n.left} ${n.right}`),p.quote?.text,p.quote?.who,p.portrait?.caption,...p.briefs.map(b=>`${b.head} ${b.text}`),p.race?`${p.race.title} ${p.race.line} ${p.race.chips.map(c=>`${c.label} ${c.left} ${c.right}`).join(" ")}`:"",...p.inside,p.specialPlayers?`Special Players ${p.specialPlayers.daniel} ${p.specialPlayers.nik}`:""].filter(x=>x!==null&&x!==undefined).join("\n");
   }
 
   // ---------- the inputs, read from what this screen already holds (no read, no write) ----------
@@ -474,7 +505,12 @@
 
   // ---------- the page (browser only) ----------
   const SEEN_KEY="careerModeShowdown.gazetteSeen.v1",SEEN_MAX=60;
-  const ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500;
+  // r91 (Nik 2026-11-11: "sometimes the Gazette was not showing up"): a paper is due at one tap only, and a tap whose files,
+  // fonts and pictures were not all decoded within the cap went on without it, so that phone never saw that paper (on a slow
+  // phone or a cold cache, often the final one: it has the most pictures). Now warm() prepares the whole paper (files, then the
+  // edition, then its pictures) while Season Results or Final Winner is still being read, and a tap that still finds it not
+  // ready waits up to ASSET_CAP_MS (its button marked busy) instead of 4 s. Files only: still no Firebase read or write.
+  const ASSET_CAP_MS=9000,FINAL_SAFETY_MS=2500,SQUAD_CAP_MS=4000;
   const BASE="visual-assets/v10_1/content/";
   const FONTS=Object.freeze([["Gazette Mast","normal",400,"unifrakturmaguntia-latin-400-normal"],["Gazette Head","normal",700,"playfair-display-latin-700-normal"],["Gazette Head","normal",900,"playfair-display-latin-900-normal"],["Gazette Head","italic",400,"playfair-display-latin-400-italic"],["Gazette Body","normal",400,"old-standard-tt-latin-400-normal"],["Gazette Body","italic",400,"old-standard-tt-latin-400-italic"],["Gazette Body","normal",700,"old-standard-tt-latin-700-normal"]]);
   const FONT_FILES=Object.freeze(FONTS.map(f=>`${BASE}gazette/fonts/${f[3]}.woff2`));
@@ -505,6 +541,12 @@
       load("gazette-copy","data/gazetteCopy.js",()=>Boolean(root.CareerModeGazetteCopy)),
       load("gazette-headlines","data/frontPages.js",()=>Boolean(root.CareerModeFrontPages)),
       load("gazette-sacked","data/gazetteSacked.js",()=>Boolean(root.CareerModeGazetteSacked)),
+      // the commentary box: the booth, its engine and lines, and the league catalog (team counts); needed like the copy, so
+      // a phone without them prints no paper rather than a different one
+      load("ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js",()=>Boolean(root.CareerModeSharedShowdownCatalog)),
+      load("commentary-engine","js/commentaryEngine.js",()=>Boolean(root.CareerModeCommentaryEngine)),
+      load("commentary-lines","data/commentaryLines.js",()=>Boolean(root.CareerModeCommentaryLines)),
+      load("commentary-v3","js/commentaryV3.js",()=>Boolean(root.CareerModeCommentaryV3)),
       tgChip(load),
       load("squad-sheet-step","js/squadSheetStep.js",()=>Boolean(root.CareerModeSquadSheetStep)).catch(()=>null),
       load("visual-identity","js/visualIdentity.js",()=>typeof root.getClubCrestSvg==="function").catch(()=>null)
@@ -541,7 +583,7 @@
     if(p.portrait)p.portrait={...p.portrait,src:art(p.portrait.name)};
     p.briefs=p.briefs.map(b=>({...b,trophy:b.trophy?art(b.trophy):null}));
     if(!p.quote)delete p.quote;
-    delete p.squad;
+    delete p.squad;delete p.booth;
     return p;
   }
   function eyebrowFor(edition){return edition.kind==="final"?(edition.golden?"Golden Showdown · front page":"Final front page"):`Season ${edition.seasonNumber} of ${edition.totalSeasons} · front page`;}
@@ -553,6 +595,30 @@
     const a=doc.createElement("span");a.textContent=`${NAMES.playerOne}: ${sp.daniel}`;
     const b=doc.createElement("span");b.textContent=`${NAMES.playerTwo}: ${sp.nik}`;
     line.append(label,a,b);strip.after(line);
+  }
+  // "From the commentary box" (r91): a plain newspaper column above THE RACE, full width, in the paper's own type: the
+  // booth's call in italics, then BY THE NUMBERS. No box, no tint, nothing on top of anything; the page scrolls as before.
+  const BOOTH_CSS="#touchlineGazette .tgz-booth{margin:6px 0 0;padding:4px 0 0;border-top:2px solid var(--paper-rule,#1b1712)}"+
+    "#touchlineGazette .tgz-booth p{margin:0;font:400 13px/1.3 'Gazette Body',Georgia,serif;color:#14100b}"+
+    "#touchlineGazette .tgz-booth b{margin-right:7px;font:700 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#14100b}"+
+    "#touchlineGazette .tgz-booth__call{font-style:italic}#touchlineGazette .tgz-booth__numbers{margin-left:12px}#touchlineGazette .tgz-booth__numbers b{margin-right:6px}"+
+    "#touchlineGazette .cmx-gz--compact .tgz-booth p{font-size:14px;line-height:1.36}#touchlineGazette .cmx-gz--compact .tgz-booth b{font-size:12px}"+
+    "#touchlineGazette .cmx-gz--compact .tgz-booth__numbers{display:block;margin:4px 0 0}";
+  function boothStyle(doc){
+    if(doc.getElementById?.("tgzBoothStyle"))return;
+    const style=doc.createElement("style");style.id="tgzBoothStyle";style.textContent=BOOTH_CSS;(doc.head||doc.documentElement).appendChild(style);
+  }
+  // One run-in paragraph, like the paper's other strips: FROM THE COMMENTARY BOX “the call” BY THE NUMBERS the numbers.
+  function addBooth(paper,booth,doc){
+    if(!booth||!(booth.lead||booth.numbers))return;
+    boothStyle(doc);
+    const box=doc.createElement("section");box.className="tgz-booth";box.setAttribute("aria-label",booth.title);
+    const p=doc.createElement("p");const h=doc.createElement("b");h.textContent=booth.title;p.appendChild(h);
+    if(booth.lead){const call=doc.createElement("span");call.className="tgz-booth__call";call.textContent=`“${booth.lead}”`;p.appendChild(call);}
+    if(booth.numbers){const n=doc.createElement("span");n.className="tgz-booth__numbers";const b=doc.createElement("b");b.textContent="By the numbers";n.append(b,doc.createTextNode(booth.numbers));p.appendChild(n);}
+    box.appendChild(p);
+    const anchor=paper.querySelector(".tgz-race")||paper.querySelector(".cmx-gz__desk");
+    if(anchor)anchor.before(box);else paper.appendChild(box);
   }
   // THE RACE strip (desktop and phone), above the trophy desk: where the Showdown stands, then every season's score with
   // its winner in bold (a drawn season in plain type).
@@ -631,7 +697,7 @@
       root.ShowdownContent.frontPage.screen(page,paperFor(plan.edition,compact),()=>proceed(),{eyebrow:eyebrowFor(plan.edition),title:"Read all about it",button:"Continue",still:Boolean(previous)});
       page.querySelector(".cmx-fp-screen__title")?.remove();
       tgSharpPortraits(page);
-      const paper=page.querySelector(".cmx-paper");if(paper){addSpecialPlayers(paper,plan.edition.paper.specialPlayers,doc);try{addRace(paper,plan.edition.paper.race,doc);}catch(_error){}}
+      const paper=page.querySelector(".cmx-paper");if(paper){addSpecialPlayers(paper,plan.edition.paper.specialPlayers,doc);try{addRace(paper,plan.edition.paper.race,doc);}catch(_error){}try{addBooth(paper,plan.edition.paper.booth,doc);}catch(_error){}}
       button=page.querySelector(".cmx-continue");if(!button)throw new Error("GAZETTE_CONTINUE_MISSING");
       button.id="touchlineGazetteContinue";
     }catch(error){page.remove();throw error;}
@@ -698,8 +764,25 @@
     return null;
   }
   // The files, then the paper, then its pictures, all inside the cap: resolves true only when the paper is ready to show.
+  // Review of #1390 (Nik: "not synced"): both phones must print the same squad news, so a phone that does not keep a sheet
+  // this paper needs (a new device, cleared storage) has it read first: js/squadSheetStep.js gazetteEnsure, at most 4 reads
+  // once (each kept), none on a phone that has them. Capped at SQUAD_CAP_MS and never fails the paper.
+  // Review of #1390 (P3): one ask per paper while the page is up. warm() looks again a few times on Final Winner and the tap asks
+  // too; a closed rivalry refuses the read (the Rules), so asking again would only add refused, possibly billed reads. A paper
+  // whose ask failed prints without squad news.
+  const squadAsks=new Map();
+  function tgSquadReady(key){
+    const m=/^(pair_[0-9a-f]{64})\|(?:season|final)\|(\d+)$/.exec(String(key||"")),step=root.CareerModeSquadSheetStep;
+    if(!m||!step||typeof step.gazetteEnsure!=="function")return Promise.resolve(false);
+    let timer=null,ask=squadAsks.get(m[0]);
+    if(!ask){
+      ask=Promise.resolve().then(()=>step.gazetteEnsure({rivalryId:m[1],season:Number(m[2])})).then(value=>value===true,()=>false);
+      squadAsks.set(m[0],ask);if(squadAsks.size>12)squadAsks.delete(squadAsks.keys().next().value);
+    }
+    return Promise.race([ask,new Promise(resolve=>{timer=root.setTimeout(()=>resolve(false),SQUAD_CAP_MS);})]).then(value=>{root.clearTimeout(timer);return value;});
+  }
   function tgReady(plan){
-    const work=loadAssets().then(()=>{const edition=plan.build();if(!edition||edition.key!==plan.key)return false;plan.edition=edition;return Promise.all(edPictures(edition).map(decode)).then(()=>true);}).then(value=>value===true,()=>false);
+    const work=loadAssets().then(()=>tgSquadReady(plan.key)).then(()=>{const edition=plan.build();if(!edition||edition.key!==plan.key)return false;plan.edition=edition;return Promise.all(edPictures(edition).map(decode)).then(()=>true);}).then(value=>value===true,()=>false);
     return Promise.race([work,new Promise(resolve=>root.setTimeout(()=>resolve(false),ASSET_CAP_MS))]);
   }
   function onClick(event){
@@ -718,8 +801,13 @@
     if(!plan)return;
     event.preventDefault();event.stopPropagation();event.stopImmediatePropagation?.();
     opening=plan;
+    // the tapped button says it is working while its paper is prepared (no dimming, nothing moves). Review of #1390: the
+    // mark comes off whatever happened to the button meanwhile (a render may disable it during the wait), and only when this
+    // tap put it there: a stuck aria-busy would hold js/offlineApp.js's update boundary for good.
+    let mine=false;try{mine=plan.button.getAttribute?.("aria-busy")!=="true";if(mine)plan.button.setAttribute("aria-busy","true");}catch(_error){mine=false;}
     tgReady(plan).then(ready=>{
       opening=null;
+      try{if(mine)plan.button.removeAttribute?.("aria-busy");}catch(_error){}
       if(plan.cancelled)return;
       // The player went somewhere else meanwhile: nothing happens. Files or paper not ready: the tap goes on as before.
       if(activeScreen()!=="seasonEntry"||!plan.button.isConnected&&plan.kind==="season")return;
@@ -729,13 +817,38 @@
     });
   }
   function onScreen(event){const screen=event?.detail?.screen??activeScreen();if(current&&screen!=="seasonEntry")tgClose();}
-  // Warm the page's files while Season Results or Final Winner is up, so the paper is ready the moment it is tapped.
-  let warmTimer=null;
-  function warm(){
+  // Warm the page's files while Season Results or Final Winner is up, so the paper is ready the moment it is tapped. r91: the
+  // paper that will be due (worked out from the same verified history the tap uses, never from the tapped button) is built
+  // and its pictures decoded too, so the tap finds everything in the browser's cache. A paper this phone has read is skipped.
+  let warmTimer=null,warmTries=0;
+  const warmed=new Set(),kept=new Map();
+  function duePaper(){
+    const host=root.document?.getElementById("seasonEntry");if(!host||host.classList.contains("hidden"))return null;
+    if(host.classList.contains("v10FinalMode")){
+      const final=root.FINAL_WINNER_FIXTURES?.frames?.LIVE||null,history=root.CareerModeSeasonFinalV10?.gazetteHistory?.()||null;
+      const input=finalInput({final,history}),key=finalKey(input);if(!key||seen(key))return null;
+      return {key,build:()=>finalEdition({...input,specialPlayers:input.specialPlayers||tgSpecial(input.projection.rivalryId)})};
+    }
+    const history=tgState("CareerModeProductionSharedHistoryConvergence"),input=seasonInput({history}),key=seasonKey(input);
+    // a sacked season ends the Showdown: its paper is the final one, never a season paper
+    if(!key||seen(key)||tgEndOf(input.projection).played<=input.seasonNumber)return null;
+    return {key,build:()=>seasonEdition({...input,specialPlayers:tgSpecial(history?.rivalryId||input.projection.rivalryId)})};
+  }
+  function keepPicture(url){if(kept.has(url))return Promise.resolve(true);return decode(url).then(()=>{const img=new root.Image();img.src=url;kept.set(url,img);if(kept.size>12)kept.delete(kept.keys().next().value);return true;});}
+  function warmPaper(){
+    let due=null;try{due=duePaper();}catch(_error){due=null;}
+    if(!due)return false;if(warmed.has(due.key))return true;warmed.add(due.key);
+    loadAssets().then(()=>tgSquadReady(due.key)).then(()=>{const edition=due.build();if(!edition||edition.key!==due.key)throw new Error("GAZETTE_NOT_DUE");return Promise.all(edPictures(edition).map(keepPicture));}).catch(()=>{warmed.delete(due.key);});
+    return true;
+  }
+  function warm(event){
+    if(event?.type==="career-mode-screen-shown")warmTries=0;
     if(warmTimer||activeScreen()!=="seasonEntry")return;
     warmTimer=root.setTimeout(()=>{warmTimer=null;if(activeScreen()!=="seasonEntry")return;
-      const history=tgState("CareerModeProductionSharedHistoryConvergence");
-      if(history?.phase==="HISTORY_CONVERGED"||root.document?.getElementById("seasonEntry")?.classList.contains("v10FinalMode"))loadAssets().catch(()=>{});
+      const history=tgState("CareerModeProductionSharedHistoryConvergence"),finalMode=Boolean(root.document?.getElementById("seasonEntry")?.classList.contains("v10FinalMode"));
+      if(history?.phase==="HISTORY_CONVERGED"||finalMode)loadAssets().catch(()=>{});
+      // Final Winner draws its frame a moment after the events that wake this: look again a few times while the screen is up.
+      if(!warmPaper()&&(finalMode||history?.phase==="HISTORY_CONVERGED")&&warmTries<8){warmTries+=1;root.setTimeout(()=>warm(),900);}
     },400);
   }
   function tgInstall(){

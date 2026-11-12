@@ -202,7 +202,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-board.sd-panel{
     clip-path:none;border:max(4px,calc(var(--sgu) * 8)) solid transparent;border-radius:calc(var(--sgu) * 22);
     /* HO-033 follow-up: the glow sits on opaque black-gold marble (HO-029 kit tile), not .96-.98 see-through glass (HO-027) */
-    background:radial-gradient(ellipse 70% 40% at 50% 0,#ffe9a01c,transparent 70%) padding-box,url("css/r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--sg-bevel) border-box #110f0c;
+    background:radial-gradient(ellipse 70% 40% at 50% 0,#ffe9a01c,transparent 70%) padding-box,linear-gradient(#110f0c,#110f0c) padding-box,var(--sg-bevel) border-box #110f0c;
     -webkit-backdrop-filter:none;backdrop-filter:none;
     box-shadow:inset 0 0 0 1px #050505,inset 0 0 0 calc(var(--sgu) * 3) #0a0907,inset 0 0 0 calc(var(--sgu) * 4) #d9aa3cb0,0 calc(var(--sgu) * 14) calc(var(--sgu) * 34) #000c;
   }
@@ -2620,8 +2620,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     installStandingsRoute();installChampionBack();
     // r87 Touchline Gazette: its own page after Season Results (CONTINUE TO SEASON N+1) and after Final Winner (its exits).
     // Small and loaded here with the screens it follows; its paper, sheet and copy load only when a paper is due.
-    // r87 Commentary v3: one TV bar inside Season Results' SEASON SCORE box (js/commentaryV3.js); its lines load only there.
-    Promise.resolve().then(()=>root.loadRuntimeScript("commentary-v3","js/commentaryV3.js",()=>Boolean(root.CareerModeCommentaryV3))).then(()=>root.CareerModeCommentaryV3?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Commentary unavailable.",error));
+    // r91: Commentary v3's lines print in the Touchline Gazette ("From the commentary box"), which loads the booth itself;
+    // Season Results and Final Winner no longer carry a commentary bar (Nik 2026-11-11 picked the paper).
     Promise.resolve().then(()=>root.loadRuntimeScript("touchline-gazette","js/touchlineGazette.js",()=>Boolean(root.CareerModeTouchlineGazette))).then(()=>root.CareerModeTouchlineGazette?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Touchline Gazette unavailable.",error));
     // Warm Season Results' kit, scripts and templates now (show() loads, then returns false while the screen is hidden),
     // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.

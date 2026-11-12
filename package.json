@@ -73,7 +73,7 @@
     "test:r87:reads-meter": "node tests/contracts/r87-shared-reads-meter-contracts.cjs && npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-reads-meter \"node tests/firebase/shared-reads-meter-emulator.cjs\"",
     "test:r87:career-fixes": "node tests/contracts/r87-career-fixes-contracts.cjs && node tests/contracts/r87-career-fixes-browser-contracts.cjs && node tests/contracts/r87-career-fixes-browser-nav-contracts.cjs && node tests/contracts/r87-career-fixes-lane-c-browser-contracts.cjs && node tests/contracts/r87-career-start-b-contracts.cjs && node tests/contracts/r87-rematch-contracts.cjs",
     "test:r87:polish": "node tests/contracts/r87-polish-final-contracts.cjs && node tests/contracts/r87-polish-matchday-contracts.cjs && node tests/contracts/r87-transition-gate-contracts.cjs && node tests/support/with-static-server.cjs \"node tests/browser/r87-transition-speed-audit.cjs\"",
-    "test:r87:commentary-v3": "node tests/contracts/r87-commentary-v3-contracts.cjs && node tests/support/with-static-server.cjs \"node tests/browser/r87-commentary-v3-audit.cjs && node tests/browser/r87-commentary-v3-final-audit.cjs\"",
+    "test:r87:commentary-v3": "node tests/contracts/r87-commentary-v3-contracts.cjs",
     "test:r87:gazette": "node tests/contracts/r87-gazette-contracts.cjs && node tests/contracts/r87-deadline-day-contracts.cjs"
   },
   "devDependencies": {

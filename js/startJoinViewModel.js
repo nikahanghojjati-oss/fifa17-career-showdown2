@@ -8,7 +8,7 @@
   const CONFIRM=Object.freeze({
     abandon:"Abandon this Showdown? It closes the current Daniel vs Nik Showdown for both players. Abandoned Showdowns do not count toward career records.",
     startOver:"Delete the old Showdown and start over? This closes the old online Showdown for both players. Your player identity, registered device, Legacy history and app settings are kept.",
-    discardStale:"Delete this old connection and start fresh? This closes the stale online connection and clears only its unfinished Showdown so Nik can join the new code Daniel creates.",
+    discardStale:"Delete this old connection and start fresh? This closes the old online connection and clears only its unfinished Showdown so Nik can join the new code Daniel creates.",
     revoke:"Revoke this open session code? The other player can no longer use it.",
     close:"Close this private session? Both players leave the session. Your Showdown is kept.",
     forget:"Forget this session code on this browser? Nothing online is changed."

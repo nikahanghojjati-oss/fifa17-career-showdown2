@@ -110,7 +110,7 @@ await check("HB2 the busy state is cleared on every exit: a failed check, a refu
   {const h=harness();await ready(h);h.tap();await settle();
    h.ctl.watch.reject(new Error("offline"));await settle();
    h.ctl.which.reject(new Error("The pair could not be read."));await settle();
-   assert.ok(h.calls.reports.some(line=>/Unable to start the Showdown/.test(line)),"a failed check is reported as before");
+   assert.ok(h.calls.reports.some(line=>/Could not start the Showdown/.test(line)),"a failed check is reported as before");
    assert.equal(h.busy(),false,"a failed check clears the busy tile");assert.match(h.meta(),/Tap to join\./);}
   {const h=harness();await ready(h);h.tap();await settle();h.ctl.watch.resolve(true);await settle();
    h.ctl.which.resolve({action:"join",rivalryId:RIVALRY});await settle();

@@ -1258,7 +1258,7 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel {
     position:relative; box-sizing:border-box; border:clamp(3px,.4vh,5px) solid transparent; border-radius:4px;
     /* HO-033 follow-up: opaque black-gold marble (HO-029 kit tile) instead of the .90-.95 see-through glass (owner rule HO-027) */
-    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--lg-bevel) border-box #110f0c;
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,linear-gradient(#110f0c,#110f0c) padding-box,var(--lg-bevel) border-box #110f0c;
     box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 14px 36px #000b;
   }
   /* the second, empty slot of the archive (only one showdown is live): a glass pane with a thin gold edge */
@@ -1339,7 +1339,7 @@
   #app #statistics[data-rivalry-legacy-v10] :is(.rv-comparison,.rv-bottom) {
     border:clamp(2px,.3vh,4px) solid transparent; border-radius:4px;
     /* HO-033 follow-up: opaque black-gold marble (HO-029 kit tile) instead of the .91-.95 see-through glass (owner rule HO-027) */
-    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--rp-bevel) border-box #110f0c;
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,linear-gradient(#110f0c,#110f0c) padding-box,var(--rp-bevel) border-box #110f0c;
     box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 12px 30px #000b;
   }
   #app #statistics[data-rivalry-legacy-v10] #rvBack {
@@ -1444,7 +1444,7 @@
     inset:12px 12px 30% calc(17.5% + 14px + (100% - 17.5% - 24px) / 4 + 10px); width:auto;
     margin:0; transform:none; overflow:auto; overscroll-behavior:contain;
     border-radius:2px;
-    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat;
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,#110f0c;
     box-shadow:inset 0 0 0 1px #000a,0 10px 28px #000b;
   }
   /* Inside the pane the list is compact so a normal Showdown (3 seasons) fits without an inner scroll: the close button

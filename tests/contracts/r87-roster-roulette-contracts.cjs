@@ -306,7 +306,7 @@ ok('L5','independent per Showdown; same inputs, same result');
   assert.match(pstc,/provider\.readRouletteSeason\(\{\.\.\.await pstcRouletteServices\(\),rivalryId:request\.rivalryId,seasonNumber:season,/);
   assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1(&&!squads)?\?await rrsHistory\(ctx(,hits)?\):\[null\]/);
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
-  assert.match(rules,/Special Player is never on your board, so he is never hit/,'Rule Book: the Special Player is never on the board');
+  assert.match(rules,/He never appears in Squad Management or on the roulette board, so the roulette can never hit him\./,'Rule Book: the Special Player is never on the board');
   ok('L6','season step: auto boards from Transfer War verdicts, no editor, no new path; Rule Book line');
 }
 // L7 full launch database, exact formation sets and boards regenerated from all non-starters, including reserves.
@@ -487,9 +487,10 @@ function fullBoard(board,label){
   assert.equal(src.split('rrEmpty').length-1,2,'empty rows come only from the rrPlace fallback');
   assert.ok(!/name:\s*""/.test(src),'no blank-name rows');
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
-  assert.match(rules,/A lost player's place goes first to that window's signing in his line, however weak, then to your best sub/);
-  assert.match(rules,/Replaced players wait in hidden reserves, off the board, and come back when better players are lost/);
-  assert.match(rules,/the roulette still spins, and the bullet only ever hits a real player/);
+  // r91: the refill is told on the roulette card (a kept signing of his line first) and the Squad Management card (the best of his line).
+  assert.match(rules,/his place goes to a new signing in his line if you kept one, otherwise to the best player left in his line/);
+  assert.match(rules,/A player who leaves is replaced by the best player in his line/);
+  assert.match(rules,/A place stays empty only if your club runs out of players\. The bullet only ever hits a real player\./);
 }
 ok('L11','every club: 10 forced firing seasons, no kept signing, full 11 + 4 with one GK, permanent losses and identical replay');
 
