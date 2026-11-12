@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-12 1:19 AM Boston time (EST)",
+ "generated": "2026-11-12 1:22 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 257,
@@ -2336,8 +2336,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "ad2ba32",
-  "head_boston": "Thu 12 Nov 1:13 AM",
+  "head": "a705a06",
+  "head_boston": "Thu 12 Nov 1:20 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3171,7 +3171,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5954
+    "waiting_min": 5958
    },
    {
     "id": "HO-059",
@@ -3386,13 +3386,13 @@
     "from": "G",
     "to": "V",
     "title": "Board room sideways crop for 640x360 (HO-069 item 5 answer)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-075_board-room-sideways-crop-for-640x360-ho-.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 4
+    "pickup_min": 5,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
