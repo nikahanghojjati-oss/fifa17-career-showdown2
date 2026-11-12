@@ -13,7 +13,7 @@ for (x,y,w,h), c in zip(faces, cfg):
     inside = (m>0.5).astype(np.uint8)
     dist_out = cv2.distanceTransform(1-inside, cv2.DIST_L2, 5)
     dist_in = cv2.distanceTransform(inside, cv2.DIST_L2, 5)
-    band = np.clip(1-dist_out/(0.18*w),0,1)*np.clip(1-dist_in/(0.06*w),0,1)
+    band = np.clip(1-dist_out/(0.18*w),0,1)*(dist_in<=0.5)   # outside the silhouette only: hair and skin are never touched
     rgb = out[y0:y1,x0:x1]; L = rgb.mean(2)+1e-3
     k = int(0.25*w)|1
     bg = cv2.GaussianBlur(cv2.erode(L,np.ones((k,k),np.uint8)),(0,0),k/3)
@@ -26,7 +26,15 @@ for (x,y,w,h), c in zip(faces, cfg):
     # never touch the face/skin: protect broad bright areas inside the silhouette
     skin = np.clip((cv2.GaussianBlur(L,(0,0),6)-55)/30,0,1)*(dist_in>2)
     cut = band*warm*np.clip(excess/25,0,1)*(1-keep)*(1-skin)
-    ratio = np.clip((bg+2)/L,0,1)[...,None]
-    rgb[:] = rgb*(1-cut[...,None]) + rgb*ratio*cut[...,None]
-Image.fromarray(np.clip(out,0,255).astype(np.uint8)).save(dst)
+    for (fx,fy,fw,fh) in faces:   # faces are never touched
+        fd = ((xx-(fx+fw/2))/(0.56*fw))**2 + ((yy-(fy+0.62*fh))/(0.72*fh))**2
+        cut *= np.clip((fd-1.25)/0.45,0,1)
+    # only the soft glow (low frequencies) above the background is lowered; fine detail such as fly-away hair
+    # strands (high frequencies) is kept exactly, so no strand is erased
+    sig = max(2.0, 0.03*w)
+    low = cv2.GaussianBlur(L,(0,0),sig); high = L - low
+    lowt = bg + np.clip(low-bg,0,None)*(1-0.8*cut) + np.minimum(low-bg,0)
+    Lt = np.minimum(L, lowt + high)
+    rgb[:] = np.minimum(rgb, rgb*np.clip(Lt/L,0,1)[...,None])
+Image.fromarray(np.clip(np.rint(out),0,255).astype(np.uint8)).save(dst)
 print('faces',faces)

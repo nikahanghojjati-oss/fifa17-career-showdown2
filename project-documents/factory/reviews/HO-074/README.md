@@ -64,6 +64,20 @@ Added 12 Nov:
 
 Wiring for Team G: swap each `_HC_V2` name for `_HC_V3` (same sizes, same lip lines as rooms_v2_set.json). Hall V3 replaces the HO-069 hall files.
 
+
+## 12 Nov redo (after Nik: "no part of our hair or skin may look faded or washed out")
+
+The first pass pulled far-side strands down to the hair's own darkest value and greyed them, which flattened some curls
+into a dark mass and made a few highlights look ashy. The V3 files now in this folder are the redo (same names):
+- A strand is only dimmed, never erased: the part brighter than the hair around it drops to 60% (70% in the Start hall),
+  so every curl keeps its shape and still reads lighter than its surroundings.
+- Nothing is ever lightened (per-channel guard) and nothing is greyed: a dimmed gold strand becomes a warmer, deeper brown.
+- Skin is never touched: faces are masked out, and anything bright AND smooth (ears, neck, hands) is left alone.
+- Squad phone: the warm cut-out halo round both men is lowered only in its soft glow, outside the silhouette; fine
+  fly-away strands are kept exactly.
+- Guard: tools/hc/relight/check_nofade.py on every file, result in NO_FADE_CHECK.txt: 19/19 PASS (no pixel lighter,
+  0 change inside any face, strand detail kept 63-85% where the rim was dimmed).
+
 ## 2. League wheel rim
 
 visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V2.webp: 1600x1600 alpha, brushed brass in the counter-rail colour, satin, lit from above, 12 flat screws, no mirror hotspots. Same canvas and ring as V1 (inner 610, outer 776 of 1600, measured as V1's median ring), drawn as a true circle on the canvas centre. Drawn in code: tools/hc/relight/brass_rim.py. Sheet: WHEEL_RIM_V1_VS_V2.jpg.
