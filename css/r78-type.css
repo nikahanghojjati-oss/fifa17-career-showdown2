@@ -1707,6 +1707,9 @@
    the cap is given as the height and the box stays what it was (js/seasonFinalV10.js sets the same two caps). */
 @media (max-width: 600px) and (orientation: portrait) { :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #standings img.hc-title-img[data-hc-title="STANDINGS"] { height: clamp(34px, 6svh, 52px); } }
 @media (max-width: 900px) and (orientation: landscape) { :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #standings img.hc-title-img[data-hc-title="STANDINGS"] { height: 40px; } }
+/* Career Statistics on tablets wraps its title box round the picture's own width, which used to be 92vw (the old "sizes").
+   The same width is asked for here, so the box stays what it was. */
+@media (max-width: 900px) { :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #careerStatistics img.hc-title-img[data-hc-title="CS"] { width: 92vw; max-width: 100%; } }
 /* Home logo ("Big 17", Nik's pick 2026-11-12): a wide mark in the old logo's box (640 x 233, the file a 1x screen drew), so the lockup, the tiles
    and the top bar keep their places. The three files are lighter than the two they replace. */
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-logo-img { aspect-ratio: 640 / 233; object-fit: contain !important; object-position: 50% 50% !important; }
@@ -1735,4 +1738,7 @@
 /* Connect Players carries the same "CAREER MODE SHOWDOWN // 17" line above its title that Nik removed everywhere else
    (2026-11-12, "Remove both", PR #1405). Hidden, not removed: its place is kept, so nothing moves. */
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #connectPlayersScreen .connectPlayersKicker { visibility: hidden; }
+/* The last gold glow behind a title at rest (art ledger R2; the title family carries none): Career Statistics, Club
+   Assignment and Connect Players keep only the dark shade every other title has. */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(#careerStatisticsScreenTitle, #clubWheelScreenScreenTitle, #connectPlayersTitle) { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .95)) !important; }
 /* r91 HO-071 end */
