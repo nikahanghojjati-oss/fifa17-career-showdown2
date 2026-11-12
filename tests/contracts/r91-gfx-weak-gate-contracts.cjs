@@ -119,7 +119,7 @@ const chromebook = deviceOf("chromebook866"), strong = deviceOf("pc4k");
   // its words wrap, and it never takes more than 58% of the line.
   const css = read("css/r78-type.css");
   assert.ok(css.includes("> .settingsPanel--motion > .settingsGfxRow { flex: 0 1 auto; max-width: 58%; margin-top: auto; gap: 12px; }"));
-  assert.ok(css.includes("> .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy { flex: 1 1 auto; min-width: 0; }"));
+  assert.ok(css.includes("> .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy { flex: 1 1 auto; min-width: 0; gap: 1px; }"));
   assert.match(docs, /2 processor threads or fewer, or 4 GB of memory or less/);
   assert.match(docs, /only once the Device check has passed/);
   ok("W6", "Settings hides the two rows and says why; docs/QUALITY_LEVELS.md says the same");

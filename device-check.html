@@ -69,9 +69,9 @@ h2 span{color:var(--mute);font-weight:600}
 .guide tr.mine th{box-shadow:inset 3px 0 0 var(--gold)}
 .guide .tag{display:block;margin-top:3px;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ink)}
 /* How it looks: one real picture of each 3D screen under its level (assets/level-guide, loaded only when scrolled to). */
-.guide tr:not(.looks) th,.guide tr:not(.looks) td{border-bottom:0}
-.guide tr.looks td{padding:2px 12px 14px}
-.guide tr.looks.mine td{box-shadow:inset 3px 0 0 var(--gold)}
+.guide tr:not(.shots) th,.guide tr:not(.shots) td{border-bottom:0}
+.guide tr.shots td{padding:2px 12px 14px}
+.guide tr.shots.mine td{box-shadow:inset 3px 0 0 var(--gold)}
 .looks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .looks a{display:block;color:var(--mute);font-size:12px;font-weight:600;letter-spacing:.06em;text-align:center;text-decoration:none}
 .looks img{display:block;width:100%;height:auto;aspect-ratio:480/217;object-fit:cover;background:#000;border:1px solid rgba(219,178,94,.25)}
@@ -90,9 +90,10 @@ h2 span{color:var(--mute);font-weight:600}
   .parts div{padding:8px 0;border-left:0;border-top:1px solid rgba(219,178,94,.25)}
   .parts div:first-child{border-top:0;padding-top:0}
   .guide tr.mine{padding-left:10px;padding-right:6px;box-shadow:inset 3px 0 0 var(--gold);background:rgba(245,197,24,.08)}
-  .guide tr.mine th,.guide tr.mine td,.guide tr.looks.mine td{background:none;box-shadow:none}
-  .guide tbody tr:not(.looks){border-bottom:0;padding-bottom:0}
-  .guide tr.looks td{padding:6px 0 4px}
+  .guide tr.mine th,.guide tr.mine td,.guide tr.shots.mine td{background:none;box-shadow:none}
+  .guide tbody tr:not(.shots){border-bottom:0;padding-bottom:0}
+  .guide tr.shots td{padding:6px 0 4px}
+  .guide th[scope=row]{padding-left:0}
   .looks{gap:6px}
 }
 </style>
@@ -234,7 +235,7 @@ h2 span{color:var(--mute);font-weight:600}
     $("suggest").innerHTML=`We suggest <b>${esc(name)}</b><small>${esc(why+wait)}</small>`;
     $("guideRows").innerHTML=g.rows.map(r=>`<tr${r.mine?" class=\"mine\"":""}><th scope="row">${esc(r.label)}${r.mine?"<span class=\"tag\">Your device</span>":""}</th>`
       +`<td data-label="Chips that start here">${esc(r.who)}${r.level===5&&!d.can8k?"<small>Not on this device.</small>":""}</td><td data-label="What it draws">${esc(r.draws)}</td></tr>`
-      +`<tr class="looks${r.mine?" mine":""}"><td colspan="3"><div class="looks">${SCENES.map(s=>`<a href="assets/level-guide/${s.key}-${T.names[r.level]}.webp" target="_blank" rel="noopener">`
+      +`<tr class="shots${r.mine?" mine":""}"><td colspan="3"><div class="looks">${SCENES.map(s=>`<a href="assets/level-guide/${s.key}-${T.names[r.level]}.webp" target="_blank" rel="noopener">`
         +`<img loading="lazy" decoding="async" width="${LOOK[0]}" height="${LOOK[1]}" src="assets/level-guide/${s.key}-${T.names[r.level]}-s.webp" alt="${esc(s.name)} at ${esc(r.label)}"><span>${esc(s.name)}</span></a>`).join("")}</div></td></tr>`).join("");
     $("limits").textContent=g.limits;
   }

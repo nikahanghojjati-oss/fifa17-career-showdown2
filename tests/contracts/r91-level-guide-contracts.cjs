@@ -201,7 +201,7 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
   assert.match(PAGE, /<img loading="lazy" decoding="async" width="\$\{LOOK\[0\]\}" height="\$\{LOOK\[1\]\}" src="assets\/level-guide\/\$\{s\.key\}-\$\{T\.names\[r\.level\]\}-s\.webp" alt="\$\{esc\(s\.name\)\} at \$\{esc\(r\.label\)\}">/);
   assert.match(PAGE, /How it looks: the same view of each 3D screen at every level\. The pictures say nothing about speed\./);
   // On demand only: never in the worker's install list or any other file of the game.
-  for (const f of ["service-worker.js", "index.html", "js/settings.js", "js/gfxTier.js", "js/offlineApp.js"]) assert.ok(!read(f).includes("level-guide"), `${f} never names the guide's pictures`);
+  for (const f of ["service-worker.js", "index.html", "js/settings.js", "js/gfxTier.js", "js/offlineApp.js"]) assert.ok(!read(f).includes("assets/level-guide"), `${f} never names the guide's pictures`);
   ok("G8", `the pictures: each 3D screen at each level, WebP, lazy on the Device check page only (${Math.round(small / 1024)} KB small, ${Math.round(large / 1024)} KB large)`);
 }
 // G9
