@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": "1404",
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-11T19:24:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:53Z", "by": "V", "status": "RECEIVED", "note": "V lighting thread starting now: room relights, brass wheel rim, glow removal"}, {"at": "2026-11-11T19:47:41Z", "by": "V", "status": "WORKING", "note": "PR #1404 into gameplay/r91: rooms relit V3 (7 rooms incl. Start hall), brass wheel rim V2, glows removed; waiting Nik OK on the relit faces"}],
+ "evidence": ["https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1404"],
+ "log": [{"at": "2026-11-11T19:24:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:53Z", "by": "V", "status": "RECEIVED", "note": "V lighting thread starting now: room relights, brass wheel rim, glow removal"}, {"at": "2026-11-11T19:47:41Z", "by": "V", "status": "WORKING", "note": "PR #1404 into gameplay/r91: rooms relit V3 (7 rooms incl. Start hall), brass wheel rim V2, glows removed; waiting Nik OK on the relit faces"}, {"at": "2026-11-12T06:10:34Z", "by": "V", "status": "DONE", "note": "Nik OK 12 Nov 12:44 a.m. Eastern. PR #1404 into gameplay/r91 at a011c9a23: (1) 8 HC rooms relit as *_HC_V3* in visual-assets/v10_1/plates-hc (tunnel, box, office, board, archive, home, Start hall, Squad room; desktop 1X/2X, phone, 590W, TALL) - hair rim only on the lamp side, nothing faded or greyed, faces untouched (check_nofade 19/19 PASS); swap _HC_V2 -> _HC_V3. (2) WHEEL_RIM_V2.webp brushed brass: point css/v10Setup.css (2 urls) at it + contract hashes; pointer/hub brass stops #D6B07A/#A57E4E/#5C4128. (3) Gold glows removed in tr2 plate.css + .sd-title. Checks: L1-L5 green on a011c9a23, L6 still running (all 8 green on previous head). Notes: project-documents/factory/reviews/HO-074/README.md. Home crowd HO-073 builds on Home V3; Start+Squad V3 go with HO-069."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
  "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q71xfnDSxaqjUqMrmr"}
 }

@@ -258,3 +258,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-12 05:43 | Team V | Team G | HO-069 DONE | HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops | no |
 | 2026-11-12 05:52 | Team V | Team G | HO-073 DONE | Home: crowd and stands behind the glass, higher quality, handcrafted | no |
 | 2026-11-12 05:56 | Team G | Team V | HO-061 DONE | r90 plates: remove slogan banners (L11) + phone face crops (L23) | no |
+| 2026-11-12 06:10 | Team V | Team G | HO-074 DONE | Lighting pass: one lamp logic per room, no rim without a source | no |
