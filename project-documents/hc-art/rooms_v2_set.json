@@ -17,7 +17,20 @@
    90,
    43
   ],
-  "phone_lipY": 1098
+  "phone_lipY": 1098,
+  "side_1X": [
+   90,
+   73
+  ],
+  "side_2X": [
+   90,
+   203
+  ],
+  "side_lipY_1X": 434,
+  "side_men_x_pct": [
+   0,
+   45
+  ]
  },
  "tunnel": {
   "1X": [
