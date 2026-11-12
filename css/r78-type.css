@@ -113,7 +113,7 @@
    2 · RULES SCREEN FIRST (Rule Book: #ruleBook.v10RuleBook, built by js/ruleBook.js, decorated by
    js/rulesSettingsV10.js, laid out by css/rulesSettingsV10.css + visual-assets/v10_1/rule-book/rule-book.css)
    One body font (Barlow), gold condensed section headings, ivory body, shorter lines, more air.
-   Title block (crown, CAREER MODE SHOWDOWN eyebrow, RULE BOOK wordmark picture, tagline): untouched.
+   Title block (RULE BOOK wordmark picture, tagline): untouched; its crown and eyebrow are hidden by 2a2.
    ===================================================================================================== */
 
 /* 2a · hero summary line under the wordmark ("Daniel and Nik. One league. Permanent clubs. One rivalry.").
@@ -125,6 +125,14 @@
   letter-spacing: 0;
   text-shadow: 0 1px 2px #000, 0 0 6px #000, 0 0 14px #000;
 }
+
+/* 2a2 · r91 art ledger R1 (Nik 2026-11-12 picked "Remove both" for the crown and the small line above every title):
+   the crown and the "CAREER MODE SHOWDOWN" line above the RULE BOOK wordmark are hidden, as on the other title blocks
+   (rule at the end of this sheet). Hidden, not removed: the line keeps its box, so the wordmark, the tagline, the
+   summary and the cards stay exactly where they are. The :not(#sa-f*) chain is this sheet's usual way to outrank the
+   per-size rules in rulesSettingsV10.css. */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow::before { visibility: hidden; }
 
 /* 2b · the six section cards: opaque black marble face (no see-through), more inner air.
    Phones / tablets / small laptops paint the face on the card itself (rulesSettingsV10.css uses !important there). */
