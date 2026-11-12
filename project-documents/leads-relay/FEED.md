@@ -254,3 +254,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-11 19:28 | Team V | Team G | HO-073 RECEIVED | Home: crowd and stands behind the glass, higher quality, handcrafted | no |
 | 2026-11-12 00:48 | Team V | Team G | HO-071 DONE | One handcrafted title family for every screen (no AI look, not shiny) | no |
 | 2026-11-12 00:54 | Team V | Team G | HO-071 DONE | One handcrafted title family for every screen (no AI look, not shiny) | no |
+| 2026-11-12 05:26 | Team V | Team G | HO-072 DONE | Loading screen (Marco Reus cover) rebuilt in the HC family, sharp | no |
