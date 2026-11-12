@@ -1,40 +1,49 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-12T00:20:31.686Z",
+  "at": "2026-11-12T00:46:23.593Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
-      "head_sha": "4b1f6b18b8ea3b07440c0e3cd8cf3068326349ff",
-      "pr": 1401,
-      "queued_minutes": 21.8,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Validate POS20",
-      "head_sha": "6d68b49d7828aad7910efd04af3aba22c38d122c",
-      "pr": 312,
-      "queued_minutes": 20.3,
+      "head_sha": "8c08c81baab973cb6b726fc2c6226449b3fe2896",
+      "pr": 1391,
+      "queued_minutes": 21.2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
     },
     {
       "workflow": "Showdown Gate",
-      "head_sha": "ebf48429ee1453cbe898ca9f9e7aa81a9abc7b43",
-      "pr": 1357,
-      "queued_minutes": 12.1,
+      "head_sha": "309be30c8070986c96c22bf932087d1a1dd65aee",
+      "pr": 1405,
+      "queued_minutes": 13.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
     },
     {
       "workflow": "Showdown Gate",
-      "head_sha": "c3a54625a59d5001710665a2bd2fb166c995f48f",
-      "pr": 1406,
-      "queued_minutes": 12,
+      "head_sha": "689900c46b33672adf92a81a83068eb12bb1ffbc",
+      "pr": 1407,
+      "queued_minutes": 8.6,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "313c53d8c8e797a5d411c23b178d150b5be0766a",
+      "pr": 1398,
+      "queued_minutes": 4.2,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "9a6924ee445d386415e71e87225c5c1d1a9603be",
+      "pr": 1390,
+      "queued_minutes": 3.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
