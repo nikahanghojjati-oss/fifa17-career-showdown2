@@ -179,11 +179,16 @@ const j = v => JSON.stringify(v);
       const gov = s.G.governor(r, {key: "p" + ms, draw() {}, detail: DETAIL(2, log)}), first = gov.pixelRatio();
       await run(s, gov, 1200, ms, 2); assert.ok(gov.pixelRatio() < first, `${ms} ms frames for a second: a step, as in 2.3.0`);
       await run(s, gov, 20000, ms, 2);
-      assert.ok(gov.pixelRatio() >= first && gov.detail() === 0, `${ms} ms frames with a 3 ms draw and a 2 ms callback: two steps bought nothing, so they are undone`);
+      assert.ok(gov.pixelRatio() === first && gov.detail() === 0, `${ms} ms frames with a 3 ms draw and a 2 ms callback: two steps bought nothing, so they are undone`);
       assert.equal(log.length, 0, "the heavy parts were never touched");
+      // Step-ups keep 2.3.0's absolute bar (frames under 17.6 ms): at this pace the screen never climbs above its start
+      // (review on #1398: it went from 1.5x to the level's 2x on a 30 fps phone).
+      assert.ok(first < s.G.profile().maxPixelRatio, "the level has room above the start, so a climb would show");
+      await run(s, gov, 40000, ms, 2);
+      assert.ok(gov.pixelRatio() === first && gov.detail() === 0, "40 s more at the screen's own pace: no step either way");
       const before = gov.pixelRatio();
-      gov.hold(true); await run(s, gov, 3000, ms, 2); gov.hold(false); await run(s, gov, 3000, ms, 2);
-      assert.ok(gov.pixelRatio() >= before && gov.detail() === 0, "a beat at the screen's own pace is not slow");
+      gov.hold(true); await run(s, gov, 3000, ms, 2); gov.hold(false); await run(s, gov, 10000, ms, 2);
+      assert.ok(gov.pixelRatio() === before && gov.detail() === 0, "a beat at the screen's own pace is not slow, and no step up follows it");
       // From that pace, real slowness still counts.
       const top = gov.pixelRatio(); await run(s, gov, 2500, ms * 1.6, 2 + ms); assert.ok(gov.pixelRatio() < top, "frames well under the screen's pace with a busy callback: a step");
     }

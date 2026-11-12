@@ -50,7 +50,8 @@ names and no others.
   - Slow frames for a second step down, whatever the cause (as in 2.3.0). Steps taken while the scene does not look
     like the cost (an idle frame callback, a cheap timed draw) must buy frame time: two of them that leave the frames
     within 10% of where they began are undone, and the screen's own pace (a 30 fps power mode, a 50 Hz screen) is what
-    slow and smooth are judged against from there on. A screen that simply runs under 60 Hz ends where it began.
+    slow is judged against from there on. A screen that simply runs under 60 Hz ends exactly where it began: steps up
+    keep the absolute bar (frames under 17.6 ms), as in 2.3.0, so it never climbs above its start either.
   - It steps up only after a timed frame shows room, never back to a step that ran slow on that visit. A scene that
     plays in beats and started low steps up only after a beat ran smooth. A heavy part that came back and ran slow
     again stays off for a week of visits.
