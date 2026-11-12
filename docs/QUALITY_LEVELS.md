@@ -50,6 +50,10 @@ names and no others.
       and far stands at 60% of their fans (the end behind the goal stays full); no real shadows (the soft patches
       on the turf stay). A kick is one beat: from the run-up until 4 s after the strike. Every step in play (the
       pixel ratio's too) cross-fades like a reset: the scene gives the governor its fade as `before()`.
+    - Russian Roulette: the dust motes in the lamp light off; a shot makes half its smoke puffs and sparks; the two
+      café tables and their chairs off (Extra and up; the café picture and the marble floor stay). A turn is one
+      beat. The shadow map is drawn once, so there is no shadow step. Every step in play is a soft cut: the frame
+      as it stands fades out over the new one (`softCut`, a plain cut under Reduce Motion).
   - Steps are taken between beats only. While a scene holds (a kick, a turn, a reveal) nothing changes; a beat that
     ran slow steps down as it ends.
   - Slow frames for a second step down, whatever the cause (as in 2.3.0). Steps taken while the scene does not look

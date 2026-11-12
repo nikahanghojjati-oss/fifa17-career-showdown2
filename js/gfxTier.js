@@ -519,6 +519,33 @@
   }
 
   // ?fps=1 only: a small corner readout, four times a second, with its own frame clock.
+  // softCut(canvas, draw): a step taken in play, shown softly. The frame as it stands is copied over the canvas and fades
+  // out over the scene as it is drawn from the next frame on (a scene passes this to its governor as before()). For a
+  // scene whose canvas fills its own positioned box (the Roulette and Special Player pages; Chamber Men fades inside its
+  // own picture). The copy lies in that box right over the canvas, so nothing above the scene is covered, takes no
+  // pointer, is at most 2560 px on its long side and is gone after the fade. Under Reduce Motion, or where the box is not
+  // positioned, the step is a plain cut as before. Never throws.
+  function gfxSoftCut(canvas,draw,ms){
+    try{
+      const box=canvas?.parentElement,doc=canvas?.ownerDocument,win=doc?.defaultView||root,fade=Number.isFinite(ms)&&ms>0?ms:420;
+      if(!box||!doc||!canvas.width||!canvas.height)return false;
+      if(win.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)return false;
+      if((win.getComputedStyle?.(box)?.position||"static")==="static")return false;
+      for(const old of box.querySelectorAll?.("canvas[data-gfx-cut]")||[])old.remove();
+      const k=Math.min(1,2560/Math.max(canvas.width,canvas.height)),copy=doc.createElement("canvas");
+      copy.width=Math.max(1,Math.round(canvas.width*k));copy.height=Math.max(1,Math.round(canvas.height*k));
+      // A WebGL canvas holds its frame only in the task that drew it: draw, then copy.
+      if(typeof draw==="function")draw();
+      copy.getContext("2d").drawImage(canvas,0,0,copy.width,copy.height);
+      copy.setAttribute("data-gfx-cut","1");copy.setAttribute("aria-hidden","true");
+      copy.style.cssText=`position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:1;transition:opacity ${fade}ms ease-out`;
+      box.appendChild(copy);
+      const frame=win.requestAnimationFrame||(f=>win.setTimeout(f,16));
+      frame(()=>frame(()=>{copy.style.opacity="0";}));
+      win.setTimeout(()=>copy.remove(),fade+300);
+      return true;
+    }catch(_error){return false;}
+  }
   function gfxOverlay(info,parent){
     if(gfxQuery("fps")!=="1")return {stop(){}};
     const d=root.document;if(!d||!d.body)return {stop(){}};
@@ -548,7 +575,7 @@
 
   root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,choices:CHOICES.slice(),names:NAMES.slice(),labels:LABELS.slice(),
     label(level){return LABELS[Math.max(0,Math.min(5,Math.round(Number(level))||0))];},
-    profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,builtLevel:gfxBuiltLevel,overlay:gfxOverlay,classify:gfxClassify,
+    profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,softCut:gfxSoftCut,builtLevel:gfxBuiltLevel,overlay:gfxOverlay,classify:gfxClassify,
     // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()
     // saves a pick for this device; it takes effect on the next 3D screen.
     // "now" is the level Auto starts at on this device, read fresh from storage each call (Codex on #1284): the Device check
