@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-12T06:13:47Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-12T06:13:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-12T06:20:46Z", "by": "V", "status": "RECEIVED", "note": "Taken by the HO-069 thread; one cyan-guide ChatGPT run for Nik (both men left 45%, quiet room right), then 1X/2X + set.json."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
- "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1"}
+ "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q7DGKBkW2AjMf6jJyd"}
 }
 ```
 
