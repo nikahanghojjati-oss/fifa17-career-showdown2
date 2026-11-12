@@ -146,7 +146,7 @@
   function hmLockup(){
     // HO-067 Gate B2: the handcrafted Home room carries no slogans, so the lockup is the wordmark alone (the kicker
     // "THE SHOWDOWN STARTS HERE", the tagline "TWO MANAGERS · ONE LEGACY" and the "More Than A Game" script line are gone).
-    return hmEl("div","homeLockup",'<div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp" srcset="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1_640W.webp 640w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp 1040w" sizes="'+WORDMARK_SIZES+'" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div>');
+    return hmEl("div","homeLockup",'<div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark hc-logo-img" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_1040.webp" srcset="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_640.webp 640w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_1040.webp 1040w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_2080.webp 2080w" sizes="'+WORDMARK_SIZES+'" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div>');
   }
   function hmTile(id){
     const button=hmDoc().getElementById(id);

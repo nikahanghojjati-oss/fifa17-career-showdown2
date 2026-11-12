@@ -1060,10 +1060,13 @@
     // finish into the cache, for the next open).
     const off=()=>Boolean(opts&&opts.signal&&opts.signal.aborted);
     if(!svg||!svg.parentNode||root.CMS_CHAMBER_MEN_3D==="off"||!hasWebgl2()||off())return null;
-    cm3Mounting+=1;
+    cm3Mounting+=1;let opened=false;
     try{
       benchMount=Boolean(opts&&opts.fullFiles);
       const Q=await cm3Quality(opts&&opts.clubs,Boolean(opts&&opts.fullFiles));if(off())return null;
+      // r91 tab-crash guard: the scene is opening from here (the load and the texture upload are its heaviest moment, long
+      // before its governor exists). Every way out without a scene takes the mark off again (finally).
+      try{root.CareerModeGfxTier?.sceneOpening?.("chamber-men");}catch(_error){}
       // r90 Light: a file that fails to come in (a dropped connection on a slow line) is fetched once more before the
       // drawn goal is used: a failed download is not a missing GPU.
       // The season page's parse for this level and these clubs, when it made one (a parse for others is let go).
@@ -1082,12 +1085,12 @@
       let api=null;
       try{api=buildBroadcast(T,svg,extras,opts,Q);await api.warm();if(off()){api.dispose();return null;}}
       catch(error){try{root.console?.warn?.("Chamber Men 3D scene failed; the drawn goal plays.",error);}catch(_error){}cm3FreeExtras(extras);svg.parentNode?.querySelector?.(":scope > canvas.cmGoal3d")?.remove();svg.classList.remove("cm3d-on");return null;}
-      CareerModeChamberMen3d.last=api;
+      CareerModeChamberMen3d.last=api;opened=true;
       return api;
     }catch(error){
       try{root.console?.warn?.("Chamber Men 3D goal unavailable; the drawn goal plays instead.",error);}catch(_error){}
       return null;
-    }finally{cm3Mounting-=1;}
+    }finally{cm3Mounting-=1;if(!opened){try{root.CareerModeGfxTier?.sceneOpened?.();}catch(_error){}}}
   }
   const CareerModeChamberMen3d={contractVersion:1,feature:"cms-chamber-men-3d",enginePath:ENGINE_PATH,mount:cm3Mount,warm:cm3Warm,last:null};
   root.CareerModeChamberMen3d=CareerModeChamberMen3d;

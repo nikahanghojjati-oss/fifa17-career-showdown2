@@ -3078,6 +3078,46 @@
       ]
     },
     {
+      "path": "tests/contracts/r91-gfx-tab-crash-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^js/chamberMenScene3d\\.js$",
+        "^js/settings\\.js$",
+        "^device-check\\.html$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/support/device\\-lab\\-profiles\\.cjs$",
+        "^tests/browser/device\\-lab\\.cjs$",
+        "^tests/contracts/r91\\-gfx\\-tab\\-crash\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-gfx-weak-gate-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^js/settings\\.js$",
+        "^css/r78\\-type\\.css$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/support/device\\-lab\\-profiles\\.cjs$",
+        "^tests/browser/device\\-lab\\.cjs$",
+        "^tests/contracts/r91\\-gfx\\-weak\\-gate\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-draw-final-contracts.cjs",
+      "patterns": [
+        "^visual\\-assets/v10_1/final\\-winner/final\\-winner\\.js$",
+        "^visual\\-assets/v10_1/final\\-winner/app\\-shell\\.html$",
+        "^visual\\-assets/v10_1/final\\-winner/app\\-strings\\.json$",
+        "^visual\\-assets/v10_1/shared/wordmarks/TITLE_(?:FINAL_WINNER|SHOWDOWN_DRAW)_V2_.+\\.webp$",
+        "^data/frontPages\\.js$",
+        "^data/gazetteCopy\\.js$",
+        "^tests/contracts/r91\\-draw\\-final\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r91-legacy-long-history-contracts.cjs",
       "patterns": [
         "^css/rivalryLegacyV10\\.css$",
