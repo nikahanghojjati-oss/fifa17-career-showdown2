@@ -25,7 +25,6 @@ function createRuleBookScreen(){
     intro.className = "ruleBookHero";
     intro.innerHTML = `
         <span>CAREER MODE SHOWDOWN</span>
-        <strong>THE RULES</strong>
         <p>Daniel and Nik. One league. Fixed clubs. One Showdown.</p>
     `;
 
