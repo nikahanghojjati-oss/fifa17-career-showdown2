@@ -840,6 +840,12 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonReviewGrid {
   min-width:0; grid-template-columns:minmax(0,1fr);
  }
+ /* r91 layout hunt (740x360): this window stacks Daniel above Nik in one column, but the landscape rule that puts Nik in column 2
+    (app.css, max-height 520) still applied, which opened a second, content-sized track: Daniel's card shrank to 87px, its trophy
+    chips ran down it a letter at a time and sat under the CONFIRM bar. Both cards go back to the one column. */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonReviewGrid > :is(#seasonReviewOne,#seasonReviewTwo) {
+  grid-column:1;
+ }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonSummaryCard {
   min-width:0; overflow-wrap:anywhere;
  }

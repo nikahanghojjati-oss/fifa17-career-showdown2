@@ -1547,6 +1547,12 @@
     #app #trophyRoom .managerCounts strong { font-size:14px; }
     #app #trophyRoom .trophyTab { font-size:9.5px; }
   }
+  /* r91 layout hunt (740x360 Trophy Room): the five tiles are 88px wide, so "DANIEL" at the 12px floor with its eyebrow tracking ran 7px past its
+   40px column. A tighter tracking and gap keep both names whole in their column without shrinking the type below the floor. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+  #app #trophyRoom .trophyCard .managerCounts { gap:0; }
+  #app #trophyRoom .trophyCard .managerCounts span { letter-spacing:.02em; }
+}
   `;
   
   // r87 polish (career screens). Nothing here dims, overlays or moves another element.
