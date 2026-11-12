@@ -798,7 +798,7 @@
     width:max(30px,calc(var(--rbu) * 36)); height:max(30px,calc(var(--rbu) * 36)); border:max(2px,calc(var(--rbu) * 2.4)) solid transparent;
     background:radial-gradient(circle at 50% 42%,#1b1608 0,#0a0907 70%) padding-box,var(--rb-bevel) border-box;
     color:#fff3d2; font:700 max(13px,calc(var(--rbu) * 14.5))/1 var(--sd-font-condensed); letter-spacing:.02em;
-    box-shadow:0 0 12px #f0c84b30,inset 0 0 6px #000;
+    box-shadow:inset 0 0 6px #000; /* r91 art ledger R2: no gold glow at rest round the number (was 0 0 12px #f0c84b30) */
   }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader h3 {
     color:#f7de92; font:600 max(14px,calc(var(--rbu) * 15.6))/1.1 var(--sd-font-condensed); letter-spacing:.09em; text-shadow:0 1px 0 #0008;
