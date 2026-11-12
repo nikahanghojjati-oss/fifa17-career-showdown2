@@ -40,7 +40,7 @@ function mount(level, offers = [8, 4, 2]) {
   assert.deepEqual(mount(1).LADDER, ["glow", "bloom"], "Balanced already draws 2 samples");
   assert.deepEqual(mount(2).LADDER, ["glow", "edges", "bloom"]);
   assert.deepEqual(mount(3).LADDER, ["glow", "edges", "bloom"]);
-  // A GPU that does not offer the lower count (iOS and software GL list 4 only) has no edges step: 4 samples never become none.
+  // A GPU that does not offer the lower count (software GL lists 4 only, and some phones may too) has no edges step: 4 samples never become none.
   assert.deepEqual(mount(2, [4]).LADDER, ["glow", "bloom"], "High on a GPU that lists 4 only");
   assert.deepEqual(mount(3, [4]).LADDER, ["glow", "edges", "bloom"], "Extra asks 8, draws 4 there; the step would ask 4: still 4, so the scene keeps its edges (P3)");
   assert.deepEqual(mount(3, [8, 4]).LADDER, ["glow", "edges", "bloom"], "Extra on a GPU with 8 and 4");
