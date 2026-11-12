@@ -2386,6 +2386,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 @media (max-width:900px) and (min-height:501px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background:#1d1a16 url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 50% 0 / 100% auto no-repeat; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero) { display:none!important; }
+ /* Team V's title stands at 40.5% of the screen and the tab row at 44%, which only leaves it room on tall phone screens;
+    here it sat across the tab row. Its foot now stands one 8px gap above the tabs. */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage img.season-phone-title { top:auto; bottom:calc(56% + 8px); }
 }
 /* HO-068 (Nik 2026-11-09): on upright phones the result (SHOWDOWN CLOSED, the winner and both scores) sat on both men's chins
    and chests. It now stands on the counter face under the brass lip, as on sideways phones, and the plate rises so the

@@ -2139,6 +2139,18 @@
 @media (min-width:601px) and (max-width:760px) and (orientation:portrait) {
   #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { --rv-pw:100vw; background-position:50% calc(46px - var(--rv-ph) * .138); }
 }
+/* r91 old-art follow-up (700x700, 800x800): on upright tablets Team V places the statistics 690px above the window's foot, so
+   on near-square windows the title and tabs ran over both faces (heads 56px down, chins 12.2% of the plate below that).
+   The statistics now start one 8px gap under the chins and the page scrolls the rest, with the room and BACK TO SHOWDOWN
+   HOME scrolling along (the title never slides over the faces). Taller tablets are unchanged (the margin is 0 there). */
+@media (min-width:700px) and (max-width:900px) and (orientation:portrait) {
+  #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { --rv-need:calc(64px + var(--rv-ph) * .122); }
+  #app #statistics[data-rivalry-legacy-v10] #rivalryStatisticsContent { margin-top:max(0px,calc(var(--rv-need) - 100svh + 690px)); }
+}
+@media (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-actions { position:static; }
+  #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { background-attachment:local; }
+}
 /* There the page scrolls, so BACK TO SHOWDOWN HOME follows the statistics instead of riding over their last rows, and the
    room scrolls with the page (the title never slides over the faces). */
 @media (max-width:600px) and (max-height:660px) and (orientation:portrait) {
