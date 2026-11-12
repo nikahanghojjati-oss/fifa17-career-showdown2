@@ -1959,8 +1959,7 @@
 }
 @media (min-width:901px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) {
-    /* r91: 60px, not 24px, so the pane ends 12px inside the gold archive frame (see the note at the top of this file's HO-043 block) */
-    bottom:auto; height:max-content; max-height:calc(100% - 60px); grid-template-rows:auto auto auto;
+    bottom:auto; height:max-content; max-height:calc(100% - 24px); grid-template-rows:auto auto auto;
     border:1px solid rgba(217,170,60,.62); border-top:2px solid var(--v26-gold-deep,#c99b45);
   }
   /* the pager stays with the archive: while the pane is open it sits under the chosen card's slot, not under the pane */
@@ -1970,6 +1969,9 @@
   /* r91: on the wide desktops the Europa League line sits beside the league line, one line per season, so a 10-season
      Showdown (every season a row of two lines before) fits the pane at 1920x866 without scrolling. */
   @media (min-width:1700px) {
+    /* r91: 60px, not 24px, so the pane ends 12px inside the gold archive frame (see the note at the top of this file's HO-043 block).
+       Only here: the short screens (1100x600) keep 24px so the pane does not grow an inner scroller there (r80 short-screens audit). */
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { max-height:calc(100% - 60px); }
     #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable .legacyHistoryEuropa { display:inline-block; margin:0 0 0 10px; vertical-align:middle; white-space:nowrap; }
     /* left-aligned so the points make one column whether or not a Europa League line follows */
     #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(td.daniel,td.nik) { text-align:left; padding-left:12px; padding-right:2px; }
