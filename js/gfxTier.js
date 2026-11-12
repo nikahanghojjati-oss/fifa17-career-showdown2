@@ -393,7 +393,8 @@
   //     hold(false), so a scene that was only slow in action never stepped down, and Roulette holds for its whole turn.)
   //   - Slow frames still step down whatever the cause, as in 2.3.0. But steps taken while the scene does not look like the
   //     cost (an idle frame callback, a cheap timed draw) must buy frame time: two that buy nothing are undone, and the
-  //     screen's own pace (a 30 fps power mode, a 50 Hz screen) is what slow and smooth are judged against from there on.
+  //     screen's own pace (a 30 fps power mode, a 50 Hz screen) is what slow is judged against from there on. Steps up
+  //     keep the absolute bar (frames under 17.6 ms), as in 2.3.0.
   //   - A step back up needs a smooth beat first when this visit started low or a beat ran slow, so it never see-saws
   //     between a calm table and a busy shot.
   const SLOW_MS=20.5,SMOOTH_MS=17.6,BEAT_SLOW_MS=700;
@@ -447,7 +448,9 @@
       try{o.onChange?.({...p,pixelRatio:list[at]});}catch(_error){}};
     const setDetail=(i,why)=>{dAt=i;try{detail.apply(dAt,why);}catch(_error){}};
     const forget=()=>{slowFor=0;slowN=0;smoothFor=0;calmFor=0;due=0;avg=pace||BUDGET_MS;};
-    const slowLimit=()=>pace?Math.max(SLOW_MS,pace*1.25):SLOW_MS,smoothLimit=()=>pace?Math.max(SMOOTH_MS,pace*1.06):SMOOTH_MS;
+    // Only the slow test follows the pace. Smooth keeps 2.3.0's absolute bar (17.6 ms): a screen that runs at 30 or 50 fps
+    // never steps up, so a phone in a power-saving mode does not climb above where it began (review on #1398).
+    const slowLimit=()=>pace?Math.max(SLOW_MS,pace*1.25):SLOW_MS,smoothLimit=()=>SMOOTH_MS;
     // One step down the ladder: pixel ratio first, then the heavy parts. The step left is never tried again in this visit;
     // a heavy part that was put back and ran slow stays off for a week of visits.
     const stepDown=why=>{
@@ -468,8 +471,8 @@
     // putting the canvas on the page shows neither in the frame callback nor in a timed draw, and a real Chromebook cannot
     // be timed from a test machine. What is new: steps taken while the scene does not look like the cost have to buy frame
     // time. Two of them (or the ladder's end) that leave the frames within 10% of where they began are undone, and that
-    // frame time is taken as the pace this screen runs at (a 30 fps power mode, a 50 Hz screen): slow and smooth are judged
-    // against it from there on. One such probe a visit.
+    // frame time is taken as the pace this screen runs at (a 30 fps power mode, a 50 Hz screen): slow is judged against
+    // it from there on (smooth is not: see smoothLimit). One such probe a visit.
     const paceHere=ms=>{pace=Math.max(BUDGET_MS,Math.min(50,ms));slowFor=0;slowN=0;smoothFor=0;};
     const undo=ms=>{const b=probe;probe=null;probed=true;
       for(let i=b.at;i<at;i+=1)bad.delete(i);for(let i=b.dAt;i<dAt;i+=1)badD.delete(i);
