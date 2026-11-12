@@ -100,6 +100,8 @@ def build_view(src):
     for k, c in Z["crops"].items():
         x0, y0, x1, y1 = c["box"]
         res = src(k)
+        if res is None:
+            report[k] = "missing, original kept"; continue
         res = cv2.resize(res, (x1 - x0, y1 - y0), interpolation=cv2.INTER_AREA)
         valid = P[y0:y1, x0:x1] < 0.05
         res, cc, warp = align(res, D[y0:y1, x0:x1], valid)
@@ -182,7 +184,8 @@ def main():
             return cv2.resize(D[y0:y1, x0:x1], tuple(Z["crops"][k]["send_size"]), interpolation=cv2.INTER_LANCZOS4)
         compose(src, HERE / "evidence" / "selftest"); return
     def src(k):
-        return load_rgb(HERE / "in" / f"HOME_STANDS_{k}_V1.png")
+        f = HERE / "in" / f"HOME_STANDS_{k}_V1.png"
+        return load_rgb(f) if f.exists() else None      # missing pane keeps its original stands
     compose(src, HERE / "out")
 
 if __name__ == "__main__":
