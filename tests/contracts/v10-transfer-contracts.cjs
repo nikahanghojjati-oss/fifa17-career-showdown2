@@ -47,7 +47,11 @@ const TEAM_V={
   "../../shared/wordmarks/TITLE_TRANSFER_V2_480.webp":"a73a62485c52d482916228d99280fe70e6c2fef91fc676686b0f465759f23b57",
   "../../shared/wordmarks/TITLE_TRANSFER_V2_960.webp":"d40abf2d4f45ad9f6e831526fdd116a61049bb9d924d3815c7d76e2b7b34d0fe",
   "../../shared/wordmarks/TITLE_TRANSFER_V2_1920.webp":"349af044418b7473f73439b0370a646065269ba1c90e2c5e4114dee60ed0c9c6",
-  "../../shared/wordmarks/TITLE_TRANSFER_V2_3840.webp":"cd04c11532a03e26cc54548ba6d88ec2082eabfbd256a8dec83115fdd8d48730"
+  "../../shared/wordmarks/TITLE_TRANSFER_V2_3840.webp":"cd04c11532a03e26cc54548ba6d88ec2082eabfbd256a8dec83115fdd8d48730",
+  "../../shared/wordmarks/TITLE_TRANSFER_V3_480.webp":"38394b5b0f9a2a95dfece22e65b9a9724ddff1344cb384cff2e7571af47e18e1",
+  "../../shared/wordmarks/TITLE_TRANSFER_V3_960.webp":"ca05a3b173c0f6e9169d06af49e35186dc39789d6c339975b602dce1e81bc699",
+  "../../shared/wordmarks/TITLE_TRANSFER_V3_1920.webp":"b4cbeb2314d2174a589958fb85d53596145fa6f6505b1127ebe37e44bda55702",
+  "../../shared/wordmarks/TITLE_TRANSFER_V3_3840.webp":"fa145ae525973d1a0f8a6d14d75339999b36928bc59ebbd13fde3e4a346ae0cc"
 };
 
 // ---- the provider view shapes (js/productionSharedTransferChallenge.js getState()) ----
@@ -69,8 +73,8 @@ check("1 Team V files are 5e05a1f bytes; plate.js differs only by the four marke
   }
   const plate=read(DIR+"plate.js"),marked=plate.split("\n").filter(line=>/App \(JOB-27\)|ASSET_BASE \+/.test(line));
   assert.equal(marked.length,4,"four edited lines");
-  // HO-057 (Studio Small Axe): the title line picks the 4K V2 widths; undo it before comparing with Team V's plate.js.
-  const original=plate.replace(`    h.appendChild(el("img", { src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V2_1920.webp", srcset: [480, 960, 1920, 3840].map(function (w) { return ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V2_" + w + ".webp " + w + "w"; }).join(", "), sizes: "(max-width: 900px) 92vw, 60vw", alt: "", "aria-hidden": "true", decoding: "async" })); // App (HO-057): 4K title widths`,`    h.appendChild(el("img", { src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp", alt: "", "aria-hidden": "true", decoding: "async" }));`).split("\n").filter(line=>!line.includes('var ASSET_BASE = window.TRANSFER_WAR_BASE || ""; // App (JOB-27)')).join("\n")
+  // HO-071 (r91): the title line draws the V3 title family at its real file widths; undo it before comparing with Team V's plate.js.
+  const original=plate.replace(`    h.appendChild(el("img", { "class": "hc-title-img", "data-hc-title": "TRANSFER", src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V3_960.webp", srcset: [[480, 267], [960, 533], [1920, 1052], [3840, 2105]].map(function (s) { return ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V3_" + s[0] + ".webp " + s[1] + "w"; }).join(", "), sizes: "clamp(281px, 21.60vw, 413px)", alt: "", "aria-hidden": "true", decoding: "async" })); // App (HO-071): V3 title family, real file widths, one letter height`,`    h.appendChild(el("img", { src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp", alt: "", "aria-hidden": "true", decoding: "async" }));`).split("\n").filter(line=>!line.includes('var ASSET_BASE = window.TRANSFER_WAR_BASE || ""; // App (JOB-27)')).join("\n")
     .replace('ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp"','"../../shared/wordmarks/TITLE_TRANSFER_V1.webp"')
     .replace('ASSET_BASE + "assets/ENV_TR2_PLATE_G_LOCKED_V1_"','"assets/ENV_TR2_PLATE_G_LOCKED_V1_"')
     .replace(' || window.TRANSFER_WAR_APP) return; // App (JOB-27): the app passes the frame',') return;');
