@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-12 2:01 AM Boston time (EST)",
+ "generated": "2026-11-12 2:04 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 265,
@@ -3233,7 +3233,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5996
+    "waiting_min": 6000
    },
    {
     "id": "HO-059",
