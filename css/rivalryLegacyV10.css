@@ -1259,7 +1259,7 @@
     position:relative; box-sizing:border-box; border:clamp(3px,.4vh,5px) solid transparent; border-radius:4px;
     /* HO-033 follow-up: opaque black-gold marble (HO-029 kit tile) instead of the .90-.95 see-through glass (owner rule HO-027) */
     background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--lg-bevel) border-box #110f0c;
-    box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 0 26px #f0c84b2e,0 14px 36px #000b;
+    box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 14px 36px #000b;
   }
   /* the second, empty slot of the archive (only one showdown is live): a glass pane with a thin gold edge */
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel::before { content:none; }
@@ -1299,7 +1299,7 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyCard {
     position:relative; z-index:1; border:clamp(3px,.4vh,5px) solid transparent; border-radius:3px;
     background:linear-gradient(180deg,#141413 0,#0a0a0b 24%,#060607 100%) padding-box,var(--lg-bevel) border-box;
-    box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81a,0 0 24px #f0c84b30,0 10px 28px #000b;
+    box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81a,0 10px 28px #000b;
   }
   /* the two bottom buttons: polished gold, and black with a gold edge */
   #app #legacy[data-rivalry-legacy-v10] .legacyPrimaryAction {
@@ -1340,7 +1340,7 @@
     border:clamp(2px,.3vh,4px) solid transparent; border-radius:4px;
     /* HO-033 follow-up: opaque black-gold marble (HO-029 kit tile) instead of the .91-.95 see-through glass (owner rule HO-027) */
     background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--rp-bevel) border-box #110f0c;
-    box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 0 24px #f0c84b2a,0 12px 30px #000b;
+    box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 12px 30px #000b;
   }
   #app #statistics[data-rivalry-legacy-v10] #rvBack {
     border:2px solid transparent; border-radius:3px; color:#1a1305; text-shadow:0 1px 0 #fff2b588;
@@ -1417,7 +1417,7 @@
    tokens and the r78 marble tile. Legacy: the Showdown's card takes a brighter gold frame and a gold line naming the manager(s).
    Rivalry Statistics: one gold line under the head-to-head figures. Nothing is dimmed, overlaid or moved. */
 #app #legacy[data-rivalry-legacy-v10] .legacyCard[data-golden="true"] {
-  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px var(--sd-gold-300,#ffd34d),inset 0 1px 0 4px #fff1b833,inset 0 0 26px rgba(242,196,91,.22),0 0 24px #f0c84b30,0 10px 28px #000b;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px var(--sd-gold-300,#ffd34d),inset 0 1px 0 4px #fff1b833,inset 0 0 26px rgba(242,196,91,.22),0 10px 28px #000b;
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyCard .legacyGoldenShowdown,
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown {
@@ -1570,7 +1570,7 @@
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable tbody tr:nth-child(even) { background:rgba(255,255,255,.025); }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistorySeasonLabel { color:#e9dfc6; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryPoints { display:block; font-size:20px; line-height:22px; font-weight:800; color:#f4f1ea; }
-#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td[data-won="true"] .legacyHistoryPoints { color:var(--sd-gold-300,#ffd34d); text-shadow:0 0 10px rgba(255,211,77,.35); }
+#app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable td[data-won="true"] .legacyHistoryPoints { color:var(--sd-gold-300,#ffd34d); }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { display:block; margin-top:2px; color:#b9b3a4; font-size:12px; line-height:14px; }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { display:block; margin-top:2px; color:#f3ce6a; font-size:12px; line-height:14px; font-weight:700; }
 #app #legacy[data-rivalry-legacy-v10] .legacyHistoryResult { white-space:nowrap; }

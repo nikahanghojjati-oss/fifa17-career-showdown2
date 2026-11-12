@@ -33,15 +33,11 @@ const EXEMPT_FILES=Object.freeze({
   "js/restore.js":"backup-file restore: it really does replace this browser's data from a backup file",
   "js/importAnalysis.js":"backup-file preview screen",
   "js/backup.js":"backup-file export",
-  "js/productionAuthorizationAcceptance.js":"acceptance tool (acceptance mode only)",
-  "js/stage5fProductionAuthenticatedNegatives.js":"acceptance tool (acceptance mode only)",
-  "js/ssjrPhysicalJourneyAcceptance.js":"acceptance tool (acceptance mode only)",
-  "js/ssjrProductionAcceptanceRecorder.js":"acceptance tool (acceptance mode only)"
+  "js/ssjrPhysicalJourneyAcceptance.js":"acceptance tool (acceptance mode only)"
 });
 
 // Exact strings: sign-in, device registration, session presence, install/update support. Keyed by file.
 const SIGN_IN_AND_DEVICE=Object.freeze({
-  "js/appUpdateBootstrap.js":["This browser cannot use the update service. Return to the game and reload it."],
   "js/offlineApp.js":["INSTALLED ON THIS DEVICE","Career Mode Showdown is already installed on this device.","This browser does not support the update service."],
   "js/careerStartMarker.js":["This browser is not ready yet."],
   "js/onlinePlayerIdentity.js":["Who you are on this device.","THIS DEVICE","This browser could not be prepared."],

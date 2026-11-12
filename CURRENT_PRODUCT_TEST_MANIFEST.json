@@ -11,9 +11,6 @@
     "tests/contracts/shared-showdown-host-peer-ui-contracts.cjs",
     "tests/contracts/shared-showdown-polished-presentation-contracts.cjs",
     "tests/contracts/shared-showdown-dual-full-screen-contracts.cjs",
-    "tests/contracts/ssjr-production-shared-setup-evidence-validator-contracts.cjs",
-    "tests/contracts/ssjr-production-shared-setup-evidence-recorder-contracts.cjs",
-    "tests/contracts/ssjr-production-storage-observation-contracts.cjs",
     "tests/contracts/milestone-delivery-progress-contracts.cjs",
     "tests/contracts/stability-contracts.cjs",
     "tests/contracts/static-app-release-contracts.cjs",
@@ -68,9 +65,6 @@
       "tests/contracts/shared-showdown-host-peer-ui-contracts.cjs",
       "tests/contracts/shared-showdown-polished-presentation-contracts.cjs",
       "tests/contracts/shared-showdown-dual-full-screen-contracts.cjs",
-      "tests/contracts/ssjr-production-shared-setup-evidence-validator-contracts.cjs",
-      "tests/contracts/ssjr-production-shared-setup-evidence-recorder-contracts.cjs",
-      "tests/contracts/ssjr-production-storage-observation-contracts.cjs",
       "tests/contracts/milestone-delivery-progress-contracts.cjs"
     ],
     "candidate-c-atomic-restore": [
