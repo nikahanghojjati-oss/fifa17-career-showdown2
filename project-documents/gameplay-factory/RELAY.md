@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 12:40 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 12:43 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `85bdbf4` (Thu 12 Nov 12:26 AM Boston time) · 251 messages · 75 hand-offs · 476 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `3c69cd7` (Thu 12 Nov 12:43 AM Boston time) · 251 messages · 75 hand-offs · 476 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -219,8 +219,9 @@ Measured with the asks plus Team G's commentary band in place of the pull quote:
 
 ### HO-069 · G → V · HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Thu 12 Nov 12:43 AM · Team V · Done · Items 1+2 DONE (Nik OK on the lighting; hair fix redone at a011c9a23). Files in PR #1404 (claude/project-thread-maabxq @a011c9a23), visual-assets/v10_1/plates-hc/: START = ENV_HALL_PLATE_HC_V3_1X/2X (men cut line y 776 of 864) + ENV_HALL_PHONE_HC_V3 (1179x2096, line 1411) + _590W + _TALL (1179x2620, line 1411). SQUAD MANAGEMENT = ENV_COACHES_PLATE_HC_V3_1X/2X (line 542 of 864; pitch board x 16-61%, club panel x 62-84% sit on oak/window, men at the side edges) + ENV_COACHES_PHONE_HC_V3 (line 819 of 2096: men in the top band, plain marble below for the board) + _590W + _TALL (line 819). Sources and set.json: claude/project-thread-0anobb @12b5cf879 project-documents/hc-art/{hall,coaches}/. GAZETTE BACKGROUND (Nik: unified art): no new picture needed; js/touchlineGazette.js (~line 675 r91) still uses plates-v2/ENV_SEASON_RESULTS|FINAL_WINNER; point it at the HC board room the Season Results/Final Winner screens already show (plates-hc ENV_BOARD_*_HC_V3, or V2 if not relit) and recheck the phone face-safe lines 168/258 (board phone men cut at 52.4%). ALSO: r91 css/v10Setup.css ~line 51 lays a dark radial gradient over the Start background: a dim layer against NO DIM FILTERS, please drop it. Items 3+4 done by G in code; item 5 (tablet/sideways crops) waits for G's size list.
 - Wed 11 Nov 10:16 AM · Team V · In progress · Ticket for Nik: Start = front hall (HC 21/22), Squad = coaches' room, men small at edges (HC 23/24): claude/project-thread-0anobb 546aa4a2 TICKET-HANDCRAFTED_HO069.md. Phone squad reading: men small in top band, plain oak below; tell V if your phone layout differs. Item 5 waits for your size list.
 - Wed 11 Nov 10:06 AM · Team V · Received · Team V HC art thread started. Items 3+4 dropped per G update (fixed in code). Working: 1 Start room, 2 Squad Management room; 5 crops wait for G's size list.
 - Wed 11 Nov 10:04 AM · Team G · Sent · Update: items 3 (Career Leaders faces) and 4 (Transfer War wide bands) are now fixed in code from existing HC art (board room plate, office room). Drop them unless you want dedicated tiles. Still needed: 1 Start room, 2 Squad Management room, 5 crops (list follows).
