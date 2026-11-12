@@ -896,7 +896,7 @@
   #app #trophyRoom .phoneMoreToggle:checked ~ #trophyRoomContent .careerRank {min-height:130px;padding:18px 8px}
   #app #trophyRoom .careerRank small {font-size:10px}
 }
-@media (min-width:901px) and (min-height:481px) {
+@media (min-width:901px) and (min-height:481px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #trophyRoom {--tr-case:clamp(90px,calc(14svh - 2px),160px)}
   #app #trophyRoom .trophyPhoneArt {display:none!important}
   #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {display:flex;flex-direction:column;height:auto!important;min-height:100svh;padding:calc(62svh - 20px) 8% 14px;background:none}
@@ -956,7 +956,7 @@
 }
 /* r80 short screens: on 600px-tall desktop windows (1100x600, 1024x600) the cabinet ran 5px under the docked BACK. There
    BACK joins the flow under the cabinet, so it never sits on the shelf; main scrolls the few pixels to reach it. */
-@media (min-width:901px) and (min-height:481px) and (max-height:630px) {
+@media (min-width:901px) and (min-height:481px) and (max-height:630px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (max-height:630px) and (orientation:landscape) {
   #app #trophyRoom .trophyBack {position:relative;bottom:auto}
 }
 /* r78 HO-031 v3 phone marble: upright phones up to 400px wide draw Team V's ENV_TROPHY_ROOM_PHONE_V3 (both managers
@@ -1220,7 +1220,7 @@
 }
 /* Short upright phones (660px tall and less): the bigger type needs about 50px more for the six comparison rows, so the hub
    starts just under the managers' faces, and a panel that still runs long scrolls inside itself instead of being cut. */
-@media (max-width:760px) and (orientation:portrait) and (max-height:700px) {
+@media (max-width:760px) and (orientation:portrait) and (max-height:700px), (min-width:601px) and (max-width:699px) and (orientation:portrait) {
   /* HO-068: on Team V's board room the heads start at 19.5% of the plate and the chins end at 31.5%, so the plate is raised
      until the heads sit 56px down (just under the title) and the hub starts 12px under the chins. The empty panelling
      above the heads is what goes off the top; the plate still covers the whole stage below. */
@@ -1342,7 +1342,7 @@
   // name and counts are written on the pedestal's face. Everything is placed in plate units (--tr-k = one plate pixel), so it
   // stays registered on every window shape. Looks only: every word, id and tap order stays as it was.
   const TROPHY_PLATE_V2_CSS=String.raw`
-@media (min-width:901px) {
+@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #trophyRoom {
     --tr-k:calc(100svh / 864);
     --tr-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
@@ -1413,7 +1413,7 @@
 }
 /* Tall windows seat the tab row, cases and rank cards exactly where the picture has them (plate y 540 and 465). Short windows
    (1280x650, 1366x768) keep the live rows, which already fit one screen with BACK, and lift the pedestal text a little. */
-@media (min-width:901px) and (min-height:821px) and (orientation:landscape) {
+@media (min-width:901px) and (min-height:821px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:821px) and (orientation:landscape) {
   #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {padding-top:calc(540 * var(--tr-k))}
   /* r91 (art thread, 1920x866): the cards hung down from y 465 and their second line ran under the tab row once the window was
      shorter than about 1050 px (the cards are as tall as their text, not as tall as the picture's 75 units). They now stand
@@ -1421,7 +1421,7 @@
   #app #trophyRoom .careerRanks {top:calc(530 * var(--tr-k));height:0}
   #app #trophyRoom .careerRank {top:auto;bottom:0}
 }
-@media (min-width:901px) and (max-height:820px) and (orientation:landscape) {
+@media (min-width:901px) and (max-height:820px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:501px) and (max-height:820px) and (orientation:landscape) {
   #app #trophyRoom .heroPlinth {top:calc(229 * var(--tr-k))}
   /* r90 W9 (LOOK hunt L42): the lifted pedestal ran 14 units into the cup's 243-unit box, so its foot covered the start of
      SHOWDOWN CHAMPION (1366x640, 1280x700). The cup's box now ends 3 units above the pedestal. */
@@ -1558,7 +1558,7 @@
   const CAREER_POLISH_R87_CSS=String.raw`
 #app #trophyRoom .trophyShelf:not(.is-filtered) .trophyCard.is-unwon > .managerCounts {grid-row:3;grid-column:1 / -1;visibility:hidden}
 #app #trophyRoom .trophyShelf:not(.is-filtered) .trophyCard.is-unwon > .notWonYet {grid-row:3;grid-column:1 / -1;align-self:center;margin:0}
-@media (max-width:900px) and (orientation:portrait) {
+@media (max-width:900px) and (orientation:portrait), (max-width:760px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .phoneMoreToggle:checked ~ .trophyPhoneSheet.sd-sheet {
     box-sizing:border-box;border:1px solid #8b713c;
     background:linear-gradient(180deg,#f2c45b0d,transparent 42%),#0b0b0c url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
@@ -1597,7 +1597,7 @@
   #app #careerStatistics.careerScreenV10 :is(.headlinePair b,.headlineNumber) {font-size:19px}
   #app #careerStatistics.careerScreenV10 .headlinePair small {font-size:11px}
 }
-@media (min-width:901px) {
+@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #trophyRoom .managerCounts span {font-size:max(9.5px,.6vw)}
   #app #trophyRoom .recordItem span {font-size:max(10px,.62vw);font-weight:700}
   #app #trophyRoom .recordItem strong {font-size:max(16px,1.15vw)}
@@ -1641,7 +1641,7 @@
   // Career Table.
   const GOLDEN_SHOWDOWN_CSS=String.raw`
 #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyGrid {grid-template-columns:repeat(6,minmax(0,1fr))}
-@media (max-width:900px) and (orientation:portrait) {
+@media (max-width:900px) and (orientation:portrait), (max-width:760px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard:nth-child(4) {grid-column:span 2}
 }
 #app #trophyRoom .trophyCard.trophyCard--golden {
@@ -1665,7 +1665,7 @@
 `;
   function v10Markup(screen){
     const cs=BASE+"career-statistics/",tr=BASE+"trophy-room/";
-    if(screen==="careerStatistics")return `<div id="stage-root" class="careerStage" data-primary="trophyRoomButton"><div class="scene sd-stage" id="careerScene" data-plate-width="1672" data-plate-height="941"><div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true"><div class="sd-stage__registered"><div class="sd-stage__plate"></div><span class="managerMarker managerDaniel" data-manager="daniel" role="presentation"></span><span class="managerMarker managerNik" data-manager="nik" role="presentation"></span></div></div><div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div><div class="phoneSceneArt" aria-hidden="true"><picture class="phoneBackground"><source media="${CS_PHONE_ART_MEDIA}" srcset="${BASE}plates-hc/ENV_BOARD_PHONE_HC_V2${root.document?.documentElement?.dataset?.assets==="0"?"_590W":""}.webp"><img alt="" decoding="async"></picture></div><div class="sd-stage__layer sd-stage__layer--ui"><div class="stateBackdrop" aria-hidden="true"></div><div class="careerScreen" aria-labelledby="careerStatisticsScreenTitle"><section class="phoneFaceBand" aria-label="Career Statistics presentation"><header class="titleBlock"><p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="careerStatisticsScreenTitle" class="titleWordmark" data-sd-enter="title" tabindex="-1" data-route-focus-target="true"><span class="sd-visually-hidden">CAREER STATISTICS</span><img src="${cs}assets/TITLE_CS_V2_1920.webp" srcset="${cs}assets/TITLE_CS_V2_480.webp 480w, ${cs}assets/TITLE_CS_V2_960.webp 960w, ${cs}assets/TITLE_CS_V2_1920.webp 1920w, ${cs}assets/TITLE_CS_V2_3840.webp 3840w" sizes="(max-width: 900px) 92vw, 40vw" alt="" aria-hidden="true" width="1216" height="126" decoding="async"></h2><p class="sd-tagline">TWO MANAGERS · ONE LEGACY</p></header></section><div id="previewChip" class="previewChip" hidden></div><section class="phoneHub" aria-label="Career Statistics data"><section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" aria-label="Career Table" aria-controls="careerTablePanel" checked><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare" aria-label="Manager Comparison" aria-controls="comparisonPanel"><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders" aria-label="Career Leaders" aria-controls="leadersPanel"><div class="phoneTabs" aria-label="Career Statistics sections"><label for="careerPhoneTable">TABLE</label><label for="careerPhoneCompare">COMPARE</label><label for="careerPhoneLeaders">LEADERS</label></div><section id="careerStatisticsContent" class="contentGrid" aria-live="polite"><section id="careerTablePanel" data-sd-enter="panel" class="glassPanel careerTablePanel" aria-labelledby="careerTableHeading"></section><section id="comparisonPanel" data-sd-enter="panel" class="glassPanel comparisonPanel" aria-labelledby="comparisonHeading"></section><section id="leadersPanel" data-sd-enter="panel" class="glassPanel leadersPanel" aria-labelledby="leadersHeading"></section><section id="statePanel" class="glassPanel statePanel" hidden></section></section></section><nav class="actionRow" aria-label="Career Statistics actions" data-phone-primary="trophyRoomButton"><button id="careerStatisticsRivalryButton" class="actionButton secondary" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h3V9H4v10Zm6 0h3V5h-3v14Zm6 0h3V12h-3v7Z"/></svg></span><span class="actionLabel">CURRENT RIVALRY STATISTICS</span><span aria-hidden="true">›</span></button><button id="trophyRoomButton" data-sd-enter="button" class="actionButton primary" type="button"><img src="${BASE}shared/trophies-hc/TRO_HC_1_V2_512.webp" alt="" aria-hidden="true"><span class="actionLabel">OPEN TROPHY ROOM</span><span aria-hidden="true">›</span></button><button class="actionButton secondary backButton" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg></span><span class="actionLabel">BACK TO HOME</span><span aria-hidden="true">›</span></button></nav></div><div class="gridOverlay" aria-hidden="true"></div></div><div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true"><div class="sd-stage__registered"><span class="contactShadow"></span><div class="sd-stage__cutout armCutout" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp"></div></div></div><div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true"><div class="sd-stage__registered"><span class="sd-stage__rim armRim" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp"></span></div></div></div></div>`;
+    if(screen==="careerStatistics")return `<div id="stage-root" class="careerStage" data-primary="trophyRoomButton"><div class="scene sd-stage" id="careerScene" data-plate-width="1672" data-plate-height="941"><div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true"><div class="sd-stage__registered"><div class="sd-stage__plate"></div><span class="managerMarker managerDaniel" data-manager="daniel" role="presentation"></span><span class="managerMarker managerNik" data-manager="nik" role="presentation"></span></div></div><div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div><div class="phoneSceneArt" aria-hidden="true"><picture class="phoneBackground"><source media="${CS_PHONE_ART_MEDIA}" srcset="${BASE}plates-hc/ENV_BOARD_PHONE_HC_V2${root.document?.documentElement?.dataset?.assets==="0"?"_590W":""}.webp"><img alt="" decoding="async"></picture></div><div class="sd-stage__layer sd-stage__layer--ui"><div class="stateBackdrop" aria-hidden="true"></div><div class="careerScreen" aria-labelledby="careerStatisticsScreenTitle"><section class="phoneFaceBand" aria-label="Career Statistics presentation"><header class="titleBlock"><p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="careerStatisticsScreenTitle" class="titleWordmark" data-sd-enter="title" tabindex="-1" data-route-focus-target="true"><span class="sd-visually-hidden">CAREER STATISTICS</span><img class="hc-title-img" data-hc-title="CS" src="${cs}assets/TITLE_CS_V3_960.webp" srcset="${cs}assets/TITLE_CS_V3_480.webp 335w, ${cs}assets/TITLE_CS_V3_960.webp 671w, ${cs}assets/TITLE_CS_V3_1920.webp 1324w, ${cs}assets/TITLE_CS_V3_3840.webp 2648w" sizes="clamp(353px, 27.19vw, 520px)" alt="" aria-hidden="true" width="671" height="76" decoding="async"></h2><p class="sd-tagline">TWO MANAGERS · ONE LEGACY</p></header></section><div id="previewChip" class="previewChip" hidden></div><section class="phoneHub" aria-label="Career Statistics data"><section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" aria-label="Career Table" aria-controls="careerTablePanel" checked><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare" aria-label="Manager Comparison" aria-controls="comparisonPanel"><input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders" aria-label="Career Leaders" aria-controls="leadersPanel"><div class="phoneTabs" aria-label="Career Statistics sections"><label for="careerPhoneTable">TABLE</label><label for="careerPhoneCompare">COMPARE</label><label for="careerPhoneLeaders">LEADERS</label></div><section id="careerStatisticsContent" class="contentGrid" aria-live="polite"><section id="careerTablePanel" data-sd-enter="panel" class="glassPanel careerTablePanel" aria-labelledby="careerTableHeading"></section><section id="comparisonPanel" data-sd-enter="panel" class="glassPanel comparisonPanel" aria-labelledby="comparisonHeading"></section><section id="leadersPanel" data-sd-enter="panel" class="glassPanel leadersPanel" aria-labelledby="leadersHeading"></section><section id="statePanel" class="glassPanel statePanel" hidden></section></section></section><nav class="actionRow" aria-label="Career Statistics actions" data-phone-primary="trophyRoomButton"><button id="careerStatisticsRivalryButton" class="actionButton secondary" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h3V9H4v10Zm6 0h3V5h-3v14Zm6 0h3V12h-3v7Z"/></svg></span><span class="actionLabel">CURRENT RIVALRY STATISTICS</span><span aria-hidden="true">›</span></button><button id="trophyRoomButton" data-sd-enter="button" class="actionButton primary" type="button"><img src="${BASE}shared/trophies-hc/TRO_HC_1_V2_512.webp" alt="" aria-hidden="true"><span class="actionLabel">OPEN TROPHY ROOM</span><span aria-hidden="true">›</span></button><button class="actionButton secondary backButton" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg></span><span class="actionLabel">BACK TO HOME</span><span aria-hidden="true">›</span></button></nav></div><div class="gridOverlay" aria-hidden="true"></div></div><div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true"><div class="sd-stage__registered"><span class="contactShadow"></span><div class="sd-stage__cutout armCutout" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp"></div></div></div><div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true"><div class="sd-stage__registered"><span class="sd-stage__rim armRim" data-src1x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp" data-src2x="${cs}assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp"></span></div></div></div></div>`;
     return `<div class="sd-stage trophyRoomScene" data-sd-enter="scene" data-plate-width="1672" data-plate-height="941"><div class="sd-stage__layer sd-stage__layer--plate"><div class="sd-stage__registered"><div class="sd-stage__plate"></div></div></div><div class="sd-stage__layer sd-stage__layer--atmosphere"></div><div class="sd-stage__layer sd-stage__layer--ui"><div class="trophyPhoneArt" aria-hidden="true"><picture class="trophyPhoneBackdrop"><source media="(max-width: 400px) and (orientation: portrait)" type="image/webp" srcset="${BASE}plates-v3/ENV_TROPHY_ROOM_PHONE_V3.webp"><source type="image/webp" srcset="${tr}assets/ENV_TR_PHONE_V1.webp"><img src="${tr}assets/ENV_TR_PHONE_V1.webp" alt="" width="1179" height="2096" decoding="async"></picture><picture class="trophyPhoneHero trophyPhoneHero--daniel" data-sd-enter="character-left"><source media="(min-width: 401px) and (max-width: 900px) and (orientation: portrait), (max-height: 480px) and (orientation: landscape)" type="image/webp" srcset="${tr}assets/OVL_TR_DANIEL_PHONE_V1.webp"><img alt="" decoding="async"></picture><picture class="trophyPhoneHero trophyPhoneHero--nik" data-sd-enter="character-right"><source media="(min-width: 401px) and (max-width: 900px) and (orientation: portrait), (max-height: 480px) and (orientation: landscape)" type="image/webp" srcset="${tr}assets/OVL_TR_NIK_PHONE_V1.webp"><img alt="" decoding="async"></picture><div class="trophyPhoneArtShade"></div></div><input id="trophyPhoneMoreToggle" class="phoneMoreToggle visually-hidden" type="checkbox" aria-label="Toggle career details" aria-controls="trophyRoomContent"><div id="trophyRoomContent" class="trophyRoomContent sd-stage__ui-content" aria-live="polite"></div><aside id="trophyPhoneSheet" class="sd-sheet trophyPhoneSheet" aria-labelledby="trophyPhoneSheetTitle"><strong id="trophyPhoneSheetTitle" class="trophyPhoneSheetTitle">CAREER DETAILS</strong><span class="trophyPhoneSheetHint">Ranks and career records</span><span class="trophyPhoneSheetClose" aria-hidden="true">CLOSE</span></aside><label class="trophyPhoneMoreButton" for="trophyPhoneMoreToggle" aria-hidden="true"><span class="trophyPhoneMoreOpen">MORE</span><span class="trophyPhoneMoreClose">CLOSE</span></label><div class="nav-reserve trophyPhoneNavReserve" aria-hidden="true"></div></div><div class="sd-stage__layer sd-stage__layer--cutout"><div class="sd-stage__registered"></div></div><div class="sd-stage__layer sd-stage__layer--light"><div class="sd-stage__registered"></div></div></div>`;
   }
   async function v10Platemap(screen){
@@ -1706,12 +1706,14 @@
   }
   // HO-068 (2026-11-09): the Trophy Room stands in Team V's handcrafted V2 archive room (plates-hc/ENV_ARCHIVE_*, Nik picked
   // it). Upright phones draw the tall archive plate (590W on Light or Save-Data); the two cut-outs no longer load there.
+  // r91 old-art follow-up: small landscape windows over 500 tall get Team V's desktop stage from 761 wide (the archive room
+  // and its plate-unit layout, as desktop) and its phone layout up to 760 (the tall plate, as upright phones).
   // r91 old-art: upright tablets (to 900 wide) use the same tall plate and lip layout; sideways phones draw the tall plate in
   // the left band under the title (as Career Statistics and Rivalry do), so the two V1 cut-outs never load. The plates-v2/v3 Trophy Room plates and the cut-out files stay in the repo as rollback.
   function trArchive(markup){
     const lean=root.document?.documentElement?.dataset?.assets==="0",hc=BASE+"plates-hc/",tr=BASE+"trophy-room/assets/";
     return markup
-      .replace(`media="(max-width: 400px) and (orientation: portrait)" type="image/webp" srcset="${BASE}plates-v3/ENV_TROPHY_ROOM_PHONE_V3.webp"`,`media="(max-width: 900px) and (orientation: portrait), (max-height: 480px) and (orientation: landscape)" type="image/webp" srcset="${hc}ENV_ARCHIVE_PHONE_HC_V2${lean?"_590W":""}.webp"`)
+      .replace(`media="(max-width: 400px) and (orientation: portrait)" type="image/webp" srcset="${BASE}plates-v3/ENV_TROPHY_ROOM_PHONE_V3.webp"`,`media="(max-width: 900px) and (orientation: portrait), (max-height: 480px) and (orientation: landscape), (max-width: 760px) and (orientation: landscape)" type="image/webp" srcset="${hc}ENV_ARCHIVE_PHONE_HC_V2${lean?"_590W":""}.webp"`)
       .split(`<source media="(min-width: 401px) and (max-width: 900px) and (orientation: portrait), (max-height: 480px) and (orientation: landscape)" type="image/webp" srcset="${tr}assets/OVL_TR_DANIEL_PHONE_V1.webp">`).join("")
       .split(`<source media="(min-width: 401px) and (max-width: 900px) and (orientation: portrait), (max-height: 480px) and (orientation: landscape)" type="image/webp" srcset="${tr}assets/OVL_TR_NIK_PHONE_V1.webp">`).join("");
   }
@@ -1723,7 +1725,7 @@
   let trLipStop=null;
   function trArchiveLip(host){
     trLipStop?.();
-    const art=host.querySelector(".trophyPhoneArt"),phone=root.matchMedia?.("(max-width: 900px) and (orientation: portrait)"),side=root.matchMedia?.("(max-height: 480px) and (orientation: landscape)");
+    const art=host.querySelector(".trophyPhoneArt"),phone=root.matchMedia?.("(max-width: 900px) and (orientation: portrait), (max-width: 760px) and (min-height: 481px) and (orientation: landscape)"),side=root.matchMedia?.("(max-height: 480px) and (orientation: landscape)");
     if(!art||!phone||typeof root.ResizeObserver!=="function")return;
     const px=name=>parseFloat(host.style.getPropertyValue(name))||0;
     const clear=()=>["--tr-push","--tr-lip","--tr-drop","--tr-side-w","--tr-side-head"].forEach(name=>host.style.removeProperty(name));
@@ -1764,7 +1766,7 @@
   // (plate y 479) with a small soft contact shadow and no glow or spotlight; its name and counts sit on the counter face just
   // under the lip. The side bands are a flat stone fill, not a darkened copy. No slogan under the title.
   const TROPHY_ARCHIVE_CSS=String.raw`
-@media (min-width:901px) {
+@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #trophyRoom .sd-stage__layer--plate::before {background:linear-gradient(180deg,#2e2823,#1c1814 60%,#1a1613);filter:none}
   #app #trophyRoom .sd-stage__plate {background-image:url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp')}
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #trophyRoom .sd-stage__plate {background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp') 1x,url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp') 2x)}
@@ -1777,17 +1779,22 @@
   #app #trophyRoom .heroPlinth {flex-direction:row;flex-wrap:nowrap;align-items:baseline;justify-content:center;gap:10px;height:auto;min-height:0;padding-block:4px;white-space:nowrap}
   #app #trophyRoom .heroPlinth small {margin:0}
 }
-@media (min-width:901px) and (max-height:820px) and (orientation:landscape) {
+/* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px){
+  #app #trophyRoom .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1920.webp') 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #trophyRoom .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1920.webp') 1.25x,url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp') 2x)}
+}
+@media (min-width:901px) and (max-height:820px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #trophyRoom .heroCeremony {top:calc(253 * var(--tr-k))}
 }
 /* HO-068 (Nik: nothing may cover a face): the plate is drawn the window's height from its top edge, so on windows up to
    about 900px tall the top bar covered the men's hair (from 5.79% of the plate). The whole stage moves down just enough for
    the hair to clear the bar by 6px (the strip above stays behind the bar), and BACK follows the records instead of riding
    over them; main scrolls the few pixels more. */
-@media (min-width:901px) {
+@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #trophyRoom .sd-stage {margin-top:max(0px,calc(var(--sd-nav-top-h,52px) + 6px - 100svh * .0579))}
 }
-@media (min-width:901px) and (max-height:900px) and (orientation:landscape) {
+@media (min-width:901px) and (max-height:900px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #trophyRoom .backButton {position:static}
 }
 /* r91 old-art: sideways phones. The archive plate stands in the left band (the title, the champion cup and its plinth),
@@ -1804,14 +1811,14 @@
   #app #trophyRoom .sd-stage {margin-top:max(0px,calc(var(--sd-nav-top-h,52px) + 6px - 864 * var(--tr-k) * .0579))}
 }
 #app #trophyRoom .trophyTagline {visibility:hidden}
-@media (max-width:900px) and (orientation:portrait) {
+@media (max-width:900px) and (orientation:portrait), (max-width:760px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .trophyPhoneArt {inset:0;height:100svh}
   #app #trophyRoom .trophyPhoneBackdrop {inset:0;overflow:hidden}
   #app #trophyRoom .trophyPhoneBackdrop img {position:absolute;left:50%;top:0;width:max(100vw,calc(100svh * 1179 / 2096));height:auto;max-width:none;transform:translateX(-50%);object-fit:fill}
   #app #trophyRoom :is(.trophyPhoneHero,.trophyPhoneArtShade) {display:none}
   #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {background:none}
 }
-@media (max-width:900px) and (orientation:portrait) {
+@media (max-width:900px) and (orientation:portrait), (max-width:760px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .trophyPhoneBackdrop {background:#1c1814}
   #app #trophyRoom .trophyPhoneBackdrop img {width:100vw;top:calc(var(--tr-lip,253px) - 100vw * 1058 / 1179)}
   #app #trophyRoom .trophyShelf {margin-top:var(--tr-push,0px)}

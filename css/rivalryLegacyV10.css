@@ -2058,7 +2058,7 @@
   }
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyTagline { visibility:hidden; }
-@media (max-width:900px) and (orientation:portrait) {
+@media (max-width:900px) and (orientation:portrait), (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #legacy[data-rivalry-legacy-v10] {
     --lg-pw:max(143vw,calc(100svh * 1179 / 2096)); --lg-ph:calc(var(--lg-pw) * 2096 / 1179);
     /* the band keeps the fitted History height, so VIEW SEASON HISTORY stays above the tab bar on first paint */
@@ -2071,10 +2071,11 @@
     top:max(calc(var(--lg-hero-art) - 8px - var(--lg-ph) * .5048),min(calc(56px - var(--lg-ph) * .286),calc(var(--lg-hero-art) - 6px - var(--lg-ph) * .386)));
   }
 }
-/* r91 old-art: upright tablets (601-900 wide) stand in the same archive room. The whole plate width shows, the heads
+/* r91 old-art: upright tablets (601-900 wide), and small landscape windows to 900 wide over 500 tall (Team V's phone layout
+   there), stand in the same archive room. The whole plate width shows, the heads
    (from 28.2% of the plate) sit 64px down, clear of BACK and the settings button, and the band grows so both chins
    (39.4%) end above the title. */
-@media (min-width:601px) and (max-width:900px) and (orientation:portrait) {
+@media (min-width:601px) and (max-width:900px) and (orientation:portrait), (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #legacy[data-rivalry-legacy-v10] { --lg-pw:100vw; --lg-hero-art:max(var(--lg-hero,44px),calc(72px + var(--lg-ph) * .112)); }
   #app #legacy[data-rivalry-legacy-v10] .legacyPhonePlate img { top:calc(64px - var(--lg-ph) * .282); }
 }
@@ -2133,6 +2134,23 @@
   }
   #app #statistics[data-rivalry-legacy-v10] #rivalryStatisticsContent { margin-top:max(0px,calc(var(--rv-need) - 100svh + 465px + env(safe-area-inset-bottom))); }
 }
+/* r91 old-art follow-up (650x900): between phones and tablets (601-760 wide, upright) the 143vw plate put both chins under
+   the title. The whole plate width shows there and the heads sit 46px down, so the chins (26% of the plate) end above it. */
+@media (min-width:601px) and (max-width:760px) and (orientation:portrait) {
+  #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { --rv-pw:100vw; background-position:50% calc(46px - var(--rv-ph) * .138); }
+}
+/* r91 old-art follow-up (700x700, 800x800): on upright tablets Team V places the statistics 690px above the window's foot, so
+   on near-square windows the title and tabs ran over both faces (heads 56px down, chins 12.2% of the plate below that).
+   The statistics now start one 8px gap under the chins and the page scrolls the rest, with the room and BACK TO SHOWDOWN
+   HOME scrolling along (the title never slides over the faces). Taller tablets are unchanged (the margin is 0 there). */
+@media (min-width:700px) and (max-width:900px) and (orientation:portrait) {
+  #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { --rv-need:calc(64px + var(--rv-ph) * .122); }
+  #app #statistics[data-rivalry-legacy-v10] #rivalryStatisticsContent { margin-top:max(0px,calc(var(--rv-need) - 100svh + 690px)); }
+}
+@media (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-actions { position:static; }
+  #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { background-attachment:local; }
+}
 /* There the page scrolls, so BACK TO SHOWDOWN HOME follows the statistics instead of riding over their last rows, and the
    room scrolls with the page (the title never slides over the faces). */
 @media (max-width:600px) and (max-height:660px) and (orientation:portrait) {
@@ -2144,6 +2162,13 @@
     background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp") center 22% / cover no-repeat;
   }
   html[data-assets="0"] #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene { background-image:url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2_590W.webp"); }
+}
+/* r91 old art: small landscape windows (to 900 wide, over 500 tall, a desktop window dragged narrow) keep Team V's phone
+   layout; its scene band stands in the wide tunnel room from its top (both men, heads to chins) instead of the retired
+   stadium and the two cut-outs. */
+@media (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene { background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp") 50% 0 / cover no-repeat; }
+  #app #statistics[data-rivalry-legacy-v10] :is(.rv-adoptedPhoneStadium,.rv-adoptedPhoneManager) { display:none; }
 }
 #app #statistics #rvTitleBlock .sd-tagline { visibility:hidden; }
 #app #statistics #rvTitleBlock .sd-tagline > .rv-goldenTitle { visibility:visible; }
@@ -2217,4 +2242,16 @@
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(th,td) { padding-top:0 !important; padding-bottom:0 !important; line-height:15px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryPoints { font-size:15px; line-height:15px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) :is(.legacyHistoryDetail,.legacyHistoryWinner) { line-height:15px; }
+}
+/* r91 sharp rooms (art ledger R4): windows wider than 1536 or taller than 864 CSS px drew the 1536px 1X room stretched
+   (Nik's Chromebook at 1920x866 / 1920x1035, DPR 1, Auto = Light). They draw the 1920px cut of the same room (resized from
+   Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
+   unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp') 2x); }
+}
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp') 2x); }
 }
