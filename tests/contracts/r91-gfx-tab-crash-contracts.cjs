@@ -3,7 +3,8 @@
 // to reload because it hung, leaves no WebGL "context lost" behind: in 2.3.0 the level stayed and the next open died the same
 // way. Now a scene leaves a mark while it opens; a mark still there when the same tab loads the game again caps the level
 // one down. The real module runs in a vm with a scripted tab (sessionStorage), page load (performance.timeOrigin) and frames.
-//   T1 a framed 3D screen marks itself when its profile is first built; the game's own page marks at governor(); Light never
+//   T1 a framed 3D screen marks itself when its profile is first built; Chamber Men (the game's own page) before it loads
+//      and builds, else at governor(); Light never
 //   T2 the mark goes once the scene is running (20 s of frames, or its first beat played), at end(), and when the page is
 //      hidden or left; a hidden page leaves none
 //   T3 same tab, a new load, the mark still there: the level is capped one down before the scene opens again
@@ -71,12 +72,34 @@ const cap = store => JSON.parse(store[CAP] || "null");
   g.G.profile(); g.G.suggested(); assert.deepEqual(g.marks(), []);
   const gov = g.G.governor(g.renderer(), {key: "chamber-men", draw() {}});
   assert.deepEqual(g.marks().map(x => [x.level, x.scene]), [[2, "chamber-men"]]); gov.end();
+  // Chamber Men says it is opening before it loads and builds, so a tab that dies in the load or the texture upload is
+  // seen (review P3 on #1409). Its governor adds no second mark and ends the one there; a mount that ends without a
+  // scene takes it off.
+  const s3 = pick("extra"), c = load({store: s3, pathname: "/index.html"});
+  c.G.profile(); assert.deepEqual(c.marks(), []);
+  c.G.sceneOpening("chamber-men"); assert.deepEqual(c.marks().map(x => [x.level, x.scene]), [[3, "chamber-men"]], "marked before any renderer exists");
+  c.G.sceneOpening("chamber-men"); assert.equal(c.marks().length, 1, "once");
+  const cgov = c.G.governor(c.renderer(), {key: "chamber-men", draw() {}}); assert.equal(c.marks().length, 1, "the governor adds no second mark");
+  cgov.end(); assert.deepEqual(c.marks(), [], "and ends it");
+  c.G.sceneOpening("chamber-men"); assert.equal(c.marks().length, 1); c.G.sceneOpened(); assert.deepEqual(c.marks(), [], "a mount that ends without a scene takes the mark off");
+  // A tab that dies during that load is capped like any other: same tab, a new load, the mark still there.
+  const s4 = pick("extra"), tab4 = {}, d1 = load({store: s4, tab: tab4, pathname: "/index.html", origin: 1000}); d1.G.sceneOpening("chamber-men");
+  const d2 = load({store: s4, tab: tab4, pathname: "/index.html", origin: 9000}); assert.equal(d2.G.profile().level, 2, "Extra died while Chamber Men loaded: High next time");
+  assert.deepEqual([cap(s4).level, cap(s4).scene, cap(s4).tab], [2, "chamber-men", true]);
+  // A framed screen marked itself already; Light has nothing below it.
+  const fr = load({store: pick("extra"), framed: true}); fr.G.profile(); fr.G.sceneOpening("x"); assert.equal(fr.marks().length, 1);
+  const li = load({store: {}, pathname: "/index.html", device: deviceOf("chromebook866")}); li.G.sceneOpening("chamber-men"); assert.deepEqual(li.marks(), []);
+  // The scene's own mount: the mark goes on right after the level is read, and every way out without a scene takes it off.
+  const cm = read("js/chamberMenScene3d.js");
+  assert.ok(/const Q=await cm3Quality\(opts&&opts\.clubs,Boolean\(opts&&opts\.fullFiles\)\);if\(off\(\)\)return null;\n[^\n]*\n[^\n]*\n\s*try\{root\.CareerModeGfxTier\?\.sceneOpening\?\.\("chamber-men"\);\}catch\(_error\)\{\}/.test(cm), "armed before any file is parsed or built");
+  assert.ok(cm.includes("CareerModeChamberMen3d.last=api;opened=true;") && cm.includes("}finally{cm3Mounting-=1;if(!opened){try{root.CareerModeGfxTier?.sceneOpened?.();}catch(_error){}}}"), "taken off on every exit without a scene");
+  assert.equal((cm.match(/sceneOpening\?\.\(/g) || []).length, 1, "the mount only: warming files ahead marks nothing");
   // The Device check's frames say so in the mark.
   const b = load({store: {}, framed: true, pathname: "/device-check-chamber.html", search: "?gfx=4&bench=1"}); b.G.profile();
   assert.deepEqual(b.marks().map(x => [x.level, x.bench]), [[4, true]]);
   // Light has no level below it: no mark, on the lab's Chromebook or anywhere.
   const cb = load({store: {}, framed: true, device: deviceOf("chromebook866")}); assert.equal(cb.G.profile().level, 0); assert.deepEqual(cb.marks(), []);
-  ok("T1", "a framed 3D screen marks itself when its profile is first built; the game's page marks at governor(); Light never");
+  ok("T1", "a framed 3D screen marks itself when its profile is first built; Chamber Men before it loads; Light never");
 }
 // T2
 {

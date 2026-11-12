@@ -145,6 +145,11 @@
   // cap does not lift after clean scenes (the level would only kill the tab again); it ends after 7 days or with a pick
   // in Settings. Only that one case counts: a mark from another tab proves nothing and is left to go stale. Where the
   // tab cannot be told apart (no sessionStorage, no page load time) there is no guard.
+  // Chamber Men, on the game's own page, marks before it builds (sceneOpening): its heaviest moment is the load and the
+  // texture upload, before any governor exists (review P3 on #1409). A mount that ends without a scene takes the mark off.
+  // Known and accepted: the browser's "Duplicate tab" copies sessionStorage, so a duplicate made in the seconds a 3D
+  // screen is opening reads as that tab reloaded after a death and caps one level. It only ever lowers, by one level,
+  // for at most 7 days or until a pick in Settings.
   const OPEN_KEY="careerModeShowdown.gfxOpening.v1",TAB_KEY="careerModeShowdown.gfxTab.v1",OPEN_RUN_MS=20000,OPEN_STALE_MS=864e5;
   const TAB_CRASH="the tab closed while this 3D screen was opening";
   let opening=null,openedHere=false;
@@ -689,6 +694,10 @@
     tabCrash(){const c=gfxCap();return c&&c.tab?{level:c.level,from:Number.isInteger(c.from)?c.from:c.level+1,scene:String(c.scene||""),bench:Boolean(c.bench),at:c.at}:null;},
     // fallback(reason): a scene that hit an out-of-memory sign of its own drops the device one level (remembered).
     fallback:gfxFail,fallback8k:gfxFail,
+    // sceneOpening(scene): a 3D screen on the game's own page says it is about to load and build (the tab-crash guard's
+    // mark; a framed screen marks itself). sceneOpened(): the mount ended without a scene. The governor ends the mark of
+    // one that did open.
+    sceneOpening(scene){try{if(!gfxFramed())gfxOpenArm(gfxProfile().level,scene);}catch(_error){}},sceneOpened(){try{gfxOpenDone();}catch(_error){}},
     reset(){cached=null;}};
   // On load, first: did this tab die while a 3D screen was opening? (The cap it writes is read by everything below.)
   try{gfxOpenSweep();}catch(_error){}

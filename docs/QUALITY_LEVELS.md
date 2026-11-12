@@ -51,6 +51,10 @@ names and no others.
   page died: the level that was opening is capped one down before the screen opens again.
   - Only that case counts. A mark from another tab, a frame still alive on the same load, a clean reload and a hidden
     tab cap nothing. Where the browser cannot tell the tab apart there is no mark at all.
+  - Chamber Men marks before it loads and builds (`sceneOpening`), since that is its heaviest moment; a mount that
+    ends without a scene takes the mark off.
+  - Known and accepted: the browser's "Duplicate tab" copies the tab's id, so a duplicate made in the seconds a 3D
+    screen is opening counts as a death. It only ever lowers, by one level, until a pick in Settings or 7 days.
   - This cap does not lift after clean scenes (the level would close the tab again). It ends after 7 days or when the
     player picks a level in Settings. Settings says what is drawn meanwhile, also for a picked level.
   - The Device check does not open a level above this cap again: it counts as failed there, and the page says why.
