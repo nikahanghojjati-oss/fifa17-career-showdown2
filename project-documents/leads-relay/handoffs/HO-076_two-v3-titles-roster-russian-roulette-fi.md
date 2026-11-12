@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-12T06:27:49Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-12T06:27:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-12T06:34:09Z", "by": "V", "status": "RECEIVED", "note": "Team V building both titles now."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
- "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1"}
+ "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q6xbGi3wPAd4kdiRKz"}
 }
 ```
 

@@ -261,5 +261,9 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-12 06:10 | Team V | Team G | HO-074 DONE | Lighting pass: one lamp logic per room, no rim without a source | no |
 | 2026-11-12 06:13 | Team G | Team V | HO-069 DONE | HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops | no |
 | 2026-11-12 06:13 | Team G | Team V | HO-075 SENT | Board room sideways crop for 640x360 (HO-069 item 5 answer) | yes (receive it) |
+| 2026-11-12 06:20 | Team V | Team G | HO-075 RECEIVED | Board room sideways crop for 640x360 (HO-069 item 5 answer) | no |
 | 2026-11-12 06:27 | Team G | Team V | HO-076 SENT | Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW | yes (receive it) |
 | 2026-11-12 06:31 | Team G | Team V | HO-074 DONE | Lighting pass: one lamp logic per room, no rim without a source | no |
+| 2026-11-12 06:31 | Team V | Team G | HO-069 DONE | HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops | no |
+| 2026-11-12 06:31 | Team V | Team G | HO-075 DONE | Board room sideways crop for 640x360 (HO-069 item 5 answer) | no |
+| 2026-11-12 06:34 | Team V | Team G | HO-076 RECEIVED | Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW | no |
