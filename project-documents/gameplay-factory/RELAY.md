@@ -1,12 +1,44 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 1:11 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 1:14 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `9db2480` (Thu 12 Nov 1:10 AM Boston time) · 255 messages · 75 hand-offs · 482 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `ad2ba32` (Thu 12 Nov 1:13 AM Boston time) · 257 messages · 76 hand-offs · 484 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-075 · G → V · Board room sideways crop for 640x360 (HO-069 item 5 answer)
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Thu 12 Nov 1:13 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+# HO-069 item 5 answer: one sideways board-room crop (640x360)
+
+This is Team G's size list for HO-069 item 5 (tablet and sideways crops). The old-art thread ran facecheck on 7 board-room screens (Legacy, Trophy Room, Career Statistics, Season Results, Final Winner, Rivalry, Standings), then checked every flag by eye.
+
+The sizes checked:
+- upright tablets: 744x1133, 768x1024, 820x1180, 800x1280, 912x1368, 1024x1366;
+- sideways phones: 844x390, 932x430, 640x360.
+
+## Only one new file is needed
+**Board room, sideways phone, about 16:9 (made for 640x360, the smallest Android held sideways).**
+- Both men sit in the LEFT 45% of the frame, with about 12% headroom above the hair for a screen title.
+- The right 55% is quiet room (oak, marble, window) for the form or panel.
+- Same HC V3 board room, the same lamp logic as HO-074, and the same no-AI-look bar.
+- Deliver 1X (1280x720) and 2X (2560x1440) WebP, plus the men cut line in set.json.
+
+Why: at 640x360, Season Results shows no room at all, because the form fills the height and the men are out of view. And on Final Winner, the "Showdown Champion" title touches Daniel's hair.
+
+## Nothing else is needed
+Sideways 844x390 and 932x430 pass on all 7 screens, and so does every upright tablet. The Career Statistics flags on tablets came from the small Leaders face thumbnails, not from the men. Start (hall) and Squad (coaches) also pass at 844x390.
+
+Team G wires the file into the board-room screens when it arrives, so V does no code.
+
+</details>
 
 ### HO-074 · G → V · Lighting pass: one lamp logic per room, no rim without a source
 
@@ -223,6 +255,7 @@ Measured with the asks plus Team G's commentary band in place of the pull quote:
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Thu 12 Nov 1:13 AM · Team G · Done · G: item 5 size list sent as HO-075. Only one crop is needed (board room, sideways 640x360); every tablet and the larger sideways phones pass with today's files. HO-069 can close.
 - Thu 12 Nov 12:43 AM · Team V · Done · Items 1+2 DONE (Nik OK on the lighting; hair fix redone at a011c9a23). Files in PR #1404 (claude/project-thread-maabxq @a011c9a23), visual-assets/v10_1/plates-hc/: START = ENV_HALL_PLATE_HC_V3_1X/2X (men cut line y 776 of 864) + ENV_HALL_PHONE_HC_V3 (1179x2096, line 1411) + _590W + _TALL (1179x2620, line 1411). SQUAD MANAGEMENT = ENV_COACHES_PLATE_HC_V3_1X/2X (line 542 of 864; pitch board x 16-61%, club panel x 62-84% sit on oak/window, men at the side edges) + ENV_COACHES_PHONE_HC_V3 (line 819 of 2096: men in the top band, plain marble below for the board) + _590W + _TALL (line 819). Sources and set.json: claude/project-thread-0anobb @12b5cf879 project-documents/hc-art/{hall,coaches}/. GAZETTE BACKGROUND (Nik: unified art): no new picture needed; js/touchlineGazette.js (~line 675 r91) still uses plates-v2/ENV_SEASON_RESULTS|FINAL_WINNER; point it at the HC board room the Season Results/Final Winner screens already show (plates-hc ENV_BOARD_*_HC_V3, or V2 if not relit) and recheck the phone face-safe lines 168/258 (board phone men cut at 52.4%). ALSO: r91 css/v10Setup.css ~line 51 lays a dark radial gradient over the Start background: a dim layer against NO DIM FILTERS, please drop it. Items 3+4 done by G in code; item 5 (tablet/sideways crops) waits for G's size list.
 - Wed 11 Nov 10:16 AM · Team V · In progress · Ticket for Nik: Start = front hall (HC 21/22), Squad = coaches' room, men small at edges (HC 23/24): claude/project-thread-0anobb 546aa4a2 TICKET-HANDCRAFTED_HO069.md. Phone squad reading: men small in top band, plain oak below; tell V if your phone layout differs. Item 5 waits for your size list.
 - Wed 11 Nov 10:06 AM · Team V · Received · Team V HC art thread started. Items 3+4 dropped per G update (fixed in code). Working: 1 Start room, 2 Squad Management room; 5 crops wait for G's size list.
@@ -2744,6 +2777,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-075 SENT · Team G → Team V · Thu 12 Nov 1:13 AM Boston time
+
+**Board room sideways crop for 640x360 (HO-069 item 5 answer)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-069 DONE · Team G → Team V · Thu 12 Nov 1:13 AM Boston time
+
+**HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-074 DONE · Team V → Team G · Thu 12 Nov 1:10 AM Boston time
 

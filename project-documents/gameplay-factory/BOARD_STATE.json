@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12 1:11 AM Boston time (EST)",
+ "generated": "2026-11-12 1:14 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 255,
+  "count": 257,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2298,6 +2298,24 @@
     "subject": "Lighting pass: one lamp logic per room, no rim without a source",
     "reply": "no",
     "boston": "Thu 12 Nov 1:10 AM"
+   },
+   {
+    "time": "2026-11-12 06:13",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-069 DONE",
+    "subject": "HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops",
+    "reply": "no",
+    "boston": "Thu 12 Nov 1:13 AM"
+   },
+   {
+    "time": "2026-11-12 06:13",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-075 SENT",
+    "subject": "Board room sideways crop for 640x360 (HO-069 item 5 answer)",
+    "reply": "yes (receive it)",
+    "boston": "Thu 12 Nov 1:13 AM"
    }
   ],
   "g2v": {
@@ -2318,8 +2336,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "9db2480",
-  "head_boston": "Thu 12 Nov 1:10 AM",
+  "head": "ad2ba32",
+  "head_boston": "Thu 12 Nov 1:13 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2355,8 +2373,8 @@
    "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1407 has waited 49 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -3153,7 +3171,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5947
+    "waiting_min": 5950
    },
    {
     "id": "HO-059",
@@ -3362,6 +3380,19 @@
     "worker": "images",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-075",
+    "from": "G",
+    "to": "V",
+    "title": "Board room sideways crop for 640x360 (HO-069 item 5 answer)",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-075_board-room-sideways-crop-for-640x360-ho-.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -3433,7 +3464,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
