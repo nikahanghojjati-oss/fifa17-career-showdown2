@@ -146,9 +146,9 @@
     const original=Array.from(host.children),content=element("div","ruleBookV10Content");
     original.forEach(n=>content.append(n));host.classList.add("v10RuleBook");
     const hero=content.querySelector('.ruleBookHero');hero.dataset.sdEnter="title";
-    hero.insertBefore(image("ruleBookWordmark","shared/wordmarks/TITLE_RULE_BOOK_V2_1920.webp"),hero.querySelector("strong"));
+    hero.insertBefore(image("ruleBookWordmark","shared/wordmarks/TITLE_RULE_BOOK_V2_1920.webp"),hero.querySelector("strong")||hero.querySelector("p"));
     content.querySelector('h2').classList.add('sd-visually-hidden');
-    hero.querySelector('span').classList.add('sd-eyebrow');hero.querySelector('strong').classList.add('sd-tagline');hero.querySelector('p').classList.add('sd-body','ruleBookSummary');
+    hero.querySelector('span').classList.add('sd-eyebrow');hero.querySelector('strong')?.classList.add('sd-tagline');hero.querySelector('p').classList.add('sd-body','ruleBookSummary');
     const grid=content.querySelector('.ruleBookGrid');grid.id='ruleBookSections';grid.setAttribute('aria-label','Competition rules');
     content.querySelectorAll('.ruleSection').forEach(card=>{
       card.classList.add('sd-panel');card.dataset.sdEnter='panel';
