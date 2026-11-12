@@ -275,7 +275,7 @@
   #app #transferChallenge .tw-host .transfer-wordmark {
     display: block; position: relative; z-index: 5; grid-area: 1 / 1 / 3 / 2; align-self: start; justify-self: center;
     width: calc(var(--ls-strip) - 28px); margin: 2px 0 0; padding: 0;
-    filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .9)) drop-shadow(0 0 10px rgba(242, 196, 91, .22));
+    filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .9));
   }
   #app #transferChallenge .tw-host .transfer-wordmark img { display: block; width: 100%; height: auto; }
 
@@ -463,7 +463,7 @@
   #app #transferChallenge .tw-host .scene { position: relative; inset: auto; order: 0; flex: 0 0 auto; height: calc(var(--tb-fig-h) + var(--band-h) - 6px); min-height: 0; margin: 0 calc(var(--tb-side) * -1); background: transparent; overflow: visible; }
 
   /* wordmark */
-  #app #transferChallenge .tw-host .transfer-wordmark { display: block; order: -1; flex: none; position: relative; z-index: 4; width: min(42vw, 330px); height: auto; margin: 0 auto; padding: 0; filter: drop-shadow(0 3px 3px rgba(0,0,0,.9)) drop-shadow(0 0 10px rgba(242,196,91,.22)); }
+  #app #transferChallenge .tw-host .transfer-wordmark { display: block; order: -1; flex: none; position: relative; z-index: 4; width: min(42vw, 330px); height: auto; margin: 0 auto; padding: 0; filter: drop-shadow(0 3px 3px rgba(0,0,0,.9)); }
   #app #transferChallenge .tw-host .transfer-wordmark img { display: block; width: 100%; height: auto; }
 
   /* status band under the hero (production's own status text; the clock rides at the right end during the window) */
@@ -941,13 +941,13 @@
     left: calc(var(--k) * -79px); right: calc(var(--k) * -79px); top: calc(var(--k) * -58px); bottom: calc(var(--k) * -50px);
     border: max(3px, calc(var(--k) * 5px)) solid transparent; border-radius: calc(var(--k) * 10px);
     background: linear-gradient(180deg, #14110bf2, #070607f5) padding-box, var(--tp-bevel) border-box;
-    box-shadow: 0 0 calc(var(--k) * 26px) #f0c84b55, 0 calc(var(--k) * 10px) calc(var(--k) * 24px) #000a;
+    box-shadow: 0 calc(var(--k) * 10px) calc(var(--k) * 24px) #000a;
   }
   /* 2.3.0 final pass F03 (Nik: nothing touches a face): in Chromebook-size windows (1280x720) the board's frame stood
      24px from Daniel's hair and its glow reached into it. The clock stays where it hangs; the frame hugs the clock and
      status lines tighter (56 plate px each side instead of 79), so it keeps about 40px from Daniel and 30px from Nik. */
   @media (max-width: 1599px) {
-    #app #transferChallenge .tw-host .sign-screen::before { left: calc(var(--k) * -56px); right: calc(var(--k) * -56px); box-shadow: 0 0 calc(var(--k) * 14px) #f0c84b44, 0 calc(var(--k) * 10px) calc(var(--k) * 24px) #000a; }
+    #app #transferChallenge .tw-host .sign-screen::before { left: calc(var(--k) * -56px); right: calc(var(--k) * -56px); box-shadow: 0 calc(var(--k) * 10px) calc(var(--k) * 24px) #000a; }
   }
   /* F09 (2.3.0 final pass): Team V's plate.css draws the YOU / SEALED chips at max(10.5px, k x 13px), 10.5px in a 1280x720
      window; the 12px type floor applies here too (their stylesheet stays as it is) */
@@ -959,7 +959,7 @@
   #app #transferChallenge .tw-host :is(.world > .panel, .world > .rules-card)::before {
     clip-path: none; border: max(3px, calc(var(--k) * 5px)) solid transparent; border-radius: calc(var(--k) * 10px);
     background: linear-gradient(180deg, #14110bf0, #070607f5 60%, #050506f8) padding-box, var(--tp-bevel) border-box;
-    box-shadow: inset 0 0 0 1px #050505, inset 0 0 0 calc(var(--k) * 2px) #0a0907, 0 0 calc(var(--k) * 22px) #f0c84b44, 0 calc(var(--k) * 10px) calc(var(--k) * 26px) #000b;
+    box-shadow: inset 0 0 0 1px #050505, inset 0 0 0 calc(var(--k) * 2px) #0a0907, 0 calc(var(--k) * 10px) calc(var(--k) * 26px) #000b;
     -webkit-backdrop-filter: none; backdrop-filter: none;
   }
   #app #transferChallenge .tw-host .tw-desktop-content :is(.panel, .rules-card)::before { display: none; }
@@ -1231,7 +1231,7 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
     left: calc(var(--k) * -14px); right: calc(var(--k) * -12px); top: calc(var(--k) * -35px); bottom: calc(var(--k) * -12px);
     border: max(3px, calc(var(--k) * 5px)) solid transparent; border-radius: calc(var(--k) * 10px);
     background: linear-gradient(180deg, #14110bf0, #070607f5 60%, #050506f8) padding-box, var(--tp-bevel) border-box;
-    box-shadow: inset 0 0 0 1px #050505, inset 0 0 0 calc(var(--k) * 2px) #0a0907, 0 0 calc(var(--k) * 22px) #f0c84b44, 0 calc(var(--k) * 10px) calc(var(--k) * 26px) #000b;
+    box-shadow: inset 0 0 0 1px #050505, inset 0 0 0 calc(var(--k) * 2px) #0a0907, 0 calc(var(--k) * 10px) calc(var(--k) * 26px) #000b;
   }
   @container (max-width: 140px) {
     #app #transferChallenge .tw-host .rules-line .stat-l { letter-spacing: .02em; }

@@ -126,7 +126,7 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   font: 400 clamp(34px, 4.6vw, 66px)/1.12 var(--v26-title);
   letter-spacing: .01em;
   text-align: center;
-  filter: drop-shadow(0 3px 1px rgba(0, 0, 0, .96)) drop-shadow(0 0 14px rgba(242, 196, 91, .28));
+  filter: drop-shadow(0 3px 1px rgba(0, 0, 0, .96));
 }
 /* Job 1030: Select League brush wordmark (Nik's goal lettering, TITLE_LEAGUE_V1). Text stays for screen readers. */
 #leagueWheelScreen.v26Skin > h2 {

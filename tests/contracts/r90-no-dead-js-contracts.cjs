@@ -15,9 +15,7 @@ const walk=dir=>fs.readdirSync(path.join(ROOT,dir),{withFileTypes:true}).flatMap
 });
 
 // Standalone pages outside the game that still ship and load their own scripts. Each needs a reason.
-const STANDALONE_ROOTS={
-  "production-authorization-acceptance.html":"Stage 5F production acceptance page (manual, outside the game); it is also the network-only update entry that serves js/appUpdateBootstrap.js to old r29 service workers."
-};
+const STANDALONE_ROOTS={};
 // js/ files allowed to exist without a page loading them. Keep empty unless a file truly has no page; give the reason.
 const ALLOWED_UNLOADED={
 };
