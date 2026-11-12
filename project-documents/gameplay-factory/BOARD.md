@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Thu 12 Nov, 12:57 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Thu 12 Nov, 1:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
 
-🐕 **Barking: POS20 has waited 14 min for a machine; Showdown Gate on #1408 has waited 11 min for a machine; Showdown Gate on #1415 has waited 10 min for a machine; Showdown Gate on #1409 has waited 1 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1414 has waited 24 min for a machine; POS20 on #312 has waited 7 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -70,7 +70,7 @@ Updated Thu 12 Nov, 12:57 AM Boston time. Bug hunting only, no new features unti
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 634 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 635 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
