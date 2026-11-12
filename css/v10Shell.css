@@ -420,12 +420,12 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
     --cs2-ring: inset 0 0 0 1px rgba(5, 5, 5, .9), inset 0 1px 0 1px rgba(255, 236, 160, .2), 0 6px 18px rgba(0, 0, 0, .5);
   }
   #app #careerStatistics.careerScreenV10 .sd-stage__plate {
-    background-image: url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp");
+    background-image: url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp");
   }
-  /* HO-068: Career Statistics stands in Team V's board room (ENV_BOARD_PLATE_HC_V2): the 1X plate at every level, the 2X
+  /* HO-068: Career Statistics stands in Team V's board room (ENV_BOARD_PLATE_HC_V3): the 1X plate at every level, the 2X
      plate at High and up; the plates-v2 statistics plate stays as rollback */
   html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #careerStatistics.careerScreenV10 .sd-stage__plate {
-    background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp") 2x);
+    background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp") 2x);
   }
   #app #careerStatistics.careerScreenV10 :is(.sd-stage__layer--cutout, .sd-stage__layer--light) { display: none; }
   #app #careerStatistics.careerScreenV10 :is(.headlineTile, .glassPanel, .leaderCard, .actionButton) {
@@ -443,12 +443,12 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   #app #careerStatistics.careerScreenV10 :is(.sd-eyebrow, .sd-tagline) { text-shadow: 0 1px 4px #000, 0 0 10px rgba(0, 0, 0, .9); }
   #app #careerStatistics.careerScreenV10 .managerPortrait { border: 1px solid rgba(255, 224, 120, .6); border-image: none; box-shadow: inset 0 -10px 12px rgba(0, 0, 0, .35); }
 }
-/* r91 old art: the Career Leaders portraits are cut from the board room the screen stands in (plates-hc/ENV_BOARD_PLATE_HC_V2,
+/* r91 old art: the Career Leaders portraits are cut from the board room the screen stands in (plates-hc/ENV_BOARD_PLATE_HC_V3,
    heads at x 16.5-29.5% / 66.5-78% and y 5.5-33% of the plate) at every window size and on every tab. They were cut from
    the retired V1 penthouse plate (Team V's career-statistics.css) and, on desktop, the retired plates-v2 statistics plate. */
-#app #careerStatistics.careerScreenV10 .managerPortrait { background-image: url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp"); background-repeat: no-repeat; }
+#app #careerStatistics.careerScreenV10 .managerPortrait { background-image: url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp"); background-repeat: no-repeat; }
 html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #careerStatistics.careerScreenV10 .managerPortrait {
-  background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp") 2x);
+  background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp") 2x);
 }
 #app #careerStatistics.careerScreenV10 .managerPortrait.daniel { background-size: auto 285.7%; background-position: 18.9% 3.1%; }
 #app #careerStatistics.careerScreenV10 .managerPortrait.nik { background-size: auto 285.7%; background-position: 75.6% 5.8%; }
@@ -907,10 +907,10 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
    Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
    unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
 @media (min-width:1537px), (min-width:901px) and (min-height:865px) {
-  #app #careerStatistics.careerScreenV10 .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp') 1.25x); }
-  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #careerStatistics.careerScreenV10 .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp') 2x); }
+  #app #careerStatistics.careerScreenV10 .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #careerStatistics.careerScreenV10 .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp') 2x); }
 }
 @media (min-width:1537px), (min-width:901px) and (min-height:865px) {
-  #app #careerStatistics.careerScreenV10 .managerPortrait { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp') 1.25x); }
-  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #careerStatistics.careerScreenV10 .managerPortrait { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp') 2x); }
+  #app #careerStatistics.careerScreenV10 .managerPortrait { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #careerStatistics.careerScreenV10 .managerPortrait { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp') 2x); }
 }
