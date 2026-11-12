@@ -204,7 +204,7 @@ async function run(){
     }
 }
 
-run().then(() => require("./app-update-bootstrap-audit.cjs")()).catch(error => {
+run().catch(error => {
     console.error(error);
     process.exitCode = 1;
 });

@@ -23,9 +23,6 @@ const ON_DEMAND_DATA_PATH = /^data\/fifa17\/players-\d+\.[0-9a-f]{8}\.json$/;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
-const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
-    "production-authorization-acceptance.html"
-]);
 // r91 (Sol 6.1 review of 2.3.0): the Device check (Settings > 3D QUALITY > Device check…) and its Chamber Men frame are
 // pages of their own at the root. 2.3.0 answered a navigation to them with the shell's index.html, so the check showed
 // Home. They always come from the network (the check plays the 3D screens, which need their files anyway) and never from
@@ -90,10 +87,6 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2",
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2"
-]);
-const NETWORK_ONLY_ASSET_PATHS = new Set([
-    "js/productionAuthorizationAcceptance.js",
-    "js/productionProviderAbuseAcceptance.js"
 ]);
 
 const SHELL_PATHS = Object.freeze([
@@ -456,10 +449,10 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // shell. W8 (#1278) split install from the offline pack but keeps SHELL_PATHS the full list. The STORY site is never precached.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/gfxTier.js","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/playerSearch.js","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","css/restore.css","css/saveLibrary.css","js/analytics.js","js/restoreUI.js","js/saveLibraryUI.js"]);
-// Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
-// are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks
+// Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
+// one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.
-const ACCEPTANCE_ONLY_SCRIPT_PATHS = new Set(["js/ssjrProductionAcceptanceRecorder.js","js/ssjrProductionNegativeProbeRunner.js","js/ssjrProductionNegativeEvidence.js","js/stage5fProductionAuthenticatedNegatives.js","js/ssjrAcceptancePolishedBridge.js","js/ssjrPhysicalJourneyAcceptance.js","js/remoteJoiningAcceptance.js"]);
+const ACCEPTANCE_ONLY_SCRIPT_PATHS = new Set(["js/ssjrPhysicalJourneyAcceptance.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze([...SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)),...SHELL_PATHS_REMOVED_SINCE_PREVIOUS]);
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:INSTALL_PATHS; }
 
@@ -623,12 +616,11 @@ self.addEventListener("fetch",event=>{
     if(CHRONICLE_PATH.test(relativeScopePath(url))){return;}
     if(request.mode==="navigate"){
         const path=relativeScopePath(url);
-        if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
         if(STANDALONE_PAGE_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request)).catch(()=>standalonePageOffline())); return; }
         if(SHELL_FRAME_NAVIGATION_PATHS.has(path)){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); const cached=selected?await cachedShellResponse(path,selected.revision):null; return cached||((!selected||selected.revision===RUNTIME_REVISION)&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):fetch(request)); })()); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(ACCEPTANCE_ONLY_SCRIPT_PATHS.has(path)){ const asked=url.searchParams.get("v")||""; event.respondWith((async()=>{ const cached=asked&&asked!==RUNTIME_REVISION?await cachedShellResponse(path,asked):null; return cached||fetch(networkOnlyRequest(request)); })()); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(event,request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(ACCEPTANCE_ONLY_SCRIPT_PATHS.has(path)){ const asked=url.searchParams.get("v")||""; event.respondWith((async()=>{ const cached=asked&&asked!==RUNTIME_REVISION?await cachedShellResponse(path,asked):null; return cached||fetch(networkOnlyRequest(request)); })()); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(event,request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||(requestedRevision===RUNTIME_REVISION&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):Response.error());})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS,previousShellPaths:PREVIOUS_SHELL_PATHS});
