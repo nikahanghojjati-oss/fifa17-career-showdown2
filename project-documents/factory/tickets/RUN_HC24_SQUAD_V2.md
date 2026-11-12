@@ -4,8 +4,8 @@ You can run this now, in parallel with HC 23. The men come from the same approve
 
 **New normal ChatGPT chat, outside any project.** Attach exactly these 2 pictures, in this order:
 
-1. GUIDE_HC24_SQUAD_P_V2.png (tall cyan picture, you two small side by side near the top)
-2. RC_COACHES_V2.png (the coaches' room with nobody in it: training-ground window, folders, counter)
+1. [GUIDE_HC24_SQUAD_P_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bef3721dd/project-documents/factory/tickets/attach/HC/GUIDE_HC24_SQUAD_P_V2.png) (tall cyan picture, you two small side by side near the top)
+2. [RC_COACHES_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/bef3721dd/project-documents/factory/tickets/attach/HC/RC_COACHES_V2.png) (the coaches' room with nobody in it: training-ground window, folders, counter)
 
 Then paste this whole box, nothing else:
 
