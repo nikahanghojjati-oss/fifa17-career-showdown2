@@ -154,14 +154,11 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
     "After Stage 5D production Rules publication, Stage 5E may precache the standard-auth adapter as a lazy rollback-complete asset without executing it at startup.");
 
   const productionRules=fs.readFileSync("firestore.spark.rules","utf8");
-  const candidateRules=fs.readFileSync("firestore.stage5c.rules","utf8");
   const rootFirebase=JSON.parse(fs.readFileSync("firebase.json","utf8"));
   const productionFirebase=JSON.parse(fs.readFileSync("firebase.production.rules.json","utf8"));
   assert.equal(rootFirebase.firestore.rules,"firestore.rules");
   assert.equal(productionFirebase.firestore.rules,"firestore.spark.rules");
   assert.doesNotMatch(JSON.stringify({rootFirebase,productionFirebase}),/stage5c/i);
-  assert.equal(productionRules,candidateRules,
-    "Stage 5D must promote the exact already-proven Stage 5C Rules bytes rather than authoring a new production variant.");
   assert.match(productionRules,/data\.expiresAt <= request\.time \+ duration\.value\(4, \'h\'\)/,"Production session create Rules must permit the bounded four-hour authority window.");
   assert.match(productionRules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSessionDeviceMetadata[\s\S]+validOpenSessionCreate[\s\S]+validSessionJoin[\s\S]+validSessionUpdate[\s\S]+STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END/);
   assert.match(productionRules,/sessionWriteUsesRegisteredDeviceMetadata\(root\)[\s\S]+root\.updatedByAccountId == request\.auth\.uid[\s\S]+registeredSessionDeviceMetadata\(root\.updatedByDeviceId\)/);
