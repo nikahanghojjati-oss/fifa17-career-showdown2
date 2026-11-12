@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-12T10:32:55Z",
+ "updated": "2026-11-12T10:37:12Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -3310,7 +3310,7 @@
    "pr": 638,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/638",
-   "branch": "study/job-1343-trophy-room-phone-b"
+   "branch": null
   },
   "1344": {
    "state": "closed",
