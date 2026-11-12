@@ -1447,6 +1447,13 @@
     background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,#110f0c;
     box-shadow:inset 0 0 0 1px #000a,0 10px 28px #000b;
   }
+  /* r91 layout hunt (art state captures, 10-season Legacy at 1920x866): the pane's bottom edge sat 24 px below the gold archive
+     frame at every desktop size, so a long Showdown's last season ran past the frame and under VIEW SEASON HISTORY / BACK TO HOME
+     (button tops 8 px inside the pane). The pane now ends 12 px inside the frame (max-height in the rule near the end of this file); what does not fit scrolls in the pane (a thin
+     gold bar says so) and every season stays whole and reachable. A 3-season Showdown fits without scrolling, as before. */
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) {
+    scrollbar-width:thin; scrollbar-color:#d9ad4a rgba(0,0,0,.45);
+  }
   /* Inside the pane the list is compact so a normal Showdown (3 seasons) fits without an inner scroll: the close button
      sits in flow (no sticky bar over the frame), one line per season with the details and a Europa League win inline. */
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn { position:static !important; min-height:32px !important; padding:4px 12px; font-size:12px; }
@@ -1959,6 +1966,26 @@
   #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyPager { justify-self:start; width:calc((100% - 24px) / 4); min-width:0; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryHeading { font-size:13px !important; letter-spacing:.16em; color:var(--sd-gold-300,#ffd34d); }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(td,th) { padding-top:1px !important; padding-bottom:1px !important; line-height:16px; }
+  /* r91: on the wide desktops the Europa League line sits beside the league line, one line per season, so a 10-season
+     Showdown (every season a row of two lines before) fits the pane at 1920x866 without scrolling. */
+  @media (min-width:1700px) {
+    /* r91: 60px, not 24px, so the pane ends 12px inside the gold archive frame (see the note at the top of this file's HO-043 block).
+       Only here: the short screens (1100x600) keep 24px so the pane does not grow an inner scroller there (r80 short-screens audit). */
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { max-height:calc(100% - 60px); }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable .legacyHistoryEuropa { display:inline-block; margin:0 0 0 10px; vertical-align:middle; white-space:nowrap; }
+    /* left-aligned so the points make one column whether or not a Europa League line follows */
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(td.daniel,td.nik) { text-align:left; padding-left:12px; padding-right:2px; }
+  }
+  /* the 1920x1035 sizes (24px points, 13px detail) leave the one-line row too wide and the pane too short for ten seasons:
+     points and detail go back to the 20px / 12px of the other desktops inside this pane only */
+  @media (min-width:1700px) and (min-height:900px) {
+    /* narrower SEASON and RESULT columns give the two manager columns the width the 13px detail + Europa League line needs on one line */
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(.legacyHistorySeasonHead,.legacyHistorySeasonLabel) { width:11%; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(.legacyHistoryResultHead,.legacyHistoryResult) { width:12%; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryPoints { font-size:20px; line-height:22px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryDetail { font-size:13px; line-height:14px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryEuropa { font-size:12px; line-height:14px; }
+  }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable td :is(strong,b,.legacyHistoryScore) { font-size:16px; line-height:16px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding-top:8px; padding-bottom:8px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn.legacyHistoryClose {
