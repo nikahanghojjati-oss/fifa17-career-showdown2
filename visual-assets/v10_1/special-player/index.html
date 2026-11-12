@@ -1202,12 +1202,12 @@ function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").
    and between reveals only (startPlayer to settle is one held beat). Every step in play (the pixel ratio's too) is a soft
    cut: the governor's before() copies the frame as it stands over the canvas and fades it out over the new one (GFX.softCut;
    a plain cut under Reduce Motion). */
-const LADDER=!BLOOM?[]:["glow",...(GQ.samples>=4?["edges"]:[]),"bloom"]; let detailAt=0;
-function heavy(step){ const at=Math.max(0,Math.min(LADDER.length,Math.round(Number(step))||0)), on=new Set(LADDER.slice(0,at)); if(at===detailAt) return; detailAt=at;
+const HEAVY=!BLOOM?[]:["glow",...(GQ.samples>=4?["edges"]:[]),"bloom"]; let detailAt=0;
+function heavy(step){ const at=Math.max(0,Math.min(HEAVY.length,Math.round(Number(step))||0)), on=new Set(HEAVY.slice(0,at)); if(at===detailAt) return; detailAt=at;
   bloomDiv=BLOOM_D*(on.has("glow")?2:1); edgesDown=on.has("edges"); bloomLive=BLOOM&&!on.has("bloom"); compMat.uniforms.bloomOn.value=bloomLive?1:0;
   resize(); }
 function startGfx(){ if(!GFX) return;
-  gov=GFX.governor(renderer,{key:"sp",draw:render,beats:true,...(LADDER.length?{detail:{steps:LADDER.length,apply:heavy}}:{}),before:()=>GFX.softCut?.(renderer.domElement,render),onChange(p){ PR=p.pixelRatio; resize(); },info:()=>({bloom:BLOOM,direct:DIRECT,samples:sceneRT.samples|0})});
+  gov=GFX.governor(renderer,{key:"sp",draw:render,beats:true,...(HEAVY.length?{detail:{steps:HEAVY.length,apply:heavy}}:{}),before:()=>GFX.softCut?.(renderer.domElement,render),onChange(p){ PR=p.pixelRatio; resize(); },info:()=>({bloom:BLOOM,direct:DIRECT,samples:sceneRT.samples|0})});
   GFX.overlay(()=>({extra:`${renderer.domElement.width}x${renderer.domElement.height} · card ${SC}x`}));
   addEventListener("resize",()=>gov.resize()); addEventListener("pagehide",()=>gov.end()); }
 /* allocate the scene target now and check it once (gfxTier.checkTarget): an incomplete framebuffer steps down 8 -> 4 -> 0 samples
@@ -1336,7 +1336,7 @@ const EMBED=qs.get("embed")==="1"; const toGame=(type)=>{ try{ parent.postMessag
 const busy=(v)=>{ if(EMBED) toGame("cms-sp-loading"); return v; }; busy();
 cta.addEventListener("click",()=>{ if(EMBED){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; cta.textContent="Opening Career Start…"; toGame("cms-sp-continue"); $("again").hidden=true; return; } toast.classList.add("on"); setTimeout(()=>toast.classList.remove("on"),1400); });
 window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.length=0; startPlayer(i); }, advance(sec){ const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } },
-  get ladder(){ return {at:detailAt, ladder:[...LADDER], bloom:bloomLive, bloomDiv, samples:sceneRT.samples|0, mip0:[mipA[0].width,mipA[0].height]}; },
+  get ladder(){ return {at:detailAt, ladder:[...HEAVY], bloom:bloomLive, bloomDiv, samples:sceneRT.samples|0, mip0:[mipA[0].width,mipA[0].height]}; },
   pr(v){ if(v!=null){ PR=v; renderer.setPixelRatio(PR); resize(); } return PR; }, get cardScale(){ return SC; }, get gq(){ return {...GQ,level:GL_LVL,samples:sceneRT.samples}; },
   /* r90: a GPU memory estimate in MB (card faces with mipmaps, scene and bloom targets, shadow map, drawing buffer) for the quality proof */
   mem(){ const cv=renderer.domElement, sm=sun.shadow.mapSize.x, cards=2*7*CW*SC*CH*SC*4*4/3, rt=sceneRT.width*sceneRT.height*(HDR?8:4)*((sceneRT.samples||0)+1),

@@ -14,20 +14,21 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const vm = require("node:vm");
 const ROOT = path.resolve(__dirname, "../..");
 const read = file => fs.readFileSync(path.join(ROOT, file), "utf8");
 const results = []; const ok = (id, label) => { results.push(id); console.log(`ok ${results.length} ${id} ${label}`); };
 const page = read("visual-assets/v10_1/special-player/index.html");
 const cut = (src, from, to) => { const a = src.indexOf(from); assert.ok(a >= 0, `found: ${from.slice(0, 50)}`); assert.equal(src.indexOf(from, a + 1), -1, `once: ${from.slice(0, 50)}`);
   const b = src.indexOf(to, a); assert.ok(b > a, `found after it: ${to.slice(0, 50)}`); return src.slice(a, b); };
-const LADDER_SRC = cut(page, "const LADDER=!BLOOM?[]:", "function startGfx(){");
+const LADDER_SRC = cut(page, "const HEAVY=!BLOOM?[]:", "function startGfx(){");
 // level: 0 Light (no post chain), 1 Balanced (2 samples, quarter-size mips), 2 High (4, half-size), 3 Extra (8, half-size)
 function mount(level) {
   const BLOOM = level > 0, GQ = {samples: [2, 2, 4, 8, 8][level]}, BLOOM_D = level <= 1 ? 4 : 2, env = {resizes: 0};
   const compMat = {uniforms: {bloomOn: {value: BLOOM ? 1 : 0}}};
   const m = new Function("BLOOM", "GQ", "BLOOM_D", "compMat", "env", `let bloomLive=BLOOM, bloomDiv=BLOOM_D, edgesDown=false; const resize=()=>{env.resizes+=1;};
     ${LADDER_SRC}
-    return {heavy,LADDER,state:()=>({at:detailAt,bloom:bloomLive,bloomDiv,edgesDown,uniform:compMat.uniforms.bloomOn.value})};`)(BLOOM, GQ, BLOOM_D, compMat, env);
+    return {heavy,LADDER:HEAVY,state:()=>({at:detailAt,bloom:bloomLive,bloomDiv,edgesDown,uniform:compMat.uniforms.bloomOn.value})};`)(BLOOM, GQ, BLOOM_D, compMat, env);
   return {...m, env, BLOOM_D};
 }
 
@@ -37,9 +38,14 @@ function mount(level) {
   assert.deepEqual(mount(1).LADDER, ["glow", "bloom"], "Balanced already draws 2 samples");
   assert.deepEqual(mount(2).LADDER, ["glow", "edges", "bloom"]);
   assert.deepEqual(mount(3).LADDER, ["glow", "edges", "bloom"]);
-  assert.ok(page.includes('gov=GFX.governor(renderer,{key:"sp",draw:render,beats:true,...(LADDER.length?{detail:{steps:LADDER.length,apply:heavy}}:{}),before:()=>GFX.softCut?.(renderer.domElement,render),onChange(p){ PR=p.pixelRatio; resize(); },info:()=>({bloom:BLOOM,direct:DIRECT,samples:sceneRT.samples|0})});'),
+  assert.ok(page.includes('gov=GFX.governor(renderer,{key:"sp",draw:render,beats:true,...(HEAVY.length?{detail:{steps:HEAVY.length,apply:heavy}}:{}),before:()=>GFX.softCut?.(renderer.domElement,render),onChange(p){ PR=p.pixelRatio; resize(); },info:()=>({bloom:BLOOM,direct:DIRECT,samples:sceneRT.samples|0})});'),
     "the governor gets the ladder; the Device check's record keeps its shape");
   assert.equal((page.match(/GFX\.governor\(/g) || []).length, 1, "one governor");
+  // The page's own script parses: a name declared twice stops the whole pack from loading (the first draft named this
+  // ladder LADDER, which the rating-ladder colours already use; only the browser look check caught it).
+  const scripts = [...page.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1]).filter(code => code.trim());
+  assert.ok(scripts.length >= 1 && scripts.some(code => code.includes("const HEAVY=!BLOOM?[]:")));
+  for (const code of scripts) assert.doesNotThrow(() => new vm.Script(code, {filename: "special-player/index.html"}), "every inline script on the page parses");
   assert.ok(page.includes("const BLOOM=!DIRECT&&!(GP&&GP.bloom===false), BLOOM_D=GL_LVL<=1?4:2;") && page.includes("let bloomLive=BLOOM, bloomDiv=BLOOM_D, edgesDown=false;"), "as built until a step is taken");
   ok("P1", "the ladder holds only parts the level has and goes to the shared governor");
 }

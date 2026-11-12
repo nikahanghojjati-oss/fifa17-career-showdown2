@@ -33,6 +33,10 @@ function mount({cafe = false} = {}) {
   assert.deepEqual(mount({cafe: true}).LADDER, ["dust", "smoke", "cafe"], "Extra and up: the café tables go last");
   assert.ok(page.includes('GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera),beats:true,detail:{steps:LADDER.length,apply:heavy},before:()=>GFXT.softCut?.(renderer.domElement,()=>renderer.render(scene,camera))});'), "the governor gets the ladder and the soft cut; the scene plays in beats");
   assert.equal((page.match(/GFXT\.governor\(/g) || []).length, 1, "one governor");
+  // The page's own script parses (a name declared twice would stop the whole scene from loading).
+  const scripts = [...page.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1]).filter(code => code.trim());
+  assert.ok(scripts.some(code => code.includes('const LADDER=["dust","smoke",')));
+  for (const code of scripts) assert.doesNotThrow(() => new vm.Script(code, {filename: "roulette/index.html"}), "every inline script on the page parses");
   // The café tables exist from Extra up only, and the ladder holds the very group that was built.
   assert.ok(page.includes("const hall=new T.Group(); scene.add(hall); let hallLamps=null, cafeProps=null;"));
   assert.ok(/if\(EXTRA_UP\)\{ const top=mat\([^\n]*\n\s*const cafe=new T\.Group\(\); hall\.add\(cafe\); cafeProps=cafe;/.test(page));

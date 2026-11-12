@@ -79,7 +79,7 @@ ok("R90-PS3 quality follows the device: the shared gfxTier governor (Settings 3D
   assert.match(page,/let PR=GP\?GP\.pixelRatio:1,/,"starts at the profile's ratio (Auto never above the screen's); 1x without the module (docs/QUALITY_LEVELS.md)");
   assert.match(page,/GFX\.calibrate\(renderer,render\)/,"timed frames behind the loading screen");
   // r91: info() tells the Device check what was built; the governor also gets the scene's heavy-parts ladder (tests/contracts/r91-special-player-ladder-contracts.cjs)
-  assert.match(page,/gov=GFX\.governor\(renderer,\{key:"sp",draw:render,beats:true,\.\.\.\(LADDER\.length\?\{detail:\{steps:LADDER\.length,apply:heavy\}\}:\{\}\),before:\(\)=>GFX\.softCut\?\.\(renderer\.domElement,render\),onChange\(p\)\{ PR=p\.pixelRatio; resize\(\); \},info:\(\)=>\(\{bloom:BLOOM,direct:DIRECT,samples:sceneRT\.samples\|0\}\)\}\);/);
+  assert.match(page,/gov=GFX\.governor\(renderer,\{key:"sp",draw:render,beats:true,\.\.\.\(HEAVY\.length\?\{detail:\{steps:HEAVY\.length,apply:heavy\}\}:\{\}\),before:\(\)=>GFX\.softCut\?\.\(renderer\.domElement,render\),onChange\(p\)\{ PR=p\.pixelRatio; resize\(\); \},info:\(\)=>\(\{bloom:BLOOM,direct:DIRECT,samples:sceneRT\.samples\|0\}\)\}\);/);
   assert.match(page,/function frame\(\)\{ if\(manual===null\)\{ tick\(true\); if\(gov\) gov\.frame\(performance\.now\(\)\); \}/);
   assert.match(page,/GFX\.overlay\(/,"?fps=1 counter from the shared module");
   assert.ok(!/RS_STEPS|function govern\(|fpsEl/.test(page),"no second governor or counter left in the page");
