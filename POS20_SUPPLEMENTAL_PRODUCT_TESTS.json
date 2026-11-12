@@ -3059,6 +3059,14 @@
       ]
     },
     {
+      "path": "tests/contracts/r91-transfer-locked-copy-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/r91\\-transfer\\-locked\\-copy\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r91-draw-final-contracts.cjs",
       "patterns": [
         "^visual\\-assets/v10_1/final\\-winner/final\\-winner\\.js$",
