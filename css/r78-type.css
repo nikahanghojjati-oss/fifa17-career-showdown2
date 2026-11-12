@@ -1215,17 +1215,26 @@
      row may shrink and its words wrap; it never takes more than 58% of the line from MENU CLICK FEEDBACK. */
   :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow { flex: 0 1 auto; max-width: 58%; margin-top: auto; gap: 12px; }
   :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy { flex: 1 1 auto; min-width: 0; }
-  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy small:not(.settingsGfxAuto) { display: none; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy small:not(.settingsGfxAuto):not(.settingsGfxGuideLine) { display: none; }
 }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect {
   flex: 0 0 auto; min-height: 44px; min-width: 0; max-width: 100%; padding: 0 30px 0 12px; border: 1px solid rgba(219, 178, 94, .55); border-radius: 0;
   background: rgba(0, 0, 0, .6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23f5c518'/%3E%3C/svg%3E") no-repeat right 11px center;
   color: #f5f1e8; font: inherit; font-weight: 600; letter-spacing: .04em; appearance: none; -webkit-appearance: none; cursor: pointer;
 }
+/* r91 (Nik 2026-11-12: "the link to that page ... very visible in the 3D menu"): the Device check and level guide, a gold
+   link under 3D QUALITY in the row's own small type (never under the 12px floor). No box, no glow. */
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxGuideLine { display: block; white-space: normal; }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxGuide {
+  color: var(--sd-gold-500, #f5c518); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxGuide:focus-visible { outline: 2px solid var(--sd-gold-500, #f5c518); outline-offset: 2px; }
 /* Touch widths (the one main scroller): the select drops under its words when they would wrap past two lines. */
 @media (max-width: 1199px) {
   :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow { flex-wrap: wrap; row-gap: 8px; }
   :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsAudioCopy { flex: 1 1 150px; }
+  /* a finger's height for the link */
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxGuide { display: inline-flex; align-items: center; min-height: 44px; }
 }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect option { background: #15120c; color: #f5f1e8; }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:disabled { opacity: .6; cursor: default; }
