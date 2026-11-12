@@ -134,11 +134,13 @@
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow,
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow::before { visibility: hidden; }
 
-/* 2b · the six section cards: opaque black marble face (no see-through), more inner air.
+/* 2b · the section cards: opaque dark face (no see-through), more inner air.
+   r91 art ledger R3: the face is the flat dark slab (--r78-panel, the marble tile's own mean colour) so no gold vein
+   crosses a rule line. The page background and the gold bevel frame round each card keep their marble and gold.
    Phones / tablets / small laptops paint the face on the card itself (rulesSettingsV10.css uses !important there). */
 :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection,
 :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection.scoringRuleSection {
-  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat !important;
+  background: var(--r78-panel) !important;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
@@ -148,7 +150,7 @@
   }
 }
 /* Big landscape desktops (>=1200 wide, 3:2 and wider) draw the gold bevel in ::before and the face in ::after;
-   keep the bevel, swap the face for the same opaque marble. */
+   keep the bevel, swap the face for the same flat dark slab. */
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection,
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection.scoringRuleSection {
@@ -156,7 +158,7 @@
     padding: 22px 30px 24px 28px;
   }
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::after {
-    background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+    background: var(--r78-panel);
   }
   /* rows breathe a little more than the old one-view board */
   :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { row-gap: 20px; column-gap: 20px; }
