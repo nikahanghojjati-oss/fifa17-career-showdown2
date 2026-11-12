@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-11 6:31 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-11 7:55 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `8140dec` (Wed 11 Nov 2:47 PM Boston time) · 248 messages · 75 hand-offs · 471 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `435a956` (Wed 11 Nov 7:54 PM Boston time) · 250 messages · 75 hand-offs · 473 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -47,6 +47,9 @@ Source: Team G art ledger gameplay/r91/art/ART_LEDGER.md (shared project files),
 
 ## Scope note from Team G (r91 lead, 2026-11-11 19:47 UTC) — avoid double work
 Team G PR #1400 (art thread) already removes the CODE-side glow: glow terms in panel box-shadows and title CSS filters on 9 screens (css/connectPlayersV10.css, css/r78-type.css, css/rivalryLegacyV10.css, css/v10Setup.css, css/v10Transfer.css, js/careerScreensV10.js, js/seasonFinalV10.js). HO-074 is for what is BAKED INTO the images: room relights, rim light without a source on heroes, the brass wheel rim, glow painted into plates/props. If you need to touch any of those 7 files, say so on this ticket first. Your HO-070 PR #1394 (css/v10Gazette.css) does not overlap.
+
+## Addendum from Team G art director (2026-11-12 00:00 UTC): glow still inside Team V bundle files
+Team G removed its own resting glows in PR #1400. The same kind of glow remains in these bundle files (count of box-shadow, text-shadow or filter lines with a gold "0 0 Npx" term, hover and selected states excluded): tr2/slice-02-plate/plate.css 14, club/club.css 9 (title, league line, VS), career-statistics/career-statistics.css 6 (title, four headline icons), rule-book/rule-book.css 4 (number circles), legacy/legacy.css 4, home/home.css 3, trophy-room/trophy-room.css 2 (the blurred blob behind each cup), final-winner/final-winner.css (cup picture 22 px halo and the resting .winnerTrophyGlow; keep the fwDrum and fwShine motion beats), shared/showdown-ui.css 2, content/content.css 2, standings, stage, rivalry-statistics 1 each. Ask: remove the gold glow term at rest in each, keep dark contact shadows, keep motion beats and state changes. Team G will not override these with stronger selectors unless you say "go".
 
 </details>
 
@@ -130,8 +133,10 @@ Source: Team G art ledger gameplay/r91/art/ART_LEDGER.md (shared project files),
 
 ### HO-071 · G → V · One handcrafted title family for every screen (no AI look, not shiny)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Wed 11 Nov 7:54 PM · Team V · Done · Update 12 Nov: Nik picked the 'Big 17' Home logo. LOGO_CM17_WORDMARK_V3_{2080,1040,640}.webp replaced at 9c1fe8ab1 (big SHOWDOWN + tall 17, small CAREER MODE above, ~6.5:1, 52 KB at 1040). Use 9c1fe8ab1 as the branch head.
+- Wed 11 Nov 7:48 PM · Team V · Done · Nik OK 11 Nov 7:48 p.m. Eastern. Honours Board family (Cormorant SC Bold, OFL): 24 TITLE_<NAME>_V3_{3840,1920,960,480} (same height per step, size by HEIGHT), MARK_VS_V3, LOGO_CM17_WORDMARK_V3, woff2 + live-text CSS recipe. All lighter than V2. No glow (matches HO-074 #1404). Asset-only branch off main: copy files into your release branch.
 - Wed 11 Nov 2:28 PM · Team V · Received · Team V starting now: 3 matte handcrafted title samples (TRANSFER WAR + SETTINGS) for Nik, then the full set in his pick.
 - Wed 11 Nov 2:24 PM · Team G · Sent
 - Wed 11 Nov 2:29 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -2734,6 +2739,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-071 DONE · Team V → Team G · Wed 11 Nov 7:54 PM Boston time
+
+**One handcrafted title family for every screen (no AI look, not shiny)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-071 DONE · Team V → Team G · Wed 11 Nov 7:48 PM Boston time
+
+**One handcrafted title family for every screen (no AI look, not shiny)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-073 RECEIVED · Team V → Team G · Wed 11 Nov 2:28 PM Boston time
 
