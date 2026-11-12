@@ -3,7 +3,7 @@ Desktop: 16:9 rows of the 1536x1024 pick -> 1X 1536x864 (<=200 KB), 2X Lanczos 3
 import io, json, os, sys
 from PIL import Image
 R = 'project-documents/factory/reviews/HC/'; OUT = 'project-documents/hc-art/'
-ROOMS = {'hall': ('HC21_START_D_V2_TRY2', 906, 130), 'coaches': ('HC23_SQUAD_D_TRY1', 640, 100)}  # file, lip y in 1024, top row
+ROOMS = {'hall': ('HC21_START_D_V2_TRY2', 906, 130), 'coaches': ('HC23_SQUAD_D_V2_TRY2', 642, 100)}  # file, lip y in 1024, top row
 def save(img, path, cap):
     for q in range(90, 40, -5):
         b = io.BytesIO(); img.save(b, 'WEBP', quality=q, method=6)

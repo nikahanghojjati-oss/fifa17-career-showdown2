@@ -23,3 +23,11 @@ Portrait 2:3, the largest size available. Faces and shoulders stay in the band f
 ```
 Wrong last time: cyan is left, the men were redrawn, moved or made bigger, or something was added on the marble. Copy the two men pixel for pixel exactly where and as big as they are, the man on the left on the left; paint every cyan part as the oak room and window above the lip and plain marble below it.
 ```
+
+## Fix run (12 Nov): change only the two balls
+Try 2 (reviews/HC/HC24_SQUAD_P_V2_TRY2.png) passed except the two balls on the shelf, which came out oval like rugby balls. New normal chat, attach only HC24_SQUAD_P_V2_TRY2.png, paste:
+
+```
+Edit this photo. Change only the two balls on the shelf at the top left: make them two old round association footballs (soccer balls), perfectly round, of laced brown leather panels with worn stitching, one darker than the other, resting on the shelf with a small soft contact shadow, nothing written on them. Everything else stays exactly as it is, pixel for pixel: the two men, their faces, the room, the windows, the lamp, the door, the counter and the marble. Same size and shape as the photo.
+```
+Save as `HC24_SQUAD_P_V2.png`.
