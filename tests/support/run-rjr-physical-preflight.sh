@@ -36,4 +36,3 @@ if [[ "$ready" != "true" ]]; then
 fi
 
 CMS_BASE_URL="$base_url" npm run test:stage5h
-CMS_BASE_URL="$base_url" npm run test:stage5i
