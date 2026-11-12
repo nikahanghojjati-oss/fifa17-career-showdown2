@@ -1,18 +1,19 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 5:50 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 5:52 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `99b7eb4` (Thu 12 Nov 5:47 AM Boston time) · 269 messages · 78 hand-offs · 501 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `99b7eb4` (Thu 12 Nov 5:47 AM Boston time) · 269 messages · 78 hand-offs · 503 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-077 · G → V · Rule Book slab 2X (3072x1728) for sharp Chromebook windows
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Thu 12 Nov 5:47 AM · Team G · Sent
+- Thu 12 Nov 5:51 AM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
