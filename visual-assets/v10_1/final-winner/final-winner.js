@@ -124,12 +124,35 @@
     });
   }
 
+  // No-tiebreak rule: a drawn Showdown has no champion, so its title is the SHOWDOWN half of the brush wordmark (cut from
+  // TITLE_FINAL_WINNER, same canvas) and the words for screen readers say draw. Every other state keeps SHOWDOWN CHAMPION.
+  var WORDMARK_DIR = "visual-assets/v10_1/shared/wordmarks/";
+  function wordmarkSet(stem) {
+    return {
+      src: WORDMARK_DIR + stem + "_1920.webp",
+      srcset: [480, 960, 1920, 3840].map(function (w) { return WORDMARK_DIR + stem + "_" + w + ".webp " + w + "w"; }).join(", ")
+    };
+  }
+  function setTitleFor(winner) {
+    var title = document.getElementById("finalWinnerTitle");
+    if (!title) return;
+    var drawn = winner === "draw";
+    var img = title.querySelector("img");
+    var hidden = title.querySelector(".sd-visually-hidden");
+    if (hidden) hidden.textContent = drawn ? "SHOWDOWN DRAW" : "SHOWDOWN CHAMPION";
+    title.dataset.titleKind = drawn ? "draw" : "champion";
+    if (!img) return;
+    var set = wordmarkSet(drawn ? "TITLE_SHOWDOWN_DRAW_V2" : "TITLE_FINAL_WINNER_V2");
+    if (img.getAttribute("src") !== set.src) { img.setAttribute("srcset", set.srcset); img.setAttribute("src", set.src); }
+  }
+
   function applyFrame(fixtures, frameId) {
     const frame = fixtures.frames[frameId];
     root.dataset.frame = frameId;
     root.dataset.status = frame.status || "";
     root.dataset.state = frame.state || "";
     root.dataset.winner = frame.winner || "unconfirmed";
+    setTitleFor(frame.winner);
     root.dataset.spotlight = frame.presentation && frame.presentation.spotlight
       ? frame.presentation.spotlight
       : "neutral";

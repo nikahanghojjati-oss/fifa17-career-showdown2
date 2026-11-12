@@ -3103,6 +3103,19 @@
         "^tests/contracts/r91\\-gfx\\-weak\\-gate\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-draw-final-contracts.cjs",
+      "patterns": [
+        "^visual\\-assets/v10_1/final\\-winner/final\\-winner\\.js$",
+        "^visual\\-assets/v10_1/final\\-winner/app\\-shell\\.html$",
+        "^visual\\-assets/v10_1/final\\-winner/app\\-strings\\.json$",
+        "^visual\\-assets/v10_1/shared/wordmarks/TITLE_(?:FINAL_WINNER|SHOWDOWN_DRAW)_V2_.+\\.webp$",
+        "^data/frontPages\\.js$",
+        "^data/gazetteCopy\\.js$",
+        "^tests/contracts/r91\\-draw\\-final\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
