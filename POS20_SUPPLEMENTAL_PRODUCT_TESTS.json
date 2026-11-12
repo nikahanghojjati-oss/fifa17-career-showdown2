@@ -3067,6 +3067,17 @@
       ]
     },
     {
+      "path": "tests/contracts/r91-governor-beats-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/contracts/r91\\-governor\\-beats\\-contracts\\.cjs$",
+        "^tests/support/device\\-lab\\-profiles\\.cjs$",
+        "^tests/browser/device\\-lab\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r91-draw-final-contracts.cjs",
       "patterns": [
         "^visual\\-assets/v10_1/final\\-winner/final\\-winner\\.js$",

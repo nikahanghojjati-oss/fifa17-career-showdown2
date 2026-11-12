@@ -1171,3 +1171,11 @@ html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelS
   #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] .clubRevealCard { padding-top: 4px; padding-bottom: 5px; }
   #app #clubWheelScreen.cl-on[data-club-reveal-stage="confirmation"] #clubRivalryConfirmation:not(.hidden) { padding-top: 6px; padding-bottom: 7px; }
 }
+/* r91 sharp rooms (art ledger R4): windows wider than 1536 or taller than 864 CSS px drew the 1536px 1X room stretched
+   (Nik's Chromebook at 1920x866 / 1920x1035, DPR 1, Auto = Light). They draw the 1920px cut of the same room (resized from
+   Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
+   unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  #app #clubWheelScreen.cl-on.cl-box .plateBase { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1920.webp') 1.25x); }
+  html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelScreen.cl-on.cl-box .plateBase { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp') 2x); }
+}
