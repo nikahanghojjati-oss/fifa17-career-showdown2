@@ -2994,14 +2994,6 @@
       ]
     },
     {
-      "path": "tests/contracts/r91-legacy-long-history-contracts.cjs",
-      "patterns": [
-        "^css/rivalryLegacyV10\\.css$",
-        "^tests/contracts/r91\\-legacy\\-long\\-history\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/r91-squad-sheet-contracts.cjs",
       "patterns": [
         "^js/squadSheet\\.js$",
@@ -3063,6 +3055,14 @@
         "^visual-assets/v10_1/(?:roulette|special-player)/index\\.html$",
         "^docs/QUALITY_LEVELS\\.md$",
         "^tests/contracts/r91\\-device\\-check\\-verdict\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-legacy-long-history-contracts.cjs",
+      "patterns": [
+        "^css/rivalryLegacyV10\\.css$",
+        "^tests/contracts/r91\\-legacy\\-long\\-history\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
