@@ -3022,6 +3022,19 @@
       ]
     },
     {
+      "path": "tests/contracts/r91-old-art-contracts.cjs",
+      "patterns": [
+        "^css/.+\\.css$",
+        "^js/.+\\.js$",
+        "^index\\.html$",
+        "^package\\.json$",
+        "^tests/browser/r91\\-old\\-art\\-audit\\.cjs$",
+        "^tests/fixtures/r91\\-old\\-art\\-references\\.json$",
+        "^tests/contracts/r91\\-old\\-art\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r91-device-check-published-contracts.cjs",
       "patterns": [
         "^[^/]+\\.html$",
@@ -3042,6 +3055,14 @@
         "^visual-assets/v10_1/(?:roulette|special-player)/index\\.html$",
         "^docs/QUALITY_LEVELS\\.md$",
         "^tests/contracts/r91\\-device\\-check\\-verdict\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-transfer-locked-copy-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/r91\\-transfer\\-locked\\-copy\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },

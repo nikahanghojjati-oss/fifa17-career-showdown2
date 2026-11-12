@@ -136,7 +136,7 @@ async function main(){
     await failing.api.openPanel({resumeActive:true});await settle();
     assert.equal(failing.calls.presentation,1);
     assert.equal(failing.getReady(),true,"an entry that fails shows GET READY (with the reason reported), never a blank Home");
-    assert.ok(failing.calls.errors.includes("Unable to enter the Showdown"));
+    assert.ok(failing.calls.errors.includes("Could not enter the Showdown"));
   });
   await check("RA4 the pair's continue asks the entry to resume an ACTIVE session",async()=>{
     const src=read("js/persistentNikDanielPair.js");

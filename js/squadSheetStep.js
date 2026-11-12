@@ -400,7 +400,8 @@
   // season N-1's (the cumulative lists, so a departure or overall set on the post screen after the last Transfer War is told
   // here too). Only "pre" sheets: both are on both phones before the Russian Roulette, so both papers say the same; the
   // rival's "post" sheet may not exist yet when the paper prints. Read from this phone's kept copies only (no read, no
-  // write): null when one is missing, and the paper then prints without squad news. Season 1 has none (no departures).
+  // write): null when one is missing. The paper asks gazetteEnsure (below) first, so a phone that lacks one has it read
+  // before it prints. Season 1 has none (no departures).
   function sqsIdOf(name,number,signed){return `${name}|${isInt(number)&&number>=0?number:""}|${isInt(signed)&&signed>0?signed:""}`;}
   function sqsSheetFacts(data){
     const out=new Map(),ov=new Map();
@@ -425,6 +426,26 @@
   }
   // Keeps the sheets the paper needs on this phone (season N-1 and N "pre", both managers): a kept copy costs nothing, so
   // this reads only on a phone that never saw one (a new device mid-Showdown). Never holds up or fails a screen.
+  // Review of #1390 (Nik: "not synced"): the paper itself asks for the sheets it needs (season N-1 and N "pre", both managers)
+  // before it prints, so a phone that never kept one (a new device, cleared storage, a lost warm above) tells the same squad
+  // news as the other phone. Kept copies cost nothing: a phone that has them reads nothing; one that lacks them reads the
+  // missing ones once (at most 4 transaction reads, each kept, an empty answer too: both "pre" screens are long past when a
+  // paper prints). true when this phone now has what the other phone has, false when a read could not be made.
+  async function sqsGazetteEnsure({rivalryId,season}={}){
+    if(typeof rivalryId!=="string"||!/^pair_[0-9a-f]{64}$/.test(rivalryId)||!isInt(season)||season<2||season>10)return true;
+    const ctx={rivalryId},need=[];
+    for(const k of [season-1,season])for(const role of ROLES)if(sqsKept(sqsPointKey(ctx,role,k,"pre"))===undefined)need.push([k,role]);
+    if(!need.length)return true;
+    try{
+      const runtime=root.CareerModeProductionFirebaseRuntime;
+      if(!runtime||typeof runtime.ensureAccountServices!=="function")return false;
+      const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
+      if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)return false;
+      const io={firestore:services.firestore,sdk:services.firestoreSdk,rivalryId};
+      for(const [k,role] of need){const read=await sqsGet(io,ctx,role,k,"pre",true);if(!read.ok)return false;}
+      return true;
+    }catch(_error){return false;}
+  }
   async function sqsGazetteWarm(ctx,io){
     try{
       for(const k of [ctx.season-1,ctx.season])if(k>=1)for(const role of ROLES)await sqsGet(io,{rivalryId:ctx.rivalryId},role,k,"pre",true);
@@ -434,5 +455,5 @@
 
   return Object.freeze({contractVersion:1,feature:"cms-squad-management-step",stageId:STAGE_ID,collection:COLLECTION,keptKey:KEPT_KEY,doneKey:DONE_KEY,
     applies:sqsApplies,ensure:sqsEnsure,run:sqsRun,boards:sqsBoards,history:sqsHistory,close:sqsClose,isDone:sqsIsDone,markDone:sqsMarkDone,wentHome:()=>wentHome,
-    events:sqsEvents,parse:sqsParse,gazetteNews:sqsGazetteNews,gazetteWarm:sqsGazetteWarm,docId:sqsDocId,store:Object.freeze({get:sqsGet,create:sqsCreate,watch:sqsWatch})});
+    events:sqsEvents,parse:sqsParse,gazetteNews:sqsGazetteNews,gazetteWarm:sqsGazetteWarm,gazetteEnsure:sqsGazetteEnsure,docId:sqsDocId,store:Object.freeze({get:sqsGet,create:sqsCreate,watch:sqsWatch})});
 });
