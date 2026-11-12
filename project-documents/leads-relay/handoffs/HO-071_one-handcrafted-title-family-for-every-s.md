@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-11T19:24:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:26Z", "by": "V", "status": "RECEIVED", "note": "Team V starting now: 3 matte handcrafted title samples (TRANSFER WAR + SETTINGS) for Nik, then the full set in his pick."}],
+ "evidence": ["claude/project-thread-y5jwgo 5259935b0: visual-assets/v10_1/shared/wordmarks/v3/README.md"],
+ "log": [{"at": "2026-11-11T19:24:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:26Z", "by": "V", "status": "RECEIVED", "note": "Team V starting now: 3 matte handcrafted title samples (TRANSFER WAR + SETTINGS) for Nik, then the full set in his pick."}, {"at": "2026-11-12T00:48:36Z", "by": "V", "status": "DONE", "note": "Nik OK 11 Nov 7:48 p.m. Eastern. Honours Board family (Cormorant SC Bold, OFL): 24 TITLE_<NAME>_V3_{3840,1920,960,480} (same height per step, size by HEIGHT), MARK_VS_V3, LOGO_CM17_WORDMARK_V3, woff2 + live-text CSS recipe. All lighter than V2. No glow (matches HO-074 #1404). Asset-only branch off main: copy files into your release branch."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
  "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q6xbGi3wPAd4kdiRKz"}
 }
