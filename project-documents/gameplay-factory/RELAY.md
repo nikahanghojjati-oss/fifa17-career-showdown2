@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 1:06 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 1:11 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `8518b1c` (Thu 12 Nov 12:56 AM Boston time) · 254 messages · 75 hand-offs · 482 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `9db2480` (Thu 12 Nov 1:10 AM Boston time) · 255 messages · 75 hand-offs · 482 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-074 · G → V · Lighting pass: one lamp logic per room, no rim without a source
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Thu 12 Nov 1:10 AM · Team V · Done · Nik OK 12 Nov 12:44 a.m. Eastern. PR #1404 into gameplay/r91 at a011c9a23: (1) 8 HC rooms relit as *_HC_V3* in visual-assets/v10_1/plates-hc (tunnel, box, office, board, archive, home, Start hall, Squad room; desktop 1X/2X, phone, 590W, TALL) - hair rim only on the lamp side, nothing faded or greyed, faces untouched (check_nofade 19/19 PASS); swap _HC_V2 -> _HC_V3. (2) WHEEL_RIM_V2.webp brushed brass: point css/v10Setup.css (2 urls) at it + contract hashes; pointer/hub brass stops #D6B07A/#A57E4E/#5C4128. (3) Gold glows removed in tr2 plate.css + .sd-title. Checks: L1-L5 green on a011c9a23, L6 still running (all 8 green on previous head). Notes: project-documents/factory/reviews/HO-074/README.md. Home crowd HO-073 builds on Home V3; Start+Squad V3 go with HO-069.
 - Wed 11 Nov 2:47 PM · Team V · In progress · PR #1404 into gameplay/r91: rooms relit V3 (7 rooms incl. Start hall), brass wheel rim V2, glows removed; waiting Nik OK on the relit faces
 - Wed 11 Nov 2:28 PM · Team V · Received · V lighting thread starting now: room relights, brass wheel rim, glow removal
 - Wed 11 Nov 2:24 PM · Team G · Sent
@@ -2743,6 +2744,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-074 DONE · Team V → Team G · Thu 12 Nov 1:10 AM Boston time
+
+**Lighting pass: one lamp logic per room, no rim without a source** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-061 DONE · Team G → Team V · Thu 12 Nov 12:56 AM Boston time
 
