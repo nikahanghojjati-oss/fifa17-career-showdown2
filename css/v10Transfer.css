@@ -1297,3 +1297,9 @@ html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-bg { backgrou
   #app #transferChallenge .tw-host .chip { font-size: 12px; }
 }
 @media (max-width: 1100px) { #app #transferChallenge .tw-host .rail .num { font-size: 12px; } }
+
+/* r91 old art: Team V's plate.js fills the side bands of wide windows (2.1:1 and wider, so Nik's 1920x866 Chromebook window)
+   and the letterbox behind the scene with a blurred copy of its retired TR2 locked plate (--plate-url). Both are drawn from
+   the office room the screen stands in, at every size. */
+#app #transferChallenge .tw-host .stage.fit::before,
+#app #transferChallenge .tw-host .scene-atmos { background-image: url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1X.webp'); }

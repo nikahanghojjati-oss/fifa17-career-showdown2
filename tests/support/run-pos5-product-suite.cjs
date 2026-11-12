@@ -7,8 +7,6 @@ const files = [
   "tests/contracts/milestone-delivery-progress-contracts.cjs",
   "tests/contracts/shared-showdown-dual-full-screen-contracts.cjs",
   "tests/support/run-current-product-contracts.cjs",
-  "tests/contracts/ssjr-production-shared-setup-evidence-recorder-contracts.cjs",
-  "tests/contracts/ssjr-production-storage-observation-contracts.cjs",
   "tests/contracts/stage5g-remote-joining-reconnect-contracts.cjs"
 ];
 

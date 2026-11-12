@@ -124,16 +124,16 @@ const homeCss=read("css/homeV10.css");
 
 {
   const fw=read("js/seasonFinalV10.js");
-  const reg="(min-width:1024px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape)";
+  const reg="(min-width:901px)"; // r91 old art: the current room reaches every desktop window from 901px wide
   for(const [marker,label] of [["{\n #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {\n  --fw-k:","plate and slots"],["{\n #app #seasonEntry .v10FinalStage {\n  --fw-r0:","plaque rides up"]])
-    assert.ok(fw.includes(`@media ${reg} ${marker}`),`S9 the Final Winner ${label} block starts at 1024px wide on 3:2 windows`);
-  assert.ok(fw.includes(`@media (min-width:1200px) and (min-height:600px),\n       ${reg} {\n #app #seasonEntry .v10FinalStage { container-type:size;`),"S9 the desktop Final Winner stage also covers 1024-1199px at 3:2");
+    assert.ok(fw.includes(`@media ${reg} ${marker}`),`S9 the Final Winner ${label} block starts at 901px wide (r91 old art)`);
+  assert.ok(fw.includes(`@media (min-width:1200px) and (min-height:600px),\n       ${reg} {\n #app #seasonEntry .v10FinalStage { container-type:size;`),"S9 the desktop Final Winner stage covers every desktop window from 901px wide");
   assert.ok(fw.includes("@media (min-width:901px) and (max-width:1023px) and (min-height:501px),\n       (min-width:1024px) and (max-width:1199px) and (min-height:501px) and (max-height:599px),\n       (min-width:1024px) and (max-width:1199px) and (min-height:600px) and (max-aspect-ratio:1499/1000),"),"S9 the tablet button kit leaves the new desktop range alone and keeps iPads");
   const cup=fw.indexOf("container-type:inline-size; height:auto; bottom:calc(12.24% + max(12.5%,132px) + 8px + var(--fw-th));");
   assert.ok(cup>0,"S9 on tablets the trophy slot ends 8px above the honours board (and the close strip)");
   assert.ok(fw.lastIndexOf("(min-width:1024px) and (max-width:1199px) and (min-height:600px) and (max-aspect-ratio:1499/1000),",cup)>fw.lastIndexOf("}\n",cup-200),"S9 the tablet trophy fit uses the tablet media list");
   assert.ok(fw.includes("top:calc(var(--fw-cup-y) + var(--fw-cup-k) * (1 - var(--fw-cup-s)) * 150.15cqw); bottom:0; height:auto;\n  max-height:calc(var(--fw-cup-k) * var(--fw-cup-s) * 150.15cqw);"),"S9 the tablet trophy keeps its crown line and never grows; it shrinks from the base up");
-  ok("S9 Final Winner 1024-1199px at 3:2 uses the desktop picture layout; on iPads the cup ends above the board");
+  ok("S9 Final Winner from 901px wide uses the desktop picture layout; on iPads the cup ends above the board");
 }
 
 console.log(`r80 short-screens contracts: ${checks} checks passed`);

@@ -113,7 +113,7 @@
    2 · RULES SCREEN FIRST (Rule Book: #ruleBook.v10RuleBook, built by js/ruleBook.js, decorated by
    js/rulesSettingsV10.js, laid out by css/rulesSettingsV10.css + visual-assets/v10_1/rule-book/rule-book.css)
    One body font (Barlow), gold condensed section headings, ivory body, shorter lines, more air.
-   Title block (crown, CAREER MODE SHOWDOWN eyebrow, RULE BOOK wordmark picture, tagline): untouched.
+   Title block (RULE BOOK wordmark picture, tagline): untouched; its crown and eyebrow are hidden by 2a2.
    ===================================================================================================== */
 
 /* 2a · hero summary line under the wordmark ("Daniel and Nik. One league. Permanent clubs. One rivalry.").
@@ -125,6 +125,14 @@
   letter-spacing: 0;
   text-shadow: 0 1px 2px #000, 0 0 6px #000, 0 0 14px #000;
 }
+
+/* 2a2 · r91 art ledger R1 (Nik 2026-11-12 picked "Remove both" for the crown and the small line above every title):
+   the crown and the "CAREER MODE SHOWDOWN" line above the RULE BOOK wordmark are hidden, as on the other title blocks
+   (rule at the end of this sheet). Hidden, not removed: the line keeps its box, so the wordmark, the tagline, the
+   summary and the cards stay exactly where they are. The :not(#sa-f*) chain is this sheet's usual way to outrank the
+   per-size rules in rulesSettingsV10.css. */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow::before { visibility: hidden; }
 
 /* 2b · the six section cards: opaque black marble face (no see-through), more inner air.
    Phones / tablets / small laptops paint the face on the card itself (rulesSettingsV10.css uses !important there). */
@@ -141,7 +149,7 @@
 }
 /* Big landscape desktops (>=1200 wide, 3:2 and wider) draw the gold bevel in ::before and the face in ::after;
    keep the bevel, swap the face for the same opaque marble. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection,
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection.scoringRuleSection {
     background: none !important;
@@ -664,7 +672,7 @@
    The status board hung 44 plate-px left of centre, so it touched Daniel's hair while leaving a wide gap to Nik. Its centre
    now sits on the midpoint between the two heads (plate x 5 right of the old anchor), giving equal gaps on both sides.
    The three entry/verdict boxes get equal gutters within the same 1405 plate-px row. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) { transform: translate(calc(var(--k) * 5px), calc(var(--k) * 24px)) !important; }
 }
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 11/5) and (orientation: landscape) {
@@ -702,7 +710,7 @@
 /* Transfer War guess entry: the board said WINDOW CLOSED twice (the closed sign, then the status "Window closed - Guess
    entry"). Hierarchy: one message, as the signing phase already does. */
 :root #app #transferChallenge .tw-host .sign-screen:not(.is-live):not(.status-board) .sign-main.closed { display: none; }
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #transferChallenge .tw-host .sign-status.reg:not(.full):not(.two-line) { justify-content: center; white-space: normal; text-align: center; }
 }
 
@@ -1043,10 +1051,10 @@
 /* 4v Studio Small Axe 40/40, per-screen finishes (desktop plate layout only; phones unchanged).
    Rule Book: the brush wordmark's top strokes touched the CAREER MODE SHOWDOWN kicker above it. 6 more units of air so
    kicker and title read as two lines. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (orientation:landscape) {
   :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 14); }
 }
-@media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (max-height:820px) and (orientation:landscape) {
   :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 11); }
 }
 /* Season Results review: the two SEASON SCORE plaques are the answer of the whole board, but they sat as quietly as the
@@ -1118,7 +1126,7 @@
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .playerCard:nth-child(1) { animation-delay: 80ms; }
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .playerCard:nth-child(2) { animation-delay: 120ms; }
 }
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #dashboard.v26Skin .showdownOverview { width: min(680px, 92vw); margin-top: 12px; }
 }
 
@@ -1661,3 +1669,15 @@
 @media (max-width: 480px) {
   :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow span { font-size: 12px; }
 }
+
+/* r91 art ledger R1 (Nik 2026-11-11: "titles and the pages look ... over decorated"): the crown glyph and the
+   "CAREER MODE SHOWDOWN 17" line above a screen title repeat on every screen and say nothing new. They are hidden, not
+   removed: each box keeps its size, so no title, face or panel moves, and screen readers still get the screen title.
+   Rule Book keeps its own header until its rewrite (PR #1391) lands. Club Assignment draws the same line (.clubKicker) only
+   in taller windows such as the full-screen Chromebook; it is absolutely placed, so hiding it moves nothing either.
+   The :not(#sa-f*) chain is this sheet's usual way to outrank the per-screen rules (Trophy Room and Final Winner set
+   visibility on the kicker and its crown themselves). */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(.legacyTitleBlock, .titleBlock, .trophyTitleBlock, .finalWinnerTitleBlock, #rvTitleBlock, .sdg-header, .settingsTitleBlock) > .sd-eyebrow,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(.legacyTitleBlock, .titleBlock, .trophyTitleBlock, .finalWinnerTitleBlock, #rvTitleBlock, .sdg-header, .settingsTitleBlock) > .sd-eyebrow::before,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) .season-title-block > .season-eyebrow,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #clubWheelScreen .clubKicker { visibility: hidden; }

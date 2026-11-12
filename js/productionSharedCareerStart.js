@@ -124,7 +124,7 @@
       });
     }catch(error){
       lastError=pcstErrorText(error,"Your Career Start was not recorded.");
-      pcstReport("Unable to acknowledge Shared Career Start",error);
+      pcstReport("Could not confirm Career Start",error);
       return false;
     }finally{
       busy=false;pcstRender();if(pcstReady())pcstScheduleAutoContinue();
@@ -151,7 +151,7 @@
       return true;
     }catch(error){
       lastError=pcstErrorText(error,"The Transfer War could not be opened.");
-      pcstReport("Unable to continue to Shared Transfer Challenge",error);
+      pcstReport("Could not continue to the Transfer War",error);
       return false;
     }finally{
       busy=false;transferOpening=false;pcstRender();
@@ -520,7 +520,7 @@
     if(button.dataset.sharedCareerStart!=="true")button.dataset.sharedCareerStart="true";
     return true;
   }
-  function pcstCapture(event){const button=event.target&&event.target.closest&&event.target.closest(`#${CONTROL_ID}`);if(!button||button.dataset.sharedCareerStart!=="true"||!pcstConfirmed())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pcstOpenPanel().catch(error=>pcstReport("Unable to open Shared Career Start",error));}
+  function pcstCapture(event){const button=event.target&&event.target.closest&&event.target.closest(`#${CONTROL_ID}`);if(!button||button.dataset.sharedCareerStart!=="true"||!pcstConfirmed())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pcstOpenPanel().catch(error=>pcstReport("Could not open Career Start",error));}
   function pcstWaitingKey(){if(!view||!view.state||pcstReady()||!pcstOwnAcknowledged(view)||!pcstPanelOpen())return "";return `${view.managerRole}|${view.state.revision}`;}
   function pcstFastPollDue(){const key=pcstWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
   // r75: while this screen waits on the partner, one live listener watches the shared document the partner's move changes;
