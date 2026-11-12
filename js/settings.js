@@ -242,7 +242,7 @@ function setSettingsMenuFeedbackPreference(enabled){
 
     if(typeof window.showAppNotice === "function"){
         window.showAppNotice(
-            enabled ? "Menu click feedback is enabled." : "Menu click feedback is muted.",
+            enabled ? "Menu click feedback is on." : "Menu click feedback is off.",
             "success",
             3000
         );
@@ -897,8 +897,8 @@ async function finishSettingsSackedShowdown(name){
     if(typeof window.showAppNotice === "function"){
         window.showAppNotice(
             phase === "CLOSED"
-                ? `The "${name}" Showdown is saved to History as completed (sacked).`
-                : `The "${name}" Showdown has already finished: a manager was sacked. It is not ended early. It saves to History as completed when it closes; open it with CONTINUE CAREER on Home if it has not.`,
+                ? `The "${name}" Showdown is saved to Legacy as completed (sacked).`
+                : `The "${name}" Showdown has already finished: a manager was sacked. It is not ended early. It saves to Legacy as completed when it closes; open it with CONTINUE CAREER on Home if it has not.`,
             "success",
             8000
         );
@@ -926,7 +926,7 @@ async function runSettingsEndShowdown(button){
     const confirmedSaveId = active && active.identity && active.identity.saveId ? String(active.identity.saveId) : null;
     const confirmedLocalId = active && active.id !== undefined && active.id !== null ? String(active.id) : null;
     const confirmed = await settingsAskConfirm(
-        `End the "${name}" Showdown? Ends this Showdown for both players. History keeps it as Ended early. This cannot be undone.`,
+        `End the "${name}" Showdown? Ends this Showdown for both players. Legacy keeps it as Ended early. This cannot be undone.`,
         "danger"
     );
     if(confirmed !== true){ return false; }
@@ -975,7 +975,7 @@ async function runSettingsEndShowdown(button){
         forgetSettingsEndedSession(released && released.endedRivalryId);
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
-                `Ended the "${name}" Showdown for both players. History keeps it as Ended early.`,
+                `Ended the "${name}" Showdown for both players. Legacy keeps it as Ended early.`,
                 "success",
                 6200
             );
@@ -1041,7 +1041,7 @@ function createDataPanel(){
         "p",
         "settingsDataNote",
         active
-            ? "END SHOWDOWN ends it for both players. History keeps it as Ended early. Your player, device, history and settings stay."
+            ? "END SHOWDOWN ends it for both players. Legacy keeps it as Ended early. Your player, device, Legacy and settings stay."
             : "No Showdown in progress. Your finished Showdowns are on the History screen."
     );
 

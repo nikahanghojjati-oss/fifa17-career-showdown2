@@ -158,7 +158,7 @@
       syncCard();
       const observer=grid&&root.MutationObserver?new root.MutationObserver(syncCard):null;
       observer?.observe(grid,{childList:true,subtree:true,attributes:true,attributeFilter:["data-selected"]});
-      const touch=root.matchMedia?.("(max-width:900px) and (orientation:portrait), (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape)");
+      const touch=root.matchMedia?.("(max-width:900px) and (orientation:portrait), (max-width:900px) and (max-height:500px) and (orientation:landscape)");
       const syncKey=event=>{
         if(touch?.matches&&["ArrowLeft","ArrowRight"].includes(event.key)){
           syncCard();grid.querySelector(".legacyVisibleCard")?.focus?.({preventScroll:true});
@@ -202,7 +202,7 @@
   // HO-068: upright phones up to 600px wide draw Team V's handcrafted archive room (plates-hc/ENV_ARCHIVE_PHONE_HC_V2,
   // the lighter 590W file on Light or Save-Data); wider upright screens and sideways phones keep ENV_LEGACY_PHONE_V2 as before.
   function lgArchive(m){const lite=root.document?.documentElement?.dataset?.assets==="0";
-    return m.replace('<source media="(max-width: 900px)" srcset="visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp"','<source media="(max-width: 600px) and (orientation: portrait)" srcset="visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2'+(lite?"_590W":"")+'.webp" type="image/webp">\n      <source media="(max-width: 900px)" srcset="visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp"');}
+    return m.replace('<source media="(max-width: 900px)" srcset="visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp"','<source media="(max-width: 900px) and (orientation: portrait)" srcset="visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2'+(lite?"_590W":"")+'.webp" type="image/webp">\n      <source media="(max-width: 900px)" srcset="visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp"');}
   function undraw(screen,host){if(reloads[screen]?.flight)reloads[screen].flight.left=true;clean(screen);host.innerHTML=originalMarkup[screen]??"";delete host.dataset.rivalryLegacyV10;}
   async function registerRivalryLegacy(){
     if(!registration)registration=(async()=>{

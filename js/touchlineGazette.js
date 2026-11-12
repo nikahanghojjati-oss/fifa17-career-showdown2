@@ -505,7 +505,12 @@
 
   // ---------- the page (browser only) ----------
   const SEEN_KEY="careerModeShowdown.gazetteSeen.v1",SEEN_MAX=60;
-  const ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500;
+  // r91 (Nik 2026-11-11: "sometimes the Gazette was not showing up"): a paper is due at one tap only, and a tap whose files,
+  // fonts and pictures were not all decoded within the cap went on without it, so that phone never saw that paper (on a slow
+  // phone or a cold cache, often the final one: it has the most pictures). Now warm() prepares the whole paper (files, then the
+  // edition, then its pictures) while Season Results or Final Winner is still being read, and a tap that still finds it not
+  // ready waits up to ASSET_CAP_MS (its button marked busy) instead of 4 s. Files only: still no Firebase read or write.
+  const ASSET_CAP_MS=9000,FINAL_SAFETY_MS=2500,SQUAD_CAP_MS=4000;
   const BASE="visual-assets/v10_1/content/";
   const FONTS=Object.freeze([["Gazette Mast","normal",400,"unifrakturmaguntia-latin-400-normal"],["Gazette Head","normal",700,"playfair-display-latin-700-normal"],["Gazette Head","normal",900,"playfair-display-latin-900-normal"],["Gazette Head","italic",400,"playfair-display-latin-400-italic"],["Gazette Body","normal",400,"old-standard-tt-latin-400-normal"],["Gazette Body","italic",400,"old-standard-tt-latin-400-italic"],["Gazette Body","normal",700,"old-standard-tt-latin-700-normal"]]);
   const FONT_FILES=Object.freeze(FONTS.map(f=>`${BASE}gazette/fonts/${f[3]}.woff2`));
@@ -671,12 +676,13 @@
     if(previous&&previous.page.isConnected)previous.page.remove();
     const page=doc.createElement("div");page.id="touchlineGazette";page.className=`tgzPage tgzPage--${plan.kind}`;page.setAttribute("role","region");page.setAttribute("aria-label","The Touchline Gazette");
     page.dataset.gazetteKey=plan.edition.key;
-    // the plate the screen just showed (Season Results or Final Winner), with the shell's own urls: already in the cache
-    const plate=plan.kind==="final"?"FINAL_WINNER":"SEASON_RESULTS",dir="visual-assets/v10_1/plates-v2/ENV_"+plate;
+    // the room the screen just showed (Season Results and Final Winner both stand in the HO-068 board room), with the
+    // shell's own urls: already in the cache. r91 old-art: the plates-v2 Season Results and Final Winner plates are retired.
+    const dir="visual-assets/v10_1/plates-hc/ENV_BOARD_",lean=doc.documentElement?.dataset?.assets==="0";
     // (absolute: a url() inside a custom property resolves against the stylesheet that uses it, css/)
     const abs=path=>{const url=assetUrl(path);try{return new URL(url,doc.baseURI).href;}catch(error){return url;}};
-    page.style.setProperty("--tgz-plate-desktop",`image-set(url("${abs(dir+"_PLATE_V2_1X.webp")}") 1x,url("${abs(dir+"_PLATE_V2_2X.webp")}") 2x)`);
-    page.style.setProperty("--tgz-plate-phone",`url("${abs(dir+"_PHONE_V2.webp")}")`);
+    page.style.setProperty("--tgz-plate-desktop",`image-set(url("${abs(dir+"PLATE_HC_V2_1X.webp")}") 1x,url("${abs(dir+"PLATE_HC_V2_2X.webp")}") 2x)`);
+    page.style.setProperty("--tgz-plate-phone",`url("${abs(dir+"PHONE_HC_V2"+(lean?"_590W":"")+".webp")}")`);
     // F5-15: where the screen was scrolled, given back if the paper closes onto it again
     const main=host.closest?.("main");
     const scroll=previous?previous.scroll:{main:main?Number(main.scrollTop)||0:0,window:Number(root.scrollY??root.pageYOffset)||0};
@@ -755,8 +761,25 @@
     return null;
   }
   // The files, then the paper, then its pictures, all inside the cap: resolves true only when the paper is ready to show.
+  // Review of #1390 (Nik: "not synced"): both phones must print the same squad news, so a phone that does not keep a sheet
+  // this paper needs (a new device, cleared storage) has it read first: js/squadSheetStep.js gazetteEnsure, at most 4 reads
+  // once (each kept), none on a phone that has them. Capped at SQUAD_CAP_MS and never fails the paper.
+  // Review of #1390 (P3): one ask per paper while the page is up. warm() looks again a few times on Final Winner and the tap asks
+  // too; a closed rivalry refuses the read (the Rules), so asking again would only add refused, possibly billed reads. A paper
+  // whose ask failed prints without squad news.
+  const squadAsks=new Map();
+  function tgSquadReady(key){
+    const m=/^(pair_[0-9a-f]{64})\|(?:season|final)\|(\d+)$/.exec(String(key||"")),step=root.CareerModeSquadSheetStep;
+    if(!m||!step||typeof step.gazetteEnsure!=="function")return Promise.resolve(false);
+    let timer=null,ask=squadAsks.get(m[0]);
+    if(!ask){
+      ask=Promise.resolve().then(()=>step.gazetteEnsure({rivalryId:m[1],season:Number(m[2])})).then(value=>value===true,()=>false);
+      squadAsks.set(m[0],ask);if(squadAsks.size>12)squadAsks.delete(squadAsks.keys().next().value);
+    }
+    return Promise.race([ask,new Promise(resolve=>{timer=root.setTimeout(()=>resolve(false),SQUAD_CAP_MS);})]).then(value=>{root.clearTimeout(timer);return value;});
+  }
   function tgReady(plan){
-    const work=loadAssets().then(()=>{const edition=plan.build();if(!edition||edition.key!==plan.key)return false;plan.edition=edition;return Promise.all(edPictures(edition).map(decode)).then(()=>true);}).then(value=>value===true,()=>false);
+    const work=loadAssets().then(()=>tgSquadReady(plan.key)).then(()=>{const edition=plan.build();if(!edition||edition.key!==plan.key)return false;plan.edition=edition;return Promise.all(edPictures(edition).map(decode)).then(()=>true);}).then(value=>value===true,()=>false);
     return Promise.race([work,new Promise(resolve=>root.setTimeout(()=>resolve(false),ASSET_CAP_MS))]);
   }
   function onClick(event){
@@ -775,8 +798,13 @@
     if(!plan)return;
     event.preventDefault();event.stopPropagation();event.stopImmediatePropagation?.();
     opening=plan;
+    // the tapped button says it is working while its paper is prepared (no dimming, nothing moves). Review of #1390: the
+    // mark comes off whatever happened to the button meanwhile (a render may disable it during the wait), and only when this
+    // tap put it there: a stuck aria-busy would hold js/offlineApp.js's update boundary for good.
+    let mine=false;try{mine=plan.button.getAttribute?.("aria-busy")!=="true";if(mine)plan.button.setAttribute("aria-busy","true");}catch(_error){mine=false;}
     tgReady(plan).then(ready=>{
       opening=null;
+      try{if(mine)plan.button.removeAttribute?.("aria-busy");}catch(_error){}
       if(plan.cancelled)return;
       // The player went somewhere else meanwhile: nothing happens. Files or paper not ready: the tap goes on as before.
       if(activeScreen()!=="seasonEntry"||!plan.button.isConnected&&plan.kind==="season")return;
@@ -786,13 +814,38 @@
     });
   }
   function onScreen(event){const screen=event?.detail?.screen??activeScreen();if(current&&screen!=="seasonEntry")tgClose();}
-  // Warm the page's files while Season Results or Final Winner is up, so the paper is ready the moment it is tapped.
-  let warmTimer=null;
-  function warm(){
+  // Warm the page's files while Season Results or Final Winner is up, so the paper is ready the moment it is tapped. r91: the
+  // paper that will be due (worked out from the same verified history the tap uses, never from the tapped button) is built
+  // and its pictures decoded too, so the tap finds everything in the browser's cache. A paper this phone has read is skipped.
+  let warmTimer=null,warmTries=0;
+  const warmed=new Set(),kept=new Map();
+  function duePaper(){
+    const host=root.document?.getElementById("seasonEntry");if(!host||host.classList.contains("hidden"))return null;
+    if(host.classList.contains("v10FinalMode")){
+      const final=root.FINAL_WINNER_FIXTURES?.frames?.LIVE||null,history=root.CareerModeSeasonFinalV10?.gazetteHistory?.()||null;
+      const input=finalInput({final,history}),key=finalKey(input);if(!key||seen(key))return null;
+      return {key,build:()=>finalEdition({...input,specialPlayers:input.specialPlayers||tgSpecial(input.projection.rivalryId)})};
+    }
+    const history=tgState("CareerModeProductionSharedHistoryConvergence"),input=seasonInput({history}),key=seasonKey(input);
+    // a sacked season ends the Showdown: its paper is the final one, never a season paper
+    if(!key||seen(key)||tgEndOf(input.projection).played<=input.seasonNumber)return null;
+    return {key,build:()=>seasonEdition({...input,specialPlayers:tgSpecial(history?.rivalryId||input.projection.rivalryId)})};
+  }
+  function keepPicture(url){if(kept.has(url))return Promise.resolve(true);return decode(url).then(()=>{const img=new root.Image();img.src=url;kept.set(url,img);if(kept.size>12)kept.delete(kept.keys().next().value);return true;});}
+  function warmPaper(){
+    let due=null;try{due=duePaper();}catch(_error){due=null;}
+    if(!due)return false;if(warmed.has(due.key))return true;warmed.add(due.key);
+    loadAssets().then(()=>tgSquadReady(due.key)).then(()=>{const edition=due.build();if(!edition||edition.key!==due.key)throw new Error("GAZETTE_NOT_DUE");return Promise.all(edPictures(edition).map(keepPicture));}).catch(()=>{warmed.delete(due.key);});
+    return true;
+  }
+  function warm(event){
+    if(event?.type==="career-mode-screen-shown")warmTries=0;
     if(warmTimer||activeScreen()!=="seasonEntry")return;
     warmTimer=root.setTimeout(()=>{warmTimer=null;if(activeScreen()!=="seasonEntry")return;
-      const history=tgState("CareerModeProductionSharedHistoryConvergence");
-      if(history?.phase==="HISTORY_CONVERGED"||root.document?.getElementById("seasonEntry")?.classList.contains("v10FinalMode"))loadAssets().catch(()=>{});
+      const history=tgState("CareerModeProductionSharedHistoryConvergence"),finalMode=Boolean(root.document?.getElementById("seasonEntry")?.classList.contains("v10FinalMode"));
+      if(history?.phase==="HISTORY_CONVERGED"||finalMode)loadAssets().catch(()=>{});
+      // Final Winner draws its frame a moment after the events that wake this: look again a few times while the screen is up.
+      if(!warmPaper()&&(finalMode||history?.phase==="HISTORY_CONVERGED")&&warmTries<8){warmTries+=1;root.setTimeout(()=>warm(),900);}
     },400);
   }
   function tgInstall(){

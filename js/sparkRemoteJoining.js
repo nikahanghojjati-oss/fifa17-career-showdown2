@@ -94,18 +94,18 @@
     await account.initialize();
     const accountState=account.getState();
     if(!accountState||accountState.connected!==true||!accountState.accountId)throw srjError("REMOTE_JOINING_AUTH_REQUIRED","Sign in with Google on Home before starting or joining a private session.");
-    if(!pairing||typeof pairing.initialize!=="function"||typeof pairing.getState!=="function")throw srjError("REMOTE_JOINING_DEVICE_UNAVAILABLE","Registered-device authority is unavailable.");
+    if(!pairing||typeof pairing.initialize!=="function"||typeof pairing.getState!=="function")throw srjError("REMOTE_JOINING_DEVICE_UNAVAILABLE","Registered device details are unavailable.");
     await pairing.initialize();
     const pairingState=pairing.getState();
     if(!pairingState||pairingState.registered!==true||!pairingState.deviceId)throw srjError("REMOTE_JOINING_DEVICE_REQUIRED","This phone is not set up yet. Go Home, sign in again and choose Daniel or Nik, then try again.");
-    if(!rivalry||typeof rivalry.initialize!=="function"||typeof rivalry.getState!=="function")throw srjError("REMOTE_JOINING_RIVALRY_UNAVAILABLE","Connected Rivalry authority is unavailable.");
+    if(!rivalry||typeof rivalry.initialize!=="function"||typeof rivalry.getState!=="function")throw srjError("REMOTE_JOINING_RIVALRY_UNAVAILABLE","Connected Rivalry details are unavailable.");
     await rivalry.initialize();
     const rivalryState=rivalry.getState();
     if(!rivalryState||rivalryState.attached!==true||!rivalryState.rivalryId)throw srjError("REMOTE_JOINING_RIVALRY_REQUIRED","Daniel and Nik are not connected on this phone yet. Go Home and tap CONTINUE CAREER first.");
     const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
     if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)throw srjError("REMOTE_JOINING_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable.");
     const user=services.auth.currentUser;
-    if(!user||user.uid!==accountState.accountId)throw srjError("REMOTE_JOINING_AUTH_MISMATCH","The current Google account no longer matches the Connected Account authority.");
+    if(!user||user.uid!==accountState.accountId)throw srjError("REMOTE_JOINING_AUTH_MISMATCH","The current Google account no longer matches the Connected Account.");
     if(rivalryState.accountId&&rivalryState.accountId!==user.uid)throw srjError("REMOTE_JOINING_RIVALRY_ACCOUNT_MISMATCH","The attached Connected Rivalry belongs to a different account.");
     if(rivalryState.deviceId&&rivalryState.deviceId!==pairingState.deviceId)throw srjError("REMOTE_JOINING_DEVICE_MISMATCH","The attached Connected Rivalry belongs to a different registered browser identity.");
     return Object.freeze({protocol,services,user,accountId:user.uid,deviceId:pairingState.deviceId,rivalryId:rivalryState.rivalryId});
@@ -201,10 +201,10 @@
       else if(action==="join")result=await context.protocol.joinSession(await srjWriteOptions(context,sessionId));
       else if(action==="close")result=await context.protocol.closeSession(await srjWriteOptions(context,sessionId));
       else throw srjError("REMOTE_JOINING_RECOVERY_ACTION_INVALID","The unresolved private-session action is invalid.");
-      if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_RECOVERY_FAILED",srjFailureMessage(result,"Private-session recovery could not be confirmed."));
-      if(action==="host"){srjAcceptResult(result,context,"host",result.replayed?"Private session recovery confirmed the original host capability. No duplicate session was created.":"Private session is open. Share the full code directly with the other paired manager. It is kept only in this page's memory.");srjWatchForJoin(result.sessionId);}
-      else if(action==="join")srjAcceptResult(result,context,"peer",result.replayed?"Private session recovery confirmed the original join on the same capability.":"Private session is active with exactly the two paired rivalry accounts.");
-      else srjAcceptResult(result,context,srjState.role||"member",result.replayed?"Private session recovery confirmed the original terminal close on the same capability.":"Private session is closed terminally. Its code remains only in page memory until you forget it or reload.");
+      if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_RECOVERY_FAILED",srjFailureMessage(result,"Private session recovery could not be confirmed."));
+      if(action==="host"){srjAcceptResult(result,context,"host",result.replayed?"Private session recovery confirmed your original host code. No duplicate session was created.":"Private session is open. Share the full code directly with the other paired manager. It is kept only in this page's memory.");srjWatchForJoin(result.sessionId);}
+      else if(action==="join")srjAcceptResult(result,context,"peer",result.replayed?"Private session recovery confirmed the original join with the same code.":"Private session is active with exactly the two paired rivalry accounts.");
+      else srjAcceptResult(result,context,srjState.role||"member",result.replayed?"Private session recovery confirmed the original close with the same code.":"Private session is closed for good. Its code stays in page memory only until you forget it or reload.");
       return result;
     }catch(error){
       if(srjIsAmbiguousFailure(error))return srjPendingFailure(error,action);
@@ -312,7 +312,7 @@
       const context=await srjResolveContext();
       const result=await context.protocol.readSession(srjOperationOptions(context,remembered));
       if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_READ_FAILED",srjFailureMessage(result,"Could not check the connection. Try again."));
-      const clockNote=result.expiredByClock?" The provider expiry boundary has passed; no automatic mutation was performed.":"";
+      const clockNote=result.expiredByClock?" The session's expiry time has passed; nothing was changed automatically.":"";
       srjAcceptResult(result,context,srjState.role||"member",`Private session refreshed at revision ${result.revision}.${clockNote}`);
       return result;
     }catch(error){srjSetState({status:"error",busy:false,message:`${srjPlain(error,"Could not check the connection. Try again.")}`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_READ_FAILED",message:srjPlain(error,"Could not check the connection. Try again.")};}
@@ -327,7 +327,7 @@
       const context=await srjResolveContext();
       const result=await context.protocol.revokeSession(await srjWriteOptions(context,remembered));
       if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_REVOKE_FAILED",srjFailureMessage(result,"Could not cancel the code. Try again."));
-      srjAcceptResult(result,context,"host","Private session is revoked terminally. It can no longer be joined; forget the code when ready.");
+      srjAcceptResult(result,context,"host","Private session is revoked for good. It can no longer be joined; forget the code when ready.");
       return result;
     }catch(error){srjSetState({status:"error",busy:false,message:`${srjPlain(error,"Could not cancel the code. Try again.")} Try again.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_REVOKE_FAILED",message:srjPlain(error,"Could not cancel the code. Try again.")};}
   }
@@ -654,7 +654,7 @@
       const close=srjCreate("button","compactButton","CLOSE SESSION");close.type="button";close.disabled=srjState.busy||expiredByClock||!!srjState.pendingAction||srjState.sessionState!=="active";close.addEventListener("click",()=>{void srjCloseSession();});
       const forget=srjCreate("button","compactButton","FORGET CODE");forget.type="button";forget.disabled=srjState.busy||!!srjState.pendingAction||srjHasNonterminalSession()||srjState.sessionState==="unresolved";forget.addEventListener("click",srjForgetSession);actions.append(copy,refresh,revoke,close,forget);current.appendChild(actions);
     }else{
-      current.append(srjCreate("p","remoteJoiningEmpty","No session capability is held in page memory."));
+      current.append(srjCreate("p","remoteJoiningEmpty","No session code is held in page memory."));
       // BH-11 (#1): after a reload the other phone may still show the game with the old session; say where it takes the new code.
       current.append(srjCreate("p","remoteJoiningMeta","If the other phone still shows the game, it takes your new code from NEW CODE on its game banner, or from Home > CONTINUE CAREER > CONNECTED."));
     }

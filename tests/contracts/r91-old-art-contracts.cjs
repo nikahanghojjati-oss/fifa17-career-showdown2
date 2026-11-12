@@ -1,0 +1,64 @@
+"use strict";
+// r91 old art (Sol's r90 review, Nik 2026-11-11: "old art comes back at some window shapes ... so that would never happen
+// again"). Static half of the guard; tests/browser/r91-old-art-audit.cjs opens every screen at every window shape and is the
+// proof that only current rooms are drawn. This contract keeps the code from drifting back:
+//   C1 no Team G stylesheet or script gates art on the retired desktop query (min-width 1024/1200 + min-height 600 +
+//      min-aspect-ratio 3/2): outside it, Team V's base V1 plate showed. The art bands are now
+//      desktop (min-width:901px), upright (max-width:900px) and (orientation:portrait), and sideways phones;
+//   C2 references to retired pictures (Team V's V1 plates and cut-outs, the plates-v2/v3/v5 plates, the locked TR2 plate)
+//      in Team G files may only go down: each file's count is pinned in tests/fixtures/r91-old-art-references.json
+//      (rollback rules and Team V markup copies that are overridden today). A new reference fails; a removed one asks for
+//      the pin to be lowered (node tests/contracts/r91-old-art-contracts.cjs --write);
+//   C3 the browser audit stays in the Gate: its three groups are in package.json test:browser and the full grid has its
+//      own npm script;
+//   C4 the shared upright-window rule exists: windows wider than 900 held upright draw the room by width, so neither man
+//      is cut off the side.
+const fs = require("node:fs");
+const path = require("node:path");
+const assert = require("node:assert/strict");
+
+const root = path.resolve(__dirname, "../..");
+const read = file => fs.readFileSync(path.join(root, file), "utf8");
+const pinFile = "tests/fixtures/r91-old-art-references.json";
+const files = [
+    ...fs.readdirSync(path.join(root, "css")).filter(f => f.endsWith(".css")).map(f => "css/" + f),
+    ...fs.readdirSync(path.join(root, "js")).filter(f => f.endsWith(".js")).map(f => "js/" + f),
+    "index.html"
+].sort();
+
+// C1
+const OLD_GATE = /\(\s*min-width\s*:\s*(1200|1024)px\s*\)\s*and\s*\(\s*min-height\s*:\s*600px\s*\)(\s*and\s*\(\s*(max|min)-height\s*:\s*\d+px\s*\))*\s*and\s*\(\s*min-aspect-ratio\s*:\s*3\s*\/\s*2\s*\)/;
+const gateHits = files.filter(f => OLD_GATE.test(read(f)));
+assert.deepEqual(gateHits, [], `C1 the retired 3:2 desktop art gate is back in: ${gateHits.join(", ")}`);
+
+// C2
+const RETIRED = /(?:legacy|career-statistics|trophy-room|rivalry-statistics|season-results|final-winner|standings|start-join|home|settings|rule-book|league|club)\/assets\/(?:ENV|OVL)_[A-Za-z0-9_]+\.(?:webp|png)|plates-v[235]\/[A-Za-z0-9_]+\.(?:webp|png)|tr2\/slice-02-plate\/assets\/(?:ENV|OVL)_[A-Za-z0-9_]+\.(?:webp|png)/g;
+const counts = {};
+for(const f of files){ const n = (read(f).match(RETIRED) || []).length; if(n) counts[f] = n; }
+if(process.argv.includes("--write")){
+    fs.writeFileSync(path.join(root, pinFile), JSON.stringify({ note: "r91 old art: retired-picture references per Team G file; may only go down (tests/contracts/r91-old-art-contracts.cjs)", counts }, null, 1) + "\n");
+    console.log(`wrote ${pinFile}`);
+    process.exit(0);
+}
+const pinned = JSON.parse(read(pinFile)).counts;
+const grew = Object.entries(counts).filter(([f, n]) => n > (pinned[f] || 0)).map(([f, n]) => `${f} ${pinned[f] || 0} -> ${n}`);
+assert.deepEqual(grew, [], `C2 new references to retired pictures: ${grew.join("; ")}. Use the current room (visual-assets/v10_1/plates-hc/) instead.`);
+const shrank = Object.entries(pinned).filter(([f, n]) => (counts[f] || 0) < n).map(([f, n]) => `${f} ${n} -> ${counts[f] || 0}`);
+assert.deepEqual(shrank, [], `C2 retired references went down (good): lower the pin with --write: ${shrank.join("; ")}`);
+
+// C3
+const pkg = JSON.parse(read("package.json"));
+for(const group of ["desk", "touch-up", "touch-side"]) assert.ok(pkg.scripts["test:browser"].includes(`CMS_OLD_ART_GROUP=${group} node tests/browser/r91-old-art-audit.cjs`), `C3 test:browser runs the ${group} old-art group`);
+assert.match(pkg.scripts["test:old-art"] || "", /CMS_OLD_ART_GROUP=full node tests\/browser\/r91-old-art-audit\.cjs/, "C3 npm run test:old-art runs the full grid");
+const audit = read("tests/browser/r91-old-art-audit.cjs");
+for(const size of ["1920x866", "1920x1035", "1363x936", "820x1180", "1180x820", "1024x1366", "844x390", "390x844", "360x640", "3440x1440"]) assert.ok(audit.includes(`"${size}"`), `C3 the audit grid keeps ${size}`);
+assert.match(audit, /sweep\(900, 0\.4, 2\.6, 0\.05\)/, "C3 the full grid keeps the 0.40-2.60 aspect sweep");
+
+// C4
+const shell = read("css/v10Shell.css"), rl = read("css/rivalryLegacyV10.css"), cs = read("js/careerScreensV10.js"), sf = read("js/seasonFinalV10.js");
+assert.match(shell, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#app :is\(#careerStatistics,#standings,#seasonEntry\) \.sd-stage \.sd-stage__registered \{ left:0; top:0; width:100%;/, "C4 tall windows: career screens draw the room by width");
+assert.match(rl, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#app #legacy\[data-rivalry-legacy-v10\] \{ --lg-rh:56\.25vw; \}/, "C4 tall windows: Legacy and Rivalry draw the room by width");
+assert.match(cs, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#app #trophyRoom \{--tr-k:calc\(100vw \/ 1536\)\}/, "C4 tall windows: Trophy Room draws the room by width");
+assert.match(sf, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#app main:has\(> #seasonEntry\.seasonScreenV10\.v10FinalMode:not\(\.hidden\)\) \{\s*--fw-k:calc\(100vw \/ 1536\);/, "C4 tall windows: Final Winner draws the room by width");
+
+console.log(`PASS r91 old-art contracts (C1 no 3:2 art gate in ${files.length} files; C2 ${Object.keys(counts).length} files at or under their retired-reference pin; C3 audit in the Gate; C4 tall-window rooms).`);
