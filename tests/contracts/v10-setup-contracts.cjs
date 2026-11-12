@@ -35,6 +35,11 @@ const TEAM_V_FILES={
   "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_1920.webp":"78ec9b7fc62fc6c07732c18a5c0541b71ea122956a0030bbebf4f78b1e0d970b",
   "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp":"2af3ae7e8086a619e9e507e109b035e932e0b87c51d559111e5f239697cbaebb",
   "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_1920.webp":"fb4fbeaa32a5f14cae68037c27768ef1e4582861769b76bab1e8e3f4105fa91b",
+  // r91 HO-071: the V3 title family (Team V 9c1fe8ab), the pictures the two setup titles draw now.
+  "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_960.webp":"0289d2b1c3b6df3d5ef161d8aea7c5e7decb7b88518daf9beb45037a4d66ec48",
+  "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_1920.webp":"3f850e37fc0120056827d291ceb50888022f0b900a6fd7f95fd4b86c011d5e3b",
+  "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_960.webp":"a894e7896a3232c11fb523d05067039a931bea6a5c2b4e397f7678998e599f2a",
+  "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_1920.webp":"cb0d5c04fd25ecc02787912b371bd7a23142c5b606c4218850116dbfca8aa508",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp":"b31092d3eac35a9851d9c51406dd0cf7972e2dd9a5a8adb83c78d4a27497ba2a",
   "visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp":"f1c490adad469e3f05dde6252b2f0455a11c468b3240f8d6dfebd34146b0c587",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp":"398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",

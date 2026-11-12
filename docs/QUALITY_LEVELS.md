@@ -36,9 +36,28 @@ names and no others.
     itself stays the level it was built at (`governor.level()`, `builtLevel(renderer)`), and a slow warm-up also starts its
     heavy parts one step down. A level found slow is not tried again on that page. That is never saved.
 - **A picked level** (Settings › 3D QUALITY) is held as picked on every screen. Settings says in one line what Auto picked (or measured) for this screen and graphics. The line is never shown on a game screen.
+  - On a weak device (2 processor threads or fewer, or 4 GB of memory or less, as the browser reports them), Ultra (4K)
+    and 8K are listed only once the Device check has passed them there (Nik 2026-11-12, after the device lab found them
+    offered on a 2-thread 4 GB Chromebook). Settings says which levels wait for the check. A pick of one of them saved
+    earlier stays saved and draws the highest level the device may pick until the check passes it. Every other device
+    keeps the full list (8K where the GPU can hold it). Auto and the Device check's own frames are never held back.
 - **Never crash first.** A lost context, an out-of-memory error, or (8K) a refused buffer drops the device one level below the one that failed. This applies to any level, Auto or picked.
   - The cap is saved and every screen honours it.
   - It lifts after 7 days, or after 3 clean scenes at the capped level, or when the player picks again.
+- **A tab that dies while a 3D screen opens.** The browser killing the tab for memory, or the player reloading a hung
+  page, leaves no graphics error behind. So a 3D screen leaves a mark while it opens
+  (`careerModeShowdown.gfxOpening.v1`) and removes it once it is running (its first beat played, or 20 s of frames),
+  when it ends, and when its page is hidden or left. A mark still there when the same tab loads the game again means the
+  page died: the level that was opening is capped one down before the screen opens again.
+  - Only that case counts. A mark from another tab, a frame still alive on the same load, a clean reload and a hidden
+    tab cap nothing. Where the browser cannot tell the tab apart there is no mark at all.
+  - Chamber Men marks before it loads and builds (`sceneOpening`), since that is its heaviest moment; a mount that
+    ends without a scene takes the mark off.
+  - Known and accepted: the browser's "Duplicate tab" copies the tab's id, so a duplicate made in the seconds a 3D
+    screen is opening counts as a death. It only ever lowers, by one level, until a pick in Settings or 7 days.
+  - This cap does not lift after clean scenes (the level would close the tab again). It ends after 7 days or when the
+    player picks a level in Settings. Settings says what is drawn meanwhile, also for a picked level.
+  - The Device check does not open a level above this cap again: it counts as failed there, and the page says why.
 - **The governor** (`CareerModeGfxTier.governor`) is the only thing that moves quality during a scene. On Auto it walks
   one ladder per scene:
   - First the pixel ratio, a quarter at a time, down to the level's floor.

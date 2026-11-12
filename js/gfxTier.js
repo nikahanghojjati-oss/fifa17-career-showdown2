@@ -114,6 +114,20 @@
   }
   // 8K needs a GPU that can hold a 7680 px buffer and texture; never software GL, never a phone.
   function gfxCan8k(info,env){return Boolean(info&&!info.software&&!(env&&env.phone)&&info.maxBuffer>=7680&&info.maxTexture>=7680);}
+  // r91 (Nik 2026-11-12, after the device lab found Settings offering Ultra and 8K on a 2-thread 4 GB Chromebook): on a weak
+  // device, Ultra (4K) and 8K are offered only once the Device check has passed them there. Weak: 2 processor threads or
+  // fewer, or 4 GB of memory or less, as the browser reports them (a browser that reports no memory is judged by its
+  // threads). Every other device keeps the full list. A level the check passed is the measured level or one below it.
+  function gfxWeak(env){
+    const c=Number(env&&env.cores),m=Number(env&&env.deviceMemory);
+    return (Number.isFinite(c)&&c>0&&c<=2)||(Number.isFinite(m)&&m>0&&m<=4);
+  }
+  // The highest level at or under `level` that may be picked by hand here (4 and 5 are the gated ones).
+  function gfxPickable(level,env,can8k,measured){
+    let l=level===5&&!can8k?4:level;
+    if(l>=4&&gfxWeak(env)){const held=measured?measured.level:-1;l=Math.min(l,Math.max(3,held));}
+    return l;
+  }
   // The cap is not for ever (lead review on #1271): one stray driver reset must not cost a level for good. It expires after
   // 7 days, or after 3 clean scenes (20 s or more, no failure) at the capped level.
   const CAP_DAYS_MS=7*864e5,CAP_CLEAN=3,CAP_CLEAN_MS=20000;
@@ -121,7 +135,68 @@
     try{const v=JSON.parse(gfxRead(CAP_KEY)||"null");if(!(v&&v.reason&&Number.isInteger(v.level)&&v.level>=0&&v.level<=4))return null;
       if(Date.now()-Number(v.at||0)>CAP_DAYS_MS||(v.clean|0)>=CAP_CLEAN){gfxWrite(CAP_KEY,"null");return null;}return v;}catch(_error){return null;}
   }
-  function gfxCapClean(level){const v=gfxCap();if(!v||v.level!==level)return;v.clean=(v.clean|0)+1;gfxWrite(CAP_KEY,v.clean>=CAP_CLEAN?"null":JSON.stringify(v));if(v.clean>=CAP_CLEAN)cached=null;}
+  function gfxCapClean(level){const v=gfxCap();if(!v||v.level!==level||v.tab)return;v.clean=(v.clean|0)+1;gfxWrite(CAP_KEY,v.clean>=CAP_CLEAN?"null":JSON.stringify(v));if(v.clean>=CAP_CLEAN)cached=null;}
+  // r91: a tab that dies while a 3D screen opens. A lost WebGL context is caught (gfxFail); a tab the browser kills for
+  // memory, or one the player has to reload because it hung, is not: nothing runs, the level stays, and the next open dies
+  // the same way (2.3.0: Roulette on the Chromebook, first open). So a scene leaves a mark while it opens and takes it
+  // away once it is running (its first beat played, or 20 s of frames), when it ends, and when its page is hidden or left
+  // (a reload, a closed tab and a removed frame all say goodbye first). A mark still there when the same tab loads the
+  // game again was left by a page that died: the level that was opening is capped one down, like a GPU failure. That
+  // cap does not lift after clean scenes (the level would only kill the tab again); it ends after 7 days or with a pick
+  // in Settings. Only that one case counts: a mark from another tab proves nothing and is left to go stale. Where the
+  // tab cannot be told apart (no sessionStorage, no page load time) there is no guard.
+  // Chamber Men, on the game's own page, marks before it builds (sceneOpening): its heaviest moment is the load and the
+  // texture upload, before any governor exists (review P3 on #1409). A mount that ends without a scene takes the mark off.
+  // Known and accepted: the browser's "Duplicate tab" copies sessionStorage, so a duplicate made in the seconds a 3D
+  // screen is opening reads as that tab reloaded after a death and caps one level. It only ever lowers, by one level,
+  // for at most 7 days or until a pick in Settings.
+  const OPEN_KEY="careerModeShowdown.gfxOpening.v1",TAB_KEY="careerModeShowdown.gfxTab.v1",OPEN_RUN_MS=20000,OPEN_STALE_MS=864e5;
+  const TAB_CRASH="the tab closed while this 3D screen was opening";
+  let opening=null,openedHere=false;
+  const gfxFramed=()=>{try{return Boolean(root.parent&&root.parent!==root);}catch(_error){return false;}};
+  // This tab (kept by the browser across a reload, and across a crash and reload) and this load of the game's page.
+  function gfxTabId(){
+    try{const ss=root.sessionStorage;if(!ss)return "";let id=ss.getItem(TAB_KEY);
+      if(!id){id=`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;ss.setItem(TAB_KEY,id);id=ss.getItem(TAB_KEY);}return id||"";}catch(_error){return "";}
+  }
+  function gfxTopLoad(){
+    let v;try{v=root.top&&root.top.performance&&root.top.performance.timeOrigin;}catch(_error){v=undefined;}
+    if(typeof v!=="number"){try{v=gfxFramed()?undefined:root.performance&&root.performance.timeOrigin;}catch(_error){v=undefined;}}
+    return typeof v==="number"&&v>0?String(v):"";
+  }
+  function gfxOpenList(){try{const v=JSON.parse(gfxRead(OPEN_KEY)||"[]");return Array.isArray(v)?v.filter(m=>m&&typeof m.id==="string"&&Number.isInteger(m.level)):[];}catch(_error){return [];}}
+  // Read the marks: one this tab left on an earlier load is a death; stale ones go. Runs once, when the module loads
+  // (before any profile is built, so the scene that is about to open already gets the lower level).
+  function gfxOpenSweep(){
+    const tab=gfxTabId(),top=gfxTopLoad();if(!tab||!top)return null;
+    const all=gfxOpenList();if(!all.length)return null;
+    const keep=[];let died=null;
+    for(const m of all){
+      if(!(Date.now()-Number(m.at||0)<=OPEN_STALE_MS))continue;
+      if(m.tab===tab&&m.top&&m.top!==top){if(!died||m.level<died.level)died=m;continue;}
+      keep.push(m);
+    }
+    if(keep.length!==all.length)gfxWrite(OPEN_KEY,JSON.stringify(keep));
+    if(!died)return null;
+    const old=gfxCap(),level=Math.max(0,Math.min(died.level>=5?4:died.level-1,old?old.level:4));
+    gfxWrite(CAP_KEY,JSON.stringify({level,reason:TAB_CRASH,tab:true,from:died.level,scene:String(died.scene||""),bench:Boolean(died.bench),at:Date.now()}));
+    cached=null;return died;
+  }
+  function gfxOpenArm(level,scene){
+    if(opening||!(level>0))return;
+    try{if(root.document&&root.document.visibilityState==="hidden")return;}catch(_error){}
+    const tab=gfxTabId(),top=gfxTopLoad();if(!tab||!top)return;
+    const id=`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;
+    opening={id,first:0};
+    gfxWrite(OPEN_KEY,JSON.stringify(gfxOpenList().slice(-5).concat({id,tab,top,level,scene:String(scene||""),bench:gfxQuery("bench")==="1",at:Date.now()})));
+  }
+  function gfxOpenDone(){
+    if(!opening)return;const id=opening.id;opening=null;
+    const all=gfxOpenList(),keep=all.filter(m=>m.id!==id);if(keep.length!==all.length)gfxWrite(OPEN_KEY,JSON.stringify(keep));
+  }
+  // A scene that has drawn for 20 s is open.
+  function gfxOpenFrame(t){if(!opening)return;if(!opening.first)opening.first=t;else if(t-opening.first>=OPEN_RUN_MS)gfxOpenDone();}
+  try{root.addEventListener?.("pagehide",gfxOpenDone);root.document?.addEventListener?.("visibilitychange",()=>{if(root.document.visibilityState==="hidden")gfxOpenDone();});}catch(_error){}
   // Downloads follow the connection as well as the device (Nik 2026-11-08): Save-Data, or a 2g/3g connection, loads one
   // size down; the drawing level stays.
   function gfxSlowNet(){
@@ -172,14 +247,27 @@
     const forced=gfxQuery("gfx"),forcedLevel=forced!==null&&/^[0-5]$/.test(forced)?Number(forced):null;
     const measured=gfxMeasured(),autoLevel=measured?measured.level:auto.level;
     let level=forcedLevel!==null?forcedLevel:c==="auto"?autoLevel:gfxChoiceLevel(c);
+    // A pick saved before the gate (or on another day's result) that this device may not pick now draws the highest level
+    // it may; the pick itself stays saved, and Settings says so. ?gfx=N (the Device check's frames) is never gated.
+    let gated=null;
+    if(forcedLevel===null&&c!=="auto"&&level>=4){
+      // (8K picked where the GPU cannot hold it draws Ultra as it always did: that is gfxBuild's fallback, not the gate.)
+      const want=level===5&&!can8k?4:level,ok=gfxPickable(level,env,can8k,measured);
+      if(ok<want){gated=level;level=ok;}
+    }
     const bench=forcedLevel!==null&&gfxQuery("bench")==="1";
     cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,slowNet:gfxSlowNet(),choice:forcedLevel!==null?`gfx=${forcedLevel}`:c,bench});
     cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=autoLevel;cached.measured=Boolean(measured);cached.guessLevel=auto.level;cached.strongPhone=Boolean(auto.strongPhone);
     // What was asked for by ?gfx=N (null otherwise): the Device check compares it with what was drawn.
     cached.asked=forcedLevel;
+    // The level that was picked, where the gate drew a lower one (null otherwise).
+    cached.gated=gated;
     gfxMarkRoot(cached.level,cached.assetLevel);
+    // A 3D screen in its own frame (Roulette, the pack, the Device check's frames) is opening from here on.
+    if(!openedHere&&gfxFramed()){openedHere=true;gfxOpenArm(cached.level,gfxSceneName());}
     return cached;
   }
+  function gfxSceneName(){try{return String(root.location.pathname||"").split("/").filter(Boolean).slice(-2).join("/");}catch(_error){return "";}}
   // r90 (Nik 2026-11-08, "the best quality it can hold, on every screen"): the resolved level on the root element as
   // html[data-gfx="0".."5"], here and on the app page around the roulette frame, so 2D screens (marble plates, blurs,
   // shadows, CSS animations) can lighten heavy effects at Light. Set when the module loads and whenever the level changes
@@ -324,6 +412,8 @@
     const o=opts||{},key=o.key?String(o.key):"";let p=gfxProfile();
     // The level this scene was built at (calibrate may since have moved the level for what comes next).
     const built=gfxBuiltLevel(renderer);
+    // A 3D screen on the game's own page (Chamber Men) is opening from here on; a framed one marked itself already.
+    if(!gfxFramed())gfxOpenArm(built,key);
     const size=()=>{const c=renderer.domElement;return {w:c?.clientWidth||0,h:c?.clientHeight||0};};
     // Ultra's buffer cap comes from the live canvas size.
     const capOf=()=>{const s=size();if(!s.w||!s.h)return p.maxPixelRatio;
@@ -418,6 +508,7 @@
       renderer,
       frame(t){
         if(ended)return;
+        gfxOpenFrame(t);
         // Device check: the level stays as forced and every frame counts, held or not.
         if(bench){bench.frame(t);return;}
         const dt=last?Math.min(100,t-last):BUDGET_MS;last=t;avg+=(dt-avg)*.08;
@@ -456,6 +547,8 @@
       hold(v){
         const next=Boolean(v);if(next===held){bench?.hold(held);return;}
         held=next;
+        // Its first beat played to the end: the scene is open.
+        if(!held)gfxOpenDone();
         // calm: how the scene ran just before the beat (true smooth enough, false slow, null not seen for half a second).
         // A slow beat owes its step at once when the calm scene was fine, or when the frame callback itself is busy.
         if(held)beat={ms:0,slow:0,calm:idleFor>=500?!(avg>slowLimit()):null};
@@ -478,7 +571,7 @@
       frameMs(){return +avg.toFixed(1);},
       // The frame callback's main-thread time, smoothed (null where it cannot be timed).
       workMs(){return busyKnown?+busy.toFixed(1):null;},
-      end(){if(ended)return;ended=true;if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}
+      end(){if(ended)return;ended=true;gfxOpenDone();if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}
         // Steps still on probe are not what the scene settled at: the place the probe began is.
         if(key&&adapts()){const sAt=probe?probe.at:at,sD=probe?probe.dAt:dAt;gfxWrite(MEMORY_KEY(key),list[sAt]);if(detail)gfxWrite(DETAIL_KEY(key),JSON.stringify({level:built,at:sD,floor:dFloor,t:Date.now()}));}
         if(active===api)active=null;}
@@ -587,11 +680,27 @@
       gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;gfxRemark();return l;},
     clearMeasured(){gfxWrite(MEASURED_KEY,"null");cached=null;gfxRemark();},
     choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);gfxWrite(CAP_KEY,"null");cached=null;gfxRemark();return v;},
+    // offers(choice): may Settings offer this choice on this device? Everything, except: 8K only where the GPU can hold it,
+    // and on a weak device Ultra (4K) and 8K only once the Device check has passed them. needsCheck(): the labels held
+    // back for want of that check (empty on every other device).
+    offers(choice){const c=String(choice),i=CHOICES.indexOf(c);if(i<0)return false;if(i<5)return true;
+      const p=gfxProfile(),l=i-1;return gfxPickable(l,gfxScreenEnv(),p.can8k,gfxMeasured())===l;},
+    needsCheck(){const p=gfxProfile(),env=gfxScreenEnv(),m=gfxMeasured(),out=[];
+      for(const l of [4,5]){if(l===5&&!p.can8k)continue;if(gfxPickable(l,env,p.can8k,m)<l)out.push(LABELS[l]);}return out;},
     // 8K is offered only where it can run (Settings shows it only then); samples()/checkTarget() size MSAA for render targets.
     can8k(){return Boolean(gfxProfile().can8k);},samples:gfxSamples,checkTarget:gfxCheckTarget,
+    // tabCrash(): the cap left by a tab that died while a 3D screen was opening (null when there is none). The Device
+    // check does not open a level above it again.
+    tabCrash(){const c=gfxCap();return c&&c.tab?{level:c.level,from:Number.isInteger(c.from)?c.from:c.level+1,scene:String(c.scene||""),bench:Boolean(c.bench),at:c.at}:null;},
     // fallback(reason): a scene that hit an out-of-memory sign of its own drops the device one level (remembered).
     fallback:gfxFail,fallback8k:gfxFail,
+    // sceneOpening(scene): a 3D screen on the game's own page says it is about to load and build (the tab-crash guard's
+    // mark; a framed screen marks itself). sceneOpened(): the mount ended without a scene. The governor ends the mark of
+    // one that did open.
+    sceneOpening(scene){try{if(!gfxFramed())gfxOpenArm(gfxProfile().level,scene);}catch(_error){}},sceneOpened(){try{gfxOpenDone();}catch(_error){}},
     reset(){cached=null;}};
+  // On load, first: did this tab die while a 3D screen was opening? (The cap it writes is read by everything below.)
+  try{gfxOpenSweep();}catch(_error){}
   // On load: a level the player picked or the Device check measured is marked at once (no GPU probe); the full profile
   // follows when the page is idle (the GPU name from the kept answer, or, the first time in this browser, from one throwaway
   // context in a truly idle moment: no 2 s deadline that could land it in the middle of Home's first taps).

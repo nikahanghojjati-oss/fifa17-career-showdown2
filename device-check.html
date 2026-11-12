@@ -114,6 +114,8 @@ td small{overflow-wrap:anywhere}
   function judge(level,scene,r){
     if(!r)return null;
     if(r.skipped)return {state:"skipped"};
+    // The tab died at this level before (js/gfxTier.js tabCrash): as final as a graphics failure, and not opened again.
+    if(r.crashed)return level>0?{state:"failed",why:"The tab closed at this level last time, so it was not opened again."}:{state:"unverified",why:"The tab closed at this level last time."};
     if(r.error)return {state:"unverified",why:r.error};
     if(r.failed)return level>0?{state:"failed",why:`The graphics chip gave up at this level: ${r.failed}.`}:{state:"unverified",why:`The graphics chip gave up: ${r.failed}.`};
     if(r.asked!==level)return {state:"unverified",why:"The screen did not confirm the level it was asked for. Update the game, then check again."};
@@ -169,6 +171,9 @@ td small{overflow-wrap:anywhere}
     let low="";try{const s=T.suggested();if(s&&s.lowered)low=` Auto draws ${LEVELS[s.now]} for now: a graphics error in play lowered it. That ends after 7 days, after 3 clean 3D screens, or when you pick a level in Settings.`;}catch(_error){low="";}
     result.innerHTML=`Auto here: ${LEVELS[m.level]}<small>${esc(extra)}Measured ${new Date(m.at).toLocaleString()} on Chamber Men, Russian Roulette and the Special Player pack. Settings › 3D QUALITY can still pick any level.${esc(low)}</small>`;
   }
+  // A level that closed the tab while a 3D screen was opening (in the game or in an earlier check) is not opened again
+  // while its cap lasts.
+  function tabCrash(){try{return T&&T.tabCrash?T.tabCrash():null;}catch(_error){return null;}}
   // The measurement under way, so a hidden tab can stop it at once (Codex on #1266).
   let cancelWait=null;
   function wait(scene,level){
@@ -208,7 +213,8 @@ td small{overflow-wrap:anywhere}
         if(aborted)break;
         if(ended||settled){results[level][scene.key]={skipped:true};continue;}
         status.textContent=`${scene.name} · ${LEVELS[level]} (${level+1} of ${TOP+1})…`;
-        const got=await wait(scene,level);
+        const tc=tabCrash();
+        const got=tc&&level>tc.level?{crashed:true}:await wait(scene,level);
         if(got&&got.aborted)break;
         results[level][scene.key]=got;
         draw();
@@ -237,6 +243,7 @@ td small{overflow-wrap:anywhere}
       stop:ended?{level:ended.level,scene:ended.scene.key,state:ended.state}:null,
       levels:results.slice(0,TOP+1).map(r=>Object.fromEntries(SCENES.map(s=>[s.key,pick(r[s.key])])))});
     status.textContent=best<0?`Even Light was not smooth here (${ended.scene.name}), so Auto is set to Light, the lightest level.`
+      :ended&&results[ended.level][ended.scene.key]&&results[ended.level][ended.scene.key].crashed?`Check done. ${LEVELS[ended.level]} was not tried: the tab closed at that level last time.`
       :ended?`Check done. ${LEVELS[ended.level]} was not held: ${ended.scene.name} ${ended.state==="failed"?"failed":"was not smooth"} there.`
       :`Check done. Every level up to ${LEVELS[TOP]} was smooth.`;
     showSaved();
@@ -247,6 +254,7 @@ td small{overflow-wrap:anywhere}
   forgetBtn.addEventListener("click",()=>{T.clearMeasured();showSaved();status.textContent="Auto goes back to its starting guess from this device's graphics chip.";});
   if(!T){startBtn.disabled=true;status.textContent="The check could not load. Reload the page.";}
   draw();showDevice();showSaved();
+  {const tc=tabCrash();if(T&&tc)status.textContent=`Last time the tab closed while a 3D screen was opening at ${LEVELS[tc.from]||"a level"}. The game draws ${LEVELS[tc.level]} at most for now, and this check stops below ${LEVELS[tc.from]||"that level"}.`;}
 })();
 </script>
 </body>
