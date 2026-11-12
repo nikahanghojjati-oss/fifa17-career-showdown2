@@ -3055,6 +3055,17 @@
         "^tests/browser/device\\-lab\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-chamber-ladder-contracts.cjs",
+      "patterns": [
+        "^js/chamberMenScene3d\\.js$",
+        "^js/chamberMenStadium3d\\.js$",
+        "^js/gfxTier\\.js$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/contracts/r91\\-chamber\\-ladder\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

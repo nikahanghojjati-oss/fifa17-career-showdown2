@@ -284,6 +284,8 @@
   // A scene offers its heavy parts as  detail:{steps:N, apply(step,why)}  (0 = as built, N = its lightest): apply() is the
   // only place those knobs move, and it is called at the start (the step remembered from the last visit, behind the loading
   // screen) and afterwards only between beats, never while the scene holds (a kick, a spin, a reveal).
+  // A scene that can fade one picture into the next gives  before()  : it is called once ahead of every change in play
+  // (pixel ratio or heavy parts, down, up or put back), while the old picture is still the one drawn.
   // What changed from 2.3.0:
   //   - Slow frames seen during a beat are kept: the step is taken when the beat ends. (2.3.0 threw them away at
   //     hold(false), so a scene that was only slow in action never stepped down, and Roulette holds for its whole turn.)
@@ -344,9 +346,12 @@
     const slowLimit=()=>pace?Math.max(SLOW_MS,pace*1.25):SLOW_MS,smoothLimit=()=>pace?Math.max(SMOOTH_MS,pace*1.06):SMOOTH_MS;
     // One step down the ladder: pixel ratio first, then the heavy parts. The step left is never tried again in this visit;
     // a heavy part that was put back and ran slow stays off for a week of visits.
+    // before: the scene's last word ahead of a change in play (a step down, a step up, steps put back), so it can let the
+    // picture on screen fade into the next one. Never called for the start (behind the loading screen) or a resize.
+    const before=()=>{try{o.before?.();}catch(_error){}};
     const stepDown=why=>{
-      if(at<list.length-1){bad.add(at);apply(at+1);}
-      else if(detail&&dAt<detail.steps){badD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
+      if(at<list.length-1){before();bad.add(at);apply(at+1);}
+      else if(detail&&dAt<detail.steps){before();badD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
       else return false;
       forget();upOk=false;return true;
     };
@@ -367,6 +372,7 @@
     const paceHere=ms=>{pace=Math.max(BUDGET_MS,Math.min(50,ms));slowFor=0;slowN=0;smoothFor=0;};
     const undo=ms=>{const b=probe;probe=null;probed=true;
       for(let i=b.at;i<at;i+=1)bad.delete(i);for(let i=b.dAt;i<dAt;i+=1)badD.delete(i);
+      if((detail&&dAt!==b.dAt)||at!==b.at)before();
       if(detail&&dAt!==b.dAt)setDetail(b.dAt,"restore");if(at!==b.at)apply(b.at);
       forget();upOk=b.upOk;paceHere(ms);avg=pace;};
     const slowStep=seen=>{
@@ -417,14 +423,14 @@
         // Heavy parts come back first (they went last): smooth for 6 s and a timed frame under 40% of the budget.
         if(detail&&dAt>dFloor){
           if(smoothFor>=6000){smoothFor=0;if(badD.has(dAt-1))return;
-            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){trial=dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
+            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){before();trial=dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
           return;
         }
         if(dAt>0)return;
         // Smooth for 3 s: time one real frame; step up only if the next step would still leave a third of the frame free.
         if(smoothFor>=3000&&at>0&&!bad.has(at-1)){
           smoothFor=0;const ms=gfxTimedDraw(renderer,o.draw),scale=Math.pow(list[at-1]/list[at],2);
-          if(ms*scale<BUDGET_MS*.66)apply(at-1);else bad.add(at-1);
+          if(ms*scale<BUDGET_MS*.66){before();apply(at-1);}else bad.add(at-1);
         }
       },
       // Between beats only: a held governor never changes the picture mid-shot. What the beat showed is kept: a beat that

@@ -19,6 +19,9 @@
   // The stadium kit's 12 cm round posts and bar (js/chamberMenStadium3d.js): bar centre just over the goal height.
   const WOOD_R=.06,BAR_Y=GOAL_H+WOOD_R/2;
   const FLIGHT=.46,SETTLE=2.0,GRAVITY=-9.8;
+  // r91: a kick, for the quality governor, is the run-up, the strike and the CALM seconds after it (the ball has settled,
+  // the words are told, the reaction is under way). From then until the next kick the scene waits, and waiting is between beats.
+  const CALM=4;
   let enginePromise=null;
 
   function doc(){return root.document||null;}
@@ -373,8 +376,12 @@
     // pieces disagree on a bone's bind pose keeps the per-piece shadows.
     const shadowBodies=[];
     // (A restored WebGL context brings a new shadowMap object: wrapShadow runs again then.)
+    // r91 ladder, last step (castOff): the maps are drawn once with nothing in them and then left alone, so no real
+    // shadow is cast and none is paid for. No light or material changes, so no shader is compiled again.
+    const NO_CASTERS=new T.Scene();let castOff=false;
     const wrapShadow=()=>{const sm=renderer.shadowMap;if(sm.cmWrapped)return;const draw=sm.render.bind(sm);sm.cmWrapped=true;
-      sm.render=(...args)=>{for(const p of shadowBodies){p.visible=true;p.skeleton.update();}
+      sm.render=(...args)=>{if(castOff){args[1]=NO_CASTERS;return draw(...args);}
+        for(const p of shadowBodies){p.visible=true;p.skeleton.update();}
         try{return draw(...args);}finally{for(const p of shadowBodies)p.visible=false;}};};
     wrapShadow();
     const shadowBody=model=>{
@@ -616,7 +623,7 @@
     // the patch goes lighter. r91: drawn by the turf itself (S.contact, no draw of its own), each player as a capsule from
     // between his feet to under his head, so a keeper down after a dive shades the grass along his whole length; the
     // patch widens and fades as a body leaves the ground (the hips' height over its standing height).
-    const contactK=L<=0?.62:.5,CONTACT={taker:1.15,keeper:1.25,ball:.36},cFeet=new T.Vector3(),cHead=new T.Vector3();
+    const CONTACT_LIGHT=.62;let contactK=L<=0?CONTACT_LIGHT:.5;const CONTACT={taker:1.15,keeper:1.25,ball:.36},cFeet=new T.Vector3(),cHead=new T.Vector3();
     const contactOf=(a,w,lift)=>{
       if(a&&!a.holder.visible)return null;
       if(a){a.hips.getWorldPosition(sample);const lf=a.bones.mixamorigLeftFoot,rf=a.bones.mixamorigRightFoot,hd=a.bones.mixamorigHead;
@@ -886,6 +893,12 @@
       snapTexture();renderer.setRenderTarget(null);renderer.render(scene,camera);renderer.copyFramebufferToTexture(snap);snapAt=clockNow();
       carry.p.copy(camera.position);carry.l.copy(camLook);carry.at=snapAt;
     };
+    // r91: a quality step in play (the governor's before()). The picture on screen fades into the next one as at a reset;
+    // the camera stays where it is. Not twice within one fade.
+    const fadeFrom=()=>{
+      if(!cssW||(frozenClock===null&&reducedMotion())||clockNow()-snapAt<=120)return;
+      snapTexture();renderer.setRenderTarget(null);renderer.render(scene,camera);renderer.copyFramebufferToTexture(snap);snapAt=clockNow();
+    };
 
     // ---------- size, labels, drawing ----------
     let cssW=0,cssH=0;
@@ -906,6 +919,8 @@
       const still=frozenClock===null&&reducedMotion();
       const now=clockNow(),live=still?0:(now-t0)/1000;
       const t=frozenAt!==null?frozenAt:plan?(still?SETTLE:(now-plan.startAt)/1000):0;
+      // r91: the kick is over for the governor CALM seconds after the strike; the wait for the next kick is between beats.
+      if(plan&&!plan.calm&&frozenAt===null&&!still&&t>=CALM){plan.calm=true;gov?.hold(false);}
       keeperPose(t,live,still);takerAt(t,live);ballAt(t);
       contactAt();netPushAt(still);
       // The net takes the ball (the stadium kit times its bulge on its own clock: ours).
@@ -916,6 +931,7 @@
       // r91: once the ball is in or kept out, the club that won the kick erupts and the other end falls quiet.
       S.mood?.(...crowdMood(t,still));
       cameraAt(t,live);
+      shadowPace();
       renderer.render(scene,camera);
       const fade=still?0:1-(now-snapAt)/(DISSOLVE*1000);
       if(fade>0&&snap){overlayU.opacity.value=cm3Easy(fade);renderer.autoClear=false;renderer.render(overlay,overlayCam);renderer.autoClear=true;}
@@ -924,9 +940,45 @@
     // second of slow frames, up only when a timed frame shows room, never back to a step that ran slow, and never during a
     // kick (held from kick() to the next reset). Motion never depends on the frame rate: every pose is read from the clock.
     const GFX=root.CareerModeGfxTier;
+    // r91 heavy parts (Nik 2026-11-11: "heavy parts like crowd, shadows and glow are fixed when the scene loads, so a slow
+    // device keeps paying for them"). The governor's ladder for this scene, after the pixel ratio: what a device that
+    // cannot hold its level gives up, smallest loss first. Step 0 is the scene as built, and a device that holds its level
+    // never leaves it. Only parts this level has are on the ladder:
+    //   rate    the shadow maps are redrawn every second frame (a shadow trails its player by one frame)
+    //   blades  the layers of grass blades over the box are not drawn (Extra and Ultra have them)
+    //   crowd   the side and far stands at 60% of their fans (the end behind the goal stays full)
+    //   cast    no real shadows; the soft patches on the turf stay, as dark as Light's
+    // heavy(step) is the only place these move, and it takes any step from any other. The governor calls it behind the
+    // loading screen and between kicks, never during one (kick() to CALM seconds after the strike). Ahead of a change in
+    // play the governor calls fadeFrom (its before()), so the change cross-fades like a reset; so does a pixel-ratio step.
+    const blades=S.group.getObjectByName("cmBlades")||null;
+    const LADDER=["rate",...(blades?["blades"]:[]),...(typeof S.crowdShare==="function"?["crowd"]:[]),"cast"];
+    let detailAt=0,shadowEvery=1,shadowTurn=0,shadowNow=true,crowdDrawn=S.crowdCount;
+    const heavy=step=>{
+      const at=Math.max(0,Math.min(LADDER.length,Math.round(Number(step))||0)),on=new Set(LADDER.slice(0,at));
+      if(at===detailAt)return;
+      detailAt=at;
+      shadowEvery=on.has("rate")?2:1;
+      if(blades)blades.visible=!on.has("blades");
+      if(typeof S.crowdShare==="function")crowdDrawn=S.crowdShare(on.has("crowd")?.6:1);
+      castOff=on.has("cast");contactK=castOff||L<=0?CONTACT_LIGHT:.5;
+      shadowNow=true;
+    };
+    // Called before every draw: every frame as built; every second frame at "rate"; once, with nothing in them, at "cast".
+    // shadowNow asks for the maps in this frame whatever the turn (a step just taken, a timed frame, a restored context).
+    function shadowPace(){
+      const sm=renderer.shadowMap;
+      if(shadowEvery===1&&!castOff){sm.autoUpdate=true;shadowNow=false;return;}
+      sm.autoUpdate=false;shadowTurn+=1;
+      if(shadowNow||(!castOff&&shadowTurn%shadowEvery===0)){shadowNow=false;sm.needsUpdate=true;}
+    }
+    // The governor's timed frame is a whole one: it draws the shadow maps too, so a step back up is never judged on a
+    // frame that skipped them.
+    const timed=()=>{shadowNow=!castOff||shadowNow;paint();};
     // info: what the Device check records beside the frame times (the file set drawn, and whether it is the lighter stand-in).
-    const gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:paint,onChange:()=>{cssW=0;layoutDirty=true;},info:()=>({assets:Q.assets,lite:Boolean(Q.full),crowd:S.crowdCount})}):null;
-    const fps=GFX?GFX.overlay(()=>({calls:renderer.info.render.calls,tris:renderer.info.render.triangles,extra:`crowd ${S.crowdCount}`})):null;
+    const gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:timed,beats:true,detail:{steps:LADDER.length,apply:heavy},before:fadeFrom,onChange:()=>{cssW=0;layoutDirty=true;},
+      info:()=>({assets:Q.assets,lite:Boolean(Q.full),crowd:S.crowdCount})}):null;
+    const fps=GFX?GFX.overlay(()=>({calls:renderer.info.render.calls,tris:renderer.info.render.triangles,extra:`crowd ${crowdDrawn}`})):null;
     // The box is measured only when it changes (a ResizeObserver, a window resize), never every frame.
     let layoutDirty=true;
     const tick=time=>{
@@ -1001,10 +1053,10 @@
       // clock (ms, optional) also freezes the scene clock, so a proof can step through a dissolve frame by frame.
       at(t,clock){frozenAt=typeof t==="number"?t:null;frozenClock=typeof clock==="number"?clock:null;fit();paint();},
       // Behind the loading screen: a few timed frames pick the level for this device (they also compile every shader).
-      async warm(){if(warming)await warming;if(!GFX||disposed)return;const before=renderer.getPixelRatio();await GFX.calibrate(renderer,paint,{frames:6});if(renderer.getPixelRatio()!==before){cssW=0;fit();}gov?.resize();paint();},
+      async warm(){if(warming)await warming;if(!GFX||disposed)return;const before=renderer.getPixelRatio();await GFX.calibrate(renderer,timed,{frames:6});if(renderer.getPixelRatio()!==before){cssW=0;fit();}gov?.resize();paint();},
       dispose:free,
       lit:Boolean(scene.environment),
-      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,level:Q.name,kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,react:plan&&plan.react?plan.react.name:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()],gpu:gpuFootprint()};},
+      probe(){return {mode:"broadcast",pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,level:Q.name,detail:{at:detailAt,ladder:[...LADDER],shadowEvery,cast:!castOff,blades:blades?blades.visible:null,crowd:crowdDrawn},kicking:Boolean(plan),keeper:keeper.holder.position.toArray(),ball:ball.position.toArray(),taker:taker.hips.getWorldPosition(new T.Vector3()).toArray(),lineup:{...lineup},move:plan?plan.move.c:null,react:plan&&plan.react?plan.react.name:null,strike:struck,bodies:{taker:taker.body,keeper:keeper.body},palms:[gloveL.toArray(),gloveR.toArray()],gpu:gpuFootprint()};},
       get alive(){return alive;}
     };
     setLineup(clubs.playerOne,clubs.playerTwo,1);
@@ -1016,7 +1068,7 @@
     // r90 Light (C7): a lost WebGL context keeps the screen. three.js holds the canvas through the loss and rebuilds its GPU
     // state when the context comes back; then everything is compiled and uploaded again before the next frame, as at
     // mount, so the return is one step, not a run of stalls. The drawn goal never replaces it.
-    const restored=()=>{if(disposed)return;wrapShadow();try{refilter();}catch(_error){}cssW=0;layoutDirty=true;fit();warming=prewarm().catch(()=>{}).finally(()=>{warming=null;});};
+    const restored=()=>{if(disposed)return;wrapShadow();shadowNow=true;try{refilter();}catch(_error){}cssW=0;layoutDirty=true;fit();warming=prewarm().catch(()=>{}).finally(()=>{warming=null;});};
     canvas.addEventListener("webglcontextrestored",restored);
     raf=root.requestAnimationFrame(tick);
     return api;
