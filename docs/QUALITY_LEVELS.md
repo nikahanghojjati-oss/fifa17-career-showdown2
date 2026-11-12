@@ -39,6 +39,16 @@ names and no others.
 - **Never crash first.** A lost context, an out-of-memory error, or (8K) a refused buffer drops the device one level below the one that failed. This applies to any level, Auto or picked.
   - The cap is saved and every screen honours it.
   - It lifts after 7 days, or after 3 clean scenes at the capped level, or when the player picks again.
+- **A tab that dies while a 3D screen opens.** The browser killing the tab for memory, or the player reloading a hung
+  page, leaves no graphics error behind. So a 3D screen leaves a mark while it opens
+  (`careerModeShowdown.gfxOpening.v1`) and removes it once it is running (its first beat played, or 20 s of frames),
+  when it ends, and when its page is hidden or left. A mark still there when the same tab loads the game again means the
+  page died: the level that was opening is capped one down before the screen opens again.
+  - Only that case counts. A mark from another tab, a frame still alive on the same load, a clean reload and a hidden
+    tab cap nothing. Where the browser cannot tell the tab apart there is no mark at all.
+  - This cap does not lift after clean scenes (the level would close the tab again). It ends after 7 days or when the
+    player picks a level in Settings. Settings says what is drawn meanwhile, also for a picked level.
+  - The Device check does not open a level above this cap again: it counts as failed there, and the page says why.
 - **The governor** (`CareerModeGfxTier.governor`) is the only thing that moves quality during a scene. On Auto it walks
   one ladder per scene:
   - First the pixel ratio, a quarter at a time, down to the level's floor.

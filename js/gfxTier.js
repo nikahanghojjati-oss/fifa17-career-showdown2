@@ -121,7 +121,63 @@
     try{const v=JSON.parse(gfxRead(CAP_KEY)||"null");if(!(v&&v.reason&&Number.isInteger(v.level)&&v.level>=0&&v.level<=4))return null;
       if(Date.now()-Number(v.at||0)>CAP_DAYS_MS||(v.clean|0)>=CAP_CLEAN){gfxWrite(CAP_KEY,"null");return null;}return v;}catch(_error){return null;}
   }
-  function gfxCapClean(level){const v=gfxCap();if(!v||v.level!==level)return;v.clean=(v.clean|0)+1;gfxWrite(CAP_KEY,v.clean>=CAP_CLEAN?"null":JSON.stringify(v));if(v.clean>=CAP_CLEAN)cached=null;}
+  function gfxCapClean(level){const v=gfxCap();if(!v||v.level!==level||v.tab)return;v.clean=(v.clean|0)+1;gfxWrite(CAP_KEY,v.clean>=CAP_CLEAN?"null":JSON.stringify(v));if(v.clean>=CAP_CLEAN)cached=null;}
+  // r91: a tab that dies while a 3D screen opens. A lost WebGL context is caught (gfxFail); a tab the browser kills for
+  // memory, or one the player has to reload because it hung, is not: nothing runs, the level stays, and the next open dies
+  // the same way (2.3.0: Roulette on the Chromebook, first open). So a scene leaves a mark while it opens and takes it
+  // away once it is running (its first beat played, or 20 s of frames), when it ends, and when its page is hidden or left
+  // (a reload, a closed tab and a removed frame all say goodbye first). A mark still there when the same tab loads the
+  // game again was left by a page that died: the level that was opening is capped one down, like a GPU failure. That
+  // cap does not lift after clean scenes (the level would only kill the tab again); it ends after 7 days or with a pick
+  // in Settings. Only that one case counts: a mark from another tab proves nothing and is left to go stale. Where the
+  // tab cannot be told apart (no sessionStorage, no page load time) there is no guard.
+  const OPEN_KEY="careerModeShowdown.gfxOpening.v1",TAB_KEY="careerModeShowdown.gfxTab.v1",OPEN_RUN_MS=20000,OPEN_STALE_MS=864e5;
+  const TAB_CRASH="the tab closed while this 3D screen was opening";
+  let opening=null,openedHere=false;
+  const gfxFramed=()=>{try{return Boolean(root.parent&&root.parent!==root);}catch(_error){return false;}};
+  // This tab (kept by the browser across a reload, and across a crash and reload) and this load of the game's page.
+  function gfxTabId(){
+    try{const ss=root.sessionStorage;if(!ss)return "";let id=ss.getItem(TAB_KEY);
+      if(!id){id=`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;ss.setItem(TAB_KEY,id);id=ss.getItem(TAB_KEY);}return id||"";}catch(_error){return "";}
+  }
+  function gfxTopLoad(){
+    let v;try{v=root.top&&root.top.performance&&root.top.performance.timeOrigin;}catch(_error){v=undefined;}
+    if(typeof v!=="number"){try{v=gfxFramed()?undefined:root.performance&&root.performance.timeOrigin;}catch(_error){v=undefined;}}
+    return typeof v==="number"&&v>0?String(v):"";
+  }
+  function gfxOpenList(){try{const v=JSON.parse(gfxRead(OPEN_KEY)||"[]");return Array.isArray(v)?v.filter(m=>m&&typeof m.id==="string"&&Number.isInteger(m.level)):[];}catch(_error){return [];}}
+  // Read the marks: one this tab left on an earlier load is a death; stale ones go. Runs once, when the module loads
+  // (before any profile is built, so the scene that is about to open already gets the lower level).
+  function gfxOpenSweep(){
+    const tab=gfxTabId(),top=gfxTopLoad();if(!tab||!top)return null;
+    const all=gfxOpenList();if(!all.length)return null;
+    const keep=[];let died=null;
+    for(const m of all){
+      if(!(Date.now()-Number(m.at||0)<=OPEN_STALE_MS))continue;
+      if(m.tab===tab&&m.top&&m.top!==top){if(!died||m.level<died.level)died=m;continue;}
+      keep.push(m);
+    }
+    if(keep.length!==all.length)gfxWrite(OPEN_KEY,JSON.stringify(keep));
+    if(!died)return null;
+    const old=gfxCap(),level=Math.max(0,Math.min(died.level>=5?4:died.level-1,old?old.level:4));
+    gfxWrite(CAP_KEY,JSON.stringify({level,reason:TAB_CRASH,tab:true,from:died.level,scene:String(died.scene||""),bench:Boolean(died.bench),at:Date.now()}));
+    cached=null;return died;
+  }
+  function gfxOpenArm(level,scene){
+    if(opening||!(level>0))return;
+    try{if(root.document&&root.document.visibilityState==="hidden")return;}catch(_error){}
+    const tab=gfxTabId(),top=gfxTopLoad();if(!tab||!top)return;
+    const id=`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;
+    opening={id,first:0};
+    gfxWrite(OPEN_KEY,JSON.stringify(gfxOpenList().slice(-5).concat({id,tab,top,level,scene:String(scene||""),bench:gfxQuery("bench")==="1",at:Date.now()})));
+  }
+  function gfxOpenDone(){
+    if(!opening)return;const id=opening.id;opening=null;
+    const all=gfxOpenList(),keep=all.filter(m=>m.id!==id);if(keep.length!==all.length)gfxWrite(OPEN_KEY,JSON.stringify(keep));
+  }
+  // A scene that has drawn for 20 s is open.
+  function gfxOpenFrame(t){if(!opening)return;if(!opening.first)opening.first=t;else if(t-opening.first>=OPEN_RUN_MS)gfxOpenDone();}
+  try{root.addEventListener?.("pagehide",gfxOpenDone);root.document?.addEventListener?.("visibilitychange",()=>{if(root.document.visibilityState==="hidden")gfxOpenDone();});}catch(_error){}
   // Downloads follow the connection as well as the device (Nik 2026-11-08): Save-Data, or a 2g/3g connection, loads one
   // size down; the drawing level stays.
   function gfxSlowNet(){
@@ -178,8 +234,11 @@
     // What was asked for by ?gfx=N (null otherwise): the Device check compares it with what was drawn.
     cached.asked=forcedLevel;
     gfxMarkRoot(cached.level,cached.assetLevel);
+    // A 3D screen in its own frame (Roulette, the pack, the Device check's frames) is opening from here on.
+    if(!openedHere&&gfxFramed()){openedHere=true;gfxOpenArm(cached.level,gfxSceneName());}
     return cached;
   }
+  function gfxSceneName(){try{return String(root.location.pathname||"").split("/").filter(Boolean).slice(-2).join("/");}catch(_error){return "";}}
   // r90 (Nik 2026-11-08, "the best quality it can hold, on every screen"): the resolved level on the root element as
   // html[data-gfx="0".."5"], here and on the app page around the roulette frame, so 2D screens (marble plates, blurs,
   // shadows, CSS animations) can lighten heavy effects at Light. Set when the module loads and whenever the level changes
@@ -323,6 +382,8 @@
     const o=opts||{},key=o.key?String(o.key):"";let p=gfxProfile();
     // The level this scene was built at (calibrate may since have moved the level for what comes next).
     const built=gfxBuiltLevel(renderer);
+    // A 3D screen on the game's own page (Chamber Men) is opening from here on; a framed one marked itself already.
+    if(!gfxFramed())gfxOpenArm(built,key);
     const size=()=>{const c=renderer.domElement;return {w:c?.clientWidth||0,h:c?.clientHeight||0};};
     // Ultra's buffer cap comes from the live canvas size.
     const capOf=()=>{const s=size();if(!s.w||!s.h)return p.maxPixelRatio;
@@ -415,6 +476,7 @@
       renderer,
       frame(t){
         if(ended)return;
+        gfxOpenFrame(t);
         // Device check: the level stays as forced and every frame counts, held or not.
         if(bench){bench.frame(t);return;}
         const dt=last?Math.min(100,t-last):BUDGET_MS;last=t;avg+=(dt-avg)*.08;
@@ -453,6 +515,8 @@
       hold(v){
         const next=Boolean(v);if(next===held){bench?.hold(held);return;}
         held=next;
+        // Its first beat played to the end: the scene is open.
+        if(!held)gfxOpenDone();
         // calm: how the scene ran just before the beat (true smooth enough, false slow, null not seen for half a second).
         // A slow beat owes its step at once when the calm scene was fine, or when the frame callback itself is busy.
         if(held)beat={ms:0,slow:0,calm:idleFor>=500?!(avg>slowLimit()):null};
@@ -475,7 +539,7 @@
       frameMs(){return +avg.toFixed(1);},
       // The frame callback's main-thread time, smoothed (null where it cannot be timed).
       workMs(){return busyKnown?+busy.toFixed(1):null;},
-      end(){if(ended)return;ended=true;if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}
+      end(){if(ended)return;ended=true;gfxOpenDone();if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}
         // Steps still on probe are not what the scene settled at: the place the probe began is.
         if(key&&adapts()){const sAt=probe?probe.at:at,sD=probe?probe.dAt:dAt;gfxWrite(MEMORY_KEY(key),list[sAt]);if(detail)gfxWrite(DETAIL_KEY(key),JSON.stringify({level:built,at:sD,floor:dFloor,t:Date.now()}));}
         if(active===api)active=null;}
@@ -586,9 +650,14 @@
     choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);gfxWrite(CAP_KEY,"null");cached=null;gfxRemark();return v;},
     // 8K is offered only where it can run (Settings shows it only then); samples()/checkTarget() size MSAA for render targets.
     can8k(){return Boolean(gfxProfile().can8k);},samples:gfxSamples,checkTarget:gfxCheckTarget,
+    // tabCrash(): the cap left by a tab that died while a 3D screen was opening (null when there is none). The Device
+    // check does not open a level above it again.
+    tabCrash(){const c=gfxCap();return c&&c.tab?{level:c.level,from:Number.isInteger(c.from)?c.from:c.level+1,scene:String(c.scene||""),bench:Boolean(c.bench),at:c.at}:null;},
     // fallback(reason): a scene that hit an out-of-memory sign of its own drops the device one level (remembered).
     fallback:gfxFail,fallback8k:gfxFail,
     reset(){cached=null;}};
+  // On load, first: did this tab die while a 3D screen was opening? (The cap it writes is read by everything below.)
+  try{gfxOpenSweep();}catch(_error){}
   // On load: a level the player picked or the Device check measured is marked at once (no GPU probe); the full profile
   // follows when the page is idle (the GPU name from the kept answer, or, the first time in this browser, from one throwaway
   // context in a truly idle moment: no 2 s deadline that could land it in the middle of Home's first taps).

@@ -341,7 +341,12 @@ function getSettingsGfxAutoText(tier){
         const onAuto = tier.choice() === "auto";
         const name = tier.label(onAuto ? s.now : s.level);
         if(!name){ return ""; }
-        if(!onAuto){ return `Auto would pick ${name} here.`; }
+        if(!onAuto){
+            // A picked level that a graphics error or a closed tab lowered (js/gfxTier.js crash cap): say what is drawn.
+            let drawn = "";
+            try{ const p = tier.profile(); if(p && p.fellBack){ drawn = ` ${tier.label(p.level)} is drawn for now (lowered after a graphics error).`; } }catch(_error){ drawn = ""; }
+            return `Auto would pick ${name} here.${drawn}`;
+        }
         if(s.lowered){ return `Auto picked ${name} here (lowered after a graphics error).`; }
         return s.measured && s.now === s.level ? `Auto measured ${name} here.` : `Auto picked ${name} here.`;
     }catch(_error){
