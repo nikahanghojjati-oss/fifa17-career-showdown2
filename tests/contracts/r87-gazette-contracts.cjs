@@ -652,5 +652,20 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     const src=read('js/touchlineGazette.js');assert.ok(!/getDoc|onSnapshot|setDoc|runTransaction|collection\(/.test(src),'the Gazette itself still makes no Firebase call');
     ok('G24','review of #1390: the busy mark always comes off (only when this tap set it); both phones print the same squad news (a phone without the sheets has them read first, at most 4 s)');
   }
+  // G26 (review of #1390, P3): one squad ask per paper while the page is up. On Final Winner warm() looks again a few times and
+  // the tap asks too; a closed rivalry refuses the read, so a failed (or refused) ask is not repeated: at most one refused read.
+  {
+    const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    const fq=proj('6',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]]),ff=frame(fq),asked=[];
+    const step={gazetteNews:()=>null,gazetteEnsure:args=>{asked.push(args);return Promise.resolve(false);}};
+    const w=world({history:fx.history(fq),final:ff,squadStep:step});
+    w.go('seasonEntry');await wait(600);w.go('seasonEntry');await wait(600);
+    w.dispatch(w.back);await wait(250);assert.ok(w.page(),'the final paper still prints');
+    assert.equal(asked.length,1,`warm() and the tap asked ${asked.length} times; one ask per paper`);
+    assert.ok(!w.calls.shown[0].story.paragraphs[1].startsWith('Squad news'),'no squad news when the ask failed');
+    const thrown=[],t2=world({history:fx.history(fq),final:ff,squadStep:{gazetteNews:()=>null,gazetteEnsure:()=>{thrown.push(1);throw new Error('denied');}}});
+    t2.go('seasonEntry');await wait(600);t2.dispatch(t2.back);await wait(250);assert.ok(t2.page());assert.equal(thrown.length,1,'a thrown ask is not repeated either');
+    ok('G26','review of #1390: one squad ask per paper (warm and tap share it); a failed or refused ask is never repeated, so a closed rivalry costs at most one refused read');
+  }
   console.log(`PASS r87 Touchline Gazette contracts: ${checks} checks.`);
 })().catch(error=>{console.error(error);process.exit(1);});

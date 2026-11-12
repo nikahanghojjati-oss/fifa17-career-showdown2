@@ -702,11 +702,18 @@
   // Review of #1390 (Nik: "not synced"): both phones must print the same squad news, so a phone that does not keep a sheet
   // this paper needs (a new device, cleared storage) has it read first: js/squadSheetStep.js gazetteEnsure, at most 4 reads
   // once (each kept), none on a phone that has them. Capped at SQUAD_CAP_MS and never fails the paper.
+  // Review of #1390 (P3): one ask per paper while the page is up. warm() looks again a few times on Final Winner and the tap asks
+  // too; a closed rivalry refuses the read (the Rules), so asking again would only add refused, possibly billed reads. A paper
+  // whose ask failed prints without squad news.
+  const squadAsks=new Map();
   function tgSquadReady(key){
     const m=/^(pair_[0-9a-f]{64})\|(?:season|final)\|(\d+)$/.exec(String(key||"")),step=root.CareerModeSquadSheetStep;
     if(!m||!step||typeof step.gazetteEnsure!=="function")return Promise.resolve(false);
-    let timer=null;
-    const ask=Promise.resolve().then(()=>step.gazetteEnsure({rivalryId:m[1],season:Number(m[2])})).then(value=>value===true,()=>false);
+    let timer=null,ask=squadAsks.get(m[0]);
+    if(!ask){
+      ask=Promise.resolve().then(()=>step.gazetteEnsure({rivalryId:m[1],season:Number(m[2])})).then(value=>value===true,()=>false);
+      squadAsks.set(m[0],ask);if(squadAsks.size>12)squadAsks.delete(squadAsks.keys().next().value);
+    }
     return Promise.race([ask,new Promise(resolve=>{timer=root.setTimeout(()=>resolve(false),SQUAD_CAP_MS);})]).then(value=>{root.clearTimeout(timer);return value;});
   }
   function tgReady(plan){
