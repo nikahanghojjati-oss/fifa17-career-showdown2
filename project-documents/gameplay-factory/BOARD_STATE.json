@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-12 12:21 PM Boston time (EST)",
+ "generated": "2026-11-12 12:25 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 269,
@@ -3269,7 +3269,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 6617
+    "waiting_min": 6621
    },
    {
     "id": "HO-059",
@@ -3516,7 +3516,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-077_rule-book-slab-2x-3072x1728-for-sharp-ch.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 390
+    "waiting_min": 394
    }
   ],
   "relay_ok": true
