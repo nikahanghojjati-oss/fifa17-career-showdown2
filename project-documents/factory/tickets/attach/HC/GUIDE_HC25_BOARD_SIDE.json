@@ -1,0 +1,35 @@
+{
+ "room": "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp @maabxq a011c9a23",
+ "scale": 0.345,
+ "daniel_box": [
+  200,
+  100,
+  1120,
+  1284
+ ],
+ "nik_box": [
+  1950,
+  100,
+  2900,
+  1284
+ ],
+ "at": [
+  [
+   20,
+   192,
+   337,
+   600
+  ],
+  [
+   347,
+   192,
+   675,
+   600
+  ]
+ ],
+ "lip": 600,
+ "crop16x9_rows": [
+  80,
+  944
+ ]
+}
