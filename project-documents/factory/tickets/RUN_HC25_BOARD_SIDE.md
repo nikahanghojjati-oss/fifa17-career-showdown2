@@ -2,7 +2,7 @@
 
 **New normal ChatGPT chat, outside any project.** Attach exactly these 2 pictures, in this order:
 
-1. [GUIDE_HC25_BOARD_SIDE.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/SHA/project-documents/factory/tickets/attach/HC/GUIDE_HC25_BOARD_SIDE.png) (cyan picture, you two side by side on the left)
+1. [GUIDE_HC25_BOARD_SIDE.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/f7959aa75/project-documents/factory/tickets/attach/HC/GUIDE_HC25_BOARD_SIDE.png) (cyan picture, you two side by side on the left)
 2. [RC_BOARD_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/7b1bfc5b59e6bdfe55ed941363f84d69ed856a33/project-documents/factory/tickets/attach/HC/RC_BOARD_V2.png) (the empty board room)
 
 Then paste this whole box, nothing else:
