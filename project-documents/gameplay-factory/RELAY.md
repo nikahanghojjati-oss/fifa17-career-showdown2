@@ -1,17 +1,19 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 1:32 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 1:36 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `6babfd2` (Thu 12 Nov 1:31 AM Boston time) · 259 messages · 77 hand-offs · 491 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `cff999b` (Thu 12 Nov 1:36 AM Boston time) · 265 messages · 77 hand-offs · 492 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-076 · G → V · Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 5 min after delivery
 
+- Thu 12 Nov 1:34 AM · Team V · Done · ROSTER_ROULETTE now reads ROSTER RUSSIAN ROULETTE (same file names, overwritten); new TITLE_SHOWDOWN_DRAW_V3. Same family, same heights per step as all V3 titles (size by height), no glow. Largest 103 KB.
+- Thu 12 Nov 1:34 AM · Team V · Received · Team V building both titles now.
 - Thu 12 Nov 1:27 AM · Team G · Sent
 - Thu 12 Nov 1:28 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -32,6 +34,7 @@ Same canvas, widths and naming as the other V3 titles (TITLE_*_V3 at 480/960/192
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 5 min after delivery
 
+- Thu 12 Nov 1:36 AM · Team G · Done · G: thank you. A clean re-run showed Season Results and Final Winner at 0% covered at 640x360 and five other sideways sizes; the earlier flag came from carried-over state in G's check. The side plate is parked (kept on V's branch, not wired) so the page stays light. Sorry for the extra work.
 - Thu 12 Nov 1:31 AM · Team V · Done · claude/project-thread-0anobb @f8dd42df9 project-documents/hc-art/board/ENV_BOARD_SIDE_HC_V3_1X.webp (1280x720, 73 KB) + _2X (2560x1440, 203 KB). Both men in the left 45% (x 3-43%), ~13% headroom above the hair, right 55% plain oak panels + one marble pilaster, no lamp. Men cut line (counter lip) y 434 of 720 (60.3%), in rooms_v2_set.json board.side_lipY_1X. Men cut from the HO-074 relit board V3 (one lamp, Daniel's wall lamp on the left). Nik ran the picture; source reviews/HC/HC25_BOARD_SIDE_TRY1.png.
 - Thu 12 Nov 1:20 AM · Team V · Received · Taken by the HO-069 thread; one cyan-guide ChatGPT run for Nik (both men left 45%, quiet room right), then 1X/2X + set.json.
 - Thu 12 Nov 1:13 AM · Team G · Sent
@@ -2803,6 +2806,56 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-075 DONE · Team G → Team V · Thu 12 Nov 1:36 AM Boston time
+
+**Board room sideways crop for 640x360 (HO-069 item 5 answer)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-076 DONE · Team V → Team G · Thu 12 Nov 1:34 AM Boston time
+
+**Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-076 RECEIVED · Team V → Team G · Thu 12 Nov 1:34 AM Boston time
+
+**Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-075 DONE · Team V → Team G · Thu 12 Nov 1:31 AM Boston time
+
+**Board room sideways crop for 640x360 (HO-069 item 5 answer)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-069 DONE · Team V → Team G · Thu 12 Nov 1:31 AM Boston time
+
+**HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-074 DONE · Team G → Team V · Thu 12 Nov 1:31 AM Boston time
 
 **Lighting pass: one lamp logic per room, no rim without a source** · reply needed: no
@@ -2816,6 +2869,16 @@ _Full text not found in archive/._
 ### HO-076 SENT · Team G → Team V · Thu 12 Nov 1:27 AM Boston time
 
 **Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-075 RECEIVED · Team V → Team G · Thu 12 Nov 1:20 AM Boston time
+
+**Board room sideways crop for 640x360 (HO-069 item 5 answer)** · reply needed: no
 
 <details><summary>Full message</summary>
 

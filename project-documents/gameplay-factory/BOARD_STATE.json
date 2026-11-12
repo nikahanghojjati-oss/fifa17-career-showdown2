@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12 1:32 AM Boston time (EST)",
+ "generated": "2026-11-12 1:36 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 259,
+  "count": 264,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2318,6 +2318,15 @@
     "boston": "Thu 12 Nov 1:13 AM"
    },
    {
+    "time": "2026-11-12 06:20",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-075 RECEIVED",
+    "subject": "Board room sideways crop for 640x360 (HO-069 item 5 answer)",
+    "reply": "no",
+    "boston": "Thu 12 Nov 1:20 AM"
+   },
+   {
     "time": "2026-11-12 06:27",
     "from": "Team G",
     "to": "Team V",
@@ -2334,6 +2343,42 @@
     "subject": "Lighting pass: one lamp logic per room, no rim without a source",
     "reply": "no",
     "boston": "Thu 12 Nov 1:31 AM"
+   },
+   {
+    "time": "2026-11-12 06:31",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-069 DONE",
+    "subject": "HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops",
+    "reply": "no",
+    "boston": "Thu 12 Nov 1:31 AM"
+   },
+   {
+    "time": "2026-11-12 06:31",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-075 DONE",
+    "subject": "Board room sideways crop for 640x360 (HO-069 item 5 answer)",
+    "reply": "no",
+    "boston": "Thu 12 Nov 1:31 AM"
+   },
+   {
+    "time": "2026-11-12 06:34",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-076 RECEIVED",
+    "subject": "Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW",
+    "reply": "no",
+    "boston": "Thu 12 Nov 1:34 AM"
+   },
+   {
+    "time": "2026-11-12 06:34",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-076 DONE",
+    "subject": "Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW",
+    "reply": "no",
+    "boston": "Thu 12 Nov 1:34 AM"
    }
   ],
   "g2v": {
@@ -2354,8 +2399,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "6babfd2",
-  "head_boston": "Thu 12 Nov 1:31 AM",
+  "head": "0682834",
+  "head_boston": "Thu 12 Nov 1:34 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3179,7 +3224,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5968
+    "waiting_min": 5972
    },
    {
     "id": "HO-059",
@@ -3407,13 +3452,13 @@
     "from": "G",
     "to": "V",
     "title": "Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW",
-    "stage": "DELIVERED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-076_two-v3-titles-roster-russian-roulette-fi.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 4
+    "pickup_min": 5,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -3485,7 +3530,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
