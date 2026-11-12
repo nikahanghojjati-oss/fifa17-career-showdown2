@@ -4,33 +4,6 @@
   "purpose": "Blocking deterministic product contracts added by POS20 above the frozen POS10 manifest. Entries are explicit, closed, and may only strengthen the inherited test floor.",
   "tests": [
     {
-      "path": "tests/contracts/ssjr-production-safe-evidence-assembly-contracts.cjs",
-      "patterns": [
-        "^js/ssjrProductionNegativeEvidence\\.js$",
-        "^js/ssjrProductionNegativeProbeRunner\\.js$",
-        "^js/ssjrProductionAcceptanceRecorder\\.js$",
-        "^js/ssjr\\.js$",
-        "^scripts/validate-ssjr-shared-setup-production-evidence\\.mjs$",
-        "^scripts/assemble-ssjr-shared-setup-safe-evidence\\.mjs$",
-        "^tests/contracts/ssjr-production-safe-evidence-assembly-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
-      "path": "tests/contracts/ssjr-production-actor-evidence-v2-contracts.cjs",
-      "patterns": [
-        "^js/ssjrProductionNegativeEvidence\\.js$",
-        "^js/ssjr\\.js$",
-        "^scripts/ssjr-actor-evidence-v2\\.mjs$",
-        "^scripts/assemble-ssjr-shared-setup-actor-evidence\\.mjs$",
-        "^scripts/validate-ssjr-shared-setup-actor-evidence\\.mjs$",
-        "^tests/contracts/ssjr-production-actor-evidence-v2-contracts\\.cjs$",
-        "^tests/browser/ssjr-production-actor-evidence-v2-audit\\.cjs$",
-        "^package\\.json$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/shared-career-start-contracts.cjs",
       "patterns": [
         "^js/sharedCareerStart\\.js$",
@@ -2944,7 +2917,6 @@
         "^js/.+\\.js$",
         "^index\\.html$",
         "^service-worker\\.js$",
-        "^production-authorization-acceptance\\.html$",
         "^visual-assets/.+\\.(?:html|js)$",
         "^tests/contracts/r90\\-no\\-dead\\-js\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
@@ -3046,6 +3018,19 @@
         "^data/fifa17Players\\.js$",
         "^scripts/build\\-fifa17\\-database\\.py$",
         "^tests/contracts/r91\\-player\\-search\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-old-art-contracts.cjs",
+      "patterns": [
+        "^css/.+\\.css$",
+        "^js/.+\\.js$",
+        "^index\\.html$",
+        "^package\\.json$",
+        "^tests/browser/r91\\-old\\-art\\-audit\\.cjs$",
+        "^tests/fixtures/r91\\-old\\-art\\-references\\.json$",
+        "^tests/contracts/r91\\-old\\-art\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },

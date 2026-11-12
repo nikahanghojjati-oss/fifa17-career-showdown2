@@ -371,8 +371,6 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   #app #careerStatistics.careerScreenV10 .leaderCard { height: auto; min-height: 0; grid-template-columns: calc(var(--cs-u) * 2.8) minmax(0, 1fr); gap: calc(var(--cs-u) * .7); padding: calc(var(--cs-u) * .5) calc(var(--cs-u) * 1.4) calc(var(--cs-u) * .5) calc(var(--cs-u) * .6); }
   #app #careerStatistics.careerScreenV10 .leaderCard::after { right: calc(var(--cs-u) * .6); font-size: max(16px, calc(var(--cs-u) * 1.35)); }
   #app #careerStatistics.careerScreenV10 .managerPortrait { width: calc(var(--cs-u) * 2.8); height: calc(var(--cs-u) * 4.2); max-height: 100%; background-color: #101216; }
-  #app #careerStatistics.careerScreenV10 .managerPortrait.daniel { background-size: 760% auto; background-position: 12.5% 13.9%; }
-  #app #careerStatistics.careerScreenV10 .managerPortrait.nik { background-size: 743% auto; background-position: 85.7% 14.9%; }
   #app #careerStatistics.careerScreenV10 .leaderLabel { font-size: max(9px, calc(var(--cs-u) * .69)); letter-spacing: .06em; color: #f7f3e8; }
   #app #careerStatistics.careerScreenV10 .leaderName { margin-top: calc(var(--cs-u) * .25); font-size: max(11px, calc(var(--cs-u) * .86)); }
   #app #careerStatistics.careerScreenV10 .leaderValue { margin-top: calc(var(--cs-u) * .2); font-size: max(17px, calc(var(--cs-u) * 1.33)); }
@@ -413,7 +411,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
    Daniel crossed-arms overlay (V1 only, it would sit on V2's different pose), and gives the tiles, panels, leader cards and
    buttons the picture's gold-bevel and polished-gold finish. The #788 column alignment, every word, id and tap order are kept;
    phone, sideways phone and tablet are outside this query and unchanged. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) {
   #app #careerStatistics.careerScreenV10 {
     --cs2-bevel: linear-gradient(135deg, #fff3b0 0%, #e2b645 16%, #8a6118 40%, #c99a33 62%, #f6dc86 82%, #9a6f1d 100%);
     --cs2-bw: max(2px, calc(var(--cs-u, min(1vw, 1.7778vh)) * .17));
@@ -441,14 +439,17 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
   #app #careerStatistics.careerScreenV10 .panelTitle { border-bottom-color: #a8924f; text-shadow: 0 1px 3px #000; }
   #app #careerStatistics.careerScreenV10 .titleBlock::before { content: ""; position: absolute; inset: -4% -10% -2%; z-index: -1; background: radial-gradient(ellipse at 50% 52%, rgba(3, 4, 6, .62), rgba(3, 4, 6, .3) 55%, transparent 74%); }
   #app #careerStatistics.careerScreenV10 :is(.sd-eyebrow, .sd-tagline) { text-shadow: 0 1px 4px #000, 0 0 10px rgba(0, 0, 0, .9); }
-  /* leader portraits: heads cropped from the V2 plate */
-  #app #careerStatistics.careerScreenV10 .managerPortrait {
-    background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_2X.webp") 2x);
-    border: 1px solid rgba(255, 224, 120, .6); border-image: none; box-shadow: inset 0 -10px 12px rgba(0, 0, 0, .35);
-  }
-  #app #careerStatistics.careerScreenV10 .managerPortrait.daniel { background-size: auto 338.8%; background-position: 13.4% 13.1%; }
-  #app #careerStatistics.careerScreenV10 .managerPortrait.nik { background-size: auto 303.2%; background-position: 84.2% 14.7%; }
+  #app #careerStatistics.careerScreenV10 .managerPortrait { border: 1px solid rgba(255, 224, 120, .6); border-image: none; box-shadow: inset 0 -10px 12px rgba(0, 0, 0, .35); }
 }
+/* r91 old art: the Career Leaders portraits are cut from the board room the screen stands in (plates-hc/ENV_BOARD_PLATE_HC_V2,
+   heads at x 16.5-29.5% / 66.5-78% and y 5.5-33% of the plate) at every window size and on every tab. They were cut from
+   the retired V1 penthouse plate (Team V's career-statistics.css) and, on desktop, the retired plates-v2 statistics plate. */
+#app #careerStatistics.careerScreenV10 .managerPortrait { background-image: url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp"); background-repeat: no-repeat; }
+html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #careerStatistics.careerScreenV10 .managerPortrait {
+  background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp") 2x);
+}
+#app #careerStatistics.careerScreenV10 .managerPortrait.daniel { background-size: auto 285.7%; background-position: 18.9% 3.1%; }
+#app #careerStatistics.careerScreenV10 .managerPortrait.nik { background-size: auto 285.7%; background-position: 75.6% 5.8%; }
 /* Ultrawide: the wordmark is sized from the title block's width, so on 2560x1080 it grew over the tagline; here it keeps its 1920x1080 size. */
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 11/5) and (orientation: landscape) {
   #app #careerStatistics.careerScreenV10 .titleWordmark { width: min(93.6%, 66.2vh); left: calc(50% - min(46.8%, 33.1vh)); }
@@ -462,7 +463,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
    Comparison, Career Leaders and the actions start one gap below the chins and keep one even gap between every row. Where
    the space between the heads is too narrow for four totals in a row they take two rows of two. Words, ids and tap order are
    unchanged. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) {
   html #app #careerStatistics.careerScreenV10 {
     --hc-u: min(1vw, 1.7778vh);
     --hc-rw: max(100vw, 100vh * 1672 / 941); --hc-rh: calc(var(--hc-rw) * 941 / 1672);
@@ -513,7 +514,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
    stays short. 2.3.0 strict pass (E-b/E1): this held only under 2400x1350, but above it four tiles in a row still left
    each "D 18 / N 16" pair about 100px for 160-260px of numbers (Nik's "16" cut at 2560x1080, 2560x1440 and 3840x2160),
    so every desktop size now takes two rows of two. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) {
   html #app #careerStatistics.careerScreenV10 { --hc-rows: 2; --hc-row: max(52px, 7vh); }
   /* the table between the faces is narrower than before: "Showdowns" takes 2 points of width from the name column
      (it ran 1px past its cell at 1280x650) */
@@ -534,7 +535,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
    get the 100px they draw and the column ends 4px from the window edge, so the Manager Comparison keeps its seven rows and
    Career Leaders shows whole. Below the chins the leaders and the three buttons take the room between the men's shoulders, as
    before HO-068, so no button label runs to three lines. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (max-width: 2399px) and (max-height: 630px) {
+@media (min-width:901px) and (max-width: 2399px) and (max-height: 630px) {
   html #app #careerStatistics.careerScreenV10 {
     --hc-g: 8px; --hc-row: 48px; --hc-lmin: 100px;
     --hc-end: min(calc(100vh - 4px), max(90.5vh, calc(var(--hc-p) + var(--hc-pmin) + var(--hc-lmin) + var(--hc-act-h) + var(--hc-g) * 2)));
@@ -882,4 +883,20 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
    126 px wide; 12 px is the type floor. Phones keep their 10.5 px fit. Screens that size their own bar (Connect Players, 15 px) win by specificity. */
 @media (min-width: 700px) and (max-width: 900px) and (orientation: portrait) {
   .sd-nav.sd-nav-bottom .sd-nav-tab { font-size: 12px; }
+}
+
+/* r91 old-art: on Career Statistics, Standings and Season Results, upright windows wider than 900 (a portrait monitor or a
+   tall desktop window) keep the desktop layout, where
+   the stage covered the window's height and cut both men off the sides of the wide room. There the room is drawn the
+   window's width from the top, lowered just enough for the hair to clear the top bar (both faces whole, the title between
+   them), and the stone floor carries on below it. */
+@media (min-width:901px) and (orientation:portrait) {
+  #app :is(#careerStatistics,#standings,#seasonEntry) .sd-stage .sd-stage__registered { left:0; top:0; width:100%; height:auto; aspect-ratio:16 / 9; translate:0 max(0px,calc(var(--sd-nav-top-h,52px) + 6px - 56.25vw * .02)); }
+  #app :is(#careerStatistics,#standings,#seasonEntry) .sd-stage .sd-stage__layer--plate { background:#1c1814; }
+  #app :is(#careerStatistics,#standings,#seasonEntry) .sd-stage .sd-stage__layer--plate .sd-stage__plate { -webkit-mask-image:linear-gradient(180deg,#000 82%,transparent); mask-image:linear-gradient(180deg,#000 82%,transparent); }
+}
+/* r91 old-art: desktop windows 901-1199 wide now stand in the board room too; between the heads the Career Table's
+   headings ran into each other at 1024x768 and 1100x600, so there they may take two lines. */
+@media (min-width:901px) and (max-width:1199px) {
+  #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th { white-space: normal; line-height: 1.1; overflow-wrap: normal; vertical-align: bottom; padding-inline: 1px; letter-spacing: 0; font-size: 10px; }
 }

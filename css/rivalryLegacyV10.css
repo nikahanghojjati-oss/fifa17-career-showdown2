@@ -168,7 +168,7 @@
    Reserve the existing 56px hub bar; the action is slimmed to a 44px touch target.
    740x360 budget: 56 hub + 12 padding + 44 tabs + 8 gaps + 196 panel + 44 action.
    main owns overflow for exceptional live content; no panel/body scroller. */
-@media (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
   #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) {
     box-sizing:border-box; position:fixed; inset:0; display:block; width:100%; max-width:none;
     padding:0; margin:0; height:100svh; max-height:100svh;
@@ -467,7 +467,7 @@
    Rows stay in the card's flow (so all seven fit inside it), the partial-history note sits in the flow above them,
    and the empty/loading/unavailable notice covers the card's body instead of a tiny grid area. */
 @media (max-width:600px) and (orientation:portrait),
-  (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape),
+  (max-width:900px) and (max-height:500px) and (orientation:landscape),
   (min-width:700px) and (max-width:900px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-rows { position:static; inset:auto; }
   #app #statistics[data-rivalry-legacy-v10] .rv-coverage {
@@ -484,7 +484,7 @@
 /* JOB-1703: approved NEXT_RIVALRY geometry; adopted 1372/1374/1375
    remain the touch compositions. Only main scrolls, including long histories.
    #app keeps the adapter ahead of the later-loaded frozen screen sheets. */
-@media (max-width:600px) and (orientation:portrait), (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape), (min-width:700px) and (max-width:900px) and (orientation:portrait), (min-width:1024px) and (orientation:landscape), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (orientation:landscape) {
+@media (max-width:600px) and (orientation:portrait), (max-width:900px) and (max-height:500px) and (orientation:landscape), (min-width:700px) and (max-width:900px) and (orientation:portrait), (min-width:1024px) and (orientation:landscape), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (orientation:landscape) {
   #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) {
     box-sizing:border-box; position:fixed; inset:0; z-index:30;
     width:100%; height:100svh; max-height:100svh; min-height:0;
@@ -550,7 +550,7 @@
    Removing the duplicate 62px shell padding gives 196px to the totals at
    740x360 (304 - 10 padding - 46 bordered tabs - 8 gaps - 44 action).
    Season histories may grow; no height cap pushes rows onto the action. */
-@media (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
   #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { scrollbar-gutter:auto; }
   #app #statistics[data-rivalry-legacy-v10] .rv-stage { height:auto; min-height:100svh; }
   #app #statistics[data-rivalry-legacy-v10] .rv-shell {
@@ -749,7 +749,7 @@
 /* Phones and sideways phones: a 10-row Seasons tab slid under the docked action (rows 7 to 9 were hidden behind the button).
    From 6 rows the action leaves the dock and ends the content instead; the hub bar below it still reserves its own space. */
 @media (max-width:600px) and (orientation:portrait),
-       (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+       (max-width:900px) and (max-height:500px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-shell[data-tab="seasons"]:has(.rv-seasonTable tbody tr:nth-child(6)) .rv-actions {
     position:static; margin-top:8px;
   }
@@ -972,7 +972,7 @@
    Original Team V cameras/assets and all Rivalry Statistics rules stay intact. */
 @media (max-width:600px) and (orientation:portrait),
        (min-width:601px) and (max-width:900px) and (orientation:portrait),
-       (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape),
+       (max-width:900px) and (max-height:500px) and (orientation:landscape),
        (min-width:901px), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app > main:has(> #legacy[data-rivalry-legacy-v10]:not(.hidden)) {
     position:fixed; inset:0; z-index:30; display:block; box-sizing:border-box;
@@ -1113,9 +1113,11 @@
 }
 
 /* Adopted 1316: side tabs | one live card/pager | primary action. */
-@media (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
   #app #legacy[data-rivalry-legacy-v10] #stage-root {
-    background:#07080a url("../visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_1X.webp") center / cover no-repeat;
+    /* r91 old-art: the archive room (HO-068), the window's width, raised so the hair starts 2px under the top edge and both
+       heads sit in the top corners over the tab column and the card, as the old stadium's did (stone below on narrow phones) */
+    background:#1c1814 url("../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp") 50% calc(2px - 56.25vw * .06) / 100% auto no-repeat;
   }
   #app #legacy[data-rivalry-legacy-v10] :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.sd-stage__layer--atmosphere,.legacyPhoneFaceBand,.nav-reserve) { display:none; }
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui {
@@ -1230,7 +1232,7 @@
    so the camera, the 2X swap and the load timing are unchanged, and the plate loads with this screen, never with the
    startup bundle. The plate already carries both managers, all four banners and both name tags, so the old manager
    cut-outs and rim lights are not drawn over it. Looks only: every word, id and tap order stays as it was. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
   #app #legacy[data-rivalry-legacy-v10] {
     --lg-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
     --lg-gold:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%);
@@ -1256,7 +1258,7 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel {
     position:relative; box-sizing:border-box; border:clamp(3px,.4vh,5px) solid transparent; border-radius:4px;
     /* HO-033 follow-up: opaque black-gold marble (HO-029 kit tile) instead of the .90-.95 see-through glass (owner rule HO-027) */
-    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--lg-bevel) border-box #110f0c;
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,linear-gradient(#110f0c,#110f0c) padding-box,var(--lg-bevel) border-box #110f0c;
     box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 14px 36px #000b;
   }
   /* the second, empty slot of the archive (only one showdown is live): a glass pane with a thin gold edge */
@@ -1319,7 +1321,7 @@
    plane at the V2 files, so the camera, the 2X swap and the load timing are unchanged, and the plate loads with this
    screen, never with the startup bundle. The plate already carries both managers, so the old manager cut-outs, rim lights
    and contact shadows are not drawn over it. Looks only: every word, id and tap order stays as it was. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
   #app #statistics[data-rivalry-legacy-v10] {
     --rp-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
     --rp-gold:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%);
@@ -1337,7 +1339,7 @@
   #app #statistics[data-rivalry-legacy-v10] :is(.rv-comparison,.rv-bottom) {
     border:clamp(2px,.3vh,4px) solid transparent; border-radius:4px;
     /* HO-033 follow-up: opaque black-gold marble (HO-029 kit tile) instead of the .91-.95 see-through glass (owner rule HO-027) */
-    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--rp-bevel) border-box #110f0c;
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,linear-gradient(#110f0c,#110f0c) padding-box,var(--rp-bevel) border-box #110f0c;
     box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c80,0 12px 30px #000b;
   }
   #app #statistics[data-rivalry-legacy-v10] #rvBack {
@@ -1385,12 +1387,12 @@
   }
   #app #statistics[data-rivalry-legacy-v10] .rv-stage { background-color:transparent; }
 }
-@media (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene {
     background:#07090c url("../visual-assets/v10_1/plates-v3/ENV_RIVALRY_PHONE_V3.webp") center top / cover no-repeat;
   }
 }
-@media (max-width:600px) and (orientation:portrait), (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+@media (max-width:600px) and (orientation:portrait), (max-width:900px) and (max-height:500px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] :is(.rv-adoptedPhoneStadium,.rv-adoptedPhoneManager) { display:none; }
 }
 /* r80 gallery · the Ended early card (History): it is a <div> where the completed card is a <button>, so it took the archive
@@ -1436,13 +1438,13 @@
    inside the frame, in that empty pane (the grid area of the archive panel, inset to the pane's edges), and scrolls inside it
    when a Showdown has many seasons. It stops above the pager row (the < . > controls keep their place and stay tappable).
    Nothing else moves; the list keeps its own words, rows and the close button. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) {
     position:absolute; z-index:4; grid-area:2 / 1 / 3 / -1; box-sizing:border-box;
     inset:12px 12px 30% calc(17.5% + 14px + (100% - 17.5% - 24px) / 4 + 10px); width:auto;
     margin:0; transform:none; overflow:auto; overscroll-behavior:contain;
     border-radius:2px;
-    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,url("r78-marble-tile.webp") 0 0/256px 256px repeat;
+    background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,#110f0c;
     box-shadow:inset 0 0 0 1px #000a,0 10px 28px #000b;
   }
   /* Inside the pane the list is compact so a normal Showdown (3 seasons) fits without an inner scroll: the close button
@@ -1577,7 +1579,7 @@
 #app #legacy[data-rivalry-legacy-v10] .legacyHistorySeason[data-winner="draw"] .legacyHistoryWinner { color:#c9b98f; }
 /* Desktop pane: compact enough that a 3-season Showdown fits the pane at 1366x768 with no inner scroll and no sticky bar
    (main stays the only scroller there; a long Showdown still scrolls inside the pane as HO-043 allows). */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding:8px 14px; row-gap:4px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable thead th { padding-top:2px; padding-bottom:3px; }
   /* one line per season: the points sit beside the league line (a Europa League win wraps under it) */
@@ -1587,7 +1589,7 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { margin-top:0; line-height:13px; }
 }
 /* Short desktop windows (1280x650, 1366x640): a 3-season Showdown still fits the pane with no inner scroll. */
-@media (min-width:1200px) and (min-height:600px) and (max-height:700px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (max-height:700px) and (orientation:landscape) {
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding-top:6px; padding-bottom:6px; row-gap:2px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryClose { min-height:28px !important; padding:2px 12px !important; }
   #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable :is(th,td) { padding-top:1px; padding-bottom:1px; }
@@ -1893,10 +1895,10 @@
 /* With the toolbar above the archive, the season list opens under it (12px pane inset + 30px toolbar + its 6px gap), so the
    GO TO box and the filters stay visible and tappable. On windows taller than 700px it gives those rows back by ending 18px lower,
    down to the pager's top edge, so a 3-season Showdown fits with no inner scroll at 1366x768. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
   #app #legacy[data-rivalry-legacy-v10]:has(.legacyArchivePanel > .legacyTools) .legacySeasonHistory:not([hidden]) { top:48px; }
 }
-@media (min-width:1200px) and (min-height:701px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (min-height:701px) and (orientation:landscape) {
   #app #legacy[data-rivalry-legacy-v10]:has(.legacyArchivePanel > .legacyTools) .legacySeasonHistory:not([hidden]) { bottom:calc(22% - 12px); }
 }
 /* Studio Small Axe (Fable job 20, 900x700): sideways tablets taller than 500px fell through to the old absolute phone layers,
@@ -1948,7 +1950,7 @@
 @media (min-width:901px) and (max-width:1699px) and (min-height:700px) {
   #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { font-size:12px !important; }
 }
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) {
     bottom:auto; height:max-content; max-height:calc(100% - 24px); grid-template-rows:auto auto auto;
     border:1px solid rgba(217,170,60,.62); border-top:2px solid var(--v26-gold-deep,#c99b45);
@@ -1968,7 +1970,7 @@
 }
 /* A long Showdown (7-10 seasons) tightens the pane once more so all of its seasons fit without the inner scroller at
    1280x720 and up: 15px points on a 15px line, 1px cell padding, the close button and the gaps trimmed. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]):has(tbody tr:nth-child(7)) { padding-top:4px; padding-bottom:4px; row-gap:2px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]):has(tbody tr:nth-child(7)) > .legacyHistoryClose { min-height:28px !important; padding:2px 12px !important; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]):has(tbody tr:nth-child(7)) > .legacyHistorySpecialPlayers { margin-top:2px; }
@@ -2039,7 +2041,7 @@
    meets the title; where the band is too short for the men it rises only as far as their chins clearing the title. The band
    keeps History's fitted height, so VIEW SEASON HISTORY stays on the first screen (r87 A-06). No dimming, and the line under the wordmark is not
    drawn (no slogans); wider upright screens and sideways phones keep their current art. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp'); }
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate {
     background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp') 1x,url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp') 2x);
@@ -2056,7 +2058,7 @@
   }
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyTagline { visibility:hidden; }
-@media (max-width:600px) and (orientation:portrait) {
+@media (max-width:900px) and (orientation:portrait) {
   #app #legacy[data-rivalry-legacy-v10] {
     --lg-pw:max(143vw,calc(100svh * 1179 / 2096)); --lg-ph:calc(var(--lg-pw) * 2096 / 1179);
     /* the band keeps the fitted History height, so VIEW SEASON HISTORY stays above the tab bar on first paint */
@@ -2068,6 +2070,13 @@
     width:var(--lg-pw);
     top:max(calc(var(--lg-hero-art) - 8px - var(--lg-ph) * .5048),min(calc(56px - var(--lg-ph) * .286),calc(var(--lg-hero-art) - 6px - var(--lg-ph) * .386)));
   }
+}
+/* r91 old-art: upright tablets (601-900 wide) stand in the same archive room. The whole plate width shows, the heads
+   (from 28.2% of the plate) sit 64px down, clear of BACK and the settings button, and the band grows so both chins
+   (39.4%) end above the title. */
+@media (min-width:601px) and (max-width:900px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] { --lg-pw:100vw; --lg-hero-art:max(var(--lg-hero,44px),calc(72px + var(--lg-ph) * .112)); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyPhonePlate img { top:calc(64px - var(--lg-ph) * .282); }
 }
 /* HO-068 (Nik: nothing may cover a face): on short phones (393x660, 375x553) the fitted band left no room for the faces,
    so their heads went under BACK and the settings button (360x740: Daniel's hair was 1px from BACK). Up to 760px tall
@@ -2090,7 +2099,7 @@
    band. The plate carries both men, so the old stadium and the two cut-outs are not drawn on tablets either now. The
    plates-v2/v3 Rivalry plates stay in the repo as rollback. The "TWO MANAGERS • ONE LEGACY" slogan is hidden (layout
    kept); the Golden Showdown chip that shares its row stays visible. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) {
   #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate { background-image:url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp); }
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate {
     background-image:image-set(url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp) 1x,url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp) 2x);
@@ -2130,7 +2139,7 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-actions { position:static; }
   #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { background-attachment:local; }
 }
-@media (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape) {
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene {
     background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp") center 22% / cover no-repeat;
   }
@@ -2163,7 +2172,7 @@
 /* r90 strict D8 (Legacy, sideways phones, 600-900 x up to 500): the tab column and the Showdown card started at y 96 and were
    painted over Daniel's mouth, chin and hand; the card's top right corner met Nik's jaw. The block starts 24 px lower (y 120), so the
    tabs and card sit under both chins plus the 7 px halo. Only from 390 px tall: below that the block would run under the bottom nav, so shorter windows keep the old layout. */
-@media (min-width:600px) and (max-width:900px) and (min-height:390px) and (max-height:500px) and (orientation:landscape) {
+@media (max-width:900px) and (min-height:390px) and (max-height:500px) and (orientation:landscape) {
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { padding-top:54px; align-content:start; grid-template-rows:60px auto 44px auto; row-gap:6px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel { gap:4px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel button { min-height:44px; padding-top:6px; padding-bottom:6px; }
@@ -2177,4 +2186,35 @@
   #app #legacy[data-rivalry-legacy-v10] #stage-root:not(:has(.legacyStateBanner:not([hidden]))) .sd-stage__layer--ui { grid-template-rows:60px min-content 44px 1fr; }
   #app #legacy[data-rivalry-legacy-v10] #stage-root:not(:has(.legacyStateBanner:not([hidden]))) .legacySidePanel { grid-area:2 / 1 / 5; }
   #app #legacy[data-rivalry-legacy-v10] #stage-root:not(:has(.legacyStateBanner:not([hidden]))) .legacyPager { align-self:start; }
+}
+
+/* r91 old-art: upright windows wider than 900 keep the desktop layout. There the archive and tunnel rooms are drawn the
+   window's width from the top (cover-fit by height cut both men off the sides), lowered just enough for the hair to clear
+   the top bar, and the stone floor carries on below. */
+@media (min-width:901px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] { --lg-rh:56.25vw; }
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--plate > .sd-stage__registered,
+  #app #statistics[data-rivalry-legacy-v10] .sd-stage__layer--plate > .sd-stage__registered { width:100vw; height:56.25vw; }
+  #app #statistics[data-rivalry-legacy-v10] .sd-stage__layer--plate > .sd-stage__registered { translate:0 max(0px,calc(var(--sd-nav-top-h,52px) + 6px - 56.25vw * .0174)); }
+}
+/* r91 old-art, Legacy on short sideways phones (under 390 tall, 640x360, 800x360): the tab column and the card start about
+   85px down, so the archive room is drawn 300px tall from just above the window's top edge; both chins end 8px over the
+   tabs and the card, and the stone carries on at the sides. */
+@media (max-width:900px) and (max-height:389px) and (orientation:landscape) {
+  #app #legacy[data-rivalry-legacy-v10] #stage-root { background-size:auto 300px; background-position:50% -16px; }
+}
+/* r91 old-art: upright windows 601-699 wide fell between the phone and tablet blocks, so Team V's V1 phone stadium and the two
+   V1 cut-outs were drawn over the tunnel room; there the tunnel room behind the screen is the only picture, as on either side. */
+@media (min-width:601px) and (max-width:699px) and (orientation:portrait) {
+  #app #statistics[data-rivalry-legacy-v10] :is(.rv-phoneArt,.rv-phoneHero) { display:none; }
+}
+/* r91 old-art: desktop windows 901-1199 wide and up to 700 tall now stand in the archive room too, whose title row keeps
+   both chins clear; the History pane there takes the compact rows the long-career pane uses (it was 13px too tall at 1100x600). */
+@media (min-width:901px) and (max-width:1199px) and (max-height:700px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding-top:4px; padding-bottom:4px; row-gap:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .legacyHistoryClose { min-height:28px !important; padding:2px 12px !important; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable { margin-top:2px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(th,td) { padding-top:0 !important; padding-bottom:0 !important; line-height:15px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryPoints { font-size:15px; line-height:15px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) :is(.legacyHistoryDetail,.legacyHistoryWinner) { line-height:15px; }
 }

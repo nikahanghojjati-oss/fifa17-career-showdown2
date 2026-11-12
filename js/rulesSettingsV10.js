@@ -95,8 +95,8 @@
       restore();
     };
   }
-  // JOB-1731: adopted sideways study 1731. On short landscape phones the six numbered rule cards are shown one at a
-  // time under six section tabs. Presentation state only: every article, rule line and score stays in the DOM in live
+  // JOB-1731: adopted sideways study 1731. On short landscape phones the numbered rule cards are shown one at a
+  // time under one tab each. Presentation state only: every article, rule line and score stays in the DOM in live
   // order (a hidden card is only display:none), and leaving the sideways size restores the exact original page.
   function ruleBookTabs(content){
     const media=root.matchMedia?.("(max-width: 900px) and (max-height: 500px) and (orientation: landscape)");
@@ -153,7 +153,8 @@
     content.querySelectorAll('.ruleSection').forEach(card=>{
       card.classList.add('sd-panel');card.dataset.sdEnter='panel';
       const head=card.querySelector('.ruleSectionHeader');head.querySelector('span').classList.add('ruleSectionNumber');
-      if(card.classList.contains('scoringRuleSection')){card.classList.add('sd-panel--hero');Array.from(card.querySelector('.ruleScoreTable').children).forEach(row=>row.classList.add('ruleScoreRow'));}
+      if(card.classList.contains('scoringRuleSection'))card.classList.add('sd-panel--hero');
+      card.querySelectorAll('.ruleScoreTable').forEach(table=>Array.from(table.children).forEach(row=>row.classList.add('ruleScoreRow')));
     });
     content.querySelector('.backButton').id='ruleBookBack';
     content.querySelector('.backButton').classList.add('sd-btn','sd-btn--secondary');
