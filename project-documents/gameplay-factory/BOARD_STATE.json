@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-12 4:59 AM Boston time (EST)",
+ "generated": "2026-11-12 5:06 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 266,
@@ -2455,9 +2455,9 @@
   },
   "physio": {
    "state": "clear",
-   "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "line": "All clear (from GitHub).",
+   "gate": "POS20 #304 7/7",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -3242,7 +3242,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 6174
+    "waiting_min": 6182
    },
    {
     "id": "HO-059",
