@@ -17,4 +17,10 @@ Landscape 3:2, the largest size available. Keep everything framed as it is.
 
 **You should get:** You two against oak (no window niches), a wide dark window over the training pitches in the middle, the ball shelf above Daniel, a lit case with old boots above Nik, folders on the sill.
 
-If it fails, a new chat with the same 2 pictures and the same box, plus the Fix line from the ticket.
+**Rerun (try 2):** your try 1 had the room right, but the two men were redrawn, moved and made bigger, so the faces changed. Paste the box above and then this line at the end, in the same message:
+
+```
+Wrong last time: the two men were redrawn, moved and made bigger, and their faces changed. Copy the two men from picture 1 pixel for pixel: same faces, same size, same place, not one pixel moved; their lower edge sits exactly on the brass lip at 62% of the height. Paint only the cyan areas. Keep the room as rich as before: the training-ground window, the ball shelf, the lit boot case and the folders.
+```
+
+**Save as:** `HC23_SQUAD_D_V2.png`. Up to 3 tries, each in a new chat with the same 2 pictures, the box and this line.
