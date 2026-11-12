@@ -1981,10 +1981,13 @@ html[data-v10-setup="start"] #overlay { background: none; }
   html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background {
     background-color: #161512;
     background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp");
+    background-size: auto 200%; background-position: 50% 100%;
   }
   html[data-assets="0"][data-v10-setup="start"] #background { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_590W.webp"); }
   #createShowdown.v26Skin .v26Art { display: none; }
-  html[data-v10-setup="start"]:has(#createShowdown:not(.hidden)) #background { background-image: none; }
+  /* #background keeps the same hall file under the page's own copy (the flash guard needs the setup skin's plate there;
+     it is one cached download, and the page's opaque room covers it). It shows only the lower half of the room (counter and
+     floor), so no face ever shows through the see-through top and bottom bars. */
   #app > main:has(> #createShowdown.v26Skin:not(.hidden)) {
     background: #1a1814 url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp") no-repeat local;
     background-size: 100% auto;
@@ -1996,10 +1999,11 @@ html[data-v10-setup="start"] #overlay { background: none; }
   #createShowdown.v26Skin .setupBox { margin-top: calc(var(--hl-top) + var(--hl-pw) * (1411 - 513) / 1179 + 10px - var(--hl-flow, 60px)); }
 }
 @media (max-width: 900px) and (max-aspect-ratio: 59/128) and (orientation: portrait) {
+  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_TALL.webp"); }
   #app > main:has(> #createShowdown.v26Skin:not(.hidden)) { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_TALL.webp"); }
 }
 @media (max-width: 900px) and (orientation: landscape) {
-  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp"); background-size: cover; }
+  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp"); background-size: auto 200%; background-position: 50% 100%; }
   #app > main:has(> #createShowdown.v26Skin:not(.hidden)),
   html[data-assets="0"] #app > main:has(> #createShowdown.v26Skin:not(.hidden)) {
     background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp");
@@ -2017,7 +2021,6 @@ html[data-v10-setup="start"] #overlay { background: none; }
    one gap under both chins (y 807), so no box ever covers a face; sideways, the title sits between the two heads at the top
    of the wide plate and the first box starts under the chins (28.5% of the plate). */
 @media (max-width: 900px) {
-  html[data-v10-setup="start"]:has(#dashboard:not(.hidden)) #background { background-image: none; }
   #app > main:has(> #dashboard:not(.hidden)) {
     background: #1a1814 url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp") no-repeat local;
     background-size: 100% auto;
@@ -2053,4 +2056,5 @@ html[data-v10-setup="start"] #overlay { background: none; }
 /* Small phones held sideways: the title sits between the two heads, so it is sized to the gap between them. */
 @media (max-width: 760px) and (max-height: 500px) and (orientation: landscape) {
   #app #dashboard > h2 { font-size: calc((49vw - 32px) / 9.5); }
+  #dashboard > .showdownOverview { margin-top: max(0px, calc(100vw * 864 / 1536 * .285 + 8px - 58px)); }
 }
