@@ -40,10 +40,10 @@ cd,_=rim(c.copy(),m,1.0,'right')
 LIPSRC=1960
 out={}
 for tag,H in (('1X',1080),('2X',2160)):
-    span=(0.925-0.05)*H; s=span/(LIPSRC-top)
+    s=0.65*H/1080  # Nik 12 Nov: big like the old screen (2X = 1.3x of source)
     im=save(cd,m,s,f'REUS_D_{tag}.webp',86)
     out['desktop_'+tag]={'file':f'REUS_D_{tag}.webp','frame':[H*16//9,H],'scale_vs_source':round(s,3),'size':im.size,
-       'top_px':round(0.05*H-top*s),'left_px':round(0.02*H*16/9),'note':'bottom of layer runs under the ledge; put LEDGE layer above it'}
+       'top_px':round(0.05*H-top*s),'left_px':round(0.0104*H*16/9),'note':'bottom of layer runs under the ledge; put LEDGE layer above it'}
 # phone: frame 1179x2096, head top 18%, lip 95%
 H=2096; s=((0.95-0.18)*H)/(LIPSRC-top); cp,_=(c.copy(),None)
 im=save(c,m,s,'REUS_P.webp',86); im2=im.resize((round(im.width*590/1179),round(im.height*590/1179)),Image.LANCZOS); im2.save('REUS_P_590W.webp','WEBP',quality=86,method=6,alpha_quality=90)
