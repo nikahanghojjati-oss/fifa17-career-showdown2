@@ -2362,6 +2362,31 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2_590W.webp")}"); }
 }
+/* r91 old-art follow-up (765x900): on upright windows 700-900 wide and under 960 tall Team V keeps its 430px phone column,
+   centred, but the board room was drawn the window's width behind it, so Daniel was cut at the column's edge and the
+   title stood on his chin. The room is drawn the column's width there, raised the same way. */
+@media (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { --sr-hc-w:430px; background-size:var(--sr-hc-w) auto; }
+}
+/* r91 old art: Final Winner on windows Team V gives neither its phone nor its desktop picture (small landscape windows
+   761-900 wide and over 500 tall, and 900px-wide windows held upright under 960 tall) stood on a blank backdrop. The board
+   room is drawn behind it at the window's height from the top, as on desktop; the men stand either side of the column. */
+@media (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape),
+       (min-width:900px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
+ #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { background:#1d1a16 url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 50% 0 / auto 100svh no-repeat; }
+ #app #seasonEntry.v10FinalMode #stage-root, #app #seasonEntry .v10FinalStage { background:none; }
+ #app #seasonEntry .v10FinalStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.finalWinnerRim,.finalWinnerManagerShade,.finalWinnerManagerSpotlight) { display:none; }
+}
+@media (min-width:900px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
+ #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { background-size:100% auto; }
+}
+/* r91 old art: small landscape windows (to 900 wide, over 500 tall, a desktop window dragged narrow) keep Team V's phone
+   layout; it stands in the wide board room from its top (both men, heads to chins, above the title) instead of the
+   retired stadium and the two cut-outs. */
+@media (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background:#1d1a16 url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 50% 0 / 100% auto no-repeat; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero) { display:none!important; }
+}
 /* HO-068 (Nik 2026-11-09): on upright phones the result (SHOWDOWN CLOSED, the winner and both scores) sat on both men's chins
    and chests. It now stands on the counter face under the brass lip, as on sideways phones, and the plate rises so the
    heads sit one gap under the title: the lip is placed from the title's foot (--fw-tb) plus the head-to-lip height of the

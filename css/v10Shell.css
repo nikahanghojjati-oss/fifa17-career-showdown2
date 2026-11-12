@@ -411,7 +411,9 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
    Daniel crossed-arms overlay (V1 only, it would sit on V2's different pose), and gives the tiles, panels, leader cards and
    buttons the picture's gold-bevel and polished-gold finish. The #788 column alignment, every word, id and tap order are kept;
    phone, sideways phone and tablet are outside this query and unchanged. */
-@media (min-width:901px) {
+/* r91 old-art follow-up: small landscape windows (to 900 wide, over 500 tall) get Team V's desktop stage, so they stand in
+   the board room too (they drew the retired V1 penthouse plate and the crossed-arms cut-out). */
+@media (min-width:901px), (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #careerStatistics.careerScreenV10 {
     --cs2-bevel: linear-gradient(135deg, #fff3b0 0%, #e2b645 16%, #8a6118 40%, #c99a33 62%, #f6dc86 82%, #9a6f1d 100%);
     --cs2-bw: max(2px, calc(var(--cs-u, min(1vw, 1.7778vh)) * .17));
