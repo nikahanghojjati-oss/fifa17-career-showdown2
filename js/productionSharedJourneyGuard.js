@@ -10,7 +10,7 @@
     "assignClubs",
     "continueToShowdownHome"
   ]);
-  const CLICK_TARGETS=Object.freeze({spinLeague:"league selection",openClubPack:"club assignment",continueClubAssignment:"shared rivalry confirmation"});
+  const CLICK_TARGETS=Object.freeze({spinLeague:"league selection",openClubPack:"club assignment",continueClubAssignment:"Showdown confirmation"});
   const WRAPPED=Symbol("ssjrSharedJourneyGuard");
   const LOADER_WRAPPED=Symbol("ssjrSharedJourneyGuardLoader");
   let timer=null,eventGateInstalled=false;

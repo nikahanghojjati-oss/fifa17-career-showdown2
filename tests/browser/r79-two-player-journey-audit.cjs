@@ -780,7 +780,7 @@ async function main(){
     await daniel.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
     const danielNotice=await noticeText(daniel);
     assert.equal(danielNotice?.kind,"success",`Daniel's notice is not an error: ${JSON.stringify(danielNotice)}`);
-    assert.match(danielNotice.text,/^Ended the ".+" Showdown for both players\. History keeps it as Ended early\.$/);
+    assert.match(danielNotice.text,/^Ended the ".+" Showdown for both players\. Legacy keeps it as Ended early\.$/);
     await nik.page.waitForFunction(id=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="DELETED"&&window.CareerModeProductionSharedTerminalClose.getState().rivalryId===id,R2,{timeout:60000});
     await nik.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});
     assert.match((await noticeText(nik))?.text||"",/^This Showdown was ended for both players\. Legacy keeps it as Ended early\.$/);
@@ -791,7 +791,7 @@ async function main(){
     assert.equal(Number(field(afterEnd,"revision").integerValue),revisionBefore+1,"one closure write for the double tap");
     const confirms=(await marbleConfirmMessages(daniel.page)).slice(confirmsBefore);
     assert.equal(confirms.length,1,`one confirm for the double tap: ${JSON.stringify(confirms)}`);
-    assert.match(confirms[0],/Ends this Showdown for both players\. History keeps it as Ended early\./);
+    assert.match(confirms[0],/Ends this Showdown for both players\. Legacy keeps it as Ended early\./);
     ok("R80e","END SHOWDOWN double-tapped: one confirm, one closure write, a success notice and no error");
     const today=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date()));
     for(const m of [daniel,nik]){
