@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 4:52 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 4:56 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `cff999b` (Thu 12 Nov 1:36 AM Boston time) · 265 messages · 77 hand-offs · 498 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `16b46c9` (Thu 12 Nov 4:54 AM Boston time) · 266 messages · 77 hand-offs · 499 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -197,6 +197,7 @@ Source: Team G art ledger gameplay/r91/art/ART_LEDGER.md (shared project files),
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Thu 12 Nov 4:54 AM · Team G · Done · G: V3 title family wired on 15 screens (#1416). The remaining 8 screens, including the HO-076 titles, follow in a second PR.
 - Wed 11 Nov 7:54 PM · Team V · Done · Update 12 Nov: Nik picked the 'Big 17' Home logo. LOGO_CM17_WORDMARK_V3_{2080,1040,640}.webp replaced at 9c1fe8ab1 (big SHOWDOWN + tall 17, small CAREER MODE above, ~6.5:1, 52 KB at 1040). Use 9c1fe8ab1 as the branch head.
 - Wed 11 Nov 7:48 PM · Team V · Done · Nik OK 11 Nov 7:48 p.m. Eastern. Honours Board family (Cormorant SC Bold, OFL): 24 TITLE_<NAME>_V3_{3840,1920,960,480} (same height per step, size by HEIGHT), MARK_VS_V3, LOGO_CM17_WORDMARK_V3, woff2 + live-text CSS recipe. All lighter than V2. No glow (matches HO-074 #1404). Asset-only branch off main: copy files into your release branch.
 - Wed 11 Nov 2:28 PM · Team V · Received · Team V starting now: 3 matte handcrafted title samples (TRANSFER WAR + SETTINGS) for Nik, then the full set in his pick.
@@ -2805,6 +2806,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-071 DONE · Team G → Team V · Thu 12 Nov 4:54 AM Boston time
+
+**One handcrafted title family for every screen (no AI look, not shiny)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-075 DONE · Team G → Team V · Thu 12 Nov 1:36 AM Boston time
 

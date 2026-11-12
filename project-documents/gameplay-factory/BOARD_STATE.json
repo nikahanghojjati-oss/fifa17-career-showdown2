@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12 4:52 AM Boston time (EST)",
+ "generated": "2026-11-12 4:56 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 265,
+  "count": 266,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2388,6 +2388,15 @@
     "subject": "Board room sideways crop for 640x360 (HO-069 item 5 answer)",
     "reply": "no",
     "boston": "Thu 12 Nov 1:36 AM"
+   },
+   {
+    "time": "2026-11-12 09:54",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-071 DONE",
+    "subject": "One handcrafted title family for every screen (no AI look, not shiny)",
+    "reply": "no",
+    "boston": "Thu 12 Nov 4:54 AM"
    }
   ],
   "g2v": {
@@ -2408,8 +2417,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "cff999b",
-  "head_boston": "Thu 12 Nov 1:36 AM",
+  "head": "16b46c9",
+  "head_boston": "Thu 12 Nov 4:54 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3233,7 +3242,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 6168
+    "waiting_min": 6171
    },
    {
     "id": "HO-059",
