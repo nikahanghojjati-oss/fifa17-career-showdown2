@@ -141,8 +141,8 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   white-space: nowrap;
   text-indent: 150%;
   color: transparent;
-  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_960.webp") center / 100% 100% no-repeat;
-  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_1920.webp") 2x);
+  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_960.webp") center / min(100%, calc(var(--hc-title-h, 59px) * 6.880)) auto no-repeat; /* HO-071: V3 title at the shared title height, never stretched */
+  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_1920.webp") 2x);
   -webkit-background-clip: border-box;
   background-clip: border-box;
   filter: none;
@@ -272,8 +272,8 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   color: transparent;
   border: 0;
   box-shadow: none;
-  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp") center / 100% 100% no-repeat;
-  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_1920.webp") 2x);
+  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_960.webp") center / min(100%, calc(var(--hc-title-h, 59px) * 7.713)) auto no-repeat; /* HO-071: V3 title at the shared title height, never stretched */
+  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_1920.webp") 2x);
   -webkit-background-clip: border-box;
   background-clip: border-box;
   filter: drop-shadow(0 3px 2px rgba(0, 0, 0, .9));
@@ -1927,4 +1927,12 @@ html[data-v10-setup="league"] #overlay { background: none; }
    fall outside the screen and the room reads through the window, the counter and both men's shoulders. */
 @media (max-width: 900px) and (orientation: landscape) {
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background { --bx-pw: max(220vw, calc(100vh * 1536 / 864)); }
+}
+/* r91 sharp rooms (art ledger R4): windows wider than 1536 or taller than 864 CSS px drew the 1536px 1X room stretched
+   (Nik's Chromebook at 1920x866 / 1920x1035, DPR 1, Auto = Light). They draw the 1920px cut of the same room (resized from
+   Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
+   unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"])[data-v10-setup="league"] #background, html:is([data-assets="2"],[data-assets="3"],[data-assets="4"])[data-v10-setup="league"][data-v10-screen] #background { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp') 2x); }
 }

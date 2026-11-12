@@ -235,6 +235,11 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
      gives up is below the window's edge. */
   #app #standings.standingsScreenV10 .sd-stage__layer--plate>.sd-stage__registered{translate:0 max(0px,calc(var(--sd-nav-top-h,52px) + 6px - max(56.25vw,100svh) * .0174))}
 }
+/* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px){
+  #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp') 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp') 1.25x,url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp') 2x)}
+}
 @media (max-width:900px){
   #app #standings.standingsScreenV10 .sdg-phoneHero{display:none}
   #app #standings.standingsScreenV10 .sdg-phoneArt::after{content:none}
@@ -640,7 +645,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"season-results/assets/ENV_SR_PHONE_V1.webp")}"); }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { background-image:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_1920.webp")}") 2x); }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { background-image:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_1920.webp")}") 2x); }
 
  /* Leave 430px for the live card, tabs, actions, gaps and bottom inset. */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
@@ -768,7 +773,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   background-position:left bottom 24%,right bottom 24%; background-size:55% 70%,55% 70%;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
-  inset:73% 2% 4%; background:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_1920.webp")}") 2x) center/contain no-repeat;
+  inset:73% 2% 4%; background:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_1920.webp")}") 2x) center/contain no-repeat;
  }
  /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */
  #app #seasonEntry.seasonScreenV10>.v10SeasonStage.v10SeasonStage { --sr-hero:0px; }
@@ -885,7 +890,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before {
   inset:0; background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); background-position:left bottom 13%,right bottom 13%; background-size:49% 85%,49% 85%;
  }
-#app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { inset:73% 5% 3%; background:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V2_1920.webp")}") 2x) center/contain no-repeat; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { inset:73% 5% 3%; background:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_1920.webp")}") 2x) center/contain no-repeat; }
  /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */
  #app #seasonEntry.seasonScreenV10>.v10SeasonStage.v10SeasonStage { --sr-hero:0px; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.sd-stage__layer--atmosphere) { display:none!important; }
@@ -2250,6 +2255,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { width:min(44.47%,var(--sr-clear)); }
 }
+/* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px){
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate{background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate{background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x)}
+}
 /* HO-068: on windows wider than 16:9 the plate starts at the top of the window, so the nav bar covered the top of both
    men's hair. The plate is lowered just enough for the hair to clear the bar; the panelling it gives up at the bottom is
    below the fold. 2.3.0 strict pass (B2): Daniel's top curls start 5.67% down the plate (not 5.8%) and the clear gap is
@@ -2296,6 +2306,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.v10FinalMode .v10FinalStage .winnerTrophySlot .winnerTrophyPicture { position:absolute; inset:0; width:100%; height:100%; scale:none; }
  #app #seasonEntry.v10FinalMode .v10FinalStage .winnerTrophySlot .winnerTrophyPicture img { width:100%; height:100%; object-fit:contain; object-position:50% 100%; }
+}
+/* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px){
+  #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)){background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)){background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x)}
 }
 /* r91 old-art: upright windows wider than 900 keep this desktop layout; the room is drawn the window's width (one plate
    pixel = 100vw / 1536) instead of its height, so both men stay whole, and the wood colour carries on below. */
@@ -2346,6 +2361,34 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   background-position:50% calc(14px - var(--sr-hc-w) * 2096 / 1179 * .2);
  }
  html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2_590W.webp")}"); }
+}
+/* r91 old-art follow-up (765x900): on upright windows 700-900 wide and under 960 tall Team V keeps its 430px phone column,
+   centred, but the board room was drawn the window's width behind it, so Daniel was cut at the column's edge and the
+   title stood on his chin. The room is drawn the column's width there, raised the same way. */
+@media (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { --sr-hc-w:430px; background-size:var(--sr-hc-w) auto; }
+}
+/* r91 old art: Final Winner on windows Team V gives neither its phone nor its desktop picture (small landscape windows
+   761-900 wide and over 500 tall, and 900px-wide windows held upright under 960 tall) stood on a blank backdrop. The board
+   room is drawn behind it at the window's height from the top, as on desktop; the men stand either side of the column. */
+@media (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape),
+       (min-width:900px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
+ #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { background:#1d1a16 url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 50% 0 / auto 100svh no-repeat; }
+ #app #seasonEntry.v10FinalMode #stage-root, #app #seasonEntry .v10FinalStage { background:none; }
+ #app #seasonEntry .v10FinalStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.finalWinnerRim,.finalWinnerManagerShade,.finalWinnerManagerSpotlight) { display:none; }
+}
+@media (min-width:900px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
+ #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { background-size:100% auto; }
+}
+/* r91 old art: small landscape windows (to 900 wide, over 500 tall, a desktop window dragged narrow) keep Team V's phone
+   layout; it stands in the wide board room from its top (both men, heads to chins, above the title) instead of the
+   retired stadium and the two cut-outs. */
+@media (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background:#1d1a16 url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 50% 0 / 100% auto no-repeat; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero) { display:none!important; }
+ /* Team V's title stands at 40.5% of the screen and the tab row at 44%, which only leaves it room on tall phone screens;
+    here it sat across the tab row. Its foot now stands one 8px gap above the tabs. */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage img.season-phone-title { top:auto; bottom:calc(56% + 8px); }
 }
 /* HO-068 (Nik 2026-11-09): on upright phones the result (SHOWDOWN CLOSED, the winner and both scores) sat on both men's chins
    and chests. It now stands on the counter face under the brass lip, as on sideways phones, and the plate rises so the
