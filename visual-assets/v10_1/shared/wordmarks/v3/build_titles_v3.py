@@ -36,6 +36,7 @@ SLOT = {
     "STANDINGS": ("Standings", "shared/wordmarks"),
     "TRANSFER": ("Transfer War", "shared/wordmarks"),
     "FINAL_WINNER": ("Showdown Champion", "shared/wordmarks"),
+    "SHOWDOWN_DRAW": ("Showdown Draw", "shared/wordmarks"),   # HO-076: drawn Final Winner
     # bundle titles
     "CS": ("Career Statistics", "career-statistics/assets"),
     "LG": ("Legacy", "legacy/assets"),
@@ -49,7 +50,7 @@ SLOT = {
     # screens in flight
     "PRIME_PACK": ("Prime Pack", "shared/wordmarks"),
     "CHAMBER_MEN": ("Chamber Men", "shared/wordmarks"),
-    "ROSTER_ROULETTE": ("Russian Roster Roulette", "shared/wordmarks"),
+    "ROSTER_ROULETTE": ("Roster Russian Roulette", "shared/wordmarks"),
     "SPECIAL_PLAYER": ("Special Player", "shared/wordmarks"),
     "GAZETTE": ("Touchline Gazette", "shared/wordmarks"),
     "SQUAD": ("Squad Management", "shared/wordmarks"),

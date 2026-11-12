@@ -32,7 +32,7 @@ height always share cap height, stroke and baseline. Long titles shrink on phone
 | CONNECT_PLAYERS, NEW_SHOWDOWN, LEAGUE (Select League), RULE_BOOK, SETTINGS, STANDINGS, TRANSFER (Transfer War), FINAL_WINNER (Showdown Champion) | | shared/wordmarks/ |
 | CS Career Statistics · LG Legacy · RV + RV_PHONE Rivalry Statistics · SR + SR_PHONE Season Results · TR Trophy Room | | their bundle assets/ |
 | CLUB_ASSIGNMENT (new, replaces Kaushan text) | Club Assignment | shared/wordmarks/ |
-| PRIME_PACK, CHAMBER_MEN, ROSTER_ROULETTE (Russian Roster Roulette), SPECIAL_PLAYER, GAZETTE (Touchline Gazette), SQUAD (Squad Management), START, HISTORY | screens in flight | shared/wordmarks/ |
+| PRIME_PACK, CHAMBER_MEN, ROSTER_ROULETTE (Roster Russian Roulette, fixed HO-076), SHOWDOWN_DRAW (Showdown Draw, HO-076), SPECIAL_PLAYER, GAZETTE (Touchline Gazette), SQUAD (Squad Management), START, HISTORY | screens in flight | shared/wordmarks/ |
 
 Extra marks:
 - `shared/wordmarks/MARK_VS_V3_{1040,520,260}.webp` (replaces the Kaushan "VS"; or live text "VS" with the CSS above).
