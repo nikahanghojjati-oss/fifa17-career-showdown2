@@ -1243,3 +1243,14 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { height:auto; }
   :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid .ruleSection ul { max-width:none; }
 }
+
+/* Two-column option (wide desktop): cards flow down the left column, then the right, in game order, no gaps. */
+@media (min-width:1200px) and (min-height:501px) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    display:block; column-count:2; column-gap:24px; column-fill:balance;
+    width:min(calc(100% - 64px),1480px);
+  }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection {
+    break-inside:avoid; page-break-inside:avoid; display:block; margin:0 0 24px; width:100%;
+  }
+}
