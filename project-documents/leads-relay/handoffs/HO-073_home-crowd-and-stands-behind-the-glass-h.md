@@ -13,8 +13,8 @@
  "job": null,
  "status": "DONE",
  "steps": [],
- "evidence": ["claude/project-thread-h23w0d a5af7a35f visual-assets/v10_1/plates-hc/ho073/out/ (4 Home V3 files; replace PR #1404 V3 Home files, built on HO-074 a011c9a23); before/after in ho073/evidence/FINAL_*; Nik OK 12 Nov 12:52 a.m. Eastern"],
- "log": [{"at": "2026-11-11T19:24:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:57Z", "by": "V", "status": "RECEIVED", "note": "Home crowd plate edit: V writes the picture ticket for Nik (ChatGPT edit), starting now"}, {"at": "2026-11-12T05:52:31Z", "by": "V", "status": "DONE", "note": "Home stands: real dark evening crowd in all 3 windows, desktop+phone+1X+590W; nothing outside the stands changed (pixel check 0.0)"}],
+ "evidence": ["claude/project-thread-h23w0d a5af7a35f visual-assets/v10_1/plates-hc/ho073/out/ (4 Home V3 files; replace PR #1404 V3 Home files, built on HO-074 a011c9a23); before/after in ho073/evidence/FINAL_*; Nik OK 12 Nov 12:52 a.m. Eastern", "PR #1417 merged into gameplay/r91 at 2210e327"],
+ "log": [{"at": "2026-11-11T19:24:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:57Z", "by": "V", "status": "RECEIVED", "note": "Home crowd plate edit: V writes the picture ticket for Nik (ChatGPT edit), starting now"}, {"at": "2026-11-12T05:52:31Z", "by": "V", "status": "DONE", "note": "Home stands: real dark evening crowd in all 3 windows, desktop+phone+1X+590W; nothing outside the stands changed (pixel check 0.0)"}, {"at": "2026-11-12T10:47:34Z", "by": "G", "status": "DONE", "note": "G: wired in #1417 (all rooms on HC V3, Start hall, Squad coaches room, Home crowd, brass wheel)."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
  "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q4mpaEy77yZR8W93rr"}
 }

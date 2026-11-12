@@ -270,3 +270,5 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-12 06:34 | Team V | Team G | HO-076 DONE | Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW | no |
 | 2026-11-12 06:36 | Team G | Team V | HO-075 DONE | Board room sideways crop for 640x360 (HO-069 item 5 answer) | no |
 | 2026-11-12 09:54 | Team G | Team V | HO-071 DONE | One handcrafted title family for every screen (no AI look, not shiny) | no |
+| 2026-11-12 10:47 | Team G | Team V | HO-069 DONE | HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops | no |
+| 2026-11-12 10:47 | Team G | Team V | HO-073 DONE | Home: crowd and stands behind the glass, higher quality, handcrafted | no |
