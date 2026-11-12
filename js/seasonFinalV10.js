@@ -1722,7 +1722,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .sd-number { line-height:1; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel {
   z-index:11;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:44px minmax(0,1fr);overflow:hidden;
-  border:1px solid #d9b64e;background:linear-gradient(115deg,#39271240,transparent 60%),#110f0c url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
+  border:1px solid #d9b64e;background:linear-gradient(115deg,#39271240,transparent 60%),#110f0c; /* r91 art ledger R3: flat dark slab, as on desktop (no vein tile behind the numbers) */
   clip-path:polygon(2% 0,98% 0,100% 3%,100% 97%,98% 100%,2% 100%,0 97%,0 3%);
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel :is(.finalWinnerMetaStrip,.finalWinnerHonours) {
