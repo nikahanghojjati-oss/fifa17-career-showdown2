@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 1:30 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 1:32 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `b9c445b` (Thu 12 Nov 1:27 AM Boston time) · 258 messages · 77 hand-offs · 490 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6babfd2` (Thu 12 Nov 1:31 AM Boston time) · 259 messages · 77 hand-offs · 491 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -30,8 +30,9 @@ Same canvas, widths and naming as the other V3 titles (TITLE_*_V3 at 480/960/192
 
 ### HO-075 · G → V · Board room sideways crop for 640x360 (HO-069 item 5 answer)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 5 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 5 min after delivery
 
+- Thu 12 Nov 1:31 AM · Team V · Done · claude/project-thread-0anobb @f8dd42df9 project-documents/hc-art/board/ENV_BOARD_SIDE_HC_V3_1X.webp (1280x720, 73 KB) + _2X (2560x1440, 203 KB). Both men in the left 45% (x 3-43%), ~13% headroom above the hair, right 55% plain oak panels + one marble pilaster, no lamp. Men cut line (counter lip) y 434 of 720 (60.3%), in rooms_v2_set.json board.side_lipY_1X. Men cut from the HO-074 relit board V3 (one lamp, Daniel's wall lamp on the left). Nik ran the picture; source reviews/HC/HC25_BOARD_SIDE_TRY1.png.
 - Thu 12 Nov 1:20 AM · Team V · Received · Taken by the HO-069 thread; one cyan-guide ChatGPT run for Nik (both men left 45%, quiet room right), then 1X/2X + set.json.
 - Thu 12 Nov 1:13 AM · Team G · Sent
 - Thu 12 Nov 1:15 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -66,6 +67,7 @@ Team G wires the file into the board-room screens when it arrives, so V does no 
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Thu 12 Nov 1:31 AM · Team G · Done · G: #1404 merged into gameplay/r91 (f30e9e77). Team G is now swapping every room to HC V3, the brushed-brass wheel and the HO-073 Home crowd.
 - Thu 12 Nov 1:10 AM · Team V · Done · Nik OK 12 Nov 12:44 a.m. Eastern. PR #1404 into gameplay/r91 at a011c9a23: (1) 8 HC rooms relit as *_HC_V3* in visual-assets/v10_1/plates-hc (tunnel, box, office, board, archive, home, Start hall, Squad room; desktop 1X/2X, phone, 590W, TALL) - hair rim only on the lamp side, nothing faded or greyed, faces untouched (check_nofade 19/19 PASS); swap _HC_V2 -> _HC_V3. (2) WHEEL_RIM_V2.webp brushed brass: point css/v10Setup.css (2 urls) at it + contract hashes; pointer/hub brass stops #D6B07A/#A57E4E/#5C4128. (3) Gold glows removed in tr2 plate.css + .sd-title. Checks: L1-L5 green on a011c9a23, L6 still running (all 8 green on previous head). Notes: project-documents/factory/reviews/HO-074/README.md. Home crowd HO-073 builds on Home V3; Start+Squad V3 go with HO-069.
 - Wed 11 Nov 2:47 PM · Team V · In progress · PR #1404 into gameplay/r91: rooms relit V3 (7 rooms incl. Start hall), brass wheel rim V2, glows removed; waiting Nik OK on the relit faces
 - Wed 11 Nov 2:28 PM · Team V · Received · V lighting thread starting now: room relights, brass wheel rim, glow removal
@@ -277,6 +279,7 @@ Measured with the asks plus Team G's commentary band in place of the pull quote:
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Thu 12 Nov 1:31 AM · Team V · Done · Item 5 delivered as HO-075 DONE. All HO-069 items closed.
 - Thu 12 Nov 1:13 AM · Team G · Done · G: item 5 size list sent as HO-075. Only one crop is needed (board room, sideways 640x360); every tablet and the larger sideways phones pass with today's files. HO-069 can close.
 - Thu 12 Nov 12:43 AM · Team V · Done · Items 1+2 DONE (Nik OK on the lighting; hair fix redone at a011c9a23). Files in PR #1404 (claude/project-thread-maabxq @a011c9a23), visual-assets/v10_1/plates-hc/: START = ENV_HALL_PLATE_HC_V3_1X/2X (men cut line y 776 of 864) + ENV_HALL_PHONE_HC_V3 (1179x2096, line 1411) + _590W + _TALL (1179x2620, line 1411). SQUAD MANAGEMENT = ENV_COACHES_PLATE_HC_V3_1X/2X (line 542 of 864; pitch board x 16-61%, club panel x 62-84% sit on oak/window, men at the side edges) + ENV_COACHES_PHONE_HC_V3 (line 819 of 2096: men in the top band, plain marble below for the board) + _590W + _TALL (line 819). Sources and set.json: claude/project-thread-0anobb @12b5cf879 project-documents/hc-art/{hall,coaches}/. GAZETTE BACKGROUND (Nik: unified art): no new picture needed; js/touchlineGazette.js (~line 675 r91) still uses plates-v2/ENV_SEASON_RESULTS|FINAL_WINNER; point it at the HC board room the Season Results/Final Winner screens already show (plates-hc ENV_BOARD_*_HC_V3, or V2 if not relit) and recheck the phone face-safe lines 168/258 (board phone men cut at 52.4%). ALSO: r91 css/v10Setup.css ~line 51 lays a dark radial gradient over the Start background: a dim layer against NO DIM FILTERS, please drop it. Items 3+4 done by G in code; item 5 (tablet/sideways crops) waits for G's size list.
 - Wed 11 Nov 10:16 AM · Team V · In progress · Ticket for Nik: Start = front hall (HC 21/22), Squad = coaches' room, men small at edges (HC 23/24): claude/project-thread-0anobb 546aa4a2 TICKET-HANDCRAFTED_HO069.md. Phone squad reading: men small in top band, plain oak below; tell V if your phone layout differs. Item 5 waits for your size list.
@@ -2799,6 +2802,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-074 DONE · Team G → Team V · Thu 12 Nov 1:31 AM Boston time
+
+**Lighting pass: one lamp logic per room, no rim without a source** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-076 SENT · Team G → Team V · Thu 12 Nov 1:27 AM Boston time
 

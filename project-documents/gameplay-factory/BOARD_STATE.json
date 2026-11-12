@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12 1:30 AM Boston time (EST)",
+ "generated": "2026-11-12 1:32 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 258,
+  "count": 259,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2325,6 +2325,15 @@
     "subject": "Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW",
     "reply": "yes (receive it)",
     "boston": "Thu 12 Nov 1:27 AM"
+   },
+   {
+    "time": "2026-11-12 06:31",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-074 DONE",
+    "subject": "Lighting pass: one lamp logic per room, no rim without a source",
+    "reply": "no",
+    "boston": "Thu 12 Nov 1:31 AM"
    }
   ],
   "g2v": {
@@ -2345,8 +2354,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "b9c445b",
-  "head_boston": "Thu 12 Nov 1:27 AM",
+  "head": "6babfd2",
+  "head_boston": "Thu 12 Nov 1:31 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3170,7 +3179,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5966
+    "waiting_min": 5968
    },
    {
     "id": "HO-059",
@@ -3385,8 +3394,8 @@
     "from": "G",
     "to": "V",
     "title": "Board room sideways crop for 640x360 (HO-069 item 5 answer)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-075_board-room-sideways-crop-for-640x360-ho-.md",
     "worker": "images",
@@ -3404,7 +3413,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-076_two-v3-titles-roster-russian-roulette-fi.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 2
+    "waiting_min": 4
    }
   ],
   "relay_ok": true
@@ -3476,7 +3485,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
