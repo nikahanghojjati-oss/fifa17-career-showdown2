@@ -153,7 +153,7 @@ ok("R90-PS9 hunt M3/M4/M5/M8: wall-clock timeline, bloom by level, 4x MSAA above
   assert.match(page,/if\(bloomLive\)\{ brightMat\.uniforms\.tex\.value=sceneRT\.texture; pass\(brightMat,mipA\[0\]\);/,"M4: Light skips the bright and blur passes");
   assert.match(page,/if\(bloomOn>\.5\) b=[^;]*; else b=max\(c-vec3\(\.8\),vec3\(0\.\)\)\*1\.6;/,"M4: Light keeps a cheap in-place glow");
   // r91: the same rule, named (smpWant); the ladder's "edges" step halves it once, never under 2
-  assert.match(page,/const smpWant=pw\*ph>1920\*1080\?Math\.min\(4,GQ\.samples\):GQ\.samples, smp=DIRECT\?0:fitSamples\(edgesDown\?Math\.max\(2,smpWant>>1\):smpWant\)/,"M5: 8x only up to 1080p, 4x above");
+  assert.match(page,/const smpWant=pw\*ph>1920\*1080\?Math\.min\(4,GQ\.samples\):GQ\.samples, smpLow=edgesDown\?fitSamples\(Math\.max\(2,smpWant>>1\)\):0, smp=DIRECT\?0:smpLow>=2\?smpLow:fitSamples\(smpWant\)/,"M5: 8x only up to 1080p, 4x above");
   assert.ok(!/fonts\.(googleapis|gstatic)\.com/.test(page),"M8: no Google Fonts request");
   const faces=[...page.matchAll(/url\("\.\.\/shared\/fonts\/([^"]+\.woff2)"\)/g)].map(m=>m[1]);
   assert.ok(faces.length>=16,"Barlow Condensed and Big Shoulders, latin and latin-ext");

@@ -23,12 +23,14 @@ const cut = (src, from, to) => { const a = src.indexOf(from); assert.ok(a >= 0, 
   const b = src.indexOf(to, a); assert.ok(b > a, `found after it: ${to.slice(0, 50)}`); return src.slice(a, b); };
 const LADDER_SRC = cut(page, "const HEAVY=!BLOOM?[]:", "function startGfx(){");
 // level: 0 Light (no post chain), 1 Balanced (2 samples, quarter-size mips), 2 High (4, half-size), 3 Extra (8, half-size)
-function mount(level) {
+// offers: the sample counts the GPU lists (js/gfxTier.js samples(): the largest one not above what is asked, else none)
+function mount(level, offers = [8, 4, 2]) {
   const BLOOM = level > 0, GQ = {samples: [2, 2, 4, 8, 8][level]}, BLOOM_D = level <= 1 ? 4 : 2, env = {resizes: 0};
+  const fitSamples = want => offers.find(n => n <= want) ?? 0;
   const compMat = {uniforms: {bloomOn: {value: BLOOM ? 1 : 0}}};
-  const m = new Function("BLOOM", "GQ", "BLOOM_D", "compMat", "env", `let bloomLive=BLOOM, bloomDiv=BLOOM_D, edgesDown=false; const resize=()=>{env.resizes+=1;};
+  const m = new Function("BLOOM", "GQ", "BLOOM_D", "compMat", "env", "fitSamples", `let bloomLive=BLOOM, bloomDiv=BLOOM_D, edgesDown=false; const resize=()=>{env.resizes+=1;};
     ${LADDER_SRC}
-    return {heavy,LADDER:HEAVY,state:()=>({at:detailAt,bloom:bloomLive,bloomDiv,edgesDown,uniform:compMat.uniforms.bloomOn.value})};`)(BLOOM, GQ, BLOOM_D, compMat, env);
+    return {heavy,LADDER:HEAVY,state:()=>({at:detailAt,bloom:bloomLive,bloomDiv,edgesDown,uniform:compMat.uniforms.bloomOn.value})};`)(BLOOM, GQ, BLOOM_D, compMat, env, fitSamples);
   return {...m, env, BLOOM_D};
 }
 
@@ -38,6 +40,10 @@ function mount(level) {
   assert.deepEqual(mount(1).LADDER, ["glow", "bloom"], "Balanced already draws 2 samples");
   assert.deepEqual(mount(2).LADDER, ["glow", "edges", "bloom"]);
   assert.deepEqual(mount(3).LADDER, ["glow", "edges", "bloom"]);
+  // A GPU that does not offer the lower count (iOS and software GL list 4 only) has no edges step: 4 samples never become none.
+  assert.deepEqual(mount(2, [4]).LADDER, ["glow", "bloom"], "High on a GPU that lists 4 only");
+  assert.deepEqual(mount(3, [4]).LADDER, ["glow", "edges", "bloom"], "Extra asks 8, draws 4 there; the step would ask 4: still 4, so the scene keeps its edges (P3)");
+  assert.deepEqual(mount(3, [8, 4]).LADDER, ["glow", "edges", "bloom"], "Extra on a GPU with 8 and 4");
   assert.ok(page.includes('gov=GFX.governor(renderer,{key:"sp",draw:render,beats:true,...(HEAVY.length?{detail:{steps:HEAVY.length,apply:heavy}}:{}),before:()=>GFX.softCut?.(renderer.domElement,render),onChange(p){ PR=p.pixelRatio; resize(); },info:()=>({bloom:BLOOM,direct:DIRECT,samples:sceneRT.samples|0})});'),
     "the governor gets the ladder; the Device check's record keeps its shape");
   assert.equal((page.match(/GFX\.governor\(/g) || []).length, 1, "one governor");
@@ -68,12 +74,20 @@ function mount(level) {
 }
 // P3
 {
-  assert.ok(page.includes("const smpWant=pw*ph>1920*1080?Math.min(4,GQ.samples):GQ.samples, smp=DIRECT?0:fitSamples(edgesDown?Math.max(2,smpWant>>1):smpWant), newSmp="));
-  const smp = (samples, px, down) => { const want = px > 1920 * 1080 ? Math.min(4, samples) : samples; return down ? Math.max(2, want >> 1) : want; };
+  const RULE = "const smpWant=pw*ph>1920*1080?Math.min(4,GQ.samples):GQ.samples, smpLow=edgesDown?fitSamples(Math.max(2,smpWant>>1)):0, smp=DIRECT?0:smpLow>=2?smpLow:fitSamples(smpWant), newSmp=";
+  assert.ok(page.includes(RULE));
+  // The rule itself, cut from the page, with the GPU's list of sample counts.
+  const smp = (samples, px, down, offers = [8, 4, 2]) => new Function("pw", "ph", "GQ", "edgesDown", "fitSamples", "DIRECT",
+    `${RULE.slice(0, RULE.lastIndexOf(", newSmp="))}; return smp;`)(px, 1, {samples}, down, want => offers.find(n => n <= want) ?? 0, false);
   assert.deepEqual([smp(8, 1920 * 866, false), smp(8, 1920 * 866, true)], [8, 4], "Extra on the Chromebook's window: 8, then 4");
   assert.deepEqual([smp(8, 3840 * 2160, false), smp(8, 3840 * 2160, true)], [4, 2], "past a 1080p buffer: 4, then 2");
   assert.deepEqual([smp(4, 1920 * 1035, false), smp(4, 1920 * 1035, true)], [4, 2], "High: 4, then 2");
   assert.equal(smp(2, 1920 * 866, true), 2, "never under 2");
+  // A GPU that lists 4 only: the step never turns edge smoothing off.
+  assert.deepEqual([smp(8, 1920 * 866, false, [4]), smp(8, 1920 * 866, true, [4])], [4, 4]);
+  assert.deepEqual([smp(8, 3840 * 2160, false, [4]), smp(8, 3840 * 2160, true, [4])], [4, 4], "asked 2, offered none: it keeps 4");
+  assert.deepEqual([smp(4, 1920 * 1035, false, [4]), smp(4, 1920 * 1035, true, [4])], [4, 4]);
+  assert.ok(page.includes('const HEAVY=!BLOOM?[]:["glow",...(GQ.samples>=4&&fitSamples(Math.max(2,GQ.samples>>1))>=2?["edges"]:[]),"bloom"]; let detailAt=0;'));
   assert.ok(page.includes("if(BLOOM) for(let i=0;i<LV;i++){ const d=bloomDiv*Math.pow(2,i); mipA[i].setSize("), "the blur chain's size follows the ladder");
   ok("P3", "edge smoothing steps down once from the level's own rule, never under 2; the blur chain halves");
 }
@@ -96,7 +110,7 @@ function mount(level) {
   assert.ok(!/BENCH&&gov\) gov\.hold/.test(page), "the hold is no longer the Device check's alone");
   assert.ok(page.includes("function skip(){ if(phase===\"run\") settle(); }") && page.includes("  if(REDUCED) settle();"), "a skipped reveal and Reduce Motion end through settle() too");
   const docs = read("docs/QUALITY_LEVELS.md");
-  assert.match(docs, /Special Player[\s\S]{0,60}blur chain at half its size[\s\S]{0,160}edge smoothing one step down[\s\S]{0,160}no blur chain/);
+  assert.match(docs, /Special Player[\s\S]{0,60}blur chain at half its size[\s\S]{0,160}edge smoothing one step down[\s\S]{0,260}no blur chain/);
   ok("P5", "every reveal is one held beat; docs/QUALITY_LEVELS.md lists the pack's ladder");
 }
 // P6

@@ -1196,13 +1196,14 @@ function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").
    ladder for this scene, after the pixel ratio, smallest loss first; step 0 is the scene as built, and a device that holds its
    level never leaves it. Only parts this level has are on it (Light draws straight to the screen and has none):
      glow   the blur chain at half its size (the glow a little softer)
-     edges  the scene target's edge smoothing one step down (8 samples to 4, 4 to 2); not at Balanced, which already draws 2
+     edges  the scene target's edge smoothing one step down (8 samples to 4, 4 to 2); not at Balanced, which already draws 2,
+            and never down to none: a GPU that does not offer the lower count keeps its edges (and has no such step)
      bloom  no blur chain: the cheap in-place glow, as the page draws without bloom
    heavy(step) is the only place these move and takes any step from any other. The governor calls it behind the loading screen
    and between reveals only (startPlayer to settle is one held beat). Every step in play (the pixel ratio's too) is a soft
    cut: the governor's before() copies the frame as it stands over the canvas and fades it out over the new one (GFX.softCut;
    a plain cut under Reduce Motion). */
-const HEAVY=!BLOOM?[]:["glow",...(GQ.samples>=4?["edges"]:[]),"bloom"]; let detailAt=0;
+const HEAVY=!BLOOM?[]:["glow",...(GQ.samples>=4&&fitSamples(Math.max(2,GQ.samples>>1))>=2?["edges"]:[]),"bloom"]; let detailAt=0;
 function heavy(step){ const at=Math.max(0,Math.min(HEAVY.length,Math.round(Number(step))||0)), on=new Set(HEAVY.slice(0,at)); if(at===detailAt) return; detailAt=at;
   bloomDiv=BLOOM_D*(on.has("glow")?2:1); edgesDown=on.has("edges"); bloomLive=BLOOM&&!on.has("bloom"); compMat.uniforms.bloomOn.value=bloomLive?1:0;
   resize(); }
@@ -1218,7 +1219,7 @@ function resize(){
   const pw=Math.floor(W*PR), ph=Math.floor(H*PR);
   /* r90 lean: 8x edges only up to a 2560x1440 buffer; past it (a 4K draw) the pixels are already fine enough, and 8 samples of a
      half-float 4K target would hold about half a gigabyte, so it keeps 4 */
-  const smpWant=pw*ph>1920*1080?Math.min(4,GQ.samples):GQ.samples, smp=DIRECT?0:fitSamples(edgesDown?Math.max(2,smpWant>>1):smpWant), newSmp=sceneRT.samples!==smp||!sceneRT.__checked; if(!DIRECT&&sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
+  const smpWant=pw*ph>1920*1080?Math.min(4,GQ.samples):GQ.samples, smpLow=edgesDown?fitSamples(Math.max(2,smpWant>>1)):0, smp=DIRECT?0:smpLow>=2?smpLow:fitSamples(smpWant), newSmp=sceneRT.samples!==smp||!sceneRT.__checked; if(!DIRECT&&sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
   if(!DIRECT){ sceneRT.setSize(pw,ph); if(newSmp) checkSceneRT(); } if(BLOOM) for(let i=0;i<LV;i++){ const d=bloomDiv*Math.pow(2,i); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
   camera.aspect=W/H;
   const [yt,yb]=bandNdc(); bandTop=yt; bandBot=yb; const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
