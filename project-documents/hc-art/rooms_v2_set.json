@@ -137,6 +137,20 @@
    90,
    253
   ],
-  "desktop_lipY_1X": 542
+  "desktop_lipY_1X": 542,
+  "phone": [
+   90,
+   81
+  ],
+  "590W": [
+   90,
+   27
+  ],
+  "phone_lipY": 819,
+  "tall": [
+   90,
+   92
+  ],
+  "tall_lipY": 819
  }
 }
