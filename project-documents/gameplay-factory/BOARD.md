@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 11 Nov, 8:00 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 11 Nov, 8:06 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
 
-🐕 **Barking: Showdown Gate on #1399 has waited 36 min for a machine; Showdown Gate on #1391 has waited 35 min for a machine; Showdown Gate on #1407 has waited 22 min for a machine; Showdown Gate on #1390 has waited 17 min for a machine; Showdown Gate on #1357 has waited 13 min for a machine; Showdown Gate on #1408 has waited 8 min for a machine; Showdown Gate on #1401 has waited 8 min for a machine; POS20 on #312 has waited 6 min for a machine; Showdown Gate on #1409 has waited 2 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1407 has waited 24 min for a machine; Showdown Gate on #1390 has waited 19 min for a machine; Showdown Gate on #1408 has waited 10 min for a machine; Showdown Gate on #1401 has waited 10 min for a machine; POS20 on #312 has waited 8 min for a machine; Showdown Gate on #1409 has waited 4 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -70,7 +70,7 @@ Updated Wed 11 Nov, 8:00 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 629 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 630 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
