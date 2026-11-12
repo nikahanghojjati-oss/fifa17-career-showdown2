@@ -1,12 +1,28 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 5:43 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 5:50 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `16b46c9` (Thu 12 Nov 4:54 AM Boston time) · 266 messages · 77 hand-offs · 499 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `99b7eb4` (Thu 12 Nov 5:47 AM Boston time) · 269 messages · 78 hand-offs · 501 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-077 · G → V · Rule Book slab 2X (3072x1728) for sharp Chromebook windows
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Thu 12 Nov 5:47 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+# Rule Book slab at 2X (art ledger R4, sharp rooms)
+
+ENV_SLAB_HC_V1_1X.webp (visual-assets/v10_1/plates-hc/) is the marble slab behind the Rule Book. It is only 1536x864 and has no 2X file. So on Nik's Chromebook, at both sizes (1920x866 and 1920x1035), it is stretched 1.25x and looks a little soft. Every other room now has a 2X master and is sharp on those windows.
+
+**Please deliver ENV_SLAB_HC_V1_2X.webp at 3072x1728.** It should be the same picture and the same crop as the 1X, in the same handcrafted marble, with no new glow. Team G will cut a 1920 version from it and wire it the same way as the other rooms. Files only.
+
+</details>
 
 ### HO-076 · G → V · Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW
 
@@ -117,6 +133,7 @@ Team G removed its own resting glows in PR #1400. The same kind of glow remains 
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Thu 12 Nov 5:47 AM · Team G · Done · G: wired in #1417 (all rooms on HC V3, Start hall, Squad coaches room, Home crowd, brass wheel).
 - Thu 12 Nov 12:52 AM · Team V · Done · Home stands: real dark evening crowd in all 3 windows, desktop+phone+1X+590W; nothing outside the stands changed (pixel check 0.0)
 - Wed 11 Nov 2:28 PM · Team V · Received · Home crowd plate edit: V writes the picture ticket for Nik (ChatGPT edit), starting now
 - Wed 11 Nov 2:24 PM · Team G · Sent
@@ -283,6 +300,7 @@ Measured with the asks plus Team G's commentary band in place of the pull quote:
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Thu 12 Nov 5:47 AM · Team G · Done · G: wired in #1417 (all rooms on HC V3, Start hall, Squad coaches room, Home crowd, brass wheel).
 - Thu 12 Nov 1:31 AM · Team V · Done · Item 5 delivered as HO-075 DONE. All HO-069 items closed.
 - Thu 12 Nov 1:13 AM · Team G · Done · G: item 5 size list sent as HO-075. Only one crop is needed (board room, sideways 640x360); every tablet and the larger sideways phones pass with today's files. HO-069 can close.
 - Thu 12 Nov 12:43 AM · Team V · Done · Items 1+2 DONE (Nik OK on the lighting; hair fix redone at a011c9a23). Files in PR #1404 (claude/project-thread-maabxq @a011c9a23), visual-assets/v10_1/plates-hc/: START = ENV_HALL_PLATE_HC_V3_1X/2X (men cut line y 776 of 864) + ENV_HALL_PHONE_HC_V3 (1179x2096, line 1411) + _590W + _TALL (1179x2620, line 1411). SQUAD MANAGEMENT = ENV_COACHES_PLATE_HC_V3_1X/2X (line 542 of 864; pitch board x 16-61%, club panel x 62-84% sit on oak/window, men at the side edges) + ENV_COACHES_PHONE_HC_V3 (line 819 of 2096: men in the top band, plain marble below for the board) + _590W + _TALL (line 819). Sources and set.json: claude/project-thread-0anobb @12b5cf879 project-documents/hc-art/{hall,coaches}/. GAZETTE BACKGROUND (Nik: unified art): no new picture needed; js/touchlineGazette.js (~line 675 r91) still uses plates-v2/ENV_SEASON_RESULTS|FINAL_WINNER; point it at the HC board room the Season Results/Final Winner screens already show (plates-hc ENV_BOARD_*_HC_V3, or V2 if not relit) and recheck the phone face-safe lines 168/258 (board phone men cut at 52.4%). ALSO: r91 css/v10Setup.css ~line 51 lays a dark radial gradient over the Start background: a dim layer against NO DIM FILTERS, please drop it. Items 3+4 done by G in code; item 5 (tablet/sideways crops) waits for G's size list.
@@ -2806,6 +2824,36 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-077 SENT · Team G → Team V · Thu 12 Nov 5:47 AM Boston time
+
+**Rule Book slab 2X (3072x1728) for sharp Chromebook windows** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-073 DONE · Team G → Team V · Thu 12 Nov 5:47 AM Boston time
+
+**Home: crowd and stands behind the glass, higher quality, handcrafted** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-069 DONE · Team G → Team V · Thu 12 Nov 5:47 AM Boston time
+
+**HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-071 DONE · Team G → Team V · Thu 12 Nov 4:54 AM Boston time
 

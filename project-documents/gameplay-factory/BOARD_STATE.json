@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12 5:43 AM Boston time (EST)",
+ "generated": "2026-11-12 5:50 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 266,
+  "count": 269,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2397,6 +2397,33 @@
     "subject": "One handcrafted title family for every screen (no AI look, not shiny)",
     "reply": "no",
     "boston": "Thu 12 Nov 4:54 AM"
+   },
+   {
+    "time": "2026-11-12 10:47",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-069 DONE",
+    "subject": "HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops",
+    "reply": "no",
+    "boston": "Thu 12 Nov 5:47 AM"
+   },
+   {
+    "time": "2026-11-12 10:47",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-073 DONE",
+    "subject": "Home: crowd and stands behind the glass, higher quality, handcrafted",
+    "reply": "no",
+    "boston": "Thu 12 Nov 5:47 AM"
+   },
+   {
+    "time": "2026-11-12 10:47",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-077 SENT",
+    "subject": "Rule Book slab 2X (3072x1728) for sharp Chromebook windows",
+    "reply": "yes (receive it)",
+    "boston": "Thu 12 Nov 5:47 AM"
    }
   ],
   "g2v": {
@@ -2417,8 +2444,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "16b46c9",
-  "head_boston": "Thu 12 Nov 4:54 AM",
+  "head": "99b7eb4",
+  "head_boston": "Thu 12 Nov 5:47 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2454,8 +2481,8 @@
    "today": []
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: POS20 on #312 has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -3242,7 +3269,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 6219
+    "waiting_min": 6226
    },
    {
     "id": "HO-059",
@@ -3477,6 +3504,19 @@
     "worker": "images",
     "pickup_min": 5,
     "waiting_min": null
+   },
+   {
+    "id": "HO-077",
+    "from": "G",
+    "to": "V",
+    "title": "Rule Book slab 2X (3072x1728) for sharp Chromebook windows",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-077_rule-book-slab-2x-3072x1728-for-sharp-ch.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -3548,7 +3588,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
