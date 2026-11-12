@@ -1,12 +1,32 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 1:26 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 1:29 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `a705a06` (Thu 12 Nov 1:20 AM Boston time) · 257 messages · 76 hand-offs · 488 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b9c445b` (Thu 12 Nov 1:27 AM Boston time) · 258 messages · 77 hand-offs · 490 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-076 · G → V · Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Thu 12 Nov 1:27 AM · Team G · Sent
+- Thu 12 Nov 1:28 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# Two missing V3 title pictures (HO-071 follow-up)
+
+Team G is wiring the HO-071 V3 title family on every screen (PR #1416, plus a second PR). Two titles are missing or wrong:
+
+1. **ROSTER RUSSIAN ROULETTE.** TITLE_ROSTER_ROULETTE_V3 reads "RUSSIAN ROSTER ROULETTE", but the game's name is "Roster Russian Roulette" (roulette screen title, Rule Book card 05). Please cut a corrected picture with the same script and the same single SLOT line.
+2. **SHOWDOWN DRAW.** This is new in 2.4.0: a drawn Showdown has no champion, so Final Winner shows "SHOWDOWN DRAW" (PR #1407; no tiebreak rule). Today it uses a V2 brush cut. Please add a V3 picture in the same family.
+
+Same canvas, widths and naming as the other V3 titles (TITLE_*_V3 at 480/960/1920/3840, as in your HO-071 delivery), the same quiet handcrafted lettering, no glow. Files only; Team G wires them.
+
+</details>
 
 ### HO-075 · G → V · Board room sideways crop for 640x360 (HO-069 item 5 answer)
 
@@ -2779,6 +2799,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-076 SENT · Team G → Team V · Thu 12 Nov 1:27 AM Boston time
+
+**Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-075 SENT · Team G → Team V · Thu 12 Nov 1:13 AM Boston time
 

@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12 1:26 AM Boston time (EST)",
+ "generated": "2026-11-12 1:29 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 257,
+  "count": 258,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2316,6 +2316,15 @@
     "subject": "Board room sideways crop for 640x360 (HO-069 item 5 answer)",
     "reply": "yes (receive it)",
     "boston": "Thu 12 Nov 1:13 AM"
+   },
+   {
+    "time": "2026-11-12 06:27",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-076 SENT",
+    "subject": "Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW",
+    "reply": "yes (receive it)",
+    "boston": "Thu 12 Nov 1:27 AM"
    }
   ],
   "g2v": {
@@ -2336,8 +2345,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "a705a06",
-  "head_boston": "Thu 12 Nov 1:20 AM",
+  "head": "b9c445b",
+  "head_boston": "Thu 12 Nov 1:27 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3171,7 +3180,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5962
+    "waiting_min": 5965
    },
    {
     "id": "HO-059",
@@ -3393,6 +3402,19 @@
     "worker": "images",
     "pickup_min": 5,
     "waiting_min": null
+   },
+   {
+    "id": "HO-076",
+    "from": "G",
+    "to": "V",
+    "title": "Two V3 titles: ROSTER RUSSIAN ROULETTE (fix word order) and SHOWDOWN DRAW",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-076_two-v3-titles-roster-russian-roulette-fi.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -3464,7 +3486,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 45,
   "next": 42,
   "nik": 2,
   "later": 21,
