@@ -762,7 +762,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp":"774945d8dee301e6f147f943df9abea1ea3263444853256e6cdf7a8ef2b5ab11",
     "visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp":"76cf5166df341e532ae707615c2daddd49ad8fa83b0db2ca018640658f083e71",
     // HO-074 (2026-11-11): Team V relit HC rooms (hair rim only on the lamp side), Start hall included, and the brushed-brass
-    // wheel rim. Not wired yet; the V2 files stay until Team G swaps names after Nik's OK.
+    // wheel rim. Wired 2026-11-12 (Team G new-rooms PR); the V2 files stay as rollback until r92.
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V3.webp":"75726ad65752665ad0e3b0a06840a52f065a7ecbfd7958844de56a199ccf2a28",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V3_590W.webp":"0cb46ce4a97cf074c0e42217d70e4f719186fb322a481c8d916afecba7ff4991",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1X.webp":"95355a855e6d39b0e4c4a4ad766f1fdccbd98a1f2412121a6e80bef8aebc49dc",
@@ -782,10 +782,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_TALL.webp":"b4da66f6ae766e8a8f53550781ba0deb1779468912062e5aef133c9cdfb7544a",
     "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp":"00f9645c0ae5d6afc9c243fbb39569b94d4c79c801f8f9d89f7b65df11ee3ba0",
     "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_2X.webp":"d33edef35518ecc0360e8cec64366c7bfdaa893707574f27c60db406d2b0134d",
-    "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V3.webp":"244f597562c056b8272e6a8850aac488dd351abf6202fea3c981836fe6c38539",
-    "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V3_590W.webp":"ab19ac45b4ee6ca4fec9c0a4db82a5155463cbcaf8fe29aefd2fe2ab53213e8b",
-    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1X.webp":"3c04682dfae2f86e2380be5d1ad8e64b0c85c87078336c6dbd7fcafe851eaab8",
-    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp":"0ef00ef331f22da8cf96c8c9902495c2ef40f7306e2d1358e212c9acc36f26d5",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V3.webp":"96d07f5ff4a89999e0066d307ffd57ddc47b364a22b1737b42b8347ac6c57f34",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V3_590W.webp":"b330e8e9aaef2e17f518a8e2055f3294486f688e0a216a66c1db8a0573f4ff4d",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1X.webp":"74e481abb5015df7f0de895b9824ab15523d7ac57d874ded72f116f6f993212a",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp":"6b93b6764c8acec75eb914459dadff29f226e5d5f337cecf94b1560cc8ba2de9",
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V3.webp":"b045dc367db20ccb8d28744fcdd0d4e5bd5cdd778975755f6d31e24283144074",
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V3_590W.webp":"266e38209a19347fbfd489a06d79093d81ebe1df1f80fe7892cc88482bcbe49c",
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1X.webp":"be179a183034999a13b5ca72760c37190b79a143a15173cbd1961b45d913044a",
@@ -799,6 +799,16 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3.webp":"c5505eca5b1dbc2149df0ef781899b3824461cff22ea84116b2316b494a8f839",
     "visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3_590W.webp":"9a681e5b58bdbf0408a2969a06bb5d6357b57f8a0ca38ada37986aab4e33f89e",
     "visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3_TALL.webp":"8ccd17f22b9736c75cab24cf269d4f60beca2ce8dd043db1df7499800c59584a",
+    // HO-073 (Nik OK'd 2026-11-12): the Home V3 files above are Team V's final crowd stands (claude/project-thread-h23w0d a5af7a35f,
+    // ho073/out) on the HO-074 V3 base. Art ledger R4: 1920px cuts of each V3 room, resized from the 3072px 2X (LANCZOS, WebP q90).
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1920.webp":"78291f3d62058543854d00ee2645f55463946e0da5a3463f56876bfda54a68b0",
+    "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp":"6d4e034971a04c09a86c480f83634c33d51d58b3fc609463e2919fd2b77b0be1",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1920.webp":"e000a6f6c3373efc8d480f8b85d7d1420e8d9cb2ef9d748ace32f9165bb5a67f",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1920.webp":"5ada4ba0513d1483cf20564f55e4ffc9d40f6f5b5072e962d7cb05ffeea03a3f",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1920.webp":"24f7f10128f6a5bdd02be73935b1fb48a3ef9aa8aa59ba1fcc767cdf0e8ade99",
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1920.webp":"7527251150400c86d9060b896e8759e135b087663c1224967a67a2f7cf7b8786",
+    "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1920.webp":"811fdb2a8e422dd0f1795c175c541c72a1d7fe8203b11e8a84131d90ad1b0ce6",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1920.webp":"0623c3ebcc0832d094f8844676ff09033122ba09854e4a086dbc61ad1ed85d7b",
     "visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V2.webp":"08a068706204783ef4f24599f72012f1dd88351556b5879ab7f2260a7ca385a6",
     // HO-068 (2026-11-09): Team V's handcrafted V2 tunnel room (Connect Players, Standings, Rivalry) and box room (League, Club
     // Assignment; TALL for 9:20 phones), from claude/project-thread-kxgun9 687598df6. The plates-v2 plates stay as rollback.
