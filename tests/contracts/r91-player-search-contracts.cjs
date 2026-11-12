@@ -91,6 +91,9 @@ const options=windowScript("data/transferOptions.js");
   assert.ok(!/playerSearch/.test(read("js/optionalModules.js")),"the search code is not a startup load: js/transferSelector.js loads it on first use");
   assert.equal([...sel.matchAll(/search\.ensure\(\)/g)].length,1,"one fetch path: ensureTransferPlayerList (Transfer War shows, a name box becomes a search, a focus retries)");
   assert.equal([...pstc.matchAll(/ensureTransferPlayerList\(/g)].length,1,"the Transfer War page asks through ensureTransferPlayerList only");
+  const step=read("js/squadSheetStep.js");
+  assert.equal([...step.matchAll(/root\.ensureTransferPlayerList\(null\)/g)].length,1,"Squad Management asks through ensureTransferPlayerList only");
+  assert.match(step,/if\(ctx\.stage==="pre"\)sqsWarmPlayerList\(\);answer=await sqsScreen/,"Squad Management warms the list on the screen before the roulette, so it is ready for the Transfer War");
   assert.match(read("js/playerSearch.js"),/requestIdleCallback/,"the fetch and the parse wait for idle");
   ok("W1","the list is never in the install, the idle pack or Home; the Transfer War screen asks at idle, a name-box focus retries, the worker keeps it");
 }
@@ -103,10 +106,22 @@ const options=windowScript("data/transferOptions.js");
   assert.match(pick,/if\(season===1\)\{if\(ovr&&[^}]*ovr\.value=[^}]*;if\(league&&player\.leagueId\)pstcSetSelector\(league,"league",player\.leagueId\);\}/,"OVR and previous league are filled in season 1 only (Nik 2026-11-11 00:07 UTC)");
   assert.ok(!/season===1[^;]*pos\.value/.test(pick)&&/pos\.value=player\.position/.test(pick),"position (natural FIFA position) is filled in every season");
   const build=/function pstcBuildSignings\(role,blocked=null\)\{([\s\S]*?)\n  \}/.exec(pstc)[1];
-  assert.ok(!/playerId/.test(build),"no playerId in the Firestore signing row until the r91 Rules deploy allows it");
+  assert.match(build,/const playerId=String\(name\?\.dataset\?\.playerId\|\|""\);if\(\/\^\[1-9\]\[0-9\]\{0,5\}\$\/\.test\(playerId\)\)row\.playerId=Number\(playerId\);rows\.push\(row\);/,"a picked player's SoFIFA id goes on the locked signing row as playerId (r91 Rules deploy); a typed name has none");
+  const populate=/function pstcPopulateSignings\(role,signings\)\{([\s\S]*?)\n/.exec(pstc)[1];
+  assert.match(populate,/if\(Number\.isInteger\(row\?\.playerId\)&&row\.playerId>0\)name\.dataset\.playerId=String\(row\.playerId\);else delete name\.dataset\.playerId;/,"a locked row read back keeps its id on the box");
   assert.match(build,/const out=player&&blocked&&blocked\.get\(pstcNameKey\(player\)\)/,"LOCK still refuses guessed and shot players itself");
   assert.match(pstc,/pstcBlockedText\(role,name\)\{\s*const key=pstcNameKey\(name\)/,"the list marks players with the same name key LOCK uses");
-  ok("P1","Enter keeps typed text, an edit drops the id, OVR/league only in season 1, POS/nationality always, LOCK and the stored row unchanged");
+  // Both readers accept the optional key (an exact-key reader that refused it would break the screen on the rival's phone),
+  // and the Rules allow it as an int 1..999999.
+  for(const file of ["js/sharedTransferChallenge.js","js/sparkSharedTransferChallenge.js"]){
+    const text=read(file);assert.match(text,/hasPlayerId\?\["playerId"\]:\[\]/,`${file} accepts the optional playerId key`);
+    assert.match(text,/hasPlayerId&&!\(Number\.isInteger\(item\.playerId\)&&item\.playerId>=1&&item\.playerId<=999999\)\)/,`${file} checks playerId is 1..999999`);
+    assert.match(text,/if\(hasPlayerId\)row\.playerId=item\.playerId;/,`${file} keeps playerId on the row it returns`);
+  }
+  const rules=read("firestore.transfer-challenge-production.fragment.rules");
+  assert.match(rules,/value\.keys\(\)\.hasOnly\(\['slot','name','leagueId','nationalityId','overall','position','playerId'\]\)/);
+  assert.match(rules,/\(!\('playerId' in value\) \|\| \(value\.playerId is int && value\.playerId >= 1 && value\.playerId <= 999999\)\)/);
+  ok("P1","Enter keeps typed text, an edit drops the id, OVR/league only in season 1, POS/nationality always, LOCK unchanged; a picked player's id is stored as playerId (1..999999), both readers and the Rules accept it");
 }
 // B1 optional rebuild proof.
 if(process.env.PLAYERS_17_CSV){

@@ -187,13 +187,11 @@
       "SHARED_PAIRED_FIRST_BROWSER",
       "STAGE4_RECONCILIATION_BROWSER",
       "STAGE4_MUTATION_RATE_CONTRACT",
-      "STAGE5A_PRIVATE_SESSION_CONTRACT",
       "STAGE3_PAIRING_EMULATOR",
       "STAGE4_CONNECTED_EMULATOR",
       "STAGE4_IDEMPOTENCY_EMULATOR",
       "STAGE4_ABUSE_EMULATOR",
       "STAGE4_MUTATION_RATE_EMULATOR",
-      "STAGE5A_SESSION_EMULATOR",
       "STAGE5C_AUTH_SESSION_EMULATOR",
       "SHARED_SETUP_PROVIDER_EMULATOR",
       "SHARED_SETUP_PROVIDER_SESSION_EMULATOR",
@@ -277,11 +275,11 @@
     },
     "TRANSFER_WORKSTREAM_INLINE": {
       "source": "tests/proof-sources/workflows/validate-transfer-workstream.yml",
-      "gitBlobSha": "cc5efc0069340ffe9909adb458653bcedfce9a69"
+      "gitBlobSha": "d7c802238895d9a9cb6f3809ff6589ddc122c38c"
     },
     "V1_VISUAL_IMMERSION_INLINE": {
       "source": "tests/proof-sources/workflows/validate-v1-visual-immersion.yml",
-      "gitBlobSha": "1e7268383e9383929547430a23c2dcba7f57c1d2"
+      "gitBlobSha": "60e0893f096852cabddd45601edf41e126d7d3c7"
     }
   },
   "artifactRules": [

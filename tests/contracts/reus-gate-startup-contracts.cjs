@@ -19,7 +19,7 @@ const app=read("js/app.js"),ssjr=read("js/ssjr.js"),html=read("index.html");
 const finish=(app.match(/function finishStartupPresentation\([^)]*\)\{[^]*?;if\(loadingScreen\)/)||[])[0]||"";
 assert.match(finish,/careerModeHomeHold!==0/,"Reus Gate: js/app.js holds the loading screen until Home reports ready (careerModeHomeHold 0)");
 assert.match(finish,/15e3/,"Reus Gate: the hold has a safety cap");
-assert.match(app,/const STARTUP_SPLASH_MINIMUM_MS = 2700;/,"Reus Gate: the loading screen keeps its minimum display time");
+assert.match(app,/const STARTUP_SPLASH_MINIMUM_MS = 1500;/,"Reus Gate: the loading screen keeps its minimum display time (r91: 1.5 s, Nik 2026-11-11; it was 2.7 s, Home is handed over only when ready)");
 assert.match(app,/window\.careerModeHomeHold=1;/,"Reus Gate: js/app.js marks Home on its way when it requests js/ssjr.js");
 assert.match(ssjr,/const reusGate=async\(\)=>/,"Reus Gate: js/ssjr.js checks Home's ready signals");
 for(const signal of [/V\.isMounted\("mainMenu"\)/,/fonts\.ready/,/\.decode\(\)/,/data-v10-pending/,/link\[data-v10-style\]/])assert.match(ssjr,signal,`Reus Gate signal ${signal}`);
