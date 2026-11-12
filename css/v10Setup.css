@@ -2012,3 +2012,45 @@ html[data-v10-setup="start"] #overlay { background: none; }
 @media (max-width: 900px) and (max-height: 700px) and (orientation: portrait) {
   #createShowdown.v26Skin .setupBox { margin-top: calc(var(--hl-top) + var(--hl-pw) * (807 - 513) / 1179 + 8px - var(--hl-flow, 60px)); }
 }
+/* Showdown Home on phones, tablets and small windows: the same front hall, drawn on the page so it scrolls with the boxes.
+   Upright, both heads stand one gap under the SHOWDOWN HOME title (hair at y 513 of the phone plate) and the first box starts
+   one gap under both chins (y 807), so no box ever covers a face; sideways, the title sits between the two heads at the top
+   of the wide plate and the first box starts under the chins (28.5% of the plate). */
+@media (max-width: 900px) {
+  html[data-v10-setup="start"]:has(#dashboard:not(.hidden)) #background { background-image: none; }
+  #app > main:has(> #dashboard:not(.hidden)) {
+    background: #1a1814 url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp") no-repeat local;
+    background-size: 100% auto;
+    background-position: 50% calc(var(--db-hair) - 100vw * 513 / 1179);
+    --db-hair: 80px;
+  }
+  html[data-assets="0"] #app > main:has(> #dashboard:not(.hidden)) { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_590W.webp"); }
+  #dashboard > .showdownOverview { margin-top: calc(100vw * (807 - 513) / 1179 + 10px); }
+}
+@media (min-width: 761px) and (max-width: 900px) and (orientation: portrait) {
+  #app > main:has(> #dashboard:not(.hidden)) { --db-hair: 90px; }
+}
+@media (max-width: 900px) and (max-aspect-ratio: 59/128) and (orientation: portrait) {
+  #app > main:has(> #dashboard:not(.hidden)) { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_TALL.webp"); }
+}
+@media (max-width: 900px) and (orientation: landscape) {
+  #app > main:has(> #dashboard:not(.hidden)),
+  html[data-assets="0"] #app > main:has(> #dashboard:not(.hidden)) {
+    background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp");
+    background-position: 50% 0;
+  }
+  #dashboard > .showdownOverview { margin-top: max(0px, calc(100vw * 864 / 1536 * .285 + 8px - 78px)); }
+}
+/* Showdown Home in desktop windows: the boxes stay inside the gap between the two faces (the hall plate is at least 1340px wide
+   and the faces end 24.5% left and start 25% right of its middle), so nothing slides over a face when a short window scrolls.
+   At 1920 wide nothing changes; narrower windows narrow the boxes. Tall desktop windows stand both men under the buttons. */
+@media (min-width: 901px) and (orientation: landscape) {
+  html[data-v10-setup="start"] #app #dashboard > :not(h2) { max-width: calc(max(100vw, calc((100vh - 58px) * 1536 / 864), 1340px) * .49 - 32px); }
+}
+@media (min-width: 901px) and (orientation: portrait) {
+  html[data-v10-setup="start"]:has(#dashboard:not(.hidden)) #background { background-position: 50% calc(800px - 100vw * 513 / 1179); }
+}
+/* Small phones held sideways: the title sits between the two heads, so it is sized to the gap between them. */
+@media (max-width: 760px) and (max-height: 500px) and (orientation: landscape) {
+  #app #dashboard > h2 { font-size: calc((49vw - 32px) / 9.5); }
+}
