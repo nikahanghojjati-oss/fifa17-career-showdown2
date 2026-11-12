@@ -1,0 +1,169 @@
+{
+ "tunnel": {
+  "lamp_note": "caged wall lamp, right wall, warm",
+  "dan": {
+   "lamp": [
+    1,
+    -0.15
+   ],
+   "keep": 0.5
+  },
+  "nik": {
+   "lamp": [
+    1,
+    -0.15
+   ],
+   "keep": 1.0
+  }
+ },
+ "box": {
+  "lamp_note": "stadium floodlights behind the glass, above, cool white",
+  "dan": {
+   "lamp": [
+    0.15,
+    -1
+   ],
+   "keep": 0.6,
+   "tint": [
+    226,
+    232,
+    242
+   ]
+  },
+  "nik": {
+   "lamp": [
+    -0.15,
+    -1
+   ],
+   "keep": 0.6,
+   "tint": [
+    226,
+    232,
+    242
+   ]
+  }
+ },
+ "office": {
+  "lamp_note": "brass table lamp, far right, warm",
+  "dan": {
+   "lamp": [
+    1,
+    -0.1
+   ],
+   "keep": 0.55
+  },
+  "nik": {
+   "lamp": [
+    1,
+    -0.1
+   ],
+   "keep": 1.0
+  }
+ },
+ "board": {
+  "lamp_note": "shaded wall lamp, left, warm",
+  "dan": {
+   "lamp": [
+    -1,
+    -0.25
+   ],
+   "keep": 1.0
+  },
+  "nik": {
+   "lamp": [
+    -1,
+    -0.25
+   ],
+   "keep": 0.4
+  }
+ },
+ "archive": {
+  "lamp_note": "lit display cases, one each side, warm",
+  "dan": {
+   "lamp": [
+    -1,
+    -0.2
+   ],
+   "keep": 0.8
+  },
+  "nik": {
+   "lamp": [
+    1,
+    -0.2
+   ],
+   "keep": 0.8
+  }
+ },
+ "home": {
+  "lamp_note": "shaded wall lamp right of Nik (warm); lounge table lamp far left for Daniel",
+  "dan": {
+   "lamp": [
+    -1,
+    0.15
+   ],
+   "keep": 0.45
+  },
+  "nik": {
+   "lamp": [
+    1,
+    -0.1
+   ],
+   "keep": 1.0
+  }
+ },
+ "hall": {
+  "lamp_note": "table lamp on the oak console right of Daniel; shaded wall lamp right of Nik (both warm)",
+  "dan": {
+   "lamp": [
+    1,
+    0.2
+   ],
+   "keep": 0.75,
+   "rest": 0.7
+  },
+  "nik": {
+   "lamp": [
+    1,
+    -0.3
+   ],
+   "keep": 1.0,
+   "rest": 0.7
+  }
+ },
+ "coaches": {
+  "lamp_note": "desktop: shaded wall lamp left of Daniel, lit boot case above Nik (warm)",
+  "dan": {
+   "lamp": [
+    -1,
+    -0.1
+   ],
+   "keep": 1.0
+  },
+  "nik": {
+   "lamp": [
+    -0.1,
+    -1
+   ],
+   "keep": 0.7
+  }
+ },
+ "coaches_phone": {
+  "lamp_note": "phone: shaded wall lamp just left of Daniel's head (warm)",
+  "dan": {
+   "lamp": [
+    -1,
+    -0.05
+   ],
+   "keep": 1.0,
+   "erode": 25
+  },
+  "nik": {
+   "lamp": [
+    -1,
+    -0.05
+   ],
+   "keep": 0.5,
+   "erode": 25
+  }
+ }
+}

@@ -411,7 +411,9 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen[data-club-reveal-sta
    Daniel crossed-arms overlay (V1 only, it would sit on V2's different pose), and gives the tiles, panels, leader cards and
    buttons the picture's gold-bevel and polished-gold finish. The #788 column alignment, every word, id and tap order are kept;
    phone, sideways phone and tablet are outside this query and unchanged. */
-@media (min-width:901px) {
+/* r91 old-art follow-up: small landscape windows (to 900 wide, over 500 tall) get Team V's desktop stage, so they stand in
+   the board room too (they drew the retired V1 penthouse plate and the crossed-arms cut-out). */
+@media (min-width:901px), (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #careerStatistics.careerScreenV10 {
     --cs2-bevel: linear-gradient(135deg, #fff3b0 0%, #e2b645 16%, #8a6118 40%, #c99a33 62%, #f6dc86 82%, #9a6f1d 100%);
     --cs2-bw: max(2px, calc(var(--cs-u, min(1vw, 1.7778vh)) * .17));
@@ -899,4 +901,16 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
    headings ran into each other at 1024x768 and 1100x600, so there they may take two lines. */
 @media (min-width:901px) and (max-width:1199px) {
   #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th { white-space: normal; line-height: 1.1; overflow-wrap: normal; vertical-align: bottom; padding-inline: 1px; letter-spacing: 0; font-size: 10px; }
+}
+/* r91 sharp rooms (art ledger R4): windows wider than 1536 or taller than 864 CSS px drew the 1536px 1X room stretched
+   (Nik's Chromebook at 1920x866 / 1920x1035, DPR 1, Auto = Light). They draw the 1920px cut of the same room (resized from
+   Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
+   unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  #app #careerStatistics.careerScreenV10 .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #careerStatistics.careerScreenV10 .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp') 2x); }
+}
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  #app #careerStatistics.careerScreenV10 .managerPortrait { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #careerStatistics.careerScreenV10 .managerPortrait { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp') 2x); }
 }
