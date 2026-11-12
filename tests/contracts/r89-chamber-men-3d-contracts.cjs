@@ -164,7 +164,8 @@ async function c3d2(){
 {
   assert.ok(scene.includes('const GFX_JS="js/gfxTier.js";'),"the quality module is loaded by its plain path");
   assert.ok(scene.includes("setPixelRatio(Q.pixelRatio)"),"the pixel ratio comes from the device profile");
-  assert.ok(scene.includes('gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:paint,'),"one governor per scene");
+  // r91: the governor's timed frame is a whole one (it carries the shadow maps: tests/contracts/r91-chamber-ladder-contracts.cjs).
+  assert.ok(scene.includes('gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:timed,')&&(scene.match(/GFX\.governor\(/g)||[]).length===1,"one governor per scene");
   assert.ok(scene.includes("RUNUP*1000);frozenAt=null;gov?.hold(true);")&&scene.includes("ballFree.on=false;gov?.hold(false);},"),"no level change during a kick");
   assert.ok(/const GFX_FALLBACK=\{level:1,name:"medium",pixelRatio:1,/.test(scene),"a light fallback when the module cannot load");
   const runups=/const RUNUPS=(\[.*?\]);\n/.exec(scene);assert.ok(runups,"run-up table");
@@ -216,7 +217,7 @@ async function c3d2(){
 {
   assert.ok(/new T\.HemisphereLight\(0x9fb4e8,0x14200f,LIGHT_ONE\.hemi\)/.test(scene)&&/const LIGHT_ONE=L===0\?\{key:1\.5,env:1\.1,hemi:\.22\}:\{key:1,env:1,hemi:\.08\};/.test(scene),"night: a faint sky fill, the floodlights carry the picture (r90 Light: one light, the sky lifted to .22)");
   // r91: the three contact shadows are drawn by the turf (S.contact, capsules feet to head), no quad mesh of their own.
-  assert.ok(!/cmBlobs/.test(scene)&&/const contactK=L<=0\?\.62:\.5,CONTACT=\{taker:1\.15,keeper:1\.25,ball:\.36\}/.test(scene),"three contact shadows at every level (lighter where the floodlights' own shadows are soft, several at once)");
+  assert.ok(!/cmBlobs/.test(scene)&&/const CONTACT_LIGHT=\.62;let contactK=L<=0\?CONTACT_LIGHT:\.5;const CONTACT=\{taker:1\.15,keeper:1\.25,ball:\.36\}/.test(scene),"three contact shadows at every level (lighter where the floodlights' own shadows are soft, several at once)");
   assert.ok(/S\.contact\?\.\(\[contactOf\(taker,CONTACT\.taker,1\),contactOf\(keeper,CONTACT\.keeper,1\),contactOf\(null,CONTACT\.ball,BALL_R\)\]\)/.test(scene)&&/keeperPose\(t,live,still\);takerAt\(t,live\);ballAt\(t\);\n      contactAt\(\);/.test(scene),"they follow the players and the ball every frame");
   assert.ok(/homeAlt:altOf\(clubs\.playerOne\),awayAlt:altOf\(clubs\.playerTwo\),homeName:clubs\.playerOne,awayName:clubs\.playerTwo,crest,boardPx:L>=3\?2048:1024/.test(scene),"club names, crests and second colours go to the stadium");
   // L04: the low camera behind and
@@ -283,7 +284,7 @@ async function c3d2(){
 //    only inside the shadow-map pass, in the pieces' own bind space), hair keeps its own, eyelashes cast none.
 {
   const code=scene.replace(/\/\/[^\n]*/g,"");
-  assert.ok(/sm\.render=\(\.\.\.args\)=>\{for\(const p of shadowBodies\)\{p\.visible=true;p\.skeleton\.update\(\);\}/.test(code)&&/finally\{for\(const p of shadowBodies\)p\.visible=false;\}/.test(code),"the shadow copy shows only while the shadow maps draw");
+  assert.ok(/sm\.render=\(\.\.\.args\)=>\{if\(castOff\)\{args\[1\]=NO_CASTERS;return draw\(\.\.\.args\);\}\s*for\(const p of shadowBodies\)\{p\.visible=true;p\.skeleton\.update\(\);\}/.test(code)&&/finally\{for\(const p of shadowBodies\)p\.visible=false;\}/.test(code),"the shadow copy shows only while the shadow maps draw");
   assert.ok(/!\(o\.material\.alphaTest>0\)&&!o\.material\.alphaMap&&!o\.material\.transparent/.test(code),"alpha-cut pieces (hair) keep their own shadow");
   assert.ok(/Math\.abs\(x-e\[k\]\)>1e-4\)\)return;/.test(code),"a body whose pieces disagree on a bind pose keeps per-piece shadows");
   assert.ok(/const same=o\.bindMatrix\.equals\(bind\)/.test(code)&&/proxy\.bind\(keep\(new T\.Skeleton\(bones,inv\)\),bind\)/.test(code),"positions copied in the pieces' own bind space");
@@ -299,7 +300,7 @@ async function c3d2(){
   assert.ok(scene.includes("await renderer.compileAsync(scene,camera)")&&scene.includes("renderer.initTexture(v)")&&scene.includes("for(const t of kitTex.values())up(t);"),"shaders compiled (in parallel where the driver can) and every texture uploaded, the kits too");
   assert.ok(scene.includes('if(d.visibilityState!=="hidden"&&!warming)'),"no frame draws while the warm-up runs");
   assert.ok(scene.includes("renderer.copyFramebufferToTexture(snap)")&&!/WebGLRenderTarget\(size/.test(scene)&&!/HalfFloatType,samples/.test(scene),"the dissolve copies the screen: no half-float target, no second shader per material");
-  assert.ok(scene.includes('canvas.addEventListener("webglcontextrestored",restored);')&&scene.includes("const restored=()=>{if(disposed)return;wrapShadow();try{refilter();}catch(_error){}"),"a restored context: the shadow hook, the reflections and the warm-up again");
+  assert.ok(scene.includes('canvas.addEventListener("webglcontextrestored",restored);')&&scene.includes("const restored=()=>{if(disposed)return;wrapShadow();shadowNow=true;try{refilter();}catch(_error){}"),"a restored context: the shadow hook, the reflections and the warm-up again");
   assert.ok(scene.includes('canvas.removeEventListener("webglcontextrestored",restored);'),"and the hook goes with the scene");
   // r91: the next lineup's shot starts where the last kick's shot ended and eases back, so a dissolve never doubles the goal.
   assert.ok(scene.includes("carry.p.copy(camera.position);carry.l.copy(camLook);carry.at=snapAt;")&&/k<1&&!reducedMotion\(\)\)\{p\.lerpVectors\(carry\.p,p,k\);l\.lerpVectors\(carry\.l,l,k\);\}/.test(scene),"dissolve keeps one framing");
