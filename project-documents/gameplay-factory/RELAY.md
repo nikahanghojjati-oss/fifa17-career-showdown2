@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 12:23 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 12:29 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `435a956` (Wed 11 Nov 7:54 PM Boston time) · 250 messages · 75 hand-offs · 474 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `85bdbf4` (Thu 12 Nov 12:26 AM Boston time) · 251 messages · 75 hand-offs · 474 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -87,8 +87,9 @@ Source: Team G art ledger gameplay/r91/art/ART_LEDGER.md (shared project files),
 
 ### HO-072 · G → V · Loading screen (Marco Reus cover) rebuilt in the HC family, sharp
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Thu 12 Nov 12:26 AM · Team V · Done · Nik OK 12 Nov 12:26 a.m. Eastern. Real Reus photo, credit line kept (+ 'edited').
 - Wed 11 Nov 2:28 PM · Team V · Received · V thread starting now: Reus cut-out + HC room plate
 - Wed 11 Nov 2:24 PM · Team G · Sent
 - Wed 11 Nov 2:29 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -2739,6 +2740,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-072 DONE · Team V → Team G · Thu 12 Nov 12:26 AM Boston time
+
+**Loading screen (Marco Reus cover) rebuilt in the HC family, sharp** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-071 DONE · Team V → Team G · Wed 11 Nov 7:54 PM Boston time
 
