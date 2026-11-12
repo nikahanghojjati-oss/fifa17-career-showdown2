@@ -393,6 +393,8 @@
   // A scene offers its heavy parts as  detail:{steps:N, apply(step,why)}  (0 = as built, N = its lightest): apply() is the
   // only place those knobs move, and it is called at the start (the step remembered from the last visit, behind the loading
   // screen) and afterwards only between beats, never while the scene holds (a kick, a spin, a reveal).
+  // A scene that can fade one picture into the next gives  before()  : it is called once ahead of every change in play
+  // (pixel ratio or heavy parts, down, up or put back), while the old picture is still the one drawn.
   // What changed from 2.3.0:
   //   - Slow frames seen during a beat are kept: the step is taken when the beat ends. (2.3.0 threw them away at
   //     hold(false), so a scene that was only slow in action never stepped down, and Roulette holds for its whole turn.)
@@ -458,9 +460,12 @@
     const slowLimit=()=>pace?Math.max(SLOW_MS,pace*1.25):SLOW_MS,smoothLimit=()=>SMOOTH_MS;
     // One step down the ladder: pixel ratio first, then the heavy parts. The step left is never tried again in this visit;
     // a heavy part that was put back and ran slow stays off for a week of visits.
+    // before: the scene's last word ahead of a change in play (a step down, a step up, steps put back), so it can let the
+    // picture on screen fade into the next one. Never called for the start (behind the loading screen) or a resize.
+    const before=()=>{try{o.before?.();}catch(_error){}};
     const stepDown=why=>{
-      if(at<list.length-1){bad.add(at);apply(at+1);}
-      else if(detail&&dAt<detail.steps){badD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
+      if(at<list.length-1){before();bad.add(at);apply(at+1);}
+      else if(detail&&dAt<detail.steps){before();badD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
       else return false;
       forget();upOk=false;return true;
     };
@@ -481,6 +486,7 @@
     const paceHere=ms=>{pace=Math.max(BUDGET_MS,Math.min(50,ms));slowFor=0;slowN=0;smoothFor=0;};
     const undo=ms=>{const b=probe;probe=null;probed=true;
       for(let i=b.at;i<at;i+=1)bad.delete(i);for(let i=b.dAt;i<dAt;i+=1)badD.delete(i);
+      if((detail&&dAt!==b.dAt)||at!==b.at)before();
       if(detail&&dAt!==b.dAt)setDetail(b.dAt,"restore");if(at!==b.at)apply(b.at);
       forget();upOk=b.upOk;paceHere(ms);avg=pace;};
     const slowStep=seen=>{
@@ -532,14 +538,14 @@
         // Heavy parts come back first (they went last): smooth for 6 s and a timed frame under 40% of the budget.
         if(detail&&dAt>dFloor){
           if(smoothFor>=6000){smoothFor=0;if(badD.has(dAt-1))return;
-            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){trial=dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
+            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){before();trial=dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
           return;
         }
         if(dAt>0)return;
         // Smooth for 3 s: time one real frame; step up only if the next step would still leave a third of the frame free.
         if(smoothFor>=3000&&at>0&&!bad.has(at-1)){
           smoothFor=0;const ms=gfxTimedDraw(renderer,o.draw),scale=Math.pow(list[at-1]/list[at],2);
-          if(ms*scale<BUDGET_MS*.66)apply(at-1);else bad.add(at-1);
+          if(ms*scale<BUDGET_MS*.66){before();apply(at-1);}else bad.add(at-1);
         }
       },
       // Between beats only: a held governor never changes the picture mid-shot. What the beat showed is kept: a beat that
@@ -630,6 +636,33 @@
   }
 
   // ?fps=1 only: a small corner readout, four times a second, with its own frame clock.
+  // softCut(canvas, draw): a step taken in play, shown softly. The frame as it stands is copied over the canvas and fades
+  // out over the scene as it is drawn from the next frame on (a scene passes this to its governor as before()). For a
+  // scene whose canvas fills its own positioned box (the Roulette and Special Player pages; Chamber Men fades inside its
+  // own picture). The copy lies in that box right over the canvas, so nothing above the scene is covered, takes no
+  // pointer, is at most 2560 px on its long side and is gone after the fade. Under Reduce Motion, or where the box is not
+  // positioned, the step is a plain cut as before. Never throws.
+  function gfxSoftCut(canvas,draw,ms){
+    try{
+      const box=canvas?.parentElement,doc=canvas?.ownerDocument,win=doc?.defaultView||root,fade=Number.isFinite(ms)&&ms>0?ms:420;
+      if(!box||!doc||!canvas.width||!canvas.height)return false;
+      if(win.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)return false;
+      if((win.getComputedStyle?.(box)?.position||"static")==="static")return false;
+      for(const old of box.querySelectorAll?.("canvas[data-gfx-cut]")||[])old.remove();
+      const k=Math.min(1,2560/Math.max(canvas.width,canvas.height)),copy=doc.createElement("canvas");
+      copy.width=Math.max(1,Math.round(canvas.width*k));copy.height=Math.max(1,Math.round(canvas.height*k));
+      // A WebGL canvas holds its frame only in the task that drew it: draw, then copy.
+      if(typeof draw==="function")draw();
+      copy.getContext("2d").drawImage(canvas,0,0,copy.width,copy.height);
+      copy.setAttribute("data-gfx-cut","1");copy.setAttribute("aria-hidden","true");
+      copy.style.cssText=`position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:1;transition:opacity ${fade}ms ease-out`;
+      box.appendChild(copy);
+      const frame=win.requestAnimationFrame||(f=>win.setTimeout(f,16));
+      frame(()=>frame(()=>{copy.style.opacity="0";}));
+      win.setTimeout(()=>copy.remove(),fade+300);
+      return true;
+    }catch(_error){return false;}
+  }
   function gfxOverlay(info,parent){
     if(gfxQuery("fps")!=="1")return {stop(){}};
     const d=root.document;if(!d||!d.body)return {stop(){}};
@@ -659,7 +692,7 @@
 
   root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,choices:CHOICES.slice(),names:NAMES.slice(),labels:LABELS.slice(),
     label(level){return LABELS[Math.max(0,Math.min(5,Math.round(Number(level))||0))];},
-    profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,builtLevel:gfxBuiltLevel,overlay:gfxOverlay,classify:gfxClassify,
+    profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,softCut:gfxSoftCut,builtLevel:gfxBuiltLevel,overlay:gfxOverlay,classify:gfxClassify,
     // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()
     // saves a pick for this device; it takes effect on the next 3D screen.
     // "now" is the level Auto starts at on this device, read fresh from storage each call (Codex on #1284): the Device check

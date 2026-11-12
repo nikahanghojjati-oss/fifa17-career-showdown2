@@ -770,7 +770,7 @@ const lacquer=mat({map:tableWoodTex, color:0x6a4a34, roughness:.25, metalness:.0
    Extra, Ultra, 8K: the whole café: the sharp café picture across the back (it replaces the far wall), the bright marble floor with no
          fog, and two café tables in 3D at the sides (marble tops, brass pedestals, bentwood chairs with velvet seats). One warm room
          light joins the table light (four lights in all, no bloom). ================= */
-const hall=new T.Group(); scene.add(hall); let hallLamps=null;
+const hall=new T.Group(); scene.add(hall); let hallLamps=null, cafeProps=null;   /* cafeProps: the two café tables and their chairs (Extra and up), a step on the r91 heavy-parts ladder */
 /* the café picture: the 3840 px file only on a screen wider than 2560 device pixels (and a download level that allows it), 1920 px below */
 const ROOM_BIG=(GFX.assetLevel??GFX.level)>=3&&Math.max(screen.width||0,screen.height||0)*(devicePixelRatio||1)>2560;
 if(HIGH_UP){ const lampTex=lampGlassTex(), glassM=new T.MeshStandardMaterial({map:lampTex, emissiveMap:lampTex, emissive:0xffffff, emissiveIntensity:1.05, roughness:.35, side:T.DoubleSide, fog:false});
@@ -795,7 +795,7 @@ if(HIGH_UP){ const lampTex=lampGlassTex(), glassM=new T.MeshStandardMaterial({ma
       mesh(shadeG,glassM,u,1.585,.25,g); const h=mesh(haloG,haloM,u,1.68,.27,g); h.renderOrder=2; }); });
   bake(sides); }
 if(EXTRA_UP){ const top=mat({map:marbleTex(), color:0xc9c0b2, roughness:.22, metalness:0},{clearcoat:.8, clearcoatRoughness:.12}), velvet=new T.MeshStandardMaterial({color:L("#4a1217"), roughness:.96, metalness:0});
-  const cafe=new T.Group(); hall.add(cafe);
+  const cafe=new T.Group(); hall.add(cafe); cafeProps=cafe;
   function chair(x,z,ry){ const c=new T.Group(); c.position.set(x,0,z); c.rotation.y=ry; cafe.add(c);
     mesh(new T.BoxGeometry(.46,.05,.46),lacquer,0,.44,0,c); mesh(new T.BoxGeometry(.4,.045,.4),velvet,0,.49,0,c); mesh(new T.BoxGeometry(.44,.06,.04),lacquer,0,.98,-.21,c); mesh(new T.BoxGeometry(.44,.05,.035),lacquer,0,.72,-.21,c); mesh(new T.BoxGeometry(.4,.2,.03),velvet,0,.85,-.21,c);
     [[-.2,-.2],[.2,-.2],[-.2,.2],[.2,.2]].forEach(([a,b])=>mesh(new T.CylinderGeometry(.018,.024,.44,6),lacquer,a,.22,b,c)); [-.2,.2].forEach(a=>mesh(new T.CylinderGeometry(.016,.018,.55,6),lacquer,a,.72,-.21,c)); }
@@ -1002,7 +1002,9 @@ function fxBatch(n,map,blending,order,fleck,streak){ const P=new Float32Array(n*
 const fxSync=()=>{ for(const b of FXB) b.sync(); };
 const smokes=[]; const smokeMat=new T.SpriteMaterial({map:smokeT, transparent:true, depthWrite:false, opacity:.5, color:0xd8d0c0}); const smokeFx=LIGHT?fxBatch(36,smokeT,T.NormalBlending,25,false):null;
 for(let i=0;i<36;i++){ const s=smokeFx?smokeFx.make(0xd8d0c0,.5):new T.Sprite(smokeMat.clone()); s.visible=false; if(!smokeFx) scene.add(s); smokes.push({s, life:0, v:new T.Vector3(), rot:0}); }
-function puff(pos,dir,n,size,speed,life){ for(let i=0;i<n;i++){ const p=smokes.find(q=>q.life<=0); if(!p) return; p.life=life*(.7+rnd()*.6); p.max=p.life; p.s.visible=true; p.s.position.copy(pos).add(new T.Vector3((rnd()-.5)*.02,(rnd()-.5)*.02,(rnd()-.5)*.02)); p.v.copy(dir).multiplyScalar(speed*(.5+rnd())).add(new T.Vector3((rnd()-.5)*.3,.12+rnd()*.2,(rnd()-.5)*.3)); p.size=size*(.6+rnd()*.8); p.s.material.rotation=rnd()*6.28; p.rot=(rnd()-.5)*1.5; } }
+/* r91 heavy-parts ladder: fxShare is the share of a shot's smoke puffs and sparks that are made (1 as built, .5 at the "smoke" step) */
+let fxShare=1;
+function puff(pos,dir,n,size,speed,life){ n=Math.max(1,Math.round(n*fxShare)); for(let i=0;i<n;i++){ const p=smokes.find(q=>q.life<=0); if(!p) return; p.life=life*(.7+rnd()*.6); p.max=p.life; p.s.visible=true; p.s.position.copy(pos).add(new T.Vector3((rnd()-.5)*.02,(rnd()-.5)*.02,(rnd()-.5)*.02)); p.v.copy(dir).multiplyScalar(speed*(.5+rnd())).add(new T.Vector3((rnd()-.5)*.3,.12+rnd()*.2,(rnd()-.5)*.3)); p.size=size*(.6+rnd()*.8); p.s.material.rotation=rnd()*6.28; p.rot=(rnd()-.5)*1.5; } }
 const splinters=[]; const splGeo=new T.BoxGeometry(.012,.004,.03); const splMat=new T.MeshStandardMaterial({color:L("#b9c6c9"),roughness:.12,metalness:.55,transparent:true,opacity:.75});
 const fleckFx=LIGHT?fxBatch(40,sparkTex(),T.NormalBlending,26,true):null;   /* r90 Light: the glass and paper flecks as one batch; a fleck glints as it turns */
 for(let i=0;i<40;i++){ const m=fleckFx?fleckFx.make((i%3?splMat.color:M.card.color).clone().multiplyScalar(.6),i%3?.75:1):new T.Mesh(i%3?splGeo:new T.BoxGeometry(.02,.001,.02),i%3?splMat:M.card); m.visible=false; if(!fleckFx) scene.add(m); splinters.push({m, life:0, v:new T.Vector3(), w:new T.Vector3()}); }
@@ -1019,7 +1021,7 @@ const sparks=[];
    fireflies at the hit. Every level now draws them as thin hot streaks stretched along their flight, one batch (one draw, not up to 40) */
 const sparkFx=fxBatch(40,streakTex(),T.AdditiveBlending,28,false,true);
 for(let i=0;i<40;i++){ const sp=sparkFx.make(0xffd080,1), v=new T.Vector3(); sp.vel=v; sparks.push({s:sp, life:0, v}); }
-function spray(pos,dir,n,speed){ for(let i=0;i<n;i++){ const p=sparks.find(q=>q.life<=0); if(!p) return; p.life=.25+rnd()*.4; p.max=p.life; p.s.visible=true; p.s.position.copy(pos); const sz=.006+rnd()*.012; p.s.scale.set(sz,sz,1); p.v.copy(dir).multiplyScalar(speed*(.4+rnd())).add(new T.Vector3((rnd()-.5)*speed*.6,(rnd()-.3)*speed*.5,(rnd()-.5)*speed*.6)); } }
+function spray(pos,dir,n,speed){ n=Math.max(1,Math.round(n*fxShare)); for(let i=0;i<n;i++){ const p=sparks.find(q=>q.life<=0); if(!p) return; p.life=.25+rnd()*.4; p.max=p.life; p.s.visible=true; p.s.position.copy(pos); const sz=.006+rnd()*.012; p.s.scale.set(sz,sz,1); p.v.copy(dir).multiplyScalar(speed*(.4+rnd())).add(new T.Vector3((rnd()-.5)*speed*.6,(rnd()-.3)*speed*.5,(rnd()-.5)*speed*.6)); } }
 const hitFlash=new T.Sprite(new T.SpriteMaterial({map:sparkTex(), blending:T.NormalBlending, depthWrite:false, transparent:true, opacity:0, color:0xfff0d0})); scene.add(hitFlash);   /* r91: normal blending, as the muzzle flash: added over the green board the hit glow turned yellow-green */
 const hitLight=fxSrc(L("#ffd0a0"),2.5,2);
 [flashSprite,flashCore,flashSide,...petals].forEach(o=>{ o.renderOrder=30; o.material.depthTest=false; }); sparks.forEach(p=>{ p.s.renderOrder=28; }); smokes.forEach(p=>{ p.s.renderOrder=25; });
@@ -1364,7 +1366,7 @@ function tick(draw){ const t=now();
   smokes.forEach(p=>{ if(p.life<=0){ p.s.visible=false; return; } p.life-=dtF; const k=1-p.life/p.max; p.s.position.addScaledVector(p.v,dtF); p.v.multiplyScalar(Math.pow(.25,dtF)); p.v.y+=dtF*.12; p.s.material.opacity=.42*Math.sin(Math.min(1,k*1.2)*Math.PI)*(1-k*.3); const sz=p.size*(.4+k*1.6); p.s.scale.set(sz,sz,1); p.s.material.rotation+=p.rot*dt; });
   splinters.forEach(p=>{ if(p.life<=0){ p.m.visible=false; return; } p.life-=dtF; p.m.position.addScaledVector(p.v,dtF); p.v.y-=dtF*5.5; p.v.multiplyScalar(Math.pow(.5,dtF)); p.m.rotation.x+=p.w.x*dtF; p.m.rotation.y+=p.w.y*dtF; if(p.m.position.y<.76&&Math.abs(p.m.position.x)<.75&&Math.abs(p.m.position.z)<.75){ p.m.position.y=.76; p.v.y*=-.25; p.v.x*=.6; p.v.z*=.6; p.w.multiplyScalar(.3); } if(p.m.position.y<0) p.life=0; });
   ["D","N"].forEach(k=>{ const b=boards[k].userData; b.joltV.addScaledVector(b.jolt,-dtF*90); b.joltV.multiplyScalar(Math.pow(.002,dtF)); b.jolt.addScaledVector(b.joltV,dtF); b.inner.rotation.set(b.jolt.z*.12,b.jolt.x*.18,b.jolt.x*.08); b.inner.position.set(0,0,-Math.abs(b.jolt.z)*.015); });
-  { const a=dust.pos; for(let i=0;i<a.length/3;i++){ a[i*3]=dust.base[i*3]+Math.sin(t*.3+i)*.05; a[i*3+1]=dust.base[i*3+1]+Math.sin(t*.21+i*1.7)*.05; a[i*3+2]=dust.base[i*3+2]+Math.cos(t*.25+i*.6)*.05; } dust.p.geometry.attributes.position.needsUpdate=true; }
+  if(dust.p.visible){ const a=dust.pos; for(let i=0;i<a.length/3;i++){ a[i*3]=dust.base[i*3]+Math.sin(t*.3+i)*.05; a[i*3+1]=dust.base[i*3+1]+Math.sin(t*.21+i*1.7)*.05; a[i*3+2]=dust.base[i*3+2]+Math.cos(t*.25+i*.6)*.05; } dust.p.geometry.attributes.position.needsUpdate=true; }
   applyFx(); fxIdle.forEach(fxVis);
   if(draw){ camera.updateMatrixWorld(); fxSync(); renderer.render(scene,camera); if(manual===null&&GOV) GOV.frame(performance.now()); } }
 /* r90 BUG-02: in the game the stage stays hidden until the page is armed, so nothing is drawn before the setup arrives (the main
@@ -1546,7 +1548,22 @@ Promise.all([fontsReady,loadAssets()]).then(async()=>{ toGame2("cms-rr-loading",
   camPos.copy(camRest); camLook.copy(lookRest); last=now(); cta.disabled=true;
   fitUnderTitle(); viewShift=restShift; viewZoom=restZoom;   /* 2.3.0 final pass F04 (L37 opening frames): the picture opens already shifted under the title; easing in from 0 drew the title across both boards on the first frames */
   await warmUp(); last=now();
-  GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera)}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights "+(EXTRA_UP?4:LIGHT?2:3)+" + shot flash"}; });
+  /* r91 heavy parts (Nik 2026-11-11: heavy parts must not stay as built on a device that cannot hold its level). The governor's
+     ladder for this scene, after the pixel ratio, smallest loss first; step 0 is the scene as built, and a device that holds its
+     level never leaves it. Only parts this level has are on it:
+       dust   the dust motes in the lamp light are not drawn or moved
+       smoke  a shot makes half its smoke puffs and sparks (from the next shot on)
+       cafe   the two café tables and their chairs are not drawn (Extra and up; the café picture and the marble floor stay)
+     heavy(step) is the only place these move and takes any step from any other. The governor calls it behind the loading
+     screen and between turns only (a turn holds it from startTurn to endTurn). The shadow map is drawn once and nothing here
+     casts, so it is not touched; no light or material changes, so no shader is compiled in play. Every step in play (the
+     pixel ratio's too) is a soft cut: the governor's before() copies the frame as it stands over the canvas and fades it out
+     over the new one (GFXT.softCut; a plain cut under Reduce Motion). */
+  const LADDER=["dust","smoke",...(cafeProps?["cafe"]:[])]; let detailAt=0;
+  const heavy=step=>{ const at=Math.max(0,Math.min(LADDER.length,Math.round(Number(step))||0)), on=new Set(LADDER.slice(0,at)); detailAt=at;
+    dust.p.visible=!on.has("dust"); fxShare=on.has("smoke")?.5:1; if(cafeProps) cafeProps.visible=!on.has("cafe"); };
+  window.__rr.ladder=()=>({at:detailAt, ladder:[...LADDER], dust:dust.p.visible, fxShare, cafe:cafeProps?cafeProps.visible:null});
+  GOV=GFXT.governor(renderer,{key:"rrr",draw:()=>renderer.render(scene,camera),beats:true,detail:{steps:LADDER.length,apply:heavy},before:()=>GFXT.softCut?.(renderer.domElement,()=>renderer.render(scene,camera))}); GFXT.overlay(()=>{ const r=renderer.info.render; return {calls:r.calls, tris:r.triangles, extra:"lights "+(EXTRA_UP?4:LIGHT?2:3)+" + shot flash"}; });
   window.__rrReady=true; if(!EMBED) cta.disabled=false; rafId=requestAnimationFrame(frame); requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.add("ready"))); if(EMBED) requestAnimationFrame(()=>toGame("cms-rr-ready"));
   /* r90 Device check (?bench=1&gfx=N) and measurements (?showcase=1): the demo boards play the showcase turn on a loop (a shot, then a click), fixed seed, no game,
      no Firestore; js/gfxTier.js times the frames through the governor and posts the result to the Device check page */

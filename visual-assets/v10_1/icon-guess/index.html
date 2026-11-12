@@ -66,9 +66,13 @@ html.kb .packtitle { display: none; }
 
 /* ---------- top: PRIME PACK, the stage and its timer, then the result line ---------- */
 .top { position: absolute; left: 12px; right: 12px; top: calc(env(safe-area-inset-top, 0px) + 18px); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.packtitle { margin: 0; text-align: center; font: 700 clamp(22px, 3.2vh, 38px)/1 var(--cond); letter-spacing: .3em; padding-left: .3em; text-transform: uppercase;
-  background: linear-gradient(180deg, #fffdf2 0%, #fff0b8 32%, #f2c35a 52%, #a8731f 56%, #f3cf73 76%, #fff3c6 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 2px 0 #1d1404); }
+/* r91 HO-071 (Nik's pick, 2026-11-11): the title is drawn in the one title family (Team V's V3 "Honours Board" lettering)
+   instead of a metal-gradient Barlow line. The words stay in the heading (its box and the screen-reader label are unchanged)
+   but are not painted; the lettering is laid over them, centred, at the capital height the text had (1.4em tall picture). */
+.packtitle { position: relative; margin: 0; text-align: center; font: 700 clamp(22px, 3.2vh, 38px)/1 var(--cond); letter-spacing: .3em; padding-left: .3em; text-transform: uppercase; color: transparent; }
+.packtitle::after { content: ""; position: absolute; left: 50%; top: 50%; height: 1.4em; width: min(calc(1.4em * 5.477), calc(100vw - 24px)); transform: translate(-50%, -50%); pointer-events: none;
+  background: url("../shared/wordmarks/TITLE_PRIME_PACK_V3_960.webp") center / contain no-repeat;
+  background-image: image-set(url("../shared/wordmarks/TITLE_PRIME_PACK_V3_960.webp") 1x, url("../shared/wordmarks/TITLE_PRIME_PACK_V3_1920.webp") 2x); }
 .status { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 46px; }
 .beat { font: 700 18px/1 var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--foil-1); text-shadow: 0 2px 6px #000; white-space: nowrap; }
 .beat.last { color: #ffd77a; }
