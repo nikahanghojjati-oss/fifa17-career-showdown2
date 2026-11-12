@@ -1,0 +1,19 @@
+{
+ "note": "r91 old art: retired-picture references per Team G file; may only go down (tests/contracts/r91-old-art-contracts.cjs)",
+ "counts": {
+  "css/connectPlayersV10.css": 3,
+  "css/homeV10.css": 3,
+  "css/r78-marble-surfaces.css": 7,
+  "css/rivalryLegacyV10.css": 6,
+  "css/rulesSettingsV10.css": 4,
+  "css/v10Club.css": 5,
+  "css/v10Setup.css": 16,
+  "css/v10Shell.css": 2,
+  "css/v10Transfer.css": 5,
+  "js/careerScreensV10.js": 6,
+  "js/rivalryLegacyV10.js": 26,
+  "js/rivalryLegacyV10Markup.js": 24,
+  "js/seasonFinalV10.js": 20,
+  "js/v10Setup.js": 4
+ }
+}

@@ -215,7 +215,7 @@
   }
 
   async function crStorePointer(pointer,indexedDBImpl=root.indexedDB){
-    if(!crValidPointer(pointer))throw crError("CONNECTED_RIVALRY_POINTER_INVALID","Refusing to store an invalid Connected Rivalry pointer.");
+    if(!crValidPointer(pointer))throw crError("CONNECTED_RIVALRY_POINTER_INVALID","An invalid Connected Rivalry link was not stored.");
     let database;
     try{
       database=await crOpenPointerDb(indexedDBImpl);
@@ -243,7 +243,7 @@
         request.onerror=()=>reject(crError("CONNECTED_RIVALRY_POINTER_UNAVAILABLE","Private Connected Rivalry pointer could not be read."));
       });
       if(result===null)return null;
-      if(!crValidPointer(result))throw crError("CONNECTED_RIVALRY_POINTER_INVALID","Stored Connected Rivalry metadata is invalid and will not grant authority.");
+      if(!crValidPointer(result))throw crError("CONNECTED_RIVALRY_POINTER_INVALID","Stored Connected Rivalry data is invalid and will not be trusted.");
       return Object.freeze({...result});
     }finally{
       if(database&&typeof database.close==="function")database.close();
@@ -278,7 +278,7 @@
     const slots=Array.isArray(data.managerSlots)?data.managerSlots:[];
     const authorized=Array.isArray(data.authorizedAccountIds)?data.authorizedAccountIds:[];
     if(data.connectionState!=="active"||slots.length!==2||authorized.length!==2||!authorized.includes(accountId)){
-      throw crError("CONNECTED_RIVALRY_NOT_ACTIVE","This private rivalry is not an active exactly-two-manager connection.");
+      throw crError("CONNECTED_RIVALRY_NOT_ACTIVE","This private rivalry is not an active two-manager connection.");
     }
     const slot=slots.find(item=>item&&item.slotId===binding.managerRole);
     if(!slot||slot.accountId!==accountId||slot.profileId!==binding.profileId||slot.saveId!==binding.saveId||slot.entitlementState!=="active"){
@@ -370,10 +370,10 @@
 
   async function crAssertLiveSharedStateIntegrity(value,rivalryId,cryptoImpl=root.crypto){
     if(!crIsEnvelopeValue(value,"sharedState",rivalryId)||value.lifecycleState!=="live"||typeof value.contentHash!=="string"||!/^sha256:[0-9a-f]{64}$/.test(value.contentHash)){
-      throw crError("CONNECTED_RIVALRY_STATE_INVALID","Authoritative shared gameplay state is invalid.");
+      throw crError("CONNECTED_RIVALRY_STATE_INVALID","The current shared gameplay state is invalid.");
     }
     const expected=await crSha256({objectType:"sharedState",objectId:rivalryId,revision:value.revision,data:value.data},cryptoImpl);
-    if(expected!==value.contentHash)throw crError("CONNECTED_RIVALRY_STATE_INTEGRITY_FAILED","Authoritative shared gameplay state failed SHA-256 integrity verification.");
+    if(expected!==value.contentHash)throw crError("CONNECTED_RIVALRY_STATE_INTEGRITY_FAILED","The current shared gameplay state failed its integrity check.");
     return value;
   }
 
@@ -571,7 +571,7 @@
 
         const before=stateExists?stateSnapshot.data():null;
         if(before&&before.lifecycleState==="tombstoned"){
-          throw crError("TOMBSTONE_RESTORE_REQUIRED","This rivalry was deleted remotely and cannot be resurrected by a normal publish.");
+          throw crError("TOMBSTONE_RESTORE_REQUIRED","This rivalry was deleted online, and a normal publish cannot bring it back.");
         }
         if(stateExists)await crAssertLiveSharedStateIntegrity(before,rivalryId,options.cryptoImpl||root.crypto);
         if(stateExists&&before.revision!==plan.baseRevision){

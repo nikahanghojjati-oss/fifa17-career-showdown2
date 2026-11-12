@@ -14,7 +14,7 @@ const MARK="// Firestore budget layer (r75).";
 const start=source.indexOf(MARK);
 assert.ok(start>0,"the Firestore budget layer lives at the end of js/sparkPrivatePairing.js");
 const BUDGET_SOURCE=source.slice(start);
-const QUOTA_TEXT="Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.";
+const QUOTA_TEXT="Today's free online limit is used up. It resets at 3 a.m. Boston time. Your saved career is safe.";
 
 // Budgets (per browser). Measured with this proxy on r75: waiting with the listener 3.4/min, waiting with the listener
 // down 60/min (today's 3 s cadence, kept as the fallback), a screen with only the 15 s poll 1.8/min, hidden 0, idle writes 0.
