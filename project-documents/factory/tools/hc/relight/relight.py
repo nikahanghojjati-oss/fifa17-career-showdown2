@@ -22,7 +22,7 @@ def relight(img, mask, head, debug=False):
     zone *= np.clip(np.minimum.reduce([xx-x0, x1-1-xx, yy-y0+fe*(y0==0), y1-1-yy])/fe,0,1)
     zone *= smooth(head.get('ymax',y1), head.get('ymax',y1)-60, yy) if 'ymax' in head else 1
     L = rgb.mean(2)+1e-3
-    base = cv2.GaussianBlur(cv2.erode(L,np.ones((9,9),np.uint8)),(0,0),5)
+    ek = head.get('erode',9); base = cv2.GaussianBlur(cv2.erode(L,np.ones((ek,ek),np.uint8)),(0,0),5)
     excess = np.clip(L-base,0,None)
     hi = smooth(6,40,excess)            # how much this pixel is a highlight
     broad = cv2.GaussianBlur(cv2.erode(L,np.ones((5,5),np.uint8)),(0,0),7)

@@ -127,5 +127,41 @@
    ],
    "keep": 1.0
   }
+ },
+ "coaches": {
+  "lamp_note": "desktop: shaded wall lamp left of Daniel, lit boot case above Nik (warm)",
+  "dan": {
+   "lamp": [
+    -1,
+    -0.1
+   ],
+   "keep": 1.0
+  },
+  "nik": {
+   "lamp": [
+    -0.1,
+    -1
+   ],
+   "keep": 0.7
+  }
+ },
+ "coaches_phone": {
+  "lamp_note": "phone: shaded wall lamp just left of Daniel's head (warm)",
+  "dan": {
+   "lamp": [
+    -1,
+    -0.05
+   ],
+   "keep": 1.0,
+   "erode": 25
+  },
+  "nik": {
+   "lamp": [
+    -1,
+    -0.05
+   ],
+   "keep": 0.5,
+   "erode": 25
+  }
  }
 }

@@ -788,6 +788,11 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V3_590W.webp":"4337f6c7949cf3fba420aa145861888f7fc4059c6f1829111267e32549996a0c",
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1X.webp":"0ae4678d26f2eca116df923075bd1a3b733457bb82f6e8297269387cea97b1e9",
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_2X.webp":"cbfd44d887b3de297f5fd439ba68e3f440c53fc20fa928d9351e159411c545eb",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_2X.webp":"5493b8ce7b13c1e11f8fb21ec84563f4eb70a926f7d4e72fc070a667cfd4ef4e",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1X.webp":"de9aeb9eabdfdd8cc4aa63b7a380d610def6346b8fdee6e85daf57f4b25dd0a2",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3.webp":"37946eeeeaa840b02f9ee97419f91a5a8383329de0b51041306dfcfc05459860",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3_590W.webp":"b64c7ba9c3783d4a428cddb5ab7960b604c82b2c1772ad0262bf5866793c9d85",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3_TALL.webp":"ae744e35a8576761595173169d5ba7abd12d982c8eb70c75eefd6309d1b58259",
     "visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V2.webp":"08a068706204783ef4f24599f72012f1dd88351556b5879ab7f2260a7ca385a6",
     // HO-068 (2026-11-09): Team V's handcrafted V2 tunnel room (Connect Players, Standings, Rivalry) and box room (League, Club
     // Assignment; TALL for 9:20 phones), from claude/project-thread-kxgun9 687598df6. The plates-v2 plates stay as rollback.
