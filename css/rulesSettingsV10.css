@@ -1257,7 +1257,7 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
 
 /* r91 (Nik 2026-11-12): the two columns end level. Prime Pack may run on from the bottom of the left column to the top of
    the right one; every other card stays whole. Each piece gets its own closed frame (box-decoration-break: clone), so the
-   bevel frame and the marble face are drawn on the card itself here instead of by the ::before/::after pair, which would stay
+   bevel frame and the flat dark face (Nik 2026-11-12: flat dark cards) are drawn on the card itself here instead of by the ::before/::after pair, which would stay
    open at the break; the padding gives back the frame's width, so the text sits where it did. */
 @media (min-width:1200px) and (min-height:501px) {
   :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection.primePackRuleSection {
@@ -1269,7 +1269,7 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
 @media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
   :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection:not(#rbFrameOnCard) {
     border:max(3px,calc(var(--rbu) * 4)) solid transparent !important;
-    background:url("r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,linear-gradient(var(--r78-panel,#0b0b0c),var(--r78-panel,#0b0b0c)) padding-box,var(--rb-bevel) border-box !important;
+    background:linear-gradient(var(--r78-panel,#0b0b0c),var(--r78-panel,#0b0b0c)) padding-box,var(--rb-bevel) border-box !important;
     padding:18px 26px 20px 24px;
     box-shadow:inset 0 0 0 1px #050505,inset 0 0 0 2px #d9aa3c66,inset 0 1px 0 3px #fff1b814 !important;
     clip-path:polygon(var(--rb-cut) 0,calc(100% - var(--rb-cut)) 0,100% var(--rb-cut),100% calc(100% - var(--rb-cut)),calc(100% - var(--rb-cut)) 100%,var(--rb-cut) 100%,0 calc(100% - var(--rb-cut)),0 var(--rb-cut));
