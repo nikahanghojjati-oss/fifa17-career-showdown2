@@ -7,7 +7,7 @@ const canonicalCatalog=require("../../js/sharedShowdownCatalog.js");
 const adapterSource=fs.readFileSync("js/sparkSharedShowdownSetup.js","utf8");
 const catalogSource=fs.readFileSync("js/sharedShowdownCatalog.js","utf8");
 const clubsSource=fs.readFileSync("data/clubs.js","utf8");
-const candidateRules=fs.readFileSync("firestore.shared-setup-candidate.rules","utf8");
+const candidateRules=fs.readFileSync("firestore.shared-setup-production.fragment.rules","utf8");
 const productionRules=fs.readFileSync("firestore.spark.rules","utf8");
 const packageJson=JSON.parse(fs.readFileSync("package.json","utf8"));
 
@@ -40,25 +40,16 @@ assert.match(adapterSource,/createProtocol\(\{catalog:catalogModule\.catalog,cry
 assert.match(adapterSource,/prior\.actorRoles\[existing\]===actorRole/,"Idempotent replay must remain bound to the manager role that authored the original operation.");
 assert.doesNotMatch(adapterSource,/localStorage|sessionStorage/,"Provider adapter must not read or write browser canonical storage.");
 
+// r91 cut step 4: the unpublished candidate Rules file is gone; the same boundary is read from the production Shared Setup
+// authority (the two-manager emulator proves it on the generated Rules).
 for(const required of [
-  "exactPairedRivalry(rivalryId)",
-  "activeAccount(data.managerSlots[0].accountId)",
-  "activeAccount(data.managerSlots[1].accountId)",
-  "writeAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId)",
-  "actor in rivalry.authorizedAccountIds",
-  "slot0Account.data.data.status == 'active'",
-  "slot1Account.data.data.status == 'active'",
-  "device.data.data.state == 'active'",
-  "sessionData.state == 'active'",
-  "sessionData.expiresAt > request.time",
-  "sessionHostIsActor(rivalryId, after.activeSessionId)",
+  "ssjrEntitled(rivalryId)",
   "match /sharedSetup/authoritative",
-  "allow create: if validCreateLedger(rivalryId)",
-  "allow update: if validUpdateLedger(rivalryId)"
-]) assert.ok(candidateRules.includes(required),`Candidate Shared Setup Rules must enforce: ${required}`);
-assert.match(candidateRules,/evaluated once per candidate Shared Setup[\s\S]+1,000-expression ceiling/i,"Candidate write authority must remain intentionally bounded under Firestore's expression ceiling.");
+  "allow create: if ssjrValidCreateLedger(rivalryId)",
+  "allow update: if ssjrValidUpdateLedger(rivalryId)",
+  "allow list, delete: if false;"
+]) assert.ok(candidateRules.includes(required),`Production Shared Setup Rules must enforce: ${required}`);
 
-assert.equal(candidateRules.includes("allow list, delete: if false;"),true,"Shared Setup authority must remain non-listable and non-deletable from modified clients.");
 assert.equal(productionRules.includes("sharedSetup"),false,"Reviewed Spark base must remain unchanged; production Shared Setup authority is generated additively and tested separately.");
 
 for(const source of ["index.html","js/optionalModules.js"]){

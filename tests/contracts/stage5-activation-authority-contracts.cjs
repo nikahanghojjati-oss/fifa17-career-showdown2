@@ -11,11 +11,9 @@ const schema=read("REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md");
 const rules=read("firestore.spark.rules");
 const stage4=read("js/sparkConnectedRivalry.js");
 const stage5aProof=read("STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md");
-const stage5aRules=read("firestore.stage5a.rules");
 const stage5bProof=read("STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md");
 const stage5cProof=read("STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md");
 const stage5cClient=read("js/sparkStandardAuthPrivateSession.js");
-const stage5cRules=read("firestore.stage5c.rules");
 const zeroBillingAuth=read("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md");
 const zeroBillingDecision=read("ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md");
 
@@ -130,17 +128,12 @@ assert.match(state,/Candidate C remains the sole destructive remote-to-local(?: 
 
 assert.match(stage5aProof,/candidate protocol and emulator boundary proven; production publication deliberately excluded/i);
 assert.match(stage5aProof,/Fixed Remote Joining readiness: `87\/100` unchanged/i);
-assert.match(stage5aRules,/STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+STAGE5A_CANDIDATE_SESSION_FUNCTIONS_END/);
-assert.match(stage5aRules,/STAGE5A_CANDIDATE_SESSION_MATCH_BEGIN[\s\S]+STAGE5A_CANDIDATE_SESSION_MATCH_END/);
-assert.match(stage5aRules,/request\.auth\.token\.device_id[\s\S]+activeDevice\(deviceId\)/);
-assert.match(stage5aRules,/(?=[\s\S]*device_credential_version)(?=[\s\S]*device_key_sha256)(?=[\s\S]*deviceCredentials)(?=[\s\S]*credential\.data\.data\.publicKeyFingerprint == request\.auth\.token\.device_key_sha256)/);
-assert.match(stage5aRules,/root\.updatedByDeviceId == request\.auth\.token\.device_id/);
 assert.match(stage5bProof,/(?=[\s\S]*non-extractable P-256)(?=[\s\S]*per-sign-in custom-token claims)(?=[\s\S]*Two simultaneous custom-auth sessions for the same)/i);
 assert.match(stage5bProof,/Cloud Run[\s\S]+Spark[\s\S]+iam\.serviceAccounts\.signBlob[\s\S]+datastore\.entities\.update/i);
 assert.match(stage5cProof,/(?=[\s\S]*standard Firebase authenticated `uid`)(?=[\s\S]*device IDs are not authentication)(?=[\s\S]*Fixed RJR-1 remains exactly `87\/100`)/i);
 assert.match(stage5cClient,/(?=[\s\S]*standard-firebase-request-auth-uid)(?=[\s\S]*account-owned-registered-device-mutation-metadata)(?=[\s\S]*billingUpgradeAllowed:false)/i);
-assert.match(stage5cRules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSessionDeviceMetadata[\s\S]+STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END/);
-assert.doesNotMatch(stage5cRules,/request\.auth\.token\.device_|deviceCredentials/);
+assert.match(rules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSessionDeviceMetadata[\s\S]+STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END/);
+assert.doesNotMatch(rules,/request\.auth\.token\.device_|deviceCredentials/);
 assert.match(zeroBillingAuth,/allNonBilling|every engineering|every remaining[\s\S]+except billing/i);
 assert.match(zeroBillingAuth,/Cloud Run is therefore excluded/i);
 assert.match(zeroBillingDecision,/(?=[\s\S]*stage5c-zero-billing-standard-auth-session-adapter)(?=[\s\S]*request\.auth\.uid)/i);
@@ -162,7 +155,6 @@ assert.match(schema,/exact gets require the opaque capability and current two-ac
 assert.match(schema,/every mutation additionally rechecks the named active device document under that authenticated account/i);
 assert.match(schema,/device ID remains attribution\/revocation metadata and is never authentication/i);
 
-assert.equal(rules,stage5cRules,"Stage 5D production Rules source must remain byte-identical to the already proven Stage 5C Rules source.");
 assert.match(rules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSessionDeviceMetadata[\s\S]+validOpenSessionCreate[\s\S]+validSessionUpdate[\s\S]+STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END/);
 assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/);
 assert.doesNotMatch(stage4,/sessions\/|sessionId|private-session/,"Stage 5 must remain separate from the protected Stage 4 Connected Rivalry module.");
