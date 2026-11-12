@@ -118,7 +118,7 @@ is full, and nothing may cover anything).
   of this device, after a finished check that held its level. On a weak device the card says Ultra (4K) and 8K are
   offered only after the check passes them.
 - **The pictures** (`assets/level-guide/<screen>-<level>.webp` and a small `-s.webp`): captured from the real
-  screens at one fixed moment each, the same for every level. They show how a level looks and say nothing about
+  screens, one fixed view each, the same for every level. They show how a level looks and say nothing about
   speed. They load lazily on the Device check page only: never in the worker's install list, never on the game page.
 - **Finding it from Settings.** Under 3D QUALITY a gold link, "Device check and guide ›", opens the page; the list's
   last entry, "Device check…", still does. The Auto entry reads "Auto · Light" (the level Auto draws on this device),

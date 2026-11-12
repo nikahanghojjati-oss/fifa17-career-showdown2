@@ -1216,7 +1216,9 @@
   /* r91: the Auto line can run to two sentences (a weak device is told which levels wait for its Device check), so the
      row may shrink and its words wrap; it never takes more than 58% of the line from MENU CLICK FEEDBACK. */
   :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow { flex: 0 1 auto; max-width: 58%; margin-top: auto; gap: 12px; }
-  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy { flex: 1 1 auto; min-width: 0; }
+  /* r91: with the guide link the words can run to four lines (an old Ultra pick on a weak device); the lines sit 1px apart
+     so the plate still ends where it did at 1366x640. */
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy { flex: 1 1 auto; min-width: 0; gap: 1px; }
   :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy small:not(.settingsGfxAuto):not(.settingsGfxGuideLine) { display: none; }
 }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect {
