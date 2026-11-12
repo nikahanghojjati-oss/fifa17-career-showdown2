@@ -36,7 +36,7 @@
   text-align: center;
   text-wrap: balance;
   transform: skewX(-6deg);
-  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .95)) drop-shadow(0 0 12px rgba(242, 196, 91, .25));
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .95));
 }
 @supports ((background-clip: text) or (-webkit-background-clip: text)) {
   .sd-title {
