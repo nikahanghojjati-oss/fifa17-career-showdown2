@@ -28,6 +28,8 @@
   // player picks a level again in Settings.
   const CAP_KEY="careerModeShowdown.gfxCap.v1";
   const MEMORY_KEY=key=>`careerModeShowdown.gfxSettled.v1.${key}`;
+  // r91: where a scene's heavy parts settled (its detail step, for the level it was built at), read on its next visit.
+  const DETAIL_KEY=key=>`careerModeShowdown.gfxDetail.v1.${key}`,DETAIL_DAYS_MS=7*864e5;
   // The Device check (device-check.html) saves the best level this device held at 60 fps; Auto starts there.
   // r91: a new key. A 2.3.0 result (…gfxMeasured.v1) came from a check that timed two scenes and could save a level one of
   // them never drew, so it is not read; Auto goes back to its guess until the check is run again.
@@ -183,9 +185,9 @@
   // shadows, CSS animations) can lighten heavy effects at Light. Set when the module loads and whenever the level changes
   // (calibrate, a new pick, a Device check result, an 8K fallback).
   // html[data-assets="0".."4"] is the download size (image pickers follow it).
-  function gfxMarkRoot(level,assets){
+  function gfxMarkRoot(level,assets,ownOnly){
     const v=String(level),a=assets===undefined?null:String(assets);
-    for(const w of [root,gfxParent()]){try{const el=w&&w.document&&w.document.documentElement;if(!el||!el.dataset)continue;
+    for(const w of ownOnly?[root]:[root,gfxParent()]){try{const el=w&&w.document&&w.document.documentElement;if(!el||!el.dataset)continue;
       if(el.dataset.gfx!==v)el.dataset.gfx=v;if(a!==null&&el.dataset.assets!==a)el.dataset.assets=a;}catch(_error){}}
     // Settings listens for this and reads the saved state again (a crash cap or a Device check result moves Auto).
     if(v!==lastMark){lastMark=v;try{root.dispatchEvent?.(new root.CustomEvent("cms-gfx-level",{detail:{level}}));}catch(_error){}}
@@ -193,8 +195,8 @@
   let lastMark=null;
   function gfxParent(){try{return root.parent&&root.parent!==root&&root.parent.document?root.parent:null;}catch(_error){return null;}}
   function gfxRemark(){try{const p=gfxProfile();gfxMarkRoot(p.level,p.assetLevel);}catch(_error){}}
-  function gfxSetLevel(level){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,slowNet:p.slowNet,choice:p.choice});
-    next.auto=p.auto;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;gfxMarkRoot(next.level,next.assetLevel);return next;}
+  function gfxSetLevel(level,ownOnly){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,slowNet:p.slowNet,choice:p.choice});
+    next.auto=p.auto;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;gfxMarkRoot(next.level,next.assetLevel,ownOnly);return next;}
   // The device could not hold this level (a lost context, an out-of-memory error, an 8K buffer or target refused): one
   // level down, remembered, the live governor moved at once. Scenes call gov.end() before forceContextLoss() on dispose,
   // so their own clean-up never counts; neither does a context lost while the page is hidden (the browser reclaiming it).
@@ -256,22 +258,35 @@
   // Behind the loading screen: a few timed frames (the first ones also compile every shader). On auto, a level whose
   // frames cost more than ~80% of a 60 Hz frame steps down one; one under a quarter of it steps up one (never past what the
   // GPU name allows plus one, never to ultra). Returns the profile the scene should use.
+  // r91 (Sol 6.1 review of 2.3.0: "a warm-up tier change can leave the original render costs in place"). The scene in front
+  // of these frames is already built, so the move is for what comes next and for this scene's pixel ratio. What is true of
+  // the scene in front is kept apart:
+  //   - builtLevel(renderer) and the governor's level() stay the level the scene was built at;
+  //   - a move down also starts the governor one step down the scene's heavy parts (its detail ladder), so the costs that
+  //     were built do come down; at Light, where there is no level below, that step is the whole answer;
+  //   - a level found slow on this page is not tried again on it (no Light, Balanced, Light from season to season);
+  //   - a scene in a frame marks its own page only: the game page's html[data-gfx] follows the game page's own level.
+  const builtBy=new WeakMap(),calBad=new Set();
+  function gfxBuiltLevel(renderer){
+    try{if(renderer&&builtBy.has(renderer))return builtBy.get(renderer);const level=gfxProfile().level;if(renderer)builtBy.set(renderer,level);return level;}catch(_error){return gfxProfile().level;}
+  }
   async function gfxCalibrate(renderer,draw,opts){
     const p=gfxProfile(),frames=Math.max(3,(opts&&opts.frames)||5);
     // Software GL is already the lightest level and never goes up: no timed frames to wait for.
     if(!renderer||typeof draw!=="function"||p.software)return p;
     // A level the Device check measured on this device is not second-guessed by five frames.
     if(p.auto&&p.measured)return p;
+    gfxBuiltLevel(renderer);
     const times=[];
     for(let i=0;i<frames;i+=1){times.push(gfxTimedDraw(renderer,draw));if(i<frames-1)await new Promise(r=>root.setTimeout(r,0));}
     const settle=times.slice(2).sort((a,b)=>a-b),ms=settle[Math.floor(settle.length/2)]??times[times.length-1];
-    p.calibratedMs=+ms.toFixed(2);
+    p.calibratedMs=+ms.toFixed(2);p.calSlow=false;
     if(!p.auto)return p;
-    let level=p.level;
-    if(ms>BUDGET_MS*.8&&level>0)level-=1;
-    else if(ms<BUDGET_MS*.25&&level<Math.min(3,p.autoLevel+1))level+=1;
-    if(level===p.level)return p;
-    const next=gfxSetLevel(level);next.calibratedMs=p.calibratedMs;
+    let level=p.level;const slow=ms>BUDGET_MS*.8;
+    if(slow){calBad.add(level);if(level>0)level-=1;}
+    else if(ms<BUDGET_MS*.25&&level<Math.min(3,p.autoLevel+1)&&!calBad.has(level+1))level+=1;
+    if(level===p.level&&!slow)return p;
+    const next=level===p.level?p:gfxSetLevel(level,true);next.calibratedMs=p.calibratedMs;next.calSlow=slow;
     renderer.setPixelRatio(next.pixelRatio);
     if(active&&active.renderer===renderer)active.sync();
     return next;
@@ -284,8 +299,31 @@
     out.push(p.minPixelRatio);
     return [...new Set(out)];
   }
+  // r91 governor (Sol 6.1 review of 2.3.0; Nik 2026-11-11: "heavy parts like crowd, shadows and glow are fixed when the
+  // scene loads, so a slow device keeps paying for them"). One ladder per scene, walked by this governor only:
+  //   pixel ratio, a quarter at a time, down to the level's floor; then the scene's own heavy parts ("detail" steps).
+  // A scene offers its heavy parts as  detail:{steps:N, apply(step,why)}  (0 = as built, N = its lightest): apply() is the
+  // only place those knobs move, and it is called at the start (the step remembered from the last visit, behind the loading
+  // screen) and afterwards only between beats, never while the scene holds (a kick, a spin, a reveal).
+  // What changed from 2.3.0:
+  //   - Slow frames seen during a beat are kept: the step is taken when the beat ends. (2.3.0 threw them away at
+  //     hold(false), so a scene that was only slow in action never stepped down, and Roulette holds for its whole turn.)
+  //   - Slow frames still step down whatever the cause, as in 2.3.0. But steps taken while the scene does not look like the
+  //     cost (an idle frame callback, a cheap timed draw) must buy frame time: two that buy nothing are undone, and the
+  //     screen's own pace (a 30 fps power mode, a 50 Hz screen) is what slow is judged against from there on. Steps up
+  //     keep the absolute bar (frames under 17.6 ms), as in 2.3.0.
+  //   - A step back up needs a smooth beat first when this visit started low or a beat ran slow, so it never see-saws
+  //     between a calm table and a busy shot.
+  const SLOW_MS=20.5,SMOOTH_MS=17.6,BEAT_SLOW_MS=700;
+  function gfxDetailRead(key,level,steps){
+    try{const v=JSON.parse(gfxRead(DETAIL_KEY(key))||"null");if(!v||v.level!==level||!Number.isInteger(v.at))return {at:0,floor:0};
+      const fresh=Date.now()-Number(v.t||0)<=DETAIL_DAYS_MS;
+      return {at:Math.max(0,Math.min(steps,v.at)),floor:fresh&&Number.isInteger(v.floor)?Math.max(0,Math.min(steps,v.floor)):0};}catch(_error){return {at:0,floor:0};}
+  }
   function gfxGovernor(renderer,opts){
     const o=opts||{},key=o.key?String(o.key):"";let p=gfxProfile();
+    // The level this scene was built at (calibrate may since have moved the level for what comes next).
+    const built=gfxBuiltLevel(renderer);
     const size=()=>{const c=renderer.domElement;return {w:c?.clientWidth||0,h:c?.clientHeight||0};};
     // Ultra's buffer cap comes from the live canvas size.
     const capOf=()=>{const s=size();if(!s.w||!s.h)return p.maxPixelRatio;
@@ -297,17 +335,85 @@
     let at=nearest(p.pixelRatio);
     // A level that ran slow last time on this screen is where the next visit starts.
     const settled=key?Number(gfxRead(MEMORY_KEY(key))):NaN;
-    if(p.auto&&Number.isFinite(settled)&&settled>0)at=Math.max(at,nearest(settled));
-    const bad=new Set(),born=gfxNow(),fails0=failCount;let held=false,last=0,avg=BUDGET_MS,slowFor=0,smoothFor=0,ended=false;
+    const bench=gfxQuery("bench")==="1"?gfxBench(renderer,o.draw,key,()=>p,()=>list[at],o.info):null;
+    // The scene's heavy parts: detail step 0 (as built) .. steps (lightest). Only Auto walks them; a picked level and the
+    // Device check draw the level as built.
+    const detail=o.detail&&Number.isInteger(o.detail.steps)&&o.detail.steps>0&&typeof o.detail.apply==="function"?o.detail:null;
+    const adapts=()=>Boolean(p.auto)&&!bench;
+    let dAt=0,dFloor=0,fromMemory=false;
+    if(p.auto&&Number.isFinite(settled)&&settled>0){const i=nearest(settled);if(i>at){at=i;fromMemory=true;}}
+    if(detail&&key&&adapts()){const m=gfxDetailRead(key,built,detail.steps);dAt=Math.max(m.at,m.floor);dFloor=m.floor;if(dAt>0)fromMemory=true;}
+    const bad=new Set(),badD=new Set(),born=gfxNow(),fails0=failCount;
+    let held=false,last=0,avg=BUDGET_MS,slowFor=0,smoothFor=0,ended=false;
+    // beat: the frames of the hold under way. due: a step down owed since a beat ran slow. upOk: a step up is allowed.
+    // pace: the frame time this screen runs at when the scene is not the cost (a 50 Hz screen, a 30 fps power mode).
+    // due: 1 = owed now, 2 = owed unless the calm scene turns out as slow as the beat (then the pace check decides).
+    // usesBeats: the scene plays in beats (it says so with beats:true, or it has held once). Such a scene that starts low
+    // from memory steps up only after a beat ran smooth; one without beats steps up as it always did.
+    let usesBeats=Boolean(o.beats);
+    let beat=null,due=0,upOk=!(usesBeats&&fromMemory),calmFor=0,idleFor=0,pace=0,busy=0,busyKnown=false,timing=false,trial=-1;
+    // slowN: frames in the slow second under way. probe: steps being tried while the scene does not look like the cost.
+    let slowN=0,probe=null,probed=false;
     const lost=()=>{if(!ended)gfxFail("the GPU dropped the picture (context lost)");};
     try{renderer.domElement?.addEventListener?.("webglcontextlost",lost);}catch(_error){}
-    const bench=gfxQuery("bench")==="1"?gfxBench(renderer,o.draw,key,()=>p,()=>list[at],o.info):null;
     const apply=i=>{at=i;try{renderer.setPixelRatio(list[at]);}catch(_error){}
       // 8K: a browser that quietly gives a smaller drawing buffer than asked (its own limit) means 8K cannot hold here.
       if(p.level===5){try{const gl=renderer.getContext(),c=renderer.domElement,s=size();
         if(gl&&c&&s.w&&gl.drawingBufferWidth&&c.width&&gl.drawingBufferWidth<c.width-2){gfxFail("the browser capped the 8K buffer");return;}}catch(_error){}}
       try{o.onChange?.({...p,pixelRatio:list[at]});}catch(_error){}};
+    const setDetail=(i,why)=>{dAt=i;try{detail.apply(dAt,why);}catch(_error){}};
+    const forget=()=>{slowFor=0;slowN=0;smoothFor=0;calmFor=0;due=0;avg=pace||BUDGET_MS;};
+    // Only the slow test follows the pace. Smooth keeps 2.3.0's absolute bar (17.6 ms): a screen that runs at 30 or 50 fps
+    // never steps up, so a phone in a power-saving mode does not climb above where it began (review on #1398).
+    const slowLimit=()=>pace?Math.max(SLOW_MS,pace*1.25):SLOW_MS,smoothLimit=()=>SMOOTH_MS;
+    // One step down the ladder: pixel ratio first, then the heavy parts. The step left is never tried again in this visit;
+    // a heavy part that was put back and ran slow stays off for a week of visits.
+    const stepDown=why=>{
+      if(at<list.length-1){bad.add(at);apply(at+1);}
+      else if(detail&&dAt<detail.steps){badD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
+      else return false;
+      forget();upOk=false;return true;
+    };
+    // Is the scene the cost? Its frame callback keeps the main thread busy, or one timed draw (which waits for the GPU) is
+    // dear. Where the callback cannot be timed, or there is no draw to time, there is no telling: slow frames count as
+    // they always did.
+    const loaded=()=>{
+      if(!busyKnown||busy>BUDGET_MS*.45||typeof o.draw!=="function")return true;
+      let ms=0;try{ms=gfxTimedDraw(renderer,o.draw);}catch(_error){return true;}
+      return ms>BUDGET_MS*.5;
+    };
+    // Slow for a second. 2.3.0 stepped down whatever the cause, and that stays (review on #1398): a weak GPU's cost of
+    // putting the canvas on the page shows neither in the frame callback nor in a timed draw, and a real Chromebook cannot
+    // be timed from a test machine. What is new: steps taken while the scene does not look like the cost have to buy frame
+    // time. Two of them (or the ladder's end) that leave the frames within 10% of where they began are undone, and that
+    // frame time is taken as the pace this screen runs at (a 30 fps power mode, a 50 Hz screen): slow is judged against
+    // it from there on (smooth is not: see smoothLimit). One such probe a visit.
+    const paceHere=ms=>{pace=Math.max(BUDGET_MS,Math.min(50,ms));slowFor=0;slowN=0;smoothFor=0;};
+    const undo=ms=>{const b=probe;probe=null;probed=true;
+      for(let i=b.at;i<at;i+=1)bad.delete(i);for(let i=b.dAt;i<dAt;i+=1)badD.delete(i);
+      if(detail&&dAt!==b.dAt)setDetail(b.dAt,"restore");if(at!==b.at)apply(b.at);
+      forget();upOk=b.upOk;paceHere(ms);avg=pace;};
+    const slowStep=seen=>{
+      if(loaded()){probe=null;stepDown("slow");return;}
+      if(probed){paceHere(seen);return;}
+      if(!probe)probe={at,dAt,ms:seen,n:0,upOk};
+      else if(seen<probe.ms*.9){probe=null;stepDown("slow");return;}
+      else if(probe.n>=2){undo(seen);return;}
+      if(stepDown("slow"))probe.n+=1;
+      else if(probe.n>0)undo(seen);
+      else{probe=null;probed=true;paceHere(seen);}
+    };
+    // The time this frame's callback kept the main thread, from the frame's own start to the end of the callback.
+    const frameStart=()=>{try{const v=root.document?.timeline?.currentTime;return typeof v==="number"?v:null;}catch(_error){return null;}};
+    const timeWork=()=>{if(timing)return;const f0=frameStart();if(f0===null)return;timing=true;
+      try{root.Promise.resolve().then(()=>{timing=false;const w=gfxNow()-f0;if(w>=0){busy=busyKnown?busy+(Math.min(100,w)-busy)*.1:Math.min(100,w);busyKnown=true;}});}catch(_error){timing=false;}};
     apply(at);
+    if(detail&&dAt>0)setDetail(dAt,"start");
+    // The timed frames behind the loading screen ran slow: the heavy parts start one step down (the pixel ratio already
+    // follows the level calibrate moved to).
+    const startSlow=()=>{if(!adapts()||!p.calSlow)return;p.calSlow=false;
+      if(detail&&dAt<detail.steps){badD.add(dAt);setDetail(dAt+1,"start");forget();upOk=false;}};
+    startSlow();
     const api={
       renderer,
       frame(t){
@@ -315,28 +421,67 @@
         // Device check: the level stays as forced and every frame counts, held or not.
         if(bench){bench.frame(t);return;}
         const dt=last?Math.min(100,t-last):BUDGET_MS;last=t;avg+=(dt-avg)*.08;
-        if(avg>20.5){slowFor+=dt;smoothFor=0;}else{slowFor=0;smoothFor=avg<17.6?smoothFor+dt:0;}
         // A level the player picked stays as picked: no steps either way.
-        if(held||!p.auto)return;
-        // Too slow for a second: one step down, and that step is never tried again here.
-        if(slowFor>=1000&&at<list.length-1){bad.add(at);slowFor=0;avg=BUDGET_MS;apply(at+1);return;}
+        if(!p.auto)return;
+        timeWork();
+        // The screen turned out faster than the pace taken for it (a power mode ended): judge against the new one.
+        if(pace&&avg<pace*.8)pace=avg<=SMOOTH_MS?0:avg;
+        const slow=avg>slowLimit();
+        if(held){if(beat){beat.ms+=dt;if(slow)beat.slow+=dt;}return;}
+        idleFor+=dt;
+        if(slow){slowFor+=dt;slowN+=1;smoothFor=0;calmFor=0;}else{slowFor=0;slowN=0;const smooth=avg<smoothLimit();smoothFor=smooth?smoothFor+dt:0;calmFor=smooth?calmFor+dt:0;}
+        // A scene that never holds, running calm for 15 s, may step up without a beat.
+        if(!upOk&&!usesBeats&&calmFor>=15000)upOk=true;
+        // A beat ran slow while the calm scene before it did not: the scene's action is the cost. The step is taken now,
+        // between beats. (Not known how the calm scene runs: wait until it shows; as slow as the beat means the check below.)
+        if(due===1||(due===2&&!slow)){stepDown("slow");return;}
+        // Too slow for a second: one step down (see slowStep).
+        if(slowFor>=1000){const seen=slowFor/Math.max(1,slowN);slowFor=0;slowN=0;due=0;slowStep(seen);return;}
+        if(!upOk||typeof o.draw!=="function")return;
+        // Heavy parts come back first (they went last): smooth for 6 s and a timed frame under 40% of the budget.
+        if(detail&&dAt>dFloor){
+          if(smoothFor>=6000){smoothFor=0;if(badD.has(dAt-1))return;
+            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){trial=dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
+          return;
+        }
+        if(dAt>0)return;
         // Smooth for 3 s: time one real frame; step up only if the next step would still leave a third of the frame free.
-        if(smoothFor>=3000&&at>0&&!bad.has(at-1)&&typeof o.draw==="function"){
+        if(smoothFor>=3000&&at>0&&!bad.has(at-1)){
           smoothFor=0;const ms=gfxTimedDraw(renderer,o.draw),scale=Math.pow(list[at-1]/list[at],2);
           if(ms*scale<BUDGET_MS*.66)apply(at-1);else bad.add(at-1);
         }
       },
-      // Between beats only: a held governor never changes the picture mid-shot.
-      hold(v){held=Boolean(v);if(!held){slowFor=0;smoothFor=0;}bench?.hold(held);},
+      // Between beats only: a held governor never changes the picture mid-shot. What the beat showed is kept: a beat that
+      // ran slow for 0.7 s, or for half of a short one, owes a step down at its end; a smooth one allows steps up again.
+      hold(v){
+        const next=Boolean(v);if(next===held){bench?.hold(held);return;}
+        held=next;
+        // calm: how the scene ran just before the beat (true smooth enough, false slow, null not seen for half a second).
+        // A slow beat owes its step at once when the calm scene was fine, or when the frame callback itself is busy.
+        if(held)beat={ms:0,slow:0,calm:idleFor>=500?!(avg>slowLimit()):null};
+        else{const b=beat;beat=null;slowFor=0;smoothFor=0;calmFor=0;idleFor=0;
+          if(b&&adapts()&&b.ms>0){usesBeats=true;
+            if(b.slow>=BEAT_SLOW_MS||(b.ms>=400&&b.slow>=b.ms*.5)){if(b.calm===true||(busyKnown&&busy>BUDGET_MS*.45))due=1;else if(b.calm===null)due=Math.max(due,2);}
+            else if(b.slow===0&&b.ms>=400)upOk=true;}}
+        bench?.hold(held);
+      },
       resize(){const cur=list[at];p=gfxProfile();list=gfxSteps(p,capOf());at=nearest(cur);bad.clear();if(list[at]!==cur)apply(at);},
-      // Codex on #1263: calibrate() may move Auto after the governor was made. Take the new profile's steps and ratio, so a
-      // step down never comes back as a higher ratio (calibrate calls this itself; scenes need not).
-      sync(){if(ended)return;p=gfxProfile();list=gfxSteps(p,capOf());bad.clear();slowFor=0;smoothFor=0;avg=BUDGET_MS;apply(nearest(p.pixelRatio));},
-      level(){return p.level;},
-      name(){return p.name;},
+      // Codex on #1263: calibrate() may move the pixel-ratio range after the governor was made. Take the new profile's steps
+      // and ratio, so a step down never comes back as a higher ratio (calibrate calls this itself; scenes need not).
+      sync(){if(ended)return;p=gfxProfile();list=gfxSteps(p,capOf());bad.clear();forget();apply(nearest(p.pixelRatio));startSlow();},
+      // The level the scene was built at, which is what it draws (r91: not the level calibrate moved to for what comes next).
+      level(){return built;},
+      name(){return NAMES[built];},
       pixelRatio(){return list[at];},
+      // The scene's heavy parts: 0 as built .. steps lightest (0 without a detail ladder).
+      detail(){return dAt;},
       frameMs(){return +avg.toFixed(1);},
-      end(){if(ended)return;ended=true;if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}if(key&&p.auto)gfxWrite(MEMORY_KEY(key),list[at]);if(active===api)active=null;}
+      // The frame callback's main-thread time, smoothed (null where it cannot be timed).
+      workMs(){return busyKnown?+busy.toFixed(1):null;},
+      end(){if(ended)return;ended=true;if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}
+        // Steps still on probe are not what the scene settled at: the place the probe began is.
+        if(key&&adapts()){const sAt=probe?probe.at:at,sD=probe?probe.dAt:dAt;gfxWrite(MEMORY_KEY(key),list[sAt]);if(detail)gfxWrite(DETAIL_KEY(key),JSON.stringify({level:built,at:sD,floor:dFloor,t:Date.now()}));}
+        if(active===api)active=null;}
     };
     active=api;
     return api;
@@ -403,9 +548,9 @@
       if(stopped)return;
       if(last){acc+=t-last;n+=1;}last=t;
       if(t-shown>=250&&n){
-        const ms=acc/n,p=gfxProfile(),gov=active,extra=(()=>{try{return info?info()||{}:{};}catch(_error){return {};}})();
+        const ms=acc/n,p=gfxProfile(),gov=active,built=gov?gov.level():p.level,extra=(()=>{try{return info?info()||{}:{};}catch(_error){return {};}})();
         const lines=[`${Math.round(1000/ms)} fps  ${ms.toFixed(1)} ms  pr ${(gov?gov.pixelRatio():p.pixelRatio).toFixed(2)}`,
-          `${LABELS[p.level]} (${p.auto?"Auto":"picked"}${p.auto&&p.level!==p.autoLevel?`, device says ${LABELS[p.autoLevel]}`:""})${p.calibratedMs!=null?`  cal ${p.calibratedMs} ms`:""}`,
+          `${LABELS[built]} (${p.auto?"Auto":"picked"}${p.auto&&p.level!==built?`, next scene ${LABELS[p.level]}`:""}${p.auto&&built!==p.autoLevel?`, device says ${LABELS[p.autoLevel]}`:""})${gov&&gov.detail()?`  detail -${gov.detail()}`:""}${gov&&gov.workMs()!=null?`  work ${gov.workMs()} ms`:""}${p.calibratedMs!=null?`  cal ${p.calibratedMs} ms`:""}`,
           ...(p.fellBack?[`fell back from ${LABELS[p.fellBack.from]} to ${LABELS[p.level]}: ${p.fellBack.reason}`]:[]),
           p.gpu?p.gpu.slice(0,60):"gpu ?"];
         if(extra.calls!=null||extra.tris!=null)lines.push(`${extra.calls??"?"} calls  ${extra.tris!=null?(extra.tris/1000).toFixed(0)+"k":"?"} tris`);
@@ -421,7 +566,7 @@
 
   root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,choices:CHOICES.slice(),names:NAMES.slice(),labels:LABELS.slice(),
     label(level){return LABELS[Math.max(0,Math.min(5,Math.round(Number(level))||0))];},
-    profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,overlay:gfxOverlay,classify:gfxClassify,
+    profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,builtLevel:gfxBuiltLevel,overlay:gfxOverlay,classify:gfxClassify,
     // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()
     // saves a pick for this device; it takes effect on the next 3D screen.
     // "now" is the level Auto starts at on this device, read fresh from storage each call (Codex on #1284): the Device check

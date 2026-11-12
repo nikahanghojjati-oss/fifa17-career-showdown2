@@ -196,7 +196,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     for(const [cost,dir] of [[20,'down'],[2,'up']]){
       const {s:sg,r:rg}=mk(cost);const gov=sg.G.governor(rg,{key:'order'});const before=gov.pixelRatio();
       const after=await sg.G.calibrate(rg,()=>{});
-      assert.equal(gov.level(),after.level,`governor follows calibrate ${dir}`);assert.equal(gov.pixelRatio(),rg.pr,'governor and renderer agree');
+      assert.deepEqual([gov.level(),sg.G.builtLevel(rg),after.level],[2,2,dir==='down'?1:3],`r91: the governor keeps the level the scene was built at; calibrate moved ${dir} for what comes next`);assert.equal(gov.pixelRatio(),rg.pr,'governor and renderer agree on the pixel ratio calibrate moved to');
       assert.ok(dir==='down'?gov.pixelRatio()<before:gov.pixelRatio()>before,`${dir}: ${before} -> ${gov.pixelRatio()}`);
       let t=0;while(t<6000){t+=16.7;sg.clock.t=t;gov.frame(t);}
       assert.ok(gov.pixelRatio()<=after.maxPixelRatio+1e-9,'never past the new level');
