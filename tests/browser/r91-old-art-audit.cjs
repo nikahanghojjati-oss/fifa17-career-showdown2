@@ -73,7 +73,19 @@ const EXTRA = {
         currentShowdown = { id: "old-art-club", name: "Daniel vs Nik", managers: { playerOne: "Daniel", playerTwo: "Nik" }, selectedLeague: { id: "premier_league", name: "Premier League" }, clubs: { playerOne: null, playerTwo: null }, totalRounds: 3, status: "League Confirmed", rounds: [] };
         initializeClubAssignment(); showScreen("clubWheelScreen"); populateClubAssignmentBase(); renderReadyAssignmentState();
     }) },
-    TRANSFER: Face.SCREENS.TRANSFER
+    TRANSFER: Face.SCREENS.TRANSFER,
+    // Squad Management (2.4.0): the stage js/squadSheetStep.js builds, with a season-1 squad for Arsenal (no Firestore).
+    SQUAD: { host: "sqStage", open: page => page.evaluate(async () => {
+        const need = [["squad-sheet", "js/squadSheet.js", () => window.CareerModeSquadSheet], ["squad-screen", "js/squadScreen.js", () => window.CareerModeSquadScreen],
+            ["fifa17-players", "data/fifa17Players.js", () => window.CareerModeFifa17Players], ["roster-squads", "data/rosterSquads.js", () => window.CareerModeRosterSquads]];
+        for(const [key, file, ready] of need) if(!ready()) await window.loadRuntimeScript(key, file, ready);
+        await window.loadRuntimeStyle("squad-screen", "css/squadScreen.css");
+        const built = window.CareerModeSquadSheet.replay({ club: "Arsenal", special: null, season: 1, stage: "pre", events: [], docs: {} });
+        const stage = document.createElement("div"); stage.id = "sqStage"; stage.dataset.stage = "pre";
+        stage.innerHTML = '<div class="sqShell"><div class="sqHeader"><span>Season 1</span><h2 class="sqTitle">Squad Management</h2><span class="sqWhen">Before the Russian Roulette</span></div><p class="sqStatus"></p><div class="sqHost"></div><div class="sqActions"><button class="sqBack" type="button">BACK TO SHOWDOWN HOME</button></div></div>';
+        document.body.append(stage);
+        window.CareerModeSquadScreen.mount(stage.querySelector(".sqHost"), { sheet: built.sheet || built.proposal, club: "Arsenal", rival: "Chelsea", locked: false, draft: { read: () => [], write(){} } });
+    }) }
 };
 const SCREENS = { ...Short.SCREENS, ...EXTRA };
 delete SCREENS.HISTORY; // History is a view of Legacy: same room
@@ -85,12 +97,11 @@ async function openScreen(page, key){
 // Each screen's own room (HO-068, Nik's picks). A screen may also show Home's room behind an overlay.
 const ROOM = {
     HOME: "HOME", SETTINGS: "SLAB|HOME", RULE_BOOK: "SLAB|HOME", CONNECT_PLAYERS: "TUNNEL", LEGACY: "ARCHIVE", CAREER_STATISTICS: "BOARD", TROPHY_ROOM: "ARCHIVE",
-    RIVALRY: "TUNNEL", STANDINGS: "TUNNEL", FINAL_WINNER: "BOARD", SEASON_ENTRY: "BOARD", SEASON_REVIEW: "BOARD", START: null, LEAGUE: "BOX", CLUB: "BOX", TRANSFER: "OFFICE"
+    RIVALRY: "TUNNEL", STANDINGS: "TUNNEL", FINAL_WINNER: "BOARD", SEASON_ENTRY: "BOARD", SEASON_REVIEW: "BOARD", START: "HALL", LEAGUE: "BOX", CLUB: "BOX", TRANSFER: "OFFICE", SQUAD: "COACHES"
 };
 // LISTED: screens still waiting for new Team V art. May only shrink.
-const LISTED = {
-    START: { ticket: "HO-069 (Nik 2026-11-11: a new Team V room for the season-count screen)", allow: /visual-assets\/v10_1\/start-join\/assets\// }
-};
+// Empty since Team V's front hall (HO-069) came in for Start.
+const LISTED = {};
 
 // KNOWN_SHAPES: window shapes still waiting for a layout of their own. Findings there are printed as KNOWN and do not fail;
 // the list may only shrink. Empty since the r91 old-art follow-up gave small landscape windows (under 901 wide, over 500

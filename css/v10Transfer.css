@@ -1249,10 +1249,10 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
    up; phones draw the tall office plate (590W on Light or Save-Data). The plates-v2 Transfer plates stay as rollback. */
 @media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
   #app #transferChallenge .tw-host .plate {
-    background: url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1X.webp') center / cover no-repeat;
+    background: url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1X.webp') center / cover no-repeat;
   }
   html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #transferChallenge .tw-host .plate {
-    background-image: image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1X.webp') 1x, url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_2X.webp') 2x);
+    background-image: image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1X.webp') 1x, url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_2X.webp') 2x);
   }  /* HO-068 (Nik: nothing may touch a face): on 3:2 and narrower windows (1180x820, 1024x768, 1280x1024) and windows under
      1200px wide (a 1180x620 Chromebook window) the clock board's
      gold frame reached Daniel's hair (his face ends at x 669 of the 1672 plate units, Nik's starts at 1061). The board hangs
@@ -1263,12 +1263,12 @@ html[data-reduced-motion="true"] #app #transferChallenge .tw-host :is(.ddHeadlin
 }
 @media (max-width: 760px) and (orientation: portrait),
        (min-width: 761px) and (max-width: 1100px) and (orientation: portrait) {
-  #app #transferChallenge .tw-host .phone-hero-art { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2.webp"); }
-  html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-art { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2_590W.webp"); }
+  #app #transferChallenge .tw-host .phone-hero-art { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V3.webp"); }
+  html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-art { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V3_590W.webp"); }
 }
 /* the sideways poster strip and the tablet hero band draw the same office plate */
-#app #transferChallenge .tw-host .phone-hero-bg { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2.webp"); }
-html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-bg { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2_590W.webp"); }
+#app #transferChallenge .tw-host .phone-hero-bg { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V3.webp"); }
+html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-bg { background-image: url("../visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V3_590W.webp"); }
 /* 2.3.0 final pass F10 (Nik 2026-11-10 23:45 UTC: "they should be on the same height"; going over his finger is fine, faces
    and bodies are not): in the window phase the three boxes on the desk share one band, Daniel's panel's own (plate y 520-772).
    Nik's sealed panel rises 60 plate px and its frame and frost grow to the same 252 px; the rules card rises 32 px and grows to
@@ -1302,18 +1302,18 @@ html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-bg { backgrou
    and the letterbox behind the scene with a blurred copy of its retired TR2 locked plate (--plate-url). Both are drawn from
    the office room the screen stands in, at every size. */
 #app #transferChallenge .tw-host .stage.fit::before,
-#app #transferChallenge .tw-host .scene-atmos { background-image: url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1X.webp'); }
+#app #transferChallenge .tw-host .scene-atmos { background-image: url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1X.webp'); }
 /* r91 sharp rooms (art ledger R4): windows wider than 1536 or taller than 864 CSS px drew the 1536px 1X room stretched
    (Nik's Chromebook at 1920x866 / 1920x1035, DPR 1, Auto = Light). They draw the 1920px cut of the same room (resized from
    Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
    unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
 @media (orientation: landscape) and (min-width: 1101px), (orientation: landscape) and (min-height: 501px), (orientation: portrait) and (min-width: 1101px) {
 @media (min-width:1537px), (min-width:901px) and (min-height:865px) {
-  #app #transferChallenge .tw-host .plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1920.webp') 1.25x); }
-  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #transferChallenge .tw-host .plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_2X.webp') 2x); }
+  #app #transferChallenge .tw-host .plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #transferChallenge .tw-host .plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_2X.webp') 2x); }
 }
 }
 @media (min-width:1537px), (min-width:901px) and (min-height:865px) {
   #app #transferChallenge .tw-host .stage.fit::before,
-  #app #transferChallenge .tw-host .scene-atmos { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1920.webp') 1.25x); }
+  #app #transferChallenge .tw-host .scene-atmos { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1920.webp') 1.25x); }
 }

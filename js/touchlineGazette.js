@@ -684,8 +684,8 @@
     // r91 sharp rooms (R4): windows wider than 1536 or taller than 864 take the 1920px cut (at 1.25x, so it draws at the 1X
     // plate's size), the cut Season Results and Final Winner just drew there
     const big=typeof root.matchMedia==="function"&&root.matchMedia("(min-width:1537px), (min-width:901px) and (min-height:865px)").matches;
-    page.style.setProperty("--tgz-plate-desktop",`image-set(url("${abs(dir+(big?"PLATE_HC_V2_1920.webp":"PLATE_HC_V2_1X.webp"))}") ${big?"1.25x":"1x"},url("${abs(dir+"PLATE_HC_V2_2X.webp")}") 2x)`);
-    page.style.setProperty("--tgz-plate-phone",`url("${abs(dir+"PHONE_HC_V2"+(lean?"_590W":"")+".webp")}")`);
+    page.style.setProperty("--tgz-plate-desktop",`image-set(url("${abs(dir+(big?"PLATE_HC_V3_1920.webp":"PLATE_HC_V3_1X.webp"))}") ${big?"1.25x":"1x"},url("${abs(dir+"PLATE_HC_V3_2X.webp")}") 2x)`);
+    page.style.setProperty("--tgz-plate-phone",`url("${abs(dir+"PHONE_HC_V3"+(lean?"_590W":"")+".webp")}")`);
     // F5-15: where the screen was scrolled, given back if the paper closes onto it again
     const main=host.closest?.("main");
     const scroll=previous?previous.scroll:{main:main?Number(main.scrollTop)||0:0,window:Number(root.scrollY??root.pageYOffset)||0};

@@ -1038,9 +1038,9 @@ html[data-gfx="0"] #clubWheelScreen #covers polygon[filter="url(#cvUnder)"] { di
    BOX_ROOM there is the rollback switch, and with it off none of these rules apply: they all need .cl-box). The held-pack
    plate's own pieces (seam mends, hand cut-outs and contacts, the hairline repair, the painted-pack rip, the dark glass
    deck cut around the old hands and packs, the drawn emblem on the old plain packs) are not drawn over the new room. */
-#app #clubWheelScreen.cl-on.cl-box .plateBase { background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp); }
+#app #clubWheelScreen.cl-on.cl-box .plateBase { background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1X.webp); }
 html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelScreen.cl-on.cl-box .plateBase {
-  background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp) 2x);
+  background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_2X.webp) 2x);
 }
 #app #clubWheelScreen.cl-on.cl-box .seamMend,
 #app #clubWheelScreen.cl-on.cl-box .handContact,
@@ -1081,17 +1081,17 @@ html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelS
 /* upright phones and tablets: the room is the screen's, its lip on the band's bottom edge (js/clubScreenV10.js --clb-bg) */
 @media (max-width: 760px) and (orientation: portrait), (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
   #app #clubWheelScreen.cl-on.cl-box {
-    background: #0d0b09 url("../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp") no-repeat;
+    background: #0d0b09 url("../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3.webp") no-repeat;
     background-position: var(--clb-bg-pos, 50% 0);
     background-size: var(--clb-bg-size, max(100vw, calc(100svh * 1179 / 2096)) auto);
   }
-  html[data-assets="0"] #app #clubWheelScreen.cl-on.cl-box { background-image: url("../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_590W.webp"); }
+  html[data-assets="0"] #app #clubWheelScreen.cl-on.cl-box { background-image: url("../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_590W.webp"); }
   /* the band always holds both men whole under the title and the packs on the lip; the page scrolls if it must */
   #app #clubWheelScreen.cl-on.cl-box .clPhoneScene { min-height: calc(70px + 100vw * .5462); flex-shrink: 0; overflow: visible; }
 }
 @media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on.cl-box .clPhoneScene {
-    background: #0d0b09 url("../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp") no-repeat;
+    background: #0d0b09 url("../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3.webp") no-repeat;
     background-position: var(--clb-band-pos, 50% 0);
     background-size: var(--clb-band-size, 100% auto);
   }
@@ -1176,6 +1176,6 @@ html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelS
    Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
    unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
 @media (min-width:1537px), (min-width:901px) and (min-height:865px) {
-  #app #clubWheelScreen.cl-on.cl-box .plateBase { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1920.webp') 1.25x); }
-  html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelScreen.cl-on.cl-box .plateBase { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp') 2x); }
+  #app #clubWheelScreen.cl-on.cl-box .plateBase { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1920.webp') 1.25x); }
+  html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelScreen.cl-on.cl-box .plateBase { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_2X.webp') 2x); }
 }

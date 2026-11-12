@@ -52,6 +52,15 @@ const TEAM_V_FILES={
   "visual-assets/v10_1/league/assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp":"0748bd50eed0b6f9267a2368977f43f4706b0692daf642c2f6dddc51708c734f",
   "visual-assets/v10_1/league/assets/OVL_LEAGUE_NIK_PHONE_V1.webp":"c6001bdc93978e24914bdc08f95674d4ecd4d52ccb7dc3ed82846d02fff057b3",
   "visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V1.webp":"cbc0328e9f8fa03e697e4825a0c5eea24d669faadaf2aa3bc674646290047878",
+  // HO-074 brushed-brass wheel rim and the HO-069 front hall (Start, Showdown Home): Team V #1404 (f30e9e77); the 1920 cut is
+  // resized from the 2X master (art ledger R4).
+  "visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V2.webp":"08a068706204783ef4f24599f72012f1dd88351556b5879ab7f2260a7ca385a6",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp":"00f9645c0ae5d6afc9c243fbb39569b94d4c79c801f8f9d89f7b65df11ee3ba0",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_2X.webp":"d33edef35518ecc0360e8cec64366c7bfdaa893707574f27c60db406d2b0134d",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1920.webp":"811fdb2a8e422dd0f1795c175c541c72a1d7fe8203b11e8a84131d90ad1b0ce6",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp":"7309ab041d465de5d33ee05c6961ec09b7b62d1733259034261ccdf261831d1d",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_590W.webp":"3f85780b1d1233acdb97b00a354496934eb9a332f308e68d3a9f71a9c6f94f79",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_TALL.webp":"b4da66f6ae766e8a8f53550781ba0deb1779468912062e5aef133c9cdfb7544a",
   "visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp":"b77f010b6b590705b9d031c9e3a00159f0677813d87c81ba2a8a601fb7141a55",
   "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp":"69170e26033fc39d109a48eeb051f3b361a90d17bc0e462a8939b3b9fdb37bdc",
   "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
