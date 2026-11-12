@@ -251,5 +251,21 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
     assert.equal((cm.match(/prefers-reduced-motion/g) || []).length, 1, "Chamber Men reads the setting in one place");
     ok("V11", "under Reduce Motion the timed frames still play the whole kick, turn and reveal; the game's own screens keep the setting");
   }
+  // V12: a level that closed the tab while a 3D screen was opening (js/gfxTier.js tabCrash, from play or from an earlier
+  // check) is not opened again while its cap lasts. It counts as failed: Auto is the level below, and the page says why.
+  {
+    const CAP = "careerModeShowdown.gfxCap.v1";
+    const tabCap = JSON.stringify({level: 3, reason: "the tab closed while this 3D screen was opening", tab: true, from: 4, scene: "roulette/index.html", bench: false, at: Date.now()});
+    const r = await run(allGood, {storage: {[CAP]: tabCap}});
+    assert.deepEqual(r.asked, order(3), "no frame is opened at Ultra");
+    assert.equal(r.saved.level, 3); assert.deepEqual(r.saved.detail.stop, {level: 4, scene: "chamber-men", state: "failed"});
+    assert.match(r.status, /Ultra \(4K\) was not tried: the tab closed at that level last time\./);
+    assert.match(r.rows, /The tab closed at this level last time, so it was not opened again\./);
+    assert.equal(r.store[CAP], tabCap, "the cap stays");
+    // On a GPU that could show 8K: 8K is not opened either (nothing above the first level that fails is tried).
+    const k = await run(allGood, {gpu8k: true, storage: {[CAP]: tabCap}}); assert.deepEqual(k.asked, order(3)); assert.equal(k.saved.level, 3);
+    // A cap from a graphics failure (not a dead tab) does not stop the check from playing the level: V2.
+    ok("V12", "a level that closed the tab is not opened again by the check; it counts as failed and the page says why");
+  }
   console.log(`PASS r91 device check verdict contracts (${checks} checks)`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
