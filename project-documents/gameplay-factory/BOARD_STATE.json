@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-12 11:51 AM Boston time (EST)",
+ "generated": "2026-11-12 11:55 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 269,
@@ -3269,7 +3269,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 6587
+    "waiting_min": 6591
    },
    {
     "id": "HO-059",
@@ -3512,11 +3512,11 @@
     "title": "Rule Book slab 2X (3072x1728) for sharp Chromebook windows",
     "stage": "DELIVERED",
     "pct": 0.0,
-    "overdue": false,
+    "overdue": true,
     "path": "project-documents/leads-relay/handoffs/HO-077_rule-book-slab-2x-3072x1728-for-sharp-ch.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 359
+    "waiting_min": 364
    }
   ],
   "relay_ok": true

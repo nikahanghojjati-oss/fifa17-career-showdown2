@@ -1,6 +1,6 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 11:51 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 11:55 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
@@ -8,7 +8,7 @@ Relay branch `leads/relay` head `99b7eb4` (Thu 12 Nov 5:47 AM Boston time) · 26
 
 ## Hand-offs (work passed between the factories)
 
-### HO-077 · G → V · Rule Book slab 2X (3072x1728) for sharp Chromebook windows
+### HO-077 · G → V · Rule Book slab 2X (3072x1728) for sharp Chromebook windows · ⚠ not acknowledged
 
 ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
