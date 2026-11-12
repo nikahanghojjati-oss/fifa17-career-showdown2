@@ -54,6 +54,11 @@ names and no others.
       café tables and their chairs off (Extra and up; the café picture and the marble floor stay). A turn is one
       beat. The shadow map is drawn once, so there is no shadow step. Every step in play is a soft cut: the frame
       as it stands fades out over the new one (`softCut`, a plain cut under Reduce Motion).
+    - Special Player: the blur chain at half its size (the glow a little softer); the scene's
+      edge smoothing one step down (8 samples to 4, 4 to 2; not at Balanced, which already draws 2);
+      no blur chain (the cheap in-place glow, as the pack draws without bloom). Light draws straight to the screen and has no step. A
+      reveal is one beat, from the pack's first frame until the card has settled, in play as in the Device check
+      (in 2.3.0 only the Device check held it). Every step in play is a soft cut, as in Roulette.
   - Steps are taken between beats only. While a scene holds (a kick, a turn, a reveal) nothing changes; a beat that
     ran slow steps down as it ends.
   - Slow frames for a second step down, whatever the cause (as in 2.3.0). Steps taken while the scene does not look
