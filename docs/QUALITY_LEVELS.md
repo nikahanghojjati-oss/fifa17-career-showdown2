@@ -65,6 +65,21 @@ names and no others.
     step 0 is the scene as built, the last step its lightest. `apply(step, why)` is the only place those parts move.
     `why` is `"start"` (behind the loading screen), `"slow"`, `"smooth"` (a step back up) or `"restore"` (steps
     that bought nothing are put back, possibly several at once): a scene must take any step from any other.
+  - Each scene's ladder, smallest loss first (a part the level does not have is not on it):
+    - Chamber Men: shadow maps every second frame; the grass blades over the box off (Extra and Ultra); the side
+      and far stands at 60% of their fans (the end behind the goal stays full); no real shadows (the soft patches
+      on the turf stay). A kick is one beat: from the run-up until 4 s after the strike. Every step in play (the
+      pixel ratio's too) cross-fades like a reset: the scene gives the governor its fade as `before()`.
+    - Russian Roulette: the dust motes in the lamp light off; a shot makes half its smoke puffs and sparks; the two
+      café tables and their chairs off (Extra and up; the café picture and the marble floor stay). A turn is one
+      beat. The shadow map is drawn once, so there is no shadow step. Every step in play is a soft cut: the frame
+      as it stands fades out over the new one (`softCut`, a plain cut under Reduce Motion).
+    - Special Player: the blur chain at half its size (the glow a little softer); the scene's
+      edge smoothing one step down (8 samples to 4, 4 to 2; not at Balanced, which already draws 2, and
+      never down to none: a GPU that does not offer the lower count keeps its edges);
+      no blur chain (the cheap in-place glow, as the pack draws without bloom). Light draws straight to the screen and has no step. A
+      reveal is one beat, from the pack's first frame until the card has settled, in play as in the Device check
+      (in 2.3.0 only the Device check held it). Every step in play is a soft cut, as in Roulette.
   - Steps are taken between beats only. While a scene holds (a kick, a turn, a reveal) nothing changes; a beat that
     ran slow steps down as it ends.
   - Slow frames for a second step down, whatever the cause (as in 2.3.0). Steps taken while the scene does not look
@@ -137,6 +152,7 @@ await CareerModeGfxTier.calibrate(renderer, draw);           // behind the loadi
 const gov = CareerModeGfxTier.governor(renderer, {key: "scene", draw, info});   // info(): what was built, for the Device check
 gov.hold(true); /* a kick, a turn, a reveal */ gov.hold(false);                 // one beat: no quality step inside it
 // heavy parts the governor may step between beats: governor(renderer, {..., beats: true, detail: {steps, apply}})
+// a scene that can fade one picture into the next: governor(renderer, {..., before})   // called ahead of every change in play
 // MSAA for a render target: CareerModeGfxTier.samples(renderer, want, halfFloat) and checkTarget(renderer, target)
 // its own out-of-memory sign: CareerModeGfxTier.fallback(reason)
 ```

@@ -546,11 +546,21 @@
       const sc=.9+rnd()*.2,up=rnd()<(awayEnd?.55:.12);f.sx=sc*(.94+rnd()*.12);f.sy=sc*(up?1.1:1);f.lift=up?.16:0;
     }
     const inst=new T.InstancedMesh(keep(cardGeo),null,N);
+    // r91 heavy-parts ladder (crowdShare below): the cards are written so that any leading share of them is an even
+    // thinning. The end behind the goal comes first (it is in every shot and always stays full), then the side and far
+    // stands in a seeded shuffle. The fans themselves are the same ones in the same seats: at the full count the picture
+    // is the one built before (the cards are opaque, so their order does not show).
+    const order=[],rest=[];for(let i=0;i<N;i+=1)(fans[i].si===0?order:rest).push(i);
+    const frontN=order.length,mix=stadiumSeeded(29);
+    for(let i=rest.length-1;i>0;i-=1){const j=Math.floor(mix()*(i+1)),v=rest[i];rest[i]=rest[j];rest[j]=v;}
+    for(const i of rest)order.push(i);
     // The vendor build has no InstancedBufferAttribute, so the card data rides in the instance matrix: translation = seat, and the free row (elements 3, 7, 11) = cell,
     // phase, yaw; instanceColor = shirt tint.
-    for(let i=0;i<N;i+=1){const f=fans[i];dummy.position.set(aOff[i*4],aOff[i*4+1]+f.lift,aOff[i*4+2]);dummy.rotation.set(0,aOff[i*4+3],0);dummy.scale.set(f.sx,f.sy,1);dummy.updateMatrix();
-      const e=dummy.matrix.elements;e[3]=aCell[i];e[7]=aPhase[i];e[11]=fans[i].away?1:0;inst.setMatrixAt(i,dummy.matrix);
-      inst.setColorAt(i,new T.Color(aTint[i*3],aTint[i*3+1],aTint[i*3+2]));}
+    for(let at=0;at<N;at+=1){const i=order[at],f=fans[i];dummy.position.set(aOff[i*4],aOff[i*4+1]+f.lift,aOff[i*4+2]);dummy.rotation.set(0,aOff[i*4+3],0);dummy.scale.set(f.sx,f.sy,1);dummy.updateMatrix();
+      const e=dummy.matrix.elements;e[3]=aCell[i];e[7]=aPhase[i];e[11]=fans[i].away?1:0;inst.setMatrixAt(at,dummy.matrix);
+      inst.setColorAt(at,new T.Color(aTint[i*3],aTint[i*3+1],aTint[i*3+2]));}
+    // share 1 = every fan; under 1, that share of the side and far stands (never the end behind the goal). Returns the count drawn.
+    const crowdShare=share=>{const k=Number.isFinite(share)?Math.max(0,Math.min(1,share)):1;inst.count=frontN+Math.round((N-frontN)*k);return inst.count;};
     const crowdUniforms={uAtlas:{value:crowdTex},uTint:{value:tintTex},uTime:{value:0},uExcite:{value:0},uMood:{value:new T.Vector2(-1,-1)},uLight:{value:new T.Color(1,1,1)},uHaze:{value:new T.Color(.02,.028,.05)}};
     const crowdMat=keep(new T.ShaderMaterial({
       uniforms:{...crowdUniforms,fogColor:{value:new T.Color(0,0,0)},fogNear:{value:1},fogFar:{value:2000},fogDensity:{value:.00025}},fog:true,
@@ -751,7 +761,7 @@
       if(!white1){white1=keep(new T.DataTexture(new Uint8Array([255,255,255,255]),1,1));white1.colorSpace=T.SRGBColorSpace;white1.needsUpdate=true;}
       m.map=white1;m.needsUpdate=true;});}
     update(0,0);
-    return {group,ball,ballMaterial:ballMat,goal:{group:goal,back,postMaterial:postMat,netMaterial:netMat},crowd:inst,crowdCount:N,flares,stands,update,mood,contact,hitNet,netPush,dispose:stadiumDispose,
+    return {group,ball,ballMaterial:ballMat,goal:{group:goal,back,postMaterial:postMat,netMaterial:netMat},crowd:inst,crowdCount:N,crowdShare,flares,stands,update,mood,contact,hitNet,netPush,dispose:stadiumDispose,
       dims:{GOAL_W,GOAL_H,BALL_R,SPOT_Z,DEPTH}};
   }
 

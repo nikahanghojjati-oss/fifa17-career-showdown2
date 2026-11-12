@@ -227,7 +227,9 @@ const Guess=require(path.join(ROOT,'js/iconGuess.js'));
   assert.ok(!/\b(fetch|XMLHttpRequest|sendBeacon|WebSocket|EventSource|importScripts|firebase|firestore)\b/i.test(code),'no network or Firebase');
   assert.ok(!/https?:\/\//.test(page.replace(/<!--[\s\S]*?-->/g,'')),'no outside URL (no CDN, no fonts service)');
   assert.ok(!/<script[^>]+src=|<img|<link[^>]+stylesheet|\.(jpe?g|png|gif)\b/i.test(page),'no external scripts, stylesheets or other pictures');
-  for(const m of page.matchAll(/[\w./-]+\.webp\b/g))assert.match(m[0],/^assets\/[a-z_]+(?:_4k)?(?:_V\d+)?\.webp$/,`${m[0]}: pictures come only from ./assets`);
+  // r91 HO-071: the header draws Team V's shared PRIME PACK title picture (two sizes, kept by the runtime picture cache like every v10_1 picture); nothing else leaves ./assets
+  const TITLE_PICS=/^\.\.\/shared\/wordmarks\/TITLE_PRIME_PACK_V3_(?:960|1920)\.webp$/;
+  for(const m of page.matchAll(/[\w./-]+\.webp\b/g)){if(TITLE_PICS.test(m[0])){assert.ok(fs.existsSync(path.join(ROOT,DIR,m[0])),m[0]);continue;}assert.match(m[0],/^assets\/[a-z_]+(?:_4k)?(?:_V\d+)?\.webp$/,`${m[0]}: pictures come only from ./assets`);}
   for(const font of page.matchAll(/url\("([^"]+\.woff2)"\)/g)){assert.match(font[1],/^\.\.\/shared\/fonts\/barlow-condensed-latin-(600|700)-normal\.woff2$/,`${font[1]}: only the two fonts r87 already serves to framed pages offline`);assert.ok(fs.existsSync(path.join(ROOT,DIR,font[1])),font[1]);}
   const visible=page.replace(/<script[\s\S]*?<\/script>/g,'').replace(/<style[\s\S]*?<\/style>/g,'').replace(/<!--[\s\S]*?-->/g,'').replace(/<[^>]+>/g,' ');
   assert.ok(!/\bEA\b|EA SPORTS|Ultimate Team|\bFUT\b/i.test(visible+script),'no EA names or marks');
