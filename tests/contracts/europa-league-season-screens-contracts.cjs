@@ -262,16 +262,16 @@ function ruleBook(){
   assert.deepEqual(score.slice(0,2),[["Champions League winner","+5"],["Europa League winner","+3"]]);
   // r87 Prime Pack (Nik 2026-11-01): 4, 3, 2 or 1 for the first to name the masked Icon raises the season maximum from 11 to 15.
   assert.equal(book.all().find(n=>n.className==="ruleScoreMaximum").textContent,"MAXIMUM PER MANAGER / SEASON15","the season maximum is 15 with Prime Pack");
-  assert.deepEqual(score[score.length-1],["Prime Pack: first to name the masked Icon (4, 3, 2 or 1 by stage)","+4 MAX"],"the Prime Pack row closes the scoring table");
-  assert.ok(items.includes("You may play or simulate a Champions League or Europa League final."),"the EL final may be played, like the CL final");
-  assert.ok(items.includes("You may play or simulate the main domestic cup final."),"the cup final line is unchanged");
-  const notes=flat(book.all().find(n=>n.className==="ruleScoreNotes")).map(n=>n.textContent).join(" ");
+  assert.deepEqual(score[score.length-1],["Prime Pack: first right name (4, 3, 2 or 1 by stage)","+4 MAX"],"the Prime Pack row closes the scoring table");
+  // r91 (Nik 2026-11-11): the finals and the season 1 setup are one card, "Playing the season", in game order.
+  assert.ok(items.includes("Simulate every match, apart from three finals you may play or simulate: the Champions League final, the Europa League final and the main domestic cup final."),"the CL, EL and cup finals may be played");
+  const notes=items.join(" ");
   for(const pattern of [/Season 1: both clubs play in the Champions League/,/redrawing the Champions League groups twice/])assert.match(notes,pattern);
   // r86 (Nik 2026-10-29): rules FIFA 17 enforces by itself are no longer printed; the scoring engine still applies them.
   for(const gone of [/same season/,/3rd in its Champions League group/,/by its league position/,/Only winning scores/,/Best possible season/])assert.doesNotMatch(notes,gone);
-  assert.ok(items.includes("Skip pre-season in FIFA 17."),"r86 (Nik 2026-10-29): pre-season is skipped in FIFA 17");
-  assert.equal(book.all().filter(n=>/^ruleSection( scoringRuleSection| specialPlayerRuleSection)?$/.test(n.className)).length,10,"ten rule cards (r86 adds Special Player, drops the draws card; r88 adds Chamber Men, Roster Russian Roulette and Prime Pack cards; r89 adds Sacked)");
-  ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, ten cards");
+  assert.ok(items.includes("Now play the season in FIFA 17. Skip pre-season."),"r86 (Nik 2026-10-29): pre-season is skipped in FIFA 17");
+  assert.equal(book.all().filter(n=>/(^| )ruleSection( |$)/.test(n.className)).length,11,"eleven rule cards in game order (r91)");
+  ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, eleven cards");
 }
 
 function textLines(){
