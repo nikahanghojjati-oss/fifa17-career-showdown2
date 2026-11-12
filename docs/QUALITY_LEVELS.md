@@ -36,6 +36,11 @@ names and no others.
     itself stays the level it was built at (`governor.level()`, `builtLevel(renderer)`), and a slow warm-up also starts its
     heavy parts one step down. A level found slow is not tried again on that page. That is never saved.
 - **A picked level** (Settings › 3D QUALITY) is held as picked on every screen. Settings says in one line what Auto picked (or measured) for this screen and graphics. The line is never shown on a game screen.
+  - On a weak device (2 processor threads or fewer, or 4 GB of memory or less, as the browser reports them), Ultra (4K)
+    and 8K are listed only once the Device check has passed them there (Nik 2026-11-12, after the device lab found them
+    offered on a 2-thread 4 GB Chromebook). Settings says which levels wait for the check. A pick of one of them saved
+    earlier stays saved and draws the highest level the device may pick until the check passes it. Every other device
+    keeps the full list (8K where the GPU can hold it). Auto and the Device check's own frames are never held back.
 - **Never crash first.** A lost context, an out-of-memory error, or (8K) a refused buffer drops the device one level below the one that failed. This applies to any level, Auto or picked.
   - The cap is saved and every screen honours it.
   - It lifts after 7 days, or after 3 clean scenes at the capped level, or when the player picks again.

@@ -3096,6 +3096,19 @@
         "^tests/contracts/r91\\-gfx\\-tab\\-crash\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-gfx-weak-gate-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^js/settings\\.js$",
+        "^css/r78\\-type\\.css$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/support/device\\-lab\\-profiles\\.cjs$",
+        "^tests/browser/device\\-lab\\.cjs$",
+        "^tests/contracts/r91\\-gfx\\-weak\\-gate\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

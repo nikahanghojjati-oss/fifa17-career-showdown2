@@ -114,6 +114,20 @@
   }
   // 8K needs a GPU that can hold a 7680 px buffer and texture; never software GL, never a phone.
   function gfxCan8k(info,env){return Boolean(info&&!info.software&&!(env&&env.phone)&&info.maxBuffer>=7680&&info.maxTexture>=7680);}
+  // r91 (Nik 2026-11-12, after the device lab found Settings offering Ultra and 8K on a 2-thread 4 GB Chromebook): on a weak
+  // device, Ultra (4K) and 8K are offered only once the Device check has passed them there. Weak: 2 processor threads or
+  // fewer, or 4 GB of memory or less, as the browser reports them (a browser that reports no memory is judged by its
+  // threads). Every other device keeps the full list. A level the check passed is the measured level or one below it.
+  function gfxWeak(env){
+    const c=Number(env&&env.cores),m=Number(env&&env.deviceMemory);
+    return (Number.isFinite(c)&&c>0&&c<=2)||(Number.isFinite(m)&&m>0&&m<=4);
+  }
+  // The highest level at or under `level` that may be picked by hand here (4 and 5 are the gated ones).
+  function gfxPickable(level,env,can8k,measured){
+    let l=level===5&&!can8k?4:level;
+    if(l>=4&&gfxWeak(env)){const held=measured?measured.level:-1;l=Math.min(l,Math.max(3,held));}
+    return l;
+  }
   // The cap is not for ever (lead review on #1271): one stray driver reset must not cost a level for good. It expires after
   // 7 days, or after 3 clean scenes (20 s or more, no failure) at the capped level.
   const CAP_DAYS_MS=7*864e5,CAP_CLEAN=3,CAP_CLEAN_MS=20000;
@@ -228,11 +242,21 @@
     const forced=gfxQuery("gfx"),forcedLevel=forced!==null&&/^[0-5]$/.test(forced)?Number(forced):null;
     const measured=gfxMeasured(),autoLevel=measured?measured.level:auto.level;
     let level=forcedLevel!==null?forcedLevel:c==="auto"?autoLevel:gfxChoiceLevel(c);
+    // A pick saved before the gate (or on another day's result) that this device may not pick now draws the highest level
+    // it may; the pick itself stays saved, and Settings says so. ?gfx=N (the Device check's frames) is never gated.
+    let gated=null;
+    if(forcedLevel===null&&c!=="auto"&&level>=4){
+      // (8K picked where the GPU cannot hold it draws Ultra as it always did: that is gfxBuild's fallback, not the gate.)
+      const want=level===5&&!can8k?4:level,ok=gfxPickable(level,env,can8k,measured);
+      if(ok<want){gated=level;level=ok;}
+    }
     const bench=forcedLevel!==null&&gfxQuery("bench")==="1";
     cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,slowNet:gfxSlowNet(),choice:forcedLevel!==null?`gfx=${forcedLevel}`:c,bench});
     cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=autoLevel;cached.measured=Boolean(measured);cached.guessLevel=auto.level;cached.strongPhone=Boolean(auto.strongPhone);
     // What was asked for by ?gfx=N (null otherwise): the Device check compares it with what was drawn.
     cached.asked=forcedLevel;
+    // The level that was picked, where the gate drew a lower one (null otherwise).
+    cached.gated=gated;
     gfxMarkRoot(cached.level,cached.assetLevel);
     // A 3D screen in its own frame (Roulette, the pack, the Device check's frames) is opening from here on.
     if(!openedHere&&gfxFramed()){openedHere=true;gfxOpenArm(cached.level,gfxSceneName());}
@@ -648,6 +672,13 @@
       gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;gfxRemark();return l;},
     clearMeasured(){gfxWrite(MEASURED_KEY,"null");cached=null;gfxRemark();},
     choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);gfxWrite(CAP_KEY,"null");cached=null;gfxRemark();return v;},
+    // offers(choice): may Settings offer this choice on this device? Everything, except: 8K only where the GPU can hold it,
+    // and on a weak device Ultra (4K) and 8K only once the Device check has passed them. needsCheck(): the labels held
+    // back for want of that check (empty on every other device).
+    offers(choice){const c=String(choice),i=CHOICES.indexOf(c);if(i<0)return false;if(i<5)return true;
+      const p=gfxProfile(),l=i-1;return gfxPickable(l,gfxScreenEnv(),p.can8k,gfxMeasured())===l;},
+    needsCheck(){const p=gfxProfile(),env=gfxScreenEnv(),m=gfxMeasured(),out=[];
+      for(const l of [4,5]){if(l===5&&!p.can8k)continue;if(gfxPickable(l,env,p.can8k,m)<l)out.push(LABELS[l]);}return out;},
     // 8K is offered only where it can run (Settings shows it only then); samples()/checkTarget() size MSAA for render targets.
     can8k(){return Boolean(gfxProfile().can8k);},samples:gfxSamples,checkTarget:gfxCheckTarget,
     // tabCrash(): the cap left by a tab that died while a 3D screen was opening (null when there is none). The Device

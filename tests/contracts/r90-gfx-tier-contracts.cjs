@@ -218,7 +218,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.ok(set.includes('const option = createSettingsElement("option", "", value === "auto" ? "Auto" : tier.labels[index - 1]);')&&!/SETTINGS_GFX_(CHOICES|NAMES)/.test(set),'the choices, in order, by the shared names');
     assert.ok(set.includes('try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }')&&set.includes('if(value === "8k" && !can8k && tier.choice() !== "8k"){ return; }'),'8K is offered only where the GPU can hold it');
     // r90 (Nik 2026-11-08): what Auto chose is one quiet line under 3D QUALITY, read from the saved state (Device check, crash cap).
-    assert.ok(set.includes('return `Auto would pick ${name} here.${drawn}`;')&&set.includes('if(p && p.fellBack){ drawn = ` ${tier.label(p.level)} is drawn for now (lowered after a graphics error).`; }')&&set.includes('`Auto measured ${name} here.` : `Auto picked ${name} here.`'),'Auto names what it picked (or measured) here');
+    assert.ok(set.includes('return `Auto would pick ${name} here.${drawn}${getSettingsGfxCheckText(tier)}`;')&&set.includes('if(p && p.fellBack){ drawn = ` ${tier.label(p.level)} is drawn for now (lowered after a graphics error).`; }')&&set.includes('`Auto measured ${name} here.` : `Auto picked ${name} here.`'),'Auto names what it picked (or measured) here');
     assert.ok(set.includes('window.addEventListener("cms-gfx-level", onLevel);')&&SRC.includes('new root.CustomEvent("cms-gfx-level"'),'the line follows a level change while Settings is open');
     assert.ok(/settingsGfxAuto \{ display: block;/.test(css),'the line shows at every width');
     assert.ok(set.includes('window.location.assign("device-check.html");')&&set.includes('"Device check…"'),'the last entry opens the Device check');
@@ -342,7 +342,11 @@ function g8(){
    assert.ok(at('pc4k','8k')>=7680&&at('pc4k','8k')<=7990,`4K PC at 8K: ${at('pc4k','8k')} px wide, not 15360`);
    assert.ok(at('pc8k','8k')>=7680&&at('pc8k','8k')<=7830,`8K PC at 8K: ${at('pc8k','8k')} px wide, not 30720`);
    assert.ok(at('pc4k','ultra')>=3840&&at('pc4k','ultra')<=3995,`4K PC at Ultra: ${at('pc4k','ultra')} px wide, not 7680`);assert.equal(at('pc8k','ultra'),7680);
-   assert.equal(at('chromebook866','ultra'),3840,'the Chromebook at Ultra: 2x of 1920, the 4K buffer');}
+   // The Chromebook (2 threads, 4 GB) may pick Ultra only once its Device check has passed it (r91 gate): then 2x of 1920,
+   // the 4K buffer; until then a saved Ultra pick draws Extra at the screen's own size.
+   assert.equal(at('chromebook866','ultra'),1920,'the Chromebook at Ultra with no passed check: Extra, native');
+   {const d=deviceOf('chromebook866'),q=sandbox({...d,storage:{'careerModeShowdown.gfxQuality.v1':'ultra','careerModeShowdown.gfxMeasured.v2':JSON.stringify({level:4,at:Date.now()})}}).G.profile();
+    assert.deepEqual([q.level,Math.round(d.view[0]*q.pixelRatio)],[4,3840],'the Chromebook at Ultra after a passed check: 2x of 1920, the 4K buffer');}}
   const lost=[];const r={...fakeRenderer(s.clock,()=>1,[1920,1080])};r.domElement.addEventListener=(n,f)=>lost.push([n,f]);r.domElement.removeEventListener=()=>{};
   const gov=s.G.governor(r,{key:'chamber'});
   assert.equal(gov.pixelRatio(),4,'a 1080p canvas draws a 7680x4320 buffer');

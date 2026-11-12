@@ -345,10 +345,22 @@ function getSettingsGfxAutoText(tier){
             // A picked level that a graphics error or a closed tab lowered (js/gfxTier.js crash cap): say what is drawn.
             let drawn = "";
             try{ const p = tier.profile(); if(p && p.fellBack){ drawn = ` ${tier.label(p.level)} is drawn for now (lowered after a graphics error).`; } }catch(_error){ drawn = ""; }
-            return `Auto would pick ${name} here.${drawn}`;
+            return `Auto would pick ${name} here.${drawn}${getSettingsGfxCheckText(tier)}`;
         }
-        if(s.lowered){ return `Auto picked ${name} here (lowered after a graphics error).`; }
-        return s.measured && s.now === s.level ? `Auto measured ${name} here.` : `Auto picked ${name} here.`;
+        if(s.lowered){ return `Auto picked ${name} here (lowered after a graphics error).${getSettingsGfxCheckText(tier)}`; }
+        return `${s.measured && s.now === s.level ? `Auto measured ${name} here.` : `Auto picked ${name} here.`}${getSettingsGfxCheckText(tier)}`;
+    }catch(_error){
+        return "";
+    }
+}
+// The levels a weak device is not offered until its Device check passes them, as one sentence (empty everywhere else).
+function getSettingsGfxCheckText(tier){
+    try{
+        const held = tier.needsCheck ? tier.needsCheck() : [];
+        if(!held.length){ return ""; }
+        const p = tier.profile();
+        const drawn = p && Number.isInteger(p.gated) ? ` ${tier.label(p.level)} is drawn until then.` : "";
+        return ` ${held.join(" and ")} ${held.length > 1 ? "need" : "needs"} a passed Device check.${drawn}`;
     }catch(_error){
         return "";
     }
@@ -368,6 +380,9 @@ function fillSettingsGfxSelect(select, note){
     for(const old of [...select.options]){ if(old !== check){ old.remove(); } }
     tier.choices.forEach((value, index) => {
         if(value === "8k" && !can8k && tier.choice() !== "8k"){ return; }
+        // r91 (Nik 2026-11-12): on a weak device (2 threads or 4 GB) Ultra (4K) and 8K are listed only once the Device
+        // check has passed them there. A pick saved earlier stays listed so the row shows what is saved.
+        if((value === "ultra" || value === "8k") && tier.offers && !tier.offers(value) && tier.choice() !== value){ return; }
         const option = createSettingsElement("option", "", value === "auto" ? "Auto" : tier.labels[index - 1]);
         option.value = value;
         select.insertBefore(option, check);
