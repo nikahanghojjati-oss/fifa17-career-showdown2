@@ -425,3 +425,16 @@
   #cmStage { background-image: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
   html[data-assets="0"] #cmStage { background-image: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp"); }
 }
+
+/* r91 HO-071 (Nik's pick, 2026-11-11): the header title is drawn in the one title family (Team V's V3 "Honours Board"
+   lettering) instead of Barlow Condensed capitals. The words stay in the heading (its box, the header grid and the
+   screen-reader label are unchanged) but are not painted; the lettering is laid over them, centred, at the same capital
+   height the text had (the picture's capitals are half its height, Barlow's are about 0.7em, so 1.4em tall).
+   Only the header title: "Chamber Men could not load" keeps its plain heading. */
+#cmStage .cmHeader > .cmTitle { position: relative; color: transparent; }
+#cmStage .cmHeader > .cmTitle::after {
+  content: ""; position: absolute; left: 50%; top: 50%; height: 1.4em; width: min(calc(1.4em * 6.617), calc(100vw - 32px));
+  transform: translate(-50%, -50%); pointer-events: none;
+  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_960.webp") center / contain no-repeat;
+  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_1920.webp") 2x);
+}
