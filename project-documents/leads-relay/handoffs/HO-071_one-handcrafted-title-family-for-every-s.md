@@ -13,8 +13,8 @@
  "job": null,
  "status": "DONE",
  "steps": [],
- "evidence": ["claude/project-thread-y5jwgo 5259935b0: visual-assets/v10_1/shared/wordmarks/v3/README.md"],
- "log": [{"at": "2026-11-11T19:24:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:26Z", "by": "V", "status": "RECEIVED", "note": "Team V starting now: 3 matte handcrafted title samples (TRANSFER WAR + SETTINGS) for Nik, then the full set in his pick."}, {"at": "2026-11-12T00:48:36Z", "by": "V", "status": "DONE", "note": "Nik OK 11 Nov 7:48 p.m. Eastern. Honours Board family (Cormorant SC Bold, OFL): 24 TITLE_<NAME>_V3_{3840,1920,960,480} (same height per step, size by HEIGHT), MARK_VS_V3, LOGO_CM17_WORDMARK_V3, woff2 + live-text CSS recipe. All lighter than V2. No glow (matches HO-074 #1404). Asset-only branch off main: copy files into your release branch."}],
+ "evidence": ["claude/project-thread-y5jwgo 5259935b0: visual-assets/v10_1/shared/wordmarks/v3/README.md", "claude/project-thread-y5jwgo 9c1fe8ab1"],
+ "log": [{"at": "2026-11-11T19:24:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:26Z", "by": "V", "status": "RECEIVED", "note": "Team V starting now: 3 matte handcrafted title samples (TRANSFER WAR + SETTINGS) for Nik, then the full set in his pick."}, {"at": "2026-11-12T00:48:36Z", "by": "V", "status": "DONE", "note": "Nik OK 11 Nov 7:48 p.m. Eastern. Honours Board family (Cormorant SC Bold, OFL): 24 TITLE_<NAME>_V3_{3840,1920,960,480} (same height per step, size by HEIGHT), MARK_VS_V3, LOGO_CM17_WORDMARK_V3, woff2 + live-text CSS recipe. All lighter than V2. No glow (matches HO-074 #1404). Asset-only branch off main: copy files into your release branch."}, {"at": "2026-11-12T00:54:07Z", "by": "V", "status": "DONE", "note": "Update 12 Nov: Nik picked the 'Big 17' Home logo. LOGO_CM17_WORDMARK_V3_{2080,1040,640}.webp replaced at 9c1fe8ab1 (big SHOWDOWN + tall 17, small CAREER MODE above, ~6.5:1, 52 KB at 1040). Use 9c1fe8ab1 as the branch head."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
  "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q6xbGi3wPAd4kdiRKz"}
 }
