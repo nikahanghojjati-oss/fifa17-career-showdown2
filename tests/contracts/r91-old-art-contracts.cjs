@@ -2,7 +2,7 @@
 // r91 old art (Sol's r90 review, Nik 2026-11-11: "old art comes back at some window shapes ... so that would never happen
 // again"). Static half of the guard; tests/browser/r91-old-art-audit.cjs opens every screen at every window shape and is the
 // proof that only current rooms are drawn. This contract keeps the code from drifting back:
-//   C1 no Team G stylesheet or script gates art on the retired desktop query (min-width 1024/1200 + min-height 600 +
+//   C1 no Team G stylesheet or script gates art (a block with a url() or image-set()) on the retired desktop query (min-width 1024/1200 + min-height 600 +
 //      min-aspect-ratio 3/2): outside it, Team V's base V1 plate showed. The art bands are now
 //      desktop (min-width:901px), upright (max-width:900px) and (orientation:portrait), and sideways phones;
 //   C2 references to retired pictures (Team V's V1 plates and cut-outs, the plates-v2/v3/v5 plates, the locked TR2 plate)
@@ -30,7 +30,15 @@ const files = [
 
 // C1
 const OLD_GATE = /\(\s*min-width\s*:\s*(1200|1024)px\s*\)\s*and\s*\(\s*min-height\s*:\s*600px\s*\)(\s*and\s*\(\s*(max|min)-height\s*:\s*\d+px\s*\))*\s*and\s*\(\s*min-aspect-ratio\s*:\s*3\s*\/\s*2\s*\)/;
-const gateHits = files.filter(f => OLD_GATE.test(read(f)));
+// Only a block that draws a picture counts: a layout-only rule on that query (the Rule Book's card frames, #1413) draws no
+// art, so no window shape can bring old art back through it. A block draws art when it holds a url() or image-set().
+const blockAfter = (text, at) => { const open = text.indexOf("{", at); let depth = 0;
+    for(let i = open; i < text.length; i++){ if(text[i] === "{") depth++; else if(text[i] === "}" && --depth === 0) return text.slice(open, i + 1); }
+    return text.slice(open); };
+const drawsArt = text => { const re = new RegExp(OLD_GATE.source, "g"); let m;
+    while((m = re.exec(text))) if(/url\(|image-set\(/.test(blockAfter(text, m.index))) return true;
+    return false; };
+const gateHits = files.filter(f => drawsArt(read(f)));
 assert.deepEqual(gateHits, [], `C1 the retired 3:2 desktop art gate is back in: ${gateHits.join(", ")}`);
 
 // C2
