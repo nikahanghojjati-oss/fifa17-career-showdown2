@@ -66,7 +66,16 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   const size=file=>fs.statSync(path.join(ROOT,W+file)).size;
   assert.ok(size("home/assets/LOGO_CM17_WORDMARK_V3_640.webp")<size("home/assets/LOGO_CM17_WORDMARK_V1_640W.webp")&&size("home/assets/LOGO_CM17_WORDMARK_V3_1040.webp")<size("home/assets/LOGO_CM17_WORDMARK_V1.webp"),"the Home logo got lighter");
   for(const [,asset] of titles)for(const step of STEPS)assert.ok(size(`${asset}_V3_${step}.webp`)<size(`${asset}_V2_${step}.webp`),`${asset} ${step} is lighter than V2`);
-  ok("M27","the V3 title family: real srcset widths, one shared title height, old boxes kept, lighter files");}
+  // In-game headers (Chamber Men, Squad Management, Prime Pack): the heading keeps its words and its box; the V3 lettering is laid
+  // over it at the capital height the text had (1.4em), with the picture's own width/height ratio, so it is never stretched.
+  for(const [file,sel,asset,prefix] of [["css/chamberMen.css","#cmStage .cmHeader > .cmTitle","TITLE_CHAMBER_MEN","../visual-assets/v10_1/shared/wordmarks/"],
+    ["css/squadScreen.css","#sqStage .sqHeader>.sqTitle","TITLE_SQUAD","../visual-assets/v10_1/shared/wordmarks/"],["visual-assets/v10_1/icon-guess/index.html",".packtitle","TITLE_PRIME_PACK","../shared/wordmarks/"]]){
+    const src=read(file),at=src.indexOf(sel+"::after"),rule=src.slice(at,src.indexOf("}",at));assert.ok(at>=0,`${file} draws ${asset} over its heading`);
+    const [w,hh]=dims(`${W}shared/wordmarks/${asset}_V3_1920.webp`),m=/height: ?1\.4em;.*width: ?min\(calc\(1\.4em \* ([\d.]+)\)/.exec(rule);
+    assert.ok(m&&Math.abs(Number(m[1])-w/hh)<0.01,`${asset} keeps its own ratio (${(w/hh).toFixed(3)})`);
+    for(const step of [960,1920])assert.ok(rule.includes(`${prefix}${asset}_V3_${step}.webp`),`${asset} ${step} is drawn`);
+    assert.match(src.slice(src.lastIndexOf(sel,at-1)-2,at),/color: ?transparent/,`${asset}: the words stay in the heading, unpainted`);}
+  ok("M27","the V3 title family: real srcset widths, one shared title height, old boxes kept, lighter files; in-game headers keep their box");}
 // CLS (W9 row): the top bar's 52 px is reserved from the first paint in every nav state, so a screen laid out under the
 // loading screen or the Reus Gate (data-nav "none") does not jump when the bar comes back; Club stays unseen until its look is on.
 {const shell=read("css/v10Shell.css"),club=read("css/v10Club.css");
