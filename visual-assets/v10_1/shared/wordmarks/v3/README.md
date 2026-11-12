@@ -36,8 +36,9 @@ height always share cap height, stroke and baseline. Long titles shrink on phone
 
 Extra marks:
 - `shared/wordmarks/MARK_VS_V3_{1040,520,260}.webp` (replaces the Kaushan "VS"; or live text "VS" with the CSS above).
-- `home/assets/LOGO_CM17_WORDMARK_V3_{2080,1040,640}.webp`: "CAREER MODE / SHOWDOWN 17", two lines, no crown.
-  1040 = full size (80 KB vs 143 KB V1), 640 = 46 KB (vs 86 KB), 2080 for 2x screens.
+- `home/assets/LOGO_CM17_WORDMARK_V3_{2080,1040,640}.webp`: Nik's pick 12 Nov ("2 Big 17"): big SHOWDOWN with a tall 17
+  beside it, small spaced CAREER MODE above with a thin gold rule. No crown. Wide mark (about 6.5:1): 1040 = full size,
+  640 for phones, 2080 for 2x screens. Built by `home_logo.py` (L2). Preview: `HO071_HOME_LOGO_PICK.jpg` (bottom row).
 
 Sizes: every V3 file is lighter than the V2 file of the same step it replaces (largest V3 file 105 KB; checked 60 pairs).
 Previews: `HO071_ALL_V3.jpg` (all 24 at the 1920 step, half size, on the HC slab) and `HO071_HOME_VS_V3.jpg`.
