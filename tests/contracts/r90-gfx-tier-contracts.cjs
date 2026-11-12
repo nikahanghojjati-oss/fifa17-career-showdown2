@@ -33,7 +33,7 @@ const SRC=fs.readFileSync(path.join(ROOT,'js/gfxTier.js'),'utf8');
 const CHOICES_FROM_SRC=()=>JSON.parse(/const CHOICES=(\[[^\]]*\])/.exec(SRC)[1]);
 let checks=0;const ok=(id,text)=>{checks+=1;console.log(`ok ${checks} ${id} ${text}`);};
 
-function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), OpenGL ES 3.2)',dpr=1,memory=4,cores=4,screen=[1366,768],search='',storage={},maxBuffer=16384,maxTexture=16384,connection=null}={}){
+function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), OpenGL ES 3.2)',dpr=1,memory=4,cores=4,screen=[1366,768],search='',storage={},maxBuffer=16384,maxTexture=16384,connection=null,view=null}={}){
   const clock={t:0};
   const store={...storage};
   const appended=[],counts={canvas:0};
@@ -51,6 +51,7 @@ function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), Ope
   const ctx={document:doc,devicePixelRatio:dpr,navigator:{deviceMemory:memory,hardwareConcurrency:cores,...(connection?{connection}:{})},screen:{width:screen[0],height:screen[1]},
     location:{search},readStorageValue:k=>k in store?store[k]:null,writeStorageValue:(k,v)=>{store[k]=String(v);return true;},
     performance:{now:()=>clock.t},setTimeout:(f)=>{f();return 0;},requestAnimationFrame:()=>1,cancelAnimationFrame(){},URLSearchParams};
+  if(view){ctx.innerWidth=view[0];ctx.innerHeight=view[1];}
   ctx.globalThis=ctx;ctx.parent=ctx;
   vm.createContext(ctx);vm.runInContext(SRC,ctx);
   return {G:ctx.CareerModeGfxTier,clock,store,appended,ctx,counts};
@@ -290,6 +291,58 @@ function g8(){
   const s=sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[1920,1080],storage:pick});
   const p=s.G.profile();assert.deepEqual([p.level,p.name,p.can8k,p.bufferCap],[5,'8k',true,7680*4320],'8K when picked on a capable GPU');
   assert.ok(p.pixelRatio===4&&p.maxPixelRatio===4,`8K on 1080p starts at 4x (${p.pixelRatio}/${p.maxPixelRatio})`);
+  // r91 (device lab 2026-11-11): the first buffer a scene sizes (window x profile.pixelRatio, before any governor) stays
+  // within the level's buffer on every screen. 2.3.0: 8K on a 4K monitor 15360x8640, on an 8K screen 30720x17280; Ultra on a
+  // 4K monitor 7680x4320.
+  {const first=(o,view)=>{const q=sandbox({gpu:strong,memory:32,cores:16,...o,view}).G.profile();return [Math.round(view[0]*q.pixelRatio),Math.round(view[1]*q.pixelRatio)];};
+   const k8={'careerModeShowdown.gfxQuality.v1':'8k'},ul={'careerModeShowdown.gfxQuality.v1':'ultra'};
+   assert.deepEqual(first({dpr:1,screen:[1920,1080],storage:k8},[1920,1080]),[7680,4320],'8K on a 1080p monitor: 4x, the full 8K buffer');
+   assert.deepEqual(first({dpr:1,screen:[1920,1080],storage:k8},[1920,866]),[7680,3464],'8K in the Chromebook-size window: still 4x, under the cap');
+   assert.deepEqual(first({dpr:1,screen:[3840,2160],storage:k8},[3840,2160]),[7680,4320],'8K on a 4K monitor: 2x, not 4x');
+   assert.deepEqual(first({dpr:2,screen:[3840,2160],storage:k8},[3840,2160]),[7680,4320],'8K on an 8K screen at 2x: native');
+   assert.deepEqual(first({dpr:1,screen:[7680,4320],storage:k8},[7680,4320]),[7680,4320],'8K on an 8K screen at 1x: native');
+   assert.deepEqual(first({dpr:1,screen:[1920,1080],storage:ul},[1920,1080]),[3840,2160],'Ultra on a 1080p monitor: 2x, the full 4K buffer');
+   assert.deepEqual(first({dpr:1,screen:[3840,2160],storage:ul},[3840,2160]),[3840,2160],'Ultra on a 4K monitor: native, not 2x');
+   assert.deepEqual(first({dpr:2,screen:[3840,2160],storage:ul},[3840,2160]),[7680,4320],'Ultra on an 8K screen: native, as before (never held under the screen)');
+   assert.deepEqual(first({dpr:1.5,screen:[2560,1440],storage:ul},[2560,1440]),[3840,2160],'Ultra on a 1440p screen at 1.5x: native');
+   // The governor then agrees with that first size (no second, larger allocation when it starts).
+   for(const [o,view] of [[{dpr:1,screen:[3840,2160],storage:k8},[3840,2160]],[{dpr:1,screen:[3840,2160],storage:ul},[3840,2160]],[{dpr:1,screen:[1920,1080],storage:k8},[1920,866]]]){
+     const q=sandbox({gpu:strong,memory:32,cores:16,...o,view});const g=q.G.governor(fakeRenderer(q.clock,()=>1,view),{});
+     assert.equal(g.pixelRatio(),q.G.profile().pixelRatio,`governor and first buffer agree (${JSON.stringify(view)})`);}
+   // A phone: within a 4K buffer at any level from the start (iPhone 17: 402x874 at 3x is native and fits).
+   const ph=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874],view:[402,874],storage:ul}).G.profile();assert.equal(ph.pixelRatio,3);
+   const tab=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[600,960],view:[1400,1000],storage:ul}).G.profile();
+   assert.ok(tab.pixelRatio**2*1400*1000<=3840*2160+1,`a phone-class screen with a large page stays under 4K from the start (${tab.pixelRatio})`);
+   // Named levels and Auto are untouched by this (they never draw past the screen's own ratio).
+   for(const c of ['auto','light','medium','high','extra']){const a0=sandbox({gpu:strong,dpr:2,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile(),a1=sandbox({gpu:strong,dpr:2,memory:32,cores:16,view:[1920,1080],storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile();
+     assert.deepEqual([a1.pixelRatio,a1.maxPixelRatio,a1.minPixelRatio],[a0.pixelRatio,a0.maxPixelRatio,a0.minPixelRatio],c);}
+   // A page with no size yet (a frame built before it is shown) counts as large as the screen, the most it can become
+   // (review on #1399: 2.3.0's uncapped start must not come back through this door). Neither known: native.
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[3840,2160],storage:k8}).G.profile().pixelRatio,2,'8K, no page size, 4K screen: 2x');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[3840,2160],storage:ul}).G.profile().pixelRatio,1,'Ultra, no page size, 4K screen: native');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[1920,1080],storage:k8}).G.profile().pixelRatio,4,'8K, no page size, 1080p screen: 4x, the full buffer');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[0,0],storage:k8}).G.profile().pixelRatio,1,'8K, nothing known: native');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[0,0],storage:ul}).G.profile().pixelRatio,1,'Ultra, nothing known: native');}
+  // The device lab's own target devices (tests/browser/device-lab.cjs PROFILES, read by tests/support/device-lab-profiles.cjs):
+  // on each of them, at Ultra and at 8K, shown or built before it has a size, the first buffer is within the level's
+  // buffer (or native, where the screen itself is larger), and a phone is within 3840x2160.
+  {const {PROFILES,deviceOf}=require('../support/device-lab-profiles.cjs');
+   assert.deepEqual(Object.keys(PROFILES).sort(),['chromebook1035','chromebook866','iphone17','pc4k','pc8k'],'the lab profiles this contract was written against');
+   for(const key of Object.keys(PROFILES)){const d=deviceOf(key);
+     for(const c of ['ultra','8k'])for(const hidden of [false,true]){
+       const q=sandbox({...d,view:hidden?null:d.view,storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile();
+       const [w,h]=hidden?d.screen:d.view,px=w*h*q.pixelRatio*q.pixelRatio,native=w*h*d.dpr*d.dpr;
+       const limit=q.phone?3840*2160:Math.max(q.level===5?7680*4320:3840*2160,native);
+       assert.ok(px<=limit+1,`${key} at ${c}${hidden?' (no size yet)':''}: first buffer ${Math.round(px/1e6)} Mpx is within ${Math.round(limit/1e6)} Mpx (x${q.pixelRatio})`);
+       assert.ok(q.pixelRatio>=Math.min(1,d.dpr),`${key} at ${c}: never under the floor`);}}
+   // The lab's finding, by its numbers: the 4K PC at 8K asked for 15360x8000 in 2.3.0 (4x), the 8K PC for 30720x16640.
+   const at=(key,c)=>{const d=deviceOf(key),q=sandbox({...d,storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile();return Math.round(d.view[0]*q.pixelRatio);};
+   // (The lab's windows are a little shorter than the screen, so the buffer's width may pass 7680 or 3840 by the few
+   // percent that keep the pixel count within the cap.)
+   assert.ok(at('pc4k','8k')>=7680&&at('pc4k','8k')<=7990,`4K PC at 8K: ${at('pc4k','8k')} px wide, not 15360`);
+   assert.ok(at('pc8k','8k')>=7680&&at('pc8k','8k')<=7830,`8K PC at 8K: ${at('pc8k','8k')} px wide, not 30720`);
+   assert.ok(at('pc4k','ultra')>=3840&&at('pc4k','ultra')<=3995,`4K PC at Ultra: ${at('pc4k','ultra')} px wide, not 7680`);assert.equal(at('pc8k','ultra'),7680);
+   assert.equal(at('chromebook866','ultra'),3840,'the Chromebook at Ultra: 2x of 1920, the 4K buffer');}
   const lost=[];const r={...fakeRenderer(s.clock,()=>1,[1920,1080])};r.domElement.addEventListener=(n,f)=>lost.push([n,f]);r.domElement.removeEventListener=()=>{};
   const gov=s.G.governor(r,{key:'chamber'});
   assert.equal(gov.pixelRatio(),4,'a 1080p canvas draws a 7680x4320 buffer');
