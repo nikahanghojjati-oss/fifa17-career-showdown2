@@ -448,8 +448,8 @@ function createGfxQualityControl(){
     note.setAttribute("aria-live", "polite");
     note.hidden = true;
     copy.append(note);
-    // Part of the select's name (axe label-title-only fails a select described with no <label>): "3D QUALITY, Auto picked
-    // High here."
+    // Part of the select's name (axe label-title-only fails a select described with no <label>): "3D QUALITY, Measured by
+    // the Device check." The pick itself is the select's value ("Auto · High").
     select.setAttribute("aria-labelledby", "settingsGfxLabel settingsGfxAuto");
     note.id = "settingsGfxAuto";
     row.append(copy, select);

@@ -215,10 +215,10 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     // MENU CLICK FEEDBACK line (the plate has no height to spare at 1366x640; browser sweep on the PR).
     const set=fs.readFileSync(path.join(ROOT,'js/settings.js'),'utf8'),css=fs.readFileSync(path.join(ROOT,'css/r78-type.css'),'utf8');
     // r90 one framework (docs/QUALITY_LEVELS.md): the choices and their names come from the module (choices, labels).
-    assert.ok(set.includes('const option = createSettingsElement("option", "", value === "auto" ? "Auto" : tier.labels[index - 1]);')&&!/SETTINGS_GFX_(CHOICES|NAMES)/.test(set),'the choices, in order, by the shared names');
+    assert.ok(set.includes('const option = createSettingsElement("option", "", value === "auto" ? getSettingsGfxAutoLabel(tier) : tier.labels[index - 1]);')&&!/SETTINGS_GFX_(CHOICES|NAMES)/.test(set),'the choices, in order, by the shared names');
     assert.ok(set.includes('try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }')&&set.includes('if(value === "8k" && !can8k && tier.choice() !== "8k"){ return; }'),'8K is offered only where the GPU can hold it');
     // r90 (Nik 2026-11-08): what Auto chose is one quiet line under 3D QUALITY, read from the saved state (Device check, crash cap).
-    assert.ok(set.includes('return `Auto would pick ${name} here.${drawn}${getSettingsGfxCheckText(tier)}`;')&&set.includes('if(p && p.fellBack){ drawn = ` ${tier.label(p.level)} is drawn for now (lowered after a graphics error).`; }')&&set.includes('`Auto measured ${name} here.` : `Auto picked ${name} here.`'),'Auto names what it picked (or measured) here');
+    assert.ok(set.includes('return `Auto would pick ${name} here.${drawn}${getSettingsGfxCheckText(tier)}`;')&&set.includes('if(p && p.fellBack){ drawn = ` ${tier.label(p.level)} is drawn for now (lowered after a graphics error).`; }')&&set.includes('const from = s.lowered ? "Lowered after a graphics error." : s.measured && s.now === s.level ? "Measured by the Device check." : "";')&&set.includes('return name ? `Auto · ${name}` : "Auto";'),'the Auto entry names what Auto draws here (r91: "Auto · Light"); the line adds where it came from');
     assert.ok(set.includes('window.addEventListener("cms-gfx-level", onLevel);')&&SRC.includes('new root.CustomEvent("cms-gfx-level"'),'the line follows a level change while Settings is open');
     assert.ok(/settingsGfxAuto \{ display: block;/.test(css),'the line shows at every width');
     assert.ok(set.includes('window.location.assign("device-check.html");')&&set.includes('"Device check…"'),'the last entry opens the Device check');
@@ -276,7 +276,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
      assert.equal(s8.G.profile().level,2);s8.G.setMeasured(0);assert.deepEqual([s8.G.profile().level,s8.G.suggested().measured],[0,true],'a measured level is Auto');
      s8.G.setChoice('ultra');assert.equal(s8.G.profile().level,4,'a picked level still wins');s8.G.setChoice('auto');
      s8.G.clearMeasured();assert.equal(s8.G.profile().level,2,'forgetting goes back to the guess');}
-    assert.ok(dc.includes('$("device").innerHTML=`This device: <b>${esc(kind)}</b>'),'the Device check names the device class');
+    assert.ok(dc.includes('$("yoursTitle").innerHTML=`Your device <span>· ${esc(kind)}</span>`;'),'the Device check names the device class (r91: on the Your device card)');
     {const d=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874]}).G.device();
      assert.deepEqual([d.phone,d.strongPhone,d.guessName,d.can8k],[true,true,'high',false],'an iPhone 17 reads as a strong phone that starts High');}
     ok('G7','Device check: bench frames record a forced level, one result each; best 60 fps level saved as Auto; a pick still wins');

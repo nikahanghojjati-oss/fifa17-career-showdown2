@@ -138,7 +138,7 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
   // smooth says so; before a check it is "Auto starts there".
   assert.match(PAGE, /const held60=m&&m\.detail&&typeof m\.detail\.held==="boolean"\?m\.detail\.held:null;/);
   assert.match(PAGE, /const why=!m\?`Auto starts there on a device like this\. Run the check to measure yours: Auto then uses the best level it kept smooth\.`\s*:held60===false\?`Measured on this device: even \$\{LEVELS\[0\]\} was not smooth, so Auto stays on \$\{LEVELS\[0\]\}, the lightest level\.`\s*:held60\?`Measured on this device: it holds 60 fps at \$\{name\} on all three 3D screens\. Auto uses it\.`\s*:`The check measured \$\{name\} on this device\. Auto uses it\.`;/);
-  assert.equal((PAGE.match(/holds 60 fps/g) || []).length, 1);
+  assert.equal((PAGE.slice(PAGE.indexOf("function showGuide()")).match(/60 fps/g) || []).length, 1, "said once, in that one sentence");
   assert.match(PAGE, /These are starting points, not promises\. Only the check on this page measures a device/);
   ok("G5", "the guide promises no frame rate; the page says \"holds 60 fps\" only for a finished check that held its level");
 }
