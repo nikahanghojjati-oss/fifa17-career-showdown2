@@ -255,6 +255,11 @@
 #sqStage .sqShell{box-sizing:border-box;width:min(1080px,100%);min-height:100%;margin:0 auto;padding:max(14px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px}
 #sqStage .sqHeader{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid rgba(242,196,91,.35);color:var(--r78-gold,#f2c45b);font:600 14px/1.2 var(--r78-font-label,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.16em;text-transform:uppercase}
 #sqStage .sqTitle{margin:0;color:var(--sd-gold-300,#ffd34d);font:700 clamp(26px,5vw,40px)/1 var(--r78-font-label,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.04em;text-transform:uppercase;text-align:center}
+/* r91 HO-071 (Nik's pick, 2026-11-11): the header title is drawn in the one title family (Team V's V3 "Honours Board"
+   lettering). The words stay in the heading (box, header row and screen-reader label unchanged) but are not painted; the
+   lettering is laid over them, centred, at the capital height the text had (1.4em tall picture). */
+#sqStage .sqHeader>.sqTitle{position:relative;color:transparent}
+#sqStage .sqHeader>.sqTitle::after{content:"";position:absolute;left:50%;top:50%;height:1.4em;width:min(calc(1.4em * 9.62),calc(100vw - 24px));transform:translate(-50%,-50%);pointer-events:none;background:url("../visual-assets/v10_1/shared/wordmarks/TITLE_SQUAD_V3_960.webp") center/contain no-repeat;background-image:image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_SQUAD_V3_960.webp") 1x,url("../visual-assets/v10_1/shared/wordmarks/TITLE_SQUAD_V3_1920.webp") 2x)}
 #sqStage .sqStatus{margin:0;text-align:center;color:var(--r78-ivory,#f2ebdd);font-size:16px}
 #sqStage .sqStatus:empty{display:none}
 #sqStage .sqHost{min-width:0}
