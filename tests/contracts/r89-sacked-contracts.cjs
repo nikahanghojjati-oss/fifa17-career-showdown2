@@ -114,7 +114,8 @@ const SESSION="session_"+"c".repeat(64);
 {
   assert.match(read("js/ruleBook.js"),/createRuleSection\("10", "SACKED"/);
   const sw=read("service-worker.js");assert.match(sw,/"data\/gazetteSacked\.js",/);
-  assert.match(read("js/commentaryV3.js"),/sacked===true\)return null;/);
+  // r91: the booth prints in the Gazette; a sacked Showdown's paper gets the numbers line only (never "the N-season Showdown")
+  assert.match(read("js/touchlineGazette.js"),/if\(sacked\)\{const n=V\.sackedNumbers\(facts\);return n\?Object\.freeze\(\{title:BOOTH_TITLE,lead:null,numbers:n\.text\}\):null;\}/);
   const builder=read("scripts/build-production-firestore-rules.mjs");
   for(const needle of ["ssjrTerminalSackedMatches","ssjrTransferPreviousSeasonOpen","'sacked'"])assert.ok(builder.includes(needle),`builder needle ${needle}`);
   // Expression budget (1,000 per request): a Showdown nobody was sacked in pays only the key tests on the progress write,

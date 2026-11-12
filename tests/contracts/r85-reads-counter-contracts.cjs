@@ -195,9 +195,7 @@ function census(){
     'sparkSharedTransferChallenge.js':'readRouletteSeason uses the firebaseSdk.getDoc it is given (metered by its caller)'
   };
   const excluded={
-    'sparkSharedShowdownSetup.js':'mentions getDoc in a comment only; its preflight read is a counted transaction',
-    'productionAuthorizationAcceptance.js':'operator acceptance page (network-only, never loaded by the app page or its counter)',
-    'productionProviderAbuseAcceptance.js':'operator acceptance page (network-only, never loaded by the app page or its counter)'
+    'sparkSharedShowdownSetup.js':'mentions getDoc in a comment only; its preflight read is a counted transaction'
   };
   const pattern=/\b(?:getDocs?|getDocFromServer|getDocsFromServer|onSnapshot)\b/;
   const found=fs.readdirSync(path.join(ROOT,'js')).filter(f=>f.endsWith('.js')&&pattern.test(read('js/'+f).replace(/captureCareerModeRawSaveLibraryMigrationSnapshot|captureLibraryMigrationSnapshot/g,'')));
