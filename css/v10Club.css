@@ -1010,6 +1010,20 @@ html[data-gfx="0"] #clubWheelScreen #covers polygon[filter="url(#cvUnder)"] { di
   html:not(.compact) #app #clubWheelScreen.cl-on .clubVs::after { box-shadow: none !important; border-color: rgba(210, 170, 89, .55) !important; }
 }
 
+/* r91 layout hunt (art state captures, Club locked at 1920x1035): two fixes on tall desktops, both already how 1920x866 reads.
+   1) The RIVALRY / VS dark plate is gone: a boxed slab over the stadium glass read as a dark box behind VS, and the compact
+      desktops never drew one. VS and RIVALRY keep their gold and ivory type with a soft shadow for contrast.
+   2) club.js lets the lock note bleed to the full centre divider (700-1220 at 1920), which runs under the Nik crest (1187+) so
+      the first line ended on Chelsea's shield. The note now stays a hair wider than the confirmation box (the space between
+      the two crests), balanced over two lines. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubVs::after { content: none !important; display: none !important; }
+  html:not(.compact) #app #clubWheelScreen.cl-on .clubVs > span { text-shadow: 0 1px 2px #000, 0 0 8px #000, 0 0 14px rgba(0, 0, 0, .7); }
+  html:not(.compact) #app #clubWheelScreen.cl-on #clubRivalryConfirmation .clubRivalryLockNote {
+    margin-left: calc(var(--k) * -8px); margin-right: calc(var(--k) * -8px); text-wrap: balance;
+  }
+}
+
 /* r90 W9 (LOOK hunt L50): on short desktops (html.compact: 1180x620, 1366x640, 1920x866) club.js places the title 10 px
    under the 52 px top bar and the status lines 2 px under the title. Team V's club.js stays byte-for-byte, so the room is
    added here: the title moves 8 px down (18 px under the bar) and the status lines 14 px (8 px under the title). */
