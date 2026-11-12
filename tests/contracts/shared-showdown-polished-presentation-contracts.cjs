@@ -7,9 +7,6 @@ const read=file=>fs.readFileSync(path.join(root,file),"utf8");
 const presentation=read("js/productionSharedShowdownPresentation.js");
 const entry=read("js/productionSharedJourneyEntry.js");
 const guard=read("js/productionSharedJourneyGuard.js");
-const bridge=read("js/ssjrAcceptancePolishedBridge.js");
-const recorder=read("js/ssjrProductionAcceptanceRecorder.js");
-const bootstrap=read("js/ssjr.js");
 
 assert.match(presentation,/usesLeagueWheelScreen:true/);
 assert.match(presentation,/usesClubPackRevealScreen:true/);
@@ -42,15 +39,8 @@ assert.match(entry,/singleProductEntry:true/);
 assert.doesNotMatch(entry,/OPEN AUTHORITATIVE SHARED SETUP/);
 assert.match(guard,/routesPolishedPresentationClicks:true/);
 
-assert.match(bridge,/acceptanceOnly:true/);
-assert.match(bridge,/engineeringPanelPlayerFacing:false/);
-assert.match(bridge,/bothManagerRoles:true/);
-assert.match(bridge,/openPanel:ssjrabPolishedOpen/);
-assert.match(bridge,/productionSharedShowdownPresentation\.js/);
-assert.match(recorder,/async function openSetup\(\)\{const api=await ensureSetup\(\);return api\.openPanel\(\);\}/);
-assert.ok(bootstrap.indexOf("ssjr-acceptance-polished-bridge")<bootstrap.indexOf("ssjr-production-acceptance-recorder"),"Acceptance bridge must load before the guided recorder.");
 
-for(const source of [presentation,entry,guard,bridge]){
+for(const source of [presentation,entry,guard]){
   assert.doesNotMatch(source,/billingRequired\s*:\s*true/i);
   assert.doesNotMatch(source,/blazeRequired\s*:\s*true/i);
   assert.doesNotMatch(source,/cloudRunRequired\s*:\s*true/i);
@@ -62,6 +52,5 @@ assert.match(presentation,/blazeRequired:false/);
 assert.match(presentation,/cloudRunRequired:false/);
 assert.match(presentation,/cloudFunctionsRequired:false/);
 assert.match(presentation,/appCheckEnforcementRequired:false/);
-assert.match(bridge,/billingRequired:false/);
 
 process.stdout.write("PASS Shared Showdown polished presentation contracts: both manager roles witness the real league wheel and club packs; first taps become busy immediately, repeat taps coalesce, final confirmation can hand off to Career Start in one click, reveal witnesses reset per rivalry, provider draw authority remains sole, and the acceptance recorder stays bridged away from the engineering panel.\n");

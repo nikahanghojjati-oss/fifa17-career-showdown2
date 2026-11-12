@@ -28,7 +28,8 @@ const DEVICE_CHECK = ["device-check.html", "device-check-chamber.html"];
 const NOT_PUBLISHED = new Set([]);
 const worker = read("service-worker.js");
 const setOf = name => { const m = new RegExp(`const ${name} = new Set\\(\\[([\\s\\S]*?)\\]\\);`).exec(worker); assert.ok(m, `service-worker.js declares ${name}`); return new Set([...m[1].matchAll(/"([^"]+)"/g)].map(x => x[1])); };
-const OWN_PAGES = new Set([...setOf("NETWORK_ONLY_NAVIGATION_PATHS"), ...setOf("STANDALONE_PAGE_NAVIGATION_PATHS"), ...setOf("SHELL_FRAME_NAVIGATION_PATHS")]);
+// r91 cut step 5 removed NETWORK_ONLY_NAVIGATION_PATHS with the old update page, its only entry.
+const OWN_PAGES = new Set([...setOf("STANDALONE_PAGE_NAVIGATION_PATHS"), ...setOf("SHELL_FRAME_NAVIGATION_PATHS")]);
 
 // P1
 {

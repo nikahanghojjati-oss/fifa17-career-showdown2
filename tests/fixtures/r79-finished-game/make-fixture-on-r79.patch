@@ -1,0 +1,29 @@
+diff --git a/tests/browser/r79-two-player-journey-audit.cjs b/tests/browser/r79-two-player-journey-audit.cjs
+index 06d0481d..2073a359 100644
+--- a/tests/browser/r79-two-player-journey-audit.cjs
++++ b/tests/browser/r79-two-player-journey-audit.cjs
+@@ -476,6 +476,24 @@ async function main(){
+     // ---------- P7 history ----------
+     await assertCareerScreensShowCompletedShowdown([daniel,nik],"P7");
+     ok("P7","both devices: Career Statistics (1 completed), Trophy Room (Showdown Champion: Daniel) and Legacy (Showdown #1, Daniel wins)");
++    if(process.env.R79_STOP_AFTER_P7==="1"){console.log("STOP after P7 (golden fixture export)");
++      // Local-only golden export: the same files firebase-tools writes, fetched straight from the emulators (no proxy).
++      const http=require("http"),fsx=require("fs"),px=require("path"),dir=process.env.R79_EXPORT_DIR,P="demo-cms-browser-journey";
++      const call=(port,pth,method,body)=>new Promise((ok,no)=>{const b=body?JSON.stringify(body):null;const r=http.request({host:"127.0.0.1",port,path:pth,method,headers:{Authorization:"Bearer owner",...(b?{"content-type":"application/json","content-length":Buffer.byteLength(b)}:{})}},res=>{let t="";res.on("data",c=>t+=c);res.on("end",()=>res.statusCode<300?ok(t):no(new Error(`${pth} ${res.statusCode} ${t.slice(0,200)}`)));});r.on("error",no);r.end(b||undefined);});
++      fsx.rmSync(dir,{recursive:true,force:true});fsx.mkdirSync(px.join(dir,"auth_export"),{recursive:true});
++      // Nik's real game was confirmed in the r79 era, before MARQUEE_FROM_MS (2026-10-30 03:00 UTC): set the stored Setup
++      // confirm time to that era so the fixture is the same shape (an emulator game played today would carry today's time).
++      const D=`/v1/projects/${P}/databases/(default)/documents`;
++      for(const doc of JSON.parse(await call(8181,`${D}/rivalries`,"GET")).documents||[]){
++        const id=doc.name.split("/").pop();
++        await call(8181,`${D}/rivalries/${id}/sharedSetup/authoritative?updateMask.fieldPaths=updatedAt`,"PATCH",{fields:{updatedAt:{timestampValue:process.env.R79_CONFIRMED_AT||"2026-10-25T18:00:00Z"}}});
++        console.log("CONFIRMED_AT set",id,process.env.R79_CONFIRMED_AT||"2026-10-25T18:00:00Z");
++      }
++      await call(8181,`/emulator/v1/projects/${P}:export`,"POST",{database:`projects/${P}/databases/(default)`,export_directory:dir,export_name:"firestore_export"});
++      fsx.writeFileSync(px.join(dir,"auth_export","accounts.json"),await call(9199,`/identitytoolkit.googleapis.com/v1/projects/${P}/accounts:batchGet?maxResults=-1`,"GET"));
++      fsx.writeFileSync(px.join(dir,"auth_export","config.json"),await call(9199,`/emulator/v1/projects/${P}/config`,"GET"));
++      fsx.writeFileSync(px.join(dir,"firebase-export-metadata.json"),JSON.stringify({version:"15.28.1",firestore:{version:"1.22.0",path:"firestore_export",metadata_file:"firestore_export/firestore_export.overall_export_metadata"},auth:{version:"15.28.1",path:"auth_export"}},undefined,2));
++      console.log("EXPORT done",dir);return;}
+ 
+     // ---------- P8 Daniel's next START, Nik's Home JOIN ----------
+     meter.mark("r2:start");

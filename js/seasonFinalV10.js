@@ -204,7 +204,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     /* HO-033 follow-up: the glow sits on opaque black-gold marble (HO-029 kit tile), not .96-.98 see-through glass (HO-027) */
     background:radial-gradient(ellipse 70% 40% at 50% 0,#ffe9a01c,transparent 70%) padding-box,url("css/r78-marble-tile.webp") 0 0/256px 256px repeat padding-box,var(--sg-bevel) border-box #110f0c;
     -webkit-backdrop-filter:none;backdrop-filter:none;
-    box-shadow:inset 0 0 0 1px #050505,inset 0 0 0 calc(var(--sgu) * 3) #0a0907,inset 0 0 0 calc(var(--sgu) * 4) #d9aa3cb0,0 0 calc(var(--sgu) * 30) #f0c84b66,0 calc(var(--sgu) * 14) calc(var(--sgu) * 34) #000c;
+    box-shadow:inset 0 0 0 1px #050505,inset 0 0 0 calc(var(--sgu) * 3) #0a0907,inset 0 0 0 calc(var(--sgu) * 4) #d9aa3cb0,0 calc(var(--sgu) * 14) calc(var(--sgu) * 34) #000c;
   }
   #app #standings.standingsScreenV10 .sdg-row{border-top:1px solid #c9983a99}
   /* the plate paints its own crown above the title; the live crown would stack a second one (compact titles keep theirs) */
@@ -1556,6 +1556,18 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel .seasonReviewActions button { min-width:0;min-height:44px;max-width:100%;white-space:normal;overflow-wrap:normal; }
 }
+/* r91 (art thread, 1920x866): CONFIRM & SAVE SEASON sat 40px below the first view (the board started at 367px and is 610px
+    tall). On wide windows up to 1000px tall the review card (the scoring card steps aside there) keeps to the room between the
+    two faces, as the old 44% column did, so it can start one gap under the title (the title ends at 25.4% of the window height)
+    and the whole card, with CONFIRM and EDIT, fits the first view. Narrower windows keep the chin rule above. */
+@media (min-width:1880px) and (max-height:1000px) and (min-aspect-ratio:16/9) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode):has(.season-review-panel:not(.hidden)) .v10SeasonStage .season-layout {
+  padding-top:calc(25.4svh + 14px);
+ }
+ :root:root:root #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel:not(.hidden) {
+  width:min(56%,var(--sr-clear,56%));margin-inline:auto;
+ }
+}
 /* r90 W9 (window sweep): from 2560px wide the Season Results boards keep the 1920x1080 look at the window's scale. Their type,
    paddings and buttons were fixed px (or capped), so at 3840x2160 they read at half size in a board twice as wide. Each board
    is zoomed by the window over 1920x1080 (never below 1); the svh and vw sizes inside are divided back so they do not grow twice. */
@@ -1837,7 +1849,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(.scoring-panel,.seasonEntryGrid .entry-panel,.season-review-panel) {
   clip-path:none;border:4px solid transparent;border-radius:9px;
   background:linear-gradient(180deg,#15130fF2 0,#0a0a0bF5 22%,#08080aF7 100%) padding-box,var(--sr-bevel) border-box;
-  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81c,0 0 28px #f0c84b38,0 14px 36px #000c;
+  box-shadow:inset 0 0 0 2px #050505,inset 0 0 0 3px #d9aa3c99,inset 0 1px 0 4px #fff1b81c,0 14px 36px #000c;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonReviewCard { border-radius:6px; }
  /* REVIEW MY SEASON RESULT and COMMIT & ACKNOWLEDGE: polished gold */
@@ -2561,8 +2573,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     installStandingsRoute();installChampionBack();
     // r87 Touchline Gazette: its own page after Season Results (CONTINUE TO SEASON N+1) and after Final Winner (its exits).
     // Small and loaded here with the screens it follows; its paper, sheet and copy load only when a paper is due.
-    // r87 Commentary v3: one TV bar inside Season Results' SEASON SCORE box (js/commentaryV3.js); its lines load only there.
-    Promise.resolve().then(()=>root.loadRuntimeScript("commentary-v3","js/commentaryV3.js",()=>Boolean(root.CareerModeCommentaryV3))).then(()=>root.CareerModeCommentaryV3?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Commentary unavailable.",error));
+    // r91: Commentary v3's lines print in the Touchline Gazette ("From the commentary box"), which loads the booth itself;
+    // Season Results and Final Winner no longer carry a commentary bar (Nik 2026-11-11 picked the paper).
     Promise.resolve().then(()=>root.loadRuntimeScript("touchline-gazette","js/touchlineGazette.js",()=>Boolean(root.CareerModeTouchlineGazette))).then(()=>root.CareerModeTouchlineGazette?.install?.()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Touchline Gazette unavailable.",error));
     // Warm Season Results' kit, scripts and templates now (show() loads, then returns false while the screen is hidden),
     // so the skin mounts in the same tick the screen opens instead of after the form is already being filled in.

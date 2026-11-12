@@ -73,14 +73,16 @@ const PLAN_NAME=process.env.CE2PG_PLAN||"main";
 const SEASONS=Number(process.env.CE2PG_SEASONS||(PLAN_NAME==="main"?3:1));
 const RUN=Number(process.env.CE2PG_RUN||1);
 const SCENARIO=process.env.CE2PG_SCENARIO||"";// "draw": the single Showdown ends level (equal totals)
-if(!["main","single"].includes(PLAN_NAME)||![1,3,5,10].includes(SEASONS)||![1,2,3].includes(RUN)||!["","draw"].includes(SCENARIO)){
-  console.error(`CE2PG_PLAN main|single, CE2PG_SEASONS 1|3|5|10, CE2PG_RUN 1-3, CE2PG_SCENARIO ""|draw (got ${PLAN_NAME}, ${SEASONS}, ${RUN}, ${SCENARIO})`);process.exit(2);
+if(!["main","single","golden"].includes(PLAN_NAME)||![1,3,5,10].includes(SEASONS)||![1,2,3].includes(RUN)||!["","draw"].includes(SCENARIO)){
+  console.error(`CE2PG_PLAN main|single|golden, CE2PG_SEASONS 1|3|5|10, CE2PG_RUN 1-3, CE2PG_SCENARIO ""|draw (got ${PLAN_NAME}, ${SEASONS}, ${RUN}, ${SCENARIO})`);process.exit(2);
 }
 const PORT_BASE=Number(process.env.CE2PG_PORT_BASE||9510);
 const PORTS={auth:PORT_BASE,firestore:PORT_BASE+1,hub:PORT_BASE+2,logging:PORT_BASE+3,websocket:PORT_BASE+4};
 const PROJECT="demo-cms-browser-journey";// the emulator switch is pinned to this demo project id
 const OUT_DIR=path.join(ROOT,"test-results");
-const TAG=(PLAN_NAME==="main"?`ce2pg-main-${RUN}`:`ce2pg-single-${SEASONS}-${RUN}${SCENARIO?`-${SCENARIO}`:""}${process.env.CE2PG_SACKED?`-sacked-${process.env.CE2PG_SACKED.replace(":","-")}`:""}`)+(process.env.CE2PG_BUDGET==="1"?"-budget":"");
+const TAG=PLAN_NAME==="golden"?`ce2pg-golden${process.env.CE2PG_UPGRADE_FROM?"-upgrade":""}`:(PLAN_NAME==="main"?`ce2pg-main-${RUN}`:`ce2pg-single-${SEASONS}-${RUN}${SCENARIO?`-${SCENARIO}`:""}${process.env.CE2PG_SACKED?`-sacked-${process.env.CE2PG_SACKED.replace(":","-")}`:""}`)+(process.env.CE2PG_BUDGET==="1"?"-budget":"");
+// r91 golden fixture (Nik 2026-11-11 08:34 UTC: keep the finished Arsenal v Burnley row unchanged): see goldenFinishedGame().
+const GOLDEN_IMPORT=process.env.CE2PG_IMPORT?path.resolve(process.env.CE2PG_IMPORT):"";
 const REPORT_PATH=path.join(OUT_DIR,`${TAG}.json`);
 const SHOT_DIR=path.join(OUT_DIR,TAG);
 
@@ -104,7 +106,7 @@ if(!process.env.FIRESTORE_EMULATOR_HOST){
     logging:{host:"127.0.0.1",port:PORTS.logging},
     ui:{enabled:false},singleProjectMode:true
   }}));
-  const child=spawn("npx",["--yes","firebase-tools@15.28.1","emulators:exec","--config",configPath,"--only","auth,firestore","--project",PROJECT,`node ${path.relative(ROOT,__filename)}`],{cwd:ROOT,stdio:"inherit",env:{...process.env,CMS_CHROMIUM_MULTI_CONTEXT:"1"}});
+  const child=spawn("npx",["--yes","firebase-tools@15.28.1","emulators:exec","--config",configPath,"--only","auth,firestore","--project",PROJECT,...(GOLDEN_IMPORT?["--import",GOLDEN_IMPORT]:[]),`node ${path.relative(ROOT,__filename)}`],{cwd:ROOT,stdio:"inherit",env:{...process.env,CMS_CHROMIUM_MULTI_CONTEXT:"1"}});
   child.on("exit",code=>process.exit(code===null?1:code));
   return;
 }
@@ -1094,14 +1096,14 @@ function extract(raw){
   o.compareAvgPoints=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE POINTS\s+([\d.]+)/);o.compareAvgGoals=pair(cs,/([\d.]+)\s+AVERAGE LEAGUE GOALS\s+([\d.]+)/);
   o.leadWins=lead(cs,/MOST SEASON WINS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+wins?/);o.leadTrophies=lead(cs,/MOST TROPHIES\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+troph/);
   o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts?/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts?/);
-  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions League","cl"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));s.leader=(/\b(DANIEL|NIK) LEADS\b/i.exec(text)||[])[1]?.toUpperCase()||null;s.unavailable=/unavailable|could not/i.test(text);return s;};
+  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions Leagues?","cl"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));s.leader=(/\b(DANIEL|NIK) LEADS\b/i.exec(text)||[])[1]?.toUpperCase()||null;s.unavailable=/unavailable|could not/i.test(text);return s;};
   o.standings=standings(stCareer);o.standingsFirst=standings(stFirst);
   o.standingsCareerText=stCareer.toUpperCase();o.standingsFirstCareerText=stFirst.toUpperCase();
   const live=raw?.standings?.["THIS SHOWDOWN"]||"";o.thisShowdownText=live;
   o.thisShowdown={season:pair(live,/SEASON (\d+) OF (\d+)/),points:pair(live,/SHOWDOWN POINTS\s+(\d+)\s*:\s*(\d+)/)};
   for(const [word,key] of [["SEASON WINS","W"],["SEASON DRAWS","D"],["SEASON LOSSES","L"],["CHAMPIONS LEAGUES?","cl"],["LEAGUE TITLES","league"],["DOMESTIC CUPS","cup"],["TOTAL TROPHIES","trophies"]])o.thisShowdown[key]=pair(live,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`,"i"));
   const rv=corpus(raw,"statistics");
-  o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions League\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
+  o.rivalryFigures={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions Leagues?\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/),unavailable:/Rivalry statistics (are )?unavailable|history is unavailable/i.test(rv)};
   o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);
   const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],(r[1]==="\u2014"?"":(r[2]||"")).toUpperCase()]:null;};
   // r87 career fixes: a level record reads LEVEL (never "Shared"), and a best of 0 is held by nobody: "—" with no holder (B5).
@@ -1662,6 +1664,87 @@ async function playShowdown(ctx,spec){
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------
+// Golden fixture: the one finished Showdown Nik keeps (CE2PG_PLAN=golden)
+// ---------------------------------------------------------------------------------------------------------------------------
+// Nik 2026-11-11 08:34 UTC: the finished Arsenal v Burnley game (played on r79) keeps its History row exactly as it is. Its
+// shape is pinned by tests/fixtures/r79-finished-game/: an emulator export written by the r79 build itself (its two-player
+// journey played one 1-season Showdown to the end and stopped; see that folder's README). Nothing is played here: Daniel and
+// Nik sign in (the same Google accounts, fresh browsers) and every career page is read.
+//   CE2PG_IMPORT=<export dir>        the emulator data to start from (required).
+//   CE2PG_GOLDEN_OUT=<file>          write the figures read (on the build being served) as the golden.
+//   CE2PG_GOLDEN_EXPECT=<file>       every figure must equal the golden; text changed only by wording is listed, never failed.
+//   CE2PG_UPGRADE_FROM=<older tree>  read on that build first, then the update: the server switches to this tree, both phones
+//                                    drop the service worker and caches, reload, and every figure must be the same as before.
+// Fixed checks on every read: exactly one finished Showdown in History (Daniel won it) on both phones, no Special Player chip
+// on any career page (it was confirmed before MARQUEE_FROM_MS), no Showdown in progress, and both phones read the same.
+const GOLDEN_TEXT_KEYS=new Set(["standingsCareerText","standingsFirstCareerText","thisShowdownText","seasonHistory","rivalry","settings","legacyCards"]);
+const GOLDEN_HOSTS=["legacy","trophyRoom","careerStatistics","standings","statistics"];
+function goldenSplit(raw){const f=extract(raw),fig={},text={};for(const [k,v] of Object.entries(f))(GOLDEN_TEXT_KEYS.has(k)?text:fig)[k]=v;fig.legacyStatuses=(f.legacyCards||[]).map(c=>c.status);
+  // The History row itself: number, score, seasons, result. Club names are figures too (they come from the save, not wording).
+  fig.legacyRows=(f.legacyCards||[]).map(c=>({number:(/Showdown #(\d+)/.exec(c.text)||[])[1]||null,score:(/(\d+)\s+[–-]\s+(\d+)/.exec(c.text)||[]).slice(1),seasons:(/(\d+)\s*\/\s*(\d+)\s*Seasons?/i.exec(c.text)||[]).slice(1),result:(/(DRAW|DANIEL WINS|NIK WINS)/i.exec(c.text)||[])[1]?.toUpperCase()||null}));
+  return {fig,text};}
+async function goldenRead(ctx,label){
+  const out={};
+  for(const m of [ctx.daniel,ctx.nik]){
+    const raw=await captureCareer(m,`${label}-${m.user}`);
+    const chips={};
+    let rows=null;
+    for(const host of GOLDEN_HOSTS){await openPage(m,host);await m.page.waitForTimeout(800);chips[host]=await m.page.evaluate(id=>document.querySelectorAll(`#${id} [data-sp-chip]`).length,host);
+      // History rows read with any Special Player chip taken out, so a chip can never be read as a figure.
+      if(host==="legacy")rows=await m.page.evaluate(()=>[...document.querySelectorAll("#legacy .legacyCard")].map(c=>{const k=c.cloneNode(true);k.querySelectorAll("[data-sp-chip]").forEach(x=>x.remove());return {status:c.dataset.status||"",text:(k.textContent||"").replace(/\s+/g," ").trim()};}));}
+    if(rows)raw.legacy={...raw.legacy,cards:rows};
+    await backToShowdownHome(m);
+    out[m.user]={...goldenSplit(raw),chips,raw};
+    const f=out[m.user].fig;
+    await check(m,`${label}.history.one`,"History holds exactly one finished Showdown",f.legacyStatuses.length===1&&f.legacyStatuses[0]==="completed"&&f.legacyRows[0]?.result==="DANIEL WINS",{rows:f.legacyRows},{screen:"History"});
+    await check(m,`${label}.history.winner`,"Career Statistics: 1 completed Showdown, Daniel holds the Showdown Champion trophy",String(f.summary?.[0])==="1"&&Array.isArray(f.cabChampion)&&String(f.cabChampion[0])==="1"&&String(f.cabChampion[1]??"")!=="1",{summary:f.summary,champion:f.cabChampion},{screen:"Trophy Room"});
+    await check(m,`${label}.history.nosp`,"no Special Player chip on any career page (confirmed before MARQUEE_FROM_MS)",Object.values(chips).every(n=>n===0),chips,{screen:"History"});
+    await check(m,`${label}.history.nolive`,"no Showdown in progress (This Showdown is empty)",!/SEASON \d+ OF \d+/i.test(out[m.user].text.thisShowdownText||""),out[m.user].text.thisShowdownText,{screen:"Standings"});
+  }
+  await check(null,`${label}.same`,"Daniel and Nik read the same figures",JSON.stringify(out.daniel.fig)===JSON.stringify(out.nik.fig),{daniel:out.daniel.fig,nik:out.nik.fig},{screen:"Career"});
+  return out;
+}
+async function goldenCompare(a,b,label,what){
+  const wording=[];
+  for(const u of ["daniel","nik"]){
+    const keys=[...new Set([...Object.keys(a[u].fig),...Object.keys(b[u].fig)])];
+    const diff=keys.filter(k=>JSON.stringify(a[u].fig[k]??null)!==JSON.stringify(b[u].fig[k]??null)).map(k=>({key:k,was:a[u].fig[k]??null,now:b[u].fig[k]??null}));
+    await check(null,`${label}.${u}`,`${NAMES[u]}: every career figure is the same as ${what}`,diff.length===0,diff,{screen:"Career"});
+    for(const k of GOLDEN_TEXT_KEYS)if(JSON.stringify(a[u].text[k]??null)!==JSON.stringify(b[u].text[k]??null))wording.push({user:u,key:k,was:a[u].text[k]??null,now:b[u].text[k]??null});
+  }
+  report.golden=report.golden||{};report.golden[label]={wordingOnly:wording};
+  if(wording.length)console.log(`GOLDEN ${label}: ${wording.length} text field(s) differ (wording, listed in the report, not failed): ${[...new Set(wording.map(w=>w.key))].join(", ")}`);
+}
+async function goldenFinishedGame(ctx){
+  if(!GOLDEN_IMPORT)throw new Error("CE2PG_PLAN=golden needs CE2PG_IMPORT (tests/fixtures/r79-finished-game/export)");
+  showdownNow="golden";seasonNow=0;
+  const slim=r=>({daniel:{fig:r.daniel.fig,text:r.daniel.text,chips:r.daniel.chips},nik:{fig:r.nik.fig,text:r.nik.text,chips:r.nik.chips}});
+  let first=await phase("golden-read",()=>goldenRead(ctx,"golden.read"));
+  report.raw.goldenFirst={daniel:first.daniel.raw,nik:first.nik.raw};
+  if(UPGRADE_FROM){
+    report.upgrade.switchedAt=new Date().toISOString();
+    appServer.kill();await new Promise(resolve=>setTimeout(resolve,300));
+    servingOld=false;await startAppServer([]);
+    for(const m of [ctx.daniel,ctx.nik]){
+      await m.page.evaluate(async()=>{try{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister();}catch(_e){}try{for(const k of await caches.keys())await caches.delete(k);}catch(_e){}});
+      await reload(m);
+      await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false);},null,{timeout:30000}).catch(()=>{});
+      const rev=await m.page.evaluate(()=>typeof APP_VERSION!=="undefined"?APP_VERSION:(window.APP_VERSION||null)).catch(()=>null);
+      report.observations.push({where:"golden upgrade",user:m.user,appVersion:rev});
+    }
+    const after=await phase("golden-read-after-update",()=>goldenRead(ctx,"golden.updated"));
+    report.raw.goldenUpdated={daniel:after.daniel.raw,nik:after.nik.raw};
+    await goldenCompare(first,after,"golden.update","before the update");
+    first=after;
+  }
+  if(process.env.CE2PG_GOLDEN_OUT){fs.writeFileSync(path.resolve(process.env.CE2PG_GOLDEN_OUT),`${JSON.stringify(slim(first),null,1)}\n`);console.log(`GOLDEN written: ${process.env.CE2PG_GOLDEN_OUT}`);}
+  if(process.env.CE2PG_GOLDEN_EXPECT){
+    const want=JSON.parse(fs.readFileSync(path.resolve(process.env.CE2PG_GOLDEN_EXPECT),"utf8"));
+    await goldenCompare(want,first,"golden.expect","the golden (the live build)");
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------------------------------------------------------
 async function main(){
@@ -1669,7 +1752,7 @@ async function main(){
   await loadComposedRules();
   if(UPGRADE_FROM&&process.env.CMS_BASE_URL)throw new Error("CE2PG_UPGRADE_FROM needs the harness's own server (no CMS_BASE_URL)");
   // The upgrade happens after a non-final season of ONE Showdown: plan single, with more seasons than CE2PG_UPGRADE_AFTER.
-  if(UPGRADE_FROM&&(PLAN_NAME!=="single"||!(Number.isInteger(UPGRADE_AFTER)&&UPGRADE_AFTER>=1&&UPGRADE_AFTER<SEASONS)))throw new Error("CE2PG_UPGRADE_FROM needs CE2PG_PLAN=single and 1 <= CE2PG_UPGRADE_AFTER < CE2PG_SEASONS");
+  if(UPGRADE_FROM&&PLAN_NAME!=="golden"&&(PLAN_NAME!=="single"||!(Number.isInteger(UPGRADE_AFTER)&&UPGRADE_AFTER>=1&&UPGRADE_AFTER<SEASONS)))throw new Error("CE2PG_UPGRADE_FROM needs CE2PG_PLAN=single and 1 <= CE2PG_UPGRADE_AFTER < CE2PG_SEASONS");
   if(UPGRADE_FROM){
     const old=fs.readFileSync(path.join(UPGRADE_FROM,"service-worker.js"),"utf8").match(/const RUNTIME_REVISION = "([^"]+)"/)?.[1];
     report.upgrade={from:UPGRADE_FROM,fromRevision:old,after:UPGRADE_AFTER,switchedAt:null};
@@ -1684,7 +1767,7 @@ async function main(){
     const daniel=await openManager(browser,"daniel");managers.push(daniel);
     const nik=await openManager(browser,"nik");managers.push(nik);
     for(const m of [daniel,nik])await check(m,"boot.switch","emulator switch active (localhost + cmsEmulator=1 only)",await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),"switch inactive",{screen:"Boot"});
-    await phase("sign-in",async()=>{await signIn(daniel,"Daniel");await signIn(nik,"Nik");});
+    await phase("sign-in",async()=>{await signIn(daniel,"Daniel",{fresh:PLAN_NAME==="golden"});await signIn(nik,"Nik",{fresh:PLAN_NAME==="golden"});});
     daniel.uid=await accountId(daniel);nik.uid=await accountId(nik);
     await check(null,"boot.accounts","Daniel and Nik signed in as two distinct accounts",Boolean(daniel.uid&&nik.uid&&daniel.uid!==nik.uid),{daniel:daniel.uid,nik:nik.uid},{screen:"Sign in"});
     const ctx={daniel,nik,career:[],browser};ctxRef=ctx;billedModel=billedMeter.loadModel();
@@ -1696,11 +1779,12 @@ async function main(){
       {name:"C",length:3,endAfter:1,target:null,seed:37}
     ]:[{name:"S",length:SEASONS,firstRealStart:true,target:SCENARIO==="draw"?"draw":RUN===2?"nik":"daniel",seed:SEASONS,...(SACKED?{sacked:SACKED}:{})}];
     if(SACKED&&(PLAN_NAME!=="single"||SACKED.season<1||SACKED.season>SEASONS))throw new Error("CE2PG_SACKED needs CE2PG_PLAN=single and a season from 1 to CE2PG_SEASONS");
-    for(const spec of specs){
+    if(PLAN_NAME==="golden")await goldenFinishedGame(ctx);
+    else for(const spec of specs){
       await playShowdown(ctx,spec);
     }
     showdownNow="end";seasonNow=0;
-    if(primePack.enabled()){
+    if(primePack.enabled()&&PLAN_NAME!=="golden"){
       // Prime Pack: every round the phones played ended as the plan says (who named the Icon, and what it was worth).
       const pv=primePack.verify();report.prime={mode:primePack.MODE,...pv,observed:primePack.observed};
       await check(null,"prime.rounds","Prime Pack: every round ended as planned on both phones",pv.seasons>0&&pv.problems.length===0,pv.problems.join("; ")||"no round seen",{screen:"Prime Pack"});
@@ -1712,7 +1796,7 @@ async function main(){
       const T=report.showdowns.find(s=>s.name==="T")?.rivalryId;
       await check(null,"T.counted","the first real Showdown is counted in the career",Boolean(T&&!hidden.includes(T)&&ctx.career.some(s=>s.rivalryId===T&&s.state==="completed")),{T,hidden},{screen:"Database"});
     }
-    if(!SLIM){
+    if(!SLIM&&PLAN_NAME!=="golden"){
     // The end state again on both pages as they are (the last checkpoint), then after a storage wipe and in a brand-new browser.
     const raws={daniel:report.raw[report.checkpoints.at(-1).label].daniel,nik:report.raw[report.checkpoints.at(-1).label].nik};
     await phase("storage-wipe",async()=>{

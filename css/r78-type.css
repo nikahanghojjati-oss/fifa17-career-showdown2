@@ -292,6 +292,10 @@
 :root .sd-body--secondary { color: var(--r78-ivory-2); font-size: var(--r78-size-secondary); line-height: var(--r78-line-secondary); }
 :root .sd-body strong { font-weight: var(--r78-weight-strong); }
 
+/* 3b2 · r91 art ledger R1/R2: Team V shared title class (showdown-type.css .sd-title) adds a 12px gold glow behind every
+   screen title. Titles keep their dark lift shadow only; nothing glows at rest (Nik 2026-11-11: "not overly shiny"). */
+:root .sd-title { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .95)); }
+
 /* 3c · Home: the line under RIVALRY HEADQUARTERS (js/homeScreensV10.js adds .sd-body). Its .sd-label keeps condensed. */
 :root #mainMenu.v10Home .fifaMenuHeadingMeta {
   color: var(--r78-ivory);
