@@ -124,7 +124,7 @@ async function renderFreshReconnect(terminalState){
 
 (async()=>{
   const closed=await renderFreshReconnect({phase:"CLOSED",terminal:true});
-  assert.equal(closed.message,"SHOWDOWN COMPLETE · Open the Final Winner or History from Home.");
+  assert.equal(closed.message,"SHOWDOWN COMPLETE · Open the Final Winner or Legacy from Home.");
   assert.equal(closed.hasReconnect,false,"A terminal CLOSED Showdown must not offer RECONNECT SESSION.");
   const open=await renderFreshReconnect({phase:"READY",terminal:false});
   assert.match(open.message,/^NEW CONNECTION NEEDED ·/,"A non-closed Showdown must keep the existing reconnect line.");

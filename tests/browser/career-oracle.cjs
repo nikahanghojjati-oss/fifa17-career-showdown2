@@ -148,7 +148,7 @@ function checkBrowser(who,raw,E){
     // No tiebreak anywhere: equal career points share rank 1.
     for(const u of ["daniel","nik"]){const other=u==="daniel"?"nik":"daniel";eq(id(`trophy.rank.${u}`),`Trophy Room ranking: ${u} rank, career points, season wins`,f[u==="daniel"?"rankDaniel":"rankNik"],[x[u].total>=x[other].total?"1":"2",S(x[u].total),S(x[u].W)],o("Trophy Room (ranking)"));}
     const r=E.records,rw=v=>v?[S(v.value),holderName(v.holder)]:null;
-    eq(id("trophy.records"),"Trophy Room records: highest season score, league points, league goals, most perfect seasons, biggest Showdown win (value, holder)",[f.recSeason,f.recPoints,f.recGoals,f.recPerfect,f.recBiggest],[rw(r.season),rw(r.points),rw(r.goals),rw(r.perfect),rw(r.biggestWin)],o("Trophy Room (records)"));
+    eq(id("trophy.records"),"Trophy Room records: best season score, league points, league goals, perfect seasons, biggest Showdown win (value, holder)",[f.recSeason,f.recPoints,f.recGoals,f.recPerfect,f.recBiggest],[rw(r.season),rw(r.points),rw(r.goals),rw(r.perfect),rw(r.biggestWin)],o("Trophy Room (records)"));
   }
   // History: one card per completed or ended-early Showdown, numbered in career order, opening on the newest
   const listed=f.historyCards.filter(c=>c.status==="completed"||c.status==="abandoned");

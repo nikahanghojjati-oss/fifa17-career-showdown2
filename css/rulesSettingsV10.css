@@ -743,7 +743,7 @@
    nothing is drawn over it but the live cards. Size is one unit, --rbu, a picture pixel at this window (1536x864
    picture); the board stays content-sized and main stays the only scroller. Looks only: every word, id and tap order
    stays as it was. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (orientation:landscape) {
   #app #ruleBook.v10RuleBook {
     --rbu:min(calc(100vw / 1536),calc(100svh / 864));
     --rb-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
@@ -1218,3 +1218,39 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
    The 28 px number circle holds two digits at 12 px (it already does at 12 px under 900 px, above). */
 #app #ruleBook.v10RuleBook .ruleSectionNumber,
 #app #ruleBook.v10RuleBook .ruleSpecialPlayer .ruleSpecialPlayerTag { font-size: 12px; }
+
+/* r91 Rule Book in game order (Nik 2026-11-11): the Season Results card opens with how a season is entered, the Prime Pack
+   card ends with its player list by card type (the scoring table's rows), and the Special Player card shows this
+   Showdown's two chips when there is one. Same thin gold rule as the other card notes; no boxes around titles. */
+#app #ruleBook.v10RuleBook .scoringRuleSection > ul + .ruleScoreTable,
+#app #ruleBook.v10RuleBook .primePackRuleSection .rulePackNotes { margin-top:.9em; padding-top:.8em; border-top:1px solid rgba(214,176,70,.35); }
+#app #ruleBook.v10RuleBook .primePackRuleSection .rulePackTable { margin-top:.7em; }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow { display:flex; flex-wrap:wrap; align-items:center; gap:.45em 1em; margin:.9em 0 0; padding-top:.8em; border-top:1px solid rgba(214,176,70,.35); }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow > strong { color:#f7c93e; font-weight:700; letter-spacing:.08em; white-space:nowrap; }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerLive { display:flex; flex-wrap:wrap; gap:.45em 1.2em; }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow .spChip { font-size:12px; }/* the chip's own sheet draws 10.5-11 px; the floor is 12 px */
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow[hidden],
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerLive[hidden] { display:none; }
+/* r91 (Nik 2026-11-11, "in game order, written by a human for another human"): on tablets, laptops and desktops the cards
+   are one column, read top to bottom like a printed rule book, each card sized to its own text (no stretched, half-empty
+   cards beside a longer neighbour). Lines run to about 75 characters and the tables line up with the rules.
+   Upright phones keep the one-open-card list and short sideways phones keep the tabs. */
+@media (min-width:761px) and (min-height:501px) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    grid-template-columns:minmax(0,1fr); align-items:start;
+    width:min(calc(100% - 32px),760px); margin-inline:auto;
+  }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { height:auto; }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid .ruleSection ul { max-width:none; }
+}
+
+/* Two-column option (wide desktop): cards flow down the left column, then the right, in game order, no gaps. */
+@media (min-width:1200px) and (min-height:501px) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    display:block; column-count:2; column-gap:24px; column-fill:balance;
+    width:min(calc(100% - 64px),1480px);
+  }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection {
+    break-inside:avoid; page-break-inside:avoid; display:block; margin:0 0 24px; width:100%;
+  }
+}
