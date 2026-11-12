@@ -245,8 +245,8 @@ const DRAW_SITUATIONS=new Set(['draw','level-overall','final-season-decider']);
 // advance: replaces continueToNextSeason (a promise that takes its time, or fails). chipLate: the Special Player chip is not on
 // the page at the tap and arrives through loadRuntimeScript. chipFails: the chip is there but its data cannot load.
 // Timers of a second or more (safety timers, the asset cap) are captured in calls.longTimers and fired only by the test.
-function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne',advance=null,chipLate=false,chipFails=false,imageFails=false,renderThrows=false,booth=false}={}){
-  const capture=[],docListeners={},winListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,ownRematch:0,shown:[],loads:[],longTimers:[]};let compact=false;
+function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,history,managerRole='playerOne',advance=null,chipLate=false,chipFails=false,imageFails=false,renderThrows=false,squadStep=null,booth=false}={}){
+  const capture=[],docListeners={},winListeners={},store=new Map(),calls={continue:0,ownSeason:0,ownBack:0,ownRematch:0,shown:[],loads:[],longTimers:[],images:[]};let compact=false;
   let screen='seasonEntry';
   class El{
     constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.parent=null;this.dataset={};this.attrs={};this.listeners={};this.classes=new Set();this.id='';this.disabled=false;this.textContent='';this.scrollTop=0;this.scrollHeight=0;this.offsetHeight=100;const self=this;this.style={setProperty(k,v){self.style[k]=v;}};this.classList={add:(...c)=>c.forEach(x=>this.classes.add(x)),remove:(...c)=>c.forEach(x=>this.classes.delete(x)),contains:c=>this.classes.has(c)};}
@@ -261,7 +261,7 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
     matches(sel){return sel.split(',').some(one=>{one=one.trim();if(/\s/.test(one))return false;const m=one.match(/^([a-z]+)?(#[\w-]+)?((?:\.[\w-]+)*)$/i);if(!m)return false;if(m[1]&&m[1].toUpperCase()!==this.tagName)return false;if(m[2]&&m[2].slice(1)!==this.id)return false;return (m[3]||'').split('.').filter(Boolean).every(c=>this.classes.has(c));});}
     closest(sel){let n=this;while(n){if(n.matches(sel))return n;n=n.parent;}return null;}
     querySelector(sel){for(const c of this.children){if(c.matches(sel))return c;const d=c.querySelector(sel);if(d)return d;}return null;}
-    setAttribute(k,v){this.attrs[k]=String(v);}addEventListener(t,f){(this.listeners[t]=this.listeners[t]||[]).push(f);}
+    setAttribute(k,v){this.attrs[k]=String(v);}getAttribute(k){return k in this.attrs?this.attrs[k]:null;}removeAttribute(k){delete this.attrs[k];}addEventListener(t,f){(this.listeners[t]=this.listeners[t]||[]).push(f);}
     getBoundingClientRect(){return {top:0,left:0,width:0,height:0};}focus(){}
     click(){dispatch(this);}
   }
@@ -295,16 +295,17 @@ function world({loadFails=false,lateFiles=false,proceedResult=true,final=null,hi
     readStorageValue:k=>store.has(k)?store.get(k):null,writeStorageValue:(k,v)=>{store.set(k,String(v));return true;},
     getActiveScreenName:()=>screen,optionalAssetUrl:p=>p+'?v=test',
     loadRuntimeScript:(key)=>{if(loadFails)return Promise.reject(new Error('offline'));const install=()=>{if(late[key]&&!sandbox[late[key][0]])sandbox[late[key][0]]=late[key][1];calls.loads.push(key);return true;};return lateFiles?new Promise(resolve=>setTimeout(()=>resolve(install()),60)):Promise.resolve(install());},loadRuntimeStyle:()=>loadFails?Promise.reject(new Error('offline')):Promise.resolve(true),
-    Image:class{set src(v){setTimeout(()=>imageFails?this.onerror&&this.onerror():this.onload&&this.onload(),0);}decode(){return imageFails?Promise.reject(new Error('EncodingError')):Promise.resolve();}get complete(){return true;}get naturalWidth(){return imageFails?0:400;}},
+    Image:class{set src(v){calls.images.push(v);setTimeout(()=>imageFails?this.onerror&&this.onerror():this.onload&&this.onload(),0);}decode(){return imageFails?Promise.reject(new Error('EncodingError')):Promise.resolve();}get complete(){return true;}get naturalWidth(){return imageFails?0:400;}},
     ShowdownContent:{frontPage:{art:n=>`visual-assets/v10_1/content/gazette/${n}.webp`,screen(slot,p,onContinue){
       calls.shown.push(p);const s=slot.appendChild(new El('section'));if(renderThrows)throw new Error('draw failed');s.className='cmx-fp-screen';const t=s.appendChild(new El('h2'));t.className='cmx-fp-screen__title';
       const desk=s.appendChild(new El('div'));desk.className='cmx-fp-screen__desk';const paper=desk.appendChild(new El('article'));paper.className='cmx-paper';const photo=paper.appendChild(new El('figure'));photo.className='cmx-paper__photo';
       const b=s.appendChild(new El('button'));b.className='cmx-continue';b.addEventListener('click',()=>{if(onContinue)onContinue();});}}},
-    CareerModeGazetteCopy:Copy,CareerModeFrontPages:Pages,
+    CareerModeGazetteCopy:Copy,CareerModeFrontPages:Pages,CareerModeGazetteSacked:require('../../data/gazetteSacked.js'),
     CareerModeProductionSharedHistoryConvergence:{getState:()=>({...history,managerRole})},
     CareerModeProductionSharedMultiSeasonProgression:{canContinue:()=>true,continueToNextSeason:()=>{calls.continue+=1;if(advance)return advance();if(proceedResult)go('dashboard');return proceedResult;}},
     CareerModeSpecialPlayerChip:{liveFor:()=>sp,...(chipFails?{ensure:()=>Promise.resolve(false)}:{})},
     FINAL_WINNER_FIXTURES:final?{frames:{LIVE:final}}:undefined,CareerModeSeasonFinalV10:{gazetteHistory:()=>final?history:null},
+    ...(squadStep?{CareerModeSquadSheetStep:squadStep}:{}),
     ...(booth?{CareerModeCommentaryV3:require('../../js/commentaryV3.js'),CareerModeCommentaryEngine:require('../../js/commentaryEngine.js'),CareerModeCommentaryLines:require('../../data/commentaryLines.js'),CareerModeSharedShowdownCatalog:require('../../js/sharedShowdownCatalog.js')}:{})
   };
   // lateFiles: the paper, the copy and the headlines are not on the page yet when the player taps (a tap before warm() ends)
@@ -359,7 +360,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(off.page(),null);assert.equal(off.calls.continue,1,'offline: the tap simply went on');assert.equal(off.screen(),'dashboard');
     const stuck=world({history,proceedResult:false});stuck.dispatch(stuck.seasonButton);await settle();assert.ok(stuck.page());
     stuck.dispatch(stuck.continueButton());await settle();assert.equal(stuck.calls.continue,1);assert.equal(stuck.page(),null,'Season Results is back with its own button');assert.equal(stuck.host.dataset.gazette,undefined);
-    const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=4000,FINAL_SAFETY_MS=2500;/);
+    const src=read('js/touchlineGazette.js');assert.match(src,/ASSET_CAP_MS=9000,FINAL_SAFETY_MS=2500,SQUAD_CAP_MS=4000;/);
     ok('G9','the Gazette never holds anyone up: no files means the tap goes on, a step that cannot go on closes the paper');
   }
   // G11 a fast tap: CONTINUE pressed before the paper's files are on the page (warm() not finished) is still held for its
@@ -389,7 +390,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     w.dispatch(w.seasonButton);await settle();assert.ok(w.page());
     w.dispatch(w.continueButton());await settle();
     assert.equal(w.calls.continue,1);assert.ok(w.page(),'the paper stays while continueToNextSeason runs');assert.equal(w.continueButton().disabled,true);assert.equal(w.continueButton().attrs['aria-busy'],'true');
-    assert.ok(!w.calls.longTimers.some(t=>t.ms>=5000),'no long safety timer on a season paper');
+    assert.ok(!w.calls.longTimers.some(t=>t.ms>=5000&&t.ms!==9000),'no long safety timer on a season paper (9 s is the cap on preparing it, before it shows)');
     for(const t of w.calls.longTimers.splice(0))t.fn();await settle();
     assert.ok(w.page(),'no timer closes the paper mid-flight');assert.equal(w.host.dataset.gazette,'season');
     w.dispatch(w.continueButton());await settle();assert.equal(w.calls.continue,1,'a tap on the busy CONTINUE runs nothing more');
@@ -582,6 +583,91 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.match(css,/html\[data-gazette\] #commentaryV3Final,[^{]*\{ display: none !important; \}/,'the FULL TIME bar goes with the stage');
     assert.match(css,/@media \(max-height: 520px\) and \(max-width: 1000px\) and \(orientation: landscape\) \{\s*#touchlineGazette \.cmx-fp-screen,\s*#touchlineGazette\.tgzPage--final \.cmx-fp-screen \{ padding-top: 12px; \}\s*#touchlineGazette\.tgzPage::before \{ background-position: 50% 50%; \}/,'sideways phones: the paper starts at the top');
     ok('G22',`Fable job 5: broken pictures mean no paper, read at CONTINUE, no empty page, busy after a re-draw, scroll given back, REMATCH calls BACK's paper off, a/an before numbers (${margins} papers with "an 8/11-point"), FULL TIME bar and sideways phones in the sheet`);
+  }
+  // G23 (r91, Nik 2026-11-11 "sometimes the Gazette was not showing up"): the paper used to get 4 s after the tap to load its
+  // files, fonts and pictures, and a tap that missed went on without it, so that phone never saw that paper. Now the paper that
+  // is due is prepared while Season Results or Final Winner is still on screen (files, edition, pictures), the tap waits up to
+  // 9 s with its button marked busy, a read paper is never prepared again, and a sacked season prepares the final paper only.
+  {
+    const pics=e=>{const p=e.paper;return [p.photo?.name,p.portrait?.name,...p.briefs.map(b=>b.trophy)].filter(Boolean);};
+    const has=(w,names)=>names.every(n=>w.calls.images.some(u=>u.includes(`/${n}_HC_V1.webp`)||u.endsWith(`/${n}.webp`)));
+    const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    // season: prepared before any tap, nothing shown, nothing stored, then the tap opens it at once
+    const p=proj('e',3,[[R.clLeague,R.cupAward]]),history=fx.history(p),w=world({history});
+    w.go('seasonEntry');await wait(600);
+    const due=G.seasonEdition({projection:p,seasonNumber:1,specialPlayers:sp});
+    assert.ok(has(w,pics(due)),`the season paper's pictures are decoded before the tap (${w.calls.images.join(', ')})`);
+    assert.ok(w.calls.loads.includes('gazette-copy')&&w.calls.loads.includes('gazette-frontpage'),'its files are loaded');
+    for(const k of ['ssjr-shared-setup-catalog','commentary-engine','commentary-lines','commentary-v3'])assert.ok(w.calls.loads.includes(k),`the commentary box's file ${k} is loaded before the tap too (#1396)`);
+    assert.equal(w.page(),null,'nothing is shown before the tap');assert.equal(w.store.has(G.SEEN_KEY),false,'nothing is marked read');
+    const ev=w.dispatch(w.seasonButton);assert.equal(ev.defaultPrevented,true);assert.equal(w.seasonButton.attrs['aria-busy'],'true','the tapped button says it is working');
+    assert.ok(w.calls.longTimers.some(t=>t.ms===9000),'the tap waits up to 9 s for its paper');
+    await settle();assert.ok(w.page(),'the paper is up');assert.equal(w.calls.shown[0].headline,due.paper.headline);
+    // final, full length and sacked: the final paper is prepared on Final Winner
+    for(const [seed,T,seasons,label] of [['f',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]],'full'],['1',3,[[R.cl,R.none],[{...R.cup,sacked:true},R.league]],'sacked']]){
+      const q=proj(seed,T,seasons),a=q.managerRecords.playerOne.totalPoints,b=q.managerRecords.playerTwo.totalPoints;
+      // the sacked frame as js/seasonFinalV10.js draws it from the sacked reconciliation (seasons played = the sacked season)
+      const fr=label==='sacked'?{winner:a>b?'daniel':b>a?'nik':'draw',totals:{daniel:a,nik:b},seasonsPlayed:seasons.length,sacked:{season:seasons.length,totalSeasons:T,daniel:true,nik:false}}:frame(q),f=world({history:fx.history(q),final:fr});
+      f.go('seasonEntry');await wait(600);
+      const e=G.finalEdition({projection:q,final:fr});assert.ok(e,label);
+      assert.ok(has(f,pics(e)),`${label}: the final paper's pictures are decoded on Final Winner (${f.calls.images.join(', ')})`);assert.equal(f.page(),null);
+      f.dispatch(f.back);await settle();assert.ok(f.page(),`${label}: the final paper opens on BACK`);assert.equal(f.calls.shown[0].headline,e.paper.headline);
+    }
+    // a paper already read on this phone is not prepared again
+    const r=world({history});r.store.set(G.SEEN_KEY,JSON.stringify([`${p.rivalryId}|season|1`]));r.go('seasonEntry');await wait(600);
+    assert.equal(r.calls.images.length,0,'a read paper is not prepared again');
+    // a sacked season is the last: no season paper is prepared for it (its paper is the final one, on Final Winner)
+    const sk=proj('2',3,[[R.cl,{...R.none,sacked:true}]]),s2=world({history:fx.history(sk)});s2.go('seasonEntry');await wait(600);
+    assert.equal(s2.calls.images.length,0,'no season paper for a sacked season');
+    const src=read('js/touchlineGazette.js');assert.ok(!/getDoc|onSnapshot|setDoc|runTransaction|collection\(/.test(src),'still no Firebase call');assert.match(src,/firestoreReads:0,firestoreWrites:0/);
+    ok('G23','r91: the due paper (season, final, sacked final) is prepared while its screen is up, the tap waits up to 9 s with its button busy, a read paper is never prepared again, a sacked season prepares only the final paper, no Firebase');
+  }
+  // G24 (review of #1390): the busy mark always comes off, even when a render disabled the button during the wait (a stuck
+  // aria-busy holds js/offlineApp.js's update boundary), and a mark this tap did not set is left alone. Both phones print the
+  // same squad news: the paper asks js/squadSheetStep.js gazetteEnsure for the sheets it needs before it prints (a phone that
+  // lacks them, a new device or cleared storage, reads them first), and a squad read that never answers cannot hold the paper.
+  {
+    const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    const p=proj('3',3,[[R.clLeague,R.cupAward]]),history=fx.history(p);
+    const b=world({history,lateFiles:true});b.dispatch(b.seasonButton);assert.equal(b.seasonButton.attrs['aria-busy'],'true');
+    b.seasonButton.disabled=true;await wait(150);
+    assert.ok(b.page(),'the paper still opens');assert.equal(b.seasonButton.getAttribute('aria-busy'),null,'the busy mark is off although the button was disabled meanwhile');
+    const o=world({history,lateFiles:true});o.seasonButton.setAttribute('aria-busy','true');o.dispatch(o.seasonButton);await wait(150);
+    assert.equal(o.seasonButton.getAttribute('aria-busy'),'true','a busy mark this tap did not set stays');
+    // squad news, season 2: one phone keeps the sheets, the other (a new device) gets them only through gazetteEnsure
+    const q=proj('4',3,[[R.clLeague,R.cupAward],[R.cup,R.league]]),h2=fx.history(q);
+    const news={playerOne:{left:[{name:'Marco Reus',reason:'contract'}],rated:[]},playerTwo:{left:[],rated:[{name:'Kevin De Bruyne',value:91}]}};
+    const phone=kept=>{const asked=[];let have=kept;return {asked,step:{gazetteNews:({season})=>have&&season===2?news:null,gazetteEnsure:args=>{asked.push(args);return new Promise(resolve=>setTimeout(()=>{have=true;resolve(true);},40));}}};};
+    const A=phone(true),B=phone(false),wa=world({history:h2,squadStep:A.step}),wb=world({history:h2,managerRole:'playerTwo',squadStep:B.step});
+    wa.dispatch(wa.seasonButton);wb.dispatch(wb.seasonButton);await wait(250);
+    assert.ok(wa.page()&&wb.page(),'both papers are up');
+    assert.deepEqual(JSON.parse(JSON.stringify(B.asked)),[{rivalryId:q.rivalryId,season:2}],'the paper asks for exactly its own season\'s sheets');
+    const pa=wa.calls.shown[0].story.paragraphs,pb=wb.calls.shown[0].story.paragraphs;
+    assert.ok(pa[1].startsWith('Squad news: '),pa[1]);assert.deepEqual(JSON.parse(JSON.stringify(pb)),JSON.parse(JSON.stringify(pa)),'both phones print the same squad news');
+    // the final paper asks for its last season's sheets too
+    const fq=proj('5',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]]),ff=frame(fq),F=phone(false),wf=world({history:fx.history(fq),final:ff,squadStep:F.step});
+    wf.dispatch(wf.back);await wait(250);assert.ok(wf.page());assert.deepEqual(JSON.parse(JSON.stringify(F.asked)),[{rivalryId:fq.rivalryId,season:3}]);
+    // a squad read that never answers: the paper waits at most 4 s for it, then prints without squad news
+    const stuck=world({history:h2,squadStep:{gazetteNews:()=>null,gazetteEnsure:()=>new Promise(()=>{})}});stuck.dispatch(stuck.seasonButton);await wait(60);
+    const cap=stuck.calls.longTimers.find(t=>t.ms===4000);assert.ok(cap,'a 4 s cap on the squad read');assert.equal(stuck.page(),null);
+    cap.fn();await wait(80);assert.ok(stuck.page(),'the paper prints after the cap');assert.ok(!stuck.calls.shown[0].story.paragraphs[1].startsWith('Squad news'));
+    const src=read('js/touchlineGazette.js');assert.ok(!/getDoc|onSnapshot|setDoc|runTransaction|collection\(/.test(src),'the Gazette itself still makes no Firebase call');
+    ok('G24','review of #1390: the busy mark always comes off (only when this tap set it); both phones print the same squad news (a phone without the sheets has them read first, at most 4 s)');
+  }
+  // G26 (review of #1390, P3): one squad ask per paper while the page is up. On Final Winner warm() looks again a few times and
+  // the tap asks too; a closed rivalry refuses the read, so a failed (or refused) ask is not repeated: at most one refused read.
+  {
+    const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    const fq=proj('6',3,[[R.cl,R.none],[R.cup,R.league],[R.none,R.cup]]),ff=frame(fq),asked=[];
+    const step={gazetteNews:()=>null,gazetteEnsure:args=>{asked.push(args);return Promise.resolve(false);}};
+    const w=world({history:fx.history(fq),final:ff,squadStep:step});
+    w.go('seasonEntry');await wait(600);w.go('seasonEntry');await wait(600);
+    w.dispatch(w.back);await wait(250);assert.ok(w.page(),'the final paper still prints');
+    assert.equal(asked.length,1,`warm() and the tap asked ${asked.length} times; one ask per paper`);
+    assert.ok(!w.calls.shown[0].story.paragraphs[1].startsWith('Squad news'),'no squad news when the ask failed');
+    const thrown=[],t2=world({history:fx.history(fq),final:ff,squadStep:{gazetteNews:()=>null,gazetteEnsure:()=>{thrown.push(1);throw new Error('denied');}}});
+    t2.go('seasonEntry');await wait(600);t2.dispatch(t2.back);await wait(250);assert.ok(t2.page());assert.equal(thrown.length,1,'a thrown ask is not repeated either');
+    ok('G26','review of #1390: one squad ask per paper (warm and tap share it); a failed or refused ask is never repeated, so a closed rivalry costs at most one refused read');
   }
   // G25 (r91, Nik 2026-11-11 picked option A): "From the commentary box" prints Commentary v3's call and BY THE NUMBERS in
   // every paper, in place of the made-up pull quote, above THE RACE; the same words on both phones (pure, from the verified
