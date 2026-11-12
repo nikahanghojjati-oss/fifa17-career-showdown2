@@ -782,7 +782,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
    art that was cut to the old plate (seam mends, hand cut-outs and contact shadows, the hairline repair) and the dark
    pack-body covers that hid the old painted pack are not drawn: the new plate has plain black packs and its own hands.
    Both heads stay whole (the plate is cover-fit exactly as before). Looks only: every word, id and tap order stays. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on .plateBase,
   #app #clubWheelScreen.cl-on .rvHalf,
   #app #clubWheelScreen.cl-on .rvFlap {

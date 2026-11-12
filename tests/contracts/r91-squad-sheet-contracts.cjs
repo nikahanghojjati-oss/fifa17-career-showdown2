@@ -465,5 +465,41 @@ ok('C8','the RRR board from a sheet is 11 slots then 4 subs');
     assert.match(screen,/panel\.addEventListener\("touchmove",e=>\{if\(drag&&drag\.ghost&&e\.cancelable\)e\.preventDefault\(\);\},\{passive:false\}\);/,'the panel keeps its own hold too');
     ok('C14','a finger drag holds the scroll back on its own node, so the redraw at the 300 ms hold no longer cancels it');
   }
+  // C15 (review of #1390, Nik: "not synced"): gazetteEnsure gives a phone that never kept the sheets a paper needs (a new
+  // device, cleared storage) the same sheets the other phone has: it reads only the missing season N-1 and N "pre" documents
+  // (at most 4, each kept, an empty answer too), nothing on a phone that has them, nothing twice; a failed read says false.
+  {
+    const rid='pair_'+'d'.repeat(64);
+    const sheet=(season,role,ov)=>({schemaVersion:1,objectType:'sharedSquadSheet',rivalryId:rid,seasonNumber:season,stage:'pre',role,formation:'4-3-3',
+      names:Array.from({length:18},(_,i)=>`P${i}`),numbers:Array.from({length:18},(_,i)=>i+1),signed:Array(18).fill(0),
+      outNames:[],outNumbers:[],outSigned:[],outReasons:[],outSeasons:[],ovNames:ov?['P3']:[],ovNumbers:ov?[4]:[],ovSigned:ov?[0]:[],ovValues:ov?[ov]:[]});
+    const server=new Map([[`season_1_pre_playerOne`,sheet(1,'playerOne')],[`season_1_pre_playerTwo`,sheet(1,'playerTwo')],[`season_2_pre_playerOne`,sheet(2,'playerOne',88)],[`season_2_pre_playerTwo`,sheet(2,'playerTwo')]]);
+    const phone=({fail=false}={})=>{
+      const store=new Map(),reads=[];
+      const sdk={doc:(_db,...seg)=>({path:seg.join('/'),id:seg[seg.length-1]}),runTransaction:async(_db,fn)=>fn({get:async ref=>{reads.push(ref.id);if(fail)throw Object.assign(new Error('offline'),{code:'unavailable'});const d=server.get(ref.id);return {exists:()=>Boolean(d),data:()=>JSON.parse(JSON.stringify(d))};}})};
+      return {store,reads,env:{readStorageValue:k=>store.has(k)?store.get(k):null,writeStorageValue:(k,v)=>{store.set(k,String(v));},
+        CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:'u'}},firestore:{},firestoreSdk:sdk})}}};
+    };
+    const use=env=>{for(const k of ['readStorageValue','writeStorageValue','CareerModeProductionFirebaseRuntime'])globalThis[k]=env[k];};
+    // phone A saw both screens (kept), phone B is a new device
+    const A=phone(),B=phone();use(A.env);
+    for(const [id,d] of server)A.store.set(Step.keptKey,JSON.stringify([...JSON.parse(A.store.get(Step.keptKey)||'[]'),[`${rid}|${d.role}|${d.seasonNumber}_pre`,Step.parse(d,d.seasonNumber,'pre',d.role)]]));
+    assert.equal(await Step.gazetteEnsure({rivalryId:rid,season:2}),true);assert.equal(A.reads.length,0,'a phone that keeps the sheets reads nothing');
+    const newsA=Step.gazetteNews({rivalryId:rid,season:2});assert.ok(newsA&&newsA.playerOne.rated.length===1);
+    use(B.env);assert.equal(Step.gazetteNews({rivalryId:rid,season:2}),null,'the new device has no squad news by itself');
+    assert.equal(await Step.gazetteEnsure({rivalryId:rid,season:2}),true);
+    assert.deepEqual(B.reads.sort(),['season_1_pre_playerOne','season_1_pre_playerTwo','season_2_pre_playerOne','season_2_pre_playerTwo'],'it reads the 4 missing sheets once');
+    assert.deepEqual(Step.gazetteNews({rivalryId:rid,season:2}),newsA,'then both phones tell the same squad news');
+    assert.equal(await Step.gazetteEnsure({rivalryId:rid,season:2}),true);assert.equal(B.reads.length,4,'never twice');
+    // a sheet that does not exist is kept as empty (both phones see the same: no news), and season 1 needs nothing
+    server.delete('season_2_pre_playerTwo');const C=phone();use(C.env);
+    assert.equal(await Step.gazetteEnsure({rivalryId:rid,season:2}),true);assert.equal(Step.gazetteNews({rivalryId:rid,season:2}),null);
+    await Step.gazetteEnsure({rivalryId:rid,season:2});assert.equal(C.reads.length,4,'an empty answer is kept too');
+    assert.equal(await Step.gazetteEnsure({rivalryId:rid,season:1}),true);assert.equal(C.reads.length,4);
+    const D=phone({fail:true});use(D.env);assert.equal(await Step.gazetteEnsure({rivalryId:rid,season:2}),false,'a read that fails says so');
+    const E=phone();use({...E.env,CareerModeProductionFirebaseRuntime:undefined});assert.equal(await Step.gazetteEnsure({rivalryId:rid,season:2}),false,'no account services: false, no throw');
+    for(const k of ['readStorageValue','writeStorageValue','CareerModeProductionFirebaseRuntime'])delete globalThis[k];
+    ok('C15','review of #1390: gazetteEnsure reads only the missing "pre" sheets a paper needs (at most 4, once, kept), none on a phone that has them, so both phones tell the same squad news');
+  }
   console.log(`PASS r91 squad sheet contracts (${checks} checks)`);
 })().catch(error=>{console.error(error);process.exit(1);});

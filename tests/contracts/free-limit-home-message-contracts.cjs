@@ -5,7 +5,7 @@ const ROOT=path.resolve(__dirname,"../..");
 const read=file=>fs.readFileSync(path.join(ROOT,file),"utf8");
 const pairing=read("js/sparkPrivatePairing.js"),mark=pairing.indexOf("// Firestore budget layer (r75).");
 assert.ok(mark>0,"run only the real budget layer, as in firestore-budget-contracts.cjs");
-const TEXT="Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.";
+const TEXT="Today's free online limit is used up. It resets at 3 a.m. Boston time. Your saved career is safe.";
 
 function world(){
   const nodes=new Map(),events=new Map(),timers=new Map();let sequence=0,screen="mainMenu",transactions=0;

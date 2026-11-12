@@ -27,7 +27,8 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
   background-color: #07080a;
   background-image: var(--tgz-plate-desktop);
   background-repeat: no-repeat;
-  background-position: 50% 50%;
+  /* r91 old-art: the board room starts under the top bar, so neither man's hair is behind it */
+  background-position: 50% var(--sd-nav-top-h, 52px);
   background-size: cover;
   overflow-x: clip;
 }
@@ -178,7 +179,8 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
     background: var(--tgz-plate-phone) 50% 0 / cover no-repeat;
     pointer-events: none;
   }
-  #touchlineGazette .cmx-fp-screen { position: relative; padding: max(calc(100vw * 168 / 393), calc(100dvh * 168 / 698.7)) 10px 16px; }
+  #touchlineGazette .cmx-fp-screen { position: relative; padding: max(calc(100vw * 232 / 393), calc(100dvh * 232 / 698.7)) 10px 16px; }
+  /* r91 old-art: the board room's chins end at 32% of the plate (224 of 698.7), so the paper starts 8 units under them */
   #touchlineGazette.tgzPage--final .cmx-fp-screen { padding-top: max(calc(100vw * 258 / 393), calc(100dvh * 258 / 698.7)); }
   #touchlineGazette .cmx-gz--compact .tgz-race { gap: 2px 8px; margin-top: 5px; padding-top: 4px; }
   #touchlineGazette .cmx-gz--compact .tgz-race h4 { font-size: 12px; }
