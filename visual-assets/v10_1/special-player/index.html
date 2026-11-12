@@ -496,6 +496,9 @@ const fitSamples=(want)=>GFX&&GFX.samples?GFX.samples(renderer,want,HDR):(want>0
 const sceneRT=new T.WebGLRenderTarget(4,4,{type:RT_TYPE,format:T.RGBAFormat,samples:fitSamples(GQ.samples)}); /* r89: WebGL 2 only, so the scene target is always multisampled; r90: samples by quality level */
 /* r90 M4: bloom follows the tier: off at Light (11 passes saved), half-size mips at Balanced, full from High. */
 const BLOOM=!DIRECT&&!(GP&&GP.bloom===false), BLOOM_D=GL_LVL<=1?4:2;
+/* r91 heavy-parts ladder (startGfx, heavy): what the governor may step between reveals. As built: the blur chain on (bloomLive),
+   its mips at BLOOM_D (bloomDiv), the scene target's samples as the level and the buffer size ask (edgesDown false). */
+let bloomLive=BLOOM, bloomDiv=BLOOM_D, edgesDown=false;
 const LV=4, mipA=[], mipB=[]; for(let i=0;i<LV;i++){ mipA.push(new T.WebGLRenderTarget(4,4,RTO)); mipB.push(new T.WebGLRenderTarget(4,4,RTO)); }
 const VS="varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }";
 const brightMat=new T.ShaderMaterial({uniforms:{tex:{value:null},thr:{value:HDR?1.5:.8}},vertexShader:VS,depthTest:false,depthWrite:false,
@@ -875,7 +878,7 @@ const paceAt=(t)=>{ for(const [a,b,k] of PACE) if(t>=a&&t<b) return k; return 1;
 let vtt=0; const slowAt=(t)=>REDUCED?1:Math.min(1-.5*Math.max(0,Math.min(1,(t-3.6)/.12,(4.15-t)/.2)),freezeAt(t))*paceAt(t); let camK=1, camRest=new T.Vector3(0,1.05,6.6), lookRest=new T.Vector3(0,2.15,-1.2), coinStopX=-2.2, coinLift=0;
 const COIN_ON_CARD=new T.Vector3(-1.1+112/CW*2.2, CARD_POS.y+1.6-304/CH*3.2, CARD_POS.z+.07);
 function startPlayer(i,bridge){
-  if(BENCH&&gov) gov.hold(true); /* r91 Device check: one reveal, pack to settled card, is one beat */
+  if(gov) gov.hold(true); /* r91: one reveal, pack to settled card, is one beat: no quality step inside it (the Device check times it; in play 2.3.0 did not hold, so the resolution could change mid-reveal) */
   idx=i; const p=cur(); fired={}; t0=clock(); vtt=bridge?BRIDGE_T0:0; phase="run"; camBlendAt=-1; if(!bridge) who.classList.remove("big");
   if(bridge){ camBlendAt=clock(); camFrom.copy(camPos); lookFrom.copy(camLook); } flash=0; SFX.bed(.05); freezeS=FREEZE_S[tierLevel(p.tier)]; aura.visible=false; endSig(); tiltX=tiltY=tiltTX=tiltTY=0;
   if(packFace.map===packTex.tx){ drawPack(packTex.ctx,512,736); packTex.tx.needsUpdate=true; } sheenMat.uniforms.tint.value.copy(Lc(TIER[p.tier].glow)); packFace.emissive.setRGB(0,0,0);
@@ -914,7 +917,8 @@ function settle(natural){
   l3.classList.add("on");
   live.textContent=`${order[idx]==="daniel"?"Daniel":"Nik"}'s FIFA 17 Showdown Special Player: ${p.name}, ${p.pos}, ${NATION[p.nation]}, ${p.club||"no club"}, number ${p.number}, overall ${p.ovr}, potential ${p.pot}, rank ${p.rank}.`;
   if(idx===1){ bothShown=true; if(!cta.dataset.sent){ cta.disabled=false; $("again").hidden=false; } ending(); }
-  if(BENCH&&gov){ gov.hold(false); if(idx===1) later(replay,1500); } /* r91 Device check: the reveal is done; after the second one both play again */
+  if(gov) gov.hold(false); /* r91: the reveal is done; the handover and the settled card are between beats */
+  if(BENCH&&gov&&idx===1) later(replay,1500); /* r91 Device check: after the second reveal both play again */
 }
 const S=(at,dur,tt)=>clamp01((tt-at)/dur);
 
@@ -1024,13 +1028,13 @@ function run(tt){
     /* the crack opens (2.4 s) and a pillar of light shoots up through it */
     const cr=S(2.4,.25,tt); crack.scale.set(.05+charge*.12,PACK_H*.97*cr,1); crack.material.color.copy(Lc(0xfff0c0)).lerp(lad,.7).multiplyScalar(cr*(4+charge*10)*(camera.aspect<1?.55:1)); /* r90 L05: a softer slit on a portrait screen, so the pack art reads through it */
     pillar.visible=cr>0; if(cr>0){ const pp=pack.localToWorld(new T.Vector3(-.12,0,-PACK_D/2-.12)); /* r90 L05: behind the pack, which hides its lower part, never across the pack face */ pillar.position.set(pp.x,.05,pp.z); pillar.rotation.y=Math.atan2(camera.position.x-pp.x,camera.position.z-pp.z);
-      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(Lc(0xfff0c8)).lerp(lad,.85).multiplyScalar((1.5+charge*charge*4)*(camera.aspect<1?.6:1)*(BLOOM?.42:1)); /* r91: with bloom on (Balanced and up) the 18 m pillar at full HDR strength fogged the whole frame grey through the widest blur; it keeps its glow at under half */ }
+      pillar.scale.set(.25+charge*.7,18*ease.out(S(2.4,.45,tt)),1); pillarMat.color.copy(Lc(0xfff0c8)).lerp(lad,.85).multiplyScalar((1.5+charge*charge*4)*(camera.aspect<1?.6:1)*(bloomLive?.42:1)); /* r91: with bloom on (Balanced and up) the 18 m pillar at full HDR strength fogged the whole frame grey through the widest blur; it keeps its glow at under half */ }
     packLight.intensity=charge*charge*9; packLight.color.copy(lad); rays.position.set(0,PACK_REST.y,PACK_REST.z-.4); rays.material.opacity=charge*charge*.3; rays.material.color.copy(lad).lerp(ladA,.25).multiplyScalar(.55); /* r91 (Nik 2026-11-11, "keep improving the pack"): the charge light bursts from BEHIND the pack in the tier colour; in front of it, in the pale accent, it washed the pack art and the whole stand grey on High and up */ rays.rotation.z=tt*.5; rays.scale.setScalar(3.5+charge*2.5); /* r90 L31: a halo round the pack, not a sunburst over the stand */
     /* gold glitter swirling round the pack */
     if(fall>=1) for(let i=0;i<3;i++){ const a=Math.random()*Math.PI*2, r=.8+Math.random()*.8; emit(new T.Vector3(Math.cos(a)*r,.3+Math.random()*1.6,PACK_REST.z+Math.sin(a)*r),new T.Vector3(-Math.sin(a)*1.2,.3+Math.random()*.5,Math.cos(a)*1.2),Math.random()<.6?0xffd77a:0xfff1c2,.9+Math.random()*.6,.05+Math.random()*.04,-.2,.6,1); } }
   else pillar.visible=false;
   /* a carpet of gold glitter on the grass under the pack and then the card */
-  if(tt>1.3&&tt<7){ const n=Math.round((tt<4.5?8:4)*(BLOOM?1:.6)); for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, r=Math.sqrt(Math.random())*.7*Math.max(.5,Math.min(1,(tt-1.3)/.6)); /* r91: as the pack landed every sparkle started on one spot and they summed to a white blob on the grass; they now start spread over half the ring, and Light (no bloom to soften them) throws fewer */ /* r90 L06: a small tight sparkle at the base only, not a carpet across the grass */ emit(new T.Vector3(Math.cos(a)*r,.03,PACK_REST.z+Math.sin(a)*r*.75),new T.Vector3(0,.05+Math.random()*.15,0),Math.random()<.7?0xffd77a:0xfff1c2,.5+Math.random()*.7,.08+Math.random()*.07,0,0,1); } }
+  if(tt>1.3&&tt<7){ const n=Math.round((tt<4.5?8:4)*(bloomLive?1:.6)); for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, r=Math.sqrt(Math.random())*.7*Math.max(.5,Math.min(1,(tt-1.3)/.6)); /* r91: as the pack landed every sparkle started on one spot and they summed to a white blob on the grass; they now start spread over half the ring, and Light (no bloom to soften them) throws fewer */ /* r90 L06: a small tight sparkle at the base only, not a carpet across the grass */ emit(new T.Vector3(Math.cos(a)*r,.03,PACK_REST.z+Math.sin(a)*r*.75),new T.Vector3(0,.05+Math.random()*.15,0),Math.random()<.7?0xffd77a:0xfff1c2,.5+Math.random()*.7,.08+Math.random()*.07,0,0,1); } }
   /* 2  blue comet swoops in (3.15 s) and the pack explodes into chunks (3.7 s) */
   comet(tt,2.95,.75,new T.Vector3(-7*side,3.4,1.5),new T.Vector3(-2.5*side,2.6,1.2),new T.Vector3(0,1.5,-.9),BLUE);
   sfxAt(tt,.9,"s_fall","whoosh"); sfxAt(tt,1.65,"s_land","land"); sfxAt(tt,2.3,"s_charge","charge"); sfxAt(tt,2.4,"s_crack","crack"); sfxAt(tt,2.95,"s_comet","comet",side);
@@ -1188,8 +1192,23 @@ function keepPackUnderTitle(){ const yNow=pack.position.y; pack.position.y=PACK_
 function bandNdc(){ const top=$("top").getBoundingClientRect(), bot=$("bottom").getBoundingClientRect(); return [1-2*(top.bottom+6)/H, 1-2*(bot.top-6)/H]; }
 /* r90: the frame governor and the ?fps=1 counter are js/gfxTier.js's (startGfx, after the warm-up). It only moves the pixel
    ratio; every change re-sizes the scene and bloom targets through resize(). */
+/* r91 heavy parts (Nik 2026-11-11: heavy parts must not stay as built on a device that cannot hold its level). The governor's
+   ladder for this scene, after the pixel ratio, smallest loss first; step 0 is the scene as built, and a device that holds its
+   level never leaves it. Only parts this level has are on it (Light draws straight to the screen and has none):
+     glow   the blur chain at half its size (the glow a little softer)
+     edges  the scene target's edge smoothing one step down (8 samples to 4, 4 to 2); not at Balanced, which already draws 2,
+            and never down to none: a GPU that does not offer the lower count keeps its edges (and has no such step)
+     bloom  no blur chain: the cheap in-place glow, as the page draws without bloom
+   heavy(step) is the only place these move and takes any step from any other. The governor calls it behind the loading screen
+   and between reveals only (startPlayer to settle is one held beat). Every step in play (the pixel ratio's too) is a soft
+   cut: the governor's before() copies the frame as it stands over the canvas and fades it out over the new one (GFX.softCut;
+   a plain cut under Reduce Motion). */
+const HEAVY=!BLOOM?[]:["glow",...(GQ.samples>=4&&fitSamples(Math.max(2,GQ.samples>>1))>=2?["edges"]:[]),"bloom"]; let detailAt=0;
+function heavy(step){ const at=Math.max(0,Math.min(HEAVY.length,Math.round(Number(step))||0)), on=new Set(HEAVY.slice(0,at)); if(at===detailAt) return; detailAt=at;
+  bloomDiv=BLOOM_D*(on.has("glow")?2:1); edgesDown=on.has("edges"); bloomLive=BLOOM&&!on.has("bloom"); compMat.uniforms.bloomOn.value=bloomLive?1:0;
+  resize(); }
 function startGfx(){ if(!GFX) return;
-  gov=GFX.governor(renderer,{key:"sp",draw:render,onChange(p){ PR=p.pixelRatio; resize(); },info:()=>({bloom:BLOOM,direct:DIRECT,samples:sceneRT.samples|0})});
+  gov=GFX.governor(renderer,{key:"sp",draw:render,beats:true,...(HEAVY.length?{detail:{steps:HEAVY.length,apply:heavy}}:{}),before:()=>GFX.softCut?.(renderer.domElement,render),onChange(p){ PR=p.pixelRatio; resize(); },info:()=>({bloom:BLOOM,direct:DIRECT,samples:sceneRT.samples|0})});
   GFX.overlay(()=>({extra:`${renderer.domElement.width}x${renderer.domElement.height} · card ${SC}x`}));
   addEventListener("resize",()=>gov.resize()); addEventListener("pagehide",()=>gov.end()); }
 /* allocate the scene target now and check it once (gfxTier.checkTarget): an incomplete framebuffer steps down 8 -> 4 -> 0 samples
@@ -1200,8 +1219,8 @@ function resize(){
   const pw=Math.floor(W*PR), ph=Math.floor(H*PR);
   /* r90 lean: 8x edges only up to a 2560x1440 buffer; past it (a 4K draw) the pixels are already fine enough, and 8 samples of a
      half-float 4K target would hold about half a gigabyte, so it keeps 4 */
-  const smp=DIRECT?0:fitSamples(pw*ph>1920*1080?Math.min(4,GQ.samples):GQ.samples), newSmp=sceneRT.samples!==smp||!sceneRT.__checked; if(!DIRECT&&sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
-  if(!DIRECT){ sceneRT.setSize(pw,ph); if(newSmp) checkSceneRT(); } if(BLOOM) for(let i=0;i<LV;i++){ const d=BLOOM_D*Math.pow(2,i); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
+  const smpWant=pw*ph>1920*1080?Math.min(4,GQ.samples):GQ.samples, smpLow=edgesDown?fitSamples(Math.max(2,smpWant>>1)):0, smp=DIRECT?0:smpLow>=2?smpLow:fitSamples(smpWant), newSmp=sceneRT.samples!==smp||!sceneRT.__checked; if(!DIRECT&&sceneRT.samples!==smp){ sceneRT.samples=smp; sceneRT.dispose(); }
+  if(!DIRECT){ sceneRT.setSize(pw,ph); if(newSmp) checkSceneRT(); } if(BLOOM) for(let i=0;i<LV;i++){ const d=bloomDiv*Math.pow(2,i); mipA[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); mipB[i].setSize(Math.max(1,pw/d|0),Math.max(1,ph/d|0)); }
   camera.aspect=W/H;
   const [yt,yb]=bandNdc(); bandTop=yt; bandBot=yb; const band=Math.max(.5,yt-yb); const dist=camRest.distanceTo(CARD_POS);
   const tV=3.5/(dist*band*.96), tH=2.5/(dist*1.7*camera.aspect);
@@ -1225,7 +1244,7 @@ addEventListener("resize",fitL3);
 function render(){
   if(DIRECT){ renderer.toneMappingExposure=.9*(1+flash*.2); renderer.setRenderTarget(null); renderer.render(scene,camera); return; } /* r90 Light: one pass, no target */
   renderer.setRenderTarget(sceneRT); renderer.render(scene,camera);
-  if(BLOOM){ brightMat.uniforms.tex.value=sceneRT.texture; pass(brightMat,mipA[0]);
+  if(bloomLive){ brightMat.uniforms.tex.value=sceneRT.texture; pass(brightMat,mipA[0]);
   for(let i=0;i<LV;i++){ const src=i?mipA[i-1]:mipA[0]; blurMat.uniforms.tex.value=src.texture; blurMat.uniforms.dir.value.set(1/mipA[i].width,0); pass(blurMat,mipB[i]);
     blurMat.uniforms.tex.value=mipB[i].texture; blurMat.uniforms.dir.value.set(0,1/mipA[i].height); pass(blurMat,mipA[i]); } }
   compMat.uniforms.flash.value=flash*.18; pass(compMat,null);
@@ -1318,6 +1337,7 @@ const EMBED=qs.get("embed")==="1"; const toGame=(type)=>{ try{ parent.postMessag
 const busy=(v)=>{ if(EMBED) toGame("cms-sp-loading"); return v; }; busy();
 cta.addEventListener("click",()=>{ if(EMBED){ if(cta.dataset.sent) return; cta.dataset.sent="1"; cta.disabled=true; cta.textContent="Opening Career Start…"; toGame("cms-sp-continue"); $("again").hidden=true; return; } toast.classList.add("on"); setTimeout(()=>toast.classList.remove("on"),1400); });
 window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.length=0; startPlayer(i); }, advance(sec){ const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1); } },
+  get ladder(){ return {at:detailAt, ladder:[...HEAVY], bloom:bloomLive, bloomDiv, samples:sceneRT.samples|0, mip0:[mipA[0].width,mipA[0].height]}; },
   pr(v){ if(v!=null){ PR=v; renderer.setPixelRatio(PR); resize(); } return PR; }, get cardScale(){ return SC; }, get gq(){ return {...GQ,level:GL_LVL,samples:sceneRT.samples}; },
   /* r90: a GPU memory estimate in MB (card faces with mipmaps, scene and bloom targets, shadow map, drawing buffer) for the quality proof */
   mem(){ const cv=renderer.domElement, sm=sun.shadow.mapSize.x, cards=2*7*CW*SC*CH*SC*4*4/3, rt=sceneRT.width*sceneRT.height*(HDR?8:4)*((sceneRT.samples||0)+1),
