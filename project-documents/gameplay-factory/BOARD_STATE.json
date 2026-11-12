@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12 12:51 AM Boston time (EST)",
+ "generated": "2026-11-12 12:57 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 251,
+  "count": 254,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2262,6 +2262,33 @@
     "subject": "Loading screen (Marco Reus cover) rebuilt in the HC family, sharp",
     "reply": "no",
     "boston": "Thu 12 Nov 12:26 AM"
+   },
+   {
+    "time": "2026-11-12 05:43",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-069 DONE",
+    "subject": "HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops",
+    "reply": "no",
+    "boston": "Thu 12 Nov 12:43 AM"
+   },
+   {
+    "time": "2026-11-12 05:52",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-073 DONE",
+    "subject": "Home: crowd and stands behind the glass, higher quality, handcrafted",
+    "reply": "no",
+    "boston": "Thu 12 Nov 12:52 AM"
+   },
+   {
+    "time": "2026-11-12 05:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-061 DONE",
+    "subject": "r90 plates: remove slogan banners (L11) + phone face crops (L23)",
+    "reply": "no",
+    "boston": "Thu 12 Nov 12:56 AM"
    }
   ],
   "g2v": {
@@ -2282,8 +2309,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "3c69cd7",
-  "head_boston": "Thu 12 Nov 12:43 AM",
+  "head": "8518b1c",
+  "head_boston": "Thu 12 Nov 12:56 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2320,7 +2347,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1407 has waited 24 min for a machine; Showdown Gate on #1414 has waited 2 min for a machine.",
+   "line": "Barking: POS20 has waited 14 min for a machine; Showdown Gate on #1408 has waited 11 min for a machine; Showdown Gate on #1415 has waited 10 min for a machine; Showdown Gate on #1409 has waited 1 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -3117,7 +3144,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 5927
+    "waiting_min": 5933
    },
    {
     "id": "HO-059",
@@ -3150,8 +3177,8 @@
     "from": "G",
     "to": "V",
     "title": "r90 plates: remove slogan banners (L11) + phone face crops (L23)",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-061_r90-plates-remove-slogan-banners-l11-pho.md",
     "worker": "images",
@@ -3306,8 +3333,8 @@
     "from": "G",
     "to": "V",
     "title": "Home: crowd and stands behind the glass, higher quality, handcrafted",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-073_home-crowd-and-stands-behind-the-glass-h.md",
     "worker": "images",
@@ -3397,7 +3424,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 46,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,

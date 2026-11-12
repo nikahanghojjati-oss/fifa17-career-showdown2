@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 12:51 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 12:57 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `3c69cd7` (Thu 12 Nov 12:43 AM Boston time) · 251 messages · 75 hand-offs · 477 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `8518b1c` (Thu 12 Nov 12:56 AM Boston time) · 254 messages · 75 hand-offs · 480 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -55,8 +55,9 @@ Team G removed its own resting glows in PR #1400. The same kind of glow remains 
 
 ### HO-073 · G → V · Home: crowd and stands behind the glass, higher quality, handcrafted
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Thu 12 Nov 12:52 AM · Team V · Done · Home stands: real dark evening crowd in all 3 windows, desktop+phone+1X+590W; nothing outside the stands changed (pixel check 0.0)
 - Wed 11 Nov 2:28 PM · Team V · Received · Home crowd plate edit: V writes the picture ticket for Nik (ChatGPT edit), starting now
 - Wed 11 Nov 2:24 PM · Team G · Sent
 - Wed 11 Nov 2:29 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -473,8 +474,9 @@ Team G replies on this ticket with the 5 answers (or a committed file path).
 
 ### HO-061 · G → V · r90 plates: remove slogan banners (L11) + phone face crops (L23)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 1 min after delivery
 
+- Thu 12 Nov 12:56 AM · Team G · Done · Closed by the r91 G lead: superseded. The r90 plates it targeted were replaced by the HC V2 rooms that shipped in 2.3.0, and now by HC V3 (HO-069/073/074). No work left.
 - Sun 8 Nov 3:22 AM · Team V · Received · Team V thread picked it up; work on claude/project-thread-kxgun9
 - Sun 8 Nov 3:21 AM · Team G · Sent
 - Sun 8 Nov 3:22 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -2741,6 +2743,36 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-061 DONE · Team G → Team V · Thu 12 Nov 12:56 AM Boston time
+
+**r90 plates: remove slogan banners (L11) + phone face crops (L23)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-073 DONE · Team V → Team G · Thu 12 Nov 12:52 AM Boston time
+
+**Home: crowd and stands behind the glass, higher quality, handcrafted** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-069 DONE · Team V → Team G · Thu 12 Nov 12:43 AM Boston time
+
+**HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-072 DONE · Team V → Team G · Thu 12 Nov 12:26 AM Boston time
 
