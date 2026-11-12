@@ -1331,3 +1331,11 @@ html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
 /* r90 strict COL-05 (latent): css/app.css:79 colours the START A SHOWDOWN and RULE BOOK subtitles #354650, slate on near-black
    (1.4-2.0:1). Every tile subtitle is hidden today, but any size that shows them reads like the other tiles' #cfc6b4. */
 #mainMenu.v10Home .menuTile:not(#continueCareer) .menuTileMeta { color: #cfc6b4; }
+/* r91 sharp rooms (art ledger R4): windows wider than 1536 or taller than 864 CSS px drew the 1536px 1X room stretched
+   (Nik's Chromebook at 1920x866 / 1920x1035, DPR 1, Auto = Light). They draw the 1920px cut of the same room (resized from
+   Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
+   unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  html #app #mainMenu.v10Home .plateView { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #mainMenu.v10Home .plateView { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_2X.webp') 2x); }
+}

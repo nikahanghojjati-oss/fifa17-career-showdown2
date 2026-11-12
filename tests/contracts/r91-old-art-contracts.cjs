@@ -13,6 +13,8 @@
 //      own npm script;
 //   C4 the shared upright-window rule exists: windows wider than 900 held upright draw the room by width, so neither man
 //      is cut off the side.
+//   C5 sharp rooms (art ledger R4): windows wider than 1536 or taller than 864 draw the 1920px cut of each room at 1.25x
+//      (its drawn size is the 1X plate's), on every screen that stands in one.
 const fs = require("node:fs");
 const path = require("node:path");
 const assert = require("node:assert/strict");
@@ -61,4 +63,20 @@ assert.match(rl, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#
 assert.match(cs, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#app #trophyRoom \{--tr-k:calc\(100vw \/ 1536\)\}/, "C4 tall windows: Trophy Room draws the room by width");
 assert.match(sf, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#app main:has\(> #seasonEntry\.seasonScreenV10\.v10FinalMode:not\(\.hidden\)\) \{\s*--fw-k:calc\(100vw \/ 1536\);/, "C4 tall windows: Final Winner draws the room by width");
 
-console.log(`PASS r91 old-art contracts (C1 no 3:2 art gate in ${files.length} files; C2 ${Object.keys(counts).length} files at or under their retired-reference pin; C3 audit in the Gate; C4 tall-window rooms).`);
+// C5
+const BIG = "(min-width:1537px), (min-width:901px) and (min-height:865px)";
+for(const room of ["ARCHIVE", "BOARD", "BOX", "HOME", "OFFICE", "TUNNEL"]){
+    const file = `visual-assets/v10_1/plates-hc/ENV_${room}_PLATE_HC_V2_1920.webp`;
+    assert.ok(fs.existsSync(path.join(root, file)), `C5 ${file} exists`);
+}
+const sharp = { "css/homeV10.css": ["HOME"], "css/v10Shell.css": ["BOARD", "BOARD"], "css/v10Setup.css": ["BOX"], "css/v10Club.css": ["BOX"],
+    "css/connectPlayersV10.css": ["TUNNEL"], "css/v10Transfer.css": ["OFFICE", "OFFICE"], "css/rivalryLegacyV10.css": ["ARCHIVE", "TUNNEL"],
+    "js/seasonFinalV10.js": ["TUNNEL", "BOARD", "BOARD"], "js/careerScreensV10.js": ["ARCHIVE"] };
+for(const [file, rooms] of Object.entries(sharp)){
+    const text = read(file);
+    assert.ok(text.split(BIG).length - 1 >= rooms.length, `C5 ${file} keeps its ${rooms.length} big-window room rule(s)`);
+    for(const room of new Set(rooms)) assert.match(text, new RegExp(`ENV_${room}_PLATE_HC_V2_1920\\.webp[^ ]{0,6} 1\\.25x`), `C5 ${file} draws the ${room} 1920 cut at 1.25x`);
+}
+assert.match(read("js/touchlineGazette.js"), /PLATE_HC_V2_1920\.webp":"PLATE_HC_V2_1X\.webp"/, "C5 the Gazette takes the board room's 1920 cut on big windows");
+
+console.log(`PASS r91 old-art contracts (C1 no 3:2 art gate in ${files.length} files; C2 ${Object.keys(counts).length} files at or under their retired-reference pin; C3 audit in the Gate; C4 tall-window rooms; C5 sharp 1920 rooms).`);

@@ -235,6 +235,11 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
      gives up is below the window's edge. */
   #app #standings.standingsScreenV10 .sd-stage__layer--plate>.sd-stage__registered{translate:0 max(0px,calc(var(--sd-nav-top-h,52px) + 6px - max(56.25vw,100svh) * .0174))}
 }
+/* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px){
+  #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp') 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp') 1.25x,url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp') 2x)}
+}
 @media (max-width:900px){
   #app #standings.standingsScreenV10 .sdg-phoneHero{display:none}
   #app #standings.standingsScreenV10 .sdg-phoneArt::after{content:none}
@@ -2250,6 +2255,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-panel { width:min(44.47%,var(--sr-clear)); }
 }
+/* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px){
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate{background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate{background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x)}
+}
 /* HO-068: on windows wider than 16:9 the plate starts at the top of the window, so the nav bar covered the top of both
    men's hair. The plate is lowered just enough for the hair to clear the bar; the panelling it gives up at the bottom is
    below the fold. 2.3.0 strict pass (B2): Daniel's top curls start 5.67% down the plate (not 5.8%) and the clear gap is
@@ -2296,6 +2306,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.v10FinalMode .v10FinalStage .winnerTrophySlot .winnerTrophyPicture { position:absolute; inset:0; width:100%; height:100%; scale:none; }
  #app #seasonEntry.v10FinalMode .v10FinalStage .winnerTrophySlot .winnerTrophyPicture img { width:100%; height:100%; object-fit:contain; object-position:50% 100%; }
+}
+/* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px){
+  #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)){background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)){background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x)}
 }
 /* r91 old-art: upright windows wider than 900 keep this desktop layout; the room is drawn the window's width (one plate
    pixel = 100vw / 1536) instead of its height, so both men stay whole, and the wood colour carries on below. */

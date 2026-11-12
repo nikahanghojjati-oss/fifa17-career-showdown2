@@ -1776,6 +1776,11 @@
   #app #trophyRoom .heroPlinth {flex-direction:row;flex-wrap:nowrap;align-items:baseline;justify-content:center;gap:10px;height:auto;min-height:0;padding-block:4px;white-space:nowrap}
   #app #trophyRoom .heroPlinth small {margin:0}
 }
+/* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px){
+  #app #trophyRoom .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1920.webp') 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #trophyRoom .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1920.webp') 1.25x,url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp') 2x)}
+}
 @media (min-width:901px) and (max-height:820px) and (orientation:landscape) {
   #app #trophyRoom .heroCeremony {top:calc(253 * var(--tr-k))}
 }

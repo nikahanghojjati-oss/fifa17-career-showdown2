@@ -745,10 +745,12 @@ const V10_IMAGES={
     // The plates-v2/v3 plates they replace stay as rollback.
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1X.webp":"aa296ae5b206e42f8317c133ff2d2d7c8f1ca6a4f0c5a670b193a9cc8f3b8aa9",
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_2X.webp":"f0e395ee4705950485e067f9850032d90ac246c95f62904d77db77ea4ccad75c",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1920.webp":"e567404e8fb8420c7ce6ae4f2d8d0cdbc2414c8e46e9a92fb616341eefa3bff1",
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2.webp":"ca81f0f88015c53fa03b3854756efcffd4840ba8b8e36fc1269397f41564be06",
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2_590W.webp":"4d53f6dfadad65f334d753352e6a5e6c03b9d32f3700fe6aeeaac61b1c3359de",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp":"445321a35c63f7145c29eefd5d5868b6988427420b33f10b6806592d1615e280",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp":"590cd8025b971200f860ced27ff050e68d271c7e266556902249973b1fb3c7a5",
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1920.webp":"6964feb2d8b177acb35783c0fa9d1c8dd134f73c16f911dd4578ba0cf79cffbf",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2.webp":"03867ffa3e292915085ed13353b0f2e21598473eb3baaee291afbb9770837cb2",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2_590W.webp":"a09a57eaedf0824a27cce8b353d477f05fd39e3f3a37574494d641ca14f29201",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp":"ebed7be9406625bedd032967276a36ac8298f393bef00b9eb83ac0fefac61d22",
@@ -759,10 +761,13 @@ const V10_IMAGES={
     // Assignment; TALL for 9:20 phones), from claude/project-thread-kxgun9 687598df6. The plates-v2 plates stay as rollback.
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp":"2d68af513bb9c528dea77d99dfdf844c72d2e9cc38a9426d97b169a14eb8b588",
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp":"1ae3e25d16648eeff70e49f37324705498b70b8c76e9b72336edbdd8d3a9e638",
+    // r91 sharp rooms (art ledger R4): 1920px cuts of the six HO-068 rooms, resized from the 2X plates, for windows over 1536x864
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp":"547599ed8af2df84bcc0b24b6987f80ec0be9e5f66c23ba12ffa64d68d6ed644",
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp":"486b214b797913a11e8d99246b058b5276067c7c85345ec39bf74f4a97e2cf75",
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2_590W.webp":"b9fe46be16198be235cc1a78e0316b9b65c56525a2010087cb5583b6fd57346d",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp":"f78da7395ca80138339403f4b9d2a3bb13f59932485f970a712ff8e1acc991fb",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp":"cc0e47b42a5eb62d16232002b292cf406bfc091b1a85ebede86c75011bedbd29",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1920.webp":"90405ea725f3bc29c6945029bda75d1c453f0ab0435d116a9b3e6418103e179f",
     "visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_2X.webp":"2da72663a210c524ddce55ae7b4882386f3759c2ccdfb3df77f50574bdec39e9",
     "visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_1X.webp":"402daae9c9f13535ed77babc57a79a7f8d0a2735b5be3733d54eecdbbcd5e0bf",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp":"77f9d3ca0ab75ac859429f94e3c394b0b7140953a947b153146cdfa1d7ab967d",
@@ -774,6 +779,7 @@ const V10_IMAGES={
     // 9e334b234, project-documents/hc-art/home/), which Nik picked at Gate A2; the V2 Home plates above stay as rollback.
     "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp":"01c65c91b7fca42b7bebd0b2f8012f3de201efe6cd012ff2059cf2652d3cab6c",
     "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_2X.webp":"28c6f56205c1fcbf2db3df9b1e0292b02d5c272f4ed11f265774185d53cd37d8",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1920.webp":"78854d59f1d275d7d5b8883c6ff0eb4e163657355898c201955d6fe3fa0d56b3",
     "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2.webp":"1b11bb0ceb356c2fca0dbf53be6460f1bb0654d20ca58db6ab8a34ce153e0c26",
     "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2_590W.webp":"10ec8eb21b143385c93e81d006139917f7a84e5c80fd9b0f8862045495527fb9",
     // HO-068 (2026-11-09): Team V's handcrafted V2 rooms (claude/project-thread-kxgun9 687598df6, project-documents/hc-art/),
@@ -782,6 +788,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_BOARD_PHONE_HC_V2_590W.webp":"29aa17194024b73a994c6102c7d7aeb5e67a543ac32a3d5f06781eff6baa7621",
     "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp":"1abf37913892043a9f859b9c4162bbb668210ee73f35624142bcc143ad06c444",
     "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp":"0cbaaa6e56ef0ee2c187bb38e3d654323cda9e3b1f09f15dad1517b0b5558be7",
+    "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp":"3f07c8a425b4085b2e38ada28cffaafb71781514b6270e6c2624ab585934f0c3",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_256.webp":"30d7faa0f1e26d4c5959869027bc288ad6fe5da8201e9482a0e84d434df88d75",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_512.webp":"ac3714e2a2f85c283a6055d6902375d65f0dfa534f763cbc2ed2b28643e19fa7",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_2_V2_256.webp":"492ced301dea9ca03a4ce3a69e1db371c099145f73fcee10b7d972fc962b9a1a",
