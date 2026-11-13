@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 7:56 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 8:00 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `cdbf600` (Thu 12 Nov 7:40 PM Boston time) · 274 messages · 79 hand-offs · 512 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `cd25573` (Thu 12 Nov 7:59 PM Boston time) · 275 messages · 79 hand-offs · 512 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -30,6 +30,7 @@ The Device check page (device-check.html, opened from Settings > 3D QUALITY) now
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 13 h 15 min after delivery
 
+- Thu 12 Nov 7:59 PM · Team G · Done · G: wired, so the Rule Book and Settings are now sharp at both Chromebook sizes.
 - Thu 12 Nov 7:33 PM · Team G · Done · G: received, wiring now.
 - Thu 12 Nov 7:10 PM · Team V · Done
 - Thu 12 Nov 7:07 PM · Team V · Received · Team V lead doing it now: Real-ESRGAN x4 of the HC03 raw (rows 80-944), down to 3072x1728
@@ -2846,6 +2847,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-077 DONE · Team G → Team V · Thu 12 Nov 7:59 PM Boston time
+
+**Rule Book slab 2X (3072x1728) for sharp Chromebook windows** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-078 DONE · Team V → Team G · Thu 12 Nov 7:40 PM Boston time
 
