@@ -14,6 +14,9 @@
 // hidden; every patch that differs (by more than INK levels) is paint on the face, whatever drew it (a letter, a picture, a
 // shadow, a ::before, a dimming layer). (b) boxes: a solid element (a filled panel, a button) covers its whole box, even
 // where its colour happens to match the face. Either one at 1% of the face fails.
+//   F4 Final Winner only (bug hunt F1, r91): with both Special Player chips shown, as every Showdown since r86 shows them
+//      (the seeded one carries none), a total or a chip runs off the screen, lies under something, the two chips cross, or
+//      the totals stand less than 6px above the summary panel under them. See finalWinnerResultClear.
 // Sizes (CMS_FACECHECK_GROUP): touch-up = phone and tablet upright; touch-side = phone and tablet sideways; desk = both
 // Chromebook windows (1920x866 windowed, 1920x1035 full screen); more = a small and a large upright phone; phone = Team V's
 // four upright phones; full (default) = all of them. The Gate runs touch-up, touch-side and desk (one test:browser audit
@@ -525,7 +528,39 @@ async function checkFaces(page, key, w, h, dpr){
 }
 
 const OLD_LOOK = [];   // every manager screen now draws its plate on upright phones
-module.exports = { SCREENS, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces };
+// F4. The chips are put in exactly as Team V's final-winner.js builds them (a .fwSpecialPlayer slot after each name, the
+// chip from js/specialPlayerChip.js): one short name and the longest kind, so the row is as wide as it gets.
+async function finalWinnerResultClear(page){
+    return page.evaluate(async () => {
+        const root = document.querySelector("#seasonEntry"), api = window.CareerModeSpecialPlayerChip;
+        if(!root || !api || !root.querySelector("#danielTotal")) return ["Final Winner: the result or the Special Player chip code is missing, so F4 could not be checked"];
+        for(const [sel, sp] of [["#danielName", { name: "A. Dragović", tier: "bronze", badge: "#250 TOP 300" }], ["#nikName", { name: "Trent Alexander-Arnold", tier: "black-blue-gold", badge: "#2 TOP 3" }]]){
+            const name = root.querySelector(sel); name.parentNode.querySelectorAll(".fwSpecialPlayer").forEach(node => node.remove());
+            const slot = document.createElement("span"); slot.className = "fwSpecialPlayer"; slot.appendChild(api.element(document, sp)); name.after(slot);
+        }
+        await new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+        const out = [], screen = root.getBoundingClientRect(), main = document.querySelector("#app main");
+        const label = el => el.tagName.toLowerCase() + (el.id ? "#" + el.id : typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0] : "");
+        const parts = [["Daniel's total", "#danielTotal"], ["Nik's total", "#nikTotal"], ["Daniel's Special Player chip", ".finalWinnerManager--daniel .fwSpecialPlayer .spChip"], ["Nik's Special Player chip", ".finalWinnerManager--nik .fwSpecialPlayer .spChip"]];
+        const boxes = [];
+        for(const [what, sel] of parts){
+            const el = root.querySelector(sel); let r = el.getBoundingClientRect(); boxes.push(r);
+            if(r.left < screen.left - .5 || r.right > screen.right + .5 || r.top < screen.top - .5 || r.bottom > screen.bottom + .5){ out.push(`${what} runs off the screen (${Math.round(r.left)},${Math.round(r.top)} to ${Math.round(r.right)},${Math.round(r.bottom)}; the screen ends at ${Math.round(screen.right)},${Math.round(screen.bottom)})`); continue; }
+            el.scrollIntoView({ block: "nearest" }); r = el.getBoundingClientRect();
+            const over = new Set();
+            for(const fx of [.2, .5, .8]) for(const fy of [.15, .5, .85]){ const top = document.elementFromPoint(r.left + r.width * fx, r.top + r.height * fy); if(top && top !== el && !el.contains(top) && !top.contains(el)) over.add(label(top)); }
+            if(over.size) out.push(`${what} lies under ${[...over].join(", ")}`);
+            if(main) main.scrollTop = 0;
+        }
+        const [dTotal, nTotal, dChip, nChip] = boxes;
+        if(dChip.right > nChip.left && nChip.right > dChip.left && dChip.bottom > nChip.top && nChip.bottom > dChip.top) out.push("the two Special Player chips lie across each other");
+        const panel = root.querySelector(".finalWinnerResultsPanel"), pr = panel && panel.getBoundingClientRect();
+        for(const [what, r] of [["Daniel's total", dTotal], ["Nik's total", nTotal]]) if(pr && pr.width && pr.left < r.right && pr.right > r.left && pr.bottom > r.bottom && pr.top - r.bottom < 6) out.push(`${what} stands ${Math.round(pr.top - r.bottom)}px above the summary panel (6px is the least)`);
+        return out;
+    });
+}
+
+module.exports = { SCREENS, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear };
 if(require.main === module) (async () => {
     const started = Date.now();
     const keys = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SCREENS).filter(key => !OLD_LOOK.includes(key));
@@ -538,6 +573,7 @@ if(require.main === module) (async () => {
         for(const key of keys) if(!SCREENS[key]) throw new Error("unknown screen " + key);
         const report = async (page, key, w, h, dpr, errors) => {
             const res = await checkFaces(page, key, w, h, dpr);
+            if(key === "FINAL_WINNER") for(const what of await finalWinnerResultClear(page)) res.findings.push({ face: "", what });
             checked++;
             const size = `${w}x${h}`, real = [], known = [];
             for(const f of res.findings){

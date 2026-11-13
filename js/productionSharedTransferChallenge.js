@@ -310,6 +310,12 @@
       return Boolean(step&&typeof step.isOwnSpecial==="function"&&request&&Number.isFinite(at)&&step.isOwnSpecial(request.rivalryId,at,role,name,setup?.setup?.clubs));}
     catch(_error){return false;}
   }
+  // Hunt C3 (2.4.0): the rival's Special Player is never on any squad board either (#1173, R87-C-01: js/squadSheet.js keeps
+  // both draws out of both squads), so LOCK refuses him too instead of letting him be scored and then vanish from the
+  // Squad screen. The same draw both phones hold: no read, nothing stored.
+  const pstcOtherRole=role=>role==="playerOne"?"playerTwo":"playerOne";
+  function pstcIsRivalSpecial(role,name){return (role==="playerOne"||role==="playerTwo")&&pstcIsOwnSpecial(pstcOtherRole(role),name);}
+  function pstcRivalSpecialText(role,name){return `${name} is ${pstcManagerName(pstcOtherRole(role))}'s Special Player. He can't join your squad.`;}
   // r88 LOCK refusals (Nik 2026-11-03): LOCK refuses every signing the board engine (js/rosterRoulette.js rrExclude) keeps off
   // this manager's later boards because of the Transfer War or the roulette, so a refusal is exactly an engine exclusion:
   //  - guessed: his own signing the rival guessed in an earlier season (release:true). Only that manager: the rival may sign him,
@@ -380,6 +386,7 @@
     const key=pstcNameKey(name);const out=key&&blockedSeen&&blockedSeen.key===`${pstcRequestContext()?.key}|${role}`?blockedSeen.map.get(key):null;
     if(out)return out.reason==="shot"?`${name} was shot in the roulette. He can't come back.`:`${name} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You can't sign him again.`;
     if(pstcIsOwnSpecial(role,name))return `${name} is your Special Player. He is a free extra signing, so don't enter him here.`;
+    if(pstcIsRivalSpecial(role,name))return pstcRivalSpecialText(role,name);
     return "";
   }
   root.CareerModeTransferPlayerBlocked=(input,name)=>{const where=pstcPlayerSlot(input);return where&&where.role===view?.managerRole?pstcBlockedText(where.role,name):"";};
@@ -402,7 +409,7 @@
   function pstcRefuse(code,message){const error=new Error(message);error.code=code;error.plain=true;throw error;}
   function pstcBuildSignings(role,blocked=null){
     const prefix=pstcRolePrefix(role),rows=[];
-    for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`),league=pstcField(`${prefix}Signing${i}League`),nationality=pstcField(`${prefix}Signing${i}Nationality`),player=String(name?.value||"").trim(),ovrText=String(ovr?.value||"").trim(),posText=String(pos?.value||"").trim(),leagueId=pstcCanonical(league),nationalityId=pstcCanonical(nationality),hasAny=Boolean(player||ovrText||posText||String(league?.value||"").trim()||String(nationality?.value||"").trim());if(!hasAny)continue;const out=player&&blocked&&blocked.get(pstcNameKey(player));if(out)pstcRefuse(out.reason==="shot"?"TRANSFER_SIGNING_SHOT":"TRANSFER_SIGNING_GUESSED_BEFORE",out.reason==="shot"?`${player} was shot in the roulette. He can't come back.`:`${player} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You can't sign him again.`);if(!player||!leagueId||!nationalityId||(ovr&&!/^[3-9][0-9]$/.test(ovrText))||(pos&&!SIGNING_POSITIONS.includes(posText)))pstcFail("TRANSFER_SIGNINGS_INVALID",`Complete signing ${i} with player name, position, overall (30-99), previous league and nationality.`);if(pstcIsOwnSpecial(role,player))pstcFail("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing ${i} is your Special Player, a free extra signing that no guess can release. Do not enter him here.`);const row={slot:i,name:player,leagueId,nationalityId};if(ovr)row.overall=Number(ovrText);if(pos)row.position=posText;const playerId=String(name?.dataset?.playerId||"");if(/^[1-9][0-9]{0,5}$/.test(playerId))row.playerId=Number(playerId);rows.push(row);}
+    for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`),league=pstcField(`${prefix}Signing${i}League`),nationality=pstcField(`${prefix}Signing${i}Nationality`),player=String(name?.value||"").trim(),ovrText=String(ovr?.value||"").trim(),posText=String(pos?.value||"").trim(),leagueId=pstcCanonical(league),nationalityId=pstcCanonical(nationality),hasAny=Boolean(player||ovrText||posText||String(league?.value||"").trim()||String(nationality?.value||"").trim());if(!hasAny)continue;const out=player&&blocked&&blocked.get(pstcNameKey(player));if(out)pstcRefuse(out.reason==="shot"?"TRANSFER_SIGNING_SHOT":"TRANSFER_SIGNING_GUESSED_BEFORE",out.reason==="shot"?`${player} was shot in the roulette. He can't come back.`:`${player} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You can't sign him again.`);if(!player||!leagueId||!nationalityId||(ovr&&!/^[3-9][0-9]$/.test(ovrText))||(pos&&!SIGNING_POSITIONS.includes(posText)))pstcFail("TRANSFER_SIGNINGS_INVALID",`Complete signing ${i} with player name, position, overall (30-99), previous league and nationality.`);if(pstcIsOwnSpecial(role,player))pstcFail("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing ${i} is your Special Player, a free extra signing that no guess can release. Do not enter him here.`);if(pstcIsRivalSpecial(role,player))pstcRefuse("TRANSFER_SIGNING_RIVAL_SPECIAL_PLAYER",pstcRivalSpecialText(role,player));const row={slot:i,name:player,leagueId,nationalityId};if(ovr)row.overall=Number(ovrText);if(pos)row.position=posText;const playerId=String(name?.dataset?.playerId||"");if(/^[1-9][0-9]{0,5}$/.test(playerId))row.playerId=Number(playerId);rows.push(row);}
     return rows;
   }
   function pstcSyncGuessValue(type,value,editable){

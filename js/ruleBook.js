@@ -228,6 +228,7 @@ function createSpecialPlayerRuleSection(){
         "Career Start shows his FIFA 17 club, so you can sign him in your career.",
         "He is a free extra signing. He never counts toward your three Transfer War signings, and your rival's guesses can never release him.",
         "He never appears in Squad Management or on the roulette board, so the roulette can never hit him.",
+        "Your rival can't sign him in the Transfer War either: LOCK refuses him.",
         "He scores no Showdown points. His SP chip sits next to your name on the career screens."
     ]);
     article.className = "ruleSection specialPlayerRuleSection";
