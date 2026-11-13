@@ -141,7 +141,7 @@ async function scenario({offline}){
     const b=run.button();
     assert.equal(b.disabled,false,"W1-1 back online with the same context: CONFIRM MY RESULT is on again (it stayed off on 64e01891)");
     assert.equal(b.text,"CONFIRM MY RESULT");
-    assert.match(run.error(),/offline|unavailable|failed/i,"W1-1 the failure is said");
+    assert.equal(run.error(),"Your result was not confirmed. Check the connection and tap CONFIRM MY RESULT again.","W1-1 the failure is said in plain words (never another screen's text)");
     assert.equal(run.document.getElementById("seasonEntry").dataset.sharedSeasonResults,"review","W1-1 still on the review of the typed result");
     ok("W1-1 the same context back: the screen is drawn again, CONFIRM MY RESULT on, the failure said");
     run.click("confirmSeasonCompletion");

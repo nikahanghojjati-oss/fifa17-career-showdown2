@@ -77,7 +77,7 @@
   // JOB-1611: provider codes that mean "contended", not "refused": Firestore lock contention after the SDK's own retries.
   const PSSR_CONTENTION_CODES=Object.freeze(["aborted","failed-precondition","permission-denied","firestore/permission-denied","permission_denied"]);
   const PSSR_CONTENTION_RETRY_MS=Object.freeze([500,1000,1500]);
-  const PSSR_BACK_MS=1000,PSSR_BACK_TRIES=600;
+  const PSSR_BACK_MS=1000,PSSR_BACK_TRIES=600,PSSR_BACK_FAILED="Your result was not confirmed. Check the connection and tap CONFIRM MY RESULT again.";
   const PSSR_DENIED_CODES=Object.freeze(["permission-denied","firestore/permission-denied","permission_denied"]),PSSR_READ_RETRY_CODES=Object.freeze([...PSSR_CONTENTION_CODES,"unavailable","deadline-exceeded","SEASON_RESULTS_PROVIDER_UNAVAILABLE","SEASON_RESULTS_PROVIDER_FAILED"]);
   function pssrWait(ms){return new Promise(resolve=>{const timer=typeof root.setTimeout==="function"?root.setTimeout:setTimeout;timer(resolve,ms);});}
   // JOB-1611: the reads inside a publish meet the same contention; they get the same bounded wait before failing as before.
@@ -245,7 +245,7 @@
           pssrDraftClear(publishRole,request);view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
         }
       });
-    }catch(error){failed=error.message||error.code||"Confirming your season result failed.";if(pssrContextMatches(request)){pssrSetError(failed);pssrReport("Could not confirm your season result",error);failed="";}return false;}
+    }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Confirming your season result failed.");pssrReport("Could not confirm your season result",error);}else failed=PSSR_BACK_FAILED;return false;}
     finally{busy=false;if(pssrContextMatches(request))pssrRender();else pssrRenderWhenBack(request,failed);}
   }
   // W1 (2.4.0): a publish can end while this phone has no connection and its Season Results context is not readable (the
