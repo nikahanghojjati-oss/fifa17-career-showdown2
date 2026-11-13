@@ -192,7 +192,7 @@ async function partA(){
     await until(()=>w.title()==="Release Manu García #19","the release card names the shirt number");
     assert.ok(w.lines().includes("Daniel lost Manu García (#19, CB, 74 overall)."),"the outcome line tells the namesakes apart");
     assert.ok(w.lines().some(line=>/^Release Manu García \(#19, CB, 74 overall\) in your FIFA 17 save now/.test(line)));
-    await w.press("I'VE RELEASED HIM");assert.equal(await run,true);
+    await w.press("I HAVE RELEASED HIM");assert.equal(await run,true);
     assert.match(read("visual-assets/v10_1/roulette/index.html"),/GAME\.turns\[turn\]\.targetLabel\)\|\|p\.target\.name/,"the scene's lost line shows the same label");
     ok("C2-01","the release card and the scene payload name shirt number, position and overall, so namesakes are told apart");
   }

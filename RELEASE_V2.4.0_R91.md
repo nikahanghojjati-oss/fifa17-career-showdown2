@@ -70,6 +70,11 @@ went live (main a85d286a): #1351 to #1439, 89 in all, up to gameplay/r91 9aa3bae
   were traced to the longer season and run noise.
 - **Test tools** (#1360, #1380, #1381, #1431): the fault-injection journey plays Chamber Men and names the Prime Pack
   player, CE2PG reads the r91 wording and has a new-device mode, and the journey helper names what stops a LOCK tap.
+- **Plain words, last pass** (this release PR, Nik's wording answers of 2026-11-11 12:35 UTC): no contractions in
+  screen text ("He cannot join your squad.", "I HAVE RELEASED HIM", the Squad Management moves and the Rule Book), and
+  no PUBLISH on Season Results: each manager taps CONFIRM MY RESULT for his own result ("CONFIRMING IS FINAL",
+  RESULT CONFIRMED ✓), then both tap CONFIRM SEASON to score the season, as before. The commentary lines, the Gazette
+  and the front pages keep their broadcast and newspaper voice.
 - **Story** (#1352, #1382): the novel rewrite applied to chronicle/ (181 chapters), the 2.3.0 dispatch, hero art, the
   12 px floor and the nav.
 
@@ -160,6 +165,7 @@ existing 15 s progression poll running over a season with two more screens, insi
   `r87-career-load-gate-edges` (G-06, two tabs at once) passes 2 of 3 alone. G-06 also fails 3 of 3 on 2.3.0 (main
   a85d286a) in the same container, so it is this machine's timing, not a 2.4.0 change. The Gate is the judge.
 - Startup gzip 33,997 bytes before the version bump (cap 34,000).
+- Rule Book (js/ruleBook.js) card 09 now names CONFIRM MY RESULT and CONFIRM SEASON, and card 02 has no contraction.
 - Rule Book (js/ruleBook.js) checked against the code for every r91 change a player sees: Squad Management (XI, 7
   subs, the 15 = XI + subs 1-4, no visit after the last Transfer War: `js/squadSheet.js`, `js/squadSheetStep.js`), the
   autocomplete (17,597 players, free agents included: `data/fifa17/players-170002.manifest.json`), the Prime Pack list

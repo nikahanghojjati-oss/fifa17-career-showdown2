@@ -124,7 +124,7 @@ ok('L6','all launch-list clubs draw a real crest: 15 new ones (HO-038) plus the 
   // refuses him too, word for word, with the rival's name, from the same draw (the rival's own isOwnSpecial answer).
   assert.match(pstc,/if\(pstcIsRivalSpecial\(role,player\)\)pstcRefuse\("TRANSFER_SIGNING_RIVAL_SPECIAL_PLAYER",pstcRivalSpecialText\(role,player\)\)/,'the signing form refuses the rival’s Special Player with a plain line');
   assert.match(pstc,/function pstcIsRivalSpecial\(role,name\)\{return \(role==="playerOne"\|\|role==="playerTwo"\)&&pstcIsOwnSpecial\(pstcOtherRole\(role\),name\);\}/,'asked as the rival’s own Special Player');
-  assert.match(pstc,/`\$\{name\} is \$\{pstcManagerName\(pstcOtherRole\(role\)\)\}'s Special Player\. He can't join your squad\.`/);
+  assert.match(pstc,/`\$\{name\} is \$\{pstcManagerName\(pstcOtherRole\(role\)\)\}'s Special Player\. He cannot join your squad\.`/);
   assert.match(pstc,/if\(pstcIsRivalSpecial\(role,name\)\)return pstcRivalSpecialText\(role,name\);/,'the name list marks him with the same words');
 }
 ok('L7','red team R87-SP-02: own Special Player refused as a Transfer War signing (folded names, database alias); hunt C3: the rival\'s Special Player is refused too');

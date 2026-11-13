@@ -768,7 +768,7 @@ async function playChamberMenBoth(ctx,season){
   };
   await Promise.all([ctx.daniel,ctx.nik].map(one));
 }
-// The last roulette tap: the result panel's GO TO THE PRIME PACK / GO TO THE TRANSFER WAR (or I'VE RELEASED HIM when it is the last).
+// The last roulette tap: the result panel's GO TO THE PRIME PACK / GO TO THE TRANSFER WAR (or I HAVE RELEASED HIM when it is the last).
 async function rouletteFinalTapReady(page){
   const b=page.locator("#rrStepPanel .rrStepPrimary");
   if(!(await b.isVisible().catch(()=>false)))return false;
@@ -894,7 +894,7 @@ async function toResults(m,page){
 async function publishSteps(m,page,season,R){
   const prefix=m.account==="daniel"?"p1":"p2";
   const heading=await reviewHeading(page);
-  if(/PUBLISHED/.test(heading))return "";
+  if(/CONFIRMED/.test(heading))return "";
   const own=await admin(R(`seasonResults/season_${season}/roles/${ROLE[m.account]}`));if(own)return "";
   const goto=await toResults(m,page);if(goto&&goto!==true)return goto;if(!goto)return "";
   if(heading==="REVIEW YOUR SEASON RESULT"&&await clickIf(page,page.locator("#confirmSeasonCompletion")))return "confirm";
@@ -912,11 +912,11 @@ async function resultsWithFaults(ctx,R,season){
   const {daniel,nik}=ctx;const both=[daniel,nik];
   const X=faultPhone(ctx),first=X===daniel?nik:daniel;
   // The other phone publishes first (no fault); the fault phone's publish completes the season's results.
-  await drive(first,async p=>/PUBLISHED/.test(await reviewHeading(p))&&Boolean(await admin(R(`seasonResults/season_${season}/roles/${ROLE[first.account]}`))),{label:"first publish",stepTaps:p=>publishSteps(first,p,season,R)});
+  await drive(first,async p=>/CONFIRMED/.test(await reviewHeading(p))&&Boolean(await admin(R(`seasonResults/season_${season}/roles/${ROLE[first.account]}`))),{label:"first publish",stepTaps:p=>publishSteps(first,p,season,R)});
   for(const m of both)await drive(m,p=>visible(p,"#seasonEntry"),{label:"results screen",stepTaps:p=>toResults(m,p).then(x=>x===true?"":x||"")});
   await writePoint(ctx,"season-results",{writer:X,ready:p=>p.locator("#completeSeason").isVisible(),
     tap:async p=>{await fillSeasonResult(p,X.account==="daniel"?"p1":"p2",PLAN[season-1][X.account]);await p.locator("#completeSeason").click({timeout:10000});await p.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="REVIEW YOUR SEASON RESULT",null,{timeout:10000});await p.locator("#confirmSeasonCompletion").click({timeout:10000});},
-    settle:(m,page)=>drive(m,async p=>await reviewHeading(p)==="BOTH MANAGERS PUBLISHED",{page,label:"both published",stepTaps:p=>publishSteps(m,p,season,R)}),
+    settle:(m,page)=>drive(m,async p=>await reviewHeading(p)==="BOTH MANAGERS CONFIRMED",{page,label:"both published",stepTaps:p=>publishSteps(m,p,season,R)}),
     checks:async(check)=>{
       const roles=await adminList(R(`seasonResults/season_${season}/roles`));await check(null,"db.roles",roles.length===2,`roles ${roles.map(d=>d.name.split("/").pop())}`);
       for(const d of roles){const v=docData(d),who=d.name.endsWith("playerOne")?"daniel":"nik";const want=PLAN[season-1][who];await check(null,`db.${who}.result`,JSON.stringify(v).includes(`"leaguePoints":${want.leaguePoints}`),`stored ${JSON.stringify(v).slice(0,300)}`);}
@@ -924,8 +924,8 @@ async function resultsWithFaults(ctx,R,season){
 }
 async function plainResults(ctx,R,season){
   const {daniel,nik}=ctx;
-  for(const m of [daniel,nik])await drive(m,async p=>/PUBLISHED/.test(await reviewHeading(p))&&Boolean(await admin(R(`seasonResults/season_${season}/roles/${ROLE[m.account]}`))),{label:"publish",stepTaps:p=>publishSteps(m,p,season,R)});
-  for(const m of [daniel,nik])await drive(m,async p=>await reviewHeading(p)==="BOTH MANAGERS PUBLISHED",{label:"both published"});
+  for(const m of [daniel,nik])await drive(m,async p=>/CONFIRMED/.test(await reviewHeading(p))&&Boolean(await admin(R(`seasonResults/season_${season}/roles/${ROLE[m.account]}`))),{label:"publish",stepTaps:p=>publishSteps(m,p,season,R)});
+  for(const m of [daniel,nik])await drive(m,async p=>await reviewHeading(p)==="BOTH MANAGERS CONFIRMED",{label:"both published"});
 }
 const commitLabel=page=>page.evaluate(()=>document.getElementById("sharedSeasonCommitAction")?.textContent||"").catch(()=>"");
 const finalShown=page=>page.evaluate(()=>{const f=document.getElementById("finalWinnerScreen");return Boolean(f&&getComputedStyle(f).visibility!=="hidden"&&f.getClientRects().length>0&&!f.classList.contains("hidden"));}).catch(()=>false);

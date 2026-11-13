@@ -210,7 +210,7 @@ async function publishSeasonResult(m){
   await m.page.locator("#completeSeason").click({timeout:30000});
   await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="REVIEW YOUR SEASON RESULT",null,{timeout:30000});
   await m.page.locator("#confirmSeasonCompletion").click({timeout:30000});
-  await m.page.waitForFunction(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
+  await m.page.waitForFunction(()=>/YOUR RESULT IS CONFIRMED|BOTH MANAGERS CONFIRMED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
 }
 // The final season's commit: Daniel's COMMIT & ACKNOWLEDGE, Nik's ACKNOWLEDGE; the close is automatic (no CLOSE tap).
 async function commitFinalSeasonViaUi(daniel,nik,p1,p2,seasonNumber){
@@ -470,7 +470,7 @@ async function playOneSeasonShowdown(daniel,nik,rivalryId,tokens){
   await playTransferSeason(daniel,nik,tokens[0],tokens[1]);
   await fillSeasonResult(daniel,"p1",DANIEL_RESULT);await publishSeasonResult(daniel);
   await fillSeasonResult(nik,"p2",NIK_RESULT);await publishSeasonResult(nik);
-  for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
+  for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS CONFIRMED",null,{timeout:45000});
   await commitFinalSeasonViaUi(daniel,nik,FINAL_EXPECTED.daniel,FINAL_EXPECTED.nik,1);
   for(const m of [daniel,nik]){
     await m.page.locator("#finalWinnerScreen").waitFor({state:"visible",timeout:60000});

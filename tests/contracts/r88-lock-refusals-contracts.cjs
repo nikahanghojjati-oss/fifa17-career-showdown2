@@ -210,9 +210,9 @@ function refusal(lr,blocked,name){try{lr.build("playerOne",blocked);return null;
 check("LR5","LOCK refuses with plain words (also hyphenated names), shot wins, a form mistake, nothing locks",()=>{
   const provider=fakeProvider();
   const blocked=api.rouletteBlocked([null,V[1],V[2]],H,3,"playerOne");
-  const cases=[["Big Striker","TRANSFER_SIGNING_SHOT","Big Striker was shot in the roulette. He can't come back."],
-    ["t. walcott","TRANSFER_SIGNING_SHOT","t. walcott was shot in the roulette. He can't come back."],
-    ["Renato Sanches","TRANSFER_SIGNING_GUESSED_BEFORE","Renato Sanches was guessed by Nik. You can't sign him again."]];
+  const cases=[["Big Striker","TRANSFER_SIGNING_SHOT","Big Striker was shot in the roulette. He cannot come back."],
+    ["t. walcott","TRANSFER_SIGNING_SHOT","t. walcott was shot in the roulette. He cannot come back."],
+    ["Renato Sanches","TRANSFER_SIGNING_GUESSED_BEFORE","Renato Sanches was guessed by Nik. You cannot sign him again."]];
   for(const [name,code,words] of cases){
     const {lr}=sandbox({provider,fields:lockFields(name)});
     const error=refusal(lr,blocked,name);
@@ -223,14 +223,14 @@ check("LR5","LOCK refuses with plain words (also hyphenated names), shot wins, a
   }
   const hy=new Map([[api.nameKey("Pierre-Emerick Aubameyang"),{name:"Pierre-Emerick Aubameyang",reason:"shot",season:1}]]);
   const {lr}=sandbox({provider,fields:lockFields("Pierre-Emerick Aubameyang")});
-  const e=refusal(lr,hy);assert.equal(lr.errorText(e,"generic"),"Pierre-Emerick Aubameyang was shot in the roulette. He can't come back.","a hyphenated name keeps the plain words");
+  const e=refusal(lr,hy);assert.equal(lr.errorText(e,"generic"),"Pierre-Emerick Aubameyang was shot in the roulette. He cannot come back.","a hyphenated name keeps the plain words");
   const both=api.rouletteBlocked([null,{playerOne:[{slot:1,name:"T. Walcott",release:true}],playerTwo:[]}],{1:{playerOne:safe},2:{playerOne:H[2].playerOne}},2,"playerOne");
   assert.equal(both.get("t. walcott").reason,"shot","shot wins over guessed (the engine's own order)");
   const ok=sandbox({provider,fields:lockFields("Kept Mid")}).lr.build("playerOne",blocked);
   assert.equal(ok.length,1,"an unblocked name builds its row");
   // the handler awaits the check before building, and builds with it
   assert.ok(source.includes('if(phase==="SIGNING_ENTRY"){const signings=pstcBuildSignings(role,await pstcBlockedNow(pstcRequestContext(),role));'));
-  assert.ok(/You can't sign him again\./.test(source)&&/He can't come back\./.test(source));
+  assert.ok(/You cannot sign him again\./.test(source)&&/He cannot come back\./.test(source));
 });
 
 async function lr6(){

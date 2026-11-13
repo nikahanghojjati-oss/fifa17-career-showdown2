@@ -33,19 +33,19 @@ function setupSandbox(mutate){
   assert.equal(result.ok,false);assert.equal(result.code,"SETUP_STALE_BASE_REVISION","the code stays on the result for diagnostics");
   let state=api.getState();
   assert.equal(state.status,"error");
-  assert.equal(state.message,"Your partner just changed this. It's been refreshed, tap again.");
+  assert.equal(state.message,"Your partner just changed this. It has been refreshed, tap again.");
   assert.equal(state.errorCode,"SETUP_STALE_BASE_REVISION");
   assert.doesNotMatch(state.message,RAW_CODE,"the visible Setup sentence must not contain a raw code");
 
   // Permission / network failures read as a connection sentence.
   api=setupSandbox(async()=>{const error=new Error("permission-denied");error.code="permission-denied";throw error;});
   await api.refresh();result=await api.mutate("open");state=api.getState();
-  assert.equal(state.message,"That didn't go through. Check your connection and tap again.");assert.equal(state.errorCode,"permission-denied");
+  assert.equal(state.message,"That did not go through. Check your connection and tap again.");assert.equal(state.errorCode,"permission-denied");
 
   // Unknown code falls back to the generic sentence.
   api=setupSandbox(async()=>({ok:false,code:"SOMETHING_NEW_AND_ODD"}));
   await api.refresh();result=await api.mutate("open");state=api.getState();
-  assert.equal(state.message,"That didn't go through. Tap again.");assert.equal(result.code,"SOMETHING_NEW_AND_ODD");
+  assert.equal(state.message,"That did not go through. Tap again.");assert.equal(result.code,"SOMETHING_NEW_AND_ODD");
 
   // A real human message wins over any mapping and over the code.
   api=setupSandbox(async()=>{const error=new Error("Only the host can open this right now.");error.code="SETUP_STALE_BASE_REVISION";throw error;});
@@ -59,7 +59,7 @@ function setupSandbox(mutate){
   assert.equal(d({code:"SETUP_ALREADY_CONFIRMED"}).kind,"stale");
   assert.equal(d({code:"x",message:"Firebase: Error (auth/network-request-failed)."}).kind,"generic");
   assert.equal(d({code:"firestore/unavailable"}).kind,"connection");
-  assert.equal(d({code:"SETUP_STALE_BASE_REVISION"}).tapDetail,"Your partner just changed this. It's been refreshed, tap again.");
+  assert.equal(d({code:"SETUP_STALE_BASE_REVISION"}).tapDetail,"Your partner just changed this. It has been refreshed, tap again.");
   assert.equal(d({code:"nope"}).tapDetail,"Tap again.");
 
   // The locked path (line 163) also never shows a raw code.

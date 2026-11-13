@@ -74,7 +74,7 @@ function ensureSeasonReviewUI(){
 
     const warning = document.createElement("p");
     warning.className = "seasonReviewWarning";
-    warning.textContent = "CONFIRMING IS FINAL · THE SEASON CAN'T BE EDITED AFTER";
+    warning.textContent = "CONFIRMING IS FINAL · THE SEASON CANNOT BE EDITED AFTER";
 
     const error = document.createElement("p");
     error.id = "seasonReviewError";

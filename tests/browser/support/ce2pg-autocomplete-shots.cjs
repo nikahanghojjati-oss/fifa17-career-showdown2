@@ -9,7 +9,7 @@
 //  2. taps the BK Häcken row and reads what was filled: season 1 = name, POS, OVR, league, nationality; later seasons = name,
 //     POS, nationality only (OVR and league stay as they were);
 //  3. types a custom name and presses Enter: the text must stay exactly as typed, with no player id;
-//  4. if the page's own refusal list (the one LOCK uses) has a name, types it and checks the row says "Can't be signed";
+//  4. if the page's own refusal list (the one LOCK uses) has a name, types it and checks the row says "Cannot be signed";
 //  5. empties row 2 again, so the harness's own LOCK goes on unchanged.
 // It also records every request for data/fifa17/ with the screen showing at that moment: the list must never load on Home.
 // Lines start with "AC-SHOTS"; a line with PROBLEM is a failure.
@@ -100,11 +100,11 @@ function install(){
         const marked=await page.$$eval(`#${prefix}Signing2Name-listbox .transferComboboxPlayer`,nodes=>nodes.map(n=>({text:n.innerText.replace(/\s+/g," ").trim(),blocked:n.classList.contains("is-blocked")})));
         const hit=marked.find(r=>r.blocked);
         log(`${tag}: refusal list ${JSON.stringify(blocked)}; typed "${target.name}" -> ${JSON.stringify(marked.slice(0,3))}`);
-        if(marked.length&&!hit)log(`PROBLEM ${tag}: ${target.reason} player ${target.name} is listed without "Can't be signed"`);
+        if(marked.length&&!hit)log(`PROBLEM ${tag}: ${target.reason} player ${target.name} is listed without "Cannot be signed"`);
         if(hit){await snap(page,`blocked-${target.reason}`,name,target.name);await page.locator(`#${prefix}Signing2Name-listbox .transferComboboxPlayer.is-blocked`).first().click({force:true,timeout:5000});
           const notice=await page.locator(`#${prefix}Signing2Name-listbox .transferComboboxNotice`).innerText().catch(()=>"");const after=await name.inputValue();
           log(`${tag}: tapping him shows "${notice}"; the box still reads "${after}"`);
-          if(!/can't|don't/i.test(notice))log(`PROBLEM ${tag}: no refusal words in the list`);
+          if(!/cannot|do not/i.test(notice))log(`PROBLEM ${tag}: no refusal words in the list`);
         }
       }
       await clearRow(page,prefix);

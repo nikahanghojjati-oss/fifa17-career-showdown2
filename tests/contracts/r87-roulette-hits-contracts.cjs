@@ -200,7 +200,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const p=await page.panel();
     assert.equal(page.doc.frames.length,0,"no second spin: the scene never loads");
     assert.equal(page.title(p),"Release J. Milner #7","the result card for that season");
-    page.press(p,"I'VE RELEASED HIM");assert.equal(await run,true);
+    page.press(p,"I HAVE RELEASED HIM");assert.equal(await run,true);
     assert.equal(remembered,0,"the server already holds his mark: nothing new is saved");
     assert.ok(JSON.parse(page.store.get(page.step.doneKey)).includes(`${RID}|1|playerOne`),"done on this browser now too");
     // The window already opened (both managers spun): the result card too, no spin.

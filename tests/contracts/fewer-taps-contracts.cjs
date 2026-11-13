@@ -259,12 +259,12 @@ async function r1r8ResultsContracts(){
     const h=resultsHarness({ownPublished:true,ready:false});h.api.install();await h.api.refresh();
     assert.equal(h.api.fastPollIntervalMs,FAST);assert.ok(h.fast(),"Season Results installs the 3 s fast lane");
     assert.equal(h.api.isWaitingForRival(),true,"published and waiting for the rival");
-    assert.equal(h.node("seasonReviewHeading").textContent,"YOUR RESULT IS PUBLISHED");
+    assert.equal(h.node("seasonReviewHeading").textContent,"YOUR RESULT IS CONFIRMED");
     assert.equal(visible(h.node("seasonReviewWarningNode")),true,"the publishing warning still shows while waiting");
     h.server.ready=true;const before=h.calls.reads,upstream=h.calls.upstream;h.fast().fn();await settle();
     assert.equal(h.calls.reads,before+1,"the rival's publish is read by the fast lane");
     assert.equal(h.calls.upstream,upstream,"the fast read is light: one Season Results read, no Setup / Transfer re-read");
-    assert.equal(h.node("seasonReviewHeading").textContent,"BOTH MANAGERS PUBLISHED","the screen advanced without a tap");
+    assert.equal(h.node("seasonReviewHeading").textContent,"BOTH MANAGERS CONFIRMED","the screen advanced without a tap");
     assert.equal(h.api.isWaitingForRival(),false,"RESULTS_READY ends the waiting state");
     assert.equal(h.calls.publishes,0,"no publish is ever made by the poll");
     const unpublished=resultsHarness({ownPublished:false,ready:false});unpublished.api.install();await unpublished.api.refresh();
@@ -273,11 +273,11 @@ async function r1r8ResultsContracts(){
   ok("R1 Season Results: after PUBLISH the rival's result arrives by the 3 s read; REVIEW and PUBLISH stay manual");
   {
     const h=resultsHarness({ownPublished:true,ready:true});h.api.install();await h.api.refresh();
-    assert.equal(h.node("seasonReviewHeading").textContent,"BOTH MANAGERS PUBLISHED","the heading still says both published");
+    assert.equal(h.node("seasonReviewHeading").textContent,"BOTH MANAGERS CONFIRMED","the heading still says both published");
     assert.equal(visible(h.node("seasonReviewWarningNode")),false,"R8: the pink RESULT PUBLICATION COMPLETE banner is hidden");
     assert.doesNotMatch(h.node("seasonReviewWarningNode").textContent,/RESULT PUBLICATION COMPLETE/,"R8: the duplicate banner text is gone");
     assert.equal(visible(h.node("seasonReviewStatusRow")),false,"R8: the RESULTS READY · BOTH PRIVATE SIDES REVEALED meta line is gone");
-    assert.equal(h.node("seasonReviewResult").textContent,"Both managers published their FIFA 17 season results.","R8: the 'Continue with the Shared Season Commit below.' sentence is gone");
+    assert.equal(h.node("seasonReviewResult").textContent,"Both managers confirmed their FIFA 17 season results.","R8: the 'Continue with the Shared Season Commit below.' sentence is gone");
     assert.equal(visible(h.node("seasonReviewOne")),true);assert.equal(visible(h.node("seasonReviewTwo")),true,"both results are still revealed");
   }
   ok("R8 Season Results: once both published, the duplicate banner, meta line and sentence are gone; heading and both cards stay");

@@ -556,24 +556,24 @@
       if(sheet.season<2)return {ok:false,reason:"Reserves come into the squad from season 2."};
       if(!pa)return {ok:false,reason:"No player there."};
       if(b.zone==="xi"){
-        if(!allowed(sheet,pa,sheet.slots[b.index]))return {ok:false,reason:`${pa.name} can't play ${sheet.slots[b.index]}.`};
-        if(pb&&pb.rating>pa.rating&&!isStopgap(sheet,b.index))return {ok:false,reason:`${pb.name} (${pb.rating}) is better than ${pa.name} (${pa.rating}). A better player can't go to the reserves.`};
+        if(!allowed(sheet,pa,sheet.slots[b.index]))return {ok:false,reason:`${pa.name} cannot play ${sheet.slots[b.index]}.`};
+        if(pb&&pb.rating>pa.rating&&!isStopgap(sheet,b.index))return {ok:false,reason:`${pb.name} (${pb.rating}) is better than ${pa.name} (${pa.rating}). A better player cannot go to the reserves.`};
         return hidingCheck(sheet,a,b);
       }
       if(b.index>=FEATURED)return hidingCheck(sheet,a,b);// subs 5-7 and the reserves are both off the board
-      if(pb&&!shareLine(pa,pb))return {ok:false,reason:`${pa.name} doesn't play in ${pb.name}'s line.`};
-      if(pb&&pb.rating>pa.rating)return {ok:false,reason:`${pb.name} (${pb.rating}) is better than ${pa.name} (${pa.rating}). A better player can't go to the reserves.`};
+      if(pb&&!shareLine(pa,pb))return {ok:false,reason:`${pa.name} does not play in ${pb.name}'s line.`};
+      if(pb&&pb.rating>pa.rating)return {ok:false,reason:`${pb.name} (${pb.rating}) is better than ${pa.name} (${pa.rating}). A better player cannot go to the reserves.`};
       return hidingCheck(sheet,a,b);
     }
     // XI and bench.
     const inside=r=>r.zone==="xi"||r.index<FEATURED;
     if(inside(a)!==inside(b)){
       const [inn,out]=inside(a)?[a,b]:[b,a],pin=at(sheet,inn),pout=at(sheet,out);
-      if(pin&&pout&&pin.rating>pout.rating&&!(inn.zone==="xi"&&isStopgap(sheet,inn.index)))return {ok:false,reason:`${pin.name} (${pin.rating}) is better than ${pout.name} (${pout.rating}). A better player can't drop out of the 15 on the Roulette board.`};
+      if(pin&&pout&&pin.rating>pout.rating&&!(inn.zone==="xi"&&isStopgap(sheet,inn.index)))return {ok:false,reason:`${pin.name} (${pin.rating}) is better than ${pout.name} (${pout.rating}). A better player cannot drop out of the 15 on the Roulette board.`};
     }
     for(const [into,p] of [[a,pb],[b,pa]]){
       if(into.zone!=="xi"||!p)continue;
-      if(!allowed(sheet,p,sheet.slots[into.index]))return {ok:false,reason:`${p.name} can't play ${sheet.slots[into.index]}.`};
+      if(!allowed(sheet,p,sheet.slots[into.index]))return {ok:false,reason:`${p.name} cannot play ${sheet.slots[into.index]}.`};
     }
     // An XI slot never goes empty while the player leaving it has a seat to go to.
     if((a.zone==="xi"&&!pb&&pa)||(b.zone==="xi"&&!pa&&pb)){
@@ -588,7 +588,7 @@
     // A stand-in keeps his slot only while nobody at the club can play it (validate): a move that sends such a player to the
     // bench is refused here, not later at LOCK (2.4.0 hunt fuzz).
     const gap=standInGap(next);
-    if(gap&&!standInGap(sheet))return {ok:false,reason:`${gap.q.name} can play ${gap.slot}, so ${gap.p.name} can't stand in there.`};
+    if(gap&&!standInGap(sheet))return {ok:false,reason:`${gap.q.name} can play ${gap.slot}, so ${gap.p.name} cannot stand in there.`};
     if(sheet.season<2)return {ok:true};
     const issue=hidingIssue(next);
     return issue?{ok:false,reason:hidingReason(issue)}:{ok:true};
@@ -633,7 +633,7 @@
     if(!sheet||sheet.season<2)return {ok:false,reason:"Players leave the club from season 2.",sheet};
     if(!LEAVE_REASONS.includes(reason))return {ok:false,reason:"Pick why he left.",sheet};
     const ref=findPlayer(sheet,id);
-    if(!ref)return {ok:false,reason:"He isn't at the club.",sheet};
+    if(!ref)return {ok:false,reason:"He is not at the club.",sheet};
     const next=clone(sheet),p=at(next,ref);
     put(next,ref,null);
     const ex=new Set(next.excluded);ex.add(p.id);if(!BUY_BACK&&!isSigning(p))ex.add(`s|${sqKey(p.name)}`);next.excluded=[...ex].sort();
@@ -652,7 +652,7 @@
     if(!sheet||sheet.season<2)return {ok:false,reason:"Overalls change from season 2.",sheet};
     if(!validOverall(overall))return {ok:false,reason:`Overall must be ${OVERALL_MIN}-${OVERALL_MAX}.`,sheet};
     const ref=findPlayer(sheet,id);
-    if(!ref)return {ok:false,reason:"He isn't at the club.",sheet};
+    if(!ref)return {ok:false,reason:"He is not at the club.",sheet};
     const next=clone(sheet),p=at(next,ref);
     p.rating=overall;next.ratings[p.id]=overall;
     if(ref.zone==="res")sortReserves(next);
@@ -762,20 +762,20 @@
     const problems=[];
     if(!sheet||sheet.v!==VERSION)return {ok:false,problems:["Unknown squad version."]};
     const slots=formationSlots(sheet.formation);
-    if(!slots||slots.join()!==sheet.slots.join())problems.push("Formation and slots don't match.");
+    if(!slots||slots.join()!==sheet.slots.join())problems.push("Formation and slots do not match.");
     if(sheet.xi.length!==XI_SIZE||sheet.bench.length!==BENCH_SIZE)problems.push("Wrong squad size.");
     const all=everyone(sheet),ex=excludedSet(sheet),seen=new Set();
     // Each refusal names the man it means (hunt C1).
     const twice=all.find(p=>seen.has(p.id)||!seen.add(p.id));
     if(twice)problems.push(`${twice.name} is listed twice.`);
     const back=all.find(p=>ex.has(p.id));
-    if(back)problems.push(`${back.name} has left the club, so he can't be in the squad.`);
+    if(back)problems.push(`${back.name} has left the club, so he cannot be in the squad.`);
     const spare=[...sheet.bench.filter(Boolean),...sheet.reserves];
     sheet.xi.forEach((p,i)=>{
       const slot=sheet.slots[i];
       if(!p){if(spare.length)problems.push(`${slot} is empty.`);return;}
       if(allowed(sheet,p,slot))return;
-      if(!sheet.stopgaps.includes(i)||spare.some(q=>allowed(sheet,q,slot)))problems.push(`${p.name} can't play ${slot}.`);
+      if(!sheet.stopgaps.includes(i)||spare.some(q=>allowed(sheet,q,slot)))problems.push(`${p.name} cannot play ${slot}.`);
     });
     if(sheet.bench.some(p=>!p)&&sheet.reserves.length)problems.push("A bench seat is empty.");
     const hidden=problems.length?null:hidingIssue(sheet);

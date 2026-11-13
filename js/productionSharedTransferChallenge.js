@@ -294,7 +294,7 @@
   // A lock cannot be undone, so a partly filled form asks first. Cancel (or any confirm failure) means do nothing; no confirm box at all means lock as before.
   async function pstcConfirmPartialLock(filled,noun){
     if(filled>=PSTC_MAX_ROWS)return true;
-    return (await pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You can't change them after locking.`,"primary"))!==false;
+    return (await pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You cannot change them after locking.`,"primary"))!==false;
   }
   function pstcBuildGuesses(role){
     const prefix=pstcGuessPrefix(role),rows=[];
@@ -315,7 +315,7 @@
   // Squad screen. The same draw both phones hold: no read, nothing stored.
   const pstcOtherRole=role=>role==="playerOne"?"playerTwo":"playerOne";
   function pstcIsRivalSpecial(role,name){return (role==="playerOne"||role==="playerTwo")&&pstcIsOwnSpecial(pstcOtherRole(role),name);}
-  function pstcRivalSpecialText(role,name){return `${name} is ${pstcManagerName(pstcOtherRole(role))}'s Special Player. He can't join your squad.`;}
+  function pstcRivalSpecialText(role,name){return `${name} is ${pstcManagerName(pstcOtherRole(role))}'s Special Player. He cannot join your squad.`;}
   // r88 LOCK refusals (Nik 2026-11-03): LOCK refuses every signing the board engine (js/rosterRoulette.js rrExclude) keeps off
   // this manager's later boards because of the Transfer War or the roulette, so a refusal is exactly an engine exclusion:
   //  - guessed: his own signing the rival guessed in an earlier season (release:true). Only that manager: the rival may sign him,
@@ -384,8 +384,8 @@
   function pstcPlayerSlot(input){const match=/^(p1|p2)Signing([1-3])Name$/.exec(input?.id||"");return match?{prefix:match[1],slot:Number(match[2]),role:match[1]==="p1"?"playerOne":"playerTwo"}:null;}
   function pstcBlockedText(role,name){
     const key=pstcNameKey(name);const out=key&&blockedSeen&&blockedSeen.key===`${pstcRequestContext()?.key}|${role}`?blockedSeen.map.get(key):null;
-    if(out)return out.reason==="shot"?`${name} was shot in the roulette. He can't come back.`:`${name} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You can't sign him again.`;
-    if(pstcIsOwnSpecial(role,name))return `${name} is your Special Player. He is a free extra signing, so don't enter him here.`;
+    if(out)return out.reason==="shot"?`${name} was shot in the roulette. He cannot come back.`:`${name} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You cannot sign him again.`;
+    if(pstcIsOwnSpecial(role,name))return `${name} is your Special Player. He is a free extra signing, so do not enter him here.`;
     if(pstcIsRivalSpecial(role,name))return pstcRivalSpecialText(role,name);
     return "";
   }
@@ -409,7 +409,7 @@
   function pstcRefuse(code,message){const error=new Error(message);error.code=code;error.plain=true;throw error;}
   function pstcBuildSignings(role,blocked=null){
     const prefix=pstcRolePrefix(role),rows=[];
-    for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`),league=pstcField(`${prefix}Signing${i}League`),nationality=pstcField(`${prefix}Signing${i}Nationality`),player=String(name?.value||"").trim(),ovrText=String(ovr?.value||"").trim(),posText=String(pos?.value||"").trim(),leagueId=pstcCanonical(league),nationalityId=pstcCanonical(nationality),hasAny=Boolean(player||ovrText||posText||String(league?.value||"").trim()||String(nationality?.value||"").trim());if(!hasAny)continue;const out=player&&blocked&&blocked.get(pstcNameKey(player));if(out)pstcRefuse(out.reason==="shot"?"TRANSFER_SIGNING_SHOT":"TRANSFER_SIGNING_GUESSED_BEFORE",out.reason==="shot"?`${player} was shot in the roulette. He can't come back.`:`${player} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You can't sign him again.`);if(!player||!leagueId||!nationalityId||(ovr&&!/^[3-9][0-9]$/.test(ovrText))||(pos&&!SIGNING_POSITIONS.includes(posText)))pstcFail("TRANSFER_SIGNINGS_INVALID",`Complete signing ${i} with player name, position, overall (30-99), previous league and nationality.`);if(pstcIsOwnSpecial(role,player))pstcFail("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing ${i} is your Special Player, a free extra signing that no guess can release. Do not enter him here.`);if(pstcIsRivalSpecial(role,player))pstcRefuse("TRANSFER_SIGNING_RIVAL_SPECIAL_PLAYER",pstcRivalSpecialText(role,player));const row={slot:i,name:player,leagueId,nationalityId};if(ovr)row.overall=Number(ovrText);if(pos)row.position=posText;const playerId=String(name?.dataset?.playerId||"");if(/^[1-9][0-9]{0,5}$/.test(playerId))row.playerId=Number(playerId);rows.push(row);}
+    for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`),league=pstcField(`${prefix}Signing${i}League`),nationality=pstcField(`${prefix}Signing${i}Nationality`),player=String(name?.value||"").trim(),ovrText=String(ovr?.value||"").trim(),posText=String(pos?.value||"").trim(),leagueId=pstcCanonical(league),nationalityId=pstcCanonical(nationality),hasAny=Boolean(player||ovrText||posText||String(league?.value||"").trim()||String(nationality?.value||"").trim());if(!hasAny)continue;const out=player&&blocked&&blocked.get(pstcNameKey(player));if(out)pstcRefuse(out.reason==="shot"?"TRANSFER_SIGNING_SHOT":"TRANSFER_SIGNING_GUESSED_BEFORE",out.reason==="shot"?`${player} was shot in the roulette. He cannot come back.`:`${player} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You cannot sign him again.`);if(!player||!leagueId||!nationalityId||(ovr&&!/^[3-9][0-9]$/.test(ovrText))||(pos&&!SIGNING_POSITIONS.includes(posText)))pstcFail("TRANSFER_SIGNINGS_INVALID",`Complete signing ${i} with player name, position, overall (30-99), previous league and nationality.`);if(pstcIsOwnSpecial(role,player))pstcFail("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing ${i} is your Special Player, a free extra signing that no guess can release. Do not enter him here.`);if(pstcIsRivalSpecial(role,player))pstcRefuse("TRANSFER_SIGNING_RIVAL_SPECIAL_PLAYER",pstcRivalSpecialText(role,player));const row={slot:i,name:player,leagueId,nationalityId};if(ovr)row.overall=Number(ovrText);if(pos)row.position=posText;const playerId=String(name?.dataset?.playerId||"");if(/^[1-9][0-9]{0,5}$/.test(playerId))row.playerId=Number(playerId);rows.push(row);}
     return rows;
   }
   function pstcSyncGuessValue(type,value,editable){
@@ -496,7 +496,7 @@
     const localPhase=PHASE_PROGRESS[phase]||"window",order=["window","guess_entry","signing_entry","completed"],index=order.indexOf(localPhase),screen=pstcField("transferChallenge");
     if(screen)screen.dataset.transferPhase=localPhase;
     root.document?.querySelectorAll?.("#transferPhaseNavigator [data-transfer-phase-step]").forEach(step=>{const stepIndex=order.indexOf(step.dataset.transferPhaseStep);step.classList.toggle("active",stepIndex===index);step.classList.toggle("done",stepIndex>=0&&stepIndex<index);});
-    const copy={NOT_STARTED:`Transfer Window · ${pstcManagerName(view?.setup?.coordinatorRole||"playerOne")} starts the 15-minute window.`,WINDOW_OPEN:"Transfer Window · you both see the same clock and can agree to end it early.",GUESS_ENTRY:"Guesses · enter your guesses. Your rival can't see them yet.",SIGNING_ENTRY:"Signings · guesses are locked. Enter the signings you made in FIFA 17.",COMPLETED:"Verdicts · both sides are revealed and checked the same way."};
+    const copy={NOT_STARTED:`Transfer Window · ${pstcManagerName(view?.setup?.coordinatorRole||"playerOne")} starts the 15-minute window.`,WINDOW_OPEN:"Transfer Window · you both see the same clock and can agree to end it early.",GUESS_ENTRY:"Guesses · enter your guesses. Your rival cannot see them yet.",SIGNING_ENTRY:"Signings · guesses are locked. Enter the signings you made in FIFA 17.",COMPLETED:"Verdicts · both sides are revealed and checked the same way."};
     pstcText("transferPhaseIntro",copy[phase]||copy.NOT_STARTED);
   }
   function pstcRenderTimer(){
@@ -566,7 +566,7 @@
     }else if(phase==="GUESS_ENTRY"){
       const locked=state.guessLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"REPLAY · GUESSES":locked?"GUESSES LOCKED · WAITING FOR YOUR RIVAL":"GUESSES · HIDDEN FROM YOUR RIVAL UNTIL YOU BOTH LOCK");pstcHidden(guessGrid,false);pstcHidden(privacy,false);if(privacy)privacy.textContent=isReplay?"Replay: read-only. Nothing new about your rival is shown.":"Enter your guesses. Your rival cannot see them until you both lock.";if(!isReplay&&!locked){const card=pstcOwnGuessCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcSyncOwnGuessControls(role,true);pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY GUESSES";pstcDisable(complete,busy);}
     }else if(phase==="SIGNING_ENTRY"){
-      const locked=state.signingLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"REPLAY · SIGNINGS":locked?"SIGNINGS LOCKED · WAITING FOR YOUR RIVAL":"SIGNINGS · ENTER YOUR FIFA 17 TRANSFERS");pstcHidden(signingGrid,false);pstcHidden(summary,false);if(summary)summary.textContent=isReplay?"Replay: your signings are read-only. Nothing here changes the game or your save.":locked?"Your signings are locked. They stay hidden from your rival until they lock theirs.":"Both sets of guesses are locked. Enter your own signings; your rival still can't see them.";if(!isReplay&&!locked){pstcEnhancePlayerNames(role,true);const card=pstcOwnSigningCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY SIGNINGS";pstcDisable(complete,busy);}
+      const locked=state.signingLockedRoles?.includes(role);pstcText("transferPhaseStatus",isReplay?"REPLAY · SIGNINGS":locked?"SIGNINGS LOCKED · WAITING FOR YOUR RIVAL":"SIGNINGS · ENTER YOUR FIFA 17 TRANSFERS");pstcHidden(signingGrid,false);pstcHidden(summary,false);if(summary)summary.textContent=isReplay?"Replay: your signings are read-only. Nothing here changes the game or your save.":locked?"Your signings are locked. They stay hidden from your rival until they lock theirs.":"Both sets of guesses are locked. Enter your own signings; your rival still cannot see them.";if(!isReplay&&!locked){pstcEnhancePlayerNames(role,true);const card=pstcOwnSigningCard(role);card?.querySelectorAll("input,select").forEach(node=>pstcDisable(node,false));pstcHidden(actionBar,false);pstcHidden(complete,false);complete.textContent="LOCK MY SIGNINGS";pstcDisable(complete,busy);}
     }else if(phase==="COMPLETED"){
       // F2-08: COMPLETED without its verdicts yet (the follow-up read after the lock failed): saved, loading, never "No signings".
       const loadingVerdicts=!view?.verdicts;
