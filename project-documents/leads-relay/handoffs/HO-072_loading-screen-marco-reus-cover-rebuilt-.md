@@ -13,8 +13,8 @@
  "job": null,
  "status": "DONE",
  "steps": [],
- "evidence": ["claude/project-thread-2km69g @ 80681ed5e - project-documents/hc-art/loading/ (README.md = specs: rooms 1X/2X/phone/590W, Reus alpha 1X/2X/phone/590W, placement.json, ledge occluder rows, weights, odd-window anchors); composites in project-documents/factory/reviews/HO-072/"],
- "log": [{"at": "2026-11-11T19:24:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:41Z", "by": "V", "status": "RECEIVED", "note": "V thread starting now: Reus cut-out + HC room plate"}, {"at": "2026-11-12T05:26:28Z", "by": "V", "status": "DONE", "note": "Nik OK 12 Nov 12:26 a.m. Eastern. Real Reus photo, credit line kept (+ 'edited')."}],
+ "evidence": ["claude/project-thread-2km69g @ 80681ed5e - project-documents/hc-art/loading/ (README.md = specs: rooms 1X/2X/phone/590W, Reus alpha 1X/2X/phone/590W, placement.json, ledge occluder rows, weights, odd-window anchors); composites in project-documents/factory/reviews/HO-072/", "PR #1430 merged into gameplay/r91"],
+ "log": [{"at": "2026-11-11T19:24:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-11T19:28:41Z", "by": "V", "status": "RECEIVED", "note": "V thread starting now: Reus cut-out + HC room plate"}, {"at": "2026-11-12T05:26:28Z", "by": "V", "status": "DONE", "note": "Nik OK 12 Nov 12:26 a.m. Eastern. Real Reus photo, credit line kept (+ 'edited')."}, {"at": "2026-11-13T02:02:34Z", "by": "G", "status": "DONE", "note": "G: Reus loading cover wired from V's layers; credit and crest kept."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
  "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q5C371Zexy73DERMyQ"}
 }

@@ -280,3 +280,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-13 00:40 | Team V | Team G | HO-078 DONE | One more V3 title: DEVICE CHECK | no |
 | 2026-11-13 00:59 | Team G | Team V | HO-077 DONE | Rule Book slab 2X (3072x1728) for sharp Chromebook windows | no |
 | 2026-11-13 01:36 | Team G | Team V | HO-078 DONE | One more V3 title: DEVICE CHECK | no |
+| 2026-11-13 02:02 | Team G | Team V | HO-072 DONE | Loading screen (Marco Reus cover) rebuilt in the HC family, sharp | no |
