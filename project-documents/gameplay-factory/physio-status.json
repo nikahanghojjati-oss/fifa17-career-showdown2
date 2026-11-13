@@ -1,12 +1,12 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-13T22:02:14.713Z",
+  "at": "2026-11-13T22:14:59.619Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
   "gate": {
     "pr": 1444,
-    "head_sha": "9bcf3cda1fef854844891252c75ccb13e4803c8e",
+    "head_sha": "103bdffa3f53fbafb2af1f0500845327413fde44",
     "lanes": [
       {
         "name": "L1 core",
