@@ -337,7 +337,7 @@
       const back=pcstCreate("button","compactButton pcstBack","BACK");back.type="button";back.setAttribute("aria-label","Close Career Start");back.addEventListener("click",pcstClosePanel);
       if(fallback){
         // The Club screen did not load: say so once, keep every control, and offer RETRY (it loads the Club visuals again).
-        const notice=pcstCreate("p","pcstFallbackNote",retryFailed?"The Club screen still didn't load. Career Start works here; try RETRY again in a moment.":"The Club screen didn't load. Career Start works here; RETRY loads the Club screen again.");notice.setAttribute("role","status");
+        const notice=pcstCreate("p","pcstFallbackNote",retryFailed?"The Club screen still did not load. Career Start works here; try RETRY again in a moment.":"The Club screen did not load. Career Start works here; RETRY loads the Club screen again.");notice.setAttribute("role","status");
         pillar.insertBefore(notice,pillar.children[heading?1:0]||null);
         const retry=pcstCreate("button","compactButton pcstRetry","RETRY");retry.type="button";retry.addEventListener("click",()=>void pcstRetryStage(retry));
         if(actions)actions.append(retry);else pillar.append(retry);

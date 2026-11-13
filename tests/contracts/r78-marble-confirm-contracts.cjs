@@ -28,7 +28,7 @@ const code=source=>source.replace(/\/\*[\s\S]*?\*\//g,"").replace(/(^|[\s;{}(),]
 const SITES=[
   // C4 (the dashboard DELETE CURRENT SHOWDOWN box) is retired in r90: its button was gone since r80 and the dead handler is deleted;
   // ending a Showdown is Settings END SHOWDOWN (C9).
-  ["C8","js/productionSharedTransferChallenge.js","pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You can't change them after locking.`,\"primary\")",[]],
+  ["C8","js/productionSharedTransferChallenge.js","pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You cannot change them after locking.`,\"primary\")",[]],
   // r80: DELETE CURRENT SHOWDOWN became END SHOWDOWN (same red button, same marble box, Ended early wording).
   ["C9","js/settings.js","settingsAskConfirm(\n        `End the \"${name}\" Showdown? Ends this Showdown for both players. Legacy keeps it as Ended early. This cannot be undone.`,\n        \"danger\"",[]],
   // C10 (Settings START REAL CAREER) is retired in r79 PR4 (Nik 2026-10-17): the row is gone; the one-time checkmark on the

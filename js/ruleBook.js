@@ -185,8 +185,8 @@ function createScoringRuleSection(){
 
     const steps = createRuleList([
         "When the season is over in FIFA 17, each of you types your own results into Season Results. No screenshots or notes needed.",
-        "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own card. PUBLISH asks once more, because it is final.",
-        "The season counts once you have both published."
+        "Sacked in FIFA 17? Tick \u201cI was sacked this season\u201d on your own card. CONFIRM MY RESULT asks once more, because it is final.",
+        "Once you have both confirmed your results, you both tap CONFIRM SEASON, and the season counts."
     ]);
 
     const scoring = createRuleTable([
@@ -228,7 +228,7 @@ function createSpecialPlayerRuleSection(){
         "Career Start shows his FIFA 17 club, so you can sign him in your career.",
         "He is a free extra signing. He never counts toward your three Transfer War signings, and your rival's guesses can never release him.",
         "He never appears in Squad Management or on the roulette board, so the roulette can never hit him.",
-        "Your rival can't sign him in the Transfer War either: LOCK refuses him.",
+        "Your rival cannot sign him in the Transfer War either: LOCK refuses him.",
         "He scores no Showdown points. His SP chip sits next to your name on the career screens."
     ]);
     article.className = "ruleSection specialPlayerRuleSection";

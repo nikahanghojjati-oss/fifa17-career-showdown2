@@ -90,9 +90,9 @@
   function safeError(error,fallback){return error&&typeof error.code==="string"?error.code:fallback;}
   // BUG-1: players never see a raw error code. A real human message wins; otherwise known code families map to short plain text.
   // The code stays available as state.errorCode / data-error-code for diagnostics only.
-  const PLAIN_STALE="Your partner just changed this. It's been refreshed, tap again.";
-  const PLAIN_CONNECTION="That didn't go through. Check your connection and tap again.";
-  const PLAIN_GENERIC="That didn't go through. Tap again.";
+  const PLAIN_STALE="Your partner just changed this. It has been refreshed, tap again.";
+  const PLAIN_CONNECTION="That did not go through. Check your connection and tap again.";
+  const PLAIN_GENERIC="That did not go through. Tap again.";
   function humanMessage(message,code){
     const text=String(message||"").trim();
     if(!text||text===code||!/\s/.test(text))return "";

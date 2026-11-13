@@ -17,7 +17,7 @@
   const FIT_WORD={3:"Natural position",2:"Can play here",1:"Out of position",0:"Stand-in"};
   const STAGE_WORD={pre:"Before Russian Roulette",post:"After Transfer War"};
   const REASON_WORD={contract:"Contract ended",retired:"Retired",swapped:"Swapped",sold:"Sold",loaned:"Loaned out",other:"Other"};
-  const LEFT_OUT_WORD={shot:"Shot in the roulette",guessed:"Guessed, so released",special:"A Special Player, never in a squad",excluded:"Can't be signed again"};
+  const LEFT_OUT_WORD={shot:"Shot in the roulette",guessed:"Guessed, so released",special:"A Special Player, never in a squad",excluded:"Cannot be signed again"};
   const el=(tag,cls,text)=>{const n=doc.createElement(tag);if(cls)n.className=cls;if(text!==undefined&&text!==null)n.textContent=String(text);return n;};
   const many=(n,word)=>`${n} ${word}${n===1?"":"s"}`;
   const shortName=name=>{const s=String(name||"");const dot=s.indexOf(". ");return dot>0&&dot<4?s.slice(dot+2):s;};
@@ -414,7 +414,7 @@
         let answer;
         try{answer=await options.onLock(sheet,ops.slice());}catch(e){answer=false;}
         saving=false;
-        if(answer===false||(answer&&answer.ok===false)){say(answer&&answer.reason||"Couldn't save. Try again.","no");sqmRender();return;}
+        if(answer===false||(answer&&answer.ok===false)){say(answer&&answer.reason||"Could not save. Try again.","no");sqmRender();return;}
         locked=true;say(answer&&answer.reason||"Squad locked.","ok");sqmRender();
       });
       actions.append(auto,undo,lock);

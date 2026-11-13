@@ -105,7 +105,7 @@ const SESSION="session_"+"c".repeat(64);
   for(const id of ["p1Sacked","p2Sacked"])assert.match(html,new RegExp(`<input id="${id}" type="checkbox">`),`${id} tick`);
   assert.match(html,/I was sacked this season/);
   const src=read("js/productionSharedSeasonResults.js");
-  assert.doesNotMatch(src,/SACKED_FROM_MS|CMS_SACKED/);assert.match(src,/PUBLISH · I WAS SACKED/);assert.match(src,/YES, I WAS SACKED · PUBLISH/);
+  assert.doesNotMatch(src,/SACKED_FROM_MS|CMS_SACKED/);assert.match(src,/CONFIRM · I WAS SACKED/);assert.match(src,/YES, I WAS SACKED · CONFIRM/);
   assert.match(src,/THIS SHOWDOWN ENDS AFTER SEASON/);
   ok("S6","each card has its own \"I was sacked this season\" tick; PUBLISH needs a second tap to confirm; no start time or off switch");
 }

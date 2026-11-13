@@ -1,10 +1,10 @@
 "use strict";
-// JOB-1611: Daniel and Nik tap PUBLISH MY SEASON RESULT at the same moment. Under Firestore lock contention both
+// JOB-1611: Daniel and Nik tap CONFIRM MY RESULT at the same moment. Under Firestore lock contention both
 // same-moment commits can fail together: the rival's commit is ABORTED and the SDK quietly retries it a second later,
 // while this manager's publish comes back as aborted (SDK retries spent, "Transaction lock timeout") or permission-denied
 // (Rules saw a contended read and the provider's bounded re-reads ended before the rival's retried write landed).
 // Before the fix the production adapter retried only SEASON_RESULTS_STALE_BASE_REVISION, so that manager was left on
-// seasonEntry with "Your season result could not be published." while the rival converged.
+// seasonEntry with "Your season result could not be confirmed." while the rival converged.
 //   P1. aborted, rival lands a moment later -> re-read, publish again with the fresh baseRevision and the same operationId.
 //   P2. permission-denied, rival still pending -> retry; the retry loses to the rival (STALE) -> one more re-read -> accepted.
 //   P3. every contention spelling (aborted, failed-precondition, permission-denied x3) recovers.
@@ -161,7 +161,7 @@ async function p4OwnWriteLanded(){
   const run=await scenario([ownLandedButAborted]);
   assert.equal(run.fake.publishes.length,1,"P4 an own result that already landed is bound, never written twice");
   assertConverged(run,"P4");
-  assert.equal(run.confirm.textContent,"PUBLISHED ✓","P4 the manager sees the published state");
+  assert.equal(run.confirm.textContent,"RESULT CONFIRMED ✓","P4 the manager sees the published state");
   ok("P4 an aborted call whose own write landed binds the published result without a second publish");
 }
 
@@ -170,7 +170,7 @@ async function p5BoundedThenSurfaced(){
   assert.equal(run.fake.publishes.length,4,"P5 contention retries stay bounded to 1 + 3 publishes");
   assert.equal(run.reports.length,1,"P5 unresolved contention is still reported");
   assert.equal(run.reports[0].code,"aborted");
-  assert.equal(errorText(run.document),"Your season result could not be published.","P5 the same error as before is shown");
+  assert.equal(errorText(run.document),"Your season result could not be confirmed.","P5 the same error as before is shown");
   assert.equal(run.api.getState().ownResult,null);
   assert.equal(run.document.getElementById("seasonReviewTwo").classList.contains("hidden"),true,"P5 the rival's card stays hidden before both published");
   assert.equal(JSON.stringify(run.document.getElementById("seasonReviewTwo").children).includes("100"),false,"P5 the rival's result is never rendered");
@@ -220,7 +220,7 @@ async function p8ContendedReadsInsidePublish(){
   assert.equal(run.fake.publishes.length,0,"P8 a refused pre-publish read never publishes");
   assert.equal(run.fake.reads.length,2,"P8 a refused read is not retried");
   assert.equal(run.reports[0].code,"SEASON_RESULTS_ACTIVE_SESSION_REQUIRED");
-  assert.equal(errorText(run.document),"Season Results could not be refreshed before publishing.");
+  assert.equal(errorText(run.document),"Season Results could not be refreshed before confirming.");
   ok("P8 contended reads inside a publish are retried within the same bound; refused reads surface at once");
 }
 
@@ -231,7 +231,7 @@ async function p9RefusedPublishStopsAtOnce(){
   assert.equal(run.fake.publishes.length,1,"P9 a denied publish whose re-read is refused is not published again");
   assert.equal(run.fake.reads.length,3,"P9 the screen's refresh, the pre-publish read and one re-read");
   assert.equal(run.reports.length,1);assert.equal(run.reports[0].code,"permission-denied","P9 the denial is what is reported");
-  assert.equal(errorText(run.document),"Your season result could not be published.","P9 the same clear message as before");
+  assert.equal(errorText(run.document),"Your season result could not be confirmed.","P9 the same clear message as before");
   assert.equal(run.api.getState().ownResult,null);assert.equal(run.confirm.disabled,false,"P9 the manager can tap PUBLISH again");
   assert.ok(run.elapsed<1500,`P9 it stops after the first wait (${run.elapsed} ms)`);
   // A re-read that is itself contended (denied or aborted) keeps the bounded JOB-1611 retry.

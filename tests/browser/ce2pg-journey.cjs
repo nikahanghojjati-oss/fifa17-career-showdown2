@@ -685,12 +685,12 @@ async function tapPublish(m){
   const button=m.page.locator("#confirmSeasonCompletion");
   const first=norm(await button.textContent().catch(()=>""));
   await button.click({timeout:30000});
-  if(first!=="PUBLISH · I WAS SACKED")return;
-  await m.page.waitForFunction(()=>document.getElementById("confirmSeasonCompletion")?.textContent==="YES, I WAS SACKED · PUBLISH",null,{timeout:15000});
+  if(first!=="CONFIRM · I WAS SACKED")return;
+  await m.page.waitForFunction(()=>document.getElementById("confirmSeasonCompletion")?.textContent==="YES, I WAS SACKED · CONFIRM",null,{timeout:15000});
   const role=m.account==="daniel"?"playerOne":"playerTwo",rid=ctxRef.entry?.rivalryId;
   const early=rid?await admin(`rivalries/${rid}/seasonResults/season_${seasonNow}/roles/${role}`):null;
   const warning=norm(await m.page.locator("#seasonReviewPanel .seasonReviewWarning, #seasonReviewWarning").first().textContent().catch(()=>""));
-  await check(m,`${showdownNow}.S${seasonNow}.sacked.confirm`,"a sacked result asks once more (YES, I WAS SACKED · PUBLISH) and publishes nothing on the first tap",!early,`published on the first tap; warning "${warning}"`,{screen:"Shared Season Results"});
+  await check(m,`${showdownNow}.S${seasonNow}.sacked.confirm`,"a sacked result asks once more (YES, I WAS SACKED · CONFIRM) and publishes nothing on the first tap",!early,`published on the first tap; warning "${warning}"`,{screen:"Shared Season Results"});
   report.observations.push({showdown:showdownNow,season:seasonNow,user:m.user,sackedWarning:warning});
   await shot(m,`${showdownNow}-S${seasonNow}-sacked-confirm`);
   await button.click({timeout:30000});
@@ -702,7 +702,7 @@ async function prepareReview(m){
 async function publish(m){
   await prepareReview(m);
   await tapPublish(m);
-  await m.page.waitForFunction(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
+  await m.page.waitForFunction(()=>/YOUR RESULT IS CONFIRMED|BOTH MANAGERS CONFIRMED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
   if(SACKED){await m.page.waitForTimeout(800);await shot(m,`${showdownNow}-S${seasonNow}-sacked-published`);}
 }
 // The publish tap with no connection (outage "publish"). While offline the screen may show progress or an error, never
@@ -715,14 +715,14 @@ async function publishThroughOutage(m,k){
   const end=Date.now()+OUTAGE_MS;let fake=null;
   while(Date.now()<end){
     const heading=(await m.page.locator("#seasonReviewHeading").textContent().catch(()=>""))||"";
-    if(/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(heading)&&rid&&!(await admin(`rivalries/${rid}/seasonResults/season_${k}/roles/${role}`)))fake=heading;
+    if(/YOUR RESULT IS CONFIRMED|BOTH MANAGERS CONFIRMED/.test(heading)&&rid&&!(await admin(`rivalries/${rid}/seasonResults/season_${k}/roles/${role}`)))fake=heading;
     await m.page.waitForTimeout(1000);
   }
   const offlineText=await describe(m);
   await comeBack(m);
   await check(m,`${showdownNow}.S${k}.outage.publish.noFake`,"offline, the screen never says the result is published while Firebase does not have it",!fake,`showed "${fake}"`,{screen:"Shared Season Results"});
   // Back online: wait for the publish to land; if the screen offers PUBLISH again (the offline attempt failed), tap it once.
-  const isPublished=()=>m.page.evaluate(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||"")).catch(()=>false);
+  const isPublished=()=>m.page.evaluate(()=>/YOUR RESULT IS CONFIRMED|BOTH MANAGERS CONFIRMED/.test(document.getElementById("seasonReviewHeading")?.textContent||"")).catch(()=>false);
   const button=()=>m.page.evaluate(()=>{const b=document.getElementById("confirmSeasonCompletion");return b?{text:(b.textContent||"").trim(),disabled:b.disabled===true||b.getAttribute("aria-disabled")==="true",shown:b.getClientRects().length>0,error:(document.querySelector("#seasonReviewPanel .seasonReviewError, #seasonEntry [role=alert]")?.textContent||"").trim().slice(0,160)}:null;}).catch(()=>null);
   let taps=0,ok=false;const trail=[];const by=Date.now()+60000;
   while(Date.now()<by){
@@ -758,7 +758,7 @@ async function playSeasonResults(daniel,nik,k,planSeason){
     await budgetWait("results-published");
     await fill[second.account]();await publish(second);
   }
-  for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
+  for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS CONFIRMED",null,{timeout:45000});
   return mode;
 }
 async function commitSeason(daniel,nik,k,planSeason,final){

@@ -33,7 +33,7 @@ assert.match(adapter,/try\{await transferApi\.refresh\(\);\}catch\(error\)\{if\(
 assert.match(adapter,/pssrFingerprint\(currentResult\)!==draft\.fingerprint/,'reviewed payload must be revalidated immediately before publication');
 assert.match(adapter,/draft&&draft\.contextKey===contextKey[\s\S]*pssrRenderReview\(draft\.result\)/,'ordinary provider refresh must preserve an unpublished local Review draft');
 assert.doesNotMatch(adapter,/current\.finally\(/,'refresh cleanup must not create an ignored rejecting finally child promise');
-assert.match(adapter,/Your rival sees this only after publishing theirs/);
+assert.match(adapter,/Your rival sees this only after confirming theirs/);
 // Job 33 (R8): the duplicate RESULTS_READY banners are gone; the Shared Season Commit status is the one line that directs the player onward.
 assert.match(adapter,/if\(warning\)\{pssrHidden\(warning,ready\);/,'RESULTS_READY must hand the next-step banner to Shared Season Commit instead of repeating it');
 assert.match(read('js/productionSharedSeasonCommit.js'),/BOTH RESULTS ARE IN · LOCK THE SEASON[\s\S]*BOTH RESULTS ARE IN · WAITING FOR \$\{String\(psscManagerName\(coordinator\)\)\.toUpperCase\(\)\} TO LOCK/,'RESULTS_READY must direct the real player into the next authoritative capability (Shared Season Commit) instead of presenting r9 as a terminal step');

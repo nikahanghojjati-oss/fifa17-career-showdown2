@@ -318,7 +318,7 @@
           const doc={...S.toDoc(locked),schemaVersion:SCHEMA,objectType:OBJECT_TYPE,rivalryId:ctx.rivalryId,seasonNumber:ctx.season,stage:ctx.stage,role:ctx.managerRole};
           let result;
           try{result=await sqsCreate(io,ctx,doc);}catch(error){result={ok:false,error};}
-          if(!result.ok){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(result.error);return {ok:false,reason:quota||"Couldn't save your squad. Check the connection and try again."};}
+          if(!result.ok){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(result.error);return {ok:false,reason:quota||"Could not save your squad. Check the connection and try again."};}
           // Locked on another device first: that squad stands, and the screen shows it.
           if(result.existing){finish({reload:true});return {ok:true,reason:"Your squad was already locked on another device."};}
           afterLock(result.data);
@@ -327,7 +327,7 @@
       if(!mounted){finish({retry:true,text:"The squad screen could not load. Try again."});return;}
       sqsDoc().body.append(stage);sqsLoadingOff();
       if(built.sheet)afterLock(built.doc);
-      else say(ctx.stage==="pre"?`Set your squad for Season ${ctx.season}, then lock it. Your XI and subs 1-4 go on the Russian Roulette board. ${rivalName} can't see it here.`:"Your kept signings are in and the Roulette's shot has left. Set your squad, then lock it.");
+      else say(ctx.stage==="pre"?`Set your squad for Season ${ctx.season}, then lock it. Your XI and subs 1-4 go on the Russian Roulette board. ${rivalName} cannot see it here.`:"Your kept signings are in and the Roulette's shot has left. Set your squad, then lock it.");
     });
   }
   // This manager's own Roulette board from his locked document (the same rebuild the rival's phone makes of it).

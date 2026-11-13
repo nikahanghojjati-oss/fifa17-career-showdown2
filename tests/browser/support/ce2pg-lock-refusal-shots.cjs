@@ -34,7 +34,7 @@ function install(){
         await nameField.fill(entry.name);
         await page.evaluate(()=>{const n=document.getElementById("transferChallengeError");if(n)n.textContent="";});
         await lockLocator.click({timeout:30000});
-        const words=entry.reason==="shot"?"He can't come back.":"You can't sign him again.";
+        const words=entry.reason==="shot"?"He cannot come back.":"You cannot sign him again.";
         await page.waitForFunction(w=>String(document.getElementById("transferChallengeError")?.textContent||"").includes(w),words,{timeout:30000});
         const shown=await page.evaluate(()=>document.getElementById("transferChallengeError").textContent);
         const locked=await page.evaluate(()=>Boolean(window.CareerModeProductionSharedTransferChallenge.getState()?.state?.signingLockedRoles?.includes(window.CareerModeProductionSharedTransferChallenge.getState()?.managerRole)));

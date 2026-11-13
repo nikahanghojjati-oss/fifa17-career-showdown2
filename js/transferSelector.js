@@ -320,7 +320,7 @@ function renderTransferPlayerOption(input, state, player, index){
         item.classList.add("is-blocked");
         item.setAttribute("aria-disabled", "true");
         const why = document.createElement("em");
-        why.textContent = "Can't be signed";
+        why.textContent = "Cannot be signed";
         item.appendChild(why);
     }
     item.addEventListener("click", event => {
