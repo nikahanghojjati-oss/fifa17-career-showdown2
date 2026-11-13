@@ -1758,3 +1758,19 @@
    Assignment and Connect Players keep only the dark shade every other title has. */
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(#careerStatisticsScreenTitle, #clubWheelScreenScreenTitle, #connectPlayersTitle) { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .95)) !important; }
 /* r91 HO-071 end */
+
+/* r91 HO-071 follow-up (Nik 2026-11-12: phones and tablets get the new titles too). On tablets and sideways phones the
+   League and season-count steps still show the old header bar, lettered "CAREER MODE / SHOWDOWN // 17" in the pre-V3
+   block type (desktop and upright phones already dropped that bar, HO-033 item 9). The bar stays and so do its words for
+   screen readers; they are drawn with Team V's V3 Home logo instead, the same file Home shows, so nothing new is
+   downloaded on Home. Only set-up screens carry data-v10-setup, and where the brand is clipped away this draws nothing. */
+html[data-v10-setup]:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topHeader > div.brand { position: relative; }
+html[data-v10-setup]:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topHeader > div.brand > :is(h1, p) {
+  color: transparent !important; -webkit-text-fill-color: transparent !important; text-shadow: none !important;
+}
+html[data-v10-setup]:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topHeader > div.brand::after {
+  content: ""; position: absolute; left: 0; top: 50%; width: min(100%, 204px); aspect-ratio: 640 / 107;
+  transform: translateY(-50%); pointer-events: none;
+  background: url("../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp") left center / contain no-repeat;
+  background-image: image-set(url("../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp") 1x, url("../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_1040.webp") 2x);
+}
