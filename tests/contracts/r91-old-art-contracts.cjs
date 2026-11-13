@@ -85,6 +85,11 @@ for(const [file, rooms] of Object.entries(sharp)){
     assert.ok(text.split(BIG).length - 1 >= rooms.length, `C5 ${file} keeps its ${rooms.length} big-window room rule(s)`);
     for(const room of new Set(rooms)) assert.match(text, new RegExp(`ENV_${room}_PLATE_HC_V3_1920\\.webp[^ ]{0,6} 1\\.25x`), `C5 ${file} draws the ${room} 1920 cut at 1.25x`);
 }
+// HO-077: the Rule Book / Settings reading slab takes its 1920 cut on big windows too (2X master since 2026-11-13).
+assert.ok(fs.existsSync(path.join(root, "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp")), "C5 the slab's 1920 cut exists");
+{ const rs = read("css/rulesSettingsV10.css");
+  assert.ok(rs.includes(`@media ${BIG}`), "C5 Rule Book keeps its big-window slab rule");
+  assert.match(rs, /ENV_SLAB_HC_V1_1920\.webp'\) 1\.25x/, "C5 Rule Book and Settings draw the slab's 1920 cut at 1.25x"); }
 // HO-069 rooms: Start / Showdown Home (front hall) and Squad Management (coaches room) take their 1920 cut too.
 assert.match(read("css/v10Setup.css"), /ENV_HALL_PLATE_HC_V3_1920\.webp[^ ]{0,6} 1\.25x/, "C5 Start draws the hall's 1920 cut at 1.25x");
 assert.match(read("css/squadScreen.css"), /ENV_COACHES_PLATE_HC_V3_1920\.webp[^ ]{0,6} 1\.25x/, "C5 Squad Management draws the coaches room's 1920 cut at 1.25x");
