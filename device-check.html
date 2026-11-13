@@ -29,8 +29,6 @@ button,.btn{appearance:none;min-height:44px;padding:0 20px;border:1px solid var(
 button.primary{background:var(--gold);color:#15120c}
 button:disabled{opacity:.5;cursor:default}
 button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.device{margin:10px 0 0;text-align:center;color:var(--mute);font-size:14px;overflow-wrap:anywhere}
-.device b{color:var(--ink)}
 #status{min-height:1.5em;margin:10px 0 0;text-align:center;font-weight:600}
 #stage{position:relative;width:100%;aspect-ratio:16/9;max-height:60vh;margin:0 auto;background:#000;border:1px solid var(--gold-dim);overflow:hidden}
 #stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
@@ -48,6 +46,37 @@ td small{display:block;color:var(--mute);font-size:12px}
 #result{text-align:center;font-weight:700;font-size:17px}
 #result small{display:block;font-weight:400;font-size:14px;color:var(--mute)}
 td small{overflow-wrap:anywhere}
+/* r91 level guide (Nik 2026-11-12): what this device's chip, processor and memory each say, and the table of which chips
+   start at which level. Quiet type, no boxes around the titles, nothing under 12 px, no glow. */
+h2{margin:0 0 12px;font:800 15px/1.2 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-align:center}
+h2 span{color:var(--mute);font-weight:600}
+.parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0}
+.parts div{padding:2px 16px;border-left:1px solid rgba(219,178,94,.25);text-align:center}
+.parts div:first-child{border-left:0}
+.parts dt{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.parts dd{margin:3px 0 0;overflow-wrap:anywhere}
+.parts dd.val{font-weight:700}
+.parts dd.says{color:var(--mute);font-size:14px}
+.suggest{margin:14px 0 0;padding-top:12px;border-top:1px solid rgba(219,178,94,.25);text-align:center;font-weight:700;font-size:17px}
+.suggest b{color:var(--gold)}
+.suggest small{display:block;font-weight:400;font-size:14px;color:var(--mute)}
+.note{margin:0 auto 10px;max-width:86ch;text-align:center;color:var(--mute);font-size:14px}
+#limits{margin-top:14px}
+.guide th[scope=row],.guide thead th:first-child{padding-left:12px}
+.note:last-child{margin-bottom:0}
+.guide th[scope=row]{white-space:nowrap}
+.guide tr.mine th,.guide tr.mine td{background:rgba(245,197,24,.08)}
+.guide tr.mine th{box-shadow:inset 3px 0 0 var(--gold)}
+.guide .tag{display:block;margin-top:3px;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ink)}
+/* How it looks: one real picture of each 3D screen under its level (assets/level-guide, loaded only when scrolled to). */
+.guide tr:not(.shots) th,.guide tr:not(.shots) td{border-bottom:0}
+.guide tr.shots td{padding:2px 12px 14px}
+.guide tr.shots.mine td{box-shadow:inset 3px 0 0 var(--gold)}
+.looks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.looks a{display:block;color:var(--mute);font-size:12px;font-weight:600;letter-spacing:.06em;text-align:center;text-decoration:none}
+.looks img{display:block;width:100%;height:auto;aspect-ratio:480/217;object-fit:cover;background:#000;border:1px solid rgba(219,178,94,.25)}
+.looks span{display:block;margin-top:4px}
+.looks a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 /* Narrow screens: one block per level, each screen on its own line under its name (four columns do not fit a phone). */
 @media (max-width:720px){
   .card{padding:12px}
@@ -57,6 +86,15 @@ td small{overflow-wrap:anywhere}
   tbody th,tbody td{border:0;padding:3px 0}
   tbody th{font-size:13px}
   tbody td::before{content:attr(data-label);display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim)}
+  .parts{grid-template-columns:1fr}
+  .parts div{padding:8px 0;border-left:0;border-top:1px solid rgba(219,178,94,.25)}
+  .parts div:first-child{border-top:0;padding-top:0}
+  .guide tr.mine{padding-left:10px;padding-right:6px;box-shadow:inset 3px 0 0 var(--gold);background:rgba(245,197,24,.08)}
+  .guide tr.mine th,.guide tr.mine td,.guide tr.shots.mine td{background:none;box-shadow:none}
+  .guide tbody tr:not(.shots){border-bottom:0;padding-bottom:0}
+  .guide tr.shots td{padding:6px 0 4px}
+  .guide th[scope=row]{padding-left:0}
+  .looks{gap:6px}
 }
 </style>
 </head>
@@ -64,13 +102,17 @@ td small{overflow-wrap:anywhere}
 <main>
   <h1>DEVICE CHECK</h1>
   <p class="lede">Plays a Chamber Men kick, a Russian Roulette turn and a Special Player reveal at each 3D quality level, lightest first. Auto is then set to the best level all three keep smooth at 60 fps. It stops at the first level that is not smooth and takes a few minutes. Keep this tab open and in front. Nothing in your Showdown changes.</p>
+  <section class="card" id="yours" aria-labelledby="yoursTitle" hidden>
+    <h2 id="yoursTitle">Your device</h2>
+    <dl id="parts" class="parts"></dl>
+    <p id="suggest" class="suggest"></p>
+  </section>
   <section class="card">
     <div class="row">
       <button id="start" class="primary" type="button">Start check</button>
       <button id="forget" type="button" hidden>Forget result</button>
       <a class="btn" href="./">Back to the game</a>
     </div>
-    <p id="device" class="device"></p>
     <p id="status" role="status" aria-live="polite"></p>
   </section>
   <section class="card" aria-hidden="true"><div id="stage"><div class="idle">The 3D screens play here during the check.</div></div></section>
@@ -80,6 +122,16 @@ td small{overflow-wrap:anywhere}
       <thead><tr><th scope="col">Level</th><th scope="col">Chamber Men</th><th scope="col">Russian Roulette</th><th scope="col">Special Player</th><th scope="col">Result</th></tr></thead>
       <tbody id="rows"></tbody>
     </table></div>
+  </section>
+  <section class="card" id="guide" aria-labelledby="guideTitle" hidden>
+    <h2 id="guideTitle">Level guide</h2>
+    <p class="note">Where Auto starts, by graphics chip, before any check. How it looks: the same view of each 3D screen at every level. The pictures say nothing about speed.</p>
+    <div class="wrap"><table class="guide">
+      <thead><tr><th scope="col">Level</th><th scope="col">Chips that start here</th><th scope="col">What it draws</th></tr></thead>
+      <tbody id="guideRows"></tbody>
+    </table></div>
+    <p class="note" id="limits"></p>
+    <p class="note">These are starting points, not promises. Only the check on this page measures a device, and Auto then uses the best level it kept smooth. Settings › 3D QUALITY can still pick any level it lists.</p>
   </section>
 </main>
 <script src="js/storage.js"></script>
@@ -156,14 +208,39 @@ td small{overflow-wrap:anywhere}
       return `<tr><th scope="row">${name}</th>${SCENES.map(s=>`<td data-label="${s.name}">${cell(i,s)}</td>`).join("")}<td data-label="Result">${v?VERDICT[v]:"<span class=\"skip\">–</span>"}</td></tr>`;
     }).join("");
   }
-  // The device class before any check: an iPhone 17 (Apple GPU) reads "Phone · Apple GPU · starts at High".
-  function showDevice(){
-    let d=null;try{d=T&&T.device();}catch(_error){d=null;}
-    if(!d){$("device").textContent="";return;}
-    const kind=d.software?"Software graphics":d.phone?(d.strongPhone?"Phone with a strong graphics chip":"Phone"):"Computer";
-    $("device").innerHTML=`This device: <b>${esc(kind)}</b> · ${esc(d.gpu||"graphics chip not named")} · before a check, Auto starts at <b>${esc(LEVELS[d.guessLevel]||"Balanced")}</b>${d.can8k?" · can show 8K":""}`;
+  // r91 level guide (Nik 2026-11-12: "based on your graphic card, this is what we suggest, or based on your CPU"). All of it
+  // comes from js/gfxTier.js guide(): what this device's chip, processor and memory each say, the level we suggest, and
+  // the table of which chips start at which level. No frame rate is promised: only a finished check of this device says
+  // "holds 60 fps".
+  const LOOK=[480,217];   // the small pictures' size (the large ones open in a new tab)
+  function showGuide(){
+    let g=null;try{g=T&&T.guide();}catch(_error){g=null;}
+    $("yours").hidden=$("guide").hidden=!g;if(!g)return;
+    const d=g.device,kind=d.software?"software graphics":d.phone?"phone":"computer";
+    $("yoursTitle").innerHTML=`Your device <span>· ${esc(kind)}</span>`;
+    const cap=l=>l===0?`Starts at ${LEVELS[0]}`:l===null?"No limit":`No higher than ${LEVELS[l]}`;
+    const parts=[
+      ["Graphics chip",d.chipName||"Not named by this browser",d.software?`No graphics chip in use: starts at ${LEVELS[0]}`:`Chips like this start at ${LEVELS[d.chip]}`],
+      ["Processor",d.threads?`${d.threads} ${d.threads===1?"thread":"threads"}`:"Not reported by this browser",d.phone?"Not counted on a phone":cap(d.threadCap)],
+      ["Memory",d.memory?(d.memory>=8?"8 GB or more":`${d.memory} GB`):"Not reported by this browser",cap(d.memoryCap)]];
+    $("parts").innerHTML=parts.map(([name,value,says])=>`<div><dt>${esc(name)}</dt><dd class="val">${esc(value)}</dd><dd class="says">${esc(says)}</dd></div>`).join("");
+    let m=null,held=[];try{m=T.measured();}catch(_error){m=null;}try{held=T.needsCheck?T.needsCheck():[];}catch(_error){held=[];}
+    const wait=held.length?` ${held.join(" and ")} ${held.length>1?"are":"is"} offered here only after the check passes ${held.length>1?"them":"it"}.`:"";
+    const level=m?m.level:d.level,name=LEVELS[level]||LEVELS[1];
+    const held60=m&&m.detail&&typeof m.detail.held==="boolean"?m.detail.held:null;
+    const why=!m?`Auto starts there on a device like this. Run the check to measure yours: Auto then uses the best level it kept smooth.`
+      :held60===false?`Measured on this device: even ${LEVELS[0]} was not smooth, so Auto stays on ${LEVELS[0]}, the lightest level.`
+      :held60?`Measured on this device: it holds 60 fps at ${name} on all three 3D screens. Auto uses it.`
+      :`The check measured ${name} on this device. Auto uses it.`;
+    $("suggest").innerHTML=`We suggest <b>${esc(name)}</b><small>${esc(why+wait)}</small>`;
+    $("guideRows").innerHTML=g.rows.map(r=>`<tr${r.mine?" class=\"mine\"":""}><th scope="row">${esc(r.label)}${r.mine?"<span class=\"tag\">Your device</span>":""}</th>`
+      +`<td data-label="Chips that start here">${esc(r.who)}${r.level===5&&!d.can8k?"<small>Not on this device.</small>":""}</td><td data-label="What it draws">${esc(r.draws)}</td></tr>`
+      +`<tr class="shots${r.mine?" mine":""}"><td colspan="3"><div class="looks">${SCENES.map(s=>`<a href="assets/level-guide/${s.key}-${T.names[r.level]}.webp" target="_blank" rel="noopener">`
+        +`<img loading="lazy" decoding="async" width="${LOOK[0]}" height="${LOOK[1]}" src="assets/level-guide/${s.key}-${T.names[r.level]}-s.webp" alt="${esc(s.name)} at ${esc(r.label)}"><span>${esc(s.name)}</span></a>`).join("")}</div></td></tr>`).join("");
+    $("limits").textContent=g.limits;
   }
   function showSaved(note){
+    showGuide();
     const m=T&&T.measured();forgetBtn.hidden=!m;
     const extra=note?`${note} `:"";
     if(!m){result.innerHTML=note?`No result saved<small>${esc(note)} Auto uses its starting guess until a check finishes.</small>`:"";return;}
@@ -253,7 +330,7 @@ td small{overflow-wrap:anywhere}
   startBtn.addEventListener("click",run);
   forgetBtn.addEventListener("click",()=>{T.clearMeasured();showSaved();status.textContent="Auto goes back to its starting guess from this device's graphics chip.";});
   if(!T){startBtn.disabled=true;status.textContent="The check could not load. Reload the page.";}
-  draw();showDevice();showSaved();
+  draw();showSaved();
   {const tc=tabCrash();if(T&&tc)status.textContent=`Last time the tab closed while a 3D screen was opening at ${LEVELS[tc.from]||"a level"}. The game draws ${LEVELS[tc.level]} at most for now, and this check stops below ${LEVELS[tc.from]||"that level"}.`;}
 })();
 </script>
