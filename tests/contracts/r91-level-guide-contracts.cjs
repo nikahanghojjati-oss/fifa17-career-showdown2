@@ -14,6 +14,8 @@
 //   G8 the pictures: each 3D screen at each level, small WebP, lazy on the Device check page only, never in the
 //      worker's install list, never on the game page
 //   G9 the docs say the same
+//   G10 the Start box: an empty status line takes no room (no empty band under the buttons), and its first words
+//       arrive in the same step the stage covers the window, so nothing is seen to move when the check starts
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -211,5 +213,20 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
   assert.match(docs, /`CareerModeGfxTier\.guide\(\)`/); assert.match(docs, /Auto · Light/); assert.match(docs, /assets\/level-guide\//);
   assert.match(docs, /tests\/contracts\/r91-level-guide-contracts\.cjs/);
   ok("G9", "the docs say the same");
+}
+// G10
+{
+  assert.match(PAGE, /<p id="status" role="status" aria-live="polite"><\/p>/, "the status line starts empty");
+  assert.ok(PAGE.includes("#status:empty{display:none}"), "an empty status line takes no room");
+  // run(): the status words are written, then wait() runs to stage.classList.add("live") before the first await yields.
+  const run = PAGE.slice(PAGE.indexOf("async function run(){"), PAGE.indexOf("const j=judge("));
+  const says = run.indexOf("status.textContent=`${scene.name}"), waits = run.indexOf("await wait(scene,level)");
+  assert.ok(says > 0 && waits > says, "the status words are written right before the screen is opened");
+  assert.ok(!/await /.test(run.slice(says, waits)), "nothing is awaited between the status words and the open");
+  const wait = PAGE.slice(PAGE.indexOf("function wait(scene,level){"), PAGE.indexOf("async function run(){"));
+  assert.match(wait, /return new Promise\(resolve=>\{/);
+  assert.ok(wait.includes('stage.replaceChildren(frame,note);stage.classList.add("live");'), "wait() covers the window in the same step");
+  assert.ok(!/await |\.then\(/.test(wait.slice(0, wait.indexOf('stage.classList.add("live")'))), "wait() does not yield before the stage is live");
+  ok("G10", "the Start box has no empty band at rest and nothing is seen to move when the check starts");
 }
 console.log(`PASS r91 level guide contracts (${checks} checks)`);

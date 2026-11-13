@@ -30,6 +30,9 @@ button.primary{background:var(--gold);color:#15120c}
 button:disabled{opacity:.5;cursor:default}
 button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 #status{min-height:1.5em;margin:10px 0 0;text-align:center;font-weight:600}
+/* At rest the line is empty and takes no room, so the two buttons sit evenly in their box. Its first words arrive in the
+   same step that the stage covers the window (run() below), so nothing is seen to move when the check starts. */
+#status:empty{display:none}
 #stage{position:relative;width:100%;aspect-ratio:16/9;max-height:60vh;margin:0 auto;background:#000;border:1px solid var(--gold-dim);overflow:hidden}
 #stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 /* Codex on #1266: each scene is measured at its real game size, so the stage fills the window while a level runs (RRR is a
