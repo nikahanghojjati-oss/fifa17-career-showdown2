@@ -21,6 +21,12 @@
 //      pie neatly while steady and spinning"): every name and mark is fixed to its slice (it turns with the wheel, so
 //      what fits at rest fits at every angle of the spin), stays 3px or more inside the slice's two dividers and off the
 //      hub, and ends before the rim art; every slice shows its mark, 10px or larger. See leagueWheelSlicesClear.
+//   F6 every screen with Special Player chips (r91): the audit gives both managers a Special Player (one short name, one of
+//      the longest), so every chip screen is drawn as a real Showdown since r86 draws it; the seeded data alone carries
+//      none, which is how the first phone and tablet recheck missed them. A chip then fails when it runs off the side of
+//      the screen, lies under something, crosses another chip, lies on other words, is set under 12px on a sideways phone
+//      row that F6 names, or (Rivalry Statistics) its manager's block leaves its panel or reaches the rows under it.
+//      See specialPlayerFixture and specialPlayerChipsClear.
 // Sizes (CMS_FACECHECK_GROUP): touch-up = phone and tablet upright; touch-side = phone and tablet sideways; desk = both
 // Chromebook windows (1920x866 windowed, 1920x1035 full screen); more = a small and a large upright phone; phone = Team V's
 // four upright phones; full (default) = all of them. The Gate runs touch-up, touch-side and desk (one test:browser audit
@@ -532,13 +538,66 @@ async function checkFaces(page, key, w, h, dpr){
 }
 
 const OLD_LOOK = [];   // every manager screen now draws its plate on upright phones
+// F6 fixture. Runs before the page's own scripts: when js/specialPlayerChip.js sets its api, the five lookups the screens
+// use answer with these two players, whatever the seeded Showdown holds. Everything else (the chip's element, its styles,
+// each screen's own placing) is the page's own code. Both are real entries of data/marqueePlayers.js: Nik's is the longest
+// name and the longest surname of the 305, with the widest badge; Daniel's is a long one-word surname of the usual kind.
+const SP_FIXTURE = { daniel: { name: "R. Lewandowski", club: "FC Bayern München", rank: 15, tier: "gold", badge: "#15 TOP 20" }, nik: { name: "A. Oxlade-Chamberlain", club: "Arsenal", rank: 181, tier: "bronze", badge: "#181 TOP 300" } };
+function specialPlayerFixture(sp){
+    let api;
+    const both = () => sp;
+    Object.defineProperty(window, "CareerModeSpecialPlayerChip", { configurable: true, get: () => api, set: real => { api = Object.freeze({ ...real, live: both, liveFor: both, forShowdown: both, forRow: both, latest: both }); } });
+}
+// F6. Every chip on the open screen, as it is drawn. Positions are taken with the page scrolled to its top and again with
+// each chip scrolled into view (for the "lies under" test, nine points a chip).
+async function specialPlayerChipsClear(page){
+    return page.evaluate(async () => {
+        const out = [], main = document.querySelector("#app main"), vw = innerWidth;
+        const frames = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+        const shown = el => { if(el.closest(".hidden, [hidden]")) return false; const cs = getComputedStyle(el), b = el.getBoundingClientRect(); return cs.display !== "none" && cs.visibility !== "hidden" && b.width > 0 && b.height > 0; };
+        const label = el => el.tagName.toLowerCase() + (el.id ? "#" + el.id : typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/)[0] : "");
+        const chips = [...document.querySelectorAll("#app .spChip")].filter(shown);
+        const said = new Set(), say = line => { if(!said.has(line)){ said.add(line); out.push(line); } };
+        const where = chip => `the Special Player chip ${JSON.stringify(chip.textContent.replace(/\s+/g, " ").trim().slice(0, 28))}`;
+        // other words on the screen: every shown text node outside the chips
+        const words = [];
+        if(chips.length){
+            const host = chips[0].closest("#app > main > section, #app main > *") || document.querySelector("#app"), walk = document.createTreeWalker(host, NodeFilter.SHOW_TEXT);
+            for(let node = walk.nextNode(); node; node = walk.nextNode()){
+                if(!node.textContent.trim() || node.parentElement.closest(".spChip") || !shown(node.parentElement)) continue;
+                const range = document.createRange(); range.selectNodeContents(node);
+                for(const r of range.getClientRects()) if(r.width > 1 && r.height > 1) words.push({ text: node.textContent.trim().slice(0, 24), r, el: node.parentElement });
+            }
+        }
+        const boxes = chips.map(chip => chip.getBoundingClientRect());
+        chips.forEach((chip, i) => {
+            const b = boxes[i];
+            if(b.left < -.5 || b.right > vw + .5) say(`${where(chip)} runs off the side of the screen (${Math.round(b.left)} to ${Math.round(b.right)} of ${vw})`);
+            for(let j = i + 1; j < chips.length; j++){ const c = boxes[j]; if(b.right - c.left > .5 && c.right - b.left > .5 && b.bottom - c.top > .5 && c.bottom - b.top > .5) say(`${where(chip)} lies across ${where(chips[j])}`); }
+            for(const w of words){
+                // a word's ink is narrower than its line box: a quarter of the line's height is taken off above and below
+                const lead = w.r.height * .22;
+                if(b.right - w.r.left > .5 && w.r.right - b.left > .5 && b.bottom - (w.r.top + lead) > .5 && (w.r.bottom - lead) - b.top > .5) say(`${where(chip)} lies on the words ${JSON.stringify(w.text)} (${label(w.el)})`);
+            }
+        });
+        for(const chip of chips){
+            chip.scrollIntoView({ block: "center", inline: "nearest" }); await frames();
+            const r = chip.getBoundingClientRect(), over = new Set();
+            for(const fx of [.12, .5, .88]) for(const fy of [.2, .5, .8]){ const top = document.elementFromPoint(r.left + r.width * fx, r.top + r.height * fy); if(top && top !== chip && !chip.contains(top) && !top.contains(chip)) over.add(label(top)); }
+            if(over.size) say(`${where(chip)} lies under ${[...over].join(", ")}`);
+        }
+        if(main) main.scrollTop = 0;
+        await frames();
+        return out;
+    });
+}
 // F4. The chips are put in exactly as Team V's final-winner.js builds them (a .fwSpecialPlayer slot after each name, the
 // chip from js/specialPlayerChip.js): one short name and the longest kind, so the row is as wide as it gets.
 async function finalWinnerResultClear(page){
-    return page.evaluate(async () => {
+    return page.evaluate(async fixture => {
         const root = document.querySelector("#seasonEntry"), api = window.CareerModeSpecialPlayerChip;
         if(!root || !api || !root.querySelector("#danielTotal")) return ["Final Winner: the result or the Special Player chip code is missing, so F4 could not be checked"];
-        for(const [sel, sp] of [["#danielName", { name: "A. Dragović", tier: "bronze", badge: "#250 TOP 300" }], ["#nikName", { name: "Trent Alexander-Arnold", tier: "black-blue-gold", badge: "#2 TOP 3" }]]){
+        for(const [sel, sp] of [["#danielName", fixture.daniel], ["#nikName", fixture.nik]]){
             const name = root.querySelector(sel); name.parentNode.querySelectorAll(".fwSpecialPlayer").forEach(node => node.remove());
             const slot = document.createElement("span"); slot.className = "fwSpecialPlayer"; slot.appendChild(api.element(document, sp)); name.after(slot);
         }
@@ -561,7 +620,7 @@ async function finalWinnerResultClear(page){
         const panel = root.querySelector(".finalWinnerResultsPanel"), pr = panel && panel.getBoundingClientRect();
         for(const [what, r] of [["Daniel's total", dTotal], ["Nik's total", nTotal]]) if(pr && pr.width && pr.left < r.right && pr.right > r.left && pr.bottom > r.bottom && pr.top - r.bottom < 6) out.push(`${what} stands ${Math.round(pr.top - r.bottom)}px above the summary panel (6px is the least)`);
         return out;
-    });
+    }, SP_FIXTURE);
 }
 
 // F5 (see the header). Each slice in turn is turned to the top with the wheel's own track, where its name and mark stand
@@ -614,7 +673,7 @@ async function leagueWheelSlicesClear(page){
     });
 }
 
-module.exports = { SCREENS, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear, leagueWheelSlicesClear };
+module.exports = { SCREENS, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear, SP_FIXTURE, specialPlayerFixture, specialPlayerChipsClear, leagueWheelSlicesClear };
 if(require.main === module) (async () => {
     const started = Date.now();
     const keys = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SCREENS).filter(key => !OLD_LOOK.includes(key));
@@ -628,6 +687,7 @@ if(require.main === module) (async () => {
         const report = async (page, key, w, h, dpr, errors) => {
             const res = await checkFaces(page, key, w, h, dpr);
             if(key === "FINAL_WINNER") for(const what of await finalWinnerResultClear(page)) res.findings.push({ face: "", what });
+            for(const what of await specialPlayerChipsClear(page)) res.findings.push({ face: "", what });
             if(key === "LEAGUE") for(const what of await leagueWheelSlicesClear(page)) res.findings.push({ face: "", what });
             checked++;
             const size = `${w}x${h}`, real = [], known = [];
@@ -658,6 +718,7 @@ if(require.main === module) (async () => {
         // touch: a fresh phone or tablet context per size (the page sets its own viewport on big tablets)
         for(const [w, h] of touch){
             const context = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+            await context.addInitScript(specialPlayerFixture, SP_FIXTURE);
             const page = await context.newPage();
             const errors = [];
             page.on("pageerror", e => errors.push(e.message));
@@ -667,6 +728,7 @@ if(require.main === module) (async () => {
         // desktop: open once per screen, then drag the window through every desktop size
         if(desk.length){
             const context = await browser.newContext({ viewport: { width: desk[0][0], height: desk[0][1] }, deviceScaleFactor: 1 });
+            await context.addInitScript(specialPlayerFixture, SP_FIXTURE);
             const page = await context.newPage();
             const errors = [];
             page.on("pageerror", e => errors.push(e.message));

@@ -88,17 +88,23 @@
   }
   function spEsc(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
   function spTitle(chip){return `Special Player: ${chip.name} · ${chip.badge}`;}
+  // A name as [first part with its space, the rest]: "A. Oxlade-Chamberlain" is ["A. ","Oxlade-Chamberlain"], "K. De Bruyne"
+  // ["K. ","De Bruyne"], "Neymar" ["","Neymar"]. Tight spots show the rest alone ("SP · Oxlade-Chamberlain"); the title keeps it all.
+  function spNameParts(name){const at=String(name).indexOf(" ");return at>0&&at<name.length-1?[name.slice(0,at+1),name.slice(at+1)]:["",String(name)];}
   function spValid(chip){return Boolean(chip&&typeof chip.name==="string"&&chip.name&&Object.hasOwn(TIERS,chip.tier)&&typeof chip.badge==="string");}
   // The chip as markup (for renderers that build strings), or "" when there is none.
   function spHtml(chip){
     if(!spValid(chip))return "";
-    return `<span class="spChip spChip--${chip.tier}" data-sp-chip="true" data-sp-tier="${chip.tier}" title="${spEsc(spTitle(chip))}"><span class="spChipTag">SP</span><span class="spChipName">${spEsc(chip.name)}</span><span class="spChipRank">${spEsc(chip.badge)}</span></span>`;
+    const [first,rest]=spNameParts(chip.name);
+    return `<span class="spChip spChip--${chip.tier}" data-sp-chip="true" data-sp-tier="${chip.tier}" title="${spEsc(spTitle(chip))}"><span class="spChipTag">SP</span><span class="spChipName">${first?`<bdi class="spChipFirst">${spEsc(first)}</bdi>`:""}${spEsc(rest)}</span><span class="spChipRank">${spEsc(chip.badge)}</span></span>`;
   }
   // The chip as an element (for renderers that build nodes), or null.
   function spElement(doc,chip){
     if(!doc||typeof doc.createElement!=="function"||!spValid(chip))return null;
     const el=doc.createElement("span");el.className=`spChip spChip--${chip.tier}`;el.dataset.spChip="true";el.dataset.spTier=chip.tier;el.title=spTitle(chip);
-    for(const [cls,text] of [["spChipTag","SP"],["spChipName",chip.name],["spChipRank",chip.badge]]){const part=doc.createElement("span");part.className=cls;part.textContent=text;el.appendChild(part);}
+    const [first,rest]=spNameParts(chip.name);
+    for(const [cls,text] of [["spChipTag","SP"],["spChipName",rest],["spChipRank",chip.badge]]){const part=doc.createElement("span");part.className=cls;part.textContent=text;el.appendChild(part);}
+    if(first){const lead=doc.createElement("bdi");lead.className="spChipFirst";lead.textContent=first;el.children[1].insertBefore(lead,el.children[1].firstChild);}
     return el;
   }
   // Career Start: the player's original club (the club in the FIFA 17 launch list), so the manager can sign him in-game.
@@ -108,17 +114,24 @@
   // SP tag and the ranking badge. Inline next to the name: it never covers, dims or moves anything else.
   // r87 a11y A-04: the bronze tier is a deeper bronze (#9a5a26 to #6b3d16, was #d39a5c to #8a5428) so its cream ink reads
   // at 4.5:1 or better; its bright edge stays.
+  // One tight spot's rules ("SP · Surname" in the tier colour), for the chips under the selector \`at\`.
+  const spTight=at=>[`${at} .spChip{gap:.3em;padding:.1em .45em .1em .12em;background:var(--sp-tier-bg);color:var(--sp-tier-ink);}`,
+    `${at} .spChip :is(.spChipRank,.spChipFirst){display:none;}`,
+    `${at} .spChip .spChipTag{background:rgba(5,6,8,.78);color:var(--sd-gold-300,#ffd34d);}`,
+    `${at} .spChip .spChipTag::after{content:" ·";}`,
+    `${at} .spChip .spChipName{color:inherit;}`].join("\n");
   const CSS=String.raw`
 #app .spChip{--sp-tier-bg:linear-gradient(180deg,#9a5a26,#6b3d16);--sp-tier-ink:#fff4e6;--sp-tier-edge:#e7b07a;
   display:inline-flex;align-items:center;gap:.4em;max-width:100%;min-width:0;margin:0 0 0 .45em;padding:.14em .5em .14em .16em;
-  vertical-align:middle;box-sizing:border-box;border:1px solid var(--sp-tier-edge);border-radius:999px;
+  vertical-align:middle;box-sizing:border-box;border:1px solid var(--sp-tier-edge);border-radius:12px;
   background:linear-gradient(180deg,rgba(73,55,8,.45),rgba(13,12,10,.82)),#0d0c0a url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
   box-shadow:inset 0 0 0 1px rgba(17,15,12,.9),0 1px 2px rgba(0,0,0,.5);
-  color:var(--sd-gold-200,#fff1b8);font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-size:11px;font-style:normal;
+  color:var(--sd-gold-200,#fff1b8);font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-size:12px;font-style:normal;
   font-weight:600;line-height:1.25;letter-spacing:.03em;text-transform:none;text-align:left;text-shadow:none;white-space:nowrap;}
 #app .spChip>span{display:inline-block;min-width:0;font-size:inherit;font-family:inherit;line-height:inherit;letter-spacing:inherit;text-transform:none;text-align:left;white-space:nowrap;}
 #app .spChip .spChipTag{flex:none;padding:.08em .42em;border-radius:999px;background:var(--sp-tier-bg);color:var(--sp-tier-ink);font-weight:800;letter-spacing:.1em;}
-#app .spChip .spChipName{flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;color:#f6eedb;}
+/* A name is never cut: where it has no room on one line it takes a second, breaking at a space or a hyphen only. */
+#app .spChip .spChipName{flex:0 1 auto;max-width:none;overflow:visible;text-overflow:clip;color:#f6eedb;white-space:normal;overflow-wrap:normal;word-break:normal;hyphens:manual;}
 #app .spChip .spChipRank{flex:none;padding:.04em .4em;border:1px solid var(--sp-tier-edge);border-radius:2px;background:var(--sp-tier-bg);color:var(--sp-tier-ink);font-weight:700;letter-spacing:.06em;}
 #app .spChip--black-blue-gold{--sp-tier-bg:linear-gradient(135deg,#050608 0%,#0c2a66 55%,#050608 100%);--sp-tier-ink:var(--sd-gold-300,#ffd34d);--sp-tier-edge:var(--sd-gold-500,#f5c518);}
 #app .spChip--blue-gold{--sp-tier-bg:linear-gradient(180deg,#1d4fa3,#0b2558);--sp-tier-ink:var(--sd-gold-300,#ffd34d);--sp-tier-edge:var(--sd-gold-600,#e0ae3a);}
@@ -141,7 +154,7 @@
 #app #statistics .rv-manager--right .rvSpecialPlayer{text-align:right;}
 /* Standings styles every span in a manager's side (and hides them on phones): the chip's own parts are set back here. */
 #app #standings.standingsScreenV10 .sdg-side span.sdgSpecialPlayer{display:block;min-width:0;max-width:100%;font-size:inherit;text-align:center;}
-#app #standings.standingsScreenV10 .sdg-side span.spChip{display:inline-flex;margin:.2em 0 0;font-size:11px;}
+#app #standings.standingsScreenV10 .sdg-side span.spChip{display:inline-flex;margin:.2em 0 0;font-size:12px;}
 #app #standings.standingsScreenV10 .sdg-side .spChip>span{display:inline-block;font-size:inherit;text-transform:none;}
 #app #seasonEntry .finalWinnerManager .fwSpecialPlayer{display:block;min-width:0;}
 #app #seasonEntry .finalWinnerManager .spChip{margin:.2em 0 .1em;}
@@ -151,30 +164,25 @@
 #app #seasonEntry .seasonReviewCard .spChip{margin:0;font-size:12px;}
 #app #ruleBook .ruleSpecialPlayer .spChip{margin:0 0 0 .35em;}
 #app #ruleBook .ruleSpecialPlayer .ruleSpecialPlayerTag{display:inline-flex;margin:0;padding:.08em .42em;border-radius:999px;background:linear-gradient(135deg,#050608 0%,#0c2a66 55%,#050608 100%);color:var(--sd-gold-300,#ffd34d);font-size:11px;font-weight:800;letter-spacing:.1em;vertical-align:middle;}
-/* Tight spots ("SP · Name" in the tier colour: the badge's colour moves onto the whole chip, its full text stays in the
-   title): the Career Table's narrow Manager column, the Trophy Room rank cards and the Legacy cards on every size, and
-   every chip on phones and narrow windows. */
-:is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip{gap:.3em;padding:.1em .45em .1em .12em;font-size:10.5px;background:var(--sp-tier-bg);color:var(--sp-tier-ink);}
-:is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip .spChipRank{display:none;}
-:is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip .spChipTag{background:rgba(5,6,8,.78);color:var(--sd-gold-300,#ffd34d);}
-:is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip .spChipTag::after{content:" ·";}
-:is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial) .spChip .spChipName{color:inherit;}
-/* The Career Table's Manager column is narrow at every size: a long name wraps inside its chip instead of being cut (red team R87-D-04). */
-#app #careerStatistics .careerTable td>.spChip{align-items:flex-start;border-radius:.7em;}
-#app #careerStatistics .careerTable .spChip .spChipName{max-width:none;overflow:visible;text-overflow:clip;white-space:normal;overflow-wrap:break-word;}
+/* Tight spots ("SP · Surname" in the tier colour: the badge's colour moves onto the whole chip, the first name or initial
+   and the badge are left out, and the chip's title keeps the full text): the Career Table's narrow Manager column, the
+   Trophy Room rank cards and the Legacy cards on every size, Rivalry Statistics under 1500px wide, and every chip on phones
+   (upright, and sideways: up to 900px wide and 500px tall). */
+${spTight(":is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial)")}
+@media (max-width:640px),(max-width:900px) and (max-height:500px){
+${spTight("#app")}
+  #app #standings.standingsScreenV10 .sdg-side .spChip>span.spChipRank{display:none;}
+}
+@media (max-width:1499px){
+${spTight("#app #statistics[data-rivalry-legacy-v10] .rv-manager")}
+  #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipRank{display:none;}
+}
+/* The Career Table's Manager column is narrow at every size: the chip takes the column's width and a long name wraps inside it. */
+#app #careerStatistics .careerTable td>.spChip{align-items:flex-start;}
 @media (max-width:640px){
-  #app .spChip{gap:.3em;padding:.1em .45em .1em .12em;font-size:10.5px;background:var(--sp-tier-bg);color:var(--sp-tier-ink);}
-  #app .spChip .spChipRank{display:none;}
-  #app .spChip .spChipTag{background:rgba(5,6,8,.78);color:var(--sd-gold-300,#ffd34d);}
-  #app .spChip .spChipTag::after{content:" ·";}
-  #app .spChip .spChipName{color:inherit;max-width:9.5em;}
   /* Phone rank cards are centred columns: the chip takes its own centred line under the name. */
   #app #trophyRoom .careerRank>span{display:inline;max-width:none;}
   #app #trophyRoom .careerRank .spChip{display:flex;width:max-content;max-width:100%;margin:.25em auto 0;}
-  #app #standings.standingsScreenV10 .sdg-side .spChip>span.spChipRank{display:none;}
-  /* The Career Table's Manager column is narrow on phones: a long name wraps inside its chip instead of being cut. */
-  #app #careerStatistics .careerTable td>.spChip{align-items:flex-start;border-radius:.7em;}
-  #app #careerStatistics .careerTable .spChip .spChipName{max-width:none;overflow:visible;text-overflow:clip;white-space:normal;overflow-wrap:break-word;}
 }
 /* Rivalry: the same three lines on both sides at every size (Nik 2026-10-30): the name, the chip under it, then the club.
    Daniel's lines sit on the left edge and Nik's on the right, so the two chips and the two clubs line up. */
@@ -183,14 +191,9 @@
 #app #statistics[data-rivalry-legacy-v10] .rv-manager>div:has(>.rvSpecialPlayer)>[id^="rvClub"]{flex:0 0 100%;order:2;}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager span.rvSpecialPlayer{display:flex;flex:0 0 100%;order:1;min-width:0;max-width:100%;margin:.2em 0;overflow:visible;font-size:inherit;line-height:inherit;}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager--right span.rvSpecialPlayer{justify-content:flex-end;}
-#app #statistics[data-rivalry-legacy-v10] .rv-manager span.spChip{display:inline-flex;min-width:0;max-width:100%;margin:0;font-size:10.5px;line-height:1.2;}
-#app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span{display:inline-block;font-size:inherit;line-height:inherit;}
-#app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipName{overflow:hidden;text-overflow:ellipsis;}
-@media (max-width:900px){
-  #app #statistics[data-rivalry-legacy-v10] .rv-manager span.spChip{font-size:10px;}
-  #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipName{max-width:none;}
-  #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipRank{display:none;}
-}
+#app #statistics[data-rivalry-legacy-v10] .rv-manager span.spChip{display:inline-flex;min-width:0;max-width:100%;margin:0;overflow:visible;font-size:12px;line-height:1.2;white-space:normal;}
+#app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span{display:inline-block;max-width:none;overflow:visible;text-overflow:clip;font-size:inherit;line-height:inherit;}
+#app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipName{white-space:normal;}
 `;
   function spInstall(doc=root.document){
     try{
