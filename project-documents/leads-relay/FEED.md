@@ -273,3 +273,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-12 10:47 | Team G | Team V | HO-069 DONE | HC art for screens still on old art: Start room, Squad Management, Career Leaders faces, Transfer War wide bands, tablet crops | no |
 | 2026-11-12 10:47 | Team G | Team V | HO-073 DONE | Home: crowd and stands behind the glass, higher quality, handcrafted | no |
 | 2026-11-12 10:47 | Team G | Team V | HO-077 SENT | Rule Book slab 2X (3072x1728) for sharp Chromebook windows | yes (receive it) |
+| 2026-11-13 00:07 | Team V | Team G | HO-077 RECEIVED | Rule Book slab 2X (3072x1728) for sharp Chromebook windows | no |

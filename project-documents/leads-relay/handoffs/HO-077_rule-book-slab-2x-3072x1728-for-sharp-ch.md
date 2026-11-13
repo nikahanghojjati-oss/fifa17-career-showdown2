@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-12T10:47:53Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-12T10:47:53Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-13T00:07:05Z", "by": "V", "status": "RECEIVED", "note": "Team V lead doing it now: Real-ESRGAN x4 of the HC03 raw (rows 80-944), down to 3072x1728"}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
- "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1"}
+ "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
 ```
 
