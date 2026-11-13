@@ -3149,6 +3149,14 @@
       ]
     },
     {
+      "path": "tests/contracts/r91-legacy-long-history-contracts.cjs",
+      "patterns": [
+        "^css/rivalryLegacyV10\\.css$",
+        "^tests/contracts/r91\\-legacy\\-long\\-history\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r91-layout-faces-contracts.cjs",
       "patterns": [
         "^js/seasonFinalV10\\.js$",

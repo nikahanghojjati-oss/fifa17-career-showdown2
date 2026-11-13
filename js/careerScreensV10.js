@@ -1185,11 +1185,12 @@
   #app #careerStatistics.careerScreenV10 .phoneFaceBand { background:none; }
 }
 /* HO-033 items 5 and 6 (owner rules HO-027 and HO-028). Phones, sideways phones and upright tablets: the totals tiles, the
-   tab strip and the three panels get an opaque black-gold marble face (HO-029 kit tile) instead of the .73-.91 glass the
-   managers showed through. */
+   tab strip and the three panels get an opaque face instead of the .73-.91 glass the managers showed through.
+   r91 art ledger R3 (Nik 2026-11-12: phones and tablets match their desktop screens): the face is the flat dark slab the
+   desktop panels got, not the vein tile, so no gold vein crosses a number. */
 @media ${CS_PHONE_ART_MEDIA} {
   #app #careerStatistics.careerScreenV10 :is(.glassPanel,.headlineTile,.phoneTabs) {
-   background:linear-gradient(145deg,rgba(242,196,91,.05),transparent 46%),var(--r78-panel,#110f0c) url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
+   background:linear-gradient(145deg,rgba(242,196,91,.05),transparent 46%),var(--r78-panel,#110f0c);
   }
 }
 /* Upright phones: readable type at the HO-028 sizes (labels 12px and up, table and values 15px; they were 6-9px). The
