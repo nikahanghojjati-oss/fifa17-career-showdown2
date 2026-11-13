@@ -812,7 +812,13 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
 #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(5) { width: 12%; }
 #app #careerStatistics.careerScreenV10 .careerTable thead th:nth-child(6) { width: 14%; }
 #app #careerStatistics.careerScreenV10 .careerTable td:not(:nth-child(2)) { white-space: nowrap; }
-#app #careerStatistics.careerScreenV10 .careerTable .spChip .spChipName { overflow-wrap: normal; word-break: normal; hyphens: manual; line-height: 1.08; }
+/* r91 Special Player chip at 12px: the Manager column (50 to 108px) is narrower than a chip ("SP · Lewandowski" is 105px),
+   so a row with a chip is two lines: the name and the row's numbers on the first, the chip on the second, where it may run
+   on under the numbers (up to three times its column, which is always inside the row). The leader row clips each cell for
+   its gold sweep (Team V's sheet); the Manager cell keeps that clip on three sides and is open to the right for the chip. */
+#app #careerStatistics.careerScreenV10 .careerTable tbody tr:has(.spChip) td { vertical-align: top; }
+#app #careerStatistics.careerScreenV10 .careerTable tbody tr:has(.spChip) td:nth-child(2) { position: relative; z-index: 1; overflow: visible; clip-path: inset(0 -100vw 0 0); }
+#app #careerStatistics.careerScreenV10 .careerTable td > .spChip { position: relative; z-index: 1; max-width: 300%; }
 #app #careerStatistics.careerScreenV10 .careerTable tbody tr:has(.spChip) td { padding-top: max(4px, calc(var(--cs-u, 8px) * .38)); padding-bottom: max(4px, calc(var(--cs-u, 8px) * .38)); }
 #app #careerStatistics.careerScreenV10 .careerTablePanel { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #9e8d5c transparent; }
 @media (max-width: 760px) and (orientation: portrait) {

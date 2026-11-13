@@ -124,10 +124,15 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT,NC));
     }
   }finally{delete globalThis.window;}
   // A tiny DOM: the node renderers' chip is the same chip.
-  const doc={createElement:tag=>({tag,className:'',dataset:{},title:'',textContent:'',children:[],appendChild(c){this.children.push(c);return c;}})};
+  const doc={createElement:tag=>({tag,className:'',dataset:{},title:'',textContent:'',children:[],appendChild(c){this.children.push(c);return c;},get firstChild(){return this.children[0]||null;},insertBefore(c,before){const at=this.children.indexOf(before);this.children.splice(at<0?0:at,0,c);return c;}})};
   const el=Chip.element(doc,sp.nik);
   assert.equal(el.className,'spChip spChip--gold');assert.equal(el.dataset.spChip,'true');assert.equal(el.title,'Special Player: R. Varane · #14 TOP 20');
-  assert.deepEqual(el.children.map(c=>[c.className,c.textContent]),[['spChipTag','SP'],['spChipName','R. Varane'],['spChipRank','#14 TOP 20']]);
+  // r91: the name is its first part (an initial or first name, in its own bdi.spChipFirst so tight spots can show the surname alone) and the rest.
+  const shownText=c=>c.children.map(k=>k.textContent).join('')+c.textContent;
+  assert.deepEqual(el.children.map(c=>[c.className,shownText(c)]),[['spChipTag','SP'],['spChipName','R. Varane'],['spChipRank','#14 TOP 20']]);
+  assert.deepEqual(el.children[1].children.map(c=>[c.tag,c.className,c.textContent]),[['bdi','spChipFirst','R. ']]);
+  assert.match(Chip.html(sp.nik),/<span class="spChipName"><bdi class="spChipFirst">R\. <\/bdi>Varane<\/span>/,'the string chip splits the name the same way');
+  {const one=Chip.element(doc,{...sp.nik,name:'Neymar'});assert.deepEqual([one.children[1].textContent,one.children[1].children.length],['Neymar',0],'a one-word name has no first part');}
   assert.equal(Chip.element(doc,null),null);
   ok('S4','Career Statistics, Trophy Room, Legacy cards and History drawer, Rivalry, Standings, Final Winner, Season Results and the Rule Book each place the shared chip beside the name from their frame; an old frame renders nothing');
 }
@@ -192,7 +197,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT,NC));
 
 // S9 (Nik 2026-10-30): closing a Showdown clears the Setup, so the screens opened right after the close keep the pair the
 // page last saw for that Showdown, only while the pair still names it. Rivalry lines name, chip and club up the same on both
-// sides; the published Season Results cards carry the chip; long names wrap in the phone Career Table.
+// sides; the published Season Results cards carry the chip; chips are 12px and never cut (r91).
 {
   const live=projection({seed:'9',totalSeasons:3,seasons:[[result(),result()]]});
   const state={ready:true,rivalryId:live.rivalryId,setupUpdatedAtMs:AT,setup:{phase:'SHOWDOWN_CONFIRMED',clubs:NC}};
@@ -213,10 +218,16 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT,NC));
   assert.match(Chip.css,/\.rv-manager span\.rvSpecialPlayer\{display:flex;flex:0 0 100%;order:1;/,'Rivalry: the chip has its own line under the name');
   assert.match(Chip.css,/\.rv-manager--right span\.rvSpecialPlayer\{justify-content:flex-end;\}/,'Rivalry: Nik\'s chip sits on the right edge');
   assert.doesNotMatch(Chip.css,/rvSpecialPlayer\{order:-1;\}/,'no chip before Nik\'s name');
-  assert.match(Chip.css,/#careerStatistics \.careerTable \.spChip \.spChipName\{max-width:none;overflow:visible;text-overflow:clip;white-space:normal;/,'phone Career Table: a long name wraps');
+  // r91 (chips at the 12px floor): no chip part is set under 12px or cut with dots. A name that cannot fit takes the short
+  // "SP · surname" form (the first part is hidden) and, if still too long, a second line at its space or hyphen.
+  assert.match(Chip.css,/#app \.spChip \.spChipName\{flex:0 1 auto;max-width:none;overflow:visible;text-overflow:clip;color:#f6eedb;white-space:normal;overflow-wrap:normal;word-break:normal;hyphens:manual;\}/,'a name is never cut; it breaks at a space or hyphen only');
+  assert.doesNotMatch(Chip.css,/ellipsis/,'no chip part ends in dots');
+  assert.deepEqual([...Chip.css.matchAll(/font-size:([^;}]+)/g)].map(m=>m[1]).filter(v=>v!=='12px'&&v!=='inherit'),[],'every size in the chip sheet is 12px or inherited from the chip');
+  assert.ok((Chip.css.match(/\.spChip :is\(\.spChipRank,\.spChipFirst\)\{display:none;\}/g)||[]).length>=4,'tight spots show "SP · surname": the rank and the first name are hidden there');
+  assert.match(read('css/v10Shell.css'),/\.careerTable tbody tr:has\(\.spChip\) td \{ vertical-align: top; \}\n#app #careerStatistics\.careerScreenV10 \.careerTable tbody tr:has\(\.spChip\) td:nth-child\(2\) \{ position: relative; z-index: 1; overflow: visible; clip-path: inset\(0 -100vw 0 0\); \}/,'Career Table: a row with a chip is two lines, and the whole chip may run on under the numbers');
   const sr=read('js/productionSharedSeasonResults.js');
   assert.match(sr,/function pssrSpecialPlayerSlot\(role\)/);assert.match(sr,/fragment\.append\(heading\);if\(special\)fragment\.append\(special\);fragment\.append\(club\);/,'published Season Results cards: chip under the name');
-  ok('S9','just after the close the same Showdown keeps its chips; Rivalry chips and clubs line up; published Season Results cards and long phone names');
+  ok('S9','just after the close the same Showdown keeps its chips; Rivalry chips and clubs line up; published Season Results cards; 12px chips, never cut');
 }
 
 // S10 red team R87-SP-01: with no live Setup, an in-progress Showdown whose row has no confirm time owns the current
@@ -231,7 +242,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT,NC));
 }
 
 // S11 a11y A-04 (r87): the chip's text sits on its tier colour (the SP tag and ranking badge everywhere, the whole chip in
-// tight spots and on phones), at 10.5-12px. Every tier's ink must reach 4.5:1 on both stops of its tier gradient.
+// tight spots and on phones), at 12px. Every tier's ink must reach 4.5:1 on both stops of its tier gradient.
 {
   const lum=hex=>{const c=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255).map(x=>x<=.03928?x/12.92:((x+.055)/1.055)**2.4);return .2126*c[0]+.7152*c[1]+.0722*c[2];};
   const ratio=(a,b)=>{const [x,y]=[lum(a),lum(b)].sort((p,q)=>q-p);return (x+.05)/(y+.05);};
@@ -243,6 +254,31 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT,NC));
   const base=/#app \.spChip\{--sp-tier-bg:linear-gradient\(180deg,(#[0-9a-f]{6}),(#[0-9a-f]{6})\);--sp-tier-ink:(#[0-9a-f]{6});/.exec(Chip.css);
   assert.ok(base,'the default tier');for(const stop of [base[1],base[2]])assert.ok(ratio(base[3],stop)>=4.5,`default tier: ${base[3]} on ${stop}`);
   ok('S11','a11y A-04: every tier\'s chip text reaches 4.5:1 on its tier colour');
+}
+
+// S12 (r91, bug hunt and Nik's phone and tablet goal): every chip is clear of everything at 12px, and the browser check
+// that proves it (F6 in the face audit) draws chips on every chip screen at every size of the Gate's three face groups.
+{
+  const audit=read('tests/browser/phone-marble-facecheck-audit.cjs'),rv=read('css/rivalryLegacyV10.css'),sf=read('js/seasonFinalV10.js');
+  assert.match(audit,/const SP_FIXTURE = \{ daniel: \{ name: "R\. Lewandowski", [^}]*\}, nik: \{ name: "A\. Oxlade-Chamberlain", [^}]*\} \};/,'the audit gives both managers a Special Player: a common name and the longest one');
+  assert.equal((audit.match(/await context\.addInitScript\(specialPlayerFixture, SP_FIXTURE\);/g)||[]).length,2,'on phones and on desktop');
+  assert.match(audit,/if\(key === "SEASON_RESULTS"\) await seasonResultsChips\(page\);\n\s+const res = await checkFaces\(page, key, w, h, dpr\);/,'Season Results gets its two chips before the screen is checked');
+  assert.match(audit,/\n\s+for\(const what of await specialPlayerChipsClear\(page\)\) res\.findings\.push\(\{ face: "", what \}\);/,'F6 runs on every screen, with no screen list to forget one');
+  for(const said of ['runs off the side of the screen','lies across','lies on the words','lies under','12px is the least','is cut short','leaves the totals panel','px into the rows under it'])assert.ok(audit.includes(said),'F6 reports: '+said);
+  assert.doesNotMatch(audit.slice(audit.indexOf('const KNOWN = ['),audit.indexOf('// WAITING:')),/Special Player chip/,'F6 has no known row');
+  // Rivalry Statistics: the first row holds the three-line block on phones and tablets; on desktop the rows start under it.
+  assert.match(rv,/@media \(max-width:600px\) and \(orientation:portrait\) \{\n  #app #statistics\[data-rivalry-legacy-v10\] \.rv-shell\[data-tab="totals"\] #rvPanelTotals:not\(\[hidden\]\):has\(\.rvSpecialPlayer\) \{ grid-template-rows:minmax\(37px,auto\) auto auto minmax\(162px,auto\); \}\n\}/,'Rivalry, upright phones: the first row grows with the block');
+  assert.match(rv,/#app #statistics\[data-rivalry-legacy-v10\] \.rv-manager:has\(\.rvSpecialPlayer\) span\.rvSpecialPlayer \{ grid-area:2 \/ 1 \/ auto \/ -1; margin:0; \}\n  #app #statistics\[data-rivalry-legacy-v10\] \.rv-manager:has\(\.rvSpecialPlayer\) \[id\^="rvClub"\] \{ grid-area:3 \/ 1 \/ auto \/ -1; \}/,'Rivalry, upright: the name, the chip under it, then the club (Nik 2026-10-30), chip and club across the whole column');
+  assert.match(rv,/#app #statistics\[data-rivalry-legacy-v10\] \.rv-comparison:has\(\.rvSpecialPlayer\) \{ --rv-head:calc\(clamp\(17px,1\.35vw,26px\) \* 1\.2 \+ 44px\); \}\n  #app #statistics\[data-rivalry-legacy-v10\] \.rv-comparison:has\(\.rvSpecialPlayer\):not\(\.hasCoverage\) \.rv-rows \{ top:max\(21%,calc\(3% \+ var\(--rv-head\) \+ 2px\)\); \}/,'Rivalry, desktop: the rows start under the block (the name line, the chip, the club line)');
+  assert.match(rv,/@media \(min-width:1500px\) and \(orientation:landscape\) \{\n  #app #statistics\[data-rivalry-legacy-v10\] \.rv-comparison:has\(\.rvSpecialPlayer\) \{ --rv-head:calc\(clamp\(17px,1\.35vw,26px\) \* 1\.2 \+ 46px\); \}\n\}/,'from 1500px the chip carries its rank and is 2px taller');
+  assert.match(rv,/\.rv-comparison:has\(\.rvSpecialPlayer\):not\(\.hasCoverage\) \{ height:264px; \}\n  #app #statistics\[data-rivalry-legacy-v10\] \.rv-shell:has\(\.rv-comparison:not\(\.hasCoverage\) \.rvSpecialPlayer\) \{ padding-top:max\(calc\(26\.4svh - 24px\),min\(26\.4svh,136px\)\); \}/,'short desktop windows: seven 24px rows still fit, and the lower panels keep their place above the docked BACK button');
+  assert.match(rv,/@media \(min-width:901px\) and \(max-width:1199px\) and \(orientation:landscape\) \{\n  #app #statistics\[data-rivalry-legacy-v10\] \.rv-comparison:has\(\.rvSpecialPlayer\):not\(\.hasCoverage\) \.rv-progress \{ top:4\.5%; left:24%; right:24%; white-space:nowrap; \}\n\}/,'narrow desktop windows: the seasons line is one line, clear of a long chip');
+  assert.match(rv,/@container \(max-width:270px\) \{\n    #app #legacy\[data-rivalry-legacy-v10\] \.legacyCardSpecial \{ flex-direction:column;/,'Legacy cards under 270px: the two chips stack, each whole');
+  // Standings and Trophy Room.
+  assert.match(sf,/#app #standings\.standingsScreenV10 \.sdg-scoreboard:has\(\.sdgSpecialPlayer\) \.sdg-side--daniel span\.sdgSpecialPlayer\{grid-area:3 \/ 1 \/ auto \/ 3;justify-self:start;text-align:left\}\n\s+#app #standings\.standingsScreenV10 \.sdg-scoreboard:has\(\.sdgSpecialPlayer\) \.sdg-side--nik span\.sdgSpecialPlayer\{grid-area:3 \/ 3 \/ auto \/ 5;justify-self:end;text-align:right\}/,'Standings, upright phones: each chip has its own half of a row under the names');
+  assert.match(Chip.css,/@media \(max-width:1699px\)\{\n  \/\*[^*]*\*\/\n  #app #trophyRoom \.careerRank>span\{display:inline;max-width:none;\}\n  #app #trophyRoom \.careerRank \.spChip\{display:flex;width:max-content;max-width:100%;margin:\.25em 0 0;\}/,'Trophy Room under 1700px: the chip has its own line under the name');
+  assert.match(Chip.css,/#app #ruleBook \.ruleSpecialPlayer \.ruleSpecialPlayerTag\{[^}]*font-size:12px;/,'Rule Book: the SP tag is 12px too');
+  ok('S12','r91: chips are checked on every chip screen at every size (F6), and Rivalry, Standings, Trophy Room, Legacy and the Rule Book give a 12px chip its room');
 }
 
 console.log(`r86 Special Player chip contracts: ${checks} groups passed`);

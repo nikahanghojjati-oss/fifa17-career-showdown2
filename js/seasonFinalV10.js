@@ -162,6 +162,21 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-label{font-size:12px;line-height:1;text-transform:uppercase;letter-spacing:.05em}
 }
 
+/* r91 Special Player chips at 12px, upright phones: a manager's column is 83 to 92px wide, too narrow for a chip, so the
+   two chips take their own line under the scoreboard, Daniel's from the left edge and Nik's from the right, each with up
+   to half the board. The crest, the name and the score keep their places. Only where the chips are there. */
+@media (max-width:600px) and (orientation:portrait){
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer){grid-template-columns:minmax(0,1fr) auto auto minmax(0,1fr);gap:2px 0}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side{display:contents}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side .sdg-crest{grid-row:1;justify-self:center;align-self:end}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side strong{grid-row:2;justify-self:center;align-self:start}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side--daniel :is(.sdg-crest,strong){grid-column:1}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side--nik :is(.sdg-crest,strong){grid-column:4}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-score{grid-area:1 / 2 / 3 / 4;padding:0 4px}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side--daniel span.sdgSpecialPlayer{grid-area:3 / 1 / auto / 3;justify-self:start;text-align:left}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side--nik span.sdgSpecialPlayer{grid-area:3 / 3 / auto / 5;justify-self:end;text-align:right}
+}
+
 /* Desktop and laptops: NEXT_STANDINGS framing (full gold frame, filled active scope, gold row rules). Board geometry stays Team V's. */
 @media (min-width:901px){
   #app #standings.standingsScreenV10 .sdg-board.sd-panel{border:2px solid #ddb747;box-shadow:inset 0 0 0 2px #6a4c13,inset 0 0 22px rgba(215,161,28,.12),0 12px 32px rgba(0,0,0,.5),0 0 10px rgba(231,185,67,.2)}
@@ -2533,32 +2548,47 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
    is shown the room grows by the chip row, so the panel (upright) or the counter lip (sideways) moves with it and one
    gap stays between the totals and whatever comes next. Nothing moves when no chip is shown (a Showdown from before r86). */
 @media (max-width:760px) and (orientation:portrait) {
+ /* 116px: 80 and the chip row. At 12px the chip is 21px tall, or 33px when a long name ("Oxlade-Chamberlain") takes two lines. */
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer),
- #app #seasonEntry.seasonScreenV10.v10FinalMode:has(.fwSpecialPlayer) { --fw-copy:103px; }
+ #app #seasonEntry.seasonScreenV10.v10FinalMode:has(.fwSpecialPlayer) { --fw-copy:116px; }
+ /* The chip row is two lines tall for both managers, so one long name never drops one manager's name below the other's. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer { display:flex; align-items:center; justify-content:center; min-height:37px; }
 }
 @media (min-width:700px) and (max-width:760px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer),
  #app #seasonEntry.seasonScreenV10.v10FinalMode:has(.fwSpecialPlayer) { --fw-copy:159px; }
+ /* Tablets show the full chip on one line for both managers: no second line to keep room for. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer { min-height:0; }
 }
 /* Sideways phones: the chip is the short one of upright phones ("SP · name" in the tier's colour, the rank stays in its
    title), on its own row between the name and the total, and the result takes a wider column so both chips fit side by
    side. It stands on the counter face under the lip, below both men, so no face is near it. A sideways phone
-   is never laid out wider than 880 px (js/onlinePlayerIdentity.js); a wider window at this height is a desktop window
-   dragged short, where the desktop picture and this layout already cross (a separate row), and it is left as it was. */
-@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+   is never laid out wider than 880 px (js/onlinePlayerIdentity.js); a wider window at this height (881 to 1199 px) is a
+   desktop window dragged short, which uses this same layout, so the chip row goes with it. */
+@media (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+ /* r91: from 901 px the desktop sheet centres the summary panel with translate:-50%. This layout places the panel by its
+    left edge, so in a short desktop window the panel slid half its width to the left, over Nik's face. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel { translate:none; }
  /* 110px: the result with its chip row is 104 px tall under 761 px wide and 108 px above (the outcome is set larger there) */
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer) { --fw-copy:110px; }
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer) .finalWinnerHeroCopySlot { width:min(40%,320px); }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer { order:0; justify-self:center; max-width:calc(100% - 8px); margin:2px 0 0; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip {
-  display:inline-flex; align-items:center; gap:.3em; max-width:100%; margin:0; padding:.1em .45em .1em .12em; font-size:10.5px; line-height:1.3; border-radius:999px;
+  display:inline-flex; align-items:center; gap:.3em; max-width:100%; margin:0; padding:.1em .45em .1em .12em; font-size:12px; line-height:1.25; border-radius:12px;
   background:var(--sp-tier-bg); color:var(--sp-tier-ink);
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipRank { display:none; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipTag { grid-row:auto; background:rgba(5,6,8,.78); color:var(--sd-gold-300,#ffd34d); }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipTag::after { content:" ·"; }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipName { color:inherit; max-width:9.5em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipName { color:inherit; }
 }
+/* r91, the chip at 12px on Final Winner (it was 10px here, with long names cut to "A. Oxlade-Cham..."). At every size the
+   chip shows the surname ("Lewandowski", not "R. Lewandowski"; the title keeps the full name) and a name that is still too
+   long takes a second line at its hyphen or space. On desktop the chip keeps Team V's two-line card beside the trophy (SP
+   and the name, the rank under them) inside the same 112px, so it comes no nearer the trophy than before. */
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip { font-size:12px; line-height:1.2; border-radius:10px; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipFirst { display:none; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipName { max-width:none; overflow:visible; text-overflow:clip; white-space:normal; }
 `;
     parent.appendChild(style);
   }
