@@ -144,7 +144,7 @@
 #app #careerStatistics .careerTable td>.spChip{display:flex;width:max-content;max-width:100%;margin:3px 0 0;}
 /* Trophy Room: on the rank card's first line, after "#1 DANIEL" (the card keeps its height). */
 #app #trophyRoom .careerRank>span{display:inline-flex;align-items:center;max-width:calc(100% - 2.4em);min-width:0;vertical-align:bottom;white-space:nowrap;}
-#app #trophyRoom .careerRank .spChip{flex:0 1 auto;min-width:0;margin:0 0 0 .5em;letter-spacing:.03em;}
+#app #trophyRoom .careerRank .spChip{flex:0 1 auto;min-width:0;margin:0 0 0 .5em;font-size:12px;letter-spacing:.03em;}
 /* Legacy / History: one line under the two managers of each Showdown card, Daniel's on the left and Nik's on the right. */
 #app #legacy .legacyCardSpecial{display:flex;justify-content:space-between;align-items:center;gap:6px;min-width:0;margin:6px 0 0;}
 #app #legacy .legacyCardSpecial .spChip{flex:0 1 auto;min-width:0;max-width:calc(50% - 3px);margin:0;}
@@ -181,10 +181,15 @@ ${spTight("#app #standings.standingsScreenV10 .sdg-side")}
 }
 /* The Career Table's Manager column is narrow at every size: the chip takes the column's width and a long name wraps inside it. */
 #app #careerStatistics .careerTable td>.spChip{align-items:flex-start;}
-@media (max-width:640px){
-  /* Phone rank cards are centred columns: the chip takes its own centred line under the name. */
+@media (max-width:1699px){
+  /* Trophy Room rank cards under 1700px wide have no room for "#1 DANIEL" and a 12px chip on one line: the chip takes its
+     own line under the name (centred in the phone layout's rank cards, which are centred columns). */
   #app #trophyRoom .careerRank>span{display:inline;max-width:none;}
-  #app #trophyRoom .careerRank .spChip{display:flex;width:max-content;max-width:100%;margin:.25em auto 0;}
+  #app #trophyRoom .careerRank .spChip{display:flex;width:max-content;max-width:100%;margin:.25em 0 0;}
+  #app #trophyRoom .careerRank--nik .spChip{margin-left:auto;}
+}
+@media (max-width:900px){
+  #app #trophyRoom .phoneMoreToggle:checked ~ #trophyRoomContent .careerRank .spChip{margin:.25em auto 0;}
 }
 /* Rivalry: the same three lines on both sides at every size (Nik 2026-10-30): the name, the chip under it, then the club.
    Daniel's lines sit on the left edge and Nik's on the right, so the two chips and the two clubs line up. */

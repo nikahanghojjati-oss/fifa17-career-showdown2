@@ -1487,13 +1487,10 @@
   #app #legacy[data-rivalry-legacy-v10] .legacyCard[data-wide-score="true"] .legacyScore { white-space:nowrap; font-size:min(clamp(22px,1.9vw,56px),9cqi); }
   #app #legacy[data-rivalry-legacy-v10] .legacyClubName { overflow-wrap:anywhere; hyphens:auto; -webkit-hyphens:auto; }
   #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial { align-items:flex-start; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip { align-items:flex-start; border-radius:.7em; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip .spChipName {
-    max-width:none; overflow:visible; text-overflow:clip; white-space:normal; overflow-wrap:break-word;
-  }
-  /* a narrow card (four across on a window up to about 1150 wide): each chip takes its own line, Daniel's left and Nik's right, so a
-     name breaks only between words */
-  @container (max-width:175px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip { align-items:flex-start; }
+  /* a card too narrow for two 12px chips side by side (under 270px: four across on a window up to about 1500 wide): each chip
+     takes its own line, Daniel's left and Nik's right, so a name is whole on one line or breaks only at a hyphen or a space */
+  @container (max-width:270px) {
     #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial { flex-direction:column; align-items:stretch; gap:3px; }
     #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip { max-width:100%; }
     #app #legacy[data-rivalry-legacy-v10] .legacyCardSpecial .spChip:nth-child(1) { align-self:flex-start; }
