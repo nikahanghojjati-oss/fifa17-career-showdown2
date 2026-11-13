@@ -20,6 +20,8 @@
 const prime=require("./prime-pack.cjs");
 const STEP_MS=500;
 const tracked=new Set();
+const notesByPage=new WeakMap();// page -> what each Lock my squad tap saw (the click's own error, the screen's words), for a stall report
+function squadNotes(page){if(!notesByPage.has(page))notesByPage.set(page,[]);const list=notesByPage.get(page);if(list.length>40)list.splice(0,list.length-40);return list;}
 const rated=new WeakMap();// page -> seasons whose "pre" screen already got its CE2PG_SQUAD_RATE change
 
 async function playRoulette(page,opts={}){
@@ -65,10 +67,62 @@ async function playSquad(page){
       await page.waitForTimeout(300);return "squad-rate";
     }
   }
-  if(await lock.isVisible().catch(()=>false)&&await lock.isEnabled().catch(()=>false)){await lock.click({timeout:5000}).catch(()=>{});return "squad-lock";}
+  if(await lock.isVisible().catch(()=>false)&&await lock.isEnabled().catch(()=>false)){
+    if(process.env.CMS_SQUAD_PROBE==="1")await probeLock(page,stage);
+    const started=Date.now();let failed=null;
+    await lock.click({timeout:5000}).catch(error=>{failed=error;});
+    // What the screen says now, and on a failed click what sits on the button (the element at its centre, and every layer over the stage).
+    const said=await stage.evaluate((node,failed)=>{
+      const out={status:node.querySelector(".sqStatus")?.textContent||"",live:node.querySelector(".sqmLive")?.textContent||"",lock:node.querySelector(".sqmBtn.is-primary")?.textContent||""};
+      if(!failed)return out;
+      const name=n=>n?`${n.tagName.toLowerCase()}${n.id?"#"+n.id:""}${typeof n.className==="string"&&n.className?"."+n.className.trim().split(/\s+/).join("."):""}`:"none";
+      const b=node.querySelector(".sqmBtn.is-primary"),r=b&&b.getBoundingClientRect();
+      if(r){const top=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);out.box=[Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)];out.view=[innerWidth,innerHeight];out.atCentre=name(top);out.inStage=Boolean(top&&node.contains(top));}
+      out.layers=[...document.body.children].filter(n=>n!==node&&getComputedStyle(n).position==="fixed"&&getComputedStyle(n).display!=="none"&&!n.hidden).map(n=>`${name(n)} z${getComputedStyle(n).zIndex} pe:${getComputedStyle(n).pointerEvents} op:${getComputedStyle(n).opacity}`).slice(0,12);
+      out.stages=document.querySelectorAll("#sqStage").length;out.state=node.dataset.state||"";
+      return out;
+    },Boolean(failed)).catch(error=>({evaluate:String(error.message||error).slice(0,200)}));
+    const note={at:new Date().toISOString(),ms:Date.now()-started,click:failed?String(failed.message||failed).split("\n").slice(0,8).join(" | "):"ok",...said};
+    squadNotes(page).push(note);
+    if(failed)console.log(`--- squad lock tap failed: ${JSON.stringify(note)}`);
+    return "squad-lock";
+  }
   const retry=stage.locator(".sqRetry");
   if(await retry.isVisible().catch(()=>false)&&await retry.isEnabled().catch(()=>false)){await retry.click({timeout:5000}).catch(()=>{});return "squad-retry";}
   return "wait";
+}
+// CMS_SQUAD_PROBE=1 (investigation, off by default): the first time a squad screen shows LOCK, sample for 3 s what is on
+// top at LOCK's centre (document.elementFromPoint), whether LOCK moves or is redrawn between frames, and whether frames are
+// painted at all; then wait a random 0-1.5 s before the tap (timing jitter). One "--- squad probe" line per screen.
+async function probeLock(page,stage){
+  const first=await stage.evaluate(node=>{if(node.dataset.cmsProbed)return false;node.dataset.cmsProbed="1";return true;}).catch(()=>false);
+  if(!first)return;
+  const report=await stage.evaluate(node=>new Promise(resolve=>{
+    const name=n=>n?`${n.tagName.toLowerCase()}${n.id?"#"+n.id:""}${typeof n.className==="string"&&n.className?"."+n.className.trim().split(/\s+/).join("."):""}`:"none";
+    // A thumb scrolls down to LOCK first (on a phone it sits below the fold): so does the probe, then it watches.
+    node.querySelector(".sqmBtn.is-primary")?.scrollIntoView({block:"center"});
+    const start=performance.now(),out={stage:node.dataset.stage,samples:0,frames:0,blocked:{},moved:0,redrawn:0,outside:0,scrolled:0};
+    let lastTop=node.scrollTop;
+    let lastBox=null,lastNode=null;
+    const sample=()=>{
+      const b=node.querySelector(".sqmBtn.is-primary");
+      if(b){
+        if(lastNode&&b!==lastNode)out.redrawn+=1;lastNode=b;
+        const r=b.getBoundingClientRect(),box=[r.left,r.top,r.width,r.height].map(Math.round).join(",");
+        if(lastBox&&box!==lastBox)out.moved+=1;lastBox=box;
+        if(node.scrollTop!==lastTop)out.scrolled+=1;lastTop=node.scrollTop;
+        const x=r.left+r.width/2,y=r.top+r.height/2;
+        if(y<0||y>innerHeight||x<0||x>innerWidth)out.outside+=1;
+        else{const top=document.elementFromPoint(x,y);if(!top||!(top===b||b.contains(top))){const k=name(top);out.blocked[k]=(out.blocked[k]||0)+1;}}
+        out.samples+=1;
+      }
+      if(performance.now()-start<3000)setTimeout(sample,20+Math.random()*40);else resolve(out);
+    };
+    const frame=()=>{out.frames+=1;if(performance.now()-start<3000)requestAnimationFrame(frame);};
+    requestAnimationFrame(frame);sample();
+  })).catch(error=>({error:String(error.message||error).slice(0,160)}));
+  console.log(`--- squad probe ${await page.evaluate(()=>document.getElementById("onlinePlayerIdentityBadge")?.textContent||"").catch(()=>"")} ${JSON.stringify(report)}`);
+  await page.waitForTimeout(Math.floor(Math.random()*1500));
 }
 // After CONTINUE TO SEASON RESULTS: plays the squad screen (if any) until Season Results (#seasonEntry) is on screen.
 async function toSeasonEntry(page,timeout=60000){return playSquadUntil(page,()=>page.locator("#seasonEntry").isVisible(),timeout);}
@@ -81,7 +135,11 @@ async function playSquadUntil(page,ready,timeout=60000){
     const step=await playSquad(page);if(step&&step!=="wait")seen.push(step);
     await page.waitForTimeout(STEP_MS);
   }
-  throw new Error(`Season Results did not open within ${timeout} ms (squad steps: ${seen.join(",")||"none"})`);
+  // In CI the picture goes with the journey screenshots ($RUNNER_TEMP/browser-journey is uploaded on every run).
+  const dir=process.env.CMS_BROWSER_JOURNEY_ARTIFACTS||(process.env.RUNNER_TEMP?require("node:path").join(process.env.RUNNER_TEMP,"browser-journey"):"");
+  if(dir){try{require("node:fs").mkdirSync(dir,{recursive:true});await page.screenshot({path:require("node:path").join(dir,`squad-stall-${Date.now()}.png`)});}catch(_error){}}
+  const notes=squadNotes(page).slice(-3).map(n=>JSON.stringify(n)).join("\n  ");
+  throw new Error(`Season Results did not open within ${timeout} ms (squad steps: ${seen.join(",")||"none"})${notes?`\n  last lock taps:\n  ${notes}`:""}`);
 }
 // One Chamber Men step on this phone: "chamber-kick" (picked and locked in), "chamber-continue" (SPIN THE CYLINDER),
 // "chamber-retry" (TRY AGAIN on a fault), "wait" or null (no Chamber Men on screen). Real taps: anything standing over the
