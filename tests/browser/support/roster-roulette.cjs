@@ -334,7 +334,9 @@ async function reloadRecover(page){
 async function reloadMaybe(page,step,before){
   if(!RELOAD_RULES.length||!step||!before||reloadRecovering.has(page))return;
   let key=String(step).split(":")[0];
-  if(key==="wait")key=before.cm?"chamber-wait":before.sq?`squad-wait-${before.sqStage}`:before.ig?"prime-wait":before.rr?"spin-wait":"";
+  // The foreground step is the latest one in the order Chamber Men, Squad, Russian Roulette, Prime Pack: an earlier stage
+  // can stay mounted behind a later one (#cmStage is only closed after the Squad/roulette driver returns), so test latest first.
+  if(key==="wait")key=before.ig?"prime-wait":before.rr?"spin-wait":before.sq?`squad-wait-${before.sqStage}`:before.cm?"chamber-wait":"";
   else if(key.startsWith("squad-"))key=`${key}-${before.sqStage}`;
   if(!key)return;
   const who=before.role==="playerOne"?"daniel":before.role==="playerTwo"?"nik":before.who;
