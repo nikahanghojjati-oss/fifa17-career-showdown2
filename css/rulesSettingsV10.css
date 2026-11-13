@@ -1131,7 +1131,7 @@
   body #settingsOverlay.v10Settings .settingsMotionChoice.selected,
   body #settingsOverlay.v10Settings .settingsMotionChoice[aria-checked="true"] {
     border: 3px solid transparent; border-image: var(--st2-bevel) 1;
-    background: linear-gradient(180deg, rgba(120, 88, 24, .55), rgba(30, 22, 6, .9)); box-shadow: inset 0 0 0 1px #050505, 0 0 16px rgba(224, 168, 44, .18);
+    background: linear-gradient(180deg, rgba(120, 88, 24, .55), rgba(30, 22, 6, .9)); box-shadow: inset 0 0 0 1px #050505;
   }
   body #settingsOverlay.v10Settings .settingsAudioToggle { border: 2px solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0; background: linear-gradient(180deg, #141311, #070708); color: #fff1ae; }
   /* close and DONE */
@@ -1140,11 +1140,6 @@
     background: linear-gradient(180deg, #141311, #070708); box-shadow: var(--st2-ring);
   }
   body #settingsOverlay.v10Settings .settingsFooter { right: 6.7%; bottom: 8.2%; }
-  body #settingsOverlay.v10Settings .settingsFooter .sd-btn--primary {
-    color: #130e03; border: 2px solid transparent; border-image: linear-gradient(135deg, #fff8cf, #e9bd48 50%, #a87818) 1; border-radius: 0;
-    background: linear-gradient(180deg, #fff0a6 0%, #f4cb55 38%, #d9a52b 72%, #b98a21 100%);
-    box-shadow: inset 0 0 0 1px rgba(110, 76, 10, .7), inset 0 1px 0 2px rgba(255, 252, 220, .55), 0 6px 18px rgba(0, 0, 0, .5), 0 0 22px rgba(224, 168, 44, .22);
-  }
   /* Smaller windows keep the 1920x1080 composition at a smaller scale instead of scrolling (a browser without typed calc keeps the old scroll). */
   @supports (zoom: calc(1px / 1px)) {
     body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel { zoom: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
@@ -1284,3 +1279,16 @@ html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) :is(#app #ruleBoo
   :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection::before,
   :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection::after { content:none; }
 }
+/* Art ledger S03-D2 and S03-D4 (r91). One DONE at every size: the brushed-gold bar of the desktop plate, where phones
+   and tablets drew a flat lemon bar. It keeps its bevel, its two inner lines and its dark drop shadow; the gold haze
+   round it (22 px) is gone, like the haze round the chosen motion card (16 px): the cards are lit by nothing in the room.
+   The three motion choices are one-of-three (role "radio"), so their mark is a round one, and the chosen one carries a
+   gold dot. Until now the mark was a square that stayed empty when chosen: the dark fill of the plate won over the old
+   blue one. */
+body #settingsOverlay.v10Settings .settingsFooter .sd-btn--primary {
+  color:#130e03; border:2px solid transparent; border-image:linear-gradient(135deg,#fff8cf,#e9bd48 50%,#a87818) 1; border-radius:0; clip-path:none;
+  background:linear-gradient(180deg,#fff0a6 0%,#f4cb55 38%,#d9a52b 72%,#b98a21 100%);
+  box-shadow:inset 0 0 0 1px rgba(110,76,10,.7),inset 0 1px 0 2px rgba(255,252,220,.55),0 6px 18px rgba(0,0,0,.5);
+}
+body #settingsOverlay.v10Settings .settingsMotionMarker { border-radius:50%; }
+body #settingsOverlay.v10Settings .settingsMotionChoice:is(.selected,[aria-checked="true"]) .settingsMotionMarker { background:radial-gradient(circle,#f2c45b 0 4px,#151515 5px); }
