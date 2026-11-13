@@ -24,12 +24,12 @@ const notesByPage=new WeakMap();// page -> what each Lock my squad tap saw (the 
 function squadNotes(page){if(!notesByPage.has(page))notesByPage.set(page,[]);const list=notesByPage.get(page);if(list.length>40)list.splice(0,list.length-40);return list;}
 const rated=new WeakMap();// page -> seasons whose "pre" screen already got its CE2PG_SQUAD_RATE change
 
-async function playRoulette(page,opts={}){
+async function playRoulette0(page,opts={}){
   // The Prime Pack first: while it runs, the roulette's panel can still sit underneath its stage.
   track(page);
   const prime=await playPrimePack(page,opts);if(prime)return prime;
   const chamber=await playChamberMen(page);if(chamber)return chamber;
-  const squad=await playSquad(page);if(squad)return squad;
+  const squad=await playSquad0(page);if(squad)return squad;
   const stage=page.locator("#rrStage");
   if(await stage.isVisible().catch(()=>false)){
     const cta=page.frameLocator("#rrStage iframe").locator("#cta");
@@ -44,7 +44,7 @@ async function playRoulette(page,opts={}){
 // One Squad Management step on this phone: "squad-next" (GO TO THE RUSSIAN ROULETTE / GO TO SEASON RESULTS), "squad-lock"
 // (Lock my squad on the proposed squad), "squad-retry" (TRY AGAIN on a fault), "wait" (saving, or waiting for the rival's
 // lock) or null (no Squad Management on screen).
-async function playSquad(page){
+async function playSquad0(page){
   const stage=page.locator("#sqStage");
   if(!await stage.isVisible().catch(()=>false))return null;
   // Left with its next button: it stays up under the next screen until that screen is on top.
@@ -293,5 +293,75 @@ async function waitForTransfer(pages,timeout=45000,{primeGuesser=null,stopWhen=n
   }
   throw new Error(`Transfer Challenge did not open within ${timeout} ms (roulette steps: ${seen.join(",")||"none"})`);
 }
+
+// ---------- CE2PG_RELOAD_AT (opt-in, r92 T4; off unless set): reload a phone at chosen steps and walk it back into the game ----------
+// CE2PG_RELOAD_AT="key:season:who[:delayMs],..."; key = a step name (chamber-kick, chamber-continue, spin, panel, prime-guess, prime-miss,
+// prime-continue, squad-lock-pre, squad-lock-post, squad-next-pre, squad-next-post) or a waiting state (chamber-wait, squad-wait-pre,
+// squad-wait-post, spin-wait, prime-wait). Each rule fires once.
+const RELOAD_RULES=(process.env.CE2PG_RELOAD_AT||"").split(",").map(v=>v.trim()).filter(Boolean).map(v=>{const [key,season,who,delay]=v.split(":");return {key,season:Number(season),who,delay:Number(delay||0),done:false};});
+const reloadRecovering=new WeakMap();// page -> {post:boolean, since:number, steps:[]}
+const reloadStamp=()=>new Date().toISOString().slice(11,23);
+async function reloadLook(page){
+  return page.evaluate(()=>{
+    const vis=s=>[...document.querySelectorAll(s)].some(n=>n.getClientRects().length>0);
+    const v=window.CareerModeProductionSharedTransferChallenge?.getState?.();
+    const sq=document.getElementById("sqStage");
+    return {cm:vis("#cmStage"),sq:vis("#sqStage"),sqStage:sq?sq.getAttribute("data-stage"):null,sqState:sq?sq.getAttribute("data-state"):null,sqStatus:sq?(sq.querySelector(".sqStatus")?.textContent||"").trim().slice(0,120):null,sqLive:sq?(sq.querySelector(".sqmLive")?.textContent||"").trim().slice(0,120):null,
+      rr:vis("#rrStage")||vis("#rrStepPanel"),ig:vis("#igStage")||vis("#igStepPanel"),transfer:vis("#transferChallenge"),entry:vis("#seasonEntry"),
+      home:vis("#mainMenu")&&vis("#newShowdown"),tile:(document.querySelector("#newShowdown .menuTileLabel")?.textContent||"").trim(),overlay:vis("#productionSharedJourneyEntryOverlay"),dash:vis("#dashboard"),
+      label:(document.getElementById("seasonPrimaryAction")?.textContent||"").trim(),role:v?.managerRole||null,season:v?.seasonNumber||null,ind:document.getElementById("seasonIndicator")?.textContent||"",
+      screens:[...document.querySelectorAll(".screen:not(.hidden)")].map(n=>n.id).join(","),who:(document.getElementById("onlinePlayerIdentityBadge")?.textContent||"").trim().toLowerCase()};
+  }).catch(()=>null);
+}
+async function reloadRecover(page){
+  const rec=reloadRecovering.get(page);if(!rec)return null;
+  const s=await reloadLook(page);if(!s)return "wait";
+  const done=why=>{console.log(`RELOAD back ${s.who} after ${Date.now()-rec.since} ms on ${why} (${s.ind}; steps ${rec.steps.join(",")||"none"}; squad ${s.sqStage||"-"}/${s.sqState||"-"} "${s.sqStatus||""}" "${s.sqLive||""}")`);reloadRecovering.delete(page);return null;};
+  if(s.cm)return done("Chamber Men");if(s.sq)return done("Squad");if(s.rr)return done("Russian Roulette");if(s.ig)return done("Prime Pack");if(s.entry)return done("Season Results");
+  if(Date.now()-rec.since>120000){console.log(`RELOAD STUCK ${s.who} 120 s after the reload: ${JSON.stringify(s)}`);reloadRecovering.delete(page);return null;}
+  const note=step=>{if(rec.steps[rec.steps.length-1]!==step)rec.steps.push(step);return "wait";};
+  if(s.overlay){const go=page.locator("#productionSharedJourneyEntryOverlay").getByRole("button",{name:/^(START CAREER|CONTINUE CAREER)$/}).first();if(await go.isVisible().catch(()=>false)&&await go.isEnabled().catch(()=>false))await go.click({timeout:5000}).catch(()=>{});return note("get-ready");}
+  if(s.transfer){
+    if(!rec.post)return done("Transfer War");
+    const b=page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true});
+    if(await b.isVisible().catch(()=>false)&&await b.isEnabled().catch(()=>false)){await b.click({timeout:5000}).catch(()=>{});return note("continue-to-results");}
+    return note("transfer-wait");
+  }
+  if(s.home){if(s.tile==="CONTINUE SHOWDOWN"){await page.locator("#newShowdown").click({timeout:5000}).catch(()=>{});return note("home-continue");}return note(`home-tile:${s.tile}`);}
+  if(s.dash){if(await page.locator("#seasonPrimaryAction").isEnabled().catch(()=>false)){await page.locator("#seasonPrimaryAction").click({timeout:5000}).catch(()=>{});return note(`dash:${s.label}`);}return note("dash-wait");}
+  return note(`screens:${s.screens}`);
+}
+async function reloadMaybe(page,step,before){
+  if(!RELOAD_RULES.length||!step||!before||reloadRecovering.has(page))return;
+  let key=String(step).split(":")[0];
+  // The foreground step is the latest one in the order Chamber Men, Squad, Russian Roulette, Prime Pack: an earlier stage
+  // can stay mounted behind a later one (#cmStage is only closed after the Squad/roulette driver returns), so test latest first.
+  if(key==="wait")key=before.ig?"prime-wait":before.rr?"spin-wait":before.sq?`squad-wait-${before.sqStage}`:before.cm?"chamber-wait":"";
+  else if(key.startsWith("squad-"))key=`${key}-${before.sqStage}`;
+  if(!key)return;
+  const who=before.role==="playerOne"?"daniel":before.role==="playerTwo"?"nik":before.who;
+  const rule=RELOAD_RULES.find(r=>!r.done&&r.key===key&&r.season===before.season&&r.who===who);if(!rule)return;
+  rule.done=true;
+  if(rule.delay)await page.waitForTimeout(rule.delay);
+  console.log(`RELOAD reload ${who} season ${before.season} at ${key}${rule.delay?` +${rule.delay} ms`:""} ${reloadStamp()} (squad before: ${before.sqStage||"-"}/${before.sqState||"-"} "${before.sqStatus||""}")`);
+  await page.reload({waitUntil:"domcontentloaded"}).catch(error=>console.log(`RELOAD reload error ${String(error.message||error).slice(0,200)}`));
+  await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:45000}).catch(()=>{});
+  reloadRecovering.set(page,{post:key.endsWith("-post"),since:Date.now(),steps:[]});
+}
+async function playRoulette(page,opts={}){
+  if(RELOAD_RULES.length){const r=await reloadRecover(page);if(r)return r;}
+  const before=RELOAD_RULES.length?await reloadLook(page):null;
+  const step=await playRoulette0(page,opts);
+  await reloadMaybe(page,step,before);
+  return step;
+}
+async function playSquad(page){
+  if(RELOAD_RULES.length){const r=await reloadRecover(page);if(r)return r;}
+  const before=RELOAD_RULES.length?await reloadLook(page):null;
+  const step=await playSquad0(page);
+  await reloadMaybe(page,step,before);
+  return step;
+}
+if(RELOAD_RULES.length)process.on("exit",()=>{const left=RELOAD_RULES.filter(r=>!r.done);console.log(`RELOAD rules fired ${RELOAD_RULES.length-left.length}/${RELOAD_RULES.length}${left.length?`; never fired: ${left.map(r=>`${r.key}:${r.season}:${r.who}`).join(", ")}`:""}`);});
 
 module.exports={playRoulette,playPrimePack,playChamberMen,playSquad,playSquadUntil,toSeasonEntry,chamberSide,primeNames,track,waitForTransfer};
