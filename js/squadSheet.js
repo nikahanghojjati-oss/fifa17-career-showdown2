@@ -171,11 +171,24 @@
     return p;
   }
   const clone=sheet=>JSON.parse(JSON.stringify(sheet));
+  const sortedObject=o=>Object.fromEntries(Object.keys(o).sort().map(k=>[k,o[k]]));
 
   // ---------- the sheet ----------
   // {v, club, season, stage, formation, slots[11], xi[11], bench[7] (seats 0-3 on the RRR board), reserves[], out[], ratings{}, excluded[], launchPos{},
-  //  stopgaps[], notes[]}. Players are plain objects {id, name, number, rating, positions, signedSeason}; null = empty seat.
+  //  stopgaps[], notes[], barred{}, alts{}}. Players are plain objects {id, name, number, rating, positions, signedSeason}; null = empty seat.
+  // Hunt C1 (2.4.0): two lists, never mixed.
+  // - excluded: the exact men who are away (shot, guessed and released, left the club, a Special Player's own row). Nobody on it may be
+  //   in the squad, and a man is only put on it when he is the one who went: a namesake of a shot club player, or of a
+  //   guessed signing who is a club player, stays.
+  // - barred {id: "shot"|"guessed"|"special"}: the signing ids that may never come in as a kept signing (the Transfer War
+  //   LOCK refuses the same names). It never touches a man already at the club.
+  // - alts {id: [{season, rating, positions}]}: a kept signing entered again while he was at the club (SQ-2-03: he keeps
+  //   his first window). Only kept so a man who left and was bought back (C2) reads the same from a stored document.
+  // - guessed [id]: every signing name the rival guessed; a signing of that name away on loan then is released too.
+  //   (barred keeps the first reason only, for the screen's note.)
   const excludedSet=sheet=>new Set(sheet.excluded);
+  const barredOf=sheet=>sheet.barred&&typeof sheet.barred==="object"?sheet.barred:{};
+  const altsOf=sheet=>sheet.alts&&typeof sheet.alts==="object"?sheet.alts:{};
   const inSquad=sheet=>[...sheet.xi,...sheet.bench].filter(Boolean);
   const everyone=sheet=>[...inSquad(sheet),...sheet.reserves];
   function findPlayer(sheet,id){
@@ -226,7 +239,7 @@
   // name when the draw has no shirt number) and any signing with his name.
   function excludeSpecial(sheet,sp,pool){
     const k=sqKey(sp.name),ids=new Set(sheet.excluded);
-    ids.add(`s|${k}`);
+    ids.add(`s|${k}`);sheet.barred[`s|${k}`]="special";
     for(const p of pool)if(!isSigning(p)&&sqKey(p.name)===k&&(sp.number===null||p.number===sp.number))ids.add(p.id);
     sheet.excluded=[...ids].sort();
   }
@@ -241,7 +254,7 @@
     if(!slots)return null;
     const pool=source.players.map(row=>person(row[0],row[4],row[1],row[2],null));
     const byIdent=(name,number)=>pool.find(p=>p.name===name&&p.number===number)||null;
-    const sheet={v:VERSION,club,season:1,stage:"pre",formation:source.formation,slots,xi:new Array(XI_SIZE).fill(null),bench:new Array(BENCH_SIZE).fill(null),reserves:[],out:[],ratings:{},excluded:[],launchPos:{},stopgaps:[],notes:[]};
+    const sheet={v:VERSION,club,season:1,stage:"pre",formation:source.formation,slots,xi:new Array(XI_SIZE).fill(null),bench:new Array(BENCH_SIZE).fill(null),reserves:[],out:[],ratings:{},excluded:[],launchPos:{},stopgaps:[],notes:[],barred:{},alts:{},guessed:[]};
     const used=new Set();
     // Seat each launch starter in a slot of the same name (the club's slot list is the formation's, in another order).
     const free=slots.map((pos,i)=>({pos,i}));
@@ -426,45 +439,79 @@
       const ex=new Set(sheet.excluded);
       for(const o of sheet.out){
         if(o.reason!=="loaned"||o.returned||o.season>=sheet.season||!o.player)continue;
-        if(sheet.out.some(x=>x.id===o.id&&x!==o&&x.reason!=="loaned"))continue;
+        if(sheet.out.some(x=>x.id===o.id&&x!==o&&x.reason!=="loaned"&&!x.returned))continue;// (a departure he was bought back after is over)
+        if((sheet.guessed||[]).includes(o.id))continue;// entered again and guessed while away on loan: released (SQ-2-02)
         o.returned=sheet.season;
         if(findPlayer(sheet,o.id))continue;
         ex.delete(o.id);sheet.reserves.push(o.player);sheet.notes.push({name:o.name,reason:"loan-back"});
       }
       sheet.excluded=[...ex].sort();sortReserves(sheet);
+      // A club that ran out of men left a seat empty: a man back from loan fills it.
+      for(let i=0;i<XI_SIZE;i+=1)if(!sheet.xi[i]&&sheet.reserves.length)refillXi(sheet,i,[],null);
+      for(let b=0;b<BENCH_SIZE;b+=1)if(!sheet.bench[b]&&sheet.reserves.length)refillBench(sheet,b,null);
       repairStopgaps(sheet,[]);// a keeper back from loan takes his place from an outfielder standing in
       enforceBest(sheet);
       return sheet;
     }
     sheet.stage="post";
-    const ev=events||{},ex=new Set(sheet.excluded);
-    for(const name of Array.isArray(ev.released)?ev.released:[])if(typeof name==="string"&&name.trim())ex.add(`s|${sqKey(name.trim())}`);
-    let vacancy=null;
-    if(ev.shot&&typeof ev.shot.name==="string"){
+    const ev=events||{},ex=new Set(sheet.excluded),bar={...barredOf(sheet)},alts=JSON.parse(JSON.stringify(altsOf(sheet))),guessed=(sheet.guessed||[]).slice();
+    // The places this window empties: the shot man first, then a signing at the club the rival guessed. Each is refilled
+    // within his line below, the shot seat as before.
+    const vacancies=[];
+    const vacate=(id,name,reason)=>{
+      const ref=findPlayer(sheet,id);
+      if(ref){vacancies.push({...ref,gone:at(sheet,ref)});put(sheet,ref,null);if(ref.zone==="xi")setStopgap(sheet,ref.index,false);}
+      if(ref)sheet.notes.push({name,reason});
+    };
+    if(ev.shot&&typeof ev.shot.name==="string"&&ev.shot.name.trim()){
       const shot=person(ev.shot.name.trim(),ev.shot.number,1,[],ev.shot.signedSeason??null);
-      ex.add(shot.id);if(!isSigning(shot))ex.add(`s|${sqKey(shot.name)}`);// a shot player never returns, not even bought back
-      const ref=findPlayer(sheet,shot.id);
-      if(ref){vacancy={...ref,gone:at(sheet,ref)};put(sheet,ref,null);if(ref.zone==="xi")setStopgap(sheet,ref.index,false);}
+      // Only the man the roulette hit is out. A shot man is never bought back: no signing with his name joins later (the
+      // Transfer War LOCK refuses it by name too). A signing at the club with a shot club player's name is another man
+      // (SQ-4-01) and stays (hunt C1a: Barcelona's L. Suárez shot while a signed L. Suárez is in the squad).
+      ex.add(shot.id);if(!bar[`s|${sqKey(shot.name)}`])bar[`s|${sqKey(shot.name)}`]="shot";
+      vacate(shot.id,shot.name,"shot");
     }
-    sheet.excluded=[...ex].sort();
+    // A guessed signing never joins and can't be signed again. When the guessed name is a signing already at the club (he
+    // was entered again), he is the same signing and is released (Sol SQ-2-02, as the Transfer War and the r87 boards
+    // treat it): he leaves and his place is refilled, so the sheet stays lockable (hunt C1b). A club player with that name
+    // is another man and stays.
+    for(const raw of Array.isArray(ev.released)?ev.released:[]){
+      if(typeof raw!=="string"||!raw.trim())continue;
+      const name=raw.trim(),id=`s|${sqKey(name)}`;
+      if(!bar[id])bar[id]="guessed";
+      if(!guessed.includes(id))guessed.push(id);
+      ex.add(id);vacate(id,name,"guessed");
+    }
     const kept=[];
     for(const row of Array.isArray(ev.kept)?ev.kept:[]){
       if(!row||typeof row.name!=="string"||!row.name.trim()||!validOverall(row.overall))continue;
       const positions=LINE_OF[row.position]?[row.position]:signingPositions(row.name.trim(),sheet.club);
       const p=person(row.name.trim(),null,row.overall,positions,sheet.season);
-      if(ex.has(p.id)){sheet.notes.push({name:p.name,reason:"excluded"});continue;}
-      if(findPlayer(sheet,p.id)||kept.some(k=>k.id===p.id))continue;// signed again: keeps his first window and place (SQ-2-03)
+      if(bar[p.id]){sheet.notes.push({name:p.name,reason:bar[p.id]==="special"?"special":"excluded"});continue;}
+      if(kept.some(k=>k.id===p.id))continue;
+      // signed again while he is at the club: keeps his first window and place (SQ-2-03)
+      if(findPlayer(sheet,p.id)){(alts[p.id]=alts[p.id]||[]).push({season:sheet.season,rating:p.rating,positions:p.positions.slice()});continue;}
+      // Hunt C2: a signing who left the club (sold, contract, ...) and is signed again comes back, as a club player does
+      // (BUY_BACK). Only a shot or guessed man never does (barred above).
+      if(ex.has(p.id)){
+        ex.delete(p.id);delete sheet.ratings[p.id];
+        for(const o of sheet.out)if(o.id===p.id&&!o.returned)o.returned=sheet.season;
+        sheet.notes.push({name:p.name,reason:"bought-back"});
+      }
       kept.push(p);
     }
+    sheet.excluded=[...ex].sort();sheet.barred=sortedObject(bar);sheet.alts=sortedObject(alts);sheet.guessed=guessed.sort();
     kept.sort(order);
-    // The shot player's seat: a kept signing of his line first, then the normal refill.
-    if(vacancy&&vacancy.zone==="xi"){refillXi(sheet,vacancy.index,kept,vacancy.gone);}
+    // The shot player's seat (and a released signing's): a kept signing of his line first, then the normal refill.
+    for(const v of vacancies)if(v.zone==="xi"&&!sheet.xi[v.index])refillXi(sheet,v.index,kept,v.gone);
     for(const p of kept){
       if(findPlayer(sheet,p.id))continue;
-      if(p.positions.length===0){if(vacancy&&vacancy.zone==="bench"&&!sheet.bench[vacancy.index]){sheet.bench[vacancy.index]=p;}else{sheet.reserves.push(p);sortReserves(sheet);}sheet.notes.push({name:p.name,reason:"no-position"});continue;}
+      if(p.positions.length===0){const v=vacancies.find(x=>x.zone==="bench"&&!sheet.bench[x.index]);if(v){sheet.bench[v.index]=p;}else{sheet.reserves.push(p);sortReserves(sheet);}sheet.notes.push({name:p.name,reason:"no-position"});continue;}
       join(sheet,p);
     }
-    if(vacancy&&vacancy.zone==="bench"&&!sheet.bench[vacancy.index])refillBench(sheet,vacancy.index,vacancy.gone);
+    // A slot nobody could fill before the signings arrived (a club down to its last men): filled now, a stand-in if need be.
+    for(let i=0;i<XI_SIZE;i+=1)if(!sheet.xi[i])refillXi(sheet,i,[],null);
+    for(const v of vacancies)if(v.zone==="bench"&&!sheet.bench[v.index])refillBench(sheet,v.index,v.gone);
     for(let b=0;b<BENCH_SIZE;b+=1)if(!sheet.bench[b])refillBench(sheet,b,null);
     repairStopgaps(sheet,[]);
     settleBench(sheet);
@@ -537,9 +584,24 @@
   }
   // From season 2 a move may not leave a better player hidden (it is refused, never undone by itself).
   function hidingCheck(sheet,a,b){
+    const next=doSwap(sheet,a,b);
+    // A stand-in keeps his slot only while nobody at the club can play it (validate): a move that sends such a player to the
+    // bench is refused here, not later at LOCK (2.4.0 hunt fuzz).
+    const gap=standInGap(next);
+    if(gap&&!standInGap(sheet))return {ok:false,reason:`${gap.q.name} can play ${gap.slot}, so ${gap.p.name} can't stand in there.`};
     if(sheet.season<2)return {ok:true};
-    const issue=hidingIssue(doSwap(sheet,a,b));
+    const issue=hidingIssue(next);
     return issue?{ok:false,reason:hidingReason(issue)}:{ok:true};
+  }
+  function standInGap(sheet){
+    const spare=[...sheet.bench.filter(Boolean),...sheet.reserves];
+    for(let i=0;i<XI_SIZE;i+=1){
+      const p=sheet.xi[i],slot=sheet.slots[i];
+      if(!p||allowed(sheet,p,slot))continue;
+      const q=spare.find(x=>allowed(sheet,x,slot));
+      if(q)return {p,q,slot};
+    }
+    return null;
   }
   function swap(sheet,a,b){
     const check=canSwap(sheet,a,b);
@@ -575,7 +637,10 @@
     const next=clone(sheet),p=at(next,ref);
     put(next,ref,null);
     const ex=new Set(next.excluded);ex.add(p.id);if(!BUY_BACK&&!isSigning(p))ex.add(`s|${sqKey(p.name)}`);next.excluded=[...ex].sort();
-    next.out.push({id:p.id,name:p.name,number:p.number,signedSeason:p.signedSeason,reason,season:next.season,stage:next.stage,player:reason==="loaned"?clone(p):null});
+    // A signing entered again while he was here (alts) is gone with him: the entry carries the latest of those windows, so a
+    // stored document tells a buy-back (a window after it) from a repeat entry (C2).
+    const lastWindow=isSigning(p)?Math.max(p.signedSeason,...(altsOf(next)[p.id]||[]).map(a=>a.season)):p.signedSeason;
+    next.out.push({id:p.id,name:p.name,number:p.number,signedSeason:lastWindow,reason,season:next.season,stage:next.stage,player:reason==="loaned"?clone(p):null});
     if(ref.zone==="xi"){setStopgap(next,ref.index,false);refillXi(next,ref.index,[],p);}
     else if(ref.zone==="bench")refillBench(next,ref.index,p);
     next.notes=[];enforceBest(next);
@@ -699,9 +764,12 @@
     const slots=formationSlots(sheet.formation);
     if(!slots||slots.join()!==sheet.slots.join())problems.push("Formation and slots don't match.");
     if(sheet.xi.length!==XI_SIZE||sheet.bench.length!==BENCH_SIZE)problems.push("Wrong squad size.");
-    const ids=everyone(sheet).map(p=>p.id),ex=excludedSet(sheet);
-    if(new Set(ids).size!==ids.length)problems.push("A player is listed twice.");
-    if(ids.some(id=>ex.has(id)))problems.push("A player who is out is back in the squad.");
+    const all=everyone(sheet),ex=excludedSet(sheet),seen=new Set();
+    // Each refusal names the man it means (hunt C1).
+    const twice=all.find(p=>seen.has(p.id)||!seen.add(p.id));
+    if(twice)problems.push(`${twice.name} is listed twice.`);
+    const back=all.find(p=>ex.has(p.id));
+    if(back)problems.push(`${back.name} has left the club, so he can't be in the squad.`);
     const spare=[...sheet.bench.filter(Boolean),...sheet.reserves];
     sheet.xi.forEach((p,i)=>{
       const slot=sheet.slots[i];
@@ -742,6 +810,7 @@
     if(!slots||!Array.isArray(doc.names)||doc.names.length!==XI_SIZE+BENCH_SIZE)return null;
     const sheet=clone(proposal);
     const idFor=(name,number,signed)=>idOf({name,number:number>=0?number:null,signedSeason:signed>0?signed:null});
+    const ovOf=id=>{for(let i=0;i<(doc.ovNames||[]).length;i+=1)if(validOverall(doc.ovValues[i])&&idFor(doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i])===id)return doc.ovValues[i];return null;};
     for(let i=0;i<(doc.ovNames||[]).length;i+=1){
       const id=idFor(doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i]),p=everyone(sheet).find(q=>q.id===id);
       if(p&&validOverall(doc.ovValues[i])){p.rating=doc.ovValues[i];sheet.ratings[id]=doc.ovValues[i];}
@@ -749,22 +818,40 @@
     // The departures list is cumulative, so the document alone says who is away: the proposal may be the screen's own (it
     // already holds the earlier departures) or the automatic chain from launch with no manager edits (the store rebuilds a
     // sheet from its one document that way, with no read of the earlier ones). A loan from an earlier season is over: he is
-    // back at the club. Anyone else listed is out for good.
+    // back at the club. A signing who left and was signed again in a later window (one the chain kept as a repeat entry,
+    // after the window his departure names) is back as that signing (hunt C2). Anyone else listed is out for good.
     const outIds=(doc.outNames||[]).map((name,i)=>idFor(name,doc.outNumbers[i],doc.outSigned[i]));
-    const known=new Set(sheet.out.map(o=>o.id)),ex=new Set(sheet.excluded);
+    const known=new Set(sheet.out.map(o=>o.id)),ex=new Set(sheet.excluded),alts=altsOf(sheet);
     for(let i=0;i<outIds.length;i+=1){
       const id=outIds[i],reason=doc.outReasons[i],season=doc.outSeasons[i];
       if(!LEAVE_REASONS.includes(reason)||!Number.isInteger(season)||season<2||season>doc.seasonNumber)return null;
       if(known.has(id))continue;
       known.add(id);
       const away=outIds.map((other,j)=>other===id?j:-1).filter(j=>j>=0);
-      const gone=away.some(j=>doc.outReasons[j]!=="loaned"||doc.outSeasons[j]===doc.seasonNumber);
+      // His departures in order. Each one carries the latest window he had been signed (or entered again) in when he left,
+      // so the first repeat entry of the automatic chain after it, and before his next departure, is him bought back.
+      // Otherwise a loan from an earlier season is over and he is back as the same man; anything else keeps him away.
+      let back=null,awayNow=false;const returned={};
+      away.forEach((j,t)=>{
+        const w=doc.outSigned[j]>0?doc.outSigned[j]:0,next=away[t+1],until=next===undefined?Infinity:(doc.outSigned[next]>0?doc.outSigned[next]:0);
+        // (a loan ends before the next window, so only that season's window can buy him back from it)
+        const last=doc.outReasons[j]==="loaned"?Math.min(until,doc.outSeasons[j]):until;
+        // (a repeat entry is only kept when his name was not barred by then, so a later bar never undoes a buy-back)
+        const again=w>0?(alts[id]||[]).find(a=>a.season>w&&a.season<=last)||null:null;
+        if(again){back=again;returned[j]=again.season;awayNow=false;}
+        else if(doc.outReasons[j]==="loaned"&&doc.outSeasons[j]<doc.seasonNumber){returned[j]=doc.outSeasons[j]+1;awayNow=false;}
+        else awayNow=true;
+      });
+      if(back){
+        const prev=everyone(sheet).find(q=>q.id===id),again=person(prev?prev.name:doc.outNames[i],null,ovOf(id)??back.rating,back.positions,back.season);
+        const ref=prev?findPlayer(sheet,id):null;
+        if(ref)put(sheet,ref,again);else sheet.reserves.push(again);
+      }
       for(const j of away){
         const p=everyone(sheet).find(q=>q.id===id);
-        const loanOver=doc.outReasons[j]==="loaned"&&doc.outSeasons[j]<doc.seasonNumber;
-        sheet.out.push({id,name:p?p.name:doc.outNames[j],number:p?p.number:(doc.outNumbers[j]>=0?doc.outNumbers[j]:null),signedSeason:p?p.signedSeason:(doc.outSigned[j]>0?doc.outSigned[j]:null),reason:doc.outReasons[j],season:doc.outSeasons[j],stage:doc.stage,player:doc.outReasons[j]==="loaned"&&p?clone(p):null,...(loanOver?{returned:doc.outSeasons[j]+1}:{})});
+        sheet.out.push({id,name:p?p.name:doc.outNames[j],number:p?p.number:(doc.outNumbers[j]>=0?doc.outNumbers[j]:null),signedSeason:doc.outSigned[j]>0?doc.outSigned[j]:null,reason:doc.outReasons[j],season:doc.outSeasons[j],stage:doc.stage,player:doc.outReasons[j]==="loaned"&&p?clone(p):null,...(returned[j]?{returned:returned[j]}:{})});
       }
-      if(gone)ex.add(id);
+      if(awayNow)ex.add(id);
     }
     sheet.excluded=[...ex].sort();
     const pool=everyone(sheet).filter(p=>!ex.has(p.id));

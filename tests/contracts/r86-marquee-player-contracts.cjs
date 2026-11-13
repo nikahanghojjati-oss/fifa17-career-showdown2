@@ -120,7 +120,13 @@ ok('L6','all launch-list clubs draw a real crest: 15 new ones (HO-038) plus the 
   assert.match(pstc,/if\(pstcIsOwnSpecial\(role,player\)\)pstcFail\("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing \$\{i\} is your Special Player,/,'the signing form refuses him with a plain line');
   assert.match(pstc,/step\.isOwnSpecial\(request\.rivalryId,at,role,name,setup\?\.setup\?\.clubs\)/,'asked of the season step with the Setup confirm time the page holds');
   assert.match(read('js/rosterRouletteStep.js'),/draw\.isOwnSpecial\(rivalryId,confirmedAtMs,role,name,clubs\)/,'the step asks the draw');
+  // Hunt C3 (2.4.0): the rival's Special Player is never in any squad (js/squadSheet.js excludes both draws), so the form
+  // refuses him too, word for word, with the rival's name, from the same draw (the rival's own isOwnSpecial answer).
+  assert.match(pstc,/if\(pstcIsRivalSpecial\(role,player\)\)pstcRefuse\("TRANSFER_SIGNING_RIVAL_SPECIAL_PLAYER",pstcRivalSpecialText\(role,player\)\)/,'the signing form refuses the rival’s Special Player with a plain line');
+  assert.match(pstc,/function pstcIsRivalSpecial\(role,name\)\{return \(role==="playerOne"\|\|role==="playerTwo"\)&&pstcIsOwnSpecial\(pstcOtherRole\(role\),name\);\}/,'asked as the rival’s own Special Player');
+  assert.match(pstc,/`\$\{name\} is \$\{pstcManagerName\(pstcOtherRole\(role\)\)\}'s Special Player\. He can't join your squad\.`/);
+  assert.match(pstc,/if\(pstcIsRivalSpecial\(role,name\)\)return pstcRivalSpecialText\(role,name\);/,'the name list marks him with the same words');
 }
-ok('L7','red team R87-SP-02: own Special Player refused as a Transfer War signing (folded names, database alias); rival SP allowed');
+ok('L7','red team R87-SP-02: own Special Player refused as a Transfer War signing (folded names, database alias); hunt C3: the rival\'s Special Player is refused too');
 
 console.log(`PASS r86 Special Player contracts: ${checks} numbered checks (list, badges, draw, which Showdowns, old saves, crests).`);

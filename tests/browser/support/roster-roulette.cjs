@@ -69,6 +69,13 @@ async function playSquad(page){
   }
   if(await lock.isVisible().catch(()=>false)&&await lock.isEnabled().catch(()=>false)){
     if(process.env.CMS_SQUAD_PROBE==="1")await probeLock(page,stage);
+    // CE2PG_NAMESAKE=1 (hunt C1 proof): the screen's "Not in your squad" list, once per screen, so the report shows a shot
+    // club player standing next to a kept signing with his name.
+    if(process.env.CE2PG_NAMESAKE==="1"){
+      const seen=await stage.evaluate(node=>({stage:node.dataset.stage||"",season:document.getElementById("seasonIndicator")?.textContent||"",out:[...node.querySelectorAll(".sqmLeftOut li")].map(n=>n.textContent),squad:[...node.querySelectorAll(".sqmCardName")].map(n=>n.textContent).length})).catch(()=>null);
+      const key=seen?`${seen.season}|${seen.stage}`:"";if(!rated.has(page))rated.set(page,new Set());
+      if(seen&&seen.out.length&&!rated.get(page).has(`ns|${key}`)){rated.get(page).add(`ns|${key}`);console.log(`--- squad not in squad ${key}: ${seen.out.join(" ; ")}`);}
+    }
     const started=Date.now();let failed=null;
     await lock.click({timeout:5000}).catch(error=>{failed=error;});
     // What the screen says now, and on a failed click what sits on the button (the element at its centre, and every layer over the stage).
