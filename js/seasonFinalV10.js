@@ -2283,6 +2283,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* HO-068: no slogans in the board room: the "TWO MANAGERS · ONE LEGACY" line under the Season Results and Final Winner
    titles keeps its place (nothing moves) but is not shown. */
 #app #seasonEntry :is(.season-tagline,.finalWinnerTagline) { visibility:hidden !important; }
+/* r91 art (face check row A1): the two warm ovals over the managers (.finalWinnerManagerSpotlight, Team V's
+   final-winner.css) were lights for the old cut-out figures. In the board room both men are part of one painted picture
+   that the wall lamp already lights, so an oval laid over it can only haze their faces (2.0% and 3.2% of the face pixels
+   moved, the same oval on winner and loser). Phones and tablets already left it out; now every size does. */
+#app #seasonEntry .finalWinnerManagerSpotlight { display:none; }
 /* Final Winner, desktop picture range: the board room, fitted to the window height as the old plate was (--fw-k is one
    plate pixel). The champion trophy stands on the counter's lip (plate y 641) between the two managers, its foot on the
    lip (or on the honours plaque when a short window raises the plaque above it). Beside a plate narrower than the window

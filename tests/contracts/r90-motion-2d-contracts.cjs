@@ -99,6 +99,12 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   assert.ok(type.includes(C+' > :is(h1, p) {\n  color: transparent !important;'),"the old block lettering is unpainted, the words stay for screen readers");
   assert.doesNotMatch(type,/:root[^{]*header#topHeader > div\.brand::after/,"only set-up screens (data-v10-setup) draw the header logo, so Home loads nothing new");
   ok("M28","phones and tablets: flat slab behind the stats numbers, and the set-up header wears the V3 logo");}
+// M29 (face check row A1): the Final Winner spotlight ovals were lights for the old cut-outs. On the one-piece board room
+// they hazed both faces, so no size draws them; the audit's KNOWN list carries no art row for them.
+{const js=read("js/seasonFinalV10.js"),audit=read("tests/browser/phone-marble-facecheck-audit.cjs");
+  assert.match(js,/\n#app #seasonEntry \.finalWinnerManagerSpotlight \{ display:none; \}\n/,"the spotlight ovals are left out at every size");
+  assert.doesNotMatch(audit.slice(audit.indexOf("const KNOWN = ["),audit.indexOf("// WAITING:")),/FINAL_WINNER/,"Final Winner has no known face row");
+  ok("M29","Final Winner draws no spotlight oval over the managers' faces");}
 // CLS (W9 row): the top bar's 52 px is reserved from the first paint in every nav state, so a screen laid out under the
 // loading screen or the Reus Gate (data-nav "none") does not jump when the bar comes back; Club stays unseen until its look is on.
 {const shell=read("css/v10Shell.css"),club=read("css/v10Club.css");
