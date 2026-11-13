@@ -89,7 +89,8 @@ jobs:
 
           assert.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`), 'The bounded Reus visual fidelity layer is not aligned with the current runtime revision.');
           assert.ok(visualCss.includes('.menuTilePrimary:disabled') && visualCss.includes('opacity:1') && visualCss.includes('filter:none'), 'Disabled Home state must not dim the Reus hero tile.');
-          assert.ok(css.includes('.startupScene,.startupAthleteFrame,#startupAthlete{position:absolute;inset:0}') && css.includes('#startupAthlete{width:100%;height:100%;max-width:none;object-fit:cover'), 'Base startup Reus portrait must fill its own bounded frame (JOB-1647 approved first-paint composition; HO-030 markup).');
+          // HO-072 (r91): the room fills the bounded frame and the Reus cut-out sits in it at Team V's placement, cut at the ledge.
+          assert.ok(css.includes('.startupScene,.startupAthleteFrame,.startupAthleteFrame img{position:absolute;inset:0}') && css.includes('.startupAthleteFrame img{width:100%;height:100%}') && css.includes('img.startupReus{left:1.042%;top:.741%;width:41.302%;height:123.981%;clip-path:inset(0 0 25.91% 0)}'), 'Base startup room must fill its own bounded frame with the Reus cut-out at its approved placement (HO-072 layered first-paint composition).');
           assert.ok(css.includes('#loadingScreen{') && css.includes('position:fixed;inset:0;z-index:100;overflow:hidden'), 'Desktop startup portrait frame must remain inside the viewport.');
           assert.ok(visualCss.includes('.menuCoverAthlete.imageLoaded img') && visualCss.includes('opacity:1!important'), 'Loaded Home Reus portrait must render at guaranteed full opacity.');
           assert.ok(visualCss.includes('clip-path:none'), 'Desktop Reus must use a clean rectangular photo anchor without the rejected head/neck clipping edge.');
@@ -100,8 +101,8 @@ jobs:
           assert.ok(!visualCss.includes('rgba(229,237,239,.92)'), 'The old 92% white Reus wash must not return.');
 
           assert.ok(!/#loadingScreen|#startupAthlete|\.startup/.test(offlineCss) && !/#loadingScreen|#startupAthlete|\.startup/.test(visualCss) && !css.includes('--startup-mobile-top-band'), 'Standalone loading geometry must be owned by first-paint css/app.css only, with no reserved top band (JOB-1647).');
-          assert.ok(css.includes('@media (max-aspect-ratio:7/5){') && css.includes('.startupScene,.startupAthleteFrame,#startupAthlete{position:absolute;inset:0}'), 'Standalone loading art must have its own stable image box.');
-          assert.ok(css.includes('#startupAthlete{object-fit:contain;object-position:50% 0}') && /@media \(max-aspect-ratio:31\/50\)\{[^@]*#startupAthlete\{object-fit:cover\}/.test(css), 'Standalone mobile Reus must retain the subject-safe (top-anchored, HO-030 50% 0) crop.');
+          assert.ok(css.includes('@media (orientation:portrait){#loadingScreen{--fw:1179;--fh:2096;') && css.includes('.startupAthleteFrame{left:calc(50% - var(--k)*589.5);top:calc(0px - var(--d))}') && css.includes('--k:max(100cqw/var(--fw),100cqh/var(--fh))'), 'Standalone loading art must have its own stable image box (HO-072: the upright room, centred, covering the window).');
+          assert.ok(css.includes('img.startupReus{left:5.768%;top:15.124%;width:88.38%;height:83.97%;clip-path:inset(0 0 13.33% 0)}') && !/#loadingScreen[^@]*object-fit/.test(css.slice(css.indexOf('#loadingScreen{'), css.indexOf('@media (orientation:portrait){#loadingScreen') + 900)), 'Standalone mobile Reus must keep the subject-safe placement (HO-072: his whole head inside the upright room, never cropped by object-fit).');
           assert.ok(!/\b100(?:d|s|l)?vh\b/i.test(offlineCss), 'Loading art must not stretch from raw viewport-height units.');
 
           const normalDuration = Number((app.match(/STARTUP_SPLASH_MINIMUM_MS\s*=\s*(\d+)/) || [])[1]);
