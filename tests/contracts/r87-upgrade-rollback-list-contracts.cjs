@@ -5,8 +5,9 @@
 // either refuses a whole cache (a path the old build never had) or serves a shell with holes (a path the old build needs
 // but the check skips). tests/fixtures/shell-paths/<revision>.json holds the exact SHELL_PATHS each live build shipped
 // (1.9.10-r86 = main 5b4337fd, the build live since 2026-10-30; 2.0.0-r87 = main 00ae2b72, live since 2026-11-02; 2.1.0-r88 =
-// main e6485d7d, live since 2026-11-04; 2.2.0-r89 = main 2fe8d2f5, live since 2026-11-06). 2.3.0 moves PREVIOUS to 2.2.0-r89:
-// the added set must be exactly the paths r90 adds to r89's 275; this test names them if it is not.
+// main e6485d7d, live since 2026-11-04; 2.2.0-r89 = main 2fe8d2f5, live since 2026-11-06; 2.3.0-r90 = main a85d286a, live since
+// 2026-11-11). 2.4.0 moves PREVIOUS to 2.3.0-r90: the added set must be exactly the paths r91 adds to r90's 289; this test names
+// them if it is not.
 // Run: node tests/contracts/r87-upgrade-rollback-list-contracts.cjs
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -47,7 +48,7 @@ test("UR2 the rollback list equals the previous revision's real shell, path for 
   assert.deepEqual({missing,extra},{missing:[],extra:[]},`rollback list for ${w.previous} is wrong; SHELL_PATHS_ADDED_SINCE_PREVIOUS should be exactly: ${JSON.stringify(w.shell.filter(p=>!real.includes(p)))}`);
 });
 
-test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.3.0: the old Barlow Condensed 600/700 copies and js/analytics.js)",()=>{
+test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.4.0: the History & Backup and Save Library files and the flat Reus loading pictures)",()=>{
   const real=fixture(w.previous),shell=new Set(w.shell);
   assert.deepEqual(real.filter(p=>!shell.has(p)),w.removed,"a path the previous build precached left SHELL_PATHS without being listed in SHELL_PATHS_REMOVED_SINCE_PREVIOUS");
   assert.deepEqual(w.removed.filter(p=>shell.has(p)),[],"a removed path is still in SHELL_PATHS");
@@ -60,9 +61,9 @@ test("UR4 every added path is a current shell path, listed once",()=>{
   assert.equal(new Set(w.shell).size,w.shell.length,"SHELL_PATHS lists a path twice");
 });
 
-test("UR5 a 2.3.0 worker rolls back to the live 2.2.0 build",()=>{
-  assert.equal(w.revision,"2.3.0-r90");
-  assert.equal(w.previous,"2.2.0-r89");
+test("UR5 a 2.4.0 worker rolls back to the live 2.3.0 build",()=>{
+  assert.equal(w.revision,"2.4.0-r91");
+  assert.equal(w.previous,"2.3.0-r90");
 });
 
 test("UR6 the r87 fixture is r86's list plus what 2.0.0 added, minus the seven acceptance-only scripts",()=>{
@@ -84,6 +85,15 @@ test("UR8 the r89 fixture is r88's list plus r89's 3D engine, Kits 17, Sacked li
   assert.equal(r89.length,275);
   assert.deepEqual(r88.filter(p=>!r89.includes(p)),["visual-assets/v10_1/roulette/vendor/three-r128.min.js"]);
   assert.deepEqual(r89.filter(p=>!r88.includes(p)).sort(),["data/gazetteSacked.js","js/chamberMenScene3d.js","js/chamberMenStadium3d.js","js/kits17.js","visual-assets/v10_1/roulette/assets/ENV_LOUNGE_V1.exr","visual-assets/v10_1/roulette/vendor/three-r187.min.js"]);
+});
+
+test("UR9 the r90 fixture is r89's list plus r90's quality module, shared faces and meshopt decoder, minus the old Barlow copies and analytics",()=>{
+  const r90=fixture("2.3.0-r90"),r89=fixture("2.2.0-r89");
+  assert.equal(r90.length,289);
+  assert.deepEqual(r89.filter(p=>!r90.includes(p)),["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","js/analytics.js"]);
+  const added=r90.filter(p=>!r89.includes(p));
+  assert.equal(added.length,17);assert.ok(added.includes("js/gfxTier.js")&&added.includes("visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"));
+  assert.deepEqual(added.filter(p=>p!=="js/gfxTier.js"&&p!=="visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"&&!p.startsWith("visual-assets/v10_1/shared/fonts/")),[]);
 });
 
 console.log(`r87 upgrade rollback-list contracts: ${passed} passed (revision ${w.revision}, previous ${w.previous}, ${w.added.length} added since it)`);

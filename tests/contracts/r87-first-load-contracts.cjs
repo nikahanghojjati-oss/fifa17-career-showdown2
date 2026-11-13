@@ -64,9 +64,12 @@ function run(loading,{idle=true,advance=0}={}){
   const removed=[...sw.match(/const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set\(\[([^\]]*)\]\);/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
   for(const name of Object.keys(SHARED)){
     assert.ok(!shell.includes(`assets/fonts/${name}`),`the unloaded local ${name} is not precached a second time`);
-    // Codex #1305 P2: a page rolled back to 2.1.0 still asks for the local copy without ?v=, so the worker must keep
-    // answering it from that build's retained shell (listed as removed since the previous build, still unversioned).
-    assert.ok(removed.includes(`assets/fonts/${name}`),`the local ${name} stays in the previous build's shell for rollback`);
+    // Codex #1305 P2: a page rolled back to 2.1.0 asked for the local copy without ?v=, so 2.3.0 kept answering it from
+    // that build's retained shell. 2.4.0 rolls back to 2.3.0, which already loads the shared copy: the local copy is
+    // neither in the retained 2.3.0-r90 shell nor listed as removed again, and stays unversioned for any older page.
+    const r90=JSON.parse(fs.readFileSync(path.join(root,"tests/fixtures/shell-paths/2.3.0-r90.json"),"utf8")).paths;
+    assert.ok(!r90.includes(`assets/fonts/${name}`)&&r90.includes(SHARED[name]),`the rollback build (2.3.0) loads the shared ${name}, not the local copy`);
+    assert.ok(!removed.includes(`assets/fonts/${name}`),`the local ${name} is not listed as removed a second time`);
     assert.ok(unversioned.includes(`assets/fonts/${name}`),`the local ${name} is still served from the retained shell without ?v= after a rollback`);
   }
   // 2c. The sheet stands in for the external Google sheet, which the 37,500-byte startup budget never counted. It stays small:
