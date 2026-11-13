@@ -3155,6 +3155,28 @@
         "^tests/contracts/r91\\-legacy\\-long\\-history\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-short-740-contracts.cjs",
+      "patterns": [
+        "^js/seasonFinalV10\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/r91\\-short\\-740\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-level-guide-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^js/settings\\.js$",
+        "^device-check\\.html$",
+        "^css/r78-type\\.css$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^assets/level-guide/",
+        "^service-worker\\.js$",
+        "^tests/contracts/r91-level-guide-contracts\\.cjs$"
+      ]
     }
   ]
 }

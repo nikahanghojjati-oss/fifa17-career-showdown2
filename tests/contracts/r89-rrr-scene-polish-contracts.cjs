@@ -291,6 +291,18 @@ ok('P17','L38 a status line before ready; L39 the pot back left and smaller, sof
 // title box); the shift eases out during a turn
 {
   has(/function fitUnderTitle\(\)\{ restShift=0; restZoom=1; const t=document\.querySelector\("\.title"\), r=t&&t\.getBoundingClientRect\(\);/,'L37 the clearance comes from the real title box');
+  // r91 HO-071 (one title family): the heading keeps its words and its box (so the clearance above still measures the same box) but
+  // paints Team V's V3 lettering over them; the banner above the title is hidden, not removed; no moving shine. The Special Player
+  // page follows the same recipe with its own picture.
+  for(const [file,stem,ratio] of [['visual-assets/v10_1/roulette/index.html','TITLE_ROSTER_ROULETTE_V3','12.347'],['visual-assets/v10_1/special-player/index.html','TITLE_SPECIAL_PLAYER_V3','7.22']]){
+    const src=file.includes('roulette/')?html:fs.readFileSync(path.join(ROOT,file),'utf8');
+    assert.ok(src.includes(`.title::after { content: ""; position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); height: var(--hc-h); width: min(calc(var(--hc-h) * ${ratio}), calc(100vw - 24px));`),`${file}: the title picture is the family height, never wider than the screen`);
+    for(const step of ['960','1920']){const pic=`../shared/wordmarks/${stem}_${step}.webp`;assert.ok(src.includes(`url("${pic}")`),`${file} draws ${pic}`);assert.ok(fs.existsSync(path.join(ROOT,path.dirname(file),pic)),`${pic} is in the repo`);}
+    assert.ok(src.includes('.kicker { visibility: hidden; }'),`${file}: the banner above the title is hidden and keeps its box`);
+    assert.ok(src.includes('.title span { display: block; color: transparent; }'),`${file}: the words stay in the heading, unpainted`);
+    assert.ok(!/animation:\s*shine\b|@keyframes shine\b|-webkit-text-stroke/.test(src.slice(src.indexOf('.kicker {'),src.indexOf('.title::after')+900)),`${file}: no moving shine and no outline on the title`);
+    const m=/data-t="([^"]+)"><span>([^<]+)<\/span>/.exec(src);assert.ok(m&&m[1]===m[2],`${file}: the heading still carries its words`);
+  }
   has(/need=Math\.max\(need,r\.bottom\+10-Math\.min\(q\[0\]\.y,q\[1\]\.y\)\); \}\);/,'L37 every board face that sits under the title clears it by 10 px');
   has(/const want=playing\?closeLift:restShift, wantZ=playing\?1:restZoom,/,'L37 the shift (and the zoom) is only for the rest shot; a turn lifts the picture only in the drum close-up (strict A7)');
   // 2.3.0 strict C7/D10/E5: the rest picture is pulled back (the same view-offset zoom) until both squad boards stay in view; A7: the drum close-up is lifted above the caption
