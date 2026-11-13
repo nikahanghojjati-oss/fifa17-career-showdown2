@@ -59,6 +59,9 @@ const OWN_PAGES = new Set([...setOf("STANDALONE_PAGE_NAVIGATION_PATHS"), ...setO
   }
   const check = read("device-check.html");
   assert.ok(/<h1>DEVICE CHECK<\/h1>/.test(check) && check.includes('<a class="btn" href="./">Back to the game</a>'), "the page carries its heading and the way back");
+  // HO-078: the heading wears Team V's V3 title lettering at the family height; the words stay in the heading.
+  assert.ok(check.includes('h1{position:relative;margin:0 0 8px;--hc-h:clamp(40px,3.08vw,59px);height:var(--hc-h);') && /h1::after\{[^}]*TITLE_DEVICE_CHECK_V3_960\.webp"\) center\/contain no-repeat;[^}]*image-set\([^}]*TITLE_DEVICE_CHECK_V3_1920\.webp"\) 2x\)\}/.test(check), "the heading is the V3 DEVICE CHECK lettering");
+  for (const n of [480, 960, 1920, 3840]) assert.ok(fs.existsSync(path.join(ROOT, `visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_${n}.webp`)), `TITLE_DEVICE_CHECK_V3_${n}`);
   for(const framed of [...read("device-check.html").matchAll(/path:"([^"]+\.html)"/g)].map(m => m[1])) assert.ok(OWN_PAGES.has(framed), `the worker answers the framed page ${framed} with that page`);
   ok("P2", `everything the Device check pages load is in the published site (${seen} files), and each framed scene is a page of its own`);
 }

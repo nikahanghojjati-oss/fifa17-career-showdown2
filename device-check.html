@@ -20,7 +20,12 @@ html{background:#050505}
 body{margin:0;min-height:100vh;color:var(--ink);font:400 15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   background:#050505 url("css/r78-marble-tile.webp") center/480px repeat}
 main{max-width:1000px;margin:0 auto;padding:28px 16px 40px}
-h1{margin:0 0 4px;font:800 clamp(28px,5vw,44px)/1.05 system-ui,sans-serif;letter-spacing:.06em;color:var(--gold);text-align:center}
+/* HO-078: the title wears Team V's V3 lettering, at the height every V3 screen title has. The words stay in the heading
+   for screen readers; the picture is painted over them. */
+h1{position:relative;margin:0 0 8px;--hc-h:clamp(40px,3.08vw,59px);height:var(--hc-h);overflow:hidden;font:800 28px/1.05 system-ui,sans-serif;letter-spacing:.06em;color:transparent;text-align:center}
+h1::after{content:"";position:absolute;left:50%;top:0;height:100%;width:min(calc(var(--hc-h)*6.526),100%);transform:translateX(-50%);pointer-events:none;
+  background:url("visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_960.webp") center/contain no-repeat;
+  background-image:image-set(url("visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_960.webp") 1x,url("visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_1920.webp") 2x)}
 .lede{margin:0 auto 18px;max-width:62ch;text-align:center;color:var(--mute)}
 .card{background:rgba(8,7,5,.88);border:1px solid var(--gold-dim);padding:16px;margin:0 0 14px}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
