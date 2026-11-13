@@ -24,6 +24,9 @@
   const NEXT_WORD=Object.freeze({pre:"GO TO THE RUSSIAN ROULETTE",post:"GO TO SEASON RESULTS"});
   const LIST_MAX=Object.freeze({names:18,out:100,ov:150});
   let running=null,wentHome=false;
+  // 2.4.0: the Showdown ended for both players while this screen was up (the partner's END SHOWDOWN, seen by Terminal Close).
+  // end() takes the stage down at once and settles the open screen without a write; endGen tells the steps in flight.
+  let endGen=0,stageRivalry="",pending=null;
   const boardsMemo=new Map();// `${rid}|${season}` -> {playerOne:{formation,board}, playerTwo:{...}}
 
   function sqsDoc(){return root.document||null;}
@@ -99,14 +102,17 @@
   }
   // LOCK: one create. A document already there (this manager locked on another device, or the answer to an earlier tap was
   // lost) is read back and used: the tap is idempotent and nothing is overwritten (the Rules refuse updates anyway).
-  async function sqsCreate(io,ctx,doc){
+  // open() (optional): false once the screen was ended while the read ran, and then nothing is set.
+  async function sqsCreate(io,ctx,doc,open){
     const ref=sqsRef(io,ctx.season,ctx.stage,ctx.managerRole);
     const answer=await io.sdk.runTransaction(io.firestore,async tx=>{
       const snap=await tx.get(ref);
+      if(typeof open==="function"&&!open())return {ended:true};
       if(snap.exists())return {existing:snap.data()};
       tx.set(ref,{...doc,lockedAt:io.sdk.serverTimestamp()});
       return {created:doc};
     });
+    if(answer.ended)return {ok:false,code:"SQUAD_SCREEN_ENDED"};
     const data=answer.existing?sqsParse(answer.existing,ctx.season,ctx.stage,ctx.managerRole):answer.created;
     if(!data)return {ok:false,code:"SQUAD_BAD_DOCUMENT"};
     sqsKeep(sqsPointKey(ctx,ctx.managerRole,ctx.season,ctx.stage),data);
@@ -239,9 +245,22 @@
     root.setTimeout(()=>{if(loading)return;shown.el.hidden=true;shown.el.classList.add("hidden");if(shown.text)shown.text.textContent=shown.prior;},240);
   }
   function sqsClose(){sqsRemove();sqsLoadingOff();return true;}
+  function sqsSameRivalry(a,b){return String(a||"").trim().toLowerCase()===String(b||"").trim().toLowerCase();}
+  // Terminal Close calls this when the Showdown was ended (it then shows Showdown Home itself, so nothing here navigates).
+  // Only the stage of that Showdown is taken down; the open screen resolves "end" (its rival listener stops), a LOCK not yet
+  // sent is never sent, and the run resolves false so the next screen stays shut.
+  function sqsEnd(rivalryId){
+    const id=String(rivalryId||"").trim();
+    if(id&&!sqsSameRivalry(id,stageRivalry))return false;
+    endGen+=1;
+    const open=pending;pending=null;
+    try{open?.("end");}catch(_error){}
+    sqsClose();
+    return true;
+  }
   // The back button is .sqBack, never .backButton: the app's smart back (js/screens.js) takes every .backButton click first.
   function sqsShell(ctx,label){
-    const doc=sqsDoc();sqsRemove();
+    const doc=sqsDoc();sqsRemove();stageRivalry=String(ctx.rivalryId||"");
     const stage=doc.createElement("div");stage.id=STAGE_ID;stage.setAttribute("role","dialog");stage.setAttribute("aria-modal","true");stage.setAttribute("aria-label",label);stage.dataset.stage=ctx.stage;
     const shell=sqsEl("div","sqShell"),header=sqsEl("div","sqHeader");
     header.append(sqsEl("span","",`Season ${ctx.season}`),sqsEl("h2","sqTitle","Squad Management"),sqsEl("span","sqWhen",STAGE_WORD[ctx.stage]));
@@ -251,7 +270,8 @@
   }
   // A fault: TRY AGAIN or Showdown Home, on the stage itself.
   function sqsAsk(ctx,lines){
-    return new Promise(resolve=>{
+    return new Promise(done=>{
+      const resolve=answer=>{if(pending===resolve)pending=null;done(answer);};pending=resolve;
       sqsLoadingOff();
       const {stage,shell,status}=sqsShell(ctx,"Squad Management could not load");
       const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(lines.error);
@@ -291,7 +311,8 @@
       const back=sqsEl("button","sqBack","BACK TO SHOWDOWN HOME");back.type="button";
       actions.append(next,back);shell.append(host,actions);
       let stopWatch=null,done=false;
-      const finish=answer=>{if(done)return;done=true;try{stopWatch?.();}catch(_error){}resolve(answer);};
+      const finish=answer=>{if(done)return;done=true;if(pending===finish)pending=null;try{stopWatch?.();}catch(_error){}resolve(answer);};
+      pending=finish;
       back.addEventListener("click",()=>{back.disabled=true;finish("back");});
       // After NEXT the stage stays up (no flash) until the next screen is on top of it; it says so to assistive tech and tests.
       next.addEventListener("click",()=>{if(next.disabled)return;next.disabled=true;stage.dataset.state="leaving";stage.setAttribute("aria-hidden","true");finish("next");});
@@ -319,9 +340,11 @@
       const sheet=built.sheet||built.proposal;
       const mounted=Screen.mount(host,{sheet,club:ctx.clubs[ctx.managerRole],rival:ctx.clubs[rival],locked:Boolean(built.sheet),draft:built.sheet?null:sqsDraft(ctx),
         onLock:async locked=>{
+          if(done)return {ok:false,reason:"This Showdown has ended. Nothing was saved."};
           const doc={...S.toDoc(locked),schemaVersion:SCHEMA,objectType:OBJECT_TYPE,rivalryId:ctx.rivalryId,seasonNumber:ctx.season,stage:ctx.stage,role:ctx.managerRole};
           let result;
-          try{result=await sqsCreate(io,ctx,doc);}catch(error){result={ok:false,error};}
+          try{result=await sqsCreate(io,ctx,doc,()=>!done);}catch(error){result={ok:false,error};}
+          if(done)return {ok:false,reason:"This Showdown has ended."};
           if(!result.ok){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(result.error);return {ok:false,reason:quota||"Could not save your squad. Check the connection and try again."};}
           // Locked on another device first: that squad stands, and the screen shows it.
           if(result.existing){finish({reload:true});return {ok:true,reason:"Your squad was already locked on another device."};}
@@ -351,22 +374,27 @@
     // Seen to the end on this phone (locked, and before the Roulette both locked): straight on. The Roulette still gets both
     // boards from the kept documents (boards()).
     if(sqsIsDone(ctx))return true;
+    const gen=endGen,ended=()=>gen!==endGen;stageRivalry=String(ctx.rivalryId||"");
     for(;;){
       sqsLoadingOn();
       let answer;
       if(!await sqsEnsure())answer={retry:true,text:"The squad screen could not load. Check the connection and try again."};
+      else if(ended())return false;
       else{
         const history=await sqsHistory(ctx);
-        const built=history.ok?await sqsBuild(ctx,io,ctx.managerRole,history):{ok:false,reason:history.reason==="SHOT"?"SHOT":"VERDICTS",season:history.season};
+        const built=ended()?null:history.ok?await sqsBuild(ctx,io,ctx.managerRole,history):{ok:false,reason:history.reason==="SHOT"?"SHOT":"VERDICTS",season:history.season};
+        if(ended())return false;
         if(!built.ok)answer={retry:true,text:sqsReadText(built),error:built.error};
         // After the Transfer War nobody waits for anyone: a squad already locked (on another device) is simply kept.
         else if(built.sheet&&ctx.stage==="post"){sqsMarkDone(ctx);return true;}
         else{if(ctx.stage==="pre")sqsWarmPlayerList();answer=await sqsScreen(ctx,io,history,built);}
       }
+      if(answer==="end"||ended())return false;
       if(answer==="next"){sqsMarkDone(ctx);return true;}
       if(answer==="back"){wentHome=true;return false;}
       if(answer&&answer.reload)continue;
       const choice=await sqsAsk(ctx,answer||{text:"Something went wrong. Try again."});
+      if(choice==="end"||ended())return false;
       if(choice==="back"){wentHome=true;return false;}
     }
   }
@@ -462,6 +490,6 @@
   }
 
   return Object.freeze({contractVersion:1,feature:"cms-squad-management-step",stageId:STAGE_ID,collection:COLLECTION,keptKey:KEPT_KEY,doneKey:DONE_KEY,
-    applies:sqsApplies,ensure:sqsEnsure,run:sqsRun,boards:sqsBoards,history:sqsHistory,close:sqsClose,isDone:sqsIsDone,markDone:sqsMarkDone,wentHome:()=>wentHome,
+    applies:sqsApplies,ensure:sqsEnsure,run:sqsRun,boards:sqsBoards,history:sqsHistory,close:sqsClose,end:sqsEnd,isDone:sqsIsDone,markDone:sqsMarkDone,wentHome:()=>wentHome,
     events:sqsEvents,parse:sqsParse,gazetteNews:sqsGazetteNews,gazetteWarm:sqsGazetteWarm,gazetteEnsure:sqsGazetteEnsure,docId:sqsDocId,store:Object.freeze({get:sqsGet,create:sqsCreate,watch:sqsWatch})});
 });
