@@ -90,6 +90,10 @@ assert.ok(fs.existsSync(path.join(root, "visual-assets/v10_1/plates-hc/ENV_SLAB_
 { const rs = read("css/rulesSettingsV10.css");
   assert.ok(rs.includes(`@media ${BIG}`), "C5 Rule Book keeps its big-window slab rule");
   assert.match(rs, /ENV_SLAB_HC_V1_1920\.webp'\) 1\.25x/, "C5 Rule Book and Settings draw the slab's 1920 cut at 1.25x"); }
+{ const cm = read("css/chamberMen.css");
+  assert.ok(cm.includes(`@media ${BIG}`), "C5 Chamber Men keeps its big-window slab rule");
+  assert.match(cm, /ENV_SLAB_HC_V1_1920\.webp"\) 1\.25x/, "C5 Chamber Men draws the slab's 1920 cut at 1.25x");
+  assert.match(cm, /@media \(min-width: 761px\), \(orientation: landscape\) \{\s*html:is\(\[data-assets="2"\]/, "C5 Chamber Men's 2X slab stays off upright phones (they keep the phone slab)"); }
 // HO-069 rooms: Start / Showdown Home (front hall) and Squad Management (coaches room) take their 1920 cut too.
 assert.match(read("css/v10Setup.css"), /ENV_HALL_PLATE_HC_V3_1920\.webp[^ ]{0,6} 1\.25x/, "C5 Start draws the hall's 1920 cut at 1.25x");
 assert.match(read("css/squadScreen.css"), /ENV_COACHES_PLATE_HC_V3_1920\.webp[^ ]{0,6} 1\.25x/, "C5 Squad Management draws the coaches room's 1920 cut at 1.25x");
