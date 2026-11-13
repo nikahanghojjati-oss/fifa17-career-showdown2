@@ -2548,8 +2548,9 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
    is shown the room grows by the chip row, so the panel (upright) or the counter lip (sideways) moves with it and one
    gap stays between the totals and whatever comes next. Nothing moves when no chip is shown (a Showdown from before r86). */
 @media (max-width:760px) and (orientation:portrait) {
+ /* 116px: 80 and the chip row. At 12px the chip is 21px tall, or 33px when a long name ("Oxlade-Chamberlain") takes two lines. */
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer),
- #app #seasonEntry.seasonScreenV10.v10FinalMode:has(.fwSpecialPlayer) { --fw-copy:103px; }
+ #app #seasonEntry.seasonScreenV10.v10FinalMode:has(.fwSpecialPlayer) { --fw-copy:116px; }
 }
 @media (min-width:700px) and (max-width:760px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer),
@@ -2566,14 +2567,21 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer) .finalWinnerHeroCopySlot { width:min(40%,320px); }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer { order:0; justify-self:center; max-width:calc(100% - 8px); margin:2px 0 0; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip {
-  display:inline-flex; align-items:center; gap:.3em; max-width:100%; margin:0; padding:.1em .45em .1em .12em; font-size:10.5px; line-height:1.3; border-radius:999px;
+  display:inline-flex; align-items:center; gap:.3em; max-width:100%; margin:0; padding:.1em .45em .1em .12em; font-size:12px; line-height:1.25; border-radius:12px;
   background:var(--sp-tier-bg); color:var(--sp-tier-ink);
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipRank { display:none; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipTag { grid-row:auto; background:rgba(5,6,8,.78); color:var(--sd-gold-300,#ffd34d); }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipTag::after { content:" ·"; }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipName { color:inherit; max-width:9.5em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipName { color:inherit; }
 }
+/* r91, the chip at 12px on Final Winner (it was 10px here, with long names cut to "A. Oxlade-Cham..."). At every size the
+   chip shows the surname ("Lewandowski", not "R. Lewandowski"; the title keeps the full name) and a name that is still too
+   long takes a second line at its hyphen or space. On desktop the chip keeps Team V's two-line card beside the trophy (SP
+   and the name, the rank under them) inside the same 112px, so it comes no nearer the trophy than before. */
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip { font-size:12px; line-height:1.2; border-radius:10px; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipFirst { display:none; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipName { max-width:none; overflow:visible; text-overflow:clip; white-space:normal; }
 `;
     parent.appendChild(style);
   }
