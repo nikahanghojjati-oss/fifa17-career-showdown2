@@ -3247,6 +3247,13 @@
         "^js/productionSharedTerminalClose\\.js$",
         "^tests/contracts/r91-squad-terminal-close-contracts\\.cjs$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-confirm-after-outage-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonResults\\.js$",
+        "^tests/contracts/r91-confirm-after-outage-contracts\\.cjs$"
+      ]
     }
   ]
 }

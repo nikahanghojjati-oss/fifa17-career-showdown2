@@ -77,6 +77,7 @@
   // JOB-1611: provider codes that mean "contended", not "refused": Firestore lock contention after the SDK's own retries.
   const PSSR_CONTENTION_CODES=Object.freeze(["aborted","failed-precondition","permission-denied","firestore/permission-denied","permission_denied"]);
   const PSSR_CONTENTION_RETRY_MS=Object.freeze([500,1000,1500]);
+  const PSSR_BACK_MS=1000,PSSR_BACK_TRIES=600;
   const PSSR_DENIED_CODES=Object.freeze(["permission-denied","firestore/permission-denied","permission_denied"]),PSSR_READ_RETRY_CODES=Object.freeze([...PSSR_CONTENTION_CODES,"unavailable","deadline-exceeded","SEASON_RESULTS_PROVIDER_UNAVAILABLE","SEASON_RESULTS_PROVIDER_FAILED"]);
   function pssrWait(ms){return new Promise(resolve=>{const timer=typeof root.setTimeout==="function"?root.setTimeout:setTimeout;timer(resolve,ms);});}
   // JOB-1611: the reads inside a publish meet the same contention; they get the same bounded wait before failing as before.
@@ -220,7 +221,7 @@
     if(draft.contextKey!==contextKey||draft.seasonNumber!==view.seasonNumber||draft.managerRole!==view.managerRole){pssrSetError("This Showdown's season changed while you were reviewing. Review your result again.");draft=null;return false;}
     let currentResult;try{currentResult=pssrReadForm(view.managerRole);}catch(error){pssrSetError(error.message||error.code);return false;}
     if(pssrFingerprint(currentResult)!==draft.fingerprint){pssrSetError("Your result changed after you reviewed it. Tap EDIT MY RESULT, review it again, then publish.");return false;}
-    const request=pssrRequestContext();if(!request||!pssrContextMatches(request))return false;busy=true;pssrSetError("");const publishRole=view.managerRole;pssrRender();
+    const request=pssrRequestContext();if(!request||!pssrContextMatches(request))return false;if(backTimer!==null){try{root.clearTimeout?.(backTimer);}catch(_error){}backTimer=null;}busy=true;pssrSetError("");const publishRole=view.managerRole;let failed="";pssrRender();
     try{
       return await pssrQueueProvider(async()=>{
         const ctx=await pssrProviderContext(request);if(!pssrContextMatches(request))return false;
@@ -244,8 +245,30 @@
           pssrDraftClear(publishRole,request);view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
         }
       });
-    }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Confirming your season result failed.");pssrReport("Could not confirm your season result",error);}return false;}
-    finally{busy=false;if(pssrContextMatches(request))pssrRender();}
+    }catch(error){failed=error.message||error.code||"Confirming your season result failed.";if(pssrContextMatches(request)){pssrSetError(failed);pssrReport("Could not confirm your season result",error);failed="";}return false;}
+    finally{busy=false;if(pssrContextMatches(request))pssrRender();else pssrRenderWhenBack(request,failed);}
+  }
+  // W1 (2.4.0): a publish can end while this phone has no connection and its Season Results context is not readable (the
+  // Showdown's setup is unavailable offline). It then had nothing to draw on: the screen kept the CONFIRM button it drew as
+  // busy (disabled) and, before this manager confirms, no poll redraws it, so the button stayed off after the signal came back.
+  // Once the same context is back, the screen is drawn again (button on, the failure said); no read, a local check each second.
+  let backTimer=null;
+  function pssrRenderWhenBack(request,message){
+    const timer=typeof root.setTimeout==="function"?root.setTimeout:null;if(!timer||!request)return;
+    if(backTimer!==null)try{root.clearTimeout?.(backTimer);}catch(_error){}
+    let tries=0;
+    // It stops for good the moment a new publish starts or the Season Results screen is not on (Home after END SHOWDOWN, any
+    // other screen), so it never draws over another screen.
+    const check=()=>{
+      backTimer=null;const entry=pssrField("seasonEntry");
+      if(busy||!entry||entry.classList.contains("hidden"))return;
+      const current=pssrRequestContext();
+      // Only the same context is drawn; another save or season (offline the season can read differently) is left to its own
+      // screen, and the check goes on until the same one is back or the time is up.
+      if(current&&current.key===request.key){if(message)pssrSetError(message);pssrRender();return;}
+      if((tries+=1)<PSSR_BACK_TRIES)backTimer=timer(check,PSSR_BACK_MS);
+    };
+    backTimer=timer(check,PSSR_BACK_MS);
   }
   async function pssrOpen(){
     const navAtTap=typeof root.getNavigationRevision==="function"?root.getNavigationRevision():null;
