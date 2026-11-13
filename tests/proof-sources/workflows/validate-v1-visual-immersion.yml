@@ -58,12 +58,17 @@ jobs:
           );
           assert.ok(app.includes(`const APP_VERSION = "${appVersion}"`), 'The application version declaration is inconsistent.');
           assert.ok(html.includes('id="loadingScreen" role="status" aria-live="polite" aria-busy="true"'), 'Startup status semantics are missing.');
-          // HO-030 (r78): startup shows the edited marble crops (desktop and phone) of the licensed portrait, each a WebP under 95 KB.
-          assert.ok(html.includes(`src="assets/LOADING_REUS_DESKTOP.webp?v=${revision}"`) && html.includes(`srcset="assets/LOADING_REUS_PHONE.webp?v=${revision}"`), 'Startup portrait is missing or stale.');
-          for (const loadingPath of ['assets/LOADING_REUS_DESKTOP.webp', 'assets/LOADING_REUS_PHONE.webp']) {
-            const loadingPicture = fs.readFileSync(loadingPath);
-            assert.strictEqual(loadingPicture.subarray(0, 4).toString('ascii') + loadingPicture.subarray(8, 12).toString('ascii'), 'RIFFWEBP', `${loadingPath} is not WebP.`);
-            assert.ok(loadingPicture.length <= 95000, `${loadingPath} exceeds 95 KB (${loadingPicture.length}).`);
+          // HO-072 (r91): startup shows Team V's tunnel room with the cut-out of the licensed portrait in front. First paint is
+          // the light pair: desktop under 220 KB, phone no heavier than the 95 KB picture it replaces.
+          assert.ok(html.includes(`id="startupAthlete" class="startupReus" src="assets/loading/REUS_D_1X.webp?v=${revision}"`) && html.includes(`srcset="assets/loading/REUS_P_590W.webp?v=${revision}"`), 'Startup portrait is missing or stale.');
+          for (const [pair, cap] of [[['assets/loading/ENV_LOADING_PLATE_HC_1X.webp', 'assets/loading/REUS_D_1X.webp'], 220000], [['assets/loading/ENV_LOADING_PHONE_HC_590W.webp', 'assets/loading/REUS_P_590W.webp'], 95000]]) {
+            let weight = 0;
+            for (const loadingPath of pair) {
+              const loadingPicture = fs.readFileSync(loadingPath);
+              assert.strictEqual(loadingPicture.subarray(0, 4).toString('ascii') + loadingPicture.subarray(8, 12).toString('ascii'), 'RIFFWEBP', `${loadingPath} is not WebP.`);
+              weight += loadingPicture.length;
+            }
+            assert.ok(weight <= cap, `${pair.join(' + ')} exceeds ${cap} bytes (${weight}).`);
           }
           assert.ok(menu.includes(`thumbnail: "${portraitPath}?v=${revision}"`), 'Home must reuse the same portrait cache entry.');
           assert.strictEqual(portrait.subarray(0, 4).toString('ascii'), 'RIFF', 'Portrait is not a valid RIFF WebP container.');

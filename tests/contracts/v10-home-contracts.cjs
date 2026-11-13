@@ -141,8 +141,17 @@ test("Home registers through job 24's loader with Team V's CSS and the adapter; 
   assert.deepEqual([...Home.HOME_CSS],["home/home.css","../../css/homeV10.css"]);
   assert.doesNotMatch(binder,/register\("loadingScreen"/);
 });
-test("Loading stays the app's splash: edited Reus photo (HO-030) and its credit",()=>{
-  assert.match(html,/<source media="\(max-aspect-ratio: 7\/5\)" srcset="assets\/LOADING_REUS_PHONE\.webp\?v=[^"]+" width="1179" height="2096">\n<img id="startupAthlete" src="assets\/LOADING_REUS_DESKTOP\.webp\?v=[^"]+" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">/,"HO-030: the edited Reus photo (phone and desktop crops) is the splash picture");
+test("Loading stays the app's splash: the Reus photo in Team V's tunnel room (HO-072) and its credit",()=>{
+  assert.match(html,/<source media="\(orientation: portrait\)" srcset="assets\/loading\/ENV_LOADING_PHONE_HC_590W\.webp\?v=[^"]+" width="590" height="1049">\n<img class="startupRoom" src="assets\/loading\/ENV_LOADING_PLATE_HC_1X\.webp\?v=[^"]+" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">/,"HO-072: Team V's tunnel room (phone and desktop) is the first layer of the splash");
+  assert.match(html,/<source media="\(orientation: portrait\)" srcset="assets\/loading\/REUS_P_590W\.webp\?v=[^"]+" width="521" height="881">\n<img id="startupAthlete" class="startupReus" src="assets\/loading\/REUS_D_1X\.webp\?v=[^"]+" width="793" height="1339" alt="" decoding="async" fetchpriority="high">/,"HO-072: the cut-out of the licensed Reus photo (phone and desktop) stands in the room");
+  assert.equal([...html.matchAll(/<link rel="preload" as="image" href="assets\/loading\/(?:ENV_LOADING_PLATE_HC_1X|REUS_D_1X|ENV_LOADING_PHONE_HC_590W|REUS_P_590W)\.webp\?v=[^"]+" media="\(orientation: (?:portrait|landscape)\)" fetchpriority="high">/g)].length,4,"first paint preloads only the light pair for the window's shape");
+  for(const sharp of ["ENV_LOADING_PHONE_HC","ENV_LOADING_PLATE_HC_2X","REUS_P","REUS_D_2X"]){
+    assert.match(html,new RegExp(`<source media="\\(orientation: (?:portrait|landscape)\\) and [^"]+" srcset="assets/loading/${sharp}\\.webp" width="\\d+" height="\\d+">`),`the sharp ${sharp} layer is asked for by sharp or large screens only, after first paint`);
+    assert.ok(fs.existsSync(path.join(ROOT,"assets/loading",sharp+".webp")),sharp);
+    assert.ok(!sw.includes(`assets/loading/${sharp}.webp`),`${sharp} is not precached`);
+  }
+  assert.match(html,/<img class="startupIdentity" src="assets\/loading\/LOGO_CM17_WORDMARK_V3_640\.webp\?v=[^"]+" width="640" height="107" alt="" decoding="async">/,"the title is the V3 logo lettering, live on the cover (no lettering is baked into the layers)");
+  assert.deepEqual(fs.readFileSync(path.join(ROOT,"assets/loading/LOGO_CM17_WORDMARK_V3_640.webp")),fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp")),"the cover's logo is Team V's file, byte for byte");
   assert.ok(fs.existsSync(path.join(ROOT,"assets/marco-reus-2015-cc-by.webp")),"the licensed source photo stays");
   assert.match(html,/<p class="startupPhotoCredit">Marco Reus photo: <a [^>]*>Tim Reckmann<\/a> · <a [^>]*>CC BY 2\.0<\/a> · Cropped and edited for display<\/p>/,"HO-030: credit keeps Tim Reckmann, CC BY 2.0 and says edited");
   assert.doesNotMatch(binder,/loadingScreen|startupPhotoCredit|startupIdentity/);
