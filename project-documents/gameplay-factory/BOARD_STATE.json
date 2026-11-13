@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-13 2:13 PM Boston time (EST)",
+ "generated": "2026-11-13 2:18 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 277,
@@ -2549,7 +2549,22 @@
    "revision": "2.3.0-r90",
    "when": "2026-11-11T04:23:01-05:00",
    "subject": "Release 2.3.0 (r90): cut the waste, quality first (#1348)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1444,
+     "title": "Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100",
+     "draft": false,
+     "branch": "gameplay/r91",
+     "sha": "712f6301abff2b9e1052acfb6dbd56a191b995df",
+     "updated": "2026-11-13T19:17:39Z",
+     "gates": {
+      "passed": 1,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
@@ -3341,7 +3356,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 8169
+    "waiting_min": 8173
    },
    {
     "id": "HO-059",
@@ -3673,7 +3688,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -4889,7 +4904,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1444,
+    "title": "Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100",
+    "draft": false,
+    "branch": "gameplay/r91",
+    "sha": "712f6301abff2b9e1052acfb6dbd56a191b995df",
+    "updated": "2026-11-13T19:17:39Z",
+    "gates": {
+     "passed": 1,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
