@@ -527,6 +527,164 @@ function rebuildsSame(club,special,season,stage,events,locked,label){
   ok('C20',`namesake fuzz: ${stats.careers} careers (the hunt's stuck seeds 388, 653, 1111, 1112, 1154 among them), ${stats.screens} locked screens, ${stats.buyBacks} buy-backs, ${stats.collisions} screens with a signing named like a club player: every proposal locks, every reload reads the same, no shot man returns`);
 }
 
+// C21 (R92-01, Nik 2026-11-13 19:26 UTC "Yes, check the exact player"): the squad engine bars the exact man by his SoFIFA
+// playerId when it is known, the name otherwise, exactly as the Transfer War LOCK refuses (pstcRouletteBlocked +
+// pstcBlockedFor). A different man who only shares a shot or guessed signing's name joins; the same man under another
+// spelling, a typed (id-less) entry, a shot club player's name and a Special Player's never do. Both phones rebuild the same.
+{
+  const Step=require('../../js/squadSheetStep.js');
+  const TW=require('../../js/productionSharedTransferChallenge.js');
+  const ev=(rows,hit)=>Step.events({verdicts:{playerOne:rows,playerTwo:[]},hits:{playerOne:hit||{fired:false}}},'playerOne');
+  const at=(p,name)=>[...p.xi,...p.bench,...p.reserves].find(x=>x&&x.id===sq(name))||null;
+  const club='Arsenal';
+  // S1: L. Suárez kept (picked, 176580). S2: the roulette shoots him. S3: another L. Suárez (id 999) is signed.
+  {
+    const events=[null,ev([{slot:1,name:'L. Suárez',overall:95,position:'ST',release:false,playerId:176580}])];
+    let p=S.replay({club,special:null,season:2,stage:'pre',events,docs:{}}).proposal;
+    const i=S.board(p).findIndex(x=>x.name==='L. Suárez');assert.ok(i>=0,'he is on the S2 board');
+    events[2]=ev([],{fired:true,hitName:'L. Suárez',hitNumber:null,hitSlot:i,hitSignedSeason:1,version:'v'});
+    p=S.replay({club,special:null,season:2,stage:'post',events,docs:{}}).proposal;
+    assert.equal(at(p,'L. Suárez'),null,'shot: gone');assert.deepEqual(p.barIds[sq('L. Suárez')],[176580],'the bar holds his id');
+    assert.equal(S.barredAs(p,{name:'L. Suárez',playerId:999}),null,'another L. Suárez is not barred');
+    assert.equal(S.barredAs(p,{name:'Luis Suárez',playerId:176580}),'shot','the same man under another spelling is');
+    assert.equal(S.barredAs(p,{name:'L. Suarez'}),'shot','a typed name with no id is (the name)');
+    events[3]=ev([{slot:1,name:'L. Suárez',overall:94,position:'ST',release:false,playerId:999},{slot:2,name:'Luis Suárez',overall:80,position:'ST',release:false,playerId:176580}]);
+    const s3=S.replay({club,special:null,season:3,stage:'post',events,docs:{}}).proposal;
+    const him=at(s3,'L. Suárez');assert.ok(him&&him.rating===94&&him.signedSeason===3,'the other L. Suárez joins as a new signing');
+    assert.equal(at(s3,'Luis Suárez'),null,'the shot man under another spelling does not');
+    assert.ok(s3.notes.some(n=>n.name==='Luis Suárez'&&n.reason==='excluded')&&!s3.notes.some(n=>n.reason==='bought-back'),'the screen says why, and never "bought back"');
+    assert.ok(S.validate(s3).ok,S.validate(s3).problems.join());
+    rebuildsSame(club,null,3,'post',events,s3,'R92-01 namesake after a shot');
+    // the new man is shot too: both ids barred from then on, and a reload of every later screen reads the same
+    let s4=S.replay({club,special:null,season:4,stage:'pre',events,docs:{}}).proposal;
+    const j=S.board(s4).findIndex(x=>x.name==='L. Suárez');
+    if(j>=0){
+      events[4]=ev([],{fired:true,hitName:'L. Suárez',hitNumber:null,hitSlot:j,hitSignedSeason:3,version:'v'});
+      s4=S.replay({club,special:null,season:4,stage:'post',events,docs:{}}).proposal;
+      assert.deepEqual(s4.barIds[sq('L. Suárez')],[999,176580],'both men barred');
+    }
+  }
+  // Guessed: Rodrigo (picked, 111) guessed in S1; a different Rodrigo (222) kept in S2 joins, and a loan of his ends.
+  {
+    const events=[null,ev([{slot:1,name:'Rodrigo',overall:75,position:'ST',release:true,playerId:111}]),ev([{slot:1,name:'Rodrigo',overall:79,position:'ST',release:false,playerId:222},{slot:2,name:'Rodrigo Moreno',overall:75,position:'ST',release:false,playerId:111}])];
+    const s2=S.replay({club,special:null,season:2,stage:'post',events,docs:{}}).proposal;
+    assert.ok(at(s2,'Rodrigo'),'the other Rodrigo joins');assert.equal(at(s2,'Rodrigo Moreno'),null,'the guessed man respelled does not');
+    assert.ok(!s2.guessed.includes(sq('Rodrigo')),'the old guess no longer holds his name');
+    rebuildsSame(club,null,2,'post',events,s2,'R92-01 namesake after a guess');
+    events[3]=ev([]);
+    let s3=S.replay({club,special:null,season:3,stage:'pre',events,docs:{}}).proposal;
+    const r=S.leave(s3,sq('Rodrigo'),'loaned');assert.ok(r.ok,r.reason);s3=r.sheet;
+    const docs={'3_pre':{...S.toDoc(s3),rivalryId:'pair_x',role:'playerOne'}};
+    const s4=S.replay({club,special:null,season:4,stage:'pre',events,docs}).proposal;
+    assert.ok(at(s4,'Rodrigo'),'his loan ends: back at the club in season 4');
+    // A guessed typed (id-less) entry still bars the whole name, and string events from an earlier build read as before.
+    const typed=S.replay({club,special:null,season:2,stage:'post',events:[null,ev([{slot:1,name:'Rodrigo',overall:75,position:'ST',release:true}]),ev([{slot:1,name:'Rodrigo',overall:79,position:'ST',release:false,playerId:222}])],docs:{}}).proposal;
+    assert.equal(at(typed,'Rodrigo'),null,'a typed guess bars the name');
+    const old=S.replay({club,special:null,season:2,stage:'post',events:[null,{shot:null,released:['Rodrigo'],kept:[]},{shot:null,released:[],kept:[{name:'Rodrigo',overall:79,position:'ST',playerId:222}]}],docs:{}}).proposal;
+    assert.equal(at(old,'Rodrigo'),null,'a string guess (earlier build) bars the name');
+    // Codex on #1448: a later guess of a third Rodrigo (333) is another man than the one at the club (222): 222 stays and
+    // only 333 is barred; a guess of 222 himself, or a typed guess (no id), releases him; a man who joined with no id goes
+    // by the name; and a loan of 222 ends as usual after a guess of 333.
+    const g3=(row)=>[...events.slice(0,3),ev([{slot:1,name:'Rodrigo',overall:70,position:'ST',release:true,...row}])];
+    const other=S.replay({club,special:null,season:3,stage:'post',events:g3({playerId:333}),docs:{}}).proposal;
+    const stays=at(other,'Rodrigo');assert.ok(stays&&stays.signedSeason===2&&stays.rating===79,'Rodrigo 222 stays at the club');
+    assert.deepEqual(other.barIds[sq('Rodrigo')],[111,333],'only the guessed ids are barred');
+    assert.ok(!other.guessed.includes(sq('Rodrigo'))&&!other.excluded.includes(sq('Rodrigo'))&&!other.notes.some(n=>n.reason==='guessed'),'not released, not away');
+    assert.ok(S.validate(other).ok,S.validate(other).problems.join());
+    rebuildsSame(club,null,3,'post',g3({playerId:333}),other,'R92-01 guess of a third namesake');
+    assert.equal(at(S.replay({club,special:null,season:3,stage:'post',events:g3({playerId:222}),docs:{}}).proposal,'Rodrigo'),null,'a guess of 222 himself releases him');
+    assert.equal(at(S.replay({club,special:null,season:3,stage:'post',events:g3({}),docs:{}}).proposal,'Rodrigo'),null,'a typed guess releases him (the name)');
+    const noId=[null,ev([]),ev([{slot:1,name:'Rodrigo',overall:79,position:'ST',release:false}]),ev([{slot:1,name:'Rodrigo',overall:70,position:'ST',release:true,playerId:333}])];
+    assert.equal(at(S.replay({club,special:null,season:3,stage:'post',events:noId,docs:{}}).proposal,'Rodrigo'),null,'a man who joined with no id goes by the name');
+    {
+      const evs=g3({playerId:333});evs[3]={...evs[3]};
+      let p3=S.replay({club,special:null,season:3,stage:'pre',events:evs,docs:{}}).proposal;
+      const r3=S.leave(p3,sq('Rodrigo'),'loaned');assert.ok(r3.ok,r3.reason);p3=r3.sheet;
+      const d3={'3_pre':{...S.toDoc(p3),rivalryId:'pair_x',role:'playerOne'}};
+      evs[4]=ev([]);
+      const p4=S.replay({club,special:null,season:4,stage:'pre',events:evs,docs:d3}).proposal;
+      assert.ok(at(p4,'Rodrigo'),'a loan of 222 ends after a guess of 333');
+    }
+    // Codex on #1448 (2nd): Rodrigo 111 kept in S1 and sold before the S2 window, Rodrigo 222 kept in S2, Rodrigo 111 guessed
+    // in S3. Whether 222 joined new or as 111 bought back depends on the manager's moves, which a phone holding only a later
+    // document never replays, so the release reads the verdict rows only: 111 was kept under that name before, so the name
+    // decides (as before R92-01) and every phone, whichever documents it holds, rebuilds the same squad.
+    {
+      const evs=[null,ev([{slot:1,name:'Rodrigo',overall:75,position:'ST',release:false,playerId:111}])];
+      let p2=S.replay({club,special:null,season:2,stage:'pre',events:evs,docs:{}}).proposal;
+      const sold=S.leave(p2,sq('Rodrigo'),'sold');assert.ok(sold.ok,sold.reason);p2=sold.sheet;
+      const dPre={'2_pre':{...S.toDoc(p2),rivalryId:'pair_x',role:'playerOne'}};
+      evs[2]=ev([{slot:1,name:'Rodrigo',overall:80,position:'ST',release:false,playerId:222}]);
+      const live=S.replay({club,special:null,season:2,stage:'post',events:evs,docs:dPre}).proposal;
+      assert.ok(at(live,'Rodrigo'),'222 is at the club after S2');
+      const dPost={'2_post':{...S.toDoc(live),rivalryId:'pair_x',role:'playerOne'}};
+      evs[3]=ev([{slot:1,name:'Rodrigo',overall:70,position:'ST',release:true,playerId:111}]);
+      const s3=[dPre,dPost,{...dPre,...dPost}].map(ds=>S.replay({club,special:null,season:3,stage:'post',events:evs,docs:ds}).proposal);
+      assert.equal(new Set(s3.map(x=>JSON.stringify([x.excluded,x.guessed,S.board(x)]))).size,1,'every phone rebuilds the same S3 squad');
+      assert.equal(at(s3[0],'Rodrigo'),null,'a guess of an id kept before goes by the name');
+      for(const x of s3)assert.ok(S.validate(x).ok,S.validate(x).problems.join());
+      // and a guess of an id never kept under that name leaves 222 at the club on every phone
+      evs[3]=ev([{slot:1,name:'Rodrigo',overall:70,position:'ST',release:true,playerId:333}]);
+      for(const ds of [dPre,dPost,{...dPre,...dPost}])assert.ok(at(S.replay({club,special:null,season:3,stage:'post',events:evs,docs:ds}).proposal,'Rodrigo'),'222 stays after a guess of 333');
+    }
+  }
+  // A shot club player bars the whole name; a Special Player's name is barred whatever the id.
+  {
+    const events=[null,ev([])];
+    let p=S.replay({club,special:null,season:1,stage:'pre',events,docs:{}}).proposal;
+    const i=S.board(p).findIndex(x=>x.signedSeason===null&&x.name);const name=S.board(p)[i].name;
+    events[1]=ev([],{fired:true,hitName:name,hitNumber:S.board(p)[i].number,hitSlot:i,hitSignedSeason:null,version:'v'});
+    p=S.replay({club,special:null,season:1,stage:'post',events,docs:{}}).proposal;
+    assert.equal(S.barredAs(p,{name,playerId:12345}),'shot',`a shot club player (${name}) bars his name for every id`);
+    const sp=S.replay({club,special:{playerOne:{name:'N. Kanté',overall:81},playerTwo:null},season:1,stage:'post',events:[null,ev([{slot:1,name:'N. Kanté',overall:81,position:'CDM',release:false,playerId:215914}])],docs:{}}).proposal;
+    assert.equal(at(sp,'N. Kanté'),null,'a Special Player never joins, id or not');
+  }
+  // Parity fuzz: random careers with namesakes (one name, several ids), respellings (one id, several names) and typed
+  // entries; rows LOCK refuses are never locked. At every Transfer War, for every candidate (name, id or none), LOCK refuses
+  // exactly when the engine bars him; every proposal locks and a reload reads the same.
+  {
+    const mul=seed=>{let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};};
+    const P15=['GK','CB','RB','LB','CDM','CM','CAM','RM','LM','RW','LW','ST'];
+    const stats={careers:0,windows:0,compared:0,refused:0,namesakesIn:0};
+    function career(seed){
+      const r=mul(seed),pick=a=>a[Math.floor(r()*a.length)];
+      const club=pick(clubs),seasons=pick([3,5,6]);
+      // the men: [name, id]; namesakes share a name, respellings share an id
+      const men=[];for(let i=0;i<8;i+=1){const base=`Fuzz Man ${seed%97}-${i}`;men.push([base,1000+i]);if(r()<0.6)men.push([base,2000+i]);if(r()<0.4)men.push([`${base} Jr`,1000+i]);}
+      const own=Players.clubs[club].players.map(x=>x[0]);for(let i=0;i<2;i+=1)men.push([pick(own),3000+i]);
+      const earlier=[null],hits={},events=[null];
+      for(let k=1;k<=seasons;k+=1){
+        const pre=S.replay({club,special:null,season:k,stage:'pre',events,docs:{}});assert.ok(!pre.error,`seed ${seed}: ${pre.error}`);
+        const board=S.board(pre.proposal),filled=board.map((x,i)=>[x,i]).filter(([x])=>x.name),hitAt=r()<0.6?pick(filled):null;
+        const hit=hitAt?{fired:true,hitName:hitAt[0].name,hitNumber:hitAt[0].number,hitSlot:hitAt[1],hitSignedSeason:hitAt[0].signedSeason,version:'v'}:{fired:false};
+        hits[k]={playerOne:hit,playerTwo:null};
+        const map=TW.rouletteBlocked(earlier,hits,k,'playerOne');
+        const now=S.replay({club,special:null,season:k,stage:'post',events:events.concat([ev([],hit)]),docs:{}});assert.ok(!now.error,now.error);
+        for(const [name,id] of men)for(const pid of [id,null]){
+          const lock=Boolean(TW.blockedFor(map,name,pid)),eng=S.barredAs(now.proposal,{name,playerId:pid});
+          assert.equal(lock,Boolean(eng),`seed ${seed} S${k}: ${name} id ${pid}: LOCK ${lock?'refuses':'accepts'} but the engine ${eng?'bars':'lets him in'}`);
+          stats.compared+=1;if(lock)stats.refused+=1;
+        }
+        const rows=[];
+        for(let slot=1;slot<=3;slot+=1){
+          if(r()<0.25)continue;const [name,id]=pick(men),pid=r()<0.25?null:id;
+          if(TW.blockedFor(map,name,pid))continue;// LOCK refuses him: never locked
+          if(pid!==null&&map.get(TW.nameKey(name)))stats.namesakesIn+=1;
+          rows.push({slot,name,overall:55+Math.floor(r()*35),position:pick(P15),release:r()<0.3,...(pid===null?{}:{playerId:pid})});
+        }
+        earlier[k]={playerOne:rows,playerTwo:[]};events[k]=ev(rows,hit);stats.windows+=1;
+        const post=S.replay({club,special:null,season:k,stage:'post',events,docs:{}});assert.ok(!post.error,post.error);
+        assert.ok(S.validate(post.proposal).ok,`seed ${seed} S${k} post locks: ${S.validate(post.proposal).problems[0]}`);
+        if(k<seasons)rebuildsSame(club,null,k,'post',events,post.proposal,`seed ${seed} S${k} post`);
+      }
+      stats.careers+=1;
+    }
+    for(let seed=1;seed<=150;seed+=1)career(seed);
+    assert.ok(stats.namesakesIn>20&&stats.refused>100,`the fuzz reaches namesakes let in (${stats.namesakesIn}) and refusals (${stats.refused})`);
+    ok('C21',`R92-01: the engine bars the exact man by playerId, the name when an id is missing (shot signing, guessed, respelled, typed, shot club player, Special Player); parity fuzz ${stats.careers} careers, ${stats.windows} windows, ${stats.compared} candidates: LOCK refuses exactly what the engine bars (${stats.refused} refused, ${stats.namesakesIn} namesakes let in), every proposal locks and reloads the same`);
+  }
+}
+
 (async()=>{
   const fs=require('node:fs'),path=require('node:path');
   const Step=require('../../js/squadSheetStep.js');

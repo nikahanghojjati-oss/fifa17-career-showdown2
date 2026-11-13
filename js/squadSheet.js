@@ -186,8 +186,39 @@
   //   his first window). Only kept so a man who left and was bought back (C2) reads the same from a stored document.
   // - guessed [id]: every signing name the rival guessed; a signing of that name away on loan then is released too.
   //   (barred keeps the first reason only, for the screen's note.)
+  // R92-01 (Nik 2026-11-13 19:26 UTC, "Yes, check the exact player"): a bar matches the exact man by his SoFIFA playerId when
+  // it is known, exactly as the Transfer War LOCK refuses (js/productionSharedTransferChallenge.js pstcRouletteBlocked).
+  // - barIds {id: [playerId, 0]}: the ids a bar holds under any name; 0 = it holds the whole name too. A bar not listed here
+  //   holds the whole name only (a shot club player, a Special Player, a sheet from an earlier build). A guessed row bars its
+  //   own id (the whole name when it has none); a shot signing bars the ids of every kept signing of his name before that
+  //   season (signedIds), since the board names him by name only (the whole name too when one of them had no id).
+  // - signedIds {id: [playerId, 0 = a row with no id]}: every kept row of each signing name, window by window.
+  // - fresh {id: season}: the last window a man came in past a bar of his name (not the barred man). Departures of that name
+  //   from before it are the old man's, so a stored document never reads him back in through them (fromDoc).
+  // All three live only in the chain (never in the stored document): both phones rebuild them from the same verdict rows.
   const excludedSet=sheet=>new Set(sheet.excluded);
   const barredOf=sheet=>sheet.barred&&typeof sheet.barred==="object"?sheet.barred:{};
+  const objectOf=value=>value&&typeof value==="object"&&!Array.isArray(value)?value:{};
+  const pidOf=value=>Number.isInteger(value)&&value>=1&&value<=999999?value:null;
+  const idList=list=>[...new Set(list)].sort((a,b)=>a-b);
+  // Adds a bar: ids = the playerIds it holds (ids are never forgotten), whole = it holds the whole name too. The first
+  // reason stays.
+  function addBar(bar,barIds,id,reason,ids,whole){
+    const list=(ids||[]).filter(x=>x>0);
+    if(!bar[id]){bar[id]=reason;if(list.length)barIds[id]=idList(whole?[0,...list]:list);return;}
+    if(!list.length&&!whole)return;
+    if(!barIds[id]){if(list.length)barIds[id]=idList([0,...list]);return;}// (the whole name already, from before)
+    barIds[id]=idList([...barIds[id],...list,...(whole?[0]:[])]);
+  }
+  // The bar a kept signing p (playerId pid or null) meets, or null: his id barred under any name first, then his name when
+  // the bar holds the whole name or he has no id.
+  function barFor(bar,barIds,p,pid){
+    if(pid!==null)for(const id of Object.keys(barIds))if(bar[id]&&barIds[id].includes(pid))return id;
+    if(!bar[p.id])return null;
+    return !barIds[p.id]||barIds[p.id].includes(0)||pid===null?p.id:null;
+  }
+  // A shot signing's bar: the ids of the kept rows of his name, and the whole name when one had no id (or none is known).
+  function shotBar(signedIds,id){const list=Array.isArray(signedIds[id])?signedIds[id]:[];return {ids:list.filter(x=>x>0),whole:!list.length||list.includes(0)};}
   const altsOf=sheet=>sheet.alts&&typeof sheet.alts==="object"?sheet.alts:{};
   const inSquad=sheet=>[...sheet.xi,...sheet.bench].filter(Boolean);
   const everyone=sheet=>[...inSquad(sheet),...sheet.reserves];
@@ -426,8 +457,9 @@
   }
   // Moves a locked sheet to the next screen's starting proposal.
   // - locked "pre" (season N) -> "post" (season N): events.shot = the player the RRR hit ({name, number, signedSeason}) or
-  //   null; events.released = names of this window's signings the rival guessed (never join); events.kept = this window's
-  //   kept signings [{name, overall, position}] (Transfer War verdict rows, release false).
+  //   null; events.released = names (or {name, playerId}) of this window's signings the rival guessed (never join);
+  //   events.kept = this window's kept signings [{name, overall, position, playerId?}] (Transfer War verdict rows, release
+  //   false); events.signed = every one of those rows [{name, playerId?}] (R92-01; events.kept when absent).
   // - locked "post" (season N) -> "pre" (season N+1): nothing happens by itself; the manager reports departures there.
   function advance(locked,events){
     if(!locked||!STAGES.includes(locked.stage))return null;
@@ -455,6 +487,7 @@
     }
     sheet.stage="post";
     const ev=events||{},ex=new Set(sheet.excluded),bar={...barredOf(sheet)},alts=JSON.parse(JSON.stringify(altsOf(sheet))),guessed=(sheet.guessed||[]).slice();
+    const barIds=JSON.parse(JSON.stringify(objectOf(sheet.barIds))),signedIds=JSON.parse(JSON.stringify(objectOf(sheet.signedIds))),fresh={...objectOf(sheet.fresh)};
     // The places this window empties: the shot man first, then a signing at the club the rival guessed. Each is refilled
     // within his line below, the shot seat as before.
     const vacancies=[];
@@ -468,17 +501,28 @@
       // Only the man the roulette hit is out. A shot man is never bought back: no signing with his name joins later (the
       // Transfer War LOCK refuses it by name too). A signing at the club with a shot club player's name is another man
       // (SQ-4-01) and stays (hunt C1a: Barcelona's L. Suárez shot while a signed L. Suárez is in the squad).
-      ex.add(shot.id);if(!bar[`s|${sqKey(shot.name)}`])bar[`s|${sqKey(shot.name)}`]="shot";
+      // R92-01: a shot signing bars his own ids (every kept row of his name before this season); a shot club player, the whole name.
+      const sid=`s|${sqKey(shot.name)}`;
+      const sb=isSigning(shot)?shotBar(signedIds,sid):{ids:[],whole:true};
+      ex.add(shot.id);addBar(bar,barIds,sid,"shot",sb.ids,sb.whole);
       vacate(shot.id,shot.name,"shot");
     }
     // A guessed signing never joins and can't be signed again. When the guessed name is a signing already at the club (he
     // was entered again), he is the same signing and is released (Sol SQ-2-02, as the Transfer War and the r87 boards
     // treat it): he leaves and his place is refilled, so the sheet stays lockable (hunt C1b). A club player with that name
     // is another man and stays.
+    // (a released entry is his name, or {name, playerId}: R92-01 bars that id only.)
     for(const raw of Array.isArray(ev.released)?ev.released:[]){
-      if(typeof raw!=="string"||!raw.trim())continue;
-      const name=raw.trim(),id=`s|${sqKey(name)}`;
-      if(!bar[id])bar[id]="guessed";
+      const text=typeof raw==="string"?raw:raw&&typeof raw.name==="string"?raw.name:"";
+      if(!text.trim())continue;
+      const name=text.trim(),id=`s|${sqKey(name)}`,pid=raw&&typeof raw==="object"?pidOf(raw.playerId):null;
+      addBar(bar,barIds,id,"guessed",pid===null?[]:[pid],pid===null);
+      // R92-01 (Codex on #1448): a guess whose id was never on a kept row of this name is another man than any signing of
+      // that name at the club: only his id is barred, the man at the club stays and a loan of his ends as usual. When the
+      // id was kept before, or a kept row of the name had no id, the name decides (the same signing, as before). This reads
+      // the verdict rows only (signedIds), never the manager's moves, so every phone and every reload decides the same.
+      const keptIds=Array.isArray(signedIds[id])?signedIds[id]:[];
+      if(pid!==null&&keptIds.length&&!keptIds.includes(0)&&!keptIds.includes(pid))continue;
       if(!guessed.includes(id))guessed.push(id);
       ex.add(id);vacate(id,name,"guessed");
     }
@@ -487,7 +531,8 @@
       if(!row||typeof row.name!=="string"||!row.name.trim()||!validOverall(row.overall))continue;
       const positions=LINE_OF[row.position]?[row.position]:signingPositions(row.name.trim(),sheet.club);
       const p=person(row.name.trim(),null,row.overall,positions,sheet.season);
-      if(bar[p.id]){sheet.notes.push({name:p.name,reason:bar[p.id]==="special"?"special":"excluded"});continue;}
+      const barred=barFor(bar,barIds,p,pidOf(row.playerId));
+      if(barred){sheet.notes.push({name:p.name,reason:bar[barred]==="special"?"special":"excluded"});continue;}
       if(kept.some(k=>k.id===p.id))continue;
       // signed again while he is at the club: keeps his first window and place (SQ-2-03)
       if(findPlayer(sheet,p.id)){(alts[p.id]=alts[p.id]||[]).push({season:sheet.season,rating:p.rating,positions:p.positions.slice()});continue;}
@@ -496,11 +541,21 @@
       if(ex.has(p.id)){
         ex.delete(p.id);delete sheet.ratings[p.id];
         for(const o of sheet.out)if(o.id===p.id&&!o.returned)o.returned=sheet.season;
-        sheet.notes.push({name:p.name,reason:"bought-back"});
+        // R92-01: past a bar of his name he is not the barred man (that one stays out by his id), so he comes in, and the
+        // old man's guess no longer stops a loan of his name from ending. His window is kept (fresh), so a stored document's
+        // earlier departures of his name are read as the old man's (fromDoc).
+        if(bar[p.id]){const g=guessed.indexOf(p.id);if(g>=0)guessed.splice(g,1);fresh[p.id]=sheet.season;}
+        else sheet.notes.push({name:p.name,reason:"bought-back"});
       }
       kept.push(p);
     }
+    // R92-01: every kept row of this window, joined or not, by name (ev.signed lists them all; older callers pass ev.kept).
+    for(const row of Array.isArray(ev.signed)?ev.signed:Array.isArray(ev.kept)?ev.kept:[]){
+      if(!row||typeof row.name!=="string"||!row.name.trim())continue;
+      const id=`s|${sqKey(row.name.trim())}`;signedIds[id]=idList([...(signedIds[id]||[]),pidOf(row.playerId)??0]);
+    }
     sheet.excluded=[...ex].sort();sheet.barred=sortedObject(bar);sheet.alts=sortedObject(alts);sheet.guessed=guessed.sort();
+    sheet.barIds=sortedObject(barIds);sheet.signedIds=sortedObject(signedIds);sheet.fresh=sortedObject(fresh);
     kept.sort(order);
     // The shot player's seat (and a released signing's): a kept signing of his line first, then the normal refill.
     for(const v of vacancies)if(v.zone==="xi"&&!sheet.xi[v.index])refillXi(sheet,v.index,kept,v.gone);
@@ -832,7 +887,10 @@
       // so the first repeat entry of the automatic chain after it, and before his next departure, is him bought back.
       // Otherwise a loan from an earlier season is over and he is back as the same man; anything else keeps him away.
       let back=null,awayNow=false;const returned={};
+      // R92-01: a departure from before the window a man came in past a bar of his name (fresh) is the old man's: over.
+      const since=objectOf(sheet.fresh)[id];
       away.forEach((j,t)=>{
+        if(Number.isInteger(since)&&(doc.outSigned[j]>0?doc.outSigned[j]:0)<since){returned[j]=doc.outReasons[j]==="loaned"&&doc.outSeasons[j]<since?doc.outSeasons[j]+1:since;return;}
         const w=doc.outSigned[j]>0?doc.outSigned[j]:0,next=away[t+1],until=next===undefined?Infinity:(doc.outSigned[next]>0?doc.outSigned[next]:0);
         // (a loan ends before the next window, so only that season's window can buy him back from it)
         const last=doc.outReasons[j]==="loaned"?Math.min(until,doc.outSeasons[j]):until;
@@ -919,6 +977,8 @@
     lines:LINES,stages:STAGES,leaveReasons:LEAVE_REASONS,buyBack:BUY_BACK,flex:FLEX,
     lineOf,family,fit:sqFit,playerLines,formations,searchFormations,formationSlots,lineCounts,pitchSpots,titleOf,idOf,allowedIn:(sheet,player,slot)=>allowed(sheet,player,slot),slotFit:(sheet,player,slot)=>slotFit(sheet,player,slot),findPlayer,
     launch,advance,canSwap,swap,leave,rate,setFormation,autoPlace,apply:sqApply,validate,board,toDoc,fromDoc,replay,boardFromDoc,
+    // R92-01: would this kept signing ({name, playerId?}) be kept out of this sheet's squad by a bar, and which reason?
+    barredAs:(sheet,row)=>{const name=String(row&&row.name||"").trim();if(!sheet||!name)return null;const id=barFor(barredOf(sheet),objectOf(sheet.barIds),{id:`s|${sqKey(name)}`},pidOf(row.playerId));return id?barredOf(sheet)[id]:null;},
     hidingIssue:sheet=>{const i=hidingIssue(sheet);return i?Object.freeze({kind:i.kind,better:i.q.name,over:i.p?i.p.name:null,reason:hidingReason(i)}):null;}
   });
 });

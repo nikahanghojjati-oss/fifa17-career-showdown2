@@ -302,7 +302,7 @@ ok('L5','independent per Showdown; same inputs, same result');
   assert.ok(!/rosterBoards|rrsEditor|LOCK MY BOARD/.test(step),'no board editor or board document');
   assert.ok(!/rosterBoards/.test(fs.readFileSync(path_.join(ROOT,'firestore.persistent-pair-production.fragment.rules'),'utf8')),'no board Rules');
   assert.match(pstc,/verdicts:season=>pstcRouletteVerdicts\(request,season\)/);
-  assert.match(pstc,/careerModeShowdown\.rouletteVerdicts\.v1/);
+  assert.match(pstc,/careerModeShowdown\.rouletteVerdicts\.v2/);
   assert.match(pstc,/provider\.readRouletteSeason\(\{\.\.\.await pstcRouletteServices\(\),rivalryId:request\.rivalryId,seasonNumber:season,/);
   assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1(&&!squads)?\?await rrsHistory\(ctx(,hits)?\):\[null\]/);
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');

@@ -2854,7 +2854,7 @@
     {
       "path": "tests/contracts/r88-lock-refusals-contracts.cjs",
       "patterns": [
-        "^js/(productionSharedTransferChallenge|rosterRoulette)\\.js$",
+        "^js/(productionSharedTransferChallenge|rosterRoulette|transferSelector)\\.js$",
         "^data/(fifa17Players|rosterSquads)\\.js$",
         "^tests/contracts/r88\\-lock\\-refusals\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
@@ -2997,6 +2997,7 @@
       "path": "tests/contracts/r91-squad-sheet-contracts.cjs",
       "patterns": [
         "^js/squadSheet\\.js$",
+        "^js/(squadSheetStep|productionSharedTransferChallenge)\\.js$",
         "^data/fifa17Players\\.js$",
         "^data/rosterSquads\\.js$",
         "^tests/contracts/r91\\-squad\\-sheet\\-contracts\\.cjs$",
