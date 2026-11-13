@@ -52,11 +52,18 @@ body.ready .boot { opacity: 0; visibility: hidden; }
 .kicker::after { transform: scaleX(-1); }
 .badge { position: relative; font: 900 13px/1 var(--disp); letter-spacing: .16em; text-transform: uppercase; color: #1a1105; padding: 5px 14px 4px 16px; background: linear-gradient(180deg, #fffbe6 0%, #f6d47c 45%, #c8922f 55%, #f3cf73 100%); clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%); box-shadow: inset 0 1px 0 #fff; text-shadow: 0 1px 0 rgba(255,255,255,.55); }
 .title { position: relative; display: inline-block; margin: 4px 0 0; font: 400 clamp(30px, 3.6vw, 48px)/1 var(--west); letter-spacing: .02em; text-transform: uppercase; }
-.title span { display: block; background: linear-gradient(180deg, #fffdf2 0%, #fff0b8 30%, #f2c35a 48%, #a8731f 52%, #e6b04c 70%, #fff3c6 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.title::before { content: attr(data-t); position: absolute; inset: 0; color: transparent; -webkit-text-stroke: 2px #2a1c05; filter: drop-shadow(0 2px 0 #120c02) drop-shadow(0 8px 14px rgba(0,0,0,.55)); z-index: -1; }
-.title::after { content: attr(data-t); position: absolute; inset: 0; color: transparent; background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.95) 48%, transparent 56%) no-repeat; background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; animation: shine 5s ease-in-out infinite; }
-@keyframes shine { 0%, 55% { background-position: 130% 0; } 100% { background-position: -30% 0; } }
-@media (prefers-reduced-motion: reduce) { .title::after { animation: none; } .boot, .top { transition: none; } }   /* r90 L38: under Reduce Motion the loading line and the title switch at ready with no fade */
+/* r91 HO-071 (Nik's pick, 2026-11-11): the title is drawn in the one title family (Team V's V3 "Honours Board" lettering),
+   at the family's letter height (--hc-title-h of css/r78-type.css; never taller than the old line's own 1.4em, so a
+   sideways phone keeps its small title), instead of a metal-gradient line with a moving shine.
+   The words stay in the heading, so its box, the room measured under it and the screen-reader label are unchanged, but they
+   are not painted; the lettering is laid over them, centred, never wider than the screen. The small banner above the title
+   is hidden like the line above every other title (Nik 2026-11-12: "Remove both"); it keeps its box, so nothing moves. */
+.kicker { visibility: hidden; }
+.title span { display: block; color: transparent; }
+.title::after { content: ""; position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); height: var(--hc-h); width: min(calc(var(--hc-h) * 12.347), calc(100vw - 24px)); transform: translate(-50%, -50%); pointer-events: none;
+  background: url("../shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_960.webp") center / contain no-repeat;
+  background-image: image-set(url("../shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_960.webp") 1x, url("../shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_1920.webp") 2x); }
+@media (prefers-reduced-motion: reduce) { .boot, .top { transition: none; } }   /* r90 L38: under Reduce Motion the loading line and the title switch at ready with no fade */
 /* centre column: result line + button */
 /* r90 LOOK L08: the words live in the bottom strip, above the panel, never over the revolver */
 .mid { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 110px); transform: translateX(-50%); width: 440px; text-align: center; pointer-events: auto; }
