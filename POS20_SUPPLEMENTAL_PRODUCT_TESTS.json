@@ -3204,6 +3204,13 @@
       ]
     },
     {
+      "path": "tests/contracts/r91-squad-poll-pause-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedMultiSeasonProgression\\.js$",
+        "^tests/contracts/r91-squad-poll-pause-contracts\\.cjs$"
+      ]
+    },
+    {
       "path": "tests/contracts/r91-rivalry-retry-contracts.cjs",
       "patterns": [
         "^js/rivalryLegacyV10\\.js$",
