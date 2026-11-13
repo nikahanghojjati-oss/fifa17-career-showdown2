@@ -2304,7 +2304,7 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-shell[data-tab="totals"] #rvPanelTotals:not([hidden]):has(.rvSpecialPlayer) { grid-template-rows:minmax(32px,auto) auto auto minmax(0,1fr); }
 }
 @media (max-width:900px) and (orientation:portrait) {
-  #app #statistics[data-rivalry-legacy-v10] .rv-manager:has(.rvSpecialPlayer) { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:2px 6px; padding-block:3px; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-manager:has(.rvSpecialPlayer) { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; align-self:start; gap:2px 6px; padding-block:3px; }
   #app #statistics[data-rivalry-legacy-v10] .rv-manager--right:has(.rvSpecialPlayer) { grid-template-columns:minmax(0,1fr) auto; }
   #app #statistics[data-rivalry-legacy-v10] .rv-manager:has(.rvSpecialPlayer) > div:not(.rv-crest) { display:contents; }
   #app #statistics[data-rivalry-legacy-v10] .rv-manager:has(.rvSpecialPlayer) > .rv-crest { grid-area:1 / 1; }

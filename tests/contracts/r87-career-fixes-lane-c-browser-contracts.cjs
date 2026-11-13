@@ -54,7 +54,8 @@ const STATS=()=>{
   panel.scrollTop=panel.scrollHeight;const pr=panel.getBoundingClientRect();
   for(const tr of panel.querySelectorAll('tbody tr')){const r=tr.getBoundingClientRect();if(r.bottom>pr.bottom+1||r.top<pr.top-1)out.rows.push(tr.textContent.replace(/\s+/g,' ').trim().slice(0,40));}
   // a line change between two letters of one word is a mid-word break
-  for(const n of panel.querySelectorAll('.spChipName')){const t=n.firstChild;if(!t||t.nodeType!==3)continue;const s=t.textContent;let prev=null;
+  // (r91: the name's first part sits in its own bdi; the surname is the text node after it)
+  for(const n of panel.querySelectorAll('.spChipName')){const t=n.lastChild;if(!t||t.nodeType!==3)continue;const s=t.textContent;let prev=null;
     for(let i=0;i<s.length;i++){const rg=document.createRange();rg.setStart(t,i);rg.setEnd(t,i+1);const r=rg.getClientRects()[0];if(!r)continue;
       if(prev&&r.top>prev.top+2&&/[\p{L}]/u.test(s[i])&&/[\p{L}]/u.test(s[i-1]))out.breaks.push(s.slice(0,i)+'|'+s.slice(i));prev=r;}}
   panel.scrollTop=0;return out;
