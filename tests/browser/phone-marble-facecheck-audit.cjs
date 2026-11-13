@@ -17,6 +17,10 @@
 //   F4 Final Winner only (bug hunt F1, r91): with both Special Player chips shown, as every Showdown since r86 shows them
 //      (the seeded one carries none), a total or a chip runs off the screen, lies under something, the two chips cross, or
 //      the totals stand less than 6px above the summary panel under them. See finalWinnerResultClear.
+//   F5 League wheel only (Nik 2026-11-13: the league marks are back, and "league words should fit within each slice of
+//      pie neatly while steady and spinning"): every name and mark is fixed to its slice (it turns with the wheel, so
+//      what fits at rest fits at every angle of the spin), stays 3px or more inside the slice's two dividers and off the
+//      hub, and ends before the rim art; on a wheel 300px across or more every slice shows its mark. See leagueWheelSlicesClear.
 // Sizes (CMS_FACECHECK_GROUP): touch-up = phone and tablet upright; touch-side = phone and tablet sideways; desk = both
 // Chromebook windows (1920x866 windowed, 1920x1035 full screen); more = a small and a large upright phone; phone = Team V's
 // four upright phones; full (default) = all of them. The Gate runs touch-up, touch-side and desk (one test:browser audit
@@ -560,7 +564,56 @@ async function finalWinnerResultClear(page){
     });
 }
 
-module.exports = { SCREENS, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear };
+// F5 (see the header). Each slice in turn is turned to the top with the wheel's own track, where its name and mark stand
+// upright and their boxes are exact; the track is then put back. A name's box is its ink: its lines without the leading
+// above the capitals and under the baseline (the names are set in capitals). Distances: HUB is the hub art's edge and RIM
+// the start of the rim art's solid band, both as shares of the wheel's radius (css/v10Setup.css).
+async function leagueWheelSlicesClear(page){
+    return page.evaluate(async () => {
+        const HUB = .235, RIM = .72, CLEAR = 3, MARK_FROM = 300;
+        const wheel = document.getElementById("leagueWheel"), track = wheel && wheel.querySelector(".wheelTrack");
+        const items = track ? [...track.querySelectorAll(".wheelItem")] : [];
+        if(items.length !== 5) return [`League wheel: ${items.length} slices found (5 expected), so F5 could not be checked`];
+        const out = [], step = 360 / items.length, half = step / 2, old = [track.style.transition, track.style.transform];
+        const frames = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+        try{
+            for(let i = 0; i < items.length; i++){
+                const el = items[i], cs = getComputedStyle(el), name = el.textContent.trim() || `slice ${i + 1}`;
+                // fixed to its slice: the item's own turn is its slice's angle and nothing else
+                const m = /^matrix\(([^)]+)\)$/.exec(cs.transform), turn = m ? (Math.atan2(Number(m[1].split(",")[1]), Number(m[1].split(",")[0])) * 180 / Math.PI + 360) % 360 : NaN;
+                const off = Math.abs(((turn - i * step) % 360 + 540) % 360 - 180);
+                if(!(off < .5)){ out.push(`${name}: the name is not fixed to its slice (it is turned ${Math.round(turn)}deg, its slice ${i * step}deg), so it swings across the dividers when the wheel turns`); continue; }
+                track.style.transition = "none"; track.style.transform = `rotate(${-i * step}deg)`; await frames();
+                const wb = wheel.getBoundingClientRect(), cx = wb.left + wb.width / 2, cy = wb.top + wb.height / 2, R = wb.width / 2;
+                const text = [...el.childNodes].find(node => node.nodeType === 3 && node.textContent.trim());
+                if(!text){ out.push(`slice ${i + 1}: no league name`); continue; }
+                const range = document.createRange(); range.selectNodeContents(text);
+                const box = range.getBoundingClientRect(), line = range.getClientRects()[0], lead = Math.max(0, ((line ? line.height : box.height) - parseFloat(cs.fontSize) * .72) / 2);
+                const parts = [["name", { left: box.left, right: box.right, top: box.top + lead, bottom: box.bottom - lead }]];
+                const before = getComputedStyle(el, "::before"), mw = before.display === "none" ? 0 : parseFloat(before.width) || 0, mh = before.display === "none" ? 0 : parseFloat(before.height) || 0;
+                const drawn = mw >= 1 && mh >= 1 && /url\(/.test(before.maskImage || before.webkitMaskImage || "") && !/rgba\(.*,\s*0\)$|transparent/.test(before.backgroundColor);
+                if(drawn){
+                    // the mark is the last thing in the item's column, centred: its box follows from the item's own box
+                    const eb = el.getBoundingClientRect(), mid = eb.left + eb.width / 2;
+                    if(mw < 12) out.push(`${name}: the league mark is only ${Math.round(mw)}px`);
+                    parts.push(["mark", { left: mid - mw / 2, right: mid + mw / 2, top: eb.bottom - mh, bottom: eb.bottom }]);
+                    if(eb.bottom - mh < box.bottom - .5) out.push(`${name}: the league mark lies on the name`);
+                }else if(wb.width >= MARK_FROM) out.push(`${name}: no league mark is drawn (the wheel is ${Math.round(wb.width)}px across; from ${MARK_FROM}px every slice shows its mark)`);
+                for(const [what, b] of parts){
+                    const corners = [[b.left, b.top], [b.right, b.top], [b.left, b.bottom], [b.right, b.bottom]].map(([x, y]) => [x - cx, cy - y]);
+                    const far = Math.max(...corners.map(([x, y]) => Math.hypot(x, y))), near = Math.min(...corners.map(([, y]) => y));
+                    const side = Math.min(...corners.map(([x, y]) => Math.hypot(x, y) * Math.sin((half - Math.atan2(Math.abs(x), y) * 180 / Math.PI) * Math.PI / 180)));
+                    if(side < CLEAR) out.push(`${name}: the ${what} ${side < 0 ? "crosses" : "comes within " + side.toFixed(1) + "px of"} its slice's divider (${CLEAR}px is the least)`);
+                    if(near - R * HUB < CLEAR) out.push(`${name}: the ${what} ${near < R * HUB ? "lies on" : "comes within " + (near - R * HUB).toFixed(1) + "px of"} the hub (${CLEAR}px is the least)`);
+                    if(far > R * RIM) out.push(`${name}: the ${what} runs ${(far - R * RIM).toFixed(1)}px onto the rim`);
+                }
+            }
+        }finally{ track.style.transform = old[1]; await frames(); track.style.transition = old[0]; }
+        return out;
+    });
+}
+
+module.exports = { SCREENS, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear, leagueWheelSlicesClear };
 if(require.main === module) (async () => {
     const started = Date.now();
     const keys = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SCREENS).filter(key => !OLD_LOOK.includes(key));
@@ -574,6 +627,7 @@ if(require.main === module) (async () => {
         const report = async (page, key, w, h, dpr, errors) => {
             const res = await checkFaces(page, key, w, h, dpr);
             if(key === "FINAL_WINNER") for(const what of await finalWinnerResultClear(page)) res.findings.push({ face: "", what });
+            if(key === "LEAGUE") for(const what of await leagueWheelSlicesClear(page)) res.findings.push({ face: "", what });
             checked++;
             const size = `${w}x${h}`, real = [], known = [];
             for(const f of res.findings){

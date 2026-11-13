@@ -142,6 +142,24 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   assert.match(audit,/slot\.className = "fwSpecialPlayer"; slot\.appendChild\(api\.element\(document, sp\)\); name\.after\(slot\);/,"F4 builds the chip row the way Team V does");
   assert.doesNotMatch(audit.slice(audit.indexOf("const KNOWN = ["),audit.indexOf("// WAITING:")),/Special Player chip|total/,"F4 has no known row");
   ok("M31","Final Winner: the Special Player chip row has its room, so totals and chips stand clear at every phone and tablet size");}
+// M32 (Nik 2026-11-13): the league marks are back on the wheel, and every name and mark is fixed to its slice, so it
+// stays inside the slice at rest and at every angle of the spin. The browser check that measures it (F5 in the face
+// audit) runs on the League wheel at every size of the Gate's three face groups.
+{const css=read("css/v10Setup.css"),audit=read("tests/browser/phone-marble-facecheck-audit.cjs"),setup=read("js/v10Setup.js");
+  assert.doesNotMatch(css,/wheelItem\[data-league-mark\]::before\s*\{[^}]*display:\s*none/,"no rule hides the league marks");
+  const at=css.indexOf("\nhtml:root #app #leagueWheelScreen.v26Skin .wheelItem {\n"),block=css.slice(at,css.indexOf("\n/* r90 W9 (LOOK hunt L19)",at));
+  assert.ok(at>0&&block.length>600&&block.length<1500,"the wheel's last word on its names and marks is one block");
+  assert.ok(!css.slice(at+60).includes("#leagueWheelScreen.v26Skin .wheelItem {")&&!/wheelItem[^{]*\{[^}]*transform:/.test(css.slice(at+block.length)),"nothing after that block lays the names out again");
+  assert.match(block,/\n  transform-origin: 50% 0;\n  transform: rotate\(var\(--v26-a\)\) translateY\(calc\(var\(--R\) \* -\.65\)\);\n\}/,"a name turns with its slice and nothing turns it back upright; its top edge is .65 of the radius from the hub");
+  assert.doesNotMatch(block,/rotate\(calc\(0deg - var\(--v26-a\)\)\)/,"no counter-turn");
+  assert.match(block,/\[data-league-mark\]::before \{\n  display: block; order: 1; flex: none;\n  width: clamp\(0px, calc\(\(var\(--R\) - 150px\) \* 1000\), calc\(var\(--R\) \* \.18\)\);\n  height: clamp\(0px, calc\(\(var\(--R\) - 150px\) \* 1000\), calc\(var\(--R\) \* \.18\)\);\n  background: #e2b84a; filter: none;\n  -webkit-mask: var\(--league-mark-image\) center \/ contain no-repeat;\n  mask: var\(--league-mark-image\) center \/ contain no-repeat;\n\}/,"the mark sits under the name, toward the hub, in one flat gold; it is drawn on wheels 300px across and more");
+  assert.match(block,/line-height: clamp\(1em, calc\(\(var\(--R\) - 150px\) \* 1000\), 1\.1em\); letter-spacing: clamp\(0em, calc\(\(var\(--R\) - 150px\) \* 1000\), \.04em\);/,"small wheels set the name tighter so it fits its slice at 12px");
+  assert.match(block,/:is\(\.v26-top, \.v26-selected\)::before \{ background-color: #0b0d10; filter: none; \}/,"the mark on the lit slice is ink, like its name");
+  assert.match(setup,/if\(id&&item\.dataset\.leagueMark!=="original"\)root\.applyLeagueMark\(item,id\);/,"js/v10Setup.js still gives every slice its mark");
+  assert.match(audit,/if\(key === "LEAGUE"\) for\(const what of await leagueWheelSlicesClear\(page\)\) res\.findings\.push\(\{ face: "", what \}\);/,"the face audit runs F5 on the League wheel at every size");
+  assert.match(audit,/const HUB = \.235, RIM = \.72, CLEAR = 3, MARK_FROM = 300;/,"F5's measures: hub, rim, 3px clear, marks from 300px");
+  assert.doesNotMatch(audit.slice(audit.indexOf("const KNOWN = ["),audit.indexOf("// WAITING:")),/league mark|slice/i,"F5 has no known row");
+  ok("M32","League wheel: the marks are back, and every name and mark is fixed to its slice and measured inside it");}
 // CLS (W9 row): the top bar's 52 px is reserved from the first paint in every nav state, so a screen laid out under the
 // loading screen or the Reus Gate (data-nav "none") does not jump when the bar comes back; Club stays unseen until its look is on.
 {const shell=read("css/v10Shell.css"),club=read("css/v10Club.css");
