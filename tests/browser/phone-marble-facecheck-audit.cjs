@@ -29,7 +29,7 @@
 //      Statistics) its manager's block leaves its panel or reaches the rows under it. Season Results draws its chips
 //      from the live Showdown, which the seeded page has none of, so seasonResultsChips places them as the app does.
 //      See specialPlayerFixture, seasonResultsChips and specialPlayerChipsClear.
-// Sizes (CMS_FACECHECK_GROUP): touch-up = phone and tablet upright; touch-side = phone and tablet sideways; desk = both
+// Sizes (CMS_FACECHECK_GROUP; desk-short = three short desktop windows, CMS_FACECHECK_DESKTOP=1 opens any sizes as a desktop window): touch-up = phone and tablet upright; touch-side = phone and tablet sideways; desk = both
 // Chromebook windows (1920x866 windowed, 1920x1035 full screen); more = a small and a large upright phone; phone = Team V's
 // four upright phones; full (default) = all of them. The Gate runs touch-up, touch-side and desk (one test:browser audit
 // each, inside the per-audit time limit); `npm run test:faces` is the full grid, run by hand.
@@ -62,10 +62,14 @@ const GROUPS = {
     phone: ["393x852", "393x660", "375x667", "360x640"]     // Team V's four upright phones (HO-031)
 };
 GROUPS.full = [...new Set(Object.values(GROUPS).flat())];
+GROUPS["desk-short"] = ["1200x499", "1366x480", "1600x480"]; // desktop windows, no touch, wide and under 500 px tall (after full; the desk group also runs Final Winner at these three)
 const group = process.env.CMS_FACECHECK_GROUP || "full";
 if(!process.env.CMS_FACECHECK_SIZES && !GROUPS[group]) throw new Error(`Unknown CMS_FACECHECK_GROUP ${group}`);
 const SIZES = (process.env.CMS_FACECHECK_SIZES ? process.env.CMS_FACECHECK_SIZES.split(",") : GROUPS[group]).map(s => s.split("x").map(Number));
-const touchSize = w => w < 1300;
+// desk-short (r92-04): a desktop window, no touch, wide and under 500 px tall (the Final Winner short form); the 1200 and 1366 widths
+// would otherwise open as a tablet.
+const DESK_ONLY = process.env.CMS_FACECHECK_DESKTOP === "1" || (!process.env.CMS_FACECHECK_SIZES && group === "desk-short");
+const touchSize = w => !DESK_ONLY && w < 1300;
 const uprightPhone = (w, h) => w < 600 && h > w;
 // F1: the share of a face that may be painted over, and how far a pixel must move (0-255, any channel) to count as paint.
 // 16 levels keeps the shared film grain (sd-stage__grain, about 4 levels) out and still sees dark type on a dark jacket.
@@ -758,20 +762,23 @@ if(require.main === module) (async () => {
             await context.close();
         }
         // desktop: open once per screen, then drag the window through every desktop size
-        if(desk.length){
-            const context = await browser.newContext({ viewport: { width: desk[0][0], height: desk[0][1] }, deviceScaleFactor: 1 });
+        const deskRun = async (sizes, screens) => {
+            const context = await browser.newContext({ viewport: { width: sizes[0][0], height: sizes[0][1] }, deviceScaleFactor: 1 });
             await context.addInitScript(specialPlayerFixture, SP_FIXTURE);
             const page = await context.newPage();
             const errors = [];
             page.on("pageerror", e => errors.push(e.message));
-            for(const key of keys){
+            for(const key of screens){
                 errors.length = 0;
-                await page.setViewportSize({ width: desk[0][0], height: desk[0][1] });
+                await page.setViewportSize({ width: sizes[0][0], height: sizes[0][1] });
                 await openAny(page, key);
-                for(const [w, h] of desk){ await page.setViewportSize({ width: w, height: h }); await page.waitForTimeout(600); await report(page, key, w, h, 1, errors); }
+                for(const [w, h] of sizes){ await page.setViewportSize({ width: w, height: h }); await page.waitForTimeout(600); await report(page, key, w, h, 1, errors); }
             }
             await context.close();
-        }
+        };
+        if(desk.length) await deskRun(desk, keys);
+        // r92-04: the Gate's desk run also draws Final Winner in the three short desktop windows (no touch), about 15 s
+        if(group === "desk" && !process.env.CMS_FACECHECK_SIZES && keys.includes("FINAL_WINNER")) await deskRun(GROUPS["desk-short"].map(x => x.split("x").map(Number)), ["FINAL_WINNER"]);
     }finally{
         await browser.close();
     }

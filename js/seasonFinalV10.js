@@ -1675,7 +1675,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    so Team V's 660px minimum and its inner stage scroll are reset here. Words, ids and tap order are the live ones. */
 @media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
        (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
+       (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
@@ -1721,7 +1721,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* Sideways and tablet: one phone-art composition on the whole screen (Team V's phone background and the two phone
    portraits, Daniel on the left). The desktop plate, rims, shades and spotlights are hidden by class, not by src. */
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
+       (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.finalWinnerManagerShade,.finalWinnerManagerSpotlight,.finalWinnerCrown,.finalWinnerTopbar) { display:none; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground { position:absolute;inset:0;z-index:1;display:block;overflow:hidden;pointer-events:none; }
@@ -1770,7 +1770,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 /* Sideways (study 1287): managers, trophy and score on the left half; summary tabs and both exits on the right half. */
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+       (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneVeil {
   background:linear-gradient(90deg,transparent 0 48%,rgb(3 5 7 / .55) 54%,rgb(3 5 7 / .82) 100%),linear-gradient(180deg,transparent 0 52%,rgb(3 5 7 / .7) 74%,#050607 100%);
  }
@@ -1971,7 +1971,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonReviewHeading[tabindex="-1"]:focus { outline:none !important; box-shadow:none; }
 /* r73 polish, Final Winner sideways: a little air between the DANIEL WINS line and the two manager labels under it. */
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+       (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTotals { margin-top:7px; }
 }
 /* Nik 2026-10-12 (live r73): after a real run the Shared Terminal Close panel sat in the actions slot above REVIEW SEASON
@@ -2033,8 +2033,10 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 /* big sideways phones (iPhone Plus and Pro Max, 932x430) use the sideways layout; from 901px wide the game's top bar
    stays, so the screen starts under it */
-@media (min-width:901px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+@media (min-width:901px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { top:var(--sd-nav-top-h,52px); height:auto; }
+ /* r92-04: no desktop room behind this layout at any download level; :root lifts it over the data-assets rules that come later in the sheet */
+ html[data-v10-screen="seasonEntry"]:root #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { background-image:none; }
  #app #seasonEntry.seasonScreenV10.v10FinalMode { height:calc(100svh - var(--sd-nav-top-h,52px)); }
 }
 /* phone upright, pending: one row of season facts so the summary fits the shorter panel */
@@ -2106,7 +2108,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:not(.hidden) { width:9.5em; padding:0 8px; white-space:normal; font-size:11px; letter-spacing:.06em; }
 }
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+       (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) { --fw-th:72px; }
  #app #seasonEntry.v10FinalMode #stage-root:has(#sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden)) .finalWinnerResultsPanel { bottom:calc(4% + 58px + var(--fw-th)); }
 }
@@ -2140,7 +2142,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { content:none; }
 }
 @media (max-width:760px),
-       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
+       (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-position:center top; }
  #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerPhoneVeil,.finalWinnerManagerShade,.finalWinnerManagerSpotlight) { display:none; }
@@ -2150,7 +2152,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    panel and both exits own the right half), shown from just above the managers' heads, and the title, trophy and score
    form one narrow column between the two men, so no face is covered and nothing sits on the panel. */
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
-       (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+       (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground { right:auto;width:50%; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneBackground img { object-fit:cover;object-position:50% 30%; }
  #app #seasonEntry.v10FinalMode #stage-root :is(.finalWinnerTitleBlock,.finalWinnerHeroCopySlot) { left:25%;width:min(19%,200px); }
@@ -2484,7 +2486,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 /* Sideways phones: the board plate fills the left half (cover, 50% 30%). The cup stands on the counter lip (1098/2096)
    between the two managers, and the result (SHOWDOWN CLOSED, the winner and both scores) moves down onto the counter
    face under the lip, so the cup and the words never cross. */
-@media (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+@media (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root {
   --fw-h:calc(100svh - var(--sd-nav-top-h,52px)); --fw-p:.35;
   --fw-ph:max(50vw * 2096 / 1179,var(--fw-h));
@@ -2513,7 +2515,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
    plate's head-to-lip height, 32.59% of it), and the result keeps its place on the counter under the lip in a slightly
    smaller size. Where a wide phone's half is too wide for that (the plate would put the heads under the title), the plate
    is drawn a little narrower than the half and the side bands take the room's own dark wood colour. */
-@media (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+@media (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.v10FinalMode #stage-root {
   --fw-tb:46px; --fw-copy:80px;
   --fw-ph:min(max(50vw * 2096 / 1179,var(--fw-h)),calc((var(--fw-h) - var(--fw-copy) - 8px - var(--fw-tb) - 8px) / .3259));
@@ -2560,12 +2562,19 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  /* Tablets show the full chip on one line for both managers: no second line to keep room for. */
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer { min-height:0; }
 }
+/* r92-04 (Nik 2026-11-13: every r92 row into 2.4.0): a desktop window wider than 1199px and under 501px tall uses this same
+   sideways layout (it used to keep the desktop plaque, which lay over both Special Player chips and ran the button words out of
+   their boxes). So a very wide, short window does not spread the two halves across the whole screen, the screen keeps the
+   width of a 1280px window, centred, with the screen's own dark side fill either side. */
+@media (min-width:1300px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+ #app #seasonEntry.v10FinalMode #stage-root.v10FinalStage { left:calc(50% - min(50%,640px)); right:auto; width:min(100%,1280px); }
+}
 /* Sideways phones: the chip is the short one of upright phones ("SP · name" in the tier's colour, the rank stays in its
    title), on its own row between the name and the total, and the result takes a wider column so both chips fit side by
    side. It stands on the counter face under the lip, below both men, so no face is near it. A sideways phone
    is never laid out wider than 880 px (js/onlinePlayerIdentity.js); a wider window at this height (881 to 1199 px) is a
    desktop window dragged short, which uses this same layout, so the chip row goes with it. */
-@media (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+@media (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
  /* r91: from 901 px the desktop sheet centres the summary panel with translate:-50%. This layout places the panel by its
     left edge, so in a short desktop window the panel slid half its width to the left, over Nik's face. */
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel { translate:none; }

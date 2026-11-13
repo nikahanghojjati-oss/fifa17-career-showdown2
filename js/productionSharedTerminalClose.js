@@ -155,12 +155,15 @@
     if(state.phase==="DELETED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     if(state.phase==="CLOSED"||state.phase==="DELETED")ptcNoteEnded(state.rivalryId||request.rivalryId);
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
-    if(state.phase==="DELETED"&&previousPhase!=="DELETED")ptcLeaveEndedShowdown();
+    if(state.phase==="DELETED"&&previousPhase!=="DELETED")ptcLeaveEndedShowdown(state.rivalryId||request.rivalryId);
     return state;
   }
   // r80 END SHOWDOWN: the Showdown was ended (this page's own terminal read saw it closed with no finish witness). This phone
   // leaves it for Home once and says so; History keeps it as Ended early. Phase names stay (DELETED).
-  function ptcLeaveEndedShowdown(){
+  // 2.4.0: the Squad Management stage (#sqStage) sits over the game screens, so it is taken down first, also when Home already
+  // shows under it; its open screen ends with no write (js/squadSheetStep.js end()).
+  function ptcLeaveEndedShowdown(rivalryId){
+    try{root.CareerModeSquadSheetStep?.end?.(rivalryId);}catch(_error){}
     try{
       const home=root.document?.getElementById("mainMenu");
       if(home&&!home.classList.contains("hidden"))return;

@@ -3238,6 +3238,15 @@
         "^js/rosterRouletteStep\\.js$",
         "^tests/contracts/r91-upgrade-squad-contracts\\.cjs$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-squad-terminal-close-contracts.cjs",
+      "patterns": [
+        "^js/squadSheetStep\\.js$",
+        "^js/squadScreen\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/r91-squad-terminal-close-contracts\\.cjs$"
+      ]
     }
   ]
 }
