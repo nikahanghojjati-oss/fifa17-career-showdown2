@@ -128,10 +128,11 @@ function filterTransferPlayerOptions(query){
     return db ? db.suggest(query) : [];
 }
 
-// The page's own blocked check (js/productionSharedTransferChallenge.js): the same refusal LOCK gives, or "".
+// The page's own blocked check (js/productionSharedTransferChallenge.js): the same refusal LOCK gives, or "". The row's
+// SoFIFA id goes with the name (R92-01): a different man who only shares a refused name is not marked.
 function getTransferPlayerBlockedText(input, player){
     if(typeof window.CareerModeTransferPlayerBlocked !== "function"){ return ""; }
-    try{ return String(window.CareerModeTransferPlayerBlocked(input, player.name) || ""); }catch(_error){ return ""; }
+    try{ return String(window.CareerModeTransferPlayerBlocked(input, player.name, player.id) || ""); }catch(_error){ return ""; }
 }
 
 function getTransferPlayerEmptyText(input){

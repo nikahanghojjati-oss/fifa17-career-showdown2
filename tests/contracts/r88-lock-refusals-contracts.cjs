@@ -17,6 +17,7 @@
 //   LR6  fresh browser: nothing kept -> reads (3 gets per earlier season, 1 for this season's record), refuses; second LOCK
 //        and a phone that ran the roulette: 0 reads; a failed read refuses the LOCK with TRY AGAIN words (never accepts)
 //   LR7  Showdowns from before Roster Roulette: nothing refused, nothing read; no listener anywhere in the new code
+//   LR8  R92-01: the exact man by his SoFIFA playerId first, the name only when an id is missing on either side
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -133,7 +134,7 @@ const safe={fired:false,hitName:null,hitNumber:null,hitSlot:null,hitSignedSeason
 check("LR2","a shot club player is refused as a signing in the same window and later; engine agrees",()=>{
   const history=[null],hits={1:{playerOne:shotOf("T. Walcott",1,[null],{}),playerTwo:safe}};
   const now=api.rouletteBlocked(history,hits,1,"playerOne");
-  assert.deepEqual({...now.get("t. walcott")},{name:"T. Walcott",reason:"shot",season:1});
+  assert.deepEqual({...now.get("t. walcott")},{name:"T. Walcott",reason:"shot",season:1,ids:[],whole:true});
   assert.equal(engineSkips(ID,CLUBS2,1,history,hits,"playerOne",["T. Walcott"]).get("t. walcott"),"shot");
   assert.equal(api.rouletteBlocked(history,hits,1,"playerTwo").size,0,"Nik is not blocked by Daniel's shot");
   history.push({playerOne:[{slot:1,name:"Other Guy",overall:70,position:"ST",release:false}],playerTwo:[]});hits[2]={playerOne:safe,playerTwo:safe};
@@ -176,7 +177,7 @@ function sandbox({storage={},provider,fields={},confirmedAtMs=Date.parse("2026-1
   const store=new Map(Object.entries(storage));
   const els={};
   const field=(id,value,canonical)=>({id,value,dataset:canonical?{canonicalId:canonical}:{},setAttribute(){}});
-  for(const [id,v] of Object.entries(fields))els[id]=Array.isArray(v)?field(id,v[0],v[1]):field(id,v);
+  for(const [id,v] of Object.entries(fields))els[id]=Array.isArray(v)?field(id,v[0],v[1]):v&&typeof v==="object"?Object.assign(field(id,v.value),{dataset:{playerId:String(v.playerId)}}):field(id,v);
   const ctx={console,Date,Promise,Map,Set,JSON,Math,Object,Array,String,Number,Boolean,Error,setTimeout,clearTimeout,
     document:{getElementById:id=>els[id]||null,querySelector:()=>null},
     currentShowdown:{managers:{playerOne:"Daniel",playerTwo:"Nik"}},
@@ -233,6 +234,45 @@ check("LR5","LOCK refuses with plain words (also hyphenated names), shot wins, a
   assert.ok(/You cannot sign him again\./.test(source)&&/He cannot come back\./.test(source));
 });
 
+// R92-01 (Nik 2026-11-13 19:26 UTC, "Yes, check the exact player"): LOCK matches the exact man by his SoFIFA playerId first,
+// the folded name only when an id is missing on either side. Fails on 712f6301 (it refused every namesake by name).
+// Season 1: Daniel keeps "L. Suárez" (picked, id 176580) and "Kept Mid" (typed, no id); his "Rodrigo" (picked, id 111)
+// and "Typed Guy" (typed) are guessed. Season 2: his club player T. Walcott is shot. Season 3 (now): the signed L. Suárez
+// is shot in this season's spin; season 2 he kept "Kept Mid" again.
+check("LR8","R92-01: a different man who only shares a refused name is let in; the same man under any spelling, a typed name, a shot club player's name and a name with an id-less row stay refused",()=>{
+  const V8={1:{playerOne:[{slot:1,name:"L. Suárez",overall:80,position:"ST",release:false,playerId:176580},{slot:2,name:"Rodrigo",overall:75,position:"ST",release:true,playerId:111},{slot:3,name:"Typed Guy",overall:70,position:"CM",release:true}],playerTwo:[{slot:1,name:"Dele Alli",overall:80,position:"CAM",release:true,playerId:211117}]},
+    2:{playerOne:[{slot:1,name:"Kept Mid",overall:72,position:"CM",release:false}],playerTwo:[]}};
+  const H8={1:{playerOne:safe,playerTwo:safe},2:{playerOne:{fired:true,hitName:"T. Walcott",hitNumber:14,hitSlot:7,hitSignedSeason:null,version:"v"},playerTwo:safe},
+    3:{playerOne:{fired:true,hitName:"L. Suárez",hitNumber:null,hitSlot:9,hitSignedSeason:1,version:"v"},playerTwo:safe}};
+  const blocked=api.rouletteBlocked([null,V8[1],V8[2]],H8,3,"playerOne");
+  const provider=fakeProvider();
+  const lock=(value,playerId)=>{const {lr}=sandbox({provider,fields:lockFields(playerId?{value,playerId}:value)});return refusal(lr,blocked);};
+  for(const [name,id] of [["L. Suárez",999],["L. Suarez",999],["Rodrigo",222],["Kept Mid",333],["Dele Alli",211117]]){
+    const error=lock(name,id);assert.equal(error,null,`${name} (id ${id}) is another man: LOCK lets him in (${error&&error.message})`);
+  }
+  for(const [name,id,code] of [["Luis Suárez",176580,"TRANSFER_SIGNING_SHOT"],["L. Suárez",null,"TRANSFER_SIGNING_SHOT"],["l. suarez",null,"TRANSFER_SIGNING_SHOT"],
+    ["Rodrigo Moreno",111,"TRANSFER_SIGNING_GUESSED_BEFORE"],["Rodrigo",null,"TRANSFER_SIGNING_GUESSED_BEFORE"],["Typed Guy",444,"TRANSFER_SIGNING_GUESSED_BEFORE"],["T. Walcott",555,"TRANSFER_SIGNING_SHOT"]]){
+    const error=lock(name,id);assert.ok(error,`${name} (id ${id}) is refused`);assert.equal(error.code,code,name);
+  }
+  assert.deepEqual([blocked.get("l. suarez").ids,blocked.get("l. suarez").whole],[[176580],false],"a shot signing bars his own id");
+  assert.deepEqual([blocked.get("rodrigo").ids,blocked.get("rodrigo").whole],[[111],false],"a guessed picked signing bars his own id");
+  assert.equal(blocked.get("typed guy").whole,true,"a guessed typed signing bars the whole name");
+  assert.equal(blocked.get("t. walcott").whole,true,"a shot club player bars the whole name");
+  // A shot signing whose name had a typed (id-less) kept row bars the whole name.
+  const typedRow={1:{playerOne:[{slot:1,name:"L. Suárez",overall:80,position:"ST",release:false,playerId:176580}],playerTwo:[]},2:{playerOne:[{slot:1,name:"L. Suarez",overall:81,position:"ST",release:false}],playerTwo:[]}};
+  const typed=api.rouletteBlocked([null,typedRow[1],typedRow[2]],{1:H8[1],2:{playerOne:safe,playerTwo:safe},3:H8[3]},3,"playerOne");
+  assert.deepEqual([typed.get("l. suarez").ids,typed.get("l. suarez").whole],[[176580],true]);assert.ok(api.blockedFor(typed,"L. Suárez",999),"then even another id is refused");
+  assert.ok(api.blockedFor(typed,"Luis Suárez",176580),"and the man with the id under another spelling still is");
+  // A guessed id and a later whole-name bar of the same name: the whole name wins.
+  const both=api.rouletteBlocked([null,{playerOne:[{slot:1,name:"T. Walcott",release:true,playerId:9}],playerTwo:[]}],{1:{playerOne:safe},2:{playerOne:H8[2].playerOne}},2,"playerOne");
+  assert.equal(both.get("t. walcott").reason,"shot");assert.equal(both.get("t. walcott").whole,true);
+  assert.ok(api.blockedFor(both,"Theo Walcott",9),"the guessed id stays barred under another spelling once the whole name is barred too");
+  // The list marks rows with the same check (the row's id rides with the name).
+  assert.match(fs.readFileSync(path.join(ROOT,"js/transferSelector.js"),"utf8"),/CareerModeTransferPlayerBlocked\(input, player\.name, player\.id\)/);
+  // The kept verdict rows keep the id (cache v2), so a phone that reads them later matches the same man.
+  assert.match(source,/careerModeShowdown\.rouletteVerdicts\.v2/);
+});
+
 async function lr6(){
   // fresh: nothing kept
   {
@@ -250,12 +290,23 @@ async function lr6(){
   }
   // a phone that ran the roulette: verdicts and spins kept (as pstcRouletteVerdicts keeps them) and its own outcome remembered
   {
-    const storage={"careerModeShowdown.rouletteVerdicts.v1":JSON.stringify([[`${ID}|1`,V[1]],[`${ID}|2`,V[2]]]),
+    const storage={"careerModeShowdown.rouletteVerdicts.v2":JSON.stringify([[`${ID}|1`,V[1]],[`${ID}|2`,V[2]]]),
       "careerModeShowdown.rouletteHits.v1":JSON.stringify([[`${ID}|1`,H[1]],[`${ID}|2`,H[2]]]),
       "careerModeShowdown.rouletteOutcome.v1":JSON.stringify([[`${ID}|3|playerOne`,H[3].playerOne]])};
     const provider=fakeProvider(),{lr,request}=sandbox({provider,storage});
     const blocked=await lr.load(request,"playerOne");
     assert.equal(provider.gets,0,"zero billed reads");assert.equal(blocked.get("big striker")?.reason,"shot");assert.equal(blocked.get("renato sanches")?.reason,"guessed");
+  }
+  // R92-01: a v1 copy (it never kept the playerId) is not trusted: each earlier season's verdicts are read once, then kept as v2.
+  {
+    const storage={"careerModeShowdown.rouletteVerdicts.v1":JSON.stringify([[`${ID}|1`,V[1]],[`${ID}|2`,V[2]]]),
+      "careerModeShowdown.rouletteHits.v1":JSON.stringify([[`${ID}|1`,H[1]],[`${ID}|2`,H[2]]]),
+      "careerModeShowdown.rouletteOutcome.v1":JSON.stringify([[`${ID}|3|playerOne`,H[3].playerOne]])};
+    const provider=fakeProvider(),{lr,store,request}=sandbox({provider,storage});
+    const blocked=await lr.load(request,"playerOne");
+    assert.equal(provider.gets,6,"the v1 copy is read again: 3 gets for each of the 2 earlier seasons, once");assert.equal(blocked.get("big striker")?.reason,"shot");
+    const again=fakeProvider(),reload=sandbox({provider:again,storage:Object.fromEntries(store)});
+    await reload.lr.load(reload.request,"playerOne");assert.equal(again.gets,0,"kept as v2 after that one read");
   }
   // a failed read: LOCK is refused with the TRY AGAIN words, never accepted unchecked
   {
@@ -275,7 +326,7 @@ async function lr6(){
     const provider=fakeProvider(),{lr,request}=sandbox({provider,confirmedAtMs:Date.parse("2026-10-01T00:00:00Z")});
     const blocked=await lr.now(request,"playerOne");assert.ok(blocked.size>0,"refusals load");assert.ok(provider.gets>0);
   }
-  checks+=1;process.stdout.write(`ok ${checks} LR6 fresh browser 7 gets once then 0; roulette phone 0; failed read refuses; no confirm time 0; any confirm time loads\n`);
+  checks+=1;process.stdout.write(`ok ${checks} LR6 fresh browser 7 gets once then 0; roulette phone 0; a v1 copy read once then kept as v2; failed read refuses; no confirm time 0; any confirm time loads\n`);
   const fn=source.slice(source.indexOf("function pstcNameKey("),source.indexOf("function pstcRefuse("));
   assert.equal(/onSnapshot|addSnapshotListener|getDocs|setInterval/.test(fn),false,"no listener, no query");
   checks+=1;process.stdout.write(`ok ${checks} LR7 no listener or query in the new code\n`);

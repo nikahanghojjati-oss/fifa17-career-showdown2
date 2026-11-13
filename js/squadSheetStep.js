@@ -156,6 +156,7 @@
   // ---------- the chain: events from the Transfer War history, then js/squadSheet.js replay ----------
   // Season k's events for one manager: his Roulette shot (the saved spin outcome), his signings the rival guessed, his kept
   // signings ({name, overall, position}).
+  const sqsPlayerId=row=>isInt(row.playerId)&&row.playerId>=1&&row.playerId<=999999?{playerId:row.playerId}:{};
   function sqsEvents(result,role){
     const rows=result&&result.verdicts&&Array.isArray(result.verdicts[role])?result.verdicts[role]:null;
     if(!rows)return null;
@@ -163,8 +164,10 @@
     const shot=hit&&hit.fired===true&&typeof hit.hitName==="string"&&hit.hitName.trim()?{name:hit.hitName.trim(),number:isInt(hit.hitNumber)?hit.hitNumber:null,signedSeason:isInt(hit.hitSignedSeason)&&hit.hitSignedSeason>=1&&hit.hitSignedSeason<=10?hit.hitSignedSeason:null}:null;
     return {
       shot,
-      released:rows.filter(r=>r&&r.release===true&&typeof r.name==="string"&&r.name.trim()).map(r=>r.name.trim()),
-      kept:rows.filter(r=>r&&r.release===false&&typeof r.name==="string"&&r.name.trim()&&isInt(r.overall)).map(r=>({name:r.name.trim(),overall:r.overall,position:typeof r.position==="string"?r.position:null}))
+      // R92-01: each row's SoFIFA playerId rides along, so the squad engine bars the exact man as the Transfer War LOCK does.
+      released:rows.filter(r=>r&&r.release===true&&typeof r.name==="string"&&r.name.trim()).map(r=>({name:r.name.trim(),...sqsPlayerId(r)})),
+      kept:rows.filter(r=>r&&r.release===false&&typeof r.name==="string"&&r.name.trim()&&isInt(r.overall)).map(r=>({name:r.name.trim(),overall:r.overall,position:typeof r.position==="string"?r.position:null,...sqsPlayerId(r)})),
+      signed:rows.filter(r=>r&&r.release===false&&typeof r.name==="string"&&r.name.trim()).map(r=>({name:r.name.trim(),...sqsPlayerId(r)}))
     };
   }
   // Every season's events this screen's chain passes through: seasons before this one, and this one for "post".
