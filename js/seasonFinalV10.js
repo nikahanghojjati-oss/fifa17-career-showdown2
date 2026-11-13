@@ -162,6 +162,21 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-label{font-size:12px;line-height:1;text-transform:uppercase;letter-spacing:.05em}
 }
 
+/* r91 Special Player chips at 12px, upright phones: a manager's column is 83 to 92px wide, too narrow for a chip, so the
+   two chips take their own line under the scoreboard, Daniel's from the left edge and Nik's from the right, each with up
+   to half the board. The crest, the name and the score keep their places. Only where the chips are there. */
+@media (max-width:600px) and (orientation:portrait){
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer){grid-template-columns:minmax(0,1fr) auto auto minmax(0,1fr);gap:2px 0}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side{display:contents}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side .sdg-crest{grid-row:1;justify-self:center;align-self:end}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side strong{grid-row:2;justify-self:center;align-self:start}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side--daniel :is(.sdg-crest,strong){grid-column:1}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side--nik :is(.sdg-crest,strong){grid-column:4}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-score{grid-area:1 / 2 / 3 / 4;padding:0 4px}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side--daniel span.sdgSpecialPlayer{grid-area:3 / 1 / auto / 3;justify-self:start;text-align:left}
+  #app #standings.standingsScreenV10 .sdg-scoreboard:has(.sdgSpecialPlayer) .sdg-side--nik span.sdgSpecialPlayer{grid-area:3 / 3 / auto / 5;justify-self:end;text-align:right}
+}
+
 /* Desktop and laptops: NEXT_STANDINGS framing (full gold frame, filled active scope, gold row rules). Board geometry stays Team V's. */
 @media (min-width:901px){
   #app #standings.standingsScreenV10 .sdg-board.sd-panel{border:2px solid #ddb747;box-shadow:inset 0 0 0 2px #6a4c13,inset 0 0 22px rgba(215,161,28,.12),0 12px 32px rgba(0,0,0,.5),0 0 10px rgba(231,185,67,.2)}

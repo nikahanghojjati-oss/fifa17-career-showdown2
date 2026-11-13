@@ -166,7 +166,7 @@
 #app #ruleBook .ruleSpecialPlayer .ruleSpecialPlayerTag{display:inline-flex;margin:0;padding:.08em .42em;border-radius:999px;background:linear-gradient(135deg,#050608 0%,#0c2a66 55%,#050608 100%);color:var(--sd-gold-300,#ffd34d);font-size:11px;font-weight:800;letter-spacing:.1em;vertical-align:middle;}
 /* Tight spots ("SP · Surname" in the tier colour: the badge's colour moves onto the whole chip, the first name or initial
    and the badge are left out, and the chip's title keeps the full text): the Career Table's narrow Manager column, the
-   Trophy Room rank cards and the Legacy cards on every size, Rivalry Statistics under 1500px wide, and every chip on phones
+   Trophy Room rank cards and the Legacy cards on every size, Rivalry Statistics and Standings under 1500px wide, and every chip on phones
    (upright, and sideways: up to 900px wide and 500px tall). */
 ${spTight(":is(#app #careerStatistics .careerTable,#app #trophyRoom .careerRank,#app #legacy .legacyCardSpecial)")}
 @media (max-width:640px),(max-width:900px) and (max-height:500px){
@@ -176,6 +176,8 @@ ${spTight("#app")}
 @media (max-width:1499px){
 ${spTight("#app #statistics[data-rivalry-legacy-v10] .rv-manager")}
   #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipRank{display:none;}
+${spTight("#app #standings.standingsScreenV10 .sdg-side")}
+  #app #standings.standingsScreenV10 .sdg-side .spChip>span.spChipRank{display:none;}
 }
 /* The Career Table's Manager column is narrow at every size: the chip takes the column's width and a long name wraps inside it. */
 #app #careerStatistics .careerTable td>.spChip{align-items:flex-start;}
