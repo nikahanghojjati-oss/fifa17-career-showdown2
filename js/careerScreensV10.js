@@ -1548,6 +1548,22 @@
     #app #trophyRoom .managerCounts strong { font-size:14px; }
     #app #trophyRoom .trophyTab { font-size:9.5px; }
   }
+  /* r91 layout hunt (740x360 Trophy Room): the five tiles are 88px wide, so "DANIEL" at the 12px floor with its eyebrow tracking ran 7px past its
+   40px column. A tighter tracking and gap keep both names whole in their column without shrinking the type below the floor. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+  #app #trophyRoom .trophyCard .managerCounts { gap:0; }
+  #app #trophyRoom .trophyCard .managerCounts span { letter-spacing:.02em; }
+}
+/* 640x360: the tiles are 72px wide and a name column only 32px, so DANIEL cannot fit beside NIK at the 12px floor. The two managers stack,
+   one line each (name, count), so every word stays whole and nothing shrinks. */
+@media (min-width:640px) and (max-width:700px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+  #app #trophyRoom .trophyCard .managerCounts { grid-template-columns:minmax(0,1fr); gap:2px; }
+  #app #trophyRoom .trophyCard .managerCounts > div { display:flex; align-items:baseline; justify-content:center; gap:6px; border-left:0; }
+  #app #trophyRoom .trophyCard .managerCounts::before, #app #trophyRoom .trophyCard .managerCounts::after,
+  #app #trophyRoom .trophyCard .managerCounts > div::before, #app #trophyRoom .trophyCard .managerCounts > div::after { display:none; }
+  /* the six tabs are 54px wide: SHOWDOWN and CHAMPIONS need a few more px of their own, so the side padding and tracking give them */
+  #app #trophyRoom .trophyTabs .trophyTab { padding-left:1px; padding-right:1px; letter-spacing:0; }
+}
   `;
   
   // r87 polish (career screens). Nothing here dims, overlays or moves another element.
