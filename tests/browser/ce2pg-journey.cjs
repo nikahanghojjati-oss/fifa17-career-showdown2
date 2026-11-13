@@ -233,7 +233,7 @@ const report={
 const t0=Date.now();
 let seasonNow=0,showdownNow="-";
 function writeReport(){
-  report.finishedAt=new Date().toISOString();report.timings.totalMs=Date.now()-t0;
+  report.finishedAt=new Date().toISOString();report.timings.totalMs=Date.now()-t0;if(NAMESAKE)report.namesakes=namesakeLog;
   report.summary={checks:report.checks.length,passed:report.checks.filter(c=>c.pass).length,failed:report.checks.filter(c=>!c.pass).length,problems:report.problems.length};
   fs.mkdirSync(OUT_DIR,{recursive:true});fs.writeFileSync(REPORT_PATH,JSON.stringify(report,null,2));
 }
@@ -527,6 +527,28 @@ async function bothActive(managers,rivalryId){
 }
 const waitTransferPhase=(m,phase)=>m.page.waitForFunction(value=>document.getElementById("transferChallenge")?.dataset.transferPhase===value,phase,{timeout:45000});
 const waitTransferState=(m,key,role)=>m.page.waitForFunction(([k,v])=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.[k]?.includes(v)===true,[key,role],{timeout:45000});
+// Hunt C1 proof (CE2PG_NAMESAKE=1): Daniel also signs, as signing 2, a man named like one of his own club's players (the next
+// one of the club's list each season: Barcelona's L. Suárez, Real Madrid's J. Rodríguez, ...), never guessed by Nik's
+// "Brazil" guess (England), so his kept namesakes stand beside the club's own men when the roulette shoots one of them.
+const NAMESAKE=process.env.CE2PG_NAMESAKE==="1",namesakeLog=[];
+async function fillNamesake(m){
+  const pick=await m.page.evaluate(season=>{
+    const club=window.CareerModeProductionSharedTransferChallenge?.getState?.()?.setup?.clubs?.playerOne||window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.setup?.clubs?.playerOne;
+    const data=window.CareerModeFifa17Players,rows=club&&data&&data.clubs&&data.clubs[club]?data.clubs[club].players:null;
+    if(!rows||!rows.length)return {club:club||null,name:null};
+    const row=rows[(season-1)%Math.min(rows.length,15)];return {club,name:row[0],position:row[2][0]};
+  },seasonNow).catch(()=>null);
+  if(!pick||!pick.name){console.log(`--- namesake S${seasonNow}: no club list on the page (${JSON.stringify(pick)})`);return null;}
+  await m.page.locator("#p1Signing2Name").fill(pick.name);await m.page.keyboard.press("Escape").catch(()=>{});
+  await m.page.locator("#p1Signing2Overall").fill("74");
+  const pos=["GK","RB","RWB","CB","LB","LWB","CDM","CM","CAM","RM","LM","RW","LW","CF","ST"].includes(pick.position)?pick.position:"CM";
+  await m.page.locator("#p1Signing2Position").selectOption(pos);
+  await fillCombo(m,"p1Signing2League","Premier League");await fillCombo(m,"p1Signing2Nationality","England");
+  return pick;
+}
+async function clearNamesake(m){
+  await m.page.evaluate(()=>{for(const id of ["p1Signing2Name","p1Signing2Overall","p1Signing2Position","p1Signing2League","p1Signing2Nationality"]){const n=document.getElementById(id);if(!n)continue;n.value="";delete n.dataset.canonicalId;delete n.dataset.canonicalLabel;delete n.dataset.playerId;n.dispatchEvent(new Event("input",{bubbles:true}));n.dispatchEvent(new Event("change",{bubbles:true}));}});
+}
 async function fillCombo(m,id,value){await m.page.locator(`#${id}`).fill(value);await m.page.waitForFunction(fieldId=>Boolean(document.getElementById(fieldId)?.dataset.canonicalId),id,{timeout:5000});}
 async function privateTokenAbsent(m,token,id,label){
   const leak=await m.page.evaluate(value=>({text:(document.body.innerText||"").includes(value),inputs:[...document.querySelectorAll("input")].filter(n=>String(n.value||"").includes(value)).map(n=>n.id)}),token);
@@ -626,7 +648,15 @@ async function playTransfers(daniel,nik,tag){
   await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
   await daniel.page.locator("#p1Signing1Name").fill(tokenD);if(!servingOld){await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");}await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
+  const namesake=NAMESAKE&&!servingOld?await fillNamesake(daniel):null;
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
+  if(namesake){
+    // LOCK refuses a name the roulette shot (or a Special Player): that is the Transfer War's rule, so the namesake is dropped.
+    const landed=await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:8000}).then(()=>true,()=>false);
+    namesakeLog.push({season:seasonNow,name:namesake.name,club:namesake.club,kept:landed,refusal:landed?null:await daniel.page.evaluate(()=>[...document.querySelectorAll(".screen:not(.hidden) [role=alert],.screen:not(.hidden) .error,.screen:not(.hidden) [data-kind=no]")].map(n=>n.textContent.trim()).filter(Boolean).join(" | ").slice(0,200)).catch(()=>"")});
+    if(!landed){await clearNamesake(daniel);await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});}
+    console.log(`--- namesake S${seasonNow}: ${namesake.name} (${namesake.club}) ${landed?"kept":"refused, dropped"}`);
+  }
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.signingLockedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await privateTokenAbsent(nik,tokenD.split(" ")[0],`${showdownNow}.S${seasonNow}.transfer.privacy`,"Daniel's locked signing stays hidden from Nik before completion");
   await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");

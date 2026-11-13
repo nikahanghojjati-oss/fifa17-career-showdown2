@@ -17,6 +17,7 @@
   const FIT_WORD={3:"Natural position",2:"Can play here",1:"Out of position",0:"Stand-in"};
   const STAGE_WORD={pre:"Before Russian Roulette",post:"After Transfer War"};
   const REASON_WORD={contract:"Contract ended",retired:"Retired",swapped:"Swapped",sold:"Sold",loaned:"Loaned out",other:"Other"};
+  const LEFT_OUT_WORD={shot:"Shot in the roulette",guessed:"Guessed, so released",special:"A Special Player, never in a squad",excluded:"Can't be signed again"};
   const el=(tag,cls,text)=>{const n=doc.createElement(tag);if(cls)n.className=cls;if(text!==undefined&&text!==null)n.textContent=String(text);return n;};
   const many=(n,word)=>`${n} ${word}${n===1?"":"s"}`;
   const shortName=name=>{const s=String(name||"");const dot=s.indexOf(". ");return dot>0&&dot<4?s.slice(dot+2):s;};
@@ -385,6 +386,14 @@
         const gone=el("div","sqmGone");gone.appendChild(el("h3","sqmSideTitle","Left the club"));
         const list=el("ul");for(const o of sheet.out.slice().reverse().slice(0,8))list.appendChild(el("li",null,`${shortName(o.name)}  ·  ${REASON_WORD[o.reason]||o.reason}${o.returned?", back":""}  ·  S${o.season}`));
         gone.appendChild(list);side.appendChild(gone);
+      }
+      // Hunt C3: a man the manager may look for and won't find (the roulette's shot, a guessed signing released, a signing
+      // left out), named once in a quiet list, from the notes of the sheet this screen opened on.
+      const missing=(Array.isArray(base.notes)?base.notes:[]).filter(n=>n&&LEFT_OUT_WORD[n.reason]).slice(0,6);
+      if(missing.length){
+        const box=el("div","sqmGone sqmLeftOut");box.appendChild(el("h3","sqmSideTitle","Not in your squad"));
+        const list=el("ul");for(const n of missing)list.appendChild(el("li",null,`${n.name}  ·  ${LEFT_OUT_WORD[n.reason]}`));
+        box.appendChild(list);side.appendChild(box);
       }
       const actions=el("div","sqmActions");
       const auto=el("button","sqmBtn","Auto");auto.type="button";auto.title="Put every starter in his best spot";auto.disabled=locked||saving;
