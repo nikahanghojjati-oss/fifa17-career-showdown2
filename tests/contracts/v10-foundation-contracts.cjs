@@ -1180,8 +1180,12 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // else (r90's own index.html changes were already pinned as a384fe22 by their feature PRs).
   // Re-pinned 2026-11-13 by r91 HO-072 (loading cover): the 2.3.0 file with the layered Reus cover in place of the single
   // picture (four first-paint preloads, the room and Reus pictures with their sharp layers, the logo lettering), nothing else.
-  assert.equal(sha256("index.html"),"f2d4288be29c9ff3f53bc24c39c267f64555c90b9ee8422c8d8258848d0bb424","index.html is the 2.3.0 release plus the HO-072 loading cover");
-  const html=read("index.html");
+  // Re-pinned 2026-11-13 by the r91 hunt fixes (B1, PR #1439): the HO-072 file plus the inline boot-fail guard before js/storage.js
+  // (one reload by itself, then the marble error screen with RELOAD), nothing else. The guard names three stylesheets, one of them
+  // visual-assets/v10_1/shared/showdown-tokens.css, that it loads only after a failed start; the start-up shell loads none of them.
+  assert.equal(sha256("index.html"),"02e01adb5ef82a6f04674dea104014d45fb35868a473a2c09961196f3a60c03b","index.html is the 2.3.0 release plus the HO-072 loading cover and the B1 boot-fail guard");
+  const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
+  assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
