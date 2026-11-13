@@ -2563,9 +2563,12 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 /* Sideways phones: the chip is the short one of upright phones ("SP · name" in the tier's colour, the rank stays in its
    title), on its own row between the name and the total, and the result takes a wider column so both chips fit side by
    side. It stands on the counter face under the lip, below both men, so no face is near it. A sideways phone
-   is never laid out wider than 880 px (js/onlinePlayerIdentity.js); a wider window at this height is a desktop window
-   dragged short, where the desktop picture and this layout already cross (a separate row), and it is left as it was. */
-@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+   is never laid out wider than 880 px (js/onlinePlayerIdentity.js); a wider window at this height (881 to 1199 px) is a
+   desktop window dragged short, which uses this same layout, so the chip row goes with it. */
+@media (min-width:640px) and (max-width:1199px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+ /* r91: from 901 px the desktop sheet centres the summary panel with translate:-50%. This layout places the panel by its
+    left edge, so in a short desktop window the panel slid half its width to the left, over Nik's face. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel { translate:none; }
  /* 110px: the result with its chip row is 104 px tall under 761 px wide and 108 px above (the outcome is set larger there) */
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer) { --fw-copy:110px; }
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer) .finalWinnerHeroCopySlot { width:min(40%,320px); }
