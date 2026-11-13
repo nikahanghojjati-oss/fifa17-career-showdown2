@@ -1806,3 +1806,20 @@ html[data-v10-setup]:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topH
   background: url("../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp") left center / contain no-repeat;
   background-image: image-set(url("../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp") 1x, url("../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_1040.webp") 2x);
 }
+/* r91 L9 + L10 (layout hunt, sideways phones 568x320 to 900x500; found at 640x360 and 568x320): text ran out of its own box by 2-6px.
+   Career Statistics: the four headline tiles are 59-83px wide, so COMPLETED SHOWDOWNS gives up its tracking and a little side padding, and the
+   Career Table heads take the room the Manager column does not use (Showdowns needs 58px with its 12px word, Season W-D-L 68px, Trophies 45px).
+   Home: START A SHOWDOWN loses 0.2px of tracking in its tile. The words and the 12px size stay; nothing is cut and no box grows. */
+@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .headlineTile { padding-inline: 3px; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .headlineTile .headlineLabel { letter-spacing: 0; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(1) { width: 5%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(2) { width: 21%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(3) { width: 22%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(4) { width: 24%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(5) { width: 13%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(6) { width: 15%; }
+}
+@media (max-width: 700px) and (orientation: landscape) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #mainMenu.v10Home .menuTile .menuTileLabel { letter-spacing: -0.2px; }
+}
