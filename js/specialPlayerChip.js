@@ -163,7 +163,7 @@
 #app #seasonEntry .seasonReviewCard .seasonSpecialPlayer{display:block;min-width:0;max-width:100%;margin:.2em 0 .35em;}
 #app #seasonEntry .seasonReviewCard .spChip{margin:0;font-size:12px;}
 #app #ruleBook .ruleSpecialPlayer .spChip{margin:0 0 0 .35em;}
-#app #ruleBook .ruleSpecialPlayer .ruleSpecialPlayerTag{display:inline-flex;margin:0;padding:.08em .42em;border-radius:999px;background:linear-gradient(135deg,#050608 0%,#0c2a66 55%,#050608 100%);color:var(--sd-gold-300,#ffd34d);font-size:11px;font-weight:800;letter-spacing:.1em;vertical-align:middle;}
+#app #ruleBook .ruleSpecialPlayer .ruleSpecialPlayerTag{display:inline-flex;margin:0;padding:.08em .42em;border-radius:999px;background:linear-gradient(135deg,#050608 0%,#0c2a66 55%,#050608 100%);color:var(--sd-gold-300,#ffd34d);font-size:12px;font-weight:800;letter-spacing:.1em;vertical-align:middle;}
 /* Tight spots ("SP · Surname" in the tier colour: the badge's colour moves onto the whole chip, the first name or initial
    and the badge are left out, and the chip's title keeps the full text): the Career Table's narrow Manager column, the
    Trophy Room rank cards and the Legacy cards on every size, Rivalry Statistics and Standings under 1500px wide, and every chip on phones
