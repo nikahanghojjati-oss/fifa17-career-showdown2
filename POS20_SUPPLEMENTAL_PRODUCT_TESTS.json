@@ -3205,6 +3205,15 @@
       ]
     },
     {
+      "path": "tests/contracts/r91-lazy-chain-retry-contracts.cjs",
+      "patterns": [
+        "^js/ssjr\\.js$",
+        "^js/optionalModules\\.js$",
+        "^index\\.html$",
+        "^tests/contracts/r91-lazy-chain-retry-contracts\\.cjs$"
+      ]
+    },
+    {
       "path": "tests/contracts/r91-rivalry-retry-contracts.cjs",
       "patterns": [
         "^js/rivalryLegacyV10\\.js$",
