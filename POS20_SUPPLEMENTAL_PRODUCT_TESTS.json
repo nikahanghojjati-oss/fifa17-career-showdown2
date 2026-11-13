@@ -3202,6 +3202,14 @@
         "^js/(storage|showdown|scoring|screens|menuExperience|optionalModules)\\.js$",
         "^tests/contracts/r91-boot-fail-contracts\\.cjs$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-rivalry-retry-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^tests/contracts/r91-rivalry-retry-contracts\\.cjs$"
+      ]
     }
   ]
 }
