@@ -12,6 +12,8 @@
 //   R  Roster Russian Roulette on upright tablets (portrait layout 600-899 wide): the rest picture shifts until the TOP OF THE FRAME (rail ends and
 //      finial) is 14px under the title, never past 8px above the revolver's own lowest point's caption (floor: the old face-based shift)
 //   H  Home on sideways phones (max 900 x 480): the wordmark stands in the phone plate's ceiling band (hair at 11.66vw), between SIGN IN and the plate edge
+//   L8-L10 text that ran out of its own box on sideways phones (found at 640x360 / 568x320 by the r80 audit): the History CARDS / LIST segment,
+//      the Career Statistics headline label and Table heads, the Home START A SHOWDOWN tile label
 //   F  the 12px floor: Final Winner totals/result strip, Club reveal labels, Trophy BACK/MORE on 481-900 portrait; the career
 //      table head on desktop; the Legacy carousel arrows
 const assert = require("node:assert/strict");
@@ -59,6 +61,18 @@ const home = read("css/homeV10.css");
 ok(/--home-hair: 11\.66vw;\n\s+--home-logo-w: min\(calc\(\(var\(--home-hair\) - 16px\) \* 640 \/ 233\), calc\(40vw - 90px\), 280px\);/.test(home), "H the sideways-phone wordmark is sized to the ceiling band");
 ok(home.includes(":root #app #mainMenu.v10Home .fifaMenuShell > .homeLockup { top: max(8px, calc((var(--home-hair) - var(--home-logo-h)) / 2)); translate: none; }"), "H it starts 8px down (centred in the band) and drops the 12px lift");
 ok(home.includes("#app #mainMenu.v10Home .homeLockup { left: calc((40vw + 70px) / 2); }"), "H it stands between SIGN IN and the plate's right edge");
+// L8
+ok(/@media \(max-width:700px\) and \(orientation:landscape\) \{\n  #app #legacy\[data-rivalry-legacy-v10\] \.legacyArchivePanel \.legacyTools \.legacyViewToggle button \{ padding-inline:4px; letter-spacing:\.03em; \}/.test(legacy), "L8 the CARDS / LIST segment tightens its sides and tracking on sideways phones up to 700px wide");
+// L9
+const sp = type.indexOf("r91 L9 + L10");
+const sideBlock = type.slice(sp, type.indexOf("\n}", sp));
+ok(sp >= 0 && sideBlock.includes("@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape)"), "L9 the sideways-phone block exists");
+ok(sideBlock.includes(".headlineTile { padding-inline: 3px; }") && sideBlock.includes(".headlineTile .headlineLabel { letter-spacing: 0; }"), "L9 the headline tile gives COMPLETED SHOWDOWNS its tracking and side padding");
+const cols = [5, 21, 22, 24, 13, 15];
+cols.forEach((w, i) => ok(sideBlock.includes(".careerTable thead th:nth-child(" + (i + 1) + ") { width: " + w + "%; }"), "L9 Career Table column " + (i + 1) + " is " + w + "%"));
+ok(cols.reduce((a, b) => a + b) === 100, "L9 the six columns add to 100%");
+// L10
+ok(/@media \(max-width: 700px\) and \(orientation: landscape\) \{\n  :root:not\(#sa-f1\):not\(#sa-f2\):not\(#sa-f3\):not\(#sa-f4\) #app #mainMenu\.v10Home \.menuTile \.menuTileLabel \{ letter-spacing: -0\.2px; \}/.test(type), "L10 the Home tile labels lose 0.2px of tracking on sideways phones up to 700px wide");
 // F
 const fb = type.indexOf("@media (min-width:481px) and (max-width:900px) and (orientation:portrait) {\n  :root:not(#sa-f1)", type.indexOf("r91 12px floor"));
 ok(fb >= 0, "F the tablet floor block exists");
