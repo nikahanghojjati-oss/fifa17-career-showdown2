@@ -36,6 +36,20 @@ check('RS9 app hooks are lazy; startup files and revision remain unchanged',()=>
 check('RS10 visual code has no fixture reads, invented gameplay or destructive authority',()=>{const src=read('js/rulesSettingsV10.js');for(const banned of ['fixtures.json','localStorage','fetch(','applyCareerMode','prepareCareerMode','Preview data'])assert.ok(!src.includes(banned),banned);assert.ok(!src.includes('.hidden = false'));});
 check('RS11 system CSS is scoped and never overrides hidden recovery containment',()=>{for(const file of ['rule-book/rule-book.css','settings/settings.css']){const css=read('visual-assets/v10_1/'+file);assert.ok(!/^body\s*\{/m.test(css));assert.ok(!/^#stage-root\s*\{/m.test(css));}assert.ok(!/\[hidden\][^{]*\{[^}]*display:\s*(?:block|grid|flex)/.test(read('css/rulesSettingsV10.css')));});
 check('RS12 lazy text files are shell cached and referenced art uses runtime cache',()=>{const sw=read('service-worker.js');for(const p of ['js/rulesSettingsV10.js','css/rulesSettingsV10.css','visual-assets/v10_1/rule-book/rule-book.css','visual-assets/v10_1/settings/settings.css'])assert.ok(sw.includes('"'+p+'"'),p);for(const p of ['shared/plates/ENV_SYS_PLATE_V1_1X.webp','shared/plates/ENV_SYS_PLATE_V1_2X.webp','plates-v2/ENV_RULE_BOOK_PHONE_V2.webp','plates-v2/ENV_SETTINGS_PHONE_V2.webp','shared/wordmarks/TITLE_RULE_BOOK_V1.webp','shared/wordmarks/TITLE_SETTINGS_V1.webp']){assert.ok(fs.existsSync(path.join(ROOT,'visual-assets/v10_1',p)),p);assert.ok(!sw.includes('"visual-assets/v10_1/'+p+'"'),p);}});
+// RS13 (art ledger S03-D2, S03-D4): DONE is one brushed-gold bar at every size (no size block around it), neither DONE nor
+// the chosen motion card carries a gold haze, and the three one-of-three motion choices wear a round mark with a gold dot.
+check('RS13 Settings: one DONE look at every size, round motion marks with a dot for the chosen one, no gold haze',()=>{const css=read('css/rulesSettingsV10.css');
+  const at=css.lastIndexOf('\nbody #settingsOverlay.v10Settings .settingsFooter .sd-btn--primary {\n');assert.ok(at>0,'DONE has its own rule');
+  assert.equal(css.split('.settingsFooter .sd-btn--primary {').length-1,1,'and only one, so desktop and phone cannot drift apart');
+  assert.ok(at>css.lastIndexOf('@media')&&/\n\}\n\/\* Art ledger S03-D2 and S03-D4/.test(css),'it follows the last size block, outside it');
+  const done=css.slice(at,css.indexOf('}',at));
+  assert.match(done,/background:linear-gradient\(180deg,#fff0a6 0%,#f4cb55 38%,#d9a52b 72%,#b98a21 100%\);/,'brushed gold');
+  assert.match(done,/box-shadow:inset 0 0 0 1px rgba\(110,76,10,\.7\),inset 0 1px 0 2px rgba\(255,252,220,\.55\),0 6px 18px rgba\(0,0,0,\.5\);/,'two inner lines and a dark drop shadow, nothing gold outside');
+  assert.match(done,/clip-path:none;/,'no cut corner under the bevel');
+  assert.match(css,/\n    background: linear-gradient\(180deg, rgba\(120, 88, 24, \.55\), rgba\(30, 22, 6, \.9\)\); box-shadow: inset 0 0 0 1px #050505;\n/,'the chosen motion card has no outer glow');
+  assert.doesNotMatch(css.slice(css.indexOf('/* motion choices */')),/0 0 (16|22)px rgba\(224, ?168, ?44/,'no gold haze left on the Settings controls');
+  assert.match(css,/\nbody #settingsOverlay\.v10Settings \.settingsMotionMarker \{ border-radius:50%; \}\nbody #settingsOverlay\.v10Settings \.settingsMotionChoice:is\(\.selected,\[aria-checked="true"\]\) \.settingsMotionMarker \{ background:radial-gradient\(circle,#f2c45b 0 4px,#151515 5px\); \}\n/,'round marks; the chosen one has a gold dot');
+  assert.match(read('js/settings.js'),/button\.setAttribute\("role", "radio"\);/,'the choices are radios, which is why the mark is round');});
 (async()=>{
   doc.head=new FakeNode('head');doc.addEventListener=()=>{};
   root.setTimeout=fn=>{queueMicrotask(fn);return 0;};root.clearTimeout=()=>{};root.loadRuntimeScript=async()=>true;
