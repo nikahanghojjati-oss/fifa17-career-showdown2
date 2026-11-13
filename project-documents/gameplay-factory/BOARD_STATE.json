@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-13 4:58 PM Boston time (EST)",
+ "generated": "2026-11-13 5:02 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 277,
@@ -2555,11 +2555,11 @@
      "title": "Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100",
      "draft": false,
      "branch": "gameplay/r91",
-     "sha": "92873baa2e0ab5884e2f69741fac9ec8cfac05bb",
-     "updated": "2026-11-13T21:31:17Z",
+     "sha": "9bcf3cda1fef854844891252c75ccb13e4803c8e",
+     "updated": "2026-11-13T22:01:19Z",
      "gates": {
-      "passed": 7,
-      "running": 1,
+      "passed": 0,
+      "running": 8,
       "failed": 0,
       "cancelled": 0
      }
@@ -2570,7 +2570,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1444: L1✓ L2… L3A✓ L3B✓ L4✓ L5✓ L6… · seal pending · POS20 #1444 0/16",
+   "gate": "Gate #1444: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #1444 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3356,7 +3356,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 8333
+    "waiting_min": 8338
    },
    {
     "id": "HO-059",
@@ -4910,11 +4910,11 @@
     "title": "Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100",
     "draft": false,
     "branch": "gameplay/r91",
-    "sha": "92873baa2e0ab5884e2f69741fac9ec8cfac05bb",
-    "updated": "2026-11-13T21:31:17Z",
+    "sha": "9bcf3cda1fef854844891252c75ccb13e4803c8e",
+    "updated": "2026-11-13T22:01:19Z",
     "gates": {
-     "passed": 7,
-     "running": 1,
+     "passed": 0,
+     "running": 8,
      "failed": 0,
      "cancelled": 0
     }
