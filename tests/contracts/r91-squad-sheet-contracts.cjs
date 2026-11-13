@@ -605,6 +605,28 @@ function rebuildsSame(club,special,season,stage,events,locked,label){
       const p4=S.replay({club,special:null,season:4,stage:'pre',events:evs,docs:d3}).proposal;
       assert.ok(at(p4,'Rodrigo'),'a loan of 222 ends after a guess of 333');
     }
+    // Codex on #1448 (2nd): Rodrigo 111 kept in S1 and sold before the S2 window, Rodrigo 222 kept in S2, Rodrigo 111 guessed
+    // in S3. Whether 222 joined new or as 111 bought back depends on the manager's moves, which a phone holding only a later
+    // document never replays, so the release reads the verdict rows only: 111 was kept under that name before, so the name
+    // decides (as before R92-01) and every phone, whichever documents it holds, rebuilds the same squad.
+    {
+      const evs=[null,ev([{slot:1,name:'Rodrigo',overall:75,position:'ST',release:false,playerId:111}])];
+      let p2=S.replay({club,special:null,season:2,stage:'pre',events:evs,docs:{}}).proposal;
+      const sold=S.leave(p2,sq('Rodrigo'),'sold');assert.ok(sold.ok,sold.reason);p2=sold.sheet;
+      const dPre={'2_pre':{...S.toDoc(p2),rivalryId:'pair_x',role:'playerOne'}};
+      evs[2]=ev([{slot:1,name:'Rodrigo',overall:80,position:'ST',release:false,playerId:222}]);
+      const live=S.replay({club,special:null,season:2,stage:'post',events:evs,docs:dPre}).proposal;
+      assert.ok(at(live,'Rodrigo'),'222 is at the club after S2');
+      const dPost={'2_post':{...S.toDoc(live),rivalryId:'pair_x',role:'playerOne'}};
+      evs[3]=ev([{slot:1,name:'Rodrigo',overall:70,position:'ST',release:true,playerId:111}]);
+      const s3=[dPre,dPost,{...dPre,...dPost}].map(ds=>S.replay({club,special:null,season:3,stage:'post',events:evs,docs:ds}).proposal);
+      assert.equal(new Set(s3.map(x=>JSON.stringify([x.excluded,x.guessed,S.board(x)]))).size,1,'every phone rebuilds the same S3 squad');
+      assert.equal(at(s3[0],'Rodrigo'),null,'a guess of an id kept before goes by the name');
+      for(const x of s3)assert.ok(S.validate(x).ok,S.validate(x).problems.join());
+      // and a guess of an id never kept under that name leaves 222 at the club on every phone
+      evs[3]=ev([{slot:1,name:'Rodrigo',overall:70,position:'ST',release:true,playerId:333}]);
+      for(const ds of [dPre,dPost,{...dPre,...dPost}])assert.ok(at(S.replay({club,special:null,season:3,stage:'post',events:evs,docs:ds}).proposal,'Rodrigo'),'222 stays after a guess of 333');
+    }
   }
   // A shot club player bars the whole name; a Special Player's name is barred whatever the id.
   {

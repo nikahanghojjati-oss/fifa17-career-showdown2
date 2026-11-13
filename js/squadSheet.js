@@ -195,9 +195,7 @@
   // - signedIds {id: [playerId, 0 = a row with no id]}: every kept row of each signing name, window by window.
   // - fresh {id: season}: the last window a man came in past a bar of his name (not the barred man). Departures of that name
   //   from before it are the old man's, so a stored document never reads him back in through them (fromDoc).
-  // - joinedIds {id: playerId|0}: the playerId of the last man of that name who joined as a kept signing (0 = he came in
-  //   without one). A guess with another id is another man: he stays (or his loan ends) and only that id is barred.
-  // All four live only in the chain (never in the stored document): both phones rebuild them from the same verdict rows.
+  // All three live only in the chain (never in the stored document): both phones rebuild them from the same verdict rows.
   const excludedSet=sheet=>new Set(sheet.excluded);
   const barredOf=sheet=>sheet.barred&&typeof sheet.barred==="object"?sheet.barred:{};
   const objectOf=value=>value&&typeof value==="object"&&!Array.isArray(value)?value:{};
@@ -489,7 +487,7 @@
     }
     sheet.stage="post";
     const ev=events||{},ex=new Set(sheet.excluded),bar={...barredOf(sheet)},alts=JSON.parse(JSON.stringify(altsOf(sheet))),guessed=(sheet.guessed||[]).slice();
-    const barIds=JSON.parse(JSON.stringify(objectOf(sheet.barIds))),signedIds=JSON.parse(JSON.stringify(objectOf(sheet.signedIds))),fresh={...objectOf(sheet.fresh)},joinedIds={...objectOf(sheet.joinedIds)};
+    const barIds=JSON.parse(JSON.stringify(objectOf(sheet.barIds))),signedIds=JSON.parse(JSON.stringify(objectOf(sheet.signedIds))),fresh={...objectOf(sheet.fresh)};
     // The places this window empties: the shot man first, then a signing at the club the rival guessed. Each is refilled
     // within his line below, the shot seat as before.
     const vacancies=[];
@@ -519,9 +517,12 @@
       if(!text.trim())continue;
       const name=text.trim(),id=`s|${sqKey(name)}`,pid=raw&&typeof raw==="object"?pidOf(raw.playerId):null;
       addBar(bar,barIds,id,"guessed",pid===null?[]:[pid],pid===null);
-      // R92-01 (Codex on #1448): the signing of this name who joined came in by another id, so he is not the guessed man:
-      // he stays, and a loan of his ends as usual. With no id on either side, the name decides (same signing).
-      if(pid!==null&&joinedIds[id]>0&&joinedIds[id]!==pid)continue;
+      // R92-01 (Codex on #1448): a guess whose id was never on a kept row of this name is another man than any signing of
+      // that name at the club: only his id is barred, the man at the club stays and a loan of his ends as usual. When the
+      // id was kept before, or a kept row of the name had no id, the name decides (the same signing, as before). This reads
+      // the verdict rows only (signedIds), never the manager's moves, so every phone and every reload decides the same.
+      const keptIds=Array.isArray(signedIds[id])?signedIds[id]:[];
+      if(pid!==null&&keptIds.length&&!keptIds.includes(0)&&!keptIds.includes(pid))continue;
       if(!guessed.includes(id))guessed.push(id);
       ex.add(id);vacate(id,name,"guessed");
     }
@@ -546,7 +547,7 @@
         if(bar[p.id]){const g=guessed.indexOf(p.id);if(g>=0)guessed.splice(g,1);fresh[p.id]=sheet.season;}
         else sheet.notes.push({name:p.name,reason:"bought-back"});
       }
-      kept.push(p);joinedIds[p.id]=pidOf(row.playerId)??0;
+      kept.push(p);
     }
     // R92-01: every kept row of this window, joined or not, by name (ev.signed lists them all; older callers pass ev.kept).
     for(const row of Array.isArray(ev.signed)?ev.signed:Array.isArray(ev.kept)?ev.kept:[]){
@@ -554,7 +555,7 @@
       const id=`s|${sqKey(row.name.trim())}`;signedIds[id]=idList([...(signedIds[id]||[]),pidOf(row.playerId)??0]);
     }
     sheet.excluded=[...ex].sort();sheet.barred=sortedObject(bar);sheet.alts=sortedObject(alts);sheet.guessed=guessed.sort();
-    sheet.barIds=sortedObject(barIds);sheet.signedIds=sortedObject(signedIds);sheet.fresh=sortedObject(fresh);sheet.joinedIds=sortedObject(joinedIds);
+    sheet.barIds=sortedObject(barIds);sheet.signedIds=sortedObject(signedIds);sheet.fresh=sortedObject(fresh);
     kept.sort(order);
     // The shot player's seat (and a released signing's): a kept signing of his line first, then the normal refill.
     for(const v of vacancies)if(v.zone==="xi"&&!sheet.xi[v.index])refillXi(sheet,v.index,kept,v.gone);
