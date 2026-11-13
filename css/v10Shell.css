@@ -817,7 +817,7 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
    on under the numbers (up to three times its column, which is always inside the row). The leader row clips each cell for
    its gold sweep (Team V's sheet); the Manager cell keeps that clip on three sides and is open to the right for the chip. */
 #app #careerStatistics.careerScreenV10 .careerTable tbody tr:has(.spChip) td { vertical-align: top; }
-#app #careerStatistics.careerScreenV10 .careerTable tbody tr:has(.spChip) td:nth-child(2) { overflow: visible; clip-path: inset(0 -100vw 0 0); }
+#app #careerStatistics.careerScreenV10 .careerTable tbody tr:has(.spChip) td:nth-child(2) { position: relative; z-index: 1; overflow: visible; clip-path: inset(0 -100vw 0 0); }
 #app #careerStatistics.careerScreenV10 .careerTable td > .spChip { position: relative; z-index: 1; max-width: 300%; }
 #app #careerStatistics.careerScreenV10 .careerTable tbody tr:has(.spChip) td { padding-top: max(4px, calc(var(--cs-u, 8px) * .38)); padding-bottom: max(4px, calc(var(--cs-u, 8px) * .38)); }
 #app #careerStatistics.careerScreenV10 .careerTablePanel { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #9e8d5c transparent; }

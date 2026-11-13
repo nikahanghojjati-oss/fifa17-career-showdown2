@@ -2330,6 +2330,11 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-comparison .rv-manager span.spChip { flex:none; max-width:none; white-space:nowrap; }
   #app #statistics[data-rivalry-legacy-v10] .rv-comparison .rv-manager .spChip > span.spChipName { white-space:nowrap; }
 }
+/* Under 1200px wide the "seasons completed" line took two lines in its 28% column, and its second line stood where a long
+   chip runs. It takes one line, level with the two names, in the open space between them. */
+@media (min-width:901px) and (max-width:1199px) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-comparison:has(.rvSpecialPlayer):not(.hasCoverage) .rv-progress { top:4.5%; left:24%; right:24%; white-space:nowrap; }
+}
 @media (min-width:1500px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-comparison:has(.rvSpecialPlayer) { --rv-head:calc(clamp(17px,1.35vw,26px) * 1.2 + 46px); }
 }
