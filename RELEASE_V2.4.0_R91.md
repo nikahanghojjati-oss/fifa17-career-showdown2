@@ -91,8 +91,23 @@ update reaches a phone.
 
 ## Update safety
 
-PART_B_PENDING: filled by the version bump (service worker revision, retained 2.3.0-r90 shell, added and removed sets,
-startup gzip).
+- The shell and service worker advance to 2.4.0-r91 in a fresh `career-mode-showdown-shell-2.4.0-r91` cache, and 2.3.0-r90
+  is retained for rollback. `SHELL_PATHS_ADDED_SINCE_PREVIOUS` lists the 10 files 2.4.0 adds (Squad Management
+  `js/squadSheetStep.js`, `js/squadSheet.js`, `js/squadScreen.js` and `css/squadScreen.css`, the name search
+  `js/playerSearch.js`, and the five HO-072 layered Reus cover pictures) and `SHELL_PATHS_REMOVED_SINCE_PREVIOUS` the 6 it
+  drops (the History & Backup and Save Library editor files `css/restore.css`, `css/saveLibrary.css`, `js/restoreUI.js`
+  and `js/saveLibraryUI.js` cut in #1366, and the two flat Reus loading pictures the layered cover replaced), so the
+  retained r90 shell is verified against its own 289 paths (`tests/fixtures/shell-paths/2.3.0-r90.json`, from main
+  a85d286a). 2.4.0's `SHELL_PATHS` holds 293 paths.
+- The FIFA 17 player list for the name search is never precached: it loads on demand, at idle, once the Transfer War asks
+  for it (never on Home), and is then kept in the image cache, so the install and the startup page do not grow by its size.
+- As in 2.3.0, the install precaches only the essential shell and fetches the rest of `SHELL_PATHS` at idle; the
+  acceptance-only script still loads on demand.
+- An installed phone takes the update on Home, never in the middle of a game screen.
+- Startup budget: 33,998 bytes gzip against the 34,000 cap (33,997 before the bump: the version strings add 1 byte, no
+  code change). The cap is unchanged by this release, and the next startup change will need room found or the cap
+  raised with the lead's OK.
+- After 2.4.0 is live, open the app on both devices and wait on Home until it reloads itself.
 
 ## Deploy order
 
@@ -164,7 +179,11 @@ existing 15 s progression poll running over a season with two more screens, insi
   parallel); `r87-career-load-gate-browser` passes alone, and
   `r87-career-load-gate-edges` (G-06, two tabs at once) passes 2 of 3 alone. G-06 also fails 3 of 3 on 2.3.0 (main
   a85d286a) in the same container, so it is this machine's timing, not a 2.4.0 change. The Gate is the judge.
-- Startup gzip 33,997 bytes before the version bump (cap 34,000).
+- Startup gzip 33,998 bytes after the version bump (33,997 before; cap 34,000, unchanged).
+- Rule Book card 04 gains three lines (when a kept signing arrives and where he goes, no Special Player in Squad
+  Management, the Not in your squad list) and card 07 three (what LOCK refuses, not entering your own Special Player,
+  unguessed signings joining on the Squad Management screen), at Nik's request on 2026-11-13. Both cards fit with no
+  clipped or covered line at 1920x866, 1920x1035 and 390x844.
 - Rule Book (js/ruleBook.js) card 09 now names CONFIRM MY RESULT and CONFIRM SEASON, and card 02 has no contraction.
 - Rule Book (js/ruleBook.js) checked against the code for every r91 change a player sees: Squad Management (XI, 7
   subs, the 15 = XI + subs 1-4, no visit after the last Transfer War: `js/squadSheet.js`, `js/squadSheetStep.js`), the

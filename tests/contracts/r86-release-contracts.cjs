@@ -35,54 +35,49 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   ok('RR2','the site deploy waits for the same commit\'s Rules deploy, or for the last one on main to have succeeded');
 }
 
-// RR3 (red team #5, moved on by 2.0.0, 2.1.0, 2.2.0 and again by 2.3.0): PREVIOUS is the live 2.2.0-r89, so the retained
-// shell is exactly r89's own 275 paths (tests/fixtures/shell-paths/2.2.0-r89.json, main 2fe8d2f5): this release's shell minus
-// what r90 added, plus what it removed. tests/contracts/r87-upgrade-rollback-list-contracts.cjs names any drift.
+// RR3 (red team #5, moved on by 2.0.0, 2.1.0, 2.2.0, 2.3.0 and again by 2.4.0): PREVIOUS is the live 2.3.0-r90, so the retained
+// shell is exactly r90's own 289 paths (tests/fixtures/shell-paths/2.3.0-r90.json, main a85d286a): this release's shell minus
+// what r91 added, plus what it removed. tests/contracts/r87-upgrade-rollback-list-contracts.cjs names any drift.
 {
-  // r90: the shared 3D quality module (#1260), the self-hosted Special Player and roulette faces (M8 #1285, Rye #1290) and the
-  // meshopt decoder for Chamber Men's packed GLBs (M1). Removed: the app's own Barlow Condensed 600/700 latin copies (the sheet
-  // loads the shared ones) and js/analytics.js (r90 dead-code cut).
-  // r91 Squad Management adds its four files after gfxTier until the 2.4.0 release moves the previous shell to 2.3.0.
-  const R90_ADDED=['js/gfxTier.js','js/squadSheetStep.js','js/squadSheet.js','js/squadScreen.js','css/squadScreen.css','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2','visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2','visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js'];
-  // r91 cut step 3 also drops css/restore.css, css/saveLibrary.css, js/restoreUI.js and js/saveLibraryUI.js (re-pin both lists at the 2.4.0 bump).
-  const R90_REMOVED=['assets/fonts/barlow-condensed-latin-600-normal.woff2','assets/fonts/barlow-condensed-latin-700-normal.woff2','css/restore.css','css/saveLibrary.css','js/analytics.js','js/restoreUI.js','js/saveLibraryUI.js','assets/LOADING_REUS_DESKTOP.webp','assets/LOADING_REUS_PHONE.webp'];
+  // r91: Squad Management (#1358), the Transfer War name search (#1365; its player list is fetched on demand, never precached)
+  // and Team V's layered Reus loading cover (HO-072). Removed: the History & Backup and Save Library editor files (cut step 3,
+  // #1366) and the two flat Reus loading pictures the layered cover replaced.
+  const R91_ADDED=['js/squadSheetStep.js','js/squadSheet.js','js/squadScreen.js','css/squadScreen.css','js/playerSearch.js','assets/loading/ENV_LOADING_PLATE_HC_1X.webp','assets/loading/REUS_D_1X.webp','assets/loading/ENV_LOADING_PHONE_HC_590W.webp','assets/loading/REUS_P_590W.webp','assets/loading/LOGO_CM17_WORDMARK_V3_640.webp'];
+  const R91_REMOVED=['css/restore.css','css/saveLibrary.css','js/restoreUI.js','js/saveLibraryUI.js','assets/LOADING_REUS_DESKTOP.webp','assets/LOADING_REUS_PHONE.webp'];
   const sw=read('service-worker.js');
-  assert.match(sw,/const RUNTIME_REVISION = "2\.3\.0-r90";\nconst PREVIOUS_RUNTIME_REVISION = "2\.2\.0-r89";/);
+  assert.match(sw,/const RUNTIME_REVISION = "2\.4\.0-r91";\nconst PREVIOUS_RUNTIME_REVISION = "2\.3\.0-r90";/);
   const set=name=>JSON.parse('['+new RegExp(`const ${name} = new Set\\(\\[([^\\]]*)\\]\\);`).exec(sw)[1]+']');
   const added=set('SHELL_PATHS_ADDED_SINCE_PREVIOUS'),removed=set('SHELL_PATHS_REMOVED_SINCE_PREVIOUS');
-  const r89=JSON.parse(read('tests/fixtures/shell-paths/2.2.0-r89.json')).paths;
+  const r90=JSON.parse(read('tests/fixtures/shell-paths/2.3.0-r90.json')).paths;
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
-  assert.equal(r89.length,275);
-  assert.deepEqual(added,shell.filter(p=>!r89.includes(p)),'the added list is this shell minus r89\'s');
-  // r91 (2.4.0) shell files land before the release moves PREVIOUS to 2.3.0-r90: they sit in shell order among r90's.
-  // r91 art: the loading cover's five light layers (Team V HO-072) replace the two flat Reus pictures, which stay in r89's shell for a rollback.
-  const R91_ADDED=['js/playerSearch.js','assets/loading/ENV_LOADING_PLATE_HC_1X.webp','assets/loading/REUS_D_1X.webp','assets/loading/ENV_LOADING_PHONE_HC_590W.webp','assets/loading/REUS_P_590W.webp','assets/loading/LOGO_CM17_WORDMARK_V3_640.webp'];
-  assert.deepEqual(added.filter(p=>!R91_ADDED.includes(p)),R90_ADDED,'2.3.0 adds exactly the r90 shell files (plus r91 Squad Management)');
-  assert.deepEqual(added.filter(p=>R91_ADDED.includes(p)),R91_ADDED,'r91 adds exactly its listed shell files');
-  assert.deepEqual(removed,R90_REMOVED,'2.3.0 removes exactly the r89 shell files r90 and r91 drop');
-  assert.deepEqual(r89.filter(p=>!shell.includes(p)),removed,'every other r89 shell path is still precached');
-  assert.equal(shell.length,275-removed.length+added.length);
-  for(const p of ['js/chamberMenStep.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js','js/kits17.js','data/gazetteSacked.js','visual-assets/v10_1/roulette/vendor/three-r187.min.js','js/iconGuessStep.js','js/touchlineGazette.js','js/rosterRouletteStep.js'])assert.ok(r89.includes(p)&&!added.includes(p),`r89's ${p} is in r89's own list`);
+  assert.equal(r90.length,289);
+  assert.deepEqual(added,shell.filter(p=>!r90.includes(p)),'the added list is this shell minus r90\'s');
+  assert.deepEqual(added,R91_ADDED,'2.4.0 adds exactly the r91 shell files');
+  assert.deepEqual(removed,R91_REMOVED,'2.4.0 removes exactly the r90 shell files r91 drops');
+  assert.deepEqual(r90.filter(p=>!shell.includes(p)),removed,'every other r90 shell path is still precached');
+  assert.equal(shell.length,289-removed.length+added.length);
+  for(const p of ['js/gfxTier.js','js/chamberMenStep.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js','js/kits17.js','data/gazetteSacked.js','visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js','js/iconGuessStep.js','js/touchlineGazette.js','js/rosterRouletteStep.js'])assert.ok(r90.includes(p)&&!added.includes(p),`r90's ${p} is in r90's own list`);
+  assert.ok(!shell.some(p=>/^data\/fifa17\/players-/.test(p)),'the Transfer War player list is fetched on demand, never precached');
   assert.ok(!shell.some(p=>p.startsWith('visual-assets/v10_1/icon-guess/')&&/\.(webp|png|jpe?g)$/.test(p)),'Prime Pack pictures stay runtime-cached (V10_IMAGE_PATH)');
   assert.ok(!shell.some(p=>p.startsWith('chronicle/')),'the STORY site (chronicle/) is never precached');
-  ok('RR3','the retained 2.2.0-r89 shell is verified against its own 275 paths');
+  ok('RR3','the retained 2.3.0-r90 shell is verified against its own 289 paths');
 }
 
-// RR4 (2.3.0): one version everywhere it is pinned: package files, APP_VERSION (Settings and backups show it), the footer, the
+// RR4 (2.4.0): one version everywhere it is pinned: package files, APP_VERSION (Settings and backups show it), the footer, the
 // asset revision, every ?v= on Home's own files and the manifest icons, and the service worker.
 {
   const html=read('index.html'),app=read('js/app.js'),sw=read('service-worker.js'),manifest=read('manifest.webmanifest');
-  assert.equal(JSON.parse(read('package.json')).version,'2.3.0');
-  const lock=JSON.parse(read('package-lock.json'));assert.equal(lock.version,'2.3.0');assert.equal(lock.packages[''].version,'2.3.0');
-  assert.match(app,/^const APP_VERSION = "2\.3\.0";/);
-  assert.match(html,/<meta name="app-asset-revision" content="2\.3\.0-r90">/);
-  assert.match(html,/<footer>Career Mode Showdown<br>v2\.3\.0<\/footer>/);
+  assert.equal(JSON.parse(read('package.json')).version,'2.4.0');
+  const lock=JSON.parse(read('package-lock.json'));assert.equal(lock.version,'2.4.0');assert.equal(lock.packages[''].version,'2.4.0');
+  assert.match(app,/^const APP_VERSION = "2\.4\.0";/);
+  assert.match(html,/<meta name="app-asset-revision" content="2\.4\.0-r91">/);
+  assert.match(html,/<footer>Career Mode Showdown<br>v2\.4\.0<\/footer>/);
   const pins=[...html.matchAll(/\?v=([0-9][^"&]*)/g),...manifest.matchAll(/\?v=([0-9][^"&]*)/g),...app.matchAll(/\?v=([0-9][^"&]*)/g),...read('js/menuExperience.js').matchAll(/\?v=([0-9][^"&]*)/g)].map(m=>m[1]);
-  assert.ok(pins.length>=17,`${pins.length} pins`);assert.deepEqual([...new Set(pins)],['2.3.0-r90'],'every pinned asset revision is 2.3.0-r90');
-  assert.match(sw,/^const RUNTIME_REVISION = "2\.3\.0-r90";/);
-  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest','service-worker.js'])for(const old of ['1.9.9-r85','1.9.10-r86','2.0.0-r87','2.1.0-r88'])assert.ok(!read(file).includes(old),`${file} has no ${old} pin`);
-  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest'])assert.ok(!read(file).includes('2.2.0-r89'),`${file} has no r89 pin`);
-  ok('RR4','2.3.0-r90 is the one version pinned everywhere');
+  assert.ok(pins.length>=17,`${pins.length} pins`);assert.deepEqual([...new Set(pins)],['2.4.0-r91'],'every pinned asset revision is 2.4.0-r91');
+  assert.match(sw,/^const RUNTIME_REVISION = "2\.4\.0-r91";/);
+  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest','service-worker.js'])for(const old of ['1.9.9-r85','1.9.10-r86','2.0.0-r87','2.1.0-r88','2.2.0-r89'])assert.ok(!read(file).includes(old),`${file} has no ${old} pin`);
+  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest'])assert.ok(!read(file).includes('2.3.0-r90'),`${file} has no r90 pin`);
+  ok('RR4','2.4.0-r91 is the one version pinned everywhere');
 }
 
 // RR5 (old-era cut): there are no "live from date X" release gates. The only *_FROM_MS=Date.parse literal left in js/ is
