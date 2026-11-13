@@ -92,8 +92,8 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   assert.ok(S.canSwap(s2,ref('bench',0),rb).ok,'the manager may choose Mertesacker 83 at RB');
   assert.match(S.canSwap(s2,resRef(s2,'Héctor Bellerín'),rb).reason,/better/,'Bellerín 79 cannot replace Debuchy 80');
   assert.match(S.canSwap(s2,resRef(s2,'Lucas Pérez'),giroud).reason,/better/,'Giroud 83 cannot be dragged out for Lucas Pérez 81');
-  assert.match(S.canSwap(s2,resRef(s2,'K. Gibbs'),giroud).reason,/can't play|better/,'a left back cannot replace a striker');
-  assert.match(S.canSwap(s2,ref('bench',1),giroud).reason,/can't play/,'Coquelin (CDM) cannot play striker');
+  assert.match(S.canSwap(s2,resRef(s2,'K. Gibbs'),giroud).reason,/cannot play|better/,'a left back cannot replace a striker');
+  assert.match(S.canSwap(s2,ref('bench',1),giroud).reason,/cannot play/,'Coquelin (CDM) cannot play striker');
   assert.match(S.canSwap(s2,resRef(s2,'D. Ospina'),xiRef(s2,p=>p.name==='P. Čech')).reason,/better/,'Čech 88 cannot be hidden for Ospina 79');
   // ties are the manager's choice; subs 5-7 and the reserves (both off the board) swap freely
   assert.ok(S.swap(s2,ref('bench',1),ref('bench',2)).ok,'Coquelin 81 and Walcott 81 trade board seats');
@@ -128,7 +128,7 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   assert.ok(boardName(ox.sheet,'A. Sánchez')&&S.hidingIssue(ox.sheet)===null,'Sánchez 87 is never hidden: he stays on the Roulette board');
   // XI <-> XI inside a line, and AUTO restores natural seats
   const lb=xiRef(s2,p=>p.name==='Nacho Monreal');
-  assert.match(S.canSwap(s2,rb,lb).reason,/can't play/,'no right back to left back across the defence');
+  assert.match(S.canSwap(s2,rb,lb).reason,/cannot play/,'no right back to left back across the defence');
   const rcb=xiRef(s2,p=>p.name==='S. Mustafi');
   assert.match(S.canSwap(s2,rb,rcb).reason,/Mertesacker/,'Debuchy at CB would leave Mertesacker 83 (a centre back) out: refused');
   const crossed=S.swap(s2,rcb,xiRef(s2,p=>p.name==='L. Koscielny'));assert.ok(crossed.ok,'two centre backs swap sides');
@@ -137,7 +137,7 @@ ok('C3',`98 clubs x 33 formations: season 1 only rearranges the original 15 (${s
   // XI <-> bench across lines is refused; board order is free
   assert.equal(S.canSwap(s2,resRef(s2,'Lucas Pérez'),rb).ok,false);
   assert.ok(S.swap(s2,ref('bench',1),ref('bench',2)).ok);
-  assert.match(S.canSwap(s2,ref('bench',4),giroud).reason||'',/better|can't play/);
+  assert.match(S.canSwap(s2,ref('bench',4),giroud).reason||'',/better|cannot play/);
 }
 ok('C4','moves: no keeper outfield, no cross-line swap, no reserve before season 2, never a better player out to the reserves; from season 2 the XI holds each line\'s best and subs 1-4 the best 4 left (ties free), reported overalls move players, AUTO reseats');
 
@@ -401,7 +401,7 @@ function rebuildsSame(club,special,season,stage,events,locked,label){
   // The refusal names the man it means.
   {
     const s=S.launch('Arsenal',{special:null}),bad=JSON.parse(JSON.stringify(s));bad.excluded=[s.xi[0].id];
-    assert.equal(S.validate(bad).problems[0],`${s.xi[0].name} has left the club, so he can't be in the squad.`);
+    assert.equal(S.validate(bad).problems[0],`${s.xi[0].name} has left the club, so he cannot be in the squad.`);
     bad.excluded=[];bad.reserves.push(JSON.parse(JSON.stringify(s.xi[1])));
     assert.equal(S.validate(bad).problems[0],`${s.xi[1].name} is listed twice.`);
   }
@@ -465,10 +465,10 @@ function rebuildsSame(club,special,season,stage,events,locked,label){
     assert.ok(p.notes.some(n=>n.name===name&&n.reason==='special'),`${club}: the note says why`);
   }
   const screen=require('node:fs').readFileSync(require('node:path').join(__dirname,'../../js/squadScreen.js'),'utf8');
-  assert.match(screen,/const LEFT_OUT_WORD=\{shot:"Shot in the roulette",guessed:"Guessed, so released",special:"A Special Player, never in a squad",excluded:"Can't be signed again"\};/);
+  assert.match(screen,/const LEFT_OUT_WORD=\{shot:"Shot in the roulette",guessed:"Guessed, so released",special:"A Special Player, never in a squad",excluded:"Cannot be signed again"\};/);
   assert.match(screen,/const missing=\(Array\.isArray\(base\.notes\)\?base\.notes:\[\]\)\.filter\(n=>n&&LEFT_OUT_WORD\[n\.reason\]\)\.slice\(0,6\);/,'from the notes of the sheet the screen opened on, at most 6');
   assert.match(screen,/el\("div","sqmGone sqmLeftOut"\);box\.appendChild\(el\("h3","sqmSideTitle","Not in your squad"\)\)/,'one quiet list in the side panel, styled as "Left the club"');
-  assert.match(require('node:fs').readFileSync(require('node:path').join(__dirname,'../../js/ruleBook.js'),'utf8'),/"Your rival can't sign him in the Transfer War either: LOCK refuses him\.",/,'Rule Book card 02 says the rival can\'t sign him');
+  assert.match(require('node:fs').readFileSync(require('node:path').join(__dirname,'../../js/ruleBook.js'),'utf8'),/"Your rival cannot sign him in the Transfer War either: LOCK refuses him\.",/,'Rule Book card 02 says the rival cannot sign him');
   ok('C19','hunt C3: a Special Player kept as a signing never joins either squad and the Squad screen lists him under "Not in your squad" (with the shot and released men); the Transfer War refuses the rival\'s one (r86 L7) and the Rule Book says so');
 }
 // C20 namesake fuzz (the hunt's squad-engine-fuzz, with the stuck seeds 388, 653, 1111, 1112, 1154): random careers with

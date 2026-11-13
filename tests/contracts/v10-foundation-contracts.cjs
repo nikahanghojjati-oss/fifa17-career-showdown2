@@ -443,8 +443,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"2.3.0-r90","RUNTIME_REVISION is the r90 release (2.3.0-r90)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.2.0-r89");
+  assert.equal(revision,"2.4.0-r91","RUNTIME_REVISION is the r91 release (2.4.0-r91)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.3.0-r90");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -493,7 +493,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"2.3.0-r90");assert.equal(prev,"2.2.0-r89");
+  assert.equal(cur,"2.4.0-r91");assert.equal(prev,"2.3.0-r90");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -1180,12 +1180,18 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // else (r90's own index.html changes were already pinned as a384fe22 by their feature PRs).
   // Re-pinned 2026-11-13 by r91 HO-072 (loading cover): the 2.3.0 file with the layered Reus cover in place of the single
   // picture (four first-paint preloads, the room and Reus pictures with their sharp layers, the logo lettering), nothing else.
-  assert.equal(sha256("index.html"),"f2d4288be29c9ff3f53bc24c39c267f64555c90b9ee8422c8d8258848d0bb424","index.html is the 2.3.0 release plus the HO-072 loading cover");
-  const html=read("index.html");
+  // Re-pinned 2026-11-13 by the r91 hunt fixes (B1, PR #1439): the HO-072 file plus the inline boot-fail guard before js/storage.js
+  // (one reload by itself, then the marble error screen with RELOAD), nothing else. The guard names three stylesheets, one of them
+  // visual-assets/v10_1/shared/showdown-tokens.css, that it loads only after a failed start; the start-up shell loads none of them.
+  // Re-pinned 2026-11-13 by the 2.4.0 release PR: gameplay/r91 47cdb505's file (02e01adb above) with its 2.4.0-r91 pins and v2.4.0
+  // footer, nothing else.
+  assert.equal(sha256("index.html"),"83d7f236553789842a38a0a3d47699eb69499b507258936cb769e6730f506166","index.html is the 2.4.0 release (HO-072 loading cover, B1 boot-fail guard, 2.4.0-r91 pins)");
+  const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
+  assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=34000,`startup gzip ${gzip} must stay <= 34000 (r90 W8 +87 on js/menuExperience.js: the hidden Reus cover photo (89 KB) is no longer downloaded on every start, lead brief W8 2026-11-07; 2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
+  assert.ok(gzip<=34000,`startup gzip ${gzip} must stay <= 34000 (r90 W8 +87 on js/menuExperience.js: the hidden Reus cover photo (89 KB) is no longer downloaded on every start, lead brief W8 2026-11-07; 2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; 2.4.0 version pins +1 (33,998), no code change; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
   const ssjr=read("js/ssjr.js");
   assert.match(ssjr,/load\("v10-screens","js\/v10Screens\.js",\(\)=>root\.CareerModeV10Screens\)/,"loader starts lazily after start-up");
   assert.match(ssjr,/requestIdleCallback/);

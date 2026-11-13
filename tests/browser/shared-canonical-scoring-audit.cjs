@@ -54,7 +54,7 @@ async function prepare(page,{role,saveId,draw=false}){
   await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
   await page.locator('#seasonReviewPanel').waitFor({state:'visible',timeout:5000});
   await page.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
-  assert.equal(await page.locator('#seasonReviewHeading').textContent(),'BOTH MANAGERS PUBLISHED','r11 scoring must attach only after the complete r9 shared Season Review is rendered.');
+  assert.equal(await page.locator('#seasonReviewHeading').textContent(),'BOTH MANAGERS CONFIRMED','r11 scoring must attach only after the complete r9 shared Season Review is rendered.');
   assert.equal(await page.locator('#sharedSeasonCommitAction').textContent(),'SEASON CONFIRMED ✓','r11 scoring must attach only after the real r10 production adapter verifies terminal acknowledgement.');
 
   await page.evaluate(async()=>{

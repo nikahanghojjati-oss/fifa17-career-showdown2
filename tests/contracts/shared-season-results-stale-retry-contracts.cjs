@@ -123,7 +123,7 @@ async function scenario(publishScript){
   assert.equal(run.fake.publishes.length,1,"an already-published own result must not be written again");
   assert.deepEqual(run.reports,[]);
   assert.deepEqual({...run.api.getState().ownResult},OWN);
-  assert.equal(run.document.getElementById("confirmSeasonCompletion").textContent,"PUBLISHED ✓");
+  assert.equal(run.document.getElementById("confirmSeasonCompletion").textContent,"RESULT CONFIRMED ✓");
   ok("stale publish whose re-read shows the own result binds it without a second publish");
 
   // (3) stale twice: the bounded retry gives up and surfaces the stale error.
@@ -132,7 +132,7 @@ async function scenario(publishScript){
   assert.equal(run.reports.length,1);
   assert.equal(run.reports[0].code,"SEASON_RESULTS_STALE_BASE_REVISION");
   assert.equal(run.api.getState().ownResult,null);
-  assert.equal(run.document.getElementById("seasonReviewError").textContent||run.document.getElementById("seasonEntryError").textContent,"Your season result could not be published.");
+  assert.equal(run.document.getElementById("seasonReviewError").textContent||run.document.getElementById("seasonEntryError").textContent,"Your season result could not be confirmed.");
   ok("second stale publish surfaces SEASON_RESULTS_STALE_BASE_REVISION after exactly two attempts");
 
   // (4) a non-stale rejection is never retried.

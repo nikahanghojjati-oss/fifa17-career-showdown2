@@ -28,7 +28,7 @@ const code=source=>source.replace(/\/\*[\s\S]*?\*\//g,"").replace(/(^|[\s;{}(),]
 const SITES=[
   // C4 (the dashboard DELETE CURRENT SHOWDOWN box) is retired in r90: its button was gone since r80 and the dead handler is deleted;
   // ending a Showdown is Settings END SHOWDOWN (C9).
-  ["C8","js/productionSharedTransferChallenge.js","pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You can't change them after locking.`,\"primary\")",[]],
+  ["C8","js/productionSharedTransferChallenge.js","pstcAskConfirm(`Lock ${filled} of ${PSTC_MAX_ROWS} ${noun}? You cannot change them after locking.`,\"primary\")",[]],
   // r80: DELETE CURRENT SHOWDOWN became END SHOWDOWN (same red button, same marble box, Ended early wording).
   ["C9","js/settings.js","settingsAskConfirm(\n        `End the \"${name}\" Showdown? Ends this Showdown for both players. Legacy keeps it as Ended early. This cannot be undone.`,\n        \"danger\"",[]],
   // C10 (Settings START REAL CAREER) is retired in r79 PR4 (Nik 2026-10-17): the row is gone; the one-time checkmark on the
@@ -189,15 +189,16 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
 // 2.1.0: the retained shell is r87's, filled by the 2.0.0 worker with its own 267 paths (tests/fixtures/shell-paths/2.0.0-r87.json).
 // 2.2.0: the retained shell is r88's, filled by the 2.1.0 worker with its own 270 paths (tests/fixtures/shell-paths/2.1.0-r88.json).
 // 2.3.0: the retained shell is r89's, filled by the 2.2.0 worker with its own 275 paths (tests/fixtures/shell-paths/2.2.0-r89.json).
-const R79_SHELL_PATHS_SHA256="173ec78318362de9d644a56f0ce82b41ea24c04664837c023e6b248c080f1a30";// sorted JSON of r89's SHELL_PATHS (main 2fe8d2f5)
+// 2.4.0: the retained shell is r90's, filled by the 2.3.0 worker with its own 289 paths (tests/fixtures/shell-paths/2.3.0-r90.json).
+const R79_SHELL_PATHS_SHA256="4acfee58d6c0fa7c0172759ef8a843c7ccfd676263266931f8dc425d04bf0fcb";// sorted JSON of r90's SHELL_PATHS (main a85d286a)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
 check("R4c an r79-only shell cache survives r80 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"2.2.0-r89");
-  assert.equal(diag.previousShellPaths.length,275,"r89 shipped 275 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r89's");
-  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","css/restore.css","css/saveLibrary.css","js/analytics.js","js/restoreUI.js","js/saveLibraryUI.js","assets/LOADING_REUS_DESKTOP.webp","assets/LOADING_REUS_PHONE.webp"],"this tree removes only the retired local analytics engine, the two local Barlow Condensed copies the shared sheet replaced and (r91) the backup-restore and Save Library editor UI files and the two flat Reus loading pictures the layered cover replaced");
+  assert.equal(diag.previousRevision,"2.3.0-r90");
+  assert.equal(diag.previousShellPaths.length,289,"r90 shipped 289 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r90's");
+  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["css/restore.css","css/saveLibrary.css","js/restoreUI.js","js/saveLibraryUI.js","assets/LOADING_REUS_DESKTOP.webp","assets/LOADING_REUS_PHONE.webp"],"2.4.0 removes only the backup-restore and Save Library editor UI files (#1366) and the two flat Reus loading pictures the layered cover replaced");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
     // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover

@@ -324,8 +324,8 @@
     const lines=[...plan.turns.map(rrsChamberLine).filter(Boolean),...plan.turns.map(rrsOutcomeLine),...rrsSkippedLines(plan,ctx.managerRole)];
     const choice=mine.fired
       ?await rrsAsk(ctx,{heading:`Release ${mine.player.name}${Number.isInteger(mine.player.number)?` #${mine.player.number}`:""}`,label:"Release your player",lines,
-        note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the Transfer War. The game can't do it for you.`,
-        buttons:[{id:"go",label:"I'VE RELEASED HIM",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]})
+        note:`Release ${rrsPlayerLabel(mine.player)} in your FIFA 17 save now, before the Transfer War. The game cannot do it for you.`,
+        buttons:[{id:"go",label:"I HAVE RELEASED HIM",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]})
       :await rrsAsk(ctx,{heading:"Your squad is safe",label:"Your squad is safe",lines,note:"Your squad stays as it is this season.",
         buttons:[{id:"go",label:rrsNextLabel(ctx),primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
     return choice==="go";

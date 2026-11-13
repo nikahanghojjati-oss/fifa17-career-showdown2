@@ -200,14 +200,14 @@
       panel.classList.remove("hidden");
       const local=ssjpLocalSeasonLength(),bound=ssjpBoundSeasonLength(),mismatch=Boolean(local&&bound&&local!==bound);
       ssjpText(panel.querySelector("h3"),prepared?`${prepared} SEASON${prepared===1?"":"S"} SELECTED`:mismatch?"SEASON PLAN MISMATCH":"SEASON PLAN UNAVAILABLE");
-      ssjpText(copy,prepared?(ssjpCoordinator()?"Using the season length Daniel picked at the start. Locking it for both managers.":`Using Daniel's season choice. Waiting for ${ssjpHostName()} to lock it.`):mismatch?"This Showdown's season count doesn't match Daniel's code. Use Showdown recovery before you continue.":"Daniel's season choice could not be found. Go back to Showdown recovery; don't pick a new length.");
+      ssjpText(copy,prepared?(ssjpCoordinator()?"Using the season length Daniel picked at the start. Locking it for both managers.":`Using Daniel's season choice. Waiting for ${ssjpHostName()} to lock it.`):mismatch?"This Showdown's season count does not match Daniel's code. Use Showdown recovery before you continue.":"Daniel's season choice could not be found. Go back to Showdown recovery; do not pick a new length.");
       return;
     }
     if(ssjpPhaseAtLeast("SEASON_LENGTH_COMMITTED")){
       panel.classList.remove("hidden");
       const matches=ssjpSeasonMatchesPrepared(setup);
       ssjpText(panel.querySelector("h3"),matches?`${setup.totalSeasons} SEASON${setup.totalSeasons===1?"":"S"} LOCKED`:"SEASON PLAN MISMATCH");
-      ssjpText(copy,matches?"Daniel's season choice is locked.":"This Showdown's season count doesn't match. Use Showdown recovery before you confirm.");
+      ssjpText(copy,matches?"Daniel's season choice is locked.":"This Showdown's season count does not match. Use Showdown recovery before you confirm.");
       return;
     }
     panel.classList.add("hidden");
@@ -290,7 +290,7 @@
   function ssjpDescribeFailure(code,message){
     const failureCode=String(code||"SHARED_SETUP_MUTATION_FAILED");
     if(setupApi&&typeof setupApi.describeFailure==="function")return setupApi.describeFailure({code:failureCode,message});
-    return {code:failureCode,kind:"generic",text:"That didn't go through. Tap again.",tapDetail:"Tap again."};
+    return {code:failureCode,kind:"generic",text:"That did not go through. Tap again.",tapDetail:"Tap again."};
   }
   async function ssjpHandleControlClickNow(id){
     if(!ssjpHandlesControl(id))return false;await ssjpEnsureSetup();await ssjpAwaitIdle();

@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.3.0-r90";
-const PREVIOUS_RUNTIME_REVISION = "2.2.0-r89";
+const RUNTIME_REVISION = "2.4.0-r91";
+const PREVIOUS_RUNTIME_REVISION = "2.3.0-r90";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -444,14 +444,14 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.3.0 (r90): PREVIOUS is 2.2.0-r89 (275 paths, tests/fixtures/shell-paths/2.2.0-r89.json). Added: the shared 3D quality
-// module js/gfxTier.js, the shared Barlow Condensed and Big Shoulders Display faces and Rye (M8: the Special Player page and the
-// roulette title stop using Google Fonts), and the meshopt decoder for Chamber Men's packed GLBs (players, stadium and the
-// Team V plates stay Team V images, V10_IMAGE_PATH runtime cache). Removed: the app's own Barlow Condensed 600/700 latin copies
-// (the sheet loads the shared ones) and js/analytics.js; a page rolled back to 2.2.0 still finds them in its own retained
-// shell. W8 (#1278) split install from the offline pack but keeps SHELL_PATHS the full list. The STORY site is never precached.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/gfxTier.js","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/playerSearch.js","assets/loading/ENV_LOADING_PLATE_HC_1X.webp","assets/loading/REUS_D_1X.webp","assets/loading/ENV_LOADING_PHONE_HC_590W.webp","assets/loading/REUS_P_590W.webp","assets/loading/LOGO_CM17_WORDMARK_V3_640.webp","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","css/restore.css","css/saveLibrary.css","js/analytics.js","js/restoreUI.js","js/saveLibraryUI.js","assets/LOADING_REUS_DESKTOP.webp","assets/LOADING_REUS_PHONE.webp"]);
+// 2.4.0 (r91): PREVIOUS is 2.3.0-r90 (289 paths, tests/fixtures/shell-paths/2.3.0-r90.json, main a85d286a). Added: Squad
+// Management (js/squadSheet.js, js/squadSheetStep.js, js/squadScreen.js, css/squadScreen.css), the Transfer War name search
+// js/playerSearch.js (its 296 KB player list is not precached: it is fetched on demand on Transfer War or Squad Management),
+// and Team V's layered Reus loading cover (HO-072: plate, Reus desktop and phone, wordmark). Removed: the History & Backup and
+// Save Library editor files the old-era cut deleted (#1366) and the old single-image Reus loading covers; a page rolled back to
+// 2.3.0 still finds them in its own retained shell. The STORY site is never precached.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/playerSearch.js","assets/loading/ENV_LOADING_PLATE_HC_1X.webp","assets/loading/REUS_D_1X.webp","assets/loading/ENV_LOADING_PHONE_HC_590W.webp","assets/loading/REUS_P_590W.webp","assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["css/restore.css","css/saveLibrary.css","js/restoreUI.js","js/saveLibraryUI.js","assets/LOADING_REUS_DESKTOP.webp","assets/LOADING_REUS_PHONE.webp"]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.

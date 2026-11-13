@@ -40,7 +40,7 @@ section("O1",()=>{
   assert.equal(Step.nextLabel({}),"GO TO THE TRANSFER WAR");
   assert.equal(Step.nextLabel({primePackNext:()=>{throw new Error("x");}}),"GO TO THE TRANSFER WAR");
   const rrs=read("js/rosterRouletteStep.js");
-  assert.match(rrs,/\{id:"go",label:"I'VE RELEASED HIM",primary:true\}/,"a fired spin still asks I'VE RELEASED HIM");
+  assert.match(rrs,/\{id:"go",label:"I HAVE RELEASED HIM",primary:true\}/,"a fired spin still asks I HAVE RELEASED HIM");
   assert.match(rrs,/\{id:"go",label:rrsNextLabel\(ctx\),primary:true\}/,"the safe card's button is the next screen's name");
   assert.doesNotMatch(rrs,/GO TO THE TRANSFER WINDOW/);
   assert.match(pstcSrc,/primePackNext:\(\)=>pstcPrimePackNext\(request,confirmedAtMs\)/,"the Transfer Challenge gives the roulette its own Prime Pack gate");

@@ -198,7 +198,7 @@ async function publishSeasonResult(m){
   await m.page.locator("#completeSeason").click({timeout:30000});
   await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="REVIEW YOUR SEASON RESULT",null,{timeout:30000});
   await m.page.locator("#confirmSeasonCompletion").click({timeout:30000});
-  await m.page.waitForFunction(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
+  await m.page.waitForFunction(()=>/YOUR RESULT IS CONFIRMED|BOTH MANAGERS CONFIRMED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
 }
 
 async function prepareSeasonReview(m){
@@ -638,7 +638,7 @@ async function main(){
     await fillSeasonResult(nik,"p2",season1Nik);
     await publishSeasonResult(nik);
     for(const m of [daniel,nik]){
-      await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:30000});
+      await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS CONFIRMED",null,{timeout:30000});
       await m.page.locator("#seasonReviewOne").waitFor({state:"visible",timeout:30000});
       await m.page.locator("#seasonReviewTwo").waitFor({state:"visible",timeout:30000});
     }
@@ -754,7 +754,7 @@ async function main(){
         nik.page.locator("#confirmSeasonCompletion").click({timeout:30000})
       ]);
       for(const m of [daniel,nik]){
-        await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
+        await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS CONFIRMED",null,{timeout:45000});
         assert.equal((await m.page.locator("#seasonReviewError").textContent()).trim(),"","simultaneous publish must not leave an error banner");
       }
       ok("J8.3","season-2 simultaneous publish converged to RESULTS_READY with no error banner");
@@ -776,7 +776,7 @@ async function main(){
         await fillSeasonResult(daniel,"p1",season3Daniel);await publishSeasonResult(daniel);
         assert.equal(await nik.page.locator("#seasonReviewOne").isVisible(),false,"season 3 Daniel result stays private until Nik publishes");
         await fillSeasonResult(nik,"p2",season3Nik);await publishSeasonResult(nik);
-        for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
+        for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS CONFIRMED",null,{timeout:45000});
         await commitSeasonViaUi(daniel,nik,1,1,"draw",{finalSeason:true,seasonNumber:3});
         ok("J8.5","season 3 repeated privacy and scoring; 1-1 season is a draw (no tiebreak)");
       }
