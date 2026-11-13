@@ -123,6 +123,25 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   assert.match(fw,/\n@media \(prefers-reduced-motion: reduce\) \{ #app #seasonEntry \.winnerTrophyGlow \{ opacity:0 !important; \} \}\nhtml:is\(\[data-motion-reduced="true"\],\[data-reduced-motion="true"\]\) #app #seasonEntry \.winnerTrophyGlow \{ opacity:0 !important; \}\n/,"reduced motion: no disc at all");
   assert.match(career,/TROPHY_ARCHIVE_CSS=String\.raw`\n\/\*[^`]*?\*\/\n#app #trophyRoom \.trophyCardGlow,#app #trophyRoom \.heroSpotlight,#app #trophyRoom \.heroReflection \{display:none\}\n#app #trophyRoom \.heroTrophyPicture img \{filter:drop-shadow\(0 7px 8px rgba\(0,0,0,\.78\)\)\}\n@media/,"Trophy Room: the glow pieces are off before any size block, so phones and tablets match the desktop");
   ok("M30","no crown on Final Winner, no gold halo on the cups, and the reveal's disc eases out to nothing");}
+// M31 (bug hunt F1, r91): the Special Player chip row is counted in the room kept for the Final Winner result, so the totals
+// stay clear of the summary panel on upright phones and tablets and the chips stay on the screen on sideways phones. The
+// browser check that proves it (F4 in the face audit) runs on Final Winner at every size of the Gate's three face groups.
+{const fw=read("js/seasonFinalV10.js"),audit=read("tests/browser/phone-marble-facecheck-audit.cjs"),vjs=read("visual-assets/v10_1/final-winner/final-winner.js");
+  const both=String.raw` #app #seasonEntry\.v10FinalMode #stage-root:has\(\.fwSpecialPlayer\),\n #app #seasonEntry\.seasonScreenV10\.v10FinalMode:has\(\.fwSpecialPlayer\) `;
+  assert.match(fw,new RegExp(String.raw`\n@media \(max-width:760px\) and \(orientation:portrait\) \{\n${both}\{ --fw-copy:103px; \}\n\}\n`),"upright phones: 80px of result plus the 23px chip row, on the stage and on the screen that grows with it");
+  assert.match(fw,new RegExp(String.raw`\n@media \(min-width:700px\) and \(max-width:760px\) and \(min-height:960px\) and \(orientation:portrait\) \{\n${both}\{ --fw-copy:159px; \}\n\}\n`),"upright tablets: 134px of result plus the 25px chip row");
+  const sideAt=fw.indexOf("\n@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {\n /* 110px:");
+  const side=fw.slice(sideAt,fw.indexOf("\n}\n",sideAt)+3);
+  assert.ok(sideAt>0&&side.length>1000&&side.length<2600&&fw.slice(sideAt+side.length).startsWith("`;\n"),"sideways phones have their own block, the last one of the sheet, and it stops at 880px wide");
+  assert.match(side,/\n #app #seasonEntry\.v10FinalMode #stage-root:has\(\.fwSpecialPlayer\) \{ --fw-copy:110px; \}\n #app #seasonEntry\.v10FinalMode #stage-root:has\(\.fwSpecialPlayer\) \.finalWinnerHeroCopySlot \{ width:min\(40%,320px\); \}\n/,"sideways: the lip rises by the chip row and the result takes a wider column");
+  assert.match(side,/\.fwSpecialPlayer \{ order:0; justify-self:center; max-width:calc\(100% - 8px\); margin:2px 0 0; \}/,"sideways: the chip stands between the name and the total");
+  assert.match(side,/\.fwSpecialPlayer \.spChipRank \{ display:none; \}/,"sideways: the short chip, as on upright phones");
+  assert.equal((fw.match(/--fw-copy:\d+px/g)||[]).filter(x=>!/:(80|134|103|159|110)px/.test(x)).length,0,"no other room is kept for the result than the five measured ones");
+  assert.match(vjs,/slot\.className = "fwSpecialPlayer";\n\s+slot\.appendChild\(chip\);\n\s+name\.after\(slot\);/,"Team V still builds the chip row the rules read");
+  assert.match(audit,/if\(key === "FINAL_WINNER"\) for\(const what of await finalWinnerResultClear\(page\)\) res\.findings\.push\(\{ face: "", what \}\);/,"the face audit runs F4 on Final Winner at every size");
+  assert.match(audit,/slot\.className = "fwSpecialPlayer"; slot\.appendChild\(api\.element\(document, sp\)\); name\.after\(slot\);/,"F4 builds the chip row the way Team V does");
+  assert.doesNotMatch(audit.slice(audit.indexOf("const KNOWN = ["),audit.indexOf("// WAITING:")),/Special Player chip|total/,"F4 has no known row");
+  ok("M31","Final Winner: the Special Player chip row has its room, so totals and chips stand clear at every phone and tablet size");}
 // CLS (W9 row): the top bar's 52 px is reserved from the first paint in every nav state, so a screen laid out under the
 // loading screen or the Reus Gate (data-nav "none") does not jump when the bar comes back; Club stays unseen until its look is on.
 {const shell=read("css/v10Shell.css"),club=read("css/v10Club.css");

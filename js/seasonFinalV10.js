@@ -2526,6 +2526,39 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3.webp")}"); }
  html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3_590W.webp")}"); }
 }
+/* Bug hunt F1 (r91): a real Showdown shows each manager's Special Player chip under his name, one more row in the result.
+   The room kept for the result (--fw-copy) did not count that row, so on upright phones and tablets both totals slid under
+   the summary panel (6 to 13 px under the SUMMARY / HONOURS tabs on phones, 10 px into the panel on tablets), and on
+   sideways phones the chips fell off the foot of the screen (or, under 761 px wide, lay across each other). Where a chip
+   is shown the room grows by the chip row, so the panel (upright) or the counter lip (sideways) moves with it and one
+   gap stays between the totals and whatever comes next. Nothing moves when no chip is shown (a Showdown from before r86). */
+@media (max-width:760px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer),
+ #app #seasonEntry.seasonScreenV10.v10FinalMode:has(.fwSpecialPlayer) { --fw-copy:103px; }
+}
+@media (min-width:700px) and (max-width:760px) and (min-height:960px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer),
+ #app #seasonEntry.seasonScreenV10.v10FinalMode:has(.fwSpecialPlayer) { --fw-copy:159px; }
+}
+/* Sideways phones: the chip is the short one of upright phones ("SP · name" in the tier's colour, the rank stays in its
+   title), on its own row between the name and the total, and the result takes a wider column so both chips fit side by
+   side. It stands on the counter face under the lip, below both men, so no face is near it. A sideways phone
+   is never laid out wider than 880 px (js/onlinePlayerIdentity.js); a wider window at this height is a desktop window
+   dragged short, where the desktop picture and this layout already cross (a separate row), and it is left as it was. */
+@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
+ /* 110px: the result with its chip row is 104 px tall under 761 px wide and 108 px above (the outcome is set larger there) */
+ #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer) { --fw-copy:110px; }
+ #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer) .finalWinnerHeroCopySlot { width:min(40%,320px); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer { order:0; justify-self:center; max-width:calc(100% - 8px); margin:2px 0 0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip {
+  display:inline-flex; align-items:center; gap:.3em; max-width:100%; margin:0; padding:.1em .45em .1em .12em; font-size:10.5px; line-height:1.3; border-radius:999px;
+  background:var(--sp-tier-bg); color:var(--sp-tier-ink);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipRank { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipTag { grid-row:auto; background:rgba(5,6,8,.78); color:var(--sd-gold-300,#ffd34d); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipTag::after { content:" ·"; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipName { color:inherit; max-width:9.5em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+}
 `;
     parent.appendChild(style);
   }
