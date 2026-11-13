@@ -342,6 +342,191 @@ ok('C8','the RRR board from a sheet is 11 slots then 4 subs');
 // C11 (review of #1358, P3): a season whose spin mark lost its outcome replays the shot (ctx.replayHits: that season's two
 // locked squads + its Chamber Men cylinders through the roulette engine); without a replay the screen names the season and
 // asks TRY AGAIN, never a guess. A failed Squad Management load before Season Results is said on screen, never silent.
+// ---------- 2.4.0 bug hunt, Squad rows (HUNT_FIXES_SQUAD.md) ----------
+// Identity is the man, never only the name: "excluded" holds the exact men who are away, "barred" the signing names that
+// may never come in again (the Transfer War LOCK refuses the same names). A namesake who is another man stays.
+const sq=name=>`s|${String(name).normalize('NFD').replace(/[̀-ͯ]/g,'').trim().toLowerCase()}`;
+// The phone's round trip: lock a sheet, keep only its document, rebuild it from the automatic chain (the rival does the same).
+function rebuildsSame(club,special,season,stage,events,locked,label){
+  const doc={...S.toDoc(locked),rivalryId:'pair_x',role:'playerOne'};
+  const again=S.replay({club,special,season,stage,events,docs:{[`${season}_${stage}`]:doc}});
+  assert.ok(again.sheet,`${label}: the document rebuilds (${again.error||''})`);
+  const row=p=>p?`${p.id}:${p.rating}:${p.signedSeason}`:'-';
+  assert.deepEqual([...again.sheet.xi,...again.sheet.bench].map(row),[...locked.xi,...locked.bench].map(row),`${label}: the same 15`);
+  assert.deepEqual(again.sheet.reserves.map(row).sort(),locked.reserves.map(row).sort(),`${label}: the same reserves`);
+  assert.deepEqual(again.sheet.excluded,locked.excluded,`${label}: the same men away`);
+  assert.ok(S.validate(again.sheet).ok,`${label}: still lockable after a reload`);
+  return again.sheet;
+}
+// C17 (hunt C1, P1): LOCK refused for the rest of the Showdown after a same-name collision.
+{
+  // (a) a kept signing named like a club player the roulette later shoots: Barcelona's L. Suárez (#9), Real Madrid's J. Rodríguez (#10).
+  for(const [club,name,number,overall] of [['Barcelona','L. Suárez',9,71],['Real Madrid','J. Rodríguez',10,77]]){
+    const ev=[null,{shot:null,released:[],kept:[{name,overall,position:'ST'}]},{shot:{name,number,signedSeason:null},released:[],kept:[]}];
+    const s2post=S.replay({club,special:null,season:2,stage:'post',events:ev,docs:{}}).proposal;
+    const v=S.validate(s2post);
+    assert.ok(v.ok,`${club}: the S2 post squad locks (was "A player who is out is back in the squad."): ${v.problems}`);
+    assert.ok(S.findPlayer(s2post,sq(name)),`${club}: the signed ${name} is another man and stays`);
+    assert.equal(S.findPlayer(s2post,S.idOf({name,number,signedSeason:null})),null,`${club}: the club's own ${name} #${number} is gone`);
+    assert.ok(s2post.excluded.includes(S.idOf({name,number,signedSeason:null}))&&!s2post.excluded.includes(sq(name)),`${club}: only the man who was shot is away`);
+    assert.equal(s2post.barred[sq(name)],'shot',`${club}: no ${name} can be signed again (the Transfer War refuses the name too)`);
+    assert.ok(s2post.notes.some(n=>n.name===name&&n.reason==='shot'),`${club}: the screen names the shot man`);
+    rebuildsSame(club,null,2,'post',ev,s2post,`${club} S2 post`);
+    // every later screen stays lockable, and a third entry of the name never joins
+    ev[3]={shot:null,released:[],kept:[{name,overall:80,position:'ST'}]};
+    for(const [season,stage] of [[3,'pre'],[3,'post'],[4,'pre']]){
+      const p=S.replay({club,special:null,season,stage,events:ev,docs:{}}).proposal;
+      assert.ok(S.validate(p).ok,`${club} S${season} ${stage} locks`);
+      assert.equal(p.xi.concat(p.bench,p.reserves).filter(x=>x&&x.id===sq(name)).length,1,`${club} S${season} ${stage}: one ${name} signing, still the first one`);
+    }
+  }
+  // (b) a signing entered again in a later window and guessed: the same signing (Sol SQ-2-02), so he is released and his place
+  // refilled, never left in the squad while listed as out. Schalke 04 (fuzz seed 1154): Andreas Pereira kept in S2, guessed in S3.
+  {
+    const club='Schalke 04';
+    const ev=[null,{shot:null,released:[],kept:[]},{shot:null,released:[],kept:[{name:'Andreas Pereira',overall:73,position:'CAM'}]},{shot:null,released:['Andreas Pereira'],kept:[]}];
+    const pre=S.replay({club,special:null,season:3,stage:'pre',events:ev,docs:{}}).proposal;
+    assert.ok(S.findPlayer(pre,sq('Andreas Pereira')),'S3 pre: he is at the club');
+    const post=S.replay({club,special:null,season:3,stage:'post',events:ev,docs:{}}).proposal;
+    assert.ok(S.validate(post).ok,`S3 post locks: ${S.validate(post).problems}`);
+    assert.equal(S.findPlayer(post,sq('Andreas Pereira')),null,'guessed: released');
+    assert.equal(post.xi.filter(Boolean).length,11);assert.equal(post.bench.filter(Boolean).length,7,'his place is refilled');
+    assert.ok(post.notes.some(n=>n.name==='Andreas Pereira'&&n.reason==='guessed'));
+    rebuildsSame(club,null,3,'post',ev,post,'Schalke S3 post');
+    // a club player with a guessed signing's name is another man and stays
+    const bar=S.replay({club:'Barcelona',special:null,season:1,stage:'post',events:[null,{shot:null,released:['L. Messi'],kept:[]}],docs:{}}).proposal;
+    assert.ok(S.findPlayer(bar,S.idOf({name:'L. Messi',number:10,signedSeason:null})),'Barcelona keep their own L. Messi when a signed L. Messi is guessed');
+    assert.ok(S.validate(bar).ok);
+  }
+  // The refusal names the man it means.
+  {
+    const s=S.launch('Arsenal',{special:null}),bad=JSON.parse(JSON.stringify(s));bad.excluded=[s.xi[0].id];
+    assert.equal(S.validate(bad).problems[0],`${s.xi[0].name} has left the club, so he can't be in the squad.`);
+    bad.excluded=[];bad.reserves.push(JSON.parse(JSON.stringify(s.xi[1])));
+    assert.equal(S.validate(bad).problems[0],`${s.xi[1].name} is listed twice.`);
+  }
+  ok('C17','hunt C1: a kept signing named like a club player the roulette shoots stays (Barcelona L. Suárez, Real Madrid J. Rodríguez); a signing entered again and guessed is released and refilled (SQ-2-02); both lock, reload the same and stay lockable; the refusal names the man');
+}
+// C18 (hunt C2, P2): a signing who left and is signed again comes back, as a club player does; a shot man never does.
+{
+  const club='Arsenal';
+  const sold=(sheet,name,reason)=>{const r=S.leave(sheet,sq(name),reason);assert.ok(r.ok,`${name} leaves: ${r.reason}`);return r.sheet;};
+  // S1 kept, sold on S2 pre, bought back in window 3 (the hunt's c2 repro), and in window 2 (sold on the pre screen of the same season)
+  for(const back of [3,2]){
+    const ev=[null,{shot:null,released:[],kept:[{name:'K. Mbappé',overall:70,position:'ST'}]},{shot:null,released:[],kept:[]},{shot:null,released:[],kept:[]}];
+    ev[back]={shot:null,released:[],kept:[{name:'K. Mbappé',overall:84,position:'ST'}]};
+    const docs={};
+    let s=S.replay({club,special:null,season:2,stage:'pre',events:ev,docs}).proposal;
+    s=sold(s,'K. Mbappé','sold');docs['2_pre']={...S.toDoc(s),rivalryId:'pair_x',role:'playerOne'};
+    rebuildsSame(club,null,2,'pre',ev,s,`sold S2 pre (back in ${back})`);
+    for(const [season,stage] of [[2,'post'],[3,'pre'],[3,'post']]){
+      const at=S.replay({club,special:null,season,stage,events:ev,docs:{'2_pre':docs['2_pre']}});
+      assert.ok(!at.error,at.error);
+      const p=at.proposal,where=S.findPlayer(p,sq('K. Mbappé')),due=season>back||(season===back&&stage==='post');
+      assert.equal(Boolean(where),due,`S${season} ${stage}: ${due?'back after he was bought':'still away'} (bought back in window ${back})`);
+      if(due){
+        const me=[...p.xi,...p.bench,...p.reserves].find(x=>x&&x.id===sq('K. Mbappé'));
+        assert.equal(me.rating,84,'he comes back at the overall he was signed at again');assert.equal(me.signedSeason,back);
+        assert.ok(p.out.some(o=>o.id===sq('K. Mbappé')&&o.returned===back),'the departure list says he is back');
+        assert.ok(!p.excluded.includes(sq('K. Mbappé')));
+      }
+      assert.ok(S.validate(p).ok);
+      rebuildsSame(club,null,season,stage,ev,p,`bought back in ${back}, S${season} ${stage}`);
+    }
+  }
+  // Entered again while still at the club (SQ-2-03, nothing changes), then sold on that season's post screen: he stays away,
+  // and a reload reads the same (the departure carries the latest window he was entered in).
+  {
+    const ev=[null,{shot:null,released:[],kept:[{name:'K. Mbappé',overall:70,position:'ST'}]},{shot:null,released:[],kept:[{name:'K. Mbappé',overall:88,position:'ST'}]},{shot:null,released:[],kept:[]}];
+    let p=S.replay({club,special:null,season:2,stage:'post',events:ev,docs:{}}).proposal;
+    const me=[...p.xi,...p.bench,...p.reserves].find(x=>x&&x.id===sq('K. Mbappé'));
+    assert.equal(me.rating,70,'SQ-2-03: he keeps his first window');assert.equal(me.signedSeason,1);
+    p=sold(p,'K. Mbappé','sold');
+    assert.equal(p.out[p.out.length-1].signedSeason,2,'the departure carries window 2');
+    rebuildsSame(club,null,2,'post',ev,p,'repeat then sold');
+    const docs={'2_post':{...S.toDoc(p),rivalryId:'pair_x',role:'playerOne'}};
+    const s3=S.replay({club,special:null,season:3,stage:'post',events:ev,docs}).proposal;
+    assert.equal(S.findPlayer(s3,sq('K. Mbappé')),null,'still away');
+  }
+  // A shot signing is never bought back.
+  {
+    const ev=[null,{shot:null,released:[],kept:[{name:'K. Mbappé',overall:70,position:'ST'}]},{shot:{name:'K. Mbappé',number:null,signedSeason:1},released:[],kept:[]},{shot:null,released:[],kept:[{name:'K. Mbappé',overall:84,position:'ST'}]}];
+    const p=S.replay({club,special:null,season:3,stage:'post',events:ev,docs:{}}).proposal;
+    assert.equal(S.findPlayer(p,sq('K. Mbappé')),null);assert.ok(p.notes.some(n=>n.name==='K. Mbappé'&&n.reason==='excluded'));
+    assert.ok(S.validate(p).ok);
+  }
+  ok('C18','hunt C2: a signing sold and signed again comes back at his new overall (bought in a later window or the same season\'s), reloads read the same; a repeat entry then a sale stays away; a shot signing never comes back');
+}
+// C19 (hunt C3, P2): a kept signing who is a Special Player (either manager's) is never in a squad, and the screen says so.
+{
+  for(const [club,special,name] of [['Borussia Dortmund',{playerOne:{name:'A. Živković',overall:74},playerTwo:{name:'N. Kanté',overall:81}},'N. Kanté'],['Arsenal',{playerOne:{name:'M. Depay',overall:80},playerTwo:{name:'K. Mbappé',overall:79}},'K. Mbappé']]){
+    const p=S.replay({club,special,season:1,stage:'post',events:[null,{shot:null,released:[],kept:[{name,overall:80,position:'CM'}]}],docs:{}}).proposal;
+    assert.equal(S.findPlayer(p,sq(name)),null,`${club}: ${name} is not in the squad`);
+    assert.ok(p.notes.some(n=>n.name===name&&n.reason==='special'),`${club}: the note says why`);
+  }
+  const screen=require('node:fs').readFileSync(require('node:path').join(__dirname,'../../js/squadScreen.js'),'utf8');
+  assert.match(screen,/const LEFT_OUT_WORD=\{shot:"Shot in the roulette",guessed:"Guessed, so released",special:"A Special Player, never in a squad",excluded:"Can't be signed again"\};/);
+  assert.match(screen,/const missing=\(Array\.isArray\(base\.notes\)\?base\.notes:\[\]\)\.filter\(n=>n&&LEFT_OUT_WORD\[n\.reason\]\)\.slice\(0,6\);/,'from the notes of the sheet the screen opened on, at most 6');
+  assert.match(screen,/el\("div","sqmGone sqmLeftOut"\);box\.appendChild\(el\("h3","sqmSideTitle","Not in your squad"\)\)/,'one quiet list in the side panel, styled as "Left the club"');
+  assert.match(require('node:fs').readFileSync(require('node:path').join(__dirname,'../../js/ruleBook.js'),'utf8'),/"Your rival can't sign him in the Transfer War either: LOCK refuses him\.",/,'Rule Book card 02 says the rival can\'t sign him');
+  ok('C19','hunt C3: a Special Player kept as a signing never joins either squad and the Squad screen lists him under "Not in your squad" (with the shot and released men); the Transfer War refuses the rival\'s one (r86 L7) and the Rule Book says so');
+}
+// C20 namesake fuzz (the hunt's squad-engine-fuzz, with the stuck seeds 388, 653, 1111, 1112, 1154): random careers with
+// random moves, and signings drawn on purpose from the club's own names, earlier signings, departed signings and other
+// clubs. Every proposal locks, a reload of the latest document gives the same squad, and nobody shot ever returns.
+{
+  const all=[];for(const [c,row] of Object.entries(Players.clubs))for(const r of row.players)all.push({club:c,name:r[0],ovr:r[1],pos:r[2][0]});
+  const P15=['GK','RB','RWB','CB','LB','LWB','CDM','CM','CAM','RM','LM','RW','LW','CF','ST'];
+  const mul=seed=>{let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};};
+  const stats={careers:0,screens:0,buyBacks:0,collisions:0};
+  function career(seed){
+    const r=mul(seed),pick=a=>a[Math.floor(r()*a.length)];
+    const club=pick(clubs),seasons=pick([3,5,10]),own=Players.clubs[club].players.map(x=>x[0]);
+    const events=[null],docs={},shots=new Set(),signed=[],left=[];let lastKey=null;
+    for(let k=1;k<=seasons;k+=1)for(const stage of ['pre','post']){
+      if(stage==='post'&&k===seasons)continue;
+      if(stage==='post'){
+        const pre=S.replay({club,special:null,season:k,stage:'pre',events,docs:lastKey?{[lastKey]:docs[lastKey]}:{}});
+        assert.ok(!pre.error,`seed ${seed}: ${pre.error}`);
+        const board=S.board(pre.sheet||pre.proposal).filter(x=>x.name),hit=r()<0.6?pick(board):null;
+        const shot=hit?{name:hit.name,number:hit.number,signedSeason:hit.signedSeason}:null;if(shot)shots.add(S.idOf(shot));
+        const rows=[];
+        for(let i=0;i<Math.floor(r()*4);i+=1){
+          const u=r();let name,ovr=50+Math.floor(r()*45),pos=pick(P15);
+          if(u<0.2)name=pick(own);else if(u<0.35&&signed.length)name=pick(signed);else if(u<0.5&&left.length)name=pick(left);else{const c=pick(all);if(c.club===club)continue;name=c.name;ovr=c.ovr;pos=r()<0.9?c.pos:pos;}
+          rows.push({name,overall:ovr,position:pos,release:r()<0.3});
+        }
+        events[k]={shot,released:rows.filter(x=>x.release).map(x=>x.name),kept:rows.filter(x=>!x.release).map(x=>({name:x.name,overall:x.overall,position:x.position}))};
+        for(const x of rows)if(!x.release)signed.push(x.name);
+      }
+      const out=S.replay({club,special:null,season:k,stage,events,docs:lastKey?{[lastKey]:docs[lastKey]}:{}});
+      assert.ok(!out.error,`seed ${seed} S${k} ${stage}: ${out.error}`);
+      const proposal=out.proposal,v0=S.validate(proposal);
+      assert.ok(v0.ok,`seed ${seed} ${club} S${k} ${stage}: the proposal locks (${v0.problems[0]})`);
+      stats.buyBacks+=proposal.notes.filter(n=>n.reason==='bought-back').length;
+      const at=[...proposal.xi,...proposal.bench,...proposal.reserves].filter(Boolean);
+      if(at.some(p=>p.signedSeason!==null&&own.some(n=>sq(n)===p.id)))stats.collisions+=1;
+      let sheet=proposal;
+      for(let m=0;m<Math.floor(r()*6);m+=1){
+        const refs=[...sheet.xi.map((_,i)=>({zone:'xi',index:i})),...sheet.bench.map((_,i)=>({zone:'bench',index:i})),...sheet.reserves.map((_,i)=>({zone:'res',index:i}))];
+        const people=[...sheet.xi,...sheet.bench,...sheet.reserves].filter(Boolean),u=r();let op=null;
+        if(u<0.4)op={t:'swap',a:pick(refs),b:pick(refs)};else if(u<0.5)op={t:'formation',name:pick(formationNames)};else if(u<0.75&&people.length){const p=pick(people);op={t:'leave',id:p.id,reason:pick(S.leaveReasons)};if(p.signedSeason!==null)left.push(p.name);}else if(people.length){const p=pick(people);op={t:'rate',id:p.id,overall:Math.max(30,Math.min(99,p.rating+Math.floor(r()*9)-4))};}
+        if(!op)continue;const res=S.apply(sheet,[op]);if(!res.errors.length)sheet=res.sheet;
+      }
+      assert.ok(S.validate(sheet).ok,`seed ${seed}: an accepted move left the squad unlockable`);
+      assert.ok(!at.concat([...sheet.xi,...sheet.bench,...sheet.reserves].filter(Boolean)).some(p=>shots.has(p.id)),`seed ${seed}: a shot man is back`);
+      const key=`${k}_${stage}`;docs[key]={...S.toDoc(sheet),rivalryId:'pair_x',role:'playerOne'};lastKey=key;
+      rebuildsSame(club,null,k,stage,events,sheet,`seed ${seed} S${k} ${stage}`);
+      stats.screens+=1;
+    }
+    stats.careers+=1;
+  }
+  const seeds=[388,653,1111,1112,1154,...Array.from({length:300},(_,i)=>50000+i)];
+  for(const seed of seeds)career(seed);
+  assert.ok(stats.buyBacks>0&&stats.collisions>0,`the fuzz reaches buy-backs (${stats.buyBacks}) and namesakes (${stats.collisions})`);
+  ok('C20',`namesake fuzz: ${stats.careers} careers (the hunt's stuck seeds 388, 653, 1111, 1112, 1154 among them), ${stats.screens} locked screens, ${stats.buyBacks} buy-backs, ${stats.collisions} screens with a signing named like a club player: every proposal locks, every reload reads the same, no shot man returns`);
+}
+
 (async()=>{
   const fs=require('node:fs'),path=require('node:path');
   const Step=require('../../js/squadSheetStep.js');
