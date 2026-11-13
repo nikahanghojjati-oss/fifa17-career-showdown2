@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12 8:34 PM Boston time (EST)",
+ "generated": "2026-11-12 8:37 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 275,
+  "count": 276,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2478,6 +2478,15 @@
     "subject": "Rule Book slab 2X (3072x1728) for sharp Chromebook windows",
     "reply": "no",
     "boston": "Thu 12 Nov 7:59 PM"
+   },
+   {
+    "time": "2026-11-13 01:36",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-078 DONE",
+    "subject": "One more V3 title: DEVICE CHECK",
+    "reply": "no",
+    "boston": "Thu 12 Nov 8:36 PM"
    }
   ],
   "g2v": {
@@ -2498,8 +2507,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "cd25573",
-  "head_boston": "Thu 12 Nov 7:59 PM",
+  "head": "0166c61",
+  "head_boston": "Thu 12 Nov 8:36 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3323,7 +3332,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 7110
+    "waiting_min": 7113
    },
    {
     "id": "HO-059",
