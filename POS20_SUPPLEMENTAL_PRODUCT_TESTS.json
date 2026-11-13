@@ -3181,6 +3181,7 @@
     {
       "path": "tests/contracts/r91-layout-faces-contracts.cjs",
       "patterns": [
+        "^css/homeV10\\.css$",
         "^js/seasonFinalV10\\.js$",
         "^js/careerScreensV10\\.js$",
         "^css/v10Setup\\.css$",

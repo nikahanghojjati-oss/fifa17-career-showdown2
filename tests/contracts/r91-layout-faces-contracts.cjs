@@ -11,6 +11,7 @@
 //   L4 Career Statistics: totals 22px clear of Nik's face on desktop (was 6px), hub 24px/28px under the chins on phones/tablets
 //   R  Roster Russian Roulette on upright tablets (portrait layout 600-899 wide): the rest picture shifts until the TOP OF THE FRAME (rail ends and
 //      finial) is 14px under the title, never past 8px above the revolver's own lowest point's caption (floor: the old face-based shift)
+//   H  Home on sideways phones (max 900 x 480): the wordmark stands in the phone plate's ceiling band (hair at 11.66vw), between SIGN IN and the plate edge
 //   F  the 12px floor: Final Winner totals/result strip, Club reveal labels, Trophy BACK/MORE on 481-900 portrait; the career
 //      table head on desktop; the Legacy carousel arrows
 const assert = require("node:assert/strict");
@@ -53,6 +54,11 @@ ok(fu.includes("[(BOARD_W+.2)/2,BOARD_H/2+.115],[0,BOARD_H/2+.2]"), "R the clear
 ok(fu.includes("r.bottom+(TAB?14:10)"), "R 14px under the title on tablets, the 10px phone line unchanged");
 ok(fu.includes("cap.top-8-bot") && fu.includes("faceNeed"), "R the revolver stays 8px above the caption, floor = the old face-based shift");
 ok(/if\(PH&&h<=700\) fitShortPhone/.test(fu), "R short phones keep their own pass");
+// H
+const home = read("css/homeV10.css");
+ok(/--home-hair: 11\.66vw;\n\s+--home-logo-w: min\(calc\(\(var\(--home-hair\) - 16px\) \* 640 \/ 233\), calc\(40vw - 90px\), 280px\);/.test(home), "H the sideways-phone wordmark is sized to the ceiling band");
+ok(home.includes(":root #app #mainMenu.v10Home .fifaMenuShell > .homeLockup { top: max(8px, calc((var(--home-hair) - var(--home-logo-h)) / 2)); translate: none; }"), "H it starts 8px down (centred in the band) and drops the 12px lift");
+ok(home.includes("#app #mainMenu.v10Home .homeLockup { left: calc((40vw + 70px) / 2); }"), "H it stands between SIGN IN and the plate's right edge");
 // F
 const fb = type.indexOf("@media (min-width:481px) and (max-width:900px) and (orientation:portrait) {\n  :root:not(#sa-f1)", type.indexOf("r91 12px floor"));
 ok(fb >= 0, "F the tablet floor block exists");

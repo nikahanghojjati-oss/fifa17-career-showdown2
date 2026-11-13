@@ -806,13 +806,18 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
     --home-continue-h: clamp(52px, 18svh, 68px);
     --home-tile-h: max(44px, calc((var(--home-vh) - var(--phone-nav) - 54px - var(--home-continue-h) - var(--home-music-h) - 3 * var(--home-gap) - 8px) / 2));
     --phone-hero: calc(var(--home-vh) - var(--phone-nav));
-    --home-logo-w: min(36vw, 280px);
-    --home-logo-h: calc(var(--home-logo-w) * 378 / 1040 + 26px);
+    /* r91 (phone-faces, art thread's Home row): at 844x390 the wordmark lay across both managers' bodies and hands. The phone plate's top 16.4 %
+       is plain ceiling (the same band the upright phone uses), 40vw wide here and drawn 1.7777 times as tall, so the hair starts at 11.66vw.
+       The wordmark is sized to that band (8px above and under it) and stands between SIGN IN and the plate's right edge. */
+    --home-hair: 11.66vw;
+    --home-logo-w: min(calc((var(--home-hair) - 16px) * 640 / 233), calc(40vw - 90px), 280px);
+    --home-logo-h: calc(var(--home-logo-w) * 233 / 640);
     min-height: 340px; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     grid-template-rows: minmax(0, 1fr) var(--phone-nav);
   }
   #app #mainMenu.v10Home .plateView { width: 40%; }
-  #app #mainMenu.v10Home .homeLockup { left: 20%; }
+  #app #mainMenu.v10Home .homeLockup { left: calc((40vw + 70px) / 2); }
+  :root #app #mainMenu.v10Home .fifaMenuShell > .homeLockup { top: max(8px, calc((var(--home-hair) - var(--home-logo-h)) / 2)); translate: none; }
   #app #mainMenu.v10Home .lockupKicker,
   #app #mainMenu.v10Home .lockupLegacy { font-size: 8px; letter-spacing: .18em; }
   #app #mainMenu.v10Home > .fifaMenuShell {
