@@ -239,7 +239,7 @@ const report={
     "Showdown Champion screen, HONOURS tab, BACK TO SHOWDOWN HOME; Settings > END SHOWDOWN (Showdown C)",
     "end: both reload after their local storage is wiped; a brand-new browser signs in as Daniel and as Nik and reads every page"],
   seededSteps:[
-    "Local storage is wiped with a page script (localStorage.clear()) on a plain same-origin document (the manifest), never under the open game, before the end reload; sign-in lives in sessionStorage and is left alone",
+    "Local storage is wiped with a page script (localStorage.clear()) by the browser (CDP) while the page is on about:blank, never under the open game, before the end reload; sign-in lives in sessionStorage and is left alone",
     "Auth: the Google popup is answered by the Firebase Auth emulator (tests/browser/support/emulator-runtime-switch.js)",
     "The Transfer Challenge's 15-minute window is ended early by both managers; guesses and signings are fixed typed values",
     "Season result numbers are typed from a seeded plan (they stand in for what the managers read off their FIFA 17 careers)",
@@ -1870,10 +1870,12 @@ async function main(){
     await phase("storage-wipe",async()=>{
       for(const m of [daniel,nik]){
         // r92 (T3): the page is taken off the game before its storage is wiped (a game page that finds its own storage empty under it logs
-        // "The Save Library could not be inspected safely"). The same origin's manifest is a plain document with no game script; the
-        // game is opened again from the address, as a phone that lost its storage would.
-        await m.page.goto(new URL("manifest.webmanifest",BASE).href,{waitUntil:"domcontentloaded"});
-        const keys=await m.page.evaluate(()=>{const k=Object.keys(localStorage);try{localStorage.clear();}catch(_e){}return k;});
+        // "The Save Library could not be inspected safely"). The keys are read, the page goes to about:blank, and the browser itself clears
+        // the origin's local storage; the game is opened again from its address, as a phone that lost its storage would.
+        const keys=await m.page.evaluate(()=>Object.keys(localStorage));
+        await m.page.goto("about:blank");
+        const cdp=await m.context.newCDPSession(m.page);
+        try{await cdp.send("Storage.clearDataForOrigin",{origin:new URL(BASE).origin,storageTypes:"local_storage"});}finally{await cdp.detach().catch(()=>{});}
         report.observations.push({where:"storage wipe",user:m.user,localStorageKeys:keys});
         await m.page.goto(urlFor(m.account),{waitUntil:"domcontentloaded"});
         await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
