@@ -221,6 +221,10 @@
   // ---------- the stage ----------
   function sqsEl(tag,className,text){const node=sqsDoc().createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function sqsRemove(){const node=sqsDoc()?.getElementById(STAGE_ID);if(node)node.remove();}
+  // The Squad stage is on top (opaque, same level, appended later): Chamber Men's stage under it goes now, so its 3D goal stops
+  // drawing every frame behind the squad (Gate L6 2026-11-13 found it still up and running under the Squad screen). Called
+  // after the Squad stage is in the page, in the same task, so no frame ever shows what is under both (Reus Gate).
+  function sqsChamberDown(){try{root.CareerModeChamberMenStep?.close?.();}catch(_error){}}
   let loading=null;
   function sqsLoadingOn(){
     const doc=sqsDoc(),el=doc&&doc.getElementById("loadingScreen");if(!el||loading)return;
@@ -235,10 +239,6 @@
     root.setTimeout(()=>{if(loading)return;shown.el.hidden=true;shown.el.classList.add("hidden");if(shown.text)shown.text.textContent=shown.prior;},240);
   }
   function sqsClose(){sqsRemove();sqsLoadingOff();return true;}
-  // The Squad stage is on top (opaque, same level, appended later): Chamber Men's stage under it goes now, so its 3D goal stops
-  // drawing every frame behind the squad (Gate L6 2026-11-13 found it still up and running under the Squad screen). Called
-  // after the Squad stage is in the page, in the same task, so no frame ever shows what is under both (Reus Gate).
-  function sqsChamberDown(){try{root.CareerModeChamberMenStep?.close?.();}catch(_error){}}
   // The back button is .sqBack, never .backButton: the app's smart back (js/screens.js) takes every .backButton click first.
   function sqsShell(ctx,label){
     const doc=sqsDoc();sqsRemove();
