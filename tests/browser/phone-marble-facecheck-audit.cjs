@@ -103,6 +103,13 @@ async function seed(page, name){
     await page.evaluate(async ({ snapshot, rivalry, storage }) => {
         await window.ensureGameplayModules();
         for(const [key, value] of Object.entries(storage)) localStorage.setItem(key, value);
+        // The fixtures below replace the game's own Shared Journey modules on window. The page loads those files in the background
+        // (js/ssjr.js); one replaced before it installed it counts as a lost game file, and since R92-05 that sends the page back to
+        // Home (cmsBootFail), so the screen under test never draws. Wait until the modules have loaded and installed, then replace.
+        const lazy = ["CareerModeProductionSharedMultiSeasonProgression", "CareerModeProductionSharedHistoryConvergence", "CareerModeProductionSharedFinalReconciliation", "CareerModeProductionSharedTerminalClose", "CareerModeProductionSharedSeasonResults"];
+        const loadedBy = Date.now() + 20000;
+        while(lazy.some(n => !(window[n] && typeof window[n].install === "function")) && Date.now() < loadedBy) await new Promise(r => setTimeout(r, 50));
+        await new Promise(r => setTimeout(r, 400));
         const names = { identity: "CareerModeOnlinePlayerIdentity", pair: "CareerModePersistentNikDanielPair", multiSeason: "CareerModeProductionSharedMultiSeasonProgression", history: "CareerModeProductionSharedHistoryConvergence", finalReconciliation: "CareerModeProductionSharedFinalReconciliation", terminalClose: "CareerModeProductionSharedTerminalClose", seasonResults: "CareerModeProductionSharedSeasonResults" };
         for(const [key, n] of Object.entries(names)) window[n] = { getState: () => snapshot[key] };
         currentShowdown = normalizeShowdown(JSON.parse(localStorage.getItem("careerModeShowdown.activeShowdown")));
