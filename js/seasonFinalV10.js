@@ -2293,9 +2293,22 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    moved, the same oval on winner and loser). Phones and tablets already left it out; now every size does. */
 #app #seasonEntry .finalWinnerManagerSpotlight { display:none; }
 /* Art ledger S10-D1 (r91): the champion's cup had a 22 px gold shadow all round it that no lamp in the board room makes.
-   It keeps only its dark contact shadow. The blurred disc behind the cup (.winnerTrophyGlow) is left alone here: the
-   reveal's drum beat and settle shine are played on it (M7), so taking it out at rest is a motion change, not an art one. */
+   It keeps only its dark contact shadow. */
 #app #seasonEntry .winnerTrophyPicture img { filter:drop-shadow(0 18px 24px rgb(0 0 0 / .66)); }
+/* Art ledger S10-D1, second half (r91, the lead's call 2026-11-13): the blurred gold disc behind the cup
+   (.winnerTrophyGlow) is a light of the reveal, not of the room, so it is there for the reveal only. Team V's drum beat
+   (fwAnticipate, 0 to 400 ms) and settle shine (fwSettled, 120 ms from 1080 ms) play on it untouched, with their own
+   timing (M7). Between the two the disc holds at full, as it always did; the reveal is known by the winner's name
+   carrying its wipe class, which only the ceremony sets, in the same task as the drum. After the shine the disc eases
+   from the shine's own .75 to nothing in 700 ms and stays out: no cut on, no cut off, and no glow left at rest. A
+   screen that opens without the ceremony (not finished, or reduced motion) never shows the disc. A transition cannot
+   do the hold: Chromium starts none on a property a CSS animation has just let go of (measured: 0 from 400 ms). */
+#app #seasonEntry .winnerTrophyGlow { opacity:0; }
+#app #seasonEntry #stage-root:has(#outcomeHeadline.sd-title-wipe):not(.fwSettled) .winnerTrophyGlow { opacity:1; }
+#app #seasonEntry .fwSettled .winnerTrophyGlow { animation:fwShine 120ms ease-in-out 1,cmsWinnerDiscOut 700ms ease-out 120ms 1 forwards; }
+@keyframes cmsWinnerDiscOut { from { opacity:.75; } to { opacity:0; } }
+@media (prefers-reduced-motion: reduce) { #app #seasonEntry .winnerTrophyGlow { opacity:0 !important; } }
+html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonEntry .winnerTrophyGlow { opacity:0 !important; }
 /* Nik 2026-11-13 ("Remove the crown"): the small crown above SHOWDOWN CHAMPION goes at every size, as the crown and
    small line above every other title did (#1405; that change missed this one because it sits in the stage, not the
    title block). SHOWDOWN CHAMPION, the winner's name and the cup still name the champion. */
