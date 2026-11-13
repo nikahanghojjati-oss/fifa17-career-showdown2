@@ -302,7 +302,9 @@
       const afterLock=data=>{
         sqsDropDraft(ctx);
         if(ctx.stage!=="pre"){ready(null);return;}
-        say(`Your squad is locked. Waiting for ${rivalName} to lock his squad.`);
+        // M1 (2.4.0 hunt): the rival's phone spun this season's roulette on an older version (ctx.rivalBehind, the version on his
+        // spin mark, the roulette's own signal), so it shows him no squad screen: the wait says to update it, in the roulette's words.
+        say(`Your squad is locked. Waiting for ${rivalName} to lock his squad.${ctx.rivalBehind===true?` Update the game on ${rivalName}'s phone: close it fully and open it again.`:""}`);
         void sqsWatch(io,ctx,rivalData=>{
           if(done)return;
           const own=sqsBuildLocked(ctx,history,data),theirs=sqsRivalBoard(ctx,history,rivalData);

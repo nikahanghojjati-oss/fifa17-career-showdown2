@@ -607,9 +607,20 @@
   // window shut: he went back to Showdown Home, or the step or a squad could not load (the dashboard says so; tapping again
   // comes back, and a locked squad is never asked again). The same screen runs after the Transfer War (pstcSquadAfterTransfers).
   function pstcSquadContext(request,stage,special){
-    const seasons=Number(pstcShowdown()?.totalRounds);
+    const seasons=Number(pstcShowdown()?.totalRounds),rival=view.managerRole==="playerOne"?"playerTwo":"playerOne";
     return {rivalryId:request.rivalryId,managerRole:view.managerRole,season:request.seasonNumber,stage,clubs:{playerOne:pstcClubName("playerOne"),playerTwo:pstcClubName("playerTwo")},special,seasons:Number.isInteger(seasons)?seasons:null,
-      verdicts:season=>pstcRouletteVerdicts(request,season)};
+      verdicts:season=>pstcRouletteVerdicts(request,season),
+      // M1 (2.4.0 hunt): the rival's phone spun this season's roulette on a version before squads, so it never shows him a
+      // squad screen: the wait says to update that phone (the roulette's own signal, the version on his spin mark).
+      rivalBehind:stage==="pre"&&!view.state&&pstcSpunBeforeSquads(view.spinMarks?.[rival])};
+  }
+  // M1 (2.4.0 hunt): a spin mark saved by a roulette engine before squad sheets (js/rosterRoulette.js ENGINE_REVISION 3 is the
+  // first that spins on the two locked "pre" squads; a version reads rr4.<revision>.<hash>). Only a whole outcome counts; a
+  // bare mark (true) or anything unreadable is not taken as "before squads".
+  const PSTC_SQUAD_ROULETTE_REVISION=3;
+  function pstcSpunBeforeSquads(mark){
+    const revision=mark&&typeof mark==="object"&&typeof mark.fired==="boolean"&&typeof mark.version==="string"?/^rr\d+\.(\d+)\./.exec(mark.version):null;
+    return Boolean(revision)&&Number(revision[1])<PSTC_SQUAD_ROULETTE_REVISION;
   }
   // The roulette step (the Special Player draw lives there) and the squad step, loaded; null when either cannot load.
   async function pstcSquadSteps(){
@@ -632,6 +643,11 @@
       if(!view||!view.managerRole||!request)return true;
       // The Transfer War started: both squads were locked and the roulette spun on them (nothing finished is shown again).
       if(view.state)return true;
+      // M1 (2.4.0 hunt): both managers already spun this season's roulette on a version before squads (an update in the middle
+      // of the Showdown): that roulette is settled without squads, so no squad is asked for it. From the marks the Transfer
+      // Challenge read just made; a season spun on squads (or not spun yet) still asks as before.
+      const marks=view.spinMarks;
+      if(marks&&["playerOne","playerTwo"].every(role=>pstcSpunBeforeSquads(marks[role])))return true;
       let confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;
       if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pstcSetupState()?.setupUpdatedAtMs;}
       if(!Number.isFinite(confirmedAtMs)){rouletteError=PSTC_ROULETTE_TEXT.setup;return false;}

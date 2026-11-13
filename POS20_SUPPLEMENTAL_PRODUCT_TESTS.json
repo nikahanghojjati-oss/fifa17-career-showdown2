@@ -3218,6 +3218,16 @@
         "^js/touchlineGazette\\.js$",
         "^tests/contracts/r91-gazette-parallel-contracts\\.cjs$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-upgrade-squad-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/squadSheetStep\\.js$",
+        "^js/rosterRoulette\\.js$",
+        "^js/rosterRouletteStep\\.js$",
+        "^tests/contracts/r91-upgrade-squad-contracts\\.cjs$"
+      ]
     }
   ]
 }
