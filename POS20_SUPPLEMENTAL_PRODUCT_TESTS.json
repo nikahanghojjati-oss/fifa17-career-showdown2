@@ -3166,6 +3166,19 @@
       ]
     },
     {
+      "path": "tests/contracts/r91-level-guide-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^js/settings\\.js$",
+        "^device-check\\.html$",
+        "^css/r78-type\\.css$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^assets/level-guide/",
+        "^service-worker\\.js$",
+        "^tests/contracts/r91-level-guide-contracts\\.cjs$"
+      ]
+    },
+    {
       "path": "tests/contracts/r91-layout-faces-contracts.cjs",
       "patterns": [
         "^js/seasonFinalV10\\.js$",

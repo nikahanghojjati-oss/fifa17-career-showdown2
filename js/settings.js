@@ -347,8 +347,10 @@ function getSettingsGfxAutoText(tier){
             try{ const p = tier.profile(); if(p && p.fellBack){ drawn = ` ${tier.label(p.level)} is drawn for now (lowered after a graphics error).`; } }catch(_error){ drawn = ""; }
             return `Auto would pick ${name} here.${drawn}${getSettingsGfxCheckText(tier)}`;
         }
-        if(s.lowered){ return `Auto picked ${name} here (lowered after a graphics error).${getSettingsGfxCheckText(tier)}`; }
-        return `${s.measured && s.now === s.level ? `Auto measured ${name} here.` : `Auto picked ${name} here.`}${getSettingsGfxCheckText(tier)}`;
+        // On Auto the pick itself reads "Auto · Light" in the select (Nik 2026-11-12: "the auto pick ... very visible"), so
+        // the line only adds what the select cannot say: where the level came from, and which levels wait for the check.
+        const from = s.lowered ? "Lowered after a graphics error." : s.measured && s.now === s.level ? "Measured by the Device check." : "";
+        return `${from}${getSettingsGfxCheckText(tier)}`.trim();
     }catch(_error){
         return "";
     }
@@ -363,6 +365,16 @@ function getSettingsGfxCheckText(tier){
         return ` ${held.join(" and ")} ${held.length > 1 ? "need" : "needs"} a passed Device check.${drawn}`;
     }catch(_error){
         return "";
+    }
+}
+// What the Auto entry reads: "Auto · Light", the level Auto draws on this device right now (its guess, a Device check
+// result, or a level lowered after a graphics error). Plain "Auto" until the quality module has answered.
+function getSettingsGfxAutoLabel(tier){
+    try{
+        const name = tier.label(tier.suggested().now);
+        return name ? `Auto · ${name}` : "Auto";
+    }catch(_error){
+        return "Auto";
     }
 }
 function fillSettingsGfxSelect(select, note){
@@ -383,7 +395,7 @@ function fillSettingsGfxSelect(select, note){
         // r91 (Nik 2026-11-12): on a weak device (2 threads or 4 GB) Ultra (4K) and 8K are listed only once the Device
         // check has passed them there. A pick saved earlier stays listed so the row shows what is saved.
         if((value === "ultra" || value === "8k") && tier.offers && !tier.offers(value) && tier.choice() !== value){ return; }
-        const option = createSettingsElement("option", "", value === "auto" ? "Auto" : tier.labels[index - 1]);
+        const option = createSettingsElement("option", "", value === "auto" ? getSettingsGfxAutoLabel(tier) : tier.labels[index - 1]);
         option.value = value;
         select.insertBefore(option, check);
     });
@@ -413,6 +425,14 @@ function createGfxQualityControl(){
     const label = createSettingsElement("strong", "", "3D QUALITY");
     label.id = "settingsGfxLabel";
     copy.append(label, createSettingsElement("small", "", "Applies from the next 3D screen."));
+    // Nik 2026-11-12 ("the link to that page ... very visible in the 3D menu"): the Device check page, with what this
+    // device's chip, processor and memory suggest and the level guide, one gold link under the row's name. The list's
+    // last entry opens the same page, as before.
+    const guideLine = createSettingsElement("small", "settingsGfxGuideLine");
+    const guide = createSettingsElement("a", "settingsGfxGuide", "Device check and guide ›");
+    guide.href = "device-check.html";
+    guideLine.append(guide);
+    copy.append(guideLine);
     const select = createSettingsElement("select", "settingsGfxSelect");
     select.setAttribute("aria-labelledby", "settingsGfxLabel");
     select.disabled = true;
@@ -428,8 +448,8 @@ function createGfxQualityControl(){
     note.setAttribute("aria-live", "polite");
     note.hidden = true;
     copy.append(note);
-    // Part of the select's name (axe label-title-only fails a select described with no <label>): "3D QUALITY, Auto picked
-    // High here."
+    // Part of the select's name (axe label-title-only fails a select described with no <label>): "3D QUALITY, Measured by
+    // the Device check." The pick itself is the select's value ("Auto · High").
     select.setAttribute("aria-labelledby", "settingsGfxLabel settingsGfxAuto");
     note.id = "settingsGfxAuto";
     row.append(copy, select);
@@ -440,7 +460,11 @@ function createGfxQualityControl(){
     // A crash cap or a Device check result can move Auto; the line reads the saved state again while Settings is open.
     const onLevel = () => {
         if(!select.isConnected){ window.removeEventListener("cms-gfx-level", onLevel); return; }
-        if(window.CareerModeGfxTier){ note.textContent = getSettingsGfxAutoText(window.CareerModeGfxTier); note.hidden = !note.textContent; }
+        if(window.CareerModeGfxTier){
+            note.textContent = getSettingsGfxAutoText(window.CareerModeGfxTier); note.hidden = !note.textContent;
+            const auto = select.querySelector('option[value="auto"]');
+            if(auto){ auto.textContent = getSettingsGfxAutoLabel(window.CareerModeGfxTier); }
+        }
     };
     window.addEventListener("cms-gfx-level", onLevel);
     return row;
