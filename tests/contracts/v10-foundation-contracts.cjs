@@ -758,6 +758,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2.webp":"03867ffa3e292915085ed13353b0f2e21598473eb3baaee291afbb9770837cb2",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2_590W.webp":"a09a57eaedf0824a27cce8b353d477f05fd39e3f3a37574494d641ca14f29201",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp":"ebed7be9406625bedd032967276a36ac8298f393bef00b9eb83ac0fefac61d22",
+    // HO-077 (2026-11-13): Team V's 2X slab (claude/project-thread-6kfnkn d5eb5d1e, project-documents/hc-art/slab-2x) and its
+    // 1920 cut (LANCZOS, WebP q90, art ledger R4).
+    "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp":"e79e977a48019e5a98771463fdda6b224c279b4945960ee8afd6f57abcc9093d",
+    "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp":"f954c7b869d54ef46f83ee2fd1088d41e9fcb6f0f00d7f8983eb8bc7362d862c",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp":"897f5639fe3ac3790594070d0fd55b121094bae70265c9bcc96e7038c152c78c",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp":"774945d8dee301e6f147f943df9abea1ea3263444853256e6cdf7a8ef2b5ab11",
     "visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp":"76cf5166df341e532ae707615c2daddd49ad8fa83b0db2ca018640658f083e71",

@@ -1,0 +1,347 @@
+{
+ "note": "Face boxes (hair top to chin) on Team V's handcrafted HC V3 rooms (visual-assets/v10_1/plates-hc/, HO-068/HO-069/HO-073/HO-074), as percentages of the picture (x0,y0,x1,y1), Daniel first. The _590W cut shares its full-size plate's boxes. tests/browser/phone-marble-facecheck-audit.cjs swaps each drawn plate for a same-size marker picture with these boxes, so the browser itself places them exactly as the screen draws the room.",
+ "plates": {
+  "ENV_ARCHIVE_PHONE_HC_V3": {
+   "w": 1179,
+   "h": 2096,
+   "faces": [
+    [
+     12,
+     28,
+     30,
+     39.5
+    ],
+    [
+     65,
+     28,
+     83,
+     40
+    ]
+   ]
+  },
+  "ENV_ARCHIVE_PLATE_HC_V3": {
+   "w": 1536,
+   "h": 864,
+   "faces": [
+    [
+     15.5,
+     6,
+     27.5,
+     29
+    ],
+    [
+     70.5,
+     6,
+     82.5,
+     31
+    ]
+   ]
+  },
+  "ENV_BOARD_PHONE_HC_V3": {
+   "w": 1179,
+   "h": 2096,
+   "faces": [
+    [
+     16,
+     19.5,
+     35,
+     31
+    ],
+    [
+     55,
+     19.5,
+     73,
+     32
+    ]
+   ]
+  },
+  "ENV_BOARD_PLATE_HC_V3": {
+   "w": 1536,
+   "h": 864,
+   "faces": [
+    [
+     16.5,
+     5.5,
+     29.5,
+     30
+    ],
+    [
+     66.5,
+     6,
+     78,
+     33
+    ]
+   ]
+  },
+  "ENV_BOX_PHONE_HC_V3": {
+   "w": 1179,
+   "h": 2096,
+   "faces": [
+    [
+     11,
+     27,
+     30,
+     38.5
+    ],
+    [
+     60,
+     28,
+     77,
+     39
+    ]
+   ]
+  },
+  "ENV_BOX_PHONE_HC_V3_TALL": {
+   "w": 1179,
+   "h": 2620,
+   "faces": [
+    [
+     11,
+     22,
+     30,
+     31
+    ],
+    [
+     60,
+     22.5,
+     77,
+     31.5
+    ]
+   ]
+  },
+  "ENV_BOX_PLATE_HC_V3": {
+   "w": 1536,
+   "h": 864,
+   "faces": [
+    [
+     13.5,
+     8,
+     27,
+     37
+    ],
+    [
+     69.5,
+     9.5,
+     81.5,
+     37
+    ]
+   ]
+  },
+  "ENV_COACHES_PHONE_HC_V3": {
+   "w": 1179,
+   "h": 2096,
+   "faces": [
+    [
+     26,
+     16,
+     38.5,
+     24.5
+    ],
+    [
+     55,
+     16,
+     66.5,
+     24.5
+    ]
+   ]
+  },
+  "ENV_COACHES_PHONE_HC_V3_TALL": {
+   "w": 1179,
+   "h": 2620,
+   "faces": [
+    [
+     26,
+     12.8,
+     38.5,
+     19.6
+    ],
+    [
+     55,
+     12.8,
+     66.5,
+     19.6
+    ]
+   ]
+  },
+  "ENV_COACHES_PLATE_HC_V3": {
+   "w": 1536,
+   "h": 864,
+   "faces": [
+    [
+     5.5,
+     25,
+     13,
+     38.5
+    ],
+    [
+     84.5,
+     25,
+     91,
+     39
+    ]
+   ]
+  },
+  "ENV_HALL_PHONE_HC_V3": {
+   "w": 1179,
+   "h": 2096,
+   "faces": [
+    [
+     9,
+     25,
+     29,
+     38
+    ],
+    [
+     70,
+     25.5,
+     87,
+     38.5
+    ]
+   ]
+  },
+  "ENV_HALL_PHONE_HC_V3_TALL": {
+   "w": 1179,
+   "h": 2620,
+   "faces": [
+    [
+     9,
+     20.0,
+     29,
+     30.4
+    ],
+    [
+     70,
+     20.4,
+     87,
+     30.8
+    ]
+   ]
+  },
+  "ENV_HALL_PLATE_HC_V3": {
+   "w": 1536,
+   "h": 864,
+   "faces": [
+    [
+     13.5,
+     4,
+     25.5,
+     28.5
+    ],
+    [
+     75,
+     3,
+     87.5,
+     29
+    ]
+   ]
+  },
+  "ENV_HOME_PHONE_HC_V3": {
+   "w": 1179,
+   "h": 2096,
+   "faces": [
+    [
+     17,
+     19,
+     36,
+     30
+    ],
+    [
+     46,
+     16.5,
+     68,
+     30
+    ]
+   ]
+  },
+  "ENV_HOME_PLATE_HC_V3": {
+   "w": 1536,
+   "h": 864,
+   "faces": [
+    [
+     39.5,
+     14,
+     55.5,
+     48
+    ],
+    [
+     62,
+     8,
+     77.5,
+     46
+    ]
+   ]
+  },
+  "ENV_OFFICE_PHONE_HC_V3": {
+   "w": 1179,
+   "h": 2096,
+   "faces": [
+    [
+     20,
+     16,
+     38,
+     26
+    ],
+    [
+     67,
+     16,
+     85,
+     27
+    ]
+   ]
+  },
+  "ENV_OFFICE_PLATE_HC_V3": {
+   "w": 1536,
+   "h": 864,
+   "faces": [
+    [
+     26.5,
+     6.5,
+     39.5,
+     33
+    ],
+    [
+     63.5,
+     7.5,
+     76,
+     37
+    ]
+   ]
+  },
+  "ENV_TUNNEL_PHONE_HC_V3": {
+   "w": 1179,
+   "h": 2096,
+   "faces": [
+    [
+     19,
+     13.5,
+     36,
+     26
+    ],
+    [
+     62,
+     13.5,
+     79,
+     26
+    ]
+   ]
+  },
+  "ENV_TUNNEL_PLATE_HC_V3": {
+   "w": 1536,
+   "h": 864,
+   "faces": [
+    [
+     11,
+     2,
+     25.5,
+     32
+    ],
+    [
+     75,
+     2.5,
+     87.5,
+     34
+    ]
+   ]
+  }
+ }
+}
