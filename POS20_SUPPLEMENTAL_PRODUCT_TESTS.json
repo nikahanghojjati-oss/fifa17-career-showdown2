@@ -3177,6 +3177,21 @@
         "^service-worker\\.js$",
         "^tests/contracts/r91-level-guide-contracts\\.cjs$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-layout-faces-contracts.cjs",
+      "patterns": [
+        "^css/homeV10\\.css$",
+        "^js/seasonFinalV10\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^css/v10Setup\\.css$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^css/v10Shell\\.css$",
+        "^css/r78\\-type\\.css$",
+        "^visual\\-assets/v10_1/roulette/index\\.html$",
+        "^tests/contracts/r91\\-layout\\-faces\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

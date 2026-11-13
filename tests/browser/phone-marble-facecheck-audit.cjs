@@ -460,13 +460,8 @@ async function paintedOver({ shots, ink }){
 // KNOWN: face rows that wait for a change owned by another thread (measured 2026-11-12 on gameplay/r91). A finding on a
 // listed screen, size and face whose text matches the row's "what" is printed as KNOWN and does not fail. A listed row that no longer fails is printed as a
 // reminder to delete it. May only shrink: fix the screen, then delete its row; never add a row to get a pull request green.
-// Owner "layout thread" = the r91 layout thread (rows L1-L5 of gameplay/r91/art/PHONE_TABLET_AUDIT.md).
+// (r91 phone-faces PR: rows L1, L2, L3 and L5 are fixed and gone; the list is empty.)
 const KNOWN = [
-    { row: "L1", owner: "layout thread", screen: "SEASON_RESULTS", size: "820x1180", face: "Nik", what: /painted over|% under </, why: "tablet upright: the tab row (DANIEL / NIK / HOW SCORING WORKS) and the title stand on Nik's face (8.4%)" },
-    { row: "L2", owner: "layout thread", screen: "LEGACY", size: "844x390", face: "Nik", what: /painted over|% under </, why: "phone sideways: the Showdown card stands on Nik's chin (2.8%)" },
-    { row: "L3", owner: "layout thread", screen: "SEASON_RESULTS", size: "1180x820", face: "Nik", what: /painted over|% under </, why: "tablet sideways: the SEASON RESULTS title runs into Nik's hair (4.1%)" },
-    { row: "L3", owner: "layout thread", screen: "SEASON_ENTRY", size: "1180x820", face: "Nik", what: /painted over|% under </, why: "tablet sideways: the SEASON RESULTS title runs into Nik's hair (4.1%)" },
-    { row: "L5", owner: "layout thread", screen: "LEAGUE", size: "844x390", face: "", what: /is not on screen/, why: "phone sideways: the room is cropped so that neither face is on screen" }
 ];
 // WAITING: screens whose room is still on its way from Team V. Their findings are printed, not failed. May only shrink.
 const WAITING = {

@@ -303,7 +303,7 @@ ok('P17','L38 a status line before ready; L39 the pot back left and smaller, sof
     assert.ok(!/animation:\s*shine\b|@keyframes shine\b|-webkit-text-stroke/.test(src.slice(src.indexOf('.kicker {'),src.indexOf('.title::after')+900)),`${file}: no moving shine and no outline on the title`);
     const m=/data-t="([^"]+)"><span>([^<]+)<\/span>/.exec(src);assert.ok(m&&m[1]===m[2],`${file}: the heading still carries its words`);
   }
-  has(/need=Math\.max\(need,r\.bottom\+10-Math\.min\(q\[0\]\.y,q\[1\]\.y\)\); \}\);/,'L37 every board face that sits under the title clears it by 10 px');
+  has(/need=Math\.max\(need,r\.bottom\+\(TAB\?14:10\)-Math\.min\(\.\.\.pts\.map\(p=>p\.y\)\)\);/,'L37 every board face that sits under the title clears it by 10 px (r91: upright tablets measure the top of the frame, 14 px)');
   has(/const want=playing\?closeLift:restShift, wantZ=playing\?1:restZoom,/,'L37 the shift (and the zoom) is only for the rest shot; a turn lifts the picture only in the drum close-up (strict A7)');
   // 2.3.0 strict C7/D10/E5: the rest picture is pulled back (the same view-offset zoom) until both squad boards stay in view; A7: the drum close-up is lifted above the caption
   has(/function fitBoardsWide\(c,w,h\)/,'strict C7 the rest picture is zoomed out just enough that each board stays in view (landscape 14 % of the width each side, upright whole boards), capped at 1.6');

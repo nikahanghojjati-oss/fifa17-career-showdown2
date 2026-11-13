@@ -1759,6 +1759,38 @@
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(#careerStatisticsScreenTitle, #clubWheelScreenScreenTitle, #connectPlayersTitle) { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .95)) !important; }
 /* r91 HO-071 end */
 
+/* r91 12px floor (art audit, 2026-11-12): the lines still under 12px that the lists above leave out because they stop at
+   480px portrait / 500px landscape. Upright tablets (481-900 wide) keep 11px on Final Winner's totals and result strip, the Club
+   reveal labels and Trophy Room BACK / MORE; the Career Statistics table head is 10px on every desktop window; the Legacy
+   carousel arrows are 10.24px. Only the size changes: no box, wording or place moves. */
+@media (min-width:481px) and (max-width:900px) and (orientation:portrait) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#danielName,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#nikName,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#panelLastSeasonResult,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#panelLastSeasonLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerMetaStrip > div.finalWinnerMetaCell > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerMetaStrip > div.finalWinnerMetaCell > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#finalWinnerRematch > small.finalWinnerRematchSub,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span.clubCardLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small.clubCardState,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.clubVs > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#trophyRoomBack.backButton,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span.trophyPhoneMoreOpen { font-size: 12px !important; }
+}
+@media (min-width:901px) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTable th,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .actionRow .actionButton > span[aria-hidden="true"]:last-child { font-size: 12px !important; }
+}
+/* the table head at 12px needs 3px more for TROPHIES in the narrow desktop windows (1024x768: 35px column, 38px word) */
+@media (min-width:901px) and (max-width:1279px) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(1) { width: 6%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(2) { width: 20%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(3) { width: 23%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(4) { width: 21%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(5) { width: 13%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(6) { width: 17%; }
+}
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #legacy[data-rivalry-legacy-v10] .legacyPager > button { font-size: 22px !important; line-height: 1; }
 /* r91 HO-071 follow-up (Nik 2026-11-12: phones and tablets get the new titles too). On tablets and sideways phones the
    League and season-count steps still show the old header bar, lettered "CAREER MODE / SHOWDOWN // 17" in the pre-V3
    block type (desktop and upright phones already dropped that bar, HO-033 item 9). The bar stays and so do its words for
