@@ -1819,10 +1819,41 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   #createShowdown.v26Skin .setupBox .cmsSeasonsStartMessage { font-size: 13px; line-height: 1.3; }
 }
 
-/* r90 W9 (LOOK hunt L20): the league wheel is typographic. The five marks were drawn five ways (a crown, a bull, a "1", two
-   shields), so the segments carry only the league names, in one type style. */
-#app #leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before { display: none !important; }
-#app #leagueWheelScreen.v26Skin .wheelItem { letter-spacing: .04em; }
+/* r91 (Nik 2026-11-13): the league marks are back on the wheel (r90 W9 had hidden them), and every name and mark sits
+   inside its own slice, at rest and while the wheel turns.
+   How: a name and its mark are fixed to their slice. They sit on the slice's centre line and turn with it, as on a real
+   wheel, so what fits at rest fits at every angle of the spin (before, each name was turned back upright, which swung its
+   ends across the dividers and the hub as the wheel turned). The name is set across the wide outer part of the slice, its
+   top edge .65 of the radius from the hub, clear of the rim art (its solid band starts at .72); the mark sits under it,
+   toward the hub (the hub's edge is .23 of the radius).
+   Small wheels (phones: 163 to 208px across) keep the 12px name, so it is large for its slice: under 300px across the
+   name is set tighter (no tracking, lines set solid, "Premier League" on two lines), the mark is smaller and sits right
+   under it, and the football at the hub is drawn at two thirds of its size to leave the mark its room.
+   Each clamp() below is such a switch: its first value under 300px (--R under 150px), its last value above.
+   tests/browser/phone-marble-facecheck-audit.cjs (F5) measures every slice at every size. */
+html:root #app #leagueWheelScreen.v26Skin .wheelItem {
+  width: calc(var(--R) * .56); margin-left: calc(var(--R) * -.28);
+  padding: 0; gap: clamp(.5px, calc((var(--R) - 150px) * 1000), calc(var(--R) * .03));
+  line-height: clamp(1em, calc((var(--R) - 150px) * 1000), 1.1em); letter-spacing: clamp(0em, calc((var(--R) - 150px) * 1000), .04em);
+  white-space: normal; overflow-wrap: normal;
+  transform-origin: 50% 0;
+  transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -.65));
+}
+html:root #app #leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before {
+  display: block; order: 1; flex: none;
+  width: clamp(calc(var(--R) * .14), calc((var(--R) - 150px) * 1000), calc(var(--R) * .18));
+  height: clamp(calc(var(--R) * .14), calc((var(--R) - 150px) * 1000), calc(var(--R) * .18));
+  background: #e2b84a; filter: none;
+  -webkit-mask: var(--league-mark-image) center / contain no-repeat;
+  mask: var(--league-mark-image) center / contain no-repeat;
+}
+html:root #app #leagueWheelScreen.v26Skin .wheelItem:is(.v26-top, .v26-selected)::before { background-color: #0b0d10; filter: none; }
+/* While the wheel turns, pale names and gold marks pass over the lit slice: a thin dark edge keeps them readable there. */
+html:root #app #leagueWheelScreen.v26Skin .wheelItem:not(.v26-top, .v26-selected) { filter: drop-shadow(0 1px 1px rgba(11, 13, 16, .7)); }
+/* The hub (the first picture of the wheel's cover; the second is the rim, which keeps its size). */
+html:root #app #leagueWheelScreen.v26Skin #leagueWheel::after {
+  background-size: clamp(66%, calc((var(--R) - 150px) * 1000), 100%) clamp(66%, calc((var(--R) - 150px) * 1000), 100%), 100% 100%;
+}
 
 /* r90 W9 (LOOK hunt L19): Club Assignment loses the web-template stepper (five empty circles on a line, 01 DRAW ... 05 LOCK);
    the status line under the title already says where the draw is. The VS is flat gold type: no gradient, no outline glow. */
