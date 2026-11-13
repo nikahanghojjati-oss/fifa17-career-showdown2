@@ -131,7 +131,11 @@ check("V8 all Statistics buttons are reachable online; Career Statistics is show
 });
 check("V9 startup shell unchanged; every new lazy file is shell-cached (images: revision-keyed runtime cache, job 24); runtime revision untouched",()=>{
   const index=read("index.html"),sw=read("service-worker.js");
-  assert.ok(!index.includes("trophyRoomButton"));assert.ok(!index.includes("careerScreensV10"));assert.ok(!index.includes("visual-assets/v10_1"));
+  // r91 B1: the inline boot-fail guard names the tokens sheet for its error screen, loaded only when the start failed;
+  // the start-up shell itself still loads nothing from visual-assets/v10_1.
+  const startupShell=index.replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");assert.notEqual(startupShell,index,"the boot-fail guard is there");
+  assert.ok(!startupShell.includes("visual-assets/v10_1"));
+  assert.ok(!index.includes("trophyRoomButton"));assert.ok(!index.includes("careerScreensV10"));
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
   for(const tag of index.match(/\?v=[^"']+/g))assert.equal(tag,"?v="+revision,"index.html and RUNTIME_REVISION agree");
   const shell=new Set([...sw.matchAll(/^\s+"([^"]+)",?$/gm)].map(m=>m[1]));

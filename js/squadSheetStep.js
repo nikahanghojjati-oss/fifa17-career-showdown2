@@ -302,7 +302,9 @@
       const afterLock=data=>{
         sqsDropDraft(ctx);
         if(ctx.stage!=="pre"){ready(null);return;}
-        say(`Your squad is locked. Waiting for ${rivalName} to lock his squad.`);
+        // M1 (2.4.0 hunt): the rival's phone spun this season's roulette on an older version (ctx.rivalBehind, the version on his
+        // spin mark, the roulette's own signal), so it shows him no squad screen: the wait says to update it, in the roulette's words.
+        say(`Your squad is locked. Waiting for ${rivalName} to lock his squad.${ctx.rivalBehind===true?` Update the game on ${rivalName}'s phone: close it fully and open it again.`:""}`);
         void sqsWatch(io,ctx,rivalData=>{
           if(done)return;
           const own=sqsBuildLocked(ctx,history,data),theirs=sqsRivalBoard(ctx,history,rivalData);
@@ -442,8 +444,10 @@
       const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
       if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)return false;
       const io={firestore:services.firestore,sdk:services.firestoreSdk,rivalryId};
-      for(const [k,role] of need){const read=await sqsGet(io,ctx,role,k,"pre",true);if(!read.ok)return false;}
-      return true;
+      // G1 (2.4.0 hunt): the missing sheets are read at the same time, not one after another, so a phone that lost its kept
+      // copies fits the paper's 4 s wait (js/touchlineGazette.js SQUAD_CAP_MS) like the other phone. Same reads, same count.
+      const reads=await Promise.all(need.map(([k,role])=>sqsGet(io,ctx,role,k,"pre",true)));
+      return reads.every(read=>read.ok);
     }catch(_error){return false;}
   }
   async function sqsGazetteWarm(ctx,io){

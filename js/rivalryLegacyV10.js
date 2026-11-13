@@ -79,7 +79,7 @@
   const DIR={legacy:"legacy",rivalryStatistics:"rivalry-statistics"};
   const BOOT={legacy:"ShowdownLegacyBoot",rivalryStatistics:"ShowdownRivalryStatisticsBoot"};
   const sources={},sourceKeys={},getters={},resources={},originalMarkup={},reloads={};
-  const LOAD_TIMEOUT=15000,RELOAD_INTERVAL=2000;
+  const LOAD_TIMEOUT=15000,RELOAD_INTERVAL=2000,RIVALRY_RETRY_MS=2500;
   const LOADING=rlFreeze({status:"loading"}),UNAVAILABLE=rlFreeze({status:"unavailable"});
   let registration=null,installed=false,tabletLayoutCleanup=null,legacyLayoutCleanup=null;
   const screens=()=>root.CareerModeV10Screens;
@@ -320,15 +320,26 @@
         let scope=null;try{scope=await rlCareerScope(services,sdk.getDoc,user);}catch(_){scope=null;}
         if(!scope){model=UNAVAILABLE;rivalryModel=UNAVAILABLE;}
         else{
-          const hidden=scope.hidden;
-          const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc,setDoc:sdk.setDoc},user,current:active.careerInput,...(typeof onProgress==="function"?{onProgress}:{}),...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})},()=>canPublish()&&context()===key);
-          model=result.model??UNAVAILABLE;
-          if(rivalry){
+          const hidden=scope.hidden,loader=root.CareerModeSparkClosedShowdownCareerLoader;
+          // U1 (2.4.0 hunt): Rivalry Statistics right after a close. The Showdown that just finished (rivalry.expect, when it
+          // counts for this career) can still be missing from the career index, or read as unavailable, for a moment. Such an
+          // answer is never kept: the loader forgets it, it is asked once more after a short wait, and the next visit asks
+          // again. In the normal case the newest finished entry is that Showdown and nothing more is read.
+          const expect=typeof rivalry?.expect==="string"&&!scope.testOnly&&!hidden.includes(rivalry.expect)?rivalry.expect:null;
+          for(let attempt=0;;attempt+=1){
+            const result=await loader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc,setDoc:sdk.setDoc},user,current:active.careerInput,...(typeof onProgress==="function"?{onProgress}:{}),...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})},()=>canPublish()&&context()===key);
+            model=result.model??UNAVAILABLE;
+            if(!rivalry)break;
             // Career order is oldest first. Rebuild the latest verified completed entry (r87 Fable job 7 F7-06: a newer live or
             // completion-pending Showdown is not finished yet, so it never hides the newest finished one behind "empty"),
             // never mix whole-career manager counters into one rivalry's figures.
             const input=result.careerInput,entry=input?.showdowns?.filter(item=>!["abandoned","active","completion-pending"].includes(item.classification)).at(-1);
             rivalryModel=input?.indexStatus==="ready"?(entry?.classification==="completed"?root.CareerModeSharedCareerAnalytics.buildCareerModel({indexStatus:"ready",showdowns:[entry]}):entry?.classification==="unavailable"?UNAVAILABLE:{status:"empty"}):UNAVAILABLE;
+            const unavailable=rivalryModel===UNAVAILABLE,notIndexed=Boolean(expect)&&entry?.rivalryId!==expect;
+            if(!unavailable&&!notIndexed)break;
+            for(const id of new Set([expect,entry?.rivalryId]))if(id)loader.forgetUnavailableShowdown?.(id);
+            if(attempt||!expect||!canPublish()||context()!==key)break;
+            await new Promise(resolve=>root.setTimeout(resolve,RIVALRY_RETRY_MS));
           }
         }
       }
@@ -396,7 +407,7 @@
           if(screen==="rivalryStatistics"){
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
-            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true,progress,retrying);
+            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,active.classification==="completed"?{expect:active.careerInput?.showdowns?.[0]?.rivalryId}:true,progress,retrying);
             return rlLiveOrContinue({...active.rivalry,lifecycle:active.classification});
           }
           return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress,retrying);
