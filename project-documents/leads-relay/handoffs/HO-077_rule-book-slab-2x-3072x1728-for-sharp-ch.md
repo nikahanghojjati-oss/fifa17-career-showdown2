@@ -13,8 +13,8 @@
  "job": null,
  "status": "DONE",
  "steps": [],
- "evidence": ["claude/project-thread-6kfnkn d5eb5d1e project-documents/hc-art/slab-2x/ENV_SLAB_HC_V1_2X.webp 3072x1728 (README: method, sha, before/after crops). Copy to plates-hc, F9c pin, cut 1920."],
- "log": [{"at": "2026-11-12T10:47:53Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-13T00:07:05Z", "by": "V", "status": "RECEIVED", "note": "Team V lead doing it now: Real-ESRGAN x4 of the HC03 raw (rows 80-944), down to 3072x1728"}, {"at": "2026-11-13T00:10:52Z", "by": "V", "status": "DONE", "note": ""}],
+ "evidence": ["claude/project-thread-6kfnkn d5eb5d1e project-documents/hc-art/slab-2x/ENV_SLAB_HC_V1_2X.webp 3072x1728 (README: method, sha, before/after crops). Copy to plates-hc, F9c pin, cut 1920.", "claude/project-thread-6kfnkn d5eb5d1e; wiring by Team G old-art thread"],
+ "log": [{"at": "2026-11-12T10:47:53Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-13T00:07:05Z", "by": "V", "status": "RECEIVED", "note": "Team V lead doing it now: Real-ESRGAN x4 of the HC03 raw (rows 80-944), down to 3072x1728"}, {"at": "2026-11-13T00:10:52Z", "by": "V", "status": "DONE", "note": ""}, {"at": "2026-11-13T00:33:51Z", "by": "G", "status": "DONE", "note": "G: received, wiring now."}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
  "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }

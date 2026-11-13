@@ -275,3 +275,5 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-12 10:47 | Team G | Team V | HO-077 SENT | Rule Book slab 2X (3072x1728) for sharp Chromebook windows | yes (receive it) |
 | 2026-11-13 00:07 | Team V | Team G | HO-077 RECEIVED | Rule Book slab 2X (3072x1728) for sharp Chromebook windows | no |
 | 2026-11-13 00:10 | Team V | Team G | HO-077 DONE | Rule Book slab 2X (3072x1728) for sharp Chromebook windows | no |
+| 2026-11-13 00:33 | Team G | Team V | HO-077 DONE | Rule Book slab 2X (3072x1728) for sharp Chromebook windows | no |
+| 2026-11-13 00:33 | Team G | Team V | HO-078 SENT | One more V3 title: DEVICE CHECK | yes (receive it) |
