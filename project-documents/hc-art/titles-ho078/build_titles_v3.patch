@@ -1,0 +1,12 @@
+diff --git a/visual-assets/v10_1/shared/wordmarks/v3/build_titles_v3.py b/visual-assets/v10_1/shared/wordmarks/v3/build_titles_v3.py
+index bb711263..0506f23d 100644
+--- a/visual-assets/v10_1/shared/wordmarks/v3/build_titles_v3.py
++++ b/visual-assets/v10_1/shared/wordmarks/v3/build_titles_v3.py
+@@ -56,6 +56,7 @@ SLOT = {
+     "SQUAD": ("Squad Management", "shared/wordmarks"),
+     "START": ("Start", "shared/wordmarks"),
+     "HISTORY": ("History", "shared/wordmarks"),
++    "DEVICE_CHECK": ("Device Check", "shared/wordmarks"),   # HO-078: device-check.html
+ }
+ 
+ 
