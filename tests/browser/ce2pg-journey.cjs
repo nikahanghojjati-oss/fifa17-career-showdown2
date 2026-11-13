@@ -446,7 +446,7 @@ function wirePage(m){
       entry.class=classifyNetwork(entry);report.network[m.account].push(entry);if(entry.class==="unexpected")m.log.httpErrors.push(entry);
     }
   });
-  page.on("request",request=>{const u=new URL(request.url());if(FORBIDDEN_HOSTS.test(u.hostname))m.log.forbidden.push(u.hostname);if(/productionFirebaseRuntime\.js|firebase\.runtime-config\.json/.test(u.pathname))m.log.productionRuntime+=1;});
+  page.on("request",request=>{const u=new URL(request.url());if(FORBIDDEN_HOSTS.test(u.hostname))m.log.forbidden.push(u.hostname);if(/productionFirebaseRuntime\.js|firebase\.runtime-config\.json/.test(u.pathname)){m.log.productionRuntime+=1;(m.log.productionRuntimeAt||=[]).push(`${u.pathname} from ${page.url().slice(0,90)}`);}});
   page.on("dialog",dialog=>{void dialog.accept().catch(()=>{});});
 }
 async function openManager(browser,account,label=account,reuse=null){
@@ -471,7 +471,7 @@ async function openManager(browser,account,label=account,reuse=null){
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
   return m;
 }
-// r92 (W1): what a phone's Shared Season Commit says when the run stops, so a CONFIRM SEASON that did not land can be read afterwards: the
+// r92 (W1): what a phone's Shared Season Commit (and its Season Results confirm button) says when the run stops, so a CONFIRM SEASON that did not land can be read afterwards: the
 // module's own view (phase and the fields it keeps), the action button (words, disabled, busy, shown), the status line (a failed season check
 // names its read error there: "SEASON CHECK FAILED · ..."), the review error line (a failed write shows its message there) and the heading.
 async function seasonCommitState(m){
@@ -480,6 +480,8 @@ async function seasonCommitState(m){
     const a=document.getElementById("sharedSeasonCommitAction");
     let view=null;try{const v=window.CareerModeProductionSharedSeasonCommit?.getState?.();view=v?JSON.parse(JSON.stringify(v,(k,x)=>typeof x==="string"&&x.length>160?x.slice(0,160):x)):null;}catch(e){view={error:String(e&&e.message||e).slice(0,160)};}
     return {at:new Date().toISOString(),viewPhase:view?.phase??null,view,action:a?{text:(a.textContent||"").trim(),disabled:a.disabled===true||a.getAttribute("aria-disabled")==="true",busy:a.getAttribute("aria-busy")==="true",shown:a.getClientRects().length>0}:null,
+      results:(()=>{const b=document.getElementById("confirmSeasonCompletion");let v=null;try{const x=window.CareerModeProductionSharedSeasonResults?.getState?.();v=x?{phase:x.phase??x.state?.phase??null,busy:x.busy??null,publishedRoles:x.state?.publishedRoles??x.publishedRoles??null,error:x.error?String(x.error.message||x.error).slice(0,160):null}:null;}catch(_e){v=null;}
+        return {view:v,confirm:b?{text:(b.textContent||"").trim(),disabled:b.disabled===true||b.getAttribute("aria-disabled")==="true",busy:b.getAttribute("aria-busy")==="true",shown:b.getClientRects().length>0}:null,error:text("seasonEntryError")};})(),
       status:text("sharedSeasonCommitStatus"),readError:/SEASON CHECK FAILED/.test(text("sharedSeasonCommitStatus")||"")?text("sharedSeasonCommitStatus"):null,writeError:text("seasonReviewError"),heading:text("seasonReviewHeading"),season:text("seasonIndicator")};
   }).catch(e=>({error:String(e&&e.message||e).slice(0,200)}));
 }
@@ -1904,7 +1906,7 @@ async function main(){
   }finally{
     seasonNow=0;showdownNow="zz";
     for(const m of [...managers,...retired]){
-      await check(m,"zz.production","never contacted a production Firebase host or loaded the production runtime",m.log.forbidden.length===0&&m.log.productionRuntime===0,{forbidden:m.log.forbidden,productionRuntime:m.log.productionRuntime},{screen:"Network"});
+      await check(m,"zz.production","never contacted a production Firebase host or loaded the production runtime",m.log.forbidden.length===0&&m.log.productionRuntime===0,{forbidden:m.log.forbidden,productionRuntime:m.log.productionRuntime,at:m.log.productionRuntimeAt||[]},{screen:"Network"});
       await check(m,"zz.pageerrors","no uncaught page errors or console errors",m.log.pageErrors.length===0&&m.log.consoleErrors.length===0,{pageErrors:m.log.pageErrors.slice(0,5),consoleErrors:m.log.consoleErrors.slice(0,5)},{screen:"Console"});
       await check(m,"zz.network","no failed network requests (HTTP 4xx/5xx other than benign write contention, or request failures other than aborted navigations)",m.log.failedRequests.length===0&&m.log.httpErrors.length===0,{failed:m.log.failedRequests.slice(0,5),http:m.log.httpErrors.slice(0,8)},{screen:"Network"});
     }
