@@ -72,9 +72,15 @@ async function playSquad(page){
     // CE2PG_NAMESAKE=1 (hunt C1 proof): the screen's "Not in your squad" list, once per screen, so the report shows a shot
     // club player standing next to a kept signing with his name.
     if(process.env.CE2PG_NAMESAKE==="1"){
-      const seen=await stage.evaluate(node=>({stage:node.dataset.stage||"",season:document.getElementById("seasonIndicator")?.textContent||"",out:[...node.querySelectorAll(".sqmLeftOut li")].map(n=>n.textContent),squad:[...node.querySelectorAll(".sqmCardName")].map(n=>n.textContent).length})).catch(()=>null);
+      const seen=await stage.evaluate(node=>{
+        const season=document.getElementById("seasonIndicator")?.textContent||"",n=Number((/Season (\d+)/.exec(season)||[])[1]||0);
+        // the roulette's saved outcomes this phone kept (name, shirt, signed season: a club player has no signed season)
+        let hits=null;try{const list=JSON.parse(window.readStorageValue("careerModeShowdown.rouletteHits.v1")||"[]"),own=list.filter(item=>Array.isArray(item)&&String(item[0]).endsWith(`|${n}`)).pop();hits=own?own[1]:null;}catch(_e){hits=null;}
+        const hit=h=>h&&h.fired?`${h.hitName} #${h.hitNumber??"-"}${h.hitSignedSeason?` (signed S${h.hitSignedSeason})`:" (club player)"}`:"none";
+        return {stage:node.dataset.stage||"",season,out:[...node.querySelectorAll(".sqmLeftOut li")].map(x=>x.textContent),hits:hits?`playerOne ${hit(hits.playerOne)}, playerTwo ${hit(hits.playerTwo)}`:"not kept here",me:document.getElementById("onlinePlayerIdentityBadge")?.textContent||""};
+      }).catch(()=>null);
       const key=seen?`${seen.season}|${seen.stage}`:"";if(!rated.has(page))rated.set(page,new Set());
-      if(seen&&seen.out.length&&!rated.get(page).has(`ns|${key}`)){rated.get(page).add(`ns|${key}`);console.log(`--- squad not in squad ${key}: ${seen.out.join(" ; ")}`);}
+      if(seen&&seen.out.length&&!rated.get(page).has(`ns|${key}`)){rated.get(page).add(`ns|${key}`);console.log(`--- squad not in squad ${key} [${seen.me}]: ${seen.out.join(" ; ")} | roulette: ${seen.hits}`);}
     }
     const started=Date.now();let failed=null;
     await lock.click({timeout:5000}).catch(error=>{failed=error;});
