@@ -3210,6 +3210,14 @@
         "^js/sparkClosedShowdownCareerLoader\\.js$",
         "^tests/contracts/r91-rivalry-retry-contracts\\.cjs$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-gazette-parallel-contracts.cjs",
+      "patterns": [
+        "^js/squadSheetStep\\.js$",
+        "^js/touchlineGazette\\.js$",
+        "^tests/contracts/r91-gazette-parallel-contracts\\.cjs$"
+      ]
     }
   ]
 }

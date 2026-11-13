@@ -442,8 +442,10 @@
       const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
       if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)return false;
       const io={firestore:services.firestore,sdk:services.firestoreSdk,rivalryId};
-      for(const [k,role] of need){const read=await sqsGet(io,ctx,role,k,"pre",true);if(!read.ok)return false;}
-      return true;
+      // G1 (2.4.0 hunt): the missing sheets are read at the same time, not one after another, so a phone that lost its kept
+      // copies fits the paper's 4 s wait (js/touchlineGazette.js SQUAD_CAP_MS) like the other phone. Same reads, same count.
+      const reads=await Promise.all(need.map(([k,role])=>sqsGet(io,ctx,role,k,"pre",true)));
+      return reads.every(read=>read.ok);
     }catch(_error){return false;}
   }
   async function sqsGazetteWarm(ctx,io){
