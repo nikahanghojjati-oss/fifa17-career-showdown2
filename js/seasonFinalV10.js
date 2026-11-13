@@ -2034,7 +2034,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* big sideways phones (iPhone Plus and Pro Max, 932x430) use the sideways layout; from 901px wide the game's top bar
    stays, so the screen starts under it */
 @media (min-width:901px) and (min-height:340px) and (max-height:500px) and (orientation:landscape) {
- html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { top:var(--sd-nav-top-h,52px); height:auto; background-image:none; }
+ html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { top:var(--sd-nav-top-h,52px); height:auto; }
+ /* r92-04: no desktop room behind this layout at any download level; :root lifts it over the data-assets rules that come later in the sheet */
+ html[data-v10-screen="seasonEntry"]:root #app main:has(#seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { background-image:none; }
  #app #seasonEntry.seasonScreenV10.v10FinalMode { height:calc(100svh - var(--sd-nav-top-h,52px)); }
 }
 /* phone upright, pending: one row of season facts so the summary fits the shorter panel */
