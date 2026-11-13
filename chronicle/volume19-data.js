@@ -642,7 +642,7 @@ window.CHRONICLE_VOLUME19={
     },
     {
      "type": "p",
-     "text": "The proof was heavy. A fuzz of 3,000 careers, 33,178 squad screens, found no stuck LOCK and no reload that disagreed; a second one of 6,000 careers and 723 buy-backs passed too. A ten-season CE2PG with a namesake forced every season passed 489 of 489 checks, Athletic Club against Deportivo. Codex was at its usage limit and could not review it, so the lead checked it and merged it at 07:47 UTC. Using the new playerId in the Transfer War refusals as well waits for r92, so that the two screens never disagree."
+     "text": "The proof was heavy. A fuzz of 3,000 careers, 33,178 squad screens, found no stuck LOCK and no reload that disagreed; a second one of 6,000 careers and 723 buy-backs passed too. A ten-season CE2PG with a namesake forced every season passed 489 of 489 checks, Athletic Club against Deportivo. Codex was at its usage limit and could not review it, so a separate Opus reviewer thread read it on its own, re-ran the hunt’s three repros and a 2,000-seed fuzz with no stuck lock, and only then did the lead merge it, at 07:47 UTC. #1439 below went through the same independent review. Using the new playerId in the Transfer War refusals as well waits for r92, so that the two screens never disagree."
     },
     {
      "type": "h2",
@@ -705,9 +705,9 @@ window.CHRONICLE_VOLUME19={
     "Squad Management",
     "Loading screen"
    ],
-   "words": 802,
-   "minutes": 3
+   "words": 834,
+   "minutes": 4
   }
  ],
- "wordCount": 4237
+ "wordCount": 4269
 };
