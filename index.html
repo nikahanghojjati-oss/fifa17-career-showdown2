@@ -406,6 +406,28 @@
 <footer>Career Mode Showdown<br>v2.3.0</footer>
 </div>
 
+<script>
+/* B1 (2.4.0 hunt): a start-up file that never arrives, or a start that fails, must not leave the loading screen up for good.
+   The page reloads once by itself (a sessionStorage mark, so it can never loop); a second failure shows the marble error screen
+   with RELOAD. The loading screen stays until then (Reus Gate). js/app.js's sa() hands a failed start to cmsBootFail; a start
+   counts as done once sa() has run (applicationStarted) without failing. */
+(function(w,d){var K="cmsBootRetry",failed=0,B=/\/js\/(storage|showdown|scoring|screens|menuExperience|optionalModules|app)\.js$/;
+function mark(f){try{return f(w.sessionStorage);}catch(e){return null;}}
+function screen(){var l=d.getElementById("loadingScreen"),a=d.getElementById("app"),el=d.createElement("div"),p=d.createElement("section"),r=d.createElement("div"),b=d.createElement("button");
+["visual-assets/v10_1/shared/showdown-tokens","css/r78-type","css/r78-marble-surfaces"].forEach(function(n){var s=d.createElement("link");s.rel="stylesheet";s.setAttribute("href",n+".css");d.head.appendChild(s);});
+el.id="bootFailScreen";el.className="r78-error-screen r78-error-screen--plate";el.setAttribute("role","alertdialog");el.setAttribute("aria-labelledby","bootFailTitle");
+el.style.cssText="position:fixed;inset:0;z-index:101;display:grid;place-items:center;padding:20px;background-color:#07080a";
+p.className="r78-panel r78-error-screen__panel";p.style.cssText="width:min(560px,100%);padding:28px;background-color:#110f0c;color:#f1e9d6";
+p.innerHTML='<p class="r78-error-screen__eyebrow">CAREER MODE SHOWDOWN</p><h2 class="r78-error-screen__title" id="bootFailTitle">THE GAME DID NOT START</h2><p class="r78-error-screen__body">Some game files did not load. Your career is safe. Tap RELOAD to try again.</p>';
+r.className="r78-error-screen__actions";b.type="button";b.className="r78-btn r78-btn--primary";b.textContent="RELOAD";b.onclick=function(){b.disabled=true;location.reload();};
+r.appendChild(b);p.appendChild(r);el.appendChild(p);d.body.appendChild(el);if(a)a.inert=true;if(l){l.hidden=true;l.setAttribute("aria-busy","false");}b.focus();}
+w.cmsBootFail=function(what,why){if(failed)return;failed=1;try{console.error("[Career Mode Showdown] "+what+":",why);}catch(e){}
+if(mark(function(s){return s.getItem(K);})===null&&mark(function(s){s.setItem(K,"1");return s.getItem(K);})==="1")return location.reload();
+d.readyState==="loading"?d.addEventListener("DOMContentLoaded",screen,{once:true}):screen();};
+w.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="SCRIPT"&&B.test((t.src||"").split(/[?#]/)[0]))w.cmsBootFail("A start-up file did not load",t.src);},true);
+d.addEventListener("DOMContentLoaded",function(){setTimeout(function(){if(failed)return;if(typeof applicationStarted!=="undefined"&&applicationStarted)mark(function(s){s.removeItem(K);});else w.cmsBootFail("The game did not start","js/app.js did not run");},0);},{once:true});
+})(window,document);
+</script>
 <script defer src="js/storage.js?v=2.3.0-r90"></script>
 <script defer src="js/showdown.js?v=2.3.0-r90"></script>
 <script defer src="js/scoring.js?v=2.3.0-r90"></script>

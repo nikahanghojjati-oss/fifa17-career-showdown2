@@ -3193,6 +3193,15 @@
         "^tests/contracts/r91\\-layout\\-faces\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-boot-fail-contracts.cjs",
+      "patterns": [
+        "^index\\.html$",
+        "^js/app\\.js$",
+        "^js/(storage|showdown|scoring|screens|menuExperience|optionalModules)\\.js$",
+        "^tests/contracts/r91-boot-fail-contracts\\.cjs$"
+      ]
     }
   ]
 }
