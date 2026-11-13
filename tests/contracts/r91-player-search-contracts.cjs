@@ -109,8 +109,8 @@ const options=windowScript("data/transferOptions.js");
   assert.match(build,/const playerId=String\(name\?\.dataset\?\.playerId\|\|""\);if\(\/\^\[1-9\]\[0-9\]\{0,5\}\$\/\.test\(playerId\)\)row\.playerId=Number\(playerId\);rows\.push\(row\);/,"a picked player's SoFIFA id goes on the locked signing row as playerId (r91 Rules deploy); a typed name has none");
   const populate=/function pstcPopulateSignings\(role,signings\)\{([\s\S]*?)\n/.exec(pstc)[1];
   assert.match(populate,/if\(Number\.isInteger\(row\?\.playerId\)&&row\.playerId>0\)name\.dataset\.playerId=String\(row\.playerId\);else delete name\.dataset\.playerId;/,"a locked row read back keeps its id on the box");
-  assert.match(build,/const out=player&&blocked&&blocked\.get\(pstcNameKey\(player\)\)/,"LOCK still refuses guessed and shot players itself");
-  assert.match(pstc,/pstcBlockedText\(role,name\)\{\s*const key=pstcNameKey\(name\)/,"the list marks players with the same name key LOCK uses");
+  assert.match(build,/out=player&&blocked&&pstcBlockedFor\(blocked,player,pickedId\)/,"LOCK still refuses guessed and shot players itself (R92-01: the exact man by his picked id first)");
+  assert.match(pstc,/pstcBlockedText\(role,name,playerId\)\{\s*const out=[^;]*pstcBlockedFor\(blockedSeen\.map,name,playerId\)/,"the list marks players with the same check LOCK uses (name and id)");
   // Both readers accept the optional key (an exact-key reader that refused it would break the screen on the rival's phone),
   // and the Rules allow it as an int 1..999999.
   for(const file of ["js/sharedTransferChallenge.js","js/sparkSharedTransferChallenge.js"]){

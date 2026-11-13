@@ -316,22 +316,47 @@
   const pstcOtherRole=role=>role==="playerOne"?"playerTwo":"playerOne";
   function pstcIsRivalSpecial(role,name){return (role==="playerOne"||role==="playerTwo")&&pstcIsOwnSpecial(pstcOtherRole(role),name);}
   function pstcRivalSpecialText(role,name){return `${name} is ${pstcManagerName(pstcOtherRole(role))}'s Special Player. He cannot join your squad.`;}
-  // r88 LOCK refusals (Nik 2026-11-03): LOCK refuses every signing the board engine (js/rosterRoulette.js rrExclude) keeps off
-  // this manager's later boards because of the Transfer War or the roulette, so a refusal is exactly an engine exclusion:
+  // r88 LOCK refusals (Nik 2026-11-03): LOCK refuses every signing the squad engine (js/squadSheet.js barred) keeps out of
+  // this manager's later squads because of the Transfer War or the roulette, so a refusal is exactly an engine bar:
   //  - guessed: his own signing the rival guessed in an earlier season (release:true). Only that manager: the rival may sign him,
   //    and a club player with the same name is not blocked (the engine's guess exclusion is the signing's only).
-  //  - shot: anyone the roulette shot on this manager's board in any season up to this one, club player or signing. The engine
-  //    excludes "s|name" for both, so no signing of that name ever joins his board again.
-  // Names match by the roulette's name key (rrKey). Pure: earlier[k] = {playerOne, playerTwo} verdict rows of season k
-  // (1..season-1); hits[k] = {playerOne, playerTwo} saved spin outcomes (or null) of season k (1..season), as the engine replays
-  // them. Returns Map nameKey -> {name, reason:"shot"|"guessed", season}; shot wins when both apply (the engine's own order).
+  //  - shot: anyone the roulette shot on this manager's board in any season up to this one, club player or signing.
+  // R92-01 (Nik 2026-11-13 19:26 UTC, "Yes, check the exact player"): the man is matched by his SoFIFA playerId first, the
+  // folded name (rrKey) only when an id is missing on either side. A guessed row with an id bars that id; a shot signing bars
+  // the ids of every kept signing of his name this manager had before that season (the board names a signing by name only).
+  // A shot club player, or any row of the name without an id, bars the whole name too, as before. So the man himself is
+  // refused under any spelling, and a different man who only shares the name may come in.
+  // Pure: earlier[k] = {playerOne, playerTwo} verdict rows of season k (1..season-1); hits[k] = {playerOne, playerTwo} saved
+  // spin outcomes (or null) of season k (1..season), as the engine replays them. Returns Map nameKey -> {name,
+  // reason:"shot"|"guessed", season, ids, whole}: ids = the barred playerIds (sorted, under any name), whole = the whole name
+  // is barred too. Shot wins the reason when both apply (the engine's own order); ids join and are never forgotten.
   function pstcNameKey(name){return String(name||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();}
-  function pstcSavedShot(hits,k,role){const h=hits&&hits[k]&&hits[k][role];if(!h||typeof h!=="object"||h.fired!==true||typeof h.hitName!=="string"||!h.hitName.trim()||!Number.isInteger(h.hitSlot)||h.hitSlot<0||h.hitSlot>14)return null;return h.hitName.trim();}
+  const pstcPlayerId=value=>Number.isInteger(value)&&value>=1&&value<=999999?value:null;
+  function pstcSavedShot(hits,k,role){const h=hits&&hits[k]&&hits[k][role];if(!h||typeof h!=="object"||h.fired!==true||typeof h.hitName!=="string"||!h.hitName.trim()||!Number.isInteger(h.hitSlot)||h.hitSlot<0||h.hitSlot>14)return null;return {name:h.hitName.trim(),signing:Number.isInteger(h.hitSignedSeason)&&h.hitSignedSeason>=1&&h.hitSignedSeason<=10};}
+  // A shot signing's bar: the ids of this manager's kept signings named key in seasons 1..last, and the whole name when one
+  // of them has no id (or none is found).
+  function pstcSignedIds(earlier,last,role,key){
+    const ids=[];let found=false,whole=false;
+    for(let j=1;j<=last;j+=1){const rows=Array.isArray(earlier)&&earlier[j]&&earlier[j][role];if(Array.isArray(rows))for(const row of rows){if(!row||row.release===true||typeof row.name!=="string"||pstcNameKey(row.name)!==key)continue;found=true;const id=pstcPlayerId(row.playerId);if(id===null)whole=true;else ids.push(id);}}
+    return {ids,whole:whole||!found};
+  }
   function pstcRouletteBlocked(earlier,hits,season,role){
     const out=new Map();if((role!=="playerOne"&&role!=="playerTwo")||!Number.isInteger(season)||season<1)return out;
-    for(let k=1;k<=season;k+=1){const name=pstcSavedShot(hits,k,role),key=pstcNameKey(name);if(key&&!out.has(key))out.set(key,Object.freeze({name,reason:"shot",season:k}));}
-    for(let k=1;k<season;k+=1){const rows=Array.isArray(earlier)&&earlier[k]&&earlier[k][role];if(Array.isArray(rows))for(const row of rows){const name=row&&row.release===true&&typeof row.name==="string"?row.name.trim():"",key=pstcNameKey(name);if(key&&!out.has(key))out.set(key,Object.freeze({name,reason:"guessed",season:k}));}}
+    const bars=new Map();
+    const bar=(name,reason,k,{ids,whole})=>{const key=pstcNameKey(name);if(!key)return;const was=bars.get(key)||{name,reason,season:k,ids:new Set(),whole:false};
+      for(const id of ids)was.ids.add(id);was.whole=was.whole||whole;bars.set(key,was);};
+    for(let k=1;k<=season;k+=1){const shot=pstcSavedShot(hits,k,role);if(shot)bar(shot.name,"shot",k,shot.signing?pstcSignedIds(earlier,k-1,role,pstcNameKey(shot.name)):{ids:[],whole:true});}
+    for(let k=1;k<season;k+=1){const rows=Array.isArray(earlier)&&earlier[k]&&earlier[k][role];if(Array.isArray(rows))for(const row of rows){const name=row&&row.release===true&&typeof row.name==="string"?row.name.trim():"";if(name){const id=pstcPlayerId(row.playerId);bar(name,"guessed",k,id===null?{ids:[],whole:true}:{ids:[id],whole:false});}}}
+    for(const [key,b] of bars)out.set(key,Object.freeze({name:b.name,reason:b.reason,season:b.season,ids:Object.freeze([...b.ids].sort((x,y)=>x-y)),whole:b.whole}));
     return out;
+  }
+  // The bar a signing (name, optional playerId) meets, or null: an id barred under any name first, then his name when it is
+  // barred as a whole or he has no id. The squad engine asks the same question (js/squadSheet.js barFor).
+  function pstcBlockedFor(map,name,playerId){
+    if(!(map instanceof Map))return null;const id=pstcPlayerId(playerId),key=pstcNameKey(name);
+    if(id!==null)for(const entry of map.values())if(Array.isArray(entry.ids)&&entry.ids.includes(id))return entry;
+    const entry=key?map.get(key):null;
+    return entry&&(entry.whole!==false||id===null)?entry:null;
   }
   // The data for it, from this phone first: the verdicts and saved spins the roulette kept here, and this manager's own outcome
   // of this season's spin. A phone that never ran this Showdown's roulette (a fresh browser after the window opened) reads what
@@ -382,14 +407,14 @@
     for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(!input)continue;if(enabled)root.enhanceTransferSelector(input,"player");}
   }
   function pstcPlayerSlot(input){const match=/^(p1|p2)Signing([1-3])Name$/.exec(input?.id||"");return match?{prefix:match[1],slot:Number(match[2]),role:match[1]==="p1"?"playerOne":"playerTwo"}:null;}
-  function pstcBlockedText(role,name){
-    const key=pstcNameKey(name);const out=key&&blockedSeen&&blockedSeen.key===`${pstcRequestContext()?.key}|${role}`?blockedSeen.map.get(key):null;
+  function pstcBlockedText(role,name,playerId){
+    const out=blockedSeen&&blockedSeen.key===`${pstcRequestContext()?.key}|${role}`?pstcBlockedFor(blockedSeen.map,name,playerId):null;
     if(out)return out.reason==="shot"?`${name} was shot in the roulette. He cannot come back.`:`${name} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You cannot sign him again.`;
     if(pstcIsOwnSpecial(role,name))return `${name} is your Special Player. He is a free extra signing, so do not enter him here.`;
     if(pstcIsRivalSpecial(role,name))return pstcRivalSpecialText(role,name);
     return "";
   }
-  root.CareerModeTransferPlayerBlocked=(input,name)=>{const where=pstcPlayerSlot(input);return where&&where.role===view?.managerRole?pstcBlockedText(where.role,name):"";};
+  root.CareerModeTransferPlayerBlocked=(input,name,playerId)=>{const where=pstcPlayerSlot(input);return where&&where.role===view?.managerRole?pstcBlockedText(where.role,name,playerId):"";};
   function pstcPlayerFocus(event){
     const where=pstcPlayerSlot(event?.target);if(!where||where.role!==view?.managerRole||view?.state?.phase!=="SIGNING_ENTRY"||pstcReplayPhase())return;
     const request=pstcRequestContext(),role=where.role,key=request?`${request.key}|${role}`:"";if(!key||(blockedSeen&&blockedSeen.key===key))return;
@@ -409,7 +434,7 @@
   function pstcRefuse(code,message){const error=new Error(message);error.code=code;error.plain=true;throw error;}
   function pstcBuildSignings(role,blocked=null){
     const prefix=pstcRolePrefix(role),rows=[];
-    for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`),league=pstcField(`${prefix}Signing${i}League`),nationality=pstcField(`${prefix}Signing${i}Nationality`),player=String(name?.value||"").trim(),ovrText=String(ovr?.value||"").trim(),posText=String(pos?.value||"").trim(),leagueId=pstcCanonical(league),nationalityId=pstcCanonical(nationality),hasAny=Boolean(player||ovrText||posText||String(league?.value||"").trim()||String(nationality?.value||"").trim());if(!hasAny)continue;const out=player&&blocked&&blocked.get(pstcNameKey(player));if(out)pstcRefuse(out.reason==="shot"?"TRANSFER_SIGNING_SHOT":"TRANSFER_SIGNING_GUESSED_BEFORE",out.reason==="shot"?`${player} was shot in the roulette. He cannot come back.`:`${player} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You cannot sign him again.`);if(!player||!leagueId||!nationalityId||(ovr&&!/^[3-9][0-9]$/.test(ovrText))||(pos&&!SIGNING_POSITIONS.includes(posText)))pstcFail("TRANSFER_SIGNINGS_INVALID",`Complete signing ${i} with player name, position, overall (30-99), previous league and nationality.`);if(pstcIsOwnSpecial(role,player))pstcFail("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing ${i} is your Special Player, a free extra signing that no guess can release. Do not enter him here.`);if(pstcIsRivalSpecial(role,player))pstcRefuse("TRANSFER_SIGNING_RIVAL_SPECIAL_PLAYER",pstcRivalSpecialText(role,player));const row={slot:i,name:player,leagueId,nationalityId};if(ovr)row.overall=Number(ovrText);if(pos)row.position=posText;const playerId=String(name?.dataset?.playerId||"");if(/^[1-9][0-9]{0,5}$/.test(playerId))row.playerId=Number(playerId);rows.push(row);}
+    for(let i=1;i<=3;i+=1){const name=pstcField(`${prefix}Signing${i}Name`),ovr=pstcField(`${prefix}Signing${i}Overall`),pos=pstcField(`${prefix}Signing${i}Position`),league=pstcField(`${prefix}Signing${i}League`),nationality=pstcField(`${prefix}Signing${i}Nationality`),player=String(name?.value||"").trim(),ovrText=String(ovr?.value||"").trim(),posText=String(pos?.value||"").trim(),leagueId=pstcCanonical(league),nationalityId=pstcCanonical(nationality),hasAny=Boolean(player||ovrText||posText||String(league?.value||"").trim()||String(nationality?.value||"").trim());if(!hasAny)continue;const pickedId=/^[1-9][0-9]{0,5}$/.test(String(name?.dataset?.playerId||""))?Number(name.dataset.playerId):null,out=player&&blocked&&pstcBlockedFor(blocked,player,pickedId);if(out)pstcRefuse(out.reason==="shot"?"TRANSFER_SIGNING_SHOT":"TRANSFER_SIGNING_GUESSED_BEFORE",out.reason==="shot"?`${player} was shot in the roulette. He cannot come back.`:`${player} was guessed by ${pstcManagerName(role==="playerOne"?"playerTwo":"playerOne")}. You cannot sign him again.`);if(!player||!leagueId||!nationalityId||(ovr&&!/^[3-9][0-9]$/.test(ovrText))||(pos&&!SIGNING_POSITIONS.includes(posText)))pstcFail("TRANSFER_SIGNINGS_INVALID",`Complete signing ${i} with player name, position, overall (30-99), previous league and nationality.`);if(pstcIsOwnSpecial(role,player))pstcFail("TRANSFER_SIGNING_SPECIAL_PLAYER",`Signing ${i} is your Special Player, a free extra signing that no guess can release. Do not enter him here.`);if(pstcIsRivalSpecial(role,player))pstcRefuse("TRANSFER_SIGNING_RIVAL_SPECIAL_PLAYER",pstcRivalSpecialText(role,player));const row={slot:i,name:player,leagueId,nationalityId};if(ovr)row.overall=Number(ovrText);if(pos)row.position=posText;const playerId=String(name?.dataset?.playerId||"");if(/^[1-9][0-9]{0,5}$/.test(playerId))row.playerId=Number(playerId);rows.push(row);}
     return rows;
   }
   function pstcSyncGuessValue(type,value,editable){
@@ -819,8 +844,10 @@
   // r87 roulette boards: each finished season's verdicts (both managers' signings, overall and release) are kept on this
   // phone when the Transfer Challenge shows them, so the next spins build their boards with no read. A season not kept
   // here (another phone, cleared storage) costs one Transfer Challenge read, once.
-  const PSTC_ROULETTE_VERDICTS_KEY="careerModeShowdown.rouletteVerdicts.v1",PSTC_ROULETTE_VERDICTS_MAX=40;
-  function pstcVerdictRows(rows){return Array.isArray(rows)?rows.map(row=>({slot:row.slot,name:row.name,overall:Number.isInteger(row.overall)?row.overall:null,position:SIGNING_POSITIONS.includes(row.position)?row.position:null,release:row.release===true})):null;}
+  // R92-01: v2 keeps each row's playerId (the LOCK refusals and the squad engine match the exact man by it), so a v1 row,
+  // which never kept one, is not trusted: that season is read again once.
+  const PSTC_ROULETTE_VERDICTS_KEY="careerModeShowdown.rouletteVerdicts.v2",PSTC_ROULETTE_VERDICTS_MAX=40;
+  function pstcVerdictRows(rows){return Array.isArray(rows)?rows.map(row=>{const out={slot:row.slot,name:row.name,overall:Number.isInteger(row.overall)?row.overall:null,position:SIGNING_POSITIONS.includes(row.position)?row.position:null,release:row.release===true};if(Number.isInteger(row.playerId)&&row.playerId>=1&&row.playerId<=999999)out.playerId=row.playerId;return out;}):null;}
   function pstcVerdictList(){try{const value=JSON.parse(typeof root.readStorageValue==="function"&&root.readStorageValue(PSTC_ROULETTE_VERDICTS_KEY)||"[]");return Array.isArray(value)?value.filter(item=>Array.isArray(item)&&item.length===2&&typeof item[0]==="string"):[];}catch(_error){return [];}}
   function pstcKeptVerdicts(rivalryId,season){const found=pstcVerdictList().find(item=>item[0]===`${rivalryId}|${season}`),value=found&&found[1];return value&&Array.isArray(value.playerOne)&&Array.isArray(value.playerTwo)?value:null;}
   function pstcKeepVerdicts(rivalryId,season,verdicts){
@@ -1040,5 +1067,5 @@
   }
   function pstcInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pstcCapture,true);root.document.addEventListener("change",pstcGuessTypeChange,true);root.document.addEventListener("transfer-player-pick",pstcPlayerPick);root.document.addEventListener("focusin",pstcPlayerFocus);root.document.addEventListener("input",pstcSigningDraftChange);root.document.addEventListener("change",pstcSigningDraftChange);if(typeof root.addEventListener==="function")root.addEventListener("storage",pstcSigningDraftStorage);root.document.addEventListener("input",pstcGuessDraftChange,true);root.document.addEventListener("change",pstcGuessDraftChange,true);root.document.addEventListener("visibilitychange",pstcVisibilityChange);}root.addEventListener?.("online",pstcVisibilityChange);root.addEventListener?.("career-mode-shared-season-cursor-change",()=>{pstcClearCachedContext();void pstcTick();});if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pstcTick(),POLL_MS);timerLoop=root.setInterval(pstcTimerTick,TIMER_MS);root.setInterval(pstcFastTick,FAST_POLL_MS);}if(pstcSharedMarker())void pstcTick();return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",rouletteBlocked:pstcRouletteBlocked,nameKey:pstcNameKey,blockedSignings:async()=>[...(await pstcBlockedNow()).values()],productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),spinsMissing:()=>[...pstcSpinsMissing()],rouletteError:()=>rouletteError||(primePackLoadError?PSTC_PRIME_PACK_TEXT:""),rouletteAppliesTo:pstcRouletteAppliesTo,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView,squadError:()=>squadError,squadAfterTransfers:pstcSquadAfterTransfers});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-transfer-challenge",rouletteBlocked:pstcRouletteBlocked,blockedFor:pstcBlockedFor,nameKey:pstcNameKey,blockedSignings:async()=>[...(await pstcBlockedNow()).values()],productionEnabled:true,requiresCareerStartReady:true,requiresExactActiveSession:true,privateUntilCompleted:true,serverClockAuthoritative:true,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,orderedFullScreenReplay:true,inMemoryWitnessOnly:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pstcWaitingKey()),spinsMissing:()=>[...pstcSpinsMissing()],rouletteError:()=>rouletteError||(primePackLoadError?PSTC_PRIME_PACK_TEXT:""),rouletteAppliesTo:pstcRouletteAppliesTo,install:pstcInstall,open:pstcOpen,refresh:pstcRefresh,getState:()=>view,isActive:pstcSharedMarker,canRoute:pstcCanRoute,canResumeResults:pstcCanResumeResults,rememberResultsView:pstcRememberResultsView,squadError:()=>squadError,squadAfterTransfers:pstcSquadAfterTransfers});
 });
