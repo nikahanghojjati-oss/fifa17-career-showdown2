@@ -1783,6 +1783,11 @@
   // (plate y 479) with a small soft contact shadow and no glow or spotlight; its name and counts sit on the counter face just
   // under the lip. The side bands are a flat stone fill, not a darkened copy. No slogan under the title.
   const TROPHY_ARCHIVE_CSS=String.raw`
+/* Art ledger S15-D2 (r91): no lamp in the archive hall lights the cups from behind. The blurred gold disc behind each shelf
+   cup, the beam over the hero cup, its floor reflection and the gold outline round it are off at every size (the desktop
+   block below already hid the beam and the outline; phones and tablets now match). Every cup keeps a dark contact shadow. */
+#app #trophyRoom .trophyCardGlow,#app #trophyRoom .heroSpotlight,#app #trophyRoom .heroReflection {display:none}
+#app #trophyRoom .heroTrophyPicture img {filter:drop-shadow(0 7px 8px rgba(0,0,0,.78))}
 @media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
   #app #trophyRoom .sd-stage__layer--plate::before {background:linear-gradient(180deg,#2e2823,#1c1814 60%,#1a1613);filter:none}
   #app #trophyRoom .sd-stage__plate {background-image:url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1X.webp')}

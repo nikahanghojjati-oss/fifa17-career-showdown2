@@ -105,6 +105,15 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   assert.match(js,/\n#app #seasonEntry \.finalWinnerManagerSpotlight \{ display:none; \}\n/,"the spotlight ovals are left out at every size");
   assert.doesNotMatch(audit.slice(audit.indexOf("const KNOWN = ["),audit.indexOf("// WAITING:")),/FINAL_WINNER/,"Final Winner has no known face row");
   ok("M29","Final Winner draws no spotlight oval over the managers' faces");}
+// M30 (art ledger S10-D1, S15-D2; Nik 2026-11-13 "Remove the crown"): no crown above SHOWDOWN CHAMPION, no gold outline
+// round the champion's cup, and no gold disc, beam or reflection behind the Trophy Room cups at any size. The Final Winner
+// disc (.winnerTrophyGlow) stays: the reveal's drum beat is played on it (M7).
+{const fw=read("js/seasonFinalV10.js"),career=read("js/careerScreensV10.js");
+  assert.match(fw,/\n#app #seasonEntry \.finalWinnerCrown \{ display:none; \}\n/,"no crown above the Final Winner title at any size");
+  assert.match(fw,/\n#app #seasonEntry \.winnerTrophyPicture img \{ filter:drop-shadow\(0 18px 24px rgb\(0 0 0 \/ \.66\)\); \}\n/,"the champion's cup keeps its contact shadow only");
+  assert.doesNotMatch(fw,/winnerTrophyGlow\s*\{[^}]*(display|opacity|animation)/,"the drum-beat disc is not restyled by the game");
+  assert.match(career,/TROPHY_ARCHIVE_CSS=String\.raw`\n\/\*[^`]*?\*\/\n#app #trophyRoom \.trophyCardGlow,#app #trophyRoom \.heroSpotlight,#app #trophyRoom \.heroReflection \{display:none\}\n#app #trophyRoom \.heroTrophyPicture img \{filter:drop-shadow\(0 7px 8px rgba\(0,0,0,\.78\)\)\}\n@media/,"Trophy Room: the glow pieces are off before any size block, so phones and tablets match the desktop");
+  ok("M30","no crown on Final Winner, and the cups on Final Winner and Trophy Room carry no gold halo");}
 // CLS (W9 row): the top bar's 52 px is reserved from the first paint in every nav state, so a screen laid out under the
 // loading screen or the Reus Gate (data-nav "none") does not jump when the bar comes back; Club stays unseen until its look is on.
 {const shell=read("css/v10Shell.css"),club=read("css/v10Club.css");
