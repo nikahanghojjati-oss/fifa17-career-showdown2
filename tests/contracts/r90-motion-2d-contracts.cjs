@@ -107,13 +107,22 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   ok("M29","Final Winner draws no spotlight oval over the managers' faces");}
 // M30 (art ledger S10-D1, S15-D2; Nik 2026-11-13 "Remove the crown"): no crown above SHOWDOWN CHAMPION, no gold outline
 // round the champion's cup, and no gold disc, beam or reflection behind the Trophy Room cups at any size. The Final Winner
-// disc (.winnerTrophyGlow) stays: the reveal's drum beat is played on it (M7).
+// disc (.winnerTrophyGlow) is a light of the reveal only: Team V's drum beat and settle shine play on it with their own
+// timing (M7), it holds between them, then eases out to nothing and stays out; without the ceremony it never shows.
 {const fw=read("js/seasonFinalV10.js"),career=read("js/careerScreensV10.js");
   assert.match(fw,/\n#app #seasonEntry \.finalWinnerCrown \{ display:none; \}\n/,"no crown above the Final Winner title at any size");
   assert.match(fw,/\n#app #seasonEntry \.winnerTrophyPicture img \{ filter:drop-shadow\(0 18px 24px rgb\(0 0 0 \/ \.66\)\); \}\n/,"the champion's cup keeps its contact shadow only");
-  assert.doesNotMatch(fw,/winnerTrophyGlow\s*\{[^}]*(display|opacity|animation)/,"the drum-beat disc is not restyled by the game");
+  assert.match(fw,/\n#app #seasonEntry \.winnerTrophyGlow \{ opacity:0; \}\n/,"no gold disc behind the cup at rest");
+  assert.match(fw,/\n#app #seasonEntry #stage-root:has\(#outcomeHeadline\.sd-title-wipe\):not\(\.fwSettled\) \.winnerTrophyGlow \{ opacity:1; \}\n/,"the disc holds between the drum beat and the settle shine");
+  assert.match(fw,/\n#app #seasonEntry \.fwSettled \.winnerTrophyGlow \{ animation:fwShine 120ms ease-in-out 1,cmsWinnerDiscOut 700ms ease-out 120ms 1 forwards; \}\n@keyframes cmsWinnerDiscOut \{ from \{ opacity:\.75; \} to \{ opacity:0; \} \}\n/,"Team V's shine keeps its 120 ms, then the disc eases from the shine's .75 to nothing and stays out");
+  {const vcss=read("visual-assets/v10_1/final-winner/final-winner.css"),vjs=read("visual-assets/v10_1/final-winner/final-winner.js");
+    assert.match(vcss,/#stage-root\.fwSettled \.winnerTrophyGlow \{ animation: fwShine 120ms ease-in-out 1; \}\n@keyframes fwShine \{ 0%, 70%, 100% \{ opacity: \.75; transform: scale\(1\); \}/,"the ease-out starts where Team V's shine ends (120 ms, .75)");
+    assert.match(vjs,/name\.classList\.add\("sd-title-wipe"\);/,"the wipe class the hold reads is set by the ceremony");
+    assert.equal((vjs.match(/sd-title-wipe/g)||[]).length,1,"and by nothing else in Team V's Final Winner script");}
+  assert.doesNotMatch(fw,/winnerTrophyGlow\s*\{[^}]*(display\s*:|transition\s*:|transform\s*:)/,"the game hides nothing with display and adds no transition or movement to the disc");
+  assert.match(fw,/\n@media \(prefers-reduced-motion: reduce\) \{ #app #seasonEntry \.winnerTrophyGlow \{ opacity:0 !important; \} \}\nhtml:is\(\[data-motion-reduced="true"\],\[data-reduced-motion="true"\]\) #app #seasonEntry \.winnerTrophyGlow \{ opacity:0 !important; \}\n/,"reduced motion: no disc at all");
   assert.match(career,/TROPHY_ARCHIVE_CSS=String\.raw`\n\/\*[^`]*?\*\/\n#app #trophyRoom \.trophyCardGlow,#app #trophyRoom \.heroSpotlight,#app #trophyRoom \.heroReflection \{display:none\}\n#app #trophyRoom \.heroTrophyPicture img \{filter:drop-shadow\(0 7px 8px rgba\(0,0,0,\.78\)\)\}\n@media/,"Trophy Room: the glow pieces are off before any size block, so phones and tablets match the desktop");
-  ok("M30","no crown on Final Winner, and the cups on Final Winner and Trophy Room carry no gold halo");}
+  ok("M30","no crown on Final Winner, no gold halo on the cups, and the reveal's disc eases out to nothing");}
 // CLS (W9 row): the top bar's 52 px is reserved from the first paint in every nav state, so a screen laid out under the
 // loading screen or the Reus Gate (data-nav "none") does not jump when the bar comes back; Club stays unseen until its look is on.
 {const shell=read("css/v10Shell.css"),club=read("css/v10Club.css");
