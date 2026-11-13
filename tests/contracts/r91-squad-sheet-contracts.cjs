@@ -582,6 +582,29 @@ function rebuildsSame(club,special,season,stage,events,locked,label){
     assert.equal(at(typed,'Rodrigo'),null,'a typed guess bars the name');
     const old=S.replay({club,special:null,season:2,stage:'post',events:[null,{shot:null,released:['Rodrigo'],kept:[]},{shot:null,released:[],kept:[{name:'Rodrigo',overall:79,position:'ST',playerId:222}]}],docs:{}}).proposal;
     assert.equal(at(old,'Rodrigo'),null,'a string guess (earlier build) bars the name');
+    // Codex on #1448: a later guess of a third Rodrigo (333) is another man than the one at the club (222): 222 stays and
+    // only 333 is barred; a guess of 222 himself, or a typed guess (no id), releases him; a man who joined with no id goes
+    // by the name; and a loan of 222 ends as usual after a guess of 333.
+    const g3=(row)=>[...events.slice(0,3),ev([{slot:1,name:'Rodrigo',overall:70,position:'ST',release:true,...row}])];
+    const other=S.replay({club,special:null,season:3,stage:'post',events:g3({playerId:333}),docs:{}}).proposal;
+    const stays=at(other,'Rodrigo');assert.ok(stays&&stays.signedSeason===2&&stays.rating===79,'Rodrigo 222 stays at the club');
+    assert.deepEqual(other.barIds[sq('Rodrigo')],[111,333],'only the guessed ids are barred');
+    assert.ok(!other.guessed.includes(sq('Rodrigo'))&&!other.excluded.includes(sq('Rodrigo'))&&!other.notes.some(n=>n.reason==='guessed'),'not released, not away');
+    assert.ok(S.validate(other).ok,S.validate(other).problems.join());
+    rebuildsSame(club,null,3,'post',g3({playerId:333}),other,'R92-01 guess of a third namesake');
+    assert.equal(at(S.replay({club,special:null,season:3,stage:'post',events:g3({playerId:222}),docs:{}}).proposal,'Rodrigo'),null,'a guess of 222 himself releases him');
+    assert.equal(at(S.replay({club,special:null,season:3,stage:'post',events:g3({}),docs:{}}).proposal,'Rodrigo'),null,'a typed guess releases him (the name)');
+    const noId=[null,ev([]),ev([{slot:1,name:'Rodrigo',overall:79,position:'ST',release:false}]),ev([{slot:1,name:'Rodrigo',overall:70,position:'ST',release:true,playerId:333}])];
+    assert.equal(at(S.replay({club,special:null,season:3,stage:'post',events:noId,docs:{}}).proposal,'Rodrigo'),null,'a man who joined with no id goes by the name');
+    {
+      const evs=g3({playerId:333});evs[3]={...evs[3]};
+      let p3=S.replay({club,special:null,season:3,stage:'pre',events:evs,docs:{}}).proposal;
+      const r3=S.leave(p3,sq('Rodrigo'),'loaned');assert.ok(r3.ok,r3.reason);p3=r3.sheet;
+      const d3={'3_pre':{...S.toDoc(p3),rivalryId:'pair_x',role:'playerOne'}};
+      evs[4]=ev([]);
+      const p4=S.replay({club,special:null,season:4,stage:'pre',events:evs,docs:d3}).proposal;
+      assert.ok(at(p4,'Rodrigo'),'a loan of 222 ends after a guess of 333');
+    }
   }
   // A shot club player bars the whole name; a Special Player's name is barred whatever the id.
   {
