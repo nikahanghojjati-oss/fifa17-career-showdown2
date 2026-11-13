@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12 7:32 PM Boston time (EST)",
+ "generated": "2026-11-12 7:35 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 271,
+  "count": 273,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2442,6 +2442,24 @@
     "subject": "Rule Book slab 2X (3072x1728) for sharp Chromebook windows",
     "reply": "no",
     "boston": "Thu 12 Nov 7:10 PM"
+   },
+   {
+    "time": "2026-11-13 00:33",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-077 DONE",
+    "subject": "Rule Book slab 2X (3072x1728) for sharp Chromebook windows",
+    "reply": "no",
+    "boston": "Thu 12 Nov 7:33 PM"
+   },
+   {
+    "time": "2026-11-13 00:33",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-078 SENT",
+    "subject": "One more V3 title: DEVICE CHECK",
+    "reply": "yes (receive it)",
+    "boston": "Thu 12 Nov 7:33 PM"
    }
   ],
   "g2v": {
@@ -2462,8 +2480,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "8fed848",
-  "head_boston": "Thu 12 Nov 7:10 PM",
+  "head": "40a9446",
+  "head_boston": "Thu 12 Nov 7:33 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3287,7 +3305,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 7047
+    "waiting_min": 7051
    },
    {
     "id": "HO-059",
@@ -3535,6 +3553,19 @@
     "worker": "images",
     "pickup_min": 795,
     "waiting_min": null
+   },
+   {
+    "id": "HO-078",
+    "from": "G",
+    "to": "V",
+    "title": "One more V3 title: DEVICE CHECK",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-078_one-more-v3-title-device-check.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -3606,7 +3637,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,

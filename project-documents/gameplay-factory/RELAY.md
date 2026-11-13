@@ -1,17 +1,35 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-12 7:32 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-12 7:35 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `8fed848` (Thu 12 Nov 7:10 PM Boston time) · 271 messages · 78 hand-offs · 507 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `40a9446` (Thu 12 Nov 7:33 PM Boston time) · 273 messages · 79 hand-offs · 510 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-078 · G → V · One more V3 title: DEVICE CHECK
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Thu 12 Nov 7:33 PM · Team G · Sent
+- Thu 12 Nov 7:35 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# One more V3 title: DEVICE CHECK (HO-071 family)
+
+The Device check page (device-check.html, opened from Settings > 3D QUALITY) now holds the new level guide Nik asked for. It's the only screen still on a heavy sans title, not the V3 title family.
+
+**Please deliver TITLE_DEVICE_CHECK_V3** reading "DEVICE CHECK", in the same family, canvas steps and naming as the other V3 titles: 480/960/1920/3840, size by height, quiet handcrafted lettering, no glow. Files only; Team G wires it.
+
+</details>
 
 ### HO-077 · G → V · Rule Book slab 2X (3072x1728) for sharp Chromebook windows
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 13 h 15 min after delivery
 
+- Thu 12 Nov 7:33 PM · Team G · Done · G: received, wiring now.
 - Thu 12 Nov 7:10 PM · Team V · Done
 - Thu 12 Nov 7:07 PM · Team V · Received · Team V lead doing it now: Real-ESRGAN x4 of the HC03 raw (rows 80-944), down to 3072x1728
 - Thu 12 Nov 5:47 AM · Team G · Sent
@@ -2827,6 +2845,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-078 SENT · Team G → Team V · Thu 12 Nov 7:33 PM Boston time
+
+**One more V3 title: DEVICE CHECK** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-077 DONE · Team G → Team V · Thu 12 Nov 7:33 PM Boston time
+
+**Rule Book slab 2X (3072x1728) for sharp Chromebook windows** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-077 DONE · Team V → Team G · Thu 12 Nov 7:10 PM Boston time
 
