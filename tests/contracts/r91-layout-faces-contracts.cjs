@@ -9,6 +9,8 @@
 //   L5 League: sideways phones (640-900 x up to 440) draw both heads (plate the window's width, hair 6px under the bar) and
 //      place the title between the men, the wheel and buttons under the chins; the version footer is hidden up to 900px wide
 //   L4 Career Statistics: totals 22px clear of Nik's face on desktop (was 6px), hub 24px/28px under the chins on phones/tablets
+//   R  Roster Russian Roulette on upright tablets (portrait layout 600-899 wide): the rest picture shifts until the TOP OF THE FRAME (rail ends and
+//      finial) is 14px under the title, never past 8px above the revolver's own lowest point's caption (floor: the old face-based shift)
 //   F  the 12px floor: Final Winner totals/result strip, Club reveal labels, Trophy BACK/MORE on 481-900 portrait; the career
 //      table head on desktop; the Legacy carousel arrows
 const assert = require("node:assert/strict");
@@ -43,6 +45,14 @@ ok(!/html\[data-v10-setup="league"\] #app > footer \{ min-height: 28px; padding:
 // L4
 ok(/--hc-half: calc\(var\(--hc-face-half-px, calc\(var\(--hc-rw\) \* \.1706\)\) - var\(--hc-g\) - 22px\);/.test(shell), "L4 desktop totals keep 22px from Nik's face");
 ok(/\.phoneHub \{ top:calc\(var\(--cs-face-bottom\) \+ 24px\); \}/.test(career) && /\.phoneHub \{ top:calc\(var\(--cs-face-bottom\) \+ 28px\); \}/.test(career), "L4 the hub starts 24px (short phones) / 28px (tablet) under the chins");
+// R
+const rrr = read("visual-assets/v10_1/roulette/index.html");
+const fu = rrr.slice(rrr.indexOf("function fitUnderTitle(){"), rrr.indexOf("function fitShortPhone"));
+ok(fu.includes("const TAB=PH&&w>=600"), "R the tablet rule runs on an upright layout 600px or wider");
+ok(fu.includes("[(BOARD_W+.2)/2,BOARD_H/2+.115],[0,BOARD_H/2+.2]"), "R the clearance is measured from the rail ends and the finial tip");
+ok(fu.includes("r.bottom+(TAB?14:10)"), "R 14px under the title on tablets, the 10px phone line unchanged");
+ok(fu.includes("cap.top-8-bot") && fu.includes("faceNeed"), "R the revolver stays 8px above the caption, floor = the old face-based shift");
+ok(/if\(PH&&h<=700\) fitShortPhone/.test(fu), "R short phones keep their own pass");
 // F
 const fb = type.indexOf("@media (min-width:481px) and (max-width:900px) and (orientation:portrait) {\n  :root:not(#sa-f1)", type.indexOf("r91 12px floor"));
 ok(fb >= 0, "F the tablet floor block exists");

@@ -3174,6 +3174,7 @@
         "^css/rivalryLegacyV10\\.css$",
         "^css/v10Shell\\.css$",
         "^css/r78\\-type\\.css$",
+        "^visual\\-assets/v10_1/roulette/index\\.html$",
         "^tests/contracts/r91\\-layout\\-faces\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
