@@ -2551,10 +2551,14 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  /* 116px: 80 and the chip row. At 12px the chip is 21px tall, or 33px when a long name ("Oxlade-Chamberlain") takes two lines. */
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer),
  #app #seasonEntry.seasonScreenV10.v10FinalMode:has(.fwSpecialPlayer) { --fw-copy:116px; }
+ /* The chip row is two lines tall for both managers, so one long name never drops one manager's name below the other's. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer { display:flex; align-items:center; justify-content:center; min-height:37px; }
 }
 @media (min-width:700px) and (max-width:760px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.v10FinalMode #stage-root:has(.fwSpecialPlayer),
  #app #seasonEntry.seasonScreenV10.v10FinalMode:has(.fwSpecialPlayer) { --fw-copy:159px; }
+ /* Tablets show the full chip on one line for both managers: no second line to keep room for. */
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer { min-height:0; }
 }
 /* Sideways phones: the chip is the short one of upright phones ("SP · name" in the tier's colour, the rank stays in its
    title), on its own row between the name and the total, and the result takes a wider column so both chips fit side by
