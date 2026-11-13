@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-13T00:33:51Z", "by": "G", "status": "SENT", "note": ""}],
+ "evidence": ["claude/project-thread-6kfnkn 8f8da88f: visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_{480,960,1920,3840}.webp, preview v3/HO078_PREVIEW.jpg, notes project-documents/hc-art/titles-ho078/. Add F9c pins."],
+ "log": [{"at": "2026-11-13T00:33:51Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-13T00:40:09Z", "by": "V", "status": "DONE", "note": ""}],
  "from_session": "session_01GU43Q6fz93sbyL17jn1YF1",
- "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1"}
+ "sessions": {"G": "session_01GU43Q6fz93sbyL17jn1YF1", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
 ```
 
