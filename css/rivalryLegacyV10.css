@@ -2315,3 +2315,25 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-manager:has(.rvSpecialPlayer) [id^="rvClub"] { grid-area:3 / 1 / auto / -1; }
   #app #statistics[data-rivalry-legacy-v10] .rv-manager--right:has(.rvSpecialPlayer) [id^="rvClub"] { justify-self:end; text-align:right; }
 }
+/* 3. Desktop: the rows started at 21% of the panel, measured for a two-line block (name and club). With the chip the
+      block is three lines, so the club stood under the first row's line (14px into the row at 1920x866, more on smaller
+      windows). Where the chip is there, the rows start under the block: the block's own height is the name's line, the
+      chip (23px with its rank from 1500px, 21px in the short form under it) and the club's line. The chip stays on one
+      line: it may run past its column toward the middle of the panel, under the "seasons completed" line, where
+      nothing else stands. Windows up to 700px tall keep seven 24px rows, so the panel there is 24px taller; it starts
+      24px higher, in the open band under the title, so the three lower panels keep their place above the docked
+      BACK TO SHOWDOWN HOME (the r80 fix above). Under 606px tall the band is too thin and the page is 24px longer. */
+@media (min-width:1024px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-comparison:has(.rvSpecialPlayer) { --rv-head:calc(clamp(17px,1.35vw,26px) * 1.2 + 44px); }
+  #app #statistics[data-rivalry-legacy-v10] .rv-comparison:has(.rvSpecialPlayer):not(.hasCoverage) .rv-rows { top:max(21%,calc(3% + var(--rv-head) + 2px)); }
+  #app #statistics[data-rivalry-legacy-v10] .rv-comparison .rv-manager span.rvSpecialPlayer { max-width:none; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-comparison .rv-manager span.spChip { flex:none; max-width:none; white-space:nowrap; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-comparison .rv-manager .spChip > span.spChipName { white-space:nowrap; }
+}
+@media (min-width:1500px) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-comparison:has(.rvSpecialPlayer) { --rv-head:calc(clamp(17px,1.35vw,26px) * 1.2 + 46px); }
+}
+@media (min-width:1024px) and (max-height:700px) and (orientation:landscape), (min-width:901px) and (max-width:1023px) and (max-height:700px) and (orientation:landscape) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-comparison:has(.rvSpecialPlayer):not(.hasCoverage) { height:264px; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-shell:has(.rv-comparison:not(.hasCoverage) .rvSpecialPlayer) { padding-top:max(calc(26.4svh - 24px),min(26.4svh,136px)); }
+}
