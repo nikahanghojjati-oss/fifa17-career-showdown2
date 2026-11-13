@@ -1,13 +1,27 @@
-// HO-031 (r78 phone marble): the 12 manager screens draw Team V's ENV_<KEY>_PHONE_V2 plates (both managers painted in)
-// below the desktop picture range. This opens each screen the way the other tests/browser audits do (most screens have
-// no URL of their own, so Team V's live_facecheck.cjs can only reach Home) and runs the same face check as
-// project-documents/factory/tools/phone_plates/live_facecheck.cjs (factory/v1-wtt5ye): at 393x852, 393x660, 375x667 and
-// 360x640 no visible button, card, title or tab may cover a face zone from PHONE_FACE_ZONES.json, and no manager layer
-// may be faded, clipped or filtered. The gate uses the plate as the screens draw it (cover, centre top, as HO-031 asks);
-// the tool's own model (cover, centre) is also run and any extra overlap it finds is printed as a note. It also checks
-// that the screen really shows its plate (V2, V3 for Standings, Rivalry and Trophy Room, V5 for League) and no OVL_*_PHONE
-// cut-out. With no KEY it runs all 12 screens. CMS_FACECHECK_PREDICT=1 hides the cut-outs and skips the art check, to see
-// the overlap a plate would have on a screen that does not draw one yet.
+// Face check (HO-031, r78 phone marble; moved to Team V's handcrafted HC V3 rooms in r91; widened in r91 "art to 100" from
+// upright phones to every window: Nik 2026-11-12 "no touching faces" on phones, tablets and desktop alike).
+// Every manager screen draws a room with both managers painted in (visual-assets/v10_1/plates-hc/ENV_<ROOM>_{PLATE,PHONE}_HC_V3).
+// This opens each screen the way the other tests/browser audits do and fails when, at any size below:
+//   F1 1% or more of a manager's face is painted over (measured two ways, see "How a face is measured");
+//   F2 a face is not on screen, or no HC V3 room is drawn;
+//   F3 a manager layer is faded, clipped or filtered; on upright phones also: the room is not the backdrop, an OVL_*_PHONE
+//      cut-out or a V1 phone plate is painted, or something opaque sits between the room and the player at a face.
+// Where the faces are: each drawn room is swapped for a same-size marker picture with a red (Daniel) and blue (Nik) box on
+// each face (tests/fixtures/team-v/HC_FACE_ZONES.json), everything else is hidden for one screenshot, and the marker boxes
+// are read back from that screenshot. So the faces are placed exactly as the screen draws the room (any size, position,
+// crop or scroll), with no copy of the layout in this file.
+// How a face is measured: (a) pixels: the face is photographed as the player sees it and again with everything but the room
+// hidden; every patch that differs (by more than INK levels) is paint on the face, whatever drew it (a letter, a picture, a
+// shadow, a ::before, a dimming layer). (b) boxes: a solid element (a filled panel, a button) covers its whole box, even
+// where its colour happens to match the face. Either one at 1% of the face fails.
+// Sizes (CMS_FACECHECK_GROUP): touch-up = phone and tablet upright; touch-side = phone and tablet sideways; desk = both
+// Chromebook windows (1920x866 windowed, 1920x1035 full screen); more = a small and a large upright phone; phone = Team V's
+// four upright phones; full (default) = all of them. The Gate runs touch-up, touch-side and desk (one test:browser audit
+// each, inside the per-audit time limit); `npm run test:faces` is the full grid, run by hand.
+// CMS_FACECHECK_SIZES="430x932,1366x768" overrides the group. Sizes under 1300 wide open as a phone or tablet (touch, 2x),
+// one fresh context per size; wider ones open once per screen in a desktop window that is then resized.
+// KNOWN lists face rows that wait for a change in another thread, each with its owner; WAITING lists screens that wait for
+// Team V art. Both may only shrink. CMS_FACECHECK_PREDICT=1 hides the cut-outs and skips the art check.
 // Usage: node tests/browser/phone-marble-facecheck-audit.cjs [KEY ...]   (CMS_BASE_URL, CMS_FACECHECK_SHOTS optional)
 "use strict";
 process.env.CMS_CHROMIUM_MULTI_CONTEXT = process.env.CMS_CHROMIUM_MULTI_CONTEXT || "1"; // one context per size
@@ -19,17 +33,28 @@ const fixtures = require("../support/active-showdown-fixtures.cjs");
 const activeAdapter = require("../../js/sharedActiveShowdownAdapter.js");
 const { prepareClub } = require("../support/v10-club-motion.cjs");
 
-const ZONES = require("../fixtures/team-v/PHONE_FACE_ZONES.json").zones;
+const HC_ZONES = require("../fixtures/team-v/HC_FACE_ZONES.json").plates;
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const shotDir = process.env.CMS_FACECHECK_SHOTS || "";
 // CMS_FACECHECK_PREDICT=1 (for a build before the swap): hide the cut-outs and skip the plate check, to see which UI
 // would cover the painted faces.
 const predict = process.env.CMS_FACECHECK_PREDICT === "1";
-// Team V's four sizes. CMS_FACECHECK_SIZES="430x932,480x1000" checks other upright sizes instead (a screen keeps its old
-// art outside the range where the plate fits, so only sizes inside that range should pass).
-const SIZES = process.env.CMS_FACECHECK_SIZES ? process.env.CMS_FACECHECK_SIZES.split(",").map(s => s.split("x").map(Number))
-    : [[393, 852], [393, 660], [375, 667], [360, 640]];
-const IW = 1179, IH_STD = 2096;
+const GROUPS = {
+    "touch-up": ["390x844", "820x1180"],                    // phone and tablet, upright
+    "touch-side": ["844x390", "1180x820"],                  // phone and tablet, sideways
+    desk: ["1920x866", "1920x1035"],                        // Nik's Chromebook: windowed and full screen
+    more: ["360x640", "430x932"],                           // a small and a large upright phone
+    phone: ["393x852", "393x660", "375x667", "360x640"]     // Team V's four upright phones (HO-031)
+};
+GROUPS.full = [...new Set(Object.values(GROUPS).flat())];
+const group = process.env.CMS_FACECHECK_GROUP || "full";
+if(!process.env.CMS_FACECHECK_SIZES && !GROUPS[group]) throw new Error(`Unknown CMS_FACECHECK_GROUP ${group}`);
+const SIZES = (process.env.CMS_FACECHECK_SIZES ? process.env.CMS_FACECHECK_SIZES.split(",") : GROUPS[group]).map(s => s.split("x").map(Number));
+const touchSize = w => w < 1300;
+const uprightPhone = (w, h) => w < 600 && h > w;
+// F1: the share of a face that may be painted over, and how far a pixel must move (0-255, any channel) to count as paint.
+// 16 levels keeps the shared film grain (sd-stage__grain, about 4 levels) out and still sees dark type on a dark jacket.
+const FACE_LIMIT_PCT = 1, INK = Number(process.env.CMS_FACECHECK_INK) || 16;
 const showdown = fixtures.completedShowdownStorage();
 // A three-season completed career (same shape as phone-trophy-room-data-audit), so the career screens show real data.
 const { projection, result, finalFor } = require("../support/career-fixture-helpers.cjs");
@@ -127,7 +152,7 @@ async function openScreen(page, key){
 // Same element walks as live_facecheck.cjs (factory/v1-wtt5ye). Two changes in the fade walk: a UI card (.sd-panel) is not
 // a manager even when its size class is sd-panel--hero (its corner-cut clip-path is the card's shape), and an element
 // that paints no picture (no img, no url() background, no img inside) is not a manager layer.
-function faceHits({ faces, w, h }){
+function faceHits({ faces, names, w, h }){
     const out = [];
     const visible = el => { const cs = getComputedStyle(el); return cs.visibility !== "hidden" && cs.display !== "none" && parseFloat(cs.opacity) > 0.05; };
     const drawsSomething = el => { const cs = getComputedStyle(el);
@@ -137,6 +162,13 @@ function faceHits({ faces, w, h }){
         const text = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
         return bg || bgImg || border || text || /^(IMG|SVG|CANVAS|BUTTON|INPUT|VIDEO)$/.test(el.tagName.toUpperCase()); };
     const cls = el => String(el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className || "");
+    // Solid: the element fills its box (a colour at half strength or more, a control, a canvas), so its box is what covers.
+    // Anything else covers only where its ink falls, which the pixel measure reads: bare type, a hairline border, a
+    // see-through tint or gradient (Legacy's legacyPhoneFaceBand), and a picture, which can be see-through or sit smaller
+    // than its box (a title <img> with object-fit: scale-down).
+    const solid = el => { const cs = getComputedStyle(el);
+        const a = (/rgba?\(([^)]+)\)/.exec(cs.backgroundColor || "") || [, "0,0,0,0"])[1].split(",").map(Number);
+        return (a.length < 4 ? 1 : a[3]) >= 0.5 || /^(CANVAS|BUTTON|INPUT|VIDEO|SELECT|TEXTAREA)$/.test(el.tagName.toUpperCase()); };
     // The one narrow exception to the box test (the League wheel): a true circle is tested as its disc, not its square box.
     // A true circle is a near-square border box (offsetWidth / offsetHeight within 2% of each other) whose four corner
     // radii are all at least half its side (border-radius: 50%). A pill or capsule (border-radius: 999px on a wide box),
@@ -154,8 +186,19 @@ function faceHits({ faces, w, h }){
         }
         const rad = Math.max(w, h) / 2 * k;
         return { cx: (r.left + r.right) / 2, cy: (r.top + r.bottom) / 2, rx: rad, ry: rad }; };
+    // A label that paints only its text (no fill, picture or border) covers only its glyphs, not its line box: its rect is
+    // the union of its own text runs (r91: the League's "SPIN TO PICK THE LEAGUE" line box ends inside the hair above Nik's
+    // face while the letters stay clear of it).
+    const textOnly = el => { const cs = getComputedStyle(el);
+        return !/^(IMG|SVG|CANVAS|BUTTON|INPUT|VIDEO|SELECT|TEXTAREA)$/.test(el.tagName.toUpperCase()) && (!cs.backgroundColor || /rgba\(.*,\s*0\)$|transparent/.test(cs.backgroundColor))
+            && (!cs.backgroundImage || cs.backgroundImage === "none") && !(parseFloat(cs.borderTopWidth) > 0 || parseFloat(cs.borderBottomWidth) > 0 || parseFloat(cs.borderLeftWidth) > 0 || parseFloat(cs.borderRightWidth) > 0)
+            && (!cs.boxShadow || cs.boxShadow === "none") && [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()) && ![...el.children].length; };
+    const glyphRect = el => { const range = document.createRange(); range.selectNodeContents(el); const r = range.getBoundingClientRect(); range.detach(); return r; };
+    const room = document.querySelector("[data-hc-face-room]");
+    // Decorative layers and most rooms are pointer-events: none, which hides them from elementsFromPoint.
+    const probe = room ? document.createElement("style") : null; if(probe){ probe.textContent = "*{pointer-events:auto!important}"; document.head.appendChild(probe); }
     for(const el of document.querySelectorAll("body *")){
-        const r = el.getBoundingClientRect();
+        const r = textOnly(el) ? glyphRect(el) : el.getBoundingClientRect();
         if(r.width < 2 || r.height < 2 || r.width * r.height > 0.6 * w * h) continue;
         if(!visible(el) || !drawsSomething(el)) continue;
         if(/cutout|manager|portrait|plate|backdrop|stage-art|background/i.test(cls(el))) continue;
@@ -175,23 +218,32 @@ function faceHits({ faces, w, h }){
                 ix = n ? maxX - minX + .5 : 0; iy = n ? maxY - minY + .5 : 0; area = n * .25;
                 if(n){ cx = sx / n; cy = sy / n; }
             }
-            const onTop = () => { const t = document.elementFromPoint(cx, cy); return t && (t === el || el.contains(t) || t.contains(el)); };
-            if(ix > 2 && iy > 2 && onTop()) out.push({ face: i % 2 ? "Nik" : "Daniel", tag: el.tagName.toLowerCase(), id: el.id, cls: cls(el).slice(0, 60), text: (el.innerText || "").trim().slice(0, 40), pct: Math.round(100 * area / ((f[2] - f[0]) * (f[3] - f[1]))) });
+            // On top: with a room on screen, the element (or something inside it) must be painted above the room at the
+            // overlap; a box that holds the room, or lies under it (the scene's own frame, <main> behind a fixed room), covers
+            // nothing. With no room (the self-test) the old rule stands: it is the top element there.
+            const onTop = () => { const st = document.elementsFromPoint(cx, cy); if(!st.length) return false;
+                if(!room) return st[0] === el || el.contains(st[0]) || st[0].contains(el);
+                if(el === room || el.contains(room)) return false;
+                const ri = st.indexOf(room), ei = st.findIndex(t => t === el || el.contains(t));
+                return ei >= 0 && (ri < 0 || ei < ri); };
+            if(ix > 2 && iy > 2 && onTop()) out.push({ face: (names && names[i]) || (i % 2 ? "Nik" : "Daniel"), tag: el.tagName.toLowerCase(), id: el.id, cls: cls(el).slice(0, 60), text: (el.innerText || "").trim().slice(0, 40),
+                share: 100 * area / ((f[2] - f[0]) * (f[3] - f[1])), pct: Math.round(100 * area / ((f[2] - f[0]) * (f[3] - f[1]))), solid: solid(el) });
         });
     }
+    if(probe) probe.remove();
     return out;
 }
 
 // The plate must really show at each face: at the centre of every zone, the stacked elements above the one that paints
 // the plate may not paint an opaque colour, another picture or an image (a full-screen layer with a solid background
 // would hide the managers while the plate is still "painted").
-function plateCovered({ faces, plateName }){
+function plateCovered({ faces, names, plateName }){
     const out = [];
     // Decorative layers are pointer-events:none, which hides them from elementsFromPoint; let every element be hit for
     // the duration of this check.
     const probe = document.createElement("style"); probe.textContent = "*{pointer-events:auto!important}"; document.head.appendChild(probe);
     const paintsPlate = el => { const src = (el.tagName === "IMG" ? el.currentSrc || el.src || "" : "") + " " + (getComputedStyle(el).backgroundImage || "");
-        return src.split(/[?#")\s]/).some(part => part.endsWith("/" + plateName)); };
+        return src.split(/[?#")\s]/).some(part => /^ENV_/.test(part.split("/").pop()) && part.split("/").pop().replace(/_590W(?=\.webp$)/, "").replace(/\.webp$/, "") === plateName); };
     faces.forEach((f, i) => {
         const cx = (f[0] + f[2]) / 2, cy = (f[1] + f[3]) / 2;
         for(const el of document.elementsFromPoint(cx, cy)){
@@ -200,11 +252,11 @@ function plateCovered({ faces, plateName }){
             const opaque = (a.length < 4 ? 1 : a[3]) >= 0.5;
             if(parseFloat(cs.opacity) < 0.5) continue;   // a faint texture (the shared sd-stage__grain) does not hide the men
             if(opaque || /url\(/.test(cs.backgroundImage || "") || el.tagName === "IMG"){
-                out.push(`${i % 2 ? "Nik" : "Daniel"}: plate hidden by <${el.tagName.toLowerCase()}${el.id ? "#" + el.id : ""} class="${String(el.className).slice(0, 50)}">`);
+                out.push(`${(names && names[i]) || (i % 2 ? "Nik" : "Daniel")}: plate hidden by <${el.tagName.toLowerCase()}${el.id ? "#" + el.id : ""} class="${String(el.className).slice(0, 50)}">`);
                 return;
             }
         }
-        out.push(`${i % 2 ? "Nik" : "Daniel"}: no plate under the face`);
+        out.push(`${(names && names[i]) || (i % 2 ? "Nik" : "Daniel")}: no plate under the face`);
     });
     probe.remove();
     return out;
@@ -233,7 +285,7 @@ function fadedManagers(){
     return out;
 }
 
-// Which phone pictures are actually painted: the V2 plate must be the background, no old phone plate may be, and no
+// Which phone pictures are actually painted: the HC V3 room must be the background, no old phone plate may be, and no
 // OVL_*_PHONE cut-out may be painted anywhere.
 function paintedArt(plateName){
     const seen = new Set(), backdrops = new Set();
@@ -248,7 +300,7 @@ function paintedArt(plateName){
         for(const m of (bg || "").matchAll(/url\("?([^")]+)"?\)/g)) add(m[1].split("/").pop());
     }
     const list = [...seen];
-    return { plate: [...backdrops].includes(plateName), cutouts: list.filter(n => /^OVL_.*PHONE/i.test(n)), phoneV1: [...backdrops].filter(n => /^ENV_.*PHONE_V1/i.test(n)) };
+    return { plate: [...backdrops].some(n => n.replace(/_590W(?=\.webp$)/, "").replace(/\.webp$/, "") === plateName), cutouts: list.filter(n => /^OVL_.*PHONE/i.test(n)), phoneV1: [...backdrops].filter(n => /^ENV_.*PHONE_V1/i.test(n)) };
 }
 
 // Self-test of the box / circle rule on a blank page, before any screen is checked. A face zone sits at 20,20-80,80 of
@@ -274,87 +326,278 @@ async function selfTest(browser){
     console.log(`face check self-test: PASS (${cases.length} cases)`);
 }
 
-// HO-031 v3 (factory/v1-wtt5ye 9867fa6b): Standings, Rivalry and Trophy Room draw ENV_<KEY>_PHONE_V3.
-const V3 = ["STANDINGS", "RIVALRY", "TROPHY_ROOM"];
-// HO-032 V5 (factory/v1-wtt5ye 0c2c6465): League draws ENV_LEAGUE_PHONE_V5, made for the 15% smaller phone wheel.
-const V5 = ["LEAGUE"];
-// Screens whose face zones must lie fully on screen (HO-032: League's plate is used only where they do).
-const ON_SCREEN_GATED = ["LEAGUE"];
-// r86 HO-044 (PR #1056): below 59/128 wide-to-tall League draws the 9:20 ENV_LEAGUE_PHONE_TALL_V5 (1179x2620) with its own
-// zones, e.g. CMS_FACECHECK_SIZES="412x915,384x854,360x800,340x960" node tests/browser/phone-marble-facecheck-audit.cjs LEAGUE
-const ZONES_TALL = require("../fixtures/team-v/PHONE_FACE_ZONES_TALL_V5.json").zones;
-const IH_TALL = 2620;
-function tallLeague(key, w, h){ return key === "LEAGUE" && w / h < 59 / 128; }
-function plateFile(key, w, h){ return tallLeague(key, w, h) ? "ENV_LEAGUE_PHONE_TALL_V5.webp" : `ENV_${key}_PHONE_${V5.includes(key) ? "V5" : V3.includes(key) ? "V3" : "V2"}.webp`; }
+// The marker swap (see the header). Runs in the page: markPlates(zones) swaps every visible HC room for its marker picture,
+// hides everything else and returns the drawn room keys; unmarkPlates() undoes it. readMarkers() finds the red and blue boxes
+// in a screenshot (decoded by the page itself) and returns them in CSS px.
+function markPlates({ zones, swap }){
+    const urlsOf = v => [...String(v || "").matchAll(/url\(["']?([^"')]+)["']?\)/g)].map(m => m[1]);
+    const keyOf = u => { const m = /plates-hc\/(ENV_[A-Z]+_(?:PLATE|PHONE)_HC_V3(?:_TALL)?)/.exec(u || ""); return m && m[1]; };
+    // A room is a big picture: a small crop of a room (the 36x52 manager portraits in Career Statistics' leader cards are
+    // cut from the board room) is not scenery. Where two rooms are stacked (Home stays under Connect Players), the one the
+    // player sees is the room: the candidate that comes first in the paint stack at most of a grid of points.
+    const all = [], vw = innerWidth, vh = innerHeight;
+    for(const el of document.querySelectorAll("body *")){
+        if(!el.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) continue;
+        const bg = urlsOf(getComputedStyle(el).backgroundImage).map(keyOf).find(Boolean);
+        const im = el.tagName === "IMG" ? keyOf(el.currentSrc || el.src) : null;
+        if(!(bg || im)) continue;
+        const r = el.getBoundingClientRect(), on = Math.max(0, Math.min(r.right, vw) - Math.max(r.left, 0)) * Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+        if(on >= 0.15 * vw * vh) all.push({ el, key: bg || im, kind: bg ? "bg" : "img", votes: 0 });
+    }
+    if(all.length > 1){
+        const probe = document.createElement("style"); probe.textContent = "*{pointer-events:auto!important}"; document.head.appendChild(probe);
+        for(let gy = 1; gy <= 5; gy++) for(let gx = 1; gx <= 5; gx++){
+            const top = document.elementsFromPoint(vw * gx / 6, vh * gy / 6).map(el => all.find(p => p.el === el)).find(Boolean);
+            if(top) top.votes++;
+        }
+        probe.remove();
+        all.sort((a, b) => b.votes - a.votes);
+    }
+    const plates = all.slice(0, 1);
+    for(const el of document.querySelectorAll("[data-hc-face-room]")) el.removeAttribute("data-hc-face-room");
+    if(plates[0]) plates[0].el.setAttribute("data-hc-face-room", "");   // read by faceHits; cleared by unfreeze
+    const svg = z => "data:image/svg+xml;base64," + btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="${z.w}" height="${z.h}" viewBox="0 0 ${z.w} ${z.h}"><rect width="100%" height="100%" fill="#000"/>` +
+        z.faces.map((f, i) => `<rect x="${f[0] * z.w / 100}" y="${f[1] * z.h / 100}" width="${(f[2] - f[0]) * z.w / 100}" height="${(f[3] - f[1]) * z.h / 100}" fill="${i ? "#0000ff" : "#ff0000"}"/>`).join("") + "</svg>");
+    const undo = window.__hcFaceUndo = [];
+    for(const p of plates){
+        const z = zones[p.key]; if(!z) continue; const u = svg(z);
+        p.el.classList.add("__hcFaceKeep"); undo.push(() => p.el.classList.remove("__hcFaceKeep"));
+        if(!swap) continue;
+        if(p.kind === "bg"){ const old = p.el.style.getPropertyValue("background-image"), pr = p.el.style.getPropertyPriority("background-image");
+            p.el.style.setProperty("background-image", `url("${u}")`, "important"); undo.push(() => p.el.style.setProperty("background-image", old, pr)); }
+        else { const pic = p.el.parentElement && p.el.parentElement.tagName === "PICTURE" ? p.el.parentElement : null, srcs = pic ? [...pic.querySelectorAll("source")] : [];
+            srcs.forEach(n => n.remove()); const os = p.el.getAttribute("src"), oss = p.el.getAttribute("srcset"); p.el.removeAttribute("srcset"); p.el.src = u;
+            undo.push(() => { if(oss !== null) p.el.setAttribute("srcset", oss); if(os !== null) p.el.setAttribute("src", os); srcs.forEach(n => pic.insertBefore(n, p.el)); }); }
+    }
+    // The room keeps its place and its picture; its own type, borders, shadows and ::before/::after are hidden with the rest.
+    const st = document.createElement("style");
+    st.textContent = "body *, body *::before, body *::after { visibility: hidden !important } " +
+        ".__hcFaceKeep { visibility: visible !important; color: transparent !important; -webkit-text-fill-color: transparent !important; text-shadow: none !important; box-shadow: none !important; border-color: transparent !important; outline-color: transparent !important }";
+    document.head.append(st); undo.push(() => st.remove());
+    return [...new Set(plates.map(p => p.key))];
+}
+// The room the player sees at the faces: the first element at a face centre that paints an HC V3 room (a screen can keep
+// another room under it, e.g. Home under Connect Players).
+function topRoom(points){
+    const keyOf = u => { const m = /plates-hc\/(ENV_[A-Z]+_(?:PLATE|PHONE)_HC_V3(?:_TALL)?)/.exec(u || ""); return m && m[1]; };
+    const probe = document.createElement("style"); probe.textContent = "*{pointer-events:auto!important}"; document.head.appendChild(probe);
+    try{
+        for(const [x, y] of points) for(const el of document.elementsFromPoint(x, y)){
+            const k = (el.tagName === "IMG" ? keyOf(el.currentSrc || el.src) : null) || keyOf(getComputedStyle(el).backgroundImage);
+            if(k) return k;
+        }
+        return "";
+    }finally{ probe.remove(); }
+}
+function unmarkPlates(){ const undo = window.__hcFaceUndo || []; while(undo.length) undo.pop()(); }
+async function readMarkers({ b64 }){
+    const img = new Image(); img.src = "data:image/png;base64," + b64; await img.decode();
+    const c = document.createElement("canvas"); c.width = img.naturalWidth; c.height = img.naturalHeight;
+    const g = c.getContext("2d", { willReadFrequently: true }); g.drawImage(img, 0, 0);
+    const d = g.getImageData(0, 0, c.width, c.height).data, box = [null, null];
+    for(let y = 0; y < c.height; y++) for(let x = 0; x < c.width; x++){
+        const i = (y * c.width + x) * 4, r = d[i], gg = d[i + 1], b = d[i + 2];
+        const k = r > 200 && gg < 60 && b < 60 ? 0 : b > 200 && r < 60 && gg < 60 ? 1 : -1; if(k < 0) continue;
+        const o = box[k] || (box[k] = [x, y, x, y]); o[0] = Math.min(o[0], x); o[1] = Math.min(o[1], y); o[2] = Math.max(o[2], x + 1); o[3] = Math.max(o[3], y + 1);
+    }
+    const k = c.width / innerWidth;   // screenshot px per CSS px (a big tablet's page narrows its own viewport, so not always the context's 2)
+    return box.map(o => o && o.map(v => v / k));
+}
+// Stop everything that moves for the length of one check, where it stands, so the two photographs of a face differ only by
+// what is painted on it (CSS animations and transitions paused, script-driven animations paused).
+function freeze(){
+    const st = document.createElement("style"); st.id = "__hcFaceFreeze";
+    st.textContent = "*, *::before, *::after { animation-play-state: paused !important; transition: none !important; caret-color: transparent !important }";
+    document.head.append(st);
+    window.__hcFacePaused = [];
+    for(const a of document.getAnimations ? document.getAnimations() : []) try{ if(a.playState === "running"){ a.pause(); window.__hcFacePaused.push(a); } }catch(e){}
+}
+function unfreeze(){
+    for(const st of document.querySelectorAll("#__hcFaceFreeze")) st.remove();
+    for(const el of document.querySelectorAll("[data-hc-face-room]")) el.removeAttribute("data-hc-face-room");
+    for(const a of window.__hcFacePaused || []) try{ a.play(); }catch(e){}
+    window.__hcFacePaused = [];
+}
+// F1 (a): compare the two photographs of each face. In the page, so no image library is needed. Returns, per face, the share
+// of pixels that differ and who painted them (the top elements at a sample of those pixels).
+async function paintedOver({ shots, ink }){
+    const load = async b64 => { const img = new Image(); img.src = "data:image/png;base64," + b64; await img.decode();
+        const c = document.createElement("canvas"); c.width = img.naturalWidth; c.height = img.naturalHeight;
+        const g = c.getContext("2d", { willReadFrequently: true }); g.drawImage(img, 0, 0); return g.getImageData(0, 0, c.width, c.height); };
+    const name = el => el.tagName.toLowerCase() + (el.id ? "#" + el.id : "") + (typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/).slice(0, 2).join(".") : "");
+    const draws = el => { const cs = getComputedStyle(el);
+        return (cs.backgroundColor && !/rgba\(.*,\s*0\)$|transparent/.test(cs.backgroundColor)) || (cs.backgroundImage && cs.backgroundImage !== "none") || parseFloat(cs.borderTopWidth) > 0
+            || [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()) || /^(IMG|SVG|CANVAS|BUTTON|INPUT|VIDEO)$/.test(el.tagName.toUpperCase()); };
+    const probe = document.createElement("style"); probe.textContent = "*{pointer-events:auto!important}"; document.head.appendChild(probe);
+    const out = [];
+    try{
+        for(const { who, box, seen, bare } of shots){
+            const a = await load(seen), b = await load(bare), n = Math.min(a.data.length, b.data.length) / 4, w = a.width, dpr = a.width / Math.max(1, box[2]), pts = [];
+            // A pixel is paint when it and at least five of its eight neighbours moved: a letter, a box or a shade is a patch,
+            // while the browser resampling the same picture a hair differently in the two photographs leaves single-pixel
+            // specks along sharp edges (hair against the wall), which are not paint.
+            const hgt = Math.floor(n / w), moved = new Uint8Array(n);
+            for(let i = 0; i < n; i++) moved[i] = Math.max(Math.abs(a.data[i * 4] - b.data[i * 4]), Math.abs(a.data[i * 4 + 1] - b.data[i * 4 + 1]), Math.abs(a.data[i * 4 + 2] - b.data[i * 4 + 2])) > ink ? 1 : 0;
+            let count = 0;
+            for(let y = 1; y < hgt - 1; y++) for(let x = 1; x < w - 1; x++){
+                const i = y * w + x; if(!moved[i]) continue;
+                const near = moved[i - w - 1] + moved[i - w] + moved[i - w + 1] + moved[i - 1] + moved[i + 1] + moved[i + w - 1] + moved[i + w] + moved[i + w + 1];
+                if(near >= 5){ if(count++ % 37 === 0 && pts.length < 400) pts.push([box[0] + x / dpr, box[1] + y / dpr]); }
+            }
+            const by = new Map();
+            for(const [x, y] of pts){
+                const stack = document.elementsFromPoint(x, y).filter(el => !el.classList.contains("__hcFaceKeep") && el !== document.body && el !== document.documentElement);
+                const el = stack.find(draws) || stack[0];
+                const label = el ? `<${name(el)}>${(el.innerText || "").trim() ? " " + JSON.stringify((el.innerText || "").trim().replace(/\s+/g, " ").slice(0, 32)) : ""}` : "a shadow, glow or ::before of a neighbour";
+                by.set(label, (by.get(label) || 0) + 1);
+            }
+            out.push({ who, pct: 100 * count / Math.max(1, n), by: [...by].sort((x, y) => y[1] - x[1]).slice(0, 3).map(x => x[0]) });
+        }
+    }finally{ probe.remove(); }
+    return out;
+}
+
+// KNOWN: face rows that wait for a change owned by another thread (measured 2026-11-12 on gameplay/r91). A finding on a
+// listed screen, size and face whose text matches the row's "what" is printed as KNOWN and does not fail. A listed row that no longer fails is printed as a
+// reminder to delete it. May only shrink: fix the screen, then delete its row; never add a row to get a pull request green.
+// Owner "layout thread" = the r91 layout thread (rows L1-L5 of gameplay/r91/art/PHONE_TABLET_AUDIT.md).
+const KNOWN = [
+    { row: "L1", owner: "layout thread", screen: "SEASON_RESULTS", size: "820x1180", face: "Nik", what: /painted over|% under </, why: "tablet upright: the tab row (DANIEL / NIK / HOW SCORING WORKS) and the title stand on Nik's face (8.4%)" },
+    { row: "L2", owner: "layout thread", screen: "LEGACY", size: "844x390", face: "Nik", what: /painted over|% under </, why: "phone sideways: the Showdown card stands on Nik's chin (2.8%)" },
+    { row: "L3", owner: "layout thread", screen: "SEASON_RESULTS", size: "1180x820", face: "Nik", what: /painted over|% under </, why: "tablet sideways: the SEASON RESULTS title runs into Nik's hair (4.1%)" },
+    { row: "L3", owner: "layout thread", screen: "SEASON_ENTRY", size: "1180x820", face: "Nik", what: /painted over|% under </, why: "tablet sideways: the SEASON RESULTS title runs into Nik's hair (4.1%)" },
+    { row: "L5", owner: "layout thread", screen: "LEAGUE", size: "844x390", face: "", what: /is not on screen/, why: "phone sideways: the room is cropped so that neither face is on screen" }
+];
+// WAITING: screens whose room is still on its way from Team V. Their findings are printed, not failed. May only shrink.
+const WAITING = {
+};
+SCREENS.SEASON_ENTRY = { host: "seasonEntry", open: null };   // opened by the short-screens audit's opener (its own fixture)
+SCREENS.START = { host: "createShowdown", open: page => page.evaluate(() => window.navigateTo("createShowdown")) };
+const baseOpenScreen = openScreen;
+async function openAny(page, key){
+    if(key === "SEASON_ENTRY") return require("./r80-short-screens-audit.cjs").openScreen(page, key);
+    return baseOpenScreen(page, key);
+}
+const twoFrames = page => page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
+const pad = (f, w, h) => { const x0 = Math.max(0, Math.floor(f[0])), y0 = Math.max(0, Math.floor(f[1])), x1 = Math.min(w, Math.ceil(f[2])), y1 = Math.min(h, Math.ceil(f[3])); return { x: x0, y: y0, width: Math.max(1, x1 - x0), height: Math.max(1, y1 - y0) }; };
+
+// One screen at one size on an open page: returns { room, faces, findings: [{ face, what }], notes: [] }.
+async function checkFaces(page, key, w, h, dpr){
+    const findings = [], notes = [];
+    if(predict) await page.evaluate(() => { for(const el of document.querySelectorAll("body *")){ const src = (el.tagName === "IMG" ? el.currentSrc || "" : "") + " " + getComputedStyle(el).backgroundImage; if(/OVL_[A-Z_]*PHONE/.test(src)) el.style.setProperty("visibility", "hidden", "important"); } });
+    await page.evaluate(freeze); await twoFrames(page);
+    // where the faces are
+    const rooms = await page.evaluate(markPlates, { zones: HC_ZONES, swap: true });
+    await twoFrames(page); await page.waitForTimeout(150);
+    const marked = await page.screenshot();
+    await page.evaluate(unmarkPlates); await twoFrames(page);
+    const found = await page.evaluate(readMarkers, { b64: marked.toString("base64") });
+    const named = found.map((f, i) => f && { box: f, who: i ? "Nik" : "Daniel" }).filter(Boolean);
+    const faces = named.map(f => f.box), names = named.map(f => f.who);
+    const room = rooms.length ? await page.evaluate(topRoom, named.map(f => [(f.box[0] + f.box[2]) / 2, (f.box[1] + f.box[3]) / 2])) || rooms[0] : "";
+    if(!room) findings.push({ face: "", what: "no HC V3 room is drawn" });
+    ["Daniel", "Nik"].forEach((n, i) => { if(room && !found[i]) findings.push({ face: n, what: `${n}'s face is not on screen` }); });
+    // F1 (a) pixels: each face as the player sees it, then with everything but the rooms hidden
+    const { vw, vh } = await page.evaluate(() => ({ vw: innerWidth, vh: innerHeight }));   // the page's own viewport (760 wide on an 820 tablet)
+    const clips = named.map(f => ({ ...f, clip: pad(f.box, vw, vh) }));
+    const seen = []; for(const f of clips) seen.push((await page.screenshot({ clip: f.clip })).toString("base64"));
+    await page.evaluate(markPlates, { zones: HC_ZONES, swap: false }); await twoFrames(page); await page.waitForTimeout(100);
+    const bare = []; for(const f of clips) bare.push((await page.screenshot({ clip: f.clip })).toString("base64"));
+    await page.evaluate(unmarkPlates); await twoFrames(page);
+    const painted = await page.evaluate(paintedOver, { shots: clips.map((f, i) => ({ who: f.who, box: [f.clip.x, f.clip.y, f.clip.width], seen: seen[i], bare: bare[i] })), ink: INK });
+    for(const p of painted) if(p.pct >= FACE_LIMIT_PCT) findings.push({ face: p.who, what: `${p.who}'s face is ${p.pct.toFixed(1)}% painted over${p.by.length ? " by " + p.by.join(", ") : ""}` });
+    // F1 (b) boxes: solid elements over a face
+    const hits = await page.evaluate(faceHits, { faces, names, w: vw, h: vh });
+    const worst = {};
+    hits.forEach(x => { const k = x.face + " " + x.tag + (x.id ? "#" + x.id : "") + " " + x.text; if(!worst[k] || worst[k].share < x.share) worst[k] = x; });
+    for(const x of Object.values(worst).sort((a, b) => b.share - a.share)){
+        const what = `${x.face}'s face ${x.share.toFixed(1)}% under <${x.tag}${x.id ? "#" + x.id : ""} class="${x.cls}">${x.text ? " " + JSON.stringify(x.text) : ""}`;
+        if(x.solid && x.share >= FACE_LIMIT_PCT) findings.push({ face: x.face, what });
+        else notes.push(`${what} (${x.solid ? "under 1%" : "type only: judged by its ink"})`);
+    }
+    // F3
+    for(const f of await page.evaluate(fadedManagers)) findings.push({ face: "", what: `FADED/CUT manager: ${f}` });
+    if(room && !predict && uprightPhone(w, h)){
+        const art = await page.evaluate(paintedArt, room);
+        if(!art.plate) findings.push({ face: "", what: `${room} is not painted as the screen's backdrop` });
+        if(art.cutouts.length) findings.push({ face: "", what: `cut-outs still painted: ${art.cutouts.join(", ")}` });
+        if(art.phoneV1.length) findings.push({ face: "", what: `old phone plate still painted: ${art.phoneV1.join(", ")}` });
+        const covered = await page.evaluate(plateCovered, { faces, names, plateName: room });
+        for(const c of covered) findings.push({ face: c.split(":")[0], what: c });
+    }
+    await page.evaluate(unfreeze);
+    return { room, faces, painted, findings, notes };
+}
+
 const OLD_LOOK = [];   // every manager screen now draws its plate on upright phones
-module.exports = { SCREENS, OLD_LOOK, openScreen };
+module.exports = { SCREENS, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces };
 if(require.main === module) (async () => {
+    const started = Date.now();
     const keys = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SCREENS).filter(key => !OLD_LOOK.includes(key));
     const runtime = await resolveChromiumRuntime();
     const browser = await chromium.launch({ headless: true, executablePath: runtime.executablePath, args: runtime.args });
-    const results = {};
+    const failed = new Set(), usedKnown = new Set();
+    let checked = 0;
     try{
         await selfTest(browser);
-        for(const key of keys){
-            if(!SCREENS[key]) throw new Error("unknown screen " + key);
-            results[key] = { ok: true, lines: [] };
-            for(const [w, h] of SIZES){
-                const context = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
-                const page = await context.newPage();
-                const errors = [];
-                page.on("pageerror", e => errors.push(e.message));
-                await openScreen(page, key);
-                const tall = tallLeague(key, w, h), IH = tall ? IH_TALL : IH_STD, zones = tall ? ZONES_TALL : ZONES;
-                const s = Math.max(w / IW, h / IH), ox = (w - IW * s) / 2;
-                // drawn: the screens draw the plate cover + centre top (Team V's HO-031 instruction). tool: live_facecheck.cjs
-                // places it cover + centred. Both agree whenever the screen is 9:16 or taller (393x852, 375x667, 360x640).
-                const zonesAt = oy => zones[key].map(([a, c, d, e]) => [ox + a * IW * s, oy + c * IH * s, ox + d * IW * s, oy + e * IH * s]);
-                const faces = zonesAt(0), toolFaces = zonesAt((h - IH * s) / 2);
-                if(predict) await page.evaluate(() => { for(const el of document.querySelectorAll("body *")){ const src = (el.tagName === "IMG" ? el.currentSrc || "" : "") + " " + getComputedStyle(el).backgroundImage; if(/OVL_[A-Z_]*PHONE/.test(src)) el.style.setProperty("visibility", "hidden", "important"); } });
-                const hits = await page.evaluate(faceHits, { faces, w, h });
-                const toolHits = await page.evaluate(faceHits, { faces: toolFaces, w, h });
-                const fades = await page.evaluate(fadedManagers);
-                const art = await page.evaluate(paintedArt, plateFile(key, w, h));
-                const covered = predict ? [] : await page.evaluate(plateCovered, { faces, plateName: plateFile(key, w, h) });
-                // Cover crops the plate's sides on tall screens: every face zone must lie on screen (0.5px tolerance). This
-                // gates the screens listed in ON_SCREEN_GATED (League's plate range is set by it); on the others it is printed
-                // as a note only (Connect Players' V2 zone runs 3px off the right edge at 393x852, in its padding).
-                const offScreen = faces.map((f, i) => f[0] < -.5 || f[2] > w + .5 || f[1] < -.5 || f[3] > h + .5
-                    ? `${i % 2 ? "Nik" : "Daniel"}'s face zone runs off screen (x ${f[0].toFixed(1)}-${f[2].toFixed(1)} of ${w})` : "").filter(Boolean);
-                const offScreenGated = ON_SCREEN_GATED.includes(key) ? offScreen : [];
-                const worst = {};
-                hits.forEach(x => { const k = x.face + " " + x.tag + (x.id ? "#" + x.id : "") + " " + x.text; if(!worst[k] || worst[k].pct < x.pct) worst[k] = x; });
-                const list = Object.values(worst).sort((a, b) => b.pct - a.pct);
-                const artBad = !predict && (!art.plate || art.cutouts.length || art.phoneV1.length);
-                const bad = list.length || fades.length || artBad || covered.length || offScreenGated.length || errors.length;
-                if(bad) results[key].ok = false;
-                let line = `${key} ${w}x${h}: ${bad ? "FAIL" : "OK"}`;
-                line += list.slice(0, 8).map(x => `\n  - ${x.face}'s face ${x.pct}% under <${x.tag}${x.id ? "#" + x.id : ""} class="${x.cls}"> ${x.text ? JSON.stringify(x.text) : ""}`).join("");
-                line += fades.map(f => `\n  - FADED/CUT manager: ${f}`).join("");
-                if(!predict && !art.plate) line += `\n  - ${plateFile(key, w, h)} is not painted`;
-                if(!predict && art.cutouts.length) line += `\n  - cut-outs still painted: ${art.cutouts.join(", ")}`;
-                if(!predict && art.phoneV1.length) line += `\n  - old phone plate still painted: ${art.phoneV1.join(", ")}`;
-                line += covered.map(c => `\n  - ${c}`).join("");
-                line += offScreen.map(c => `\n  ${offScreenGated.length ? "-" : "note:"} ${c}`).join("");
-                if(errors.length) line += `\n  - page errors: ${errors.join(" | ")}`;
-                const toolOnly = toolHits.filter(t => !hits.some(x => x.face === t.face && x.tag === t.tag && x.cls === t.cls && x.text === t.text));
-                if(toolOnly.length) line += `\n  note: with the tool's centred placement (not how the plate is drawn) also ` + [...new Set(toolOnly.map(x => `${x.face} ${x.pct}% under <${x.tag} class="${x.cls}">`))].join("; ");
-                console.log(line);
-                results[key].lines.push(line);
-                if(shotDir){
-                    fs.mkdirSync(shotDir, { recursive: true });
-                    await page.evaluate(fs => fs.forEach(f => { const d = document.createElement("div");
-                        Object.assign(d.style, { position: "fixed", left: f[0] + "px", top: f[1] + "px", width: (f[2] - f[0]) + "px", height: (f[3] - f[1]) + "px", outline: "3px solid #0ff", zIndex: 2147483647, pointerEvents: "none" });
-                        document.body.appendChild(d); }), faces);
-                    await page.screenshot({ path: path.join(shotDir, `FACECHECK_${key}_${w}x${h}.png`) });
-                }
-                await context.close();
+        for(const key of keys) if(!SCREENS[key]) throw new Error("unknown screen " + key);
+        const report = async (page, key, w, h, dpr, errors) => {
+            const res = await checkFaces(page, key, w, h, dpr);
+            checked++;
+            const size = `${w}x${h}`, real = [], known = [];
+            for(const f of res.findings){
+                const row = KNOWN.find(k => k.screen === key && k.size === size && (!k.face || k.face === f.face) && k.what.test(f.what));
+                if(row){ known.push(`${f.what} [KNOWN ${row.row}, ${row.owner}: ${row.why}]`); usedKnown.add(row); } else real.push(f.what);
             }
+            for(const e of errors) real.push(`page error: ${e}`);
+            const waiting = WAITING[key];
+            const bad = real.length && !waiting;
+            if(bad) failed.add(key);
+            let line = `${key} ${size} ${res.room || "no HC room"}: ${bad ? "FAIL" : waiting && real.length ? "WAITING" : known.length ? "KNOWN" : "OK"}`;
+            line += `  (${res.painted.map(p => `${p.who} ${p.pct.toFixed(1)}%`).join(", ") || "no face found"})`;
+            line += real.map(x => `\n  - ${x}`).join("") + known.map(x => `\n  ~ ${x}`).join("");
+            if(waiting && real.length) line += `\n  (waiting: ${waiting})`;
+            if(process.env.CMS_FACECHECK_NOTES === "1") line += res.notes.map(x => `\n  note: ${x}`).join("");
+            console.log(line);
+            if(shotDir){
+                fs.mkdirSync(shotDir, { recursive: true });
+                await page.evaluate(fs => fs.forEach(f => { const d = document.createElement("div"); d.className = "__hcFaceBox";
+                    Object.assign(d.style, { position: "fixed", left: f[0] + "px", top: f[1] + "px", width: (f[2] - f[0]) + "px", height: (f[3] - f[1]) + "px", outline: "3px solid #0ff", zIndex: 2147483647, pointerEvents: "none" });
+                    document.body.appendChild(d); }), res.faces);
+                await page.screenshot({ path: path.join(shotDir, `FACECHECK_${key}_${w}x${h}.png`) });
+                await page.evaluate(() => document.querySelectorAll(".__hcFaceBox").forEach(n => n.remove()));
+            }
+        };
+        const desk = SIZES.filter(([w]) => !touchSize(w)), touch = SIZES.filter(([w]) => touchSize(w));
+        // touch: a fresh phone or tablet context per size (the page sets its own viewport on big tablets)
+        for(const [w, h] of touch){
+            const context = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+            const page = await context.newPage();
+            const errors = [];
+            page.on("pageerror", e => errors.push(e.message));
+            for(const key of keys){ errors.length = 0; await openAny(page, key); await report(page, key, w, h, 2, errors); }
+            await context.close();
+        }
+        // desktop: open once per screen, then drag the window through every desktop size
+        if(desk.length){
+            const context = await browser.newContext({ viewport: { width: desk[0][0], height: desk[0][1] }, deviceScaleFactor: 1 });
+            const page = await context.newPage();
+            const errors = [];
+            page.on("pageerror", e => errors.push(e.message));
+            for(const key of keys){
+                errors.length = 0;
+                await page.setViewportSize({ width: desk[0][0], height: desk[0][1] });
+                await openAny(page, key);
+                for(const [w, h] of desk){ await page.setViewportSize({ width: w, height: h }); await page.waitForTimeout(600); await report(page, key, w, h, 1, errors); }
+            }
+            await context.close();
         }
     }finally{
         await browser.close();
     }
-    const failed = Object.keys(results).filter(k => !results[k].ok);
-    console.log(failed.length ? `phone marble face check: FAIL (${failed.join(", ")})` : `phone marble face check: PASS (${keys.join(", ")})`);
-    process.exit(failed.length ? 1 : 0);
+    // a KNOWN row whose screen and size were checked but which no longer fails
+    for(const row of KNOWN) if(!usedKnown.has(row) && keys.includes(row.screen) && SIZES.some(([w, h]) => `${w}x${h}` === row.size)) console.log(`NOTE the KNOWN row ${row.row} (${row.screen} ${row.size}${row.face ? " " + row.face : ""}) no longer fails: delete it from KNOWN.`);
+    const secs = Math.round((Date.now() - started) / 1000);
+    console.log(failed.size ? `face check: FAIL (${[...failed].join(", ")}) ${checked} screen-sizes, ${secs}s` : `face check: PASS (${keys.length} screens x ${SIZES.length} sizes, ${secs}s)`);
+    process.exit(failed.size ? 1 : 0);
 })().catch(error => { console.error(error && error.stack || error); process.exit(2); });
