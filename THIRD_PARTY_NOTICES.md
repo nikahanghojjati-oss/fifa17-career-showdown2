@@ -23,6 +23,7 @@ The application does not claim Barlow is EA/FIFA's proprietary typeface.
 - License: CC BY 2.0, `https://creativecommons.org/licenses/by/2.0/`
 - Application use: protected startup-screen athlete treatment and Home-menu cover treatment.
 - Local transformation: Wikimedia derivative resized to 900 × 1520, encoded as WebP and stripped of embedded metadata; responsive display crop is documented in the Home/startup credit.
+- Loading screen (2.4.0): `assets/loading/REUS_D_1X.webp`, `REUS_D_2X.webp`, `REUS_P.webp` and `REUS_P_590W.webp` are cut from the full-size source `Marco Reus (16204330530).jpg` (4086 × 2724, same photographer and licence): background removed, mild colour grade, resized, encoded as WebP with transparency and stripped of embedded metadata, then shown in front of a separately made tunnel picture. The on-screen credit reads "Marco Reus photo: Tim Reckmann · CC BY 2.0 · Cropped and edited for display".
 
 ## Licensed football photography visual set — v1.1.3
 
