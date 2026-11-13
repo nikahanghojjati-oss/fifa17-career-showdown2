@@ -255,6 +255,11 @@
 #sqStage .sqShell{box-sizing:border-box;width:min(1080px,100%);min-height:100%;margin:0 auto;padding:max(14px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px}
 #sqStage .sqHeader{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid rgba(242,196,91,.35);color:var(--r78-gold,#f2c45b);font:600 14px/1.2 var(--r78-font-label,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.16em;text-transform:uppercase}
 #sqStage .sqTitle{margin:0;color:var(--sd-gold-300,#ffd34d);font:700 clamp(26px,5vw,40px)/1 var(--r78-font-label,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.04em;text-transform:uppercase;text-align:center}
+/* r91 HO-071 (Nik's pick, 2026-11-11): the header title is drawn in the one title family (Team V's V3 "Honours Board"
+   lettering). The words stay in the heading (box, header row and screen-reader label unchanged) but are not painted; the
+   lettering is laid over them, centred, at the capital height the text had (1.4em tall picture). */
+#sqStage .sqHeader>.sqTitle{position:relative;color:transparent}
+#sqStage .sqHeader>.sqTitle::after{content:"";position:absolute;left:50%;top:50%;height:1.4em;width:min(calc(1.4em * 9.62),calc(100vw - 24px));transform:translate(-50%,-50%);pointer-events:none;background:url("../visual-assets/v10_1/shared/wordmarks/TITLE_SQUAD_V3_960.webp") center/contain no-repeat;background-image:image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_SQUAD_V3_960.webp") 1x,url("../visual-assets/v10_1/shared/wordmarks/TITLE_SQUAD_V3_1920.webp") 2x)}
 #sqStage .sqStatus{margin:0;text-align:center;color:var(--r78-ivory,#f2ebdd);font-size:16px}
 #sqStage .sqStatus:empty{display:none}
 #sqStage .sqHost{min-width:0}
@@ -267,4 +272,30 @@
 #sqStage .sqActions>button:focus-visible{outline:2px solid #fff3bd;outline-offset:2px}
 #sqStage [hidden]{display:none!important}
 @media (max-width:560px){#sqStage .sqHeader{display:grid;grid-template-columns:1fr auto;row-gap:6px;font-size:12px;letter-spacing:.1em}#sqStage .sqHeader .sqTitle{grid-column:1/-1;grid-row:1}#sqStage .sqHeader .sqWhen{text-align:right}#sqStage .sqActions>button.menuButton,#sqStage .sqActions>button.sqBack{min-height:44px}}
-@media (max-width:760px) and (orientation:portrait){#sqStage{background-image:url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp")}html[data-assets="0"] #sqStage{background-image:url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp")}}
+
+/* HO-069 (Nik OK'd 2026-11-12): the screen stands in Team V's coaches' room (visual-assets/v10_1/plates-hc/ENV_COACHES_*_HC_V3)
+   instead of the black slab, and the squad's own CSS stadium (the yellow stand band) is gone, so the room shows behind the
+   frosted panels. Daniel and Nik stand small at the room's edges (faces x 5.5-13% and 84.5-91% of the wide plate, y 25-39%);
+   the counter lip is at y 542 of 864 (819 of 2096 on the phone plates). No scrim and no dimming.
+   - Wide windows (from 1338 wide, landscape): the wide plate stays put behind the page while it scrolls, drawn at least 1502px
+     wide so the 1020px squad and club panels stand between the two men, top-anchored.
+   - Everywhere else the room scrolls with the page: the men stand in a band at the top (the wide plate on landscape windows,
+     the phone plate held upright) and the screen starts one gap under both chins. */
+.sqmBackdrop{display:none}
+#sqStage{background:#15110c url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3.webp") 50% 0/100% auto no-repeat local}
+html[data-assets="0"] #sqStage{background-image:url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3_590W.webp")}
+#sqStage .sqShell{padding-top:calc(100vw * 514 / 1179 + 8px)}
+@media (orientation:portrait) and (max-aspect-ratio:59/128){#sqStage{background-image:url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3_TALL.webp")}}
+@media (orientation:landscape){
+  #sqStage,html[data-assets="0"] #sqStage{background-color:#19140f;background-image:url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1X.webp")}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #sqStage{background-image:image-set(url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1X.webp") 1x,url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_2X.webp") 2x)}
+  #sqStage .sqShell{padding-top:calc(100vw * 864 / 1536 * .39 + 8px)}
+}
+@media (min-width:1338px) and (orientation:landscape){
+  #sqStage{background-size:max(100vw,calc(100vh * 1536 / 864),1502px) auto;background-position:50% 0;background-attachment:scroll}
+  #sqStage .sqShell{padding-top:max(14px,env(safe-area-inset-top,0px))}
+}
+@media (min-width:1537px) and (orientation:landscape),(min-width:1338px) and (min-height:865px) and (orientation:landscape){
+  #sqStage,html[data-assets="0"] #sqStage{background-image:image-set(url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1920.webp") 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #sqStage{background-image:image-set(url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1920.webp") 1.25x,url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_2X.webp") 2x)}
+}

@@ -228,8 +228,8 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
    the two cut-outs and the old stadium are no longer drawn (sgRooms drops their sources, so they are not downloaded). The
    plates-v2/v3 Standings plates and the cut-outs stay in the repo as rollback. No dark grade, no slogan. */
 @media (min-width:901px){
-  #app #standings.standingsScreenV10 .sd-stage__plate{background-image:url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp')}
-  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp') 1x,url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp') 2x)}
+  #app #standings.standingsScreenV10 .sd-stage__plate{background-image:url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1X.webp')}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1X.webp') 1x,url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_2X.webp') 2x)}
   /* HO-068 (Nik: nothing may touch a face): the plate fills the window from its top, so the top bar covered both men's hair
      (heads start 1.74% down this plate). The room is lowered just enough for the hair to clear the bar by 6px; the floor it
      gives up is below the window's edge. */
@@ -237,8 +237,8 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 }
 /* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
 @media (min-width:1537px), (min-width:901px) and (min-height:865px){
-  #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp') 1.25x)}
-  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp') 1.25x,url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp') 2x)}
+  #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1920.webp') 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #standings.standingsScreenV10 .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1920.webp') 1.25x,url('visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_2X.webp') 2x)}
 }
 @media (max-width:900px){
   #app #standings.standingsScreenV10 .sdg-phoneHero{display:none}
@@ -368,7 +368,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   // (its 590 px copy at the smallest download size, html[data-assets="0"]).
   function sfRooms(text){
     const lean=root.document?.documentElement?.dataset?.assets==="0";
-    return text.split("plates-v2/ENV_FINAL_WINNER_PHONE_V2.webp").join("plates-hc/ENV_BOARD_PHONE_HC_V2"+(lean?"_590W":"")+".webp");
+    return text.split("plates-v2/ENV_FINAL_WINNER_PHONE_V2.webp").join("plates-hc/ENV_BOARD_PHONE_HC_V3"+(lean?"_590W":"")+".webp");
   }
   function stageElement(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
   const fail=error=>root.console?.warn?.("[Career Mode Showdown] Season visual unavailable",error);
@@ -839,6 +839,12 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonReviewGrid {
   min-width:0; grid-template-columns:minmax(0,1fr);
+ }
+ /* r91 layout hunt (740x360): this window stacks Daniel above Nik in one column, but the landscape rule that puts Nik in column 2
+    (app.css, max-height 520) still applied, which opened a second, content-sized track: Daniel's card shrank to 87px, its trophy
+    chips ran down it a letter at a time and sat under the CONFIRM bar. Both cards go back to the one column. */
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonReviewGrid > :is(#seasonReviewOne,#seasonReviewTwo) {
+  grid-column:1;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-review-panel .seasonSummaryCard {
   min-width:0; overflow-wrap:anywhere;
@@ -1722,7 +1728,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .sd-number { line-height:1; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel {
   z-index:11;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:44px minmax(0,1fr);overflow:hidden;
-  border:1px solid #d9b64e;background:linear-gradient(115deg,#39271240,transparent 60%),#110f0c url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
+  border:1px solid #d9b64e;background:linear-gradient(115deg,#39271240,transparent 60%),#110f0c; /* r91 art ledger R3: flat dark slab, as on desktop (no vein tile behind the numbers) */
   clip-path:polygon(2% 0,98% 0,100% 3%,100% 97%,98% 100%,2% 100%,0 97%,0 3%);
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel :is(.finalWinnerMetaStrip,.finalWinnerHonours) {
@@ -2241,10 +2247,10 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    behind the counter (desktop men cut line 641 of 864, phone 1098 of 2096); the plates-v2 pictures stay as rollback. */
 @media (min-width:901px) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate {
-  background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}");
+  background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp")}");
  }
  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate {
-  background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x);
+  background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp")}") 2x);
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-title-block::before { content:none; }
  /* HO-068 (Nik: boxes touching faces). On this plate Daniel's face ends at 29.3% of its width and Nik's starts at 67.06%
@@ -2257,8 +2263,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 /* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
 @media (min-width:1537px), (min-width:901px) and (min-height:865px){
-  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate{background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x)}
-  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate{background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x)}
+  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate{background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp")}") 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__plate{background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp")}") 1.25x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp")}") 2x)}
 }
 /* HO-068: on windows wider than 16:9 the plate starts at the top of the window, so the nav bar covered the top of both
    men's hair. The plate is lowered just enough for the hair to clear the bar; the panelling it gives up at the bottom is
@@ -2277,6 +2283,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* HO-068: no slogans in the board room: the "TWO MANAGERS · ONE LEGACY" line under the Season Results and Final Winner
    titles keeps its place (nothing moves) but is not shown. */
 #app #seasonEntry :is(.season-tagline,.finalWinnerTagline) { visibility:hidden !important; }
+/* r91 art (face check row A1): the two warm ovals over the managers (.finalWinnerManagerSpotlight, Team V's
+   final-winner.css) were lights for the old cut-out figures. In the board room both men are part of one painted picture
+   that the wall lamp already lights, so an oval laid over it can only haze their faces (2.0% and 3.2% of the face pixels
+   moved, the same oval on winner and loser). Phones and tablets already left it out; now every size does. */
+#app #seasonEntry .finalWinnerManagerSpotlight { display:none; }
 /* Final Winner, desktop picture range: the board room, fitted to the window height as the old plate was (--fw-k is one
    plate pixel). The champion trophy stands on the counter's lip (plate y 641) between the two managers, its foot on the
    lip (or on the honours plaque when a short window raises the plaque above it). Beside a plate narrower than the window
@@ -2284,7 +2295,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 @media (min-width:901px) {
  #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
   background-color:#1d1a16;
-  background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}");
+  background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp")}");
   background-size:auto 100svh; background-position:50% calc(0px - var(--sd-nav-top-h,52px)); background-repeat:no-repeat;
   /* HO-068 (Nik: nothing may touch a face): drawn from the window's top edge, the room put Daniel's hair under the top bar
      (1280x720) or touching it (1440x900; heads from 5.67% of the plate, Daniel's top curls). The room and every slot placed
@@ -2294,7 +2305,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   background-position:50% calc(var(--fw-drop) - var(--sd-nav-top-h,52px));
  }
  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
-  background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x);
+  background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp")}") 1x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp")}") 2x);
  }
  #app #seasonEntry .v10FinalStage .finalWinnerTitleBlock::before { content:none; }
  #app #seasonEntry .v10FinalStage {
@@ -2309,8 +2320,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 /* r91 sharp rooms (R4): windows wider than 1536 or taller than 864 draw the 1920px cut, at 1.25x so every crop stays */
 @media (min-width:1537px), (min-width:901px) and (min-height:865px){
-  #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)){background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x)}
-  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)){background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp")}") 1.25x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp")}") 2x)}
+  #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)){background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp")}") 1.25x)}
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)){background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp")}") 1.25x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp")}") 2x)}
 }
 /* r91 old-art: upright windows wider than 900 keep this desktop layout; the room is drawn the window's width (one plate
    pixel = 100vw / 1536) instead of its height, so both men stay whole, and the wood colour carries on below. */
@@ -2357,10 +2368,10 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
     above the title, as on the old plate, with the counter behind the tabs */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
   --sr-hc-w:max(100vw,calc(100svh * 1179 / 2096));
-  background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2.webp")}");
+  background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3.webp")}");
   background-position:50% calc(14px - var(--sr-hc-w) * 2096 / 1179 * .2);
  }
- html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2_590W.webp")}"); }
+ html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3_590W.webp")}"); }
 }
 /* r91 old-art follow-up (765x900): on upright windows 700-900 wide and under 960 tall Team V keeps its 430px phone column,
    centred, but the board room was drawn the window's width behind it, so Daniel was cut at the column's edge and the
@@ -2373,7 +2384,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    room is drawn behind it at the window's height from the top, as on desktop; the men stand either side of the column. */
 @media (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape),
        (min-width:900px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
- #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { background:#1d1a16 url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 50% 0 / auto 100svh no-repeat; }
+ #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) { background:#1d1a16 url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp")}") 50% 0 / auto 100svh no-repeat; }
  #app #seasonEntry.v10FinalMode #stage-root, #app #seasonEntry .v10FinalStage { background:none; }
  #app #seasonEntry .v10FinalStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.finalWinnerRim,.finalWinnerManagerShade,.finalWinnerManagerSpotlight) { display:none; }
 }
@@ -2384,7 +2395,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    layout; it stands in the wide board room from its top (both men, heads to chins, above the title) instead of the
    retired stadium and the two cut-outs. */
 @media (max-width:900px) and (min-height:501px) and (orientation:landscape) {
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background:#1d1a16 url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp")}") 50% 0 / 100% auto no-repeat; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { background:#1d1a16 url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp")}") 50% 0 / 100% auto no-repeat; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero) { display:none!important; }
  /* Team V's title stands at 40.5% of the screen and the tab row at 44%, which only leaves it room on tall phone screens;
     here it sat across the tab row. Its foot now stands one 8px gap above the tabs. */
@@ -2481,8 +2492,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot .finalWinnerTotals strong { font-size:26px; line-height:1; }
 }
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2.webp")}"); }
- html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V2_590W.webp")}"); }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3.webp")}"); }
+ html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3_590W.webp")}"); }
 }
 `;
     parent.appendChild(style);
@@ -2514,8 +2525,8 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   function sgRooms(stage){
     const doc=root.document,lean=doc?.documentElement?.dataset?.assets==="0",hc=BASE+"plates-hc/";
     const sources=stage?.querySelectorAll?.(".sdg-phoneBg source")||[];
-    if(sources[0]){sources[0].setAttribute("media","(max-width: 900px) and (orientation: portrait)");sources[0].setAttribute("srcset",hc+"ENV_TUNNEL_PHONE_HC_V2"+(lean?"_590W":"")+".webp");}
-    if(sources[1])sources[1].setAttribute("srcset",hc+"ENV_TUNNEL_PLATE_HC_V2_1X.webp");
+    if(sources[0]){sources[0].setAttribute("media","(max-width: 900px) and (orientation: portrait)");sources[0].setAttribute("srcset",hc+"ENV_TUNNEL_PHONE_HC_V3"+(lean?"_590W":"")+".webp");}
+    if(sources[1])sources[1].setAttribute("srcset",hc+"ENV_TUNNEL_PLATE_HC_V3_1X.webp");
     stage?.querySelectorAll?.(".sdg-phoneHero source").forEach(source=>source.remove());
     return stage;
   }

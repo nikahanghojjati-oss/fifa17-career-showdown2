@@ -78,7 +78,8 @@ ok("R90-PS3 quality follows the device: the shared gfxTier governor (Settings 3D
   assert.match(page,/const GFX=window\.CareerModeGfxTier\|\|null, GP=GFX\?GFX\.profile\(\):null;/);
   assert.match(page,/let PR=GP\?GP\.pixelRatio:1,/,"starts at the profile's ratio (Auto never above the screen's); 1x without the module (docs/QUALITY_LEVELS.md)");
   assert.match(page,/GFX\.calibrate\(renderer,render\)/,"timed frames behind the loading screen");
-  assert.match(page,/gov=GFX\.governor\(renderer,\{key:"sp",draw:render,onChange\(p\)\{ PR=p\.pixelRatio; resize\(\); \},info:\(\)=>\(\{bloom:BLOOM,direct:DIRECT,samples:sceneRT\.samples\|0\}\)\}\);/); // r91: info() tells the Device check what was built
+  // r91: info() tells the Device check what was built; the governor also gets the scene's heavy-parts ladder (tests/contracts/r91-special-player-ladder-contracts.cjs)
+  assert.match(page,/gov=GFX\.governor\(renderer,\{key:"sp",draw:render,beats:true,\.\.\.\(HEAVY\.length\?\{detail:\{steps:HEAVY\.length,apply:heavy\}\}:\{\}\),before:\(\)=>GFX\.softCut\?\.\(renderer\.domElement,render\),onChange\(p\)\{ PR=p\.pixelRatio; resize\(\); \},info:\(\)=>\(\{bloom:BLOOM,direct:DIRECT,samples:sceneRT\.samples\|0\}\)\}\);/);
   assert.match(page,/function frame\(\)\{ if\(manual===null\)\{ tick\(true\); if\(gov\) gov\.frame\(performance\.now\(\)\); \}/);
   assert.match(page,/GFX\.overlay\(/,"?fps=1 counter from the shared module");
   assert.ok(!/RS_STEPS|function govern\(|fpsEl/.test(page),"no second governor or counter left in the page");
@@ -132,7 +133,7 @@ ok("R90-PS8 hunt L05/L06: the light pillar rises behind the pack, softer on port
   assert.match(page,/NIGHT\?"assets\/board_night_V1\.jpg":"assets\/board\.jpg"/,"?look=night: black and gold boards");
   assert.match(page,/lp\+=exp\(-dl\*dl\*70\.\); float f=exp\(-dl\*dl\*1600\.\); fl\+=f;/,"floodlight flares with light pools on the stands");
   assert.match(page,/if\(f>\.02\)\{ for\(int k=0;k<5;k\+\+\)/,"r91: each floodlight is a bank of lamps, worked out only near a lamp");
-  assert.match(page,/const n=Math\.round\(\(tt<4\.5\?8:4\)\*\(BLOOM\?1:\.6\)\); for\(let i=0;i<n;i\+\+\)\{ const a=Math\.random\(\)\*Math\.PI\*2, r=Math\.sqrt\(Math\.random\(\)\)\*\.7\*Math\.max\(\.5,/,"a small sparkle at the base, not a carpet (r91: spread from the start, fewer on Light)");
+  assert.match(page,/const n=Math\.round\(\(tt<4\.5\?8:4\)\*\(bloomLive\?1:\.6\)\); for\(let i=0;i<n;i\+\+\)\{ const a=Math\.random\(\)\*Math\.PI\*2, r=Math\.sqrt\(Math\.random\(\)\)\*\.7\*Math\.max\(\.5,/,"a small sparkle at the base, not a carpet (r91: spread from the start, fewer on Light)");
 });
 
 ok("r91 SP stadium (Nik 2026-11-11 \"I want the yellow vibrant stadium we had\"): r89's sunlit yellow stadium and yellow boards are the default on every level",()=>{
@@ -147,9 +148,12 @@ ok("R90-PS9 hunt M3/M4/M5/M8: wall-clock timeline, bloom by level, 4x MSAA above
   assert.match(page,/if\(phase==="run"\) vtt\+=wdt\*sc;/,"M3: beats, cues and delays keep their length on slow frames");
   assert.ok(!/vtt\+=dt\*/.test(page),"M3: the timeline never runs on the clamped frame step");
   assert.match(page,/const BLOOM=!DIRECT&&!\(GP&&GP\.bloom===false\), BLOOM_D=GL_LVL<=1\?4:2;/,"M4: off at Light, half-size mips at Balanced");
-  assert.match(page,/if\(BLOOM\)\{ brightMat\.uniforms\.tex\.value=sceneRT\.texture; pass\(brightMat,mipA\[0\]\);/,"M4: Light skips the bright and blur passes");
+  // r91: bloomLive starts as BLOOM and only the governor's ladder turns it off (r91-special-player-ladder-contracts.cjs)
+  assert.match(page,/let bloomLive=BLOOM, bloomDiv=BLOOM_D, edgesDown=false;/);
+  assert.match(page,/if\(bloomLive\)\{ brightMat\.uniforms\.tex\.value=sceneRT\.texture; pass\(brightMat,mipA\[0\]\);/,"M4: Light skips the bright and blur passes");
   assert.match(page,/if\(bloomOn>\.5\) b=[^;]*; else b=max\(c-vec3\(\.8\),vec3\(0\.\)\)\*1\.6;/,"M4: Light keeps a cheap in-place glow");
-  assert.match(page,/fitSamples\(pw\*ph>1920\*1080\?Math\.min\(4,GQ\.samples\):GQ\.samples\)/,"M5: 8x only up to 1080p, 4x above");
+  // r91: the same rule, named (smpWant); the ladder's "edges" step halves it once, never under 2
+  assert.match(page,/const smpWant=pw\*ph>1920\*1080\?Math\.min\(4,GQ\.samples\):GQ\.samples, smpLow=edgesDown\?fitSamples\(Math\.max\(2,smpWant>>1\)\):0, smp=DIRECT\?0:smpLow>=2\?smpLow:fitSamples\(smpWant\)/,"M5: 8x only up to 1080p, 4x above");
   assert.ok(!/fonts\.(googleapis|gstatic)\.com/.test(page),"M8: no Google Fonts request");
   const faces=[...page.matchAll(/url\("\.\.\/shared\/fonts\/([^"]+\.woff2)"\)/g)].map(m=>m[1]);
   assert.ok(faces.length>=16,"Barlow Condensed and Big Shoulders, latin and latin-ext");

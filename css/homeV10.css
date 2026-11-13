@@ -1254,24 +1254,24 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 }
 
 /* HO-067 Gate B2 (Team V's handcrafted Home art V2 RICH, HC 01 + HC 02 V2): Home stands in the new room alone so Nik can judge it.
-   - Desktop and tablet: ENV_HOME_PLATE_HC_V2, cover-fit and top-anchored as before. Every level loads the 1X plate; High
+   - Desktop and tablet: ENV_HOME_PLATE_HC_V3, cover-fit and top-anchored as before. Every level loads the 1X plate; High
      and up (html[data-assets] 2-4) add the 2X plate for sharp screens. The plates-v2 Home plates stay as rollback.
-   - Phone (portrait and sideways): ENV_HOME_PHONE_HC_V2, and the 590 px plate where the device's download size is the
+   - Phone (portrait and sideways): ENV_HOME_PHONE_HC_V3, and the 590 px plate where the device's download size is the
      smallest (html[data-assets="0"]: Light, a Balanced phone, or Save-Data / a slow connection).
    - The room is calm and dark where text sits, so nothing is laid over it: no top scrim, no dock bed (both gone from the
      DOM), no dark patch behind the wordmark or the heading, and the 01/02 strip is not drawn on Home. */
 @media (min-width: 761px) and (orientation: portrait), (min-width: 901px), (min-height: 481px) and (orientation: landscape) {
-  html #app #mainMenu.v10Home .plateView { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp); }
+  html #app #mainMenu.v10Home .plateView { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1X.webp); }
   html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #mainMenu.v10Home .plateView {
-    background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_2X.webp) 2x);
+    background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp) 2x);
   }
   html #app #mainMenu.v10Home .homeLockup::before, html #app #mainMenu.v10Home .homeLockup::after,
   html #app #mainMenu.v10Home .fifaMenuHeading::before { background: none; }
 }
-html #app #mainMenu.v10Home .phoneHeroBackground { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2.webp); }
-html[data-assets="0"] #app #mainMenu.v10Home .phoneHeroBackground { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2_590W.webp); }
+html #app #mainMenu.v10Home .phoneHeroBackground { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V3.webp); }
+html[data-assets="0"] #app #mainMenu.v10Home .phoneHeroBackground { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V3_590W.webp); }
 html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
-/* HO-067 Gate B, upright phone: Team V painted ENV_HOME_PHONE_HC_V2 for this layout. Its top 16% is a plain dark ceiling
+/* HO-067 Gate B, upright phone: Team V painted ENV_HOME_PHONE_HC_V3 for this layout. Its top 16% is a plain dark ceiling
    (the title band), the managers stand from about 16.4% (hair, y 344 of 2096) to the counter's brass lip, which runs from
    50% to 51.4% (y 1048-1076), and everything below the lip is plain stone for the tiles. All three follow the plate's drawn height (--hc-ph):
    - the tiles shrink toward their floors (Continue 66 px so its "No Showdown live" line keeps its room, tiles 44 px, Story 44 px) until they start on the stone, 4 px
@@ -1336,6 +1336,6 @@ html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
    Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
    unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
 @media (min-width:1537px), (min-width:901px) and (min-height:865px) {
-  html #app #mainMenu.v10Home .plateView { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1920.webp') 1.25x); }
-  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #mainMenu.v10Home .plateView { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_2X.webp') 2x); }
+  html #app #mainMenu.v10Home .plateView { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #mainMenu.v10Home .plateView { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp') 2x); }
 }

@@ -1206,11 +1206,18 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
 /* HO-068 reading slab (Team V's handcrafted V1, visual-assets/v10_1/plates-hc/ENV_SLAB_*): Settings and the Rule Book sit on a
    plain black marble surface with no people, no banners and no slogans, at every size. The stage plane draws the slab where
    it showed the V2 picture plates or the old system plate (desktop, sideways, the wide tablet range); upright phones and
-   tablets draw the phone slab (picked in js/rulesSettingsV10.js). The set ships the slab at 1X only, so High and up use the
-   same file. The Settings line "TWO MANAGERS. ONE LEGACY." is not drawn (it keeps its room, so nothing moves). The
+   tablets draw the phone slab (picked in js/rulesSettingsV10.js). The desktop slab gained its 2X master in HO-077 (below). The Settings line "TWO MANAGERS. ONE LEGACY." is not drawn (it keeps its room, so nothing moves). The
    plates-v2 and shared/plates files stay as the rollback. */
 :is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate {
   background-image:url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp');
+}
+/* HO-077 (Team V, 2026-11-13): the slab now has a 3072px 2X master (same picture and crop as the 1X). High and up take it on
+   2x screens, and (art ledger R4) windows wider than 1536 or taller than 864 CSS px draw its 1920px cut at 1.25x, so the drawn
+   size and crop are the 1X plate's (Nik's Chromebook at 1920x866 / 1920x1035 no longer stretches the 1536px slab). */
+html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) :is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp') 1x,url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp') 2x); }
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  :is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) :is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp') 2x); }
 }
 :is(#app #settingsOverlay.v10Settings,#app ~ #settingsOverlay.v10Settings,body #settingsOverlay.v10Settings) .settingsTagline { visibility:hidden; }
 

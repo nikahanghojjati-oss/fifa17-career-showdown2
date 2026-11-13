@@ -122,6 +122,49 @@
     const c=Number(env&&env.cores),m=Number(env&&env.deviceMemory);
     return (Number.isFinite(c)&&c>0&&c<=2)||(Number.isFinite(m)&&m>0&&m<=4);
   }
+  // r91 (Nik 2026-11-12: "based on your graphic card, this is what we suggest, or based on your CPU ... so everyone can look
+  // at that table and understand what is recommended for them"): the level guide, shown on the Device check page.
+  // GUIDE says in plain words what gfxClassify above does, so the two change together
+  // (tests/contracts/r91-level-guide-contracts.cjs runs named chips through gfxClassify against these rows).
+  // who = the graphics chips that start at the level; draws = what the level draws. It promises no frame rate: only the
+  // Device check measures one.
+  const GUIDE=[
+    {who:"Intel HD and UHD Graphics. Older phone chips: most Mali, PowerVR, Adreno 5xx and below, Apple A9 to A12. A device with no graphics chip.",
+      draws:"The lightest picture: a dark room, a smaller crowd, no glow."},
+    {who:"Intel Iris. Built-in AMD Radeon. Adreno 6xx. Mali-G76 to G78, G610 and G615. Any chip this table does not name.",
+      draws:"Adds glow and a slightly larger crowd."},
+    {who:"NVIDIA GeForce GTX and RTX. AMD Radeon RX and Radeon Pro. Apple M1 and later. Strong phones: iPhone and iPad, Adreno 7xx and up, Mali-G7xx, Immortalis.",
+      draws:"A full crowd, sharper shadows and a first hint of the marble caf\u00e9."},
+    {who:"NVIDIA RTX 2060 to 2090, 3060 to 3090, and every RTX 40 or later. AMD Radeon RX 6000 and later. Apple M Pro, Max and Ultra.",
+      draws:"The whole marble caf\u00e9, and up to 3x sharpness on a sharp screen."},
+    {who:"No chip starts here. The Device check gives it to a device that keeps all three 3D screens smooth at this level.",
+      draws:"Draws past the screen\u2019s own sharpness, up to a 4K picture, with the sharpest shadows."},
+    {who:"The same, on a graphics chip that can hold a 7680 px picture. Never a phone.",
+      draws:"Draws up to an 8K picture."}
+  ];
+  // The two limits of gfxClassify in words (the contract runs them too).
+  const GUIDE_LIMITS="Memory and processor can hold a device below its chip\u2019s row. 2 GB of memory or less starts at Light. 4 GB or less, or a computer with 4 processor threads or fewer, starts no higher than Balanced. Threads are not counted on a phone.";
+  // A chip's name as a person reads it: "ANGLE (Intel, Vulkan 1.3.0 (Intel(R) UHD Graphics (JSL) (0x00004E55)), Mesa 25.0.7)"
+  // is "Intel UHD Graphics (JSL)". Empty when the browser names none.
+  function gfxChipName(raw){
+    let s=String(raw||"").trim();
+    const angle=s.match(/^ANGLE \((.*)\)$/);
+    if(angle){const parts=angle[1].split(/,\s+/);s=parts[1]||parts[0]||"";}
+    s=s.replace(/^ANGLE Metal Renderer:\s*/i,"").replace(/^Vulkan [\d.]+ \((.*)\)$/,"$1").replace(/\((r|tm|c)\)/ig," ")
+      .replace(/\s*\(0x[0-9a-f]+\)/ig,"").replace(/\s+(Direct3D|OpenGL|D3D\d|Metal\b).*$/i,"").replace(/\/PCIe.*$/i,"").replace(/\s+/g," ").trim();
+    return s.length>64?`${s.slice(0,63).trim()}\u2026`:s;
+  }
+  // What each part of this device says on its own. chip = the level its graphics chip starts at; memoryCap and threadCap =
+  // the level memory and processor threads hold it to (null: no limit; threads are not counted on a phone). level = Auto's
+  // starting level, the lowest of the three. measured = the level the Device check saved here (null before a check).
+  // The one row marked mine is the measured level, or the starting level before a check.
+  function gfxGuide(){
+    const p=gfxProfile(),env=gfxScreenEnv(),phone=Boolean(env.phone),mem=Number(env.deviceMemory)||0,cores=Number(env.cores)||0;
+    const chip=gfxClassify(p.gpu,{phone}).level,m=gfxMeasured(),mine=m?m.level:p.guessLevel;
+    return {limits:GUIDE_LIMITS,rows:GUIDE.map((r,level)=>({level,label:LABELS[level],who:r.who,draws:r.draws,mine:level===mine})),
+      device:{phone,software:Boolean(p.software),chipName:gfxChipName(p.gpu),chip,memory:mem||null,memoryCap:mem&&mem<=2?0:mem&&mem<=4?1:null,
+        threads:cores||null,threadCap:!phone&&cores&&cores<=4?1:null,level:p.guessLevel,measured:m?m.level:null,weak:gfxWeak(env),can8k:Boolean(p.can8k)}};
+  }
   // The highest level at or under `level` that may be picked by hand here (4 and 5 are the gated ones).
   function gfxPickable(level,env,can8k,measured){
     let l=level===5&&!can8k?4:level;
@@ -393,6 +436,8 @@
   // A scene offers its heavy parts as  detail:{steps:N, apply(step,why)}  (0 = as built, N = its lightest): apply() is the
   // only place those knobs move, and it is called at the start (the step remembered from the last visit, behind the loading
   // screen) and afterwards only between beats, never while the scene holds (a kick, a spin, a reveal).
+  // A scene that can fade one picture into the next gives  before()  : it is called once ahead of every change in play
+  // (pixel ratio or heavy parts, down, up or put back), while the old picture is still the one drawn.
   // What changed from 2.3.0:
   //   - Slow frames seen during a beat are kept: the step is taken when the beat ends. (2.3.0 threw them away at
   //     hold(false), so a scene that was only slow in action never stepped down, and Roulette holds for its whole turn.)
@@ -458,9 +503,12 @@
     const slowLimit=()=>pace?Math.max(SLOW_MS,pace*1.25):SLOW_MS,smoothLimit=()=>SMOOTH_MS;
     // One step down the ladder: pixel ratio first, then the heavy parts. The step left is never tried again in this visit;
     // a heavy part that was put back and ran slow stays off for a week of visits.
+    // before: the scene's last word ahead of a change in play (a step down, a step up, steps put back), so it can let the
+    // picture on screen fade into the next one. Never called for the start (behind the loading screen) or a resize.
+    const before=()=>{try{o.before?.();}catch(_error){}};
     const stepDown=why=>{
-      if(at<list.length-1){bad.add(at);apply(at+1);}
-      else if(detail&&dAt<detail.steps){badD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
+      if(at<list.length-1){before();bad.add(at);apply(at+1);}
+      else if(detail&&dAt<detail.steps){before();badD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
       else return false;
       forget();upOk=false;return true;
     };
@@ -481,6 +529,7 @@
     const paceHere=ms=>{pace=Math.max(BUDGET_MS,Math.min(50,ms));slowFor=0;slowN=0;smoothFor=0;};
     const undo=ms=>{const b=probe;probe=null;probed=true;
       for(let i=b.at;i<at;i+=1)bad.delete(i);for(let i=b.dAt;i<dAt;i+=1)badD.delete(i);
+      if((detail&&dAt!==b.dAt)||at!==b.at)before();
       if(detail&&dAt!==b.dAt)setDetail(b.dAt,"restore");if(at!==b.at)apply(b.at);
       forget();upOk=b.upOk;paceHere(ms);avg=pace;};
     const slowStep=seen=>{
@@ -532,14 +581,14 @@
         // Heavy parts come back first (they went last): smooth for 6 s and a timed frame under 40% of the budget.
         if(detail&&dAt>dFloor){
           if(smoothFor>=6000){smoothFor=0;if(badD.has(dAt-1))return;
-            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){trial=dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
+            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){before();trial=dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
           return;
         }
         if(dAt>0)return;
         // Smooth for 3 s: time one real frame; step up only if the next step would still leave a third of the frame free.
         if(smoothFor>=3000&&at>0&&!bad.has(at-1)){
           smoothFor=0;const ms=gfxTimedDraw(renderer,o.draw),scale=Math.pow(list[at-1]/list[at],2);
-          if(ms*scale<BUDGET_MS*.66)apply(at-1);else bad.add(at-1);
+          if(ms*scale<BUDGET_MS*.66){before();apply(at-1);}else bad.add(at-1);
         }
       },
       // Between beats only: a held governor never changes the picture mid-shot. What the beat showed is kept: a beat that
@@ -630,6 +679,33 @@
   }
 
   // ?fps=1 only: a small corner readout, four times a second, with its own frame clock.
+  // softCut(canvas, draw): a step taken in play, shown softly. The frame as it stands is copied over the canvas and fades
+  // out over the scene as it is drawn from the next frame on (a scene passes this to its governor as before()). For a
+  // scene whose canvas fills its own positioned box (the Roulette and Special Player pages; Chamber Men fades inside its
+  // own picture). The copy lies in that box right over the canvas, so nothing above the scene is covered, takes no
+  // pointer, is at most 2560 px on its long side and is gone after the fade. Under Reduce Motion, or where the box is not
+  // positioned, the step is a plain cut as before. Never throws.
+  function gfxSoftCut(canvas,draw,ms){
+    try{
+      const box=canvas?.parentElement,doc=canvas?.ownerDocument,win=doc?.defaultView||root,fade=Number.isFinite(ms)&&ms>0?ms:420;
+      if(!box||!doc||!canvas.width||!canvas.height)return false;
+      if(win.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)return false;
+      if((win.getComputedStyle?.(box)?.position||"static")==="static")return false;
+      for(const old of box.querySelectorAll?.("canvas[data-gfx-cut]")||[])old.remove();
+      const k=Math.min(1,2560/Math.max(canvas.width,canvas.height)),copy=doc.createElement("canvas");
+      copy.width=Math.max(1,Math.round(canvas.width*k));copy.height=Math.max(1,Math.round(canvas.height*k));
+      // A WebGL canvas holds its frame only in the task that drew it: draw, then copy.
+      if(typeof draw==="function")draw();
+      copy.getContext("2d").drawImage(canvas,0,0,copy.width,copy.height);
+      copy.setAttribute("data-gfx-cut","1");copy.setAttribute("aria-hidden","true");
+      copy.style.cssText=`position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:1;transition:opacity ${fade}ms ease-out`;
+      box.appendChild(copy);
+      const frame=win.requestAnimationFrame||(f=>win.setTimeout(f,16));
+      frame(()=>frame(()=>{copy.style.opacity="0";}));
+      win.setTimeout(()=>copy.remove(),fade+300);
+      return true;
+    }catch(_error){return false;}
+  }
   function gfxOverlay(info,parent){
     if(gfxQuery("fps")!=="1")return {stop(){}};
     const d=root.document;if(!d||!d.body)return {stop(){}};
@@ -659,7 +735,7 @@
 
   root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,choices:CHOICES.slice(),names:NAMES.slice(),labels:LABELS.slice(),
     label(level){return LABELS[Math.max(0,Math.min(5,Math.round(Number(level))||0))];},
-    profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,builtLevel:gfxBuiltLevel,overlay:gfxOverlay,classify:gfxClassify,
+    profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,softCut:gfxSoftCut,builtLevel:gfxBuiltLevel,overlay:gfxOverlay,classify:gfxClassify,
     // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()
     // saves a pick for this device; it takes effect on the next 3D screen.
     // "now" is the level Auto starts at on this device, read fresh from storage each call (Codex on #1284): the Device check
@@ -670,6 +746,9 @@
     // Device check: what this device is taken for before any check (phone or computer, GPU, the level Auto starts at).
     device(){const p=gfxProfile();return {phone:Boolean(p.phone),gpu:p.gpu,software:Boolean(p.software),strongPhone:Boolean(p.strongPhone),
       guessLevel:p.guessLevel,guessName:NAMES[p.guessLevel],can8k:Boolean(p.can8k),dpr:p.dpr};},
+    // Device check page: the level guide (which chips start at which level, what each level draws) and what this device's
+    // chip, memory and processor threads each say.
+    guide:gfxGuide,
     // Device check: the best level this device held, saved as its Auto; clearMeasured() goes back to the GPU-name guess.
     // r91 (Nik 2026-11-11): any level, Light to 8K (8K only where the GPU can hold it). A crash cap is left alone (review
     // on #1389): a device whose GPU gave up at a level in play keeps that cap even when the check then holds the level;

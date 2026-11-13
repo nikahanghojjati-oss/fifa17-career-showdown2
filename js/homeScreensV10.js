@@ -132,13 +132,13 @@
   function hmScene(){
     const pic=(cls,file,extra)=>`<picture class="${cls}"${extra||""}><source media="(max-width: 760px) and (orientation: portrait), (max-width: 900px) and (max-height: 480px) and (orientation: landscape)" srcset="${BASE}${file}" type="image/webp"><img alt="" decoding="async"></picture>`;
     const frag=hmDoc().createDocumentFragment();
-    // HO-067 Gate B2: the phone plate is Team V's handcrafted ENV_HOME_PHONE_HC_V2 (css/homeV10.css draws it; the earlier
+    // HO-067 Gate B2: the phone plate is Team V's handcrafted ENV_HOME_PHONE_HC_V3 (css/homeV10.css draws it; the earlier
     // ENV_HOME_PHONE_V2 stays in visual-assets/v10_1/plates-v2/ as rollback).
     // The picture fetches the same file the CSS draws, so the plate loads once: the 590 px plate at the smallest download
     // size (html[data-assets="0"], set by js/gfxTier.js), the full plate otherwise.
     const lean=hmDoc().documentElement?.dataset?.assets==="0";
     frag.append(
-      hmDecor("plateView",pic("phoneHeroBackground","plates-hc/ENV_HOME_PHONE_HC_V2"+(lean?"_590W":"")+".webp")+'<div class="plateLayer"></div>'),
+      hmDecor("plateView",pic("phoneHeroBackground","plates-hc/ENV_HOME_PHONE_HC_V3"+(lean?"_590W":"")+".webp")+'<div class="plateLayer"></div>'),
       hmDecor("phoneHeroGrade"),hmDecor("scrim scrimLow")
     );
     return frag;

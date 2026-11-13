@@ -1117,7 +1117,7 @@
   #app #legacy[data-rivalry-legacy-v10] #stage-root {
     /* r91 old-art: the archive room (HO-068), the window's width, raised so the hair starts 2px under the top edge and both
        heads sit in the top corners over the tab column and the card, as the old stadium's did (stone below on narrow phones) */
-    background:#1c1814 url("../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp") 50% calc(2px - 56.25vw * .06) / 100% auto no-repeat;
+    background:#1c1814 url("../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1X.webp") 50% calc(2px - 56.25vw * .06) / 100% auto no-repeat;
   }
   #app #legacy[data-rivalry-legacy-v10] :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.sd-stage__layer--atmosphere,.legacyPhoneFaceBand,.nav-reserve) { display:none; }
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui {
@@ -1446,6 +1446,13 @@
     border-radius:2px;
     background:linear-gradient(180deg,#f2c45b0d,transparent 42%) padding-box,#110f0c;
     box-shadow:inset 0 0 0 1px #000a,0 10px 28px #000b;
+  }
+  /* r91 layout hunt (art state captures, 10-season Legacy at 1920x866): the pane's bottom edge sat 24 px below the gold archive
+     frame at every desktop size, so a long Showdown's last season ran past the frame and under VIEW SEASON HISTORY / BACK TO HOME
+     (button tops 8 px inside the pane). The pane now ends 12 px inside the frame (max-height in the rule near the end of this file); what does not fit scrolls in the pane (a thin
+     gold bar says so) and every season stays whole and reachable. A 3-season Showdown fits without scrolling, as before. */
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) {
+    scrollbar-width:thin; scrollbar-color:#d9ad4a rgba(0,0,0,.45);
   }
   /* Inside the pane the list is compact so a normal Showdown (3 seasons) fits without an inner scroll: the close button
      sits in flow (no sticky bar over the frame), one line per season with the details and a Europa League win inline. */
@@ -1959,6 +1966,26 @@
   #app #legacy[data-rivalry-legacy-v10] #stage-root:has(.legacySeasonHistory:not([hidden])) .legacyPager { justify-self:start; width:calc((100% - 24px) / 4); min-width:0; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryHeading { font-size:13px !important; letter-spacing:.16em; color:var(--sd-gold-300,#ffd34d); }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(td,th) { padding-top:1px !important; padding-bottom:1px !important; line-height:16px; }
+  /* r91: on the wide desktops the Europa League line sits beside the league line, one line per season, so a 10-season
+     Showdown (every season a row of two lines before) fits the pane at 1920x866 without scrolling. */
+  @media (min-width:1700px) {
+    /* r91: 60px, not 24px, so the pane ends 12px inside the gold archive frame (see the note at the top of this file's HO-043 block).
+       Only here: the short screens (1100x600) keep 24px so the pane does not grow an inner scroller there (r80 short-screens audit). */
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { max-height:calc(100% - 60px); }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable .legacyHistoryEuropa { display:inline-block; margin:0 0 0 10px; vertical-align:middle; white-space:nowrap; }
+    /* left-aligned so the points make one column whether or not a Europa League line follows */
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(td.daniel,td.nik) { text-align:left; padding-left:12px; padding-right:2px; }
+  }
+  /* the 1920x1035 sizes (24px points, 13px detail) leave the one-line row too wide and the pane too short for ten seasons:
+     points and detail go back to the 20px / 12px of the other desktops inside this pane only */
+  @media (min-width:1700px) and (min-height:900px) {
+    /* narrower SEASON and RESULT columns give the two manager columns the width the 13px detail + Europa League line needs on one line */
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(.legacyHistorySeasonHead,.legacyHistorySeasonLabel) { width:11%; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable :is(.legacyHistoryResultHead,.legacyHistoryResult) { width:12%; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryPoints { font-size:20px; line-height:22px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryDetail { font-size:13px; line-height:14px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryEuropa { font-size:12px; line-height:14px; }
+  }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryTable td :is(strong,b,.legacyHistoryScore) { font-size:16px; line-height:16px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) { padding-top:8px; padding-bottom:8px; }
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn.legacyHistoryClose {
@@ -2042,9 +2069,9 @@
    keeps History's fitted height, so VIEW SEASON HISTORY stays on the first screen (r87 A-06). No dimming, and the line under the wordmark is not
    drawn (no slogans); wider upright screens and sideways phones keep their current art. */
 @media (min-width:901px) {
-  #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp'); }
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1X.webp'); }
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate {
-    background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp') 1x,url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp') 2x);
+    background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1X.webp') 1x,url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_2X.webp') 2x);
   }  /* HO-068 (Nik: nothing may touch a face). The archive plate fills the window from the top (cover), so on short windows
      the top bar covered the men's hair (heads from 5.79% of the plate) and on ultrawide ones (2560x1000, 3440x1080) the
      archive panel ran over both chins (Nik's ends at 31.25%). The plate is lowered just enough for the hair to clear the
@@ -2101,9 +2128,9 @@
    plates-v2/v3 Rivalry plates stay in the repo as rollback. The "TWO MANAGERS • ONE LEGACY" slogan is hidden (layout
    kept); the Golden Showdown chip that shares its row stays visible. */
 @media (min-width:901px) {
-  #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate { background-image:url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp); }
+  #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate { background-image:url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1X.webp); }
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate {
-    background-image:image-set(url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp) 1x,url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp) 2x);
+    background-image:image-set(url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1X.webp) 1x,url(../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_2X.webp) 2x);
   }  /* HO-068 (Nik: nothing may touch a face): the top bar covered both men's hair (heads start 1.74% down the plate), so the
      room is lowered just enough for the hair to clear the bar by 6px; the floor it gives up is below the window's edge. */
   #app #statistics[data-rivalry-legacy-v10] .sd-stage__layer--plate > .sd-stage__registered { translate:0 max(0px,calc(var(--sd-nav-top-h,52px) + 6px - max(56.25vw,100svh) * .0174)); }
@@ -2111,11 +2138,11 @@
 @media (max-width:900px) and (orientation:portrait) {
   #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) {
     --rv-pw:max(100vw,calc(100svh * 1179 / 2096)); --rv-ph:calc(var(--rv-pw) * 2096 / 1179); --rv-band:490px;
-    background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp") no-repeat;
+    background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V3.webp") no-repeat;
     background-size:var(--rv-pw) auto;
     background-position:50% max(calc(var(--rv-ph) * -.18),min(calc(56px - var(--rv-ph) * .138),calc(var(--rv-band) + 20px - var(--rv-ph) * .26)));
   }
-  html[data-assets="0"] #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { background-image:url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2_590W.webp"); }
+  html[data-assets="0"] #app > main:has(> #statistics[data-rivalry-legacy-v10]:not(.hidden)) { background-image:url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V3_590W.webp"); }
   #app #statistics[data-rivalry-legacy-v10] .rv-stage { background-color:transparent; }
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene { background:none; }
   #app #statistics[data-rivalry-legacy-v10] :is(.rv-adoptedPhoneStadium,.rv-adoptedPhoneManager) { display:none; }
@@ -2159,15 +2186,15 @@
 }
 @media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
   #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene {
-    background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp") center 22% / cover no-repeat;
+    background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V3.webp") center 22% / cover no-repeat;
   }
-  html[data-assets="0"] #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene { background-image:url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2_590W.webp"); }
+  html[data-assets="0"] #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene { background-image:url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V3_590W.webp"); }
 }
 /* r91 old art: small landscape windows (to 900 wide, over 500 tall, a desktop window dragged narrow) keep Team V's phone
    layout; its scene band stands in the wide tunnel room from its top (both men, heads to chins) instead of the retired
    stadium and the two cut-outs. */
 @media (max-width:900px) and (min-height:501px) and (orientation:landscape) {
-  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene { background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp") 50% 0 / cover no-repeat; }
+  #app #statistics[data-rivalry-legacy-v10] .rv-adoptedPhoneScene { background:#0b0a09 url("../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1X.webp") 50% 0 / cover no-repeat; }
   #app #statistics[data-rivalry-legacy-v10] :is(.rv-adoptedPhoneStadium,.rv-adoptedPhoneManager) { display:none; }
 }
 #app #statistics #rvTitleBlock .sd-tagline { visibility:hidden; }
@@ -2248,10 +2275,10 @@
    Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
    unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
 @media (min-width:1537px), (min-width:901px) and (min-height:865px) {
-  #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1920.webp') 1.25x); }
-  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp') 2x); }
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #legacy[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_2X.webp') 2x); }
 }
 @media (min-width:1537px), (min-width:901px) and (min-height:865px) {
-  #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp') 1.25x); }
-  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp') 2x); }
+  #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #statistics[data-rivalry-legacy-v10] .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_2X.webp') 2x); }
 }

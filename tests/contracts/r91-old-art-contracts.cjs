@@ -73,8 +73,8 @@ assert.match(sf, /@media \(min-width:901px\) and \(orientation:portrait\) \{\s*#
 
 // C5
 const BIG = "(min-width:1537px), (min-width:901px) and (min-height:865px)";
-for(const room of ["ARCHIVE", "BOARD", "BOX", "HOME", "OFFICE", "TUNNEL"]){
-    const file = `visual-assets/v10_1/plates-hc/ENV_${room}_PLATE_HC_V2_1920.webp`;
+for(const room of ["ARCHIVE", "BOARD", "BOX", "HOME", "OFFICE", "TUNNEL", "HALL", "COACHES"]){
+    const file = `visual-assets/v10_1/plates-hc/ENV_${room}_PLATE_HC_V3_1920.webp`;
     assert.ok(fs.existsSync(path.join(root, file)), `C5 ${file} exists`);
 }
 const sharp = { "css/homeV10.css": ["HOME"], "css/v10Shell.css": ["BOARD", "BOARD"], "css/v10Setup.css": ["BOX"], "css/v10Club.css": ["BOX"],
@@ -83,8 +83,20 @@ const sharp = { "css/homeV10.css": ["HOME"], "css/v10Shell.css": ["BOARD", "BOAR
 for(const [file, rooms] of Object.entries(sharp)){
     const text = read(file);
     assert.ok(text.split(BIG).length - 1 >= rooms.length, `C5 ${file} keeps its ${rooms.length} big-window room rule(s)`);
-    for(const room of new Set(rooms)) assert.match(text, new RegExp(`ENV_${room}_PLATE_HC_V2_1920\\.webp[^ ]{0,6} 1\\.25x`), `C5 ${file} draws the ${room} 1920 cut at 1.25x`);
+    for(const room of new Set(rooms)) assert.match(text, new RegExp(`ENV_${room}_PLATE_HC_V3_1920\\.webp[^ ]{0,6} 1\\.25x`), `C5 ${file} draws the ${room} 1920 cut at 1.25x`);
 }
-assert.match(read("js/touchlineGazette.js"), /PLATE_HC_V2_1920\.webp":"PLATE_HC_V2_1X\.webp"/, "C5 the Gazette takes the board room's 1920 cut on big windows");
+// HO-077: the Rule Book / Settings reading slab takes its 1920 cut on big windows too (2X master since 2026-11-13).
+assert.ok(fs.existsSync(path.join(root, "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp")), "C5 the slab's 1920 cut exists");
+{ const rs = read("css/rulesSettingsV10.css");
+  assert.ok(rs.includes(`@media ${BIG}`), "C5 Rule Book keeps its big-window slab rule");
+  assert.match(rs, /ENV_SLAB_HC_V1_1920\.webp'\) 1\.25x/, "C5 Rule Book and Settings draw the slab's 1920 cut at 1.25x"); }
+{ const cm = read("css/chamberMen.css");
+  assert.ok(cm.includes(`@media ${BIG}`), "C5 Chamber Men keeps its big-window slab rule");
+  assert.match(cm, /ENV_SLAB_HC_V1_1920\.webp"\) 1\.25x/, "C5 Chamber Men draws the slab's 1920 cut at 1.25x");
+  assert.match(cm, /@media \(min-width: 761px\), \(orientation: landscape\) \{\s*html:is\(\[data-assets="2"\]/, "C5 Chamber Men's 2X slab stays off upright phones (they keep the phone slab)"); }
+// HO-069 rooms: Start / Showdown Home (front hall) and Squad Management (coaches room) take their 1920 cut too.
+assert.match(read("css/v10Setup.css"), /ENV_HALL_PLATE_HC_V3_1920\.webp[^ ]{0,6} 1\.25x/, "C5 Start draws the hall's 1920 cut at 1.25x");
+assert.match(read("css/squadScreen.css"), /ENV_COACHES_PLATE_HC_V3_1920\.webp[^ ]{0,6} 1\.25x/, "C5 Squad Management draws the coaches room's 1920 cut at 1.25x");
+assert.match(read("js/touchlineGazette.js"), /PLATE_HC_V3_1920\.webp":"PLATE_HC_V3_1X\.webp"/, "C5 the Gazette takes the board room's 1920 cut on big windows");
 
 console.log(`PASS r91 old-art contracts (C1 no 3:2 art gate in ${files.length} files; C2 ${Object.keys(counts).length} files at or under their retired-reference pin; C3 audit in the Gate; C4 tall-window rooms; C5 sharp 1920 rooms).`);

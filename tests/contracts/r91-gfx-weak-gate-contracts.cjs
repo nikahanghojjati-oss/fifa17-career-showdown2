@@ -114,12 +114,12 @@ const chromebook = deviceOf("chromebook866"), strong = deviceOf("pc4k");
   assert.ok(settings.includes('if((value === "ultra" || value === "8k") && tier.offers && !tier.offers(value) && tier.choice() !== value){ return; }'), "Settings leaves the two rows out (a saved pick stays listed)");
   assert.ok(settings.includes('return ` ${held.join(" and ")} ${held.length > 1 ? "need" : "needs"} a passed Device check.${drawn}`;'));
   assert.ok(settings.includes("const drawn = p && Number.isInteger(p.gated) ? ` ${tier.label(p.level)} is drawn until then.` : \"\";"));
-  assert.equal((settings.match(/getSettingsGfxCheckText\(tier\)\}/g) || []).length, 3, "the sentence follows the Auto line in each of its three forms");
+  assert.equal((settings.match(/getSettingsGfxCheckText\(tier\)\}/g) || []).length, 2, "the sentence follows the Auto line in both of its forms (Auto on; a level picked)");
   // The longer line must not squeeze MENU CLICK FEEDBACK on the shared desktop line (seen at 1920x1035): the row shrinks,
   // its words wrap, and it never takes more than 58% of the line.
   const css = read("css/r78-type.css");
   assert.ok(css.includes("> .settingsPanel--motion > .settingsGfxRow { flex: 0 1 auto; max-width: 58%; margin-top: auto; gap: 12px; }"));
-  assert.ok(css.includes("> .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy { flex: 1 1 auto; min-width: 0; }"));
+  assert.ok(css.includes("> .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy { flex: 1 1 auto; min-width: 0; gap: 1px; }"));
   assert.match(docs, /2 processor threads or fewer, or 4 GB of memory or less/);
   assert.match(docs, /only once the Device check has passed/);
   ok("W6", "Settings hides the two rows and says why; docs/QUALITY_LEVELS.md says the same");

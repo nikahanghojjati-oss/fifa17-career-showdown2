@@ -35,7 +35,7 @@ names and no others.
     already built, so the move is for the scenes that follow on that page and for this scene's pixel ratio. The scene
     itself stays the level it was built at (`governor.level()`, `builtLevel(renderer)`), and a slow warm-up also starts its
     heavy parts one step down. A level found slow is not tried again on that page. That is never saved.
-- **A picked level** (Settings › 3D QUALITY) is held as picked on every screen. Settings says in one line what Auto picked (or measured) for this screen and graphics. The line is never shown on a game screen.
+- **A picked level** (Settings › 3D QUALITY) is held as picked on every screen. The list's Auto entry names the level Auto draws here ("Auto · Light"), and with a level picked a line under the row says what Auto would pick. Neither is ever shown on a game screen.
   - On a weak device (2 processor threads or fewer, or 4 GB of memory or less, as the browser reports them), Ultra (4K)
     and 8K are listed only once the Device check has passed them there (Nik 2026-11-12, after the device lab found them
     offered on a 2-thread 4 GB Chromebook). Settings says which levels wait for the check. A pick of one of them saved
@@ -65,6 +65,21 @@ names and no others.
     step 0 is the scene as built, the last step its lightest. `apply(step, why)` is the only place those parts move.
     `why` is `"start"` (behind the loading screen), `"slow"`, `"smooth"` (a step back up) or `"restore"` (steps
     that bought nothing are put back, possibly several at once): a scene must take any step from any other.
+  - Each scene's ladder, smallest loss first (a part the level does not have is not on it):
+    - Chamber Men: shadow maps every second frame; the grass blades over the box off (Extra and Ultra); the side
+      and far stands at 60% of their fans (the end behind the goal stays full); no real shadows (the soft patches
+      on the turf stay). A kick is one beat: from the run-up until 4 s after the strike. Every step in play (the
+      pixel ratio's too) cross-fades like a reset: the scene gives the governor its fade as `before()`.
+    - Russian Roulette: the dust motes in the lamp light off; a shot makes half its smoke puffs and sparks; the two
+      café tables and their chairs off (Extra and up; the café picture and the marble floor stay). A turn is one
+      beat. The shadow map is drawn once, so there is no shadow step. Every step in play is a soft cut: the frame
+      as it stands fades out over the new one (`softCut`, a plain cut under Reduce Motion).
+    - Special Player: the blur chain at half its size (the glow a little softer); the scene's
+      edge smoothing one step down (8 samples to 4, 4 to 2; not at Balanced, which already draws 2, and
+      never down to none: a GPU that does not offer the lower count keeps its edges);
+      no blur chain (the cheap in-place glow, as the pack draws without bloom). Light draws straight to the screen and has no step. A
+      reveal is one beat, from the pack's first frame until the card has settled, in play as in the Device check
+      (in 2.3.0 only the Device check held it). Every step in play is a soft cut, as in Roulette.
   - Steps are taken between beats only. While a scene holds (a kick, a turn, a reveal) nothing changes; a beat that
     ran slow steps down as it ends.
   - Slow frames for a second step down, whatever the cause (as in 2.3.0). Steps taken while the scene does not look
@@ -100,6 +115,31 @@ names and no others.
 - The saved result records, per level and screen, the frame rate, pixel ratio and buffer size that were drawn.
 - Results saved by 2.3.0's check are not read: that check could save a level one screen never drew.
 
+## The level guide
+
+Nik, 2026-11-12: "based on your graphic card, this is what we suggest, or based on your CPU ... so everyone can look at
+that table and understand what is recommended for them". It lives on the Device check page, not in a pop-up (Settings
+is full, and nothing may cover anything).
+
+- **One source.** `CareerModeGfxTier.guide()` returns everything the page shows: what this device's graphics chip,
+  processor threads and memory each say, the level Auto starts at (the lowest of the three), the level a saved check
+  measured, and six rows (which chips start at each level, what the level draws). The rows say in words what
+  `gfxClassify` does, and `tests/contracts/r91-level-guide-contracts.cjs` runs named chips through it against them.
+  The page names no chip and no level of its own.
+- **Your device** (top of the page, above Start): graphics chip, processor, memory, then "We suggest <level>".
+- **Level guide** (under the results): the six rows, this device's row marked, and under each row one real picture
+  of each 3D screen at that level.
+- **Honest words.** The guide says where Auto starts and why; it promises no frame rate. "Holds 60 fps" is said only
+  of this device, after a finished check that held its level. On a weak device the card says Ultra (4K) and 8K are
+  offered only after the check passes them.
+- **The pictures** (`assets/level-guide/<screen>-<level>.webp` and a small `-s.webp`): captured from the real
+  screens, one fixed view each, the same for every level. They show how a level looks and say nothing about
+  speed. They load lazily on the Device check page only: never in the worker's install list, never on the game page.
+- **Finding it from Settings.** Under 3D QUALITY a gold link, "Device check and guide ›", opens the page; the list's
+  last entry, "Device check…", still does. The Auto entry reads "Auto · Light" (the level Auto draws on this device),
+  so the pick the game made is in plain sight. With Auto on, the line under the row only adds what the list cannot
+  say: "Measured by the Device check.", "Lowered after a graphics error.", and which levels wait for the check.
+
 ## How a screen joins
 
 **A 3D screen** (WebGL: Russian Roulette, Chamber Men, Special Player):
@@ -112,6 +152,7 @@ await CareerModeGfxTier.calibrate(renderer, draw);           // behind the loadi
 const gov = CareerModeGfxTier.governor(renderer, {key: "scene", draw, info});   // info(): what was built, for the Device check
 gov.hold(true); /* a kick, a turn, a reveal */ gov.hold(false);                 // one beat: no quality step inside it
 // heavy parts the governor may step between beats: governor(renderer, {..., beats: true, detail: {steps, apply}})
+// a scene that can fade one picture into the next: governor(renderer, {..., before})   // called ahead of every change in play
 // MSAA for a render target: CareerModeGfxTier.samples(renderer, want, halfFloat) and checkTarget(renderer, target)
 // its own out-of-memory sign: CareerModeGfxTier.fallback(reason)
 ```

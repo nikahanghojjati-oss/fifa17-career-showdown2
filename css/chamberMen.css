@@ -425,3 +425,26 @@
   #cmStage { background-image: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
   html[data-assets="0"] #cmStage { background-image: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp"); }
 }
+/* HO-077 (Team V, 2026-11-13): the slab's 2X master and its 1920 cut, the same rule as the Rule Book and Settings
+   (css/rulesSettingsV10.css). Everywhere the desktop slab shows (not on upright phones and tablets, which keep the phone
+   slab above), High and up add the 2X; big windows draw the 1920 cut at 1.25x so it covers the same CSS size as the 1X. */
+@media (min-width: 761px), (orientation: landscape) {
+  html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #cmStage { background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp") 2x); }
+}
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  #cmStage { background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp") 1.25x); }
+  html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #cmStage { background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp") 1.25x, url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp") 2x); }
+}
+
+/* r91 HO-071 (Nik's pick, 2026-11-11): the header title is drawn in the one title family (Team V's V3 "Honours Board"
+   lettering) instead of Barlow Condensed capitals. The words stay in the heading (its box, the header grid and the
+   screen-reader label are unchanged) but are not painted; the lettering is laid over them, centred, at the same capital
+   height the text had (the picture's capitals are half its height, Barlow's are about 0.7em, so 1.4em tall).
+   Only the header title: "Chamber Men could not load" keeps its plain heading. */
+#cmStage .cmHeader > .cmTitle { position: relative; color: transparent; }
+#cmStage .cmHeader > .cmTitle::after {
+  content: ""; position: absolute; left: 50%; top: 50%; height: 1.4em; width: min(calc(1.4em * 6.617), calc(100vw - 32px));
+  transform: translate(-50%, -50%); pointer-events: none;
+  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_960.webp") center / contain no-repeat;
+  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_1920.webp") 2x);
+}

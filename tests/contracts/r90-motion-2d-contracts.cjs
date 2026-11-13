@@ -66,7 +66,45 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   const size=file=>fs.statSync(path.join(ROOT,W+file)).size;
   assert.ok(size("home/assets/LOGO_CM17_WORDMARK_V3_640.webp")<size("home/assets/LOGO_CM17_WORDMARK_V1_640W.webp")&&size("home/assets/LOGO_CM17_WORDMARK_V3_1040.webp")<size("home/assets/LOGO_CM17_WORDMARK_V1.webp"),"the Home logo got lighter");
   for(const [,asset] of titles)for(const step of STEPS)assert.ok(size(`${asset}_V3_${step}.webp`)<size(`${asset}_V2_${step}.webp`),`${asset} ${step} is lighter than V2`);
-  ok("M27","the V3 title family: real srcset widths, one shared title height, old boxes kept, lighter files");}
+  // In-game headers (Chamber Men, Squad Management, Prime Pack): the heading keeps its words and its box; the V3 lettering is laid
+  // over it at the capital height the text had (1.4em), with the picture's own width/height ratio, so it is never stretched.
+  for(const [file,sel,asset,prefix] of [["css/chamberMen.css","#cmStage .cmHeader > .cmTitle","TITLE_CHAMBER_MEN","../visual-assets/v10_1/shared/wordmarks/"],
+    ["css/squadScreen.css","#sqStage .sqHeader>.sqTitle","TITLE_SQUAD","../visual-assets/v10_1/shared/wordmarks/"],["visual-assets/v10_1/icon-guess/index.html",".packtitle","TITLE_PRIME_PACK","../shared/wordmarks/"]]){
+    const src=read(file),at=src.indexOf(sel+"::after"),rule=src.slice(at,src.indexOf("}",at));assert.ok(at>=0,`${file} draws ${asset} over its heading`);
+    const [w,hh]=dims(`${W}shared/wordmarks/${asset}_V3_1920.webp`),m=/height: ?1\.4em;.*width: ?min\(calc\(1\.4em \* ([\d.]+)\)/.exec(rule);
+    assert.ok(m&&Math.abs(Number(m[1])-w/hh)<0.01,`${asset} keeps its own ratio (${(w/hh).toFixed(3)})`);
+    for(const step of [960,1920])assert.ok(rule.includes(`${prefix}${asset}_V3_${step}.webp`),`${asset} ${step} is drawn`);
+    assert.match(src.slice(src.lastIndexOf(sel,at-1)-2,at),/color: ?transparent/,`${asset}: the words stay in the heading, unpainted`);}
+  ok("M27","the V3 title family: real srcset widths, one shared title height, old boxes kept, lighter files; in-game headers keep their box");}
+// M28 (Nik 2026-11-12: every phone and tablet screen matches its desktop screen). Two things were still desktop-only:
+// the flat dark slab behind the numbers (the phone and tablet rules of Career Statistics and of the Final Winner results
+// panel still painted the vein tile), and the title family (tablets and sideways phones lettered the set-up header bar
+// "CAREER MODE / SHOWDOWN // 17" in the old block type). The bar keeps its words; they are drawn with the V3 Home logo.
+{const career=read("js/careerScreensV10.js"),final=read("js/seasonFinalV10.js"),type=read("css/r78-type.css");
+  const csPhone=career.match(/@media \$\{CS_PHONE_ART_MEDIA\} \{\n  #app #careerStatistics\.careerScreenV10 :is\(\.glassPanel,\.headlineTile,\.phoneTabs\) \{\n([^}]*)\}/);
+  assert.ok(csPhone,"the Career Statistics phone and tablet panel rule is found");
+  assert.doesNotMatch(csPhone[1],/marble-tile/,"Career Statistics panels on phone and tablet: no vein tile behind the numbers");
+  assert.match(csPhone[1],/var\(--r78-panel,#110f0c\);/,"Career Statistics panels on phone and tablet: the flat dark slab");
+  const fwPhone=final.match(/#app #seasonEntry\.v10FinalMode #stage-root \.finalWinnerResultsPanel \{\n  z-index:11;([^}]*)\}/);
+  assert.ok(fwPhone,"the Final Winner phone and tablet results panel rule is found");
+  assert.doesNotMatch(fwPhone[1],/marble-tile/,"Final Winner results panel on phone and tablet: no vein tile behind the numbers");
+  assert.match(fwPhone[1],/#110f0c;/,"Final Winner results panel on phone and tablet: the flat dark slab");
+  const C='html[data-v10-setup]:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topHeader > div.brand';
+  const at=type.indexOf(C+'::after {');assert.ok(at>0,"the set-up header draws its brand in ::after");
+  const rule=type.slice(at,type.indexOf("}",at));
+  for(const step of [640,1040])assert.ok(rule.includes(`../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_${step}.webp`),`the header draws the V3 Home logo (${step})`);
+  const [lw,lh]=(b=>[1+b.readUIntLE(24,3),1+b.readUIntLE(27,3)])(fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp")));
+  assert.ok(rule.includes(`aspect-ratio: ${lw} / ${lh}`),"the header logo keeps the picture's own shape");
+  assert.match(rule,/width: min\(100%, 204px\)/,"the header logo never leaves the brand's own box, so it cannot reach SIGN IN");
+  assert.ok(type.includes(C+' > :is(h1, p) {\n  color: transparent !important;'),"the old block lettering is unpainted, the words stay for screen readers");
+  assert.doesNotMatch(type,/:root[^{]*header#topHeader > div\.brand::after/,"only set-up screens (data-v10-setup) draw the header logo, so Home loads nothing new");
+  ok("M28","phones and tablets: flat slab behind the stats numbers, and the set-up header wears the V3 logo");}
+// M29 (face check row A1): the Final Winner spotlight ovals were lights for the old cut-outs. On the one-piece board room
+// they hazed both faces, so no size draws them; the audit's KNOWN list carries no art row for them.
+{const js=read("js/seasonFinalV10.js"),audit=read("tests/browser/phone-marble-facecheck-audit.cjs");
+  assert.match(js,/\n#app #seasonEntry \.finalWinnerManagerSpotlight \{ display:none; \}\n/,"the spotlight ovals are left out at every size");
+  assert.doesNotMatch(audit.slice(audit.indexOf("const KNOWN = ["),audit.indexOf("// WAITING:")),/FINAL_WINNER/,"Final Winner has no known face row");
+  ok("M29","Final Winner draws no spotlight oval over the managers' faces");}
 // CLS (W9 row): the top bar's 52 px is reserved from the first paint in every nav state, so a screen laid out under the
 // loading screen or the Reus Gate (data-nav "none") does not jump when the bar comes back; Club stays unseen until its look is on.
 {const shell=read("css/v10Shell.css"),club=read("css/v10Club.css");
