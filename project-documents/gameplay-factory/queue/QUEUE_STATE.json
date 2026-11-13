@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-13T00:32:54Z",
+ "updated": "2026-11-13T00:37:24Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -3107,14 +3107,14 @@
    "pr": 647,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/647",
-   "branch": "study/job-1314-blocked"
+   "branch": null
   },
   "1315": {
    "state": "closed",
    "pr": 632,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/632",
-   "branch": "study/job-1315-legacy-phone-c-compact"
+   "branch": null
   },
   "1316": {
    "state": "merged",
