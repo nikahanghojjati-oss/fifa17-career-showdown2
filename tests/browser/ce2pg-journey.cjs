@@ -30,6 +30,10 @@ const gazette=require("./support/touchline-gazette.cjs");
 //   CE2PG_PAGES_EVERY (career pages after every Nth season; default 1, 3 for 10 seasons; the first, last and every Showdown end are
 //   always checked), CE2PG_RELOAD_EVERY (both players reload before the page check of every Nth season; default 2),
 //   CE2PG_DEBUG=1 (print raw screen text),
+//   Opt-in hunt flags (r92, none of them in the Gate): CE2PG_RELOAD_AT="key:season:who[:delayMs],..." reloads a phone at a step of the Chamber Men, Squad,
+//   Russian Roulette or Prime Pack screens and walks it back in (keys in tests/browser/support/roster-roulette.cjs; each rule fires once);
+//   CE2PG_FORGET_AT="K:daniel|nik" wipes that manager's kept squad sheets on Season Results of season K, before the commit;
+//   CE2PG_FINAL_SETTLED=1 takes the settled Final Winner 6 s later and prints where the two totals sit against the panel.
 //   CE2PG_OUTAGES=1 (r87 connectivity: every season one phone loses its connection at a different step, in turn: the
 //   transfer window, the moment it taps PUBLISH, while the partner commits, a tab killed right after CONFIRM SEASON, and the
 //   CONTINUE tap; see OUTAGE_KINDS. The page goes offline and hidden like a locked phone, then comes back online and visible).
@@ -39,9 +43,12 @@ const gazette=require("./support/touchline-gazette.cjs");
 //   that tree first; the Showdown starts and plays CE2PG_UPGRADE_AFTER (default 1) season(s) on it, then, right after CONTINUE
 //   TO SEASON k+1, the server switches to this tree, both phones drop their service worker and caches (the update the phone
 //   applies on Home, proven on its own by tests/browser/r87-upgrade-from-r86-audit.cjs) and reload into the new build in the
-//   middle of the live Showdown, which then plays to the end with every check. The seasons played on the old tree skip the r87-only
-//   checks (Gazette, signing overall/position, r87 Shared History wording); Daniel's emulator runs with the composed Rules of
-//   THIS tree throughout (the Rules deploy goes first).
+//   middle of the live Showdown, which then plays to the end with every check. On an r86 tree (1.x) the seasons played on the old tree skip the
+//   r87-only checks (Gazette, signing overall/position, r87 Shared History wording). From r92 the old tree can also be the release before this
+//   one (2.x, for 2.4.0 the 2.3.0 tree: `git worktree add ../v230 origin/main`): it is played like this tree (OVR and POS filled so LOCK MY
+//   SIGNINGS locks, Serie A TIM, Gazette and Shared History checked), with result words matched as CONFIRMED or PUBLISHED, and after the
+//   update both phones return to the game together. Daniel's emulator runs with the composed Rules of THIS tree throughout (the Rules
+//   deploy goes first).
 // Output: test-results/<tag>.json (every check, problem, raw screen text and the meter) and screenshots in test-results/<tag>/.
 // Test database only (demo project on the local emulators). Never touches production Firebase. Not a Gate lane (main about 20 min,
 // 10 seasons about 19 min on a 4-core runner; over the ~15 min Gate budget).
@@ -164,6 +171,14 @@ function gazetteDiff({key,list}){const[a,b]=list;let i=0;while(i<a.length&&i<b.l
 async function gazetteForget(m){if(GAZETTE_FORGET.includes(m.user))await m.page.evaluate(()=>{try{localStorage.removeItem("careerModeShowdown.squadSheets.v1");}catch(_error){}}).catch(()=>{});}
 const takeNewDevice=(season,point)=>NEWDEVICE.filter(n=>!n.done&&n.season===season&&n.point===point);
 let servingOld=Boolean(UPGRADE_FROM),appServer=null;
+// r92 (T1): which tree the upgrade run starts on. An r86 tree (1.9.x) has its own wording and no OVR/POS fields to fill; a 2.x tree (2.3.0, the
+// release before this one) plays like this tree: OVR and POS are filled (LOCK MY SIGNINGS locks on it), Serie A TIM, the Gazette and the Shared
+// History panel are there. Only the words that changed in 2.4.0 differ (see PUBLISHED below).
+const OLD_ERA=(()=>{if(!UPGRADE_FROM)return "";try{const rev=fs.readFileSync(path.join(UPGRADE_FROM,"service-worker.js"),"utf8").match(/const RUNTIME_REVISION = "([^"]+)"/)?.[1]||"";return /^1\./.test(rev)?"r86":"2.x";}catch(_e){return "r86";}})();
+const oldIsR86=()=>servingOld&&OLD_ERA==="r86";
+// this tree's asset revision (index.html), which a phone that took the update shows in its page; "" when the page has none
+const NEW_REVISION=(()=>{try{return fs.readFileSync(path.join(ROOT,"index.html"),"utf8").match(/<meta name="app-asset-revision" content="([^"]+)"/)?.[1]||"";}catch(_e){return "";}})();
+// The result-confirmed words are matched as (CONFIRMED|PUBLISHED) below: 2.4.0 says CONFIRMED (#1441), 2.3.0 said PUBLISHED.
 function startAppServer(rewrites=[]){
   appServer=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT),...(servingOld?{CMS_TEST_ROOT:UPGRADE_FROM}:{}),CMS_TEST_REWRITE:JSON.stringify(rewrites)}});
   return new Promise(resolve=>setTimeout(resolve,800));
@@ -224,7 +239,7 @@ const report={
     "Showdown Champion screen, HONOURS tab, BACK TO SHOWDOWN HOME; Settings > END SHOWDOWN (Showdown C)",
     "end: both reload after their local storage is wiped; a brand-new browser signs in as Daniel and as Nik and reads every page"],
   seededSteps:[
-    "Local storage is wiped with a page script (localStorage.clear()) before the end reload; sign-in lives in sessionStorage and is left alone",
+    "Local storage is wiped with a page script (localStorage.clear()) on a plain same-origin document (the manifest), never under the open game, before the end reload; sign-in lives in sessionStorage and is left alone",
     "Auth: the Google popup is answered by the Firebase Auth emulator (tests/browser/support/emulator-runtime-switch.js)",
     "The Transfer Challenge's 15-minute window is ended early by both managers; guesses and signings are fixed typed values",
     "Season result numbers are typed from a seeded plan (they stand in for what the managers read off their FIFA 17 careers)",
@@ -456,6 +471,18 @@ async function openManager(browser,account,label=account,reuse=null){
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
   return m;
 }
+// r92 (W1): what a phone's Shared Season Commit says when the run stops, so a CONFIRM SEASON that did not land can be read afterwards: the
+// module's own view (phase and the fields it keeps), the action button (words, disabled, busy, shown), the status line (a failed season check
+// names its read error there: "SEASON CHECK FAILED · ..."), the review error line (a failed write shows its message there) and the heading.
+async function seasonCommitState(m){
+  return m.page.evaluate(()=>{
+    const text=id=>{const n=document.getElementById(id);return n?(n.textContent||"").replace(/\s+/g," ").trim().slice(0,240):null;};
+    const a=document.getElementById("sharedSeasonCommitAction");
+    let view=null;try{const v=window.CareerModeProductionSharedSeasonCommit?.getState?.();view=v?JSON.parse(JSON.stringify(v,(k,x)=>typeof x==="string"&&x.length>160?x.slice(0,160):x)):null;}catch(e){view={error:String(e&&e.message||e).slice(0,160)};}
+    return {at:new Date().toISOString(),viewPhase:view?.phase??null,view,action:a?{text:(a.textContent||"").trim(),disabled:a.disabled===true||a.getAttribute("aria-disabled")==="true",busy:a.getAttribute("aria-busy")==="true",shown:a.getClientRects().length>0}:null,
+      status:text("sharedSeasonCommitStatus"),readError:/SEASON CHECK FAILED/.test(text("sharedSeasonCommitStatus")||"")?text("sharedSeasonCommitStatus"):null,writeError:text("seasonReviewError"),heading:text("seasonReviewHeading"),season:text("seasonIndicator")};
+  }).catch(e=>({error:String(e&&e.message||e).slice(0,200)}));
+}
 async function reload(m){
   await m.page.reload({waitUntil:"domcontentloaded"});
   await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
@@ -647,7 +674,7 @@ async function playTransfers(daniel,nik,tag){
   await budgetWait("transfer-guesses");
   await nik.page.getByRole("button",{name:"LOCK MY GUESSES",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"signing_entry");await waitTransferPhase(daniel,"signing_entry");
-  await daniel.page.locator("#p1Signing1Name").fill(tokenD);if(!servingOld){await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");}await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
+  await daniel.page.locator("#p1Signing1Name").fill(tokenD);if(!oldIsR86()){await daniel.page.locator("#p1Signing1Overall").fill("71");await daniel.page.locator("#p1Signing1Position").selectOption("ST");}await fillCombo(daniel,"p1Signing1League","Premier League");await fillCombo(daniel,"p1Signing1Nationality","England");
   const namesake=NAMESAKE&&!servingOld?await fillNamesake(daniel):null;
   await daniel.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   if(namesake){
@@ -661,7 +688,7 @@ async function playTransfers(daniel,nik,tag){
   await privateTokenAbsent(nik,tokenD.split(" ")[0],`${showdownNow}.S${seasonNow}.transfer.privacy`,"Daniel's locked signing stays hidden from Nik before completion");
   await waitTransferState(nik,"signingLockedRoles","playerOne");await waitTransferPhase(nik,"signing_entry");
   await budgetWait("transfer-signings");
-  await nik.page.locator("#p2Signing1Name").fill(tokenN);if(!servingOld){await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");}await fillCombo(nik,"p2Signing1League",servingOld?"TIM Serie A":"Serie A TIM");await fillCombo(nik,"p2Signing1Nationality","Brazil");
+  await nik.page.locator("#p2Signing1Name").fill(tokenN);if(!oldIsR86()){await nik.page.locator("#p2Signing1Overall").fill("71");await nik.page.locator("#p2Signing1Position").selectOption("ST");}await fillCombo(nik,"p2Signing1League",oldIsR86()?"TIM Serie A":"Serie A TIM");await fillCombo(nik,"p2Signing1Nationality","Brazil");
   await nik.page.getByRole("button",{name:"LOCK MY SIGNINGS",exact:true}).click({timeout:30000});
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
 }
@@ -702,7 +729,7 @@ async function prepareReview(m){
 async function publish(m){
   await prepareReview(m);
   await tapPublish(m);
-  await m.page.waitForFunction(()=>/YOUR RESULT IS CONFIRMED|BOTH MANAGERS CONFIRMED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
+  await m.page.waitForFunction(()=>/YOUR RESULT IS (CONFIRMED|PUBLISHED)|BOTH MANAGERS (CONFIRMED|PUBLISHED)/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
   if(SACKED){await m.page.waitForTimeout(800);await shot(m,`${showdownNow}-S${seasonNow}-sacked-published`);}
 }
 // The publish tap with no connection (outage "publish"). While offline the screen may show progress or an error, never
@@ -711,18 +738,18 @@ async function publishThroughOutage(m,k){
   const role=m.account==="daniel"?"playerOne":"playerTwo",rid=ctxRef.entry?.rivalryId;
   await prepareReview(m);
   // The signal drops as the tap lands (offline first would put CONNECTION REQUIRED over the screen before the tap).
-  await Promise.all([m.page.locator("#confirmSeasonCompletion").click({timeout:30000}),m.page.waitForTimeout(40).then(()=>goDark(m,{hidden:false}))]);
+  await m.page.locator("#confirmSeasonCompletion").click({timeout:30000});await goDark(m,{hidden:false});
   const end=Date.now()+OUTAGE_MS;let fake=null;
   while(Date.now()<end){
     const heading=(await m.page.locator("#seasonReviewHeading").textContent().catch(()=>""))||"";
-    if(/YOUR RESULT IS CONFIRMED|BOTH MANAGERS CONFIRMED/.test(heading)&&rid&&!(await admin(`rivalries/${rid}/seasonResults/season_${k}/roles/${role}`)))fake=heading;
+    if(/YOUR RESULT IS (CONFIRMED|PUBLISHED)|BOTH MANAGERS (CONFIRMED|PUBLISHED)/.test(heading)&&rid&&!(await admin(`rivalries/${rid}/seasonResults/season_${k}/roles/${role}`)))fake=heading;
     await m.page.waitForTimeout(1000);
   }
   const offlineText=await describe(m);
   await comeBack(m);
   await check(m,`${showdownNow}.S${k}.outage.publish.noFake`,"offline, the screen never says the result is published while Firebase does not have it",!fake,`showed "${fake}"`,{screen:"Shared Season Results"});
   // Back online: wait for the publish to land; if the screen offers PUBLISH again (the offline attempt failed), tap it once.
-  const isPublished=()=>m.page.evaluate(()=>/YOUR RESULT IS CONFIRMED|BOTH MANAGERS CONFIRMED/.test(document.getElementById("seasonReviewHeading")?.textContent||"")).catch(()=>false);
+  const isPublished=()=>m.page.evaluate(()=>/YOUR RESULT IS (CONFIRMED|PUBLISHED)|BOTH MANAGERS (CONFIRMED|PUBLISHED)/.test(document.getElementById("seasonReviewHeading")?.textContent||"")).catch(()=>false);
   const button=()=>m.page.evaluate(()=>{const b=document.getElementById("confirmSeasonCompletion");return b?{text:(b.textContent||"").trim(),disabled:b.disabled===true||b.getAttribute("aria-disabled")==="true",shown:b.getClientRects().length>0,error:(document.querySelector("#seasonReviewPanel .seasonReviewError, #seasonEntry [role=alert]")?.textContent||"").trim().slice(0,160)}:null;}).catch(()=>null);
   let taps=0,ok=false;const trail=[];const by=Date.now()+60000;
   while(Date.now()<by){
@@ -743,6 +770,8 @@ async function playSeasonResults(daniel,nik,k,planSeason){
     await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
   }
   await budgetWait("results-entry");
+  // r92 (T4, opt-in): CE2PG_FORGET_AT="K:daniel|nik" wipes that manager's kept squad sheets on Season Results of season K, before the commit.
+  {const hf=/^(\d+):(daniel|nik)$/.exec(process.env.CE2PG_FORGET_AT||"");if(hf&&Number(hf[1])===k){const m=hf[2]==="daniel"?daniel:nik;const had=await m.page.evaluate(()=>{const v=localStorage.getItem("careerModeShowdown.squadSheets.v1");localStorage.removeItem("careerModeShowdown.squadSheets.v1");return v?Object.keys(JSON.parse(v)).length:0;});console.log(`FORGET ${m.user}'s kept squad sheets on Season Results of season ${k} (had ${had} entries)`);}}
   const mode=k%3===0?"simultaneous":k%2===1?"daniel-first":"nik-first";
   const fill={daniel:()=>fillSeasonResult(daniel,"p1",planSeason.daniel),nik:()=>fillSeasonResult(nik,"p2",planSeason.nik)};
   if(mode==="simultaneous"){
@@ -758,13 +787,13 @@ async function playSeasonResults(daniel,nik,k,planSeason){
     await budgetWait("results-published");
     await fill[second.account]();await publish(second);
   }
-  for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS CONFIRMED",null,{timeout:45000});
+  for(const m of [daniel,nik])await m.page.waitForFunction(()=>["BOTH MANAGERS CONFIRMED","BOTH MANAGERS PUBLISHED"].includes(document.getElementById("seasonReviewHeading")?.textContent),null,{timeout:45000});
   return mode;
 }
 async function commitSeason(daniel,nik,k,planSeason,final){
   await daniel.page.waitForFunction(()=>document.getElementById("sharedSeasonCommitAction")?.textContent==="LOCK & CONFIRM SEASON",null,{timeout:45000});
   await nik.page.waitForFunction(()=>["WAITING FOR DANIEL","WAITING FOR HOST","CONFIRM SEASON"].includes(document.getElementById("sharedSeasonCommitAction")?.textContent),null,{timeout:45000});
-  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()===(servingOld?"WAITING FOR HOST":"WAITING FOR DANIEL"))await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
+  if(await nik.page.locator("#sharedSeasonCommitAction").textContent()===(oldIsR86()?"WAITING FOR HOST":"WAITING FOR DANIEL"))await check(nik,`${showdownNow}.S${k}.commit.coordinator`,"Nik cannot commit the season",await nik.page.locator("#sharedSeasonCommitAction").isDisabled(),"button enabled",{screen:"Shared Season Commit"});
   await budgetWait("commit");
   const kind=outageKind(k);
   if(kind==="commit")await goDark(nik);
@@ -842,7 +871,7 @@ async function nikBackAfterKill(nik,k,final){
 }
 // Shared History panel (after every non-final season) against this Showdown's running tally.
 async function checkSharedHistory(m,k,total,seasons){
-  if(servingOld){report.observations.push({where:"shared history",user:m.user,season:k,skipped:"r86 build (its own wording); checked again on 2.0.0"});return;}
+  if(oldIsR86()){report.observations.push({where:"shared history",user:m.user,season:k,skipped:"r86 build (its own wording); checked again on 2.0.0"});return;}
   const t=tally(seasons.slice(0,k));
   try{await m.page.locator("#sharedHistoryConvergencePanel").waitFor({state:"visible",timeout:45000});}
   catch(_e){await check(m,`${showdownNow}.S${k}.history.visible`,"Shared History panel appears",false,"panel never became visible",{screen:"Shared History"});return;}
@@ -868,13 +897,13 @@ async function continueToSeason(daniel,nik,next,total){
     await m.page.waitForFunction(n=>document.getElementById("sharedMultiSeasonContinueAction")?.textContent===`CONTINUE TO SEASON ${n}`,next,{timeout:45000});
     if(dark&&m===daniel){
       // The signal drops as CONTINUE is tapped and the phone is locked a moment later.
-      await Promise.all([m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000}),m.page.waitForTimeout(40).then(()=>goDark(m,{hidden:false}))]);
+      await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});await goDark(m,{hidden:false});
       await m.page.waitForTimeout(2000);await setHidden(m,true);
       await m.page.waitForTimeout(OUTAGE_MS);await comeBack(m);
     }else{await gazetteForget(m);await m.page.locator("#sharedMultiSeasonContinueAction").click({timeout:30000});}
     // r87 Touchline Gazette: the season paper opens first, once per phone; its CONTINUE runs the same step.
     const paper=await gazette.passGazette(m.page,"season");
-    if(!servingOld&&(!paper||!paper.endsWith(`|season|${next-1}`)))throw new Error(`${m.user||"manager"} did not see the season-${next-1} Touchline Gazette after CONTINUE TO SEASON ${next} (${paper})`);
+    if(!oldIsR86()&&(!paper||!paper.endsWith(`|season|${next-1}`)))throw new Error(`${m.user||"manager"} did not see the season-${next-1} Touchline Gazette after CONTINUE TO SEASON ${next} (${paper})`);
     await m.page.waitForFunction(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${next} / ${total}`,{timeout:30000});
     toRoulette.push(m.page);
   }
@@ -978,8 +1007,8 @@ async function upgradeBoth(daniel,nik,sessionCode,k){
   for(const m of [daniel,nik])await m.page.evaluate(async()=>{try{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister();}catch(_e){}try{for(const k of await caches.keys())await caches.delete(k);}catch(_e){}});
   await reloadBoth(daniel,nik,sessionCode);
   for(const m of [daniel,nik]){
-    const fresh=await m.page.evaluate(()=>Boolean(document.getElementById("p1Signing1Overall")));
-    await check(m,`${showdownNow}.S${k}.upgrade.build`,"after the update the phone runs the new build",fresh,"still the r86 page",{screen:"Update"});
+    const fresh=await m.page.evaluate(rev=>Boolean(document.getElementById("p1Signing1Overall"))&&(!rev||document.querySelector('meta[name="app-asset-revision"]')?.content===rev),NEW_REVISION);
+    await check(m,`${showdownNow}.S${k}.upgrade.build`,"after the update the phone runs the new build",fresh,"still the old page",{screen:"Update"});
     const screen=await m.page.evaluate(()=>typeof window.getActiveScreenName==="function"?window.getActiveScreenName():null);
     report.observations.push({where:"upgrade",user:m.user,season:k,screen});
   }
@@ -1293,6 +1322,12 @@ async function checkFinalWinnerScreen(m,seasons){
   const summaryTab=m.page.locator("label[for='finalWinnerTabSummary']");
   if(await summaryTab.isVisible().catch(()=>false))await summaryTab.click({timeout:5000}).catch(()=>{});
   await shot(m,`${showdownNow}-final-winner`);
+  // r92 (T4, opt-in): CE2PG_FINAL_SETTLED=1 takes the settled Final Winner 6 s later and reads where the two totals sit against the panel under them.
+  if(process.env.CE2PG_FINAL_SETTLED==="1"){try{await m.page.waitForTimeout(6000);await shot(m,`${showdownNow}-final-winner-settled`);
+    const geo=await m.page.evaluate(()=>{const r=n=>{if(!n)return null;const b=n.getBoundingClientRect();return [Math.round(b.left),Math.round(b.top),Math.round(b.right),Math.round(b.bottom)];};const nums=[...document.querySelectorAll("#seasonEntry .finalWinnerManager .sd-number")];
+      const hit=nums.map(n=>{const b=n.getBoundingClientRect();const pts=[.2,.5,.8].map(f=>{const e=document.elementFromPoint(b.left+b.width/2,b.top+b.height*f);return e?(e===n||n.contains(e)?"self":`${e.tagName.toLowerCase()}${e.id?"#"+e.id:""}.${String(e.className||"").split(" ").slice(0,2).join(".")}`):"none";});return {text:n.textContent,box:r(n),over:pts};});
+      const panel=document.querySelector("#seasonEntry .finalWinnerTabs, #seasonEntry [role=tablist]");return {view:[innerWidth,innerHeight],nums:hit,tabs:r(panel),totals:r(document.querySelector("#seasonEntry .finalWinnerTotals"))};});
+    console.log(`FINAL_SETTLED final-winner ${m.user} ${JSON.stringify(geo)}`);}catch(e){console.log(`FINAL_SETTLED final-winner error ${String(e.message||e).slice(0,160)}`);}}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------
@@ -1616,7 +1651,8 @@ async function playShowdown(ctx,spec){
         if(RELOAD_EVERY&&k%RELOAD_EVERY===0)await phase(`${spec.name}-S${k}-reload`,()=>reloadBoth(daniel,nik,sessionCode));
         await careerCheckpoint(ctx,`${spec.name}.S${k}`,{live:entry,settingsLive:true});
         if(k===playedTo&&spec.endAfter)break;// END SHOWDOWN follows from Home
-        for(const m of [daniel,nik])await returnToGame(m,k+1,spec.length);
+        // r92 (T1): after the update both phones come back together (the new Squad screen waits for the partner's phone, so one after the other stalled)
+        if(UPGRADE_FROM)await Promise.all([daniel,nik].map(m=>returnToGame(m,k+1,spec.length)));else for(const m of [daniel,nik])await returnToGame(m,k+1,spec.length);
       }
       const end=mark(`${spec.name}:S${k}:end`);
       meterEntry(`${spec.name} season ${k}${k===1?" (incl. START, pairing, setup)":""}${pagesDue?" + both players' page checks":""}`,seasonStart,end,{play:[seasonStart,playEnd]});
@@ -1831,9 +1867,14 @@ async function main(){
     const raws={daniel:report.raw[report.checkpoints.at(-1).label].daniel,nik:report.raw[report.checkpoints.at(-1).label].nik};
     await phase("storage-wipe",async()=>{
       for(const m of [daniel,nik]){
+        // r92 (T3): the page is taken off the game before its storage is wiped (a game page that finds its own storage empty under it logs
+        // "The Save Library could not be inspected safely"). The same origin's manifest is a plain document with no game script; the
+        // game is opened again from the address, as a phone that lost its storage would.
+        await m.page.goto(new URL("manifest.webmanifest",BASE).href,{waitUntil:"domcontentloaded"});
         const keys=await m.page.evaluate(()=>{const k=Object.keys(localStorage);try{localStorage.clear();}catch(_e){}return k;});
         report.observations.push({where:"storage wipe",user:m.user,localStorageKeys:keys});
-        await reload(m);
+        await m.page.goto(urlFor(m.account),{waitUntil:"domcontentloaded"});
+        await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
         await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false);},null,{timeout:30000}).catch(()=>{});
         const raw=await captureCareer(m,"wiped");raws[`${m.user}-wiped`]=raw;
         await checkCareerPages(m,raw,`end.wiped.${m.user}`,ctx.career,{settingsLive:false});
@@ -1859,7 +1900,7 @@ async function main(){
   }catch(error){
     failure=error;
     report.fatal={message:String(error&&error.message||error).slice(0,1500),stack:String(error&&error.stack||"").split("\n").slice(0,8).join("\n")};
-    for(const m of managers){report.fatal[`state_${m.user}`]=await describe(m);await addProblem(m,"fatal",`journey stopped (${showdownNow} season ${seasonNow})`,`${report.fatal.message} | ${report.fatal[`state_${m.user}`]}`,{severity:"harness-or-game",name:"fatal"});}
+    for(const m of managers){report.fatal[`seasonCommit_${m.user}`]=await seasonCommitState(m);report.fatal[`state_${m.user}`]=await describe(m);await addProblem(m,"fatal",`journey stopped (${showdownNow} season ${seasonNow})`,`${report.fatal.message} | ${report.fatal[`state_${m.user}`]}`,{severity:"harness-or-game",name:"fatal"});}
   }finally{
     seasonNow=0;showdownNow="zz";
     for(const m of [...managers,...retired]){
