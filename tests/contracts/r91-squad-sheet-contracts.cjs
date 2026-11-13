@@ -501,5 +501,31 @@ ok('C8','the RRR board from a sheet is 11 slots then 4 subs');
     for(const k of ['readStorageValue','writeStorageValue','CareerModeProductionFirebaseRuntime'])delete globalThis[k];
     ok('C15','review of #1390: gazetteEnsure reads only the missing "pre" sheets a paper needs (at most 4, once, kept), none on a phone that has them, so both phones tell the same squad news');
   }
+  // C16 (CI run 43160602051, 2026-11-12): Nik's "post" LOCK was tapped 11 times in 60 s and never locked. 11 taps in 60 s is
+  // the helper's 5 s click timeout plus its 0.5 s step each time, so no tap reached the button; but the helper threw the
+  // click's own error away, so nobody could see what stood in the way. A lock tap that fails now says why (Playwright's own
+  // words, what sits at LOCK's centre, every layer over the stage) and the stall report carries the last taps.
+  {
+    const R=require('../../tests/browser/support/roster-roulette.cjs');
+    const why='locator.click: Timeout 5000ms exceeded.\nCall log:\n  - <div id="loadingScreen">…</div> intercepts pointer events';
+    let clicks=0;const logged=[],log=console.log;
+    const none={isVisible:async()=>false,isEnabled:async()=>false,click:async()=>{throw new Error('not here');}};
+    const lock={isVisible:async()=>true,isEnabled:async()=>true,click:async()=>{clicks+=1;throw new Error(why);}};
+    const stage={isVisible:async()=>true,getAttribute:async name=>name==='data-stage'?'post':null,
+      locator:sel=>sel==='.sqmBtn.is-primary'?lock:none,
+      evaluate:async(_fn,failed)=>failed===undefined?false:({status:'Your kept signings are in and the Roulette\'s shot has left. Set your squad, then lock it.',live:'',lock:'Lock my squad',...(failed?{atCentre:'div#loadingScreen',inStage:false,layers:['div#loadingScreen z100 pe:auto op:1']}:{})})};
+    const page={locator:sel=>sel==='#sqStage'?stage:none,waitForTimeout:ms=>new Promise(resolve=>setTimeout(resolve,Math.min(ms,5))),evaluate:async()=>''};
+    console.log=(...args)=>{logged.push(args.join(' '));};
+    let thrown=null;
+    try{assert.equal(await R.playSquad(page),'squad-lock');await R.playSquadUntil(page,async()=>false,150);}catch(error){thrown=error;}finally{console.log=log;}
+    assert.ok(thrown,'the stall still fails the journey: a tap that cannot land is never passed over');
+    assert.match(thrown.message,/^Season Results did not open within 150 ms \(squad steps: squad-lock/);
+    assert.match(thrown.message,/last lock taps:/,'the stall report carries the last taps');
+    assert.match(thrown.message,/intercepts pointer events/,'with the click\'s own error');
+    assert.match(thrown.message,/"atCentre":"div#loadingScreen"/,'and what sits on LOCK');
+    assert.ok(clicks>=2);
+    assert.ok(logged.some(line=>line.startsWith('--- squad lock tap failed: ')&&line.includes('loadingScreen')),'each failed tap is printed as it happens');
+    ok('C16','a Squad LOCK tap that cannot land is reported with the click\'s own error, the element at LOCK\'s centre and the layers over the stage, and the stall still fails (CI run 43160602051)');
+  }
   console.log(`PASS r91 squad sheet contracts (${checks} checks)`);
 })().catch(error=>{console.error(error);process.exit(1);});

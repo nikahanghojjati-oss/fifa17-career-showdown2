@@ -3000,6 +3000,7 @@
         "^data/fifa17Players\\.js$",
         "^data/rosterSquads\\.js$",
         "^tests/contracts/r91\\-squad\\-sheet\\-contracts\\.cjs$",
+        "^tests/browser/support/roster\\-roulette\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },

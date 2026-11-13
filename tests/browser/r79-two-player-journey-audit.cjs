@@ -115,6 +115,10 @@ async function openManager(browser,user,viewport){
   await context.addInitScript({path:SWITCH});
   await context.addInitScript(frameRecorder,FRAME_PROBE);
   const page=await context.newPage();
+  // Optional slow phone (investigation knobs, off by default): CMS_JOURNEY_SLOW=nik|daniel|both, CMS_JOURNEY_CPU (x, default 4),
+  // CMS_JOURNEY_LATENCY_MS (default 150) on every request of that manager's page.
+  const slow=process.env.CMS_JOURNEY_SLOW||"";
+  if(slow==="both"||slow===user){const cdp=await context.newCDPSession(page);await cdp.send("Emulation.setCPUThrottlingRate",{rate:Number(process.env.CMS_JOURNEY_CPU||4)});await cdp.send("Network.enable");await cdp.send("Network.emulateNetworkConditions",{offline:false,latency:Number(process.env.CMS_JOURNEY_LATENCY_MS||150),downloadThroughput:-1,uploadThroughput:-1});}
   wirePage({user,context,page,log},page);
   await installMarbleConfirmAnswers(page,{answer:true});
   await page.goto(urlFor(user),{waitUntil:"domcontentloaded"});
