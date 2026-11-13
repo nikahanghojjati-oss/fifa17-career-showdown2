@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-12 5:12 PM Boston time (EST)",
+ "generated": "2026-11-12 7:08 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 269,
+  "count": 270,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2424,6 +2424,15 @@
     "subject": "Rule Book slab 2X (3072x1728) for sharp Chromebook windows",
     "reply": "yes (receive it)",
     "boston": "Thu 12 Nov 5:47 AM"
+   },
+   {
+    "time": "2026-11-13 00:07",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-077 RECEIVED",
+    "subject": "Rule Book slab 2X (3072x1728) for sharp Chromebook windows",
+    "reply": "no",
+    "boston": "Thu 12 Nov 7:07 PM"
    }
   ],
   "g2v": {
@@ -2444,8 +2453,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "99b7eb4",
-  "head_boston": "Thu 12 Nov 5:47 AM",
+  "head": "851ce4c",
+  "head_boston": "Thu 12 Nov 7:07 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2482,9 +2491,9 @@
   },
   "physio": {
    "state": "clear",
-   "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "line": "All clear (from GitHub).",
+   "gate": "POS20 #304 7/7",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -3269,7 +3278,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 6908
+    "waiting_min": 7024
    },
    {
     "id": "HO-059",
@@ -3510,13 +3519,13 @@
     "from": "G",
     "to": "V",
     "title": "Rule Book slab 2X (3072x1728) for sharp Chromebook windows",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
-    "overdue": true,
+    "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-077_rule-book-slab-2x-3072x1728-for-sharp-ch.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 681
+    "pickup_min": 795,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
