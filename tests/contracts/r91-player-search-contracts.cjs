@@ -84,7 +84,9 @@ const options=windowScript("data/transferOptions.js");
   for(const list of ["shell","install","pack"])assert.ok(!w[list].some(p=>p.startsWith("data/fifa17/")),`the player list is not in ${list}`);
   assert.equal(w.cached(manifest.file),true,"the worker keeps the list cache-first once fetched (ON_DEMAND_DATA_PATH)");
   assert.equal(w.cached("data/fifa17/players-170002.json"),false,"only a hash-named list is cache-first");
-  assert.ok(w.shell.includes("js/playerSearch.js")&&w.pack.includes("js/playerSearch.js")&&!w.install.includes("js/playerSearch.js")&&w.added.includes("js/playerSearch.js"),"the search code is a shell file in the offline pack, not the install");
+  assert.ok(w.shell.includes("js/playerSearch.js")&&w.pack.includes("js/playerSearch.js")&&!w.install.includes("js/playerSearch.js"),"the search code is a shell file in the offline pack, not the install");
+  // 2.5.0: the retained 2.4.0-r91 shell already carries it, so it is no longer listed as added.
+  assert.ok(!w.added.includes("js/playerSearch.js")&&JSON.parse(read("tests/fixtures/shell-paths/2.4.0-r91.json")).paths.includes("js/playerSearch.js"),"the rollback shell (2.4.0) already precaches the search code");
   const html=read("index.html");assert.ok(!/fifa17\/players|playerSearch/.test(html),"Home's page names neither the list nor the search code");
   const pstc=read("js/productionSharedTransferChallenge.js"),sel=read("js/transferSelector.js");
   assert.match(pstc,/function pstcWarmPlayerList\(\)\{\s*if\(playerListAsked\|\|!pstcTransferScreenVisible\(\)/,"the page asks for the list only once the Transfer War screen shows");

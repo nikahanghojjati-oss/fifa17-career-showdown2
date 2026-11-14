@@ -443,8 +443,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"2.4.0-r91","RUNTIME_REVISION is the r91 release (2.4.0-r91)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.3.0-r90");
+  assert.equal(revision,"2.5.0-r92","RUNTIME_REVISION is the r92 release (2.5.0-r92)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.4.0-r91");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -493,7 +493,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"2.4.0-r91");assert.equal(prev,"2.3.0-r90");
+  assert.equal(cur,"2.5.0-r92");assert.equal(prev,"2.4.0-r91");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -1185,7 +1185,9 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // visual-assets/v10_1/shared/showdown-tokens.css, that it loads only after a failed start; the start-up shell loads none of them.
   // Re-pinned 2026-11-13 by the 2.4.0 release PR: gameplay/r91 47cdb505's file (02e01adb above) with its 2.4.0-r91 pins and v2.4.0
   // footer, nothing else.
-  assert.equal(sha256("index.html"),"83d7f236553789842a38a0a3d47699eb69499b507258936cb769e6730f506166","index.html is the 2.4.0 release (HO-072 loading cover, B1 boot-fail guard, 2.4.0-r91 pins)");
+  // Re-pinned 2026-11-14 by the 2.5.0 release PR: gameplay/r92's file (the 2.4.0 file, which r92 never changed) with its 2.5.0-r92
+  // pins and v2.5.0 footer, nothing else.
+  assert.equal(sha256("index.html"),"04cfa31f907b00e401f4a92b54fe824e0581cd55164e7116eb92ece245ff2947","index.html is the 2.5.0 release (HO-072 loading cover, B1 boot-fail guard, 2.5.0-r92 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
