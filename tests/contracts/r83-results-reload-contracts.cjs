@@ -52,6 +52,8 @@ function page({storage,role,season=1,rivalry=RID,stage="entry",phase="COMPLETED"
     CareerModeSparkRemoteJoining:{getState:()=>remote,subscribe:()=>()=>{}},
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:role,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
     CareerModeProductionSharedShowdownSetup:{refresh:async()=>setup,getState:()=>setup},
+    // r91 Squad Management: this harness plays a Showdown whose squads are not asked here (tests/contracts/r91-squad-sheet-contracts.cjs).
+    CareerModeSquadSheetStep:{applies:()=>false,isDone:()=>true,close(){}},
     CareerModeRosterRouletteStep:{decide:()=>false,runBeforeTransfers:async()=>true,close(){},ensureDraw:async()=>true},
     CareerModeProductionSharedCareerStart:{refresh:async()=>true,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}}),openPanel:async()=>{s.CareerModeProductionSharedTransferChallenge.install();return s.CareerModeProductionSharedTransferChallenge.open();}},
     CareerModeProductionSharedMultiSeasonProgression:{install(){},resolveSeason:()=>season,resumeFromAuthority:async()=>({acceptedSeasons:season-1,season,rivalryId:rivalry}),decorateDashboard(){}},
@@ -96,7 +98,7 @@ async function finishTransfer(options){
       assert.ok(!p.navigation.includes("transferChallenge"),"no completed-window replay frame");
       assert.deepEqual(p.errors,[]);assert.deepEqual(p.writes,[],"resume never republishes or acknowledges");
       if(stage==="entry")assert.equal(p.node("seasonEntry").dataset.sharedSeasonResults,"entry");
-      if(stage==="published"){assert.equal(p.node("confirmSeasonCompletion").textContent,"PUBLISHED ✓");assert.equal(p.node("confirmSeasonCompletion").disabled,true);}
+      if(stage==="published"){assert.equal(p.node("confirmSeasonCompletion").textContent,"RESULT CONFIRMED ✓");assert.equal(p.node("confirmSeasonCompletion").disabled,true);}
       if(stage==="ready")assert.equal(p.node("sharedSeasonCommitAction").textContent,role==="playerOne"?"LOCK & CONFIRM SEASON":"WAITING FOR DANIEL");
       if(stage==="acknowledge")assert.equal(p.node("sharedSeasonCommitAction").textContent,"CONFIRM SEASON");
       if(stage==="acknowledged"){assert.equal(p.node("sharedSeasonCommitAction").textContent,"CONFIRMED ✓ · WAITING FOR RIVAL");assert.equal(p.node("sharedSeasonCommitAction").disabled,true);}

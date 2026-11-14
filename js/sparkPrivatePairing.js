@@ -279,7 +279,7 @@
       if(!validDeviceIdentity(identity))throw errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","A stable registered device is required.");
       const binding=normalizeLocalBinding(options.binding);
       const durableWitness=options.durableWitness;
-      if(durableWitness!==undefined&&durableWitness!==null&&typeof durableWitness!=="function")throw errorWithCode("PAIRING_DURABLE_WITNESS_INVALID","A valid durable pairing witness is required.");
+      if(durableWitness!==undefined&&durableWitness!==null&&typeof durableWitness!=="function")throw errorWithCode("PAIRING_DURABLE_WITNESS_INVALID","A valid durable pairing record is required.");
       const ttlMs=options.ttlMs===undefined?PAIRING_TTL_MS:Number(options.ttlMs);
       if(!Number.isFinite(ttlMs)||ttlMs<=0||ttlMs>MAX_PAIRING_TTL_MS)throw errorWithCode("PAIRING_TTL_INVALID","Private pairing expiry must be within 30 minutes.");
       const capability=normalizeCapability(options.capability||randomId("pair_",PAIRING_CAPABILITY_BYTES,options.cryptoImpl||root.crypto));
@@ -301,7 +301,7 @@
         let witness=null;
         if(durableWitness){
           witness=await durableWitness({transaction,binding,capability,accountId,deviceId:identity.deviceId,now:createdAt,nowEpochMs});
-          if(!witness||witness.ok!==true)throw errorWithCode("PAIRING_DURABLE_WITNESS_FAILED","The durable creator pairing witness could not be committed.");
+          if(!witness||witness.ok!==true)throw errorWithCode("PAIRING_DURABLE_WITNESS_FAILED","The creator's pairing record could not be saved.");
         }
         transaction.set(rivalryReference,rivalryEnvelope);
         transaction.set(inviteReference,inviteEnvelope);
@@ -315,7 +315,7 @@
     if(!isEnvelope(rivalrySnapshot,"rivalry",capability)||!isEnvelope(inviteSnapshot,"invite",capability))throw errorWithCode("PAIRING_CAPABILITY_NOT_FOUND","The private pairing code was not found.");
     const rivalry=rivalrySnapshot.data();
     const invite=inviteSnapshot.data();
-    if(!invite.data||invite.data.purpose!=="rivalry-pairing")throw errorWithCode("PAIRING_SCOPE_DENIED","This capability is not valid for private rivalry pairing.");
+    if(!invite.data||invite.data.purpose!=="rivalry-pairing")throw errorWithCode("PAIRING_SCOPE_DENIED","This code is not valid for private rivalry pairing.");
     if(invite.data.createdByAccountId===accountId)throw errorWithCode("PAIRING_CREATOR_CANNOT_REDEEM","This Google account made the code, so it cannot join it. Nik must sign in with a different Google account than Daniel, then paste the code again.");
     if(invite.data.state!=="open")throw errorWithCode("PAIRING_CAPABILITY_ALREADY_USED","This private pairing code is no longer open.");
     const expiresAt=timestampMillis(invite.data.expiresAt);
@@ -340,7 +340,7 @@
     const binding=normalizeLocalBinding(options.binding);
     const capability=normalizeCapability(options.capability);
     const durableWitness=options.durableWitness;
-    if(durableWitness!==undefined&&typeof durableWitness!=="function")throw errorWithCode("PAIRING_DURABLE_WITNESS_INVALID","The durable pairing witness is invalid.");
+    if(durableWitness!==undefined&&typeof durableWitness!=="function")throw errorWithCode("PAIRING_DURABLE_WITNESS_INVALID","The saved pairing record is invalid.");
     const sdk=options.firebaseSdk;
     const nowEpochMs=options.nowEpochMs===undefined?Date.now():Number(options.nowEpochMs);
     const now=sdk.Timestamp.fromMillis(nowEpochMs);
@@ -356,7 +356,7 @@
       let durableWitnessResult=null;
       if(durableWitness){
         durableWitnessResult=await durableWitness({transaction,firestore:options.firestore,firebaseSdk:sdk,accountId,identity,binding,capability,now,nowEpochMs,rivalry,invite});
-        if(!durableWitnessResult||durableWitnessResult.ok!==true)throw errorWithCode("PAIRING_DURABLE_WITNESS_FAILED","The account pairing witness could not be committed with redemption.");
+        if(!durableWitnessResult||durableWitnessResult.ok!==true)throw errorWithCode("PAIRING_DURABLE_WITNESS_FAILED","The account's pairing record could not be saved with the join.");
       }
       const nextSlots=rivalry.data.managerSlots.map(slot=>slot.slotId===invite.data.slotId?{slotId:slot.slotId,accountId,profileId:binding.profileId,saveId:binding.saveId,displayLabel:binding.displayLabel,entitlementState:"active",deletionConsent:false}:{...slot});
       const rivalryData={...rivalry.data,connectionState:"active",managerSlots:nextSlots,authorizedAccountIds:[invite.data.createdByAccountId,accountId]};
@@ -424,7 +424,7 @@
         const unchanged=Object.keys(next).every(key=>pairingState[key]===next[key]);
         return setState(next,unchanged?{render:false}:{});
       }
-      return setState({status:"ready",initialized:true,busy:false,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId,message:"This browser is privately registered. Pairing only links the two manager identities; gameplay synchronization is still locked."});
+      return setState({status:"ready",initialized:true,busy:false,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId,message:"This browser is privately registered. Pairing only links the two manager identities; gameplay sync stays locked."});
     }catch(error){deviceVerified=null;return setState({status:error&&error.code==="PRIVATE_DEVICE_REVOKED"?"revoked":"device-error",initialized:true,busy:false,connected:true,registered:false,message:`${error&&error.message?error.message:"This browser could not be registered."}`});}
   }
 
@@ -497,7 +497,7 @@
     const heading=createElement("div","settingsPanelHeading");
     heading.append(createElement("span","settingsPanelEyebrow","PRIVATE RIVALRY"),createElement("h3","","REGISTERED DEVICE & PAIRING"),createElement("p","","Link exactly two private manager identities. This stage does not synchronize gameplay or start a Remote Joining session."));
     const info=createElement("div","settingsInfoGrid");
-    for(const [label,value] of [["DEVICE",pairingState.registered?`Registered · ${shortId(pairingState.deviceId)}`:pairingState.connected?"Not registered":"Sign in required"],["PAIRING","One use · 15 minute private capability"],["MANAGERS","Exactly two stable account/profile/save identities"],["GAMEPLAY SYNC","Explicit actions only in Connected Rivalry below"],["BILLING","Firebase Spark · no billing"]]){
+    for(const [label,value] of [["DEVICE",pairingState.registered?`Registered · ${shortId(pairingState.deviceId)}`:pairingState.connected?"Not registered":"Sign in required"],["PAIRING","One use · private code valid 15 minutes"],["MANAGERS","Exactly two stable account/profile/save identities"],["GAMEPLAY SYNC","Explicit actions only in Connected Rivalry below"],["BILLING","Firebase Spark · no billing"]]){
       const row=createElement("div","settingsInfoRow");row.append(createElement("span","",label),createElement("strong","",value));info.appendChild(row);
     }
     panel.append(heading,info);
@@ -629,7 +629,7 @@
 (function(root){
   "use strict";
   if(!root||root.CareerModeFirestoreBudget)return;
-  const FSB_QUOTA_MESSAGE="Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.";
+  const FSB_QUOTA_MESSAGE="Today's free online limit is used up. It resets at 3 a.m. Boston time. Your saved career is safe.";
   const FSB_PAUSE_STEPS_MS=Object.freeze([10,20,40,60].map(minutes=>minutes*60000));
   const FSB_COALESCE_MS=2000,FSB_OWN_ACCOUNT_MS=5*60000,FSB_MAX_ENTRIES=200;
   const FSB_LIVE_QUIET_MS=300000;
@@ -664,7 +664,7 @@
   // pricing, "Listeners and rules"), so every server delivery is billed its document plus its lookups. A write is priced at
   // every document its create or update rule can reach, once per request (a transaction is one request): an upper bound.
   // tests/contracts/r86-billed-counter-contracts.cjs fails when the Rules change and this table is not regenerated.
-  const FSB_RULES_SHA256="6d410197714d4c3d906e4f5115bf5c0c45e844b7dee63911f91d9b75eb942cc3";
+  const FSB_RULES_SHA256="237f867bade1ad244c92d1b8ab041a588fabd9e68485f7ee47dded4de939f7ab";
   // BEGIN generated Rules lookup table (paths are priced here, never read or written by this module).
   const FSB_RULES_LOOKUPS=Object.freeze([
       ["accounts/*",0,0,[]],
@@ -691,6 +691,7 @@
       ["rivalries/*/seasonResults/*/roles/*",2,3,["rivalries/{rivalryId}","rivalries/{rivalryId}/primePackRounds/{seasonId}","rivalries/{rivalryId}/seasonResults/{seasonId}"]],
       ["rivalries/*/primePackRounds/*",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{after.activeSessionId}"]],
       ["rivalries/*/chamberMenRounds/*",1,1,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/sessions/{after.activeSessionId}"]],
+      ["rivalries/*/squadSheets/*",1,1,["rivalries/{rivalryId}"]],
       ["rivalries/*/seasonCommits/*",1,2,["accounts/{@self}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}","rivalries/{rivalryId}/seasonResults/{seasonId}","rivalries/{rivalryId}/seasonResults/{seasonId}/roles/{'playerOne'}","rivalries/{rivalryId}/seasonResults/{seasonId}/roles/{'playerTwo'}","rivalries/{rivalryId}/sessions/{after.activeSessionId}","rivalries/{rivalryId}/sharedSetup/authoritative"]],
       ["rivalries/*/meters/*",1,2,["rivalries/{rivalryId}"]],
       ["rivalries/*/sessions/*",2,2,["accounts/{@pair0}","accounts/{@pair1}","accounts/{@self}/devices/{after.updatedByDeviceId}","rivalries/{rivalryId}"]],

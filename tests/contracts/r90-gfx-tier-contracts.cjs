@@ -33,7 +33,7 @@ const SRC=fs.readFileSync(path.join(ROOT,'js/gfxTier.js'),'utf8');
 const CHOICES_FROM_SRC=()=>JSON.parse(/const CHOICES=(\[[^\]]*\])/.exec(SRC)[1]);
 let checks=0;const ok=(id,text)=>{checks+=1;console.log(`ok ${checks} ${id} ${text}`);};
 
-function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), OpenGL ES 3.2)',dpr=1,memory=4,cores=4,screen=[1366,768],search='',storage={},maxBuffer=16384,maxTexture=16384,connection=null}={}){
+function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), OpenGL ES 3.2)',dpr=1,memory=4,cores=4,screen=[1366,768],search='',storage={},maxBuffer=16384,maxTexture=16384,connection=null,view=null}={}){
   const clock={t:0};
   const store={...storage};
   const appended=[],counts={canvas:0};
@@ -51,6 +51,7 @@ function sandbox({gpu='ANGLE (Intel, Mesa Intel(R) UHD Graphics 600 (GLK 2), Ope
   const ctx={document:doc,devicePixelRatio:dpr,navigator:{deviceMemory:memory,hardwareConcurrency:cores,...(connection?{connection}:{})},screen:{width:screen[0],height:screen[1]},
     location:{search},readStorageValue:k=>k in store?store[k]:null,writeStorageValue:(k,v)=>{store[k]=String(v);return true;},
     performance:{now:()=>clock.t},setTimeout:(f)=>{f();return 0;},requestAnimationFrame:()=>1,cancelAnimationFrame(){},URLSearchParams};
+  if(view){ctx.innerWidth=view[0];ctx.innerHeight=view[1];}
   ctx.globalThis=ctx;ctx.parent=ctx;
   vm.createContext(ctx);vm.runInContext(SRC,ctx);
   return {G:ctx.CareerModeGfxTier,clock,store,appended,ctx,counts};
@@ -137,7 +138,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   {const sx=sandbox({gpu:strong,dpr:1,memory:32,cores:16});sx.G.profile();
    sx.store['careerModeShowdown.gfxCap.v1']=JSON.stringify({level:1,reason:'frame',at:Date.now()});
    assert.deepEqual([sx.G.suggested().now,sx.G.suggested().lowered],[1,true],'a cap saved elsewhere lowers the Auto line');
-   sx.store['careerModeShowdown.gfxCap.v1']='null';sx.store['careerModeShowdown.gfxMeasured.v1']=JSON.stringify({level:2,at:Date.now()});
+   sx.store['careerModeShowdown.gfxCap.v1']='null';sx.store['careerModeShowdown.gfxMeasured.v2']=JSON.stringify({level:2,at:Date.now()});
    assert.deepEqual([sx.G.suggested().now,sx.G.suggested().measured],[2,true],'a Device check saved elsewhere shows as measured');}
   ok('G2','auto and named levels never above devicePixelRatio; ultra up to 2x within a 4K buffer; Settings key, unknown is auto, ?gfx forces');
 }
@@ -195,7 +196,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     for(const [cost,dir] of [[20,'down'],[2,'up']]){
       const {s:sg,r:rg}=mk(cost);const gov=sg.G.governor(rg,{key:'order'});const before=gov.pixelRatio();
       const after=await sg.G.calibrate(rg,()=>{});
-      assert.equal(gov.level(),after.level,`governor follows calibrate ${dir}`);assert.equal(gov.pixelRatio(),rg.pr,'governor and renderer agree');
+      assert.deepEqual([gov.level(),sg.G.builtLevel(rg),after.level],[2,2,dir==='down'?1:3],`r91: the governor keeps the level the scene was built at; calibrate moved ${dir} for what comes next`);assert.equal(gov.pixelRatio(),rg.pr,'governor and renderer agree on the pixel ratio calibrate moved to');
       assert.ok(dir==='down'?gov.pixelRatio()<before:gov.pixelRatio()>before,`${dir}: ${before} -> ${gov.pixelRatio()}`);
       let t=0;while(t<6000){t+=16.7;sg.clock.t=t;gov.frame(t);}
       assert.ok(gov.pixelRatio()<=after.maxPixelRatio+1e-9,'never past the new level');
@@ -214,10 +215,10 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     // MENU CLICK FEEDBACK line (the plate has no height to spare at 1366x640; browser sweep on the PR).
     const set=fs.readFileSync(path.join(ROOT,'js/settings.js'),'utf8'),css=fs.readFileSync(path.join(ROOT,'css/r78-type.css'),'utf8');
     // r90 one framework (docs/QUALITY_LEVELS.md): the choices and their names come from the module (choices, labels).
-    assert.ok(set.includes('const option = createSettingsElement("option", "", value === "auto" ? "Auto" : tier.labels[index - 1]);')&&!/SETTINGS_GFX_(CHOICES|NAMES)/.test(set),'the choices, in order, by the shared names');
+    assert.ok(set.includes('const option = createSettingsElement("option", "", value === "auto" ? getSettingsGfxAutoLabel(tier) : tier.labels[index - 1]);')&&!/SETTINGS_GFX_(CHOICES|NAMES)/.test(set),'the choices, in order, by the shared names');
     assert.ok(set.includes('try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }')&&set.includes('if(value === "8k" && !can8k && tier.choice() !== "8k"){ return; }'),'8K is offered only where the GPU can hold it');
     // r90 (Nik 2026-11-08): what Auto chose is one quiet line under 3D QUALITY, read from the saved state (Device check, crash cap).
-    assert.ok(set.includes('if(!onAuto){ return `Auto would pick ${name} here.`; }')&&set.includes('`Auto measured ${name} here.` : `Auto picked ${name} here.`'),'Auto names what it picked (or measured) here');
+    assert.ok(set.includes('return `Auto would pick ${name} here.${drawn}${getSettingsGfxCheckText(tier)}`;')&&set.includes('if(p && p.fellBack){ drawn = ` ${tier.label(p.level)} is drawn for now (lowered after a graphics error).`; }')&&set.includes('const from = s.lowered ? "Lowered after a graphics error." : s.measured && s.now === s.level ? "Measured by the Device check." : "";')&&set.includes('return name ? `Auto · ${name}` : "Auto";'),'the Auto entry names what Auto draws here (r91: "Auto · Light"); the line adds where it came from');
     assert.ok(set.includes('window.addEventListener("cms-gfx-level", onLevel);')&&SRC.includes('new root.CustomEvent("cms-gfx-level"'),'the line follows a level change while Settings is open');
     assert.ok(/settingsGfxAuto \{ display: block;/.test(css),'the line shows at every width');
     assert.ok(set.includes('window.location.assign("device-check.html");')&&set.includes('"Device check…"'),'the last entry opens the Device check');
@@ -236,27 +237,46 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.deepEqual(scripts(bench),['js/chamberMenScene3d.js'],'the Chamber Men frame loads only the scene');
     assert.ok(!/firebase|firestore|onlineSync|app\.js/i.test((dc+bench).replace(/<!--[\s\S]*?-->/g,'')),'no game, sign-in or Firestore');
     assert.ok(dc.includes('const SMOOTH_AVG=57,SMOOTH_LOW=45')&&dc.includes('T.setMeasured(level,'),'60 fps rule, saved as Auto');
-    assert.ok(dc.includes('visual-assets/v10_1/roulette/index.html')&&dc.includes('frame.src=`${scene.path}?gfx=${level}&bench=1`;'),'both scenes, each level forced, bench mode');
+    assert.ok(dc.includes('visual-assets/v10_1/roulette/index.html')&&dc.includes('visual-assets/v10_1/special-player/index.html')&&dc.includes('device-check-chamber.html')&&dc.includes('frame.src=`${scene.path}?gfx=${level}&bench=1`;'),'all three scenes (r91), each level forced, bench mode');
     assert.ok(dc.includes('e.origin!==location.origin||e.source!==frame.contentWindow'),'only its own frame\'s message counts');
     // Codex on #1266: timed at the game's own size (the stage fills the window; the Chamber Men goal uses the game's clamps),
     // and a hidden tab ends the measurement under way at once.
     assert.ok(dc.includes('#stage.live{position:fixed;inset:0;')&&dc.includes('stage.classList.add("live");'),'each level runs full window');
     assert.ok(bench.includes('.cmGoal{display:block;width:100%;height:clamp(180px,calc(100dvh - 430px),66.7cqw)}')&&bench.includes('@media (min-width:900px){.cmGoalBox{width:calc(min(1180px,100%) - 32px);margin-top:14px}.cmGoal{height:clamp(260px,calc(100dvh - 300px),56.25cqw)}}'),'the goal at its game size');
     assert.ok(dc.includes('cancelWait=()=>finish({aborted:true});')&&dc.includes('if(cancelWait)cancelWait();')&&dc.includes('if(got&&got.aborted)break;'),'a hidden tab stops the measurement at once');
-    // The recorder: forced level, no adapting, held or not; one post with avg, 1% low and ms.
+    // The recorder: forced level, no adapting. r91: "started" first, then one result that says what was asked and drawn, and it
+    // waits for one whole beat (a hold that lasted) before it ends; without a beat it ends as not complete after 60 s more.
     {const s7=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=2&bench=1'});
      const posted=[];s7.ctx.parent={postMessage:m=>posted.push(m),location:{search:''}};s7.ctx.location.origin='http://x';
-     const r7=fakeRenderer(s7.clock,()=>3);const g7=s7.G.governor(r7,{key:'chamber-men',draw(){}});g7.hold(true);
-     let t=0;const pr0=g7.pixelRatio();while(t<12000){t+=t<6000?16.7:40;s7.clock.t=t;g7.frame(t);}
-     assert.equal(posted.length,1,'one result');const m=posted[0];
-     assert.deepEqual([m.type,m.scene,m.level,m.name],['cms-gfx-bench','chamber-men',2,'high']);assert.equal(g7.pixelRatio(),pr0,'no adapting in bench mode');
+     const r7=fakeRenderer(s7.clock,()=>3);const g7=s7.G.governor(r7,{key:'chamber-men',draw(){},info:()=>({crowd:1})});
+     assert.deepEqual(posted.map(m=>[m.type,m.phase,m.scene,m.asked,m.level]),[['cms-gfx-bench','started','chamber-men',2,2]],'started, with the level asked');
+     let t=0;const pr0=g7.pixelRatio();const step=()=>{t+=t<6000?16.7:40;s7.clock.t=t;g7.frame(t);};
+     while(t<1000)step();g7.hold(true);while(t<4000)step();g7.hold(false);while(t<12000)step();
+     assert.equal(posted.length,2,'one result');const m=posted[1];
+     assert.deepEqual([m.type,m.phase,m.scene,m.asked,m.level,m.name,m.beats,m.complete,m.failed],['cms-gfx-bench','result','chamber-men',2,2,'high',1,true,null]);assert.equal(g7.pixelRatio(),pr0,'no adapting in bench mode');
+     assert.equal(JSON.stringify([m.css,m.bufferOk,m.info]),'[[1280,720],true,{"crowd":1}]','what was drawn');
      assert.ok(m.avg>25&&m.avg<60&&m.p1low<=26&&m.ms>16&&m.frames>200&&m.drawMs===3,`stats ${JSON.stringify(m)}`);
-     const st=s7.G.benchStats([10,10,10,10,50]);assert.deepEqual([st.frames,st.avg,st.p1low],[5,55.6,20]);}
+     const st=s7.G.benchStats([10,10,10,10,50]);assert.deepEqual([st.frames,st.avg,st.p1low],[5,55.6,20]);
+     // No beat played: not complete, only after the long wait.
+     const s7b=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=1&bench=1'});
+     const postedB=[];s7b.ctx.parent={postMessage:m=>postedB.push(m),location:{search:''}};s7b.ctx.location.origin='http://x';
+     const gb=s7b.G.governor(fakeRenderer(s7b.clock,()=>3),{key:'rrr',draw(){}});let tb=0;
+     while(tb<30000){tb+=16.7;s7b.clock.t=tb;gb.frame(tb);}assert.equal(postedB.length,1,'no beat yet: it keeps timing');
+     while(tb<61000){tb+=16.7;s7b.clock.t=tb;gb.frame(tb);}assert.deepEqual([postedB.length,postedB[1].complete,postedB[1].beats],[2,false,0],'no beat in 60 s: a result marked not complete');
+     // An older crash cap does not lower the level the check asked for (the answer would be a lower level's); a failure
+     // during the check does lower it, and the result says so.
+     const cap={'careerModeShowdown.gfxCap.v1':JSON.stringify({level:0,reason:'the GPU ran out of memory',at:Date.now(),clean:0})};
+     const s7c=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=2&bench=1',storage:cap});
+     assert.deepEqual([s7c.G.profile().level,s7c.G.profile().asked],[2,2],'bench: the level asked, whatever an old cap says');
+     assert.equal(sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=2',storage:cap}).G.profile().level<2,true,'outside the check a forced level still obeys the cap');
+     const postedC=[];s7c.ctx.parent={postMessage:m=>postedC.push(m),location:{search:''}};s7c.ctx.location.origin='http://x';
+     const gc=s7c.G.governor(fakeRenderer(s7c.clock,()=>3),{key:'sp',draw(){}});gc.frame(16);gc.frame(32);s7c.G.fallback('the GPU dropped the picture (context lost)');gc.frame(48);
+     const mc=postedC[postedC.length-1];assert.deepEqual([mc.phase,mc.asked,mc.level<2,mc.complete,mc.failed],['result',2,true,false,'the GPU dropped the picture (context lost)'],'a failure during the check is the result');}
     {const s8=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8});
      assert.equal(s8.G.profile().level,2);s8.G.setMeasured(0);assert.deepEqual([s8.G.profile().level,s8.G.suggested().measured],[0,true],'a measured level is Auto');
      s8.G.setChoice('ultra');assert.equal(s8.G.profile().level,4,'a picked level still wins');s8.G.setChoice('auto');
      s8.G.clearMeasured();assert.equal(s8.G.profile().level,2,'forgetting goes back to the guess');}
-    assert.ok(dc.includes('$("device").innerHTML=`This device: <b>${esc(kind)}</b>'),'the Device check names the device class');
+    assert.ok(dc.includes('$("yoursTitle").innerHTML=`Your device <span>· ${esc(kind)}</span>`;'),'the Device check names the device class (r91: on the Your device card)');
     {const d=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874]}).G.device();
      assert.deepEqual([d.phone,d.strongPhone,d.guessName,d.can8k],[true,true,'high',false],'an iPhone 17 reads as a strong phone that starts High');}
     ok('G7','Device check: bench frames record a forced level, one result each; best 60 fps level saved as Auto; a pick still wins');
@@ -271,6 +291,62 @@ function g8(){
   const s=sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[1920,1080],storage:pick});
   const p=s.G.profile();assert.deepEqual([p.level,p.name,p.can8k,p.bufferCap],[5,'8k',true,7680*4320],'8K when picked on a capable GPU');
   assert.ok(p.pixelRatio===4&&p.maxPixelRatio===4,`8K on 1080p starts at 4x (${p.pixelRatio}/${p.maxPixelRatio})`);
+  // r91 (device lab 2026-11-11): the first buffer a scene sizes (window x profile.pixelRatio, before any governor) stays
+  // within the level's buffer on every screen. 2.3.0: 8K on a 4K monitor 15360x8640, on an 8K screen 30720x17280; Ultra on a
+  // 4K monitor 7680x4320.
+  {const first=(o,view)=>{const q=sandbox({gpu:strong,memory:32,cores:16,...o,view}).G.profile();return [Math.round(view[0]*q.pixelRatio),Math.round(view[1]*q.pixelRatio)];};
+   const k8={'careerModeShowdown.gfxQuality.v1':'8k'},ul={'careerModeShowdown.gfxQuality.v1':'ultra'};
+   assert.deepEqual(first({dpr:1,screen:[1920,1080],storage:k8},[1920,1080]),[7680,4320],'8K on a 1080p monitor: 4x, the full 8K buffer');
+   assert.deepEqual(first({dpr:1,screen:[1920,1080],storage:k8},[1920,866]),[7680,3464],'8K in the Chromebook-size window: still 4x, under the cap');
+   assert.deepEqual(first({dpr:1,screen:[3840,2160],storage:k8},[3840,2160]),[7680,4320],'8K on a 4K monitor: 2x, not 4x');
+   assert.deepEqual(first({dpr:2,screen:[3840,2160],storage:k8},[3840,2160]),[7680,4320],'8K on an 8K screen at 2x: native');
+   assert.deepEqual(first({dpr:1,screen:[7680,4320],storage:k8},[7680,4320]),[7680,4320],'8K on an 8K screen at 1x: native');
+   assert.deepEqual(first({dpr:1,screen:[1920,1080],storage:ul},[1920,1080]),[3840,2160],'Ultra on a 1080p monitor: 2x, the full 4K buffer');
+   assert.deepEqual(first({dpr:1,screen:[3840,2160],storage:ul},[3840,2160]),[3840,2160],'Ultra on a 4K monitor: native, not 2x');
+   assert.deepEqual(first({dpr:2,screen:[3840,2160],storage:ul},[3840,2160]),[7680,4320],'Ultra on an 8K screen: native, as before (never held under the screen)');
+   assert.deepEqual(first({dpr:1.5,screen:[2560,1440],storage:ul},[2560,1440]),[3840,2160],'Ultra on a 1440p screen at 1.5x: native');
+   // The governor then agrees with that first size (no second, larger allocation when it starts).
+   for(const [o,view] of [[{dpr:1,screen:[3840,2160],storage:k8},[3840,2160]],[{dpr:1,screen:[3840,2160],storage:ul},[3840,2160]],[{dpr:1,screen:[1920,1080],storage:k8},[1920,866]]]){
+     const q=sandbox({gpu:strong,memory:32,cores:16,...o,view});const g=q.G.governor(fakeRenderer(q.clock,()=>1,view),{});
+     assert.equal(g.pixelRatio(),q.G.profile().pixelRatio,`governor and first buffer agree (${JSON.stringify(view)})`);}
+   // A phone: within a 4K buffer at any level from the start (iPhone 17: 402x874 at 3x is native and fits).
+   const ph=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874],view:[402,874],storage:ul}).G.profile();assert.equal(ph.pixelRatio,3);
+   const tab=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[600,960],view:[1400,1000],storage:ul}).G.profile();
+   assert.ok(tab.pixelRatio**2*1400*1000<=3840*2160+1,`a phone-class screen with a large page stays under 4K from the start (${tab.pixelRatio})`);
+   // Named levels and Auto are untouched by this (they never draw past the screen's own ratio).
+   for(const c of ['auto','light','medium','high','extra']){const a0=sandbox({gpu:strong,dpr:2,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile(),a1=sandbox({gpu:strong,dpr:2,memory:32,cores:16,view:[1920,1080],storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile();
+     assert.deepEqual([a1.pixelRatio,a1.maxPixelRatio,a1.minPixelRatio],[a0.pixelRatio,a0.maxPixelRatio,a0.minPixelRatio],c);}
+   // A page with no size yet (a frame built before it is shown) counts as large as the screen, the most it can become
+   // (review on #1399: 2.3.0's uncapped start must not come back through this door). Neither known: native.
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[3840,2160],storage:k8}).G.profile().pixelRatio,2,'8K, no page size, 4K screen: 2x');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[3840,2160],storage:ul}).G.profile().pixelRatio,1,'Ultra, no page size, 4K screen: native');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[1920,1080],storage:k8}).G.profile().pixelRatio,4,'8K, no page size, 1080p screen: 4x, the full buffer');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[0,0],storage:k8}).G.profile().pixelRatio,1,'8K, nothing known: native');
+   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,screen:[0,0],storage:ul}).G.profile().pixelRatio,1,'Ultra, nothing known: native');}
+  // The device lab's own target devices (tests/browser/device-lab.cjs PROFILES, read by tests/support/device-lab-profiles.cjs):
+  // on each of them, at Ultra and at 8K, shown or built before it has a size, the first buffer is within the level's
+  // buffer (or native, where the screen itself is larger), and a phone is within 3840x2160.
+  {const {PROFILES,deviceOf}=require('../support/device-lab-profiles.cjs');
+   assert.deepEqual(Object.keys(PROFILES).sort(),['chromebook1035','chromebook866','iphone17','pc4k','pc8k'],'the lab profiles this contract was written against');
+   for(const key of Object.keys(PROFILES)){const d=deviceOf(key);
+     for(const c of ['ultra','8k'])for(const hidden of [false,true]){
+       const q=sandbox({...d,view:hidden?null:d.view,storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile();
+       const [w,h]=hidden?d.screen:d.view,px=w*h*q.pixelRatio*q.pixelRatio,native=w*h*d.dpr*d.dpr;
+       const limit=q.phone?3840*2160:Math.max(q.level===5?7680*4320:3840*2160,native);
+       assert.ok(px<=limit+1,`${key} at ${c}${hidden?' (no size yet)':''}: first buffer ${Math.round(px/1e6)} Mpx is within ${Math.round(limit/1e6)} Mpx (x${q.pixelRatio})`);
+       assert.ok(q.pixelRatio>=Math.min(1,d.dpr),`${key} at ${c}: never under the floor`);}}
+   // The lab's finding, by its numbers: the 4K PC at 8K asked for 15360x8000 in 2.3.0 (4x), the 8K PC for 30720x16640.
+   const at=(key,c)=>{const d=deviceOf(key),q=sandbox({...d,storage:{'careerModeShowdown.gfxQuality.v1':c}}).G.profile();return Math.round(d.view[0]*q.pixelRatio);};
+   // (The lab's windows are a little shorter than the screen, so the buffer's width may pass 7680 or 3840 by the few
+   // percent that keep the pixel count within the cap.)
+   assert.ok(at('pc4k','8k')>=7680&&at('pc4k','8k')<=7990,`4K PC at 8K: ${at('pc4k','8k')} px wide, not 15360`);
+   assert.ok(at('pc8k','8k')>=7680&&at('pc8k','8k')<=7830,`8K PC at 8K: ${at('pc8k','8k')} px wide, not 30720`);
+   assert.ok(at('pc4k','ultra')>=3840&&at('pc4k','ultra')<=3995,`4K PC at Ultra: ${at('pc4k','ultra')} px wide, not 7680`);assert.equal(at('pc8k','ultra'),7680);
+   // The Chromebook (2 threads, 4 GB) may pick Ultra only once its Device check has passed it (r91 gate): then 2x of 1920,
+   // the 4K buffer; until then a saved Ultra pick draws Extra at the screen's own size.
+   assert.equal(at('chromebook866','ultra'),1920,'the Chromebook at Ultra with no passed check: Extra, native');
+   {const d=deviceOf('chromebook866'),q=sandbox({...d,storage:{'careerModeShowdown.gfxQuality.v1':'ultra','careerModeShowdown.gfxMeasured.v2':JSON.stringify({level:4,at:Date.now()})}}).G.profile();
+    assert.deepEqual([q.level,Math.round(d.view[0]*q.pixelRatio)],[4,3840],'the Chromebook at Ultra after a passed check: 2x of 1920, the 4K buffer');}}
   const lost=[];const r={...fakeRenderer(s.clock,()=>1,[1920,1080])};r.domElement.addEventListener=(n,f)=>lost.push([n,f]);r.domElement.removeEventListener=()=>{};
   const gov=s.G.governor(r,{key:'chamber'});
   assert.equal(gov.pixelRatio(),4,'a 1080p canvas draws a 7680x4320 buffer');
@@ -286,7 +362,8 @@ function g8(){
   for(const [why,o] of [['small buffer',{maxBuffer:4096}],['small texture',{maxTexture:4096}],['phone',{screen:[402,874],dpr:3}],['software',{gpu:'SwiftShader'}]]){
     const n=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:pick,...o}).G;assert.equal(n.can8k(),false,why);assert.ok(n.profile().level<=4,`${why}: 8K pick plays Ultra`);
   }
-  const a=sandbox({gpu:strong,dpr:1,memory:32,cores:16}).G;assert.ok(a.profile().level<4,'Auto never Ultra or 8K');a.setMeasured(5);assert.equal(a.measured().level,4,'a measured level stops at Ultra');
+  const a=sandbox({gpu:strong,dpr:1,memory:32,cores:16}).G;assert.ok(a.profile().level<4,'Auto never Ultra or 8K');a.setMeasured(5);assert.equal(a.measured().level,5,'r91 (Nik 2026-11-11): a measured 8K is Auto where the GPU has the buffer');assert.equal(a.profile().level,5);
+  {const b=sandbox({gpu:strong,dpr:1,memory:32,cores:16,maxBuffer:4096}).G;b.setMeasured(5);assert.equal(b.measured().level,4,'without an 8K buffer a measured level stops at Ultra');}
   assert.equal(sandbox({gpu:strong,dpr:1,memory:32,cores:16,search:'?gfx=5'}).G.profile().level,5,'?gfx=5 forces 8K for proofs');
   // MSAA: the highest count both RGBA16F (or RGBA8) and DEPTH_COMPONENT24 support, at or under the wish.
   const gl={RENDERBUFFER:1,SAMPLES:2,RGBA16F:3,RGBA8:4,DEPTH_COMPONENT24:5,FRAMEBUFFER:6,FRAMEBUFFER_COMPLETE:7,
@@ -326,7 +403,7 @@ async function g10(){
   const html=sb=>sb.ctx.document.documentElement.dataset.gfx;
   const strong='ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)';
   assert.equal(html(sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'high'}})),'2','a picked level is marked on load');
-  assert.equal(html(sandbox({storage:{'careerModeShowdown.gfxMeasured.v1':JSON.stringify({level:1,at:1})}})),'1','a measured Auto is marked on load');
+  assert.equal(html(sandbox({storage:{'careerModeShowdown.gfxMeasured.v2':JSON.stringify({level:1,at:1})}})),'1','a measured Auto is marked on load');
   assert.equal(html(sandbox()),'0','a Chromebook reads Light once the profile runs');
   const s=sandbox({gpu:strong,dpr:1,memory:32,cores:16});assert.equal(html(s),'3');
   s.G.setChoice('light');assert.equal(html(s),'0','a new pick moves it at once');

@@ -132,7 +132,7 @@ async function commitRedeem(options,h){
 }
 
 async function r3LostAcknowledgement(){
-  for(const failure of [providerError("unavailable","The operation could not be completed."),providerError("PAIRING_CAPABILITY_ALREADY_USED","This private pairing code is no longer open.")]){
+  for(const failure of [providerError("unavailable","The operation could not be completed."),providerError("PAIRING_CAPABILITY_ALREADY_USED","This pairing code is no longer open.")]){
     const h=pairHarness({redeem:async(options,harness)=>{await commitRedeem(options,harness);return{ok:false,code:failure.code,message:failure.message};}});
     await h.pair.initialize({force:true});
     const result=await h.pair.joinPairing(CODE,{managerRole:"playerTwo"});
@@ -149,7 +149,7 @@ async function r3LostAcknowledgement(){
 
 async function r3SingleFlight(){
   let release;const gate=new Promise(resolve=>{release=resolve;});
-  const h=pairHarness({redeem:async()=>{await gate;return{ok:false,code:"PAIRING_CAPABILITY_EXPIRED",message:"This private pairing code has expired."};}});
+  const h=pairHarness({redeem:async()=>{await gate;return{ok:false,code:"PAIRING_CAPABILITY_EXPIRED",message:"This pairing code has expired."};}});
   await h.pair.initialize({force:true});
   const order=[];
   const join=h.pair.joinPairing(CODE,{managerRole:"playerTwo"}).then(value=>{order.push("join");return value;});
@@ -173,7 +173,7 @@ async function r3SingleFlight(){
 async function r7FailedJoinCleanup(){
   // Definitely refused: the empty copy this attempt created is removed.
   {
-    const h=pairHarness({redeem:async()=>({ok:false,code:"PAIRING_CAPABILITY_EXPIRED",message:"This private pairing code has expired."})});
+    const h=pairHarness({redeem:async()=>({ok:false,code:"PAIRING_CAPABILITY_EXPIRED",message:"This pairing code has expired."})});
     await h.pair.initialize({force:true});
     const result=await h.pair.joinPairing(CODE,{managerRole:"playerTwo"});
     assert.equal(result.status,"error");
@@ -192,14 +192,14 @@ async function r7FailedJoinCleanup(){
   }
   // The re-check cannot be read: keep the copy.
   {
-    const h=pairHarness({redeem:async(_options,harness)=>{harness.failReads=true;return{ok:false,code:"PAIRING_CAPABILITY_EXPIRED",message:"This private pairing code has expired."};}});
+    const h=pairHarness({redeem:async(_options,harness)=>{harness.failReads=true;return{ok:false,code:"PAIRING_CAPABILITY_EXPIRED",message:"This pairing code has expired."};}});
     await h.pair.initialize({force:true});
     await h.pair.joinPairing(CODE,{managerRole:"playerTwo"});
     assert.deepEqual(h.deleted,[],"R7 an unreadable re-check keeps the local copy");
   }
   // A copy that existed before this attempt is never removed.
   {
-    const h=pairHarness({saves:[shell(SAVE_OLD,PROFILE_OLD,3)],activeSaveId:SAVE_OLD,redeem:async()=>({ok:false,code:"PAIRING_CAPABILITY_EXPIRED",message:"This private pairing code has expired."})});
+    const h=pairHarness({saves:[shell(SAVE_OLD,PROFILE_OLD,3)],activeSaveId:SAVE_OLD,redeem:async()=>({ok:false,code:"PAIRING_CAPABILITY_EXPIRED",message:"This pairing code has expired."})});
     await h.pair.initialize({force:true});
     await h.pair.joinPairing(CODE,{managerRole:"playerTwo"});
     assert.equal(h.calls.provision,0);
@@ -331,7 +331,8 @@ async function r2ExplicitConfirm(){
   assert.doesNotMatch(entry,/abandonCurrentShowdown|askShowdownConfirm/,"R2 (r79) START A SHOWDOWN never closes or offers to close a live pair");
   assert.match(start,/const decision=await whichShowdownIsLive\(\),realStart=await needsCareerStart\(decision\);\s*if\(decision\.action!=="new"&&!realStart\)\{await followStartDecision\(decision\);return false;\}/,"R2 (r79) over a live pair START follows it (continue / WAITING / JOIN) and creates nothing");
   assert.doesNotMatch(entry+pairSource,/confirmed===false/,"R2 no destructive path treats a missing confirm() as consent");
-  assert.match(pairSource,/"DELETE OLD SHOWDOWN & START OVER"\),recover=pairCreateElement\("button","menuButton","RESTORE BACKUP"\)/,"R2 the recovery buttons and their order are unchanged (owner decision)");
+  assert.match(pairSource,/"DELETE OLD SHOWDOWN & START OVER"\);startOver\.type="button"/,"R2 the recovery screen offers the confirm-gated START OVER (r91: the backup-file restore button was cut)");
+  assert.doesNotMatch(pairSource,/RESTORE BACKUP/,"R2 no RESTORE BACKUP button comes back");
   console.log("ok R2 destructive start-over paths need confirm()===true");
 }
 

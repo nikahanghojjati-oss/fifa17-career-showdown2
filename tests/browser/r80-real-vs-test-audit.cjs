@@ -192,7 +192,7 @@ async function publishSeasonResult(m){
   await m.page.locator("#completeSeason").click({timeout:30000});
   await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="REVIEW YOUR SEASON RESULT",null,{timeout:30000});
   await m.page.locator("#confirmSeasonCompletion").click({timeout:30000});
-  await m.page.waitForFunction(()=>/YOUR RESULT IS PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
+  await m.page.waitForFunction(()=>/YOUR RESULT IS CONFIRMED|BOTH MANAGERS CONFIRMED/.test(document.getElementById("seasonReviewHeading")?.textContent||""),null,{timeout:30000});
 }
 // The final season's commit: Daniel's COMMIT & ACKNOWLEDGE, Nik's ACKNOWLEDGE; the close is automatic (no CLOSE tap).
 async function commitFinalSeasonViaUi(daniel,nik,p1,p2,seasonNumber){
@@ -240,7 +240,8 @@ async function reloadMidShowdown(m,{expectSession,expectShowdown,landing,button,
     try{await m.page.waitForFunction(re=>new RegExp(re).test(document.getElementById("seasonPrimaryAction")?.textContent||""),button,{timeout:45000});}
     catch(error){throw new Error(`${m.user}: after the reload the dashboard button says "${await m.page.locator("#seasonPrimaryAction").textContent().catch(()=>"?")}", expected /${button}/`,{cause:error});}
     await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
-    await m.page.locator(landing).waitFor({state:"visible",timeout:30000});
+    // r91: the way to Season Results may first show this manager's Squad Management screen.
+    await rosterRoulette.playSquadUntil(m.page,()=>m.page.locator(landing).filter({visible:true}).first().isVisible(),60000);
   }
   return {firstScreens,frames:after.length,landed};
 }
@@ -257,7 +258,7 @@ async function tapThroughReplayToSeasonResults(m){
       await m.page.waitForTimeout(700);
     }
     await cont.click({timeout:30000});
-    await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.toSeasonEntry(m.page);
   }
   return replayTaps;
 }
@@ -300,7 +301,8 @@ async function moveToFreshBrowser(browser,managers,retired,old,label,viewport,{e
   if(await m.page.locator("#dashboard").isVisible().catch(()=>false)){
     await m.page.waitForFunction(re=>new RegExp(re).test(document.getElementById("seasonPrimaryAction")?.textContent||""),button,{timeout:45000});
     await m.page.locator("#seasonPrimaryAction").click({timeout:30000});
-    await m.page.locator(landing).waitFor({state:"visible",timeout:30000});
+    // r91: the way to Season Results may first show this manager's Squad Management screen.
+    await rosterRoulette.playSquadUntil(m.page,()=>m.page.locator(landing).filter({visible:true}).first().isVisible(),60000);
   }
   return m;
 }
@@ -386,7 +388,7 @@ async function playTransferSeason(daniel,nik,tokenD,tokenN){
   await waitTransferPhase(nik,"completed");await waitTransferPhase(daniel,"completed");
   for(const m of [daniel,nik]){
     await m.page.getByRole("button",{name:"CONTINUE TO SEASON RESULTS",exact:true}).click({timeout:30000});
-    await m.page.locator("#seasonEntry").waitFor({state:"visible",timeout:30000});
+    await rosterRoulette.toSeasonEntry(m.page);
   }
 }
 // The shared setup through the real UI (as P2, without its reload): league, clubs, both confirm, both start their careers.
@@ -443,7 +445,7 @@ async function playOneSeasonShowdown(daniel,nik,rivalryId,tokens){
   await playTransferSeason(daniel,nik,tokens[0],tokens[1]);
   await fillSeasonResult(daniel,"p1",DANIEL_RESULT);await publishSeasonResult(daniel);
   await fillSeasonResult(nik,"p2",NIK_RESULT);await publishSeasonResult(nik);
-  for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS PUBLISHED",null,{timeout:45000});
+  for(const m of [daniel,nik])await m.page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="BOTH MANAGERS CONFIRMED",null,{timeout:45000});
   await commitFinalSeasonViaUi(daniel,nik,FINAL_EXPECTED.daniel,FINAL_EXPECTED.nik,1);
   for(const m of [daniel,nik]){
     await m.page.locator("#finalWinnerScreen").waitFor({state:"visible",timeout:60000});

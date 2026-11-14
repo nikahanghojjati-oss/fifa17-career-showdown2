@@ -18,7 +18,7 @@ const format=value=>value===null?"-":Number.isInteger(value)?String(value):value
 const careerFields=[["Career points","careerPoints"],["Seasons played","seasons"],["Season wins","seasonWins"],["Season draws","seasonDraws"],["Season losses","seasonLosses"]];
 const showdownFields=[["Showdowns completed","completed"],["Showdown wins","wins"],["Showdown draws","draws"],["Showdown losses","losses"]];
 const recordFields=[["Best season score","bestSeasonScore"],["Best league points","bestLeaguePoints"],["Best league goals","bestLeagueGoals"],["Best league position","bestLeaguePosition"],["Average season score","averageSeasonScore"],["Average league points","averageLeaguePoints"],["Average league goals","averageLeagueGoals"],["Perfect seasons","perfectSeasons"],["100-point seasons","hundredPointSeasons"],["100-goal seasons","hundredGoalSeasons"],["Top scorer seasons","topScorerSeasons"],["Top assist seasons","topAssistSeasons"],["Performance bonuses","performanceBonuses"],["Awards bonuses","awardsBonuses"]];
-const cabinetFields=[["Champions Leagues","championsLeagues"],["Europa Leagues","europaLeagues"],["League titles","leagueTitles"],["Domestic cups","domesticCups"],["Total trophies","totalTrophies"]];
+const cabinetFields=[["Champions League","championsLeagues"],["Europa League","europaLeagues"],["League titles","leagueTitles"],["Domestic cups","domesticCups"],["Total trophies","totalTrophies"]];
 const rivalryFields=[["Season wins","seasonWins"],["Season draws","seasonDraws"],["Season losses","seasonLosses"],...cabinetFields,["Perfect seasons","perfectSeasons"],["Best season score","bestSeasonScore"]];
 function comparisonRows(fields,records){return fields.map(([label,key])=>({label,daniel:format(records.daniel[key]),nik:format(records.nik[key])}));}
 function frozenTree(value){if(value&&typeof value==="object"){assert.ok(Object.isFrozen(value));Object.values(value).forEach(frozenTree);}}
@@ -66,9 +66,9 @@ await check("2. Online route",()=>{
 });
 await check("3. Source table",()=>{
   for(const identityState of [online,null]){
-    // r61: signed in or not, no model means Team V's unavailable state; only Legacy's data tools ask for the local page.
+    // r61: signed in or not, no model means Team V's unavailable state (r91: the local data-tools page was cut, nothing asks for "local").
     assert.equal(Seam.selectCareerScreenSource({identityState,model:null}),"unavailable");
-    assert.equal(Seam.selectCareerScreenSource({identityState,model:null,dataTools:true}),"local");
+    assert.equal(Seam.selectCareerScreenSource({identityState,model:null,dataTools:true}),"unavailable");
     assert.equal(Seam.selectCareerScreenSource({identityState,model:ready,dataTools:true}),"model");
     assert.equal(Seam.selectCareerScreenSource({identityState,model:ready}),"model");
     assert.equal(Seam.selectCareerScreenSource({identityState,model:{}}),"unavailable");
@@ -93,7 +93,7 @@ await check("5. Partial and interim",()=>{
     assert.ok(view.sections.length);
   }
   for(const screen of Seam.SCREENS){
-    assert.equal(Seam.careerScreenView(screen,interim).interimLabel,"Current Showdown only. Career history is not yet available.");
+    assert.equal(Seam.careerScreenView(screen,interim).interimLabel,"This Showdown only. Career history is not available yet.");
     assert.equal(Seam.careerScreenView(screen,{...interim,status:"unavailable"}).interimLabel,null);
   }
 });
@@ -177,10 +177,10 @@ await check("11. Online or signed out never runs the local path",()=>{
     assert.equal(h.legacy.textContent,Seam.TEXT.unavailable);assert.equal(h.legacy.findByClass("legacyDataControls").length,0);
   }
 });
-await check("12. Legacy data tools keep the local page",()=>{
+await check("12. The old data-tools flag no longer selects a local page (r91)",()=>{
   const h=harness(null);h.context.careerModeLegacyDataTools=true;h.context.renderCareerStatistics();h.context.renderTrophyRoom();h.context.renderLegacy();
-  assert.equal(h.counts.buildCareerAnalytics,0);assert.equal(h.counts.loadLegacyShowdowns,1);assert.equal(h.counts.loadSavedShowdown,1);assert.equal(h.counts.importPanel,1);
-  assert.equal(h.legacy.findByClass("legacyDataControls").length,1);
+  assert.equal(h.counts.buildCareerAnalytics,0);assert.equal(h.counts.loadLegacyShowdowns,0);assert.equal(h.counts.loadSavedShowdown,0);assert.equal(h.counts.importPanel,0);
+  assert.equal(h.legacy.textContent,Seam.TEXT.unavailable);assert.equal(h.legacy.findByClass("legacyDataControls").length,0);
 });
 await check("13. Model given and remembered",()=>{
   const h=harness();

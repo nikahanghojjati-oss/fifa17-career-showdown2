@@ -9,12 +9,6 @@ const storageTransaction = fs.readFileSync("js/storageTransaction.js", "utf8");
 const showdown = fs.readFileSync("js/showdown.js", "utf8");
 const saveLibraryRuntime = fs.readFileSync("js/saveLibraryRuntime.js", "utf8");
 const stabilityAudit = fs.readFileSync("tests/browser/stability-audit.cjs", "utf8");
-const restoreUi = fs.readFileSync("js/restoreUI.js", "utf8");
-const restoreCss = fs.readFileSync("css/restore.css", "utf8");
-const restoreAudit = fs.readFileSync("tests/browser/restore-audit.cjs", "utf8");
-const maintenanceAudit = fs.readFileSync("tests/browser/restore-maintenance-audit.cjs", "utf8");
-const stabilityWorkflow = fs.readFileSync(".github/workflows/validate-stability-lane.yml", "utf8");
-const candidateCWorkflow = fs.readFileSync(".github/workflows/validate-atomic-restore.yml", "utf8");
 const burninScript = fs.readFileSync("tests/support/run-release-burnin-pass.sh", "utf8");
 
 assert.ok(
@@ -81,19 +75,6 @@ assert.ok(!hasSavedSection.includes("reportStorageError"), "Expected corrupt act
 console.log("Corrupt active-save validity probing remains silent; canonical Start crosses the strict storage boundary before additive creation.");
 
 assert.ok(
-    restoreUi.includes("window.createCareerModeRestorePlan(analysis,confirmedRaw,confirmedChoices)"),
-    "Apply must validate the immutable confirmed choices against the exact confirmed reviewed raw snapshot before confirmation."
-);
-assert.ok(
-    restoreUi.includes("window.applyCareerModeRestore(confirmedFile,confirmedChoices,{expectedRaw:confirmedRaw})"),
-    "User-facing Apply must carry the exact confirmed file/choices/raw bytes into the post-flush stale-state guard."
-);
-assert.ok(
-    restoreUi.includes("setRestoreControlsLocked(root,true)")
-        && restoreUi.includes("confirmedGeneration!==fileGeneration||confirmedFile!==file"),
-    "Confirmed restore intent must remain locked and bound to the exact selected file while asynchronous revalidation runs."
-);
-assert.ok(
     storage.includes("function captureCareerModeRawRestoreSnapshot()")
         && storage.includes("failedKeys")
         && storage.includes("applyCareerModeRawStorageTransaction(plan,expectedRaw=null)"),
@@ -107,64 +88,7 @@ assert.ok(
     "Restore must preserve last-moment byte preconditions, mutation ownership, reverse rollback order and anti-clobber ownership conflicts."
 );
 assert.ok(
-    restoreUi.includes('result.status==="stale-state"') && restoreUi.includes("resetChoices();"),
-    "Stale reviewed/transaction state must force fresh restore choices instead of silently reusing old decisions."
-);
-assert.ok(
-    restoreUi.includes("function lockCriticalRecoveryState(root)")
-        && restoreUi.includes('root.dataset.criticalRecovery="true"')
-        && restoreUi.includes('root.querySelectorAll("input,select,button")'),
-    "Unverified rollback must visibly lock every Candidate C control until refresh."
-);
-assert.ok(
-    restoreUi.includes('if(result.status==="write-failed-clean")')
-        && restoreUi.includes("RESTORE NOT STARTED")
-        && restoreUi.includes('if(result.status==="rolled-back")')
-        && restoreUi.includes("RESTORE ROLLED BACK"),
-    "Recovery UX must distinguish a zero-mutation first-write failure from a verified rollback."
-);
-assert.ok(
-    restoreUi.includes('if(result.status==="rolled-back")')
-        && restoreUi.includes("preserveRecovery=true")
-        && restoreUi.includes('if(preserveRecovery)button.disabled=false'),
-    "Verified rollback evidence must persist while still allowing a deliberate retry."
-);
-assert.ok(
-    /careerRestorePicker input\[type=file\]\{[^}]*min-height:44px/.test(restoreCss),
-    "Candidate C file selection must preserve the 44px mobile touch-target floor."
-);
-assert.ok(
-    [
-        "successfulRestoreAndIdempotence",
-        "stalePreviewBlocks",
-        "safeRollback",
-        "criticalRollback",
-        "corruptLegacyRequiresReplace",
-        "doubleApplyLock",
-        "lifecycleInterruptionBeforeCommit",
-        "mobileReducedMotion",
-        "assertFooterSafe"
-    ].every(name => restoreAudit.includes(name)),
-    "Candidate C browser audit must keep success, stale-state, rollback, corrupt-data, concurrency, lifecycle, mobile and footer-visibility scenarios."
-);
-assert.ok(
-    maintenanceAudit.includes("confirmedIntentCannotRace")
-        && maintenanceAudit.includes("firstWriteFailureIsClean")
-        && maintenanceAudit.includes("isCareerModeRestoreInFlight"),
-    "v1.1.5 browser audit must permanently protect immutable confirmed intent and zero-rollback first-write failure semantics."
-);
-assert.ok(
-    candidateCWorkflow.includes('npm run test:restore-browser')
-        && candidateCWorkflow.includes("candidate-c-atomic-restore-")
-        && candidateCWorkflow.includes("candidate-c-restore-*.png"),
-    "Candidate C destructive recovery must retain one dedicated authoritative browser gate and evidence artifact."
-);
-assert.ok(
-    stabilityWorkflow.includes('npm run test:restore-browser'),
-    "Candidate C destructive recovery must remain inside the exhaustive deployed-site Stability smoke."
-);
-assert.ok(
     !burninScript.includes('npm run test:restore-browser') && burninScript.includes('npm run test:browser'),
     "Burn-In must repeat the complete stateful integration journey without duplicating Candidate C's dedicated proof."
 );
-console.log("Candidate C hardening is permanent: immutable confirmed intent, strict snapshots, byte preconditions, ownership-scoped rollback, differentiated recovery UX, 44px file input, deep dedicated browser evidence, exhaustive deployed smoke, and non-duplicative integration Burn-In are protected.");
+console.log("Storage hardening stays permanent: strict snapshots, byte preconditions, ownership-scoped rollback, and non-duplicative integration Burn-In are protected (r91: the restore UI and its dedicated browser gate were cut).");

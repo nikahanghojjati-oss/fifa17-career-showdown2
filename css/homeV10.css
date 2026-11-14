@@ -806,13 +806,18 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
     --home-continue-h: clamp(52px, 18svh, 68px);
     --home-tile-h: max(44px, calc((var(--home-vh) - var(--phone-nav) - 54px - var(--home-continue-h) - var(--home-music-h) - 3 * var(--home-gap) - 8px) / 2));
     --phone-hero: calc(var(--home-vh) - var(--phone-nav));
-    --home-logo-w: min(36vw, 280px);
-    --home-logo-h: calc(var(--home-logo-w) * 378 / 1040 + 26px);
+    /* r91 (phone-faces, art thread's Home row): at 844x390 the wordmark lay across both managers' bodies and hands. The phone plate's top 16.4 %
+       is plain ceiling (the same band the upright phone uses), 40vw wide here and drawn 1.7777 times as tall, so the hair starts at 11.66vw.
+       The wordmark is sized to that band (8px above and under it) and stands between SIGN IN and the plate's right edge. */
+    --home-hair: 11.66vw;
+    --home-logo-w: min(calc((var(--home-hair) - 16px) * 640 / 233), calc(40vw - 90px), 280px);
+    --home-logo-h: calc(var(--home-logo-w) * 233 / 640);
     min-height: 340px; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     grid-template-rows: minmax(0, 1fr) var(--phone-nav);
   }
   #app #mainMenu.v10Home .plateView { width: 40%; }
-  #app #mainMenu.v10Home .homeLockup { left: 20%; }
+  #app #mainMenu.v10Home .homeLockup { left: calc((40vw + 70px) / 2); }
+  :root #app #mainMenu.v10Home .fifaMenuShell > .homeLockup { top: max(8px, calc((var(--home-hair) - var(--home-logo-h)) / 2)); translate: none; }
   #app #mainMenu.v10Home .lockupKicker,
   #app #mainMenu.v10Home .lockupLegacy { font-size: 8px; letter-spacing: .18em; }
   #app #mainMenu.v10Home > .fifaMenuShell {
@@ -952,7 +957,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
    cover-fit and top-anchored (desktop rule near the top), 2X on high-density screens, and loads with Home, never with
    the startup bundle. The plate already carries the banner words and the name tags, so the live script line is not
    drawn over it, and the old plate's darkening scrims are lightened because the marble is already dark where text sits. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   #app #mainMenu.v10Home {
     --bevel-gold: linear-gradient(135deg, #FFF1B8 0%, #E8B94A 16%, #8A6A12 38%, #F2C45B 58%, #FFF1B8 74%, #B8862A 100%);
     --bevel-gold-soft: linear-gradient(135deg, #FFE9A0 0%, #D9A83A 28%, #7A5C10 52%, #E8B94A 78%, #FFF1B8 100%);
@@ -1008,13 +1013,13 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 /* HOME-PLATE-V2 placement: keep the soundtrack card and the headline off the managers' faces and hands. The plate is
    cover-fit and top-anchored, so a plate pixel (x, y) lands at (50vw + (x - 768) * s, y * s), s being the cover scale.
    Nik's watch ends at plate y 462 and his hand at plate x 1222; Daniel's pointing hand starts at plate x 585. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   #app #mainMenu.v10Home { --plate-s: max(100vw / 1536, 100vh / 864); --col-w: min(36vw, 560px, calc(50vw - 183 * var(--plate-s) - 14px - var(--gutter))); }
 }
 
 /* On short mouse windows the plate is small and its banner script ("More Than A Game") starts right under the nav bar,
    so the two identity chips sit a few pixels higher and a little slimmer there. Touch screens keep their 44px chips. */
-@media (min-width: 1200px) and (min-height: 600px) and (max-height: 820px) and (min-aspect-ratio: 3/2) and (orientation: landscape) and (pointer: fine) {
+@media (min-width:901px) and (max-height: 820px) and (orientation: landscape) and (pointer: fine) {
   #app #topHeader { top: calc(var(--sd-nav-top-h, 52px) + 4px); }
   #app #topHeader #onlinePlayerIdentityBadge, #app #topHeader #seasonIndicator { min-height: 26px; padding-top: 4px !important; padding-bottom: 4px !important; }
 }
@@ -1022,7 +1027,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 /* r78 phone marble: below the desktop picture range the Home tiles and the soundtrack card are no longer glass (no
    backdrop blur); they wear the same black-marble face as the desktop tiles. CONTINUE CAREER keeps its gold. Looks only:
    frames, sizes, places, words and tap order are unchanged. */
-@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media not all and (min-width:901px) and (orientation: landscape) {
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer){
     background: linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%);
     -webkit-backdrop-filter: none;
@@ -1254,24 +1259,24 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 }
 
 /* HO-067 Gate B2 (Team V's handcrafted Home art V2 RICH, HC 01 + HC 02 V2): Home stands in the new room alone so Nik can judge it.
-   - Desktop and tablet: ENV_HOME_PLATE_HC_V2, cover-fit and top-anchored as before. Every level loads the 1X plate; High
+   - Desktop and tablet: ENV_HOME_PLATE_HC_V3, cover-fit and top-anchored as before. Every level loads the 1X plate; High
      and up (html[data-assets] 2-4) add the 2X plate for sharp screens. The plates-v2 Home plates stay as rollback.
-   - Phone (portrait and sideways): ENV_HOME_PHONE_HC_V2, and the 590 px plate where the device's download size is the
+   - Phone (portrait and sideways): ENV_HOME_PHONE_HC_V3, and the 590 px plate where the device's download size is the
      smallest (html[data-assets="0"]: Light, a Balanced phone, or Save-Data / a slow connection).
    - The room is calm and dark where text sits, so nothing is laid over it: no top scrim, no dock bed (both gone from the
      DOM), no dark patch behind the wordmark or the heading, and the 01/02 strip is not drawn on Home. */
 @media (min-width: 761px) and (orientation: portrait), (min-width: 901px), (min-height: 481px) and (orientation: landscape) {
-  html #app #mainMenu.v10Home .plateView { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp); }
+  html #app #mainMenu.v10Home .plateView { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1X.webp); }
   html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #mainMenu.v10Home .plateView {
-    background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_2X.webp) 2x);
+    background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp) 2x);
   }
   html #app #mainMenu.v10Home .homeLockup::before, html #app #mainMenu.v10Home .homeLockup::after,
   html #app #mainMenu.v10Home .fifaMenuHeading::before { background: none; }
 }
-html #app #mainMenu.v10Home .phoneHeroBackground { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2.webp); }
-html[data-assets="0"] #app #mainMenu.v10Home .phoneHeroBackground { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2_590W.webp); }
+html #app #mainMenu.v10Home .phoneHeroBackground { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V3.webp); }
+html[data-assets="0"] #app #mainMenu.v10Home .phoneHeroBackground { background-image: url(../visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V3_590W.webp); }
 html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
-/* HO-067 Gate B, upright phone: Team V painted ENV_HOME_PHONE_HC_V2 for this layout. Its top 16% is a plain dark ceiling
+/* HO-067 Gate B, upright phone: Team V painted ENV_HOME_PHONE_HC_V3 for this layout. Its top 16% is a plain dark ceiling
    (the title band), the managers stand from about 16.4% (hair, y 344 of 2096) to the counter's brass lip, which runs from
    50% to 51.4% (y 1048-1076), and everything below the lip is plain stone for the tiles. All three follow the plate's drawn height (--hc-ph):
    - the tiles shrink toward their floors (Continue 66 px so its "No Showdown live" line keeps its room, tiles 44 px, Story 44 px) until they start on the stone, 4 px
@@ -1331,3 +1336,11 @@ html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
 /* r90 strict COL-05 (latent): css/app.css:79 colours the START A SHOWDOWN and RULE BOOK subtitles #354650, slate on near-black
    (1.4-2.0:1). Every tile subtitle is hidden today, but any size that shows them reads like the other tiles' #cfc6b4. */
 #mainMenu.v10Home .menuTile:not(#continueCareer) .menuTileMeta { color: #cfc6b4; }
+/* r91 sharp rooms (art ledger R4): windows wider than 1536 or taller than 864 CSS px drew the 1536px 1X room stretched
+   (Nik's Chromebook at 1920x866 / 1920x1035, DPR 1, Auto = Light). They draw the 1920px cut of the same room (resized from
+   Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
+   unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  html #app #mainMenu.v10Home .plateView { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #mainMenu.v10Home .plateView { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp') 2x); }
+}

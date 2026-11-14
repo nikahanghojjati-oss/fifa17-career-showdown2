@@ -11,7 +11,7 @@
 //   E4  local form (js/seasonEngine.js): reset clears the EL box, the read sets the key only when ticked, the review fingerprint
 //       sees EL, both ticked is a validation message, the change handler keeps the boxes exclusive, the review chip and the
 //       breakdown line (only for a season that won it).
-//   E5  Standings: the Europa Leagues row after Champions Leagues (8 rows, phone board budget 8 rows), frames need the counter.
+//   E5  Standings: the Europa League row after Champions League (8 rows, phone board budget 8 rows), frames need the counter.
 //   E6  Final Winner: the Europa League honours row (TRO_EUROPA art) and the trophies line; a record without the counter fails closed;
 //       the honours grids have five metric rows and the short-window plaque leaves room for them.
 //   E7  Rule Book: EL +3 row, never both CL and EL wins in the same season (both count across seasons), the season 1 setup note, the EL final may be played, best season 11 / EL 9.
@@ -74,7 +74,7 @@ function openSeasonPage(device,{role="playerOne",published=[]}={}){
     crypto:{getRandomValues(bytes){for(let i=0;i<bytes.length;i+=1)bytes[i]=(random+i)&255;random+=1;return bytes;}},
     reportApplicationError(){},ensureGameplayModules:async()=>true,
     loadRuntimeScript:async key=>{throw new Error(`unexpected runtime load ${key}`);},
-    CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:role,rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setupUpdatedAtMs:Date.parse("2026-10-01T00:00:00Z")})},
+    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>false,markDone(){}},CareerModeChamberMenStep:{ensure:async()=>true,applies:()=>false,markDone(){}},CareerModeProductionSharedShowdownSetup:{refresh:async()=>true,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,leagueId:"premier_league",clubs:{playerOne:"A",playerTwo:"B"}},managerRole:role,rivalryId:RIVALRY,sessionId:SESSION,deviceId:DEVICE,setupUpdatedAtMs:Date.parse("2026-10-01T00:00:00Z")})},
     CareerModeProductionSharedTransferChallenge:{refresh:async()=>true,getState:()=>({seasonNumber:2,state:{phase:"COMPLETED"}})},
     CareerModeSharedShowdownCatalog:{catalog:{premier_league:new Array(20).fill("club")}},
     CareerModeSharedShowdownSetup:{},CareerModeSharedSeasonResults:{},CareerModeSparkSharedSeasonResults:provider,
@@ -207,17 +207,17 @@ function standingsAndFinal(){
   const counts=(cl,el,lt,dc)=>({seasonWins:1,seasonDraws:0,seasonLosses:0,championsLeagues:cl,europaLeagues:el,leagueTitles:lt,domesticCups:dc,totalTrophies:cl+el+lt+dc});
   const frames=SF.standingsFrames({status:"ready",score:{daniel:7,nik:9},managers:{daniel:counts(0,1,1,1),nik:counts(1,0,1,0)}},null);
   assert.equal(frames.SHOWDOWN.model.status,"ready");
-  assert.equal(frames.SHOWDOWN.model.managerRecords.daniel.europaLeagues,1,"Standings carries the Europa Leagues counter");
+  assert.equal(frames.SHOWDOWN.model.managerRecords.daniel.europaLeagues,1,"Standings carries the Europa League counter");
   const {europaLeagues:_drop,...old}=counts(0,1,1,1);
   assert.equal(SF.standingsFrames({status:"ready",score:{daniel:7,nik:9},managers:{daniel:old,nik:counts(1,0,1,0)}},null).SHOWDOWN.model.status,"unavailable","a record without the counter fails closed");
   const st=read("visual-assets/v10_1/standings/standings.js"),strings=JSON.parse(read("visual-assets/v10_1/standings/app-strings.json")).strings;
   const rows=JSON.parse(/const SCOPE_ROWS = (\[[^\]]+\]);/.exec(st)[1]);
   assert.deepEqual(rows,["seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"]);
-  assert.equal(strings.fields.europaLeagues,"Europa Leagues");
+  assert.equal(strings.fields.europaLeagues,"Europa League");
   const css=read("visual-assets/v10_1/standings/standings.css"),sf=read("js/seasonFinalV10.js");
   assert.ok(css.includes("grid-template-rows:repeat(8,1fr)")&&css.includes("grid-template-rows:repeat(8,18px)")&&!/repeat\(7,/.test(css),"the board has room for 8 rows");
   assert.ok(sf.includes("--sg-board:calc(205px + 8 * var(--sg-row))")&&sf.includes("--sg-board:calc(296px + 8 * var(--sg-row))")&&!sf.includes("+ 7 * var(--sg-row)"),"the phone and tablet board budget counts 8 rows");
-  ok("E5 Standings: Europa Leagues row after Champions Leagues (8 rows, board budget 8 on phone and tablet); a record without the counter fails closed");
+  ok("E5 Standings: Europa League row after Champions League (8 rows, board budget 8 on phone and tablet); a record without the counter fails closed");
 
   const rec=(cl,el,lt,dc,total)=>({totalPoints:total,championsLeagues:cl,europaLeagues:el,leagueTitles:lt,domesticCups:dc,totalTrophies:cl+el+lt+dc});
   const recon={phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,winner:"playerOne",managerTotals:{playerOne:7,playerTwo:5},acceptedSeasons:1,totalSeasons:1,rivalryId:RIVALRY,acceptedRevisionKey:"k1"};
@@ -262,16 +262,16 @@ function ruleBook(){
   assert.deepEqual(score.slice(0,2),[["Champions League winner","+5"],["Europa League winner","+3"]]);
   // r87 Prime Pack (Nik 2026-11-01): 4, 3, 2 or 1 for the first to name the masked Icon raises the season maximum from 11 to 15.
   assert.equal(book.all().find(n=>n.className==="ruleScoreMaximum").textContent,"MAXIMUM PER MANAGER / SEASON15","the season maximum is 15 with Prime Pack");
-  assert.deepEqual(score[score.length-1],["Prime Pack: first to name the masked Icon (4, 3, 2 or 1 by stage)","+4 MAX"],"the Prime Pack row closes the scoring table");
-  assert.ok(items.includes("You may play or simulate a Champions League or Europa League final."),"the EL final may be played, like the CL final");
-  assert.ok(items.includes("You may play or simulate the main domestic cup final."),"the cup final line is unchanged");
-  const notes=flat(book.all().find(n=>n.className==="ruleScoreNotes")).map(n=>n.textContent).join(" ");
+  assert.deepEqual(score[score.length-1],["Prime Pack: first right name (4, 3, 2 or 1 by stage)","+4 MAX"],"the Prime Pack row closes the scoring table");
+  // r91 (Nik 2026-11-11): the finals and the season 1 setup are one card, "Playing the season", in game order.
+  assert.ok(items.includes("Simulate every match, apart from three finals you may play or simulate: the Champions League final, the Europa League final and the main domestic cup final."),"the CL, EL and cup finals may be played");
+  const notes=items.join(" ");
   for(const pattern of [/Season 1: both clubs play in the Champions League/,/redrawing the Champions League groups twice/])assert.match(notes,pattern);
   // r86 (Nik 2026-10-29): rules FIFA 17 enforces by itself are no longer printed; the scoring engine still applies them.
   for(const gone of [/same season/,/3rd in its Champions League group/,/by its league position/,/Only winning scores/,/Best possible season/])assert.doesNotMatch(notes,gone);
-  assert.ok(items.includes("Skip pre-season in FIFA 17."),"r86 (Nik 2026-10-29): pre-season is skipped in FIFA 17");
-  assert.equal(book.all().filter(n=>/^ruleSection( scoringRuleSection| specialPlayerRuleSection)?$/.test(n.className)).length,10,"ten rule cards (r86 adds Special Player, drops the draws card; r88 adds Chamber Men, Roster Russian Roulette and Prime Pack cards; r89 adds Sacked)");
-  ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, ten cards");
+  assert.ok(items.includes("Now play the season in FIFA 17. Skip pre-season."),"r86 (Nik 2026-10-29): pre-season is skipped in FIFA 17");
+  assert.equal(book.all().filter(n=>/(^| )ruleSection( |$)/.test(n.className)).length,11,"eleven rule cards in game order (r91)");
+  ok("E7 Rule Book: EL +3 row, CL or EL never both, the season 1 Champions League setup note, the EL final may be played, eleven cards");
 }
 
 function textLines(){

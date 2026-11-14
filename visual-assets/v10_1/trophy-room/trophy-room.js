@@ -69,7 +69,7 @@
   }
 
   function titleBlock(strings) {
-    return `<header class="trophyTitleBlock" data-sd-enter="title"><p class="sd-eyebrow trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><img class="trophyBrushTitle" src="${BASE}assets/TITLE_TR_V2_1920.webp" srcset="${BASE}assets/TITLE_TR_V2_480.webp 480w, ${BASE}assets/TITLE_TR_V2_960.webp 960w, ${BASE}assets/TITLE_TR_V2_1920.webp 1920w, ${BASE}assets/TITLE_TR_V2_3840.webp 3840w" sizes="(max-width: 900px) 92vw, 35vw" alt="" aria-hidden="true"><p class="sd-tagline trophyTagline">TWO MANAGERS. ONE LEGACY.</p></header>`;
+    return `<header class="trophyTitleBlock" data-sd-enter="title"><p class="sd-eyebrow trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><img class="trophyBrushTitle hc-title-img" data-hc-title="TR" src="${BASE}assets/TITLE_TR_V3_960.webp" srcset="${BASE}assets/TITLE_TR_V3_480.webp 255w, ${BASE}assets/TITLE_TR_V3_960.webp 511w, ${BASE}assets/TITLE_TR_V3_1920.webp 1008w, ${BASE}assets/TITLE_TR_V3_3840.webp 2017w" sizes="clamp(269px, 20.70vw, 396px)" alt="" aria-hidden="true"><p class="sd-tagline trophyTagline">TWO MANAGERS · ONE LEGACY</p></header>`;
   }
 
   function ranking(frame) {

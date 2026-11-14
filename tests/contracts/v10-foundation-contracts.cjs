@@ -443,8 +443,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"2.3.0-r90","RUNTIME_REVISION is the r90 release (2.3.0-r90)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.2.0-r89");
+  assert.equal(revision,"2.4.0-r91","RUNTIME_REVISION is the r91 release (2.4.0-r91)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.3.0-r90");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -493,7 +493,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"2.3.0-r90");assert.equal(prev,"2.2.0-r89");
+  assert.equal(cur,"2.4.0-r91");assert.equal(prev,"2.3.0-r90");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -557,6 +557,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V2_960.webp":"b9093ab7e8ae3daa3251d88a99305c2a7a592ba9d3d8c42b782679dd4828b880",
     "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V2_1920.webp":"9be2f90620d00aa0ff046a34eb30be174eacb0a7a39cabb20e7bba63530d6a12",
     "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V2_3840.webp":"7395ea62ffe2e4d3294e1a7628679b8f458e6801895d8ec875458e9bd8a19be0",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SHOWDOWN_DRAW_V2_480.webp":"436b9c8d81a4f36f80a12ac4c03279464e7bf1f3c9ecb175a5ec5475fb560379",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SHOWDOWN_DRAW_V2_960.webp":"c8bc57678ef20715e16c50da89d3c3c0ad4dc9c3b81d7c562914f3d96cf3b563",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SHOWDOWN_DRAW_V2_1920.webp":"4dbb4fee70fd6f8930cfe8653878591d0f295b12c22de92417df6334ac32e295",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SHOWDOWN_DRAW_V2_3840.webp":"bf9f9e1d77adca7594884c60f5d0aca77710d0da3c2f82a13e7e32df8507e2a9",
     "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V1.webp":"adbf6ee3214a535b2d96cd12bd40110178ecae0e01cf53cd5eb17dde646e3807",
     "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V2_480.webp":"0d0a949a8b8cb9f1872a000d9f8eb63dd96a6d4a515e5d8cb861741c9fed3ee8",
     "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V2_960.webp":"73801e04bc0cabb7e2268facefa530993e53d608c597c688fe88c575edd2c6bc",
@@ -745,24 +749,82 @@ const V10_IMAGES={
     // The plates-v2/v3 plates they replace stay as rollback.
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1X.webp":"aa296ae5b206e42f8317c133ff2d2d7c8f1ca6a4f0c5a670b193a9cc8f3b8aa9",
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_2X.webp":"f0e395ee4705950485e067f9850032d90ac246c95f62904d77db77ea4ccad75c",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V2_1920.webp":"e567404e8fb8420c7ce6ae4f2d8d0cdbc2414c8e46e9a92fb616341eefa3bff1",
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2.webp":"ca81f0f88015c53fa03b3854756efcffd4840ba8b8e36fc1269397f41564be06",
     "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V2_590W.webp":"4d53f6dfadad65f334d753352e6a5e6c03b9d32f3700fe6aeeaac61b1c3359de",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp":"445321a35c63f7145c29eefd5d5868b6988427420b33f10b6806592d1615e280",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp":"590cd8025b971200f860ced27ff050e68d271c7e266556902249973b1fb3c7a5",
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1920.webp":"6964feb2d8b177acb35783c0fa9d1c8dd134f73c16f911dd4578ba0cf79cffbf",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2.webp":"03867ffa3e292915085ed13353b0f2e21598473eb3baaee291afbb9770837cb2",
     "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2_590W.webp":"a09a57eaedf0824a27cce8b353d477f05fd39e3f3a37574494d641ca14f29201",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp":"ebed7be9406625bedd032967276a36ac8298f393bef00b9eb83ac0fefac61d22",
+    // HO-077 (2026-11-13): Team V's 2X slab (claude/project-thread-6kfnkn d5eb5d1e, project-documents/hc-art/slab-2x) and its
+    // 1920 cut (LANCZOS, WebP q90, art ledger R4).
+    "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp":"e79e977a48019e5a98771463fdda6b224c279b4945960ee8afd6f57abcc9093d",
+    "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp":"f954c7b869d54ef46f83ee2fd1088d41e9fcb6f0f00d7f8983eb8bc7362d862c",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp":"897f5639fe3ac3790594070d0fd55b121094bae70265c9bcc96e7038c152c78c",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp":"774945d8dee301e6f147f943df9abea1ea3263444853256e6cdf7a8ef2b5ab11",
     "visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp":"76cf5166df341e532ae707615c2daddd49ad8fa83b0db2ca018640658f083e71",
+    // HO-074 (2026-11-11): Team V relit HC rooms (hair rim only on the lamp side), Start hall included, and the brushed-brass
+    // wheel rim. Wired 2026-11-12 (Team G new-rooms PR); the V2 files stay as rollback until r92.
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V3.webp":"75726ad65752665ad0e3b0a06840a52f065a7ecbfd7958844de56a199ccf2a28",
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V3_590W.webp":"0cb46ce4a97cf074c0e42217d70e4f719186fb322a481c8d916afecba7ff4991",
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1X.webp":"95355a855e6d39b0e4c4a4ad766f1fdccbd98a1f2412121a6e80bef8aebc49dc",
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_2X.webp":"3cdf27a053cc7c8d30ea06ed1769bc9283df81c951e13393226a3f2399634943",
+    "visual-assets/v10_1/plates-hc/ENV_BOARD_PHONE_HC_V3.webp":"246c1d772a60813e276dadba53fa9763b6c22cd8299f7363f5db1d8a091ae23d",
+    "visual-assets/v10_1/plates-hc/ENV_BOARD_PHONE_HC_V3_590W.webp":"5b7e849837e15b5473dc8a27c4981874d5caeec5d10aecb675caf2e6c4bda753",
+    "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1X.webp":"cb9805325ead1f418e1fa734f3ca3e743dbabf5dd3a461836107f991f9079851",
+    "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp":"cccaaad02cd5eafdd29f87456cc927c9909149c58124913fd8a3749fd505d300",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3.webp":"743e19658a432b6fcf6ff8d6ecdc7e2ccea4a4b6221edf3bdc3dbe1fd391088e",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_590W.webp":"28a8f08a43ea409b35b02275cfcf6741b23ba5b897432df9e1da56de08d80e75",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_TALL.webp":"6f74f7503a231edad302bffde9ebdde01578835dcae2b089f9c4408a0918b666",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_TALL_590W.webp":"c2afbe5ad0edd820bf53c96cd492c97946985418307203a5b62ba592bd93467b",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1X.webp":"485d49234ec0cb5d146f159aff45797615059be0549e2b3c6ca02a014b45a4dd",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_2X.webp":"f6e4309c3a6eb3f1d8ff96431123692966e619435ce4d9f0d46cd727c28ebf93",
+    "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp":"7309ab041d465de5d33ee05c6961ec09b7b62d1733259034261ccdf261831d1d",
+    "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_590W.webp":"3f85780b1d1233acdb97b00a354496934eb9a332f308e68d3a9f71a9c6f94f79",
+    "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_TALL.webp":"b4da66f6ae766e8a8f53550781ba0deb1779468912062e5aef133c9cdfb7544a",
+    "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp":"00f9645c0ae5d6afc9c243fbb39569b94d4c79c801f8f9d89f7b65df11ee3ba0",
+    "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_2X.webp":"d33edef35518ecc0360e8cec64366c7bfdaa893707574f27c60db406d2b0134d",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V3.webp":"96d07f5ff4a89999e0066d307ffd57ddc47b364a22b1737b42b8347ac6c57f34",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V3_590W.webp":"b330e8e9aaef2e17f518a8e2055f3294486f688e0a216a66c1db8a0573f4ff4d",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1X.webp":"74e481abb5015df7f0de895b9824ab15523d7ac57d874ded72f116f6f993212a",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp":"6b93b6764c8acec75eb914459dadff29f226e5d5f337cecf94b1560cc8ba2de9",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V3.webp":"b045dc367db20ccb8d28744fcdd0d4e5bd5cdd778975755f6d31e24283144074",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V3_590W.webp":"266e38209a19347fbfd489a06d79093d81ebe1df1f80fe7892cc88482bcbe49c",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1X.webp":"be179a183034999a13b5ca72760c37190b79a143a15173cbd1961b45d913044a",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_2X.webp":"6cbf56a6654b09356fc0aaa1e61766666de5820380e68f5f247549393bbabeb8",
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V3.webp":"47bce169e439fc9746f7835645b81f580b0ed40505392a168cccc7c8b1af9ebe",
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V3_590W.webp":"241c63a881d0b4587f4f02b6a03e196ba9b5082dad9993b284eb73d7c4a1967e",
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1X.webp":"a3cff0e1a19d3cdfb4dae88c9ce119d567abf69ac810aea2ff1f369a6811d488",
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_2X.webp":"cd27db4d0f613d2daeb981b04e89f7a1ef08176b3e28dcf91076766caeb9f1c3",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_2X.webp":"5fdcce8edc17fba2fee7d3c5c663189ff2593413654f7dd5df2e9f66dc5f7da9",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1X.webp":"2d04dad2a7238149a9f880bcdde9a3023f953980284a406840447358ec844aea",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3.webp":"c5505eca5b1dbc2149df0ef781899b3824461cff22ea84116b2316b494a8f839",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3_590W.webp":"9a681e5b58bdbf0408a2969a06bb5d6357b57f8a0ca38ada37986aab4e33f89e",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3_TALL.webp":"8ccd17f22b9736c75cab24cf269d4f60beca2ce8dd043db1df7499800c59584a",
+    // HO-073 (Nik OK'd 2026-11-12): the Home V3 files above are Team V's final crowd stands (claude/project-thread-h23w0d a5af7a35f,
+    // ho073/out) on the HO-074 V3 base. Art ledger R4: 1920px cuts of each V3 room, resized from the 3072px 2X (LANCZOS, WebP q90).
+    "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1920.webp":"78291f3d62058543854d00ee2645f55463946e0da5a3463f56876bfda54a68b0",
+    "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp":"6d4e034971a04c09a86c480f83634c33d51d58b3fc609463e2919fd2b77b0be1",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1920.webp":"e000a6f6c3373efc8d480f8b85d7d1420e8d9cb2ef9d748ace32f9165bb5a67f",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1920.webp":"5ada4ba0513d1483cf20564f55e4ffc9d40f6f5b5072e962d7cb05ffeea03a3f",
+    "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1920.webp":"24f7f10128f6a5bdd02be73935b1fb48a3ef9aa8aa59ba1fcc767cdf0e8ade99",
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V3_1920.webp":"7527251150400c86d9060b896e8759e135b087663c1224967a67a2f7cf7b8786",
+    "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1920.webp":"811fdb2a8e422dd0f1795c175c541c72a1d7fe8203b11e8a84131d90ad1b0ce6",
+    "visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1920.webp":"0623c3ebcc0832d094f8844676ff09033122ba09854e4a086dbc61ad1ed85d7b",
+    "visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V2.webp":"08a068706204783ef4f24599f72012f1dd88351556b5879ab7f2260a7ca385a6",
     // HO-068 (2026-11-09): Team V's handcrafted V2 tunnel room (Connect Players, Standings, Rivalry) and box room (League, Club
     // Assignment; TALL for 9:20 phones), from claude/project-thread-kxgun9 687598df6. The plates-v2 plates stay as rollback.
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1X.webp":"2d68af513bb9c528dea77d99dfdf844c72d2e9cc38a9426d97b169a14eb8b588",
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_2X.webp":"1ae3e25d16648eeff70e49f37324705498b70b8c76e9b72336edbdd8d3a9e638",
+    // r91 sharp rooms (art ledger R4): 1920px cuts of the six HO-068 rooms, resized from the 2X plates, for windows over 1536x864
+    "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PLATE_HC_V2_1920.webp":"547599ed8af2df84bcc0b24b6987f80ec0be9e5f66c23ba12ffa64d68d6ed644",
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2.webp":"486b214b797913a11e8d99246b058b5276067c7c85345ec39bf74f4a97e2cf75",
     "visual-assets/v10_1/plates-hc/ENV_TUNNEL_PHONE_HC_V2_590W.webp":"b9fe46be16198be235cc1a78e0316b9b65c56525a2010087cb5583b6fd57346d",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp":"f78da7395ca80138339403f4b9d2a3bb13f59932485f970a712ff8e1acc991fb",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp":"cc0e47b42a5eb62d16232002b292cf406bfc091b1a85ebede86c75011bedbd29",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1920.webp":"90405ea725f3bc29c6945029bda75d1c453f0ab0435d116a9b3e6418103e179f",
     "visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_2X.webp":"2da72663a210c524ddce55ae7b4882386f3759c2ccdfb3df77f50574bdec39e9",
     "visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_1X.webp":"402daae9c9f13535ed77babc57a79a7f8d0a2735b5be3733d54eecdbbcd5e0bf",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp":"77f9d3ca0ab75ac859429f94e3c394b0b7140953a947b153146cdfa1d7ab967d",
@@ -774,6 +836,7 @@ const V10_IMAGES={
     // 9e334b234, project-documents/hc-art/home/), which Nik picked at Gate A2; the V2 Home plates above stay as rollback.
     "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1X.webp":"01c65c91b7fca42b7bebd0b2f8012f3de201efe6cd012ff2059cf2652d3cab6c",
     "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_2X.webp":"28c6f56205c1fcbf2db3df9b1e0292b02d5c272f4ed11f265774185d53cd37d8",
+    "visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V2_1920.webp":"78854d59f1d275d7d5b8883c6ff0eb4e163657355898c201955d6fe3fa0d56b3",
     "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2.webp":"1b11bb0ceb356c2fca0dbf53be6460f1bb0654d20ca58db6ab8a34ce153e0c26",
     "visual-assets/v10_1/plates-hc/ENV_HOME_PHONE_HC_V2_590W.webp":"10ec8eb21b143385c93e81d006139917f7a84e5c80fd9b0f8862045495527fb9",
     // HO-068 (2026-11-09): Team V's handcrafted V2 rooms (claude/project-thread-kxgun9 687598df6, project-documents/hc-art/),
@@ -782,6 +845,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_BOARD_PHONE_HC_V2_590W.webp":"29aa17194024b73a994c6102c7d7aeb5e67a543ac32a3d5f06781eff6baa7621",
     "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1X.webp":"1abf37913892043a9f859b9c4162bbb668210ee73f35624142bcc143ad06c444",
     "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_2X.webp":"0cbaaa6e56ef0ee2c187bb38e3d654323cda9e3b1f09f15dad1517b0b5558be7",
+    "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp":"3f07c8a425b4085b2e38ada28cffaafb71781514b6270e6c2624ab585934f0c3",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_256.webp":"30d7faa0f1e26d4c5959869027bc288ad6fe5da8201e9482a0e84d434df88d75",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_512.webp":"ac3714e2a2f85c283a6055d6902375d65f0dfa534f763cbc2ed2b28643e19fa7",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_2_V2_256.webp":"492ced301dea9ca03a4ce3a69e1db371c099145f73fcee10b7d972fc962b9a1a",
@@ -816,6 +880,117 @@ const V10_IMAGES={
     "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp":"2af3ae7e8086a619e9e507e109b035e932e0b87c51d559111e5f239697cbaebb",
     "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_1920.webp":"fb4fbeaa32a5f14cae68037c27768ef1e4582861769b76bab1e8e3f4105fa91b",
     "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_3840.webp":"fbc03feb159b81838c76d0f4bd55c85e8e3f00b8288a35b33680ae222ddb7244",
+    // r91 HO-071 (Team V 9c1fe8ab): the V3 "Honours Board" title family, the VS mark and the Home logo, copied byte for byte.
+    "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V3_1920.webp":"f49eac263a3384abc3a8f2fde639fba5671460f1ae233a54188b1cf033591654",
+    "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V3_3840.webp":"9df7f078498c673b0f93c6bdfcf17f221d369545f6042957f199a7054697a68f",
+    "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V3_480.webp":"1e383fd21d7a523b1c77b51202cdd5198082628cbba22c1abf40793928d31c7a",
+    "visual-assets/v10_1/career-statistics/assets/TITLE_CS_V3_960.webp":"798adab980215f2e35c28e35188b51fb5f6976dc26a3547d96bff80a4a296adc",
+    "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_1040.webp":"8907a752d99b33a94229368e83927a2e25933228371044ce881973da312f39c6",
+    "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_2080.webp":"8508dd9713cb0e26c6bdb62192db5af75448da7a4f87073a0c355059cf11b7aa",
+    "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp":"1bd6859ee30751530a794c4936db487fb6547ef622e8864c8c1cec2f7cd4eb62",
+    "visual-assets/v10_1/legacy/assets/TITLE_LG_V3_1920.webp":"a8288dcddcb1ea7f93705345e6efc8644b2b09e64a926c03245ec196eba3e7a4",
+    "visual-assets/v10_1/legacy/assets/TITLE_LG_V3_3840.webp":"7b3c90c27d6381b7a3ed9fd6381fa9f5baf509f1a16769bedb8da7af616a1644",
+    "visual-assets/v10_1/legacy/assets/TITLE_LG_V3_480.webp":"e57a246685623c6944c87fdc369c96b6b7371c4b4df30a85a64318cf6f145266",
+    "visual-assets/v10_1/legacy/assets/TITLE_LG_V3_960.webp":"de1c068d5fd46b6e4b851890c534c8a6927d2b09154afa62e43ee6f3230a4b47",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_PHONE_V3_1920.webp":"1d607a8d46da28ebd202bc876ce66cb404294c4c68e95bc8a32d242d4c23c1af",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_PHONE_V3_3840.webp":"97b07310e92dbbd2124fd3dc561efc9a083e1a0dd50ca5d754bc1205d75afe12",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_PHONE_V3_480.webp":"8f2feca2462177cbbf27d3f695991e9a13cf44d0a39f7ea744e3817d90c1402a",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_PHONE_V3_960.webp":"e65d669a0d70c870fb15ab733bea1a9241e98d3007bfa2e269fc46ac254f9f7e",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V3_1920.webp":"1d607a8d46da28ebd202bc876ce66cb404294c4c68e95bc8a32d242d4c23c1af",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V3_3840.webp":"97b07310e92dbbd2124fd3dc561efc9a083e1a0dd50ca5d754bc1205d75afe12",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V3_480.webp":"8f2feca2462177cbbf27d3f695991e9a13cf44d0a39f7ea744e3817d90c1402a",
+    "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V3_960.webp":"e65d669a0d70c870fb15ab733bea1a9241e98d3007bfa2e269fc46ac254f9f7e",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_PHONE_V3_1920.webp":"5b4bc1594a4eb6d16d42ea7eb85623a521dee30dbd463399ebcc7831b422ae0a",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_PHONE_V3_3840.webp":"94238e2ce4cb2d707241a0c1f6d0c6860f1d70a84e86563c2b12907c809fee73",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_PHONE_V3_480.webp":"fae396b48df4c50c7a94ff92fe317f11d69490206470c7b64f662ed7cb1dce39",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_PHONE_V3_960.webp":"6cbcb26b4e1606f2b37c9d6b03c46028102d354d2921223adf42ea91ccdbdaf3",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_V3_1920.webp":"5b4bc1594a4eb6d16d42ea7eb85623a521dee30dbd463399ebcc7831b422ae0a",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_V3_3840.webp":"94238e2ce4cb2d707241a0c1f6d0c6860f1d70a84e86563c2b12907c809fee73",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_V3_480.webp":"fae396b48df4c50c7a94ff92fe317f11d69490206470c7b64f662ed7cb1dce39",
+    "visual-assets/v10_1/season-results/assets/TITLE_SR_V3_960.webp":"6cbcb26b4e1606f2b37c9d6b03c46028102d354d2921223adf42ea91ccdbdaf3",
+    "visual-assets/v10_1/shared/wordmarks/MARK_VS_V3_1040.webp":"7149390b33d25ce9afe66c11f656bae16950c0ff21f339634837b609a0684055",
+    "visual-assets/v10_1/shared/wordmarks/MARK_VS_V3_260.webp":"442c0a2d91c62dd32a1af6e67389013bca95840ce91a0e12919fc1e2406da11c",
+    "visual-assets/v10_1/shared/wordmarks/MARK_VS_V3_520.webp":"b6babe8dc8248972624dd53d627c0326306745264737b4a4a8162dd86bc30e6d",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_1920.webp":"7f8c435ee6cdc806c7fd5887944b295f6ca9d0753a09a90e2967134a33980577",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_3840.webp":"b3c89fa418a0c35bb1dbe1a2560b4aa620ed4981c9760a0f06de4f2bbd3fcace",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_480.webp":"4aa597e557e543abc301176a39bda31e72e5236635c889fe1aecfbbfed992a67",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_960.webp":"3ad468f92c62537f872ee6f2dd8ba7c14fa8e797dd369edcb6fba656fc4da37a",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CLUB_ASSIGNMENT_V3_1920.webp":"5dae2a8714c7f05cd53f6f10445b1570cbfd6bab344216a6a11e81cf1e63ea06",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CLUB_ASSIGNMENT_V3_3840.webp":"0e9708e4bbff72348e4729ffb5a1e930a21525f4111d50050189f15e7ec4bdda",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CLUB_ASSIGNMENT_V3_480.webp":"20c73e88d6ece1c2862db8dd8bcc182f07cf8505b2009b2cf86f5073f9190b07",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CLUB_ASSIGNMENT_V3_960.webp":"95ee98de1f13d8b0646d54e51a5e0acf2a9ad8c4157068673686f6797026309d",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_1920.webp":"3025c082f0169f8e7e708202792402bcbd0ecdd70dbc51c57a1ea4f86c969b23",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_3840.webp":"22f92a67429b283b73d360039c86bb954219335d9510205941e64af39b0f6335",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_480.webp":"970c24038feb3abcfb7a6fbf641efd0f08219d6be2c4c8331ecaab962220e44b",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_960.webp":"ad2ecf6a740b2a68a90b1082a4f9843fce3430cd705e0dff83c8b4a363c9ff27",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V3_1920.webp":"7cf17f7c5a757dfcec36ed0d54a98228d8bc72645c3905e5d3694282ddcb40bb",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V3_3840.webp":"7266f821d8b0cb7092b1c31e8fc2aeab2d4affa242596f4f647c17f757ae1513",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V3_480.webp":"6b6032f2a987cfb53d4a47db66fb2529c56aa8ffab692f87a22a5dce37702b44",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V3_960.webp":"d5bde06a27b332f695ec73a232d4d75202a4ec522cd5c93e2fc170fa0d04267a",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_GAZETTE_V3_1920.webp":"f9f92780a4d02f4560158a5784036563122113fabd84d131c2e6872e50e4ac28",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_GAZETTE_V3_3840.webp":"57ff05c2fdcfad0704098365485b81f1db18e11060e9ac82daee730b86da8e2f",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_GAZETTE_V3_480.webp":"65a95d8be82b77dcb1cf7c36938519969d5efd7c4b8e8364b4e8a38795792519",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_GAZETTE_V3_960.webp":"84b6a40a327d37cbd691f1383df29e1f065f20e81959cd6668fb8ebfd769e10d",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_HISTORY_V3_1920.webp":"fd5b9a628d737bd0d9fe92149d436dcc8eb636c40754423996dab06226f64f05",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_HISTORY_V3_3840.webp":"1efe11dc981aad89c8d2017488eb291eec0fe3b6ee547c882922ae9652b1bdf6",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_HISTORY_V3_480.webp":"0528d3bfaf6bbd2688b9fde4dc162a1df6d889163ea76171afa27f8aef1534d5",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_HISTORY_V3_960.webp":"a66c1251e489a160682ef1f8e8048e4aef021cd9796afb8a338de729866b4ba4",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_1920.webp":"3f850e37fc0120056827d291ceb50888022f0b900a6fd7f95fd4b86c011d5e3b",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_3840.webp":"e2a9f1f1bba7503ae26d8a68fe955f8b3603301d51ea2c6671214387cf59b6aa",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_480.webp":"f3dea1a90091552d2f3abf31787143c44a33519420b1c22738f443d81f450e6e",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_960.webp":"0289d2b1c3b6df3d5ef161d8aea7c5e7decb7b88518daf9beb45037a4d66ec48",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_1920.webp":"cb0d5c04fd25ecc02787912b371bd7a23142c5b606c4218850116dbfca8aa508",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_3840.webp":"ebc3434c02a2411c8a69e85338a033e8598553cf541ef55c91a883fce5236aba",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_480.webp":"14ee92b1a52bb8afd066170b8bb214c58faa9b14bbf73307f657c2c34b6ae2ae",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_960.webp":"a894e7896a3232c11fb523d05067039a931bea6a5c2b4e397f7678998e599f2a",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_PRIME_PACK_V3_1920.webp":"74ca1d92f16d9311e0a76d9f4ac93a70925c94f5326587560e052d7908c9be72",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_PRIME_PACK_V3_3840.webp":"79ba16368ebf0766fd9b72cb18e5fb3e2fbe9f194cca09ca8d670241319db4bf",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_PRIME_PACK_V3_480.webp":"9db38360ba0acbea42724893d32353c74f6bbdaf44dd41555c2c084402ed08fd",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_PRIME_PACK_V3_960.webp":"d5bc14b88fec73529451b4beb7ba3ca695fe21f9ea846f1cf39818791a2274eb",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_1920.webp":"b4d573318ab942969f6ebcc6f256a96cc8998bdb09bedf5b1ce8338fa1f286c1",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_3840.webp":"018086ac384fe933a1096c28c393da4202f560509a5e50170b1de84570a262f0",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_480.webp":"2e62c9844b1ad74c4aafd8c1db16e5a9c8b84e712a2e6ad78a013f54ef3976d5",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_960.webp":"3b1bb9d2a1f025be7caf9364941c7b012fe59390bd6be19e623899ca0b6d8593",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V3_1920.webp":"b20cf2029e52fda4e65f13c6007f249ad135e270da0341565e41f0d62fb3cfec",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V3_3840.webp":"2cc5daa5982668598ce5d8ff389df3632a7590794236139f06e278636924e7a8",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V3_480.webp":"a05e940d65748c5b9783c05926ed9141df72be76a0237c0403f5c8137cd3a20c",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_RULE_BOOK_V3_960.webp":"768f025ebf106e9ba557c9c7ea15f621231311b415d41441c87e192922181d50",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V3_1920.webp":"ca18708dce45ae1404857c8b377d5b568c1861e7d39e499905e16e355fde7eb1",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V3_3840.webp":"407d41cd81678ddf2a13b7f30dc4199a99b51978ac3a128c4b5d1796e5c433de",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_1920.webp":"fc8a7678d5559a3a9e1a8534934015c7e417198e01d0cde407a7161dc16c7724",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_3840.webp":"ae83e83695da2a03e8129024be96335e68fdf0d354cdd9fbc07c0a3b70f2dd84",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_480.webp":"3f75de18afc17f969cd429cc3a57c0a696481fdfd2251e534b8a8148ceae74b4",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_960.webp":"e438faaf65b3ca4229a319d60d97aad8cfc52fd92e0f2214bd8efcfa7e5e799a",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V3_480.webp":"97ece4d34c5bc80f6bae1ac59cb31132bb3439dd3c2a958fa09fef6cc528b73e",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SETTINGS_V3_960.webp":"e3baacf3b1a92af3def903117902a382a9ff68bac83ecfb2de6e44b2f60f3193",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SHOWDOWN_DRAW_V3_1920.webp":"109a0524399893cc79ee23a968c42ec57631bb8a69af564a085a1f6fc8ddd553",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SHOWDOWN_DRAW_V3_3840.webp":"136a2ae85b465e705547c285635d69a689582cb29eeee57fb54c7afe7948c3e4",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SHOWDOWN_DRAW_V3_480.webp":"5da624959483ab554f7fd569ab076592971e9b89ae9a319a571a58c53e74e269",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SHOWDOWN_DRAW_V3_960.webp":"6d18eb558198353ec21351eeb6456526b0fd51af1fb828a12522c38fc7c9d92a",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SPECIAL_PLAYER_V3_1920.webp":"17feb5128027194f35145b76f4c774bbb92745960255a66368a9df7df99be3a5",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SPECIAL_PLAYER_V3_3840.webp":"4dcb3207c797d71aeae1e8bdb8cbc74f947f550b9d119298c7c5abf5e1cffa9d",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SPECIAL_PLAYER_V3_480.webp":"19e77ae252b8dbc570783518cf0227d41f2ae9c33e97e35c41123a3284331efb",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SPECIAL_PLAYER_V3_960.webp":"e370aa2ccabcfed07a7f7948156d4228981cd58ce0d89c737239ab6a7f188a55",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SQUAD_V3_1920.webp":"e9df6150786685232830c8f643e71184708909b06cc546c88ac9e807bda1ce28",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SQUAD_V3_3840.webp":"ea38e547ff73f27d1a40d48502fc049ce00d46c58c8780b09b2ed4794946a4c7",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SQUAD_V3_480.webp":"fc1b65afb867fe4485505fd2836486740b7dad47705e0b48e062987eccee146b",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_SQUAD_V3_960.webp":"e13adc32592ee1b60a4bf67f093184dd4ff974235bc9b32c87f5b2b142c44a05",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V3_1920.webp":"92cee190e8d62b737060a723ac2a82eda6f401536a705ea1a2cfcb276fe40685",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V3_3840.webp":"ff40d597eeae2227f1690ce3c332ecf5afba0cd07b6bca0f9f6c0bca7cc33d4b",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V3_480.webp":"d6ace5c8313818ac7535f11913a3fb363340f74959031cee46f2ca18ac251191",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_STANDINGS_V3_960.webp":"514d30cd75386fff0d2c1b076a842b02d8d5e077548e11b2da68c1de12dc6458",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_START_V3_1920.webp":"ff8f8e03f6746ea41ec795d95f478b0bd40d7c16f2e8450449a8a65eb6d3a078",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_START_V3_3840.webp":"a3fdaf77a519b1847de9e4e771cb2633afef0e9ce75e412dcf1ca7028f9a1694",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_START_V3_480.webp":"046bf2d1a7a1bb90ad700f6310ea2a1d5f470213477437ef2b9c81465c5e2977",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_START_V3_960.webp":"7febcd5901cdbad0121f4d7296880783dd497ab11cb86c05833fd8e9d7aacae4",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_TRANSFER_V3_1920.webp":"b4cbeb2314d2174a589958fb85d53596145fa6f6505b1127ebe37e44bda55702",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_TRANSFER_V3_3840.webp":"fa145ae525973d1a0f8a6d14d75339999b36928bc59ebbd13fde3e4a346ae0cc",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_TRANSFER_V3_480.webp":"38394b5b0f9a2a95dfece22e65b9a9724ddff1344cb384cff2e7571af47e18e1",
+    "visual-assets/v10_1/shared/wordmarks/TITLE_TRANSFER_V3_960.webp":"ca05a3b173c0f6e9169d06af49e35186dc39789d6c339975b602dce1e81bc699",
+    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V3_1920.webp":"909a6525552de3f174fb317a1cacba8124dad713cb7f13fccdb66a799805ab74",
+    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V3_3840.webp":"840450bd99429fde7a176e8ac8644e0b03db7dd63e88b1541ccd9d7dfab70401",
+    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V3_480.webp":"feb171dc0f8130a303978878d977f175c044976eb4ec2f518186b9144fc4a9ac",
+    "visual-assets/v10_1/trophy-room/assets/TITLE_TR_V3_960.webp":"f8576e660ea233c76c650b2152e3699643db818af16c4efaf62d1622b2631ef8",
     // Unversioned names shipped while F9c was not running (r86 Special Player, r87 roulette room, r87 Gazette). Their bytes are
     // pinned; they are first generations, so nothing older is cached under the same name. A change ships under a new _V<n> name.
     "visual-assets/v10_1/content/gazette/GZ_LEAD_DRAW.webp":"54534295ea82979d7cccee5feb69830a290f29f6bc9f1a2ba8f8860a94b4fead",
@@ -843,6 +1018,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"d6e94fed85ed77554e648130ba7169600fd6dd278a90a39b88ccb9dd14c877a2",
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp":"3a7b0a2f1330e1a163e475ee4955cda5337d9494e8cba62340b4e709b00e4c09",   // r90 Team V HO-059: the café room on Extra (1920 px)
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp":"81e9927ce81f12ccb258fa49269b11f278d3778c7a351dad92973a24863c48c5",   // r90 Team V HO-059: the café room on Ultra and 8K (3840 px)
+    "visual-assets/v10_1/special-player/assets/board.jpg":"e5eff37ae5c37939bb82117b20ee971caae8c3be4cd74f58990f4fabfbd6788e",   // r91: r89's yellow boards back, the same bytes as their 2.2.0 pin
     "visual-assets/v10_1/special-player/assets/board_night_V1.jpg":"86bf0242453d8dcb4eb3dfd8d1f670fd3926c6348b8fb6eaeaa6c62f2e90bbac",
     "visual-assets/v10_1/special-player/assets/card_black.jpg":"44c96b79f9b039d15c060d0a324f30ba03e25a9430f2bfab485685e3875881fb",
     "visual-assets/v10_1/special-player/assets/card_blue.jpg":"aa09951a2b4ada2fa263c539032d0acb4610bc4b30b2924f3fac5359b34eb9fc",
@@ -945,6 +1121,7 @@ const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/roulette/assets/RR_HAND.webp",
   "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp",
   "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp",
+  "visual-assets/v10_1/special-player/assets/board.jpg",
   "visual-assets/v10_1/special-player/assets/card_black.jpg",
   "visual-assets/v10_1/special-player/assets/card_blue.jpg",
   "visual-assets/v10_1/special-player/assets/card_bronze.jpg",
@@ -1001,12 +1178,20 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // ticks and the other r89 feature changes) with its 2.2.0-r89 pins and v2.2.0 footer, nothing else.
   // Re-pinned 2026-11-09 by the 2.3.0 release PR: gameplay/r90 ff70b7e's file with its 2.3.0-r90 pins and v2.3.0 footer, nothing
   // else (r90's own index.html changes were already pinned as a384fe22 by their feature PRs).
-  assert.equal(sha256("index.html"),"74e9b22ddf4581525e6c1a84cdc24a01812240dfb9ad11a54409642bdcc0c5e0","index.html byte-identical to the 2.3.0 release");
-  const html=read("index.html");
+  // Re-pinned 2026-11-13 by r91 HO-072 (loading cover): the 2.3.0 file with the layered Reus cover in place of the single
+  // picture (four first-paint preloads, the room and Reus pictures with their sharp layers, the logo lettering), nothing else.
+  // Re-pinned 2026-11-13 by the r91 hunt fixes (B1, PR #1439): the HO-072 file plus the inline boot-fail guard before js/storage.js
+  // (one reload by itself, then the marble error screen with RELOAD), nothing else. The guard names three stylesheets, one of them
+  // visual-assets/v10_1/shared/showdown-tokens.css, that it loads only after a failed start; the start-up shell loads none of them.
+  // Re-pinned 2026-11-13 by the 2.4.0 release PR: gameplay/r91 47cdb505's file (02e01adb above) with its 2.4.0-r91 pins and v2.4.0
+  // footer, nothing else.
+  assert.equal(sha256("index.html"),"83d7f236553789842a38a0a3d47699eb69499b507258936cb769e6730f506166","index.html is the 2.4.0 release (HO-072 loading cover, B1 boot-fail guard, 2.4.0-r91 pins)");
+  const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
+  assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
   const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
   const gzip=refs.reduce((total,ref)=>total+zlib.gzipSync(fs.readFileSync(path.join(ROOT,ref)),{level:9}).length,0);
-  assert.ok(gzip<=34000,`startup gzip ${gzip} must stay <= 34000 (r90 W8 +87 on js/menuExperience.js: the hidden Reus cover photo (89 KB) is no longer downloaded on every start, lead brief W8 2026-11-07; 2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
+  assert.ok(gzip<=34000,`startup gzip ${gzip} must stay <= 34000 (r90 W8 +87 on js/menuExperience.js: the hidden Reus cover photo (89 KB) is no longer downloaded on every start, lead brief W8 2026-11-07; 2.2.0 version pins +3: the same-length 2.2.0-r89 strings gzip 3 bytes larger, no code change; r88 STORY route +12 on js/screens.js, lead OK 2026-11-02; 2.4.0 version pins +1 (33,998), no code change; everything else STORY needs stays lazy-loaded; r87 2.0.0 candidate 9a9667fb 33900; was 37495 before #1176 removed the Home strip)`);
   const ssjr=read("js/ssjr.js");
   assert.match(ssjr,/load\("v10-screens","js\/v10Screens\.js",\(\)=>root\.CareerModeV10Screens\)/,"loader starts lazily after start-up");
   assert.match(ssjr,/requestIdleCallback/);

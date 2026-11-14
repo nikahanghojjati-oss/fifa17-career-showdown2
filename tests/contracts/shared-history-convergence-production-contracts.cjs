@@ -33,7 +33,7 @@ assert.match(source,/billingRequired:false/);assert.match(source,/blazeRequired:
 
 // r80: a page that finished one Showdown and starts the next without a reload still holds the finished Showdown's
 // ACKNOWLEDGED Commit and SCORING_RECONCILED views for season 1. They must not count as the new Showdown's season 1:
-// no provider read, no fast-poll wait, no "Unable to converge Shared History" report.
+// no provider read, no fast-poll wait, no "Could not bring History up to date" report.
 async function historyAcrossShowdowns(){
   const vm=require('node:vm');
   const terminal=(rivalryId,seasonNumber)=>({
@@ -71,7 +71,7 @@ async function historyAcrossShowdowns(){
   assert.equal(history.isWaitingForRival(),false,'R1 cached Commit/Scoring never put R2 season 1 in the Shared History fast-poll wait');
   for(let i=0;i<3;i++)assert.equal(await history.refresh(),null,'R2 season 1 stays dormant while only R1 authority is cached');
   assert.deepEqual(reads,['R1'],'no Shared History provider read for R2 until R2 has its own ACKNOWLEDGED Commit and SCORING_RECONCILED Scoring');
-  assert.deepEqual(reports,[],'no "Unable to converge Shared History" report on the next Showdown');
+  assert.deepEqual(reports,[],'no "Could not bring History up to date" report on the next Showdown');
   // R2's own season 1 is accepted: exactly one read converges it.
   Object.assign(state,terminal('R2',1));
   assert.equal(history.isWaitingForRival(),true,'R2 season 1 waits for History once its own authority is cached');

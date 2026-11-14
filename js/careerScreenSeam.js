@@ -11,10 +11,10 @@
     unavailable:"Career history is unavailable right now. Nothing is lost. Try again when you are reconnected.",
     partial:"Showing {readable} of {indexed} Showdowns. Some Showdowns could not be read, so these are not complete career totals.",
     empty:{
-      careerStatistics:"Career Statistics appear after your first completed Showdown. Stats for the current Showdown are on Showdown Home.",
+      careerStatistics:"Career Statistics appear after your first completed Showdown. This Showdown's numbers are on Showdown Home.",
       trophyRoom:"The Trophy Room is empty. Finish a Showdown and its trophies and records appear here.",
       legacy:"No completed Showdowns yet. Finish one and it appears here.",
-      rivalryStatistics:"No season completed yet. Stats appear as seasons finish."
+      rivalryStatistics:"No season completed yet. Stats fill in as seasons are played."
     },
     historyStatus:{completed:"Completed","in-progress":"In progress","completion-pending":"Final result, completion pending",abandoned:"Ended early",unavailable:"Unavailable"},
     winner:{daniel:"Daniel won",nik:"Nik won",draw:"Draw"}
@@ -23,7 +23,7 @@
   const csCareerFields=[["Career points","careerPoints"],["Seasons played","seasons"],["Season wins","seasonWins"],["Season draws","seasonDraws"],["Season losses","seasonLosses"]];
   const csShowdownFields=[["Showdowns completed","completed"],["Showdown wins","wins"],["Showdown draws","draws"],["Showdown losses","losses"]];
   const csRecordFields=[["Best season score","bestSeasonScore"],["Best league points","bestLeaguePoints"],["Best league goals","bestLeagueGoals"],["Best league position","bestLeaguePosition"],["Average season score","averageSeasonScore"],["Average league points","averageLeaguePoints"],["Average league goals","averageLeagueGoals"],["Perfect seasons","perfectSeasons"],["100-point seasons","hundredPointSeasons"],["100-goal seasons","hundredGoalSeasons"],["Top scorer seasons","topScorerSeasons"],["Top assist seasons","topAssistSeasons"],["Performance bonuses","performanceBonuses"],["Awards bonuses","awardsBonuses"]];
-  const csCabinetFields=[["Champions Leagues","championsLeagues"],["Europa Leagues","europaLeagues"],["League titles","leagueTitles"],["Domestic cups","domesticCups"],["Total trophies","totalTrophies"]];
+  const csCabinetFields=[["Champions League","championsLeagues"],["Europa League","europaLeagues"],["League titles","leagueTitles"],["Domestic cups","domesticCups"],["Total trophies","totalTrophies"]];
   const csRivalryFields=[["Season wins","seasonWins"],["Season draws","seasonDraws"],["Season losses","seasonLosses"],...csCabinetFields,["Perfect seasons","perfectSeasons"],["Best season score","bestSeasonScore"]];
 
   function csFreeze(value){
@@ -44,17 +44,17 @@
     return Boolean(identityState&&identityState.registered===true&&["daniel","nik"].includes(identityState.managerId));
   }
   // The game is online only, so every career screen is Team V's (r61): with no model it shows the unavailable state,
-  // signed in or not. The old local page runs only when Legacy's data tools (backup, restore, reset) are asked for.
-  function selectCareerScreenSource({identityState,model,dataTools=false}){
+  // signed in or not (r91: the old local data-tools page was cut).
+  function selectCareerScreenSource({identityState,model}){
     if(model!==undefined&&model!==null)return model&&STATUSES.includes(model.status)?"model":"unavailable";
-    return dataTools===true?"local":"unavailable";
+    return "unavailable";
   }
   // r80 Ended early row: "Ended early · 18 Oct 2026 · 1 season"; an unknown date or count (closes before the mark) is a dash.
   // r87 career fixes (A-04): the date is the UTC day, so Daniel's and Nik's phones print the same date in any time zone.
-  // r89 Sacked: "Ended — sacked in season 2 of 3 (Nik)". Never mixed with "Ended early" (END SHOWDOWN, never counted).
+  // r89 Sacked: "Ended · sacked in season 2 of 3 (Nik)". Never mixed with "Ended early" (END SHOWDOWN, never counted).
   function sackedText(row){
     if(!row||row.endedBy!=="sacked")return "";const who=["daniel","nik"].filter(m=>row.sacked?.[m]===true).map(m=>csNames[m]);
-    return "Ended — sacked in season "+row.sackedSeason+" of "+row.totalSeasons+(who.length?" ("+who.join(" and ")+")":"");
+    return "Ended · sacked in season "+row.sackedSeason+" of "+row.totalSeasons+(who.length?" ("+who.join(" and ")+")":"");
   }
   function endedEarlyText(row){
     const at=row&&Number.isFinite(row.endedAt)&&row.endedAt>0?new Date(row.endedAt):null,played=row&&Number.isInteger(row.seasonsPlayed)?row.seasonsPlayed:null;
@@ -65,11 +65,9 @@
   // Showdown. Each manager is judged on their own total, so both can earn it in one Showdown. An ended-early, unfinished or
   // shorter Showdown never earns it. Read from the completed rows already loaded; nothing is stored.
   // r87 Prime Pack (G Lead and Nik 2026-11-01): a Showdown that plays Prime Pack scores up to 15 a season (11 + up to 4), so its
-  // Golden Showdown is 150 in every Showdown (Nik 2026-11-01: no 11 or 110 anywhere). PRIME_PACK_FROM_MS is
-  // js/iconGuess.js fromMs (the Roster Roulette boundary; tests/contracts/r87-prime-pack-totals-contracts.cjs keeps them equal).
+  // Golden Showdown is 150 in every Showdown (Nik 2026-11-01: no 11 or 110 anywhere).
   const GOLDEN_SHOWDOWN=Object.freeze({seasons:10,points:150,primePackPoints:150});
   const SEASON_MAX=Object.freeze({primePack:15});
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   // Nik 2026-11-01 18:32 UTC: there is no 11 anywhere. A season is worth at most 15 in every Showdown (SEASON_MAX.primePack).
   // Nik 2026-11-01 17:35 UTC: there was never a real 10-season Showdown before Prime Pack, so no old record to keep. The
   // Golden Showdown is 150 in every Showdown.
@@ -187,5 +185,5 @@
     }
     fragment.appendChild(root);return fragment;
   }
-  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,GOLDEN_SHOWDOWN,SEASON_MAX,PRIME_PACK_FROM_MS,goldenShowdownPoints,endedEarlyText,sackedText,goldenShowdownManagers,goldenShowdownCounts,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
+  return csFreeze({contractVersion:1,SCREENS,STATUSES,TEXT,GOLDEN_SHOWDOWN,SEASON_MAX,goldenShowdownPoints,endedEarlyText,sackedText,goldenShowdownManagers,goldenShowdownCounts,normalizeRenderRequest,isOnlineCareerRoute,selectCareerScreenSource,careerScreenView,paintCareerScreenView});
 });

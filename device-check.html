@@ -5,10 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Device check · Career Mode Showdown</title>
-<!-- r90 Device check (Nik 2026-11-07: "very smooth based on each device capability ... choose that as auto"). Runs each 3D
-     screen on demo data for 10 s at every quality level (js/gfxTier.js ?gfx=N&bench=1 frames), shows the frame rate, and
-     saves the best level that holds 60 fps as this device's Auto. It loads no game, no sign-in and no Firestore: only
-     js/storage.js (the app's own storage helpers) and js/gfxTier.js. Settings > 3D QUALITY can still pick any level. -->
+<!-- r90 Device check (Nik 2026-11-07: "very smooth based on each device capability ... choose that as auto"). Plays each 3D
+     screen on demo data at every quality level (js/gfxTier.js ?gfx=N&bench=1 frames), shows the frame rate, and saves the
+     best level that holds 60 fps as this device's Auto. It loads no game, no sign-in and no Firestore: only js/storage.js
+     (the app's own storage helpers) and js/gfxTier.js. Settings > 3D QUALITY can still pick any level.
+     r91 (Sol 6.1 review of 2.3.0; Nik 2026-11-11: Auto covers every level, Light to 8K, from the real test): all three 3D
+     screens are timed (Chamber Men: a kick, Russian Roulette: a turn, the Special Player pack: a reveal). A level is saved
+     only when all three drew exactly that level and stayed smooth. A screen that did not start, did not finish, or drew
+     another level than asked leaves the level not verified: nothing is saved and the last good result stays. -->
 <style>
 :root{--gold:#f5c518;--gold-dim:rgba(219,178,94,.55);--ink:#f5f1e8;--mute:#c1b9aa;--bad:#ff8a7a;--good:#9fe39f}
 *{box-sizing:border-box}
@@ -16,7 +20,12 @@ html{background:#050505}
 body{margin:0;min-height:100vh;color:var(--ink);font:400 15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   background:#050505 url("css/r78-marble-tile.webp") center/480px repeat}
 main{max-width:1000px;margin:0 auto;padding:28px 16px 40px}
-h1{margin:0 0 4px;font:800 clamp(28px,5vw,44px)/1.05 system-ui,sans-serif;letter-spacing:.06em;color:var(--gold);text-align:center}
+/* HO-078: the title wears Team V's V3 lettering, at the height every V3 screen title has. The words stay in the heading
+   for screen readers; the picture is painted over them. */
+h1{position:relative;margin:0 0 8px;--hc-h:clamp(40px,3.08vw,59px);height:var(--hc-h);overflow:hidden;font:800 28px/1.05 system-ui,sans-serif;letter-spacing:.06em;color:transparent;text-align:center}
+h1::after{content:"";position:absolute;left:50%;top:0;height:100%;width:min(calc(var(--hc-h)*6.526),100%);transform:translateX(-50%);pointer-events:none;
+  background:url("visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_960.webp") center/contain no-repeat;
+  background-image:image-set(url("visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_960.webp") 1x,url("visual-assets/v10_1/shared/wordmarks/TITLE_DEVICE_CHECK_V3_1920.webp") 2x)}
 .lede{margin:0 auto 18px;max-width:62ch;text-align:center;color:var(--mute)}
 .card{background:rgba(8,7,5,.88);border:1px solid var(--gold-dim);padding:16px;margin:0 0 14px}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
@@ -25,9 +34,10 @@ button,.btn{appearance:none;min-height:44px;padding:0 20px;border:1px solid var(
 button.primary{background:var(--gold);color:#15120c}
 button:disabled{opacity:.5;cursor:default}
 button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.device{margin:10px 0 0;text-align:center;color:var(--mute);font-size:14px;overflow-wrap:anywhere}
-.device b{color:var(--ink)}
 #status{min-height:1.5em;margin:10px 0 0;text-align:center;font-weight:600}
+/* At rest the line is empty and takes no room, so the two buttons sit evenly in their box. Its first words arrive in the
+   same step that the stage covers the window (run() below), so nothing is seen to move when the check starts. */
+#status:empty{display:none}
 #stage{position:relative;width:100%;aspect-ratio:16/9;max-height:60vh;margin:0 auto;background:#000;border:1px solid var(--gold-dim);overflow:hidden}
 #stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 /* Codex on #1266: each scene is measured at its real game size, so the stage fills the window while a level runs (RRR is a
@@ -40,32 +50,96 @@ table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 th,td{padding:8px 6px;border-bottom:1px solid rgba(219,178,94,.25);text-align:left;vertical-align:top}
 th{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
 td small{display:block;color:var(--mute);font-size:12px}
-.ok{color:var(--good)}.no{color:var(--bad)}.skip{color:var(--mute)}
+.ok{color:var(--good)}.no{color:var(--bad)}.skip{color:var(--mute)}.unsure{color:var(--gold)}
 #result{text-align:center;font-weight:700;font-size:17px}
 #result small{display:block;font-weight:400;font-size:14px;color:var(--mute)}
-@media (max-width:520px){th{font-size:11px;letter-spacing:.04em}th,td{padding:7px 4px}td small{font-size:11px;overflow-wrap:anywhere}.card{padding:12px}}
+td small{overflow-wrap:anywhere}
+/* r91 level guide (Nik 2026-11-12): what this device's chip, processor and memory each say, and the table of which chips
+   start at which level. Quiet type, no boxes around the titles, nothing under 12 px, no glow. */
+h2{margin:0 0 12px;font:800 15px/1.2 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-align:center}
+h2 span{color:var(--mute);font-weight:600}
+.parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0}
+.parts div{padding:2px 16px;border-left:1px solid rgba(219,178,94,.25);text-align:center}
+.parts div:first-child{border-left:0}
+.parts dt{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.parts dd{margin:3px 0 0;overflow-wrap:anywhere}
+.parts dd.val{font-weight:700}
+.parts dd.says{color:var(--mute);font-size:14px}
+.suggest{margin:14px 0 0;padding-top:12px;border-top:1px solid rgba(219,178,94,.25);text-align:center;font-weight:700;font-size:17px}
+.suggest b{color:var(--gold)}
+.suggest small{display:block;font-weight:400;font-size:14px;color:var(--mute)}
+.note{margin:0 auto 10px;max-width:86ch;text-align:center;color:var(--mute);font-size:14px}
+#limits{margin-top:14px}
+.guide th[scope=row],.guide thead th:first-child{padding-left:12px}
+.note:last-child{margin-bottom:0}
+.guide th[scope=row]{white-space:nowrap}
+.guide tr.mine th,.guide tr.mine td{background:rgba(245,197,24,.08)}
+.guide tr.mine th{box-shadow:inset 3px 0 0 var(--gold)}
+.guide .tag{display:block;margin-top:3px;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ink)}
+/* How it looks: one real picture of each 3D screen under its level (assets/level-guide, loaded only when scrolled to). */
+.guide tr:not(.shots) th,.guide tr:not(.shots) td{border-bottom:0}
+.guide tr.shots td{padding:2px 12px 14px}
+.guide tr.shots.mine td{box-shadow:inset 3px 0 0 var(--gold)}
+.looks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.looks a{display:block;color:var(--mute);font-size:12px;font-weight:600;letter-spacing:.06em;text-align:center;text-decoration:none}
+.looks img{display:block;width:100%;height:auto;aspect-ratio:480/217;object-fit:cover;background:#000;border:1px solid rgba(219,178,94,.25)}
+.looks span{display:block;margin-top:4px}
+.looks a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+/* Narrow screens: one block per level, each screen on its own line under its name (four columns do not fit a phone). */
+@media (max-width:720px){
+  .card{padding:12px}
+  table,tbody,tr,td,th{display:block}
+  thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  tbody tr{padding:8px 0;border-bottom:1px solid rgba(219,178,94,.25)}
+  tbody th,tbody td{border:0;padding:3px 0}
+  tbody th{font-size:13px}
+  tbody td::before{content:attr(data-label);display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim)}
+  .parts{grid-template-columns:1fr}
+  .parts div{padding:8px 0;border-left:0;border-top:1px solid rgba(219,178,94,.25)}
+  .parts div:first-child{border-top:0;padding-top:0}
+  .guide tr.mine{padding-left:10px;padding-right:6px;box-shadow:inset 3px 0 0 var(--gold);background:rgba(245,197,24,.08)}
+  .guide tr.mine th,.guide tr.mine td,.guide tr.shots.mine td{background:none;box-shadow:none}
+  .guide tbody tr:not(.shots){border-bottom:0;padding-bottom:0}
+  .guide tr.shots td{padding:6px 0 4px}
+  .guide th[scope=row]{padding-left:0}
+  .looks{gap:6px}
+}
 </style>
 </head>
 <body>
 <main>
   <h1>DEVICE CHECK</h1>
-  <p class="lede">Plays Chamber Men and Russian Roulette on this device for 10 seconds at each 3D quality level, then sets Auto to the best level that stays smooth at 60 fps. It takes about 2 minutes. Keep this tab open and in front. Nothing in your Showdown changes.</p>
+  <p class="lede">Plays a Chamber Men kick, a Russian Roulette turn and a Special Player reveal at each 3D quality level, lightest first. Auto is then set to the best level all three keep smooth at 60 fps. It stops at the first level that is not smooth and takes a few minutes. Keep this tab open and in front. Nothing in your Showdown changes.</p>
+  <section class="card" id="yours" aria-labelledby="yoursTitle" hidden>
+    <h2 id="yoursTitle">Your device</h2>
+    <dl id="parts" class="parts"></dl>
+    <p id="suggest" class="suggest"></p>
+  </section>
   <section class="card">
     <div class="row">
       <button id="start" class="primary" type="button">Start check</button>
       <button id="forget" type="button" hidden>Forget result</button>
       <a class="btn" href="./">Back to the game</a>
     </div>
-    <p id="device" class="device"></p>
     <p id="status" role="status" aria-live="polite"></p>
   </section>
   <section class="card" aria-hidden="true"><div id="stage"><div class="idle">The 3D screens play here during the check.</div></div></section>
   <section class="card">
     <p id="result" aria-live="polite"></p>
     <div class="wrap"><table>
-      <thead><tr><th scope="col">Level</th><th scope="col">Chamber Men</th><th scope="col">Russian Roulette</th><th scope="col">60 fps?</th></tr></thead>
+      <thead><tr><th scope="col">Level</th><th scope="col">Chamber Men</th><th scope="col">Russian Roulette</th><th scope="col">Special Player</th><th scope="col">Result</th></tr></thead>
       <tbody id="rows"></tbody>
     </table></div>
+  </section>
+  <section class="card" id="guide" aria-labelledby="guideTitle" hidden>
+    <h2 id="guideTitle">Level guide</h2>
+    <p class="note">Where Auto starts, by graphics chip, before any check. How it looks: the same view of each 3D screen at every level. The pictures say nothing about speed.</p>
+    <div class="wrap"><table class="guide">
+      <thead><tr><th scope="col">Level</th><th scope="col">Chips that start here</th><th scope="col">What it draws</th></tr></thead>
+      <tbody id="guideRows"></tbody>
+    </table></div>
+    <p class="note" id="limits"></p>
+    <p class="note">These are starting points, not promises. Only the check on this page measures a device, and Auto then uses the best level it kept smooth. Settings › 3D QUALITY can still pick any level it lists.</p>
   </section>
 </main>
 <script src="js/storage.js"></script>
@@ -74,71 +148,139 @@ td small{display:block;color:var(--mute);font-size:12px}
 (function(){
   "use strict";
   const T=window.CareerModeGfxTier;
-  // The shared level names (js/gfxTier.js); 8K is never benched (picked only, in Settings).
-  const LEVELS=window.CareerModeGfxTier.labels.slice(0,5);
+  // The shared level names (js/gfxTier.js). 8K is tried only where the graphics chip can hold a 7680 px picture.
+  const LEVELS=window.CareerModeGfxTier.labels.slice();
+  const TOP=(()=>{try{return T&&T.can8k()?5:4;}catch(_error){return 4;}})();
+  // Every 3D screen of the game, each with the whole beat it must play before its frame times count.
   const SCENES=[
-    {key:"chamber-men",name:"Chamber Men",path:"device-check-chamber.html"},
-    {key:"rrr",name:"Russian Roulette",path:"visual-assets/v10_1/roulette/index.html"}
+    {key:"chamber-men",name:"Chamber Men",beat:"kick",path:"device-check-chamber.html"},
+    {key:"rrr",name:"Russian Roulette",beat:"turn",path:"visual-assets/v10_1/roulette/index.html"},
+    {key:"sp",name:"Special Player",beat:"reveal",path:"visual-assets/v10_1/special-player/index.html"}
   ];
   // Holds 60 fps: the average stays within 5% of 60 and the worst 1% of frames stays above 45 fps.
-  const SMOOTH_AVG=57,SMOOTH_LOW=45,WAIT_MS=45000;
+  const SMOOTH_AVG=57,SMOOTH_LOW=45;
+  // A screen has LOAD_WAIT_MS to load its files and build (a cold cache on a slow line), then MEASURE_WAIT_MS to play.
+  const LOAD_WAIT_MS=180000,MEASURE_WAIT_MS=120000;
   const $=id=>document.getElementById(id);
   const stage=$("stage"),status=$("status"),rows=$("rows"),result=$("result"),startBtn=$("start"),forgetBtn=$("forget");
   const results=LEVELS.map(()=>({}));
   let running=false,aborted="";
 
-  function cell(r){
-    if(!r)return "<span class=\"skip\">–</span>";
-    if(r.skipped)return "<span class=\"skip\">skipped</span>";
-    if(r.error)return `<span class="no">not measured</span><small>${esc(r.error)}</small>`;
-    return `${r.avg} fps<small>1% low ${r.p1low} · ${r.ms} ms${r.drawMs!=null?` · GPU ${r.drawMs} ms`:""} · ×${(+r.pixelRatio).toFixed(2)}</small>`;
-  }
   function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
-  function smooth(r){return Boolean(r&&!r.error&&!r.skipped&&r.avg>=SMOOTH_AVG&&r.p1low>=SMOOTH_LOW);}
-  // A level passes when every scene that could be measured holds 60 fps there (a scene that never starts does not count).
-  function verdict(i){
-    const got=SCENES.map(s=>results[i][s.key]).filter(r=>r&&!r.error&&!r.skipped);
-    if(SCENES.some(s=>results[i][s.key]&&results[i][s.key].skipped))return null;
-    if(!got.length)return SCENES.every(s=>results[i][s.key])?false:null;
-    return got.every(smooth);
+  function smooth(r){return r.avg>=SMOOTH_AVG&&r.p1low>=SMOOTH_LOW;}
+  // What one screen's answer is worth at one level. "smooth" and "slow" are clean measurements of the asked level; "failed"
+  // means the graphics chip gave up at it (as final as "slow"); "unverified" means the answer does not prove anything about
+  // the level either way.
+  function judge(level,scene,r){
+    if(!r)return null;
+    if(r.skipped)return {state:"skipped"};
+    // The tab died at this level before (js/gfxTier.js tabCrash): as final as a graphics failure, and not opened again.
+    if(r.crashed)return level>0?{state:"failed",why:"The tab closed at this level last time, so it was not opened again."}:{state:"unverified",why:"The tab closed at this level last time."};
+    if(r.error)return {state:"unverified",why:r.error};
+    if(r.failed)return level>0?{state:"failed",why:`The graphics chip gave up at this level: ${r.failed}.`}:{state:"unverified",why:`The graphics chip gave up: ${r.failed}.`};
+    if(r.asked!==level)return {state:"unverified",why:"The screen did not confirm the level it was asked for. Update the game, then check again."};
+    if(r.level!==level)return {state:"unverified",why:`It drew ${LEVELS[r.level]||"another level"}, not ${LEVELS[level]}.`};
+    if(r.bufferOk===false)return {state:"unverified",why:"The browser gave a smaller picture than this level asks for."};
+    if(r.info&&r.info.lite)return {state:"unverified",why:"It drew the lighter stand-in files, not this level's own."};
+    if(!(r.frames>0)||!Number.isFinite(r.avg)||!Number.isFinite(r.p1low))return {state:"unverified",why:"No frames were timed."};
+    // Frames of the asked level that were not smooth settle it, whether or not the beat got to its end (a screen too slow to
+    // finish its turn in a minute is slow). Smooth frames count only with a whole beat played.
+    if(!smooth(r))return {state:"slow"};
+    if(!r.complete||!(r.beats>=1))return {state:"unverified",why:`The ${scene.beat} did not finish in time.`};
+    return {state:"smooth"};
+  }
+  // A level holds only when all three screens are smooth at it. One screen that is slow or failed settles it (the level
+  // is not held); otherwise one screen that proves nothing leaves the whole level not verified.
+  function verdict(level){
+    const all=SCENES.map(s=>judge(level,s,results[level][s.key]));
+    if(all.some(j=>j&&(j.state==="slow"||j.state==="failed")))return all.some(j=>j&&j.state==="slow")?"slow":"failed";
+    if(all.some(j=>j&&j.state==="unverified"))return "unverified";
+    if(all.some(j=>!j))return null;
+    if(all.some(j=>j.state==="skipped"))return "skipped";
+    return "smooth";
+  }
+  const VERDICT={smooth:"<span class=\"ok\">Smooth</span>",slow:"<span class=\"no\">Not smooth</span>",failed:"<span class=\"no\">Failed</span>",
+    unverified:"<span class=\"unsure\">Not verified</span>",skipped:"<span class=\"skip\">Not tried</span>"};
+  function cell(level,scene){
+    const r=results[level][scene.key],j=judge(level,scene,r);
+    if(!j)return "<span class=\"skip\">–</span>";
+    if(j.state==="skipped")return "<span class=\"skip\">not tried</span>";
+    if(j.state==="unverified")return `<span class="unsure">not verified</span><small>${esc(j.why)}</small>`;
+    if(j.state==="failed")return `<span class="no">failed</span><small>${esc(j.why)}</small>`;
+    const size=Array.isArray(r.size)&&r.size[0]?` · ${r.size[0]}×${r.size[1]}`:"";
+    return `<span class="${j.state==="smooth"?"ok":"no"}">${r.avg} fps</span><small>1% low ${r.p1low} · ${r.ms} ms${r.drawMs!=null?` · GPU ${r.drawMs} ms`:""}${size} · ×${(+r.pixelRatio).toFixed(2)}</small>`;
   }
   function draw(){
-    rows.innerHTML=LEVELS.map((name,i)=>{
+    rows.innerHTML=LEVELS.slice(0,TOP+1).map((name,i)=>{
       const v=verdict(i);
-      return `<tr><th scope="row">${name}</th>${SCENES.map(s=>`<td>${cell(results[i][s.key])}</td>`).join("")}<td>${v===null?"<span class=\"skip\">–</span>":v?"<span class=\"ok\">Yes</span>":"<span class=\"no\">No</span>"}</td></tr>`;
+      return `<tr><th scope="row">${name}</th>${SCENES.map(s=>`<td data-label="${s.name}">${cell(i,s)}</td>`).join("")}<td data-label="Result">${v?VERDICT[v]:"<span class=\"skip\">–</span>"}</td></tr>`;
     }).join("");
   }
-  // The device class before any check: an iPhone 17 (Apple GPU) reads "Phone · Apple GPU · starts at High".
-  function showDevice(){
-    let d=null;try{d=T&&T.device();}catch(_error){d=null;}
-    if(!d){$("device").textContent="";return;}
-    const kind=d.software?"Software graphics":d.phone?(d.strongPhone?"Phone with a strong graphics chip":"Phone"):"Computer";
-    $("device").innerHTML=`This device: <b>${esc(kind)}</b> · ${esc(d.gpu||"graphics chip not named")} · Auto starts at <b>${esc(LEVELS[d.guessLevel]||"Balanced")}</b>${d.can8k?" · 8K available in Settings":""}`;
+  // r91 level guide (Nik 2026-11-12: "based on your graphic card, this is what we suggest, or based on your CPU"). All of it
+  // comes from js/gfxTier.js guide(): what this device's chip, processor and memory each say, the level we suggest, and
+  // the table of which chips start at which level. No frame rate is promised: only a finished check of this device says
+  // "holds 60 fps".
+  const LOOK=[480,217];   // the small pictures' size (the large ones open in a new tab)
+  function showGuide(){
+    let g=null;try{g=T&&T.guide();}catch(_error){g=null;}
+    $("yours").hidden=$("guide").hidden=!g;if(!g)return;
+    const d=g.device,kind=d.software?"software graphics":d.phone?"phone":"computer";
+    $("yoursTitle").innerHTML=`Your device <span>· ${esc(kind)}</span>`;
+    const cap=l=>l===0?`Starts at ${LEVELS[0]}`:l===null?"No limit":`No higher than ${LEVELS[l]}`;
+    const parts=[
+      ["Graphics chip",d.chipName||"Not named by this browser",d.software?`No graphics chip in use: starts at ${LEVELS[0]}`:`Chips like this start at ${LEVELS[d.chip]}`],
+      ["Processor",d.threads?`${d.threads} ${d.threads===1?"thread":"threads"}`:"Not reported by this browser",d.phone?"Not counted on a phone":cap(d.threadCap)],
+      ["Memory",d.memory?(d.memory>=8?"8 GB or more":`${d.memory} GB`):"Not reported by this browser",cap(d.memoryCap)]];
+    $("parts").innerHTML=parts.map(([name,value,says])=>`<div><dt>${esc(name)}</dt><dd class="val">${esc(value)}</dd><dd class="says">${esc(says)}</dd></div>`).join("");
+    let m=null,held=[];try{m=T.measured();}catch(_error){m=null;}try{held=T.needsCheck?T.needsCheck():[];}catch(_error){held=[];}
+    const wait=held.length?` ${held.join(" and ")} ${held.length>1?"are":"is"} offered here only after the check passes ${held.length>1?"them":"it"}.`:"";
+    const level=m?m.level:d.level,name=LEVELS[level]||LEVELS[1];
+    const held60=m&&m.detail&&typeof m.detail.held==="boolean"?m.detail.held:null;
+    const why=!m?`Auto starts there on a device like this. Run the check to measure yours: Auto then uses the best level it kept smooth.`
+      :held60===false?`Measured on this device: even ${LEVELS[0]} was not smooth, so Auto stays on ${LEVELS[0]}, the lightest level.`
+      :held60?`Measured on this device: it holds 60 fps at ${name} on all three 3D screens. Auto uses it.`
+      :`The check measured ${name} on this device. Auto uses it.`;
+    $("suggest").innerHTML=`We suggest <b>${esc(name)}</b><small>${esc(why+wait)}</small>`;
+    $("guideRows").innerHTML=g.rows.map(r=>`<tr${r.mine?" class=\"mine\"":""}><th scope="row">${esc(r.label)}${r.mine?"<span class=\"tag\">Your device</span>":""}</th>`
+      +`<td data-label="Chips that start here">${esc(r.who)}${r.level===5&&!d.can8k?"<small>Not on this device.</small>":""}</td><td data-label="What it draws">${esc(r.draws)}</td></tr>`
+      +`<tr class="shots${r.mine?" mine":""}"><td colspan="3"><div class="looks">${SCENES.map(s=>`<a href="assets/level-guide/${s.key}-${T.names[r.level]}.webp" target="_blank" rel="noopener">`
+        +`<img loading="lazy" decoding="async" width="${LOOK[0]}" height="${LOOK[1]}" src="assets/level-guide/${s.key}-${T.names[r.level]}-s.webp" alt="${esc(s.name)} at ${esc(r.label)}"><span>${esc(s.name)}</span></a>`).join("")}</div></td></tr>`).join("");
+    $("limits").textContent=g.limits;
   }
-  function showSaved(){
+  function showSaved(note){
+    showGuide();
     const m=T&&T.measured();forgetBtn.hidden=!m;
-    if(!m){result.innerHTML="";return;}
-    const when=new Date(m.at);
-    result.innerHTML=`Auto on this device: ${LEVELS[m.level]}<small>Measured ${when.toLocaleString()}. Settings › 3D QUALITY can still pick any level.</small>`;
+    const extra=note?`${note} `:"";
+    if(!m){result.innerHTML=note?`No result saved<small>${esc(note)} Auto uses its starting guess until a check finishes.</small>`:"";return;}
+    // A crash cap from play outlives the check (js/gfxTier.js): say what Auto really draws until it ends.
+    let low="";try{const s=T.suggested();if(s&&s.lowered)low=` Auto draws ${LEVELS[s.now]} for now: a graphics error in play lowered it. That ends after 7 days, after 3 clean 3D screens, or when you pick a level in Settings.`;}catch(_error){low="";}
+    result.innerHTML=`Auto here: ${LEVELS[m.level]}<small>${esc(extra)}Measured ${new Date(m.at).toLocaleString()} on Chamber Men, Russian Roulette and the Special Player pack. Settings › 3D QUALITY can still pick any level.${esc(low)}</small>`;
   }
+  // A level that closed the tab while a 3D screen was opening (in the game or in an earlier check) is not opened again
+  // while its cap lasts.
+  function tabCrash(){try{return T&&T.tabCrash?T.tabCrash():null;}catch(_error){return null;}}
   // The measurement under way, so a hidden tab can stop it at once (Codex on #1266).
   let cancelWait=null;
   function wait(scene,level){
     return new Promise(resolve=>{
       const frame=document.createElement("iframe");
       frame.title=`${scene.name} at ${LEVELS[level]}`;frame.setAttribute("tabindex","-1");
-      let done=false;
+      let done=false,timer=0;
+      const note=document.createElement("div");note.className="liveNote";
+      const say=what=>{note.textContent=`${what} ${scene.name} · ${LEVELS[level]} (${level+1} of ${TOP+1})`;};
       const finish=r=>{if(done)return;done=true;cancelWait=null;window.removeEventListener("message",onMsg);clearTimeout(timer);frame.remove();
         stage.classList.remove("live");resolve(r);};
       cancelWait=()=>finish({aborted:true});
       const onMsg=e=>{
         if(e.origin!==location.origin||e.source!==frame.contentWindow)return;
         const d=e.data;if(!d||d.type!=="cms-gfx-bench"||d.scene!==scene.key)return;
+        // "started": the screen is built and playing; from here it has MEASURE_WAIT_MS to finish its beat.
+        if(d.phase==="started"){say("Measuring");clearTimeout(timer);timer=setTimeout(()=>finish({error:`The ${scene.beat} did not finish in 2 minutes.`}),MEASURE_WAIT_MS);return;}
         finish(d.error?{error:d.error}:d);
       };
-      const timer=setTimeout(()=>finish({error:"No result in 45 s."}),WAIT_MS);
+      timer=setTimeout(()=>finish({error:"It did not start in 3 minutes."}),LOAD_WAIT_MS);
       window.addEventListener("message",onMsg);
-      const note=document.createElement("div");note.className="liveNote";note.textContent=`Measuring ${scene.name} · ${LEVELS[level]} (${level+1} of ${LEVELS.length})`;
+      say("Loading");
       stage.replaceChildren(frame,note);stage.classList.add("live");
       frame.src=`${scene.path}?gfx=${level}&bench=1`;
     });
@@ -148,41 +290,56 @@ td small{display:block;color:var(--mute);font-size:12px}
     running=true;aborted="";startBtn.disabled=true;forgetBtn.hidden=true;result.innerHTML="";
     for(const r of results)for(const k of Object.keys(r))delete r[k];
     draw();
-    let failedAt=-1;
-    for(let level=0;level<LEVELS.length;level+=1){
+    // The first level that is not smooth ends the climb: nothing above it is tried.
+    let ended=null;
+    for(let level=0;level<=TOP;level+=1){
+      let settled=false;
       for(const scene of SCENES){
         if(aborted)break;
-        if(failedAt>=0){results[level][scene.key]={skipped:true};continue;}
-        // A scene that could not start at a lower level will not start at a higher one.
-        const lower=level>0?results[level-1][scene.key]:null;
-        if(lower&&lower.error){results[level][scene.key]={error:lower.error};draw();continue;}
-        status.textContent=`${scene.name} · ${LEVELS[level]} (${level+1} of ${LEVELS.length})…`;
-        const got=await wait(scene,level);
+        if(ended||settled){results[level][scene.key]={skipped:true};continue;}
+        status.textContent=`${scene.name} · ${LEVELS[level]} (${level+1} of ${TOP+1})…`;
+        const tc=tabCrash();
+        const got=tc&&level>tc.level?{crashed:true}:await wait(scene,level);
         if(got&&got.aborted)break;
         results[level][scene.key]=got;
         draw();
+        // One screen that is slow, failed or proves nothing settles this level; the other screens are not played for it.
+        const j=judge(level,scene,got);
+        if(j.state!=="smooth"){settled=true;ended={level,scene,state:j.state,why:j.why||""};}
       }
       if(aborted)break;
-      if(failedAt<0&&verdict(level)===false)failedAt=level;
     }
     draw();
     stage.innerHTML="<div class=\"idle\">Done.</div>";
     running=false;startBtn.disabled=false;
-    if(aborted){status.textContent=aborted;showSaved();return;}
-    let best=-1;for(let i=0;i<LEVELS.length;i+=1){const v=verdict(i);if(v===true)best=i;else if(v===false)break;}
-    const measuredAny=results.some(r=>SCENES.some(s=>r[s.key]&&!r[s.key].error&&!r[s.key].skipped));
-    if(!measuredAny){status.textContent="The 3D screens did not start here, so nothing was saved. The game will show its 2D screens on this device.";showSaved();return;}
+    if(aborted){status.textContent=aborted;showSaved("The check was stopped, so nothing changed.");return;}
+    const best=ended?ended.level-1:TOP;
+    // Not verified: the check proves nothing about that level, so the run is not a result. Nothing is saved; the last
+    // good result (if any) stays as it is.
+    if(ended&&ended.state==="unverified"){
+      const passed=best>0?` ${LEVELS[best]} and below were smooth.`:best===0?` ${LEVELS[0]} was smooth.`:"";
+      status.textContent=`Check not finished: ${ended.scene.name} at ${LEVELS[ended.level]} was not verified. ${ended.why}`;
+      showSaved(`The check did not finish, so nothing changed.${passed}`);
+      return;
+    }
     const level=Math.max(0,best);
-    T.setMeasured(level,{levels:results.map(r=>Object.fromEntries(SCENES.map(s=>[s.key,r[s.key]&&r[s.key].avg!=null?[r[s.key].avg,r[s.key].p1low]:null])))});
-    status.textContent=best<0?"Even Light ran under 60 fps here, so Auto is set to Light, the lightest level.":"Check done.";
+    const pick=r=>r&&Number.isFinite(r.avg)?[r.avg,r.p1low,+(+r.pixelRatio).toFixed(2),...(Array.isArray(r.size)?r.size:[0,0])]:null;
+    T.setMeasured(level,{scenes:SCENES.map(s=>s.key),held:best>=0,
+      stop:ended?{level:ended.level,scene:ended.scene.key,state:ended.state}:null,
+      levels:results.slice(0,TOP+1).map(r=>Object.fromEntries(SCENES.map(s=>[s.key,pick(r[s.key])])))});
+    status.textContent=best<0?`Even Light was not smooth here (${ended.scene.name}), so Auto is set to Light, the lightest level.`
+      :ended&&results[ended.level][ended.scene.key]&&results[ended.level][ended.scene.key].crashed?`Check done. ${LEVELS[ended.level]} was not tried: the tab closed at that level last time.`
+      :ended?`Check done. ${LEVELS[ended.level]} was not held: ${ended.scene.name} ${ended.state==="failed"?"failed":"was not smooth"} there.`
+      :`Check done. Every level up to ${LEVELS[TOP]} was smooth.`;
     showSaved();
   }
   // A hidden tab stops drawing, so its numbers would be wrong: stop and say so.
   document.addEventListener("visibilitychange",()=>{if(running&&document.visibilityState==="hidden"){aborted="The tab was hidden, so the check stopped. Start it again and keep the tab in front.";if(cancelWait)cancelWait();stage.replaceChildren();}});
   startBtn.addEventListener("click",run);
-  forgetBtn.addEventListener("click",()=>{T.clearMeasured();showSaved();status.textContent="Auto goes back to its guess from this device's graphics chip.";});
+  forgetBtn.addEventListener("click",()=>{T.clearMeasured();showSaved();status.textContent="Auto goes back to its starting guess from this device's graphics chip.";});
   if(!T){startBtn.disabled=true;status.textContent="The check could not load. Reload the page.";}
-  draw();showDevice();showSaved();
+  draw();showSaved();
+  {const tc=tabCrash();if(T&&tc)status.textContent=`Last time the tab closed while a 3D screen was opening at ${LEVELS[tc.from]||"a level"}. The game draws ${LEVELS[tc.level]} at most for now, and this check stops below ${LEVELS[tc.from]||"that level"}.`;}
 })();
 </script>
 </body>

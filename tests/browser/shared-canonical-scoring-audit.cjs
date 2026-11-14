@@ -28,6 +28,7 @@ async function prepare(page,{role,saveId,draw=false}){
     const transfer={ok:true,revision:7,seasonNumber:1,managerRole:role,rivalryId,setup:setup.setup,state:{phase:'COMPLETED',revision:7,guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']}};
     const readyResults={ok:true,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:1,ownResult:role==='playerOne'?resultOne:resultTwo,opponentResult:role==='playerOne'?resultTwo:resultOne,allResults:{playerOne:resultOne,playerTwo:resultTwo}};
     const acknowledgedCommit={ok:true,committed:true,ready:true,coordinatorRole:'playerOne',schemaVersion:1,runtimeRevision:'1.9.1-r10',seasonNumber:1,phase:'ACKNOWLEDGED',revision:3,resultsRevision:2,resultsContentHash:'sha256:'+('a'.repeat(64)),results:{playerOne:resultOne,playerTwo:resultTwo},managerRole:role,ownAcknowledged:true,acknowledgedRoles:['playerOne','playerTwo']};
+    window.CareerModeIconGuessStep={ensure:async()=>true,applies:()=>false,pointsFor:async()=>0}; // r91: the audit plays no Prime Pack round; this stub keeps the season publish off its Firestore read
     window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
     window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer,refresh:async()=>transfer};
     window.CareerModeSparkSharedSeasonResults={read:async()=>readyResults,publishResult:async()=>({ok:false,code:'AUDIT_RESULTS_ALREADY_READY'})};
@@ -53,12 +54,12 @@ async function prepare(page,{role,saveId,draw=false}){
   await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
   await page.locator('#seasonReviewPanel').waitFor({state:'visible',timeout:5000});
   await page.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
-  assert.equal(await page.locator('#seasonReviewHeading').textContent(),'BOTH MANAGERS PUBLISHED','r11 scoring must attach only after the complete r9 shared Season Review is rendered.');
+  assert.equal(await page.locator('#seasonReviewHeading').textContent(),'BOTH MANAGERS CONFIRMED','r11 scoring must attach only after the complete r9 shared Season Review is rendered.');
   assert.equal(await page.locator('#sharedSeasonCommitAction').textContent(),'SEASON CONFIRMED ✓','r11 scoring must attach only after the real r10 production adapter verifies terminal acknowledgement.');
 
   await page.evaluate(async()=>{
     const bounded=(promise,label,timeoutMs=8000)=>Promise.race([Promise.resolve(promise),new Promise((_,reject)=>setTimeout(()=>reject(new Error(`r11 scoring audit timed out during ${label}`)),timeoutMs))]);
-    const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Unable to load unpublished candidate ${path}.`));document.head.appendChild(script);});
+    const loadCandidateScript=path=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=path;script.async=false;script.onload=()=>resolve(true);script.onerror=()=>reject(new Error(`Could not load unpublished candidate ${path}.`));document.head.appendChild(script);});
     if(!window.CareerModeSharedCanonicalScoring)await bounded(loadCandidateScript('js/sharedCanonicalScoring.js'),'candidate scoring core fallback load');
     if(!window.CareerModeProductionSharedCanonicalScoring)await bounded(loadCandidateScript('js/productionSharedCanonicalScoring.js'),'candidate production scoring fallback load');
     CareerModeProductionSharedCanonicalScoring.install();

@@ -7,15 +7,13 @@
 
   // Commentary v3 (r87) adds to v2 (js/commentaryEngine.js, one stock line for the most specific true situation) a two-voice booth: the COMMENTARY line (a checked v2 line) tells the story; the BY THE NUMBERS line is built here from the Showdown's own numbers (exact decider maths, lead changes, streaks, Showdown records, trophy and season counts).
   // The lead line follows the season's biggest story and the numbers line never repeats its topic. No line repeats in a Showdown: earlier seasons' lines are re-derived from the same verified history (nothing stored), so both phones show the same words. The last season's bar carries the Showdown verdict (comeback, wire to wire, Golden Showdown, drawn).
-  // Shown in one Team V TV bar (visual-assets/v10_1/content/content.css .cmx-bar) inside the SEASON SCORE box of Season Results, in normal flow under the season winner line, only once the season is committed and its score reconciled: no overlay, no dimming, nothing tappable, never over faces, buttons or fields. Data: only what the screen holds (Shared Setup, acknowledged Season Commit, reconciled canonical score, converged Shared History); no Firebase read, write or storage.
+  // Printed in the Touchline Gazette (r91, "From the commentary box": each season paper carries its season's call, the final paper the Showdown's), built from the converged Shared History the paper is built from. Pure: no Firebase read, write or storage, no DOM.
   // Rules: a season is 0 to 11 Showdown points (0 to 15 in a Showdown that plays r87 Prime Pack: 11 + up to 4); equal points is a draw (no tiebreak: league position, league points and goals never decide anything between the two managers).
 
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
   const NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const LENGTHS=Object.freeze([1,3,5,10]);
   const PACK_MAX=15;
-  // The Prime Pack boundary is js/iconGuess.js fromMs: a Showdown confirmed on or after it plays Prime Pack.
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   const node=typeof module!=="undefined"&&module.exports;
   const other=role=>role==="playerOne"?"playerTwo":"playerOne";
   const int=(x,lo,hi)=>Number.isInteger(x)&&x>=lo&&x<=hi;
@@ -206,214 +204,21 @@
     return result;
   }
 
-  // ---------- browser: Season Results ----------
-  const BAR_ID="commentaryV3Bar";
-  let installed=false,scheduled=false,observer=null,assets=null,typing=null;
-  function state(name){try{return root[name]?.getState?.()||null;}catch(_){return null;}}
-  function cvLiveFacts(){
-    const setupState=state("CareerModeProductionSharedShowdownSetup"),setup=setupState?.setup;
-    if(!setupState||setupState.ready!==true||setup?.phase!=="SHOWDOWN_CONFIRMED"||!setupState.rivalryId)return null;
-    const rivalryId=String(setupState.rivalryId),N=setup.totalSeasons;if(!LENGTHS.includes(N))return null;
-    const scoring=state("CareerModeProductionSharedCanonicalScoring");
-    if(!scoring||scoring.authoritative!==true||scoring.phase!=="SCORING_RECONCILED"||!int(scoring.seasonNumber,1,N))return null;
-    const s=scoring.seasonNumber,commit=state("CareerModeProductionSharedSeasonCommit");
-    if(!commit||commit.committed!==true||commit.seasonNumber!==s||!plain(commit.results)||(commit.rivalryId&&String(commit.rivalryId)!==rivalryId))return null;
-    // r89 Sacked: a sacking ends the Showdown after this season, so the "seasons left" lines would be false. The booth stays quiet.
-    if(commit.results.playerOne?.sacked===true||commit.results.playerTwo?.sacked===true)return null;
-    const history=state("CareerModeProductionSharedHistoryConvergence"),p=history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&String(history.rivalryId)===rivalryId?history.projection:null;
-    const accepted=Array.isArray(p?.seasonHistory)?p.seasonHistory:[];
-    const rows=[];
-    for(let k=1;k<s;k+=1){const row=accepted[k-1];if(!row||row.roundNumber!==k)return null;rows.push(row);}
-    const own=accepted[s-1]&&accepted[s-1].roundNumber===s?accepted[s-1]:{playerOne:{...commit.results.playerOne,scoring:scoring.scoring?.playerOne},playerTwo:{...commit.results.playerTwo,scoring:scoring.scoring?.playerTwo},winner:scoring.winner};
-    rows.push(own);
-    const teams=root.CareerModeSharedShowdownCatalog?.catalog?.[setup.leagueId];
-    // Prime Pack is known from this Showdown's confirm time, so an early season with no Prime Pack points yet still counts 15.
-    const at=setupState.setupUpdatedAtMs;
-    return {showdownId:rivalryId,seasons:N,league:setup.leagueId,clubs:setup.clubs,teamCount:Array.isArray(teams)?teams.length:null,history:rows,season:s,
-      primePack:Number.isFinite(at)?at>=PRIME_PACK_FROM_MS:undefined};
-  }
-  function cvLoadAssets(){
-    if(assets)return assets;
-    const load=root.loadRuntimeScript,style=root.loadRuntimeStyle;
-    if(typeof load!=="function")return Promise.reject(new Error("COMMENTARY_LOADER_UNAVAILABLE"));
-    assets=Promise.all([
-      typeof style==="function"?style("gazette-content","visual-assets/v10_1/content/content.css").catch(()=>null):null,
-      // The league's team count comes from the shared catalog; load it here too so a phone reloaded onto Season Results still has it.
-      load("ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js",()=>Boolean(root.CareerModeSharedShowdownCatalog)),
-      load("commentary-engine","js/commentaryEngine.js",()=>Boolean(root.CareerModeCommentaryEngine)),
-      load("commentary-lines","data/commentaryLines.js",()=>Boolean(root.CareerModeCommentaryLines))
-    ]).then(()=>true);
-    assets.catch(()=>{assets=null;});
-    return assets;
-  }
-  const MIC='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a4 4 0 0 0 4-4V5a4 4 0 1 0-8 0v6a4 4 0 0 0 4 4zm7-4a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V21H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-3.08A7 7 0 0 0 19 11z"/></svg>';
-  function cvRule(doc){
-    if(doc.getElementById("commentaryV3Rule"))return;
-    const style=doc.createElement("style");style.id="commentaryV3Rule";
-    // Booth layout inside Team V's bar: lead line + a smaller gold BY THE NUMBERS line. In flow, never on top of anything.
-    style.textContent=`
-#${BAR_ID}{display:block;margin:14px 0 2px;pointer-events:none;user-select:text}
-#${BAR_ID} .cmx-bar{margin-top:18px}
-#${BAR_ID} .cmx-bar__slab{flex-direction:column;align-items:stretch;justify-content:center;gap:5px;padding:10px 44px 10px 30px}
-#${BAR_ID} .cmv3-line{position:relative;margin:0}
-#${BAR_ID} .cmv3-lead{color:#f6f2e8;font:600 18px/1.22 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.015em;text-shadow:0 1px 2px rgba(0,0,0,.9);text-wrap:pretty}
-#${BAR_ID} .cmv3-numbers{color:#ffd34d;font:600 13px/1.25 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.03em;text-wrap:pretty}
-#${BAR_ID} .cmv3-numbers b{display:inline-block;margin-right:7px;padding:1px 6px 0;background:#e0ae3a;color:#07080a;font-weight:700;font-size:10px;letter-spacing:.18em;line-height:15px;vertical-align:1px}
-#${BAR_ID} .cmv3-ghost{color:transparent;text-shadow:none}
-#${BAR_ID} .cmv3-typed{position:absolute;inset:0}
-#${BAR_ID} .cmv3-numbers.is-waiting{opacity:0}
-#${BAR_ID} .cmv3-numbers.is-in{transition:opacity .45s ease}
-/* Desktop: the bar sits beside the score lines in the same box and is kept no taller than them, so the box does not grow and CONTINUE stays on the first view. */
-@media (min-width:901px){
-  #sharedCanonicalScoringPanel.cmv3-has{display:grid;grid-template-columns:fit-content(56%) minmax(0,1fr);grid-template-rows:auto auto auto auto 1fr;column-gap:16px}
-  #sharedCanonicalScoringPanel.cmv3-has>:not(#${BAR_ID}){grid-column:1}
-  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID}{grid-column:2;grid-row:1/span 5;align-self:center;margin:0}
-  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar{margin-top:0;min-height:0}
-  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__tab{display:none}
-  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__accent{width:46px}
-  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__accent svg{width:18px;height:18px;margin-right:8px}
-  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__slab{padding:4px 30px 4px 20px;gap:2px}
-  #sharedCanonicalScoringPanel.cmv3-has>#${BAR_ID} .cmx-bar__end{width:30px;clip-path:polygon(20px 0,100% 0,100% 100%,0 100%)}
-  #${BAR_ID} .cmv3-lead{font-size:15px;line-height:1.12}
-  #${BAR_ID} .cmv3-numbers{font-size:12px;line-height:1.2}
-}
-@media (max-width:600px){
-  #${BAR_ID}{margin:10px 0 0}
-  #${BAR_ID} .cmx-bar{margin-top:0}
-  #${BAR_ID} .cmx-bar__slab{padding:8px 26px 8px 20px;gap:4px}
-  #${BAR_ID} .cmv3-lead{font-size:15px;line-height:1.2}
-  #${BAR_ID} .cmv3-numbers{font-size:12px}
-}
-@media (prefers-reduced-motion:reduce){#${BAR_ID} .cmx-bar.is-in{animation:none}#${BAR_ID} .cmv3-numbers.is-in{transition:none}}
-`;
-    doc.head.appendChild(style);
-  }
-  function text(doc,tag,cls,value){const el=doc.createElement(tag);el.className=cls;if(value!==undefined)el.textContent=value;return el;}
-  function cvBuildBar(doc,result){
-    const wrap=doc.createElement("div");wrap.id=BAR_ID;wrap.className="cmx cmv3";wrap.setAttribute("role","note");wrap.setAttribute("aria-label","Commentary");
-    const bar=text(doc,"div","cmx-bar is-in");
-    bar.appendChild(text(doc,"span","cmx-bar__tab",result.moment==="final"?"FULL TIME":"COMMENTARY"));
-    const accent=text(doc,"span","cmx-bar__accent");accent.innerHTML=MIC;bar.appendChild(accent);
-    const slab=text(doc,"div","cmx-bar__slab");
-    let typed=null;
-    if(result.lead){
-      const lead=text(doc,"div","cmv3-line cmv3-lead");
-      // The full line is laid out once (transparent) so typing never moves anything, and screen readers read it whole.
-      lead.appendChild(text(doc,"span","cmv3-ghost",result.lead.text));
-      typed=text(doc,"span","cmv3-typed");typed.setAttribute("aria-hidden","true");lead.appendChild(typed);
-      slab.appendChild(lead);
-    }
-    let numbers=null;
-    if(result.numbers){numbers=text(doc,"div","cmv3-line cmv3-numbers");numbers.appendChild(text(doc,"b","",result.moment==="final"?"THE SHOWDOWN":"BY THE NUMBERS"));numbers.appendChild(doc.createTextNode(result.numbers.text));slab.appendChild(numbers);}
-    bar.appendChild(slab);bar.appendChild(text(doc,"span","cmx-bar__end"));wrap.appendChild(bar);
-    return {wrap,typed,numbers,full:result.lead?.text||""};
-  }
-  function cvStopTyping(){if(typing){root.clearInterval?.(typing);typing=null;}}
-  function cvPlay(parts){
-    cvStopTyping();
-    const reduce=root.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-    const finish=()=>{if(parts.typed){parts.typed.textContent=parts.full;}if(parts.numbers){parts.numbers.classList.remove("is-waiting");parts.numbers.classList.add("is-in");}};
-    if(reduce||!parts.typed||typeof root.setInterval!=="function"){finish();return;}
-    if(parts.numbers)parts.numbers.classList.add("is-waiting");
-    let shown=0;const step=Math.max(1,Math.round(parts.full.length/70));
-    typing=root.setInterval(()=>{shown=Math.min(parts.full.length,shown+step);parts.typed.textContent=parts.full.slice(0,shown);if(shown>=parts.full.length){cvStopTyping();finish();}},24);
-  }
-  function cvRemove(){cvStopTyping();const bar=root.document?.getElementById(BAR_ID);if(bar){bar.parentNode?.classList?.remove("cmv3-has");bar.remove();}}
-  // Final Winner (lead request 2026-10-31): Team V's stage fills the window and has no free slot, so the Showdown verdict
-  // sits BELOW the stage in the page flow (main scrolls to it). Nothing on the stage moves or is covered. Facts come from the
-  // same verified history Final Winner itself was drawn from (CareerModeSeasonFinalV10.gazetteHistory), checked against the
-  // totals the stage shows.
-  const FINAL_ID="commentaryV3Final";
-  function cvFinalFacts(){
-    const host=root.document?.getElementById("seasonEntry");
-    if(!host||host.classList.contains("hidden")||!host.classList.contains("v10FinalMode")||!host.querySelector(".v10FinalStage"))return null;
-    const history=root.CareerModeSeasonFinalV10?.gazetteHistory?.(),p=history?.projection;
-    if(!p||!Array.isArray(p.seasonHistory)||!LENGTHS.includes(p.totalSeasons)||p.seasonHistory.length!==p.totalSeasons)return null;
-    if(p.seasonHistory.some((row,i)=>row?.roundNumber!==i+1))return null;
-    const frame=root.FINAL_WINNER_FIXTURES?.frames?.LIVE;
-    let a=0,b=0;for(const row of p.seasonHistory){a+=row.playerOne?.scoring?.total;b+=row.playerTwo?.scoring?.total;}
-    if(!frame||frame.totals?.daniel!==a||frame.totals?.nik!==b)return null;
-    const teams=root.CareerModeSharedShowdownCatalog?.catalog?.[p.leagueId],rid=String(p.rivalryId||history.rivalryId||"");
-    // Prime Pack: this Showdown's confirm time (the closed read carries it), else the live Setup when it is this Showdown.
-    let at=history.setupConfirmedAt;
-    if(!Number.isFinite(at)){const live=state("CareerModeProductionSharedShowdownSetup");if(live&&String(live.rivalryId)===rid&&live.setup?.phase==="SHOWDOWN_CONFIRMED")at=live.setupUpdatedAtMs;}
-    return {showdownId:rid,primePack:Number.isFinite(at)?at>=PRIME_PACK_FROM_MS:undefined,seasons:p.totalSeasons,league:p.leagueId,clubs:{playerOne:p.managerRecords?.playerOne?.club,playerTwo:p.managerRecords?.playerTwo?.club},
-      teamCount:Array.isArray(teams)?teams.length:null,history:p.seasonHistory,season:p.totalSeasons};
-  }
-  // r90 W9 (LOOK hunt L18): the FULL TIME bar starts 48px under the Final Winner stage (was 22px), so its tab no longer peeks
-  // in a cut sliver at the bottom of a desktop window; main scrolls to it in full.
-  function cvFinalRule(doc){
-    if(doc.getElementById("commentaryV3FinalRule"))return;
-    const style=doc.createElement("style");style.id="commentaryV3FinalRule";
-    style.textContent=`
-#${FINAL_ID}{display:block;box-sizing:border-box;width:min(1040px,100%);margin:0 auto;padding:48px 16px 28px;pointer-events:none;user-select:text}
-#${FINAL_ID} .cmx-bar__slab{flex-direction:column;align-items:stretch;justify-content:center;gap:5px;padding:10px 44px 10px 30px}
-#${FINAL_ID} .cmv3-line{position:relative;margin:0}
-#${FINAL_ID} .cmv3-lead{color:#f6f2e8;font:600 18px/1.22 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.015em;text-shadow:0 1px 2px rgba(0,0,0,.9);text-wrap:pretty}
-#${FINAL_ID} .cmv3-numbers{color:#ffd34d;font:600 13px/1.25 var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.03em;text-wrap:pretty}
-#${FINAL_ID} .cmv3-numbers b{display:inline-block;margin-right:7px;padding:1px 6px 0;background:#e0ae3a;color:#07080a;font-weight:700;font-size:10px;letter-spacing:.18em;line-height:15px;vertical-align:1px}
-#${FINAL_ID} .cmv3-ghost{color:transparent;text-shadow:none}
-#${FINAL_ID} .cmv3-typed{position:absolute;inset:0}
-@media (max-width:600px){
-  #${FINAL_ID}{padding:16px 16px 22px}
-  #${FINAL_ID} .cmx-bar{margin-top:0}
-  #${FINAL_ID} .cmx-bar__slab{padding:8px 26px 8px 20px;gap:4px}
-  #${FINAL_ID} .cmv3-lead{font-size:15px;line-height:1.2}
-  #${FINAL_ID} .cmv3-numbers{font-size:12px}
-}
-@media (prefers-reduced-motion:reduce){#${FINAL_ID} .cmx-bar.is-in{animation:none}}
-`;
-    doc.head.appendChild(style);
-  }
-  function cvRemoveFinal(){root.document?.getElementById(FINAL_ID)?.remove();}
-  function cvRenderFinal(doc){
-    const facts=cvFinalFacts();if(!facts||!facts.teamCount){cvRemoveFinal();return;}
-    const key=`${facts.showdownId}|final|${facts.history.map(r=>`${r.playerOne?.scoring?.total}-${r.playerTwo?.scoring?.total}`).join(",")}`;
-    const host=doc.getElementById("seasonEntry"),existing=doc.getElementById(FINAL_ID);
-    if(existing&&existing.dataset.key===key&&existing.previousElementSibling===host)return;
-    if(!root.CareerModeCommentaryEngine||!root.CareerModeCommentaryLines){cvLoadAssets().then(cvSchedule,()=>{});return;}
-    const result=call(facts,facts.season,root.CareerModeCommentaryLines);
-    cvRemoveFinal();if(!result||(!result.lead&&!result.numbers))return;
-    cvRule(doc);cvFinalRule(doc);
-    const parts=cvBuildBar(doc,result);parts.wrap.id=FINAL_ID;parts.wrap.dataset.key=key;
-    host.after(parts.wrap);
-    // Below the stage it is read after a scroll, so it is shown whole (no typing).
-    if(parts.typed)parts.typed.textContent=parts.full;if(parts.numbers)parts.numbers.classList.add("is-in");
-  }
-  function cvRender(){
-    const doc=root.document;if(!doc)return;
-    const finalMode=doc.getElementById("seasonEntry")?.classList.contains("v10FinalMode")&&root.getActiveScreenName?.()==="seasonEntry";
-    if(finalMode){cvRemove();cvRenderFinal(doc);return;}
-    cvRemoveFinal();
-    const panel=doc.getElementById("sharedCanonicalScoringPanel"),winner=doc.getElementById("sharedCanonicalScoringWinner");
-    if(!panel||!winner||panel.classList.contains("hidden")||panel.hidden){cvRemove();return;}
-    const facts=cvLiveFacts();if(!facts||!facts.teamCount){cvRemove();return;}
-    const key=`${facts.showdownId}|${facts.season}|${facts.history.map(r=>`${r.playerOne?.scoring?.total}-${r.playerTwo?.scoring?.total}`).join(",")}`;
-    const existing=doc.getElementById(BAR_ID);
-    if(existing&&existing.dataset.key===key&&existing.parentNode===panel)return;
-    if(!root.CareerModeCommentaryEngine||!root.CareerModeCommentaryLines){cvLoadAssets().then(cvSchedule,()=>{});return;}
-    const result=call(facts,facts.season,root.CareerModeCommentaryLines);
-    if(!result||(!result.lead&&!result.numbers)){cvRemove();return;}
-    cvRemove();cvRule(doc);
-    const parts=cvBuildBar(doc,result);parts.wrap.dataset.key=key;
-    panel.appendChild(parts.wrap);panel.classList.add("cmv3-has");
-    cvPlay(parts);
-  }
-  function cvSchedule(){if(scheduled)return;scheduled=true;root.setTimeout(()=>{scheduled=false;try{cvRender();}catch(error){root.console?.warn?.("[Career Mode Showdown] Commentary unavailable.",error);cvRemove();}},0);}
-  function cvWatch(){
-    if(observer||typeof root.MutationObserver!=="function")return;
-    const host=root.document?.getElementById("seasonEntry");if(!host)return;
-    observer=new root.MutationObserver(list=>{const bar=root.document.getElementById(BAR_ID);if(list.every(m=>bar&&bar.contains(m.target)))return;cvSchedule();});
-    observer.observe(host,{subtree:true,childList:true,attributes:true,attributeFilter:["class","hidden"]});
-  }
-  function cvInstall(){
-    if(installed)return true;installed=true;
-    for(const e of ["career-mode-shared-history-convergence-state-change","career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change"])root.addEventListener?.(e,cvSchedule);
-    root.document?.addEventListener?.("career-mode-screen-shown",()=>{cvWatch();if(root.getActiveScreenName?.()==="seasonEntry")cvLoadAssets().then(cvSchedule,()=>{});else{cvRemove();cvRemoveFinal();}});
-    cvWatch();cvSchedule();
-    return true;
+  // ---------- a Showdown that ended early (r89 Sacked) ----------
+  // r91 (Nik 2026-11-11 picked the commentary in the Touchline Gazette): a sacking ends the Showdown after `played` of its
+  // planned seasons. The stock final lines speak of "the N-season Showdown" and "one season left", which a sacked Showdown
+  // never had, so its paper gets this numbers line only, true for a Showdown that stopped early. Drawn: no "Seasons won".
+  function sackedNumbers(facts){
+    const rows=cvRows(facts);if(!rows)return null;
+    const n=rows.length,N=facts.seasons,end=cvTotals(rows)[n-1],W=leaderOf(end),tally=cvTally(rows);
+    if(!W)return Object.freeze({id:"final-sacked-level",topic:"level",text:`Level on ${end.playerOne} after ${n} of ${N} seasons, so the Showdown is drawn.`});
+    const Lr=other(W);
+    return Object.freeze({id:"final-sacked",topic:"tally",text:`Full time after ${n} of ${N} seasons: ${NAMES[W]} ${end[W]}, ${NAMES[Lr]} ${end[Lr]}. Seasons won: ${both(tally.playerOne,tally.playerTwo)}${tally.draws?`, with ${count(tally.draws,"draw","draws")}`:""}.`});
   }
 
-  return Object.freeze({contractVersion:3,feature:"cms-commentary-v3",names:NAMES,leadFirst:LEAD_FIRST,call,seasonNumbers:(facts,season)=>{const rows=cvRows(facts);return rows&&int(season,1,rows.length)?seasonNumbers(rows.slice(0,season),season,facts.seasons,facts.clubs,cvSeasonMax(facts)):null;},
-    finalNumbers:facts=>{const rows=cvRows(facts);return rows&&rows.length===facts.seasons?finalNumbers(rows,facts.seasons,cvSeasonMax(facts)):null;},topicOf,install:cvInstall,_liveFacts:cvLiveFacts,_render:cvRender,_finalFacts:cvFinalFacts});
+  // r91: the booth's words print in the Touchline Gazette ("From the commentary box", js/touchlineGazette.js), which builds
+  // them from the same verified history on both phones. The Season Results bar and the FULL TIME bar under Final Winner are
+  // gone (Nik picked the paper over an on-screen box: the bar crowded the SEASON SCORE box and FULL TIME sat off screen).
+  return Object.freeze({contractVersion:4,feature:"cms-commentary-v3",names:NAMES,leadFirst:LEAD_FIRST,call,seasonNumbers:(facts,season)=>{const rows=cvRows(facts);return rows&&int(season,1,rows.length)?seasonNumbers(rows.slice(0,season),season,facts.seasons,facts.clubs,cvSeasonMax(facts)):null;},
+    finalNumbers:facts=>{const rows=cvRows(facts);return rows&&rows.length===facts.seasons?finalNumbers(rows,facts.seasons,cvSeasonMax(facts)):null;},topicOf,sackedNumbers});
 });

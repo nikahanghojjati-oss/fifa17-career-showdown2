@@ -9,7 +9,7 @@
         "draw": "SEASON DRAWN"
       }
     },
-    "interimLabel": "Current Showdown only. Career history is not yet available.",
+    "interimLabel": "This Showdown only. Career history is not available yet.",
     "statusTokens": [
       "loading",
       "empty",
@@ -48,20 +48,20 @@
     },
     "terminalClose": {
       "readyHeading": "FINAL RESULT READY TO CLOSE",
-      "readyStatus": "This closes the shared Showdown and current connection for good. Final results stay available, and no new season can be added.",
-      "closeAction": "CLOSE SHARED SHOWDOWN",
-      "recoveryHeading": "SHOWDOWN CLOSE STILL PENDING",
-      "recoveryStatus": "The close may have finished online. Retry checks the same close request.",
-      "retryAction": "RETRY SAME TERMINAL CLOSE",
-      "blockedHeading": "SHOWDOWN CAN CLOSE WHEN BOTH PLAYERS RECONNECT",
+      "readyStatus": "Closing ends this shared Showdown and its connection for good. Final results stay available; no new season can be added.",
+      "closeAction": "CLOSE SHOWDOWN",
+      "recoveryHeading": "CLOSE NOT CONFIRMED YET",
+      "recoveryStatus": "The close may already have gone through. Trying again only checks.",
+      "retryAction": "TRY CLOSING AGAIN",
+      "blockedHeading": "BOTH PLAYERS MUST RECONNECT TO CLOSE",
       "blockedStatus": "Final results are safe. Reconnect both players to this Showdown, then refresh.",
-      "closedHeading": "SHARED SHOWDOWN CLOSED",
-      "closedStatus": "CLOSED \u00b7 NO NEW SESSION \u00b7 NO NEW SEASON \u00b7 FINAL RESULTS STAY READ-ONLY"
+      "closedHeading": "SHOWDOWN CLOSED",
+      "closedStatus": "CLOSED \u00b7 NO NEW SESSION OR SEASON \u00b7 RESULTS READ-ONLY"
     },
     "completedHub": {
       "danielWinTemplate": "{Daniel} wins the showdown",
       "nikWinTemplate": "{Nik} wins the showdown",
-      "draw": "The showdown finishes level",
+      "draw": "The Showdown is a draw",
       "savedToLegacy": "Saved to Legacy",
       "legacyPending": "Active save retained \u00b7 Legacy sync pending",
       "metaTemplate": "{seasonsPlayed} seasons completed \u00b7 Final score {danielTotal} - {nikTotal} \u00b7 {archiveState}",
@@ -77,7 +77,7 @@
     },
     "outcome": {
       "drawHeadline": "DRAW",
-      "drawResult": "The showdown finishes level",
+      "drawResult": "The Showdown is a draw",
       "danielHeadline": "Daniel WINS",
       "nikHeadline": "Nik WINS"
     }

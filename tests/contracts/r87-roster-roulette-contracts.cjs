@@ -302,11 +302,11 @@ ok('L5','independent per Showdown; same inputs, same result');
   assert.ok(!/rosterBoards|rrsEditor|LOCK MY BOARD/.test(step),'no board editor or board document');
   assert.ok(!/rosterBoards/.test(fs.readFileSync(path_.join(ROOT,'firestore.persistent-pair-production.fragment.rules'),'utf8')),'no board Rules');
   assert.match(pstc,/verdicts:season=>pstcRouletteVerdicts\(request,season\)/);
-  assert.match(pstc,/careerModeShowdown\.rouletteVerdicts\.v1/);
+  assert.match(pstc,/careerModeShowdown\.rouletteVerdicts\.v2/);
   assert.match(pstc,/provider\.readRouletteSeason\(\{\.\.\.await pstcRouletteServices\(\),rivalryId:request\.rivalryId,seasonNumber:season,/);
-  assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1\?await rrsHistory\(ctx(,hits)?\):\[null\]/);
+  assert.match(step,/history:ctx\.season>1\?|const history=ctx\.season>1(&&!squads)?\?await rrsHistory\(ctx(,hits)?\):\[null\]/);
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
-  assert.match(rules,/Special Player is never on your board, so he is never hit/,'Rule Book: the Special Player is never on the board');
+  assert.match(rules,/He never appears in Squad Management or on the roulette board, so the roulette can never hit him\./,'Rule Book: the Special Player is never on the board');
   ok('L6','season step: auto boards from Transfer War verdicts, no editor, no new path; Rule Book line');
 }
 // L7 full launch database, exact formation sets and boards regenerated from all non-starters, including reserves.
@@ -487,9 +487,10 @@ function fullBoard(board,label){
   assert.equal(src.split('rrEmpty').length-1,2,'empty rows come only from the rrPlace fallback');
   assert.ok(!/name:\s*""/.test(src),'no blank-name rows');
   const rules=fs.readFileSync(path_.join(ROOT,'js/ruleBook.js'),'utf8');
-  assert.match(rules,/A lost player's place goes first to that window's signing in his line, however weak, then to your best sub/);
-  assert.match(rules,/Replaced players wait in hidden reserves, off the board, and come back when better players are lost/);
-  assert.match(rules,/the roulette still spins, and the bullet only ever hits a real player/);
+  // r91: the refill is told on the roulette card (a kept signing of his line first) and the Squad Management card (the best of his line).
+  assert.match(rules,/his place goes to a new signing in his line if you kept one, otherwise to the best player left in his line/);
+  assert.match(rules,/A player who leaves is replaced by the best player in his line/);
+  assert.match(rules,/A place stays empty only if your club runs out of players\. The bullet only ever hits a real player\./);
 }
 ok('L11','every club: 10 forced firing seasons, no kept signing, full 11 + 4 with one GK, permanent losses and identical replay');
 
@@ -576,7 +577,7 @@ const drawFor=r=>{
   const stepSource=fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8');
   const fn=stepSource.slice(stepSource.indexOf('  function rrsSpecial('),stepSource.indexOf('/* rrsSpecial end */'));
   vm.runInContext('const root=this,ROLES=["playerOne","playerTwo"];'+fn+';this.special=rrsSpecial;',box);
-  return JSON.parse(JSON.stringify(box.special({rivalryId:r,confirmedAtMs:Date.parse('2026-10-31T00:00:00Z')})));
+  return JSON.parse(JSON.stringify(box.special({rivalryId:r,confirmedAtMs:Date.parse('2026-10-31T00:00:00Z'),clubs:{playerOne:'No Such Club A',playerTwo:'No Such Club B'}})));
 };
 const LINE={GK:'GK',CB:'CB',LCB:'CB',RCB:'CB',SW:'CB',RB:'RB',RWB:'RB',LB:'LB',LWB:'LB',CDM:'CM',RDM:'CM',LDM:'CM',CM:'CM',RCM:'CM',LCM:'CM',CAM:'CM',RAM:'CM',LAM:'CM',RM:'RW',RW:'RW',LM:'LW',LW:'LW',ST:'ST',CF:'ST',RS:'ST',LS:'ST',RF:'ST',LF:'ST'};
 const fitsSlot=(positions,pos)=>positions.some(p=>LINE[p]&&LINE[p]===LINE[pos]);
@@ -885,7 +886,7 @@ async function stepWorld({loads,forSeason}){
   const panel=()=>doc.getElementById(step.panelId);
   const find=label=>panel()&&panel().all().find(n=>n.tagName==='button'&&n.textContent===label);
   const press=async label=>{for(let i=0;i<200&&!find(label);i+=1)await new Promise(r=>setTimeout(r,5));const b=panel().all().find(n=>n.tagName==='button'&&n.textContent===label);assert.ok(b,'button '+label);const title=panel().all().find(n=>n.className==='rrStepTitle').textContent;b.listeners.click[0]();await new Promise(r=>setTimeout(r,5));return title;};
-  const ctx={rivalryId:'pair_'+'a'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};
+  const ctx={rivalryId:'pair_'+'a'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:(Date.parse("2026-11-02T05:00:00Z")+3600000),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};
   return {step,ctx,press,store};
 }
 const stepChecks=(async()=>{
@@ -966,7 +967,7 @@ const stepChecks=(async()=>{
         loadRuntimeScript:async()=>{sandbox.CareerModeFifa17Players={clubs:{Arsenal:{},Liverpool:{}}};sandbox.CareerModeRosterSquads={};sandbox.CareerModeMarqueePlayers={};sandbox.CareerModeMarqueePlayer={forShowdown:()=>null};sandbox.CareerModeRosterRoulette={forSeason:()=>plan,board:()=>[{}]};return true;}};
       vm.createContext(sandbox);vm.runInContext(fs.readFileSync(path_.join(ROOT,'js/rosterRouletteStep.js'),'utf8'),sandbox);
       const step=sandbox.CareerModeRosterRouletteStep;
-      const ctx={rivalryId:'pair_'+'b'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};
+      const ctx={rivalryId:'pair_'+'b'.repeat(64),managerRole:'playerOne',season:1,clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},confirmedAtMs:(Date.parse("2026-11-02T05:00:00Z")+3600000),phase:'NOT_STARTED',verdicts:async()=>({ok:false})};
       const run=step.runBeforeTransfers(ctx);
       let frame=null;for(let i=0;i<200&&!frame;i+=1){await new Promise(r=>setTimeout(r,5));frame=body.all().find(n=>n.tagName==='iframe')||null;}
       assert.ok(frame,'the roulette page is framed');

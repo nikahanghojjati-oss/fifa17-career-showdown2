@@ -79,7 +79,7 @@
   const DIR={legacy:"legacy",rivalryStatistics:"rivalry-statistics"};
   const BOOT={legacy:"ShowdownLegacyBoot",rivalryStatistics:"ShowdownRivalryStatisticsBoot"};
   const sources={},sourceKeys={},getters={},resources={},originalMarkup={},reloads={};
-  const LOAD_TIMEOUT=15000,RELOAD_INTERVAL=2000;
+  const LOAD_TIMEOUT=15000,RELOAD_INTERVAL=2000,RIVALRY_RETRY_MS=2500;
   const LOADING=rlFreeze({status:"loading"}),UNAVAILABLE=rlFreeze({status:"unavailable"});
   let registration=null,installed=false,tabletLayoutCleanup=null,legacyLayoutCleanup=null;
   const screens=()=>root.CareerModeV10Screens;
@@ -90,7 +90,7 @@
   // CE2PG: after a Showdown closes the pair holds no rivalry id but names the closed one, so a career read after Showdown A
   // and one after Showdown B no longer share a key (Standings and Settings showed A's career after B had finished).
   const context=()=>{const pair=state("CareerModePersistentNikDanielPair");return JSON.stringify([state("CareerModeSparkConnectedAccount")?.accountId??null,identity()?.managerId??null,pair?.rivalryId??null,pair?.closedRivalryId??null,markerEpoch()]);};
-  const report=error=>root.reportApplicationError?.("History and stats screens could not load",error);
+  const report=error=>root.reportApplicationError?.("Legacy and stats screens could not load",error);
   // r87 career fixes (A-08): the toast says what happened in plain words; the code stays on error.code for diagnostics.
   const TIMEOUT_CODE="RIVALRY_LEGACY_LOAD_TIMEOUT";
   function rlTimeoutError(){const error=new Error("The connection was too slow. It tries again by itself when you are back online.");error.code=TIMEOUT_CODE;return error;}
@@ -115,8 +115,8 @@
     if(held.has(screen)&&screens().HOLD)return screens().HOLD;
     const model=getters[screen]?.();
     if(model!=null)return model;
-    // Signed in or not, Team V draws the screen; only Legacy's data tools page keeps the app's own markup.
-    return screen==="legacy"&&root.careerModeLegacyDataTools===true?null:(sourceKeys[screen]===context()?sources[screen]??UNAVAILABLE:UNAVAILABLE);
+    // Signed in or not, Team V draws the screen.
+    return sourceKeys[screen]===context()?sources[screen]??UNAVAILABLE:UNAVAILABLE;
   }
   function clean(screen){
     if(screen==="rivalryStatistics"){tabletLayoutCleanup?.();tabletLayoutCleanup=null;}
@@ -158,7 +158,7 @@
       syncCard();
       const observer=grid&&root.MutationObserver?new root.MutationObserver(syncCard):null;
       observer?.observe(grid,{childList:true,subtree:true,attributes:true,attributeFilter:["data-selected"]});
-      const touch=root.matchMedia?.("(max-width:900px) and (orientation:portrait), (min-width:600px) and (max-width:900px) and (max-height:500px) and (orientation:landscape)");
+      const touch=root.matchMedia?.("(max-width:900px) and (orientation:portrait), (max-width:900px) and (max-height:500px) and (orientation:landscape)");
       const syncKey=event=>{
         if(touch?.matches&&["ArrowLeft","ArrowRight"].includes(event.key)){
           syncCard();grid.querySelector(".legacyVisibleCard")?.focus?.({preventScroll:true});
@@ -199,10 +199,11 @@
       tabs.forEach((t,i)=>{t.addEventListener("click",()=>pick(t.dataset.rvTab));t.addEventListener("keydown",e=>{const d=e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0;if(d){e.preventDefault();pick(tabs[(i+d+tabs.length)%tabs.length].dataset.rvTab,true);}});});
     }
   }
-  // HO-068: upright phones up to 600px wide draw Team V's handcrafted archive room (plates-hc/ENV_ARCHIVE_PHONE_HC_V2,
-  // the lighter 590W file on Light or Save-Data); wider upright screens and sideways phones keep ENV_LEGACY_PHONE_V2 as before.
+  // HO-068: upright phones up to 600px wide draw Team V's handcrafted archive room (plates-hc/ENV_ARCHIVE_PHONE_HC_V3,
+  // the lighter 590W file on Light or Save-Data); r91 old art: every upright screen and small landscape window to 900 wide
+  // (over 500 tall) too; sideways phones draw the wide archive room on #stage-root (css/rivalryLegacyV10.css).
   function lgArchive(m){const lite=root.document?.documentElement?.dataset?.assets==="0";
-    return m.replace('<source media="(max-width: 900px)" srcset="visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp"','<source media="(max-width: 600px) and (orientation: portrait)" srcset="visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2'+(lite?"_590W":"")+'.webp" type="image/webp">\n      <source media="(max-width: 900px)" srcset="visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp"');}
+    return m.replace('<source media="(max-width: 900px)" srcset="visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp"','<source media="(max-width: 900px) and (orientation: portrait), (max-width: 900px) and (min-height: 501px)" srcset="visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V3'+(lite?"_590W":"")+'.webp" type="image/webp">\n      <source media="(max-width: 900px)" srcset="visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp"');}
   function undraw(screen,host){if(reloads[screen]?.flight)reloads[screen].flight.left=true;clean(screen);host.innerHTML=originalMarkup[screen]??"";delete host.dataset.rivalryLegacyV10;}
   async function registerRivalryLegacy(){
     if(!registration)registration=(async()=>{
@@ -319,15 +320,26 @@
         let scope=null;try{scope=await rlCareerScope(services,sdk.getDoc,user);}catch(_){scope=null;}
         if(!scope){model=UNAVAILABLE;rivalryModel=UNAVAILABLE;}
         else{
-          const hidden=scope.hidden;
-          const result=await root.CareerModeSparkClosedShowdownCareerLoader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc,setDoc:sdk.setDoc},user,current:active.careerInput,...(typeof onProgress==="function"?{onProgress}:{}),...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})},()=>canPublish()&&context()===key);
-          model=result.model??UNAVAILABLE;
-          if(rivalry){
+          const hidden=scope.hidden,loader=root.CareerModeSparkClosedShowdownCareerLoader;
+          // U1 (2.4.0 hunt): Rivalry Statistics right after a close. The Showdown that just finished (rivalry.expect, when it
+          // counts for this career) can still be missing from the career index, or read as unavailable, for a moment. Such an
+          // answer is never kept: the loader forgets it, it is asked once more after a short wait, and the next visit asks
+          // again. In the normal case the newest finished entry is that Showdown and nothing more is read.
+          const expect=typeof rivalry?.expect==="string"&&!scope.testOnly&&!hidden.includes(rivalry.expect)?rivalry.expect:null;
+          for(let attempt=0;;attempt+=1){
+            const result=await loader.loadClosedShowdownCareer({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc,setDoc:sdk.setDoc},user,current:active.careerInput,...(typeof onProgress==="function"?{onProgress}:{}),...(scope.testOnly?{testRunsOnly:true}:hidden.length?{hiddenRivalryIds:hidden}:{})},()=>canPublish()&&context()===key);
+            model=result.model??UNAVAILABLE;
+            if(!rivalry)break;
             // Career order is oldest first. Rebuild the latest verified completed entry (r87 Fable job 7 F7-06: a newer live or
             // completion-pending Showdown is not finished yet, so it never hides the newest finished one behind "empty"),
             // never mix whole-career manager counters into one rivalry's figures.
             const input=result.careerInput,entry=input?.showdowns?.filter(item=>!["abandoned","active","completion-pending"].includes(item.classification)).at(-1);
             rivalryModel=input?.indexStatus==="ready"?(entry?.classification==="completed"?root.CareerModeSharedCareerAnalytics.buildCareerModel({indexStatus:"ready",showdowns:[entry]}):entry?.classification==="unavailable"?UNAVAILABLE:{status:"empty"}):UNAVAILABLE;
+            const unavailable=rivalryModel===UNAVAILABLE,notIndexed=Boolean(expect)&&entry?.rivalryId!==expect;
+            if(!unavailable&&!notIndexed)break;
+            for(const id of new Set([expect,entry?.rivalryId]))if(id)loader.forgetUnavailableShowdown?.(id);
+            if(attempt||!expect||!canPublish()||context()!==key)break;
+            await new Promise(resolve=>root.setTimeout(resolve,RIVALRY_RETRY_MS));
           }
         }
       }
@@ -395,7 +407,7 @@
           if(screen==="rivalryStatistics"){
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
-            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,true,progress,retrying);
+            if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,active.classification==="completed"?{expect:active.careerInput?.showdowns?.[0]?.rivalryId}:true,progress,retrying);
             return rlLiveOrContinue({...active.rivalry,lifecycle:active.classification});
           }
           return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress,retrying);
@@ -459,7 +471,7 @@
     return refresh(screen);
   }
 
-  const RUNTIME_FILES=["visual-assets/v10_1/legacy/legacy.css", "visual-assets/v10_1/legacy/legacy.js", "visual-assets/v10_1/legacy/strings.json", "visual-assets/v10_1/legacy/assets/platemap.json", "visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp", "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2.webp", "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V2_590W.webp", "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_1X.webp", "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V2_2X.webp", "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_1X.webp", "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_2X.webp", "visual-assets/v10_1/legacy/assets/TITLE_LG_V2_1920.webp", "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.css", "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js", "visual-assets/v10_1/rivalry-statistics/strings.json", "visual-assets/v10_1/rivalry-statistics/assets/platemap.json", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_RIM_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_RIM_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V2_1920.webp", "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_PHONE_V2_1920.webp", "js/rivalryLegacyV10.js", "js/rivalryLegacyV10Markup.js", "css/rivalryLegacyV10.css"];
+  const RUNTIME_FILES=["visual-assets/v10_1/legacy/legacy.css", "visual-assets/v10_1/legacy/legacy.js", "visual-assets/v10_1/legacy/strings.json", "visual-assets/v10_1/legacy/assets/platemap.json", "visual-assets/v10_1/plates-v2/ENV_LEGACY_PHONE_V2.webp", "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V3.webp", "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PHONE_HC_V3_590W.webp", "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1X.webp", "visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_2X.webp", "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_1X.webp", "visual-assets/v10_1/legacy/assets/ENV_LG_PLATE_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_DANIEL_FOREGROUND_V1_RIM_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_2X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_1X.webp", "visual-assets/v10_1/legacy/assets/OVL_LG_NIK_FOREGROUND_V1_RIM_2X.webp", "visual-assets/v10_1/legacy/assets/TITLE_LG_V3_1920.webp", "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.css", "visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js", "visual-assets/v10_1/rivalry-statistics/strings.json", "visual-assets/v10_1/rivalry-statistics/assets/platemap.json", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/ENV_RV_PLATE_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_RIM_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_DANIEL_POINT_V1_RIM_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_1X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_ARMS_V1_RIM_2X.webp", "visual-assets/v10_1/rivalry-statistics/assets/OVL_RV_NIK_PHONE_V1.webp", "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_V3_1920.webp", "visual-assets/v10_1/rivalry-statistics/assets/TITLE_RV_PHONE_V3_1920.webp", "js/rivalryLegacyV10.js", "js/rivalryLegacyV10Markup.js", "css/rivalryLegacyV10.css"];
   return rlFreeze({toV10Frame:rlToV10Frame,mount:rlMount,markup,loadCareerModel:rlLoadCareerModel,cachedCareerModel:rlCachedCareerModel,careerModelLoading:rlCareerModelLoading,RUNTIME_FILES});
 });
 

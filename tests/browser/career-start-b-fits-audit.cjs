@@ -109,7 +109,7 @@ async function checkFallback(page, kase, width, height, expectedMode, errors){
     assert.equal(audit.onScreen, true, `${label}: all on screen`);
     const look = await page.evaluate(() => { const o = document.getElementById("productionSharedCareerStartOverlay"), s = getComputedStyle(o); return { visibility: s.visibility, opacity: s.opacity, marble: /r78-marble-tile/.test(s.backgroundImage), text: o.innerText }; });
     assert.deepEqual([look.visibility, look.opacity, look.marble], ["visible", "1", true], `${label}: visible, undimmed, black-and-gold marble`);
-    assert.match(look.text, /The Club screen didn't load/, `${label}: says what happened once`);
+    assert.match(look.text, /The Club screen did not load/, `${label}: says what happened once`);
     assert.match(look.text, /T\. Courtois · Chelsea/, `${label}: Special Player original club stays`);
     const buttons = { confirm: page.getByRole("button", { name: /I STARTED AT FIORENTINA/ }), refresh: page.getByRole("button", { name: "REFRESH" }), retry: page.getByRole("button", { name: "RETRY" }), back: page.getByRole("button", { name: "Close Career Start" }) };
     for(const [key, locator] of Object.entries(buttons)){
@@ -120,7 +120,7 @@ async function checkFallback(page, kase, width, height, expectedMode, errors){
     }
     await buttons.refresh.click();
     await buttons.retry.click();
-    await page.waitForFunction(() => /still didn't load/.test(document.getElementById("productionSharedCareerStartOverlay").innerText), null, { timeout: 15000 });
+    await page.waitForFunction(() => /still did not load/.test(document.getElementById("productionSharedCareerStartOverlay").innerText), null, { timeout: 15000 });
     assert.equal(await page.evaluate(() => document.getElementById("productionSharedCareerStartOverlay").dataset.stageMode), "fallback", `${label}: RETRY while the Club visuals still fail keeps the fallback`);
     await buttons.confirm.click();
     await page.waitForFunction(() => /YOUR CAREER IS CONFIRMED/.test(document.getElementById("productionSharedCareerStartOverlay").innerText), null, { timeout: 15000 });

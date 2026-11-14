@@ -153,7 +153,8 @@ async function c3d2(){
   assert.ok(scene.includes("const stadiumT=still?0:")&&scene.includes("S.update(stadiumT,still?.2:excitement(t));"),"the crowd stands still");
   assert.ok(scene.includes("if(!still&&plan&&plan.after.kind===\"net\""),"no net bulge");
   assert.ok(scene.includes("const fade=still?0:")&&scene.includes("if(!cssW||(frozenClock===null&&reducedMotion()))return;"),"no dissolve");
-  assert.ok(read("js/chamberMenStadium3d.js").includes("if(net.t0<0||e<0||e>2.5){"),"a clock before the hit keeps the net flat");
+  // r91: the ball stretching the net (netPush) is off while still; with no push and no ripple the net is set flat again.
+  assert.ok(read("js/chamberMenStadium3d.js").includes("ripple=!(net.t0<0||e<0||e>2.5),pz=net.pz;")&&read("js/chamberMenStadium3d.js").includes("if(!ripple&&pz===null){if(arr.__moved){arr.set(backBase);")&&scene.includes("const on=Boolean(!still&&plan&&plan.after.kind===\"net\"&&ballFree.on);")&&scene.includes("netPushAt(still);"),"a clock before the hit keeps the net flat");
   ok("C3D8","Reduce Motion: players, crowd, net, camera and dissolve stand still; lineup and result still change");
 }
 // C3D9 r90 W4 (Nik 2026-11-07, "FC quality, light on every device"): the scene takes its quality from js/gfxTier.js
@@ -163,7 +164,8 @@ async function c3d2(){
 {
   assert.ok(scene.includes('const GFX_JS="js/gfxTier.js";'),"the quality module is loaded by its plain path");
   assert.ok(scene.includes("setPixelRatio(Q.pixelRatio)"),"the pixel ratio comes from the device profile");
-  assert.ok(scene.includes('gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:paint,'),"one governor per scene");
+  // r91: the governor's timed frame is a whole one (it carries the shadow maps: tests/contracts/r91-chamber-ladder-contracts.cjs).
+  assert.ok(scene.includes('gov=GFX?GFX.governor(renderer,{key:"chamber-men",draw:timed,')&&(scene.match(/GFX\.governor\(/g)||[]).length===1,"one governor per scene");
   assert.ok(scene.includes("RUNUP*1000);frozenAt=null;gov?.hold(true);")&&scene.includes("ballFree.on=false;gov?.hold(false);},"),"no level change during a kick");
   assert.ok(/const GFX_FALLBACK=\{level:1,name:"medium",pixelRatio:1,/.test(scene),"a light fallback when the module cannot load");
   const runups=/const RUNUPS=(\[.*?\]);\n/.exec(scene);assert.ok(runups,"run-up table");
@@ -190,7 +192,9 @@ async function c3d2(){
 {
   const ex=/const CM3_LEVEL_EXTRAS=\[([\s\S]*?)\n  \];/.exec(scene);assert.ok(ex,"one extras table");
   assert.strictEqual((ex[1].match(/\{aniso:/g)||[]).length,5,"one row per level");
-  assert.ok(/\{aniso:4,softness:1\.5,fullCrowd:false\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
+  assert.ok(/\{aniso:4,softness:1\.5,fullCrowd:false,shells:0\}/.test(ex[1].split("\n")[1]),"Light adds nothing");
+  // r91: the grass blade layers are an Extra and Ultra extra only.
+  assert.deepStrictEqual(ex[1].split("\n").slice(1,6).map(r=>Number((/shells:(\d+)/.exec(r)||[])[1])),[0,0,0,10,14],"grass blades at Extra and Ultra only");
   assert.ok(scene.includes("QX=CM3_LEVEL_EXTRAS[Math.max(0,Math.min(4,L))]"),"8K uses Ultra's extras");
   assert.ok(scene.includes('look={phone:Q.assets==="phone",level:Q.textureLevel??Q.level,meshopt};')&&scene.includes('S.load(T,look)'),"textures follow the texture level");
   const stadium=read("js/chamberMenStadium3d.js");
@@ -212,9 +216,9 @@ async function c3d2(){
 //    level (lighter where real shadows are sharper), the clubs' names, crests and second colours handed to the stadium.
 {
   assert.ok(/new T\.HemisphereLight\(0x9fb4e8,0x14200f,LIGHT_ONE\.hemi\)/.test(scene)&&/const LIGHT_ONE=L===0\?\{key:1\.5,env:1\.1,hemi:\.22\}:\{key:1,env:1,hemi:\.08\};/.test(scene),"night: a faint sky fill, the floodlights carry the picture (r90 Light: one light, the sky lifted to .22)");
-  assert.ok(/const blob=\(\(\)=>\{/.test(scene)&&/mesh\.name="cmBlobs"/.test(scene)&&/return \{taker:\{i:0,w:1\.15,d:\.9\},keeper:\{i:1,w:1\.25,d:\.85\},ball:\{i:2,w:\.36,d:\.36\},strength,geo,P,C\};/.test(scene),"three contact shadows (r90 Light draw budget: one mesh, a quad each)");
-  assert.ok(/blobAt\(blob\.taker,taker,1\);blobAt\(blob\.keeper,keeper,1\);blobAt\(blob\.ball,null,BALL_R\)/.test(scene),"they follow the players and the ball every frame");
-  assert.ok(/const strength=L<=0\?\.62:\.5/.test(scene),"at every level (the floodlights' own shadows are soft, several at once)");
+  // r91: the three contact shadows are drawn by the turf (S.contact, capsules feet to head), no quad mesh of their own.
+  assert.ok(!/cmBlobs/.test(scene)&&/const CONTACT_LIGHT=\.62;let contactK=L<=0\?CONTACT_LIGHT:\.5;const CONTACT=\{taker:1\.15,keeper:1\.25,ball:\.36\}/.test(scene),"three contact shadows at every level (lighter where the floodlights' own shadows are soft, several at once)");
+  assert.ok(/S\.contact\?\.\(\[contactOf\(taker,CONTACT\.taker,1\),contactOf\(keeper,CONTACT\.keeper,1\),contactOf\(null,CONTACT\.ball,BALL_R\)\]\)/.test(scene)&&/keeperPose\(t,live,still\);takerAt\(t,live\);ballAt\(t\);\n      contactAt\(\);/.test(scene),"they follow the players and the ball every frame");
   assert.ok(/homeAlt:altOf\(clubs\.playerOne\),awayAlt:altOf\(clubs\.playerTwo\),homeName:clubs\.playerOne,awayName:clubs\.playerTwo,crest,boardPx:L>=3\?2048:1024/.test(scene),"club names, crests and second colours go to the stadium");
   // L04: the low camera behind and
   // left of the taker, a squad number on the back, breathing on the idles.
@@ -265,17 +269,22 @@ async function c3d2(){
   assert.ok(/react\[k\]=list\.filter\(n=>TK\[n\]\)\.map\(reaction\)/.test(scene),"reactions present in the file only");
   assert.ok(/react:pool\[\(luck>>>8\)%pool\.length\]/.test(scene)&&/const luck=cm3Hash\(`ball\|\$\{lineup\.taker\}\|\$\{round\}/.test(scene),"picked from the kick's hash");
   assert.ok(/const rooted=k\.goal&&k\.shot&&side==="M"&&KC\.defeated\?ROOTED:null;/.test(scene)&&scene.includes('const ROOTED={c:"defeated",m:0,tc:-.15,s:1,rooted:1};'),"rooted keeper on a goal past him");
+  // r91: the keeper reacts once his move is over (a fist pump on a save or a miss, head down on a goal), from where that
+  // move ends, never after a catch or the rooted stand, and never under Reduce Motion.
+  assert.ok(/for\(const \[k,n\] of \[\["save","cheer"\],\["goal","disappointed"\]\]\)if\(keeper\.clips\[n\]\)/.test(scene)&&scene.includes('r=!still&&!m.rooted&&!m.hold&&KC.after[plan.goal&&plan.shot?"goal":"save"]?.[m.c]'),"keeper reaction after his move");
   const tool=read("tools/chamber-men-players/clips_r90.json");
   for(const n of ["victory2","cheer","salute","defeated"])assert.ok(tool.includes(`"${n}"`),`clips_r90.json bakes ${n}`);
   const fbx=require("node:child_process").execFileSync("git",["ls-files","*.fbx","*.FBX","*.zip"],{cwd:path.join(__dirname,"../.."),encoding:"utf8"}).trim();
   assert.equal(fbx,"","no Mixamo source (FBX or zip) in the repo");
+  // r91: a flipped move never flips the keeper mid-stance: his waiting clips are kept mirrored and play flipped from the kick's start.
+  assert.ok(/KC\.mirror=\{\};for\(const n of \["gkIdle","gkStepL","gkStepR"\]\)/.test(scene)&&/const flip=Boolean\(plan&&plan\.move\.m\),W=flip\?KC\.mirror:KC/.test(scene)&&/keeper\.holder\.scale\.x=flip\?-1:1;/.test(scene),"a flipped move starts from a mirrored stance, no flip in play");
   ok("C3D13","r90 moves: reactions vary per kick, rooted keeper, clips baked from Nik's Mixamo files with no FBX committed");
 }
 // C3D15 r90 draw calls: each player's opaque pieces cast one shadow draw (a shadow-only copy on the same bones, drawn
 //    only inside the shadow-map pass, in the pieces' own bind space), hair keeps its own, eyelashes cast none.
 {
   const code=scene.replace(/\/\/[^\n]*/g,"");
-  assert.ok(/sm\.render=\(\.\.\.args\)=>\{for\(const p of shadowBodies\)\{p\.visible=true;p\.skeleton\.update\(\);\}/.test(code)&&/finally\{for\(const p of shadowBodies\)p\.visible=false;\}/.test(code),"the shadow copy shows only while the shadow maps draw");
+  assert.ok(/sm\.render=\(\.\.\.args\)=>\{if\(castOff\)\{args\[1\]=NO_CASTERS;return draw\(\.\.\.args\);\}\s*for\(const p of shadowBodies\)\{p\.visible=true;p\.skeleton\.update\(\);\}/.test(code)&&/finally\{for\(const p of shadowBodies\)p\.visible=false;\}/.test(code),"the shadow copy shows only while the shadow maps draw");
   assert.ok(/!\(o\.material\.alphaTest>0\)&&!o\.material\.alphaMap&&!o\.material\.transparent/.test(code),"alpha-cut pieces (hair) keep their own shadow");
   assert.ok(/Math\.abs\(x-e\[k\]\)>1e-4\)\)return;/.test(code),"a body whose pieces disagree on a bind pose keeps per-piece shadows");
   assert.ok(/const same=o\.bindMatrix\.equals\(bind\)/.test(code)&&/proxy\.bind\(keep\(new T\.Skeleton\(bones,inv\)\),bind\)/.test(code),"positions copied in the pieces' own bind space");
@@ -291,8 +300,10 @@ async function c3d2(){
   assert.ok(scene.includes("await renderer.compileAsync(scene,camera)")&&scene.includes("renderer.initTexture(v)")&&scene.includes("for(const t of kitTex.values())up(t);"),"shaders compiled (in parallel where the driver can) and every texture uploaded, the kits too");
   assert.ok(scene.includes('if(d.visibilityState!=="hidden"&&!warming)'),"no frame draws while the warm-up runs");
   assert.ok(scene.includes("renderer.copyFramebufferToTexture(snap)")&&!/WebGLRenderTarget\(size/.test(scene)&&!/HalfFloatType,samples/.test(scene),"the dissolve copies the screen: no half-float target, no second shader per material");
-  assert.ok(scene.includes('canvas.addEventListener("webglcontextrestored",restored);')&&scene.includes("const restored=()=>{if(disposed)return;wrapShadow();try{refilter();}catch(_error){}"),"a restored context: the shadow hook, the reflections and the warm-up again");
+  assert.ok(scene.includes('canvas.addEventListener("webglcontextrestored",restored);')&&scene.includes("const restored=()=>{if(disposed)return;wrapShadow();shadowNow=true;try{refilter();}catch(_error){}"),"a restored context: the shadow hook, the reflections and the warm-up again");
   assert.ok(scene.includes('canvas.removeEventListener("webglcontextrestored",restored);'),"and the hook goes with the scene");
+  // r91: the next lineup's shot starts where the last kick's shot ended and eases back, so a dissolve never doubles the goal.
+  assert.ok(scene.includes("carry.p.copy(camera.position);carry.l.copy(camLook);carry.at=snapAt;")&&/k<1&&!reducedMotion\(\)\)\{p\.lerpVectors\(carry\.p,p,k\);l\.lerpVectors\(carry\.l,l,k\);\}/.test(scene),"dissolve keeps one framing");
   // The season page (cm3Warm) also runs three.js, parses the stadium and players and paints the four kits at idle moments;
   // the mount takes them for the same level and clubs and never parses or paints twice.
   assert.ok(scene.includes("if(ok&&!cm3Mounting&&!cm3Parsed){")&&scene.includes("cm3Parsed={key:cm3ParseKey(Q,opts&&opts.clubs),work,lite:Boolean(Q.full)};"),"the season page parses ahead, once");
@@ -331,9 +342,11 @@ const c3d17=(async()=>{
 {
   assert.ok(/lean:L===0/.test(scene),"Light builds the lean stadium");
   assert.ok(/if\(lash&&L===0\)o\.visible=false/.test(scene),"no eyelashes at Light");
+  assert.ok(/m\.customProgramCacheKey=\(\)=>"cmGlove"/.test(scene)&&/const on=role==="keeper"&&runs\.length===2/.test(scene),"r91 keeper gloves: one key on every player piece (no new program), only the keeper's body switches them on");
   assert.ok(/if\(L===0\)for\(const m of Object\.values\(mats\)\)if\(m\.isMeshStandardMaterial&&\(m\.map\|\|\/\^kit\/\.test\(m\.name\)\)&&!m\.normalMap/.test(scene)&&/new Uint8Array\(\[128,128,255,255\]\)/.test(scene),"a kit piece without a normal map reads a flat one at Light");
   assert.ok(/function cm3SlowLink\(\)\{const c=root\.navigator\?\.connection;return Boolean\(c&&Number\.isFinite\(c\.downlink\)&&c\.downlink>0&&c\.downlink<10\);\}/.test(scene),"a slow line is under 10 Mbps");
-  assert.ok(/if\(q\.assets==="desktop"&&cm3SlowLink\(\)&&\(cm3Parsed\?\.lite\|\|!await cm3Scripts\(\)\|\|!\(await Promise\.all\(cm3Urls\(q,clubs\)\.map\(cm3Cached\)\)\)\.every\(Boolean\)\)\)\{\s*q\.full=\{textureLevel:q\.textureLevel\?\?q\.level\};q\.assets="phone";q\.textureLevel=1;\}/.test(scene),"a high level on a slow line opens on the lighter set until its own is cached");
+  assert.ok(/if\(!full&&q\.assets==="desktop"&&cm3SlowLink\(\)&&\(cm3Parsed\?\.lite\|\|!await cm3Scripts\(\)\|\|!\(await Promise\.all\(cm3Urls\(q,clubs\)\.map\(cm3Cached\)\)\)\.every\(Boolean\)\)\)\{\s*q\.full=\{textureLevel:q\.textureLevel\?\?q\.level\};q\.assets="phone";q\.textureLevel=1;\}/.test(scene),"a high level on a slow line opens on the lighter set until its own is cached (r91: except the Device check's frame, which waits for the level's own set)");
+  assert.ok(/const Q=await cm3Quality\(opts&&opts\.clubs,Boolean\(opts&&opts\.fullFiles\)\);/.test(scene)&&/mount\(svg,\{clubs:CLUBS,fullFiles:true\}\)/.test(fs.readFileSync(path.join(ROOT,"device-check-chamber.html"),"utf8"))&&!fs.readdirSync(path.join(ROOT,"js")).some(f=>f.endsWith(".js")&&f!=="chamberMenScene3d.js"&&/fullFiles/.test(fs.readFileSync(path.join(ROOT,"js",f),"utf8"))),"only the Device check's frame asks for the full files");
   assert.ok(/if\(Q\.full\)\{const full=cm3Urls\(\{\.\.\.Q,assets:"desktop",textureLevel:Q\.full\.textureLevel\},opts&&opts\.clubs\);/.test(scene),"the season page then fetches the level's own set for a later open");
   assert.ok(!/q\.(pixelRatio|maxPixelRatio|level)=/.test(scene.slice(scene.indexOf("async function cm3Quality"),scene.indexOf("function cm3SlowLink"))),"the level, its lights, shadows and pixel ratio stay (only the file set changes)");
   {// The worker keeps files under path?v=<revision>: a file cached that way counts as cached (Codex on #1327).
@@ -374,7 +387,7 @@ let c3d14=Promise.resolve();
   assert.ok(shellList.includes(`"${DEC}"`)&&pack.includes(`"${DEC}"`),"decoder in the shell, filled with the offline pack");
   assert.ok(fs.existsSync(path.join(ROOT,"tools/chamber-men-players/pack-meshopt.mjs")),"packing tool in the repo");
   const pstc=read("js/productionSharedTransferChallenge.js");
-  assert.ok(/if\(decorated&&!openPromise&&!pstcShowdownComplete\(\)\)pstcWarmChamberMen\(\);/.test(pstc)&&/confirmedAtMs<CHAMBER_FROM_MS\)return;/.test(pstc)&&/chamberWarmKey===key/.test(pstc)&&/root\.setTimeout\(\(\)=>\{if\(typeof root\.requestIdleCallback==="function"\)root\.requestIdleCallback\(go,\{timeout:2500\}\);else go\(\);\},1500\);/.test(pstc),"the season page warms once per season, late and idle");
+  assert.ok(/if\(decorated&&!openPromise&&!pstcShowdownComplete\(\)\)pstcWarmChamberMen\(\);/.test(pstc)&&/chamberWarmKey===key/.test(pstc)&&/root\.setTimeout\(\(\)=>\{if\(typeof root\.requestIdleCallback==="function"\)root\.requestIdleCallback\(go,\{timeout:2500\}\);else go\(\);\},1500\);/.test(pstc),"the season page warms once per season, late and idle");
   // Behaviour: warm() asks for exactly this level's files, each once, and the mount shares a download still in flight.
   const asked=[];let release;const gate=new Promise(r=>{release=r;});
   const sb={console,setTimeout,clearTimeout,Promise,URL,WebGL2RenderingContext:function(){},navigator:{},

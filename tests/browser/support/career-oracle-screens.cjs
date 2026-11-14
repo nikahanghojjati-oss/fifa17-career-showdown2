@@ -2,7 +2,7 @@
 // r87 W3-3 career-screen number oracle: opens the real app against the emulators in a FRESH browser (empty storage, so every
 // figure comes from Firebase), signs in as Daniel or Nik, opens every career screen the way a player does and reads every figure
 // off the screen. Screen reading follows tests/browser/ce2pg-journey.cjs (same buttons, same text), extended for Europa League,
-// Golden Showdown, every History card and History & Backup. Emulator only (the emulator switch is localhost + cmsEmulator=1).
+// Golden Showdown, every History card. Emulator only (the emulator switch is localhost + cmsEmulator=1).
 const path=require("node:path");
 const gazette=require("./touchline-gazette.cjs");
 const {installMarbleConfirmAnswers}=require("./marble-confirm.cjs");
@@ -175,16 +175,6 @@ async function captureSettings(m,shot){
   await m.page.waitForFunction(()=>![...document.querySelectorAll("#settingsOverlay .settingsInfoRow strong")].some(v=>/Loading/.test(v.textContent||"")),null,{timeout:30000}).catch(()=>{});
   const s=await m.page.evaluate(()=>{const rows={};for(const r of document.querySelectorAll("#settingsOverlay .settingsInfoRow")){const k=(r.querySelector("span")?.textContent||"").trim();const v=(r.querySelector("strong")?.textContent||"").trim();if(k)rows[k]=v;}return {rows};});
   if(shot)await shot("settings");
-  // History & Backup (r87 B1): the online career's completed count and each manager's career points.
-  const open=m.page.locator("#settingsOverlay button").filter({hasText:/OPEN HISTORY & BACKUP/i}).first();
-  if(await open.isVisible().catch(()=>false)){
-    await open.click({timeout:10000}).catch(()=>{});
-    await m.page.waitForTimeout(1500);
-    const until=Date.now()+30000;let text="";
-    while(Date.now()<until){text=norm(await m.page.evaluate(()=>[...document.querySelectorAll(".screen:not(.hidden)")].map(s=>s.innerText).join(" | ")));if(!/Loading/i.test(text))break;await m.page.waitForTimeout(500);}
-    s.backup=text;
-    if(shot)await shot("history-backup");
-  }
   await backToShowdownHome(m);
   return s;
 }
@@ -196,7 +186,7 @@ async function captureAll(m,shot){
   return raw;
 }
 
-// ---- reading the figures (CE2PG's patterns, plus Europa League, Golden Showdown, every History card, History & Backup) ----
+// ---- reading the figures (CE2PG's patterns, plus Europa League, Golden Showdown, every History card) ----
 const corpus=(raw,host)=>Object.entries(raw?.[host]||{}).filter(([k,v])=>typeof v==="string"&&!["ms","via"].includes(k)).map(([,v])=>v).join(" ");
 function extract(raw){
   const cs=corpus(raw,"careerStatistics"),tr=`${corpus(raw,"trophyRoom")} ${raw?.trophyRoom?.dom||""}`;
@@ -211,23 +201,21 @@ function extract(raw){
   o.leadWins=lead(cs,/MOST SEASON WINS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+wins?/);o.leadTrophies=lead(cs,/MOST TROPHIES\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+troph/);
   o.leadPoints=lead(cs,/MOST CAREER POINTS\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);o.leadBest=lead(cs,/BEST SEASON SCORE\s+(Level · Daniel \+ Nik|Daniel|Nik)\s+(\d+)\s+pts/);
   o.csGolden=/GOLDEN SHOWDOWN/i.test(cs);
-  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions Leagues","cl"],["Europa Leagues","el"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`));return s;};
+  const standings=text=>{const s={};s.points=pair(text,/CAREER POINTS\s+(\d+)\s*:\s*(\d+)/);for(const [word,key] of [["Season Wins","W"],["Season Draws","D"],["Season Losses","L"],["Champions League","cl"],["Europa League","el"],["League Titles","league"],["Domestic Cups","cup"],["Total Trophies","trophies"]])s[key]=pair(text,new RegExp(`(\\d+)\\s+${word}\\s+(\\d+)`));return s;};
   o.standings=standings(raw?.standings?.CAREER||"");o.standingsFirst=standings(raw?.standingsFirst?.CAREER||"");
   o.standingsText=raw?.standings?.CAREER||"";o.standingsFirstText=raw?.standingsFirst?.CAREER||"";
   o.thisShowdownText=raw?.standings?.["THIS SHOWDOWN"]||"";
   const rv=corpus(raw,"statistics");
-  o.rivalry={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions Leagues\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/)};
+  o.rivalry={completed:pair(rv,/(\d+) \/ (\d+) SEASONS COMPLETED/),points:pair(rv,/(\d+)\s+\S\s+SHOWDOWN POINTS\s+(\d+)/),W:pair(rv,/(\d+)\s+\S\s+Season Wins\s+(\d+)/),trophies:pair(rv,/(\d+)\s+\S\s+Total Trophies\s+(\d+)/),cl:pair(rv,/(\d+)\s+\S\s+Champions League\s+(\d+)/),league:pair(rv,/(\d+)\s+\S\s+League Titles\s+(\d+)/),cup:pair(rv,/(\d+)\s+\S\s+Domestic Cups\s+(\d+)/)};
   o.rivalryText=rv;
   o.rankDaniel=(/#(\d)\s*DANIEL\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);o.rankNik=(/#(\d)\s*NIK\s+(\d+) CAREER POINTS · (\d+) SEASON WINS?/i.exec(tr)||[]).slice(1);
   const rec=re=>{const r=new RegExp(re.source,"i").exec(tr);return r?[r[1],r[2].toUpperCase()]:null;};
-  o.recSeason=rec(/HIGHEST SEASON SCORE\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recPoints=rec(/HIGHEST LEAGUE POINTS\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recGoals=rec(/HIGHEST LEAGUE GOALS\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recPerfect=rec(/MOST PERFECT SEASONS\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recBiggest=rec(/BIGGEST SHOWDOWN WIN\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);
+  o.recSeason=rec(/(?:BEST|HIGHEST) SEASON SCORE\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recPoints=rec(/(?:BEST|HIGHEST) LEAGUE POINTS\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recGoals=rec(/(?:BEST|HIGHEST) LEAGUE GOALS\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recPerfect=rec(/(?:MOST )?PERFECT SEASONS\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);o.recBiggest=rec(/BIGGEST SHOWDOWN WIN\s+(\d+)\s+(DANIEL|NIK|LEVEL|SHARED)/);
   const cards=Object.fromEntries((raw?.trophyRoom?.cards||[]).map(c=>[c.trophy,[c.sides.daniel??null,c.sides.nik??null]]));
   o.cabChampion=cards.showdown||null;o.cabLeague=cards.leagueTitles||null;o.cabCup=cards.domesticCups||null;o.cabCl=cards.championsLeague||null;o.cabEl=cards.europaLeague||null;o.cabGolden=cards.goldenShowdown||null;
   o.historyCards=(raw?.legacy?.cards||[]);
   o.seasonHistory=raw?.legacy?.seasonHistory||"";o.seasonHistoryFor=raw?.legacy?.seasonHistoryFor||null;
   o.settings=raw?.settings||null;
-  o.backup=raw?.settings?.backup||"";
-  o.backupFigures={completed:(/SHOWDOWNS COMPLETED(?: \(AT LEAST\))?\s+(\d+)/i.exec(o.backup)||[])[1]||null,daniel:(/DANIEL · CAREER POINTS\s+(\d+)/i.exec(o.backup)||[])[1]||null,nik:(/NIK · CAREER POINTS\s+(\d+)/i.exec(o.backup)||[])[1]||null};
   o.historyNav=raw?.legacy?.navigation||null;
   o.openMs=Object.fromEntries(["legacy","careerStatistics","trophyRoom","statistics","standings"].map(h=>[h,raw?.[h]?.ms??null]));
   return o;

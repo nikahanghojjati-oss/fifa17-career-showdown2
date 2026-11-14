@@ -90,7 +90,7 @@ async function transferContracts(){
     h.scripts.requestEndWindow.push(denied("permission-denied"),denied("permission-denied"),denied("permission-denied"));
     h.api.install();await h.tap("endTransferTimer");
     assert.equal(h.calls.mutations.length,2,"a real denial must be tried at most twice (one retry), never looped");
-    assert.match(h.error(),/session has lapsed\. Go back to Showdown Home/,"a real denial must still be visible after the one retry, in plain words (red team R87-B-05)");
+    assert.match(h.error(),/session expired\. Go back to Showdown Home/,"a real denial must still be visible after the one retry, in plain words (red team R87-B-05)");
   }
   // A4. The refreshed state already shows the outcome (partner already moved the phase on): silent, no second write.
   {
@@ -157,7 +157,7 @@ async function transferContracts(){
         h.scripts[method].push(h.accepted(null,{}));
         h.api.install();fill(h,1);await h.tap("completeTransferChallenge");
         assert.equal(asked.length,1,`E1 ${kind}: a partial lock must ask once`);
-        assert.equal(asked[0],`Lock 1 of 3 ${kind}? You can't change them after locking.`,`E1 ${kind}: plain confirm text`);
+        assert.equal(asked[0],`Lock 1 of 3 ${kind}? You cannot change them after locking.`,`E1 ${kind}: plain confirm text`);
         assert.equal(h.calls.mutations.length,0,`E1 ${kind}: cancelling must make no provider call`);
         assert.equal(h.error(),"",`E1 ${kind}: cancelling must not show an error`);
       }
@@ -166,14 +166,14 @@ async function transferContracts(){
         const asked=[],h=transferHarness(initial(),message=>{asked.push(message);return true;});h.node("transferChallenge").classList.add("hidden");await h.api.refresh();
         h.scripts[method].push(h.accepted(null,{}));
         h.api.install();fill(h,2);await h.tap("completeTransferChallenge");
-        assert.equal(asked.length,1,`E2 ${kind}: asked once`);assert.equal(asked[0],`Lock 2 of 3 ${kind}? You can't change them after locking.`);
+        assert.equal(asked.length,1,`E2 ${kind}: asked once`);assert.equal(asked[0],`Lock 2 of 3 ${kind}? You cannot change them after locking.`);
         assert.equal(h.calls.mutations.length,1,`E2 ${kind}: confirming must lock`);assert.equal(h.calls.mutations[0].method,method);
       }
       // E3. Blank form is a partial lock too (0 of 3) and asks.
       {
         const asked=[],h=transferHarness(initial(),message=>{asked.push(message);return false;});h.node("transferChallenge").classList.add("hidden");await h.api.refresh();
         h.api.install();await h.tap("completeTransferChallenge");
-        assert.equal(asked.length,1);assert.equal(asked[0],`Lock 0 of 3 ${kind}? You can't change them after locking.`);assert.equal(h.calls.mutations.length,0);
+        assert.equal(asked.length,1);assert.equal(asked[0],`Lock 0 of 3 ${kind}? You cannot change them after locking.`);assert.equal(h.calls.mutations.length,0);
       }
       // E4. Full lock never calls confirm.
       {

@@ -28,7 +28,7 @@
   let state=freeze({
     status:"idle",open:false,busy:false,ready:false,revision:0,phase:null,
     rivalryId:null,sessionId:null,accountId:null,deviceId:null,managerRole:null,remoteRole:null,
-    setup:null,message:"Shared Setup is locked until the exact paired rivalry has an ACTIVE private session."
+    setup:null,message:"Setup stays closed until Daniel and Nik are connected in an ACTIVE session."
   });
   const INITIAL_STATE=state;
 
@@ -78,21 +78,21 @@
   function assertStorageUnchanged(before){
     if(!before)return true;
     const after=storageSnapshot();
-    if(!after)fail("SHARED_SETUP_STORAGE_AUTHORITY_UNAVAILABLE","Canonical storage authority became unavailable during Shared Setup.");
-    for(const key of CANONICAL_KEYS){if(after[key]!==before[key])fail("SHARED_SETUP_LOCAL_SAVE_MUTATION","Shared Setup must never change a saved Showdown.");}
+    if(!after)fail("SHARED_SETUP_STORAGE_AUTHORITY_UNAVAILABLE","Saved storage became unavailable during setup.");
+    for(const key of CANONICAL_KEYS){if(after[key]!==before[key])fail("SHARED_SETUP_LOCAL_SAVE_MUTATION","Setup must never change a saved Showdown.");}
     return true;
   }
   function randomOperationId(){
-    if(!root.crypto||typeof root.crypto.getRandomValues!=="function")fail("SHARED_SETUP_CRYPTO_UNAVAILABLE","Secure browser randomness is unavailable.");
+    if(!root.crypto||typeof root.crypto.getRandomValues!=="function")fail("SHARED_SETUP_CRYPTO_UNAVAILABLE","A secure random code cannot be made here.");
     const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);
     return `setup_op_${Array.from(bytes,value=>value.toString(16).padStart(2,"0")).join("")}`;
   }
   function safeError(error,fallback){return error&&typeof error.code==="string"?error.code:fallback;}
   // BUG-1: players never see a raw error code. A real human message wins; otherwise known code families map to short plain text.
   // The code stays available as state.errorCode / data-error-code for diagnostics only.
-  const PLAIN_STALE="Your partner just changed this. It's been refreshed, tap again.";
-  const PLAIN_CONNECTION="That didn't go through. Check your connection and tap again.";
-  const PLAIN_GENERIC="That didn't go through. Tap again.";
+  const PLAIN_STALE="Your partner just changed this. It has been refreshed, tap again.";
+  const PLAIN_CONNECTION="That did not go through. Check your connection and tap again.";
+  const PLAIN_GENERIC="That did not go through. Tap again.";
   function humanMessage(message,code){
     const text=String(message||"").trim();
     if(!text||text===code||!/\s/.test(text))return "";
@@ -113,16 +113,16 @@
   async function resolveContext(){
     const deps=await dependencies();
     const runtime=deps["production-runtime"],account=deps["connected-account"],pairing=deps["private-pairing"],rivalry=deps["connected-rivalry"],remote=deps["remote-joining"],adapter=deps["spark-shared-setup"],conflicts=deps["journey-conflicts"];
-    if(!runtime||typeof runtime.ensureAccountServices!=="function")fail("SHARED_SETUP_RUNTIME_UNAVAILABLE","Private Firebase runtime is unavailable.");
-    if(!account||typeof account.initialize!=="function"||typeof account.getState!=="function")fail("SHARED_SETUP_ACCOUNT_UNAVAILABLE","Connected Account is unavailable.");
+    if(!runtime||typeof runtime.ensureAccountServices!=="function")fail("SHARED_SETUP_RUNTIME_UNAVAILABLE","The online service is unavailable.");
+    if(!account||typeof account.initialize!=="function"||typeof account.getState!=="function")fail("SHARED_SETUP_ACCOUNT_UNAVAILABLE","Your connected account is unavailable.");
     await account.initialize();const accountState=account.getState();
     if(!accountState||accountState.connected!==true||!accountState.accountId)fail("SHARED_SETUP_AUTH_REQUIRED","Sign in with Google before setup.");
-    if(!pairing||typeof pairing.initialize!=="function"||typeof pairing.getState!=="function")fail("SHARED_SETUP_DEVICE_UNAVAILABLE","Registered browser authority is unavailable.");
+    if(!pairing||typeof pairing.initialize!=="function"||typeof pairing.getState!=="function")fail("SHARED_SETUP_DEVICE_UNAVAILABLE","Registration is unavailable here.");
     await pairing.initialize();const pairingState=pairing.getState();
-    if(!pairingState||pairingState.registered!==true||!pairingState.deviceId)fail("SHARED_SETUP_DEVICE_REQUIRED","Register this browser before Shared Setup.");
-    if(!rivalry||typeof rivalry.initialize!=="function"||typeof rivalry.getState!=="function")fail("SHARED_SETUP_RIVALRY_UNAVAILABLE","Connected Rivalry authority is unavailable.");
+    if(!pairingState||pairingState.registered!==true||!pairingState.deviceId)fail("SHARED_SETUP_DEVICE_REQUIRED","Register this browser before setup.");
+    if(!rivalry||typeof rivalry.initialize!=="function"||typeof rivalry.getState!=="function")fail("SHARED_SETUP_RIVALRY_UNAVAILABLE","The Daniel and Nik connection is unavailable.");
     await rivalry.initialize();const rivalryState=rivalry.getState();
-    if(!rivalryState||rivalryState.attached!==true||!rivalryState.rivalryId||!rivalryState.binding)fail("SHARED_SETUP_RIVALRY_REQUIRED","Attach the exact paired Connected Rivalry before Shared Setup.");
+    if(!rivalryState||rivalryState.attached!==true||!rivalryState.rivalryId||!rivalryState.binding)fail("SHARED_SETUP_RIVALRY_REQUIRED","Connect the paired Daniel and Nik Showdown before setup.");
     const remoteState=remote&&typeof remote.getState==="function"?remote.getState():null;
     if(!remoteState||remoteState.sessionState!=="active"||!remoteState.sessionId||remoteState.pendingAction)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","Both players must be connected before league or club selection.");
     if(Number.isFinite(remoteState.expiresAtEpochMs)&&Date.now()>=remoteState.expiresAtEpochMs)fail("SHARED_SETUP_ACTIVE_SESSION_REQUIRED","The connection ended. Reconnect both players to carry on with setup.");
@@ -130,15 +130,15 @@
     if(rivalryState.accountId&&rivalryState.accountId!==accountState.accountId)fail("SHARED_SETUP_AUTHORITY_MISMATCH");
     if(rivalryState.deviceId&&rivalryState.deviceId!==pairingState.deviceId)fail("SHARED_SETUP_AUTHORITY_MISMATCH");
     const managerRole=rivalryState.binding.managerRole;
-    if(managerRole!=="playerOne"&&managerRole!=="playerTwo")fail("SHARED_SETUP_BINDING_INVALID","The attached rivalry does not expose a valid manager role.");
+    if(managerRole!=="playerOne"&&managerRole!=="playerTwo")fail("SHARED_SETUP_BINDING_INVALID","This connection does not show a valid manager role.");
     const remoteRole=remoteState.role;
     if(remoteRole!=="host"&&remoteRole!=="peer")fail("SHARED_SETUP_SESSION_ROLE_INVALID","This connection could not identify the host and joining player.");
     const services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
-    if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable.");
+    if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","The online service is unavailable.");
     const user=services.auth.currentUser;
-    if(!user||user.uid!==accountState.accountId)fail("SHARED_SETUP_AUTH_MISMATCH","The current Google account no longer matches Connected Account authority.");
-    if(!adapter||typeof adapter.read!=="function"||typeof adapter.mutate!=="function")fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Shared Setup transaction authority is unavailable.");
-    if(!conflicts||typeof conflicts.execute!=="function")fail("JOURNEY_CONFLICT_GUARD_UNAVAILABLE","Shared Journey conflict guard is unavailable.");
+    if(!user||user.uid!==accountState.accountId)fail("SHARED_SETUP_AUTH_MISMATCH","The current Google account no longer matches the connected account.");
+    if(!adapter||typeof adapter.read!=="function"||typeof adapter.mutate!=="function")fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Setup cannot make safe changes right now.");
+    if(!conflicts||typeof conflicts.execute!=="function")fail("JOURNEY_CONFLICT_GUARD_UNAVAILABLE","The setup conflict check is unavailable.");
     return Object.freeze({adapter,conflicts,services,user,rivalryId:rivalryState.rivalryId,saveId:rivalryState.binding.saveId||null,sessionId:remoteState.sessionId,accountId:user.uid,deviceId:pairingState.deviceId,managerRole,remoteRole});
   }
   function providerOptions(context){

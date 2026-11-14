@@ -1,5 +1,5 @@
 "use strict";
-// Fable job 2 (r87 between-seasons flow), sync and reads findings of the Russian Roster Roulette:
+// Fable job 2 (r87 between-seasons flow), sync and reads findings of the Roster Russian Roulette:
 //  H1 F2-02 persisted hits: each spin mark saves that season's outcome; replays take it as the authority, so a squad data fix
 //     after season 1 never changes season 1's shot (the saved player stays out, nobody else is removed).
 //  H2 F2-02 this season: the partner's saved outcome is the authority for his turn; a saved safe spin stays safe.
@@ -15,6 +15,7 @@
 //  H8 S6 the reconnect banner's 15 s check waits while the full-screen roulette is up.
 //  H9 F2-19 a signing the board rules keep off is listed with the reason on the result card, never dropped silently.
 const assert=require("node:assert/strict");
+const ROULETTE_T=Date.parse("2026-11-02T05:00:00Z");
 const fs=require("node:fs");
 const path=require("node:path");
 const vm=require("node:vm");
@@ -120,7 +121,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     assert.equal(R.version({playerOne:"Not A Club",playerTwo:"Arsenal"},{}),null);
     // The engine revision is pinned to the engine's text: any change to js/rosterRoulette.js must decide whether a board or a
     // shot can come out differently (then bump ENGINE_REVISION) and update this pin.
-    const PIN={revision:2,sha256:"64e32ac578566bf52b5de9b08c2517b334dbf936d8254210f2f4ddc8ce599e2e"};
+    const PIN={revision:3,sha256:"803bda8a1d2f4bede82ca06b473f09e281eab3ddb47a676420d55fe797b929d3"};
     const sha=crypto.createHash("sha256").update(read("js/rosterRoulette.js")).digest("hex");
     assert.equal(R.engineRevision,PIN.revision,"ENGINE_REVISION changed: update the pin below with the file's sha256");
     assert.equal(sha,PIN.sha256,"js/rosterRoulette.js changed: if a board or a shot can come out differently, bump ENGINE_REVISION; then update this pin");
@@ -154,7 +155,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const press=(p,label)=>{const b=p.all().find(n=>n.tagName==="button"&&n.textContent===label);assert.ok(b,`button ${label}: ${p.all().filter(n=>n.tagName==="button").map(n=>n.textContent)}`);b.listeners.click[0]();};
     return {doc,body,store,step,R,panel,title,lines,press};
   }
-  const ctxFor=(extra)=>({rivalryId:RID,managerRole:"playerOne",season:1,clubs:CLUBS,confirmedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),phase:"NOT_STARTED",verdicts:async()=>({ok:false}),...extra});
+  const ctxFor=(extra)=>({rivalryId:RID,managerRole:"playerOne",season:1,clubs:CLUBS,confirmedAtMs:(Date.parse("2026-11-12T00:00:00Z")+3600000),phase:"NOT_STARTED",verdicts:async()=>({ok:false}),...extra});
 
   // ---------- H4 ----------
   {
@@ -199,7 +200,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     const p=await page.panel();
     assert.equal(page.doc.frames.length,0,"no second spin: the scene never loads");
     assert.equal(page.title(p),"Release J. Milner #7","the result card for that season");
-    page.press(p,"I'VE RELEASED HIM");assert.equal(await run,true);
+    page.press(p,"I HAVE RELEASED HIM");assert.equal(await run,true);
     assert.equal(remembered,0,"the server already holds his mark: nothing new is saved");
     assert.ok(JSON.parse(page.store.get(page.step.doneKey)).includes(`${RID}|1|playerOne`),"done on this browser now too");
     // The window already opened (both managers spun): the result card too, no spin.
@@ -249,13 +250,15 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
       readStorageValue:k=>storage.has(k)?storage.get(k):null,writeStorageValue:(k,v)=>{storage.set(k,v);return true;},removeStorageValue:k=>{storage.delete(k);},
       currentShowdown:{id:"save_1",currentRound:1,sharedJourney:{mode:"shared",rivalryId},managers:{playerOne:"Daniel",playerTwo:"Nik"},clubs:{playerOne:"Liverpool",playerTwo:"Arsenal"}},
       navigateTo:async id=>{doc.getElementById(id).classList.remove("hidden");return true;},
-      CareerModeProductionSharedShowdownSetup:{refresh:async()=>null,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",clubs:CLUBS},setupUpdatedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),managerRole:"playerOne",rivalryId,sessionId,deviceId:device1})},
+      CareerModeProductionSharedShowdownSetup:{refresh:async()=>null,getState:()=>({ready:true,setup:{phase:"SHOWDOWN_CONFIRMED",revision:6,coordinatorRole:"playerOne",clubs:CLUBS},setupUpdatedAtMs:(Date.parse("2026-11-12T00:00:00Z")+3600000),managerRole:"playerOne",rivalryId,sessionId,deviceId:device1})},
       CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
       CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider,
       CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"manager_one",getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{getDoc:async()=>null,doc:()=>null}})},
+      // r91 Squad Management: not asked in this harness (tests/contracts/r91-squad-sheet-contracts.cjs).
+      CareerModeSquadSheetStep:{applies:()=>false,isDone:()=>true,close(){}},
       CareerModeRosterRouletteStep:step,
     // r87 Prime Pack runs after the roulette; here it is already done.
-    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}};
+    CareerModeChamberMenStep:{ensure:async()=>true,applies:()=>false,markDone(){},close(){}},CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}};
     sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(read("js/productionSharedTransferChallenge.js"),sandbox,{filename:"productionSharedTransferChallenge.js"});
     return {api:sandbox.CareerModeProductionSharedTransferChallenge,doc,tap,storage,text:id=>doc.getElementById(id).textContent};
   }
@@ -289,7 +292,7 @@ const names=board=>board.filter(p=>p.name).map(p=>p.name);
     readsFail=false;retry.fn();await settle();
     assert.equal(phone.text("transferPhaseStatus"),"TRANSFER WAR COMPLETE · VERDICTS REVEALED");
     assert.match(phone.text("transferResultsOne"),/A\. Signing/);
-    assert.ok(phone.storage.get("careerModeShowdown.rouletteVerdicts.v1").includes("A. Signing"),"the kept copy for next season's boards is written");
+    assert.ok(phone.storage.get("careerModeShowdown.rouletteVerdicts.v2").includes("A. Signing"),"the kept copy for next season's boards is written");
     ok("H6","F2-08 after a saved lock a failed read shows saved, loading verdicts with the own inputs, and retries by itself");
   }
 

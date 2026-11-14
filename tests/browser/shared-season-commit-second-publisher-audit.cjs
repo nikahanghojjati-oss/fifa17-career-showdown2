@@ -5,7 +5,7 @@ const {resolveChromiumRuntime}=require('../support/chromium-runtime.cjs');
 // r47 regression: the second manager to publish receives a RESULTS_READY publish
 // projection that intentionally carries no opponent result (allResults:null,
 // needsRefresh:true). If the follow-up authoritative Results read fails, the
-// Results panel still says BOTH MANAGERS PUBLISHED. Before this fix the Results
+// Results panel still says BOTH MANAGERS CONFIRMED. Before this fix the Results
 // poller stopped on phase alone and the Commit adapter treated the incomplete
 // projection as "not ready", so COMMIT SHARED SEASON vanished with no recovery.
 const baseUrl=new URL(process.env.CMS_BASE_URL||'http://127.0.0.1:4173/');
@@ -35,6 +35,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
       const audit=window.__secondPublisherAudit={resultsReads:0,publishCalls:0,commitReads:0,commitWrites:0,failResultsRead:false,published:false,season2Published:false,acknowledgedSeasons:[],committedSeasons:[],hangNextCommitRead:false,releaseHungRead:null};
       const waiting=n=>({ok:true,revision:1,state:{phase:'WAITING_FOR_RIVAL',revision:1,publishedRoles:['playerOne']},managerRole:role,seasonNumber:n,ownResult:null,opponentResult:null,allResults:null});
       const ready=n=>({ok:true,revision:2,state:{phase:'RESULTS_READY',revision:2,publishedRoles:['playerOne','playerTwo']},managerRole:role,seasonNumber:n,ownResult:resultTwo,opponentResult:resultOne,allResults:{playerOne:resultOne,playerTwo:resultTwo}});
+      window.CareerModeIconGuessStep={ensure:async()=>true,applies:()=>false,pointsFor:async()=>0}; // r91: the audit plays no Prime Pack round; this stub keeps the season publish off its Firestore read
       window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
       window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer(),refresh:async()=>transfer()};
       window.CareerModeSparkSharedSeasonResults={
@@ -64,7 +65,7 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     await page.locator('#completeSeason').click();
     await page.locator('#confirmSeasonCompletion').waitFor({state:'visible',timeout:5000});
     await page.locator('#confirmSeasonCompletion').click();
-    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:8000});
+    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS CONFIRMED',null,{timeout:8000});
     await page.waitForFunction(()=>window.__secondPublisherAudit.publishCalls===1&&window.__secondPublisherAudit.resultsReads>=2,null,{timeout:8000});
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedSeasonResults.getState()?.allResults),null,'fixture must reproduce the incomplete second-publisher projection');
     // The physical failure: published heading, but the Commit control must not disappear.
@@ -99,11 +100,11 @@ const resultTwo={leaguePosition:3,leaguePoints:84,leagueGoals:79,domesticCup:fal
     await page.evaluate(async()=>{window.__secondPublisherAudit.acknowledgedSeasons.push(1);await CareerModeProductionSharedSeasonCommit.refresh();});
     await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='SEASON CONFIRMED ✓',null,{timeout:8000});
     await page.evaluate(()=>{currentShowdown.currentRound=2;window.dispatchEvent(new Event('career-mode-shared-season-cursor-change'));});
-    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='YOUR RESULT IS PUBLISHED'||document.getElementById('seasonReviewHeading')?.textContent==='REVIEW YOUR SEASON RESULT'||document.getElementById('seasonEntry')?.dataset.sharedSeasonResults==='entry',null,{timeout:20000});
+    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='YOUR RESULT IS CONFIRMED'||document.getElementById('seasonReviewHeading')?.textContent==='REVIEW YOUR SEASON RESULT'||document.getElementById('seasonEntry')?.dataset.sharedSeasonResults==='entry',null,{timeout:20000});
     const commitReadsBeforeSeason2=await page.evaluate(()=>window.__secondPublisherAudit.commitReads);
     // Rival publishes season 2 while this manager's Results screen is already open; no tap, no reload.
     await page.evaluate(()=>{window.__secondPublisherAudit.season2Published=true;window.dispatchEvent(new Event('career-mode-shared-season-cursor-change'));});
-    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED'&&document.getElementById('seasonEntryTitle')?.textContent==='SEASON 2 RESULTS',null,{timeout:20000});
+    await page.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS CONFIRMED'&&document.getElementById('seasonEntryTitle')?.textContent==='SEASON 2 RESULTS',null,{timeout:20000});
     await page.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR DANIEL',null,{timeout:35000});
     assert.ok(await page.evaluate(()=>window.__secondPublisherAudit.commitReads)>commitReadsBeforeSeason2,'season 2 must perform its own automatic authoritative Commit read');
     assert.equal(await page.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()?.seasonNumber),2,'season 2 must bind only season-2 Commit authority');

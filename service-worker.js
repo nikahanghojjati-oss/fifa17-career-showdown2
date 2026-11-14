@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.3.0-r90";
-const PREVIOUS_RUNTIME_REVISION = "2.2.0-r89";
+const RUNTIME_REVISION = "2.4.0-r91";
+const PREVIOUS_RUNTIME_REVISION = "2.3.0-r90";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -15,12 +15,23 @@ function v10ImageCacheName(revision){ return revision ? `${V10_IMAGE_CACHE_PREFI
 // where Ogg Opus does not decode) follow the same cache-first
 // runtime rule as Team V's images instead of the install precache.
 const V10_IMAGE_PATH = /^visual-assets\/v10_1\/.+\.(?:webp|png|jpe?g|avif|gif|svg|wav|ogg|glb)$/i;
+// r91 (2.4.0): the full FIFA 17 player list for Transfer War autocomplete (scripts/build-fifa17-database.py). It is never
+// precached and never in the idle offline pack: the first Transfer War of a revision fetches it (about 300 KB gzipped) and
+// keeps it in that revision's image cache, the same cache-first path as Team V images. Its name carries its content hash, so a
+// kept copy is never stale and a new list is a new name.
+const ON_DEMAND_DATA_PATH = /^data\/fifa17\/players-\d+\.[0-9a-f]{8}\.json$/;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
-const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
-    "production-authorization-acceptance.html"
+// r91 (Sol 6.1 review of 2.3.0): the Device check (Settings > 3D QUALITY > Device check…) and its Chamber Men frame are
+// pages of their own at the root. 2.3.0 answered a navigation to them with the shell's index.html, so the check showed
+// Home. They always come from the network (the check plays the 3D screens, which need their files anyway) and never from
+// the shell's index.html; without a connection the answer is a short page that says so, with the way back to the game.
+const STANDALONE_PAGE_NAVIGATION_PATHS = new Set([
+    "device-check.html",
+    "device-check-chamber.html"
 ]);
+function standalonePageOffline(){ return new Response('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Device check · Career Mode Showdown</title><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#050505;color:#f5f1e8;font:400 16px/1.5 system-ui,sans-serif;text-align:center"><main style="padding:24px"><h1 style="margin:0 0 8px;font-size:28px;letter-spacing:.06em;color:#f5c518">DEVICE CHECK</h1><p style="margin:0 0 16px">The Device check needs a connection. Try again when you are online.</p><a href="./" style="color:#f5c518">Back to the game</a></main></body></html>',{status:503,headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store"}}); }
 // r86: the Special Player page is its own document in a frame (js/specialPlayerReveal.js). A frame load is a navigation:
 // it gets that page from the shell the app runs (then the network), never the shell's index.html. Its images follow the
 // Team V cache-first image rule.
@@ -77,10 +88,6 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2"
 ]);
-const NETWORK_ONLY_ASSET_PATHS = new Set([
-    "js/productionAuthorizationAcceptance.js",
-    "js/productionProviderAbuseAcceptance.js"
-]);
 
 const SHELL_PATHS = Object.freeze([
     "index.html",
@@ -101,9 +108,7 @@ const SHELL_PATHS = Object.freeze([
     "css/footballVisuals.css",
     "css/footballVisuals-v113.css",
     "css/legacy.css",
-    "css/restore.css",
     "css/rulebook.css",
-    "css/saveLibrary.css",
     "css/season.css",
     "css/settings.css",
     "css/transfer.css",
@@ -178,6 +183,10 @@ const SHELL_PATHS = Object.freeze([
   "js/chamberMenStadium3d.js",
   "js/chamberMen.js",
   "css/chamberMen.css",
+  "js/squadSheetStep.js",
+  "js/squadSheet.js",
+  "js/squadScreen.js",
+  "css/squadScreen.css",
   "js/specialPlayerChip.js",
   "js/careerStartMarker.js",
   "css/rivalryLegacyV10.css",
@@ -249,13 +258,11 @@ const SHELL_PATHS = Object.freeze([
     "js/sparkPrivateSession.js",
     "js/sparkStandardAuthPrivateSession.js",
     "js/restore.js",
-    "js/restoreUI.js",
     "js/ruleBook.js",
     "js/saveLibraryCutover.js",
     "js/saveLibraryFoundation.js",
     "js/saveLibraryPersistence.js",
     "js/saveLibraryRuntime.js",
-    "js/saveLibraryUI.js",
     "js/scoring.js",
     "js/screens.js",
     "js/seasonEngine.js",
@@ -267,11 +274,15 @@ const SHELL_PATHS = Object.freeze([
     "js/storageTransaction.js",
     "js/transferChallenge.js",
     "js/transferSelector.js",
+    "js/playerSearch.js",
     "js/trophyRoom.js",
     "js/visualIdentity.js",
     "assets/marco-reus-2015-cc-by.webp",
-    "assets/LOADING_REUS_DESKTOP.webp",
-    "assets/LOADING_REUS_PHONE.webp",
+    "assets/loading/ENV_LOADING_PLATE_HC_1X.webp",
+    "assets/loading/REUS_D_1X.webp",
+    "assets/loading/ENV_LOADING_PHONE_HC_590W.webp",
+    "assets/loading/REUS_P_590W.webp",
+    "assets/loading/LOGO_CM17_WORDMARK_V3_640.webp",
     "assets/football/anthony-martial-cska-2017-v113.webp",
     "assets/football/antoine-griezmann-atletico-2016-v113.webp",
     "assets/football/cristiano-ronaldo-euro-2016-v113.webp",
@@ -402,10 +413,10 @@ const OFFLINE_PACK_PATHS = new Set([
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt",
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
     "js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html","js/chamberMenStep.js",
-    "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/clubAssignment.js","js/dataEngine.js",
+    "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/clubAssignment.js","js/dataEngine.js",
     "js/leagueWheel.js","js/productionSharedShowdownPresentation.js","js/sharedTransferChallenge.js","js/sparkSharedTransferChallenge.js",
     "js/sparkSharedSeasonResults.js","js/ruleBook.js","js/seasonEngine.js","js/showdownUI.js","js/statistics.js","js/transferChallenge.js",
-    "js/transferSelector.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
+    "js/transferSelector.js","js/playerSearch.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
     "assets/football/anthony-martial-cska-2017-v113.webp","assets/football/antoine-griezmann-atletico-2016-v113.webp",
     "assets/football/cristiano-ronaldo-euro-2016-v113.webp","assets/football/james-rodriguez-world-cup-2014-v113.webp",
     "assets/football/lionel-messi-barcelona-2016-subject-r4.webp","assets/football/marcus-rashford-chelsea-2017-v113.webp",
@@ -433,18 +444,18 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.3.0 (r90): PREVIOUS is 2.2.0-r89 (275 paths, tests/fixtures/shell-paths/2.2.0-r89.json). Added: the shared 3D quality
-// module js/gfxTier.js, the shared Barlow Condensed and Big Shoulders Display faces and Rye (M8: the Special Player page and the
-// roulette title stop using Google Fonts), and the meshopt decoder for Chamber Men's packed GLBs (players, stadium and the
-// Team V plates stay Team V images, V10_IMAGE_PATH runtime cache). Removed: the app's own Barlow Condensed 600/700 latin copies
-// (the sheet loads the shared ones) and js/analytics.js; a page rolled back to 2.2.0 still finds them in its own retained
-// shell. W8 (#1278) split install from the offline pack but keeps SHELL_PATHS the full list. The STORY site is never precached.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/gfxTier.js","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2","visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2","visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js"]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["assets/fonts/barlow-condensed-latin-600-normal.woff2","assets/fonts/barlow-condensed-latin-700-normal.woff2","js/analytics.js"]);
-// Arch audit D1 (2.0.0): the seven acceptance-only scripts that load only behind ?ssjr, ?ssjr-acceptance or ?rjr-acceptance
-// are not precached (no release since 2.0.0 lists them). A request for one comes from the shell of the revision that asks
+// 2.4.0 (r91): PREVIOUS is 2.3.0-r90 (289 paths, tests/fixtures/shell-paths/2.3.0-r90.json, main a85d286a). Added: Squad
+// Management (js/squadSheet.js, js/squadSheetStep.js, js/squadScreen.js, css/squadScreen.css), the Transfer War name search
+// js/playerSearch.js (its 296 KB player list is not precached: it is fetched on demand on Transfer War or Squad Management),
+// and Team V's layered Reus loading cover (HO-072: plate, Reus desktop and phone, wordmark). Removed: the History & Backup and
+// Save Library editor files the old-era cut deleted (#1366) and the old single-image Reus loading covers; a page rolled back to
+// 2.3.0 still finds them in its own retained shell. The STORY site is never precached.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/playerSearch.js","assets/loading/ENV_LOADING_PLATE_HC_1X.webp","assets/loading/REUS_D_1X.webp","assets/loading/ENV_LOADING_PHONE_HC_590W.webp","assets/loading/REUS_P_590W.webp","assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["css/restore.css","css/saveLibrary.css","js/restoreUI.js","js/saveLibraryUI.js","assets/LOADING_REUS_DESKTOP.webp","assets/LOADING_REUS_PHONE.webp"]);
+// Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
+// one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.
-const ACCEPTANCE_ONLY_SCRIPT_PATHS = new Set(["js/ssjrProductionAcceptanceRecorder.js","js/ssjrProductionNegativeProbeRunner.js","js/ssjrProductionNegativeEvidence.js","js/stage5fProductionAuthenticatedNegatives.js","js/ssjrAcceptancePolishedBridge.js","js/ssjrPhysicalJourneyAcceptance.js","js/remoteJoiningAcceptance.js"]);
+const ACCEPTANCE_ONLY_SCRIPT_PATHS = new Set(["js/ssjrPhysicalJourneyAcceptance.js"]);
 const PREVIOUS_SHELL_PATHS = Object.freeze([...SHELL_PATHS.filter(path=>!SHELL_PATHS_ADDED_SINCE_PREVIOUS.has(path)),...SHELL_PATHS_REMOVED_SINCE_PREVIOUS]);
 function shellPathsForRevision(revision){ return revision&&revision!==RUNTIME_REVISION&&revision===PREVIOUS_RUNTIME_REVISION?PREVIOUS_SHELL_PATHS:INSTALL_PATHS; }
 
@@ -584,7 +595,7 @@ self.addEventListener("message",event=>{
 });
 self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){throw new Error(`Refusing activation with incomplete application shell: ${status.missing.join(", ")}`);} await clearForcedRevision(); const recovery=await findRecoveryRuntime(); const keepShellCaches=new Set([CACHE_NAME,recovery.ok?recovery.cacheName:""] .filter(Boolean)); const keepImageCaches=new Set([V10_IMAGE_CACHE_NAME,recovery.ok?v10ImageCacheName(recovery.revision):""].filter(Boolean)); const cacheNames=await caches.keys(); await Promise.all(cacheNames.map(name=>{if(name.startsWith(CACHE_PREFIX)&&!keepShellCaches.has(name)){return caches.delete(name);}if(name.startsWith(MODE_CACHE_PREFIX)&&name!==MODE_CACHE_NAME){return caches.delete(name);}if(name.startsWith(V10_IMAGE_CACHE_PREFIX)&&!keepImageCaches.has(name)){return caches.delete(name);}return Promise.resolve(false);})); await self.clients.claim(); })()); });
 async function cachedShellResponse(path,revision){ const cacheName=cacheNameForRevision(revision); if(!cacheName||!(await cacheExists(cacheName))){return null;} const cache=await caches.open(cacheName); return cache.match(versionedShellUrl(path,revision)); }
-function isV10ImagePath(path){ return V10_IMAGE_PATH.test(path); }
+function isV10ImagePath(path){ return V10_IMAGE_PATH.test(path)||ON_DEMAND_DATA_PATH.test(path); }
 // Images follow the shell the page runs: after a rollback they come from the retained revision's own image cache
 // (or its shell cache, for revisions that precached them), so an offline rollback keeps the art it had viewed. A miss is
 // fetched by path: each Team V image path names one generation (_V<n> name, bytes pinned by v10-foundation F9c).
@@ -608,11 +619,11 @@ self.addEventListener("fetch",event=>{
     if(CHRONICLE_PATH.test(relativeScopePath(url))){return;}
     if(request.mode==="navigate"){
         const path=relativeScopePath(url);
-        if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
+        if(STANDALONE_PAGE_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request)).catch(()=>standalonePageOffline())); return; }
         if(SHELL_FRAME_NAVIGATION_PATHS.has(path)){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); const cached=selected?await cachedShellResponse(path,selected.revision):null; return cached||((!selected||selected.revision===RUNTIME_REVISION)&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):fetch(request)); })()); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(ACCEPTANCE_ONLY_SCRIPT_PATHS.has(path)){ const asked=url.searchParams.get("v")||""; event.respondWith((async()=>{ const cached=asked&&asked!==RUNTIME_REVISION?await cachedShellResponse(path,asked):null; return cached||fetch(networkOnlyRequest(request)); })()); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(event,request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    const path=relativeScopePath(url); if(!path){return;} if(isV10ImagePath(path)){ event.respondWith(v10ImageResponse(event,request,path)); return; } if(ACCEPTANCE_ONLY_SCRIPT_PATHS.has(path)){ const asked=url.searchParams.get("v")||""; event.respondWith((async()=>{ const cached=asked&&asked!==RUNTIME_REVISION?await cachedShellResponse(path,asked):null; return cached||fetch(networkOnlyRequest(request)); })()); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(UNVERSIONED_SHELL_ASSET_PATHS.has(path)&&!url.searchParams.get("v")){ event.respondWith(unversionedShellResponse(event,request,path)); return; } const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||(requestedRevision===RUNTIME_REVISION&&OFFLINE_PACK_PATHS.has(path)?offlinePackResponse(event,path):Response.error());})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS,previousShellPaths:PREVIOUS_SHELL_PATHS});

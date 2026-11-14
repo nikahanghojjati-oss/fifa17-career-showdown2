@@ -65,10 +65,14 @@ html.kb .packtitle { display: none; }
    The house art exists at 2560; the 4K slot holds Team V's own 3840x2160 house master (stage_desktop_HC_4K, 0 px shift). */
 
 /* ---------- top: PRIME PACK, the stage and its timer, then the result line ---------- */
-.top { position: absolute; left: 12px; right: 12px; top: calc(env(safe-area-inset-top, 0px) + 6px); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.packtitle { margin: 0; text-align: center; font: 700 clamp(22px, 3.2vh, 38px)/1 var(--cond); letter-spacing: .3em; padding-left: .3em; text-transform: uppercase;
-  background: linear-gradient(180deg, #fffdf2 0%, #fff0b8 32%, #f2c35a 52%, #a8731f 56%, #f3cf73 76%, #fff3c6 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 2px 0 #1d1404); }
+.top { position: absolute; left: 12px; right: 12px; top: calc(env(safe-area-inset-top, 0px) + 18px); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+/* r91 HO-071 (Nik's pick, 2026-11-11): the title is drawn in the one title family (Team V's V3 "Honours Board" lettering)
+   instead of a metal-gradient Barlow line. The words stay in the heading (its box and the screen-reader label are unchanged)
+   but are not painted; the lettering is laid over them, centred, at the capital height the text had (1.4em tall picture). */
+.packtitle { position: relative; margin: 0; text-align: center; font: 700 clamp(22px, 3.2vh, 38px)/1 var(--cond); letter-spacing: .3em; padding-left: .3em; text-transform: uppercase; color: transparent; }
+.packtitle::after { content: ""; position: absolute; left: 50%; top: 50%; height: 1.4em; width: min(calc(1.4em * 5.477), calc(100vw - 24px)); transform: translate(-50%, -50%); pointer-events: none;
+  background: url("../shared/wordmarks/TITLE_PRIME_PACK_V3_960.webp") center / contain no-repeat;
+  background-image: image-set(url("../shared/wordmarks/TITLE_PRIME_PACK_V3_960.webp") 1x, url("../shared/wordmarks/TITLE_PRIME_PACK_V3_1920.webp") 2x); }
 .status { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 46px; }
 .beat { font: 700 18px/1 var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--foil-1); text-shadow: 0 2px 6px #000; white-space: nowrap; }
 .beat.last { color: #ffd77a; }
@@ -81,8 +85,17 @@ html.kb .packtitle { display: none; }
    so each step repaints only the ring */
 .ring { will-change: transform; }
 .ring .left { stroke: var(--foil-2); stroke-linecap: round; }
-.ring.low .left { stroke: #ff9a6a; }
 .ring b { position: absolute; inset: 0; display: grid; place-items: center; font: 700 20px/1 var(--cond); color: var(--foil-1); }
+/* last 5 s (Nik 2026-11-11: a thin red arc was too easy to miss): the ring turns warm ember gold, thicker, with a bigger number
+   and a calm glow that breathes about once a second. The glow is its own layer (opacity only, compositor): no strobing, no dimming. */
+.ring::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; pointer-events: none; opacity: 0; will-change: opacity;
+  box-shadow: 0 0 0 2px rgba(255,166,102,.85), 0 0 14px 3px rgba(255,150,92,.6); }
+.ring.low { box-shadow: 0 0 0 2px #ffb070, 0 4px 10px rgba(0,0,0,.6); }
+.ring.low .left { stroke: #ffb070; stroke-width: 4.6; }
+.ring.low b { color: #ffd9a8; font-size: 25px; text-shadow: 0 0 8px rgba(255,150,92,.8); }
+.ring.low::after { opacity: 1; animation: lowbreath 1.2s ease-in-out infinite; }
+.beat.low { color: #ffcf9a; }
+@keyframes lowbreath { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
 .pill { font: 700 16px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); padding: 8px 14px 7px; border-radius: 999px;
   background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); box-shadow: 0 3px 10px rgba(0,0,0,.55); }
 .source { text-align: center; font: 600 13px/1.2 var(--cond); letter-spacing: .2em; text-transform: uppercase; color: var(--foil-2); min-height: 16px; text-shadow: 0 2px 4px #000; }
@@ -215,7 +228,7 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .chip.used { background-image: url("assets/token_spent.webp"); transform: scale(.9); }
 .gbox .slot { grid-area: slot; min-height: 46px; min-width: 0; display: flex; }
 .mine { flex: 1; min-width: 0; }
-/* the suggestions open from the top of the boxes: above both on a phone (the row), above this phone's own box on a wide screen */
+/* the suggestions open from the bottom of the boxes: under both on a phone (the row), under this phone's own box on a wide screen */
 /* the other manager's box: read only (his tokens and whether he is out, never what he typed) */
 .ro { flex: 1; min-width: 0; height: 46px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 8px;
   border-radius: 4px; border: 1.5px solid rgba(196,147,47,.55); background: #0b0906; font: 600 15px/1.05 var(--body); letter-spacing: .04em; color: var(--text-2);
@@ -223,7 +236,7 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .gbox[data-out="1"] .ro { color: #ffb48a; border-color: rgba(255,180,138,.45); }
 .gbox[data-won="1"] .ro { color: var(--foil-1); border-color: var(--foil-2); }
 
-/* ---------- guess bar (lives in this phone's own box): suggestions open upwards, so the iPhone keyboard never hides them ---------- */
+/* ---------- guess bar (lives in this phone's own box): suggestions open downwards into the free floor, so they never cover the card's stats or flag (fitSuggest sizes the list to the room under the boxes and it scrolls inside that) ---------- */
 .row { display: flex; gap: 6px; }
 .row input { flex: 1; min-width: 0; height: 46px; box-sizing: border-box; border-radius: 4px; border: 1.5px solid rgba(241,207,122,.7); background: #0b0906; color: var(--text);
   font: 600 18px/1 var(--body); letter-spacing: .02em; padding: 0 10px; outline: none; }
@@ -236,8 +249,9 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 .btn { height: 46px; padding: 0 14px; border: 0; border-radius: 4px; font: 700 18px/1 var(--cond); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); flex: none;
   background: linear-gradient(180deg, var(--foil-1), var(--foil-2) 55%, var(--foil-3)); box-shadow: inset 0 1px 0 #fff, 0 3px 8px rgba(0,0,0,.5); cursor: pointer; }
 .btn:disabled { background: linear-gradient(180deg, #4d4430, #2f2919); color: #b3a580; box-shadow: inset 0 0 0 1px rgba(196,147,47,.5); cursor: default; }
-.suggest { position: absolute; left: 0; right: 0; bottom: calc(100% + 6px); margin: 0; padding: 4px; list-style: none; border-radius: 4px; background: #1b1810;
-  border: 1px solid rgba(241,207,122,.55); box-shadow: 0 -8px 20px rgba(0,0,0,.55); max-height: 40vh; overflow: auto; z-index: 5; }
+.suggest { position: absolute; left: 0; right: 0; top: calc(100% + 6px); box-sizing: border-box; margin: 0; padding: 4px; list-style: none; border-radius: 4px; background: #1b1810;
+  border: 1px solid rgba(241,207,122,.55); box-shadow: 0 8px 20px rgba(0,0,0,.55); max-height: var(--sg-max, 40vh); overflow: auto; overscroll-behavior: contain; z-index: 5; }
+.suggest.up { top: auto; bottom: calc(100% + 6px); box-shadow: 0 -8px 20px rgba(0,0,0,.55); }
 .suggest li { padding: 11px 10px; font: 600 18px/1.1 var(--body); letter-spacing: .02em; color: var(--text); border-radius: 3px; cursor: pointer; }
 .suggest li[aria-selected="true"], .suggest li:hover { background: rgba(241,207,122,.16); }
 .note { min-height: 18px; margin-top: 5px; font: 600 15px/1.15 var(--body); letter-spacing: .03em; text-align: center; color: var(--text-2); }
@@ -265,7 +279,9 @@ html.rm .tile .b, html.rm .tile .f { transform: none !important; }
 /* the test clock freezes every CSS transition and animation, so a still is the end state of each moment */
 html.still *, html.still *::before, html.still *::after { transition: none !important; animation: none !important; }
 @media (prefers-reduced-motion: reduce) { .card .face::after { animation: none; } .chip { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .ring.low::after { animation: none; opacity: .8; } }
 html.rm .card .face::after { animation: none; }
+html.rm .ring.low::after { animation: none; opacity: .8; }
 /* r90 M6: the page follows Settings 3D QUALITY (html[data-gfx], mirrored from the game page). Light: no looping sheen layer. Balanced and High: the look as approved. Extra and up: a brighter, quicker sheen.
    Timers, stages and points are the same at every level. */
 html[data-gfx="0"] .card .face::after { animation: none; display: none; }
@@ -359,7 +375,7 @@ const CHIPS_PER_MANAGER = 2;                                        // two guess
 // round.stages (js/iconGuess.js STAGES, G Lead 2026-11-01 10:30 UTC). Only the preview (no embed) carries a copy, below.
 // Where the newly shown parts of a stage land inside its reveal (as a share of that stage's revealMs): stage 1 first opens
 // the pack and raises the card, so its parts come late.
-const PACK_OUT = .3, CARD_UP = .7;                                  // stage 1: the pack fades out, then the card slides up
+const RISE_FROM = .10, RISE_TO = .50, PACK_OUT_FROM = .25, PACK_OUT = .65;   // stage 1: the card starts rising behind the pack before the pack has gone, so the two overlap and the stand is never empty (together they stay at 95 %+ of a full picture)
 const ITEMS_FIRST = [.78, .95], ITEMS_LATER = [.15, .8];
 const EMBED = /[?&]embed=1(&|$)/.test(location.search);
 const QS = new URLSearchParams(location.search);
@@ -549,12 +565,26 @@ function setSuggestions(names){
   S.suggestions.forEach((n,i)=>{ const li=document.createElement("li"); li.textContent=n; li.setAttribute("role","option"); li.id="sg"+i;
     li.addEventListener("pointerdown",(e)=>{ e.preventDefault(); pick(i); }); ul.appendChild(li); });
   ul.hidden = !S.suggestions.length || !canType();
+  fitSuggest();
+}
+// The list opens downward from the boxes into the free floor (never over the card). It is as tall as the room that is left
+// under the boxes and scrolls inside that, so every name stays reachable and nothing is cut off by the screen's edge.
+// Scrolls the list itself (scrollTop), never scrollIntoView: that can scroll #app too, and main is the only scroller.
+function keepInView(li){ const ul=$("suggest"), top=li.offsetTop, bottom=top+li.offsetHeight; if(top<ul.scrollTop) ul.scrollTop=top; else if(bottom>ul.scrollTop+ul.clientHeight) ul.scrollTop=bottom-ul.clientHeight; }
+function fitSuggest(){
+  const ul=$("suggest"); if(ul.hidden) return;
+  const a=$("app").getBoundingClientRect(); ul.classList.remove("up"); ul.style.removeProperty("--sg-max");
+  let r=ul.getBoundingClientRect(), room=Math.floor(a.bottom - r.top - 10);
+  // Under about a row of room (a phone under ~360 px tall with the keyboard open, where even the card is at its smallest) the
+  // list opens above the boxes instead, so a name is never half cut off by the screen's edge; it scrolls inside either way
+  if(room < 56){ ul.classList.add("up"); r=ul.getBoundingClientRect(); room=Math.floor(r.bottom - a.top - 10); }
+  ul.style.setProperty("--sg-max", Math.max(0, room)+"px");     // never taller than the room, so no row is cut by the screen edge
 }
 // Feedback on this phone's own guess. "not-in-list": costs no token. "wrong": shown only here; the other phone sees
 // only the token count drop. "used": both tokens gone. Anything else just clears the pending state.
 function guessFeedback(kind){
   S.pending=false;
-  if(kind==="not-in-list") note("Not an icon in the list", true);
+  if(kind==="not-in-list") note("That name is not on the list", true);
   else if(kind==="wrong") { note("Not him."); $("guess").value=""; setSuggestions([]); }
   else if(kind==="used") note("No guesses left. Watch the rest.");
   else if(kind==="late") note("Too late for that one.");
@@ -575,7 +605,7 @@ function showResult(winner, points){
   S.nameAt = now() + NAME_AFTER_MS;
   $("nameValue").textContent=S.round.name;                          // guessing has ended: the only place the name is written
   const b=$("banner"); b.hidden=false;
-  if(S.result==="draw"){ b.textContent="Nobody got him · 0 points"; b.classList.add("draw"); }
+  if(S.result==="draw"){ b.textContent="Nobody named him · 0 points"; b.classList.add("draw"); }
   else { b.textContent=`${S.names[S.result]} +${S.points} Showdown point${S.points===1?"":"s"}`; b.classList.remove("draw"); }
   b.dataset.winner=S.result;
   $("boxOne").dataset.won = S.result==="playerOne" ? "1" : "0"; $("boxTwo").dataset.won = S.result==="playerTwo" ? "1" : "0";
@@ -606,7 +636,7 @@ $("guess").addEventListener("keydown",(e)=>{
   const n=S.suggestions.length;
   if(e.key==="ArrowDown"||e.key==="ArrowUp"){ e.preventDefault();
     S.active = e.key==="ArrowDown" ? (S.active+1>=n ? -1 : S.active+1) : (S.active-1<-1 ? n-1 : S.active-1);
-    [...$("suggest").children].forEach((li,i)=>li.setAttribute("aria-selected",String(i===S.active))); }
+    [...$("suggest").children].forEach((li,i)=>{ li.setAttribute("aria-selected",String(i===S.active)); if(i===S.active) keepInView(li); }); }
   else if(e.key==="Escape") setSuggestions([]);
 });
 $("cta").addEventListener("click",()=>{ if(S.continued) return; S.continued=true; const c=$("cta"); c.disabled=true; c.textContent="Opening the Transfer War…"; toGame("cms-ig-continue"); });
@@ -636,12 +666,14 @@ function layoutStage(){
   let s = Math.max(W/art.w, H/art.h), ped = (H-art.h*s)/2 + art.ped*art.h*s;
   const boxesH = tall ? Math.ceil($("guessbar").getBoundingClientRect().height) || 76 : 0;
   if(tall){
-    const floorNeed = boxesH + 6 + (S.result ? 74 : 12) + 8, want = Math.min(Math.max(ped, H*.6), H - floorNeed - art.front*art.h*s);
+    // while the round is on, two suggestion rows (about 92 px) stay free under the boxes (the list opens there), so the names never need the card's space, with or without the keyboard
+    const kbRoom = S.round && !S.result ? 92 : 0;
+    const floorNeed = boxesH + 6 + (S.result ? 74 : 12) + 8 + kbRoom, want = Math.min(Math.max(ped, H*.6), H - floorNeed - art.front*art.h*s);
     ped = Math.max(want, 140);
     s = Math.max(W/art.w, ped/(art.ped*art.h), (H-ped)/((1-art.ped)*art.h));
   }
   const imgW=art.w*s, imgH=art.h*s, short = H < 520;
-  const top = tall ? (short ? 62 : 92) : Math.min(132, Math.max(76, H*.16));
+  const top = tall ? (short ? 74 : 104) : Math.min(132, Math.max(88, H*.16));      // the title sits 18 px from the top edge (as on the Special Player and Roulette pages); the card starts below the header
   let cardH = Math.max(90, ped - top - 4), cardW = cardH*2/3;
   const gap = 32, maxW = tall ? W*.7 : Math.min(W*.3, W - 2*(190+gap+12)); if(cardW>maxW){ cardW=Math.max(80,maxW); cardH=cardW*1.5; }
   const floor = ped + art.front*imgH, boxW = Math.max(150, Math.min(360, (W-cardW)/2 - gap - 12));
@@ -650,6 +682,7 @@ function layoutStage(){
   for(const k in v) app.style.setProperty(k, Math.round(v[k])+"px");
   app.classList.toggle("short", short || (!tall && H<480));
   app.classList.toggle("tinycard", cardH < 180);
+  fitSuggest();
   if($("nameValue").textContent) fitName();                     // the card size (and the 12 px floor) may have changed since the name was fitted
 }
 addEventListener("resize", layoutStage);
@@ -660,14 +693,16 @@ function fitName(){
   const range=document.createRange(); range.selectNodeContents(el);
   const measure=()=>({ room:el.clientWidth, need:range.getBoundingClientRect().width * (el.offsetWidth ? el.offsetWidth/el.getBoundingClientRect().width : 1) });
   const m=measure();
-  // strict look D13 (Nik's 12 px floor): the name stays at 12 px or more whenever it fits there (tightening its letter spacing
-  // before shrinking); only a name too long even for 12 px with no spacing still shrinks to fit, because a cut name is worse
-  if(m.room>0 && m.need>m.room && $("app").classList.contains("tinycard")) el.style.fontSize=(NAME_CQW*m.room/m.need*.97).toFixed(2)+"cqw";
-  else if(m.room>0 && m.need>m.room){
-    const cur=parseFloat(getComputedStyle(el).fontSize), card=$("card").clientWidth || 1, fitted=(cur*m.room/m.need*.97/card*100).toFixed(2)+"cqw";
-    for(const ls of ["", "0"]){ el.style.letterSpacing=ls; el.style.fontSize="12px"; const k=measure(); if(k.need<=k.room) return; }
-    el.style.letterSpacing=""; el.style.fontSize=fitted;
-  }
+  if(!(m.room>0 && m.need>m.room)) return;                      // fits at the full size, like a short name
+  const cur=parseFloat(getComputedStyle(el).fontSize), card=$("card").clientWidth || 1;
+  const fitted = cur*m.room/m.need*.97;                          // the biggest size at which the whole name fits on the one line
+  if($("app").classList.contains("tinycard")){ el.style.fontSize=(NAME_CQW*m.room/m.need*.97).toFixed(2)+"cqw"; return; }
+  // strict look D13 (Nik's 12 px floor): the name takes the biggest size that fits its line (a long name was dropped straight to
+  // 12 px beside 26-30 px short names, 2026-11-11), never under 12 px (tightening its letter spacing first); only a name too long
+  // even for 12 px with no spacing still shrinks to fit, because a cut name is worse
+  if(fitted>=12){ el.style.fontSize=(fitted/card*100).toFixed(2)+"cqw"; return; }
+  for(const ls of ["", "0"]){ el.style.letterSpacing=ls; el.style.fontSize="12px"; const k=measure(); if(k.need<=k.room) return; }
+  el.style.letterSpacing=""; el.style.fontSize=(fitted/card*100).toFixed(2)+"cqw";
 }
 if(window.visualViewport){ visualViewport.addEventListener("resize",fitViewport); visualViewport.addEventListener("scroll",fitViewport); fitViewport(); } else layoutStage();
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(layoutStage);
@@ -705,9 +740,9 @@ function paintCard(t){
   // stage 1's opening, plain: the pack fades and slides out, then the card fades and slides up into place. Driven from the
   // page clock, so a reload mid-opening plays only what is left. (Team V's art replaces the look, HO-051.)
   const pp = S.result ? 1 : S.beat<0 ? 0 : progressOf(0,t);
-  const out = smooth(0, PACK_OUT, pp), rise = smooth(PACK_OUT, CARD_UP, pp);
+  const out = smooth(PACK_OUT_FROM, PACK_OUT, pp), rise = smooth(RISE_FROM, RISE_TO, pp);
   const pack=$("pack"), card=$("card");
-  S.view = { opening: pp, cardUp: pp>=CARD_UP };
+  S.view = { opening: pp, cardUp: pp>=PACK_OUT };
   pack.hidden = pp>=PACK_OUT;
   const packState = pp>=PACK_OUT ? "gone" : pp>0 ? "open" : "sealed";        // the skin: sealed art, then Nik's opening art
   if($("app").dataset.pack!==packState) $("app").dataset.pack = packState;
@@ -715,7 +750,7 @@ function paintCard(t){
     pack.style.opacity = String(1-out);
     pack.style.transform = REDUCED ? "translateX(-50%)" : `translateX(-50%) translateY(${(-12*out).toFixed(2)}%)`;
   }
-  card.style.visibility = pp>=PACK_OUT ? "visible" : "hidden";
+  card.style.visibility = pp>RISE_FROM ? "visible" : "hidden";
   card.style.opacity = String(rise);
   card.style.transform = REDUCED ? "none" : `translateY(${((1-rise)*16).toFixed(2)}%)`;
 }
@@ -733,7 +768,7 @@ function render(){
     [...el.children].forEach((c,i)=>c.classList.toggle("used", i>=S.chips[r])); });
   const w=$("waiting"), beat=$("beat"), ring=$("ring");
   w.hidden = Boolean(S.result) || !S.round || S.beat>=0 || (!S.waitingFor && !S.countIn);
-  if(S.waitingFor) w.textContent=`Waiting for ${S.names[S.waitingFor]}`; else if(S.countIn) w.textContent="Both here · Get ready";
+  if(S.waitingFor) w.textContent=`Waiting for ${S.names[S.waitingFor]}`; else if(S.countIn) w.textContent="Both here · Starting";
   $("status").hidden = Boolean(S.result);
   if(S.result || S.beat<0 || !S.round){ beat.textContent=""; beat.hidden=true; ring.hidden=true; }
   else {
@@ -741,18 +776,18 @@ function render(){
     beat.hidden=false; beat.textContent = `Stage ${S.beat+1} · ${pts} pt${pts===1?"":"s"}`; beat.classList.toggle("last", S.beat===LAST_BEAT);
     ring.hidden=false;
     $("ringLeft").style.strokeDashoffset = String(+(RING*(1-clamp(left/st.guessMs,0,1))).toFixed(2));
-    $("ringNum").textContent=String(Math.ceil(left/1000)); ring.classList.toggle("low", left<5000);
+    $("ringNum").textContent=String(Math.ceil(left/1000)); ring.classList.toggle("low", left<5000); beat.classList.toggle("low", left<5000);
   }
   paintCard(t);
   // the boxes
   const ok=canGuess(), mine=S.chips[S.me], oth=otherRole(), otherBox = oth==="playerOne" ? $("boxOne") : $("boxTwo"), mineBox = S.me==="playerOne" ? $("boxOne") : $("boxTwo");
   otherBox.dataset.out = S.round && S.chips[oth]<=0 ? "1" : "0"; mineBox.dataset.out = S.round && mine<=0 ? "1" : "0";
   const o=$("other");
-  o.textContent = !S.round ? "" : S.result ? (S.result===oth ? `Named him · +${S.points}` : S.chips[oth]<=0 ? "Out of guesses" : "No luck")
-    : S.chips[oth]<=0 ? "Out of guesses" : S.waitingFor===oth ? "Not here yet" : S.beat<0 ? "Ready" : "Guessing…";
+  o.textContent = !S.round ? "" : S.result ? (S.result===oth ? `Named him · +${S.points}` : S.chips[oth]<=0 ? "No guesses left" : "No luck")
+    : S.chips[oth]<=0 ? "No guesses left" : S.waitingFor===oth ? "Not here yet" : S.beat<0 ? "Ready" : "Guessing…";
   $("guess").disabled = !canType(); $("go").disabled = !ok;
   if(S.round){
-    $("guess").placeholder = S.result ? (S.result===S.me ? `Named him · +${S.points}` : "Round over") : S.waitingFor ? "Waiting…" : S.beat<0 ? "Get ready…" : mine<=0 ? "No guesses left" : S.pending ? "Checking…" : ok ? "Who is he?" : "Time's up";
+    $("guess").placeholder = S.result ? (S.result===S.me ? `Named him · +${S.points}` : "Round over") : S.waitingFor ? "Waiting…" : S.beat<0 ? "Starting…" : mine<=0 ? "No guesses left" : S.pending ? "Checking…" : ok ? "Who is he?" : "Time's up";
     if(!canType()) $("suggest").hidden=true;
   }
 }

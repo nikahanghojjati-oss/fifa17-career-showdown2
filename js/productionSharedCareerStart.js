@@ -124,7 +124,7 @@
       });
     }catch(error){
       lastError=pcstErrorText(error,"Your Career Start was not recorded.");
-      pcstReport("Unable to acknowledge Shared Career Start",error);
+      pcstReport("Could not confirm Career Start",error);
       return false;
     }finally{
       busy=false;pcstRender();if(pcstReady())pcstScheduleAutoContinue();
@@ -151,7 +151,7 @@
       return true;
     }catch(error){
       lastError=pcstErrorText(error,"The Transfer War could not be opened.");
-      pcstReport("Unable to continue to Shared Transfer Challenge",error);
+      pcstReport("Could not continue to the Transfer War",error);
       return false;
     }finally{
       busy=false;transferOpening=false;pcstRender();
@@ -337,7 +337,7 @@
       const back=pcstCreate("button","compactButton pcstBack","BACK");back.type="button";back.setAttribute("aria-label","Close Career Start");back.addEventListener("click",pcstClosePanel);
       if(fallback){
         // The Club screen did not load: say so once, keep every control, and offer RETRY (it loads the Club visuals again).
-        const notice=pcstCreate("p","pcstFallbackNote",retryFailed?"The Club screen still didn't load. Career Start works here; try RETRY again in a moment.":"The Club screen didn't load. Career Start works here; RETRY loads the Club screen again.");notice.setAttribute("role","status");
+        const notice=pcstCreate("p","pcstFallbackNote",retryFailed?"The Club screen still did not load. Career Start works here; try RETRY again in a moment.":"The Club screen did not load. Career Start works here; RETRY loads the Club screen again.");notice.setAttribute("role","status");
         pillar.insertBefore(notice,pillar.children[heading?1:0]||null);
         const retry=pcstCreate("button","compactButton pcstRetry","RETRY");retry.type="button";retry.addEventListener("click",()=>void pcstRetryStage(retry));
         if(actions)actions.append(retry);else pillar.append(retry);
@@ -520,7 +520,7 @@
     if(button.dataset.sharedCareerStart!=="true")button.dataset.sharedCareerStart="true";
     return true;
   }
-  function pcstCapture(event){const button=event.target&&event.target.closest&&event.target.closest(`#${CONTROL_ID}`);if(!button||button.dataset.sharedCareerStart!=="true"||!pcstConfirmed())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pcstOpenPanel().catch(error=>pcstReport("Unable to open Shared Career Start",error));}
+  function pcstCapture(event){const button=event.target&&event.target.closest&&event.target.closest(`#${CONTROL_ID}`);if(!button||button.dataset.sharedCareerStart!=="true"||!pcstConfirmed())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pcstOpenPanel().catch(error=>pcstReport("Could not open Career Start",error));}
   function pcstWaitingKey(){if(!view||!view.state||pcstReady()||!pcstOwnAcknowledged(view)||!pcstPanelOpen())return "";return `${view.managerRole}|${view.state.revision}`;}
   function pcstFastPollDue(){const key=pcstWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
   // r75: while this screen waits on the partner, one live listener watches the shared document the partner's move changes;

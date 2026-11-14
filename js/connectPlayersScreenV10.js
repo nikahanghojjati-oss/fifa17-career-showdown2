@@ -17,7 +17,7 @@
     "<header class=\"connectPlayersHeader\">",
     "<p class=\"connectPlayersKicker\">CAREER MODE SHOWDOWN // 17</p>",
     // r80 (Team V HO-033): the title is the TITLE_CONNECT_PLAYERS_V1 picture; the words stay as visually hidden text.
-    "<h2 id=\"connectPlayersTitle\"><img class=\"connectPlayersWordmark\" src=\"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_1920.webp\" srcset=\"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_480.webp 480w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_960.webp 960w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_1920.webp 1920w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V2_3840.webp 3840w\" sizes=\"(max-width: 900px) 92vw, 60vw\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"connectPlayersTitleText\">CONNECT PLAYERS</span></h2>",
+    "<h2 id=\"connectPlayersTitle\"><img class=\"connectPlayersWordmark hc-title-img\" data-hc-title=\"CONNECT\" src=\"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_960.webp\" srcset=\"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_480.webp 318w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_960.webp 635w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_1920.webp 1254w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_3840.webp 2508w\" sizes=\"clamp(334px, 25.75vw, 493px)\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"connectPlayersTitleText\">CONNECT PLAYERS</span></h2>",
     "<p class=\"connectPlayersTagline\">Connect Daniel and Nik before the career starts.</p>",
     "</header>",
     "<div class=\"connectPlayersWorkspace\">",
@@ -46,10 +46,10 @@
     "</section>"
   ].join("\n");
   let layer=null,opening=null,opener=null,observer=null,homeObserver=null;
-  const PRIMARY=/^(START A SHOWDOWN|CHOOSE SEASONS|CREATE CODE FOR NIK|JOIN DANIEL'S SHOWDOWN|START CAREER|TRY CONTINUE AGAIN|RESTORE BACKUP)$/;
+  const PRIMARY=/^(START A SHOWDOWN|CHOOSE SEASONS|CREATE CODE FOR NIK|JOIN DANIEL'S SHOWDOWN|START CAREER|TRY CONTINUE AGAIN|TRY AGAIN)$/;
   const inertBefore=new Map();
   function byId(id){return root.document?.getElementById(id)||null;}
-  function report(error){root.reportApplicationError?.("Unable to open Connect Players",error);}
+  function report(error){root.reportApplicationError?.("Could not open Connect Players",error);}
   async function loadPair(){
     if(!root.CareerModePersistentNikDanielPair){
       await root.loadRuntimeScript("persistent-pair","js/persistentNikDanielPair.js",()=>root.CareerModePersistentNikDanielPair);
@@ -119,7 +119,7 @@
     byId("connectPlayersSetup").addEventListener("click",()=>void chooseSeasons().catch(report));
     layer.addEventListener("click",event=>{
       const button=event.target.closest?.("#persistentNikDanielPairPanel button");
-      if(button&&!button.disabled&&/^(START CAREER|TRY CONTINUE AGAIN|RESTORE BACKUP)$/.test(button.textContent.trim()))close({restoreFocus:false});
+      if(button&&!button.disabled&&/^(START CAREER|TRY CONTINUE AGAIN)$/.test(button.textContent.trim()))close({restoreFocus:false});
     },true);
     layer.addEventListener("keydown",event=>{
       if(event.key==="Escape"){event.preventDefault();event.stopPropagation();close();return;}

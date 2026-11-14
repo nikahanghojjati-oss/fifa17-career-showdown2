@@ -19,6 +19,11 @@
   const SIDE_WORD=Object.freeze({L:"LEFT",M:"MIDDLE",R:"RIGHT"});
   const memo=new Map();// `${rid}|${season}` -> finished {playerOne, playerTwo} pick strings
   let running=null,wentHome=false;
+  // E1 (2.4.0, Fable re-check 2): the partner's END SHOWDOWN (js/productionSharedTerminalClose.js) ends the shootout on screen at
+  // once (end()): the screen session stops (its timer and record watch), no pick is sent after it, the TRY AGAIN card answers by
+  // itself, and nothing more is drawn or navigated by this run.
+  let endGen=0,runGen=0,runRivalry="",playEnd=null,askEnd=null;
+  function cmsEnded(){return runGen!==endGen;}
 
   function cmsDoc(){return root.document||null;}
   function cmsOther(role){return role==="playerOne"?"playerTwo":"playerOne";}
@@ -52,10 +57,9 @@
     return Promise.race([loads,cmsWait(LOAD_WAIT_MS).then(()=>false)]);
   }
   // ctx = {rivalryId, managerRole, season, confirmedAtMs}. Does this Showdown play Chamber Men this season? Needs
-  // js/chamberMen.js (a browser caller awaits ensure() first). The kill switch (CMS_CHAMBER_MEN="off") turns the screen off;
-  // the roulette then spins one bullet for a season with no finished shootout.
+  // js/chamberMen.js (a browser caller awaits ensure() first). 
   function cmsApplies(ctx){
-    if(root.CMS_CHAMBER_MEN==="off"||!ctx)return false;
+    if(!ctx)return false;
     if(!/^pair_[0-9a-f]{64}$/.test(String(ctx.rivalryId||""))||!ROLES.includes(ctx.managerRole))return false;
     if(!Number.isInteger(ctx.season)||ctx.season<1||ctx.season>10)return false;
     const engine=cmsEngine();
@@ -195,6 +199,13 @@
   function cmsSvg(tag,attrs){const node=cmsDoc().createElementNS(SVG_NS,tag);for(const [k,v] of Object.entries(attrs||{}))node.setAttribute(k,String(v));return node;}
   function cmsRemove(){const node=cmsDoc()?.getElementById(STAGE_ID);if(node)node.remove();}
   function cmsClose(){cmsRemove();cmsLoadingOff();return true;}
+  // E1: the partner ended this Showdown (Terminal Close). A run for another Showdown is left alone (false).
+  function cmsEnd(rivalryId){
+    const id=String(rivalryId||"").trim().toLowerCase();if(running&&id&&runRivalry&&id!==runRivalry)return false;
+    endGen+=1;const play=playEnd,ask=askEnd;playEnd=null;askEnd=null;
+    try{play?.();}catch(_error){}try{ask?.();}catch(_error){}
+    cmsClose();return true;
+  }
   // The app's loading screen (Reus Gate) until the first record arrives, so a dark half-built screen never shows.
   let loading=null;
   function cmsLoadingOn(){
@@ -370,35 +381,40 @@
   // step could not run (the window stays shut and the dashboard says why; tapping again comes back here).
   function cmsRun(ctx,io){
     if(running)return running;
-    wentHome=false;
+    wentHome=false;runGen=endGen;runRivalry=String(ctx&&ctx.rivalryId||"").trim().toLowerCase();const gen=runGen;
     // BACK TO SHOWDOWN HOME opens Showdown Home, as the roulette's does (rrsRunBeforeTransfers). Closing the stage alone left the
     // screen underneath (Club Assignment in season 1, from Career Start) with HOME locked, so CONTINUE CAREER was out of reach.
-    running=cmsRunNow(ctx,io).then(go=>{if(!go)cmsClose();return go;},error=>{cmsClose();throw error;}).then(go=>{if(!go&&wentHome&&typeof root.navigateTo==="function")return Promise.resolve().then(()=>root.navigateTo("mainMenu")).catch(()=>{}).then(()=>go);return go;}).finally(()=>{running=null;});
+    running=cmsRunNow(ctx,io).then(go=>{if(!go)cmsClose();return go;},error=>{cmsClose();throw error;}).then(go=>{if(gen!==endGen){wentHome=true;cmsClose();return false;}if(!go&&wentHome&&typeof root.navigateTo==="function")return Promise.resolve().then(()=>root.navigateTo("mainMenu")).catch(()=>{}).then(()=>go);return go;}).finally(()=>{running=null;});
     return running;
   }
   async function cmsRunNow(ctx,io){
     if(!cmsApplies(ctx))return true;
-    if(!await cmsEnsure())return false;
+    if(!await cmsEnsure()||cmsEnded())return false;
     // This phone already saw this season's result and went on: straight to the roulette.
     if(cmsIsDone(ctx))return true;
     for(;;){
+      if(cmsEnded())return false;
       const result=await cmsPlay(ctx,io);
+      if(result==="ended"||cmsEnded())return false;
       if(result==="continue"){cmsMarkDone(ctx);return true;}
       if(result==="back"){wentHome=true;return false;}
       const go=await cmsAskRetry(result);
+      if(cmsEnded())return false;
       if(!go){wentHome=true;return false;}
     }
   }
   // A fault: TRY AGAIN or Showdown Home, on the stage itself (no card over anything).
   function cmsAskRetry(error){
+    if(cmsEnded())return Promise.resolve(false);
     return new Promise(resolve=>{
+      askEnd=()=>{askEnd=null;cmsRemove();resolve(false);};
       const doc=cmsDoc();cmsRemove();cmsLoadingOff();
       const stage=doc.createElement("div");stage.id=STAGE_ID;stage.setAttribute("role","dialog");stage.setAttribute("aria-modal","true");stage.setAttribute("aria-label","Chamber Men could not load");
       const shell=cmsEl("div","cmShell"),actions=cmsEl("div","cmActions");
       const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);
       shell.append(cmsEl("div","cmHeader","Chamber Men"),cmsEl("h2","cmTitle","Chamber Men could not load"),cmsEl("p","cmStatus",quota||"Check the connection and try again. Every pick already sent is kept."));
-      const retry=cmsEl("button","menuButton","TRY AGAIN");retry.type="button";retry.addEventListener("click",()=>{retry.disabled=true;resolve(true);});
-      const back=cmsEl("button","cmBack","BACK TO SHOWDOWN HOME");back.type="button";back.addEventListener("click",()=>{back.disabled=true;resolve(false);});
+      const retry=cmsEl("button","menuButton","TRY AGAIN");retry.type="button";retry.addEventListener("click",()=>{askEnd=null;retry.disabled=true;resolve(true);});
+      const back=cmsEl("button","cmBack","BACK TO SHOWDOWN HOME");back.type="button";back.addEventListener("click",()=>{askEnd=null;back.disabled=true;resolve(false);});
       actions.append(retry,back);shell.append(actions);stage.append(shell);doc.body.append(stage);retry.focus();
     });
   }
@@ -413,7 +429,8 @@
       // screen stops being shown.
       let record=null,confirmed=null,lastWriteMs=null,shown=0,clock=null,selKick=0,sel=null,revealUntil=0,revealing=null,sending=false,lastSendFail=0,notice=null,finished=false,stop=null,first=true,resultShown=false,kickToken=0;
       const now=()=>{try{return io.now();}catch(_error){return Date.now();}};
-      const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.clearTimeout(revealing);cmsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
+      const end=value=>{if(finished)return;finished=true;if(playEnd===endNow)playEnd=null;root.clearInterval(timer);root.clearTimeout(revealing);cmsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
+      const endNow=()=>end("ended");playEnd=endNow;
       const fail=error=>{if(finished)return;root.CareerModeFirestoreBudget?.noteError?.(error);end(error||{code:"CHAMBER_MEN_FAILED"});};
       // ---- drawing ----
       // The first upTo kicks drawn: goals, and each shot's chamber in the rival's cylinder (a manager's k-th shot is chamber k).
@@ -571,6 +588,7 @@
       let stageShown=false;
       const showStage=()=>{if(stageShown||finished)return;stageShown=true;ui.stage.style.visibility="visible";cmsLoadingOff();try{root.CareerModeRosterRouletteStep?.close?.();}catch(_error){}};
       const onData=data=>{
+        if(finished)return;
         const next=data?cmsRecord(data,ctx.season):engine.record({playerOne:"",playerTwo:""});
         if(!next)return fail({code:"CHAMBER_MEN_BAD_RECORD"});
         // Never step back: a late delivery older than what this phone already wrote is ignored.
@@ -600,5 +618,5 @@
 
   return Object.freeze({contractVersion:1,feature:"cms-chamber-men-step",stageId:STAGE_ID,collection:COLLECTION,objectType:OBJECT_TYPE,doneKey:DONE_KEY,keptKey:KEPT_KEY,
     pickMs:PICK_MS,kickMs:KICK_MS,applies:cmsApplies,ensure:cmsEnsure,record:cmsRecord,send:cmsSend,readRecord:cmsReadRecord,cylinders:cmsCylinders,
-    run:cmsRun,close:cmsClose,active:cmsActive,wentHome:()=>wentHome,markDone:cmsMarkDone,isDone:cmsIsDone});
+    run:cmsRun,close:cmsClose,end:cmsEnd,active:cmsActive,wentHome:()=>wentHome,markDone:cmsMarkDone,isDone:cmsIsDone});
 });

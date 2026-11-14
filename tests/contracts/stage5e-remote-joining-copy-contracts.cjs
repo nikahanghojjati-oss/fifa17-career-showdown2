@@ -40,14 +40,14 @@ A.ok(onlineIdentity.includes('"DANIEL · PLAYER ONE"') && onlineIdentity.include
 A.doesNotMatch(read('js/showdownModes.js'),/FORGET THIS DEVICE|startTestRun/);
 A.doesNotMatch(onlineIdentity,/forgetThisDevice:|forgetOnlineDevice/);
 A.ok(!/max(?:imum)?(?:Active)?Devices|deviceCap|MAX_DEVICES|three devices/i.test(onlineIdentity),"The product must not introduce an arbitrary device-count cap.");
-A.ok(onlineIdentity.includes('"sparkConnectedAccountPanel"') && onlineIdentity.includes('"sparkPrivatePairingPanel"') && onlineIdentity.includes('"sparkConnectedRivalryPanel"') && onlineIdentity.includes('"saveLibraryProductPanel"'),"Engineering/recovery panels must remain suppressible behind the normal product shell.");
+A.ok(onlineIdentity.includes('"sparkConnectedAccountPanel"') && onlineIdentity.includes('"sparkPrivatePairingPanel"') && onlineIdentity.includes('"sparkConnectedRivalryPanel"'),"Engineering/recovery panels must remain suppressible behind the normal product shell.");
 A.ok(showdown.includes('name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"}'));
 A.ok(showdown.includes('showdown.name="Daniel vs Nik"'));
 A.ok(showdown.includes('showdown.managers={playerOne:"Daniel",playerTwo:"Nik"}'));
 A.ok(showdown.includes('navigator.onLine===false'));
 A.ok(showdown.includes('identity.status!=="ready"'));
-A.ok(ruleBook.includes('Career Mode Showdown is a two-player game for Daniel and Nik.'));
-A.ok(ruleBook.includes('Daniel is Player One. Nik is Player Two.'));
+A.ok(ruleBook.includes('Career Mode Showdown is a game for two managers: Daniel and Nik.'));
+A.ok(ruleBook.includes('Daniel starts every Showdown and picks its length: 1, 3, 5 or 10 seasons. Nik joins from Home.'));
 A.ok(!ruleBook.includes('for new Showdowns'));
 A.ok(!ruleBook.includes('QR joining and multi-device real-time play are future ideas'));
 A.ok(!ruleBook.includes('no account system, cloud save, or online multiplayer'));

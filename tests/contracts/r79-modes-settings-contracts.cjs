@@ -108,7 +108,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const s=read("js/settings.js");
     assert.doesNotMatch(s,/DELETE CURRENT SHOWDOWN|deleteSettingsCurrentShowdown/,"no separate DELETE");
     const i=s.indexOf("async function runSettingsEndShowdown(");assert.ok(i>=0);
-    assert.equal(sha(s.slice(i,s.indexOf("\n}\n",i)+3)),"40a7f1b3fda9b1dac4011c3f84afd679da0606860e1931acbe473f255bf8b52c");// r80 wording sweep: "it could not be closed here"; r89 Sacked (Codex C3): a sacked Showdown goes to Terminal Close (finishSettingsSackedShowdown)
+    assert.equal(sha(s.slice(i,s.indexOf("\n}\n",i)+3)),"cfbba75b7428a8bf570f324d1f057487ac9d88a9cab7803e394f45385edfaa8a");// r80 wording sweep: "it could not be closed here"; r89 Sacked (Codex C3): a sacked Showdown goes to Terminal Close (finishSettingsSackedShowdown)
     const a=s.indexOf("    if(active){\n        const endCurrent"),end="actions.appendChild(endCurrent);\n    }\n",b=s.indexOf(end,a)+end.length;
     assert.ok(a>=0);assert.equal(sha(s.slice(a,b)),"8a4f90656a5d2eec26a478bc84dff8dcf59e66b46f3c0b2eb36e501abbcc1820");
     assert.doesNotMatch(MODES_SOURCE,/DELETE CURRENT SHOWDOWN|END SHOWDOWN|deleteSettingsCurrentShowdown|endSettingsCurrentShowdown/);
@@ -118,7 +118,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const sw=read("service-worker.js");
     const list=name=>{const i=sw.indexOf(`const ${name} = `);return sw.slice(i,sw.indexOf("]);",i));};
     assert.match(list("SHELL_PATHS"),/"js\/showdownModes\.js"/);assert.doesNotMatch(list("SHELL_PATHS_ADDED_SINCE_PREVIOUS"),/"js\/showdownModes\.js"/,"r80: the retained r79 shell already carries it");
-    assert.match(sw,/const RUNTIME_REVISION = "2\.3\.0-r90";/,"RUNTIME_REVISION is the r90 release (2.3.0-r90)");
+    assert.match(sw,/const RUNTIME_REVISION = "2\.4\.0-r91";/,"RUNTIME_REVISION is the r91 release (2.4.0-r91)");
     for(const banned of [/setTimeout|setInterval|requestAnimationFrame/,/onSnapshot|getDocs|collection\(|query\(/,/runTransaction|getDoc\(/,/localStorage|sessionStorage|indexedDB/])assert.doesNotMatch(MODES_SOURCE,banned,String(banned));
     assert.match(read("js/onlinePlayerIdentity.js"),/loadOnlineDependency\("showdown-modes","js\/showdownModes\.js"/);
     assert.ok(Buffer.byteLength(read("js/whichShowdownIsLive.js"))<7400,"r87 Fable F4-02 added Daniel's pair-again branch");

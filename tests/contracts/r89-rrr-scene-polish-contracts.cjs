@@ -180,7 +180,9 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   assert.doesNotMatch(html,/fonts\.googleapis\.com|fonts\.gstatic\.com/,'M8 no Google Fonts');
   for(const f of ['big-shoulders-display-latin-800-normal','big-shoulders-display-latin-900-normal','rye-latin-400-normal']){
     assert.ok(fs.existsSync(path.join(ROOT,`visual-assets/v10_1/shared/fonts/${f}.woff2`)),`M8 ${f} ships`);
-    assert.ok(sw.split(`"visual-assets/v10_1/shared/fonts/${f}.woff2"`).length-1>=4,`M8 ${f} is in the shell, the offline pack, the unversioned list and the added list`);
+    // 2.4.0: these faces shipped in 2.3.0, so they now sit in the retained 2.3.0-r90 shell instead of the added list.
+    assert.ok(sw.split(`"visual-assets/v10_1/shared/fonts/${f}.woff2"`).length-1>=3,`M8 ${f} is in the shell, the offline pack and the unversioned list`);
+    assert.ok(JSON.parse(fs.readFileSync(path.join(ROOT,'tests/fixtures/shell-paths/2.3.0-r90.json'),'utf8')).paths.includes(`visual-assets/v10_1/shared/fonts/${f}.woff2`),`M8 ${f} is in the retained 2.3.0-r90 shell`);
   }
   // M13: Opus cues with a .wav fallback, loaded in parallel, room tone as soon as it lands
   for(const [name,src] of Object.entries(pm.sfx)){ assert.match(src,/^assets\/sfx\/[a-z_]+\.ogg$/,`M13 ${name} is Opus`); for(const ext of ['ogg','wav']) assert.ok(fs.existsSync(path.join(ROOT,'visual-assets/v10_1/roulette',src.replace(/\.ogg$/,'.'+ext))),`M13 ${name}.${ext} ships`); }
@@ -197,8 +199,14 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   assert.match(step,/if\(event\.data\.type==="cms-rr-loading"\)renew\(\);/,'M9 progress renews the start wait');
   // r90 Light (Nik 2026-11-08: "3D light for Chamber Men and RRR is a guarantee"): no 15 s / 20 s give-ups; 45 s of silence, a
   // 4-minute cap, one fresh rebuild before any card, and only a missing WebGL is remembered for the visit
-  assert.match(step,/MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2;/,'Light: the start waits are long and a stuck page is built again once');
-  assert.match(step,/for\(let attempt=1;attempt<=SCENE_TRIES;attempt\+\+\)\{\n\s*run=await rrsSceneTry\(ctx,plan\);\n\s*if\(!run\.failed\)break;\n\s*if\(run\.failed==="nowebgl"\)\{sceneFailedHere\.add\(rrsKey\(ctx\)\);return "skipped";\}/,'Light: a broken or slow page gets a fresh frame; only no-WebGL skips at once');
+  // r91 (Nik 2026-11-11 picked "Raise boards 8 cm (desktop)"): the desktop boards stand clear of the table rim; phones unchanged
+  assert.match(html,/const bx=PH\?\.5:1\.1, by=PH\?1\.2:1\.08, bz=PH\?-1\.05:-\.45, yaw=PH\?\.3:\.55, sc=PH\?\.8:\.92;/,'desktop boards 8 cm higher (sub names clear the rim), phone boards as before');
+  assert.match(step,/MAX_LOADING_MS=45000,COLD_LOADING_MS=240000,LOAD_WAIT_MS=10000,ARMED_WAIT_MS=45000,SCENE_TRIES=2,RETRY_MIN_MS=30000;/,'Light: the start waits are long and a stuck page is built again once');
+  assert.match(step,/for\(let attempt=1;attempt<=SCENE_TRIES;attempt\+\+\)\{\n\s*const budget=COLD_LOADING_MS-clock\.ms\(\);if\(attempt>1&&budget<RETRY_MIN_MS\)break;\n\s*run=await rrsSceneTry\(ctx,plan,clock\);\n\s*if\(!run\.failed\)break;\n\s*if\(run\.failed==="nowebgl"\)\{clock\.stop\(\);sceneFailedHere\.add\(rrsKey\(ctx\)\);return "skipped";\}/,'Light: a broken or slow page gets a fresh frame; only no-WebGL skips at once');
+  // r91 B23-02: the 4-minute cap is one budget for the whole start (both tries), counted in on-screen time
+  assert.match(step,/const stopCap=rrsBudgetWait\(clock,COLD_LOADING_MS,\(\)=>onReady\("timeout"\)\);/,'B23-02 each try is capped by the start budget, read from the shared on-screen clock whenever its timer wakes');
+  assert.match(step,/run=await rrsSceneTry\(ctx,plan,clock\);/,'B23-02 both tries share one clock');
+  assert.match(step,/const shownAt=Date\.now\(\),clock=rrsVisibleClock\(\);let run=null;/,'B23-02 the start budget counts on-screen time from the first show');
   assert.match(step,/const why=event\.data\.webgl===false\?"nowebgl":"error";/,'Light: the page says when WebGL itself is missing');
   assert.match(html,/message:"WebGL is not available",webgl:false\}/,'Light: the no-WebGL report is the only one marked webgl:false');
   assert.match(step,/function renew\(\)\{if\(armedWait\)\{armedWait\.renew\(\);return;\}/,'Light: progress pings keep the armed wait open too');
@@ -257,9 +265,9 @@ ok('P14','M31 showcase loop on its own switch');
   has(/if\(LIGHT\)\{ const tex=M\.felt\.map, c=tex\.image, x=c\.getContext\("2d"\)/,'Light: the lamp pool is painted into the felt');
   has(/function loadLookEnv\(\)\{ if\(!T\.EXRLoader\|\|LIGHT\) return Promise\.resolve\(null\);/,'Light: no EXR');
   has(/scene\.environment=LIGHT\?loungeEnv\(pm\):pm\.fromEquirectangular\(LOOK\.hdri\)\.texture;/,'Light: a small lounge env of its own');
-  has(/function fxBatch\(n,map,blending,order,fleck\)\{/,'Light: particles batched into one draw per kind');
+  has(/function fxBatch\(n,map,blending,order,fleck,streak\)\{/,'Light: particles batched into one draw per kind');
   has(/const smokeFx=LIGHT\?fxBatch\(36,smokeT,T\.NormalBlending,25,false\):null;/,'Light: smoke batched');
-  has(/const sparkFx=LIGHT\?fxBatch\(40,sparkMat\.map,T\.AdditiveBlending,28,false\):null;/,'Light: sparks batched');
+  has(/const sparkFx=fxBatch\(40,streakTex\(\),T\.AdditiveBlending,28,false,true\);/,'sparks batched as streaks on every level (r91)');
   has(/const fleckFx=LIGHT\?fxBatch\(40,sparkTex\(\),T\.NormalBlending,26,true\):null;/,'Light: flecks batched');
   has(/camera\.updateMatrixWorld\(\); fxSync\(\); renderer\.render\(scene,camera\);/,'batches follow the camera every drawn frame');
   has(/if\(LIGHT\) mergeRounds\(\); \};/,'Light: every live round in one set of meshes');
@@ -285,7 +293,19 @@ ok('P17','L38 a status line before ready; L39 the pot back left and smaller, sof
 // title box); the shift eases out during a turn
 {
   has(/function fitUnderTitle\(\)\{ restShift=0; restZoom=1; const t=document\.querySelector\("\.title"\), r=t&&t\.getBoundingClientRect\(\);/,'L37 the clearance comes from the real title box');
-  has(/need=Math\.max\(need,r\.bottom\+10-Math\.min\(q\[0\]\.y,q\[1\]\.y\)\); \}\);/,'L37 every board face that sits under the title clears it by 10 px');
+  // r91 HO-071 (one title family): the heading keeps its words and its box (so the clearance above still measures the same box) but
+  // paints Team V's V3 lettering over them; the banner above the title is hidden, not removed; no moving shine. The Special Player
+  // page follows the same recipe with its own picture.
+  for(const [file,stem,ratio] of [['visual-assets/v10_1/roulette/index.html','TITLE_ROSTER_ROULETTE_V3','12.347'],['visual-assets/v10_1/special-player/index.html','TITLE_SPECIAL_PLAYER_V3','7.22']]){
+    const src=file.includes('roulette/')?html:fs.readFileSync(path.join(ROOT,file),'utf8');
+    assert.ok(src.includes(`.title::after { content: ""; position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); height: var(--hc-h); width: min(calc(var(--hc-h) * ${ratio}), calc(100vw - 24px));`),`${file}: the title picture is the family height, never wider than the screen`);
+    for(const step of ['960','1920']){const pic=`../shared/wordmarks/${stem}_${step}.webp`;assert.ok(src.includes(`url("${pic}")`),`${file} draws ${pic}`);assert.ok(fs.existsSync(path.join(ROOT,path.dirname(file),pic)),`${pic} is in the repo`);}
+    assert.ok(src.includes('.kicker { visibility: hidden; }'),`${file}: the banner above the title is hidden and keeps its box`);
+    assert.ok(src.includes('.title span { display: block; color: transparent; }'),`${file}: the words stay in the heading, unpainted`);
+    assert.ok(!/animation:\s*shine\b|@keyframes shine\b|-webkit-text-stroke/.test(src.slice(src.indexOf('.kicker {'),src.indexOf('.title::after')+900)),`${file}: no moving shine and no outline on the title`);
+    const m=/data-t="([^"]+)"><span>([^<]+)<\/span>/.exec(src);assert.ok(m&&m[1]===m[2],`${file}: the heading still carries its words`);
+  }
+  has(/need=Math\.max\(need,r\.bottom\+\(TAB\?14:10\)-Math\.min\(\.\.\.pts\.map\(p=>p\.y\)\)\);/,'L37 every board face that sits under the title clears it by 10 px (r91: upright tablets measure the top of the frame, 14 px)');
   has(/const want=playing\?closeLift:restShift, wantZ=playing\?1:restZoom,/,'L37 the shift (and the zoom) is only for the rest shot; a turn lifts the picture only in the drum close-up (strict A7)');
   // 2.3.0 strict C7/D10/E5: the rest picture is pulled back (the same view-offset zoom) until both squad boards stay in view; A7: the drum close-up is lifted above the caption
   has(/function fitBoardsWide\(c,w,h\)/,'strict C7 the rest picture is zoomed out just enough that each board stays in view (landscape 14 % of the width each side, upright whole boards), capped at 1.6');

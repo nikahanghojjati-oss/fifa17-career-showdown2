@@ -190,13 +190,12 @@ function census(){
     'sparkSharedSeasonResults.js':'uses sdk.getDoc only when the given (budget-wrapped, metered) services expose it; else a counted transaction',
     'iconGuessStep.js':'r87 Prime Pack round listener: onSnapshot via meterSdk; its other reads are counted transactions',
     'chamberMenStep.js':'r88 Chamber Men round listener: onSnapshot via meterSdk; its other reads are counted transactions',
+    'squadSheetStep.js':'r91 Squad Management rival-squad listener: onSnapshot via meterSdk; its reads and creates are counted transactions',
     'productionSharedTransferChallenge.js':'Fable job 2 F2-12 roulette history: budget services, getDoc via meterSdk (taken from the Firestore module when absent)',
     'sparkSharedTransferChallenge.js':'readRouletteSeason uses the firebaseSdk.getDoc it is given (metered by its caller)'
   };
   const excluded={
-    'sparkSharedShowdownSetup.js':'mentions getDoc in a comment only; its preflight read is a counted transaction',
-    'productionAuthorizationAcceptance.js':'operator acceptance page (network-only, never loaded by the app page or its counter)',
-    'productionProviderAbuseAcceptance.js':'operator acceptance page (network-only, never loaded by the app page or its counter)'
+    'sparkSharedShowdownSetup.js':'mentions getDoc in a comment only; its preflight read is a counted transaction'
   };
   const pattern=/\b(?:getDocs?|getDocFromServer|getDocsFromServer|onSnapshot)\b/;
   const found=fs.readdirSync(path.join(ROOT,'js')).filter(f=>f.endsWith('.js')&&pattern.test(read('js/'+f).replace(/captureCareerModeRawSaveLibraryMigrationSnapshot|captureLibraryMigrationSnapshot/g,'')));

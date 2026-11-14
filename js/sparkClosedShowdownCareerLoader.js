@@ -142,5 +142,8 @@
       try{return cclUnavailable(uid,"CLOSED_LOADER_FAILED");}catch(_inner){return Object.freeze({status:"unavailable",accountId:uid,careerInput:null,model:null,entries:Object.freeze([])});}
     }
   }
-  return Object.freeze({contractVersion:1,feature:"cms-closed-showdown-career-loader",loadClosedShowdownCareer:cclLoad,clearClosedShowdownCache:cclClear,closedShowdownCacheSize:()=>cclScope?.cache.size||0,sessionRequired:false,deviceRequired:false,providerWriteRequired:false,listPermissionRequired:false,canonicalStorageMutation:false,billingRequired:false});
+  // U1 (2.4.0 hunt): an "unavailable" read kept for the page (a permanent failure) is dropped again, so the next open reads it
+  // afresh. Used for the Showdown that just finished, whose documents can still be settling when it is first read.
+  function cclForgetUnavailable(rivalryId){const cached=cclScope?.cache.get(rivalryId);if(cached&&cached.status==="unavailable"){cclScope.cache.delete(rivalryId);return true;}return false;}
+  return Object.freeze({contractVersion:1,feature:"cms-closed-showdown-career-loader",loadClosedShowdownCareer:cclLoad,clearClosedShowdownCache:cclClear,forgetUnavailableShowdown:cclForgetUnavailable,closedShowdownCacheSize:()=>cclScope?.cache.size||0,sessionRequired:false,deviceRequired:false,providerWriteRequired:false,listPermissionRequired:false,canonicalStorageMutation:false,billingRequired:false});
 });

@@ -26,7 +26,8 @@
     if(link.sheet){link.sheet.disabled=off;return;}
     if(off)link.addEventListener?.("load",()=>{if(link.sheet)link.sheet.disabled=oldSheetOff.has(name);},{once:true});
   }
-  function image(cls,path){const n=element("img",cls);n.src=BASE+path;n.alt="";n.setAttribute("aria-hidden","true");n.decoding="async";/* HO-057 4K titles: a _V2 wordmark ships at 480/960/1920/3840 px (same frame ratio as V1), so the browser picks the width it needs. */const v2=/_V2_1920\.webp$/.test(path)?BASE+path.replace(/_1920\.webp$/,""):"";if(v2){n.srcset=[480,960,1920,3840].map(w=>`${v2}_${w}.webp ${w}w`).join(", ");n.sizes="(max-width: 900px) 92vw, 60vw";}return n;}
+  const V3_TITLES={"shared/wordmarks/TITLE_RULE_BOOK_V3_960.webp":{key:"RULE_BOOK",widths:[196,393,776,1551],sizes:"clamp(207px, 15.93vw, 305px)"},"shared/wordmarks/TITLE_SETTINGS_V3_960.webp":{key:"SETTINGS",widths:[166,331,654,1307],sizes:"clamp(174px, 13.43vw, 257px)"}};
+  function image(cls,path){const n=element("img",cls);n.src=BASE+path;n.alt="";n.setAttribute("aria-hidden","true");n.decoding="async";/* HO-071 title family V3 (Team V, Nik's pick): every step of a title has one height (38/76/150/300 px), so the srcset carries each file's real width and "sizes" asks for one letter height on every screen (see css/r78-type.css, "HO-071"). */const v3=V3_TITLES[path];if(v3){n.classList.add("hc-title-img");n.dataset.hcTitle=v3.key;n.srcset=v3.widths.map((w,i)=>`${BASE+path.replace(/_960\.webp$/,"")}_${[480,960,1920,3840][i]}.webp ${w}w`).join(", ");n.sizes=v3.sizes;}return n;}
   function stage(id,host,content){
     const s=element("div","sd-stage v10SystemStage");s.id=id;
     const plate=element("div","sd-stage__layer sd-stage__layer--plate");plate.setAttribute("aria-hidden","true");
@@ -95,8 +96,8 @@
       restore();
     };
   }
-  // JOB-1731: adopted sideways study 1731. On short landscape phones the six numbered rule cards are shown one at a
-  // time under six section tabs. Presentation state only: every article, rule line and score stays in the DOM in live
+  // JOB-1731: adopted sideways study 1731. On short landscape phones the numbered rule cards are shown one at a
+  // time under one tab each. Presentation state only: every article, rule line and score stays in the DOM in live
   // order (a hidden card is only display:none), and leaving the sideways size restores the exact original page.
   function ruleBookTabs(content){
     const media=root.matchMedia?.("(max-width: 900px) and (max-height: 500px) and (orientation: landscape)");
@@ -146,14 +147,15 @@
     const original=Array.from(host.children),content=element("div","ruleBookV10Content");
     original.forEach(n=>content.append(n));host.classList.add("v10RuleBook");
     const hero=content.querySelector('.ruleBookHero');hero.dataset.sdEnter="title";
-    hero.insertBefore(image("ruleBookWordmark","shared/wordmarks/TITLE_RULE_BOOK_V2_1920.webp"),hero.querySelector("strong"));
+    hero.insertBefore(image("ruleBookWordmark","shared/wordmarks/TITLE_RULE_BOOK_V3_960.webp"),hero.querySelector("strong")||hero.querySelector("p"));
     content.querySelector('h2').classList.add('sd-visually-hidden');
-    hero.querySelector('span').classList.add('sd-eyebrow');hero.querySelector('strong').classList.add('sd-tagline');hero.querySelector('p').classList.add('sd-body','ruleBookSummary');
+    hero.querySelector('span').classList.add('sd-eyebrow');hero.querySelector('strong')?.classList.add('sd-tagline');hero.querySelector('p').classList.add('sd-body','ruleBookSummary');
     const grid=content.querySelector('.ruleBookGrid');grid.id='ruleBookSections';grid.setAttribute('aria-label','Competition rules');
     content.querySelectorAll('.ruleSection').forEach(card=>{
       card.classList.add('sd-panel');card.dataset.sdEnter='panel';
       const head=card.querySelector('.ruleSectionHeader');head.querySelector('span').classList.add('ruleSectionNumber');
-      if(card.classList.contains('scoringRuleSection')){card.classList.add('sd-panel--hero');Array.from(card.querySelector('.ruleScoreTable').children).forEach(row=>row.classList.add('ruleScoreRow'));}
+      if(card.classList.contains('scoringRuleSection'))card.classList.add('sd-panel--hero');
+      card.querySelectorAll('.ruleScoreTable').forEach(table=>Array.from(table.children).forEach(row=>row.classList.add('ruleScoreRow')));
     });
     content.querySelector('.backButton').id='ruleBookBack';
     content.querySelector('.backButton').classList.add('sd-btn','sd-btn--secondary');
@@ -191,7 +193,6 @@
   }
   function buttons(host){
     const list=[];
-    host.querySelectorAll('.settingsDataButton').forEach(button=>list.push([button,'secondary']));
     const done=host.querySelector('.settingsFooter')?.querySelector('.menuButton');if(done)list.push([done,'primary']);
     return list;
   }
@@ -226,7 +227,7 @@
     if(states.has(host)){refreshSettings();return;}
     const dialog=doc().getElementById('settingsDialog');host.classList.add('v10Settings');
     const heading=dialog.querySelector('.settingsHeading');heading.classList.add('settingsTitleBlock');
-    const wrap=element('span','settingsWordmarkWrap');wrap.dataset.sdEnter='title';wrap.append(image('settingsWordmark','shared/wordmarks/TITLE_SETTINGS_V2_1920.webp'));heading.append(wrap);
+    const wrap=element('span','settingsWordmarkWrap');wrap.dataset.sdEnter='title';wrap.append(image('settingsWordmark','shared/wordmarks/TITLE_SETTINGS_V3_960.webp'));heading.append(wrap);
     // Team V's Settings frame: shared eyebrow type and the "TWO MANAGERS. ONE LEGACY." line under the wordmark.
     heading.querySelector('.settingsEyebrow')?.classList.add('sd-eyebrow');heading.append(element('p','sd-kicker settingsTagline','TWO MANAGERS. ONE LEGACY.'));
     doc().getElementById('settingsTitle').classList.add('settingsVisuallyHidden');

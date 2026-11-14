@@ -136,7 +136,7 @@ async function main(){
     const closedR1=await admin(`rivalries/${R1}`);
     assert.equal(field(closedR1,"data","connectionState").stringValue,"closed","R1 is closed");
     assert.equal(field(closedR1,"data","endedEarly","seasonsPlayed").integerValue,"0","the ended-early mark: 0 seasons (ended on the league wheel)");
-    await daniel.page.waitForFunction(()=>/^Ended the ".*" Showdown for both players\. History keeps it as Ended early\.$/.test(document.querySelector("#appRuntimeNotice .runtimeNoticeText")?.textContent?.trim()||""),null,{timeout:15000});
+    await daniel.page.waitForFunction(()=>/^Ended the ".*" Showdown for both players\. Legacy keeps it as Ended early\.$/.test(document.querySelector("#appRuntimeNotice .runtimeNoticeText")?.textContent?.trim()||""),null,{timeout:15000});
     await closeSettings(daniel);
     ok("D2","Daniel's END SHOWDOWN closed R1 with the ended-early mark (0 seasons) and said it ended");
 
@@ -150,7 +150,7 @@ async function main(){
     assert.equal(nik.log.taps.length,nikTapsAtDelete,"Nik tapped nothing");
     assert.deepEqual(nik.log.errors.filter(e=>/TERMINAL_CLOSE/.test(e)),[],"no TERMINAL_CLOSE_INTENT_INVALID on Nik's page");
     await nik.page.locator("#mainMenu").waitFor({state:"visible",timeout:15000});
-    assert.match(await nik.page.locator("#appRuntimeNotice .runtimeNoticeText").textContent(),/This Showdown was ended for both players\. History keeps it as Ended early\./,"Nik's notice says it ended early");
+    assert.match(await nik.page.locator("#appRuntimeNotice .runtimeNoticeText").textContent(),/This Showdown was ended for both players\. Legacy keeps it as Ended early\./,"Nik's notice says it ended early");
     assert.equal(nik.log.taps.length,nikTapsAtDelete,"Nik tapped nothing to get Home");
     ok("D3","Nik's page, with no reload and no tap: Terminal Close says DELETED, Nik is on Home with the Ended early notice, the pair holds R1 as closed, the local save is kept, no TERMINAL_CLOSE error");
 

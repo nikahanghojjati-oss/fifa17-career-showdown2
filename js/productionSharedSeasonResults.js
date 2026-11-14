@@ -15,11 +15,10 @@
   // FIFA saves, so nothing is ever compared across them.
   // r89 Sacked (Nik 2026-11-03): each manager ticks only his own "I was sacked" (his card is the only one he can edit). Any
   // sacking ends the Showdown after this season; the points so far decide. Stored as the sparse result key sacked:true (an
-  // unticked box leaves the result unchanged), shown only for Showdowns confirmed from the r89 release on (SACKED_FROM_MS),
+  // unticked box leaves the result unchanged), shown once the Showdown's confirm time is known,
   // and PUBLISH asks once more before a sacked result goes in (it is final).
   const RESULT_SUFFIXES=Object.freeze(["LeaguePosition","LeaguePoints","LeagueGoals","DomesticCup","ChampionsLeague","EuropaLeague","TopScorer","TopAssist","Sacked"]);
   const SPARSE_CHECKS=Object.freeze(["EuropaLeague","Sacked"]);
-  const SACKED_FROM_MS=Date.parse("2026-11-06T15:00:00Z");
   let formContextKey="",installed=false,busy=false,provider=null,setupApi=null,transferApi=null,catalogApi=null,view=null,draft=null,pollTimer=null,providerChain=Promise.resolve(),refreshPromise=null,contextKey="",renderedContextKey="",errorNode=null,errorMessage="";
 
   function pssrFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -51,8 +50,8 @@
   function pssrOtherRole(role){return role==="playerOne"?"playerTwo":"playerOne";}
   function pssrManagerName(role){const showdown=pssrShowdown();return showdown?.managers?.[role]||(role==="playerOne"?"Manager 1":"Manager 2");}
   function pssrSetupState(){try{return setupApi?.getState?.()||null;}catch(_error){return null;}}
-  // r89 Sacked: only a Showdown confirmed at or after the r89 release time shows the tick (an older phone could not verify the end).
-  function pssrSackedApplies(){const at=pssrSetupState()?.setupUpdatedAtMs;return root.CMS_SACKED!=="off"&&Number.isFinite(at)&&at>=SACKED_FROM_MS;}
+  // r89 Sacked: the tick shows once the Showdown's confirm time is known.
+  function pssrSackedApplies(){return Number.isFinite(pssrSetupState()?.setupUpdatedAtMs);}
   // r89 Sacked (Codex C3): a 2.1.0 phone cannot read a sacked result (it stops with its own error until it updates; nothing is
   // lost). Only a 2.2.0 phone can tick, so the phone that published the sacking says what the rival must do while it waits.
   // The running build's version (APP_VERSION from js/app.js), so this text never goes stale at a version bump.
@@ -78,10 +77,11 @@
   // JOB-1611: provider codes that mean "contended", not "refused": Firestore lock contention after the SDK's own retries.
   const PSSR_CONTENTION_CODES=Object.freeze(["aborted","failed-precondition","permission-denied","firestore/permission-denied","permission_denied"]);
   const PSSR_CONTENTION_RETRY_MS=Object.freeze([500,1000,1500]);
+  const PSSR_BACK_MS=1000,PSSR_BACK_TRIES=600,PSSR_BACK_FAILED="Your result was not confirmed. Check the connection and tap CONFIRM MY RESULT again.";
   const PSSR_DENIED_CODES=Object.freeze(["permission-denied","firestore/permission-denied","permission_denied"]),PSSR_READ_RETRY_CODES=Object.freeze([...PSSR_CONTENTION_CODES,"unavailable","deadline-exceeded","SEASON_RESULTS_PROVIDER_UNAVAILABLE","SEASON_RESULTS_PROVIDER_FAILED"]);
   function pssrWait(ms){return new Promise(resolve=>{const timer=typeof root.setTimeout==="function"?root.setTimeout:setTimeout;timer(resolve,ms);});}
   // JOB-1611: the reads inside a publish meet the same contention; they get the same bounded wait before failing as before.
-  async function pssrPublishRead(ctx,request){let read=await provider.read(ctx.options);for(let retry=0;read?.ok!==true&&PSSR_CONTENTION_CODES.includes(read?.code)&&retry<PSSR_CONTENTION_RETRY_MS.length&&pssrContextMatches(request);retry+=1){await pssrWait(PSSR_CONTENTION_RETRY_MS[retry]);read=await provider.read(ctx.options);}return pssrResultError(read,"Season Results could not be refreshed before publishing.");}
+  async function pssrPublishRead(ctx,request){let read=await provider.read(ctx.options);for(let retry=0;read?.ok!==true&&PSSR_CONTENTION_CODES.includes(read?.code)&&retry<PSSR_CONTENTION_RETRY_MS.length&&pssrContextMatches(request);retry+=1){await pssrWait(PSSR_CONTENTION_RETRY_MS[retry]);read=await provider.read(ctx.options);}return pssrResultError(read,"Season Results could not be refreshed before confirming.");}
   function pssrQueueProvider(task){const run=providerChain.then(task,task);providerChain=run.catch(()=>{});return run;}
   // Job 33 (R1): a fast waiting read (light) reuses the already-confirmed Setup and the COMPLETED Transfer Challenge.
   async function pssrProviderContext(request=pssrRequestContext(),light=false){
@@ -92,11 +92,11 @@
       await setupApi.refresh();if(!pssrContextMatches(request))pssrFail("SEASON_RESULTS_CONTEXT_STALE");
       try{await transferApi.refresh();}catch(error){if(!(pssrContextMatches(request)&&pssrTransferComplete(request)))throw error;}if(!pssrContextMatches(request))pssrFail("SEASON_RESULTS_CONTEXT_STALE");
     }
-    if(!pssrTransferComplete(request))pssrFail("SEASON_RESULTS_TRANSFER_NOT_COMPLETE","Finish the Transfer War before publishing Season Results.");
+    if(!pssrTransferComplete(request))pssrFail("SEASON_RESULTS_TRANSFER_NOT_COMPLETE","Finish the Transfer War before confirming Season Results.");
     const setup=pssrSetupState();
     if(!setup||setup.ready!==true||!setup.setup||setup.setup.phase!=="SHOWDOWN_CONFIRMED"||setup.setup.revision!==6||!setup.managerRole||!setup.rivalryId||!setup.sessionId||!setup.deviceId)pssrFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");
     const runtime=root.CareerModeProductionFirebaseRuntime,services=(root.CareerModeFirestoreBudget?.services||(s=>s))(await runtime.ensureAccountServices());
-    if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pssrFail("SEASON_RESULTS_PROVIDER_UNAVAILABLE","Connected account services are unavailable.");
+    if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||!services.firestoreSdk)pssrFail("SEASON_RESULTS_PROVIDER_UNAVAILABLE","The online service is unavailable.");
     return Object.freeze({setup,options:{user:services.auth.currentUser,firestore:services.firestore,firebaseSdk:services.firestoreSdk,rivalryId:setup.rivalryId,sessionId:setup.sessionId,deviceId:setup.deviceId,seasonNumber:request.seasonNumber,cryptoImpl:root.crypto,nowEpochMs:Date.now()}});
   }
   async function pssrRefreshNow(request=pssrRequestContext(),light=false){
@@ -162,14 +162,14 @@
   function pssrEntryMode(reviewing){const panel=pssrField("seasonReviewPanel"),grid=root.document?.querySelector?.("#seasonEntry .seasonEntryGrid"),hint=root.document?.querySelector?.("#seasonEntry .seasonEntryHint"),actions=pssrField("completeSeason")?.closest?.(".seasonEntryActions");pssrHidden(panel,!reviewing);pssrHidden(grid,reviewing);pssrHidden(hint,reviewing);pssrHidden(actions,reviewing);if(pssrField("seasonEntry"))pssrField("seasonEntry").dataset.sharedSeasonResults=reviewing?"review":"entry";}
   function pssrRenderReview(result,{waiting=false,ready=false}={}){
     const role=view?.managerRole,other=pssrOtherRole(role),one=pssrField("seasonReviewOne"),two=pssrField("seasonReviewTwo"),ownCard=role==="playerOne"?one:two,otherCard=role==="playerOne"?two:one,confirm=pssrField("confirmSeasonCompletion"),edit=pssrField("editSeasonResults"),overall=pssrField("seasonReviewOverallScore")?.closest?.(".seasonReviewOverall"),warning=root.document?.querySelector?.("#seasonReviewPanel .seasonReviewWarning");
-    pssrEntryMode(true);pssrHidden(overall,true);pssrText("seasonEntryTitle",`SEASON ${view?.seasonNumber||pssrSeason()} RESULTS`);pssrText("seasonReviewHeading",ready?"BOTH MANAGERS PUBLISHED":waiting?"YOUR RESULT IS PUBLISHED":"REVIEW YOUR SEASON RESULT");pssrText("seasonReviewStatusMeta",ready?"":waiting?"PUBLISHED · WAITING FOR YOUR RIVAL":"NOT PUBLISHED YET");pssrHidden(pssrField("seasonReviewStatusMeta")?.closest?.(".seasonReviewStatus"),ready);
+    pssrEntryMode(true);pssrHidden(overall,true);pssrText("seasonEntryTitle",`SEASON ${view?.seasonNumber||pssrSeason()} RESULTS`);pssrText("seasonReviewHeading",ready?"BOTH MANAGERS CONFIRMED":waiting?"YOUR RESULT IS CONFIRMED":"REVIEW YOUR SEASON RESULT");pssrText("seasonReviewStatusMeta",ready?"":waiting?"CONFIRMED · WAITING FOR YOUR RIVAL":"NOT CONFIRMED YET");pssrHidden(pssrField("seasonReviewStatusMeta")?.closest?.(".seasonReviewStatus"),ready);
     pssrRenderReviewCard(ownCard,role,result);pssrHidden(ownCard,false);
-    if(ready&&view?.opponentResult){pssrRenderReviewCard(otherCard,other,view.opponentResult);pssrHidden(otherCard,false);pssrText("seasonReviewResult","Both managers published their FIFA 17 season results.");}
-    else{pssrHidden(otherCard,true);pssrText("seasonReviewResult",waiting?`Your rival sees this only after publishing theirs. This screen updates by itself.${result?.sacked===true?pssrSackedUpdateHint(other):""}`:"Check your results. Once published, they are final.");}
+    if(ready&&view?.opponentResult){pssrRenderReviewCard(otherCard,other,view.opponentResult);pssrHidden(otherCard,false);pssrText("seasonReviewResult","Both managers confirmed their FIFA 17 season results.");}
+    else{pssrHidden(otherCard,true);pssrText("seasonReviewResult",waiting?`Your rival sees this only after confirming theirs. This screen updates by itself.${result?.sacked===true?pssrSackedUpdateHint(other):""}`:"Check your results. Once confirmed, they are final.");}
     // Job 33 (R8): once both published, the Shared Season Commit status below is the one banner that says what to tap next.
     const sacked=!waiting&&!ready&&result?.sacked===true,armed=sacked&&draft?.sackedConfirmed===true,total=Number(view?.setup?.totalSeasons||pssrSetupState()?.setup?.totalSeasons)||null,season=view?.seasonNumber||pssrSeason();
-    if(warning){pssrHidden(warning,ready);if(!ready)warning.textContent=sacked?`SACKED: THIS SHOWDOWN ENDS AFTER SEASON ${season}${total?` OF ${total}`:""} · THE POINTS SO FAR DECIDE · BOTH PHONES NEED VERSION ${pssrAppVersion()} · PUBLISHING IS FINAL`:"PUBLISHING IS FINAL";}
-    if(confirm){pssrHidden(confirm,ready);pssrDisable(confirm,busy||waiting);confirm.textContent=waiting?"PUBLISHED ✓":armed?"YES, I WAS SACKED · PUBLISH":sacked?"PUBLISH · I WAS SACKED":"PUBLISH MY SEASON RESULT";confirm.classList.toggle("isSackedConfirm",armed);}
+    if(warning){pssrHidden(warning,ready);if(!ready)warning.textContent=sacked?`SACKED: THIS SHOWDOWN ENDS AFTER SEASON ${season}${total?` OF ${total}`:""} · THE POINTS SO FAR DECIDE · BOTH PHONES NEED VERSION ${pssrAppVersion()} · CONFIRMING IS FINAL`:"CONFIRMING IS FINAL";}
+    if(confirm){pssrHidden(confirm,ready);pssrDisable(confirm,busy||waiting);confirm.textContent=waiting?"RESULT CONFIRMED ✓":armed?"YES, I WAS SACKED · CONFIRM":sacked?"CONFIRM · I WAS SACKED":"CONFIRM MY RESULT";confirm.classList.toggle("isSackedConfirm",armed);}
     if(edit){pssrHidden(edit,ready||waiting);pssrDisable(edit,busy);edit.textContent="EDIT MY RESULT";}
   }
   function pssrRenderEntry(){
@@ -194,45 +194,34 @@
   }
   function pssrEdit(){if(busy||view?.ownResult)return false;draft=null;pssrSetError("");pssrEntryMode(false);pssrRenderEntry();const input=pssrField(`${pssrRolePrefix(view.managerRole)}LeaguePosition`);input?.focus?.({preventScroll:true});return true;}
   // Prime Pack: the manager who named this season's masked Icon first publishes his result with primePack:N, N = 4, 3, 2 or 1
-  // by the stage of his right guess (the Rules accept it only when the round record names him and its server time gives N). Read once from the round record, only for a Showdown that plays
-  // Prime Pack; an older Showdown never loads the step or reads anything. A read that fails stops the publish (TRY AGAIN),
+  // by the stage of his right guess (the Rules accept it only when the round record names him and its server time gives N). Read once from the round record. A read that fails stops the publish (TRY AGAIN),
   // so a won point is never dropped by a bad connection.
-  const PRIME_PACK_FROM_MS=Date.parse("2026-11-02T05:00:00Z");
   async function pssrWithPrimePack(ctx,request,result){
     if(!result||typeof result!=="object")return result;
     let confirmedAtMs=pssrSetupState()?.setupUpdatedAtMs;
     if(!Number.isFinite(confirmedAtMs)&&typeof setupApi?.refresh==="function"){await Promise.resolve(setupApi.refresh()).catch(()=>null);confirmedAtMs=pssrSetupState()?.setupUpdatedAtMs;}
     // Fable F13-04: an unknown confirm time never publishes without the Prime Pack point (it could drop a won point): TRY AGAIN.
     if(!Number.isFinite(confirmedAtMs))pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","The Showdown's confirm time could not be read. Check the connection and try again.");
-    // Old Showdowns never load the step (the same boundary as js/iconGuess.js fromMs; a contract keeps them equal).
-    if(confirmedAtMs<PRIME_PACK_FROM_MS)return result;
-    // Fable F16-01: with the kill switch off the Prime Pack can never block a publish (it is the rescue for a 2.0.0
-    // Showdown): a load or read that fails scores 0, but a point this phone already saw won still counts (F14-02).
-    const off=root.CMS_PRIME_PACK==="off";
     const gameCtx={rivalryId:ctx.options.rivalryId,managerRole:ctx.setup.managerRole,season:request.seasonNumber,confirmedAtMs};
     const{primePack:_drop,...rest}=result;
     const withPoints=points=>Number.isInteger(points)&&points>=1&&points<=4?{...rest,primePack:points}:rest;
     const loaded=root.CareerModeIconGuessStep||await (typeof root.loadRuntimeScript==="function"?root.loadRuntimeScript("prime-pack-step","js/iconGuessStep.js",()=>root.CareerModeIconGuessStep).then(()=>root.CareerModeIconGuessStep,()=>null):null);
-    const memo=off?loaded?.wonPoints?.(gameCtx):null;
-    if(off&&Number.isInteger(memo))return withPoints(memo);
     // applies() needs the round engine (js/iconGuess.js): load it first, or a won Prime Pack point would be dropped.
     const step=loaded&&await Promise.resolve(loaded.ensure()).catch(()=>false)?loaded:null;
-    if(!step){if(off)return rest;pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");}
-    // Fable F14-02: the kill switch never drops a point already won: the round record is still read (no record is 0 points).
-    if(!step.applies(gameCtx,{ignoreSwitch:true}))return result;
-    let points;
-    try{points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx,{ignoreSwitch:true});}
-    catch(error){if(!off)throw error;root.CareerModeFirestoreBudget?.noteError?.(error);points=0;}
+    if(!step){pssrFail("SEASON_RESULTS_PRIME_PACK_UNAVAILABLE","Prime Pack could not load. Check the connection and try again.");}
+    // The round record is always read (no record is 0 points).
+    if(!step.applies(gameCtx))return result;
+    const points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx);
     return withPoints(points);
   }
   async function pssrPublish(){
     if(busy||!draft||!view?.managerRole)return false;
     // r89 Sacked: the confirm step. A sacked result ends the Showdown and is final, so the first PUBLISH tap only asks again.
     if(draft.result?.sacked===true&&draft.sackedConfirmed!==true){draft.sackedConfirmed=true;pssrSetError("");pssrRenderReview(draft.result);return false;}
-    if(draft.contextKey!==contextKey||draft.seasonNumber!==view.seasonNumber||draft.managerRole!==view.managerRole){pssrSetError("The shared season context changed. Review your result again.");draft=null;return false;}
+    if(draft.contextKey!==contextKey||draft.seasonNumber!==view.seasonNumber||draft.managerRole!==view.managerRole){pssrSetError("This Showdown's season changed while you were reviewing. Review your result again.");draft=null;return false;}
     let currentResult;try{currentResult=pssrReadForm(view.managerRole);}catch(error){pssrSetError(error.message||error.code);return false;}
-    if(pssrFingerprint(currentResult)!==draft.fingerprint){pssrSetError("Your season result changed after review. Choose Edit My Result and review it again before publishing.");return false;}
-    const request=pssrRequestContext();if(!request||!pssrContextMatches(request))return false;busy=true;pssrSetError("");const publishRole=view.managerRole;pssrRender();
+    if(pssrFingerprint(currentResult)!==draft.fingerprint){pssrSetError("Your result changed after you reviewed it. Tap EDIT MY RESULT, review it again, then publish.");return false;}
+    const request=pssrRequestContext();if(!request||!pssrContextMatches(request))return false;backGen+=1;if(backTimer!==null){try{root.clearTimeout?.(backTimer);}catch(_error){}backTimer=null;}busy=true;pssrSetError("");const publishRole=view.managerRole;let failed="";pssrRender();
     try{
       return await pssrQueueProvider(async()=>{
         const ctx=await pssrProviderContext(request);if(!pssrContextMatches(request))return false;
@@ -252,12 +241,47 @@
           // the Session closed) is a refusal, not contention: it stops at once with the same message instead of three more
           // publishes and re-reads. A re-read that is itself contended, denied or offline keeps the bounded JOB-1611 retry.
           if(PSSR_CONTENTION_CODES.includes(published?.code)&&contentionRetries<PSSR_CONTENTION_RETRY_MS.length){await pssrWait(PSSR_CONTENTION_RETRY_MS[contentionRetries]);contentionRetries+=1;if(!pssrContextMatches(request))return false;const fresh=await provider.read(ctx.options);if(!pssrContextMatches(request))return false;if(!(fresh?.ok!==true&&PSSR_DENIED_CODES.includes(published.code)&&!PSSR_READ_RETRY_CODES.includes(fresh?.code))){if(fresh?.ok===true)current=fresh;continue;}}
-          const result=pssrResultError(published,"Your Season Result could not be published.");if(!pssrContextMatches(request))return true;
+          const result=pssrResultError(published,"Your season result could not be confirmed.");if(!pssrContextMatches(request))return true;
           pssrDraftClear(publishRole,request);view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
         }
       });
-    }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Shared Season Result publication failed.");pssrReport("Unable to publish Shared Season Result",error);}return false;}
-    finally{busy=false;if(pssrContextMatches(request))pssrRender();}
+    }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Confirming your season result failed.");pssrReport("Could not confirm your season result",error);}else failed=PSSR_BACK_FAILED;return false;}
+    finally{busy=false;if(pssrContextMatches(request))pssrRender();else pssrRenderWhenBack(request,failed);}
+  }
+  // W1 (2.4.0): a publish can end while this phone has no connection and its Season Results context is not readable (the
+  // Showdown's setup is unavailable offline). It then had nothing to draw on: the screen kept the CONFIRM button it drew as
+  // busy (disabled) and, before this manager confirms, no poll redraws it, so the button stayed off after the signal came back.
+  // Once the same context is back, the screen is drawn again (button on, the failure said); no read, a local check each second.
+  // W1b (2.4.0, Fable re-check 2): a Season Results poll tick that runs while the context still reads as another season
+  // empties view and draft, so a plain redraw drew nothing and CONFIRM MY RESULT stayed off under "tap ... again". Then the
+  // screen is read once (light) and the review is opened again from the typed form before the line is shown.
+  let backTimer=null,backGen=0;
+  function pssrRenderWhenBack(request,message){
+    const timer=typeof root.setTimeout==="function"?root.setTimeout:null;if(!timer||!request)return;
+    if(backTimer!==null)try{root.clearTimeout?.(backTimer);}catch(_error){}
+    const gen=backGen+=1;let tries=0;
+    const live=()=>{const entry=pssrField("seasonEntry");return gen===backGen&&!busy&&Boolean(entry)&&!entry.classList.contains("hidden");};
+    const again=ms=>{if((tries+=1)<PSSR_BACK_TRIES)backTimer=timer(check,ms);};
+    // The redraw with the line: the review is on (the reviewed draft, or a new one from the typed form) before the line is
+    // written into it, so the line never sits under a CONFIRM MY RESULT that is off. A confirmed result shows as confirmed.
+    const show=()=>{
+      if(view.ownResult||view.state?.phase==="RESULTS_READY"){pssrRender();return;}
+      const kept=draft&&draft.contextKey===contextKey&&draft.seasonNumber===view.seasonNumber&&draft.managerRole===view.managerRole;
+      if(kept?pssrRender():pssrBeginReview()){if(message)pssrSetError(message);}
+    };
+    // It stops for good the moment a new publish starts or the Season Results screen is not on (Home after END SHOWDOWN, any
+    // other screen), so it never draws over another screen.
+    const check=()=>{
+      backTimer=null;if(!live())return;
+      const current=pssrRequestContext();
+      // Only the same context is drawn; another save or season (offline the season can read differently) is left to its own
+      // screen, and the check goes on until the same one is back or the time is up.
+      if(!current||current.key!==request.key){again(PSSR_BACK_MS);return;}
+      if(view&&contextKey===request.key){show();return;}
+      // W1b: nothing to draw (a tick emptied it). One light read; if it fails (still offline) try again in 5 s.
+      pssrRefresh(true).then(read=>{if(!live())return;if(read&&view&&contextKey===request.key&&pssrContextMatches(request))show();else again(PSSR_BACK_MS*5);},()=>{if(live())again(PSSR_BACK_MS*5);});
+    };
+    backTimer=timer(check,PSSR_BACK_MS);
   }
   async function pssrOpen(){
     const navAtTap=typeof root.getNavigationRevision==="function"?root.getNavigationRevision():null;

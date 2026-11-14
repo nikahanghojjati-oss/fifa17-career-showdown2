@@ -18,17 +18,14 @@ globalThis.CareerModeIconNames=globalThis.CareerModeIconNames||Names;
 const RID=`pair_${"7".repeat(64)}`;
 const ts=ms=>({toMillis:()=>ms});
 
-// S1 who plays it: Showdowns confirmed on r87 or later only (the Roster Roulette boundary), seasons 1 to 10, the kill switch.
+// S1 who plays it: every Showdown with a readable confirm time, seasons 1 to 10.
 {
-  const now=Math.max(Date.now(),Guess.fromMs+3600000),ctx={rivalryId:RID,managerRole:"playerOne",season:1,confirmedAtMs:now};
+  const now=Date.now(),ctx={rivalryId:RID,managerRole:"playerOne",season:1,confirmedAtMs:now};
   assert.equal(Step.applies(ctx),true);
-  assert.equal(Step.applies({...ctx,confirmedAtMs:Guess.fromMs-1}),false,"a Showdown confirmed before r87 never plays it");
   assert.equal(Step.applies({...ctx,confirmedAtMs:null}),false,"no confirm time, no Prime Pack");
   assert.equal(Step.applies({...ctx,season:11}),false);assert.equal(Step.applies({...ctx,managerRole:"host"}),false);
   assert.equal(Step.applies({...ctx,rivalryId:"pair_x"}),false);
-  globalThis.CMS_PRIME_PACK="off";assert.equal(Step.applies(ctx),false,"the kill switch turns it off");delete globalThis.CMS_PRIME_PACK;
-  assert.equal(Guess.fromMs,require("../../js/rosterRouletteStep.js").fromMs,"the same boundary as Roster Roulette");
-  ok("S1","only Showdowns confirmed on r87 or later play Prime Pack, seasons 1 to 10; the kill switch turns it off");
+  ok("S1","every Showdown with a readable confirm time plays Prime Pack, seasons 1 to 10; no start time, no kill switch");
 }
 
 // S2 the stored round reads back as the round logic's record.
@@ -92,7 +89,7 @@ const ts=ms=>({toMillis:()=>ms});
   const page=read("visual-assets/v10_1/icon-guess/index.html");
   assert.match(page,/statEl\(k\)\.querySelector\("em"\)\.textContent=String\(round\.stats\[k\]\)/,"the page prints the round's values as given");
   assert.ok(!/Math\.random/.test(read("js/iconGuess.js")+read("js/iconGuessStep.js")+page),"nothing makes a value up");
-  assert.match(read("js/ruleBook.js"),/Which stats show is random; the values never are\./,"the Rule Book says so");
+  assert.match(read("js/ruleBook.js"),/Which stats show, and in what order, is random\. The numbers are always his real card stats\./,"the Rule Book says so");
   ok("S3b","every value a stage shows is the Icon's real card stat from the list; only which of the six shows is random, each once; the Rule Book says so");
 }
 
@@ -125,7 +122,7 @@ const ts=ms=>({toMillis:()=>ms});
   assert.match(pssr,/points=await step\.pointsFor\(/);assert.match(pssr,/return withPoints\(points\);/);assert.match(pssr,/const withPoints=points=>Number\.isInteger\(points\)&&points>=1&&points<=4\?\{\.\.\.rest,primePack:points\}:rest;/);
   // The service worker and shell lists are G Lead's after #1149 merges (scope split, 2026-11-01 10:44 UTC): the five files
   // are listed in the handoff note for G Lead to add; this PR leaves service-worker.js as gameplay/r87 has it.
-  assert.match(read("js/ruleBook.js"),/Prime Pack: first to name the masked Icon/);
+  assert.match(read("js/ruleBook.js"),/Prime Pack: first right name \(4, 3, 2 or 1 by stage\)/);
   ok("S6","the winner publishes primePack 1 to 4 (its stage's points) from the round record; the Rule Book has the line");
 }
 

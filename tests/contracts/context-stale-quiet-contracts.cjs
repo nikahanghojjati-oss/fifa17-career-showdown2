@@ -1,7 +1,7 @@
 "use strict";
 // Quiet *_CONTEXT_STALE in background refreshers. A code ending in _CONTEXT_STALE (SEASON_RESULTS_, SEASON_COMMIT_, TRANSFER_)
 // means the season moved on while a nested read was running; the next tick reads again for the new season. The Shared
-// Canonical Scoring tick used to report it as an app error ("Unable to refresh Shared Canonical Scoring: SEASON_COMMIT_CONTEXT_STALE")
+// Canonical Scoring tick used to report it as an app error ("Could not refresh the season score: SEASON_COMMIT_CONTEXT_STALE")
 // and drop its view. Seen in local two-manager journey runs under load; a player would have seen that notice.
 //   QS1  a reconciled Canonical Scoring view is read and kept for its season.
 //   QS2  a nested SEASON_COMMIT_CONTEXT_STALE / SEASON_RESULTS_CONTEXT_STALE / TRANSFER_CONTEXT_STALE is not reported and keeps the view.
@@ -56,13 +56,13 @@ async function main(){
     assert.equal(h.api.getState()?.phase,"SCORING_RECONCILED",`QS2 ${code} keeps the reconciled view`);
   }
   h.setError(stale("permission-denied"));await h.tick();
-  assert.deepEqual(h.reports,["Unable to refresh Shared Canonical Scoring: permission-denied"],"QS3 a real failure is still reported");
+  assert.deepEqual(h.reports,["Could not refresh the season score: permission-denied"],"QS3 a real failure is still reported");
   assert.equal(h.api.getState(),null,"QS3 a real failure still clears the view");
 
   const commit=read("js/productionSharedSeasonCommit.js");
-  assert.match(commit,/if\(psscContextMatches\(request\)&&psscResultsPublished\(request\)&&!\/_CONTEXT_STALE\$\/\.test\(String\(error\?\.code\|\|""\)\)\)\{[^}]*psscReport\("Unable to check Shared Season Commit",error\)/,"QS4 the Season Commit check stays quiet on a nested *_CONTEXT_STALE and still reports other failures");
+  assert.match(commit,/if\(psscContextMatches\(request\)&&psscResultsPublished\(request\)&&!\/_CONTEXT_STALE\$\/\.test\(String\(error\?\.code\|\|""\)\)\)\{[^}]*psscReport\("Could not check the season",error\)/,"QS4 the Season Commit check stays quiet on a nested *_CONTEXT_STALE and still reports other failures");
   const history=read("js/productionSharedHistoryConvergence.js");
-  assert.match(history,/error=>\{if\(\/_CONTEXT_STALE\$\/\.test\(String\(error\?\.code\|\|""\)\)\)return view&&contextKey===request\.key\?view:null;if\(phcContextMatches\(request\)\)\{[\s\S]{0,300}phcReport\("Unable to converge Shared History",error\)/,"QS4 Shared History stays quiet on a nested *_CONTEXT_STALE and still reports repeated failures");
+  assert.match(history,/error=>\{if\(\/_CONTEXT_STALE\$\/\.test\(String\(error\?\.code\|\|""\)\)\)return view&&contextKey===request\.key\?view:null;if\(phcContextMatches\(request\)\)\{[\s\S]{0,300}phcReport\("Could not bring History up to date",error\)/,"QS4 Shared History stays quiet on a nested *_CONTEXT_STALE and still reports repeated failures");
   console.log("PASS context-stale quiet contracts: 4 numbered checks (QS1-QS4) - a refresh that outlives its season is not reported and keeps the last view; real failures are still reported.");
 }
 

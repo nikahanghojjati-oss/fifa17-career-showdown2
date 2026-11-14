@@ -33,7 +33,7 @@ assert.match(adapter,/try\{await transferApi\.refresh\(\);\}catch\(error\)\{if\(
 assert.match(adapter,/pssrFingerprint\(currentResult\)!==draft\.fingerprint/,'reviewed payload must be revalidated immediately before publication');
 assert.match(adapter,/draft&&draft\.contextKey===contextKey[\s\S]*pssrRenderReview\(draft\.result\)/,'ordinary provider refresh must preserve an unpublished local Review draft');
 assert.doesNotMatch(adapter,/current\.finally\(/,'refresh cleanup must not create an ignored rejecting finally child promise');
-assert.match(adapter,/Your rival sees this only after publishing theirs/);
+assert.match(adapter,/Your rival sees this only after confirming theirs/);
 // Job 33 (R8): the duplicate RESULTS_READY banners are gone; the Shared Season Commit status is the one line that directs the player onward.
 assert.match(adapter,/if\(warning\)\{pssrHidden\(warning,ready\);/,'RESULTS_READY must hand the next-step banner to Shared Season Commit instead of repeating it');
 assert.match(read('js/productionSharedSeasonCommit.js'),/BOTH RESULTS ARE IN · LOCK THE SEASON[\s\S]*BOTH RESULTS ARE IN · WAITING FOR \$\{String\(psscManagerName\(coordinator\)\)\.toUpperCase\(\)\} TO LOCK/,'RESULTS_READY must direct the real player into the next authoritative capability (Shared Season Commit) instead of presenting r9 as a terminal step');
@@ -63,7 +63,7 @@ assert.match(route,/ENTER SEASON RESULTS/);
 assert.match(route,/seasonPrimaryAction/,'completed shared Transfer Challenge must route directly from Showdown Home');
 assert.match(route,/sharedSeasonResultsRouteStyle/,'shared review must preserve a visible escape to Showdown Home while local complete action stays hidden');
 assert.match(route,/productionSharedSeasonResults\.js/);
-assert.match(route,/api\.install\(\);const opened=await api\.open\(\)/);
+assert.match(route,/api\.install\(\);(?:const )?opened=await api\.open\(\)/);
 assert.match(route,/POST_RESULTS_MODULES/,'real Results routing must define one bounded downstream bootstrap list');
 for(const expected of ['productionSharedSeasonCommit.js','productionSharedCanonicalScoring.js','productionSharedHistoryConvergence.js','productionSharedMultiSeasonProgression.js','productionSharedJourneyReconnect.js','productionSharedLocalReconciliation.js','productionSharedFinalReconciliation.js','productionSharedTerminalClose.js'])assert.match(route,new RegExp(expected.replace(/\./g,'\\.')), `real Results routing must bootstrap ${expected}`);
 assert.match(route,/sharedLocalReconciliation\.js/,'Local Reconciliation protocol must be available before its production adapter installs');

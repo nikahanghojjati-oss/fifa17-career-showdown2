@@ -126,7 +126,7 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   font: 400 clamp(34px, 4.6vw, 66px)/1.12 var(--v26-title);
   letter-spacing: .01em;
   text-align: center;
-  filter: drop-shadow(0 3px 1px rgba(0, 0, 0, .96)) drop-shadow(0 0 14px rgba(242, 196, 91, .28));
+  filter: drop-shadow(0 3px 1px rgba(0, 0, 0, .96));
 }
 /* Job 1030: Select League brush wordmark (Nik's goal lettering, TITLE_LEAGUE_V1). Text stays for screen readers. */
 #leagueWheelScreen.v26Skin > h2 {
@@ -141,8 +141,8 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   white-space: nowrap;
   text-indent: 150%;
   color: transparent;
-  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_960.webp") center / 100% 100% no-repeat;
-  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_1920.webp") 2x);
+  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_960.webp") center / min(100%, calc(var(--hc-title-h, 59px) * 6.880)) auto no-repeat; /* HO-071: V3 title at the shared title height, never stretched */
+  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_1920.webp") 2x);
   -webkit-background-clip: border-box;
   background-clip: border-box;
   filter: none;
@@ -272,8 +272,8 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   color: transparent;
   border: 0;
   box-shadow: none;
-  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp") center / 100% 100% no-repeat;
-  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_1920.webp") 2x);
+  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_960.webp") center / min(100%, calc(var(--hc-title-h, 59px) * 7.713)) auto no-repeat; /* HO-071: V3 title at the shared title height, never stretched */
+  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_1920.webp") 2x);
   -webkit-background-clip: border-box;
   background-clip: border-box;
   filter: drop-shadow(0 3px 2px rgba(0, 0, 0, .9));
@@ -426,7 +426,7 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   color: transparent;
   font-size: 0;
   line-height: 0;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 62'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF1B8'/%3E%3Cstop offset='.55' stop-color='%23F2C45B'/%3E%3Cstop offset='1' stop-color='%237A5A22'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M9 14l4 4 9-10 9 10 4-4-2 10H11z' fill='url(%23g)' stroke='%237A5A22' stroke-width='1'/%3E%3Cpath d='M4 28h36L22 60z' fill='url(%23g)' stroke='%237A5A22' stroke-width='1.2'/%3E%3Cpath d='M12 31h20L22 50z' fill='%237A5A22' opacity='.35'/%3E%3C/svg%3E") center / contain no-repeat;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 62'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23D6B07A'/%3E%3Cstop offset='.55' stop-color='%23A57E4E'/%3E%3Cstop offset='1' stop-color='%235C4128'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M9 14l4 4 9-10 9 10 4-4-2 10H11z' fill='url(%23g)' stroke='%235C4128' stroke-width='1'/%3E%3Cpath d='M4 28h36L22 60z' fill='url(%23g)' stroke='%235C4128' stroke-width='1.2'/%3E%3Cpath d='M12 31h20L22 50z' fill='%235C4128' opacity='.35'/%3E%3C/svg%3E") center / contain no-repeat;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .6));
 }
 
@@ -464,8 +464,8 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
   z-index: 3;
   pointer-events: none;
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 480'%3E%3Cdefs%3E%3ClinearGradient id='r' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF1B8'/%3E%3Cstop offset='.5' stop-color='%23C99B45'/%3E%3Cstop offset='1' stop-color='%237A5A22'/%3E%3C/linearGradient%3E%3CradialGradient id='h' cx='.5' cy='.42' r='.6'%3E%3Cstop offset='0' stop-color='%2323272e'/%3E%3Cstop offset='1' stop-color='%230a0b0d'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='240' cy='240' r='52.8' fill='url(%23h)' stroke='url(%23r)' stroke-width='4'/%3E%3Ccircle cx='240' cy='240' r='47' fill='none' stroke='rgba(242,196,91,.35)' stroke-width='1'/%3E%3Cpath d='M216 252l-6-28 16 12 14-22 14 22 16-12-6 28z' fill='url(%23r)' stroke='%236E5020' stroke-width='1'/%3E%3Crect x='216' y='255' width='48' height='6' rx='1.5' fill='url(%23r)'/%3E%3C/svg%3E") center / 100% 100% no-repeat,
-    url("../visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V1.webp") center / 100% 100% no-repeat;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 480'%3E%3Cdefs%3E%3ClinearGradient id='r' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23D6B07A'/%3E%3Cstop offset='.5' stop-color='%23A57E4E'/%3E%3Cstop offset='1' stop-color='%235C4128'/%3E%3C/linearGradient%3E%3CradialGradient id='h' cx='.5' cy='.42' r='.6'%3E%3Cstop offset='0' stop-color='%2323272e'/%3E%3Cstop offset='1' stop-color='%230a0b0d'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='240' cy='240' r='52.8' fill='url(%23h)' stroke='url(%23r)' stroke-width='4'/%3E%3Ccircle cx='240' cy='240' r='47' fill='none' stroke='rgba(242,196,91,.35)' stroke-width='1'/%3E%3Cpath d='M216 252l-6-28 16 12 14-22 14 22 16-12-6 28z' fill='url(%23r)' stroke='%236E5020' stroke-width='1'/%3E%3Crect x='216' y='255' width='48' height='6' rx='1.5' fill='url(%23r)'/%3E%3C/svg%3E") center / 100% 100% no-repeat,
+    url("../visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V2.webp") center / 100% 100% no-repeat;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .72));
 }
 /* Slice dividers: five drawn gold lines of one width (an SVG), not a conic-gradient hairline. A 0.5deg gradient sliver
@@ -1333,7 +1333,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
     width: calc(var(--v26-wheel) * .09);
     height: calc(var(--v26-wheel) * .09 * 56 / 44);
     margin: 0 0 calc(var(--v26-wheel) * -.045);
-    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2044%2056%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23fff1b8%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23f2c45b%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237a5a22%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cpath%20d%3D%22M3%204h38L22%2052z%22%20fill%3D%22url(%23g)%22%20stroke%3D%22%237a5a22%22%20stroke-width%3D%221.4%22%2F%3E%3Cpath%20d%3D%22M11%209h22L22%2040z%22%20fill%3D%22%237a5a22%22%20opacity%3D%22.35%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2044%2056%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23D6B07A%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23A57E4E%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%235C4128%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cpath%20d%3D%22M3%204h38L22%2052z%22%20fill%3D%22url(%23g)%22%20stroke%3D%22%235C4128%22%20stroke-width%3D%221.4%22%2F%3E%3Cpath%20d%3D%22M11%209h22L22%2040z%22%20fill%3D%22%235C4128%22%20opacity%3D%22.35%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
   }
   #app #leagueWheelScreen.v26Skin #leagueWheel {
     width: var(--v26-wheel); height: var(--v26-wheel);
@@ -1366,8 +1366,8 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
     mask-image: radial-gradient(circle closest-side, #000 0 88%, transparent 88.5%);
   }
   #app #leagueWheelScreen.v26Skin #leagueWheel::after {
-    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20480%20480%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22ball%22%20cx%3D%22.38%22%20cy%3D%22.32%22%20r%3D%22.8%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff1b8%22%2F%3E%3Cstop%20offset%3D%22.45%22%20stop-color%3D%22%23f2c45b%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237a5a22%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22ballClip%22%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2246%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg%20class%3D%22hub%22%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2253%22%20fill%3D%22%230a0b0d%22%20stroke%3D%22%23c99b45%22%20stroke-width%3D%223%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2247%22%20fill%3D%22url(%23ball)%22%2F%3E%3Cg%20clip-path%3D%22url(%23ballClip)%22%20fill%3D%22%234a3612%22%20stroke%3D%22%232e2009%22%20stroke-width%3D%221.2%22%3E%3Cpolygon%20points%3D%22240.0%2C226.0%20253.3%2C235.7%20248.2%2C251.3%20231.8%2C251.3%20226.7%2C235.7%22%2F%3E%3Cpolygon%20points%3D%22248.8%2C180.9%20254.3%2C197.6%20240.0%2C208.0%20225.7%2C197.6%20231.2%2C180.9%22%2F%3E%3Cline%20x1%3D%22240.0%22%20y1%3D%22226.0%22%20x2%3D%22240.0%22%20y2%3D%22207.0%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22299.0%2C230.1%20284.7%2C240.5%20270.4%2C230.1%20275.9%2C213.3%20293.5%2C213.3%22%2F%3E%3Cline%20x1%3D%22253.3%22%20y1%3D%22235.7%22%20x2%3D%22271.4%22%20y2%3D%22229.8%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22267.6%2C293.0%20253.4%2C282.7%20258.8%2C265.9%20276.4%2C265.9%20281.9%2C282.7%22%2F%3E%3Cline%20x1%3D%22248.2%22%20y1%3D%22251.3%22%20x2%3D%22259.4%22%20y2%3D%22266.7%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22198.1%2C282.7%20203.6%2C265.9%20221.2%2C265.9%20226.6%2C282.7%20212.4%2C293.0%22%2F%3E%3Cline%20x1%3D%22231.8%22%20y1%3D%22251.3%22%20x2%3D%22220.6%22%20y2%3D%22266.7%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22186.5%2C213.3%20204.1%2C213.3%20209.6%2C230.1%20195.3%2C240.5%20181.0%2C230.1%22%2F%3E%3Cline%20x1%3D%22226.7%22%20y1%3D%22235.7%22%20x2%3D%22208.6%22%20y2%3D%22229.8%22%20fill%3D%22none%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2247%22%20fill%3D%22none%22%20stroke%3D%22rgba(255%2C241%2C184%2C.35)%22%20stroke-width%3D%221.2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center / 100% 100% no-repeat,
-      url("../visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V1.webp") center / 100% 100% no-repeat;
+    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20480%20480%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22ball%22%20cx%3D%22.38%22%20cy%3D%22.32%22%20r%3D%22.8%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23D6B07A%22%2F%3E%3Cstop%20offset%3D%22.45%22%20stop-color%3D%22%23A57E4E%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%235C4128%22%2F%3E%3C%2FradialGradient%3E%3CclipPath%20id%3D%22ballClip%22%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2246%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg%20class%3D%22hub%22%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2253%22%20fill%3D%22%230a0b0d%22%20stroke%3D%22%23A57E4E%22%20stroke-width%3D%223%22%2F%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2247%22%20fill%3D%22url(%23ball)%22%2F%3E%3Cg%20clip-path%3D%22url(%23ballClip)%22%20fill%3D%22%234a3612%22%20stroke%3D%22%232e2009%22%20stroke-width%3D%221.2%22%3E%3Cpolygon%20points%3D%22240.0%2C226.0%20253.3%2C235.7%20248.2%2C251.3%20231.8%2C251.3%20226.7%2C235.7%22%2F%3E%3Cpolygon%20points%3D%22248.8%2C180.9%20254.3%2C197.6%20240.0%2C208.0%20225.7%2C197.6%20231.2%2C180.9%22%2F%3E%3Cline%20x1%3D%22240.0%22%20y1%3D%22226.0%22%20x2%3D%22240.0%22%20y2%3D%22207.0%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22299.0%2C230.1%20284.7%2C240.5%20270.4%2C230.1%20275.9%2C213.3%20293.5%2C213.3%22%2F%3E%3Cline%20x1%3D%22253.3%22%20y1%3D%22235.7%22%20x2%3D%22271.4%22%20y2%3D%22229.8%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22267.6%2C293.0%20253.4%2C282.7%20258.8%2C265.9%20276.4%2C265.9%20281.9%2C282.7%22%2F%3E%3Cline%20x1%3D%22248.2%22%20y1%3D%22251.3%22%20x2%3D%22259.4%22%20y2%3D%22266.7%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22198.1%2C282.7%20203.6%2C265.9%20221.2%2C265.9%20226.6%2C282.7%20212.4%2C293.0%22%2F%3E%3Cline%20x1%3D%22231.8%22%20y1%3D%22251.3%22%20x2%3D%22220.6%22%20y2%3D%22266.7%22%20fill%3D%22none%22%2F%3E%3Cpolygon%20points%3D%22186.5%2C213.3%20204.1%2C213.3%20209.6%2C230.1%20195.3%2C240.5%20181.0%2C230.1%22%2F%3E%3Cline%20x1%3D%22226.7%22%20y1%3D%22235.7%22%20x2%3D%22208.6%22%20y2%3D%22229.8%22%20fill%3D%22none%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%22240%22%20r%3D%2247%22%20fill%3D%22none%22%20stroke%3D%22rgba(255%2C241%2C184%2C.35)%22%20stroke-width%3D%221.2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center / 100% 100% no-repeat,
+      url("../visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V2.webp") center / 100% 100% no-repeat;
   }
   #app #leagueWheelScreen.v26Skin #leagueStateNote {
     width: 100%; max-width: 100%; min-width: 0;
@@ -1410,7 +1410,6 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   html[data-v10-setup="league"] #app #seasonIndicator {
     max-width: 116px; padding: 7px 8px; font-size: 11px; letter-spacing: .06em;
   }
-  html[data-v10-setup="league"] #app > footer { min-height: 28px; padding: 3px 10px; font-size: 10px; line-height: 1.1; }
   /* HO-033 item 9: the old brand bar text ("CAREER MODE / SHOWDOWN // 17") and the version footer go, as on desktop
      (css/v10Shell.css r61). SIGN IN and the status chip stay one tap away on a slim bar, right-aligned. */
   html[data-v10-setup="league"] #app #topHeader { grid-template-columns: minmax(0, 1fr) auto auto; min-height: 52px; }
@@ -1474,31 +1473,34 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
     min-width: 44px; min-height: 44px; margin: 0 !important;
     display: inline-flex !important; align-items: center; justify-content: center;
   }
-  html[data-v10-setup="league"] #app > footer { min-height: 28px; padding: 3px 12px; font-size: 10px; line-height: 1.1; }
+  /* r91 L5 (art audit: both heads cropped out at 844x390): the room is drawn the window's width with the hair 6px under the top
+     bar (html custom properties in the plate rule below). The title and its line stand in the gap between the two men (row 1,
+     which ends 6px under the chins); the wheel and both buttons start under the chins (rows 2-4) and the wheel is sized to fit
+     what is left of the window. Nothing is hidden and the tap order is unchanged. */
   #app #leagueWheelScreen.v26Skin:not(.hidden) {
-    --v26-wheel: max(140px, min(34vw, calc(100svh - 150px)));
-    display: grid; grid-template-columns: var(--v26-wheel) minmax(0, 1fr);
-    grid-template-rows: auto auto auto auto auto;
-    align-content: center; align-items: center; column-gap: 14px; row-gap: 4px;
-    padding: 0 14vw 8px;
+    --v26-wheel: clamp(112px, calc(100svh - var(--bx-chin) - 18px), 34vw);
+    display: grid; grid-template-columns: var(--v26-wheel) minmax(0, 230px); justify-content: center;
+    grid-template-rows: calc(var(--bx-chin) + 6px - 58px) auto auto auto;
+    align-content: start; align-items: center; column-gap: 18px; row-gap: 4px;
+    padding: 0 0 8px;
   }
-  #app #leagueWheelScreen.v26Skin > h2 { grid-column: 2; grid-row: 1; width: min(100%, 230px); margin: 0 auto; }
+  #app #leagueWheelScreen.v26Skin > h2 { grid-column: 1 / -1; grid-row: 1; align-self: start; width: min(36vw, 230px); margin: 0 auto; }
   #app #leagueWheelScreen.v26Skin .wheelContainer { display: contents; }
   #app #leagueWheelScreen.v26Skin .wheelContainer > * { order: 0; }
-  #app #leagueWheelScreen.v26Skin #leagueWheel { grid-column: 1; grid-row: 1 / 6; margin: 0; }
+  #app #leagueWheelScreen.v26Skin #leagueWheel { grid-column: 1; grid-row: 2 / 5; margin: 0; }
   #app #leagueWheelScreen.v26Skin .wheelPointer {
-    grid-column: 1; grid-row: 1 / 6; margin: 0; align-self: center; justify-self: center;
+    grid-column: 1; grid-row: 2 / 5; margin: 0; align-self: center; justify-self: center;
     transform: translateY(calc(var(--v26-wheel) * -.48));
   }
-  #app #leagueWheelScreen.v26Skin #selectedLeague { grid-column: 2; grid-row: 2; font-size: 17px; min-height: 24px; margin: 0; }
+  #app #leagueWheelScreen.v26Skin #selectedLeague { grid-column: 1 / -1; grid-row: 1; align-self: end; justify-self: center; font-size: 17px; min-height: 24px; margin: 0; }
   #app #leagueWheelScreen.v26Skin #selectedLeague::before,
   #app #leagueWheelScreen.v26Skin #selectedLeague::after { display: none; }
   #app #leagueWheelScreen.v26Skin #leagueStateNote {
-    grid-column: 2; grid-row: 3; margin: 0; padding: 6px 8px; font-size: 12px;
+    grid-column: 2; grid-row: 2; margin: 0; padding: 6px 8px; font-size: 12px;
   }
-  #app #leagueWheelScreen.v26Skin #spinLeague { grid-column: 2; grid-row: 4; }
+  #app #leagueWheelScreen.v26Skin #spinLeague { grid-column: 2; grid-row: 3; }
   #app #leagueWheelScreen.v26Skin .wheelContainer > .backButton,
-  #app #leagueWheelScreen.v26Skin #spinLeague.hidden + .backButton { grid-column: 2; grid-row: 5; }
+  #app #leagueWheelScreen.v26Skin #spinLeague.hidden + .backButton { grid-column: 2; grid-row: 4; }
   #app #leagueWheelScreen.v26Skin .wheelContainer :is(.menuButton, .backButton) {
     min-height: 44px; margin: 0; padding: 5px 8px; font-size: 15px;
   }
@@ -1618,7 +1620,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
    plate up by y0 so the heads stay under the nav bar while the plinth stays in view. The wheel's bottom edge is pinned to the
    plinth top (plate y 626) and the label sits on the thin gold lines the plate carries beside it (plate y 200); k is the
    content scale of the wheel (s, or less when the stack would not fit the window) and kt the title's. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   html[data-v10-setup="league"] {
     --lp-s: max(calc(100vw / 1536), calc(100vh / 864));
     --lp-y0: 0px;
@@ -1717,7 +1719,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 /* Short windows (up to 700px high) and ultrawide windows: the note and the two actions tuck in right under the wheel
    (they overlap the plinth's front, as in NEXT_LEAGUE) so the whole stack stays in view without a scroll. Ultrawide also
    keeps the note and actions at about 1:1 so the wheel can stay large on the big plinth. */
-@media (min-width: 1200px) and (min-height: 600px) and (max-height: 700px) and (min-aspect-ratio: 3/2) and (orientation: landscape),
+@media (min-width:901px) and (max-height: 700px) and (orientation: landscape),
        (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 21/10) and (orientation: landscape) {
   #app #leagueWheelScreen.v26Skin {
     --lp-g3: calc(14 * var(--lp-k));
@@ -1734,7 +1736,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
    its 96px cap, the 1.2vh gap under it and 8px of air. The stack below the plinth is 14 + 51 + 12 = 77 units plus a button of
    max(44px, 50 units). Ultrawide (21:10 and wider) is left as it was: there the plinth sits too low for any stack to fit
    above the strip (open item, told Team G). */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (max-aspect-ratio: 2099/1000) and (orientation: landscape) {
+@media (min-width:901px) and (max-aspect-ratio: 2099/1000) and (orientation: landscape) {
   html[data-v10-setup="league"]:has(.remoteJoiningOverlay:is(#sparkRemoteJoiningOverlay, #productionSharedCareerStartOverlay, #productionSharedSetupOverlay):not(.hidden)) #app #leagueWheelScreen.v26Skin {
     --lp-strip: calc(96px + 1.2vh + 8px);
     --lp-g3: calc(14 * var(--lp-k));
@@ -1747,7 +1749,7 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 /* r78 phone marble: below the desktop picture range the Start / Join, League, Club and Showdown Home panels, notes and
    Back buttons are no longer glass (no backdrop blur); they wear desktop's black-marble face. Looks only: borders, sizes,
    places, words and tap order are unchanged. */
-@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media not all and (min-width:901px) and (orientation: landscape) {
   :is(#createShowdown, #leagueWheelScreen, #clubWheelScreen, #dashboard).v26Skin :is(.stateNote, .backButton),
   #createShowdown.v26Skin .setupBox,
   #dashboard.v26Skin :is(.showdownOverview, .lastSeasonSummary, .playerCard) {
@@ -1817,10 +1819,41 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
   #createShowdown.v26Skin .setupBox .cmsSeasonsStartMessage { font-size: 13px; line-height: 1.3; }
 }
 
-/* r90 W9 (LOOK hunt L20): the league wheel is typographic. The five marks were drawn five ways (a crown, a bull, a "1", two
-   shields), so the segments carry only the league names, in one type style. */
-#app #leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before { display: none !important; }
-#app #leagueWheelScreen.v26Skin .wheelItem { letter-spacing: .04em; }
+/* r91 (Nik 2026-11-13): the league marks are back on the wheel (r90 W9 had hidden them), and every name and mark sits
+   inside its own slice, at rest and while the wheel turns.
+   How: a name and its mark are fixed to their slice. They sit on the slice's centre line and turn with it, as on a real
+   wheel, so what fits at rest fits at every angle of the spin (before, each name was turned back upright, which swung its
+   ends across the dividers and the hub as the wheel turned). The name is set across the wide outer part of the slice, its
+   top edge .65 of the radius from the hub, clear of the rim art (its solid band starts at .72); the mark sits under it,
+   toward the hub (the hub's edge is .23 of the radius).
+   Small wheels (phones: 163 to 208px across) keep the 12px name, so it is large for its slice: under 300px across the
+   name is set tighter (no tracking, lines set solid, "Premier League" on two lines), the mark is smaller and sits right
+   under it, and the football at the hub is drawn at two thirds of its size to leave the mark its room.
+   Each clamp() below is such a switch: its first value under 300px (--R under 150px), its last value above.
+   tests/browser/phone-marble-facecheck-audit.cjs (F5) measures every slice at every size. */
+html:root #app #leagueWheelScreen.v26Skin .wheelItem {
+  width: calc(var(--R) * .56); margin-left: calc(var(--R) * -.28);
+  padding: 0; gap: clamp(.5px, calc((var(--R) - 150px) * 1000), calc(var(--R) * .03));
+  line-height: clamp(1em, calc((var(--R) - 150px) * 1000), 1.1em); letter-spacing: clamp(0em, calc((var(--R) - 150px) * 1000), .04em);
+  white-space: normal; overflow-wrap: normal;
+  transform-origin: 50% 0;
+  transform: rotate(var(--v26-a)) translateY(calc(var(--R) * -.65));
+}
+html:root #app #leagueWheelScreen.v26Skin .wheelItem[data-league-mark]::before {
+  display: block; order: 1; flex: none;
+  width: clamp(calc(var(--R) * .14), calc((var(--R) - 150px) * 1000), calc(var(--R) * .18));
+  height: clamp(calc(var(--R) * .14), calc((var(--R) - 150px) * 1000), calc(var(--R) * .18));
+  background: #e2b84a; filter: none;
+  -webkit-mask: var(--league-mark-image) center / contain no-repeat;
+  mask: var(--league-mark-image) center / contain no-repeat;
+}
+html:root #app #leagueWheelScreen.v26Skin .wheelItem:is(.v26-top, .v26-selected)::before { background-color: #0b0d10; filter: none; }
+/* While the wheel turns, pale names and gold marks pass over the lit slice: a thin dark edge keeps them readable there. */
+html:root #app #leagueWheelScreen.v26Skin .wheelItem:not(.v26-top, .v26-selected) { filter: drop-shadow(0 1px 1px rgba(11, 13, 16, .7)); }
+/* The hub (the first picture of the wheel's cover; the second is the rim, which keeps its size). */
+html:root #app #leagueWheelScreen.v26Skin #leagueWheel::after {
+  background-size: clamp(66%, calc((var(--R) - 150px) * 1000), 100%) clamp(66%, calc((var(--R) - 150px) * 1000), 100%), 100% 100%;
+}
 
 /* r90 W9 (LOOK hunt L19): Club Assignment loses the web-template stepper (five empty circles on a line, 01 DRAW ... 05 LOCK);
    the status line under the title already says where the draw is. The VS is flat gold type: no gradient, no outline glow. */
@@ -1843,16 +1876,16 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
    Everywhere else the live layout places the wheel; js/v10Setup.js publishes its bottom edge as --box-wb and the plate is
    placed so its lip meets it. 2X at High and up, 590W on Light or Save-Data. No dark overlay over the room. The V1/V2/V5
    League plates and the phone cut-outs stay in the repo as rollback. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   /* the plate rises at most until the top of both men's hair (70 on the 864 plate) is 6px under the 52px top bar, so no
      face or hair goes under it (HO-068, Nik: nothing touches a face); on short and ultrawide windows, where the lip would
      then fall low, the wheel and buttons stay inside the window above it */
   html[data-v10-setup="league"] { --lp-y0: max(0px, min(calc(652 * var(--lp-s) - 100vh + 130px), calc(70 * var(--lp-s) - 58px))); }
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
-    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp);
+    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1X.webp);
   }
   html:is([data-assets="2"], [data-assets="3"], [data-assets="4"])[data-v10-setup="league"] #background {
-    background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_2X.webp) 2x);
+    background-image: image-set(url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1X.webp) 1x, url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_2X.webp) 2x);
   }
   #app #leagueWheelScreen.v26Skin {
     --lp-yb: min(calc(652 * var(--lp-s) - var(--lp-y0)), calc(100vh - 130px));
@@ -1862,11 +1895,11 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 }
 html[data-v10-setup="league"] #overlay { background: none; }
 #app #leagueWheelScreen.v26Skin #leagueWheel { box-shadow: 0 5px 7px -3px rgba(0, 0, 0, .6), 0 12px 10px -12px rgba(0, 0, 0, .55); }
-@media not all and (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media not all and (min-width:901px) and (orientation: landscape) {
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
     --bx-pw: max(100vw, calc(100vh * 1536 / 864)); --bx-ph: calc(var(--bx-pw) * 864 / 1536);
     background-color: #0d0b09;
-    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V2_1X.webp);
+    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1X.webp);
     background-size: var(--bx-pw) auto;
     background-position: 50% min(0px, calc(var(--box-wb, 75vh) - var(--bx-ph) * .7546));
   }
@@ -1879,11 +1912,11 @@ html[data-v10-setup="league"] #overlay { background: none; }
   html[data-v10-setup="league"] { --bx-pw: max(100vw, calc(100svh * 1179 / 2096)); --bx-href: calc(var(--bx-pw) * 2096 / 1179); }
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
     --bx-pw: inherit; --bx-ph: var(--bx-href); --bx-lip: .5816;
-    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2.webp);
+    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3.webp);
     background-size: var(--bx-pw) auto;
     background-position: 50% calc(var(--box-wt, 60svh) - 10px - var(--bx-ph) * var(--bx-lip));
   }
-  html[data-assets="0"][data-v10-setup="league"] #background { background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_590W.webp); }
+  html[data-assets="0"][data-v10-setup="league"] #background { background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_590W.webp); }
   #app #leagueWheelScreen.v26Skin { --v26-wheel-full: var(--v26-wheel); }
   #app #leagueWheelScreen.v26Skin :is(.wheelPointer, #leagueWheel) {
     --v26-wheel: min(calc(var(--v26-wheel-full) * .85), max(176px, calc(var(--bx-href) * .21)));
@@ -1917,14 +1950,165 @@ html[data-v10-setup="league"] #overlay { background: none; }
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background,
   html[data-assets="0"][data-v10-setup="league"] #background {
     --bx-ph: calc(var(--bx-pw) * 2620 / 1179); --bx-lip: .4653;
-    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_TALL.webp);
+    background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_TALL.webp);
   }
   /* the lighter picture setting keeps its 590px plate on 9:20 phones too (Codex P3) */
-  html[data-assets="0"][data-v10-setup="league"] #background { background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V2_TALL_590W.webp); }
+  html[data-assets="0"][data-v10-setup="league"] #background { background-image: url(../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_TALL_590W.webp); }
 }
 /* Sideways phones: the wheel takes the left half and the title and buttons the right, so either would sit on a face at
    cover size. The wide plate is drawn larger, centred on the window between the men, with the wheel on the lip; the faces
    fall outside the screen and the room reads through the window, the counter and both men's shoulders. */
 @media (max-width: 900px) and (orientation: landscape) {
   html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background { --bx-pw: max(220vw, calc(100vh * 1536 / 864)); }
+}
+/* r91 L5: sideways phones draw the room the window's width with both heads in view (hair 6px under the 52px bar); the wheel, the
+   title line and the buttons are placed against the same numbers (html custom properties) in the grid block above. */
+@media (min-width: 640px) and (max-width: 900px) and (max-height: 440px) and (orientation: landscape) {
+  html[data-v10-setup="league"] {
+    --bx-pw: max(100vw, calc(100vh * 1536 / 864)); --bx-ph: calc(var(--bx-pw) * 864 / 1536);
+    --bx-y0: calc(58px - var(--bx-ph) * .08); --bx-chin: calc(var(--bx-y0) + var(--bx-ph) * .37);
+  }
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background {
+    --bx-pw: max(100vw, calc(100vh * 1536 / 864)); --bx-ph: calc(var(--bx-pw) * 864 / 1536);
+    background-size: var(--bx-pw) auto; background-position: 50% var(--bx-y0);
+  }
+}
+/* r91 sharp rooms (art ledger R4): windows wider than 1536 or taller than 864 CSS px drew the 1536px 1X room stretched
+   (Nik's Chromebook at 1920x866 / 1920x1035, DPR 1, Auto = Light). They draw the 1920px cut of the same room (resized from
+   Team V's 3072px master), declared at 1.25x so its drawn size in CSS px is the 1X plate's: every crop and anchor is
+   unchanged. High and up (html[data-assets] 2-4) still take the 2X plate on 2x screens. */
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  html[data-v10-setup="league"] #background, html[data-v10-setup="league"][data-v10-screen] #background { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"])[data-v10-setup="league"] #background, html:is([data-assets="2"],[data-assets="3"],[data-assets="4"])[data-v10-setup="league"][data-v10-screen] #background { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_2X.webp') 2x); }
+}
+
+/* HO-069 (Nik OK'd 2026-11-12): Start (the season-count step) and Showdown Home stand in Team V's front hall
+   (visual-assets/v10_1/plates-hc/ENV_HALL_*_HC_V3), replacing the V1 start-join stadium at every size. Daniel stands left,
+   Nik right; the counter lip is at y 776 of 864 on the wide plate and 1411 of 2096 on the phone plates (the 9:20 TALL plate
+   keeps the same pixels with more counter below). No dark layer over the room (Nik: no dimming). The V1 start-join files
+   stay in the repo as rollback.
+   - Desktop windows: the wide plate, its top 6px under the 52px top bar (Daniel's hair touches the plate's top edge), at least
+     1340px wide so both faces (x 13.5-25.5% and 75-87.5% of the plate) stay clear of the 640px title and the season box
+     in the middle, and centred. */
+html[data-v10-setup="start"] #overlay { background: none; }
+@media (min-width: 901px) and (orientation: landscape) {
+  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background {
+    --hl-pw: max(100vw, calc((100vh - 58px) * 1536 / 864), 1340px);
+    background-color: #161512;
+    background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp");
+    background-size: var(--hl-pw) auto;
+    background-position: 50% 58px;
+  }
+  html:is([data-assets="2"], [data-assets="3"], [data-assets="4"])[data-v10-setup="start"] #background {
+    background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_2X.webp") 2x);
+  }
+}
+@media (min-width:1537px) and (orientation: landscape), (min-width:901px) and (min-height:865px) and (orientation: landscape) {
+  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background { background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1920.webp") 1.25x); }
+  html:is([data-assets="2"], [data-assets="3"], [data-assets="4"])[data-v10-setup="start"] #background { background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1920.webp") 1.25x, url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_2X.webp") 2x); }
+}
+/* - Tall desktop windows (from 901 wide, held upright): the desktop layout keeps the title and season box at the top, so the
+     phone plate is drawn the window's width with both men standing under the box (their hair 16px under its foot at 640px). */
+@media (min-width: 901px) and (orientation: portrait) {
+  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background {
+    background-color: #161512;
+    background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp");
+    background-size: 100vw auto;
+    background-position: 50% calc(656px - 100vw * 513 / 1179);
+  }
+}
+/* - Phones, tablets and small windows (to 900 wide, Team V's phone layout): the room scrolls with the page (it is drawn on the
+     page itself, so the season box never slides over a face). Upright, the phone plate is drawn the page's width with both
+     heads one gap under the title (hair at y 513 of the plate) and the season box stands on the counter lip; sideways, the
+     wide plate is drawn the page's width and the box starts one gap under both chins (28.5% of the plate). The old phone
+     cut-outs are not drawn. */
+@media (max-width: 900px) {
+  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background {
+    background-color: #161512;
+    background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp");
+    background-size: auto 200%; background-position: 50% 100%;
+  }
+  html[data-assets="0"][data-v10-setup="start"] #background { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_590W.webp"); }
+  #createShowdown.v26Skin .v26Art { display: none; }
+  /* #background keeps the same hall file under the page's own copy (the flash guard needs the setup skin's plate there;
+     it is one cached download, and the page's opaque room covers it). It shows only the lower half of the room (counter and
+     floor), so no face ever shows through the see-through top and bottom bars. */
+  #app > main:has(> #createShowdown.v26Skin:not(.hidden)) {
+    background: #1a1814 url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp") no-repeat local;
+    background-size: 100% auto;
+    background-position: 50% var(--hl-y);
+    --hl-pw: 100vw; --hl-y: calc(var(--hl-top, 70px) - var(--hl-pw) * 513 / 1179);
+  }
+  html[data-assets="0"] #app > main:has(> #createShowdown.v26Skin:not(.hidden)) { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_590W.webp"); }
+  #createShowdown.v26Skin { --hl-pw: 100vw; --hl-top: 70px; }
+  #createShowdown.v26Skin .setupBox { margin-top: calc(var(--hl-top) + var(--hl-pw) * (1411 - 513) / 1179 + 10px - var(--hl-flow, 60px)); }
+}
+@media (max-width: 900px) and (max-aspect-ratio: 59/128) and (orientation: portrait) {
+  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_TALL.webp"); }
+  #app > main:has(> #createShowdown.v26Skin:not(.hidden)) { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_TALL.webp"); }
+}
+@media (max-width: 900px) and (orientation: landscape) {
+  html[data-v10-setup="start"] #background, html[data-v10-setup="start"][data-v10-screen] #background { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp"); background-size: auto 200%; background-position: 50% 100%; }
+  #app > main:has(> #createShowdown.v26Skin:not(.hidden)),
+  html[data-assets="0"] #app > main:has(> #createShowdown.v26Skin:not(.hidden)) {
+    background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp");
+    --hl-y: var(--hl-top, 70px);
+  }
+  #createShowdown.v26Skin .setupBox { margin-top: calc(var(--hl-top) + var(--hl-pw) * 864 / 1536 * .285 + 8px - var(--hl-flow, 60px)); }
+}
+/* Short phones (Nik's 393x660, 360x640): the season box starts one gap under both chins (y 807 of the plate) instead of on
+   the lip, so SIGN IN TO START stays in the first view. */
+@media (max-width: 900px) and (max-height: 700px) and (orientation: portrait) {
+  #createShowdown.v26Skin .setupBox { margin-top: calc(var(--hl-top) + var(--hl-pw) * (807 - 513) / 1179 + 8px - var(--hl-flow, 60px)); }
+}
+/* Showdown Home on phones, tablets and small windows: the same front hall, drawn on the page so it scrolls with the boxes.
+   Upright, both heads stand one gap under the SHOWDOWN HOME title (hair at y 513 of the phone plate) and the first box starts
+   one gap under both chins (y 807), so no box ever covers a face; sideways, the title sits between the two heads at the top
+   of the wide plate and the first box starts under the chins (28.5% of the plate). */
+@media (max-width: 900px) {
+  #app > main:has(> #dashboard:not(.hidden)) {
+    background: #1a1814 url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp") no-repeat local;
+    background-size: 100% auto;
+    background-position: 50% calc(var(--db-hair) - 100vw * 513 / 1179);
+    --db-hair: 80px;
+  }
+  html[data-assets="0"] #app > main:has(> #dashboard:not(.hidden)) { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_590W.webp"); }
+  #dashboard > .showdownOverview { margin-top: calc(100vw * (807 - 513) / 1179 + 10px); }
+}
+@media (min-width: 761px) and (max-width: 900px) and (orientation: portrait) {
+  #app > main:has(> #dashboard:not(.hidden)) { --db-hair: 90px; }
+}
+@media (max-width: 900px) and (max-aspect-ratio: 59/128) and (orientation: portrait) {
+  #app > main:has(> #dashboard:not(.hidden)) { background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_TALL.webp"); }
+}
+@media (max-width: 900px) and (orientation: landscape) {
+  #app > main:has(> #dashboard:not(.hidden)),
+  html[data-assets="0"] #app > main:has(> #dashboard:not(.hidden)) {
+    background-image: url("../visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp");
+    background-position: 50% 0;
+  }
+  #dashboard > .showdownOverview { margin-top: max(0px, calc(100vw * 864 / 1536 * .285 + 8px - 78px)); }
+}
+/* Showdown Home in desktop windows: the boxes stay inside the gap between the two faces (the hall plate is at least 1340px wide
+   and the faces end 24.5% left and start 25% right of its middle), so nothing slides over a face when a short window scrolls.
+   At 1920 wide nothing changes; narrower windows narrow the boxes. Tall desktop windows stand both men under the buttons. */
+@media (min-width: 901px) and (orientation: landscape) {
+  html[data-v10-setup="start"] #app #dashboard > :not(h2) { max-width: calc(max(100vw, calc((100vh - 58px) * 1536 / 864), 1340px) * .49 - 32px); }
+}
+@media (min-width: 901px) and (orientation: portrait) {
+  html[data-v10-setup="start"]:has(#dashboard:not(.hidden)) #background { background-position: 50% calc(800px - 100vw * 513 / 1179); }
+}
+/* Small phones held sideways: the title sits between the two heads, so it is sized to the gap between them. */
+@media (max-width: 760px) and (max-height: 500px) and (orientation: landscape) {
+  #app #dashboard > h2 { font-size: calc((49vw - 32px) / 9.5); }
+  #dashboard > .showdownOverview { margin-top: max(0px, calc(100vw * 864 / 1536 * .285 + 8px - 58px)); }
+}
+
+/* r91 L5: the League screen drops the version footer at every touch size, as it does on desktop (css/v10Shell.css r61).
+   Below 900px wide only the 340-430 portrait window hid it; sideways phones and upright tablets still drew it, at 10px
+   (under the 12px floor), over the room. The line stays in the page for the screen reader. */
+@media (max-width: 900px) {
+  html[data-v10-setup="league"] #app > footer {
+    position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+  }
 }

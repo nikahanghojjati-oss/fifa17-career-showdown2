@@ -61,7 +61,7 @@ async function main(){
   }
 }
 // r87 Fable job 6. A world where Career Start is READY (both managers acknowledged) and the Transfer Challenge open runs the
-// season's Russian Roster Roulette (a fake step and a fake transfer module; the real Career Start module).
+// season's Roster Russian Roulette (a fake step and a fake transfer module; the real Career Start module).
 function rouletteWorld(){
   const step={home:false,on:false,active:()=>step.on,wentHome:()=>step.home,forgetHome(){step.home=false;return true;}};
   const transfer={opens:0,gate:null,next:null,install(){},rouletteError:()=>transfer.reason||"",open:async()=>{transfer.opens+=1;step.home=false;if(transfer.gate)await transfer.gate.promise;return transfer.next?transfer.next():true;}};

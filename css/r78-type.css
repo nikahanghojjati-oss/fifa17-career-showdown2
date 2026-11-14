@@ -113,7 +113,7 @@
    2 · RULES SCREEN FIRST (Rule Book: #ruleBook.v10RuleBook, built by js/ruleBook.js, decorated by
    js/rulesSettingsV10.js, laid out by css/rulesSettingsV10.css + visual-assets/v10_1/rule-book/rule-book.css)
    One body font (Barlow), gold condensed section headings, ivory body, shorter lines, more air.
-   Title block (crown, CAREER MODE SHOWDOWN eyebrow, RULE BOOK wordmark picture, tagline): untouched.
+   Title block (RULE BOOK wordmark picture, tagline): untouched; its crown and eyebrow are hidden by 2a2.
    ===================================================================================================== */
 
 /* 2a · hero summary line under the wordmark ("Daniel and Nik. One league. Permanent clubs. One rivalry.").
@@ -126,11 +126,21 @@
   text-shadow: 0 1px 2px #000, 0 0 6px #000, 0 0 14px #000;
 }
 
-/* 2b · the six section cards: opaque black marble face (no see-through), more inner air.
+/* 2a2 · r91 art ledger R1 (Nik 2026-11-12 picked "Remove both" for the crown and the small line above every title):
+   the crown and the "CAREER MODE SHOWDOWN" line above the RULE BOOK wordmark are hidden, as on the other title blocks
+   (rule at the end of this sheet). Hidden, not removed: the line keeps its box, so the wordmark, the tagline, the
+   summary and the cards stay exactly where they are. The :not(#sa-f*) chain is this sheet's usual way to outrank the
+   per-size rules in rulesSettingsV10.css. */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #ruleBook.v10RuleBook .ruleBookHero > .sd-eyebrow::before { visibility: hidden; }
+
+/* 2b · the section cards: opaque dark face (no see-through), more inner air.
+   r91 art ledger R3: the face is the flat dark slab (--r78-panel, the marble tile's own mean colour) so no gold vein
+   crosses a rule line. The page background and the gold bevel frame round each card keep their marble and gold.
    Phones / tablets / small laptops paint the face on the card itself (rulesSettingsV10.css uses !important there). */
 :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection,
 :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection.scoringRuleSection {
-  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat !important;
+  background: var(--r78-panel) !important;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
@@ -140,15 +150,15 @@
   }
 }
 /* Big landscape desktops (>=1200 wide, 3:2 and wider) draw the gold bevel in ::before and the face in ::after;
-   keep the bevel, swap the face for the same opaque marble. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+   keep the bevel, swap the face for the same flat dark slab. */
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection,
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection.scoringRuleSection {
     background: none !important;
     padding: 22px 30px 24px 28px;
   }
   :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::after {
-    background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+    background: var(--r78-panel);
   }
   /* rows breathe a little more than the old one-view board */
   :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { row-gap: 20px; column-gap: 20px; }
@@ -291,6 +301,10 @@
 }
 :root .sd-body--secondary { color: var(--r78-ivory-2); font-size: var(--r78-size-secondary); line-height: var(--r78-line-secondary); }
 :root .sd-body strong { font-weight: var(--r78-weight-strong); }
+
+/* 3b2 · r91 art ledger R1/R2: Team V shared title class (showdown-type.css .sd-title) adds a 12px gold glow behind every
+   screen title. Titles keep their dark lift shadow only; nothing glows at rest (Nik 2026-11-11: "not overly shiny"). */
+:root .sd-title { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .95)); }
 
 /* 3c · Home: the line under RIVALRY HEADQUARTERS (js/homeScreensV10.js adds .sd-body). Its .sd-label keeps condensed. */
 :root #mainMenu.v10Home .fifaMenuHeadingMeta {
@@ -660,7 +674,7 @@
    The status board hung 44 plate-px left of centre, so it touched Daniel's hair while leaving a wide gap to Nik. Its centre
    now sits on the midpoint between the two heads (plate x 5 right of the old anchor), giving equal gaps on both sides.
    The three entry/verdict boxes get equal gutters within the same 1405 plate-px row. */
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #transferChallenge .tw-host :is(.sign-screen, .sign-status) { transform: translate(calc(var(--k) * 5px), calc(var(--k) * 24px)) !important; }
 }
 @media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 11/5) and (orientation: landscape) {
@@ -698,7 +712,7 @@
 /* Transfer War guess entry: the board said WINDOW CLOSED twice (the closed sign, then the status "Window closed - Guess
    entry"). Hierarchy: one message, as the signing phase already does. */
 :root #app #transferChallenge .tw-host .sign-screen:not(.is-live):not(.status-board) .sign-main.closed { display: none; }
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #transferChallenge .tw-host .sign-status.reg:not(.full):not(.two-line) { justify-content: center; white-space: normal; text-align: center; }
 }
 
@@ -1039,10 +1053,10 @@
 /* 4v Studio Small Axe 40/40, per-screen finishes (desktop plate layout only; phones unchanged).
    Rule Book: the brush wordmark's top strokes touched the CAREER MODE SHOWDOWN kicker above it. 6 more units of air so
    kicker and title read as two lines. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (orientation:landscape) {
   :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 14); }
 }
-@media (min-width:1200px) and (min-height:600px) and (max-height:820px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (max-height:820px) and (orientation:landscape) {
   :root #app #ruleBook.v10RuleBook .ruleBookWordmark { margin-top:calc(var(--rbu) * 11); }
 }
 /* Season Results review: the two SEASON SCORE plaques are the answer of the whole board, but they sat as quietly as the
@@ -1114,7 +1128,7 @@
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .playerCard:nth-child(1) { animation-delay: 80ms; }
   :root:not([data-motion-reduced="true"]):not([data-reduced-motion="true"]) #app #dashboard.v26Skin:not(.hidden) .playerCard:nth-child(2) { animation-delay: 120ms; }
 }
-@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+@media (min-width:901px) and (orientation: landscape) {
   :root #app #dashboard.v26Skin .showdownOverview { width: min(680px, 92vw); margin-top: 12px; }
 }
 
@@ -1199,18 +1213,32 @@
   :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) { flex-flow: row wrap; align-content: flex-start; column-gap: 10px; }
   :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion:has(> .settingsGfxRow) > * { flex: 1 0 100%; min-width: 0; }
   :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsAudioRow:not(.settingsGfxRow) { flex: 1 1 0; }
-  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow { flex: 0 0 auto; margin-top: auto; gap: 12px; }
-  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy small:not(.settingsGfxAuto) { display: none; }
+  /* r91: the Auto line can run to two sentences (a weak device is told which levels wait for its Device check), so the
+     row may shrink and its words wrap; it never takes more than 58% of the line from MENU CLICK FEEDBACK. */
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow { flex: 0 1 auto; max-width: 58%; margin-top: auto; gap: 12px; }
+  /* r91: with the guide link the words can run to four lines (an old Ultra pick on a weak device); the lines sit 1px apart
+     so the plate still ends where it did at 1366x640. */
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy { flex: 1 1 auto; min-width: 0; gap: 1px; }
+  :root body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel--motion > .settingsGfxRow .settingsAudioCopy small:not(.settingsGfxAuto):not(.settingsGfxGuideLine) { display: none; }
 }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect {
   flex: 0 0 auto; min-height: 44px; min-width: 0; max-width: 100%; padding: 0 30px 0 12px; border: 1px solid rgba(219, 178, 94, .55); border-radius: 0;
   background: rgba(0, 0, 0, .6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23f5c518'/%3E%3C/svg%3E") no-repeat right 11px center;
   color: #f5f1e8; font: inherit; font-weight: 600; letter-spacing: .04em; appearance: none; -webkit-appearance: none; cursor: pointer;
 }
+/* r91 (Nik 2026-11-12: "the link to that page ... very visible in the 3D menu"): the Device check and level guide, a gold
+   link under 3D QUALITY in the row's own small type (never under the 12px floor). No box, no glow. */
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxGuideLine { display: block; white-space: normal; }
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxGuide {
+  color: var(--sd-gold-500, #f5c518); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+:root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxGuide:focus-visible { outline: 2px solid var(--sd-gold-500, #f5c518); outline-offset: 2px; }
 /* Touch widths (the one main scroller): the select drops under its words when they would wrap past two lines. */
 @media (max-width: 1199px) {
   :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow { flex-wrap: wrap; row-gap: 8px; }
   :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsAudioCopy { flex: 1 1 150px; }
+  /* a finger's height for the link */
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxGuide { display: inline-flex; align-items: center; min-height: 44px; }
 }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect option { background: #15120c; color: #f5f1e8; }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:disabled { opacity: .6; cursor: default; }
@@ -1656,4 +1684,142 @@
 /* r90 W9: on phones the two free-use row labels behind DETAILS were 10px; they take the 12px minimum like the rest. */
 @media (max-width: 480px) {
   :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow span { font-size: 12px; }
+}
+
+/* r91 art ledger R1 (Nik 2026-11-11: "titles and the pages look ... over decorated"): the crown glyph and the
+   "CAREER MODE SHOWDOWN 17" line above a screen title repeat on every screen and say nothing new. They are hidden, not
+   removed: each box keeps its size, so no title, face or panel moves, and screen readers still get the screen title.
+   Rule Book keeps its own header until its rewrite (PR #1391) lands. Club Assignment draws the same line (.clubKicker) only
+   in taller windows such as the full-screen Chromebook; it is absolutely placed, so hiding it moves nothing either.
+   The :not(#sa-f*) chain is this sheet's usual way to outrank the per-screen rules (Trophy Room and Final Winner set
+   visibility on the kicker and its crown themselves). */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(.legacyTitleBlock, .titleBlock, .trophyTitleBlock, .finalWinnerTitleBlock, #rvTitleBlock, .sdg-header, .settingsTitleBlock) > .sd-eyebrow,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(.legacyTitleBlock, .titleBlock, .trophyTitleBlock, .finalWinnerTitleBlock, #rvTitleBlock, .sdg-header, .settingsTitleBlock) > .sd-eyebrow::before,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) .season-title-block > .season-eyebrow,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #clubWheelScreen .clubKicker { visibility: hidden; }
+
+/* r91 HO-071 (Nik's pick, 2026-11-11): one handcrafted title family. Team V's V3 "Honours Board" lettering replaces the
+   three older lettering styles on every screen title. Every V3 picture of one step has the same height (38/76/150/300 px,
+   cap = half of it), so a title is sized by HEIGHT: each <img> carries its files' real widths in srcset and asks, through
+   "sizes", for --hc-title-h tall, so every screen shows the same letter height, stroke and baseline.
+   Nothing moves: each title keeps the box it had (the old picture's frame ratio is pinned below, because the new pictures
+   are wider and lower), and the new lettering sits centred inside it, never stretched and never enlarged (scale-down).
+   No glow and no extra shadow: the pictures carry their own painted shade. */
+:root { --hc-title-h: clamp(40px, 3.08vw, 59px); }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img { object-fit: scale-down !important; object-position: 50% 50% !important; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="CS"] { aspect-ratio: 1920 / 199; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="LG"] { aspect-ratio: 1920 / 523; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="RV"] { aspect-ratio: 1920 / 284; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="SR"] { aspect-ratio: 1920 / 284; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="SR_PHONE"] { aspect-ratio: 1920 / 284; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="CONNECT"] { aspect-ratio: 1920 / 335; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="FINAL_WINNER"] { aspect-ratio: 1920 / 328; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="STANDINGS"] { aspect-ratio: 1920 / 446; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="TRANSFER"] { aspect-ratio: 1920 / 398; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="TR"] { aspect-ratio: 1920 / 306; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="RULE_BOOK"] { aspect-ratio: 1920 / 437; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-title-img[data-hc-title="SETTINGS"] { aspect-ratio: 1920 / 498; }
+/* Standings on phones sized its title from the picture's own width under a height cap. The new picture is narrower, so
+   the cap is given as the height and the box stays what it was (js/seasonFinalV10.js sets the same two caps). */
+@media (max-width: 600px) and (orientation: portrait) { :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #standings img.hc-title-img[data-hc-title="STANDINGS"] { height: clamp(34px, 6svh, 52px); } }
+@media (max-width: 900px) and (orientation: landscape) { :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #standings img.hc-title-img[data-hc-title="STANDINGS"] { height: 40px; } }
+/* Career Statistics on tablets wraps its title box round the picture's own width, which used to be 92vw (the old "sizes").
+   The same width is asked for here, so the box stays what it was. */
+@media (max-width: 900px) { :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #careerStatistics img.hc-title-img[data-hc-title="CS"] { width: 92vw; max-width: 100%; } }
+/* Home logo ("Big 17", Nik's pick 2026-11-12): a wide mark in the old logo's box (640 x 233, the file a 1x screen drew), so the lockup, the tiles
+   and the top bar keep their places. The three files are lighter than the two they replace. */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) img.hc-logo-img { aspect-ratio: 640 / 233; object-fit: contain !important; object-position: 50% 50% !important; }
+/* Club Assignment: the title and the VS mark were live Kaushan Script text. The text stays (it keeps the box and the
+   screen-reader label) but is not painted; the V3 lettering is drawn in its place. */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #clubWheelScreen .clubTitleFallback,
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #clubWheelScreen .clubVs .clubVsFallback {
+  color: transparent !important; -webkit-text-fill-color: transparent !important; -webkit-text-stroke: 0 !important;
+  text-shadow: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important;
+  background-color: transparent !important; background-repeat: no-repeat !important; background-position: 50% 50% !important;
+  transform: none !important; /* the script text leaned 6-7 degrees; the sign-written letters stand upright */
+}
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #clubWheelScreen .clubTitleFallback {
+  background-image: url("../visual-assets/v10_1/shared/wordmarks/TITLE_CLUB_ASSIGNMENT_V3_960.webp") !important;
+  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_CLUB_ASSIGNMENT_V3_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_CLUB_ASSIGNMENT_V3_1920.webp") 2x) !important;
+  background-size: min(100%, calc(var(--hc-title-h) * 8.267)) auto !important;
+}
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #clubWheelScreen .clubVs .clubVsFallback {
+  background-image: url("../visual-assets/v10_1/shared/wordmarks/MARK_VS_V3_260.webp") !important;
+  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/MARK_VS_V3_260.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/MARK_VS_V3_520.webp") 2x) !important;
+  background-size: contain !important;
+}
+/* Season Results on phones draws its title as a background: same shared height, never wider than its band. */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { background-size: min(100%, calc(var(--hc-title-h) * 7.493)) auto !important; background-position: 50% 50% !important; background-repeat: no-repeat !important;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .95)); /* the same dark shade every other title has (.sd-title above): this one crosses a white shirt */ }
+/* Connect Players carries the same "CAREER MODE SHOWDOWN // 17" line above its title that Nik removed everywhere else
+   (2026-11-12, "Remove both", PR #1405). Hidden, not removed: its place is kept, so nothing moves. */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #connectPlayersScreen .connectPlayersKicker { visibility: hidden; }
+/* The last gold glow behind a title at rest (art ledger R2; the title family carries none): Career Statistics, Club
+   Assignment and Connect Players keep only the dark shade every other title has. */
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(#careerStatisticsScreenTitle, #clubWheelScreenScreenTitle, #connectPlayersTitle) { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .95)) !important; }
+/* r91 HO-071 end */
+
+/* r91 12px floor (art audit, 2026-11-12): the lines still under 12px that the lists above leave out because they stop at
+   480px portrait / 500px landscape. Upright tablets (481-900 wide) keep 11px on Final Winner's totals and result strip, the Club
+   reveal labels and Trophy Room BACK / MORE; the Career Statistics table head is 10px on every desktop window; the Legacy
+   carousel arrows are 10.24px. Only the size changes: no box, wording or place moves. */
+@media (min-width:481px) and (max-width:900px) and (orientation:portrait) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#danielName,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#nikName,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small#panelLastSeasonResult,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span#panelLastSeasonLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerMetaStrip > div.finalWinnerMetaCell > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div#finalWinnerMetaStrip > div.finalWinnerMetaCell > small,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#finalWinnerRematch > small.finalWinnerRematchSub,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span.clubCardLabel,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) small.clubCardState,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) div.clubVs > span,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) button#trophyRoomBack.backButton,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) span.trophyPhoneMoreOpen { font-size: 12px !important; }
+}
+@media (min-width:901px) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTable th,
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .actionRow .actionButton > span[aria-hidden="true"]:last-child { font-size: 12px !important; }
+}
+/* the table head at 12px needs 3px more for TROPHIES in the narrow desktop windows (1024x768: 35px column, 38px word) */
+@media (min-width:901px) and (max-width:1279px) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(1) { width: 6%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(2) { width: 20%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(3) { width: 23%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(4) { width: 21%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(5) { width: 13%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(6) { width: 17%; }
+}
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #legacy[data-rivalry-legacy-v10] .legacyPager > button { font-size: 22px !important; line-height: 1; }
+/* r91 HO-071 follow-up (Nik 2026-11-12: phones and tablets get the new titles too). On tablets and sideways phones the
+   League and season-count steps still show the old header bar, lettered "CAREER MODE / SHOWDOWN // 17" in the pre-V3
+   block type (desktop and upright phones already dropped that bar, HO-033 item 9). The bar stays and so do its words for
+   screen readers; they are drawn with Team V's V3 Home logo instead, the same file Home shows, so nothing new is
+   downloaded on Home. Only set-up screens carry data-v10-setup, and where the brand is clipped away this draws nothing. */
+html[data-v10-setup]:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topHeader > div.brand { position: relative; }
+html[data-v10-setup]:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topHeader > div.brand > :is(h1, p) {
+  color: transparent !important; -webkit-text-fill-color: transparent !important; text-shadow: none !important;
+}
+html[data-v10-setup]:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topHeader > div.brand::after {
+  content: ""; position: absolute; left: 0; top: 50%; width: min(100%, 204px); aspect-ratio: 640 / 107;
+  transform: translateY(-50%); pointer-events: none;
+  background: url("../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp") left center / contain no-repeat;
+  background-image: image-set(url("../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp") 1x, url("../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_1040.webp") 2x);
+}
+/* r91 L9 + L10 (layout hunt, sideways phones 568x320 to 900x500; found at 640x360 and 568x320): text ran out of its own box by 2-6px.
+   Career Statistics: the four headline tiles are 59-83px wide, so COMPLETED SHOWDOWNS gives up its tracking and a little side padding, and the
+   Career Table heads take the room the Manager column does not use (Showdowns needs 58px with its 12px word, Season W-D-L 68px, Trophies 45px).
+   Home: START A SHOWDOWN loses 0.2px of tracking in its tile. The words and the 12px size stay; nothing is cut and no box grows. */
+@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .headlineTile { padding-inline: 3px; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .headlineTile .headlineLabel { letter-spacing: 0; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(1) { width: 5%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(2) { width: 21%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(3) { width: 22%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(4) { width: 24%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(5) { width: 13%; }
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(6) { width: 15%; }
+}
+@media (max-width: 700px) and (orientation: landscape) {
+  :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #mainMenu.v10Home .menuTile .menuTileLabel { letter-spacing: -0.2px; }
 }

@@ -18,7 +18,7 @@
 #settingsOverlay.v10Settings .settingsConnectedAccountPanel { grid-column:1/4; grid-row:1; }
 #settingsOverlay.v10Settings .settingsPanelHeading { margin:0 0 12px; padding:0 0 10px; border-bottom:1px solid rgba(219,178,94,.25); }
 #settingsOverlay.v10Settings .settingsPanelEyebrow { color:#d9b15f; font:700 11px/1.2 var(--sd-font-condensed); letter-spacing:.2em; }
-#settingsOverlay.v10Settings .settingsPanelHeading h3 { color:#f5f1e8; font:700 clamp(1rem,1.26vw,1.35rem)/1.05 var(--sd-font-display,sans-serif); letter-spacing:.035em; }
+#settingsOverlay.v10Settings .settingsPanelHeading h3 { color:#f5f1e8; font:700 clamp(1rem,1.26vw,1.35rem)/1.05 var(--sd-font-condensed, sans-serif); letter-spacing:.035em; }
 #settingsOverlay.v10Settings .settingsPanelHeading p,
 #settingsOverlay.v10Settings .settingsDataNote,
 #settingsOverlay.v10Settings .settingsOfflineNote { color:rgba(245,241,232,.78); font:400 12px/1.45 var(--sd-font-body); }
@@ -118,7 +118,7 @@
 /* Studio Z: the old engineering panels (Offline App install, Connected Rivalry, pairing, account, Save Library) are
    hidden by the identity module once it starts. In Daniel and Nik's 2026-10-08 test it started late and they showed;
    Settings now never shows them, whatever the start order. Their controls stay in the DOM for the internal flows. */
-#settingsOverlay #settingsContent :is(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, .settingsOfflinePanel):not([data-test-surface="internal-audit"]) { display:none !important; }
+#settingsOverlay #settingsContent :is(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, .settingsOfflinePanel):not([data-test-surface="internal-audit"]) { display:none !important; }
 
 /* JOB-1652: three motion choices, with a single-column phone layout. */
 #settingsOverlay.v10Settings .settingsMotionChoices {
@@ -461,7 +461,9 @@
     margin-top:8px; padding-top:6px; font:600 11px/1.2 var(--sd-font-condensed);
   }
   #app #ruleBook.v10RuleBook .ruleScoreMaximum strong { font-size:23px; }
-  #app #ruleBook.v10RuleBook .ruleBookActions { flex:0 0 auto; margin:0 auto; bottom:8px; }
+  /* r91 (Nik 2026-11-11): on tablets BACK TO HOME sits at the end of the page, as on desktop; the sticky copy floated over the
+     rules while you scrolled. Phones keep their own rules above. */
+  #app #ruleBook.v10RuleBook .ruleBookActions { flex:0 0 auto; margin:0 auto; position:relative; bottom:auto; z-index:auto; padding:4px; background:none; }
 }
 
 /* Approved NEXT desktop: centered gold title, ordered 2x3 board and gold Back.
@@ -741,7 +743,7 @@
    nothing is drawn over it but the live cards. Size is one unit, --rbu, a picture pixel at this window (1536x864
    picture); the board stays content-sized and main stays the only scroller. Looks only: every word, id and tap order
    stays as it was. */
-@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+@media (min-width:901px) and (orientation:landscape) {
   #app #ruleBook.v10RuleBook {
     --rbu:min(calc(100vw / 1536),calc(100svh / 864));
     --rb-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
@@ -796,7 +798,7 @@
     width:max(30px,calc(var(--rbu) * 36)); height:max(30px,calc(var(--rbu) * 36)); border:max(2px,calc(var(--rbu) * 2.4)) solid transparent;
     background:radial-gradient(circle at 50% 42%,#1b1608 0,#0a0907 70%) padding-box,var(--rb-bevel) border-box;
     color:#fff3d2; font:700 max(13px,calc(var(--rbu) * 14.5))/1 var(--sd-font-condensed); letter-spacing:.02em;
-    box-shadow:0 0 12px #f0c84b30,inset 0 0 6px #000;
+    box-shadow:inset 0 0 6px #000; /* r91 art ledger R2: no gold glow at rest round the number (was 0 0 12px #f0c84b30) */
   }
   #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader h3 {
     color:#f7de92; font:600 max(14px,calc(var(--rbu) * 15.6))/1.1 var(--sd-font-condensed); letter-spacing:.09em; text-shadow:0 1px 0 #0008;
@@ -1110,7 +1112,7 @@
   }
   body #settingsOverlay.v10Settings .settingsPanelHeading { border-bottom-color: rgba(214, 178, 96, .35); }
   /* buttons: black lacquer with a gold bevel */
-  body #settingsOverlay.v10Settings :is(.menuButton:not(.sd-btn):not(.settingsDeleteCurrentShowdown), .settingsApplicationUpdateButton, .settingsDataButton) {
+  body #settingsOverlay.v10Settings :is(.menuButton:not(.sd-btn):not(.settingsDeleteCurrentShowdown), .settingsApplicationUpdateButton) {
     border: 2px solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0; color: #fff1ae;
     background: linear-gradient(180deg, #141311, #070708); box-shadow: inset 0 0 0 1px #050505, inset 0 1px 0 2px rgba(255, 241, 184, .1);
   }
@@ -1122,7 +1124,6 @@
     background: linear-gradient(180deg, #b01720 0%, #7d0e15 55%, #5a0a10 100%) !important;
     box-shadow: inset 0 0 0 1px #2a0306, inset 0 1px 0 2px rgba(255, 190, 170, .28);
   }
-  body #settingsOverlay.v10Settings .settingsDataActions .settingsDataButton { flex: 1 1 0; }
   /* motion choices */
   body #settingsOverlay.v10Settings .settingsMotionChoice {
     border: 2px solid rgba(214, 178, 96, .5); border-radius: 0; background: linear-gradient(180deg, rgba(14, 14, 15, .92), rgba(6, 6, 7, .9));
@@ -1130,7 +1131,7 @@
   body #settingsOverlay.v10Settings .settingsMotionChoice.selected,
   body #settingsOverlay.v10Settings .settingsMotionChoice[aria-checked="true"] {
     border: 3px solid transparent; border-image: var(--st2-bevel) 1;
-    background: linear-gradient(180deg, rgba(120, 88, 24, .55), rgba(30, 22, 6, .9)); box-shadow: inset 0 0 0 1px #050505, 0 0 16px rgba(224, 168, 44, .18);
+    background: linear-gradient(180deg, rgba(120, 88, 24, .55), rgba(30, 22, 6, .9)); box-shadow: inset 0 0 0 1px #050505;
   }
   body #settingsOverlay.v10Settings .settingsAudioToggle { border: 2px solid transparent; border-image: var(--st2-bevel) 1; border-radius: 0; background: linear-gradient(180deg, #141311, #070708); color: #fff1ae; }
   /* close and DONE */
@@ -1139,11 +1140,6 @@
     background: linear-gradient(180deg, #141311, #070708); box-shadow: var(--st2-ring);
   }
   body #settingsOverlay.v10Settings .settingsFooter { right: 6.7%; bottom: 8.2%; }
-  body #settingsOverlay.v10Settings .settingsFooter .sd-btn--primary {
-    color: #130e03; border: 2px solid transparent; border-image: linear-gradient(135deg, #fff8cf, #e9bd48 50%, #a87818) 1; border-radius: 0;
-    background: linear-gradient(180deg, #fff0a6 0%, #f4cb55 38%, #d9a52b 72%, #b98a21 100%);
-    box-shadow: inset 0 0 0 1px rgba(110, 76, 10, .7), inset 0 1px 0 2px rgba(255, 252, 220, .55), 0 6px 18px rgba(0, 0, 0, .5), 0 0 22px rgba(224, 168, 44, .22);
-  }
   /* Smaller windows keep the 1920x1080 composition at a smaller scale instead of scrolling (a browser without typed calc keeps the old scroll). */
   @supports (zoom: calc(1px / 1px)) {
     body #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel { zoom: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
@@ -1205,11 +1201,18 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
 /* HO-068 reading slab (Team V's handcrafted V1, visual-assets/v10_1/plates-hc/ENV_SLAB_*): Settings and the Rule Book sit on a
    plain black marble surface with no people, no banners and no slogans, at every size. The stage plane draws the slab where
    it showed the V2 picture plates or the old system plate (desktop, sideways, the wide tablet range); upright phones and
-   tablets draw the phone slab (picked in js/rulesSettingsV10.js). The set ships the slab at 1X only, so High and up use the
-   same file. The Settings line "TWO MANAGERS. ONE LEGACY." is not drawn (it keeps its room, so nothing moves). The
+   tablets draw the phone slab (picked in js/rulesSettingsV10.js). The desktop slab gained its 2X master in HO-077 (below). The Settings line "TWO MANAGERS. ONE LEGACY." is not drawn (it keeps its room, so nothing moves). The
    plates-v2 and shared/plates files stay as the rollback. */
 :is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate {
   background-image:url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp');
+}
+/* HO-077 (Team V, 2026-11-13): the slab now has a 3072px 2X master (same picture and crop as the 1X). High and up take it on
+   2x screens, and (art ledger R4) windows wider than 1536 or taller than 864 CSS px draw its 1920px cut at 1.25x, so the drawn
+   size and crop are the 1X plate's (Nik's Chromebook at 1920x866 / 1920x1035 no longer stretches the 1536px slab). */
+html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) :is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp') 1x,url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp') 2x); }
+@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
+  :is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp') 1.25x); }
+  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) :is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp') 2x); }
 }
 :is(#app #settingsOverlay.v10Settings,#app ~ #settingsOverlay.v10Settings,body #settingsOverlay.v10Settings) .settingsTagline { visibility:hidden; }
 
@@ -1217,3 +1220,75 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
    The 28 px number circle holds two digits at 12 px (it already does at 12 px under 900 px, above). */
 #app #ruleBook.v10RuleBook .ruleSectionNumber,
 #app #ruleBook.v10RuleBook .ruleSpecialPlayer .ruleSpecialPlayerTag { font-size: 12px; }
+
+/* r91 Rule Book in game order (Nik 2026-11-11): the Season Results card opens with how a season is entered, the Prime Pack
+   card ends with its player list by card type (the scoring table's rows), and the Special Player card shows this
+   Showdown's two chips when there is one. Same thin gold rule as the other card notes; no boxes around titles. */
+#app #ruleBook.v10RuleBook .scoringRuleSection > ul + .ruleScoreTable,
+#app #ruleBook.v10RuleBook .primePackRuleSection .rulePackNotes { margin-top:.9em; padding-top:.8em; border-top:1px solid rgba(214,176,70,.35); }
+#app #ruleBook.v10RuleBook .primePackRuleSection .rulePackTable { margin-top:.7em; }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow { display:flex; flex-wrap:wrap; align-items:center; gap:.45em 1em; margin:.9em 0 0; padding-top:.8em; border-top:1px solid rgba(214,176,70,.35); }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow > strong { color:#f7c93e; font-weight:700; letter-spacing:.08em; white-space:nowrap; }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerLive { display:flex; flex-wrap:wrap; gap:.45em 1.2em; }
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow .spChip { font-size:12px; }/* the chip's own sheet draws 10.5-11 px; the floor is 12 px */
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow[hidden],
+#app #ruleBook.v10RuleBook .ruleSpecialPlayerLive[hidden] { display:none; }
+/* r91 (Nik 2026-11-11, "in game order, written by a human for another human"): on tablets, laptops and desktops the cards
+   are one column, read top to bottom like a printed rule book, each card sized to its own text (no stretched, half-empty
+   cards beside a longer neighbour). Lines run to about 75 characters and the tables line up with the rules.
+   Upright phones keep the one-open-card list and short sideways phones keep the tabs. */
+@media (min-width:761px) and (min-height:501px) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    grid-template-columns:minmax(0,1fr); align-items:start;
+    width:min(calc(100% - 32px),760px); margin-inline:auto;
+  }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { height:auto; }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid .ruleSection ul { max-width:none; }
+}
+
+/* Two-column option (wide desktop): cards flow down the left column, then the right, in game order, no gaps. */
+@media (min-width:1200px) and (min-height:501px) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid {
+    display:block; column-count:2; column-gap:24px; column-fill:balance;
+    width:min(calc(100% - 64px),1480px);
+  }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection {
+    break-inside:avoid; page-break-inside:avoid; display:block; margin:0 0 24px; width:100%;
+  }
+}
+
+/* r91 (Nik 2026-11-12): the two columns end level. Prime Pack may run on from the bottom of the left column to the top of
+   the right one; every other card stays whole. Each piece gets its own closed frame (box-decoration-break: clone), so the
+   bevel frame and the flat dark face (Nik 2026-11-12: flat dark cards) are drawn on the card itself here instead of by the ::before/::after pair, which would stay
+   open at the break; the padding gives back the frame's width, so the text sits where it did. */
+@media (min-width:1200px) and (min-height:501px) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection.primePackRuleSection {
+    break-inside:auto; page-break-inside:auto; -webkit-box-decoration-break:clone; box-decoration-break:clone;
+  }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .primePackRuleSection :is(li, tr, .ruleSectionHeader, .ruleScoreTable) { break-inside:avoid; }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .primePackRuleSection .ruleSectionHeader { break-after:avoid; }
+}
+@media (min-width:1200px) and (min-height:600px) and (min-aspect-ratio:3/2) and (orientation:landscape) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection:not(#rbFrameOnCard) {
+    border:max(3px,calc(var(--rbu) * 4)) solid transparent !important;
+    background:linear-gradient(var(--r78-panel,#0b0b0c),var(--r78-panel,#0b0b0c)) padding-box,var(--rb-bevel) border-box !important;
+    padding:18px 26px 20px 24px;
+    box-shadow:inset 0 0 0 1px #050505,inset 0 0 0 2px #d9aa3c66,inset 0 1px 0 3px #fff1b814 !important;
+    clip-path:polygon(var(--rb-cut) 0,calc(100% - var(--rb-cut)) 0,100% var(--rb-cut),100% calc(100% - var(--rb-cut)),calc(100% - var(--rb-cut)) 100%,var(--rb-cut) 100%,0 calc(100% - var(--rb-cut)),0 var(--rb-cut));
+  }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection::before,
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid > .ruleSection::after { content:none; }
+}
+/* Art ledger S03-D2 and S03-D4 (r91). One DONE at every size: the brushed-gold bar of the desktop plate, where phones
+   and tablets drew a flat lemon bar. It keeps its bevel, its two inner lines and its dark drop shadow; the gold haze
+   round it (22 px) is gone, like the haze round the chosen motion card (16 px): the cards are lit by nothing in the room.
+   The three motion choices are one-of-three (role "radio"), so their mark is a round one, and the chosen one carries a
+   gold dot. Until now the mark was a square that stayed empty when chosen: the dark fill of the plate won over the old
+   blue one. */
+body #settingsOverlay.v10Settings .settingsFooter .sd-btn--primary {
+  color:#130e03; border:2px solid transparent; border-image:linear-gradient(135deg,#fff8cf,#e9bd48 50%,#a87818) 1; border-radius:0; clip-path:none;
+  background:linear-gradient(180deg,#fff0a6 0%,#f4cb55 38%,#d9a52b 72%,#b98a21 100%);
+  box-shadow:inset 0 0 0 1px rgba(110,76,10,.7),inset 0 1px 0 2px rgba(255,252,220,.55),0 6px 18px rgba(0,0,0,.5);
+}
+body #settingsOverlay.v10Settings .settingsMotionMarker { border-radius:50%; }
+body #settingsOverlay.v10Settings .settingsMotionChoice:is(.selected,[aria-checked="true"]) .settingsMotionMarker { background:radial-gradient(circle,#f2c45b 0 4px,#151515 5px); }

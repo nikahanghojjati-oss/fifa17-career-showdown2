@@ -28,6 +28,8 @@ async function home(browser,base,[w,h],extra={}){
   const context=await browser.newContext({viewport:{width:w,height:h},deviceScaleFactor:phone?2:1,isMobile:phone,hasTouch:phone,...extra});
   await context.route(url=>!url.href.startsWith(base),route=>route.abort());
   const page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(String(error)));
+  // Every main-frame load after the first is a reload the checks did not ask for (named, not "context destroyed").
+  let loads=0;page.on('framenavigated',frame=>{if(frame===page.mainFrame()&&++loads>1)errors.push(`the page reloaded (${frame.url()})`);});
   await page.goto(base,{waitUntil:'domcontentloaded'});
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:60000});
   await page.waitForFunction(()=>window.CareerModeV10Screens&&window.CareerModeV10Screens.isMounted('mainMenu')&&!document.getElementById('mainMenu').hasAttribute('data-v10-pending'),null,{timeout:60000});
@@ -36,6 +38,11 @@ async function home(browser,base,[w,h],extra={}){
 async function seed(page,snapshot){
   await page.evaluate(async ({snapshot,storage})=>{
     await window.ensureGameplayModules();
+    // The fixtures below replace the game's own Shared Journey modules on window. js/ssjr.js loads and installs those in the
+    // background after Home; one replaced before it is installed reads as a game file that did not load, and since R92-05
+    // (#1446) that ends in cmsBootFail's reload ("Execution context was destroyed" mid-check, L1 on #1448 and #1450). Wait
+    // until the chain has installed them all, then replace (as tests/browser/r80-short-screens-audit.cjs does).
+    if(typeof window.CareerModeSharedJourneyReady==='function'&&await window.CareerModeSharedJourneyReady()!==true)throw new Error('the Shared Journey modules did not load, so the fixtures cannot stand in for them');
     for(const [k,v] of Object.entries(storage))localStorage.setItem(k,v);
     const names={identity:'CareerModeOnlinePlayerIdentity',pair:'CareerModePersistentNikDanielPair',multiSeason:'CareerModeProductionSharedMultiSeasonProgression',history:'CareerModeProductionSharedHistoryConvergence',finalReconciliation:'CareerModeProductionSharedFinalReconciliation',terminalClose:'CareerModeProductionSharedTerminalClose',seasonResults:'CareerModeProductionSharedSeasonResults'};
     for(const [k,n] of Object.entries(names))window[n]={getState:()=>snapshot[k]};

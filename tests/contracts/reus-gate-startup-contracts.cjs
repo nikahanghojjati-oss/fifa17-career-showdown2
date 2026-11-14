@@ -19,7 +19,7 @@ const app=read("js/app.js"),ssjr=read("js/ssjr.js"),html=read("index.html");
 const finish=(app.match(/function finishStartupPresentation\([^)]*\)\{[^]*?;if\(loadingScreen\)/)||[])[0]||"";
 assert.match(finish,/careerModeHomeHold!==0/,"Reus Gate: js/app.js holds the loading screen until Home reports ready (careerModeHomeHold 0)");
 assert.match(finish,/15e3/,"Reus Gate: the hold has a safety cap");
-assert.match(app,/const STARTUP_SPLASH_MINIMUM_MS = 2700;/,"Reus Gate: the loading screen keeps its minimum display time");
+assert.match(app,/const STARTUP_SPLASH_MINIMUM_MS = 1500;/,"Reus Gate: the loading screen keeps its minimum display time (r91: 1.5 s, Nik 2026-11-11; it was 2.7 s, Home is handed over only when ready)");
 assert.match(app,/window\.careerModeHomeHold=1;/,"Reus Gate: js/app.js marks Home on its way when it requests js/ssjr.js");
 assert.match(ssjr,/const reusGate=async\(\)=>/,"Reus Gate: js/ssjr.js checks Home's ready signals");
 for(const signal of [/V\.isMounted\("mainMenu"\)/,/fonts\.ready/,/\.decode\(\)/,/data-v10-pending/,/link\[data-v10-style\]/])assert.match(ssjr,signal,`Reus Gate signal ${signal}`);
@@ -148,9 +148,9 @@ function exposedOldHome(rec){
     // The same ready gate on a screen's first open: Rule Book's and Club's plates are CSS backgrounds (image-set). On a slow link a
     // screen was revealed as a dark stage and its plate painted in later (Club: a second show() of the same frame also settled the
     // cover early); the cover now stays until the plate is decoded (capped).
-    await plateGate(browser,base,"Rule Book","ruleBook",/ENV_SLAB_HC_V1_1X\.webp/,"window.openOptionalModule('ruleBook')");
+    await plateGate(browser,base,"Rule Book","ruleBook",/ENV_SLAB_HC_V1_(?:1X|1920)\.webp/,"window.openOptionalModule('ruleBook')");
     // HO-068: Club stands in the box room (js/clubScreenV10.js BOX_ROOM), so its plate is the box room plate.
-    await plateGate(browser,base,"Club","clubWheelScreen",/ENV_BOX_PLATE_HC_V2_1X\.webp/,CLUB_OPEN);
+    await plateGate(browser,base,"Club","clubWheelScreen",/ENV_BOX_PLATE_HC_V3_(?:1X|1920)\.webp/,CLUB_OPEN);
     // Safety: with no lazy loader at all (idle callbacks never run, as some audits arrange) the loading screen still leaves.
     {
       const {context,rec}=await start(browser,base,{delay:false,stubIdle:true,cpu:1});

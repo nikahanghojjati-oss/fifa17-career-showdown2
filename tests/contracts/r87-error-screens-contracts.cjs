@@ -40,7 +40,7 @@ check("E1 toasts keep plain detail and hide technical detail",()=>{
     toasts.length=0;sandbox.reportApplicationError("Season Results did not open",detail?new Error(detail):null);
     assert.equal(toasts[0],`error:Season Results did not open. ${SAFE}`,`technical detail hidden: ${JSON.stringify(detail)}`);
   }
-  for(const detail of ["Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.","Nik has not published yet. Tap COMMIT SHARED SEASON when both results are in."]){
+  for(const detail of ["Today's free online limit is used up. It resets at 3 a.m. Boston time. Your saved career is safe.","Nik has not published yet. Tap COMMIT SHARED SEASON when both results are in."]){
     toasts.length=0;sandbox.reportApplicationError("Online play is paused for today",new Error(detail));
     assert.equal(toasts[0],`error:Online play is paused for today. ${detail}`,"plain detail kept");
   }
@@ -56,7 +56,7 @@ check("E2 the runtime boundary and startup use plain words",()=>{
   // A runtime error that happens to read like words still never reaches the toast (the boundary passes q=1).
   toasts.length=0;listeners.get("error")({message:"First-party provenance audit failure",filename:"https://example.test/js/app.js"});
   assert.equal(toasts[0],"error:Something went wrong on this screen. Your career is safe. Try again.");
-  const jargon={"js/productionSharedJourneyGuard.js":["Shared Showdown polished presentation action failed","Shared Career Start action failed"],"js/transferChallenge.js":["Transfer Challenge completion failed","Unable to start the transfer window","Unable to open the Transfer Challenge"],"js/seasonEngine.js":["Season saved, but the summary screen failed"],"js/optionalModules.js":["Required football presentation could not be prepared"],"js/footballVisuals.js":["Required football photograph could not be prepared"],"js/diagnostics.js":['reportApplicationError("Application integrity check failed"'],"js/productionSharedSeasonResultsRoute.js":["Unable to open Shared Season Results"]};
+  const jargon={"js/productionSharedJourneyGuard.js":["Shared Showdown polished presentation action failed","Shared Career Start action failed"],"js/transferChallenge.js":["Transfer Challenge completion failed","Unable to start the transfer window","Could not open the Transfer Challenge"],"js/seasonEngine.js":["Season saved, but the summary screen failed"],"js/optionalModules.js":["Required football presentation could not be prepared"],"js/footballVisuals.js":["Required football photograph could not be prepared"],"js/diagnostics.js":['reportApplicationError("Application integrity check failed"'],"js/productionSharedSeasonResultsRoute.js":["Could not open Shared Season Results"]};
   for(const [file,words] of Object.entries(jargon))for(const w of words)assert.ok(!read(file).includes(w),`${file}: ${w}`);
 });
 
@@ -199,7 +199,7 @@ async function homeQuota(browser,base,opts,shot){
         assert.deepEqual(q.overlaps,[],`${tag} the line touches no other tile words or art`);
       }else{
         assert.equal(q.line,null,`${tag} desktop keeps the note`);
-        assert.equal(q.note,"Today's free online limit is used up. It resets at 3 am Boston time. Your saved career is safe.",tag);
+        assert.equal(q.note,"Today's free online limit is used up. It resets at 3 a.m. Boston time. Your saved career is safe.",tag);
       }
       assert.deepEqual(q.afterReset,{line:false,note:false},`${tag} resume clears it`);
     }

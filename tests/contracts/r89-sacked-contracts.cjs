@@ -2,8 +2,7 @@
 // r89 Sacked (Nik 2026-11-03): on Season Results either manager may tick "I was sacked" for himself (with a confirm step).
 // Any sacking ends the Showdown after that season; the points so far decide (equal = DRAW, being sacked is not losing); it
 // counts on every career screen as a COMPLETED Showdown, never the hidden "ended early" kind. A sacking in the planned last
-// season is a full-length Showdown (Golden still possible). Only Showdowns confirmed from SACKED_FROM_MS (the r89 release,
-// set with tools/set-release-time.cjs --r89) show the tick. The Rules side is proven in tests/firebase/sacked-rules-emulator.cjs.
+// season is a full-length Showdown (Golden still possible). Every Showdown with a readable confirm time shows the tick. The Rules side is proven in tests/firebase/sacked-rules-emulator.cjs.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -90,14 +89,14 @@ const SESSION="session_"+"c".repeat(64);
 // S5 career screens: a sacked Showdown is completed, with its own label (never the ended-early text).
 {
   const row={status:"completed",endedBy:"sacked",sackedSeason:4,totalSeasons:10,sacked:{daniel:false,nik:true}};
-  assert.equal(Seam.sackedText(row),"Ended — sacked in season 4 of 10 (Nik)");
-  assert.equal(Seam.sackedText({...row,sacked:{daniel:true,nik:true}}),"Ended — sacked in season 4 of 10 (Daniel and Nik)");
+  assert.equal(Seam.sackedText(row),"Ended · sacked in season 4 of 10 (Nik)");
+  assert.equal(Seam.sackedText({...row,sacked:{daniel:true,nik:true}}),"Ended · sacked in season 4 of 10 (Daniel and Nik)");
   assert.equal(Seam.sackedText({status:"completed",totalSeasons:10}),"");
   assert.ok(!Seam.sackedText(row).includes(Seam.TEXT.historyStatus.abandoned),"never the ended-early wording");
   const analytics=read("js/sharedCareerAnalytics.js");
   assert.match(analytics,/endedBy/);assert.match(analytics,/sackedSeason/);
   for(const file of ["js/rivalryLegacyV10.js","visual-assets/v10_1/legacy/legacy.js","visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js","js/seasonFinalV10.js"])assert.match(read(file),/SACKED|sacked/i,`${file} shows the sacked mark`);
-  ok("S5","career rows say \"Ended — sacked in season X of N (Name)\" on a completed Showdown; History, Legacy, Rivalry Statistics and Final Winner carry the SACKED mark");
+  ok("S5","career rows say \"Ended · sacked in season X of N (Name)\" on a completed Showdown; History, Legacy, Rivalry Statistics and Final Winner carry the SACKED mark");
 }
 
 // S6 the Season Results tick: own card only, confirm step, release-gated.
@@ -106,20 +105,19 @@ const SESSION="session_"+"c".repeat(64);
   for(const id of ["p1Sacked","p2Sacked"])assert.match(html,new RegExp(`<input id="${id}" type="checkbox">`),`${id} tick`);
   assert.match(html,/I was sacked this season/);
   const src=read("js/productionSharedSeasonResults.js");
-  assert.match(src,/const SACKED_FROM_MS=Date\.parse\("[0-9TZ:.-]+"\);/);
-  assert.match(src,/CMS_SACKED/);assert.match(src,/PUBLISH · I WAS SACKED/);assert.match(src,/YES, I WAS SACKED · PUBLISH/);
+  assert.doesNotMatch(src,/SACKED_FROM_MS|CMS_SACKED/);assert.match(src,/CONFIRM · I WAS SACKED/);assert.match(src,/YES, I WAS SACKED · CONFIRM/);
   assert.match(src,/THIS SHOWDOWN ENDS AFTER SEASON/);
-  const times=require("../../tools/set-release-time.cjs");
-  assert.deepEqual(times.R89_RELEASE_TIME_CONSTANTS.map(c=>`${c.file}:${c.name}`),["js/productionSharedSeasonResults.js:SACKED_FROM_MS"]);
-  assert.match(read("tools/set-release-time.cjs"),/--r89/);
-  ok("S6","each card has its own \"I was sacked this season\" tick; PUBLISH needs a second tap to confirm; only Showdowns confirmed from SACKED_FROM_MS (set by --r89) show it");
+  ok("S6","each card has its own \"I was sacked this season\" tick; PUBLISH needs a second tap to confirm; no start time or off switch");
 }
 
 // S7 the rest of the release: Rule Book card, shell path, quiet booth, Rules builder needles, no new listener.
 {
-  assert.match(read("js/ruleBook.js"),/createRuleSection\("10", "SACKED"/);
+  // r91: the tick is on the Season Results card (09), what a sacking does on End of the Showdown (10), in game order.
+  assert.match(read("js/ruleBook.js"),/Sacked in FIFA 17\? Tick \\u201cI was sacked this season\\u201d on your own card\./);
+  assert.match(read("js/ruleBook.js"),/createRuleSection\("10", "END OF THE SHOWDOWN"[\s\S]*?Any sacking ends the Showdown after that season/);
   const sw=read("service-worker.js");assert.match(sw,/"data\/gazetteSacked\.js",/);
-  assert.match(read("js/commentaryV3.js"),/sacked===true\)return null;/);
+  // r91: the booth prints in the Gazette; a sacked Showdown's paper gets the numbers line only (never "the N-season Showdown")
+  assert.match(read("js/touchlineGazette.js"),/if\(sacked\)\{const n=V\.sackedNumbers\(facts\);return n\?Object\.freeze\(\{title:BOOTH_TITLE,lead:null,numbers:n\.text\}\):null;\}/);
   const builder=read("scripts/build-production-firestore-rules.mjs");
   for(const needle of ["ssjrTerminalSackedMatches","ssjrTransferPreviousSeasonOpen","'sacked'"])assert.ok(builder.includes(needle),`builder needle ${needle}`);
   // Expression budget (1,000 per request): a Showdown nobody was sacked in pays only the key tests on the progress write,

@@ -17,7 +17,7 @@ let failed=0;
 function section(id,fn){try{fn();}catch(error){if(!process.env.SCREEN_ORDER_ALL)throw error;failed+=1;console.log(`not ok ${id} ${error.message.split("\n")[0]}`);}}
 
 // Confirmed one hour after the release time the tool set (contracts must not depend on a fixed date).
-const RID=`pair_${"7".repeat(64)}`,CONFIRMED=Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000;
+const RID=`pair_${"7".repeat(64)}`,CONFIRMED=Date.parse("2026-11-02T05:00:00Z")+3600000;
 const store=new Map();
 global.window=globalThis;
 globalThis.readStorageValue=key=>store.has(key)?store.get(key):null;
@@ -25,10 +25,10 @@ globalThis.writeStorageValue=(key,value)=>{store.set(key,value);};
 const pstcSrc=read("js/productionSharedTransferChallenge.js");
 
 // pstcPrimePackApplies / pstcPrimePackNext from the shipped file, in a sandbox with a fake view and storage.
-function gate(view,{off=false}={}){
+function gate(view){
   const from=pstcSrc.indexOf("  const PRIME_PACK_DONE_KEY="),to=pstcSrc.indexOf("  async function pstcPrimePackFirst(request){");
   assert.ok(from>0&&to>from,"the Prime Pack gate sits just before pstcPrimePackFirst");
-  const box={root:{CMS_PRIME_PACK:off?"off":undefined,readStorageValue:globalThis.readStorageValue},view,PRIME_PACK_FROM_MS:Date.parse("2026-10-30T00:00:00Z"),JSON,Array,Number};
+  const box={root:{readStorageValue:globalThis.readStorageValue},view,JSON,Array,Number};
   vm.createContext(box);vm.runInContext(`${pstcSrc.slice(from,to)};this.applies=pstcPrimePackApplies;this.next=pstcPrimePackNext;`,box);
   return box;
 }
@@ -40,15 +40,14 @@ section("O1",()=>{
   assert.equal(Step.nextLabel({}),"GO TO THE TRANSFER WAR");
   assert.equal(Step.nextLabel({primePackNext:()=>{throw new Error("x");}}),"GO TO THE TRANSFER WAR");
   const rrs=read("js/rosterRouletteStep.js");
-  assert.match(rrs,/\{id:"go",label:"I'VE RELEASED HIM",primary:true\}/,"a fired spin still asks I'VE RELEASED HIM");
+  assert.match(rrs,/\{id:"go",label:"I HAVE RELEASED HIM",primary:true\}/,"a fired spin still asks I HAVE RELEASED HIM");
   assert.match(rrs,/\{id:"go",label:rrsNextLabel\(ctx\),primary:true\}/,"the safe card's button is the next screen's name");
   assert.doesNotMatch(rrs,/GO TO THE TRANSFER WINDOW/);
   assert.match(pstcSrc,/primePackNext:\(\)=>pstcPrimePackNext\(request,confirmedAtMs\)/,"the Transfer Challenge gives the roulette its own Prime Pack gate");
   const v={managerRole:"playerOne",state:null},req={rivalryId:RID,seasonNumber:2};
   store.clear();
   assert.equal(gate(v).next(req,CONFIRMED),true,"an r87 Showdown, season 2, not played here: the Prime Pack is next");
-  assert.equal(gate(v,{off:true}).next(req,CONFIRMED),false,"the kill switch: the Transfer War is next");
-  assert.equal(gate(v).next(req,Date.parse("2026-10-01T00:00:00Z")),false,"an older Showdown has no Prime Pack");
+  assert.equal(gate(v).next(req,Number.NaN),false,"no readable confirm time: no Prime Pack next");
   assert.equal(gate(v).next({...req,seasonNumber:11},CONFIRMED),false);
   store.set("careerModeShowdown.primePackDone.v1",JSON.stringify([`${RID}|2|playerOne`]));
   assert.equal(gate(v).next(req,CONFIRMED),false,"already passed on this phone: the Transfer War is next");
@@ -72,8 +71,8 @@ section("O2",()=>{
   for(const [file,olds] of Object.entries(files)){const src=read(file);for(const old of olds)assert.ok(!src.includes(old),`${file} still shows "${old}"`);}
   assert.match(pstcSrc,/"OPEN TRANSFER WAR"/);assert.match(pstcSrc,/`START SEASON \$\{season\} TRANSFER WAR`/);assert.match(pstcSrc,/`SEASON \$\{view\?\.seasonNumber\|\|pstcSeason\(\)\} TRANSFER WAR`/);
   assert.match(read("js/showdownUI.js"),/`RESUME SEASON \$\{season\} TRANSFER WAR`/);
-  assert.match(read("js/ruleBook.js"),/createRuleSection\("06", "TRANSFER WAR",/,"the Rule Book card is the Transfer War");
-  assert.match(read("js/ruleBook.js"),/"The transfer window lasts 15 minutes\."/,"the 15-minute clock is still the transfer window");
+  assert.match(read("js/ruleBook.js"),/createRuleSection\("07", "TRANSFER WAR",/,"the Rule Book card is the Transfer War");
+  assert.match(read("js/ruleBook.js"),/"The transfer window lasts 15 minutes\./,"the 15-minute clock is still the transfer window");
   assert.match(pstcSrc,/"TRANSFER WINDOW LIVE · BUILD YOUR FIFA 17 SQUAD"/,"TRANSFER WINDOW LIVE (the clock) stays");
   const page=read("visual-assets/v10_1/icon-guess/index.html");
   assert.match(page,/id="cta" type="button" hidden>Go to the Transfer War</,"the Prime Pack's exit button names the Transfer War");

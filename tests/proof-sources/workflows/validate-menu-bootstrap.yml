@@ -58,8 +58,8 @@ jobs:
 
           assert.ok(html.includes('id="careerStatisticsButton"'), 'Current Home Statistics tile is missing.');
           assert.ok(!html.includes('id="trophyRoomButton"'), 'Deprecated Home Trophy Room id must not return.');
-          // HO-030 (r78): startup shows the edited marble crops of the same licensed Reus photo; Home keeps the source portrait.
-          assert.ok(html.includes(`id="startupAthlete" src="assets/LOADING_REUS_DESKTOP.webp?v=${revision}"`) && html.includes(`srcset="assets/LOADING_REUS_PHONE.webp?v=${revision}"`), 'The local versioned startup portrait is missing or stale.');
+          // HO-072 (r91): startup shows the cut-out of the same licensed Reus photo in Team V's tunnel room; Home keeps the source portrait.
+          assert.ok(html.includes(`id="startupAthlete" class="startupReus" src="assets/loading/REUS_D_1X.webp?v=${revision}"`) && html.includes(`srcset="assets/loading/REUS_P_590W.webp?v=${revision}"`), 'The local versioned startup portrait is missing or stale.');
           assert.ok(source.includes(`thumbnail: "assets/marco-reus-2015-cc-by.webp?v=${revision}"`), 'Home must reuse the cached source portrait at the current revision.');
           assert.ok(notices.includes('CC BY 2.0') && notices.includes('Tim Reckmann'), 'The bundled portrait attribution is incomplete.');
           assert.ok(app.includes('finishStartupPresentation') && app.includes('STARTUP_SPLASH_EXIT_MS'), 'The finite startup presentation lifecycle is missing.');
@@ -78,7 +78,7 @@ jobs:
           assert.ok(initializer.includes('throw new Error'), 'Incomplete Home initialization must fail loudly instead of silently returning.');
           assert.ok(!appCss.includes('.menuMediaSelector'), 'The retired Home media selector CSS must not return.');
           assert.ok(integrity.includes('feedbackBound'), 'Home integrity check must cover menu feedback.');
-          assert.ok(saveMeta.includes('indicator: "No Active Showdown"') && saveMeta.includes('Showdown Complete') && saveMeta.includes('Season ${currentRound} / ${totalRounds}'), 'Saved-showdown header states are incomplete.');
+          assert.ok(saveMeta.includes('indicator: "No Showdown live"') && saveMeta.includes('Showdown complete') && saveMeta.includes('Season ${currentRound} / ${totalRounds}'), 'Saved-showdown header states are incomplete.');
           assert.ok(refresh.includes('document.getElementById("seasonIndicator")') && refresh.includes('saveMeta.indicator'), 'Home refresh must synchronize the global save indicator.');
 
           const creation = showdown.slice(showdown.indexOf('function createShowdown()'), showdown.indexOf('function isLeagueDatabaseReady()'));

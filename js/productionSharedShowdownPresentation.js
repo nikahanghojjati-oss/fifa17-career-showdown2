@@ -200,14 +200,14 @@
       panel.classList.remove("hidden");
       const local=ssjpLocalSeasonLength(),bound=ssjpBoundSeasonLength(),mismatch=Boolean(local&&bound&&local!==bound);
       ssjpText(panel.querySelector("h3"),prepared?`${prepared} SEASON${prepared===1?"":"S"} SELECTED`:mismatch?"SEASON PLAN MISMATCH":"SEASON PLAN UNAVAILABLE");
-      ssjpText(copy,prepared?(ssjpCoordinator()?"Using the season length Daniel picked at the start. Locking it for both managers.":`Using Daniel's season choice. Waiting for ${ssjpHostName()} to lock it.`):mismatch?"This Showdown's season count doesn't match Daniel's code. Use Showdown recovery before you continue.":"Daniel's season choice could not be found. Go back to Showdown recovery; don't pick a new length.");
+      ssjpText(copy,prepared?(ssjpCoordinator()?"Using the season length Daniel picked at the start. Locking it for both managers.":`Using Daniel's season choice. Waiting for ${ssjpHostName()} to lock it.`):mismatch?"This Showdown's season count does not match Daniel's code. Use Showdown recovery before you continue.":"Daniel's season choice could not be found. Go back to Showdown recovery; do not pick a new length.");
       return;
     }
     if(ssjpPhaseAtLeast("SEASON_LENGTH_COMMITTED")){
       panel.classList.remove("hidden");
       const matches=ssjpSeasonMatchesPrepared(setup);
       ssjpText(panel.querySelector("h3"),matches?`${setup.totalSeasons} SEASON${setup.totalSeasons===1?"":"S"} LOCKED`:"SEASON PLAN MISMATCH");
-      ssjpText(copy,matches?"Daniel's season choice is locked.":"This Showdown's season count doesn't match. Use Showdown recovery before you confirm.");
+      ssjpText(copy,matches?"Daniel's season choice is locked.":"This Showdown's season count does not match. Use Showdown recovery before you confirm.");
       return;
     }
     panel.classList.add("hidden");
@@ -217,7 +217,7 @@
     if(!root.document||!ssjpPending())return false;ssjpRemoveForeignStatus();const setup=state&&state.setup;if(!setup||!ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED"))return false;if(witnessedLeagueId!==setup.leagueId){ssjpForceScreen("leagueWheelScreen");return ssjpRenderLeague();}
     const screen=root.document.getElementById("clubWheelScreen"),league=ssjpLeagueRecord(setup.leagueId),m=ssjpManagers();if(!screen)return false;screen.dataset.sharedPresentationRole=state&&state.managerRole||"unresolved";ssjpText(root.document.getElementById("clubAssignmentLeague"),league&&league.name||setup.leagueId);ssjpText(root.document.getElementById("clubPlayerOne"),m.playerOne||"PLAYER ONE");ssjpText(root.document.getElementById("clubPlayerTwo"),m.playerTwo||"PLAYER TWO");const open=root.document.getElementById("openClubPack"),back=root.document.getElementById("clubAssignmentBack");if(back){back.disabled=true;back.classList.add("hidden");}
     if(setup.phase==="LEAGUE_WHEEL_COMMITTED"){clubRevealComplete=false;witnessedClubDigest=null;revealingClubDigest=null;ssjpResetPackCards();const confirmation=root.document.getElementById("clubRivalryConfirmation");if(confirmation)confirmation.classList.add("hidden");const panel=root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.classList.add("hidden");ssjpText(root.document.getElementById("clubPackStatus"),"LEAGUE LOCKED · TWO CLUB PACKS READY");ssjpSetControl(open,{label:ssjpCoordinator()?"OPEN CLUB PACKS":`WAITING FOR ${ssjpHostUpper()} TO OPEN THE PACKS`,disabled:!ssjpCoordinator()||ssjpActionBusy(),hidden:false});ssjpRenderConfirmButton(setup);ssjpSetSharedStatus(ssjpCoordinator()?"CLUB PACKS · Open both packs.":`CLUB PACKS · Waiting for ${ssjpHostName()}. The packs open once the clubs lock.`);return true;}
-    ssjpSetControl(open,{label:"PACKS OPENED",disabled:true,hidden:true});ssjpAnimatePacks(setup);ssjpFillConfirmation(setup);if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"&&ssjpCoordinator())void ssjpCommitPreparedSeasonLength();ssjpRenderSeasonControls(setup);ssjpRenderConfirmButton(setup);if(setup.phase==="SHOWDOWN_CONFIRMED")ssjpMaybeAutoOpenCareerStart(setup);if(setup.phase==="SHOWDOWN_CONFIRMED")ssjpSetSharedStatus(state?.ready!==true?"CONNECTION NEEDED · Reconnect both players before Career Start.":clubRevealComplete?"SETUP COMPLETE · Both managers saw the wheel and the club packs.":"SETUP COMPLETE · Finish watching both pack reveals.");else if(setup.phase==="SEASON_LENGTH_COMMITTED")ssjpSetSharedStatus(clubRevealComplete?"FINAL CONFIRMATION · Each manager confirms on their own device.":"WATCH BOTH CLUB PACK REVEALS · Confirmation unlocks after both packs open here.");else ssjpSetSharedStatus(clubRevealComplete?"CLUBS REVEALED · Locking Daniel's season choice from Showdown start.":"OPENING CLUB PACKS · Both managers see the same reveals.");return true;
+    ssjpSetControl(open,{label:"PACKS OPENED",disabled:true,hidden:true});ssjpAnimatePacks(setup);ssjpFillConfirmation(setup);if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"&&ssjpCoordinator())void ssjpCommitPreparedSeasonLength();ssjpRenderSeasonControls(setup);ssjpRenderConfirmButton(setup);if(setup.phase==="SHOWDOWN_CONFIRMED")ssjpMaybeAutoOpenCareerStart(setup);if(setup.phase==="SHOWDOWN_CONFIRMED")ssjpSetSharedStatus(state?.ready!==true?"CONNECTION NEEDED · Reconnect both players before Career Start.":clubRevealComplete?"SETUP COMPLETE · Both managers saw the wheel and the club packs.":"SETUP COMPLETE · Finish watching both pack reveals.");else if(setup.phase==="SEASON_LENGTH_COMMITTED")ssjpSetSharedStatus(clubRevealComplete?"FINAL CONFIRMATION · Each manager confirms on their own device.":"WATCH BOTH CLUB PACK REVEALS · Confirmation opens after both packs are revealed here.");else ssjpSetSharedStatus(clubRevealComplete?"CLUBS REVEALED · Locking Daniel's season choice from Showdown start.":"OPENING CLUB PACKS · Both managers see the same reveals.");return true;
   }
 
   async function ssjpRenderCurrent(){if(!active||!ssjpPending())return false;const screen=ssjpActiveScreen();if(screen==="leagueWheelScreen")return ssjpRenderLeague();if(screen==="clubWheelScreen")return ssjpRenderClub();return false;}
@@ -290,7 +290,7 @@
   function ssjpDescribeFailure(code,message){
     const failureCode=String(code||"SHARED_SETUP_MUTATION_FAILED");
     if(setupApi&&typeof setupApi.describeFailure==="function")return setupApi.describeFailure({code:failureCode,message});
-    return {code:failureCode,kind:"generic",text:"That didn't go through. Tap again.",tapDetail:"Tap again."};
+    return {code:failureCode,kind:"generic",text:"That did not go through. Tap again.",tapDetail:"Tap again."};
   }
   async function ssjpHandleControlClickNow(id){
     if(!ssjpHandlesControl(id))return false;await ssjpEnsureSetup();await ssjpAwaitIdle();

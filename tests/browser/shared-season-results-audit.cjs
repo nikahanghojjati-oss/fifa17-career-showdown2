@@ -52,6 +52,7 @@ async function prepare(page,{role,saveId,entry}){
       setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo']}
     };
     const transfer={ok:true,revision:7,seasonNumber:1,managerRole:role,rivalryId,setup:setup.setup,state:{phase:'COMPLETED',revision:7,guessLockedRoles:['playerOne','playerTwo'],signingLockedRoles:['playerOne','playerTwo']}};
+    window.CareerModeIconGuessStep={ensure:async()=>true,applies:()=>false,pointsFor:async()=>0}; // r91: the audit plays no Prime Pack round; this stub keeps the season publish off its Firestore read
     window.CareerModeProductionSharedShowdownSetup={getState:()=>setup,refresh:async()=>setup}; {const api=window.CareerModeProductionSharedShowdownSetup,read=api.getState;api.getState=()=>{const value=read();if(value&&typeof value==='object'&&!Number.isFinite(value.setupUpdatedAtMs))value.setupUpdatedAtMs=Date.parse('2026-09-01T00:00:00Z');return value;};} // a Setup read carries the confirm time (Fable F2-05): a Showdown from before the roulette
     window.CareerModeProductionSharedTransferChallenge={getState:()=>transfer,refresh:async()=>transfer};
     window.CareerModeSparkSharedSeasonResults={
@@ -178,9 +179,9 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
   await page.evaluate(({prefix,value})=>{document.getElementById(`${prefix}LeaguePoints`).value=String(value);},{prefix,value:result.leaguePoints+1});
   const before=server.publishes.length;
   await page.locator('#confirmSeasonCompletion').click();
-  await page.waitForFunction(()=>/changed after review/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:4000});
+  await page.waitForFunction(()=>/changed after you reviewed/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:4000});
   await page.evaluate(()=>window.__ssjrResultsAudit.refreshResults());
-  assert.match(await page.locator('#seasonReviewError').textContent(),/changed after review/i,'refresh must not erase a publication/review error before the player can read it');
+  assert.match(await page.locator('#seasonReviewError').textContent(),/changed after you reviewed/i,'refresh must not erase a publication/review error before the player can read it');
   assert.equal(server.publishes.length,before,'review fingerprint mismatch must block provider publication');
   await page.locator('#editSeasonResults').click();
   await fillOwnResult(page,role,result);
@@ -188,12 +189,12 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
   if(lostAcknowledgement)server.loseAckFor=role;
   await page.locator('#confirmSeasonCompletion').click();
   if(lostAcknowledgement){
-    await page.waitForFunction(()=>/could not be published/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
+    await page.waitForFunction(()=>/could not be confirmed/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
     assert.equal(Boolean(server.results[role]),true,'provider must have accepted publication before the response was lost');
     await page.evaluate(()=>window.__ssjrResultsAudit.refreshResults());
     assert.equal(await page.locator('#seasonReviewError').textContent(),'','confirmed publication must clear the stale failure after an authoritative refresh');
   }
-  await page.waitForFunction(()=>/PUBLISHED|BOTH MANAGERS PUBLISHED/.test(document.getElementById('seasonReviewHeading')?.textContent||''),null,{timeout:5000});
+  await page.waitForFunction(()=>/YOUR RESULT IS CONFIRMED|BOTH MANAGERS CONFIRMED/.test(document.getElementById('seasonReviewHeading')?.textContent||''),null,{timeout:5000});
 }
 
 (async()=>{
@@ -221,7 +222,7 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
     await assertPrivateEntry(peer,'playerTwo');
     await reviewTamperAndPublish(peer,'playerTwo',resultTwo,{lostAcknowledgement:true});
     assert.equal(server.revision,2);assert.equal(server.publishes.length,2);assert.deepEqual(server.publishes[1].result,resultTwo);
-    await peer.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:5000});
+    await peer.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS CONFIRMED',null,{timeout:5000});
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true,'second publisher may see opponent only after RESULTS_READY');
     assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true);
     await peer.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
@@ -230,7 +231,7 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
     assert.equal(await host.evaluate(()=>CareerModeProductionSharedSeasonCommit.getState()),null,'installed Commit must still be asleep before reopening ready Results');
     await host.evaluate(()=>{window.__commitRouteRefreshes=0;const api=window.CareerModeProductionSharedSeasonCommit;window.CareerModeProductionSharedSeasonCommit={...api,refresh:(...args)=>{window.__commitRouteRefreshes++;return api.refresh(...args);}};});
     await host.locator('#seasonPrimaryAction').click();await host.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
-    await host.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS PUBLISHED',null,{timeout:5000});
+    await host.waitForFunction(()=>document.getElementById('seasonReviewHeading')?.textContent==='BOTH MANAGERS CONFIRMED',null,{timeout:5000});
     assert.equal(await host.locator('#seasonReviewOne').isVisible(),true);assert.equal(await host.locator('#seasonReviewTwo').isVisible(),true,'first publisher must reveal opponent only after refreshing the completed two-role state');
     await host.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
     assert.ok(await host.evaluate(()=>window.__commitRouteRefreshes)>0,'opening already-ready Results must explicitly refresh installed Commit, without waiting for incidental DOM or polling wakes');

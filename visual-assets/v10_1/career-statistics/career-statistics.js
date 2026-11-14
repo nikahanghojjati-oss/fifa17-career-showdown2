@@ -85,7 +85,7 @@
       const val=vals[i];
       const valueHtml = val ? (val.pair
         ? `<div class="headlinePair" data-digits="${Math.min(8,(fmt(val.pair[0])+fmt(val.pair[1])).length)}"><small>D</small><b data-count-value="${fmt(val.pair[0])}">${fmt(val.pair[0])}</b><span class="slash">/</span><small>N</small><b data-count-value="${fmt(val.pair[1])}">${fmt(val.pair[1])}</b></div>`
-        : `<div class="headlineNumber" data-count-value="${fmt(val.combined)}">${fmt(val.combined)}</div><div class="headlineTogether">Together</div>`)
+        : `<div class="headlineNumber" data-count-value="${fmt(val.combined)}">${fmt(val.combined)}</div><div class="headlineTogether">Combined</div>`)
         : '<div class="headlinePair"><b aria-hidden="true">—</b></div>';
       card.innerHTML=`<div class="headlineIcon">${iconSvgs[i]}</div><div class="headlineCopy"><div class="headlineLabel">${label}</div>${valueHtml}</div>`;
       host.appendChild(card);
@@ -164,7 +164,7 @@
     }
     panels.forEach(x=>x.hidden=true); state.hidden=false; state.replaceChildren();
     let heading="", body="", icon="◇";
-    if(frame.status==="empty") { heading=fx.strings.noCompletedRecord || "No completed record yet"; body="Career Statistics fill in after your first finished Showdown. The live Showdown's numbers are on Standings and Rivalry Statistics."; icon="0"; }
+    if(frame.status==="empty") { heading=fx.strings.noCompletedRecord || "No completed record yet"; body="Career Statistics fill in after your first completed Showdown. This Showdown's numbers are on Standings and Rivalry Statistics."; icon="0"; }
     else { const c=fx.strings.stateCopy[frame.status]; heading=c.heading; body=c.body; icon=frame.status==="loading"?"…":"!"; }
     state.innerHTML=`<div class="stateIcon" aria-hidden="true">${icon}</div><h2>${heading}</h2><p>${body}</p>`;
     // r87 polish (P-07): an unavailable career offers TRY AGAIN, which opens the screen again the way the menu does (the same

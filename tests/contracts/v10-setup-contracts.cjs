@@ -35,6 +35,11 @@ const TEAM_V_FILES={
   "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V2_1920.webp":"78ec9b7fc62fc6c07732c18a5c0541b71ea122956a0030bbebf4f78b1e0d970b",
   "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_960.webp":"2af3ae7e8086a619e9e507e109b035e932e0b87c51d559111e5f239697cbaebb",
   "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V2_1920.webp":"fb4fbeaa32a5f14cae68037c27768ef1e4582861769b76bab1e8e3f4105fa91b",
+  // r91 HO-071: the V3 title family (Team V 9c1fe8ab), the pictures the two setup titles draw now.
+  "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_960.webp":"0289d2b1c3b6df3d5ef161d8aea7c5e7decb7b88518daf9beb45037a4d66ec48",
+  "visual-assets/v10_1/shared/wordmarks/TITLE_LEAGUE_V3_1920.webp":"3f850e37fc0120056827d291ceb50888022f0b900a6fd7f95fd4b86c011d5e3b",
+  "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_960.webp":"a894e7896a3232c11fb523d05067039a931bea6a5c2b4e397f7678998e599f2a",
+  "visual-assets/v10_1/shared/wordmarks/TITLE_NEW_SHOWDOWN_V3_1920.webp":"cb0d5c04fd25ecc02787912b371bd7a23142c5b606c4218850116dbfca8aa508",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PHONE_V1.webp":"b31092d3eac35a9851d9c51406dd0cf7972e2dd9a5a8adb83c78d4a27497ba2a",
   "visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp":"f1c490adad469e3f05dde6252b2f0455a11c468b3240f8d6dfebd34146b0c587",
   "visual-assets/v10_1/club/assets/ENV_CLUB_PLATE_V1_1X.webp":"398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",
@@ -47,6 +52,15 @@ const TEAM_V_FILES={
   "visual-assets/v10_1/league/assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp":"0748bd50eed0b6f9267a2368977f43f4706b0692daf642c2f6dddc51708c734f",
   "visual-assets/v10_1/league/assets/OVL_LEAGUE_NIK_PHONE_V1.webp":"c6001bdc93978e24914bdc08f95674d4ecd4d52ccb7dc3ed82846d02fff057b3",
   "visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V1.webp":"cbc0328e9f8fa03e697e4825a0c5eea24d669faadaf2aa3bc674646290047878",
+  // HO-074 brushed-brass wheel rim and the HO-069 front hall (Start, Showdown Home): Team V #1404 (f30e9e77); the 1920 cut is
+  // resized from the 2X master (art ledger R4).
+  "visual-assets/v10_1/shared/art/wheel/WHEEL_RIM_V2.webp":"08a068706204783ef4f24599f72012f1dd88351556b5879ab7f2260a7ca385a6",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1X.webp":"00f9645c0ae5d6afc9c243fbb39569b94d4c79c801f8f9d89f7b65df11ee3ba0",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_2X.webp":"d33edef35518ecc0360e8cec64366c7bfdaa893707574f27c60db406d2b0134d",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PLATE_HC_V3_1920.webp":"811fdb2a8e422dd0f1795c175c541c72a1d7fe8203b11e8a84131d90ad1b0ce6",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp":"7309ab041d465de5d33ee05c6961ec09b7b62d1733259034261ccdf261831d1d",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_590W.webp":"3f85780b1d1233acdb97b00a354496934eb9a332f308e68d3a9f71a9c6f94f79",
+  "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3_TALL.webp":"b4da66f6ae766e8a8f53550781ba0deb1779468912062e5aef133c9cdfb7544a",
   "visual-assets/v10_1/start-join/assets/ENV_SJ_PHONE_V1.webp":"b77f010b6b590705b9d031c9e3a00159f0677813d87c81ba2a8a601fb7141a55",
   "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_1X.webp":"69170e26033fc39d109a48eeb051f3b361a90d17bc0e462a8939b3b9fdb37bdc",
   "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
@@ -160,7 +174,7 @@ function buildSetupMarkup(doc,main){
   const wheel=el(doc,container,"div",{id:"leagueWheel",cls:"leagueWheel"});
   const track=el(doc,wheel,"div",{cls:"wheelTrack"});
   LEAGUES.forEach(([,name],index)=>{const item=el(doc,track,"div",{cls:"wheelItem",text:name});item.style.transform=`rotate(${index*72}deg)`;});
-  el(doc,container,"div",{id:"selectedLeague",text:"Spin to select league",attrs:{role:"status","aria-live":"polite"}});
+  el(doc,container,"div",{id:"selectedLeague",text:"Spin to pick the league",attrs:{role:"status","aria-live":"polite"}});
   const note=el(doc,container,"div",{id:"leagueStateNote",cls:"stateNote hidden"});note.textContent="";
   el(doc,container,"button",{id:"spinLeague",cls:"menuButton",text:"SPIN WHEEL",attrs:{type:"button"}});
   el(doc,container,"button",{cls:"backButton",text:"BACK",attrs:{type:"button","data-smart-back":""}});
@@ -325,7 +339,7 @@ check("S1 the skin API is small, frozen and points at Team V's copied files",()=
 
 check("S2 pure helpers: league from shown text, pointer index, pack result",()=>{
   for(const [id,name] of LEAGUES){assert.equal(Setup.leagueFromText(name),id);assert.equal(Setup.leagueFromText(` ${name.toUpperCase()} `),id);}
-  for(const text of ["","Spin to select league","SPINNING...","League wheel ready","LaLiga has been selected",null,undefined])assert.equal(Setup.leagueFromText(text),null,String(text));
+  for(const text of ["","Spin to pick the league","SPINNING…","League wheel ready","LaLiga has been selected",null,undefined])assert.equal(Setup.leagueFromText(text),null,String(text));
   LEAGUES.forEach((_league,index)=>{
     assert.equal(Setup.topIndex(`rotate(${-index*72}deg)`),index);
     assert.equal(Setup.topIndex(`rotate(${-(1800+index*72)}deg)`),index,"after full turns");
@@ -399,7 +413,7 @@ check("S5 the wheel shows the provider's league only after the wheel stops; the 
     assert.deepEqual(selected(),[],"nothing highlighted before a spin");
     assert.equal(host.dataset.v26League,undefined);
     // The local wheel says SPINNING while it turns.
-    result.textContent="SPINNING...";root.mutated(result);
+    result.textContent="SPINNING…";root.mutated(result);
     assert.deepEqual(selected(),[]);
     // The shared presentation writes the provider's league at once and animates the track for 4 s.
     track.dataset.leagueWheelAnimating="true";track.style.transform=`rotate(${-(1800+index*72)}deg)`;root.mutated(track);
@@ -424,7 +438,7 @@ check("S5 the wheel shows the provider's league only after the wheel stops; the 
     assert.deepEqual(selected().map(item=>item.textContent),[provider.league.name]);
     assert.equal(host.querySelectorAll(".v26Flash").length,0,"no payoff without a spin");
     // A reset back to the prompt clears the highlight.
-    result.textContent="Spin to select league";root.mutated(result);
+    result.textContent="Spin to pick the league";root.mutated(result);
     assert.deepEqual(selected(),[]);assert.equal(host.dataset.v26League,undefined);
     assert.deepEqual(root.warnings,[]);
   }

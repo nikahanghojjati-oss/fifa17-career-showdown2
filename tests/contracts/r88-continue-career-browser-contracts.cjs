@@ -39,7 +39,7 @@ async function chamberBack(){
   const doc={schemaVersion:1,objectType:'sharedChamberMenRound',rivalryId:rid,seasonNumber:1,kicks:{playerOne:'LRMMRL',playerTwo:'RLLMRR'},revision:3};
   const sdk={doc:()=>({}),serverTimestamp:()=>'ts',runTransaction:async(_f,fn)=>fn({get:async()=>({exists:()=>true,data:()=>doc}),set(){},update(){}}),
     onSnapshot:(_r,_o,cb)=>{setTimeout(()=>cb({metadata:{},exists:()=>true,data:()=>doc}),50);return ()=>{};}};
-  const run=step.run({rivalryId:rid,managerRole:'playerOne',season:1,confirmedAtMs:CM.fromMs},{firestore:{},sdk,rivalryId:rid,sessionId:'s',deviceId:'d',now:()=>Date.now()});
+  const run=step.run({rivalryId:rid,managerRole:'playerOne',season:1,confirmedAtMs:Date.parse('2026-11-05T00:00:00Z')},{firestore:{},sdk,rivalryId:rid,sessionId:'s',deviceId:'d',now:()=>Date.now()});
   const back=await new Promise((resolve,reject)=>{const t0=Date.now();const tick=()=>{const s=document.getElementById('cmStage');const b=s&&[...s.querySelectorAll('button')].find(x=>x.textContent.trim()==='BACK TO SHOWDOWN HOME'&&x.getClientRects().length);if(b&&s.style.visibility!=='hidden')return resolve(b);if(Date.now()-t0>8000)return reject(new Error('Chamber Men BACK did not show'));setTimeout(tick,50);};tick();});
   back.click();
   const go=await Promise.race([run,new Promise(r=>setTimeout(()=>r('timeout'),5000))]);
@@ -56,7 +56,7 @@ async function primeBack(){
   const data={schemaVersion:1,objectType:'sharedPrimePackRound',rivalryId:rid,seasonNumber:2,arrived:{playerOne:ts(at),playerTwo:ts(at)},chipsUsed:{playerOne:0,playerTwo:0},namedBy:null,revision:2,updatedAt:ts(at)};
   const sdk={doc:()=>({}),serverTimestamp:()=>ts(Date.now()),runTransaction:async(_f,fn)=>fn({get:async()=>({exists:()=>true,data:()=>data}),set(){},update(){}}),
     onSnapshot:(_r,_o,cb)=>{setTimeout(()=>cb({metadata:{},exists:()=>true,data:()=>data}),50);return ()=>{};}};
-  const run=step.run({rivalryId:rid,managerRole:'playerTwo',season:2,confirmedAtMs:window.CareerModeIconGuess.fromMs},{firestore:{},sdk,rivalryId:rid,sessionId:'s',deviceId:'d',now:()=>Date.now()});
+  const run=step.run({rivalryId:rid,managerRole:'playerTwo',season:2,confirmedAtMs:Date.parse('2026-11-05T00:00:00Z')},{firestore:{},sdk,rivalryId:rid,sessionId:'s',deviceId:'d',now:()=>Date.now()});
   const frame=await new Promise((resolve,reject)=>{const t0=Date.now();const tick=()=>{const f=document.querySelector('#igStage iframe');let st=null;try{st=f&&f.contentWindow.__ig&&f.contentWindow.__ig.state();}catch(_e){}if(st&&st.stage)return resolve(f);if(Date.now()-t0>15000)return reject(new Error('Prime Pack round did not start'));setTimeout(tick,100);};tick();});
   await new Promise(r=>setTimeout(r,600));
   const back=[...document.querySelectorAll('#igStage > button')].find(b=>b.textContent==='BACK TO SHOWDOWN HOME');

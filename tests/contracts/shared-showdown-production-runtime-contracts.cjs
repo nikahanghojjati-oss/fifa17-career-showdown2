@@ -46,7 +46,7 @@ function loadTransferCatalog(){
   vm.runInNewContext(transferOptionsSource,sandbox,{filename:'data/transferOptions.js'});
   const leagues=sandbox.window.FIFA17_TRANSFER_LEAGUES,nationalities=sandbox.window.FIFA17_TRANSFER_NATIONALITIES;
   assert.equal(leagues.length,36,'canonical FIFA 17 Transfer Challenge league count changed unexpectedly');
-  assert.equal(nationalities.length,164,'canonical FIFA 17 Transfer Challenge nationality count changed unexpectedly');
+  assert.equal(nationalities.length,166,'canonical FIFA 17 Transfer Challenge nationality count changed unexpectedly');
   const leagueIds=Array.from(leagues,item=>item.id),nationalityIds=Array.from(nationalities,item=>item.id);
   assert.equal(new Set(leagueIds).size,leagueIds.length,'canonical transfer league IDs must be unique');
   assert.equal(new Set(nationalityIds).size,nationalityIds.length,'canonical transfer nationality IDs must be unique');
@@ -182,10 +182,10 @@ assert.match(stage3,/node scripts\/build-production-firestore-rules\.mjs/,'Perma
 assert.match(stage3,/shared-showdown-setup-production-provider-emulator\.cjs/,'Permanent Stage 3 family must execute the production generated-Rules provider emulator.');
 assert.match(stage3,/firebase-tools@15\.28\.1 emulators:exec/,'Production provider emulator must remain on the pinned Firebase emulator toolchain.');
 assert.match(productionEmulator,/shared-showdown-setup-provider-emulator\.cjs/,'Production Rules proof must reuse the already-reviewed two-manager provider harness.');
-assert.match(productionEmulator,/const candidatePattern=/,'Production wrapper must declare the exact candidate Rules source seam as one transform pattern.');
-assert.ok(productionEmulator.includes('firestore\\.shared-setup-candidate\\.rules'),'Production wrapper must identify the exact escaped candidate Rules source seam.');
-assert.match(productionEmulator,/assert\.equal\(matches\.length,1/,'Production wrapper must require exactly one reviewed candidate Rules seam before substitution.');
-assert.match(productionEmulator,/source\.replace\(candidatePattern,'fs\.readFileSync\("firestore\.spark\.generated\.rules","utf8"\)'\)/,'Production wrapper must substitute only the generated provider authority at that one seam.');
+assert.match(productionEmulator,/firestore\.spark\.generated\.rules/,'Production wrapper must require the generated production Rules authority.');
+const providerHarness=fs.readFileSync('tests/firebase/shared-showdown-setup-provider-emulator.cjs','utf8');
+assert.match(providerHarness,/fs\.readFileSync\("firestore\.spark\.generated\.rules","utf8"\)/,'The provider harness must run against the generated production Rules, never a candidate copy.');
+assert.doesNotMatch(providerHarness,/shared-setup-candidate/,'No unpublished candidate Rules source may remain in the provider harness.');
 
 assert.match(app,/js\/ssjr\.js/,'Protected startup shell must lazy-load the SSJR bootstrap during the startup splash.');
 assert.match(bootstrap,/productionFirebaseRuntime\.js/,'Lazy SSJR bootstrap must preserve the production Firebase runtime.');
@@ -220,7 +220,7 @@ assert.match(entry,/remote\.accountId===account\.accountId/);
 assert.match(entry,/remote\.deviceId===pairing\.deviceId/);
 assert.doesNotMatch(entry,/localStorage/,'Shared journey entry marker must never use raw canonical localStorage.');
 for(const functionName of ['handleLeagueWheelAction','spinLeagueWheel','confirmLeagueSelectionAndContinue','prepareClubAssignment','assignClubs','continueToShowdownHome'])assert.ok(guard.includes(`"${functionName}"`),`Shared mode must guard direct ${functionName} calls.`);
-assert.match(guard,/CLICK_TARGETS=Object\.freeze\(\{spinLeague:"league selection",openClubPack:"club assignment",continueClubAssignment:"shared rivalry confirmation"\}\)/,'Actual bound league/club controls must be capture-gated.');
+assert.match(guard,/CLICK_TARGETS=Object\.freeze\(\{spinLeague:"league selection",openClubPack:"club assignment",continueClubAssignment:"Showdown confirmation"\}\)/,'Actual bound league/club controls must be capture-gated.');
 assert.match(guard,/root\.document\.addEventListener\("click"[\s\S]+stopImmediatePropagation\(\)[\s\S]+,true\)/,'Shared mode must intercept actual click paths in capture phase before lexical handlers.');
 assert.match(guard,/usesPersistedSaveMarker:true/,'Bypass guard must recover shared-mode authority from the durable active Save Library shell.');
 assert.match(guard,/if\(blockLocalDraw\(name\)\)return false/,'Direct global calls must remain fail-closed while shared mode is pending.');

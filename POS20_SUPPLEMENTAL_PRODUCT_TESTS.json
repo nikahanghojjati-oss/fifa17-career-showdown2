@@ -4,33 +4,6 @@
   "purpose": "Blocking deterministic product contracts added by POS20 above the frozen POS10 manifest. Entries are explicit, closed, and may only strengthen the inherited test floor.",
   "tests": [
     {
-      "path": "tests/contracts/ssjr-production-safe-evidence-assembly-contracts.cjs",
-      "patterns": [
-        "^js/ssjrProductionNegativeEvidence\\.js$",
-        "^js/ssjrProductionNegativeProbeRunner\\.js$",
-        "^js/ssjrProductionAcceptanceRecorder\\.js$",
-        "^js/ssjr\\.js$",
-        "^scripts/validate-ssjr-shared-setup-production-evidence\\.mjs$",
-        "^scripts/assemble-ssjr-shared-setup-safe-evidence\\.mjs$",
-        "^tests/contracts/ssjr-production-safe-evidence-assembly-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
-      "path": "tests/contracts/ssjr-production-actor-evidence-v2-contracts.cjs",
-      "patterns": [
-        "^js/ssjrProductionNegativeEvidence\\.js$",
-        "^js/ssjr\\.js$",
-        "^scripts/ssjr-actor-evidence-v2\\.mjs$",
-        "^scripts/assemble-ssjr-shared-setup-actor-evidence\\.mjs$",
-        "^scripts/validate-ssjr-shared-setup-actor-evidence\\.mjs$",
-        "^tests/contracts/ssjr-production-actor-evidence-v2-contracts\\.cjs$",
-        "^tests/browser/ssjr-production-actor-evidence-v2-audit\\.cjs$",
-        "^package\\.json$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/shared-career-start-contracts.cjs",
       "patterns": [
         "^js/sharedCareerStart\\.js$",
@@ -1030,19 +1003,6 @@
       ]
     },
     {
-      "path": "tests/contracts/hunt-1019-restore-career-contracts.cjs",
-      "patterns": [
-        "^js/restore\\.js$",
-        "^js/importAnalysis\\.js$",
-        "^js/rivalryLegacyV10\\.js$",
-        "^js/saveLibraryFoundation\\.js$",
-        "^js/saveLibraryRuntime\\.js$",
-        "^js/storageTransaction\\.js$",
-        "^tests/contracts/hunt-1019-restore-career-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/legacy-refresh-contracts.cjs",
       "patterns": [
         "^js/rivalryLegacyV10\\.js$",
@@ -1100,14 +1060,6 @@
       "patterns": [
         "^js/productionSharedShowdownPresentation\\.js$",
         "^tests/contracts/job-1049-sealed-club-summary-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
-      "path": "tests/contracts/job-1053-keep-empty-contracts.cjs",
-      "patterns": [
-        "^js/restore\\.js$",
-        "^tests/contracts/job-1053-keep-empty-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -1358,26 +1310,10 @@
       ]
     },
     {
-      "path": "tests/contracts/chat-audit-restore-b-contracts.cjs",
-      "patterns": [
-        "^js/restore\\.js$",
-        "^tests/contracts/chat\\-audit\\-restore\\-b\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/chat-audit-screens-a-contracts.cjs",
       "patterns": [
         "^js/screens\\.js$",
         "^tests/contracts/chat\\-audit\\-screens\\-a\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
-      "path": "tests/contracts/chat-audit-import-analysis-b-contracts.cjs",
-      "patterns": [
-        "^js/importAnalysis\\.js$",
-        "^tests/contracts/chat\\-audit\\-import\\-analysis\\-b\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -1442,14 +1378,6 @@
       "patterns": [
         "^js/screens\\.js$",
         "^tests/contracts/chat\\-audit\\-screens\\-b\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
-      "path": "tests/contracts/chat-audit-restore-a-contracts.cjs",
-      "patterns": [
-        "^js/restore\\.js$",
-        "^tests/contracts/chat\\-audit\\-restore\\-a\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     },
@@ -2390,7 +2318,6 @@
         "^tests/contracts/r86\\-release\\-contracts\\.cjs$",
         "^(index\\.html|manifest\\.webmanifest|package(-lock)?\\.json)$",
         "^js/(app|menuExperience|rosterRouletteStep|sparkSharedTransferChallenge|ssjr|offlineApp)\\.js$",
-        "^tools/set-release-time\\.cjs$",
         "^tests/fixtures/shell-paths/",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
@@ -2712,16 +2639,6 @@
       ]
     },
     {
-      "path": "tests/contracts/settings-internal-audit-surface-contracts.cjs",
-      "patterns": [
-        "^js/onlinePlayerIdentity\\.js$",
-        "^tests/browser/settings\\-offline\\-save\\-library\\-editor\\-audit\\.cjs$",
-        "^tests/browser/manager\\-identity\\-linkage\\-audit\\.cjs$",
-        "^tests/contracts/settings\\-internal\\-audit\\-surface\\-contracts\\.cjs$",
-        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
-      ]
-    },
-    {
       "path": "tests/contracts/r87-upgrade-continue-hold-contracts.cjs",
       "patterns": [
         "^js/productionSharedMultiSeasonProgression\\.js$",
@@ -2760,6 +2677,7 @@
         "^js/iconNames\\.js$",
         "^data/icons\\.js$",
         "^scripts/r88\\-icons\\-from\\-csv\\.mjs$",
+        "^project\\-documents/r88\\-icon\\-guess/data/",
         "^tests/fixtures/r88\\-icons/",
         "^tests/contracts/r88\\-icon\\-names\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
@@ -2870,7 +2788,6 @@
         "^css/chamberMen\\.css$",
         "^service-worker\\.js$",
         "^firestore\\.season-results-production\\.fragment\\.rules$",
-        "^tools/set-release-time\\.cjs$",
         "^visual-assets/v10_1/roulette/index\\.html$",
         "^tests/contracts/r88\\-chamber\\-men\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
@@ -2937,7 +2854,7 @@
     {
       "path": "tests/contracts/r88-lock-refusals-contracts.cjs",
       "patterns": [
-        "^js/(productionSharedTransferChallenge|rosterRoulette)\\.js$",
+        "^js/(productionSharedTransferChallenge|rosterRoulette|transferSelector)\\.js$",
         "^data/(fifa17Players|rosterSquads)\\.js$",
         "^tests/contracts/r88\\-lock\\-refusals\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
@@ -2981,7 +2898,6 @@
         "^index\\.html$",
         "^service-worker\\.js$",
         "^scripts/build-production-firestore-rules\\.mjs$",
-        "^tools/set-release-time\\.cjs$",
         "^tests/contracts/r89\\-sacked\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
@@ -3001,7 +2917,6 @@
         "^js/.+\\.js$",
         "^index\\.html$",
         "^service-worker\\.js$",
-        "^production-authorization-acceptance\\.html$",
         "^visual-assets/.+\\.(?:html|js)$",
         "^tests/contracts/r90\\-no\\-dead\\-js\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
@@ -3076,6 +2991,284 @@
         "^\\.github/workflows/validate\\-stability\\-lane\\.yml$",
         "^tests/contracts/r90\\-offline\\-shell\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-squad-sheet-contracts.cjs",
+      "patterns": [
+        "^js/squadSheet\\.js$",
+        "^js/(squadSheetStep|productionSharedTransferChallenge)\\.js$",
+        "^data/fifa17Players\\.js$",
+        "^data/rosterSquads\\.js$",
+        "^tests/contracts/r91\\-squad\\-sheet\\-contracts\\.cjs$",
+        "^tests/browser/support/roster\\-roulette\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-player-search-contracts.cjs",
+      "patterns": [
+        "^js/playerSearch\\.js$",
+        "^js/transferSelector\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/transferScreenV10\\.js$",
+        "^js/optionalModules\\.js$",
+        "^service\\-worker\\.js$",
+        "^index\\.html$",
+        "^data/fifa17/.+$",
+        "^data/transferOptions\\.js$",
+        "^data/fifa17Players\\.js$",
+        "^scripts/build\\-fifa17\\-database\\.py$",
+        "^tests/contracts/r91\\-player\\-search\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-old-art-contracts.cjs",
+      "patterns": [
+        "^css/.+\\.css$",
+        "^js/.+\\.js$",
+        "^index\\.html$",
+        "^package\\.json$",
+        "^tests/browser/r91\\-old\\-art\\-audit\\.cjs$",
+        "^tests/fixtures/r91\\-old\\-art\\-references\\.json$",
+        "^tests/contracts/r91\\-old\\-art\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-device-check-published-contracts.cjs",
+      "patterns": [
+        "^[^/]+\\.html$",
+        "^service\\-worker\\.js$",
+        "^js/.+\\.js$",
+        "^\\.github/workflows/deploy\\-github\\-pages\\.yml$",
+        "^tests/support/stage\\-pages\\-artifact\\.cjs$",
+        "^tests/contracts/r91\\-device\\-check\\-published\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-device-check-verdict-contracts.cjs",
+      "patterns": [
+        "^device-check(?:-chamber)?\\.html$",
+        "^js/gfxTier\\.js$",
+        "^js/chamberMenScene3d\\.js$",
+        "^visual-assets/v10_1/(?:roulette|special-player)/index\\.html$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/contracts/r91\\-device\\-check\\-verdict\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-transfer-locked-copy-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/r91\\-transfer\\-locked\\-copy\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-governor-beats-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/contracts/r91\\-governor\\-beats\\-contracts\\.cjs$",
+        "^tests/support/device\\-lab\\-profiles\\.cjs$",
+        "^tests/browser/device\\-lab\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-gfx-tab-crash-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^js/chamberMenScene3d\\.js$",
+        "^js/settings\\.js$",
+        "^device-check\\.html$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/support/device\\-lab\\-profiles\\.cjs$",
+        "^tests/browser/device\\-lab\\.cjs$",
+        "^tests/contracts/r91\\-gfx\\-tab\\-crash\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-gfx-weak-gate-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^js/settings\\.js$",
+        "^css/r78\\-type\\.css$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/support/device\\-lab\\-profiles\\.cjs$",
+        "^tests/browser/device\\-lab\\.cjs$",
+        "^tests/contracts/r91\\-gfx\\-weak\\-gate\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-draw-final-contracts.cjs",
+      "patterns": [
+        "^visual\\-assets/v10_1/final\\-winner/final\\-winner\\.js$",
+        "^visual\\-assets/v10_1/final\\-winner/app\\-shell\\.html$",
+        "^visual\\-assets/v10_1/final\\-winner/app\\-strings\\.json$",
+        "^visual\\-assets/v10_1/shared/wordmarks/TITLE_(?:FINAL_WINNER|SHOWDOWN_DRAW)_V2_.+\\.webp$",
+        "^data/frontPages\\.js$",
+        "^data/gazetteCopy\\.js$",
+        "^tests/contracts/r91\\-draw\\-final\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-chamber-ladder-contracts.cjs",
+      "patterns": [
+        "^js/chamberMenScene3d\\.js$",
+        "^js/chamberMenStadium3d\\.js$",
+        "^js/gfxTier\\.js$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/contracts/r91\\-chamber\\-ladder\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-roulette-ladder-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/roulette/index\\.html$",
+        "^js/gfxTier\\.js$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/contracts/r91\\-roulette\\-ladder\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-special-player-ladder-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/special\\-player/index\\.html$",
+        "^js/gfxTier\\.js$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/contracts/r91\\-special\\-player\\-ladder\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-legacy-long-history-contracts.cjs",
+      "patterns": [
+        "^css/rivalryLegacyV10\\.css$",
+        "^tests/contracts/r91\\-legacy\\-long\\-history\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-short-740-contracts.cjs",
+      "patterns": [
+        "^js/seasonFinalV10\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^tests/contracts/r91\\-short\\-740\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-level-guide-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^js/settings\\.js$",
+        "^device-check\\.html$",
+        "^css/r78-type\\.css$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^assets/level-guide/",
+        "^service-worker\\.js$",
+        "^tests/contracts/r91-level-guide-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-layout-faces-contracts.cjs",
+      "patterns": [
+        "^css/homeV10\\.css$",
+        "^js/seasonFinalV10\\.js$",
+        "^js/careerScreensV10\\.js$",
+        "^css/v10Setup\\.css$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^css/v10Shell\\.css$",
+        "^css/r78\\-type\\.css$",
+        "^visual\\-assets/v10_1/roulette/index\\.html$",
+        "^tests/contracts/r91\\-layout\\-faces\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-boot-fail-contracts.cjs",
+      "patterns": [
+        "^index\\.html$",
+        "^js/app\\.js$",
+        "^js/(storage|showdown|scoring|screens|menuExperience|optionalModules)\\.js$",
+        "^tests/contracts/r91-boot-fail-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-lazy-chain-retry-contracts.cjs",
+      "patterns": [
+        "^js/ssjr\\.js$",
+        "^js/optionalModules\\.js$",
+        "^index\\.html$",
+        "^tests/contracts/r91-lazy-chain-retry-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-rivalry-retry-contracts.cjs",
+      "patterns": [
+        "^js/rivalryLegacyV10\\.js$",
+        "^js/sparkClosedShowdownCareerLoader\\.js$",
+        "^tests/contracts/r91-rivalry-retry-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-gazette-parallel-contracts.cjs",
+      "patterns": [
+        "^js/squadSheetStep\\.js$",
+        "^js/touchlineGazette\\.js$",
+        "^tests/contracts/r91-gazette-parallel-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-upgrade-squad-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/squadSheetStep\\.js$",
+        "^js/rosterRoulette\\.js$",
+        "^js/rosterRouletteStep\\.js$",
+        "^tests/contracts/r91-upgrade-squad-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-squad-terminal-close-contracts.cjs",
+      "patterns": [
+        "^js/squadSheetStep\\.js$",
+        "^js/squadScreen\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/r91-squad-terminal-close-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-squad-steady-browser-contracts.cjs",
+      "patterns": [
+        "^js/(squadScreen|squadSheetStep|chamberMenStep)\\.js$",
+        "^css/squadScreen\\.css$",
+        "^tests/contracts/r91-squad-steady-browser-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-confirm-after-outage-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonResults\\.js$",
+        "^tests/contracts/r91-confirm-after-outage-contracts\\.cjs$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r91-end-closes-stages-contracts.cjs",
+      "patterns": [
+        "^js/(rosterRouletteStep|iconGuessStep|chamberMenStep|productionSharedTerminalClose)\\.js$",
+        "^tests/contracts/r91-end-closes-stages-contracts\\.cjs$"
       ]
     }
   ]

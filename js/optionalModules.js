@@ -59,7 +59,7 @@ settled = true;
 cleanup();
 link.remove();
 runtimeStylePromises.delete(key);
-reject(new Error(`Unable to load ${path}.`));
+reject(new Error(`Could not load ${path}.`));
 };
 
 const timeoutId = window.setTimeout(() => {
@@ -69,7 +69,7 @@ link.removeEventListener("load", handleLoad);
 link.removeEventListener("error", handleError);
 link.remove();
 runtimeStylePromises.delete(key);
-reject(new Error(`${path} timed out while loading.`));
+reject(new Error(`${path} took too long to load. Try again.`));
 }, OPTIONAL_LOAD_TIMEOUT_MS);
 
 link.addEventListener("load", handleLoad, { once: true });
@@ -131,7 +131,7 @@ reject(new Error(message));
 const handleLoad = () => {
 if(settled){ return; }
 if(typeof readinessCheck === "function" && !readinessCheck()){
-failExecuted(`${path} loaded but did not expose its expected API. Refresh before retrying this module.`);
+failExecuted(`${path} loaded but did not start properly. Refresh the page and try again.`);
 return;
 }
 settled = true;
@@ -139,9 +139,9 @@ cleanup();
 resolve(true);
 };
 
-const handleError = () => failRetryable(`Unable to load ${path}.`);
+const handleError = () => failRetryable(`Could not load ${path}.`);
 const timeoutId = window.setTimeout(
-() => failRetryable(`${path} timed out while loading.`),
+() => failRetryable(`${path} took too long to load. Try again.`),
 OPTIONAL_LOAD_TIMEOUT_MS
 );
 
@@ -218,7 +218,7 @@ await loadRuntimeScript(
 () => Array.isArray(window.FIFA17_TRANSFER_LEAGUES)
 && window.FIFA17_TRANSFER_LEAGUES.length === 36
 && Array.isArray(window.FIFA17_TRANSFER_NATIONALITIES)
-&& window.FIFA17_TRANSFER_NATIONALITIES.length === 164
+&& window.FIFA17_TRANSFER_NATIONALITIES.length === 166
 );
 await loadRuntimeScript(
 "transfer-selector",
@@ -344,20 +344,12 @@ await Promise.all([stylePromise, visualPromise]);
 
 async function ensureLegacyModule(){
 const stylePromise = loadRuntimeStyle("legacy-ui", "css/legacy.css");
-const restoreStylePromise = loadRuntimeStyle("restore-ui", "css/restore.css");
-await ensureCandidateC();
-await loadRuntimeScript(
-"restore-ui",
-"js/restoreUI.js",
-() => typeof window.initializeCareerModeRestoreUI === "function" && typeof window.mountCareerModeRestorePanel === "function"
-);
 await loadRuntimeScript(
 "legacy-ui",
 "js/legacy.js",
 () => typeof window.renderLegacy === "function"
 );
-await Promise.all([stylePromise, restoreStylePromise]);
-window.initializeCareerModeRestoreUI();
+await stylePromise;
 }
 
 async function ensureCandidateC(){
@@ -484,11 +476,7 @@ window.openRivalryStatistics();
 }else if(name === "trophyRoom"){
 window.openTrophyRoom();
 }else if(name === "legacy"){
-const opened = showScreen("legacy");
-if(opened && typeof window.mountCareerModeRestorePanel === "function"){
-window.mountCareerModeRestorePanel();
-}
-return opened;
+return showScreen("legacy");
 }else if(name === "ruleBook"){
 window.openRuleBook();
 }else if(name === "settings"){
@@ -497,7 +485,7 @@ window.openSettings();
 return true;
 }catch(error){
 if(typeof window.reportApplicationError === "function"){
-window.reportApplicationError(`Unable to open ${name}`, error);
+window.reportApplicationError(`Could not open ${name}`, error);
 }else{ console.error(error); }
 return false;
 }finally{

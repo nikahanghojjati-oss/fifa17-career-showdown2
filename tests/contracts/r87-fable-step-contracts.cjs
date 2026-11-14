@@ -6,6 +6,7 @@
 // confirm time; the true reason in plain words with a way back to Home; the roulette DOM always comes down; the Reus Gate
 // loading screen holds from START until a card or the scene is ready; nothing dims or covers.
 const assert=require("node:assert/strict");
+const ROULETTE_T=Date.parse("2026-11-02T05:00:00Z");
 const fs=require("node:fs");
 const path=require("node:path");
 const vm=require("node:vm");
@@ -34,7 +35,7 @@ class El{
   all(){return [this,...this.children.flatMap(c=>c.all())];}
   querySelector(sel){return sel==="button"?this.all().slice(1).find(n=>n.tagName==="button")||null:null;}
 }
-const CTX={rivalryId:"pair_"+"c".repeat(64),managerRole:"playerOne",season:1,clubs:{playerOne:"Arsenal",playerTwo:"Liverpool"},confirmedAtMs:(Date.parse(require("../../tools/set-release-time.cjs").read()[0].value)+3600000),phase:"NOT_STARTED"};
+const CTX={rivalryId:"pair_"+"c".repeat(64),managerRole:"playerOne",season:1,clubs:{playerOne:"Arsenal",playerTwo:"Liverpool"},confirmedAtMs:(Date.parse("2026-11-12T00:00:00Z")+3600000),phase:"NOT_STARTED"};
 const SAFE_PLAN={boards:{playerOne:[{pos:"GK",positions:["GK"],name:"Keeper",rating:80}],playerTwo:[{pos:"GK",positions:["GK"],name:"Other",rating:80}]},formations:{playerOne:"x",playerTwo:"y"},
   turns:[{role:"playerOne",fired:false,player:null,bulletChamber:1,stopChamber:4,hitSlot:null,aimSlot:0},{role:"playerTwo",fired:false,player:null,bulletChamber:2,stopChamber:5,hitSlot:null,aimSlot:0}]};
 function stepWorld({forSeason=()=>SAFE_PLAN,clubs={Arsenal:{},Liverpool:{}},loadGate=null,loads=()=>true}={}){
@@ -191,7 +192,7 @@ async function partA(){
     await until(()=>w.title()==="Release Manu García #19","the release card names the shirt number");
     assert.ok(w.lines().includes("Daniel lost Manu García (#19, CB, 74 overall)."),"the outcome line tells the namesakes apart");
     assert.ok(w.lines().some(line=>/^Release Manu García \(#19, CB, 74 overall\) in your FIFA 17 save now/.test(line)));
-    await w.press("I'VE RELEASED HIM");assert.equal(await run,true);
+    await w.press("I HAVE RELEASED HIM");assert.equal(await run,true);
     assert.match(read("visual-assets/v10_1/roulette/index.html"),/GAME\.turns\[turn\]\.targetLabel\)\|\|p\.target\.name/,"the scene's lost line shows the same label");
     ok("C2-01","the release card and the scene payload name shirt number, position and overall, so namesakes are told apart");
   }
@@ -225,7 +226,7 @@ async function settle(){for(let i=0;i<30;i+=1)await new Promise(resolve=>setImme
 async function phone({confirmedAtMs,step,state=null,navigateTo=null,readFails=false}){
   const page=fakePage(),calls={markSpun:[],read:0};let sandbox=null;
   const projection=()=>state?{ok:true,revision:state.revision,state,managerRole:"playerOne",seasonNumber:1,spunRoles:null,ownInputs:{guesses:null,signings:null},opponentInputs:null,verdicts:null}:{ok:true,revision:0,state:null,managerRole:"playerOne",seasonNumber:1,spunRoles:["playerOne","playerTwo"],ownInputs:null,opponentInputs:null,verdicts:null};
-  const provider={rouletteEligible:ms=>Number.isFinite(ms)&&ms>=Provider.rouletteFromMs,
+  const provider={rouletteEligible:ms=>Number.isFinite(ms)&&ms>=ROULETTE_T,
     read:async()=>{calls.read+=1;if(readFails)return {ok:false,code:"unavailable"};return projection();},
     markSpun:async options=>{calls.markSpun.push(options.managerRole);return {ok:true};},
     startWindow:async()=>({ok:false}),requestEndWindow:async()=>({ok:false}),advanceExpiredWindow:async()=>({ok:false}),lockGuesses:async()=>({ok:false}),lockSignings:async()=>({ok:false})};
@@ -239,9 +240,11 @@ async function phone({confirmedAtMs,step,state=null,navigateTo=null,readFails=fa
     CareerModeProductionSharedCareerStart:{refresh:async()=>null,getState:()=>({state:{phase:"CAREER_START_READY",revision:2}})},
     CareerModeSharedTransferChallenge:{},CareerModeSparkSharedTransferChallenge:provider,
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:uid1,getIdTokenResult:async()=>({issuedAtTime:new Date().toISOString()})}},firestore:{},firestoreSdk:{}})},
+    // r91 Squad Management: this harness plays a Showdown whose squads are not asked here (tests/contracts/r91-squad-sheet-contracts.cjs).
+    CareerModeSquadSheetStep:{applies:()=>false,isDone:()=>true,close(){}},
     CareerModeRosterRouletteStep:step,
     // r87 Prime Pack runs after the roulette; here it is already done.
-    CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}
+    CareerModeChamberMenStep:{ensure:async()=>true,applies:()=>false,markDone(){},close(){}},CareerModeIconGuessStep:{ensure:async()=>true,applies:()=>true,run:async()=>true,close(){}}
   };
   sandbox.globalThis=sandbox;vm.createContext(sandbox);vm.runInContext(PSTC_SOURCE,sandbox,{filename:"productionSharedTransferChallenge.js"});
   const api=sandbox.CareerModeProductionSharedTransferChallenge;api.install();await settle();
@@ -249,11 +252,11 @@ async function phone({confirmedAtMs,step,state=null,navigateTo=null,readFails=fa
 }
 function fakeStep(extra={}){
   const calls={close:0,forget:0,draw:0,decide:0};
-  return {calls,step:{fromMs:Step.fromMs,decide:()=>{calls.decide+=1;return false;},runBeforeTransfers:async()=>true,close(){calls.close+=1;},forgetHome(){calls.forget+=1;},ensureDraw:async()=>{calls.draw+=1;return true;},...extra}};
+  return {calls,step:{fromMs:ROULETTE_T,decide:()=>{calls.decide+=1;return false;},runBeforeTransfers:async()=>true,close(){calls.close+=1;},forgetHome(){calls.forget+=1;},ensureDraw:async()=>{calls.draw+=1;return true;},...extra}};
 }
 
 async function partB(){
-  const R87=Step.fromMs+60_000;
+  const R87=ROULETTE_T+60_000;
   // F2-01: a navigation to the transfer screen that fails still takes the roulette's card and stage down.
   {
     const s=fakeStep();

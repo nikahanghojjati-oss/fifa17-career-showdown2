@@ -2,7 +2,11 @@
   "use strict";
   const load=root.loadRuntimeScript;
   if(typeof load!=="function")return;
-  const install=(id,path,key)=>load(id,path,()=>root[key]).then(()=>{const api=root[key];if(!api||typeof api.install!=="function")throw new Error(`${path} loaded without an installable ${key} API.`);api.install();return api;});
+  // R92-05: one install per module; a failed one is forgotten, so the Shared Journey chain below can ask for it again.
+  const installs=new Map();
+  const install=(id,path,key)=>{if(installs.has(id))return installs.get(id);
+    const run=load(id,path,()=>root[key]).then(()=>{const api=root[key];if(!api||typeof api.install!=="function")throw new Error(`${path} loaded without an installable ${key} API.`);api.install();return api;});
+    installs.set(id,run);run.catch(()=>{if(installs.get(id)===run)installs.delete(id);});return run;};
   const prepare=(items)=>items.reduce((chain,[id,path,key])=>chain.then(()=>load(id,path,()=>root[key]).then(()=>{const api=root[key];if(!api)throw new Error(`${path} loaded without its expected ${key} API.`);return api;})),Promise.resolve());
   // Settings > FULL MOTION must win over a device that asks for reduced motion (CSS media rules and direct matchMedia reads, frozen Team V scripts included). Requested before any screen module.
   load("full-motion-honor","js/fullMotionHonor.js",()=>root.CareerModeFullMotionHonor).then(()=>root.CareerModeFullMotionHonor.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Full motion preference honouring unavailable.",error));
@@ -135,7 +139,12 @@
   const unfinishedOnline=()=>{let s=null;try{s=typeof currentShowdown!=="undefined"&&currentShowdown?currentShowdown:typeof root.readSaveLibraryActive==="function"?root.readSaveLibraryActive():undefined;}catch(_error){return true;}
     if(s===undefined)return true;return Boolean(s&&s.sharedJourney&&s.sharedJourney.mode==="shared"&&s.status!=="Completed");};
   const chainNow=acceptanceEnabled||ssjrTestEnabled||pendingShell()||liveGameHeld()||unfinishedOnline();
-  let chainRun=null,settled=false;const sharedChain=()=>chainRun||(chainRun=(async()=>{
+  let chainRun=null,settled=false;const chainOnce=async()=>{
+    // The same requests as above (in flight or done, so the first run waits on exactly those); on the second run a lost one is
+    // asked for again (the loader and install() forget failures).
+    const firebaseRuntime=load("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime);
+    const entry=install("ssjr-production-entry","js/productionSharedJourneyEntry.js","CareerModeProductionSharedJourneyEntry");
+    const guard=install("ssjr-production-guard","js/productionSharedJourneyGuard.js","CareerModeProductionSharedJourneyGuard");
     const seasonResultsRoute=install("ssjr-production-season-results-route","js/productionSharedSeasonResultsRoute.js","CareerModeProductionSharedSeasonResultsRoute");
     const seasonCommit=install("ssjr-production-season-commit","js/productionSharedSeasonCommit.js","CareerModeProductionSharedSeasonCommit");
     const canonicalScoring=(async()=>{
@@ -203,11 +212,41 @@
       seasonCommit,canonicalScoring,historyConvergence,multiSeason,journeyReconnect,journeyConflicts,localReconciliation,finalReconciliation,terminalClose,
       (async()=>{await seasonResultsRoute;return install("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js","CareerModeProductionSharedTransferChallenge");})()
     ]);
-    settled=true;return true;
-  })());
+    settled=true;chainMark(s=>s.removeItem(CHAIN_MARK));return true;
+  };
+  // R92-05 (L1, 2.4.0 re-check): a later game file that did not arrive (a dropped request at a reload) used to keep the failed
+  // chain for the life of the page: Home looked normal but scoring, History, multi-season, reconnect, final reconciliation and
+  // Terminal Close never loaded until a manual reload. Now the chain is run once more after a short pause (the loader has
+  // forgotten the lost file; files that arrived are not asked for again). If it fails again the page goes to index.html's
+  // cmsBootFail: one silent reload (the saved Showdown comes back from the server), then the marble RELOAD screen. Never a loop:
+  // a tab mark (CHAIN_MARK) remembers that this tab already reloaded for a lost game file and is cleared once the chain loads.
+  // Never in the middle of a tap that writes: the reload waits until no write is marked busy and no tap came in the last 8 s.
+  const CHAIN_RETRY_MS=2000,CHAIN_MARK="cmsChainRetry",CHAIN_QUIET_MS=8000,CHAIN_WAIT_CAP_MS=60e3;
+  const chainMark=f=>{try{return f(root.sessionStorage);}catch(_error){return null;}};
+  const pause=ms=>new Promise(resolve=>root.setTimeout(resolve,ms));
+  let lastTap=0;const tapSeen=()=>{lastTap=Date.now();};
+  for(const type of ["pointerdown","keydown"])root.addEventListener?.(type,tapSeen,{capture:true,passive:true});
+  const writeBusy=()=>{
+    try{if(root.document?.querySelector?.('[data-transaction-busy="true"],[data-critical-recovery="true"],[aria-busy="true"]:not(#loadingScreen)'))return true;}catch(_error){return true;}
+    try{return [root.CareerModeProductionSharedJourneyReconnect,root.CareerModeProductionSharedTerminalClose].some(api=>api?.isBusy?.()===true);}catch(_error){return true;}
+  };
+  let chainLost=false;
+  const chainFailed=async error=>{
+    root.console?.warn?.("[Career Mode Showdown] Shared Journey bootstrap unavailable.",error);
+    if(chainLost||typeof root.cmsBootFail!=="function")return;chainLost=true;
+    for(const start=Date.now();Date.now()-start<CHAIN_WAIT_CAP_MS&&(writeBusy()||Date.now()-lastTap<CHAIN_QUIET_MS);)await pause(250);
+    if(settled)return;// a later ask (a game screen opened) loaded it meanwhile
+    // First time in this tab: the one silent reload. Already reloaded once for it: straight to the RELOAD screen.
+    if(chainMark(s=>s.getItem(CHAIN_MARK))==="1")chainMark(s=>s.setItem("cmsBootRetry","1"));else chainMark(s=>s.setItem(CHAIN_MARK,"1"));
+    root.cmsBootFail("A game file did not load",error);
+  };
+  const sharedChain=()=>chainRun||(chainRun=chainOnce().catch(async error=>{
+    root.console?.warn?.("[Career Mode Showdown] A game file did not load; asking again.",error);
+    await pause(CHAIN_RETRY_MS);return chainOnce();
+  }).catch(error=>{chainRun=null;void chainFailed(error);throw error;}));
   // Started at once, nothing waits on it (as before). Deferred: a game screen opened first (navigateTo), the START/JOIN decision
   // and Settings' sacked close wait for it, bounded like the startup cap so a stuck file can never lock the player out.
-  const chainWarn=error=>root.console?.warn?.("[Career Mode Showdown] Shared Journey bootstrap unavailable.",error);
+  const chainWarn=()=>null;// reported by chainFailed above
   if(chainNow){sharedChain().catch(chainWarn);root.CareerModeSharedJourneyReady=()=>Promise.resolve(true);}
   else{
     const ready=()=>settled?Promise.resolve(true):Promise.race([sharedChain().catch(()=>false),new Promise(resolve=>root.setTimeout(()=>resolve(false),15e3))]);
@@ -223,20 +262,6 @@
     await sharedChain();
     // r85: ?ssjr=1 is the simple SSJR test. Only its panel loads: none of the older acceptance tooling or guided aside.
     if(ssjrTestEnabled&&!acceptanceEnabled)return install("ssjr-physical-journey-acceptance","js/ssjrPhysicalJourneyAcceptance.js","CareerModeSSJRPhysicalJourneyAcceptance");
-    if(!acceptanceEnabled)return;
-    if(!witnessEnabled)await install("ssjr-acceptance-polished-bridge","js/ssjrAcceptancePolishedBridge.js","CareerModeSSJRAcceptancePolishedBridge");
-    await load("ssjr-stage5f-negative-probes","js/stage5fProductionAuthenticatedNegatives.js",()=>root.CareerModeStage5fProductionAuthenticatedNegatives);
-    if(!witnessEnabled)await load("ssjr-production-negative-probe-runner","js/ssjrProductionNegativeProbeRunner.js",()=>root.CareerModeSSJRProductionNegativeProbeRunner);
-    await load("ssjr-production-negative-evidence","js/ssjrProductionNegativeEvidence.js",()=>root.CareerModeSSJRProductionNegativeEvidence);
-    if(!witnessEnabled)await install("ssjr-production-acceptance-recorder","js/ssjrProductionAcceptanceRecorder.js","CareerModeSSJRProductionAcceptanceRecorder");
-    const actor=root.CareerModeSSJRProductionActorEvidence;
-    if(!actor||typeof actor.install!=="function")throw new Error("js/ssjrProductionNegativeEvidence.js loaded without the actor-attributed v2 acceptance sidecar.");
-    actor.install();
-    if(!witnessEnabled&&root.document){
-      const recorder=root.document.getElementById("ssjrProductionAcceptanceRecorder");
-      const actorPanel=root.document.getElementById("ssjrActorEvidenceV2");
-      if(recorder&&actorPanel){actorPanel.style.cssText="position:static;max-width:100%;max-height:none;overflow:visible;margin:12px 0 0;padding:12px;background:#111;color:#fff;border:1px solid #777;border-radius:8px;font:14px/1.4 system-ui";recorder.append(actorPanel);}
-    }
     if(physicalEnabled)await install("ssjr-physical-journey-acceptance","js/ssjrPhysicalJourneyAcceptance.js","CareerModeSSJRPhysicalJourneyAcceptance");
   })().catch(error=>root.console?.warn?.("[Career Mode Showdown] Shared Journey bootstrap unavailable.",error));
 })(typeof window!=="undefined"?window:globalThis);

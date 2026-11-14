@@ -74,7 +74,7 @@ async function recovery(role,failure,trigger){
   s.emit("visibilitychange");await s.advance();
   const partial=s.frame(),text=cells(partial);
   assert.equal(partial.status,"partial");assert.equal(text("panelLastSeasonDaniel"),"—");assert.equal(text("panelDanielTrophies"),"—");
-  assert.equal(partial.message,"Trophy attribution is unavailable right now.");
+  assert.equal(partial.message,"Trophy credits are unavailable right now.");
   assert.equal(partial.totals.daniel,f.terminal.terminalWitness.managerTotals.playerOne);
   assert.equal(partial.winner,"daniel");assert.equal(s.reads(),failure==="services"?0:1);
   // Ordinary redraws and repeated notifications must not cause a burst of reads.

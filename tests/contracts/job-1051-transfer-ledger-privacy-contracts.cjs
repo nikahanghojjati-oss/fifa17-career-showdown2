@@ -91,13 +91,13 @@ async function toGuessEntry(h){
   const storedHash=publicLedger.operationHashes[3];
   assert.match(storedHash,/^sha256:[0-9a-f]{64}$/,'ledger must keep the HASH format Rules validate');
   const options=[...leagueIds.map(valueId=>({type:'league',valueId})),...nationalityIds.map(valueId=>({type:'nationality',valueId}))];
-  assert.equal(options.length,200);
+  assert.equal(options.length,202);
   let tried=0,matches=0;
   for(const a of options)for(const b of options){
     const guesses=[{slot:1,...a},{slot:2,...b}];tried++;
     if(legacyHash('playerOne','lock-guesses',op(4),3,{guesses})===storedHash)matches++;
   }
-  assert.equal(tried,40000);
+  assert.equal(tried,202*202);
   assert.equal(matches,0,'no catalog guess list may reproduce the public ledger hash for a guess lock (an unsalted attacker finds nothing)');
   for(const slot of [1,2,3])for(const o of options){if(legacyHash('playerOne','lock-guesses',op(4),3,{guesses:[{slot,...o}]})===storedHash)matches++;}
   assert.equal(matches,0,'single-guess lists must not reproduce the public ledger hash either');
@@ -229,5 +229,5 @@ async function toGuessEntry(h){
   const noSalts={...good};delete noSalts.guessSalt;delete noSalts.signingSalt;shape.store.set(sp,noSalts);r=await readP1();assert.equal(r.ok,true,'an r66 document without salt keys reads');
   shape.store.set(sp,{...good,signingSalt:null});r=await readP1();assert.equal(r.ok,true,'explicit null salts read');
 
-  console.log('PASS JOB-1051 Transfer ledger privacy: lock hashes commit to the private payload plus a random salt kept only in the actor\'s own role document (40000-list brute force finds no match, fresh salt per lock, rival never sees it), idempotent replays succeed, conflicting replays fail with TRANSFER_IDEMPOTENCY_CONFLICT, r66 unsalted role documents still read and replay, and only the r66 and salted shapes are accepted.');
+  console.log('PASS JOB-1051 Transfer ledger privacy: lock hashes commit to the private payload plus a random salt kept only in the actor\'s own role document (40804-list brute force finds no match, fresh salt per lock, rival never sees it), idempotent replays succeed, conflicting replays fail with TRANSFER_IDEMPOTENCY_CONFLICT, r66 unsalted role documents still read and replay, and only the r66 and salted shapes are accepted.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

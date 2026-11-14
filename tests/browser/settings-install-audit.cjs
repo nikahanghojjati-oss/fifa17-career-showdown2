@@ -138,10 +138,6 @@ async function run(){
         assert.match(await dataPanel.innerText(),/SHOWDOWN DATA/i,"Settings must label the player-facing career data surface clearly.");
         assert.match(await dataPanel.innerText(),/CURRENT SHOWDOWN/i,"Settings must report current Showdown state.");
         assert.equal(await dataPanel.getAttribute("data-product-surface"),null,"Player-facing Showdown Data must not be classified as internal recovery machinery.");
-        const internalSaveLibrary=overlay.locator("#saveLibraryProductPanel");
-        await internalSaveLibrary.waitFor({state:"attached",timeout:15000});
-        assert.equal(await internalSaveLibrary.isHidden(),true,"Engineering Save Library recovery machinery must remain internal.");
-        assert.equal(await internalSaveLibrary.getAttribute("data-product-surface"),"internal","Engineering Save Library must retain explicit internal classification.");
 
         if(baseUrl.origin === productionOrigin){
             await page.waitForFunction(() => {
@@ -208,7 +204,7 @@ async function run(){
     }
 }
 
-run().then(() => require("./app-update-bootstrap-audit.cjs")()).catch(error => {
+run().catch(error => {
     console.error(error);
     process.exitCode = 1;
 });

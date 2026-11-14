@@ -191,7 +191,7 @@
       const node=tfProduction(id),name=stage.querySelector(`[id="${id.replace(/Overall$/,"Name")}"]`),pos=tfProduction(id.replace(/Overall$/,"Position"));
       if(!node||!name||!tfIsAdopted(name)||!name.parentNode)continue;
       const cell=doc.createElement("div");cell.className="signing-name-cell";
-      name.parentNode.insertBefore(cell,name);cell.appendChild(name);nameCells.push(cell);
+      const unit=tfUnit(name);unit.parentNode.insertBefore(cell,unit);cell.appendChild(unit);nameCells.push(cell);
       if(pos)tfAdopt(pos,cell,"append");
       tfAdopt(node,cell,"append");
     }
@@ -215,7 +215,8 @@
   // Team V's labelling elements keep their place under a "tw-" id, so no id exists twice.
   function tfRenameIds(){
     const renamed=new Map();
-    for(const node of stage.querySelectorAll("[id]")){if(tfIsAdopted(node)||node.id.startsWith("tw-"))continue;const next=`tw-${node.id}`;renamed.set(node.id,next);node.id=next;}
+    // A selector's listbox and its rows belong to the adopted box (its aria-controls / aria-activedescendant name them).
+    for(const node of stage.querySelectorAll("[id]")){const box=node.closest&&node.closest(".transferCombobox");if(tfIsAdopted(node)||node.id.startsWith("tw-")||(box&&tfIsAdopted(box.querySelector("input"))))continue;const next=`tw-${node.id}`;renamed.set(node.id,next);node.id=next;}
     for(const node of stage.querySelectorAll("[aria-labelledby]")){const value=node.getAttribute("aria-labelledby").split(/\s+/).map(id=>renamed.get(id)||id).join(" ");node.setAttribute("aria-labelledby",value);}
   }
   function tfPlace(id){for(const node of stage.querySelectorAll(`[id="${id}"]`))if(!tfIsAdopted(node))return node;return null;}
@@ -293,7 +294,7 @@
     const pic=(cls,file,enter,size)=>`<picture class="${cls}"${enter?` data-sd-enter="${enter}"`:""}><source media="${media}" srcset="${file.includes("/")?BASE+file:a+file}" type="image/webp"><img alt=""${size||""} decoding="async"></picture>`;
     // r78 HO-031: the phone plate is Team V's ENV_TRANSFER_PHONE_V2 with both managers painted in (css/v10Transfer.css),
     // so the phone cut-outs (OVL_TRANSFER_*_PHONE_V2) are gone. HO-068: it is now the V2 office room (590W on Light or Save-Data).
-    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","plates-hc/ENV_OFFICE_PHONE_HC_V2"+(root.document?.documentElement?.dataset?.assets==="0"?"_590W":"")+".webp","",' width="1179" height="2096"')}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer War"></div>`;
+    return `<div class="phone-hero-art" aria-hidden="true" data-sd-enter="scene">${pic("phone-hero-bg","plates-hc/ENV_OFFICE_PHONE_HC_V3"+(root.document?.documentElement?.dataset?.assets==="0"?"_590W":"")+".webp","",' width="1179" height="2096"')}</div><div class="stage" data-phone-contract="cinematic" role="region" aria-label="Transfer War"></div>`;
   }
   // JOB-1699: on desktop the entry and verdict phases need more room than Team V's painted frames give them.
   // Only those phases move the existing panels (same nodes, ids, copy and listeners) as one ordered group beside the
@@ -425,7 +426,27 @@
     if(section)section.classList.remove("tw-on");
     stage=null;mountedFrame=null;
   }
+  // r91: a re-mount (the rival acts, a resize) moves the adopted boxes, and a moved element loses focus. The box being typed in
+  // gets its focus, caret and open list back, so a manager typing a signing name or a guess never loses his place.
+  function tfFocusSnapshot(section){
+    const doc=tfDoc(),node=doc&&doc.activeElement;
+    if(!node||!section||!section.contains(node)||!/^(INPUT|SELECT|TEXTAREA)$/.test(node.tagName))return null;
+    let sel=null;try{if(typeof node.selectionStart==="number")sel=[node.selectionStart,node.selectionEnd,node.selectionDirection||"none"];}catch(_error){sel=null;}
+    return {node,sel,listOpen:node.getAttribute("aria-expanded")==="true"};
+  }
+  function tfFocusRestore(snap){
+    if(!snap)return;const node=snap.node,doc=tfDoc();
+    if(!node.isConnected||node.disabled||doc.activeElement===node)return;
+    try{node.focus({preventScroll:true});}catch(_error){return;}
+    if(snap.sel)try{node.setSelectionRange(snap.sel[0],snap.sel[1],snap.sel[2]);}catch(_error){}
+    // Focusing a selector box opens its list (js/transferSelector.js); keep it closed if it was closed.
+    if(!snap.listOpen&&node.getAttribute("aria-expanded")==="true"&&typeof root.closeAllTransferSelectors==="function")root.closeAllTransferSelectors();
+  }
   function tfMount(frame,section){
+    const focus=tfFocusSnapshot(section);
+    try{tfMountNow(frame,section);}finally{tfFocusRestore(focus);}
+  }
+  function tfMountNow(frame,section){
     tfTeardown(section);
     try{
       const doc=tfDoc(),host=doc.createElement("div");

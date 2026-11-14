@@ -35,72 +35,64 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   ok('RR2','the site deploy waits for the same commit\'s Rules deploy, or for the last one on main to have succeeded');
 }
 
-// RR3 (red team #5, moved on by 2.0.0, 2.1.0, 2.2.0 and again by 2.3.0): PREVIOUS is the live 2.2.0-r89, so the retained
-// shell is exactly r89's own 275 paths (tests/fixtures/shell-paths/2.2.0-r89.json, main 2fe8d2f5): this release's shell minus
-// what r90 added, plus what it removed. tests/contracts/r87-upgrade-rollback-list-contracts.cjs names any drift.
+// RR3 (red team #5, moved on by 2.0.0, 2.1.0, 2.2.0, 2.3.0 and again by 2.4.0): PREVIOUS is the live 2.3.0-r90, so the retained
+// shell is exactly r90's own 289 paths (tests/fixtures/shell-paths/2.3.0-r90.json, main a85d286a): this release's shell minus
+// what r91 added, plus what it removed. tests/contracts/r87-upgrade-rollback-list-contracts.cjs names any drift.
 {
-  // r90: the shared 3D quality module (#1260), the self-hosted Special Player and roulette faces (M8 #1285, Rye #1290) and the
-  // meshopt decoder for Chamber Men's packed GLBs (M1). Removed: the app's own Barlow Condensed 600/700 latin copies (the sheet
-  // loads the shared ones) and js/analytics.js (r90 dead-code cut).
-  const R90_ADDED=['js/gfxTier.js','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2','visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2','visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2','visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js'];
-  const R90_REMOVED=['assets/fonts/barlow-condensed-latin-600-normal.woff2','assets/fonts/barlow-condensed-latin-700-normal.woff2','js/analytics.js'];
+  // r91: Squad Management (#1358), the Transfer War name search (#1365; its player list is fetched on demand, never precached)
+  // and Team V's layered Reus loading cover (HO-072). Removed: the History & Backup and Save Library editor files (cut step 3,
+  // #1366) and the two flat Reus loading pictures the layered cover replaced.
+  const R91_ADDED=['js/squadSheetStep.js','js/squadSheet.js','js/squadScreen.js','css/squadScreen.css','js/playerSearch.js','assets/loading/ENV_LOADING_PLATE_HC_1X.webp','assets/loading/REUS_D_1X.webp','assets/loading/ENV_LOADING_PHONE_HC_590W.webp','assets/loading/REUS_P_590W.webp','assets/loading/LOGO_CM17_WORDMARK_V3_640.webp'];
+  const R91_REMOVED=['css/restore.css','css/saveLibrary.css','js/restoreUI.js','js/saveLibraryUI.js','assets/LOADING_REUS_DESKTOP.webp','assets/LOADING_REUS_PHONE.webp'];
   const sw=read('service-worker.js');
-  assert.match(sw,/const RUNTIME_REVISION = "2\.3\.0-r90";\nconst PREVIOUS_RUNTIME_REVISION = "2\.2\.0-r89";/);
+  assert.match(sw,/const RUNTIME_REVISION = "2\.4\.0-r91";\nconst PREVIOUS_RUNTIME_REVISION = "2\.3\.0-r90";/);
   const set=name=>JSON.parse('['+new RegExp(`const ${name} = new Set\\(\\[([^\\]]*)\\]\\);`).exec(sw)[1]+']');
   const added=set('SHELL_PATHS_ADDED_SINCE_PREVIOUS'),removed=set('SHELL_PATHS_REMOVED_SINCE_PREVIOUS');
-  const r89=JSON.parse(read('tests/fixtures/shell-paths/2.2.0-r89.json')).paths;
+  const r90=JSON.parse(read('tests/fixtures/shell-paths/2.3.0-r90.json')).paths;
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
-  assert.equal(r89.length,275);
-  assert.deepEqual(added,shell.filter(p=>!r89.includes(p)),'the added list is this shell minus r89\'s');
-  assert.deepEqual(added,R90_ADDED,'2.3.0 adds exactly the r90 shell files');
-  assert.deepEqual(removed,R90_REMOVED,'2.3.0 removes exactly the r89 shell files r90 drops');
-  assert.deepEqual(r89.filter(p=>!shell.includes(p)),removed,'every other r89 shell path is still precached');
-  assert.equal(shell.length,275-removed.length+added.length);
-  for(const p of ['js/chamberMenStep.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js','js/kits17.js','data/gazetteSacked.js','visual-assets/v10_1/roulette/vendor/three-r187.min.js','js/iconGuessStep.js','js/touchlineGazette.js','js/rosterRouletteStep.js'])assert.ok(r89.includes(p)&&!added.includes(p),`r89's ${p} is in r89's own list`);
+  assert.equal(r90.length,289);
+  assert.deepEqual(added,shell.filter(p=>!r90.includes(p)),'the added list is this shell minus r90\'s');
+  assert.deepEqual(added,R91_ADDED,'2.4.0 adds exactly the r91 shell files');
+  assert.deepEqual(removed,R91_REMOVED,'2.4.0 removes exactly the r90 shell files r91 drops');
+  assert.deepEqual(r90.filter(p=>!shell.includes(p)),removed,'every other r90 shell path is still precached');
+  assert.equal(shell.length,289-removed.length+added.length);
+  for(const p of ['js/gfxTier.js','js/chamberMenStep.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js','js/kits17.js','data/gazetteSacked.js','visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js','js/iconGuessStep.js','js/touchlineGazette.js','js/rosterRouletteStep.js'])assert.ok(r90.includes(p)&&!added.includes(p),`r90's ${p} is in r90's own list`);
+  assert.ok(!shell.some(p=>/^data\/fifa17\/players-/.test(p)),'the Transfer War player list is fetched on demand, never precached');
   assert.ok(!shell.some(p=>p.startsWith('visual-assets/v10_1/icon-guess/')&&/\.(webp|png|jpe?g)$/.test(p)),'Prime Pack pictures stay runtime-cached (V10_IMAGE_PATH)');
   assert.ok(!shell.some(p=>p.startsWith('chronicle/')),'the STORY site (chronicle/) is never precached');
-  ok('RR3','the retained 2.2.0-r89 shell is verified against its own 275 paths');
+  ok('RR3','the retained 2.3.0-r90 shell is verified against its own 289 paths');
 }
 
-// RR4 (2.3.0): one version everywhere it is pinned: package files, APP_VERSION (Settings and backups show it), the footer, the
+// RR4 (2.4.0): one version everywhere it is pinned: package files, APP_VERSION (Settings and backups show it), the footer, the
 // asset revision, every ?v= on Home's own files and the manifest icons, and the service worker.
 {
   const html=read('index.html'),app=read('js/app.js'),sw=read('service-worker.js'),manifest=read('manifest.webmanifest');
-  assert.equal(JSON.parse(read('package.json')).version,'2.3.0');
-  const lock=JSON.parse(read('package-lock.json'));assert.equal(lock.version,'2.3.0');assert.equal(lock.packages[''].version,'2.3.0');
-  assert.match(app,/^const APP_VERSION = "2\.3\.0";/);
-  assert.match(html,/<meta name="app-asset-revision" content="2\.3\.0-r90">/);
-  assert.match(html,/<footer>Career Mode Showdown<br>v2\.3\.0<\/footer>/);
+  assert.equal(JSON.parse(read('package.json')).version,'2.4.0');
+  const lock=JSON.parse(read('package-lock.json'));assert.equal(lock.version,'2.4.0');assert.equal(lock.packages[''].version,'2.4.0');
+  assert.match(app,/^const APP_VERSION = "2\.4\.0";/);
+  assert.match(html,/<meta name="app-asset-revision" content="2\.4\.0-r91">/);
+  assert.match(html,/<footer>Career Mode Showdown<br>v2\.4\.0<\/footer>/);
   const pins=[...html.matchAll(/\?v=([0-9][^"&]*)/g),...manifest.matchAll(/\?v=([0-9][^"&]*)/g),...app.matchAll(/\?v=([0-9][^"&]*)/g),...read('js/menuExperience.js').matchAll(/\?v=([0-9][^"&]*)/g)].map(m=>m[1]);
-  assert.ok(pins.length>=17,`${pins.length} pins`);assert.deepEqual([...new Set(pins)],['2.3.0-r90'],'every pinned asset revision is 2.3.0-r90');
-  assert.match(sw,/^const RUNTIME_REVISION = "2\.3\.0-r90";/);
-  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest','service-worker.js'])for(const old of ['1.9.9-r85','1.9.10-r86','2.0.0-r87','2.1.0-r88'])assert.ok(!read(file).includes(old),`${file} has no ${old} pin`);
-  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest'])assert.ok(!read(file).includes('2.2.0-r89'),`${file} has no r89 pin`);
-  ok('RR4','2.3.0-r90 is the one version pinned everywhere');
+  assert.ok(pins.length>=17,`${pins.length} pins`);assert.deepEqual([...new Set(pins)],['2.4.0-r91'],'every pinned asset revision is 2.4.0-r91');
+  assert.match(sw,/^const RUNTIME_REVISION = "2\.4\.0-r91";/);
+  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest','service-worker.js'])for(const old of ['1.9.9-r85','1.9.10-r86','2.0.0-r87','2.1.0-r88','2.2.0-r89'])assert.ok(!read(file).includes(old),`${file} has no ${old} pin`);
+  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest'])assert.ok(!read(file).includes('2.3.0-r90'),`${file} has no r90 pin`);
+  ok('RR4','2.4.0-r91 is the one version pinned everywhere');
 }
 
-// RR5 (red team R87-C-07): the roulette starts at the 2.0.0 release time. Every start constant that must equal it is set by
-// tools/set-release-time.cjs and they all hold the same fixed UTC time, after r86's release.
+// RR5 (old-era cut): there are no "live from date X" release gates. The only *_FROM_MS=Date.parse literal left in js/ is
+// MARQUEE_FROM_MS, a historical fact (a Showdown confirmed before r86 never had a Special Player), and nothing sets release times.
 {
-  const {read:readTimes,RELEASE_TIME_CONSTANTS,R88_RELEASE_TIME_CONSTANTS=[],R89_RELEASE_TIME_CONSTANTS=[],NOT_RELEASE_TIME}=require('../../tools/set-release-time.cjs');
-  const times=readTimes();
-  assert.equal(times.length,RELEASE_TIME_CONSTANTS.length);assert.ok(times.length>=10,'roulette, Prime Pack and own-club boundaries');
-  // Every *_FROM_MS=Date.parse("...") start literal in js/ is either a release-time constant or a named older boundary.
-  // r88's own start constants (Chamber Men) are set by the same tool's --r88 list (tests/contracts/r88-chamber-men-contracts.cjs checks them).
-  const listed=new Set([...RELEASE_TIME_CONSTANTS,...R88_RELEASE_TIME_CONSTANTS,...R89_RELEASE_TIME_CONSTANTS].map(c=>`${c.file}:${c.name}`));
-  for(const file of require('node:fs').readdirSync(require('node:path').join(__dirname,'../../js')).filter(f=>f.endsWith('.js')).map(f=>`js/${f}`))
-    for(const m of read(file).matchAll(/\b([A-Z][A-Z0-9_]*_FROM_MS)=Date\.parse\(/g))
-      assert.ok(listed.has(`${file}:${m[1]}`)||NOT_RELEASE_TIME.includes(m[1]),`${file} ${m[1]} is not set by tools/set-release-time.cjs`);
-  assert.deepEqual([...new Set(times.map(t=>t.value))].length,1,`the release-time constants differ: ${times.map(t=>`${t.name}=${t.value}`).join(', ')}`);
-  const at=Date.parse(times[0].value);
-  assert.ok(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(times[0].value)&&Number.isFinite(at));
-  assert.ok(at>Date.parse('2026-10-30T03:00:00Z'),'after the r86 release (MARQUEE_FROM_MS)');
-  const Step=require('../../js/rosterRouletteStep.js');
-  if(Step&&Number.isFinite(Step.fromMs))assert.equal(Step.fromMs,at,'the roulette step exports the release time');
-  ok('RR5',`the roulette, Prime Pack and own-club SP start at the release time ${times[0].value} (${times.map(t=>t.name).join(' = ')})`);
+  const fs=require('node:fs'),path=require('node:path');
+  const found=[];
+  for(const file of fs.readdirSync(path.join(__dirname,'../../js')).filter(f=>f.endsWith('.js')).map(f=>`js/${f}`))
+    for(const m of read(file).matchAll(/\b([A-Z][A-Z0-9_]*_FROM_MS)=Date\.parse\(/g))found.push(`${file}:${m[1]}`);
+  assert.deepEqual(found,['js/marqueePlayer.js:MARQUEE_FROM_MS'],'only the historical Special Player boundary remains');
+  assert.ok(!fs.existsSync(path.join(__dirname,'../../tools/set-release-time.cjs')),'the release-time tool is gone');
+  ok('RR5','no release-time gates remain: MARQUEE_FROM_MS is the one historical boundary');
 }
 
-// RR6 (arch audit D1): the seven acceptance-only scripts are not precached; a request for one is answered from the shell of the
+// RR6 (arch audit D1): the acceptance-only script is not precached (r91 cut the six other acceptance scripts); a request for one is answered from the shell of the
 // revision that asks (a page rolled back to an older build keeps its own copy), else the network, never a hard miss. From 2.1.0
 // they are ACCEPTANCE_ONLY_SCRIPT_PATHS (no longer SHELL_PATHS_REMOVED_SINCE_PREVIOUS: r87's shell never had them).
 {
@@ -110,27 +102,11 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   assert.ok(at>0&&at<fetchBlock.indexOf('const requestedRevision='),'the removed-path rule runs before the versioned shell lookup');
   assert.match(fetchBlock,/ACCEPTANCE_ONLY_SCRIPT_PATHS\.has\(path\)\)\{ const asked=url\.searchParams\.get\("v"\)\|\|""; event\.respondWith\(\(async\(\)=>\{ const cached=asked&&asked!==RUNTIME_REVISION\?await cachedShellResponse\(path,asked\):null; return cached\|\|fetch\(networkOnlyRequest\(request\)\); \}\)\(\)\); return; \}/);
   const acceptance=JSON.parse('['+/const ACCEPTANCE_ONLY_SCRIPT_PATHS = new Set\(\[([^\]]*)\]\);/.exec(sw)[1]+']');
-  assert.deepEqual(acceptance,['js/ssjrProductionAcceptanceRecorder.js','js/ssjrProductionNegativeProbeRunner.js','js/ssjrProductionNegativeEvidence.js','js/stage5fProductionAuthenticatedNegatives.js','js/ssjrAcceptancePolishedBridge.js','js/ssjrPhysicalJourneyAcceptance.js','js/remoteJoiningAcceptance.js']);
+  assert.deepEqual(acceptance,['js/ssjrPhysicalJourneyAcceptance.js']);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   assert.deepEqual(acceptance.filter(p=>shell.includes(p)),[],'none of them is precached');
-  for(const loader of [['js/ssjr.js','js/ssjrPhysicalJourneyAcceptance.js'],['js/offlineApp.js','js/remoteJoiningAcceptance.js']])assert.ok(read(loader[0]).includes(loader[1]),`${loader[0]} still loads ${loader[1]} on demand`);
+  for(const loader of [['js/ssjr.js','js/ssjrPhysicalJourneyAcceptance.js']])assert.ok(read(loader[0]).includes(loader[1]),`${loader[0]} still loads ${loader[1]} on demand`);
   ok('RR6','the acceptance-only scripts load on demand outside the precache');
-}
-
-// RR7 (2.2.0): r89's own start time. Every r89 boundary (the Sacked tick, SACKED_FROM_MS; grep *_FROM_MS on the merged tree
-// at freeze) is set by  node tools/set-release-time.cjs --r89 <UTC>  and they all hold one fixed UTC time, after r88's.
-{
-  const tool=require('../../tools/set-release-time.cjs');
-  assert.ok(Array.isArray(tool.R89_RELEASE_TIME_CONSTANTS)&&tool.R89_RELEASE_TIME_CONSTANTS.length>=1,'set-release-time has an --r89 list');
-  assert.match(read('tools/set-release-time.cjs'),/args\.includes\("--r89"\)/);
-  assert.ok(tool.R89_RELEASE_TIME_CONSTANTS.some(c=>c.name==='SACKED_FROM_MS'),'the Sacked tick starts at the r89 release time');
-  const times=tool.read(tool.R89_RELEASE_TIME_CONSTANTS),r89=times[0].value,r88=tool.read(tool.R88_RELEASE_TIME_CONSTANTS)[0].value,r87=tool.read()[0].value;
-  assert.deepEqual([...new Set(times.map(t=>t.value))].length,1,`the r89 release-time constants differ: ${times.map(t=>`${t.file} ${t.name}=${t.value}`).join(', ')}`);
-  assert.ok(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(r89)&&Number.isFinite(Date.parse(r89)));
-  assert.ok(Date.parse(r89)>Date.parse(r88)&&Date.parse(r88)>Date.parse(r87),'r89 starts after r88, which starts after 2.0.0');
-  const all=[...tool.RELEASE_TIME_CONSTANTS,...tool.R88_RELEASE_TIME_CONSTANTS,...tool.R89_RELEASE_TIME_CONSTANTS].map(c=>`${c.file}:${c.name}`);
-  assert.equal(new Set(all).size,all.length,'no constant is in two release lists');
-  ok('RR7',`r89's boundaries start at ${r89} (${times.map(t=>t.name).join(' = ')})`);
 }
 
 console.log(`PASS r86 release contracts: ${checks} checks.`);

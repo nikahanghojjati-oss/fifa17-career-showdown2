@@ -45,7 +45,6 @@ check("Z4","the session pointer is host-written, pair-read, never listed or dele
   assert.match(rules,/offer\.hostAccountId == request\.auth\.uid/);
   assert.match(rules,/session\.hostAccountId == request\.auth\.uid/);
   assert.match(rules,/session\.expiresAt == offer\.expiresAt/);
-  assert.equal(read("firestore.stage5c.rules"),rules,"Stage 5C candidate stays the promoted production source");
   const remote=read("js/sparkRemoteJoining.js");
   assert.match(remote,/autoConnect:srjAutoConnect/);
   assert.match(remote,/USE A SESSION CODE/,"the manual code stays reachable for an account that is not permanently paired");
@@ -61,7 +60,7 @@ check("Z5","a waiting update applies by itself only on a safe Home screen",()=>{
 });
 
 check("Z9","Settings never shows the old engineering panels, even if the identity module starts late or not at all",()=>{
-  assert.match(read("css/rulesSettingsV10.css"),/#settingsOverlay #settingsContent :is\(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, #saveLibraryProductPanel, .settingsOfflinePanel\):not\(\[data-test-surface="internal-audit"\]\) \{ display:none !important; \}/);
+  assert.match(read("css/rulesSettingsV10.css"),/#settingsOverlay #settingsContent :is\(#sparkConnectedAccountPanel, #sparkPrivatePairingPanel, #sparkConnectedRivalryPanel, .settingsOfflinePanel\):not\(\[data-test-surface="internal-audit"\]\) \{ display:none !important; \}/);
 });
 
 check("Z6","a stuck or cancelled Google sign-in returns to SIGN IN WITH GOOGLE",()=>{

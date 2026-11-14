@@ -418,13 +418,24 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
     assert.equal(withHero.summary.hero,1);assert.equal(withHero.players.find(p=>p.id==='mo-hero').cardVersion,'Hero');
     fails('older hero card picked',{icons:ICONS_CSV+heroRow.replace('FC 25,Hero,88','FIFA 22,Hero,86'),cards:CARDS_CSV+heroCards},/the card to use is FC 25 Hero \(overall 88\)/);
     fails('hero before FIFA 21',{icons:ICONS_CSV+heroRow,cards:CARDS_CSV+heroCards+"mo-hero,FIFA 20,Hero,85,https://example.com/made-up/mo-hero-20\n"},/Hero cards start in FIFA 21/);
-    // An Icon player with a higher Hero card keeps his Icon card...
+    // Nik 2026-11-11: a player uses his HIGHEST-rated card across Legend, Icon, Hero and Hall of FUT. An Icon player with a higher
+    // Hero card must use the Hero card (keeping the Icon card is refused)...
     const darcyHero="jean-luc-darcy,FC 26,Hero,93,https://example.com/made-up/jean-luc-darcy-hero\n";
-    const keeps=Loader.checkIcons({iconsCsv:ICONS_CSV,cardsCsv:CARDS_CSV+darcyHero,lastPrimeGame:'FIFA 23'});
-    assert.deepEqual(keeps.errors,[],keeps.errors.join(' / '));assert.equal(keeps.players.find(p=>p.id==='jean-luc-darcy').cardVersion,'Icon Base');
-    // ...and picking that Hero card instead is refused.
+    fails('icon kept over a higher hero',{icons:ICONS_CSV,cards:CARDS_CSV+darcyHero},/the card to use is FC 26 Hero \(overall 93\), not FC 25 Icon Base \(overall 90\)/);
     const darcyHeroRow=ICONS_CSV.split('\n').find(l=>l.startsWith('jean-luc-darcy,')).replace('FC 25,Icon Base,90','FC 26,Hero,93');
-    fails('hero over icon',{icons:ICONS_CSV.split('\n').map(l=>l.startsWith('jean-luc-darcy,')?darcyHeroRow:l).join('\n'),cards:CARDS_CSV+darcyHero},/the Icon card always wins/);
+    const takes=Loader.checkIcons({iconsCsv:ICONS_CSV.split('\n').map(l=>l.startsWith('jean-luc-darcy,')?darcyHeroRow:l).join('\n'),cardsCsv:CARDS_CSV+darcyHero,lastPrimeGame:'FIFA 23'});
+    assert.deepEqual(takes.errors,[],takes.errors.join(' / '));assert.equal(takes.players.find(p=>p.id==='jean-luc-darcy').cardVersion,'Hero');
+    // ...a LOWER Hero card changes nothing...
+    const lowHero="jean-luc-darcy,FC 26,Hero,88,https://example.com/made-up/jean-luc-darcy-hero\n";
+    const keeps=Loader.checkIcons({iconsCsv:ICONS_CSV,cardsCsv:CARDS_CSV+lowHero,lastPrimeGame:'FIFA 23'});
+    assert.deepEqual(keeps.errors,[],keeps.errors.join(' / '));assert.equal(keeps.players.find(p=>p.id==='jean-luc-darcy').cardVersion,'Icon Base');
+    // ...and on a tie the Icon card beats the Hero card, even from a newer game.
+    const tie=Loader.checkIcons({iconsCsv:ICONS_CSV,cardsCsv:CARDS_CSV+"jean-luc-darcy,FC 26,Hero,90,https://example.com/made-up/jean-luc-darcy-hero\n",lastPrimeGame:'FIFA 23'});
+    assert.deepEqual(tie.errors,[],tie.errors.join(' / '));assert.equal(tie.players.find(p=>p.id==='jean-luc-darcy').cardVersion,'Icon Base');
+    fails('hero over an equal icon',{icons:ICONS_CSV.split('\n').map(l=>l.startsWith('jean-luc-darcy,')?darcyHeroRow.replace('FC 26,Hero,93','FC 26,Hero,90'):l).join('\n'),cards:CARDS_CSV+"jean-luc-darcy,FC 26,Hero,90,https://example.com/made-up/jean-luc-darcy-hero\n"},/the card to use is FC 25 Icon Base \(overall 90\)/);
+    // One player, one row: the same full name under two ids is refused.
+    const twin=ICONS_CSV.split('\n').find(l=>l.startsWith('jean-luc-darcy,')).replace('jean-luc-darcy,','darcy-twin,').replace(/\|[^,]*,/,',');
+    assert.ok(Loader.checkIcons({iconsCsv:ICONS_CSV+twin+'\n',cardsCsv:CARDS_CSV+"darcy-twin,FC 25,Icon Base,90,https://example.com/made-up/darcy-twin\n",lastPrimeGame:'FIFA 23'}).errors.some(e=>/full name .* is already used by jean-luc-darcy/.test(e)),'a second row with the same full name is refused');
     // Hall of FUT is a card version of its own, and delta files join the main ones on the command line.
     const hofRow=heroRow.replaceAll('mo-hero','ana-hall').replace('Hero|Mo Hero','Hall|Ana Hall').replace(',Hero,Mo Hero,',',Hall,Ana Hall,').replace('FC 25,Hero,88','FC 24,Hall of FUT,87');
     const hof=Loader.checkIcons({iconsCsv:ICONS_CSV+hofRow,cardsCsv:CARDS_CSV+"ana-hall,FC 24,Hall of FUT,87,https://example.com/made-up/ana-hall-24\n",lastPrimeGame:'FIFA 23'});
@@ -433,7 +444,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
     fails('two hall of fut cards',{icons:ICONS_CSV+hofRow,cards:CARDS_CSV+"ana-hall,FC 24,Hall of FUT,87,https://example.com/made-up/ana-hall-24\nana-hall,FC 25,Hall of FUT,86,https://example.com/made-up/ana-hall-25\n"},/Hall of FUT has only one version per player/);
     fails('two hero cards in one game',{icons:ICONS_CSV+heroRow,cards:CARDS_CSV+heroCards+"mo-hero,FC 25,Hero,90,https://example.com/made-up/mo-hero-25-promo\n"},/already has a Hero card from FC 25; only one per game is allowed \(the base Hero card/);
     fails('hero after FC 27',{icons:ICONS_CSV+heroRow,cards:CARDS_CSV+heroCards+"mo-hero,FC 28,Hero,85,https://example.com/made-up/mo-hero-28\n"},/Hero cards run to FC 27/);
-    const both=Loader.checkIcons({iconsCsv:ICONS_CSV,cardsCsv:CARDS_CSV+"jean-luc-darcy,FC 25,Hero,95,https://example.com/made-up/jean-luc-darcy-hero-25\n",lastPrimeGame:'FIFA 23'});
+    const both=Loader.checkIcons({iconsCsv:ICONS_CSV,cardsCsv:CARDS_CSV+"jean-luc-darcy,FC 25,Hero,90,https://example.com/made-up/jean-luc-darcy-hero-25\n",lastPrimeGame:'FIFA 23'});
     assert.deepEqual(both.errors,[],'an Icon card and a base Hero card from the same game are both allowed: '+both.errors.join(' / '));
     const deltaIcons=path.join(tmp,'delta-icons.csv'),deltaCards=path.join(tmp,'delta-cards.csv'),deltaOut=path.join(tmp,'delta-icons.js');
     fs.writeFileSync(deltaIcons,header+'\n'+heroRow);fs.writeFileSync(deltaCards,CARDS_CSV.split('\n')[0]+'\n'+heroCards);
@@ -441,7 +452,36 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
     assert.equal(run.status,0,run.stdout+run.stderr);assert.match(run.stdout,/PASS: 11 players \(3 Legend, 4 Icon Prime, 3 Icon Base, 1 Hero, 0 Hall of FUT\)/);
     delete require.cache[deltaOut];assert.equal(require(deltaOut).players.length,11);
   }
-  ok('L8','Hero and Hall of FUT cards are accepted; the Icon card always beats a Hero card; one Hall of FUT card per player, one base Hero card per game, Heroes FIFA 21 to FC 27; delta files join on the command line');
+  ok('L8','Hero and Hall of FUT cards are accepted; a player uses his highest-rated card of any version (a tie goes to the Icon card, then the newer game); one Hall of FUT card per player, one base Hero card per game, Heroes FIFA 21 to FC 27; delta files join on the command line');
+
+  // L9 the shipped list (Nik 2026-11-11): every player once, with his highest-rated card. Reads the real CSVs the list is built from.
+  {
+    const Icons=require('../../data/icons.js');
+    const DATA=path.join(ROOT,'project-documents/r88-icon-guess/data');
+    const best=new Map();
+    for(const file of fs.readdirSync(DATA).filter(f=>f.endsWith('.csv'))){
+      const rows=Loader.parseCsv(fs.readFileSync(path.join(DATA,file),'utf8'));
+      const head=rows[0].cells.map(h=>h.trim().replace(/^\uFEFF/,''));
+      if(!['id','game','card_version','overall'].every(c=>head.includes(c)))continue;
+      for(const {cells} of rows.slice(1)){
+        const r=Object.fromEntries(head.map((h,i)=>[h,(cells[i]||'').trim()]));
+        if(!r.id||!/^\d+$/.test(r.overall))continue;
+        const cur=best.get(r.id);if(!cur||Number(r.overall)>cur.overall)best.set(r.id,{overall:Number(r.overall),card:`${r.game} ${r.card_version}`,file});
+      }
+    }
+    assert.equal(new Set(Icons.players.map(p=>p.id)).size,Icons.players.length,'no id twice');
+    const fulls=Icons.players.map(p=>Names.fold(p.fullName));
+    assert.equal(new Set(fulls).size,fulls.length,'no full name twice (a player appears once, under one id)');
+    for(const p of Icons.players){
+      const top=best.get(p.id);
+      assert.ok(top,`${p.id} has cards in the CSVs`);
+      assert.ok(p.overall>=top.overall,`${p.id} uses ${p.game} ${p.cardVersion} ${p.overall}, but the CSVs hold a higher card: ${top.card} ${top.overall} (${top.file})`);
+    }
+    const futre=Icons.players.find(p=>p.id==='paulo-futre');
+    assert.deepEqual([futre.game,futre.cardVersion,futre.overall,futre.position],['FC 27','Hero',88,'LW'],'Paulo Futre uses his FC 27 Hero (88), not the FIFA 17 Legend (87)');
+    assert.deepEqual(futre.stats,{PAC:93,SHO:81,PAS:80,DRI:93,DEF:37,PHY:61});
+    ok('L9','the shipped list has every player once (no id or full name twice) and no player has a higher-rated card in the CSVs than the one used; Futre is his FC 27 Hero 88');
+  }
 
   fs.rmSync(tmp,{recursive:true,force:true});
   console.log(`PASS r88 icon names and loader contracts (${checks} checks).`);

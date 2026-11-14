@@ -116,7 +116,7 @@
   const STORY_OFFLINE_LINE="Connect to the internet to read the full story.";
   const STORY_SECTIONS=Object.freeze([
     Object.freeze(["THE BEGINNING","It started as a free way to keep score in a FIFA 17 Career Mode rivalry between two mates, Daniel and Nik: one league, two clubs kept for the whole Showdown, trophies for points and a timed Transfer War."]),
-    Object.freeze(["HOW IT GREW","The score sheet became a two-phone online game: private pairing, shared seasons on both phones, the league and club wheels, Roster Roulette, the Prime Pack and the marble look, each step tested on Daniel's and Nik's real phones before it shipped."]),
+    Object.freeze(["HOW IT GREW","The score sheet became a two-phone online game: private pairing, shared seasons on both phones, the league and club wheels, Roster Russian Roulette, the Prime Pack and the marble look. Each step was tested on Daniel's and Nik's real phones before it shipped."]),
     Object.freeze(["THE COLLABORATORS","Nik set the direction and played every test with Daniel. Claude worked in two teams, Team G for gameplay and Team V for the look, with GPT models coordinating, reviewing and writing the full history."])
   ]);
   const CHEVRON='<svg class="tileChevron" aria-hidden="true" focusable="false" viewBox="0 0 12 20"><path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -132,13 +132,13 @@
   function hmScene(){
     const pic=(cls,file,extra)=>`<picture class="${cls}"${extra||""}><source media="(max-width: 760px) and (orientation: portrait), (max-width: 900px) and (max-height: 480px) and (orientation: landscape)" srcset="${BASE}${file}" type="image/webp"><img alt="" decoding="async"></picture>`;
     const frag=hmDoc().createDocumentFragment();
-    // HO-067 Gate B2: the phone plate is Team V's handcrafted ENV_HOME_PHONE_HC_V2 (css/homeV10.css draws it; the earlier
+    // HO-067 Gate B2: the phone plate is Team V's handcrafted ENV_HOME_PHONE_HC_V3 (css/homeV10.css draws it; the earlier
     // ENV_HOME_PHONE_V2 stays in visual-assets/v10_1/plates-v2/ as rollback).
     // The picture fetches the same file the CSS draws, so the plate loads once: the 590 px plate at the smallest download
     // size (html[data-assets="0"], set by js/gfxTier.js), the full plate otherwise.
     const lean=hmDoc().documentElement?.dataset?.assets==="0";
     frag.append(
-      hmDecor("plateView",pic("phoneHeroBackground","plates-hc/ENV_HOME_PHONE_HC_V2"+(lean?"_590W":"")+".webp")+'<div class="plateLayer"></div>'),
+      hmDecor("plateView",pic("phoneHeroBackground","plates-hc/ENV_HOME_PHONE_HC_V3"+(lean?"_590W":"")+".webp")+'<div class="plateLayer"></div>'),
       hmDecor("phoneHeroGrade"),hmDecor("scrim scrimLow")
     );
     return frag;
@@ -146,7 +146,7 @@
   function hmLockup(){
     // HO-067 Gate B2: the handcrafted Home room carries no slogans, so the lockup is the wordmark alone (the kicker
     // "THE SHOWDOWN STARTS HERE", the tagline "TWO MANAGERS · ONE LEGACY" and the "More Than A Game" script line are gone).
-    return hmEl("div","homeLockup",'<div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp" srcset="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V1_640W.webp 640w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V1.webp 1040w" sizes="'+WORDMARK_SIZES+'" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div>');
+    return hmEl("div","homeLockup",'<div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark hc-logo-img" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_1040.webp" srcset="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_640.webp 640w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_1040.webp 1040w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_2080.webp 2080w" sizes="'+WORDMARK_SIZES+'" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div>');
   }
   function hmTile(id){
     const button=hmDoc().getElementById(id);
@@ -203,7 +203,7 @@
     page.innerHTML='<div class="storyInner">'+
       '<p class="storyKicker sd-label">CAREER MODE SHOWDOWN</p>'+
       '<h2 id="storyTitle" class="storyTitle">STORY</h2>'+
-      '<p class="storyLead">Two friends. One rivalry. A project that kept growing. Follow the people, ideas and teams that shaped Career Mode Showdown, from its first experiments to real-phone milestones and cinematic Roulette.</p>'+
+      '<p class="storyLead">Two friends. One rivalry. A project that kept growing. Meet the people, ideas and teams behind Career Mode Showdown, from the first experiments to real-phone tests and the cinematic Roster Russian Roulette.</p>'+
       '<div class="storySections">'+sections+'</div>'+
       '<p class="storyOffline" role="status" hidden>'+STORY_OFFLINE_LINE+'</p>'+
       '<div class="storyActions">'+

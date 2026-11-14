@@ -17,6 +17,11 @@
   const wonMemo=new Map();
   // wentHome: the last run ended because the manager chose Showdown Home (not a fault), so the caller shows no error.
   let running=null,wentHome=false;
+  // E1 (2.4.0, Fable re-check 2): the partner's END SHOWDOWN (js/productionSharedTerminalClose.js) ends the round on screen at
+  // once (end()): the screen session stops (its listener, timer and record watch), no arrival or withdraw is sent after it, a
+  // card answers by itself, and nothing more is drawn or navigated by this run.
+  let endGen=0,runGen=0,runRivalry="",playEnd=null,askEnd=null;
+  function igsEnded(){return runGen!==endGen;}
 
   function igsDoc(){return root.document||null;}
   function igsWait(ms){return new Promise(resolve=>root.setTimeout(resolve,ms));}
@@ -39,9 +44,8 @@
 
   // ctx = {rivalryId, managerRole, season, confirmedAtMs}. Does this Showdown play Prime Pack this season? It needs
   // js/iconGuess.js: a browser caller awaits ensure() first (before it, the answer is always false).
-  // ignoreSwitch: the season results attach a point already won even when the kill switch is on (Fable F14-02).
-  function igsApplies(ctx,{ignoreSwitch=false}={}){
-    if((root.CMS_PRIME_PACK==="off"&&!ignoreSwitch)||!ctx)return false;
+  function igsApplies(ctx){
+    if(!ctx)return false;
     if(!/^pair_[0-9a-f]{64}$/.test(String(ctx.rivalryId||""))||!ROLES.includes(ctx.managerRole))return false;
     if(!Number.isInteger(ctx.season)||ctx.season<1||ctx.season>10)return false;
     const guess=igsGuess();
@@ -130,8 +134,8 @@
   // How many Prime Pack points this manager won this season (0, or 4 to 1 by stage). Read by the season results before they
   // are published, so the points go in as primePack:N (the Rules check N against the round record). io = {firestore, sdk,
   // rivalryId}. One read, once per season, only for a Showdown the game applies to.
-  async function igsPointsFor(io,ctx,{ignoreSwitch=false}={}){
-    if(!igsApplies(ctx,{ignoreSwitch}))return 0;
+  async function igsPointsFor(io,ctx){
+    if(!igsApplies(ctx))return 0;
     const key=igsKey(ctx);if(wonMemo.has(key))return wonMemo.get(key);
     const ref=igsRef(io,ctx.season);
     const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});
@@ -145,17 +149,25 @@
   function igsEl(tag,className,text){const node=igsDoc().createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function igsRemove(id){const node=igsDoc()?.getElementById(id);if(node)node.remove();}
   function igsClose(){igsRemove(PANEL_ID);igsRemove(STAGE_ID);}
+  // E1: the partner ended this Showdown (Terminal Close). A run for another Showdown is left alone (false).
+  function igsEnd(rivalryId){
+    const id=String(rivalryId||"").trim().toLowerCase();if(running&&id&&runRivalry&&id!==runRivalry)return false;
+    endGen+=1;const play=playEnd,ask=askEnd;playEnd=null;askEnd=null;
+    try{play?.();}catch(_error){}try{ask?.();}catch(_error){}
+    igsClose();return true;
+  }
   // A plain choice card over the stage (the same look as the roulette's step panel when its styles are loaded).
   function igsAsk({heading,lines=[],buttons}){
+    if(igsEnded())return Promise.resolve("back");
     return new Promise(resolve=>{
-      igsRemove(PANEL_ID);
+      igsRemove(PANEL_ID);askEnd=()=>{askEnd=null;igsRemove(PANEL_ID);resolve("back");};
       const overlay=igsEl("div","remoteJoiningOverlay rrStepOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label",heading);
       overlay.style.cssText="position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;background:#050403;padding:16px";
       const shell=igsEl("div","remoteJoiningShell rrStepShell");shell.style.cssText="max-width:420px;width:100%;background:#15130f;color:#f3ead7;border:1px solid #6b5a33;border-radius:12px;padding:20px";
       shell.append(igsEl("strong","","PRIME PACK"),igsEl("h2","rrStepTitle",heading));
       for(const line of lines)shell.append(igsEl("p","rrStepLine",line));
       const row=igsEl("div","rrStepActions");row.style.cssText="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px";
-      for(const b of buttons){const button=igsEl("button",b.primary?"menuButton rrStepPrimary":"compactButton rrStepBack",b.label);button.type="button";button.addEventListener("click",()=>{igsRemove(PANEL_ID);resolve(b.id);});row.append(button);}
+      for(const b of buttons){const button=igsEl("button",b.primary?"menuButton rrStepPrimary":"compactButton rrStepBack",b.label);button.type="button";button.addEventListener("click",()=>{askEnd=null;igsRemove(PANEL_ID);resolve(b.id);});row.append(button);}
       shell.append(row);overlay.append(shell);igsDoc().body.append(overlay);row.querySelector("button")?.focus();
     });
   }
@@ -171,7 +183,10 @@
     // shows too, so a manager is never shut in. The round goes on by the server clock and START comes back to it; only the
     // result hides it (its CONTINUE is the way on).
     const back=doc.createElement("button");back.type="button";back.className="compactButton rrStepBack";back.textContent="BACK TO SHOWDOWN HOME";back.hidden=true;
-    back.style.cssText="position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2";
+    back.style.cssText="position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2;"
+      // black-and-gold marble like the roulette step panel's back button (css/v10Roulette.css .rrStepBack): the plain compactButton is white
+      +"box-sizing:border-box;min-height:44px;padding:10px 22px;color:#ffd34d;background:linear-gradient(180deg,#17140e,#070605);border:1px solid #d4a017;border-radius:3px;"
+      +"box-shadow:inset 0 1px 0 rgba(242,196,91,.25),0 0 0 1px #000,0 6px 16px rgba(0,0,0,.6);font:700 17px/1.1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.12em;text-transform:uppercase;text-shadow:none;max-width:calc(100% - 24px);text-align:center";
     stage.append(frame,back);doc.body.append(stage);
     // The roulette's result panel (z-index 96) stays over this stage until the Prime Pack page is ready (Reus Gate, Fable
     // F13-07: a slow page never shows a plain dark screen); igsPlay closes it on cms-ig-ready, or when the step fails.
@@ -201,25 +216,28 @@
   // could not run (the window then stays shut and the dashboard says why; tapping again retries).
   async function igsRun(ctx,io){
     if(running)return running;
-    wentHome=false;
+    wentHome=false;runGen=endGen;runRivalry=String(ctx&&ctx.rivalryId||"").trim().toLowerCase();const gen=runGen;
     // On true the stage stays up until the Transfer Challenge is on screen (the caller closes it), so nothing flashes between.
     // BACK TO SHOWDOWN HOME opens Showdown Home, as the roulette's and Chamber Men's do: closing the stage alone left the screen
     // underneath (Club Assignment in season 1, the season dashboard later) and the tap seemed to do nothing.
-    running=igsRunNow(ctx,io).then(go=>{if(!go)igsClose();return go;},error=>{igsClose();throw error;}).then(go=>{if(!go&&wentHome&&typeof root.navigateTo==="function")return Promise.resolve().then(()=>root.navigateTo("mainMenu")).catch(()=>{}).then(()=>go);return go;}).finally(()=>{running=null;});
+    running=igsRunNow(ctx,io).then(go=>{if(!go)igsClose();return go;},error=>{igsClose();throw error;}).then(go=>{if(gen!==endGen){wentHome=true;igsClose();return false;}if(!go&&wentHome&&typeof root.navigateTo==="function")return Promise.resolve().then(()=>root.navigateTo("mainMenu")).catch(()=>{}).then(()=>go);return go;}).finally(()=>{running=null;});
     return running;
   }
   async function igsRunNow(ctx,io){
     if(!igsApplies(ctx))return true;
-    if(!await igsEnsure())return false;
+    if(!await igsEnsure()||igsEnded())return false;
     // This phone already saw this season's result and pressed Continue: straight on to the Transfer Challenge.
     if(igsList(DONE_KEY).includes(igsKey(ctx)))return true;
     const index=root.CareerModeIconNames.defaultIndex(),pick=igsRound(ctx),guess=igsGuess();
     if(!index||!pick)return false;
     for(;;){
+      if(igsEnded())return false;
       const result=await igsPlay(ctx,io,{index,pick,guess});
+      if(result==="ended"||igsEnded())return false;
       if(result==="continue"){igsMark(DONE_KEY,igsKey(ctx));return true;}
       if(result==="back"){wentHome=true;return false;}
       const choice=await igsAsk({heading:"Prime Pack could not load",lines:[root.CareerModeFirestoreBudget?.quotaMessage?.(result)||"Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
+      if(igsEnded())return false;
       if(choice==="back"){wentHome=true;return false;}
     }
   }
@@ -233,7 +251,8 @@
       let record=null,ready=false,stop=null,timer=null,shownBeat=-2,finished=false,resultShown="",sentChips={playerOne:null,playerTwo:null};
       // After this phone's right guess: the round record as the server stamped it (its updatedAt gives the stage and points).
       const readBack=()=>io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(igsRef(io,ctx.season));return snap.exists()?snap.data():null;}).then(data=>onData(data),()=>{});
-      const end=value=>{if(finished)return;finished=true;root.clearInterval(timer);root.removeEventListener("message",onMessage);igsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
+      const end=value=>{if(finished)return;finished=true;if(playEnd===endNow)playEnd=null;root.clearInterval(timer);root.removeEventListener("message",onMessage);igsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
+      const endNow=()=>end("ended");playEnd=endNow;
       // Away while the other manager has not arrived: withdraw (igsLeave); back on screen: arrive again.
       // rejoinedAt: when this phone last sent its arrival again (Fable F13-02), at most once every REJOIN_MS.
       let away=false,rejoinedAt=-Infinity;
@@ -282,6 +301,7 @@
         if(at.beat!==shownBeat){shownBeat=at.beat;igsPost(frame,"cms-ig-reveal",{index:at.beat,phase:at.phase,remainingMs:at.stageMsLeft,revealMsLeft:at.phase==="reveal"?at.msLeft:0});}
       };
       const onData=data=>{
+        if(finished)return;
         const next=igsRecord(data,ctx.season);
         if(!next)return;
         record=next;
@@ -336,5 +356,5 @@
   }
 
   return Object.freeze({contractVersion:1,feature:"cms-prime-pack-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,collection:COLLECTION,doneKey:DONE_KEY,
-    applies:igsApplies,wonPoints:ctx=>wonMemo.has(igsKey(ctx))?wonMemo.get(igsKey(ctx)):null,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,leave:igsLeave,applyGuess:igsApplyGuess,run:igsRun,close:igsClose,markDone:ctx=>igsMark(DONE_KEY,igsKey(ctx)),wentHome:()=>wentHome,ensure:igsEnsure});
+    applies:igsApplies,wonPoints:ctx=>wonMemo.has(igsKey(ctx))?wonMemo.get(igsKey(ctx)):null,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,leave:igsLeave,applyGuess:igsApplyGuess,run:igsRun,close:igsClose,end:igsEnd,markDone:ctx=>igsMark(DONE_KEY,igsKey(ctx)),wentHome:()=>wentHome,ensure:igsEnsure});
 });

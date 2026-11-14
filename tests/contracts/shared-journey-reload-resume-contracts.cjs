@@ -282,7 +282,7 @@ function multiSandbox({accepted,total=3,terminal=false}){
     assert.match(multi,/if\(key!==lastErrorKey&&key!==heldErrorKey\)\{heldErrorKey=key;return null;\}heldErrorKey="";if\(key!==lastErrorKey\)pmspReport\(/,"F2 Multi Season holds a first refresh failure for one poll");
     assert.match(multi,/lastErrorCode="";lastErrorKey="";heldErrorKey="";\}return value;/,"F2 a successful Multi Season refresh clears the held failure");
     const history=read("js/productionSharedHistoryConvergence.js");
-    assert.match(history,/if\(key!==heldErrorKey\)\{heldErrorKey=key;if\(view&&contextKey===request\.key\)return view;phcClear\(request\);return null;\}heldErrorKey="";phcClear\(request\);phcReport\("Unable to converge Shared History",error\);/,"F3 Shared History keeps its converged view through a first failure and clears and reports only when it repeats");
+    assert.match(history,/if\(key!==heldErrorKey\)\{heldErrorKey=key;if\(view&&contextKey===request\.key\)return view;phcClear\(request\);return null;\}heldErrorKey="";phcClear\(request\);phcReport\("Could not bring History up to date",error\);/,"F3 Shared History keeps its converged view through a first failure and clears and reports only when it repeats");
     assert.doesNotMatch(history,/error=>\{if\(phcContextMatches\(request\)\)\{phcClear\(request\);/,"F3 a first failure never clears the converged History before the hold decision");
     assert.match(history,/phcRefreshNow\(request,light===true\)\.then\(value=>\{heldErrorKey="";return value;\}/,"F3 a successful History refresh clears the held failure");
   console.log("ok F Reconnect, Multi Season and Shared History report a failure only when it repeats on the next poll");

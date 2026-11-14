@@ -74,7 +74,7 @@ function ensureSeasonReviewUI(){
 
     const warning = document.createElement("p");
     warning.className = "seasonReviewWarning";
-    warning.textContent = "CONFIRMING IS FINAL · THE SEASON CAN'T BE EDITED AFTER";
+    warning.textContent = "CONFIRMING IS FINAL · THE SEASON CANNOT BE EDITED AFTER";
 
     const error = document.createElement("p");
     error.id = "seasonReviewError";
@@ -241,7 +241,7 @@ function setSeasonConfirmationBusy(isBusy){
         ui.reviewConfirm.disabled = isBusy;
         ui.reviewConfirm.classList.toggle("isBusy", isBusy);
         ui.reviewConfirm.setAttribute("aria-busy", isBusy ? "true" : "false");
-        setSeasonText(ui.reviewConfirm, isBusy ? "SAVING SEASON..." : "CONFIRM & SAVE SEASON");
+        setSeasonText(ui.reviewConfirm, isBusy ? "SAVING SEASON…" : "CONFIRM & SAVE SEASON");
     }
     if(ui.reviewEdit){
         ui.reviewEdit.disabled = isBusy;
@@ -460,7 +460,7 @@ function getSeasonEntryValidationMessage(prefix, managerLabel){
     const goalsInput = getSeasonInput(prefix, "LeagueGoals");
 
     if(!positionInput || !pointsInput || !goalsInput){
-        return `${managerLabel}'s season form is incomplete.`;
+        return `${managerLabel}'s season form is not finished.`;
     }
 
     if(positionInput.value === "" || pointsInput.value === "" || goalsInput.value === ""){
@@ -473,19 +473,19 @@ function getSeasonEntryValidationMessage(prefix, managerLabel){
     const teamCount = getCurrentLeagueTeamCount();
 
     if(!Number.isInteger(position) || position < 1){
-        return `${managerLabel}'s league position must be a whole number of 1 or higher.`;
+        return `${managerLabel}'s league position must be a whole number, 1 or more.`;
     }
 
     if(teamCount && position > teamCount){
-        return `${managerLabel}'s league position cannot be lower than ${teamCount}th in this league.`;
+        return `${managerLabel}'s league position cannot be below ${teamCount}th in this league.`;
     }
 
     if(!Number.isInteger(points) || points < 0){
-        return `${managerLabel}'s league points must be a non-negative whole number.`;
+        return `${managerLabel}'s league points must be a whole number, 0 or more.`;
     }
 
     if(!Number.isInteger(goals) || goals < 0){
-        return `${managerLabel}'s league goals must be a non-negative whole number.`;
+        return `${managerLabel}'s league goals must be a whole number, 0 or more.`;
     }
 
     const championsLeague = getSeasonInput(prefix, "ChampionsLeague");
@@ -594,7 +594,7 @@ function persistCompletedSeason(roundRecord, seasonNumber){
         const archived = archiveShowdown(currentShowdown);
         if(!archived && typeof window.showAppNotice === "function"){
             window.showAppNotice(
-                "Season saved, but the completed showdown could not be copied to Legacy. The active save is safe and can be archived again later.",
+                "Season saved, but the completed Showdown could not be copied to Legacy. The active save is safe and can be archived again later.",
                 "error",
                 10000
             );
@@ -608,7 +608,7 @@ function getSeasonCompletionContextMessage(){
     }
 
     if(currentShowdown.status === "Completed"){
-        return "This showdown is already completed.";
+        return "This Showdown is already completed.";
     }
 
     if(!isTransferChallengeComplete(currentShowdown.currentRound)){
@@ -626,7 +626,7 @@ function getSeasonCompletionContextMessage(){
         round => Number(round.roundNumber) === seasonNumber
     );
     return alreadyCompleted
-        ? "This season has already been completed. Return to Showdown Home to continue."
+        ? "This season is already completed. Go back to Showdown Home to continue."
         : "";
 }
 
@@ -798,28 +798,28 @@ function completeCurrentSeason(){
         renderSeasonReview(seasonReviewDraft);
     }catch(error){
         clearSeasonReviewDraft();
-        reportSeasonError("Season review failed", error);
+        reportSeasonError("The season review could not be completed.", error);
     }
 }
 
 function getSeasonReviewConfirmationMessage(draft){
     if(!draft || !currentShowdown){
-        return "The reviewed season is no longer available. Return to Edit Results and review it again.";
+        return "The reviewed season is no longer available. Go back to EDIT RESULTS and review it again.";
     }
     if(String(currentShowdown.id) !== String(draft.showdownId)){
-        return "The active showdown changed after this review. Return to Edit Results and review the current season again.";
+        return "The Showdown changed after this review. Go back to EDIT RESULTS and review the season again.";
     }
     if(Number(currentShowdown.currentRound) !== Number(draft.seasonNumber)){
-        return "The active season changed after this review. Return to Showdown Home before continuing.";
+        return "The season changed after this review. Go back to Showdown Home before continuing.";
     }
     if(currentShowdown.status === "Completed"){
-        return "This showdown has already been completed.";
+        return "This Showdown is already completed.";
     }
     if(!isTransferChallengeComplete(draft.seasonNumber)){
         return "The Transfer War is no longer complete for this reviewed season.";
     }
     if(currentShowdown.rounds.some(round => Number(round.roundNumber) === Number(draft.seasonNumber))){
-        return "This season has already been saved. Return to Showdown Home to continue.";
+        return "This season is already saved. Go back to Showdown Home to continue.";
     }
     return "";
 }
@@ -856,7 +856,7 @@ function confirmCurrentSeason(){
         seasonEntryRenderedShowdownId = null;
         seasonReviewDraft = null;
     }catch(error){
-        reportSeasonError("Season completion failed", error);
+        reportSeasonError("The season could not be saved.", error);
         seasonCompletionInProgress = false;
         setSeasonConfirmationBusy(false);
         return;
@@ -872,7 +872,7 @@ function confirmCurrentSeason(){
         }
 
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice(`Season ${seasonNumber} saved successfully.`, "success", 3500);
+            window.showAppNotice(`Season ${seasonNumber} saved.`, "success", 3500);
         }
     }catch(error){
         console.error("Season was saved but the summary screen failed to render:", error);
@@ -881,7 +881,7 @@ function confirmCurrentSeason(){
         }
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
-                "Season saved successfully, but the summary could not be displayed. Showdown Home remains safe to continue from.",
+                "Season saved, but its summary could not be shown. You can carry on from Showdown Home.",
                 "error",
                 9000
             );
@@ -911,7 +911,7 @@ function renderSeasonSummary(roundRecord){
     }else if(roundRecord.winner === "playerTwo"){
         setSeasonText(ui.summaryResult, `${currentShowdown.managers.playerTwo} wins the season`);
     }else{
-        setSeasonText(ui.summaryResult, "Season is a draw");
+        setSeasonText(ui.summaryResult, "The season is a draw");
     }
 
     renderManagerSeasonSummary(

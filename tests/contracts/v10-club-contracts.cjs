@@ -31,7 +31,7 @@ const SENTINEL="ZQXSEALEDCLUB";
 
 // Team V 5e05a1f bytes (club.js: before the marked "App (JOB-34)" edits).
 const TEAM_V={
-  "club.js":"01ababd0640a9ab24208f8e7352140fc92735e683015073857ed9e9d22e9dd5e",
+  "club.js":"4e95b3b1336f88f1868729bb2d5fac436e8941072e8561fb062fc4d36e8f30bf",
   "club.css":"72ed488f433f4a5b7a94b7e03f56824f46cdcc4ce2af75bec3979e7fa9d1f4dd",
   "assets/platemap.json":"2d4833e60431a44796346e71abf006020bbbbd7897f6c8227a33ec44ed36a8f2",
   "assets/handmap.json":"dab8e3441e2dc2d36f3f0ae00de9d42e09d1508d8bcaac6e439a314de1c0da28",
@@ -135,7 +135,7 @@ check("4 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
     if(/\.webp$/.test(full)){assert.ok(imageRule.test(full),full);assert.ok(!shell.has(full),`${full} not precached`);}
     else if(/\.woff2$/.test(full))assert.ok(shell.has(full),`${full} shell cached`);
   }
-  assert.match(sw,/const RUNTIME_REVISION = "2\.3\.0-r90";/,"RUNTIME_REVISION is the current release (r90, 2.3.0-r90)");
+  assert.match(sw,/const RUNTIME_REVISION = "2\.4\.0-r91";/,"RUNTIME_REVISION is the current release (r91, 2.4.0-r91)");
   // The glue loads before club.css, so club.css wins every tie with it while the glue's resets still beat the app.
   assert.deepEqual([...CL.FILES.css],["../../css/v10Club.css","club/club.css"]);
   assert.deepEqual(CL.FILES.script.slice(0,2),["v10-club-plate","club/club.js"]);
