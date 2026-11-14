@@ -245,7 +245,7 @@ window.CHRONICLE_VOLUME19={
    "number": 184,
    "part": "coaches-room",
    "title": "What stays in the loft",
-   "dek": "Five steps clear out the offline era. One finished game is kept exactly as it is, and the last two steps wait for r92 by Nik’s choice.",
+   "dek": "Five steps clear out the offline era. One finished game is kept exactly as it is, and the last two steps were dropped by Nik’s rule that a cut must pay for its risk.",
    "blocks": [
     {
      "type": "p",
@@ -642,7 +642,7 @@ window.CHRONICLE_VOLUME19={
     },
     {
      "type": "p",
-     "text": "The proof was heavy. A fuzz of 3,000 careers, 33,178 squad screens, found no stuck LOCK and no reload that disagreed; a second one of 6,000 careers and 723 buy-backs passed too. A ten-season CE2PG with a namesake forced every season passed 489 of 489 checks, Athletic Club against Deportivo. Codex was at its usage limit and could not review it, so a separate Opus reviewer thread read it on its own, re-ran the hunt’s three repros and a 2,000-seed fuzz with no stuck lock, and only then did the lead merge it, at 07:47 UTC. #1439 below went through the same independent review. Using the new playerId in the Transfer War refusals as well waits for r92, so that the two screens never disagree."
+     "text": "The proof was heavy. A fuzz of 3,000 careers, 33,178 squad screens, found no stuck LOCK and no reload that disagreed; a second one of 6,000 careers and 723 buy-backs passed too. A ten-season CE2PG with a namesake forced every season passed 489 of 489 checks, Athletic Club against Deportivo. Codex was at its usage limit and could not review it, so a separate Opus reviewer thread read it on its own, re-ran the hunt’s three repros and a 2,000-seed fuzz with no stuck lock, and only then did the lead merge it, at 07:47 UTC. #1439 below went through the same independent review. Using the new playerId in the Transfer War refusals as well was first left for r92, so that the two screens never disagree; the next section tells how it came in after all."
     },
     {
      "type": "h2",
@@ -661,8 +661,32 @@ window.CHRONICLE_VOLUME19={
      "text": "The same pull request closed the other rows: a Rivalry Statistics page that once said unavailable after a close now asks again, the Gazette reads missing squad sheets side by side, so in a live Showdown a phone that lost its copies prints the same paper as the other, and a phone updated in the middle of a Showdown no longer asks for the squad screen before a roulette that 2.3.0 already spun. The hunt’s other worry, about 70 more reads in a middle season, turned out to be the longer season and ordinary noise. Ten seasons came to 10,393 billed reads in the hunt and 10,131 after the fixes."
     },
     {
+     "type": "h2",
+     "text": "Nothing left for later"
+    },
+    {
      "type": "p",
-     "text": "Every row is closed in the code. None of it counts yet. Nik and Daniel still have to play it on their own devices. 2.4.0 is not live yet; it waits for Nik’s word after the gallery."
+     "text": "A second Fable 5.2 thread re-checked the fixed candidate, 712f6301, that afternoon. It played every fix twice on different seeds, fuzzed 41,886 squad screens without a single stuck lock, and said release. It left two rows. A later game file lost at a reload still left a phone half-working until the next reload, the same on 2.3.0 (L1). And once, on a busy test machine, CONFIRM SEASON did not land within 45 seconds (W1). Both were marked for r92, with a short list of older rows beside them."
+    },
+    {
+     "type": "p",
+     "text": "At 19:22 UTC Nik turned that list around: fix everything deferred to r92 inside 2.4.0, then have Fable check the fixes. Four threads took the rows. A lost later file is now asked for once more, then the page reloads once by itself (#1446). At Transfer War LOCK and in the squad engine the shot or guessed man is matched by his playerId first; Nik chose it on a card at 19:26 UTC, so a different man who only shares the name may now be signed (#1448), and a fuzz of 2,500 careers and 32,600 screens found no disagreement between the two. Final Winner in a short, wide desktop window takes the sideways layout (#1445)."
+    },
+    {
+     "type": "p",
+     "text": "Working the list turned up three more. A phone on the Squad screen kept showing it after the partner ended the Showdown (#1449). The LOCK button that had stalled the test journey twice was moving under a resting mouse: the player card above the pitch swapped back and forth every frame, and Chamber Men’s goal was still drawing underneath (#1450); the journey on a 360-pixel phone then passed 20 times out of 20. And W1 had a real cause: a confirm that failed offline left CONFIRM MY RESULT greyed out for good, so the screen now draws itself again when the signal comes back, with the line “Your result was not confirmed. Check the connection and tap CONFIRM MY RESULT again.” (#1453). Two five-season outage runs passed 405 of 405 checks each."
+    },
+    {
+     "type": "p",
+     "text": "Two rows were measured and left alone. Pausing the 15-second season check during the Squad screen saved no reads, 805 and 782 billed in a middle season before against 829 and 809 after, so it was dropped. The old PUBLISH SAVE panel in Settings is never shown to a player, so nothing was cut. Old-era cut steps 6 and 7 were dropped earlier the same evening, at 18:07 UTC, by Nik’s rule that a cut is done only when it pays for its risk."
+    },
+    {
+     "type": "p",
+     "text": "A second Fable 5.2 thread re-checked the final candidate, fe4a1d36, late that evening and said release: no P1, and nothing wrong in any of the new fixes. Ten seasons passed 489 of 489 checks, the same-name runs 289 of 289, an update from 2.3.0 293 of 293, and the fuzz found no shot or guessed man coming back in 151,446 screens. It left two smaller rows: a partner’s END SHOWDOWN could leave the roulette or the Prime Pack over Home, the same in 2.3.0, and after an outage CONFIRM MY RESULT could stay grey for up to 15 seconds under its own “tap again” line."
+    },
+    {
+     "type": "p",
+     "text": "Every row is closed in the code. None of it counts yet. Nik and Daniel still have to play it on their own devices. 2.4.0 went live from main on 14 November 2026, on the standing word Nik gave at 01:20 UTC that night: merge r91 once everything is ready."
     }
    ],
    "sources": [
@@ -697,6 +721,54 @@ window.CHRONICLE_VOLUME19={
      "label": "index.html",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9aa3baee140567ec2c13c7333c3aed4eb79e442d/index.html",
      "kind": "repository"
+    },
+    {
+     "branch": "gameplay/r91",
+     "ref": "fe4a1d36a65848919f8a1adfa44fe2f4a3389f50",
+     "path": "Pull request #1445, merged",
+     "label": "PR #1445",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1445",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r91",
+     "ref": "fe4a1d36a65848919f8a1adfa44fe2f4a3389f50",
+     "path": "Pull request #1446, merged",
+     "label": "PR #1446",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1446",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r91",
+     "ref": "fe4a1d36a65848919f8a1adfa44fe2f4a3389f50",
+     "path": "Pull request #1448, merged",
+     "label": "PR #1448",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1448",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r91",
+     "ref": "fe4a1d36a65848919f8a1adfa44fe2f4a3389f50",
+     "path": "Pull request #1449, merged",
+     "label": "PR #1449",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1449",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r91",
+     "ref": "fe4a1d36a65848919f8a1adfa44fe2f4a3389f50",
+     "path": "Pull request #1450, merged",
+     "label": "PR #1450",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1450",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r91",
+     "ref": "fe4a1d36a65848919f8a1adfa44fe2f4a3389f50",
+     "path": "Pull request #1453, merged",
+     "label": "PR #1453",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1453",
+     "kind": "pull-request"
     }
    ],
    "tags": [
@@ -705,9 +777,9 @@ window.CHRONICLE_VOLUME19={
     "Squad Management",
     "Loading screen"
    ],
-   "words": 834,
-   "minutes": 4
+   "words": 1387,
+   "minutes": 6
   }
  ],
- "wordCount": 4269
+ "wordCount": 4822
 };
