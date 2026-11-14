@@ -165,7 +165,11 @@ is full, and nothing may cover anything).
   of this device, after a finished check that held its level. On a weak device the card says Ultra (4K) and 8K are
   offered only after the check passes them.
 - **The pictures** (`assets/level-guide/<screen>-<level>.webp` and a small `-s.webp`): captured from the real
-  screens, one fixed view each, the same for every level. They show how a level looks and say nothing about
+  screens, one fixed view each, the same for every level, framed close on what changes between levels (Chamber Men: the
+  crowd, goal and keeper; Russian Roulette: the table and the room behind it; Special Player: the card's lower half, the
+  sparkles and the shadow on the grass). Clocks and random draws are fixed, so only the level differs. Light to Ultra
+  are real renders; 8K cannot be forced on the software renderer the pictures are shot on, so its picture is Ultra's
+  (8K differs only in how many pixels it draws). Re-shoot when a scene's look changes. They show how a level looks and say nothing about
   speed. They load lazily on the Device check page only: never in the worker's install list, never on the game page.
 - **Finding it from Settings.** Under 3D QUALITY a gold link, "Device check and guide ›", opens the page; the list's
   last entry, "Device check…", still does. The Auto entry reads "Auto · Light" (the level Auto draws on this device),
