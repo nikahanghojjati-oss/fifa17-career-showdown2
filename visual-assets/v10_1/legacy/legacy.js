@@ -261,9 +261,12 @@ window.ShowdownLegacyBoot = function () {
       const mark = document.createElement("span");
       mark.className = "legacyGoldenShowdown";
       mark.dataset.goldenShowdown = "true";
-      const star = document.createElement("span");
-      star.className = "legacyGoldenShowdownStar";
-      star.textContent = "★";
+      // r93 (Nik 2026-11-14): the gold trophy itself, the same picture as the Trophy Room's gold case and the Golden screen.
+      const star = document.createElement("img");
+      star.className = "legacyGoldenShowdownTrophy" + (GOLDEN_TROPHY.tint ? " legacyGoldenShowdownTrophy--tint" : "");
+      star.src = GOLDEN_TROPHY.src;
+      star.alt = "";
+      star.decoding = "async";
       star.setAttribute("aria-hidden", "true");
       mark.append(star, document.createTextNode(" " + (strings.ui.goldenShowdown || "Golden Showdown") + " · " + golden.map((manager) => strings.ui.managers[manager]).join(" & ")));
       card.appendChild(mark);
@@ -381,6 +384,9 @@ window.ShowdownLegacyBoot = function () {
   // fitted to the window (never under LIST_MIN_PAGE_SIZE), so VIEW SEASON HISTORY and the pager stay on screen.
   const LIST_PAGE_SIZE = 12;
   const LIST_MIN_PAGE_SIZE = 5;
+  // r93: the one gold trophy picture (Trophy Room, Golden screen, Career Statistics, Rivalry Statistics). Until Team V's own gold
+  // render (HO-080) lands it is the Showdown Champion art cast gold in CSS (tint).
+  const GOLDEN_TROPHY = { src: "visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_512.webp", tint: true };
   const ARCHIVE_FILTERS = [["all", "ALL"], ["daniel", "DANIEL WINS"], ["nik", "NIK WINS"], ["draw", "DRAWS"], ["golden", "GOLDEN"]];
   function archiveWinner(item) {
     return item && ["completed", "completion-pending"].includes(item.status) ? item.winner || "" : "";

@@ -324,6 +324,11 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-main{width:min(100%,680px,calc(var(--sg-lpw) * .4856 - 20px))}
 }
 #app #standings.standingsScreenV10 .sdg-tagline{visibility:hidden}
+/* r93: the CAREER Golden Showdown row: a ninth row in the same grid, in gold. */
+#standings .sdg-rows:has(> .sdg-row--golden){grid-template-rows:repeat(9,1fr)}
+@media(max-width:900px){#standings .sdg-rows:has(> .sdg-row--golden){grid-template-rows:repeat(9,18px)}}
+#app #standings .sdg-row--golden .sdg-label{color:#ffd34d;letter-spacing:.06em}
+#app #standings .sdg-row--golden .sdg-val{color:#ffe7a3}
 `;parent.appendChild(style);
   }
   /*SG-END*/
@@ -331,6 +336,10 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   const sfChip=()=>typeof module!=="undefined"&&module.exports&&typeof require==="function"?require("./specialPlayerChip.js"):root.CareerModeSpecialPlayerChip;
   function sfSpecial(pick){try{const chip=sfChip(),sp=chip?pick(chip):null;return sp&&sp.daniel&&sp.nik?{daniel:sp.daniel,nik:sp.nik}:null;}catch(_){return null;}}
   function sfEnsureChip(){return Promise.resolve().then(()=>root.loadRuntimeScript("special-player-chip","js/specialPlayerChip.js",()=>Boolean(root.CareerModeSpecialPlayerChip))).then(()=>root.CareerModeSpecialPlayerChip.ensure()).catch(()=>false);}
+  function sfGoldenCounts(career){
+    try{const seam=root.CareerModeCareerScreenSeam,rows=career?.history?.showdowns;if(typeof seam?.goldenShowdownCounts!=="function"||!Array.isArray(rows))return null;
+      const c=seam.goldenShowdownCounts(rows);return Number.isInteger(c?.daniel)&&Number.isInteger(c?.nik)?{daniel:c.daniel,nik:c.nik}:null;}catch(_){return null;}
+  }
   function standingsFrames(rivalry,career){
     const scope=rivalry&&["loading","empty","unavailable","partial","ready"].includes(rivalry.status)?rivalry:{status:"unavailable"};
     let current={status:scope.status};
@@ -354,6 +363,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     // r86 Special Player chip: THIS SHOWDOWN shows the live Showdown's, CAREER the most recently confirmed one's (none before r86).
     if(current.score){const sp=sfSpecial(chip=>chip.live());if(sp)current.specialPlayers=sp;}
     if(all.standings){const sp=sfSpecial(chip=>chip.latest(career.history&&career.history.showdowns));if(sp)all.specialPlayers=sp;}
+    // r93 (Nik 2026-11-14, Golden everywhere it belongs): CAREER gets a gold GOLDEN SHOWDOWNS row once either manager has one,
+    // counted from the same History rows by the one rule (js/careerScreenSeam.js goldenShowdownCounts), as Career Statistics.
+    if(all.standings){const counts=sfGoldenCounts(career);if(counts&&(counts.daniel||counts.nik))all.goldenShowdowns=counts;}
     return freeze({SHOWDOWN:{view:"this-showdown",previewLabel:"",model:current},CAREER:{view:"career",previewLabel:"",model:all}});
   }
   // Reparent original nodes, including the entire review shell. No clone, value write,

@@ -1413,7 +1413,7 @@
   display:block; margin-top:6px; color:rgba(255,255,255,.64); font-size:12px; line-height:16px; letter-spacing:.04em; white-space:normal;
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyCard .legacyEndedSeparator { display:none; }
-/* r84 Golden Showdown (110 points in a finished 10-season Showdown): gold UI on the black-and-gold marble, using the shared gold
+/* r84 Golden Showdown (150 points in a finished 10-season Showdown, 15 every season): gold UI on the black-and-gold marble, using the shared gold
    tokens and the r78 marble tile. Legacy: the Showdown's card takes a brighter gold frame and a gold line naming the manager(s).
    Rivalry Statistics: one gold line under the head-to-head figures. Nothing is dimmed, overlaid or moved. */
 #app #legacy[data-rivalry-legacy-v10] .legacyCard[data-golden="true"] {
@@ -1429,6 +1429,10 @@
   box-shadow:inset 0 0 0 2px rgba(17,15,12,.9),inset 0 0 0 3px rgba(255,211,77,.4);
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownStar { color:var(--sd-gold-300,#ffd34d); }
+/* r93: the gold trophy picture in place of the star (the Champion art cast gold until Team V's own gold render lands). */
+#app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownTrophy { display:inline-block; width:18px; height:18px; object-fit:contain; vertical-align:-4px; filter:drop-shadow(0 0 5px rgba(255,211,77,.55)); }
+#app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownTrophy--tint,
+#app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown img.rv-goldenTrophy--tint { filter:sepia(.4) saturate(1.7) brightness(1.14) contrast(1.04) drop-shadow(0 0 6px rgba(255,211,77,.6)); }
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown { grid-column:1 / -1; justify-self:center; align-self:start; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:2px 8px; margin:4px 0 0; }
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown img { width:18px; height:18px; object-fit:contain; filter:drop-shadow(0 0 6px rgba(255,211,77,.6)); }
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown strong { color:var(--sd-gold-300,#ffd34d); letter-spacing:.1em; }

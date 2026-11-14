@@ -22,6 +22,10 @@
 //   GS6 layout: the face check draws the Golden screen at every size (tests/browser/phone-marble-facecheck-audit.cjs GOLDEN,
 //       with SEE FINAL WINNER on screen or reached by scrolling and not under anything); its CSS keeps every block closed,
 //       no dimming layer, and its entrance is off under Reduce Motion
+//   GS7 Golden everywhere it belongs (Nik 2026-11-14 17:15 UTC, part D): Standings CAREER gets a gold GOLDEN SHOWDOWNS row once
+//       either manager has one (goldenShowdownCounts of the History rows, never on THIS SHOWDOWN), and every place that draws
+//       the Golden Showdown uses the one gold trophy picture (Golden screen, Trophy Room, Career Statistics, Rivalry Statistics,
+//       History cards)
 // The DOM hand-over (Golden screen first, live panels and Back untouched, SEE FINAL WINNER draws Final Winner) is pinned in
 // tests/contracts/v10-season-final-contracts.cjs V29.8b.
 const assert=require("node:assert/strict");
@@ -202,6 +206,41 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
   assert.ok(statsSrc&&roomSrc);assert.deepEqual(statsSrc.slice(1),roomSrc.slice(1),"one gold trophy picture");
   assert.match(stats,/goldenShowdownNote goldenShowdownTile/);
   ok("GS5","Season Results shows ON COURSE FOR GOLDEN only while a manager has 15 in every committed season of a 10-season Showdown (seasons 1-9), from the verified shared history only, and drops it at his first dropped point");
+}
+
+// GS7
+{
+  const p15=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,topScorer:true,primePack:4});
+  const p14=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,primePack:4});
+  const Career=require("../../js/sharedCareerAnalytics.js");
+  const sd=(seed,total,pair)=>{const p=projection({seed,totalSeasons:total,seasons:Array.from({length:total},(_,i)=>pair(i))});return {rivalryId:p.rivalryId,classification:"completed",projection:p,final:finalFor(p)};};
+  const golden=Career.buildCareerModel({indexStatus:"ready",showdowns:[sd("2",10,()=>[p15(),p14()]),sd("3",10,()=>[p15(),p15()]),sd("4",3,()=>[p14(),p15()])]});
+  const plainCareer=Career.buildCareerModel({indexStatus:"ready",showdowns:[sd("4",3,()=>[p14(),p15()])]});
+  const saved=globalThis.CareerModeCareerScreenSeam;globalThis.CareerModeCareerScreenSeam=Seam;
+  try{
+    const career=m=>plain(Season.standingsFrames(null,m).CAREER.model);
+    assert.deepEqual(career(golden).goldenShowdowns,plain(Seam.goldenShowdownCounts(golden.history.showdowns)),"Standings CAREER counts the History rows by the one rule");
+    assert.deepEqual(career(golden).goldenShowdowns,{daniel:2,nik:1});
+    assert.equal(career(plainCareer).goldenShowdowns,undefined,"no row until someone has one");
+    assert.equal(plain(Season.standingsFrames(null,golden).SHOWDOWN.model).goldenShowdowns,undefined,"THIS SHOWDOWN never");
+  }finally{globalThis.CareerModeCareerScreenSeam=saved;}
+  const standings=read("visual-assets/v10_1/standings/standings.js");
+  assert.match(standings,/const g = view === "career" && !interim \? m\.goldenShowdowns : null;/);
+  assert.match(standings,/row\.className = "sdg-row sdg-row--golden";/);
+  // one gold trophy picture wherever the Golden Showdown is drawn: the Golden screen, Trophy Room, Career Statistics, Rivalry
+  // Statistics and the History cards
+  const pic=[];
+  pic.push(/const GOLDEN_TROPHY=Object\.freeze\(\{src:"visual-assets\/v10_1\/shared\/(trophies-hc\/[\w.]+)",tint:(true|false)\}\)/.exec(read("js/seasonFinalV10.js")));
+  pic.push(/const GOLDEN_TROPHY = \{ src: BASE \+ "\.\.\/shared\/(trophies-hc\/[\w.]+)", tint: (true|false) \}/.exec(read("visual-assets/v10_1/trophy-room/trophy-room.js")));
+  pic.push(/const GOLDEN_TROPHY=\{src:"\.\.\/shared\/(trophies-hc\/[\w.]+)",tint:(true|false)\};/.exec(read("visual-assets/v10_1/career-statistics/career-statistics.js")));
+  pic.push(/const GOLDEN_TROPHY=\{src:"visual-assets\/v10_1\/shared\/(trophies-hc\/[\w.]+)",tint:(true|false)\};/.exec(read("visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js")));
+  pic.push(/const GOLDEN_TROPHY = \{ src: "visual-assets\/v10_1\/shared\/(trophies-hc\/[\w.]+)", tint: (true|false) \};/.exec(read("visual-assets/v10_1/legacy/legacy.js")));
+  assert.ok(pic.every(Boolean),"every Golden place names the gold trophy constant");
+  assert.equal(new Set(pic.map(m=>m[1]+"|"+m[2])).size,1,"one picture, one tint, everywhere");
+  assert.match(read("visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js"),/<img src="'\+GOLDEN_TROPHY\.src\+'"/);
+  assert.match(read("visual-assets/v10_1/legacy/legacy.js"),/star\.src = GOLDEN_TROPHY\.src;/);
+  assert.doesNotMatch(read("css/rivalryLegacyV10.css"),/\b110 points\b/,"no 110 anywhere");
+  ok("GS7","Golden everywhere it belongs (Nik 2026-11-14 17:15 UTC): Standings CAREER row from the one rule, and one gold trophy picture on the Golden screen, Trophy Room, Career Statistics, Rivalry Statistics and History");
 }
 
 // GS6
