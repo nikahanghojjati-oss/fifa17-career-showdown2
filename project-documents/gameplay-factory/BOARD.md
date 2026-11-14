@@ -6,9 +6,9 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 14 Nov, 3:43 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 14 Nov, 3:47 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
+🌐 **Live: 2.4.0-r91** (main `ac0a133`, Sat 14 Nov 3:45 AM)
 
 🩺 **All clear: every check has a machine.** · Gate #1444: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1444 0/16
 
@@ -46,7 +46,7 @@ Updated Sat 14 Nov, 3:43 AM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 758 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 759 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
@@ -2118,12 +2118,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1444](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1444) | Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100 | 🟢 9 passed |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -2144,4 +2138,8 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
+
+## Shipped today
+
+- 3:45 AM · #1444 Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100
 
