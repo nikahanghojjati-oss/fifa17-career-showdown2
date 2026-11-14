@@ -101,7 +101,15 @@ the Safari tab while Chamber Men was opening at High: on the iPhone profile Cham
 High and 579 MB at Extra, against 95 MB at Balanced, for a picture about 590x390 pixels. With the phone set: High 164 MB,
 Extra 189 MB (`tests/browser/device-lab.cjs`, cpu mode). The Special Player card art stops at 2x on a phone (2.5x on a
 computer at Extra and above): at Extra on the iPhone profile its card faces went from 170 to 109 MB, the screen from 327 to
-266 MB. The Device check's frames and the Special Player page also hand
+266 MB. A phone never asks for more than 4 MSAA samples (`samples()`), which halves Special Player's half-float target at
+Extra where the chip lists 8.
+
+**Phone memory budget (every release).** `tests/browser/phone-memory-budget.cjs` measures each 3D screen at High and Extra
+on the iPhone 17 profile at the level's top pixel ratio (`?gfx=N&gfxpr=top`, read only with a forced level) and fails over
+300 MB of textures + render buffers. `.github/workflows/phone-memory-budget.yml` runs it on pushes to `gameplay/r<N>`.
+At Extra a phone's sharpness stops at 2.25x (`PHONE_EXTRA_PR`): at 3x Special Player took about 370 MB. r92 numbers
+(MB, High / Extra): Chamber Men 166 / 190, Roulette 214 / 226, Special Player 241 / 263.
+iOS also keeps decoded image copies, so a real iPhone uses more than it counts; only a real iPhone proves a level opens. The Device check's frames and the Special Player page also hand
 their GPU memory back when they are closed, as Roulette does.
 
 ## The Device check
@@ -123,6 +131,9 @@ their GPU memory back when they are closed, as Roulette does.
   clean answer leaves the first one standing. Failed and not-verified answers are not tried again.
 - A screen that is not smooth twice, or where the GPU gave up (a lost context, out of memory, a refused 8K buffer), settles
   that level: Auto becomes the level below, and nothing above is tried.
+- **The check only ever raises Auto** (r92, Nik 2026-11-14): Auto is the higher of the check's result and the level the
+  graphics chip starts at. A result below the chip's level is not saved (an earlier one is let go, and the page says Auto
+  stays on the chip's level), and one saved by 2.4.0 below it is not read (`gfxMeasured`).
 - Even Light not smooth saves nothing (r92): there is no level below Light, so it cannot show which level is too heavy.
   Auto keeps the last good result or its guess, and the page says so. A 2.4.0 result that saved Light "not held" is not
   read (`gfxMeasured`), so such a device goes back to its guess.

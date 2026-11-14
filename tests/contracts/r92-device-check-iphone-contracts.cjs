@@ -24,6 +24,15 @@
 //      and computers are unchanged
 //   D10 every Device check screen hands its GPU memory back when its frame is removed (Chamber Men's bench frame and the
 //      Special Player page did not; Roulette already did)
+//   D12 the check only ever raises Auto (Nik 2026-11-14 09:48 UTC, "Go" on the simple plan): Auto is the higher of the check's
+//      result and the chip's level. A result below the chip's level is not saved, an earlier one is let go, and one saved by
+//      2.4.0 below it is not read; the page says so
+//   D13 a phone never asks for more than 4 MSAA samples (Special Player's half-float target at Extra: ~146 -> ~78 MB)
+//   D14 the phone memory budget runs in every release: tests/browser/phone-memory-budget.cjs measures each 3D screen at High
+//      and Extra on the iPhone 17 profile at the level's top pixel ratio (?gfxpr=top) and fails over 300 MB of textures +
+//      render buffers; .github/workflows/phone-memory-budget.yml runs it on pushes to the release branches
+//   D15 at Extra a phone's sharpness stops at 2.25x (Special Player at 3x on the iPhone 17 profile: 370 MB; at 2.25x: 263 MB);
+//      High and computers are unchanged (the cap is behind phone&&level===3)
 //   D11 a phone's Special Player card art stops at 2x (Extra on the iPhone 17 profile: card faces 170 -> 109 MB, the whole
 //      screen 327 -> 266 MB); computers keep 2.5x at Extra and above
 const assert = require("node:assert/strict");
@@ -55,7 +64,7 @@ async function run(answer, opts){
     classList: {add(){}, remove(){}}, addEventListener(type, f){ this.listeners[type] = f; }, replaceChildren(){}, setAttribute(){}});
   const messageListeners = new Set(), docListeners = {};
   const timers = new Map(); let timerId = 0;
-  const gpu = o.gpu || "ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)", big = o.gpu8k ? 16384 : 4096;
+  const gpu = o.gpu || "ANGLE (Intel, Intel(R) UHD Graphics 620 Direct3D11 vs_5_0 ps_5_0, D3D11)", big = o.gpu8k ? 16384 : 4096;
   const deliver = (frame, data, source, origin) => { for(const f of [...messageListeners]) f({origin: origin || "https://game.test", source: source || frame.contentWindow, data}); };
   const doc = {
     visibilityState: "visible",
@@ -163,8 +172,8 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.equal(r.tier.suggested().level, 2, "Auto is back on High without FORGET RESULT");
     assert.equal(r.tier.profile().level, 2);
     const fine = JSON.stringify({level: 0, at: 1763110000000, detail: {scenes: SCENES, held: true}});
-    const f = await run(() => "silent", {...IPHONE, storage: {[KEY]: fine}});
-    assert.equal(f.tier.measured().level, 0, "a Light that was held is still read");
+    const f = await run(() => "silent", {storage: {[KEY]: fine}});
+    assert.equal(f.tier.measured().level, 0, "a Light that was held is still read on a chip that starts at Light");
     ok("D4", "a 2.4.0 result that saved Light 'not held' is not read: Auto goes back to its guess");
   }
   // D5
@@ -238,7 +247,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     for(const [choice, tex] of [["high", 2], ["extra", 3], ["ultra", 4]]){ d.setChoice(choice); assert.equal(d.profile().textureLevel, tex, `computer ${choice} unchanged`); }
     const cm = fs.readFileSync(path.join(ROOT, "js/chamberMenScene3d.js"), "utf8");
     assert.match(cm, /const q=\{\.\.\.p,assets:\(p\.textureLevel\?\?p\.level\)<=1\?"phone":"desktop"\};/, "Chamber Men picks its file set from textureLevel");
-    assert.match(TIER, /PHONE_MAX_PR=3,PHONE_TEX_MAX=1;/);
+    assert.match(TIER, /PHONE_MAX_PR=3,PHONE_TEX_MAX=1,PHONE_MSAA_MAX=4,PHONE_EXTRA_PR=2\.25;/);
     ok("D9", "a phone's 3D scenes load the phone file set at High and above; 2D plates and computers unchanged");
   }
   // D10
@@ -265,6 +274,71 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.match(sp, /const cardScale=|function cardScale\(\)\{ const px=H\*Math\.max\(\.5,bandTop-bandBot\)\/2\*\.9\*DPR; return Math\.max\(1,Math\.min\(GQ\.cardMax,/);
     const t = (await run(() => "silent", IPHONE)).tier; assert.equal(t.profile().phone, true, "the profile the page reads says phone");
     ok("D11", "a phone's Special Player card art stops at 2x; computers keep 2.5x at Extra and above");
+  }
+  // D12
+  {
+    const spSlowHigh = scripted({"sp@2": [heavy("sp", 2), heavy("sp", 2)]});
+    const r = await run(spSlowHigh, IPHONE);
+    assert.equal(r.saved, null, "Balanced is below the iPhone's High: nothing is saved (2.4.0 saved Balanced)");
+    assert.equal(r.tier.suggested().level, 2, "Auto stays on High");
+    assert.equal(r.status, "Check done. High was not held: Special Player was not smooth there. Auto stays on High, the level your graphics chip starts at. The check only ever raises Auto.");
+    const before = JSON.stringify({level: 3, at: 1700000000000, detail: {scenes: SCENES, held: true}});
+    const let_go = await run(spSlowHigh, {...IPHONE, storage: {[KEY]: before}});
+    assert.equal(let_go.saved, null, "an earlier Extra is let go: Auto is the higher of this result and the chip's level");
+    assert.equal(let_go.tier.suggested().level, 2);
+    const up = await run(scripted({"sp@4": [heavy("sp", 4), heavy("sp", 4)]}), IPHONE);
+    assert.equal(up.saved.level, 3, "a result above the chip's level is saved: Extra");
+    assert.equal(up.tier.suggested().level, 3);
+    const same = await run(scripted({"chamber-men@3": [heavy("chamber-men", 3), heavy("chamber-men", 3)]}), IPHONE);
+    assert.equal(same.saved.level, 2, "the chip's own level, measured, is saved (it holds 60 fps there)");
+    const old = JSON.stringify({level: 1, at: 1763110000000, detail: {scenes: SCENES, held: true}});
+    const o = await run(() => "silent", {...IPHONE, storage: {[KEY]: old}});
+    assert.equal(o.tier.measured(), null, "a 2.4.0 Balanced on an iPhone is not read");
+    assert.equal(o.tier.profile().level, 2, "Auto is High");
+    const rtx = await run(scripted({"rrr@3": [heavy("rrr", 3), heavy("rrr", 3)]}), {gpu: "ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)"});
+    assert.equal(rtx.tier.device().guessLevel, 3); assert.equal(rtx.saved, null, "High is below an RTX 4080's Extra");
+    assert.match(rtx.status, /Auto stays on Extra, the level your graphics chip starts at\. The check only ever raises Auto\./);
+    assert.match(PAGE, /It only ever raises Auto above the level your graphics chip starts at\./);
+    ok("D12", "the check only ever raises Auto above the chip's level; lower results are not saved or read; the page says so");
+  }
+  // D13
+  {
+    const phone = (await run(() => "silent", IPHONE)).tier, pc = (await run(() => "silent")).tier;
+    const fake = list => ({getContext: () => ({RGBA16F: 1, RGBA8: 2, DEPTH_COMPONENT24: 3, RENDERBUFFER: 4, SAMPLES: 5, getInternalformatParameter: () => list})});
+    assert.equal(phone.samples(fake([8, 4, 2]), 8, true), 4, "a phone: 4 samples where the chip lists 8");
+    assert.equal(phone.samples(fake([8, 4, 2]), 2, true), 2, "never more than asked");
+    assert.equal(pc.samples(fake([8, 4, 2]), 8, true), 8, "a computer: as in 2.4.0");
+    assert.match(TIER, /PHONE_TEX_MAX=1,PHONE_MSAA_MAX=4,/);
+    ok("D13", "a phone never asks for more than 4 MSAA samples; computers unchanged");
+  }
+  // D14
+  {
+    const budget = fs.readFileSync(path.join(ROOT, "tests/browser/phone-memory-budget.cjs"), "utf8");
+    assert.match(budget, /const PHONE_BUDGET_MB = 300;/);
+    assert.match(budget, /const LEVELS = \[2, 3\];/); assert.match(budget, /const SCENES = \["chamber", "rrr", "sp"\];/);
+    assert.match(budget, /"--profiles", "iphone17"/); assert.match(budget, /DEVLAB_MODE: "cpu", DEVLAB_TOP: "1"/);
+    assert.match(budget, /const total = Math\.round\(\(r\.allocTexMB \+ r\.allocRbMB\) \* 10\) \/ 10;/, "textures plus render buffers");
+    assert.match(budget, /if \(total > PHONE_BUDGET_MB\) failures\.push/);
+    const lab = fs.readFileSync(path.join(ROOT, "tests/browser/device-lab.cjs"), "utf8");
+    assert.match(lab, /const TOP = process\.env\.DEVLAB_TOP === "1" \? "&gfxpr=top" : "";/);
+    assert.equal((lab.match(/\$\{TOP\}`/g) || []).length, 3, "all three screens");
+    assert.match(TIER, /top=forcedLevel!==null&&gfxQuery\("gfxpr"\)==="top"/, "only with a forced level (the lab), never in play");
+    assert.match(TIER, /if\(base\.top\)start=Math\.max\(start,Math\.min\(max,phone&&view\?Math\.sqrt\(BUFFER_CAP\/view\):max\)\);/);
+    const wf = fs.readFileSync(path.join(ROOT, ".github/workflows/phone-memory-budget.yml"), "utf8");
+    assert.match(wf, /branches: \['gameplay\/r\[0-9\]\*'\]/); assert.doesNotMatch(wf, /^\s*pull_request\s*:/m, "never a pull_request workflow: Showdown Gate stays the only one");
+    assert.match(wf, /run: node tests\/browser\/phone-memory-budget\.cjs/);
+    for (const f of ["js/gfxTier.js", "js/chamberMenScene3d.js", "visual-assets/v10_1/special-player/\\*\\*", "visual-assets/v10_1/roulette/\\*\\*"]) assert.match(wf, new RegExp(`- '${f}'`), f);
+    // In play the start ratio is never the top one unless the scene asks (the profile with no ?gfxpr is as before).
+    const t = (await run(() => "silent", IPHONE)).tier; t.setChoice("high"); const p = t.profile(); assert.ok(p.pixelRatio <= p.maxPixelRatio);
+    ok("D14", "the phone memory budget (300 MB, textures + buffers, top pixel ratio, High and Extra) runs on every release push");
+  }
+  // D15
+  {
+    const t = (await run(() => "silent", IPHONE)).tier;
+    t.setChoice("extra"); const pe = t.profile(); assert.equal(pe.level, 3); assert.equal(pe.maxPixelRatio, 2.25, "a phone at Extra stops at 2.25x");
+    t.setChoice("high"); assert.equal(t.profile().maxPixelRatio, 2, "a phone at High is as in 2.4.0");
+    assert.match(TIER, /if\(phone&&level===3\)max=Math\.min\(max,PHONE_EXTRA_PR\);/);
+    ok("D15", "at Extra a phone's sharpness stops at 2.25x so every 3D screen fits the phone memory budget");
   }
   console.log(`PASS r92 device check iPhone contracts (${checks} checks)`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

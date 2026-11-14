@@ -22,7 +22,7 @@
     // r90 (Nik 2026-11-07, "8K as well as 4K"): on a GPU that can hold a 7680 px buffer, never on a phone; picked, or (r91) measured by the Device check.
     {pr:2,max:8,shadowSize:4096,density:1,bloom:true}
   ];
-  const BUDGET_MS=16.7,BUFFER_CAP=3840*2160,BUFFER_CAP_8K=7680*4320,PHONE_MAX_PR=3,PHONE_TEX_MAX=1;
+  const BUDGET_MS=16.7,BUFFER_CAP=3840*2160,BUFFER_CAP_8K=7680*4320,PHONE_MAX_PR=3,PHONE_TEX_MAX=1,PHONE_MSAA_MAX=4,PHONE_EXTRA_PR=2.25;
   // "Never crash" first (Nik 2026-11-08): a lost context, an out-of-memory error, or (8K) a buffer or target the GPU would
   // not give drops this device one level below the one that failed and remembers it (any level, Auto or picked) until the
   // player picks a level again in Settings.
@@ -60,9 +60,14 @@
   // r92 (Nik 2026-11-14, iPhone 17): a 2.4.0 check where even Light was not smooth saved Light "not held", and that
   // replaced a High guess for good. A stall at Light says nothing about which level the device can hold (there is no level
   // below), so such a result is not read: Auto goes back to its guess. A check never saves one now (device-check.html).
+  // r92 (Nik 2026-11-14, "Go" on the simple plan): the check only ever raises Auto. Auto is the higher of the check's
+  // result and the level the graphics chip starts at, so a result below the chip's level (one saved by 2.4.0) is not read.
   function gfxMeasured(){
-    try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");return m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=5&&!(m.detail&&m.detail.held===false)?m:null;}catch(_error){return null;}
+    try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");if(!(m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=5&&!(m.detail&&m.detail.held===false)))return null;
+      return m.level>=gfxChipLevel()?m:null;}catch(_error){return null;}
   }
+  // The level Auto starts at from the graphics chip and the device (memory, threads, phone): the check's floor.
+  function gfxChipLevel(){try{return gfxClassify(gfxGpuInfo().name,gfxScreenEnv()).level;}catch(_error){return 0;}}
 
   // The GPU's own name and its largest buffer and texture, from a throwaway context (released at once). r90 MOTION round 2:
   // the first WebGL context of a page starts the GPU side (735-887 ms on a Chromebook, one long task), so the answer is kept
@@ -260,6 +265,9 @@
     // governor checks). A phone never draws past 3x its CSS size, nor past a 4K buffer (iOS memory).
     let max=level>=4?Math.max(dpr,(level===5?4:2)*dpr):Math.min(L.max,dpr);
     if(phone)max=Math.min(max,Math.max(1,Math.min(PHONE_MAX_PR,dpr)));
+    // r92 phone memory budget (tests/browser/phone-memory-budget.cjs): at Extra a phone stops at 2.25x. At 3x Special
+    // Player's targets took it to about 370 MB on the iPhone 17 profile, over the 300 MB a phone screen may use.
+    if(phone&&level===3)max=Math.min(max,PHONE_EXTRA_PR);
     const min=Math.min(1,dpr,max),assetLevel=Math.max(0,Math.min(4,phone&&level<2?level-1:level)-(base.slowNet?1:0));
     // r91 (device lab, 2026-11-11): the buffer cap holds from the very first allocation. A scene sizes its first buffer from
     // pixelRatio before its governor exists, and 2.3.0 capped only in the governor: 8K picked on a 4K monitor first asked for
@@ -276,6 +284,9 @@
     }
     // No size known at all (review on #1399): never past native until the governor has the canvas size.
     else start=Math.max(min,Math.min(start,dpr));
+    // r92 memory proof (tests/browser/phone-memory-budget.cjs): ?gfx=N&gfxpr=top starts at the level's ceiling, the most the
+    // governor may reach in play, so the memory measured is the most that level can hold (a phone within its 4K buffer).
+    if(base.top)start=Math.max(start,Math.min(max,phone&&view?Math.sqrt(BUFFER_CAP/view):max));
     return {level,name:NAMES[level],choice:base.choice,gpu:base.gpu,software:base.software,dpr,phone,can8k:Boolean(base.can8k),fellBack,
       // Ultra starts at native at least (a 3x phone or 8K screen); 8K starts at its ceiling, which the governor holds to a
       // 7680x4320 buffer for the live canvas (a 1080p screen draws 4x). Past native always stays within the buffer cap.
@@ -305,8 +316,8 @@
       const want=level===5&&!can8k?4:level,ok=gfxPickable(level,env,can8k,measured);
       if(ok<want){gated=level;level=ok;}
     }
-    const bench=forcedLevel!==null&&gfxQuery("bench")==="1";
-    cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,slowNet:gfxSlowNet(),choice:forcedLevel!==null?`gfx=${forcedLevel}`:c,bench});
+    const bench=forcedLevel!==null&&gfxQuery("bench")==="1",top=forcedLevel!==null&&gfxQuery("gfxpr")==="top";
+    cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,slowNet:gfxSlowNet(),choice:forcedLevel!==null?`gfx=${forcedLevel}`:c,bench,top});
     cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=autoLevel;cached.measured=Boolean(measured);cached.guessLevel=auto.level;cached.strongPhone=Boolean(auto.strongPhone);
     // What was asked for by ?gfx=N (null otherwise): the Device check compares it with what was drawn.
     cached.asked=forcedLevel;
@@ -352,8 +363,12 @@
   // (RGBA16F with hdr, else RGBA8) and DEPTH_COMPONENT24 (W3's fix on #1265; MAX_SAMPLES alone is not enough). Without the
   // query: 4, then 0.
   const sampleLists=new WeakMap();
+  // r92: a phone never asks for more than PHONE_MSAA_MAX (4) samples. At Extra an 8-sample half-float target with its depth
+  // buffer is about twice the memory of a 4-sample one (Special Player on an iPhone: ~146 MB of targets against ~78 MB),
+  // and iOS closes a tab long before the phone's memory is full.
   function gfxSamples(renderer,want,hdr){
-    const w=Math.max(0,Math.floor(Number(want)||0));if(!w)return 0;
+    let w=Math.max(0,Math.floor(Number(want)||0));if(!w)return 0;
+    try{if(gfxProfile().phone)w=Math.min(w,PHONE_MSAA_MAX);}catch(_error){}
     let byFormat=sampleLists.get(renderer);if(!byFormat){byFormat={};try{sampleLists.set(renderer,byFormat);}catch(_error){}}
     const k=hdr?"hdr":"ldr";
     if(!(k in byFormat)){

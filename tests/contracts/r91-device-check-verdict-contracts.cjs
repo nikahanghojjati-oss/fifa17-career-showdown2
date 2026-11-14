@@ -43,7 +43,9 @@ async function run(answer, opts){
     classList: {add(){}, remove(){}}, addEventListener(type, f){ this.listeners[type] = f; }, replaceChildren(){}, setAttribute(){}});
   const messageListeners = new Set(), docListeners = {};
   const timers = new Map(); let timerId = 0;
-  const gpu = "ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)", big = o.gpu8k ? 16384 : 4096;
+  // r92: the check only ever raises Auto above the chip's level, so these verdicts run on a chip that starts at Light
+  // (an RTX 4080 starts at Extra, and a result below that is not saved: tests/contracts/r92-device-check-iphone-contracts.cjs D12).
+  const gpu = o.gpu || "ANGLE (Intel, Intel(R) UHD Graphics 620 Direct3D11 vs_5_0 ps_5_0, D3D11)", big = o.gpu8k ? 16384 : 4096;
   const deliver = (frame, data, source, origin) => { for(const f of [...messageListeners]) f({origin: origin || "https://game.test", source: source || frame.contentWindow, data}); };
   const doc = {
     visibilityState: "visible",

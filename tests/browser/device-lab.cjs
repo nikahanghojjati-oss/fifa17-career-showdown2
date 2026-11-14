@@ -57,10 +57,13 @@ const PROFILES = {
         renderer: "ANGLE (NVIDIA, NVIDIA GeForce RTX 4090 (0x00002684) Direct3D11 vs_5_0 ps_5_0, D3D11)", vendor: "Google Inc. (NVIDIA)", memory: 8, cores: 16, maxBuffer: 16384, maxTexture: 16384, cpuRate: 1
     }
 };
+// DEVLAB_TOP=1 (r92, tests/browser/phone-memory-budget.cjs): each level starts at its top pixel ratio (?gfxpr=top), the most
+// the governor may reach in play, so the memory measured is the most that level can hold.
+const TOP = process.env.DEVLAB_TOP === "1" ? "&gfxpr=top" : "";
 const SCENES = {
-    chamber: { name: "Chamber Men", url: l => `device-check-chamber.html?gfx=${l}` },
-    rrr: { name: "RRR", url: l => `visual-assets/v10_1/roulette/index.html?showcase=1&gfx=${l}` },
-    sp: { name: "SP pack", url: l => `visual-assets/v10_1/special-player/index.html?gfx=${l}` }
+    chamber: { name: "Chamber Men", url: l => `device-check-chamber.html?gfx=${l}${TOP}` },
+    rrr: { name: "RRR", url: l => `visual-assets/v10_1/roulette/index.html?showcase=1&gfx=${l}${TOP}` },
+    sp: { name: "SP pack", url: l => `visual-assets/v10_1/special-player/index.html?gfx=${l}${TOP}` }
 };
 const LEVEL_NAMES = ["Light", "Balanced", "High", "Extra", "Ultra (4K)", "8K"];
 
