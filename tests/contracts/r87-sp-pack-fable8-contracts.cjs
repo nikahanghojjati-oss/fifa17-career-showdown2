@@ -106,7 +106,7 @@ ok("R90-PS6 Nik's tighter rhythm (2026-11-07 22:50 UTC): four quicker stretches,
   assert.match(page,/stepParticles\(dt\*ps\); stepChunks\(dt\*ps\);/,"sparks keep their own speed");
 });
 ok("R90-PS7 quality by level (Nik 23:44 UTC): MSAA, shadows, filtering and card sharpness follow the gfxTier level; light draws less",()=>{
-  assert.match(page,/const GL_LVL=GP\?GP\.level:2, GQ_I=Math\.max\(0,Math\.min\(4,GL_LVL\|0\)\), GQ=\{ samples:\[2,2,4,8,8\]\[GQ_I\], shadow:GP&&GP\.shadowSize\|\|2048, aniso:\[4,8,16,16,16\]\[GQ_I\], cardMax:GL_LVL>=3\?2\.5:2 \};/,"every level, 8K included, has its knobs");
+  assert.match(page,/const GL_LVL=GP\?GP\.level:2, GQ_I=Math\.max\(0,Math\.min\(4,GL_LVL\|0\)\), GQ=\{ samples:\[2,2,4,8,8\]\[GQ_I\], shadow:GP&&GP\.shadowSize\|\|2048, aniso:\[4,8,16,16,16\]\[GQ_I\], cardMax:GL_LVL>=3&&!\(GP&&GP\.phone\)\?2\.5:2 \};/,"every level, 8K included, has its knobs (r92: a phone's card art stops at 2x, from gfxTier's own phone flag)");
   assert.match(page,/samples:fitSamples\(GQ\.samples\)/,"only a count the GPU supports for both formats");
   assert.match(page,/sun\.shadow\.mapSize\.set\(GQ\.shadow,GQ\.shadow\)/);
   assert.ok(!/PHONE_GPU/.test(page),"one system: no phone rule of its own, a picked level holds on a phone (gfxTier handles phones)");

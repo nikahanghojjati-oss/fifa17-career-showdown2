@@ -487,7 +487,7 @@ let PR=GP?GP.pixelRatio:1, gov=null;
    extra load). Each knob follows the profile's level (0 light .. 4 ultra; 2 without the module): edges (MSAA), shadow map,
    texture filtering at angles, and how far past 2x the card art may be drawn on a big sharp screen (its text and numbers). Light
    and Medium draw less than before (2x MSAA, 1024 shadows), which leaves the governor room for a sharper pixel ratio. */
-const GL_LVL=GP?GP.level:2, GQ_I=Math.max(0,Math.min(4,GL_LVL|0)), GQ={ samples:[2,2,4,8,8][GQ_I], shadow:GP&&GP.shadowSize||2048, aniso:[4,8,16,16,16][GQ_I], cardMax:GL_LVL>=3?2.5:2 }; /* 8K (level 5) uses the Ultra knobs */
+const GL_LVL=GP?GP.level:2, GQ_I=Math.max(0,Math.min(4,GL_LVL|0)), GQ={ samples:[2,2,4,8,8][GQ_I], shadow:GP&&GP.shadowSize||2048, aniso:[4,8,16,16,16][GQ_I], cardMax:GL_LVL>=3&&!(GP&&GP.phone)?2.5:2 }; /* 8K (level 5) uses the Ultra knobs. r92: a phone's card art stops at 2x (the card is under 400 px wide there; at 2.5x the 14 faces took 170 MB on the iPhone 17 profile at Extra, 85 MB at 2x) */
 renderer.setPixelRatio(PR);
 if(DIRECT){ T.ShaderChunk.tonemapping_pars_fragment=T.ShaderChunk.tonemapping_pars_fragment.replace("vec3 CustomToneMapping( vec3 color ) { return color; }","vec3 CustomToneMapping( vec3 color ) { color*=toneMappingExposure; return clamp((color*(2.51*color+.03))/(color*(2.43*color+.59)+.14),0.,1.); }");
   renderer.outputColorSpace=T.SRGBColorSpace; renderer.toneMapping=T.CustomToneMapping; renderer.toneMappingExposure=.9; }

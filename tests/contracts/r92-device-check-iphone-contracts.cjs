@@ -24,6 +24,8 @@
 //      and computers are unchanged
 //   D10 every Device check screen hands its GPU memory back when its frame is removed (Chamber Men's bench frame and the
 //      Special Player page did not; Roulette already did)
+//   D11 a phone's Special Player card art stops at 2x (Extra on the iPhone 17 profile: card faces 170 -> 109 MB, the whole
+//      screen 327 -> 266 MB); computers keep 2.5x at Extra and above
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -251,6 +253,18 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     const cm = fs.readFileSync(path.join(ROOT, "js/chamberMenScene3d.js"), "utf8");
     assert.match(cm, /gov\?\.end\(\);fps\?\.stop\(\);[\s\S]{0,900}renderer\.dispose\(\);try\{renderer\.forceContextLoss\(\);\}catch\(_error\)\{\}/, "Chamber Men's dispose ends its governor first");
     ok("D10", "each Device check screen hands its GPU memory back when its frame is removed");
+  }
+  // D11
+  {
+    const sp = fs.readFileSync(path.join(ROOT, "visual-assets/v10_1/special-player/index.html"), "utf8");
+    const m = /GQ=\{[^}]*cardMax:(GL_LVL>=3&&!\(GP&&GP\.phone\)\?2\.5:2) \}/.exec(sp);
+    assert.ok(m, "the card art cap depends on the level and on the phone");
+    const cardMax = (GL_LVL, GP) => Function("GL_LVL", "GP", `return ${m[1]};`)(GL_LVL, GP);
+    assert.deepEqual([0, 1, 2, 3, 4, 5].map(l => cardMax(l, {phone: true})), [2, 2, 2, 2, 2, 2], "a phone: 2x at every level");
+    assert.deepEqual([0, 1, 2, 3, 4, 5].map(l => cardMax(l, {phone: false})), [2, 2, 2, 2.5, 2.5, 2.5], "a computer: as in 2.4.0");
+    assert.match(sp, /const cardScale=|function cardScale\(\)\{ const px=H\*Math\.max\(\.5,bandTop-bandBot\)\/2\*\.9\*DPR; return Math\.max\(1,Math\.min\(GQ\.cardMax,/);
+    const t = (await run(() => "silent", IPHONE)).tier; assert.equal(t.profile().phone, true, "the profile the page reads says phone");
+    ok("D11", "a phone's Special Player card art stops at 2x; computers keep 2.5x at Extra and above");
   }
   console.log(`PASS r92 device check iPhone contracts (${checks} checks)`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

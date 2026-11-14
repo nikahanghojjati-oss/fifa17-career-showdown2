@@ -99,7 +99,9 @@ On a phone (shortest screen side under 700 px) the 3D scenes load the phone file
 (`profile().textureLevel` at most 1); `assetLevel`, and so the 2D plates, keep the level's own size. Nik's iPhone 17 closed
 the Safari tab while Chamber Men was opening at High: on the iPhone profile Chamber Men loaded about 427 MB of textures at
 High and 579 MB at Extra, against 95 MB at Balanced, for a picture about 590x390 pixels. With the phone set: High 164 MB,
-Extra 189 MB (`tests/browser/device-lab.cjs`, cpu mode). The Device check's frames and the Special Player page also hand
+Extra 189 MB (`tests/browser/device-lab.cjs`, cpu mode). The Special Player card art stops at 2x on a phone (2.5x on a
+computer at Extra and above): at Extra on the iPhone profile its card faces went from 170 to 109 MB, the screen from 327 to
+266 MB. The Device check's frames and the Special Player page also hand
 their GPU memory back when they are closed, as Roulette does.
 
 ## The Device check
