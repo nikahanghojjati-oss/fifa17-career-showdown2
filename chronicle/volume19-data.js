@@ -682,7 +682,7 @@ window.CHRONICLE_VOLUME19={
     },
     {
      "type": "p",
-     "text": "A third Fable 5.2 thread re-checked the final candidate, fe4a1d36, late that evening and said release: no P1, and nothing wrong in any of the new fixes. Ten seasons passed 489 of 489 checks, the same-name runs 289 of 289, an update from 2.3.0 293 of 293, and the fuzz found no shot or guessed man coming back in 151,446 screens. It left two smaller rows: a partner’s END SHOWDOWN could leave the roulette or the Prime Pack over Home, the same in 2.3.0, and after an outage CONFIRM MY RESULT could stay grey for up to 15 seconds under its own “tap again” line."
+     "text": "A third Fable 5.2 thread re-checked the final candidate, fe4a1d36, late that evening and said release: no P1, and nothing wrong in any of the new fixes. Ten seasons passed 489 of 489 checks, the same-name runs 289 of 289, an update from 2.3.0 293 of 293, and the fuzz found no shot or guessed man coming back in 151,446 screens. It left two smaller rows: a partner’s END SHOWDOWN could leave the roulette or the Prime Pack over Home, the same in 2.3.0, and after an outage CONFIRM MY RESULT could stay grey for up to 15 seconds under its own “tap again” line. Nik chose to fix both first. An END SHOWDOWN now takes down the roulette, the Prime Pack and Chamber Men, and Home opens with the notice that the Showdown ended for both players (#1456). After an outage the button comes back lit with the line beneath it, and one tap publishes once (#1455). A short Fable check played seven END SHOWDOWNs across the three screens and the outage case sixteen ways, and said merge both."
     },
     {
      "type": "p",
@@ -769,6 +769,22 @@ window.CHRONICLE_VOLUME19={
      "label": "PR #1453",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1453",
      "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r91",
+     "ref": "de5b07dd8bc25259f54a256b1c31e13fa4c9a852",
+     "path": "Pull request #1455, merged",
+     "label": "PR #1455",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1455",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r91",
+     "ref": "b3c0840b5c8b3e72a523f651f40640612aac5e12",
+     "path": "Pull request #1456, merged",
+     "label": "PR #1456",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1456",
+     "kind": "pull-request"
     }
    ],
    "tags": [
@@ -777,9 +793,9 @@ window.CHRONICLE_VOLUME19={
     "Squad Management",
     "Loading screen"
    ],
-   "words": 1387,
+   "words": 1462,
    "minutes": 6
   }
  ],
- "wordCount": 4822
+ "wordCount": 4897
 };
