@@ -1,17 +1,48 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-14 11:30 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-14 11:33 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `89bbd2d` (Sat 14 Nov 11:29 AM Boston time) · 277 messages · 80 hand-offs · 516 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `2fd1f22` (Sat 14 Nov 11:33 AM Boston time) · 278 messages · 81 hand-offs · 517 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
-### HO-079 · G → V · Home logo and screen titles: one flat hand-drawn mark (no AI look)
+### HO-080 · G → V · Golden Showdown trophy: the Champion trophy cast in gold
 
 ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
+- Sat 14 Nov 11:32 AM · Team G · Sent
+- Sat 14 Nov 11:33 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+# TV-C · Golden Showdown trophy: the Champion trophy cast in gold (kind: design, worker: images, priority: top)
+
+### Why (Nik 2026-11-14 16:25 UTC)
+"Include it in trophy room as a trophy as well, the separate trophy ... the same as showdown champion trophy, but it should look golden, so it have a differentiate." Today the Trophy Room only puts a CSS gold filter on TRO_HC_1_V2 (the Champion trophy).
+
+### Ask (one asset)
+TRO_HC_6_GOLDEN_V1 at 256 and 512 (alpha WebP, same canvas, angle, crop and light as TRO_HC_1_V2_512.webp), plus a 1024 for the new Golden Showdown screen hero. Same model as the Showdown Champion trophy, cast in warm polished gold (the Champion one stays as it is), so side by side they read as the same trophy in two metals. Same room light as the HC V2 set (one warm lamp, no glow, no sparkle, no halo). No text or engraving that reads.
+
+### GPT prompt (plain New chat outside any ChatGPT project; attach ONLY TRO_HC_1_V2_512.webp)
+```
+Edit this trophy image. Keep the trophy's exact shape, proportions, angle, crop and lighting direction. Change only its metal: make the whole trophy warm polished gold, with natural reflections from one warm lamp. No glow, no sparkle, no halo, no added light rays. Keep the transparent background. No text anywhere. The largest size available.
+```
+Up to 3 tries, each in a new chat; always edit from TRO_HC_1_V2_512.webp, never from a previous try.
+
+### Accept when
+- Overlaid on TRO_HC_1_V2 at the same size, the outline matches (same trophy).
+- Reads as gold next to the Champion trophy at 256 px in the Trophy Room grid; under the size of TRO_HC_1 x1.3.
+Team G wires it (r93 plan part B: gameplay/r93/GOLDEN_SHOWDOWN_PLAN.md in shared project files).
+
+</details>
+
+### HO-079 · G → V · Home logo and screen titles: one flat hand-drawn mark (no AI look)
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 4 min after delivery
+
+- Sat 14 Nov 11:33 AM · Team V · Received · Team V lead: 3 flat code-drawn logo samples sent to Nik
 - Sat 14 Nov 11:29 AM · Team G · Sent
 - Sat 14 Nov 11:29 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -2886,6 +2917,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-079 RECEIVED · Team V → Team G · Sat 14 Nov 11:33 AM Boston time
+
+**Home logo and screen titles: one flat hand-drawn mark (no AI look)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-072 DONE · Team G → Team V · Thu 12 Nov 9:02 PM Boston time
 

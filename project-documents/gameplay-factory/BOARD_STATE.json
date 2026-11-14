@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14 11:30 AM Boston time (EST)",
+ "generated": "2026-11-14 11:33 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 277,
@@ -2516,8 +2516,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "89bbd2d",
-  "head_boston": "Sat 14 Nov 11:29 AM",
+  "head": "6780235",
+  "head_boston": "Sat 14 Nov 11:32 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3352,7 +3352,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 9446
+    "waiting_min": 9449
    },
    {
     "id": "HO-059",
@@ -3619,10 +3619,23 @@
     "from": "G",
     "to": "V",
     "title": "Home logo and screen titles: one flat hand-drawn mark (no AI look)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-079_home-logo-and-screen-titles-one-flat-han.md",
+    "worker": "images",
+    "pickup_min": 4,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-080",
+    "from": "G",
+    "to": "V",
+    "title": "Golden Showdown trophy: the Champion trophy cast in gold",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-080_golden-showdown-trophy-the-champion-trop.md",
     "worker": "images",
     "pickup_min": null,
     "waiting_min": 1
@@ -3697,7 +3710,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
