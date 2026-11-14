@@ -1109,8 +1109,12 @@ async function capturePage(m,hostId,label){
   }
   if(hostId==="legacy"){
     out.cards=await m.page.evaluate(()=>[...document.querySelectorAll("#legacy .legacyCard")].map(c=>({status:c.dataset.status||"",number:c.dataset.showdown||"",text:(c.textContent||"").replace(/\s+/g," ").trim()})));
+    // r87 (Nik 2026-10-31): History opens on the newest Showdown, and VIEW SEASON HISTORY shows the Showdown on screen (it is
+    // off for an Ended-early card). The number on screen is read here so the check compares the right Showdown.
+    out.selected=await m.page.evaluate(()=>{const n=Number(window.LegacyFixture?.selectedShowdown);if(Number.isInteger(n)&&n>0)return n;const c=document.querySelector("#legacy .legacyCard.legacyVisibleCard");const v=Number(c?.dataset?.showdown);return Number.isInteger(v)&&v>0?v:null;});
     const hist=m.page.locator("#legacy button").filter({hasText:/VIEW SEASON HISTORY/i}).first();
-    if(await hist.count()&&await hist.isVisible().catch(()=>false)){await hist.click({timeout:10000}).catch(()=>{});await m.page.waitForTimeout(2500);out.seasonHistory=norm(await m.page.evaluate(()=>[...document.querySelectorAll(".screen:not(.hidden)")].map(s=>s.innerText).join(" | ")));await shot(m,`${label}-legacy-season-history`);}
+    if(await hist.count()&&await hist.isVisible().catch(()=>false))out.historyOff=await hist.isDisabled().catch(()=>false);
+    if(out.historyOff===false){await hist.click({timeout:10000}).catch(()=>{});await m.page.waitForTimeout(2500);out.seasonHistory=norm(await m.page.evaluate(()=>[...document.querySelectorAll(".screen:not(.hidden)")].map(s=>s.innerText).join(" | ")));await shot(m,`${label}-legacy-season-history`);}
   }
   if(hostId==="statistics")out.via=m.rivalryVia;
   await shot(m,`${label}-${hostId}`);
@@ -1243,15 +1247,23 @@ async function checkCareerPages(m,raw,label,career,{live=null,settingsLive=false
   });
   const cardsOk=f.legacyCards.length===wantCards.length&&wantCards.every((w,i)=>{const c=f.legacyCards[i];if(!c||c.status!==w.status)return false;return w.re?new RegExp(w.re).test(c.text):w.must.every(p=>new RegExp(p.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"i").test(c.text));});
   await check(m,id("legacy.cards"),`Legacy lists exactly ${wantCards.length} row(s): ${wantCards.map(w=>w.status==="abandoned"?"ended early":`#${w.number} ${w.must[1]} ${w.must[3]}`).join(", ")||"none"}`,wantCards.length===0?(f.legacyCards.filter(c=>c.status==="completed"||c.status==="abandoned").length===0):cardsOk,`expected ${JSON.stringify(wantCards)}; shown ${JSON.stringify(f.legacyCards)}`,scr("Legacy"));
-  const firstCompleted=E.rows.find(s=>s.state==="completed");
-  if(firstCompleted&&f.seasonHistory){
+  // r91 (2.4.0): Legacy opens on the newest Showdown, and VIEW SEASON HISTORY is checked against the Showdown on screen (the
+  // old check always expected Showdown #1 and failed as soon as a second one was listed). An Ended-early card on screen keeps
+  // VIEW SEASON HISTORY off and shows no season table (status-only, Nik 2026-10-31).
+  const legacyRaw=raw?.legacy||{},newest=E.rows.length?E.rows[E.rows.length-1]:null;
+  if(newest)await check(m,id("legacy.opensNewest"),`Legacy opens on the newest Showdown (#${newest.number})`,Number(legacyRaw.selected)===Number(newest.number),`opened on ${JSON.stringify(legacyRaw.selected??null)}`,scr("Legacy (season history)"));
+  const onScreen=E.rows.find(s=>Number(s.number)===Number(legacyRaw.selected))||null;
+  const firstCompleted=onScreen&&onScreen.state==="completed"?onScreen:null;
+  if(onScreen&&onScreen.state==="ended"){
+    await check(m,id("legacy.seasonHistory"),`Legacy: the Ended-early Showdown #${onScreen.number} on screen keeps VIEW SEASON HISTORY off and shows no season table`,legacyRaw.historyOff===true&&!/SEASON BY SEASON/i.test(f.seasonHistory||""),`button ${legacyRaw.historyOff===true?"off":legacyRaw.historyOff===false?"on":"missing"}; text: ${String(f.seasonHistory||"").slice(0,300)}`,scr("Legacy (season history)"));
+  }else if(firstCompleted&&f.seasonHistory){
     // r87 polish: the list is a table (Season · Daniel · Nik · Result); a row reads "Season N <pts> #pos · pts league pts · goals
     // goals [Europa League winner] <pts> ... <crown> Winner | = Draw" (case-insensitive: the labels are drawn in capitals).
     const esc=x=>String(x).replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),side=r=>esc(`${scoreSeason(r).total}`)+" "+esc(`#${r.leaguePosition} · ${r.leaguePoints} league pts · ${r.leagueGoals} goals`)+"(?: Europa League winner)?";
     const want=firstCompleted.seasons.map((p,i)=>{const d=scoreSeason(p.daniel).total,n=scoreSeason(p.nik).total;return {label:`Season ${i+1}`,re:new RegExp(`Season ${i+1} ${side(p.daniel)} ${side(p.nik)} ${d>n?"♛ Daniel":n>d?"♛ Nik":"= Draw"}`,"i")};});
     const missing=want.filter(w=>!w.re.test(f.seasonHistory)).map(w=>w.label);
     await check(m,id("legacy.seasonHistory"),`Legacy VIEW SEASON HISTORY (Showdown #${firstCompleted.number}) lists every season with its score, league finish, points and goals`,missing.length===0,`missing ${JSON.stringify(missing)} in: ${f.seasonHistory.slice(0,1500)}`,scr("Legacy (season history)"));
-  }else if(firstCompleted)await check(m,id("legacy.seasonHistory"),"Legacy VIEW SEASON HISTORY opens",false,"no VIEW SEASON HISTORY button or no text",scr("Legacy (season history)"));
+  }else if(E.completedCount>0)await check(m,id("legacy.seasonHistory"),"Legacy VIEW SEASON HISTORY opens",false,`no VIEW SEASON HISTORY button or no text (on screen: ${JSON.stringify(legacyRaw.selected??null)})`,scr("Legacy (season history)"));
   // Standings (This Showdown) while a Showdown is live: its committed seasons only.
   if(live){
     const t=tally(live.seasons),g=f.thisShowdown;
