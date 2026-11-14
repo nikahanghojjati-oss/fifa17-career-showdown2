@@ -28,6 +28,11 @@
   // keep counting the roulette as on screen while its release is saved and the window is navigated to. loading: the Reus Gate
   // loading screen, held from START until a card or the scene is ready (Fable F2-13).
   let running=null,leftForHome=false,holding=false,loading=null,loadingShows=0,loadingPrior=null;
+  // E1 (2.4.0, Fable re-check 2): the partner's END SHOWDOWN (js/productionSharedTerminalClose.js) ends the run on screen at
+  // once (end()): its card answers BACK by itself, a scene being loaded or played stops waiting, and nothing more is drawn,
+  // saved or navigated by it. runGen is the end generation the run started in; endWake wakes the waits of that run.
+  let endGen=0,runGen=0,runRivalry="",askEnd=null,endWake=null,endSignal=new Promise(()=>{});
+  function rrsEnded(){return runGen!==endGen;}
 
   function rrsDoc(){return root.document||null;}
   function rrsWait(ms){return new Promise(resolve=>root.setTimeout(resolve,ms));}
@@ -95,14 +100,16 @@
   // (js/screens.js) takes every .backButton click before the button hears it, so BACK and CONTINUE WITH X'S SAVED SPIN never
   // answered the card (2.0.1).
   function rrsAsk(ctx,{heading,label,lines=[],note="",buttons}){
+    if(rrsEnded())return Promise.resolve("back");
     return new Promise(resolve=>{
+      askEnd=()=>{askEnd=null;rrsRemovePanel();resolve("back");};
       const {body}=rrsPanel(ctx,heading,label);rrsLoadingOff();
       for(const line of lines)body.append(rrsEl("p","rrStepLine",line));
       if(note)body.append(rrsEl("p","rrStepNote",note));
       const row=rrsEl("div","rrStepActions");
       // Fable F11-12: one answer per card; the buttons go quiet at once (saving the spin can take a few seconds after GO).
       const pressed=[];
-      for(const b of buttons){const button=rrsButton(b.label,b.primary?"menuButton rrStepPrimary":"compactButton rrStepBack",()=>{for(const other of pressed)other.disabled=true;if(b.id==="retry")rrsLoadingOn();resolve(b.id);});pressed.push(button);row.append(button);}
+      for(const b of buttons){const button=rrsButton(b.label,b.primary?"menuButton rrStepPrimary":"compactButton rrStepBack",()=>{askEnd=null;for(const other of pressed)other.disabled=true;if(b.id==="retry")rrsLoadingOn();resolve(b.id);});pressed.push(button);row.append(button);}
       body.append(row);row.querySelector("button")?.focus();
     });
   }
@@ -247,7 +254,7 @@
     let channel=null,stage=null,frame=null;
     try{
       ({stage,frame}=rrsCreateStage(ctx));channel=rrsListen(frame,clock);
-      const started=await channel.ready;
+      const started=await Promise.race([channel.ready,endSignal]);
       if(started!=="ready")throw new Error(started);
       const boardOf=role=>plan.boards[role].map(p=>({pos:p.pos,position:p.positions[0]||null,name:p.name||"EMPTY SLOT",special:p.special===true,rating:p.name&&p.rating>0?p.rating:null,number:p.name&&Number.isInteger(p.number)?p.number:null}));
       // The whole spin plan (red team R87-C-06): the scene loads bulletChamber, stops on stopChamber and aims at hitSlot
@@ -256,7 +263,7 @@
       frame.contentWindow.postMessage({type:"cms-rr-setup",d:ctx.clubs.playerOne,n:ctx.clubs.playerTwo,boards:{D:boardOf("playerOne"),N:boardOf("playerTwo")},formations:{D:plan.formations.playerOne,N:plan.formations.playerTwo},turns,seed:rrsSeed(ctx)},root.location.origin);
       // Red team RT5-FLOW-01: the stage stays hidden until the page says it took the setup ("cms-rr-armed"). A page that
       // drops it (its squads file failed) or goes quiet for ARMED_WAIT_MS is removed and built again (or the result panel shows).
-      const armed=await channel.armed();
+      const armed=await Promise.race([channel.armed(),endSignal]);
       if(armed!=="armed")throw new Error(armed);
       return {channel,stage,frame};
     }catch(error){if(channel)channel.stop();rrsRemoveStage();return {failed:String(error&&error.message||"error")};}
@@ -264,6 +271,7 @@
   async function rrsScene(ctx,plan){
     // The loading screen (held since START) covers a card left from a TRY AGAIN; the card goes now, so it can never stand over
     // the scene with dead buttons (Fable F2-03).
+    if(rrsEnded())return "skipped";
     rrsLoadingOn();rrsRemovePanel();
     // r90 Light: a page that broke, hung or loaded without three.js is built once more in a fresh frame (a cold Chromebook's
     // second start is warm: files and shaders are cached); only a device without WebGL 2 is skipped for the rest of this visit.
@@ -276,17 +284,20 @@
       run=await rrsSceneTry(ctx,plan,clock);
       if(!run.failed)break;
       if(run.failed==="nowebgl"){clock.stop();sceneFailedHere.add(rrsKey(ctx));return "skipped";}// the result card takes over from the loading screen
+      if(rrsEnded()){clock.stop();return "skipped";}
     }
     clock.stop();
     if(run.failed)return "skipped";
     const {channel,stage,frame}=run;
     const left=MIN_LOADING_MS-(Date.now()-shownAt);if(left>0)await rrsWait(left);
+    if(rrsEnded()){channel.stop();rrsRemoveStage();return "skipped";}
     stage.style.visibility="visible";
     rrsLoadingOff();
     try{frame.focus();}catch(_error){}
     // r90 Light: a lost GPU context no longer ends the scene; the page rebuilds itself when the context comes back and says
     // cms-rr-error only if it never does (then the card, never a dead frame: F11-11).
-    const end=await channel.done;channel.stop();
+    const end=await Promise.race([channel.done,endSignal]);channel.stop();
+    if(rrsEnded()){rrsRemoveStage();return "skipped";}
     if(end!=="continue"){if(end==="nowebgl")sceneFailedHere.add(rrsKey(ctx));rrsRemoveStage();return "skipped";}
     return "watched";
   }
@@ -400,14 +411,15 @@
       const choice=await rrsAsk(ctx,{heading:"Loading the roulette",label:"Loading the roulette",lines:["The roulette could not load. Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
       if(choice==="back")return false;
     }
+    if(rrsEnded())return false;
     const engine=root.CareerModeRosterRoulette,key=rrsKey(ctx),special=rrsSpecial(ctx);
     const version=typeof engine.version==="function"?engine.version(ctx.clubs,{special,sheets:ctx.squads||null}):null;
-    if(!await rrsVersionStop(ctx,version))return false;
+    if(!await rrsVersionStop(ctx,version)||rrsEnded())return false;
     const hits={};
     // r91 Squad Management: with both locked squads as this season's boards, nothing earlier is replayed, so the earlier
     // seasons' verdicts and shootouts are not read.
     const squads=ctx.squads&&typeof ctx.squads==="object"?ctx.squads:null;
-    const history=ctx.season>1&&!squads?await rrsHistory(ctx,hits):[null];if(!history)return false;
+    const history=ctx.season>1&&!squads?await rrsHistory(ctx,hits):[null];if(!history||rrsEnded())return false;
     // This season: a saved mark (this manager's own on a second browser, the partner's always) is the authority for that turn.
     hits[ctx.season]=Object.fromEntries(ROLES.map(role=>[role,rrsOutcomeOf(ctx.marks&&ctx.marks[role])]));
     // Never skipped (Nik 2026-10-31): a short squad shows empty slots and the bullet only hits a real player. A club the data
@@ -416,7 +428,7 @@
     const known=ROLES.every(role=>engine.board(ctx.clubs[role])&&root.CareerModeFifa17Players?.clubs?.[ctx.clubs[role]]);
     // r88 Chamber Men: this season's two cylinders from the shootout (ctx.chamberMen), never one bullet in such a Showdown.
     const chamber=ctx.chamberMen&&ctx.chamberMen.active===true?ctx.chamberMen:null;
-    const chambers=chamber&&known?(squads?{...(chamber.chambers||{})}:await rrsEarlierChambers(ctx,engine,hits,chamber)):null;if(chamber&&known&&!chambers)return false;
+    const chambers=chamber&&known?(squads?{...(chamber.chambers||{})}:await rrsEarlierChambers(ctx,engine,hits,chamber)):null;if(chamber&&known&&!chambers)return false;if(rrsEnded())return false;
     const plan=known?engine.forSeason(ctx.rivalryId,ctx.clubs,ctx.season,{special,history,hits,chamberMen:Boolean(chamber),chambers:chamber?chambers:null,sheets:squads}):null;
     if(!plan||plan.turns.some(turn=>turn.fired&&!turn.player)){
       const reason=plan?"This season's spin could not find the player it hit. Nothing was spun or saved.":rrsNoPlanReason(ctx,engine,history,chamber?{chambers,hits}:null);
@@ -429,10 +441,11 @@
     if(spun)rrsMark(WATCHED_KEY,key);
     if(!spun&&!rrsHas(WATCHED_KEY,key)&&!sceneFailedHere.has(key)){
       const scene=await rrsScene(ctx,plan);
+      if(rrsEnded())return false;
       if(scene==="watched")rrsMark(WATCHED_KEY,key);
     }
     const go=await rrsResult(ctx,plan);
-    if(!go)return false;
+    if(!go||rrsEnded())return false;
     // F2-02: the outcome this manager's mark records (only while the server has none for him this season).
     if(!spun&&typeof ctx.remember==="function"&&typeof engine.outcome==="function"){try{ctx.remember(engine.outcome(plan,ctx.managerRole,version));}catch(_error){}}
     rrsMark(DONE_KEY,key);
@@ -443,7 +456,7 @@
     for(;;){
       try{return await rrsRun(ctx);}
       catch(_error){
-        rrsRemoveStage();
+        rrsRemoveStage();if(rrsEnded())return false;
         const choice=await rrsAsk(ctx,{heading:"The roulette hit a problem",label:"The roulette hit a problem",lines:["This season's spins could not be built. Nothing was spun or saved."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}]});
         if(choice==="back")return false;
       }
@@ -454,8 +467,13 @@
   // The panel and the stage stay up until close() so nothing shows between them and the next screen.
   function rrsRunBeforeTransfers(ctx){
     if(running)return running;
-    leftForHome=false;holding=true;
+    leftForHome=false;holding=true;runGen=endGen;runRivalry=String(ctx&&ctx.rivalryId||"").trim().toLowerCase();
+    endSignal=new Promise(resolve=>{endWake=()=>resolve("ended");});
+    const gen=runGen;
     const run=Promise.resolve().then(()=>rrsRunGuarded(ctx)).catch(()=>false).then(go=>{
+      // E1: ended by the partner's END SHOWDOWN: end() already took the card and the stage down and Terminal Close shows Home
+      // with its notice; nothing here navigates or shows the loading screen over it.
+      if(gen!==endGen){leftForHome=true;holding=false;return false;}
       // Fable F11-08 (Reus Gate): the roulette and the loading screen stay up until Showdown Home is on screen, so Career Start
       // or the Club screen never flashes in between. A new run started meanwhile keeps its own panel and stage.
       if(go===false){leftForHome=true;holding=false;rrsLoadingOn();const tear=()=>{if((running&&running!==run)||holding)return;rrsRemovePanel();rrsRemoveStage();rrsLoadingOff();};
@@ -465,6 +483,13 @@
     running=run;return run;
   }
   function rrsClose(){holding=false;rrsRemovePanel();rrsRemoveStage();rrsLoadingOff();return true;}
+  // E1: the partner ended this Showdown (Terminal Close). A run for another Showdown is left alone (false).
+  function rrsEnd(rivalryId){
+    const id=String(rivalryId||"").trim().toLowerCase();if(running&&id&&runRivalry&&id!==runRivalry)return false;
+    endGen+=1;const ask=askEnd,wake=endWake;askEnd=null;endWake=null;
+    try{ask?.();}catch(_error){}try{wake?.();}catch(_error){}
+    rrsClose();return true;
+  }
   // Red team R87-SP-02: for the Transfer War signing form, is a typed name this manager's own Special Player? The draw is
   // loaded before every window opens (ensureDraw, also when the roulette is already done here: Fable F2-06); false when the
   // Showdown has none.
@@ -479,5 +504,5 @@
   // Fable F2-11: a new open forgets an earlier BACK, so a later failure that never reached the roulette is not read as one.
   function rrsForgetHome(){leftForHome=false;return true;}
 
-  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,decide:rrsDecide,nextLabel:rrsNextLabel,special:rrsSpecial,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial,earlierChambers:rrsEarlierChambers});
+  return Object.freeze({contractVersion:1,feature:"cms-roster-roulette-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,doneKey:DONE_KEY,watchedKey:WATCHED_KEY,decide:rrsDecide,nextLabel:rrsNextLabel,special:rrsSpecial,runBeforeTransfers:rrsRunBeforeTransfers,close:rrsClose,end:rrsEnd,active:rrsActive,wentHome:rrsWentHome,forgetHome:rrsForgetHome,ensureDraw:rrsEnsureDraw,isOwnSpecial:rrsIsOwnSpecial,earlierChambers:rrsEarlierChambers});
 });

@@ -10,6 +10,8 @@
 //   W1-3 waiting for the context reads nothing;
 //   W1-4 a different season coming back is not drawn with the old draft;
 //   W1-5 a failure with the context readable is shown at once, as before;
+//   W1-7 (W1b, Fable re-check 2): a Season Results tick that ran while the context read as another season emptied the screen;
+//        when the same context is back CONFIRM MY RESULT is on, in the review, under the line (never off under it); one tap publishes once;
 //   W1-6 the check stops for good once the Season Results screen is not on (Home after END SHOWDOWN, any other screen).
 // Real file js/productionSharedSeasonResults.js in a Node vm (the shared-season-results-stale-retry harness). On 64e01891 W1-1 fails.
 const assert=require("node:assert/strict");
@@ -111,6 +113,7 @@ async function scenario({offline}){
     CareerModeSharedShowdownSetup:{},CareerModeSharedSeasonResults:{},
     CareerModeSparkSharedSeasonResults:fake.provider,
     CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"uid_daniel"}},firestore:{},firestoreSdk:{}})}};
+  sandbox.addEventListener=(type,listener)=>{(sandbox.__events=sandbox.__events||{})[type]=listener;};
   sandbox.globalThis=sandbox;
   vm.createContext(sandbox);
   vm.runInContext(`var currentShowdown=globalThis.__showdown;\n${fs.readFileSync(path.join(ROOT,FILE),"utf8")}`,sandbox,{filename:FILE});
@@ -124,7 +127,7 @@ async function scenario({offline}){
   failNext=true;failOnce.on=offline==="keep";
   click("confirmSeasonCompletion");
   await flush();
-  return {api,fake,reports,document,click,button,error,sandbox,back:()=>vm.runInContext("currentShowdown=globalThis.__showdown",sandbox),season:n=>{sandbox.__showdown.currentRound=n;}};
+  return {tick:()=>sandbox.__events["career-mode-shared-season-cursor-change"](),api,fake,reports,document,click,button,error,sandbox,back:()=>vm.runInContext("currentShowdown=globalThis.__showdown",sandbox),season:n=>{sandbox.__showdown.currentRound=n;}};
 }
 
 (async()=>{
@@ -171,6 +174,30 @@ async function scenario({offline}){
     run.document.getElementById("seasonEntry").classList.remove("hidden");await sleep(1400);await flush();
     assert.equal(run.button().disabled,true,"W1-6 and it does not start again by itself");
     ok("W1-6 the check stops for good once the Season Results screen is not on (never draws over another screen)");
+  }
+  // W1-7 (W1b)
+  {
+    const run=await scenario({offline:"lose"});
+    await sleep(60);await flush();
+    run.season(2);run.back();run.tick();await flush();
+    assert.equal(run.api.getState()??null,null,"fixture: the tick emptied the screen while the context read as season 2");
+    await sleep(300);run.season(1);
+    await sleep(1400);await flush();await sleep(20);await flush();
+    const b=run.button();
+    assert.equal(run.document.getElementById("seasonEntry").dataset.sharedSeasonResults,"review","W1-7 back on the review of the typed result");
+    assert.equal(run.error(),"Your result was not confirmed. Check the connection and tap CONFIRM MY RESULT again.","W1-7 the line is said");
+    assert.equal(b.disabled,false,"W1-7 CONFIRM MY RESULT is on under the line (it stayed off under it on fe4a1d36)");
+    assert.equal(b.text,"CONFIRM MY RESULT");
+    run.tick();await flush();await sleep(50);await flush();
+    assert.equal(run.document.getElementById("seasonEntry").dataset.sharedSeasonResults,"review","W1-7 the next poll keeps the review");
+    assert.equal(run.button().disabled,false,"W1-7 and CONFIRM MY RESULT stays on");
+    run.click("confirmSeasonCompletion");
+    for(let i=0;i<200&&!run.api.getState()?.ownResult;i+=1)await flush(1);
+    await flush();
+    assert.equal(run.fake.counts.publishes.length,1,"W1-7 one publish");
+    assert.deepEqual(run.fake.counts.publishes[0],OWN,"W1-7 the typed result unchanged");
+    assert.equal(run.button().text,"RESULT CONFIRMED ✓");
+    ok("W1-7 a tick that emptied the screen offline: CONFIRM MY RESULT is on under the line, one tap publishes once");
   }
   // W1-5
   {
