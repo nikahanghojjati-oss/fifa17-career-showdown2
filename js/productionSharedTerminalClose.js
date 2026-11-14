@@ -163,7 +163,10 @@
   // 2.4.0: the Squad Management stage (#sqStage) sits over the game screens, so it is taken down first, also when Home already
   // shows under it; its open screen ends with no write (js/squadSheetStep.js end()).
   function ptcLeaveEndedShowdown(rivalryId){
-    try{root.CareerModeSquadSheetStep?.end?.(rivalryId);}catch(_error){}
+    // #1449 the Squad stage; E1 (2.4.0, Fable re-check 2) the Chamber Men stage, the roulette's panel and stage and the Prime
+    // Pack takeover: each run on screen for this Showdown ends at once (no write after it) and its stage goes, so the notice
+    // below and Home are never covered.
+    for(const step of ["CareerModeSquadSheetStep","CareerModeChamberMenStep","CareerModeRosterRouletteStep","CareerModeIconGuessStep"])try{root[step]?.end?.(rivalryId);}catch(_error){}
     try{
       const home=root.document?.getElementById("mainMenu");
       if(home&&!home.classList.contains("hidden"))return;
