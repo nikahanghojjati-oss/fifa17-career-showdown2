@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-14T04:14:34Z",
+ "updated": "2026-11-14T04:18:52Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -2092,7 +2092,7 @@
    "pr": 626,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/626",
-   "branch": "study/job-1169-club-phone-hierarchy"
+   "branch": null
   },
   "1170": {
    "state": "closed",
