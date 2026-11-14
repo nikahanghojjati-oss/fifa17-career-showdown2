@@ -1,5 +1,5 @@
 /* THE CHRONICLE · Volume 20 (Team G, r92 / 2.5.0): the iPhone 17 sent to Light, the fair Device check that only raises Auto, the phone memory limit, the level pictures removed and the Rules pin moved to 2.4.0. Written from gameplay/r92 b36c4e6c. Loaded by volume20.js.
-   RELEASE LINE: the last sentence of chapter 189 ("It is not live yet: ...") is the one sentence the r92 lead replaces at release with the live date and time. */
+   RELEASE LINE: the last sentence of chapter 189 ("2.5.0 went live on 14 November 2026, ...") was filled in by the 2.5.0 release PR with the live date. */
 window.CHRONICLE_VOLUME20={
  "capturedAt": "2026-11-14T12:30:00Z",
  "part": {
@@ -122,7 +122,7 @@ window.CHRONICLE_VOLUME20={
     },
     {
      "type": "p",
-     "text": "2.5.0 changes no Rules and no saved data, and it costs no new reads. It is not live yet: the version number waits for Nik’s word."
+     "text": "2.5.0 changes no Rules and no saved data, and it costs no new reads. 2.5.0 went live on 14 November 2026, on Nik’s word."
     }
    ],
    "sources": [
