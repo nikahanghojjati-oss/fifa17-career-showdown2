@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14 10:38 AM Boston time (EST)",
+ "generated": "2026-11-14 10:42 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 277,
@@ -2549,7 +2549,22 @@
    "revision": "2.4.0-r91",
    "when": "2026-11-14T03:45:10-05:00",
    "subject": "Release 2.4.0 (r91): merge gameplay/r91 into main (#1444)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1464,
+     "title": "Release 2.5.0 (r92): one quality system that fits every device",
+     "draft": false,
+     "branch": "gameplay/r92",
+     "sha": "43c1ba0704a91773cf43fab2fbf5fcef1488c3f3",
+     "updated": "2026-11-14T15:41:56Z",
+     "gates": {
+      "passed": 0,
+      "running": 9,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 1444,
@@ -3347,7 +3362,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 9394
+    "waiting_min": 9398
    },
    {
     "id": "HO-059",
@@ -3679,7 +3694,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -4895,7 +4910,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1464,
+    "title": "Release 2.5.0 (r92): one quality system that fits every device",
+    "draft": false,
+    "branch": "gameplay/r92",
+    "sha": "43c1ba0704a91773cf43fab2fbf5fcef1488c3f3",
+    "updated": "2026-11-14T15:41:56Z",
+    "gates": {
+     "passed": 0,
+     "running": 9,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
