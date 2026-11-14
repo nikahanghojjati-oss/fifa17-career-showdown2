@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14 12:49 AM Boston time (EST)",
+ "generated": "2026-11-14 12:53 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 277,
@@ -2555,11 +2555,11 @@
      "title": "Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100",
      "draft": false,
      "branch": "gameplay/r91",
-     "sha": "b3c0840b5c8b3e72a523f651f40640612aac5e12",
-     "updated": "2026-11-14T05:19:41Z",
+     "sha": "87175b485c707196dde2427b46a68860c1c54ac4",
+     "updated": "2026-11-14T05:51:42Z",
      "gates": {
-      "passed": 7,
-      "running": 1,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -3356,7 +3356,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 8805
+    "waiting_min": 8809
    },
    {
     "id": "HO-059",
@@ -4910,11 +4910,11 @@
     "title": "Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100",
     "draft": false,
     "branch": "gameplay/r91",
-    "sha": "b3c0840b5c8b3e72a523f651f40640612aac5e12",
-    "updated": "2026-11-14T05:19:41Z",
+    "sha": "87175b485c707196dde2427b46a68860c1c54ac4",
+    "updated": "2026-11-14T05:51:42Z",
     "gates": {
-     "passed": 7,
-     "running": 1,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
