@@ -2,7 +2,7 @@
 // r91 level guide (js/gfxTier.js guide(), device-check.html, js/settings.js). Nik, 2026-11-12: "based on your graphic
 // card, this is what we suggest, or based on your CPU ... so everyone can look at that table and understand what is
 // recommended for them"; "the link to that page ... very visible in the 3D menu"; "the auto pick ... very visible";
-// and a real picture of each 3D screen at each level. The devices are the lab's own (tests/support/device-lab-profiles.cjs).
+// (r92, Nik 2026-11-14: the level pictures were removed; the table says each level in words). The devices are the lab's own (tests/support/device-lab-profiles.cjs).
 //   G1 the guide's rows say what Auto's guess does: named chips land on the row that names them, none on Ultra or 8K
 //   G2 memory and processor threads hold a device as the guide's own sentence says; the level is the lowest of the three
 //   G3 the lab's devices: the Chromebook reads Light (chip Light, 2 threads and 4 GB each "no higher than Balanced",
@@ -11,8 +11,7 @@
 //   G5 the guide promises no frame rate; the page says "holds 60 fps" only for a finished check that held its level
 //   G6 the Device check page draws the card and the table from guide(), with no chip or level names of its own
 //   G7 Settings: a visible link to the page under 3D QUALITY, "Auto · <level>" in the list, the old last entry kept
-//   G8 the pictures: each 3D screen at each level, small WebP, lazy on the Device check page only, never in the
-//      worker's install list, never on the game page
+//   G8 no level pictures (r92, Nik 2026-11-14): the folder is gone and no file of the game or the page names one
 //   G9 the docs say the same
 //   G10 the Start box: an empty status line takes no room (no empty band under the buttons), and its first words
 //       arrive in the same step the stage covers the window, so nothing is seen to move when the check starts
@@ -77,6 +76,9 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
   assert.equal(Math.max(...ROWS.flatMap(r => r.chips).map(c => chipLevel(c))), 3);
   assert.match(guide.rows[4].who, /^No chip starts here\. The Device check gives it/);
   assert.match(guide.rows[5].who, /7680 px picture\. Never a phone\.$/);
+  // r92: a phone's sharpness at Extra stops at 2.25x (PHONE_EXTRA_PR); the row says so, in step with the module.
+  assert.match(guide.rows[3].draws, /up to 3x sharpness on a sharp computer screen \(2\.25x on a phone\)\.$/);
+  assert.match(read("js/gfxTier.js"), /PHONE_EXTRA_PR=2\.25[,;]/);
   ok("G1", "the guide's rows say what Auto's guess does: named chips land on the row that names them, none on Ultra or 8K");
 }
 // G2
@@ -187,30 +189,18 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
 }
 // G8
 {
-  const SCENES = ["chamber-men", "rrr", "sp"], NAMES = Array.from(page(strong).names);
-  assert.deepEqual(NAMES, ["light", "medium", "high", "extra", "ultra", "8k"]);
-  const dir = "assets/level-guide";
-  const webp = f => { const b = fs.readFileSync(path.join(ROOT, f)); assert.equal(b.subarray(0, 4).toString("latin1") + b.subarray(8, 12).toString("latin1"), "RIFFWEBP", `${f} is a WebP file`); return b.length; };
-  let small = 0, large = 0;
-  for (const s of SCENES) for (const n of NAMES) {
-    const a = webp(`${dir}/${s}-${n}-s.webp`), b = webp(`${dir}/${s}-${n}.webp`);
-    assert.ok(a <= 45 * 1024, `${s}-${n}-s.webp is small (${a} bytes)`); assert.ok(b <= 260 * 1024, `${s}-${n}.webp stays light (${b} bytes)`);
-    small += a; large += b;
-  }
-  assert.deepEqual(fs.readdirSync(path.join(ROOT, dir)).sort(), SCENES.flatMap(s => NAMES.flatMap(n => [`${s}-${n}-s.webp`, `${s}-${n}.webp`])).sort(), "nothing else in the folder");
-  assert.ok(small <= 520 * 1024, `the 18 small pictures together stay under 520 KB (${small})`);
-  // The page builds the names from its own scene list and the module's level names, lazily, with their size set.
-  assert.match(PAGE, /<img loading="lazy" decoding="async" width="\$\{LOOK\[0\]\}" height="\$\{LOOK\[1\]\}" src="assets\/level-guide\/\$\{s\.key\}-\$\{T\.names\[r\.level\]\}-s\.webp" alt="\$\{esc\(s\.name\)\} at \$\{esc\(r\.label\)\}">/);
-  assert.match(PAGE, /How it looks: the same view of each 3D screen at every level\. The pictures say nothing about speed\./);
-  // On demand only: never in the worker's install list or any other file of the game.
-  for (const f of ["service-worker.js", "index.html", "js/settings.js", "js/gfxTier.js", "js/offlineApp.js"]) assert.ok(!read(f).includes("assets/level-guide"), `${f} never names the guide's pictures`);
-  ok("G8", `the pictures: each 3D screen at each level, WebP, lazy on the Device check page only (${Math.round(small / 1024)} KB small, ${Math.round(large / 1024)} KB large)`);
+  // r92 (Nik 2026-11-14): the level pictures were removed. The table keeps each level in words; nothing may link a picture
+  // that is no longer there.
+  assert.ok(!fs.existsSync(path.join(ROOT, "assets/level-guide")), "the pictures' folder is gone");
+  assert.doesNotMatch(PAGE, /<img\b/, "the Device check page shows no pictures");
+  for (const f of ["device-check.html", "service-worker.js", "index.html", "js/settings.js", "js/gfxTier.js", "js/offlineApp.js"]) assert.ok(!read(f).includes("assets/level-guide"), `${f} names no level picture`);
+  ok("G8", "no level pictures: the folder is gone and no file of the game names one");
 }
 // G9
 {
   const docs = read("docs/QUALITY_LEVELS.md");
   assert.match(docs, /## The level guide/);
-  assert.match(docs, /`CareerModeGfxTier\.guide\(\)`/); assert.match(docs, /Auto · Light/); assert.match(docs, /assets\/level-guide\//);
+  assert.match(docs, /`CareerModeGfxTier\.guide\(\)`/); assert.match(docs, /Auto · Light/); assert.doesNotMatch(docs, /assets\/level-guide\//);
   assert.match(docs, /tests\/contracts\/r91-level-guide-contracts\.cjs/);
   ok("G9", "the docs say the same");
 }

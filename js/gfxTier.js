@@ -144,7 +144,7 @@
     {who:"NVIDIA GeForce GTX and RTX. AMD Radeon RX and Radeon Pro. Apple M1 and later. Strong phones: iPhone and iPad, Adreno 7xx and up, Mali-G7xx, Immortalis.",
       draws:"A full crowd, sharper shadows and a first hint of the marble caf\u00e9."},
     {who:"NVIDIA RTX 2060 to 2090, 3060 to 3090, and every RTX 40 or later. AMD Radeon RX 6000 and later. Apple M Pro, Max and Ultra.",
-      draws:"The whole marble caf\u00e9, and up to 3x sharpness on a sharp screen."},
+      draws:"The whole marble caf\u00e9, and up to 3x sharpness on a sharp computer screen (2.25x on a phone)."},
     {who:"No chip starts here. The Device check gives it to a device that keeps all three 3D screens smooth at this level.",
       draws:"Draws past the screen\u2019s own sharpness, up to a 4K picture, with the sharpest shadows."},
     {who:"The same, on a graphics chip that can hold a 7680 px picture. Never a phone.",

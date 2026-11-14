@@ -76,15 +76,6 @@ h2 span{color:var(--mute);font-weight:600}
 .guide tr.mine th,.guide tr.mine td{background:rgba(245,197,24,.08)}
 .guide tr.mine th{box-shadow:inset 3px 0 0 var(--gold)}
 .guide .tag{display:block;margin-top:3px;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ink)}
-/* How it looks: one real picture of each 3D screen under its level (assets/level-guide, loaded only when scrolled to). */
-.guide tr:not(.shots) th,.guide tr:not(.shots) td{border-bottom:0}
-.guide tr.shots td{padding:2px 12px 14px}
-.guide tr.shots.mine td{box-shadow:inset 3px 0 0 var(--gold)}
-.looks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.looks a{display:block;color:var(--mute);font-size:12px;font-weight:600;letter-spacing:.06em;text-align:center;text-decoration:none}
-.looks img{display:block;width:100%;height:auto;aspect-ratio:480/217;object-fit:cover;background:#000;border:1px solid rgba(219,178,94,.25)}
-.looks span{display:block;margin-top:4px}
-.looks a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 /* Narrow screens: one block per level, each screen on its own line under its name (four columns do not fit a phone). */
 @media (max-width:720px){
   .card{padding:12px}
@@ -98,11 +89,8 @@ h2 span{color:var(--mute);font-weight:600}
   .parts div{padding:8px 0;border-left:0;border-top:1px solid rgba(219,178,94,.25)}
   .parts div:first-child{border-top:0;padding-top:0}
   .guide tr.mine{padding-left:10px;padding-right:6px;box-shadow:inset 3px 0 0 var(--gold);background:rgba(245,197,24,.08)}
-  .guide tr.mine th,.guide tr.mine td,.guide tr.shots.mine td{background:none;box-shadow:none}
-  .guide tbody tr:not(.shots){border-bottom:0;padding-bottom:0}
-  .guide tr.shots td{padding:6px 0 4px}
+  .guide tr.mine th,.guide tr.mine td{background:none;box-shadow:none}
   .guide th[scope=row]{padding-left:0}
-  .looks{gap:6px}
 }
 </style>
 </head>
@@ -133,7 +121,7 @@ h2 span{color:var(--mute);font-weight:600}
   </section>
   <section class="card" id="guide" aria-labelledby="guideTitle" hidden>
     <h2 id="guideTitle">Level guide</h2>
-    <p class="note">Where Auto starts, by graphics chip, before any check. How it looks: the same view of each 3D screen at every level. The pictures say nothing about speed.</p>
+    <p class="note">Where Auto starts, by graphics chip, before any check.</p>
     <div class="wrap"><table class="guide">
       <thead><tr><th scope="col">Level</th><th scope="col">Chips that start here</th><th scope="col">What it draws</th></tr></thead>
       <tbody id="guideRows"></tbody>
@@ -242,7 +230,6 @@ h2 span{color:var(--mute);font-weight:600}
   // comes from js/gfxTier.js guide(): what this device's chip, processor and memory each say, the level we suggest, and
   // the table of which chips start at which level. No frame rate is promised: only a finished check of this device says
   // "holds 60 fps".
-  const LOOK=[480,217];   // the small pictures' size (the large ones open in a new tab)
   function showGuide(){
     let g=null;try{g=T&&T.guide();}catch(_error){g=null;}
     $("yours").hidden=$("guide").hidden=!g;if(!g)return;
@@ -263,9 +250,7 @@ h2 span{color:var(--mute);font-weight:600}
       :`The check measured ${name} on this device. Auto uses it.`;
     $("suggest").innerHTML=`We suggest <b>${esc(name)}</b><small>${esc(why+wait)}</small>`;
     $("guideRows").innerHTML=g.rows.map(r=>`<tr${r.mine?" class=\"mine\"":""}><th scope="row">${esc(r.label)}${r.mine?"<span class=\"tag\">Your device</span>":""}</th>`
-      +`<td data-label="Chips that start here">${esc(r.who)}${r.level===5&&!d.can8k?"<small>Not on this device.</small>":""}</td><td data-label="What it draws">${esc(r.draws)}</td></tr>`
-      +`<tr class="shots${r.mine?" mine":""}"><td colspan="3"><div class="looks">${SCENES.map(s=>`<a href="assets/level-guide/${s.key}-${T.names[r.level]}.webp" target="_blank" rel="noopener">`
-        +`<img loading="lazy" decoding="async" width="${LOOK[0]}" height="${LOOK[1]}" src="assets/level-guide/${s.key}-${T.names[r.level]}-s.webp" alt="${esc(s.name)} at ${esc(r.label)}"><span>${esc(s.name)}</span></a>`).join("")}</div></td></tr>`).join("");
+      +`<td data-label="Chips that start here">${esc(r.who)}${r.level===5&&!d.can8k?"<small>Not on this device.</small>":""}</td><td data-label="What it draws">${esc(r.draws)}</td></tr>`).join("");
     $("limits").textContent=g.limits;
   }
   function showSaved(note){
