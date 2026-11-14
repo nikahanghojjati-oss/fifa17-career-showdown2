@@ -464,7 +464,12 @@
       cursor=ref;e.target.closest("[data-zone]").classList.add("is-cursor");
       const c=panel.querySelector(".sqmCard");if(c&&!picked)c.replaceWith(card(playerAt(cursor),cursor));
     });
+    // The card follows the mouse only when the mouse itself moved. When the page moves under a resting mouse (a new card of
+    // another height, a scroll), the browser sends mouseover again at the same point: following that swapped the card back
+    // and forth every frame and LOCK jumped up and down with it (Gate L6 2026-11-13, a signed player's card is a row shorter).
+    let mouseAt="";
     panel.addEventListener("mouseover",e=>{
+      const at=`${e.clientX},${e.clientY}`;if(at===mouseAt)return;mouseAt=at;
       if(drag||picked||pressing||touchy)return;const ref=refFrom(e.target);if(!ref||same(ref,cursor))return;
       cursor=ref;const c=panel.querySelector(".sqmCard");if(c)c.replaceWith(card(playerAt(cursor),cursor));
     });
