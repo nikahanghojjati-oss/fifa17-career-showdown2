@@ -381,7 +381,9 @@ function g8(){
 function g9(){
   // iPhone 17 class: Apple GPU, 3x, no deviceMemory (Safari), 6 cores.
   const s=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874]});
-  const p=s.G.profile();assert.deepEqual([p.level,p.phone,p.textureLevel],[2,true,2],'an iPhone starts High with full textures');
+  // r92 (Nik's iPhone 17 tab closed opening Chamber Men at High): the 3D scenes load the phone file set at High and above
+  // on a phone (textureLevel 1); the 2D plates keep High's (assetLevel 2). tests/contracts/r92-device-check-iphone-contracts.cjs.
+  const p=s.G.profile();assert.deepEqual([p.level,p.phone,p.assetLevel,p.textureLevel],[2,true,2,1],'an iPhone starts High, with the phone 3D file set');
   assert.ok(p.maxPixelRatio<=3,'never past 3x');
   const cal=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874]});
   const rc=fakeRenderer(cal.clock,()=>2,[402,874]);return cal.G.calibrate(rc,()=>{}).then(n=>{

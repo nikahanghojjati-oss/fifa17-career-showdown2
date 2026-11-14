@@ -93,6 +93,15 @@ names and no others.
   - Each scene starts its next visit where the last one settled (for the same built level).
   - A picked level never adapts, and neither does the Device check's frame.
 
+## Phones: the 3D file set (r92)
+
+On a phone (shortest screen side under 700 px) the 3D scenes load the phone file set at High and above
+(`profile().textureLevel` at most 1); `assetLevel`, and so the 2D plates, keep the level's own size. Nik's iPhone 17 closed
+the Safari tab while Chamber Men was opening at High: on the iPhone profile Chamber Men loaded about 427 MB of textures at
+High and 579 MB at Extra, against 95 MB at Balanced, for a picture about 590x390 pixels. With the phone set: High 164 MB,
+Extra 189 MB (`tests/browser/device-lab.cjs`, cpu mode). The Device check's frames and the Special Player page also hand
+their GPU memory back when they are closed, as Roulette does.
+
 ## The Device check
 
 `device-check.html` (Settings › 3D QUALITY › Device check…) is the only thing that saves a measured level.
@@ -104,7 +113,9 @@ names and no others.
   - drew the level that was asked (the frame reports both, with its pixel ratio and buffer size);
   - played one whole beat (the kick, the turn, the reveal) while it was timed;
   - used the full files for that level (never the lighter stand-in set of a slow connection);
-  - held 60 fps: an average of 57 fps or more and a 1% low of 45 fps or more.
+  - held 60 fps: an average of 57 fps or more, and no stutter: at most 2 frames in 100 late (over 25 ms) and no frame over
+    100 ms (r92, Nik's iPhone 17 run 4: Special Player at Light averaged 60 fps with the GPU at 2 ms and failed the old
+    1% low of 45 on three missed refreshes). An answer without those counts (an older frame) keeps the 1% low of 45.
 - A screen that is not smooth is played once more at the same level before it counts (r92, Nik's iPhone 17: one hitch of
   about a tenth of a second fails the 1% low over a 10 s run). Two slow tries settle the level. A second try that gives no
   clean answer leaves the first one standing. Failed and not-verified answers are not tried again.

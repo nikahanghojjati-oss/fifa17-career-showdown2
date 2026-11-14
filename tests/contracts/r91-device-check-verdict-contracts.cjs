@@ -159,7 +159,7 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
     // The 1% low alone can fail a level; the first screen that is slow ends that level at once.
     const lows = await run((scene, level) => scene === "chamber-men" && level === 1 ? [good(scene, level, {avg: 59.5, p1low: 38})] : allGood(scene, level));
     assert.equal(lows.saved.level, 0); assert.deepEqual(lows.asked, [...order(0), "chamber-men@1", "chamber-men@1"]);
-    // Even Light not smooth: r92 (Nik's iPhone 17) saves nothing; tests/contracts/r92-device-check-retry-contracts.cjs.
+    // Even Light not smooth: r92 (Nik's iPhone 17) saves nothing; tests/contracts/r92-device-check-iphone-contracts.cjs.
     const weak = await run((scene, level) => [good(scene, level, {avg: 24, p1low: 11})]);
     assert.equal(weak.saved, null); assert.deepEqual(weak.asked, ["chamber-men@0", "chamber-men@0"]);
     assert.match(weak.status, /Light was not smooth on Chamber Men here, so Auto keeps /);

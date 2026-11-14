@@ -22,7 +22,7 @@
     // r90 (Nik 2026-11-07, "8K as well as 4K"): on a GPU that can hold a 7680 px buffer, never on a phone; picked, or (r91) measured by the Device check.
     {pr:2,max:8,shadowSize:4096,density:1,bloom:true}
   ];
-  const BUDGET_MS=16.7,BUFFER_CAP=3840*2160,BUFFER_CAP_8K=7680*4320,PHONE_MAX_PR=3;
+  const BUDGET_MS=16.7,BUFFER_CAP=3840*2160,BUFFER_CAP_8K=7680*4320,PHONE_MAX_PR=3,PHONE_TEX_MAX=1;
   // "Never crash" first (Nik 2026-11-08): a lost context, an out-of-memory error, or (8K) a buffer or target the GPU would
   // not give drops this device one level below the one that failed and remembers it (any level, Auto or picked) until the
   // player picks a level again in Settings.
@@ -282,8 +282,12 @@
       pixelRatio:start,maxPixelRatio:max,minPixelRatio:min,
       bufferCap:level===5?BUFFER_CAP_8K:BUFFER_CAP,
       // Textures and models by level; a phone below High loads one size down (iOS memory), and so does a slow or Save-Data
-      // connection. 8K uses Ultra's assets. assetLevel is what screens download; textureLevel is the same value (older name).
-      assetLevel,textureLevel:assetLevel,slowNet:Boolean(base.slowNet),
+      // connection. 8K uses Ultra's assets. assetLevel is what screens download (the 2D plates too).
+      // textureLevel is what the 3D scenes load. r92 (Nik's iPhone 17, 2026-11-14: the Safari tab closed while Chamber Men
+      // was opening at High): on a phone it stops at PHONE_TEX_MAX, the phone file set. Chamber Men at High loaded about
+      // 427 MB of textures on the iPhone profile (95 MB at Balanced) for a picture about 590x390 pixels, where the larger
+      // files cannot be seen; iOS closes a tab well before the phone's memory is full.
+      assetLevel,textureLevel:phone?Math.min(assetLevel,PHONE_TEX_MAX):assetLevel,slowNet:Boolean(base.slowNet),
       antialias:!base.software,shadowSize:L.shadowSize,density:L.density,bloom:L.bloom};
   }
   function gfxProfile(){

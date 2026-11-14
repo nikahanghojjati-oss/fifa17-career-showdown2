@@ -109,7 +109,7 @@ h2 span{color:var(--mute);font-weight:600}
 <body>
 <main>
   <h1>DEVICE CHECK</h1>
-  <p class="lede">Plays a Chamber Men kick, a Russian Roulette turn and a Special Player reveal at each 3D quality level, lightest first. Auto is then set to the best level all three keep smooth at 60 fps. A screen that is not smooth is played once more before it counts, and the check stops at the first level that is still not smooth. It takes a few minutes. Keep this tab open and in front. Nothing in your Showdown changes.</p>
+  <p class="lede">Plays a Chamber Men kick, a Russian Roulette turn and a Special Player reveal at each 3D quality level, lightest first. Auto is then set to the best level all three keep smooth at 60 fps, with no stutter. A screen that is not smooth is played once more before it counts, and the check stops at the first level that is still not smooth. It takes a few minutes. Keep this tab open and in front. Nothing in your Showdown changes.</p>
   <section class="card" id="yours" aria-labelledby="yoursTitle" hidden>
     <h2 id="yoursTitle">Your device</h2>
     <dl id="parts" class="parts"></dl>
@@ -157,8 +157,13 @@ h2 span{color:var(--mute);font-weight:600}
     {key:"rrr",name:"Russian Roulette",beat:"turn",path:"visual-assets/v10_1/roulette/index.html"},
     {key:"sp",name:"Special Player",beat:"reveal",path:"visual-assets/v10_1/special-player/index.html"}
   ];
-  // Holds 60 fps: the average stays within 5% of 60 and the worst 1% of frames stays above 45 fps.
+  // Holds 60 fps: the average stays within 5% of 60, and the picture does not stutter.
+  // r92 (Nik's iPhone 17, run 4: Special Player at Light averaged 60 fps with the GPU at 2 ms and failed on a 1% low of 44.3):
+  // the worst 1% of a 10 s run is about 6 frames, so three refreshes missed in 10 s failed a screen nobody could see stutter.
+  // Stutter is now: more than 2 frames in 100 late (over 25 ms, a missed refresh at 60 Hz), or any one frame over 100 ms
+  // (a freeze of about six refreshes). An answer from an older frame without those counts keeps the 1% low rule (45 fps).
   const SMOOTH_AVG=57,SMOOTH_LOW=45;
+  const SMOOTH_LATE=.02,SMOOTH_STALL_MS=100;
   // A screen has LOAD_WAIT_MS to load its files and build (a cold cache on a slow line), then MEASURE_WAIT_MS to play.
   const LOAD_WAIT_MS=180000,MEASURE_WAIT_MS=120000;
   const $=id=>document.getElementById(id);
@@ -167,7 +172,11 @@ h2 span{color:var(--mute);font-weight:600}
   let running=false,aborted="";
 
   function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
-  function smooth(r){return r.avg>=SMOOTH_AVG&&r.p1low>=SMOOTH_LOW;}
+  function smooth(r){
+    if(!(r.avg>=SMOOTH_AVG))return false;
+    if(Number.isFinite(r.late)&&Array.isArray(r.slowest))return r.late<=r.frames*SMOOTH_LATE&&r.slowest[0]<=SMOOTH_STALL_MS;
+    return r.p1low>=SMOOTH_LOW;
+  }
   // What one screen's answer is worth at one level. "smooth" and "slow" are clean measurements of the asked level; "failed"
   // means the graphics chip gave up at it (as final as "slow"); "unverified" means the answer does not prove anything about
   // the level either way.

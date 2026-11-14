@@ -1218,6 +1218,10 @@ function startGfx(){ if(!GFX) return;
   gov=GFX.governor(renderer,{key:"sp",draw:render,beats:true,...(HEAVY.length?{detail:{steps:HEAVY.length,apply:heavy}}:{}),before:()=>GFX.softCut?.(renderer.domElement,render),onChange(p){ PR=p.pixelRatio; resize(); },info:()=>({bloom:BLOOM,direct:DIRECT,samples:sceneRT.samples|0})});
   GFX.overlay(()=>({extra:`${renderer.domElement.width}x${renderer.domElement.height} · card ${SC}x`}));
   addEventListener("resize",()=>gov.resize()); addEventListener("pagehide",()=>gov.end()); }
+/* r92 (Nik's iPhone 17: the Safari tab closed in the Device check): leaving the page (the game or the Device check removes the
+   frame) hands the GPU memory back at once instead of waiting for the garbage collector, as Roulette does, so the next 3D screen
+   starts with it free. The governor ends first, so the loss is never read as a crash. */
+addEventListener("pagehide",e=>{ if(e.persisted) return; try{ if(gov) gov.end(); renderer.dispose(); renderer.forceContextLoss(); }catch(_e){} });
 /* allocate the scene target now and check it once (gfxTier.checkTarget): an incomplete framebuffer steps down 8 -> 4 -> 0 samples
    instead of a black stage */
 function checkSceneRT(){ if(GFX&&GFX.checkTarget) GFX.checkTarget(renderer,sceneRT); sceneRT.__checked=true; }

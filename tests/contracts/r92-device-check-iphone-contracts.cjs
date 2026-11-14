@@ -14,7 +14,16 @@
 //   D4 a 2.4.0 result that saved Light "not held" is not read: Auto goes back to its guess without FORGET RESULT
 //   D5 failed and not-verified answers are not tried again; a second try with no clean answer leaves the first one standing
 //   D6 every timed screen reports its slowest frame, when it came and how many frames were late, and the table shows it
-//   D7 the 60 fps bar is unchanged (57 average, 45 for the 1% low)
+//   D7 the 57 fps average stays; the page says a screen gets a second try
+//   D8 Nik's run 4 (09:20 UTC): Special Player at Light, 60 fps average, GPU 2 ms, 1% low 44.3 (a few missed refreshes) is
+//      smooth now; stutter is more than 2 frames in 100 late (over 25 ms) or one frame over 100 ms. An older frame's answer
+//      without those counts keeps the 1% low rule.
+//   D9 Nik's run 3: the Safari tab closed while Chamber Men was opening at High. On a phone the 3D scenes load the phone file
+//      set at High and above (textureLevel at most 1): Chamber Men at High loaded about 427 MB of textures on the iPhone
+//      profile (tests/browser/device-lab.cjs, cpu mode), 164 MB with this; Extra 579 -> 189 MB. The 2D plates (assetLevel)
+//      and computers are unchanged
+//   D10 every Device check screen hands its GPU memory back when its frame is removed (Chamber Men's bench frame and the
+//      Special Player page did not; Roulette already did)
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -98,7 +107,7 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
 // Answers that change from one try to the next: tries[`${scene}@${level}`] is a list, one answer per try.
 const scripted = tries => { const seen = {}; return (scene, level) => { const k = `${scene}@${level}`, list = tries[k]; if(!list) return allGood(scene, level);
   const i = seen[k] || 0; seen[k] = i + 1; return list[Math.min(i, list.length - 1)]; }; };
-const hitch = (scene, level) => [started(scene, level), good(scene, level, {avg: 59.6, p1low: 31.2, slowest: [104.2, 8.1], late: 1})];
+const hitch = (scene, level) => [started(scene, level), good(scene, level, {avg: 59.6, p1low: 31.2, slowest: [184.2, 8.1], late: 1})];
 const heavy = (scene, level) => [started(scene, level), good(scene, level, {avg: 41.5, p1low: 22.4, slowest: [61.3, 3.2], late: 94})];
 const IPHONE = {gpu: "Apple GPU", phone: true};
 
@@ -109,7 +118,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.deepEqual(r.asked, [...order(0).slice(0, 3), "sp@0", ...order(4).slice(3)], "the Special Player reveal at Light is played twice, then the climb goes on");
     assert.equal(r.saved.level, 4, "one hitch at Light no longer fails Light (2.4.0 saved Light here)");
     assert.equal(r.saved.detail.held, true);
-    assert.match(r.rows, /Second try\. First try: 59\.6 fps, 1% low 31\.2, slowest frame 104\.2 ms at 8\.1 s\./, "the table shows the first try");
+    assert.match(r.rows, /Second try\. First try: 59\.6 fps, 1% low 31\.2, slowest frame 184\.2 ms at 8\.1 s\./, "the table shows the first try");
     const high = await run(scripted({"rrr@2": [hitch("rrr", 2), allGood("rrr", 2)]}));
     assert.equal(high.saved.level, 4, "the same at any level");
     ok("D1", "a screen that is not smooth once and smooth on its second try holds the level");
@@ -190,9 +199,58 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
   }
   // D7
   {
-    assert.ok(PAGE.includes("const SMOOTH_AVG=57,SMOOTH_LOW=45;"), "the 60 fps bar is unchanged");
+    assert.ok(PAGE.includes("const SMOOTH_AVG=57,SMOOTH_LOW=45;"), "57 fps average; 45 for the 1% low of an older frame's answer");
     assert.match(PAGE, /A screen that is not smooth is played once more before it counts, and the check stops at the first level that is still not smooth\./);
-    ok("D7", "the 60 fps bar is unchanged and the page says a screen gets a second try");
+    ok("D7", "the 57 fps average stays and the page says a screen gets a second try");
   }
-  console.log(`PASS r92 device check second-try contracts (${checks} checks)`);
+  // D8
+  {
+    const run4 = {"chamber-men": {avg: 60, p1low: 54.7, late: 0, slowest: [19.2, 4.1]}, rrr: {avg: 60, p1low: 51.4, late: 1, slowest: [27.5, 2.2]},
+      sp: {avg: 60, p1low: 44.3, ms: 16.67, drawMs: 2, late: 3, slowest: [36.1, 0.9]}};
+    const r = await run((scene, level) => level === 0 ? [started(scene, level), good(scene, level, {...run4[scene], frames: 600})] : allGood(scene, level), IPHONE);
+    assert.deepEqual(r.asked, order(4), "Light holds on the first try and the climb goes on (2.4.0 stopped here and saved Light)");
+    assert.equal(r.saved.level, 4);
+    const many = await run((scene, level) => level === 1 && scene === "sp" ? [started(scene, level), good(scene, level, {avg: 58.2, p1low: 30, late: 13, slowest: [34, 5], frames: 600})] : allGood(scene, level));
+    assert.equal(many.saved.level, 0, "13 late frames in 600 (over 2 in 100) is stutter, twice");
+    assert.deepEqual(many.asked.filter(a => a === "sp@1"), ["sp@1", "sp@1"]);
+    const freeze = await run((scene, level) => level === 2 && scene === "rrr" ? [started(scene, level), good(scene, level, {avg: 59.8, p1low: 41, late: 1, slowest: [130, 6.2], frames: 600})] : allGood(scene, level));
+    assert.equal(freeze.saved.level, 1, "one frame over 100 ms is a freeze a player sees, twice");
+    const avg = await run((scene, level) => level === 1 && scene === "rrr" ? [good(scene, level, {avg: 55, p1low: 50, late: 0, slowest: [20, 1], frames: 550})] : allGood(scene, level));
+    assert.equal(avg.saved.level, 0, "the 57 fps average still decides");
+    const older = await run((scene, level) => level === 1 && scene === "rrr" ? [good(scene, level, {avg: 59.5, p1low: 38})] : allGood(scene, level));
+    assert.equal(older.saved.level, 0, "an answer without the new counts keeps the 1% low rule");
+    assert.match(PAGE, /const SMOOTH_LATE=\.02,SMOOTH_STALL_MS=100;/);
+    ok("D8", "Nik's run 4 Light numbers are smooth; stutter is >2% late frames or a frame over 100 ms; older answers keep the 1% low");
+  }
+  // D9
+  {
+    const t = (await run(() => "silent", IPHONE)).tier;
+    for(const [choice, level, assets, tex] of [["light", 0, 0, 0], ["medium", 1, 0, 0], ["high", 2, 2, 1], ["extra", 3, 3, 1], ["ultra", 4, 4, 1]]){
+      t.setChoice(choice); const p = t.profile();
+      assert.equal(p.phone, true); assert.equal(p.level, level, choice);
+      assert.equal(p.assetLevel, assets, `${choice}: the 2D plates keep their size`);
+      assert.equal(p.textureLevel, tex, `${choice}: the 3D scenes load the phone file set at most`);
+    }
+    t.setChoice("auto"); assert.equal(t.profile().level, 2, "an iPhone's Auto is still High"); assert.equal(t.profile().textureLevel, 1);
+    const d = (await run(() => "silent")).tier;
+    for(const [choice, tex] of [["high", 2], ["extra", 3], ["ultra", 4]]){ d.setChoice(choice); assert.equal(d.profile().textureLevel, tex, `computer ${choice} unchanged`); }
+    const cm = fs.readFileSync(path.join(ROOT, "js/chamberMenScene3d.js"), "utf8");
+    assert.match(cm, /const q=\{\.\.\.p,assets:\(p\.textureLevel\?\?p\.level\)<=1\?"phone":"desktop"\};/, "Chamber Men picks its file set from textureLevel");
+    assert.match(TIER, /PHONE_MAX_PR=3,PHONE_TEX_MAX=1;/);
+    ok("D9", "a phone's 3D scenes load the phone file set at High and above; 2D plates and computers unchanged");
+  }
+  // D10
+  {
+    const bench = fs.readFileSync(path.join(ROOT, "device-check-chamber.html"), "utf8");
+    assert.match(bench, /addEventListener\("pagehide",e=>\{if\(e\.persisted\)return;try\{api\.dispose\(\);\}catch\(_error\)\{\}\}\);/);
+    const sp = fs.readFileSync(path.join(ROOT, "visual-assets/v10_1/special-player/index.html"), "utf8");
+    assert.match(sp, /addEventListener\("pagehide",e=>\{ if\(e\.persisted\) return; try\{ if\(gov\) gov\.end\(\); renderer\.dispose\(\); renderer\.forceContextLoss\(\); \}catch\(_e\)\{\} \}\);/,
+      "the governor ends before the context is let go, so the loss is never read as a crash");
+    const rr = fs.readFileSync(path.join(ROOT, "visual-assets/v10_1/roulette/index.html"), "utf8");
+    assert.match(rr, /addEventListener\("pagehide",e=>\{ if\(e\.persisted\)\{ cancelAnimationFrame\(rafId\); rafId=0; return; \} disposeAll\(\); \}\);/);
+    const cm = fs.readFileSync(path.join(ROOT, "js/chamberMenScene3d.js"), "utf8");
+    assert.match(cm, /gov\?\.end\(\);fps\?\.stop\(\);[\s\S]{0,900}renderer\.dispose\(\);try\{renderer\.forceContextLoss\(\);\}catch\(_error\)\{\}/, "Chamber Men's dispose ends its governor first");
+    ok("D10", "each Device check screen hands its GPU memory back when its frame is removed");
+  }
+  console.log(`PASS r92 device check iPhone contracts (${checks} checks)`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

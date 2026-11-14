@@ -3272,12 +3272,14 @@
       ]
     },
     {
-      "path": "tests/contracts/r92-device-check-retry-contracts.cjs",
+      "path": "tests/contracts/r92-device-check-iphone-contracts.cjs",
       "patterns": [
-        "^device-check\\.html$",
+        "^device-check(?:-chamber)?\\.html$",
         "^js/gfxTier\\.js$",
+        "^js/chamberMenScene3d\\.js$",
+        "^visual-assets/v10_1/special-player/index\\.html$",
         "^docs/QUALITY_LEVELS\\.md$",
-        "^tests/contracts/r92\\-device\\-check\\-retry\\-contracts\\.cjs$",
+        "^tests/contracts/r92\\-device\\-check\\-iphone\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
     }
