@@ -2991,9 +2991,10 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
   // Use the existing active adapter for acknowledged public counters. No provider read is added.
   // Loaded only when Standings opens: these files are not in the offline shell, and a failed load at
   // install would also leave Season Results without its listeners.
+  // r93: the career seam too, so the CAREER Golden Showdowns row is there when Standings is the first career screen after a reload.
   async function standingsModules(){
     const load=root.loadRuntimeScript;
-    for(const [key,p,api] of [["career-history","js/sharedHistoryConvergence.js","CareerModeSharedHistoryConvergence"],["career-analytics","js/sharedCareerAnalytics.js","CareerModeSharedCareerAnalytics"],["career-terminal","js/sharedTerminalClose.js","CareerModeSharedTerminalClose"],["career-final","js/sharedFinalReconciliation.js","CareerModeSharedFinalReconciliation"],["career-active-adapter","js/sharedActiveShowdownAdapter.js","CareerModeSharedActiveShowdownAdapter"],["visual-identity","js/visualIdentity.js","getClubCrestSvg"]])await load(key,p,()=>Boolean(root[api]));
+    for(const [key,p,api] of [["career-history","js/sharedHistoryConvergence.js","CareerModeSharedHistoryConvergence"],["career-analytics","js/sharedCareerAnalytics.js","CareerModeSharedCareerAnalytics"],["career-terminal","js/sharedTerminalClose.js","CareerModeSharedTerminalClose"],["career-final","js/sharedFinalReconciliation.js","CareerModeSharedFinalReconciliation"],["career-active-adapter","js/sharedActiveShowdownAdapter.js","CareerModeSharedActiveShowdownAdapter"],["visual-identity","js/visualIdentity.js","getClubCrestSvg"],["career-screen-seam","js/careerScreenSeam.js","CareerModeCareerScreenSeam"]])await load(key,p,()=>Boolean(root[api]));
   }
   async function installResults(){
     if(installed)return true;installed=true;

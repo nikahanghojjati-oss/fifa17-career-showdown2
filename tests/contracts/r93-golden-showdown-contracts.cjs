@@ -224,6 +224,9 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
     assert.equal(career(plainCareer).goldenShowdowns,undefined,"no row until someone has one");
     assert.equal(plain(Season.standingsFrames(null,golden).SHOWDOWN.model).goldenShowdowns,undefined,"THIS SHOWDOWN never");
   }finally{globalThis.CareerModeCareerScreenSeam=saved;}
+  // Standings loads the seam itself (Codex #1468): the row is there when Standings is the first career screen after a reload.
+  const modules=/async function standingsModules\(\)\{[\s\S]*?\n  \}/.exec(read("js/seasonFinalV10.js"));
+  assert.ok(modules&&modules[0].includes('["career-screen-seam","js/careerScreenSeam.js","CareerModeCareerScreenSeam"]'),"Standings prepare loads the career seam");
   const standings=read("visual-assets/v10_1/standings/standings.js");
   assert.match(standings,/const g = view === "career" && !interim \? m\.goldenShowdowns : null;/);
   assert.match(standings,/row\.className = "sdg-row sdg-row--golden";/);
