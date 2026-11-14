@@ -1662,6 +1662,15 @@
 @media (max-width:900px) and (orientation:portrait), (max-width:760px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard:nth-child(4) {grid-column:span 2}
 }
+/* r93: with the gold case always on the ALL shelf, short sideways windows (480px tall or less) hold six cases across, so a case is
+   only ~90px wide on a 844x390 phone and DANIEL ran 3px past its half. The two managers stack there, one line each (name, count),
+   as the r91 640x360 rule does, so every word stays whole and nothing shrinks below the floor. */
+@media (max-width:1000px) and (max-height:480px) and (orientation:landscape) {
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard .managerCounts {grid-template-columns:minmax(0,1fr);gap:2px}
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard .managerCounts > div {display:flex;align-items:baseline;justify-content:center;gap:6px;border-left:0}
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard .managerCounts::before,#app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard .managerCounts::after,
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard .managerCounts > div::before,#app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard .managerCounts > div::after {display:none}
+}
 #app #trophyRoom .trophyCard.trophyCard--golden {
   border:1px solid var(--sd-gold-500,#f5c518);
   background:radial-gradient(ellipse at 50% 30%,rgba(255,211,77,.30),rgba(255,211,77,0) 62%),linear-gradient(180deg,rgba(73,55,8,.55),rgba(7,8,10,.35)),#0d0c0a url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
@@ -1688,6 +1697,25 @@
 @media (max-height:480px) and (orientation:landscape) {
   #app #trophyRoom .trophyShelf .trophyTabs {grid-template-columns:repeat(7,minmax(0,1fr))}
   #app #trophyRoom .trophyShelf .trophyTabs .trophyTab:nth-child(n),#app #trophyRoom .trophyShelf .trophyTabs .trophyTab:nth-child(n+5) {grid-column:auto}
+}
+/* r93: narrow short sideways windows (800px wide or less, 480px tall or less, e.g. 640x360 and 740x360) cannot hold seven tabs
+   across (SHOWDOWN and CHAMPIONS ran past their tabs) or six cases across (a case was 59px wide at 640x360). The tabs go to two
+   rows, four over three, and below 700px wide the ALL shelf with the gold case holds two rows of three cases in the same shelf,
+   each case with its trophy on the left and its name and counts on the right so the trophy keeps its size. */
+@media (max-width:800px) and (max-height:480px) and (orientation:landscape) {
+  #app #trophyRoom .trophyShelf {grid-template-rows:auto minmax(0,1fr)}
+  #app #trophyRoom .trophyShelf .trophyTabs {grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:24px;height:auto;min-height:0;row-gap:4px}
+  #app #trophyRoom .trophyShelf .trophyTabs .trophyTab:nth-child(n) {grid-column:span 3;height:auto;min-height:24px}
+  #app #trophyRoom .trophyShelf .trophyTabs .trophyTab:nth-child(n+5) {grid-column:span 4}
+}
+@media (max-width:700px) and (max-height:480px) and (orientation:landscape) {
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyGrid {grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard {height:auto;min-height:0;grid-template-columns:minmax(0,.36fr) minmax(0,.64fr);grid-template-rows:minmax(0,1fr) auto auto minmax(0,1fr);column-gap:2px}
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard > .trophyCardPicture {grid-column:1;grid-row:1 / -1;height:auto;min-height:0;align-self:stretch}
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard > h3 {grid-column:2;grid-row:2}
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard > .managerCounts,
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard.is-unwon > .notWonYet,
+  #app #trophyRoom .trophyShelf.has-golden:not(.is-filtered) .trophyCard.is-unwon > .managerCounts {grid-column:2;grid-row:3}
 }
 #app #trophyRoom .trophyCard--golden h3 {color:var(--sd-gold-300,#ffd34d);text-shadow:0 1px 2px #000}
 #app #trophyRoom .trophyCard--golden .managerCounts strong {color:var(--sd-gold-200,#fff1b8)}
