@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14 11:08 AM Boston time (EST)",
+ "generated": "2026-11-14 11:12 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 277,
@@ -2545,27 +2545,17 @@
  },
  "two": {
   "live": {
-   "sha": "ac0a133",
-   "revision": "2.4.0-r91",
-   "when": "2026-11-14T03:45:10-05:00",
-   "subject": "Release 2.4.0 (r91): merge gameplay/r91 into main (#1444)",
-   "fixes": [
+   "sha": "36b648a",
+   "revision": "2.5.0-r92",
+   "when": "2026-11-14T11:12:28-05:00",
+   "subject": "Release 2.5.0 (r92): merge gameplay/r92 into main (#1464)",
+   "fixes": [],
+   "today": [
     {
      "pr": 1464,
      "title": "Release 2.5.0 (r92): one quality system that fits every device",
-     "draft": false,
-     "branch": "gameplay/r92",
-     "sha": "43c1ba0704a91773cf43fab2fbf5fcef1488c3f3",
-     "updated": "2026-11-14T15:41:56Z",
-     "gates": {
-      "passed": 8,
-      "running": 1,
-      "failed": 0,
-      "cancelled": 0
-     }
-    }
-   ],
-   "today": [
+     "merged": "2026-11-14T16:12:28Z"
+    },
     {
      "pr": 1444,
      "title": "Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100",
@@ -2576,7 +2566,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1464: L1✓ L2… L3A✓ L3B✓ L4✓ L5✓ L6… · seal pending · POS20 #1464 0/16",
+   "gate": "Gate #1464: L1✓ L2… L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal pending · POS20 #1464 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3362,7 +3352,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 9424
+    "waiting_min": 9428
    },
    {
     "id": "HO-059",
@@ -3694,7 +3684,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -4910,22 +4900,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1464,
-    "title": "Release 2.5.0 (r92): one quality system that fits every device",
-    "draft": false,
-    "branch": "gameplay/r92",
-    "sha": "43c1ba0704a91773cf43fab2fbf5fcef1488c3f3",
-    "updated": "2026-11-14T15:41:56Z",
-    "gates": {
-     "passed": 8,
-     "running": 1,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
