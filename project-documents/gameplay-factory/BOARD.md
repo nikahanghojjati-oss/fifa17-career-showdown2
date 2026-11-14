@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 14 Nov, 10:55 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 14 Nov, 11:00 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.4.0-r91** (main `ac0a133`, Sat 14 Nov 3:45 AM)
 
-🩺 **All clear: every check has a machine.** · Gate #1464: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #1464 0/16
+🩺 **All clear: every check has a machine.** · Gate #1464: L1✓ L2… L3A✓ L3B✓ L4✓ L5✓ L6… · seal pending · POS20 #1464 0/16
 
 ## Jobs
 
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1464](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1464) | Release 2.5.0 (r92): one quality system that fits every device | ⏳ 5 passed, 4 running |
+| 🟧 Team G lead | [PR #1464](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1464) | Release 2.5.0 (r92): one quality system that fits every device | ⏳ 6 passed, 3 running |
 
 **Up next**
 
