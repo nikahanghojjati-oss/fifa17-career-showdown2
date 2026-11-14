@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-14T05:58:46.667Z",
+  "at": "2026-11-14T06:11:48.589Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -18,11 +18,11 @@
       },
       {
         "name": "L3A storage gameplay",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L3B visual",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L4 remote",
@@ -34,7 +34,7 @@
       },
       {
         "name": "L6 browser journey",
-        "state": "running"
+        "state": "pass"
       }
     ],
     "seal": "PENDING"
