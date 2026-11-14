@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.4.0-r91";
-const PREVIOUS_RUNTIME_REVISION = "2.3.0-r90";
+const RUNTIME_REVISION = "2.5.0-r92";
+const PREVIOUS_RUNTIME_REVISION = "2.4.0-r91";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -444,14 +444,11 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.4.0 (r91): PREVIOUS is 2.3.0-r90 (289 paths, tests/fixtures/shell-paths/2.3.0-r90.json, main a85d286a). Added: Squad
-// Management (js/squadSheet.js, js/squadSheetStep.js, js/squadScreen.js, css/squadScreen.css), the Transfer War name search
-// js/playerSearch.js (its 296 KB player list is not precached: it is fetched on demand on Transfer War or Squad Management),
-// and Team V's layered Reus loading cover (HO-072: plate, Reus desktop and phone, wordmark). Removed: the History & Backup and
-// Save Library editor files the old-era cut deleted (#1366) and the old single-image Reus loading covers; a page rolled back to
-// 2.3.0 still finds them in its own retained shell. The STORY site is never precached.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/playerSearch.js","assets/loading/ENV_LOADING_PLATE_HC_1X.webp","assets/loading/REUS_D_1X.webp","assets/loading/ENV_LOADING_PHONE_HC_590W.webp","assets/loading/REUS_P_590W.webp","assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set(["css/restore.css","css/saveLibrary.css","js/restoreUI.js","js/saveLibraryUI.js","assets/LOADING_REUS_DESKTOP.webp","assets/LOADING_REUS_PHONE.webp"]);
+// 2.5.0 (r92): PREVIOUS is 2.4.0-r91 (293 paths, tests/fixtures/shell-paths/2.4.0-r91.json, main ac0a1338). r92 adds and
+// removes no shell path: its changes (the Device check, js/gfxTier.js, the 3D pages) edit files already in the shell or never
+// precached, and the level guide pictures it deleted were never precached. The STORY site is never precached.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.
