@@ -555,17 +555,23 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 #app #seasonEntry .v10GoldenStage .goldenSeeFinal:hover { filter:brightness(1.08); }
 #app #seasonEntry .v10GoldenStage .goldenSeeFinal:active { filter:brightness(.88); }
 #app #seasonEntry .v10GoldenStage .goldenSeeFinal:focus-visible { outline:3px solid #fff5c4;outline-offset:-6px; }
-/* Desktop and wide windows: the board room fitted to the screen's height, centred, the room's own wood colour either side. */
-@media (min-width:901px) and (min-height:501px), (min-width:901px) and (orientation:portrait) {
+/* Desktop and wide windows, and any sideways window over 500px tall (800x600 too): the board room fitted to the screen's
+   height, centred, the room's own wood colour either side. */
+@media (min-width:901px) and (min-height:501px), (min-width:901px) and (orientation:portrait), (min-height:501px) and (orientation:landscape) {
  #app #seasonEntry .v10GoldenStage {
-  height:max(600px,100svh);container-type:size;--gk:calc(100cqh / 864);
+  --gh:max(600px,100svh);--gk:calc(var(--gh) / 864);
   /* the room sits exactly where Final Winner draws it (100svh tall, lowered just enough for the hair to clear the top bar by
      10px), so SEE FINAL WINNER changes the words, not the room */
-  --gdrop:max(0px,calc(var(--sd-nav-top-h,52px) + 10px - 100cqh * .0567));
-  background-image:url("${u("ENV_BOARD_PLATE_HC_V3_1X.webp")}");background-repeat:no-repeat;background-position:50% var(--gdrop);background-size:auto 100%;
+  --gdrop:max(0px,calc(var(--sd-nav-top-h,52px) + 10px - var(--gh) * .0567));
+  /* Codex on #1465: on a short window (1100x600) the counter under the lip ran past the room; the stage now grows to hold
+     the strip and SEE FINAL WINNER, and main scrolls to them. The room keeps its size (background-size), it is not stretched. */
+  height:max(var(--gh),calc(var(--gdrop) + 641 * var(--gk) + 12px + 176px));
+  background-image:url("${u("ENV_BOARD_PLATE_HC_V3_1X.webp")}");background-repeat:no-repeat;background-position:50% var(--gdrop);background-size:auto var(--gh);
  }
  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #seasonEntry .v10GoldenStage { background-image:image-set(url("${u("ENV_BOARD_PLATE_HC_V3_1X.webp")}") 1x,url("${u("ENV_BOARD_PLATE_HC_V3_2X.webp")}") 2x); }
  #app #seasonEntry .v10GoldenStage .goldenTitleBlock { top:calc(var(--sd-nav-top-h,52px) + 16px); }
+ /* narrower windows (800x600): the title stays clear of the two faces */
+ #app #seasonEntry .v10GoldenStage .goldenTitle { font-size:clamp(26px,min(4.2vw,calc(46 * var(--gk))),40px); }
  #app #seasonEntry .v10GoldenStage .goldenWho { top:calc(var(--sd-nav-top-h,52px) + 92px);max-width:calc(1536 * var(--gk) * .3776 - 32px); }
  #app #seasonEntry .v10GoldenStage .goldenTrophy { top:calc(var(--gdrop) + 641 * var(--gk) - 300 * var(--gk) * 744 / 768);height:calc(300 * var(--gk));width:calc(200 * var(--gk)); }
  #app #seasonEntry .v10GoldenStage .goldenCounter { top:calc(var(--gdrop) + 641 * var(--gk) + 12px); }
@@ -590,13 +596,14 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  #app #seasonEntry .v10GoldenStage .goldenCounter { top:calc(var(--g-lip) + 96px);padding-bottom:16px; }
  #app #seasonEntry .v10GoldenStage .goldenStrip { grid-template-columns:repeat(5,minmax(0,1fr)); }
 }
-/* Sideways phones and short windows: the desktop room fitted to the height, a little taller than the screen so the
-   counter holds the strip and the button; main scrolls the rest. */
-@media (min-width:640px) and (max-height:500px) and (orientation:landscape) {
+/* Sideways phones (any width, 568x320 too) and short windows: the desktop room fitted to the height, a little taller than
+   the screen so the counter holds the strip and the button; main scrolls the rest. */
+@media (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry .v10GoldenStage {
-  height:max(460px,100svh);container-type:size;--gk:calc(100cqh / 864);
-  background-image:url("${u("ENV_BOARD_PLATE_HC_V3_1X.webp")}");background-repeat:no-repeat;background-position:50% 0;background-size:auto 100%;
+  --gtop:0px;--gk:calc(max(460px,100svh) / 864);height:calc(max(460px,100svh) + var(--gtop));
+  background-image:url("${u("ENV_BOARD_PLATE_HC_V3_1X.webp")}");background-repeat:no-repeat;background-position:50% var(--gtop);background-size:auto calc(864 * var(--gk));
  }
+ #app #seasonEntry .v10GoldenStage :is(.goldenTitleBlock,.goldenWho,.goldenTrophy,.goldenCounter) { translate:-50% var(--gtop); }
  #app #seasonEntry .v10GoldenStage .goldenTitleBlock { top:calc(16 * var(--gk)); }
  #app #seasonEntry .v10GoldenStage .goldenTitle { font-size:24px;letter-spacing:.1em;padding-inline-start:.1em; }
  #app #seasonEntry .v10GoldenStage .goldenWho { top:calc(16 * var(--gk) + 52px);max-width:calc(1536 * var(--gk) * .3776 - 16px); }
@@ -610,6 +617,10 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  #app #seasonEntry .v10GoldenStage .goldenSeason b { font-size:16px;line-height:20px; }
  #app #seasonEntry .v10GoldenStage .goldenActions { margin-top:4px; }
  #app #seasonEntry .v10GoldenStage .goldenSeeFinal { min-height:44px; }
+}
+/* A short desktop window (1200x499, mouse, the top bar showing): the whole room sits under the top bar. */
+@media (max-height:500px) and (orientation:landscape) and (hover:hover) and (pointer:fine) {
+ #app #seasonEntry .v10GoldenStage { --gtop:var(--sd-nav-top-h,52px); }
 }
 /* The entrance, once per Showdown on a device (calm, 120 / 200 / 320 ms, one ease-out); none under Reduce Motion. */
 @keyframes goldenRise { from { opacity:0;transform:translateY(12px); } to { opacity:1;transform:none; } }
