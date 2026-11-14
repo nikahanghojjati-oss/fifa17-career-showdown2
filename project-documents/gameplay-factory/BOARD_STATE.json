@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-14 11:33 AM Boston time (EST)",
+ "generated": "2026-11-14 11:35 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 277,
+  "count": 279,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2496,6 +2496,24 @@
     "subject": "Loading screen (Marco Reus cover) rebuilt in the HC family, sharp",
     "reply": "no",
     "boston": "Thu 12 Nov 9:02 PM"
+   },
+   {
+    "time": "2026-11-14 16:33",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-079 RECEIVED",
+    "subject": "Home logo and screen titles: one flat hand-drawn mark (no AI look)",
+    "reply": "no",
+    "boston": "Sat 14 Nov 11:33 AM"
+   },
+   {
+    "time": "2026-11-14 16:34",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-080 RECEIVED",
+    "subject": "Golden Showdown trophy: the Champion trophy cast in gold",
+    "reply": "no",
+    "boston": "Sat 14 Nov 11:34 AM"
    }
   ],
   "g2v": {
@@ -2516,8 +2534,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "6780235",
-  "head_boston": "Sat 14 Nov 11:32 AM",
+  "head": "34d70b0",
+  "head_boston": "Sat 14 Nov 11:34 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3352,7 +3370,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 9449
+    "waiting_min": 9451
    },
    {
     "id": "HO-059",
@@ -3632,13 +3650,13 @@
     "from": "G",
     "to": "V",
     "title": "Golden Showdown trophy: the Champion trophy cast in gold",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-080_golden-showdown-trophy-the-champion-trop.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 1
+    "pickup_min": 1,
+    "waiting_min": null
    }
   ],
   "relay_ok": true

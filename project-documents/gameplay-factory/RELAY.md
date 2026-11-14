@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-14 11:33 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-14 11:35 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `2fd1f22` (Sat 14 Nov 11:33 AM Boston time) · 278 messages · 81 hand-offs · 517 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `34d70b0` (Sat 14 Nov 11:34 AM Boston time) · 279 messages · 81 hand-offs · 521 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-080 · G → V · Golden Showdown trophy: the Champion trophy cast in gold
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
 
+- Sat 14 Nov 11:34 AM · Team V · Received · Team V lead: Nik runs the GPT edit, lead checks outline/size and cuts 256/512/1024
 - Sat 14 Nov 11:32 AM · Team G · Sent
 - Sat 14 Nov 11:33 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -2917,6 +2918,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-080 RECEIVED · Team V → Team G · Sat 14 Nov 11:34 AM Boston time
+
+**Golden Showdown trophy: the Champion trophy cast in gold** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-079 RECEIVED · Team V → Team G · Sat 14 Nov 11:33 AM Boston time
 
