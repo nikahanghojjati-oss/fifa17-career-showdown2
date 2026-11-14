@@ -682,7 +682,7 @@ window.CHRONICLE_VOLUME19={
     },
     {
      "type": "p",
-     "text": "A second Fable 5.2 thread re-checked the final candidate, fe4a1d36, late that evening and said release: no P1, and nothing wrong in any of the new fixes. Ten seasons passed 489 of 489 checks, the same-name runs 289 of 289, an update from 2.3.0 293 of 293, and the fuzz found no shot or guessed man coming back in 151,446 screens. It left two smaller rows: a partner’s END SHOWDOWN could leave the roulette or the Prime Pack over Home, the same in 2.3.0, and after an outage CONFIRM MY RESULT could stay grey for up to 15 seconds under its own “tap again” line."
+     "text": "A third Fable 5.2 thread re-checked the final candidate, fe4a1d36, late that evening and said release: no P1, and nothing wrong in any of the new fixes. Ten seasons passed 489 of 489 checks, the same-name runs 289 of 289, an update from 2.3.0 293 of 293, and the fuzz found no shot or guessed man coming back in 151,446 screens. It left two smaller rows: a partner’s END SHOWDOWN could leave the roulette or the Prime Pack over Home, the same in 2.3.0, and after an outage CONFIRM MY RESULT could stay grey for up to 15 seconds under its own “tap again” line."
     },
     {
      "type": "p",
