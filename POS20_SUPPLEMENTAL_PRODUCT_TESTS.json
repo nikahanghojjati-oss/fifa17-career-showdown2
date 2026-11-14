@@ -3256,6 +3256,13 @@
         "^tests/contracts/r91-squad-steady-browser-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r91-confirm-after-outage-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonResults\\.js$",
+        "^tests/contracts/r91-confirm-after-outage-contracts\\.cjs$"
+      ]
     }
   ]
 }
