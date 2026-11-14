@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-13 8:27 PM Boston time (EST)",
+ "generated": "2026-11-13 8:31 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 277,
@@ -2558,8 +2558,8 @@
      "sha": "fe4a1d36a65848919f8a1adfa44fe2f4a3389f50",
      "updated": "2026-11-14T01:04:26Z",
      "gates": {
-      "passed": 6,
-      "running": 2,
+      "passed": 7,
+      "running": 1,
       "failed": 0,
       "cancelled": 0
      }
@@ -2570,7 +2570,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1444: L1… L2… L3A✓ L3B✓ L4✓ L5✓ L6… · seal pending · POS20 #1444 0/16",
+   "gate": "Gate #1444: L1✓ L2… L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal pending · POS20 #1444 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3356,7 +3356,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 8543
+    "waiting_min": 8547
    },
    {
     "id": "HO-059",
@@ -4913,8 +4913,8 @@
     "sha": "fe4a1d36a65848919f8a1adfa44fe2f4a3389f50",
     "updated": "2026-11-14T01:04:26Z",
     "gates": {
-     "passed": 6,
-     "running": 2,
+     "passed": 7,
+     "running": 1,
      "failed": 0,
      "cancelled": 0
     }
