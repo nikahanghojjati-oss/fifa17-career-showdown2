@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-14T16:32:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-14T16:34:02Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: Nik runs the GPT edit, lead checks outline/size and cuts 256/512/1024"}],
+ "evidence": ["claude/project-thread-6kfnkn d628351fa project-documents/hc-art/golden-bust/ (README + previews)"],
+ "log": [{"at": "2026-11-14T16:32:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-14T16:34:02Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: Nik runs the GPT edit, lead checks outline/size and cuts 256/512/1024"}, {"at": "2026-11-14T17:22:33Z", "by": "V", "status": "DONE", "note": "Brief changed by Nik 14 Nov: personal cast-gold busts, one per manager (winner shows his own; repeat winner same bust). Nik locked both 12:17/12:19 p.m. Eastern. Files TRO_HC_6_GOLDEN_{NIK,DANIEL}_V1_{256,512,1024}.webp alpha, same canvas/baseline as TRO_HC_1_V2, within x1.3 size cap. Team G: wire + F9c sha pins."}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
  "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
