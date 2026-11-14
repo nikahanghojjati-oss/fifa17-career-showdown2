@@ -319,6 +319,8 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.match(budget, /"--profiles", "iphone17"/); assert.match(budget, /DEVLAB_MODE: "cpu", DEVLAB_TOP: "1"/);
     assert.match(budget, /const total = Math\.round\(\(r\.allocTexMB \+ r\.allocRbMB\) \* 10\) \/ 10;/, "textures plus render buffers");
     assert.match(budget, /if \(total > PHONE_BUDGET_MB\) failures\.push/);
+    for (const need of [/!r\.ready && "never finished loading"/, /\(r\.errors \|\| \[\]\)\.length && `page errors/, /!\(r\.rafFrames > 0 && r\.callsMedian > 0\) && "drew nothing"/,
+        /!\(r\.gfx && r\.gfx\.level === level\)/, /!\(r\.allocTexMB > 0\) && "uploaded no textures"/]) assert.match(budget, need, "an unloaded or broken screen is a failure, not 0 MB");
     const lab = fs.readFileSync(path.join(ROOT, "tests/browser/device-lab.cjs"), "utf8");
     assert.match(lab, /const TOP = process\.env\.DEVLAB_TOP === "1" \? "&gfxpr=top" : "";/);
     assert.equal((lab.match(/\$\{TOP\}`/g) || []).length, 3, "all three screens");

@@ -40,6 +40,11 @@ const failures = [];
 for (const scene of SCENES) for (const level of LEVELS) {
     const r = rows.find(x => x.scene === scene && x.level === level);
     if (!r || r.allocTexMB == null) { failures.push(`${scene} at level ${level}: no measurement (${r && r.error || "missing"})`); continue; }
+    // A screen that never finished loading, threw, drew nothing or ran at another level is not a measurement (0 MB would pass).
+    const bad = [!r.ready && "never finished loading", (r.errors || []).length && `page errors: ${r.errors.join(" | ")}`,
+        !(r.rafFrames > 0 && r.callsMedian > 0) && "drew nothing", !(r.gfx && r.gfx.level === level) && `ran at level ${r.gfx && r.gfx.level}`,
+        !(r.allocTexMB > 0) && "uploaded no textures"].filter(Boolean);
+    if (bad.length) { failures.push(`${scene} at level ${level}: not measured (${bad.join("; ")})`); continue; }
     const total = Math.round((r.allocTexMB + r.allocRbMB) * 10) / 10;
     const canvas = r.canvas ? `${r.canvas.w}x${r.canvas.h}` : "?";
     console.log(`${scene.padEnd(8)} ${r.levelName.padEnd(6)} ${String(total).padStart(6)} MB (textures ${r.allocTexMB} + buffers ${r.allocRbMB}) at ${canvas}`);
