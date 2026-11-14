@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 14 Nov, 2:00 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 14 Nov, 2:06 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.3.0-r90** (main `a85d286`, Wed 11 Nov 4:23 AM)
 
-🩺 **All clear: every check has a machine.** · Gate #1444: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #1444 0/16
+🩺 **All clear: every check has a machine.** · Gate #1444: L1… L2… L3A✓ L3B✓ L4✓ L5✓ L6… · seal pending · POS20 #1444 0/16
 
 ## Jobs
 
@@ -70,7 +70,7 @@ Updated Sat 14 Nov, 2:00 AM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 683 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 684 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1444](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1444) | Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100 | ⏳ 4 passed, 4 running |
+| 🟧 Team G lead | [PR #1444](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1444) | Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100 | ⏳ 5 passed, 3 running |
 
 **Up next**
 
