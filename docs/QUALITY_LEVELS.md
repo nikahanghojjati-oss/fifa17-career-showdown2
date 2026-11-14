@@ -159,18 +159,11 @@ is full, and nothing may cover anything).
   `gfxClassify` does, and `tests/contracts/r91-level-guide-contracts.cjs` runs named chips through it against them.
   The page names no chip and no level of its own.
 - **Your device** (top of the page, above Start): graphics chip, processor, memory, then "We suggest <level>".
-- **Level guide** (under the results): the six rows, this device's row marked, and under each row one real picture
-  of each 3D screen at that level.
+- **Level guide** (under the results): the six rows in words, this device's row marked. (r92, Nik 2026-11-14: the
+  pictures of each screen at each level were removed.)
 - **Honest words.** The guide says where Auto starts and why; it promises no frame rate. "Holds 60 fps" is said only
   of this device, after a finished check that held its level. On a weak device the card says Ultra (4K) and 8K are
   offered only after the check passes them.
-- **The pictures** (`assets/level-guide/<screen>-<level>.webp` and a small `-s.webp`): captured from the real
-  screens, one fixed view each, the same for every level, framed close on what changes between levels (Chamber Men: the
-  crowd, goal and keeper; Russian Roulette: the table and the room behind it; Special Player: the card's lower half, the
-  sparkles and the shadow on the grass). Clocks and random draws are fixed, so only the level differs. Light to Ultra
-  are real renders; 8K cannot be forced on the software renderer the pictures are shot on, so its picture is Ultra's
-  (8K differs only in how many pixels it draws). Re-shoot when a scene's look changes. They show how a level looks and say nothing about
-  speed. They load lazily on the Device check page only: never in the worker's install list, never on the game page.
 - **Finding it from Settings.** Under 3D QUALITY a gold link, "Device check and guide ›", opens the page; the list's
   last entry, "Device check…", still does. The Auto entry reads "Auto · Light" (the level Auto draws on this device),
   so the pick the game made is in plain sight. With Auto on, the line under the row only adds what the list cannot
