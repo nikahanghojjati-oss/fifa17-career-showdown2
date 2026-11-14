@@ -76,6 +76,9 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
   assert.equal(Math.max(...ROWS.flatMap(r => r.chips).map(c => chipLevel(c))), 3);
   assert.match(guide.rows[4].who, /^No chip starts here\. The Device check gives it/);
   assert.match(guide.rows[5].who, /7680 px picture\. Never a phone\.$/);
+  // r92: a phone's sharpness at Extra stops at 2.25x (PHONE_EXTRA_PR); the row says so, in step with the module.
+  assert.match(guide.rows[3].draws, /up to 3x sharpness on a sharp computer screen \(2\.25x on a phone\)\.$/);
+  assert.match(read("js/gfxTier.js"), /PHONE_EXTRA_PR=2\.25[,;]/);
   ok("G1", "the guide's rows say what Auto's guess does: named chips land on the row that names them, none on Ultra or 8K");
 }
 // G2
