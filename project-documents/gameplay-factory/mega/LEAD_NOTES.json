@@ -1,0 +1,88 @@
+{
+ "updated": "2026-10-11T07:30:00Z",
+ "from": "Team G lead",
+ "you_come_in": [
+  {
+   "when": "Whenever a number is free in Type next",
+   "what": "Paste that number into a new ChatGPT chat (account 1 odd, account 2 even), Work mode, or Codex, as the row says. That is your whole job.",
+   "auto": false
+  },
+  {
+   "when": "Finished jobs and trains",
+   "what": "Automatic. Every time a train or job PR is complete, the lead runs the tests and, for layouts, a browser check, then merges it if it passes, usually within the hour. If it fails, the lead fixes it or sends it back with a fix round, and the board shows the number to type again.",
+   "auto": true
+  },
+  {
+   "when": "Audit reports",
+   "what": "Automatic. The lead merges them in batches. Nothing for you to do. (112 merged 11 Oct.)",
+   "auto": true
+  },
+  {
+   "when": "Picture studies",
+   "what": "They wait on Team V adopting them, not on you or the lead. Once Team V decides, the lead merges the adopted ones and closes the rest.",
+   "auto": true
+  },
+  {
+   "when": "A product decision",
+   "what": "The lead or coordinator asks you in the project chat. Only those need your answer.",
+   "auto": false
+  },
+  {
+   "when": "Release to the live game",
+   "what": "Type \"merge rNN\" in the lead thread. This is the only merge that waits for you.",
+   "auto": false
+  }
+ ],
+ "verdicts": [
+  {
+   "job": "1597-1599",
+   "title": "Season Results phone, sideways and tablet wiring (Work mode)",
+   "verdict": "bad",
+   "why": "Hid the old hero images but left their reserved space, so the main button fell below the fold. It failed the browser check twice; the Claude lane fixed it and merged #666."
+  },
+  {
+   "job": "1611",
+   "title": "Season-2 same-moment publish race (Claude lane)",
+   "verdict": "good",
+   "why": "Root cause reproduced on the emulator, small client-only retry, new contract that fails before and passes after; merged #670."
+  },
+  {
+   "job": "1182-1186",
+   "title": "Transfer train 2 (GPT chat)",
+   "verdict": "good",
+   "why": "Correctly found nothing to change and said so."
+  },
+  {
+   "job": "1606-1608",
+   "title": "Refresh-after-success must not look like a failure (Season Results, Season Commit, Shared Setup)",
+   "verdict": "good",
+   "why": "Small, focused fixes with tests; green Gate first time; merged #662, #663, #665."
+  },
+  {
+   "job": "1592",
+   "title": "Connect Players phone wiring (Work mode)",
+   "verdict": "fixed by lead",
+   "why": "The phone rule also caught tablets, the scene spilled sideways and Nik's JOIN button fell under the nav. A Claude browser check fixed it in CSS and merged #667."
+  },
+  {
+   "job": "1594-1596",
+   "title": "Club phone, sideways and tablet wiring (Work mode)",
+   "verdict": "fixed by lead",
+   "why": "Old club.css transforms and offsets were still applied, so the title, VS and cards slid off screen and CONFIRM fell below the fold; tablets overflowed sideways. A Claude browser check fixed it in CSS and merged #669."
+  },
+  {
+   "job": "1593, 1600, 1601",
+   "title": "Rivalry phone, sideways and tablet wiring (Work mode)",
+   "verdict": "fixed by lead",
+   "why": "Sideways cards ran under the fixed hub bar, tablet rows fell out of the card and a base transform overlapped DANIEL on phones. A Claude browser check fixed it in CSS and merged #668."
+  }
+ ],
+ "lessons": [
+  "Work mode can see the pictures but can't render, so every layout PR still gets a browser check before merge.",
+  "When hiding an old hero, also reset the space it reserved (rule d), or the screen scrolls.",
+  "Status notes and reports belong on factory/gameplay-v1, never on the game branch.",
+  "Phone-only wiring must cap the media query by height too (max-height ~700px), or portrait tablets that report width 760 pick up the phone layout.",
+  "Team V sheets (rule-book.css etc.) load after the adapter files, so adapters need #app-prefixed selectors to win."
+ ],
+ "rule": "You never need to tell the lead. When a job or train is finished, the lead checks it (tests plus a browser check for layouts) and merges it if it passes, usually within the hour. Only a release to the live game waits for you to type 'merge rNN'."
+}

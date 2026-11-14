@@ -4,3 +4,6 @@ playwright-report/
 .work-tools/
 gha-creds-*.json
 firestore.spark.generated.rules
+project-documents/gameplay-factory/progress/job-*.json
+project-documents/gameplay-factory/progress/v-*.json
+project-documents/gameplay-factory/progress/prs.json
