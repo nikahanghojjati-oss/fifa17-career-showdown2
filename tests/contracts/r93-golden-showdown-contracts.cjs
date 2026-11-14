@@ -2,18 +2,23 @@
 // r93 Golden Showdown (Nik 2026-11-14; plan gameplay/r93/GOLDEN_SHOWDOWN_PLAN.md, build R93-01). A manager who closes a finished
 // 10-season Showdown on 150 (15, the most a season can score, in every season) earns the Golden Showdown. r93 gives it a moment
 // of its own: a Golden Showdown screen right BEFORE Final Winner (Nik's card 2026-11-14 16:33 UTC), with one button, SEE FINAL
-// WINNER; and the gold trophy gets its own case and GOLDEN tab in the Trophy Room (part B). Pins (part C adds GS5):
+// WINNER; and the gold trophy gets its own case and GOLDEN tab in the Trophy Room (part B); part C shows it during the run (Season Results chip) and on Career Statistics. Pins:
 //   GS1 the screen's rule is the career screens' rule (js/careerScreenSeam.js goldenShowdownManagers, G1-G3) on every row of
 //       the truth table: 150 and 140, 150-150 (a DRAW and Golden for both, never a winner), 149, sacked in season 10 with all
 //       10 played (still Golden, Rule Book), sacked in season 9, a 5-season 75 and a 3-season 45 (never Golden); on the live
 //       reconciliation and on the closed terminal witness alike
 //   GS2 both phones get the same screen: the frame is drawn from the shared final result only (nothing about who is looking),
 //       and the season strip is the verified history's own ten season totals once the history is read
-//   GS3 no Firestore read or write is added and nothing is stored but this device's "seen" mark (which only skips the
-//       entrance motion): the Golden code calls no provider and the page's Firestore calls are the ones it had
+//   GS3 no Firestore read or write is added and nothing is stored on the device (the entrance plays once per page): the
+//       Golden code calls no provider and the page's Firestore calls are the ones it had
 //   GS4 Trophy Room: the gold case's counts are goldenShowdownCounts of the career's History rows, on every career (0 and 0
 //       too: the case is always on the ALL shelf and under its own GOLDEN tab, greyed with "150 in a 10-season Showdown" until
 //       won); the gold trophy is one picture, the same constant in the Trophy Room and on the Golden screen
+//   GS5 Season Results: "ON COURSE FOR GOLDEN · 15 every season" (one line under the title on a desktop window, a line in
+//       each manager's card on a phone; tests/browser/phone-marble-facecheck-audit.cjs GOLDEN_COURSE) while he has 15 in every season
+//       committed so far of a 10-season Showdown (seasons 1-9), from the verified shared history only (so never early), gone at
+//       his first dropped point; never in a 1, 3 or 5-season Showdown and never on Final Winner; Career Statistics shows the
+//       gold line as a small gold-trophy tile with the same trophy picture
 //   GS6 layout: the face check draws the Golden screen at every size (tests/browser/phone-marble-facecheck-audit.cjs GOLDEN,
 //       with SEE FINAL WINNER on screen or reached by scrolling and not under anything); its CSS keeps every block closed,
 //       no dimming layer, and its entrance is off under Reduce Motion
@@ -134,6 +139,69 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
   assert.ok(roomSrc&&screenSrc);assert.deepEqual(roomSrc.slice(1),screenSrc.slice(1),"one gold trophy picture in both places");
   assert.ok(fs.existsSync(path.join(ROOT,"visual-assets/v10_1/shared",roomSrc[1])),"the picture exists");
   ok("GS4","the Trophy Room's gold case counts the History rows (0 and 0 too), has its own GOLDEN tab, and shows the same gold trophy as the Golden screen");
+}
+
+// GS5
+{
+  const p15=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,topScorer:true,primePack:4});
+  const p14=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,primePack:4});
+  const live=(total,pairs)=>fx.history(projection({seed:"7",totalSeasons:total,seasons:pairs}));
+  const course=h=>{const c=Season.goldenCourse(h);return c?plain(c):null;};
+  // 15 in every committed season of a 10-season Showdown: on course, for each manager on his own
+  assert.deepEqual(course(live(10,[[p15(),p15()]])),{managers:["daniel","nik"],through:1});
+  assert.deepEqual(course(live(10,[[p15(),p15()],[p15(),p14()],[p15(),p15()]])),{managers:["daniel"],through:3},"Nik dropped a point in season 2: his chip is gone for good");
+  assert.deepEqual(course(live(10,Array.from({length:9},()=>[p15(),p15()]))),{managers:["daniel","nik"],through:9});
+  assert.equal(course(live(10,[[p14(),p15()],[p15(),p14()]])),null,"both dropped a point: no chip");
+  assert.equal(course(live(10,Array.from({length:10},()=>[p15(),p15()]))),null,"after season 10 the Golden screen takes over");
+  for(const total of [1,3,5])assert.equal(course(live(total,[[p15(),p15()]])),null,`never in a ${total}-season Showdown`);
+  // only the verified shared history: an unconverged or non-authoritative view, or one whose seasons do not line up, shows nothing
+  const h=live(10,[[p15(),p15()],[p15(),p15()]]);
+  for(const bad of [null,{...h,authoritative:false},{...h,phase:"HISTORY_PENDING"},{...h,throughSeason:3},{...h,throughSeason:0},{...h,rivalryId:"pair_"+"8".repeat(64)},{...h,projection:{...h.projection,seasonHistory:[...h.projection.seasonHistory].reverse()}}])assert.equal(course(bad),null);
+  // the chip goes under each on-course manager's header and is removed the moment he is no longer on course
+  class N{constructor(tag,doc){this.tagName=tag;this.doc=doc;this.children=[];this.parent=null;this.attrs={};this.className="";this.id="";this.textContent="";}
+    appendChild(n){n.parent=this;this.children.push(n);return n;}
+    after(n){const list=this.parent.children;n.parent=this.parent;list.splice(list.indexOf(this)+1,0,n);}
+    remove(){const list=this.parent.children;list.splice(list.indexOf(this),1);this.parent=null;}
+    setAttribute(k,v){this.attrs[k]=String(v);}
+    all(){return this.children.flatMap(c=>[c,...c.all()]);}
+    match(sel){return sel.startsWith("#")?this.id===sel.slice(1):this.className.split(" ").includes(sel.slice(1));}
+    querySelectorAll(sel){const parts=sel.split(" ");let nodes=[this];for(const part of parts)nodes=nodes.flatMap(n=>n.all().filter(x=>x.match(part)));return nodes;}
+    querySelector(sel){return this.querySelectorAll(sel)[0]||null;}}
+  const doc={styles:[],createElement:t=>new N(t,doc),getElementById:id=>doc.styles.find(x=>x.id===id)||null,head:{appendChild:n=>doc.styles.push(n)}};
+  const stage=new N("section",doc),tagline=stage.appendChild(new N("p",doc));tagline.className="season-tagline";
+  for(const id of ["daniel-entry-panel","nik-entry-panel"]){const card=stage.appendChild(new N("article",doc));card.id=id;const header=card.appendChild(new N("div",doc));header.className="seasonManagerHeader";card.appendChild(new N("div",doc)).className="seasonResultFields";}
+  const saved=globalThis.document;globalThis.document=doc;
+  try{
+    const chips=()=>stage.querySelectorAll(".seasonGoldenCourse").map(c=>c.parent.id);
+    Season.goldenCourseChips(stage,Season.goldenCourse(live(10,[[p15(),p15()]])));
+    assert.deepEqual(chips(),["daniel-entry-panel","nik-entry-panel"]);
+    const chip=stage.querySelector(".seasonGoldenCourse");
+    assert.equal(chip.parent.children.indexOf(chip),1,"right under the header, before the fields");
+    assert.deepEqual(chip.children.map(c=>c.textContent),["","ON COURSE FOR GOLDEN","15 every season"]);
+    assert.match(chip.attrs["aria-label"],/15 in every season so far \(1 of 10\)/);
+    const line=()=>stage.querySelectorAll(".seasonGoldenCourseLine").map(c=>c.children.map(x=>x.textContent));
+    assert.deepEqual(line(),[["","ON COURSE FOR GOLDEN","DANIEL · NIK","15 every season"]],"one line under the title on a desktop window");
+    Season.goldenCourseChips(stage,Season.goldenCourse(live(10,[[p15(),p15()],[p15(),p14()]])));
+    assert.deepEqual(chips(),["daniel-entry-panel"],"re-rendered: Nik's chip is gone, Daniel's is not doubled");
+    assert.deepEqual(line(),[["","ON COURSE FOR GOLDEN","DANIEL","15 every season"]]);
+    Season.goldenCourseChips(stage,null);assert.deepEqual(chips(),[]);assert.deepEqual(line(),[]);
+    assert.equal(doc.styles.length,1,"one style block");
+    assert.match(doc.styles[0].textContent,/#app #seasonEntry\.v10FinalMode :is\(\.seasonGoldenCourse,\.seasonGoldenCourseLine\) \{ display:none; \}/,"never on Final Winner");
+    assert.doesNotMatch(doc.styles[0].textContent,/font[^;]*\b(?:[0-9]|1[01])px/,"no text under 12px");
+  }finally{globalThis.document=saved;}
+  // wiring: Season Results renders it from the live Showdown's history only (never a closed or kept one); no provider in it
+  const src=read("js/seasonFinalV10.js"),part=(from,to)=>{const i=src.indexOf(from),j=src.indexOf(to,i+1);assert.ok(i>0&&j>i,from);return src.slice(i,j);};
+  assert.match(src,/sfSeasonChips\(stage,frame\.specialPlayers\);\n    sfGoldenCourse\(stage,frame\.goldenCourse\);/);
+  assert.match(src,/const source=seasonSource\(\),s=sfSnapshot\(\),course=s\.terminalClose\?\.phase==="CLOSED"\?null:goldenCourse\(s\.history\);/);
+  assert.match(src,/frame:seasonScreenSource,/);assert.match(src,/screen==="seasonEntry"\?seasonScreenSource\(\):/);
+  const code=part("// r93 part C (Nik 2026-11-14)","// r87 one-tap Rematch")+part("// r93 part C: on a desktop window the chip","// HO-068: the Standings phone art")+part("// r93 part C: Season Results also carries","// The pair module notifies");
+  assert.doesNotMatch(code,/firestore|getDoc|setDoc|readCompletedShowdown|localStorage|fetch\(|\b110\b/i);
+  // Career Statistics: the gold line is a small tile with the same gold trophy picture as the Trophy Room and the Golden screen
+  const stats=read("visual-assets/v10_1/career-statistics/career-statistics.js"),room=read("visual-assets/v10_1/trophy-room/trophy-room.js");
+  const statsSrc=/const GOLDEN_TROPHY=\{src:"\.\.\/shared\/(trophies-hc\/[\w.]+)",tint:(true|false)\};/.exec(stats),roomSrc=/const GOLDEN_TROPHY = \{ src: BASE \+ "\.\.\/shared\/(trophies-hc\/[\w.]+)", tint: (true|false) \}/.exec(room);
+  assert.ok(statsSrc&&roomSrc);assert.deepEqual(statsSrc.slice(1),roomSrc.slice(1),"one gold trophy picture");
+  assert.match(stats,/goldenShowdownNote goldenShowdownTile/);
+  ok("GS5","Season Results shows ON COURSE FOR GOLDEN only while a manager has 15 in every committed season of a 10-season Showdown (seasons 1-9), from the verified shared history only, and drops it at his first dropped point");
 }
 
 // GS6

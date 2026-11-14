@@ -66,6 +66,19 @@
     const strip=list.map((s,i)=>({season:s?.roundNumber,daniel:s?.playerOne?.scoring?.total,nik:s?.playerTwo?.scoring?.total}));
     return strip.every((s,i)=>s.season===i+1&&golden.managers.every(m=>s[m]===GOLDEN.seasonMax))?strip:null;
   }
+  // r93 part C (Nik 2026-11-14): "ON COURSE FOR GOLDEN" on Season Results while a manager has 15 in every season committed so
+  // far of a 10-season Showdown. Read only from the verified shared history this page already holds (seasons both managers have
+  // already seen), so it never tells anything early; it goes the moment a season is not 15. Seasons 1-9 only: after the tenth the
+  // Golden screen itself takes over.
+  function goldenCourse(history){
+    const p=history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"?history.projection:null;
+    if(!p||p.totalSeasons!==GOLDEN.seasons||(history.rivalryId&&p.rivalryId&&history.rivalryId!==p.rivalryId))return null;
+    const n=Number(history.throughSeason),list=Array.isArray(p.seasonHistory)?p.seasonHistory:[];
+    if(!Number.isInteger(n)||n<1||n>=GOLDEN.seasons||p.acceptedSeasons!==n||list.length<n)return null;
+    const seasons=list.slice(0,n);if(!seasons.every((s,i)=>s?.roundNumber===i+1))return null;
+    const managers=[["daniel","playerOne"],["nik","playerTwo"]].filter(([,role])=>seasons.every(s=>s?.[role]?.scoring?.total===GOLDEN.seasonMax)).map(([m])=>m);
+    return managers.length?{managers,through:n}:null;
+  }
   // r87 one-tap Rematch (Nik's ask): offered only on a CLOSED Showdown's Final Winner, with the length the closed terminal
   // witness carries (1, 3, 5 or 10). Daniel (playerOne) starts it; Nik's button takes him Home, where his JOIN tile picks up
   // Daniel's code. Pure: reads only states this page already holds (no read, no write, no scoring).
@@ -2801,6 +2814,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     if(!stage)return;
     sfOwnerTab(stage);
     sfSeasonChips(stage,frame.specialPlayers);
+    sfGoldenCourse(stage,frame.goldenCourse);
     renderFinal(host,frame.final,frame.rematch);
   }
   // r86: each entry card's manager header shows that manager's Special Player under the name (none before r86). Only the chip
@@ -2814,6 +2828,48 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
       const slot=root.document.createElement("span");slot.className="seasonSpecialPlayer";slot.appendChild(chip);
       const name=header.querySelector("h3");if(name)name.after(slot);else header.appendChild(slot);
     }
+  }
+  // r93 part C: on a desktop window the chip is one line under the SEASON RESULTS title, in the title's own (hidden) tagline
+  // slot, so the page does not grow; on a phone or a short sideways window it is a line at the foot of each on-course manager's
+  // card. Name, club and Special Player stay as they are.
+  function sfGoldenCourse(stage,course){
+    const doc=root.document,on=m=>Boolean(course?.managers?.includes(m)),label=`15 in every season so far (${course?.through} of ${GOLDEN.seasons})`;
+    const make=(tag,cls,parts,aria)=>{const chip=doc.createElement(tag),mark=doc.createElement("span");chip.className=cls;chip.setAttribute("aria-label",aria);mark.className="seasonGoldenCourseMark";mark.setAttribute("aria-hidden","true");chip.appendChild(mark);
+      for(const [t,text] of parts){const n=doc.createElement(t);n.textContent=text;chip.appendChild(n);}return chip;};
+    stage.querySelectorAll?.(".seasonGoldenCourseLine").forEach(node=>node.remove());
+    for(const [manager,id] of [["daniel","daniel-entry-panel"],["nik","nik-entry-panel"]]){
+      const card=stage.querySelector?.("#"+id);if(!card)continue;
+      card.querySelectorAll(".seasonGoldenCourse").forEach(node=>node.remove());
+      const header=card.querySelector(".seasonManagerHeader");if(!header||!on(manager))continue;
+      sfGoldenCourseRule(doc);
+      header.after(make("p","seasonGoldenCourse",[["b","ON COURSE FOR GOLDEN"],["span","15 every season"]],`${manager==="daniel"?"Daniel":"Nik"} is on course for a Golden Showdown: ${label}`));
+    }
+    const slot=stage.querySelector?.(".season-tagline");
+    if(slot&&course?.managers?.length){
+      const names=course.managers.map(m=>m==="daniel"?"DANIEL":"NIK").join(" · ");
+      sfGoldenCourseRule(doc);
+      slot.appendChild(make("span","seasonGoldenCourseLine",[["b","ON COURSE FOR GOLDEN"],["i",names],["span","15 every season"]],`${names==="DANIEL · NIK"?"Daniel and Nik are":names==="DANIEL"?"Daniel is":"Nik is"} on course for a Golden Showdown: ${label}`));
+    }
+  }
+  function sfGoldenCourseRule(doc){
+    if(!doc?.head||doc.getElementById?.("v10GoldenCourseRule"))return;
+    const style=doc.createElement("style");style.id="v10GoldenCourseRule";
+    style.textContent=`
+#app #seasonEntry:not(.v10FinalMode) .v10SeasonStage :is(.seasonGoldenCourse,.seasonGoldenCourseLine) { display:flex; align-items:center; gap:8px; box-sizing:border-box; padding:4px 12px 4px 8px; border:1px solid rgba(240,202,112,.78); border-radius:999px; background:linear-gradient(180deg,rgba(64,46,12,.94),rgba(30,22,6,.94)); color:#e9cf86; font:600 13px/1.15 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.04em; white-space:nowrap; text-shadow:none; }
+#app #seasonEntry:not(.v10FinalMode) .v10SeasonStage :is(.seasonGoldenCourse,.seasonGoldenCourseLine) b { font-weight:800; letter-spacing:.07em; color:#ffe7a3; }
+#app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourseLine i { font-style:normal; font-weight:800; letter-spacing:.07em; color:#fff3cf; }
+#app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourseMark { flex:0 0 auto; width:10px; height:10px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#fff4c6,#e2b448 55%,#8a6418); box-shadow:0 0 0 1px rgba(255,231,163,.5); }
+#app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourse { grid-column:1 / -1; width:max-content; max-width:100%; margin:0 0 8px; }
+#app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourseLine { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); visibility:visible !important; }
+@media (min-width:901px) and (min-height:521px), (min-width:1001px) {
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourse { display:none; }
+}
+@media (max-width:900px), (max-width:1000px) and (max-height:520px) {
+ #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourseLine { display:none; }
+}
+#app #seasonEntry.v10FinalMode :is(.seasonGoldenCourse,.seasonGoldenCourseLine) { display:none; }
+`;
+    doc.head.appendChild(style);
   }
   // HO-068: the Standings phone art is the tunnel room. The tall plate for upright screens, the wide plate sideways, 590W on
   // Light or Save-Data; the two cut-outs lose their sources (the plate carries both men), so nothing extra is downloaded.
@@ -2904,13 +2960,19 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     if(!sp)return {final,rematch};
     return {final:final.winner?freeze({...final,specialPlayers:sp}):final,specialPlayers:sp,rematch};
   }
+  // r93 part C: Season Results also carries the ON COURSE FOR GOLDEN chip, from the live Showdown's verified history only
+  // (never a closed Showdown's or a kept one).
+  function seasonScreenSource(){
+    const source=seasonSource(),s=sfSnapshot(),course=s.terminalClose?.phase==="CLOSED"?null:goldenCourse(s.history);
+    return course?{...source,goldenCourse:course}:source;
+  }
   // The pair module notifies only its own subscribers (no window event), so Standings follows pairing
   // and closure through it. It may load after this file, so each screen change retries once until bound.
   let pairBound=false;
   function followPair(){if(pairBound)return;try{const api=root.CareerModePersistentNikDanielPair;if(typeof api?.subscribe==="function"){api.subscribe(()=>wake());pairBound=true;}}catch(_){}}
   function wake(){
     if(scheduled)return;scheduled=true;root.setTimeout(()=>{scheduled=false;const screen=root.getActiveScreenName?.();if(!["seasonEntry","standings"].includes(screen))return;
-      const source=screen==="seasonEntry"?seasonSource():standingsFrames(currentRivalry(),currentCareer());
+      const source=screen==="seasonEntry"?seasonScreenSource():standingsFrames(currentRivalry(),currentCareer());
       const next=screen+JSON.stringify(source);if(next===signature)return;signature=next;root.CareerModeV10Screens.invalidate(screen);root.CareerModeV10Screens.show(screen).catch(fail);
     },0);
   }
@@ -2925,7 +2987,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     if(installed)return true;installed=true;
     root.SEASON_RESULTS_APP=true;root.FINAL_WINNER_APP=true;root.STANDINGS_APP=true;
     const loader=root.CareerModeV10Screens.install();
-    loader.register("seasonEntry",{auto:false,hold:true,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner"),sfEnsureChip()]),frame:seasonSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>{finalSeasonReview=false;restoreFinal(host);})});
+    loader.register("seasonEntry",{auto:false,hold:true,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner"),sfEnsureChip()]),frame:seasonScreenSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>{finalSeasonReview=false;restoreFinal(host);})});
     loader.register("standings",{auto:false,hold:true,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules(),sfEnsureChip()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
     installStandingsRoute();installChampionBack();
     // r87 Touchline Gazette: its own page after Season Results (CONTINUE TO SEASON N+1) and after Final Winner (its exits).
@@ -2944,5 +3006,5 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     followPair();
     wake();return true;
   }
-  return Object.freeze({finalFrame,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,gazetteHistory:()=>sfGazetteHistory,install:installResults});
+  return Object.freeze({finalFrame,goldenCourse,goldenCourseChips:sfGoldenCourse,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,gazetteHistory:()=>sfGazetteHistory,install:installResults});
 });
