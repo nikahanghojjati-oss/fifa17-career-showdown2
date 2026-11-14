@@ -17,7 +17,7 @@
   // Team V copy for the same states (their screen strings at f4da9a3f), without the preview chip label.
   const STRINGS=Object.freeze({
     careerStatistics:{heading:"CAREER STATISTICS",previewLabel:"",buttons:{rivalry:"CURRENT RIVALRY STATISTICS",trophyRoom:"OPEN TROPHY ROOM",back:"BACK TO HOME"},sections:{careerTable:"CAREER TABLE",managerComparison:"MANAGER COMPARISON",careerLeaders:"CAREER LEADERS"},headlineLabels:["COMPLETED SHOWDOWNS","SEASONS PLAYED","CAREER POINTS","TROPHIES WON"],comparisonRows:["LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE WINS","EUROPA LEAGUE WINS","Season Wins","Average League Points","Average League Goals"],leaderLabels:["MOST SEASON WINS","MOST TROPHIES","MOST CAREER POINTS","BEST SEASON SCORE"],careerTableHeaders:["#","Manager","Showdowns","Season W-D-L","Points","Trophies"],goldenShowdown:"GOLDEN SHOWDOWN",noCompletedRecord:"No completed record yet",coverageTemplate:"{READABLE} of {INDEXED} Showdowns readable",stateCopy:{loading:{heading:"LOADING CAREER HISTORY",body:"Loading career history…"},partial:{heading:"PARTIAL CAREER HISTORY",body:"Some Showdowns could not be read. Statistics below use readable Showdowns only."},unavailable:{heading:"CAREER HISTORY UNAVAILABLE",body:"Career history could not be loaded. No statistics are being shown."}}},
-    trophyRoom:{heading:"TROPHY ROOM",back:"BACK",previewLabel:"",managerCabinetsHeading:"MANAGER CABINETS",careerTableHeading:"CAREER TABLE",recordsReadyHeading:"ALL-TIME RECORDS",categories:["ALL","SHOWDOWN","LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE","EUROPA LEAGUE"],trophyTypes:{showdown:"Showdown Champion",goldenShowdown:"Golden Showdown",leagueTitles:"League Title",domesticCups:"Domestic Cup",championsLeague:"Champions League",europaLeague:"Europa League"},notWonYet:"Not won yet",stateCopy:{loading:{text:"Loading career history…"},partial:{text:"Some Showdowns could not be read. Showing {READABLE} of {INDEXED} Showdowns."},partialRecordsHeading:{text:"AVAILABLE RECORDS"},unavailable:{text:"Career history is unavailable right now."}}}
+    trophyRoom:{heading:"TROPHY ROOM",back:"BACK",previewLabel:"",managerCabinetsHeading:"MANAGER CABINETS",careerTableHeading:"CAREER TABLE",recordsReadyHeading:"ALL-TIME RECORDS",categories:["ALL","SHOWDOWN","GOLDEN","LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE","EUROPA LEAGUE"],trophyTypes:{showdown:"Showdown Champion",goldenShowdown:"Golden Showdown",leagueTitles:"League Title",domesticCups:"Domestic Cup",championsLeague:"Champions League",europaLeague:"Europa League"},notWonYet:"Not won yet",goldenNotWonYet:"150 in a 10-season Showdown",stateCopy:{loading:{text:"Loading career history…"},partial:{text:"Some Showdowns could not be read. Showing {READABLE} of {INDEXED} Showdowns."},partialRecordsHeading:{text:"AVAILABLE RECORDS"},unavailable:{text:"Career history is unavailable right now."}}}
   });
   const CS_FIELDS=["careerPoints","seasons","seasonWins","seasonDraws","seasonLosses","championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies","bestSeasonScore","averageLeaguePoints","averageLeagueGoals"];
   const SHOWDOWN_FIELDS=["completed","wins","draws","losses"];
@@ -39,10 +39,11 @@
     });
   }
   // r84 Golden Showdown: how many finished 10-season Showdowns each manager closed on the Golden total (150), counted from the completed
-  // rows this model already holds (the seam owns the rule). Only a career with one carries the field.
-  function v10GoldenShowdowns(model,frame){
+  // rows this model already holds (the seam owns the rule). Only a career with one carries the field, except the Trophy Room
+  // (r93, Nik 2026-11-14: the gold trophy waits in its case, unwon, as the goal), which always carries the counts.
+  function v10GoldenShowdowns(model,frame,always=false){
     const counts=v10Seam().goldenShowdownCounts(model.history&&model.history.showdowns);
-    if(counts.daniel>0||counts.nik>0)frame.goldenShowdowns=counts;
+    if(always||counts.daniel>0||counts.nik>0)frame.goldenShowdowns=counts;
   }
   // r86 Special Player chip (js/specialPlayerChip.js): the live Showdown's Special Players, else the most recently confirmed
   // Showdown's in this career. A career with no r86 Showdown carries no field (no chip).
@@ -88,7 +89,7 @@
     const records=room.records.filter(row=>v10Finite(row.value)&&row.value>0).map(row=>({label:String(row.label).toUpperCase(),manager:row.manager,value:row.value}));
     const frame={status,activeCategory:"ALL",managerOrder:MANAGERS.slice(),managers,standings,records,showdowns};
     if(status==="partial")frame.coverage={readable:model.coverage.readable,indexed:model.coverage.indexed};
-    v10GoldenShowdowns(model,frame);v10SpecialPlayers(model,frame);
+    v10GoldenShowdowns(model,frame,true);v10SpecialPlayers(model,frame);
     return frame;
   }
   // Pure: model + screen -> the frame Team V's renderer reads. loading and unavailable carry no numbers.
@@ -1666,7 +1667,28 @@
   background:radial-gradient(ellipse at 50% 30%,rgba(255,211,77,.30),rgba(255,211,77,0) 62%),linear-gradient(180deg,rgba(73,55,8,.55),rgba(7,8,10,.35)),#0d0c0a url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
   box-shadow:inset 0 0 0 2px rgba(17,15,12,.9),inset 0 0 0 3px rgba(255,211,77,.55),inset 0 0 22px rgba(242,196,91,.28);
 }
-#app #trophyRoom .trophyCard--golden .trophyCardPicture img {filter:drop-shadow(0 0 10px rgba(255,211,77,.65)) drop-shadow(0 5px 8px rgba(0,0,0,.72)) saturate(1.2) brightness(1.08)}
+#app #trophyRoom .trophyCard--golden .trophyCardPicture img {filter:drop-shadow(0 0 10px rgba(255,211,77,.65)) drop-shadow(0 5px 8px rgba(0,0,0,.72))}
+#app #trophyRoom .trophyCard--golden.trophyCard--goldTint .trophyCardPicture img {filter:sepia(.4) saturate(1.7) brightness(1.14) contrast(1.04) drop-shadow(0 0 10px rgba(255,211,77,.65)) drop-shadow(0 5px 8px rgba(0,0,0,.72))}
+/* r93: the gold case is always on the shelf. Until a manager earns it the trophy itself is greyed (the picture only, never the
+   case or the screen) and its line reads "150 in a 10-season Showdown"; the case keeps its gold edge so it reads as the goal. */
+#app #trophyRoom .trophyCard--golden.is-unwon .trophyCardPicture img {filter:grayscale(1) contrast(.9) drop-shadow(0 5px 8px rgba(0,0,0,.72))}
+#app #trophyRoom .trophyCard--golden.is-unwon {background:linear-gradient(180deg,rgba(40,34,20,.5),rgba(7,8,10,.35)),#0d0c0a url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;box-shadow:inset 0 0 0 2px rgba(17,15,12,.9),inset 0 0 0 3px rgba(255,211,77,.3)}
+#app #trophyRoom .trophyCard--golden.is-unwon .notWonYet {color:var(--sd-gold-200,#fff1b8)}
+/* r93: the GOLDEN tab makes seven tabs. Wide screens keep one row of seven; upright phones and tablets (and short sideways
+   windows below 481px tall, which share their layout) keep two rows, four over three, instead of a third row; short sideways
+   windows keep their single row of seven. */
+@media (min-width:901px) and (min-height:481px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+  #app #trophyRoom .trophyShelf .trophyTabs {grid-template-columns:repeat(7,minmax(0,1fr))}
+}
+@media (max-width:900px) and (orientation:portrait), (max-height:480px) and (orientation:landscape) {
+  #app #trophyRoom .trophyShelf .trophyTabs {grid-template-columns:repeat(12,minmax(0,1fr))}
+  #app #trophyRoom .trophyShelf .trophyTabs .trophyTab:nth-child(n) {grid-column:span 3}
+  #app #trophyRoom .trophyShelf .trophyTabs .trophyTab:nth-child(n+5) {grid-column:span 4}
+}
+@media (max-height:480px) and (orientation:landscape) {
+  #app #trophyRoom .trophyShelf .trophyTabs {grid-template-columns:repeat(7,minmax(0,1fr))}
+  #app #trophyRoom .trophyShelf .trophyTabs .trophyTab:nth-child(n),#app #trophyRoom .trophyShelf .trophyTabs .trophyTab:nth-child(n+5) {grid-column:auto}
+}
 #app #trophyRoom .trophyCard--golden h3 {color:var(--sd-gold-300,#ffd34d);text-shadow:0 1px 2px #000}
 #app #trophyRoom .trophyCard--golden .managerCounts strong {color:var(--sd-gold-200,#fff1b8)}
 #app #careerStatistics .goldenShowdownNote {

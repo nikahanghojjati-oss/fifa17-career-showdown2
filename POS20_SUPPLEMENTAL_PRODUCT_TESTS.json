@@ -3287,7 +3287,8 @@
     {
       "path": "tests/contracts/r93-golden-showdown-contracts.cjs",
       "patterns": [
-        "^js/(seasonFinalV10|careerScreenSeam)\\.js$",
+        "^js/(seasonFinalV10|careerScreenSeam|careerScreensV10)\\.js$",
+        "^visual-assets/v10_1/trophy-room/trophy-room\\.js$",
         "^tests/browser/phone-marble-facecheck-audit\\.cjs$",
         "^tests/contracts/r93\\-golden\\-showdown\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
