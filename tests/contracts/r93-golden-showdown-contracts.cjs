@@ -2,7 +2,7 @@
 // r93 Golden Showdown (Nik 2026-11-14; plan gameplay/r93/GOLDEN_SHOWDOWN_PLAN.md, build R93-01). A manager who closes a finished
 // 10-season Showdown on 150 (15, the most a season can score, in every season) earns the Golden Showdown. r93 gives it a moment
 // of its own: a Golden Showdown screen right BEFORE Final Winner (Nik's card 2026-11-14 16:33 UTC), with one button, SEE FINAL
-// WINNER. Pins (the parts that follow add GS4 and GS5):
+// WINNER; and the gold trophy gets its own case and GOLDEN tab in the Trophy Room (part B). Pins (part C adds GS5):
 //   GS1 the screen's rule is the career screens' rule (js/careerScreenSeam.js goldenShowdownManagers, G1-G3) on every row of
 //       the truth table: 150 and 140, 150-150 (a DRAW and Golden for both, never a winner), 149, sacked in season 10 with all
 //       10 played (still Golden, Rule Book), sacked in season 9, a 5-season 75 and a 3-season 45 (never Golden); on the live
@@ -11,6 +11,9 @@
 //       and the season strip is the verified history's own ten season totals once the history is read
 //   GS3 no Firestore read or write is added and nothing is stored but this device's "seen" mark (which only skips the
 //       entrance motion): the Golden code calls no provider and the page's Firestore calls are the ones it had
+//   GS4 Trophy Room: the gold case's counts are goldenShowdownCounts of the career's History rows, on every career (0 and 0
+//       too: the case is always on the ALL shelf and under its own GOLDEN tab, greyed with "150 in a 10-season Showdown" until
+//       won); the gold trophy is one picture, the same constant in the Trophy Room and on the Golden screen
 //   GS6 layout: the face check draws the Golden screen at every size (tests/browser/phone-marble-facecheck-audit.cjs GOLDEN,
 //       with SEE FINAL WINNER on screen or reached by scrolling and not under anything); its CSS keeps every block closed,
 //       no dimming layer, and its entrance is off under Reduce Motion
@@ -24,7 +27,7 @@ const ROOT=path.resolve(__dirname,"../..");
 const read=file=>fs.readFileSync(path.join(ROOT,file),"utf8");
 const Season=require("../../js/seasonFinalV10.js");
 const fx=require("../support/active-showdown-fixtures.cjs");
-const {projection,result}=require("../support/career-fixture-helpers.cjs");
+const {projection,result,finalFor}=require("../support/career-fixture-helpers.cjs");
 let checks=0;const ok=(id,text)=>{checks+=1;console.log(`ok ${checks} ${id} ${text}`);};
 const plain=x=>JSON.parse(JSON.stringify(x));
 
@@ -100,6 +103,37 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
   const count=re=>(src.match(re)||[]).length;
   assert.deepEqual([count(/readCompletedShowdown\(/g),count(/firestoreSdk/g),count(/getDoc/g),count(/setDoc|updateDoc|runTransaction|writeBatch|onSnapshot/g)],[1,3,3,0],"as at 2.5.0 (main 36b648ad)");
   ok("GS3","no Firestore read or write added; the Golden code stores nothing at all");
+}
+
+// GS4
+{
+  const Career=require("../../js/sharedCareerAnalytics.js"),Screens=require("../../js/careerScreensV10.js");
+  const p15=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,topScorer:true,primePack:4});
+  const p14=()=>result({leaguePosition:1,leaguePoints:101,leagueGoals:90,championsLeague:true,domesticCup:true,primePack:4});
+  const sd=(seed,total,pair)=>{const p=projection({seed,totalSeasons:total,seasons:Array.from({length:total},(_,i)=>pair(i))});return {rivalryId:p.rivalryId,classification:"completed",projection:p,final:finalFor(p)};};
+  const careers=[
+    [],
+    [sd("1",3,()=>[p15(),p14()])],
+    [sd("2",10,()=>[p15(),p14()])],
+    [sd("2",10,()=>[p15(),p14()]),sd("3",10,()=>[p15(),p15()]),sd("4",10,i=>[p14(),i===9?p14():p15()])]
+  ];
+  for(const showdowns of careers){
+    const model=Career.buildCareerModel({indexStatus:"ready",showdowns});
+    const frame=plain(Screens.toV10Frame(model,"trophyRoom"));if(frame.status!=="ready")continue;
+    assert.deepEqual(frame.goldenShowdowns,plain(Seam.goldenShowdownCounts(model.history.showdowns)),"the case counts the History rows");
+  }
+  const last=plain(Screens.toV10Frame(Career.buildCareerModel({indexStatus:"ready",showdowns:careers[3]}),"trophyRoom"));assert.deepEqual(last.goldenShowdowns,{daniel:2,nik:1});
+  const none=plain(Screens.toV10Frame(Career.buildCareerModel({indexStatus:"ready",showdowns:careers[1]}),"trophyRoom"));assert.deepEqual(none.goldenShowdowns,{daniel:0,nik:0},"unwon, still on the shelf");
+  assert.equal(plain(Screens.toV10Frame(Career.buildCareerModel({indexStatus:"ready",showdowns:careers[1]}),"careerStatistics")).goldenShowdowns,undefined,"Career Statistics only when won");
+  const room=read("visual-assets/v10_1/trophy-room/trophy-room.js"),binder=read("js/careerScreensV10.js");
+  assert.match(binder,/categories:\["ALL","SHOWDOWN","GOLDEN","LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE","EUROPA LEAGUE"\]/);
+  assert.match(binder,/goldenNotWonYet:"150 in a 10-season Showdown"/);
+  assert.match(room,/const GOLDEN = \{ key: "goldenShowdown", category: "GOLDEN", asset: GOLDEN_TROPHY\.src/);
+  assert.match(room,/state\.activeCategory === "ALL" \? TROPHIES\.concat\(golden\) : state\.activeCategory === GOLDEN\.category \? golden :/);
+  const roomSrc=/const GOLDEN_TROPHY = \{ src: BASE \+ "\.\.\/shared\/(trophies-hc\/[\w.]+)", tint: (true|false) \}/.exec(room),screenSrc=/const GOLDEN_TROPHY=Object\.freeze\(\{src:"visual-assets\/v10_1\/shared\/(trophies-hc\/[\w.]+)",tint:(true|false)\}\)/.exec(read("js/seasonFinalV10.js"));
+  assert.ok(roomSrc&&screenSrc);assert.deepEqual(roomSrc.slice(1),screenSrc.slice(1),"one gold trophy picture in both places");
+  assert.ok(fs.existsSync(path.join(ROOT,"visual-assets/v10_1/shared",roomSrc[1])),"the picture exists");
+  ok("GS4","the Trophy Room's gold case counts the History rows (0 and 0 too), has its own GOLDEN tab, and shows the same gold trophy as the Golden screen");
 }
 
 // GS6
