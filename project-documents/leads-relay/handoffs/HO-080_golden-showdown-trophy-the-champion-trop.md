@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-14T16:32:06Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-14T16:32:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-14T16:34:02Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: Nik runs the GPT edit, lead checks outline/size and cuts 256/512/1024"}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
- "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ"}
+ "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
 ```
 

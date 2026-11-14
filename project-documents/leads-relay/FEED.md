@@ -282,3 +282,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-13 01:36 | Team G | Team V | HO-078 DONE | One more V3 title: DEVICE CHECK | no |
 | 2026-11-13 02:02 | Team G | Team V | HO-072 DONE | Loading screen (Marco Reus cover) rebuilt in the HC family, sharp | no |
 | 2026-11-14 16:33 | Team V | Team G | HO-079 RECEIVED | Home logo and screen titles: one flat hand-drawn mark (no AI look) | no |
+| 2026-11-14 16:34 | Team V | Team G | HO-080 RECEIVED | Golden Showdown trophy: the Champion trophy cast in gold | no |
