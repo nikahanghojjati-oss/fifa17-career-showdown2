@@ -138,8 +138,9 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   {const sx=sandbox({gpu:strong,dpr:1,memory:32,cores:16});sx.G.profile();
    sx.store['careerModeShowdown.gfxCap.v1']=JSON.stringify({level:1,reason:'frame',at:Date.now()});
    assert.deepEqual([sx.G.suggested().now,sx.G.suggested().lowered],[1,true],'a cap saved elsewhere lowers the Auto line');
-   sx.store['careerModeShowdown.gfxCap.v1']='null';sx.store['careerModeShowdown.gfxMeasured.v2']=JSON.stringify({level:2,at:Date.now()});
-   assert.deepEqual([sx.G.suggested().now,sx.G.suggested().measured],[2,true],'a Device check saved elsewhere shows as measured');}
+   sx.store['careerModeShowdown.gfxCap.v1']='null';sx.store['careerModeShowdown.gfxMeasured.v2']=JSON.stringify({level:4,at:Date.now()});
+   // r92: the check only ever raises Auto, so the saved result is above this chip's Extra (a lower one is not read).
+   assert.deepEqual([sx.G.suggested().now,sx.G.suggested().measured],[4,true],'a Device check saved elsewhere shows as measured');}
   ok('G2','auto and named levels never above devicePixelRatio; ultra up to 2x within a 4K buffer; Settings key, unknown is auto, ?gfx forces');
 }
 // G3
@@ -273,7 +274,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
      const gc=s7c.G.governor(fakeRenderer(s7c.clock,()=>3),{key:'sp',draw(){}});gc.frame(16);gc.frame(32);s7c.G.fallback('the GPU dropped the picture (context lost)');gc.frame(48);
      const mc=postedC[postedC.length-1];assert.deepEqual([mc.phase,mc.asked,mc.level<2,mc.complete,mc.failed],['result',2,true,false,'the GPU dropped the picture (context lost)'],'a failure during the check is the result');}
     {const s8=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8});
-     assert.equal(s8.G.profile().level,2);s8.G.setMeasured(0);assert.deepEqual([s8.G.profile().level,s8.G.suggested().measured],[0,true],'a measured level is Auto');
+     assert.equal(s8.G.profile().level,2);s8.G.setMeasured(3);assert.deepEqual([s8.G.profile().level,s8.G.suggested().measured],[3,true],'a measured level is Auto (r92: at or above the chip level; a lower one is not read)');
      s8.G.setChoice('ultra');assert.equal(s8.G.profile().level,4,'a picked level still wins');s8.G.setChoice('auto');
      s8.G.clearMeasured();assert.equal(s8.G.profile().level,2,'forgetting goes back to the guess');}
     assert.ok(dc.includes('$("yoursTitle").innerHTML=`Your device <span>· ${esc(kind)}</span>`;'),'the Device check names the device class (r91: on the Your device card)');
@@ -381,7 +382,9 @@ function g8(){
 function g9(){
   // iPhone 17 class: Apple GPU, 3x, no deviceMemory (Safari), 6 cores.
   const s=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874]});
-  const p=s.G.profile();assert.deepEqual([p.level,p.phone,p.textureLevel],[2,true,2],'an iPhone starts High with full textures');
+  // r92 (Nik's iPhone 17 tab closed opening Chamber Men at High): the 3D scenes load the phone file set at High and above
+  // on a phone (textureLevel 1); the 2D plates keep High's (assetLevel 2). tests/contracts/r92-device-check-iphone-contracts.cjs.
+  const p=s.G.profile();assert.deepEqual([p.level,p.phone,p.assetLevel,p.textureLevel],[2,true,2,1],'an iPhone starts High, with the phone 3D file set');
   assert.ok(p.maxPixelRatio<=3,'never past 3x');
   const cal=sandbox({gpu:'Apple GPU',dpr:3,memory:null,cores:6,screen:[402,874]});
   const rc=fakeRenderer(cal.clock,()=>2,[402,874]);return cal.G.calibrate(rc,()=>{}).then(n=>{

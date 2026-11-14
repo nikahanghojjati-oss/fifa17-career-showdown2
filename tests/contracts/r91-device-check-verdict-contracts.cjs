@@ -43,7 +43,9 @@ async function run(answer, opts){
     classList: {add(){}, remove(){}}, addEventListener(type, f){ this.listeners[type] = f; }, replaceChildren(){}, setAttribute(){}});
   const messageListeners = new Set(), docListeners = {};
   const timers = new Map(); let timerId = 0;
-  const gpu = "ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)", big = o.gpu8k ? 16384 : 4096;
+  // r92: the check only ever raises Auto above the chip's level, so these verdicts run on a chip that starts at Light
+  // (an RTX 4080 starts at Extra, and a result below that is not saved: tests/contracts/r92-device-check-iphone-contracts.cjs D12).
+  const gpu = o.gpu || "ANGLE (Intel, Intel(R) UHD Graphics 620 Direct3D11 vs_5_0 ps_5_0, D3D11)", big = o.gpu8k ? 16384 : 4096;
   const deliver = (frame, data, source, origin) => { for(const f of [...messageListeners]) f({origin: origin || "https://game.test", source: source || frame.contentWindow, data}); };
   const doc = {
     visibilityState: "visible",
@@ -153,20 +155,20 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
     const spSlowAtHigh = (scene, level) => scene === "sp" && level === 2 ? [started(scene, level), good(scene, level, {avg: 48.3, p1low: 31})] : allGood(scene, level);
     const r = await run(spSlowAtHigh);
     assert.equal(r.saved.level, 1, "one screen not smooth at High: Auto is Balanced");
-    assert.deepEqual(r.asked, order(2), "nothing above the first level that is not smooth is tried");
+    assert.deepEqual(r.asked, [...order(2), "sp@2"], "nothing above the first level that is not smooth is tried (r92: the slow screen gets one second try)");
     assert.match(r.status, /High was not held: Special Player was not smooth there/);
     assert.deepEqual(r.saved.detail.stop, {level: 2, scene: "sp", state: "slow"});
     // The 1% low alone can fail a level; the first screen that is slow ends that level at once.
     const lows = await run((scene, level) => scene === "chamber-men" && level === 1 ? [good(scene, level, {avg: 59.5, p1low: 38})] : allGood(scene, level));
-    assert.equal(lows.saved.level, 0); assert.deepEqual(lows.asked, [...order(0), "chamber-men@1"]);
-    // Even Light not smooth: Light is still the lightest level, saved as not held.
+    assert.equal(lows.saved.level, 0); assert.deepEqual(lows.asked, [...order(0), "chamber-men@1", "chamber-men@1"]);
+    // Even Light not smooth: r92 (Nik's iPhone 17) saves nothing; tests/contracts/r92-device-check-iphone-contracts.cjs.
     const weak = await run((scene, level) => [good(scene, level, {avg: 24, p1low: 11})]);
-    assert.equal(weak.saved.level, 0); assert.equal(weak.saved.detail.held, false);
-    assert.match(weak.status, /Even Light was not smooth here \(Chamber Men\)/);
+    assert.equal(weak.saved, null); assert.deepEqual(weak.asked, ["chamber-men@0", "chamber-men@0"]);
+    assert.match(weak.status, /Light was not smooth on Chamber Men here, so Auto keeps /);
     // Too slow to finish its beat in the time allowed: the frames it did draw settle it (never "not verified" for ever).
     const crawl = await run((scene, level) => level === 1 && scene === "rrr" ? [good(scene, level, {avg: 0.8, p1low: 0.3, beats: 0, complete: false})] : allGood(scene, level));
     assert.equal(crawl.saved.level, 0, "a turn too slow to finish is slow");
-    ok("V5", "a screen that is not smooth settles its level: the level below is saved, nothing above is tried; even-Light-slow saves Light");
+    ok("V5", "a screen that is not smooth settles its level: the level below is saved, nothing above is tried; even-Light-slow saves nothing (r92)");
   }
   // V6
   {

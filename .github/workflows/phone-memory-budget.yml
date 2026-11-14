@@ -1,0 +1,67 @@
+# Phone memory budget: release check (r92, Nik's iPhone 17 closed the Safari tab while Chamber Men was opening at High).
+# Every 3D screen at High and Extra must fit 300 MB of GPU memory (textures + render buffers) on the iPhone 17 profile at the
+# level's top pixel ratio. See the header of tests/browser/phone-memory-budget.cjs. No Firebase, no network beyond checkout.
+# Where it runs: NOT as a pull_request workflow (tests/operations/pos10-authority.test.mjs keeps Showdown Gate the only one). It
+# runs on pushes to the release branches (gameplay/r<N>) when a 3D screen or the quality module changes, so the check appears on
+# the release PR's head commit next to Showdown Gate, and on manual dispatch.
+name: Phone memory budget
+
+on:
+  push:
+    branches: ['gameplay/r[0-9]*']
+    paths:
+      - 'js/gfxTier.js'
+      - 'js/chamberMenScene3d.js'
+      - 'js/chamberMenStadium*.js'
+      - 'device-check-chamber.html'
+      - 'visual-assets/v10_1/roulette/**'
+      - 'visual-assets/v10_1/special-player/**'
+      - 'visual-assets/v10_1/chamber-men/**'
+      - 'tests/browser/device-lab.cjs'
+      - 'tests/browser/phone-memory-budget.cjs'
+      - 'package.json'
+      - '.github/workflows/phone-memory-budget.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phone-memory-budget-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  phone-memory-budget:
+    name: Phone memory budget
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Restore Playwright and Chromium browser caches
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            /tmp/cms-chromium-runtime
+          key: showdown-gate-browsers-ubuntu-24.04-playwright-1.62.1-chromium-149.0.0-v1
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Phone memory budget (iPhone 17 profile, High and Extra, top pixel ratio)
+        run: node tests/browser/phone-memory-budget.cjs --out test-results/phone-memory-budget.json
+      - name: Upload phone memory report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: phone-memory-budget
+          path: test-results/phone-memory-budget.json
+          if-no-files-found: ignore
+          retention-days: 7
+          overwrite: true

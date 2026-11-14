@@ -93,6 +93,25 @@ names and no others.
   - Each scene starts its next visit where the last one settled (for the same built level).
   - A picked level never adapts, and neither does the Device check's frame.
 
+## Phones: the 3D file set (r92)
+
+On a phone (shortest screen side under 700 px) the 3D scenes load the phone file set at High and above
+(`profile().textureLevel` at most 1); `assetLevel`, and so the 2D plates, keep the level's own size. Nik's iPhone 17 closed
+the Safari tab while Chamber Men was opening at High: on the iPhone profile Chamber Men loaded about 427 MB of textures at
+High and 579 MB at Extra, against 95 MB at Balanced, for a picture about 590x390 pixels. With the phone set: High 164 MB,
+Extra 189 MB (`tests/browser/device-lab.cjs`, cpu mode). The Special Player card art stops at 2x on a phone (2.5x on a
+computer at Extra and above): at Extra on the iPhone profile its card faces went from 170 to 109 MB, the screen from 327 to
+266 MB. A phone never asks for more than 4 MSAA samples (`samples()`), which halves Special Player's half-float target at
+Extra where the chip lists 8.
+
+**Phone memory budget (every release).** `tests/browser/phone-memory-budget.cjs` measures each 3D screen at High and Extra
+on the iPhone 17 profile at the level's top pixel ratio (`?gfx=N&gfxpr=top`, read only with a forced level) and fails over
+300 MB of textures + render buffers. `.github/workflows/phone-memory-budget.yml` runs it on pushes to `gameplay/r<N>`.
+At Extra a phone's sharpness stops at 2.25x (`PHONE_EXTRA_PR`): at 3x Special Player took about 370 MB. r92 numbers
+(MB, High / Extra): Chamber Men 166 / 190, Roulette 214 / 226, Special Player 241 / 263.
+iOS also keeps decoded image copies, so a real iPhone uses more than it counts; only a real iPhone proves a level opens. The Device check's frames and the Special Player page also hand
+their GPU memory back when they are closed, as Roulette does.
+
 ## The Device check
 
 `device-check.html` (Settings › 3D QUALITY › Device check…) is the only thing that saves a measured level.
@@ -104,9 +123,22 @@ names and no others.
   - drew the level that was asked (the frame reports both, with its pixel ratio and buffer size);
   - played one whole beat (the kick, the turn, the reveal) while it was timed;
   - used the full files for that level (never the lighter stand-in set of a slow connection);
-  - held 60 fps: an average of 57 fps or more and a 1% low of 45 fps or more.
-- A screen that is not smooth, or where the GPU gave up (a lost context, out of memory, a refused 8K buffer), settles that
-  level: Auto becomes the level below, and nothing above is tried.
+  - held 60 fps: an average of 57 fps or more, and no stutter: at most 2 frames in 100 late (over 25 ms) and no frame over
+    100 ms (r92, Nik's iPhone 17 run 4: Special Player at Light averaged 60 fps with the GPU at 2 ms and failed the old
+    1% low of 45 on three missed refreshes). An answer without those counts (an older frame) keeps the 1% low of 45.
+- A screen that is not smooth is played once more at the same level before it counts (r92, Nik's iPhone 17: one hitch of
+  about a tenth of a second fails the 1% low over a 10 s run). Two slow tries settle the level. A second try that gives no
+  clean answer leaves the first one standing. Failed and not-verified answers are not tried again.
+- A screen that is not smooth twice, or where the GPU gave up (a lost context, out of memory, a refused 8K buffer), settles
+  that level: Auto becomes the level below, and nothing above is tried.
+- **The check only ever raises Auto** (r92, Nik 2026-11-14): Auto is the higher of the check's result and the level the
+  graphics chip starts at. A result below the chip's level is not saved (an earlier one is let go, and the page says Auto
+  stays on the chip's level), and one saved by 2.4.0 below it is not read (`gfxMeasured`).
+- Even Light not smooth saves nothing (r92): there is no level below Light, so it cannot show which level is too heavy.
+  Auto keeps the last good result or its guess, and the page says so. A 2.4.0 result that saved Light "not held" is not
+  read (`gfxMeasured`), so such a device goes back to its guess.
+- Each timed screen reports its slowest frame, when it came (seconds into the screen) and how many frames took over 25 ms,
+  so a real device's table shows whether it was one hitch or a level too heavy.
 - Anything else leaves the level **not verified**: a screen that did not start, no answer, a beat that did not finish, a
   different level drawn, a smaller buffer than asked. The check ends there, nothing is saved, and the last good result
   stays.

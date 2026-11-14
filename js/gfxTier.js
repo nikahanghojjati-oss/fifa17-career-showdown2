@@ -22,7 +22,7 @@
     // r90 (Nik 2026-11-07, "8K as well as 4K"): on a GPU that can hold a 7680 px buffer, never on a phone; picked, or (r91) measured by the Device check.
     {pr:2,max:8,shadowSize:4096,density:1,bloom:true}
   ];
-  const BUDGET_MS=16.7,BUFFER_CAP=3840*2160,BUFFER_CAP_8K=7680*4320,PHONE_MAX_PR=3;
+  const BUDGET_MS=16.7,BUFFER_CAP=3840*2160,BUFFER_CAP_8K=7680*4320,PHONE_MAX_PR=3,PHONE_TEX_MAX=1,PHONE_MSAA_MAX=4,PHONE_EXTRA_PR=2.25;
   // "Never crash" first (Nik 2026-11-08): a lost context, an out-of-memory error, or (8K) a buffer or target the GPU would
   // not give drops this device one level below the one that failed and remembers it (any level, Auto or picked) until the
   // player picks a level again in Settings.
@@ -57,9 +57,17 @@
   function gfxChoice(){const c=String(gfxRead(KEY)||"auto").toLowerCase();return CHOICES.includes(c)?c:"auto";}
   // A picked choice is its level: light 0 .. ultra 4, 8k 5.
   function gfxChoiceLevel(c){return CHOICES.indexOf(c)-1;}
+  // r92 (Nik 2026-11-14, iPhone 17): a 2.4.0 check where even Light was not smooth saved Light "not held", and that
+  // replaced a High guess for good. A stall at Light says nothing about which level the device can hold (there is no level
+  // below), so such a result is not read: Auto goes back to its guess. A check never saves one now (device-check.html).
+  // r92 (Nik 2026-11-14, "Go" on the simple plan): the check only ever raises Auto. Auto is the higher of the check's
+  // result and the level the graphics chip starts at, so a result below the chip's level (one saved by 2.4.0) is not read.
   function gfxMeasured(){
-    try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");return m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=5?m:null;}catch(_error){return null;}
+    try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");if(!(m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=5&&!(m.detail&&m.detail.held===false)))return null;
+      return m.level>=gfxChipLevel()?m:null;}catch(_error){return null;}
   }
+  // The level Auto starts at from the graphics chip and the device (memory, threads, phone): the check's floor.
+  function gfxChipLevel(){try{return gfxClassify(gfxGpuInfo().name,gfxScreenEnv()).level;}catch(_error){return 0;}}
 
   // The GPU's own name and its largest buffer and texture, from a throwaway context (released at once). r90 MOTION round 2:
   // the first WebGL context of a page starts the GPU side (735-887 ms on a Chromebook, one long task), so the answer is kept
@@ -257,6 +265,9 @@
     // governor checks). A phone never draws past 3x its CSS size, nor past a 4K buffer (iOS memory).
     let max=level>=4?Math.max(dpr,(level===5?4:2)*dpr):Math.min(L.max,dpr);
     if(phone)max=Math.min(max,Math.max(1,Math.min(PHONE_MAX_PR,dpr)));
+    // r92 phone memory budget (tests/browser/phone-memory-budget.cjs): at Extra a phone stops at 2.25x. At 3x Special
+    // Player's targets took it to about 370 MB on the iPhone 17 profile, over the 300 MB a phone screen may use.
+    if(phone&&level===3)max=Math.min(max,PHONE_EXTRA_PR);
     const min=Math.min(1,dpr,max),assetLevel=Math.max(0,Math.min(4,phone&&level<2?level-1:level)-(base.slowNet?1:0));
     // r91 (device lab, 2026-11-11): the buffer cap holds from the very first allocation. A scene sizes its first buffer from
     // pixelRatio before its governor exists, and 2.3.0 capped only in the governor: 8K picked on a 4K monitor first asked for
@@ -273,14 +284,21 @@
     }
     // No size known at all (review on #1399): never past native until the governor has the canvas size.
     else start=Math.max(min,Math.min(start,dpr));
+    // r92 memory proof (tests/browser/phone-memory-budget.cjs): ?gfx=N&gfxpr=top starts at the level's ceiling, the most the
+    // governor may reach in play, so the memory measured is the most that level can hold (a phone within its 4K buffer).
+    if(base.top)start=Math.max(start,Math.min(max,phone&&view?Math.sqrt(BUFFER_CAP/view):max));
     return {level,name:NAMES[level],choice:base.choice,gpu:base.gpu,software:base.software,dpr,phone,can8k:Boolean(base.can8k),fellBack,
       // Ultra starts at native at least (a 3x phone or 8K screen); 8K starts at its ceiling, which the governor holds to a
       // 7680x4320 buffer for the live canvas (a 1080p screen draws 4x). Past native always stays within the buffer cap.
       pixelRatio:start,maxPixelRatio:max,minPixelRatio:min,
       bufferCap:level===5?BUFFER_CAP_8K:BUFFER_CAP,
       // Textures and models by level; a phone below High loads one size down (iOS memory), and so does a slow or Save-Data
-      // connection. 8K uses Ultra's assets. assetLevel is what screens download; textureLevel is the same value (older name).
-      assetLevel,textureLevel:assetLevel,slowNet:Boolean(base.slowNet),
+      // connection. 8K uses Ultra's assets. assetLevel is what screens download (the 2D plates too).
+      // textureLevel is what the 3D scenes load. r92 (Nik's iPhone 17, 2026-11-14: the Safari tab closed while Chamber Men
+      // was opening at High): on a phone it stops at PHONE_TEX_MAX, the phone file set. Chamber Men at High loaded about
+      // 427 MB of textures on the iPhone profile (95 MB at Balanced) for a picture about 590x390 pixels, where the larger
+      // files cannot be seen; iOS closes a tab well before the phone's memory is full.
+      assetLevel,textureLevel:phone?Math.min(assetLevel,PHONE_TEX_MAX):assetLevel,slowNet:Boolean(base.slowNet),
       antialias:!base.software,shadowSize:L.shadowSize,density:L.density,bloom:L.bloom};
   }
   function gfxProfile(){
@@ -298,8 +316,8 @@
       const want=level===5&&!can8k?4:level,ok=gfxPickable(level,env,can8k,measured);
       if(ok<want){gated=level;level=ok;}
     }
-    const bench=forcedLevel!==null&&gfxQuery("bench")==="1";
-    cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,slowNet:gfxSlowNet(),choice:forcedLevel!==null?`gfx=${forcedLevel}`:c,bench});
+    const bench=forcedLevel!==null&&gfxQuery("bench")==="1",top=forcedLevel!==null&&gfxQuery("gfxpr")==="top";
+    cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,slowNet:gfxSlowNet(),choice:forcedLevel!==null?`gfx=${forcedLevel}`:c,bench,top});
     cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=autoLevel;cached.measured=Boolean(measured);cached.guessLevel=auto.level;cached.strongPhone=Boolean(auto.strongPhone);
     // What was asked for by ?gfx=N (null otherwise): the Device check compares it with what was drawn.
     cached.asked=forcedLevel;
@@ -345,8 +363,12 @@
   // (RGBA16F with hdr, else RGBA8) and DEPTH_COMPONENT24 (W3's fix on #1265; MAX_SAMPLES alone is not enough). Without the
   // query: 4, then 0.
   const sampleLists=new WeakMap();
+  // r92: a phone never asks for more than PHONE_MSAA_MAX (4) samples. At Extra an 8-sample half-float target with its depth
+  // buffer is about twice the memory of a 4-sample one (Special Player on an iPhone: ~146 MB of targets against ~78 MB),
+  // and iOS closes a tab long before the phone's memory is full.
   function gfxSamples(renderer,want,hdr){
-    const w=Math.max(0,Math.floor(Number(want)||0));if(!w)return 0;
+    let w=Math.max(0,Math.floor(Number(want)||0));if(!w)return 0;
+    try{if(gfxProfile().phone)w=Math.min(w,PHONE_MSAA_MAX);}catch(_error){}
     let byFormat=sampleLists.get(renderer);if(!byFormat){byFormat={};try{sampleLists.set(renderer,byFormat);}catch(_error){}}
     const k=hdr?"hdr":"ldr";
     if(!(k in byFormat)){
@@ -631,11 +653,18 @@
 
   // Device check recorder: frame-to-frame times from the scene's own loop for BENCH_MS (after a short settle), then a few
   // timed draws (the GPU cost, which a 60 Hz screen hides), posted once to the parent page and fired as an event here.
-  function gfxBenchStats(dts){
+  // r92: ats (optional, ms since the screen began to play, one per frame) names when the slowest frame came, so a Device check
+  // result on a real phone says which moment of the kick, turn or reveal stalled.
+  function gfxBenchStats(dts,ats){
     const n=dts.length;if(!n)return {frames:0,avg:0,p1low:0,ms:0};
     const total=dts.reduce((a,b)=>a+b,0),sorted=dts.slice().sort((a,b)=>b-a),worst=sorted.slice(0,Math.max(1,Math.ceil(n/100)));
     const ms=total/n,worstMs=worst.reduce((a,b)=>a+b,0)/worst.length;
-    return {frames:n,avg:+(1000/ms).toFixed(1),p1low:+(1000/worstMs).toFixed(1),ms:+ms.toFixed(2)};
+    const out={frames:n,avg:+(1000/ms).toFixed(1),p1low:+(1000/worstMs).toFixed(1),ms:+ms.toFixed(2)};
+    // late: frames that took over 25 ms (a missed refresh at 60 Hz). Many late frames is a level too heavy; one or two slow
+    // ones is a hitch (a first upload, a pause in the browser).
+    if(Array.isArray(ats)&&ats.length===n){let at=0;for(let i=1;i<n;i+=1)if(dts[i]>dts[at])at=i;
+      out.slowest=[+dts[at].toFixed(1),+(ats[at]/1000).toFixed(1)];out.late=dts.filter(d=>d>25).length;}
+    return out;
   }
   // What the canvas really is: its CSS box and the drawing buffer the browser gave (8K: a browser may give less than asked).
   function gfxBenchSize(renderer){
@@ -648,7 +677,7 @@
   // whether a whole beat was played and whether the GPU gave up on the way, so the Device check can refuse a result that is
   // not a clean measurement of the level it asked for. "started" is posted when the scene is built and about to draw.
   function gfxBench(renderer,draw,key,prof,pr,info){
-    let start=0,last=0,done=false,beats=0,heldAt=0,holding=false;const dts=[],scene=key||"scene",first=prof();
+    let start=0,last=0,done=false,beats=0,heldAt=0,holding=false;const dts=[],ats=[],scene=key||"scene",first=prof();
     const post=m=>{try{root.dispatchEvent?.(new root.CustomEvent("cms-gfx-bench",{detail:m}));}catch(_error){}
       try{if(root.parent&&root.parent!==root)root.parent.postMessage(m,root.location.origin);}catch(_error){}};
     const finish=complete=>{
@@ -658,7 +687,7 @@
       let extra=null;try{extra=typeof info==="function"?info():null;}catch(_error){extra=null;}
       post({type:"cms-gfx-bench",phase:"result",scene,asked:first.asked,level:p.level,name:p.name,label:LABELS[p.level],pixelRatio:pr(),...gfxBenchSize(renderer),
         beats,complete:Boolean(complete),failed:benchFailed||null,software:Boolean(p.software),gpu:p.gpu,
-        ...gfxBenchStats(dts),drawMs:draws.length?+draws[Math.floor(draws.length/2)].toFixed(2):null,...(extra&&typeof extra==="object"?{info:extra}:{})});
+        ...gfxBenchStats(dts,ats),drawMs:draws.length?+draws[Math.floor(draws.length/2)].toFixed(2):null,...(extra&&typeof extra==="object"?{info:extra}:{})});
     };
     post({type:"cms-gfx-bench",phase:"started",scene,asked:first.asked,level:first.level});
     return {
@@ -669,7 +698,7 @@
         if(!start){start=t;last=t;return;}
         const dt=t-last;last=t;
         if(t-start<BENCH_SETTLE_MS)return;
-        dts.push(dt);
+        dts.push(dt);ats.push(t-start);
         if(t-start>=BENCH_SETTLE_MS+BENCH_MAX_MS){finish(false);return;}
         if(t-start>=BENCH_SETTLE_MS+BENCH_MS&&beats>=1)finish(true);
       },

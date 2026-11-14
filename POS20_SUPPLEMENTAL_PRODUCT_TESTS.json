@@ -3270,6 +3270,20 @@
         "^js/(rosterRouletteStep|iconGuessStep|chamberMenStep|productionSharedTerminalClose)\\.js$",
         "^tests/contracts/r91-end-closes-stages-contracts\\.cjs$"
       ]
+    },
+    {
+      "path": "tests/contracts/r92-device-check-iphone-contracts.cjs",
+      "patterns": [
+        "^device-check(?:-chamber)?\\.html$",
+        "^js/gfxTier\\.js$",
+        "^js/chamberMenScene3d\\.js$",
+        "^visual-assets/v10_1/special-player/index\\.html$",
+        "^docs/QUALITY_LEVELS\\.md$",
+        "^tests/browser/(?:device-lab|phone-memory-budget)\\.cjs$",
+        "^\\.github/workflows/phone-memory-budget\\.yml$",
+        "^tests/contracts/r92\\-device\\-check\\-iphone\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

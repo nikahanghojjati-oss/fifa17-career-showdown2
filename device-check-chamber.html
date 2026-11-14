@@ -35,6 +35,10 @@ html,body{margin:0;height:100%;background:#050505;overflow:hidden}
     try{api=await window.CareerModeChamberMen3d.mount(svg,{clubs:CLUBS,fullFiles:true});}catch(_error){api=null;}
     if(!api){tell({error:"The 3D scene did not start on this device (no WebGL2, or it loaded too slowly)."});return;}
     window.__cmBenchReady=true;
+    // r92 (Nik's iPhone 17: the Safari tab closed in the Device check): the check removes this frame when the screen is timed,
+    // and a removed frame never draws again, so the scene would keep its GPU memory until the garbage collector. It is
+    // handed back here at once, so the next screen starts with it free.
+    addEventListener("pagehide",e=>{if(e.persisted)return;try{api.dispose();}catch(_error){}});
     let n=0;
     const next=()=>{
       const [shot,dive,goal]=KICKS[n%KICKS.length],round=1+(n%7),odd=n%2===1;

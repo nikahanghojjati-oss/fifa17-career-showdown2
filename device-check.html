@@ -109,7 +109,7 @@ h2 span{color:var(--mute);font-weight:600}
 <body>
 <main>
   <h1>DEVICE CHECK</h1>
-  <p class="lede">Plays a Chamber Men kick, a Russian Roulette turn and a Special Player reveal at each 3D quality level, lightest first. Auto is then set to the best level all three keep smooth at 60 fps. It stops at the first level that is not smooth and takes a few minutes. Keep this tab open and in front. Nothing in your Showdown changes.</p>
+  <p class="lede">Plays a Chamber Men kick, a Russian Roulette turn and a Special Player reveal at each 3D quality level, lightest first. Auto is then set to the best level all three keep smooth at 60 fps, with no stutter. A screen that is not smooth is played once more before it counts, and the check stops at the first level that is still not smooth. It only ever raises Auto above the level your graphics chip starts at. It takes a few minutes. Keep this tab open and in front. Nothing in your Showdown changes.</p>
   <section class="card" id="yours" aria-labelledby="yoursTitle" hidden>
     <h2 id="yoursTitle">Your device</h2>
     <dl id="parts" class="parts"></dl>
@@ -157,8 +157,13 @@ h2 span{color:var(--mute);font-weight:600}
     {key:"rrr",name:"Russian Roulette",beat:"turn",path:"visual-assets/v10_1/roulette/index.html"},
     {key:"sp",name:"Special Player",beat:"reveal",path:"visual-assets/v10_1/special-player/index.html"}
   ];
-  // Holds 60 fps: the average stays within 5% of 60 and the worst 1% of frames stays above 45 fps.
+  // Holds 60 fps: the average stays within 5% of 60, and the picture does not stutter.
+  // r92 (Nik's iPhone 17, run 4: Special Player at Light averaged 60 fps with the GPU at 2 ms and failed on a 1% low of 44.3):
+  // the worst 1% of a 10 s run is about 6 frames, so three refreshes missed in 10 s failed a screen nobody could see stutter.
+  // Stutter is now: more than 2 frames in 100 late (over 25 ms, a missed refresh at 60 Hz), or any one frame over 100 ms
+  // (a freeze of about six refreshes). An answer from an older frame without those counts keeps the 1% low rule (45 fps).
   const SMOOTH_AVG=57,SMOOTH_LOW=45;
+  const SMOOTH_LATE=.02,SMOOTH_STALL_MS=100;
   // A screen has LOAD_WAIT_MS to load its files and build (a cold cache on a slow line), then MEASURE_WAIT_MS to play.
   const LOAD_WAIT_MS=180000,MEASURE_WAIT_MS=120000;
   const $=id=>document.getElementById(id);
@@ -167,7 +172,11 @@ h2 span{color:var(--mute);font-weight:600}
   let running=false,aborted="";
 
   function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
-  function smooth(r){return r.avg>=SMOOTH_AVG&&r.p1low>=SMOOTH_LOW;}
+  function smooth(r){
+    if(!(r.avg>=SMOOTH_AVG))return false;
+    if(Number.isFinite(r.late)&&Array.isArray(r.slowest))return r.late<=r.frames*SMOOTH_LATE&&r.slowest[0]<=SMOOTH_STALL_MS;
+    return r.p1low>=SMOOTH_LOW;
+  }
   // What one screen's answer is worth at one level. "smooth" and "slow" are clean measurements of the asked level; "failed"
   // means the graphics chip gave up at it (as final as "slow"); "unverified" means the answer does not prove anything about
   // the level either way.
@@ -208,7 +217,20 @@ h2 span{color:var(--mute);font-weight:600}
     if(j.state==="unverified")return `<span class="unsure">not verified</span><small>${esc(j.why)}</small>`;
     if(j.state==="failed")return `<span class="no">failed</span><small>${esc(j.why)}</small>`;
     const size=Array.isArray(r.size)&&r.size[0]?` · ${r.size[0]}×${r.size[1]}`:"";
-    return `<span class="${j.state==="smooth"?"ok":"no"}">${r.avg} fps</span><small>1% low ${r.p1low} · ${r.ms} ms${r.drawMs!=null?` · GPU ${r.drawMs} ms`:""}${size} · ×${(+r.pixelRatio).toFixed(2)}</small>`;
+    return `<span class="${j.state==="smooth"?"ok":"no"}">${r.avg} fps</span><small>1% low ${r.p1low} · ${r.ms} ms${r.drawMs!=null?` · GPU ${r.drawMs} ms`:""}${size} · ×${(+r.pixelRatio).toFixed(2)}</small>${frames(r)}${tryNote(r)}`;
+  }
+  // r92 (Nik's iPhone 17): where the time went. The slowest frame and when it came (seconds into the screen), and how many
+  // frames missed a refresh: one slow frame is a hitch, many are a level too heavy.
+  function frames(r){
+    if(!Array.isArray(r.slowest))return "";
+    return `<small>slowest frame ${r.slowest[0]} ms at ${r.slowest[1]} s · ${r.late} late ${r.late===1?"frame":"frames"}</small>`;
+  }
+  // A screen not smooth on its first try is played once more; the table shows the second try and what the first one was.
+  function tryNote(r){
+    if(r.retryWhy!=null)return `<small>The second try gave no clean answer: ${esc(r.retryWhy)}</small>`;
+    const f=r.firstTry;if(!f)return "";
+    const was=Number.isFinite(f.avg)?`${f.avg} fps, 1% low ${f.p1low}${Array.isArray(f.slowest)?`, slowest frame ${f.slowest[0]} ms at ${f.slowest[1]} s`:""}`:"no clean answer";
+    return `<small>Second try. First try: ${esc(was)}.</small>`;
   }
   function draw(){
     rows.innerHTML=LEVELS.slice(0,TOP+1).map((name,i)=>{
@@ -237,7 +259,6 @@ h2 span{color:var(--mute);font-weight:600}
     const level=m?m.level:d.level,name=LEVELS[level]||LEVELS[1];
     const held60=m&&m.detail&&typeof m.detail.held==="boolean"?m.detail.held:null;
     const why=!m?`Auto starts there on a device like this. Run the check to measure yours: Auto then uses the best level it kept smooth.`
-      :held60===false?`Measured on this device: even ${LEVELS[0]} was not smooth, so Auto stays on ${LEVELS[0]}, the lightest level.`
       :held60?`Measured on this device: it holds 60 fps at ${name} on all three 3D screens. Auto uses it.`
       :`The check measured ${name} on this device. Auto uses it.`;
     $("suggest").innerHTML=`We suggest <b>${esc(name)}</b><small>${esc(why+wait)}</small>`;
@@ -290,7 +311,10 @@ h2 span{color:var(--mute);font-weight:600}
     running=true;aborted="";startBtn.disabled=true;forgetBtn.hidden=true;result.innerHTML="";
     for(const r of results)for(const k of Object.keys(r))delete r[k];
     draw();
-    // The first level that is not smooth ends the climb: nothing above it is tried.
+    // The first level that is not smooth ends the climb: nothing above it is tried. r92 (Nik's iPhone 17): a screen that
+    // is not smooth is played once more at the same level (its files are cached by then) before it counts, so one hitch
+    // (a first upload, a pause in the browser) does not fail a level. Two slow tries do. Failed and not-verified answers
+    // are not tried again: they say something other than "too heavy".
     let ended=null;
     for(let level=0;level<=TOP;level+=1){
       let settled=false;
@@ -299,10 +323,19 @@ h2 span{color:var(--mute);font-weight:600}
         if(ended||settled){results[level][scene.key]={skipped:true};continue;}
         status.textContent=`${scene.name} · ${LEVELS[level]} (${level+1} of ${TOP+1})…`;
         const tc=tabCrash();
-        const got=tc&&level>tc.level?{crashed:true}:await wait(scene,level);
+        let got=tc&&level>tc.level?{crashed:true}:await wait(scene,level);
         if(got&&got.aborted)break;
         results[level][scene.key]=got;
         draw();
+        if(judge(level,scene,got).state==="slow"){
+          status.textContent=`${scene.name} · ${LEVELS[level]} (${level+1} of ${TOP+1}), second try…`;
+          const again=await wait(scene,level);
+          if(again&&again.aborted)break;
+          // A second try that gives no clean answer (it did not start, did not finish) does not undo the first, clean one.
+          const j2=judge(level,scene,again);
+          got=j2&&j2.state==="unverified"?{...got,retryWhy:j2.why||""}:{...again,firstTry:got};results[level][scene.key]=got;
+          draw();
+        }
         // One screen that is slow, failed or proves nothing settles this level; the other screens are not played for it.
         const j=judge(level,scene,got);
         if(j.state!=="smooth"){settled=true;ended={level,scene,state:j.state,why:j.why||""};}
@@ -322,15 +355,32 @@ h2 span{color:var(--mute);font-weight:600}
       showSaved(`The check did not finish, so nothing changed.${passed}`);
       return;
     }
-    const level=Math.max(0,best);
-    const pick=r=>r&&Number.isFinite(r.avg)?[r.avg,r.p1low,+(+r.pixelRatio).toFixed(2),...(Array.isArray(r.size)?r.size:[0,0])]:null;
-    T.setMeasured(level,{scenes:SCENES.map(s=>s.key),held:best>=0,
-      stop:ended?{level:ended.level,scene:ended.scene.key,state:ended.state}:null,
-      levels:results.slice(0,TOP+1).map(r=>Object.fromEntries(SCENES.map(s=>[s.key,pick(r[s.key])])))});
-    status.textContent=best<0?`Even Light was not smooth here (${ended.scene.name}), so Auto is set to Light, the lightest level.`
-      :ended&&results[ended.level][ended.scene.key]&&results[ended.level][ended.scene.key].crashed?`Check done. ${LEVELS[ended.level]} was not tried: the tab closed at that level last time.`
+    // r92 (Nik's iPhone 17, Apple GPU guessed High): even Light not smooth, twice. There is no level below Light, so this
+    // cannot show which level is too heavy here; it must not replace the guess or a good earlier result. Nothing is saved.
+    if(best<0){
+      let keeps=LEVELS[1];try{const m=T.measured();keeps=LEVELS[m?m.level:T.device().guessLevel]||keeps;}catch(_error){}
+      status.textContent=`${LEVELS[0]} was not smooth on ${ended.scene.name} here, so Auto keeps ${keeps}. Check again later.`;
+      showSaved("Nothing changed.");
+      return;
+    }
+    const level=best;
+    const why=ended&&results[ended.level][ended.scene.key]&&results[ended.level][ended.scene.key].crashed?`Check done. ${LEVELS[ended.level]} was not tried: the tab closed at that level last time.`
       :ended?`Check done. ${LEVELS[ended.level]} was not held: ${ended.scene.name} ${ended.state==="failed"?"failed":"was not smooth"} there.`
       :`Check done. Every level up to ${LEVELS[TOP]} was smooth.`;
+    // r92 (Nik 2026-11-14, "Go" on the simple plan): the check only ever raises Auto above the level the graphics chip
+    // starts at. A result below it is not saved, and an earlier result is let go: Auto is the chip's level again.
+    let chip=0;try{chip=T.device().guessLevel;}catch(_error){chip=0;}
+    if(level<chip){
+      T.clearMeasured();
+      status.textContent=`${why} Auto stays on ${LEVELS[chip]}, the level your graphics chip starts at. The check only ever raises Auto.`;
+      showSaved();
+      return;
+    }
+    const pick=r=>r&&Number.isFinite(r.avg)?[r.avg,r.p1low,+(+r.pixelRatio).toFixed(2),...(Array.isArray(r.size)?r.size:[0,0])]:null;
+    T.setMeasured(level,{scenes:SCENES.map(s=>s.key),held:true,
+      stop:ended?{level:ended.level,scene:ended.scene.key,state:ended.state}:null,
+      levels:results.slice(0,TOP+1).map(r=>Object.fromEntries(SCENES.map(s=>[s.key,pick(r[s.key])])))});
+    status.textContent=why;
     showSaved();
   }
   // A hidden tab stops drawing, so its numbers would be wrong: stop and say so.
