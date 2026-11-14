@@ -230,6 +230,10 @@
   // ---------- the stage ----------
   function sqsEl(tag,className,text){const node=sqsDoc().createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=String(text);return node;}
   function sqsRemove(){const node=sqsDoc()?.getElementById(STAGE_ID);if(node)node.remove();}
+  // The Squad stage is on top (opaque, same level, appended later): Chamber Men's stage under it goes now, so its 3D goal stops
+  // drawing every frame behind the squad (Gate L6 2026-11-13 found it still up and running under the Squad screen). Called
+  // after the Squad stage is in the page, in the same task, so no frame ever shows what is under both (Reus Gate).
+  function sqsChamberDown(){try{root.CareerModeChamberMenStep?.close?.();}catch(_error){}}
   let loading=null;
   function sqsLoadingOn(){
     const doc=sqsDoc(),el=doc&&doc.getElementById("loadingScreen");if(!el||loading)return;
@@ -278,7 +282,7 @@
       const actions=sqsEl("div","sqActions");
       const retry=sqsEl("button","menuButton sqRetry","TRY AGAIN");retry.type="button";retry.addEventListener("click",()=>{retry.disabled=true;resolve("retry");});
       const back=sqsEl("button","sqBack","BACK TO SHOWDOWN HOME");back.type="button";back.addEventListener("click",()=>{back.disabled=true;resolve("back");});
-      actions.append(retry,back);shell.append(actions);sqsDoc().body.append(stage);
+      actions.append(retry,back);shell.append(actions);sqsDoc().body.append(stage);sqsChamberDown();
     });
   }
   function sqsReadText(built){
@@ -351,7 +355,7 @@
           return {ok:true,reason:"Squad locked."};
         }});
       if(!mounted){finish({retry:true,text:"The squad screen could not load. Try again."});return;}
-      sqsDoc().body.append(stage);sqsLoadingOff();
+      sqsDoc().body.append(stage);sqsChamberDown();sqsLoadingOff();
       if(built.sheet)afterLock(built.doc);
       else say(ctx.stage==="pre"?`Set your squad for Season ${ctx.season}, then lock it. Your XI and subs 1-4 go on the Russian Roulette board. ${rivalName} cannot see it here.`:"Your kept signings are in and the Roulette's shot has left. Set your squad, then lock it.");
     });
