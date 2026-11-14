@@ -3283,6 +3283,15 @@
         "^tests/contracts/r92\\-device\\-check\\-iphone\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r93-golden-showdown-contracts.cjs",
+      "patterns": [
+        "^js/(seasonFinalV10|careerScreenSeam)\\.js$",
+        "^tests/browser/phone-marble-facecheck-audit\\.cjs$",
+        "^tests/contracts/r93\\-golden\\-showdown\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

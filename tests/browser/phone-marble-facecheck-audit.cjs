@@ -75,6 +75,16 @@ const uprightPhone = (w, h) => w < 600 && h > w;
 // 16 levels keeps the shared film grain (sd-stage__grain, about 4 levels) out and still sees dark type on a dark jacket.
 const FACE_LIMIT_PCT = 1, INK = Number(process.env.CMS_FACECHECK_INK) || 16;
 const showdown = fixtures.completedShowdownStorage();
+// r93 Golden Showdown (GS6): a finished 10-season Showdown closed on 150-150 (15 every season each: a DRAW, Golden for both),
+// so the Golden Showdown screen is drawn before Final Winner with its widest words (both names, two numbers a season).
+// CMS_GOLDEN_WHO=daniel draws the usual one-manager screen instead (Daniel 150, Nik 140). Same storage as "finished".
+showdown.golden = (() => {
+    const { projection: gp, result: gr } = require("../support/career-fixture-helpers.cjs");
+    const p15 = () => gr({ leaguePosition: 1, leaguePoints: 101, leagueGoals: 90, championsLeague: true, domesticCup: true, topScorer: true, primePack: 4 });
+    const p14 = () => gr({ leaguePosition: 1, leaguePoints: 101, leagueGoals: 90, championsLeague: true, domesticCup: true, primePack: 4 });
+    const p = gp({ seed: "6", totalSeasons: 10, seasons: Array.from({ length: 10 }, () => [p15(), process.env.CMS_GOLDEN_WHO === "daniel" ? p14() : p15()]) });
+    return { ...showdown.finished, pair: fixtures.pair(p.rivalryId, { status: "waiting", connectionState: "closed" }), multiSeason: fixtures.multiFor(p), history: fixtures.history(p), finalReconciliation: fixtures.finalReconciliation(p), terminalClose: fixtures.closed(p) };
+})();
 // A three-season completed career (same shape as phone-trophy-room-data-audit), so the career screens show real data.
 const { projection, result, finalFor } = require("../support/career-fixture-helpers.cjs");
 const Career = require("../../js/sharedCareerAnalytics.js");
@@ -137,6 +147,8 @@ const SCREENS = {
         window.completeCurrentSeason();
     }); } },
     FINAL_WINNER: { host: "seasonEntry", open: async page => { await seed(page, "finished"); await page.evaluate(() => window.openSeasonEntry()); } },
+    // r93: the Golden Showdown screen, drawn before Final Winner when a manager closes a 10-season Showdown on 150.
+    GOLDEN: { host: "seasonEntry", open: async page => { await seed(page, "golden"); await page.evaluate(() => window.openSeasonEntry()); await page.waitForSelector("#seasonEntry .v10GoldenStage", { timeout: 20000 }); } },
     RIVALRY: { host: "statistics", open: async page => { await seed(page, "finished"); await page.evaluate(async () => { await ensureOptionalModule("statistics"); window.openRivalryStatistics({ model: window.__cmsRivalryFixture }); }); } },
     STANDINGS: { host: "standings", open: async page => { await seed(page, "finished"); await page.evaluate(() => window.CareerModeV10Screens.navigate("standings")); } },
     CLUB: { host: "clubWheelScreen", open: page => prepareClub(page, false) },
@@ -715,7 +727,34 @@ async function leagueWheelSlicesClear(page){
     });
 }
 
-module.exports = { SCREENS, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear, SP_FIXTURE, specialPlayerFixture, seasonResultsChips, specialPlayerChipsClear, leagueWheelSlicesClear };
+// r93 GS6, Golden Showdown only: SEE FINAL WINNER is on screen or reached by scrolling, nothing lies over it, it is at least
+// 44px tall, and no word of the screen is set under 12px. The page is scrolled back to where it was afterwards.
+async function goldenButtonClear(page){
+    const out = [];
+    const button = page.locator("#goldenSeeFinalWinner");
+    if(!(await button.count())) return ["Golden Showdown: SEE FINAL WINNER is missing"];
+    const before = await page.evaluate(() => [...document.querySelectorAll("main, html")].map(n => n.scrollTop));
+    await button.scrollIntoViewIfNeeded();
+    out.push(...await page.evaluate(() => {
+        const bad = [], b = document.getElementById("goldenSeeFinalWinner"), r = b.getBoundingClientRect();
+        if(r.top < 0 || r.bottom > innerHeight + 0.5 || r.left < 0 || r.right > innerWidth + 0.5) bad.push(`SEE FINAL WINNER is not fully on screen even after scrolling (${Math.round(r.left)},${Math.round(r.top)} to ${Math.round(r.right)},${Math.round(r.bottom)})`);
+        if(r.height < 44) bad.push(`SEE FINAL WINNER is ${Math.round(r.height)}px tall (under 44px)`);
+        for(const [x, y] of [[.5, .5], [.12, .3], [.88, .3], [.12, .7], [.88, .7]]){
+            const hit = document.elementFromPoint(r.left + r.width * x, r.top + r.height * y);
+            if(hit && hit !== b && !b.contains(hit)) bad.push(`something lies over SEE FINAL WINNER: ${hit.tagName.toLowerCase()}.${String(hit.className || "").split(" ")[0]}`);
+        }
+        for(const n of document.querySelectorAll(".v10GoldenStage *")){
+            if(![...n.childNodes].some(c => c.nodeType === 3 && c.textContent.trim())) continue;
+            const size = parseFloat(getComputedStyle(n).fontSize);
+            if(size < 11.95) bad.push(`"${n.textContent.trim().slice(0, 24)}" is set at ${size}px (under 12px)`);
+        }
+        return [...new Set(bad)];
+    }));
+    await page.evaluate(before => [...document.querySelectorAll("main, html")].forEach((n, i) => { n.scrollTop = before[i] || 0; }), before);
+    return out;
+}
+
+module.exports = { SCREENS, goldenButtonClear, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear, SP_FIXTURE, specialPlayerFixture, seasonResultsChips, specialPlayerChipsClear, leagueWheelSlicesClear };
 if(require.main === module) (async () => {
     const started = Date.now();
     const keys = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SCREENS).filter(key => !OLD_LOOK.includes(key));
@@ -730,6 +769,7 @@ if(require.main === module) (async () => {
             if(key === "SEASON_RESULTS") await seasonResultsChips(page);
             const res = await checkFaces(page, key, w, h, dpr);
             if(key === "FINAL_WINNER") for(const what of await finalWinnerResultClear(page)) res.findings.push({ face: "", what });
+            if(key === "GOLDEN") for(const what of await goldenButtonClear(page)) res.findings.push({ face: "", what });
             for(const what of await specialPlayerChipsClear(page)) res.findings.push({ face: "", what });
             if(key === "LEAGUE") for(const what of await leagueWheelSlicesClear(page)) res.findings.push({ face: "", what });
             checked++;
