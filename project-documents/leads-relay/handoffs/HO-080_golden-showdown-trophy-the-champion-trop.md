@@ -38,3 +38,6 @@ Up to 3 tries, each in a new chat; always edit from TRO_HC_1_V2_512.webp, never 
 - Overlaid on TRO_HC_1_V2 at the same size, the outline matches (same trophy).
 - Reads as gold next to the Champion trophy at 256 px in the Trophy Room grid; under the size of TRO_HC_1 x1.3.
 Team G wires it (r93 plan part B: gameplay/r93/GOLDEN_SHOWDOWN_PLAN.md in shared project files).
+
+### Team V note (14 Nov 2026 11:43 a.m. Eastern): brief changed by Nik
+Nik rejected the plain recolour ("too similar to the Showdown Champion trophy other than its base ... should look premium, not AI-generated or overly designed"). The Golden Showdown trophy is now its OWN design in the same family: a hand-raised 22ct satin-gold loving cup (two tall handles, domed lid with a small gold ball), on a taller two-step black marble plinth with one brushed-gold band, same light/angle/frame as TRO_HC_1_V2. The "outline matches TRO_HC_1" acceptance no longer applies; it must instead read as a different trophy at 256 px. Same file names and sizes (TRO_HC_6_GOLDEN_V1 256/512 + 1024).
