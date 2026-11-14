@@ -104,11 +104,15 @@
       body.appendChild(tr);
     }); t.appendChild(body); panel.appendChild(t);
     // r84 Golden Showdown: a gold line names each manager who closed a 10-season Showdown on 150 points (r87: 15 a season).
+    // r93 (Nik 2026-11-14, "appreciate it more"): the line is a small gold-trophy tile, the gold trophy beside the title and
+    // each winner's count. GOLDEN_TROPHY is the same picture as the Trophy Room's gold case and the Golden Showdown screen
+    // (Team V's TRO_HC_6_GOLDEN replaces the placeholder there and here; until then the Champion art is cast gold in CSS).
+    const GOLDEN_TROPHY={src:"../shared/trophies-hc/TRO_HC_1_V2_512.webp",tint:true};
     const golden=frame.goldenShowdowns;
     if (golden && (golden.daniel>0 || golden.nik>0)) {
-      const note=document.createElement("p"); note.className="goldenShowdownNote"; note.dataset.goldenShowdown="true";
-      const who=["daniel","nik"].filter(role=>golden[role]>0).map(role=>`${NAMES[role]} ×${golden[role]}`).join(" · ");
-      note.innerHTML=`<img src="${window.CAREER_STATISTICS_BASE || ""}../shared/trophies-hc/TRO_HC_1_V2_512.webp" alt="" aria-hidden="true"><strong>${fx.strings.goldenShowdown || "GOLDEN SHOWDOWN"}</strong><span>${who}</span>`;
+      const note=document.createElement("p"); note.className="goldenShowdownNote goldenShowdownTile"+(GOLDEN_TROPHY.tint?" goldenShowdownTile--tint":""); note.dataset.goldenShowdown="true";
+      const who=["daniel","nik"].filter(role=>golden[role]>0).map(role=>`<span class="goldenShowdownWho"><b>${NAMES[role]}</b> ×${golden[role]}</span>`).join("");
+      note.innerHTML=`<img src="${window.CAREER_STATISTICS_BASE || ""}${GOLDEN_TROPHY.src}" alt="" aria-hidden="true"><strong>${fx.strings.goldenShowdown || "GOLDEN SHOWDOWN"}</strong><span class="goldenShowdownCounts">${who}</span>`;
       panel.appendChild(note);
     }
   }

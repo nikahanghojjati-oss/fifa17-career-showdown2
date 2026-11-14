@@ -85,6 +85,13 @@ showdown.golden = (() => {
     const p = gp({ seed: "6", totalSeasons: 10, seasons: Array.from({ length: 10 }, () => [p15(), process.env.CMS_GOLDEN_WHO === "daniel" ? p14() : p15()]) });
     return { ...showdown.finished, pair: fixtures.pair(p.rivalryId, { status: "waiting", connectionState: "closed" }), multiSeason: fixtures.multiFor(p), history: fixtures.history(p), finalReconciliation: fixtures.finalReconciliation(p), terminalClose: fixtures.closed(p) };
 })();
+// r93 part C (GS5): Season Results of a 10-season Showdown three seasons in, both managers on 15 every season, so ON COURSE
+// FOR GOLDEN is drawn under both managers' headers (with their Special Player chips).
+showdown.course = (() => {
+    const { projection: gp, result: gr } = require("../support/career-fixture-helpers.cjs");
+    const p15 = () => gr({ leaguePosition: 1, leaguePoints: 101, leagueGoals: 90, championsLeague: true, domesticCup: true, topScorer: true, primePack: 4 });
+    return { ...showdown.ready, history: fixtures.history(gp({ seed: "7", totalSeasons: 10, seasons: Array.from({ length: 3 }, () => [p15(), p15()]) })) };
+})();
 // A three-season completed career (same shape as phone-trophy-room-data-audit), so the career screens show real data.
 const { projection, result, finalFor } = require("../support/career-fixture-helpers.cjs");
 const Career = require("../../js/sharedCareerAnalytics.js");
@@ -131,21 +138,24 @@ async function seed(page, name){
 
 const waitScreen = (page, id) => page.waitForFunction(id => { const el = document.getElementById(id); return el && !el.classList.contains("hidden") && !el.hasAttribute("data-v10-pending") && window.getActiveScreenName() === id; }, id, { timeout: 20000 });
 
+async function seasonResultsOpen(page, name, review = true){ await seed(page, name); await page.evaluate(review => {
+    window.openSeasonEntry();
+    const s = window.__cmsSnapshot.seasonResults;
+    for(const [prefix, result] of [["p1", s.ownResult], ["p2", s.opponentResult]]) for(const [field, value] of Object.entries(result)){
+        const input = document.getElementById(prefix + field[0].toUpperCase() + field.slice(1));
+        if(input){ if(input.type === "checkbox") input.checked = value; else input.value = String(value); }
+    }
+    if(review) window.completeCurrentSeason();
+}, review); }
 // Each opener starts on a freshly loaded Home and leaves the named screen shown.
 const SCREENS = {
     HOME: { host: "mainMenu", open: async () => {} },
     LEGACY: { host: "legacy", open: careerOpen("legacy", "renderLegacy") },
     STATISTICS: { host: "careerStatistics", open: careerOpen("careerStatistics", "openCareerStatistics") },
     TROPHY_ROOM: { host: "trophyRoom", open: careerOpen("trophyRoom", "openTrophyRoom") },
-    SEASON_RESULTS: { host: "seasonEntry", open: async page => { await seed(page, "ready"); await page.evaluate(() => {
-        window.openSeasonEntry();
-        const s = window.__cmsSnapshot.seasonResults;
-        for(const [prefix, result] of [["p1", s.ownResult], ["p2", s.opponentResult]]) for(const [field, value] of Object.entries(result)){
-            const input = document.getElementById(prefix + field[0].toUpperCase() + field.slice(1));
-            if(input){ if(input.type === "checkbox") input.checked = value; else input.value = String(value); }
-        }
-        window.completeCurrentSeason();
-    }); } },
+    SEASON_RESULTS: { host: "seasonEntry", open: page => seasonResultsOpen(page, "ready") },
+    // r93 part C: the entry step (filled in, before the review) with ON COURSE FOR GOLDEN under both managers' headers.
+    GOLDEN_COURSE: { host: "seasonEntry", open: page => seasonResultsOpen(page, "course", false) },
     FINAL_WINNER: { host: "seasonEntry", open: async page => { await seed(page, "finished"); await page.evaluate(() => window.openSeasonEntry()); } },
     // r93: the Golden Showdown screen, drawn before Final Winner when a manager closes a 10-season Showdown on 150.
     GOLDEN: { host: "seasonEntry", open: async page => { await seed(page, "golden"); await page.evaluate(() => window.openSeasonEntry()); await page.waitForSelector("#seasonEntry .v10GoldenStage", { timeout: 20000 }); } },
@@ -754,7 +764,39 @@ async function goldenButtonClear(page){
     return out;
 }
 
-module.exports = { SCREENS, goldenButtonClear, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear, SP_FIXTURE, specialPlayerFixture, seasonResultsChips, specialPlayerChipsClear, leagueWheelSlicesClear };
+// r93 part C: ON COURSE FOR GOLDEN shows exactly once per manager: one line under the title on a desktop window, or a line in
+// each manager's card on a phone or short sideways window. It stays inside its card or the screen, at 12px or more, and nothing
+// lies over it.
+async function goldenCourseClear(page){
+    return page.evaluate(() => {
+        const bad = [], shown = el => { const cs = getComputedStyle(el), b = el.getBoundingClientRect(); return cs.display !== "none" && cs.visibility !== "hidden" && b.width > 0 && b.height > 0 && !el.closest(".hidden, [hidden]"); };
+        const chips = [...document.querySelectorAll("#seasonEntry .seasonGoldenCourse")].filter(shown), line = [...document.querySelectorAll("#seasonEntry .seasonGoldenCourseLine")].filter(shown);
+        if(!(line.length === 1 && chips.length === 0) && !(line.length === 0 && chips.length === 2)) return [`ON COURSE FOR GOLDEN shows ${line.length} title line(s) and ${chips.length} card chip(s) (want one line, or one chip per manager)`];
+        for(const chip of [...line, ...chips]){
+            const card = chip.closest("#daniel-entry-panel, #nik-entry-panel"), who = !card ? "the title" : card.id === "daniel-entry-panel" ? "Daniel's card" : "Nik's card";
+            const box = (card || document.documentElement).getBoundingClientRect(), r = chip.getBoundingClientRect();
+            if(r.left < box.left - 0.5 || r.right > (card ? box.right : innerWidth) + 0.5) bad.push(`ON COURSE FOR GOLDEN (${who}) runs out of ${card ? "its card" : "the screen"}`);
+            for(const n of chip.querySelectorAll("b, i, span")){ const size = parseFloat(getComputedStyle(n).fontSize); if(n.textContent.trim() && size < 11.95) bad.push(`"${n.textContent.trim()}" (${who}) is ${size}px (under 12px)`); }
+            if(!card){ for(const other of document.querySelectorAll("#seasonEntry #screen-title, #seasonEntry #scoring-panel, #seasonEntry .seasonEntryGrid, #seasonEntry .manager-area")){ const o = other.getBoundingClientRect(); if(o.width && o.height && r.left < o.right && r.right > o.left && r.top < o.bottom && r.bottom > o.top) bad.push(`ON COURSE FOR GOLDEN (title) touches ${other.id || String(other.className).split(" ")[0]}`); } }
+            chip.scrollIntoView({ block: "center" });
+            const q = chip.getBoundingClientRect();
+            // above it in paint order: anything that draws (a picture, a fill, a border or words), not a see-through layout layer
+            const paints = el => { const cs = getComputedStyle(el); return /^(IMG|PICTURE|CANVAS|SVG|VIDEO|INPUT|BUTTON)$/i.test(el.tagName) || !/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor) || cs.backgroundImage !== "none" || parseFloat(cs.borderTopWidth) > 0 || [...el.childNodes].some(c => c.nodeType === 3 && c.textContent.trim()); };
+            const events = chip.style.pointerEvents; chip.style.pointerEvents = "auto";
+            for(const [x, y] of [[.5, .5], [.1, .5], [.9, .5]]){
+                for(const hit of document.elementsFromPoint(q.left + q.width * x, q.top + q.height * y)){
+                    if(hit === chip || chip.contains(hit)) break;
+                    if(paints(hit)) bad.push(`something lies over ON COURSE FOR GOLDEN (${who}): ${hit.tagName.toLowerCase()}.${String(hit.className || "").split(" ")[0]}`);
+                }
+            }
+            chip.style.pointerEvents = events;
+        }
+        document.querySelector("#app main")?.scrollTo?.(0, 0); scrollTo(0, 0);
+        return [...new Set(bad)];
+    });
+}
+
+module.exports = { SCREENS, goldenButtonClear, goldenCourseClear, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear, SP_FIXTURE, specialPlayerFixture, seasonResultsChips, specialPlayerChipsClear, leagueWheelSlicesClear };
 if(require.main === module) (async () => {
     const started = Date.now();
     const keys = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SCREENS).filter(key => !OLD_LOOK.includes(key));
@@ -766,10 +808,12 @@ if(require.main === module) (async () => {
         await selfTest(browser);
         for(const key of keys) if(!SCREENS[key]) throw new Error("unknown screen " + key);
         const report = async (page, key, w, h, dpr, errors) => {
+            if(key === "GOLDEN_COURSE") await seasonResultsChips(page);
             if(key === "SEASON_RESULTS") await seasonResultsChips(page);
             const res = await checkFaces(page, key, w, h, dpr);
             if(key === "FINAL_WINNER") for(const what of await finalWinnerResultClear(page)) res.findings.push({ face: "", what });
             if(key === "GOLDEN") for(const what of await goldenButtonClear(page)) res.findings.push({ face: "", what });
+            if(key === "GOLDEN_COURSE") for(const what of await goldenCourseClear(page)) res.findings.push({ face: "", what });
             for(const what of await specialPlayerChipsClear(page)) res.findings.push({ face: "", what });
             if(key === "LEAGUE") for(const what of await leagueWheelSlicesClear(page)) res.findings.push({ face: "", what });
             checked++;

@@ -1729,6 +1729,14 @@
 }
 #app #careerStatistics .goldenShowdownNote img {width:20px;height:20px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,211,77,.6))}
 #app #careerStatistics .goldenShowdownNote strong {color:var(--sd-gold-300,#ffd34d);letter-spacing:.1em}
+/* r93: the gold line is a small gold-trophy tile: the gold trophy (44px) on the left, GOLDEN SHOWDOWN over each winner's count
+   on the right, in the same gold-edged marble. */
+#app #careerStatistics .goldenShowdownNote.goldenShowdownTile {display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;justify-content:center;align-items:center;column-gap:12px;row-gap:2px;padding:8px 16px}
+#app #careerStatistics .goldenShowdownTile img {grid-row:1 / 3;width:30px;height:44px;filter:drop-shadow(0 0 6px rgba(255,211,77,.6)) drop-shadow(0 3px 4px rgba(0,0,0,.7))}
+#app #careerStatistics .goldenShowdownTile.goldenShowdownTile--tint img {filter:sepia(.4) saturate(1.7) brightness(1.14) contrast(1.04) drop-shadow(0 0 6px rgba(255,211,77,.6)) drop-shadow(0 3px 4px rgba(0,0,0,.7))}
+#app #careerStatistics .goldenShowdownTile strong {font-size:13px;line-height:16px;text-align:left}
+#app #careerStatistics .goldenShowdownTile .goldenShowdownCounts {display:flex;flex-wrap:wrap;gap:2px 12px;font-size:13px;line-height:16px;text-align:left}
+#app #careerStatistics .goldenShowdownTile .goldenShowdownWho b {color:var(--sd-gold-200,#fff1b8);font-weight:700}
 `;
   function v10Markup(screen){
     const cs=BASE+"career-statistics/",tr=BASE+"trophy-room/";
