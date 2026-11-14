@@ -105,8 +105,16 @@ names and no others.
   - played one whole beat (the kick, the turn, the reveal) while it was timed;
   - used the full files for that level (never the lighter stand-in set of a slow connection);
   - held 60 fps: an average of 57 fps or more and a 1% low of 45 fps or more.
-- A screen that is not smooth, or where the GPU gave up (a lost context, out of memory, a refused 8K buffer), settles that
-  level: Auto becomes the level below, and nothing above is tried.
+- A screen that is not smooth is played once more at the same level before it counts (r92, Nik's iPhone 17: one hitch of
+  about a tenth of a second fails the 1% low over a 10 s run). Two slow tries settle the level. A second try that gives no
+  clean answer leaves the first one standing. Failed and not-verified answers are not tried again.
+- A screen that is not smooth twice, or where the GPU gave up (a lost context, out of memory, a refused 8K buffer), settles
+  that level: Auto becomes the level below, and nothing above is tried.
+- Even Light not smooth saves nothing (r92): there is no level below Light, so it cannot show which level is too heavy.
+  Auto keeps the last good result or its guess, and the page says so. A 2.4.0 result that saved Light "not held" is not
+  read (`gfxMeasured`), so such a device goes back to its guess.
+- Each timed screen reports its slowest frame, when it came (seconds into the screen) and how many frames took over 25 ms,
+  so a real device's table shows whether it was one hitch or a level too heavy.
 - Anything else leaves the level **not verified**: a screen that did not start, no answer, a beat that did not finish, a
   different level drawn, a smaller buffer than asked. The check ends there, nothing is saved, and the last good result
   stays.

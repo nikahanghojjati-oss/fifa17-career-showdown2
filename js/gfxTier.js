@@ -57,8 +57,11 @@
   function gfxChoice(){const c=String(gfxRead(KEY)||"auto").toLowerCase();return CHOICES.includes(c)?c:"auto";}
   // A picked choice is its level: light 0 .. ultra 4, 8k 5.
   function gfxChoiceLevel(c){return CHOICES.indexOf(c)-1;}
+  // r92 (Nik 2026-11-14, iPhone 17): a 2.4.0 check where even Light was not smooth saved Light "not held", and that
+  // replaced a High guess for good. A stall at Light says nothing about which level the device can hold (there is no level
+  // below), so such a result is not read: Auto goes back to its guess. A check never saves one now (device-check.html).
   function gfxMeasured(){
-    try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");return m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=5?m:null;}catch(_error){return null;}
+    try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");return m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=5&&!(m.detail&&m.detail.held===false)?m:null;}catch(_error){return null;}
   }
 
   // The GPU's own name and its largest buffer and texture, from a throwaway context (released at once). r90 MOTION round 2:
@@ -631,11 +634,18 @@
 
   // Device check recorder: frame-to-frame times from the scene's own loop for BENCH_MS (after a short settle), then a few
   // timed draws (the GPU cost, which a 60 Hz screen hides), posted once to the parent page and fired as an event here.
-  function gfxBenchStats(dts){
+  // r92: ats (optional, ms since the screen began to play, one per frame) names when the slowest frame came, so a Device check
+  // result on a real phone says which moment of the kick, turn or reveal stalled.
+  function gfxBenchStats(dts,ats){
     const n=dts.length;if(!n)return {frames:0,avg:0,p1low:0,ms:0};
     const total=dts.reduce((a,b)=>a+b,0),sorted=dts.slice().sort((a,b)=>b-a),worst=sorted.slice(0,Math.max(1,Math.ceil(n/100)));
     const ms=total/n,worstMs=worst.reduce((a,b)=>a+b,0)/worst.length;
-    return {frames:n,avg:+(1000/ms).toFixed(1),p1low:+(1000/worstMs).toFixed(1),ms:+ms.toFixed(2)};
+    const out={frames:n,avg:+(1000/ms).toFixed(1),p1low:+(1000/worstMs).toFixed(1),ms:+ms.toFixed(2)};
+    // late: frames that took over 25 ms (a missed refresh at 60 Hz). Many late frames is a level too heavy; one or two slow
+    // ones is a hitch (a first upload, a pause in the browser).
+    if(Array.isArray(ats)&&ats.length===n){let at=0;for(let i=1;i<n;i+=1)if(dts[i]>dts[at])at=i;
+      out.slowest=[+dts[at].toFixed(1),+(ats[at]/1000).toFixed(1)];out.late=dts.filter(d=>d>25).length;}
+    return out;
   }
   // What the canvas really is: its CSS box and the drawing buffer the browser gave (8K: a browser may give less than asked).
   function gfxBenchSize(renderer){
@@ -648,7 +658,7 @@
   // whether a whole beat was played and whether the GPU gave up on the way, so the Device check can refuse a result that is
   // not a clean measurement of the level it asked for. "started" is posted when the scene is built and about to draw.
   function gfxBench(renderer,draw,key,prof,pr,info){
-    let start=0,last=0,done=false,beats=0,heldAt=0,holding=false;const dts=[],scene=key||"scene",first=prof();
+    let start=0,last=0,done=false,beats=0,heldAt=0,holding=false;const dts=[],ats=[],scene=key||"scene",first=prof();
     const post=m=>{try{root.dispatchEvent?.(new root.CustomEvent("cms-gfx-bench",{detail:m}));}catch(_error){}
       try{if(root.parent&&root.parent!==root)root.parent.postMessage(m,root.location.origin);}catch(_error){}};
     const finish=complete=>{
@@ -658,7 +668,7 @@
       let extra=null;try{extra=typeof info==="function"?info():null;}catch(_error){extra=null;}
       post({type:"cms-gfx-bench",phase:"result",scene,asked:first.asked,level:p.level,name:p.name,label:LABELS[p.level],pixelRatio:pr(),...gfxBenchSize(renderer),
         beats,complete:Boolean(complete),failed:benchFailed||null,software:Boolean(p.software),gpu:p.gpu,
-        ...gfxBenchStats(dts),drawMs:draws.length?+draws[Math.floor(draws.length/2)].toFixed(2):null,...(extra&&typeof extra==="object"?{info:extra}:{})});
+        ...gfxBenchStats(dts,ats),drawMs:draws.length?+draws[Math.floor(draws.length/2)].toFixed(2):null,...(extra&&typeof extra==="object"?{info:extra}:{})});
     };
     post({type:"cms-gfx-bench",phase:"started",scene,asked:first.asked,level:first.level});
     return {
@@ -669,7 +679,7 @@
         if(!start){start=t;last=t;return;}
         const dt=t-last;last=t;
         if(t-start<BENCH_SETTLE_MS)return;
-        dts.push(dt);
+        dts.push(dt);ats.push(t-start);
         if(t-start>=BENCH_SETTLE_MS+BENCH_MAX_MS){finish(false);return;}
         if(t-start>=BENCH_SETTLE_MS+BENCH_MS&&beats>=1)finish(true);
       },
