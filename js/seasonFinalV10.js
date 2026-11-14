@@ -509,7 +509,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   // here (src and tint false) and in visual-assets/v10_1/trophy-room/trophy-room.js (GOLDEN). Until it lands the Champion art
   // is cast gold with a CSS filter.
   const GOLDEN_TROPHY=Object.freeze({src:"visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_512.webp",tint:true});
-  const GOLDEN_SEEN_KEY="careerModeShowdown.goldenSeen.v1",goldenPassed=new Set(),goldenAnimated=new Set();
+  const goldenPassed=new Set(),goldenAnimated=new Set();
   const goldenNames={daniel:"DANIEL",nik:"NIK"};
   // The Golden screen's own rules, added once (Team V's sheets stay frozen). Desktop: the board room fitted to the screen's height
   // as on Final Winner (--gk is one plate pixel: the plate is 1536x864, the lip of the counter is at y 641, Daniel's face ends at
@@ -624,8 +624,6 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 `;
     parent.appendChild(style);
   }
-  function goldenSeenList(){try{const list=JSON.parse(root.localStorage?.getItem(GOLDEN_SEEN_KEY)||"[]");return Array.isArray(list)?list.filter(x=>typeof x==="string"):[];}catch(_){return [];}}
-  function goldenMarkSeen(key){try{const list=goldenSeenList().filter(x=>x!==key);list.push(key);root.localStorage?.setItem(GOLDEN_SEEN_KEY,JSON.stringify(list.slice(-20)));}catch(_){}}
   function goldenReduced(){try{return root.ShowdownMotion?.isReducedMotion?.()===true||root.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches===true;}catch(_){return false;}}
   function goldenMarkup(frame){
     const g=frame.golden,who=g.managers.map(m=>goldenNames[m]).join(" AND ");
@@ -646,8 +644,8 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     stage.className="v10GoldenStage";stage.setAttribute("role","region");stage.setAttribute("aria-labelledby","goldenShowdownTitle");
     stage.dataset.goldenKey=g.key;stage.dataset.golden=g.draw?"draw":g.managers[0];
     // The entrance plays once per Showdown on a device; after a reload or a re-render the screen is simply there.
-    const animate=!goldenAnimated.has(g.key)&&!goldenSeenList().includes(g.key)&&!goldenReduced();
-    goldenAnimated.add(g.key);goldenMarkSeen(g.key);if(animate)stage.classList.add("goldenEnter");
+    const animate=!goldenAnimated.has(g.key)&&!goldenReduced();
+    goldenAnimated.add(g.key);if(animate)stage.classList.add("goldenEnter");
     stage.innerHTML=goldenMarkup(frame);
     stage.querySelector("#goldenSeeFinalWinner").addEventListener("click",event=>{event?.preventDefault?.();goldenPassed.add(g.key);renderFinal(host,frame,rematch);});
     const season=host.querySelector(".v10SeasonStage");if(season)season.hidden=true;

@@ -95,12 +95,11 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
   const golden=part("// r93 Golden Showdown screen (Nik 2026-11-14","// r87 one-tap Rematch")+part("// r93 Golden Showdown screen (part A","// r89 Sacked: a small crimson");
   assert.doesNotMatch(golden,/firestore|getDoc|setDoc|updateDoc|runTransaction|onSnapshot|writeBatch|fetch\(|loadRuntimeScript|CareerModeFirestoreBudget|readCompletedShowdown/i,"the Golden code calls no provider");
   assert.doesNotMatch(golden,/\b110\b|\b11 a season\b/,"no 110 anywhere");
-  assert.deepEqual([...golden.matchAll(/localStorage\?\.(\w+)/g)].map(m=>m[1]).sort(),["getItem","setItem"],"the only thing stored is this device's seen mark");
-  assert.match(golden,/GOLDEN_SEEN_KEY="careerModeShowdown\.goldenSeen\.v1"/);
+  assert.doesNotMatch(golden,/localStorage|sessionStorage|indexedDB/,"the Golden screen stores nothing; the rise plays once per page");
   // the page's Firestore calls are the ones it had before r93 (the completed-Showdown read only)
   const count=re=>(src.match(re)||[]).length;
   assert.deepEqual([count(/readCompletedShowdown\(/g),count(/firestoreSdk/g),count(/getDoc/g),count(/setDoc|updateDoc|runTransaction|writeBatch|onSnapshot/g)],[1,3,3,0],"as at 2.5.0 (main 36b648ad)");
-  ok("GS3","no Firestore read or write added; the Golden code stores only this device's seen mark");
+  ok("GS3","no Firestore read or write added; the Golden code stores nothing at all");
 }
 
 // GS6
