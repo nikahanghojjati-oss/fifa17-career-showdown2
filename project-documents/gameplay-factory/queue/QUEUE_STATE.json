@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-14T17:35:39Z",
+ "updated": "2026-11-14T17:39:32Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -1700,14 +1700,14 @@
    "pr": 603,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/603",
-   "branch": "study/job-1113-connect-players-sideways"
+   "branch": null
   },
   "1114": {
    "state": "closed",
    "pr": 605,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/605",
-   "branch": "study/job-1114-connect-players-tablet"
+   "branch": null
   },
   "1115": {
    "state": "retired",
@@ -1882,7 +1882,7 @@
    "pr": 656,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/656",
-   "branch": "study/job-1139-blocked"
+   "branch": null
   },
   "1140": {
    "state": "closed",
