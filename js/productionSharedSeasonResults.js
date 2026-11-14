@@ -221,7 +221,7 @@
     if(draft.contextKey!==contextKey||draft.seasonNumber!==view.seasonNumber||draft.managerRole!==view.managerRole){pssrSetError("This Showdown's season changed while you were reviewing. Review your result again.");draft=null;return false;}
     let currentResult;try{currentResult=pssrReadForm(view.managerRole);}catch(error){pssrSetError(error.message||error.code);return false;}
     if(pssrFingerprint(currentResult)!==draft.fingerprint){pssrSetError("Your result changed after you reviewed it. Tap EDIT MY RESULT, review it again, then publish.");return false;}
-    const request=pssrRequestContext();if(!request||!pssrContextMatches(request))return false;if(backTimer!==null){try{root.clearTimeout?.(backTimer);}catch(_error){}backTimer=null;}busy=true;pssrSetError("");const publishRole=view.managerRole;let failed="";pssrRender();
+    const request=pssrRequestContext();if(!request||!pssrContextMatches(request))return false;backGen+=1;if(backTimer!==null){try{root.clearTimeout?.(backTimer);}catch(_error){}backTimer=null;}busy=true;pssrSetError("");const publishRole=view.managerRole;let failed="";pssrRender();
     try{
       return await pssrQueueProvider(async()=>{
         const ctx=await pssrProviderContext(request);if(!pssrContextMatches(request))return false;
@@ -252,21 +252,34 @@
   // Showdown's setup is unavailable offline). It then had nothing to draw on: the screen kept the CONFIRM button it drew as
   // busy (disabled) and, before this manager confirms, no poll redraws it, so the button stayed off after the signal came back.
   // Once the same context is back, the screen is drawn again (button on, the failure said); no read, a local check each second.
-  let backTimer=null;
+  // W1b (2.4.0, Fable re-check 2): a Season Results poll tick that runs while the context still reads as another season
+  // empties view and draft, so a plain redraw drew nothing and CONFIRM MY RESULT stayed off under "tap ... again". Then the
+  // screen is read once (light) and the review is opened again from the typed form before the line is shown.
+  let backTimer=null,backGen=0;
   function pssrRenderWhenBack(request,message){
     const timer=typeof root.setTimeout==="function"?root.setTimeout:null;if(!timer||!request)return;
     if(backTimer!==null)try{root.clearTimeout?.(backTimer);}catch(_error){}
-    let tries=0;
+    const gen=backGen+=1;let tries=0;
+    const live=()=>{const entry=pssrField("seasonEntry");return gen===backGen&&!busy&&Boolean(entry)&&!entry.classList.contains("hidden");};
+    const again=ms=>{if((tries+=1)<PSSR_BACK_TRIES)backTimer=timer(check,ms);};
+    // The redraw with the line: the review is on (the reviewed draft, or a new one from the typed form) before the line is
+    // written into it, so the line never sits under a CONFIRM MY RESULT that is off. A confirmed result shows as confirmed.
+    const show=()=>{
+      if(view.ownResult||view.state?.phase==="RESULTS_READY"){pssrRender();return;}
+      const kept=draft&&draft.contextKey===contextKey&&draft.seasonNumber===view.seasonNumber&&draft.managerRole===view.managerRole;
+      if(kept?pssrRender():pssrBeginReview()){if(message)pssrSetError(message);}
+    };
     // It stops for good the moment a new publish starts or the Season Results screen is not on (Home after END SHOWDOWN, any
     // other screen), so it never draws over another screen.
     const check=()=>{
-      backTimer=null;const entry=pssrField("seasonEntry");
-      if(busy||!entry||entry.classList.contains("hidden"))return;
+      backTimer=null;if(!live())return;
       const current=pssrRequestContext();
       // Only the same context is drawn; another save or season (offline the season can read differently) is left to its own
       // screen, and the check goes on until the same one is back or the time is up.
-      if(current&&current.key===request.key){if(message)pssrSetError(message);pssrRender();return;}
-      if((tries+=1)<PSSR_BACK_TRIES)backTimer=timer(check,PSSR_BACK_MS);
+      if(!current||current.key!==request.key){again(PSSR_BACK_MS);return;}
+      if(view&&contextKey===request.key){show();return;}
+      // W1b: nothing to draw (a tick emptied it). One light read; if it fails (still offline) try again in 5 s.
+      pssrRefresh(true).then(read=>{if(!live())return;if(read&&view&&contextKey===request.key&&pssrContextMatches(request))show();else again(PSSR_BACK_MS*5);},()=>{if(live())again(PSSR_BACK_MS*5);});
     };
     backTimer=timer(check,PSSR_BACK_MS);
   }
