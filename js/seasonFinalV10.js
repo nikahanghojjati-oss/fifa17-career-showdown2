@@ -29,8 +29,11 @@
     if(!r||!ROLES[r.winner]||!number(r.managerTotals?.playerOne)||!number(r.managerTotals?.playerTwo))return freeze({status:"unavailable"});
     const completed=closed&&terminal.rivalryId===r.rivalryId&&terminal.terminalWitness?.winner===r.winner;
     const frame={status:"partial",state:completed?"completed":"completion-pending",winner:ROLES[r.winner],totals:{daniel:r.managerTotals.playerOne,nik:r.managerTotals.playerTwo},margin:Math.abs(r.managerTotals.playerOne-r.managerTotals.playerTwo),seasonsPlayed:r.acceptedSeasons??r.completedSeason??r.totalSeasons,...(r.endedBy==="sacked"&&r.sacked?{sacked:{season:r.completedSeason,totalSeasons:r.totalSeasons,daniel:r.sacked.playerOne===true,nik:r.sacked.playerTwo===true}}:{}),completionMark:completed?"":terminal?.automaticCloseFailed&&!terminal?.automaticSaving?"Saving failed. Tap CLOSE SHOWDOWN again.":"Saving this Showdown to your career…",presentation:{spotlight:r.winner==="draw"?"neutral":ROLES[r.winner]},heading:completed?"SHOWDOWN CLOSED":"SHOWDOWN FINAL RESULT",outcomeHeadline:r.winner==="draw"?"DRAW":(r.winner==="playerOne"?"Daniel":"Nik")+" WINS",resultText:r.winner==="draw"?"The Showdown is a draw":"",previewLabel:"",message:"Trophy credits are unavailable right now."};
+    const golden=goldenFrame(r,frame);if(golden)frame.golden=golden;
     const p=history?.authoritative===true&&history.phase==="HISTORY_CONVERGED"&&history.rivalryId===r.rivalryId?history.projection:null;
     if(p&&(r===reconciliation?p.acceptedRevisionKey===r.acceptedRevisionKey:closedHistoryBound(p,r))&&p.acceptedSeasons===frame.seasonsPlayed&&p.managerRecords?.playerOne?.totalPoints===frame.totals.daniel&&p.managerRecords?.playerTwo?.totalPoints===frame.totals.nik){
+      // r93 Golden Showdown: the verified history draws the season strip, and must agree (every season 15) or the screen is not shown.
+      if(frame.golden){const strip=goldenStrip(p,frame.golden);if(strip)frame.golden.seasons=strip;else delete frame.golden;}
       // JOB-1005: the last accepted season of the verified history. Points and winner are read as the record stores them; nothing is computed.
       const last=p.seasonHistory[p.seasonHistory.length-1],lp=last?.playerOne?.scoring?.total,ln=last?.playerTwo?.scoring?.total;
       if(last&&last.roundNumber===frame.seasonsPlayed&&number(lp)&&number(ln)&&lp>=0&&lp<=15&&ln>=0&&ln<=15&&ROLES[last.winner])frame.lastSeason={season:last.roundNumber,daniel:lp,nik:ln,winner:ROLES[last.winner]};
@@ -39,6 +42,29 @@
       frame.trophies=trophies;frame.status="ready";frame.message="";
     }
     return freeze(frame);
+  }
+  // r93 Golden Showdown screen (Nik 2026-11-14; R93-01 part A, plan gameplay/r93/GOLDEN_SHOWDOWN_PLAN.md). The rule is the one
+  // the career screens use (js/careerScreenSeam.js goldenShowdownManagers, G1-G3): a finished 10-season Showdown, all 10
+  // seasons played (sacked in season 10 still counts, Rule Book), and a manager on 150, the most 10 seasons can score
+  // (15 each). Each manager is judged alone, so 150-150 is a DRAW and Golden for both (G2: no tiebreak, the screen never
+  // names a winner then). It reads the same verified final result the Final Winner draws (the reconciliation, or after
+  // close its terminal witness): nothing is stored, and no read or write is added (G5). Pinned against the seam in
+  // tests/contracts/r93-golden-showdown-contracts.cjs (GS1).
+  const GOLDEN=Object.freeze({seasons:10,points:150,seasonMax:15});
+  function goldenFrame(r,frame){
+    if(r.totalSeasons!==GOLDEN.seasons||frame.seasonsPlayed!==GOLDEN.seasons||typeof r.rivalryId!=="string"||!r.rivalryId)return null;
+    const managers=["daniel","nik"].filter(m=>Number.isInteger(frame.totals[m])&&frame.totals[m]>=GOLDEN.points);
+    if(!managers.length)return null;
+    // 150 over 10 seasons of at most 15 is 15 in every season: the strip shows that until the verified history (below) draws it.
+    return {key:r.rivalryId,managers,draw:managers.length===2,points:GOLDEN.points,seasons:null};
+  }
+  // The ten seasons as the verified history stores them. Any season of a Golden manager that is not 15 (or a history that is not
+  // the ten seasons in order) means the two do not agree, and then no Golden screen is shown (fail closed).
+  function goldenStrip(p,golden){
+    const list=Array.isArray(p.seasonHistory)?p.seasonHistory:[];
+    if(list.length!==GOLDEN.seasons)return null;
+    const strip=list.map((s,i)=>({season:s?.roundNumber,daniel:s?.playerOne?.scoring?.total,nik:s?.playerTwo?.scoring?.total}));
+    return strip.every((s,i)=>s.season===i+1&&golden.managers.every(m=>s[m]===GOLDEN.seasonMax))?strip:null;
   }
   // r87 one-tap Rematch (Nik's ask): offered only on a CLOSED Showdown's Final Winner, with the length the closed terminal
   // witness carries (1, 3, 5 or 10). Daniel (playerOne) starts it; Nik's button takes him Home, where his JOIN tile picks up
@@ -415,6 +441,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     try{return work();}finally{if(active&&active!==doc.body&&active.isConnected&&doc.activeElement!==active&&typeof active.focus==="function")active.focus({preventScroll:true});}
   }
   function restoreFinal(host){
+    host.querySelector(".v10GoldenStage")?.remove();host.classList.remove("v10GoldenMode");
     const final=host.querySelector(".v10FinalStage"),review=root.document.getElementById("seasonReviewPanel"),season=host.querySelector(".v10SeasonStage");
     if(final){root.document.getElementById(REMATCH_ID)?.remove();for(const id of ["sharedTerminalClosePanel","sharedFinalReconciliationPanel"]){const n=root.document.getElementById(id);if(n&&review)review.appendChild(n);}const actions=root.document.getElementById("completeSeason")?.closest(".seasonEntryActions");if(actions&&season)season.querySelector(".season-layout").appendChild(actions);final.v10StageHandle?.destroy();final.remove();}
     if(season)season.hidden=false;
@@ -459,9 +486,11 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   }
   function renderFinal(host,frame,rematch=null){
     if(!frame.winner){restoreFinal(host);return;}
+    if(frame.golden&&!goldenPassed.has(frame.golden.key)){renderGolden(host,frame,rematch);return;}
     let final=host.querySelector(".v10FinalStage");
-    // A changed frame rebuilds supplementary art only. Live protocol panels move intact.
-    if(final)restoreFinal(host);
+    // A changed frame rebuilds supplementary art only. Live protocol panels move intact. r93: a Golden Showdown screen in
+    // front of it (SEE FINAL WINNER) goes the same way.
+    if(final||host.querySelector(".v10GoldenStage"))restoreFinal(host);
     final=stageElement("final-winner");final.classList.add("v10FinalStage");host.appendChild(final);
     for(const [id,slot] of [["sharedTerminalClosePanel","v10TerminalSlot"],["sharedFinalReconciliationPanel","v10ReconciliationSlot"]]){const live=root.document.getElementById(id);if(live)final.querySelector("#"+slot).appendChild(live);}
     const actions=root.document.getElementById("completeSeason")?.closest(".seasonEntryActions");if(actions)final.querySelector("#v10ExitSlot").appendChild(actions);
@@ -469,6 +498,160 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     const season=host.querySelector(".v10SeasonStage");if(season)season.hidden=true;host.classList.add("v10FinalMode");
     root.FINAL_WINNER_ROOT=final;root.FINAL_WINNER_FIXTURES={strings:strings["final-winner"],frames:{LIVE:frame}};root.ShowdownFinalWinnerBoot();
     sfSackedMarks(final,frame);
+  }
+  // r93 Golden Showdown screen (part A; Nik's card 2026-11-14 16:33 UTC: right BEFORE Final Winner). When the verified final
+  // result is Golden it is drawn in place of the Final Winner, with one button, SEE FINAL WINNER, which draws the Final Winner
+  // exactly as before (its ceremony, exits and live panels are untouched; they wait in the Season Results stage meanwhile, as
+  // before a Final Winner is drawn). It shows again after a reload or a late join (the same CLOSED-terminal path as Final
+  // Winner); this device's "seen" mark only skips its entrance motion, never the screen. Board room as Final Winner (the same
+  // cached pictures), every word on the counter or between the two faces, nothing over a face or a button, no dimming.
+  // The gold trophy: Team V's TRO_HC_6_GOLDEN (HO-080, the Champion trophy cast in gold) replaces this placeholder by a change
+  // here (src and tint false) and in visual-assets/v10_1/trophy-room/trophy-room.js (GOLDEN). Until it lands the Champion art
+  // is cast gold with a CSS filter.
+  const GOLDEN_TROPHY=Object.freeze({src:"visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_512.webp",tint:true});
+  const GOLDEN_SEEN_KEY="careerModeShowdown.goldenSeen.v1",goldenPassed=new Set(),goldenAnimated=new Set();
+  const goldenNames={daniel:"DANIEL",nik:"NIK"};
+  // The Golden screen's own rules, added once (Team V's sheets stay frozen). Desktop: the board room fitted to the screen's height
+  // as on Final Winner (--gk is one plate pixel: the plate is 1536x864, the lip of the counter is at y 641, Daniel's face ends at
+  // 29.3% of the width and Nik's starts at 67.06%, both faces end 32.6% down). The title and the name sit between the faces,
+  // the gold trophy stands on the lip between the two men, and the season strip and the button stand on the counter.
+  // Upright phones: the board phone plate (lip at 1098 of 2096); the title above both heads, everything else on the counter.
+  function sfGoldenRule(doc){
+    const parent=doc?.head||doc?.documentElement;if(!parent||typeof doc.createElement!=="function"||doc.getElementById?.("v10GoldenRule"))return;
+    const style=doc.createElement("style");style.id="v10GoldenRule";const u=f=>assetUrl(BASE+"plates-hc/"+f);
+    style.textContent=`
+#app #seasonEntry.v10GoldenMode { position:relative;inset:auto;height:auto;min-height:0;margin:0;padding:0; }
+#app #seasonEntry .v10GoldenStage {
+ --g-gold:#ffd34d;--g-gold-hi:#fff1b8;--g-ink:#f5eacb;--g-line:#d9b64e;
+ position:relative;box-sizing:border-box;width:100%;margin:0;padding:0;overflow:hidden;color:var(--g-ink);text-align:center;
+ font-family:var(--sd-font-condensed,"Barlow Condensed",sans-serif);background-color:#1d1a16;
+}
+#app #seasonEntry .v10GoldenStage .goldenRoom { display:none; }
+#app #seasonEntry .v10GoldenStage :is(.goldenTitleBlock,.goldenWho,.goldenTrophy,.goldenCounter) { position:absolute;left:50%;translate:-50% 0;margin:0;z-index:2; }
+#app #seasonEntry .v10GoldenStage p { margin:0; }
+#app #seasonEntry .v10GoldenStage .goldenEyebrow { font-size:12px;font-weight:700;line-height:16px;letter-spacing:.32em;padding-inline-start:.32em;color:var(--g-ink);text-shadow:0 1px 2px #000; }
+#app #seasonEntry .v10GoldenStage .goldenTitle { margin:4px 0 0;font-size:40px;font-weight:800;line-height:1;letter-spacing:.14em;padding-inline-start:.14em;color:var(--g-gold);white-space:nowrap;text-shadow:0 1px 0 #6b4a12,0 2px 3px #000; }
+#app #seasonEntry .v10GoldenStage .goldenWho { width:max-content;max-width:calc(100% - 32px); }
+#app #seasonEntry .v10GoldenStage .goldenName { font-size:28px;font-weight:800;line-height:1.1;letter-spacing:.12em;padding-inline-start:.12em;color:var(--g-gold-hi);text-shadow:0 1px 2px #000; }
+#app #seasonEntry .v10GoldenStage .goldenScore { margin-top:4px;font-size:16px;font-weight:700;line-height:20px;letter-spacing:.16em;padding-inline-start:.16em;text-shadow:0 1px 2px #000; }
+#app #seasonEntry .v10GoldenStage .goldenScore b { font-size:20px;color:var(--g-gold); }
+#app #seasonEntry .v10GoldenStage .goldenTrophy { display:block;pointer-events:none; }
+#app #seasonEntry .v10GoldenStage .goldenTrophyImg { display:block;width:100%;height:100%;object-fit:contain;object-position:50% 100%;filter:drop-shadow(0 18px 24px rgb(0 0 0 / .66)); }
+#app #seasonEntry .v10GoldenStage .goldenTrophyImg--tint { filter:sepia(.4) saturate(1.7) brightness(1.14) contrast(1.04) drop-shadow(0 18px 24px rgb(0 0 0 / .66)); }
+#app #seasonEntry .v10GoldenStage .goldenCounter { display:flex;flex-direction:column;align-items:center;gap:8px;width:min(calc(100% - 32px),680px); }
+#app #seasonEntry .v10GoldenStage .goldenStripLabel { font-size:12px;font-weight:700;line-height:16px;letter-spacing:.24em;padding-inline-start:.24em;color:var(--g-ink); }
+#app #seasonEntry .v10GoldenStage .goldenStrip { display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:8px;width:100%;margin:0;padding:0;list-style:none; }
+#app #seasonEntry .v10GoldenStage .goldenSeason { display:grid;justify-items:center;gap:0;min-width:0;padding:4px 2px 6px;border:1px solid #e8c46599;background:linear-gradient(#141412f2,#070807ee);box-shadow:inset 0 0 0 2px #57411955; }
+#app #seasonEntry .v10GoldenStage .goldenSeason small { font-size:12px;font-weight:700;line-height:16px;letter-spacing:.08em;color:var(--g-ink); }
+#app #seasonEntry .v10GoldenStage .goldenSeason b { font-size:20px;font-weight:800;line-height:24px;color:var(--g-gold);white-space:nowrap; }
+#app #seasonEntry .v10GoldenStage .goldenSeason b i { font-style:normal;margin:0 2px;color:var(--g-ink); }
+#app #seasonEntry .v10GoldenStage .goldenActions { display:flex;justify-content:center;width:100%;margin-top:8px; }
+#app #seasonEntry .v10GoldenStage .goldenSeeFinal {
+ flex:0 0 auto;width:auto;min-width:min(100%,280px);max-width:100%;min-height:48px;margin:0;padding:0 24px;border:2px solid #e8c267;border-radius:0;
+ background:linear-gradient(#fff0b0,#e4b94b 65%,#a47723);color:#17130a;box-shadow:none;cursor:pointer;
+ font:700 15px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif);letter-spacing:.1em;
+ clip-path:polygon(3% 0,97% 0,100% 13%,100% 87%,97% 100%,3% 100%,0 87%,0 13%);transition:filter 120ms ease-out;
+}
+#app #seasonEntry .v10GoldenStage .goldenSeeFinal:hover { filter:brightness(1.08); }
+#app #seasonEntry .v10GoldenStage .goldenSeeFinal:active { filter:brightness(.88); }
+#app #seasonEntry .v10GoldenStage .goldenSeeFinal:focus-visible { outline:3px solid #fff5c4;outline-offset:-6px; }
+/* Desktop and wide windows: the board room fitted to the screen's height, centred, the room's own wood colour either side. */
+@media (min-width:901px) and (min-height:501px), (min-width:901px) and (orientation:portrait) {
+ #app #seasonEntry .v10GoldenStage {
+  height:max(600px,100svh);container-type:size;--gk:calc(100cqh / 864);
+  /* the room sits exactly where Final Winner draws it (100svh tall, lowered just enough for the hair to clear the top bar by
+     10px), so SEE FINAL WINNER changes the words, not the room */
+  --gdrop:max(0px,calc(var(--sd-nav-top-h,52px) + 10px - 100cqh * .0567));
+  background-image:url("${u("ENV_BOARD_PLATE_HC_V3_1X.webp")}");background-repeat:no-repeat;background-position:50% var(--gdrop);background-size:auto 100%;
+ }
+ html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #seasonEntry .v10GoldenStage { background-image:image-set(url("${u("ENV_BOARD_PLATE_HC_V3_1X.webp")}") 1x,url("${u("ENV_BOARD_PLATE_HC_V3_2X.webp")}") 2x); }
+ #app #seasonEntry .v10GoldenStage .goldenTitleBlock { top:calc(var(--sd-nav-top-h,52px) + 16px); }
+ #app #seasonEntry .v10GoldenStage .goldenWho { top:calc(var(--sd-nav-top-h,52px) + 92px);max-width:calc(1536 * var(--gk) * .3776 - 32px); }
+ #app #seasonEntry .v10GoldenStage .goldenTrophy { top:calc(var(--gdrop) + 641 * var(--gk) - 300 * var(--gk) * 744 / 768);height:calc(300 * var(--gk));width:calc(200 * var(--gk)); }
+ #app #seasonEntry .v10GoldenStage .goldenCounter { top:calc(var(--gdrop) + 641 * var(--gk) + 12px); }
+}
+@media (min-width:1537px) and (min-height:501px), (min-width:901px) and (min-height:865px) {
+ #app #seasonEntry .v10GoldenStage { background-image:image-set(url("${u("ENV_BOARD_PLATE_HC_V3_1920.webp")}") 1.25x); }
+ html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #seasonEntry .v10GoldenStage { background-image:image-set(url("${u("ENV_BOARD_PLATE_HC_V3_1920.webp")}") 1.25x,url("${u("ENV_BOARD_PLATE_HC_V3_2X.webp")}") 2x); }
+}
+/* Upright phones and tablets narrower than 901px: the phone plate from the top, the screen's own height or taller. */
+@media (max-width:900px) and (orientation:portrait) {
+ #app #seasonEntry .v10GoldenStage {
+  --g-ph:max(100svh,calc(100vw * 2096 / 1179));--g-lip:calc(var(--g-ph) * 1098 / 2096);--g-cup:clamp(84px,14svh,140px);
+  min-height:max(100svh,calc(var(--g-lip) + 360px));
+ }
+ #app #seasonEntry .v10GoldenStage .goldenRoom { display:block;position:absolute;top:0;left:50%;translate:-50% 0;width:calc(var(--g-ph) * 1179 / 2096);min-width:100%;height:var(--g-ph);z-index:1;pointer-events:none; }
+ #app #seasonEntry .v10GoldenStage .goldenRoom img { display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0; }
+ #app #seasonEntry .v10GoldenStage .goldenTitleBlock { top:calc(var(--g-ph) * .03);width:calc(100% - 32px); }
+ #app #seasonEntry .v10GoldenStage .goldenTitle { font-size:clamp(28px,8.6vw,40px);letter-spacing:.1em;padding-inline-start:.1em; }
+ #app #seasonEntry .v10GoldenStage .goldenTrophy { top:calc(var(--g-lip) - var(--g-cup) * 744 / 768);height:var(--g-cup);width:calc(var(--g-cup) * 2 / 3); }
+ #app #seasonEntry .v10GoldenStage .goldenWho { top:calc(var(--g-lip) + 16px); }
+ #app #seasonEntry .v10GoldenStage .goldenName { font-size:28px; }
+ #app #seasonEntry .v10GoldenStage .goldenCounter { top:calc(var(--g-lip) + 96px);padding-bottom:16px; }
+ #app #seasonEntry .v10GoldenStage .goldenStrip { grid-template-columns:repeat(5,minmax(0,1fr)); }
+}
+/* Sideways phones and short windows: the desktop room fitted to the height, a little taller than the screen so the
+   counter holds the strip and the button; main scrolls the rest. */
+@media (min-width:640px) and (max-height:500px) and (orientation:landscape) {
+ #app #seasonEntry .v10GoldenStage {
+  height:max(460px,100svh);container-type:size;--gk:calc(100cqh / 864);
+  background-image:url("${u("ENV_BOARD_PLATE_HC_V3_1X.webp")}");background-repeat:no-repeat;background-position:50% 0;background-size:auto 100%;
+ }
+ #app #seasonEntry .v10GoldenStage .goldenTitleBlock { top:calc(16 * var(--gk)); }
+ #app #seasonEntry .v10GoldenStage .goldenTitle { font-size:24px;letter-spacing:.1em;padding-inline-start:.1em; }
+ #app #seasonEntry .v10GoldenStage .goldenWho { top:calc(16 * var(--gk) + 52px);max-width:calc(1536 * var(--gk) * .3776 - 16px); }
+ #app #seasonEntry .v10GoldenStage .goldenName { font-size:20px; }
+ #app #seasonEntry .v10GoldenStage .goldenScore { font-size:13px;line-height:16px; }
+ #app #seasonEntry .v10GoldenStage .goldenScore b { font-size:16px; }
+ #app #seasonEntry .v10GoldenStage .goldenTrophy { top:calc(641 * var(--gk) - 260 * var(--gk) * 744 / 768);height:calc(260 * var(--gk));width:calc(173 * var(--gk)); }
+ #app #seasonEntry .v10GoldenStage .goldenCounter { top:calc(641 * var(--gk) + 6px);gap:4px; }
+ #app #seasonEntry .v10GoldenStage .goldenStripLabel { display:none; }
+ #app #seasonEntry .v10GoldenStage .goldenSeason { padding:2px 2px 4px; }
+ #app #seasonEntry .v10GoldenStage .goldenSeason b { font-size:16px;line-height:20px; }
+ #app #seasonEntry .v10GoldenStage .goldenActions { margin-top:4px; }
+ #app #seasonEntry .v10GoldenStage .goldenSeeFinal { min-height:44px; }
+}
+/* The entrance, once per Showdown on a device (calm, 120 / 200 / 320 ms, one ease-out); none under Reduce Motion. */
+@keyframes goldenRise { from { opacity:0;transform:translateY(12px); } to { opacity:1;transform:none; } }
+#app #seasonEntry .v10GoldenStage.goldenEnter :is(.goldenTitleBlock,.goldenWho,.goldenTrophy,.goldenStripLabel,.goldenSeason,.goldenActions) { animation:goldenRise 320ms cubic-bezier(.16,1,.3,1) both; }
+#app #seasonEntry .v10GoldenStage.goldenEnter .goldenWho { animation-delay:120ms; }
+#app #seasonEntry .v10GoldenStage.goldenEnter .goldenTrophy { animation-delay:200ms; }
+#app #seasonEntry .v10GoldenStage.goldenEnter .goldenStripLabel { animation-delay:320ms; }
+#app #seasonEntry .v10GoldenStage.goldenEnter .goldenSeason { animation-delay:calc(320ms + var(--gi,0) * 40ms); }
+#app #seasonEntry .v10GoldenStage.goldenEnter .goldenActions { animation-delay:760ms; }
+@media (prefers-reduced-motion: reduce) { #app #seasonEntry .v10GoldenStage.goldenEnter * { animation:none !important; } }
+html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonEntry .v10GoldenStage.goldenEnter * { animation:none !important; }
+`;
+    parent.appendChild(style);
+  }
+  function goldenSeenList(){try{const list=JSON.parse(root.localStorage?.getItem(GOLDEN_SEEN_KEY)||"[]");return Array.isArray(list)?list.filter(x=>typeof x==="string"):[];}catch(_){return [];}}
+  function goldenMarkSeen(key){try{const list=goldenSeenList().filter(x=>x!==key);list.push(key);root.localStorage?.setItem(GOLDEN_SEEN_KEY,JSON.stringify(list.slice(-20)));}catch(_){}}
+  function goldenReduced(){try{return root.ShowdownMotion?.isReducedMotion?.()===true||root.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches===true;}catch(_){return false;}}
+  function goldenMarkup(frame){
+    const g=frame.golden,who=g.managers.map(m=>goldenNames[m]).join(" AND ");
+    const seasons=Array.from({length:GOLDEN.seasons},(_,i)=>g.seasons?.[i]||{season:i+1,daniel:g.managers.includes("daniel")?GOLDEN.seasonMax:null,nik:g.managers.includes("nik")?GOLDEN.seasonMax:null});
+    const cell=s=>`<li class="goldenSeason" style="--gi:${s.season-1}"><small>S${s.season}</small><b>${g.managers.map(m=>Number(s[m])).join("<i aria-hidden=\"true\">·</i>")}</b></li>`;
+    const score=g.draw?`DRAW · <b>${g.points}</b> OF ${g.points} EACH`:`<b>${frame.totals[g.managers[0]]}</b> OF ${g.points}`;
+    const strip=g.draw?"DANIEL · NIK, EVERY SEASON":"15 IN EVERY SEASON";
+    return `<picture class="goldenRoom" aria-hidden="true"><img src="${BASE}plates-hc/ENV_BOARD_PHONE_HC_V3${root.document?.documentElement?.dataset?.assets==="0"?"_590W":""}.webp" alt="" decoding="async"></picture>`+
+      `<header class="goldenTitleBlock"><p class="goldenEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="goldenShowdownTitle" class="goldenTitle">GOLDEN SHOWDOWN</h2></header>`+
+      `<div class="goldenWho"><p class="goldenName">${who}</p><p class="goldenScore">${score}</p></div>`+
+      `<div class="goldenTrophy" aria-hidden="true"><img class="goldenTrophyImg${GOLDEN_TROPHY.tint?" goldenTrophyImg--tint":""}" src="${GOLDEN_TROPHY.src}" alt="" decoding="async"></div>`+
+      `<div class="goldenCounter"><p class="goldenStripLabel">${strip}</p><ol class="goldenStrip" aria-label="Season by season, ${who}">${seasons.map(cell).join("")}</ol>`+
+      `<div class="goldenActions"><button type="button" id="goldenSeeFinalWinner" class="menuButton goldenSeeFinal">SEE FINAL WINNER</button></div></div>`;
+  }
+  function renderGolden(host,frame,rematch){
+    sfGoldenRule(root.document);restoreFinal(host);
+    const g=frame.golden,stage=root.document.createElement("section");
+    stage.className="v10GoldenStage";stage.setAttribute("role","region");stage.setAttribute("aria-labelledby","goldenShowdownTitle");
+    stage.dataset.goldenKey=g.key;stage.dataset.golden=g.draw?"draw":g.managers[0];
+    // The entrance plays once per Showdown on a device; after a reload or a re-render the screen is simply there.
+    const animate=!goldenAnimated.has(g.key)&&!goldenSeenList().includes(g.key)&&!goldenReduced();
+    goldenAnimated.add(g.key);goldenMarkSeen(g.key);if(animate)stage.classList.add("goldenEnter");
+    stage.innerHTML=goldenMarkup(frame);
+    stage.querySelector("#goldenSeeFinalWinner").addEventListener("click",event=>{event?.preventDefault?.();goldenPassed.add(g.key);renderFinal(host,frame,rematch);});
+    const season=host.querySelector(".v10SeasonStage");if(season)season.hidden=true;
+    host.appendChild(stage);host.classList.add("v10GoldenMode");
   }
   // r89 Sacked: a small crimson SACKED stamp beside each sacked manager's name (in the totals band, never over a face or a
   // button) and "OF N · SACKED" under the seasons played. The winner still comes only from the totals.
@@ -2653,7 +2836,8 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
   function installChampionBack(app=root){
     const legal=app.getLegalBackTargets;
     if(typeof legal!=="function"||legal.v10Champion)return false;
-    const wrapped=function(id){return id==="seasonEntry"&&app.document?.getElementById("seasonEntry")?.classList?.contains("v10FinalMode")?["mainMenu"]:legal.apply(this,arguments);};
+    // r93: the Golden Showdown screen comes before Final Winner in the same final mode, so its back is the same.
+    const wrapped=function(id){const list=id==="seasonEntry"?app.document?.getElementById("seasonEntry")?.classList:null;return list&&(list.contains("v10FinalMode")||list.contains("v10GoldenMode"))?["mainMenu"]:legal.apply(this,arguments);};
     wrapped.v10Champion=true;wrapped.original=legal;app.getLegalBackTargets=wrapped;return true;
   }
   // JOB-1038: Terminal Close forgets the session, which clears the live history view. The last converged view of the same
