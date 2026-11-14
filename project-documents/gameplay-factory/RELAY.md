@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-14 12:22 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-14 12:24 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `661662a` (Sat 14 Nov 11:41 AM Boston time) · 279 messages · 81 hand-offs · 521 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d4affd3` (Sat 14 Nov 12:22 PM Boston time) · 280 messages · 81 hand-offs · 523 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-080 · G → V · Golden Showdown trophy: the Champion trophy cast in gold
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 1 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 1 min after delivery
 
+- Sat 14 Nov 12:22 PM · Team V · Done · Brief changed by Nik 14 Nov: personal cast-gold busts, one per manager (winner shows his own; repeat winner same bust). Nik locked both 12:17/12:19 p.m. Eastern. Files TRO_HC_6_GOLDEN_{NIK,DANIEL}_V1_{256,512,1024}.webp alpha, same canvas/baseline as TRO_HC_1_V2, within x1.3 size cap. Team G: wire + F9c sha pins.
 - Sat 14 Nov 11:34 AM · Team V · Received · Team V lead: Nik runs the GPT edit, lead checks outline/size and cuts 256/512/1024
 - Sat 14 Nov 11:32 AM · Team G · Sent
 - Sat 14 Nov 11:33 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -2921,6 +2922,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-080 DONE · Team V → Team G · Sat 14 Nov 12:22 PM Boston time
+
+**Golden Showdown trophy: the Champion trophy cast in gold** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-080 RECEIVED · Team V → Team G · Sat 14 Nov 11:34 AM Boston time
 
