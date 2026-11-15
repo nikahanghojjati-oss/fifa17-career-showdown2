@@ -350,10 +350,11 @@ function handPlaceholder(){ const c=document.createElement("canvas"); c.width=16
 const L=(hex)=>new T.Color(hex).convertSRGBToLinear();
 const portrait=()=>innerWidth<=899&&innerHeight>innerWidth;
 /* R93-04 (Nik 2026-11-15, "Yes, wider camera"): on an upright phone in the game the shooter's eye takes a slightly wider lens and looks a little lower on
-   the board for the take and the aim (x1.25 on a tall phone, x1.55 on a short one), so the hand fits about 140 px or more under the board, between the board
-   and the caption standing in the Spin button's room; the glide in from the drum and the moves out after the shot already ease between the lenses. The
-   preview page keeps the usual lens (its mock bar holds the bottom). [lens factor, look drop in m] or null */
-const povWide=()=>PH&&innerWidth<600&&document.body.classList.contains("embed")?(innerHeight>=780?[1.25,.125]:[1.55,.25]):null;
+   the board for the take and the aim, so the hand grows under the board, between the board and the caption standing in the Spin button's room: x1.25 on
+   a tall phone (about 150 px), x1.35 on a short one (about 130 px; x1.25 leaves no clear spot there, and looking lower would cut the board's header). A
+   gentle reframe reads as a camera operator's; the x1.55 tried first read as a zoom (lead, 2026-11-15). The glide in from the drum and the moves out after the shot already ease between the lenses. The preview page keeps the usual lens (its
+   mock bar holds the bottom). [lens factor, look drop in m] or null */
+const povWide=()=>PH&&innerWidth<600&&document.body.classList.contains("embed")?(innerHeight>=780?[1.25,.125]:[1.35,.17]):null;
 
 /* ================= canvas textures (wood, felt, lacquered panels, marble, pressed tin, soft sprites) ================= */
 function cv(w,h){ const c=document.createElement("canvas"); c.width=w; c.height=h; return [c,c.getContext("2d")]; }
