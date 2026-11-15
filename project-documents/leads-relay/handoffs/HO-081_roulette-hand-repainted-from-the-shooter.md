@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-15T07:42:32Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-15T07:42:32Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-15T07:49:47Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: writes Astra prompts (Work mode Astra 6 XH), Nik runs, lead checks + cuts + measures plate numbers"}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
- "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ"}
+ "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
 ```
 
