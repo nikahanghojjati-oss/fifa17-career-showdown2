@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 11:41 AM Boston time (EST)",
+ "generated": "2026-11-15 11:45 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 285,
@@ -3419,7 +3419,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 10897
+    "waiting_min": 10901
    },
    {
     "id": "HO-059",
@@ -3740,11 +3740,11 @@
     "title": "Roulette hand: side-entry plate rerun at 40 degrees",
     "stage": "DELIVERED",
     "pct": 0.0,
-    "overdue": false,
+    "overdue": true,
     "path": "project-documents/leads-relay/handoffs/HO-083_roulette-hand-side-entry-plate-rerun-at-.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 359
+    "waiting_min": 363
    }
   ],
   "relay_ok": true

@@ -1,6 +1,6 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 11:41 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 11:45 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
@@ -8,7 +8,7 @@ Relay branch `leads/relay` head `0dd05c3` (Sun 15 Nov 5:41 AM Boston time) · 28
 
 ## Hand-offs (work passed between the factories)
 
-### HO-083 · G → V · Roulette hand: side-entry plate rerun at 40 degrees
+### HO-083 · G → V · Roulette hand: side-entry plate rerun at 40 degrees · ⚠ not acknowledged
 
 ✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
