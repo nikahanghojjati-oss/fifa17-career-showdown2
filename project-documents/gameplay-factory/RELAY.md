@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 3:32 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 3:34 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `d897a60` (Sun 15 Nov 1:55 PM Boston time) · 286 messages · 84 hand-offs · 538 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `988781e` (Sun 15 Nov 3:33 PM Boston time) · 287 messages · 84 hand-offs · 540 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-083 · G → V · Roulette hand: side-entry plate rerun at 40 degrees
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 8 h 14 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 8 h 14 min after delivery
 
+- Sun 15 Nov 3:33 PM · Team V · Done · Nik OK 15 Nov 3:33 p.m. Eastern. RR_HAND_POV_S_V2.webp 1600x1200 90 KB replaces S_V1: bore 40.0, forearm 35.1% width rising 19.7, glove box centre x0.50 / 50% down fully inside, cut on x=1.0 y 0.018-0.368, no other edge touched. Points in HO083_PLATE_NUMBERS.json (y from bottom).
 - Sun 15 Nov 1:55 PM · Team V · Received · Team V lead: Astra prompt posted, Nik runs, lead cuts/measures
 - Sun 15 Nov 5:41 AM · Team G · Sent
 - Sun 15 Nov 5:42 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -3106,6 +3107,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-083 DONE · Team V → Team G · Sun 15 Nov 3:33 PM Boston time
+
+**Roulette hand: side-entry plate rerun at 40 degrees** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-083 RECEIVED · Team V → Team G · Sun 15 Nov 1:55 PM Boston time
 
