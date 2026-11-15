@@ -1,0 +1,80 @@
+# Career Mode Showdown 2.6.0 (r93): the Golden Showdown gets its moment (v2.6.0 runtime r93)
+
+Application version: `v2.6.0`  
+Runtime asset revision: `2.6.0-r93` (set by the bump PR; Nik's "OK version 2.6.0", 2026-11-15 20:12 UTC)  
+Previous known-good runtime: `2.5.1-r92`
+
+r93 is 2.6.0. Nik asked on 14 November for the Golden Showdown to show up properly, for a logo and titles that do not
+look made by a prompt, and later for a roulette hand that looks filmed, with a whisky glass on the table. Four Fable bug
+hunts ran on the branch; their one P1 shipped early as 2.5.1. The rules of a Showdown did not change. This file is the
+release record. The list below is every pull request merged into gameplay/r93 since 2.5.0 went live (main 36b648ad):
+#1465 to #1484, up to gameplay/r93 1b15c246, plus #1483 and this release's items.
+
+## What changed
+
+- **Golden Showdown screen** (#1465). A manager who finishes a 10-season Showdown on 150 sees a gold screen before Final
+  Winner: his bust, 150 of 150, the ten 15s, and one button, SEE FINAL WINNER. Both phones show the same screen. Final
+  Winner keeps Rematch and the way out. 150-150 cannot happen in play (only one manager earns Prime Pack points in a
+  season); the code keeps a both-busts fallback.
+- **The winner's own gold bust** (#1466, #1469; Team V HO-080, `TRO_HC_6_GOLDEN_{NIK,DANIEL}_V1_{256,512,1024}`). Trophy
+  Room: a gold case always on the ALL shelf and a GOLDEN tab, each manager's bust once won, both greyed until then.
+- **Golden everywhere it belongs** (#1467, #1468, #1470). ON COURSE FOR GOLDEN on Season Results (seasons 1-9, while a
+  manager has 15 in every season), a gold tile on Career Statistics, a GOLDEN SHOWDOWNS row on Standings (CAREER), the
+  bust in History, Legacy and Rivalry Statistics. One rule (`goldenShowdownManagers` / `goldenShowdownCounts` in
+  js/careerScreenSeam.js); nothing stored, read or written. Golden is not added to Total Trophies (season trophies only,
+  unchanged). Fable hunt fixes: ON COURSE readable in play (C1), the desktop GOLDEN tab picture (T1), the Golden stage
+  kept on reload (G1).
+- **Flat logo V4 and live-text titles** (#1471; Team V HO-079). Every `TITLE_*_V3` picture is now Cormorant SC Bold text,
+  flat #C9A45C, same cap height, baseline and box. The font (`shared/fonts/CormorantSC-Bold-latin.woff2`, OFL) is waited
+  for by the Reus Gate and precached in the shell. The V3 picture files stay in the repository, unreferenced.
+- **Special Player stands** (#1472). The side stand photos sit at 58 degrees (were 72) so they overlap, which removes the
+  smear at the left edge (strongest at 1920x866). Light uses a soft-shoulder tone curve (the vendored three.js r187 does
+  not export CustomToneMapping).
+- **Device check for iPhone** (#1473). Crash limits and opening marks carry `BUILD` (= the service worker's
+  `RUNTIME_REVISION`); an older build's are dropped on load. The check reloads before each 3D screen (run kept in
+  sessionStorage), keeps finished rows after a tab death, and the top card names a limit and its end date.
+- **20 songs, 39 in the player** (#1474). Song 2 first and Love Me Again second, unchanged. Audius stream checks are GPT
+  Work mode's (the build room cannot reach Audius).
+- **Roulette hand and whisky set** (#1475, #1478, #1479, #1483; Team V HO-081, HO-082). One aim rule from the window's
+  shape (22 degrees wide, 72 upright, blended), barrel through the board's centre, muzzle off the board; a real take,
+  raise and upward kick; shooter's-eye plates W and P, and S (sleeve from the side) where the bottom strip shows on tall
+  windows; the caption in the Spin button's room on upright phones; a wider lens on upright phones during the take and
+  the aim. Whisky glass on every level: Light one painted draw (rest 34 draws at 1920x866, 36 on phones, 11 programs),
+  High and up a reflection-only crystal.
+- **LOCK MY SIGNINGS** (#1476, also shipped as 2.5.1, #1477): see RELEASE_V2.5.1_R92.md.
+- **Rules budget sweep** (#1482). `tests/firebase/rules-budget-sweep-emulator.cjs` replays every play write (45 kinds) on
+  padded copies of the composed production Rules; L5 step `budget_sweep`. Bar: no refusal, at most 850 unless listed
+  knownOver, never worse than `tests/fixtures/rules-budget/baseline.json`. Same-check slims: JOIN ~991 to ~904, START
+  ~975 to ~826, season commit create ~916 to ~898. A Transfer War write refused twice now says so instead of "session
+  expired".
+- **Rivalry Statistics after a hidden final lock** (#1481, hunt U1, live in 2.5.0 too). js/sharedActiveShowdownAdapter.js
+  drops a stale running projection behind a closed, verified witness, so the views equal an app reopen.
+- **Transfer War verdicts after an app reopen** (#1484, hunt O1). VIEW TRANSFER VERDICTS is offered first until the
+  verdicts were seen. No reads or writes added.
+- **Story**: Volume 21, "The gold and the glove" (chapters 190 to 194).
+
+## Firestore Rules
+
+- Changed (R93-08 slims only). Composed production Rules SHA-256
+  `b3d4661971eb54f1489a7e445089b18b40a55a29654b7b1cceb977221b69f37c` (193,331 bytes); 2.5.1 is `2a0d029e…` (192,364
+  bytes). The reviewed main delta (`tests/fixtures/composed-production-rules/main-delta.json`) names main 23bdd439 and
+  lists 17 hunks. The Rules re-pin needs Nik's OK in words.
+- Compile probe (measure-firestore-rules-compile, compile only, nothing published): run [43757660203](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/43757660203), alternating 2.6.0 and main, 3 compiles per entry, 9 each: 2.6.0 (gameplay/r93 1b15c246) 9/9 HTTP 200 in 1.05 to 2.64 s; main 23bdd439 (2.5.1) 9/9 in 1.00 to 2.85 s. Both report the same 12 compiler warnings. Well under the 5 s compile deadline.
+
+## Reads and writes
+
+Measured on the Firebase emulator (CE2PG, 3 seasons) against 2.5.1 for this release; the numbers are added by the version bump PR.
+
+## What did not change
+
+- No tiebreak anywhere. Pairing, joining and the Remote Joining protocol keep their rules (JOIN checks the same things in a
+  cheaper form).
+- The no-flash rules and the Reus Gate are unchanged.
+- Firebase remains Spark-only, billing remains OFF and App Check enforcement remains OFF.
+- No saved Showdown is rewritten. Nothing in Firebase is deleted or edited.
+- The Rule Book is unchanged: no rule a player plays by changed, and its Golden line still holds.
+
+## SSJR status
+
+SSJR-1.1 remains frozen at `0/100`. SSJR-2.1 is `100/100`, earned on r85 (`1.9.9-r85`). No SSJR credit comes from this
+source, CI or deployment, and no new physical acceptance is claimed for 2.6.0.
