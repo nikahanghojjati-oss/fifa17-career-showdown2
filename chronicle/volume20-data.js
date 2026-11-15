@@ -123,6 +123,18 @@ window.CHRONICLE_VOLUME20={
     {
      "type": "p",
      "text": "2.5.0 changes no Rules and no saved data, and it costs no new reads. 2.5.0 went live on 14 November 2026, on Nik’s word."
+    },
+    {
+     "type": "h2",
+     "text": "Three names from the list"
+    },
+    {
+     "type": "p",
+     "text": "The next morning the hunt found what no real game had reached yet. A manager who picked two or three of his signings from the name list could not lock them. Every picked name brings its overall, its position and its SoFIFA number, and the Rules read each one. Three of them took the check past the thousand expressions Firestore allows for one request. The screen said the session had expired, which was not true, and trying again changed nothing."
+    },
+    {
+     "type": "p",
+     "text": "Nothing was taken out to fix it. The same checks were written so they cost less, each cut measured on its own: the worst lock that can be played now uses about 842 of the thousand. A new test measures that lock in all eight orders and fails if the spare room drops under 150. 2.5.1 went live on Nik’s word."
     }
    ],
    "sources": [
