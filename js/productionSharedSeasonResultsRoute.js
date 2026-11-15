@@ -38,6 +38,10 @@
     return postResultsBootstrapPromise;
   }
   function routeReady(){const transfer=routeTransfer(),view=transfer&&typeof transfer.getState==="function"?transfer.getState():null,screen=root.document&&root.document.getElementById("transferChallenge");return Boolean(routeShared()&&view&&view.state&&view.state.phase==="COMPLETED"&&screen&&!screen.dataset.sharedTransferReplay);}
+  // r93 O1: the dashboard button stays VIEW TRANSFER VERDICTS (the Transfer War's own) while this phone has not shown the
+  // completed Transfer War to this manager; once it has, the button is Season Results as before. CONTINUE TO SEASON RESULTS on
+  // the Transfer War screen is unchanged (that screen is the verdicts).
+  function routeVerdictsFirst(){try{return routeTransfer()?.verdictsUnseen?.()===true;}catch(_error){return false;}}
   function routeInstallEscapeStyle(){
     if(!root.document||root.document.getElementById("sharedSeasonResultsRouteStyle"))return false;
     const style=root.document.createElement("style");style.id="sharedSeasonResultsRouteStyle";
@@ -51,6 +55,7 @@
     const continueButton=routeButton("continueFromTransfers");
     if(continueButton&&openPromise){routeSetText(continueButton,"OPENING SEASON RESULTS…");if(!continueButton.disabled)continueButton.disabled=true;continueButton.dataset.sharedSeasonResultsRoute="true";}
     else if(continueButton){routeSetText(continueButton,"CONTINUE TO SEASON RESULTS");routeEnable(continueButton);if(continueButton.classList.contains("hidden"))continueButton.classList.remove("hidden");continueButton.dataset.sharedSeasonResultsRoute="true";}
+    if(routeVerdictsFirst())return true;
     const dashboardButton=routeButton("seasonPrimaryAction"),status=routeButton("dashboardTransferStatus"),results=routeResults(),resultView=results&&typeof results.getState==="function"?results.getState():null;
     if(dashboardButton&&openPromise){routeSetText(dashboardButton,"OPENING SEASON RESULTS…");if(!dashboardButton.disabled)dashboardButton.disabled=true;dashboardButton.setAttribute("aria-busy","true");dashboardButton.dataset.sharedSeasonResultsRoute="true";}
     else if(dashboardButton){if(dashboardButton.hasAttribute("aria-busy"))dashboardButton.removeAttribute("aria-busy");const label=resultView?.state?.phase==="RESULTS_READY"?"VIEW SEASON RESULTS":resultView?.ownResult?"VIEW MY CONFIRMED RESULT":"ENTER SEASON RESULTS";routeSetText(dashboardButton,label);routeEnable(dashboardButton);dashboardButton.dataset.sharedSeasonResultsRoute="true";}
@@ -92,6 +97,7 @@
   function routeCapture(event){
     const target=event.target&&event.target.closest&&event.target.closest("button");
     if(!target||!CONTROL_IDS.includes(target.id)||!routeReady())return;
+    if(target.id==="seasonPrimaryAction"&&routeVerdictsFirst())return;
     event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();
     void routeOpen().catch(error=>{if(typeof root.reportApplicationError==="function")root.reportApplicationError("Season Results did not open",error);else root.console?.error?.(error);});
   }
