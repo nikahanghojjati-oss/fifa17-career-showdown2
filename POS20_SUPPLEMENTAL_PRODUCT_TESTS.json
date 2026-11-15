@@ -3317,6 +3317,15 @@
       ]
     },
     {
+      "path": "tests/contracts/r93-verdicts-after-reload-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedSeasonResultsRoute|productionSharedTransferChallenge)\\.js$",
+        "^tests/support/fake-dom\\.cjs$",
+        "^tests/contracts/r93\\-verdicts\\-after\\-reload\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r93-rules-budget-sweep-contracts.cjs",
       "patterns": [
         "^firestore\\.spark\\.rules$",
