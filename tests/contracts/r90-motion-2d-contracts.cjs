@@ -28,54 +28,46 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   light("visual-assets/v10_1/shared/stage.css",/html\[data-gfx="0"\] \.sd-stage \{ will-change: opacity; \}/,"M33: at Light the stage keeps its own layer once the dust is gone");
   assert.match(read("visual-assets/v10_1/shared/stage.css"),/\.sd-stage \{\n[^}]*isolation: isolate;/,"the stage is already isolated, so the hint changes no stacking");
   ok("M18-M26","at Light the panels, stage dust and flare, Home tiles, Rule Book cards, Final Winner spotlights and Club glow step down; other levels are untouched");}
-// M27 (r91 HO-071, was "the five stage wordmarks ask for their drawn width"): the V3 title family. Every V3 picture of one
-// step has one height (38/76/150/300 px) and its own width, so each title's srcset must carry the files' REAL widths and its
-// "sizes" must ask for the one shared title height (--hc-title-h in css/r78-type.css) times that title's width/height ratio.
-// A wrong width here would draw one screen's title bigger or blurrier than the others.
+// M27 (r93 HO-079, was the V3 picture family): every screen title is live text in Cormorant SC Bold, flat gold (#C9A45C), at the one shared
+// title height (--hc-title-h in css/r78-type.css), inside the box its picture had; no title picture is drawn any more, and the Home logo
+// is the flat V4 file in three real widths.
 {const dims=file=>{const b=fs.readFileSync(path.join(ROOT,file));assert.equal(b.subarray(8,12).toString(),"WEBP",file);const kind=b.subarray(12,16).toString();
     if(kind==="VP8X")return [1+b.readUIntLE(24,3),1+b.readUIntLE(27,3)];
     if(kind==="VP8L"){const n=b.readUInt32LE(21);return [1+(n&0x3fff),1+((n>>>14)&0x3fff)];}
     return [b.readUInt16LE(26)&0x3fff,b.readUInt16LE(28)&0x3fff];};
-  const W="visual-assets/v10_1/",STEPS=[480,960,1920,3840],HEIGHTS=[38,76,150,300];
-  const h=/--hc-title-h: clamp\((\d+)px, ([\d.]+)vw, (\d+)px\);/.exec(read("css/r78-type.css"));assert.ok(h,"the shared title height is one variable");
-  const [hMin,hVw,hMax]=h.slice(1).map(Number);
-  const titles=[["js/careerScreensV10.js","career-statistics/assets/TITLE_CS"],["visual-assets/v10_1/trophy-room/trophy-room.js","trophy-room/assets/TITLE_TR"],
-    ["visual-assets/v10_1/season-results/app-shell.html","season-results/assets/TITLE_SR"],["visual-assets/v10_1/season-results/app-shell.html","season-results/assets/TITLE_SR_PHONE"],
-    ["visual-assets/v10_1/final-winner/app-shell.html","shared/wordmarks/TITLE_FINAL_WINNER"],["visual-assets/v10_1/standings/app-shell.html","shared/wordmarks/TITLE_STANDINGS"],
-    ["js/rivalryLegacyV10Markup.js","legacy/assets/TITLE_LG"],["js/rivalryLegacyV10Markup.js","rivalry-statistics/assets/TITLE_RV"],["js/rivalryLegacyV10Markup.js","rivalry-statistics/assets/TITLE_RV_PHONE"],
-    ["js/connectPlayersScreenV10.js","shared/wordmarks/TITLE_CONNECT_PLAYERS"],["js/rulesSettingsV10.js","shared/wordmarks/TITLE_RULE_BOOK"],["js/rulesSettingsV10.js","shared/wordmarks/TITLE_SETTINGS"],
-    ["visual-assets/v10_1/tr2/slice-02-plate/plate.js","shared/wordmarks/TITLE_TRANSFER"]];
-  for(const [file,asset] of titles){
-    const name=asset.split("/").pop(),src=read(file),real=STEPS.map((step,i)=>{const [w,hh]=dims(`${W}${asset}_V3_${step}.webp`);assert.equal(hh,HEIGHTS[i],`${name} ${step} height`);return w;});
-    assert.ok(!src.includes(name+"_V2_"),`${file} no longer draws ${name}_V2`);
-    // The four widths as the file writes them: a plain srcset, the Rule Book/Settings table, or Transfer War's [step, width] pairs.
-    const esc=name.replace(/_/g,"_"),at=src.indexOf(name+"_V3_");assert.ok(at>=0,`${file} draws ${name}_V3`);
-    let widths=STEPS.map(step=>{const m=new RegExp(esc+"_V3_"+step+"\\.webp (\\d+)w").exec(src);return m?Number(m[1]):null;});
-    if(widths.includes(null)){const m=new RegExp(esc+'_V3_960\\.webp":\\{key:"[A-Z_]+",widths:\\[(\\d+),(\\d+),(\\d+),(\\d+)\\]').exec(src)||/\[\[480, (\d+)\], \[960, (\d+)\], \[1920, (\d+)\], \[3840, (\d+)\]\]/.exec(src.slice(Math.max(0,at-200),at+600));
-      assert.ok(m,`${name} widths found in ${file}`);widths=m.slice(1).map(Number);}
-    assert.deepEqual(widths,real,`${name} srcset widths are the files' real widths`);
-    const ratio=real[2]/150,want=`clamp(${Math.round(hMin*ratio)}px, ${(hVw*ratio).toFixed(2)}vw, ${Math.floor(hMax*ratio)}px)`;
-    assert.ok(src.slice(at-200,at+1400).includes(want)||src.includes(`sizes:"${want}"`),`${name} asks for the shared title height: ${want}`);}
+  const W="visual-assets/v10_1/";
+  assert.match(read("css/r78-type.css"),/--hc-title-h: clamp\(40px, 3\.08vw, 59px\);/,"the shared title height is one variable");
+  const titles=[["js/careerScreensV10.js","CS"],["visual-assets/v10_1/trophy-room/trophy-room.js","TR"],
+    ["visual-assets/v10_1/season-results/app-shell.html","SR"],["visual-assets/v10_1/season-results/app-shell.html","SR_PHONE"],
+    ["visual-assets/v10_1/final-winner/app-shell.html","FINAL_WINNER"],["visual-assets/v10_1/standings/app-shell.html","STANDINGS"],
+    ["js/rivalryLegacyV10Markup.js","LG"],["js/rivalryLegacyV10Markup.js","RV"],
+    ["js/connectPlayersScreenV10.js","CONNECT"],["js/rulesSettingsV10.js","RULE_BOOK"],["js/rulesSettingsV10.js","SETTINGS"],
+    ["visual-assets/v10_1/tr2/slice-02-plate/plate.js","TRANSFER"]];
   const type=read("css/r78-type.css");
-  assert.match(type,/img\.hc-title-img \{ object-fit: scale-down !important; object-position: 50% 50% !important; \}/,"a title is never stretched or enlarged inside its box");
-  for(const key of ["CS","LG","RV","SR","SR_PHONE","CONNECT","FINAL_WINNER","STANDINGS","TRANSFER","TR","RULE_BOOK","SETTINGS"])
-    assert.match(type,new RegExp('img\\.hc-title-img\\[data-hc-title="'+key+'"\\] \\{ aspect-ratio: 1920 / \\d+; \\}'),`${key} keeps the box its old picture had, so nothing moves`);
-  // Home logo: three real widths, and every V3 file a screen can fetch is lighter than the V1/V2 file of the same step.
+  for(const [file,key] of titles){
+    const src=read(file);
+    assert.ok(src.includes("hc-live-title")&&(src.includes(`data-hc-title=\\"${key}\\"`)||src.includes(`data-hc-title="${key}"`)||src.includes(`${key}:{`)||src.includes(`"${key}"`)||src.includes(`'${key}'`)||src.includes(`${key}: {`)),`${file} draws the live title ${key}`);
+    assert.doesNotMatch(src,/TITLE_[A-Z_]+_V[123]/,`${file} draws no title picture`);
+    assert.match(type,new RegExp(':where\\([^{]*\\.hc-live-title\\[data-hc-title="'+key+'"\\][^{]*\\) \\{ --hcl-cap:[^}]*aspect-ratio: 1920 / \\d+;'),`${key} keeps the box its old picture had, so nothing moves`);}
+  assert.match(type,/font-family: "Cormorant SC";\n  font-style: normal;\n  font-weight: 700;\n  font-display: block;\n  src: url\("\.\.\/visual-assets\/v10_1\/shared\/fonts\/CormorantSC-Bold-latin\.woff2"\)/,"the title face is the shipped Cormorant SC Bold file");
+  assert.match(type,/letter-spacing: \.06em; text-transform: uppercase;/,"live titles: .06em, capitals");
+  assert.match(type,/color: #C9A45C; -webkit-text-fill-color: #C9A45C;/,"live titles: flat #C9A45C");
+  assert.match(type,/background: none; text-shadow: none; filter: none;/,"live titles: no shadow, no filter, no plate");
+  // Home logo: three real widths of the flat V4 file, lighter than the V3 files they replace.
   const home=read("js/homeScreensV10.js");
-  for(const w of [640,1040,2080]){assert.equal(dims(`${W}home/assets/LOGO_CM17_WORDMARK_V3_${w}.webp`)[0],w,`logo ${w}`);assert.ok(home.includes(`LOGO_CM17_WORDMARK_V3_${w}.webp ${w}w`),`Home lists the ${w} logo`);}
+  for(const w of [640,1040,2080]){assert.equal(dims(`${W}home/assets/LOGO_CM17_WORDMARK_V4_${w}.webp`)[0],w,`logo ${w}`);assert.ok(home.includes(`LOGO_CM17_WORDMARK_V4_${w}.webp ${w}w`),`Home lists the ${w} logo`);}
   const size=file=>fs.statSync(path.join(ROOT,W+file)).size;
-  assert.ok(size("home/assets/LOGO_CM17_WORDMARK_V3_640.webp")<size("home/assets/LOGO_CM17_WORDMARK_V1_640W.webp")&&size("home/assets/LOGO_CM17_WORDMARK_V3_1040.webp")<size("home/assets/LOGO_CM17_WORDMARK_V1.webp"),"the Home logo got lighter");
-  for(const [,asset] of titles)for(const step of STEPS)assert.ok(size(`${asset}_V3_${step}.webp`)<size(`${asset}_V2_${step}.webp`),`${asset} ${step} is lighter than V2`);
-  // In-game headers (Chamber Men, Squad Management, Prime Pack): the heading keeps its words and its box; the V3 lettering is laid
-  // over it at the capital height the text had (1.4em), with the picture's own width/height ratio, so it is never stretched.
-  for(const [file,sel,asset,prefix] of [["css/chamberMen.css","#cmStage .cmHeader > .cmTitle","TITLE_CHAMBER_MEN","../visual-assets/v10_1/shared/wordmarks/"],
-    ["css/squadScreen.css","#sqStage .sqHeader>.sqTitle","TITLE_SQUAD","../visual-assets/v10_1/shared/wordmarks/"],["visual-assets/v10_1/icon-guess/index.html",".packtitle","TITLE_PRIME_PACK","../shared/wordmarks/"]]){
-    const src=read(file),at=src.indexOf(sel+"::after"),rule=src.slice(at,src.indexOf("}",at));assert.ok(at>=0,`${file} draws ${asset} over its heading`);
-    const [w,hh]=dims(`${W}shared/wordmarks/${asset}_V3_1920.webp`),m=/height: ?1\.4em;.*width: ?min\(calc\(1\.4em \* ([\d.]+)\)/.exec(rule);
-    assert.ok(m&&Math.abs(Number(m[1])-w/hh)<0.01,`${asset} keeps its own ratio (${(w/hh).toFixed(3)})`);
-    for(const step of [960,1920])assert.ok(rule.includes(`${prefix}${asset}_V3_${step}.webp`),`${asset} ${step} is drawn`);
-    assert.match(src.slice(src.lastIndexOf(sel,at-1)-2,at),/color: ?transparent/,`${asset}: the words stay in the heading, unpainted`);}
-  ok("M27","the V3 title family: real srcset widths, one shared title height, old boxes kept, lighter files; in-game headers keep their box");}
+  assert.ok(size("home/assets/LOGO_CM17_WORDMARK_V4_640.webp")<size("home/assets/LOGO_CM17_WORDMARK_V3_640.webp")&&size("home/assets/LOGO_CM17_WORDMARK_V4_1040.webp")<size("home/assets/LOGO_CM17_WORDMARK_V3_1040.webp"),"the Home logo got lighter");
+  // In-game headers (Chamber Men, Squad Management, Prime Pack): the heading keeps its words and its box; the same words are laid over
+  // it as live text at the shared title height.
+  for(const [file,sel,words] of [["css/chamberMen.css","#cmStage .cmHeader > .cmTitle","CHAMBER MEN"],
+    ["css/squadScreen.css","#sqStage .sqHeader>.sqTitle","SQUAD MANAGEMENT"],["visual-assets/v10_1/icon-guess/index.html",".packtitle","PRIME PACK"]]){
+    const src=read(file),at=src.indexOf(sel+"::after"),rule=src.slice(at,src.indexOf("}",at));assert.ok(at>=0,`${file} draws ${words} over its heading`);
+    assert.ok(rule.includes(`content: "${words}"`)||rule.includes(`content:"${words}"`),`${words} is drawn as live text`);
+    assert.ok(/"Cormorant SC"/.test(rule)&&/#C9A45C/.test(rule),`${words}: Cormorant SC, #C9A45C`);
+    assert.doesNotMatch(rule,/text-shadow:(?!\s*none)|drop-shadow/,`${words}: no shadow`);
+    assert.match(src.slice(src.lastIndexOf(sel,at-1)-2,at),/color: ?transparent/,`${words}: the words stay in the heading, unpainted`);}
+  ok("M27","live Cormorant SC titles: one shared title height, old boxes kept, flat gold, no shadow; the flat V4 Home logo in three widths; in-game headers keep their box");}
 // M28 (Nik 2026-11-12: every phone and tablet screen matches its desktop screen). Two things were still desktop-only:
 // the flat dark slab behind the numbers (the phone and tablet rules of Career Statistics and of the Final Winner results
 // panel still painted the vein tile), and the title family (tablets and sideways phones lettered the set-up header bar
@@ -92,8 +84,8 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   const C='html[data-v10-setup]:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) header#topHeader > div.brand';
   const at=type.indexOf(C+'::after {');assert.ok(at>0,"the set-up header draws its brand in ::after");
   const rule=type.slice(at,type.indexOf("}",at));
-  for(const step of [640,1040])assert.ok(rule.includes(`../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_${step}.webp`),`the header draws the V3 Home logo (${step})`);
-  const [lw,lh]=(b=>[1+b.readUIntLE(24,3),1+b.readUIntLE(27,3)])(fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp")));
+  for(const step of [640,1040])assert.ok(rule.includes(`../visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V4_${step}.webp`),`the header draws the V4 Home logo (${step})`);
+  const [lw,lh]=(b=>[1+b.readUIntLE(24,3),1+b.readUIntLE(27,3)])(fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V4_640.webp")));
   assert.ok(rule.includes(`aspect-ratio: ${lw} / ${lh}`),"the header logo keeps the picture's own shape");
   assert.match(rule,/width: min\(100%, 204px\)/,"the header logo never leaves the brand's own box, so it cannot reach SIGN IN");
   assert.ok(type.includes(C+' > :is(h1, p) {\n  color: transparent !important;'),"the old block lettering is unpainted, the words stay for screen readers");

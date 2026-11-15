@@ -22,6 +22,8 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
 .titleBlock .sd-eyebrow::before { width: 22px; height: 14px; margin-bottom: 2px; }
 .titleWordmark { position: absolute; left: 2.25%; top: 39%; margin: 0; width: 93.6%; filter: drop-shadow(0 3px 5px rgba(0,0,0,.9)) drop-shadow(0 0 10px rgba(245,197,24,.16)); }
 .titleWordmark img { display: block; width: 100%; height: auto; }
+.titleWordmark .hc-live-title { display: block; height: auto; margin-inline: auto; }
+@media (min-width: 901px) { .titleWordmark .hc-live-title { width: 100%; } }
 .titleBlock .sd-tagline { position: absolute; left: 0; right: 0; top: 86%; margin-top: 0; font-size: clamp(10px,.74vw,14px); letter-spacing: .42em; }
 .previewChip { position: absolute; z-index: 8; left: 50%; top: 8.2%; transform: translateX(-50%); padding: 4px 10px; border: 1px solid rgba(255,211,77,.8); background: rgba(7,8,10,.92); color: #fff1b8; font: 700 clamp(9px,.68vw,12px)/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing: .16em; text-transform: uppercase; box-shadow: 0 0 12px rgba(245,197,24,.16); }
 .headlineTiles { position: absolute; z-index: 2; left: 24.22%; top: 28.48%; width: 51.44%; height: 12.65%; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .58%; }

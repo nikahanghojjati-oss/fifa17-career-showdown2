@@ -14,6 +14,14 @@ Career Mode Showdown is a personal fan project. This file records third-party ma
 
 The application does not claim Barlow is EA/FIFA's proprietary typeface.
 
+## Cormorant SC
+
+- Typeface family: Cormorant (Cormorant SC, Bold 700, Latin subset)
+- Copyright: 2015 the Cormorant Project Authors, `https://github.com/CatharsisFonts/Cormorant`
+- License: SIL Open Font License, Version 1.1 (full text: `visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt`)
+- Application use (r93, HO-079): the live-text screen titles, in flat gold, on every titled screen.
+- Delivery: `visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2`, stored in this repository and served from the game's own site (`font-display: block`, so a title never paints in a stand-in face).
+
 ## Marco Reus photograph
 
 - Repository file: `assets/marco-reus-2015-cc-by.webp`

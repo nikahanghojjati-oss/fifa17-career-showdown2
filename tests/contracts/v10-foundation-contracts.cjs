@@ -895,6 +895,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_1040.webp":"8907a752d99b33a94229368e83927a2e25933228371044ce881973da312f39c6",
     "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_2080.webp":"8508dd9713cb0e26c6bdb62192db5af75448da7a4f87073a0c355059cf11b7aa",
     "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp":"1bd6859ee30751530a794c4936db487fb6547ef622e8864c8c1cec2f7cd4eb62",
+    // r93 HO-079 (Team V): the flat Home logo V4, copied byte for byte (the V3 files stay in the repository, no longer referenced).
+    "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V4_1040.webp":"2b02c3bc57688c2ae73ed2fc35a337fed6415682d719db9d17785bb2fc407776",
+    "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V4_2080.webp":"2ba0843e6e9b3a20ca77e5d7b048d18f426bc6d6e39c1bfa171cf6f9c59c59dc",
+    "visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V4_640.webp":"07e794e41c1a1700dd3f75ec5f50434ff1b6d3b95f289186eae39ac18ee850a0",
     "visual-assets/v10_1/legacy/assets/TITLE_LG_V3_1920.webp":"a8288dcddcb1ea7f93705345e6efc8644b2b09e64a926c03245ec196eba3e7a4",
     "visual-assets/v10_1/legacy/assets/TITLE_LG_V3_3840.webp":"7b3c90c27d6381b7a3ed9fd6381fa9f5baf509f1a16769bedb8da7af616a1644",
     "visual-assets/v10_1/legacy/assets/TITLE_LG_V3_480.webp":"e57a246685623c6944c87fdc369c96b6b7371c4b4df30a85a64318cf6f145266",
@@ -1194,7 +1198,7 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // footer, nothing else.
   // Re-pinned 2026-11-14 by the 2.5.0 release PR: gameplay/r92's file (the 2.4.0 file, which r92 never changed) with its 2.5.0-r92
   // pins and v2.5.0 footer, nothing else.
-  assert.equal(sha256("index.html"),"04cfa31f907b00e401f4a92b54fe824e0581cd55164e7116eb92ece245ff2947","index.html is the 2.5.0 release (HO-072 loading cover, B1 boot-fail guard, 2.5.0-r92 pins)");
+  assert.equal(sha256("index.html"),"cc0a9d71dcb9c4c23f75aaddd5df7bc2ba689e91fa95da7c5f053c4a19f47fd0","index.html is the 2.5.0 release (HO-072 loading cover, B1 boot-fail guard, 2.5.0-r92 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
@@ -1213,7 +1217,7 @@ check("F11 Team V files are copied unchanged; no docs, previews or images are co
     "visual-assets/v10_1/shared/navbar/navbar.js":"7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c",
     // Re-copied from the final Team V pin (phone layout); job 13's only file that changed upstream. Gameplay has edited it
     // since r78 (r78 look, r84 release, r87 red-team fits D-04/D-05, e3df0019); re-pinned 2026-11-01 to gameplay/r87 45c01a72.
-    "visual-assets/v10_1/career-statistics/career-statistics.css":"6d018d8ad7abe1397997943c71ed63f4640d2686e0c8aac76f66b7e10ff2ae22"
+    "visual-assets/v10_1/career-statistics/career-statistics.css":"5bd0356339bd2e7e29a0d5b873c7de971c5c65d73ab92be996cc759624a5711e"
   };
   for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals its pinned copy`);
   assert.deepEqual(fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/shared/navbar")).sort(),["navbar.css","navbar.js"]);

@@ -16,8 +16,8 @@
     "</div>",
     "<header class=\"connectPlayersHeader\">",
     "<p class=\"connectPlayersKicker\">CAREER MODE SHOWDOWN // 17</p>",
-    // r80 (Team V HO-033): the title is the TITLE_CONNECT_PLAYERS_V1 picture; the words stay as visually hidden text.
-    "<h2 id=\"connectPlayersTitle\"><img class=\"connectPlayersWordmark hc-title-img\" data-hc-title=\"CONNECT\" src=\"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_960.webp\" srcset=\"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_480.webp 318w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_960.webp 635w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_1920.webp 1254w, visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_3840.webp 2508w\" sizes=\"clamp(334px, 25.75vw, 493px)\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"connectPlayersTitleText\">CONNECT PLAYERS</span></h2>",
+    // r93 (Team V HO-079): the title is live Cormorant SC text; the words also stay as visually hidden text.
+    "<h2 id=\"connectPlayersTitle\"><span aria-hidden=\"true\" class=\"connectPlayersWordmark hc-live-title\" data-hc-title=\"CONNECT\" style=\"--hcw:10.1\"><span>CONNECT PLAYERS</span></span><span class=\"connectPlayersTitleText\">CONNECT PLAYERS</span></h2>",
     "<p class=\"connectPlayersTagline\">Connect Daniel and Nik before the career starts.</p>",
     "</header>",
     "<div class=\"connectPlayersWorkspace\">",

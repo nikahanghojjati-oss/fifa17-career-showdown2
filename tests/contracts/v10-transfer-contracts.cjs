@@ -33,7 +33,7 @@ const CONTROL_IDS=JSON.parse(/const CONTROL_IDS=Object\.freeze\((\[[^\]]+\])\)/.
 // Team V 5e05a1f bytes (plate.js: before the four "App (JOB-27)" lines).
 const TEAM_V={
   "plate.js":"d294be928cdebcded385fd4e3e895de1e35269c36b6b7dd6f305698b70d7b040",
-  "plate.css":"3d06c8d832c163d145d2d7b1343d2f0d350a65580662a22bd59fec0dfa85530e",
+  "plate.css":"8c5d359b89c7d5da92aef71590afe21913855837d1808aef7ceec2853160acc1",
   "platemap.json":"710b219b746494ccb8cc0c543b8ad6d13517cbe833150555489236e012eb30da",
   "assets/DER_TR2_PLATE_G_GLASS_C_V1.webp":"f32d2be2da963daf45342a7478dd439d3e8f19c2349cf3bd435d642bf6405925",
   "assets/ENV_TR2_PLATE_G_LOCKED_V1_1672.webp":"fc982425ed87ed54ccf4d8da1daa3a8530b026a17beb2d7bc4e4262ac967e494",
@@ -72,9 +72,11 @@ check("1 Team V files are 5e05a1f bytes; plate.js differs only by the four marke
     assert.equal(sha256(fs.readFileSync(path.join(ROOT,DIR,file))),hash,file);
   }
   const plate=read(DIR+"plate.js"),marked=plate.split("\n").filter(line=>/App \(JOB-27\)|ASSET_BASE \+/.test(line));
-  assert.equal(marked.length,4,"four edited lines");
-  // HO-071 (r91): the title line draws the V3 title family at its real file widths; undo it before comparing with Team V's plate.js.
-  const original=plate.replace(`    h.appendChild(el("img", { "class": "hc-title-img", "data-hc-title": "TRANSFER", src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V3_960.webp", srcset: [[480, 267], [960, 533], [1920, 1052], [3840, 2105]].map(function (s) { return ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V3_" + s[0] + ".webp " + s[1] + "w"; }).join(", "), sizes: "clamp(281px, 21.60vw, 413px)", alt: "", "aria-hidden": "true", decoding: "async" })); // App (HO-071): V3 title family, real file widths, one letter height`,`    h.appendChild(el("img", { src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp", alt: "", "aria-hidden": "true", decoding: "async" }));`).split("\n").filter(line=>!line.includes('var ASSET_BASE = window.TRANSFER_WAR_BASE || ""; // App (JOB-27)')).join("\n")
+  assert.equal(marked.length,3,"three edited lines (the title line is live text since r93 HO-079)");
+  // r93 HO-079: the title line is live Cormorant SC text; undo it before comparing with Team V's plate.js.
+  const original=plate.replace(`    var live = el("span", { "class": "hc-live-title", "data-hc-title": "TRANSFER", "aria-hidden": "true" }, [el("span", { text: "TRANSFER WAR" })]); // r93 HO-079: live text, flat gold (css/r78-type.css)
+    live.style.setProperty("--hcw", "8.36");
+    h.appendChild(live);`,`    h.appendChild(el("img", { src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp", alt: "", "aria-hidden": "true", decoding: "async" }));`).split("\n").filter(line=>!line.includes('var ASSET_BASE = window.TRANSFER_WAR_BASE || ""; // App (JOB-27)')).join("\n")
     .replace('ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp"','"../../shared/wordmarks/TITLE_TRANSFER_V1.webp"')
     .replace('ASSET_BASE + "assets/ENV_TR2_PLATE_G_LOCKED_V1_"','"assets/ENV_TR2_PLATE_G_LOCKED_V1_"')
     .replace(' || window.TRANSFER_WAR_APP) return; // App (JOB-27): the app passes the frame',') return;');
