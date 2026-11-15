@@ -664,7 +664,7 @@
   // pricing, "Listeners and rules"), so every server delivery is billed its document plus its lookups. A write is priced at
   // every document its create or update rule can reach, once per request (a transaction is one request): an upper bound.
   // tests/contracts/r86-billed-counter-contracts.cjs fails when the Rules change and this table is not regenerated.
-  const FSB_RULES_SHA256="237f867bade1ad244c92d1b8ab041a588fabd9e68485f7ee47dded4de939f7ab";
+  const FSB_RULES_SHA256="2a0d029e911165022ffc40b1ff347372cc78333fa60b152fd5183a339006d9be";
   // BEGIN generated Rules lookup table (paths are priced here, never read or written by this module).
   const FSB_RULES_LOOKUPS=Object.freeze([
       ["accounts/*",0,0,[]],
