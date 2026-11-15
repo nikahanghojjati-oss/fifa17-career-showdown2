@@ -93,6 +93,10 @@ showdown.course = (() => {
     const p15 = () => gr({ leaguePosition: 1, leaguePoints: 101, leagueGoals: 90, championsLeague: true, domesticCup: true, topScorer: true, primePack: 4 });
     return { ...showdown.ready, history: fixtures.history(gp({ seed: "7", totalSeasons: 10, seasons: Array.from({ length: 3 }, () => [p15(), p15()]) })) };
 })();
+// r93 hunt C1: the state real play has on the next season's entry form. Season 3 was saved and both moved on, so the shared
+// progression counts 3 accepted seasons and the history view is cleared (null). The page still holds season 3's converged
+// history from the confirmed view it showed before (GOLDEN_COURSE_NEXT opens that view first, then this state).
+showdown.courseNext = { ...showdown.course, multiSeason: fixtures.multiFor(showdown.course.history.projection), history: null };
 // A three-season completed career (same shape as phone-trophy-room-data-audit), so the career screens show real data.
 const { projection, result, finalFor } = require("../support/career-fixture-helpers.cjs");
 const Career = require("../../js/sharedCareerAnalytics.js");
@@ -157,6 +161,10 @@ const SCREENS = {
     SEASON_RESULTS: { host: "seasonEntry", open: page => seasonResultsOpen(page, "ready") },
     // r93 part C: the entry step (filled in, before the review) with ON COURSE FOR GOLDEN under both managers' headers.
     GOLDEN_COURSE: { host: "seasonEntry", open: page => seasonResultsOpen(page, "course", false) },
+    // r93 hunt C1: the confirmed view (BOTH MANAGERS CONFIRMED) of a season that keeps the course, and the next season's entry
+    // form in the state real play has (history view cleared, the progression on the saved season).
+    GOLDEN_COURSE_REVIEW: { host: "seasonEntry", open: page => seasonResultsOpen(page, "course", true) },
+    GOLDEN_COURSE_NEXT: { host: "seasonEntry", open: async page => { await seasonResultsOpen(page, "course", true); await page.waitForSelector("#seasonEntry .seasonGoldenCourseLine, #seasonEntry .seasonGoldenCourse", { state: "attached", timeout: 15000 }); await seasonResultsOpen(page, "courseNext", false); } },
     FINAL_WINNER: { host: "seasonEntry", open: async page => { await seed(page, "finished"); await page.evaluate(() => window.openSeasonEntry()); } },
     // r93: the Golden Showdown screen, drawn before Final Winner when a manager closes a 10-season Showdown on 150.
     GOLDEN: { host: "seasonEntry", open: async page => { await seed(page, "golden"); await page.evaluate(() => window.openSeasonEntry()); await page.waitForSelector("#seasonEntry .v10GoldenStage", { timeout: 20000 }); } },
@@ -775,8 +783,11 @@ async function goldenCourseClear(page){
     return page.evaluate(() => {
         const bad = [], shown = el => { const cs = getComputedStyle(el), b = el.getBoundingClientRect(); return cs.display !== "none" && cs.visibility !== "hidden" && b.width > 0 && b.height > 0 && !el.closest(".hidden, [hidden]"); };
         const chips = [...document.querySelectorAll("#seasonEntry .seasonGoldenCourse")].filter(shown), line = [...document.querySelectorAll("#seasonEntry .seasonGoldenCourseLine")].filter(shown);
-        if(!(line.length === 1 && chips.length === 0) && !(line.length === 0 && chips.length === 2)) return [`ON COURSE FOR GOLDEN shows ${line.length} title line(s) and ${chips.length} card chip(s) (want one line, or one chip per manager)`];
-        for(const chip of [...line, ...chips]){
+        // r93 hunt C1: on the review / confirmed view the line sits in the panel's status bar instead (and only there)
+        const review = [...document.querySelectorAll("#seasonEntry .seasonGoldenCourseReview")].filter(shown), panel = document.querySelector("#seasonReviewPanel");
+        const panelUp = Boolean(panel && shown(panel));
+        if(panelUp ? !(review.length === 1 && line.length === 0 && chips.length === 0) : (review.length !== 0 || (!(line.length === 1 && chips.length === 0) && !(line.length === 0 && chips.length === 2)))) return [`ON COURSE FOR GOLDEN shows ${line.length} title line(s), ${chips.length} card chip(s) and ${review.length} review line(s) (want one line, one chip per manager, or on the review view one line in its status bar)`];
+        for(const chip of [...line, ...chips, ...review]){
             const card = chip.closest("#daniel-entry-panel, #nik-entry-panel"), who = !card ? "the title" : card.id === "daniel-entry-panel" ? "Daniel's card" : "Nik's card";
             const box = (card || document.documentElement).getBoundingClientRect(), r = chip.getBoundingClientRect();
             if(r.left < box.left - 0.5 || r.right > (card ? box.right : innerWidth) + 0.5) bad.push(`ON COURSE FOR GOLDEN (${who}) runs out of ${card ? "its card" : "the screen"}`);
@@ -812,12 +823,12 @@ if(require.main === module) (async () => {
         await selfTest(browser);
         for(const key of keys) if(!SCREENS[key]) throw new Error("unknown screen " + key);
         const report = async (page, key, w, h, dpr, errors) => {
-            if(key === "GOLDEN_COURSE") await seasonResultsChips(page);
+            if(/^GOLDEN_COURSE/.test(key)) await seasonResultsChips(page);
             if(key === "SEASON_RESULTS") await seasonResultsChips(page);
             const res = await checkFaces(page, key, w, h, dpr);
             if(key === "FINAL_WINNER") for(const what of await finalWinnerResultClear(page)) res.findings.push({ face: "", what });
             if(key === "GOLDEN") for(const what of await goldenButtonClear(page)) res.findings.push({ face: "", what });
-            if(key === "GOLDEN_COURSE") for(const what of await goldenCourseClear(page)) res.findings.push({ face: "", what });
+            if(/^GOLDEN_COURSE/.test(key)) for(const what of await goldenCourseClear(page)) res.findings.push({ face: "", what });
             for(const what of await specialPlayerChipsClear(page)) res.findings.push({ face: "", what });
             if(key === "LEAGUE") for(const what of await leagueWheelSlicesClear(page)) res.findings.push({ face: "", what });
             checked++;

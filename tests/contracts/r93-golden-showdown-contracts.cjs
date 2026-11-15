@@ -219,13 +219,31 @@ function busts(file){
     assert.deepEqual(line(),[["","ON COURSE FOR GOLDEN","DANIEL","15 every season"]]);
     Season.goldenCourseChips(stage,null);assert.deepEqual(chips(),[]);assert.deepEqual(line(),[]);
     assert.equal(doc.styles.length,1,"one style block");
-    assert.match(doc.styles[0].textContent,/#app #seasonEntry\.v10FinalMode :is\(\.seasonGoldenCourse,\.seasonGoldenCourseLine\) \{ display:none; \}/,"never on Final Winner");
+    assert.match(doc.styles[0].textContent,/#app #seasonEntry\.v10FinalMode :is\(\.seasonGoldenCourse,\.seasonGoldenCourseLine,\.seasonGoldenCourseReview\) \{ display:none; \}/,"never on Final Winner");
+    // hunt C1: while the review / confirmed panel is up, its status bar carries the line and the others step aside
+    assert.match(doc.styles[0].textContent,/#app #seasonEntry:has\(#seasonReviewPanel:not\(\.hidden\)\) :is\(\.seasonGoldenCourse,\.seasonGoldenCourseLine\) \{ display:none; \}/);
     assert.doesNotMatch(doc.styles[0].textContent,/font[^;]*\b(?:[0-9]|1[01])px/,"no text under 12px");
   }finally{globalThis.document=saved;}
   // wiring: Season Results renders it from the live Showdown's history only (never a closed or kept one); no provider in it
   const src=read("js/seasonFinalV10.js"),part=(from,to)=>{const i=src.indexOf(from),j=src.indexOf(to,i+1);assert.ok(i>0&&j>i,from);return src.slice(i,j);};
   assert.match(src,/sfSeasonChips\(stage,frame\.specialPlayers\);\n    sfGoldenCourse\(stage,frame\.goldenCourse\);/);
-  assert.match(src,/const source=seasonSource\(\),s=sfSnapshot\(\),course=s\.terminalClose\?\.phase==="CLOSED"\?null:goldenCourse\(s\.history\);/);
+  assert.match(src,/const source=seasonSource\(\),s=sfSnapshot\(\),course=s\.terminalClose\?\.phase==="CLOSED"\?null:goldenCourse\(sfCourseHistory\(s\)\);/);
+  // hunt C1: the next season's entry form has no live history (the view is cleared as the cursor moves on). The page keeps the
+  // last converged history of the same Showdown and uses it only while the shared progression counts exactly its seasons.
+  {
+    const names={history:"CareerModeProductionSharedHistoryConvergence",multiSeason:"CareerModeProductionSharedMultiSeasonProgression",terminalClose:"CareerModeProductionSharedTerminalClose"};
+    const saved=Object.fromEntries(Object.values(names).map(n=>[n,globalThis[n]]));
+    const set=snap=>{for(const [k,n] of Object.entries(names))globalThis[n]={getState:()=>snap[k]??null};};
+    try{
+      const h3=live(10,[[p15(),p15()],[p15(),p15()],[p15(),p15()]]),p3=h3.projection,course=()=>plain(Season.seasonScreenSource().goldenCourse||null);
+      set({history:h3,multiSeason:fx.multiFor(p3)});assert.deepEqual(course(),{managers:["daniel","nik"],through:3},"confirmed view: the live history");
+      set({history:null,multiSeason:fx.multiFor(p3)});assert.deepEqual(course(),{managers:["daniel","nik"],through:3},"next season's entry form: the kept history, same Showdown, same accepted seasons");
+      set({history:null,multiSeason:fx.multi({rivalryId:p3.rivalryId,totalSeasons:10,acceptedSeasons:4})});assert.equal(course(),null,"the progression has moved past it: nothing stale");
+      set({history:null,multiSeason:fx.multi({rivalryId:"other_rivalry",totalSeasons:10,acceptedSeasons:3})});assert.equal(course(),null,"another Showdown: never");
+      set({history:null,multiSeason:null});assert.equal(course(),null,"no progression: never");
+      set({history:null,multiSeason:fx.multiFor(p3),terminalClose:{phase:"CLOSED",rivalryId:p3.rivalryId}});assert.equal(course(),null,"closed: never");
+    }finally{for(const [n,v] of Object.entries(saved))globalThis[n]=v;}
+  }
   assert.match(src,/frame:seasonScreenSource,/);assert.match(src,/screen==="seasonEntry"\?seasonScreenSource\(\):/);
   const code=part("// r93 part C (Nik 2026-11-14)","// r87 one-tap Rematch")+part("// r93 part C: on a desktop window the chip","// HO-068: the Standings phone art")+part("// r93 part C: Season Results also carries","// The pair module notifies");
   assert.doesNotMatch(code,/firestore|getDoc|setDoc|readCompletedShowdown|localStorage|fetch\(|\b110\b/i);
@@ -272,6 +290,12 @@ function busts(file){
   assert.match(read("visual-assets/v10_1/legacy/legacy.js"),/\["daniel", "nik"\]\.filter\(\(manager\) => golden\.includes\(manager\)\)/);
   assert.match(read("visual-assets/v10_1/legacy/legacy.js"),/bust\.src = GOLDEN_BUSTS\[manager\];/);
   assert.doesNotMatch(read("css/rivalryLegacyV10.css"),/\b110 points\b/,"no 110 anywhere");
+  // hunt G1: a re-render of the same Golden screen keeps the stage it already drew (no flash, no replayed entrance); only a new
+  // Showdown or changed markup builds a fresh one, and the button always passes on the latest frame.
+  { const sf=read("js/seasonFinalV10.js");
+    assert.match(sf,/const goldenDrawn=new WeakMap\(\);/);
+    assert.match(sf,/if\(kept&&was&&host\.classList\.contains\("v10GoldenMode"\)&&kept\.dataset\.goldenKey===g\.key&&was\.markup===markup\)\{\s*was\.frame=frame;was\.rematch=rematch;/);
+    assert.match(sf,/renderFinal\(host,drawn\.frame,drawn\.rematch\)/); }
   ok("GS7","Golden everywhere it belongs (Nik 2026-11-14 17:15 UTC): Standings CAREER row from the one rule, and the winner's own gold bust (HO-080) on the Golden screen, Trophy Room, Career Statistics, Rivalry Statistics and History");
 }
 
