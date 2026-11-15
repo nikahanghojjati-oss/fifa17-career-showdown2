@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 1:32 PM Boston time (EST)",
+ "generated": "2026-11-15 1:36 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 285,
@@ -3419,7 +3419,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 11008
+    "waiting_min": 11012
    },
    {
     "id": "HO-059",
@@ -3744,7 +3744,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-083_roulette-hand-side-entry-plate-rerun-at-.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 470
+    "waiting_min": 474
    }
   ],
   "relay_ok": true
