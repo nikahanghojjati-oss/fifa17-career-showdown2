@@ -458,8 +458,10 @@ function createGfxQualityControl(){
         : typeof window.loadRuntimeScript === "function" ? Promise.resolve(window.loadRuntimeScript("gfx-tier", "js/gfxTier.js", ready)) : Promise.resolve(false);
     load.then(() => fillSettingsGfxSelect(select, note), () => {});
     // A crash cap or a Device check result can move Auto; the line reads the saved state again while Settings is open.
+    // r93 (Nik's iPhone 17, 2026-11-15: the Device check kept High shut while this row read "Auto · High"): the row also reads
+    // it again when the page comes back from the browser's back-forward cache, and when another tab (the Device check) saves.
     const onLevel = () => {
-        if(!select.isConnected){ window.removeEventListener("cms-gfx-level", onLevel); return; }
+        if(!select.isConnected){ for(const type of ["cms-gfx-level", "pageshow", "storage"]){ window.removeEventListener(type, onLevel); } return; }
         if(window.CareerModeGfxTier){
             note.textContent = getSettingsGfxAutoText(window.CareerModeGfxTier); note.hidden = !note.textContent;
             const auto = select.querySelector('option[value="auto"]');
@@ -467,6 +469,8 @@ function createGfxQualityControl(){
         }
     };
     window.addEventListener("cms-gfx-level", onLevel);
+    window.addEventListener("pageshow", onLevel);
+    window.addEventListener("storage", onLevel);
     return row;
 }
 
