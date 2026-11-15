@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 3:24 AM Boston time (EST)",
+ "generated": "2026-11-15 3:27 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 283,
@@ -2603,7 +2603,22 @@
    "revision": "2.5.0-r92",
    "when": "2026-11-14T11:12:28-05:00",
    "subject": "Release 2.5.0 (r92): merge gameplay/r92 into main (#1464)",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1477,
+     "title": "Release 2.5.1 (r92 hotfix): LOCK MY SIGNINGS with names picked from the list",
+     "draft": false,
+     "branch": "claude-gameplay/hotfix-2.5.1-lock-signings",
+     "sha": "1bbf3dcf56b03976ea0e92cb189953e83b32f1cf",
+     "updated": "2026-11-15T08:27:26Z",
+     "gates": {
+      "passed": 1,
+      "running": 7,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
@@ -3395,7 +3410,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 10399
+    "waiting_min": 10403
    },
    {
     "id": "HO-059",
@@ -3766,7 +3781,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -4982,7 +4997,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1477,
+    "title": "Release 2.5.1 (r92 hotfix): LOCK MY SIGNINGS with names picked from the list",
+    "draft": false,
+    "branch": "claude-gameplay/hotfix-2.5.1-lock-signings",
+    "sha": "1bbf3dcf56b03976ea0e92cb189953e83b32f1cf",
+    "updated": "2026-11-15T08:27:26Z",
+    "gates": {
+     "passed": 1,
+     "running": 7,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
