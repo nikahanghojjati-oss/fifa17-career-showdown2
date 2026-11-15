@@ -1744,7 +1744,7 @@
 /* the wrapper every Team V title sits in (showdown-type.css gave its picture inline-size 100%, block-size auto) */
 :where(.sd-title--wordmark .hc-live-title) { display: block; width: 100%; }
 /* the live words' line box is a little taller than the box the picture had (font ascent + descent); their ink sits inside it, so the heading must not clip them */
-:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :is(h1, h2):has(> .hc-live-title) { overflow: visible; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) :has(> .hc-live-title) { overflow: visible; }
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) .hc-live-title { padding: 0; border: 0; background: none; box-shadow: none; filter: none; text-shadow: none; mix-blend-mode: normal; opacity: 1; overflow: visible; }
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) .hc-live-title > span {
   box-sizing: border-box; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;
