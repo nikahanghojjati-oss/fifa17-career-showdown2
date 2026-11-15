@@ -307,7 +307,11 @@ h2 span{color:var(--mute);font-weight:600}
   // tab: the next load keeps the rows already done, marks that screen and says where the check stopped. Without
   // sessionStorage the check runs in one page, as before.
   const RUN_KEY="careerModeShowdown.deviceCheckRun.v1";
-  function runRead(){try{const v=JSON.parse(sessionStorage.getItem(RUN_KEY)||"null");return v&&v.v===1&&Array.isArray(v.results)&&Number.isInteger(v.level)&&Number.isInteger(v.scene)?v:null;}catch(_error){return null;}}
+  // A run saved by another build is not picked up (Codex on #1473): the update may have fixed what closed the tab, so it
+  // must not write a cap for the new build. It is let go, and the check starts fresh when asked.
+  const BUILD=T&&T.build||"";
+  function runRead(){try{const v=JSON.parse(sessionStorage.getItem(RUN_KEY)||"null");if(!(v&&v.v===1&&Array.isArray(v.results)&&Number.isInteger(v.level)&&Number.isInteger(v.scene)))return null;
+    if(v.build!==BUILD){sessionStorage.removeItem(RUN_KEY);return null;}return v;}catch(_error){return null;}}
   function runSave(v){try{if(v)sessionStorage.setItem(RUN_KEY,JSON.stringify(v));else sessionStorage.removeItem(RUN_KEY);return true;}catch(_error){return false;}}
   function runKeeps(){try{sessionStorage.setItem(RUN_KEY,"probe");const ok=sessionStorage.getItem(RUN_KEY)==="probe";sessionStorage.removeItem(RUN_KEY);return ok;}catch(_error){return false;}}
   let reloading=false;
@@ -315,7 +319,7 @@ h2 span{color:var(--mute);font-weight:600}
     if(running||!T)return;
     running=true;aborted="";startBtn.disabled=true;forgetBtn.hidden=true;result.innerHTML="";
     const keep=resume?true:runKeeps();
-    const st=resume||{v:1,at:Date.now(),results:LEVELS.map(()=>({})),level:0,scene:0,first:null,ended:null,open:null,played:false};
+    const st=resume||{v:1,build:BUILD,at:Date.now(),results:LEVELS.map(()=>({})),level:0,scene:0,first:null,ended:null,open:null,played:false};
     for(let l=0;l<results.length;l+=1){for(const k of Object.keys(results[l]))delete results[l][k];Object.assign(results[l],st.results[l]||{});}
     draw();
     // The first level that is not smooth ends the climb: nothing above it is tried. r92 (Nik's iPhone 17): a screen that

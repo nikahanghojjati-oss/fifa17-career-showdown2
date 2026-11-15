@@ -767,7 +767,7 @@
     return {stop(){stopped=true;if(raf)root.cancelAnimationFrame(raf);box.remove();}};
   }
 
-  root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,choices:CHOICES.slice(),names:NAMES.slice(),labels:LABELS.slice(),
+  root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,build:BUILD,choices:CHOICES.slice(),names:NAMES.slice(),labels:LABELS.slice(),
     label(level){return LABELS[Math.max(0,Math.min(5,Math.round(Number(level))||0))];},
     profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,softCut:gfxSoftCut,builtLevel:gfxBuiltLevel,overlay:gfxOverlay,classify:gfxClassify,
     // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()

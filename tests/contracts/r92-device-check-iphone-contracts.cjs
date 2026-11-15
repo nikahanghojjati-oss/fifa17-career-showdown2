@@ -140,9 +140,10 @@ async function run(answer, opts){
   };
   const before = store[KEY] || null;
   let page = boot(), sig = nextSignal();
-  if(o.noStart){ /* a page that loads with a run already saved goes on by itself */ }
+  // noStart: the page is only loaded (a saved run goes on by itself); settle: nothing is expected to run, wait a tick.
   const click = o.noStart ? null : page.el("start").listeners.click();
-  if(!o.session) await click;
+  if(o.settle) await new Promise(r => setImmediate(r));
+  else if(!o.session) await click;
   else for(let n = 0; n < 60; n += 1){
     const kind = await sig;
     if(kind === "end"){ await new Promise(r => setImmediate(r)); break; }
@@ -475,6 +476,12 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.match(r.suggest, /<small class="shut">Last time the tab closed at Balanced, so the game draws Light at most until /, "the top card says it");
     assert.equal(r.tier.label(r.tier.suggested().now), "Light", "and Settings reads Auto · Light");
     assert.equal(r.session[RUN], undefined);
+    // Codex on #1473: a run saved by another build (the game updated before the tab came back) is let go, with no cap.
+    const st = {v: 1, build: "2.4.0-r91", at: Date.now(), results: [{}, {}, {}, {}, {}], level: 1, scene: 0, first: null, ended: null, open: {level: 1, scene: 0}, played: false};
+    const old = await run(allGood, {...IPHONE, session: {[RUN]: JSON.stringify(st)}, noStart: true, settle: true});
+    assert.equal(old.tier.tabCrash(), null, "an older build's saved run writes no cap");
+    assert.equal(old.session[RUN], undefined, "and is let go");
+    assert.deepEqual(old.asked, [], "nothing opens by itself");
     ok("D20", "a tab that dies mid-check keeps the rows done, marks the screen, says where it stopped, and the game holds below that level for now");
   }
   // D21
