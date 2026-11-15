@@ -58,7 +58,10 @@ const currentRevision=runtimeMatch[1];
 const previousRevision=previousMatch[1];
 const revisionNumber=value=>{const match=/^(?:1\.9\.[1-9]\d*|[2-9]\.\d+\.\d+)-r(\d+)$/.exec(value);return match?Number(match[1]):NaN;};
 assert.ok(revisionNumber(currentRevision)>10,`current shell ${currentRevision} must remain newer than immutable r10`);
-assert.ok(revisionNumber(previousRevision)>=10&&revisionNumber(previousRevision)<revisionNumber(currentRevision),`rollback shell ${previousRevision} must remain an earlier known-good 1.9.1 revision`);
+// 2.5.1 (r92 hotfix, R93-07): a patch release keeps its generation; its rollback shell is the previous patch (2.5.0-r92).
+const patchNumber=value=>{const match=/^\d+\.\d+\.(\d+)-r\d+$/.exec(value);return match?Number(match[1]):NaN;};
+const earlierShell=revisionNumber(previousRevision)<revisionNumber(currentRevision)||(revisionNumber(previousRevision)===revisionNumber(currentRevision)&&patchNumber(previousRevision)<patchNumber(currentRevision));
+assert.ok(revisionNumber(previousRevision)>=10&&earlierShell,`rollback shell ${previousRevision} must remain an earlier known-good 1.9.1 revision`);
 for(const asset of ['js/sharedSeasonCommit.js','js/sparkSharedSeasonCommit.js','js/productionSharedSeasonCommit.js'])assert.ok(worker.includes(`"${asset}"`),`current installed shell must continue caching r10 predecessor asset ${asset}`);
 const escapedCurrent=currentRevision.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 assert.match(html,new RegExp(`app-asset-revision" content="${escapedCurrent}"`),'document must advertise the current whole-shell identity');
