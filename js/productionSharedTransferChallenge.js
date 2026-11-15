@@ -211,9 +211,13 @@
   // Red team R87-B-05: a dropped connection or an expired session reads as what to do next, never as a raw code.
   const PSTC_CONNECTION_TEXT="That step did not confirm. Check the connection, tap REFRESH to see if it saved, then try again if it did not.";
   const PSTC_SESSION_TEXT="Your Showdown session expired. Go back to Showdown Home and open the Showdown again. Nothing saved is lost.";
+  // R93-07 (hunt T2-1): a write the Rules refuse again after the one retry is not an expired session (the read just before it
+  // worked), so the screen says what happened and what to do, never "session expired".
+  const PSTC_REFUSED_TEXT="This step was refused twice, so nothing was saved. Tap REFRESH, check what you entered and try again.";
+  function pstcRepeatedRefusal(error){const refused=new Error(PSTC_REFUSED_TEXT);refused.code=String(error?.code||"permission-denied");refused.repeatedRefusal=true;refused.cause=error;return refused;}
   const PLAIN_PROVIDER_CODES=Object.freeze({TRANSFER_ROULETTE_PENDING:"Both managers spin the roulette before the Transfer War opens.",TRANSFER_SIGNINGS_INVALID:"Check each signing: a player name (80 characters at most), a previous league and a nationality.",TRANSFER_GUESSES_INVALID:"Check each guess: choose a FIFA 17 league or nationality."});
   function pstcCapSigningNames(){if(!root.document)return;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(input&&typeof input.setAttribute==="function")input.setAttribute("maxlength",String(SIGNING_NAME_MAX));}}
-  function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.plain===true&&message)return message;if(error&&error.providerResult!==true&&message&&message!==code&&!/\b\w+(?:[-_/]\w+)+\b|[(){}]|undefined|null/.test(message))return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];if(/unavailable|deadline|offline|network|aborted/i.test(code))return PSTC_CONNECTION_TEXT;if(/permission/i.test(code))return PSTC_SESSION_TEXT;/* r87: never a raw code on screen */return fallback;}
+  function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;if(error&&error.repeatedRefusal===true)return PSTC_REFUSED_TEXT;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.plain===true&&message)return message;if(error&&error.providerResult!==true&&message&&message!==code&&!/\b\w+(?:[-_/]\w+)+\b|[(){}]|undefined|null/.test(message))return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];if(/unavailable|deadline|offline|network|aborted/i.test(code))return PSTC_CONNECTION_TEXT;if(/permission/i.test(code))return PSTC_SESSION_TEXT;/* r87: never a raw code on screen */return fallback;}
   async function pstcMutate(method,payload={}){
     const request=pstcRequestContext();if(!request||busy||pstcReplayPhase()||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;busy=true;pstcSetError("");pstcRender();
     try{
@@ -228,6 +232,7 @@
           let result;
           try{result=pstcResultError(await provider[method](options),"The Transfer War update was rejected.");}
           catch(error){
+            if(attempt>0&&/permission/i.test(String(error&&error.code||"")))throw pstcRepeatedRefusal(error);
             if(!PSTC_RACE_CODES.includes(error&&error.code)||attempt>0)throw error;
             if(method==="advanceExpiredWindow"){try{if(!pstcExpiryPaused())await pstcRefreshNow(request,false,true);}catch(_refreshError){}pstcExpiryPermissionRefused(error,request);return true;}
             continue;

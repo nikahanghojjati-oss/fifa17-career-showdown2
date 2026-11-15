@@ -3305,6 +3305,21 @@
         "^tests/contracts/r93\\-rrr\\-hand\\-props\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r93-rules-budget-sweep-contracts.cjs",
+      "patterns": [
+        "^firestore\\.spark\\.rules$",
+        "^firestore\\..*\\.fragment\\.rules$",
+        "^scripts/(build-production-firestore-rules|build-production-firestore-rules-with-persistent-pair|inject-persistent-pair-rules|showdown-gate)\\.mjs$",
+        "^\\.github/workflows/showdown-gate\\.yml$",
+        "^tests/fixtures/rules-budget/",
+        "^tests/firebase/rules-budget-sweep-emulator\\.cjs$",
+        "^tests/support/rules-budget-recorder\\.cjs$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/r93\\-rules\\-budget\\-sweep\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

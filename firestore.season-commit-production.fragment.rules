@@ -64,7 +64,6 @@
         && after.schemaVersion == 1
         && after.objectType == 'sharedSeasonCommit'
         && after.rivalryId == rivalryId
-        && after.seasonNumber is int
         && ssjrCommitSeasonMatches(seasonId, after.seasonNumber)
         && setup.schemaVersion == 1
         && setup.objectType == 'sharedSetupLedger'
@@ -84,14 +83,12 @@
         && after.revision == 1
         && after.phase == 'COMMITTED'
         && after.resultsRevision == 2
-        && after.results is map
         && after.results.keys().hasOnly(['playerOne','playerTwo'])
         && ssjrCommitResultShape(after.results.playerOne, public.teamCount)
         && ssjrCommitResultShape(after.results.playerTwo, public.teamCount)
         && after.results.playerOne == p1.result
         && after.results.playerTwo == p2.result
-        && after.acknowledgedRoles is list
-        && after.acknowledgedRoles.size() == 0
+        && after.acknowledgedRoles == []
         && after.operationIds is list
         && after.operationIds.size() == 1
         && after.operationHashes is list
