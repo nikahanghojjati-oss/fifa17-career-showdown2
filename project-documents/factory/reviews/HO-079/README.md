@@ -13,7 +13,7 @@ Nik picked sample A, plain flat ink (14 Nov). The titles follow the same look.
 - **Build:** v4.py.
 
 ## 2. Screen titles: live text (Team G's preferred option)
-- **Font:** visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2. It is already in the repo and SIL OFL licensed.
+- **Font:** CormorantSC-Bold-latin.woff2 + OFL_CormorantSC.txt (SIL OFL) in this folder (from HO-071 branch claude/project-thread-y5jwgo). Copy both to visual-assets/v10_1/shared/fonts/ if not there yet.
 - **CSS:**
   - `font-family: "Cormorant SC"; font-weight: 700; color: #C9A45C; letter-spacing: .06em; font-variant-numeric: lining-nums; text-transform: uppercase;`
   - No text-shadow, gradient, filter or glow. Keep one cap height and baseline per slot.
