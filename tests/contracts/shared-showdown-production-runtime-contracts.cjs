@@ -120,8 +120,8 @@ for(const required of [
   'allow update: if ssjrTransferPrivateUpdateValid(rivalryId, transferId, managerRole)',
   'function ssjrTransferValidOptionId(value)',
   'ssjrTransferValidOptionId(value.valueId)',
-  'ssjrTransferValidOptionId(value.leagueId)',
-  'ssjrTransferValidOptionId(value.nationalityId)',
+  'ssjrTransferCatalogLeagueId(value.leagueId)',
+  'ssjrTransferCatalogNationalityId(value.nationalityId)',
   "request.time >= before.startedAt + duration.value(15, 'm')",
   "managerRole == ssjrActorRole(rivalryId) || public.phase == 'COMPLETED'",
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
@@ -197,7 +197,11 @@ assert.match(bootstrap,/if\(!api\|\|typeof api\.install!=="function"\)throw/,'La
 assert.match(bootstrap,/api\.install\(\)/,'Lazy SSJR bootstrap must install paired-first runtime surfaces after loading.');
 assert.doesNotMatch(bootstrap,/localStorage/,'Lazy SSJR bootstrap must never touch canonical local saves.');
 assert.ok(runtimeGeneration>=3,'Paired-first production runtime must publish under r3 or a newer fresh whole-shell revision.');
-assert.equal(previousGeneration,runtimeGeneration-1,'Current SSJR whole-shell runtime must retain the immediately previous whole-shell revision as recovery target.');
+// 2.5.1 (r92 hotfix, R93-07): a patch release keeps its generation, so the immediately previous whole shell is either the
+// previous generation or the previous patch of the same generation (2.5.1-r92 retains 2.5.0-r92).
+const patchOf=value=>{const m=/^(\d+)\.(\d+)\.(\d+)-r\d+$/.exec(value);return m?{line:`${m[1]}.${m[2]}`,patch:Number(m[3])}:null;};
+const samePreviousPatch=previousGeneration===runtimeGeneration&&patchOf(previousRuntimeRevision)?.line===patchOf(runtimeRevision)?.line&&patchOf(previousRuntimeRevision)?.patch===patchOf(runtimeRevision)?.patch-1;
+assert.ok(previousGeneration===runtimeGeneration-1||samePreviousPatch,'Current SSJR whole-shell runtime must retain the immediately previous whole-shell revision as recovery target.');
 for(const path of ['js/ssjr.js','js/productionSharedJourneyEntry.js','js/productionSharedJourneyGuard.js','js/productionSharedShowdownSetup.js','js/sharedShowdownSetup.js','js/sharedShowdownCatalog.js','js/sparkSharedShowdownSetup.js'])assert.ok(worker.includes(`"${path}"`),`Installed-app ${runtimeRevision} shell must cache ${path}.`);
 assert.match(menu,new RegExp(`assets\\/marco-reus-2015-cc-by\\.webp\\?v=${escapeRegExp(runtimeRevision)}`),'Lazy menu visual must use the current whole-shell identity.');
 assert.ok(release.includes(`Runtime asset revision: \`${runtimeRevision}\``),'Current release record must identify the exact whole-shell revision.');

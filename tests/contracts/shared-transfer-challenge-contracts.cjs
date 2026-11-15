@@ -21,8 +21,10 @@ assert.equal(canonicalLeagueIds.length,36);
 assert.equal(canonicalNationalityIds.length,166);
 assert.match(generatedRules,/function ssjrTransferValidOptionId\(value\)/,'Firestore must retain bounded slug-shape validation for Transfer option IDs.');
 assert.match(generatedRules,/ssjrTransferValidOptionId\(value\.valueId\)/,'Guess IDs must remain structurally validated in Firestore Rules.');
-assert.match(generatedRules,/ssjrTransferValidOptionId\(value\.leagueId\)/,'Signing league IDs must remain structurally validated in Firestore Rules.');
-assert.match(generatedRules,/ssjrTransferValidOptionId\(value\.nationalityId\)/,'Signing nationality IDs must remain structurally validated in Firestore Rules.');
+// R93-07: a signing row checks its ids with the catalog regex of its own kind only; each catalog is a subset of the option ids
+// (asserted below), so the option-id regex in front of it only cost expressions (two per row) on the three-signing lock.
+assert.match(generatedRules,/ssjrTransferCatalogLeagueId\(value\.leagueId\)/,'Signing league IDs must remain validated against the catalog in Firestore Rules.');
+assert.match(generatedRules,/ssjrTransferCatalogNationalityId\(value\.nationalityId\)/,'Signing nationality IDs must remain validated against the catalog in Firestore Rules.');
 assert.equal(generatedRules.includes('function ssjrTransferValidLeagueId(value)'),false,'Large exact league membership lists must stay out of Firestore Rules to preserve the max-size transaction budget.');
 assert.equal(generatedRules.includes('function ssjrTransferValidNationalityId(value)'),false,'Large exact nationality membership lists must stay out of Firestore Rules to preserve the max-size transaction budget.');
 // JOB-1052: the generated Rules accept exactly the catalog ids and signing names the provider and reader accept. Each catalog is ONE anchored
