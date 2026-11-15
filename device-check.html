@@ -68,6 +68,7 @@ h2 span{color:var(--mute);font-weight:600}
 .suggest{margin:14px 0 0;padding-top:12px;border-top:1px solid rgba(219,178,94,.25);text-align:center;font-weight:700;font-size:17px}
 .suggest b{color:var(--gold)}
 .suggest small{display:block;font-weight:400;font-size:14px;color:var(--mute)}
+.suggest small.shut{margin-top:8px;color:var(--ink)}
 .note{margin:0 auto 10px;max-width:86ch;text-align:center;color:var(--mute);font-size:14px}
 #limits{margin-top:14px}
 .guide th[scope=row],.guide thead th:first-child{padding-left:12px}
@@ -248,7 +249,12 @@ h2 span{color:var(--mute);font-weight:600}
     const why=!m?`Auto starts there on a device like this. Run the check to measure yours: Auto then uses the best level it kept smooth.`
       :held60?`Measured on this device: it holds 60 fps at ${name} on all three 3D screens. Auto uses it.`
       :`The check measured ${name} on this device. Auto uses it.`;
-    $("suggest").innerHTML=`We suggest <b>${esc(name)}</b><small>${esc(why+wait)}</small>`;
+    // r93 (Nik's iPhone 17, 2026-11-15: "We suggest High", then High failed without being opened): a tab-crash cap that
+    // keeps a level shut is said on this card too, with the day it ends.
+    const tc=tabCrash();let shut="";
+    if(tc){const day=new Date(tc.until).toLocaleDateString(undefined,{day:"numeric",month:"long"});
+      shut=`Last time the tab closed at ${LEVELS[tc.from]||"a higher level"}, so the game draws ${LEVELS[tc.level]} at most until ${day}, or until you pick a level in Settings or the game updates. This check stops below ${LEVELS[tc.from]||"that level"} until then.`;}
+    $("suggest").innerHTML=`We suggest <b>${esc(name)}</b><small>${esc(why+wait)}</small>${shut?`<small class="shut">${esc(shut)}</small>`:""}`;
     $("guideRows").innerHTML=g.rows.map(r=>`<tr${r.mine?" class=\"mine\"":""}><th scope="row">${esc(r.label)}${r.mine?"<span class=\"tag\">Your device</span>":""}</th>`
       +`<td data-label="Chips that start here">${esc(r.who)}${r.level===5&&!d.can8k?"<small>Not on this device.</small>":""}</td><td data-label="What it draws">${esc(r.draws)}</td></tr>`).join("");
     $("limits").textContent=g.limits;
@@ -259,7 +265,7 @@ h2 span{color:var(--mute);font-weight:600}
     const extra=note?`${note} `:"";
     if(!m){result.innerHTML=note?`No result saved<small>${esc(note)} Auto uses its starting guess until a check finishes.</small>`:"";return;}
     // A crash cap from play outlives the check (js/gfxTier.js): say what Auto really draws until it ends.
-    let low="";try{const s=T.suggested();if(s&&s.lowered)low=` Auto draws ${LEVELS[s.now]} for now: a graphics error in play lowered it. That ends after 7 days, after 3 clean 3D screens, or when you pick a level in Settings.`;}catch(_error){low="";}
+    let low="";try{const s=T.suggested();if(s&&s.lowered)low=` Auto draws ${LEVELS[s.now]} for now: a graphics error in play lowered it. That ends after 7 days, after 3 clean 3D screens, when you pick a level in Settings, or when the game updates.`;}catch(_error){low="";}
     result.innerHTML=`Auto here: ${LEVELS[m.level]}<small>${esc(extra)}Measured ${new Date(m.at).toLocaleString()} on Chamber Men, Russian Roulette and the Special Player pack. Settings › 3D QUALITY can still pick any level.${esc(low)}</small>`;
   }
   // A level that closed the tab while a 3D screen was opening (in the game or in an earlier check) is not opened again

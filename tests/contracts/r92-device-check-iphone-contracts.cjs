@@ -35,6 +35,15 @@
 //      High and computers are unchanged (the cap is behind phone&&level===3)
 //   D11 a phone's Special Player card art stops at 2x (Extra on the iPhone 17 profile: card faces 170 -> 109 MB, the whole
 //      screen 327 -> 266 MB); computers keep 2.5x at Extra and above
+//   D16 r93 (Nik's iPhone 17 on 2.5.0, 2026-11-15 05:27 UTC): "We suggest High", then High "failed: The tab closed at this
+//      level last time, so it was not opened again". The cap was 2.4.0's (the tab closed at High on 14 November), and 2.5.0
+//      had fixed that memory fault. Every crash cap and opening mark now carries the build (js/gfxTier.js BUILD, the
+//      service worker's RUNTIME_REVISION). A cap or mark from an older build is dropped on load, so the check opens High
+//      again and Auto draws it. A cap from this build still keeps the level shut
+//   D17 a cap from this build is said on the Device check's top card, with the day it ends, and Settings reads the same
+//      level ("Auto · Balanced"), even after the browser's Back
+//   D18 a pick in Settings still clears a cap from this build; a crash in this build writes a fresh cap, so a level gets
+//      one fresh try per build and never a retry loop
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -100,7 +109,8 @@ async function run(answer, opts){
   };
   const sandbox = {document: doc, location: {origin: "https://game.test", search: ""}, navigator: o.phone ? {hardwareConcurrency: 4, userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 26_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1", maxTouchPoints: 5} : {deviceMemory: 32, hardwareConcurrency: 16}, screen: o.phone ? {width: 393, height: 852} : {width: 1920, height: 1080}, devicePixelRatio: o.phone ? 3 : 1, innerWidth: o.phone ? 393 : 1920, innerHeight: o.phone ? 852 : 1080, matchMedia: q => ({matches: Boolean(o.phone) && /pointer:\s*coarse|hover:\s*none/.test(q), addEventListener(){}, removeEventListener(){}}),
     readStorageValue: k => k in store ? store[k] : null, writeStorageValue: (k, v) => { store[k] = String(v); return true; },
-    performance: {now: () => 0}, URLSearchParams, CustomEvent: function(type, init){ this.type = type; this.detail = init && init.detail; }, dispatchEvent(){},
+    performance: {now: () => 0, timeOrigin: o.timeOrigin}, URLSearchParams,
+    sessionStorage: o.session ? {getItem: k => k in o.session ? o.session[k] : null, setItem: (k, v) => { o.session[k] = String(v); }} : undefined, CustomEvent: function(type, init){ this.type = type; this.detail = init && init.detail; }, dispatchEvent(){},
     addEventListener(type, f){ if(type === "message") messageListeners.add(f); }, removeEventListener(type, f){ if(type === "message") messageListeners.delete(f); },
     setTimeout(f){ timerId += 1; timers.set(timerId, f); return timerId; }, clearTimeout(id){ timers.delete(id); },
     requestAnimationFrame: () => 1, cancelAnimationFrame(){}, requestIdleCallback: () => 1, Date, Math, JSON, Object, Promise, Number, String, Boolean, Array, isFinite};
@@ -111,7 +121,7 @@ async function run(answer, opts){
   const before = store[KEY] || null;
   await el("start").listeners.click();
   const saved = store[KEY] && store[KEY] !== "null" ? JSON.parse(store[KEY]) : null;
-  return {asked, saved, changed: (store[KEY] || null) !== before, status: el("status").textContent, result: el("result").innerHTML, rows: el("rows").innerHTML, store, tier: sandbox.CareerModeGfxTier};
+  return {asked, saved, changed: (store[KEY] || null) !== before, status: el("status").textContent, result: el("result").innerHTML, suggest: el("suggest").innerHTML, rows: el("rows").innerHTML, store, tier: sandbox.CareerModeGfxTier};
 }
 const allGood = (scene, level) => [started(scene, level), good(scene, level)];
 const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s => `${s}@${level}`)).flat();
@@ -341,6 +351,70 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     t.setChoice("high"); assert.equal(t.profile().maxPixelRatio, 2, "a phone at High is as in 2.4.0");
     assert.match(TIER, /if\(phone&&level===3\)max=Math\.min\(max,PHONE_EXTRA_PR\);/);
     ok("D15", "at Extra a phone's sharpness stops at 2.25x so every 3D screen fits the phone memory budget");
+  }
+  // D16-D18 (r93): crash caps carry their build.
+  const CAP = "careerModeShowdown.gfxCap.v1", OPEN = "careerModeShowdown.gfxOpening.v1", TAB = "careerModeShowdown.gfxTab.v1";
+  const BUILD = /const BUILD="([^"]+)";/.exec(TIER)[1];
+  const SW = fs.readFileSync(path.join(ROOT, "service-worker.js"), "utf8");
+  // Nik's cap, as 2.4.0 and 2.5.0 wrote it: the tab closed while Chamber Men opened at High in a Device check, 20 hours ago.
+  const nikCap = extra => JSON.stringify({level: 1, reason: "the tab closed while this 3D screen was opening", tab: true, from: 2, scene: "chamber-men", bench: true, at: Date.now() - 20 * 36e5, ...(extra || {})});
+  // D16
+  {
+    assert.equal(BUILD, /const RUNTIME_REVISION = "([^"]+)";/.exec(SW)[1], "js/gfxTier.js BUILD is the service worker's RUNTIME_REVISION (the release bump moves both)");
+    for (const old of [{}, {build: "2.4.0-r91"}]) {
+      const r = await run(allGood, {...IPHONE, storage: {[CAP]: nikCap(old)}});
+      assert.deepEqual(r.asked, order(4), "the check opens High and every level above it again");
+      assert.equal(r.saved.level, 4, "and saves what held");
+      assert.equal(r.store[CAP], "null", "the older build's cap is gone");
+      assert.doesNotMatch(r.rows, /tab closed/);
+      assert.equal(r.tier.suggested().now, 4);
+    }
+    // An opening mark left by an older build's page that died is not a death of this build: no cap is written.
+    const mark = extra => JSON.stringify([{id: "m1", tab: "T1", top: "111", level: 2, scene: "chamber-men", bench: true, at: Date.now() - 6e4, ...(extra || {})}]);
+    const oldMark = await run(allGood, {...IPHONE, storage: {[OPEN]: mark()}, session: {[TAB]: "T1"}, timeOrigin: 222});
+    assert.deepEqual(oldMark.asked, order(4), "an older build's opening mark does not cap High");
+    assert.equal(oldMark.store[OPEN], "[]", "the older mark is cleared");
+    const sameMark = await run(allGood, {...IPHONE, storage: {[OPEN]: mark({build: BUILD})}, session: {[TAB]: "T1"}, timeOrigin: 222});
+    assert.deepEqual(sameMark.asked, order(1), "this build's mark is a death: High is not opened");
+    assert.equal(JSON.parse(sameMark.store[CAP]).build, BUILD, "the cap it writes carries this build");
+    // The same cap from this build still keeps High shut, as before.
+    const same = await run(allGood, {...IPHONE, storage: {[CAP]: nikCap({build: BUILD})}});
+    assert.deepEqual(same.asked, order(1), "a cap from this build keeps High shut");
+    assert.match(same.status, /High was not tried: the tab closed at that level last time/);
+    assert.match(same.rows, /The tab closed at this level last time, so it was not opened again\./);
+    for (const write of [/gfxWrite\(CAP_KEY,JSON\.stringify\(\{level,reason:TAB_CRASH,[^\n]*?,at:Date\.now\(\),build:BUILD\}\)\)/, /gfxWrite\(CAP_KEY,JSON\.stringify\(\{level,reason:String\(reason\|\|"failed"\),at:Date\.now\(\),build:BUILD\}\)\)/])
+      assert.match(TIER, write, "every cap the module writes carries the build");
+    ok("D16", "a crash cap or opening mark from an older build is dropped, so an update gives the level a fresh try; this build's cap still blocks");
+  }
+  // D17
+  {
+    const same = await run(allGood, {...IPHONE, storage: {[CAP]: nikCap({build: BUILD})}});
+    const day = new Date(Date.now() - 20 * 36e5 + 7 * 864e5).toLocaleDateString(undefined, {day: "numeric", month: "long"});
+    assert.match(same.suggest, /We suggest <b>High<\/b>/, "the chip's level is still named");
+    assert.ok(same.suggest.includes(`<small class="shut">Last time the tab closed at High, so the game draws Balanced at most until ${day}, or until you pick a level in Settings or the game updates. This check stops below High until then.</small>`), same.suggest);
+    const free = await run(allGood, IPHONE);
+    assert.doesNotMatch(free.suggest, /class="shut"/, "no line without a cap");
+    assert.equal(same.tier.suggested().now, 1, "Auto draws Balanced while the cap lasts");
+    assert.equal(same.tier.label(same.tier.suggested().now), "Balanced", "Settings reads Auto · Balanced, the level the check stops below High at");
+    const settings = fs.readFileSync(path.join(ROOT, "js/settings.js"), "utf8");
+    assert.match(settings, /const name = tier\.label\(tier\.suggested\(\)\.now\);/, "the Auto label is the level Auto draws now (the cap counted)");
+    assert.match(settings, /window\.addEventListener\("pageshow", onLevel\);\n\s*window\.addEventListener\("storage", onLevel\);/, "the row reads the saved state again after Back and after another tab saves");
+    ok("D17", "the Device check's top card says when a tab-crash cap keeps a level shut, and Settings names the same level");
+  }
+  // D18
+  {
+    const r = await run(allGood, {...IPHONE, storage: {[CAP]: nikCap({build: BUILD})}});
+    assert.ok(r.tier.tabCrash(), "the cap stands");
+    r.tier.setChoice("auto");
+    assert.equal(r.store[CAP], "null", "a pick in Settings clears it");
+    assert.equal(r.tier.tabCrash(), null);
+    assert.equal(r.tier.suggested().now, 2, "Auto is High again");
+    // A failure in this build writes a fresh cap with this build (one try per build, then shut again).
+    r.tier.setChoice("high"); r.tier.fallback("test: out of memory");
+    const fresh = JSON.parse(r.store[CAP]);
+    assert.equal(fresh.build, BUILD); assert.equal(fresh.level, 1);
+    assert.equal(r.tier.profile().level, 1, "and the level is lowered at once");
+    ok("D18", "a pick in Settings still clears a cap; a failure in this build writes a fresh one");
   }
   console.log(`PASS r92 device check iPhone contracts (${checks} checks)`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
