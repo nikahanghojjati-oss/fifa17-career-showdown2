@@ -848,6 +848,13 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V2_1920.webp":"3f07c8a425b4085b2e38ada28cffaafb71781514b6270e6c2624ab585934f0c3",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_256.webp":"30d7faa0f1e26d4c5959869027bc288ad6fe5da8201e9482a0e84d434df88d75",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_512.webp":"ac3714e2a2f85c283a6055d6902375d65f0dfa534f763cbc2ed2b28643e19fa7",
+    // r93 HO-080 (Team V, 2026-11-14): the Golden Showdown trophy is the winner's own cast-gold bust, one per manager.
+    "visual-assets/v10_1/shared/trophies-hc/TRO_HC_6_GOLDEN_DANIEL_V1_256.webp":"63eee81d577df25551d3d8fd873f15f959e15fe4b0057a76fd9ac39bb8204914",
+    "visual-assets/v10_1/shared/trophies-hc/TRO_HC_6_GOLDEN_DANIEL_V1_512.webp":"2a8d4b6e55abe989a52138dc1541c57bd849e00955348996efbf58bb80184051",
+    "visual-assets/v10_1/shared/trophies-hc/TRO_HC_6_GOLDEN_DANIEL_V1_1024.webp":"4b243c950d0913b172965535ad4b1e4fa866a0faf370c421d7371475d122d876",
+    "visual-assets/v10_1/shared/trophies-hc/TRO_HC_6_GOLDEN_NIK_V1_256.webp":"1cfce45c97043a0b4d0bd37b96c3cb3da146001cd296b6430f7713bfb7102288",
+    "visual-assets/v10_1/shared/trophies-hc/TRO_HC_6_GOLDEN_NIK_V1_512.webp":"88e619da44357ddc89747f6512cffe891cc34053e4c01b6e56d57b1e8d6787a0",
+    "visual-assets/v10_1/shared/trophies-hc/TRO_HC_6_GOLDEN_NIK_V1_1024.webp":"0ae4f47477c104cf34b28c2adf6be2331a813beee23a87056282580ee471434d",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_2_V2_256.webp":"492ced301dea9ca03a4ce3a69e1db371c099145f73fcee10b7d972fc962b9a1a",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_2_V2_512.webp":"d0d16ec20d852dbbe67e4097bd287c81ae209e2be842a87864f327ff36ff4eea",
     "visual-assets/v10_1/shared/trophies-hc/TRO_HC_3_V2_256.webp":"2a688f48b9de06bf49ece63acda96d27812f032c5d0fb1c38ce76af6321eaf51",

@@ -530,10 +530,10 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   // before a Final Winner is drawn). It shows again after a reload or a late join (the same CLOSED-terminal path as Final
   // Winner); this device's "seen" mark only skips its entrance motion, never the screen. Board room as Final Winner (the same
   // cached pictures), every word on the counter or between the two faces, nothing over a face or a button, no dimming.
-  // The gold trophy: Team V's TRO_HC_6_GOLDEN (HO-080, the Champion trophy cast in gold) replaces this placeholder by a change
-  // here (src and tint false) and in visual-assets/v10_1/trophy-room/trophy-room.js (GOLDEN). Until it lands the Champion art
-  // is cast gold with a CSS filter.
-  const GOLDEN_TROPHY=Object.freeze({src:"visual-assets/v10_1/shared/trophies-hc/TRO_HC_1_V2_512.webp",tint:true});
+  // The gold trophy (r93 HO-080, Nik 2026-11-14/15): the winner's own cast-gold bust, Team V's TRO_HC_6_GOLDEN (the hero
+  // size here): the bust of the manager on 150, never the Champion trophy. Prime Pack points go to one manager a season, so two
+  // managers cannot both close on 150 (Nik 2026-11-15); if a frame ever named both, the first in Daniel/Nik order stands alone.
+  const GOLDEN_BUSTS=Object.freeze({daniel:"visual-assets/v10_1/shared/trophies-hc/TRO_HC_6_GOLDEN_DANIEL_V1_1024.webp",nik:"visual-assets/v10_1/shared/trophies-hc/TRO_HC_6_GOLDEN_NIK_V1_1024.webp"});
   const goldenPassed=new Set(),goldenAnimated=new Set();
   const goldenNames={daniel:"DANIEL",nik:"NIK"};
   // The Golden screen's own rules, added once (Team V's sheets stay frozen). Desktop: the board room fitted to the screen's height
@@ -562,7 +562,6 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 #app #seasonEntry .v10GoldenStage .goldenScore b { font-size:20px;color:var(--g-gold); }
 #app #seasonEntry .v10GoldenStage .goldenTrophy { display:block;pointer-events:none; }
 #app #seasonEntry .v10GoldenStage .goldenTrophyImg { display:block;width:100%;height:100%;object-fit:contain;object-position:50% 100%;filter:drop-shadow(0 18px 24px rgb(0 0 0 / .66)); }
-#app #seasonEntry .v10GoldenStage .goldenTrophyImg--tint { filter:sepia(.4) saturate(1.7) brightness(1.14) contrast(1.04) drop-shadow(0 18px 24px rgb(0 0 0 / .66)); }
 #app #seasonEntry .v10GoldenStage .goldenCounter { display:flex;flex-direction:column;align-items:center;gap:8px;width:min(calc(100% - 32px),680px); }
 #app #seasonEntry .v10GoldenStage .goldenStripLabel { font-size:12px;font-weight:700;line-height:16px;letter-spacing:.24em;padding-inline-start:.24em;color:var(--g-ink); }
 #app #seasonEntry .v10GoldenStage .goldenStrip { display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:8px;width:100%;margin:0;padding:0;list-style:none; }
@@ -662,7 +661,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
   }
   function goldenReduced(){try{return root.ShowdownMotion?.isReducedMotion?.()===true||root.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches===true;}catch(_){return false;}}
   function goldenMarkup(frame){
-    const g=frame.golden,who=g.managers.map(m=>goldenNames[m]).join(" AND ");
+    const g=frame.golden,who=g.managers.map(m=>goldenNames[m]).join(" AND "),bust=["daniel","nik"].find(m=>g.managers.includes(m));
     const seasons=Array.from({length:GOLDEN.seasons},(_,i)=>g.seasons?.[i]||{season:i+1,daniel:g.managers.includes("daniel")?GOLDEN.seasonMax:null,nik:g.managers.includes("nik")?GOLDEN.seasonMax:null});
     const cell=s=>`<li class="goldenSeason" style="--gi:${s.season-1}"><small>S${s.season}</small><b>${g.managers.map(m=>Number(s[m])).join("<i aria-hidden=\"true\">·</i>")}</b></li>`;
     const score=g.draw?`DRAW · <b>${g.points}</b> OF ${g.points} EACH`:`<b>${frame.totals[g.managers[0]]}</b> OF ${g.points}`;
@@ -670,7 +669,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     return `<picture class="goldenRoom" aria-hidden="true"><img src="${BASE}plates-hc/ENV_BOARD_PHONE_HC_V3${root.document?.documentElement?.dataset?.assets==="0"?"_590W":""}.webp" alt="" decoding="async"></picture>`+
       `<header class="goldenTitleBlock"><p class="goldenEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="goldenShowdownTitle" class="goldenTitle">GOLDEN SHOWDOWN</h2></header>`+
       `<div class="goldenWho"><p class="goldenName">${who}</p><p class="goldenScore">${score}</p></div>`+
-      `<div class="goldenTrophy" aria-hidden="true"><img class="goldenTrophyImg${GOLDEN_TROPHY.tint?" goldenTrophyImg--tint":""}" src="${GOLDEN_TROPHY.src}" alt="" decoding="async"></div>`+
+      `<div class="goldenTrophy" aria-hidden="true"><img class="goldenTrophyImg goldenTrophyImg--${bust}" src="${GOLDEN_BUSTS[bust]}" alt="" decoding="async"></div>`+
       `<div class="goldenCounter"><p class="goldenStripLabel">${strip}</p><ol class="goldenStrip" aria-label="Season by season, ${who}">${seasons.map(cell).join("")}</ol>`+
       `<div class="goldenActions"><button type="button" id="goldenSeeFinalWinner" class="menuButton goldenSeeFinal">SEE FINAL WINNER</button></div></div>`;
   }
@@ -3019,5 +3018,5 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     followPair();
     wake();return true;
   }
-  return Object.freeze({finalFrame,goldenCourse,goldenCourseChips:sfGoldenCourse,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,gazetteHistory:()=>sfGazetteHistory,install:installResults});
+  return Object.freeze({finalFrame,goldenCourse,goldenCourseChips:sfGoldenCourse,goldenScreenMarkup:goldenMarkup,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,gazetteHistory:()=>sfGazetteHistory,install:installResults});
 });

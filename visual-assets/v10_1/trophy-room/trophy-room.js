@@ -14,11 +14,16 @@
   // r84 Golden Showdown: 150 points (r87: 15 a season) in a finished 10-season Showdown. r93 (Nik 2026-11-14): the gold trophy
   // has its own case on the ALL shelf and its own GOLDEN tab, always there: greyed with "150 in a 10-season Showdown" until a
   // manager earns it, then lit with both counts (frame.goldenShowdowns: the counts, 0 and 0 included, on a career with data).
-  // GOLDEN_TROPHY is the gold trophy's picture: Team V's TRO_HC_6_GOLDEN (HO-080, the Champion trophy cast in gold) replaces
-  // this placeholder by a change here (src and tint false) and in js/seasonFinalV10.js (GOLDEN_TROPHY). Until it lands the
-  // Champion art is cast gold with a CSS filter (.trophyCard--goldTint).
-  const GOLDEN_TROPHY = { src: BASE + "../shared/trophies-hc/TRO_HC_1_V2_512.webp", tint: true };
-  const GOLDEN = { key: "goldenShowdown", category: "GOLDEN", asset: GOLDEN_TROPHY.src, value: f => f.goldenShowdowns };
+  // GOLDEN_BUSTS (r93 HO-080, Nik 2026-11-14/15): the Golden Showdown trophy is the winner's own cast-gold bust, one per manager
+  // (Team V's TRO_HC_6_GOLDEN, same canvas and baseline as TRO_HC_1). The case shows the bust of each manager who has earned
+  // one, Daniel on the left; until then both busts stand greyed as the goal. Never the general Champion trophy.
+  const GOLDEN_BUSTS = { daniel: BASE + "../shared/trophies-hc/TRO_HC_6_GOLDEN_DANIEL_V1_512.webp", nik: BASE + "../shared/trophies-hc/TRO_HC_6_GOLDEN_NIK_V1_512.webp" };
+  const GOLDEN = { key: "goldenShowdown", category: "GOLDEN", value: f => f.goldenShowdowns };
+  function goldenBusts(counts, alt) {
+    const won = ["daniel", "nik"].filter(m => counts && Number(counts[m]) > 0);
+    const shown = won.length ? won : ["daniel", "nik"];
+    return `<div class="trophyCardPicture goldenBusts${shown.length > 1 ? " goldenBusts--pair" : ""}" role="img" aria-label="${esc(alt)}">${shown.map(m => `<img class="goldenBust goldenBust--${m}" src="${GOLDEN_BUSTS[m]}" alt="" decoding="async">`).join("")}</div>`;
+  }
   // r86 Special Player chip next to the manager's name (only when the frame carries one: js/specialPlayerChip.js).
   const spChip = (frame, manager) => { const api = window.CareerModeSpecialPlayerChip, sp = frame && frame.specialPlayers && frame.specialPlayers[manager]; return api && sp ? api.html(sp) : ""; };
 
@@ -126,7 +131,7 @@
     const shimmerAttr = hasWin ? ` data-winning-card="true"` : "";
     const golden = trophy.key === GOLDEN.key ? ` data-golden-showdown="true"` : "";
     const notWon = golden ? (strings.goldenNotWonYet || strings.notWonYet) : strings.notWonYet;
-    return `<article class="trophyCard ${golden ? "trophyCard--golden" : ""} ${golden && GOLDEN_TROPHY.tint ? "trophyCard--goldTint" : ""} ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""} ${shimmerClass}" data-trophy="${trophy.key}"${shimmerAttr}${golden}><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong${leftAttr}>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong${rightAttr}>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(notWon)}</p>` : ""}</article>`;
+    return `<article class="trophyCard ${golden ? "trophyCard--golden" : ""} ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""} ${shimmerClass}" data-trophy="${trophy.key}"${shimmerAttr}${golden}><div class="trophyCardGlow"></div>${golden ? goldenBusts(counts, strings.trophyTypes[trophy.key]) : picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong${leftAttr}>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong${rightAttr}>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(notWon)}</p>` : ""}</article>`;
   }
 
   function recordRibbon(strings, frame) {
