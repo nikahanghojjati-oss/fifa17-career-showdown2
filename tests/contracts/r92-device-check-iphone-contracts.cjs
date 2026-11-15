@@ -44,6 +44,14 @@
 //      level ("Auto · Balanced"), even after the browser's Back
 //   D18 a pick in Settings still clears a cap from this build; a crash in this build writes a fresh cap, so a level gets
 //      one fresh try per build and never a retry loop
+//   D19 r93 (Nik's iPhone 17 on 2.5.0, 05:35 UTC: the tab closed opening Chamber Men at Balanced after the three Light
+//      screens, a level that passed in the run before): one 3D screen in memory at a time. The page saves the run in this
+//      tab's sessionStorage and reloads itself before each screen (a second try too), so every screen opens in a fresh page;
+//      the climb and the result are the same as in one page
+//   D20 the tab dies while a screen plays (Nik: "now the result is empty"): the next load keeps the rows already done,
+//      marks that screen, says where the check stopped and what the game draws now; that level is held below for now
+//      (the same cap as a death while opening), and the top card and Settings say the same level
+//   D21 a death at Light saves nothing and lowers nothing: the check is not finished, and the Light rows done are kept
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -53,7 +61,7 @@ const ROOT = path.resolve(__dirname, "../..");
 const PAGE = fs.readFileSync(path.join(ROOT, "device-check.html"), "utf8");
 const TIER = fs.readFileSync(path.join(ROOT, "js/gfxTier.js"), "utf8");
 const SCRIPT = /<script>\n([\s\S]*?)<\/script>\s*<\/body>/.exec(PAGE)[1];
-const KEY = "careerModeShowdown.gfxMeasured.v2";
+const KEY = "careerModeShowdown.gfxMeasured.v2", RUN = "careerModeShowdown.deviceCheckRun.v1";
 const LABELS = ["Light", "Balanced", "High", "Extra", "Ultra (4K)", "8K"];
 const SCENES = ["chamber-men", "rrr", "sp"];
 let checks = 0;
@@ -66,8 +74,16 @@ const started = (scene, level) => ({type: "cms-gfx-bench", phase: "started", sce
 
 // One run of the page. answer(scene, level) returns: a list of messages to post, "silent" (no answer at all), or
 // "hang" (started, then nothing). Options: gpu8k, storage, hideAt ([scene, level]: the tab is hidden while that frame loads).
+// r93: with opts.session (this tab's sessionStorage) the page saves the run and reloads itself before each 3D screen; each
+// reload is a fresh page (fresh sandbox, same storage). opts.dieAt [scene, level]: the tab dies while that frame plays (no
+// answer; the next load finds the screen still open).
 async function run(answer, opts){
   const o = opts || {}, store = {...(o.storage || {})}, asked = [];
+  let wake = null, loads = 0;
+  const signal = kind => { const w = wake; wake = null; if(w) w(kind); };
+  const nextSignal = () => new Promise(r => { wake = r; });
+  const boot = () => {
+  loads += 1;
   const els = {};
   const el = id => els[id] || (els[id] = {id, textContent: "", innerHTML: "", hidden: false, disabled: false, listeners: {},
     classList: {add(){}, remove(){}}, addEventListener(type, f){ this.listeners[type] = f; }, replaceChildren(){}, setAttribute(){}});
@@ -91,6 +107,7 @@ async function run(answer, opts){
         const scene = {"device-check-chamber.html": "chamber-men", "visual-assets/v10_1/roulette/index.html": "rrr", "visual-assets/v10_1/special-player/index.html": "sp"}[m[1]];
         assert.ok(scene, `a known 3D screen (${m[1]})`);
         const level = Number(m[2]); asked.push(`${scene}@${level}`);
+        if(o.dieAt && o.dieAt[0] === scene && o.dieAt[1] === level){ setImmediate(() => signal("die")); return; }
         setImmediate(() => {
           if(o.hideAt && o.hideAt[0] === scene && o.hideAt[1] === level){ doc.visibilityState = "hidden"; docListeners.visibilitychange(); return; }
           // Noise that must never count: another window's message, another origin's, another scene's.
@@ -107,10 +124,11 @@ async function run(answer, opts){
       return frame;
     }
   };
-  const sandbox = {document: doc, location: {origin: "https://game.test", search: ""}, navigator: o.phone ? {hardwareConcurrency: 4, userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 26_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1", maxTouchPoints: 5} : {deviceMemory: 32, hardwareConcurrency: 16}, screen: o.phone ? {width: 393, height: 852} : {width: 1920, height: 1080}, devicePixelRatio: o.phone ? 3 : 1, innerWidth: o.phone ? 393 : 1920, innerHeight: o.phone ? 852 : 1080, matchMedia: q => ({matches: Boolean(o.phone) && /pointer:\s*coarse|hover:\s*none/.test(q), addEventListener(){}, removeEventListener(){}}),
+  const sandbox = {document: doc, location: {origin: "https://game.test", search: "", reload(){ setImmediate(() => signal("reload")); }}, navigator: o.phone ? {hardwareConcurrency: 4, userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 26_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1", maxTouchPoints: 5} : {deviceMemory: 32, hardwareConcurrency: 16}, screen: o.phone ? {width: 393, height: 852} : {width: 1920, height: 1080}, devicePixelRatio: o.phone ? 3 : 1, innerWidth: o.phone ? 393 : 1920, innerHeight: o.phone ? 852 : 1080, matchMedia: q => ({matches: Boolean(o.phone) && /pointer:\s*coarse|hover:\s*none/.test(q), addEventListener(){}, removeEventListener(){}}),
     readStorageValue: k => k in store ? store[k] : null, writeStorageValue: (k, v) => { store[k] = String(v); return true; },
     performance: {now: () => 0, timeOrigin: o.timeOrigin}, URLSearchParams,
-    sessionStorage: o.session ? {getItem: k => k in o.session ? o.session[k] : null, setItem: (k, v) => { o.session[k] = String(v); }} : undefined, CustomEvent: function(type, init){ this.type = type; this.detail = init && init.detail; }, dispatchEvent(){},
+    sessionStorage: o.session ? {getItem: k => k in o.session ? o.session[k] : null, setItem: (k, v) => { o.session[k] = String(v); },
+      removeItem: k => { const was = o.session[k]; delete o.session[k]; if(k === RUN && was && was !== "probe") setImmediate(() => signal("end")); }} : undefined, CustomEvent: function(type, init){ this.type = type; this.detail = init && init.detail; }, dispatchEvent(){},
     addEventListener(type, f){ if(type === "message") messageListeners.add(f); }, removeEventListener(type, f){ if(type === "message") messageListeners.delete(f); },
     setTimeout(f){ timerId += 1; timers.set(timerId, f); return timerId; }, clearTimeout(id){ timers.delete(id); },
     requestAnimationFrame: () => 1, cancelAnimationFrame(){}, requestIdleCallback: () => 1, Date, Math, JSON, Object, Promise, Number, String, Boolean, Array, isFinite};
@@ -118,10 +136,21 @@ async function run(answer, opts){
   vm.createContext(sandbox);
   vm.runInContext(TIER, sandbox, {filename: "js/gfxTier.js"});
   vm.runInContext(SCRIPT, sandbox, {filename: "device-check.html"});
+  return {el, sandbox};
+  };
   const before = store[KEY] || null;
-  await el("start").listeners.click();
+  let page = boot(), sig = nextSignal();
+  if(o.noStart){ /* a page that loads with a run already saved goes on by itself */ }
+  const click = o.noStart ? null : page.el("start").listeners.click();
+  if(!o.session) await click;
+  else for(let n = 0; n < 60; n += 1){
+    const kind = await sig;
+    if(kind === "end"){ await new Promise(r => setImmediate(r)); break; }
+    sig = nextSignal(); page = boot();
+  }
+  const el = page.el, sandbox = page.sandbox;
   const saved = store[KEY] && store[KEY] !== "null" ? JSON.parse(store[KEY]) : null;
-  return {asked, saved, changed: (store[KEY] || null) !== before, status: el("status").textContent, result: el("result").innerHTML, suggest: el("suggest").innerHTML, rows: el("rows").innerHTML, store, tier: sandbox.CareerModeGfxTier};
+  return {asked, saved, changed: (store[KEY] || null) !== before, status: el("status").textContent, result: el("result").innerHTML, suggest: el("suggest").innerHTML, rows: el("rows").innerHTML, store, tier: sandbox.CareerModeGfxTier, loads, session: o.session};
 }
 const allGood = (scene, level) => [started(scene, level), good(scene, level)];
 const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s => `${s}@${level}`)).flat();
@@ -415,6 +444,46 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.equal(fresh.build, BUILD); assert.equal(fresh.level, 1);
     assert.equal(r.tier.profile().level, 1, "and the level is lowered at once");
     ok("D18", "a pick in Settings still clears a cap; a failure in this build writes a fresh one");
+  }
+  // D19
+  {
+    const one = await run(allGood, {});
+    const r = await run(allGood, {session: {}});
+    assert.deepEqual(r.asked, one.asked, "the same screens in the same order as in one page");
+    assert.equal(r.loads, r.asked.length, "each screen opened in a page of its own (one reload before every screen after the first)");
+    assert.equal(r.saved.level, one.saved.level, "and the same result");
+    assert.equal(r.session[RUN], undefined, "a finished run leaves nothing behind");
+    assert.equal(r.status, one.status);
+    const retry = await run(scripted({"sp@0": [hitch("sp", 0), allGood("sp", 0)]}), {session: {}});
+    assert.equal(retry.loads, retry.asked.length, "a second try opens in a fresh page too");
+    assert.match(retry.rows, /Second try\. First try: 59\.6 fps/, "the first try is kept across the reload");
+    assert.equal(retry.saved.level, 4);
+    assert.match(PAGE, /if\(keep&&st\.played\)\{st\.played=false;if\(runSave\(st\)\)\{reloading=true;location\.reload\(\);return;\}\}/);
+    assert.match(PAGE, /if\(running&&!reloading&&document\.visibilityState==="hidden"\)/, "its own reload never reads as a hidden tab");
+    ok("D19", "the Device check holds one 3D screen at a time: each screen opens in a fresh page, with the same climb and result");
+  }
+  // D20
+  {
+    const r = await run(allGood, {...IPHONE, session: {}, dieAt: ["chamber-men", 1]});
+    assert.deepEqual(r.asked, [...order(0), "chamber-men@1"], "Light's three screens, then Balanced Chamber Men, which closed the tab");
+    assert.equal((r.rows.match(/59\.9 fps/g) || []).length, 3, "the three Light rows are kept after the tab closed");
+    assert.match(r.rows, /<span class="no">failed<\/span><small>The tab closed while this screen was playing, so the check stopped here\.<\/small>/);
+    assert.match(r.status, /^Check stopped\. The tab closed while Chamber Men was playing at Balanced\. Light was smooth\. Auto stays on High, the level your graphics chip starts at\. The check only ever raises Auto\. For now the game draws Light at most, because the tab closed at Balanced\.$/, r.status);
+    assert.equal(r.saved, null, "nothing saved below the chip's level");
+    const tc = r.tier.tabCrash(); assert.equal(tc.level, 0); assert.equal(tc.from, 1);
+    assert.equal(JSON.parse(r.store[CAP]).build, BUILD);
+    assert.match(r.suggest, /<small class="shut">Last time the tab closed at Balanced, so the game draws Light at most until /, "the top card says it");
+    assert.equal(r.tier.label(r.tier.suggested().now), "Light", "and Settings reads Auto · Light");
+    assert.equal(r.session[RUN], undefined);
+    ok("D20", "a tab that dies mid-check keeps the rows done, marks the screen, says where it stopped, and the game holds below that level for now");
+  }
+  // D21
+  {
+    const r = await run(allGood, {...IPHONE, session: {}, dieAt: ["rrr", 0]});
+    assert.equal((r.rows.match(/59\.9 fps/g) || []).length, 1, "Light Chamber Men is kept");
+    assert.match(r.status, /^Check not finished: Russian Roulette at Light was not verified\. The tab closed while this screen was playing\.$/);
+    assert.equal(r.saved, null); assert.equal(r.tier.tabCrash(), null, "nothing below Light to hold");
+    ok("D21", "a tab that dies at Light saves and lowers nothing, and keeps the Light rows done");
   }
   console.log(`PASS r92 device check iPhone contracts (${checks} checks)`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

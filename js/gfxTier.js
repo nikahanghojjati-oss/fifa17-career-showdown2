@@ -805,6 +805,11 @@
     // tabCrash(): the cap left by a tab that died while a 3D screen was opening (null when there is none). The Device
     // check does not open a level above it again.
     tabCrash(){const c=gfxCap();return c&&c.tab?{level:c.level,from:Number.isInteger(c.from)?c.from:c.level+1,scene:String(c.scene||""),bench:Boolean(c.bench),at:c.at,until:Number(c.at||0)+CAP_DAYS_MS}:null;},
+    // tabDied(level, scene): r93, the Device check saw its page die while one of its screens was playing (the page came back
+    // with that screen still open). The same cap as a tab that died while a screen was opening: one level below, until 7 days,
+    // a pick in Settings or the next build.
+    tabDied(level,scene){const l=Math.round(Number(level));if(!(l>0&&l<=5))return null;const old=gfxCap(),cap=Math.max(0,Math.min(l>=5?4:l-1,old?old.level:4));
+      gfxWrite(CAP_KEY,JSON.stringify({level:cap,reason:"the tab closed while this 3D screen was playing",tab:true,from:l,scene:String(scene||""),bench:true,at:Date.now(),build:BUILD}));cached=null;return cap;},
     // fallback(reason): a scene that hit an out-of-memory sign of its own drops the device one level (remembered).
     fallback:gfxFail,fallback8k:gfxFail,
     // sceneOpening(scene): a 3D screen on the game's own page says it is about to load and build (the tab-crash guard's
