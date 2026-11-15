@@ -118,7 +118,7 @@
         0
       ]
     ],
-    "note": "gloved hand holding the revolver, black background keyed out in code; muzzle = where the flash sits (u from left, v from bottom). r93 R93-04: rear = the rear of the bore (with the muzzle it gives the bore's angle on the plate, 13.3 deg here); wrist and elbow = the pivots the raise, the cock and the recoil turn about (the elbow lies beyond the sleeve); cut = the corners where the painted sleeve is cut off, kept outside the frame on every window. A repainted plate brings its own numbers. r93 HO-081: plates W (landscape windows) and P (upright windows) are the hand painted from the shooter's eye, each with its own numbers in plate pixels turned to u from left, v from bottom; the sleeve leaves through the bottom edge only, so cut is the two ends of that edge. The r87 plate above is the fallback. fit = the card's height range as a share of the frame's height. glove = the glove's box on the plate (u0, v0, u1, v1); on upright windows it is kept clear of the status line and the bottom bar. r93 HO-082: plate S (upright windows that show the bottom strip, i.e. tall desktop windows 900 px wide and up) has the sleeve entering from the plate's right edge (cut on u=1), so the glove can sit above the strip with the cut off the screen's side.",
+    "note": "gloved hand holding the revolver, black background keyed out in code; muzzle = where the flash sits (u from left, v from bottom). r93 R93-04: rear = the rear of the bore (with the muzzle it gives the bore's angle on the plate, 13.3 deg here); wrist and elbow = the pivots the raise, the cock and the recoil turn about (the elbow lies beyond the sleeve); cut = the corners where the painted sleeve is cut off, kept outside the frame on every window. A repainted plate brings its own numbers. r93 HO-081: plates W (landscape windows) and P (upright windows) are the hand painted from the shooter's eye, each with its own numbers in plate pixels turned to u from left, v from bottom; the sleeve leaves through the bottom edge only, so cut is the two ends of that edge. The r87 plate above is the fallback. fit = the card's height range as a share of the frame's height. glove = the glove's box on the plate (u0, v0, u1, v1); on upright windows it is kept clear of the status line and the bottom bar. r93 HO-082, redrawn as HO-083 (bore 40°, a longer forearm rising about 20°): plate S (upright windows that show the bottom strip, i.e. tall desktop windows 900 px wide and up) has the sleeve entering from the plate's right edge (cut on u=1), so the glove can sit above the strip with the cut off the screen's side.",
     "plates": {
       "W": {
         "file": "assets/RR_HAND_POV_W_V1.webp",
@@ -205,24 +205,24 @@
         ]
       },
       "S": {
-        "file": "assets/RR_HAND_POV_S_V1.webp",
-        "ticket": "HO-082",
+        "file": "assets/RR_HAND_POV_S_V2.webp",
+        "ticket": "HO-083",
         "size": [
           1600,
           1200
         ],
-        "bore": 70.0,
+        "bore": 40.0,
         "muzzle": [
-          0.5285,
-          0.9441
+          0.3289,
+          0.8547
         ],
         "rear": [
-          0.6209,
-          0.605
+          0.4136,
+          0.7601
         ],
         "wrist": [
-          0.7689,
-          0.2552
+          0.6496,
+          0.3602
         ],
         "elbow": [
           1.3,
@@ -231,11 +231,11 @@
         "cut": [
           [
             1.0,
-            0.3075
+            0.3683
           ],
           [
             1.0,
-            0.0217
+            0.0175
           ]
         ],
         "fit": [
@@ -243,10 +243,10 @@
           0.6
         ],
         "glove": [
-          0.51,
-          0.12,
-          0.781,
-          0.55
+          0.353,
+          0.238,
+          0.648,
+          0.761
         ]
       }
     }

@@ -19,7 +19,7 @@
 //      the upright placement is in use, the glove is never under the caption from the take to the exit and is at least 100 px wide at the aim, the
 //      muzzle stays off the board; on a tall phone (390x844) the caption takes the hidden Spin button's room for the turn (R93-04, Nik 2026-11-15:
 //      a bigger phone glove) and goes back after it; on a short phone (360x640) it stays where it was
-//      and at 960x1035 (a Chromebook half screen, the bottom strip shows): plate S (HO-082, the sleeve from the side), the glove clear of the caption
+//      and at 960x1035 (a Chromebook half screen, the bottom strip shows): plate S (HO-083, the sleeve from the side), the glove clear of the caption
 //      and the strip at every frame and at least 140 px wide, the sleeve's cut off the screen
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -72,12 +72,12 @@ has(/lampFl=fl;/,'the lamp flicker is shared');
 has(/const HAND_CAP=GFX\.level<=1\?1024:0;/,'the plate at 1024 px on its long side on Light and Balanced');
 has(/const big=Math\.max\(im\.width,im\.height\); if\(maxW&&big>maxW\)\{/,'the cap is on the long side (the upright plate too)');
 has(/const handStrip=\(\)=>\{ const b=document\.querySelector\("\.bottom"\); return !!b&&getComputedStyle\(b\)\.display!=="none"; \};/,'S: an upright window that shows the bottom strip');
-has(/const handPlateFor=\(\)=>handShape\(innerWidth\/innerHeight\)<\.5\?\(handStrip\(\)\?"S":"P"\):"W";/,'the plate follows the window\'s shape, with the angle; S where the bottom strip stands (HO-082)');
+has(/const handPlateFor=\(\)=>handShape\(innerWidth\/innerHeight\)<\.5\?\(handStrip\(\)\?"S":"P"\):"W";/,'the plate follows the window\'s shape, with the angle; S where the bottom strip stands (HO-083)');
 has(/loadHandPlate\(handPlateFor\(\)\)/,'only the plate this window needs is loaded at the start');
 has(/addEventListener\("resize",\(\)=>handPlateWatch\(\)\);/,'and the other only when the window changes shape');
 has(/const hp=PLATEMAP\.hand\|\|\{\}, img=hp\.file\?await loadImg\(hp\.file,HAND_CAP\):null;/,'the r87 plate is the fallback');
 has(/uv\(HAND_MUZZLE,hp\.muzzle\); uv\(HAND_REAR,hp\.rear\); uv\(HAND_WRIST,hp\.wrist\); uv\(HAND_ELBOW,hp\.elbow\);/,'every plate number from platemap.json');
-const plates=[['r87',plate.hand,13.3],['W',plate.hand.plates.W,22.5],['P',plate.hand.plates.P,72],['S',plate.hand.plates.S,70]];
+const plates=[['r87',plate.hand,13.3],['W',plate.hand.plates.W,22.5],['P',plate.hand.plates.P,72],['S',plate.hand.plates.S,40]];
 for(const [name,pl,want] of plates){
   for(const k of ['muzzle','rear','wrist','elbow']) assert.ok(Array.isArray(pl[k])&&pl[k].length===2,`platemap ${name} ${k}`);
   assert.ok(Array.isArray(pl.cut)&&pl.cut.length>=2,`platemap ${name} cut`);
@@ -85,8 +85,8 @@ for(const [name,pl,want] of plates){
   const [w,h]=pl.size||[1672,941], bore=Math.atan2(pl.muzzle[1]-pl.rear[1],(pl.rear[0]-pl.muzzle[0])*w/h)*180/Math.PI;
   assert.ok(Math.abs(bore-want)<.3,`${name} plate bore ${bore.toFixed(2)}° (want ${want}°)`); }
 for(const k of ['W','P']){ const pl=plate.hand.plates[k]; assert.ok(pl.cut.every(c=>c[1]===0),`${k}: the sleeve leaves through the bottom edge`); assert.ok(Array.isArray(pl.fit)&&pl.fit[0]<pl.fit[1],`${k}: the card's height range`); }
-{ const pl=plate.hand.plates.S; assert.ok(pl.cut.every(c=>c[0]===1),'S: the sleeve leaves through the right edge (HO-082)'); assert.ok(Array.isArray(pl.fit)&&pl.fit[0]<pl.fit[1],'S: the card\'s height range'); assert.ok(Array.isArray(pl.glove)&&pl.glove.length===4,'S: glove box'); }
-ok('H4','the hand takes the room\'s light; the shooter\'s-eye plates W and P (HO-081) by window shape, S (HO-082, sleeve from the side) where the bottom strip stands, the r87 plate as fallback; plate numbers are data');
+{ const pl=plate.hand.plates.S; assert.ok(pl.cut.every(c=>c[0]===1),'S: the sleeve leaves through the right edge (HO-083)'); assert.ok(Array.isArray(pl.fit)&&pl.fit[0]<pl.fit[1],'S: the card\'s height range'); assert.ok(Array.isArray(pl.glove)&&pl.glove.length===4,'S: glove box'); }
+ok('H4','the hand takes the room\'s light; the shooter\'s-eye plates W and P (HO-081) by window shape, S (HO-083, sleeve from the side) where the bottom strip stands, the r87 plate as fallback; plate numbers are data');
 
 has(/const WHISKY_FROM=0;/,'the whisky set shows on every level (Nik 2026-11-15)');
 has(/const paint=new T\.MeshBasicMaterial\(\{map:tex, transparent:true, blending:5, blendEquation:100, blendSrc:201, blendDst:205, depthWrite:false, toneMapped:false\}\);/,'one painted material: whisky covers, glass adds');
