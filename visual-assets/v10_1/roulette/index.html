@@ -304,7 +304,7 @@ function handClearSearch(key,base){ const K=handKeepOuts(); if(!K.length) return
   const p=playing, G=HAND_GLOVE, cam=camera.clone(false); cam.position.copy(p.pov); cam.fov=p.povFov; cam.updateProjectionMatrix(); cam.lookAt(p.povLook); cam.updateMatrixWorld(true);
   const fh=2*Math.tan(cam.fov*Math.PI/360), fw=fh*cam.aspect, n=handAimAt.clone().project(cam), ax=n.x*fw/2, ay=n.y*fh/2;
   let by=1e9; { const g=boards[p.who]; g.updateMatrixWorld(true); [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(cam); by=Math.min(by,v.y*fh/2); })); }
-  const W=innerWidth, H=innerHeight, k=H/fh, side=handSide, asp=handAspect, mu=HAND_MUZZLE.u, mv=HAND_MUZZLE.v, half=fw/2, bot=-fh/2, e=.012*fh, my=by-.045*fh, ka=-side*11*DEG, kc=Math.cos(ka), ks=Math.sin(ka);
+  const W=innerWidth, H=innerHeight, k=H/fh, side=handSide, asp=handAspect, mu=HAND_MUZZLE.u, mv=HAND_MUZZLE.v, half=fw/2, bot=-fh/2, e=.012*fh, my=by-.045*fh, ka=-side*11*DEG, kc=Math.cos(ka), ks=Math.sin(ka), ta=side*7.5*DEG, tc=Math.cos(ta), ts=Math.sin(ta);
   const R=K.map(r=>({x0:(r[0]-W/2)/k, x1:(r[2]-W/2)/k, y0:(H/2-r[3])/k, y1:(H/2-r[1])/k, cover:r[4]}));
   const gl=[]; for(let i=0;i<=3;i++) for(let j=0;j<=3;j++) gl.push([G[0]+(G[2]-G[0])*i/3,G[1]+(G[3]-G[1])*j/3]);
   const pose=(mx,ph)=>{ const pw=ph*asp, rot=Math.atan2(ay-my,ax-mx)-base, c=Math.cos(rot), s=Math.sin(rot); return {at:(u,v)=>{ const [x,y]=rot2((u-mu)*pw*side,(v-mv)*ph,c,s); return [mx+x,my+y]; }}; };
@@ -313,6 +313,7 @@ function handClearSearch(key,base){ const K=handKeepOuts(); if(!K.length) return
       for(const t of [q0,q]) if(t[1]<bot+e) return false; A.push(q0); Q.push(q);
       g0=Math.min(g0,q0[0]); g1=Math.max(g1,q0[0]); }
     for(const g of [A,Q]){ const c=[g[0],g[3],g[15],g[12]]; for(const r of R) if(quadHits(c,r.x0-e,r.y0-e,r.x1+e,r.y1+e)) return false; }   /* the whole glove, not only its 16 points: a thin status line can pass between them */
+    { const c=[0,3,15,12].map(i=>{ const [qx,qy]=rot2(A[i][0]-wr[0],A[i][1]-wr[1],tc,ts); return [wr[0]+qx,wr[1]+qy]; }); for(const r of R) if(r.cover&&quadHits(c,r.x0-e,r.y0-e,r.x1+e,r.y1+e)) return false; }   /* the take: the wrist trails by up to 7.5° while the hand slides in (a side plate's glove swings down with it), kept off the opaque bars */
     if((Math.min(g1,half)-Math.max(g0,-half))/(g1-g0)<.8) return false;
     const m=.015*fh, hid=t=>t[0]<-half||t[0]>half||t[1]<bot||R.some(r=>r.cover&&t[0]>r.x0+m&&t[0]<r.x1-m&&t[1]>r.y0+m&&t[1]<r.y1-m);
     for(let i=0;i<HAND_CUT.length;i++){ const a=P.at(...HAND_CUT[i]); if(!hid(a)) return false; if(i){ const b=P.at(...HAND_CUT[i-1]); for(const f of [.25,.5,.75]) if(!hid([b[0]+(a[0]-b[0])*f,b[1]+(a[1]-b[1])*f])) return false; } }
