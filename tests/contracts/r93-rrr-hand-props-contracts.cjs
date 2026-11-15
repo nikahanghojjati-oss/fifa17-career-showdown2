@@ -116,6 +116,8 @@ ok('H6','on an upright phone in the game the caption drops into the Spin button\
 has(/const povWide=\(\)=>PH&&innerWidth<600&&document\.body\.classList\.contains\("embed"\)\?\(innerHeight>=780\?\[1\.25,\.125\]:\[1\.35,\.17\]\):null;/,'H7: upright phones in the game only, x1.25 on a tall phone and x1.35 on a short one');
 has(/const wide=povWide\(\), lx=PH\?[^;]*ly=PH\?-\.12-\(wide\?wide\[1\]:0\)\+ty\*\.35:-\.16\+ty\*\.05;/,'H7: the shooter\'s eye looks a little lower on the board');
 has(/const povFov=PH\?44\*\(wide\?wide\[0\]:1\):34; p\.pov=povPos; p\.povLook=povLook; p\.povFov=povFov;/,'H7: through the wider lens (the glide in and the moves out ease to and from it as before)');
+has(/ta=side\*7\.5\*DEG, tc=Math\.cos\(ta\), ts=Math\.sin\(ta\);/,'H7: the take\'s wrist trail (up to 7.5°) is searched too');
+has(/for\(const r of R\) if\(r\.cover&&quadHits\(c,r\.x0-e,r\.y0-e,r\.x1\+e,r\.y1\+e\)\) return false; \}/,'H7: the glove at the take stays off the opaque bars (the side plate\'s glove swings down with the wrist)');
 has(/const quadHits=\(c,x0,y0,x1,y1\)=>\{/,'H7: the whole glove is tested against each keep-out (a thin caption can pass between its 16 points)');
 has(/for\(const g of \[A,Q\]\)\{ const c=\[g\[0\],g\[3\],g\[15\],g\[12\]\]; for\(const r of R\) if\(quadHits\(c,r\.x0-e,r\.y0-e,r\.x1\+e,r\.y1\+e\)\) return false; \}/,'H7: at the aimed and the kicked pose');
 has(/const lo=\.14\*fh, hi=\(povWide\(\)\?\.8:handFit\?handFit\[1\]:\.5\)\*fh, N=48;/,'H7: the hand\'s card may grow to the room the wider lens leaves');
