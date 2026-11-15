@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 5:40 AM Boston time (EST)",
+ "generated": "2026-11-15 5:43 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 285,
@@ -2588,8 +2588,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "b8e08c2",
-  "head_boston": "Sun 15 Nov 5:00 AM",
+  "head": "0dd05c3",
+  "head_boston": "Sun 15 Nov 5:41 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3419,7 +3419,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 10536
+    "waiting_min": 10538
    },
    {
     "id": "HO-059",
@@ -3732,6 +3732,19 @@
     "worker": "images",
     "pickup_min": 2,
     "waiting_min": null
+   },
+   {
+    "id": "HO-083",
+    "from": "G",
+    "to": "V",
+    "title": "Roulette hand: side-entry plate rerun at 40 degrees",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-083_roulette-hand-side-entry-plate-rerun-at-.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": 1
    }
   ],
   "relay_ok": true
@@ -3803,7 +3816,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,

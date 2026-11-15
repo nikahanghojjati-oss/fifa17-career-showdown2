@@ -1,12 +1,39 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 5:40 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 5:43 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `b8e08c2` (Sun 15 Nov 5:00 AM Boston time) · 285 messages · 83 hand-offs · 535 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `0dd05c3` (Sun 15 Nov 5:41 AM Boston time) · 285 messages · 84 hand-offs · 536 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-083 · G → V · Roulette hand: side-entry plate rerun at 40 degrees
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Sun 15 Nov 5:41 AM · Team G · Sent
+- Sun 15 Nov 5:42 AM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+### Why (Team G measure, 2026-11-15 10:41 UTC)
+HO-082's S plate works in the game (glove clear and 146-236 px on 960x866, 960x1035, 900x1200, 1024x1366), but aiming from the side turns the card so the revolver sits 28-38° off its painted 70° bore, and 10-18% of the glove sits past the screen edge. A plate painted at the angle it is actually shown at will look like a real filmed hand instead of a turned picture.
+
+### Ask (one plate, replaces RR_HAND_POV_S_V1)
+`RR_HAND_POV_S_V2.webp`, everything as HO-082 (same glove, cuff, table revolver, lamp, 1600x1200, transparent, <=150 KB, cut straight on the RIGHT edge, nothing else touching an edge), except:
+- **Bore about 40°** from horizontal (±3°), rising to the upper left.
+- **Visible forearm 35-40% of the canvas width**, entering from the right edge.
+- **Shorter barrel** (snub look from this view), so the glove sits nearer the canvas centre (glove box centre about x 0.50-0.55, 50-60% down) and fully inside the canvas.
+- Glove still large and clearly visible (Nik's must-have from HO-081).
+
+### Deliver
+Plate + HO083_PLATE_NUMBERS.json (muzzle, boreRear, wrist, elbow, two cut end points on x=1.0, glove box; y from bottom), as HO-082.
+
+### Accept when
+Bore 40° ±3; forearm 35-40% width; glove box fully inside; matches HO-081/082 glove and revolver; reads as filmed at 960x866 in the room.
+
+</details>
 
 ### HO-082 · G → V · Roulette hand: side-entry upright plate for tall windows
 
