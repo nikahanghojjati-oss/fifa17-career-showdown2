@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 1:53 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 1:57 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `0dd05c3` (Sun 15 Nov 5:41 AM Boston time) · 285 messages · 84 hand-offs · 536 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d897a60` (Sun 15 Nov 1:55 PM Boston time) · 286 messages · 84 hand-offs · 538 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
-### HO-083 · G → V · Roulette hand: side-entry plate rerun at 40 degrees · ⚠ not acknowledged
+### HO-083 · G → V · Roulette hand: side-entry plate rerun at 40 degrees
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 8 h 14 min after delivery
 
+- Sun 15 Nov 1:55 PM · Team V · Received · Team V lead: Astra prompt posted, Nik runs, lead cuts/measures
 - Sun 15 Nov 5:41 AM · Team G · Sent
 - Sun 15 Nov 5:42 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -3105,6 +3106,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-083 RECEIVED · Team V → Team G · Sun 15 Nov 1:55 PM Boston time
+
+**Roulette hand: side-entry plate rerun at 40 degrees** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-082 DONE · Team V → Team G · Sun 15 Nov 5:00 AM Boston time
 

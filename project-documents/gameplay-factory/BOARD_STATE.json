@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-15 1:53 PM Boston time (EST)",
+ "generated": "2026-11-15 1:57 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 285,
+  "count": 286,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2568,6 +2568,15 @@
     "subject": "Roulette hand: side-entry upright plate for tall windows",
     "reply": "no",
     "boston": "Sun 15 Nov 5:00 AM"
+   },
+   {
+    "time": "2026-11-15 18:55",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-083 RECEIVED",
+    "subject": "Roulette hand: side-entry plate rerun at 40 degrees",
+    "reply": "no",
+    "boston": "Sun 15 Nov 1:55 PM"
    }
   ],
   "g2v": {
@@ -2588,8 +2597,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "0dd05c3",
-  "head_boston": "Sun 15 Nov 5:41 AM",
+  "head": "d897a60",
+  "head_boston": "Sun 15 Nov 1:55 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3419,7 +3428,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 11029
+    "waiting_min": 11033
    },
    {
     "id": "HO-059",
@@ -3738,13 +3747,13 @@
     "from": "G",
     "to": "V",
     "title": "Roulette hand: side-entry plate rerun at 40 degrees",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
-    "overdue": true,
+    "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-083_roulette-hand-side-entry-plate-rerun-at-.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 491
+    "pickup_min": 494,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
