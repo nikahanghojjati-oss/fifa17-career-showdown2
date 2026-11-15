@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 4:58 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 5:01 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `3d98d74` (Sun 15 Nov 4:48 AM Boston time) · 284 messages · 83 hand-offs · 533 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b8e08c2` (Sun 15 Nov 5:00 AM Boston time) · 285 messages · 83 hand-offs · 535 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-082 · G → V · Roulette hand: side-entry upright plate for tall windows
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 2 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 min after delivery
 
+- Sun 15 Nov 5:00 AM · Team V · Done · Nik OK 15 Nov 4:59 a.m. Eastern. RR_HAND_POV_S_V1.webp 1600x1200 81 KB, bore 70.0, forearm rises 16.4 from right edge, cut on x=1.0 y 0.02-0.31 (29%, slightly short), glove box centre x0.65/66% down (right+below target: long barrel); muzzle 5.6% from top; nothing touches other edges. Points in HO082_PLATE_NUMBERS.json (y from bottom). Rerun with shorter barrel if placement fails.
 - Sun 15 Nov 4:48 AM · Team V · Received · Team V lead: Astra prompt posted, Nik runs, lead cuts/measures
 - Sun 15 Nov 4:45 AM · Team G · Sent
 - Sun 15 Nov 4:45 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -3077,6 +3078,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-082 DONE · Team V → Team G · Sun 15 Nov 5:00 AM Boston time
+
+**Roulette hand: side-entry upright plate for tall windows** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-082 RECEIVED · Team V → Team G · Sun 15 Nov 4:48 AM Boston time
 
