@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.5.1-r92";
-const PREVIOUS_RUNTIME_REVISION = "2.5.0-r92";
+const RUNTIME_REVISION = "2.6.0-r93";
+const PREVIOUS_RUNTIME_REVISION = "2.5.1-r92";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -447,9 +447,9 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.5.1 (r92 hotfix, merged into r93): PREVIOUS is 2.5.0-r92 (293 paths, tests/fixtures/shell-paths/2.5.0-r92.json, main 36b648ad).
-// The hotfix changed only the Firestore Rules, tests and version strings, so 2.5.0's and 2.5.1's shells are the same list.
-// The STORY site is never precached.
+// 2.6.0 (r93): PREVIOUS is the live 2.5.1-r92 (293 paths, tests/fixtures/shell-paths/2.5.1-r92.json, main 23bdd439; the same
+// list as 2.5.0's, because the 2.5.1 hotfix changed only the Firestore Rules, tests and version strings). The STORY site is
+// never precached.
 // r93 HO-079 (flat logo V4 + live-text titles): adds the Cormorant SC Bold file and the V4 loading logo, drops the V3 loading logo.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
     "assets/loading/LOGO_CM17_WORDMARK_V4_640.webp",

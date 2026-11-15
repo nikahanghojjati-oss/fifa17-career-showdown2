@@ -1,7 +1,7 @@
 # Career Mode Showdown 2.6.0 (r93): the Golden Showdown gets its moment (v2.6.0 runtime r93)
 
 Application version: `v2.6.0`  
-Runtime asset revision: `2.6.0-r93` (set by the bump PR; Nik's "OK version 2.6.0", 2026-11-15 20:12 UTC)  
+Runtime asset revision: `2.6.0-r93` (Nik's "OK version 2.6.0", 2026-11-15 20:12 UTC)  
 Previous known-good runtime: `2.5.1-r92`
 
 r93 is 2.6.0. Nik asked on 14 November for the Golden Showdown to show up properly, for a logo and titles that do not
@@ -63,7 +63,35 @@ release record. The list below is every pull request merged into gameplay/r93 si
 
 ## Reads and writes
 
-Measured on the Firebase emulator (CE2PG, 3 seasons) against 2.5.1 for this release; the numbers are added by the version bump PR.
+CE2PG single plan, 3 seasons, Firebase emulator only, firebase@12.17.0, both trees side by side on the same container on
+2026-11-15 (both PASS 295/295). Billed = document reads plus Rules lookups on reads and writes, both phones.
+
+| Season | 2.5.1 (main 23bdd439) billed / writes | 2.6.0 (gameplay/r93 1b15c246) billed / writes |
+|---|---|---|
+| 1 (START, pairing, setup) | 1,521 / 117 | 1,518 / 117 |
+| 2 | 792 / 58 | 793 / 58 |
+| 3 (final) | 542 / 28 | 562 / 28 |
+| **Total** | **2,855 / 203** | **2,873 / 203** |
+
++18 billed (+0.6 %), all in the final season's end pages (+9 document reads, +11 Rules lookups); one run each, within
+run-to-run noise. No write was added. The Fable hunt saw the same shape on dba5e75c (2,891 against 2.5.0's 2,874).
+
+## Update safety
+
+- The shell and service worker advance to 2.6.0-r93 in a fresh `career-mode-showdown-shell-2.6.0-r93` cache, and 2.5.1-r92 is
+  retained for rollback. The retained shell is verified against its own 293 paths (`tests/fixtures/shell-paths/2.5.1-r92.json`,
+  from main 23bdd439, the same list as 2.5.0's). 2.6.0 adds the V4 loading logo, the Cormorant SC Bold file and its licence, and
+  removes the V3 loading logo (HO-079), so `SHELL_PATHS` holds 295 paths.
+- `js/gfxTier.js` BUILD moves with the service worker's RUNTIME_REVISION, so a crash limit written by 2.5.x is dropped once on
+  the first 2.6.0 load (#1473).
+- The version strings are the same length as 2.5.1's, so the startup budget is unchanged.
+- An installed phone takes the update on Home, never in the middle of a game screen.
+- 2.5.1 and 2.6.0 phones can play each other: the Rules accept the same writes, and nothing a phone sends to Firebase changed shape.
+
+## Deploy order
+
+- This release changes the Firestore Rules. The Rules deploy runs first on main, and the Pages workflow deploys the site only
+  after that Rules deploy succeeded.
 
 ## What did not change
 

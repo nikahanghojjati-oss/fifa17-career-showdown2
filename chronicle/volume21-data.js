@@ -1,8 +1,8 @@
 /* THE CHRONICLE · Volume 21 (Team G, r93 / 2.6.0): the Golden Showdown screen and the winner’s gold bust, the flat logo and live-text titles,
    the Special Player stands, the Device check that closed the tab, the roulette hand filmed again with a whisky glass, and the bug hunts
    with the Rules budget sweep. Written from gameplay/r93 1b15c246. Loaded by volume21.js.
-   RELEASE LINE: the last sentence of chapter 194 (“2.6.0 is not live yet; it waits for Nik’s word after the gallery.”) is replaced
-   by the release with the live date. */
+   RELEASE LINE: the last sentence of chapter 194 (“2.6.0 went live on 15 November 2026, on Nik’s word.”) was filled in by the 2.6.0
+   release bump with the live date. */
 window.CHRONICLE_VOLUME21={
  "capturedAt": "2026-11-15T20:30:00Z",
  "part": {
@@ -346,7 +346,7 @@ window.CHRONICLE_VOLUME21={
     },
     {
      "type": "p",
-     "text": "One experiment did not pay. A red-team job on the Transfer War, sent to a different model family, used up Nik’s whole five-hour allowance and returned no answer; that model’s jobs were dropped. Nik said OK to the version number at 20:12 UTC. 2.6.0 is not live yet; it waits for Nik’s word after the gallery."
+     "text": "One experiment did not pay. A red-team job on the Transfer War, sent to a different model family, used up Nik’s whole five-hour allowance and returned no answer; that model’s jobs were dropped. Nik said OK to the version number at 20:12 UTC. 2.6.0 went live on 15 November 2026, on Nik’s word."
     }
    ],
    "sources": [

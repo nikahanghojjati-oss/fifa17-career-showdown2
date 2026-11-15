@@ -192,14 +192,15 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
 // 2.4.0: the retained shell is r90's, filled by the 2.3.0 worker with its own 289 paths (tests/fixtures/shell-paths/2.3.0-r90.json).
 // 2.5.0: the retained shell is r91's, filled by the 2.4.0 worker with its own 293 paths (tests/fixtures/shell-paths/2.4.0-r91.json).
 // 2.5.1: the retained shell is r92's (2.5.0), the same 293 paths as r91's (tests/fixtures/shell-paths/2.5.0-r92.json).
-const R79_SHELL_PATHS_SHA256="0e3f4b1e36d8c684cd8c6ba57f8ff2224f222a0eec6198ea4f5ef9476274b61b";// sorted JSON of 2.5.0-r92's SHELL_PATHS (main 36b648ad; the same list as r91's)
+// 2.6.0: the retained shell is 2.5.1's, the same 293 paths as 2.5.0's (tests/fixtures/shell-paths/2.5.1-r92.json).
+const R79_SHELL_PATHS_SHA256="0e3f4b1e36d8c684cd8c6ba57f8ff2224f222a0eec6198ea4f5ef9476274b61b";// sorted JSON of 2.5.1-r92's SHELL_PATHS (main 23bdd439; the same list as 2.5.0's and r91's)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
 check("R4c an r79-only shell cache survives r80 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"2.5.0-r92");
-  assert.equal(diag.previousShellPaths.length,293,"2.5.0 shipped 293 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly 2.5.0's");
+  assert.equal(diag.previousRevision,"2.5.1-r92");
+  assert.equal(diag.previousShellPaths.length,293,"2.5.1 shipped 293 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly 2.5.1's (the same as 2.5.0's)");
   assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"],"r93 removes only the V3 loading logo from the 2.5.0/2.5.1 shell (HO-079)");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
