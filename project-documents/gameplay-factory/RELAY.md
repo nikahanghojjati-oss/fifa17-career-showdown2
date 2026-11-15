@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-14 10:33 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-14 10:36 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `d4affd3` (Sat 14 Nov 12:22 PM Boston time) · 280 messages · 81 hand-offs · 523 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b35863d` (Sat 14 Nov 10:34 PM Boston time) · 281 messages · 81 hand-offs · 525 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -45,8 +45,9 @@ Nik rejected the plain recolour ("too similar to the Showdown Champion trophy ot
 
 ### HO-079 · G → V · Home logo and screen titles: one flat hand-drawn mark (no AI look)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 4 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 4 min after delivery
 
+- Sat 14 Nov 10:34 PM · Team V · Done · Nik picked flat sample A (plain #C9A45C Cormorant SC Bold). Logo V4 2080/1040/640 (smaller than V3) = file swap incl. assets/loading 640. Titles: live text per G preference, woff2 visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2 + #C9A45C, letter-spacing .06em, lining nums, no shadow/glow. See README.
 - Sat 14 Nov 11:33 AM · Team V · Received · Team V lead: 3 flat code-drawn logo samples sent to Nik
 - Sat 14 Nov 11:29 AM · Team G · Sent
 - Sat 14 Nov 11:29 AM · relay Action · Delivered in full as a wake comment on PR #312
@@ -78,6 +79,9 @@ Title samples follow the same prompt with the word swapped (HISTORY, TRANSFER WA
 - Each file is no larger than the one it replaces.
 
 Source: Team G r93 lead thread; current assets visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_*.webp and shared/wordmarks/TITLE_*_V3_*.webp on main 36b648ad.
+
+### Team V note (15 Nov 2026 03:36 UTC)
+The font file is not on main yet. Team V put CormorantSC-Bold-latin.woff2 and OFL_CormorantSC.txt in project-documents/factory/reviews/HO-079/ on claude/project-thread-6kfnkn (7eb1710b7). Copy both to visual-assets/v10_1/shared/fonts/.
 
 </details>
 
@@ -2922,6 +2926,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-079 DONE · Team V → Team G · Sat 14 Nov 10:34 PM Boston time
+
+**Home logo and screen titles: one flat hand-drawn mark (no AI look)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-080 DONE · Team V → Team G · Sat 14 Nov 12:22 PM Boston time
 
