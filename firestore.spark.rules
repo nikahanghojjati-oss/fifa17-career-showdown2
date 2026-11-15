@@ -216,6 +216,11 @@ service cloud.firestore {
       return slots[0].accountId == null ? "playerOne" : "playerTwo";
     }
 
+    // R93-08 (Rules budget sweep): JOIN (the redeem) is the costliest write of the game (~991 of the 1,000 expressions on
+    // the rivalry document). Each branch now tests the joined slot first, so the branch for the other slot stops after one
+    // comparison. The stored open slot is compared with the one map validOpenSlot accepts (all seven keys must be there,
+    // since validOpenSlot reads every one of them, and each has exactly one allowed value), which is the same check for
+    // far fewer expressions. Every other check is unchanged, so the same JOINs pass and fail.
     function validRedeemedManagerSlots(beforeSlots, afterSlots, creatorId, joinerId, joinSlotId) {
       return beforeSlots is list
         && afterSlots is list
@@ -223,17 +228,17 @@ service cloud.firestore {
         && afterSlots.size() == 2
         && (
           (
-            validCreatorSlot(beforeSlots[0], "playerOne", creatorId)
-            && validOpenSlot(beforeSlots[1], "playerTwo")
+            joinSlotId == "playerTwo"
+            && validCreatorSlot(beforeSlots[0], "playerOne", creatorId)
+            && beforeSlots[1] == {"slotId": "playerTwo", "accountId": null, "profileId": null, "saveId": null, "displayLabel": null, "entitlementState": "open", "deletionConsent": false}
             && beforeSlots[0] == afterSlots[0]
-            && joinSlotId == "playerTwo"
             && validCreatorSlot(afterSlots[1], "playerTwo", joinerId)
           )
           ||
           (
-            validOpenSlot(beforeSlots[0], "playerOne")
+            joinSlotId == "playerOne"
+            && beforeSlots[0] == {"slotId": "playerOne", "accountId": null, "profileId": null, "saveId": null, "displayLabel": null, "entitlementState": "open", "deletionConsent": false}
             && validCreatorSlot(beforeSlots[1], "playerTwo", creatorId)
-            && joinSlotId == "playerOne"
             && validCreatorSlot(afterSlots[0], "playerOne", joinerId)
             && beforeSlots[1] == afterSlots[1]
           )

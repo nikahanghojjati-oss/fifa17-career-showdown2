@@ -45,7 +45,7 @@ for(const required of [
   'after.results.playerTwo == p2.result',
   "after.revision < 3 && after.phase == 'COMMITTED'",
   "after.revision == 3 && after.phase == 'ACKNOWLEDGED'",
-  'after.acknowledgedRoles.size() == 0',
+  'after.acknowledgedRoles == []', // R93-08: the same test as is list and size() == 0
   'after.acknowledgedRoles.size() == after.revision - 1',
   'after.acknowledgedRoles.toSet().size() == after.acknowledgedRoles.size()',
   "after.acknowledgedRoles.toSet().hasOnly(['playerOne','playerTwo'])",

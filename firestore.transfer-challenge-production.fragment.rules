@@ -43,12 +43,6 @@
         && 'playerOne' in career.acknowledgedRoles
         && 'playerTwo' in career.acknowledgedRoles;
     }
-    function ssjrTransferRoleListValid(value) {
-      return value is list
-        && value.size() <= 2
-        && value.toSet().size() == value.size()
-        && value.toSet().hasOnly(['playerOne','playerTwo']);
-    }
     function ssjrTransferPublicExactKeys(root) {
       return root.keys().hasOnly([
         'schemaVersion','objectType','rivalryId','seasonNumber','runtimeRevision','coordinatorRole','phase','revision',
@@ -57,37 +51,37 @@
         'activeSessionId','updatedAt','updatedByDeviceId'
       ]);
     }
+    // R93-08 (Rules budget sweep): START is the costliest ledger write of a season (~975 of the 1,000 expressions for one
+    // document, from the two roulette marks). This shape is checked only at START (ssjrTransferValidCreate), where the
+    // ledger is revision 1 with one operation, WINDOW_OPEN, started now, not ended, and every role list empty. Those exact
+    // values are tested once here instead of a general range check (revision 1..7, any of four phases, a timestamp or null,
+    // a valid role list) followed by the exact value in ssjrTransferValidCreate. Same documents pass and fail.
     function ssjrTransferPublicShape(root, rivalryId, transferId) {
       let setup = ssjrTransferSetup(rivalryId);
-      let historySize = root.operationIds.size();
       return ssjrTransferPublicExactKeys(root)
         && root.schemaVersion == 1
         && root.objectType == 'sharedTransferChallenge'
         && root.rivalryId == rivalryId
-        && root.seasonNumber is int
         && ssjrTransferSeasonMatches(transferId, root.seasonNumber)
         && ssjrTransferPrerequisites(rivalryId, root.seasonNumber)
         && root.runtimeRevision == '1.9.1-r8'
         && root.coordinatorRole == setup.coordinatorRole
-        && (root.phase == 'WINDOW_OPEN' || root.phase == 'GUESS_ENTRY' || root.phase == 'SIGNING_ENTRY' || root.phase == 'COMPLETED')
-        && root.revision is int
-        && root.revision >= 1
-        && root.revision <= 7
-        && root.startedAt is timestamp
-        && (root.endedAt == null || root.endedAt is timestamp)
-        && ssjrTransferRoleListValid(root.endRequestedRoles)
-        && ssjrTransferRoleListValid(root.guessLockedRoles)
-        && ssjrTransferRoleListValid(root.signingLockedRoles)
+        && root.revision == 1
+        && root.startedAt == request.time
+        && root.endedAt == null
+        && root.endRequestedRoles == []
+        && root.guessLockedRoles == []
+        && root.signingLockedRoles == []
         && root.operationIds is list
         && root.operationTypes is list
         && root.operationHashes is list
         && root.baseRevisions is list
         && root.actorRoles is list
-        && historySize == root.revision
-        && root.operationTypes.size() == historySize
-        && root.operationHashes.size() == historySize
-        && root.baseRevisions.size() == historySize
-        && root.actorRoles.size() == historySize
+        && root.operationIds.size() == 1
+        && root.operationTypes.size() == 1
+        && root.operationHashes.size() == 1
+        && root.baseRevisions.size() == 1
+        && root.actorRoles.size() == 1
         && root.updatedAt == request.time
         && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
     }
@@ -174,13 +168,6 @@
       let after = request.resource.data;
       return after.phase == 'WINDOW_OPEN'
         && ssjrTransferPublicShape(after, rivalryId, transferId)
-        && after.revision == 1
-        && after.phase == 'WINDOW_OPEN'
-        && after.startedAt == request.time
-        && after.endedAt == null
-        && after.endRequestedRoles.size() == 0
-        && after.guessLockedRoles.size() == 0
-        && after.signingLockedRoles.size() == 0
         && ssjrValidOperationId(after.operationIds[0]) == false
         && ssjrTransferValidOperationId(after.operationIds[0])
         && after.operationTypes[0] == 'start-window'
