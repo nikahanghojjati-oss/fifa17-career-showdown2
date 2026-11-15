@@ -1,0 +1,8 @@
+<!doctype html><meta charset="utf-8"><body style="margin:0;background:#e9e6df;font:12px sans-serif">
+<script src="brush.js"></script><script src="charges.js"></script>
+<div id="g" style="display:flex;flex-wrap:wrap;gap:12px;padding:12px"></div>
+<script>
+const q=new URLSearchParams(location.search),names=(q.get("c")||Object.keys(CrestCharges).join(",")).split(","),fg=q.get("fg")||"#d9b54a",bg=q.get("bg")||"#034694";
+for(const n of names){const c=CrestCharges[n]();for(const s of [300,96,40]){const w=document.createElement("div");w.style.cssText="text-align:center";
+ w.innerHTML=`<svg width="${s}" height="${s}" viewBox="0 0 100 100" style="background:${bg};display:block"><path d="${c.body}" fill="${fg}" fill-rule="evenodd" stroke="#1a1c21" stroke-width="${s>100?0:0}"/><path d="${c.detail}" fill="none" stroke="${bg}" stroke-width="${c.w}" stroke-linecap="round" stroke-linejoin="round"/>${c.cut?`<path d="${c.cut}" fill="none" stroke="${bg}" stroke-width="${c.wc}" stroke-linecap="round"/>`:""}</svg>${s===300?n:""}`;g.appendChild(w);}}
+</script>

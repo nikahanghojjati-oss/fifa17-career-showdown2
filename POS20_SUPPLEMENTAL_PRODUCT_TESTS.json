@@ -3339,6 +3339,16 @@
         "^tests/contracts/r93\\-rules\\-budget\\-sweep\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r94-crest-charges-contracts.cjs",
+      "patterns": [
+        "^js/(visualIdentity|squadScreen)\\.js$",
+        "^data/clubs\\.js$",
+        "^tools/crests/",
+        "^tests/contracts/r94\\-crest\\-charges\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
