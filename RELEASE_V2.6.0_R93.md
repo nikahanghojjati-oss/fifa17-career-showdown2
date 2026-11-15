@@ -8,7 +8,8 @@ r93 is 2.6.0. Nik asked on 14 November for the Golden Showdown to show up proper
 look made by a prompt, and later for a roulette hand that looks filmed, with a whisky glass on the table. Four Fable bug
 hunts ran on the branch; their one P1 shipped early as 2.5.1. The rules of a Showdown did not change. This file is the
 release record. The list below is every pull request merged into gameplay/r93 since 2.5.0 went live (main 36b648ad):
-#1465 to #1484, up to gameplay/r93 1b15c246, plus #1483 and this release's items.
+#1465 to #1486 (#1477 is the 2.5.1 hotfix into main and #1480 its back-merge; #1485 is this release's items), up to
+gameplay/r93 6ee8f299.
 
 ## What changed
 
@@ -35,9 +36,9 @@ release record. The list below is every pull request merged into gameplay/r93 si
   sessionStorage), keeps finished rows after a tab death, and the top card names a limit and its end date.
 - **20 songs, 39 in the player** (#1474). Song 2 first and Love Me Again second, unchanged. Audius stream checks are GPT
   Work mode's (the build room cannot reach Audius).
-- **Roulette hand and whisky set** (#1475, #1478, #1479, #1483; Team V HO-081, HO-082). One aim rule from the window's
+- **Roulette hand and whisky set** (#1475, #1478, #1479, #1483, #1486; Team V HO-081, HO-082, HO-083). One aim rule from the window's
   shape (22 degrees wide, 72 upright, blended), barrel through the board's centre, muzzle off the board; a real take,
-  raise and upward kick; shooter's-eye plates W and P, and S (sleeve from the side) where the bottom strip shows on tall
+  raise and upward kick; shooter's-eye plates W and P, and S_V2 (sleeve from the side, bore at 40 degrees, HO-083 replacing S_V1) where the bottom strip shows on tall
   windows; the caption in the Spin button's room on upright phones; a wider lens on upright phones during the take and
   the aim. Whisky glass on every level: Light one painted draw (rest 34 draws at 1920x866, 36 on phones, 11 programs),
   High and up a reflection-only crystal.
