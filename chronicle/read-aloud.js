@@ -102,8 +102,8 @@
       var c = n.cloneNode(true);
       Array.prototype.forEach.call(c.querySelectorAll('br'), function(br){ br.replaceWith(' '); });
       Array.prototype.forEach.call(c.querySelectorAll('[aria-hidden="true"],.sr-only,.visually-hidden'), function(x){ x.remove(); });
-      Array.prototype.forEach.call(c.querySelectorAll('cite'), function(x){ x.before(' . '); });   // "quote. Who said it"
-      var t = (c.textContent || '').replace(/\s+/g, ' ').replace(/\s+\.\s+/g, '. ').replace(/([.!?…])\.\s/g, '$1 ').trim();
+      Array.prototype.forEach.call(c.querySelectorAll('cite'), function(x){ x.before('\u0001'); });   // "quote. Who said it"
+      var t = (c.textContent || '').replace(/\s+/g, ' ').replace(/\s*([.!?…])?\s*\u0001\s*/g, function(m, p){ return (p || '.') + ' '; }).trim();
       if(t.length < 2) return;
       if(!n.offsetParent && n.getClientRects().length === 0) return;      // hidden
       out.push({ node: n, text: t });
@@ -167,7 +167,7 @@
     paint();
   }
   function play(){
-    var key = location.hash;
+    var key = home ? 'home' : location.hash;      // on the cover, in-page links change the hash but not the text
     if(state === 'paused' && key === pageKey && queue.length){ state = 'playing'; token++; synth.cancel(); speakNext(token); startKeepAlive(); return; }
     build(); pageKey = key;
     if(!queue.length) return;
@@ -286,7 +286,7 @@
   var pending = 0;
   new MutationObserver(function(){ if(pending) return; pending = requestAnimationFrame(function(){ pending = 0; attach(); }); })
     .observe(main, { childList: true });
-  window.addEventListener('hashchange', function(){ if(state === 'playing' || state === 'paused'){ stop(); } });
+  window.addEventListener('hashchange', function(){ if(!home && (state === 'playing' || state === 'paused')){ stop(); } });
   window.addEventListener('pagehide', function(){ synth.cancel(); });
   attach();
 })();
