@@ -124,6 +124,9 @@ body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 16px); }
 body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
 /* Polish RR-1: on a laptop the bottom panel is 24 + 72 px (+ border) tall, so the button stands clear above it */
 @media (min-width: 900px) { body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 110px); } }
+/* R93-04 (Nik 2026-11-15, a bigger phone glove): on a tall upright phone in the game the caption takes the hidden Spin button's room for the turn, so the
+   hand's glove fits clear of it (the hand's spot is searched against the caption where it stands) */
+@media (max-width: 599px) and (orientation: portrait) and (min-height: 780px) { body.embed.turning .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 42px); } body.embed.turning .cta { position: absolute; visibility: hidden; opacity: 0; transition: none; } }
 /* phone portrait: the title starts below the sound switch (it covered the CAREER MODE SHOWDOWN 17 plate at 390px) */
 @media (max-width: 899px) and (orientation: portrait) { body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 54px); } }
 </style>

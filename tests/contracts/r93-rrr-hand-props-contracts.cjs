@@ -15,6 +15,10 @@
 //      a shot fades it where it is
 //   B1 the real scene at 1920x866, 390x844 and 393x660 on Light: barrel within 1° of its angle and within 4 px of the board's centre, muzzle off the board, the
 //      sleeve's cut outside the frame from the raise to the exit (overshoot and recoil too), never the hand and the felt's revolver on screen together, recoil up; Light stays at 11 programs and one draw over 2.5.0 at rest (35 on the Chromebook, 36 on a phone)
+//   B2 the game's own view (?embed=1 in a full-window frame, set up by a parent message as js/rosterRouletteStep.js does) at 390x844 and 360x640, Light:
+//      the upright placement is in use, the glove is never under the caption from the take to the exit and is at least 100 px wide at the aim, the
+//      muzzle stays off the board; on a tall phone (390x844) the caption takes the hidden Spin button's room for the turn (R93-04, Nik 2026-11-15:
+//      a bigger phone glove) and goes back after it; on a short phone (360x640) it stays where it was
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const net=require('node:net');
@@ -98,6 +102,10 @@ ok('H5','upright windows: the glove clear of the status line and the bottom bar'
 
 ok('W1','the whisky set: one painted draw on every level, the crystal from High, no light');
 
+has(/@media \(max-width: 599px\) and \(orientation: portrait\) and \(min-height: 780px\) \{ body\.embed\.turning \.mid \{ bottom: calc\(env\(safe-area-inset-bottom, 0px\) \+ 42px\); \} body\.embed\.turning \.cta \{ position: absolute; visibility: hidden; opacity: 0; transition: none; \} \}/,'H6: on a tall upright phone in the game the caption takes the hidden Spin button\'s room for the turn');
+has(/function handKeepOuts\(\)\{ const W=innerWidth, H=innerHeight, key=[^;]*document\.body\.className; if\(key===handKeepKey\) return handKeep; handKeepKey=key;/,'H6: the glove\'s keep-outs are measured again when the caption moves (body class in the key)');
+ok('H6','on a tall upright phone in the game the caption drops into the Spin button\'s room for the turn, and the glove is placed against it there');
+
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){console.log(`PASS r93 RRR hand and props contracts: ${checks} checks (browser part skipped).`);return;}
   const {chromium}=require('playwright');
@@ -159,6 +167,46 @@ ok('W1','the whisky set: one painted draw on every level, the crystal from High,
       assert.ok(out.rest<=restMax,`Light at ${w}x${h}: ${out.rest} draws at rest (≤ ${restMax})`);
       assert.equal(out.plate,w>h?'W':'P',`${w}x${h}: the ${w>h?'landscape':'upright'} plate`);
       ok('B1',`${w}x${h} Light, plate ${out.plate}${w<h?', glove clear of the status line and the bar at every frame':''}: barrel ${out.turns.map(t=>t.settled.barrel.toFixed(1)).join('/')}°, miss ${out.turns.map(t=>t.settled.miss.toFixed(1)).join('/')} px, recoil +${out.turns[0].recoil.toFixed(1)}°, ${out.rest} draws, ${out.programs} programs`);
+      await context.close(); }
+    const SQ=JSON.parse(fs.readFileSync(path.join(ROOT,'visual-assets/v10_1/roulette/assets/squads.json'),'utf8'));
+    const rows=c=>{ const x=SQ.clubs.find(q=>q.club===c); return [...x.xi,...x.subs].map(r=>({pos:r[0],position:r[0],name:r[1],rating:r[2],special:false,number:null})); };
+    for(const [w,h] of [[390,844],[360,640]]){
+      const context=await browser.newContext({viewport:{width:w,height:h},serviceWorkers:'block'});
+      const page=await context.newPage();
+      const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+      await page.route(url=>!String(url).startsWith(base),route=>route.abort());
+      await page.route('**/roulette/__r93_embed.html',route=>route.fulfill({status:200,contentType:'text/html; charset=utf-8',body:`<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><body style="margin:0;background:#050403"><div style="position:fixed;inset:0"><iframe id="f" src="index.html?embed=1&gfx=0&d=Manchester%20United&n=Real%20Madrid" style="display:block;width:100%;height:100%;border:0"></iframe></div><script>window.msgs=[];addEventListener('message',e=>window.msgs.push(e.data&&e.data.type));</script>`}));
+      await page.goto(`${base}visual-assets/v10_1/roulette/__r93_embed.html`,{waitUntil:'commit'});
+      await page.waitForFunction(()=>window.msgs&&window.msgs.includes('cms-rr-ready'),null,{timeout:300000,polling:250});
+      await page.evaluate(({D,N})=>document.getElementById('f').contentWindow.postMessage({type:'cms-rr-setup',d:'Manchester United',n:'Real Madrid',boards:{D,N},formations:{D:null,N:null},seed:7,sound:false,
+        turns:[{fire:true,target:'C. Smalling',bulletChamber:2,stopChamber:2,hitSlot:null,aimSlot:null,loadedChambers:[2,5]},{fire:false,target:'Isco',bulletChamber:3,stopChamber:5,hitSlot:null,aimSlot:null,loadedChambers:[3]}]},location.origin),{D:rows('Manchester United'),N:rows('Real Madrid')});
+      await page.waitForFunction(()=>window.msgs.includes('cms-rr-armed'),null,{timeout:60000,polling:200});
+      const fr=page.frames().find(f=>f.url().includes('embed=1'));
+      await fr.evaluate(()=>{ __rr.clock(); __rr.advance(1/30,true); });
+      const turns=[];
+      for(let ti=0;ti<2;ti++){
+        const before=await fr.evaluate(()=>document.getElementById('result').getBoundingClientRect().bottom);
+        await fr.evaluate(()=>document.getElementById('cta').click());
+        turns.push(await fr.evaluate(before=>{ const t={before,during:null,ctaShown:false,clear:new Set(),covered:[],gw:null,mzOnBoard:false,shown:false};
+          const capBox=()=>{ const e=document.getElementById('result'), rg=document.createRange(); rg.selectNodeContents(e); return rg.getBoundingClientRect(); };
+          for(let i=0;i<800;i++){ __rr.advance(1/30,false); const st=__rr.state; if(!st.playing) break; const p=__rr.handPose, tt=st.tt;
+            if(t.during===null&&tt>=1) t.during=document.getElementById('result').getBoundingClientRect().bottom;
+            if(tt>=1&&getComputedStyle(document.getElementById('cta')).visibility!=='hidden') t.ctaShown=true;
+            if(p.hand&&p.glove&&!p.detached&&tt>=12.9){ t.shown=true; t.clear.add(p.clear); const c=capBox(); for(const q of p.glove) if(q[0]>c.left&&q[0]<c.right&&q[1]>c.top&&q[1]<c.bottom){ t.covered.push(tt.toFixed(2)); break; }
+              if(t.gw===null&&tt>=14.95){ const xs=p.glove.map(q=>q[0]); t.gw=Math.max(...xs)-Math.min(...xs); }
+              const b=p.board, m=p.muzzle; if(m[0]>b[0]&&m[0]<b[2]&&m[1]>b[1]&&m[1]<b[3]) t.mzOnBoard=true; } }
+          __rr.advance(1,false); t.after=document.getElementById('result').getBoundingClientRect().bottom; t.clear=[...t.clear]; return t; },before)); }
+      assert.deepEqual(errors,[],`no page errors in the game view at ${w}x${h}`);
+      const tall=h>=780;
+      for(const [i,t] of turns.entries()){ const tag=`game view ${w}x${h} turn ${i+1}`;
+        assert.ok(t.shown,`${tag}: the hand shows`);
+        assert.deepEqual(t.clear,[true],`${tag}: the upright placement that keeps the glove clear is in use`);
+        assert.deepEqual(t.covered.slice(0,5),[],`${tag}: the glove is never under the caption`);
+        assert.ok(t.gw>=100,`${tag}: the glove is ${Math.round(t.gw)} px wide at the aim (at least 100)`);
+        assert.equal(t.mzOnBoard,false,`${tag}: the muzzle stays off the board`);
+        if(tall){ assert.equal(t.ctaShown,false,`${tag}: the Spin button is gone at once (the caption stands in its room)`); assert.ok(t.during>=h-46&&t.during<=h-38,`${tag}: the caption stands in the Spin button's room (bottom ${t.during} px)`); assert.ok(Math.abs(t.after-t.before)<1,`${tag}: the caption goes back after the turn`); }
+        else assert.ok(Math.abs(t.during-t.before)<1,`${tag}: on a short phone the caption stays where it was`); }
+      ok('B2',`game view ${w}x${h} Light: glove ${turns.map(t=>Math.round(t.gw)).join('/')} px, clear of the caption at every frame, caption ${tall?'in the Spin button\'s room for the turn':'where it was'}`);
       await context.close(); }
     console.log(`PASS r93 RRR hand and props contracts: ${checks} checks.`);
   }finally{ if(browser) await browser.close().catch(()=>{}); server.kill(); }
