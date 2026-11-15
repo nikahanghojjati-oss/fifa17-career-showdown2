@@ -37,10 +37,15 @@ Optional (worth it, +0 draws): a hammer-down frame of each, same registration.
 
 The pov_*.jpg frames are a 3D stand-in for layout only (angle, size, where the barrel points), not the look.
 
+
+### Nik's must-have (2026-11-15 07:45 UTC)
+"I like the hand and glove ... I want it to be there." The gloved hand is the hero of these plates, not just the gun. In the 3D stand-in frames (pov_*.jpg) the hand barely shows; that is NOT what we want. On both plates the brown leather glove (back of the hand, knuckles, thumb, wrist) and the dark wool cuff must be clearly visible and large: the glove covers at least as much of the plate as the revolver, the gun sits IN the hand, not in front of it. Same glove and cuff as today's plate (hand_marked.png). Reject any try where the glove is hidden, tiny or cut off.
+
 ### Deliver
 The webp files plus measured plate numbers on the final art: muzzle point, rear of bore, bore angle, wrist and elbow pivots, cut edges (pixels). Team G drops them into platemap.json in a small data PR; the motion build already reads every number from there.
 
 ### Accept when
 - Bore angle within tolerance; muzzle and sleeve edges as above; no fringe on the dark room.
-- Gun matches the table revolver; glove and cuff match today's.
+- The gloved hand is clearly visible and large (at least as much of the plate as the gun); glove and cuff match today's.
+- Gun matches the table revolver.
 - Reads as filmed at 1920x866 and 390x844 in the room.
