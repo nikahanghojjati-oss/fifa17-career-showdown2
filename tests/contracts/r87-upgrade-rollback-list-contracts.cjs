@@ -6,8 +6,8 @@
 // but the check skips). tests/fixtures/shell-paths/<revision>.json holds the exact SHELL_PATHS each live build shipped
 // (1.9.10-r86 = main 5b4337fd, the build live since 2026-10-30; 2.0.0-r87 = main 00ae2b72, live since 2026-11-02; 2.1.0-r88 =
 // main e6485d7d, live since 2026-11-04; 2.2.0-r89 = main 2fe8d2f5, live since 2026-11-06; 2.3.0-r90 = main a85d286a, live since
-// 2026-11-11; 2.4.0-r91 = main ac0a1338, live since 2026-11-14). 2.5.0 moves PREVIOUS to 2.4.0-r91: the added set must be exactly
-// the paths r92 adds to r91's 293 (none); this test names them if it is not.
+// 2026-11-11; 2.4.0-r91 = main ac0a1338, live since 2026-11-14; 2.5.0-r92 = main 36b648ad, live since 2026-11-14). The 2.5.1 hotfix
+// moves PREVIOUS to 2.5.0-r92: the added set must be exactly the paths 2.5.1 adds to r92's 293 (none); this test names them if it is not.
 // Run: node tests/contracts/r87-upgrade-rollback-list-contracts.cjs
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -48,7 +48,7 @@ test("UR2 the rollback list equals the previous revision's real shell, path for 
   assert.deepEqual({missing,extra},{missing:[],extra:[]},`rollback list for ${w.previous} is wrong; SHELL_PATHS_ADDED_SINCE_PREVIOUS should be exactly: ${JSON.stringify(w.shell.filter(p=>!real.includes(p)))}`);
 });
 
-test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.5.0: none)",()=>{
+test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.5.1: none)",()=>{
   const real=fixture(w.previous),shell=new Set(w.shell);
   assert.deepEqual(real.filter(p=>!shell.has(p)),w.removed,"a path the previous build precached left SHELL_PATHS without being listed in SHELL_PATHS_REMOVED_SINCE_PREVIOUS");
   assert.deepEqual(w.removed.filter(p=>shell.has(p)),[],"a removed path is still in SHELL_PATHS");
@@ -61,9 +61,9 @@ test("UR4 every added path is a current shell path, listed once",()=>{
   assert.equal(new Set(w.shell).size,w.shell.length,"SHELL_PATHS lists a path twice");
 });
 
-test("UR5 a 2.5.0 worker rolls back to the live 2.4.0 build",()=>{
-  assert.equal(w.revision,"2.5.0-r92");
-  assert.equal(w.previous,"2.4.0-r91");
+test("UR5 a 2.5.1 worker rolls back to the live 2.5.0 build",()=>{
+  assert.equal(w.revision,"2.5.1-r92");
+  assert.equal(w.previous,"2.5.0-r92");
 });
 
 test("UR6 the r87 fixture is r86's list plus what 2.0.0 added, minus the seven acceptance-only scripts",()=>{
@@ -101,6 +101,12 @@ test("UR10 the r91 fixture is r90's list plus r91's Squad Management, name searc
   assert.equal(r91.length,293);
   assert.deepEqual(r90.filter(p=>!r91.includes(p)),["css/restore.css","css/saveLibrary.css","js/restoreUI.js","js/saveLibraryUI.js","assets/LOADING_REUS_DESKTOP.webp","assets/LOADING_REUS_PHONE.webp"]);
   assert.deepEqual(r91.filter(p=>!r90.includes(p)).sort(),["assets/loading/ENV_LOADING_PHONE_HC_590W.webp","assets/loading/ENV_LOADING_PLATE_HC_1X.webp","assets/loading/LOGO_CM17_WORDMARK_V3_640.webp","assets/loading/REUS_D_1X.webp","assets/loading/REUS_P_590W.webp","css/squadScreen.css","js/playerSearch.js","js/squadScreen.js","js/squadSheet.js","js/squadSheetStep.js"]);
+});
+
+test("UR11 the r92 fixture (2.5.0) is exactly r91's list: 2.5.0 added and removed no shell path",()=>{
+  const r92=fixture("2.5.0-r92"),r91=fixture("2.4.0-r91");
+  assert.equal(r92.length,293);
+  assert.deepEqual(r92,r91);
 });
 
 console.log(`r87 upgrade rollback-list contracts: ${passed} passed (revision ${w.revision}, previous ${w.previous}, ${w.added.length} added since it)`);

@@ -191,15 +191,16 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
 // 2.3.0: the retained shell is r89's, filled by the 2.2.0 worker with its own 275 paths (tests/fixtures/shell-paths/2.2.0-r89.json).
 // 2.4.0: the retained shell is r90's, filled by the 2.3.0 worker with its own 289 paths (tests/fixtures/shell-paths/2.3.0-r90.json).
 // 2.5.0: the retained shell is r91's, filled by the 2.4.0 worker with its own 293 paths (tests/fixtures/shell-paths/2.4.0-r91.json).
-const R79_SHELL_PATHS_SHA256="0e3f4b1e36d8c684cd8c6ba57f8ff2224f222a0eec6198ea4f5ef9476274b61b";// sorted JSON of r91's SHELL_PATHS (main ac0a1338)
+// 2.5.1: the retained shell is r92's (2.5.0), the same 293 paths as r91's (tests/fixtures/shell-paths/2.5.0-r92.json).
+const R79_SHELL_PATHS_SHA256="0e3f4b1e36d8c684cd8c6ba57f8ff2224f222a0eec6198ea4f5ef9476274b61b";// sorted JSON of 2.5.0-r92's SHELL_PATHS (main 36b648ad; the same list as r91's)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
 check("R4c an r79-only shell cache survives r80 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"2.4.0-r91");
-  assert.equal(diag.previousShellPaths.length,293,"r91 shipped 293 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly r91's");
-  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"],"2.5.0 removes only the V3 loading logo (r93 HO-079)");
+  assert.equal(diag.previousRevision,"2.5.0-r92");
+  assert.equal(diag.previousShellPaths.length,293,"2.5.0 shipped 293 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly 2.5.0's");
+  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],["assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"],"r93 removes only the V3 loading logo from the 2.5.0/2.5.1 shell (HO-079)");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
     // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover

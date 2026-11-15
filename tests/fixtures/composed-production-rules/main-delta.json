@@ -1,126 +1,17 @@
 {
   "schemaVersion": 1,
-  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.5.0 (main 36b648ad) deploys the same Rules as 2.4.0; the hunks below are R93-07 (LOCK MY SIGNINGS expression budget). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
+  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.5.1 (main 23bdd439, the R93-07 LOCK MY SIGNINGS fix Nik shipped on 2026-11-15) deploys exactly these Rules, so there is no hunk. Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
-    "commit": "36b648adf0cb938826b7eaf09911b692a818c0c8",
-    "sha256": "237f867bade1ad244c92d1b8ab041a588fabd9e68485f7ee47dded4de939f7ab",
-    "gitBlobSha1": "4721e1d9fb8356ec873100d2b5d5c8a749a46a68",
-    "bytes": 191531
+    "commit": "23bdd439f8c7156957da477e0f055d1c54b6ef63",
+    "sha256": "2a0d029e911165022ffc40b1ff347372cc78333fa60b152fd5183a339006d9be",
+    "gitBlobSha1": "7fee764aa643704a159516c4818329feb0dc44e2",
+    "bytes": 192364
   },
   "candidate": {
     "sha256": "2a0d029e911165022ffc40b1ff347372cc78333fa60b152fd5183a339006d9be",
     "gitBlobSha1": "7fee764aa643704a159516c4818329feb0dc44e2",
     "bytes": 192364
   },
-  "allowedOwners": [
-    "R93-07"
-  ],
-  "hunks": [
-    {
-      "mainLine": 471,
-      "candidateLine": 471,
-      "removed": [],
-      "added": [
-        "    // R93-07 (hunt T2-1): three rows picked from the name list (overall + position + playerId each) took LOCK MY SIGNINGS past the",
-        "    // 1,000-expression limit. Same checks, cheaper form: an absent optional key reads as an in-range default (one lookup, one let),",
-        "    // a key that is present still has to be an int in range (overall 30..99, playerId 1..999999) or one of the 15 positions;",
-        "    // null, a float, a string or an unknown position is refused as before. The position list is one anchored regex (a list",
-        "    // literal costs one expression per item); the catalog regexes alone check the ids (they are a subset of the option ids)."
-      ],
-      "owner": "R93-07",
-      "why": "R93-07 comment: why the signing row validator is written in its cheaper form (hunt T2-1, three picked signings refused by the 1,000-expression limit)."
-    },
-    {
-      "mainLine": 472,
-      "candidateLine": 477,
-      "removed": [],
-      "added": [
-        "      let overall = value.get('overall', 30);",
-        "      // r91 (2.4.0): the SoFIFA id of a player picked from the Transfer War autocomplete (optional; a typed name has none).",
-        "      let playerId = value.get('playerId', 1);",
-        "      let position = value.get('position', 'GK');"
-      ],
-      "owner": "R93-07",
-      "why": "R93-07: the optional overall, playerId and position keys are read once each with an in-range default; a present key is still checked exactly as before."
-    },
-    {
-      "mainLine": 474,
-      "candidateLine": 483,
-      "removed": [
-        "        && (!('overall' in value) || (value.overall is int && value.overall >= 30 && value.overall <= 99))",
-        "        // r91 (2.4.0): the SoFIFA id of a player picked from the Transfer War autocomplete (optional; a typed name has none).",
-        "        && (!('playerId' in value) || (value.playerId is int && value.playerId >= 1 && value.playerId <= 999999))",
-        "        && (!('position' in value) || value.position in ['GK','RB','RWB','CB','LB','LWB','CDM','CM','CAM','RM','LM','RW','LW','CF','ST'])"
-      ],
-      "added": [
-        "        && overall is int && overall >= 30 && overall <= 99",
-        "        && playerId is int && playerId >= 1 && playerId <= 999999",
-        "        && position.matches('^(GK|RB|RWB|CB|LB|LWB|CDM|CM|CAM|RM|LM|RW|LW|CF|ST)$')"
-      ],
-      "owner": "R93-07",
-      "why": "R93-07: the same three optional-key checks on the let values (int ranges unchanged; the 15 positions as one anchored regex instead of a 15-item list literal)."
-    },
-    {
-      "mainLine": 482,
-      "candidateLine": 490,
-      "removed": [
-        "        && ssjrTransferValidOptionId(value.leagueId)"
-      ],
-      "added": [],
-      "owner": "R93-07",
-      "why": "R93-07: the option-id regex in front of the league catalog regex is dropped; the league catalog is a subset of the option ids, so the result is identical."
-    },
-    {
-      "mainLine": 484,
-      "candidateLine": 491,
-      "removed": [
-        "        && ssjrTransferValidOptionId(value.nationalityId)"
-      ],
-      "added": [],
-      "owner": "R93-07",
-      "why": "R93-07: the option-id regex in front of the nationality catalog regex is dropped; the nationality catalog is a subset of the option ids, so the result is identical."
-    },
-    {
-      "mainLine": 2712,
-      "candidateLine": 2718,
-      "removed": [],
-      "added": [
-        "          // R93-07: one diff instead of an exact key list plus seven equalities. The stored document was created with exact keys",
-        "          // (ssjrTransferPrivateBase), so a lock may change or add only these keys; schemaVersion, objectType, rivalryId,",
-        "          // seasonNumber, managerRole, guesses and guessLockedAt stay exactly as stored. guessSalt may only appear as null on an",
-        "          // r66 document (the equality below), and the salt keys stay both-or-neither."
-      ],
-      "owner": "R93-07",
-      "why": "R93-07 comment: why the private signing lock checks the stored role document with one diff."
-    },
-    {
-      "mainLine": 2717,
-      "candidateLine": 2727,
-      "removed": [
-        "            return ssjrTransferPrivateExactKeys(after)",
-        "              && after.schemaVersion == before.schemaVersion",
-        "              && after.objectType == before.objectType",
-        "              && after.rivalryId == before.rivalryId",
-        "              && after.seasonNumber == before.seasonNumber",
-        "              && after.managerRole == before.managerRole"
-      ],
-      "added": [
-        "            return after.diff(before).affectedKeys().hasOnly(['signings','signingLockedAt','signingSalt','guessSalt','updatedAt','updatedByDeviceId','activeSessionId'])",
-        "              && (after.keys().hasAll(['guessSalt','signingSalt']) || !after.keys().hasAny(['guessSalt','signingSalt']))"
-      ],
-      "owner": "R93-07",
-      "why": "R93-07: one affectedKeys().hasOnly diff replaces the exact key list and five identity equalities (the document was created with exact keys); the salt both-or-neither rule stays."
-    },
-    {
-      "mainLine": 2725,
-      "candidateLine": 2731,
-      "removed": [
-        "              && after.guesses == before.guesses",
-        "              && after.guessLockedAt == before.guessLockedAt"
-      ],
-      "added": [],
-      "owner": "R93-07",
-      "why": "R93-07: guesses and guessLockedAt are outside the allowed diff keys, so they still cannot change at the signing lock."
-    }
-  ]
+  "allowedOwners": [],
+  "hunks": []
 }
