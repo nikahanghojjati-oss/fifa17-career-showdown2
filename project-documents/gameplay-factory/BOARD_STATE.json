@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 3:49 AM Boston time (EST)",
+ "generated": "2026-11-15 3:58 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 283,
@@ -2609,12 +2609,12 @@
      "title": "Release 2.5.1 (r92 hotfix): LOCK MY SIGNINGS with names picked from the list",
      "draft": false,
      "branch": "claude-gameplay/hotfix-2.5.1-lock-signings",
-     "sha": "478b38049b9ee91b256eed2634b37a92224e153e",
-     "updated": "2026-11-15T08:33:54Z",
+     "sha": "68965d6eed7c27d28055dcd1e0b7432d2961afae",
+     "updated": "2026-11-15T08:53:22Z",
      "gates": {
-      "passed": 3,
-      "running": 3,
-      "failed": 1,
+      "passed": 0,
+      "running": 7,
+      "failed": 0,
       "cancelled": 0
      }
     }
@@ -2624,7 +2624,7 @@
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1477: L1… L2… L3A✓ L3B✓ L4✓ L5… L6… · seal pending · POS20 #1477 0/16",
+   "gate": "Gate #1477: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #1477 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3410,7 +3410,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 10425
+    "waiting_min": 10434
    },
    {
     "id": "HO-059",
@@ -5003,12 +5003,12 @@
     "title": "Release 2.5.1 (r92 hotfix): LOCK MY SIGNINGS with names picked from the list",
     "draft": false,
     "branch": "claude-gameplay/hotfix-2.5.1-lock-signings",
-    "sha": "478b38049b9ee91b256eed2634b37a92224e153e",
-    "updated": "2026-11-15T08:33:54Z",
+    "sha": "68965d6eed7c27d28055dcd1e0b7432d2961afae",
+    "updated": "2026-11-15T08:53:22Z",
     "gates": {
-     "passed": 3,
-     "running": 3,
-     "failed": 1,
+     "passed": 0,
+     "running": 7,
+     "failed": 0,
      "cancelled": 0
     }
    }
