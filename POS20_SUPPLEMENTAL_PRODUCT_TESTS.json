@@ -3339,6 +3339,14 @@
         "^tests/contracts/r93\\-rules\\-budget\\-sweep\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r94-squad-shirt-contracts.cjs",
+      "patterns": [
+        "^js/squadScreen\\.js$",
+        "^tests/contracts/r94\\-squad\\-shirt\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
