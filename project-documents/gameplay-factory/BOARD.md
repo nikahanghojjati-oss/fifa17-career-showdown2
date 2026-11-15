@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 15 Nov, 4:46 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 15 Nov, 4:50 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
-🌐 **Live: 2.5.0-r92** (main `36b648a`, Sat 14 Nov 11:12 AM)
+🌐 **Live: 2.5.1-r92** (main `23bdd43`, Sun 15 Nov 4:47 AM)
 
-🩺 **All clear: every check has a machine.** · Gate #1477: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1477 0/16
+🩺 **All clear: every check has a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -2118,12 +2118,6 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 ## Other Team G work
 
-**Fixing now**
-
-| Lane | Item | What | State |
-| --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1477](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1477) | Release 2.5.1 (r92 hotfix): LOCK MY SIGNINGS with names picked from the list | 🟢 8 passed |
-
 **Up next**
 
 | Lane | Item | What | State |
@@ -2144,4 +2138,8 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
 | 🟧 Opus | **V-F2** | Design changes from Nik and Daniel's 2.0 play-through (only real design changes; bugs stay with G) | queued · after G-F1 |
+
+## Shipped today
+
+- 4:47 AM · #1477 Release 2.5.1 (r92 hotfix): LOCK MY SIGNINGS with names picked from the list
 

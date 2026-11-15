@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-15 4:46 AM Boston time (EST)",
+ "generated": "2026-11-15 4:49 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 283,
+  "count": 284,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2550,6 +2550,15 @@
     "subject": "Roulette hand repainted from the shooter's eye (two plates)",
     "reply": "no",
     "boston": "Sun 15 Nov 3:08 AM"
+   },
+   {
+    "time": "2026-11-15 09:48",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-082 RECEIVED",
+    "subject": "Roulette hand: side-entry upright plate for tall windows",
+    "reply": "no",
+    "boston": "Sun 15 Nov 4:48 AM"
    }
   ],
   "g2v": {
@@ -2570,8 +2579,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "dd84ac9",
-  "head_boston": "Sun 15 Nov 4:45 AM",
+  "head": "3d98d74",
+  "head_boston": "Sun 15 Nov 4:48 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -2599,32 +2608,23 @@
  },
  "two": {
   "live": {
-   "sha": "36b648a",
-   "revision": "2.5.0-r92",
-   "when": "2026-11-14T11:12:28-05:00",
-   "subject": "Release 2.5.0 (r92): merge gameplay/r92 into main (#1464)",
-   "fixes": [
+   "sha": "23bdd43",
+   "revision": "2.5.1-r92",
+   "when": "2026-11-15T04:47:27-05:00",
+   "subject": "Merge pull request #1477 from nikahanghojjati-oss/claude-gameplay/hotfix-2.5.1-lock-signings",
+   "fixes": [],
+   "today": [
     {
      "pr": 1477,
      "title": "Release 2.5.1 (r92 hotfix): LOCK MY SIGNINGS with names picked from the list",
-     "draft": false,
-     "branch": "claude-gameplay/hotfix-2.5.1-lock-signings",
-     "sha": "68965d6eed7c27d28055dcd1e0b7432d2961afae",
-     "updated": "2026-11-15T09:34:22Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-11-15T09:47:27Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1477: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1477 0/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3410,7 +3410,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 10482
+    "waiting_min": 10485
    },
    {
     "id": "HO-059",
@@ -3716,13 +3716,13 @@
     "from": "G",
     "to": "V",
     "title": "Roulette hand: side-entry upright plate for tall windows",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-082_roulette-hand-side-entry-upright-plate-f.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 1
+    "pickup_min": 2,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -3794,7 +3794,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -5010,22 +5010,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1477,
-    "title": "Release 2.5.1 (r92 hotfix): LOCK MY SIGNINGS with names picked from the list",
-    "draft": false,
-    "branch": "claude-gameplay/hotfix-2.5.1-lock-signings",
-    "sha": "68965d6eed7c27d28055dcd1e0b7432d2961afae",
-    "updated": "2026-11-15T09:34:22Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
