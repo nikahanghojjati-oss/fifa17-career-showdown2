@@ -41,8 +41,10 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 {
   // r92: the quality fixes (#1458) and the removal of the level pictures (#1461) touch no shell path: gfxTier.js was already
   // precached, and the Device check pages and their pictures were never in the shell. r92 adds and removes nothing.
-  const R92_ADDED=[];
-  const R92_REMOVED=[];
+  // r93 HO-079 (flat logo V4 + live-text titles, until the release bump moves PREVIOUS): the V4 loading logo and the Cormorant SC Bold file with its
+  // licence are added, the V3 loading logo is dropped (the V3 Home files were never precached).
+  const R92_ADDED=["assets/loading/LOGO_CM17_WORDMARK_V4_640.webp","visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2","visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt"];
+  const R92_REMOVED=["assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"];
   const sw=read('service-worker.js');
   assert.match(sw,/const RUNTIME_REVISION = "2\.5\.0-r92";\nconst PREVIOUS_RUNTIME_REVISION = "2\.4\.0-r91";/);
   const set=name=>JSON.parse('['+new RegExp(`const ${name} = new Set\\(\\[([^\\]]*)\\]\\);`).exec(sw)[1]+']');
@@ -51,8 +53,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   assert.equal(r91.length,293);
   assert.deepEqual(added,shell.filter(p=>!r91.includes(p)),'the added list is this shell minus r91\'s');
-  assert.deepEqual(added,R92_ADDED,'2.5.0 adds no shell file');
-  assert.deepEqual(removed,R92_REMOVED,'2.5.0 removes no shell file');
+  assert.deepEqual(added,R92_ADDED,'2.5.0 adds the V4 logo, the title font and its licence (r93)');
+  assert.deepEqual(removed,R92_REMOVED,'2.5.0 drops only the V3 loading logo (r93)');
   assert.deepEqual(r91.filter(p=>!shell.includes(p)),removed,'every r91 shell path is still precached');
   assert.equal(shell.length,293-removed.length+added.length);
   for(const p of ['js/gfxTier.js','js/chamberMenStep.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js','js/kits17.js','data/gazetteSacked.js','visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js','js/iconGuessStep.js','js/touchlineGazette.js','js/rosterRouletteStep.js','js/squadScreen.js','js/playerSearch.js'])assert.ok(r91.includes(p)&&!added.includes(p),`r91's ${p} is in r91's own list`);

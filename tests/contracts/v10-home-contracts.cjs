@@ -132,7 +132,7 @@ test("r87 (Nik 2026-11-01): Home has no music strip; the old YouTube player and 
 test("Audius is the only new network host",()=>{
   const hosts=new Set([...(binder+soundtrack).matchAll(/https?:\/\/([a-z0-9.-]+)/gi)].map(m=>m[1].toLowerCase()));
   assert.deepEqual([...hosts],["api.audius.co"]);
-  assert.equal(Home.MEDIA.tracks.length,19);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["6R99GRQ","GNQJ5dl","5xdlPEJ","K9J0w8l","Nvydpr7","WGNNo","PQ28va7","3mjjB","y7Z9P","Ymgov","qZ17b","gb33l","n1zqQ","ygyOr","3RaaM","AV9dv","ryBXG","G5rXAWE","0dGWK"],"Nik's list (2026-10-27): Song 2 first, Love Me Again second, the new picks, then the earlier top 10 in order");assert.equal(Home.MEDIA.defaultTrack,"song2");
+  assert.equal(Home.MEDIA.tracks.length,39);assert.deepEqual(Home.MEDIA.tracks.map(t=>t.audiusTrackId),["6R99GRQ","GNQJ5dl","5xdlPEJ","K9J0w8l","Nvydpr7","WGNNo","PQ28va7","3mjjB","y7Z9P","Ymgov","qZ17b","gb33l","n1zqQ","ygyOr","3RaaM","AV9dv","ryBXG","G5rXAWE","0dGWK","wGdmrAK","4z0Zb","pV88B","q4pmpQz","mv3bA3p","jEBXZ","jmEXB","E76JQ","aAvKglj","z2vgkrO","MgbrG","a5EyQ","22mrG","QKxdxOw","K7vE9","bbzxO","YZy2r","VEz9r","6RXVM","ygxaZ"],"Nik's list (2026-10-27): Song 2 first, Love Me Again second, the new picks, then the earlier top 10 in order, then r93's 20 (10 Persian, 10 English)");assert.equal(Home.MEDIA.defaultTrack,"song2");
 });
 test("Home registers through job 24's loader with Team V's CSS and the adapter; the soundtrack starts with the app (HE-06)",()=>{
   assert.match(binder,/V\.register\("mainMenu",\{css:HOME_CSS\.slice\(\),js:\[\],/);
@@ -150,8 +150,8 @@ test("Loading stays the app's splash: the Reus photo in Team V's tunnel room (HO
     assert.ok(fs.existsSync(path.join(ROOT,"assets/loading",sharp+".webp")),sharp);
     assert.ok(!sw.includes(`assets/loading/${sharp}.webp`),`${sharp} is not precached`);
   }
-  assert.match(html,/<img class="startupIdentity" src="assets\/loading\/LOGO_CM17_WORDMARK_V3_640\.webp\?v=[^"]+" width="640" height="107" alt="" decoding="async">/,"the title is the V3 logo lettering, live on the cover (no lettering is baked into the layers)");
-  assert.deepEqual(fs.readFileSync(path.join(ROOT,"assets/loading/LOGO_CM17_WORDMARK_V3_640.webp")),fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_640.webp")),"the cover's logo is Team V's file, byte for byte");
+  assert.match(html,/<img class="startupIdentity" src="assets\/loading\/LOGO_CM17_WORDMARK_V4_640\.webp\?v=[^"]+" width="640" height="92" alt="" decoding="async">/,"the title is the V4 flat logo (r93 HO-079), live on the cover (no lettering is baked into the layers)");
+  assert.deepEqual(fs.readFileSync(path.join(ROOT,"assets/loading/LOGO_CM17_WORDMARK_V4_640.webp")),fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V4_640.webp")),"the cover's logo is Team V's file, byte for byte");
   assert.ok(fs.existsSync(path.join(ROOT,"assets/marco-reus-2015-cc-by.webp")),"the licensed source photo stays");
   assert.match(html,/<p class="startupPhotoCredit">Marco Reus photo: <a [^>]*>Tim Reckmann<\/a> · <a [^>]*>CC BY 2\.0<\/a> · Cropped and edited for display<\/p>/,"HO-030: credit keeps Tim Reckmann, CC BY 2.0 and says edited");
   assert.doesNotMatch(binder,/loadingScreen|startupPhotoCredit|startupIdentity/);
@@ -164,7 +164,7 @@ test("Home CSS/JS are precached; Home images use the revision-keyed runtime imag
   const imageRule=new RegExp(/const V10_IMAGE_PATH = \/(.+)\/i;/.exec(sw)[1],"i");
   const images=[...binder.matchAll(/BASE\+"([^"]+\.webp)/g),...binder.matchAll(/\$\{BASE\}\$\{file\}/g)].length;
   assert.ok(images>0);
-  const files=[...[...binder.matchAll(/pic\("[^"]+","([^"]+\.webp)"/g)].map(m=>m[1]),"home/assets/LOGO_CM17_WORDMARK_V3_640.webp","home/assets/LOGO_CM17_WORDMARK_V3_1040.webp","home/assets/LOGO_CM17_WORDMARK_V3_2080.webp",
+  const files=[...[...binder.matchAll(/pic\("[^"]+","([^"]+\.webp)"/g)].map(m=>m[1]),"home/assets/LOGO_CM17_WORDMARK_V4_640.webp","home/assets/LOGO_CM17_WORDMARK_V4_1040.webp","home/assets/LOGO_CM17_WORDMARK_V4_2080.webp",
 ...[...homeCss.matchAll(/url\("?(assets\/[^")]+\.webp)"?\)/g)].map(m=>"home/"+m[1])];
   for(const file of files){const full="visual-assets/v10_1/"+file;assert.ok(fs.existsSync(path.join(ROOT,full)),full);assert.ok(imageRule.test(full),full);}
   for(const m of homeCss.matchAll(/url\((\.\.\/shared\/fonts\/[^)]+\.woff2)\)/g))assert.ok(shell.has("visual-assets/v10_1/"+m[1].slice(3)),m[1]);

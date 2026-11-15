@@ -20,9 +20,11 @@ let n=0;const check=(name,fn)=>{fn();console.log(`ok ${++n} ${name}`);};
 check('RS1 current rule constructors preserve all eleven sections and scoring',()=>{root.createRuleBookScreen();const h=doc.getElementById('ruleBook');assert.equal(h.querySelectorAll('.ruleSection').length,11);assert.equal(h.querySelector('.ruleScoreMaximum').textContent,'MAXIMUM PER MANAGER / SEASON15');});
 // Missing binder makes this contract fail before the implementation is saved.
 const api=require(path.join(ROOT,'js/rulesSettingsV10.js')).createBindings(root);
-const rules=doc.getElementById('ruleBook'),ruleText=rules.textContent,ruleBack=rules.querySelector('button');
-check('RS2 Rule Book skin carries exactly the current app rule text',()=>{api.mountRuleBook(null,rules);assert.equal(rules.textContent,ruleText);assert.equal(rules.querySelector('.backButton'),ruleBack);assert.equal(rules.querySelectorAll('.ruleSection').length,11);});
-check('RS3 rule render is idempotent and unmount restores the original DOM',()=>{const stage=rules.querySelector('.v10SystemStage');api.mountRuleBook(null,rules);assert.equal(rules.querySelector('.v10SystemStage'),stage);api.unmountRuleBook(rules);assert.equal(rules.textContent,ruleText);assert.equal(rules.querySelector('.backButton'),ruleBack);api.mountRuleBook(null,rules);});
+// r93 HO-079: the screen title is live text laid over the heading words, so the rule text is compared without that second copy.
+const plain=el=>el.textContent.split('RULE BOOK').join('');
+const rules=doc.getElementById('ruleBook'),ruleText=plain(rules),ruleBack=rules.querySelector('button');
+check('RS2 Rule Book skin carries exactly the current app rule text',()=>{api.mountRuleBook(null,rules);assert.equal(plain(rules),ruleText);assert.equal(rules.querySelector('.backButton'),ruleBack);assert.equal(rules.querySelectorAll('.ruleSection').length,11);});
+check('RS3 rule render is idempotent and unmount restores the original DOM',()=>{const stage=rules.querySelector('.v10SystemStage');api.mountRuleBook(null,rules);assert.equal(rules.querySelector('.v10SystemStage'),stage);api.unmountRuleBook(rules);assert.equal(plain(rules),ruleText);assert.equal(rules.querySelector('.backButton'),ruleBack);api.mountRuleBook(null,rules);});
 root.ensureSettingsDialog();root.renderSettings();const overlay=doc.getElementById('settingsOverlay'),content=doc.getElementById('settingsContent');
 // Seed hidden/internal recovery controls: visual decoration must leave visibility and listeners intact.
 for(const id of ['saveLibraryProductPanel','sparkConnectedAccountPanel','sparkPrivatePairingPanel','sparkConnectedRivalryPanel']){const panel=new FakeNode('section');panel.id=id;panel.hidden=true;panel.dataset.productSurface='internal';const apply=new FakeNode('button');apply.id=id+'Apply';panel.append(apply);content.append(panel);}

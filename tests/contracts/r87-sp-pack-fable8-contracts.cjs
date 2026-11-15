@@ -212,7 +212,17 @@ ok("R90-PS12 LOOK round 3 L40/L31/L06/L32 + the Light rule: foil burst, gold fla
   assert.match(page,/if\(now>bandTop\)\{ pack\.position\.y-=\(now-bandTop\)/,"L32: the falling pack stays under the title too");
   assert.match(page,/const DIRECT=Boolean\(GP&&GP\.level===0\);/,"Light: straight to the canvas");
   assert.match(page,/if\(DIRECT\)\{ renderer\.toneMappingExposure=\.9\*\(1\+flash\*\.2\); renderer\.setRenderTarget\(null\); renderer\.render\(scene,camera\); return; \}/,"Light: one pass, no target");
-  assert.match(page,/renderer\.toneMapping=T\.CustomToneMapping; renderer\.toneMappingExposure=\.9;/,"Light: the composite's film curve in each material");
+  /* r93: this vendored three build has no T.CustomToneMapping (it was undefined: a console warning and a plain linear clip on Light), so Light uses three's Custom value 5, with the exposure .9 as before */
+  assert.ok(!/T\.CustomToneMapping/.test(page),"Light: the vendored three build does not export CustomToneMapping");
+  assert.match(page,/const TONE_CUSTOM=5, KNEE=\.7;/,"Light: three's Custom tone mapping value and a knee");
+  assert.match(page,/renderer\.toneMapping=tm\?TONE_CUSTOM:T\.LinearToneMapping; renderer\.toneMappingExposure=\.9;/,"Light: the custom curve at exposure .9 (Linear only if three's chunk text ever changes)");
+  assert.match(page,/return min\(color,vec3\("\+k\+"\)\)\+\(1\.-"\+k\+"\)\*\(1\.-exp\(-max\(color-"\+k\+",0\.\)\/\(1\.-"\+k\+"\)\)\);/,"Light: linear up to the knee, a soft shoulder above it");
+  { const three=fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/roulette/vendor/three-r187.min.js"),"utf8");
+    assert.ok(!/CustomToneMapping:\(\)=>/.test(three)&&/Jo=5,Cs=6/.test(three)&&three.includes("vec3 CustomToneMapping( vec3 color ) { return color; }"),"the vendored three still has no CustomToneMapping export, Custom is 5, and the chunk text the Light curve replaces"); }
+  assert.ok(!/T\.FrontSide/.test(page)&&/side:DIRECT\?0:T\.DoubleSide/.test(page),"Light: the flags use side 0, the vendored three build does not export FrontSide");
+  /* r93: the side stand photos overlap the centre photo, so the blurry panorama never shows at the seam (a dark smear on the stands of a wide view) */
+  { const m=/const SIDE_RAD="([\d.]+)";/.exec(page); assert.ok(m,"the side photos' distance is one constant"); assert.ok(Number(m[1])<=1.0472*1.02,"each side photo (72 degrees wide) sits no further than about 60 degrees from the centre photo, so its fade always lands on a sharp photo"); }
+  assert.match(page,/plateMix\(c,d,plateL,yaw-\$\{SIDE_RAD\}\); if\(hasR>\.5\) c=plateMix\(c,d,plateR,yaw\+\$\{SIDE_RAD\}\);/,"both side photos use that distance");
   assert.match(page,/if\(!DIRECT\) scene\.add\(packLight\);/,"Light: one key light and the sky light");
   assert.match(page,/function setEnv\(\)\{ if\(DIRECT\)\{ scene\.environment=null; return; \}/,"Light: no PMREM at runtime");
   assert.match(page,/const CardMat=DIRECT\?T\.MeshStandardMaterial:T\.MeshPhysicalMaterial/,"Light: the card shares the pack's program");
