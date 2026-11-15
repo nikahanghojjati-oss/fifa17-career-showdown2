@@ -122,7 +122,9 @@ const options=windowScript("data/transferOptions.js");
   }
   const rules=read("firestore.transfer-challenge-production.fragment.rules");
   assert.match(rules,/value\.keys\(\)\.hasOnly\(\['slot','name','leagueId','nationalityId','overall','position','playerId'\]\)/);
-  assert.match(rules,/\(!\('playerId' in value\) \|\| \(value\.playerId is int && value\.playerId >= 1 && value\.playerId <= 999999\)\)/);
+  // R93-07: the optional key reads as an in-range default when absent (one let); a present playerId is still an int 1..999999.
+  assert.match(rules,/let playerId = value\.get\('playerId', 1\);/);
+  assert.match(rules,/&& playerId is int && playerId >= 1 && playerId <= 999999\n/);
   ok("P1","Enter keeps typed text, an edit drops the id, OVR/league only in season 1, POS/nationality always, LOCK unchanged; a picked player's id is stored as playerId (1..999999), both readers and the Rules accept it");
 }
 // B1 optional rebuild proof.

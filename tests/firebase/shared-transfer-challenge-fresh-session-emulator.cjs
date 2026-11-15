@@ -231,6 +231,44 @@ async function proveSaltsAndCatalogIds(env){
     const view=await provider.read(options("playerOne"));assert.equal(view.ok,true);assert.equal(view.ownInputs.signings.length,3);assert.equal(view.opponentInputs.signings[2].name.length,80);
   });
 
+  // R93-07 (hunt T2-1, live in 2.5.0): the worst legal lock. Three signings picked from the Transfer War name list carry every
+  // optional key (overall, position, playerId) and an 80-character name; with 1 or 3 guesses, for either manager locking first
+  // or second, the full transaction must pass the composed Rules inside the 1,000-expression budget. Before the fix two or
+  // more picked rows were refused with "maximum of 1000 expressions" and the screen said the session had expired.
+  await proof("K6","worst-case lock: 3 picked signings (overall + position + playerId, 80-character names) x 1 or 3 guesses x either locker order, inside the evaluation budget",async()=>{
+    const guessSets={1:[{slot:1,type:"nationality",valueId:nationalityIds[nationalityIds.length-1]}],3:[{slot:1,type:"league",valueId:leagueIds[leagueIds.length-1]},{slot:2,type:"nationality",valueId:nationalityIds[nationalityIds.length-1]},{slot:3,type:"nationality",valueId:nationalityIds[nationalityIds.length-2]}]};
+    const picked=base=>[1,2,3].map(slot=>({slot,name:`${"É".repeat(79)}${slot}`,leagueId:leagueIds[leagueIds.length-slot],nationalityId:nationalityIds[nationalityIds.length-slot],overall:99,position:["CAM","LWB","ST"][slot-1],playerId:base+slot}));
+    for(const guesses of [1,3])for(const first of ["playerOne","playerTwo"]){
+      const second=first==="playerOne"?"playerTwo":"playerOne";
+      await reset();
+      await accepted(`${first} ${guesses} guesses`,lockGuesses(first,4,3,guessSets[guesses]));await accepted(`${second} ${guesses} guesses`,lockGuesses(second,5,4,guessSets[guesses]));
+      seenErrors.length=0;
+      const one=await lockSignings(first,6,5,picked(999990));
+      assert.equal(one.ok,true,`${guesses} guesses, ${first} first: first locker's 3 picked signings must lock: ${JSON.stringify(one)} ${seenErrors.map(e=>e&&e.message).join(" | ")}`);
+      const two=await lockSignings(second,7,6,picked(999990));
+      assert.equal(two.ok,true,`${guesses} guesses, ${first} first: second locker's 3 picked signings must lock: ${JSON.stringify(two)} ${seenErrors.map(e=>e&&e.message).join(" | ")}`);
+      notBudget();assert.equal(two.state.phase,"COMPLETED");
+      const snap=await snapshot();
+      for(const key of ["one","two"]){assert.equal(snap[key].signings.length,3);assert.deepEqual(snap[key].signings.map(row=>row.playerId),[999991,999992,999993]);}
+    }
+    // The protections stay: a playerId outside 1..999999 or not an int, an unknown position, an overall outside 30..99 and an
+    // extra key are each refused on an otherwise worst-case row.
+    for(const [label,mutate] of [
+      ["playerId 0",d=>{d.signings[2].playerId=0;}],["playerId 1000000",d=>{d.signings[2].playerId=1000000;}],["playerId string",d=>{d.signings[2].playerId="7";}],["playerId float",d=>{d.signings[2].playerId=7.5;}],
+      ["position XX",d=>{d.signings[1].position="XX";}],["overall 100",d=>{d.signings[0].overall=100;}],["overall 29",d=>{d.signings[0].overall=29;}],["extra key",d=>{d.signings[0].club="x";}],["duplicate slot",d=>{d.signings[2].slot=1;}],
+      ["null overall",d=>{d.signings[0].overall=null;}],["null playerId",d=>{d.signings[1].playerId=null;}],["null position",d=>{d.signings[2].position=null;}],["numeric position",d=>{d.signings[2].position=7;}],
+      ["unknown league",d=>{d.signings[0].leagueId="brazil";}],["unknown nationality",d=>{d.signings[0].nationalityId="spain-primera-division";}],
+      // The role document itself (R93-07 checks it with one diff): nothing outside the signing lock may change, appear or go.
+      ["guesses changed",d=>{d.guesses=[{slot:1,type:"league",valueId:leagueIds[0]}];}],["guessLockedAt changed",d=>{d.guessLockedAt=Timestamp.fromMillis(Date.now()-3_600_000);}],
+      ["schemaVersion changed",d=>{d.schemaVersion=2;}],["objectType changed",d=>{d.objectType="sharedTransferChallenge";}],["rivalryId changed",d=>{d.rivalryId=R;}],
+      ["seasonNumber changed",d=>{d.seasonNumber=2;}],["managerRole changed",d=>{d.managerRole="playerTwo";}],["extra top-level key",d=>{d.note="x";}],
+      ["schemaVersion removed",d=>{delete d.schemaVersion;}],["guesses removed",d=>{delete d.guesses;}],["signingLockedAt removed",d=>{delete d.signingLockedAt;}],["updatedAt removed",d=>{delete d.updatedAt;}]
+    ]){
+      await reset();await accepted("A 3 guesses",lockGuesses("playerOne",4,3,guessSets[3]));await accepted("B 3 guesses",lockGuesses("playerTwo",5,4,guessSets[3]));
+      await denied(`worst-case row with ${label}`,lockSignings("playerOne",6,5,picked(1000),mutate));
+    }
+  });
+
   // ---- JOB-1052 exhaustive: every catalog id and many near misses against the real Rules functions --------------------------
   await proof("K5","probe over the generated Rules functions: catalog membership, signing names and salts agree with the reader on every candidate",async()=>{
     const marker="    match /{document=**} {";
