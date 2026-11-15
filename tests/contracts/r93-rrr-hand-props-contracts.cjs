@@ -10,7 +10,10 @@
 //      the room when the bullet camera leaves; Reduce Motion drops the dip and the sway
 //   H4 the hand takes the room's light (a colour uniform) and the plate is decoded at 1024 px on Light and Balanced; every plate number is data
 //   W1 the whisky set: one painted mesh (the hand card's program) on every level, a crystal shell from High; shown from WHISKY_FROM (0 = Light)
-//   B1 the real scene at 1920x866 and 390x844 on Light: barrel within 1° of its angle and within 4 px of the board's centre, muzzle off the board, the
+//   H5 upright windows (lead's review, Nik's rule "nothing covers anything"): the glove is kept clear of the status line and the bottom bar at every
+//      beat: a search in the shooter's-eye frame for the largest card and the spot along the board's foot that fit, the hand slides in from its side,
+//      a shot fades it where it is
+//   B1 the real scene at 1920x866, 390x844 and 393x660 on Light: barrel within 1° of its angle and within 4 px of the board's centre, muzzle off the board, the
 //      sleeve's cut outside the frame from the raise to the exit (overshoot and recoil too), never the hand and the felt's revolver on screen together, recoil up; Light stays at 11 programs and one draw over 2.5.0 at rest (35 on the Chromebook, 36 on a phone)
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -51,7 +54,7 @@ has(/lag=-\(RM\?4:9\)\*\(1-ease\.out\(S\(r0,rd\+\.15,tt\)\)\)/,'the wrist trails
 has(/rec=11\*Math\.exp\(-7\.2\*u\)\*Math\.cos\(14\.3\*u\)/,'the recoil: a damped spring from +11°');
 has(/turn\(W0,-handSide\*HP\.wrist\*DEG\)/,'elevation + is muzzle up for both hands');
 lacks(/handSide\*rx\*\.16/,'the old recoil that turned the muzzle down');
-has(/if\(p\.fire&&d>=\.12&&!HP\.detached&&HP\.on\)\{ camera\.updateMatrixWorld\(\); placeHand\(\); scene\.attach\(hand\); HP\.detached=true; \}/,'left in the room as the bullet camera leaves');
+has(/if\(p\.fire&&d>=\.12&&!HP\.detached&&HP\.on&&!clr\)\{ camera\.updateMatrixWorld\(\); placeHand\(\); scene\.attach\(hand\); HP\.detached=true; \}/,'left in the room as the bullet camera leaves');
 has(/function handHome\(\)\{ camera\.add\(hand\); hand\.quaternion\.identity\(\); HP\.detached=false; \}/,'and back on the camera, upright, at the end of the turn');
 has(/let cock=0; if\(!RM\)\{/,'no cock dip under Reduce Motion');
 has(/let sway=0, bob=0; if\(!RM\)\{/,'no sway under Reduce Motion');
@@ -84,6 +87,15 @@ has(/const crystal=new T\.MeshStandardMaterial\(\{color:0x000000, metalness:0, r
 has(/if\(!hi\) add\(parts,vmap\(lathe\(o\.shell,SEG\)/,'painted glass highlights only below High');
 has(/\{ const w=buildWhisky\(\); if\(w\)\{/,'built after the table is baked');
 lacks(/new T\.PointLight\([^)]*\)[^;]*whisky/i,'no light of its own');
+has(/return \(sk<\.5&&handClear\(fw,fh,ax,ay\)\)\|\|L0; \}/,'upright windows use the clear placement when it fits');
+has(/function handClearSearch\(key,base\)\{/,'searched once per turn and window');
+has(/cam\.position\.copy\(p\.pov\); cam\.fov=p\.povFov; cam\.updateProjectionMatrix\(\); cam\.lookAt\(p\.povLook\);/,'in the frame the camera settles into');
+has(/N\+" takes the revolver","Hammer cocked",N\+" takes aim at the board","Bang!",`Click\. \$\{N\} is safe\.`\]/,'against the widest status line shown while the hand is up');
+has(/if\(L\.clear\) px\+=handSide\*L\.inX\*\(1-Math\.min\(1,HP\.R\)\);/,'the hand slides in from its own side');
+has(/if\(p\.fire&&d>=\.12&&!HP\.detached&&HP\.on&&!clr\)/,'and a shot fades it where it is');
+assert.ok(Array.isArray(plate.hand.plates.P.glove)&&plate.hand.plates.P.glove.length===4,'platemap P glove box');
+ok('H5','upright windows: the glove clear of the status line and the bottom bar');
+
 ok('W1','the whisky set: one painted draw on every level, the crystal from High, no light');
 
 (async()=>{
@@ -101,7 +113,7 @@ ok('W1','the whisky set: one painted draw on every level, the crystal from High,
     const args=runtime.args.filter(a=>a!=='--single-process'&&!/^--(disable-webgl|disable-gpu|use-gl|use-angle)/.test(a)).concat(['--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-gpu-compositing','--disable-gpu-rasterization']);
     browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args});
     const base=`http://127.0.0.1:${port}/`;
-    for(const [w,h] of [[1920,866],[390,844]]){
+    for(const [w,h] of [[1920,866],[390,844],[393,660]]){
       const context=await browser.newContext({viewport:{width:w,height:h},serviceWorkers:'block'});
       const page=await context.newPage();
       const errors=[];page.on('pageerror',e=>errors.push(String(e)));
@@ -110,36 +122,43 @@ ok('W1','the whisky set: one painted draw on every level, the crystal from High,
       await page.waitForFunction(()=>window.__rrReady,null,{timeout:300000});
       const out=await page.evaluate(()=>{
         const deg=(a,b)=>Math.atan2(-(a[1]-b[1]),a[0]-b[0])*180/Math.PI;
+        const keepNow=()=>{ const out=[], e=document.getElementById('result'), rg=document.createRange(); rg.selectNodeContents(e); const b=rg.getBoundingClientRect(); if(b.width>0) out.push(['the status line',b.left,b.top,b.right,b.bottom]);
+          for(const sel of ['.phonebar','.bottom']){ const el=document.querySelector(sel); if(!el) continue; const cs=getComputedStyle(el); if(cs.display==='none'||cs.visibility==='hidden') continue; const r=el.getBoundingClientRect(); if(r.width>0) out.push([sel,r.left,r.top,r.right,r.bottom]); } return out; };
+        const glovePts=g=>{ const c=[g[0],g[3],g[12],g[15]], o=[]; for(let i=0;i<8;i++) for(let j=0;j<8;j++){ const a=i/7, b=j/7; o.push([0,1].map(k=>(1-a)*(1-b)*c[0][k]+(1-a)*b*c[1][k]+a*(1-b)*c[2][k]+a*b*c[3][k])); } return o; };
         __rr.clock(); __rr.advance(1/30,true); const rest=__rr.state.calls;
         const turns=[];
         for(const fire of [true,false]){
-          __rr.play({fire}); const t={fire,both:[],settled:null,recoil:null,shown:false,cutIn:[],mzOnBoard:false,detachedLeft:null};
+          __rr.play({fire}); const t={fire,both:[],settled:null,recoil:null,shown:false,cutIn:[],mzOnBoard:false,detachedLeft:null,covered:[],clear:null};
           for(let i=0;i<800;i++){ __rr.advance(1/30,false); const st=__rr.state; if(!st.playing) break; const p=__rr.handPose, tt=st.tt;
             if(p.hand&&p.gun&&p.gunInFrame) t.both.push(+tt.toFixed(3));
             if(p.hand) t.shown=true;
-            if(tt>=13.1&&p.hand&&!p.detached){ const inside=c=>c[0]>0&&c[0]<p.W&&c[1]>0&&c[1]<p.H; p.cut.forEach(c=>{ if(inside(c)) t.cutIn.push(+tt.toFixed(2)); }); const b=p.board, m=p.muzzle; if(m[0]>b[0]&&m[0]<b[2]&&m[1]>b[1]&&m[1]<b[3]) t.mzOnBoard=true; }
-            if(!t.settled&&tt>=14.95){ const m=p.muzzle, r=p.rear, a=p.aim; const bx=m[0]-r[0], by=m[1]-r[1], bl=Math.hypot(bx,by); let e=deg(a,m)-deg(m,r); e=((e+540)%360)-180; const el=deg(m,r); t.settled={barrel:p.side<0?el:180-el, err:e, miss:Math.abs(((a[0]-m[0])*by-(a[1]-m[1])*bx)/bl), W:p.W, H:p.H}; }
+            if(innerWidth<innerHeight&&p.hand&&p.glove&&!p.detached){ const K=keepNow(); for(const q of glovePts(p.glove)) for(const r of K) if(q[0]>r[1]&&q[0]<r[3]&&q[1]>r[2]&&q[1]<r[4]){ t.covered.push(r[0]+' at '+tt.toFixed(2)); break; } }
+            if(tt>=13.1&&p.hand&&!p.detached){ const inside=c=>c[0]>0&&c[0]<p.W&&c[1]>0&&c[1]<p.H; const covers=keepNow().filter(r=>r[0]!=='the status line'), under=c=>covers.some(r=>(r[1]>0?c[0]>r[1]+4:true)&&(r[3]<p.W?c[0]<r[3]-4:true)&&c[1]>r[2]+4&&(r[4]<p.H?c[1]<r[4]-4:true));
+              const cs=p.cut, pts=cs.concat(cs.slice(1).flatMap((c,i)=>[.25,.5,.75].map(f=>[cs[i][0]+(c[0]-cs[i][0])*f,cs[i][1]+(c[1]-cs[i][1])*f])));
+              pts.forEach(c=>{ if(inside(c)&&!under(c)) t.cutIn.push(+tt.toFixed(2)); });   /* off screen, or under the opaque bottom bar */ const b=p.board, m=p.muzzle; if(m[0]>b[0]&&m[0]<b[2]&&m[1]>b[1]&&m[1]<b[3]) t.mzOnBoard=true; }
+            if(!t.settled&&tt>=14.95){ const m=p.muzzle, r=p.rear, a=p.aim; const bx=m[0]-r[0], by=m[1]-r[1], bl=Math.hypot(bx,by); let e=deg(a,m)-deg(m,r); e=((e+540)%360)-180; const el=deg(m,r); t.clear=p.clear; t.settled={barrel:p.side<0?el:180-el, err:e, miss:Math.abs(((a[0]-m[0])*by-(a[1]-m[1])*bx)/bl), W:p.W, H:p.H}; }
             if(fire&&!t.recoil&&tt>=15.06){ const el=deg(p.muzzle,p.rear); t.recoil=(p.side<0?el:180-el)-t.settled.barrel; }
             if(fire&&tt>=15.55&&t.detachedLeft===null) t.detachedLeft=p.hand; }
           __rr.advance(1,false); turns.push(t); }
         __rr.advance(1/30,true);
         return {rest, programs:__rr.state.programs, plate:__rr.handPose.plate, turns}; });
       assert.deepEqual(errors,[],`no page errors at ${w}x${h}`);
-      const want=w/h>=1.5?22:72;
+      const want=w/h>=1.5?22:null;   /* upright: the angle follows from where the glove fits (below) */
       for(const t of out.turns){
         const tag=`${w}x${h} ${t.fire?'shot':'click'}`;
         assert.ok(t.shown,`${tag}: the hand shows`);
         assert.deepEqual(t.both,[],`${tag}: never the hand and the felt's revolver on screen together`);
-        assert.ok(Math.abs(t.settled.barrel-want)<1,`${tag}: barrel ${t.settled.barrel.toFixed(2)}° (want ${want}°)`);
+        if(want!==null) assert.ok(Math.abs(t.settled.barrel-want)<1,`${tag}: barrel ${t.settled.barrel.toFixed(2)}° (want ${want}°)`);
+        else{ assert.equal(t.clear,true,`${tag}: the upright placement that keeps the glove clear is in use`); assert.ok(t.settled.barrel>45&&t.settled.barrel<80,`${tag}: barrel ${t.settled.barrel.toFixed(2)}° rises steeply to the board`); assert.deepEqual([...new Set(t.covered)].slice(0,5),[],`${tag}: the glove is never under the status line or the bottom bar`); }
         assert.ok(t.settled.miss<=4,`${tag}: the barrel line passes ${t.settled.miss.toFixed(1)} px from the board's centre`);
         assert.equal(t.mzOnBoard,false,`${tag}: the muzzle stays off the board`);
         assert.deepEqual(t.cutIn,[],`${tag}: the sleeve's cut stays outside the frame`);
         if(t.fire){ assert.ok(t.recoil>3,`${tag}: the recoil turns the muzzle up (${t.recoil.toFixed(2)}°)`); assert.equal(t.detachedLeft,false,`${tag}: the hand is gone half a second after the shot`); } }
       assert.ok(out.programs<=11,`Light at ${w}x${h}: ${out.programs} shader programs (11 before the whisky set)`);
-      const restMax=w>h?35:36;   /* 2.6.0 before the whisky set: 33 at 1920x866, 35 at 390x844; the set is one draw */
+      const restMax=w>h?35:36; const big=Math.max(...out.turns.map(t=>t.settled.miss));   /* 2.6.0 before the whisky set: 33 at 1920x866, 35 at 390x844; the set is one draw */
       assert.ok(out.rest<=restMax,`Light at ${w}x${h}: ${out.rest} draws at rest (≤ ${restMax})`);
       assert.equal(out.plate,w>h?'W':'P',`${w}x${h}: the ${w>h?'landscape':'upright'} plate`);
-      ok('B1',`${w}x${h} Light, plate ${out.plate}: barrel ${out.turns.map(t=>t.settled.barrel.toFixed(1)).join('/')}°, miss ${out.turns.map(t=>t.settled.miss.toFixed(1)).join('/')} px, recoil +${out.turns[0].recoil.toFixed(1)}°, ${out.rest} draws, ${out.programs} programs`);
+      ok('B1',`${w}x${h} Light, plate ${out.plate}${w<h?', glove clear of the status line and the bar at every frame':''}: barrel ${out.turns.map(t=>t.settled.barrel.toFixed(1)).join('/')}°, miss ${out.turns.map(t=>t.settled.miss.toFixed(1)).join('/')} px, recoil +${out.turns[0].recoil.toFixed(1)}°, ${out.rest} draws, ${out.programs} programs`);
       await context.close(); }
     console.log(`PASS r93 RRR hand and props contracts: ${checks} checks.`);
   }finally{ if(browser) await browser.close().catch(()=>{}); server.kill(); }

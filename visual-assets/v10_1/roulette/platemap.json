@@ -118,7 +118,7 @@
         0
       ]
     ],
-    "note": "gloved hand holding the revolver, black background keyed out in code; muzzle = where the flash sits (u from left, v from bottom). r93 R93-04: rear = the rear of the bore (with the muzzle it gives the bore's angle on the plate, 13.3 deg here); wrist and elbow = the pivots the raise, the cock and the recoil turn about (the elbow lies beyond the sleeve); cut = the corners where the painted sleeve is cut off, kept outside the frame on every window. A repainted plate brings its own numbers. r93 HO-081: plates W (landscape windows) and P (upright windows) are the hand painted from the shooter's eye, each with its own numbers in plate pixels turned to u from left, v from bottom; the sleeve leaves through the bottom edge only, so cut is the two ends of that edge. The r87 plate above is the fallback. fit = the card's height range as a share of the frame's height.",
+    "note": "gloved hand holding the revolver, black background keyed out in code; muzzle = where the flash sits (u from left, v from bottom). r93 R93-04: rear = the rear of the bore (with the muzzle it gives the bore's angle on the plate, 13.3 deg here); wrist and elbow = the pivots the raise, the cock and the recoil turn about (the elbow lies beyond the sleeve); cut = the corners where the painted sleeve is cut off, kept outside the frame on every window. A repainted plate brings its own numbers. r93 HO-081: plates W (landscape windows) and P (upright windows) are the hand painted from the shooter's eye, each with its own numbers in plate pixels turned to u from left, v from bottom; the sleeve leaves through the bottom edge only, so cut is the two ends of that edge. The r87 plate above is the fallback. fit = the card's height range as a share of the frame's height. glove = the glove's box on the plate (u0, v0, u1, v1); on upright windows it is kept clear of the status line and the bottom bar.",
     "plates": {
       "W": {
         "file": "assets/RR_HAND_POV_W_V1.webp",
@@ -196,6 +196,12 @@
         "fit": [
           0.4,
           0.5
+        ],
+        "glove": [
+          0.32,
+          0.26,
+          0.9,
+          0.67
         ]
       }
     }

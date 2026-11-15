@@ -256,9 +256,9 @@ function handLayout(fw,fh){ if(!handAimAt) return null; camera.updateMatrixWorld
   const ax=n.x*fw/2, ay=n.y*fh/2, asp=handAspect, mu=HAND_MUZZLE.u, mv=HAND_MUZZLE.v;
   const base=Math.atan2(HAND_MUZZLE.v-HAND_REAR.v,(HAND_MUZZLE.u-HAND_REAR.u)*asp*side), rot=Math.atan2(dy,dx)-base, c=Math.cos(rot), s=Math.sin(rot);
   /* the board's rectangle in the card's plane, grown by 0.03 fh: the muzzle stays out of it */
-  let D=(.18+(.56-.18)*sk)*fh; {   /* phones start close and the board guard sets the muzzle just below the board, in the band above the result line */ const g=boards[side<0?"D":"N"], m=.03*fh; let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; g.updateMatrixWorld(true);
+  let BR=null, D=(.18+(.56-.18)*sk)*fh; {   /* phones start close and the board guard sets the muzzle just below the board, in the band above the result line */ const g=boards[side<0?"D":"N"], m=.03*fh; let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; g.updateMatrixWorld(true);
     [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(camera); x0=Math.min(x0,v.x*fw/2); x1=Math.max(x1,v.x*fw/2); y0=Math.min(y0,v.y*fh/2); y1=Math.max(y1,v.y*fh/2); }));
-    x0-=m; x1+=m; y0-=m; y1+=m; if(ax>x0&&ax<x1&&ay>y0&&ay<y1){ const tx=dx<0?(x1-ax)/-dx:(ax-x0)/dx, ty=(ay-y0)/dy; D=Math.max(D,Math.min(tx,ty)); } }
+    x0-=m; x1+=m; y0-=m; y1+=m; BR=[x0,y0,x1,y1]; if(ax>x0&&ax<x1&&ay>y0&&ay<y1){ const tx=dx<0?(x1-ax)/-dx:(ax-x0)/dx, ty=(ay-y0)/dy; D=Math.max(D,Math.min(tx,ty)); } }
   /* the sleeve's cut edges: point = muzzle + ph*q, q per cut point (side edge for the two on the card's outer edge, bottom edge for the third) */
   const q=HAND_CUT.map(([u,v])=>rot2((u-mu)*asp*side,v-mv,c,s)), edge=fw/2+.05*fh, floor=fh/2+.05*fh;   /* .05 fh past the edge: the raise overshoot and the recoil move the cut by up to .03 fh */
   const lo=(handFit?handFit[0]:.24+(.40-.24)*sk)*fh, hi=(handFit?handFit[1]:.34+(.60-.34)*sk)*fh;   /* the card's height range: the plate's own (fit), or the r87 plate's by window shape */
@@ -266,19 +266,68 @@ function handLayout(fw,fh){ if(!handAimAt) return null; camera.updateMatrixWorld
   const need=(D)=>{ const mx=ax-D*dx, my=ay-D*dy; let ph=0; q.forEach(([qx,qy])=>{ const a=side*qx>1e-6?(edge-side*mx)/(side*qx):1e9, b=qy<-1e-6?(floor+my)/-qy:1e9; ph=Math.max(ph,Math.min(a,b)); }); return ph; };
   let ph=need(D); if(ph>hi){ ph=hi; let Dn=D; q.forEach(([qx,qy])=>{ Dn=Math.max(Dn,Math.min((edge-side*ax-ph*side*qx)/ct,(ay+ph*qy+floor)/st)); }); D=Dn; } else ph=Math.max(ph,lo);
   const pw=ph*asp, mx=ax-D*dx, my=ay-D*dy, [ox,oy]=rot2(...cardPt(mu,mv,pw,ph),c,s);
-  return {rot, ph, pw, px:mx-ox, py:my-oy, th}; }
+  const L0={rot, ph, pw, px:mx-ox, py:my-oy, th}; return (sk<.5&&handClear(fw,fh,ax,ay))||L0; }
+/* r93 R93-04 (lead's review, Nik's rule "nothing covers anything at any size"): on upright windows the glove stays clear of the status line and the
+   bottom bar at every beat. The muzzle sits just under the board; its place along that line and the card's size are searched so that no point of the
+   glove (platemap hand.plates.P.glove), at the aimed pose or at the recoil's peak (its kick is shorter here), is under the widest status line of this turn or a bar, at least 80 %
+   of the glove is on screen, and each cut corner of the sleeve is off screen or deep under the opaque bottom bar. The largest card that fits wins, at
+   the spot nearest the usual one; the barrel still runs through the board's centre (its angle follows from the spot). The hand then slides in from
+   its own side instead of swinging up about the elbow (a swing would carry the glove under the status line). No fit (a very short window): the usual
+   placement. */
+let HAND_GLOVE=null, handKeepKey="", handKeep=[], handLast=null, handClearAt=null;
+function handKeepOuts(){ const W=innerWidth, H=innerHeight, key=W+"x"+H+"|"+turn+"|"+(playing?playing.who:"")+"|"+document.body.className; if(key===handKeepKey) return handKeep; handKeepKey=key;
+  const out=[], box=(el,cover)=>{ if(!el) return; const cs=getComputedStyle(el); if(cs.display==="none"||cs.visibility==="hidden"||+cs.opacity<.01) return; const b=el.getBoundingClientRect(); if(b.width>=1&&b.height>=1) out.push([b.left,b.top,b.right,b.bottom,cover]); };
+  box(document.querySelector(".phonebar"),true); box(document.querySelector(".bottom"),true);
+  if(playing){ const N=NAME[playing.who], c=result.cloneNode(false), rb=result.getBoundingClientRect(); let w=0, h=0; c.removeAttribute("id"); c.removeAttribute("aria-live"); c.setAttribute("aria-hidden","true");
+    c.style.cssText="position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;width:"+rb.width+"px"; result.parentNode.appendChild(c);
+    [N+" takes the revolver","Hammer cocked",N+" takes aim at the board","Bang!",`Click. ${N} is safe.`].forEach(t=>{ c.textContent=t; const r=document.createRange(); r.selectNodeContents(c); const q=r.getBoundingClientRect(); w=Math.max(w,q.width); h=Math.max(h,q.height); }); c.remove();
+    if(w>0){ const cx=rb.left+rb.width/2, cy=rb.top+rb.height/2; out.push([cx-w/2,cy-h/2,cx+w/2,cy+h/2,false]); } }
+  handKeep=out; return out; }
+function handClear(fw,fh,ax,ay){ const G=HAND_GLOVE, p=playing; if(!G||!p||!p.pov||!p.povLook||!handAimAt) return null;
+  const side=handSide, asp=handAspect, mu=HAND_MUZZLE.u, mv=HAND_MUZZLE.v, base=Math.atan2(mv-HAND_REAR.v,(mu-HAND_REAR.u)*asp*side);
+  const key=innerWidth+"x"+innerHeight+"|"+turn+"|"+side+"|"+handPlateKey; if(!handClearAt||handClearAt.key!==key) handClearAt=handClearSearch(key,base); const C=handClearAt; if(!C.ph) return null;
+  const ph=C.ph*fh, mx=C.mx*fh, my=C.my*fh, pw=ph*asp, rot=Math.atan2(ay-my,ax-mx)-base, c=Math.cos(rot), s=Math.sin(rot), [ox,oy]=rot2(...cardPt(mu,mv,pw,ph),c,s);
+  return {rot, ph, pw, px:mx-ox, py:my-oy, th:Math.atan2(ay-my,Math.abs(ax-mx)), clear:true, inX:C.inX*fh}; }
+/* the search runs once per turn and window, in the frame of the shooter's eye the camera settles into (p.pov, p.povLook, p.povFov), and the spot is
+   kept fixed on the screen (in frame heights) while the camera settles; the barrel turns to follow the board's centre. Card heights from the largest
+   down in 48 steps, at each the 41 spots along the board's foot, then a bisection on the height and on the spot. Its margins hold the sway, the cock,
+   the recoil (its kick is shorter here) and the camera's last creep. */
+function handClearSearch(key,base){ const K=handKeepOuts(); if(!K.length) return {key, ph:0};
+  const p=playing, G=HAND_GLOVE, cam=camera.clone(false); cam.position.copy(p.pov); cam.fov=p.povFov; cam.updateProjectionMatrix(); cam.lookAt(p.povLook); cam.updateMatrixWorld(true);
+  const fh=2*Math.tan(cam.fov*Math.PI/360), fw=fh*cam.aspect, n=handAimAt.clone().project(cam), ax=n.x*fw/2, ay=n.y*fh/2;
+  let by=1e9; { const g=boards[p.who]; g.updateMatrixWorld(true); [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(cam); by=Math.min(by,v.y*fh/2); })); }
+  const W=innerWidth, H=innerHeight, k=H/fh, side=handSide, asp=handAspect, mu=HAND_MUZZLE.u, mv=HAND_MUZZLE.v, half=fw/2, bot=-fh/2, e=.012*fh, my=by-.045*fh, ka=-side*11*DEG, kc=Math.cos(ka), ks=Math.sin(ka);
+  const R=K.map(r=>({x0:(r[0]-W/2)/k, x1:(r[2]-W/2)/k, y0:(H/2-r[3])/k, y1:(H/2-r[1])/k, cover:r[4]}));
+  const gl=[]; for(let i=0;i<=3;i++) for(let j=0;j<=3;j++) gl.push([G[0]+(G[2]-G[0])*i/3,G[1]+(G[3]-G[1])*j/3]);
+  const pose=(mx,ph)=>{ const pw=ph*asp, rot=Math.atan2(ay-my,ax-mx)-base, c=Math.cos(rot), s=Math.sin(rot); return {at:(u,v)=>{ const [x,y]=rot2((u-mu)*pw*side,(v-mv)*ph,c,s); return [mx+x,my+y]; }}; };
+  const ok=(mx,ph)=>{ const P=pose(mx,ph), wr=P.at(HAND_WRIST.u,HAND_WRIST.v), dl=Math.hypot(ax-mx,ay-my)||1, kx=-(ax-mx)/dl*.012*fh, ky=-(ay-my)/dl*.012*fh; let g0=1e9, g1=-1e9;
+    for(const [u,v] of gl){ const q0=P.at(u,v), [qx,qy]=rot2(q0[0]-wr[0],q0[1]-wr[1],kc,ks), q=[wr[0]+qx+kx,wr[1]+qy+ky];
+      for(const t of [q0,q]){ if(t[1]<bot+e) return false; for(const r of R) if(t[0]>r.x0-e&&t[0]<r.x1+e&&t[1]>r.y0-e&&t[1]<r.y1+e) return false; }
+      g0=Math.min(g0,q0[0]); g1=Math.max(g1,q0[0]); }
+    if((Math.min(g1,half)-Math.max(g0,-half))/(g1-g0)<.8) return false;
+    const m=.015*fh, hid=t=>t[0]<-half||t[0]>half||t[1]<bot||R.some(r=>r.cover&&t[0]>r.x0+m&&t[0]<r.x1-m&&t[1]>r.y0+m&&t[1]<r.y1-m);
+    for(let i=0;i<HAND_CUT.length;i++){ const a=P.at(...HAND_CUT[i]); if(!hid(a)) return false; if(i){ const b=P.at(...HAND_CUT[i-1]); for(const f of [.25,.5,.75]) if(!hid([b[0]+(a[0]-b[0])*f,b[1]+(a[1]-b[1])*f])) return false; } }
+    return true; };
+  const l0=side<0?-half+.03*fh:ax, l1=side<0?ax:half-.03*fh, xs=[]; for(let i=0;i<=40;i++) xs.push(l0+(l1-l0)*i/40); const want=ax;
+  const find=h=>{ let b=null; for(const x of xs) if(ok(x,h)&&(b===null||Math.abs(x-want)<Math.abs(b-want))) b=x; return b; };
+  const lo=.14*fh, hi=(handFit?handFit[1]:.5)*fh, N=48; let ph=null; for(let i=0;i<=N;i++){ const h=hi-(hi-lo)*i/N; if(find(h)!==null){ ph=h; break; } }
+  if(ph===null) return {key, ph:0};
+  { let a=ph, b=Math.min(hi,ph+(hi-lo)/N); for(let i=0;i<8&&b>a;i++){ const m=(a+b)/2; if(find(m)!==null) a=m; else b=m; } ph=a; }
+  let mx=find(ph); { let a=mx, b=want; for(let i=0;i<12;i++){ const m=(a+b)/2; if(ok(m,ph)) a=m; else b=m; } mx=a; }
+  const P=pose(mx,ph); let g0=1e9, g1=-1e9; gl.forEach(([u,v])=>{ const q=P.at(u,v); g0=Math.min(g0,q[0]); g1=Math.max(g1,q[0]); });
+  return {key, ph:ph/fh, mx:mx/fh, my:my/fh, inX:(side<0?g1+half+.02*fh:half-g0+.02*fh)/fh}; }
 function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.aspect;
   /* S8: the room's light on the glove (lamp flicker, the shot's flash) */
   { const F=Math.min(1.5,flashLight.intensity/(REDUCED?2.5:PH?3.5:6)), fk=1+.05*(lampFl-.85)/.17, t=HAND_TINT; hand.material.color.setRGB(t[0]*fk*(1+1.6*F),t[1]*fk*(1+1.44*F),t[2]*fk*(1+1.2*F)); }
   hand.material.opacity=HP.op; if(HP.detached){ hand.visible=handK>0&&HP.op>.002; return; }   /* S7: left in the room, the bullet camera pushes past it */
-  const L=HP.on?handLayout(fw,fh):null; if(!L){ handK=0; hand.visible=handK>0; return; }
+  const L=HP.on?handLayout(fw,fh):null; handLast=L; if(!L){ handK=0; hand.visible=handK>0; return; }
   const {ph,pw}=L; let rot=L.rot, px=L.px, py=L.py;
   /* the wrist turns about its own point, the elbow about its point beyond the sleeve (both read on the aimed pose), then the slide along the forearm,
      the kick back along the barrel and the bob; elevation + (muzzle up) is a clockwise turn for Nik's right hand and the mirror for Daniel's */
   const at=(u,v)=>{ const [x,y]=rot2(...cardPt(u,v,pw,ph),Math.cos(rot),Math.sin(rot)); return [px+x,py+y]; };
   const turn=(pt,a)=>{ const c=Math.cos(a), s=Math.sin(a), [x,y]=rot2(px-pt[0],py-pt[1],c,s); px=pt[0]+x; py=pt[1]+y; rot+=a; };
-  const W0=at(HAND_WRIST.u,HAND_WRIST.v), E0=at(HAND_ELBOW.u,HAND_ELBOW.v); turn(W0,-handSide*HP.wrist*DEG); turn(E0,-handSide*HP.elbow*DEG);
-  { const w=at(HAND_WRIST.u,HAND_WRIST.v), e=at(HAND_ELBOW.u,HAND_ELBOW.v), l=Math.hypot(e[0]-w[0],e[1]-w[1])||1; px+=(e[0]-w[0])/l*HP.slide*ph; py+=(e[1]-w[1])/l*HP.slide*ph; }
+  const W0=at(HAND_WRIST.u,HAND_WRIST.v), E0=at(HAND_ELBOW.u,HAND_ELBOW.v); turn(W0,-handSide*HP.wrist*DEG); turn(E0,-handSide*(L.clear?HP.elbow+38*(1-HP.R):HP.elbow)*DEG);   /* upright: no swing, a slide in from the side (below) */
+  { const w=at(HAND_WRIST.u,HAND_WRIST.v), e=at(HAND_ELBOW.u,HAND_ELBOW.v), l=Math.hypot(e[0]-w[0],e[1]-w[1])||1; if(L.clear) px+=handSide*L.inX*(1-Math.min(1,HP.R)); else { px+=(e[0]-w[0])/l*HP.slide*ph; py+=(e[1]-w[1])/l*HP.slide*ph; } }
   { const m=at(HAND_MUZZLE.u,HAND_MUZZLE.v), r=at(HAND_REAR.u,HAND_REAR.v), l=Math.hypot(m[0]-r[0],m[1]-r[1])||1; px-=(m[0]-r[0])/l*HP.kick*fh; py-=(m[1]-r[1])/l*HP.kick*fh; }
   py+=HP.bob*fh;
   hand.position.set(px*HAND_Z,py*HAND_Z,-HAND_Z); hand.scale.set(pw*handSide*HAND_Z,ph*HAND_Z,1); hand.rotation.z=rot;
@@ -1435,7 +1484,7 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     const tx=0, ty=0, hs=who==="D"?-1:1;   /* r90 spoiler rule: the shooter's view frames the board, not the target player */   /* the hand on the board's outer side: the shooter stands off the table's edge, the lamp stays out of the frame */
     /* desktop: the whole board sits in the upper two thirds, clear of the result line and the button, and leaves the hand's corner open */
     const lx=PH?Math.max(-.15,Math.min(.15,tx*.9)):hs*.18+tx*.06, ly=PH?-.12+ty*.35:-.16+ty*.05;
-    const povLook=bw.clone().addScaledVector(bR,lx).addScaledVector(bU,ly), povPos=povLook.clone().addScaledVector(away,PH?1.22:1.8).add(new T.Vector3(0,PH?0:.08,0)); const povFov=PH?44:34; p.pov=povPos;
+    const povLook=bw.clone().addScaledVector(bR,lx).addScaledVector(bU,ly), povPos=povLook.clone().addScaledVector(away,PH?1.22:1.8).add(new T.Vector3(0,PH?0:.08,0)); const povFov=PH?44:34; p.pov=povPos; p.povLook=povLook; p.povFov=povFov;
     const holdLook=tgt.clone().addScaledVector(bU,-.06), holdPos=holdLook.clone().addScaledVector(bn,PH?.56:.62), holdFov=PH?42:30;   /* the hit player rides high in the frame, above the result line */
     if(tt<1){ const k=.5-.5*Math.cos(Math.PI*S(0,1,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); fov=lerp(fovIdle,fovRest,k); }   /* r89 polish: the rise to the top shot is a 1 s sine crane-up (peak 4 m/s) instead of a .6 s cubic whip (12 m/s) */
     else if(tt<B.close){ pos.copy(topPos); look.copy(topLook); }
@@ -1497,10 +1546,13 @@ function stepHand(p,tt){ const RM=REDUCED, r0=B.hand+(RM?.15:.30), rd=RM?.40:.60
   let rec=0, kick=0, env=0; if(d>=0){ if(p.fire){ if(d<.05){ rec=11*d/.05; env=d/.05; } else { const u=d-.05; rec=11*Math.exp(-7.2*u)*Math.cos(14.3*u); env=1-ease.out(Math.min(1,u/.3)); } kick=.022*env; }
     else rec=d<.02?-.8*d/.02:d<.14?-.8*(1-ease.out((d-.02)/.12)):0; }
   handRecoil=p.fire?env:Math.abs(rec)/.8*.12;
-  HP.R=R; HP.wrist=lag-2.2*cock+sway+rec; HP.elbow=-38*(1-R)+3*env; HP.slide=.25*(1-R); HP.kick=kick+.004*cock; HP.bob=bob-.004*cock;
+  HP.R=R; HP.wrist=lag-2.2*cock+sway+rec; HP.elbow=-38*(1-R)+3*env; HP.slide=.25*(1-R); HP.kick=(handLast&&handLast.clear?.55:1)*kick+.004*cock; HP.bob=bob-.004*cock;
   /* S7 after a shot: at +120 ms (the bullet camera leaves) the card is left in the room at its pose; it fades between +300 and +500 ms */
-  if(p.fire&&d>=.12&&!HP.detached&&HP.on){ camera.updateMatrixWorld(); placeHand(); scene.attach(hand); HP.detached=true; }
-  HP.op=p.fire?1-ease.inOut(S(B.fire+.3,.2,tt)):1;
+  /* upright windows (the glove kept clear of the status line and the bar): the card stays where it is on screen and fades between +150 and +400 ms,
+     since left in the room it would sink under the bar as the camera pushes in */
+  const clr=!!(handLast&&handLast.clear);
+  if(p.fire&&d>=.12&&!HP.detached&&HP.on&&!clr){ camera.updateMatrixWorld(); placeHand(); scene.attach(hand); HP.detached=true; }
+  HP.op=p.fire?1-ease.inOut(clr&&!HP.detached?S(B.fire+.15,.25,tt):S(B.fire+.3,.2,tt)):1;
   HP.on=handHold&&!!p.gunGone; if(!handHold&&HP.detached) handHome(); }
 
 /* ================= tick ================= */
@@ -1588,7 +1640,8 @@ function setHandPlate(k){ const e=HAND_PLATES[k]; if(!e) return; handPlateKey=k;
   const hp=handPlateData(k), uv=(o,a)=>{ if(Array.isArray(a)&&a.length===2&&a.every(Number.isFinite)){ o.u=a[0]; o.v=a[1]; } };
   uv(HAND_MUZZLE,hp.muzzle); uv(HAND_REAR,hp.rear); uv(HAND_WRIST,hp.wrist); uv(HAND_ELBOW,hp.elbow);
   if(Array.isArray(hp.cut)&&hp.cut.length&&hp.cut.every(c=>Array.isArray(c)&&c.length===2&&c.every(Number.isFinite))) HAND_CUT.splice(0,HAND_CUT.length,...hp.cut.map(c=>c.slice()));
-  handFit=Array.isArray(hp.fit)&&hp.fit.length===2&&hp.fit.every(Number.isFinite)?hp.fit.slice():null; }
+  handFit=Array.isArray(hp.fit)&&hp.fit.length===2&&hp.fit.every(Number.isFinite)?hp.fit.slice():null;
+  HAND_GLOVE=Array.isArray(hp.glove)&&hp.glove.length===4&&hp.glove.every(Number.isFinite)?hp.glove.slice():null; }
 function handPlateWatch(){ if(!handPlatesOn||handPlateKey==="F") return; const k=handPlateFor(); handPlateWant=k; if(k===handPlateKey) return;
   if(HAND_PLATES[k]) return setHandPlate(k); if(HAND_PLATES[k]===null) return;
   HAND_PLATES[k]=null; loadImg(handPlateData(k).file,HAND_CAP).then(img=>{ if(!img) return; HAND_PLATES[k]=handTex(img); if(handPlateWant===k) setHandPlate(k); }); }
@@ -1729,7 +1782,7 @@ window.__rr={ get cylZ(){ return cyl.rotation.z; },
      point and the shooter's board; whether the hand and the revolver on the felt are drawn, and whether that revolver is inside the frame */
   get handPose(){ camera.updateMatrixWorld(true); hand.updateMatrixWorld(true); const W=innerWidth, H=innerHeight, px=v=>{ const n=v.clone().project(camera); return [(n.x+1)/2*W,(1-n.y)/2*H,n.z]; }, on=(u,v)=>px(hand.localToWorld(new T.Vector3(u-.5,v-.5,0)));
     spin.updateMatrixWorld(true); const g=px(spin.localToWorld(new T.Vector3(0,.02,0))), gIn=g[2]<1&&g[0]>0&&g[0]<W&&g[1]>0&&g[1]<H; const who=handSide<0?"D":"N";
-    return {plate:handPlateKey, hand:hand.visible&&hand.material.opacity>.002, gun:gun.visible, gunInFrame:gIn, detached:HP.detached, side:handSide, muzzle:on(HAND_MUZZLE.u,HAND_MUZZLE.v), rear:on(HAND_REAR.u,HAND_REAR.v), cut:HAND_CUT.map(([u,v])=>on(u,v)), corners:[on(0,0),on(1,0),on(1,1),on(0,1)], aim:handAimAt?px(handAimAt):null, board:(()=>{ const g=boards[who]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=px(g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0))); x0=Math.min(x0,v[0]); x1=Math.max(x1,v[0]); y0=Math.min(y0,v[1]); y1=Math.max(y1,v[1]); })); return [x0,y0,x1,y1]; })(), W, H}; }, get rest(){ return {zoom:restZoom,shift:Math.round(restShift),lift:Math.round(closeLift),dbg:closeDbg}; }, get boardRects(){ camera.updateMatrixWorld(true); const o={}; ["D","N"].forEach(k=>{ const g=boards[k]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(camera); const X=(v.x+1)/2*innerWidth, Y=(1-v.y)/2*innerHeight; x0=Math.min(x0,X); x1=Math.max(x1,X); y0=Math.min(y0,Y); y1=Math.max(y1,Y); })); o[k]=[x0,y0,x1,y1].map(Math.round); }); return o; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
+    return {plate:handPlateKey, hand:hand.visible&&hand.material.opacity>.002, gun:gun.visible, gunInFrame:gIn, detached:HP.detached, side:handSide, muzzle:on(HAND_MUZZLE.u,HAND_MUZZLE.v), rear:on(HAND_REAR.u,HAND_REAR.v), cut:HAND_CUT.map(([u,v])=>on(u,v)), corners:[on(0,0),on(1,0),on(1,1),on(0,1)], clear:!!(handLast&&handLast.clear), glove:HAND_GLOVE?[0,1,2,3].flatMap(i=>[0,1,2,3].map(j=>on(HAND_GLOVE[0]+(HAND_GLOVE[2]-HAND_GLOVE[0])*i/3,HAND_GLOVE[1]+(HAND_GLOVE[3]-HAND_GLOVE[1])*j/3))):null, keep:handKeep.map(r=>r.slice()), aim:handAimAt?px(handAimAt):null, board:(()=>{ const g=boards[who]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=px(g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0))); x0=Math.min(x0,v[0]); x1=Math.max(x1,v[0]); y0=Math.min(y0,v[1]); y1=Math.max(y1,v[1]); })); return [x0,y0,x1,y1]; })(), W, H}; }, get rest(){ return {zoom:restZoom,shift:Math.round(restShift),lift:Math.round(closeLift),dbg:closeDbg}; }, get boardRects(){ camera.updateMatrixWorld(true); const o={}; ["D","N"].forEach(k=>{ const g=boards[k]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(camera); const X=(v.x+1)/2*innerWidth, Y=(1-v.y)/2*innerHeight; x0=Math.min(x0,X); x1=Math.max(x1,X); y0=Math.min(y0,Y); y1=Math.max(y1,Y); })); o[k]=[x0,y0,x1,y1].map(Math.round); }); return o; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
   clock(){ manual=performance.now()/1000; last=manual; }, advance(sec,draw){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1&&draw!==false); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardAimWorld(playing.who).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, programs:ri.programs.length, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, level:GFX.name, pixelRatio:renderer.getPixelRatio(), bulletAt, chamber, tt:playing?now()-playing.t0:null, cam:[camera.position.x,camera.position.y,camera.position.z], look:[camLook.x,camLook.y,camLook.z], fov:camera.fov, cylZ:cyl.rotation.z, handK}; } };
 
 const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','800 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
