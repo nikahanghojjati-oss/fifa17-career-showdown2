@@ -72,6 +72,7 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
     "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
     // r90 M8: the Special Player page's own faces (was Google Fonts)
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2",
@@ -282,7 +283,7 @@ const SHELL_PATHS = Object.freeze([
     "assets/loading/REUS_D_1X.webp",
     "assets/loading/ENV_LOADING_PHONE_HC_590W.webp",
     "assets/loading/REUS_P_590W.webp",
-    "assets/loading/LOGO_CM17_WORDMARK_V3_640.webp",
+    "assets/loading/LOGO_CM17_WORDMARK_V4_640.webp",
     "assets/football/anthony-martial-cska-2017-v113.webp",
     "assets/football/antoine-griezmann-atletico-2016-v113.webp",
     "assets/football/cristiano-ronaldo-euro-2016-v113.webp",
@@ -306,6 +307,8 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
     "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
+    "visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2",
@@ -447,8 +450,15 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // 2.5.0 (r92): PREVIOUS is 2.4.0-r91 (293 paths, tests/fixtures/shell-paths/2.4.0-r91.json, main ac0a1338). r92 adds and
 // removes no shell path: its changes (the Device check, js/gfxTier.js, the 3D pages) edit files already in the shell or never
 // precached, and the level guide pictures it deleted were never precached. The STORY site is never precached.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
+// r93 HO-079 (flat logo V4 + live-text titles): adds the Cormorant SC Bold file and the V4 loading logo, drops the V3 loading logo.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
+    "assets/loading/LOGO_CM17_WORDMARK_V4_640.webp",
+    "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
+    "visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt"
+]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([
+    "assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"
+]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.

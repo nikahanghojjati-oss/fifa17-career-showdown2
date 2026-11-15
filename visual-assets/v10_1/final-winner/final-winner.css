@@ -57,10 +57,9 @@ body {
   margin: .20vh auto 0;
 }
 
-.finalWinnerWordmark img {
+.finalWinnerWordmark .hc-live-title {
   display: block;
   width: 100%;
-  height: auto;
 }
 
 .finalWinnerTagline {

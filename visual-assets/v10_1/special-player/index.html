@@ -9,6 +9,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* r90 M8: self-hosted faces (shared folder, precached), no Google Fonts round trip before the first frame. */
+@font-face { font-family: "Cormorant SC"; font-weight: 700; font-style: normal; font-display: block; src: url(../shared/fonts/CormorantSC-Bold-latin.woff2) format("woff2"); }
 @font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:500;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-500-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:500;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-500-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:600;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -46,7 +47,7 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
   background: linear-gradient(180deg, #fffbe6 0%, #f6d47c 45%, #c8922f 55%, #f3cf73 100%); clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%);
   box-shadow: inset 0 1px 0 #fff; text-shadow: 0 1px 0 rgba(255,255,255,.55); }
 .title { position: relative; display: inline-block; margin: 6px 0 0; font: 900 clamp(36px, 5.4vw, 64px)/.92 var(--disp); letter-spacing: .05em; text-transform: uppercase; }
-/* r91 HO-071 (Nik's pick, 2026-11-11): the title is drawn in the one title family (Team V's V3 "Honours Board" lettering),
+/* r93 HO-079 (Nik's pick, flat sample A, 2026-11-15): the title is live text in the one title family (Cormorant SC Bold, flat gold, css/r78-type.css),
    at the family's letter height (--hc-title-h of css/r78-type.css; never taller than the old line's own 1.4em, so a
    sideways phone keeps its small title), instead of a metal-gradient line with a moving shine.
    The words stay in the heading, so its box, the room measured under it and the screen-reader label are unchanged, but they
@@ -54,10 +55,7 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
    is hidden like the line above every other title (Nik 2026-11-12: "Remove both"); it keeps its box, so nothing moves. */
 .kicker { visibility: hidden; }
 .title span { display: block; color: transparent; }
-.title::after { content: ""; position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); height: var(--hc-h); width: min(calc(var(--hc-h) * 7.22), calc(100vw - 24px)); transform: translate(-50%, -50%); pointer-events: none;
-  filter: drop-shadow(0 1px 0 rgba(18,12,2,.92)) drop-shadow(0 2px 9px rgba(0,0,0,.6));   /* the one title that stands on a sunlit stadium, not a dark room: a dark shade (no glow) keeps the pale gold letters readable, as the old line's dark outline did */
-  background: url("../shared/wordmarks/TITLE_SPECIAL_PLAYER_V3_960.webp") center / contain no-repeat;
-  background-image: image-set(url("../shared/wordmarks/TITLE_SPECIAL_PLAYER_V3_960.webp") 1x, url("../shared/wordmarks/TITLE_SPECIAL_PLAYER_V3_1920.webp") 2x); }
+.title::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); content: "SPECIAL PLAYER"; --hcw: 8.65; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 700 min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif; font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none; filter: none; background: none; pointer-events: none; }
 .who { margin-top: 6px; font: 700 14px/1 var(--num); letter-spacing: .3em; text-transform: uppercase; color: var(--gold-hi); text-shadow: 0 1px 2px #000, 0 0 12px rgba(0,0,0,.6); min-height: 14px; }
 /* broadcast lower third, desktop only */
 .l3 { position: absolute; left: max(28px, env(safe-area-inset-left, 0px)); bottom: 150px; width: min(440px, 31vw); transform: translateX(-24px); opacity: 0; transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .4s; }

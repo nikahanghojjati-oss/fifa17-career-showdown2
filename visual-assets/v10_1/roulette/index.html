@@ -11,6 +11,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../shared/fonts/big-shoulders-display-latin-800-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../shared/fonts/rye-latin-400-normal.woff2">
 <style>
+@font-face { font-family: "Cormorant SC"; font-weight: 700; font-style: normal; font-display: block; src: url(../shared/fonts/CormorantSC-Bold-latin.woff2) format("woff2"); }
 @font-face { font-family: "Barlow Condensed"; font-weight: 500 600; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
 @font-face { font-family: "Barlow Condensed"; font-weight: 700 900; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
 @font-face { font-family: "Big Shoulders Display"; font-weight: 700 800; font-display: swap; src: url(../shared/fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2"); }
@@ -52,7 +53,7 @@ body.ready .boot { opacity: 0; visibility: hidden; }
 .kicker::after { transform: scaleX(-1); }
 .badge { position: relative; font: 900 13px/1 var(--disp); letter-spacing: .16em; text-transform: uppercase; color: #1a1105; padding: 5px 14px 4px 16px; background: linear-gradient(180deg, #fffbe6 0%, #f6d47c 45%, #c8922f 55%, #f3cf73 100%); clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%); box-shadow: inset 0 1px 0 #fff; text-shadow: 0 1px 0 rgba(255,255,255,.55); }
 .title { position: relative; display: inline-block; margin: 4px 0 0; font: 400 clamp(30px, 3.6vw, 48px)/1 var(--west); letter-spacing: .02em; text-transform: uppercase; }
-/* r91 HO-071 (Nik's pick, 2026-11-11): the title is drawn in the one title family (Team V's V3 "Honours Board" lettering),
+/* r93 HO-079 (Nik's pick, flat sample A, 2026-11-15): the title is live text in the one title family (Cormorant SC Bold, flat gold, css/r78-type.css),
    at the family's letter height (--hc-title-h of css/r78-type.css; never taller than the old line's own 1.4em, so a
    sideways phone keeps its small title), instead of a metal-gradient line with a moving shine.
    The words stay in the heading, so its box, the room measured under it and the screen-reader label are unchanged, but they
@@ -60,9 +61,7 @@ body.ready .boot { opacity: 0; visibility: hidden; }
    is hidden like the line above every other title (Nik 2026-11-12: "Remove both"); it keeps its box, so nothing moves. */
 .kicker { visibility: hidden; }
 .title span { display: block; color: transparent; }
-.title::after { content: ""; position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); height: var(--hc-h); width: min(calc(var(--hc-h) * 12.347), calc(100vw - 24px)); transform: translate(-50%, -50%); pointer-events: none;
-  background: url("../shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_960.webp") center / contain no-repeat;
-  background-image: image-set(url("../shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_960.webp") 1x, url("../shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_1920.webp") 2x); }
+.title::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); content: "ROSTER RUSSIAN ROULETTE"; --hcw: 15.05; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 700 min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif; font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none; filter: none; background: none; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .boot, .top { transition: none; } }   /* r90 L38: under Reduce Motion the loading line and the title switch at ready with no fade */
 /* centre column: result line + button */
 /* r90 LOOK L08: the words live in the bottom strip, above the panel, never over the revolver */

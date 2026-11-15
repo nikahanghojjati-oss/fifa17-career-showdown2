@@ -120,7 +120,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-header{margin-top:auto;min-height:var(--sg-title);display:flex;flex-direction:column;justify-content:center;gap:2px}
   #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:10px;letter-spacing:.25em;line-height:12px}
   #app #standings.standingsScreenV10 .sdg-wordmark{width:85%}
-  #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:clamp(34px,6svh,52px);width:auto;max-width:100%;margin:0 auto}
+  #app #standings.standingsScreenV10 .sdg-wordmark .hc-live-title{--hcl-h:clamp(34px,6svh,52px);height:var(--hcl-h);width:calc(var(--hcl-h) * 4.305);max-width:100%;margin:0 auto}
   #app #standings.standingsScreenV10 .sdg-header .sd-tagline{font-size:10px;letter-spacing:.24em;line-height:12px}
   #app #standings.standingsScreenV10 .sdg-main{margin:0}
   #app #standings.standingsScreenV10 .sdg-board{height:auto;overflow:visible;padding:0 12px 8px;border-width:2px}
@@ -148,7 +148,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10{--sg-row:clamp(34px,4.4svh,48px);--sg-title:clamp(104px,13svh,150px);--sg-board:calc(296px + 8 * var(--sg-row))}
   #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:15px;line-height:18px;letter-spacing:.29em}
   #app #standings.standingsScreenV10 .sdg-wordmark{width:min(78%,520px)}
-  #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:none;width:100%}
+  #app #standings.standingsScreenV10 .sdg-wordmark .hc-live-title{width:100%}
   #app #standings.standingsScreenV10 .sdg-header .sd-tagline{font-size:15px;line-height:18px;letter-spacing:.22em}
   #app #standings.standingsScreenV10 .sdg-board{padding:0 24px 12px}
   #app #standings.standingsScreenV10 .sdg-toggle{margin-top:10px}
@@ -186,7 +186,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   #app #standings.standingsScreenV10 .sdg-header{width:min(46%,380px);margin:0 auto;display:flex;flex-direction:column;gap:2px}
   #app #standings.standingsScreenV10 .sdg-header .sd-eyebrow{font-size:9px;letter-spacing:.25em;line-height:11px}
   #app #standings.standingsScreenV10 .sdg-wordmark{width:70%}
-  #app #standings.standingsScreenV10 .sdg-wordmark img{max-height:40px;width:auto;max-width:100%;margin:0 auto}
+  #app #standings.standingsScreenV10 .sdg-wordmark .hc-live-title{--hcl-h:40px;height:40px;width:calc(40px * 4.305);max-width:100%;margin:0 auto}
   #app #standings.standingsScreenV10 .sdg-header .sd-tagline{font-size:9px;letter-spacing:.24em;line-height:11px}
   #app #standings.standingsScreenV10 .sdg-main{width:min(100%,680px);margin:0 auto}
   #app #standings.standingsScreenV10 .sdg-board{width:100%;height:auto;overflow:visible;padding:0 14px 8px;border-width:2px}
@@ -877,7 +877,6 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"season-results/assets/ENV_SR_PHONE_V1.webp")}"); }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { background-image:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_1920.webp")}") 2x); }
 
  /* Leave 430px for the live card, tabs, actions, gaps and bottom inset. */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
@@ -901,7 +900,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */
  #app #seasonEntry.seasonScreenV10>.v10SeasonStage.v10SeasonStage { --sr-hero:0px; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.sd-stage__layer--atmosphere) { display:none!important; }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero,img.season-phone-title,img.season-title-wordmark) { display:none!important; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero,.season-phone-title,.season-title-wordmark) { display:none!important; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-title-block { margin:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .sd-stage__layer--ui { padding-top:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) {
@@ -1005,12 +1004,12 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
   background-position:left bottom 24%,right bottom 24%; background-size:55% 70%,55% 70%;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
-  inset:73% 2% 4%; background:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_1920.webp")}") 2x) center/contain no-repeat;
+  inset:73% 2% 4%;
  }
  /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */
  #app #seasonEntry.seasonScreenV10>.v10SeasonStage.v10SeasonStage { --sr-hero:0px; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.sd-stage__layer--atmosphere) { display:none!important; }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero,img.season-phone-title,img.season-title-wordmark) { display:none!important; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero,.season-phone-title,.season-title-wordmark) { display:none!important; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-title-block { margin:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .sd-stage__layer--ui { padding-top:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) {
@@ -1128,11 +1127,11 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before {
   inset:0; background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); background-position:left bottom 13%,right bottom 13%; background-size:49% 85%,49% 85%;
  }
-#app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { inset:73% 5% 3%; background:image-set(url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_960.webp")}") 1x, url("${assetUrl(BASE+"season-results/assets/TITLE_SR_PHONE_V3_1920.webp")}") 2x) center/contain no-repeat; }
+#app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { inset:73% 5% 3%; }
  /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */
  #app #seasonEntry.seasonScreenV10>.v10SeasonStage.v10SeasonStage { --sr-hero:0px; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(.sd-stage__layer--plate,.sd-stage__layer--cutout,.sd-stage__layer--light,.sd-stage__layer--atmosphere) { display:none!important; }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero,img.season-phone-title,img.season-title-wordmark) { display:none!important; }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero,.season-phone-title,.season-title-wordmark) { display:none!important; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-title-block { margin:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .sd-stage__layer--ui { padding-top:0; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout> :has(label[for="season-phone-tab-daniel"]) {
@@ -1952,7 +1951,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock { z-index:13;display:grid;justify-items:center;row-gap:2px;transform:translateX(-50%);text-align:center; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark { width:100%;margin:0; }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark img { display:block;width:100%;height:auto; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerWordmark .hc-live-title { display:block;width:100%; }
  #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot { z-index:10;width:auto;aspect-ratio:1;transform:translateX(-50%); }
  #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture { position:absolute;inset:0;display:block;width:100%;height:100%; }
  #app #seasonEntry.v10FinalMode #stage-root .winnerTrophySlot .winnerTrophyPicture img { display:block;width:100%;height:100%;object-fit:contain; }
@@ -2658,7 +2657,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(img.season-phone-bg,.season-phone-hero) { display:none!important; }
  /* Team V's title stands at 40.5% of the screen and the tab row at 44%, which only leaves it room on tall phone screens;
     here it sat across the tab row. Its foot now stands one 8px gap above the tabs. */
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage img.season-phone-title { top:auto; bottom:calc(56% + 8px); }
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-phone-title { top:auto; bottom:calc(56% + 8px); }
 }
 /* HO-068 (Nik 2026-11-09): on upright phones the result (SHOWDOWN CLOSED, the winner and both scores) sat on both men's chins
    and chests. It now stands on the counter face under the brass lip, as on sideways phones, and the plate rises so the
@@ -2745,7 +2744,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock { top:6px; width:min(44%,360px); row-gap:2px; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock .finalWinnerEyebrow { white-space:nowrap; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock .finalWinnerWordmark { width:auto; height:24px; }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock .finalWinnerWordmark img { width:auto; height:24px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTitleBlock .finalWinnerWordmark .hc-live-title { --hcl-h:24px; width:calc(24px * 5.854); height:24px; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot { top:calc(var(--fw-lip) + 4px); }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot .finalWinnerOutcome { font-size:20px; line-height:1.05; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerHeroCopySlot .finalWinnerTotals strong { font-size:26px; line-height:1; }

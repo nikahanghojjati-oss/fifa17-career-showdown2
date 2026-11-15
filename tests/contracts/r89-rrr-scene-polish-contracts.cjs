@@ -296,10 +296,12 @@ ok('P17','L38 a status line before ready; L39 the pot back left and smaller, sof
   // r91 HO-071 (one title family): the heading keeps its words and its box (so the clearance above still measures the same box) but
   // paints Team V's V3 lettering over them; the banner above the title is hidden, not removed; no moving shine. The Special Player
   // page follows the same recipe with its own picture.
-  for(const [file,stem,ratio] of [['visual-assets/v10_1/roulette/index.html','TITLE_ROSTER_ROULETTE_V3','12.347'],['visual-assets/v10_1/special-player/index.html','TITLE_SPECIAL_PLAYER_V3','7.22']]){
+  for(const [file,words] of [['visual-assets/v10_1/roulette/index.html','ROSTER RUSSIAN ROULETTE'],['visual-assets/v10_1/special-player/index.html','SPECIAL PLAYER']]){
     const src=file.includes('roulette/')?html:fs.readFileSync(path.join(ROOT,file),'utf8');
-    assert.ok(src.includes(`.title::after { content: ""; position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); height: var(--hc-h); width: min(calc(var(--hc-h) * ${ratio}), calc(100vw - 24px));`),`${file}: the title picture is the family height, never wider than the screen`);
-    for(const step of ['960','1920']){const pic=`../shared/wordmarks/${stem}_${step}.webp`;assert.ok(src.includes(`url("${pic}")`),`${file} draws ${pic}`);assert.ok(fs.existsSync(path.join(ROOT,path.dirname(file),pic)),`${pic} is in the repo`);}
+    const at=src.indexOf('.title::after {'),rule=src.slice(at,src.indexOf('}',at));
+    assert.ok(at>=0&&rule.includes(`--hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); content: "${words}";`)&&rule.includes('height: var(--hc-h);')&&rule.includes('calc((100vw - 28px) / var(--hcw))'),`${file}: the live title is the family height, never wider than the screen`);
+    assert.ok(/"Cormorant SC"/.test(rule)&&/color: #C9A45C;/.test(rule)&&!/text-shadow:(?!\s*none)|drop-shadow|gradient/.test(rule),`${file}: Cormorant SC, flat #C9A45C, no shadow`);
+    assert.ok(src.includes('@font-face { font-family: "Cormorant SC"')&&fs.existsSync(path.join(ROOT,'visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2')),`${file} loads the title face`);
     assert.ok(src.includes('.kicker { visibility: hidden; }'),`${file}: the banner above the title is hidden and keeps its box`);
     assert.ok(src.includes('.title span { display: block; color: transparent; }'),`${file}: the words stay in the heading, unpainted`);
     assert.ok(!/animation:\s*shine\b|@keyframes shine\b|-webkit-text-stroke/.test(src.slice(src.indexOf('.kicker {'),src.indexOf('.title::after')+900)),`${file}: no moving shine and no outline on the title`);
