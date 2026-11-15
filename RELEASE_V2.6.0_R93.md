@@ -58,7 +58,7 @@ release record. The list below is every pull request merged into gameplay/r93 si
 - Changed (R93-08 slims only). Composed production Rules SHA-256
   `b3d4661971eb54f1489a7e445089b18b40a55a29654b7b1cceb977221b69f37c` (193,331 bytes); 2.5.1 is `2a0d029e…` (192,364
   bytes). The reviewed main delta (`tests/fixtures/composed-production-rules/main-delta.json`) names main 23bdd439 and
-  lists 17 hunks. The Rules re-pin needs Nik's OK in words.
+  lists 17 hunks. Nik gave the Rules re-pin his OK in words ("OK the 2.6.0 Rules", 2026-11-15 20:12 UTC).
 - Compile probe (measure-firestore-rules-compile, compile only, nothing published): run [43757660203](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/actions/runs/43757660203), alternating 2.6.0 and main, 3 compiles per entry, 9 each: 2.6.0 (gameplay/r93 1b15c246) 9/9 HTTP 200 in 1.05 to 2.64 s; main 23bdd439 (2.5.1) 9/9 in 1.00 to 2.85 s. Both report the same 12 compiler warnings. Well under the 5 s compile deadline.
 
 ## Reads and writes
