@@ -474,12 +474,14 @@ service cloud.firestore {
         && (!('overall' in value) || (value.overall is int && value.overall >= 30 && value.overall <= 99))
         // r91 (2.4.0): the SoFIFA id of a player picked from the Transfer War autocomplete (optional; a typed name has none).
         && (!('playerId' in value) || (value.playerId is int && value.playerId >= 1 && value.playerId <= 999999))
-        && (!('position' in value) || value.position.matches('^(GK|RB|RWB|CB|LB|LWB|CDM|CM|CAM|RM|LM|RW|LW|CF|ST)$'))
+        && (!('position' in value) || value.position in ['GK','RB','RWB','CB','LB','LWB','CDM','CM','CAM','RM','LM','RW','LW','CF','ST'])
         && value.slot is int
         && value.slot >= 1
         && value.slot <= 3
         && ssjrTransferValidSigningName(value.name)
+        && ssjrTransferValidOptionId(value.leagueId)
         && ssjrTransferCatalogLeagueId(value.leagueId)
+        && ssjrTransferValidOptionId(value.nationalityId)
         && ssjrTransferCatalogNationalityId(value.nationalityId);
     }
     function ssjrTransferGuessesValid(value) {

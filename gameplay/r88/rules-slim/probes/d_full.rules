@@ -468,13 +468,21 @@ service cloud.firestore {
         && ((value.type == 'league' && ssjrTransferCatalogLeagueId(value.valueId))
           || (value.type == 'nationality' && ssjrTransferCatalogNationalityId(value.valueId)));
     }
+    // R93-07 (hunt T2-1): three rows picked from the name list (overall + position + playerId each) took LOCK MY SIGNINGS past the
+    // 1,000-expression limit. Same checks, cheaper form: an absent optional key reads as an in-range default (one lookup, one let),
+    // a key that is present still has to be an int in range (overall 30..99, playerId 1..999999) or one of the 15 positions;
+    // null, a float, a string or an unknown position is refused as before. The position list is one anchored regex (a list
+    // literal costs one expression per item); the catalog regexes alone check the ids (they are a subset of the option ids).
     function ssjrTransferSigningRowValid(value) {
+      let overall = value.get('overall', 30);
+      // r91 (2.4.0): the SoFIFA id of a player picked from the Transfer War autocomplete (optional; a typed name has none).
+      let playerId = value.get('playerId', 1);
+      let position = value.get('position', 'GK');
       return value is map
         && value.keys().hasOnly(['slot','name','leagueId','nationalityId','overall','position','playerId'])
-        && (!('overall' in value) || (value.overall is int && value.overall >= 30 && value.overall <= 99))
-        // r91 (2.4.0): the SoFIFA id of a player picked from the Transfer War autocomplete (optional; a typed name has none).
-        && (!('playerId' in value) || (value.playerId is int && value.playerId >= 1 && value.playerId <= 999999))
-        && (!('position' in value) || value.position.matches('^(GK|RB|RWB|CB|LB|LWB|CDM|CM|CAM|RM|LM|RW|LW|CF|ST)$'))
+        && overall is int && overall >= 30 && overall <= 99
+        && playerId is int && playerId >= 1 && playerId <= 999999
+        && position.matches('^(GK|RB|RWB|CB|LB|LWB|CDM|CM|CAM|RM|LM|RW|LW|CF|ST)$')
         && value.slot is int
         && value.slot >= 1
         && value.slot <= 3
