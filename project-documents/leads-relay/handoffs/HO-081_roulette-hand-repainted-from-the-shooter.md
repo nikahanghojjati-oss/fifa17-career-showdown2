@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-15T07:42:32Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-15T07:49:47Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: writes Astra prompts (Work mode Astra 6 XH), Nik runs, lead checks + cuts + measures plate numbers"}],
+ "evidence": ["claude/project-thread-6kfnkn ca06b2277 project-documents/hc-art/ho081/"],
+ "log": [{"at": "2026-11-15T07:42:32Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-15T07:49:47Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: writes Astra prompts (Work mode Astra 6 XH), Nik runs, lead checks + cuts + measures plate numbers"}, {"at": "2026-11-15T08:08:15Z", "by": "V", "status": "DONE", "note": "Nik OK 15 Nov 3:08 a.m. Eastern. RR_HAND_POV_W_V1 1672x941 bore 22.5deg, RR_HAND_POV_P_V1 941x1672 bore 72deg, alpha WebP no fringe, glove large; plate numbers in HO081_PLATE_NUMBERS.json (muzzle, boreRear, wrist, elbow, cutEdges). Forearm ~32-33% (asked 35/40%). No hammer-down frames."}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
  "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
