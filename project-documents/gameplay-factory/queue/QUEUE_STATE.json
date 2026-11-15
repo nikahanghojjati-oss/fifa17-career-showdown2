@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-15T04:40:43Z",
+ "updated": "2026-11-15T04:44:35Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -1686,7 +1686,7 @@
    "pr": 599,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/599",
-   "branch": "study/job-1111-connect-players-phone-b"
+   "branch": null
   },
   "1112": {
    "state": "closed",
