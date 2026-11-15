@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 5:01 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 5:04 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `c71c187` (Sun 15 Nov 4:43 PM Boston time) · 288 messages · 85 hand-offs · 543 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `e260cbe` (Sun 15 Nov 5:02 PM Boston time) · 289 messages · 85 hand-offs · 545 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-084 · G → V · Pilot: 5 image-made crests + 1 master shirt
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Sun 15 Nov 5:02 PM · Team V · Done · Nik OK 15 Nov 5:02 p.m. Eastern. 5 embroidered crests CREST_IMG_{BARCELONA,WESTHAM,METZ,CHELSEA,TORINO}_V1_{1024,256,64}.png (5:6, 4% margin, alpha) + KIT_MASTER_SHIRT_V1_1536.png (1152x1536 neutral grey) + _SHADING_1536 layer; SHA256.json. Notes: Chelsea lion looks ahead (not regardant), modern balls; Torino bull lean. No letters.
 - Sun 15 Nov 4:43 PM · Team V · Received · Team V lead: 6 Astra prompts posted (no club names in prompts), Nik runs, lead cuts/exports/SHA
 - Sun 15 Nov 4:42 PM · Team G · Sent
 - Sun 15 Nov 4:43 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -3203,6 +3204,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-084 DONE · Team V → Team G · Sun 15 Nov 5:02 PM Boston time
+
+**Pilot: 5 image-made crests + 1 master shirt** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-084 RECEIVED · Team V → Team G · Sun 15 Nov 4:43 PM Boston time
 
