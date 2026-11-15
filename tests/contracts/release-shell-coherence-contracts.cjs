@@ -12,7 +12,9 @@ assert.ok(fs.existsSync(path.join(root,releasePath)),`${releasePath} must exist 
 const release=read(releasePath);
 assert.match(runtime,new RegExp(`^${version.replace(/\./g,"\\.")}-r[1-9]\\d*$`));
 assert.ok(previous&&previous!==runtime,"A promoted shell must preserve a distinct previous known-good recovery runtime.");
-assert.match(previous,new RegExp(`^\\d+\\.\\d+\\.\\d+-r${generation-1}$`),"A promoted shell must retain the immediate previous whole-shell revision as its recovery target (the application version may have moved since).");
+// 2.5.1 (r92 hotfix, R93-07): a patch release keeps its generation and retains the previous patch of the same line.
+const previousPatch=(()=>{const m=/^(\d+)\.(\d+)\.(\d+)$/.exec(version);return m&&Number(m[3])>0?`${m[1]}.${m[2]}.${Number(m[3])-1}-r${generation}`:null;})();
+assert.ok(new RegExp(`^\\d+\\.\\d+\\.\\d+-r${generation-1}$`).test(previous)||previous===previousPatch,"A promoted shell must retain the immediate previous whole-shell revision as its recovery target (the application version may have moved since).");
 assert.match(app,new RegExp(`const APP_VERSION = "${version.replace(/\./g,"\\.")}";`));
 assert.match(worker,new RegExp(`const RUNTIME_REVISION = "${runtime.replace(/\./g,"\\.")}";`));
 assert.match(html,new RegExp(`<footer>Career Mode Showdown<br>v${version.replace(/\./g,"\\.")}<\\/footer>`));
