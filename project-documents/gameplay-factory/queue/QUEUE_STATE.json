@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-15T07:20:22Z",
+ "updated": "2026-11-15T07:24:18Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -1511,7 +1511,7 @@
    "pr": 671,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/671",
-   "branch": "study/job-1086-home-desktop-polish"
+   "branch": null
   },
   "1087": {
    "state": "retired",
@@ -1679,7 +1679,7 @@
    "pr": 597,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/597",
-   "branch": "study/job-1110-connect-players-phone-a"
+   "branch": null
   },
   "1111": {
    "state": "closed",
