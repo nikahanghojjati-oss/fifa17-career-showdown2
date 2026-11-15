@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-14T16:29:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-14T16:33:32Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: 3 flat code-drawn logo samples sent to Nik"}],
+ "evidence": ["claude/project-thread-6kfnkn e0881542b project-documents/factory/reviews/HO-079/README.md"],
+ "log": [{"at": "2026-11-14T16:29:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-14T16:33:32Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: 3 flat code-drawn logo samples sent to Nik"}, {"at": "2026-11-15T03:34:02Z", "by": "V", "status": "DONE", "note": "Nik picked flat sample A (plain #C9A45C Cormorant SC Bold). Logo V4 2080/1040/640 (smaller than V3) = file swap incl. assets/loading 640. Titles: live text per G preference, woff2 visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2 + #C9A45C, letter-spacing .06em, lining nums, no shadow/glow. See README."}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
  "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
