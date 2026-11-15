@@ -673,16 +673,25 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
       `<div class="goldenCounter"><p class="goldenStripLabel">${strip}</p><ol class="goldenStrip" aria-label="Season by season, ${who}">${seasons.map(cell).join("")}</ol>`+
       `<div class="goldenActions"><button type="button" id="goldenSeeFinalWinner" class="menuButton goldenSeeFinal">SEE FINAL WINNER</button></div></div>`;
   }
+  // r93 hunt G1: the screen's source changes after it first shows (the automatic close lands, a reload or late join settles),
+  // which redrew a new stage mid-entrance. The same Showdown with the same words keeps its stage (and its entrance); the
+  // button always takes the newest frame and rematch offer.
+  const goldenDrawn=new WeakMap();
   function renderGolden(host,frame,rematch){
-    sfGoldenRule(root.document);restoreFinal(host);
-    const g=frame.golden,stage=root.document.createElement("section");
+    sfGoldenRule(root.document);
+    const g=frame.golden,markup=goldenMarkup(frame),kept=host.querySelector(".v10GoldenStage"),was=kept?goldenDrawn.get(kept):null;
+    if(kept&&was&&host.classList.contains("v10GoldenMode")&&kept.dataset.goldenKey===g.key&&was.markup===markup){
+      was.frame=frame;was.rematch=rematch;const season=host.querySelector(".v10SeasonStage");if(season)season.hidden=true;return;
+    }
+    restoreFinal(host);
+    const stage=root.document.createElement("section"),drawn={markup,frame,rematch};goldenDrawn.set(stage,drawn);
     stage.className="v10GoldenStage";stage.setAttribute("role","region");stage.setAttribute("aria-labelledby","goldenShowdownTitle");
     stage.dataset.goldenKey=g.key;stage.dataset.golden=g.draw?"draw":g.managers[0];
     // The entrance plays once per Showdown on a device; after a reload or a re-render the screen is simply there.
     const animate=!goldenAnimated.has(g.key)&&!goldenReduced();
     goldenAnimated.add(g.key);if(animate)stage.classList.add("goldenEnter");
-    stage.innerHTML=goldenMarkup(frame);
-    stage.querySelector("#goldenSeeFinalWinner").addEventListener("click",event=>{event?.preventDefault?.();goldenPassed.add(g.key);renderFinal(host,frame,rematch);});
+    stage.innerHTML=markup;
+    stage.querySelector("#goldenSeeFinalWinner").addEventListener("click",event=>{event?.preventDefault?.();goldenPassed.add(g.key);renderFinal(host,drawn.frame,drawn.rematch);});
     const season=host.querySelector(".v10SeasonStage");if(season)season.hidden=true;
     host.appendChild(stage);host.classList.add("v10GoldenMode");
   }
@@ -2861,6 +2870,16 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
       sfGoldenCourseRule(doc);
       slot.appendChild(make("span","seasonGoldenCourseLine",[["b","ON COURSE FOR GOLDEN"],["i",names],["span","15 every season"]],`${names==="DANIEL · NIK"?"Daniel and Nik are":names==="DANIEL"?"Daniel is":"Nik is"} on course for a Golden Showdown: ${label}`));
     }
+    // r93 hunt C1: on the review and BOTH MANAGERS CONFIRMED view the panel stands over the title (desktop) and the entry cards are
+    // hidden (phones), so the line moves into the panel's own status bar, between FINAL CHECK and the season, where it is never
+    // covered. The panel is built once (js/seasonEngine.js) and only its words change, so the line stays until the next render.
+    const status=(stage.querySelector?.("#seasonReviewPanel")||doc?.getElementById?.("seasonReviewPanel"))?.querySelector?.(".seasonReviewStatus");
+    status?.querySelectorAll(".seasonGoldenCourseReview").forEach(node=>node.remove());
+    if(status&&course?.managers?.length){
+      const names=course.managers.map(m=>m==="daniel"?"DANIEL":"NIK").join(" · ");
+      sfGoldenCourseRule(doc);
+      status.insertBefore(make("span","seasonGoldenCourseReview",[["b","ON COURSE FOR GOLDEN"],["i",names]],`${names==="DANIEL · NIK"?"Daniel and Nik are":names==="DANIEL"?"Daniel is":"Nik is"} on course for a Golden Showdown: ${label}`),status.lastElementChild);
+    }
   }
   function sfGoldenCourseRule(doc){
     if(!doc?.head||doc.getElementById?.("v10GoldenCourseRule"))return;
@@ -2878,7 +2897,13 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 @media (max-width:900px), (max-width:1000px) and (max-height:520px) {
  #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourseLine { display:none; }
 }
-#app #seasonEntry.v10FinalMode :is(.seasonGoldenCourse,.seasonGoldenCourseLine) { display:none; }
+#app #seasonEntry.v10FinalMode :is(.seasonGoldenCourse,.seasonGoldenCourseLine,.seasonGoldenCourseReview) { display:none; }
+#app #seasonEntry:not(.v10FinalMode) .seasonReviewStatus .seasonGoldenCourseReview { display:inline-flex; align-items:center; gap:6px; margin:0 auto; padding:2px 10px 2px 6px; border:1px solid rgba(240,202,112,.78); border-radius:999px; background:linear-gradient(180deg,rgba(64,46,12,.94),rgba(30,22,6,.94)); font-size:12px; line-height:16px; white-space:nowrap; color:#ffe7a3; }
+#app #seasonEntry:not(.v10FinalMode) .seasonReviewStatus .seasonGoldenCourseReview b { font-weight:800; letter-spacing:.07em; color:#ffe7a3; }
+#app #seasonEntry:not(.v10FinalMode) .seasonReviewStatus .seasonGoldenCourseReview i { font-style:normal; font-weight:800; letter-spacing:.07em; color:#fff3cf; }
+#app #seasonEntry:not(.v10FinalMode) .seasonReviewStatus .seasonGoldenCourseMark { flex:0 0 auto; width:8px; height:8px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#fff4c6,#e2b448 55%,#8a6418); }
+/* while the review panel is up, its status bar carries the line: the title line and the card chips step aside */
+#app #seasonEntry:has(#seasonReviewPanel:not(.hidden)) :is(.seasonGoldenCourse,.seasonGoldenCourseLine) { display:none; }
 `;
     doc.head.appendChild(style);
   }
@@ -2972,9 +2997,18 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     return {final:final.winner?freeze({...final,specialPlayers:sp}):final,specialPlayers:sp,rematch};
   }
   // r93 part C: Season Results also carries the ON COURSE FOR GOLDEN chip, from the live Showdown's verified history only
-  // (never a closed Showdown's or a kept one).
+  // (never a closed Showdown's; the kept one only for the same live Showdown at the same accepted season, below).
+  // r93 hunt C1: once a season is saved the history view is cleared as the cursor moves on, so the next season's entry form
+  // has no live history. It keeps the last converged history of the same Showdown (sfRetainHistory, this page's memory), but
+  // only while the shared progression still counts exactly the seasons it covers: nothing new is told, nothing stale is kept.
+  function sfCourseHistory(s){
+    const live=s.history;if(live?.authoritative===true&&live.phase==="HISTORY_CONVERGED")return live;
+    const kept=retainedHistory,multi=s.multiSeason,rid=String(multi?.rivalryId||"");
+    if(!kept||!rid||multi?.authoritative!==true||multi.phase!=="SEASON_READY"||multi.state?.rivalryId!==rid||String(kept.rivalryId||"")!==rid)return null;
+    return Number(multi.state.acceptedSeasons)===Number(kept.throughSeason)?kept:null;
+  }
   function seasonScreenSource(){
-    const source=seasonSource(),s=sfSnapshot(),course=s.terminalClose?.phase==="CLOSED"?null:goldenCourse(s.history);
+    const source=seasonSource(),s=sfSnapshot(),course=s.terminalClose?.phase==="CLOSED"?null:goldenCourse(sfCourseHistory(s));
     return course?{...source,goldenCourse:course}:source;
   }
   // The pair module notifies only its own subscribers (no window event), so Standings follows pairing
@@ -3018,5 +3052,5 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     followPair();
     wake();return true;
   }
-  return Object.freeze({finalFrame,goldenCourse,goldenCourseChips:sfGoldenCourse,goldenScreenMarkup:goldenMarkup,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,gazetteHistory:()=>sfGazetteHistory,install:installResults});
+  return Object.freeze({finalFrame,goldenCourse,goldenCourseChips:sfGoldenCourse,goldenScreenMarkup:goldenMarkup,seasonScreenSource,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,gazetteHistory:()=>sfGazetteHistory,install:installResults});
 });
