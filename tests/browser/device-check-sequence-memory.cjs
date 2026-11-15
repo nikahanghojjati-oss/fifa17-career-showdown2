@@ -10,6 +10,11 @@
 //   - the RSS of Chromium's renderer and GPU processes.
 // Run: CMS_CHROMIUM_PATH=/opt/pw-browsers/chromium node tests/browser/device-check-sequence-memory.cjs [--levels 0,1,2] [--out f.json]
 // Limits: Chromium with software GL, not WebKit; a real iPhone frees memory on its own schedule. Not a Gate lane.
+// First runs (2026-11-15, gameplay/r93, Light and Balanced, iPhone 17 profile): every screen's WebGL context is lost when
+// its frame is removed (0 live contexts after each screen; 65 to 121 MB of GPU memory while one is open). In one page the
+// removed frames' documents stay behind, even after a forced garbage collection (15 documents after six screens); with a
+// reload before each screen they do not (5 or 6). The JS heap and the renderer's memory are about the same either way in
+// Chromium; how long Safari keeps a removed frame cannot be measured here.
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
