@@ -489,8 +489,14 @@ let PR=GP?GP.pixelRatio:1, gov=null;
    and Medium draw less than before (2x MSAA, 1024 shadows), which leaves the governor room for a sharper pixel ratio. */
 const GL_LVL=GP?GP.level:2, GQ_I=Math.max(0,Math.min(4,GL_LVL|0)), GQ={ samples:[2,2,4,8,8][GQ_I], shadow:GP&&GP.shadowSize||2048, aniso:[4,8,16,16,16][GQ_I], cardMax:GL_LVL>=3&&!(GP&&GP.phone)?2.5:2 }; /* 8K (level 5) uses the Ultra knobs. r92: a phone's card art stops at 2x (the card is under 400 px wide there; at 2.5x the 14 faces took 170 MB on the iPhone 17 profile at Extra, 85 MB at 2x) */
 renderer.setPixelRatio(PR);
-if(DIRECT){ T.ShaderChunk.tonemapping_pars_fragment=T.ShaderChunk.tonemapping_pars_fragment.replace("vec3 CustomToneMapping( vec3 color ) { return color; }","vec3 CustomToneMapping( vec3 color ) { color*=toneMappingExposure; return clamp((color*(2.51*color+.03))/(color*(2.43*color+.59)+.14),0.,1.); }");
-  renderer.outputColorSpace=T.SRGBColorSpace; renderer.toneMapping=T.CustomToneMapping; renderer.toneMappingExposure=.9; }
+/* r93 (Light tone curve): this vendored three build does not export the name CustomToneMapping, so the old line set renderer.toneMapping to
+   undefined: three logged "Unsupported toneMapping" and Light fell back to a plain linear clip, hotter glare than High. 5 is three's own
+   Custom value. The curve is the tuned colours untouched up to KNEE (linear, exposure .9, as before), then a soft shoulder, so hot
+   glare, the sun haze and the beam tips roll off instead of clipping to flat white; no new texture, draw or program. */
+const TONE_CUSTOM=5, KNEE=.7;
+if(DIRECT){ const CUSTOM_FN="vec3 CustomToneMapping( vec3 color ) { return color; }", chunk=T.ShaderChunk.tonemapping_pars_fragment, k=KNEE.toFixed(3), tm=chunk.includes(CUSTOM_FN);
+  if(tm) T.ShaderChunk.tonemapping_pars_fragment=chunk.replace(CUSTOM_FN,"vec3 CustomToneMapping( vec3 color ) { color*=toneMappingExposure; return min(color,vec3("+k+"))+(1.-"+k+")*(1.-exp(-max(color-"+k+",0.)/(1.-"+k+"))); }");
+  renderer.outputColorSpace=T.SRGBColorSpace; renderer.toneMapping=tm?TONE_CUSTOM:T.LinearToneMapping; renderer.toneMappingExposure=.9; }
 else { renderer.outputColorSpace=T.LinearSRGBColorSpace; renderer.toneMapping=T.NoToneMapping; }
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFShadowMap;
 stage.appendChild(renderer.domElement);
@@ -619,7 +625,7 @@ const beams=[-1,1].map(()=>{ const b=new T.Mesh(pillarGeo,beamMat); b.visible=fa
    from the roof edge of the stand photo (29 deg up from the pitch camera, about 46 m away) as sunlit cloth (2.2.0's plain colour;
    ?look=night keeps r90's floodlit .42). The flag is drawn and uploaded once per player in prepareSteps, like the coin. */
 const flagMounts=[]; [-25,-12.5,0,12.5,25].forEach(x=>flagMounts.push({pos:new T.Vector3(x,19.8,-40),rotY:0,w:9.0,h:6.0}));
-const FLAG_TEX0=canvasTex(4,4,null).tx, flagMat=new T.MeshStandardMaterial({map:FLAG_TEX0, side:DIRECT?T.FrontSide:T.DoubleSide, /* Light: the flags face the camera, so one side keeps the program count */ roughness:.8, color:NIGHT?new T.Color(.42,.42,.42):new T.Color(1,1,1)});
+const FLAG_TEX0=canvasTex(4,4,null).tx, flagMat=new T.MeshStandardMaterial({map:FLAG_TEX0, side:DIRECT?0:T.DoubleSide, /* Light: the flags face the camera, so one side keeps the program count; 0 is three's front side, whose name this vendored build does not export (undefined made three warn) */ roughness:.8, color:NIGHT?new T.Color(.42,.42,.42):new T.Color(1,1,1)});
 const flags=flagMounts.map((m)=>{ const geo=new T.PlaneGeometry(m.w,m.h,12,18); geo.translate(0,-m.h/2,0);
   const mesh=new T.Mesh(geo,flagMat); mesh.position.copy(m.pos); mesh.rotation.y=m.rotY; mesh.scale.y=.001; mesh.visible=false; mesh.castShadow=true; scene.add(mesh);
   return {mesh, base:geo.attributes.position.array.slice(), drop:0, target:0, h:m.h}; });
@@ -724,6 +730,11 @@ function lightMetals(){ if(!DIRECT) return; [[goldMetal,.5,.34,0x3a2606],[foilEd
   grassMat.color.multiply(NIGHT?new T.Color(1.25,1.27,1.38):new T.Color(1.35,1.7,3)); /* r91: without the stadium reflection the pitch came out olive (night: 72/94/42 against Extra's 93/120/60 on the settled card; day: 109/154/54 against r89's 113/175/76); the same green at no cost */
   if(!NIGHT) panoMat.uniforms.expo.value=.78; /* r91 day: Light has no bloom, which lifts the sunlit stands on High; the photo is drawn 15% brighter instead (r89's 128/103/38 on the right stand, 119/90/31 before) */ }
 let pano=null;
+/* r93 (stands smear, Nik 2026-11-15): each side photo covers 72 degrees and used to sit 72 degrees (1.2566 rad) from the centre photo, so the
+   edges of the two photos only met where both had faded out. On a wide view (1920x866, a phone held sideways) the screen edge reaches
+   that seam and showed the blurry panorama under it as a dark brown smear. 58 degrees (1.012 rad) makes the photos overlap, so the
+   centre photo's fade always lands on the sharp side photo; the side photos' own faded edges sit under the centre photo's solid part. */
+const SIDE_RAD="1.012";
 const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest:false, fog:false, uniforms:{tex:{value:null},plate:{value:null},hasPlate:{value:0},plateL:{value:null},hasL:{value:0},plateR:{value:null},hasR:{value:0},yaw:{value:0},expo:{value:.9},warm:{value:NIGHT||/[?&]look=0(?:&|$)/.test(location.search)?0:1},night:{value:NIGHT?1:0}},
   vertexShader:"varying vec3 vD; void main(){ vD=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }",
   fragmentShader:`uniform sampler2D tex,plate,plateL,plateR; uniform float yaw,expo,hasPlate,hasL,hasR,warm,night; varying vec3 vD;
@@ -732,7 +743,7 @@ const panoMat=new T.ShaderMaterial({side:T.BackSide, depthWrite:false, depthTest
   vec3 invAces(vec3 y){ y=min(y,vec3(.985)); vec3 a=2.51-2.43*y, b=.03-.59*y, c=-.14*y; return (-b+sqrt(b*b-4.*a*c))/(2.*a); }
   void main(){ vec3 d=normalize(vD); float lon=atan(d.x,-d.z)+yaw; vec2 uv=vec2(fract(lon/6.2831853+.5), asin(clamp(d.y,-1.,1.))/3.1415926+.5);
     vec3 c=pow(texture2D(tex,uv).rgb,vec3(2.2));
-    if(hasL>.5) c=plateMix(c,d,plateL,yaw-1.2566); if(hasR>.5) c=plateMix(c,d,plateR,yaw+1.2566);
+    if(hasL>.5) c=plateMix(c,d,plateL,yaw-${SIDE_RAD}); if(hasR>.5) c=plateMix(c,d,plateR,yaw+${SIDE_RAD});
     if(hasPlate>.5) c=plateMix(c,d,plate,yaw);
     /* r89 (SP_LOOKFRAME_V1): late-afternoon light. A warmer stadium, and a low sun glowing through the roof at the top left. */
     /* r90 L06 night: the daytime photo graded to a floodlit night, stands almost black with a little of their colour, the roof
