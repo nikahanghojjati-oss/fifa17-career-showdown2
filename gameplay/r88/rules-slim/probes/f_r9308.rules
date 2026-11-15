@@ -405,12 +405,6 @@ service cloud.firestore {
     }
     // JOB-1051: a lock salt is null (not set yet) or exactly 64 lowercase hex characters.
     function ssjrTransferValidSalt(value) { return value == null || (value is string && value.matches('^[0-9a-f]{64}$')); }
-    function ssjrTransferRoleListValid(value) {
-      return value is list
-        && value.size() <= 2
-        && value.toSet().size() == value.size()
-        && value.toSet().hasOnly(['playerOne','playerTwo']);
-    }
     function ssjrTransferPublicExactKeys(root) {
       return root.keys().hasOnly([
         'schemaVersion','objectType','rivalryId','seasonNumber','runtimeRevision','coordinatorRole','phase','revision',
@@ -1852,6 +1846,11 @@ match /accounts/{accountId}/pairLinks/{pairId} {
               && rivalry.data.data.authorizedAccountIds is list
               && request.auth.uid in rivalry.data.data.authorizedAccountIds;
           }
+          // R93-08 (Rules budget sweep): JOIN (the redeem) is the costliest write of the game (~991 of the 1,000 expressions on
+          // the rivalry document). Each branch now tests the joined slot first, so the branch for the other slot stops after one
+          // comparison. The stored open slot is compared with the one map validOpenSlot accepts (all seven keys must be there,
+          // since validOpenSlot reads every one of them, and each has exactly one allowed value), which is the same check for
+          // far fewer expressions. Every other check is unchanged, so the same JOINs pass and fail.
           function validRedeemedManagerSlots(beforeSlots, afterSlots, creatorId, joinSlotId) {
             let joinerId = request.auth.uid;
             return beforeSlots is list
@@ -1860,17 +1859,17 @@ match /accounts/{accountId}/pairLinks/{pairId} {
               && afterSlots.size() == 2
               && (
                 (
-                  validCreatorSlot(beforeSlots[0], "playerOne", creatorId)
-                  && validOpenSlot(beforeSlots[1], "playerTwo")
+                  joinSlotId == "playerTwo"
+                  && validCreatorSlot(beforeSlots[0], "playerOne", creatorId)
+                  && beforeSlots[1] == {"slotId": "playerTwo", "accountId": null, "profileId": null, "saveId": null, "displayLabel": null, "entitlementState": "open", "deletionConsent": false}
                   && beforeSlots[0] == afterSlots[0]
-                  && joinSlotId == "playerTwo"
                   && validCreatorSlot(afterSlots[1], "playerTwo", joinerId)
                 )
                 ||
                 (
-                  validOpenSlot(beforeSlots[0], "playerOne")
+                  joinSlotId == "playerOne"
+                  && beforeSlots[0] == {"slotId": "playerOne", "accountId": null, "profileId": null, "saveId": null, "displayLabel": null, "entitlementState": "open", "deletionConsent": false}
                   && validCreatorSlot(beforeSlots[1], "playerTwo", creatorId)
-                  && joinSlotId == "playerOne"
                   && validCreatorSlot(afterSlots[0], "playerOne", joinerId)
                   && beforeSlots[1] == afterSlots[1]
                 )
@@ -1960,11 +1959,17 @@ match /accounts/{accountId}/pairLinks/{pairId} {
           }
       allow get: if currentlyEntitled() || capabilityCanReadPendingRivalry();
       allow create: if validInitialRivalryCreate();
+      // R93-08 (Rules budget sweep): JOIN (the redeem) spent ~991 of the 1,000 expressions on this document, most of it on
+      // the Terminal Close branch that a redeem can never pass. The redeem branch now comes before it, and starts with the
+      // stored connectionState that validRivalryRedeem requires anyway, so every other update skips it after one test. The
+      // three branches are the same; only their order and that first test changed, so the same updates pass and fail.
       allow update: if (request.resource.data.data.connectionState == 'closed'
           && !('terminalClose' in request.resource.data.data)
           && cmsPersistentPairAbandonValid())
-        || ssjrTerminalValidRivalryUpdate()
-        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem());
+        || (resource.data.data.connectionState == 'pending-pair'
+          && !('terminalProgress' in request.resource.data.data)
+          && validRivalryRedeem())
+        || ssjrTerminalValidRivalryUpdate();
       allow list, delete: if false;
 
       match /state/authoritative {
@@ -2460,37 +2465,37 @@ match /accounts/{accountId}/pairLinks/{pairId} {
             && 'playerOne' in career.acknowledgedRoles
             && 'playerTwo' in career.acknowledgedRoles;
         }
+        // R93-08 (Rules budget sweep): START is the costliest ledger write of a season (~975 of the 1,000 expressions for one
+        // document, from the two roulette marks). This shape is checked only at START (ssjrTransferValidCreate), where the
+        // ledger is revision 1 with one operation, WINDOW_OPEN, started now, not ended, and every role list empty. Those exact
+        // values are tested once here instead of a general range check (revision 1..7, any of four phases, a timestamp or null,
+        // a valid role list) followed by the exact value in ssjrTransferValidCreate. Same documents pass and fail.
         function ssjrTransferPublicShape(root) {
           let setup = ssjrTransferSetup();
-          let historySize = root.operationIds.size();
           return ssjrTransferPublicExactKeys(root)
             && root.schemaVersion == 1
             && root.objectType == 'sharedTransferChallenge'
             && root.rivalryId == rivalryId
-            && root.seasonNumber is int
             && ssjrTransferSeasonMatches(root.seasonNumber)
             && ssjrTransferPrerequisites(root.seasonNumber)
             && root.runtimeRevision == '1.9.1-r8'
             && root.coordinatorRole == setup.coordinatorRole
-            && (root.phase == 'WINDOW_OPEN' || root.phase == 'GUESS_ENTRY' || root.phase == 'SIGNING_ENTRY' || root.phase == 'COMPLETED')
-            && root.revision is int
-            && root.revision >= 1
-            && root.revision <= 7
-            && root.startedAt is timestamp
-            && (root.endedAt == null || root.endedAt is timestamp)
-            && ssjrTransferRoleListValid(root.endRequestedRoles)
-            && ssjrTransferRoleListValid(root.guessLockedRoles)
-            && ssjrTransferRoleListValid(root.signingLockedRoles)
+            && root.revision == 1
+            && root.startedAt == request.time
+            && root.endedAt == null
+            && root.endRequestedRoles == []
+            && root.guessLockedRoles == []
+            && root.signingLockedRoles == []
             && root.operationIds is list
             && root.operationTypes is list
             && root.operationHashes is list
             && root.baseRevisions is list
             && root.actorRoles is list
-            && historySize == root.revision
-            && root.operationTypes.size() == historySize
-            && root.operationHashes.size() == historySize
-            && root.baseRevisions.size() == historySize
-            && root.actorRoles.size() == historySize
+            && root.operationIds.size() == 1
+            && root.operationTypes.size() == 1
+            && root.operationHashes.size() == 1
+            && root.baseRevisions.size() == 1
+            && root.actorRoles.size() == 1
             && root.updatedAt == request.time
             && ssjrWriteAuthorityValid(root.updatedByDeviceId, root.activeSessionId);
         }
@@ -2498,13 +2503,6 @@ match /accounts/{accountId}/pairLinks/{pairId} {
           let after = request.resource.data;
           return after.phase == 'WINDOW_OPEN'
             && ssjrTransferPublicShape(after)
-            && after.revision == 1
-            && after.phase == 'WINDOW_OPEN'
-            && after.startedAt == request.time
-            && after.endedAt == null
-            && after.endRequestedRoles.size() == 0
-            && after.guessLockedRoles.size() == 0
-            && after.signingLockedRoles.size() == 0
             && ssjrValidOperationId(after.operationIds[0]) == false
             && ssjrTransferValidOperationId(after.operationIds[0])
             && after.operationTypes[0] == 'start-window'
@@ -3167,7 +3165,6 @@ match /accounts/{accountId}/pairLinks/{pairId} {
             && after.schemaVersion == 1
             && after.objectType == 'sharedSeasonCommit'
             && after.rivalryId == rivalryId
-            && after.seasonNumber is int
             && ssjrCommitSeasonMatches(after.seasonNumber)
             && setup.schemaVersion == 1
             && setup.objectType == 'sharedSetupLedger'
@@ -3187,14 +3184,12 @@ match /accounts/{accountId}/pairLinks/{pairId} {
             && after.revision == 1
             && after.phase == 'COMMITTED'
             && after.resultsRevision == 2
-            && after.results is map
             && after.results.keys().hasOnly(['playerOne','playerTwo'])
             && ssjrCommitResultShape(after.results.playerOne, public.teamCount)
             && ssjrCommitResultShape(after.results.playerTwo, public.teamCount)
             && after.results.playerOne == p1.result
             && after.results.playerTwo == p2.result
-            && after.acknowledgedRoles is list
-            && after.acknowledgedRoles.size() == 0
+            && after.acknowledgedRoles == []
             && after.operationIds is list
             && after.operationIds.size() == 1
             && after.operationHashes is list
