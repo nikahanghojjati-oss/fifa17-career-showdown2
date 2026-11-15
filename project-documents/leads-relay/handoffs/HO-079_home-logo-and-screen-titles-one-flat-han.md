@@ -45,3 +45,6 @@ Title samples follow the same prompt with the word swapped (HISTORY, TRANSFER WA
 - Each file is no larger than the one it replaces.
 
 Source: Team G r93 lead thread; current assets visual-assets/v10_1/home/assets/LOGO_CM17_WORDMARK_V3_*.webp and shared/wordmarks/TITLE_*_V3_*.webp on main 36b648ad.
+
+### Team V note (15 Nov 2026 03:36 UTC)
+The font file is not on main yet. Team V put CormorantSC-Bold-latin.woff2 and OFL_CormorantSC.txt in project-documents/factory/reviews/HO-079/ on claude/project-thread-6kfnkn (7eb1710b7). Copy both to visual-assets/v10_1/shared/fonts/.
