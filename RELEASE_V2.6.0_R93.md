@@ -8,8 +8,8 @@ r93 is 2.6.0. Nik asked on 14 November for the Golden Showdown to show up proper
 look made by a prompt, and later for a roulette hand that looks filmed, with a whisky glass on the table. Four Fable bug
 hunts ran on the branch; their one P1 shipped early as 2.5.1. The rules of a Showdown did not change. This file is the
 release record. The list below is every pull request merged into gameplay/r93 since 2.5.0 went live (main 36b648ad):
-#1465 to #1486 (#1477 is the 2.5.1 hotfix into main and #1480 its back-merge; #1485 is this release's items), up to
-gameplay/r93 6ee8f299.
+#1465 to #1488 except #1487 (parked for r94); #1477 is the 2.5.1 hotfix into main and #1480 its back-merge; #1485 is this
+release's items. Up to gameplay/r93 c9fbd60d.
 
 ## What changed
 
@@ -52,7 +52,10 @@ gameplay/r93 6ee8f299.
   drops a stale running projection behind a closed, verified witness, so the views equal an app reopen.
 - **Transfer War verdicts after an app reopen** (#1484, hunt O1). VIEW TRANSFER VERDICTS is offered first until the
   verdicts were seen. No reads or writes added.
-- **Story**: Volume 21, "The gold and the glove" (chapters 190 to 194).
+- **Story**: Volume 21, "The gold and the glove" (chapters 190 to 194), and a Listen button in the book (#1488,
+  chronicle/read-aloud.js): every Story page with prose read aloud, paragraph by paragraph, in one of up to three of the
+  device's own voices (speechSynthesis, no server). The Story is its own site, outside the
+  game's shell.
 
 ## Firestore Rules
 
