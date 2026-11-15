@@ -1176,8 +1176,8 @@ function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspe
   const pitch=el-Math.atan(gy*2*tf); camRest.set(0,.751+d*Math.sin(el),.02+d*Math.cos(el)); lookRest.set(0,camRest.y-d*Math.sin(pitch),camRest.z-d*Math.cos(pitch)); DRIFT=d/2.8;
   /* r90: the resolution belongs to the quality level (js/gfxTier.js and its governor), never forced above the screen's own sharpness;
      a new layout moves the boards, so the one static shadow map is drawn again */
-  renderer.setSize(w,h,false); renderer.shadowMap.needsUpdate=true; if(GOV) GOV.resize(); fitUnderTitle(); handPlateWatch(); }
-addEventListener("resize",layout);
+  renderer.setSize(w,h,false); renderer.shadowMap.needsUpdate=true; if(GOV) GOV.resize(); fitUnderTitle(); }
+addEventListener("resize",layout); addEventListener("resize",()=>handPlateWatch());   /* r93 HO-081: a window that changes shape gets the other hand plate */
 /* r90 LOOK L37 (nothing covers anything): on a tall phone the two-line title sat on both squad boards and hid the club names and the
    first shirt rows. At rest the picture is shifted down (a lens shift, so nothing in the scene moves or changes size) just enough for the
    top of each board face to clear the title; the empty felt at the bottom gives the room. A turn eases the shift back out, since the

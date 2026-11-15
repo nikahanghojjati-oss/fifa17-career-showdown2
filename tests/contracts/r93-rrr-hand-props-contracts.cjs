@@ -64,7 +64,7 @@ has(/const HAND_CAP=GFX\.level<=1\?1024:0;/,'the plate at 1024 px on its long si
 has(/const big=Math\.max\(im\.width,im\.height\); if\(maxW&&big>maxW\)\{/,'the cap is on the long side (the upright plate too)');
 has(/const handPlateFor=\(\)=>handShape\(innerWidth\/innerHeight\)<\.5\?"P":"W";/,'the plate follows the window\'s shape, with the angle');
 has(/loadHandPlate\(handPlateFor\(\)\)/,'only the plate this window needs is loaded at the start');
-has(/fitUnderTitle\(\); handPlateWatch\(\); \}/,'and the other only when the window changes shape');
+has(/addEventListener\("resize",\(\)=>handPlateWatch\(\)\);/,'and the other only when the window changes shape');
 has(/const hp=PLATEMAP\.hand\|\|\{\}, img=hp\.file\?await loadImg\(hp\.file,HAND_CAP\):null;/,'the r87 plate is the fallback');
 has(/uv\(HAND_MUZZLE,hp\.muzzle\); uv\(HAND_REAR,hp\.rear\); uv\(HAND_WRIST,hp\.wrist\); uv\(HAND_ELBOW,hp\.elbow\);/,'every plate number from platemap.json');
 const plates=[['r87',plate.hand,13.3],['W',plate.hand.plates.W,22.5],['P',plate.hand.plates.P,72]];
