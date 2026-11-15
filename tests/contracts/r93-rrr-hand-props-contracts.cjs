@@ -19,6 +19,8 @@
 //      the upright placement is in use, the glove is never under the caption from the take to the exit and is at least 100 px wide at the aim, the
 //      muzzle stays off the board; on a tall phone (390x844) the caption takes the hidden Spin button's room for the turn (R93-04, Nik 2026-11-15:
 //      a bigger phone glove) and goes back after it; on a short phone (360x640) it stays where it was
+//      and at 960x1035 (a Chromebook half screen, the bottom strip shows): plate S (HO-082, the sleeve from the side), the glove clear of the caption
+//      and the strip at every frame and at least 140 px wide, the sleeve's cut off the screen
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const net=require('node:net');
@@ -69,12 +71,13 @@ has(/hand\.material\.color\.setRGB\(t\[0\]\*fk\*\(1\+1\.6\*F\),t\[1\]\*fk\*\(1\+
 has(/lampFl=fl;/,'the lamp flicker is shared');
 has(/const HAND_CAP=GFX\.level<=1\?1024:0;/,'the plate at 1024 px on its long side on Light and Balanced');
 has(/const big=Math\.max\(im\.width,im\.height\); if\(maxW&&big>maxW\)\{/,'the cap is on the long side (the upright plate too)');
-has(/const handPlateFor=\(\)=>handShape\(innerWidth\/innerHeight\)<\.5\?"P":"W";/,'the plate follows the window\'s shape, with the angle');
+has(/const handStrip=\(\)=>\{ const b=document\.querySelector\("\.bottom"\); return !!b&&getComputedStyle\(b\)\.display!=="none"; \};/,'S: an upright window that shows the bottom strip');
+has(/const handPlateFor=\(\)=>handShape\(innerWidth\/innerHeight\)<\.5\?\(handStrip\(\)\?"S":"P"\):"W";/,'the plate follows the window\'s shape, with the angle; S where the bottom strip stands (HO-082)');
 has(/loadHandPlate\(handPlateFor\(\)\)/,'only the plate this window needs is loaded at the start');
 has(/addEventListener\("resize",\(\)=>handPlateWatch\(\)\);/,'and the other only when the window changes shape');
 has(/const hp=PLATEMAP\.hand\|\|\{\}, img=hp\.file\?await loadImg\(hp\.file,HAND_CAP\):null;/,'the r87 plate is the fallback');
 has(/uv\(HAND_MUZZLE,hp\.muzzle\); uv\(HAND_REAR,hp\.rear\); uv\(HAND_WRIST,hp\.wrist\); uv\(HAND_ELBOW,hp\.elbow\);/,'every plate number from platemap.json');
-const plates=[['r87',plate.hand,13.3],['W',plate.hand.plates.W,22.5],['P',plate.hand.plates.P,72]];
+const plates=[['r87',plate.hand,13.3],['W',plate.hand.plates.W,22.5],['P',plate.hand.plates.P,72],['S',plate.hand.plates.S,70]];
 for(const [name,pl,want] of plates){
   for(const k of ['muzzle','rear','wrist','elbow']) assert.ok(Array.isArray(pl[k])&&pl[k].length===2,`platemap ${name} ${k}`);
   assert.ok(Array.isArray(pl.cut)&&pl.cut.length>=2,`platemap ${name} cut`);
@@ -82,7 +85,8 @@ for(const [name,pl,want] of plates){
   const [w,h]=pl.size||[1672,941], bore=Math.atan2(pl.muzzle[1]-pl.rear[1],(pl.rear[0]-pl.muzzle[0])*w/h)*180/Math.PI;
   assert.ok(Math.abs(bore-want)<.3,`${name} plate bore ${bore.toFixed(2)}° (want ${want}°)`); }
 for(const k of ['W','P']){ const pl=plate.hand.plates[k]; assert.ok(pl.cut.every(c=>c[1]===0),`${k}: the sleeve leaves through the bottom edge`); assert.ok(Array.isArray(pl.fit)&&pl.fit[0]<pl.fit[1],`${k}: the card's height range`); }
-ok('H4','the hand takes the room\'s light; the shooter\'s-eye plates W and P (HO-081) by window shape, the r87 plate as fallback; plate numbers are data');
+{ const pl=plate.hand.plates.S; assert.ok(pl.cut.every(c=>c[0]===1),'S: the sleeve leaves through the right edge (HO-082)'); assert.ok(Array.isArray(pl.fit)&&pl.fit[0]<pl.fit[1],'S: the card\'s height range'); assert.ok(Array.isArray(pl.glove)&&pl.glove.length===4,'S: glove box'); }
+ok('H4','the hand takes the room\'s light; the shooter\'s-eye plates W and P (HO-081) by window shape, S (HO-082, sleeve from the side) where the bottom strip stands, the r87 plate as fallback; plate numbers are data');
 
 has(/const WHISKY_FROM=0;/,'the whisky set shows on every level (Nik 2026-11-15)');
 has(/const paint=new T\.MeshBasicMaterial\(\{map:tex, transparent:true, blending:5, blendEquation:100, blendSrc:201, blendDst:205, depthWrite:false, toneMapped:false\}\);/,'one painted material: whisky covers, glass adds');
@@ -96,6 +100,8 @@ has(/function handClearSearch\(key,base\)\{/,'searched once per turn and window'
 has(/cam\.position\.copy\(p\.pov\); cam\.fov=p\.povFov; cam\.updateProjectionMatrix\(\); cam\.lookAt\(p\.povLook\);/,'in the frame the camera settles into');
 has(/N\+" takes the revolver","Hammer cocked",N\+" takes aim at the board","Bang!",`Click\. \$\{N\} is safe\.`\]/,'against the widest status line shown while the hand is up');
 has(/if\(L\.clear\) px\+=handSide\*L\.inX\*\(1-Math\.min\(1,HP\.R\)\);/,'the hand slides in from its own side');
+has(/\{ const k=HP\.aimK; ax=C\.ax\*fh\+\(ax-C\.ax\*fh\)\*k; ay=C\.ay\*fh\+\(ay-C\.ay\*fh\)\*k; \}/,'the take aims where the board\'s centre will stand once the camera settles (no swing with the pan), then eases onto the live centre');
+has(/HP\.aimK=ease\.inOut\(S\(r0\+rd,\.5,tt\)\)\*\(1-ease\.inOut\(S\(B\.fire\+\.6,\.5,tt\)\)\);/,'over half a second once the hand is up, and back to the settled aim as the arm lowers after a click (it no longer follows the camera away)');
 has(/if\(p\.fire&&d>=\.12&&!HP\.detached&&HP\.on&&!clr\)/,'and a shot fades it where it is');
 assert.ok(Array.isArray(plate.hand.plates.P.glove)&&plate.hand.plates.P.glove.length===4,'platemap P glove box');
 ok('H5','upright windows: the glove clear of the status line and the bottom bar');
@@ -170,7 +176,7 @@ ok('H6','on a tall upright phone in the game the caption drops into the Spin but
       await context.close(); }
     const SQ=JSON.parse(fs.readFileSync(path.join(ROOT,'visual-assets/v10_1/roulette/assets/squads.json'),'utf8'));
     const rows=c=>{ const x=SQ.clubs.find(q=>q.club===c); return [...x.xi,...x.subs].map(r=>({pos:r[0],position:r[0],name:r[1],rating:r[2],special:false,number:null})); };
-    for(const [w,h] of [[390,844],[360,640]]){
+    for(const [w,h] of [[390,844],[360,640],[960,1035]]){
       const context=await browser.newContext({viewport:{width:w,height:h},serviceWorkers:'block'});
       const page=await context.newPage();
       const errors=[];page.on('pageerror',e=>errors.push(String(e)));
@@ -187,26 +193,30 @@ ok('H6','on a tall upright phone in the game the caption drops into the Spin but
       for(let ti=0;ti<2;ti++){
         const before=await fr.evaluate(()=>document.getElementById('result').getBoundingClientRect().bottom);
         await fr.evaluate(()=>document.getElementById('cta').click());
-        turns.push(await fr.evaluate(before=>{ const t={before,during:null,ctaShown:false,clear:new Set(),covered:[],gw:null,mzOnBoard:false,shown:false};
+        turns.push(await fr.evaluate(before=>{ const t={before,during:null,ctaShown:false,clear:new Set(),covered:[],gw:null,mzOnBoard:false,shown:false,cutIn:[],plate:__rr.handPose.plate};
+          const strip=()=>{ const b=document.querySelector('.bottom'); if(!b||getComputedStyle(b).display==='none') return null; const r=b.getBoundingClientRect(); return r.width>0?r:null; };
           const capBox=()=>{ const e=document.getElementById('result'), rg=document.createRange(); rg.selectNodeContents(e); return rg.getBoundingClientRect(); };
           for(let i=0;i<800;i++){ __rr.advance(1/30,false); const st=__rr.state; if(!st.playing) break; const p=__rr.handPose, tt=st.tt;
             if(t.during===null&&tt>=1) t.during=document.getElementById('result').getBoundingClientRect().bottom;
             if(tt>=1&&getComputedStyle(document.getElementById('cta')).visibility!=='hidden') t.ctaShown=true;
-            if(p.hand&&p.glove&&!p.detached&&tt>=12.9){ t.shown=true; t.clear.add(p.clear); const c=capBox(); for(const q of p.glove) if(q[0]>c.left&&q[0]<c.right&&q[1]>c.top&&q[1]<c.bottom){ t.covered.push(tt.toFixed(2)); break; }
+            if(p.hand&&p.glove&&!p.detached&&tt>=12.9){ t.shown=true; t.clear.add(p.clear); const c=capBox(), sb=strip(); for(const q of p.glove) if((q[0]>c.left&&q[0]<c.right&&q[1]>c.top&&q[1]<c.bottom)||(sb&&q[0]>sb.left&&q[0]<sb.right&&q[1]>sb.top&&q[1]<sb.bottom)){ t.covered.push(tt.toFixed(2)); break; }
+              { const cs=p.cut, pts=cs.concat(cs.slice(1).flatMap((k,i)=>[.25,.5,.75].map(f=>[cs[i][0]+(k[0]-cs[i][0])*f,cs[i][1]+(k[1]-cs[i][1])*f]))); for(const k of pts) if(k[0]>0&&k[0]<p.W&&k[1]>0&&k[1]<p.H&&!(sb&&k[0]>sb.left+4&&k[0]<sb.right-4&&k[1]>sb.top+4&&k[1]<sb.bottom-4)){ t.cutIn.push(tt.toFixed(2)); break; } }
               if(t.gw===null&&tt>=14.95){ const xs=p.glove.map(q=>q[0]); t.gw=Math.max(...xs)-Math.min(...xs); }
               const b=p.board, m=p.muzzle; if(m[0]>b[0]&&m[0]<b[2]&&m[1]>b[1]&&m[1]<b[3]) t.mzOnBoard=true; } }
           __rr.advance(1,false); t.after=document.getElementById('result').getBoundingClientRect().bottom; t.clear=[...t.clear]; return t; },before)); }
       assert.deepEqual(errors,[],`no page errors in the game view at ${w}x${h}`);
-      const tall=h>=780;
+      const tall=h>=780&&w<600, strip=w>=900;
       for(const [i,t] of turns.entries()){ const tag=`game view ${w}x${h} turn ${i+1}`;
         assert.ok(t.shown,`${tag}: the hand shows`);
         assert.deepEqual(t.clear,[true],`${tag}: the upright placement that keeps the glove clear is in use`);
-        assert.deepEqual(t.covered.slice(0,5),[],`${tag}: the glove is never under the caption`);
-        assert.ok(t.gw>=100,`${tag}: the glove is ${Math.round(t.gw)} px wide at the aim (at least 100)`);
+        assert.deepEqual(t.covered.slice(0,5),[],`${tag}: the glove is never under the caption${strip?' or the bottom strip':''}`);
+        assert.deepEqual(t.cutIn.slice(0,5),[],`${tag}: the sleeve's cut stays off the screen`);
+        assert.equal(t.plate,strip?'S':'P',`${tag}: plate ${strip?'S (sleeve from the side)':'P'}`);
+        assert.ok(t.gw>=(strip?140:100),`${tag}: the glove is ${Math.round(t.gw)} px wide at the aim (at least ${strip?140:100})`);
         assert.equal(t.mzOnBoard,false,`${tag}: the muzzle stays off the board`);
         if(tall){ assert.equal(t.ctaShown,false,`${tag}: the Spin button is gone at once (the caption stands in its room)`); assert.ok(t.during>=h-46&&t.during<=h-38,`${tag}: the caption stands in the Spin button's room (bottom ${t.during} px)`); assert.ok(Math.abs(t.after-t.before)<1,`${tag}: the caption goes back after the turn`); }
-        else assert.ok(Math.abs(t.during-t.before)<1,`${tag}: on a short phone the caption stays where it was`); }
-      ok('B2',`game view ${w}x${h} Light: glove ${turns.map(t=>Math.round(t.gw)).join('/')} px, clear of the caption at every frame, caption ${tall?'in the Spin button\'s room for the turn':'where it was'}`);
+        else assert.ok(Math.abs(t.during-t.before)<1,`${tag}: the caption stays where it was`); }
+      ok('B2',`game view ${w}x${h} Light, plate ${turns[0].plate}: glove ${turns.map(t=>Math.round(t.gw)).join('/')} px, clear of the caption${strip?' and the bottom strip':''} at every frame, caption ${tall?'in the Spin button\'s room for the turn':'where it was'}`);
       await context.close(); }
     console.log(`PASS r93 RRR hand and props contracts: ${checks} checks.`);
   }finally{ if(browser) await browser.close().catch(()=>{}); server.kill(); }

@@ -1028,6 +1028,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/content/gazette/GZ_WIN_NIK_HC_V1_2X.webp":"47f5b6de67d6d060455427378c913a770ed604a2cc984d637ed1bcf52a251d24",
     "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"d6e94fed85ed77554e648130ba7169600fd6dd278a90a39b88ccb9dd14c877a2",
     "visual-assets/v10_1/roulette/assets/RR_HAND_POV_P_V1.webp":"32a092db7824bd9f2820bf6660022a949b3bfb30080bb4331a1c7285ff6fcfe3",   // r93 Team V HO-081: the hand from the shooter's eye, upright windows
+    "visual-assets/v10_1/roulette/assets/RR_HAND_POV_S_V1.webp":"68b2783dca7f375fd6291faac20ee458dbc8a2cc3a23f6676ae0eb8d6917555e",   // r93 Team V HO-082: the hand from the shooter's eye, sleeve from the side, tall desktop windows
     "visual-assets/v10_1/roulette/assets/RR_HAND_POV_W_V1.webp":"d85b2ef66f512afd2d1845579c08efda9a7c6d25d9cdba5ed114dda5c3cbe088",   // r93 Team V HO-081: the hand from the shooter's eye, landscape windows
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp":"3a7b0a2f1330e1a163e475ee4955cda5337d9494e8cba62340b4e709b00e4c09",   // r90 Team V HO-059: the café room on Extra (1920 px)
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp":"81e9927ce81f12ccb258fa49269b11f278d3778c7a351dad92973a24863c48c5",   // r90 Team V HO-059: the café room on Ultra and 8K (3840 px)
