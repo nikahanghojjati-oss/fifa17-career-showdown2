@@ -1430,11 +1430,10 @@
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownStar { color:var(--sd-gold-300,#ffd34d); }
 /* r93: the gold trophy picture in place of the star (the Champion art cast gold until Team V's own gold render lands). */
-#app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownTrophy { display:inline-block; width:18px; height:18px; object-fit:contain; vertical-align:-4px; filter:drop-shadow(0 0 5px rgba(255,211,77,.55)); }
-#app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownTrophy--tint,
-#app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown img.rv-goldenTrophy--tint { filter:sepia(.4) saturate(1.7) brightness(1.14) contrast(1.04) drop-shadow(0 0 6px rgba(255,211,77,.6)); }
+#app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownTrophy { display:inline-block; width:12px; height:18px; object-fit:contain; object-position:50% 100%; vertical-align:-4px; filter:drop-shadow(0 0 5px rgba(255,211,77,.55)); }
+#app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownTrophy + .legacyGoldenShowdownTrophy { margin-left:2px; }
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown { grid-column:1 / -1; justify-self:center; align-self:start; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:2px 8px; margin:4px 0 0; }
-#app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown img { width:18px; height:18px; object-fit:contain; filter:drop-shadow(0 0 6px rgba(255,211,77,.6)); }
+#app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown img { width:12px; height:18px; object-fit:contain; object-position:50% 100%; filter:drop-shadow(0 0 6px rgba(255,211,77,.6)); }
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown strong { color:var(--sd-gold-300,#ffd34d); letter-spacing:.1em; }
 
 /* HO-043 (Team V, 29 Oct 2026) · item 3: desktop Legacy. The archive frame's second pane was empty marble and VIEW SEASON HISTORY

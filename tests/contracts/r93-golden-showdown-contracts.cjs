@@ -74,6 +74,22 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
       if(frame.golden){assert.equal(frame.golden.draw,want.length===2,`${label}: DRAW only when both`);assert.equal(frame.golden.points,150);assert.equal(frame.golden.key,ID);}
     }
   }
+  // HO-080 (Nik 2026-11-15): the Golden screen stands only the winner's own bust, one bust always. Prime Pack points go to one
+  // manager a season, so 150-150 cannot happen; a frame naming both still stands one bust (the first in Daniel/Nik order).
+  {
+    const bustsOn=frame=>[...Season.goldenScreenMarkup(frame).matchAll(/<img class="goldenTrophyImg goldenTrophyImg--(\w+)" src="[^"]*TRO_HC_6_GOLDEN_(\w+)_V\d+_1024\.webp"/g)].map(m=>{assert.equal(m[1].toUpperCase(),m[2],"each bust is its own manager's");return m[1];});
+    const pair=frame=>/goldenTrophy--pair/.test(Season.goldenScreenMarkup(frame));
+    const d=Season.finalFrame(recon({a:150,b:140})),n=Season.finalFrame(recon({a:140,b:150})),both=Season.finalFrame(recon({a:150,b:150}));
+    assert.deepEqual(bustsOn(d),["daniel"],"Daniel on 150: only his bust");assert.equal(pair(d),false);
+    assert.deepEqual(bustsOn(n),["nik"],"Nik on 150: only his bust");assert.equal(pair(n),false);
+    assert.deepEqual(bustsOn(both),["daniel"],"never two busts: the first in Daniel/Nik order");assert.equal(pair(both),false);
+    assert.doesNotMatch(Season.goldenScreenMarkup(d)+Season.goldenScreenMarkup(both),/TRO_HC_1_/,"never the general Champion trophy");
+    // Both phones show the WINNER's bust (Nik 2026-11-15): the picture comes from the shared frame alone, never from which
+    // manager this device belongs to, so the other manager sees the winner's bust too.
+    const markupSrc=/function goldenMarkup\(frame\)\{[\s\S]*?\n  \}/.exec(read("js/seasonFinalV10.js"))[0];
+    assert.doesNotMatch(markupSrc,/role|managerRole|localStorage|sessionStorage|getActiveScreen|currentRole|self/i,"the bust never depends on the device's manager");
+    assert.equal(Season.goldenScreenMarkup(d),Season.goldenScreenMarkup(JSON.parse(JSON.stringify(d))),"same frame, same screen, on either phone");
+  }
   // the draw is still a draw on Final Winner (no tiebreak) and the Golden frame names no winner
   const draw=Season.finalFrame(recon({a:150,b:150}));assert.equal(draw.winner,"draw");assert.equal(draw.outcomeHeadline,"DRAW");
   assert.equal(Seam.GOLDEN_SHOWDOWN.points,150);assert.equal(Seam.GOLDEN_SHOWDOWN.seasons,10);
@@ -114,6 +130,18 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
   ok("GS3","no Firestore read or write added; the Golden code stores nothing at all");
 }
 
+// r93 HO-080 (Nik 2026-11-15): the Golden Showdown trophy is the winner's own cast-gold bust. Every Golden place names its
+// GOLDEN_BUSTS map (daniel, nik); busts(file) returns the two pictures with the size suffix dropped, after checking each exists.
+function busts(file){
+  const m=/GOLDEN_BUSTS\s*=\s*(?:Object\.freeze\()?\{\s*daniel:\s*(?:BASE \+ )?"([^"]+)",\s*nik:\s*(?:BASE \+ )?"([^"]+)"\s*\}/.exec(read(file));
+  assert.ok(m,`${file} names GOLDEN_BUSTS {daniel, nik}`);
+  return [m[1],m[2]].map((src,i)=>{
+    const rel=src.replace(/^(?:\.\.\/)?(?:visual-assets\/v10_1\/)?shared\//,"");
+    assert.ok(fs.existsSync(path.join(ROOT,"visual-assets/v10_1/shared",rel)),`${src} exists`);
+    assert.match(rel,new RegExp(`^trophies-hc/TRO_HC_6_GOLDEN_${i?"NIK":"DANIEL"}_V\\d+_(?:256|512|1024)\\.webp$`),`${file}: ${i?"Nik":"Daniel"}'s own bust`);
+    return rel.replace(/_(?:256|512|1024)\.webp$/,"");
+  });
+}
 // GS4
 {
   const Career=require("../../js/sharedCareerAnalytics.js"),Screens=require("../../js/careerScreensV10.js");
@@ -137,11 +165,12 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
   const room=read("visual-assets/v10_1/trophy-room/trophy-room.js"),binder=read("js/careerScreensV10.js");
   assert.match(binder,/categories:\["ALL","SHOWDOWN","GOLDEN","LEAGUE TITLES","DOMESTIC CUPS","CHAMPIONS LEAGUE","EUROPA LEAGUE"\]/);
   assert.match(binder,/goldenNotWonYet:"150 in a 10-season Showdown"/);
-  assert.match(room,/const GOLDEN = \{ key: "goldenShowdown", category: "GOLDEN", asset: GOLDEN_TROPHY\.src/);
+  assert.match(room,/const GOLDEN = \{ key: "goldenShowdown", category: "GOLDEN", value: f => f\.goldenShowdowns \};/);
+  // the case: the bust of each manager who has earned one (Daniel left), both greyed until then
+  assert.match(room,/const won = \["daniel", "nik"\]\.filter\(m => counts && Number\(counts\[m\]\) > 0\);\n    const shown = won\.length \? won : \["daniel", "nik"\];/);
+  assert.match(room,/\$\{golden \? goldenBusts\(counts, strings\.trophyTypes\[trophy\.key\]\) : picture\(trophy\.asset/);
   assert.match(room,/state\.activeCategory === "ALL" \? TROPHIES\.concat\(golden\) : state\.activeCategory === GOLDEN\.category \? golden :/);
-  const roomSrc=/const GOLDEN_TROPHY = \{ src: BASE \+ "\.\.\/shared\/(trophies-hc\/[\w.]+)", tint: (true|false) \}/.exec(room),screenSrc=/const GOLDEN_TROPHY=Object\.freeze\(\{src:"visual-assets\/v10_1\/shared\/(trophies-hc\/[\w.]+)",tint:(true|false)\}\)/.exec(read("js/seasonFinalV10.js"));
-  assert.ok(roomSrc&&screenSrc);assert.deepEqual(roomSrc.slice(1),screenSrc.slice(1),"one gold trophy picture in both places");
-  assert.ok(fs.existsSync(path.join(ROOT,"visual-assets/v10_1/shared",roomSrc[1])),"the picture exists");
+  assert.deepEqual(busts("visual-assets/v10_1/trophy-room/trophy-room.js"),busts("js/seasonFinalV10.js"),"the same two busts in both places");
   ok("GS4","the Trophy Room's gold case counts the History rows (0 and 0 too), has its own GOLDEN tab, and shows the same gold trophy as the Golden screen");
 }
 
@@ -202,8 +231,8 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
   assert.doesNotMatch(code,/firestore|getDoc|setDoc|readCompletedShowdown|localStorage|fetch\(|\b110\b/i);
   // Career Statistics: the gold line is a small tile with the same gold trophy picture as the Trophy Room and the Golden screen
   const stats=read("visual-assets/v10_1/career-statistics/career-statistics.js"),room=read("visual-assets/v10_1/trophy-room/trophy-room.js");
-  const statsSrc=/const GOLDEN_TROPHY=\{src:"\.\.\/shared\/(trophies-hc\/[\w.]+)",tint:(true|false)\};/.exec(stats),roomSrc=/const GOLDEN_TROPHY = \{ src: BASE \+ "\.\.\/shared\/(trophies-hc\/[\w.]+)", tint: (true|false) \}/.exec(room);
-  assert.ok(statsSrc&&roomSrc);assert.deepEqual(statsSrc.slice(1),roomSrc.slice(1),"one gold trophy picture");
+  assert.deepEqual(busts("visual-assets/v10_1/career-statistics/career-statistics.js"),busts("visual-assets/v10_1/trophy-room/trophy-room.js"),"the same two busts");
+  assert.match(stats,/<img class="goldenShowdownBust" src="\$\{window\.CAREER_STATISTICS_BASE \|\| ""\}\$\{GOLDEN_BUSTS\[role\]\}"/,"each winner's count beside his own bust");
   assert.match(stats,/goldenShowdownNote goldenShowdownTile/);
   ok("GS5","Season Results shows ON COURSE FOR GOLDEN only while a manager has 15 in every committed season of a 10-season Showdown (seasons 1-9), from the verified shared history only, and drops it at his first dropped point");
 }
@@ -232,18 +261,18 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
   assert.match(standings,/row\.className = "sdg-row sdg-row--golden";/);
   // one gold trophy picture wherever the Golden Showdown is drawn: the Golden screen, Trophy Room, Career Statistics, Rivalry
   // Statistics and the History cards
-  const pic=[];
-  pic.push(/const GOLDEN_TROPHY=Object\.freeze\(\{src:"visual-assets\/v10_1\/shared\/(trophies-hc\/[\w.]+)",tint:(true|false)\}\)/.exec(read("js/seasonFinalV10.js")));
-  pic.push(/const GOLDEN_TROPHY = \{ src: BASE \+ "\.\.\/shared\/(trophies-hc\/[\w.]+)", tint: (true|false) \}/.exec(read("visual-assets/v10_1/trophy-room/trophy-room.js")));
-  pic.push(/const GOLDEN_TROPHY=\{src:"\.\.\/shared\/(trophies-hc\/[\w.]+)",tint:(true|false)\};/.exec(read("visual-assets/v10_1/career-statistics/career-statistics.js")));
-  pic.push(/const GOLDEN_TROPHY=\{src:"visual-assets\/v10_1\/shared\/(trophies-hc\/[\w.]+)",tint:(true|false)\};/.exec(read("visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js")));
-  pic.push(/const GOLDEN_TROPHY = \{ src: "visual-assets\/v10_1\/shared\/(trophies-hc\/[\w.]+)", tint: (true|false) \};/.exec(read("visual-assets/v10_1/legacy/legacy.js")));
-  assert.ok(pic.every(Boolean),"every Golden place names the gold trophy constant");
-  assert.equal(new Set(pic.map(m=>m[1]+"|"+m[2])).size,1,"one picture, one tint, everywhere");
-  assert.match(read("visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js"),/<img src="'\+GOLDEN_TROPHY\.src\+'"/);
-  assert.match(read("visual-assets/v10_1/legacy/legacy.js"),/star\.src = GOLDEN_TROPHY\.src;/);
+  const files=["js/seasonFinalV10.js","visual-assets/v10_1/trophy-room/trophy-room.js","visual-assets/v10_1/career-statistics/career-statistics.js","visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js","visual-assets/v10_1/legacy/legacy.js"];
+  assert.equal(new Set(files.map(f=>busts(f).join("|"))).size,1,"the same two busts everywhere");
+  for(const f of files.concat("js/careerScreensV10.js","css/rivalryLegacyV10.css"))assert.doesNotMatch(read(f),/GOLDEN_TROPHY|goldTint|--tint\b|rv-goldenTrophy--tint/,`${f}: no Champion trophy cast gold, no CSS tint`);
+  // the winner's own bust: the Golden screen (one bust), Rivalry Statistics and History (Daniel first when both)
+  assert.match(read("js/seasonFinalV10.js"),/bust=\["daniel","nik"\]\.find\(m=>g\.managers\.includes\(m\)\)/);
+  assert.match(read("js/seasonFinalV10.js"),/<img class="goldenTrophyImg goldenTrophyImg--\$\{bust\}" src="\$\{GOLDEN_BUSTS\[bust\]\}"/);
+  assert.match(read("visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js"),/\["daniel","nik"\]\.filter\(m=>f\.goldenShowdown\.includes\(m\)\)/);
+  assert.match(read("visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js"),/g\.map\(m=>'<img class="rv-goldenBust" src="'\+GOLDEN_BUSTS\[m\]\+'"/);
+  assert.match(read("visual-assets/v10_1/legacy/legacy.js"),/\["daniel", "nik"\]\.filter\(\(manager\) => golden\.includes\(manager\)\)/);
+  assert.match(read("visual-assets/v10_1/legacy/legacy.js"),/bust\.src = GOLDEN_BUSTS\[manager\];/);
   assert.doesNotMatch(read("css/rivalryLegacyV10.css"),/\b110 points\b/,"no 110 anywhere");
-  ok("GS7","Golden everywhere it belongs (Nik 2026-11-14 17:15 UTC): Standings CAREER row from the one rule, and one gold trophy picture on the Golden screen, Trophy Room, Career Statistics, Rivalry Statistics and History");
+  ok("GS7","Golden everywhere it belongs (Nik 2026-11-14 17:15 UTC): Standings CAREER row from the one rule, and the winner's own gold bust (HO-080) on the Golden screen, Trophy Room, Career Statistics, Rivalry Statistics and History");
 }
 
 // GS6

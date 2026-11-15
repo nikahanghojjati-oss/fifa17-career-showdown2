@@ -77,12 +77,13 @@ const FACE_LIMIT_PCT = 1, INK = Number(process.env.CMS_FACECHECK_INK) || 16;
 const showdown = fixtures.completedShowdownStorage();
 // r93 Golden Showdown (GS6): a finished 10-season Showdown closed on 150-150 (15 every season each: a DRAW, Golden for both),
 // so the Golden Showdown screen is drawn before Final Winner with its widest words (both names, two numbers a season).
-// CMS_GOLDEN_WHO=daniel draws the usual one-manager screen instead (Daniel 150, Nik 140). Same storage as "finished".
+// CMS_GOLDEN_WHO=daniel draws the usual one-manager screen instead (Daniel 150, Nik 140), CMS_GOLDEN_WHO=nik the other way
+// (Nik 150, Daniel 140: Nik's own bust). Same storage as "finished".
 showdown.golden = (() => {
     const { projection: gp, result: gr } = require("../support/career-fixture-helpers.cjs");
     const p15 = () => gr({ leaguePosition: 1, leaguePoints: 101, leagueGoals: 90, championsLeague: true, domesticCup: true, topScorer: true, primePack: 4 });
     const p14 = () => gr({ leaguePosition: 1, leaguePoints: 101, leagueGoals: 90, championsLeague: true, domesticCup: true, primePack: 4 });
-    const p = gp({ seed: "6", totalSeasons: 10, seasons: Array.from({ length: 10 }, () => [p15(), process.env.CMS_GOLDEN_WHO === "daniel" ? p14() : p15()]) });
+    const p = gp({ seed: "6", totalSeasons: 10, seasons: Array.from({ length: 10 }, () => [process.env.CMS_GOLDEN_WHO === "nik" ? p14() : p15(), process.env.CMS_GOLDEN_WHO === "daniel" ? p14() : p15()]) });
     return { ...showdown.finished, pair: fixtures.pair(p.rivalryId, { status: "waiting", connectionState: "closed" }), multiSeason: fixtures.multiFor(p), history: fixtures.history(p), finalReconciliation: fixtures.finalReconciliation(p), terminalClose: fixtures.closed(p) };
 })();
 // r93 part C (GS5): Season Results of a 10-season Showdown three seasons in, both managers on 15 every season, so ON COURSE
@@ -316,7 +317,10 @@ function fadedManagers(){
         const name = (el.id || "") + " " + String(el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className || "");
         let src = ""; if(el.tagName === "IMG") src = el.currentSrc || el.src || "";
         if(/^(BUTTON|A|INPUT|LABEL)$/.test(el.tagName)) continue;
-        if(/(^|\s)sd-panel(\s|$)/.test(name)) continue;   // a UI card (sd-panel--hero is the large card size, not a manager)
+        if(/(^|\s)sd-panel(\s|$)/.test(name)) continue;
+        // r93 HO-080: Team V's trophy art (TRO_*) is a trophy, never a manager layer, even the Golden Showdown's cast-gold busts
+        // of Daniel and Nik, which stand greyed in the Trophy Room's gold case until won.
+        if(el.tagName === "IMG" && /^TRO_/i.test(src.split("/").pop())) continue;   // a UI card (sd-panel--hero is the large card size, not a manager)
         // A manager layer paints a picture. A glow with "hero" in its name (Trophy Room's heroSpotlight: a gradient and
         // no image) is lighting, not a manager.
         if(el.tagName !== "IMG" && !/url\(/.test(getComputedStyle(el).backgroundImage || "") && !el.querySelector("img")) continue;
