@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": "HO-082",
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-15T10:41:32Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-15T18:55:54Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: Astra prompt posted, Nik runs, lead cuts/measures"}],
+ "evidence": ["claude/project-thread-6kfnkn a73df5bd6 project-documents/hc-art/ho083/"],
+ "log": [{"at": "2026-11-15T10:41:32Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-15T18:55:54Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: Astra prompt posted, Nik runs, lead cuts/measures"}, {"at": "2026-11-15T20:33:31Z", "by": "V", "status": "DONE", "note": "Nik OK 15 Nov 3:33 p.m. Eastern. RR_HAND_POV_S_V2.webp 1600x1200 90 KB replaces S_V1: bore 40.0, forearm 35.1% width rising 19.7, glove box centre x0.50 / 50% down fully inside, cut on x=1.0 y 0.018-0.368, no other edge touched. Points in HO083_PLATE_NUMBERS.json (y from bottom)."}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
  "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
