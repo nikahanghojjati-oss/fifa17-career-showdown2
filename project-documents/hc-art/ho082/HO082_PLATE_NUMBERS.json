@@ -1,0 +1,52 @@
+{
+ "canvas": [
+  1600,
+  1200
+ ],
+ "yFrom": "bottom",
+ "muzzle": [
+  0.5285,
+  0.9441
+ ],
+ "boreRear": [
+  0.6209,
+  0.605
+ ],
+ "wrist": [
+  0.7689,
+  0.2552
+ ],
+ "boreAngleDeg": 70.0,
+ "cut": [
+  [
+   1.0,
+   0.3075
+  ],
+  [
+   1.0,
+   0.0217
+  ]
+ ],
+ "elbowDirection": {
+  "from": [
+   0.7689,
+   0.2552
+  ],
+  "toward": [
+   1.0,
+   0.1646
+  ],
+  "angleAboveHorizontalDeg": 16.4
+ },
+ "gloveBox": {
+  "x0": 0.51,
+  "x1": 0.781,
+  "yTop": 0.55,
+  "yBottom": 0.12
+ },
+ "touchesOtherEdges": {
+  "left": false,
+  "top": false,
+  "bottom": false
+ }
+}
