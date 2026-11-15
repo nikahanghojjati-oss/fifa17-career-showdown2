@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-15T09:45:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-15T09:48:26Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: Astra prompt posted, Nik runs, lead cuts/measures"}],
+ "evidence": ["claude/project-thread-6kfnkn 420b8c74b project-documents/hc-art/ho082/"],
+ "log": [{"at": "2026-11-15T09:45:07Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-15T09:48:26Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: Astra prompt posted, Nik runs, lead cuts/measures"}, {"at": "2026-11-15T10:00:01Z", "by": "V", "status": "DONE", "note": "Nik OK 15 Nov 4:59 a.m. Eastern. RR_HAND_POV_S_V1.webp 1600x1200 81 KB, bore 70.0, forearm rises 16.4 from right edge, cut on x=1.0 y 0.02-0.31 (29%, slightly short), glove box centre x0.65/66% down (right+below target: long barrel); muzzle 5.6% from top; nothing touches other edges. Points in HO082_PLATE_NUMBERS.json (y from bottom). Rerun with shorter barrel if placement fails."}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
  "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }

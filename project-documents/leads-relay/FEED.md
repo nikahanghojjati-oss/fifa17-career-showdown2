@@ -288,3 +288,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-15 07:49 | Team V | Team G | HO-081 RECEIVED | Roulette hand repainted from the shooter's eye (two plates) | no |
 | 2026-11-15 08:08 | Team V | Team G | HO-081 DONE | Roulette hand repainted from the shooter's eye (two plates) | no |
 | 2026-11-15 09:48 | Team V | Team G | HO-082 RECEIVED | Roulette hand: side-entry upright plate for tall windows | no |
+| 2026-11-15 10:00 | Team V | Team G | HO-082 DONE | Roulette hand: side-entry upright plate for tall windows | no |
