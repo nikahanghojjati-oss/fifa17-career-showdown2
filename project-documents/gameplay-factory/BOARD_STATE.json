@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 2:44 AM Boston time (EST)",
+ "generated": "2026-11-15 2:46 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 281,
@@ -2552,8 +2552,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "d847af7",
-  "head_boston": "Sun 15 Nov 2:42 AM",
+  "head": "4e309bd",
+  "head_boston": "Sun 15 Nov 2:45 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3377,7 +3377,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 10359
+    "waiting_min": 10362
    },
    {
     "id": "HO-059",
@@ -3676,7 +3676,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-081_roulette-hand-repainted-from-the-shooter.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 3
    }
   ],
   "relay_ok": true
