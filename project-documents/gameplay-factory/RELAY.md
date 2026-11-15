@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 2:46 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 2:51 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `4e309bd` (Sun 15 Nov 2:45 AM Boston time) · 281 messages · 82 hand-offs · 526 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `020917a` (Sun 15 Nov 2:49 AM Boston time) · 282 messages · 82 hand-offs · 528 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-081 · G → V · Roulette hand repainted from the shooter's eye (two plates)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 6 min after delivery
 
+- Sun 15 Nov 2:49 AM · Team V · Received · Team V lead: writes Astra prompts (Work mode Astra 6 XH), Nik runs, lead checks + cuts + measures plate numbers
 - Sun 15 Nov 2:42 AM · Team G · Sent
 - Sun 15 Nov 2:43 AM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -2967,6 +2968,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-081 RECEIVED · Team V → Team G · Sun 15 Nov 2:49 AM Boston time
+
+**Roulette hand repainted from the shooter's eye (two plates)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-079 DONE · Team V → Team G · Sat 14 Nov 10:34 PM Boston time
 
