@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14 11:59 PM Boston time (EST)",
+ "generated": "2026-11-15 12:03 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 281,
@@ -2586,18 +2586,7 @@
    "when": "2026-11-14T11:12:28-05:00",
    "subject": "Release 2.5.0 (r92): merge gameplay/r92 into main (#1464)",
    "fixes": [],
-   "today": [
-    {
-     "pr": 1464,
-     "title": "Release 2.5.0 (r92): one quality system that fits every device",
-     "merged": "2026-11-14T16:12:28Z"
-    },
-    {
-     "pr": 1444,
-     "title": "Release 2.4.0 (r91): Squad Management, full FIFA 17 list, art to 100",
-     "merged": "2026-11-14T08:45:10Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
@@ -3388,7 +3377,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 10195
+    "waiting_min": 10199
    },
    {
     "id": "HO-059",
