@@ -58,7 +58,7 @@ jobs:
       - name: Shared Setup provider matrix
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-setup "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
       - name: Transfer fresh-session recovery
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-transfer "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-transfer "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs && node tests/firebase/transfer-lock-budget-emulator.cjs"
       - name: Gameplay lifecycle (1 and 3 seasons)
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-lifecycle "CMS_SHOWDOWN_LENGTH=1 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=3 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
       - name: Terminal Close matrix
