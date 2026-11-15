@@ -170,7 +170,7 @@ jobs:
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-shared-setup-production-deploy "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
 
       - name: Prove Shared Transfer fresh-session timeout recovery
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-transfer-fresh-session "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-transfer-fresh-session "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs && node tests/firebase/transfer-lock-budget-emulator.cjs"
 
       - name: Prove full shared gameplay provider lifecycle
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-gameplay-lifecycle "CMS_SHOWDOWN_LENGTH=1 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=3 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=5 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs && CMS_SHOWDOWN_LENGTH=10 node tests/firebase/shared-gameplay-provider-lifecycle-emulator.cjs"
