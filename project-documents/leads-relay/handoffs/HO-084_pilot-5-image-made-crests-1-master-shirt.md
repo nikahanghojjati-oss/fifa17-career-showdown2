@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-15T21:42:35Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-15T21:42:35Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-15T21:43:22Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: 6 Astra prompts posted (no club names in prompts), Nik runs, lead cuts/exports/SHA"}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
- "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ"}
+ "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
 ```
 
