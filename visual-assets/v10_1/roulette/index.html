@@ -124,6 +124,9 @@ body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 16px); }
 body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
 /* Polish RR-1: on a laptop the bottom panel is 24 + 72 px (+ border) tall, so the button stands clear above it */
 @media (min-width: 900px) { body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 110px); } }
+/* R93-04 (Nik 2026-11-15, a bigger phone glove): on a tall upright phone in the game the caption takes the hidden Spin button's room for the turn, so the
+   hand's glove fits clear of it (the hand's spot is searched against the caption where it stands) */
+@media (max-width: 599px) and (orientation: portrait) and (min-height: 780px) { body.embed.turning .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 42px); } body.embed.turning .cta { position: absolute; visibility: hidden; opacity: 0; transition: none; } }
 /* phone portrait: the title starts below the sound switch (it covered the CAREER MODE SHOWDOWN 17 plate at 390px) */
 @media (max-width: 899px) and (orientation: portrait) { body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 54px); } }
 </style>
@@ -234,7 +237,7 @@ let handHold=false, handK=0, handRecoil=0, handSide=-1, handAspect=16/9, hasHand
    frame: the raise R (0 = below the frame, 1 = aimed, a touch over on the settle), the wrist and elbow elevations (degrees, + = muzzle up), the slide along
    the forearm (share of the card height), the kick back along the barrel and the bob (shares of the frame height) and the opacity; detached = left
    standing in the room while the bullet camera leaves. One card, one draw, one shader program on every level, as before. */
-const HP={R:0, wrist:0, elbow:-38, slide:.25, kick:0, bob:0, op:1, on:false, detached:false};
+const HP={R:0, aimK:0, wrist:0, elbow:-38, slide:.25, kick:0, bob:0, op:1, on:false, detached:false};
 const HAND_ELBOW={u:1.25,v:-.35}, HAND_WRIST={u:.80,v:.30}, HAND_CUT=[[1,.45],[1,0],[.67,0]], DEG=Math.PI/180; let lampFl=.85;
 /* r93 R93-04 S8: the unlit card takes the room's light: a tint per level (the dark room on Light and Balanced, the hall on High, the café from Extra up),
    the oil lamp's flicker and the muzzle flash (a colour uniform only: no new shader) */
@@ -286,6 +289,8 @@ function handKeepOuts(){ const W=innerWidth, H=innerHeight, key=W+"x"+H+"|"+turn
 function handClear(fw,fh,ax,ay){ const G=HAND_GLOVE, p=playing; if(!G||!p||!p.pov||!p.povLook||!handAimAt) return null;
   const side=handSide, asp=handAspect, mu=HAND_MUZZLE.u, mv=HAND_MUZZLE.v, base=Math.atan2(mv-HAND_REAR.v,(mu-HAND_REAR.u)*asp*side);
   const key=innerWidth+"x"+innerHeight+"|"+turn+"|"+side+"|"+handPlateKey; if(!handClearAt||handClearAt.key!==key) handClearAt=handClearSearch(key,base); const C=handClearAt; if(!C.ph) return null;
+  { const k=HP.aimK; ax=C.ax*fh+(ax-C.ax*fh)*k; ay=C.ay*fh+(ay-C.ay*fh)*k; }   /* the take aims where the board's centre will stand once the camera settles (no swing with
+     the camera's pan), then eases onto the live centre over half a second once the hand is up */
   const ph=C.ph*fh, mx=C.mx*fh, my=C.my*fh, pw=ph*asp, rot=Math.atan2(ay-my,ax-mx)-base, c=Math.cos(rot), s=Math.sin(rot), [ox,oy]=rot2(...cardPt(mu,mv,pw,ph),c,s);
   return {rot, ph, pw, px:mx-ox, py:my-oy, th:Math.atan2(ay-my,Math.abs(ax-mx)), clear:true, inX:C.inX*fh}; }
 /* the search runs once per turn and window, in the frame of the shooter's eye the camera settles into (p.pov, p.povLook, p.povFov), and the spot is
@@ -315,7 +320,7 @@ function handClearSearch(key,base){ const K=handKeepOuts(); if(!K.length) return
   { let a=ph, b=Math.min(hi,ph+(hi-lo)/N); for(let i=0;i<8&&b>a;i++){ const m=(a+b)/2; if(find(m)!==null) a=m; else b=m; } ph=a; }
   let mx=find(ph); { let a=mx, b=want; for(let i=0;i<12;i++){ const m=(a+b)/2; if(ok(m,ph)) a=m; else b=m; } mx=a; }
   const P=pose(mx,ph); let g0=1e9, g1=-1e9; gl.forEach(([u,v])=>{ const q=P.at(u,v); g0=Math.min(g0,q[0]); g1=Math.max(g1,q[0]); });
-  return {key, ph:ph/fh, mx:mx/fh, my:my/fh, inX:(side<0?g1+half+.02*fh:half-g0+.02*fh)/fh}; }
+  return {key, ph:ph/fh, mx:mx/fh, my:my/fh, ax:ax/fh, ay:ay/fh, inX:(side<0?g1+half+.02*fh:half-g0+.02*fh)/fh}; }
 function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.aspect;
   /* S8: the room's light on the glove (lamp flicker, the shot's flash) */
   { const F=Math.min(1.5,flashLight.intensity/(REDUCED?2.5:PH?3.5:6)), fk=1+.05*(lampFl-.85)/.17, t=HAND_TINT; hand.material.color.setRGB(t[0]*fk*(1+1.6*F),t[1]*fk*(1+1.44*F),t[2]*fk*(1+1.2*F)); }
@@ -1531,7 +1536,7 @@ function takeGun(p,tt){ if(p&&tt>=B.hand&&handHold&&!p.gunGone&&p.pov){ const du
 /* r93 R93-04 S3-S7: the hand's motion, on the turn clock (seconds; R93_04_RRR_STUDY.md 1.5). Under Reduce Motion the raise is shorter with no
    overshoot, and the cock dip and the breathing sway are off. */
 const backK=(k,c)=>1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2);
-function handRest(){ HP.on=false; HP.R=0; HP.op=1; HP.wrist=0; HP.elbow=-38; HP.slide=.25; HP.kick=0; HP.bob=0; if(HP.detached) handHome(); }
+function handRest(){ HP.on=false; HP.R=0; HP.aimK=0; HP.op=1; HP.wrist=0; HP.elbow=-38; HP.slide=.25; HP.kick=0; HP.bob=0; if(HP.detached) handHome(); }
 function handHome(){ camera.add(hand); hand.quaternion.identity(); HP.detached=false; }   /* back on the camera: the room pose's tilt is dropped (placeHand sets the rest) */
 function stepHand(p,tt){ const RM=REDUCED, r0=B.hand+(RM?.15:.30), rd=RM?.40:.60, d=tt-B.fire;
   /* S3 the raise: an arm swing about the elbow from below the corner (with a slide back along the forearm), the wrist trailing it and levelling ~150 ms later */
@@ -1546,7 +1551,7 @@ function stepHand(p,tt){ const RM=REDUCED, r0=B.hand+(RM?.15:.30), rd=RM?.40:.60
   let rec=0, kick=0, env=0; if(d>=0){ if(p.fire){ if(d<.05){ rec=11*d/.05; env=d/.05; } else { const u=d-.05; rec=11*Math.exp(-7.2*u)*Math.cos(14.3*u); env=1-ease.out(Math.min(1,u/.3)); } kick=.022*env; }
     else rec=d<.02?-.8*d/.02:d<.14?-.8*(1-ease.out((d-.02)/.12)):0; }
   handRecoil=p.fire?env:Math.abs(rec)/.8*.12;
-  HP.R=R; HP.wrist=lag-2.2*cock+sway+rec; HP.elbow=-38*(1-R)+3*env; HP.slide=.25*(1-R); HP.kick=(handLast&&handLast.clear?.55:1)*kick+.004*cock; HP.bob=bob-.004*cock;
+  HP.R=R; HP.aimK=ease.inOut(S(r0+rd,.5,tt))*(1-ease.inOut(S(B.fire+.6,.5,tt))); HP.wrist=lag-2.2*cock+sway+rec; HP.elbow=-38*(1-R)+3*env; HP.slide=.25*(1-R); HP.kick=(handLast&&handLast.clear?.55:1)*kick+.004*cock; HP.bob=bob-.004*cock;
   /* S7 after a shot: at +120 ms (the bullet camera leaves) the card is left in the room at its pose; it fades between +300 and +500 ms */
   /* upright windows (the glove kept clear of the status line and the bar): the card stays where it is on screen and fades between +150 and +400 ms,
      since left in the room it would sink under the bar as the camera pushes in */
@@ -1630,7 +1635,10 @@ const PLATEMAP={};
    (hand.file and its numbers) is the fallback when a plate does not load. Only the plate this window's shape needs is loaded, at 1024 px on its long
    side on Light and Balanced (the old plate's size), full size from High; turning a tablet loads the other once */
 const HAND_PLATES={}; let handFit=null, handPlateKey=null, handPlateWant=null, handPlatesOn=false;
-const handPlateFor=()=>handShape(innerWidth/innerHeight)<.5?"P":"W";
+/* r93 HO-082: an upright window that shows the bottom strip (a tall desktop window) takes plate S, whose sleeve enters from the side: P's sleeve leaves
+   through the bottom, where the strip stands, so its glove could not clear the strip there */
+const handStrip=()=>{ const b=document.querySelector(".bottom"); return !!b&&getComputedStyle(b).display!=="none"; };
+const handPlateFor=()=>handShape(innerWidth/innerHeight)<.5?(handStrip()?"S":"P"):"W";
 const handPlateData=k=>{ const hp=PLATEMAP.hand||{}, pl=k!=="F"&&hp.plates&&hp.plates[k]; return pl&&pl.file?pl:hp; };
 const HAND_CAP=GFX.level<=1?1024:0;
 async function loadHandPlate(k){ const pl=handPlateData(k); if(pl.file&&k!=="F"){ const img=await loadImg(pl.file,HAND_CAP); if(img) return {key:k,img}; }

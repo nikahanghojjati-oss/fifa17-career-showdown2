@@ -24,7 +24,7 @@
     const close=asdPlain(s.terminalClose)?s.terminalClose:null;
     const rid=typeof pair?.rivalryId==="string"?pair.rivalryId:close?.phase==="CLOSED"&&typeof close.rivalryId==="string"?close.rivalryId:null;
     const viewer=identity?.status==="ready"&&managerId(identity.managerId)||managerId(pair?.managerId);
-    const multi=asdPlain(s.multiSeason)&&s.multiSeason.ok===true&&s.multiSeason.authoritative===true&&s.multiSeason.rivalryId===rid&&asdPlain(s.multiSeason.state)?s.multiSeason:null;
+    let multi=asdPlain(s.multiSeason)&&s.multiSeason.ok===true&&s.multiSeason.authoritative===true&&s.multiSeason.rivalryId===rid&&asdPlain(s.multiSeason.state)?s.multiSeason:null;
     const history=asdPlain(s.history)&&s.history.rivalryId===rid?s.history:null;
     let p=null,invalid=false,witness=null,zero=false,fromProgression=false,historyAhead=false;
     if(history){
@@ -54,7 +54,15 @@
       try{
         if(close.terminal!==true||invalid)throw new Error("CLOSE_INVALID");
         witness=Terminal.verifyIntent(close.terminalWitness);
-        if(witness.rivalryId!==rid||(p&&(p.acceptedSeasons!==witness.completedSeason||p.totalSeasons!==witness.totalSeasons||p.managerRecords.playerOne.totalPoints!==witness.managerTotals.playerOne||p.managerRecords.playerTwo.totalPoints!==witness.managerTotals.playerTwo)))throw new Error("CLOSE_AUTHORITY_MISMATCH");
+        if(witness.rivalryId!==rid)throw new Error("CLOSE_AUTHORITY_MISMATCH");
+        // r93 U1 (HUNT_AREAS_3_5): a phone hidden when the final season is locked keeps its season view one season behind (no
+        // refresh while hidden, and none can run once the Showdown is closed), so its projection stops short of the witness.
+        // Only that case drops the projection and the stale season view: the same Showdown, the same length, a Showdown the
+        // projection itself says is still running, and no total above the witness's (points never go down). The page then
+        // stands exactly where an app reopen puts it: completed from the witness, the finished career read for the rest.
+        // A projection level with or AHEAD of the witness, or any other difference, still fails closed below.
+        if(p&&p.acceptedSeasons<witness.completedSeason&&p.totalSeasons===witness.totalSeasons&&p.acceptedSeasons<History.showdownEnd.ofProjection(p).finalSeason&&p.managerRecords.playerOne.totalPoints<=witness.managerTotals.playerOne&&p.managerRecords.playerTwo.totalPoints<=witness.managerTotals.playerTwo&&(!multi||multi.state.acceptedSeasons===p.acceptedSeasons)){p=null;multi=null;fromProgression=false;}
+        if((p&&(p.acceptedSeasons!==witness.completedSeason||p.totalSeasons!==witness.totalSeasons||p.managerRecords.playerOne.totalPoints!==witness.managerTotals.playerOne||p.managerRecords.playerTwo.totalPoints!==witness.managerTotals.playerTwo)))throw new Error("CLOSE_AUTHORITY_MISMATCH");
         classification="completed";
       }catch(_error){witness=null;classification="unavailable";}
     }else if(!pair||pair.initialized!==true||TRANSIENT.includes(pair.status))classification="loading";
