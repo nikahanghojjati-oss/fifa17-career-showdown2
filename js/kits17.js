@@ -188,6 +188,33 @@
       for(const c of [.25,.75]){g.fillStyle=s0;g.fillRect(X(c-.045),Y(.62),X(.09),H);
         g.fillStyle=k.trim;for(const e of [-.045,.045])g.fillRect(X(c+e)-Math.max(1,W/700),Y(.62),Math.max(2,W/350),H);}
     }
+    else if(k.pattern==="solid")solidDetail(g,W,H,k,X,Y);
+  }
+  // r94: a one-colour shirt reads as a plain template at 42-54 px, so every "solid" kit gets 2016-17-era detailing built only
+  // from its own colours: one tonal fabric (shadow stripes, trim pinstripes, a shoulder yoke or a hem fade), trim side panels
+  // that show from the front (u .31-.345 and .655-.69) and a double cuff. SOLID_DETAIL picks a club's fabric; any club not in it
+  // gets one from its name, so the choice never changes between screens or sessions. Correct a club here alone.
+  const SOLID_DETAIL={"Real Madrid":"pin","Bayern Munich":"shadow","Manchester United":"shadow","Chelsea":"yoke","Liverpool":"pin",
+    "Arsenal":"yoke","West Ham United":"yoke","Chievo":"yoke","Manchester City":"fade","Borussia Dortmund":"shadow","Tottenham Hotspur":"pin"};
+  function solidFabric(k){
+    if(SOLID_DETAIL[k.club])return SOLID_DETAIL[k.club];
+    let h=0;for(const ch of String(k.club||""))h=(h*31+ch.codePointAt(0))>>>0;
+    return ["shadow","pin","yoke","fade"][h%4];
+  }
+  function solidDetail(g,W,H,k,X,Y){
+    const fab=solidFabric(k),light=lum(k.body)>.55,tone=(t)=>shade(k.body,light?-t:t);
+    if(fab==="shadow"){g.fillStyle=tone(.07);const w=1/18;for(let i=-10;i<=10;i++)if(Math.abs(i)%2===1)g.fillRect(X(.5+i*w-w/2),0,X(w)+1,H);}
+    else if(fab==="pin"){g.fillStyle=k.trim;g.globalAlpha=.32;const w=1/26;for(let i=-14;i<=14;i++)g.fillRect(X(.5+i*w)-Math.max(1,W/1400),0,Math.max(1,W/700),H);g.globalAlpha=1;}
+    else if(fab==="yoke"){
+      for(const c of [.5,0,1]){g.fillStyle=tone(.14);g.beginPath();g.moveTo(X(c-.26),0);g.lineTo(X(c+.26),0);g.lineTo(X(c+.26),Y(.84));
+        g.quadraticCurveTo(X(c),Y(.76),X(c-.26),Y(.84));g.closePath();g.fill();
+        g.strokeStyle=k.trim;g.lineWidth=H*.012;g.beginPath();g.moveTo(X(c-.26),Y(.84));g.quadraticCurveTo(X(c),Y(.76),X(c+.26),Y(.84));g.stroke();}
+    }
+    else {const gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,"rgba(0,0,0,0)");gr.addColorStop(.45,"rgba(0,0,0,0)");gr.addColorStop(1,light?"rgba(0,0,0,.16)":"rgba(0,0,0,.26)");
+      g.fillStyle=gr;g.fillRect(0,0,W,H);g.fillStyle=tone(.06);for(let v=.04;v<.5;v+=.03)g.fillRect(0,Y(v),W,Math.max(1,H*.006));}
+    // Trim side panels from the armpit to the hem, edged in a darker body tone, on both sides of the front and the back.
+    for(const [a,b] of [[.31,.345],[.655,.69]]){g.fillStyle=k.trim;g.fillRect(X(a),Y(.66),X(b-a),H);
+      g.fillStyle=shade(k.body,-.3);for(const e of [a,b])g.fillRect(X(e)-Math.max(1,W/1400),Y(.66),Math.max(1,W/700),H);}
   }
   function sleeveColour(k,side){
     if(k.sleeves)return k.sleeves;
@@ -306,6 +333,8 @@
     else {g.fillStyle=k.body;g.fillRect(0,0,W,H);}
     // Cuff in the trim with a tonal rib, and a seam along the underside of the arm (u=0).
     g.fillStyle=k.trim;g.fillRect(0,H*.9,W,H*.1);g.fillStyle=shade(k.trim,lum(k.trim)>.5?-.2:.2);g.fillRect(0,H*.93,W,H*.012);
+    // r94: a solid kit's cuff is doubled (a second trim band above a fine body line), so its sleeve reads as designed.
+    if(k.pattern==="solid"&&!k.sleeves){g.fillStyle=k.trim;g.fillRect(0,H*.84,W,H*.035);}
     g.strokeStyle="rgba(0,0,0,.22)";g.lineWidth=Math.max(1,W/512);g.setLineDash([W/200,W/300]);g.beginPath();g.moveTo(1,0);g.lineTo(1,H);g.moveTo(W-1,0);g.lineTo(W-1,H);g.stroke();g.setLineDash([]);
     overlayKnit(g,W,H,.22,Math.max(1,W/512));
   }
