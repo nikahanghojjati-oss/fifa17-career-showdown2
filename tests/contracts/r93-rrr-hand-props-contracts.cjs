@@ -16,9 +16,10 @@
 //   B1 the real scene at 1920x866, 390x844 and 393x660 on Light: barrel within 1° of its angle and within 4 px of the board's centre, muzzle off the board, the
 //      sleeve's cut outside the frame from the raise to the exit (overshoot and recoil too), never the hand and the felt's revolver on screen together, recoil up; Light stays at 11 programs and one draw over 2.5.0 at rest (35 on the Chromebook, 36 on a phone)
 //   B2 the game's own view (?embed=1 in a full-window frame, set up by a parent message as js/rosterRouletteStep.js does) at 390x844 and 360x640, Light:
-//      the upright placement is in use, the glove is never under the caption from the take to the exit and is at least 100 px wide at the aim, the
-//      muzzle stays off the board; on a tall phone (390x844) the caption takes the hidden Spin button's room for the turn (R93-04, Nik 2026-11-15:
-//      a bigger phone glove) and goes back after it; on a short phone (360x640) it stays where it was
+//      the upright placement is in use, the glove is never under the caption from the take to the exit and is at least 140 px wide at the aim, the
+//      revolver (muzzle to glove) never under the caption either, the muzzle stays off the board; on a phone the caption takes the hidden Spin
+//      button's room for the turn (R93-04, Nik 2026-11-15: a bigger phone glove) and goes back after it, and the shooter's eye takes the wider lens
+//      (Nik 2026-11-15, "Yes, wider camera": x1.25 at 390x844, x1.55 at 360x640)
 //      and at 960x1035 (a Chromebook half screen, the bottom strip shows): plate S (HO-082, the sleeve from the side), the glove clear of the caption
 //      and the strip at every frame and at least 140 px wide, the sleeve's cut off the screen
 const assert=require('node:assert/strict');
@@ -108,9 +109,17 @@ ok('H5','upright windows: the glove clear of the status line and the bottom bar'
 
 ok('W1','the whisky set: one painted draw on every level, the crystal from High, no light');
 
-has(/@media \(max-width: 599px\) and \(orientation: portrait\) and \(min-height: 780px\) \{ body\.embed\.turning \.mid \{ bottom: calc\(env\(safe-area-inset-bottom, 0px\) \+ 42px\); \} body\.embed\.turning \.cta \{ position: absolute; visibility: hidden; opacity: 0; transition: none; \} \}/,'H6: on a tall upright phone in the game the caption takes the hidden Spin button\'s room for the turn');
+has(/@media \(max-width: 599px\) and \(orientation: portrait\) \{ body\.embed\.turning \.mid \{ bottom: calc\(env\(safe-area-inset-bottom, 0px\) \+ 42px\); \} body\.embed\.turning \.cta \{ position: absolute; visibility: hidden; opacity: 0; transition: none; \} \}/,'H6: on an upright phone in the game the caption takes the hidden Spin button\'s room for the turn');
 has(/function handKeepOuts\(\)\{ const W=innerWidth, H=innerHeight, key=[^;]*document\.body\.className; if\(key===handKeepKey\) return handKeep; handKeepKey=key;/,'H6: the glove\'s keep-outs are measured again when the caption moves (body class in the key)');
-ok('H6','on a tall upright phone in the game the caption drops into the Spin button\'s room for the turn, and the glove is placed against it there');
+ok('H6','on an upright phone in the game the caption drops into the Spin button\'s room for the turn, and the glove is placed against it there');
+
+has(/const povWide=\(\)=>PH&&innerWidth<600&&document\.body\.classList\.contains\("embed"\)\?\(innerHeight>=780\?\[1\.25,\.125\]:\[1\.55,\.25\]\):null;/,'H7: upright phones in the game only, x1.25 on a tall phone and x1.55 on a short one');
+has(/const wide=povWide\(\), lx=PH\?[^;]*ly=PH\?-\.12-\(wide\?wide\[1\]:0\)\+ty\*\.35:-\.16\+ty\*\.05;/,'H7: the shooter\'s eye looks a little lower on the board');
+has(/const povFov=PH\?44\*\(wide\?wide\[0\]:1\):34; p\.pov=povPos; p\.povLook=povLook; p\.povFov=povFov;/,'H7: through the wider lens (the glide in and the moves out ease to and from it as before)');
+has(/const quadHits=\(c,x0,y0,x1,y1\)=>\{/,'H7: the whole glove is tested against each keep-out (a thin caption can pass between its 16 points)');
+has(/for\(const g of \[A,Q\]\)\{ const c=\[g\[0\],g\[3\],g\[15\],g\[12\]\]; for\(const r of R\) if\(quadHits\(c,r\.x0-e,r\.y0-e,r\.x1\+e,r\.y1\+e\)\) return false; \}/,'H7: at the aimed and the kicked pose');
+has(/const lo=\.14\*fh, hi=\(povWide\(\)\?\.8:handFit\?handFit\[1\]:\.5\)\*fh, N=48;/,'H7: the hand\'s card may grow to the room the wider lens leaves');
+ok('H7','upright phones: the shooter\'s eye takes a slightly wider lens for the take and the aim, so the glove fits about 140 px or more');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){console.log(`PASS r93 RRR hand and props contracts: ${checks} checks (browser part skipped).`);return;}
@@ -193,30 +202,33 @@ ok('H6','on a tall upright phone in the game the caption drops into the Spin but
       for(let ti=0;ti<2;ti++){
         const before=await fr.evaluate(()=>document.getElementById('result').getBoundingClientRect().bottom);
         await fr.evaluate(()=>document.getElementById('cta').click());
-        turns.push(await fr.evaluate(before=>{ const t={before,during:null,ctaShown:false,clear:new Set(),covered:[],gw:null,mzOnBoard:false,shown:false,cutIn:[],plate:__rr.handPose.plate};
+        turns.push(await fr.evaluate(before=>{ const t={before,during:null,fov:null,gun:[],ctaShown:false,clear:new Set(),covered:[],gw:null,mzOnBoard:false,shown:false,cutIn:[],plate:__rr.handPose.plate};
           const strip=()=>{ const b=document.querySelector('.bottom'); if(!b||getComputedStyle(b).display==='none') return null; const r=b.getBoundingClientRect(); return r.width>0?r:null; };
           const capBox=()=>{ const e=document.getElementById('result'), rg=document.createRange(); rg.selectNodeContents(e); return rg.getBoundingClientRect(); };
           for(let i=0;i<800;i++){ __rr.advance(1/30,false); const st=__rr.state; if(!st.playing) break; const p=__rr.handPose, tt=st.tt;
             if(t.during===null&&tt>=1) t.during=document.getElementById('result').getBoundingClientRect().bottom;
             if(tt>=1&&getComputedStyle(document.getElementById('cta')).visibility!=='hidden') t.ctaShown=true;
-            if(p.hand&&p.glove&&!p.detached&&tt>=12.9){ t.shown=true; t.clear.add(p.clear); const c=capBox(), sb=strip(); for(const q of p.glove) if((q[0]>c.left&&q[0]<c.right&&q[1]>c.top&&q[1]<c.bottom)||(sb&&q[0]>sb.left&&q[0]<sb.right&&q[1]>sb.top&&q[1]<sb.bottom)){ t.covered.push(tt.toFixed(2)); break; }
+            if(p.hand&&p.glove&&!p.detached&&tt>=12.9){ t.shown=true; t.clear.add(p.clear); const c=capBox(), sb=strip(), g=p.glove, gc=[g[0],g[3],g[12],g[15]], pts=[]; for(let i=0;i<8;i++) for(let j=0;j<8;j++){ const a=i/7, b=j/7; pts.push([0,1].map(k=>(1-a)*(1-b)*gc[0][k]+(1-a)*b*gc[1][k]+a*(1-b)*gc[2][k]+a*b*gc[3][k])); } for(const q of pts) if((q[0]>c.left&&q[0]<c.right&&q[1]>c.top&&q[1]<c.bottom)||(sb&&q[0]>sb.left&&q[0]<sb.right&&q[1]>sb.top&&q[1]<sb.bottom)){ t.covered.push(tt.toFixed(2)); break; }
               { const cs=p.cut, pts=cs.concat(cs.slice(1).flatMap((k,i)=>[.25,.5,.75].map(f=>[cs[i][0]+(k[0]-cs[i][0])*f,cs[i][1]+(k[1]-cs[i][1])*f]))); for(const k of pts) if(k[0]>0&&k[0]<p.W&&k[1]>0&&k[1]<p.H&&!(sb&&k[0]>sb.left+4&&k[0]<sb.right-4&&k[1]>sb.top+4&&k[1]<sb.bottom-4)){ t.cutIn.push(tt.toFixed(2)); break; } }
-              if(t.gw===null&&tt>=14.95){ const xs=p.glove.map(q=>q[0]); t.gw=Math.max(...xs)-Math.min(...xs); }
+              if(t.gw===null&&tt>=14.95){ const xs=p.glove.map(q=>q[0]); t.gw=Math.max(...xs)-Math.min(...xs); t.fov=st.fov; }
+              { const gc=p.glove.reduce((o,q)=>[o[0]+q[0]/p.glove.length,o[1]+q[1]/p.glove.length],[0,0]); for(let f=0;f<=1.0001;f+=.1){ const x=p.muzzle[0]+(gc[0]-p.muzzle[0])*f, y=p.muzzle[1]+(gc[1]-p.muzzle[1])*f; if(x>c.left&&x<c.right&&y>c.top&&y<c.bottom){ t.gun.push(tt.toFixed(2)); break; } } }
               const b=p.board, m=p.muzzle; if(m[0]>b[0]&&m[0]<b[2]&&m[1]>b[1]&&m[1]<b[3]) t.mzOnBoard=true; } }
           __rr.advance(1,false); t.after=document.getElementById('result').getBoundingClientRect().bottom; t.clear=[...t.clear]; return t; },before)); }
       assert.deepEqual(errors,[],`no page errors in the game view at ${w}x${h}`);
-      const tall=h>=780&&w<600, strip=w>=900;
+      const phone=w<600, strip=w>=900, K=phone?(h>=780?1.25:1.55):1;
       for(const [i,t] of turns.entries()){ const tag=`game view ${w}x${h} turn ${i+1}`;
         assert.ok(t.shown,`${tag}: the hand shows`);
         assert.deepEqual(t.clear,[true],`${tag}: the upright placement that keeps the glove clear is in use`);
         assert.deepEqual(t.covered.slice(0,5),[],`${tag}: the glove is never under the caption${strip?' or the bottom strip':''}`);
+        assert.deepEqual(t.gun.slice(0,5),[],`${tag}: the revolver is never under the caption`);
         assert.deepEqual(t.cutIn.slice(0,5),[],`${tag}: the sleeve's cut stays off the screen`);
         assert.equal(t.plate,strip?'S':'P',`${tag}: plate ${strip?'S (sleeve from the side)':'P'}`);
-        assert.ok(t.gw>=(strip?140:100),`${tag}: the glove is ${Math.round(t.gw)} px wide at the aim (at least ${strip?140:100})`);
+        assert.ok(t.gw>=140,`${tag}: the glove is ${Math.round(t.gw)} px wide at the aim (at least 140)`);
+        if(phone) assert.ok(t.fov>44*K-3&&t.fov<44*K,`${tag}: the shooter's eye takes the wider lens (fov ${t.fov&&t.fov.toFixed(1)}, x${K})`);
         assert.equal(t.mzOnBoard,false,`${tag}: the muzzle stays off the board`);
-        if(tall){ assert.equal(t.ctaShown,false,`${tag}: the Spin button is gone at once (the caption stands in its room)`); assert.ok(t.during>=h-46&&t.during<=h-38,`${tag}: the caption stands in the Spin button's room (bottom ${t.during} px)`); assert.ok(Math.abs(t.after-t.before)<1,`${tag}: the caption goes back after the turn`); }
+        if(phone){ assert.equal(t.ctaShown,false,`${tag}: the Spin button is gone at once (the caption stands in its room)`); assert.ok(t.during>=h-46&&t.during<=h-38,`${tag}: the caption stands in the Spin button's room (bottom ${t.during} px)`); assert.ok(Math.abs(t.after-t.before)<1,`${tag}: the caption goes back after the turn`); }
         else assert.ok(Math.abs(t.during-t.before)<1,`${tag}: the caption stays where it was`); }
-      ok('B2',`game view ${w}x${h} Light, plate ${turns[0].plate}: glove ${turns.map(t=>Math.round(t.gw)).join('/')} px, clear of the caption${strip?' and the bottom strip':''} at every frame, caption ${tall?'in the Spin button\'s room for the turn':'where it was'}`);
+      ok('B2',`game view ${w}x${h} Light, plate ${turns[0].plate}: glove ${turns.map(t=>Math.round(t.gw)).join('/')} px, clear of the caption${strip?' and the bottom strip':''} at every frame, caption ${phone?'in the Spin button\'s room for the turn, lens x'+K:'where it was'}`);
       await context.close(); }
     console.log(`PASS r93 RRR hand and props contracts: ${checks} checks.`);
   }finally{ if(browser) await browser.close().catch(()=>{}); server.kill(); }
