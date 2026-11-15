@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-15 4:41 PM Boston time (EST)",
+ "generated": "2026-11-15 4:44 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 287,
+  "count": 288,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2586,6 +2586,15 @@
     "subject": "Roulette hand: side-entry plate rerun at 40 degrees",
     "reply": "no",
     "boston": "Sun 15 Nov 3:33 PM"
+   },
+   {
+    "time": "2026-11-15 21:43",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-084 RECEIVED",
+    "subject": "Pilot: 5 image-made crests + 1 master shirt",
+    "reply": "no",
+    "boston": "Sun 15 Nov 4:43 PM"
    }
   ],
   "g2v": {
@@ -2606,8 +2615,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "988781e",
-  "head_boston": "Sun 15 Nov 3:33 PM",
+  "head": "c71c187",
+  "head_boston": "Sun 15 Nov 4:43 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3437,7 +3446,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 11197
+    "waiting_min": 11199
    },
    {
     "id": "HO-059",
@@ -3763,6 +3772,19 @@
     "worker": "images",
     "pickup_min": 494,
     "waiting_min": null
+   },
+   {
+    "id": "HO-084",
+    "from": "G",
+    "to": "V",
+    "title": "Pilot: 5 image-made crests + 1 master shirt",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-084_pilot-5-image-made-crests-1-master-shirt.md",
+    "worker": "images",
+    "pickup_min": 0,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -3834,7 +3856,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
