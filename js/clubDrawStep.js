@@ -58,8 +58,9 @@
   // This setup's open operation (its first receipt; the binding hash where receipts are not shown) and its six candidates.
   function cdsSetupOp(setup){const r=setup&&Array.isArray(setup.receipts)&&setup.receipts[0];return String(r&&r.operationHash||setup&&setup.bindingHash||"");}
   function cdsPendingKey(ctx,setup){return `${String(ctx&&ctx.rivalryId||"")}|${String(ctx&&ctx.role||"")}|${cdsSetupOp(setup)}|${cdsDigest(setup)}`;}
-  // The stop counts as saved only once the device storage holds it (written and read back). An unsaved stop stays this
-  // phone's stop (STOP cannot be tapped again) but is never sent until it is saved: a closed tab must not redo it.
+  // The stop is kept in the device storage (written and read back) so a closed tab finds it. If storage refuses it, the stop
+  // stays in memory as this phone's only stop (STOP cannot be tapped again) and is still sent and resent while the screen is
+  // open: a playable game comes first; only a reload before Firebase accepts it is then unprotected (the ledger still wins).
   let memoryPending=null;
   function cdsWriteDurable(ctx,value){
     const store=cdsStore();if(!store||!ctx)return false;
@@ -72,11 +73,11 @@
     try{const value=JSON.parse(store.read(cdsSlot(ctx))||"null");if(value&&value.key===key&&cdsValidStop(value.stop)){memoryPending={key,stop:value.stop,saved:true};return value.stop;}}catch(_error){}
     return null;
   }
-  // The pending stop that may be sent: saved on the device (a failed save is tried again here), else null.
+  // The pending stop to send (and send again): a failed save is tried again here first; it is sent either way.
   function cdsSendable(ctx,setup){
     const stop=cdsPending(ctx,setup);if(stop===null)return null;
     if(!memoryPending.saved)memoryPending.saved=cdsWriteDurable(ctx,memoryPending);
-    return memoryPending.saved?stop:null;
+    return stop;
   }
   function cdsUnsaved(ctx,setup){return cdsPending(ctx,setup)!==null&&!memoryPending.saved;}
   function cdsSavePending(ctx,setup,stop){
@@ -208,13 +209,14 @@
     if(cdsStoredStops(setup)[ctx.role]!==null||cdsPending(ctx,setup)!==null)return false;
     return scene.canStop(me);
   }
-  // The tap: the stop, computed once and saved on this phone before anything is sent. null when STOP is not allowed now,
-  // and null when the device could not save it (it stays this phone's stop; sendable() tries the save again).
+  // The tap: the stop, computed once and saved on this phone before anything is sent (kept in memory if storage refuses
+  // it). null when STOP is not allowed now.
   function cdsTap(setup,ctx){
     if(!cdsCanStop(setup,ctx))return null;
     const me=ROLES.indexOf(ctx.role),stop=scene.tap(me);
     if(!cdsValidStop(stop))return null;
-    return cdsSavePending(ctx,setup,stop)?stop:null;
+    cdsSavePending(ctx,setup,stop);
+    return stop;
   }
   // Firebase holds this manager's stop (the reply of his confirm, or a re-read): the ball may rest on the stored one.
   function cdsAccepted(setup,ctx){

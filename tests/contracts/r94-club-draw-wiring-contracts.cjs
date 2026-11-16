@@ -12,7 +12,7 @@
 //      the club packs (mixed versions); the coordinator deals the candidates and locks the length by itself (still 6 writes)
 //   W6 shipped and offline: the step, the scene and the stylesheet are in the service worker; draw styles only apply in draw
 //      mode; no dimming; Team V's pack plate stays for old Setups and is off in draw mode
-//   W7 a stop the device storage could not save is never sent: it stays the phone's only stop and is sent once saved
+//   W7 a stop the device storage refused stays the phone's only stop in memory and is still sent; a stored stop wins when storage works
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -135,26 +135,27 @@ async function main(){
     assert.deepEqual(plain(c.calls.find(c2=>c2[0]==="restOn")),["restOn",0,45,{immediate:true}],"the rival's ball is at rest at once when the screen opens late");
     ok("W4","a reload with a saved stop keeps the own ball rolling toward it; a late screen shows the rival's stored stop at rest");
   }
-  // W7: the device storage is full (or refuses the write): the stop is fixed at the tap but never sent until it is saved.
+  // W7: the device storage is full (or refuses the write): the stop stays in memory as this phone's only stop and is still
+  // sent (a playable game comes first); a stop the storage holds is preferred whenever storage works.
   {
     const storage=fakeStorage();storage.full=true;
     const d=loadPage(storage);const setup=drawSetup();
     await d.step.prepare(setup,CTX);d.step.sync(setup,CTX);
-    assert.equal(d.step.tap(setup,CTX),null,"a stop the device could not save is not handed out to be sent");
-    assert.equal(d.step.pending(CTX,setup),137,"it is still this phone's stop");
-    assert.equal(d.step.unsaved(CTX,setup),true,"and it is marked as not saved");
+    assert.equal(d.step.tap(setup,CTX),137,"a stop storage refused is still handed out to be sent");
+    assert.equal(d.step.pending(CTX,setup),137,"it is this phone's stop");
+    assert.equal(d.step.unsaved(CTX,setup),true,"marked as not saved, so the screen can say so");
     assert.equal(d.step.canStop(setup,CTX),false,"STOP cannot be tapped again");
     assert.equal(d.step.tap(setup,CTX),null,"no second draw");
-    assert.equal(d.step.sendable(CTX,setup),null,"nothing to send while the save keeps failing");
+    assert.equal(d.step.sendable(CTX,setup),137,"the resend sends the same stop from memory while the save keeps failing");
     assert.equal(d.calls.filter(c=>c[0]==="tap").length,1,"one stop only");
     const SLOT=`${d.step.PENDING_KEY}:pair_test:playerTwo`;
     assert.equal(storage.getItem(SLOT),null,"nothing reached the device storage");
     storage.full=false;
-    assert.equal(d.step.sendable(CTX,setup),137,"once the save works the same stop may be sent");
+    assert.equal(d.step.sendable(CTX,setup),137,"once storage works the same stop is saved on the next resend");
     assert.equal(d.step.unsaved(CTX,setup),false);
     assert.equal(JSON.parse(storage.getItem(SLOT)).stop,137,"and it is on the device, so a closed tab finds it");
-    assert.equal(loadPage(storage).step.pending(CTX,setup),137,"a reopened tab sees the same stop");
-    ok("W7","a stop the device could not save is never sent: it stays this phone's only stop and is sent once the save succeeds");
+    assert.equal(loadPage(storage).step.pending(CTX,setup),137,"a reopened tab prefers the stored stop");
+    ok("W7","a stop storage refused stays this phone's only stop in memory and is still sent and resent; once storage works it is saved and a reopened tab prefers it");
   }
   // W5 ------------------------------------------------------------------------------------------------------------------
   {
@@ -162,7 +163,7 @@ async function main(){
     const confirms=[...PRES_SRC.matchAll(/ssjpMutate\("confirm"(,[^)]*)?\)/g)].map(m=>m[0]);
     assert.deepEqual(confirms.filter(x=>x.includes("stop")),['ssjpMutate("confirm",{stop:sendable})','ssjpMutate("confirm",{stop})'],"a stop is sent only as the saved stop (resend) or the tapped/saved one (STOP)");
     assert.match(PRES_SRC,/let stop=drawStep\.pending\(ctx,setup\)===null\?drawStep\.tap\(setup,ctx\):drawStep\.sendable\(ctx,setup\);/,"STOP sends the saved stop first, a new tap only when none is pending");
-    assert.match(PRES_SRC,/const sendable=drawStep\.sendable\(ctx,setup\);if\(sendable!==null\)void ssjpMutate\("confirm",\{stop:sendable\}\)/,"the resend sends only a stop saved on the device");
+    assert.match(PRES_SRC,/const sendable=drawStep\.sendable\(ctx,setup\);if\(sendable!==null\)void ssjpMutate\("confirm",\{stop:sendable\}\)/,"the resend sends the pending stop (saved on the device, or from memory when storage refused it)");
     assert.match(PRES_SRC,/if\(id==="continueClubAssignment"&&ssjpIsDraw\(state\.setup\)\)return ssjpDecideDraw\(\);/,"the draw's button is STOP");
     assert.match(PRES_SRC,/if\(ssjpIsDraw\(setup\)\)return ssjpRenderDraw\(setup,screen,open\);/,"only a draw 2 Setup shows the draw; an old-shape Setup keeps the club packs");
     assert.match(PRES_SRC,/function ssjpIsDraw\(setup\)\{return Boolean\(setup&&typeof setup==="object"&&Object\.hasOwn\(setup,"stops"\)\);\}/,"draw 2 is the ledger key stops, as in the protocol");

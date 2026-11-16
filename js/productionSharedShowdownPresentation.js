@@ -282,7 +282,7 @@
     if(role&&stored[role]!==null)drawStep.accepted(setup,ctx);
     // A stop saved on this phone that Firebase does not hold yet (the reply was lost, the page reloaded): the same stop is
     // sent again, never a new one.
-    // A stop the device could not save yet is never sent: the save is tried again on the next render.
+    // A stop storage refused is still sent (kept in memory); its save is tried again on each resend.
     const saved=role?drawStep.pending(ctx,setup):null;
     if(saved!==null&&stored[role]===null&&setup.phase==="SEASON_LENGTH_COMMITTED"&&ssjpSeasonMatchesPrepared(setup)&&!busy&&!actionPromise&&Date.now()>=drawResendAt){drawResendAt=Date.now()+POLL_MS;const sendable=drawStep.sendable(ctx,setup);if(sendable!==null)void ssjpMutate("confirm",{stop:sendable}).then(ok=>{if(ok&&state?.setup)drawStep.accepted(state.setup,ssjpDrawContext());});}
     const unsaved=Boolean(role&&stored[role]===null&&drawStep.unsaved(ctx,setup));
@@ -297,7 +297,7 @@
     const mine=Boolean(role&&(stored[role]!==null||saved!==null)),theirs=Boolean(role&&stored[role==="playerOne"?"playerTwo":"playerOne"]!==null);
     if(setup.phase==="SHOWDOWN_CONFIRMED"){ssjpSetSharedStatus(state?.ready!==true?"CONNECTION NEEDED · Reconnect both players before Career Start.":clubRevealComplete?"SETUP COMPLETE · Both balls have stopped.":"BOTH STOPPED · Watch the balls come to rest.");ssjpMaybeAutoOpenCareerStart(setup);}
     else if(setup.phase==="SEASON_LENGTH_COMMITTED"&&!ssjpSeasonMatchesPrepared(setup))ssjpSetSharedStatus("This Showdown's season count does not match. Use Showdown recovery before you stop your ball.");
-    else if(unsaved)ssjpSetSharedStatus("YOUR STOP IS NOT KEPT YET · Storage is full. Free some space; it tries again by itself and is sent once kept.");
+    else if(unsaved)ssjpSetSharedStatus("YOUR STOP COULD NOT BE SAVED · Keep this screen open until it lands.");
     else if(mine)ssjpSetSharedStatus(theirs?"BOTH STOPPED · Locking both clubs.":`YOUR BALL IS STOPPING · Waiting for ${ssjpRivalName()} to stop.`);
     else ssjpSetSharedStatus(drawStep.canStop(setup,ctx)?"CLUB DRAW · Tap STOP. Where your ball rests is your club.":theirs?`${ssjpRivalName().toUpperCase()} HAS STOPPED · Your ball is next.`:"CLUB DRAW · Read your three clubs.");
     return true;
