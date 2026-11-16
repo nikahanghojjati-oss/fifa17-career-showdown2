@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 11:59 PM Boston time (EST)",
+ "generated": "2026-11-16 12:03 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 289,
@@ -2658,18 +2658,7 @@
    "when": "2026-11-15T23:36:52-05:00",
    "subject": "Merge pull request #1493 from nikahanghojjati-oss/gameplay/r93",
    "fixes": [],
-   "today": [
-    {
-     "pr": 1493,
-     "title": "Release 2.6.0 (r93): Golden Showdown, filmed roulette hand, Rules budget sweep",
-     "merged": "2026-11-16T04:36:53Z"
-    },
-    {
-     "pr": 1477,
-     "title": "Release 2.5.1 (r92 hotfix): LOCK MY SIGNINGS with names picked from the list",
-     "merged": "2026-11-15T09:47:27Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "clear",
@@ -3460,7 +3449,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 11635
+    "waiting_min": 11639
    },
    {
     "id": "HO-059",
