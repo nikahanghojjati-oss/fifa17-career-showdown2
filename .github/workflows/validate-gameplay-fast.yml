@@ -56,7 +56,7 @@ jobs:
           node scripts/build-production-firestore-rules-with-persistent-pair.mjs
           node scripts/assert-firestore-zero-billing-boundary.mjs
       - name: Shared Setup provider matrix
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-setup "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-setup "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs && node tests/firebase/r94-club-draw-rules-emulator.cjs"
       - name: Transfer fresh-session recovery
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-transfer "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs && node tests/firebase/transfer-lock-budget-emulator.cjs"
       - name: Gameplay lifecycle (1 and 3 seasons)

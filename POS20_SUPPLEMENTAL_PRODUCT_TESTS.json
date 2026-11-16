@@ -3363,6 +3363,19 @@
         "^tests/contracts/r93\\-loan\\-records\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r94-club-draw-protocol-contracts.cjs",
+      "patterns": [
+        "^js/(sharedShowdownSetup|sparkSharedShowdownSetup|sparkCompletedShowdownReader|sparkSharedSeasonCommit|sparkSharedSeasonResults)\\.js$",
+        "^js/sharedShowdownCatalog\\.js$",
+        "^firestore\\.shared\\-setup\\-production\\.fragment\\.rules$",
+        "^tests/fixtures/club\\-draw\\-golden/",
+        "^tests/fixtures/saved\\-showdowns",
+        "^tests/firebase/r94\\-club\\-draw\\-rules\\-emulator\\.cjs$",
+        "^tests/contracts/r94\\-club\\-draw\\-protocol\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

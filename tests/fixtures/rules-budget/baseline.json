@@ -60,7 +60,7 @@
       "used": 776
     },
     "update rivalries/*/sharedSetup/authoritative [SHOWDOWN_CONFIRMED] {confirm}": {
-      "used": 733
+      "used": 811
     },
     "update rivalries/*/primePackRounds/season_N": {
       "used": 727
@@ -84,22 +84,22 @@
       "used": 708
     },
     "update rivalries/*/sharedSetup/authoritative [SEASON_LENGTH_COMMITTED] {confirm}": {
-      "used": 702
+      "used": 761
     },
     "update rivalries/*/transferChallenges/season_N [GUESS_ENTRY] {request-end-window}": {
       "used": 693
     },
     "update rivalries/*/sharedSetup/authoritative [SEASON_LENGTH_COMMITTED] {commit-length}": {
-      "used": 689
+      "used": 717
     },
     "update rivalries/*/transferChallenges/season_N [WINDOW_OPEN] {request-end-window}": {
       "used": 683
     },
     "update rivalries/*/sharedSetup/authoritative [LEAGUE_WHEEL_COMMITTED] {commit-league}": {
-      "used": 680
+      "used": 708
     },
     "update rivalries/*/sharedSetup/authoritative [CLUB_ASSIGNMENTS_COMMITTED] {commit-clubs}": {
-      "used": 680
+      "used": 708
     },
     "create rivalries/*/sharedSetup/*": {
       "used": 674
@@ -120,7 +120,7 @@
       "used": 612
     },
     "create rivalries/*/sharedSetup/authoritative [SHARED_SETUP_OPEN] {open}": {
-      "used": 606
+      "used": 618
     },
     "create rivalries/*/primePackRounds/season_N": {
       "used": 565
