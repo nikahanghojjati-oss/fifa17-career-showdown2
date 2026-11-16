@@ -515,7 +515,7 @@
         if(pending&&(reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;b.own=true;b.accepted=false;b.pick=sectionOf(stop);b.lit=[1,1,1];b.state="still-pending";emit("state",b);return true;}
         if(!pending&&(o&&o.immediate||reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;placeAtRest(b);return true;}
         if(b.state==="spin"){b.stop=stop;b.accepted=!pending;b.own=false;startStop(b);return true;}
-        if(["stopping","await","settle"].includes(b.state)){if(!pending)api.accept(i,stop);return true;}
+        if(["stopping","await","settle","landed"].includes(b.state)){if(!pending)api.accept(i,stop);return true;} // landed on another stop: accept() rests it on the stored one
         b.queued=stop;b.queuedPending=pending;return true; // rest, show or kick: it slows once it reaches full speed
       },
       on(fn){listeners.add(fn);return ()=>listeners.delete(fn);},
