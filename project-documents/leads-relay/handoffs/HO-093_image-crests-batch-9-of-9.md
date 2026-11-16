@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": "HO-084",
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-16T00:12:03Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T00:22:20Z", "by": "V", "status": "RECEIVED", "note": "Team V crest thread: Astra prompts written, Nik runs batch by batch, V cuts/exports/SHA"}],
+ "evidence": ["claude/project-thread-vraiao 78ca16060 project-documents/hc-art/ho093/"],
+ "log": [{"at": "2026-11-16T00:12:03Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T00:22:20Z", "by": "V", "status": "RECEIVED", "note": "Team V crest thread: Astra prompts written, Nik runs batch by batch, V cuts/exports/SHA"}, {"at": "2026-11-16T03:16:22Z", "by": "V", "status": "DONE", "note": "Batch 9 crests (Fiorentina, Crotone, Verona, Sampdoria, Osasuna, Angers, Bordeaux, Guingamp, Nancy, Rennes, Saint-Etienne, Toulouse) cut + exported 1024/256/64, Nik OK 15 Nov 10:16 p.m. Eastern. All 93 batch crests done."}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
  "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q69SMxmTLTsTtZTkeB"}
 }
