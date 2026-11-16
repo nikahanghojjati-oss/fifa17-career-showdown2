@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 7:09 PM Boston time (EST)",
+ "generated": "2026-11-15 7:10 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 289,
@@ -3455,7 +3455,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 11345
+    "waiting_min": 11346
    },
    {
     "id": "HO-059",
@@ -3806,7 +3806,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-085_image-crests-batch-1-of-10-man-utd-liver.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 2
    }
   ],
   "relay_ok": true
