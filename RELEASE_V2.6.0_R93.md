@@ -8,8 +8,8 @@ r93 is 2.6.0. Nik asked on 14 November for the Golden Showdown to show up proper
 look made by a prompt, and later for a roulette hand that looks filmed, with a whisky glass on the table. Four Fable bug
 hunts ran on the branch; their one P1 shipped early as 2.5.1. The rules of a Showdown did not change. This file is the
 release record. The list below is every pull request merged into gameplay/r93 since 2.5.0 went live (main 36b648ad):
-#1465 to #1491 except the r94 drafts #1487, #1489 and #1492; #1490 is the version bump; #1477 is the 2.5.1 hotfix into main and #1480 its back-merge; #1485 is this
-release's items. Up to gameplay/r93 94d9df7a.
+#1465 to #1495 except the r94 drafts #1487, #1489 and #1492 and the release PR #1493; #1490 is the version bump; #1477 is the 2.5.1 hotfix into main and #1480 its back-merge; #1485 is this
+release's items. Up to gameplay/r93 010dfd37.
 
 ## What changed
 
@@ -42,6 +42,7 @@ release's items. Up to gameplay/r93 94d9df7a.
   windows; the caption in the Spin button's room on upright phones; a wider lens on upright phones during the take and
   the aim. Whisky glass on every level: Light one painted draw (rest 34 draws at 1920x866, 36 on phones, 11 programs),
   High and up a reflection-only crystal.
+  Tall desktop windows with the side hand (aspect under 1.15, such as a 960x1035 half screen) take a gentle x1.2 camera reframe so the glove reads large: about 189 to 272 px across, up from 133 to 205 (#1491).
 - **LOCK MY SIGNINGS** (#1476, also shipped as 2.5.1, #1477): see RELEASE_V2.5.1_R92.md.
 - **Rules budget sweep** (#1482). `tests/firebase/rules-budget-sweep-emulator.cjs` replays every play write (45 kinds) on
   padded copies of the composed production Rules; L5 step `budget_sweep`. Bar: no refusal, at most 850 unless listed
@@ -52,10 +53,18 @@ release's items. Up to gameplay/r93 94d9df7a.
   drops a stale running projection behind a closed, verified witness, so the views equal an app reopen.
 - **Transfer War verdicts after an app reopen** (#1484, hunt O1). VIEW TRANSFER VERDICTS is offered first until the
   verdicts were seen. No reads or writes added.
+- **Two signings with the same name** (#1494, Astra A-TW-01, live in 2.5.1 too). Two different players who share a
+  name now stay two squad entries: a later namesake gets his own id (`s|name#pid`), shots and verdicts follow the right
+  man, and old saves read as before. No Rules change, no read or write added.
+- **Repeated loans** (#1495, Sol S-SQ-01). A player loaned out and back many times kept one departure record per loan,
+  so a fair squad could reach the Rules' 100-departure cap and LOCK was refused. Earlier finished loans of the same
+  player are now folded into his latest record before the write. A LOCK that is still too big or refused says so in
+  plain words instead of "session expired". No Rules change, no read or write added.
 - **Story**: Volume 21, "The gold and the glove" (chapters 190 to 194), and a Listen button in the book (#1488,
   chronicle/read-aloud.js): every Story page with prose read aloud, paragraph by paragraph, in one of up to three of the
   device's own voices (speechSynthesis, no server). The Story is its own site, outside the
-  game's shell. Tall desktop windows with the side hand (aspect under 1.15, such as a 960x1035 half screen) take a gentle x1.2 camera reframe so the glove reads large: about 189 to 272 px across, up from 133 to 205 (#1491).
+  game's shell. Read-aloud scrolls without animation when the device asks for reduced motion
+  (gameplay/r93 d432dc07, Codex).
 
 ## Firestore Rules
 
