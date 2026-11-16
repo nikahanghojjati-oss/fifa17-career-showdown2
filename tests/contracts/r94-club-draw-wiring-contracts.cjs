@@ -199,6 +199,17 @@ async function main(){
     assert.match(CSS_SRC,/--bevel-gold: linear-gradient\(135deg, #FFF1B8 0%, #E8B94A 16%, #8A6A12 38%, #F2C45B 58%, #FFF1B8 74%, #B8862A 100%\)/,"Home's gold bevel, same name and value as #mainMenu.v10Home");
     assert.match(block('#clubWheelScreen[data-club-draw="spin"] .clubRevealCard {\n'),/border-image:\s*var\(--bevel-gold\)/,"the manager boxes are Home tiles");
     assert.match(CSS_SRC,/ENV_SLAB_HC_V1_1X\.webp/,"the page is the house marble");
+    // Nik 22:55-22:57: no boxed "CLUB DRAW" bar and no routine lines; a real note is plain text under STOP. The page has a
+    // plate slot for Team V's hero-free Club lounge (empty until it lands), placed per size.
+    assert.equal(/CLUB DRAW · Tap STOP|CLUB DRAW · Read your three clubs|CLUB DRAW · THREE CLUBS ON EACH BALL/.test(PRES_SRC),false,"the routine draw lines are gone");
+    assert.match(PRES_SRC,/function ssjpPlaceDrawStatus\(screen\)\{[^}]*shell\.insertBefore\(node,back\)/,"a real note sits in the shell, right above BACK (under STOP)");
+    assert.match(PRES_SRC,/else if\(unsaved\)ssjpSetSharedStatus\("YOUR STOP COULD NOT BE SAVED · Keep this screen open until it lands\."\)/,"the could-not-save note still shows");
+    const note=block('#clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus {\n');
+    for(const want of [/grid-area:\s*note/,/background:\s*none/,/border:\s*0/,/box-shadow:\s*none/])assert.match(note,want,`plain note: ${want}`);
+    for(const want of [/--cd-plate: none;/,/--cd-plate-phone: none;/,/--cd-plate-pos:/,/background-image: var\(--cd-lounge\), var\(--cd-plate\), var\(--cd-slab\)/])assert.match(CSS_SRC,want,`plate slot: ${want}`);
+    // Gallery 23:06: on sideways phones the title sits over the pitch only and the right column starts at the top, with a
+    // tighter tier for the shortest phones, so Nik's tile is never cut (740x360, 844x390, 568x320 checked with a note showing).
+    for(const want of [/--cd-col: clamp\(170px, 29vw, 260px\); --cd-title-h: 26px;/,/margin: 0 calc\(var\(--cd-col\) \+ 10px\) 0 0;/,/margin-top: calc\(0px - var\(--cd-title-h\)\);/,/@media \(orientation: landscape\) and \(max-height: 340px\)/])assert.match(CSS_SRC,want,`sideways fit: ${want}`);
     assert.equal(/cyan|#00[a-f0-9]{4}\b|blue/i.test(CSS_SRC.replace(/\/\*[\s\S]*?\*\//g,"")),false,"nothing blue in draw mode");
     assert.match(V10_SRC,/section\.dataset\.clubDraw==="spin"\)return false;/,"Team V's pack plate is off in draw mode (CL1-CL6 kept for old Setups)");
     ok("W6","the step, scene and stylesheet are offline; draw styles only in draw mode; no dimming; the pack plate stays for old Setups");

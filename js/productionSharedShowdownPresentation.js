@@ -125,7 +125,7 @@
   }
   function ssjpSetSharedStatus(message){
     let node=root.document&&root.document.getElementById(STATUS_ID);const screen=root.document&&root.document.getElementById(ssjpActiveScreen());if(!screen)return;
-    if(!node){node=root.document.createElement("p");node.id=STATUS_ID;node.className="stateNote";node.setAttribute("role","status");node.setAttribute("aria-live","polite");const container=screen.querySelector(".wheelContainer")||screen.querySelector(".clubAssignmentStage")||screen;container.insertBefore(node,container.firstChild);}if(tapFailure&&tapFailureSignature!==ssjpStateSignature()){tapFailure="";tapFailureCode="";tapFailureSignature="";}ssjpText(node,tapFailure?`${tapFailure}${tapFailureCode?` · Ref ${ssjpFailureRef(tapFailureCode)}`:""} · ${message}`:message);if(tapFailure&&tapFailureCode)node.setAttribute("data-failure-code",tapFailureCode);else node.removeAttribute("data-failure-code");
+    if(!node){node=root.document.createElement("p");node.id=STATUS_ID;node.className="stateNote";node.setAttribute("role","status");node.setAttribute("aria-live","polite");const container=screen.querySelector(".wheelContainer")||screen.querySelector(".clubAssignmentStage")||screen;container.insertBefore(node,container.firstChild);}if(tapFailure&&tapFailureSignature!==ssjpStateSignature()){tapFailure="";tapFailureCode="";tapFailureSignature="";}ssjpText(node,tapFailure?`${tapFailure}${tapFailureCode?` · Ref ${ssjpFailureRef(tapFailureCode)}`:""}${message?` · ${message}`:""}`:message);if(tapFailure&&tapFailureCode)node.setAttribute("data-failure-code",tapFailureCode);else node.removeAttribute("data-failure-code");
   }
   function ssjpRemoveForeignStatus(){const node=root.document&&root.document.getElementById(STATUS_ID);if(node&&node.closest(`#${ssjpActiveScreen()}`)==null)node.remove();}
   function ssjpSetControl(button,{label,disabled=false,hidden=false}={}){if(!button)return;if(workingControlId&&button.id===workingControlId&&!hidden){label="WORKING…";disabled=true;}button.disabled=Boolean(disabled);button.classList.toggle("hidden",Boolean(hidden));button.setAttribute("aria-disabled",String(Boolean(disabled)));if(label)ssjpText(button,label);delete button.dataset.sharedJourneyLocked;button.removeAttribute("title");}
@@ -272,9 +272,10 @@
     if(!drawStep||!ssjpDrawReady(setup)){
       clubRevealComplete=false;ssjpDrawPrepare(setup);
       for(const which of [1,2])ssjpSealCard(which);if(confirmation)confirmation.classList.add("hidden");
-      ssjpText(root.document.getElementById("clubPackStatus"),"CLUB DRAW · THREE CLUBS ON EACH BALL");
+      ssjpText(root.document.getElementById("clubPackStatus"),"");
       ssjpSetControl(button,{label:"STOP",disabled:true,hidden:false});
-      ssjpSetSharedStatus(ssjpPhaseAtLeast("CLUB_ASSIGNMENTS_COMMITTED")?"CLUB DRAW · Getting both balls ready.":`CLUB DRAW · Waiting for ${ssjpHostName()}'s device to deal the clubs.`);
+      ssjpSetSharedStatus(ssjpPhaseAtLeast("CLUB_ASSIGNMENTS_COMMITTED")?"Getting both balls ready.":`Waiting for ${ssjpHostName()}'s device to deal the clubs.`);
+      ssjpPlaceDrawStatus(screen);
       return true;
     }
     const ctx=ssjpDrawContext(),stored=drawStep.storedStops(setup);
@@ -292,15 +293,22 @@
     }
     clubRevealComplete=setup.phase==="SHOWDOWN_CONFIRMED"&&drawStep.bothLanded();
     if(clubRevealComplete){screen.dataset.sharedClubPacksWitnessed=ssjpClubDigest(setup)||"true";ssjpFillConfirmation(setup);}else if(confirmation)confirmation.classList.add("hidden");
-    ssjpText(root.document.getElementById("clubPackStatus"),clubRevealComplete?"BOTH BALLS STOPPED · CLUBS LOCKED":"CLUB DRAW · THREE CLUBS ON EACH BALL");
+    ssjpText(root.document.getElementById("clubPackStatus"),clubRevealComplete?"BOTH BALLS STOPPED · CLUBS LOCKED":"");
     ssjpRenderDrawButton(setup,button,role);
     const mine=Boolean(role&&(stored[role]!==null||saved!==null)),theirs=Boolean(role&&stored[role==="playerOne"?"playerTwo":"playerOne"]!==null);
     if(setup.phase==="SHOWDOWN_CONFIRMED"){ssjpSetSharedStatus(state?.ready!==true?"CONNECTION NEEDED · Reconnect both players before Career Start.":clubRevealComplete?"SETUP COMPLETE · Both balls have stopped.":"BOTH STOPPED · Watch the balls come to rest.");ssjpMaybeAutoOpenCareerStart(setup);}
     else if(setup.phase==="SEASON_LENGTH_COMMITTED"&&!ssjpSeasonMatchesPrepared(setup))ssjpSetSharedStatus("This Showdown's season count does not match. Use Showdown recovery before you stop your ball.");
     else if(unsaved)ssjpSetSharedStatus("YOUR STOP COULD NOT BE SAVED · Keep this screen open until it lands.");
     else if(mine)ssjpSetSharedStatus(theirs?"BOTH STOPPED · Locking both clubs.":`YOUR BALL IS STOPPING · Waiting for ${ssjpRivalName()} to stop.`);
-    else ssjpSetSharedStatus(drawStep.canStop(setup,ctx)?"CLUB DRAW · Tap STOP. Where your ball rests is your club.":theirs?`${ssjpRivalName().toUpperCase()} HAS STOPPED · Your ball is next.`:"CLUB DRAW · Read your three clubs.");
+    else ssjpSetSharedStatus(theirs&&!drawStep.canStop(setup,ctx)?`${ssjpRivalName().toUpperCase()} HAS STOPPED · Your ball is next.`:"");
+    ssjpPlaceDrawStatus(screen);
     return true;
+  }
+  // r94 gallery (Nik 22:55): no boxed "CLUB DRAW" bar over the draw. The routine lines are gone (STOP and the balls say it);
+  // a real note (waiting, saving, could not save, a refused tap, reconnect) shows as plain text right under STOP.
+  function ssjpPlaceDrawStatus(screen){
+    const node=root.document.getElementById(STATUS_ID),shell=screen&&screen.querySelector(".clubAssignmentShell"),back=root.document.getElementById("clubAssignmentBack");
+    if(node&&shell&&back&&back.parentNode===shell&&node.nextSibling!==back)shell.insertBefore(node,back);
   }
   function ssjpRenderDrawButton(setup,button,role){
     if(!button)return;

@@ -134,8 +134,13 @@ let passed=0;const pass=msg=>{passed+=1;process.stdout.write(`PASS ${msg}\n`);};
     assert.ok(K.deltaE(l.pent,l.body)>=18,`${club}: pentagons stand apart from the body`);}
   for(const [league,clubs] of Object.entries(catalog))for(let i=0;i<clubs.length;i+=1)for(let j=i+1;j<clubs.length;j+=1)
     assert.ok(M.looksApart(M.ballLook(K,clubs[i]),M.ballLook(K,clubs[j]),K.deltaE),`${league}: ${clubs[i]} and ${clubs[j]} would look alike`);
-  const reds=["Arsenal","Liverpool","Manchester United","Southampton","Sunderland","Middlesbrough","Bournemouth","Stoke City"].map(c=>M.ballLook(K,c));
-  assert.equal(new Set(reds.map(l=>`${l.pattern}/${l.fabric}/${l.n}`)).size>=7,true,"the Premier League reds wear different patterns");
+  // Gallery 23:06: plain shirts of one colour (Liverpool, United, Arsenal; the white and blue groups) must differ in at least
+  // two big cues each: fabric, pentagons, shorts, sleeves.
+  const cues=(a,b)=>[a.fabric!==b.fabric,K.deltaE(a.pent,b.pent)>25,Boolean(a.shorts)!==Boolean(b.shorts)||Boolean(a.shorts&&K.deltaE(a.shorts,b.shorts)>25),
+    Boolean(a.sleeves)!==Boolean(b.sleeves)||Boolean(a.sleeves&&K.deltaE(a.sleeves,b.sleeves)>25)].filter(Boolean).length;
+  for(const [league,clubs] of Object.entries(catalog)){const plain=clubs.map(c=>[c,M.ballLook(K,c)]).filter(([,l])=>l.pattern==="solid");
+    for(let i=0;i<plain.length;i+=1)for(let j=i+1;j<plain.length;j+=1)if(K.deltaE(plain[i][1].body,plain[j][1].body)<25)
+      assert.ok(cues(plain[i][1],plain[j][1])>=2,`${league}: ${plain[i][0]} and ${plain[j][0]} need two big cues apart`);}
   for(const name of Object.keys(M.BALL_VARIANT))assert.ok(all.includes(name),`ball variant ${name} is a club`);
   const SRC=read("js/clubDrawScene3d.js");
   assert.match(SRC,/vec3 kitAt\(float u,float sv,float lat,/,"the kit is drawn in the ball shader");
