@@ -294,7 +294,7 @@
       const m=mat(new T.ShaderMaterial({uniforms:u,vertexShader:BALL_VS,fragmentShader:BALL_FS,defines:ballDefines}));
       const mesh=new T.Mesh(sphere,m);mesh.rotation.order="YXZ";const tilt=new T.Group();tilt.add(mesh);scene.add(tilt);
       return {i:idx,clubs:b.clubs,u,mesh,tilt,pos:new T.Vector3(),r:1,f:idx?215:35,state:"idle",t:0,lit:[0,0,0],
-        stop:null,pick:-1,accepted:false,plan:null,planF0:0,restA:0,queued:null,seamPrev:0,land:0,w:0,y:0,vy:0,sq:0,sqT:9,wp:idx*2.4,wr:0,ox:0,oz:0,oEx:0,oEz:0,yaw:0};
+        stop:null,pick:-1,accepted:false,plan:null,planF0:0,restA:0,queued:null,queuedPending:false,seamPrev:0,land:0,w:0,y:0,vy:0,sq:0,sqT:9,wp:idx*2.4,wr:0,ox:0,oz:0,oEx:0,oEz:0,yaw:0};
     });
 
     const pitchU={s0:{value:new T.Vector3()},s1:{value:new T.Vector3()},b0:{value:new T.Vector3()},b1:{value:new T.Vector3()},own:{value:me},glow0:{value:0},glow1:{value:0},g0:{value:new T.Vector3()},g1:{value:new T.Vector3()},d0:{value:new T.Vector2(0,1)},d1:{value:new T.Vector2(0,1)},camP:{value:new T.Vector3()}};
@@ -345,7 +345,8 @@
     // ---- layout: computers Daniel left and Nik right (opts.balls order); a phone upright shows the own ball big in front ----
     const size={w:0,h:0};let layoutKey="",wide=true;
     function layout(){
-      const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;size.w=w;size.h=h;
+      // A host still hidden (the scene is built behind the league reveal) is laid out at the size it is expected to have.
+      const hint=typeof opts.size==="function"?opts.size():null,w=host.clientWidth||Math.round(hint&&hint.w||0),h=host.clientHeight||Math.round(hint&&hint.h||0);if(!w||!h)return;size.w=w;size.h=h;
       renderer.setSize(w,h,false);cam.aspect=w/h;const a=w/h;wide=a>=1.25;
       if(wide){cam.fov=Math.min(40,Math.max(22,2*Math.atan(.60/a)*180/Math.PI));cam.position.set(0,2.05,8.9);cam.lookAt(0,1.12,0);const sx=Math.min(2.9,1.5+a*.5);balls[0].pos.set(-sx,1,0);balls[1].pos.set(sx,1,0);balls[0].r=balls[1].r=1;}
       else{cam.fov=44;cam.position.set(0,3.3,8.6);cam.lookAt(0,1.25,-3);const o=balls[me],r=balls[1-me];o.pos.set(0,1,2.2);o.r=1;r.pos.set(me?-1.3:1.3,.7,-9);r.r=.7;}
@@ -398,7 +399,7 @@
         if(k2>=1&&b.y===0&&b.vy===0)setBallState(b,"spin");
       }else if(b.state==="spin"){
         w=PHYS.W_FAST-36*(1-Math.exp(-b.t/5));b.f+=w*dt;
-        if(b.queued!==null&&b.t>.6){b.stop=b.queued;b.queued=null;b.accepted=true;b.w=w;startStop(b);}
+        if(b.queued!==null&&b.t>.6){b.stop=b.queued;b.accepted=!b.queuedPending;b.queued=null;b.queuedPending=false;b.w=w;startStop(b);}
       }else if(b.state==="stopping"){
         const p=b.plan,tt=Math.min(b.t,p.dur);b.f=b.planF0+p.at(tt);w=p.speed(tt);
         // The ball never rests on a club Firebase does not hold: short of the last third it waits, rolling, for the accept.
@@ -455,7 +456,7 @@
       raf=0;if(disposed)return;
       if(!canvas.isConnected){free();return;}
       const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;
-      if(d.visibilityState!=="hidden"){gov?.frame(now);if(dirty){dirty=false;layout();}paint(dt);holdBeat();}
+      if(d.visibilityState!=="hidden"&&host.clientWidth>0){gov?.frame(now);if(dirty){dirty=false;layout();}paint(dt);holdBeat();}
       raf=root.requestAnimationFrame(tick);
     };
     const relayout=()=>{dirty=true;};
@@ -500,13 +501,17 @@
         if(b.state==="still-pending")placeAtRest(b);
       },
       // A stop read from the ledger (the rival's, or this manager's after a reload). immediate: show it at rest now.
+      // A stop read from the ledger (the rival's, or this manager's after a reload). immediate: show it at rest now.
+      // pending: this manager's own stop saved on the phone but not yet held by Firebase (a reload after the tap): the ball
+      // slows toward it but keeps rolling until accept(i, stored), exactly as after a tap.
       restOn(i,stop,o){
-        const b=ballOf(i);if(!validStop(stop))return false;
+        const b=ballOf(i),pending=Boolean(o&&o.pending);if(!validStop(stop))return false;
         if(b.state==="landed"&&b.stop===stop)return true;
-        if(o&&o.immediate||reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending"){b.stop=stop;placeAtRest(b);return true;}
-        if(b.state==="spin"){b.stop=stop;b.accepted=true;b.own=false;startStop(b);return true;}
-        if(["stopping","await","settle"].includes(b.state)){api.accept(i,stop);return true;}
-        b.queued=stop;return true; // rest, show or kick: it slows once it reaches full speed
+        if(pending&&(reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;b.own=true;b.accepted=false;b.pick=sectionOf(stop);b.lit=[1,1,1];b.state="still-pending";emit("state",b);return true;}
+        if(!pending&&(o&&o.immediate||reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;placeAtRest(b);return true;}
+        if(b.state==="spin"){b.stop=stop;b.accepted=!pending;b.own=false;startStop(b);return true;}
+        if(["stopping","await","settle"].includes(b.state)){if(!pending)api.accept(i,stop);return true;}
+        b.queued=stop;b.queuedPending=pending;return true; // rest, show or kick: it slows once it reaches full speed
       },
       on(fn){listeners.add(fn);return ()=>listeners.delete(fn);},
       // Where a ball is on screen (CSS px in the host), for the name tags the presentation draws.
@@ -536,7 +541,8 @@
   // compiled and the first frame drawn (the Reus Gate: the screen opens only when the scene is ready). null where it cannot run.
   // opts = {balls:[{clubs:[3 names]}, {clubs:[3 names]}] (computers: left, right), me: 0|1 (the own ball),
   //         clubInfo(name) -> {primary, secondary, crest (URL or image)} (default: js/visualIdentity.js), sound: () => boolean,
-  //         reducedMotion (default: the system setting), signal (AbortSignal)}
+  //         reducedMotion (default: the system setting), signal (AbortSignal), size () -> {w, h} (the size to lay out at while
+  //         the host is still hidden; the scene re-lays itself out once it shows)}
   async function mountScene(host,opts){
     const o=opts||{},off=()=>Boolean(o.signal&&o.signal.aborted);
     if(!host||!Array.isArray(o.balls)||o.balls.length!==2||o.balls.some(b=>!b||!Array.isArray(b.clubs)||b.clubs.length!==3)||!hasWebgl()||off())return null;
