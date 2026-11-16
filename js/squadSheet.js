@@ -974,7 +974,8 @@
         else awayNow=true;
       });
       if(back){
-        const prev=everyone(sheet).find(q=>q.id===id),again=person(prev?prev.name:doc.outNames[i],null,ovOf(id)??back.rating,back.positions,back.season,doc.outNumbers[i]>=1?doc.outNumbers[i]:null);
+        // R94-04: he keeps the id his departure was read as (an earlier build stored no playerId, -1, for a later namesake too).
+        const prev=everyone(sheet).find(q=>q.id===id),again=person(prev?prev.name:doc.outNames[i],null,ovOf(id)??back.rating,back.positions,back.season,prev?twinOf(prev):doc.outNumbers[i]>=1?doc.outNumbers[i]:null);
         const ref=prev?findPlayer(sheet,id):null;
         if(ref)put(sheet,ref,again);else sheet.reserves.push(again);
       }
@@ -1063,8 +1064,9 @@
     launch,advance,canSwap,swap,leave,rate,setFormation,autoPlace,apply:sqApply,validate,board,toDoc,fromDoc,replay,boardFromDoc,
     // R92-01: would this kept signing ({name, playerId?}) be kept out of this sheet's squad by a bar, and which reason?
     barredAs:(sheet,row)=>{const name=String(row&&row.name||"").trim();if(!sheet||!name)return null;const id=barFor(barredOf(sheet),objectOf(sheet.barIds),{name},pidOf(row.playerId));return id?barredOf(sheet)[id]:null;},
-    // R94-04: did this manager keep two different men (two playerIds) of this name in one window's verdict rows?
-    namesakesIn:(rows,name)=>{const k=sqKey(name),ids=new Set();for(const r of Array.isArray(rows)?rows:[])if(r&&r.release===false&&typeof r.name==="string"&&sqKey(r.name)===k&&pidOf(r.playerId)!==null)ids.add(r.playerId);return ids.size>=2;},
+    // R94-04: might this manager have kept two different men of this name in one window's verdict rows? Two playerIds, or a
+    // playerId beside a row without one (that row is whoever the name meant then, maybe another man): the board then says.
+    namesakesIn:(rows,name)=>{const k=sqKey(name),ids=new Set();for(const r of Array.isArray(rows)?rows:[])if(r&&r.release===false&&typeof r.name==="string"&&sqKey(r.name)===k)ids.add(pidOf(r.playerId));return ids.size>=2&&[...ids].some(id=>id!==null);},
     // R94-04: which namesake a locked "pre" document names at a roulette hit's slot: 0 = the name's first man, a playerId = a
     // later namesake, null = the document does not name that signing there.
     docShotPid:(doc,hit)=>{const i=hit&&hit.hitSlot;if(!doc||!Array.isArray(doc.names)||!Number.isInteger(i)||i<0||i>=XI_SIZE+FEATURED||typeof doc.names[i]!=="string"||sqKey(doc.names[i])!==sqKey(hit.hitName)||doc.signed[i]!==hit.hitSignedSeason)return null;return doc.numbers[i]>=1?doc.numbers[i]:0;},

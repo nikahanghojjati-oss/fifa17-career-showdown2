@@ -146,7 +146,8 @@ function rebuildsSame(club,season,stage,events,locked,label){
     const preDoc=docOf(pre),hitSlot=slots[0],who=pre.xi[hitSlot];
     assert.equal(who.id,'s|m. dembele#211591','the manager put the ST-id man where the automatic chain has the other');
     const hit={fired:true,hitName:T,hitNumber:null,hitSlot,hitSignedSeason:1,version:'v'};
-    assert.equal(S.namesakesIn([A,B],T),true);assert.equal(S.namesakesIn([A,{...A,slot:2}],T),false);assert.equal(S.namesakesIn([A,row(2,T,80,'CM')],T),false);
+    assert.equal(S.namesakesIn([A,B],T),true);assert.equal(S.namesakesIn([A,{...A,slot:2}],T),false);assert.equal(S.namesakesIn([row(1,T,80,'CM'),row(2,T,80,'CM')],T),false);
+    assert.equal(S.namesakesIn([A,row(2,T,80,'CM')],T),true,'a row without an id beside one with an id may be another man: the board says');
     assert.equal(S.docShotPid(preDoc,hit),211591,'the locked board names the man at the hit slot');
     assert.equal(S.docShotPid(preDoc,{...hit,hitSlot:slots[1]}),0,'0 = the name\'s first man');
     assert.equal(S.docShotPid(preDoc,{...hit,hitSignedSeason:2}),null,'another window: not him');
@@ -177,6 +178,31 @@ function rebuildsSame(club,season,stage,events,locked,label){
       assert.deepEqual(men(live3,T).map(p=>p.id),['s|m. dembele'],'the bought-back man is shot, the CM stays');
       const reload=rebuildsSame(club,3,'post',evs,live3,'bought-back namesake shot');
       assert.deepEqual(men(reload,T).map(p=>p.id),['s|m. dembele']);
+    }
+    // Codex on #1494 (round 2, P1): both kept in S1, both sold in S2 and bought back there, the first through a row without a
+    // playerId and the second by his id. The S3 board stands the second where the automatic chain stands the first; the
+    // roulette shoots him. The step reads the board for this window (one id beside a row without one), and a phone holding
+    // only the S3 post document rebuilds the same squad: the first man stays (it brought the shot man back and took the other).
+    {
+      const evs=[null,ev([A,B])];
+      let p2=S.replay({club,special:null,season:2,stage:'pre',events:evs,docs:{}}).proposal;
+      for(const id of ['s|m. dembele','s|m. dembele#211591']){const r=S.leave(p2,id,'sold');assert.ok(r.ok,r.reason);p2=r.sheet;}
+      const rows2=[row(1,T,86,'CM'),{...B,overall:86}];evs[2]=ev(rows2);
+      const post2=S.replay({club,special:null,season:2,stage:'post',events:evs,docs:{'2_pre':docOf(p2)}}).proposal;
+      assert.deepEqual(men(post2,T).map(p=>p.id).sort(),['s|m. dembele','s|m. dembele#211591'],'both bought back');
+      evs[3]=null;
+      const auto=S.replay({club,special:null,season:3,stage:'pre',events:evs,docs:{}}).proposal;
+      const pre3=S.replay({club,special:null,season:3,stage:'pre',events:evs,docs:{'2_post':docOf(post2)}}).proposal;
+      const at=auto.xi.findIndex(p=>p&&p.id==='s|m. dembele');
+      assert.equal(pre3.xi[at]&&pre3.xi[at].id,'s|m. dembele#211591','the board has the second man where the automatic chain has the first');
+      assert.equal(S.namesakesIn(rows2,T),true,'the step reads the board for this window');
+      const hit={fired:true,hitName:T,hitNumber:null,hitSlot:at,hitSignedSeason:pre3.xi[at].signedSeason,version:'v'},pid=S.docShotPid(docOf(pre3),hit);
+      assert.equal(pid,211591,'the locked board names the second man');
+      evs[3]=ev([],{...hit,pid});
+      const live3=S.replay({club,special:null,season:3,stage:'post',events:evs,docs:{'3_pre':docOf(pre3)}}).proposal;
+      assert.deepEqual(men(live3,T).map(p=>p.id),['s|m. dembele'],'the second man is shot, the first stays');
+      const reload=rebuildsSame(club,3,'post',evs,live3,'mixed-id namesake shot');
+      assert.deepEqual(men(reload,T).map(p=>p.id),['s|m. dembele'],'a reload keeps the first man and the shot man away');
     }
     const blind=S.replay({club,special:null,season:2,stage:'post',events:events.concat([ev([],hit)]),docs:{'2_post':postDoc}});
     assert.ok(blind.sheet,'without the board\'s pick (no kept copy, no read) the document still loads: never a refused screen');
@@ -218,6 +244,11 @@ function rebuildsSame(club,season,stage,events,locked,label){
         }
         // Codex on #1494 (P2): the window-2 man's sale (window 2 on the departure) keeps him away, as the earlier build read it.
         if(career.name==='later-window-sold'&&['3_pre','3_post','4_pre'].includes(c.key))assert.deepEqual(men(out.sheet,T),[],`${c.key}: both Dembélés stay sold`);
+        // Codex on #1494 (round 2, P1): Celtic's Dembélé sold in S3 and bought back there keeps his id (it was the first man's).
+        if(career.name==='later-window-buyback'&&['3_post','4_pre'].includes(c.key)){
+          assert.deepEqual(men(out.sheet,T).map(p=>`${p.id}:${p.rating}`),['s|m. dembele#211591:72'],`${c.key}: Celtic's Dembélé is back`);
+          assert.ok(now.excluded.includes('s|m. dembele'),`${c.key}: Tottenham's Dembélé stays sold`);
+        }
         assert.ok(S.validate(out.sheet).ok||career.name!=='plain',S.validate(out.sheet).problems.join());
       }
     }

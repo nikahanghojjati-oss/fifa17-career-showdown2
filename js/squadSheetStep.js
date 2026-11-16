@@ -172,7 +172,7 @@
     };
   }
   // Every season's events this screen's chain passes through: seasons before this one, and this one for "post".
-  // R94-04: the roulette hit names a signing by name and window only. When that manager kept two different men of that name in
+  // R94-04: the roulette hit names a signing by name and window only. When that manager may have kept two men of that name in
   // that window, the season's locked "pre" document (the board both phones spun on: kept here, else one read) says which one
   // stood at the hit slot, so every phone and every reload takes out the same man. Anything missing: the engine's own rule.
   async function sqsShotPids(ctx,io,results){
