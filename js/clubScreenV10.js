@@ -135,7 +135,7 @@
           }
         }
         const crest=pack.querySelector(".clbCrest");
-        if(open&&crest.dataset.club!==club){crest.innerHTML=typeof root.getClubCrestSvg==="function"?root.getClubCrestSvg(club):"";crest.dataset.club=club;}
+        if(open&&crest.dataset.club!==club){crest.innerHTML=typeof root.getClubCrestMarkup==="function"?root.getClubCrestMarkup(club,"big"):typeof root.getClubCrestSvg==="function"?root.getClubCrestSvg(club):"";crest.dataset.club=club;}
         if(!open&&crest.dataset.club){crest.innerHTML="";delete crest.dataset.club;}
         pack.classList.toggle("is-open",open);
         if(opening&&typeof pack.animate==="function"&&pack.getClientRects().length)clPackOpen(pack,index);
@@ -341,7 +341,7 @@
       if(crestFor[index]===club)return;
       crestFor[index]=club;
       const rim=section.querySelectorAll(".panelCrest .crestRim")[index];
-      if(rim)rim.innerHTML=club&&typeof root.getClubCrestSvg==="function"?root.getClubCrestSvg(club):"";
+      if(rim)rim.innerHTML=club&&typeof root.getClubCrestMarkup==="function"?root.getClubCrestMarkup(club,"big"):club&&typeof root.getClubCrestSvg==="function"?root.getClubCrestSvg(club):"";
       const crest=section.querySelector(`.reveal[data-side="${index}"] .rvCrest`);
       if(crest){crest.innerHTML="";delete crest.dataset.club;}
     });
