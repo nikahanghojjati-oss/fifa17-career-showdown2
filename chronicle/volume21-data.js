@@ -1,8 +1,8 @@
 /* THE CHRONICLE · Volume 21 (Team G, r93 / 2.6.0): the Golden Showdown screen and the winner’s gold bust, the flat logo and live-text titles,
    the Special Player stands, the Device check that closed the tab, the roulette hand filmed again with a whisky glass, and the bug hunts
    with the Rules budget sweep. Written from gameplay/r93 1b15c246. Loaded by volume21.js.
-   RELEASE LINE: the last sentence of chapter 194 (“2.6.0 is not live yet; it waits for Nik’s word after the gallery.”) is replaced
-   by the release with the live date. */
+   RELEASE LINE: the last sentence of chapter 194 (“Then Nik gives his word. On the fifteenth of November, 2.6.0 goes live.”) was filled in
+   after the 2.6.0 release with the live date. */
 window.CHRONICLE_VOLUME21={
  "capturedAt": "2026-11-15T20:30:00Z",
  "part": {
@@ -585,7 +585,7 @@ window.CHRONICLE_VOLUME21={
     },
     {
      "type": "p",
-     "text": "2.6.0 is not live yet. It waits for Nik’s word, after the gallery."
+     "text": "Then Nik gives his word. On the fifteenth of November, 2.6.0 goes live."
     }
    ],
    "sources": [

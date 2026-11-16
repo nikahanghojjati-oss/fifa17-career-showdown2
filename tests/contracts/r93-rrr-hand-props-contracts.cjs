@@ -20,8 +20,8 @@
 //      revolver (muzzle to glove) never under the caption either, the muzzle stays off the board; on a phone the caption takes the hidden Spin
 //      button's room for the turn (R93-04, Nik 2026-11-15: a bigger phone glove) and goes back after it, and the shooter's eye takes the wider lens
 //      (Nik 2026-11-15, "Yes, wider camera": x1.25 at 390x844, x1.35 at 360x640)
-//      and at 960x1035 (a Chromebook half screen, the bottom strip shows): plate S (HO-082, the sleeve from the side), the glove clear of the caption
-//      and the strip at every frame and at least 140 px wide, the sleeve's cut off the screen
+//      and at 960x1035 (a Chromebook half screen, the bottom strip shows): plate S (HO-083, the sleeve from the side), the glove clear of the caption
+//      and the strip at every frame and at least 180 px wide (lead 2026-11-15: it read small; the window takes a x1.2 lens), the sleeve's cut off the screen
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const net=require('node:net');
@@ -73,12 +73,12 @@ has(/lampFl=fl;/,'the lamp flicker is shared');
 has(/const HAND_CAP=GFX\.level<=1\?1024:0;/,'the plate at 1024 px on its long side on Light and Balanced');
 has(/const big=Math\.max\(im\.width,im\.height\); if\(maxW&&big>maxW\)\{/,'the cap is on the long side (the upright plate too)');
 has(/const handStrip=\(\)=>\{ const b=document\.querySelector\("\.bottom"\); return !!b&&getComputedStyle\(b\)\.display!=="none"; \};/,'S: an upright window that shows the bottom strip');
-has(/const handPlateFor=\(\)=>handShape\(innerWidth\/innerHeight\)<\.5\?\(handStrip\(\)\?"S":"P"\):"W";/,'the plate follows the window\'s shape, with the angle; S where the bottom strip stands (HO-082)');
+has(/const handPlateFor=\(\)=>handShape\(innerWidth\/innerHeight\)<\.5\?\(handStrip\(\)\?"S":"P"\):"W";/,'the plate follows the window\'s shape, with the angle; S where the bottom strip stands (HO-083)');
 has(/loadHandPlate\(handPlateFor\(\)\)/,'only the plate this window needs is loaded at the start');
 has(/addEventListener\("resize",\(\)=>handPlateWatch\(\)\);/,'and the other only when the window changes shape');
 has(/const hp=PLATEMAP\.hand\|\|\{\}, img=hp\.file\?await loadImg\(hp\.file,HAND_CAP\):null;/,'the r87 plate is the fallback');
 has(/uv\(HAND_MUZZLE,hp\.muzzle\); uv\(HAND_REAR,hp\.rear\); uv\(HAND_WRIST,hp\.wrist\); uv\(HAND_ELBOW,hp\.elbow\);/,'every plate number from platemap.json');
-const plates=[['r87',plate.hand,13.3],['W',plate.hand.plates.W,22.5],['P',plate.hand.plates.P,72],['S',plate.hand.plates.S,70]];
+const plates=[['r87',plate.hand,13.3],['W',plate.hand.plates.W,22.5],['P',plate.hand.plates.P,72],['S',plate.hand.plates.S,40]];
 for(const [name,pl,want] of plates){
   for(const k of ['muzzle','rear','wrist','elbow']) assert.ok(Array.isArray(pl[k])&&pl[k].length===2,`platemap ${name} ${k}`);
   assert.ok(Array.isArray(pl.cut)&&pl.cut.length>=2,`platemap ${name} cut`);
@@ -86,8 +86,8 @@ for(const [name,pl,want] of plates){
   const [w,h]=pl.size||[1672,941], bore=Math.atan2(pl.muzzle[1]-pl.rear[1],(pl.rear[0]-pl.muzzle[0])*w/h)*180/Math.PI;
   assert.ok(Math.abs(bore-want)<.3,`${name} plate bore ${bore.toFixed(2)}° (want ${want}°)`); }
 for(const k of ['W','P']){ const pl=plate.hand.plates[k]; assert.ok(pl.cut.every(c=>c[1]===0),`${k}: the sleeve leaves through the bottom edge`); assert.ok(Array.isArray(pl.fit)&&pl.fit[0]<pl.fit[1],`${k}: the card's height range`); }
-{ const pl=plate.hand.plates.S; assert.ok(pl.cut.every(c=>c[0]===1),'S: the sleeve leaves through the right edge (HO-082)'); assert.ok(Array.isArray(pl.fit)&&pl.fit[0]<pl.fit[1],'S: the card\'s height range'); assert.ok(Array.isArray(pl.glove)&&pl.glove.length===4,'S: glove box'); }
-ok('H4','the hand takes the room\'s light; the shooter\'s-eye plates W and P (HO-081) by window shape, S (HO-082, sleeve from the side) where the bottom strip stands, the r87 plate as fallback; plate numbers are data');
+{ const pl=plate.hand.plates.S; assert.ok(pl.cut.every(c=>c[0]===1),'S: the sleeve leaves through the right edge (HO-083)'); assert.ok(Array.isArray(pl.fit)&&pl.fit[0]<pl.fit[1],'S: the card\'s height range'); assert.ok(Array.isArray(pl.glove)&&pl.glove.length===4,'S: glove box'); }
+ok('H4','the hand takes the room\'s light; the shooter\'s-eye plates W and P (HO-081) by window shape, S (HO-083, sleeve from the side) where the bottom strip stands, the r87 plate as fallback; plate numbers are data');
 
 has(/const WHISKY_FROM=0;/,'the whisky set shows on every level (Nik 2026-11-15)');
 has(/const paint=new T\.MeshBasicMaterial\(\{map:tex, transparent:true, blending:5, blendEquation:100, blendSrc:201, blendDst:205, depthWrite:false, toneMapped:false\}\);/,'one painted material: whisky covers, glass adds');
@@ -113,13 +113,16 @@ has(/@media \(max-width: 599px\) and \(orientation: portrait\) \{ body\.embed\.t
 has(/function handKeepOuts\(\)\{ const W=innerWidth, H=innerHeight, key=[^;]*document\.body\.className; if\(key===handKeepKey\) return handKeep; handKeepKey=key;/,'H6: the glove\'s keep-outs are measured again when the caption moves (body class in the key)');
 ok('H6','on an upright phone in the game the caption drops into the Spin button\'s room for the turn, and the glove is placed against it there');
 
-has(/const povWide=\(\)=>PH&&innerWidth<600&&document\.body\.classList\.contains\("embed"\)\?\(innerHeight>=780\?\[1\.25,\.125\]:\[1\.35,\.17\]\):null;/,'H7: upright phones in the game only, x1.25 on a tall phone and x1.35 on a short one');
-has(/const wide=povWide\(\), lx=PH\?[^;]*ly=PH\?-\.12-\(wide\?wide\[1\]:0\)\+ty\*\.35:-\.16\+ty\*\.05;/,'H7: the shooter\'s eye looks a little lower on the board');
-has(/const povFov=PH\?44\*\(wide\?wide\[0\]:1\):34; p\.pov=povPos; p\.povLook=povLook; p\.povFov=povFov;/,'H7: through the wider lens (the glide in and the moves out ease to and from it as before)');
+has(/const POV_SIDE_WIDE=\[1\.2,\.1\];/,'H7: tall desktop windows with the side hand take x1.2 and look a little lower');
+has(/const povWide=\(\)=>!document\.body\.classList\.contains\("embed"\)\?null:PH\?\(innerWidth<600\?\(innerHeight>=780\?\[1\.25,\.125\]:\[1\.35,\.17\]\):null\):innerWidth\/innerHeight<1\.15\?POV_SIDE_WIDE:null;/,'H7: in the game only: upright phones x1.25 on a tall phone and x1.35 on a short one');
+has(/const wide=povWide\(\), lx=PH\?[^;]*ly=PH\?-\.12-\(wide\?wide\[1\]:0\)\+ty\*\.35:-\.16-\(wide\?wide\[1\]:0\)\+ty\*\.05;/,'H7: the shooter\'s eye looks a little lower on the board');
+has(/const povFov=\(PH\?44:34\)\*\(wide\?wide\[0\]:1\); p\.pov=povPos; p\.povLook=povLook; p\.povFov=povFov;/,'H7: through the wider lens (the glide in and the moves out ease to and from it as before)');
+has(/ta=side\*7\.5\*DEG, tc=Math\.cos\(ta\), ts=Math\.sin\(ta\);/,'H7: the take\'s wrist trail (up to 7.5°) is searched too');
+has(/for\(const r of R\) if\(r\.cover&&quadHits\(c,r\.x0-e,r\.y0-e,r\.x1\+e,r\.y1\+e\)\) return false; \}/,'H7: the glove at the take stays off the opaque bars (the side plate\'s glove swings down with the wrist)');
 has(/const quadHits=\(c,x0,y0,x1,y1\)=>\{/,'H7: the whole glove is tested against each keep-out (a thin caption can pass between its 16 points)');
 has(/for\(const g of \[A,Q\]\)\{ const c=\[g\[0\],g\[3\],g\[15\],g\[12\]\]; for\(const r of R\) if\(quadHits\(c,r\.x0-e,r\.y0-e,r\.x1\+e,r\.y1\+e\)\) return false; \}/,'H7: at the aimed and the kicked pose');
-has(/const lo=\.14\*fh, hi=\(povWide\(\)\?\.8:handFit\?handFit\[1\]:\.5\)\*fh, N=48;/,'H7: the hand\'s card may grow to the room the wider lens leaves');
-ok('H7','upright phones: the shooter\'s eye takes a slightly wider lens for the take and the aim, so the glove grows (about 150 px on a tall phone, 130 on a short one)');
+has(/const lo=\.14\*fh, hi=\(PH&&povWide\(\)\?\.8:handFit\?handFit\[1\]:\.5\)\*fh, N=48;/,'H7: the hand\'s card may grow to the room the wider lens leaves');
+ok('H7','upright phones and tall desktop windows with the side hand: the shooter\'s eye takes a slightly wider lens for the take and the aim, so the glove grows (about 150 px on a tall phone, 130 on a short one, about 215 at 960x1035)');
 
 (async()=>{
   if(process.env.CMS_RRR_SCENE_SKIP_BROWSER==='1'){console.log(`PASS r93 RRR hand and props contracts: ${checks} checks (browser part skipped).`);return;}
@@ -215,7 +218,7 @@ ok('H7','upright phones: the shooter\'s eye takes a slightly wider lens for the 
               const b=p.board, m=p.muzzle; if(m[0]>b[0]&&m[0]<b[2]&&m[1]>b[1]&&m[1]<b[3]) t.mzOnBoard=true; } }
           __rr.advance(1,false); t.after=document.getElementById('result').getBoundingClientRect().bottom; t.clear=[...t.clear]; return t; },before)); }
       assert.deepEqual(errors,[],`no page errors in the game view at ${w}x${h}`);
-      const phone=w<600, strip=w>=900, K=phone?(h>=780?1.25:1.35):1, minG=phone&&h<780?125:140;
+      const phone=w<600, strip=w>=900, K=phone?(h>=780?1.25:1.35):strip?1.2:1, F0=phone?44:34, minG=phone&&h<780?125:strip?180:140;
       for(const [i,t] of turns.entries()){ const tag=`game view ${w}x${h} turn ${i+1}`;
         assert.ok(t.shown,`${tag}: the hand shows`);
         assert.deepEqual(t.clear,[true],`${tag}: the upright placement that keeps the glove clear is in use`);
@@ -224,11 +227,11 @@ ok('H7','upright phones: the shooter\'s eye takes a slightly wider lens for the 
         assert.deepEqual(t.cutIn.slice(0,5),[],`${tag}: the sleeve's cut stays off the screen`);
         assert.equal(t.plate,strip?'S':'P',`${tag}: plate ${strip?'S (sleeve from the side)':'P'}`);
         assert.ok(t.gw>=minG,`${tag}: the glove is ${Math.round(t.gw)} px wide at the aim (at least ${minG})`);
-        if(phone) assert.ok(t.fov>44*K-3&&t.fov<44*K,`${tag}: the shooter's eye takes the wider lens (fov ${t.fov&&t.fov.toFixed(1)}, x${K})`);
+        if(K>1) assert.ok(t.fov>F0*K-3&&t.fov<F0*K,`${tag}: the shooter's eye takes the wider lens (fov ${t.fov&&t.fov.toFixed(1)}, x${K})`);
         assert.equal(t.mzOnBoard,false,`${tag}: the muzzle stays off the board`);
         if(phone){ assert.equal(t.ctaShown,false,`${tag}: the Spin button is gone at once (the caption stands in its room)`); assert.ok(t.during>=h-46&&t.during<=h-38,`${tag}: the caption stands in the Spin button's room (bottom ${t.during} px)`); assert.ok(Math.abs(t.after-t.before)<1,`${tag}: the caption goes back after the turn`); }
         else assert.ok(Math.abs(t.during-t.before)<1,`${tag}: the caption stays where it was`); }
-      ok('B2',`game view ${w}x${h} Light, plate ${turns[0].plate}: glove ${turns.map(t=>Math.round(t.gw)).join('/')} px, clear of the caption${strip?' and the bottom strip':''} at every frame, caption ${phone?'in the Spin button\'s room for the turn, lens x'+K:'where it was'}`);
+      ok('B2',`game view ${w}x${h} Light, plate ${turns[0].plate}: glove ${turns.map(t=>Math.round(t.gw)).join('/')} px, clear of the caption${strip?' and the bottom strip':''} at every frame, caption ${phone?'in the Spin button\'s room for the turn':'where it was'}, lens x${K}`);
       await context.close(); }
     console.log(`PASS r93 RRR hand and props contracts: ${checks} checks.`);
   }finally{ if(browser) await browser.close().catch(()=>{}); server.kill(); }
