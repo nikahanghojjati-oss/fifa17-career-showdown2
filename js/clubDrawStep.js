@@ -160,9 +160,18 @@
     if(!identityPromise)identityPromise=cdsLoad("visual-identity","js/visualIdentity.js",ready).catch(()=>false).then(ok=>{if(!ok)identityPromise=null;return ok;});
     return identityPromise;
   }
+  // r94 gallery: each club's third wears its 2016-17 kit (js/kits17.js, the one kit table). Loaded beside the identity table,
+  // behind the loading screen; if it cannot load, the balls fall back to the identity colours (never a blank ball).
+  let kitsPromise=null;
+  function cdsKits(){
+    const ready=()=>Boolean(root.CareerModeKits17);
+    if(ready())return Promise.resolve(true);
+    if(!kitsPromise)kitsPromise=cdsLoad("kits17","js/kits17.js",ready).catch(()=>false).then(ok=>{if(!ok)kitsPromise=null;return ok;});
+    return kitsPromise;
+  }
   function cdsClubInfo(name){
     // The R94-01 image crest on the ball (the "ball" slot falls back to the largest file there is), the drawn crest otherwise.
-    return cdsIdentity().then(()=>typeof root.loadClubCrestImage==="function"?root.loadClubCrestImage(name,"ball"):null).catch(()=>null).then(image=>{
+    return Promise.all([cdsIdentity(),cdsKits()]).then(()=>typeof root.loadClubCrestImage==="function"?root.loadClubCrestImage(name,"ball"):null).catch(()=>null).then(image=>{
       let id=null;try{id=typeof root.getClubIdentity==="function"?root.getClubIdentity(name):null;}catch(_error){}
       return {primary:id&&id.primary||"#d8b55a",secondary:id&&id.secondary||"#101010",crest:image||(id&&id.crest)||null};
     });

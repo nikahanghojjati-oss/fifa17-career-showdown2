@@ -104,11 +104,36 @@
   // ---------- ball, pitch and stadium shaders (from the study mock-up v3.1, unchanged look) ----------
   const BALL_VS="varying vec3 vObj;varying vec3 vNg;varying vec3 vW;void main(){vObj=normalize(position);vNg=normalize(mat3(modelMatrix)*normal);vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}";
   const BALL_FS=[
-    "uniform vec3 PC[32];uniform vec3 cA[3];uniform vec3 cB[3];uniform float lit[3];uniform float foc[3];uniform sampler2D atlas;uniform vec3 camP;uniform mat3 rot;uniform float blur;uniform float pulse;uniform float clat;uniform float spd;",
+    "uniform vec3 PC[32];uniform vec3 kA[3];uniform vec3 kB[3];uniform vec3 kC[3];uniform vec3 kT[3];uniform vec3 kS[3];uniform vec3 kN[3];uniform vec4 kP[3];uniform float lit[3];uniform float foc[3];uniform sampler2D atlas;uniform vec3 camP;uniform mat3 rot;uniform float blur;uniform float pulse;uniform float clat;uniform float spd;",
     "varying vec3 vObj;varying vec3 vNg;varying vec3 vW;",
     "const float TAU=6.2831853;const float G=2.0943951;",
     "const vec3 KEY=vec3(.430,.765,.479);const vec3 FIL=vec3(-.611,.560,.560);const vec3 BK1=vec3(.667,.477,-.572);const vec3 BK2=vec3(-.667,.477,-.572);",
     "vec4 crest(vec3 d,float k,float off){float lc=(k+.5)*G+off;float cp=cos(clat);float sp=sin(clat);vec3 c=vec3(sin(lc)*cp,sp,cos(lc)*cp);vec3 t=vec3(cos(lc),0.,-sin(lc));vec3 b=vec3(-sin(lc)*sp,cp,-cos(lc)*sp);float dc=dot(d,c);vec2 p=vec2(dot(d,t),dot(d,b))/max(dc,.05);float s=.64;vec2 q=p/(2.*s)+.5;float inside=step(0.,q.x)*step(q.x,1.)*step(0.,q.y)*step(q.y,1.)*step(.25,dc);return texture2D(atlas,vec2((k+clamp(q.x,0.,1.))/3.,clamp(q.y,0.,1.)))*inside;}",
+    // The club's kit on its third. u runs across the third (0..1), sv up the shirt (0 hem, 1 neck), lat is the latitude.
+    // P = (pattern, fabric, stripes, sleeves). Every edge is smoothed over one pixel (fwidth), no texture.
+    "float aaS(float e,float x){float w=max(fwidth(x),1e-4)*.8;return smoothstep(e-w,e+w,x);}",
+    "float aaB(float a,float b,float x){return aaS(a,x)-aaS(b,x);}",
+    "float sqw(float x){float w=max(fwidth(x),1e-4)*.8;float f=fract(x);return smoothstep(.5-w,.5+w,f)*(1.-smoothstep(1.-w,1.,f));}",
+    "vec3 kitAt(float u,float sv,float lat,vec3 A,vec3 B,vec3 C,vec3 Tr,vec3 S,vec4 P){",
+    " float x=u-.5;vec3 col=A;float lum=dot(A,vec3(.3,.6,.1));",
+    " if(P.x<.5){",
+    "  if(P.y>.5&&P.y<1.5){col=mix(col,Tr,.62*(1.-aaS(.075,abs(fract(x*13.+.5)-.5))));}",
+    "  else if(P.y<2.5&&P.y>1.5){col=mix(col,lum>.55?A*.64:A*1.7+.014,sqw((x*9.+.5)*.5));}",
+    "  else if(P.y<3.5&&P.y>2.5){float yc=.88-.07*(1.-4.*x*x);col=mix(col,Tr,aaS(yc,sv));col=mix(col,A*.55,aaB(-.03,0.,sv-yc));}",
+    "  else if(P.y>3.5){col=mix(col,Tr,.95*(1.-smoothstep(.24,.64,sv)));col=mix(col,col*(lum>.55?.84:1.3),sqw(sv*16.)*(1.-aaS(.56,sv)));}",
+    "  if(P.y>.5){col=mix(col,Tr,(aaB(-.38,-.31,x)+aaB(.31,.38,x))*(1.-aaS(.66,sv)));}",
+    " }",
+    " else if(P.x<1.5){col=mix(A,B,sqw((x*P.z+.5)*.5));}",
+    " else if(P.x<2.5){col=mix(A,B,sqw(((lat-clat)/.26+.5)*.5));}",
+    " else if(P.x<3.5){col=mix(A,B,aaS(0.,x));}",
+    " else if(P.x<4.5){col=mix(A,B,aaB(clat-.17,clat+.17,lat));col=mix(col,C,aaB(clat-.05,clat+.05,lat)*step(.002,dot(C-B,C-B)));}",
+    " else if(P.x<5.5){col=mix(A,B,aaB(-.195,-.105,x)+aaB(.105,.195,x));}",
+    " else if(P.x<6.5){float X=x*2.;float Y=sv*2.-1.;col=mix(A,B,(1.-aaS(.085,abs(Y-1.125*abs(X))/1.5))*aaS(-.05,Y));}",
+    " else if(P.x<7.5){col=mix(A,B,1.-aaS(0.,sv-(.05+.9*u)));}",
+    " else{col=mix(col,Tr,aaB(-.11,.11,x));col=mix(col,B,aaB(-.08,.08,x));}",
+    " if(P.w>.5){col=mix(col,S,((1.-aaS(.10,u))+aaS(.90,u))*aaS(.42,sv));}",
+    " return col;",
+    "}",
     "#ifdef DETAIL",
     "float h3(vec3 p){p=fract(p*.3183099+.1);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}",
     "float vn3(vec3 x){vec3 i=floor(x);vec3 f=fract(x);f=f*f*(3.-2.*f);return mix(mix(mix(h3(i),h3(i+vec3(1.,0.,0.)),f.x),mix(h3(i+vec3(0.,1.,0.)),h3(i+vec3(1.,1.,0.)),f.x),f.y),mix(mix(h3(i+vec3(0.,0.,1.)),h3(i+vec3(1.,0.,1.)),f.x),mix(h3(i+vec3(0.,1.,1.)),h3(i+vec3(1.,1.,1.)),f.x),f.y),f.z);}",
@@ -122,12 +147,16 @@
     " float lonc=atan(c1.x,c1.z);if(lonc<0.)lonc+=TAU;float gc=lonc/G;float uc=fract(gc);",
     " float polar=step(.99,abs(c1.y))*(1.-pent);float neutral=max(polar,step(min(uc,1.-uc),.03));",
     " float ks=mix(min(floor(gc),2.),k,neutral);",
-    " vec3 A;vec3 B;float L;float F;",
-    " if(ks<.5){A=cA[0];B=cB[0];L=lit[0];F=foc[0];}else if(ks<1.5){A=cA[1];B=cB[1];L=lit[1];F=foc[1];}else{A=cA[2];B=cB[2];L=lit[2];F=foc[2];}",
+    " vec3 kBody;vec3 kSec;vec3 kSec2;vec3 kTrim;vec3 kSlv;vec3 kPent;vec4 kPat;float L;float F;",
+    " if(ks<.5){kBody=kA[0];kSec=kB[0];kSec2=kC[0];kTrim=kT[0];kSlv=kS[0];kPent=kN[0];kPat=kP[0];L=lit[0];F=foc[0];}",
+    " else if(ks<1.5){kBody=kA[1];kSec=kB[1];kSec2=kC[1];kTrim=kT[1];kSlv=kS[1];kPent=kN[1];kPat=kP[1];L=lit[1];F=foc[1];}",
+    " else{kBody=kA[2];kSec=kB[2];kSec2=kC[2];kTrim=kT[2];kSlv=kS[2];kPent=kN[2];kPat=kP[2];L=lit[2];F=foc[2];}",
+    " float du=g-ks;if(du>1.5)du-=3.;if(du<-1.5)du+=3.;float klat=asin(clamp(d.y,-1.,1.));",
+    " vec3 kit=kitAt(clamp(du,0.,1.),clamp(.70+(klat-clat)/1.6,0.,1.),klat,kBody,kSec,kSec2,kTrim,kSlv,kPat);",
     " F=mix(F,1.,neutral);",
     " vec3 white=vec3(.74,.74,.71);",
     " vec3 classic=mix(white,vec3(.022,.022,.026),pent);",
-    " vec3 club=mix(mix(A,B,pent),vec3(.026,.026,.030),neutral);",
+    " vec3 club=mix(mix(kit,kPent,pent),vec3(.026,.026,.030),neutral);",
     " vec3 base=mix(classic,club,L);",
     " float ed=min(u,1.-u)*120.*sqrt(max(1.-d.y*d.y,0.));float pipe=(1.-smoothstep(1.05,1.45,ed))*L;",
     " float pipeEdge=(1.-smoothstep(1.45,1.9,ed))*L;base=mix(base,base*.35,pipeEdge*(1.-pipe)*neutral);",
@@ -252,6 +281,41 @@
     if(dr*dr+dg*dg+db*db<.06){b.copy(a);const lum=.3*a.r+.6*a.g+.1*a.b;if(lum>.5)b.multiplyScalar(.22);else b.lerp(srgbColour(T,"#f1efe6"),.85);}
     a.convertSRGBToLinear();b.convertSRGBToLinear();return [new T.Vector3(a.r,a.g,a.b),new T.Vector3(b.r,b.g,b.b)];
   }
+  // r94 gallery (Nik 2026-11-16): each club's third wears that club's own 2016-17 kit, not only its crest: the body colour, the
+  // pattern (stripes, hoops, halves, chest band, twin stripes, V, sash, centre stripe) in its second colour, the one-colour
+  // fabric of a plain shirt (trim pinstripes, tonal shadow stripes, a trim yoke or a hem that fades into the trim) with trim side panels, contrasting
+  // sleeves on the third's edges, and the pentagons in the trim. Colours and patterns come from js/kits17.js, the one kit
+  // table (Chamber Men, Squad). Where two clubs of one league share a kit (Juventus and Udinese, the blue-and-white LaLiga
+  // stripes, the plain red Bundesliga shirts), BALL_VARIANT gives one of them a different stripe width, fabric or pentagon
+  // colour so no two clubs that can share a ball look alike (tests/contracts/r94-club-draw-scene-contracts.cjs C10).
+  const PATTERN_ID=Object.freeze({solid:0,stripes:1,hoops:2,halves:3,band:4,twin:5,vee:6,diag:7,centre:8});
+  const FABRIC_ID=Object.freeze({pin:1,shadow:2,yoke:3,fade:4});
+  const BALL_VARIANT=Object.freeze({
+    "Southampton":{n:5},"Sunderland":{n:9},"Juventus":{n:5},"Udinese":{n:9},"Sporting Gijón":{n:11},
+    "Deportivo La Coruña":{n:5,pent:"#0c2348"},"Espanyol":{n:11},"Alavés":{n:11,pent:"#0c2348"},"Cagliari":{pent:"#002350"},
+    "Mainz 05":{fabric:"pin"},"FC Ingolstadt":{fabric:"fade"},"Darmstadt 98":{fabric:"yoke"},"RB Leipzig":{fabric:"yoke"}});
+  function hexLum(h){const n=parseInt(String(h).slice(1),16);return (.3*(n>>16)+.6*((n>>8)&255)+.1*(n&255))/255;}
+  // kits: the js/kits17.js API (kit, fabric, deltaE); info: the club's identity colours, used when no kit is known.
+  function ballLook(kits,name,info){
+    const k=kits&&typeof kits.kit==="function"?kits.kit(name):null;
+    if(!k||!k.known){const i=info||{};return {known:false,pattern:"solid",fabric:"",n:0,body:i.primary||"#d8b55a",second:i.secondary||"#101010",second2:i.secondary||"#101010",trim:i.secondary||"#101010",sleeves:null,pent:null};}
+    const dE=kits.deltaE,v=BALL_VARIANT[k.club]||{},pattern=PATTERN_ID[v.pattern||k.pattern]!==undefined?(v.pattern||k.pattern):"solid";
+    const second=k.second[0]||k.trim,sleeves=k.sleeves&&dE(k.sleeves,k.body)>12?k.sleeves:null;
+    let pent=v.pent||k.trim;if(dE(pent,k.body)<18)pent=k.second[0]&&dE(k.second[0],k.body)>=18?k.second[0]:(hexLum(k.body)>.5?"#141414":"#f4f4f2");
+    return {known:true,pattern,fabric:pattern==="solid"?(v.fabric||(typeof kits.fabric==="function"?kits.fabric(name):"shadow")):"",n:pattern==="stripes"?(v.n||7):0,
+      body:k.body,second,second2:k.second[1]||second,trim:k.trim,sleeves,pent};
+  }
+  // Two looks can share a ball without being mistaken for each other: a different pattern or fabric, stripes at least four
+  // apart in count (bold against thin), or a clearly different second colour, pentagon colour, sleeves or body (CIE76 > 25).
+  function looksApart(a,b,dE){
+    if(a.pattern!==b.pattern)return true;
+    if(a.pattern==="solid"&&a.fabric!==b.fabric)return true;
+    if(a.pattern==="stripes"&&Math.abs(a.n-b.n)>=4)return true;
+    if(a.pattern!=="solid"&&dE(a.second,b.second)>25)return true;
+    if(a.pent&&b.pent&&dE(a.pent,b.pent)>25)return true;
+    if(Boolean(a.sleeves)!==Boolean(b.sleeves)||(a.sleeves&&dE(a.sleeves,b.sleeves)>25))return true;
+    return dE(a.body,b.body)>25;
+  }
   function imageOf(src){
     if(!src)return Promise.resolve(null);
     if(typeof src==="object"&&(src.naturalWidth||src.width))return Promise.resolve(src);
@@ -294,12 +358,16 @@
     const ballDefines={BLUR_TAPS:K.blurTaps};if(K.gloss)ballDefines.GLOSS=1;if(K.detail)ballDefines.DETAIL=1;
     const sphere=geo(new T.SphereGeometry(1,K.seg[0],K.seg[1]));
     const balls=opts.balls.map((b,idx)=>{
-      const cc=b.clubs.map(n=>clubColours(T,assets.info[n]));
-      const u={PC:{value:PAN.centres},cA:{value:cc.map(c=>c[0])},cB:{value:cc.map(c=>c[1])},lit:{value:[0,0,0]},foc:{value:[1,1,1]},atlas:{value:atlas(b.clubs.map(n=>assets.images[n]))},
+      const kits=root.CareerModeKits17||null,v3=hex=>{const c=srgbColour(T,hex).convertSRGBToLinear();return new T.Vector3(c.r,c.g,c.b);};
+      const looks=b.clubs.map(n=>{const lk=ballLook(kits,n,assets.info[n]);if(!lk.known){const cc=clubColours(T,assets.info[n]);lk.v={A:cc[0],N:cc[1]};}return lk;});
+      const kv=(f)=>looks.map(f);
+      const u={PC:{value:PAN.centres},kA:{value:kv(l=>l.v?l.v.A:v3(l.body))},kB:{value:kv(l=>v3(l.second))},kC:{value:kv(l=>v3(l.second2))},kT:{value:kv(l=>v3(l.trim))},
+        kS:{value:kv(l=>v3(l.sleeves||l.body))},kN:{value:kv(l=>l.v?l.v.N:v3(l.pent))},
+        kP:{value:kv(l=>new T.Vector4(PATTERN_ID[l.pattern]||0,FABRIC_ID[l.fabric]||0,l.n||0,l.sleeves?1:0))},lit:{value:[1,1,1]},foc:{value:[1,1,1]},atlas:{value:atlas(b.clubs.map(n=>assets.images[n]))},
         camP:{value:new T.Vector3()},rot:{value:new T.Matrix3()},blur:{value:0},pulse:{value:0},clat:{value:PAN.clat},spd:{value:0}};
       const m=mat(new T.ShaderMaterial({uniforms:u,vertexShader:BALL_VS,fragmentShader:BALL_FS,defines:ballDefines}));
       const mesh=new T.Mesh(sphere,m);mesh.rotation.order="YXZ";const tilt=new T.Group();tilt.add(mesh);scene.add(tilt);
-      return {i:idx,clubs:b.clubs,u,mesh,tilt,pos:new T.Vector3(),r:1,f:idx?215:35,state:"idle",t:0,lit:[0,0,0],
+      return {i:idx,clubs:b.clubs,u,mesh,tilt,pos:new T.Vector3(),r:1,f:idx?215:35,state:"idle",t:0,lit:[1,1,1],
         stop:null,pick:-1,accepted:false,plan:null,planF0:0,restA:0,queued:null,queuedPending:false,seamPrev:0,land:0,w:0,y:0,vy:0,sq:0,sqT:9,wp:idx*2.4,wr:0,ox:0,oz:0,oEx:0,oEz:0,yaw:0};
     });
 
@@ -590,7 +658,7 @@
   function preload(){return cdLoadEngine().then(()=>true,()=>false);}
 
   const api={contractVersion:1,feature:"cms-club-draw-3d",enginePath:ENGINE_PATH,physics:PHYS_DEFAULT,tune,
-    sectionOf,drawStop,poseOf,showTarget,travelTo,friction,speedFor,angleDiff,mod360,knobs,mount:mountScene,preload};
+    sectionOf,drawStop,poseOf,showTarget,ballLook,looksApart,BALL_VARIANT,travelTo,friction,speedFor,angleDiff,mod360,knobs,mount:mountScene,preload};
   if(typeof module!=="undefined"&&module.exports)module.exports=api;
   root.CareerModeClubDraw3d=api;
 })(typeof globalThis!=="undefined"?globalThis:this);

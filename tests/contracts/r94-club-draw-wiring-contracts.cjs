@@ -187,8 +187,18 @@ async function main(){
     const block=sel=>{const i=CSS_SRC.indexOf(sel);assert.ok(i>=0,`missing rule ${sel}`);return CSS_SRC.slice(CSS_SRC.indexOf("{",i)+1,CSS_SRC.indexOf("}",i));};
     const title=block('#clubWheelScreen[data-club-draw="spin"] > h2 {');
     for(const want of [/background:\s*none/,/border:\s*0/,/box-shadow:\s*none/,/"Cormorant SC"/,/color:\s*#C9A45C/])assert.match(title,want,`title: ${want}`);
-    assert.match(block('#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment {'),/--sd-gold-metal/,"the enabled STOP is gold metal");
-    assert.match(block('#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:disabled {'),/background:\s*#17140e/,"the waiting STOP is flat black with a gold edge");
+    // Nik 22:15 ("color should make sense"): live STOP = Home's gold CONTINUE CAREER tile; waiting STOP = plainly inactive
+    // (no gold face, no bevel, dimmed words), and it outranks the r78 gold-bevelled waiting look.
+    const live=block('#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment {');
+    assert.match(live,/border-image:\s*var\(--bevel-gold-soft\)/,"the live STOP wears Home's gold bevel");
+    assert.match(live,/background:\s*linear-gradient\(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%\)/,"and Home's CONTINUE CAREER gold");
+    const wait=block(':root:not(#r78):not(#r78) #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:disabled {');
+    for(const want of [/border-image:\s*none/,/box-shadow:\s*none/,/color:\s*rgba\(233,223,200,\.62\)/,/background:\s*rgba\(10,10,12,\.82\)/])assert.match(wait,want,`waiting STOP: ${want}`);
+    assert.equal(/gradient/.test(wait),false,"the waiting STOP has no gold face");
+    // Nik 22:11-22:14: Home's language. Home's bevel tokens, Home tiles under the balls, the house marble page.
+    assert.match(CSS_SRC,/--bevel-gold: linear-gradient\(135deg, #FFF1B8 0%, #E8B94A 16%, #8A6A12 38%, #F2C45B 58%, #FFF1B8 74%, #B8862A 100%\)/,"Home's gold bevel, same name and value as #mainMenu.v10Home");
+    assert.match(block('#clubWheelScreen[data-club-draw="spin"] .clubRevealCard {\n'),/border-image:\s*var\(--bevel-gold\)/,"the manager boxes are Home tiles");
+    assert.match(CSS_SRC,/ENV_SLAB_HC_V1_1X\.webp/,"the page is the house marble");
     assert.equal(/cyan|#00[a-f0-9]{4}\b|blue/i.test(CSS_SRC.replace(/\/\*[\s\S]*?\*\//g,"")),false,"nothing blue in draw mode");
     assert.match(V10_SRC,/section\.dataset\.clubDraw==="spin"\)return false;/,"Team V's pack plate is off in draw mode (CL1-CL6 kept for old Setups)");
     ok("W6","the step, scene and stylesheet are offline; draw styles only in draw mode; no dimming; the pack plate stays for old Setups");
