@@ -169,9 +169,16 @@
   const idOf=p=>isSigning(p)?(twinOf(p)?`${nameId(p.name)}#${p.pid}`:nameId(p.name)):`c|${sqKey(p.name)}#${Number.isInteger(p.number)?p.number:null}`;
   // The stored document's number for a person: his shirt for a club player; for a signing his pid when he is a later
   // namesake, else -1 (as every document before R94-04).
-  const docNumber=p=>twinOf(p)??(!isSigning(p)&&Number.isInteger(p.number)?p.number:-1);
+  // R94-04 (Codex on #1493): a later namesake's playerId is stored as -1-playerId (always -2 or lower) in a number slot, never
+  // as a positive value: every earlier build reads a signing's negative number as none (2.5.1 boardFromDoc and fromDoc), so a
+  // 2.5.1 phone that rebuilds such a squad from the document's names puts the same rows on the Roulette board as this build
+  // (name, no number, window), the shared board version agrees and no playerId is ever read as a shirt number (hitNumber 0-99).
+  // -1 stays "none". A positive id (written by 2.6.0 builds before this) is still read as one.
+  const pidCode=pid=>-1-pid;
+  const docPid=n=>Number.isInteger(n)&&n<=-2&&n>=-1000000?-1-n:Number.isInteger(n)&&n>=1&&n<=999999?n:null;
+  const docNumber=p=>twinOf(p)!==null?pidCode(twinOf(p)):!isSigning(p)&&Number.isInteger(p.number)?p.number:-1;
   // The id a stored entry (name, number, signed window) names.
-  const docId=(name,number,signed)=>signed>0?idOf({name,number:null,signedSeason:signed,pid:number>=1?number:null}):idOf({name,number:number>=0?number:null,signedSeason:null});
+  const docId=(name,number,signed)=>signed>0?idOf({name,number:null,signedSeason:signed,pid:docPid(number)}):idOf({name,number:number>=0?number:null,signedSeason:null});
   const cmp=(a,b)=>a<b?-1:a>b?1:0;
   const order=(a,b)=>b.rating-a.rating||cmp(sqKey(a.name),sqKey(b.name))||cmp(a.positions[0]||"",b.positions[0]||"")||cmp(a.name,b.name)||cmp(a.id,b.id);
   const validOverall=v=>Number.isInteger(v)&&v>=OVERALL_MIN&&v<=OVERALL_MAX;
@@ -917,8 +924,8 @@
       schemaVersion:VERSION,objectType:"sharedSquadSheet",seasonNumber:sheet.season,stage:sheet.stage,formation:sheet.formation,
       // (R94-04: a later namesake's number is his playerId; the Rules hold only the lists' lengths.)
       names:fifteen.map(p=>p?p.name:""),numbers:fifteen.map(p=>p?docNumber(p):-1),signed:fifteen.map(p=>p&&isSigning(p)?p.signedSeason:0),
-      outNames:sheet.out.map(o=>o.name),outNumbers:sheet.out.map(o=>twinOf(o)??(Number.isInteger(o.number)?o.number:-1)),outSigned:sheet.out.map(o=>o.signedSeason||0),outReasons:sheet.out.map(o=>o.reason),outSeasons:sheet.out.map(o=>o.season),
-      ovNames:Object.keys(sheet.ratings).map(id=>everyoneById(sheet,id).name),ovNumbers:Object.keys(sheet.ratings).map(id=>{const p=everyoneById(sheet,id);return twinOf(p)??(Number.isInteger(p.number)?p.number:-1);}),ovSigned:Object.keys(sheet.ratings).map(id=>everyoneById(sheet,id).signedSeason||0),ovValues:Object.values(sheet.ratings),
+      outNames:sheet.out.map(o=>o.name),outNumbers:sheet.out.map(o=>twinOf(o)!==null?pidCode(twinOf(o)):Number.isInteger(o.number)?o.number:-1),outSigned:sheet.out.map(o=>o.signedSeason||0),outReasons:sheet.out.map(o=>o.reason),outSeasons:sheet.out.map(o=>o.season),
+      ovNames:Object.keys(sheet.ratings).map(id=>everyoneById(sheet,id).name),ovNumbers:Object.keys(sheet.ratings).map(id=>{const p=everyoneById(sheet,id);return twinOf(p)!==null?pidCode(twinOf(p)):Number.isInteger(p.number)?p.number:-1;}),ovSigned:Object.keys(sheet.ratings).map(id=>everyoneById(sheet,id).signedSeason||0),ovValues:Object.values(sheet.ratings),
       engine:`sq${VERSION}`
     };
   }
@@ -935,7 +942,7 @@
     // the name's first man is of another window and a later namesake of this one is not named by his own id, it is him: an
     // earlier build held the two as one (bought back, or one entry for two KEEPs). Otherwise the name, exactly as before.
     // (Codex on #1494: departures too, and a man's windows count his repeat entries.)
-    const byId=(names,numbers,signed)=>(names||[]).map((n,i)=>signed[i]>0&&numbers[i]>=1?idFor(n,numbers[i],signed[i]):null);
+    const byId=(names,numbers,signed)=>(names||[]).map((n,i)=>signed[i]>0&&docPid(numbers[i])!==null?idFor(n,numbers[i],signed[i]):null);
     const named=new Set([...byId(doc.names,doc.numbers,doc.signed),...byId(doc.ovNames,doc.ovNumbers,doc.ovSigned),...byId(doc.outNames,doc.outNumbers,doc.outSigned)].filter(Boolean));
     const inWindow=w=>windowOf(sheet,w);
     // (A man of the name's id who is away, shot or guessed here is that man: never another. The man of the name's id in that
@@ -943,7 +950,7 @@
     const gone=new Set([...sheet.excluded,...sheet.out.map(o=>o.id)]);
     const pick=(list,name,number,signed)=>{
       const id=idFor(name,number,signed),exact=list.find(q=>q.id===id);
-      if(!(signed>0)||number>=1||(!exact&&gone.has(id))||(exact&&inWindow(signed)(exact)))return exact;
+      if(!(signed>0)||docPid(number)!==null||(!exact&&gone.has(id))||(exact&&inWindow(signed)(exact)))return exact;
       const k=sqKey(name),others=list.filter(q=>isSigning(q)&&q.id!==id&&!named.has(q.id)&&sqKey(q.name)===k);
       return others.find(q=>q.signedSeason===signed)||others.find(inWindow(signed))||exact;
     };
@@ -987,13 +994,13 @@
       });
       if(back){
         // R94-04: he keeps the id his departure was read as (an earlier build stored no playerId, -1, for a later namesake too).
-        const prev=everyone(sheet).find(q=>q.id===id),again=person(prev?prev.name:doc.outNames[i],null,ovOf(id)??back.rating,back.positions,back.season,prev?twinOf(prev):doc.outNumbers[i]>=1?doc.outNumbers[i]:null);
+        const prev=everyone(sheet).find(q=>q.id===id),again=person(prev?prev.name:doc.outNames[i],null,ovOf(id)??back.rating,back.positions,back.season,prev?twinOf(prev):docPid(doc.outNumbers[i]));
         const ref=prev?findPlayer(sheet,id):null;
         if(ref)put(sheet,ref,again);else sheet.reserves.push(again);
       }
       for(const j of away){
         const p=everyone(sheet).find(q=>q.id===id);
-        const signing=doc.outSigned[j]>0,pid=p?twinOf(p):signing&&doc.outNumbers[j]>=1?doc.outNumbers[j]:null;
+        const signing=doc.outSigned[j]>0,pid=p?twinOf(p):signing?docPid(doc.outNumbers[j]):null;
         sheet.out.push({id,name:p?p.name:doc.outNames[j],number:p?p.number:(!signing&&doc.outNumbers[j]>=0?doc.outNumbers[j]:null),...(pid?{pid}:{}),signedSeason:doc.outSigned[j]>0?doc.outSigned[j]:null,reason:doc.outReasons[j],season:doc.outSeasons[j],stage:doc.stage,player:doc.outReasons[j]==="loaned"&&p?clone(p):null,...(returned[j]?{returned:returned[j]}:{})});
       }
       if(awayNow)ex.add(id);
@@ -1081,7 +1088,7 @@
     namesakesIn:(rows,name)=>{const k=sqKey(name),ids=new Set();for(const r of Array.isArray(rows)?rows:[])if(r&&r.release===false&&typeof r.name==="string"&&sqKey(r.name)===k)ids.add(pidOf(r.playerId));return ids.size>=2&&[...ids].some(id=>id!==null);},
     // R94-04: which namesake a locked "pre" document names at a roulette hit's slot: 0 = the name's first man, a playerId = a
     // later namesake, null = the document does not name that signing there.
-    docShotPid:(doc,hit)=>{const i=hit&&hit.hitSlot;if(!doc||!Array.isArray(doc.names)||!Number.isInteger(i)||i<0||i>=XI_SIZE+FEATURED||typeof doc.names[i]!=="string"||sqKey(doc.names[i])!==sqKey(hit.hitName)||doc.signed[i]!==hit.hitSignedSeason)return null;return doc.numbers[i]>=1?doc.numbers[i]:0;},
+    docShotPid:(doc,hit)=>{const i=hit&&hit.hitSlot;if(!doc||!Array.isArray(doc.names)||!Number.isInteger(i)||i<0||i>=XI_SIZE+FEATURED||typeof doc.names[i]!=="string"||sqKey(doc.names[i])!==sqKey(hit.hitName)||doc.signed[i]!==hit.hitSignedSeason)return null;return docPid(doc.numbers[i])??0;},
     hidingIssue:sheet=>{const i=hidingIssue(sheet);return i?Object.freeze({kind:i.kind,better:i.q.name,over:i.p?i.p.name:null,reason:hidingReason(i)}):null;}
   });
 });

@@ -55,7 +55,7 @@ function rebuildsSame(club,season,stage,events,locked,label){
     assert.deepEqual(people.map(p=>p.id).sort(),['s|m. dembele','s|m. dembele#211591'],'the first keeps the name, the second is known by his id');
     assert.ok(S.validate(sheet).ok,S.validate(sheet).problems.join());
     const doc=S.toDoc(sheet),onDoc=doc.names.map((x,i)=>x===T?[doc.numbers[i],doc.signed[i]]:null).filter(Boolean);
-    for(const [number,signed] of onDoc)assert.ok((number===-1||number===211591)&&signed===1,'the document names the CM as before (-1) and the ST by his id');
+    for(const [number,signed] of onDoc)assert.ok((number===-1||number===-1-211591)&&signed===1,'the document names the CM as before (-1) and the ST by his id (-1-playerId: every earlier build reads a negative as none)');
     assert.ok(S.board(sheet).every(r=>r.name!==T||r.number===null),'no shirt number on the Roulette board for either (hitNumber stays 0-99 or null)');
     rebuildsSame(setup.clubs[role],1,'post',[null,events],sheet,`Astra ${role} ${repeat}`);
   }
@@ -105,7 +105,7 @@ function rebuildsSame(club,season,stage,events,locked,label){
     let s3=S.replay({club,special:null,season:3,stage:'pre',events:events.concat([ev([])]),docs:{}}).proposal;
     const loan=S.leave(s3,'s|m. dembele#211591','loaned');assert.ok(loan.ok,loan.reason);
     const evs3=events.concat([ev([])]),d3={'3_pre':docOf(loan.sheet)};
-    assert.deepEqual(d3['3_pre'].outNumbers,[211591],'the departure names the ST by his id');
+    assert.deepEqual(d3['3_pre'].outNumbers,[-1-211591],'the departure names the ST by his id');
     assert.equal(men(S.replay({club,special:null,season:3,stage:'post',events:evs3,docs:d3}).sheet||S.replay({club,special:null,season:3,stage:'post',events:evs3,docs:d3}).proposal,T).length,1,'away on loan: only the CM');
     const s4=S.replay({club,special:null,season:4,stage:'pre',events:evs3.concat([ev([])]),docs:d3}).proposal;
     assert.equal(men(s4,T).length,2,'the loan ends: both at the club in S4');
@@ -330,6 +330,99 @@ function rebuildsSame(club,season,stage,events,locked,label){
     const rr=fs.readFileSync(path.join(root,'js/rosterRoulette.js'),'utf8');
     assert.match(rr,/if\(sheets\)\{\n\s+boards\[role\]=sheets\[role\]\.board;/,'the roulette board is the locked sheet');
     ok('N6','no Rules change needed (list lengths only; hitNumber unchanged); the roulette spins on the locked squad sheets');
+  }
+
+  // N8 Mixed versions (Codex on #1493): a 2.5.1 phone (main 23bdd439, its squad engine vendored byte for byte in
+  // tests/fixtures/r93-mixed-versions) puts its rival's Roulette board together as 2.5.1's js/squadSheetStep.js does: a full
+  // rebuild from the rival's locked "pre" document, else the rows straight from the document (boardFromDoc). The roulette
+  // engine and squad data are the same in both builds, and the shared board version hashes each row's name, number and window.
+  // A later namesake's playerId is stored as -1-playerId, which 2.5.1 reads as no number: both phones build the same rows
+  // (formation, name, number, window) for every squad, in both directions, and no playerId is ever a shirt number or a
+  // hitNumber. (2.5.1 cannot hold two men of one name, so its rebuild of such a squad falls back to the document's rows.)
+  {
+    const crypto=require('node:crypto');
+    const raw=fs.readFileSync(path.join(root,'tests/fixtures/r93-mixed-versions/squadSheet-2.5.1.js.txt'));
+    assert.equal(crypto.createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex'),'5f4e4bc3278b687a00b1dc8e6ac02ca6e8aaca3b','the 2.5.1 squad engine (main 23bdd439 js/squadSheet.js), byte for byte');
+    globalThis.CareerModeFifa17Players=get('data/fifa17Players.js');globalThis.CareerModeRosterSquads=get('data/rosterSquads.js');
+    const mod={exports:{}};new Function('module','exports','require',raw.toString('utf8'))(mod,mod.exports,()=>{throw new Error('2.5.1 engine: no require');});
+    const Old=mod.exports;assert.equal(typeof Old.boardFromDoc,'function');
+    const R=get('js/rosterRoulette.js');
+    const triples=b=>({formation:b.formation,rows:b.board.map(r=>[r.name,r.number,r.signedSeason])});
+    const boardBy=(E,club,season,events,doc)=>{// 2.5.1 sqsRivalBoard / sqsBuildLocked, and this build's
+      const out=E.replay({club,special:null,season,stage:'pre',events,docs:{[`${season}_pre`]:doc}});
+      if(out.sheet)return {formation:out.sheet.formation,board:E.board(out.sheet),full:true};
+      const rows=E.boardFromDoc(doc,out.auto||null);return rows?{formation:doc.formation,board:rows,full:false}:null;
+    };
+    const stats={screens:0,fallback:0,twinsOnBoard:0,collapsedDiffer:0,collapsedSame:0};
+    const agree=(club,season,events,doc,label,collapsed=false)=>{
+      const now=boardBy(S,club,season,events,doc),old=boardBy(Old,club,season,events,doc);
+      assert.ok(now&&now.full,`${label}: this build rebuilds it`);assert.ok(old,`${label}: a 2.5.1 phone puts a board together`);
+      for(const r of now.board)assert.ok(r.signedSeason===null||r.number===null,`${label}: a signing has no number on the board`);
+      for(const r of old.board)assert.ok(r.signedSeason===null||r.number===null,`${label}: no playerId read as a signing's number on 2.5.1 (${r.number})`);
+      // 2.5.1's own rule reads a later namesake kept in another window as the first man bought back (Astra A-TW-01, the bug
+      // R94-04 fixes): where its chain holds the two as one, its rebuild can stand that man in another window. Release record.
+      const same=JSON.stringify(triples(old))===JSON.stringify(triples(now));
+      if(collapsed&&!same){stats.collapsedDiffer+=1;return;}
+      assert.ok(same,`${label}: a 2.5.1 phone and a 2.6.0 phone build the same Roulette rows`);
+      for(const r of old.board)assert.ok(r.number===null||(Number.isInteger(r.number)&&r.number>=0&&r.number<=99),`${label}: no playerId read as a shirt number on 2.5.1 (${r.number})`);
+      const clubs={playerOne:club,playerTwo:'Arsenal'},other=S.board(S.launch('Arsenal'));
+      const v=b=>R.version(clubs,{sheets:{playerOne:b,playerTwo:{formation:S.launch('Arsenal').formation,board:other}}});
+      assert.equal(v(old),v(now),`${label}: the same shared board version`);
+      stats.screens+=1;if(!old.full)stats.fallback+=1;if(now.board.some(r=>r.name&&doc.numbers[r.slot]<=-2))stats.twinsOnBoard+=1;
+    };
+    // Astra's window and the swapped same-window pair (both on the board), and a later namesake (sold, then the other man).
+    {
+      const club='Crotone',A=row(1,T,85,'CM',162240),B=row(2,T,85,'CM',211591),events=[null,ev([A,B])];
+      let pre=S.replay({club,special:null,season:2,stage:'pre',events,docs:{}}).proposal;
+      agree(club,2,events,docOf(pre),'two Dembélés on the board');
+      const slots=pre.xi.map((p,i)=>p&&p.name===T?i:-1).filter(i=>i>=0);pre=S.swap(pre,{zone:'xi',index:slots[0]},{zone:'xi',index:slots[1]}).sheet;
+      const doc=docOf(pre);assert.ok(doc.numbers.some(n=>n===-1-211591),'the second man is stored as -1-playerId');
+      assert.ok(doc.numbers.every(n=>n<=99),'no stored number a 2.5.1 phone could take for a shirt number');
+      agree(club,2,events,doc,'two Dembélés swapped on the board');
+      const l=[null,ev([A])];let p2=S.replay({club,special:null,season:2,stage:'pre',events:l,docs:{}}).proposal;
+      p2=S.leave(p2,'s|m. dembele','sold').sheet;l[2]=ev([B]);
+      const post2=S.replay({club,special:null,season:2,stage:'post',events:l,docs:{'2_pre':docOf(p2)}}).proposal;l[3]=null;
+      const pre3=S.replay({club,special:null,season:3,stage:'pre',events:l,docs:{'2_post':docOf(post2)}}).proposal;
+      const d3=docOf(pre3);assert.deepEqual(d3.outNumbers,[-1],'the sold first man as before');
+      agree(club,3,l,d3,'a later namesake');
+    }
+    // 2.5.1 writes, 2.6.0 reads: a 2.5.1 squad of the same two KEEPs (collapsed there) puts the same rows on both phones.
+    {
+      const club='Crotone',events=[null,ev([row(1,T,85,'CM',162240),row(2,T,85,'CM',211591)])];
+      const oldPre=Old.replay({club,special:null,season:2,stage:'pre',events,docs:{}}).proposal,doc={...Old.toDoc(oldPre),rivalryId:'pair_x',role:'playerOne'};
+      const old=boardBy(Old,club,2,events,doc),now=boardBy(S,club,2,events,doc);
+      assert.ok(old&&now);assert.deepEqual(triples(now),triples(old),'a 2.5.1 squad reads the same on a 2.6.0 phone');
+    }
+    // Random namesake careers (as N7): every locked "pre" screen, both builds.
+    {
+      const mul=seed=>{let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};};
+      const P=['GK','CB','RB','LB','CDM','CM','CAM','RM','LM','RW','LW','ST'];
+      for(let seed=1;seed<=120;seed+=1){
+        const r=mul(seed),pick=a=>a[Math.floor(r()*a.length)],club=pick(['Crotone','Arsenal','Eibar','Pescara']);
+        const cast=[];['Twin A','Twin B'].forEach((n,i)=>{for(let j=0;j<3;j+=1)cast.push([`${n} ${seed%11}`,6000+i*10+j]);});
+        const events=[null];let last=null;
+        for(let k=1;k<=6;k+=1)for(const stage of ['pre','post']){
+          if(stage==='post'){
+            const rows=[];for(let s=1;s<=3;s+=1){if(r()<0.2)continue;const [name,id]=pick(cast);rows.push(row(s,name,60+Math.floor(r()*35),pick(P),r()<0.15?null:id,r()<0.2));}
+            events[k]=ev(rows);
+          }
+          const out=S.replay({club,special:null,season:k,stage,events,docs:last?{[last.key]:last.doc}:{}});assert.ok(!out.error,`seed ${seed}: ${out.error}`);
+          let sheet=out.proposal;
+          for(let m=0;m<Math.floor(r()*5);m+=1){
+            const refs=[...sheet.xi.map((_,i)=>({zone:'xi',index:i})),...sheet.bench.map((_,i)=>({zone:'bench',index:i})),...sheet.reserves.map((_,i)=>({zone:'res',index:i}))];
+            const people=all(sheet),u=r(),op=u<0.6?{t:'swap',a:pick(refs),b:pick(refs)}:u<0.8&&k>1&&people.length>14?{t:'leave',id:pick(people).id,reason:pick(S.leaveReasons)}:k>1?{t:'rate',id:pick(people).id,overall:50+Math.floor(r()*45)}:null;
+            if(!op)continue;const res=S.apply(sheet,[op]);if(!res.errors.length)sheet=res.sheet;
+          }
+          const doc=docOf(sheet);last={key:`${k}_${stage}`,doc};
+          // collapsed: this manager has kept two different men of one name in different windows (the 2.5.1 bug's ground)
+          const kept=new Map();for(const e of events)if(e)for(const x of e.kept)if(Number.isInteger(x.playerId)){const w=kept.get(x.name)||new Set();w.add(x.playerId);kept.set(x.name,w);}
+          const collapsed=[...kept.values()].some(w=>w.size>=2);
+          if(stage==='pre'){const before=stats.collapsedDiffer;agree(club,k,events,doc,`seed ${seed} S${k}`,collapsed);if(collapsed&&stats.collapsedDiffer===before)stats.collapsedSame+=1;}
+        }
+      }
+    }
+    assert.ok(stats.fallback>=3&&stats.twinsOnBoard>=3,`the check reaches 2.5.1's fallback (${stats.fallback}) and later namesakes on the board (${stats.twinsOnBoard})`);
+    ok('N8',`mixed versions: ${stats.screens} locked "pre" screens (${stats.fallback} that 2.5.1 builds from the document's rows, ${stats.twinsOnBoard} with a later namesake on the board): a 2.5.1 phone and a 2.6.0 phone build the same Roulette rows and board version both ways, Astra's window included; no playerId is ever a number; only where a manager kept two different men of one name can 2.5.1's own rule stand one elsewhere (${stats.collapsedDiffer} screens, ${stats.collapsedSame} the same)`);
   }
   console.log(`PASS r94 namesake signings contracts (${checks} checks)`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

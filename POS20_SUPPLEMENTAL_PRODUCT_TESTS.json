@@ -3348,6 +3348,7 @@
         "^data/fifa17/players\\-",
         "^firestore\\.(season\\-results|transfer\\-challenge)\\-production\\.fragment\\.rules$",
         "^tests/fixtures/r94\\-namesake/",
+        "^tests/fixtures/r93\\-mixed\\-versions/",
         "^tests/contracts/r94\\-namesake\\-signings\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
