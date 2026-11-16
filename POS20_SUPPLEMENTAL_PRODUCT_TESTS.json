@@ -3363,6 +3363,20 @@
         "^tests/contracts/r93\\-loan\\-records\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r94-club-draw-scene-contracts.cjs",
+      "patterns": [
+        "^js/clubDrawScene3d\\.js$",
+        "^js/gfxTier\\.js$",
+        "^tools/club\\-draw\\-tuning\\.html$",
+        "^service\\-worker\\.js$",
+        "^index\\.html$",
+        "^\\.github/workflows/deploy\\-github\\-pages\\.yml$",
+        "^visual\\-assets/v10_1/roulette/vendor/three\\-r187\\.min\\.js$",
+        "^tests/contracts/r94\\-club\\-draw\\-scene\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
