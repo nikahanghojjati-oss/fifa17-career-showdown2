@@ -54,8 +54,19 @@
     const url=shirtUrl(club,role,vsClub);
     const box=el("span","sqmShirt"+(role==="gk"?" is-gk":""));
     if(url){const im=el("img");im.alt="";im.src=url;im.draggable=false;box.appendChild(im);}
-    else{box.classList.add("is-plain");const body=standInColour(club,role,vsClub);if(body)box.style.background=body;}
+    else{box.classList.add("is-plain");box.sqmShirtArgs=[club,role,vsClub];const body=standInColour(club,role,vsClub);if(body)box.style.background=body;}
     return box;
+  }
+  // R94-01 (Codex P2): a retry paints only the stand-ins, in place, so the focused search box, its caret and keyboard focus
+  // on the squad are never replaced while the manager types or moves around.
+  function repaintStandIns(scope){
+    shirtMissed=false;
+    scope.querySelectorAll(".sqmShirt.is-plain").forEach(box=>{
+      const a=box.sqmShirtArgs;if(!a)return;
+      const url=shirtUrl(a[0],a[1],a[2]);if(!url)return;
+      const im=el("img");im.alt="";im.src=url;im.draggable=false;
+      box.classList.remove("is-plain");box.style.background="";box.sqmShirtArgs=undefined;box.appendChild(im);
+    });
   }
 
   // Nationality from the FIFA 17 data (club row first, then any club for a signing).
@@ -593,7 +604,7 @@
       root.setTimeout(()=>{
         if(!host.isConnected||!host.classList.contains("sqm"))return;
         if(drag){retryShirts(n);return;}
-        shirtMissed=false;sqmRender();retryShirts(n+1);
+        repaintStandIns(host);retryShirts(n+1);
       },RETRY_MS[n]);
     };
     retryShirts(0);
