@@ -92,7 +92,10 @@
     return intent;
   }
   function csrAssertLedger(value,rivalryId,totalSeasons){
-    csrExact(value,SETUP_LEDGER_KEYS,"COMPLETED_SETUP_INVALID");
+    // R94-02: a draw 2 Showdown also stores `stops`; older ones keep the exact 15 keys (protocol module owns both lists).
+    const setup=csrModules.setup;
+    csrExact(value,setup&&typeof setup.ledgerKeys==="function"?setup.ledgerKeys(value):SETUP_LEDGER_KEYS,"COMPLETED_SETUP_INVALID");
+    if(setup&&typeof setup.ledgerStopsValid==="function"&&!setup.ledgerStopsValid(value))csrFail("COMPLETED_SETUP_INVALID");
     if(value.schemaVersion!==1||value.objectType!=="sharedSetupLedger"||value.rivalryId!==rivalryId||value.revision!==6||value.phase!=="SHOWDOWN_CONFIRMED"||!ROLES.includes(value.coordinatorRole)||value.totalSeasons!==totalSeasons||!Array.isArray(value.confirmedRoles)||value.confirmedRoles.length!==2||!ROLES.every(role=>value.confirmedRoles.includes(role)))csrFail("COMPLETED_SETUP_INVALID");
     for(const key of ["operationIds","operationTypes","baseRevisions","actorRoles"]){if(!Array.isArray(value[key])||value[key].length!==6)csrFail("COMPLETED_SETUP_INVALID");}
     if(JSON.stringify(value.operationTypes)!==JSON.stringify(["open","commit-league","commit-clubs","commit-length","confirm","confirm"])||value.baseRevisions.some((base,index)=>base!==index)||value.actorRoles.slice(0,4).some(role=>role!==value.coordinatorRole))csrFail("COMPLETED_SETUP_INVALID");
@@ -108,11 +111,8 @@
     if(!csrModules.setup||typeof csrModules.setup.createProtocol!=="function"||!csrModules.catalog||!csrModules.catalog.catalog)csrFail("COMPLETED_PROTOCOL_UNAVAILABLE");
     const protocol=await csrModules.setup.createProtocol({catalog:csrModules.catalog.catalog,cryptoImpl});let state=null;
     for(let index=0;index<ledger.revision;index+=1){
-      const type=ledger.operationTypes[index],authority=csrAuthority(rivalryId,rivalry,ledger.actorRoles[index],ledger.activeSessionId,ledger.coordinatorRole);let command;
-      if(type==="commit-league"||type==="commit-clubs")command=await protocol.prepareDraw({state,type,operationId:ledger.operationIds[index]});
-      else if(type==="commit-length")command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index],totalSeasons:ledger.totalSeasons};
-      else if(type==="confirm")command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index],setupHash:await protocol.confirmationHash(state)};
-      else command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index]};
+      const authority=csrAuthority(rivalryId,rivalry,ledger.actorRoles[index],ledger.activeSessionId,ledger.coordinatorRole);
+      let command;try{command=await protocol.ledgerCommand({state,ledger,index});}catch(_error){csrFail("COMPLETED_SETUP_INVALID");}
       const applied=await protocol.apply({state,authority,command});if(!applied||!applied.ok)csrFail("COMPLETED_SETUP_INVALID");state=applied.state;
     }
     if(!state||state.phase!=="SHOWDOWN_CONFIRMED"||state.revision!==6)csrFail("COMPLETED_SETUP_INVALID");

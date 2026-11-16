@@ -66,6 +66,7 @@ function teamVClubJs(source){
       .replace(/^  let FRAME = (.*); \/\/ App \(JOB-34\).*$/,"  const FRAME = $1;")
       .replace(' || Boolean(window.CLUB_APP); // App (JOB-34): live stage changes play.',";")
       .replace("  if (!window.CLUB_APP) main().catch(showUnavailable); // App (JOB-34): the app mounts the screen itself.","  main().catch(showUnavailable);")
+      .replace(/^  function crestMarkup\(name\) \{ return window\.getClubCrestMarkup .* \/\/ App \(R94 HO-084\).*$/,"  function crestMarkup(name) { return window.getClubCrestSvg(name); }")
       .replace(/" \+ ASSET_BASE \+ "/g,"").replace(/\$\{ASSET_BASE\}/g,"").replace(/ \/\/ App \(JOB-34\)$/,""));
   return out.join("\n");
 }
@@ -261,9 +262,9 @@ async function browserChecks(){
 
     check("6 Daniel is left and Nik right; crests show only the clubs the product revealed",async()=>{
       await stage(page,"confirmation");
-      // Crest SVGs get fresh internal ids per drawing; compare them without those.
+      // Crest SVGs get fresh internal ids per drawing; compare them without those. R94 HO-084: a club with an image crest shows it.
       const sides=await page.evaluate(()=>{const same=(a,b)=>{const n=h=>{const t=document.createElement("div");t.innerHTML=h;return t.innerHTML.replace(/(id="|url\(#|href="#)[^")]*/g,"$1");};return n(a)===n(b);};const s=document.getElementById("clubWheelScreen"),box=id=>document.querySelector(`#${id} .clubCardFace`).getBoundingClientRect();const rims=[...s.querySelectorAll(".panelCrest .crestRim")];
-        return {left:box("clubCardOne").left<box("clubCardTwo").left,crests:rims.map((r,i)=>same(r.innerHTML,getClubCrestSvg(["Arsenal","Chelsea"][i]))),names:[document.getElementById("clubNameOne").textContent,document.getElementById("clubNameTwo").textContent]};});
+        return {left:box("clubCardOne").left<box("clubCardTwo").left,crests:rims.map((r,i)=>same(r.innerHTML,(window.getClubCrestMarkup?n=>getClubCrestMarkup(n,"big"):getClubCrestSvg)(["Arsenal","Chelsea"][i]))),names:[document.getElementById("clubNameOne").textContent,document.getElementById("clubNameTwo").textContent]};});
       assert.deepEqual(sides,{left:true,crests:[true,true],names:["Arsenal","Chelsea"]});
       await page.setViewportSize({width:390,height:844});await page.waitForTimeout(400);
       assert.ok(await page.evaluate(()=>document.getElementById("clubCardOne").getBoundingClientRect().top<document.getElementById("clubCardTwo").getBoundingClientRect().top),"phone: Daniel's row first");
@@ -271,7 +272,7 @@ async function browserChecks(){
       // Nik's pack sealed (the product has not opened it) although a club name is already in the product node.
       await stage(page,"manager-one",{sealedTwo:SENTINEL});
       const sealed=await page.evaluate(secret=>{const same=(a,b)=>{const n=h=>{const t=document.createElement("div");t.innerHTML=h;return t.innerHTML.replace(/(id="|url\(#|href="#)[^")]*/g,"$1");};return n(a)===n(b);};const s=document.getElementById("clubWheelScreen");const decor=[...s.querySelectorAll("[data-cl-decor], .shieldSlot, .reveal, .rvCrest, .panelCrest, .cl-stage")];
-        return {decor:decor.some(n=>n.innerHTML.includes(secret)||n.textContent.includes(secret)),count:document.documentElement.outerHTML.split(secret).length-1,rimTwo:s.querySelectorAll(".panelCrest .crestRim")[1].innerHTML,rimOne:same(s.querySelectorAll(".panelCrest .crestRim")[0].innerHTML,getClubCrestSvg("Arsenal"))};},SENTINEL);
+        return {decor:decor.some(n=>n.innerHTML.includes(secret)||n.textContent.includes(secret)),count:document.documentElement.outerHTML.split(secret).length-1,rimTwo:s.querySelectorAll(".panelCrest .crestRim")[1].innerHTML,rimOne:same(s.querySelectorAll(".panelCrest .crestRim")[0].innerHTML,(window.getClubCrestMarkup?getClubCrestMarkup("Arsenal","big"):getClubCrestSvg("Arsenal")))};},SENTINEL);
       assert.deepEqual(sealed,{decor:false,count:1,rimTwo:"",rimOne:true},"the sealed club is only in the product's own node");
     });
 

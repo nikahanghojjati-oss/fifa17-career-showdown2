@@ -18,6 +18,8 @@ const walk=dir=>fs.readdirSync(path.join(ROOT,dir),{withFileTypes:true}).flatMap
 const STANDALONE_ROOTS={};
 // js/ files allowed to exist without a page loading them. Keep empty unless a file truly has no page; give the reason.
 const ALLOWED_UNLOADED={
+  // R94-02 PR 2 ships the Club Assignment 3D scene and its tuning page; PR 3 wires it into the Club screen (and removes this line).
+  "js/clubDrawScene3d.js":"R94-02: the 3D scene lands one PR before the Club screen loads it (PR 3 removes this entry)"
 };
 
 const pageRoots=["index.html",...walk("visual-assets").filter(file=>file.endsWith(".html")),...Object.keys(STANDALONE_ROOTS)];

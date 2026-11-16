@@ -211,7 +211,7 @@
   }
   function pcstStageHold(role,club){
     const hold=pcstCreate("div","pcstHold");hold.dataset.side=role;hold.setAttribute("aria-hidden","true");
-    const crest=pcstCreate("div","pcstHoldCrest");try{if(typeof root.getClubCrestSvg==="function")crest.innerHTML=root.getClubCrestSvg(club);}catch(_error){}
+    const crest=pcstCreate("div","pcstHoldCrest");try{if(typeof root.getClubCrestMarkup==="function")crest.innerHTML=root.getClubCrestMarkup(club,"big");else if(typeof root.getClubCrestSvg==="function")crest.innerHTML=root.getClubCrestSvg(club);}catch(_error){}
     hold.append(crest,pcstCreate("div","pcstHoldName",club));return hold;
   }
   // stageFailed: the Club screen's visuals could not load (a missing map, script or style), so Career Start shows on its own

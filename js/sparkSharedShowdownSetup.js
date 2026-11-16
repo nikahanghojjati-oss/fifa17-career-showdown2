@@ -75,8 +75,12 @@
     return Object.freeze({sessionId,data,expiresAt});
   }
   function expectedPhase(revision){return revision<=1?PHASES[0]:revision===2?PHASES[1]:revision===3?PHASES[2]:revision<=5?PHASES[3]:PHASES[4];}
+  // R94-02: a draw 2 setup also stores `stops` (one integer 0..359 per confirmed manager); older setups keep the
+  // exact 15 keys. The protocol module owns both key lists.
+  function ledgerKeyList(value){const module=ssrpProtocolModule();return module&&typeof module.ledgerKeys==="function"?module.ledgerKeys(value):LEDGER_KEYS;}
   function assertLedger(value,rivalryId){
-    if(!ssrpExact(value,LEDGER_KEYS)||value.schemaVersion!==1||value.objectType!=="sharedSetupLedger"||value.rivalryId!==rivalryId||!Number.isInteger(value.revision)||value.revision<1||value.revision>6||!ROLES.includes(value.coordinatorRole)||value.phase!==expectedPhase(value.revision))ssrpFail("SETUP_PROVIDER_STATE_INVALID");
+    const module=ssrpProtocolModule();
+    if(!ssrpExact(value,ledgerKeyList(value))||(module&&typeof module.ledgerStopsValid==="function"&&!module.ledgerStopsValid(value))||value.schemaVersion!==1||value.objectType!=="sharedSetupLedger"||value.rivalryId!==rivalryId||!Number.isInteger(value.revision)||value.revision<1||value.revision>6||!ROLES.includes(value.coordinatorRole)||value.phase!==expectedPhase(value.revision))ssrpFail("SETUP_PROVIDER_STATE_INVALID");
     for(const key of ["operationIds","operationTypes","baseRevisions","actorRoles"]){if(!Array.isArray(value[key])||value[key].length!==value.revision)ssrpFail("SETUP_PROVIDER_STATE_INVALID");}
     if(new Set(value.operationIds).size!==value.operationIds.length||value.operationIds.some(id=>!/^setup_op_[0-9a-f]{32}$/.test(id)))ssrpFail("SETUP_PROVIDER_STATE_INVALID");
     if(value.operationTypes.some((type,index)=>type!==TYPES[index])||value.baseRevisions.some((base,index)=>base!==index)||value.actorRoles.some(role=>!ROLES.includes(role)))ssrpFail("SETUP_PROVIDER_STATE_INVALID");
@@ -112,28 +116,23 @@
     const session=syntheticSession(rivalryId,rivalry,ledger.coordinatorRole,ledger.activeSessionId);
     let state=null;
     for(let index=0;index<ledger.revision;index++){
-      const type=ledger.operationTypes[index];
       const role=ledger.actorRoles[index];
       const auth=authority({rivalryId,rivalry,session,role,deviceId:"device_"+"0".repeat(32),epochMs:0,hostRole:ledger.coordinatorRole});
-      let command;
-      if(type==="commit-league"||type==="commit-clubs")command=await protocol.prepareDraw({state,type,operationId:ledger.operationIds[index]});
-      else if(type==="commit-length")command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index],totalSeasons:ledger.totalSeasons};
-      else if(type==="confirm")command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index],setupHash:await protocol.confirmationHash(state)};
-      else command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index]};
+      const command=await protocol.ledgerCommand({state,ledger,index});
       const applied=await protocol.apply({state,authority:auth,command});
       if(!applied.ok)ssrpFail("SETUP_PROVIDER_STATE_INVALID");
       state=applied.state;
     }
     return state;
   }
-  function ledgerFrom({prior,nextState,rivalryId,operationId,type,baseRevision,actorRole,totalSeasons,sessionId,deviceId,updatedAtValue}){
+  function ledgerFrom({prior,nextState,rivalryId,operationId,type,baseRevision,actorRole,totalSeasons,stop,draw,sessionId,deviceId,updatedAtValue}){
     const operationIds=prior?[...prior.operationIds,operationId]:[operationId];
     const operationTypes=prior?[...prior.operationTypes,type]:[type];
     const baseRevisions=prior?[...prior.baseRevisions,baseRevision]:[baseRevision];
     const actorRoles=prior?[...prior.actorRoles,actorRole]:[actorRole];
     const resolvedSeasons=type==="commit-length"?totalSeasons:(prior?prior.totalSeasons:null);
     const confirmedRoles=actorRoles.slice(4);
-    return {
+    const ledger={
       schemaVersion:1,
       objectType:"sharedSetupLedger",
       rivalryId,
@@ -150,6 +149,9 @@
       updatedAt:updatedAtValue,
       updatedByDeviceId:deviceId
     };
+    // R94-02 draw 2: `stops` exists from open on and gains this manager's stop on his confirm.
+    if(prior?Object.hasOwn(prior,"stops"):draw===2)ledger.stops=prior?(type==="confirm"?[...prior.stops,stop]:[...prior.stops]):[];
+    return ledger;
   }
   async function authorityContext(options,transaction){
     const uid=accountId(options.user);
@@ -200,6 +202,11 @@
       const baseRevision=Number(options.baseRevision);
       if(!Number.isInteger(baseRevision)||baseRevision<0)ssrpFail("SETUP_COMMAND_INVALID");
       if(type==="commit-length"&&!LENGTHS.includes(options.totalSeasons))ssrpFail("SETUP_LENGTH_INVALID");
+      // R94-02: open may ask for draw 2; a draw 2 confirm carries the manager's stop (0..359), fixed at his tap.
+      const draw=options.draw===undefined?null:options.draw;
+      if(draw!==null&&(type!=="open"||draw!==2))ssrpFail("SETUP_COMMAND_INVALID");
+      const hasStop=options.stop!==undefined&&options.stop!==null;
+      if(hasStop&&(type!=="confirm"||!Number.isInteger(options.stop)||options.stop<0||options.stop>=360))ssrpFail("SETUP_STOP_INVALID");
       ssrpValidateSdk(options.firestore,options.firebaseSdk);
       const cryptoImpl=options.cryptoImpl||root.crypto;
       const protocol=await createCanonicalProtocol(cryptoImpl);
@@ -216,7 +223,9 @@
             const same=prior.operationTypes[existing]===type
               && prior.baseRevisions[existing]===baseRevision
               && prior.actorRoles[existing]===actorRole
-              && (type!=="commit-length"||prior.totalSeasons===options.totalSeasons);
+              && (type!=="commit-length"||prior.totalSeasons===options.totalSeasons)
+              && (type!=="confirm"||(Object.hasOwn(prior,"stops")?hasStop&&prior.stops[existing-4]===options.stop:!hasStop))
+              && (type!=="open"||Object.hasOwn(prior,"stops")===(draw===2));
             if(!same)ssrpFail("SETUP_IDEMPOTENCY_CONFLICT");
             return Object.freeze({ok:true,status:"replayed",replayed:true,revision:prior.revision,state:priorState});
           }
@@ -228,8 +237,8 @@
         let command;
         if(type==="commit-league"||type==="commit-clubs")command=await protocol.prepareDraw({state:priorState,type,operationId});
         else if(type==="commit-length")command={type,operationId,baseRevision,totalSeasons:options.totalSeasons};
-        else if(type==="confirm")command={type,operationId,baseRevision,setupHash:await protocol.confirmationHash(priorState)};
-        else command={type,operationId,baseRevision};
+        else if(type==="confirm")command={type,operationId,baseRevision,setupHash:await protocol.confirmationHash(priorState),...(hasStop?{stop:options.stop}:{})};
+        else command={type,operationId,baseRevision,...(draw===2?{draw}:{})};
         const applied=await protocol.apply({state:priorState,authority:auth,command});
         if(!applied.ok)ssrpFail(applied.code);
         const next=ledgerFrom({
@@ -241,6 +250,8 @@
           baseRevision,
           actorRole,
           totalSeasons:options.totalSeasons,
+          stop:hasStop?options.stop:null,
+          draw,
           sessionId:ctx.sessionId,
           deviceId:ctx.deviceId,
           updatedAtValue:updatedAt(options.firebaseSdk,ctx.epochMs)

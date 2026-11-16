@@ -178,11 +178,14 @@
         && setup.revision == 6
         && setup.phase == 'SHOWDOWN_CONFIRMED';
     }
+    // R94-02: a draw 2 ledger also carries 'stops' (one int 0..359 per confirmed manager, in confirmedRoles order: where
+    // his ball came to rest). The key is fixed at create and never added or dropped later, so every ledger written
+    // before R94-02 keeps its exact 15-key shape and its replay.
     function ssjrExactLedgerKeys(root) {
       return root.keys().hasOnly([
         'schemaVersion','objectType','rivalryId','revision','phase','coordinatorRole',
         'operationIds','operationTypes','baseRevisions','actorRoles','totalSeasons',
-        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId'
+        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId','stops'
       ]);
     }
     function ssjrValidLedgerBase(root, rivalryId) {
@@ -219,6 +222,7 @@
         && after.actorRoles[0] == after.coordinatorRole
         && after.totalSeasons == null
         && after.confirmedRoles.size() == 0
+        && (!('stops' in after) || after.stops == [])
         && ssjrSessionHostIsActor(rivalryId, after.activeSessionId)
         && ssjrBothAccountsActive(rivalryId);
     }
@@ -262,6 +266,16 @@
             && after.confirmedRoles[0] == before.confirmedRoles[0]
             && after.confirmedRoles[1] == after.actorRoles[i]
             && after.confirmedRoles[1] != after.confirmedRoles[0])
+        )
+        // R94-02 stops: write-once per manager, only on his own confirm, the first one kept by the second confirm.
+        && ('stops' in before) == ('stops' in after)
+        && (
+          !('stops' in after)
+          || (i <= 3 && after.stops == [])
+          || (i == 4 && after.stops.size() == 1
+            && after.stops[0] is int && after.stops[0] >= 0 && after.stops[0] < 360)
+          || (i == 5 && after.stops.size() == 2 && after.stops[0] == before.stops[0]
+            && after.stops[1] is int && after.stops[1] >= 0 && after.stops[1] < 360)
         );
     }
     function ssjrValidUpdateLedger(rivalryId) {

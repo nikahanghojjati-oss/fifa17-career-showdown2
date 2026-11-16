@@ -34,7 +34,8 @@ const SUITES=[
   {file:"tests/firebase/squad-sheets-rules-emulator.cjs",env:{},covers:"Squad Management sheets"},
   {file:"tests/firebase/persistent-nik-daniel-pair-provider-emulator.cjs",env:{},covers:"permanent pairing and joining"},
   {file:"tests/firebase/shared-terminal-close-production-provider-emulator.cjs",env:{},covers:"Terminal Close"},
-  {file:"tests/firebase/career-index-emulator.cjs",env:{},covers:"career index and History"}
+  {file:"tests/firebase/career-index-emulator.cjs",env:{},covers:"career index and History"},
+  {file:"tests/firebase/r94-club-draw-rules-emulator.cjs",env:{},covers:"R94-02 club draw: setup ledgers with stops (open, steps 2-4, both confirms) and the old shape"}
 ];
 
 function runSuite(suite,out){

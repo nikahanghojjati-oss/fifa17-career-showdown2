@@ -1040,8 +1040,8 @@ const POS_XY={ GK:[.5,.9], LB:[.12,.72], LWB:[.1,.62], LCB:[.34,.76], CB:[.5,.76
 let KITS=null;
 /* r90 LOOK L10: the club crest for the board header, drawn from js/visualIdentity.js (loaded with the kits); none = the name alone */
 const CRESTS=new Map(); const crestNow=n=>{ const c=CRESTS.get(n); return c&&c.img||null; };
-function crestLoad(n){ if(CRESTS.has(n)) return CRESTS.get(n).p; const e={img:null}; e.p=new Promise(res=>{ let svg=null; try{ svg=typeof window.getClubCrestSvg==="function"?window.getClubCrestSvg(n):null; }catch(_e){} if(!svg) return res(null);
-  if(!/xmlns=/.test(svg)) svg=svg.replace("<svg","<svg xmlns=\"http://www.w3.org/2000/svg\""); const im=new Image(); im.onload=()=>{ e.img=im; res(im); }; im.onerror=()=>res(null); im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg); }); CRESTS.set(n,e); return e.p; }
+function crestLoad(n){ if(CRESTS.has(n)) return CRESTS.get(n).p; const e={img:null}; /* R94 HO-084: the image crest where the club has one, else the SVG */ const pic=typeof window.loadClubCrestImage==="function"?Promise.resolve(window.loadClubCrestImage(n,"big")).catch(()=>null):Promise.resolve(null); e.p=pic.then(im=>im?(e.img=im):new Promise(res=>{ let svg=null; try{ svg=typeof window.getClubCrestSvg==="function"?window.getClubCrestSvg(n):null; }catch(_e){} if(!svg) return res(null);
+  if(!/xmlns=/.test(svg)) svg=svg.replace("<svg","<svg xmlns=\"http://www.w3.org/2000/svg\""); const im=new Image(); im.onload=()=>{ e.img=im; res(im); }; im.onerror=()=>res(null); im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg); })); CRESTS.set(n,e); return e.p; }
 /* r90 MOTION: a shirt is painted once per club, role and size and then stamped. Each board is drawn several times while the
    screen loads (first pass, again once the kits and crests are in, the shot frames for each turn), and the painted shirt costs
    seconds in total on a slow CPU. Cleared when the kits or crests arrive, so the stamp never misses a crest. */
