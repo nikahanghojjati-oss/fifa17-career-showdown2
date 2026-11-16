@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 9:02 PM Boston time (EST)",
+ "generated": "2026-11-15 9:04 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 289,
@@ -2624,8 +2624,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "226889a",
-  "head_boston": "Sun 15 Nov 8:20 PM",
+  "head": "1fd357d",
+  "head_boston": "Sun 15 Nov 9:02 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3470,7 +3470,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 11458
+    "waiting_min": 11460
    },
    {
     "id": "HO-059",
@@ -3880,8 +3880,8 @@
     "from": "G",
     "to": "V",
     "title": "Image crests batch 6 of 9",
-    "stage": "RECEIVED",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-090_image-crests-batch-6-of-9.md",
     "worker": "images",
@@ -3997,7 +3997,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 47,
+  "moving": 46,
   "next": 42,
   "nik": 2,
   "later": 21,
