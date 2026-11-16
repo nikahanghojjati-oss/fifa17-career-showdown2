@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-16T22:56:24Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T22:59:36Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: 2 Astra edit prompts posted (attach V2 PNG), Nik runs, lead locks outside zones + exports"}],
+ "evidence": ["claude/project-thread-6kfnkn 1ed78b280 project-documents/hc-art/ho094/"],
+ "log": [{"at": "2026-11-16T22:56:24Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T22:59:36Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: 2 Astra edit prompts posted (attach V2 PNG), Nik runs, lead locks outside zones + exports"}, {"at": "2026-11-16T23:22:57Z", "by": "V", "status": "DONE", "note": "New empty Club room in HC house look (Nik changed ticket from editing old V2 plate). ENV_CLUB_PLATE_HC_V3_1X/2X + ENV_CLUB_PHONE_HC_V3 webp, Nik OK 16 Nov"}],
  "from_session": "session_01GU43Q5bagqLyredN5q4Pwh",
  "sessions": {"G": "session_01GU43Q5bagqLyredN5q4Pwh", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
