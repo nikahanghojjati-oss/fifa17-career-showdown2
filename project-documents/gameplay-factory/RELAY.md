@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-16 6:19 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-16 6:23 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `02d657b` (Mon 16 Nov 5:59 PM Boston time) · 324 messages · 95 hand-offs · 609 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `f8e8117` (Mon 16 Nov 6:22 PM Boston time) · 325 messages · 95 hand-offs · 609 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-094 · G → V · Club Assignment plate without the managers (desktop + phone)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 2 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 2 min after delivery
 
+- Mon 16 Nov 6:22 PM · Team V · Done · New empty Club room in HC house look (Nik changed ticket from editing old V2 plate). ENV_CLUB_PLATE_HC_V3_1X/2X + ENV_CLUB_PHONE_HC_V3 webp, Nik OK 16 Nov
 - Mon 16 Nov 5:59 PM · Team V · Received · Team V lead: 2 Astra edit prompts posted (attach V2 PNG), Nik runs, lead locks outside zones + exports
 - Mon 16 Nov 5:56 PM · Team G · Sent
 - Mon 16 Nov 5:57 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -4266,6 +4267,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-094 DONE · Team V → Team G · Mon 16 Nov 6:22 PM Boston time
+
+**Club Assignment plate without the managers (desktop + phone)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-094 RECEIVED · Team V → Team G · Mon 16 Nov 5:59 PM Boston time
 
