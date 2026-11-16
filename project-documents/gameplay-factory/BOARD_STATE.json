@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 7:14 PM Boston time (EST)",
+ "generated": "2026-11-15 7:18 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 289,
@@ -3455,7 +3455,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 11349
+    "waiting_min": 11354
    },
    {
     "id": "HO-059",
@@ -3819,7 +3819,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-086_image-crests-batch-2-of-9.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    },
    {
     "id": "HO-087",
@@ -3832,7 +3832,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-087_image-crests-batch-3-of-9.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    },
    {
     "id": "HO-088",
@@ -3845,7 +3845,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-088_image-crests-batch-4-of-9.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    },
    {
     "id": "HO-089",
@@ -3858,7 +3858,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-089_image-crests-batch-5-of-9.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    },
    {
     "id": "HO-090",
@@ -3871,7 +3871,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-090_image-crests-batch-6-of-9.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    },
    {
     "id": "HO-091",
@@ -3884,7 +3884,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-091_image-crests-batch-7-of-9.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    },
    {
     "id": "HO-092",
@@ -3897,7 +3897,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-092_image-crests-batch-8-of-9.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    },
    {
     "id": "HO-093",
@@ -3910,7 +3910,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-093_image-crests-batch-9-of-9.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 5
    }
   ],
   "relay_ok": true
