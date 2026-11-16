@@ -1,12 +1,38 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-16 6:44 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-16 6:48 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `f8e8117` (Mon 16 Nov 6:22 PM Boston time) · 325 messages · 95 hand-offs · 611 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `f17ff60` (Mon 16 Nov 6:47 PM Boston time) · 326 messages · 96 hand-offs · 613 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-095 · G → V · Club Assignment lounge phone crops (upright + sideways)
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Mon 16 Nov 6:47 PM · Team G · Sent
+- Mon 16 Nov 6:48 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+### Why
+Nik, 2026-11-16 23:46 UTC (decision card, Team G lead thread): "New phone crops from Team V". HO-094's new club lounge works on desktop (box narrowed, side walls with lamps, banners and trophies fully beside it). On phones the side walls end up BEHIND the 3D box and tiles, so only lamp edges show. Nik wants phone versions where the room details sit in the free space instead.
+
+### Assets (two; one asset = one image ticket = one new chat), same room as HO-094 (HC V3: walnut, dark stone, wall lamps, stadium window, banners, trophies, armchairs), no people, no words
+1. **ENV_CLUB_PHONE_HC_V4** (upright phone), 1179x2096 WebP. Layout on screen (see guides): title in the top ~12%; the 3D box covers about 4%-96% of width and 13%-72% of height; manager tiles + STOP 73%-82%; BACK 85%-90%; free floor 90%-100%. Put the two wall lamps and the banner tops in the top band beside the title (left and right of the centre), a trophy shelf/marble ledge in the bottom 10%, and keep everything behind the box calm (window and dark wall).
+2. **ENV_CLUB_SIDEWAYS_HC_V4** (sideways phone), 2532x1170 WebP (works for 568x320 to 932x430 by cover crop). Layout: title top-left ~10%; the 3D box covers about 1%-68% of width and 12%-88% of height (left); tiles + STOP on the right 70%-98%, from 18% to 72% of height. Free space: the top strip (lamps here, both sides), the right column above and below the tiles (a banner top above, a trophy below), and the bottom strip. Calm behind the box.
+
+Guides on leads/relay: project-documents/leads-relay/attachments/HO-095/ (screenshots of the current HO-094 plate under the real layout at each size): gameplay/r94/club-assignment-3d/ho095/ in Team G's project files (390x844, 568x320, 740x360, 844x390, 932x430); box-only guides in gameplay/r94/club-assignment-3d/plate-guides/. Nik cannot open those paths; Team G can push them to leads/relay attachments on request.
+
+### Accept when
+Nik OKs each; same room and light as HO-094 desktop so the set matches; details visible in the free zones at the listed sizes; no text, no people. SHA256.json in hc-art/ho095/.
+
+### After DONE
+Team G wires them into the Club Assignment plate slot (portrait + landscape media rules); ENV_CLUB_PHONE_HC_V3 stays as fallback.
+
+</details>
 
 ### HO-094 · G → V · Club Assignment plate without the managers (desktop + phone)
 
@@ -4267,6 +4293,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-095 SENT · Team G → Team V · Mon 16 Nov 6:47 PM Boston time
+
+**Club Assignment lounge phone crops (upright + sideways)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-094 DONE · Team V → Team G · Mon 16 Nov 6:22 PM Boston time
 
