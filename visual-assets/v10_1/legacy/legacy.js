@@ -230,7 +230,8 @@ window.ShowdownLegacyBoot = function () {
       side.className = "legacyManager legacyManager--" + manager;
       const crest = document.createElement("span");
       crest.className = "legacyCrest";
-      identityMark(crest, window.getClubCrestSvg(showdown.clubs && showdown.clubs[manager]));
+      const legacyClub = showdown.clubs && showdown.clubs[manager];
+      identityMark(crest, window.getClubCrestMarkup ? window.getClubCrestMarkup(legacyClub, "list") : window.getClubCrestSvg(legacyClub));
       const who = document.createElement("span");
       who.className = "legacyManagerName";
       who.textContent = strings.ui.managers[manager];

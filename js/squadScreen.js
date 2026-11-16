@@ -391,7 +391,7 @@
     function renderSide(){
       side.innerHTML="";
       const crest=el("div","sqmCrest");
-      try{if(typeof root.getClubCrestSvg==="function")crest.innerHTML=root.getClubCrestSvg(club);}catch(e){}
+      try{if(typeof root.getClubCrestMarkup==="function")crest.innerHTML=root.getClubCrestMarkup(club,"big");else if(typeof root.getClubCrestSvg==="function")crest.innerHTML=root.getClubCrestSvg(club);}catch(e){}
       side.appendChild(crest);
       side.appendChild(el("h2","sqmClub",club));
       side.appendChild(el("p","sqmWhen",`Season ${sheet.season}  ·  ${STAGE_WORD[sheet.stage]||""}`));

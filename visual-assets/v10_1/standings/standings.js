@@ -9,7 +9,7 @@
   const $ = (id) => document.getElementById(id);
   const text = (id, value) => { const el = $(id); if (el) el.textContent = value == null ? "" : String(value); };
   const fill = (tpl, values) => String(tpl).replace(/\{(\w+)\}/g, (m, k) => (values[k] == null ? m : values[k]));
-  const crest = (club) => (window.getClubCrestSvg ? window.getClubCrestSvg(club || "") : "");
+  const crest = (club) => (window.getClubCrestMarkup ? window.getClubCrestMarkup(club || "", "big") : window.getClubCrestSvg ? window.getClubCrestSvg(club || "") : "");
 
   const SCOPE_ROWS = ["seasonWins", "seasonDraws", "seasonLosses", "championsLeagues", "europaLeagues", "leagueTitles", "domesticCups", "totalTrophies"];
   const PLATE = {
