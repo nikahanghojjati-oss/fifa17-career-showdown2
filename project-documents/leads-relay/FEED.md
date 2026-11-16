@@ -281,15 +281,31 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-13 00:59 | Team G | Team V | HO-077 DONE | Rule Book slab 2X (3072x1728) for sharp Chromebook windows | no |
 | 2026-11-13 01:36 | Team G | Team V | HO-078 DONE | One more V3 title: DEVICE CHECK | no |
 | 2026-11-13 02:02 | Team G | Team V | HO-072 DONE | Loading screen (Marco Reus cover) rebuilt in the HC family, sharp | no |
+| 2026-11-14 16:29 | Team G | Team V | HO-079 SENT | Home logo and screen titles: one flat hand-drawn mark (no AI look) | yes (receive it) |
+| 2026-11-14 16:32 | Team G | Team V | HO-080 SENT | Golden Showdown trophy: the Champion trophy cast in gold | yes (receive it) |
 | 2026-11-14 16:33 | Team V | Team G | HO-079 RECEIVED | Home logo and screen titles: one flat hand-drawn mark (no AI look) | no |
 | 2026-11-14 16:34 | Team V | Team G | HO-080 RECEIVED | Golden Showdown trophy: the Champion trophy cast in gold | no |
 | 2026-11-14 17:22 | Team V | Team G | HO-080 DONE | Golden Showdown trophy: the Champion trophy cast in gold | no |
 | 2026-11-15 03:34 | Team V | Team G | HO-079 DONE | Home logo and screen titles: one flat hand-drawn mark (no AI look) | no |
+| 2026-11-15 07:42 | Team G | Team V | HO-081 SENT | Roulette hand repainted from the shooter's eye (two plates) | yes (receive it) |
 | 2026-11-15 07:49 | Team V | Team G | HO-081 RECEIVED | Roulette hand repainted from the shooter's eye (two plates) | no |
 | 2026-11-15 08:08 | Team V | Team G | HO-081 DONE | Roulette hand repainted from the shooter's eye (two plates) | no |
+| 2026-11-15 09:45 | Team G | Team V | HO-082 SENT | Roulette hand: side-entry upright plate for tall windows | yes (receive it) |
 | 2026-11-15 09:48 | Team V | Team G | HO-082 RECEIVED | Roulette hand: side-entry upright plate for tall windows | no |
 | 2026-11-15 10:00 | Team V | Team G | HO-082 DONE | Roulette hand: side-entry upright plate for tall windows | no |
+| 2026-11-15 10:41 | Team G | Team V | HO-083 SENT | Roulette hand: side-entry plate rerun at 40 degrees | yes (receive it) |
 | 2026-11-15 18:55 | Team V | Team G | HO-083 RECEIVED | Roulette hand: side-entry plate rerun at 40 degrees | no |
 | 2026-11-15 20:33 | Team V | Team G | HO-083 DONE | Roulette hand: side-entry plate rerun at 40 degrees | no |
+| 2026-11-15 21:42 | Team G | Team V | HO-084 SENT | Pilot: 5 image-made crests + 1 master shirt | yes (receive it) |
 | 2026-11-15 21:43 | Team V | Team G | HO-084 RECEIVED | Pilot: 5 image-made crests + 1 master shirt | no |
 | 2026-11-15 22:02 | Team V | Team G | HO-084 DONE | Pilot: 5 image-made crests + 1 master shirt | no |
+| 2026-11-16 00:08 | Team G | Team V | HO-085 SENT | Image crests batch 1 of ~10 (Man Utd, Liverpool, Spurs, Roma, Lyon, Leverkusen, Lazio, Frankfurt, Genoa, Boro) | yes (receive it) |
+| 2026-11-16 00:12 | Team G | Team V | HO-086 SENT | Image crests batch 2 of 9 | yes (receive it) |
+| 2026-11-16 00:12 | Team G | Team V | HO-087 SENT | Image crests batch 3 of 9 | yes (receive it) |
+| 2026-11-16 00:12 | Team G | Team V | HO-088 SENT | Image crests batch 4 of 9 | yes (receive it) |
+| 2026-11-16 00:12 | Team G | Team V | HO-089 SENT | Image crests batch 5 of 9 | yes (receive it) |
+| 2026-11-16 00:12 | Team G | Team V | HO-090 SENT | Image crests batch 6 of 9 | yes (receive it) |
+| 2026-11-16 00:12 | Team G | Team V | HO-091 SENT | Image crests batch 7 of 9 | yes (receive it) |
+| 2026-11-16 00:12 | Team G | Team V | HO-092 SENT | Image crests batch 8 of 9 | yes (receive it) |
+| 2026-11-16 00:12 | Team G | Team V | HO-093 SENT | Image crests batch 9 of 9 | yes (receive it) |
+| 2026-11-16 22:56 | Team G | Team V | HO-094 SENT | Club Assignment plate without the managers (desktop + phone) | yes (receive it) |
