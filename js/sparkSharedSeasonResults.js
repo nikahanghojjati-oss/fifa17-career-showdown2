@@ -68,7 +68,9 @@
     if(value.data.rivalryId!==rivalryId||value.data.state!=="active"||members.length!==2||new Set(members).size!==2||!authorized.every(id=>members.includes(id))||!members.every(id=>authorized.includes(id))||!Number.isFinite(expires))ssrpFail("SEASON_RESULTS_ACTIVE_SESSION_REQUIRED");
   }
   function ssrpAssertSetupLedger(value,rivalryId){
-    ssrpExact(value,SETUP_LEDGER_KEYS,"SEASON_RESULTS_SETUP_NOT_CONFIRMED");
+    // R94-02: a draw 2 Showdown also stores `stops`; older ones keep the exact 15 keys (protocol module owns both lists).
+    ssrpExact(value,setupModule&&typeof setupModule.ledgerKeys==="function"?setupModule.ledgerKeys(value):SETUP_LEDGER_KEYS,"SEASON_RESULTS_SETUP_NOT_CONFIRMED");
+    if(setupModule&&typeof setupModule.ledgerStopsValid==="function"&&!setupModule.ledgerStopsValid(value))ssrpFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");
     if(value.schemaVersion!==1||value.objectType!=="sharedSetupLedger"||value.rivalryId!==rivalryId||value.revision!==6||value.phase!=="SHOWDOWN_CONFIRMED"||!ROLES.includes(value.coordinatorRole)||![1,3,5,10].includes(value.totalSeasons))ssrpFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");
     for(const key of ["operationIds","operationTypes","baseRevisions","actorRoles"]){if(!Array.isArray(value[key])||value[key].length!==6)ssrpFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");}
     const expectedTypes=["open","commit-league","commit-clubs","commit-length","confirm","confirm"];
@@ -98,11 +100,8 @@
     if(!setupModule||typeof setupModule.createProtocol!=="function"||!catalogModule||catalogModule.version!=="shared-showdown-catalog-v1"||!catalogModule.catalog)ssrpFail("SEASON_RESULTS_PROVIDER_UNAVAILABLE");
     const setupProtocol=await setupModule.createProtocol({catalog:catalogModule.catalog,cryptoImpl});let state=null;
     for(let index=0;index<ledger.revision;index++){
-      const type=ledger.operationTypes[index],role=ledger.actorRoles[index],authority=ssrpAuthority({rivalryId,rivalry,role,sessionId,deviceId,now,hostRole:ledger.coordinatorRole});let command;
-      if(type==="commit-league"||type==="commit-clubs")command=await setupProtocol.prepareDraw({state,type,operationId:ledger.operationIds[index]});
-      else if(type==="commit-length")command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index],totalSeasons:ledger.totalSeasons};
-      else if(type==="confirm")command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index],setupHash:await setupProtocol.confirmationHash(state)};
-      else command={type,operationId:ledger.operationIds[index],baseRevision:ledger.baseRevisions[index]};
+      const role=ledger.actorRoles[index],authority=ssrpAuthority({rivalryId,rivalry,role,sessionId,deviceId,now,hostRole:ledger.coordinatorRole});
+      let command;try{command=await setupProtocol.ledgerCommand({state,ledger,index});}catch(_error){ssrpFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");}
       const applied=await setupProtocol.apply({state,authority,command});if(!applied.ok)ssrpFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");state=applied.state;
     }
     if(!state||state.phase!=="SHOWDOWN_CONFIRMED"||state.revision!==6||!catalogModule.catalog[state.leagueId])ssrpFail("SEASON_RESULTS_SETUP_NOT_CONFIRMED");return state;
