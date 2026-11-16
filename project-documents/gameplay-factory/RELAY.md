@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 7:18 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 7:21 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `41d375d` (Sun 15 Nov 7:12 PM Boston time) · 289 messages · 94 hand-offs · 555 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `852b56f` (Sun 15 Nov 7:20 PM Boston time) · 289 messages · 94 hand-offs · 556 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -885,8 +885,9 @@ Order: first the rest of the audit's worst charges (Palermo, Nice, Crystal Palac
 
 ### HO-085 · G → V · Image crests batch 1 of ~10 (Man Utd, Liverpool, Spurs, Roma, Lyon, Leverkusen, Lazio, Frankfurt, Genoa, Boro)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 3 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 3 min after delivery
 
+- Sun 15 Nov 7:20 PM · Team V · Done · Nik OK 15 Nov 7:20 p.m. Eastern. 10 embroidered crests CREST_IMG_{MANUTD,LIVERPOOL,SPURS,ROMA,LYON,LEVERKUSEN,LAZIO,FRANKFURT,GENOA,BORO}_V1_{1024,256,64}.png (5:6, 4% margin, alpha) + SHA256.json + board. No letters; Leverkusen disc empty; Man Utd imp our own; Roma twins as seated cherubs (first prompt refused).
 - Sun 15 Nov 7:11 PM · Team V · Received · Team V crest thread: 10 Astra prompts posted (no club names), Nik runs, V cuts/exports/SHA
 - Sun 15 Nov 7:08 PM · Team G · Sent
 - Sun 15 Nov 7:08 PM · relay Action · Delivered in full as a wake comment on PR #312
