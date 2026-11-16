@@ -42,7 +42,8 @@ function createRuleBookScreen(){
             "Career Mode Showdown is a game for two managers: Daniel and Nik.",
             "Daniel starts every Showdown and picks its length: 1, 3, 5 or 10 seasons. Nik joins from Home.",
             "The league wheel lands on one of five leagues: Premier League, LaLiga, Bundesliga, Serie A or Ligue 1.",
-            "Club Assignment then gives you each a different club from that league. It stays yours for the whole Showdown.",
+            "Club Assignment then deals each of you three random clubs from that league, one football each. Tap STOP on your own phone and the club your football comes to rest on is yours. It stays yours for the whole Showdown.",
+            "It is skill plus luck: stop it at the right moment and your football lands on the club you aimed for about half the time. You each stop once. There is no second spin.",
             "Every season runs in the same order: Chamber Men, Squad Management, Roster Russian Roulette, Prime Pack, Transfer War, Squad Management again, then the season itself and Season Results."
         ]),
         createSpecialPlayerRuleSection(),
