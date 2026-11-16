@@ -56,6 +56,129 @@
    "from": "KIT_MASTER_SHIRT_V1_SHADING_1536.png",
    "fromSha256": "afbb3ac38f101cd25ffe772a160777dffc1c2f330ec2896a19c156d0726031ce",
    "sha256": "7e9821bb99de29315cf48fc3b3dcf5a4d7541e048e278fc2a59218c690a75e80"
+  },
+  "CREST_IMG_MANUTD_V1_64.webp": {
+   "from": "CREST_IMG_MANUTD_V1_64.png",
+   "ticket": "HO-085",
+   "fromSha256": "ab52af3514cd71bc28d56cf5a79bbbcee99f989d2fedb594e59aebbbec3adc21",
+   "sha256": "a147c6deb061258aba099d0de6cda07f42c69d273015e6c0d30edd9fe3ceac7b"
+  },
+  "CREST_IMG_MANUTD_V1_256.webp": {
+   "from": "CREST_IMG_MANUTD_V1_256.png",
+   "ticket": "HO-085",
+   "fromSha256": "9784aec2749d7e2082a9b77760128f10cca5576530a228777f3a5312f4ecfae4",
+   "sha256": "900b66a8fa1f47f7b1be2d6a4ca35805a0d216b5a51e35646faeb5d960cc188f"
+  },
+  "CREST_IMG_LIVERPOOL_V1_64.webp": {
+   "from": "CREST_IMG_LIVERPOOL_V1_64.png",
+   "ticket": "HO-085",
+   "fromSha256": "81a8a251c9c78d3053da8b51e6a57d584c7ca579515f1f98d4070e548e692437",
+   "sha256": "fc23301ea9ddfd461fe644f76a5fc43bc378cff325d49894315e20d9c1714304"
+  },
+  "CREST_IMG_LIVERPOOL_V1_256.webp": {
+   "from": "CREST_IMG_LIVERPOOL_V1_256.png",
+   "ticket": "HO-085",
+   "fromSha256": "0a7c39b5b038b1222bfe76e9470015907ac59e110eca38446d0b38a0f0c7e5f0",
+   "sha256": "0b09412a4d6a1b2026d3f757984352f2e7f5567af903bf0eb21a405064d11b07"
+  },
+  "CREST_IMG_SPURS_V1_64.webp": {
+   "from": "CREST_IMG_SPURS_V1_64.png",
+   "ticket": "HO-085",
+   "fromSha256": "882cb7eb9687cfd636a76c0c03cbc33ad3b56c80953b5a6352cd19496fea166d",
+   "sha256": "903372e834cf1c9151c01e2b0749045b23212f1abc85715e1e0e41619f4a6d98"
+  },
+  "CREST_IMG_SPURS_V1_256.webp": {
+   "from": "CREST_IMG_SPURS_V1_256.png",
+   "ticket": "HO-085",
+   "fromSha256": "ebcb724ca00ef01dff4626dfe2ec2c88eaba28978e590bd4cf03c235c9c295d4",
+   "sha256": "417729674d6a122c14956155cf60afb0eabd368f284a6aadf7a434a41fb3dc8f"
+  },
+  "CREST_IMG_ROMA_V1_64.webp": {
+   "from": "CREST_IMG_ROMA_V1_64.png",
+   "ticket": "HO-085",
+   "fromSha256": "aea8fbfaa3d3b1a8e8e9172de1c74af1d05ad6253311e1b38c63e3de79d271d3",
+   "sha256": "c3e08eceee8cbc98abac283a75e13c1dc996a450a49916934612c95a6b41a49d"
+  },
+  "CREST_IMG_ROMA_V1_256.webp": {
+   "from": "CREST_IMG_ROMA_V1_256.png",
+   "ticket": "HO-085",
+   "fromSha256": "5edd875a12e368c8d9c8ae15e0a23a14bbaa4c1ef101c92978869002c6298392",
+   "sha256": "16e8d62d15b827ec50beca8d5c87976734ba95dc59a12cddbe5aa2ff7b24b630"
+  },
+  "CREST_IMG_LYON_V1_64.webp": {
+   "from": "CREST_IMG_LYON_V1_64.png",
+   "ticket": "HO-085",
+   "fromSha256": "e52d9769ec78dac41e022547323b539cdd7dffcd433f04b3b52162fed8df6926",
+   "sha256": "55b5d4c12e02c755f7d6a004476a7cfd9fa52ae7dc441a174ce8a0068b8ce5f3"
+  },
+  "CREST_IMG_LYON_V1_256.webp": {
+   "from": "CREST_IMG_LYON_V1_256.png",
+   "ticket": "HO-085",
+   "fromSha256": "c135fdcab122c6181412cfd26dfcd995844d958724590c484df1a2a41d8bbba2",
+   "sha256": "36740d82dcdf06cdadc721af32a5bd6f6113916392c2e28488f840a03e5e01f6"
+  },
+  "CREST_IMG_LEVERKUSEN_V1_64.webp": {
+   "from": "CREST_IMG_LEVERKUSEN_V1_64.png",
+   "ticket": "HO-085",
+   "fromSha256": "79da036e1a0f68ffda2c83c857a4368af97ce263f7c4320921e208c0ec7122e6",
+   "sha256": "a6bf68d8882a7e0c385a617a891ee1c83455510dc8b6a228a2565e4ed876cb6b"
+  },
+  "CREST_IMG_LEVERKUSEN_V1_256.webp": {
+   "from": "CREST_IMG_LEVERKUSEN_V1_256.png",
+   "ticket": "HO-085",
+   "fromSha256": "7f4d08a22d23ebd6cbcf3746f9dcd27327b0143d072be0d286fb2c4e009d194e",
+   "sha256": "ced63daad428bae8c1b99e7f5276b1498713446c358c51ef46f10b70d7b7865e"
+  },
+  "CREST_IMG_LAZIO_V1_64.webp": {
+   "from": "CREST_IMG_LAZIO_V1_64.png",
+   "ticket": "HO-085",
+   "fromSha256": "0e83d8c8ccc58976a65e0c3bc380409f80662727762c615e92296d4318a867bf",
+   "sha256": "4c6e54c76ce5a7d438eaac2a480261baca89226fcf5b0bca478fb39f444307c8"
+  },
+  "CREST_IMG_LAZIO_V1_256.webp": {
+   "from": "CREST_IMG_LAZIO_V1_256.png",
+   "ticket": "HO-085",
+   "fromSha256": "8b1287f7443d11420f81c6aa1ad060676bc1c7fe55b93d0a875f04c43a8dab32",
+   "sha256": "706cf52a05e7b991f0518f0089b4b8b2b5eb200f76753702287a1bed5ed76792"
+  },
+  "CREST_IMG_FRANKFURT_V1_64.webp": {
+   "from": "CREST_IMG_FRANKFURT_V1_64.png",
+   "ticket": "HO-085",
+   "fromSha256": "4c9c62a34d48e0b5f0088af0cc52643107c34c2b0f69928a8172d13669303343",
+   "sha256": "49ab3ae40c05c47c769c5365ae9eba388ceb3067b23f6e41dd223a94278e4c94"
+  },
+  "CREST_IMG_FRANKFURT_V1_256.webp": {
+   "from": "CREST_IMG_FRANKFURT_V1_256.png",
+   "ticket": "HO-085",
+   "fromSha256": "c1d28fbdc5db3f43adeac0db849d0b1353a02168802126734c37bd7f92bf519c",
+   "sha256": "04de775e1e75e214afb9d02451e0b8ad5e0563a3da18eb8a5a0086ea85a06403"
+  },
+  "CREST_IMG_GENOA_V1_64.webp": {
+   "from": "CREST_IMG_GENOA_V1_64.png",
+   "ticket": "HO-085",
+   "fromSha256": "ff0a3c1d824f0af911173fc73f98dca8a58eed0f367f167c080737a0d1854935",
+   "sha256": "1cf0a36d65eb1601276c1f5eeb21f9ed75a137fb14984f965d951d97d2124881"
+  },
+  "CREST_IMG_GENOA_V1_256.webp": {
+   "from": "CREST_IMG_GENOA_V1_256.png",
+   "ticket": "HO-085",
+   "fromSha256": "287dab25febd466a6b3d6a0b59b96d40bdf7dd03b2e633a03823f965dcd3cd9a",
+   "sha256": "d81861fab314544cd3513e58f4c526802a1d3973fed9a2df25f0d991f588e3c4"
+  },
+  "CREST_IMG_BORO_V1_64.webp": {
+   "from": "CREST_IMG_BORO_V1_64.png",
+   "ticket": "HO-085",
+   "fromSha256": "db8d80244be1fa8e8cbd22dadc3a40bb1a850178cdf51faf7134b7a1517359d3",
+   "sha256": "7591da62279ed2131d74fd2946d80a4d1d1ca4ef11888f86cc5388465e8bb1d8"
+  },
+  "CREST_IMG_BORO_V1_256.webp": {
+   "from": "CREST_IMG_BORO_V1_256.png",
+   "ticket": "HO-085",
+   "fromSha256": "e7c7a144a0148d63cab2ebf25fd3f1f7f82889b184fbc6251ea668af7723d343",
+   "sha256": "141c4869c50e8cf5ef50d7b584add10259e830b8631258433227a4310958bb13"
   }
+ },
+ "batches": {
+  "HO-085": "claude/project-thread-vraiao 27cf5daf8 project-documents/hc-art/ho085/"
  }
 }
