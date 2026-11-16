@@ -3363,6 +3363,15 @@
         "^tests/contracts/r93\\-loan\\-records\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r94-squad-shirt-contracts.cjs",
+      "patterns": [
+        "^js/squadScreen\\.js$",
+        "^js/kits17\\.js$",
+        "^tests/contracts/r94\\-squad\\-shirt\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

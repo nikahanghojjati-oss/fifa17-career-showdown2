@@ -27,6 +27,9 @@
   // The same js/kits17.js shirts as the Russian Roulette board (all 98 approved clubs): the keeper's shade is picked
   // against the rival's kit too (vsClub), exactly as the board does, so a keeper wears the same colour on both screens.
   // (the shirts carry no number, so one image per club, role and rival: never one per shirt number)
+  // R94-01: a shirt that could not be painted (no kit module yet, or the canvas refused: a phone short on canvas memory) is
+  // never kept, so the next render tries again; meanwhile its stand-in wears the club's own kit colour, never one red shirt.
+  let shirtMissed=false;
   function shirtUrl(club,role,vsClub){
     const key=`${club}|${role}|${vsClub||""}`;
     if(shirtCache.has(key))return shirtCache.get(key);
@@ -39,16 +42,31 @@
         url=c.toDataURL("image/png");
       }
     }catch(e){url="";}
-    shirtCache.set(key,url);
+    if(url)shirtCache.set(key,url);else shirtMissed=true;
     return url;
+  }
+  function standInColour(club,role,vsClub){
+    try{const kits=root.CareerModeKits17;if(kits){const k=role==="gk"?kits.keeperKit(club,vsClub||undefined):kits.kit(club);if(k&&k.known)return k.body;}}catch(e){}
+    return "";
   }
   function shirt(club,player,slotPos,vsClub){
     const role=(slotPos==="GK"||(!slotPos&&player&&player.positions[0]==="GK"))?"gk":"outfield";
     const url=shirtUrl(club,role,vsClub);
     const box=el("span","sqmShirt"+(role==="gk"?" is-gk":""));
     if(url){const im=el("img");im.alt="";im.src=url;im.draggable=false;box.appendChild(im);}
-    else box.classList.add("is-plain");
+    else{box.classList.add("is-plain");box.sqmShirtArgs=[club,role,vsClub];const body=standInColour(club,role,vsClub);if(body)box.style.background=body;}
     return box;
+  }
+  // R94-01 (Codex P2): a retry paints only the stand-ins, in place, so the focused search box, its caret and keyboard focus
+  // on the squad are never replaced while the manager types or moves around.
+  function repaintStandIns(scope){
+    shirtMissed=false;
+    scope.querySelectorAll(".sqmShirt.is-plain").forEach(box=>{
+      const a=box.sqmShirtArgs;if(!a)return;
+      const url=shirtUrl(a[0],a[1],a[2]);if(!url)return;
+      const im=el("img");im.alt="";im.src=url;im.draggable=false;
+      box.classList.remove("is-plain");box.style.background="";box.sqmShirtArgs=undefined;box.appendChild(im);
+    });
   }
 
   // Nationality from the FIFA 17 data (club row first, then any club for a signing).
@@ -577,7 +595,19 @@
     }
     const BENCH_LAST=()=>sheet.bench.length-1;
 
+    shirtMissed=false;
     sqmRender();
+    // R94-01: any shirt that could not be painted is tried again a few times (never during a drag), then left as its stand-in.
+    const RETRY_MS=[1500,4000,10000,20000];
+    const retryShirts=n=>{
+      if(!shirtMissed||n>=RETRY_MS.length)return;
+      root.setTimeout(()=>{
+        if(!host.isConnected||!host.classList.contains("sqm"))return;
+        if(drag){retryShirts(n);return;}
+        repaintStandIns(host);retryShirts(n+1);
+      },RETRY_MS[n]);
+    };
+    retryShirts(0);
     return {
       get sheet(){return sheet;},get ops(){return ops.slice();},
       lock(){locked=true;sqmRender();},
