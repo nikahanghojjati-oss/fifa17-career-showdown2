@@ -1,0 +1,5 @@
+A Chamber Men: production order (module imported, then network cut, tab hidden 8.1 s): fallback reads=0, listener deliveries=1, network requests after the cut=0, module evaluations=1
+B Chamber Men: control (module never loaded, network cut, tab hidden): fallback reads=4, errors=0, network requests=1
+A Prime Pack: production order (module imported, then network cut, tab hidden 8.1 s): fallback reads=0, listener deliveries=1, network requests after the cut=0, module evaluations=1
+B Prime Pack: control (module never loaded, network cut, tab hidden): fallback reads=4, errors=0, network requests=1
+RESULT the fallback poll cannot run in production: it needs the Firestore module to be missing, and the runtime cannot sign in without that same module. No game change.
