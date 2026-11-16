@@ -44,6 +44,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   // added, the V3 loading logo is dropped (the V3 Home files were never precached). Nothing else in r93 touches the shell.
   const R93_ADDED=["assets/loading/LOGO_CM17_WORDMARK_V4_640.webp","visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2","visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt"];
   const R93_REMOVED=["assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"];
+  // r94 R94-02 (before r94 moves PREVIOUS to 2.6.0): the Club Assignment spin and stop adds its step, 3D scene and CSS.
+  const R94_ADDED=["js/clubDrawStep.js","js/clubDrawScene3d.js","css/clubDraw.css"];
   const sw=read('service-worker.js');
   assert.match(sw,/const RUNTIME_REVISION = "2\.6\.0-r93";\nconst PREVIOUS_RUNTIME_REVISION = "2\.5\.1-r92";/);
   const set=name=>JSON.parse('['+new RegExp(`const ${name} = new Set\\(\\[([^\\]]*)\\]\\);`).exec(sw)[1]+']');
@@ -52,7 +54,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   assert.equal(r92.length,293);
   assert.deepEqual(added,shell.filter(p=>!r92.includes(p)),'the added list is this shell minus 2.5.1\'s');
-  assert.deepEqual(added,R93_ADDED,'r93 adds the V4 logo, the title font and its licence');
+  assert.deepEqual(added,[...R94_ADDED,...R93_ADDED],'r94 adds the club draw files; r93 adds the V4 logo, the title font and its licence');
   assert.deepEqual(removed,R93_REMOVED,'r93 drops only the V3 loading logo');
   assert.deepEqual(r92.filter(p=>!shell.includes(p)),removed,'every 2.5.1 shell path is still precached');
   assert.equal(shell.length,293-removed.length+added.length);

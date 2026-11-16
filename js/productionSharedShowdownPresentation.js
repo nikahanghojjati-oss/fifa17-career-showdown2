@@ -30,6 +30,11 @@
   let leagueSpinUntil=0;
   let autoCareerStartKey="";
   let leagueForwardWaiter=null;
+  // R94-02 (Nik 2026-11-15): a Setup opened with draw 2 (its ledger carries `stops`) shows the Club Assignment as a spin and
+  // stop: one football per manager, three candidate clubs on each, STOP on his own device (js/clubDrawStep.js draws it).
+  // The draw starts by itself: Daniel's device commits the six candidates and the season length right after the league, so
+  // the Setup still makes its 6 writes and nobody taps to open anything. A Setup opened before R94-02 keeps the club packs.
+  let drawStep=null,drawStepPromise=null,drawClubsPromise=null,drawResendAt=0,drawClosedKey="",drawListening=false;
 
   function ssjpPending(){
     const entry=root.CareerModeProductionSharedJourneyEntry;
@@ -60,10 +65,10 @@
   function ssjpLater(fn,ms){const id=root.setTimeout(()=>{timers=timers.filter(item=>item!==id);fn();},ms);timers.push(id);return id;}
   function ssjpContextKey(next=state){const shell=ssjpShell();return `${String(next?.rivalryId||"").trim()}|${String(shell?.id||shell?.saveId||"").trim()}`;}
   function ssjpResetWitnesses(){
-    ssjpClearTimers();ssjpClearLeagueForwardWaiter();witnessedLeagueId=null;leagueSpinUntil=0;witnessedClubDigest=null;revealingClubDigest=null;clubRevealComplete=false;revealedSummaryClubs=0;preparedSeasonCommitPromise=null;autoCareerStartKey="";
+    ssjpClearTimers();ssjpClearLeagueForwardWaiter();if(drawStep)drawStep.dispose();drawClosedKey="";drawResendAt=0;witnessedLeagueId=null;leagueSpinUntil=0;witnessedClubDigest=null;revealingClubDigest=null;clubRevealComplete=false;revealedSummaryClubs=0;preparedSeasonCommitPromise=null;autoCareerStartKey="";
     const league=root.document&&root.document.getElementById("leagueWheelScreen"),club=root.document&&root.document.getElementById("clubWheelScreen");
     if(league)delete league.dataset.sharedLeagueWitnessed;
-    if(club){delete club.dataset.sharedClubPacksWitnessed;delete club.dataset.sharedPackDigest;}
+    if(club){delete club.dataset.sharedClubPacksWitnessed;delete club.dataset.sharedPackDigest;delete club.dataset.clubDraw;}
   }
   function ssjpAdoptState(next){
     const nextKey=ssjpContextKey(next);
@@ -83,6 +88,31 @@
     return setupApi;
   }
   async function ssjpEnsureGameplay(){if(typeof root.ensureGameplayModules!=="function")throw new Error("Gameplay presentation loader is unavailable.");await root.ensureGameplayModules();if(typeof root.ensureRequiredFootballVisualExperience==="function")await root.ensureRequiredFootballVisualExperience();}
+  function ssjpIsDraw(setup){return Boolean(setup&&typeof setup==="object"&&Object.hasOwn(setup,"stops"));}
+  function ssjpEnsureDrawStep(){
+    if(drawStep)return Promise.resolve(drawStep);
+    if(!drawStepPromise)drawStepPromise=ssjpLoadScript("club-draw-step","js/clubDrawStep.js",()=>root.CareerModeClubDrawStep).then(()=>{
+      drawStep=root.CareerModeClubDrawStep||null;
+      // A ball reaching full speed (STOP opens) or coming to rest (its club is named) re-renders the screen.
+      if(drawStep&&!drawListening){drawListening=true;drawStep.on(()=>{if(active&&ssjpPending()&&ssjpActiveScreen()==="clubWheelScreen")void ssjpRenderCurrent();});}
+      return drawStep;
+    }).catch(error=>{drawStepPromise=null;throw error;});
+    return drawStepPromise;
+  }
+  function ssjpDrawContext(){return {rivalryId:String(state?.rivalryId||""),role:state?.managerRole||"",visible:ssjpActiveScreen()==="clubWheelScreen"&&root.document?.visibilityState!=="hidden"};}
+  // Daniel's device moves a draw 2 Setup on by itself: the six candidates right after the league, then his season length.
+  function ssjpDrawAdvance(setup){
+    if(!active||!ssjpPending()||!ssjpIsDraw(setup)||!ssjpCoordinator()||busy)return false;
+    if(setup.phase==="LEAGUE_WHEEL_COMMITTED"){if(!drawClubsPromise)drawClubsPromise=ssjpMutate("commit-clubs").finally(()=>{drawClubsPromise=null;});return true;}
+    if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"){void ssjpCommitPreparedSeasonLength();return true;}
+    return false;
+  }
+  // The draw is built behind the league reveal (the engine downloads first, the balls once the candidates exist).
+  function ssjpDrawPrepare(setup){
+    // Re-renders once, when the draw becomes ready (a render of a ready draw never asks again, so no render loop).
+    void ssjpEnsureDrawStep().then(step=>{if(!step)return;void step.preload();const ctx=ssjpDrawContext();if(!step.candidates(setup)||step.isReady(setup,ctx))return;return step.prepare(setup,ctx).then(ok=>{if(ok)void ssjpRenderCurrent();});}).catch(()=>{});
+  }
+  function ssjpDrawReady(setup){return Boolean(drawStep&&drawStep.isReady(setup,ssjpDrawContext()));}
   function ssjpActiveScreen(){
     try{if(typeof root.getActiveScreenName==="function")return root.getActiveScreenName();}catch(_error){}
     return ["leagueWheelScreen","clubWheelScreen"].find(id=>{const el=root.document&&root.document.getElementById(id);return el&&!el.classList.contains("hidden");})||null;
@@ -123,9 +153,11 @@
       if(track){const rotation=typeof root.getLeagueRotation==="function"?root.getLeagueRotation(state.setup.leagueId,3):(typeof getLeagueRotation==="function"?getLeagueRotation(state.setup.leagueId,3):0);if(typeof root.setLeagueWheelTransition==="function")root.setLeagueWheelTransition(track,4000);else track.style.transition="transform 4000ms cubic-bezier(.2,.62,.18,1)";track.style.transform=`rotate(${rotation}deg)`;track.dataset.sharedLeagueId=state.setup.leagueId;ssjpLater(()=>{const finalRotation=typeof root.getLeagueRotation==="function"?root.getLeagueRotation(state.setup.leagueId,0):(typeof getLeagueRotation==="function"?getLeagueRotation(state.setup.leagueId,0):rotation);if(typeof root.setLeagueWheelTransition==="function")root.setLeagueWheelTransition(track,0);else track.style.transition="none";track.style.transform=`rotate(${finalRotation}deg)`;},4100);}
       ssjpLater(ssjpAutoForwardToClubs,LEAGUE_AUTO_FORWARD_MS);
     }
+    if(ssjpIsDraw(state.setup)){ssjpDrawAdvance(state.setup);ssjpDrawPrepare(state.setup);}
     if(leagueSpinUntil&&Date.now()<leagueSpinUntil){ssjpText(result,"SPINNING…");ssjpSetControl(button,{label:"SPINNING…",disabled:true});if(note){ssjpText(note,"");note.classList.add("hidden");}ssjpSetSharedStatus("LEAGUE WHEEL · Spinning for both managers.");return true;}
+    if(ssjpIsDraw(state.setup)){ssjpDrawAdvance(state.setup);ssjpDrawPrepare(state.setup);}
     ssjpText(result,league&&league.name||state.setup.leagueId);
-    ssjpSetControl(button,{label:"CONTINUE TO CLUB PACKS",disabled:ssjpActionBusy()});if(note){ssjpText(note,`${league&&league.name||state.setup.leagueId} is locked for both managers. No reroll.`);note.classList.remove("hidden");}ssjpSetSharedStatus("LEAGUE REVEALED · Next: the club packs.");return true;
+    ssjpSetControl(button,{label:ssjpIsDraw(state.setup)?"CONTINUE TO CLUB DRAW":"CONTINUE TO CLUB PACKS",disabled:ssjpActionBusy()});if(note){ssjpText(note,`${league&&league.name||state.setup.leagueId} is locked for both managers. No reroll.`);note.classList.remove("hidden");}ssjpSetSharedStatus(ssjpIsDraw(state.setup)?"LEAGUE REVEALED · Next: the club draw.":"LEAGUE REVEALED · Next: the club packs.");return true;
   }
 
   function ssjpAutoForwardToClubs(){
@@ -133,6 +165,9 @@
     // Codex P1 on #358: never move on (and start the pack reveals) while this tab is hidden; wait until the manager is back,
     // then show the revealed league for the full forward delay first.
     if(root.document?.visibilityState==="hidden"){ssjpDeferLeagueForward(state.setup.leagueId);return false;}
+    // R94-02 Reus Gate: the club draw opens only once its balls are built (or the flat stand-in is); until then the
+    // revealed league stays on screen.
+    if(ssjpIsDraw(state.setup)&&!ssjpDrawReady(state.setup)){ssjpDrawAdvance(state.setup);ssjpDrawPrepare(state.setup);ssjpLater(ssjpAutoForwardToClubs,250);return false;}
     ssjpForceScreen("clubWheelScreen");void ssjpRenderClub();return true;
   }
   function ssjpClearLeagueForwardWaiter(){if(leagueForwardWaiter&&root.document?.removeEventListener)root.document.removeEventListener("visibilitychange",leagueForwardWaiter);leagueForwardWaiter=null;}
@@ -216,8 +251,85 @@
   function ssjpRenderClub(){
     if(!root.document||!ssjpPending())return false;ssjpRemoveForeignStatus();const setup=state&&state.setup;if(!setup||!ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED"))return false;if(witnessedLeagueId!==setup.leagueId){ssjpForceScreen("leagueWheelScreen");return ssjpRenderLeague();}
     const screen=root.document.getElementById("clubWheelScreen"),league=ssjpLeagueRecord(setup.leagueId),m=ssjpManagers();if(!screen)return false;screen.dataset.sharedPresentationRole=state&&state.managerRole||"unresolved";ssjpText(root.document.getElementById("clubAssignmentLeague"),league&&league.name||setup.leagueId);ssjpText(root.document.getElementById("clubPlayerOne"),m.playerOne||"PLAYER ONE");ssjpText(root.document.getElementById("clubPlayerTwo"),m.playerTwo||"PLAYER TWO");const open=root.document.getElementById("openClubPack"),back=root.document.getElementById("clubAssignmentBack");if(back){back.disabled=true;back.classList.add("hidden");}
+    if(ssjpIsDraw(setup))return ssjpRenderDraw(setup,screen,open);
+    delete screen.dataset.clubDraw;
     if(setup.phase==="LEAGUE_WHEEL_COMMITTED"){clubRevealComplete=false;witnessedClubDigest=null;revealingClubDigest=null;ssjpResetPackCards();const confirmation=root.document.getElementById("clubRivalryConfirmation");if(confirmation)confirmation.classList.add("hidden");const panel=root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.classList.add("hidden");ssjpText(root.document.getElementById("clubPackStatus"),"LEAGUE LOCKED · TWO CLUB PACKS READY");ssjpSetControl(open,{label:ssjpCoordinator()?"OPEN CLUB PACKS":`WAITING FOR ${ssjpHostUpper()} TO OPEN THE PACKS`,disabled:!ssjpCoordinator()||ssjpActionBusy(),hidden:false});ssjpRenderConfirmButton(setup);ssjpSetSharedStatus(ssjpCoordinator()?"CLUB PACKS · Open both packs.":`CLUB PACKS · Waiting for ${ssjpHostName()}. The packs open once the clubs lock.`);return true;}
     ssjpSetControl(open,{label:"PACKS OPENED",disabled:true,hidden:true});ssjpAnimatePacks(setup);ssjpFillConfirmation(setup);if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"&&ssjpCoordinator())void ssjpCommitPreparedSeasonLength();ssjpRenderSeasonControls(setup);ssjpRenderConfirmButton(setup);if(setup.phase==="SHOWDOWN_CONFIRMED")ssjpMaybeAutoOpenCareerStart(setup);if(setup.phase==="SHOWDOWN_CONFIRMED")ssjpSetSharedStatus(state?.ready!==true?"CONNECTION NEEDED · Reconnect both players before Career Start.":clubRevealComplete?"SETUP COMPLETE · Both managers saw the wheel and the club packs.":"SETUP COMPLETE · Finish watching both pack reveals.");else if(setup.phase==="SEASON_LENGTH_COMMITTED")ssjpSetSharedStatus(clubRevealComplete?"FINAL CONFIRMATION · Each manager confirms on their own device.":"WATCH BOTH CLUB PACK REVEALS · Confirmation opens after both packs are revealed here.");else ssjpSetSharedStatus(clubRevealComplete?"CLUBS REVEALED · Locking Daniel's season choice from Showdown start.":"OPENING CLUB PACKS · Both managers see the same reveals.");return true;
+  }
+
+  // ---- R94-02 the spin and stop (draw 2) ----
+  function ssjpSealCard(which,phase){const card=root.document.getElementById(which===1?"clubCardOne":"clubCardTwo"),nameNode=root.document.getElementById(which===1?"clubNameOne":"clubNameTwo"),stateNode=root.document.getElementById(which===1?"clubCardStateOne":"clubCardStateTwo");if(card)card.classList.remove("is-revealed");ssjpText(nameNode,"?");ssjpText(stateNode,["stopping","await","settle","still-pending"].includes(phase)?"STOPPING":"SPINNING");revealedSummaryClubs&=which===1?2:1;}
+  function ssjpRivalName(){const role=state?.managerRole==="playerOne"?"playerTwo":"playerOne";return String(ssjpManagers()[role]||"YOUR RIVAL");}
+  function ssjpRenderDraw(setup,screen,open){
+    screen.dataset.clubDraw="spin";
+    const panel=root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.classList.add("hidden");
+    ssjpSetControl(open,{label:"CLUB DRAW",disabled:true,hidden:true});
+    const button=root.document.getElementById("continueClubAssignment"),confirmation=root.document.getElementById("clubRivalryConfirmation"),role=state?.managerRole||"";
+    ssjpDrawAdvance(setup);
+    const closed=drawClosedKey&&drawClosedKey===`${presentationContextKey}|${setup.revision}`;
+    // Career Start has opened over this screen: the balls are let go and the two clubs stay named.
+    if(closed&&setup.clubs){for(const [which,r] of [[1,"playerOne"],[2,"playerTwo"]])ssjpRevealCard(which,setup.clubs[r]);ssjpFillConfirmation(setup);ssjpRenderDrawButton(setup,button,role);return true;}
+    if(!drawStep||!ssjpDrawReady(setup)){
+      clubRevealComplete=false;ssjpDrawPrepare(setup);
+      for(const which of [1,2])ssjpSealCard(which);if(confirmation)confirmation.classList.add("hidden");
+      ssjpText(root.document.getElementById("clubPackStatus"),"CLUB DRAW · THREE CLUBS ON EACH BALL");
+      ssjpSetControl(button,{label:"STOP",disabled:true,hidden:false});
+      ssjpSetSharedStatus(ssjpPhaseAtLeast("CLUB_ASSIGNMENTS_COMMITTED")?"CLUB DRAW · Getting both balls ready.":`CLUB DRAW · Waiting for ${ssjpHostName()}'s device to deal the clubs.`);
+      return true;
+    }
+    const ctx=ssjpDrawContext(),stored=drawStep.storedStops(setup);
+    drawStep.sync(setup,ctx);
+    if(role&&stored[role]!==null)drawStep.accepted(setup,ctx);
+    // A stop saved on this phone that Firebase does not hold yet (the reply was lost, the page reloaded): the same stop is
+    // sent again, never a new one.
+    // A stop storage refused is still sent (kept in memory); its save is tried again on each resend.
+    const saved=role?drawStep.pending(ctx,setup):null;
+    if(saved!==null&&stored[role]===null&&setup.phase==="SEASON_LENGTH_COMMITTED"&&ssjpSeasonMatchesPrepared(setup)&&!busy&&!actionPromise&&Date.now()>=drawResendAt){drawResendAt=Date.now()+POLL_MS;const sendable=drawStep.sendable(ctx,setup);if(sendable!==null)void ssjpMutate("confirm",{stop:sendable}).then(ok=>{if(ok&&state?.setup)drawStep.accepted(state.setup,ssjpDrawContext());});}
+    const unsaved=Boolean(role&&stored[role]===null&&drawStep.unsaved(ctx,setup));
+    for(const [which,r,index] of [[1,"playerOne",0],[2,"playerTwo",1]]){
+      const name=drawStep.hasLanded(index)?(setup.clubs&&setup.clubs[r])||drawStep.clubFor(setup,r,stored[r]):null;
+      if(name)ssjpRevealCard(which,name);else ssjpSealCard(which,drawStep.phaseOf(setup,ctx,index));
+    }
+    clubRevealComplete=setup.phase==="SHOWDOWN_CONFIRMED"&&drawStep.bothLanded();
+    if(clubRevealComplete){screen.dataset.sharedClubPacksWitnessed=ssjpClubDigest(setup)||"true";ssjpFillConfirmation(setup);}else if(confirmation)confirmation.classList.add("hidden");
+    ssjpText(root.document.getElementById("clubPackStatus"),clubRevealComplete?"BOTH BALLS STOPPED · CLUBS LOCKED":"CLUB DRAW · THREE CLUBS ON EACH BALL");
+    ssjpRenderDrawButton(setup,button,role);
+    const mine=Boolean(role&&(stored[role]!==null||saved!==null)),theirs=Boolean(role&&stored[role==="playerOne"?"playerTwo":"playerOne"]!==null);
+    if(setup.phase==="SHOWDOWN_CONFIRMED"){ssjpSetSharedStatus(state?.ready!==true?"CONNECTION NEEDED · Reconnect both players before Career Start.":clubRevealComplete?"SETUP COMPLETE · Both balls have stopped.":"BOTH STOPPED · Watch the balls come to rest.");ssjpMaybeAutoOpenCareerStart(setup);}
+    else if(setup.phase==="SEASON_LENGTH_COMMITTED"&&!ssjpSeasonMatchesPrepared(setup))ssjpSetSharedStatus("This Showdown's season count does not match. Use Showdown recovery before you stop your ball.");
+    else if(unsaved)ssjpSetSharedStatus("YOUR STOP COULD NOT BE SAVED · Keep this screen open until it lands.");
+    else if(mine)ssjpSetSharedStatus(theirs?"BOTH STOPPED · Locking both clubs.":`YOUR BALL IS STOPPING · Waiting for ${ssjpRivalName()} to stop.`);
+    else ssjpSetSharedStatus(drawStep.canStop(setup,ctx)?"CLUB DRAW · Tap STOP. Where your ball rests is your club.":theirs?`${ssjpRivalName().toUpperCase()} HAS STOPPED · Your ball is next.`:"CLUB DRAW · Read your three clubs.");
+    return true;
+  }
+  function ssjpRenderDrawButton(setup,button,role){
+    if(!button)return;
+    const stored=drawStep?drawStep.storedStops(setup):{playerOne:null,playerTwo:null},ctx=ssjpDrawContext(),saved=drawStep&&role?drawStep.pending(ctx,setup):null;
+    if(setup.phase==="SHOWDOWN_CONFIRMED"){const matches=ssjpSeasonMatchesPrepared(setup),ready=state?.ready===true;ssjpSetControl(button,{label:!matches?"SEASON PLAN MISMATCH · RECOVERY REQUIRED":!clubRevealComplete?"BOTH STOPPED":ready?"CONTINUE TO CAREER START":"RECONNECT PLAYERS TO CONTINUE",disabled:!matches||!ready||!clubRevealComplete||ssjpActionBusy(),hidden:false});return;}
+    if(role&&stored[role]!==null){ssjpSetControl(button,{label:`STOPPED · WAITING FOR ${ssjpRivalName().toUpperCase()}`,disabled:true,hidden:false});return;}
+    if(saved!==null){ssjpSetControl(button,{label:"STOPPING · SAVING YOUR CLUB",disabled:true,hidden:false});return;}
+    if(setup.phase==="SEASON_LENGTH_COMMITTED"&&!ssjpSeasonMatchesPrepared(setup)){ssjpSetControl(button,{label:"SEASON PLAN MISMATCH · RECOVERY REQUIRED",disabled:true,hidden:false});return;}
+    const can=setup.phase==="SEASON_LENGTH_COMMITTED"&&Boolean(drawStep&&drawStep.canStop(setup,ctx));
+    ssjpSetControl(button,{label:"STOP",disabled:!can||ssjpActionBusy(),hidden:false});
+  }
+  // STOP: the stop is computed once at the tap and saved on this phone, then sent inside this manager's confirm. A tap
+  // that did not go through sends the same saved stop again (also after a reload), never a new one.
+  async function ssjpDecideDraw(){
+    const setup=state?.setup;if(!setup)return "stale";
+    const role=state.managerRole,ctx=ssjpDrawContext();
+    if(setup.phase==="SEASON_LENGTH_COMMITTED"&&role&&!setup.confirmedRoles.includes(role)){
+      if(!ssjpSeasonMatchesPrepared(setup))return "stale";
+      await ssjpEnsureDrawStep().catch(()=>null);if(!drawStep||!drawStep.isReady(setup,ctx))return "done";
+      let stop=drawStep.pending(ctx,setup)===null?drawStep.tap(setup,ctx):drawStep.sendable(ctx,setup);
+      if(stop===null){await ssjpRenderClub();return "done";}
+      drawResendAt=Date.now()+POLL_MS;
+      const ok=await ssjpMutate("confirm",{stop});
+      if(ok&&state?.setup)drawStep.accepted(state.setup,ssjpDrawContext());
+      await ssjpRenderClub();
+      return ok?"done":"failed";
+    }
+    if(setup.phase==="SHOWDOWN_CONFIRMED"&&state.ready===true&&clubRevealComplete)return await ssjpOpenCareerStart()?"done":"stale";
+    await ssjpRenderClub();return "done";
   }
 
   async function ssjpRenderCurrent(){if(!active||!ssjpPending())return false;const screen=ssjpActiveScreen();if(screen==="leagueWheelScreen")return ssjpRenderLeague();if(screen==="clubWheelScreen")return ssjpRenderClub();return false;}
@@ -252,6 +364,8 @@
       if(!career||typeof career.openPanel!=="function")throw new Error("Career Start is unavailable.");
       if(typeof career.install==="function")career.install();
       await career.openPanel();
+      // R94-02: Career Start covers the club draw now; its balls give their graphics memory back.
+      if(drawStep&&ssjpIsDraw(state?.setup)){drawClosedKey=`${presentationContextKey}|${state.setup.revision}`;drawStep.dispose();}
       return true;
     }finally{
       busy=false;
@@ -267,11 +381,12 @@
     if(!state)return "stale";
     if(id==="spinLeague"){
       if(!state.ready)return "stale";
-      if(!state.setup){if(state.remoteRole!=="host")return "stale";if(!await ssjpMutate("open"))return "failed";}
+      if(!state.setup){if(state.remoteRole!=="host")return "stale";if(!await ssjpMutate("open",{draw:2}))return "failed";}
       if(state.setup&&state.setup.phase==="SHARED_SETUP_OPEN"){if(!ssjpCoordinator())return "stale";return await ssjpMutate("commit-league")?"done":"failed";}
-      if(state.setup&&ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED")){if(witnessedLeagueId!==state.setup.leagueId){await ssjpRenderLeague();return "done";}ssjpForceScreen("clubWheelScreen");await ssjpRenderClub();return "done";}return "stale";
+      if(state.setup&&ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED")){if(witnessedLeagueId!==state.setup.leagueId){await ssjpRenderLeague();return "done";}if(ssjpIsDraw(state.setup)&&!ssjpDrawReady(state.setup)){ssjpDrawAdvance(state.setup);ssjpDrawPrepare(state.setup);ssjpLater(ssjpAutoForwardToClubs,250);ssjpSetSharedStatus("LEAGUE REVEALED · Getting the club draw ready.");return "done";}ssjpForceScreen("clubWheelScreen");await ssjpRenderClub();return "done";}return "stale";
     }
     if(id==="openClubPack"){if(state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"&&ssjpCoordinator())return await ssjpMutate("commit-clubs")?"done":"failed";return "stale";}
+    if(id==="continueClubAssignment"&&ssjpIsDraw(state.setup))return ssjpDecideDraw();
     if(id==="continueClubAssignment"){
       if(!clubRevealComplete){await ssjpRenderClub();return "done";}
       if(state.setup&&state.setup.phase==="SEASON_LENGTH_COMMITTED"&&!state.setup.confirmedRoles.includes(state.managerRole)){

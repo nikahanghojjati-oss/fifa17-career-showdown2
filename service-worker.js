@@ -181,6 +181,9 @@ const SHELL_PATHS = Object.freeze([
   "visual-assets/v10_1/icon-guess/index.html",
   "js/chamberMenStep.js",
   "js/chamberMenScene3d.js",
+  "js/clubDrawStep.js",
+  "js/clubDrawScene3d.js",
+  "css/clubDraw.css",
   "js/chamberMenStadium3d.js",
   "js/chamberMen.js",
   "css/chamberMen.css",
@@ -416,7 +419,7 @@ const OFFLINE_PACK_PATHS = new Set([
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt",
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
     "js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html","js/chamberMenStep.js",
-    "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/clubAssignment.js","js/dataEngine.js",
+    "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/clubAssignment.js","js/clubDrawStep.js","js/clubDrawScene3d.js","css/clubDraw.css","js/dataEngine.js",
     "js/leagueWheel.js","js/productionSharedShowdownPresentation.js","js/sharedTransferChallenge.js","js/sparkSharedTransferChallenge.js",
     "js/sparkSharedSeasonResults.js","js/ruleBook.js","js/seasonEngine.js","js/showdownUI.js","js/statistics.js","js/transferChallenge.js",
     "js/transferSelector.js","js/playerSearch.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
@@ -451,7 +454,11 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // list as 2.5.0's, because the 2.5.1 hotfix changed only the Firestore Rules, tests and version strings). The STORY site is
 // never precached.
 // r93 HO-079 (flat logo V4 + live-text titles): adds the Cormorant SC Bold file and the V4 loading logo, drops the V3 loading logo.
+// r94 R94-02 (Club Assignment spin and stop): adds the club draw step, its 3D scene and its CSS.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
+    "js/clubDrawStep.js",
+    "js/clubDrawScene3d.js",
+    "css/clubDraw.css",
     "assets/loading/LOGO_CM17_WORDMARK_V4_640.webp",
     "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
     "visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt"
