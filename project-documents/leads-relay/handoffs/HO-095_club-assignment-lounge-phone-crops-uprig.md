@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": "HO-094",
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-16T23:47:23Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T23:48:40Z", "by": "V", "status": "RECEIVED", "note": "Supervisor lead writing 2 Astra prompts from locked HO-094 desktop room"}],
+ "evidence": ["claude/project-thread-6kfnkn 025bac00d project-documents/hc-art/ho095/"],
+ "log": [{"at": "2026-11-16T23:47:23Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T23:48:40Z", "by": "V", "status": "RECEIVED", "note": "Supervisor lead writing 2 Astra prompts from locked HO-094 desktop room"}, {"at": "2026-11-16T23:58:02Z", "by": "V", "status": "DONE", "note": "ENV_CLUB_PHONE_HC_V4 1179x2096 + ENV_CLUB_SIDEWAYS_HC_V4 2532x1170, Nik OK. Anchor the sideways plate to the RIGHT for cover crops."}],
  "from_session": "session_01GU43Q5bagqLyredN5q4Pwh",
  "sessions": {"G": "session_01GU43Q5bagqLyredN5q4Pwh", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
