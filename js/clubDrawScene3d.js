@@ -433,7 +433,7 @@
       balls.forEach(b=>{step(b,dt);b.u.camP.value.copy(cam.position);});
       balls.forEach((b,i)=>{const on=b.state==="landed",g=pitchU["glow"+i];g.value+=((on?1:0)-g.value)*Math.min(1,dt*3);if(on&&!b.glowSet){b.glowSet=true;const pc=assets.info[b.clubs[b.pick]].primary||"#d8b55a";pitchU["g"+i].value.copy(lin(/^#f[0-9a-f]{5}$/i.test(pc)?"#cfd8e6":pc));}});
       if(confetti&&confetti.visible){const cd=confetti.userData,p=confetti.geometry.attributes.position.array;cd.t+=dt;for(let i=0;i<cd.n;i++){cd.v[i*3+1]-=9*dt;p[i*3]+=cd.v[i*3]*dt;p[i*3+1]=Math.max(.03,p[i*3+1]+cd.v[i*3+1]*dt);p[i*3+2]+=cd.v[i*3+2]*dt;}confetti.geometry.attributes.position.needsUpdate=true;confetti.material.opacity=Math.max(0,1-cd.t/2.6);if(cd.t>2.6)confetti.visible=false;}
-      if(bokeh&&bokeh.visible)bokeh.material.opacity=.42+.10*Math.sin(clock()/700);
+      if(bokeh&&bokeh.visible&&!reduced)bokeh.material.opacity=.42+.10*Math.sin(clock()/700); // still under Reduce Motion
       renderer.render(scene,cam);
     }
 
@@ -496,17 +496,20 @@
       // Firebase holds this manager's stop: the ball may come to rest. A different stored stop (another tab won) re-aims.
       accept(i,storedStop){
         const b=ballOf(i);
-        if(sceneValidStop(storedStop)&&storedStop!==b.stop){b.stop=storedStop;b.pick=sectionOf(storedStop);if(["stopping","await"].includes(b.state)){b.accepted=true;b.w=Math.max(b.w,PHYS.AWAIT_W);plan(b,PHYS.REPLAN_MIN);return;}}
+        if(sceneValidStop(storedStop)&&storedStop!==b.stop){b.stop=storedStop;b.pick=sectionOf(storedStop);if(["stopping","await"].includes(b.state)){b.accepted=true;b.w=Math.max(b.w,PHYS.AWAIT_W);plan(b,PHYS.REPLAN_MIN);return;}
+          // Already settling or at rest on another third: the stored stop wins and the ball is shown at rest on it (both
+          // phones must end on the same picture). Firebase never changes a stored stop, so this is a safety net only.
+          if(b.state==="settle"||b.state==="landed"){b.glowSet=false;placeAtRest(b);return;}}
         b.accepted=true;
         if(b.state==="still-pending")placeAtRest(b);
       },
-      // A stop read from the ledger (the rival's, or this manager's after a reload). immediate: show it at rest now.
       // A stop read from the ledger (the rival's, or this manager's after a reload). immediate: show it at rest now.
       // pending: this manager's own stop saved on the phone but not yet held by Firebase (a reload after the tap): the ball
       // slows toward it but keeps rolling until accept(i, stored), exactly as after a tap.
       restOn(i,stop,o){
         const b=ballOf(i),pending=Boolean(o&&o.pending);if(!sceneValidStop(stop))return false;
         if(b.state==="landed"&&b.stop===stop)return true;
+        if(pending&&b.stop===stop&&b.own)return true; // asked again on every render: nothing changes, nothing is emitted
         if(pending&&(reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;b.own=true;b.accepted=false;b.pick=sectionOf(stop);b.lit=[1,1,1];b.state="still-pending";emit("state",b);return true;}
         if(!pending&&(o&&o.immediate||reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;placeAtRest(b);return true;}
         if(b.state==="spin"){b.stop=stop;b.accepted=!pending;b.own=false;startStop(b);return true;}
