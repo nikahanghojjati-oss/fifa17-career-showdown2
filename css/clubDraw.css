@@ -12,7 +12,7 @@
 /* One frame, as in the picked mock-up: the league line, the pitch, then one row with Daniel's name and club on the left, STOP
    in the middle and Nik's on the right. The pitch takes the height that keeps that row in view (Chromebook windowed and full
    screen, phones); BACK and the locked-clubs note follow below and the page scrolls to them. */
-#clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell{width:min(1180px,100%);box-sizing:border-box;margin:0 auto;display:grid;
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell{width:min(1640px,100%);box-sizing:border-box;margin:0 auto;display:grid;
   grid-template-columns:minmax(0,1fr) minmax(150px,24%) minmax(0,1fr);grid-template-areas:"head head head" "stage stage stage" "one stop two" "conf conf conf" "back back back";column-gap:14px;align-items:center}
 #clubWheelScreen[data-club-draw="spin"] .clubAssignmentHeader{grid-area:head}
 #clubWheelScreen[data-club-draw="spin"] .clubRevealArena,
@@ -24,7 +24,7 @@
 #clubWheelScreen[data-club-draw="spin"] #clubAssignmentBack{grid-area:back;justify-self:center}
 
 .clubDrawStage{display:none}
-#clubWheelScreen[data-club-draw="spin"] .clubDrawStage{grid-area:stage;display:block;position:relative;width:100%;height:clamp(300px,calc(100dvh - 491px),620px);
+#clubWheelScreen[data-club-draw="spin"] .clubDrawStage{grid-area:stage;display:block;position:relative;width:100%;height:clamp(300px,calc(100dvh - 400px),760px);
   border-radius:14px;overflow:hidden;background:#04060a;box-shadow:inset 0 0 0 1px rgba(216,181,90,.45),0 10px 30px rgba(0,0,0,.35)}
 
 /* Captions under the balls: the manager on the left ball is Daniel (playerOne), on the right Nik. */
@@ -54,15 +54,78 @@
 .clubDrawFlatClub.is-picked{opacity:1;border-color:#f3dc97;box-shadow:0 0 0 2px #f3dc97}
 .clubDrawFlatCrest,.clubDrawFlatCrest svg{display:block;width:100%;height:100%}
 
+/* r94 look (gallery notes, 2026-11-16): the draw is a dark stadium scene like the picked mock-up and the other Team V stages,
+   not a panel on the light page. While the draw shows, the page and its header take the shell every Team V stage has
+   (css/v10Shell.css html[data-v10-screen] rules, repeated here because the Team V club look is not mounted in draw mode):
+   a night page, the two chips in the top bar, the footer visually hidden (never removed). */
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)), html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) body, html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #background { background: #060709; }
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { background: radial-gradient(ellipse 90% 70% at 50% 38%, #0f1a12 0, #070a08 62%, #050607 100%); }
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader {
+  position: fixed; z-index: 41; left: auto; right: 84px; top: calc((var(--sd-nav-top-h, 52px) - 28px) / 2);
+  width: auto; height: auto; min-height: 0; display: flex; align-items: center; gap: 6px; padding: 0;
+  background: none; border: 0; box-shadow: none;
+}
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader .brand { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #seasonIndicator {
+  margin: 0 !important; min-height: 28px; box-sizing: border-box; padding: 0 10px !important; display: inline-flex; align-items: center;
+  font: 600 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .1em; text-transform: uppercase;
+  color: #ece6d6 !important; background: #0d0f13 !important; border: 1px solid rgba(242,196,91,.45) !important; border-radius: 2px; box-shadow: none;
+}
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; }
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #seasonIndicator::before,
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #seasonIndicator::after { content: none; }
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app > footer { position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+@media (max-width: 900px) {
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); }
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader:not(:focus-within) { width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+/* The stage fills the width under the top bar; the title is the one title family as plain text on the scene (Cormorant SC,
+   flat gold #C9A45C, no band, box, border or shadow), as every other screen title renders. */
+#clubWheelScreen[data-club-draw="spin"] { width: 100%; max-width: none; padding: 6px max(16px, 2vw) 18px; box-sizing: border-box; }
+#clubWheelScreen[data-club-draw="spin"] > h2 {
+  width: auto; margin: 0 auto 2px; padding: 0 0 0 .06em; background: none; border: 0; box-shadow: none; text-align: center;
+  font: 700 calc(var(--hc-title-h, 48px) * .74)/1.14 "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font-synthesis: none; font-variant-numeric: lining-nums; letter-spacing: .06em; text-transform: uppercase;
+  color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none;
+}
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell { background: none; border-top: 0; box-shadow: none; padding: 0; }
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentEyebrow { color: #C9A45C; }
+#clubWheelScreen[data-club-draw="spin"] #clubAssignmentLeague { color: #f3eedf; }
+#clubWheelScreen[data-club-draw="spin"] #clubPackStatus { color: rgba(243,238,223,.62); }
+#clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus { color: #ece6d6; background: #0d0f13; border: 1px solid rgba(242,196,91,.32); border-left: 3px solid #C9A45C; box-shadow: none; }
+/* STOP: the strongest black-and-gold button on the screen when it can be tapped (the app's gold metal, as on Squad and
+   Chamber Men); while it waits it is flat black with a gold edge and readable gold words, never faded, never blue. */
+#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment {
+  box-sizing: border-box; min-height: 56px; padding: 10px 16px; border: 1px solid #f5d77a; border-radius: 3px;
+  font: 700 clamp(18px, 1.7vw, 26px)/1.1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--sd-text-on-gold, #07080a);
+  background: var(--sd-gold-metal, linear-gradient(180deg, #fff3b0 0%, #ffd34d 35%, #d4a017 70%, #8a6a12 100%));
+  box-shadow: inset 0 1px 0 rgba(255,248,214,.8), inset 0 -2px 0 rgba(138,106,18,.6), 0 0 0 1px #000, 0 6px 18px rgba(0,0,0,.45);
+  text-shadow: 0 1px 0 rgba(255,241,184,.45); opacity: 1; transform: none;
+}
+#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment::before, #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment::after { content: none; }
+#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:hover:not(:disabled), #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:focus-visible { background: var(--sd-gold-metal, linear-gradient(180deg, #fff3b0 0%, #ffd34d 35%, #d4a017 70%, #8a6a12 100%)); outline: 2px solid #f3dc97; outline-offset: 2px; transform: none; }
+#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:disabled {
+  opacity: 1; cursor: default; color: #e2cf94; background: #17140e; border-color: rgba(242,196,91,.45);
+  box-shadow: none; text-shadow: none; font-size: clamp(13px, 1.05vw, 17px); letter-spacing: .1em;
+}
+#clubWheelScreen[data-club-draw="spin"] #clubAssignmentBack {
+  width: min(360px, 100%); min-height: 44px; margin-top: 10px; color: var(--r78-gold-strong, #ffd34d);
+  background: linear-gradient(180deg, #17140e, #070605); border: 1px solid var(--r78-gold-edge, #d4a017); border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(242,196,91,.25), 0 0 0 1px #000; text-shadow: none;
+}
+
 @media (max-width:760px) and (orientation:portrait){
   #clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell{column-gap:8px;grid-template-columns:minmax(0,1fr) minmax(84px,28%) minmax(0,1fr)}
-  #clubWheelScreen[data-club-draw="spin"] .clubDrawStage{height:clamp(240px,calc(100dvh - 395px),520px);border-radius:12px}
+  #clubWheelScreen[data-club-draw="spin"] .clubDrawStage{height:clamp(240px,calc(100dvh - 345px),560px);border-radius:12px}
   #clubWheelScreen[data-club-draw="spin"] .clubRevealCard{padding:5px 6px}
   #clubWheelScreen[data-club-draw="spin"] .clubManager{font-size:11px;margin-bottom:2px}
   #clubWheelScreen[data-club-draw="spin"] .clubCardFace strong{font-size:14px;gap:6px;min-height:26px}
   #clubWheelScreen[data-club-draw="spin"] .clubCardFace [data-club-identity="true"]::before{width:22px;height:26px}
   #clubWheelScreen[data-club-draw="spin"] .clubCardState{font-size:9px;letter-spacing:.08em}
-  #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment{padding:8px 6px;font-size:12px;letter-spacing:.04em}
+  #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment{min-height:52px;padding:8px 6px;font-size:18px;letter-spacing:.12em}
+  #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:disabled{font-size:11px;letter-spacing:.04em}
   .clubDrawFlat{grid-template-columns:1fr;gap:8px}
 }
 @media (prefers-reduced-motion:reduce){.clubDrawFlatClub{transition:none}}

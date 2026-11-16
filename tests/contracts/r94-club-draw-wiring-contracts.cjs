@@ -182,6 +182,14 @@ async function main(){
     const rules=CSS_SRC.replace(/\/\*[\s\S]*?\*\//g,"").split("}").map(r=>r.split("{")[0].trim()).filter(Boolean).filter(sel=>!sel.startsWith("@"));
     for(const sel of rules)for(const part of sel.split(","))assert.ok(/#clubWheelScreen\[data-club-draw="spin"\]|^\s*\.clubDraw/.test(part),`draw style outside draw mode: ${part.trim()}`);
     assert.equal(/backdrop-filter|brightness\(|rgba\(0,\s*0,\s*0,\s*0?\.[5-9]\)\s*;\s*position:\s*fixed/.test(CSS_SRC),false,"no dimming");
+    // r94 look (gallery notes): the title is plain Cormorant SC gold text with nothing behind it; the enabled STOP is the
+    // app's gold metal and the waiting one flat black with a gold edge; nothing in draw mode is blue (the app's cyan bar).
+    const block=sel=>{const i=CSS_SRC.indexOf(sel);assert.ok(i>=0,`missing rule ${sel}`);return CSS_SRC.slice(CSS_SRC.indexOf("{",i)+1,CSS_SRC.indexOf("}",i));};
+    const title=block('#clubWheelScreen[data-club-draw="spin"] > h2 {');
+    for(const want of [/background:\s*none/,/border:\s*0/,/box-shadow:\s*none/,/"Cormorant SC"/,/color:\s*#C9A45C/])assert.match(title,want,`title: ${want}`);
+    assert.match(block('#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment {'),/--sd-gold-metal/,"the enabled STOP is gold metal");
+    assert.match(block('#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:disabled {'),/background:\s*#17140e/,"the waiting STOP is flat black with a gold edge");
+    assert.equal(/cyan|#00[a-f0-9]{4}\b|blue/i.test(CSS_SRC.replace(/\/\*[\s\S]*?\*\//g,"")),false,"nothing blue in draw mode");
     assert.match(V10_SRC,/section\.dataset\.clubDraw==="spin"\)return false;/,"Team V's pack plate is off in draw mode (CL1-CL6 kept for old Setups)");
     ok("W6","the step, scene and stylesheet are offline; draw styles only in draw mode; no dimming; the pack plate stays for old Setups");
   }
