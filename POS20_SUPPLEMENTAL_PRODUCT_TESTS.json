@@ -3374,6 +3374,16 @@
       ]
     },
     {
+      "path": "tests/contracts/r94-crest-ball-contracts.cjs",
+      "patterns": [
+        "^js/visualIdentity\\.js$",
+        "^visual-assets/v10_1/crests/",
+        "^service\\-worker\\.js$",
+        "^tests/contracts/r94\\-crest\\-ball\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r94-club-draw-protocol-contracts.cjs",
       "patterns": [
         "^js/(sharedShowdownSetup|sparkSharedShowdownSetup|sparkCompletedShowdownReader|sparkSharedSeasonCommit|sparkSharedSeasonResults)\\.js$",
