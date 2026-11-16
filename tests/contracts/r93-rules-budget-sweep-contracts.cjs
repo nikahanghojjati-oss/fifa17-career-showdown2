@@ -46,7 +46,7 @@ check("S2","the baseline holds the bar: at most 850 of 1,000 per kind unless kno
 
 check("S3","the sweep plays the real flows and measures only the shipped composed Rules",()=>{
   const sweep=read("tests/firebase/rules-budget-sweep-emulator.cjs");
-  for(const suite of ["two-manager-journey-emulator.cjs\",env:{CMS_SHOWDOWN_LENGTH:\"10\"}","transfer-lock-budget-emulator.cjs","prime-pack-ten-season-emulator.cjs","sacked-rules-emulator.cjs","europa-league-rules-emulator.cjs","chamber-men-rules-emulator.cjs","squad-sheets-rules-emulator.cjs","persistent-nik-daniel-pair-provider-emulator.cjs","shared-terminal-close-production-provider-emulator.cjs","career-index-emulator.cjs"])
+  for(const suite of ["two-manager-journey-emulator.cjs\",env:{CMS_SHOWDOWN_LENGTH:\"10\"}","transfer-lock-budget-emulator.cjs","prime-pack-ten-season-emulator.cjs","sacked-rules-emulator.cjs","europa-league-rules-emulator.cjs","chamber-men-rules-emulator.cjs","squad-sheets-rules-emulator.cjs","persistent-nik-daniel-pair-provider-emulator.cjs","shared-terminal-close-production-provider-emulator.cjs","career-index-emulator.cjs","r94-club-draw-rules-emulator.cjs"])
     assert.ok(sweep.includes(suite),`the sweep plays ${suite}`);
   assert.match(sweep,/const HARD_LIMIT=850,CLOSE=700;/);
   for(const rule of ["refused by the 1,000-expression limit","under 15% headroom","worse than its baseline","in the baseline but no flow made it any more","replay(s) refused outside the expression limit"])
