@@ -1,0 +1,2 @@
+CLUBS 98 pool sizes min 24 max 33
+SQUAD_LISTS careers=400 screens=7600 engineErrors=0 clientRefused=0 maxOut=58/100 maxOv=60/150 maxDocJsonBytes=7176

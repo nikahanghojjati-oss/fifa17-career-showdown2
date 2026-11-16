@@ -1,0 +1,150 @@
+i  emulators: Starting emulators: auth, firestore
+i  emulators: Detected demo project ID "demo-cms-browser-journey", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.
+⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.
+⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.
+i  firestore: Firestore Emulator logging to firestore-debug.log
+⚠  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection.
+✔  firestore: Firestore Emulator was started in standard edition.
+✔  firestore: Firestore Emulator UI websocket is running on 9514.
+i  Running script: node tests/browser/ce2pg-r94-expiry.cjs
+ok   boot.switch [daniel] emulator switch active (localhost + cmsEmulator=1 only)
+ok   boot.switch [nik] emulator switch active (localhost + cmsEmulator=1 only)
+ok   boot.accounts [both] Daniel and Nik signed in as two distinct accounts
+BILLED model: Rules sha256 4cb7b87855586000; waits ON (sampled 0.25 min long / 0.25 min short, extrapolated); paces {"slow":{"label":"slow","transfer":40,"results":90,"short":1},"mid":{"label":"mid","transfer":30,"results":60,"short":1},"fast":{"label":"fast","transfer":25,"results":30,"short":1}}
+ok   start.S.realPath [daniel] START has no checkmark or test label
+ok   start.S.marker [daniel] START automatically writes the real career marker before the code
+ok   S.code [daniel] the first real START makes the one-time CMS17R- code
+ok   S.session [both] Nik is in Daniel's private session
+ok   setup.S.leagueWait [nik] Nik waits for Daniel on the league wheel
+--- prime 16:06:26.991 cannot-guess | me=playerTwo stage=null chips={"playerOne":2,"playerTwo":2} waitingFor=playerOne pending=false result=null banner=null
+--- prime 16:06:28.031 cannot-guess | me=playerTwo stage=null chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 16:06:31.161 not-the-guesser | me=playerTwo stage=1 chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 16:06:33.787 typed answer "Baggio" | me=playerOne stage=1 chips={"playerOne":1,"playerTwo":2} waitingFor=null pending=false result="playerOne" banner=Daniel +4 Showdown points
+PLAN S: Premier League (20 teams), Leicester City v Chelsea, 1 season(s), target daniel
+ok   S.S1.transfer.coordinator [nik] only Daniel can start the shared transfer window
+ok   S.S1.transfer.privacy [nik] Daniel's locked signing stays hidden from Nik before completion
+RELOAD results-entry daniel: 60s after reload billed both=44 mine=44
+   read rivalries/{rid}/sessions/{sid}  docs=2 rules=4
+   read rivalries/{rid}/sharedSetup/authoritative  docs=2 rules=2
+   read rivalries/{rid}/seasonCommits/season_N  docs=2 rules=2
+   read rivalries/{rid}/seasonResults/season_N  docs=2 rules=2
+   read rivalries/{rid}  docs=3 rules=0
+   read rivalries/{rid}/transferChallenges/season_N/roles/playerOne  docs=1 rules=2
+   read rivalries/{rid}/transferChallenges/season_N/roles/playerTwo  docs=1 rules=2
+   read rivalries/{rid}/seasonResults/season_N/roles/playerOne  docs=1 rules=2
+   read accounts/{uid}/pairLinks/current  docs=2 rules=0
+   read accounts/{uid}/partner/current  docs=2 rules=0
+   read rivalries/{rid}/sessionOffers/current  docs=1 rules=1
+   read rivalries/{rid}/careerStart/authoritative  docs=1 rules=1
+   MOD read sparkSharedTransferChallenge.js:175  docs=2 rules=3
+   MOD read ?  docs=5 rules=0
+   MOD read persistentNikDanielPair.js:184  docs=4 rules=0
+   MOD read productionSharedSeasonCommit.js:250  docs=0 rules=4
+   MOD read sparkPrivateSession.js:353  docs=1 rules=2
+   MOD read sparkSharedTransferChallenge.js:176  docs=1 rules=2
+   MOD read sparkSharedSeasonResults.js:145  docs=1 rules=2
+   MOD read sparkRemoteJoining.js:387  docs=1 rules=1
+   MOD read sparkSharedShowdownSetup.js:180  docs=1 rules=1
+   MOD read sparkSharedMultiSeasonProgression.js:29  docs=1 rules=1
+   MOD read sparkSharedCareerStart.js:63  docs=1 rules=1
+   MOD read sparkSharedSeasonResults.js:142  docs=1 rules=1
+UNLOCK results-entry daniel: idle45=0 (mine 0) unlock45=13/13 extra/unlock both=13 mine=13
+   read rivalries/{rid}/sessions/{sid}  docs=1 rules=2
+   read rivalries/{rid}/seasonResults/season_N/roles/playerOne  docs=1 rules=2
+   read rivalries/{rid}/seasonResults/season_N  docs=1 rules=1
+   read rivalries/{rid}/seasonCommits/season_N  docs=1 rules=1
+   read rivalries/{rid}/sharedSetup/leagueProjection  docs=1 rules=1
+   read rivalries/{rid}  docs=1 rules=0
+   MOD read ?  docs=4 rules=0
+   MOD read productionSharedSeasonCommit.js:250  docs=0 rules=3
+   MOD read sparkSharedSeasonResults.js:145  docs=1 rules=2
+   MOD read sparkSharedSeasonResults.js:142  docs=1 rules=1
+   MOD read sparkPrivatePairing.js:1529  docs=0 rules=1
+RELOAD results-entry nik: 60s after reload billed both=45 mine=45
+   read rivalries/{rid}/sessions/{sid}  docs=2 rules=4
+   read rivalries/{rid}/sharedSetup/authoritative  docs=2 rules=2
+   read rivalries/{rid}/seasonCommits/season_N  docs=2 rules=2
+   read rivalries/{rid}/seasonResults/season_N  docs=2 rules=2
+   read rivalries/{rid}  docs=3 rules=0
+   read rivalries/{rid}/transferChallenges/season_N/roles/playerTwo  docs=1 rules=2
+   read rivalries/{rid}/transferChallenges/season_N/roles/playerOne  docs=1 rules=2
+   read rivalries/{rid}/seasonResults/season_N/roles/playerTwo  docs=1 rules=2
+   read accounts/{uid}/pairLinks/current  docs=2 rules=0
+   read accounts/{uid}/partner/current  docs=2 rules=0
+   read rivalries/{rid}/sessionOffers/current  docs=1 rules=1
+   read rivalries/{rid}/careerStart/authoritative  docs=1 rules=1
+   MOD read sparkSharedTransferChallenge.js:175  docs=2 rules=3
+   MOD read ?  docs=5 rules=0
+   MOD read persistentNikDanielPair.js:184  docs=4 rules=0
+   MOD read productionSharedSeasonCommit.js:250  docs=0 rules=4
+   MOD read sparkPrivateSession.js:353  docs=1 rules=2
+   MOD read sparkSharedTransferChallenge.js:176  docs=1 rules=2
+   MOD read sparkSharedSeasonResults.js:145  docs=1 rules=2
+   MOD read sparkRemoteJoining.js:387  docs=1 rules=1
+   MOD read sparkSharedShowdownSetup.js:180  docs=1 rules=1
+   MOD read sparkSharedMultiSeasonProgression.js:29  docs=1 rules=1
+   MOD read sparkSharedCareerStart.js:63  docs=1 rules=1
+   MOD read sparkSharedSeasonResults.js:142  docs=1 rules=1
+UNLOCK results-entry nik: idle45=0 (mine 0) unlock45=15/15 extra/unlock both=15 mine=15
+   read rivalries/{rid}/sessions/{sid}  docs=1 rules=2
+   read rivalries/{rid}/seasonResults/season_N/roles/playerTwo  docs=1 rules=2
+   read rivalries/{rid}/seasonResults/season_N  docs=1 rules=1
+   read rivalries/{rid}/seasonCommits/season_N  docs=1 rules=1
+   read rivalries/{rid}/sharedSetup/leagueProjection  docs=1 rules=1
+   read accounts/{uid}  docs=1 rules=0
+   read rivalries/{rid}  docs=1 rules=0
+   read accounts/{uid}/devices/{dev}  docs=1 rules=0
+   MOD read ?  docs=4 rules=0
+   MOD read productionSharedSeasonCommit.js:250  docs=0 rules=3
+   MOD read sparkSharedSeasonResults.js:145  docs=1 rules=2
+   MOD read sparkSharedSeasonResults.js:142  docs=1 rules=1
+   MOD read sparkPrivatePairing.js:1529  docs=0 rules=1
+   MOD read sparkSharedSeasonResults.js:139  docs=1 rules=0
+   MOD read sparkPrivatePairing.js:1554  docs=1 rules=0
+R94IDLE {"label":"wait:results-entry","season":1,"state":"screen-on-1","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":1},"nik":{"brakeSince":0,"trips":0,"listeners":1}}}
+R94IDLE {"label":"wait:results-entry","season":1,"state":"screen-on-2","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":1},"nik":{"brakeSince":0,"trips":0,"listeners":1}}}
+R94IDLE {"label":"wait:results-entry","season":1,"state":"screen-on-3","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":1},"nik":{"brakeSince":0,"trips":0,"listeners":1}}}
+R94IDLE {"label":"wait:results-entry","season":1,"state":"screen-on-4","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":1},"nik":{"brakeSince":0,"trips":0,"listeners":1}}}
+R94IDLE {"label":"wait:results-entry","season":1,"state":"screen-on-5","min":2,"billed":2,"docReads":2,"writes":0,"perHour":60,"daniel":1,"nik":1,"top":[{"key":"read accounts/{uid}/devices/{dev}","docs":2,"rules":0,"billed":2}],"modules":[{"key":"read productionSharedJourneyReconnect.js:62","docs":2,"rules":0,"billed":2}],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":1},"nik":{"brakeSince":0,"trips":0,"listeners":1}}}
+R94IDLE {"label":"wait:results-entry","season":1,"state":"screen-on-6","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":1},"nik":{"brakeSince":0,"trips":0,"listeners":1}}}
+R94IDLE {"label":"wait:results-entry","season":1,"state":"screen-on-7","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":1},"nik":{"brakeSince":0,"trips":0,"listeners":1}}}
+ok   S.S1.sacked.tick [daniel] the "I was sacked this season" tick is on the manager's own Season Results card
+PROBLEM fatal [daniel] S/s1 (journey stopped (S season 1)): page.waitForFunction: Timeout 30000ms exceeded. | screens=seasonEntry | badge=DANIEL | pair=paired/active/pair_11a8e4add | session=active | overlays=
+PROBLEM fatal [nik] S/s1 (journey stopped (S season 1)): page.waitForFunction: Timeout 30000ms exceeded. | screens=seasonEntry | badge=NIK | pair=paired/active/pair_11a8e4add | session=active | overlays=
+ok   zz.production [daniel] never contacted a production Firebase host or loaded the production runtime
+ok   zz.pageerrors [daniel] no uncaught page errors or console errors
+ok   zz.network [daniel] no failed network requests (HTTP 4xx/5xx other than benign write contention, or request failures other than aborted navigations)
+ok   zz.production [nik] never contacted a production Firebase host or loaded the production runtime
+ok   zz.pageerrors [nik] no uncaught page errors or console errors
+ok   zz.network [nik] no failed network requests (HTTP 4xx/5xx other than benign write contention, or request failures other than aborted navigations)
+ok   zz.meter [both] every season's play stays within 800 reads / 600 writes (both players)
+FAIL zz.billed [both] every season stays within its billed-reads budget at the slow, mid and fast pace (budget = floor(45,000 / min(25, floor(1440 / seasonMinutes))); documents + Rules lookups, both managers, waits included) and 600 writes -> 
+  
+  
+PROBLEM zz.billed [both] zz/s0 (Meter): every season stays within its billed-reads budget at the slow, mid and fast pace (budget = floor(45,000 / min(25, floor(1440 / seasonMinutes))); documents + Rules lookups, both managers, waits included) and 600 writes. 
+  
+  
+BILLED gate: FAIL
+  
+  
+SCREEN RATES (steady state, both devices; 'billed' = documents + Rules lookups):
+  
+READS BY SCREEN, DOCUMENT PATH AND SOURCE (both devices, all measured seasons). docs/min D|N = document reads per minute per device (Daniel|Nik); billed/min = documents + Rules lookups, both devices.
+Waiting rows are steady state over the sampled wait windows; active rows are the typing/tapping parts around the waits and are totals over the run (per minute of active time).
+
+## PER PACE (one season, from the steady rates above; transfer = the three transfer points, results = results-entry priced at the dearer of entry/published)
+slow: transfer 40 min -> 0 billed; results 90 min -> 0 billed; commit+ack+continue 1 min each -> 0 billed
+mid: transfer 30 min -> 0 billed; results 60 min -> 0 billed; commit+ack+continue 1 min each -> 0 billed
+fast: transfer 25 min -> 0 billed; results 30 min -> 0 billed; commit+ack+continue 1 min each -> 0 billed
+METER summary: 
+FAIL ce2pg-single-1-1-budget: 18/19 checks, 3 problem(s), 1380 s -> test-results/ce2pg-single-1-1-budget.json; screenshots in test-results/ce2pg-single-1-1-budget
+⚠  Script exited unsuccessfully (code 1)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+Error: Script "node tests/browser/ce2pg-r94-expiry.cjs" exited with code 1
+EXIT 1

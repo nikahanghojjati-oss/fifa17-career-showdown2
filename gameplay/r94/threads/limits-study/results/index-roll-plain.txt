@@ -1,0 +1,15 @@
+R94ROLL rules START head 499 (append to 500) :: ALLOWED
+R94ROLL rules JOIN  head 499 (append to 500) :: ALLOWED
+R94ROLL heads {"D":{"n":500,"sealed":0,"bytes":36554},"N":{"n":500,"sealed":0,"bytes":36551}}
+R94ROLL rules START head 500 (page roll) :: ALLOWED
+R94ROLL rules JOIN  head 500 (page roll) :: ALLOWED
+R94ROLL heads {"D":{"n":1,"sealed":1,"bytes":626},"N":{"n":1,"sealed":1,"bytes":623}}
+R94ROLL client START first ever (empty index) :: ALLOWED
+R94ROLL client JOIN  first ever (empty index) :: ALLOWED
+R94ROLL client START head 499 (append to 500) :: ALLOWED
+R94ROLL client JOIN  head 499 (append to 500) :: ALLOWED
+R94ROLL client START head 500 (page roll) :: ALLOWED
+R94ROLL client JOIN  head 500 (page roll) :: ALLOWED
+R94ROLL client read acct_prov_daniel :: ready ids=501 sealed=1 last=true
+R94ROLL client read acct_prov_nik :: ready ids=501 sealed=1 last=true
+R94ROLL DONE

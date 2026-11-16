@@ -1,0 +1,82 @@
+{
+ "projectId": "demo-cms-two-manager-journey",
+ "docs": 124,
+ "bytes": 181516,
+ "groups": {
+  "accounts": {
+   "docs": 3,
+   "bytes": 2139,
+   "max": 713
+  },
+  "accounts/careerIndex": {
+   "docs": 2,
+   "bytes": 1896,
+   "max": 948
+  },
+  "accounts/devices": {
+   "docs": 3,
+   "bytes": 3042,
+   "max": 1014
+  },
+  "accounts/pairLinks": {
+   "docs": 2,
+   "bytes": 1975,
+   "max": 989
+  },
+  "rivalries": {
+   "docs": 3,
+   "bytes": 8370,
+   "max": 3249
+  },
+  "rivalries/careerStart": {
+   "docs": 3,
+   "bytes": 4363,
+   "max": 1455
+  },
+  "rivalries/seasonCommits": {
+   "docs": 12,
+   "bytes": 25847,
+   "max": 2156
+  },
+  "rivalries/seasonResults": {
+   "docs": 12,
+   "bytes": 15721,
+   "max": 1311
+  },
+  "rivalries/seasonResults/roles": {
+   "docs": 24,
+   "bytes": 23928,
+   "max": 999
+  },
+  "rivalries/sessions": {
+   "docs": 4,
+   "bytes": 4997,
+   "max": 1250
+  },
+  "rivalries/sharedSetup": {
+   "docs": 6,
+   "bytes": 5920,
+   "max": 1690
+  },
+  "rivalries/transferChallenges": {
+   "docs": 12,
+   "bytes": 35077,
+   "max": 2924
+  },
+  "rivalries/transferChallenges/roles": {
+   "docs": 24,
+   "bytes": 41872,
+   "max": 1861
+  },
+  "rivalries/transferChallenges/roulette": {
+   "docs": 12,
+   "bytes": 4021,
+   "max": 336
+  },
+  "rivalries/invites": {
+   "docs": 2,
+   "bytes": 2348,
+   "max": 1174
+  }
+ }
+}

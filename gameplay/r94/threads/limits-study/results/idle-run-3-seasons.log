@@ -1,0 +1,311 @@
+i  emulators: Starting emulators: auth, firestore
+i  emulators: Detected demo project ID "demo-cms-browser-journey", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+⚠  firestore: Cloud Firestore Emulator does not support multiple databases yet.
+⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file.
+⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration.
+i  firestore: Firestore Emulator logging to firestore-debug.log
+⚠  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection.
+✔  firestore: Firestore Emulator was started in standard edition.
+✔  firestore: Firestore Emulator UI websocket is running on 9514.
+i  Running script: node tests/browser/ce2pg-r94-idle.cjs
+ok   boot.switch [daniel] emulator switch active (localhost + cmsEmulator=1 only)
+ok   boot.switch [nik] emulator switch active (localhost + cmsEmulator=1 only)
+ok   boot.accounts [both] Daniel and Nik signed in as two distinct accounts
+BILLED model: Rules sha256 4cb7b87855586000; waits ON (sampled 1 min long / 0.5 min short, extrapolated); paces {"slow":{"label":"slow","transfer":40,"results":90,"short":1},"mid":{"label":"mid","transfer":30,"results":60,"short":1},"fast":{"label":"fast","transfer":25,"results":30,"short":1}}
+ok   start.S.realPath [daniel] START has no checkmark or test label
+ok   start.S.marker [daniel] START automatically writes the real career marker before the code
+ok   S.code [daniel] the first real START makes the one-time CMS17R- code
+ok   S.session [both] Nik is in Daniel's private session
+ok   setup.S.leagueWait [nik] Nik waits for Daniel on the league wheel
+--- prime 15:05:52.001 cannot-guess | me=playerTwo stage=null chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 15:05:55.144 not-the-guesser | me=playerTwo stage=1 chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 15:05:58.834 typed answer "Mostovoi" | me=playerOne stage=1 chips={"playerOne":1,"playerTwo":2} waitingFor=null pending=false result="playerOne" banner=Daniel +4 Showdown points
+PLAN S: Premier League (20 teams), Middlesbrough v Southampton, 3 season(s), target daniel
+ok   S.S1.transfer.coordinator [nik] only Daniel can start the shared transfer window
+ok   S.S1.transfer.privacy [nik] Daniel's locked signing stays hidden from Nik before completion
+ok   S.S1.sacked.tick [daniel] the "I was sacked this season" tick is on the manager's own Season Results card
+ok   S.S1.results.privacy [nik] Daniel's published numbers stay hidden from Nik until Nik publishes
+ok   S.S1.sacked.tick [nik] the "I was sacked this season" tick is on the manager's own Season Results card
+ok   S.S1.commit.coordinator [nik] Nik cannot commit the season
+ok   S.S1.scoring.state [daniel] canonical scoring equals the recomputed breakdown
+ok   S.S1.scoring.totals [daniel] season totals on screen
+ok   S.S1.scoring.winner [daniel] season winner on screen
+ok   S.S1.scoring.state [nik] canonical scoring equals the recomputed breakdown
+ok   S.S1.scoring.totals [nik] season totals on screen
+ok   S.S1.scoring.winner [nik] season winner on screen
+ok   S.S1.history.heading [daniel] Shared History heading
+ok   S.S1.history.summary [daniel] Shared History overall totals and lead
+ok   S.S1.history.records [daniel] Shared History W/D/L and points per manager
+ok   S.S1.history.trophies [daniel] Shared History trophy attribution
+ok   S.S1.history.heading [nik] Shared History heading
+ok   S.S1.history.summary [nik] Shared History overall totals and lead
+ok   S.S1.history.records [nik] Shared History W/D/L and points per manager
+ok   S.S1.history.trophies [nik] Shared History trophy attribution
+--- prime 15:13:52.715 cannot-guess | me=playerOne stage=null chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 15:13:56.374 not-the-guesser | me=playerOne stage=1 chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 15:14:23.610 not-the-guesser | me=playerOne stage=2 chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 15:14:25.214 typed answer "Rooney" | me=playerTwo stage=2 chips={"playerOne":2,"playerTwo":1} waitingFor=null pending=false result="playerTwo" banner=Nik +3 Showdown points
+METER S season 1 (incl. START, pairing, setup): 611 s, reads 544 (SDK 348 + listener 196), writes 117 [daniel 277r/63w, nik 267r/54w]; network 346 batchGet docs, 48 commits writing 61 docs
+METER S season 1 (incl. START, pairing, setup) (play only, no page visits): 611 s, reads 544 (SDK 348 + listener 196), writes 117 [daniel 277r/63w, nik 267r/54w]; network 346 batchGet docs, 48 commits writing 61 docs
+SQUAD S season 1 (incl. START, pairing, setup): 18 doc reads + 18 lookups (+6 on writes) = 42 billed, 6 writes
+BILLED S season 1 (incl. START, pairing, setup): measured 611 s: 544 doc reads + 572 rules lookups on reads (+498 on writes) = 1614 billed, 117 writes [daniel 277+566=843, nik 267+504=771]; self lookups counted 0
+  BILLED S season 1 (incl. START, pairing, setup) @ slow: season 136.7 min (transfer 40 + results 90 + short waits 3 + harness play 3.7) -> 10 seasons/day, budget 4500; measured 1710 billed reads, 117 writes: PASS; the cost allows 10 seasons/day
+  BILLED S season 1 (incl. START, pairing, setup) @ mid: season 96.7 min (transfer 30 + results 60 + short waits 3 + harness play 3.7) -> 14 seasons/day, budget 3214; measured 1670 billed reads, 117 writes: PASS; the cost allows 14 seasons/day
+  BILLED S season 1 (incl. START, pairing, setup) @ fast: season 61.7 min (transfer 25 + results 30 + short waits 3 + harness play 3.7) -> 23 seasons/day, budget 1956; measured 1650 billed reads, 117 writes: PASS; the cost allows 23 seasons/day
+  waits (6.5 min sampled, extrapolated linearly at the sample's steady per-minute rate): transfer-window 1.0/14min 0b@0.0/min (billed per minute of the sample: 43; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    transfer-guesses 1.0/13min 2b@4.0/min (billed per minute of the sample: 14; read brake trips D 0 N 0) [D 4, N 0 billed/min; docs D 2, N 0/min] read sparkSharedTransferChallenge.js:175 4/min
+    transfer-signings 1.0/13min 2b@4.0/min (billed per minute of the sample: 14; read brake trips D 0 N 0) [D 4, N 0 billed/min; docs D 2, N 0/min] read sparkSharedTransferChallenge.js:175 4/min
+    results-entry 1.0/90min 0b@0.0/min (billed per minute of the sample: 22; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    results-published 1.0/0min 0b@0.0/min (billed per minute of the sample: 0; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    commit 0.5/1min 0b@0.0/min (billed per minute of the sample: 26; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    ack 0.5/1min 0b@0.0/min (billed per minute of the sample: 0; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    continue 0.5/1min 0b@0.0/min (billed per minute of the sample: 14; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+ok   S.S2.transfer.coordinator [nik] only Daniel can start the shared transfer window
+R94IDLE {"label":"wait:transfer-window","season":2,"state":"screen-off","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":9},"nik":{"brakeSince":0,"trips":0,"listeners":9}}}
+R94IDLE {"label":"wait:transfer-window","season":2,"state":"back-on-first-45s","min":0.75,"billed":26,"docReads":12,"writes":0,"perHour":2079,"daniel":13,"nik":13,"top":[{"key":"read rivalries/{rid}/seasonCommits/season_N","docs":4,"rules":4,"billed":8},{"key":"read rivalries/{rid}/sessions/{sid}","docs":2,"rules":4,"billed":6},{"key":"read rivalries/{rid}/transferChallenges/season_N","docs":2,"rules":2,"billed":4},{"key":"read rivalries/{rid}/transferChallenges/season_N/roles/playerOne","docs":1,"rules":2,"billed":3},{"key":"read rivalries/{rid}/transferChallenges/season_N/roles/playerTwo","docs":1,"rules":2,"billed":3}],"modules":[{"key":"read ?","docs":6,"rules":6,"billed":12},{"key":"read sparkSharedMultiSeasonProgression.js:29","docs":4,"rules":4,"billed":8},{"key":"read sparkSharedTransferChallenge.js:175","docs":2,"rules":4,"billed":6}],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":12},"nik":{"brakeSince":0,"trips":0,"listeners":12}}}
+ok   S.S2.transfer.privacy [nik] Daniel's locked signing stays hidden from Nik before completion
+R94IDLE {"label":"wait:results-entry","season":2,"state":"screen-off","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":13},"nik":{"brakeSince":0,"trips":0,"listeners":13}}}
+R94IDLE {"label":"wait:results-entry","season":2,"state":"back-on-first-45s","min":0.75,"billed":26,"docReads":12,"writes":0,"perHour":2078,"daniel":13,"nik":13,"top":[{"key":"read rivalries/{rid}/seasonCommits/season_N","docs":4,"rules":4,"billed":8},{"key":"read rivalries/{rid}/sessions/{sid}","docs":2,"rules":4,"billed":6},{"key":"read rivalries/{rid}/seasonResults/season_N","docs":2,"rules":2,"billed":4},{"key":"read rivalries/{rid}/seasonResults/season_N/roles/playerOne","docs":1,"rules":2,"billed":3},{"key":"read rivalries/{rid}/seasonResults/season_N/roles/playerTwo","docs":1,"rules":2,"billed":3}],"modules":[{"key":"read ?","docs":10,"rules":6,"billed":16},{"key":"read sparkSharedSeasonResults.js:145","docs":2,"rules":4,"billed":6},{"key":"read productionSharedSeasonCommit.js:250","docs":0,"rules":4,"billed":4}],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":14},"nik":{"brakeSince":0,"trips":0,"listeners":14}}}
+ok   S.S2.sacked.tick [nik] the "I was sacked this season" tick is on the manager's own Season Results card
+ok   S.S2.results.privacy [daniel] Nik's published numbers stay hidden from Daniel until Daniel publishes
+ok   S.S2.sacked.tick [daniel] the "I was sacked this season" tick is on the manager's own Season Results card
+ok   S.S2.commit.coordinator [nik] Nik cannot commit the season
+ok   S.S2.scoring.state [daniel] canonical scoring equals the recomputed breakdown
+ok   S.S2.scoring.totals [daniel] season totals on screen
+ok   S.S2.scoring.winner [daniel] season winner on screen
+ok   S.S2.scoring.state [nik] canonical scoring equals the recomputed breakdown
+ok   S.S2.scoring.totals [nik] season totals on screen
+ok   S.S2.scoring.winner [nik] season winner on screen
+ok   S.S2.history.heading [daniel] Shared History heading
+ok   S.S2.history.summary [daniel] Shared History overall totals and lead
+ok   S.S2.history.records [daniel] Shared History W/D/L and points per manager
+ok   S.S2.history.trophies [daniel] Shared History trophy attribution
+ok   S.S2.history.heading [nik] Shared History heading
+ok   S.S2.history.summary [nik] Shared History overall totals and lead
+ok   S.S2.history.records [nik] Shared History W/D/L and points per manager
+ok   S.S2.history.trophies [nik] Shared History trophy attribution
+R94IDLE {"label":"wait:continue","season":2,"state":"screen-off","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":17},"nik":{"brakeSince":0,"trips":0,"listeners":17}}}
+R94IDLE {"label":"wait:continue","season":2,"state":"back-on-first-45s","min":0.75,"billed":12,"docReads":6,"writes":0,"perHour":959,"daniel":6,"nik":6,"top":[{"key":"read rivalries/{rid}/sessions/{sid}","docs":2,"rules":4,"billed":6},{"key":"read rivalries/{rid}/seasonCommits/season_N","docs":2,"rules":2,"billed":4},{"key":"read rivalries/{rid}","docs":2,"rules":0,"billed":2}],"modules":[{"key":"read ?","docs":4,"rules":4,"billed":8},{"key":"read sparkSharedMultiSeasonProgression.js:29","docs":2,"rules":2,"billed":4}],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":19},"nik":{"brakeSince":0,"trips":0,"listeners":19}}}
+--- prime 15:30:34.242 cannot-guess | me=playerTwo stage=null chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 15:30:37.398 not-the-guesser | me=playerTwo stage=1 chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 15:31:04.607 not-the-guesser | me=playerTwo stage=2 chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 15:31:26.041 cannot-guess | me=playerTwo stage=2 chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 15:31:26.568 not-the-guesser | me=playerTwo stage=3 chips={"playerOne":2,"playerTwo":2} waitingFor=null pending=false result=null banner=null
+--- prime 15:31:28.153 typed answer "Richards" | me=playerOne stage=3 chips={"playerOne":1,"playerTwo":2} waitingFor=null pending=false result="playerOne" banner=Daniel +2 Showdown points
+METER S season 2: 1023 s, reads 349 (SDK 218 + listener 131), writes 58 [daniel 186r/31w, nik 163r/27w]; network 216 batchGet docs, 22 commits writing 29 docs
+METER S season 2 (play only, no page visits): 1023 s, reads 349 (SDK 218 + listener 131), writes 58 [daniel 186r/31w, nik 163r/27w]; network 216 batchGet docs, 22 commits writing 29 docs
+SQUAD S season 2: 11 doc reads + 11 lookups (+4 on writes) = 26 billed, 4 writes
+BILLED S season 2: measured 1023 s: 349 doc reads + 391 rules lookups on reads (+247 on writes) = 987 billed, 58 writes [daniel 186+342=528, nik 163+296=459]; self lookups counted 0
+  BILLED S season 2 @ slow: season 143.5 min (transfer 40 + results 90 + short waits 3 + harness play 10.5) -> 10 seasons/day, budget 4500; measured 1283 billed reads, 58 writes: PASS; the cost allows 10 seasons/day
+  BILLED S season 2 @ mid: season 103.5 min (transfer 30 + results 60 + short waits 3 + harness play 10.5) -> 13 seasons/day, budget 3461; measured 1203 billed reads, 58 writes: PASS; the cost allows 13 seasons/day
+  BILLED S season 2 @ fast: season 68.5 min (transfer 25 + results 30 + short waits 3 + harness play 10.5) -> 21 seasons/day, budget 2142; measured 1163 billed reads, 58 writes: PASS; the cost allows 21 seasons/day
+  waits (6.5 min sampled, extrapolated linearly at the sample's steady per-minute rate): transfer-window 1.0/14min 4b@8.0/min (billed per minute of the sample: 40; read brake trips D 0 N 0) [D 4, N 4 billed/min; docs D 4, N 4/min] read sparkSharedShowdownSetup.js:172 4/min, read sparkSharedShowdownSetup.js:173 4/min
+    transfer-guesses 1.0/13min 2b@4.0/min (billed per minute of the sample: 10; read brake trips D 0 N 0) [D 4, N 0 billed/min; docs D 2, N 0/min] read sparkSharedTransferChallenge.js:175 4/min
+    transfer-signings 1.0/13min 6b@12.0/min (billed per minute of the sample: 14; read brake trips D 0 N 0) [D 8, N 4 billed/min; docs D 6, N 4/min] read sparkSharedTransferChallenge.js:175 4/min, read sparkSharedShowdownSetup.js:172 4/min, read sparkSharedShowdownSetup.js:173 4/min
+    results-entry 1.0/90min 0b@0.0/min (billed per minute of the sample: 18; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    results-published 1.0/0min 0b@0.0/min (billed per minute of the sample: 0; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    commit 0.5/1min 0b@0.0/min (billed per minute of the sample: 10; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    ack 0.5/1min 0b@0.0/min (billed per minute of the sample: 0; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    continue 0.5/1min 0b@0.0/min (billed per minute of the sample: 14; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+ok   S.S3.transfer.coordinator [nik] only Daniel can start the shared transfer window
+ok   S.S3.transfer.privacy [nik] Daniel's locked signing stays hidden from Nik before completion
+ok   S.S3.sacked.tick [daniel] the "I was sacked this season" tick is on the manager's own Season Results card
+ok   S.S3.sacked.tick [nik] the "I was sacked this season" tick is on the manager's own Season Results card
+ok   S.S3.commit.coordinator [nik] Nik cannot commit the season
+ok   S.db.closed [both] database: the rivalry is closed with the right winner and totals
+ok   S.final.winner [daniel] Showdown Champion screen names Daniel
+ok   S.final.totals [daniel] Showdown Champion totals Daniel / Nik
+ok   S.final.lastSeason [daniel] Showdown Champion final-season cell
+ok   S.final.lastSeasonWinner [daniel] Showdown Champion names who took the final season
+ok   S.final.seasonsMargin [daniel] Showdown Champion seasons played and margin
+ok   S.final.honours [daniel] Showdown Champion honours (Champions League, league titles, cups, trophies) Daniel then Nik
+ok   S.noCloseTap [daniel] the automatic close needs no CLOSE tap
+ok   S.final.winner [nik] Showdown Champion screen names Daniel
+ok   S.final.totals [nik] Showdown Champion totals Daniel / Nik
+ok   S.final.lastSeason [nik] Showdown Champion final-season cell
+ok   S.final.lastSeasonWinner [nik] Showdown Champion names who took the final season
+ok   S.final.seasonsMargin [nik] Showdown Champion seasons played and margin
+ok   S.final.honours [nik] Showdown Champion honours (Champions League, league titles, cups, trophies) Daniel then Nik
+ok   S.noCloseTap [nik] the automatic close needs no CLOSE tap
+ok   S.backHome [daniel] BACK TO SHOWDOWN HOME on the Showdown Champion screen shows the Touchline Gazette final paper once, then its CONTINUE opens Showdown Home
+ok   S.backHome [nik] BACK TO SHOWDOWN HOME on the Showdown Champion screen shows the Touchline Gazette final paper once, then its CONTINUE opens Showdown Home
+GAZETTE S: season 1 x2, season 2 x2, final 3 x2
+ok   S.gazette.same [both] both phones printed the same words on every Touchline Gazette paper
+METER S season 3 (final, + both players' page checks): 314 s, reads 229 (SDK 185 + listener 44), writes 28 [daniel 118r/17w, nik 111r/11w]; network 185 batchGet docs, 20 commits writing 30 docs
+METER S season 3 (final, + both players' page checks) (play only, no page visits): 308 s, reads 225 (SDK 182 + listener 43), writes 28 [daniel 118r/17w, nik 107r/11w]; network 182 batchGet docs, 20 commits writing 30 docs
+SQUAD S season 3 (final, + both players' page checks): 0 doc reads + 0 lookups (+0 on writes) = 0 billed, 0 writes
+BILLED S season 3 (final, + both players' page checks): measured 308 s: 225 doc reads + 258 rules lookups on reads (+151 on writes) = 634 billed, 28 writes [daniel 118+233=351, nik 107+176=283]; self lookups counted 0
+  BILLED S season 3 (final, + both players' page checks) @ slow: season 132.1 min (transfer 40 + results 90 + short waits 2 + harness play 0.1) -> 10 seasons/day, budget 4500; measured 730 billed reads, 28 writes: PASS; the cost allows 10 seasons/day
+  BILLED S season 3 (final, + both players' page checks) @ mid: season 92.1 min (transfer 30 + results 60 + short waits 2 + harness play 0.1) -> 15 seasons/day, budget 3000; measured 690 billed reads, 28 writes: PASS; the cost allows 15 seasons/day
+  BILLED S season 3 (final, + both players' page checks) @ fast: season 57.1 min (transfer 25 + results 30 + short waits 2 + harness play 0.1) -> 25 seasons/day, budget 1800; measured 670 billed reads, 28 writes: PASS; the cost allows 25 seasons/day
+  waits (5 min sampled, extrapolated linearly at the sample's steady per-minute rate): transfer-window 1.0/14min 0b@0.0/min (billed per minute of the sample: 36; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    transfer-guesses 1.0/13min 2b@4.0/min (billed per minute of the sample: 6; read brake trips D 0 N 0) [D 4, N 0 billed/min; docs D 2, N 0/min] read sparkSharedTransferChallenge.js:175 4/min
+    transfer-signings 1.0/13min 2b@4.0/min (billed per minute of the sample: 6; read brake trips D 0 N 0) [D 4, N 0 billed/min; docs D 2, N 0/min] read sparkSharedTransferChallenge.js:175 4/min
+    results-entry 1.0/90min 0b@0.0/min (billed per minute of the sample: 14; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    commit 0.5/1min 0b@0.0/min (billed per minute of the sample: 6; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+    ack 0.5/1min 0b@0.0/min (billed per minute of the sample: 0; read brake trips D 0 N 0) [D 0, N 0 billed/min; docs D 0, N 0/min] 
+R94IDLE {"label":"end:final","season":0,"state":"screen-on","min":2,"billed":6,"docReads":2,"writes":0,"perHour":180,"daniel":3,"nik":3,"top":[{"key":"read rivalries/{rid}/meters/playerOne","docs":1,"rules":2,"billed":3},{"key":"read rivalries/{rid}/meters/playerTwo","docs":1,"rules":2,"billed":3}],"modules":[{"key":"read sparkPrivatePairing.js:1036","docs":2,"rules":4,"billed":6}],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":22},"nik":{"brakeSince":0,"trips":0,"listeners":22}}}
+R94IDLE {"label":"end:final","season":0,"state":"screen-off","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":22},"nik":{"brakeSince":0,"trips":0,"listeners":22}}}
+R94IDLE {"label":"end:final","season":0,"state":"back-on-first-45s","min":0.75,"billed":1,"docReads":1,"writes":0,"perHour":80,"daniel":0,"nik":1,"top":[{"key":"read accounts/{uid}/partnerInbox/current","docs":1,"rules":0,"billed":1}],"modules":[{"key":"read ?","docs":1,"rules":0,"billed":1}],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":22},"nik":{"brakeSince":0,"trips":0,"listeners":22}}}
+R94IDLE {"label":"end:home","season":0,"state":"screen-on","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":22},"nik":{"brakeSince":0,"trips":0,"listeners":22}}}
+R94IDLE {"label":"end:home","season":0,"state":"screen-off","min":2,"billed":0,"docReads":0,"writes":0,"perHour":0,"daniel":0,"nik":0,"top":[],"modules":[],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":22},"nik":{"brakeSince":0,"trips":0,"listeners":22}}}
+R94IDLE {"label":"end:home","season":0,"state":"back-on-first-45s","min":0.75,"billed":2,"docReads":2,"writes":0,"perHour":160,"daniel":1,"nik":1,"top":[{"key":"read accounts/{uid}/partnerInbox/current","docs":1,"rules":0,"billed":1},{"key":"read accounts/{uid}/devices/{dev}","docs":1,"rules":0,"billed":1}],"modules":[{"key":"read ?","docs":1,"rules":0,"billed":1},{"key":"read productionSharedShowdownSetup.js:121","docs":1,"rules":0,"billed":1}],"brake":{"daniel":{"brakeSince":0,"trips":0,"listeners":22},"nik":{"brakeSince":0,"trips":0,"listeners":22}}}
+ok   prime.rounds [both] Prime Pack: every round ended as planned on both phones
+ok   zz.production [daniel] never contacted a production Firebase host or loaded the production runtime
+ok   zz.pageerrors [daniel] no uncaught page errors or console errors
+ok   zz.network [daniel] no failed network requests (HTTP 4xx/5xx other than benign write contention, or request failures other than aborted navigations)
+ok   zz.production [nik] never contacted a production Firebase host or loaded the production runtime
+ok   zz.pageerrors [nik] no uncaught page errors or console errors
+ok   zz.network [nik] no failed network requests (HTTP 4xx/5xx other than benign write contention, or request failures other than aborted navigations)
+ok   zz.meter [both] every season's play stays within 800 reads / 600 writes (both players)
+ok   zz.billed [both] every season stays within its billed-reads budget at the slow, mid and fast pace (budget = floor(45,000 / min(25, floor(1440 / seasonMinutes))); documents + Rules lookups, both managers, waits included) and 600 writes
+BILLED gate: PASS
+  S season 1 (incl. START, pairing, setup) @ slow: 136.7 min (transfer 40 + results 90 + short 3 + harness 3.7) -> 10/day, budget 4500, billed 1710, writes 117, capacity 10/day: PASS
+  S season 1 (incl. START, pairing, setup) @ mid: 96.7 min (transfer 30 + results 60 + short 3 + harness 3.7) -> 14/day, budget 3214, billed 1670, writes 117, capacity 14/day: PASS
+  S season 1 (incl. START, pairing, setup) @ fast: 61.7 min (transfer 25 + results 30 + short 3 + harness 3.7) -> 23/day, budget 1956, billed 1650, writes 117, capacity 23/day: PASS
+  S season 2 @ slow: 143.5 min (transfer 40 + results 90 + short 3 + harness 10.5) -> 10/day, budget 4500, billed 1283, writes 58, capacity 10/day: PASS
+  S season 2 @ mid: 103.5 min (transfer 30 + results 60 + short 3 + harness 10.5) -> 13/day, budget 3461, billed 1203, writes 58, capacity 13/day: PASS
+  S season 2 @ fast: 68.5 min (transfer 25 + results 30 + short 3 + harness 10.5) -> 21/day, budget 2142, billed 1163, writes 58, capacity 21/day: PASS
+  S season 3 (final, + both players' page checks) @ slow: 132.1 min (transfer 40 + results 90 + short 2 + harness 0.1) -> 10/day, budget 4500, billed 730, writes 28, capacity 10/day: PASS
+  S season 3 (final, + both players' page checks) @ mid: 92.1 min (transfer 30 + results 60 + short 2 + harness 0.1) -> 15/day, budget 3000, billed 690, writes 28, capacity 15/day: PASS
+  S season 3 (final, + both players' page checks) @ fast: 57.1 min (transfer 25 + results 30 + short 2 + harness 0.1) -> 25/day, budget 1800, billed 670, writes 28, capacity 25/day: PASS
+  top modules of S season 1 (incl. START, pairing, setup): [{"key":"read ?","docs":196,"rules":151,"billed":347},{"key":"write chamberMenStep.js:141","docs":54,"rules":216,"billed":270},{"key":"read sparkSharedMultiSeasonProgression.js:29","docs":84,"rules":84,"billed":168},{"key":"read sparkSharedTransferChallenge.js:175","docs":38,"rules":69,"billed":107},{"key":"write sparkSharedTransferChallenge.js:201","docs":12,"rules":61,"billed":73}]; top paths: [{"key":"read rivalries/{rid}/chamberMenRounds/season_N","docs":119,"rules":119,"billed":238},{"key":"write rules-lookups rivalries/{rid}/chamberMenRounds/season_N","docs":0,"rules":224,"billed":224},{"key":"read rivalries/{rid}/seasonCommits/season_N","docs":108,"rules":108,"billed":216},{"key":"read rivalries/{rid}/sessions/{sid}","docs":46,"rules":92,"billed":138},{"key":"write rules-lookups rivalries/{rid}/transferChallenges/season_N","docs":0,"rules":93,"billed":93}]
+SCREEN RATES (steady state, both devices; 'billed' = documents + Rules lookups):
+  transfer-window: 2.7 billed/min (2.7 doc reads/min) [Daniel 1.3 billed 1.3 docs, Nik 1.3 billed 1.3 docs]; read sparkSharedShowdownSetup.js:172 1.3/min, read sparkSharedShowdownSetup.js:173 1.3/min
+  transfer-guesses: 4 billed/min (2 doc reads/min) [Daniel 4 billed 2 docs, Nik 0 billed 0 docs]; read sparkSharedTransferChallenge.js:175 4.0/min
+  transfer-signings: 6.7 billed/min (4.7 doc reads/min) [Daniel 5.3 billed 3.3 docs, Nik 1.3 billed 1.3 docs]; read sparkSharedTransferChallenge.js:175 4.0/min, read sparkSharedShowdownSetup.js:172 1.3/min, read sparkSharedShowdownSetup.js:173 1.3/min
+  results-entry: 0 billed/min (0 doc reads/min) [Daniel 0 billed 0 docs, Nik 0 billed 0 docs]; 
+  results-published: 0 billed/min (0 doc reads/min) [Daniel 0 billed 0 docs, Nik 0 billed 0 docs]; 
+  commit: 0 billed/min (0 doc reads/min) [Daniel 0 billed 0 docs, Nik 0 billed 0 docs]; 
+  ack: 0 billed/min (0 doc reads/min) [Daniel 0 billed 0 docs, Nik 0 billed 0 docs]; 
+  continue: 0 billed/min (0 doc reads/min) [Daniel 0 billed 0 docs, Nik 0 billed 0 docs]; 
+READS BY SCREEN, DOCUMENT PATH AND SOURCE (both devices, all measured seasons). docs/min D|N = document reads per minute per device (Daniel|Nik); billed/min = documents + Rules lookups, both devices.
+Waiting rows are steady state over the sampled wait windows; active rows are the typing/tapping parts around the waits and are totals over the run (per minute of active time).
+
+## commit [active, per season]: 44.3 doc reads, 117 billed, 4.3 writes per season (3 season(s); 0 min of harness time per season, which is machine speed, not human)
+| path | source | kind | docs/season Daniel | docs/season Nik | billed/season |
+|---|---|---|---|---|---|
+| rivalries/{rid}/seasonCommits/season_N | sparkSharedSeasonCommit.js:118 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 24 |
+| rivalries/{rid}/seasonCommits/season_N | productionSharedSeasonCommit.js:281 (via sparkPrivatePairing.js:1529) | read | 3 | 3.3 | 12.7 |
+| rivalries/{rid}/sessions/{sid} | sparkSharedSeasonCommit.js:47 (via sparkPrivatePairing.js:1554) | read | 1 | 2.7 | 11 |
+| rivalries/{rid}/seasonCommits/season_N | sparkSharedSeasonCommit.js:47 (via sparkPrivatePairing.js:1554) | read | 2 | 2.7 | 9.3 |
+| rivalries/{rid}/sessions/{sid} | sparkSharedShowdownSetup.js:175 (via sparkPrivatePairing.js:1554) | read | 2 | 1 | 9 |
+| rivalries/{rid}/sessions/{sid} | sparkSharedSeasonCommit.js:118 (via sparkPrivatePairing.js:1643) | read | 2 | 1 | 9 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerOne | sparkSharedTransferChallenge.js:175 (via sparkPrivatePairing.js:1554) | read | 2 | 0 | 6 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerTwo | sparkSharedTransferChallenge.js:176 (via sparkPrivatePairing.js:1554) | read | 2 | 0 | 6 |
+| rivalries/{rid}/seasonCommits/season_N | sparkSharedSeasonCommit.js:118 (via sparkPrivatePairing.js:1643) | read | 2 | 1 | 6 |
+| rivalries/{rid} | sparkSharedSeasonCommit.js:47 (via sparkPrivatePairing.js:1554) | read | 1 | 3 | 4 |
+| rivalries/{rid}/seasonCommits/season_N | sparkSharedMultiSeasonProgression.js:29 (via sparkPrivatePairing.js:1554) | read | 1 | 1 | 4 |
+| rivalries/{rid} | sparkSharedShowdownSetup.js:174 (via sparkPrivatePairing.js:1554) | read | 2 | 1 | 3 |
+
+## continue [active, per season]: 71 doc reads, 237 billed, 23.3 writes per season (3 season(s); 2.2 min of harness time per season, which is machine speed, not human)
+| path | source | kind | docs/season Daniel | docs/season Nik | billed/season |
+|---|---|---|---|---|---|
+| rivalries/{rid}/chamberMenRounds/season_N | chamberMenStep.js:162 (via sparkPrivatePairing.js:1113) | read | 19.3 | 19.3 | 77.3 |
+| rivalries/{rid}/chamberMenRounds/season_N | chamberMenStep.js:141 | write | 0 | 0 | 72 |
+| rivalries/{rid}/seasonCommits/season_N | sparkSharedMultiSeasonProgression.js:29 (via sparkPrivatePairing.js:1554) | read | 6.3 | 5.3 | 23.3 |
+| rivalries/{rid}/transferChallenges/season_N | sparkSharedTransferChallenge.js:249 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 10.7 |
+| rivalries/{rid}/primePackRounds/season_N | sparkPrivatePairing.js:1643 | write | 0 | 0 | 8 |
+| rivalries/{rid}/primePackRounds/season_N | iconGuessStep.js:126 (via sparkPrivatePairing.js:1113) | read | 2 | 1.3 | 6.7 |
+| rivalries/{rid}/primePackRounds/season_N | sparkPrivatePairing.js:1643 | read | 1 | 1 | 4 |
+| rivalries/{rid}/transferChallenges/season_N | sparkSharedTransferChallenge.js:175 (via sparkPrivatePairing.js:1554) | read | 0.7 | 1 | 3.3 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerTwo | sparkSharedTransferChallenge.js:175 (via sparkPrivatePairing.js:1554) | read | 0 | 1 | 3 |
+| rivalries/{rid}/squadSheets/season_N_pre_playerTwo | squadSheetStep.js:141 (via sparkPrivatePairing.js:1113) | read | 1.3 | 0 | 2.7 |
+| rivalries/{rid}/primePackRounds/season_N | iconGuessStep.js:78 (via sparkPrivatePairing.js:1554) | read | 0.7 | 0.7 | 2.7 |
+| rivalries/{rid}/chamberMenRounds/season_N | chamberMenStep.js:100 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 2.7 |
+
+## other [active, per season]: 13.7 doc reads, 38.3 billed, 3.7 writes per season (3 season(s); 0 min of harness time per season, which is machine speed, not human)
+| path | source | kind | docs/season Daniel | docs/season Nik | billed/season |
+|---|---|---|---|---|---|
+| rivalries/{rid} | sparkTerminalClose.js:71 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 10 |
+| rivalries/{rid}/sessions/{sid} | sparkPrivatePairing.js:1554 | read | 0.7 | 0.7 | 4 |
+| rivalries/{rid}/sessions/{sid} | sparkTerminalClose.js:98 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 4 |
+| rivalries/{rid}/state/authoritative | sparkConnectedRivalry.js:484 (via sparkPrivatePairing.js:1554) | read | 0.7 | 0.3 | 2 |
+| rivalries/{rid} | productionSharedSeasonCommit.js:250 (via sparkPrivatePairing.js:1113) | read | 1 | 1 | 2 |
+| rivalries/{rid}/state/authoritative | sparkConnectedRivalry.js:533 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 2 |
+| rivalries/{rid} | sparkTerminalClose.js:71 (via sparkPrivatePairing.js:1643) | read | 1 | 0.7 | 1.7 |
+| rivalries/{rid}/seasonCommits/season_N | sparkSharedMultiSeasonProgression.js:29 (via sparkPrivatePairing.js:1554) | read | 0 | 0.7 | 1.3 |
+| rivalries/{rid}/sessions/{sid} | sparkSharedSeasonCommit.js:47 (via sparkPrivatePairing.js:1554) | read | 0 | 0.3 | 1 |
+| rivalries/{rid}/sessions/{sid} | sparkPrivateSession.js:353 (via sparkPrivatePairing.js:1554) | read | 0.3 | 0 | 1 |
+| rivalries/{rid}/sessions/{sid} | sparkTerminalClose.js:98 (via sparkPrivatePairing.js:1643) | read | 0 | 0.3 | 1 |
+| rivalries/{rid}/state/authoritative/idempotency/{h} | sparkConnectedRivalry.js:536 (via sparkPrivatePairing.js:1554) | read | 0.3 | 0 | 0.7 |
+
+## results [active, per season]: 68 doc reads, 175.3 billed, 7.7 writes per season (3 season(s); 1 min of harness time per season, which is machine speed, not human)
+| path | source | kind | docs/season Daniel | docs/season Nik | billed/season |
+|---|---|---|---|---|---|
+| rivalries/{rid}/seasonResults/season_N | sparkSharedSeasonResults.js:173 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 16 |
+| rivalries/{rid}/sessions/{sid} | sparkSharedShowdownSetup.js:175 (via sparkPrivatePairing.js:1554) | read | 3 | 2 | 15 |
+| rivalries/{rid}/seasonResults/season_N/roles/playerOne | sparkSharedSeasonResults.js:145 (via sparkPrivatePairing.js:1554) | read | 3.7 | 0 | 11 |
+| rivalries/{rid}/seasonResults/season_N/roles/playerTwo | sparkSharedSeasonResults.js:145 (via sparkPrivatePairing.js:1554) | read | 0 | 3.7 | 11 |
+| rivalries/{rid}/sessions/{sid} | sparkSharedSeasonResults.js:173 (via sparkPrivatePairing.js:1643) | read | 2 | 1 | 9 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerTwo | sparkSharedTransferChallenge.js:175 (via sparkPrivatePairing.js:1554) | read | 0 | 2.7 | 8 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerOne | sparkSharedTransferChallenge.js:176 (via sparkPrivatePairing.js:1554) | read | 0 | 2.7 | 8 |
+| rivalries/{rid}/seasonResults/season_N | productionSharedSeasonResults.js:295 (via sparkPrivatePairing.js:1529) | read | 2 | 1.3 | 7 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerOne | sparkSharedTransferChallenge.js:175 (via sparkPrivatePairing.js:1554) | read | 2.3 | 0 | 7 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerTwo | sparkSharedTransferChallenge.js:176 (via sparkPrivatePairing.js:1554) | read | 2.3 | 0 | 7 |
+| rivalries/{rid}/seasonResults/season_N | sparkSharedSeasonResults.js:173 (via sparkPrivatePairing.js:1643) | read | 2 | 1 | 6 |
+| rivalries/{rid}/seasonResults/season_N/roles/playerOne | sparkSharedSeasonResults.js:173 (via sparkPrivatePairing.js:1643) | read | 2 | 0 | 6 |
+
+## setup [active, per season]: 67.7 doc reads, 210 billed, 21.3 writes per season (3 season(s); 0.6 min of harness time per season, which is machine speed, not human)
+| path | source | kind | docs/season Daniel | docs/season Nik | billed/season |
+|---|---|---|---|---|---|
+| rivalries/{rid}/chamberMenRounds/season_N | chamberMenStep.js:162 (via sparkPrivatePairing.js:1113) | read | 9.3 | 9.7 | 38 |
+| rivalries/{rid}/chamberMenRounds/season_N | chamberMenStep.js:141 | write | 0 | 0 | 36 |
+| rivalries/{rid}/seasonCommits/season_N | sparkSharedMultiSeasonProgression.js:29 (via sparkPrivatePairing.js:1554) | read | 5 | 5 | 20 |
+| rivalries/{rid}/sharedSetup/authoritative | sparkSharedShowdownSetup.js:214 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 10 |
+| accounts/{uid}/pairLinks/current | persistentNikDanielPair.js:321 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 6.7 |
+| accounts/{uid}/pairLinks/current | persistentNikDanielPair.js:326 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 6.7 |
+| rivalries/{rid}/sharedSetup/authoritative | productionSharedSeasonCommit.js:250 (via sparkPrivatePairing.js:1113) | read | 1.7 | 1.7 | 6 |
+| rivalries/{rid}/transferChallenges/season_N | sparkSharedTransferChallenge.js:249 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 5.3 |
+| rivalries/{rid}/sharedSetup/authoritative | sparkSharedShowdownSetup.js:214 (via sparkPrivatePairing.js:1643) | read | 1.7 | 0.7 | 4.7 |
+| rivalries/{rid}/primePackRounds/season_N | sparkPrivatePairing.js:1643 | write | 0 | 0 | 4 |
+| rivalries/{rid}/sharedSetup/authoritative | sparkSharedShowdownSetup.js:180 (via sparkPrivatePairing.js:1554) | read | 1 | 0.7 | 3.3 |
+| rivalries/{rid}/primePackRounds/season_N | iconGuessStep.js:126 (via sparkPrivatePairing.js:1113) | read | 1 | 0.7 | 3.3 |
+
+## transfer-guesses [waiting]: 1.5 min sampled (after warm-up), 3 doc reads, 6 billed -> 2 doc reads/min, 4 billed/min (both devices)
+| path | source | kind | docs/min Daniel | docs/min Nik | billed/min |
+|---|---|---|---|---|---|
+| rivalries/{rid}/transferChallenges/season_N | sparkSharedTransferChallenge.js:175 (via sparkPrivatePairing.js:1554) | read | 2 | 0 | 4 |
+
+## transfer-signings [waiting]: 1.5 min sampled (after warm-up), 7 doc reads, 10 billed -> 4.7 doc reads/min, 6.7 billed/min (both devices)
+| path | source | kind | docs/min Daniel | docs/min Nik | billed/min |
+|---|---|---|---|---|---|
+| rivalries/{rid}/transferChallenges/season_N | sparkSharedTransferChallenge.js:175 (via sparkPrivatePairing.js:1554) | read | 2 | 0 | 4 |
+| accounts/{uid} | sparkSharedShowdownSetup.js:172 (via sparkPrivatePairing.js:1554) | read | 0.7 | 0.7 | 1.3 |
+| accounts/{uid}/devices/{dev} | sparkSharedShowdownSetup.js:173 (via sparkPrivatePairing.js:1554) | read | 0.7 | 0.7 | 1.3 |
+
+## transfer-window [waiting]: 1.5 min sampled (after warm-up), 4 doc reads, 4 billed -> 2.7 doc reads/min, 2.7 billed/min (both devices)
+| path | source | kind | docs/min Daniel | docs/min Nik | billed/min |
+|---|---|---|---|---|---|
+| accounts/{uid} | sparkSharedShowdownSetup.js:172 (via sparkPrivatePairing.js:1554) | read | 0.7 | 0.7 | 1.3 |
+| accounts/{uid}/devices/{dev} | sparkSharedShowdownSetup.js:173 (via sparkPrivatePairing.js:1554) | read | 0.7 | 0.7 | 1.3 |
+
+## transfers [active, per season]: 61 doc reads, 198.3 billed, 14 writes per season (3 season(s); 1 min of harness time per season, which is machine speed, not human)
+| path | source | kind | docs/season Daniel | docs/season Nik | billed/season |
+|---|---|---|---|---|---|
+| rivalries/{rid}/transferChallenges/season_N | sparkSharedTransferChallenge.js:201 (via sparkPrivatePairing.js:1643) | write | 0 | 0 | 52 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerTwo | sparkSharedTransferChallenge.js:175 (via sparkPrivatePairing.js:1554) | read | 0 | 8.3 | 25 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerOne | sparkSharedTransferChallenge.js:175 (via sparkPrivatePairing.js:1554) | read | 8 | 0 | 24 |
+| rivalries/{rid}/sessions/{sid} | sparkSharedTransferChallenge.js:201 (via sparkPrivatePairing.js:1643) | read | 3 | 3 | 18 |
+| rivalries/{rid}/transferChallenges/season_N | productionSharedTransferChallenge.js:1050 (via sparkPrivatePairing.js:1529) | read | 4.3 | 4 | 17 |
+| rivalries/{rid}/transferChallenges/season_N | sparkSharedTransferChallenge.js:201 (via sparkPrivatePairing.js:1643) | read | 3 | 3 | 12 |
+| rivalries/{rid}/transferChallenges/season_N | sparkPrivatePairing.js:1529 | read | 2.7 | 2.3 | 9.7 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerOne | sparkSharedTransferChallenge.js:201 (via sparkPrivatePairing.js:1643) | read | 3 | 0 | 9 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerTwo | sparkSharedTransferChallenge.js:201 (via sparkPrivatePairing.js:1643) | read | 0 | 3 | 9 |
+| rivalries/{rid} | sparkSharedTransferChallenge.js:201 (via sparkPrivatePairing.js:1643) | read | 3 | 3 | 6 |
+| rivalries/{rid}/seasonCommits/season_N | sparkSharedMultiSeasonProgression.js:29 (via sparkPrivatePairing.js:1554) | read | 1.3 | 1.3 | 5.3 |
+| rivalries/{rid}/transferChallenges/season_N/roles/playerTwo | sparkSharedTransferChallenge.js:176 (via sparkPrivatePairing.js:1554) | read | 1 | 0 | 3 |
+
+## PER PACE (one season, from the steady rates above; transfer = the three transfer points, results = results-entry priced at the dearer of entry/published)
+slow: transfer 40 min -> 176 billed; results 90 min -> 0 billed; commit+ack+continue 1 min each -> 0 billed
+mid: transfer 30 min -> 123 billed; results 60 min -> 0 billed; commit+ack+continue 1 min each -> 0 billed
+fast: transfer 25 min -> 96 billed; results 30 min -> 0 billed; commit+ack+continue 1 min each -> 0 billed
+METER summary: S season 1 (incl. START, pairing, setup): 544r/117w (play 544r/117w) | S season 2: 349r/58w (play 349r/58w) | S season 3 (final, + both players' page checks): 229r/28w (play 225r/28w)
+PASS ce2pg-single-3-1-budget: 80/80 checks, 0 problem(s), 2531 s -> test-results/ce2pg-single-3-1-budget.json; screenshots in test-results/ce2pg-single-3-1-budget
+✔  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+EXIT 0

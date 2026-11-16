@@ -1,0 +1,816 @@
+[
+  {
+    "kind": "create rivalries/*/seasonCommits/season_N [COMMITTED]",
+    "writes": 33,
+    "total": 8,
+    "perDoc": {
+      "rivalries/*/seasonCommits/season_N": 8
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/seasonCommits/season_N\":5}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create rivalries/*/sharedSetup/authoritative [SHARED_SETUP_OPEN] {open}",
+    "writes": 9,
+    "total": 5,
+    "perDoc": {
+      "rivalries/*/sharedSetup/authoritative": 5
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/sharedSetup/authoritative\":8}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs",
+      "r94-club-draw-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create rivalries/*/careerStart/authoritative [ONE_MANAGER_ACKNOWLEDGED]",
+    "writes": 7,
+    "total": 5,
+    "perDoc": {
+      "rivalries/*/careerStart/authoritative": 5
+    },
+    "flags": [],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*",
+    "writes": 49,
+    "total": 5,
+    "perDoc": {
+      "rivalries/*": 5
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*\":6}",
+      "totalExprAt 16",
+      "exprLimited {\"rivalries/*\":7}",
+      "totalExprAt 17"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "persistent-nik-daniel-pair-provider-emulator.cjs",
+      "shared-terminal-close-production-provider-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/sharedSetup/authoritative [LEAGUE_WHEEL_COMMITTED] {commit-league}",
+    "writes": 9,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/sharedSetup/authoritative": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/sharedSetup/authoritative\":8}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs",
+      "r94-club-draw-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/sharedSetup/authoritative [CLUB_ASSIGNMENTS_COMMITTED] {commit-clubs}",
+    "writes": 9,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/sharedSetup/authoritative": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/sharedSetup/authoritative\":8}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs",
+      "r94-club-draw-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/sharedSetup/authoritative [SEASON_LENGTH_COMMITTED] {commit-length}",
+    "writes": 9,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/sharedSetup/authoritative": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/sharedSetup/authoritative\":8}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs",
+      "r94-club-draw-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/sharedSetup/authoritative [SEASON_LENGTH_COMMITTED] {confirm}",
+    "writes": 9,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/sharedSetup/authoritative": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/sharedSetup/authoritative\":8}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs",
+      "r94-club-draw-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/sharedSetup/authoritative [SHOWDOWN_CONFIRMED] {confirm}",
+    "writes": 9,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/sharedSetup/authoritative": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/sharedSetup/authoritative\":8}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs",
+      "r94-club-draw-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/careerStart/authoritative [CAREER_START_READY]",
+    "writes": 7,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/careerStart/authoritative": 4
+    },
+    "flags": [],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create rivalries/*/transferChallenges/season_N/roulette/* + update rivalries/*/transferChallenges/season_N [WINDOW_OPEN] {start-window}",
+    "writes": 35,
+    "total": 8,
+    "perDoc": {
+      "rivalries/*/transferChallenges/season_N": 7,
+      "rivalries/*/transferChallenges/season_N/roulette/*": 2
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":6,\"rivalries/*/transferChallenges/season_N/roulette/*\":10}",
+      "totalExprAt 14",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":5,\"rivalries/*/transferChallenges/season_N/roulette/*\":10}",
+      "totalExprAt 13",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":5,\"rivalries/*/transferChallenges/season_N/roulette/*\":9}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":4,\"rivalries/*/transferChallenges/season_N/roulette/*\":9}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":4,\"rivalries/*/transferChallenges/season_N/roulette/*\":10}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 2
+  },
+  {
+    "kind": "update rivalries/*/transferChallenges/season_N [WINDOW_OPEN] {request-end-window}",
+    "writes": 34,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/transferChallenges/season_N": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":7}",
+      "totalExprAt 17"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/transferChallenges/season_N [GUESS_ENTRY] {request-end-window}",
+    "writes": 34,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/transferChallenges/season_N": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":7}",
+      "totalExprAt 17"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/seasonCommits/season_N [COMMITTED]",
+    "writes": 33,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/seasonCommits/season_N": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/seasonCommits/season_N\":7}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/seasonCommits/season_N [ACKNOWLEDGED]",
+    "writes": 33,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/seasonCommits/season_N": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/seasonCommits/season_N\":7}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/sessions/* [state:expired]",
+    "writes": 1,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/sessions/*": 4
+    },
+    "flags": [],
+    "suites": [
+      "two-manager-journey-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create rivalries/*/sessions/* [state:open]",
+    "writes": 1,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/sessions/*": 4
+    },
+    "flags": [],
+    "suites": [
+      "two-manager-journey-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/sessions/* [state:active]",
+    "writes": 1,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/sessions/*": 4
+    },
+    "flags": [],
+    "suites": [
+      "two-manager-journey-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create accounts/*/careerIndex/current + update accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]",
+    "writes": 2,
+    "total": 8,
+    "perDoc": {
+      "accounts/*/pairLinks/current": 3,
+      "accounts/*/careerIndex/current": 4,
+      "rivalries/*": 3,
+      "rivalries/*/invites/*": 0
+    },
+    "flags": [
+      "exprLimited {\"accounts/*/pairLinks/current\":9,\"accounts/*/careerIndex/current\":8,\"rivalries/*\":8}",
+      "totalExprAt 13",
+      "exprLimited {\"rivalries/*\":8,\"accounts/*/pairLinks/current\":8,\"accounts/*/careerIndex/current\":7}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "career-index-emulator.cjs"
+    ],
+    "nOps": 4
+  },
+  {
+    "kind": "update accounts/*/careerIndex/current + update accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]",
+    "writes": 2,
+    "total": 8,
+    "perDoc": {
+      "accounts/*/pairLinks/current": 3,
+      "accounts/*/careerIndex/current": 5,
+      "rivalries/*": 3,
+      "rivalries/*/invites/*": 0
+    },
+    "flags": [
+      "exprLimited {\"accounts/*/pairLinks/current\":10,\"accounts/*/careerIndex/current\":6,\"rivalries/*\":8}",
+      "totalExprAt 13",
+      "exprLimited {\"rivalries/*\":8,\"accounts/*/pairLinks/current\":8,\"accounts/*/careerIndex/current\":6}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "career-index-emulator.cjs"
+    ],
+    "nOps": 4
+  },
+  {
+    "kind": "create rivalries/*/primePackRounds/season_N",
+    "writes": 20,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/primePackRounds/season_N": 4
+    },
+    "flags": [],
+    "suites": [
+      "prime-pack-ten-season-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/primePackRounds/season_N",
+    "writes": 64,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/primePackRounds/season_N": 4
+    },
+    "flags": [],
+    "suites": [
+      "prime-pack-ten-season-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create rivalries/*/chamberMenRounds/season_N",
+    "writes": 4,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/chamberMenRounds/season_N": 4
+    },
+    "flags": [],
+    "suites": [
+      "chamber-men-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update rivalries/*/chamberMenRounds/season_N",
+    "writes": 55,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/chamberMenRounds/season_N": 4
+    },
+    "flags": [],
+    "suites": [
+      "chamber-men-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "update accounts/*/pairLinks/current",
+    "writes": 2,
+    "total": 4,
+    "perDoc": {
+      "accounts/*/pairLinks/current": 3
+    },
+    "flags": [],
+    "suites": [
+      "career-index-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create rivalries/*/transferChallenges/season_N [NOT_STARTED]",
+    "writes": 35,
+    "total": 3,
+    "perDoc": {
+      "rivalries/*/transferChallenges/season_N": 3
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":10}",
+      "totalExprAt 20",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":8}",
+      "totalExprAt 18"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create rivalries/*/sharedSetup/*",
+    "writes": 7,
+    "total": 3,
+    "perDoc": {
+      "rivalries/*/sharedSetup/*": 3
+    },
+    "flags": [],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create rivalries/*/seasonResults/season_N/roles/playerTwo + update rivalries/*/seasonResults/season_N [RESULTS_READY]",
+    "writes": 23,
+    "total": 6,
+    "perDoc": {
+      "rivalries/*/seasonResults/season_N": 5,
+      "rivalries/*/seasonResults/season_N/roles/playerTwo": 2
+    },
+    "flags": [],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 2
+  },
+  {
+    "kind": "create rivalries/*/seasonResults/season_N [COLLECTING] + create rivalries/*/seasonResults/season_N/roles/playerTwo",
+    "writes": 11,
+    "total": 6,
+    "perDoc": {
+      "rivalries/*/seasonResults/season_N": 5,
+      "rivalries/*/seasonResults/season_N/roles/playerTwo": 2
+    },
+    "flags": [],
+    "suites": [
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs"
+    ],
+    "nOps": 2
+  },
+  {
+    "kind": "create rivalries/*/seasonResults/season_N/roles/playerOne + update rivalries/*/seasonResults/season_N [RESULTS_READY]",
+    "writes": 11,
+    "total": 6,
+    "perDoc": {
+      "rivalries/*/seasonResults/season_N": 5,
+      "rivalries/*/seasonResults/season_N/roles/playerOne": 2
+    },
+    "flags": [],
+    "suites": [
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs"
+    ],
+    "nOps": 2
+  },
+  {
+    "kind": "create accounts/*/careerIndex/current + create accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]",
+    "writes": 1,
+    "total": 6,
+    "perDoc": {
+      "accounts/*/pairLinks/current": 2,
+      "accounts/*/careerIndex/current": 3,
+      "rivalries/*": 3,
+      "rivalries/*/invites/*": 0
+    },
+    "flags": [
+      "exprLimited {\"accounts/*/pairLinks/current\":9,\"accounts/*/careerIndex/current\":8,\"rivalries/*\":8}",
+      "totalExprAt 15"
+    ],
+    "suites": [
+      "persistent-nik-daniel-pair-provider-emulator.cjs"
+    ],
+    "nOps": 4
+  },
+  {
+    "kind": "create accounts/*/careerIndex/* + create rivalries/* + create rivalries/*/invites/* [state:open] + update accounts/*/careerIndex/current + update accounts/*/pairLinks/current",
+    "writes": 1,
+    "total": 6,
+    "perDoc": {
+      "accounts/*/pairLinks/current": 3,
+      "rivalries/*": 1,
+      "rivalries/*/invites/*": 0,
+      "accounts/*/careerIndex/*": 1,
+      "accounts/*/careerIndex/current": 2
+    },
+    "flags": [
+      "exprLimited {\"accounts/*/pairLinks/current\":8,\"rivalries/*\":10,\"accounts/*/careerIndex/*\":10,\"accounts/*/careerIndex/current\":9}",
+      "totalExprAt 15"
+    ],
+    "suites": [
+      "career-index-emulator.cjs"
+    ],
+    "nOps": 5
+  },
+  {
+    "kind": "create rivalries/*/seasonResults/season_N [COLLECTING] + create rivalries/*/seasonResults/season_N/roles/playerOne",
+    "writes": 23,
+    "total": 5,
+    "perDoc": {
+      "rivalries/*/seasonResults/season_N": 5,
+      "rivalries/*/seasonResults/season_N/roles/playerOne": 1
+    },
+    "flags": [],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 2
+  },
+  {
+    "kind": "create accounts/*/careerIndex/current + create rivalries/* + create rivalries/*/invites/* [state:open] + update accounts/*/pairLinks/current",
+    "writes": 1,
+    "total": 5,
+    "perDoc": {
+      "accounts/*/pairLinks/current": 1,
+      "accounts/*/careerIndex/current": 3,
+      "rivalries/*": 1,
+      "rivalries/*/invites/*": 0
+    },
+    "flags": [
+      "exprLimited {\"accounts/*/pairLinks/current\":10,\"accounts/*/careerIndex/current\":8,\"rivalries/*\":10}",
+      "totalExprAt 16"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs"
+    ],
+    "nOps": 4
+  },
+  {
+    "kind": "create rivalries/* + create rivalries/*/invites/* [state:open] + update accounts/*/careerIndex/current + update accounts/*/pairLinks/current",
+    "writes": 3,
+    "total": 5,
+    "perDoc": {
+      "accounts/*/pairLinks/current": 4,
+      "accounts/*/careerIndex/current": 3,
+      "rivalries/*": 1,
+      "rivalries/*/invites/*": 0
+    },
+    "flags": [],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "career-index-emulator.cjs"
+    ],
+    "nOps": 4
+  },
+  {
+    "kind": "create rivalries/*/transferChallenges/season_N/roles/playerOne + update rivalries/*/transferChallenges/season_N [GUESS_ENTRY] {lock-guesses}",
+    "writes": 35,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/transferChallenges/season_N": 4,
+      "rivalries/*/transferChallenges/season_N/roles/playerOne": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":7,\"rivalries/*/transferChallenges/season_N/roles/playerOne\":10}",
+      "totalExprAt 17",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N/roles/playerOne\":8}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":10,\"rivalries/*/transferChallenges/season_N/roles/playerOne\":7}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":9,\"rivalries/*/transferChallenges/season_N/roles/playerOne\":7}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":8,\"rivalries/*/transferChallenges/season_N/roles/playerOne\":10}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":10,\"rivalries/*/transferChallenges/season_N/roles/playerOne\":8}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "transfer-lock-budget-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 2
+  },
+  {
+    "kind": "create rivalries/*/transferChallenges/season_N/roles/playerTwo + update rivalries/*/transferChallenges/season_N [SIGNING_ENTRY] {lock-guesses}",
+    "writes": 35,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/transferChallenges/season_N": 4,
+      "rivalries/*/transferChallenges/season_N/roles/playerTwo": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":7,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":10}",
+      "totalExprAt 17",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":7,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":9}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":10,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":7}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":8,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":9}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":9,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":7}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":8}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":7}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":9,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":8}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "transfer-lock-budget-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 2
+  },
+  {
+    "kind": "update rivalries/*/transferChallenges/season_N [SIGNING_ENTRY] {lock-signings} + update rivalries/*/transferChallenges/season_N/roles/playerOne",
+    "writes": 35,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/transferChallenges/season_N": 4,
+      "rivalries/*/transferChallenges/season_N/roles/playerOne": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":7,\"rivalries/*/transferChallenges/season_N/roles/playerOne\":10}",
+      "totalExprAt 17",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N/roles/playerOne\":8}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":10,\"rivalries/*/transferChallenges/season_N/roles/playerOne\":7}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":9,\"rivalries/*/transferChallenges/season_N/roles/playerOne\":7}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":8,\"rivalries/*/transferChallenges/season_N/roles/playerOne\":10}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":10,\"rivalries/*/transferChallenges/season_N/roles/playerOne\":8}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "transfer-lock-budget-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 2
+  },
+  {
+    "kind": "update rivalries/*/transferChallenges/season_N [COMPLETED] {lock-signings} + update rivalries/*/transferChallenges/season_N/roles/playerTwo",
+    "writes": 35,
+    "total": 4,
+    "perDoc": {
+      "rivalries/*/transferChallenges/season_N": 4,
+      "rivalries/*/transferChallenges/season_N/roles/playerTwo": 4
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":7,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":10}",
+      "totalExprAt 17",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":7,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":9}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":10,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":7}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":8,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":9}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":9,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":7}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":8}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":7}",
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":9,\"rivalries/*/transferChallenges/season_N/roles/playerTwo\":8}"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "transfer-lock-budget-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 2
+  },
+  {
+    "kind": "update rivalries/* + update rivalries/*/sessions/* [state:closed]",
+    "writes": 14,
+    "total": 3,
+    "perDoc": {
+      "rivalries/*/sessions/*": 1,
+      "rivalries/*": 2
+    },
+    "flags": [],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs",
+      "shared-terminal-close-production-provider-emulator.cjs"
+    ],
+    "nOps": 2
+  },
+  {
+    "kind": "create accounts/*/careerIndex/current + create accounts/*/pairLinks/current + create rivalries/* + create rivalries/*/invites/* [state:open]",
+    "writes": 2,
+    "total": 3,
+    "perDoc": {
+      "accounts/*/pairLinks/current": 2,
+      "accounts/*/careerIndex/current": 2,
+      "rivalries/*": 0,
+      "rivalries/*/invites/*": 1
+    },
+    "flags": [
+      "exprLimited {\"accounts/*/pairLinks/current\":9,\"accounts/*/careerIndex/current\":10}",
+      "totalExprAt 18",
+      "exprLimited {\"rivalries/*/invites/*\":10,\"accounts/*/careerIndex/current\":9}"
+    ],
+    "suites": [
+      "persistent-nik-daniel-pair-provider-emulator.cjs",
+      "career-index-emulator.cjs"
+    ],
+    "nOps": 4
+  },
+  {
+    "kind": "create accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]",
+    "writes": 1,
+    "total": 3,
+    "perDoc": {
+      "rivalries/*": 3,
+      "rivalries/*/invites/*": 0,
+      "accounts/*/pairLinks/current": 0
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*\":8}",
+      "totalExprAt 18"
+    ],
+    "suites": [
+      "career-index-emulator.cjs"
+    ],
+    "nOps": 3
+  },
+  {
+    "kind": "update rivalries/*/transferChallenges/season_N [NOT_STARTED]",
+    "writes": 35,
+    "total": 1,
+    "perDoc": {
+      "rivalries/*/transferChallenges/season_N": 1
+    },
+    "flags": [
+      "exprLimited {\"rivalries/*/transferChallenges/season_N\":10}",
+      "totalExprAt 20"
+    ],
+    "suites": [
+      "two-manager-journey-emulator.cjs",
+      "prime-pack-ten-season-emulator.cjs",
+      "sacked-rules-emulator.cjs",
+      "europa-league-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create rivalries/*/squadSheets/*",
+    "writes": 40,
+    "total": 1,
+    "perDoc": {
+      "rivalries/*/squadSheets/*": 1
+    },
+    "flags": [],
+    "suites": [
+      "squad-sheets-rules-emulator.cjs"
+    ],
+    "nOps": 1
+  },
+  {
+    "kind": "create accounts/*/pairLinks/current + create rivalries/* + create rivalries/*/invites/* [state:open]",
+    "writes": 1,
+    "total": 2,
+    "perDoc": {
+      "accounts/*/pairLinks/current": 1,
+      "rivalries/*": 2,
+      "rivalries/*/invites/*": 0
+    },
+    "flags": [],
+    "suites": [
+      "career-index-emulator.cjs"
+    ],
+    "nOps": 3
+  }
+]

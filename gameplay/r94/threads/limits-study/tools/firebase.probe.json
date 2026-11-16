@@ -1,0 +1,1 @@
+{"firestore":{"rules":"probe.rules"},"emulators":{"firestore":{"host":"127.0.0.1","port":8181},"ui":{"enabled":false},"hub":{"port":4401},"logging":{"port":4501},"singleProjectMode":true}}

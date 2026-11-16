@@ -1,0 +1,378 @@
+[
+ {
+  "kind": "create accounts/*/careerIndex/current + update accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]",
+  "expr": 904,
+  "lookTotal": 8,
+  "lookDoc": 4,
+  "nOps": 4,
+  "n": 2
+ },
+ {
+  "kind": "update accounts/*/careerIndex/current + update accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]",
+  "expr": 904,
+  "lookTotal": 8,
+  "lookDoc": 5,
+  "nOps": 4,
+  "n": 4
+ },
+ {
+  "kind": "create accounts/*/careerIndex/current + create accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]",
+  "expr": 904,
+  "lookTotal": 6,
+  "lookDoc": 4,
+  "nOps": 4,
+  "n": 2
+ },
+ {
+  "kind": "create accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]",
+  "expr": 904,
+  "lookTotal": 3,
+  "lookDoc": 3,
+  "nOps": 3,
+  "n": 1
+ },
+ {
+  "kind": "create rivalries/*/seasonCommits/season_N [COMMITTED]",
+  "expr": 898,
+  "lookTotal": 8,
+  "lookDoc": 8,
+  "nOps": 1,
+  "n": 33
+ },
+ {
+  "kind": "update rivalries/*",
+  "expr": 857,
+  "lookTotal": 5,
+  "lookDoc": 5,
+  "nOps": 1,
+  "n": 49
+ },
+ {
+  "kind": "update rivalries/*/sessions/* [state:active]",
+  "expr": 848,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 1
+ },
+ {
+  "kind": "create rivalries/*/transferChallenges/season_N/roles/playerTwo + update rivalries/*/transferChallenges/season_N [SIGNING_ENTRY] {lock-guesses}",
+  "expr": 842,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 2,
+  "n": 35
+ },
+ {
+  "kind": "update rivalries/*/transferChallenges/season_N [COMPLETED] {lock-signings} + update rivalries/*/transferChallenges/season_N/roles/playerTwo",
+  "expr": 842,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 2,
+  "n": 35
+ },
+ {
+  "kind": "create rivalries/*/transferChallenges/season_N/roles/playerOne + update rivalries/*/transferChallenges/season_N [GUESS_ENTRY] {lock-guesses}",
+  "expr": 839,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 2,
+  "n": 35
+ },
+ {
+  "kind": "update rivalries/*/transferChallenges/season_N [SIGNING_ENTRY] {lock-signings} + update rivalries/*/transferChallenges/season_N/roles/playerOne",
+  "expr": 839,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 2,
+  "n": 35
+ },
+ {
+  "kind": "create rivalries/*/transferChallenges/season_N/roulette/* + update rivalries/*/transferChallenges/season_N [WINDOW_OPEN] {start-window}",
+  "expr": 826,
+  "lookTotal": 8,
+  "lookDoc": 7,
+  "nOps": 2,
+  "n": 35
+ },
+ {
+  "kind": "create rivalries/*/seasonResults/season_N [COLLECTING] + create rivalries/*/seasonResults/season_N/roles/playerOne",
+  "expr": 795,
+  "lookTotal": 5,
+  "lookDoc": 5,
+  "nOps": 2,
+  "n": 23
+ },
+ {
+  "kind": "create rivalries/*/seasonResults/season_N [COLLECTING] + create rivalries/*/seasonResults/season_N/roles/playerTwo",
+  "expr": 795,
+  "lookTotal": 6,
+  "lookDoc": 5,
+  "nOps": 2,
+  "n": 11
+ },
+ {
+  "kind": "update rivalries/*/sessions/* [state:expired]",
+  "expr": 780,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 1
+ },
+ {
+  "kind": "create accounts/*/careerIndex/current + create accounts/*/pairLinks/current + create rivalries/* + create rivalries/*/invites/* [state:open]",
+  "expr": 780,
+  "lookTotal": 3,
+  "lookDoc": 3,
+  "nOps": 4,
+  "n": 3
+ },
+ {
+  "kind": "update rivalries/* + update rivalries/*/sessions/* [state:closed]",
+  "expr": 776,
+  "lookTotal": 3,
+  "lookDoc": 2,
+  "nOps": 2,
+  "n": 14
+ },
+ {
+  "kind": "update rivalries/*/sharedSetup/authoritative [SHOWDOWN_CONFIRMED] {confirm}",
+  "expr": 811,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 9
+ },
+ {
+  "kind": "update rivalries/*/primePackRounds/season_N",
+  "expr": 727,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 64
+ },
+ {
+  "kind": "create accounts/*/careerIndex/current + create rivalries/* + create rivalries/*/invites/* [state:open] + update accounts/*/pairLinks/current",
+  "expr": 720,
+  "lookTotal": 5,
+  "lookDoc": 3,
+  "nOps": 4,
+  "n": 1
+ },
+ {
+  "kind": "create rivalries/* + create rivalries/*/invites/* [state:open] + update accounts/*/careerIndex/current + update accounts/*/pairLinks/current",
+  "expr": 720,
+  "lookTotal": 5,
+  "lookDoc": 4,
+  "nOps": 4,
+  "n": 4
+ },
+ {
+  "kind": "create accounts/*/pairLinks/current + create rivalries/* + create rivalries/*/invites/* [state:open]",
+  "expr": 720,
+  "lookTotal": 2,
+  "lookDoc": 2,
+  "nOps": 3,
+  "n": 1
+ },
+ {
+  "kind": "create accounts/*/careerIndex/* + create rivalries/* + create rivalries/*/invites/* [state:open] + update accounts/*/careerIndex/current + update accounts/*/pairLinks/current",
+  "expr": 720,
+  "lookTotal": 6,
+  "lookDoc": 3,
+  "nOps": 5,
+  "n": 3
+ },
+ {
+  "kind": "create rivalries/*/seasonResults/season_N/roles/playerTwo + update rivalries/*/seasonResults/season_N [RESULTS_READY]",
+  "expr": 711,
+  "lookTotal": 6,
+  "lookDoc": 5,
+  "nOps": 2,
+  "n": 23
+ },
+ {
+  "kind": "create rivalries/*/seasonResults/season_N/roles/playerOne + update rivalries/*/seasonResults/season_N [RESULTS_READY]",
+  "expr": 708,
+  "lookTotal": 6,
+  "lookDoc": 5,
+  "nOps": 2,
+  "n": 11
+ },
+ {
+  "kind": "update rivalries/*/sharedSetup/authoritative [SEASON_LENGTH_COMMITTED] {confirm}",
+  "expr": 761,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 9
+ },
+ {
+  "kind": "update rivalries/*/transferChallenges/season_N [GUESS_ENTRY] {request-end-window}",
+  "expr": 693,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 34
+ },
+ {
+  "kind": "update rivalries/*/sharedSetup/authoritative [SEASON_LENGTH_COMMITTED] {commit-length}",
+  "expr": 717,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 9
+ },
+ {
+  "kind": "update rivalries/*/transferChallenges/season_N [WINDOW_OPEN] {request-end-window}",
+  "expr": 683,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 34
+ },
+ {
+  "kind": "update rivalries/*/sharedSetup/authoritative [LEAGUE_WHEEL_COMMITTED] {commit-league}",
+  "expr": 708,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 9
+ },
+ {
+  "kind": "update rivalries/*/sharedSetup/authoritative [CLUB_ASSIGNMENTS_COMMITTED] {commit-clubs}",
+  "expr": 708,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 9
+ },
+ {
+  "kind": "create rivalries/*/sharedSetup/*",
+  "expr": 674,
+  "lookTotal": 3,
+  "lookDoc": 3,
+  "nOps": 1,
+  "n": 7
+ },
+ {
+  "kind": "update rivalries/*/seasonCommits/season_N [ACKNOWLEDGED]",
+  "expr": 652,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 33
+ },
+ {
+  "kind": "update rivalries/*/seasonCommits/season_N [COMMITTED]",
+  "expr": 640,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 33
+ },
+ {
+  "kind": "create rivalries/*/careerStart/authoritative [ONE_MANAGER_ACKNOWLEDGED]",
+  "expr": 634,
+  "lookTotal": 5,
+  "lookDoc": 5,
+  "nOps": 1,
+  "n": 7
+ },
+ {
+  "kind": "create rivalries/*/sessions/* [state:open]",
+  "expr": 634,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 1
+ },
+ {
+  "kind": "update rivalries/*/chamberMenRounds/season_N",
+  "expr": 612,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 55
+ },
+ {
+  "kind": "create rivalries/*/sharedSetup/authoritative [SHARED_SETUP_OPEN] {open}",
+  "expr": 618,
+  "lookTotal": 5,
+  "lookDoc": 5,
+  "nOps": 1,
+  "n": 9
+ },
+ {
+  "kind": "create rivalries/*/primePackRounds/season_N",
+  "expr": 565,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 20
+ },
+ {
+  "kind": "update rivalries/*/careerStart/authoritative [CAREER_START_READY]",
+  "expr": 512,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 7
+ },
+ {
+  "kind": "update accounts/*/pairLinks/current",
+  "expr": 512,
+  "lookTotal": 4,
+  "lookDoc": 3,
+  "nOps": 1,
+  "n": 2
+ },
+ {
+  "kind": "create rivalries/*/chamberMenRounds/season_N",
+  "expr": 503,
+  "lookTotal": 4,
+  "lookDoc": 4,
+  "nOps": 1,
+  "n": 4
+ },
+ {
+  "kind": "create rivalries/*/squadSheets/*",
+  "expr": 450,
+  "lookTotal": 1,
+  "lookDoc": 1,
+  "nOps": 1,
+  "n": 40
+ },
+ {
+  "kind": "create rivalries/*/transferChallenges/season_N [NOT_STARTED]",
+  "expr": 382,
+  "lookTotal": 3,
+  "lookDoc": 3,
+  "nOps": 1,
+  "n": 35
+ },
+ {
+  "kind": "update rivalries/*/transferChallenges/season_N [NOT_STARTED]",
+  "expr": 357,
+  "lookTotal": 1,
+  "lookDoc": 1,
+  "nOps": 1,
+  "n": 35
+ },
+ {
+  "kind": "create accounts/*/pairLinks/current + create rivalries/* + create rivalries/*/invites/* [state:open] + update accounts/*/careerIndex/current",
+  "expr": null,
+  "lookTotal": 3,
+  "lookDoc": 2,
+  "nOps": 4,
+  "n": 1
+ },
+ {
+  "kind": "create accounts/*/careerIndex/* + update accounts/*/careerIndex/current + update accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]",
+  "expr": null,
+  "lookTotal": 9,
+  "lookDoc": 4,
+  "nOps": 5,
+  "n": 2
+ }
+]

@@ -1,0 +1,30 @@
+ALLOWED  single doc, 10 distinct lookups
+REFUSED  single doc, 11 distinct lookups ::  evaluation error at L5:37 for 'create' @ L5, evaluation error at L5:37 for 'update' @ L5, Service call error. Function: [exists], Argument: [path_value { segments { simple: "databases" } segments { simple: "(default)" } segments { simple: "documents" } segments { simple: "pad" } segments { simple: "b10" } } ]. for 'create' @ L5
+ALLOWED  single doc, same path 12 times
+ALLOWED  single doc, 4 paths each exists+getAfter+existsAfter
+REFUSED  single doc, 6 paths each exists+getAfter (12 if counted apart) :: luation error at L20:40 for 'create' @ L20, evaluation error at L20:40 for 'update' @ L20, Service call error. Function: [exists], Argument: [path_value { segments { simple: "databases" } segments { simple: "(default)" } segments { simple: "documents" } segments { simple: "pad" } segments { simple: "m5" } } ]. for 'create' @ L20
+ALLOWED  batch 4 docs x 5 distinct = 20
+REFUSED  batch 3 docs x 5 + 1 doc x 6 = 21 :: 'update' @ L10, false for 'create' @ L7, false for 'create' @ L6, false for 'create' @ L10, Service call error. Function: [exists], Argument: [path_value { segments { simple: "databases" } segments { simple: "(default)" } segments { simple: "documents" } segments { simple: "pad" } segments { simple: "e4" } } ]. for 'create' @ L8
+ALLOWED  batch 2 docs x 10 + ... a + c + d = 20
+REFUSED  batch a(10) + c(5) + g(6) = 21 :: tion error at L10:37 for 'update' @ L10, false for 'create' @ L6, false for 'create' @ L10, Service call error. Function: [exists], Argument: [path_value { segments { simple: "databases" } segments { simple: "(default)" } segments { simple: "documents" } segments { simple: "pad" } segments { simple: "a9" } } ]. for 'create' @ L4
+ALLOWED  batch 5 docs, same 5 paths each (25 if counted per doc, 5 if cached)
+ALLOWED  transaction 4 docs x 5 = 20
+REFUSED  transaction 3x5 + 6 = 21 :: 'update' @ L10, false for 'create' @ L7, false for 'create' @ L8, false for 'create' @ L6, Service call error. Function: [exists], Argument: [path_value { segments { simple: "databases" } segments { simple: "(default)" } segments { simple: "documents" } segments { simple: "pad" } segments { simple: "g5" } } ]. for 'create' @ L10
+ALLOWED  transaction single doc 10
+REFUSED  transaction single doc 11 ::  evaluation error at L5:37 for 'create' @ L5, evaluation error at L5:37 for 'update' @ L5, Service call error. Function: [exists], Argument: [path_value { segments { simple: "databases" } segments { simple: "(default)" } segments { simple: "documents" } segments { simple: "pad" } segments { simple: "b10" } } ]. for 'create' @ L5
+ALLOWED  get, 10 lookups
+REFUSED  get, 11 lookups ::  evaluation error at L22:38 for 'get' @ L22, Service call error. Function: [exists], Argument: [path_value { segments { simple: "databases" } segments { simple: "(default)" } segments { simple: "documents" } segments { simple: "pad" } segments { simple: "r10" } } ]. for 'get' @ L22
+ALLOWED  list, 10 lookups
+ALLOWED  list, 11 lookups
+ALLOWED  single doc, chain of 100 true terms
+ALLOWED  single doc, chain of 150 true terms
+ALLOWED  single doc, chain of 200 true terms
+ALLOWED  single doc, chain of 250 true terms
+ALLOWED  single doc, chain of 300 true terms
+REFUSED  single doc, chain of 330 true terms :: te has been reached. for 'update' @ L167, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L167
+ALLOWED  batch: 200 + 200 (two docs)
+ALLOWED  batch: 250 + 250
+ALLOWED  batch: 300 + 300
+ALLOWED  batch: 300 + 300 + 250 + 250 + 200 + 200
+REFUSED  batch: 330 + 100 :: reate' @ L157, false for 'update' @ L157, Unable to evaluate the expression as the maximum of 1000 expressions to evaluate has been reached. for 'create' @ L167
+ALLOWED  transaction: 300 + 300
