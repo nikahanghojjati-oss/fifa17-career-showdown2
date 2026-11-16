@@ -1,18 +1,19 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 7:13 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 7:14 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `41d375d` (Sun 15 Nov 7:12 PM Boston time) · 289 messages · 94 hand-offs · 547 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `41d375d` (Sun 15 Nov 7:12 PM Boston time) · 289 messages · 94 hand-offs · 555 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-093 · G → V · Image crests batch 9 of 9
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Sun 15 Nov 7:12 PM · Team G · Sent
+- Sun 15 Nov 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -129,9 +130,10 @@ This is the last batch. With it, all 98 clubs have an image crest: 5 from the pi
 
 ### HO-092 · G → V · Image crests batch 8 of 9
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Sun 15 Nov 7:12 PM · Team G · Sent
+- Sun 15 Nov 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -235,9 +237,10 @@ Most of these are civic symbols and pattern badges.
 
 ### HO-091 · G → V · Image crests batch 7 of 9
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Sun 15 Nov 7:12 PM · Team G · Sent
+- Sun 15 Nov 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -335,9 +338,10 @@ Several of these are pattern badges. Keep them simple and spend the care on the 
 
 ### HO-090 · G → V · Image crests batch 6 of 9
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Sun 15 Nov 7:12 PM · Team G · Sent
+- Sun 15 Nov 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -445,9 +449,10 @@ Where a crown appears, use the shared royal crown from batch 5.
 
 ### HO-089 · G → V · Image crests batch 5 of 9
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Sun 15 Nov 7:12 PM · Team G · Sent
+- Sun 15 Nov 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -551,9 +556,10 @@ The rules, look and delivery spec are the same as the pilot and batch 1 (`R94_01
 
 ### HO-088 · G → V · Image crests batch 4 of 9
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Sun 15 Nov 7:12 PM · Team G · Sent
+- Sun 15 Nov 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -664,9 +670,10 @@ Theme: more animals and civic objects.
 
 ### HO-087 · G → V · Image crests batch 3 of 9
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Sun 15 Nov 7:12 PM · Team G · Sent
+- Sun 15 Nov 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
@@ -770,9 +777,10 @@ Theme: the animals and figures left over from the audit's batch 2.
 
 ### HO-086 · G → V · Image crests batch 2 of 9
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
 
 - Sun 15 Nov 7:12 PM · Team G · Sent
+- Sun 15 Nov 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312
 
 <details><summary>Full ticket</summary>
 
