@@ -10,6 +10,8 @@
 //     headroom of the write without a per-validator needle;
 //   - writes from rules-disabled contexts (seeding) and writes the composed Rules refuse are not measured;
 //   - one JSON line per measured write goes to RULES_BUDGET_SWEEP_OUT; the suite then carries on with its real write.
+//   - R94-06: the same write is also replayed to count its Rules lookups (get/exists/getAfter/existsAfter) against the
+//     10-per-document and 20-per-request caps (see "Rules lookups per request" below).
 // The padded copies are never deployed. Nothing here talks to anything but the local emulator.
 
 const Module=require("node:module");
@@ -248,6 +250,88 @@ async function largestPad(attempt,high,hint){
   return low;
 }
 
+// ---- R94-06: Rules lookups per request (get, exists, getAfter, existsAfter) -------------------------------------------
+// Firestore also refuses a write whose Rules look up more than 10 distinct documents for one written document, or more than
+// 20 for a whole batch or transaction (R94-05 probes on the emulator: the same path twice counts once, before and after of
+// one path count twice, a path looked up by several documents of one request counts once). Measured here, on the same
+// copied state as the expression replays:
+//   - request total, exact: the write is replayed on the COMPOSED Rules unchanged plus a pad collection, with one or two
+//     extra pad documents in the same batch whose rule looks up k more distinct (missing) documents, k from the token. The
+//     largest k that still saves gives used = 20 - k. The pad documents spend no expressions of the written documents.
+//   - per written document: one document never looks up more than its whole request, so this is only needed when a
+//     multi-document request uses 9 or more. Then each written document's write rules get k distinct exists() calls in front
+//     (one Rules copy per k) and 10 - the largest passing k is an upper bound (the pad also spends that document's
+//     expressions; a refusal by the expression limit is counted as a lookup, never as headroom).
+// A kind already measured in this process is first checked with one replay at its worst count so far (pass: not worse).
+const LOOKUP_LIMIT=/Service call error/;
+const LOOKUP_PAD_COLLECTION="rulesLookupPad",LOOKUP_PROBES="rulesLookupProbe",LOOKUP_REQUEST_CAP=20,LOOKUP_DOC_CAP=10,LOOKUP_PER_DOC_FROM=9;
+const LOOKUP_TOTAL_RULES=COMPOSED.replace(PAD_HOME,`    function lookupPadOf(tag, n) { return ${Array.from({length:10},(_,i)=>`(n < ${i+1} || !exists(/databases/$(database)/documents/${LOOKUP_PROBES}/$(tag + '${i}')))`).join(" && ")}; }
+    match /${LOOKUP_PAD_COLLECTION}/{id} { allow write: if lookupPadOf(id, request.auth.token.get(id, 0)); }
+${PAD_HOME}`);
+function lookupDocRules(k){
+  const chain=Array.from({length:k},(_,i)=>`!exists(/databases/$(database)/documents/${LOOKUP_PROBES}/doc${i})`).join(" && ")||"true";
+  const pad=`    function lookupDocPad() { return request.auth == null || request.path != path(request.auth.token.get('lookupTarget', '/databases/(default)/documents/none/none')) || (${chain}); }`;
+  return padOnce(COMPOSED,"lookupDocPad()").rules.replace(PAD_HOME,`${pad}\n${PAD_HOME}`);
+}
+const lookupEnvs=new Map();
+function lookupEnv(key,rules){
+  if(!lookupEnvs.has(key))lookupEnvs.set(key,realRut.initializeTestEnvironment({projectId:`demo-rules-lookups-${key}-${process.pid}`,firestore:{rules:rules(),host:hostName,port:hostPort}}));
+  return lookupEnvs.get(key);
+}
+// "pass", "lookup" (refused by the lookup cap) or "expression" (refused by the 1,000-expression limit); throws otherwise.
+async function lookupReplay(env,claims,identity,docs,ops,padDocs){
+  replays+=1;
+  await env.clearFirestore();
+  await restore(env.projectId,docs);
+  const db=env.authenticatedContext(identity.uid,{...(identity.token||{}),...claims}).firestore();
+  const batch=realFirestore.writeBatch(db);
+  for(const op of ops){
+    const ref=realFirestore.doc(db,op.path);
+    if(op.type==="set")op.options?batch.set(ref,op.data,op.options):batch.set(ref,op.data);
+    else if(op.type==="update")batch.update(ref,...op.args);
+    else batch.delete(ref);
+  }
+  for(const id of padDocs)batch.set(realFirestore.doc(db,LOOKUP_PAD_COLLECTION,id),{pad:true});
+  try{await batch.commit();return "pass";}
+  catch(error){const message=String(error.message);if(LIMIT.test(message))return "expression";if(LOOKUP_LIMIT.test(message))return "lookup";error.replayRefusal=true;throw error;}
+}
+function lookupTotalAttempt(k,identity,docs,ops){
+  const a=Math.min(10,k),b=k-a;
+  return lookupEnv("total",()=>LOOKUP_TOTAL_RULES).then(env=>lookupReplay(env,{lookupA:a,lookupB:b},identity,docs,ops,b>0?["lookupA","lookupB"]:a>0?["lookupA"]:[]));
+}
+function lookupDocAttempt(k,target,identity,docs,ops){
+  return lookupEnv(`doc${k}`,()=>lookupDocRules(k)).then(env=>lookupReplay(env,{lookupTarget:`/databases/(default)/documents/${target}`},identity,docs,ops,[]));
+}
+// Largest k in [0, high] that saves (-1 when k = 0 is refused), and whether the expression limit refused any k.
+async function largestLookupPad(attempt,high){
+  let expression=false;
+  const pass=async k=>{const outcome=await attempt(k);if(outcome==="expression")expression=true;return outcome==="pass";};
+  if(!await pass(0))return {k:-1,expression};
+  let low=0,top=high;
+  while(low<top){const mid=Math.ceil((low+top)/2);if(await pass(mid))low=mid;else top=mid-1;}
+  return {k:low,expression};
+}
+const lookupBest=new Map(); // kind -> worst request total seen in this process
+async function measureLookups(record,identity,docs,ops){
+  const known=lookupBest.get(record.kind);
+  if(known!==undefined&&await lookupTotalAttempt(LOOKUP_REQUEST_CAP-known,identity,docs,ops)==="pass")record.lookupsAtMost=known;
+  else{
+    const total=await largestLookupPad(k=>lookupTotalAttempt(k,identity,docs,ops),LOOKUP_REQUEST_CAP);
+    record.lookups=total.k<0?LOOKUP_REQUEST_CAP+1:LOOKUP_REQUEST_CAP-total.k;
+    if(total.k>=0&&(known===undefined||record.lookups>known))lookupBest.set(record.kind,record.lookups);
+  }
+  const used=record.lookups??record.lookupsAtMost;
+  if(ops.length>1&&used>=LOOKUP_PER_DOC_FROM){
+    record.lookupsPerDoc={};
+    for(const op of ops){
+      const one=await largestLookupPad(k=>lookupDocAttempt(k,op.path,identity,docs,ops),LOOKUP_DOC_CAP);
+      const key=pattern(op.path),value=one.k<0?LOOKUP_DOC_CAP+1:LOOKUP_DOC_CAP-one.k;
+      record.lookupsPerDoc[key]=Math.max(record.lookupsPerDoc[key]??0,value);
+      if(one.expression)(record.lookupsExpressionBound||=[]).push(key);
+    }
+  }
+}
+
 // ---- kinds -----------------------------------------------------------------------------------------------------------
 const LITERAL_IDS=/^(playerOne|playerTwo|authoritative|current|summary|marker|index|public|private)$/;
 function pattern(docPath){
@@ -318,6 +402,12 @@ async function measure(identity,ops){
       try{const p=await largestPad(n=>replay("gated",n,identity,docs,ops,op.path),cal.gated,undefined);record.perDoc[pattern(op.path)]=p<0?">1000":Math.round((cal.gated-p)*weight);}
       catch(error){record.perDoc[pattern(op.path)]=`refused: ${String(error.message).slice(0,80)}`;}
     }
+  }
+  if(!record.replayRefused){
+    const lookupStarted=Date.now();
+    try{await measureLookups(record,identity,docs,ops);}
+    catch(error){if(!error.replayRefusal)throw error;record.replayRefused=`lookup replay: ${String(error.message).slice(0,380)}`;}
+    record.lookupMs=Date.now()-lookupStarted;
   }
   record.replays=replays-before;record.ms=Date.now()-started;
   return record;
@@ -399,7 +489,12 @@ wrappedFirestore.addDoc=function(collectionRef,data){
 
 // ---- test environment wrapper: who is each Firestore instance? -------------------------------------------------------
 const wrappedRut=Object.assign({},realRut);
+// R94-06: a few older suites drive real client saves (account bootstrap, device registration, the connected shared state)
+// against the source file firestore.spark.rules. With RULES_BUDGET_SWEEP_COMPOSE=1 (set by the sweep for those suites only)
+// they get the composed production Rules instead, so their saves are measured on what ships; their own checks still decide.
+const SOURCE_RULES=(()=>{try{return fs.readFileSync(path.join(ROOT,"firestore.spark.rules"),"utf8");}catch(_error){return null;}})();
 wrappedRut.initializeTestEnvironment=async function(config){
+  if(process.env.RULES_BUDGET_SWEEP_COMPOSE==="1"&&config&&config.firestore&&config.firestore.rules===SOURCE_RULES)config={...config,firestore:{...config.firestore,rules:SHIPPED}};
   const env=await realRut.initializeTestEnvironment(config);
   const rules=config&&config.firestore&&config.firestore.rules;
   const composed=rules===SHIPPED;
@@ -407,7 +502,10 @@ wrappedRut.initializeTestEnvironment=async function(config){
   projects.set(projectId,composed);
   const register=(context,uid,token,admin)=>{
     const original=context.firestore.bind(context);
-    context.firestore=(...args)=>{const db=original(...args);identities.set(db,{projectId,uid,token,composed:projects.get(projectId),admin});return db;};
+    // R94-06: the test context hands out the compat Firestore; a modular doc(db, ...) reference carries the modular instance
+    // inside it (db._delegate), so setDoc/updateDoc/deleteDoc/addDoc on such a reference are recognised too. Before this
+    // only transactions and batches (called with db itself) were measured.
+    context.firestore=(...args)=>{const db=original(...args);const identity={projectId,uid,token,composed:projects.get(projectId),admin};identities.set(db,identity);if(db&&db._delegate&&typeof db._delegate==="object")identities.set(db._delegate,identity);return db;};
     return context;
   };
   const authenticatedContext=env.authenticatedContext.bind(env);

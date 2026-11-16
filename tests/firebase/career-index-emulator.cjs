@@ -229,6 +229,13 @@ const note=(id,label)=>{step+=1;console.log(`ok ${step} ${id} ${label}`);};
     await check('G4','sealing into the wrong page number is denied',assertFails(create(db[D],{uid:D,device:dev[D],target:X5,nowMs:tick(),mutate:w=>{w[0][0]='page_2';w[0][1].objectId='page_2';w[0][1].data.pageNumber=2;w[1][1].data.sealedPageCount=2;}})));
     await check('G5','creation at capacity seals page_1 and starts a new head in the same commit',assertSucceeds(create(db[D],{uid:D,device:dev[D],target:X5,nowMs:tick()})));
     h=await ids(env,D);assert.deepEqual(h.data,{rivalryIds:[X5],sealedPageCount:1});
+    // R94-06 (study P3-2): Nik's JOIN when his own History index is full. JOIN is the dearest save in the game (rivalry +
+    // invite + pair link + index head) and at 500 entries it also seals a page, one more document in the same commit.
+    const fullN=Array.from({length:CAP},(_,i)=>rid(0x200000+i));
+    await env.withSecurityRulesDisabled(async c=>{const ref=doc(c.firestore(),'accounts',N,'careerIndex','current');const v=(await getDoc(ref)).data();await setDoc(ref,{...v,data:{rivalryIds:fullN,sealedPageCount:0}});});
+    await check('G5J','redemption (JOIN) at capacity seals page_1 and starts a new head in the same commit',assertSucceeds(redeem(db[N],{uid:N,device:dev[N],target:X5,nowMs:tick()})));
+    assert.deepEqual((await ids(env,N)).data,{rivalryIds:[X5],sealedPageCount:1},'G5J new head holds only the joined rivalry');
+    await env.withSecurityRulesDisabled(async c=>{const page=(await getDoc(doc(c.firestore(),'accounts',N,'careerIndex','page_1'))).data();assert.deepEqual(page.data,{pageNumber:1,rivalryIds:fullN},'G5J page_1 holds the full head, in order');});
     await check('G6','owner gets page_1',assertSucceeds(getDoc(headRef(db[D],D,'page_1'))));
     await check('G7','other manager cannot get page_1',assertFails(getDoc(headRef(db[N],D,'page_1'))));
     await check('G8','page update is denied',assertFails(setDoc(headRef(db[D],D,'page_1'),envelope({objectType:'careerIndexPage',objectId:'page_1',revision:1,parentRevision:0,priorContentHash:hash('0'),updatedAt:now,accountId:D,deviceId:dev[D],data:{pageNumber:1,rivalryIds:full.slice(1)}}))));
@@ -258,8 +265,15 @@ const note=(id,label)=>{step+=1;console.log(`ok ${step} ${id} ${label}`);};
     for(const uid of [PD,PN]){r=await readIdx(uid,uid);assert.deepEqual(r.rivalryIds,[P1,P2]);}note('P5','second Showdown: both indexes are [P1, P2]; the pair link moved on, history stayed');
     await env.withSecurityRulesDisabled(async c=>{const ref=doc(c.firestore(),'accounts',PN,'careerIndex','current');const v=(await getDoc(ref)).data();await setDoc(ref,{...v,data:{...v.data,sealedPageCount:1}});});
     r=await readIdx(PN,PN);assert.deepEqual([r.status,r.rivalryIds],['unavailable',[]]);note('P6','a missing sealed page makes the index unavailable, never shorter');
-    assert.equal(step,ENFORCED?58:56,'every existing case remains in Phase B; only four missing-index denials move out of Phase A');
-    console.log(`PASS career index composed-Rules emulator (${ENFORCED?'Phase B enforced':'Phase A shipped'}): ${step} numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging, P provider).`);
+    // R94-06 (study P3-2): START and JOIN through the real client code when both indexes are full (500 entries): each
+    // commit seals page_1 and starts a new head, and both managers then read all 501 Showdowns in order.
+    const seeded={[PD]:Array.from({length:CAP-2},(_,i)=>rid(0x300000+i)),[PN]:Array.from({length:CAP-2},(_,i)=>rid(0x400000+i))};
+    await env.withSecurityRulesDisabled(async c=>{for(const uid of [PD,PN]){const ref=doc(c.firestore(),'accounts',uid,'careerIndex','current');const v=(await getDoc(ref)).data();await setDoc(ref,{...v,data:{rivalryIds:[...seeded[uid],P1,P2],sealedPageCount:0}});}});
+    const P3=rid(0x9003);
+    await closeRivalry(env,P2);await pair(P3);note('P7','provider START and JOIN at a full index (500) each seal page_1 in the same commit');
+    for(const uid of [PD,PN]){r=await readIdx(uid,uid);assert.deepEqual([r.status,r.rivalryIds],['ready',[...seeded[uid],P1,P2,P3]]);}note('P8','both managers then read all 501 Showdowns in order, the newest last');
+    assert.equal(step,ENFORCED?61:59,'every existing case remains in Phase B; only four missing-index denials move out of Phase A');
+    console.log(`PASS career index composed-Rules emulator (${ENFORCED?'Phase B enforced':'Phase A shipped'}): ${step} numbered checks (A access, B creation, C redemption, D append-only, E idempotency, F races, H agreement, G paging incl. JOIN at capacity, P provider incl. a full index).`);
   }finally{
     try{await env.clearFirestore();}catch(_e){}
     await env.cleanup();
