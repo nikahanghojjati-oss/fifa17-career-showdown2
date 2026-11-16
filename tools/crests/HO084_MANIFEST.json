@@ -776,6 +776,126 @@
    "ticket": "HO-090",
    "fromSha256": "7f020f3860dd432650a0d2a52a5a392677097b673af77b0f2a7c7844ba225353",
    "sha256": "c48d16fc9eef05ef4b6e7997e0609c00edfae941cd323ca2492ab50b070b3743"
+  },
+  "CREST_IMG_MARSEILLE_V1_64.webp": {
+   "from": "CREST_IMG_MARSEILLE_V1_64.png",
+   "ticket": "HO-091",
+   "fromSha256": "c5299a82adbbac38c6c4ae5ec224bd0b979b07dd819ad310e37a8b6310e03d54",
+   "sha256": "7dcb9e1f2d66badf75b1b5a2bbd7c36680f4e94257ae30f92d3f6771e14b242c"
+  },
+  "CREST_IMG_MARSEILLE_V1_256.webp": {
+   "from": "CREST_IMG_MARSEILLE_V1_256.png",
+   "ticket": "HO-091",
+   "fromSha256": "2e91e7ad9b197e0e0808a49e828d53a07a7aecaa0a0e5fd6634caf3e8f35af16",
+   "sha256": "0e857da6d923f9cb6b2d344ec9be067aea69efc4e9e00fd07ef1cb8de8ffc9ec"
+  },
+  "CREST_IMG_MONTPELLIER_V1_64.webp": {
+   "from": "CREST_IMG_MONTPELLIER_V1_64.png",
+   "ticket": "HO-091",
+   "fromSha256": "47714b59b0c31e9fb6bdad059560b6c359bac161d9bcb62d2953e1d0707d27d1",
+   "sha256": "2b62ee78aecbe7d6dd39049633076a82ffdf2cecf29de5da113a6a215aa3e202"
+  },
+  "CREST_IMG_MONTPELLIER_V1_256.webp": {
+   "from": "CREST_IMG_MONTPELLIER_V1_256.png",
+   "ticket": "HO-091",
+   "fromSha256": "16890ab0db10aecc67cf16c670b19647714c34f546f4fab7257d6dd0dece599a",
+   "sha256": "7012ca0d4af7ef75a1d7600846a0960ac7133db997cd14365cb41b79adc9727d"
+  },
+  "CREST_IMG_AUGSBURG_V1_64.webp": {
+   "from": "CREST_IMG_AUGSBURG_V1_64.png",
+   "ticket": "HO-091",
+   "fromSha256": "0799c1648e541c2b6f9b45d14de6154f6119f43cdf8a551861dee272e017da1c",
+   "sha256": "31913d2bd1e9f8f566e0ba34ca81e46819a9a60bc9437f7612d820d032bfa683"
+  },
+  "CREST_IMG_AUGSBURG_V1_256.webp": {
+   "from": "CREST_IMG_AUGSBURG_V1_256.png",
+   "ticket": "HO-091",
+   "fromSha256": "ef4cdabcc1c6fb09d3ad200eef54365a35c6ddeca1f1eb2b156ab4661b0d5a58",
+   "sha256": "90781a5c6cc8970f8c3fe283924bbb04636c76dcfbae9ad5020a2a483e719490"
+  },
+  "CREST_IMG_JUVENTUS_V1_64.webp": {
+   "from": "CREST_IMG_JUVENTUS_V1_64.png",
+   "ticket": "HO-091",
+   "fromSha256": "2bfb74fc45e53c39c9b943b929f24e0afd4109900209d196554850438e91bedd",
+   "sha256": "c973de7b88068f264e486e44e3e86088ecec031a937bcf061bc8d2a84d078144"
+  },
+  "CREST_IMG_JUVENTUS_V1_256.webp": {
+   "from": "CREST_IMG_JUVENTUS_V1_256.png",
+   "ticket": "HO-091",
+   "fromSha256": "6cce713103539aaabee5340e399043ebfb297be3b2bd39ca22166f9fe268d2c4",
+   "sha256": "b7201f22ef1092087d7ea23942ccd3e7ba899ec507d8933b09da727e98d77399"
+  },
+  "CREST_IMG_MILAN_V1_64.webp": {
+   "from": "CREST_IMG_MILAN_V1_64.png",
+   "ticket": "HO-091",
+   "fromSha256": "2ed02d5ccdad2802c7f01d1ad0860f54a4e62c80874b9fa6de0f2c186ddb7422",
+   "sha256": "21e935b2eb703b0d0663b5220cccdbf80a06c4f52bad73c09a3dd7839fdbbcde"
+  },
+  "CREST_IMG_MILAN_V1_256.webp": {
+   "from": "CREST_IMG_MILAN_V1_256.png",
+   "ticket": "HO-091",
+   "fromSha256": "81faa0da6b2ed7eaec6eaf8567c171aee96f27d1a5eadc8b8cd9fdfaed42ecea",
+   "sha256": "72a7561e80831a6615376c7e12d15cc985d43890e97a2eff4c9357718c40bef8"
+  },
+  "CREST_IMG_BAYERN_V1_64.webp": {
+   "from": "CREST_IMG_BAYERN_V1_64.png",
+   "ticket": "HO-091",
+   "fromSha256": "591dbb7918a66a5d3628463a29d645924e1d2314be6b5061545004f7f64ebc15",
+   "sha256": "a148b0d2315d57e2e5ab3acdfe0f54f26d0e1fbe4c0c213e9cbe0059e6cb7469"
+  },
+  "CREST_IMG_BAYERN_V1_256.webp": {
+   "from": "CREST_IMG_BAYERN_V1_256.png",
+   "ticket": "HO-091",
+   "fromSha256": "4ac36697cf7cb55e2e127851245630c576da8b4b0f96bfb5d5978752bb8793c2",
+   "sha256": "27386ccec13e5cb5af0c13085093a30ba2e974f084eb8a3751a7046fa5475393"
+  },
+  "CREST_IMG_DORTMUND_V1_64.webp": {
+   "from": "CREST_IMG_DORTMUND_V1_64.png",
+   "ticket": "HO-091",
+   "fromSha256": "e16105fa7159a49d98757d10334ef1ca4adb8da03383f75c81a7180f2fc5de6c",
+   "sha256": "aaa0f0141e6653958437dd6ec87d3c5fdfa8a61e0280a778cd6decbd3b856f3c"
+  },
+  "CREST_IMG_DORTMUND_V1_256.webp": {
+   "from": "CREST_IMG_DORTMUND_V1_256.png",
+   "ticket": "HO-091",
+   "fromSha256": "c6d7bb3795a2a1c1f53d8631128f38a7bb1377145bb23e91a75f74d7592ba5b0",
+   "sha256": "2a9d5a4b0000617666231ce4b53554fab8793832ecaf17f8f261b7a990efd54e"
+  },
+  "CREST_IMG_SCHALKE_V1_64.webp": {
+   "from": "CREST_IMG_SCHALKE_V1_64.png",
+   "ticket": "HO-091",
+   "fromSha256": "ccc45b64059a501fbcb38b881606033fb7970bf2d43bf450e946c6b14516a5a1",
+   "sha256": "2ab8a40f9a3db2469f7e9e8ee3ce9f7dd64f511619d9a6953c01da4d2af31afd"
+  },
+  "CREST_IMG_SCHALKE_V1_256.webp": {
+   "from": "CREST_IMG_SCHALKE_V1_256.png",
+   "ticket": "HO-091",
+   "fromSha256": "922cddaf8147d712818b19b61856fbfb2455b979eac795c92bfbaaa8eb3173b8",
+   "sha256": "181b084edd924c96fcdc1ed9393f2dacf0d654f6c419d79068e592495f8b9846"
+  },
+  "CREST_IMG_HERTHA_V1_64.webp": {
+   "from": "CREST_IMG_HERTHA_V1_64.png",
+   "ticket": "HO-091",
+   "fromSha256": "f1fa02f45b0047366e9cc800930d44d60f0a94352ced97ecb167502289660fb0",
+   "sha256": "b47e2495650e77208dcffe607d88c2b3e1d91672509aa818dd59e9681f26ee96"
+  },
+  "CREST_IMG_HERTHA_V1_256.webp": {
+   "from": "CREST_IMG_HERTHA_V1_256.png",
+   "ticket": "HO-091",
+   "fromSha256": "38586268b671197d76253f086913e386dcc10e641b2aa8f7221ba38876214052",
+   "sha256": "cb95b0511d05b9185b82407b08b2baec703497403febee8b34e4f491ced1b5b0"
+  },
+  "CREST_IMG_HAMBURG_V1_64.webp": {
+   "from": "CREST_IMG_HAMBURG_V1_64.png",
+   "ticket": "HO-091",
+   "fromSha256": "4686b8ba3a5e94c189424cf91c2c430027d6ba498288bd01c670067a96419af9",
+   "sha256": "fe2eb8f176183187c746de61a6e753ea666971535e07d5dad2381d891d05f703"
+  },
+  "CREST_IMG_HAMBURG_V1_256.webp": {
+   "from": "CREST_IMG_HAMBURG_V1_256.png",
+   "ticket": "HO-091",
+   "fromSha256": "da8c4fdba9cd9dde5e0d463c6a2da654693441dc8d417f2974e0fbfb603ee669",
+   "sha256": "3778f76e8fb0f9650f83aeef79cd3313b44b87f840d753cce93877246c04b720"
   }
  },
  "batches": {
@@ -784,6 +904,7 @@
   "HO-087": "claude/project-thread-vraiao 652da8f80 project-documents/hc-art/ho087/",
   "HO-088": "claude/project-thread-vraiao 21bf799f2 project-documents/hc-art/ho088/",
   "HO-089": "claude/project-thread-vraiao b5825f3b project-documents/hc-art/ho089/",
-  "HO-090": "claude/project-thread-vraiao b58b30b0 project-documents/hc-art/ho090/"
+  "HO-090": "claude/project-thread-vraiao b58b30b0 project-documents/hc-art/ho090/",
+  "HO-091": "claude/project-thread-vraiao 652e203d4 project-documents/hc-art/ho091/"
  }
 }

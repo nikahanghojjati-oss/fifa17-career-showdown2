@@ -1060,7 +1060,9 @@ const CREST_IMAGE_FILES = Object.freeze({
     // HO-089
     "Real Madrid": "REALMADRID", "Celta Vigo": "CELTA", "Deportivo La Coruña": "DEPOR", "Eibar": "EIBAR", "Espanyol": "ESPANYOL", "Granada": "GRANADA", "Málaga": "MALAGA", "Real Betis": "BETIS", "Real Sociedad": "REALSOCIEDAD", "Sporting Gijón": "SPORTING",
     // HO-090
-    "Villarreal": "VILLARREAL", "Valencia": "VALENCIA", "Las Palmas": "LASPALMAS", "Athletic Club": "ATHLETIC", "Sunderland": "SUNDERLAND", "Inter Milan": "INTER", "RB Leipzig": "LEIPZIG", "Nantes": "NANTES", "Paris Saint-Germain": "PSG", "Monaco": "MONACO"
+    "Villarreal": "VILLARREAL", "Valencia": "VALENCIA", "Las Palmas": "LASPALMAS", "Athletic Club": "ATHLETIC", "Sunderland": "SUNDERLAND", "Inter Milan": "INTER", "RB Leipzig": "LEIPZIG", "Nantes": "NANTES", "Paris Saint-Germain": "PSG", "Monaco": "MONACO",
+    // HO-091
+    "Marseille": "MARSEILLE", "Montpellier": "MONTPELLIER", "FC Augsburg": "AUGSBURG", "Juventus": "JUVENTUS", "Milan": "MILAN", "Bayern Munich": "BAYERN", "Borussia Dortmund": "DORTMUND", "Schalke 04": "SCHALKE", "Hertha BSC": "HERTHA", "Hamburg": "HAMBURG"
 });
 const CREST_IMAGE_BASE = (() => {
     try{
