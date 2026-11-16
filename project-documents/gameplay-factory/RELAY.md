@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-16 5:58 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-16 6:01 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `f73db44` (Mon 16 Nov 5:57 PM Boston time) · 305 messages · 95 hand-offs · 589 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `02d657b` (Mon 16 Nov 5:59 PM Boston time) · 324 messages · 95 hand-offs · 609 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-094 · G → V · Club Assignment plate without the managers (desktop + phone)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 2 min after delivery
 
+- Mon 16 Nov 5:59 PM · Team V · Received · Team V lead: 2 Astra edit prompts posted (attach V2 PNG), Nik runs, lead locks outside zones + exports
 - Mon 16 Nov 5:56 PM · Team G · Sent
 - Mon 16 Nov 5:57 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -4266,9 +4267,189 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-094 RECEIVED · Team V → Team G · Mon 16 Nov 5:59 PM Boston time
+
+**Club Assignment plate without the managers (desktop + phone)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-094 SENT · Team G → Team V · Mon 16 Nov 5:56 PM Boston time
 
 **Club Assignment plate without the managers (desktop + phone)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-093 DONE · Team V → Team G · Sun 15 Nov 10:16 PM Boston time
+
+**Image crests batch 9 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-092 DONE · Team V → Team G · Sun 15 Nov 10:04 PM Boston time
+
+**Image crests batch 8 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-091 DONE · Team V → Team G · Sun 15 Nov 9:56 PM Boston time
+
+**Image crests batch 7 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-090 DONE · Team V → Team G · Sun 15 Nov 9:02 PM Boston time
+
+**Image crests batch 6 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-089 DONE · Team V → Team G · Sun 15 Nov 8:20 PM Boston time
+
+**Image crests batch 5 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-088 DONE · Team V → Team G · Sun 15 Nov 8:12 PM Boston time
+
+**Image crests batch 4 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-087 DONE · Team V → Team G · Sun 15 Nov 7:47 PM Boston time
+
+**Image crests batch 3 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-086 DONE · Team V → Team G · Sun 15 Nov 7:32 PM Boston time
+
+**Image crests batch 2 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-093 RECEIVED · Team V → Team G · Sun 15 Nov 7:22 PM Boston time
+
+**Image crests batch 9 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-092 RECEIVED · Team V → Team G · Sun 15 Nov 7:22 PM Boston time
+
+**Image crests batch 8 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-091 RECEIVED · Team V → Team G · Sun 15 Nov 7:22 PM Boston time
+
+**Image crests batch 7 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-090 RECEIVED · Team V → Team G · Sun 15 Nov 7:22 PM Boston time
+
+**Image crests batch 6 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-089 RECEIVED · Team V → Team G · Sun 15 Nov 7:22 PM Boston time
+
+**Image crests batch 5 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-088 RECEIVED · Team V → Team G · Sun 15 Nov 7:22 PM Boston time
+
+**Image crests batch 4 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-087 RECEIVED · Team V → Team G · Sun 15 Nov 7:22 PM Boston time
+
+**Image crests batch 3 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-086 RECEIVED · Team V → Team G · Sun 15 Nov 7:22 PM Boston time
+
+**Image crests batch 2 of 9** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-085 DONE · Team V → Team G · Sun 15 Nov 7:20 PM Boston time
+
+**Image crests batch 1 of ~10 (Man Utd, Liverpool, Spurs, Roma, Lyon, Leverkusen, Lazio, Frankfurt, Genoa, Boro)** · reply needed: no
 
 <details><summary>Full message</summary>
 
@@ -4349,6 +4530,16 @@ _Full text not found in archive/._
 ### HO-086 SENT · Team G → Team V · Sun 15 Nov 7:12 PM Boston time
 
 **Image crests batch 2 of 9** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-085 RECEIVED · Team V → Team G · Sun 15 Nov 7:11 PM Boston time
+
+**Image crests batch 1 of ~10 (Man Utd, Liverpool, Spurs, Roma, Lyon, Leverkusen, Lazio, Frankfurt, Genoa, Boro)** · reply needed: no
 
 <details><summary>Full message</summary>
 
