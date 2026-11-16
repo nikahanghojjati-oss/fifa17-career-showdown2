@@ -23,6 +23,9 @@
   const STAGE_WORD=Object.freeze({pre:"Before the Russian Roulette",post:"After the Transfer War"});
   const NEXT_WORD=Object.freeze({pre:"GO TO THE RUSSIAN ROULETTE",post:"GO TO SEASON RESULTS"});
   const LIST_MAX=Object.freeze({names:18,out:100,ov:150});
+  const LOCK_TOO_BIG="This squad is over a save limit, so it cannot be saved. Nothing was saved. Trying again will not help.";
+  const LOCK_REFUSED="The game refused to save this squad. This is not your connection, so trying again will not help. Nothing was saved.";
+  function sqsRefused(error){for(let item=error,depth=0;item&&typeof item==="object"&&depth<3;item=item.cause,depth+=1)if(/^(firestore\/)?permission-denied$/.test(String(item.code||"")))return true;return false;}
   let running=null,wentHome=false;
   // 2.4.0: the Showdown ended for both players while this screen was up (the partner's END SHOWDOWN, seen by Terminal Close).
   // end() takes the stage down at once and settles the open screen without a write; endGen tells the steps in flight.
@@ -363,10 +366,13 @@
         onLock:async locked=>{
           if(done)return {ok:false,reason:"This Showdown has ended. Nothing was saved."};
           const doc={...S.toDoc(locked),schemaVersion:SCHEMA,objectType:OBJECT_TYPE,rivalryId:ctx.rivalryId,seasonNumber:ctx.season,stage:ctx.stage,role:ctx.managerRole};
+          // Sol S-SQ-01: a squad the store refuses whatever the connection (a document past a save limit) is never sent, and the
+          // screen says so: never "check the connection". The store's own refusal says it is not the connection either.
+          if(!sqsParse(doc,ctx.season,ctx.stage,ctx.managerRole))return {ok:false,reason:LOCK_TOO_BIG};
           let result;
           try{result=await sqsCreate(io,ctx,doc,()=>!done);}catch(error){result={ok:false,error};}
           if(done)return {ok:false,reason:"This Showdown has ended."};
-          if(!result.ok){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(result.error);return {ok:false,reason:quota||"Could not save your squad. Check the connection and try again."};}
+          if(!result.ok){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(result.error);return {ok:false,reason:quota||(sqsRefused(result.error)?LOCK_REFUSED:"Could not save your squad. Check the connection and try again.")};}
           // Locked on another device first: that squad stands, and the screen shows it.
           if(result.existing){finish({reload:true});return {ok:true,reason:"Your squad was already locked on another device."};}
           afterLock(result.data);
