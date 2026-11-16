@@ -443,8 +443,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"2.5.1-r92","RUNTIME_REVISION is the 2.5.1 hotfix (2.5.1-r92)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.5.0-r92");
+  assert.equal(revision,"2.6.0-r93","RUNTIME_REVISION is the current release (r93, 2.6.0-r93)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.5.1-r92");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -493,7 +493,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"2.5.1-r92");assert.equal(prev,"2.5.0-r92");
+  assert.equal(cur,"2.6.0-r93");assert.equal(prev,"2.5.1-r92");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -1028,7 +1028,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/content/gazette/GZ_WIN_NIK_HC_V1_2X.webp":"47f5b6de67d6d060455427378c913a770ed604a2cc984d637ed1bcf52a251d24",
     "visual-assets/v10_1/roulette/assets/RR_HAND.webp":"d6e94fed85ed77554e648130ba7169600fd6dd278a90a39b88ccb9dd14c877a2",
     "visual-assets/v10_1/roulette/assets/RR_HAND_POV_P_V1.webp":"32a092db7824bd9f2820bf6660022a949b3bfb30080bb4331a1c7285ff6fcfe3",   // r93 Team V HO-081: the hand from the shooter's eye, upright windows
-    "visual-assets/v10_1/roulette/assets/RR_HAND_POV_S_V1.webp":"68b2783dca7f375fd6291faac20ee458dbc8a2cc3a23f6676ae0eb8d6917555e",   // r93 Team V HO-082: the hand from the shooter's eye, sleeve from the side, tall desktop windows
+    "visual-assets/v10_1/roulette/assets/RR_HAND_POV_S_V2.webp":"c8a98fe566fb832ce1a9ae97b00278e21ec2b8f9763a4d14a3e284818a7ee5ad",   // r93 Team V HO-083 (redraw of HO-082 at 40°): the hand from the shooter's eye, sleeve from the side, tall desktop windows
     "visual-assets/v10_1/roulette/assets/RR_HAND_POV_W_V1.webp":"d85b2ef66f512afd2d1845579c08efda9a7c6d25d9cdba5ed114dda5c3cbe088",   // r93 Team V HO-081: the hand from the shooter's eye, landscape windows
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_1080.webp":"3a7b0a2f1330e1a163e475ee4955cda5337d9494e8cba62340b4e709b00e4c09",   // r90 Team V HO-059: the café room on Extra (1920 px)
     "visual-assets/v10_1/roulette/assets/RR_ROOM_V2_4K.webp":"81e9927ce81f12ccb258fa49269b11f278d3778c7a351dad92973a24863c48c5",   // r90 Team V HO-059: the café room on Ultra and 8K (3840 px)
@@ -1203,7 +1203,8 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // pins and v2.5.0 footer, nothing else.
   // Re-pinned 2026-11-15 by the 2.5.1 hotfix PR (R93-07, LOCK MY SIGNINGS Rules budget), then by the merge of 2.5.1 into r93:
   // r93's file (HO-079 V4 loading logo) with the 2.5.1-r92 pins and v2.5.1 footer.
-  assert.equal(sha256("index.html"),"e309a548b5a6db9a29f65406bdfc9161827b1074ba5fa89d8465471293eda703","index.html is r93 on the 2.5.1 hotfix (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, 2.5.1-r92 pins)");
+  // Re-pinned 2026-11-15 by the 2.6.0 release bump: the same r93 file with its 2.6.0-r93 pins and v2.6.0 footer, nothing else.
+  assert.equal(sha256("index.html"),"ff5f9fef36d8556ff34952cd19074631e2f667ca2a67bc3953b30602c0fcdd0d","index.html is 2.6.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, 2.6.0-r93 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);

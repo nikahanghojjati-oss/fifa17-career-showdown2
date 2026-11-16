@@ -535,7 +535,8 @@ function rebuildsSame(club,special,season,stage,events,locked,label){
   const Step=require('../../js/squadSheetStep.js');
   const TW=require('../../js/productionSharedTransferChallenge.js');
   const ev=(rows,hit)=>Step.events({verdicts:{playerOne:rows,playerTwo:[]},hits:{playerOne:hit||{fired:false}}},'playerOne');
-  const at=(p,name)=>[...p.xi,...p.bench,...p.reserves].find(x=>x&&x.id===sq(name))||null;
+  // (R94-04: a later namesake with another playerId is "s|name#id", so the man of a name is found under either id.)
+  const at=(p,name)=>[...p.xi,...p.bench,...p.reserves].find(x=>x&&(x.id===sq(name)||x.id.startsWith(`${sq(name)}#`)))||null;
   const club='Arsenal';
   // S1: L. Suárez kept (picked, 176580). S2: the roulette shoots him. S3: another L. Suárez (id 999) is signed.
   {
@@ -621,7 +622,8 @@ function rebuildsSame(club,special,season,stage,events,locked,label){
       evs[3]=ev([{slot:1,name:'Rodrigo',overall:70,position:'ST',release:true,playerId:111}]);
       const s3=[dPre,dPost,{...dPre,...dPost}].map(ds=>S.replay({club,special:null,season:3,stage:'post',events:evs,docs:ds}).proposal);
       assert.equal(new Set(s3.map(x=>JSON.stringify([x.excluded,x.guessed,S.board(x)]))).size,1,'every phone rebuilds the same S3 squad');
-      assert.equal(at(s3[0],'Rodrigo'),null,'a guess of an id kept before goes by the name');
+      // R94-04: 222 is another man than 111 whatever the moves (verdict rows only), so a guess of 111 never releases him.
+      assert.ok(s3.every(x=>{const r=at(x,'Rodrigo');return r&&r.pid===222&&!x.excluded.includes(r.id);}),'a guess of 111 (kept before) leaves 222 at the club on every phone');
       for(const x of s3)assert.ok(S.validate(x).ok,S.validate(x).problems.join());
       // and a guess of an id never kept under that name leaves 222 at the club on every phone
       evs[3]=ev([{slot:1,name:'Rodrigo',overall:70,position:'ST',release:true,playerId:333}]);

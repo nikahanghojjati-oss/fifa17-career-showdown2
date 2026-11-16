@@ -3348,6 +3348,30 @@
         "^tests/contracts/r94\\-squad\\-shirt\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r94-namesake-signings-contracts.cjs",
+      "patterns": [
+        "^js/(squadSheet|squadSheetStep|rosterRoulette|playerSearch|sharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
+        "^data/(fifa17Players|rosterSquads|transferOptions)\\.js$",
+        "^data/fifa17/players\\-",
+        "^firestore\\.(season\\-results|transfer\\-challenge)\\-production\\.fragment\\.rules$",
+        "^tests/fixtures/r94\\-namesake/",
+        "^tests/fixtures/r93\\-mixed\\-versions/",
+        "^tests/contracts/r94\\-namesake\\-signings\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r93-loan-records-contracts.cjs",
+      "patterns": [
+        "^js/(squadSheet|squadSheetStep|squadScreen)\\.js$",
+        "^data/(fifa17Players|rosterSquads)\\.js$",
+        "^firestore\\.season\\-results\\-production\\.fragment\\.rules$",
+        "^tests/fixtures/r93\\-loan\\-records/",
+        "^tests/contracts/r93\\-loan\\-records\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
