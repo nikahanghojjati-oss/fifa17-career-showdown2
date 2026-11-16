@@ -1077,18 +1077,24 @@ const CREST_IMAGE_BASE = (() => {
 })();
 const crestImageFailed = new Set();
 const crestPictureCache = new Map();
+/* Sizes per slot, best first: "list" 64 px, "big" 256 px, "ball" 512 px (R94-02's 3D spin) falling back to 256, then the SVG. */
+const CREST_IMAGE_SIZES = Object.freeze({ list: [64], big: [256], ball: [512, 256] });
 function getClubCrestImageUrl(clubName, slot){
     const stem = CREST_IMAGE_FILES[getClubCanonicalName(clubName)];
     if(!stem) return "";
-    const url = `${CREST_IMAGE_BASE}CREST_IMG_${stem}_V1_${slot === "list" ? 64 : 256}.webp`;
-    return crestImageFailed.has(url) ? "" : url;
+    for(const size of CREST_IMAGE_SIZES[slot] || CREST_IMAGE_SIZES.big){
+        const url = `${CREST_IMAGE_BASE}CREST_IMG_${stem}_V1_${size}.webp`;
+        if(!crestImageFailed.has(url)) return url;
+    }
+    return "";
 }
 /* Markup for a crest slot in the page: the image crest where there is one, else the drawn SVG (same 120x144 frame). */
 function getClubCrestMarkup(clubName, slot){
     const url = getClubCrestImageUrl(clubName, slot);
     if(!url) return getClubCrestSvg(clubName);
     const club = String(getClubCanonicalName(clubName)).replace(/[&"<>]/g, c => ({"&": "&amp;", "\"": "&quot;", "<": "&lt;", ">": "&gt;"})[c]);
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 144" aria-hidden="true" focusable="false" data-crest-image="${club}">`
+    const size = slot === "list" || slot === "ball" ? slot : "big";
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 144" aria-hidden="true" focusable="false" data-crest-image="${club}" data-crest-slot="${size}">`
         + `<image href="${url}" x="0" y="0" width="120" height="144" preserveAspectRatio="xMidYMid meet"/></svg>`;
 }
 /* For canvases: the decoded image crest, or null when the club has none or it failed (the caller then draws its SVG crest). */
@@ -1100,20 +1106,21 @@ function loadClubCrestImage(clubName, slot){
             const image = new Image();
             image.decoding = "async";
             image.onload = () => resolve(image);
-            image.onerror = () => { crestImageFailed.add(url); crestPictureCache.delete(url); resolve(null); };
+            // A failed file is never asked for again this session; the slot's next size is tried (ball: 256), else null.
+            image.onerror = () => { crestImageFailed.add(url); crestPictureCache.delete(url); resolve(loadClubCrestImage(clubName, slot)); };
             image.src = url;
         }));
     }
     return crestPictureCache.get(url);
 }
-/* An image crest that fails in the page is swapped for the drawn SVG, and that file is not asked for again this session. */
+/* An image crest that fails in the page is swapped for the slot's next size, else the drawn SVG; that file is not asked for again this session. */
 if(typeof document !== "undefined" && typeof document.addEventListener === "function"){
     document.addEventListener("error", event => {
         const image = event.target;
         const svg = image && typeof image.closest === "function" && String(image.tagName).toLowerCase() === "image" ? image.closest("svg[data-crest-image]") : null;
         if(!svg) return;
         crestImageFailed.add(image.getAttribute("href"));
-        try{ svg.outerHTML = getClubCrestSvg(svg.getAttribute("data-crest-image")); }catch(_error){}
+        try{ svg.outerHTML = getClubCrestMarkup(svg.getAttribute("data-crest-image"), svg.getAttribute("data-crest-slot") || "big"); }catch(_error){}
     }, true);
 }
 
