@@ -40,7 +40,7 @@
   // a - b folded into (-180, 180]
   function angleDiff(a,b){const d=mod360(a-b);return d>180?d-360:d;}
   function sectionOf(stop){return Math.floor(stop/PHYS.SECTION);}
-  function validStop(stop){return Number.isInteger(stop)&&stop>=0&&stop<360;}
+  function sceneValidStop(stop){return Number.isInteger(stop)&&stop>=0&&stop<360;}
   // The stored integer, computed ONCE at the tap from the ball face in front of the manager and a random slow-down.
   function drawStop(front,rand01,J){const j=Number.isFinite(J)?J:PHYS.J;return Math.floor(mod360(front+PHYS.D0+(2*rand01-1)*j))%360;}
   // Where the ball is shown at rest: the stored angle pulled 40% toward the middle of its own third, so a border never rests
@@ -496,7 +496,7 @@
       // Firebase holds this manager's stop: the ball may come to rest. A different stored stop (another tab won) re-aims.
       accept(i,storedStop){
         const b=ballOf(i);
-        if(validStop(storedStop)&&storedStop!==b.stop){b.stop=storedStop;b.pick=sectionOf(storedStop);if(["stopping","await"].includes(b.state)){b.accepted=true;b.w=Math.max(b.w,PHYS.AWAIT_W);plan(b,PHYS.REPLAN_MIN);return;}}
+        if(sceneValidStop(storedStop)&&storedStop!==b.stop){b.stop=storedStop;b.pick=sectionOf(storedStop);if(["stopping","await"].includes(b.state)){b.accepted=true;b.w=Math.max(b.w,PHYS.AWAIT_W);plan(b,PHYS.REPLAN_MIN);return;}}
         b.accepted=true;
         if(b.state==="still-pending")placeAtRest(b);
       },
@@ -505,7 +505,7 @@
       // pending: this manager's own stop saved on the phone but not yet held by Firebase (a reload after the tap): the ball
       // slows toward it but keeps rolling until accept(i, stored), exactly as after a tap.
       restOn(i,stop,o){
-        const b=ballOf(i),pending=Boolean(o&&o.pending);if(!validStop(stop))return false;
+        const b=ballOf(i),pending=Boolean(o&&o.pending);if(!sceneValidStop(stop))return false;
         if(b.state==="landed"&&b.stop===stop)return true;
         if(pending&&(reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;b.own=true;b.accepted=false;b.pick=sectionOf(stop);b.lit=[1,1,1];b.state="still-pending";emit("state",b);return true;}
         if(!pending&&(o&&o.immediate||reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;placeAtRest(b);return true;}
