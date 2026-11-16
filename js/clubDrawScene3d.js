@@ -241,9 +241,12 @@
   }
 
   // Club colours for the leather: main colour on hexagons, second colour on pentagons (lifted apart when they are too close).
+  // r187 colour management turns a hex into linear at once; these read the hex as plain sRGB numbers (as the picked mock-up
+  // on r128 did), so the closeness test below and the one convertSRGBToLinear() after it stay exactly as tuned.
+  function srgbColour(T,hex){return new T.Color().setStyle(hex,T.LinearSRGBColorSpace);}
   function clubColours(T,info){
-    const a=new T.Color(info.primary||"#d8b55a"),b=new T.Color(info.secondary||"#101010"),dr=a.r-b.r,dg=a.g-b.g,db=a.b-b.b;
-    if(dr*dr+dg*dg+db*db<.06){b.copy(a);const lum=.3*a.r+.6*a.g+.1*a.b;if(lum>.5)b.multiplyScalar(.22);else b.lerp(new T.Color("#f1efe6"),.85);}
+    const a=srgbColour(T,info.primary||"#d8b55a"),b=srgbColour(T,info.secondary||"#101010"),dr=a.r-b.r,dg=a.g-b.g,db=a.b-b.b;
+    if(dr*dr+dg*dg+db*db<.06){b.copy(a);const lum=.3*a.r+.6*a.g+.1*a.b;if(lum>.5)b.multiplyScalar(.22);else b.lerp(srgbColour(T,"#f1efe6"),.85);}
     a.convertSRGBToLinear();b.convertSRGBToLinear();return [new T.Vector3(a.r,a.g,a.b),new T.Vector3(b.r,b.g,b.b)];
   }
   function imageOf(src){
@@ -428,7 +431,7 @@
       pitchU["b"+b.i].value.set(b.pos.x+b.ox,b.y,b.pos.z+b.oz);
       const seamNow=Math.floor(b.f/120);if(seamNow!==b.seamPrev){b.seamPrev=seamNow;if(b.i===me&&sp>.02&&b.state!=="show")cue.tick(sp);}
     }
-    const lin=hex=>{const c=new T.Color(hex);c.convertSRGBToLinear();return new T.Vector3(c.r,c.g,c.b);};
+    const lin=hex=>{const c=srgbColour(T,hex);c.convertSRGBToLinear();return new T.Vector3(c.r,c.g,c.b);};
     function paint(dt){
       balls.forEach(b=>{step(b,dt);b.u.camP.value.copy(cam.position);});
       balls.forEach((b,i)=>{const on=b.state==="landed",g=pitchU["glow"+i];g.value+=((on?1:0)-g.value)*Math.min(1,dt*3);if(on&&!b.glowSet){b.glowSet=true;const pc=assets.info[b.clubs[b.pick]].primary||"#d8b55a";pitchU["g"+i].value.copy(lin(/^#f[0-9a-f]{5}$/i.test(pc)?"#cfd8e6":pc));}});
