@@ -67,19 +67,24 @@ html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)), html:has(#clubWh
    decodes the same file before the Reus Gate opens the screen, using the same two media rules (CD_PLATE_PHONE_MEDIA,
    CD_PLATE_2X_MEDIA). The house marble (ENV_SLAB) stays underneath as the fallback. The main scroller keeps it put. */
 html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main {
-  --cd-plate: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_1X.webp"); --cd-plate-pos: 50% 42%;
+  --cd-plate-desk: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_1X.webp"); --cd-plate: var(--cd-plate-desk); --cd-plate-pos: 50% 42%;
   --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp");
   background-color: #060709; background-image: var(--cd-plate), var(--cd-slab);
   background-position: var(--cd-plate-pos), 50% 50%; background-size: cover, cover; background-repeat: no-repeat;
 }
 /* CD_PLATE_2X_MEDIA: wide windows and sharp screens take the 2X file, except the lightest asset tier. */
 @media (min-width: 1537px), (min-resolution: 1.5dppx) {
-  html:not([data-assets="0"]):has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_2X.webp"); }
+  html:not([data-assets="0"]):has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate-desk: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_2X.webp"); }
 }
+/* CD_PLATE_SIDE_MEDIA: sideways phones have their own slot, --cd-plate-side, for HO-095's ENV_CLUB_SIDEWAYS_HC_V4 (lamps in
+   the top strip, a banner and a trophy above and below the right-hand tiles). Until it lands the slot is unset and the
+   desktop plate shows. To drop it in: set --cd-plate-side here and PLATE_FILES.side in js/clubDrawStep.js (W6 checks both). */
 @media (orientation: landscape) and (max-height: 500px) {
-  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate-pos: 50% 42%; }
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate: var(--cd-plate-side, var(--cd-plate-desk)); --cd-plate-pos: 50% 42%; }
 }
-/* CD_PLATE_PHONE_MEDIA: upright phones take the tall plate. */
+/* CD_PLATE_PHONE_MEDIA: upright phones take the tall plate, ENV_CLUB_PHONE_HC_V3 until HO-095's ENV_CLUB_PHONE_HC_V4 (lamps and
+   banners in the top band beside the title, a trophy ledge in the bottom 10%). To drop it in: change the file here and
+   PLATE_FILES.phone in js/clubDrawStep.js (W6 checks both). */
 @media (max-width: 760px) and (orientation: portrait) {
   html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V3.webp"); --cd-plate-pos: 50% 30%; --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
   html[data-assets="0"]:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp"); }

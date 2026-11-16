@@ -212,6 +212,14 @@ async function main(){
     const media=name=>{const m=STEP_SRC.match(new RegExp(`const ${name}="([^"]+)"`));assert.ok(m,`${name} in the step`);return m[1];};
     assert.ok(CSS_SRC.includes(`@media ${media("CD_PLATE_PHONE_MEDIA")} {`),"the step and the stylesheet pick the phone plate by the same rule");
     assert.ok(CSS_SRC.includes(`@media ${media("CD_PLATE_2X_MEDIA")} {`),"the step and the stylesheet pick the 2X plate by the same rule");
+    assert.ok(CSS_SRC.includes(`@media ${media("CD_PLATE_SIDE_MEDIA")} {`),"the step and the stylesheet pick the sideways slot by the same rule");
+    // HO-095 slots: the upright and sideways phone files are named once in the step and once in the stylesheet, and agree.
+    const files=STEP_SRC.match(/const PLATE_FILES=Object\.freeze\(\{phone:"([^"]+)",side:(null|"[^"]+")\}\);/);
+    assert.ok(files,"PLATE_FILES in the step");
+    assert.match(CSS_SRC,new RegExp(`--cd-plate: url\\("\\.\\./visual-assets/v10_1/plates-hc/${files[1].replace(/\./g,"\\.")}"\\)`),"the upright phone slot names the same file");
+    if(files[2]==="null")assert.equal(/--cd-plate-side:/.test(CSS_SRC),false,"no sideways file yet: the desktop plate shows");
+    else assert.ok(CSS_SRC.includes(`--cd-plate-side: url("../visual-assets/v10_1/plates-hc/${JSON.parse(files[2])}")`),"the sideways slot names the same file");
+    assert.match(CSS_SRC,/--cd-plate: var\(--cd-plate-side, var\(--cd-plate-desk\)\)/,"sideways phones read their own slot");
     assert.match(STEP_SRC,/const plate=cdsPlate\(\);[\s\S]*?await plate;\n\s*if\(!mounting\|\|mounting\.key!==key\)/,"the screen opens only once the plate is decoded (Reus Gate)");
     assert.equal(/ENV_CLUB_(?:PLATE|PHONE)_HC_V3/.test(SW_SRC),false,"the club lounge is never precached");
     // Lead 23:38: on desktop windows the box stays inside the side walls, so the lamps, banners and trophies are never behind it.

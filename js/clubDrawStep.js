@@ -31,6 +31,9 @@
   // paints is the one decoded here before the Reus Gate opens the screen. Loaded on demand, never precached.
   const PLATE_DIR="visual-assets/v10_1/plates-hc/";
   const CD_PLATE_PHONE_MEDIA="(max-width: 760px) and (orientation: portrait)";
+  const CD_PLATE_SIDE_MEDIA="(orientation: landscape) and (max-height: 500px)";
+  // The upright and sideways phone slots (HO-095 drops its V4 files in here and in the stylesheet; side null = desktop plate).
+  const PLATE_FILES=Object.freeze({phone:"ENV_CLUB_PHONE_HC_V3.webp",side:null});
   const CD_PLATE_2X_MEDIA="(min-width: 1537px), (min-resolution: 1.5dppx)";
   const PLATE_WAIT_MS=8000;
 
@@ -177,7 +180,8 @@
   }
   function cdsPlateFile(){
     const mq=query=>{try{return Boolean(root.matchMedia&&root.matchMedia(query).matches);}catch(_error){return false;}};
-    if(mq(CD_PLATE_PHONE_MEDIA))return `${PLATE_DIR}ENV_CLUB_PHONE_HC_V3.webp`;
+    if(mq(CD_PLATE_PHONE_MEDIA))return PLATE_DIR+PLATE_FILES.phone;
+    if(PLATE_FILES.side&&mq(CD_PLATE_SIDE_MEDIA))return PLATE_DIR+PLATE_FILES.side;
     const doc=cdsDoc(),lightest=Boolean(doc&&doc.documentElement&&doc.documentElement.dataset.assets==="0");
     return `${PLATE_DIR}ENV_CLUB_PLATE_HC_V3_${!lightest&&mq(CD_PLATE_2X_MEDIA)?"2X":"1X"}.webp`;
   }
