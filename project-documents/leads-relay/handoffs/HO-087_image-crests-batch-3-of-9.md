@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": "HO-084",
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-16T00:12:03Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T00:22:20Z", "by": "V", "status": "RECEIVED", "note": "Team V crest thread: Astra prompts written, Nik runs batch by batch, V cuts/exports/SHA"}],
+ "evidence": ["claude/project-thread-vraiao 652da8f80 project-documents/hc-art/ho087/"],
+ "log": [{"at": "2026-11-16T00:12:03Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T00:22:20Z", "by": "V", "status": "RECEIVED", "note": "Team V crest thread: Astra prompts written, Nik runs batch by batch, V cuts/exports/SHA"}, {"at": "2026-11-16T00:47:08Z", "by": "V", "status": "DONE", "note": "Nik OK 15 Nov 7:47 p.m. Eastern. 10 embroidered crests CREST_IMG_{EVERTON,KOELN,GLADBACH,NAPOLI,PESCARA,ATALANTA,BASTIA,WATFORD,SWANSEA,WBA}_V1_{1024,256,64}.png (5:6, 4% margin, alpha) + SHA256.json + board. No letters."}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
  "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q69SMxmTLTsTtZTkeB"}
 }
