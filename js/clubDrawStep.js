@@ -58,18 +58,31 @@
   // This setup's open operation (its first receipt; the binding hash where receipts are not shown) and its six candidates.
   function cdsSetupOp(setup){const r=setup&&Array.isArray(setup.receipts)&&setup.receipts[0];return String(r&&r.operationHash||setup&&setup.bindingHash||"");}
   function cdsPendingKey(ctx,setup){return `${String(ctx&&ctx.rivalryId||"")}|${String(ctx&&ctx.role||"")}|${cdsSetupOp(setup)}|${cdsDigest(setup)}`;}
+  // The stop counts as saved only once the device storage holds it (written and read back). An unsaved stop stays this
+  // phone's stop (STOP cannot be tapped again) but is never sent until it is saved: a closed tab must not redo it.
   let memoryPending=null;
+  function cdsWriteDurable(ctx,value){
+    const store=cdsStore();if(!store||!ctx)return false;
+    try{const text=JSON.stringify({key:value.key,stop:value.stop});return store.write(cdsSlot(ctx),text)!==false&&store.read(cdsSlot(ctx))===text;}catch(_error){return false;}
+  }
   function cdsPending(ctx,setup){
     const key=cdsPendingKey(ctx,setup);
     if(memoryPending&&memoryPending.key===key)return memoryPending.stop;
     const store=cdsStore();if(!store)return null;
-    try{const value=JSON.parse(store.read(cdsSlot(ctx))||"null");if(value&&value.key===key&&cdsValidStop(value.stop)){memoryPending=value;return value.stop;}}catch(_error){}
+    try{const value=JSON.parse(store.read(cdsSlot(ctx))||"null");if(value&&value.key===key&&cdsValidStop(value.stop)){memoryPending={key,stop:value.stop,saved:true};return value.stop;}}catch(_error){}
     return null;
   }
+  // The pending stop that may be sent: saved on the device (a failed save is tried again here), else null.
+  function cdsSendable(ctx,setup){
+    const stop=cdsPending(ctx,setup);if(stop===null)return null;
+    if(!memoryPending.saved)memoryPending.saved=cdsWriteDurable(ctx,memoryPending);
+    return memoryPending.saved?stop:null;
+  }
+  function cdsUnsaved(ctx,setup){return cdsPending(ctx,setup)!==null&&!memoryPending.saved;}
   function cdsSavePending(ctx,setup,stop){
-    const value={key:cdsPendingKey(ctx,setup),stop};memoryPending=value;
-    const store=cdsStore();if(!store)return true;
-    try{return store.write(cdsSlot(ctx),JSON.stringify(value))!==false;}catch(_error){return false;}
+    const value={key:cdsPendingKey(ctx,setup),stop,saved:false};memoryPending=value;
+    value.saved=cdsWriteDurable(ctx,value);
+    return value.saved;
   }
   function cdsClearPending(ctx){
     memoryPending=null;const store=cdsStore();if(!store||!ctx)return;
@@ -195,13 +208,13 @@
     if(cdsStoredStops(setup)[ctx.role]!==null||cdsPending(ctx,setup)!==null)return false;
     return scene.canStop(me);
   }
-  // The tap: the stop, computed once and saved on this phone before anything is sent. null when STOP is not allowed now.
+  // The tap: the stop, computed once and saved on this phone before anything is sent. null when STOP is not allowed now,
+  // and null when the device could not save it (it stays this phone's stop; sendable() tries the save again).
   function cdsTap(setup,ctx){
     if(!cdsCanStop(setup,ctx))return null;
     const me=ROLES.indexOf(ctx.role),stop=scene.tap(me);
     if(!cdsValidStop(stop))return null;
-    cdsSavePending(ctx,setup,stop);
-    return stop;
+    return cdsSavePending(ctx,setup,stop)?stop:null;
   }
   // Firebase holds this manager's stop (the reply of his confirm, or a re-read): the ball may rest on the stored one.
   function cdsAccepted(setup,ctx){
@@ -223,5 +236,5 @@
 
   return Object.freeze({contractVersion:1,feature:"cms-club-draw-step",PENDING_KEY,STAGE_ID,
     isDraw:cdsIsDraw,candidates:cdsCandidates,digest:cdsDigest,clubFor:cdsClubFor,storedStops:cdsStoredStops,
-    preload:cdsPreload,prepare:cdsPrepare,isReady:cdsIsReady,sync:cdsSync,canStop:cdsCanStop,tap:cdsTap,accepted:cdsAccepted,pending:cdsPending,clearPending:cdsClearPending,phaseOf:cdsPhaseOf,hasLanded:cdsHasLanded,bothLanded:cdsBothLanded,on:cdsOn,dispose:cdsDispose,probe:cdsProbe});
+    preload:cdsPreload,prepare:cdsPrepare,isReady:cdsIsReady,sync:cdsSync,canStop:cdsCanStop,tap:cdsTap,accepted:cdsAccepted,pending:cdsPending,sendable:cdsSendable,unsaved:cdsUnsaved,clearPending:cdsClearPending,phaseOf:cdsPhaseOf,hasLanded:cdsHasLanded,bothLanded:cdsBothLanded,on:cdsOn,dispose:cdsDispose,probe:cdsProbe});
 });

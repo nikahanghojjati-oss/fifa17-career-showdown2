@@ -282,8 +282,10 @@
     if(role&&stored[role]!==null)drawStep.accepted(setup,ctx);
     // A stop saved on this phone that Firebase does not hold yet (the reply was lost, the page reloaded): the same stop is
     // sent again, never a new one.
+    // A stop the device could not save yet is never sent: the save is tried again on the next render.
     const saved=role?drawStep.pending(ctx,setup):null;
-    if(saved!==null&&stored[role]===null&&setup.phase==="SEASON_LENGTH_COMMITTED"&&ssjpSeasonMatchesPrepared(setup)&&!busy&&!actionPromise&&Date.now()>=drawResendAt){drawResendAt=Date.now()+POLL_MS;void ssjpMutate("confirm",{stop:saved}).then(ok=>{if(ok&&state?.setup)drawStep.accepted(state.setup,ssjpDrawContext());});}
+    if(saved!==null&&stored[role]===null&&setup.phase==="SEASON_LENGTH_COMMITTED"&&ssjpSeasonMatchesPrepared(setup)&&!busy&&!actionPromise&&Date.now()>=drawResendAt){drawResendAt=Date.now()+POLL_MS;const sendable=drawStep.sendable(ctx,setup);if(sendable!==null)void ssjpMutate("confirm",{stop:sendable}).then(ok=>{if(ok&&state?.setup)drawStep.accepted(state.setup,ssjpDrawContext());});}
+    const unsaved=Boolean(role&&stored[role]===null&&drawStep.unsaved(ctx,setup));
     for(const [which,r,index] of [[1,"playerOne",0],[2,"playerTwo",1]]){
       const name=drawStep.hasLanded(index)?(setup.clubs&&setup.clubs[r])||drawStep.clubFor(setup,r,stored[r]):null;
       if(name)ssjpRevealCard(which,name);else ssjpSealCard(which,drawStep.phaseOf(setup,ctx,index));
@@ -295,6 +297,7 @@
     const mine=Boolean(role&&(stored[role]!==null||saved!==null)),theirs=Boolean(role&&stored[role==="playerOne"?"playerTwo":"playerOne"]!==null);
     if(setup.phase==="SHOWDOWN_CONFIRMED"){ssjpSetSharedStatus(state?.ready!==true?"CONNECTION NEEDED · Reconnect both players before Career Start.":clubRevealComplete?"SETUP COMPLETE · Both balls have stopped.":"BOTH STOPPED · Watch the balls come to rest.");ssjpMaybeAutoOpenCareerStart(setup);}
     else if(setup.phase==="SEASON_LENGTH_COMMITTED"&&!ssjpSeasonMatchesPrepared(setup))ssjpSetSharedStatus("This Showdown's season count does not match. Use Showdown recovery before you stop your ball.");
+    else if(unsaved)ssjpSetSharedStatus("YOUR STOP IS NOT KEPT YET · Storage is full. Free some space; it tries again by itself and is sent once kept.");
     else if(mine)ssjpSetSharedStatus(theirs?"BOTH STOPPED · Locking both clubs.":`YOUR BALL IS STOPPING · Waiting for ${ssjpRivalName()} to stop.`);
     else ssjpSetSharedStatus(drawStep.canStop(setup,ctx)?"CLUB DRAW · Tap STOP. Where your ball rests is your club.":theirs?`${ssjpRivalName().toUpperCase()} HAS STOPPED · Your ball is next.`:"CLUB DRAW · Read your three clubs.");
     return true;
@@ -317,7 +320,7 @@
     if(setup.phase==="SEASON_LENGTH_COMMITTED"&&role&&!setup.confirmedRoles.includes(role)){
       if(!ssjpSeasonMatchesPrepared(setup))return "stale";
       await ssjpEnsureDrawStep().catch(()=>null);if(!drawStep||!drawStep.isReady(setup,ctx))return "done";
-      let stop=drawStep.pending(ctx,setup);if(stop===null)stop=drawStep.tap(setup,ctx);
+      let stop=drawStep.pending(ctx,setup)===null?drawStep.tap(setup,ctx):drawStep.sendable(ctx,setup);
       if(stop===null){await ssjpRenderClub();return "done";}
       drawResendAt=Date.now()+POLL_MS;
       const ok=await ssjpMutate("confirm",{stop});
