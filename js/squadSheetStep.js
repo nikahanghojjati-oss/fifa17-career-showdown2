@@ -161,7 +161,8 @@
     const rows=result&&result.verdicts&&Array.isArray(result.verdicts[role])?result.verdicts[role]:null;
     if(!rows)return null;
     const hit=result.hits&&result.hits[role];
-    const shot=hit&&hit.fired===true&&typeof hit.hitName==="string"&&hit.hitName.trim()?{name:hit.hitName.trim(),number:isInt(hit.hitNumber)?hit.hitNumber:null,signedSeason:isInt(hit.hitSignedSeason)&&hit.hitSignedSeason>=1&&hit.hitSignedSeason<=10?hit.hitSignedSeason:null}:null;
+    // R94-04: the hit slot, and (pid) which of two namesakes of one window that season's locked board named there (sqsShotPids).
+    const shot=hit&&hit.fired===true&&typeof hit.hitName==="string"&&hit.hitName.trim()?{name:hit.hitName.trim(),number:isInt(hit.hitNumber)?hit.hitNumber:null,signedSeason:isInt(hit.hitSignedSeason)&&hit.hitSignedSeason>=1&&hit.hitSignedSeason<=10?hit.hitSignedSeason:null,slot:isInt(hit.hitSlot)?hit.hitSlot:null,...(isInt(hit.pid)&&hit.pid>=0?{pid:hit.pid}:{})}:null;
     return {
       shot,
       // R92-01: each row's SoFIFA playerId rides along, so the squad engine bars the exact man as the Transfer War LOCK does.
@@ -171,7 +172,23 @@
     };
   }
   // Every season's events this screen's chain passes through: seasons before this one, and this one for "post".
-  async function sqsHistory(ctx){
+  // R94-04: the roulette hit names a signing by name and window only. When that manager may have kept two men of that name in
+  // that window, the season's locked "pre" document (the board both phones spun on: kept here, else one read) says which one
+  // stood at the hit slot, so every phone and every reload takes out the same man. Anything missing: the engine's own rule.
+  async function sqsShotPids(ctx,io,results){
+    const S=sqsEngine();if(!S||typeof S.namesakesIn!=="function")return;
+    for(let k=1;k<results.length;k+=1)for(const role of ROLES){
+      const result=results[k],hit=result&&result.hits&&result.hits[role];
+      if(!hit||hit.fired!==true||typeof hit.hitName!=="string"||!isInt(hit.hitSlot)||!isInt(hit.hitSignedSeason)||hit.hitSignedSeason>k)continue;
+      const win=results[hit.hitSignedSeason],rows=win&&win.verdicts&&win.verdicts[role];
+      if(!S.namesakesIn(rows,hit.hitName))continue;
+      let data=sqsKept(sqsPointKey(ctx,role,k,"pre"))||null;
+      if(!data&&io){const read=await sqsGet(io,ctx,role,k,"pre",true);data=read.ok?read.data:null;}
+      const pid=data?S.docShotPid(data,hit):null;
+      if(pid!==null)results[k]={...result,hits:{...result.hits,[role]:{...hit,pid}}};
+    }
+  }
+  async function sqsHistory(ctx,io){
     const last=ctx.stage==="post"?ctx.season:ctx.season-1,results=[null];
     for(let k=1;k<=last;k+=1){
       let result=null;try{result=await ctx.verdicts(k);}catch(_error){result=null;}
@@ -186,6 +203,7 @@
       }
       results.push(result);
     }
+    try{await sqsShotPids(ctx,io,results);}catch(_error){}// (never holds up a screen: the engine's own rule then)
     return {ok:true,results};
   }
   // The screens before (season, stage), latest first.
@@ -384,7 +402,7 @@
       if(!await sqsEnsure())answer={retry:true,text:"The squad screen could not load. Check the connection and try again."};
       else if(ended())return false;
       else{
-        const history=await sqsHistory(ctx);
+        const history=await sqsHistory(ctx,io);
         const built=ended()?null:history.ok?await sqsBuild(ctx,io,ctx.managerRole,history):{ok:false,reason:history.reason==="SHOT"?"SHOT":"VERDICTS",season:history.season};
         if(ended())return false;
         if(!built.ok)answer={retry:true,text:sqsReadText(built),error:built.error};
@@ -417,7 +435,7 @@
   async function sqsBoards(ctx,io){
     const memo=boardsMemo.get(`${ctx.rivalryId}|${ctx.season}`);if(memo)return {ok:true,sheets:memo};
     if(!await sqsEnsure())return {ok:false,reason:"NOT_LOADED"};
-    const pre={...ctx,stage:"pre"},history=await sqsHistory(pre);
+    const pre={...ctx,stage:"pre"},history=await sqsHistory(pre,io);
     if(!history.ok)return {ok:false,reason:history.reason==="SHOT"?"SHOT":"VERDICTS"};
     const sheets={};
     for(const role of ROLES){
