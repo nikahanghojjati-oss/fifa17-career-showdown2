@@ -161,12 +161,30 @@
     return k;
   }
   const isSigning=p=>Boolean(p)&&p.signedSeason!==null&&p.signedSeason!==undefined;
-  const idOf=p=>isSigning(p)?`s|${sqKey(p.name)}`:`c|${sqKey(p.name)}#${Number.isInteger(p.number)?p.number:null}`;
+  // R94-04 (Astra A-TW-01): two different men who share a name are two people. The first man kept under a signing name keeps
+  // the name's id "s|name" (every squad stored before R94-04 reads exactly as before); a later kept man of that name with another
+  // SoFIFA playerId is "s|name#playerId" and carries it as pid. A row with no id goes by the name, as before.
+  const nameId=name=>`s|${sqKey(name)}`;
+  const twinOf=p=>p&&Number.isInteger(p.pid)&&p.pid>=1&&p.pid<=999999?p.pid:null;
+  const idOf=p=>isSigning(p)?(twinOf(p)?`${nameId(p.name)}#${p.pid}`:nameId(p.name)):`c|${sqKey(p.name)}#${Number.isInteger(p.number)?p.number:null}`;
+  // The stored document's number for a person: his shirt for a club player; for a signing his pid when he is a later
+  // namesake, else -1 (as every document before R94-04).
+  // R94-04 (Codex on #1493): a later namesake's playerId is stored as -1-playerId (always -2 or lower) in a number slot, never
+  // as a positive value: every earlier build reads a signing's negative number as none (2.5.1 boardFromDoc and fromDoc), so a
+  // 2.5.1 phone that rebuilds such a squad from the document's names puts the same rows on the Roulette board as this build
+  // (name, no number, window), the shared board version agrees and no playerId is ever read as a shirt number (hitNumber 0-99).
+  // -1 stays "none". A positive id (written by 2.6.0 builds before this) is still read as one.
+  const pidCode=pid=>-1-pid;
+  const docPid=n=>Number.isInteger(n)&&n<=-2&&n>=-1000000?-1-n:Number.isInteger(n)&&n>=1&&n<=999999?n:null;
+  const docNumber=p=>twinOf(p)!==null?pidCode(twinOf(p)):!isSigning(p)&&Number.isInteger(p.number)?p.number:-1;
+  // The id a stored entry (name, number, signed window) names.
+  const docId=(name,number,signed)=>signed>0?idOf({name,number:null,signedSeason:signed,pid:docPid(number)}):idOf({name,number:number>=0?number:null,signedSeason:null});
   const cmp=(a,b)=>a<b?-1:a>b?1:0;
   const order=(a,b)=>b.rating-a.rating||cmp(sqKey(a.name),sqKey(b.name))||cmp(a.positions[0]||"",b.positions[0]||"")||cmp(a.name,b.name)||cmp(a.id,b.id);
   const validOverall=v=>Number.isInteger(v)&&v>=OVERALL_MIN&&v<=OVERALL_MAX;
-  function person(name,number,rating,positions,signedSeason){
+  function person(name,number,rating,positions,signedSeason,pid){
     const p={name,number:Number.isInteger(number)?number:null,rating,positions:Object.freeze(positions.slice()),signedSeason:signedSeason??null};
+    if(isSigning(p)&&twinOf({pid}))p.pid=pid;// (R94-04: a later namesake only; nobody else carries pid)
     p.id=idOf(p);
     return p;
   }
@@ -195,7 +213,9 @@
   // - signedIds {id: [playerId, 0 = a row with no id]}: every kept row of each signing name, window by window.
   // - fresh {id: season}: the last window a man came in past a bar of his name (not the barred man). Departures of that name
   //   from before it are the old man's, so a stored document never reads him back in through them (fromDoc).
-  // All three live only in the chain (never in the stored document): both phones rebuild them from the same verdict rows.
+  // - firstIds {id: playerId or 0} (R94-04): the first kept row of each signing name, window by window (0 = it had no id).
+  //   That man keeps the name's id; a later kept row of the name with another known id is another man (signingId).
+  // All four live only in the chain (never in the stored document): both phones rebuild them from the same verdict rows.
   const excludedSet=sheet=>new Set(sheet.excluded);
   const barredOf=sheet=>sheet.barred&&typeof sheet.barred==="object"?sheet.barred:{};
   const objectOf=value=>value&&typeof value==="object"&&!Array.isArray(value)?value:{};
@@ -212,10 +232,18 @@
   }
   // The bar a kept signing p (playerId pid or null) meets, or null: his id barred under any name first, then his name when
   // the bar holds the whole name or he has no id.
+  // (Bars are kept by name id; a later namesake is matched by his name and his own id, like everyone else.)
   function barFor(bar,barIds,p,pid){
-    if(pid!==null)for(const id of Object.keys(barIds))if(bar[id]&&barIds[id].includes(pid))return id;
-    if(!bar[p.id])return null;
-    return !barIds[p.id]||barIds[p.id].includes(0)||pid===null?p.id:null;
+    const id=nameId(p.name);
+    if(pid!==null)for(const b of Object.keys(barIds))if(bar[b]&&barIds[b].includes(pid))return b;
+    if(!bar[id])return null;
+    return !barIds[id]||barIds[id].includes(0)||pid===null?id:null;
+  }
+  // R94-04: the id of the man a signing row (name, playerId or null) names. The name's id unless the name's first kept man
+  // had another known id. A row with no id, or a name whose first kept row had none, goes by the name (as before).
+  function signingId(firstIds,name,pid){
+    const id=nameId(name),first=firstIds[id];
+    return pid!==null&&Number.isInteger(first)&&first>0&&first!==pid?`${id}#${pid}`:id;
   }
   // A shot signing's bar: the ids of the kept rows of his name, and the whole name when one had no id (or none is known).
   function shotBar(signedIds,id){const list=Array.isArray(signedIds[id])?signedIds[id]:[];return {ids:list.filter(x=>x>0),whole:!list.length||list.includes(0)};}
@@ -455,6 +483,30 @@
     const found=list.find(p=>p.club!==club)||list[0];
     return found.positions.slice(0,1).filter(p=>LINE_OF[family(p)]);
   }
+  // R94-04: the id of the man the roulette shot. A club player, or a signing with no namesake of his window at the club, is
+  // found as before. Among namesakes signed in the same window (the hit names him by name and window only): the one the saved
+  // board names (shot.pid, read from that season's locked "pre" document by the step: 0 = the name's first man), else the
+  // one standing at the hit slot of this sheet, else the name's first man, else the best of them.
+  // (Codex on #1494: a man bought back after a sale was signed in that window on the locked board, while the automatic chain,
+  // which never replays the sale, holds him under his first window with a repeat entry (alts) in it. So: the men signed in
+  // that window; when none is here, the men with a repeat entry in it; when none either, the men of the name.)
+  function shotIdOf(sheet,shot,raw){
+    if(!isSigning(shot))return shot.id;
+    const k=sqKey(shot.name),men=everyone(sheet).filter(p=>isSigning(p)&&sqKey(p.name)===k),w=shot.signedSeason;
+    const own=men.filter(p=>p.signedSeason===w),again=men.filter(windowOf(sheet,w));
+    const cands=own.length?own:again.length?again:men;
+    // (the board's pick names the man whatever window this chain holds him under: a sale it never replays)
+    const pid=raw&&Number.isInteger(raw.pid)&&raw.pid>=0?raw.pid:null;
+    const named=pid===null?null:men.find(p=>(twinOf(p)??0)===pid)||null;
+    if(named)return named.id;
+    if(cands.length<2)return cands.length?cands[0].id:shot.id;
+    const slot=raw&&Number.isInteger(raw.slot)?raw.slot:-1;
+    const there=slot>=0&&slot<XI_SIZE?sheet.xi[slot]:slot>=XI_SIZE&&slot<XI_SIZE+FEATURED?sheet.bench[slot-XI_SIZE]:null;
+    if(there&&cands.includes(there))return there.id;
+    return (cands.find(p=>p.id===shot.id)||cands.slice().sort(order)[0]).id;
+  }
+  // Was this signing signed in window w: his own window, or a repeat entry of his in it (alts)?
+  const windowOf=(sheet,w)=>p=>p.signedSeason===w||(altsOf(sheet)[p.id]||[]).some(a=>a.season===w);
   // Moves a locked sheet to the next screen's starting proposal.
   // - locked "pre" (season N) -> "post" (season N): events.shot = the player the RRR hit ({name, number, signedSeason}) or
   //   null; events.released = names (or {name, playerId}) of this window's signings the rival guessed (never join);
@@ -488,6 +540,12 @@
     sheet.stage="post";
     const ev=events||{},ex=new Set(sheet.excluded),bar={...barredOf(sheet)},alts=JSON.parse(JSON.stringify(altsOf(sheet))),guessed=(sheet.guessed||[]).slice();
     const barIds=JSON.parse(JSON.stringify(objectOf(sheet.barIds))),signedIds=JSON.parse(JSON.stringify(objectOf(sheet.signedIds))),fresh={...objectOf(sheet.fresh)};
+    // R94-04: the first kept row of each signing name decides who keeps the name's id (verdict rows only, never the moves).
+    const firstIds={...objectOf(sheet.firstIds)},signedRows=Array.isArray(ev.signed)?ev.signed:Array.isArray(ev.kept)?ev.kept:[];
+    for(const row of signedRows){
+      if(!row||typeof row.name!=="string"||!row.name.trim())continue;
+      const id=nameId(row.name.trim());if(!Object.prototype.hasOwnProperty.call(firstIds,id))firstIds[id]=pidOf(row.playerId)??0;
+    }
     // The places this window empties: the shot man first, then a signing at the club the rival guessed. Each is refilled
     // within his line below, the shot seat as before.
     const vacancies=[];
@@ -497,15 +555,15 @@
       if(ref)sheet.notes.push({name,reason});
     };
     if(ev.shot&&typeof ev.shot.name==="string"&&ev.shot.name.trim()){
-      const shot=person(ev.shot.name.trim(),ev.shot.number,1,[],ev.shot.signedSeason??null);
+      const shot=person(ev.shot.name.trim(),ev.shot.number,1,[],ev.shot.signedSeason??null),shotId=shotIdOf(sheet,shot,ev.shot);
       // Only the man the roulette hit is out. A shot man is never bought back: no signing with his name joins later (the
       // Transfer War LOCK refuses it by name too). A signing at the club with a shot club player's name is another man
       // (SQ-4-01) and stays (hunt C1a: Barcelona's L. Suárez shot while a signed L. Suárez is in the squad).
       // R92-01: a shot signing bars his own ids (every kept row of his name before this season); a shot club player, the whole name.
       const sid=`s|${sqKey(shot.name)}`;
       const sb=isSigning(shot)?shotBar(signedIds,sid):{ids:[],whole:true};
-      ex.add(shot.id);addBar(bar,barIds,sid,"shot",sb.ids,sb.whole);
-      vacate(shot.id,shot.name,"shot");
+      ex.add(shotId);addBar(bar,barIds,sid,"shot",sb.ids,sb.whole);
+      vacate(shotId,shot.name,"shot");
     }
     // A guessed signing never joins and can't be signed again. When the guessed name is a signing already at the club (he
     // was entered again), he is the same signing and is released (Sol SQ-2-02, as the Transfer War and the r87 boards
@@ -523,15 +581,20 @@
       // the verdict rows only (signedIds), never the manager's moves, so every phone and every reload decides the same.
       const keptIds=Array.isArray(signedIds[id])?signedIds[id]:[];
       if(pid!==null&&keptIds.length&&!keptIds.includes(0)&&!keptIds.includes(pid))continue;
-      if(!guessed.includes(id))guessed.push(id);
-      ex.add(id);vacate(id,name,"guessed");
+      // R94-04: the man this row names: a later namesake by his own id, never the first man of the name.
+      const who=signingId(firstIds,name,pid);
+      if(!guessed.includes(who))guessed.push(who);
+      ex.add(who);vacate(who,name,"guessed");
     }
     const kept=[];
     for(const row of Array.isArray(ev.kept)?ev.kept:[]){
       if(!row||typeof row.name!=="string"||!row.name.trim()||!validOverall(row.overall))continue;
       const positions=LINE_OF[row.position]?[row.position]:signingPositions(row.name.trim(),sheet.club);
-      const p=person(row.name.trim(),null,row.overall,positions,sheet.season);
-      const barred=barFor(bar,barIds,p,pidOf(row.playerId));
+      // R94-04: two men who share a name are two people (Astra: Tottenham's and Celtic's M. Dembélé, both KEEP). The same
+      // man (same id) entered twice in one window is still one entry; signed again later, SQ-2-03 below.
+      const pid=pidOf(row.playerId),id=signingId(firstIds,row.name.trim(),pid);
+      const p=person(row.name.trim(),null,row.overall,positions,sheet.season,id===nameId(row.name.trim())?null:pid);
+      const barred=barFor(bar,barIds,p,pid);
       if(barred){sheet.notes.push({name:p.name,reason:bar[barred]==="special"?"special":"excluded"});continue;}
       if(kept.some(k=>k.id===p.id))continue;
       // signed again while he is at the club: keeps his first window and place (SQ-2-03)
@@ -555,7 +618,7 @@
       const id=`s|${sqKey(row.name.trim())}`;signedIds[id]=idList([...(signedIds[id]||[]),pidOf(row.playerId)??0]);
     }
     sheet.excluded=[...ex].sort();sheet.barred=sortedObject(bar);sheet.alts=sortedObject(alts);sheet.guessed=guessed.sort();
-    sheet.barIds=sortedObject(barIds);sheet.signedIds=sortedObject(signedIds);sheet.fresh=sortedObject(fresh);
+    sheet.barIds=sortedObject(barIds);sheet.signedIds=sortedObject(signedIds);sheet.fresh=sortedObject(fresh);sheet.firstIds=sortedObject(firstIds);
     kept.sort(order);
     // The shot player's seat (and a released signing's): a kept signing of his line first, then the normal refill.
     for(const v of vacancies)if(v.zone==="xi"&&!sheet.xi[v.index])refillXi(sheet,v.index,kept,v.gone);
@@ -684,6 +747,14 @@
   }
   // From season 2 a manager reports a player who left the club in his FIFA save. He leaves for good (a player who left
   // may be signed again later: BUY_BACK) and his place is refilled within his line.
+  // Sol S-SQ-01: the departures list is cumulative and the Rules hold it to 100 entries, so a man loaned out season after
+  // season (back at each season's end) must not add a record each time. A loan that ended at a season's end (returned after
+  // the season he left in) changes nothing once that man leaves again: no buy-back came from it, and he is away or back by
+  // his later record. Only his latest such loan stays, as the last of his records. Every other record stays: each man's
+  // records but his last are followed by his coming back as a kept signing, so the list holds at most one record per man
+  // who left plus one per buy-back: the club's men (33 at most) plus the kept signing rows (3 a window), under 100.
+  function naturalLoan(o){return o.reason==="loaned"&&Number.isInteger(o.returned)&&o.returned>o.season;}
+  function compactOut(out){return out.filter((o,i)=>!naturalLoan(o)||!out.some((x,j)=>j>i&&x.id===o.id));}
   function leave(sheet,id,reason){
     if(!sheet||sheet.season<2)return {ok:false,reason:"Players leave the club from season 2.",sheet};
     if(!LEAVE_REASONS.includes(reason))return {ok:false,reason:"Pick why he left.",sheet};
@@ -695,7 +766,8 @@
     // A signing entered again while he was here (alts) is gone with him: the entry carries the latest of those windows, so a
     // stored document tells a buy-back (a window after it) from a repeat entry (C2).
     const lastWindow=isSigning(p)?Math.max(p.signedSeason,...(altsOf(next)[p.id]||[]).map(a=>a.season)):p.signedSeason;
-    next.out.push({id:p.id,name:p.name,number:p.number,signedSeason:lastWindow,reason,season:next.season,stage:next.stage,player:reason==="loaned"?clone(p):null});
+    next.out.push({id:p.id,name:p.name,number:p.number,...(twinOf(p)?{pid:p.pid}:{}),signedSeason:lastWindow,reason,season:next.season,stage:next.stage,player:reason==="loaned"?clone(p):null});
+    next.out=compactOut(next.out);
     if(ref.zone==="xi"){setStopgap(next,ref.index,false);refillXi(next,ref.index,[],p);}
     else if(ref.zone==="bench")refillBench(next,ref.index,p);
     next.notes=[];enforceBest(next);
@@ -850,9 +922,10 @@
     const fifteen=[...sheet.xi,...sheet.bench];
     return {
       schemaVersion:VERSION,objectType:"sharedSquadSheet",seasonNumber:sheet.season,stage:sheet.stage,formation:sheet.formation,
-      names:fifteen.map(p=>p?p.name:""),numbers:fifteen.map(p=>p&&Number.isInteger(p.number)?p.number:-1),signed:fifteen.map(p=>p&&isSigning(p)?p.signedSeason:0),
-      outNames:sheet.out.map(o=>o.name),outNumbers:sheet.out.map(o=>Number.isInteger(o.number)?o.number:-1),outSigned:sheet.out.map(o=>o.signedSeason||0),outReasons:sheet.out.map(o=>o.reason),outSeasons:sheet.out.map(o=>o.season),
-      ovNames:Object.keys(sheet.ratings).map(id=>everyoneById(sheet,id).name),ovNumbers:Object.keys(sheet.ratings).map(id=>{const p=everyoneById(sheet,id);return Number.isInteger(p.number)?p.number:-1;}),ovSigned:Object.keys(sheet.ratings).map(id=>everyoneById(sheet,id).signedSeason||0),ovValues:Object.values(sheet.ratings),
+      // (R94-04: a later namesake's number is his playerId; the Rules hold only the lists' lengths.)
+      names:fifteen.map(p=>p?p.name:""),numbers:fifteen.map(p=>p?docNumber(p):-1),signed:fifteen.map(p=>p&&isSigning(p)?p.signedSeason:0),
+      outNames:sheet.out.map(o=>o.name),outNumbers:sheet.out.map(o=>twinOf(o)!==null?pidCode(twinOf(o)):Number.isInteger(o.number)?o.number:-1),outSigned:sheet.out.map(o=>o.signedSeason||0),outReasons:sheet.out.map(o=>o.reason),outSeasons:sheet.out.map(o=>o.season),
+      ovNames:Object.keys(sheet.ratings).map(id=>everyoneById(sheet,id).name),ovNumbers:Object.keys(sheet.ratings).map(id=>{const p=everyoneById(sheet,id);return twinOf(p)!==null?pidCode(twinOf(p)):Number.isInteger(p.number)?p.number:-1;}),ovSigned:Object.keys(sheet.ratings).map(id=>everyoneById(sheet,id).signedSeason||0),ovValues:Object.values(sheet.ratings),
       engine:`sq${VERSION}`
     };
   }
@@ -864,18 +937,37 @@
     const slots=formationSlots(doc.formation);
     if(!slots||!Array.isArray(doc.names)||doc.names.length!==XI_SIZE+BENCH_SIZE)return null;
     const sheet=clone(proposal);
-    const idFor=(name,number,signed)=>idOf({name,number:number>=0?number:null,signedSeason:signed>0?signed:null});
-    const ovOf=id=>{for(let i=0;i<(doc.ovNames||[]).length;i+=1)if(validOverall(doc.ovValues[i])&&idFor(doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i])===id)return doc.ovValues[i];return null;};
+    const idFor=docId;
+    // R94-04: a signing entry with no playerId (every document before R94-04) names the man of that name and window. When
+    // the name's first man is of another window and a later namesake of this one is not named by his own id, it is him: an
+    // earlier build held the two as one (bought back, or one entry for two KEEPs). Otherwise the name, exactly as before.
+    // (Codex on #1494: departures too, and a man's windows count his repeat entries.)
+    const byId=(names,numbers,signed)=>(names||[]).map((n,i)=>signed[i]>0&&docPid(numbers[i])!==null?idFor(n,numbers[i],signed[i]):null);
+    const named=new Set([...byId(doc.names,doc.numbers,doc.signed),...byId(doc.ovNames,doc.ovNumbers,doc.ovSigned),...byId(doc.outNames,doc.outNumbers,doc.outSigned)].filter(Boolean));
+    const inWindow=w=>windowOf(sheet,w);
+    // (A man of the name's id who is away, shot or guessed here is that man: never another. The man of the name's id in that
+    // window, by his own window or a repeat entry, is him; only otherwise a later namesake of that window not named by id.)
+    const gone=new Set([...sheet.excluded,...sheet.out.map(o=>o.id)]);
+    const pick=(list,name,number,signed)=>{
+      const id=idFor(name,number,signed),exact=list.find(q=>q.id===id);
+      if(!(signed>0)||docPid(number)!==null||(!exact&&gone.has(id))||(exact&&inWindow(signed)(exact)))return exact;
+      const k=sqKey(name),others=list.filter(q=>isSigning(q)&&q.id!==id&&!named.has(q.id)&&sqKey(q.name)===k);
+      return others.find(q=>q.signedSeason===signed)||others.find(inWindow(signed))||exact;
+    };
+    // (each overall by the man it was read as, so a buy-back below keeps it: Codex on #1494)
+    const ovs={},raw={},ovOf=id=>ovs[id]??raw[id]??null;
     for(let i=0;i<(doc.ovNames||[]).length;i+=1){
-      const id=idFor(doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i]),p=everyone(sheet).find(q=>q.id===id);
-      if(p&&validOverall(doc.ovValues[i])){p.rating=doc.ovValues[i];sheet.ratings[id]=doc.ovValues[i];}
+      const p=pick(everyone(sheet),doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i]);
+      if(!validOverall(doc.ovValues[i]))continue;
+      if(p){p.rating=doc.ovValues[i];sheet.ratings[p.id]=doc.ovValues[i];ovs[p.id]=doc.ovValues[i];}
+      else raw[idFor(doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i])]??=doc.ovValues[i];
     }
     // The departures list is cumulative, so the document alone says who is away: the proposal may be the screen's own (it
     // already holds the earlier departures) or the automatic chain from launch with no manager edits (the store rebuilds a
     // sheet from its one document that way, with no read of the earlier ones). A loan from an earlier season is over: he is
     // back at the club. A signing who left and was signed again in a later window (one the chain kept as a repeat entry,
     // after the window his departure names) is back as that signing (hunt C2). Anyone else listed is out for good.
-    const outIds=(doc.outNames||[]).map((name,i)=>idFor(name,doc.outNumbers[i],doc.outSigned[i]));
+    const outIds=(doc.outNames||[]).map((name,i)=>{const p=pick(everyone(sheet),name,doc.outNumbers[i],doc.outSigned[i]);return p?p.id:idFor(name,doc.outNumbers[i],doc.outSigned[i]);});
     const known=new Set(sheet.out.map(o=>o.id)),ex=new Set(sheet.excluded),alts=altsOf(sheet);
     for(let i=0;i<outIds.length;i+=1){
       const id=outIds[i],reason=doc.outReasons[i],season=doc.outSeasons[i];
@@ -901,20 +993,31 @@
         else awayNow=true;
       });
       if(back){
-        const prev=everyone(sheet).find(q=>q.id===id),again=person(prev?prev.name:doc.outNames[i],null,ovOf(id)??back.rating,back.positions,back.season);
+        // R94-04: he keeps the id his departure was read as (an earlier build stored no playerId, -1, for a later namesake too).
+        const prev=everyone(sheet).find(q=>q.id===id),again=person(prev?prev.name:doc.outNames[i],null,ovOf(id)??back.rating,back.positions,back.season,prev?twinOf(prev):docPid(doc.outNumbers[i]));
         const ref=prev?findPlayer(sheet,id):null;
         if(ref)put(sheet,ref,again);else sheet.reserves.push(again);
       }
       for(const j of away){
         const p=everyone(sheet).find(q=>q.id===id);
-        sheet.out.push({id,name:p?p.name:doc.outNames[j],number:p?p.number:(doc.outNumbers[j]>=0?doc.outNumbers[j]:null),signedSeason:doc.outSigned[j]>0?doc.outSigned[j]:null,reason:doc.outReasons[j],season:doc.outSeasons[j],stage:doc.stage,player:doc.outReasons[j]==="loaned"&&p?clone(p):null,...(returned[j]?{returned:returned[j]}:{})});
+        const signing=doc.outSigned[j]>0,pid=p?twinOf(p):signing?docPid(doc.outNumbers[j]):null;
+        sheet.out.push({id,name:p?p.name:doc.outNames[j],number:p?p.number:(!signing&&doc.outNumbers[j]>=0?doc.outNumbers[j]:null),...(pid?{pid}:{}),signedSeason:doc.outSigned[j]>0?doc.outSigned[j]:null,reason:doc.outReasons[j],season:doc.outSeasons[j],stage:doc.stage,player:doc.outReasons[j]==="loaned"&&p?clone(p):null,...(returned[j]?{returned:returned[j]}:{})});
       }
       if(awayNow)ex.add(id);
     }
     sheet.excluded=[...ex].sort();
     const pool=everyone(sheet).filter(p=>!ex.has(p.id));
-    const take=(name,number,signed)=>{if(!name)return null;const id=idFor(name,number,signed);const i=pool.findIndex(p=>p.id===id);return i>=0?pool.splice(i,1)[0]:undefined;};
+    const take=(name,number,signed)=>{if(!name)return null;const p=pick(pool,name,number,signed);return p?pool.splice(pool.indexOf(p),1)[0]:undefined;};
     const fifteen=doc.names.map((name,i)=>take(name,doc.numbers[i],doc.signed[i]));
+    // R94-04: a signing this chain knows under another of his name's ids (a document of an earlier build that held two men of
+    // one name as one, or a same-window namesake the roulette shot that the automatic chain could not tell apart) is the man of
+    // that name and window the document leaves over: never a refusal of a locked screen. Exact entries are taken first.
+    fifteen.forEach((p,i)=>{
+      if(p!==undefined||!(doc.signed[i]>0))return;
+      const k=sqKey(doc.names[i]),same=q=>isSigning(q)&&sqKey(q.name)===k;
+      const at=pool.findIndex(q=>same(q)&&q.signedSeason===doc.signed[i]);
+      if(at>=0)fifteen[i]=pool.splice(at,1)[0];
+    });
     if(fifteen.includes(undefined))return null;
     sheet.formation=doc.formation;sheet.slots=slots;sheet.xi=fifteen.slice(0,XI_SIZE);sheet.bench=fifteen.slice(XI_SIZE);
     sheet.reserves=pool;sortReserves(sheet);
@@ -965,8 +1068,9 @@
     const pool=auto?everyone(auto):[];
     const rows=doc.names.slice(0,XI_SIZE+FEATURED).map((name,i)=>{
       if(!name)return {slot:i,bench:i>=XI_SIZE,pos:i<XI_SIZE?slots[i]:"SUB",name:null,number:null,rating:0,positions:Object.freeze([]),special:false,signedSeason:null};
-      const number=doc.numbers[i]>=0?doc.numbers[i]:null,signedSeason=doc.signed[i]>0?doc.signed[i]:null,id=idOf({name,number,signedSeason});
-      const p=pool.find(q=>q.id===id),ov=(doc.ovNames||[]).findIndex((n,j)=>idOf({name:n,number:doc.ovNumbers[j]>=0?doc.ovNumbers[j]:null,signedSeason:doc.ovSigned[j]>0?doc.ovSigned[j]:null})===id);
+      // (R94-04: a signing's number on the board is null; a later namesake's playerId only names him.)
+      const signedSeason=doc.signed[i]>0?doc.signed[i]:null,number=!signedSeason&&doc.numbers[i]>=0?doc.numbers[i]:null,id=docId(name,doc.numbers[i],doc.signed[i]);
+      const p=pool.find(q=>q.id===id),ov=(doc.ovNames||[]).findIndex((n,j)=>docId(n,doc.ovNumbers[j],doc.ovSigned[j])===id);
       return {slot:i,bench:i>=XI_SIZE,pos:i<XI_SIZE?slots[i]:"SUB",name,number,rating:ov>=0&&validOverall(doc.ovValues[ov])?doc.ovValues[ov]:p?p.rating:0,positions:Object.freeze(p?p.positions.slice():[]),special:false,signedSeason};
     });
     return Object.freeze(rows.map(r=>Object.freeze(r)));
@@ -978,7 +1082,13 @@
     lineOf,family,fit:sqFit,playerLines,formations,searchFormations,formationSlots,lineCounts,pitchSpots,titleOf,idOf,allowedIn:(sheet,player,slot)=>allowed(sheet,player,slot),slotFit:(sheet,player,slot)=>slotFit(sheet,player,slot),findPlayer,
     launch,advance,canSwap,swap,leave,rate,setFormation,autoPlace,apply:sqApply,validate,board,toDoc,fromDoc,replay,boardFromDoc,
     // R92-01: would this kept signing ({name, playerId?}) be kept out of this sheet's squad by a bar, and which reason?
-    barredAs:(sheet,row)=>{const name=String(row&&row.name||"").trim();if(!sheet||!name)return null;const id=barFor(barredOf(sheet),objectOf(sheet.barIds),{id:`s|${sqKey(name)}`},pidOf(row.playerId));return id?barredOf(sheet)[id]:null;},
+    barredAs:(sheet,row)=>{const name=String(row&&row.name||"").trim();if(!sheet||!name)return null;const id=barFor(barredOf(sheet),objectOf(sheet.barIds),{name},pidOf(row.playerId));return id?barredOf(sheet)[id]:null;},
+    // R94-04: might this manager have kept two different men of this name in one window's verdict rows? Two playerIds, or a
+    // playerId beside a row without one (that row is whoever the name meant then, maybe another man): the board then says.
+    namesakesIn:(rows,name)=>{const k=sqKey(name),ids=new Set();for(const r of Array.isArray(rows)?rows:[])if(r&&r.release===false&&typeof r.name==="string"&&sqKey(r.name)===k)ids.add(pidOf(r.playerId));return ids.size>=2&&[...ids].some(id=>id!==null);},
+    // R94-04: which namesake a locked "pre" document names at a roulette hit's slot: 0 = the name's first man, a playerId = a
+    // later namesake, null = the document does not name that signing there.
+    docShotPid:(doc,hit)=>{const i=hit&&hit.hitSlot;if(!doc||!Array.isArray(doc.names)||!Number.isInteger(i)||i<0||i>=XI_SIZE+FEATURED||typeof doc.names[i]!=="string"||sqKey(doc.names[i])!==sqKey(hit.hitName)||doc.signed[i]!==hit.hitSignedSeason)return null;return docPid(doc.numbers[i])??0;},
     hidingIssue:sheet=>{const i=hidingIssue(sheet);return i?Object.freeze({kind:i.kind,better:i.q.name,over:i.p?i.p.name:null,reason:hidingReason(i)}):null;}
   });
 });

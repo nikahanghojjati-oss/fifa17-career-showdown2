@@ -7,6 +7,8 @@
 //   3. LOCK is idempotent: a second create of the same screen (another device, a lost answer) reads the stored one back.
 //   4. Before the Roulette the rival's locked "pre" sheet reaches the other phone (listener or read), and both phones
 //      rebuild the same Roulette boards from the two documents (js/squadSheet.js replay, js/rosterRoulette.js sheets).
+//   6. Sol S-SQ-01: a fair 10-season Showdown that loans the same twelve men out every season (back at each season's end)
+//      locks every screen of both managers through the store; the departures list stays far under the Rules' 100.
 // Run inside the Firestore emulator:
 //   npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-squad-sheets \
 //     "node tests/firebase/squad-sheets-rules-emulator.cjs"
@@ -39,15 +41,15 @@ async function assertPlainDenial(promise,label){
 }
 function account(id){return {objectType:"account",objectId:id,lifecycleState:"live",data:{status:"active"}};}
 function device(id){return {objectType:"device",objectId:id,lifecycleState:"live",data:{deviceId:id,state:"active"}};}
-function rivalryDoc(){return {objectType:"rivalry",objectId:RID,lifecycleState:"live",data:{connectionState:"active",authorizedAccountIds:[A,B],managerSlots:[
+function rivalryDoc(rid=RID){return {objectType:"rivalry",objectId:rid,lifecycleState:"live",data:{connectionState:"active",authorizedAccountIds:[A,B],managerSlots:[
   {slotId:"playerOne",accountId:A,profileId:`profile_${"1".repeat(24)}`,saveId:`save_${"3".repeat(24)}`,entitlementState:"active"},
   {slotId:"playerTwo",accountId:B,profileId:`profile_${"2".repeat(24)}`,saveId:`save_${"4".repeat(24)}`,entitlementState:"active"}
 ]}};}
 const plainSdk=()=>({Timestamp,doc,runTransaction:firestoreSdk.runTransaction,serverTimestamp,onSnapshot:firestoreSdk.onSnapshot});
-const io=db=>({firestore:db,sdk:plainSdk(),rivalryId:RID,sessionId:SID,deviceId:DA});
-const ctx=(role,season,stage)=>({rivalryId:RID,managerRole:role,season,stage,clubs:CLUBS,special:null,seasons:3});
-function sheetDoc(role,season,stage,sheet){
-  return {...S.toDoc(sheet),schemaVersion:1,objectType:"sharedSquadSheet",rivalryId:RID,seasonNumber:season,stage,role};
+const io=(db,rid=RID)=>({firestore:db,sdk:plainSdk(),rivalryId:rid,sessionId:SID,deviceId:DA});
+const ctx=(role,season,stage,rid=RID,seasons=3)=>({rivalryId:rid,managerRole:role,season,stage,clubs:CLUBS,special:null,seasons});
+function sheetDoc(role,season,stage,sheet,rid=RID){
+  return {...S.toDoc(sheet),schemaVersion:1,objectType:"sharedSquadSheet",rivalryId:rid,seasonNumber:season,stage,role};
 }
 
 (async()=>{
@@ -121,6 +123,42 @@ function sheetDoc(role,season,stage,sheet){
     const none=await Step.store.get(io(dbA),ctx("playerOne",1,"post"),"playerOne",1,"post",false);
     assert.equal(none.ok,true);assert.equal(none.data,null);
     checks.push("a fresh phone reads its own locked screen once (then keeps it) and finds no document for a screen not yet locked");
+
+    // 6. Sol S-SQ-01 (2.6.0 audit): the same twelve club players loaned out in seasons 2-9 (each back at the season's end),
+    // five of them again in season 10. Before the fix every loan added a departure (101 in season 10: LOCK refused, "check
+    // the connection"). Now an ended loan is folded into the man's next record: every screen of both managers locks through
+    // the store, a phone that kept nothing reads it back, and the departures list holds twelve men. The Rules are unchanged:
+    // 100 departures still save and 101 are still refused, and the screen never sends a document past that (S-SQ-01 words).
+    const RID2=`pair_${"7".repeat(64)}`;
+    await env.withSecurityRulesDisabled(async context=>{await setDoc(doc(context.firestore(),"rivalries",RID2),rivalryDoc(RID2));});
+    const people=sheet=>[...sheet.xi,...sheet.bench,...sheet.reserves].filter(Boolean);
+    for(const [role,db] of [["playerOne",dbA],["playerTwo",dbB]]){
+      const events=[null];let sheet=S.launch(CLUBS[role]),borrowers=[],most=0;
+      for(let season=1;season<=10;season+=1){
+        if(season>1)sheet=S.advance(sheet);
+        if(season===2)borrowers=people(sheet).filter(p=>p.signedSeason===null).sort((a,b)=>a.rating-b.rating||a.id.localeCompare(b.id)).slice(0,12).map(p=>p.id);
+        if(season>=2)for(const id of borrowers.slice(0,season===10?5:12)){const r=S.leave(sheet,id,"loaned");assert.ok(r.ok,r.reason);sheet=r.sheet;}
+        for(const stage of ["pre","post"]){
+          if(stage==="post"){if(season===10)break;events[season]={shot:null,released:[],kept:[]};sheet=S.advance(sheet,events[season]);}
+          const data=sheetDoc(role,season,stage,sheet,RID2);most=Math.max(most,data.outNames.length);
+          assert.ok(Step.parse(data,season,stage,role),`${role} S${season} ${stage}: the screen would send it`);
+          const locked=await Step.store.create(io(db,RID2),ctx(role,season,stage,RID2,10),data);
+          assert.equal(locked.ok,true,`${role} S${season} ${stage}: LOCK saves (${JSON.stringify(locked)})`);assert.equal(locked.existing,false);
+          storage.clear();
+          const back=await Step.store.get(io(db,RID2),ctx(role,season,stage,RID2,10),role,season,stage,false);
+          assert.equal(back.ok,true);assert.deepEqual(back.data.outNames,data.outNames);
+          const rebuilt=S.replay({club:CLUBS[role],special:null,season,stage,events,docs:{[`${season}_${stage}`]:back.data}});
+          assert.ok(rebuilt.sheet,rebuilt.error);assert.deepEqual(S.board(rebuilt.sheet),S.board(sheet),`${role} S${season} ${stage}: the same Roulette board`);
+        }
+      }
+      assert.equal(most,12,`${role}: twelve men loaned again and again are twelve departures, never one per loan`);
+    }
+    const RID3=`pair_${"6".repeat(64)}`;
+    await env.withSecurityRulesDisabled(async context=>{await setDoc(doc(context.firestore(),"rivalries",RID3),rivalryDoc(RID3));});
+    const sized=n=>({...good("playerOne",1,"pre"),rivalryId:RID3,outNames:new Array(n).fill("X"),outNumbers:new Array(n).fill(-1),outSigned:new Array(n).fill(0),outReasons:new Array(n).fill("sold"),outSeasons:new Array(n).fill(1)});
+    await setDoc(doc(dbA,"rivalries",RID3,"squadSheets","season_1_pre_playerOne"),sized(100)).catch(error=>{throw new Error(`100 departures: ${error.code}`);});
+    await assertPlainDenial(setDoc(doc(dbA,"rivalries",RID3,"squadSheets","season_1_post_playerOne"),{...sized(101),stage:"post"}),"101 departures (the Rules' limit stands)");
+    checks.push("Sol S-SQ-01: twelve men loaned out every season for ten seasons lock every screen of both managers (twelve departures, not 101); the Rules' 100 stands");
   }finally{await env.cleanup();}
   for(const [i,c] of checks.entries())console.log(`ok ${i+1} ${c}`);
   console.log(`PASS squad sheets Rules emulator (${checks.length} checks)`);

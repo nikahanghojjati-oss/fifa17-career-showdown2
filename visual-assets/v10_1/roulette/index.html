@@ -320,7 +320,7 @@ function handClearSearch(key,base){ const K=handKeepOuts(); if(!K.length) return
     return true; };
   const l0=side<0?-half+.03*fh:ax, l1=side<0?ax:half-.03*fh, xs=[]; for(let i=0;i<=40;i++) xs.push(l0+(l1-l0)*i/40); const want=ax;
   const find=h=>{ let b=null; for(const x of xs) if(ok(x,h)&&(b===null||Math.abs(x-want)<Math.abs(b-want))) b=x; return b; };
-  const lo=.14*fh, hi=(povWide()?.8:handFit?handFit[1]:.5)*fh, N=48; let ph=null; for(let i=0;i<=N;i++){ const h=hi-(hi-lo)*i/N; if(find(h)!==null){ ph=h; break; } }
+  const lo=.14*fh, hi=(PH&&povWide()?.8:handFit?handFit[1]:.5)*fh, N=48; let ph=null; for(let i=0;i<=N;i++){ const h=hi-(hi-lo)*i/N; if(find(h)!==null){ ph=h; break; } }
   if(ph===null) return {key, ph:0};
   { let a=ph, b=Math.min(hi,ph+(hi-lo)/N); for(let i=0;i<8&&b>a;i++){ const m=(a+b)/2; if(find(m)!==null) a=m; else b=m; } ph=a; }
   let mx=find(ph); { let a=mx, b=want; for(let i=0;i<12;i++){ const m=(a+b)/2; if(ok(m,ph)) a=m; else b=m; } mx=a; }
@@ -354,8 +354,11 @@ const portrait=()=>innerWidth<=899&&innerHeight>innerWidth;
    the board for the take and the aim, so the hand grows under the board, between the board and the caption standing in the Spin button's room: x1.25 on
    a tall phone (about 150 px), x1.35 on a short one (about 130 px; x1.25 leaves no clear spot there, and looking lower would cut the board's header). A
    gentle reframe reads as a camera operator's; the x1.55 tried first read as a zoom (lead, 2026-11-15). The glide in from the drum and the moves out after the shot already ease between the lenses. The preview page keeps the usual lens (its
-   mock bar holds the bottom). [lens factor, look drop in m] or null */
-const povWide=()=>PH&&innerWidth<600&&document.body.classList.contains("embed")?(innerHeight>=780?[1.25,.125]:[1.35,.17]):null;
+   mock bar holds the bottom). Tall desktop windows that show the bottom strip with the side hand (aspect under 1.15, e.g. 960x1035) take x1.2 with a
+   small look drop (lead, 2026-11-15: the glove read small at the left edge; the board's foot and the strip leave it little room, so a little more
+   room below the board lets the glove grow about a third, and the board then fits the window). [lens factor, look drop in m] or null */
+const POV_SIDE_WIDE=[1.2,.1];
+const povWide=()=>!document.body.classList.contains("embed")?null:PH?(innerWidth<600?(innerHeight>=780?[1.25,.125]:[1.35,.17]):null):innerWidth/innerHeight<1.15?POV_SIDE_WIDE:null;
 
 /* ================= canvas textures (wood, felt, lacquered panels, marble, pressed tin, soft sprites) ================= */
 function cv(w,h){ const c=document.createElement("canvas"); c.width=w; c.height=h; return [c,c.getContext("2d")]; }
@@ -1499,8 +1502,8 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     const toGun=gw.clone().sub(bw); toGun.y=0; toGun.normalize(); const away=bn.clone().multiplyScalar(PH?.94:.9).addScaledVector(toGun,PH?.06:-.25).normalize(); /* desktop: a touch to the outer side, so the line of sight passes beside the table lamp, never through it */
     const tx=0, ty=0, hs=who==="D"?-1:1;   /* r90 spoiler rule: the shooter's view frames the board, not the target player */   /* the hand on the board's outer side: the shooter stands off the table's edge, the lamp stays out of the frame */
     /* desktop: the whole board sits in the upper two thirds, clear of the result line and the button, and leaves the hand's corner open */
-    const wide=povWide(), lx=PH?Math.max(-.15,Math.min(.15,tx*.9)):hs*.18+tx*.06, ly=PH?-.12-(wide?wide[1]:0)+ty*.35:-.16+ty*.05;
-    const povLook=bw.clone().addScaledVector(bR,lx).addScaledVector(bU,ly), povPos=povLook.clone().addScaledVector(away,PH?1.22:1.8).add(new T.Vector3(0,PH?0:.08,0)); const povFov=PH?44*(wide?wide[0]:1):34; p.pov=povPos; p.povLook=povLook; p.povFov=povFov;
+    const wide=povWide(), lx=PH?Math.max(-.15,Math.min(.15,tx*.9)):hs*.18+tx*.06, ly=PH?-.12-(wide?wide[1]:0)+ty*.35:-.16-(wide?wide[1]:0)+ty*.05;
+    const povLook=bw.clone().addScaledVector(bR,lx).addScaledVector(bU,ly), povPos=povLook.clone().addScaledVector(away,PH?1.22:1.8).add(new T.Vector3(0,PH?0:.08,0)); const povFov=(PH?44:34)*(wide?wide[0]:1); p.pov=povPos; p.povLook=povLook; p.povFov=povFov;
     const holdLook=tgt.clone().addScaledVector(bU,-.06), holdPos=holdLook.clone().addScaledVector(bn,PH?.56:.62), holdFov=PH?42:30;   /* the hit player rides high in the frame, above the result line */
     if(tt<1){ const k=.5-.5*Math.cos(Math.PI*S(0,1,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); fov=lerp(fovIdle,fovRest,k); }   /* r89 polish: the rise to the top shot is a 1 s sine crane-up (peak 4 m/s) instead of a .6 s cubic whip (12 m/s) */
     else if(tt<B.close){ pos.copy(topPos); look.copy(topLook); }
