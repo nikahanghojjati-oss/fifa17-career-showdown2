@@ -896,6 +896,282 @@
    "ticket": "HO-091",
    "fromSha256": "da8c4fdba9cd9dde5e0d463c6a2da654693441dc8d417f2974e0fbfb603ee669",
    "sha256": "3778f76e8fb0f9650f83aeef79cd3313b44b87f840d753cce93877246c04b720"
+  },
+  "CREST_IMG_BREMEN_V1_64.webp": {
+   "from": "CREST_IMG_BREMEN_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "5bbd25122f733811321d532a00bb07f549f1f0de5e07d8bcd9eb4f029f54c924",
+   "sha256": "7c50961b7dca02c89830cefc55bd3e0ce32b4496757efdc87c3d42264cfaafa8"
+  },
+  "CREST_IMG_BREMEN_V1_256.webp": {
+   "from": "CREST_IMG_BREMEN_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "a29cdf27930bc2b9b7bd2b753306df2bf0e651d4b6afddad6ff9c11d6c99cd47",
+   "sha256": "c10348963ed08901b494d637c777c8ff1c3b6ae0762186b3da9a01f02cadcadc"
+  },
+  "CREST_IMG_FREIBURG_V1_64.webp": {
+   "from": "CREST_IMG_FREIBURG_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "ba96a8d153eaa6a95e3bd994a23c2b3f948e5506ab3cc59c96153c8ddba304b2",
+   "sha256": "cd1ca3da5fcbc47f2e85d0c1ede1eb0cd6c1fa54aa49a6cd4fabc3df114c6097"
+  },
+  "CREST_IMG_FREIBURG_V1_256.webp": {
+   "from": "CREST_IMG_FREIBURG_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "8dfcddf7c109ab2d25d233d3ac530fe48fb9bb5e70f22a0108d2c562bbf3e92d",
+   "sha256": "4101f9cc218ac16d21ee81c2c6108d27120f68ee9de8c1e3f4f17f5aef7c967a"
+  },
+  "CREST_IMG_MAINZ_V1_64.webp": {
+   "from": "CREST_IMG_MAINZ_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "396d8393cbb28025a59da3d8a7a44ec2c4e8a668d1eb10f3c8460285e485f1b5",
+   "sha256": "03429c078135c0a07346011ff4cb29c6f12ebed21d131df54cb2b29f4bc6dd35"
+  },
+  "CREST_IMG_MAINZ_V1_256.webp": {
+   "from": "CREST_IMG_MAINZ_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "26f553688e168bef2c2d1eae6bde6c236a077d171ab2f327836c5054e46133ab",
+   "sha256": "02b2006d5d8751356a57ec1977909ea8e39202155ed4e040ac5437fe3ff52497"
+  },
+  "CREST_IMG_DARMSTADT_V1_64.webp": {
+   "from": "CREST_IMG_DARMSTADT_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "092a77f1c9b270154039e0a21e293dbdbca8c6abed78225615de11bc634034fc",
+   "sha256": "a72de7aafe3b0e23e72275a81b8263ad2138108eacf34a16e58fddb143ace8ee"
+  },
+  "CREST_IMG_DARMSTADT_V1_256.webp": {
+   "from": "CREST_IMG_DARMSTADT_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "b6c00920dfe0e9476b765edf1680171a9c50a1f2319d09ca97336dfdbac724d7",
+   "sha256": "f91d925497dc0324663fe62e516bef078787dd9ff27f06887cb8cf55eb5f278e"
+  },
+  "CREST_IMG_HOFFENHEIM_V1_64.webp": {
+   "from": "CREST_IMG_HOFFENHEIM_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "23c24ee66639ff363b20ce8c67cb5dceaf50b8459c795127d4e72e79f7090ddd",
+   "sha256": "058f454d7f5aee7b11766c212c781813acf884ff4f52f8d19f31a2ac0b59e0e1"
+  },
+  "CREST_IMG_HOFFENHEIM_V1_256.webp": {
+   "from": "CREST_IMG_HOFFENHEIM_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "cf01e524bb57813438a685db2c86dd1605614b43ca4c525d668f6c1b4cbcbba8",
+   "sha256": "28dead789b61ac56b52e1d4031d966d1b2bb24809f335e05887afb122428bfe6"
+  },
+  "CREST_IMG_BOLOGNA_V1_64.webp": {
+   "from": "CREST_IMG_BOLOGNA_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "f77752398bc58053dbe0e13f3342a7e307a3a189f8e5c90cc3a6805866a9f3d6",
+   "sha256": "31aab0b0225927d2970f9d827c7888c291b65d26694371a37e81a838afb586a3"
+  },
+  "CREST_IMG_BOLOGNA_V1_256.webp": {
+   "from": "CREST_IMG_BOLOGNA_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "a6ab5136a0beb015cb733e317230cf24dfec87b12601c619869317da6e133d65",
+   "sha256": "be5f5ed4dcc04cd657d207e9803a1e6bc145b8f1332da5b882db9554765fa942"
+  },
+  "CREST_IMG_CAGLIARI_V1_64.webp": {
+   "from": "CREST_IMG_CAGLIARI_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "de016e39c06252acba554123b1b29ac39fe3e77f02c4b7b41b24094c97394d0a",
+   "sha256": "67386bb7a7bbc653fd406270273baf4448693e7888f1cb349795684c7af4a295"
+  },
+  "CREST_IMG_CAGLIARI_V1_256.webp": {
+   "from": "CREST_IMG_CAGLIARI_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "76255e5c40bf17caee6d64bc6df1147d430fd13606489449b0af8f39641d9743",
+   "sha256": "ddf45478793c955e6e5761a501f221ec1d5fea5e7705a38424a8e57b98ff9089"
+  },
+  "CREST_IMG_EMPOLI_V1_64.webp": {
+   "from": "CREST_IMG_EMPOLI_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "69cf5a2d3e23c98ff930acb6e595c2762417b6502157845c5fb999e72172c9a1",
+   "sha256": "c3d6992403a58b23eeac2adcd717a03db33da1d7725d5eb3ce37f2361b1d4da1"
+  },
+  "CREST_IMG_EMPOLI_V1_256.webp": {
+   "from": "CREST_IMG_EMPOLI_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "236ae753dc688df4f3240cb1bffe4581fb89bbe5d191af03cee22061c61c850d",
+   "sha256": "4dfd65231f35a9b688e386d96cd22cbc242d28b847d10a001f8824bee50d0524"
+  },
+  "CREST_IMG_SASSUOLO_V1_64.webp": {
+   "from": "CREST_IMG_SASSUOLO_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "efd96da4a804eba48ccf640f84380bf55f38eadcc9793a5ffea9de7bad17d3b1",
+   "sha256": "04070588ecad0e1381da9fbdbedcab910b277ed0d46a4891a0ddcf905f3305fa"
+  },
+  "CREST_IMG_SASSUOLO_V1_256.webp": {
+   "from": "CREST_IMG_SASSUOLO_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "23e01e668166fd1e3ac66fea5eed61cc1c7b17f4088217080118546f0ed5b012",
+   "sha256": "9fff7335b9a4b5abf43393cf1e9ec0daac6e951825fb42bec07add666778a40d"
+  },
+  "CREST_IMG_UDINESE_V1_64.webp": {
+   "from": "CREST_IMG_UDINESE_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "2bea79951d0c80030b7a0fde42ff8c1cb0a0a47c09f860a75069fbb3a7f8d425",
+   "sha256": "b81d2c406669ddf32d5c630cd4f79dbf845cdd961534d3d5019073e200777863"
+  },
+  "CREST_IMG_UDINESE_V1_256.webp": {
+   "from": "CREST_IMG_UDINESE_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "0c605705b03c9e2a7ca0da24a4381cc4d1801a8dd2a89e8e653c8e2d99e9f2e2",
+   "sha256": "e5e646469413a841fe9323f615b16defca09f110723d6ea19ea238bf42858586"
+  },
+  "CREST_IMG_LEGANES_V1_64.webp": {
+   "from": "CREST_IMG_LEGANES_V1_64.png",
+   "ticket": "HO-092",
+   "fromSha256": "6b6877553ea07375203e733885b083cb7467790070a636f2d0fe23ba47d7c178",
+   "sha256": "708e40921e22c625058da9c60218243989bc2453cd5928da47fde0dd1951d6d0"
+  },
+  "CREST_IMG_LEGANES_V1_256.webp": {
+   "from": "CREST_IMG_LEGANES_V1_256.png",
+   "ticket": "HO-092",
+   "fromSha256": "bf9541d4fce47b9459bc1010f3fa52a228bd9bd9c97deeabd5bf18bc20f6ee78",
+   "sha256": "3fed4fa16aab2f6da40fa615bb6d008a37298fcdfcd4191efb783e857f7f9527"
+  },
+  "CREST_IMG_FIORENTINA_V1_64.webp": {
+   "from": "CREST_IMG_FIORENTINA_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "e86ef8801aa6d2f0021571041ef556ef64172a17958f68fddacee075a2d2b22d",
+   "sha256": "8807b71b14304456c53682e8ca7683df0016724142a99cbbafd5578b081bca1b"
+  },
+  "CREST_IMG_FIORENTINA_V1_256.webp": {
+   "from": "CREST_IMG_FIORENTINA_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "b82aa69f9ba896f37ca460e5697ecdc56b8ded53add2095722c9d332675084c6",
+   "sha256": "7646f056faaa3ffa0fd554d220c16b5fd6e049798685641e6f83c6003c06f2b0"
+  },
+  "CREST_IMG_CROTONE_V1_64.webp": {
+   "from": "CREST_IMG_CROTONE_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "4f14003e56d11442bb711e257d11752e12fcf7b39555a4e7d5834133bab53294",
+   "sha256": "7ad4ba19c88ed5fa941d3b42eec5b7d0a1430239613161f444f42f9ad425298a"
+  },
+  "CREST_IMG_CROTONE_V1_256.webp": {
+   "from": "CREST_IMG_CROTONE_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "701e6c3a1d8b32a443b4716869fc72180a22d075198a0c476e81844ede17787a",
+   "sha256": "eb49fbb0cb9d8fcb0686f666421230ca7f758cee1bf6d97a677dc49ef52c4cd7"
+  },
+  "CREST_IMG_VERONA_V1_64.webp": {
+   "from": "CREST_IMG_VERONA_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "e5f317851f6ae9791517df01e8992397dd1b430f4a1752446f49890aa01de206",
+   "sha256": "db0148b4d07760b8c7d6f0d33c4cd5dd6b452f493456b1b35096a314fbef2d99"
+  },
+  "CREST_IMG_VERONA_V1_256.webp": {
+   "from": "CREST_IMG_VERONA_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "323405df36eaafbd12e47434434cad4acf6c8d296f3d56f266e56128f34d365c",
+   "sha256": "d2b8537c249ec0ba528f965bdbd2367aa869e2251ab11d13b64d9e9e0b5b7a3b"
+  },
+  "CREST_IMG_SAMPDORIA_V1_64.webp": {
+   "from": "CREST_IMG_SAMPDORIA_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "ddad6870c562d229feeba14b5cf2bab259721592907b77c96bbf81fcb0f7e1b3",
+   "sha256": "ce3ee34ca248a8c380e236ef30230d71652ae38681eca34525ca81dcca996047"
+  },
+  "CREST_IMG_SAMPDORIA_V1_256.webp": {
+   "from": "CREST_IMG_SAMPDORIA_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "e88063952ae65c502584f03eb8df2d849cb4439aa23df60ec7d3bae94806fd23",
+   "sha256": "64f3129e02f2d11f97f48f7187e54f7df6db9f01a93beacff093e2ddcb476ddc"
+  },
+  "CREST_IMG_OSASUNA_V1_64.webp": {
+   "from": "CREST_IMG_OSASUNA_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "31721c8124fa9fd8a26ef8a1f5df65a3156254b8c714556ce62698e911002922",
+   "sha256": "0801d178abd41a863e50ba94ae8dde27826c7c1af3b9cb5d0e257f2bc2045858"
+  },
+  "CREST_IMG_OSASUNA_V1_256.webp": {
+   "from": "CREST_IMG_OSASUNA_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "909e1770dbc0228196c75523eb68ddbd02b87608e97e4c0c78e60218dd139dc2",
+   "sha256": "9189238a8ba3b7a00aa470d5ec4e7e5603b5e0ef2a948ca7ec4e2f5393cb4fa7"
+  },
+  "CREST_IMG_ANGERS_V1_64.webp": {
+   "from": "CREST_IMG_ANGERS_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "83e91f4e97e54aeb2f983038db71667936ef23a12284df0cd014b21883f295c2",
+   "sha256": "eb8a11f759ebbb88b6522a9ea550a7ee4c22de2f21aaa99c1d289b712efbea4d"
+  },
+  "CREST_IMG_ANGERS_V1_256.webp": {
+   "from": "CREST_IMG_ANGERS_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "7aff4957eb5fa778a429a4c4c73bd98fb1ce0da7aeca1c54ae5b8f810ae4456b",
+   "sha256": "9d6e1238fdedda44ac99d0caa4a5f7dcdecaadc960b31f80b75d2655513c0d35"
+  },
+  "CREST_IMG_BORDEAUX_V1_64.webp": {
+   "from": "CREST_IMG_BORDEAUX_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "d96867b6b2a1b1940a3314c3b0adfa252e3294b714738ac6b4ea2b007b35a4d8",
+   "sha256": "6378a43c71c2a1dd0e5fbbdf9f0419736f8d69b88f916e744092f41bbfae1360"
+  },
+  "CREST_IMG_BORDEAUX_V1_256.webp": {
+   "from": "CREST_IMG_BORDEAUX_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "3231b74f3ac61080d6dfa1f38440aa6c723f21e3c26f98d26c54a6c79e014b74",
+   "sha256": "73c61804cc1ae05d1996da25d6cfc875da8fe5330b7df192e58852eed45cdb86"
+  },
+  "CREST_IMG_GUINGAMP_V1_64.webp": {
+   "from": "CREST_IMG_GUINGAMP_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "58f945c3b20436ae3c8afa10a71dcc291ad0b3e360757c17ae693345e21633b8",
+   "sha256": "4e5dbeb3f395e279dd826df39ac23b04f026d6905f84a9b8d0fcef849520f02c"
+  },
+  "CREST_IMG_GUINGAMP_V1_256.webp": {
+   "from": "CREST_IMG_GUINGAMP_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "398b90aebf0893143d6be763dd48ae9a50c3ee718ee264188937098f0fd6b4ef",
+   "sha256": "fb2188dd899478e2db66d7133c74b95979da91b2bf3d2e0f303fe40d74396ff3"
+  },
+  "CREST_IMG_NANCY_V1_64.webp": {
+   "from": "CREST_IMG_NANCY_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "e64b2ec4702c3aa46d0a3ef716ca7f2afb5d689ba4708abe608ae9b7af35faaa",
+   "sha256": "2ac35d1071193894e6401cdf3dbbb291a3cf4d4a97e2c9028186ec368b5bf81e"
+  },
+  "CREST_IMG_NANCY_V1_256.webp": {
+   "from": "CREST_IMG_NANCY_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "776a95ea6642c4c4e435f2d44b0ea3fb698aaddc5e3840efa036fe6cbd369002",
+   "sha256": "9468be7d803c3229e2db023795c109ed8987eeb481d1284cd6d6d46709d5c85c"
+  },
+  "CREST_IMG_RENNES_V1_64.webp": {
+   "from": "CREST_IMG_RENNES_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "0599178537f2531ede25de518950e27397d9921db2c9e2f5b0d3f6c2f8bb8982",
+   "sha256": "c353a9e3219ed828c5d3e8ae133bbc82c743977d977332b107e7d6e09c7b117d"
+  },
+  "CREST_IMG_RENNES_V1_256.webp": {
+   "from": "CREST_IMG_RENNES_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "0462d3c6248cc2dec9bcecb626f6904bf3d2c977bcfa9700f4e440994b024764",
+   "sha256": "9f566f527a1bb99ffbd471cda065eca8806abd9dbdd7bbf03289d7ad737cd96f"
+  },
+  "CREST_IMG_SAINTETIENNE_V1_64.webp": {
+   "from": "CREST_IMG_SAINTETIENNE_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "440ecd7a35c5e6579e4acf5ca0d63f363b1318cd68013a43b2730efd2983654b",
+   "sha256": "01028aea839f7287efb06a91f8ac932f7d11d62e2a78a700f8ffd4c7c1e2a2de"
+  },
+  "CREST_IMG_SAINTETIENNE_V1_256.webp": {
+   "from": "CREST_IMG_SAINTETIENNE_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "1f388cbef66c7a0a3362101f84f8094af037b0c354f09460632b0f15d97aef0d",
+   "sha256": "810fe73b2638849ed362e8c2f5dba8d342806ddc8c54facef1f23a6e8f454cd1"
+  },
+  "CREST_IMG_TOULOUSE_V1_64.webp": {
+   "from": "CREST_IMG_TOULOUSE_V1_64.png",
+   "ticket": "HO-093",
+   "fromSha256": "0829181a0839c7aec30cd318c9edaaef1982d04ed519b6ecd9f303867857ff29",
+   "sha256": "a450c8a35a0335068eda93b8c09bc52ee8e4bc6ff74e16e8d2964bf9ee79f451"
+  },
+  "CREST_IMG_TOULOUSE_V1_256.webp": {
+   "from": "CREST_IMG_TOULOUSE_V1_256.png",
+   "ticket": "HO-093",
+   "fromSha256": "584fe990679ebc6d7716e50151ae2e9fe9a609eac4ae1fe82cb0f71d3e7c0246",
+   "sha256": "470106c6705143bfe37e76bc3ce971481860b2196834605c3c802d9a986ab50d"
   }
  },
  "batches": {
@@ -905,6 +1181,8 @@
   "HO-088": "claude/project-thread-vraiao 21bf799f2 project-documents/hc-art/ho088/",
   "HO-089": "claude/project-thread-vraiao b5825f3b project-documents/hc-art/ho089/",
   "HO-090": "claude/project-thread-vraiao b58b30b0 project-documents/hc-art/ho090/",
-  "HO-091": "claude/project-thread-vraiao 652e203d4 project-documents/hc-art/ho091/"
+  "HO-091": "claude/project-thread-vraiao 652e203d4 project-documents/hc-art/ho091/",
+  "HO-092": "claude/project-thread-vraiao 78ca16060 project-documents/hc-art/ho092/",
+  "HO-093": "claude/project-thread-vraiao 78ca16060 project-documents/hc-art/ho093/"
  }
 }

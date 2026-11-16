@@ -1062,7 +1062,11 @@ const CREST_IMAGE_FILES = Object.freeze({
     // HO-090
     "Villarreal": "VILLARREAL", "Valencia": "VALENCIA", "Las Palmas": "LASPALMAS", "Athletic Club": "ATHLETIC", "Sunderland": "SUNDERLAND", "Inter Milan": "INTER", "RB Leipzig": "LEIPZIG", "Nantes": "NANTES", "Paris Saint-Germain": "PSG", "Monaco": "MONACO",
     // HO-091
-    "Marseille": "MARSEILLE", "Montpellier": "MONTPELLIER", "FC Augsburg": "AUGSBURG", "Juventus": "JUVENTUS", "Milan": "MILAN", "Bayern Munich": "BAYERN", "Borussia Dortmund": "DORTMUND", "Schalke 04": "SCHALKE", "Hertha BSC": "HERTHA", "Hamburg": "HAMBURG"
+    "Marseille": "MARSEILLE", "Montpellier": "MONTPELLIER", "FC Augsburg": "AUGSBURG", "Juventus": "JUVENTUS", "Milan": "MILAN", "Bayern Munich": "BAYERN", "Borussia Dortmund": "DORTMUND", "Schalke 04": "SCHALKE", "Hertha BSC": "HERTHA", "Hamburg": "HAMBURG",
+    // HO-092
+    "Werder Bremen": "BREMEN", "SC Freiburg": "FREIBURG", "Mainz 05": "MAINZ", "Darmstadt 98": "DARMSTADT", "Hoffenheim": "HOFFENHEIM", "Bologna": "BOLOGNA", "Cagliari": "CAGLIARI", "Empoli": "EMPOLI", "Sassuolo": "SASSUOLO", "Udinese": "UDINESE", "Leganés": "LEGANES",
+    // HO-093
+    "Fiorentina": "FIORENTINA", "Crotone": "CROTONE", "Chievo": "VERONA", "Sampdoria": "SAMPDORIA", "Osasuna": "OSASUNA", "Angers": "ANGERS", "Bordeaux": "BORDEAUX", "Guingamp": "GUINGAMP", "Nancy": "NANCY", "Rennes": "RENNES", "Saint-Étienne": "SAINTETIENNE", "Toulouse": "TOULOUSE"
 });
 const CREST_IMAGE_BASE = (() => {
     try{
