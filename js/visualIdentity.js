@@ -1056,7 +1056,11 @@ const CREST_IMAGE_FILES = Object.freeze({
     // HO-087
     "Everton": "EVERTON", "1. FC Köln": "KOELN", "Borussia Mönchengladbach": "GLADBACH", "Napoli": "NAPOLI", "Pescara": "PESCARA", "Atalanta": "ATALANTA", "Bastia": "BASTIA", "Watford": "WATFORD", "Swansea City": "SWANSEA", "West Bromwich Albion": "WBA",
     // HO-088
-    "Manchester City": "MANCITY", "Arsenal": "ARSENAL", "Burnley": "BURNLEY", "Stoke City": "STOKE", "Southampton": "SOUTHAMPTON", "Dijon": "DIJON", "Lorient": "LORIENT", "Alavés": "ALAVES", "Atlético Madrid": "ATLETICO", "Sevilla": "SEVILLA"
+    "Manchester City": "MANCITY", "Arsenal": "ARSENAL", "Burnley": "BURNLEY", "Stoke City": "STOKE", "Southampton": "SOUTHAMPTON", "Dijon": "DIJON", "Lorient": "LORIENT", "Alavés": "ALAVES", "Atlético Madrid": "ATLETICO", "Sevilla": "SEVILLA",
+    // HO-089
+    "Real Madrid": "REALMADRID", "Celta Vigo": "CELTA", "Deportivo La Coruña": "DEPOR", "Eibar": "EIBAR", "Espanyol": "ESPANYOL", "Granada": "GRANADA", "Málaga": "MALAGA", "Real Betis": "BETIS", "Real Sociedad": "REALSOCIEDAD", "Sporting Gijón": "SPORTING",
+    // HO-090
+    "Villarreal": "VILLARREAL", "Valencia": "VALENCIA", "Las Palmas": "LASPALMAS", "Athletic Club": "ATHLETIC", "Sunderland": "SUNDERLAND", "Inter Milan": "INTER", "RB Leipzig": "LEIPZIG", "Nantes": "NANTES", "Paris Saint-Germain": "PSG", "Monaco": "MONACO"
 });
 const CREST_IMAGE_BASE = (() => {
     try{

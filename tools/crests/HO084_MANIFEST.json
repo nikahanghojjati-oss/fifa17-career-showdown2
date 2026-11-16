@@ -536,12 +536,254 @@
    "ticket": "HO-088",
    "fromSha256": "9708ddd3b10127a72f732b7e57e08f6a58c14eea787e14244183993947d9363b",
    "sha256": "398fdef4089d7371d4e4e7317300091a03a93b8a5f77ed8353bf177069c87e21"
+  },
+  "CREST_IMG_REALMADRID_V1_64.webp": {
+   "from": "CREST_IMG_REALMADRID_V1_64.png",
+   "ticket": "HO-089",
+   "fromSha256": "5c8dcd3cb39a6f28f70fcaff7af310e03ba94742fb8a2738c8c5f3a85e33c824",
+   "sha256": "2e9779e819ebac1e729d8b19e330cfc828d66613a52207c1b87f22761c2a5c2d"
+  },
+  "CREST_IMG_REALMADRID_V1_256.webp": {
+   "from": "CREST_IMG_REALMADRID_V1_256.png",
+   "ticket": "HO-089",
+   "fromSha256": "068e9ef077e73a6a0ddf1497e3778917bd5a9209e4ba7f205a97ea1fc6dc0e69",
+   "sha256": "6f70ae2af944f5d692869de0126889c0b7466e032cd26bdec36f4cc2299f8d5d"
+  },
+  "CREST_IMG_CELTA_V1_64.webp": {
+   "from": "CREST_IMG_CELTA_V1_64.png",
+   "ticket": "HO-089",
+   "fromSha256": "a3262ddf3623117108e60b6710a5f0751df8577d950c9b1b180ce673700fe174",
+   "sha256": "fefcd5da96bd59c9cbd63d3c24c1c9818732ed3c1c5505dec5ae4bb04bfcaa54"
+  },
+  "CREST_IMG_CELTA_V1_256.webp": {
+   "from": "CREST_IMG_CELTA_V1_256.png",
+   "ticket": "HO-089",
+   "fromSha256": "be16192e68201874977df4723959b01c66e267f7b72e614f049c12b153a1f9ea",
+   "sha256": "9de23cc5d5891c2846cd65c4a5181890895e9a525b063723fa6b6ed642adff9b"
+  },
+  "CREST_IMG_DEPOR_V1_64.webp": {
+   "from": "CREST_IMG_DEPOR_V1_64.png",
+   "ticket": "HO-089",
+   "fromSha256": "52a0ecefe5f4e0aa2c08c300d94100886dd016512cc984f52c9d35e5d0ea107c",
+   "sha256": "36a318e92fa5f4f8e3d3632ce3761e025686fe06a0800cae3203d03ecdd7e551"
+  },
+  "CREST_IMG_DEPOR_V1_256.webp": {
+   "from": "CREST_IMG_DEPOR_V1_256.png",
+   "ticket": "HO-089",
+   "fromSha256": "fbeb3e354d2c79bc73f07c4e99d9a5f3e74d002dfb67c156833165b73c263efc",
+   "sha256": "280e232fcde08a5baf10db7a85c2ed3b1abda8b1e19eda83e7b12b5444ccb5cc"
+  },
+  "CREST_IMG_EIBAR_V1_64.webp": {
+   "from": "CREST_IMG_EIBAR_V1_64.png",
+   "ticket": "HO-089",
+   "fromSha256": "5a7ca5ffa4061a0a16c2121461330972b26c163744eefd211d156979934742d6",
+   "sha256": "1e3ce509af6448dc6bb7abc2f7e8a9d9daac916e9585d607e83ccc49793a6ef3"
+  },
+  "CREST_IMG_EIBAR_V1_256.webp": {
+   "from": "CREST_IMG_EIBAR_V1_256.png",
+   "ticket": "HO-089",
+   "fromSha256": "9284a73c791414fe2fa645646fe7e3aef6a79b7798591c5c0b8b7f3e7fd1e6d2",
+   "sha256": "263d1df308525d0cf0edcd7712cd7faca948907bf662f5afdf3261a155917551"
+  },
+  "CREST_IMG_ESPANYOL_V1_64.webp": {
+   "from": "CREST_IMG_ESPANYOL_V1_64.png",
+   "ticket": "HO-089",
+   "fromSha256": "ea5817d370b07273a2270d1a51515f7612738bb9c2900f8b5a60440f44596012",
+   "sha256": "f0d23d638153e772f4fb7639ae6e1a4d1ada8a6f3dcffdb1870206496ffee188"
+  },
+  "CREST_IMG_ESPANYOL_V1_256.webp": {
+   "from": "CREST_IMG_ESPANYOL_V1_256.png",
+   "ticket": "HO-089",
+   "fromSha256": "9cf6643d1bfbd5ddc77d2c28c928717a6ee792d01ef7275759ddc82701cfc782",
+   "sha256": "6dbf31a568ea20af6a1da0eb4c1c53debc1c2756e222d888d953896eafaa4fd9"
+  },
+  "CREST_IMG_GRANADA_V1_64.webp": {
+   "from": "CREST_IMG_GRANADA_V1_64.png",
+   "ticket": "HO-089",
+   "fromSha256": "7e61dce4b7931ba62019a584b02017038921e7b4fc9697f0f877629aee49fc33",
+   "sha256": "3c59de09abe043d5f18c975a37442ee8cb8fb9ae784469f82d023e9feb54d87a"
+  },
+  "CREST_IMG_GRANADA_V1_256.webp": {
+   "from": "CREST_IMG_GRANADA_V1_256.png",
+   "ticket": "HO-089",
+   "fromSha256": "6287933e8581fa0d0f72f911ba473af2d7816d9e46467ca0813bbea96cebdeb0",
+   "sha256": "933624e55fe5044666f0b1d92bab5a53492a158a261dc617e44e61a62f6e2a8c"
+  },
+  "CREST_IMG_MALAGA_V1_64.webp": {
+   "from": "CREST_IMG_MALAGA_V1_64.png",
+   "ticket": "HO-089",
+   "fromSha256": "02bc124ae7ed69c90b0b6ac2d4b8deeb2db99792210aef02e978c444f3fea97c",
+   "sha256": "db056fd6d51aa382e5d61b72d684da58709ef640d079fba297a75c7fdc23701f"
+  },
+  "CREST_IMG_MALAGA_V1_256.webp": {
+   "from": "CREST_IMG_MALAGA_V1_256.png",
+   "ticket": "HO-089",
+   "fromSha256": "55479cd1a131593a49eb5dd8dbace32cd991b220a18bec6de7ea175fc42ba4dc",
+   "sha256": "438fdc63cadfcf4a0f616d6f6c8b8cab2a33652797f3a0e9c7a33cd3bf60a660"
+  },
+  "CREST_IMG_BETIS_V1_64.webp": {
+   "from": "CREST_IMG_BETIS_V1_64.png",
+   "ticket": "HO-089",
+   "fromSha256": "4e9304dacfe34379f247fda783c4282b2f9be7fe6ec2cc2add84ba3197eeb84c",
+   "sha256": "ebd84583e7ccdd1d66b12c725f2b22911b34915823aa4a4742491e65f6b703dd"
+  },
+  "CREST_IMG_BETIS_V1_256.webp": {
+   "from": "CREST_IMG_BETIS_V1_256.png",
+   "ticket": "HO-089",
+   "fromSha256": "3650b93d982a9ca97f7c0db4f717f9df0095f58be48d704416574937d1494e30",
+   "sha256": "eb823932318c4c1165de9a60312407fccfdf811100c3c806bd3bc0948fdf61cf"
+  },
+  "CREST_IMG_REALSOCIEDAD_V1_64.webp": {
+   "from": "CREST_IMG_REALSOCIEDAD_V1_64.png",
+   "ticket": "HO-089",
+   "fromSha256": "3ba3ace13d24e030c5753027057aa575b8fb3e9c388b71a4e3bbb01f1312028b",
+   "sha256": "876b424919ee1da822988deee48e157036c8c008a570f9a4f1885c81a197419f"
+  },
+  "CREST_IMG_REALSOCIEDAD_V1_256.webp": {
+   "from": "CREST_IMG_REALSOCIEDAD_V1_256.png",
+   "ticket": "HO-089",
+   "fromSha256": "b721b6298a27823778b4d75bec199f2bca23e535edbf79736a4a409e35a987a5",
+   "sha256": "289661ca048f629af87728e2f2d0afa4af92804464032a28e6152b3828f8f27d"
+  },
+  "CREST_IMG_SPORTING_V1_64.webp": {
+   "from": "CREST_IMG_SPORTING_V1_64.png",
+   "ticket": "HO-089",
+   "fromSha256": "52aa67d949b465c8b31c8be1851f7747bb9413a333ffca708d2500dc395c9bd0",
+   "sha256": "839ac78e82e686668f569ee81fb468fa662cc392d051cca3f384bb3d9d8ae489"
+  },
+  "CREST_IMG_SPORTING_V1_256.webp": {
+   "from": "CREST_IMG_SPORTING_V1_256.png",
+   "ticket": "HO-089",
+   "fromSha256": "08b64c9274060fd22e774695aaca98c3db8f7dbcbfd4ccb936739363cd71ac09",
+   "sha256": "0ebf17e43f1351ef5e06dfc155bd11a836e993d557565d8c02473598efb69f1d"
+  },
+  "CREST_IMG_VILLARREAL_V1_64.webp": {
+   "from": "CREST_IMG_VILLARREAL_V1_64.png",
+   "ticket": "HO-090",
+   "fromSha256": "5a2305c8202cf6942f74796d7f3ff2b5c2d62c529768b6c8c140082d63d99b2e",
+   "sha256": "c58179d531db83c233659136e2bb8f3c003ffeb95333e2ab00ebf2b37b72cc86"
+  },
+  "CREST_IMG_VILLARREAL_V1_256.webp": {
+   "from": "CREST_IMG_VILLARREAL_V1_256.png",
+   "ticket": "HO-090",
+   "fromSha256": "e18cd0e29ad8b9dbe7d271d76f1411c6367ae6044740f6e2856c7ca4ed8368bf",
+   "sha256": "97b56c4c31b4eabdf5dde5407bc94ec2ed50632cf6d5309726c3c1187676dcdd"
+  },
+  "CREST_IMG_VALENCIA_V1_64.webp": {
+   "from": "CREST_IMG_VALENCIA_V1_64.png",
+   "ticket": "HO-090",
+   "fromSha256": "480c744c609255287573a5f3fcb83937a6abf86caf565fb3c23773148a222367",
+   "sha256": "a0fb1b7d4d641899b3d74c4439d046747a229f8f54956805285182db7d187c5d"
+  },
+  "CREST_IMG_VALENCIA_V1_256.webp": {
+   "from": "CREST_IMG_VALENCIA_V1_256.png",
+   "ticket": "HO-090",
+   "fromSha256": "c2623df7b026870fb789c485290e129fcbef668e8a727ce811554cd3a2dc413b",
+   "sha256": "5369f372dc115a7fb0bd3e3e72bbd64ef389422dcf6315e260bbcb95f643fab6"
+  },
+  "CREST_IMG_LASPALMAS_V1_64.webp": {
+   "from": "CREST_IMG_LASPALMAS_V1_64.png",
+   "ticket": "HO-090",
+   "fromSha256": "dda0fe932e0d82a042a5b0114f329230878aec3ae5a19f70d85b4aef6479a1cf",
+   "sha256": "f8277c07a120c0e127ec08f4f271a4a8dd0ec1e7c57aa613727e9a15ba5df508"
+  },
+  "CREST_IMG_LASPALMAS_V1_256.webp": {
+   "from": "CREST_IMG_LASPALMAS_V1_256.png",
+   "ticket": "HO-090",
+   "fromSha256": "482b356b673d0a644a8a099c1b66e8e185a127c209ce80d7f36fb01e8b24a643",
+   "sha256": "719663b6d7c4197f8d1689b052984a7eeca1670c7a4b3e08c4ac96e1a803befb"
+  },
+  "CREST_IMG_ATHLETIC_V1_64.webp": {
+   "from": "CREST_IMG_ATHLETIC_V1_64.png",
+   "ticket": "HO-090",
+   "fromSha256": "792d487d3db42f07ed990a09467878fd57010c958d09f45eea174730b0e0e114",
+   "sha256": "12bd23114c41eefb68f55a9e84ba514a8fe957f3b1699726557e8ab35c55e5ea"
+  },
+  "CREST_IMG_ATHLETIC_V1_256.webp": {
+   "from": "CREST_IMG_ATHLETIC_V1_256.png",
+   "ticket": "HO-090",
+   "fromSha256": "149744c97efa1d17b3f0194b33c2c42d3d488dbe86b045c5404635ddc9c42ca7",
+   "sha256": "8512966a424fcb48f1d9ac326deb8c88fc07dfd5ee255f20291733e8d3e14b70"
+  },
+  "CREST_IMG_SUNDERLAND_V1_64.webp": {
+   "from": "CREST_IMG_SUNDERLAND_V1_64.png",
+   "ticket": "HO-090",
+   "fromSha256": "f3bf84a9b91c56ce01b2e548d09ddfc71062617bf778854607ba76ab58f8c8e8",
+   "sha256": "4c4341d33fc9b78ac165933c46b058b1718a1c2c00ea1e766f68ced42fac35b9"
+  },
+  "CREST_IMG_SUNDERLAND_V1_256.webp": {
+   "from": "CREST_IMG_SUNDERLAND_V1_256.png",
+   "ticket": "HO-090",
+   "fromSha256": "04a6da7e65857742f85fa723bf65a66b80f3713e76e7c170fb4380843161ac25",
+   "sha256": "ace07a69a989f68fa9fb1ee0cbfe641da165b56a3ecc512449c0ce5bb00d70d5"
+  },
+  "CREST_IMG_INTER_V1_64.webp": {
+   "from": "CREST_IMG_INTER_V1_64.png",
+   "ticket": "HO-090",
+   "fromSha256": "85fd853e267101976c0a14b4960ed4bb01a5dbb1952680cfb2f0bafd4ae584db",
+   "sha256": "edcfa587c6fb70c5699ce451c1894f39f182e685d52841e4c6d9cb75c9db2a42"
+  },
+  "CREST_IMG_INTER_V1_256.webp": {
+   "from": "CREST_IMG_INTER_V1_256.png",
+   "ticket": "HO-090",
+   "fromSha256": "82cdf6763da812dca493288a12767ba2dd4d07ec8d54aea2f4d05cb1ab9000af",
+   "sha256": "44af41e69444c90c2fca4d3c8636cd159c37ee4acbb6c31f8c6cbcf95876f4c1"
+  },
+  "CREST_IMG_LEIPZIG_V1_64.webp": {
+   "from": "CREST_IMG_LEIPZIG_V1_64.png",
+   "ticket": "HO-090",
+   "fromSha256": "bdb975b05b544338c0a5a63cf27b7f9cea1ffd7a67fa02bd34f863baa83c1e79",
+   "sha256": "daef876b4b955ac0e0fecce2436bc99995bd5172b8ce95e6cdb050cc358f8670"
+  },
+  "CREST_IMG_LEIPZIG_V1_256.webp": {
+   "from": "CREST_IMG_LEIPZIG_V1_256.png",
+   "ticket": "HO-090",
+   "fromSha256": "3827530a152c7075971cb08f360c6171e0992ce4e24d6b371ea33318a9620767",
+   "sha256": "5197952a745628c1f8ae899a11de55edd4eafeed79abec30950712a51ed820a8"
+  },
+  "CREST_IMG_NANTES_V1_64.webp": {
+   "from": "CREST_IMG_NANTES_V1_64.png",
+   "ticket": "HO-090",
+   "fromSha256": "80fc553f7cac3f8feccee0ea76621bfbfc7cb2a3be313a9cd1f9c903b5633f80",
+   "sha256": "146dadeda64afa97aa89f8b353be626b385b51d4ba91e797c61008b0aa29e4ab"
+  },
+  "CREST_IMG_NANTES_V1_256.webp": {
+   "from": "CREST_IMG_NANTES_V1_256.png",
+   "ticket": "HO-090",
+   "fromSha256": "63d5203f13d065a1538a880ac185ac22ba904c1939f0575bbd4a205d9d5796fb",
+   "sha256": "f29e2e701d85fd69c38c0dd6be41bef0aef3564837baff09a570b8fe04ea92b6"
+  },
+  "CREST_IMG_PSG_V1_64.webp": {
+   "from": "CREST_IMG_PSG_V1_64.png",
+   "ticket": "HO-090",
+   "fromSha256": "5e8788b2b3f8cae8960f1b9358467ab793c649703042c7866c5bc785d21d9d1b",
+   "sha256": "2c393de0ffa8e1cc0e08d82b902a1e48a6f68683b1e68e7d5de601417f4dc304"
+  },
+  "CREST_IMG_PSG_V1_256.webp": {
+   "from": "CREST_IMG_PSG_V1_256.png",
+   "ticket": "HO-090",
+   "fromSha256": "535792c3236cfd5ee6516428987e7d8548a288efbb811e344e7429aa9804c6ac",
+   "sha256": "e8f09eed24261f1268b06da8cdb2a52561270a8619aca95deeffa5d9f24c3eaf"
+  },
+  "CREST_IMG_MONACO_V1_64.webp": {
+   "from": "CREST_IMG_MONACO_V1_64.png",
+   "ticket": "HO-090",
+   "fromSha256": "6cb9985ce96ad494f1bc86312882a5be83c94c4f8a3e8e70aa5ef1841fdbcc88",
+   "sha256": "7155161fbbafe5145b34b2bd7608e1d37154fc38488773b5d69f459cb82d8e70"
+  },
+  "CREST_IMG_MONACO_V1_256.webp": {
+   "from": "CREST_IMG_MONACO_V1_256.png",
+   "ticket": "HO-090",
+   "fromSha256": "7f020f3860dd432650a0d2a52a5a392677097b673af77b0f2a7c7844ba225353",
+   "sha256": "c48d16fc9eef05ef4b6e7997e0609c00edfae941cd323ca2492ab50b070b3743"
   }
  },
  "batches": {
   "HO-085": "claude/project-thread-vraiao 27cf5daf8 project-documents/hc-art/ho085/",
   "HO-086": "claude/project-thread-vraiao a311c234a project-documents/hc-art/ho086/",
   "HO-087": "claude/project-thread-vraiao 652da8f80 project-documents/hc-art/ho087/",
-  "HO-088": "claude/project-thread-vraiao 21bf799f2 project-documents/hc-art/ho088/"
+  "HO-088": "claude/project-thread-vraiao 21bf799f2 project-documents/hc-art/ho088/",
+  "HO-089": "claude/project-thread-vraiao b5825f3b project-documents/hc-art/ho089/",
+  "HO-090": "claude/project-thread-vraiao b58b30b0 project-documents/hc-art/ho090/"
  }
 }
