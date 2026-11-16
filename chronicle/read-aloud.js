@@ -126,7 +126,8 @@
     var r = node.getBoundingClientRect(), h = window.innerHeight || document.documentElement.clientHeight;
     var header = document.querySelector('.book-header'), top = header ? header.getBoundingClientRect().bottom : 0;
     if(r.top < top + 8 || r.bottom > h - 24){
-      try{ node.scrollIntoView({ block: 'center', behavior: 'smooth' }); }catch(e){ node.scrollIntoView(); }
+      var calm = false; try{ calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+      try{ node.scrollIntoView({ block: 'center', behavior: calm ? 'auto' : 'smooth' }); }catch(e){ node.scrollIntoView(); }
     }
   }
   function speakNext(my){
