@@ -347,7 +347,7 @@
     function layout(){
       // A host still hidden (the scene is built behind the league reveal) is laid out at the size it is expected to have.
       const hint=typeof opts.size==="function"?opts.size():null,w=host.clientWidth||Math.round(hint&&hint.w||0),h=host.clientHeight||Math.round(hint&&hint.h||0);if(!w||!h)return;size.w=w;size.h=h;
-      renderer.setSize(w,h,false);cam.aspect=w/h;const a=w/h;wide=a>=1.25;
+      renderer.setSize(w,h,false);cam.aspect=w/h;const a=w/h;wide=a>=1.5; // a phone upright (or a short phone stage) keeps the own ball big in front
       if(wide){cam.fov=Math.min(40,Math.max(22,2*Math.atan(.60/a)*180/Math.PI));cam.position.set(0,2.05,8.9);cam.lookAt(0,1.12,0);const sx=Math.min(2.9,1.5+a*.5);balls[0].pos.set(-sx,1,0);balls[1].pos.set(sx,1,0);balls[0].r=balls[1].r=1;}
       else{cam.fov=44;cam.position.set(0,3.3,8.6);cam.lookAt(0,1.25,-3);const o=balls[me],r=balls[1-me];o.pos.set(0,1,2.2);o.r=1;r.pos.set(me?-1.3:1.3,.7,-9);r.r=.7;}
       cam.updateProjectionMatrix();pitchU.camP.value.copy(cam.position);
