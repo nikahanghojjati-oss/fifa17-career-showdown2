@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": "HO-094",
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-16T23:47:23Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-16T23:47:23Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T23:48:40Z", "by": "V", "status": "RECEIVED", "note": "Supervisor lead writing 2 Astra prompts from locked HO-094 desktop room"}],
  "from_session": "session_01GU43Q5bagqLyredN5q4Pwh",
- "sessions": {"G": "session_01GU43Q5bagqLyredN5q4Pwh"}
+ "sessions": {"G": "session_01GU43Q5bagqLyredN5q4Pwh", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
 ```
 
