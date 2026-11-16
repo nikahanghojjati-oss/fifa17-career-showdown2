@@ -241,15 +241,6 @@
       return Object.freeze({ok:false,code:failure.code,message:failure.kind==="message"?failure.text:""});
     }
   }
-  // R94-02: a draw 2 Setup (its ledger carries `stops`) is confirmed with this manager's stop. The Club screen computes it
-  // from his ball; this recovery panel has no ball, so its CONFIRM is a blind stop (uniform 0..359), the same as a tap
-  // made without looking. It is drawn once and the same stop is sent again by every later CONFIRM on this page.
-  let panelStop=null;
-  function panelConfirmExtra(setup){
-    if(!setup||!Object.hasOwn(setup,"stops"))return {};
-    if(panelStop===null){try{const a=new Uint32Array(1);root.crypto.getRandomValues(a);panelStop=a[0]%360;}catch(_error){panelStop=Math.floor(Math.random()*360);}}
-    return {stop:panelStop};
-  }
   function create(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined)element.textContent=String(text);return element;}
   // r78 (HO-029): the one main action of each step wears Team V's gold button (.r78-btn--primary); the rest are gold outlines.
   function action(label,handler,disabled=false,primary=false){const button=create("button",primary?"compactButton r78-btn--primary":"compactButton",label);button.type="button";button.disabled=disabled;button.addEventListener("click",handler);return button;}
@@ -281,7 +272,12 @@
     if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"&&coordinator){
       for(const seasons of LENGTHS)actions.append(action(`${seasons} SEASON${seasons===1?"":"S"}`,()=>void mutate("commit-length",{totalSeasons:seasons}),state.busy));
     }
-    if(setup.phase==="SEASON_LENGTH_COMMITTED"&&state.managerRole&&!setup.confirmedRoles.includes(state.managerRole))actions.append(action("CONFIRM SETUP",()=>void mutate("confirm",panelConfirmExtra(setup)),state.busy,true));
+    // R94-02: a draw 2 Setup (its ledger carries `stops`) is confirmed only by STOP on the Club screen, where the manager sees
+    // his ball (the 3D scene, or the flat stand-in where it cannot run). This panel has no ball, so it never sends a stop.
+    if(setup.phase==="SEASON_LENGTH_COMMITTED"&&state.managerRole&&!setup.confirmedRoles.includes(state.managerRole)){
+      if(Object.hasOwn(setup,"stops"))summary.append(create("p","stateNote","CLUB DRAW · Stop your ball on the Club screen to confirm."));
+      else actions.append(action("CONFIRM SETUP",()=>void mutate("confirm"),state.busy,true));
+    }
     actions.append(action("REFRESH",()=>void refresh(),state.busy));summary.append(actions);body.append(summary);
   }
   function render(){

@@ -145,7 +145,8 @@ async function main(){
     assert.match(PRES_SRC,/function ssjpIsDraw\(setup\)\{return Boolean\(setup&&typeof setup==="object"&&Object\.hasOwn\(setup,"stops"\)\);\}/,"draw 2 is the ledger key stops, as in the protocol");
     assert.match(PRES_SRC,/setup\.phase==="LEAGUE_WHEEL_COMMITTED"\)\{if\(!drawClubsPromise\)drawClubsPromise=ssjpMutate\("commit-clubs"\)/,"the coordinator deals the candidates by itself (the same commit-clubs write)");
     assert.match(PRES_SRC,/setup\.phase==="CLUB_ASSIGNMENTS_COMMITTED"\)\{void ssjpCommitPreparedSeasonLength\(\);/,"then locks his season length by itself (the same commit-length write)");
-    assert.match(SETUP_SRC,/function panelConfirmExtra\(setup\)/,"the recovery panel's CONFIRM SETUP on a draw 2 Setup carries a stop");
+    assert.match(SETUP_SRC,/if\(Object\.hasOwn\(setup,"stops"\)\)summary\.append\(create\("p","stateNote","CLUB DRAW · Stop your ball on the Club screen to confirm\."\)\);\s*else actions\.append\(action\("CONFIRM SETUP",\(\)=>void mutate\("confirm"\)/,"the Setup panel offers CONFIRM SETUP only for an old-shape Setup; a draw 2 Setup is confirmed only by STOP");
+    assert.equal(/mutate\("confirm",/.test(SETUP_SRC),false,"the Setup panel never sends a stop (no blind stop anywhere)");
     assert.equal(/localStorage|sessionStorage/.test(STEP_SRC.replace(/\/\/.*$/gm,"")),false,"the saved stop goes through js/storage.js (localStorage), never touched directly");
     assert.match(STEP_SRC,/root\.readStorageValue,write=root\.writeStorageValue,remove=root\.removeStorageValue/,"the saved stop uses js/storage.js's helpers");
     assert.equal(/\.set\(|setDoc|updateDoc|runTransaction|mutate\(/.test(STEP_SRC.replace(/\.setItem\(|\.setAttribute\(|listeners\.set|\.set\(b,|const set=/g,"")),false,"the step never writes to Firebase");
