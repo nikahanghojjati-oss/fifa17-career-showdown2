@@ -1047,8 +1047,16 @@ function refreshClubVisualIdentity(showdown = null){
    (64 px for lists, 256 px for big slots). The drawn SVG crest stays as the fallback: it shows for every other club and wherever
    an image fails. getClubCrestSvg itself never changes, so a screen that has not moved to getClubCrestMarkup keeps its crest. */
 const CREST_IMAGE_FILES = Object.freeze({
+    // HO-084 pilot
     "Barcelona": "BARCELONA", "West Ham United": "WESTHAM", "Metz": "METZ", "Chelsea": "CHELSEA", "Torino": "TORINO",
-    "Manchester United": "MANUTD", "Liverpool": "LIVERPOOL", "Tottenham Hotspur": "SPURS", "Roma": "ROMA", "Lyon": "LYON", "Bayer Leverkusen": "LEVERKUSEN", "Lazio": "LAZIO", "Eintracht Frankfurt": "FRANKFURT", "Genoa": "GENOA", "Middlesbrough": "BORO"  // HO-085
+    // HO-085
+    "Manchester United": "MANUTD", "Liverpool": "LIVERPOOL", "Tottenham Hotspur": "SPURS", "Roma": "ROMA", "Lyon": "LYON", "Bayer Leverkusen": "LEVERKUSEN", "Lazio": "LAZIO", "Eintracht Frankfurt": "FRANKFURT", "Genoa": "GENOA", "Middlesbrough": "BORO",
+    // HO-086
+    "Palermo": "PALERMO", "Nice": "NICE", "Crystal Palace": "PALACE", "FC Ingolstadt": "INGOLSTADT", "Bournemouth": "BOURNEMOUTH", "Caen": "CAEN", "Leicester City": "LEICESTER", "Hull City": "HULL", "Wolfsburg": "WOLFSBURG", "Lille": "LILLE",
+    // HO-087
+    "Everton": "EVERTON", "1. FC Köln": "KOELN", "Borussia Mönchengladbach": "GLADBACH", "Napoli": "NAPOLI", "Pescara": "PESCARA", "Atalanta": "ATALANTA", "Bastia": "BASTIA", "Watford": "WATFORD", "Swansea City": "SWANSEA", "West Bromwich Albion": "WBA",
+    // HO-088
+    "Manchester City": "MANCITY", "Arsenal": "ARSENAL", "Burnley": "BURNLEY", "Stoke City": "STOKE", "Southampton": "SOUTHAMPTON", "Dijon": "DIJON", "Lorient": "LORIENT", "Alavés": "ALAVES", "Atlético Madrid": "ATLETICO", "Sevilla": "SEVILLA"
 });
 const CREST_IMAGE_BASE = (() => {
     try{
