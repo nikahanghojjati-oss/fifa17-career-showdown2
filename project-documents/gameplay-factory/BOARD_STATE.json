@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-16 6:48 PM Boston time (EST)",
+ "generated": "2026-11-16 6:49 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 326,
+  "count": 327,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2937,6 +2937,15 @@
     "subject": "Club Assignment lounge phone crops (upright + sideways)",
     "reply": "yes (receive it)",
     "boston": "Mon 16 Nov 6:47 PM"
+   },
+   {
+    "time": "2026-11-16 23:48",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-095 RECEIVED",
+    "subject": "Club Assignment lounge phone crops (upright + sideways)",
+    "reply": "no",
+    "boston": "Mon 16 Nov 6:48 PM"
    }
   ],
   "g2v": {
@@ -2957,8 +2966,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "f17ff60",
-  "head_boston": "Mon 16 Nov 6:47 PM",
+  "head": "475095d",
+  "head_boston": "Mon 16 Nov 6:48 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3782,7 +3791,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 12764
+    "waiting_min": 12765
    },
    {
     "id": "HO-059",
@@ -4257,13 +4266,13 @@
     "from": "G",
     "to": "V",
     "title": "Club Assignment lounge phone crops (upright + sideways)",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-095_club-assignment-lounge-phone-crops-uprig.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 0
+    "pickup_min": 0,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
