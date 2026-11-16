@@ -8,8 +8,8 @@ r93 is 2.6.0. Nik asked on 14 November for the Golden Showdown to show up proper
 look made by a prompt, and later for a roulette hand that looks filmed, with a whisky glass on the table. Four Fable bug
 hunts ran on the branch; their one P1 shipped early as 2.5.1. The rules of a Showdown did not change. This file is the
 release record. The list below is every pull request merged into gameplay/r93 since 2.5.0 went live (main 36b648ad):
-#1465 to #1495 except the r94 drafts #1487, #1489 and #1492 and the release PR #1493; #1490 is the version bump; #1477 is the 2.5.1 hotfix into main and #1480 its back-merge; #1485 is this
-release's items. Up to gameplay/r93 010dfd37.
+#1465 to #1496 except the r94 drafts #1487, #1489 and #1492 and the release PR #1493; #1490 is the version bump; #1477 is the 2.5.1 hotfix into main and #1480 its back-merge; #1485 is this
+release's items. Up to gameplay/r93 580e0366.
 
 ## What changed
 
@@ -55,7 +55,8 @@ release's items. Up to gameplay/r93 010dfd37.
   verdicts were seen. No reads or writes added.
 - **Two signings with the same name** (#1494, Astra A-TW-01, live in 2.5.1 too). Two different players who share a
   name now stay two squad entries: a later namesake gets his own id (`s|name#pid`), shots and verdicts follow the right
-  man, and old saves read as before. No Rules change, no read or write added.
+  man, and old saves read as before (the id is stored so older builds ignore it, #1496). No Rules change, no read or
+  write added.
 - **Repeated loans** (#1495, Sol S-SQ-01). A player loaned out and back many times kept one departure record per loan,
   so a fair squad could reach the Rules' 100-departure cap and LOCK was refused. Earlier finished loans of the same
   player are now folded into his latest record before the write. A LOCK that is still too big or refused says so in
@@ -99,7 +100,11 @@ run-to-run noise. No write was added. The Fable hunt saw the same shape on dba5e
   the first 2.6.0 load (#1473).
 - The version strings are the same length as 2.5.1's, so the startup budget is unchanged.
 - An installed phone takes the update on Home, never in the middle of a game screen.
-- 2.5.1 and 2.6.0 phones can play each other: the Rules accept the same writes, and nothing a phone sends to Firebase changed shape.
+- 2.5.1 and 2.6.0 phones can play each other: the Rules accept the same writes. The one new value is a later namesake's
+  player id in a squad document, stored as -1-playerId so every older build reads it as "no number" (#1496, Codex on
+  #1493; N8 runs the real 2.5.1 squad engine against 2.6.0). If either manager has kept two different players with the
+  same name (for example two "M. Dembélé"), update both phones to 2.6.0 before the next Russian Roulette, because 2.5.1
+  counts them as one player.
 
 ## Deploy order
 
