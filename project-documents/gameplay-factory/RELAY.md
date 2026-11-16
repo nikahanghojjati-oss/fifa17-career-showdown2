@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 9:55 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 9:58 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `1fd357d` (Sun 15 Nov 9:02 PM Boston time) · 289 messages · 94 hand-offs · 569 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d23b877` (Sun 15 Nov 9:56 PM Boston time) · 289 messages · 94 hand-offs · 570 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -239,8 +239,9 @@ Most of these are civic symbols and pattern badges.
 
 ### HO-091 · G → V · Image crests batch 7 of 9
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 9 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 9 min after delivery
 
+- Sun 15 Nov 9:56 PM · Team V · Done · Batch 7 crests (Marseille, Montpellier, Augsburg, Juventus, Milan, Bayern, Dortmund, Schalke, Hertha, Hamburg) cut + exported 1024/256/64, Nik OK 15 Nov 9:56 p.m. Eastern
 - Sun 15 Nov 7:22 PM · Team V · Received · Team V crest thread: Astra prompts written, Nik runs batch by batch, V cuts/exports/SHA
 - Sun 15 Nov 7:12 PM · Team G · Sent
 - Sun 15 Nov 7:13 PM · relay Action · Delivered in full as a wake comment on PR #312

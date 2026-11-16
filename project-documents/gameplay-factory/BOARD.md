@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 15 Nov, 9:56 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 15 Nov, 9:59 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.5.1-r92** (main `23bdd43`, Sun 15 Nov 4:47 AM)
 
-🩺 **All clear: every check has a machine.** · Gate #1493: L1… L2… L3A✓ L3B✓ L4✓ L5… L6… · seal pending · POS20 #1493 0/16
+🩺 **All clear: every check has a machine.** · Gate #1493: L1✓ L2… L3A✓ L3B✓ L4✓ L5… L6… · seal pending · POS20 #1493 0/16
 
 ## Jobs
 
@@ -1989,8 +1989,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`█████████░` **89.3617 %**  
-Team V hand-offs: 84 of 94 done
+`█████████░` **90.4255 %**  
+Team V hand-offs: 85 of 94 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1493](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1493) | Release 2.6.0 (r93): Golden Showdown, filmed roulette hand, Rules budget sweep | ⏳ 3 passed, 4 running |
+| 🟧 Team G lead | [PR #1493](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1493) | Release 2.6.0 (r93): Golden Showdown, filmed roulette hand, Rules budget sweep | ⏳ 4 passed, 3 running |
 
 **Up next**
 
