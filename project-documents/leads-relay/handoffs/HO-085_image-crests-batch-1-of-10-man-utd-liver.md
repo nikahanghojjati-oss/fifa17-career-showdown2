@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": "HO-084",
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-16T00:08:02Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-16T00:08:02Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T00:11:43Z", "by": "V", "status": "RECEIVED", "note": "Team V crest thread: 10 Astra prompts posted (no club names), Nik runs, V cuts/exports/SHA"}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
- "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ"}
+ "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q69SMxmTLTsTtZTkeB"}
 }
 ```
 
