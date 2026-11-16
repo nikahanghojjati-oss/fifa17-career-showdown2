@@ -922,7 +922,6 @@
     if(!slots||!Array.isArray(doc.names)||doc.names.length!==XI_SIZE+BENCH_SIZE)return null;
     const sheet=clone(proposal);
     const idFor=docId;
-    const ovOf=id=>{for(let i=0;i<(doc.ovNames||[]).length;i+=1)if(validOverall(doc.ovValues[i])&&idFor(doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i])===id)return doc.ovValues[i];return null;};
     // R94-04: a signing entry with no playerId (every document before R94-04) names the man of that name and window. When
     // the name's first man is of another window and a later namesake of this one is not named by his own id, it is him: an
     // earlier build held the two as one (bought back, or one entry for two KEEPs). Otherwise the name, exactly as before.
@@ -939,9 +938,13 @@
       const k=sqKey(name),others=list.filter(q=>isSigning(q)&&q.id!==id&&!named.has(q.id)&&sqKey(q.name)===k);
       return others.find(q=>q.signedSeason===signed)||others.find(inWindow(signed))||exact;
     };
+    // (each overall by the man it was read as, so a buy-back below keeps it: Codex on #1494)
+    const ovs={},raw={},ovOf=id=>ovs[id]??raw[id]??null;
     for(let i=0;i<(doc.ovNames||[]).length;i+=1){
       const p=pick(everyone(sheet),doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i]);
-      if(p&&validOverall(doc.ovValues[i])){p.rating=doc.ovValues[i];sheet.ratings[p.id]=doc.ovValues[i];}
+      if(!validOverall(doc.ovValues[i]))continue;
+      if(p){p.rating=doc.ovValues[i];sheet.ratings[p.id]=doc.ovValues[i];ovs[p.id]=doc.ovValues[i];}
+      else raw[idFor(doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i])]??=doc.ovValues[i];
     }
     // The departures list is cumulative, so the document alone says who is away: the proposal may be the screen's own (it
     // already holds the earlier departures) or the automatic chain from launch with no manager edits (the store rebuilds a

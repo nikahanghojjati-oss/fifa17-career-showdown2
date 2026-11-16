@@ -244,9 +244,10 @@ function rebuildsSame(club,season,stage,events,locked,label){
         }
         // Codex on #1494 (P2): the window-2 man's sale (window 2 on the departure) keeps him away, as the earlier build read it.
         if(career.name==='later-window-sold'&&['3_pre','3_post','4_pre'].includes(c.key))assert.deepEqual(men(out.sheet,T),[],`${c.key}: both Dembélés stay sold`);
-        // Codex on #1494 (round 2, P1): Celtic's Dembélé sold in S3 and bought back there keeps his id (it was the first man's).
+        // Codex on #1494 (rounds 2 and 3): Celtic's Dembélé sold in S3 and bought back there keeps his id (it was the first
+        // man's) and the overall the manager then gave him (79; an earlier build stored it under the name, -1).
         if(career.name==='later-window-buyback'&&['3_post','4_pre'].includes(c.key)){
-          assert.deepEqual(men(out.sheet,T).map(p=>`${p.id}:${p.rating}`),['s|m. dembele#211591:72'],`${c.key}: Celtic's Dembélé is back`);
+          assert.deepEqual(men(out.sheet,T).map(p=>`${p.id}:${p.rating}`),['s|m. dembele#211591:79'],`${c.key}: Celtic's Dembélé is back, at his saved overall`);
           assert.ok(now.excluded.includes('s|m. dembele'),`${c.key}: Tottenham's Dembélé stays sold`);
         }
         assert.ok(S.validate(out.sheet).ok||career.name!=='plain',S.validate(out.sheet).problems.join());

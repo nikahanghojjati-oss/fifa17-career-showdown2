@@ -5779,10 +5779,18 @@
        2,
        3
       ],
-      "ovNames": [],
-      "ovNumbers": [],
-      "ovSigned": [],
-      "ovValues": [],
+      "ovNames": [
+       "M. Dembélé"
+      ],
+      "ovNumbers": [
+       -1
+      ],
+      "ovSigned": [
+       3
+      ],
+      "ovValues": [
+       79
+      ],
       "engine": "sq1",
       "rivalryId": "pair_fixture",
       "role": "playerOne"
@@ -5820,7 +5828,7 @@
        "Héctor Bellerín:79:null",
        "J. Reine-Adelaïde:63:null",
        "K. Bielik:61:null",
-       "M. Dembélé:72:3",
+       "M. Dembélé:79:3",
        "M. Elneny:74:null",
        "M. Macey:52:null",
        "R. Holding:67:null",
@@ -5957,10 +5965,18 @@
        2,
        3
       ],
-      "ovNames": [],
-      "ovNumbers": [],
-      "ovSigned": [],
-      "ovValues": [],
+      "ovNames": [
+       "M. Dembélé"
+      ],
+      "ovNumbers": [
+       -1
+      ],
+      "ovSigned": [
+       3
+      ],
+      "ovValues": [
+       79
+      ],
       "engine": "sq1",
       "rivalryId": "pair_fixture",
       "role": "playerOne"
@@ -5998,7 +6014,7 @@
        "Héctor Bellerín:79:null",
        "J. Reine-Adelaïde:63:null",
        "K. Bielik:61:null",
-       "M. Dembélé:72:3",
+       "M. Dembélé:79:3",
        "M. Elneny:74:null",
        "M. Macey:52:null",
        "R. Holding:67:null",
