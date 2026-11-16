@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15 7:21 PM Boston time (EST)",
+ "generated": "2026-11-15 7:23 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 289,
@@ -2624,8 +2624,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "852b56f",
-  "head_boston": "Sun 15 Nov 7:20 PM",
+  "head": "5d27224",
+  "head_boston": "Sun 15 Nov 7:22 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3455,7 +3455,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 11357
+    "waiting_min": 11359
    },
    {
     "id": "HO-059",
@@ -3813,104 +3813,104 @@
     "from": "G",
     "to": "V",
     "title": "Image crests batch 2 of 9",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-086_image-crests-batch-2-of-9.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 9
+    "pickup_min": 9,
+    "waiting_min": null
    },
    {
     "id": "HO-087",
     "from": "G",
     "to": "V",
     "title": "Image crests batch 3 of 9",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-087_image-crests-batch-3-of-9.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 9
+    "pickup_min": 9,
+    "waiting_min": null
    },
    {
     "id": "HO-088",
     "from": "G",
     "to": "V",
     "title": "Image crests batch 4 of 9",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-088_image-crests-batch-4-of-9.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 9
+    "pickup_min": 9,
+    "waiting_min": null
    },
    {
     "id": "HO-089",
     "from": "G",
     "to": "V",
     "title": "Image crests batch 5 of 9",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-089_image-crests-batch-5-of-9.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 8
+    "pickup_min": 9,
+    "waiting_min": null
    },
    {
     "id": "HO-090",
     "from": "G",
     "to": "V",
     "title": "Image crests batch 6 of 9",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-090_image-crests-batch-6-of-9.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 8
+    "pickup_min": 9,
+    "waiting_min": null
    },
    {
     "id": "HO-091",
     "from": "G",
     "to": "V",
     "title": "Image crests batch 7 of 9",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-091_image-crests-batch-7-of-9.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 8
+    "pickup_min": 9,
+    "waiting_min": null
    },
    {
     "id": "HO-092",
     "from": "G",
     "to": "V",
     "title": "Image crests batch 8 of 9",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-092_image-crests-batch-8-of-9.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 8
+    "pickup_min": 9,
+    "waiting_min": null
    },
    {
     "id": "HO-093",
     "from": "G",
     "to": "V",
     "title": "Image crests batch 9 of 9",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-093_image-crests-batch-9-of-9.md",
     "worker": "images",
-    "pickup_min": null,
-    "waiting_min": 8
+    "pickup_min": 9,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
