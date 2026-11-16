@@ -10,5 +10,5 @@ Try in particular:
 - Every fair Transfer War write at its largest legal size (longest names, all fields, 3 signings, 3 guesses, list-picked and typed, season 1 and season 10), both lockers, both orders, on the emulator with the composed Rules.
 - The 15-minute clock: lock 0-500 ms before and after the end, device clock minutes off, screen off across the end, reopen after the end.
 - Network: offline at LOCK then back, a slow write, a write that is refused once and retried, two tabs of the same manager.
-- Update mid-Transfer War (old build on one phone, 52b3ffed on the other).
+- Update mid-Transfer War (old build on one phone, ce4d1317 on the other).
 Report as the house rules say, file name SOL_TRANSFER_WAR_REPORT.md.
