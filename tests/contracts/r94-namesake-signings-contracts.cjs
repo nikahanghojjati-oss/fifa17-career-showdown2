@@ -160,6 +160,24 @@ function rebuildsSame(club,season,stage,events,locked,label){
     assert.ok(later.sheet,'a phone with only the post document rebuilds it');
     assert.deepEqual(men(later.sheet,T).map(p=>p.id),['s|m. dembele']);
     assert.deepEqual(later.sheet.excluded,live.excluded,'the same man away on every phone');
+    // Codex on #1494 (P1): the ST-id man sold and bought back in S2 stands on the S3 board under window 2, while the automatic
+    // chain (no sale) holds him under window 1 with a repeat entry in 2. The roulette shoots him: the CM stays, and a phone
+    // holding only the S3 post document rebuilds it (it was BAD_DOC).
+    {
+      const evs=[null,ev([A,B])];
+      let p2=S.replay({club,special:null,season:2,stage:'pre',events:evs,docs:{}}).proposal;
+      const sale=S.leave(p2,'s|m. dembele#211591','sold');assert.ok(sale.ok,sale.reason);
+      evs[2]=ev([{...B,overall:86}]);
+      const post2=S.replay({club,special:null,season:2,stage:'post',events:evs,docs:{'2_pre':docOf(sale.sheet)}}).proposal;
+      evs[3]=null;
+      const pre3=S.replay({club,special:null,season:3,stage:'pre',events:evs,docs:{'2_post':docOf(post2)}}).proposal;
+      const at=S.board(pre3).findIndex(x=>x.name===T&&x.signedSeason===2);assert.ok(at>=0,'the bought-back man is on the S3 board');
+      evs[3]=ev([],{fired:true,hitName:T,hitNumber:null,hitSlot:at,hitSignedSeason:2,version:'v'});
+      const live3=S.replay({club,special:null,season:3,stage:'post',events:evs,docs:{'3_pre':docOf(pre3)}}).proposal;
+      assert.deepEqual(men(live3,T).map(p=>p.id),['s|m. dembele'],'the bought-back man is shot, the CM stays');
+      const reload=rebuildsSame(club,3,'post',evs,live3,'bought-back namesake shot');
+      assert.deepEqual(men(reload,T).map(p=>p.id),['s|m. dembele']);
+    }
     const blind=S.replay({club,special:null,season:2,stage:'post',events:events.concat([ev([],hit)]),docs:{'2_post':postDoc}});
     assert.ok(blind.sheet,'without the board\'s pick (no kept copy, no read) the document still loads: never a refused screen');
     const step=fs.readFileSync(path.join(root,'js/squadSheetStep.js'),'utf8');
@@ -198,10 +216,12 @@ function rebuildsSame(club,season,stage,events,locked,label){
           assert.ok(now.excluded.includes('s|m. dembele'),`${c.key}: Tottenham's Dembélé stays sold`);
           assert.ok(all(out.sheet).some(p=>p.id==='s|m. dembele#211591'),`${c.key}: the stored "bought back" man is Celtic's Dembélé`);
         }
+        // Codex on #1494 (P2): the window-2 man's sale (window 2 on the departure) keeps him away, as the earlier build read it.
+        if(career.name==='later-window-sold'&&['3_pre','3_post','4_pre'].includes(c.key))assert.deepEqual(men(out.sheet,T),[],`${c.key}: both Dembélés stay sold`);
         assert.ok(S.validate(out.sheet).ok||career.name!=='plain',S.validate(out.sheet).problems.join());
       }
     }
-    ok('N5',`earlier build's stored squad documents (${loaded} screens, 3 Showdowns): without namesakes every rebuild is exactly as before; collapsed namesakes still load with every stored man in place, and the lost man is back`);
+    ok('N5',`earlier build's stored squad documents (${loaded} screens, ${fx.careers.length} Showdowns): without namesakes every rebuild is exactly as before; collapsed namesakes still load with every stored man in place, and the lost man is back`);
   }
 
   // N7 Namesake fuzz: random careers where a few names are shared by several men (several playerIds), kept in the same window
@@ -260,7 +280,8 @@ function rebuildsSame(club,season,stage,events,locked,label){
       }
       stats.careers+=1;
     }
-    for(let seed=1;seed<=160;seed+=1)career(seed);
+    // (seeds 164 and 926 caught a bought-back first man and a departure of a shot one while Codex's #1494 findings were fixed)
+    for(let seed=1;seed<=400;seed+=1)career(seed);career(926);
     assert.ok(stats.twins>200&&stats.sameWindow>20&&stats.shotTwins>5,`the fuzz reaches later namesakes (${stats.twins}), same-window pairs (${stats.sameWindow}) and shots among them (${stats.shotTwins})`);
     ok('N7',`namesake fuzz: ${stats.careers} careers, ${stats.screens} locked screens, ${stats.twins} later-namesake places, ${stats.sameWindow} windows with two men of one name, ${stats.shotTwins} roulette hits among them: every proposal locks, every reload from the latest document reads the same, every man kept and not barred is at the club as himself`);
   }

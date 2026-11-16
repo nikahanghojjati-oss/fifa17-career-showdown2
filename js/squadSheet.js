@@ -480,18 +480,26 @@
   // found as before. Among namesakes signed in the same window (the hit names him by name and window only): the one the saved
   // board names (shot.pid, read from that season's locked "pre" document by the step: 0 = the name's first man), else the
   // one standing at the hit slot of this sheet, else the name's first man, else the best of them.
+  // (Codex on #1494: a man bought back after a sale was signed in that window on the locked board, while the automatic chain,
+  // which never replays the sale, holds him under his first window with a repeat entry (alts) in it. So: the men signed in
+  // that window; when none is here, the men with a repeat entry in it; when none either, the men of the name.)
   function shotIdOf(sheet,shot,raw){
     if(!isSigning(shot))return shot.id;
-    const k=sqKey(shot.name),cands=everyone(sheet).filter(p=>isSigning(p)&&sqKey(p.name)===k&&p.signedSeason===shot.signedSeason);
-    if(cands.length<2)return cands.length?cands[0].id:shot.id;
+    const k=sqKey(shot.name),men=everyone(sheet).filter(p=>isSigning(p)&&sqKey(p.name)===k),w=shot.signedSeason;
+    const own=men.filter(p=>p.signedSeason===w),again=men.filter(windowOf(sheet,w));
+    const cands=own.length?own:again.length?again:men;
+    // (the board's pick names the man whatever window this chain holds him under: a sale it never replays)
     const pid=raw&&Number.isInteger(raw.pid)&&raw.pid>=0?raw.pid:null;
-    const named=pid===null?null:cands.find(p=>(twinOf(p)??0)===pid)||null;
+    const named=pid===null?null:men.find(p=>(twinOf(p)??0)===pid)||null;
     if(named)return named.id;
+    if(cands.length<2)return cands.length?cands[0].id:shot.id;
     const slot=raw&&Number.isInteger(raw.slot)?raw.slot:-1;
     const there=slot>=0&&slot<XI_SIZE?sheet.xi[slot]:slot>=XI_SIZE&&slot<XI_SIZE+FEATURED?sheet.bench[slot-XI_SIZE]:null;
     if(there&&cands.includes(there))return there.id;
     return (cands.find(p=>p.id===shot.id)||cands.slice().sort(order)[0]).id;
   }
+  // Was this signing signed in window w: his own window, or a repeat entry of his in it (alts)?
+  const windowOf=(sheet,w)=>p=>p.signedSeason===w||(altsOf(sheet)[p.id]||[]).some(a=>a.season===w);
   // Moves a locked sheet to the next screen's starting proposal.
   // - locked "pre" (season N) -> "post" (season N): events.shot = the player the RRR hit ({name, number, signedSeason}) or
   //   null; events.released = names (or {name, playerId}) of this window's signings the rival guessed (never join);
@@ -918,12 +926,18 @@
     // R94-04: a signing entry with no playerId (every document before R94-04) names the man of that name and window. When
     // the name's first man is of another window and a later namesake of this one is not named by his own id, it is him: an
     // earlier build held the two as one (bought back, or one entry for two KEEPs). Otherwise the name, exactly as before.
-    const named=new Set([...doc.names.map((n,i)=>doc.signed[i]>0&&doc.numbers[i]>=1?idFor(n,doc.numbers[i],doc.signed[i]):null),...(doc.ovNames||[]).map((n,i)=>doc.ovSigned[i]>0&&doc.ovNumbers[i]>=1?idFor(n,doc.ovNumbers[i],doc.ovSigned[i]):null)].filter(Boolean));
+    // (Codex on #1494: departures too, and a man's windows count his repeat entries.)
+    const byId=(names,numbers,signed)=>(names||[]).map((n,i)=>signed[i]>0&&numbers[i]>=1?idFor(n,numbers[i],signed[i]):null);
+    const named=new Set([...byId(doc.names,doc.numbers,doc.signed),...byId(doc.ovNames,doc.ovNumbers,doc.ovSigned),...byId(doc.outNames,doc.outNumbers,doc.outSigned)].filter(Boolean));
+    const inWindow=w=>windowOf(sheet,w);
+    // (A man of the name's id who is away, shot or guessed here is that man: never another. The man of the name's id in that
+    // window, by his own window or a repeat entry, is him; only otherwise a later namesake of that window not named by id.)
+    const gone=new Set([...sheet.excluded,...sheet.out.map(o=>o.id)]);
     const pick=(list,name,number,signed)=>{
       const id=idFor(name,number,signed),exact=list.find(q=>q.id===id);
-      if(!(signed>0)||number>=1||(exact&&exact.signedSeason===signed))return exact;
-      const k=sqKey(name);
-      return list.find(q=>isSigning(q)&&q.id!==id&&!named.has(q.id)&&sqKey(q.name)===k&&q.signedSeason===signed)||exact;
+      if(!(signed>0)||number>=1||(!exact&&gone.has(id))||(exact&&inWindow(signed)(exact)))return exact;
+      const k=sqKey(name),others=list.filter(q=>isSigning(q)&&q.id!==id&&!named.has(q.id)&&sqKey(q.name)===k);
+      return others.find(q=>q.signedSeason===signed)||others.find(inWindow(signed))||exact;
     };
     for(let i=0;i<(doc.ovNames||[]).length;i+=1){
       const p=pick(everyone(sheet),doc.ovNames[i],doc.ovNumbers[i],doc.ovSigned[i]);
@@ -934,7 +948,7 @@
     // sheet from its one document that way, with no read of the earlier ones). A loan from an earlier season is over: he is
     // back at the club. A signing who left and was signed again in a later window (one the chain kept as a repeat entry,
     // after the window his departure names) is back as that signing (hunt C2). Anyone else listed is out for good.
-    const outIds=(doc.outNames||[]).map((name,i)=>idFor(name,doc.outNumbers[i],doc.outSigned[i]));
+    const outIds=(doc.outNames||[]).map((name,i)=>{const p=pick(everyone(sheet),name,doc.outNumbers[i],doc.outSigned[i]);return p?p.id:idFor(name,doc.outNumbers[i],doc.outSigned[i]);});
     const known=new Set(sheet.out.map(o=>o.id)),ex=new Set(sheet.excluded),alts=altsOf(sheet);
     for(let i=0;i<outIds.length;i+=1){
       const id=outIds[i],reason=doc.outReasons[i],season=doc.outSeasons[i];
