@@ -479,8 +479,9 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
 function sameShowdownState(a,b){
   if(JSON.stringify(a)===JSON.stringify(b))return true;
   // After the terminal close both tabs agree the Showdown is over whether one sits on the Champion screen (Showdown complete)
-  // and the other on Home (No Showdown live, its pair let go there).
-  const over=s=>/^(Showdown complete|No Showdown live)$/.test(String(s?.season||"").trim());
+  // and the other on Home (No Showdown live, its pair let go there). The Champion screen writes "Showdown Complete"
+  // (productionSharedMultiSeasonProgression.js) and Home writes "Showdown complete" (menuExperience.js): both count.
+  const over=s=>/^(Showdown complete|No Showdown live)$/i.test(String(s?.season||"").trim());
   if(pointNow==="terminal-close"&&over(a)&&over(b))return true;
   const n=s=>Number((/Season (\d+)/.exec(s?.season||"")||[])[1]||0);
   const [lo,hi]=n(a)<=n(b)?[a,b]:[b,a];
