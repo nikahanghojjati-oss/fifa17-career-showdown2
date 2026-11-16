@@ -17,7 +17,7 @@
  "log": [{"at": "2026-11-15T21:42:35Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-15T21:43:22Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: 6 Astra prompts posted (no club names in prompts), Nik runs, lead cuts/exports/SHA"}, {"at": "2026-11-15T22:02:58Z", "by": "V", "status": "DONE", "note": "Nik OK 15 Nov 5:02 p.m. Eastern. 5 embroidered crests CREST_IMG_{BARCELONA,WESTHAM,METZ,CHELSEA,TORINO}_V1_{1024,256,64}.png (5:6, 4% margin, alpha) + KIT_MASTER_SHIRT_V1_1536.png (1152x1536 neutral grey) + _SHADING_1536 layer; SHA256.json. Notes: Chelsea lion looks ahead (not regardant), modern balls; Torino bull lean. No letters."}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
  "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"},
- "parts": ["HO-085"]
+ "parts": ["HO-085", "HO-086", "HO-087", "HO-088", "HO-089", "HO-090", "HO-091", "HO-092", "HO-093"]
 }
 ```
 
