@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.5.1-r92";
-const PREVIOUS_RUNTIME_REVISION = "2.5.0-r92";
+const RUNTIME_REVISION = "2.6.0-r93";
+const PREVIOUS_RUNTIME_REVISION = "2.5.1-r92";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -72,6 +72,7 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
     "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
     // r90 M8: the Special Player page's own faces (was Google Fonts)
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2",
@@ -282,7 +283,7 @@ const SHELL_PATHS = Object.freeze([
     "assets/loading/REUS_D_1X.webp",
     "assets/loading/ENV_LOADING_PHONE_HC_590W.webp",
     "assets/loading/REUS_P_590W.webp",
-    "assets/loading/LOGO_CM17_WORDMARK_V3_640.webp",
+    "assets/loading/LOGO_CM17_WORDMARK_V4_640.webp",
     "assets/football/anthony-martial-cska-2017-v113.webp",
     "assets/football/antoine-griezmann-atletico-2016-v113.webp",
     "assets/football/cristiano-ronaldo-euro-2016-v113.webp",
@@ -306,6 +307,8 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
     "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
+    "visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2",
     "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2",
@@ -444,11 +447,18 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.5.1 (r92 hotfix): PREVIOUS is 2.5.0-r92 (293 paths, tests/fixtures/shell-paths/2.5.0-r92.json, main 36b648ad). The hotfix
-// changes only the Firestore Rules, tests and version strings, so it adds and removes no shell path. The STORY site is never
-// precached.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
+// 2.6.0 (r93): PREVIOUS is the live 2.5.1-r92 (293 paths, tests/fixtures/shell-paths/2.5.1-r92.json, main 23bdd439; the same
+// list as 2.5.0's, because the 2.5.1 hotfix changed only the Firestore Rules, tests and version strings). The STORY site is
+// never precached.
+// r93 HO-079 (flat logo V4 + live-text titles): adds the Cormorant SC Bold file and the V4 loading logo, drops the V3 loading logo.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
+    "assets/loading/LOGO_CM17_WORDMARK_V4_640.webp",
+    "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
+    "visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt"
+]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([
+    "assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"
+]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.

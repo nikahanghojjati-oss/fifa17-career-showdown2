@@ -509,7 +509,7 @@ html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #careerSta
   html #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] :is(.careerTablePanel, .comparisonPanel) { top: calc(var(--hc-p) + 18px); height: calc(var(--hc-panel-h) - 18px); }
   html #app #careerStatistics.careerScreenV10 .sd-stage__layer--plate > .sd-stage__registered { translate: 0 var(--hc-plate-drop, 0px); }
   /* the wordmark keeps the same room from both faces */
-  html #app #careerStatistics.careerScreenV10 .titleWordmark img { display: block; margin-inline: auto; max-width: calc(var(--hc-half) * 2); height: auto; }
+  html #app #careerStatistics.careerScreenV10 .titleWordmark :is(img, .hc-live-title) { display: block; margin-inline: auto; max-width: calc(var(--hc-half) * 2); height: auto; }
   /* no shade behind the title: it reached Nik's hair (no dimming, no scrims) */
   html #app #careerStatistics.careerScreenV10 .titleBlock::before { content: none; }
 }

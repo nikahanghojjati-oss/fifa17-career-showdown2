@@ -11,9 +11,19 @@
     { key: "championsLeague", category: "CHAMPIONS LEAGUE", asset: BASE + "../shared/trophies-hc/TRO_HC_4_V2_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.championsLeagues, nik:f.managers.nik.championsLeagues}) },
     { key: "europaLeague", category: "EUROPA LEAGUE", asset: BASE + "../shared/trophies-hc/TRO_HC_5_V2_512.webp", value: f => f.managers && ({daniel:f.managers.daniel.europaLeagues, nik:f.managers.nik.europaLeagues}) }
   ];
-  // r84 Golden Showdown: 150 points (r87: 15 a season) in a finished 10-season Showdown. Its gold case joins the ALL shelf only once a manager
-  // has earned it (frame.goldenShowdowns is present only then).
-  const GOLDEN = { key: "goldenShowdown", category: "ALL", asset: BASE + "../shared/trophies-hc/TRO_HC_1_V2_512.webp", value: f => f.goldenShowdowns };
+  // r84 Golden Showdown: 150 points (r87: 15 a season) in a finished 10-season Showdown. r93 (Nik 2026-11-14): the gold trophy
+  // has its own case on the ALL shelf and its own GOLDEN tab, always there: greyed with "150 in a 10-season Showdown" until a
+  // manager earns it, then lit with both counts (frame.goldenShowdowns: the counts, 0 and 0 included, on a career with data).
+  // GOLDEN_BUSTS (r93 HO-080, Nik 2026-11-14/15): the Golden Showdown trophy is the winner's own cast-gold bust, one per manager
+  // (Team V's TRO_HC_6_GOLDEN, same canvas and baseline as TRO_HC_1). The case shows the bust of each manager who has earned
+  // one, Daniel on the left; until then both busts stand greyed as the goal. Never the general Champion trophy.
+  const GOLDEN_BUSTS = { daniel: BASE + "../shared/trophies-hc/TRO_HC_6_GOLDEN_DANIEL_V1_512.webp", nik: BASE + "../shared/trophies-hc/TRO_HC_6_GOLDEN_NIK_V1_512.webp" };
+  const GOLDEN = { key: "goldenShowdown", category: "GOLDEN", value: f => f.goldenShowdowns };
+  function goldenBusts(counts, alt) {
+    const won = ["daniel", "nik"].filter(m => counts && Number(counts[m]) > 0);
+    const shown = won.length ? won : ["daniel", "nik"];
+    return `<div class="trophyCardPicture goldenBusts${shown.length > 1 ? " goldenBusts--pair" : ""}" role="img" aria-label="${esc(alt)}">${shown.map(m => `<img class="goldenBust goldenBust--${m}" src="${GOLDEN_BUSTS[m]}" alt="" decoding="async">`).join("")}</div>`;
+  }
   // r86 Special Player chip next to the manager's name (only when the frame carries one: js/specialPlayerChip.js).
   const spChip = (frame, manager) => { const api = window.CareerModeSpecialPlayerChip, sp = frame && frame.specialPlayers && frame.specialPlayers[manager]; return api && sp ? api.html(sp) : ""; };
 
@@ -69,7 +79,7 @@
   }
 
   function titleBlock(strings) {
-    return `<header class="trophyTitleBlock" data-sd-enter="title"><p class="sd-eyebrow trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><img class="trophyBrushTitle hc-title-img" data-hc-title="TR" src="${BASE}assets/TITLE_TR_V3_960.webp" srcset="${BASE}assets/TITLE_TR_V3_480.webp 255w, ${BASE}assets/TITLE_TR_V3_960.webp 511w, ${BASE}assets/TITLE_TR_V3_1920.webp 1008w, ${BASE}assets/TITLE_TR_V3_3840.webp 2017w" sizes="clamp(269px, 20.70vw, 396px)" alt="" aria-hidden="true"><p class="sd-tagline trophyTagline">TWO MANAGERS · ONE LEGACY</p></header>`;
+    return `<header class="trophyTitleBlock" data-sd-enter="title"><p class="sd-eyebrow trophyEyebrow">CAREER MODE SHOWDOWN 17</p><h2 id="trophyRoomScreenTitle" class="visually-hidden" tabindex="-1" data-route-focus-target="true">${esc(strings.heading)}</h2><span class="trophyBrushTitle hc-live-title" data-hc-title="TR" style="--hcw:8.02" aria-hidden="true"><span>TROPHY ROOM</span></span><p class="sd-tagline trophyTagline">TWO MANAGERS · ONE LEGACY</p></header>`;
   }
 
   function ranking(frame) {
@@ -120,7 +130,8 @@
     const shimmerClass = hasWin ? "sd-glint" : "";
     const shimmerAttr = hasWin ? ` data-winning-card="true"` : "";
     const golden = trophy.key === GOLDEN.key ? ` data-golden-showdown="true"` : "";
-    return `<article class="trophyCard ${golden ? "trophyCard--golden" : ""} ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""} ${shimmerClass}" data-trophy="${trophy.key}"${shimmerAttr}${golden}><div class="trophyCardGlow"></div>${picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong${leftAttr}>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong${rightAttr}>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(strings.notWonYet)}</p>` : ""}</article>`;
+    const notWon = golden ? (strings.goldenNotWonYet || strings.notWonYet) : strings.notWonYet;
+    return `<article class="trophyCard ${golden ? "trophyCard--golden" : ""} ${empty ? "is-unwon" : ""} ${state.shelfRevealed ? "tr-card-revealed" : ""} ${shimmerClass}" data-trophy="${trophy.key}"${shimmerAttr}${golden}><div class="trophyCardGlow"></div>${golden ? goldenBusts(counts, strings.trophyTypes[trophy.key]) : picture(trophy.asset, strings.trophyTypes[trophy.key], "trophyCardPicture")}<h3>${esc(strings.trophyTypes[trophy.key])}</h3><div class="managerCounts"><div data-side="daniel"><span>${esc(dName)}</span><strong${leftAttr}>${esc(left)}</strong></div><div data-side="nik"><span>${esc(nName)}</span><strong${rightAttr}>${esc(right)}</strong></div></div>${empty ? `<p class="notWonYet">${esc(notWon)}</p>` : ""}</article>`;
   }
 
   function recordRibbon(strings, frame) {
@@ -142,8 +153,8 @@
 
   function shelf(strings, frame) {
     const noData = frame.status === "loading" || frame.status === "unavailable";
-    const golden = state.activeCategory === "ALL" && frame.goldenShowdowns ? [GOLDEN] : [];
-    const chosen = state.activeCategory === "ALL" ? TROPHIES.concat(golden) : TROPHIES.filter(t => t.category === state.activeCategory);
+    const golden = (state.activeCategory === "ALL" || state.activeCategory === GOLDEN.category) && frame.goldenShowdowns ? [GOLDEN] : [];
+    const chosen = state.activeCategory === "ALL" ? TROPHIES.concat(golden) : state.activeCategory === GOLDEN.category ? golden : TROPHIES.filter(t => t.category === state.activeCategory);
     return `<section class="trophyShelf ${chosen.length === 1 ? "is-filtered" : ""} ${golden.length ? "has-golden" : ""}" data-sd-enter="panel" aria-label="${esc(strings.managerCabinetsHeading)}">${tabs(strings, frame)}<div class="shelfGlass"><div class="shelfTopEdge"></div>${statePanel(strings, frame)}${noData ? "" : `<div class="trophyGrid">${chosen.map(t => trophyCard(t, strings, frame)).join("")}</div>${recordRibbon(strings, frame)}`}</div></section>`;
   }
 

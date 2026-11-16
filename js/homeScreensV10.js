@@ -19,6 +19,7 @@
   const MEDIA=Object.freeze({
     // Owner request 2026-10-27 (FIFA/PES handoff): Song 2 opens the game, Love Me Again second, the other new picks next with
     // the two Sweet Disposition versions apart, then the earlier ten in their order. Ids resolved on api.audius.co 2026-10-27.
+    // r93 (Nik 2026-11-15): 20 more after them, 10 Persian then 10 English, ids from Nik's GPT research (full-length streams checked there).
     tracks:Object.freeze([
       Object.freeze({key:"song2",title:"SONG 2",artist:"Blur",audiusTrackId:"6R99GRQ"}),
       Object.freeze({key:"loveMeAgain",title:"LOVE ME AGAIN",artist:"John Newman",audiusTrackId:"GNQJ5dl"}),
@@ -38,7 +39,27 @@
       Object.freeze({key:"fresh",title:"FRESH",artist:"Sijal ft. Sepehr Khalse, Behzad Leito & Mehrad Hidden",audiusTrackId:"AV9dv"}),
       Object.freeze({key:"yakuza",title:"YAKUZA",artist:"Sepehr Khalse",audiusTrackId:"ryBXG"}),
       Object.freeze({key:"nasty",title:"NASTY",artist:"grouptherapy.",audiusTrackId:"G5rXAWE"}),
-      Object.freeze({key:"cheraBadi",title:"CHERA BADI",artist:"Zedbazi ft. Hichkas",audiusTrackId:"0dGWK"})
+      Object.freeze({key:"cheraBadi",title:"CHERA BADI",artist:"Zedbazi ft. Hichkas",audiusTrackId:"0dGWK"}),
+      Object.freeze({key:"halehManKhoobeh",title:"HALEH MAN KHOOBEH",artist:"Erfan",audiusTrackId:"wGdmrAK"}),
+      Object.freeze({key:"nabayadVaysim",title:"NABAYAD VAYSIM",artist:"Zedbazi",audiusTrackId:"4z0Zb"}),
+      Object.freeze({key:"neshune",title:"NESHUNE",artist:"Gdaal feat. Taham & Paya",audiusTrackId:"pV88B"}),
+      Object.freeze({key:"manMijangam",title:"MAN MIJANGAM",artist:"Yas",audiusTrackId:"q4pmpQz"}),
+      Object.freeze({key:"inManam",title:"IN MANAM",artist:"Shayea",audiusTrackId:"mv3bA3p"}),
+      Object.freeze({key:"eradeKon",title:"ERADE KON",artist:"Arta feat. Koorosh & Khashayar SR",audiusTrackId:"jEBXZ"}),
+      Object.freeze({key:"nemiramAghab",title:"NEMIRAM AGHAB",artist:"Xaniar Khosravi feat. Sirvan Khosravi",audiusTrackId:"jmEXB"}),
+      Object.freeze({key:"ciara",title:"CIARA (ORIGINAL MIX)",artist:"Mehrad Hidden & HEEN",audiusTrackId:"E76JQ"}),
+      Object.freeze({key:"davamoBede",title:"DAVAMO BEDE",artist:"Sijal feat. Heliyom",audiusTrackId:"aAvKglj"}),
+      Object.freeze({key:"gentleman",title:"GENTLEMAN",artist:"Sasy",audiusTrackId:"z2vgkrO"}),
+      Object.freeze({key:"whatYouKnow",title:"WHAT YOU KNOW",artist:"Two Door Cinema Club",audiusTrackId:"MgbrG"}),
+      Object.freeze({key:"safeAndSoundTonin",title:"SAFE AND SOUND (TONIN REMIX)",artist:"Capital Cities",audiusTrackId:"a5EyQ"}),
+      Object.freeze({key:"midnightCity",title:"MIDNIGHT CITY",artist:"M83",audiusTrackId:"22mrG"}),
+      Object.freeze({key:"walkingOnADream",title:"WALKING ON A DREAM",artist:"Empire of the Sun",audiusTrackId:"QKxdxOw"}),
+      Object.freeze({key:"sayMyName",title:"SAY MY NAME",artist:"ODESZA feat. Zyra",audiusTrackId:"K7vE9"}),
+      Object.freeze({key:"ether",title:"ETHER",artist:"RAC feat. MNDR",audiusTrackId:"bbzxO"}),
+      Object.freeze({key:"runawayRiot",title:"RUNAWAY (U & I) (RIOT REMIX)",artist:"Galantis",audiusTrackId:"YZy2r"}),
+      Object.freeze({key:"levelsPartywithray",title:"LEVELS (PARTYWITHRAY FLIP)",artist:"Avicii",audiusTrackId:"VEz9r"}),
+      Object.freeze({key:"oneMoreTimeXavi",title:"ONE MORE TIME (XAVI REMIX)",artist:"Daft Punk",audiusTrackId:"6RXVM"}),
+      Object.freeze({key:"nineteenOhOneDlid",title:"1901 (DLID REMIX)",artist:"Phoenix",audiusTrackId:"ygxaZ"})
     ]),
     defaultTrack:"song2",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
@@ -146,7 +167,7 @@
   function hmLockup(){
     // HO-067 Gate B2: the handcrafted Home room carries no slogans, so the lockup is the wordmark alone (the kicker
     // "THE SHOWDOWN STARTS HERE", the tagline "TWO MANAGERS · ONE LEGACY" and the "More Than A Game" script line are gone).
-    return hmEl("div","homeLockup",'<div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark hc-logo-img" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_1040.webp" srcset="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_640.webp 640w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_1040.webp 1040w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V3_2080.webp 2080w" sizes="'+WORDMARK_SIZES+'" alt="" aria-hidden="true" width="1040" height="378" decoding="async"></div>');
+    return hmEl("div","homeLockup",'<div class="lockupWordmarkWrap sd-title sd-title--wordmark"><span class="sd-visually-hidden">CAREER MODE SHOWDOWN 17</span><img class="lockupWordmark hc-logo-img" src="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V4_1040.webp" srcset="'+BASE+'home/assets/LOGO_CM17_WORDMARK_V4_640.webp 640w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V4_1040.webp 1040w, '+BASE+'home/assets/LOGO_CM17_WORDMARK_V4_2080.webp 2080w" sizes="'+WORDMARK_SIZES+'" alt="" aria-hidden="true" width="1040" height="150" decoding="async"></div>');
   }
   function hmTile(id){
     const button=hmDoc().getElementById(id);

@@ -130,7 +130,8 @@ async function main(){
     for(const m of MANAGERS){assert.equal(tr.managers[m].careerPoints,expect[m].points);assert.equal(tr.showdowns[m].wins,expect[m].w);}
     const goldenCounts={daniel:expect.daniel.golden,nik:expect.nik.golden};
     if(goldenCounts.daniel||goldenCounts.nik){assert.deepEqual(tr.goldenShowdowns,goldenCounts);assert.deepEqual(cs.goldenShowdowns,goldenCounts);}
-    else{assert.equal(tr.goldenShowdowns,undefined);assert.equal(cs.goldenShowdowns,undefined);}
+    // r93: the Trophy Room always carries the counts (its gold case waits unwon); Career Statistics only once won.
+    else{assert.deepEqual(tr.goldenShowdowns,{daniel:0,nik:0});assert.equal(cs.goldenShowdowns,undefined);}
     const legacy=plain(RivalryLegacy.toV10Frame(model,"legacy"));
     legacy.showdowns.forEach(card=>{const row=model.history.showdowns.find(r=>r.number===card.number);assert.deepEqual(card.totals,plain(row.totals),"Legacy card totals");assert.equal(card.winner,row.winner,"Legacy card result");});
     return model;

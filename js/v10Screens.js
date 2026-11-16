@@ -171,6 +171,8 @@
       const css=[...KIT.styles.map(file=>vsStyle(BASE+file)),...R78_STYLES.map(vsStyle)];
       for(const [key,file,ready] of KIT.scripts)await vsScript(key,BASE+file,ready);
       await Promise.all(css);
+      // r93 HO-079: every screen title is live text in Cormorant SC (font-display:block); the gate waits for the one file, so a title is never blank or in a stand-in face.
+      {const doc=vsDoc(),fonts=doc&&doc.fonts;if(fonts&&typeof fonts.load==="function"){try{await vsWithin(fonts.load('700 1em "Cormorant SC"'),STYLE_TIMEOUT_MS);}catch(error){}}}
       vsSyncStyles();
       return true;
     })().catch(error=>{kitPromise=null;throw error;});

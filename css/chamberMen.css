@@ -436,15 +436,12 @@
   html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #cmStage { background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp") 1.25x, url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp") 2x); }
 }
 
-/* r91 HO-071 (Nik's pick, 2026-11-11): the header title is drawn in the one title family (Team V's V3 "Honours Board"
-   lettering) instead of Barlow Condensed capitals. The words stay in the heading (its box, the header grid and the
-   screen-reader label are unchanged) but are not painted; the lettering is laid over them, centred, at the same capital
-   height the text had (the picture's capitals are half its height, Barlow's are about 0.7em, so 1.4em tall).
-   Only the header title: "Chamber Men could not load" keeps its plain heading. */
+/* r93 HO-079 (Nik's pick, flat sample A, 2026-11-15): the header title is live text in the one title family (Cormorant SC Bold, flat
+   gold, css/r78-type.css). The words stay in the heading (its box, the header grid and the screen-reader label are unchanged) but are
+   not painted; the same words are laid over them, centred, at the shared title height. Only the header title: "Chamber Men could
+   not load" keeps its plain heading. */
 #cmStage .cmHeader > .cmTitle { position: relative; color: transparent; }
 #cmStage .cmHeader > .cmTitle::after {
-  content: ""; position: absolute; left: 50%; top: 50%; height: 1.4em; width: min(calc(1.4em * 6.617), calc(100vw - 32px));
-  transform: translate(-50%, -50%); pointer-events: none;
-  background: url("../visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_960.webp") center / contain no-repeat;
-  background-image: image-set(url("../visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_960.webp") 1x, url("../visual-assets/v10_1/shared/wordmarks/TITLE_CHAMBER_MEN_V3_1920.webp") 2x);
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none;
+  content: "CHAMBER MEN"; --hcw: 7.89; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-title-h); padding: 0 0 calc(var(--hc-title-h) * .096) .06em; white-space: nowrap; font: 700 min(calc(var(--hc-title-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-title-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif; font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none; filter: none; background: none;
 }

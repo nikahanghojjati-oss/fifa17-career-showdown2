@@ -75,6 +75,28 @@ const uprightPhone = (w, h) => w < 600 && h > w;
 // 16 levels keeps the shared film grain (sd-stage__grain, about 4 levels) out and still sees dark type on a dark jacket.
 const FACE_LIMIT_PCT = 1, INK = Number(process.env.CMS_FACECHECK_INK) || 16;
 const showdown = fixtures.completedShowdownStorage();
+// r93 Golden Showdown (GS6): a finished 10-season Showdown closed on 150-150 (15 every season each: a DRAW, Golden for both),
+// so the Golden Showdown screen is drawn before Final Winner with its widest words (both names, two numbers a season).
+// CMS_GOLDEN_WHO=daniel draws the usual one-manager screen instead (Daniel 150, Nik 140), CMS_GOLDEN_WHO=nik the other way
+// (Nik 150, Daniel 140: Nik's own bust). Same storage as "finished".
+showdown.golden = (() => {
+    const { projection: gp, result: gr } = require("../support/career-fixture-helpers.cjs");
+    const p15 = () => gr({ leaguePosition: 1, leaguePoints: 101, leagueGoals: 90, championsLeague: true, domesticCup: true, topScorer: true, primePack: 4 });
+    const p14 = () => gr({ leaguePosition: 1, leaguePoints: 101, leagueGoals: 90, championsLeague: true, domesticCup: true, primePack: 4 });
+    const p = gp({ seed: "6", totalSeasons: 10, seasons: Array.from({ length: 10 }, () => [process.env.CMS_GOLDEN_WHO === "nik" ? p14() : p15(), process.env.CMS_GOLDEN_WHO === "daniel" ? p14() : p15()]) });
+    return { ...showdown.finished, pair: fixtures.pair(p.rivalryId, { status: "waiting", connectionState: "closed" }), multiSeason: fixtures.multiFor(p), history: fixtures.history(p), finalReconciliation: fixtures.finalReconciliation(p), terminalClose: fixtures.closed(p) };
+})();
+// r93 part C (GS5): Season Results of a 10-season Showdown three seasons in, both managers on 15 every season, so ON COURSE
+// FOR GOLDEN is drawn under both managers' headers (with their Special Player chips).
+showdown.course = (() => {
+    const { projection: gp, result: gr } = require("../support/career-fixture-helpers.cjs");
+    const p15 = () => gr({ leaguePosition: 1, leaguePoints: 101, leagueGoals: 90, championsLeague: true, domesticCup: true, topScorer: true, primePack: 4 });
+    return { ...showdown.ready, history: fixtures.history(gp({ seed: "7", totalSeasons: 10, seasons: Array.from({ length: 3 }, () => [p15(), p15()]) })) };
+})();
+// r93 hunt C1: the state real play has on the next season's entry form. Season 3 was saved and both moved on, so the shared
+// progression counts 3 accepted seasons and the history view is cleared (null). The page still holds season 3's converged
+// history from the confirmed view it showed before (GOLDEN_COURSE_NEXT opens that view first, then this state).
+showdown.courseNext = { ...showdown.course, multiSeason: fixtures.multiFor(showdown.course.history.projection), history: null };
 // A three-season completed career (same shape as phone-trophy-room-data-audit), so the career screens show real data.
 const { projection, result, finalFor } = require("../support/career-fixture-helpers.cjs");
 const Career = require("../../js/sharedCareerAnalytics.js");
@@ -121,22 +143,31 @@ async function seed(page, name){
 
 const waitScreen = (page, id) => page.waitForFunction(id => { const el = document.getElementById(id); return el && !el.classList.contains("hidden") && !el.hasAttribute("data-v10-pending") && window.getActiveScreenName() === id; }, id, { timeout: 20000 });
 
+async function seasonResultsOpen(page, name, review = true){ await seed(page, name); await page.evaluate(review => {
+    window.openSeasonEntry();
+    const s = window.__cmsSnapshot.seasonResults;
+    for(const [prefix, result] of [["p1", s.ownResult], ["p2", s.opponentResult]]) for(const [field, value] of Object.entries(result)){
+        const input = document.getElementById(prefix + field[0].toUpperCase() + field.slice(1));
+        if(input){ if(input.type === "checkbox") input.checked = value; else input.value = String(value); }
+    }
+    if(review) window.completeCurrentSeason();
+}, review); }
 // Each opener starts on a freshly loaded Home and leaves the named screen shown.
 const SCREENS = {
     HOME: { host: "mainMenu", open: async () => {} },
     LEGACY: { host: "legacy", open: careerOpen("legacy", "renderLegacy") },
     STATISTICS: { host: "careerStatistics", open: careerOpen("careerStatistics", "openCareerStatistics") },
     TROPHY_ROOM: { host: "trophyRoom", open: careerOpen("trophyRoom", "openTrophyRoom") },
-    SEASON_RESULTS: { host: "seasonEntry", open: async page => { await seed(page, "ready"); await page.evaluate(() => {
-        window.openSeasonEntry();
-        const s = window.__cmsSnapshot.seasonResults;
-        for(const [prefix, result] of [["p1", s.ownResult], ["p2", s.opponentResult]]) for(const [field, value] of Object.entries(result)){
-            const input = document.getElementById(prefix + field[0].toUpperCase() + field.slice(1));
-            if(input){ if(input.type === "checkbox") input.checked = value; else input.value = String(value); }
-        }
-        window.completeCurrentSeason();
-    }); } },
+    SEASON_RESULTS: { host: "seasonEntry", open: page => seasonResultsOpen(page, "ready") },
+    // r93 part C: the entry step (filled in, before the review) with ON COURSE FOR GOLDEN under both managers' headers.
+    GOLDEN_COURSE: { host: "seasonEntry", open: page => seasonResultsOpen(page, "course", false) },
+    // r93 hunt C1: the confirmed view (BOTH MANAGERS CONFIRMED) of a season that keeps the course, and the next season's entry
+    // form in the state real play has (history view cleared, the progression on the saved season).
+    GOLDEN_COURSE_REVIEW: { host: "seasonEntry", open: page => seasonResultsOpen(page, "course", true) },
+    GOLDEN_COURSE_NEXT: { host: "seasonEntry", open: async page => { await seasonResultsOpen(page, "course", true); await page.waitForSelector("#seasonEntry .seasonGoldenCourseLine, #seasonEntry .seasonGoldenCourse", { state: "attached", timeout: 15000 }); await seasonResultsOpen(page, "courseNext", false); } },
     FINAL_WINNER: { host: "seasonEntry", open: async page => { await seed(page, "finished"); await page.evaluate(() => window.openSeasonEntry()); } },
+    // r93: the Golden Showdown screen, drawn before Final Winner when a manager closes a 10-season Showdown on 150.
+    GOLDEN: { host: "seasonEntry", open: async page => { await seed(page, "golden"); await page.evaluate(() => window.openSeasonEntry()); await page.waitForSelector("#seasonEntry .v10GoldenStage", { timeout: 20000 }); } },
     RIVALRY: { host: "statistics", open: async page => { await seed(page, "finished"); await page.evaluate(async () => { await ensureOptionalModule("statistics"); window.openRivalryStatistics({ model: window.__cmsRivalryFixture }); }); } },
     STANDINGS: { host: "standings", open: async page => { await seed(page, "finished"); await page.evaluate(() => window.CareerModeV10Screens.navigate("standings")); } },
     CLUB: { host: "clubWheelScreen", open: page => prepareClub(page, false) },
@@ -294,7 +325,10 @@ function fadedManagers(){
         const name = (el.id || "") + " " + String(el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className || "");
         let src = ""; if(el.tagName === "IMG") src = el.currentSrc || el.src || "";
         if(/^(BUTTON|A|INPUT|LABEL)$/.test(el.tagName)) continue;
-        if(/(^|\s)sd-panel(\s|$)/.test(name)) continue;   // a UI card (sd-panel--hero is the large card size, not a manager)
+        if(/(^|\s)sd-panel(\s|$)/.test(name)) continue;
+        // r93 HO-080: Team V's trophy art (TRO_*) is a trophy, never a manager layer, even the Golden Showdown's cast-gold busts
+        // of Daniel and Nik, which stand greyed in the Trophy Room's gold case until won.
+        if(el.tagName === "IMG" && /^TRO_/i.test(src.split("/").pop())) continue;   // a UI card (sd-panel--hero is the large card size, not a manager)
         // A manager layer paints a picture. A glow with "hero" in its name (Trophy Room's heroSpotlight: a gradient and
         // no image) is lighting, not a manager.
         if(el.tagName !== "IMG" && !/url\(/.test(getComputedStyle(el).backgroundImage || "") && !el.querySelector("img")) continue;
@@ -715,7 +749,69 @@ async function leagueWheelSlicesClear(page){
     });
 }
 
-module.exports = { SCREENS, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear, SP_FIXTURE, specialPlayerFixture, seasonResultsChips, specialPlayerChipsClear, leagueWheelSlicesClear };
+// r93 GS6, Golden Showdown only: SEE FINAL WINNER is on screen or reached by scrolling, nothing lies over it, it is at least
+// 44px tall, and no word of the screen is set under 12px. The page is scrolled back to where it was afterwards.
+async function goldenButtonClear(page){
+    const out = [];
+    const button = page.locator("#goldenSeeFinalWinner");
+    if(!(await button.count())) return ["Golden Showdown: SEE FINAL WINNER is missing"];
+    const before = await page.evaluate(() => [...document.querySelectorAll("main, html")].map(n => n.scrollTop));
+    await button.scrollIntoViewIfNeeded();
+    out.push(...await page.evaluate(() => {
+        const bad = [], b = document.getElementById("goldenSeeFinalWinner"), r = b.getBoundingClientRect();
+        if(r.top < 0 || r.bottom > innerHeight + 0.5 || r.left < 0 || r.right > innerWidth + 0.5) bad.push(`SEE FINAL WINNER is not fully on screen even after scrolling (${Math.round(r.left)},${Math.round(r.top)} to ${Math.round(r.right)},${Math.round(r.bottom)})`);
+        if(r.height < 44) bad.push(`SEE FINAL WINNER is ${Math.round(r.height)}px tall (under 44px)`);
+        for(const [x, y] of [[.5, .5], [.12, .3], [.88, .3], [.12, .7], [.88, .7]]){
+            const hit = document.elementFromPoint(r.left + r.width * x, r.top + r.height * y);
+            if(hit && hit !== b && !b.contains(hit)) bad.push(`something lies over SEE FINAL WINNER: ${hit.tagName.toLowerCase()}.${String(hit.className || "").split(" ")[0]}`);
+        }
+        for(const n of document.querySelectorAll(".v10GoldenStage *")){
+            if(![...n.childNodes].some(c => c.nodeType === 3 && c.textContent.trim())) continue;
+            const size = parseFloat(getComputedStyle(n).fontSize);
+            if(size < 11.95) bad.push(`"${n.textContent.trim().slice(0, 24)}" is set at ${size}px (under 12px)`);
+        }
+        return [...new Set(bad)];
+    }));
+    await page.evaluate(before => [...document.querySelectorAll("main, html")].forEach((n, i) => { n.scrollTop = before[i] || 0; }), before);
+    return out;
+}
+
+// r93 part C: ON COURSE FOR GOLDEN shows exactly once per manager: one line under the title on a desktop window, or a line in
+// each manager's card on a phone or short sideways window. It stays inside its card or the screen, at 12px or more, and nothing
+// lies over it.
+async function goldenCourseClear(page){
+    return page.evaluate(() => {
+        const bad = [], shown = el => { const cs = getComputedStyle(el), b = el.getBoundingClientRect(); return cs.display !== "none" && cs.visibility !== "hidden" && b.width > 0 && b.height > 0 && !el.closest(".hidden, [hidden]"); };
+        const chips = [...document.querySelectorAll("#seasonEntry .seasonGoldenCourse")].filter(shown), line = [...document.querySelectorAll("#seasonEntry .seasonGoldenCourseLine")].filter(shown);
+        // r93 hunt C1: on the review / confirmed view the line sits in the panel's status bar instead (and only there)
+        const review = [...document.querySelectorAll("#seasonEntry .seasonGoldenCourseReview")].filter(shown), panel = document.querySelector("#seasonReviewPanel");
+        const panelUp = Boolean(panel && shown(panel));
+        if(panelUp ? !(review.length === 1 && line.length === 0 && chips.length === 0) : (review.length !== 0 || (!(line.length === 1 && chips.length === 0) && !(line.length === 0 && chips.length === 2)))) return [`ON COURSE FOR GOLDEN shows ${line.length} title line(s), ${chips.length} card chip(s) and ${review.length} review line(s) (want one line, one chip per manager, or on the review view one line in its status bar)`];
+        for(const chip of [...line, ...chips, ...review]){
+            const card = chip.closest("#daniel-entry-panel, #nik-entry-panel"), who = !card ? "the title" : card.id === "daniel-entry-panel" ? "Daniel's card" : "Nik's card";
+            const box = (card || document.documentElement).getBoundingClientRect(), r = chip.getBoundingClientRect();
+            if(r.left < box.left - 0.5 || r.right > (card ? box.right : innerWidth) + 0.5) bad.push(`ON COURSE FOR GOLDEN (${who}) runs out of ${card ? "its card" : "the screen"}`);
+            for(const n of chip.querySelectorAll("b, i, span")){ const size = parseFloat(getComputedStyle(n).fontSize); if(n.textContent.trim() && size < 11.95) bad.push(`"${n.textContent.trim()}" (${who}) is ${size}px (under 12px)`); }
+            if(!card){ for(const other of document.querySelectorAll("#seasonEntry #screen-title, #seasonEntry #scoring-panel, #seasonEntry .seasonEntryGrid, #seasonEntry .manager-area")){ const o = other.getBoundingClientRect(); if(o.width && o.height && r.left < o.right && r.right > o.left && r.top < o.bottom && r.bottom > o.top) bad.push(`ON COURSE FOR GOLDEN (title) touches ${other.id || String(other.className).split(" ")[0]}`); } }
+            chip.scrollIntoView({ block: "center" });
+            const q = chip.getBoundingClientRect();
+            // above it in paint order: anything that draws (a picture, a fill, a border or words), not a see-through layout layer
+            const paints = el => { const cs = getComputedStyle(el); return /^(IMG|PICTURE|CANVAS|SVG|VIDEO|INPUT|BUTTON)$/i.test(el.tagName) || !/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor) || cs.backgroundImage !== "none" || parseFloat(cs.borderTopWidth) > 0 || [...el.childNodes].some(c => c.nodeType === 3 && c.textContent.trim()); };
+            const events = chip.style.pointerEvents; chip.style.pointerEvents = "auto";
+            for(const [x, y] of [[.5, .5], [.1, .5], [.9, .5]]){
+                for(const hit of document.elementsFromPoint(q.left + q.width * x, q.top + q.height * y)){
+                    if(hit === chip || chip.contains(hit)) break;
+                    if(paints(hit)) bad.push(`something lies over ON COURSE FOR GOLDEN (${who}): ${hit.tagName.toLowerCase()}.${String(hit.className || "").split(" ")[0]}`);
+                }
+            }
+            chip.style.pointerEvents = events;
+        }
+        document.querySelector("#app main")?.scrollTo?.(0, 0); scrollTo(0, 0);
+        return [...new Set(bad)];
+    });
+}
+
+module.exports = { SCREENS, goldenButtonClear, goldenCourseClear, OLD_LOOK, openScreen, GROUPS, KNOWN, WAITING, checkFaces, finalWinnerResultClear, SP_FIXTURE, specialPlayerFixture, seasonResultsChips, specialPlayerChipsClear, leagueWheelSlicesClear };
 if(require.main === module) (async () => {
     const started = Date.now();
     const keys = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SCREENS).filter(key => !OLD_LOOK.includes(key));
@@ -727,9 +823,12 @@ if(require.main === module) (async () => {
         await selfTest(browser);
         for(const key of keys) if(!SCREENS[key]) throw new Error("unknown screen " + key);
         const report = async (page, key, w, h, dpr, errors) => {
+            if(/^GOLDEN_COURSE/.test(key)) await seasonResultsChips(page);
             if(key === "SEASON_RESULTS") await seasonResultsChips(page);
             const res = await checkFaces(page, key, w, h, dpr);
             if(key === "FINAL_WINNER") for(const what of await finalWinnerResultClear(page)) res.findings.push({ face: "", what });
+            if(key === "GOLDEN") for(const what of await goldenButtonClear(page)) res.findings.push({ face: "", what });
+            if(/^GOLDEN_COURSE/.test(key)) for(const what of await goldenCourseClear(page)) res.findings.push({ face: "", what });
             for(const what of await specialPlayerChipsClear(page)) res.findings.push({ face: "", what });
             if(key === "LEAGUE") for(const what of await leagueWheelSlicesClear(page)) res.findings.push({ face: "", what });
             checked++;

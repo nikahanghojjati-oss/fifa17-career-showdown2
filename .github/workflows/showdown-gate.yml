@@ -516,7 +516,7 @@ jobs:
     name: L5 rules regression
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 65
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
@@ -573,6 +573,12 @@ jobs:
         id: regression
         if: steps.route.outputs.l5_run == 'true'
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-composed "node tests/firebase/composed-production-rules-regression.cjs"
+      # R93-08: every play write of the real flows, measured on the composed Rules against the 1,000-expression limit
+      # (no refusal, at most 850 used, never worse than tests/fixtures/rules-budget/baseline.json).
+      - name: 'TEST: Rules budget sweep (every play write, worst case)'
+        id: budget_sweep
+        if: steps.route.outputs.l5_run == 'true'
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-rules-budget-sweep "node tests/firebase/rules-budget-sweep-emulator.cjs"
       - name: Record lane result
         if: always()
         shell: bash

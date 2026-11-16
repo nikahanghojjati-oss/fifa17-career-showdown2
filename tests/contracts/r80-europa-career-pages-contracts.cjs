@@ -102,14 +102,14 @@ const model=Career.buildCareerModel({indexStatus:"ready",showdowns:[{rivalryId:p
 }
 {
   const screen=read("js/connectPlayersScreenV10.js").replace(/\\"/g,"\"");
-  assert.match(screen,/<h2 id="connectPlayersTitle"><img class="connectPlayersWordmark hc-title-img" data-hc-title="CONNECT" src="visual-assets\/v10_1\/shared\/wordmarks\/TITLE_CONNECT_PLAYERS_V3_960\.webp"[^>]* alt="" aria-hidden="true"[^>]*><span class="connectPlayersTitleText">CONNECT PLAYERS<\/span><\/h2>/);
-  const bytes=fs.readFileSync(path.join(ROOT,"visual-assets/v10_1/shared/wordmarks/TITLE_CONNECT_PLAYERS_V3_960.webp"));
-  assert.equal(bytes.subarray(8,12).toString(),"WEBP");
+  // r93 HO-079: the title is live text (Cormorant SC Bold, flat gold) over the visually hidden words.
+  assert.match(screen,/<h2 id="connectPlayersTitle"><span aria-hidden="true" class="connectPlayersWordmark hc-live-title" data-hc-title="CONNECT" style="--hcw:[\d.]+"><span>CONNECT PLAYERS<\/span><\/span><span class="connectPlayersTitleText">CONNECT PLAYERS<\/span><\/h2>/);
+  assert.doesNotMatch(screen,/TITLE_CONNECT_PLAYERS/,"no title picture is referenced");
   const css=read("css/connectPlayersV10.css");
   const hidden=/\.connectPlayersTitleText\{([^}]*)\}/.exec(css);
   assert.ok(hidden,"the title words have a rule");
   assert.match(hidden[1],/clip-path:inset\(50%\)/);assert.match(hidden[1],/width:1px/);
   assert.doesNotMatch(hidden[1],/display:none|visibility:hidden/,"the words stay readable by assistive technology");
-  ok("E7 CONNECT PLAYERS uses Team V's wordmark picture with visually hidden title words");
+  ok("E7 CONNECT PLAYERS uses live Cormorant SC title text with visually hidden title words");
 }
 console.log(`r80 Europa League career pages contracts passed (${checks} checks)`);

@@ -43,7 +43,7 @@ export function injectPersistentPairRules(){
   generated=replaceOnce(
     generated,
     "      allow update: if ssjrTerminalValidRivalryUpdate(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",
-    "      allow update: if (request.resource.data.data.connectionState == 'closed'\n          && !('terminalClose' in request.resource.data.data)\n          && cmsPersistentPairAbandonValid(rivalryId))\n        || ssjrTerminalValidRivalryUpdate(rivalryId)\n        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem(rivalryId));",
+    "      // R93-08 (Rules budget sweep): JOIN (the redeem) spent ~991 of the 1,000 expressions on this document, most of it on\n      // the Terminal Close branch that a redeem can never pass. The redeem branch now comes before it, and starts with the\n      // stored connectionState that validRivalryRedeem requires anyway, so every other update skips it after one test. The\n      // three branches are the same; only their order and that first test changed, so the same updates pass and fail.\n      allow update: if (request.resource.data.data.connectionState == 'closed'\n          && !('terminalClose' in request.resource.data.data)\n          && cmsPersistentPairAbandonValid(rivalryId))\n        || (resource.data.data.connectionState == 'pending-pair'\n          && !('terminalProgress' in request.resource.data.data)\n          && validRivalryRedeem(rivalryId))\n        || ssjrTerminalValidRivalryUpdate(rivalryId);",
     'persistent pair abandonment authority'
   );
   // JOB-08 (D2): completed-only read grant. Get rules only; writes, list and delete stay as they are.

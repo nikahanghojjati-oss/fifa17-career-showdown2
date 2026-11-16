@@ -128,6 +128,41 @@ check("V29.8 registry mount keeps the native final proof, close and Back nodes r
   assert.ok(doc.getElementById("sharedTerminalCloseAction")===close,"same close action");assert.ok(back.closest(".v10FinalStage")===final,"Back in final stage");close.click();assert.equal(closes,1);assert.equal(close.textContent,"CLOSE SHOWDOWN");
   defs.seasonEntry.unmount(host);assert.ok(proof.parentNode===review,"proof restored");assert.ok(terminal.parentNode===review,"terminal restored");assert.ok(back.closest(".v10SeasonStage")===host.querySelector(".v10SeasonStage"),"Back restored");
 });
+// r93 Golden Showdown (R93-01 A, tests/contracts/r93-golden-showdown-contracts.cjs GS2): a Golden final result draws the Golden
+// screen first, with the live panels and exits still in the Season Results stage; SEE FINAL WINNER draws the Final Winner as
+// before (panels and Back in it), and later frames of the same Showdown go straight to Final Winner on this page.
+check("V29.8b r93 Golden Showdown screen comes before Final Winner and SEE FINAL WINNER hands over to it",async()=>{
+  const html=read("index.html"),entry=html.slice(html.indexOf('<section id="seasonEntry"'),html.indexOf('<section id="seasonSummary"')),doc=documentOf(entry),host=doc.getElementById("seasonEntry"),defs={};
+  const env={document:doc,console,URLSearchParams,location:{search:""},matchMedia:()=>({matches:false}),setTimeout:()=>0,addEventListener(){},ShowdownStage:{mount:()=>({destroy(){}})},fetch:async p=>({ok:true,text:async()=>read(p),json:async()=>JSON.parse(read(p))}),CareerModeV10Screens:{install(){return this;},register(id,def){defs[id]=def;},setNavRoute(){}}};env.window=env;
+  env.loadRuntimeScript=async()=>true;
+  vm.createContext(env);vm.runInContext(read("js/seasonEngine.js")+"\nensureSeasonReviewUI();",env);
+  const review=doc.getElementById("seasonReviewPanel"),terminal=doc.createElement("section");terminal.id="sharedTerminalClosePanel";review.append(terminal);
+  const back=doc.getElementById("completeSeason").closest(".seasonEntryActions").querySelector(".backButton");
+  vm.runInContext(read("js/seasonFinalV10.js"),env);const live=env.CareerModeSeasonFinalV10;await live.install();
+  for(const folder of ["season-results","final-winner"])vm.runInContext(read(`visual-assets/v10_1/${folder}/${folder}.js`),env);
+  await defs.seasonEntry.prepare();
+  const golden=(a,b,more={})=>live.finalFrame({phase:"FINAL_SEASON_RECONCILED",finalSeasonReconciled:true,rivalryId:"pair_"+"9".repeat(64),totalSeasons:10,acceptedSeasons:10,completedSeason:10,winner:a>b?"playerOne":b>a?"playerTwo":"draw",managerTotals:{playerOne:a,playerTwo:b},...more});
+  // not Golden: Final Winner at once
+  defs.seasonEntry.mount({final:golden(149,140)},host);assert.ok(host.querySelector(".v10FinalStage"));assert.equal(host.querySelector(".v10GoldenStage"),null);defs.seasonEntry.unmount(host);
+  const frame=golden(140,150);assert.deepEqual(JSON.parse(JSON.stringify(frame.golden.managers)),["nik"]);
+  defs.seasonEntry.mount({final:frame},host);
+  const stage=host.querySelector(".v10GoldenStage");assert.ok(stage,"Golden screen drawn");assert.equal(host.querySelector(".v10FinalStage"),null,"no Final Winner under it");
+  assert.ok(host.classList.contains("v10GoldenMode"));assert.equal(host.querySelector(".v10SeasonStage").hidden,true);
+  assert.ok(terminal.parentNode===review&&back.closest(".v10SeasonStage"),"live panels and Back wait in the Season Results stage");
+  assert.equal(stage.querySelector(".goldenName").textContent,"NIK");assert.equal(stage.querySelectorAll(".goldenSeason").length,10);
+  assert.equal(stage.querySelector("#goldenSeeFinalWinner").textContent,"SEE FINAL WINNER");
+  // the back of this screen is Showdown Home, as on Final Winner
+  const app={document:doc,getLegalBackTargets:()=>["dashboard","mainMenu"]};assert.equal(live.installChampionBack(app),true);assert.equal(JSON.stringify(app.getLegalBackTargets("seasonEntry")),"[\"mainMenu\"]");
+  stage.querySelector("#goldenSeeFinalWinner").click();
+  assert.equal(host.querySelector(".v10GoldenStage"),null,"Golden screen gone");const final=host.querySelector(".v10FinalStage");assert.ok(final,"Final Winner drawn");
+  assert.ok(terminal.closest(".v10FinalStage")===final&&back.closest(".v10FinalStage")===final,"panels and Back moved into Final Winner");assert.ok(!host.classList.contains("v10GoldenMode"));
+  defs.seasonEntry.mount({final:frame},host);assert.ok(host.querySelector(".v10FinalStage"));assert.equal(host.querySelector(".v10GoldenStage"),null,"same Showdown, this page: Final Winner");
+  defs.seasonEntry.unmount(host);assert.ok(terminal.parentNode===review&&back.closest(".v10SeasonStage"),"restored");
+  // 150-150: both, and DRAW, never a winner's name on the Golden screen
+  const draw=golden(150,150,{rivalryId:"pair_"+"8".repeat(64)});defs.seasonEntry.mount({final:draw},host);
+  const d=host.querySelector(".v10GoldenStage");assert.equal(d.querySelector(".goldenName").textContent,"DANIEL AND NIK");assert.match(d.querySelector(".goldenScore").textContent,/^DRAW · 150 OF 150 EACH$/);assert.equal(d.dataset.golden,"draw");
+  defs.seasonEntry.unmount(host);assert.equal(host.querySelector(".v10GoldenStage"),null);
+});
 check("V29.9 the real clash contract keeps commit/acknowledge enabled with no CHECK RESULTS when both managers win the same trophy",()=>{const r=spawnSync(process.execPath,["tests/contracts/season-result-clash-contracts.cjs"],{cwd:ROOT,encoding:"utf8"});assert.equal(r.status,0,r.stdout+r.stderr);});
 // JOB-1658: the JOB-1213 1366x768 block was left unclosed, which nested the JOB-1214 1920x1080 block inside it so it could never match.
 check("JOB-1658 the injected Season CSS keeps every @media block closed and top-level, so each viewport block can match",()=>{

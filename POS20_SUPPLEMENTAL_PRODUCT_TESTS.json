@@ -3283,6 +3283,86 @@
         "^tests/contracts/r92\\-device\\-check\\-iphone\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r93-golden-showdown-contracts.cjs",
+      "patterns": [
+        "^js/(seasonFinalV10|careerScreenSeam|careerScreensV10)\\.js$",
+        "^visual-assets/v10_1/(trophy-room/trophy-room|career-statistics/career-statistics|standings/standings|legacy/legacy|rivalry-statistics/rivalry-statistics)\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^css/rivalryLegacyV10\\.css$",
+        "^tests/browser/phone-marble-facecheck-audit\\.cjs$",
+        "^tests/contracts/r93\\-golden\\-showdown\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r93-rrr-hand-props-contracts.cjs",
+      "patterns": [
+        "^visual-assets/v10_1/roulette/index\\.html$",
+        "^visual-assets/v10_1/roulette/platemap\\.json$",
+        "^visual-assets/v10_1/roulette/assets/RR_HAND",
+        "^tests/contracts/r93\\-rrr\\-hand\\-props\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r93-hidden-close-rivalry-contracts.cjs",
+      "patterns": [
+        "^js/(sharedActiveShowdownAdapter|rivalryLegacyV10|rivalryLegacyV10Markup|sharedTerminalClose|sharedHistoryConvergence|sharedFinalReconciliation|productionSharedMultiSeasonProgression)\\.js$",
+        "^visual-assets/v10_1/rivalry-statistics/rivalry-statistics\\.js$",
+        "^tests/support/(active-showdown-fixtures|career-fixture-helpers|fake-dom)\\.cjs$",
+        "^tests/contracts/r93\\-hidden\\-close\\-rivalry\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r93-verdicts-after-reload-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedSeasonResultsRoute|productionSharedTransferChallenge)\\.js$",
+        "^tests/support/fake-dom\\.cjs$",
+        "^tests/contracts/r93\\-verdicts\\-after\\-reload\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r93-rules-budget-sweep-contracts.cjs",
+      "patterns": [
+        "^firestore\\.spark\\.rules$",
+        "^firestore\\..*\\.fragment\\.rules$",
+        "^scripts/(build-production-firestore-rules|build-production-firestore-rules-with-persistent-pair|inject-persistent-pair-rules|showdown-gate)\\.mjs$",
+        "^\\.github/workflows/showdown-gate\\.yml$",
+        "^tests/fixtures/rules-budget/",
+        "^tests/firebase/rules-budget-sweep-emulator\\.cjs$",
+        "^tests/support/rules-budget-recorder\\.cjs$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/r93\\-rules\\-budget\\-sweep\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r94-namesake-signings-contracts.cjs",
+      "patterns": [
+        "^js/(squadSheet|squadSheetStep|rosterRoulette|playerSearch|sharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
+        "^data/(fifa17Players|rosterSquads|transferOptions)\\.js$",
+        "^data/fifa17/players\\-",
+        "^firestore\\.(season\\-results|transfer\\-challenge)\\-production\\.fragment\\.rules$",
+        "^tests/fixtures/r94\\-namesake/",
+        "^tests/fixtures/r93\\-mixed\\-versions/",
+        "^tests/contracts/r94\\-namesake\\-signings\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r93-loan-records-contracts.cjs",
+      "patterns": [
+        "^js/(squadSheet|squadSheetStep|squadScreen)\\.js$",
+        "^data/(fifa17Players|rosterSquads)\\.js$",
+        "^firestore\\.season\\-results\\-production\\.fragment\\.rules$",
+        "^tests/fixtures/r93\\-loan\\-records/",
+        "^tests/contracts/r93\\-loan\\-records\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

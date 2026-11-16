@@ -209,11 +209,11 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
   assert.match(PAGE, /<p id="status" role="status" aria-live="polite"><\/p>/, "the status line starts empty");
   assert.ok(PAGE.includes("#status:empty{display:none}"), "an empty status line takes no room");
   // run(): the status words are written, then wait() runs to stage.classList.add("live") before the first await yields.
-  const run = PAGE.slice(PAGE.indexOf("async function run(){"), PAGE.indexOf("const j=judge("));
+  const run = PAGE.slice(PAGE.indexOf("async function run("), PAGE.indexOf("const j=judge("));
   const says = run.indexOf("status.textContent=`${scene.name}"), waits = run.indexOf("await wait(scene,level)");
   assert.ok(says > 0 && waits > says, "the status words are written right before the screen is opened");
   assert.ok(!/await /.test(run.slice(says, waits)), "nothing is awaited between the status words and the open");
-  const wait = PAGE.slice(PAGE.indexOf("function wait(scene,level){"), PAGE.indexOf("async function run(){"));
+  const wait = PAGE.slice(PAGE.indexOf("function wait(scene,level){"), PAGE.indexOf("async function run("));
   assert.match(wait, /return new Promise\(resolve=>\{/);
   assert.ok(wait.includes('stage.replaceChildren(frame,note);stage.classList.add("live");'), "wait() covers the window in the same step");
   assert.ok(!/await |\.then\(/.test(wait.slice(0, wait.indexOf('stage.classList.add("live")'))), "wait() does not yield before the stage is live");

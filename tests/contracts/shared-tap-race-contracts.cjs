@@ -90,7 +90,10 @@ async function transferContracts(){
     h.scripts.requestEndWindow.push(denied("permission-denied"),denied("permission-denied"),denied("permission-denied"));
     h.api.install();await h.tap("endTransferTimer");
     assert.equal(h.calls.mutations.length,2,"a real denial must be tried at most twice (one retry), never looped");
-    assert.match(h.error(),/session expired\. Go back to Showdown Home/,"a real denial must still be visible after the one retry, in plain words (red team R87-B-05)");
+    // R93-07 (hunt T2-1): the read before the retry worked, so a denial that repeats is not an expired session; the screen
+    // says the step was refused and nothing was saved (red team R87-B-05: plain words, never a raw code).
+    assert.equal(h.error(),"This step was refused twice, so nothing was saved. Tap REFRESH, check what you entered and try again.","a real denial must still be visible after the one retry, in plain words (red team R87-B-05)");
+    assert.doesNotMatch(h.error(),/session expired/i,"a denial that repeats after a working read must not claim the session expired (R93-07)");
   }
   // A4. The refreshed state already shows the outcome (partner already moved the phase on): silent, no second write.
   {
@@ -188,6 +191,14 @@ async function transferContracts(){
         h.scripts[method].push(h.accepted(null,{}));
         h.api.install();fill(h,1);await h.tap("completeTransferChallenge");
         assert.equal(h.calls.mutations.length,1,`E5 ${kind}: without confirm the lock works as before`);assert.equal(h.error(),"");
+      }
+      // E6. R93-07 (hunt T2-1): a full lock the Rules refuse on both tries says it was refused, not "session expired".
+      {
+        const h=transferHarness(initial());h.node("transferChallenge").classList.add("hidden");await h.api.refresh();
+        h.scripts[method].push(denied("permission-denied"),denied("permission-denied"));
+        h.api.install();fill(h,3);await h.tap("completeTransferChallenge");
+        assert.equal(h.calls.mutations.length,2,`E6 ${kind}: one retry, never a loop`);
+        assert.equal(h.error(),"This step was refused twice, so nothing was saved. Tap REFRESH, check what you entered and try again.",`E6 ${kind}: plain refused text`);
       }
     }
   }

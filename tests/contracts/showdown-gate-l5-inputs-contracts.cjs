@@ -63,7 +63,7 @@ async function run(){
 
   const workflow=readWorkflow(root,'.github/workflows/showdown-gate.yml');
   const job=workflow.jobs['l5-rules-regression'];
-  for(const step of job.steps.filter(step=>/setup-java|actions\/cache/.test(step.uses||'')||/^(?:Install |Fetch production main)/.test(step.label)||step.id==='regression'))assert.equal(step.if,"steps.route.outputs.l5_run == 'true'",`${step.label} uses the L5 decision`);
+  for(const step of job.steps.filter(step=>/setup-java|actions\/cache/.test(step.uses||'')||/^(?:Install |Fetch production main)/.test(step.label)||step.id==='regression'||step.id==='budget_sweep'))assert.equal(step.if,"steps.route.outputs.l5_run == 'true'",`${step.label} uses the L5 decision`);
   assert.equal(job.steps.find(step=>step.id==='route').env.GATE_BASE_REF,'${{ github.event.pull_request.base.ref }}');
   for(const label of ['Record lane result','Upload lane record'])assert.equal(job.steps.find(step=>step.label===label).if,'always()');
   for(const step of workflow.jobs.seal.steps.filter(step=>/showdown-gate.mjs (?:route|seal)/.test(step.run||'')))assert.equal(step.env.GATE_BASE_REF,'${{ github.event.pull_request.base.ref }}');
@@ -99,11 +99,12 @@ async function run(){
       assert.equal(JSON.parse(fs.readFileSync(out,'utf8')).l5_run,expected);
       assert.match(fs.readFileSync(outputs,'utf8'),new RegExp(`^l5_run=${expected}$`,'m'));
       assert.match(fs.readFileSync(outputs,'utf8'),/^l5_reason=.+$/m);
-      const f=spawnSync(process.execPath,['scripts/showdown-gate.mjs','finalize','--lane','L5','--route',out,'--out',laneOut],{cwd:root,env:{...env,GATE_JOB_STATUS:'success',GITHUB_RUN_ID:String(runId),GATE_RUN_ATTEMPT:'1',GATE_STEPS_JSON:JSON.stringify({regression:{outcome:expected?'success':'skipped'}})},encoding:'utf8'});
+      const f=spawnSync(process.execPath,['scripts/showdown-gate.mjs','finalize','--lane','L5','--route',out,'--out',laneOut],{cwd:root,env:{...env,GATE_JOB_STATUS:'success',GITHUB_RUN_ID:String(runId),GATE_RUN_ATTEMPT:'1',GATE_STEPS_JSON:JSON.stringify({regression:{outcome:expected?'success':'skipped'},budget_sweep:{outcome:expected?'success':'skipped'}})},encoding:'utf8'});
       assert.equal(f.status,0,f.stderr);
       const record=JSON.parse(fs.readFileSync(laneOut,'utf8'));
       assert.equal(record.l5_run,expected);assert.deepEqual(record.files,[]);assert.deepEqual(record.missing,[]);
       assert.equal(record.ran.includes('COMPOSED_RULES_REGRESSION'),expected);
+      assert.equal(record.ran.includes('RULES_BUDGET_SWEEP'),expected);
     }
     assert.equal(S.baseRefFromEnv({GITHUB_EVENT_PATH:eventFile}),'gameplay/bug-list-1');
   }finally{fs.rmSync(temp,{recursive:true,force:true});}

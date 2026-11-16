@@ -28,51 +28,44 @@ function titleSizes(stem) {
 }
 assert.match(read("css/r78-type.css"), /--hc-title-h:\s*clamp\(40px,\s*3\.08vw,\s*59px\)/, "the shared title height the sizes are built from");
 
-// ---- D1: setTitleFor from the real final-winner.js, against a stand-in title element ----
+// ---- D1: setTitleFor from the real final-winner.js, against a stand-in title element (r93 HO-079: live Cormorant SC text) ----
 const source = read("visual-assets/v10_1/final-winner/final-winner.js");
 assert.match(source, /setTitleFor\(frame\.winner\)/, "D1 applyFrame sets the title from the frame's winner");
-const start = source.indexOf("var WORDMARK_DIR");
+const start = source.indexOf("var WORDMARKS");
 const end = source.indexOf("function applyFrame");
 assert.ok(start > 0 && end > start, "D1 the title swap sits before applyFrame");
 function stand() {
-  const img = { attrs: { src: "visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V3_960.webp" }, getAttribute(k) { return this.attrs[k]; }, setAttribute(k, v) { this.attrs[k] = v; } };
+  const inner = { textContent: "SHOWDOWN CHAMPION" };
+  const live = { firstElementChild: inner, get textContent() { return inner.textContent; }, vars: {}, style: { setProperty(k, v) { live.vars[k] = v; } } };
   const hidden = { textContent: "SHOWDOWN CHAMPION" };
-  const title = { dataset: {}, querySelector: s => (s === "img" ? img : s === ".sd-visually-hidden" ? hidden : null) };
+  const title = { dataset: {}, querySelector: s => (s === ".hc-live-title" ? live : s === ".sd-visually-hidden" ? hidden : null) };
   const sandbox = { document: { getElementById: id => (id === "finalWinnerTitle" ? title : null) } };
   vm.createContext(sandbox);
   vm.runInContext(source.slice(start, end) + "\nthis.setTitleFor=setTitleFor;", sandbox);
-  return { img, hidden, title, set: sandbox.setTitleFor };
+  return { live, inner, hidden, title, set: sandbox.setTitleFor };
 }
 {
   const s = stand();
   s.set("draw");
   assert.equal(s.hidden.textContent, "SHOWDOWN DRAW", "D1 a draw has no champion words for screen readers");
   assert.equal(s.title.dataset.titleKind, "draw");
-  assert.match(s.img.attrs.src, /TITLE_SHOWDOWN_DRAW_V3_960\.webp$/, "D1 a draw shows the SHOWDOWN DRAW picture");
-  for (const w of [480, 960, 1920, 3840]) assert.ok(s.img.attrs.srcset.includes(`TITLE_SHOWDOWN_DRAW_V3_${w}.webp ${webpSize(`visual-assets/v10_1/shared/wordmarks/TITLE_SHOWDOWN_DRAW_V3_${w}.webp`)[0]}w`), `D1 srcset has the ${w} step with its real width`);
-  assert.equal(s.img.attrs.sizes, titleSizes("TITLE_SHOWDOWN_DRAW_V3"), "D1 a draw asks for the shared title height times its own ratio");
-  assert.doesNotMatch(s.img.attrs.srcset + s.img.attrs.src, /_V[12]_/, "D1 no old brush lettering in a draw");
-  assert.doesNotMatch(s.img.attrs.srcset + s.img.attrs.src, /FINAL_WINNER/, "D1 no champion picture is left in a draw");
+  assert.equal(s.inner.textContent, "SHOWDOWN DRAW", "D1 a draw shows the SHOWDOWN DRAW live text");
+  assert.equal(s.live.vars["--hcw"], "10.12", "D1 a draw sizes itself by its own width in em");
   for (const winner of ["daniel", "nik", "unconfirmed", undefined]) {
     s.set(winner);
     assert.equal(s.hidden.textContent, "SHOWDOWN CHAMPION", `D1 ${winner} keeps the champion title`);
-    assert.match(s.img.attrs.src, /TITLE_FINAL_WINNER_V3_960\.webp$/);
-    if (s.img.attrs.srcset) {
-      for (const w of [480, 960, 1920, 3840]) assert.ok(s.img.attrs.srcset.includes(`TITLE_FINAL_WINNER_V3_${w}.webp ${webpSize(`visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V3_${w}.webp`)[0]}w`), `D1 champion srcset has the ${w} step with its real width`);
-      assert.equal(s.img.attrs.sizes, titleSizes("TITLE_FINAL_WINNER_V3"));
-      assert.doesNotMatch(s.img.attrs.srcset, /_V[12]_/, "D1 the champion title never falls back to the old brush lettering");
-    }
+    assert.equal(s.inner.textContent, "SHOWDOWN CHAMPION", `D1 ${winner} shows the champion live text`);
+    assert.equal(s.live.vars["--hcw"], "12.73");
     assert.equal(s.title.dataset.titleKind, "champion");
   }
   s.set("draw"); s.set("draw");
 }
 
-// ---- D2: the files ----
-for (const w of [480, 960, 1920, 3840]) {
-  const champion = webpSize(`visual-assets/v10_1/shared/wordmarks/TITLE_FINAL_WINNER_V3_${w}.webp`);
-  const draw = webpSize(`visual-assets/v10_1/shared/wordmarks/TITLE_SHOWDOWN_DRAW_V3_${w}.webp`);
-  assert.equal(draw[1], champion[1], `D2 the ${w} step of the draw title has the champion title's height`);
-  assert.ok(draw[0] <= champion[0], `D2 the ${w} step of the draw title is not wider than the champion title`);
+// ---- D2: the live title carries no picture, and its two texts exist in the markup ----
+{
+  const shell = read("visual-assets/v10_1/final-winner/app-shell.html");
+  assert.match(shell, /class="hc-live-title" data-hc-title="FINAL_WINNER"[^>]*><span>SHOWDOWN CHAMPION<\/span>/, "D2 the champion title is live text");
+  assert.doesNotMatch(shell, /TITLE_(?:FINAL_WINNER|SHOWDOWN_DRAW)/, "D2 no title picture on the Final Winner shell");
 }
 
 // ---- D3: draw stories never name a champion ----

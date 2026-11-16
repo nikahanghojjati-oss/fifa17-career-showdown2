@@ -30,6 +30,8 @@ const path=require('node:path');
 const vm=require('node:vm');
 const ROOT=path.resolve(__dirname,'../..');
 const SRC=fs.readFileSync(path.join(ROOT,'js/gfxTier.js'),'utf8');
+// r93: a crash cap carries the build that wrote it; a cap from an older build is dropped (r92-device-check-iphone D16).
+const BUILD=/const BUILD="([^"]+)";/.exec(SRC)[1];
 const CHOICES_FROM_SRC=()=>JSON.parse(/const CHOICES=(\[[^\]]*\])/.exec(SRC)[1]);
 let checks=0;const ok=(id,text)=>{checks+=1;console.log(`ok ${checks} ${id} ${text}`);};
 
@@ -136,7 +138,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   assert.equal(sg.setChoice('bogus'),'auto');assert.equal(sg.profile().level,3,'a new pick applies to the next screen');
   // Codex on #1284: a crash cap or Device check saved by the roulette/SP frame's own copy shows in Settings without a reload.
   {const sx=sandbox({gpu:strong,dpr:1,memory:32,cores:16});sx.G.profile();
-   sx.store['careerModeShowdown.gfxCap.v1']=JSON.stringify({level:1,reason:'frame',at:Date.now()});
+   sx.store['careerModeShowdown.gfxCap.v1']=JSON.stringify({level:1,reason:'frame',at:Date.now(),build:BUILD});
    assert.deepEqual([sx.G.suggested().now,sx.G.suggested().lowered],[1,true],'a cap saved elsewhere lowers the Auto line');
    sx.store['careerModeShowdown.gfxCap.v1']='null';sx.store['careerModeShowdown.gfxMeasured.v2']=JSON.stringify({level:4,at:Date.now()});
    // r92: the check only ever raises Auto, so the saved result is above this chip's Extra (a lower one is not read).
@@ -266,7 +268,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
      while(tb<61000){tb+=16.7;s7b.clock.t=tb;gb.frame(tb);}assert.deepEqual([postedB.length,postedB[1].complete,postedB[1].beats],[2,false,0],'no beat in 60 s: a result marked not complete');
      // An older crash cap does not lower the level the check asked for (the answer would be a lower level's); a failure
      // during the check does lower it, and the result says so.
-     const cap={'careerModeShowdown.gfxCap.v1':JSON.stringify({level:0,reason:'the GPU ran out of memory',at:Date.now(),clean:0})};
+     const cap={'careerModeShowdown.gfxCap.v1':JSON.stringify({level:0,reason:'the GPU ran out of memory',at:Date.now(),clean:0,build:BUILD})};
      const s7c=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=2&bench=1',storage:cap});
      assert.deepEqual([s7c.G.profile().level,s7c.G.profile().asked],[2,2],'bench: the level asked, whatever an old cap says');
      assert.equal(sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:1,memory:16,cores:8,search:'?gfx=2',storage:cap}).G.profile().level<2,true,'outside the check a forced level still obeys the cap');

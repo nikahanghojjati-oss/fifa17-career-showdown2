@@ -63,7 +63,7 @@ export const LANES=Object.freeze({
     steps:{proof_storage:['@group:STORAGE'],gf_rules:['GF_RULES_BUILD_ZERO_BILLING'],gf_setup:['GF_SHARED_SETUP_PROVIDER'],gf_transfer:['GF_TRANSFER_FRESH_SESSION'],gf_lifecycle:['GF_LIFECYCLE_1_3'],gf_terminal:['GF_TERMINAL_CLOSE'],gf_pair:['GF_PERSISTENT_PAIR'],gf_journey:['GF_TWO_MANAGER_JOURNEY_3_10'],gf_career_index:['GF_CAREER_INDEX'],gf_completed_read:['GF_COMPLETED_READ'],gf_closed_adapter:['GF_CLOSED_ADAPTER'],gf_completed_transfer:['GF_COMPLETED_TRANSFER'],gf_season_ack:['GF_SEASON_ACK']}},
   L3B:{job:'l3b',name:'L3B visual',groups:['VISUAL'],fixed:[],steps:{proof_visual:['@group:VISUAL']}},
   L4:{job:'l4-remote',name:'L4 remote',groups:['REMOTE'],fixed:[],steps:{proof_remote:['@group:REMOTE'],lifecycle_rules:['LIFECYCLE_COMPOSED_RULES_BUILD'],lifecycle:['LIFECYCLE_COMPOSED_1_3_5_10']}},
-  L5:{job:'l5-rules-regression',name:'L5 rules regression',groups:[],fixed:['COMPOSED_RULES_REGRESSION'],steps:{regression:['COMPOSED_RULES_REGRESSION']}},
+  L5:{job:'l5-rules-regression',name:'L5 rules regression',groups:[],fixed:['COMPOSED_RULES_REGRESSION','RULES_BUDGET_SWEEP'],steps:{regression:['COMPOSED_RULES_REGRESSION'],budget_sweep:['RULES_BUDGET_SWEEP']}},
   L6:{job:'l6-browser-journey',name:'L6 browser journey',groups:[],fixed:['JOURNEY_RULES_BUILD_ZERO_BILLING','TWO_MANAGER_BROWSER_JOURNEY','R79_TWO_PLAYER_JOURNEY'],steps:{rules:['JOURNEY_RULES_BUILD_ZERO_BILLING'],journey:['TWO_MANAGER_BROWSER_JOURNEY'],r79_journey:['R79_TWO_PLAYER_JOURNEY']}}
 });
 export const LANE_IDS=Object.freeze(Object.keys(LANES));

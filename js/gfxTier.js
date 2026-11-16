@@ -27,6 +27,11 @@
   // not give drops this device one level below the one that failed and remembers it (any level, Auto or picked) until the
   // player picks a level again in Settings.
   const CAP_KEY="careerModeShowdown.gfxCap.v1";
+  // r93 (Nik's iPhone 17, 2026-11-15): every cap, and every opening mark, carries the build that wrote it. A cap from an older
+  // build is dropped on load: the update may have fixed what failed (2.4.0 closed the tab at High; 2.5.0 fixed its memory, yet
+  // 2.4.0's cap kept the Device check off High for 7 days). The level gets one fresh try per build: if it fails again, this
+  // build writes its own cap, kept as before. BUILD is the service worker's RUNTIME_REVISION (the release bump moves both).
+  const BUILD="2.6.0-r93";
   const MEMORY_KEY=key=>`careerModeShowdown.gfxSettled.v1.${key}`;
   // r91: where a scene's heavy parts settled (its detail step, for the level it was built at), read on its next visit.
   const DETAIL_KEY=key=>`careerModeShowdown.gfxDetail.v1.${key}`,DETAIL_DAYS_MS=7*864e5;
@@ -184,7 +189,7 @@
   const CAP_DAYS_MS=7*864e5,CAP_CLEAN=3,CAP_CLEAN_MS=20000;
   function gfxCap(){
     try{const v=JSON.parse(gfxRead(CAP_KEY)||"null");if(!(v&&v.reason&&Number.isInteger(v.level)&&v.level>=0&&v.level<=4))return null;
-      if(Date.now()-Number(v.at||0)>CAP_DAYS_MS||(v.clean|0)>=CAP_CLEAN){gfxWrite(CAP_KEY,"null");return null;}return v;}catch(_error){return null;}
+      if(v.build!==BUILD||Date.now()-Number(v.at||0)>CAP_DAYS_MS||(v.clean|0)>=CAP_CLEAN){gfxWrite(CAP_KEY,"null");return null;}return v;}catch(_error){return null;}
   }
   function gfxCapClean(level){const v=gfxCap();if(!v||v.level!==level||v.tab)return;v.clean=(v.clean|0)+1;gfxWrite(CAP_KEY,v.clean>=CAP_CLEAN?"null":JSON.stringify(v));if(v.clean>=CAP_CLEAN)cached=null;}
   // r91: a tab that dies while a 3D screen opens. A lost WebGL context is caught (gfxFail); a tab the browser kills for
@@ -193,8 +198,8 @@
   // away once it is running (its first beat played, or 20 s of frames), when it ends, and when its page is hidden or left
   // (a reload, a closed tab and a removed frame all say goodbye first). A mark still there when the same tab loads the
   // game again was left by a page that died: the level that was opening is capped one down, like a GPU failure. That
-  // cap does not lift after clean scenes (the level would only kill the tab again); it ends after 7 days or with a pick
-  // in Settings. Only that one case counts: a mark from another tab proves nothing and is left to go stale. Where the
+  // cap does not lift after clean scenes (the level would only kill the tab again); it ends after 7 days, with a pick
+  // in Settings, or (r93) with the next build. Only that one case counts: a mark from another tab proves nothing and is left to go stale. Where the
   // tab cannot be told apart (no sessionStorage, no page load time) there is no guard.
   // Chamber Men, on the game's own page, marks before it builds (sceneOpening): its heaviest moment is the load and the
   // texture upload, before any governor exists (review P3 on #1409). A mount that ends without a scene takes the mark off.
@@ -223,14 +228,14 @@
     const all=gfxOpenList();if(!all.length)return null;
     const keep=[];let died=null;
     for(const m of all){
-      if(!(Date.now()-Number(m.at||0)<=OPEN_STALE_MS))continue;
+      if(!(Date.now()-Number(m.at||0)<=OPEN_STALE_MS)||m.build!==BUILD)continue;
       if(m.tab===tab&&m.top&&m.top!==top){if(!died||m.level<died.level)died=m;continue;}
       keep.push(m);
     }
     if(keep.length!==all.length)gfxWrite(OPEN_KEY,JSON.stringify(keep));
     if(!died)return null;
     const old=gfxCap(),level=Math.max(0,Math.min(died.level>=5?4:died.level-1,old?old.level:4));
-    gfxWrite(CAP_KEY,JSON.stringify({level,reason:TAB_CRASH,tab:true,from:died.level,scene:String(died.scene||""),bench:Boolean(died.bench),at:Date.now()}));
+    gfxWrite(CAP_KEY,JSON.stringify({level,reason:TAB_CRASH,tab:true,from:died.level,scene:String(died.scene||""),bench:Boolean(died.bench),at:Date.now(),build:BUILD}));
     cached=null;return died;
   }
   function gfxOpenArm(level,scene){
@@ -239,7 +244,7 @@
     const tab=gfxTabId(),top=gfxTopLoad();if(!tab||!top)return;
     const id=`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;
     opening={id,first:0};
-    gfxWrite(OPEN_KEY,JSON.stringify(gfxOpenList().slice(-5).concat({id,tab,top,level,scene:String(scene||""),bench:gfxQuery("bench")==="1",at:Date.now()})));
+    gfxWrite(OPEN_KEY,JSON.stringify(gfxOpenList().slice(-5).concat({id,tab,top,level,scene:String(scene||""),bench:gfxQuery("bench")==="1",at:Date.now(),build:BUILD})));
   }
   function gfxOpenDone(){
     if(!opening)return;const id=opening.id;opening=null;
@@ -355,7 +360,7 @@
     failCount+=1;
     const cur=(cached||gfxProfile()).level,old=gfxCap();
     const level=Math.max(0,Math.min(cur>=5?4:cur-1,old?old.level:4));
-    gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),at:Date.now()}));cached=null;benchFailed=String(reason||"failed");
+    gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),at:Date.now(),build:BUILD}));cached=null;benchFailed=String(reason||"failed");
     try{active?.sync();}catch(_error){}
     const p=gfxProfile();gfxMarkRoot(p.level,p.assetLevel);return p;
   }
@@ -762,7 +767,7 @@
     return {stop(){stopped=true;if(raf)root.cancelAnimationFrame(raf);box.remove();}};
   }
 
-  root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,choices:CHOICES.slice(),names:NAMES.slice(),labels:LABELS.slice(),
+  root.CareerModeGfxTier={contractVersion:1,storageKey:KEY,build:BUILD,choices:CHOICES.slice(),names:NAMES.slice(),labels:LABELS.slice(),
     label(level){return LABELS[Math.max(0,Math.min(5,Math.round(Number(level))||0))];},
     profile:gfxProfile,calibrate:gfxCalibrate,governor:gfxGovernor,softCut:gfxSoftCut,builtLevel:gfxBuiltLevel,overlay:gfxOverlay,classify:gfxClassify,
     // Settings: suggested() is what Auto would pick on this device, choice() the saved pick ("auto" by default), setChoice()
@@ -799,7 +804,12 @@
     can8k(){return Boolean(gfxProfile().can8k);},samples:gfxSamples,checkTarget:gfxCheckTarget,
     // tabCrash(): the cap left by a tab that died while a 3D screen was opening (null when there is none). The Device
     // check does not open a level above it again.
-    tabCrash(){const c=gfxCap();return c&&c.tab?{level:c.level,from:Number.isInteger(c.from)?c.from:c.level+1,scene:String(c.scene||""),bench:Boolean(c.bench),at:c.at}:null;},
+    tabCrash(){const c=gfxCap();return c&&c.tab?{level:c.level,from:Number.isInteger(c.from)?c.from:c.level+1,scene:String(c.scene||""),bench:Boolean(c.bench),at:c.at,until:Number(c.at||0)+CAP_DAYS_MS}:null;},
+    // tabDied(level, scene): r93, the Device check saw its page die while one of its screens was playing (the page came back
+    // with that screen still open). The same cap as a tab that died while a screen was opening: one level below, until 7 days,
+    // a pick in Settings or the next build.
+    tabDied(level,scene){const l=Math.round(Number(level));if(!(l>0&&l<=5))return null;const old=gfxCap(),cap=Math.max(0,Math.min(l>=5?4:l-1,old?old.level:4));
+      gfxWrite(CAP_KEY,JSON.stringify({level:cap,reason:"the tab closed while this 3D screen was playing",tab:true,from:l,scene:String(scene||""),bench:true,at:Date.now(),build:BUILD}));cached=null;return cap;},
     // fallback(reason): a scene that hit an out-of-memory sign of its own drops the device one level (remembered).
     fallback:gfxFail,fallback8k:gfxFail,
     // sceneOpening(scene): a 3D screen on the game's own page says it is about to load and build (the tab-crash guard's

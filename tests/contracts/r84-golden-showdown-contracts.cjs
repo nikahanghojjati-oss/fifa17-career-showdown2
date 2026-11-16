@@ -64,7 +64,8 @@ let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
   assert.equal(near.projection.managerRecords.playerTwo.totalPoints,149);
   const model=career([near]),f=frames(model);
   assert.deepEqual(plain(Seam.goldenShowdownManagers(model.history.showdowns[0])),[]);
-  assert.equal(f.trophyRoom.goldenShowdowns,undefined,"no gold case at 149");
+  // r93 (Nik 2026-11-14): the Trophy Room always carries the counts, so its gold case waits unwon (0 and 0) as the goal.
+  assert.deepEqual(f.trophyRoom.goldenShowdowns,{daniel:0,nik:0},"no gold trophy won at 149");
   assert.equal(f.careerStatistics.goldenShowdowns,undefined);
   assert.equal(f.legacy.showdowns[0].goldenShowdown,undefined);
   assert.equal(rivalry(model).goldenShowdown,undefined);
@@ -77,7 +78,7 @@ let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
   const model=career([old]),f=frames(model);
   assert.deepEqual(plain(Seam.goldenShowdownManagers(model.history.showdowns[0])),[]);
   assert.equal(Seam.goldenShowdownPoints(model.history.showdowns[0]),150);
-  assert.equal(f.trophyRoom.goldenShowdowns,undefined,"no gold case at 110");
+  assert.deepEqual(f.trophyRoom.goldenShowdowns,{daniel:0,nik:0},"no gold trophy won at 110");
   assert.equal(model.managers.nik.perfectSeasons,0,"an 11 is not a perfect season");
   ok("110 (11 every season) never earns it, and an 11 is not a perfect season");
 }
@@ -86,7 +87,7 @@ let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
   const five=showdown({seed:"c",totalSeasons:5,seasons:Array.from({length:5},()=>[plainSeason(),perfect()])});
   assert.equal(five.projection.managerRecords.playerTwo.totalPoints,75,"15 a season is the most, so 5 seasons reach 75");
   const model=career([five]),f=frames(model);
-  assert.equal(f.trophyRoom.goldenShowdowns,undefined);assert.equal(f.legacy.showdowns[0].goldenShowdown,undefined);
+  assert.deepEqual(f.trophyRoom.goldenShowdowns,{daniel:0,nik:0});assert.equal(f.legacy.showdowns[0].goldenShowdown,undefined);
   const row=plain(model.history.showdowns[0]);
   assert.deepEqual(plain(Seam.goldenShowdownManagers({...row,totals:{daniel:150,nik:150}})),[],"only a 10-season Showdown counts");
   assert.deepEqual(plain(Seam.goldenShowdownManagers({...row,totals:{daniel:0,nik:150},totalSeasons:10,seasonsPlayed:5})),[],"all 10 seasons must be played");
@@ -99,7 +100,7 @@ let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
   assert.equal(model.history.showdowns[0].status,"abandoned");
   assert.deepEqual(plain(Seam.goldenShowdownCounts(model.history.showdowns)),{daniel:0,nik:0});
   assert.equal(f.legacy.showdowns[0].status,"abandoned");assert.equal(f.legacy.showdowns[0].goldenShowdown,undefined);
-  assert.equal(f.trophyRoom.goldenShowdowns,undefined);
+  assert.deepEqual(f.trophyRoom.goldenShowdowns,{daniel:0,nik:0});
   for(const status of ["abandoned","in-progress","completion-pending","unavailable"])assert.deepEqual(plain(Seam.goldenShowdownManagers({status,totalSeasons:10,seasonsPlayed:10,totals:{daniel:150,nik:150}})),[],`${status} never earns it`);
   ok("an ended-early (or unfinished) Showdown never earns it");
 }
@@ -118,14 +119,16 @@ let checks=0;const ok=label=>{checks+=1;console.log(`ok ${checks} ${label}`);};
 {
   // Renderers, looks, Rule Book and the data boundary.
   const trophy=read("visual-assets/v10_1/trophy-room/trophy-room.js");
-  assert.match(trophy,/key: "goldenShowdown"/);assert.match(trophy,/frame\.goldenShowdowns \? \[GOLDEN\] : \[\]/);assert.match(trophy,/data-golden-showdown="true"/);
+  assert.match(trophy,/key: "goldenShowdown"/);assert.match(trophy,/state\.activeCategory === GOLDEN\.category\) && frame\.goldenShowdowns \? \[GOLDEN\] : \[\]/);assert.match(trophy,/data-golden-showdown="true"/);
   const binder=read("js/careerScreensV10.js");
   assert.match(binder,/goldenShowdown:"Golden Showdown"/);
   assert.match(binder,/TROPHY_PLATE_V2_CSS\+GOLDEN_SHOWDOWN_CSS/);assert.match(binder,/CAREER_STATS_1706_CSS\+GOLDEN_SHOWDOWN_CSS/);
   const goldCss=binder.slice(binder.indexOf("const GOLDEN_SHOWDOWN_CSS"),binder.indexOf("`;",binder.indexOf("const GOLDEN_SHOWDOWN_CSS")));
   assert.match(goldCss,/\.trophyShelf\.has-golden:not\(\.is-filtered\) \.trophyGrid \{grid-template-columns:repeat\(6,minmax\(0,1fr\)\)\}/,"six cases fit one row");
   assert.match(goldCss,/var\(--sd-gold-/);assert.match(goldCss,/r78-marble-tile\.webp/);
-  assert.doesNotMatch(goldCss,/opacity|grayscale|brightness\(0\.|filter:\s*blur|position:\s*(absolute|fixed)/,"nothing dims or floats over the screen");
+  // r93: the one grey is the unwon gold trophy's own picture (never the case, a layer or the screen)
+  assert.deepEqual([...goldCss.matchAll(/^.*grayscale.*$/gm)].map(m=>m[0].split("{")[0].trim()),["#app #trophyRoom .trophyCard--golden.is-unwon .trophyCardPicture img"]);
+  assert.doesNotMatch(goldCss,/opacity|brightness\(0\.|filter:\s*blur|position:\s*(absolute|fixed)/,"nothing dims or floats over the screen");
   assert.match(read("visual-assets/v10_1/career-statistics/career-statistics.js"),/goldenShowdownNote/);
   assert.match(read("visual-assets/v10_1/rivalry-statistics/rivalry-statistics.js"),/rv-goldenShowdown/);
   assert.match(read("visual-assets/v10_1/legacy/legacy.js"),/card\.dataset\.golden = "true"/);

@@ -26,8 +26,10 @@
     if(link.sheet){link.sheet.disabled=off;return;}
     if(off)link.addEventListener?.("load",()=>{if(link.sheet)link.sheet.disabled=oldSheetOff.has(name);},{once:true});
   }
-  const V3_TITLES={"shared/wordmarks/TITLE_RULE_BOOK_V3_960.webp":{key:"RULE_BOOK",widths:[196,393,776,1551],sizes:"clamp(207px, 15.93vw, 305px)"},"shared/wordmarks/TITLE_SETTINGS_V3_960.webp":{key:"SETTINGS",widths:[166,331,654,1307],sizes:"clamp(174px, 13.43vw, 257px)"}};
-  function image(cls,path){const n=element("img",cls);n.src=BASE+path;n.alt="";n.setAttribute("aria-hidden","true");n.decoding="async";/* HO-071 title family V3 (Team V, Nik's pick): every step of a title has one height (38/76/150/300 px), so the srcset carries each file's real width and "sizes" asks for one letter height on every screen (see css/r78-type.css, "HO-071"). */const v3=V3_TITLES[path];if(v3){n.classList.add("hc-title-img");n.dataset.hcTitle=v3.key;n.srcset=v3.widths.map((w,i)=>`${BASE+path.replace(/_960\.webp$/,"")}_${[480,960,1920,3840][i]}.webp ${w}w`).join(", ");n.sizes=v3.sizes;}return n;}
+  // r93 HO-079: the Rule Book and Settings titles are live text now (flat gold Cormorant SC, css/r78-type.css ".hc-live-title"); --hcw is the words' width in em.
+  const LIVE_TITLES={"RULE_BOOK":{text:"RULE BOOK",em:6.05},"SETTINGS":{text:"SETTINGS",em:5.14}};
+  function image(cls,path){const n=element("img",cls);n.src=BASE+path;n.alt="";n.setAttribute("aria-hidden","true");n.decoding="async";return n;}
+  function liveTitle(cls,key){const n=element("span",cls+" hc-live-title");n.dataset.hcTitle=key;n.setAttribute("style","--hcw:"+LIVE_TITLES[key].em);n.setAttribute("aria-hidden","true");const words=element("span");words.textContent=LIVE_TITLES[key].text;n.append(words);return n;}
   function stage(id,host,content){
     const s=element("div","sd-stage v10SystemStage");s.id=id;
     const plate=element("div","sd-stage__layer sd-stage__layer--plate");plate.setAttribute("aria-hidden","true");
@@ -147,7 +149,7 @@
     const original=Array.from(host.children),content=element("div","ruleBookV10Content");
     original.forEach(n=>content.append(n));host.classList.add("v10RuleBook");
     const hero=content.querySelector('.ruleBookHero');hero.dataset.sdEnter="title";
-    hero.insertBefore(image("ruleBookWordmark","shared/wordmarks/TITLE_RULE_BOOK_V3_960.webp"),hero.querySelector("strong")||hero.querySelector("p"));
+    hero.insertBefore(liveTitle("ruleBookWordmark","RULE_BOOK"),hero.querySelector("strong")||hero.querySelector("p"));
     content.querySelector('h2').classList.add('sd-visually-hidden');
     hero.querySelector('span').classList.add('sd-eyebrow');hero.querySelector('strong')?.classList.add('sd-tagline');hero.querySelector('p').classList.add('sd-body','ruleBookSummary');
     const grid=content.querySelector('.ruleBookGrid');grid.id='ruleBookSections';grid.setAttribute('aria-label','Competition rules');
@@ -227,7 +229,7 @@
     if(states.has(host)){refreshSettings();return;}
     const dialog=doc().getElementById('settingsDialog');host.classList.add('v10Settings');
     const heading=dialog.querySelector('.settingsHeading');heading.classList.add('settingsTitleBlock');
-    const wrap=element('span','settingsWordmarkWrap');wrap.dataset.sdEnter='title';wrap.append(image('settingsWordmark','shared/wordmarks/TITLE_SETTINGS_V3_960.webp'));heading.append(wrap);
+    const wrap=element('span','settingsWordmarkWrap');wrap.dataset.sdEnter='title';wrap.append(liveTitle('settingsWordmark','SETTINGS'));heading.append(wrap);
     // Team V's Settings frame: shared eyebrow type and the "TWO MANAGERS. ONE LEGACY." line under the wordmark.
     heading.querySelector('.settingsEyebrow')?.classList.add('sd-eyebrow');heading.append(element('p','sd-kicker settingsTagline','TWO MANAGERS. ONE LEGACY.'));
     doc().getElementById('settingsTitle').classList.add('settingsVisuallyHidden');

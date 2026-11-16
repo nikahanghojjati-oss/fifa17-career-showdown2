@@ -22,6 +22,8 @@ const vm = require("node:vm");
 const ROOT = path.resolve(__dirname, "../..");
 const PAGE = fs.readFileSync(path.join(ROOT, "device-check.html"), "utf8");
 const TIER = fs.readFileSync(path.join(ROOT, "js/gfxTier.js"), "utf8");
+// r93: a crash cap carries the build that wrote it; a cap from an older build is dropped (r92-device-check-iphone D16).
+const BUILD = /const BUILD="([^"]+)";/.exec(TIER)[1];
 const SCRIPT = /<script>\n([\s\S]*?)<\/script>\s*<\/body>/.exec(PAGE)[1];
 const KEY = "careerModeShowdown.gfxMeasured.v2";
 const LABELS = ["Light", "Balanced", "High", "Extra", "Ultra (4K)", "8K"];
@@ -113,7 +115,7 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
     assert.equal(k.tier.profile().level, 5);
     // A crash cap from play outlives the check, finished or not (review on #1389): the frames ignore it while timed, the
     // result is saved, and Auto draws the lower of the two until the cap ends by its own rules. The page says so.
-    const CAP = "careerModeShowdown.gfxCap.v1", cap = JSON.stringify({level: 1, reason: "the GPU ran out of memory", at: Date.now(), clean: 0});
+    const CAP = "careerModeShowdown.gfxCap.v1", cap = JSON.stringify({level: 1, reason: "the GPU ran out of memory", at: Date.now(), clean: 0, build: BUILD});
     const capped = await run(allGood, {storage: {[CAP]: cap}});
     assert.deepEqual(capped.asked, order(4), "the check still plays every level");
     assert.equal(capped.saved.level, 4); assert.equal(capped.store[CAP], cap, "a finished check leaves the cap alone");
@@ -257,7 +259,7 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
   // check) is not opened again while its cap lasts. It counts as failed: Auto is the level below, and the page says why.
   {
     const CAP = "careerModeShowdown.gfxCap.v1";
-    const tabCap = JSON.stringify({level: 3, reason: "the tab closed while this 3D screen was opening", tab: true, from: 4, scene: "roulette/index.html", bench: false, at: Date.now()});
+    const tabCap = JSON.stringify({level: 3, reason: "the tab closed while this 3D screen was opening", tab: true, from: 4, scene: "roulette/index.html", bench: false, at: Date.now(), build: BUILD});
     const r = await run(allGood, {storage: {[CAP]: tabCap}});
     assert.deepEqual(r.asked, order(3), "no frame is opened at Ultra");
     assert.equal(r.saved.level, 3); assert.deepEqual(r.saved.detail.stop, {level: 4, scene: "chamber-men", state: "failed"});

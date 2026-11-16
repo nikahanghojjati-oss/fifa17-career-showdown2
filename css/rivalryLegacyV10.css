@@ -91,8 +91,8 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-wordmark {
     margin:0; padding:0; width:100%; height:33px; min-height:0;
   }
-  #app #statistics[data-rivalry-legacy-v10] .rv-wordmark :is(picture,img) {
-    display:block; width:100%; height:33px; max-height:none; object-fit:contain;
+  #app #statistics[data-rivalry-legacy-v10] .rv-wordmark :is(picture,img,.hc-live-title) {
+    display:block; width:100%; height:33px; --hcl-h:33px; max-height:none; object-fit:contain;
   }
   #app #statistics[data-rivalry-legacy-v10] .rv-titleBlock .sd-tagline {
     margin:2px 0 0; font-size:9px; line-height:11px; letter-spacing:.25em;
@@ -217,8 +217,8 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-wordmark {
     margin:0; padding:0; width:100%; height:30px; min-height:0;
   }
-  #app #statistics[data-rivalry-legacy-v10] .rv-wordmark :is(picture,img) {
-    display:block; width:100%; height:30px; max-height:none; object-fit:contain;
+  #app #statistics[data-rivalry-legacy-v10] .rv-wordmark :is(picture,img,.hc-live-title) {
+    display:block; width:100%; height:30px; --hcl-h:30px; max-height:none; object-fit:contain;
   }
   #app #statistics[data-rivalry-legacy-v10] .rv-titleBlock .sd-tagline {
     margin:0; font-size:8px; line-height:10px; letter-spacing:.15em;
@@ -357,8 +357,8 @@
     margin:4px 0 3px; font-size:10px; line-height:14px; letter-spacing:.4em;
   }
   #app #statistics[data-rivalry-legacy-v10] .rv-wordmark { width:78%; height:64px; min-height:0; margin:0 auto; padding:0; }
-  #app #statistics[data-rivalry-legacy-v10] .rv-wordmark :is(picture,img) {
-    display:block; width:100%; height:64px; max-height:none; object-fit:contain;
+  #app #statistics[data-rivalry-legacy-v10] .rv-wordmark :is(picture,img,.hc-live-title) {
+    display:block; width:100%; height:64px; --hcl-h:64px; max-height:none; object-fit:contain;
   }
   #app #statistics[data-rivalry-legacy-v10] .rv-titleBlock .sd-tagline {
     margin:2px 0 0; font-size:12px; line-height:16px; letter-spacing:.3em;
@@ -1096,7 +1096,7 @@
   }
   #app #legacy[data-rivalry-legacy-v10] .legacyEyebrow { font-size:9px; line-height:12px; letter-spacing:.2em; }
   #app #legacy[data-rivalry-legacy-v10] .legacyTagline { font-size:10px; line-height:13px; letter-spacing:.12em; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyWordmark { width:auto; max-width:70%; height:36px; margin:auto; object-fit:contain; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyWordmark { width:calc(36px * 3.67); max-width:70%; height:36px; --hcl-h:36px; margin:auto; object-fit:contain; }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel {
     grid-row:3; display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:none;
     grid-auto-rows:auto; padding:0; gap:6px;
@@ -1133,7 +1133,7 @@
   }
   #app #legacy[data-rivalry-legacy-v10] .legacyEyebrow { font-size:9px; line-height:12px; letter-spacing:.12em; }
   #app #legacy[data-rivalry-legacy-v10] .legacyTagline { font-size:9px; line-height:12px; letter-spacing:.06em; }
-  #app #legacy[data-rivalry-legacy-v10] .legacyWordmark { width:auto; height:30px; max-width:100%; margin:auto; object-fit:contain; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyWordmark { width:calc(30px * 3.67); height:30px; --hcl-h:30px; max-width:100%; margin:auto; object-fit:contain; }
   #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel { display:contents; }
   #app #legacy[data-rivalry-legacy-v10] .legacySidePanel { grid-area:2 / 1 / 4; display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:none; grid-auto-flow:row; grid-auto-rows:auto; align-content:center; gap:6px; }
   #app #legacy[data-rivalry-legacy-v10] .legacyCardGrid { grid-area:2 / 2; display:block; }
@@ -1413,7 +1413,7 @@
   display:block; margin-top:6px; color:rgba(255,255,255,.64); font-size:12px; line-height:16px; letter-spacing:.04em; white-space:normal;
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyCard .legacyEndedSeparator { display:none; }
-/* r84 Golden Showdown (110 points in a finished 10-season Showdown): gold UI on the black-and-gold marble, using the shared gold
+/* r84 Golden Showdown (150 points in a finished 10-season Showdown, 15 every season): gold UI on the black-and-gold marble, using the shared gold
    tokens and the r78 marble tile. Legacy: the Showdown's card takes a brighter gold frame and a gold line naming the manager(s).
    Rivalry Statistics: one gold line under the head-to-head figures. Nothing is dimmed, overlaid or moved. */
 #app #legacy[data-rivalry-legacy-v10] .legacyCard[data-golden="true"] {
@@ -1429,8 +1429,11 @@
   box-shadow:inset 0 0 0 2px rgba(17,15,12,.9),inset 0 0 0 3px rgba(255,211,77,.4);
 }
 #app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownStar { color:var(--sd-gold-300,#ffd34d); }
+/* r93: the gold trophy picture in place of the star (the Champion art cast gold until Team V's own gold render lands). */
+#app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownTrophy { display:inline-block; width:12px; height:18px; object-fit:contain; object-position:50% 100%; vertical-align:-4px; filter:drop-shadow(0 0 5px rgba(255,211,77,.55)); }
+#app #legacy[data-rivalry-legacy-v10] .legacyGoldenShowdownTrophy + .legacyGoldenShowdownTrophy { margin-left:2px; }
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown { grid-column:1 / -1; justify-self:center; align-self:start; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:2px 8px; margin:4px 0 0; }
-#app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown img { width:18px; height:18px; object-fit:contain; filter:drop-shadow(0 0 6px rgba(255,211,77,.6)); }
+#app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown img { width:12px; height:18px; object-fit:contain; object-position:50% 100%; filter:drop-shadow(0 0 6px rgba(255,211,77,.6)); }
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown strong { color:var(--sd-gold-300,#ffd34d); letter-spacing:.1em; }
 
 /* HO-043 (Team V, 29 Oct 2026) · item 3: desktop Legacy. The archive frame's second pane was empty marble and VIEW SEASON HISTORY

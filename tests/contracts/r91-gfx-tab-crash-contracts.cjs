@@ -20,6 +20,8 @@ const {deviceOf} = require("../support/device-lab-profiles.cjs");
 const ROOT = path.resolve(__dirname, "../..");
 const read = f => fs.readFileSync(path.join(ROOT, f), "utf8");
 const SRC = read("js/gfxTier.js");
+// r93: a crash cap carries the build that wrote it; a cap from an older build is dropped (r92-device-check-iphone D16).
+const BUILD = /const BUILD="([^"]+)";/.exec(SRC)[1];
 const OPEN = "careerModeShowdown.gfxOpening.v1", CAP = "careerModeShowdown.gfxCap.v1", PICK = "careerModeShowdown.gfxQuality.v1";
 const STRONG = "ANGLE (NVIDIA, NVIDIA GeForce RTX 4090 (0x00002684) Direct3D11 vs_5_0 ps_5_0, D3D11)";
 let checks = 0;
@@ -128,7 +130,7 @@ const cap = store => JSON.parse(store[CAP] || "null");
   const c = cap(store); assert.deepEqual([c.level, c.tab, c.from, c.scene, c.bench], [3, true, 4, "roulette/index.html", false]);
   assert.match(c.reason, /the tab closed while this 3D screen was opening/);
   assert.deepEqual(home.marks(), [], "the mark is spent");
-  assert.deepEqual(j(home.G.tabCrash()), j({level: 3, from: 4, scene: "roulette/index.html", bench: false, at: c.at}));
+  assert.deepEqual(j(home.G.tabCrash()), j({level: 3, from: 4, scene: "roulette/index.html", bench: false, at: c.at, until: c.at + 7 * 864e5}));
   // Roulette opens again, one level down, and that is the level it marks.
   const again = load({store, tab, framed: true, origin: 5000}); const p = again.G.profile();
   assert.equal(p.level, 3); assert.equal(p.fellBack.from, 4); assert.deepEqual(again.marks().map(x => x.level), [3]);
@@ -139,7 +141,7 @@ const cap = store => JSON.parse(store[CAP] || "null");
   const direct = load({store: s2, tab: t2, framed: true, origin: 2}); assert.equal(direct.G.profile().level, 1, "the scene that opens next already has the lower level");
   // 8K falls to Ultra. An older, lower cap is kept. Auto is capped the same way.
   const s3 = {...pick("8k")}, t3 = {}; assert.equal(load({store: s3, tab: t3, framed: true, origin: 1}).G.profile().level, 5); load({store: s3, tab: t3, origin: 2}); assert.equal(cap(s3).level, 4);
-  const s4 = {...pick("ultra"), [CAP]: j({level: 1, reason: "the GPU ran out of memory", at: Date.now()})}, t4 = {};
+  const s4 = {...pick("ultra"), [CAP]: j({level: 1, reason: "the GPU ran out of memory", at: Date.now(), build: BUILD})}, t4 = {};
   const low = load({store: s4, tab: t4, framed: true, origin: 1}); assert.equal(low.G.profile().level, 1); load({store: s4, tab: t4, origin: 2}); assert.equal(cap(s4).level, 0, "one below what was opening, never above an older cap");
   const s5 = {"careerModeShowdown.gfxMeasured.v2": j({level: 3, at: Date.now()})}, t5 = {};
   assert.equal(load({store: s5, tab: t5, framed: true, origin: 1}).G.profile().level, 3); const auto = load({store: s5, tab: t5, origin: 2, pathname: "/index.html"});
@@ -176,13 +178,13 @@ const cap = store => JSON.parse(store[CAP] || "null");
   assert.equal(cap(store).level, 3, "clean scenes at the lower level do not put the level that closed the tab back");
   assert.match(SRC, /function gfxCapClean\(level\)\{const v=gfxCap\(\);if\(!v\|\|v\.level!==level\|\|v\.tab\)return;/);
   // (The same three scenes do lift a GPU-failure cap, as before.)
-  const g = {...pick("ultra"), [CAP]: j({level: 3, reason: "the GPU ran out of memory", at: Date.now()})};
+  const g = {...pick("ultra"), [CAP]: j({level: 3, reason: "the GPU ran out of memory", at: Date.now(), build: BUILD})};
   for (let i = 0; i < 3; i += 1) { const f = load({store: g, framed: true, origin: 2}); f.G.profile(); const gov = f.G.governor(f.renderer(), {key: "rrr", draw() {}}); f.frames(gov, 30000); gov.end(); }
   assert.equal(cap(g), null);
   // A finished Device check leaves it; a pick in Settings ends it; so do 7 days.
   const page = load({store, tab, origin: 3, pathname: "/index.html"}); page.G.setMeasured(4, {}); assert.equal(cap(store).level, 3);
   page.G.setChoice("ultra"); assert.equal(cap(store), null); assert.equal(page.G.tabCrash(), null);
-  const s2 = {...pick("ultra"), [CAP]: j({level: 3, reason: "the tab closed while this 3D screen was opening", tab: true, from: 4, at: Date.now() - 8 * 864e5})};
+  const s2 = {...pick("ultra"), [CAP]: j({level: 3, reason: "the tab closed while this 3D screen was opening", tab: true, from: 4, at: Date.now() - 8 * 864e5, build: BUILD})};
   assert.equal(load({store: s2, origin: 4, pathname: "/index.html"}).G.profile().level, 4, "after 7 days the level is tried again");
   ok("T5", "the cap does not lift after clean scenes; it ends after 7 days or with a pick in Settings; a Device check leaves it");
 }

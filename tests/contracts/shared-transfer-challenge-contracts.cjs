@@ -78,7 +78,7 @@ for(const required of [
   'match /transferChallenges/{transferId}',
   'match /roles/{managerRole}',
   'allow list, delete: if false',
-  'after.startedAt == request.time',
+  'root.startedAt == request.time', // R93-08: START's exact values are tested once, in the shape
   "request.time >= before.startedAt + duration.value(15, 'm')",
   "after.endedAt == request.time",
   'getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/transferChallenges/$(transferId)/roles/$(role))',
@@ -90,7 +90,8 @@ for(const required of [
 for(const forbidden of [/cloud\s*run/i,/cloud\s*functions/i,/blaze/i,/billingEnabled\s*[:=]\s*true/i])assert.doesNotMatch(transferRules,forbidden,'Transfer Challenge Rules must remain Spark-only and zero-billing.');
 assert.doesNotMatch(transferRules,/\[0:priorSize\]|\[0:n\]/,'Transfer update Rules must not rely on zero-length list slices.');
 assert.doesNotMatch(transferRules,/ssjrTransferValidRole\(value\[[01]\]\)/,'Transfer role-list validation must not index empty role lists.');
-assert.ok(transferRules.includes("value.toSet().hasOnly(['playerOne','playerTwo'])"),'Transfer role lists must be validated through an index-free exact role set.');
+// R93-08: START writes every role list as exactly [] (no index, no helper); updates only append the acting role.
+for(const pin of ["root.endRequestedRoles == []","root.guessLockedRoles == []","root.signingLockedRoles == []"])assert.ok(transferRules.includes(pin),`Transfer role lists start empty: ${pin}`);
 for(const required of [
   'after.operationIds == before.operationIds.concat([after.operationIds[i]])',
   'after.endRequestedRoles == before.endRequestedRoles.concat([actorRole])',

@@ -261,11 +261,17 @@ window.ShowdownLegacyBoot = function () {
       const mark = document.createElement("span");
       mark.className = "legacyGoldenShowdown";
       mark.dataset.goldenShowdown = "true";
-      const star = document.createElement("span");
-      star.className = "legacyGoldenShowdownStar";
-      star.textContent = "★";
-      star.setAttribute("aria-hidden", "true");
-      mark.append(star, document.createTextNode(" " + (strings.ui.goldenShowdown || "Golden Showdown") + " · " + golden.map((manager) => strings.ui.managers[manager]).join(" & ")));
+      // r93 HO-080 (Nik 2026-11-15): each winner's own cast-gold bust (Daniel first), the same GOLDEN_BUSTS as the Trophy Room.
+      const busts = ["daniel", "nik"].filter((manager) => golden.includes(manager)).map((manager) => {
+        const bust = document.createElement("img");
+        bust.className = "legacyGoldenShowdownTrophy";
+        bust.src = GOLDEN_BUSTS[manager];
+        bust.alt = "";
+        bust.decoding = "async";
+        bust.setAttribute("aria-hidden", "true");
+        return bust;
+      });
+      mark.append(...busts, document.createTextNode(" " + (strings.ui.goldenShowdown || "Golden Showdown") + " · " + golden.map((manager) => strings.ui.managers[manager]).join(" & ")));
       card.appendChild(mark);
     }
     if (showdown.status === "completion-pending" || showdown.status === "in-progress") {
@@ -381,6 +387,8 @@ window.ShowdownLegacyBoot = function () {
   // fitted to the window (never under LIST_MIN_PAGE_SIZE), so VIEW SEASON HISTORY and the pager stay on screen.
   const LIST_PAGE_SIZE = 12;
   const LIST_MIN_PAGE_SIZE = 5;
+  // r93 HO-080: each manager's own cast-gold bust, the same pictures as the Trophy Room, Golden screen, Career and Rivalry Statistics.
+  const GOLDEN_BUSTS = { daniel: "visual-assets/v10_1/shared/trophies-hc/TRO_HC_6_GOLDEN_DANIEL_V1_256.webp", nik: "visual-assets/v10_1/shared/trophies-hc/TRO_HC_6_GOLDEN_NIK_V1_256.webp" };
   const ARCHIVE_FILTERS = [["all", "ALL"], ["daniel", "DANIEL WINS"], ["nik", "NIK WINS"], ["draw", "DRAWS"], ["golden", "GOLDEN"]];
   function archiveWinner(item) {
     return item && ["completed", "completion-pending"].includes(item.status) ? item.winner || "" : "";

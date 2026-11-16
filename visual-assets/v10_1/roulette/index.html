@@ -11,6 +11,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../shared/fonts/big-shoulders-display-latin-800-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../shared/fonts/rye-latin-400-normal.woff2">
 <style>
+@font-face { font-family: "Cormorant SC"; font-weight: 700; font-style: normal; font-display: block; src: url(../shared/fonts/CormorantSC-Bold-latin.woff2) format("woff2"); }
 @font-face { font-family: "Barlow Condensed"; font-weight: 500 600; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
 @font-face { font-family: "Barlow Condensed"; font-weight: 700 900; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
 @font-face { font-family: "Big Shoulders Display"; font-weight: 700 800; font-display: swap; src: url(../shared/fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2"); }
@@ -52,7 +53,7 @@ body.ready .boot { opacity: 0; visibility: hidden; }
 .kicker::after { transform: scaleX(-1); }
 .badge { position: relative; font: 900 13px/1 var(--disp); letter-spacing: .16em; text-transform: uppercase; color: #1a1105; padding: 5px 14px 4px 16px; background: linear-gradient(180deg, #fffbe6 0%, #f6d47c 45%, #c8922f 55%, #f3cf73 100%); clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%); box-shadow: inset 0 1px 0 #fff; text-shadow: 0 1px 0 rgba(255,255,255,.55); }
 .title { position: relative; display: inline-block; margin: 4px 0 0; font: 400 clamp(30px, 3.6vw, 48px)/1 var(--west); letter-spacing: .02em; text-transform: uppercase; }
-/* r91 HO-071 (Nik's pick, 2026-11-11): the title is drawn in the one title family (Team V's V3 "Honours Board" lettering),
+/* r93 HO-079 (Nik's pick, flat sample A, 2026-11-15): the title is live text in the one title family (Cormorant SC Bold, flat gold, css/r78-type.css),
    at the family's letter height (--hc-title-h of css/r78-type.css; never taller than the old line's own 1.4em, so a
    sideways phone keeps its small title), instead of a metal-gradient line with a moving shine.
    The words stay in the heading, so its box, the room measured under it and the screen-reader label are unchanged, but they
@@ -60,9 +61,7 @@ body.ready .boot { opacity: 0; visibility: hidden; }
    is hidden like the line above every other title (Nik 2026-11-12: "Remove both"); it keeps its box, so nothing moves. */
 .kicker { visibility: hidden; }
 .title span { display: block; color: transparent; }
-.title::after { content: ""; position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); height: var(--hc-h); width: min(calc(var(--hc-h) * 12.347), calc(100vw - 24px)); transform: translate(-50%, -50%); pointer-events: none;
-  background: url("../shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_960.webp") center / contain no-repeat;
-  background-image: image-set(url("../shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_960.webp") 1x, url("../shared/wordmarks/TITLE_ROSTER_ROULETTE_V3_1920.webp") 2x); }
+.title::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); content: "ROSTER RUSSIAN ROULETTE"; --hcw: 15.05; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 700 min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif; font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none; filter: none; background: none; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .boot, .top { transition: none; } }   /* r90 L38: under Reduce Motion the loading line and the title switch at ready with no fade */
 /* centre column: result line + button */
 /* r90 LOOK L08: the words live in the bottom strip, above the panel, never over the revolver */
@@ -125,6 +124,9 @@ body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 16px); }
 body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
 /* Polish RR-1: on a laptop the bottom panel is 24 + 72 px (+ border) tall, so the button stands clear above it */
 @media (min-width: 900px) { body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 110px); } }
+/* R93-04 (Nik 2026-11-15, a bigger phone glove, then "Yes, wider camera"): on an upright phone in the game the caption takes the hidden Spin button's room for the turn, so the
+   hand's glove fits clear of it (the hand's spot is searched against the caption where it stands) */
+@media (max-width: 599px) and (orientation: portrait) { body.embed.turning .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 42px); } body.embed.turning .cta { position: absolute; visibility: hidden; opacity: 0; transition: none; } }
 /* phone portrait: the title starts below the sound switch (it covered the CAREER MODE SHOWDOWN 17 plate at 390px) */
 @media (max-width: 899px) and (orientation: portrait) { body.embed .top { top: calc(env(safe-area-inset-top, 0px) + 54px); } }
 </style>
@@ -230,25 +232,116 @@ const scene=new T.Scene(); scene.background=new T.Color(0x07050a); scene.fog=new
 const camera=new T.PerspectiveCamera(38,1,.05,60);
 /* THE HAND (ticket 1854): a painted gloved hand holding the revolver, cut out on black, rides on the camera as a layer in the shooter's view. The person sits in the dark: no face, no body. */
 let handHold=false, handK=0, handRecoil=0, handSide=-1, handAspect=16/9, hasHand=false, handAimAt=null; const HAND_MUZZLE={u:.22,v:.70}, HAND_REAR={u:.41,v:.79};
+/* r93 R93-04 (Nik 2026-11-15: "the way the hand comes out, points at the board and raises ... like a real hand in a real movie scene", the same on every
+   screen): the hand is one rigid card with an elbow (HAND_ELBOW, beyond the sleeve) and a wrist (HAND_WRIST) to turn about. stepHand() sets its pose each
+   frame: the raise R (0 = below the frame, 1 = aimed, a touch over on the settle), the wrist and elbow elevations (degrees, + = muzzle up), the slide along
+   the forearm (share of the card height), the kick back along the barrel and the bob (shares of the frame height) and the opacity; detached = left
+   standing in the room while the bullet camera leaves. One card, one draw, one shader program on every level, as before. */
+const HP={R:0, aimK:0, wrist:0, elbow:-38, slide:.25, kick:0, bob:0, op:1, on:false, detached:false};
+const HAND_ELBOW={u:1.25,v:-.35}, HAND_WRIST={u:.80,v:.30}, HAND_CUT=[[1,.45],[1,0],[.67,0]], DEG=Math.PI/180; let lampFl=.85;
+/* r93 R93-04 S8: the unlit card takes the room's light: a tint per level (the dark room on Light and Balanced, the hall on High, the café from Extra up),
+   the oil lamp's flicker and the muzzle flash (a colour uniform only: no new shader) */
+const HAND_TINT=GFX.level>=3?[1.05,1.02,.98]:GFX.level>=2?[.92,.88,.82]:[.84,.78,.70];
 const hand=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({transparent:true, depthTest:false, depthWrite:false, toneMapped:false, opacity:0})); hand.renderOrder=20; hand.frustumCulled=false; camera.add(hand);
 const HAND_Z=.42;
-function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.aspect; const ph=fh*(PH?.56:.68)*(handAimAt?AIM_SCALE():1), pw=ph*handAspect; hand.scale.set(pw*handSide,ph,1);
-  const lift=(1-handK)*ph*1.1; const rx=handRecoil; const low=PH&&handAimAt?-fh*.2:0; /* r87 polish: on the phone the aimed hand sits apart from the squad; r89: it rides above the result line and the button, between them and the board, with the glove on screen */
-  /* r89 (Nik 2026-11-03: "placement of the gun relative to the board ... like a real game"): the hand is laid out on the unit plane, then held at arm's length
-     (HAND_Z in front of the eye, scaled to match), so it looks the same but its muzzle is where a real muzzle would be and the shot crosses the room to the board */
-  const px=handSide*(fw/2-pw*(PH&&handAimAt?.22:.40))+rx*handSide*.01, py=-fh/2+ph*.42-lift-low+rx*.025; hand.position.set(px*HAND_Z,py*HAND_Z,-HAND_Z); hand.scale.set(pw*handSide*HAND_Z,ph*HAND_Z,1);
-  hand.rotation.z=handAim(fw,fh,pw,ph,px,py)*Math.min(1,handK)+handSide*rx*.16; hand.material.opacity=handK>0?Math.min(1,handK*3):0; hand.visible=handK>0; }   /* r90 Light: the hidden hand is not drawn */
-/* r87 (Nik 2026-10-30: "gun should face the board it's shooting"): while a turn aims, the hand sits a little smaller in its
-   corner, so the muzzle is below and beside the board instead of in the middle of the frame, and the picture turns about its
-   centre until the line from the cylinder (HAND_REAR) through the muzzle runs through the target (projected onto the hand's
-   plane, z -1). A few passes, because the turn moves the muzzle too; clamped so the wrist stays natural. */
-/* phones: the frame is narrow and the barrel long, so the hand is smaller and may turn further (the barrel rises toward the board) */
-const AIM_SCALE=()=>PH?.52:.64, AIM_MAX=()=>PH?1.0:.38;
-function handAim(fw,fh,pw,ph,px,py){ if(!handAimAt) return 0; camera.updateMatrixWorld(); const n=handAimAt.clone().project(camera); if(!(n.z<1)) return 0;
-  const tx=n.x*fw/2, ty=n.y*fh/2, sx=pw*handSide;
-  const mx=(HAND_MUZZLE.u-.5)*sx, my=(HAND_MUZZLE.v-.5)*ph, bx=mx-(HAND_REAR.u-.5)*sx, by=my-(HAND_REAR.v-.5)*ph, base=Math.atan2(by,bx);
-  let th=0; for(let i=0;i<5;i++){ const c=Math.cos(th), s=Math.sin(th); const qx=px+mx*c-my*s, qy=py+mx*s+my*c; th=Math.atan2(ty-qy,tx-qx)-base; th=Math.atan2(Math.sin(th),Math.cos(th)); th=Math.max(-AIM_MAX(),Math.min(AIM_MAX(),th)); }
-  return th; }
+/* r93 R93-04 S1: ONE placement rule for every window (it replaces the phone and desktop constants and the clamped solver, whose barrel angle ran from
+   18.6° on 21:9 to 35° on 4:3 and 70.5° on phones, 35-45° off the board there). In the card's plane (units of the frame height fh, as before):
+   1. the barrel's angle above level comes from the window shape alone: 22° from 3:2 and wider, 72° on 0.8:1 and taller, smoothstep between;
+   2. the barrel line passes exactly through the aim point A (the board's centre): the turn is closed form, no passes, no clamp;
+   3. the muzzle sits 0.56 fh back along that line (0.18 fh on portrait), further if it would be on the board (it stays 0.03 fh clear of its rectangle);
+   4. the card is sized so the sleeve's cut edges stay just outside the frame (they are linear in the card height: one division each), held to
+      0.40-0.60 fh on landscape and 0.24-0.34 fh on portrait; when the size is held, the muzzle slides back along the line until the cut is out. */
+const handShape=(a)=>{ const k=clamp01((a-.8)/.7); return k*k*(3-2*k); };   /* 0 portrait .. 1 landscape */
+const cardPt=(u,v,pw,ph)=>[(u-.5)*pw*handSide,(v-.5)*ph];
+const rot2=(x,y,c,s)=>[x*c-y*s,x*s+y*c];
+function handLayout(fw,fh){ if(!handAimAt) return null; camera.updateMatrixWorld(); const n=handAimAt.clone().project(camera); if(!(n.z<1)) return null;
+  const side=handSide, sk=handShape(fw/fh), th=(72+(22-72)*sk)*DEG, ct=Math.cos(th), st=Math.sin(th), dx=-side*ct, dy=st;   /* dir: muzzle to A */
+  const ax=n.x*fw/2, ay=n.y*fh/2, asp=handAspect, mu=HAND_MUZZLE.u, mv=HAND_MUZZLE.v;
+  const base=Math.atan2(HAND_MUZZLE.v-HAND_REAR.v,(HAND_MUZZLE.u-HAND_REAR.u)*asp*side), rot=Math.atan2(dy,dx)-base, c=Math.cos(rot), s=Math.sin(rot);
+  /* the board's rectangle in the card's plane, grown by 0.03 fh: the muzzle stays out of it */
+  let BR=null, D=(.18+(.56-.18)*sk)*fh; {   /* phones start close and the board guard sets the muzzle just below the board, in the band above the result line */ const g=boards[side<0?"D":"N"], m=.03*fh; let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; g.updateMatrixWorld(true);
+    [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(camera); x0=Math.min(x0,v.x*fw/2); x1=Math.max(x1,v.x*fw/2); y0=Math.min(y0,v.y*fh/2); y1=Math.max(y1,v.y*fh/2); }));
+    x0-=m; x1+=m; y0-=m; y1+=m; BR=[x0,y0,x1,y1]; if(ax>x0&&ax<x1&&ay>y0&&ay<y1){ const tx=dx<0?(x1-ax)/-dx:(ax-x0)/dx, ty=(ay-y0)/dy; D=Math.max(D,Math.min(tx,ty)); } }
+  /* the sleeve's cut edges: point = muzzle + ph*q, q per cut point (side edge for the two on the card's outer edge, bottom edge for the third) */
+  const q=HAND_CUT.map(([u,v])=>rot2((u-mu)*asp*side,v-mv,c,s)), edge=fw/2+.05*fh, floor=fh/2+.05*fh;   /* .05 fh past the edge: the raise overshoot and the recoil move the cut by up to .03 fh */
+  const lo=(handFit?handFit[0]:.24+(.40-.24)*sk)*fh, hi=(handFit?handFit[1]:.34+(.60-.34)*sk)*fh;   /* the card's height range: the plate's own (fit), or the r87 plate's by window shape */
+  /* each cut point leaves by whichever edge it reaches first, the outer side or the bottom (on landscape the side, on phones the bottom) */
+  const need=(D)=>{ const mx=ax-D*dx, my=ay-D*dy; let ph=0; q.forEach(([qx,qy])=>{ const a=side*qx>1e-6?(edge-side*mx)/(side*qx):1e9, b=qy<-1e-6?(floor+my)/-qy:1e9; ph=Math.max(ph,Math.min(a,b)); }); return ph; };
+  let ph=need(D); if(ph>hi){ ph=hi; let Dn=D; q.forEach(([qx,qy])=>{ Dn=Math.max(Dn,Math.min((edge-side*ax-ph*side*qx)/ct,(ay+ph*qy+floor)/st)); }); D=Dn; } else ph=Math.max(ph,lo);
+  const pw=ph*asp, mx=ax-D*dx, my=ay-D*dy, [ox,oy]=rot2(...cardPt(mu,mv,pw,ph),c,s);
+  const L0={rot, ph, pw, px:mx-ox, py:my-oy, th}; return (sk<.5&&handClear(fw,fh,ax,ay))||L0; }
+/* r93 R93-04 (lead's review, Nik's rule "nothing covers anything at any size"): on upright windows the glove stays clear of the status line and the
+   bottom bar at every beat. The muzzle sits just under the board; its place along that line and the card's size are searched so that no point of the
+   glove (platemap hand.plates.P.glove), at the aimed pose or at the recoil's peak (its kick is shorter here), is under the widest status line of this turn or a bar, at least 80 %
+   of the glove is on screen, and each cut corner of the sleeve is off screen or deep under the opaque bottom bar. The largest card that fits wins, at
+   the spot nearest the usual one; the barrel still runs through the board's centre (its angle follows from the spot). The hand then slides in from
+   its own side instead of swinging up about the elbow (a swing would carry the glove under the status line). No fit (a very short window): the usual
+   placement. */
+let HAND_GLOVE=null, handKeepKey="", handKeep=[], handLast=null, handClearAt=null;
+function handKeepOuts(){ const W=innerWidth, H=innerHeight, key=W+"x"+H+"|"+turn+"|"+(playing?playing.who:"")+"|"+document.body.className; if(key===handKeepKey) return handKeep; handKeepKey=key;
+  const out=[], box=(el,cover)=>{ if(!el) return; const cs=getComputedStyle(el); if(cs.display==="none"||cs.visibility==="hidden"||+cs.opacity<.01) return; const b=el.getBoundingClientRect(); if(b.width>=1&&b.height>=1) out.push([b.left,b.top,b.right,b.bottom,cover]); };
+  box(document.querySelector(".phonebar"),true); box(document.querySelector(".bottom"),true);
+  if(playing){ const N=NAME[playing.who], c=result.cloneNode(false), rb=result.getBoundingClientRect(); let w=0, h=0; c.removeAttribute("id"); c.removeAttribute("aria-live"); c.setAttribute("aria-hidden","true");
+    c.style.cssText="position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;width:"+rb.width+"px"; result.parentNode.appendChild(c);
+    [N+" takes the revolver","Hammer cocked",N+" takes aim at the board","Bang!",`Click. ${N} is safe.`].forEach(t=>{ c.textContent=t; const r=document.createRange(); r.selectNodeContents(c); const q=r.getBoundingClientRect(); w=Math.max(w,q.width); h=Math.max(h,q.height); }); c.remove();
+    if(w>0){ const cx=rb.left+rb.width/2, cy=rb.top+rb.height/2; out.push([cx-w/2,cy-h/2,cx+w/2,cy+h/2,false]); } }
+  handKeep=out; return out; }
+function handClear(fw,fh,ax,ay){ const G=HAND_GLOVE, p=playing; if(!G||!p||!p.pov||!p.povLook||!handAimAt) return null;
+  const side=handSide, asp=handAspect, mu=HAND_MUZZLE.u, mv=HAND_MUZZLE.v, base=Math.atan2(mv-HAND_REAR.v,(mu-HAND_REAR.u)*asp*side);
+  const key=innerWidth+"x"+innerHeight+"|"+turn+"|"+side+"|"+handPlateKey; if(!handClearAt||handClearAt.key!==key) handClearAt=handClearSearch(key,base); const C=handClearAt; if(!C.ph) return null;
+  { const k=HP.aimK; ax=C.ax*fh+(ax-C.ax*fh)*k; ay=C.ay*fh+(ay-C.ay*fh)*k; }   /* the take aims where the board's centre will stand once the camera settles (no swing with
+     the camera's pan), then eases onto the live centre over half a second once the hand is up */
+  const ph=C.ph*fh, mx=C.mx*fh, my=C.my*fh, pw=ph*asp, rot=Math.atan2(ay-my,ax-mx)-base, c=Math.cos(rot), s=Math.sin(rot), [ox,oy]=rot2(...cardPt(mu,mv,pw,ph),c,s);
+  return {rot, ph, pw, px:mx-ox, py:my-oy, th:Math.atan2(ay-my,Math.abs(ax-mx)), clear:true, inX:C.inX*fh}; }
+/* the search runs once per turn and window, in the frame of the shooter's eye the camera settles into (p.pov, p.povLook, p.povFov), and the spot is
+   kept fixed on the screen (in frame heights) while the camera settles; the barrel turns to follow the board's centre. Card heights from the largest
+   down in 48 steps, at each the 41 spots along the board's foot, then a bisection on the height and on the spot. Its margins hold the sway, the cock,
+   the recoil (its kick is shorter here) and the camera's last creep. */
+/* does the convex quad c (4 corners in order) overlap the box x0..x1, y0..y1? (separating axes: the box's two and the quad's four edge normals) */
+const quadHits=(c,x0,y0,x1,y1)=>{ const B=[[x0,y0],[x1,y0],[x1,y1],[x0,y1]], sep=(nx,ny)=>{ let a0=1e9,a1=-1e9,b0=1e9,b1=-1e9; for(const p of c){ const d=p[0]*nx+p[1]*ny; a0=Math.min(a0,d); a1=Math.max(a1,d); } for(const p of B){ const d=p[0]*nx+p[1]*ny; b0=Math.min(b0,d); b1=Math.max(b1,d); } return a1<b0||b1<a0; };
+  if(sep(1,0)||sep(0,1)) return false; for(let i=0;i<4;i++){ const p=c[i], q=c[(i+1)%4]; if(sep(q[1]-p[1],p[0]-q[0])) return false; } return true; };
+function handClearSearch(key,base){ const K=handKeepOuts(); if(!K.length) return {key, ph:0};
+  const p=playing, G=HAND_GLOVE, cam=camera.clone(false); cam.position.copy(p.pov); cam.fov=p.povFov; cam.updateProjectionMatrix(); cam.lookAt(p.povLook); cam.updateMatrixWorld(true);
+  const fh=2*Math.tan(cam.fov*Math.PI/360), fw=fh*cam.aspect, n=handAimAt.clone().project(cam), ax=n.x*fw/2, ay=n.y*fh/2;
+  let by=1e9; { const g=boards[p.who]; g.updateMatrixWorld(true); [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(cam); by=Math.min(by,v.y*fh/2); })); }
+  const W=innerWidth, H=innerHeight, k=H/fh, side=handSide, asp=handAspect, mu=HAND_MUZZLE.u, mv=HAND_MUZZLE.v, half=fw/2, bot=-fh/2, e=.012*fh, my=by-.045*fh, ka=-side*11*DEG, kc=Math.cos(ka), ks=Math.sin(ka), ta=side*7.5*DEG, tc=Math.cos(ta), ts=Math.sin(ta);
+  const R=K.map(r=>({x0:(r[0]-W/2)/k, x1:(r[2]-W/2)/k, y0:(H/2-r[3])/k, y1:(H/2-r[1])/k, cover:r[4]}));
+  const gl=[]; for(let i=0;i<=3;i++) for(let j=0;j<=3;j++) gl.push([G[0]+(G[2]-G[0])*i/3,G[1]+(G[3]-G[1])*j/3]);
+  const pose=(mx,ph)=>{ const pw=ph*asp, rot=Math.atan2(ay-my,ax-mx)-base, c=Math.cos(rot), s=Math.sin(rot); return {at:(u,v)=>{ const [x,y]=rot2((u-mu)*pw*side,(v-mv)*ph,c,s); return [mx+x,my+y]; }}; };
+  const ok=(mx,ph)=>{ const P=pose(mx,ph), wr=P.at(HAND_WRIST.u,HAND_WRIST.v), dl=Math.hypot(ax-mx,ay-my)||1, kx=-(ax-mx)/dl*.012*fh, ky=-(ay-my)/dl*.012*fh; let g0=1e9, g1=-1e9;
+    const A=[], Q=[]; for(const [u,v] of gl){ const q0=P.at(u,v), [qx,qy]=rot2(q0[0]-wr[0],q0[1]-wr[1],kc,ks), q=[wr[0]+qx+kx,wr[1]+qy+ky];
+      for(const t of [q0,q]) if(t[1]<bot+e) return false; A.push(q0); Q.push(q);
+      g0=Math.min(g0,q0[0]); g1=Math.max(g1,q0[0]); }
+    for(const g of [A,Q]){ const c=[g[0],g[3],g[15],g[12]]; for(const r of R) if(quadHits(c,r.x0-e,r.y0-e,r.x1+e,r.y1+e)) return false; }   /* the whole glove, not only its 16 points: a thin status line can pass between them */
+    { const c=[0,3,15,12].map(i=>{ const [qx,qy]=rot2(A[i][0]-wr[0],A[i][1]-wr[1],tc,ts); return [wr[0]+qx,wr[1]+qy]; }); for(const r of R) if(r.cover&&quadHits(c,r.x0-e,r.y0-e,r.x1+e,r.y1+e)) return false; }   /* the take: the wrist trails by up to 7.5° while the hand slides in (a side plate's glove swings down with it), kept off the opaque bars */
+    if((Math.min(g1,half)-Math.max(g0,-half))/(g1-g0)<.8) return false;
+    const m=.015*fh, hid=t=>t[0]<-half||t[0]>half||t[1]<bot||R.some(r=>r.cover&&t[0]>r.x0+m&&t[0]<r.x1-m&&t[1]>r.y0+m&&t[1]<r.y1-m);
+    for(let i=0;i<HAND_CUT.length;i++){ const a=P.at(...HAND_CUT[i]); if(!hid(a)) return false; if(i){ const b=P.at(...HAND_CUT[i-1]); for(const f of [.25,.5,.75]) if(!hid([b[0]+(a[0]-b[0])*f,b[1]+(a[1]-b[1])*f])) return false; } }
+    return true; };
+  const l0=side<0?-half+.03*fh:ax, l1=side<0?ax:half-.03*fh, xs=[]; for(let i=0;i<=40;i++) xs.push(l0+(l1-l0)*i/40); const want=ax;
+  const find=h=>{ let b=null; for(const x of xs) if(ok(x,h)&&(b===null||Math.abs(x-want)<Math.abs(b-want))) b=x; return b; };
+  const lo=.14*fh, hi=(PH&&povWide()?.8:handFit?handFit[1]:.5)*fh, N=48; let ph=null; for(let i=0;i<=N;i++){ const h=hi-(hi-lo)*i/N; if(find(h)!==null){ ph=h; break; } }
+  if(ph===null) return {key, ph:0};
+  { let a=ph, b=Math.min(hi,ph+(hi-lo)/N); for(let i=0;i<8&&b>a;i++){ const m=(a+b)/2; if(find(m)!==null) a=m; else b=m; } ph=a; }
+  let mx=find(ph); { let a=mx, b=want; for(let i=0;i<12;i++){ const m=(a+b)/2; if(ok(m,ph)) a=m; else b=m; } mx=a; }
+  const P=pose(mx,ph); let g0=1e9, g1=-1e9; gl.forEach(([u,v])=>{ const q=P.at(u,v); g0=Math.min(g0,q[0]); g1=Math.max(g1,q[0]); });
+  return {key, ph:ph/fh, mx:mx/fh, my:my/fh, ax:ax/fh, ay:ay/fh, inX:(side<0?g1+half+.02*fh:half-g0+.02*fh)/fh}; }
+function placeHand(){ const fh=2*Math.tan(camera.fov*Math.PI/360), fw=fh*camera.aspect;
+  /* S8: the room's light on the glove (lamp flicker, the shot's flash) */
+  { const F=Math.min(1.5,flashLight.intensity/(REDUCED?2.5:PH?3.5:6)), fk=1+.05*(lampFl-.85)/.17, t=HAND_TINT; hand.material.color.setRGB(t[0]*fk*(1+1.6*F),t[1]*fk*(1+1.44*F),t[2]*fk*(1+1.2*F)); }
+  hand.material.opacity=HP.op; if(HP.detached){ hand.visible=handK>0&&HP.op>.002; return; }   /* S7: left in the room, the bullet camera pushes past it */
+  const L=HP.on?handLayout(fw,fh):null; handLast=L; if(!L){ handK=0; hand.visible=handK>0; return; }
+  const {ph,pw}=L; let rot=L.rot, px=L.px, py=L.py;
+  /* the wrist turns about its own point, the elbow about its point beyond the sleeve (both read on the aimed pose), then the slide along the forearm,
+     the kick back along the barrel and the bob; elevation + (muzzle up) is a clockwise turn for Nik's right hand and the mirror for Daniel's */
+  const at=(u,v)=>{ const [x,y]=rot2(...cardPt(u,v,pw,ph),Math.cos(rot),Math.sin(rot)); return [px+x,py+y]; };
+  const turn=(pt,a)=>{ const c=Math.cos(a), s=Math.sin(a), [x,y]=rot2(px-pt[0],py-pt[1],c,s); px=pt[0]+x; py=pt[1]+y; rot+=a; };
+  const W0=at(HAND_WRIST.u,HAND_WRIST.v), E0=at(HAND_ELBOW.u,HAND_ELBOW.v); turn(W0,-handSide*HP.wrist*DEG); turn(E0,-handSide*(L.clear?HP.elbow+38*(1-HP.R):HP.elbow)*DEG);   /* upright: no swing, a slide in from the side (below) */
+  { const w=at(HAND_WRIST.u,HAND_WRIST.v), e=at(HAND_ELBOW.u,HAND_ELBOW.v), l=Math.hypot(e[0]-w[0],e[1]-w[1])||1; if(L.clear) px+=handSide*L.inX*(1-Math.min(1,HP.R)); else { px+=(e[0]-w[0])/l*HP.slide*ph; py+=(e[1]-w[1])/l*HP.slide*ph; } }
+  { const m=at(HAND_MUZZLE.u,HAND_MUZZLE.v), r=at(HAND_REAR.u,HAND_REAR.v), l=Math.hypot(m[0]-r[0],m[1]-r[1])||1; px-=(m[0]-r[0])/l*HP.kick*fh; py-=(m[1]-r[1])/l*HP.kick*fh; }
+  py+=HP.bob*fh;
+  hand.position.set(px*HAND_Z,py*HAND_Z,-HAND_Z); hand.scale.set(pw*handSide*HAND_Z,ph*HAND_Z,1); hand.rotation.z=rot;
+  handK=Math.max(.001,Math.min(1,HP.R)); hand.visible=handK>0; }   /* r90 Light: the hidden hand is not drawn */
 function handMuzzleWorld(){ const v=new T.Vector3((HAND_MUZZLE.u-.5),(HAND_MUZZLE.v-.5),0); return hand.localToWorld(v); }
 function handPlaceholder(){ const c=document.createElement("canvas"); c.width=1600; c.height=900; const x=c.getContext("2d"); x.clearRect(0,0,1600,900);
   x.fillStyle="#2a1d14"; x.beginPath(); x.moveTo(1600,900); x.lineTo(1600,420); x.quadraticCurveTo(1180,380,980,470); x.quadraticCurveTo(900,520,960,600); x.lineTo(1100,900); x.closePath(); x.fill();
@@ -257,6 +350,15 @@ function handPlaceholder(){ const c=document.createElement("canvas"); c.width=16
   x.font="700 46px 'Barlow Condensed'"; x.fillStyle="rgba(255,255,255,.85)"; x.textAlign="center"; x.fillText("HAND PICTURE · TICKET 1854",1150,860); return c; }
 const L=(hex)=>new T.Color(hex).convertSRGBToLinear();
 const portrait=()=>innerWidth<=899&&innerHeight>innerWidth;
+/* R93-04 (Nik 2026-11-15, "Yes, wider camera"): on an upright phone in the game the shooter's eye takes a slightly wider lens and looks a little lower on
+   the board for the take and the aim, so the hand grows under the board, between the board and the caption standing in the Spin button's room: x1.25 on
+   a tall phone (about 150 px), x1.35 on a short one (about 130 px; x1.25 leaves no clear spot there, and looking lower would cut the board's header). A
+   gentle reframe reads as a camera operator's; the x1.55 tried first read as a zoom (lead, 2026-11-15). The glide in from the drum and the moves out after the shot already ease between the lenses. The preview page keeps the usual lens (its
+   mock bar holds the bottom). Tall desktop windows that show the bottom strip with the side hand (aspect under 1.15, e.g. 960x1035) take x1.2 with a
+   small look drop (lead, 2026-11-15: the glove read small at the left edge; the board's foot and the strip leave it little room, so a little more
+   room below the board lets the glove grow about a third, and the board then fits the window). [lens factor, look drop in m] or null */
+const POV_SIDE_WIDE=[1.2,.1];
+const povWide=()=>!document.body.classList.contains("embed")?null:PH?(innerWidth<600?(innerHeight>=780?[1.25,.125]:[1.35,.17]):null):innerWidth/innerHeight<1.15?POV_SIDE_WIDE:null;
 
 /* ================= canvas textures (wood, felt, lacquered panels, marble, pressed tin, soft sprites) ================= */
 function cv(w,h){ const c=document.createElement("canvas"); c.width=w; c.height=h; return [c,c.getContext("2d")]; }
@@ -412,6 +514,72 @@ function bake(root,skip,alias){ root.updateMatrixWorld(true); const inv=root.mat
       const b=mesh(g,m,x,.002,z); b.rotation.set(-Math.PI/2,0,rot); b.receiveShadow=true; }); }
   bake(room);
 }
+/* r93 R93-04 (Nik 2026-11-15: "a whiskey glass ... only if it looks realistic with its glass material and liquid in it"; then: on every level, the liquid's
+   look and feel improved on every level including Light, without many extra draws there): a cut-crystal whisky tumbler and a decanter, back right on the
+   felt, off both shooting lines, out of Daniel's shooter view and left of Nik's board in his. Built from the R93-04 study's measured recipe (Part 4.2).
+   ONE unlit mesh draws both vessels' whisky, their thick lit-through bases and (on Light and Balanced) every glass highlight: one 256x256 picture whose
+   liquid texels are opaque and whose glass texels have zero alpha, blended ONE / ONE_MINUS_SRC_ALPHA, so the whisky covers and the glass only adds light;
+   it shares the hand card's shader program (it carries normals for that). From High up the painted highlights give way to a reflection-only crystal shell
+   with real flat facets (the room's own mirror light; the lamp chimney's program): +1 draw more. No light of its own. The whisky breathes with the lamp's
+   flame and flares with the shot. Its glow and a soft contact shade on the felt are painted into the felt picture once (no draw). WHISKY_FROM is the
+   lowest level that shows the set (0 = Light, Nik's pick 2026-11-15). Light and Balanced: +1 draw, +0 programs; High up: +2 draws, +0 programs. */
+const WHISKY_FROM=0;
+function buildWhisky(){ if(GFX.level<WHISKY_FROM) return null; const hi=HIGH_UP, SEG=hi?48:28, W=256, H=256, lamp=new T.Vector2(-.38,.36);
+  const mk=()=>{ const c=document.createElement("canvas"); c.width=W; c.height=H; return [c,c.getContext("2d")]; }, [cl,Lq]=mk(), [cg,G]=mk(); G.fillStyle="#000"; G.fillRect(0,0,W,H);
+  /* the liquid wall, rows 0-47 (x runs round the glass: 0 and 256 face the lamp, 128 is the far side, where the light comes through) */
+  { const g=Lq.createLinearGradient(0,0,W,0); [[0,"#8a3c07"],[.10,"#5e2504"],[.27,"#7a3206"],[.40,"#c47c16"],[.5,"#eaa52a"],[.60,"#c47c16"],[.73,"#7a3206"],[.90,"#5e2504"],[1,"#8a3c07"]].forEach(s=>g.addColorStop(s[0],s[1])); Lq.fillStyle=g; Lq.fillRect(0,0,W,48);
+    const v=Lq.createLinearGradient(0,0,0,48); v.addColorStop(0,"rgba(30,8,0,0)"); v.addColorStop(.08,"rgba(30,8,0,.5)"); v.addColorStop(.22,"rgba(30,8,0,.12)"); v.addColorStop(.6,"rgba(0,0,0,0)"); v.addColorStop(1,"rgba(255,186,70,.42)"); Lq.fillStyle=v; Lq.fillRect(0,0,W,48);
+    Lq.fillStyle="#ffd27a"; Lq.fillRect(0,0,W,2); Lq.fillStyle="rgba(255,226,160,.9)"; Lq.fillRect(96,0,64,2); }   /* the bright meniscus, brightest on the far side */
+  /* the liquid's surface, a 32 px disc at (0,96): deep amber, a thin bright ring where it climbs the glass, a soft glow on the far side, one lamp glint */
+  { const cx=16, cy=112; Lq.save(); Lq.beginPath(); Lq.arc(cx,cy,15.6,0,7); Lq.clip(); let g=Lq.createRadialGradient(cx,cy,0,cx,cy,15.6); [[0,"#6e2e05"],[.8,"#7a3406"],[.92,"#a05c0c"],[.975,"#d9962a"],[1,"#ffd98a"]].forEach(s=>g.addColorStop(s[0],s[1])); Lq.fillStyle=g; Lq.fillRect(0,96,32,32);
+    g=Lq.createLinearGradient(0,96,0,128); g.addColorStop(0,"rgba(236,150,40,.42)"); g.addColorStop(.45,"rgba(236,150,40,.08)"); g.addColorStop(1,"rgba(30,8,0,.25)"); Lq.fillStyle=g; Lq.fillRect(0,96,32,32);
+    Lq.translate(cx+1.5,cy+6.5); Lq.rotate(.2); Lq.scale(1,.42); g=Lq.createRadialGradient(0,0,0,0,0,3.4); g.addColorStop(0,"rgba(255,240,214,.9)"); g.addColorStop(.45,"rgba(255,214,150,.4)"); g.addColorStop(1,"rgba(255,200,120,0)"); Lq.fillStyle=g; Lq.fillRect(-6,-6,12,12); Lq.restore(); }
+  /* the thick base seen through the glass, x 40-255, rows 98-125: lighter and clearer than the liquid (glass lit through), 80 % opaque so the felt shows */
+  { const g=Lq.createLinearGradient(40,0,256,0); [[0,"#b06a16"],[.25,"#8a4409"],[.5,"#f6c050"],[.75,"#8a4409"],[1,"#b06a16"]].forEach(s=>g.addColorStop(s[0],s[1])); Lq.fillStyle=g; Lq.fillRect(40,98,216,28);
+    const v=Lq.createLinearGradient(0,98,0,126); v.addColorStop(0,"rgba(40,12,0,.6)"); v.addColorStop(.22,"rgba(0,0,0,0)"); v.addColorStop(.7,"rgba(255,224,150,.4)"); v.addColorStop(.86,"rgba(255,240,205,.85)"); v.addColorStop(1,"rgba(60,20,0,.4)"); Lq.fillStyle=v; Lq.fillRect(40,98,216,28); }
+  /* the glass's light (added): tumbler rows 48-95 (rim 48, foot 95), decanter rows 128-223 (lip 128, foot 223), stopper rows 226-254. Cut flutes brighter
+     toward and away from the lamp and amber below the liquid line, one warm lamp streak with a thin partner, a cool one opposite, the rim, rings at the
+     decanter's shoulder, neck and lip, a glint on the stopper */
+  { G.globalCompositeOperation="lighter";
+    const soft=(cx,w,y0,y1,col,a)=>{ for(const dx of [0,W,-W]){ const g=G.createLinearGradient(cx+dx-w,0,cx+dx+w,0); g.addColorStop(0,"rgba(0,0,0,0)"); g.addColorStop(.35,`rgba(${col},${a*.25})`); g.addColorStop(.5,`rgba(${col},${a})`); g.addColorStop(.65,`rgba(${col},${a*.25})`); g.addColorStop(1,"rgba(0,0,0,0)"); G.fillStyle=g; G.fillRect(cx+dx-w,y0,w*2,y1-y0); } };
+    const ring=(y,h,a,col)=>{ const r=G.createLinearGradient(0,0,W,0); [[0,1],[.12,.42],[.3,.3],[.5,.62],[.7,.3],[.88,.42],[1,1]].forEach(s=>r.addColorStop(s[0],`rgba(${col||"255,238,212"},${s[1]*a})`)); G.fillStyle=r; G.fillRect(0,y,W,h); };
+    const flutes=(n,y0,y1,yLiq,a)=>{ for(let i=0;i<n;i++){ const cx=(i+.5)*W/n, u=cx/W, k=.35+.65*Math.pow(Math.abs(Math.cos(u*2*Math.PI)),1.5); soft(cx,W/n*.42,y0,Math.min(y1,yLiq),"226,222,214",a*k); if(yLiq<y1) soft(cx,W/n*.42,yLiq,y1,"255,186,96",a*k*.9); } };
+    const fade=(y0,y1,up)=>{ G.globalCompositeOperation="destination-out"; const f=G.createLinearGradient(0,y0,0,y1); f.addColorStop(0,`rgba(0,0,0,${up?1:0})`); f.addColorStop(1,`rgba(0,0,0,${up?0:1})`); G.fillStyle=f; G.fillRect(0,y0,W,y1-y0); G.globalCompositeOperation="lighter"; };
+    { const LQ=70, FL=64; G.fillStyle="rgb(7,8,10)"; G.fillRect(0,50,W,44); flutes(14,FL,93,LQ,.2); soft(0,26,52,LQ,"255,206,140",.14); soft(0,4.5,53,LQ,"255,232,196",.7); soft(15,2,56,LQ-3,"255,236,210",.26); soft(141,6,54,LQ,"176,196,226",.18);
+      soft(7,22,LQ,92,"255,170,70",.12); soft(7,4,LQ+1,91,"255,196,104",.5); soft(134,7,LQ,90,"255,206,120",.14); fade(50,58,true); fade(86,95,false); ring(FL-1,1.4,.2); ring(48,2.4,.95); }
+    { const LQ=185; G.fillStyle="rgb(9,10,12)"; G.fillRect(0,130,W,92); flutes(18,177,220,LQ,.22); soft(0,24,146,LQ,"255,206,140",.12); soft(0,4,146,LQ,"255,232,196",.6); soft(138,6,146,LQ,"176,196,226",.16); soft(6,20,LQ,218,"255,170,70",.12); soft(6,3.6,LQ+1,217,"255,196,104",.45);
+      fade(142,150,true); fade(214,223,false); ring(176,1.6,.34); ring(168.5,1.3,.26); ring(161,1.2,.3); ring(157.5,1,.22); ring(142.5,1.2,.3); ring(137,3,.8); ring(129,1.6,.5); soft(0,3,143,158,"255,236,206",.55); soft(131,3,143,158,"190,204,226",.2); }
+    { G.fillStyle="rgb(30,32,36)"; G.fillRect(0,226,W,28); ring(239,1.4,.25); for(const dx of [0,W]){ const g=G.createRadialGradient(dx,236,0,dx,236,30); g.addColorStop(0,"rgba(255,240,214,.9)"); g.addColorStop(.3,"rgba(255,214,160,.3)"); g.addColorStop(1,"rgba(0,0,0,0)"); G.fillStyle=g; G.fillRect(dx-14,226,28,28); } const g=G.createRadialGradient(140,246,0,140,246,9); g.addColorStop(0,"rgba(180,198,226,.4)"); g.addColorStop(1,"rgba(0,0,0,0)"); G.fillStyle=g; G.fillRect(126,232,28,22); ring(252,1.5,.3); }
+    G.globalCompositeOperation="destination-over"; G.fillStyle="#000"; G.fillRect(0,0,W,H); }
+  /* one premultiplied picture: glass rows carry their light at alpha 0, liquid rows their colour at their alpha (the base strip at 80 %) */
+  const a=Lq.getImageData(0,0,W,H).data, b=G.getImageData(0,0,W,H).data, d=new Uint8Array(W*H*4);
+  for(let y=0;y<H;y++) for(let xx=0;xx<W;xx++){ const s=(y*W+xx)*4, t=((H-1-y)*W+xx)*4, glass=(y>=48&&y<96)||y>=128, base=y>=96&&xx>=36?.8:1;
+    if(glass){ d[t]=b[s]; d[t+1]=b[s+1]; d[t+2]=b[s+2]; d[t+3]=0; } else { const al=a[s+3]/255*base; d[t]=a[s]*al; d[t+1]=a[s+1]*al; d[t+2]=a[s+2]*al; d[t+3]=Math.round(a[s+3]*.95*base); } }
+  const tex=new T.DataTexture(d,W,H,T.RGBAFormat); tex.colorSpace=T.SRGBColorSpace; tex.magFilter=T.LinearFilter; tex.minFilter=T.LinearMipmapLinearFilter; tex.generateMipmaps=true; tex.wrapS=T.RepeatWrapping; tex.needsUpdate=true;
+  /* the vendored three exports no blend constants: 5 = custom, 100 = add, 201 = ONE, 205 = ONE_MINUS_SRC_ALPHA */
+  const paint=new T.MeshBasicMaterial({map:tex, transparent:true, blending:5, blendEquation:100, blendSrc:201, blendDst:205, depthWrite:false, toneMapped:false});
+  const parts=[], lathe=(pts,s)=>new THREE.LatheGeometry(pts.map(p=>new T.Vector2(p[0],p[1])),s);
+  const vmap=(g,y0,y1,v0,v1,u0,u1)=>{ const p=g.attributes.position, uv=g.attributes.uv; for(let i=0;i<p.count;i++){ const k=(p.getY(i)-y0)/(y1-y0); uv.setXY(i,(u0||0)+uv.getX(i)*((u1===undefined?1:u1)-(u0||0)),v0+Math.max(0,Math.min(1,k))*(v1-v0)); } return g; };
+  const disc=(r,y)=>{ const g=new THREE.CircleGeometry(r,SEG); g.rotateX(-Math.PI/2); const p=g.attributes.position, uv=g.attributes.uv; for(let i=0;i<p.count;i++) uv.setXY(i,(16+p.getX(i)/r*15.2)/W,1-(112+p.getZ(i)/r*15.2)/H); g.translate(0,y,0); return g; };
+  const add=(list,g,m)=>list.push([g.index?g.toNonIndexed():g,m]), px=1.5/H;
+  /* each vessel turned so picture column 0 faces the lamp; in the mesh: base, liquid wall, surface, then the glass, so the highlights land on the whisky */
+  const vessel=(gx,gz,o)=>{ const m=new T.Matrix4().makeRotationY(Math.atan2(lamp.x-gx,lamp.y-gz)); m.setPosition(gx,.75,gz);
+    add(parts,vmap(lathe(o.base,SEG),o.base[0][1],o.base[o.base.length-1][1],1-126/H+px,1-98/H-px,40/W,1),m); add(parts,vmap(lathe(o.liq,SEG),o.liq[0][1],o.top,1-48/H+px,1-px),m); add(parts,disc(o.rTop,o.top),m);
+    if(!hi) add(parts,vmap(lathe(o.shell,SEG),0,o.h,1-o.rows[1]/H+px,1-o.rows[0]/H-px),m); return m; };
+  const tumb={ rows:[48,96], h:.0885, top:.047, rTop:.0372, base:[[.0352,.0022],[.0368,.004],[.0374,.0162]], liq:[[.0370,.0162],[.0381,.047]], shell:[[.0345,.0004],[.0368,.003],[.0377,.012],[.0397,.086],[.0393,.0886],[.0380,.0878]] };
+  const dec={ rows:[128,224], h:.168, top:.066, rTop:.0535, base:[[.050,.002],[.0535,.0045],[.0542,.0135]], liq:[[.0540,.0135],[.0540,.066]], shell:[[.05,.0004],[.0545,.004],[.0553,.016],[.0553,.080],[.0503,.095],[.030,.1065],[.019,.114],[.018,.1405],[.0243,.145],[.0243,.150],[.014,.151]] };
+  const mT=vessel(.42,-.42,tumb), mD=vessel(.27,-.56,dec); if(!hi){ const s=new THREE.SphereGeometry(.0172,16,10); vmap(s,-.0172,.0172,1-254/H,1-227/H); s.translate(0,.168,0); add(parts,s,mD); }
+  const merge=(list,uv)=>{ let n=0; list.forEach(([g])=>n+=g.attributes.position.count); const P=new Float32Array(n*3), N=new Float32Array(n*3), U=uv?new Float32Array(n*2):null; let o3=0, o2=0;
+    list.forEach(([g,m])=>{ g.applyMatrix4(m); P.set(g.attributes.position.array,o3); N.set(g.attributes.normal.array,o3); if(U) U.set(g.attributes.uv.array,o2); o3+=g.attributes.position.count*3; o2+=g.attributes.position.count*2; g.dispose(); });
+    const bg=new T.BufferGeometry(); bg.setAttribute("position",new T.BufferAttribute(P,3)); bg.setAttribute("normal",new T.BufferAttribute(N,3)); if(U) bg.setAttribute("uv",new T.BufferAttribute(U,2)); return bg; };   /* normals too, so the painted mesh shares the hand card's program */
+  const set=new T.Mesh(merge(parts,true),paint); set.renderOrder=6; table.add(set);
+  if(hi){ /* High up: the room's real mirror light on a faceted crystal shell (reflections only: black, additive, front faces; the far wall is a front face too) */
+    const crystal=new T.MeshStandardMaterial({color:0x000000, metalness:0, roughness:.03, transparent:true, blending:T.AdditiveBlending, depthWrite:false, envMapIntensity:5});
+    const facet=(pts,n)=>{ const g=new THREE.LatheGeometry(pts.map(p=>new T.Vector2(p[0],p[1])),n).toNonIndexed(); g.computeVertexNormals(); return g; }, cp=[];
+    add(cp,facet([[.0345,.0004],[.0368,.003],[.0377,.012],[.0389,.058]],12),mT); add(cp,lathe([[.0389,.058],[.0397,.086],[.0393,.0886],[.0380,.0868],[.0372,.05]],48),mT);
+    add(cp,facet([[.05,.0004],[.0545,.004],[.0553,.016],[.0553,.080]],14),mD); add(cp,lathe([[.0553,.080],[.0503,.095],[.030,.1065],[.019,.114],[.018,.1405],[.0243,.145],[.0243,.150],[.014,.151]],48),mD); { const s=new THREE.SphereGeometry(.0172,24,16); s.translate(0,.168,0); add(cp,s,mD); }
+    const cm=new T.Mesh(merge(cp,false),crystal); cm.renderOrder=7; table.add(cm); }
+  return {paint, tint:hi?.9:.8, pool:[[.42,-.42,.04],[.27,-.56,.055]]}; }
 /* the dealer's table: round, green felt, lacquered mahogany rim with a gold inlay, turned pedestal */
 const table=new T.Group(); scene.add(table);
 { const R=.78; const top=mesh(new T.CylinderGeometry(R-.06,R-.06,.03,96),M.felt,0,.735,0,table); top.receiveShadow=true;
@@ -477,12 +645,19 @@ const table=new T.Group(); scene.add(table);
   for(let i=0;i<5;i++){ const c=mesh(new T.BoxGeometry(.064,.002,.09),M.card,-.5+i*.02,.752+i*.002,.34,table); c.rotation.y=.4+i*.12; }
   for(let i=0;i<4;i++) mesh(new T.CylinderGeometry(.013,.013,.003,16),M.gold,.2+i*.03,.753,.45+(i%2)*.025,table);
   bake(table);
+  { const w=buildWhisky(); if(w){ table.userData.whisky=w.paint; table.userData.whiskyTint=w.tint; table.userData.whiskyPool=w.pool; } }   /* r93 R93-04: after the bake, so its one painted mesh (and the crystal from High) stay as built */
   /* r90 Light: the oil lamp's light on the felt, painted once into the felt picture (the top's UVs map the disc: u from z, v from x),
      with the fall-off the lamp light had (about 40 % at 0.4 m, 10 % at 0.8 m), so the table keeps its warm pool with one light fewer */
   if(LIGHT){ const tex=M.felt.map, c=tex.image, x=c.getContext("2d"), Rt=R-.06, W=c.width, H=c.height, lx=-.38, lz=.36;
     const px=(.5+lz/Rt*.5)*W, py=(1-(.5+lx/Rt*.5))*H, r=.85/Rt*.5*W, g=x.createRadialGradient(px,py,0,px,py,r);
     g.addColorStop(0,"rgba(150,92,38,.62)"); g.addColorStop(.25,"rgba(120,72,30,.42)"); g.addColorStop(.5,"rgba(90,52,22,.2)"); g.addColorStop(1,"rgba(60,34,14,0)");
     x.save(); x.setTransform(1,0,0,1,0,0); x.globalCompositeOperation="lighter"; x.fillStyle=g; x.fillRect(0,0,W,H); x.restore(); tex.needsUpdate=true; }
+  /* r93 R93-04: the whisky set's light on the felt (painted once, like the lamp's pool): a soft contact shade under each glass and the amber glow the lamp throws through the whisky, on the side away from the lamp */
+  if(table.userData.whiskyPool){ const tex=M.felt.map, c=tex.image, x=c.getContext("2d"), Rt=R-.06, W=c.width, H=c.height, lx=-.38, lz=.36, P=(wx,wz)=>[(.5+wz/Rt*.5)*W,(1-(.5+wx/Rt*.5))*H], s=W/(2*Rt);
+    x.save(); x.setTransform(1,0,0,1,0,0); table.userData.whiskyPool.forEach(([gx,gz,r])=>{ const dx=gx-lx, dz=gz-lz, l=Math.hypot(dx,dz), ux=dx/l, uz=dz/l;
+      { const [sx,sy]=P(gx,gz-.012), g=x.createRadialGradient(sx,sy,0,sx,sy,r*1.25*s); g.addColorStop(0,"rgba(0,0,0,.42)"); g.addColorStop(.7,"rgba(0,0,0,.18)"); g.addColorStop(1,"rgba(0,0,0,0)"); x.globalCompositeOperation="source-over"; x.fillStyle=g; x.fillRect(sx-r*2*s,sy-r*2*s,r*4*s,r*4*s); }
+      const [px,py]=P(gx+ux*r*1.9,gz+uz*r*1.9), g=x.createRadialGradient(px,py,0,px,py,r*1.6*s); g.addColorStop(0,"rgba(255,150,40,.34)"); g.addColorStop(.45,"rgba(210,100,20,.14)"); g.addColorStop(1,"rgba(160,70,10,0)"); x.globalCompositeOperation="lighter"; x.fillStyle=g; x.fillRect(px-r*2*s,py-r*2*s,r*4*s,r*4*s); });
+    x.restore(); tex.needsUpdate=true; }
 }
 
 /* ================= lights (r90: one tight table light with the one static shadow map, a dim fill, the lantern on the table and one
@@ -766,7 +941,9 @@ const BOARD_W=.84, BOARD_H=.64;
    needs them, so their upload no longer decodes them on the main thread (the hand alone took ~140 ms at 4x CPU throttle). Safari and iOS keep
    the plain image, as three's own glTF loader does (older WebKit ignores the flip). texFrom() sets flipY to match */
 const BITMAP_OK=typeof createImageBitmap==="function"&&!/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-function loadImg(src){ return new Promise(res=>{ const im=new Image(); im.onload=()=>{ if(!BITMAP_OK) return res(im); createImageBitmap(im,{imageOrientation:"flipY",premultiplyAlpha:"none"}).then(res,()=>res(im)); }; im.onerror=()=>res(null); im.src=src; }); }
+/* r93 R93-04 S9: maxW decodes a picture smaller (the hand plate at 1024 px on Light and Balanced, where it is drawn 670-950 px wide: 3 MB on the GPU instead of 8,
+   and less shimmer); Safari keeps the full file (no ImageBitmap path there) */
+function loadImg(src,maxW){ return new Promise(res=>{ const im=new Image(); im.onload=()=>{ if(!BITMAP_OK) return res(im); const o={imageOrientation:"flipY",premultiplyAlpha:"none"}; const big=Math.max(im.width,im.height); if(maxW&&big>maxW){ o.resizeWidth=Math.round(im.width*maxW/big); o.resizeHeight=Math.round(im.height*maxW/big); o.resizeQuality="high"; } createImageBitmap(im,o).then(res,()=>res(im)); }; im.onerror=()=>res(null); im.src=src; }); }
 function texFrom(img){ const t=new T.Texture(img); if(typeof ImageBitmap!=="undefined"&&img instanceof ImageBitmap) t.flipY=false; return t; }
 const lacquer=mat({map:tableWoodTex, color:0x6a4a34, roughness:.25, metalness:.05},{roughness:.45, clearcoat:.8, clearcoatRoughness:.1});
 /* ================= the room behind the table, by quality level (r90, Nik 2026-11-08: "the dark room for the lower quality; for the higher
@@ -1068,7 +1245,7 @@ function layout(){ PH=portrait(); const w=innerWidth, h=innerHeight; camera.aspe
   /* r90: the resolution belongs to the quality level (js/gfxTier.js and its governor), never forced above the screen's own sharpness;
      a new layout moves the boards, so the one static shadow map is drawn again */
   renderer.setSize(w,h,false); renderer.shadowMap.needsUpdate=true; if(GOV) GOV.resize(); fitUnderTitle(); }
-addEventListener("resize",layout);
+addEventListener("resize",layout); addEventListener("resize",()=>handPlateWatch());   /* r93 HO-081: a window that changes shape gets the other hand plate */
 /* r90 LOOK L37 (nothing covers anything): on a tall phone the two-line title sat on both squad boards and hid the club names and the
    first shirt rows. At rest the picture is shifted down (a lens shift, so nothing in the scene moves or changes size) just enough for the
    top of each board face to clear the title; the empty felt at the bottom gives the room. A turn eases the shift back out, since the
@@ -1234,9 +1411,9 @@ function boardFrames(key,pick,fire){ const b=boards[key].userData, i=b.bubbles.i
   try{ renderer.initTexture(c.__tex); }catch(e){} return {i,plain,hit:c}; }
 function showFrame(key,canvas,hit){ const b=boards[key].userData; b.canvas=canvas; b.ctx=canvas.getContext("2d"); b.hit=hit; b.face.material.map=b.face.material.emissiveMap=canvas.__tex; }
 let lastClick=0;
-function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
+function stepTurn(dt){ untake(); const p=playing; const t=now(); const tt=p?t-p.t0:0;
   const muzzleW=new T.Vector3(); muzzle.getWorldPosition(muzzleW);
-  if(!p){ handHold=false; handK=0; handRecoil=0; handAimAt=null; crane.rotation.z=lerp(crane.rotation.z,0,Math.min(1,dt*6)); hammerK=lerp(hammerK,0,Math.min(1,dt*6)); cyl.rotation.z=lerp(cyl.rotation.z,cylTarget(),Math.min(1,dt*6)); spin.position.lerp(new T.Vector3(0,.751,.02),Math.min(1,dt*.8)); }
+  if(!p){ handHold=false; handK=0; handRecoil=0; handAimAt=null; handRest(); crane.rotation.z=lerp(crane.rotation.z,0,Math.min(1,dt*6)); hammerK=lerp(hammerK,0,Math.min(1,dt*6)); cyl.rotation.z=lerp(cyl.rotation.z,cylTarget(),Math.min(1,dt*6)); spin.position.lerp(new T.Vector3(0,.751,.02),Math.min(1,dt*.8)); }
   else {
     const tgt=boardTargetWorld(p.who,p.target), aimAt=boardAimWorld(p.who);
     /* a. the spin: fast, friction slows it, stops on the target with a small overshoot and settle */
@@ -1271,8 +1448,7 @@ function stepTurn(dt){ const p=playing; const t=now(); const tt=p?t-p.t0:0;
     hammerK=tt<B.cock?0:tt<B.fire?ease.out(S(B.cock,.3,tt)):Math.max(0,1-S(B.fire,.05,tt));
     /* the hand: rises from the dark once the drum is shut, holds and breathes, fires or clicks, then sinks away */
     handHold=tt>=B.hand&&tt<B.end-.2; handSide=p.who==="D"?-1:1; handAimAt=aimAt;   /* r89: the hand sits on the board's outer side (Daniel's board left, Nik's right), the board fills the rest of the frame */
-    { const up=ease.out(S(B.hand,1.1,tt)); const down=tt<B.fire+(p.fire?.35:1.0)?0:ease.inOut(S(B.fire+(p.fire?.35:1.0),p.fire?.9:.6,tt)); const breathe=Math.sin(tt*2.1)*.004+Math.sin(tt*5.3)*.0015; handK=Math.max(0,up-down)+(handHold?breathe:0);
-      if(tt>=B.fire){ const a=tt<B.fire+.06?S(B.fire,.06,tt):1-ease.out(S(B.fire+.06,.55,tt)); handRecoil=(p.fire?1:.12)*Math.max(0,a); } else handRecoil=0; }
+    stepHand(p,tt);
     cue(tt,B.hand,"handUp","handUp"); cue(tt,B.cock,"cock","cock"); cue(tt,B.aim,"heart","heart");   /* r89 polish: one heartbeat run (three beats) whose last beat falls just before the hammer; the second run used to carry on over the bang */
     cue(tt,B.fire,"shot",p.fire?"bang":"dry"); if(p.fire) cue(tt,B.impact,"splinterCue","splinter");
     /* c/d. hammer falls */
@@ -1301,7 +1477,7 @@ function fireShot(p,tgt){ const mz=new T.Vector3(); if(handHold){ camera.updateM
   flashLight.position.copy(mz).add(dir.clone().multiplyScalar(.22)).add(new T.Vector3(0,.1,0)); flashLight.intensity=REDUCED?2.5:PH?3.5:6; flashLight.color.set(L("#ffd6a8"));
   spray(mz.clone().add(dir.clone().multiplyScalar(.03)),dir,REDUCED?10:34,4.5);
   puff(mz,dir,14,.11*fz,2.0,1.9); puff(mz,new T.Vector3(0,1,0),10,.09*fz,.35,3.0); puff(mz.clone().add(dir.clone().multiplyScalar(.08)),dir,8,.07*fz,2.8,1.2);
-  const flat=new T.Vector3(dir.x,0,dir.z).normalize(); p.slideV.copy(flat).multiplyScalar(REDUCED?-.5:-1.3); p.slide.set(0,0,0); p.slideSpin=0; p.spinKick=(rnd()-.5)*.6; recoil=1;
+  const flat=new T.Vector3(dir.x,0,dir.z).normalize(); p.slide.set(0,0,0); p.slideSpin=0; const kickR=rnd(); if(!handHold){ p.slideV.copy(flat).multiplyScalar(REDUCED?-.5:-1.3); p.spinKick=(kickR-.5)*.6; recoil=1; }   /* r93 R93-04: the revolver is in the hand, so the hidden one on the felt no longer slides (the draw stays, so the seeded order is unchanged) */
   shake=REDUCED?0:.025; }
 function hitBoard(p,tgt){ const b=boards[p.who]; const n=new T.Vector3(0,0,1).applyQuaternion(b.quaternion); burst(tgt,n); hitFlash.position.copy(tgt).addScaledVector(n,.02); hitFlash.material.opacity=.75; hitFlash.scale.set(.05,.05,1); hitLight.position.copy(tgt).addScaledVector(n,.12); hitLight.intensity=REDUCED?.6:1.1; spray(tgt,n,REDUCED?4:9,1.8); /* r89: a tight flash and a few sparks, so the hole and the stamp stay in sight through the hit (it used to white out the frame) */ /* r87: no board kick on the hit (Nik: the boards never move); the splinters, flash and hole carry the impact */ const bub=p.target; const i=b.userData.bubbles.indexOf(bub); b.userData.hit={x:bub.x,y:bub.y,i}; if(p.frames&&p.frames.hit&&p.frames.i===i) showFrame(p.who,p.frames.hit,b.userData.hit); else drawBoard(p.who,b.userData.club); puff(tgt,n,5,.08,.5,1.3); }
 
@@ -1326,8 +1502,8 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
     const toGun=gw.clone().sub(bw); toGun.y=0; toGun.normalize(); const away=bn.clone().multiplyScalar(PH?.94:.9).addScaledVector(toGun,PH?.06:-.25).normalize(); /* desktop: a touch to the outer side, so the line of sight passes beside the table lamp, never through it */
     const tx=0, ty=0, hs=who==="D"?-1:1;   /* r90 spoiler rule: the shooter's view frames the board, not the target player */   /* the hand on the board's outer side: the shooter stands off the table's edge, the lamp stays out of the frame */
     /* desktop: the whole board sits in the upper two thirds, clear of the result line and the button, and leaves the hand's corner open */
-    const lx=PH?Math.max(-.15,Math.min(.15,tx*.9)):hs*.18+tx*.06, ly=PH?-.12+ty*.35:-.16+ty*.05;
-    const povLook=bw.clone().addScaledVector(bR,lx).addScaledVector(bU,ly), povPos=povLook.clone().addScaledVector(away,PH?1.22:1.8).add(new T.Vector3(0,PH?0:.08,0)); const povFov=PH?44:34;
+    const wide=povWide(), lx=PH?Math.max(-.15,Math.min(.15,tx*.9)):hs*.18+tx*.06, ly=PH?-.12-(wide?wide[1]:0)+ty*.35:-.16-(wide?wide[1]:0)+ty*.05;
+    const povLook=bw.clone().addScaledVector(bR,lx).addScaledVector(bU,ly), povPos=povLook.clone().addScaledVector(away,PH?1.22:1.8).add(new T.Vector3(0,PH?0:.08,0)); const povFov=(PH?44:34)*(wide?wide[0]:1); p.pov=povPos; p.povLook=povLook; p.povFov=povFov;
     const holdLook=tgt.clone().addScaledVector(bU,-.06), holdPos=holdLook.clone().addScaledVector(bn,PH?.56:.62), holdFov=PH?42:30;   /* the hit player rides high in the frame, above the result line */
     if(tt<1){ const k=.5-.5*Math.cos(Math.PI*S(0,1,tt)); pos.lerpVectors(pos,topPos,k); look.lerpVectors(look,topLook,k); fov=lerp(fovIdle,fovRest,k); }   /* r89 polish: the rise to the top shot is a 1 s sine crane-up (peak 4 m/s) instead of a .6 s cubic whip (12 m/s) */
     else if(tt<B.close){ pos.copy(topPos); look.copy(topLook); }
@@ -1357,8 +1533,46 @@ function stepCamera(t,dt){ const p=playing; const tt=p?t-p.t0:0; const drift=new
   const fk=1-Math.exp(-dt*(p?12:3)), pk=1-Math.exp(-dt*(p?14:2));
   fovNow=lerp(fovNow,fov,fk); if(Math.abs(camera.fov-fovNow)>.01){ camera.fov=fovNow; camera.updateProjectionMatrix(); } applyViewShift(dt);
   camPos.lerp(pos,pk); camLook.lerp(look,pk);
-  camera.position.copy(camPos).add(camTmp.set((Math.sin(t*71)+Math.sin(t*43.7))*.5*shake,(Math.sin(t*59.3+1.3)+Math.sin(t*37.1))*.5*shake,0)); camera.lookAt(camLook); placeHand(); if(p&&tt>=B.close&&tt<(REDUCED?B.close+.6:B.inside+.15)) measureCloseLift(); else closeLift=0;   /* Reduce Motion has no look-inside beat (B.close = B.inside), so its window is the .6 s after the close cue, never empty */ }
-function gunInHand(){ gun.visible=!(handHold&&handK>.55); }   /* the revolver on the felt hides once the hand holds it, so it is never in two places */
+  camera.position.copy(camPos).add(camTmp.set((Math.sin(t*71)+Math.sin(t*43.7))*.5*shake,(Math.sin(t*59.3+1.3)+Math.sin(t*37.1))*.5*shake,0)); camera.lookAt(camLook); takeGun(p,tt); placeHand(); if(p&&tt>=B.close&&tt<(REDUCED?B.close+.6:B.inside+.15)) measureCloseLift(); else closeLift=0;   /* Reduce Motion has no look-inside beat (B.close = B.inside), so its window is the .6 s after the close cue, never empty */ }
+function gunInHand(){ const gone=!!(handHold&&playing&&playing.gunGone); gun.visible=!gone; gunShadow.visible=!gone; }   /* the revolver on the felt hides once the hand holds it, so it is never in two places (r93: and only once it has left the frame) */
+/* r93 R93-04 S2 (the take): at B.hand the revolver is pulled off the felt toward the shooter instead of vanishing: 0.45 m along the flat line from its
+   rest to the shooter's standing point, lifted 5 cm, turned 12°, accelerating away (ease-in, then on at the speed it left with). It is hidden only once a
+   0.2 m circle round it is outside the frame and not before the raise begins; only then may the hand show, so the two are never both on screen. The
+   offset is laid on after the camera has been placed and taken off before the next frame's turn and camera run, so the camera path never sees it, and
+   the revolver is back at its rest (hidden) once it is gone. */
+const takeOff=new T.Vector3(); let takeYaw=0;
+function untake(){ if(takeOff.lengthSq()>0||takeYaw){ spin.position.sub(takeOff); spin.rotation.y-=takeYaw; takeOff.set(0,0,0); takeYaw=0; } gunShadow.material.opacity=1; }
+function takeGun(p,tt){ if(p&&tt>=B.hand&&handHold&&!p.gunGone&&p.pov){ const dur=REDUCED?.15:.26, k=(tt-B.hand)/dur, e=k<1?k*k*k:1+3*(k-1), lift=Math.min(1,e);
+    const to=p.pov.clone().sub(spin.position); to.y=0; to.normalize(); takeOff.set(to.x*.45*e,.05*lift,to.z*.45*e); takeYaw=handSide*12*DEG*lift; spin.position.add(takeOff); spin.rotation.y+=takeYaw; gunShadow.material.opacity=Math.max(0,1-lift*1.6);
+    spin.updateMatrixWorld(true); camera.updateMatrixWorld(); const c=spin.localToWorld(new T.Vector3(0,.02,0)), n=c.clone().project(camera), d=c.distanceTo(camera.position), r=.2/(Math.max(.05,d)*Math.tan(camera.fov*Math.PI/360)), ra=r/camera.aspect;
+    const out=n.z>1||n.x-ra>1||n.x+ra<-1||n.y-r>1||n.y+r<-1; if((out&&tt>=B.hand+(REDUCED?.15:.30))||tt>=B.hand+(REDUCED?.35:.65)){ p.gunGone=true; HP.on=true; untake(); } }
+  gunInHand(); }
+/* r93 R93-04 S3-S7: the hand's motion, on the turn clock (seconds; R93_04_RRR_STUDY.md 1.5). Under Reduce Motion the raise is shorter with no
+   overshoot, and the cock dip and the breathing sway are off. */
+const backK=(k,c)=>1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2);
+function handRest(){ HP.on=false; HP.R=0; HP.aimK=0; HP.op=1; HP.wrist=0; HP.elbow=-38; HP.slide=.25; HP.kick=0; HP.bob=0; if(HP.detached) handHome(); }
+function handHome(){ camera.add(hand); hand.quaternion.identity(); HP.detached=false; }   /* back on the camera: the room pose's tilt is dropped (placeHand sets the rest) */
+function stepHand(p,tt){ const RM=REDUCED, r0=B.hand+(RM?.15:.30), rd=RM?.40:.60, d=tt-B.fire;
+  /* S3 the raise: an arm swing about the elbow from below the corner (with a slide back along the forearm), the wrist trailing it and levelling ~150 ms later */
+  let R=RM?ease.out(S(r0,rd,tt)):backK(S(r0,rd,tt),1.2), lag=-(RM?4:9)*(1-ease.out(S(r0,rd+.15,tt)));
+  /* S7 after a click: hold .6 s, then the arm lowers into its corner (the raise reversed) */
+  if(!p.fire&&d>=.6) R*=1-ease.in(S(B.fire+.6,.5,tt));
+  /* S4 the cock: the wrist dips with the hammer's click and comes back */
+  let cock=0; if(!RM){ const c=tt-B.cock; cock=c<0?0:c<.09?ease.out(c/.09):c<.31?1-ease.inOut((c-.09)/.22):0; }
+  /* S5 the hold: a slow two-tone sway about the wrist and a bob, easing in after the raise and down to 40 % over the last .4 s before the shot */
+  let sway=0, bob=0; if(!RM){ const k=ease.inOut(S(r0+rd,.4,tt))*(d<-.4?1:d<0?1-.6*(d+.4)/.4:.4); sway=k*(.35*Math.sin(2*Math.PI*.31*tt)+.18*Math.sin(2*Math.PI*.83*tt+1.3)); bob=k*.0015*Math.sin(2*Math.PI*.27*tt); }
+  /* S6 the shot: the muzzle flips UP (0 to +11° in 50 ms, then a damped spring), the hand kicks back along the barrel; a dry click only nods */
+  let rec=0, kick=0, env=0; if(d>=0){ if(p.fire){ if(d<.05){ rec=11*d/.05; env=d/.05; } else { const u=d-.05; rec=11*Math.exp(-7.2*u)*Math.cos(14.3*u); env=1-ease.out(Math.min(1,u/.3)); } kick=.022*env; }
+    else rec=d<.02?-.8*d/.02:d<.14?-.8*(1-ease.out((d-.02)/.12)):0; }
+  handRecoil=p.fire?env:Math.abs(rec)/.8*.12;
+  HP.R=R; HP.aimK=ease.inOut(S(r0+rd,.5,tt))*(1-ease.inOut(S(B.fire+.6,.5,tt))); HP.wrist=lag-2.2*cock+sway+rec; HP.elbow=-38*(1-R)+3*env; HP.slide=.25*(1-R); HP.kick=(handLast&&handLast.clear?.55:1)*kick+.004*cock; HP.bob=bob-.004*cock;
+  /* S7 after a shot: at +120 ms (the bullet camera leaves) the card is left in the room at its pose; it fades between +300 and +500 ms */
+  /* upright windows (the glove kept clear of the status line and the bar): the card stays where it is on screen and fades between +150 and +400 ms,
+     since left in the room it would sink under the bar as the camera pushes in */
+  const clr=!!(handLast&&handLast.clear);
+  if(p.fire&&d>=.12&&!HP.detached&&HP.on&&!clr){ camera.updateMatrixWorld(); placeHand(); scene.attach(hand); HP.detached=true; }
+  HP.op=p.fire?1-ease.inOut(clr&&!HP.detached?S(B.fire+.15,.25,tt):S(B.fire+.3,.2,tt)):1;
+  HP.on=handHold&&!!p.gunGone; if(!handHold&&HP.detached) handHome(); }
 
 /* ================= tick ================= */
 const bubbleTmp=new T.Vector3(); let GOV=null;
@@ -1371,7 +1585,7 @@ function tick(draw){ const t=now();
   let dt=Math.min(.05,t-last||.016); last=t; if(manual!==null) dt=1/30;
   stepTurn(dt); stepCamera(t,dt);
   /* lantern: living flame */
-  const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; if(table.userData.lamp){ const lp=table.userData.lamp; lp.material.opacity=.82+.2*(fl-.85)/.17; lp.scale.set(.42*(.97+.04*fl),.5*(.95+.06*fl),1); } else { if(table.userData.lantern) table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.09*(fl+.05),.19*(fl+.12),1); table.userData.flame.material.rotation=Math.sin(t*9)*.08+Math.sin(t*23)*.04; table.userData.flame.position.x=Math.sin(t*11)*.003; table.userData.halo.material.opacity=.3*fl; }
+  const fl=.85+Math.sin(t*17)*.08+Math.sin(t*29.3)*.05+Math.sin(t*3.1)*.04; lampFl=fl; if(table.userData.whisky) table.userData.whisky.color.setScalar(table.userData.whiskyTint*(1+.06*(fl-.85)/.17)*(1+.5*Math.min(1.5,flashLight.intensity/(REDUCED?2.5:PH?3.5:6))));   /* r93: the whisky breathes with the flame and flares with the shot */ if(table.userData.lamp){ const lp=table.userData.lamp; lp.material.opacity=.82+.2*(fl-.85)/.17; lp.scale.set(.42*(.97+.04*fl),.5*(.95+.06*fl),1); } else { if(table.userData.lantern) table.userData.lantern.intensity=1.5*fl; table.userData.flame.scale.set(.09*(fl+.05),.19*(fl+.12),1); table.userData.flame.material.rotation=Math.sin(t*9)*.08+Math.sin(t*23)*.04; table.userData.flame.position.x=Math.sin(t*11)*.003; table.userData.halo.material.opacity=.3*fl; }
   const dtF=dt*fxScale;   /* slow motion for every effect while the camera rides the bullet */
   /* r87 (Nik 2026-10-30: bullet lighting on phone): in the bullet's slow motion the muzzle light and glow used to linger and
      keep swelling, a wash of yellow over the board on phones where the camera rides close. The light and the soft glows now
@@ -1429,8 +1643,32 @@ const SFX=(()=>{ let ctx=null, master=null, verb=null, on=false, noiseBuf=null, 
 /* ================= assets ================= */
 /* r90: the room photo, the top-down gun photo and the flash picture are gone (the room is dark now; the other two never shipped) */
 const PLATEMAP={};
+/* r93 R93-04 / HO-081 (Team V, Nik's OK 2026-11-15): the hand is painted from the shooter's eye on two plates, W for landscape windows (bore 22.5° on the
+   plate) and P for upright ones (bore 72°), so the card hardly turns and the hand is never seen from a side it was not painted from. platemap.json
+   hand.plates holds each plate's file and numbers (muzzle, rear of the bore, wrist, elbow, the sleeve's cut on the plate's edge); the old r87 plate
+   (hand.file and its numbers) is the fallback when a plate does not load. Only the plate this window's shape needs is loaded, at 1024 px on its long
+   side on Light and Balanced (the old plate's size), full size from High; turning a tablet loads the other once */
+const HAND_PLATES={}; let handFit=null, handPlateKey=null, handPlateWant=null, handPlatesOn=false;
+/* r93 HO-082: an upright window that shows the bottom strip (a tall desktop window) takes plate S, whose sleeve enters from the side: P's sleeve leaves
+   through the bottom, where the strip stands, so its glove could not clear the strip there */
+const handStrip=()=>{ const b=document.querySelector(".bottom"); return !!b&&getComputedStyle(b).display!=="none"; };
+const handPlateFor=()=>handShape(innerWidth/innerHeight)<.5?(handStrip()?"S":"P"):"W";
+const handPlateData=k=>{ const hp=PLATEMAP.hand||{}, pl=k!=="F"&&hp.plates&&hp.plates[k]; return pl&&pl.file?pl:hp; };
+const HAND_CAP=GFX.level<=1?1024:0;
+async function loadHandPlate(k){ const pl=handPlateData(k); if(pl.file&&k!=="F"){ const img=await loadImg(pl.file,HAND_CAP); if(img) return {key:k,img}; }
+  const hp=PLATEMAP.hand||{}, img=hp.file?await loadImg(hp.file,HAND_CAP):null; return img?{key:"F",img}:null; }
+function handTex(img){ const t=texFrom(img); t.needsUpdate=true; t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return {t, aspect:img.width/img.height}; }
+function setHandPlate(k){ const e=HAND_PLATES[k]; if(!e) return; handPlateKey=k; hand.material.map=e.t; handAspect=e.aspect;
+  const hp=handPlateData(k), uv=(o,a)=>{ if(Array.isArray(a)&&a.length===2&&a.every(Number.isFinite)){ o.u=a[0]; o.v=a[1]; } };
+  uv(HAND_MUZZLE,hp.muzzle); uv(HAND_REAR,hp.rear); uv(HAND_WRIST,hp.wrist); uv(HAND_ELBOW,hp.elbow);
+  if(Array.isArray(hp.cut)&&hp.cut.length&&hp.cut.every(c=>Array.isArray(c)&&c.length===2&&c.every(Number.isFinite))) HAND_CUT.splice(0,HAND_CUT.length,...hp.cut.map(c=>c.slice()));
+  handFit=Array.isArray(hp.fit)&&hp.fit.length===2&&hp.fit.every(Number.isFinite)?hp.fit.slice():null;
+  HAND_GLOVE=Array.isArray(hp.glove)&&hp.glove.length===4&&hp.glove.every(Number.isFinite)?hp.glove.slice():null; }
+function handPlateWatch(){ if(!handPlatesOn||handPlateKey==="F") return; const k=handPlateFor(); handPlateWant=k; if(k===handPlateKey) return;
+  if(HAND_PLATES[k]) return setHandPlate(k); if(HAND_PLATES[k]===null) return;
+  HAND_PLATES[k]=null; loadImg(handPlateData(k).file,HAND_CAP).then(img=>{ if(!img) return; HAND_PLATES[k]=handTex(img); if(handPlateWant===k) setHandPlate(k); }); }
 async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch("platemap.json").then(r=>r.ok?r.json():null).catch(()=>null); Object.assign(PLATEMAP,pm||{}); if(PLATEMAP.sfx) SFX.loadFiles(PLATEMAP.sfx); await kitsLoading;
-  const [sq,handImg,roomImg]=await Promise.all([fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadImg("assets/RR_HAND.webp"),EXTRA_UP?loadImg(ROOM_BIG?"assets/RR_ROOM_V2_4K.webp":"assets/RR_ROOM_V2_1080.webp"):null,loadLookEnv()]);
+  const [sq,handImg,roomImg]=await Promise.all([fetch("assets/squads.json").then(r=>r.json()).catch(()=>null),loadHandPlate(handPlateFor()),EXTRA_UP?loadImg(ROOM_BIG?"assets/RR_ROOM_V2_4K.webp":"assets/RR_ROOM_V2_1080.webp"):null,loadLookEnv()]);
   /* r90 (Nik 2026-11-08: "a proper background ... not a dimmed sticker"): on Extra, Ultra and 8K the café picture (Team V HO-059 RR_ROOM_V2:
      the 2.2.0 room redrawn at 4K with a calmer evening grade; 1920 px, or 3840 px on a screen wider than 2560 device pixels) stands across the back at full
      sharpness, from the floor line up, as in 2.2.0; it replaces the far wall and its lamps (they are in the picture),
@@ -1440,7 +1678,9 @@ async function loadAssets(){ const kitsLoading=loadKits(); const pm=await fetch(
     pl.scale.set(H*roomImg.width/roomImg.height,H,1); pl.position.set(0,H/2-cut*H,R.z||-3.9); pl.name="roomPlate"; scene.add(pl);
     if(hallLamps) hallLamps.visible=false; scene.fog=null; scene.background=new T.Color(0x0e0905); }
   /* the hand picture carries its own transparency (webp alpha), so it goes to the GPU as it is: no read-back pass over its pixels */
-  { const hc=handImg||handPlaceholder(); hasHand=!!handImg; handAspect=hc.width/hc.height; const ht=texFrom(hc); ht.needsUpdate=true; ht.colorSpace=T.SRGBColorSpace; ht.anisotropy=8; hand.material.map=ht; const hm=PLATEMAP.hand&&PLATEMAP.hand.muzzle; if(hm){ HAND_MUZZLE.u=hm[0]; HAND_MUZZLE.v=hm[1]; } }
+  /* r93 R93-04 / HO-081: the hand plate for this window's shape goes to the GPU as it is (webp alpha, no read-back pass); the other one is loaded only if the
+     window changes shape (handPlateWatch from layout) */
+  { const k=handImg?handImg.key:"F"; HAND_PLATES[k]=handTex(handImg?handImg.img:handPlaceholder()); hasHand=!!handImg; setHandPlate(k); handPlatesOn=true; }
   SQUADS=sq; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }
 /* Reflections: a Poly Haven ballroom HDRI (CC0, polyhaven.com), the 512x256 EXR "hall" from @pmndrs/assets 1.7.0 (CC0-1.0), shared with
    Chamber Men and cached. It adds reflections and a soft fill only, so polished steel, brass and gold read as metal; the table light stays
@@ -1559,7 +1799,12 @@ $("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sou
 $("forceFire").addEventListener("click",()=>startTurn(true)); $("forceSafe").addEventListener("click",()=>startTurn(false));
 $("reset").addEventListener("click",()=>{ turn=0; loaded=false; playing=null; done={D:null,N:null}; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); slot(slotD,"At the table","wait"); slot(slotN,"Waits","wait"); setBusy(false); result.className="result"; result.textContent=chamberCaption(GAME)||"One bullet. Seven chambers."; });
 if(qs.get("tools")!=="1") document.body.classList.add("game");
-window.__rr={ get cylZ(){ return cyl.rotation.z; }, get rest(){ return {zoom:restZoom,shift:Math.round(restShift),lift:Math.round(closeLift),dbg:closeDbg}; }, get boardRects(){ camera.updateMatrixWorld(true); const o={}; ["D","N"].forEach(k=>{ const g=boards[k]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(camera); const X=(v.x+1)/2*innerWidth, Y=(1-v.y)/2*innerHeight; x0=Math.min(x0,X); x1=Math.max(x1,X); y0=Math.min(y0,Y); y1=Math.max(y1,Y); })); o[k]=[x0,y0,x1,y1].map(Math.round); }); return o; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
+window.__rr={ get cylZ(){ return cyl.rotation.z; },
+  /* r93 R93-04 (tests/contracts/r93-rrr-hand-props-contracts.cjs): the hand on screen, in px: muzzle, rear of the bore, the sleeve's cut corners, the aim
+     point and the shooter's board; whether the hand and the revolver on the felt are drawn, and whether that revolver is inside the frame */
+  get handPose(){ camera.updateMatrixWorld(true); hand.updateMatrixWorld(true); const W=innerWidth, H=innerHeight, px=v=>{ const n=v.clone().project(camera); return [(n.x+1)/2*W,(1-n.y)/2*H,n.z]; }, on=(u,v)=>px(hand.localToWorld(new T.Vector3(u-.5,v-.5,0)));
+    spin.updateMatrixWorld(true); const g=px(spin.localToWorld(new T.Vector3(0,.02,0))), gIn=g[2]<1&&g[0]>0&&g[0]<W&&g[1]>0&&g[1]<H; const who=handSide<0?"D":"N";
+    return {plate:handPlateKey, hand:hand.visible&&hand.material.opacity>.002, gun:gun.visible, gunInFrame:gIn, detached:HP.detached, side:handSide, muzzle:on(HAND_MUZZLE.u,HAND_MUZZLE.v), rear:on(HAND_REAR.u,HAND_REAR.v), cut:HAND_CUT.map(([u,v])=>on(u,v)), corners:[on(0,0),on(1,0),on(1,1),on(0,1)], clear:!!(handLast&&handLast.clear), glove:HAND_GLOVE?[0,1,2,3].flatMap(i=>[0,1,2,3].map(j=>on(HAND_GLOVE[0]+(HAND_GLOVE[2]-HAND_GLOVE[0])*i/3,HAND_GLOVE[1]+(HAND_GLOVE[3]-HAND_GLOVE[1])*j/3))):null, keep:handKeep.map(r=>r.slice()), aim:handAimAt?px(handAimAt):null, board:(()=>{ const g=boards[who]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=px(g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0))); x0=Math.min(x0,v[0]); x1=Math.max(x1,v[0]); y0=Math.min(y0,v[1]); y1=Math.max(y1,v[1]); })); return [x0,y0,x1,y1]; })(), W, H}; }, get rest(){ return {zoom:restZoom,shift:Math.round(restShift),lift:Math.round(closeLift),dbg:closeDbg}; }, get boardRects(){ camera.updateMatrixWorld(true); const o={}; ["D","N"].forEach(k=>{ const g=boards[k]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(camera); const X=(v.x+1)/2*innerWidth, Y=(1-v.y)/2*innerHeight; x0=Math.min(x0,X); x1=Math.max(x1,X); y0=Math.min(y0,Y); y1=Math.max(y1,Y); })); o[k]=[x0,y0,x1,y1].map(Math.round); }); return o; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
   clock(){ manual=performance.now()/1000; last=manual; }, advance(sec,draw){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1&&draw!==false); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardAimWorld(playing.who).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, programs:ri.programs.length, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, level:GFX.name, pixelRatio:renderer.getPixelRatio(), bulletAt, chamber, tt:playing?now()-playing.t0:null, cam:[camera.position.x,camera.position.y,camera.position.z], look:[camLook.x,camLook.y,camLook.z], fov:camera.fov, cylZ:cyl.rotation.z, handK}; } };
 
 const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','800 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);

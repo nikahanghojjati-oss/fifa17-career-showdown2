@@ -126,33 +126,23 @@
 
   // No-tiebreak rule: a drawn Showdown has no champion, so its title reads SHOWDOWN DRAW and the words for screen readers say
   // draw. Every other state keeps SHOWDOWN CHAMPION.
-  // r91 HO-071 / HO-076: both titles are Team V's V3 lettering. Every V3 file of one step has one height (38/76/150/300 px),
-  // so the srcset carries each file's real width and `sizes` asks for the shared title height (--hc-title-h in
-  // css/r78-type.css) times the title's own ratio. The title box keeps the champion ratio; the shorter DRAW sits centred in it.
-  var WORDMARK_DIR = "visual-assets/v10_1/shared/wordmarks/";
+  // r93 HO-079: both titles are live text now (Cormorant SC Bold, flat gold; css/r78-type.css ".hc-live-title"). A drawn Showdown has no
+  // champion, so the same title element reads SHOWDOWN DRAW; --hcw is the words' width in em, so a narrow screen shrinks them to fit.
   var WORDMARKS = {
-    champion: { stem: "TITLE_FINAL_WINNER_V3", widths: [398, 797, 1572, 3145], sizes: "clamp(419px, 32.28vw, 618px)" },
-    draw: { stem: "TITLE_SHOWDOWN_DRAW_V3", widths: [319, 638, 1259, 2518], sizes: "clamp(336px, 25.85vw, 495px)" }
+    champion: { text: "SHOWDOWN CHAMPION", em: 12.73 },
+    draw: { text: "SHOWDOWN DRAW", em: 10.12 }
   };
-  function wordmarkSet(kind) {
-    var mark = WORDMARKS[kind];
-    return {
-      src: WORDMARK_DIR + mark.stem + "_960.webp",
-      srcset: [480, 960, 1920, 3840].map(function (step, i) { return WORDMARK_DIR + mark.stem + "_" + step + ".webp " + mark.widths[i] + "w"; }).join(", "),
-      sizes: mark.sizes
-    };
-  }
   function setTitleFor(winner) {
     var title = document.getElementById("finalWinnerTitle");
     if (!title) return;
     var drawn = winner === "draw";
-    var img = title.querySelector("img");
+    var live = title.querySelector(".hc-live-title");
     var hidden = title.querySelector(".sd-visually-hidden");
     if (hidden) hidden.textContent = drawn ? "SHOWDOWN DRAW" : "SHOWDOWN CHAMPION";
     title.dataset.titleKind = drawn ? "draw" : "champion";
-    if (!img) return;
-    var set = wordmarkSet(drawn ? "draw" : "champion");
-    if (img.getAttribute("src") !== set.src) { img.setAttribute("sizes", set.sizes); img.setAttribute("srcset", set.srcset); img.setAttribute("src", set.src); }
+    if (!live) return;
+    var mark = WORDMARKS[drawn ? "draw" : "champion"];
+    if (live.textContent !== mark.text) { (live.firstElementChild || live).textContent = mark.text; live.style.setProperty("--hcw", String(mark.em)); }
   }
 
   function applyFrame(fixtures, frameId) {

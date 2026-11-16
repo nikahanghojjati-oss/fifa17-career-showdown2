@@ -160,6 +160,18 @@
         row.append(l, mid, r);
         rows.appendChild(row);
       });
+      // r93: the Golden Showdown row (CAREER only, once either manager has one; the frame carries the counts).
+      const g = view === "career" && !interim ? m.goldenShowdowns : null;
+      if (g && Number.isInteger(g.daniel) && Number.isInteger(g.nik)) {
+        const row = document.createElement("div");
+        row.className = "sdg-row sdg-row--golden";
+        row.dataset.field = "goldenShowdowns";
+        const l = document.createElement("span"), mid = document.createElement("span"), r = document.createElement("span");
+        l.className = "sdg-val sdg-val--daniel"; r.className = "sdg-val sdg-val--nik"; mid.className = "sdg-label";
+        l.textContent = g.daniel; r.textContent = g.nik; mid.textContent = S.fields.goldenShowdowns || "Golden Showdowns";
+        row.append(l, mid, r);
+        rows.appendChild(row);
+      }
     }
     rows.hidden = !rows.children.length;
 

@@ -45,8 +45,11 @@ const LIMIT=/maximum of 1000 expressions/;
 // update rule (it is only skipped once 'terminalProgress' is present), which can reach the 1,000-expression limit: still a
 // refusal (permission-denied), but not a plain one. To show the END SHOWDOWN rule itself refuses, those cases are run again
 // on a test-only copy whose redeem branch is skipped for closing writes (redeem only ever writes 'active').
-const REDEEM_BRANCH="|| (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem())";
-const RULES_REDEEM_GATED=RULES.replace(REDEEM_BRANCH,"|| (request.resource.data.data.connectionState == 'active' && !('terminalProgress' in request.resource.data.data) && validRivalryRedeem())");
+// R93-08: the redeem branch now starts with the stored connectionState == 'pending-pair' it needs anyway, so a closing
+// write on an active Showdown skips it after one test; these refused writes can still reach the limit through the other
+// branches (still a refusal). The test-only copy drops the redeem branch altogether.
+const REDEEM_BRANCH="|| (resource.data.data.connectionState == 'pending-pair'\n          && !('terminalProgress' in request.resource.data.data)\n          && validRivalryRedeem())";
+const RULES_REDEEM_GATED=RULES.replace(REDEEM_BRANCH,"|| (false)");
 async function assertDenied(promise,label){
   let error=null;
   try{await promise;}catch(caught){error=caught;}
@@ -421,7 +424,7 @@ async function terminalClose(){
       await assertAccepted(setDoc(doc(host,"rivalries",id),await progressWrite(prior,3,{playerOne:score(seasons[0][0]),playerTwo:score(seasons[0][1])})),"season 1 plain progress");
       await refuseAll((await assertSucceeds(getDoc(doc(host,"rivalries",id)))).data(),"progress covers only season 1",true);
       checks.push(gated
-        ?"END SHOWDOWN (redeem branch skipped, test-only copy): the same cases are plain Rules refusals"
+        ?"END SHOWDOWN (test-only copy without the redeem branch): the same cases are plain Rules refusals"
         :"END SHOWDOWN: a sacked season ACKNOWLEDGED with no Terminal Progress yet, or with progress covering only the earlier unsacked season, is never ended early (either manager, counts 0-2, null, no mark)");
     }finally{await env.cleanup();}
   }

@@ -71,7 +71,10 @@ assert.match(deploy,/shared-terminal-close-production-provider-emulator\.cjs/);
 assert.match(deploy,/function ssjrTerminalValidProgressUpdate\(\)/,"deployment guard must pin the current staged terminalProgress validator");
 assert.match(deploy,/priorProgress\.acceptedThroughSeason == priorProgress\.totalSeasons/,"deployment guard must pin final-season sealing before close");
 assert.match(deploy,/function ssjrTerminalValidAtomicSessionClose\(\)/,"deployment guard must pin current atomic session close authority");
-assert.match(deploy,/!\('terminalProgress' in request\.resource\.data\.data\) && validRivalryRedeem\(\)/,"deployment guard must pin the current rivalry routing seam");
+// R93-08: the redeem branch comes before Terminal Close, starts with the stored 'pending-pair' and is skipped once
+// 'terminalProgress' is present; the deployment guard pins each line of it.
+for(const needle of ["|| (resource.data.data.connectionState == 'pending-pair'","&& !('terminalProgress' in request.resource.data.data)","&& validRivalryRedeem())","|| ssjrTerminalValidRivalryUpdate();"])
+  assert.ok(deploy.includes(`grep -Fq "${needle}"`),`deployment guard must pin the current rivalry routing seam: ${needle}`);
 assert.doesNotMatch(deploy,/ssjrTerminalAllSeasonsAccepted|ssjrTerminalSessionClosedAtomically/,"deployment guard must not regress to pre-budget-refactor Terminal Close helpers");
 assert.ok(deploy.includes(`- ${zeroBillingValidatorPath}`),"the zero-billing validator itself must be a production Rules deployment trigger path");
 assert.ok(deploy.includes(`node ${zeroBillingValidatorPath}`),"production Rules publication must execute the shared deterministic zero-billing validator");
