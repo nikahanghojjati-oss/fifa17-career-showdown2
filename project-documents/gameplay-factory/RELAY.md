@@ -1,17 +1,885 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-15 7:10 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-15 7:13 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `1874ced` (Sun 15 Nov 7:08 PM Boston time) · 289 messages · 86 hand-offs · 546 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `41d375d` (Sun 15 Nov 7:12 PM Boston time) · 289 messages · 94 hand-offs · 547 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
+### HO-093 · G → V · Image crests batch 9 of 9
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sun 15 Nov 7:12 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Why
+Image crests batch 9 of 9 for the remaining 93 clubs (pilot HO-084, batch 1 HO-085).
+
+### Rules, look and delivery: exactly as HO-084 / HO-085
+- One asset = one ticket = one new ChatGPT chat. Nik runs them and OKs each.
+- Public heraldry and the real outline only, as our own fresh drawing. Never letters, names, years, mottos, maker or sponsor logos, or title stars.
+- The same premium embroidered-badge look as the 5 pilot crests (claude/project-thread-6kfnkn 5ebf12399 project-documents/hc-art/ho084/), so that all 98 match as one set.
+- Transparent PNG, 1024 px tall, 5:6 canvas, about 4% margin, plus 256 and 64 px exports, and SHA256.json. File stems are given per club: CREST_IMG_<STEM>_V1_{1024,256,64}.png.
+- Accept when Nik OKs each crest and there are no letters anywhere.
+- Nik, 2026-11-16 00:07 UTC: "I want all 98 crests". Batches 2-9 are filed together. Run them in order, one batch at a time.
+
+### Clubs: Fiorentina, Crotone, Chievo, Sampdoria, Osasuna, Angers, Bordeaux, Guingamp, Nancy, Rennes, Saint-Étienne, Toulouse
+
+# R94-01 · Image crests, batch 9 of 9: 12 clubs + heraldry notes (for the Team V ticket)
+
+The rules, look and delivery spec are the same as the pilot and batch 1 (`R94_01_CREST_BATCH_01.md`, "Rules for all 10"):
+- Use public heraldry and the real outline only, as our own fresh drawing.
+- No letters, years or mottos.
+- Give it the embroidered cloth-patch look.
+- Deliver a transparent PNG 1024 px tall on a 5:6 canvas, plus 256 and 64 px exports and SHA256.json.
+- Name each file CREST_IMG_<STEM>_V1_<size>.png.
+- Run each prompt in a new chat with no club name in it.
+
+This is the last batch. With it, all 98 clubs have an image crest: 5 from the pilot plus 93 across batches 1-9.
+
+## 1. Fiorentina (stem FIORENTINA)
+- Theme: the red Florentine lily (giglio) of Florence's arms (public).
+- Outline: a pointed shield (narrow, ending in a sharp point), purple, with a white inner shield.
+- Centre: on the white inner shield, a red Florentine lily with stamens between its petals.
+- Colours: purple #5D3C96, white #F5F4F7, red #D22630, gold #D9B62D. Rim: gold.
+- Never: "AC" or "ACF", letters.
+
+## 2. Crotone (stem CROTONE)
+- Theme: the Doric column of the temple of Hera Lacinia at Capo Colonna (an ancient public monument).
+- Outline: heater shield, split vertically, blue on the viewer's left and red on the right, with a white inner shield.
+- Centre: on the white inner shield, a single gold fluted Doric column on a small base.
+- Colours: blue #2358A2, red #C81E33, white #F5F5F4, gold #D9B23C. Rim: gold.
+- Never: letters.
+
+## 3. Chievo (stem CHIEVO)
+- Theme: the ladder of the Della Scala family, Verona's medieval rulers (public heraldry).
+- Outline: heater shield in yellow with a blue side band.
+- Centre: a blue ladder with 4-5 rungs, upright.
+- Colours: yellow #F1D11F, blue #2E66AA, cream #F6F4E8. Rim: blue.
+- Never: letters, the club's mounted knight drawn as traced.
+
+## 4. Sampdoria (stem SAMPDORIA)
+- Theme: the blucerchiati band (white, red, black, white across blue), with Genoa's red Saint George's cross (public).
+- Outline: heater shield in blue with the horizontal band across the middle.
+- Optional: a small gold anchor in the lower field.
+- Optional: a red cross on white in a small top corner.
+- Colours: blue #3478BB, white #F5F6F7, red #D51F35, black. Rim: blue.
+- Never: the club's sailor mascot drawn as traced, letters.
+
+## 5. Osasuna (stem OSASUNA)
+- Theme: the chains of Navarre (public arms): gold chains in a cross and saltire with an emerald at the centre, on red.
+- Outline: heater shield in red.
+- Centre: gold chains filling the shield, linked at the edges, with a small green stone at the centre.
+- Colours: red #C91E32, navy #203D70, gold #F0D34A, emerald #1F7A3A. Rim: gold.
+- Never: letters.
+
+## 6. Angers (stem ANGERS)
+- Theme: the castle of Angers (a public monument with banded towers).
+- Outline: heater shield, white with wide black stripes.
+- Centre: a gold castle with round towers, drawn simply.
+- Colours: white #F5F5F3, black #171B1E, gold #D2B336. Rim: gold.
+- Never: "SCO", letters.
+
+## 7. Bordeaux (stem BORDEAUX)
+- Theme: the white scapular V on navy (the club's famous shirt mark, a plain shape).
+- Outline: heater shield in navy with a white V (scapular) from the top corners to the centre.
+- Optional: a small sky-blue accent line inside the V.
+- Colours: navy #20335F, white #F5F5F4, sky blue #7CC0D9. Rim: white.
+- Never: letters, the club's crest as traced.
+
+## 8. Guingamp (stem GUINGAMP)
+- Theme: the Brittany ermine spots (public).
+- Outline: heater shield, red at the top with a black rule line; the lower field is white with black ermine spots.
+- Colours: red #D41F31, black #171B1E, white #F4F5F4. Rim: black.
+- Never: "EAG", letters.
+
+## 9. Nancy (stem NANCY)
+- Theme: the thistle of Nancy's arms and the Cross of Lorraine (both public).
+- Outline: heater shield, split vertically, red on the viewer's left and white on the right.
+- Left: a purple thistle head with green leaves.
+- Right: a white or red Cross of Lorraine (two bars), in the opposite colour to its field.
+- Colours: red #D72032, white #F5F5F4, thistle purple #8E5BB5, leaf green #2E7D32. Rim: gold.
+- Never: the motto, letters.
+
+## 10. Rennes (stem RENNES)
+- Theme: the Brittany ermine (public).
+- Outline: heater shield. The red top band has a thin black line; the lower field is black with white ermine spots.
+- Colours: red #D51F32, black #171B1E, white #F5F5F4. Rim: red.
+- Never: "SRFC", letters.
+
+## 11. Saint-Étienne (stem SAINTETIENNE)
+- Theme: the crossed miner's picks (the city's mining heritage, public).
+- Outline: heater shield in green with a white side band.
+- Centre: two crossed white miner's picks.
+- Colours: green #168E50, white #F4F6F5, gold #D6B438. Rim: white.
+- Never: "ASSE", letters.
+
+## 12. Toulouse (stem TOULOUSE)
+- Theme: the Occitan cross (cross of Toulouse; public), gold with twelve pommels.
+- Outline: heater shield in violet with a white side band.
+- Centre: a gold Occitan cross, its arms flared and each ending in three small balls.
+- Colours: violet #5D3F91, white #F4F4F6, gold #D7B438. Rim: gold.
+- Never: "TFC", letters.
+
+</details>
+
+### HO-092 · G → V · Image crests batch 8 of 9
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sun 15 Nov 7:12 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Why
+Image crests batch 8 of 9 for the remaining 93 clubs (pilot HO-084, batch 1 HO-085).
+
+### Rules, look and delivery: exactly as HO-084 / HO-085
+- One asset = one ticket = one new ChatGPT chat. Nik runs them and OKs each.
+- Public heraldry and the real outline only, as our own fresh drawing. Never letters, names, years, mottos, maker or sponsor logos, or title stars.
+- The same premium embroidered-badge look as the 5 pilot crests (claude/project-thread-6kfnkn 5ebf12399 project-documents/hc-art/ho084/), so that all 98 match as one set.
+- Transparent PNG, 1024 px tall, 5:6 canvas, about 4% margin, plus 256 and 64 px exports, and SHA256.json. File stems are given per club: CREST_IMG_<STEM>_V1_{1024,256,64}.png.
+- Accept when Nik OKs each crest and there are no letters anywhere.
+- Nik, 2026-11-16 00:07 UTC: "I want all 98 crests". Batches 2-9 are filed together. Run them in order, one batch at a time.
+
+### Clubs: Werder Bremen, SC Freiburg, Mainz 05, Darmstadt 98, Hoffenheim, Bologna, Cagliari, Empoli, Sassuolo, Udinese, Leganés
+
+# R94-01 · Image crests, batch 8 of 9: 11 clubs + heraldry notes (for the Team V ticket)
+
+The rules, look and delivery spec are the same as the pilot and batch 1 (`R94_01_CREST_BATCH_01.md`, "Rules for all 10"):
+- Use public heraldry and the real outline only, as our own fresh drawing.
+- No letters, years or mottos.
+- Give it the embroidered cloth-patch look.
+- Deliver a transparent PNG 1024 px tall on a 5:6 canvas, plus 256 and 64 px exports and SHA256.json.
+- Name each file CREST_IMG_<STEM>_V1_<size>.png.
+- Run each prompt in a new chat with no club name in it.
+
+Most of these are civic symbols and pattern badges.
+
+## 1. Werder Bremen (stem WERDER)
+- Theme: the key of Bremen's civic arms (public).
+- Outline: a lozenge (diamond) badge in green with a white inner diamond line.
+- Centre: a white key, upright and slightly angled, with an ornate bow and a large bit.
+- Colours: green #148A55, white #F4F6F4, gold #EFCF2D. Rim: white.
+- Never: the "W" letter of the club's badge, letters.
+
+## 2. SC Freiburg (stem FREIBURG)
+- Theme: the red cross of Saint George on white, from Freiburg's civic arms (public).
+- Outline: heater shield, white with a red cross and a black side band.
+- Colours: red #D71F32, black #151A1D, white #F5F5F3. Rim: black.
+- Never: "SC" or any letters.
+
+## 3. Mainz 05 (stem MAINZ)
+- Theme: the Mainz wheel (public civic arms), a six-spoked wheel.
+- Outline: a roundel in red with a white ring band.
+- Centre: a white six-spoked wheel filling the disc.
+- Colours: red #D82132, white #F5F5F4, dark #26323B. Rim: white.
+- Never: "05", letters.
+
+## 4. Darmstadt 98 (stem DARMSTADT)
+- Theme: the lily of Darmstadt's civic arms (public).
+- Outline: heater shield in blue with a white side band.
+- Centre: a white heraldic lily (fleur-de-lis).
+- Colours: blue #2463AD, white #F5F6F7, dark #26333C. Rim: white.
+- Never: "98", letters.
+
+## 5. Hoffenheim (stem HOFFENHEIM)
+- Outline: heater shield, split horizontally, blue above and white below.
+- Centre: an old leather football in white with blue lacing, sitting on the split line.
+- Colours: blue #1E65B2, white #F5F6F7, dark #26333D. Rim: blue.
+- Never: "TSG", "1899", letters.
+
+## 6. Bologna (stem BOLOGNA)
+- Theme: from Bologna's civic arms (public), the red cross on white and the red-and-white "Libertas" stripes, in the club's red and blue.
+- Outline: heater shield. The top band is split, with a red cross on white on the viewer's left and red and white stripes on the right. The lower part has vertical red and blue stripes.
+- Colours: blue #243B72, red #A51E35, gold #F2D14A, white. Rim: gold.
+- Never: letters, the year.
+
+## 7. Cagliari (stem CAGLIARI)
+- Theme: the Four Moors of Sardinia's flag (public): a red Saint George's cross on white with a black Moor's head in each quarter, each wearing a white bandana.
+- Outline: heater shield, split vertically, blue on the viewer's left and red on the right, with a small white inner shield in the centre holding the Four Moors.
+- Colours: blue #233E79, red #B51E36, white #F5F5F3, black. Rim: gold.
+- Note: draw the heads with dignity, never as caricatures.
+- Never: letters.
+
+## 8. Empoli (stem EMPOLI)
+- Outline: heater shield in blue with a white horizontal band across the middle.
+- Optional: a small white football in the lower field.
+- Colours: blue #2562AD, white #F4F6F7, dark #26333C. Rim: white.
+- Never: letters.
+
+## 9. Sassuolo (stem SASSUOLO)
+- Outline: heater shield with vertical green and black stripes.
+- Optional: a plain white band across the top.
+- Colours: green #179C5D, black #171B1E, white #F5F5F3. Rim: white.
+- Never: letters.
+
+## 10. Udinese (stem UDINESE)
+- Theme: black and white stripes, with the eagle of Friuli (public regional arms) in gold.
+- Outline: heater shield with vertical black and white stripes.
+- Upper centre: a small gold eagle with spread wings, facing the viewer's left.
+- Colours: white #F5F5F3, black #171B1E, gold #D1AD2D. Rim: gold.
+- Never: the zebra as drawn on the club badge, letters.
+
+## 11. Leganés (stem LEGANES)
+- Outline: heater shield. The top band is blue; below it are vertical blue and white stripes.
+- Optional: a small green accent line under the blue band.
+- Colours: blue #1E58A7, white #F4F5F6, green #58B965. Rim: blue.
+- Never: letters.
+
+</details>
+
+### HO-091 · G → V · Image crests batch 7 of 9
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sun 15 Nov 7:12 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Why
+Image crests batch 7 of 9 for the remaining 93 clubs (pilot HO-084, batch 1 HO-085).
+
+### Rules, look and delivery: exactly as HO-084 / HO-085
+- One asset = one ticket = one new ChatGPT chat. Nik runs them and OKs each.
+- Public heraldry and the real outline only, as our own fresh drawing. Never letters, names, years, mottos, maker or sponsor logos, or title stars.
+- The same premium embroidered-badge look as the 5 pilot crests (claude/project-thread-6kfnkn 5ebf12399 project-documents/hc-art/ho084/), so that all 98 match as one set.
+- Transparent PNG, 1024 px tall, 5:6 canvas, about 4% margin, plus 256 and 64 px exports, and SHA256.json. File stems are given per club: CREST_IMG_<STEM>_V1_{1024,256,64}.png.
+- Accept when Nik OKs each crest and there are no letters anywhere.
+- Nik, 2026-11-16 00:07 UTC: "I want all 98 crests". Batches 2-9 are filed together. Run them in order, one batch at a time.
+
+### Clubs: Marseille, Montpellier, FC Augsburg, Juventus, Milan, Bayern Munich, Borussia Dortmund, Schalke 04, Hertha BSC, Hamburg
+
+# R94-01 · Image crests, batch 7 of 9: 10 clubs + heraldry notes (for the Team V ticket)
+
+The rules, look and delivery spec are the same as the pilot and batch 1 (`R94_01_CREST_BATCH_01.md`, "Rules for all 10"):
+- Use public heraldry and the real outline only, as our own fresh drawing.
+- No letters, years or mottos, and no title stars.
+- Give it the embroidered cloth-patch look.
+- Deliver a transparent PNG 1024 px tall on a 5:6 canvas, plus 256 and 64 px exports and SHA256.json.
+- Name each file CREST_IMG_<STEM>_V1_<size>.png.
+- Run each prompt in a new chat with no club name in it.
+
+Several of these are pattern badges. Keep them simple and spend the care on the outline and the stitching.
+
+## 1. Marseille (stem MARSEILLE)
+- Outline: heater shield, white with a sky-blue base.
+- Centre: three sky-blue wave lines for the Old Port.
+- Colours: sky blue #4BB5DC, white #F5F6F7, dark #263640. Rim: sky blue.
+- Never: the star (it stands for a title), the "OM" letters.
+
+## 2. Montpellier (stem MONTPELLIER)
+- Outline: heater shield, split vertically, blue on the viewer's left and orange on the right.
+- Centre: a white sun with straight and wavy rays. Optional: a small Occitan cross (public) in gold in a corner.
+- Colours: blue #235AA5, orange #ED7B22, white #F5F5F4. Rim: white.
+- Never: letters.
+
+## 3. FC Augsburg (stem AUGSBURG)
+- Theme: the Zirbelnuss, the pine cone of Augsburg's civic arms (public), on a capital.
+- Outline: heater shield, split vertically, red on the viewer's left and green on the right.
+- Centre: a white pine cone on a small column capital.
+- Colours: red #C91D32, green #178456, white #F5F5F3. Rim: white.
+- Never: letters.
+
+## 4. Juventus (stem JUVENTUS)
+- Outline: an upright oval.
+- Field: vertical black and white stripes in the lower two-thirds. The top band is plain black or blue-black.
+- Optional: in the top band, a small gold rampant bull of Turin (public, as in the Torino pilot).
+- Colours: white #F5F5F3, black #15191C, gold #D9B62F. Rim: gold.
+- Never: the stars (they stand for titles), the "J" shape, letters.
+
+## 5. Milan (stem MILAN)
+- Theme: red and black stripes with the cross of Saint Ambrose (Milan's civic cross, red on white; public).
+- Outline: a roundel. The left half has red and black vertical stripes; the right half is white with a red cross.
+- Colours: red #D41E31, black #171A1D, white #F5F5F3. Rim: gold.
+- Never: "ACM", "1899", letters.
+
+## 6. Bayern Munich (stem BAYERN)
+- Theme: the Bavarian lozenges (public), blue and white diamonds.
+- Outline: a roundel. The centre disc has blue and white lozenges in diagonal rows; the outer ring band is red.
+- Ring: 20 small white dots in place of the lettering.
+- Colours: red #D71920, blue #1765B0, white #F5F5F4. Rim: white.
+- Never: letters in the ring or the centre.
+
+## 7. Borussia Dortmund (stem DORTMUND)
+- Theme: a colliery pit wheel (the Ruhr's mining heritage, public) in place of the club's letters.
+- Outline: a roundel, yellow with a black ring band.
+- Centre: a black pit wheel (a spoked headgear wheel) filling the disc.
+- Colours: yellow #F2D31C, black #181C1F, cream #F7F6EF. Rim: black.
+- Never: "BVB", "09", letters.
+
+## 8. Schalke 04 (stem SCHALKE)
+- Theme: the crossed hammer and pick of mining (public).
+- Outline: a roundel in royal blue with a white ring band.
+- Centre: a crossed hammer and pick in white.
+- Colours: blue #1D5BA7, white #F5F6F7, dark #202C36. Rim: white.
+- Never: "S04" or any letters.
+
+## 9. Hertha BSC (stem HERTHA)
+- Theme: a flag (the club's flag badge).
+- Outline: a waving flag shape on a short pole, with horizontal blue and white bands. Use a plain blue block where the club puts letters.
+- Colours: blue #2468B5, white #F5F6F7, dark #202B34. Rim: blue.
+- Never: letters.
+
+## 10. Hamburg (stem HAMBURG)
+- Theme: the black, white and blue diamond (a geometric badge).
+- Outline: a lozenge (diamond). The black outer diamond holds a white inner diamond, which holds a blue inner square-diamond.
+- Colours: blue #1762AD, white #F5F6F7, black #15191D. Rim: black.
+- Never: letters.
+
+</details>
+
+### HO-090 · G → V · Image crests batch 6 of 9
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sun 15 Nov 7:12 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Why
+Image crests batch 6 of 9 for the remaining 93 clubs (pilot HO-084, batch 1 HO-085).
+
+### Rules, look and delivery: exactly as HO-084 / HO-085
+- One asset = one ticket = one new ChatGPT chat. Nik runs them and OKs each.
+- Public heraldry and the real outline only, as our own fresh drawing. Never letters, names, years, mottos, maker or sponsor logos, or title stars.
+- The same premium embroidered-badge look as the 5 pilot crests (claude/project-thread-6kfnkn 5ebf12399 project-documents/hc-art/ho084/), so that all 98 match as one set.
+- Transparent PNG, 1024 px tall, 5:6 canvas, about 4% margin, plus 256 and 64 px exports, and SHA256.json. File stems are given per club: CREST_IMG_<STEM>_V1_{1024,256,64}.png.
+- Accept when Nik OKs each crest and there are no letters anywhere.
+- Nik, 2026-11-16 00:07 UTC: "I want all 98 crests". Batches 2-9 are filed together. Run them in order, one batch at a time.
+
+### Clubs: Villarreal, Valencia, Las Palmas, Athletic Club, Sunderland, Inter Milan, RB Leipzig, Nantes, Paris Saint-Germain, Monaco
+
+# R94-01 · Image crests, batch 6 of 9: 10 clubs + heraldry notes (for the Team V ticket)
+
+The rules, look and delivery spec are the same as the pilot and batch 1 (`R94_01_CREST_BATCH_01.md`, "Rules for all 10"):
+- Use public heraldry and the real outline only, as our own fresh drawing.
+- No letters, years or mottos.
+- Give it the embroidered cloth-patch look.
+- Deliver a transparent PNG 1024 px tall on a 5:6 canvas, plus 256 and 64 px exports and SHA256.json.
+- Name each file CREST_IMG_<STEM>_V1_<size>.png.
+- Run each prompt in a new chat with no club name in it.
+
+Where a crown appears, use the shared royal crown from batch 5.
+
+## 1. Villarreal (stem VILLARREAL)
+- Outline: a rounded badge in yellow with a blue side band.
+- Centre: an old leather football in white with blue lacing.
+- Crown (batch 5) on top.
+- Colours: yellow #F1D426, blue #2C69AD, white #F5F5F2. Rim: blue.
+- Never: letters.
+
+## 2. Valencia (stem VALENCIA)
+- Theme: the bat (rat penat) from Valencia's civic crest (public), and the four red pales on gold of the Valencian flag (public).
+- Outline: a roundel. The left half is white with an old black-and-white football; the right half has red pales on gold.
+- Top: a black bat with wings spread wide across the top of the roundel, head front-on.
+- Colours: white #F4F4F1, orange-gold #EC7E22, black #25272B, red #D21E2B. Rim: black.
+- Never: the "VCF" letters.
+
+## 3. Las Palmas (stem LASPALMAS)
+- Theme: a palm tree on an island (Gran Canaria; our own drawing).
+- Outline: heater shield, blue at the top and yellow below.
+- Centre: a green palm tree with a brown trunk on a small yellow island over blue wave lines.
+- Colours: yellow #F2CF18, blue #1768B1, white #F6F6F2, palm green #1F7A3A. Rim: blue.
+- Never: letters.
+
+## 4. Athletic Club (stem ATHLETIC)
+- Theme: from Bilbao's and Biscay's public arms, the oak tree (of Gernika) and the San Antón church with its bridge.
+- Outline: heater shield. The viewer's left half has red and white stripes; the right half is split into an upper and a lower field.
+- Right upper: a green oak tree with a brown trunk.
+- Right lower: the old stone bridge with the church tower behind it, in white on red.
+- Colours: red #D81F32, white #F5F5F3, black #15191D, green #1F7A3A. Rim: black.
+- Never: letters.
+
+## 5. Sunderland (stem SUNDERLAND)
+- Theme: the Wearmouth bridge (public) and a colliery pit wheel (mining heritage), as on the club's 1997 arms (our own drawing).
+- Outline: heater shield in quarters, red and white.
+- Lower: the white single-arch bridge over a wave line.
+- Corner: a small gold pit wheel.
+- Optional: the sun as a small gold disc with rays in the top corner.
+- Colours: red #D71920, white #F7F7F6, black #20272D, gold #D9B23C. Rim: black.
+- Never: the lions as traced, letters, the motto.
+
+## 6. Inter Milan (stem INTER)
+- Theme: the biscione, the crowned serpent of the Visconti (public heraldry of Milan), drawn simply.
+- Outline: a roundel with a black disc and a blue ring band.
+- Serpent: gold, coiled in a vertical S, crowned. Its head faces the viewer's left with jaws open; the figure in its mouth is left out.
+- Colours: blue #1554A0, black #171A1E, gold #D7B536. Rim: gold.
+- Never: the "FCIM" monogram, letters, the figure in the serpent's jaws.
+
+## 7. RB Leipzig (stem LEIPZIG)
+- Lead override (Nik's standing ruling, 2026-11-07: "RB Leipzig bulls crest included, keep it"): KEEP THE BULLS, as our own fresh drawing.
+- Outline: a roundel with a white disc and a red ring band.
+- Centre: two red bulls charging toward each other, heads lowered, horns nearly touching, drawn in our own embroidered style. NOT the company logo's composition: no gold sun or ball behind them, and no wordmark.
+- Colours: white #F5F6F6, red #D61E35, navy #0C2043, gold edge accents only. Rim: red.
+- Never: letters, a gold sun disc, a copy of the company artwork.
+
+## 8. Nantes (stem NANTES)
+- Theme: a canary (the "Canaris" nickname; our own drawing).
+- Outline: a roundel in yellow with a green ring band.
+- Bird: a green canary perched, in profile facing the viewer's left, wings folded.
+- Optional: small black ermine spots from the Brittany arms (public) in the ring.
+- Colours: yellow #F0CF21, green #1A9A55, dark #26323A. Rim: green.
+- Never: letters.
+
+## 9. Paris Saint-Germain (stem PSG)
+- Theme: the Eiffel Tower (a public monument, as a plain silhouette) and a fleur-de-lis (public).
+- Outline: a roundel with a navy disc and a red ring band.
+- Centre: the Eiffel Tower in red on navy or white, with a small white fleur-de-lis at its base.
+- Optional: a small cradle, for Saint-Germain-en-Laye.
+- Colours: navy #1C376F, red #D51F35, white #F4F5F5. Rim: white.
+- Never: "Paris", "Saint-Germain", letters.
+
+## 10. Monaco (stem MONACO)
+- Theme: the Grimaldi lozenges (red and white diamonds, public arms of Monaco) under the princely crown (use the shared crown from batch 5).
+- Outline: a lozenge (diamond) badge, split diagonally red and white.
+- Crown on top.
+- Colours: red #D51F32, white #F6F6F4, gold #D7B53A. Rim: gold.
+- Never: "ASM", letters.
+
+</details>
+
+### HO-089 · G → V · Image crests batch 5 of 9
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sun 15 Nov 7:12 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Why
+Image crests batch 5 of 9 for the remaining 93 clubs (pilot HO-084, batch 1 HO-085).
+
+### Rules, look and delivery: exactly as HO-084 / HO-085
+- One asset = one ticket = one new ChatGPT chat. Nik runs them and OKs each.
+- Public heraldry and the real outline only, as our own fresh drawing. Never letters, names, years, mottos, maker or sponsor logos, or title stars.
+- The same premium embroidered-badge look as the 5 pilot crests (claude/project-thread-6kfnkn 5ebf12399 project-documents/hc-art/ho084/), so that all 98 match as one set.
+- Transparent PNG, 1024 px tall, 5:6 canvas, about 4% margin, plus 256 and 64 px exports, and SHA256.json. File stems are given per club: CREST_IMG_<STEM>_V1_{1024,256,64}.png.
+- Accept when Nik OKs each crest and there are no letters anywhere.
+- Nik, 2026-11-16 00:07 UTC: "I want all 98 crests". Batches 2-9 are filed together. Run them in order, one batch at a time.
+
+### Clubs: Real Madrid, Celta Vigo, Deportivo La Coruña, Eibar, Espanyol, Granada, Málaga, Real Betis, Real Sociedad, Sporting Gijón
+
+# R94-01 · Image crests, batch 5 of 9: 10 Spanish clubs under the royal crown (for the Team V ticket)
+
+The rules, look and delivery spec are the same as the pilot and batch 1 (`R94_01_CREST_BATCH_01.md`, "Rules for all 10"):
+- Use public heraldry and the real outline only, as our own fresh drawing.
+- No letters, years or mottos.
+- Give it the embroidered cloth-patch look.
+- Deliver a transparent PNG 1024 px tall on a 5:6 canvas, plus 256 and 64 px exports and SHA256.json.
+- Name each file CREST_IMG_<STEM>_V1_<size>.png.
+- Run each prompt in a new chat with no club name in it.
+
+**The crown, for all 10:** the open Spanish royal crown of heraldry (public), drawn once and kept the same in every crest. It has a gold band set with a few red and green jewels and five visible arches or leaves. The middle and outer points end in small crosses on a little orb, and there is a red cap inside. It sits on top of the shield, about a quarter of the crest's height. Ask Team V to reuse the first one they make, so all ten crowns match.
+
+## 1. Real Madrid (stem REALMADRID)
+- Outline: a roundel with a white disc and a thin gold ring.
+- Band: a diagonal purple-blue band (from the arms of Castile; public) from upper left to lower right.
+- Centre: a plain gold circle or ring over the band, left empty. The club's monogram is never drawn.
+- Crown on top.
+- Colours: white #F5F5F3, purple #6A55A3, gold #D4B12D. Rim: gold.
+- Never: the monogram or any letters.
+
+## 2. Celta Vigo (stem CELTA)
+- Outline: heater shield in sky blue.
+- Centre: the red cross of Saint James (Santiago; public), a cross ending in a sword point at the bottom and fleurs-de-lis on its arms.
+- Crown on top.
+- Colours: sky blue #78C5E6, white #F5F7F8, red #B7283D. Rim: gold.
+- Never: letters.
+
+## 3. Deportivo La Coruña (stem DEPOR)
+- Outline: heater shield, white with a diagonal blue band from upper left to lower right.
+- Crown on top.
+- Optional: a small purple border, from the Galician arms.
+- Colours: blue #2361AF, white #F4F5F6, gold #D4B62D. Rim: gold.
+- Never: "R.C.D." or any letters.
+
+## 4. Eibar (stem EIBAR)
+- Outline: heater shield, split vertically, blue on the viewer's left and claret-red on the right.
+- Centre: two crossed antique rifles in gold, for the town's gunsmith history (public).
+- Crown on top.
+- Colours: blue #1D50A2, red #C71F39, gold #D9B23C. Rim: gold.
+- Never: letters.
+
+## 5. Espanyol (stem ESPANYOL)
+- Outline: a roundel with vertical blue and white stripes.
+- Crown on top.
+- Optional: a thin gold inner ring.
+- Colours: blue #2770B8, white #F4F5F5, gold #D9B23C. Rim: gold.
+- Never: the "RCDE" letters.
+
+## 6. Granada (stem GRANADA)
+- Outline: heater shield. The upper part has red and white horizontal hoops; the lower part is white.
+- Centre: a pomegranate (Granada's civic emblem, public), red and split to show its seeds, with green leaves.
+- Crown on top.
+- Colours: red #D92232, white #F7F7F6, navy #244D86, leaf green #1F7A3A. Rim: gold.
+- Never: letters.
+
+## 7. Málaga (stem MALAGA)
+- Outline: heater shield with vertical sky-blue and white stripes.
+- Centre: a gold castle with three towers, from Málaga's civic arms (public).
+- Crown on top.
+- Colours: sky blue #65B9DC, white #F6F7F8, navy #23528B, gold #D9B23C. Rim: gold.
+- Never: letters.
+
+## 8. Real Betis (stem BETIS)
+- Outline: heater shield with vertical green and white stripes.
+- Crown on top.
+- Optional: a plain green diagonal band (the real crest has letters in a band; leave it empty).
+- Colours: green #198F50, white #F4F6F5, gold #D9B23C. Rim: gold.
+- Never: letters.
+
+## 9. Real Sociedad (stem REALSOCIEDAD)
+- Outline: a roundel with vertical blue and white stripes.
+- Centre: an old leather football in white with blue lacing.
+- Crown on top.
+- Colours: blue #2A67B1, white #F5F6F7, gold #D4B733. Rim: gold.
+- Never: letters.
+
+## 10. Sporting Gijón (stem SPORTING)
+- Outline: heater shield with vertical red and white stripes.
+- Centre: the Victory Cross of Asturias (public), a gold jewelled cross with flared arms and small pendants hanging from the side arms.
+- Crown on top.
+- Colours: red #CF2034, white #F5F5F4, gold #D9B23C. Rim: gold.
+- Never: letters.
+
+</details>
+
+### HO-088 · G → V · Image crests batch 4 of 9
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sun 15 Nov 7:12 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Why
+Image crests batch 4 of 9 for the remaining 93 clubs (pilot HO-084, batch 1 HO-085).
+
+### Rules, look and delivery: exactly as HO-084 / HO-085
+- One asset = one ticket = one new ChatGPT chat. Nik runs them and OKs each.
+- Public heraldry and the real outline only, as our own fresh drawing. Never letters, names, years, mottos, maker or sponsor logos, or title stars.
+- The same premium embroidered-badge look as the 5 pilot crests (claude/project-thread-6kfnkn 5ebf12399 project-documents/hc-art/ho084/), so that all 98 match as one set.
+- Transparent PNG, 1024 px tall, 5:6 canvas, about 4% margin, plus 256 and 64 px exports, and SHA256.json. File stems are given per club: CREST_IMG_<STEM>_V1_{1024,256,64}.png.
+- Accept when Nik OKs each crest and there are no letters anywhere.
+- Nik, 2026-11-16 00:07 UTC: "I want all 98 crests". Batches 2-9 are filed together. Run them in order, one batch at a time.
+
+### Clubs: Manchester City, Arsenal, Burnley, Stoke City, Southampton, Dijon, Lorient, Alavés, Atlético Madrid, Sevilla
+
+# R94-01 · Image crests, batch 4 of 9: 10 clubs + heraldry notes (for the Team V ticket)
+
+The rules, look and delivery spec are the same as the pilot and batch 1 (`R94_01_CREST_BATCH_01.md`, "Rules for all 10"):
+- Use public heraldry and the real outline only, as our own fresh drawing.
+- No letters, years or mottos.
+- Give it the embroidered cloth-patch look.
+- Deliver a transparent PNG 1024 px tall on a 5:6 canvas, plus 256 and 64 px exports and SHA256.json.
+- Name each file CREST_IMG_<STEM>_V1_<size>.png.
+- Run each prompt in a new chat with no club name in it.
+
+Theme: more animals and civic objects.
+
+## 1. Manchester City (stem MANCITY)
+- Theme: from Manchester's civic arms (public), the ship in full sail above three diagonal river bands, and a red Lancashire rose.
+- Outline: a roundel with a sky-blue disc and a navy-claret ring band.
+- Top: a gold three-masted ship with full sails.
+- Middle: three thin white diagonal bands for the city's three rivers.
+- Bottom: a red rose with a gold centre.
+- Colours: sky blue #72B9DC, white #F5F7F8, claret #6D2C3E, gold #D9B23C, rose red #C8102E. Rim: gold.
+- Never: letters, the year, stars.
+
+## 2. Arsenal (stem ARSENAL)
+- Theme: a cannon (public ordnance, the club's origin at the Royal Arsenal).
+- Outline: the club's outline, a shield with a flat top, straight sides curving to a rounded point, and a slight outward flare at the top corners. Red field with a navy-blue base band.
+- Cannon: gold, pointing to the viewer's right, on a two-wheeled field carriage, the barrel with two raised rings and a rounded end.
+- Colours: red #D71920, white #F5F5F5, navy #163A70, gold #D9B23C. Rim: gold.
+- Never: the word "Arsenal", letters.
+
+## 3. Burnley (stem BURNLEY)
+- Theme: two bees (from Burnley's civic arms, public) over a chevron.
+- Outline: heater shield with a claret field and a sky-blue chevron.
+- Bees: two gold bees with black stripes and white wings, one above the chevron and one below.
+- Colours: claret #6B1F3A, sky blue #81C7E7, gold #F2D649. Rim: gold.
+- Never: the motto, letters.
+
+## 4. Stoke City (stem STOKE)
+- Theme: the Staffordshire knot (public county emblem).
+- Outline: heater shield with vertical red and white stripes.
+- Knot: a large gold three-loop knot centred in the upper half, drawn as a twisted rope with clear crossings.
+- Colours: red #D91E32, white #F5F5F4, navy #2D6BA8 (outline), gold #D9B23C. Rim: gold.
+- Never: letters, the year.
+
+## 5. Southampton (stem SOUTHAMPTON)
+- Theme: a tree (for the parks) and a halo (for the Saints nickname), our own drawing.
+- Outline: a roundel with a white disc and a red ring band.
+- Top: a small gold halo ring.
+- Centre: a full green tree with a brown trunk.
+- Lower half: a red and white split field with a small old football.
+- Colours: red #D71920, white #F3F3F1, black #15191D, tree green #1F7A3A. Rim: red.
+- Never: the club name, letters.
+
+## 6. Dijon (stem DIJON)
+- Theme: the owl (Dijon's well-known symbol, the owl carved on Notre-Dame; public).
+- Outline: heater shield, red at the top and white below.
+- Owl: perched, front-on, large round eyes and ear tufts, wings folded. Draw it in white on the red top or black on the white.
+- Colours: red #D21F32, white #F4F5F4, dark #242F37. Rim: red.
+- Never: letters.
+
+## 7. Lorient (stem LORIENT)
+- Theme: a hake (the "Merlus" nickname; our own drawing) on a sea-port shield.
+- Outline: heater shield in orange.
+- Fish: a black hake swimming to the viewer's left, slim body, fins clear, one eye.
+- Optional: two small wave lines below.
+- Colours: orange #EF7C22, black #171B1E, white #F5F5F3. Rim: black.
+- Never: letters.
+
+## 8. Alavés (stem ALAVES)
+- Theme: the castle and the raven from Vitoria's and Álava's public arms.
+- Outline: heater shield. The viewer's left half has vertical blue and white stripes; the right half is white.
+- Right half: a gold castle on top and a black raven below it, facing the viewer's left.
+- Colours: blue #1765AE, white #F6F7F7, black #222D37, gold #D9B23C. Rim: gold.
+- Never: letters, the crown if it looks copied.
+
+## 9. Atlético Madrid (stem ATLETICO)
+- Theme: the bear and the strawberry tree of Madrid's arms (public), and seven stars (from Madrid's arms; public, not title stars).
+- Outline: the club's "bell" shape, with a flat top, slightly concave sides and a rounded base.
+- Field: vertical red and white stripes in the lower part. The top-left canton is navy and holds the bear standing against the tree.
+- Stars: seven white stars on the canton.
+- Bear: brown, standing on its hind legs to the viewer's right, reaching into a green tree with red berries.
+- Colours: red #D91F32, white #F4F4F3, navy #1C3975, bear brown #5A3A22. Rim: navy.
+- Never: letters, the crown if it looks copied.
+
+## 10. Sevilla (stem SEVILLA)
+- Theme: Seville's patron saints, as on the city arms (public): three small figures seated in a row.
+- Outline: heater shield with a white upper part and red and white lower bands.
+- Figures: three small seated saints in gold, simple and iconic, like a medieval seal. Keep them small so they read as one group at 28 px.
+- Lower part: an old football in the bands.
+- Colours: white #F6F6F4, red #D51F35, black #242D33, gold #D4AF37. Rim: red.
+- Never: letters, the "SFC" monogram.
+
+</details>
+
+### HO-087 · G → V · Image crests batch 3 of 9
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sun 15 Nov 7:12 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Why
+Image crests batch 3 of 9 for the remaining 93 clubs (pilot HO-084, batch 1 HO-085).
+
+### Rules, look and delivery: exactly as HO-084 / HO-085
+- One asset = one ticket = one new ChatGPT chat. Nik runs them and OKs each.
+- Public heraldry and the real outline only, as our own fresh drawing. Never letters, names, years, mottos, maker or sponsor logos, or title stars.
+- The same premium embroidered-badge look as the 5 pilot crests (claude/project-thread-6kfnkn 5ebf12399 project-documents/hc-art/ho084/), so that all 98 match as one set.
+- Transparent PNG, 1024 px tall, 5:6 canvas, about 4% margin, plus 256 and 64 px exports, and SHA256.json. File stems are given per club: CREST_IMG_<STEM>_V1_{1024,256,64}.png.
+- Accept when Nik OKs each crest and there are no letters anywhere.
+- Nik, 2026-11-16 00:07 UTC: "I want all 98 crests". Batches 2-9 are filed together. Run them in order, one batch at a time.
+
+### Clubs: Everton, 1. FC Köln, Borussia Mönchengladbach, Napoli, Pescara, Atalanta, Bastia, Watford, Swansea City, West Bromwich Albion
+
+# R94-01 · Image crests, batch 3 of 9: 10 clubs + heraldry notes (for the Team V ticket)
+
+The rules, look and delivery spec are the same as the pilot and batch 1 (`R94_01_CREST_BATCH_01.md`, "Rules for all 10"):
+- Use public heraldry and the real outline only, as our own fresh drawing.
+- No letters, years or mottos.
+- Give it the embroidered cloth-patch look.
+- Deliver a transparent PNG 1024 px tall on a 5:6 canvas, plus 256 and 64 px exports and SHA256.json.
+- Name each file CREST_IMG_<STEM>_V1_<size>.png.
+- Run each prompt in a new chat with no club name in it.
+
+Theme: the animals and figures left over from the audit's batch 2.
+
+## 1. Everton (stem EVERTON)
+- Theme: Prince Rupert's Tower, the old village lock-up in Everton (a public building), between two laurel sprigs.
+- Outline: heater shield in royal blue.
+- Tower: a round white stone tower with a conical roof, a small door and two slit windows, sitting on a short base.
+- Laurels: two gold sprigs curving up either side of the tower.
+- Colours: blue #164C9E, white #F5F7FA, gold #F0C733. Rim: gold.
+- Never: the motto scroll, the year, letters.
+
+## 2. 1. FC Köln (stem KOELN)
+- Theme: Cologne's civic arms (public), with three gold crowns on a red chief above, and a goat.
+- Outline: heater shield. The top third is red with three gold crowns in a row; below it is a white field.
+- Goat: a red billy goat standing and facing the viewer's left, with long curved horns, a beard and one foreleg raised.
+- Colours: red #D91F32, white #F6F6F4, gold #D9B23C. Rim: red.
+- Never: the cathedral as copied from the club badge, letters.
+
+## 3. Borussia Mönchengladbach (stem GLADBACH)
+- Theme: a foal (the club's nickname is "Die Fohlen"; our own drawing).
+- Outline: a lozenge (diamond) badge, white with a black inner diamond line and a green edge accent.
+- Foal: black, rearing or prancing, facing the viewer's left, with long legs, a short mane and a small tail.
+- Colours: white #F5F6F5, black #161A1D, green #41A464. Rim: black.
+- Never: the "B" monogram, letters.
+
+## 4. Napoli (stem NAPOLI)
+- Theme: the rampant horse of Naples (an ancient civic symbol, public).
+- Outline: a roundel with a sky-blue disc and a deeper-blue ring band with white dots in place of lettering.
+- Horse: white, rearing, facing the viewer's left, with a flowing mane and tail and no saddle or bridle.
+- Colours: sky blue #46A7D8, deep blue #245B91, white #F4F6F7. Rim: deep blue.
+- Never: the "N" letter of the club's badge, any letters.
+
+## 5. Pescara (stem PESCARA)
+- Theme: a leaping dolphin (the city is on the Adriatic; our own drawing).
+- Outline: heater shield with vertical sky-blue and white stripes.
+- Dolphin: gold, arched in a leap over a small wave line, head to the viewer's left.
+- Colours: sky blue #4A9CD0, white #F4F6F7, gold #D9B23C, navy #2A5D8E (outline). Rim: navy.
+- Never: letters, the year.
+
+## 6. Atalanta (stem ATALANTA)
+- Theme: Atalanta, the huntress of Greek myth (public). Show her head and shoulders in profile.
+- Outline: a roundel with vertical blue and black stripes.
+- Figure: a white or cream profile facing the viewer's left, hair tied back with a band, a strong classical nose and chin. Make it a cameo, simple and dignified.
+- Colours: blue #1764AD, black #15191D, white #F5F6F6. Rim: white.
+- Never: letters, the year.
+
+## 7. Bastia (stem BASTIA)
+- Theme: the Moor's head of Corsica's flag (public), with a white bandana tied on the forehead.
+- Outline: a roundel with a blue disc and a white ring band with small blue dots.
+- Head: a black head in profile facing the viewer's left, with a white bandana tied at the back of the head. Draw it with dignity, never a caricature.
+- Colours: blue #1E5AA7, white #F4F6F7, black #202D37. Rim: white.
+- Never: letters, the year.
+
+## 8. Watford (stem WATFORD)
+- Theme: the hart's head (a stag with antlers), from Hertfordshire's arms (public).
+- Outline: a rounded badge, yellow, with a red side band.
+- Stag: a black head front-on with full branching antlers, alert ears and a calm face.
+- Colours: yellow #F2D01E, black #1A1E21, red #D81E32. Rim: black.
+- Never: letters.
+
+## 9. Swansea City (stem SWANSEA)
+- Theme: a swan (the city's name and civic emblem).
+- Outline: a roundel with a black disc and a white or gold ring band.
+- Swan: white, swimming to the viewer's left, neck in a graceful S, wings slightly raised, on two small wave lines.
+- Colours: white #F7F7F5, black #161A1E, gold #D8B634. Rim: gold.
+- Never: letters.
+
+## 10. West Bromwich Albion (stem WBA)
+- Theme: a throstle (song thrush) perched on a hawthorn branch (the club's old nickname, public folk symbol).
+- Outline: heater shield. The top is navy and white in vertical stripes; the lower field is white.
+- Bird: a navy throstle in profile facing the viewer's left, speckled breast, perched on a short branch with three leaves and berries.
+- Colours: navy #183B73, white #F5F6F7, sky blue #70B6D5. Rim: navy.
+- Never: letters, the year.
+
+</details>
+
+### HO-086 · G → V · Image crests batch 2 of 9
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Sun 15 Nov 7:12 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Why
+Image crests batch 2 of 9 for the remaining 93 clubs (pilot HO-084, batch 1 HO-085).
+
+### Rules, look and delivery: exactly as HO-084 / HO-085
+- One asset = one ticket = one new ChatGPT chat. Nik runs them and OKs each.
+- Public heraldry and the real outline only, as our own fresh drawing. Never letters, names, years, mottos, maker or sponsor logos, or title stars.
+- The same premium embroidered-badge look as the 5 pilot crests (claude/project-thread-6kfnkn 5ebf12399 project-documents/hc-art/ho084/), so that all 98 match as one set.
+- Transparent PNG, 1024 px tall, 5:6 canvas, about 4% margin, plus 256 and 64 px exports, and SHA256.json. File stems are given per club: CREST_IMG_<STEM>_V1_{1024,256,64}.png.
+- Accept when Nik OKs each crest and there are no letters anywhere.
+- Nik, 2026-11-16 00:07 UTC: "I want all 98 crests". Batches 2-9 are filed together. Run them in order, one batch at a time.
+
+### Clubs: Palermo, Nice, Crystal Palace, FC Ingolstadt, Bournemouth, Caen, Leicester City, Hull City, Wolfsburg, Lille
+
+# R94-01 · Image crests, batch 2 of 9: 10 clubs + heraldry notes (for the Team V ticket)
+
+Written by the R94-01 thread on 2026-11-16. The rules, look and delivery spec are the same as the pilot and batch 1 (`R94_01_CREST_BATCH_01.md`, "Rules for all 10"):
+- Use public heraldry and the real outline only, as our own fresh drawing.
+- No letters of any kind.
+- Give it the embroidered cloth-patch look.
+- Deliver a transparent PNG 1024 px tall on a 5:6 canvas, plus 256 and 64 px exports and SHA256.json.
+- Name each file CREST_IMG_<STEM>_V1_<size>.png.
+- Run each prompt in a new chat with no club name in it.
+
+Order: first the rest of the audit's worst charges (Palermo, Nice, Crystal Palace, Ingolstadt, Bournemouth, Caen), then the audit's crude animals (Leicester, Hull, Wolfsburg, Lille).
+
+## 1. Palermo (stem PALERMO)
+- Theme: the eagle of Palermo's civic arms (public), gold and displayed.
+- Outline: heater shield, split vertically, pink on the viewer's left and black on the right.
+- Eagle: gold, wings spread wide over both halves, head turned to the viewer's left, talons out. Keep the outline crisp so it reads on both pink and black.
+- Colours: pink #E99AB5, black #171A1E, gold #D6B13A. Rim: black with gold stitching.
+- Never: letters, the year.
+
+## 2. Nice (stem NICE)
+- Theme: the eagle from the arms of the County of Nice (public), with wings spread.
+- Outline: heater shield with vertical red and black stripes, 5 or 7 of them.
+- Eagle: gold and displayed, filling the upper two-thirds, head to the viewer's left, on a plain three-mount base (the "trois monts" of Nice's arms, public) in gold.
+- Colours: red #D31F31, black #171B1E, gold #D9B23C. Rim: gold.
+- Never: letters, the year.
+
+## 3. Crystal Palace (stem PALACE)
+- Theme: the Crystal Palace glasshouse (a public building, 1851) with an eagle in front of it.
+- Outline: an arched shield split vertically, blue on the viewer's left and red on the right.
+- Top: the glasshouse façade in white or gold above the shield's arch, with a barrel-vaulted centre and two wings.
+- Centre: an eagle with spread wings in gold or white, perched, head to the viewer's left. Give it no ball, unlike the club's crest.
+- Colours: blue #2355A6, red #D62232, white #F4F5F6, gold #D4AF37. Rim: gold.
+- Never: letters, any ball or scroll text.
+
+## 4. FC Ingolstadt (stem INGOLSTADT)
+- Theme: the panther of Ingolstadt's and Bavaria's heraldry (public). It is a heraldic "panther", a beast rampant with flames from its mouth and ears.
+- Outline: heater shield, split vertically, black on the viewer's left and red on the right.
+- Panther: white or silver, rampant, facing the viewer's left, slim body, long curled tail, small flames at its mouth.
+- Colours: red #D41F32, black #171B1E, white #F3F4F4. Rim: white.
+- Never: letters, the "04".
+
+## 5. Bournemouth (stem BOURNEMOUTH)
+- Theme: a footballer heading the ball in profile (our own figure, a generic silhouette).
+- Outline: a rounded square badge with vertical red and black stripes.
+- Figure: head and shoulders in black, facing the viewer's left, neck stretched toward a classic ball in white or gold. Keep it simple and bold at 28 px.
+- Colours: red #D71920, black #15191D, gold #F3D23B, white. Rim: black.
+- Never: letters, the year, the club's own artwork.
+
+## 6. Caen (stem CAEN)
+- Theme: the two Normandy leopards (lions passant guardant: walking, faces toward the viewer, from Normandy's public arms).
+- Outline: heater shield, split vertically, blue on the viewer's left and red on the right, OR a plain red field. Use the halves to keep the club colours.
+- Leopards: two of them in gold, one above the other, walking toward the viewer's left, faces turned out to the viewer, tails curled over the back, clawed feet.
+- Colours: blue #275DA8, red #D12034, gold #E1B43A. Rim: gold.
+- Never: letters.
+
+## 7. Leicester City (stem LEICESTER)
+- Theme: the fox (a Leicestershire emblem) and the cinquefoil from Leicester's civic arms (public).
+- Outline: a ringed roundel. The ring band is blue with 20 small gold dots in place of the lettering.
+- Centre: a large white cinquefoil (five rounded petals with a small centre) on a blue disc, with a fox mask (face only) in orange and white over its centre, ears up and a sharp muzzle.
+- Colours: blue #1D53A5, white #F6F7F8, gold #D8B638, fox orange #E07A24. Rim: gold.
+- Never: letters, the year.
+
+## 8. Hull City (stem HULL)
+- Theme: a tiger's face, front-on (our own drawing).
+- Outline: a roundel with a black ring band and 18 small amber dots in place of the lettering.
+- Disc: amber, with a tiger's face in amber and black filling it. Give it bold stripes, a white muzzle and chin, open amber eyes and rounded ears. Make it calm and strong, not snarling.
+- Colours: amber #F07D19, black #16191C, cream #F7F2E8. Rim: black.
+- Never: letters.
+
+## 9. Wolfsburg (stem WOLFSBURG)
+- Theme: the wolf from the town's name and arms (public). The wolf in the city arms stands on a castle; use the wolf alone.
+- Outline: a roundel with a white ring band and 18 small green dots in place of the lettering.
+- Disc: green, with a white wolf's head in profile facing the viewer's left, ears up, muzzle long, a neck ruff of fur.
+- Colours: green #6ABF37, white #F5F6F4, dark #1C2429 (for outline detail only). Rim: white.
+- Never: the "W" letter of the club's badge, any letters.
+
+## 10. Lille (stem LILLE)
+- Theme: a guard dog (a mastiff, our own drawing).
+- Outline: a roundel with a navy ring band and 18 small white dots in place of the lettering.
+- Disc: red, with a white mastiff's head front-on or three-quarter. It has a broad muzzle and folded ears, and looks proud.
+- Optional: a small fleur-de-lis from Lille's civic arms (public) in white, above the head.
+- Colours: red #D82034, navy #233D78, white #F5F5F4. Rim: navy.
+- Never: "LOSC", letters.
+
+</details>
+
 ### HO-085 · G → V · Image crests batch 1 of ~10 (Man Utd, Liverpool, Spurs, Roma, Lyon, Leverkusen, Lazio, Frankfurt, Genoa, Boro)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 3 min after delivery
 
+- Sun 15 Nov 7:11 PM · Team V · Received · Team V crest thread: 10 Astra prompts posted (no club names), Nik runs, V cuts/exports/SHA
 - Sun 15 Nov 7:08 PM · Team G · Sent
 - Sun 15 Nov 7:08 PM · relay Action · Delivered in full as a wake comment on PR #312
 
