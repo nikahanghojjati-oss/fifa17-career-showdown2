@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": "HO-084",
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-16T00:12:03Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T00:22:20Z", "by": "V", "status": "RECEIVED", "note": "Team V crest thread: Astra prompts written, Nik runs batch by batch, V cuts/exports/SHA"}],
+ "evidence": ["claude/project-thread-vraiao e80d62e79 project-documents/hc-art/ho092/"],
+ "log": [{"at": "2026-11-16T00:12:03Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T00:22:20Z", "by": "V", "status": "RECEIVED", "note": "Team V crest thread: Astra prompts written, Nik runs batch by batch, V cuts/exports/SHA"}, {"at": "2026-11-16T03:04:03Z", "by": "V", "status": "DONE", "note": "Batch 8 crests (Bremen, Freiburg, Mainz, Darmstadt, Hoffenheim, Bologna, Cagliari, Empoli, Sassuolo, Udinese, Leganes) cut + exported 1024/256/64, Nik OK 15 Nov 10:03 p.m. Eastern"}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
  "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q69SMxmTLTsTtZTkeB"}
 }
