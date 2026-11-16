@@ -365,7 +365,7 @@
       const target=poseOf(b.stop),w=Math.max(b.w,b.state==="spin"?PHYS.W_FAST*.8:PHYS.AWAIT_W);
       // (w is kept fast enough that the grass stops it within REPLAN_DUR seconds.)
       const travel=travelTo(b.f,target,min);b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(Math.max(w,speedFor(travel+PHYS.A0,PHYS.REPLAN_DUR)),travel+PHYS.A0);b.pick=sectionOf(b.stop);
-      setBallState(b,"stopping");
+      setBallState(b,"stopping");b.t=0; // a replan of a ball already stopping starts its own clock (no jump)
     }
     function startStop(b){
       if(b.state!=="spin")return;
@@ -399,7 +399,7 @@
         if(k2>=1&&b.y===0&&b.vy===0)setBallState(b,"spin");
       }else if(b.state==="spin"){
         w=PHYS.W_FAST-36*(1-Math.exp(-b.t/5));b.f+=w*dt;
-        if(b.queued!==null&&b.t>.6){b.stop=b.queued;b.accepted=!b.queuedPending;b.queued=null;b.queuedPending=false;b.w=w;startStop(b);}
+        if(b.queued!==null&&b.t>.6){b.stop=b.queued;b.accepted=b.accepted||!b.queuedPending;b.queued=null;b.queuedPending=false;b.w=w;startStop(b);}
       }else if(b.state==="stopping"){
         const p=b.plan,tt=Math.min(b.t,p.dur);b.f=b.planF0+p.at(tt);w=p.speed(tt);
         // The ball never rests on a club Firebase does not hold: short of the last third it waits, rolling, for the accept.
@@ -496,6 +496,8 @@
       // Firebase holds this manager's stop: the ball may come to rest. A different stored stop (another tab won) re-aims.
       accept(i,storedStop){
         const b=ballOf(i);
+        // Still before full speed with a stop queued: Firebase's stop is the one it will slow toward, already accepted.
+        if(b.queued!==null){if(sceneValidStop(storedStop))b.queued=storedStop;b.queuedPending=false;b.accepted=true;return;}
         if(sceneValidStop(storedStop)&&storedStop!==b.stop){b.stop=storedStop;b.pick=sectionOf(storedStop);if(["stopping","await"].includes(b.state)){b.accepted=true;b.w=Math.max(b.w,PHYS.AWAIT_W);plan(b,PHYS.REPLAN_MIN);return;}
           // Already settling or at rest on another third: the stored stop wins and the ball is shown at rest on it (both
           // phones must end on the same picture). Firebase never changes a stored stop, so this is a safety net only.
