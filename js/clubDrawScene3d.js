@@ -372,6 +372,7 @@
     }
     function startStop(b){
       if(b.state!=="spin")return;
+      b.queued=null;b.queuedPending=false; // the trajectory starting now is the ball's one stop: nothing stays queued behind it
       if(b.own){
         // The tap: the travel is the one the stop came from (lead D0 plus the grass), corrected onto the rest pose.
         const target=poseOf(b.stop),guess=PHYS.D0+angleDiff(b.tapRest,mod360(b.f+PHYS.D0));
