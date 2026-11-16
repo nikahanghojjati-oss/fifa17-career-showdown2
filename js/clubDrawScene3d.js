@@ -486,7 +486,7 @@
       start(){balls.forEach((b,i)=>{if(b.state!=="idle")return;if(reduced){lightAll(b);b.f=60;b.state="spin-still";emit("state",b);return;}b.t=-.35*i;setBallState(b,"rest");b.t=-.35*i;});},
       state(i){return ballOf(i).state;},
       // STOP may be pressed while the own ball spins at full speed (or sits still under Reduce Motion).
-      canStop(i){const b=ballOf(i);return b.stop===null&&(b.state==="spin"||b.state==="spin-still");},
+      canStop(i){const b=ballOf(i);return b.stop===null&&b.queued===null&&(b.state==="spin"||b.state==="spin-still");}, // a queued stored stop is already this ball's stop
       // The tap. Returns the stored integer (0..359), computed once from the face in front of the manager now. The ball starts
       // slowing at once (the tap is felt) but rests only after accept(i). Never call it twice for one manager.
       tap(i,rand01){
