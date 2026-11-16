@@ -1,0 +1,61 @@
+{
+ "source": "Team V HO-084 (branch claude/project-thread-6kfnkn @ 5ebf12399, project-documents/hc-art/ho084/)",
+ "made": "WebP q92, alpha q100, same pixel sizes as the PNG exports; the shirt shading is resized to 576x768",
+ "files": {
+  "CREST_IMG_BARCELONA_V1_64.webp": {
+   "from": "CREST_IMG_BARCELONA_V1_64.png",
+   "fromSha256": "ead06c916533ddee89485006df2d976c9ea516fad2248c9b7a2628a6a8511111",
+   "sha256": "7b736dd2328c6a4ddab1ad9855eb9c8b6580389ae6a13213192bfb91559c1d83"
+  },
+  "CREST_IMG_BARCELONA_V1_256.webp": {
+   "from": "CREST_IMG_BARCELONA_V1_256.png",
+   "fromSha256": "ecad2543b34e46e19c6cb38ea24ffd5dfff0fc796af47df0f4420f2dbf17d55a",
+   "sha256": "4705d322ca811eaa372620428b4812eb8217931dc8399eccefd69b265648a280"
+  },
+  "CREST_IMG_WESTHAM_V1_64.webp": {
+   "from": "CREST_IMG_WESTHAM_V1_64.png",
+   "fromSha256": "64d3ff885ece388af2963c299b72047dfdc5ec982d7cfa77e5937d244d40b526",
+   "sha256": "c2f7691ff00e89d9821dd7027180eb83d634d55f4c0892f6ce8cceee5ae88cfb"
+  },
+  "CREST_IMG_WESTHAM_V1_256.webp": {
+   "from": "CREST_IMG_WESTHAM_V1_256.png",
+   "fromSha256": "107eb536d641865da6fb6aec960cc1ff84a1edf231f210a4561bfb1042316cd0",
+   "sha256": "af999be652ffb826a5d1893d6f0dd68fd435ec38be330ac5d03e8f35a2d5141f"
+  },
+  "CREST_IMG_METZ_V1_64.webp": {
+   "from": "CREST_IMG_METZ_V1_64.png",
+   "fromSha256": "71980a21d10779e3b03ee205e2bfef67af4f2b5cbc7c4e12650170e1b5eea339",
+   "sha256": "770c0aa206bbfb679f226a68e8e6b14b28b1056777db4ba19f3d5ec1e8237bd2"
+  },
+  "CREST_IMG_METZ_V1_256.webp": {
+   "from": "CREST_IMG_METZ_V1_256.png",
+   "fromSha256": "e408f7fd3abf6a6bd92a5002250ca9eb20290409f23add8d231a745d4cbcbaf2",
+   "sha256": "1426c9d4cd3f0822bcdf4a03410dbc0a80e76feb6802a3fe859beb694f91099b"
+  },
+  "CREST_IMG_CHELSEA_V1_64.webp": {
+   "from": "CREST_IMG_CHELSEA_V1_64.png",
+   "fromSha256": "b36909ba228f9932747dd24cae814a6c44f575c8b26199a3bf325096a7e69540",
+   "sha256": "876259744773e455de376f818084b8d545011adcbb9fadad10bb8278a00faef6"
+  },
+  "CREST_IMG_CHELSEA_V1_256.webp": {
+   "from": "CREST_IMG_CHELSEA_V1_256.png",
+   "fromSha256": "119fc247ec2cc68259c459c243243bd36ee7dc48c60dfdf837f8ba4b4b13587d",
+   "sha256": "75f97e3106209e20de1a1cd7fe4ac8615cdbd06e6db3d95d5d2dd26860d7882c"
+  },
+  "CREST_IMG_TORINO_V1_64.webp": {
+   "from": "CREST_IMG_TORINO_V1_64.png",
+   "fromSha256": "d3ea9814ffb13e58c878a36ab1f90341f9f30269a3b82cb106e603cbd98e3072",
+   "sha256": "9dfcfa4424e403b5130afdffd074f0dd9acacc0a7233cd302c22e9931d5194da"
+  },
+  "CREST_IMG_TORINO_V1_256.webp": {
+   "from": "CREST_IMG_TORINO_V1_256.png",
+   "fromSha256": "3cf7fba09039bdec5b68fffcf6e77dd6b913b4b29f99f1aa209157b721f6d4da",
+   "sha256": "bf0219980103fb626ddc9c09dd67412411753e9d58a81fd4c607cf841d16fc9a"
+  },
+  "KIT_MASTER_SHIRT_V1_SHADING_768.webp": {
+   "from": "KIT_MASTER_SHIRT_V1_SHADING_1536.png",
+   "fromSha256": "afbb3ac38f101cd25ffe772a160777dffc1c2f330ec2896a19c156d0726031ce",
+   "sha256": "7e9821bb99de29315cf48fc3b3dcf5a4d7541e048e278fc2a59218c690a75e80"
+  }
+ }
+}

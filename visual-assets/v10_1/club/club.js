@@ -487,7 +487,7 @@ $$(".handOv").forEach(d => { d.style.clipPath = "none"; });
     buildAnimations();
   }
 
-  function crestMarkup(name) { return window.getClubCrestSvg(name); }
+  function crestMarkup(name) { return window.getClubCrestMarkup ? window.getClubCrestMarkup(name, "big") : window.getClubCrestSvg(name); } // App (R94 HO-084): the image crest where the club has one.
 
   function ripKeyframes(r) {
     const k = T.k, d = r.flapDir;

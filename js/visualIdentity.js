@@ -1043,7 +1043,66 @@ function refreshClubVisualIdentity(showdown = null){
     });
 }
 
+/* CREST-IMAGES begin. R94 HO-084 (Nik 2026-11-15, image crest pilot): Team V's image-made crests for a few clubs, in visual-assets/v10_1/crests/
+   (64 px for lists, 256 px for big slots). The drawn SVG crest stays as the fallback: it shows for every other club and wherever
+   an image fails. getClubCrestSvg itself never changes, so a screen that has not moved to getClubCrestMarkup keeps its crest. */
+const CREST_IMAGE_FILES = Object.freeze({
+    "Barcelona": "BARCELONA", "West Ham United": "WESTHAM", "Metz": "METZ", "Chelsea": "CHELSEA", "Torino": "TORINO"
+});
+const CREST_IMAGE_BASE = (() => {
+    try{
+        const src = typeof document !== "undefined" && document.currentScript && document.currentScript.src;
+        if(src) return new URL("../visual-assets/v10_1/crests/", src).href;
+    }catch(_error){}
+    return "visual-assets/v10_1/crests/";
+})();
+const crestImageFailed = new Set();
+const crestPictureCache = new Map();
+function getClubCrestImageUrl(clubName, slot){
+    const stem = CREST_IMAGE_FILES[getClubCanonicalName(clubName)];
+    if(!stem) return "";
+    const url = `${CREST_IMAGE_BASE}CREST_IMG_${stem}_V1_${slot === "list" ? 64 : 256}.webp`;
+    return crestImageFailed.has(url) ? "" : url;
+}
+/* Markup for a crest slot in the page: the image crest where there is one, else the drawn SVG (same 120x144 frame). */
+function getClubCrestMarkup(clubName, slot){
+    const url = getClubCrestImageUrl(clubName, slot);
+    if(!url) return getClubCrestSvg(clubName);
+    const club = String(getClubCanonicalName(clubName)).replace(/[&"<>]/g, c => ({"&": "&amp;", "\"": "&quot;", "<": "&lt;", ">": "&gt;"})[c]);
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 144" aria-hidden="true" focusable="false" data-crest-image="${club}">`
+        + `<image href="${url}" x="0" y="0" width="120" height="144" preserveAspectRatio="xMidYMid meet"/></svg>`;
+}
+/* For canvases: the decoded image crest, or null when the club has none or it failed (the caller then draws its SVG crest). */
+function loadClubCrestImage(clubName, slot){
+    const url = getClubCrestImageUrl(clubName, slot);
+    if(!url || typeof Image !== "function") return Promise.resolve(null);
+    if(!crestPictureCache.has(url)){
+        crestPictureCache.set(url, new Promise(resolve => {
+            const image = new Image();
+            image.decoding = "async";
+            image.onload = () => resolve(image);
+            image.onerror = () => { crestImageFailed.add(url); crestPictureCache.delete(url); resolve(null); };
+            image.src = url;
+        }));
+    }
+    return crestPictureCache.get(url);
+}
+/* An image crest that fails in the page is swapped for the drawn SVG, and that file is not asked for again this session. */
+if(typeof document !== "undefined" && typeof document.addEventListener === "function"){
+    document.addEventListener("error", event => {
+        const image = event.target;
+        const svg = image && typeof image.closest === "function" && String(image.tagName).toLowerCase() === "image" ? image.closest("svg[data-crest-image]") : null;
+        if(!svg) return;
+        crestImageFailed.add(image.getAttribute("href"));
+        try{ svg.outerHTML = getClubCrestSvg(svg.getAttribute("data-crest-image")); }catch(_error){}
+    }, true);
+}
+
+/* CREST-IMAGES end */
 window.getClubIdentity = getClubIdentity;
+window.getClubCrestMarkup = getClubCrestMarkup;
+window.getClubCrestImageUrl = getClubCrestImageUrl;
+window.loadClubCrestImage = loadClubCrestImage;
 window.applyClubIdentity = applyClubIdentity;
 window.refreshClubVisualIdentity = refreshClubVisualIdentity;
 window.getClubCrestSvg = getClubCrestSvg;

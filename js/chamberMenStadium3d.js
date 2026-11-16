@@ -88,6 +88,12 @@
       if(!club||typeof o.crest!=="function"||typeof root.Image!=="function")return null;
       if(crestImg[club]!==undefined)return crestImg[club];
       crestImg[club]=null;
+      // R94 HO-084: the image crest where the club has one (same-origin, so the canvas stays clean), else the SVG below.
+      const clean=img=>{try{const c=d.createElement("canvas");c.width=c.height=2;const g=c.getContext("2d");g.drawImage(img,0,0,2,2);g.getImageData(0,0,1,1);return true;}catch(_error){return false;}};
+      if(typeof root.loadClubCrestImage==="function"&&typeof root.getClubCrestImageUrl==="function"&&root.getClubCrestImageUrl(club,"big")){
+        Promise.resolve(root.loadClubCrestImage(club,"big")).catch(()=>null).then(img=>{if(img&&clean(img)){crestImg[club]=img;for(const b of list)b.paint();}});
+        return null;
+      }
       try{const svg=String(o.crest(club)||"");if(!svg.startsWith("<svg"))return null;
         const img=new root.Image();img.decoding="async";
         // Only a crest that leaves the canvas clean goes on (a tainted canvas cannot be uploaded to WebGL).

@@ -14,7 +14,8 @@ assert.strictEqual(K.layout.uv,"wrap");
 // crest; outfield kits keep the number on the back only.
 const kitsSrc=fs.readFileSync(path.join(__dirname,"../../js/kits17.js"),"utf8");
 const fronts=(kitsSrc.match(/[^\n]*frontNumber\(g,[^\n]*/g)||[]).filter(l=>!/function frontNumber/.test(l));
-assert.strictEqual(fronts.length,2,"front number painted on the keeper shirt and shorts");
+// R94 HO-084: the master-shirt front view (drawFlat) paints the keeper's chest number too.
+assert.strictEqual(fronts.length,3,"front number painted on the keeper shirt, the master-shirt front and the shorts");
 for(const line of fronts)assert.match(line,/if\(k\.role==="gk"\)/,`front number only on keepers: ${line.trim()}`);
 assert.match(kitsSrc,/REMY\.crest;drawCrest\([^\n]*k\.role==="gk"\?cs\*1\.15:cs/,"keeper patch crest is bigger on the Remy atlas");
 const sceneSrc=fs.readFileSync(path.join(__dirname,"../../js/chamberMenScene3d.js"),"utf8");

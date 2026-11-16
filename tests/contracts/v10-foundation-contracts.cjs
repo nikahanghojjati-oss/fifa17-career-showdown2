@@ -1097,6 +1097,18 @@ const V10_IMAGES={
     "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Shorts.webp":"34a62c138ff8811462c489ebe12bfbe16265c95e1f6a97c9876d1ab1295507b1",
     "visual-assets/v10_1/chamber-men/players/uv/uv_ch42_Socks.webp":"4576a46e30a2136cbe4133f4bcf8173bcf3ab9ca62e20af0c5ec82cb73533b07",
     "visual-assets/v10_1/chamber-men/players/uv/uv_remy_Body.webp":"ba8ca7f33938ff0a8fdee3dcddc59d0d428766b847c64cafe77792760f090451",
+    // r94 Team V HO-084 (Nik OK 2026-11-15 22:02 UTC): the image crest pilot (5 clubs, 64 and 256) and the master shirt shading, WebP made from V's PNGs (tools/crests/HO084_MANIFEST.json).
+    "visual-assets/v10_1/crests/CREST_IMG_BARCELONA_V1_256.webp":"4705d322ca811eaa372620428b4812eb8217931dc8399eccefd69b265648a280",
+    "visual-assets/v10_1/crests/CREST_IMG_BARCELONA_V1_64.webp":"7b736dd2328c6a4ddab1ad9855eb9c8b6580389ae6a13213192bfb91559c1d83",
+    "visual-assets/v10_1/crests/CREST_IMG_CHELSEA_V1_256.webp":"75f97e3106209e20de1a1cd7fe4ac8615cdbd06e6db3d95d5d2dd26860d7882c",
+    "visual-assets/v10_1/crests/CREST_IMG_CHELSEA_V1_64.webp":"876259744773e455de376f818084b8d545011adcbb9fadad10bb8278a00faef6",
+    "visual-assets/v10_1/crests/CREST_IMG_METZ_V1_256.webp":"1426c9d4cd3f0822bcdf4a03410dbc0a80e76feb6802a3fe859beb694f91099b",
+    "visual-assets/v10_1/crests/CREST_IMG_METZ_V1_64.webp":"770c0aa206bbfb679f226a68e8e6b14b28b1056777db4ba19f3d5ec1e8237bd2",
+    "visual-assets/v10_1/crests/CREST_IMG_TORINO_V1_256.webp":"bf0219980103fb626ddc9c09dd67412411753e9d58a81fd4c607cf841d16fc9a",
+    "visual-assets/v10_1/crests/CREST_IMG_TORINO_V1_64.webp":"9dfcfa4424e403b5130afdffd074f0dd9acacc0a7233cd302c22e9931d5194da",
+    "visual-assets/v10_1/crests/CREST_IMG_WESTHAM_V1_256.webp":"af999be652ffb826a5d1893d6f0dd68fd435ec38be330ac5d03e8f35a2d5141f",
+    "visual-assets/v10_1/crests/CREST_IMG_WESTHAM_V1_64.webp":"c2f7691ff00e89d9821dd7027180eb83d634d55f4c0892f6ce8cceee5ae88cfb",
+    "visual-assets/v10_1/crests/KIT_MASTER_SHIRT_V1_SHADING_768.webp":"7e9821bb99de29315cf48fc3b3dcf5a4d7541e048e278fc2a59218c690a75e80",
 };
 const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/chamber-men/assets/concrete_512.webp",

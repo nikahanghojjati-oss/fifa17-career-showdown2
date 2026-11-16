@@ -311,7 +311,7 @@ function shirtBack(ctx, p, cx, top, s){
 const CREST_IMG={};
 /* getClubCrestSvg and kits17 read the same club-name table (CLUB_IDENTITY_ALIASES in js/visualIdentity.js) */
 function loadCrests(){ const clubs=new Set(); Object.values(pair).forEach(p=>p.club&&!CREST_IMG[p.club]&&clubs.add(p.club));
-  return Promise.all([...clubs].map(c=>new Promise(res=>{ try{ const im=new Image(); im.onload=()=>{ CREST_IMG[c]=im; res(); }; im.onerror=()=>res(); im.src="data:image/svg+xml,"+encodeURIComponent(window.getClubCrestSvg(c)); }catch(e){ res(); } }))); }
+  return Promise.all([...clubs].map(c=>(typeof window.loadClubCrestImage==="function"?Promise.resolve(window.loadClubCrestImage(c,"big")).catch(()=>null):Promise.resolve(null)).then(pic=>pic?(CREST_IMG[c]=pic,undefined):new Promise(res=>{ try{ const im=new Image(); im.onload=()=>{ CREST_IMG[c]=im; res(); }; im.onerror=()=>res(); im.src="data:image/svg+xml,"+encodeURIComponent(window.getClubCrestSvg(c)); }catch(e){ res(); } })))); }
 function coinFace(ctx, club, cx, cy, r){
   const k=KIT17.kit(club||"");
   ctx.save();

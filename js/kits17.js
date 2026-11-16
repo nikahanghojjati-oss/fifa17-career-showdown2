@@ -267,7 +267,12 @@
       }
     }
   }
+  // R94 HO-084: a club with an image crest (js/visualIdentity.js loadClubCrestImage) wears it; else (or if it fails) the SVG.
   function crestImage(club){
+    const pic=typeof root.loadClubCrestImage==="function"?Promise.resolve(root.loadClubCrestImage(club,"big")).catch(()=>null):Promise.resolve(null);
+    return pic.then(im=>im||crestSvgImage(club));
+  }
+  function crestSvgImage(club){
     const fn=root.getClubCrestSvg;
     if(typeof fn!=="function"||typeof Image==="undefined")return Promise.resolve(null);
     let svg;try{svg=fn(club);}catch(e){return Promise.resolve(null);}
@@ -279,7 +284,8 @@
   const crestFor=(club)=>{if(!crestCache.has(club))crestCache.set(club,crestImage(club).then(im=>{crestCache.set(club,Promise.resolve(im));crestCache.ready=crestCache.ready||new Map();crestCache.ready.set(club,im);return im;}));return crestCache.get(club);};
   const crestNow=(club)=>crestCache.ready&&crestCache.ready.get(club)||null;
   function drawCrest(g,im,x,y,s,k){
-    if(im){g.drawImage(im,x-s/2,y-s/2,s,s);return;}
+    // An image crest keeps its own shape (5:6); the SVG crest image is drawn in its square as before.
+    if(im){const r=im.naturalWidth&&im.naturalHeight&&!/^data:image\/svg/.test(String(im.src||""))?im.naturalWidth/im.naturalHeight:1;g.drawImage(im,x-s*r/2,y-s/2,s*r,s);return;}
     // No crest drawer on this page: a plain shield in the trim, never lettering.
     g.fillStyle=k.trim;g.beginPath();g.moveTo(x-s*.36,y-s*.42);g.lineTo(x+s*.36,y-s*.42);g.lineTo(x+s*.36,y);g.quadraticCurveTo(x+s*.3,y+s*.36,x,y+s*.46);g.quadraticCurveTo(x-s*.3,y+s*.36,x-s*.36,y);g.closePath();g.fill();
     g.fillStyle=k.body;g.beginPath();g.arc(x,y-s*.02,s*.15,0,Math.PI*2);g.fill();
@@ -464,7 +470,65 @@
 
   // ---------- flat views for 2D boards ----------
   const flatCache=new Map();
-  function prepareCrests(clubs){return Promise.all([].concat(clubs||[]).map(c=>crestFor(String(c&&c.club||c))));}
+  function prepareCrests(clubs){return Promise.all([].concat(clubs||[]).map(c=>crestFor(String(c&&c.club||c))).concat([loadMasterShirt()]));}
+
+  // R94 HO-084 (Team V master shirt): the front view is a photographed shirt's own shading (folds, seams, rib collar, cuffs)
+  // over our painted kit, so every club's shirt reads as real cloth. One grey shading layer with the shirt's shape in its alpha
+  // (576x768 WebP, ~35 KB) is tinted per club: the body pattern, the sleeves, the cuffs and collar in the trim, the crest, then
+  // the shading multiplied in and the shape cut out. Coordinates below are the master's own 1152x1536 pixels. Until it loads,
+  // or if it fails, the drawn shirt shows as before; the back view (name and number) stays drawn.
+  const MASTER={src:"KIT_MASTER_SHIRT_V1_SHADING_768.webp",W:1152,H:1536,box:[34,75,1117,1460],torso:[200,78,752,1384],
+    crest:[690,370,170],number:[576,720,300],
+    sleeve:[[205,150],[205,300],[222,470],[240,545],[252,740],[-10,740],[-10,150]],
+    cuff:[[-10,586],[245,622],[252,740],[-10,740]],
+    sleeveMap:{o:[285,140],across:[-300,62],along:[-58,540]},
+    collarOut:[576,160,160,82],collarIn:[576,140,128,56]};
+  const MASTER_BASE=(()=>{try{const sc=root.document&&root.document.currentScript;if(sc&&sc.src)return new URL("../visual-assets/v10_1/crests/",sc.src).href;}catch(e){}return "visual-assets/v10_1/crests/";})();
+  let masterImg=null,masterLoad=null;
+  function loadMasterShirt(){
+    if(masterLoad)return masterLoad;
+    if(typeof Image==="undefined")return(masterLoad=Promise.resolve(null));
+    masterLoad=new Promise(res=>{const im=new Image();im.decoding="async";im.onload=()=>{masterImg=im;flatCache.clear();res(im);};im.onerror=()=>res(null);im.src=MASTER_BASE+MASTER.src;});
+    return masterLoad;
+  }
+  if(root.document&&typeof Image!=="undefined")loadMasterShirt();
+  const masterCache=new Map();
+  function masterShirt(k,t,s,opts){
+    const f=s/(MASTER.box[3]-MASTER.box[1]),cw=Math.ceil(MASTER.W*f),ch=Math.ceil(MASTER.H*f),c=canvas(cw,ch),g=c.getContext("2d");
+    g.scale(f,f);
+    const poly=(pts,mx)=>{g.beginPath();pts.forEach(([x,y],i)=>{const X=mx?MASTER.W-x:x;i?g.lineTo(X,y):g.moveTo(X,y);});g.closePath();};
+    // Body: the kit's pattern painted in wrap space at the torso's own aspect (front = u .25-.75), so stripes and hoops keep
+    // their count and no crest or number is stretched.
+    const [tx,ty,tw,th]=MASTER.torso;
+    g.save();g.beginPath();g.rect(0,0,MASTER.W,MASTER.H);g.clip();g.translate(tx-tw/2,ty);paintPattern(g,tw*2,th,k);seams(g,tw*2,th);g.restore();
+    // Sleeves: each sleeve's own texture laid along the arm, then the cuff band in the trim.
+    for(const [mx,tex] of [[false,t.sleeveR],[true,t.sleeveL]]){
+      g.save();poly(MASTER.sleeve,mx);g.clip();
+      const m=MASTER.sleeveMap,sx=mx?-1:1,o=[mx?MASTER.W-m.o[0]:m.o[0],m.o[1]];
+      g.save();g.transform(m.across[0]*sx,m.across[1],m.along[0]*sx,m.along[1],o[0],o[1]);
+      if(tex)g.drawImage(tex,0,0,tex.width,tex.height*.9,0,0,1,1);else{g.fillStyle=sleeveColour(k,mx?"L":"R")||k.body;g.fillRect(0,0,1,1);}
+      g.restore();
+      poly(MASTER.cuff,mx);g.fillStyle=k.trim;g.fill();
+      g.restore();
+    }
+    // Collar: the rib in the trim, the inside of the back neck in the body's shade; a vee or polo cut drawn over the crew.
+    const [ox,oy,orx,ory]=MASTER.collarOut,[ix,iy,irx,iry]=MASTER.collarIn;
+    g.fillStyle=k.trim;g.beginPath();g.ellipse(ox,oy,orx,ory,0,0,Math.PI*2);g.fill();
+    // The back of the rib shows as a band across the top of the opening; below it, the inside of the shirt.
+    g.fillStyle=shade(k.body,-.3);g.beginPath();g.ellipse(ix,iy+12,irx-12,iry-10,0,0,Math.PI*2);g.fill();
+    if(k.collar==="vee"){g.fillStyle=k.trim;poly([[492,212],[576,318],[660,212],[628,206],[576,276],[524,206]],false);g.fill();
+      g.fillStyle=k.body;poly([[524,214],[576,276],[628,214]],false);g.fill();}
+    else if(k.collar==="polo"){g.fillStyle=k.trim;g.fillRect(552,236,48,140);g.fillStyle=shade(k.trim,lum(k.trim)>.5?-.3:.3);for(const by of [275,330]){g.beginPath();g.arc(576,by,9,0,Math.PI*2);g.fill();}}
+    // Crest on the wearer's left chest; a keeper's number under it when one is asked for.
+    if(opts.badge!==false){const [cx,cy,cs]=MASTER.crest;drawCrest(g,crestNow(k.club),cx,cy,cs,k);}
+    if(k.role==="gk")frontNumber(g,MASTER.number[0],MASTER.number[1],MASTER.number[2],k,k.body,opts.number);
+    overlayKnit(g,MASTER.W,MASTER.H,.12,3);
+    // The photographed shirt's light, then its shape.
+    g.globalCompositeOperation="multiply";g.drawImage(masterImg,0,0,MASTER.W,MASTER.H);
+    g.globalCompositeOperation="destination-in";g.drawImage(masterImg,0,0,MASTER.W,MASTER.H);
+    g.globalCompositeOperation="source-over";
+    return {c,f};
+  }
   function drawFlat(ctx,club,x,y,s,opts){
     // r90 W7: a front (or back) view of the shirt painted from the same textures as the 3D kit, drawn like a garment: set-in
     // sleeves with the cuff at the sleeve end, the collar as its own piece over the inside of the back neck, soft cloth shading
@@ -473,6 +537,11 @@
     const key=name+"|"+role+"|"+(opts.vsClub||"")+"|"+(opts.number||"")+"|"+(opts.name||"")+"|"+Boolean(crestNow(name));
     let t=flatCache.get(key);if(!t){t=textures(name,{role,vsClub:opts.vsClub,size:s>160?"phone":"small",number:opts.number,name:opts.name});flatCache.set(key,t);}
     const k=t.kit,back=Boolean(opts.back),S=t.shirt,SW=S.width,SH=S.height,top=SH*.06,hair=Math.max(.006,1/s);
+    if(masterImg&&!back){
+      const mk=key+"|"+Math.round(s);let m=masterCache.get(mk);if(!m){m=masterShirt(k,t,s,opts);masterCache.set(mk,m);}
+      const [bx,by,bx2,by2]=MASTER.box;ctx.drawImage(m.c,x-(bx+bx2)/2*m.f,y-(by+by2)/2*m.f);
+      return t.ready;
+    }
     const collarKind=back?"back":k.collar,inner=shade(k.body,-.42),trim=k.trim,rib=shade(trim,lum(trim)>.5?-.22:.22);
     const neckDip=collarKind==="vee"?.17:collarKind==="polo"?.07:collarKind==="back"?.025:.075;
     ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.lineJoin="round";ctx.lineCap="round";

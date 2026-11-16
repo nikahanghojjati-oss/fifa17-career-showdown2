@@ -66,6 +66,7 @@ function teamVClubJs(source){
       .replace(/^  let FRAME = (.*); \/\/ App \(JOB-34\).*$/,"  const FRAME = $1;")
       .replace(' || Boolean(window.CLUB_APP); // App (JOB-34): live stage changes play.',";")
       .replace("  if (!window.CLUB_APP) main().catch(showUnavailable); // App (JOB-34): the app mounts the screen itself.","  main().catch(showUnavailable);")
+      .replace(/^  function crestMarkup\(name\) \{ return window\.getClubCrestMarkup .* \/\/ App \(R94 HO-084\).*$/,"  function crestMarkup(name) { return window.getClubCrestSvg(name); }")
       .replace(/" \+ ASSET_BASE \+ "/g,"").replace(/\$\{ASSET_BASE\}/g,"").replace(/ \/\/ App \(JOB-34\)$/,""));
   return out.join("\n");
 }
