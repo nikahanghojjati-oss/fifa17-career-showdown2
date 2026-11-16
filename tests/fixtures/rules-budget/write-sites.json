@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "note": "R94-06 job 4: every Firestore save the client code can make (js/**/*.js), by file: how many write calls the file holds and which documents they write. tests/contracts/r93-rules-budget-sweep-contracts.cjs (S9) fails when a file gains, loses or adds a write call that is not listed here, or when a listed document is not measured by the Rules budget sweep (no kind in tests/fixtures/rules-budget/baseline.json). A new save therefore ships only with a sweep suite that plays it and a baseline entry.",
+  "files": {
+    "js/careerStartMarker.js": {"sites": 1, "writes": ["accounts/*/careerStart/current"]},
+    "js/careerSummaryStore.js": {"sites": 1, "writes": ["accounts/*/careerSummary/*"]},
+    "js/chamberMenStep.js": {"sites": 3, "writes": ["rivalries/*/chamberMenRounds/season_N"]},
+    "js/iconGuessStep.js": {"sites": 4, "writes": ["rivalries/*/primePackRounds/season_N"]},
+    "js/persistentNikDanielPair.js": {"sites": 7, "writes": ["accounts/*/pairLinks/current", "rivalries/*", "accounts/*/careerIndex/current", "accounts/*/partner/current", "accounts/*/partnerInbox/current"]},
+    "js/sparkAccountBootstrap.js": {"sites": 1, "writes": ["accounts/*"]},
+    "js/sparkConnectedRivalry.js": {"sites": 2, "writes": ["rivalries/*/state/authoritative", "rivalries/*/state/authoritative/idempotency/*"]},
+    "js/sparkPrivatePairing.js": {"sites": 10, "writes": ["accounts/*/devices/*", "rivalries/*", "rivalries/*/invites/*", "rivalries/*/meters/playerOne", "rivalries/*/meters/playerTwo"], "forwarding": 3, "why": "3 of the 10 are the budget layer's transaction proxy (set, update, delete), which forwards the writes of the other modules' transactions and has no target of its own"},
+    "js/sparkPrivateSession.js": {"sites": 3, "writes": ["rivalries/*/sessions/*"]},
+    "js/sparkRemoteJoining.js": {"sites": 1, "writes": ["rivalries/*/sessionOffers/current"]},
+    "js/sparkSharedCareerStart.js": {"sites": 1, "writes": ["rivalries/*/careerStart/authoritative"]},
+    "js/sparkSharedSeasonCommit.js": {"sites": 1, "writes": ["rivalries/*/seasonCommits/season_N"]},
+    "js/sparkSharedSeasonResults.js": {"sites": 3, "writes": ["rivalries/*/sharedSetup/*", "rivalries/*/seasonResults/season_N", "rivalries/*/seasonResults/season_N/roles/playerOne", "rivalries/*/seasonResults/season_N/roles/playerTwo"]},
+    "js/sparkSharedShowdownSetup.js": {"sites": 1, "writes": ["rivalries/*/sharedSetup/authoritative"]},
+    "js/sparkSharedTransferChallenge.js": {"sites": 4, "writes": ["rivalries/*/transferChallenges/season_N", "rivalries/*/transferChallenges/season_N/roles/playerOne", "rivalries/*/transferChallenges/season_N/roles/playerTwo", "rivalries/*/transferChallenges/season_N/roulette/*"]},
+    "js/sparkTerminalClose.js": {"sites": 3, "writes": ["rivalries/*", "rivalries/*/sessions/*"]},
+    "js/squadSheetStep.js": {"sites": 1, "writes": ["rivalries/*/squadSheets/*"]}
+  }
+}

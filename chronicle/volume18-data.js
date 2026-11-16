@@ -4,7 +4,7 @@ window.CHRONICLE_VOLUME18={
  "part": {
   "id": "chromebook-light",
   "title": "The light on the Chromebook",
-  "dek": "8 November 2026: 2.2.0 is live; 2.3.0 cuts the waste and keeps every 3D screen in 3D on Nik’s Chromebook.",
+  "dek": "The eighth of November, twenty twenty-six. 2.2.0 is live, and 2.3.0 cuts the waste so that every 3D screen stays 3D on Nik's Chromebook.",
   "image": "club.webp"
  },
  "chapters": [
@@ -13,20 +13,23 @@ window.CHRONICLE_VOLUME18={
    "number": 179,
    "part": "chromebook-light",
    "title": "Cut the waste",
-   "dek": "On the night of 7 November the owner stopped the polishing and gave the release one goal: less, and better.",
+   "dek": "On the night of the seventh of November, the owner stopped the polishing and gave the release one goal: less, and better.",
    "blocks": [
     {
-     "type": "callout",
-     "label": "Release boundary",
-     "text": "Written on 8 November 2026 from gameplay/r90, the branch that becomes 2.3.0. The live game is 2.2.0, released on 6 November. The numbers below were measured in the build room on a copy of Nik’s Chromebook: two processor threads, a processor slowed four times, an 8.7 Mbps line and a 1920x866 window. Sizes, counts and freezes there are exact. That copy draws its graphics in software, so its frame rates and waiting times only compare one build with another; the proof on the real Chromebook comes before the release."
+     "type": "p",
+     "text": "I am telling this from the eighth of November, from the branch that becomes 2.3.0. The live game is 2.2.0, released on the sixth. The numbers come from the build room, measured on a copy of Nik's Chromebook: two processor threads, a processor slowed four times, an 8.7 megabit line, and a window 1920 by 866. Sizes, counts and freezes on that copy are exact. But the copy draws its graphics in software, so its frame rates and waiting times only compare one build with another. The proof on the real Chromebook comes before the release."
     },
     {
      "type": "p",
-     "text": "Every game that grows for a hundred days grows a loft. Things go up there because nobody is sure they can be thrown away: a screen from an older era, a stylesheet for a look that was replaced, a picture that nothing shows any more. The Showdown had a large loft by November, and the house was starting to creak under it."
+     "text": "Every game that grows for a hundred days grows a loft. Things go up there because nobody is sure they can be thrown away: a screen from an older era, a stylesheet for a look that was replaced, a picture that nothing shows any more. By November the Showdown had a large loft, and the house was starting to creak under it."
     },
     {
      "type": "p",
-     "text": "It creaked loudest on Nik’s Chromebook. On the evening of 7 November the roulette crashed Chrome on its first open and ran choppy after that, the packs stuttered, and the Season Results boxes slid over faces in a window that was not full screen. Nik cancelled the polishing round that night and gave 2.3.0 one goal instead: cut the waste, and put quality first. Faster on the weakest machine, at its best picture, and never a crash on the first try."
+     "text": "It creaked loudest on Nik's Chromebook. On the evening of the seventh of November, the roulette crashed Chrome on its first open, and ran choppy after that. The packs stuttered. And the Season Results boxes slid over faces, in a window that was not full screen."
+    },
+    {
+     "type": "p",
+     "text": "Nik cancelled the polishing round that night, and gave 2.3.0 one goal instead. Cut the waste, and put quality first. Faster on the weakest machine, at its best picture, and never a crash on the first try."
     },
     {
      "type": "h2",
@@ -38,7 +41,7 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "That still filled a skip. 267 KB of source that no screen ever ran was deleted, with a check that stops it coming back. The CSS rules that could never apply went, along with an unused sheet. Thirteen pictures from the first visual era went, and so did a font the game downloaded twice. 37 MB of finished history, records of work already done, moved out of the working game into an archive folder where it can still be read."
+     "text": "That still filled a skip. 267 kilobytes of source that no screen ever ran were deleted, with a check that stops them coming back. The CSS rules that could never apply went, along with a sheet nobody used. Thirteen pictures from the first visual era went, and so did a font the game had been downloading twice. Once was enough. And 37 megabytes of finished history, the records of work already done, moved out of the working game into an archive folder, where they can still be read."
     },
     {
      "type": "h2",
@@ -46,11 +49,11 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "The first thing a manager sees is Home, so Home was made to load first. Screens a manager has not opened yet now wait their turn, Home’s pictures are sized for the screen that shows them, and the rest of the game is fetched quietly afterwards as an offline pack. On the copy of Nik’s Chromebook, the first open of Home fell from 3.15 MB to 1.95 MB, and from 96 files to 68."
+     "text": "The first thing a manager sees is Home, so Home was made to load first. Screens a manager has not opened yet now wait their turn. Home's pictures are sized for the screen that shows them. The rest of the game is fetched quietly afterwards, as an offline pack. On the copy of Nik's Chromebook, the first open of Home fell from 3.15 megabytes to 1.95, and from 96 files to 68."
     },
     {
      "type": "p",
-     "text": "The eight Home tiles lost their painted pictures as well. In their place stands one set of gold icons, drawn by the game itself with a single light falling on their relief, so every tile speaks the same language. Fourteen picture files went with the old art. Nik turned down the first, thinner line icons, and approved this set."
+     "text": "The eight Home tiles lost their painted pictures too. In their place stands one set of gold icons, drawn by the game itself, with a single light falling on their relief, so every tile speaks the same language. Fourteen picture files went with the old art. Nik turned down the first, thinner line icons, and approved this set. The icons, like most things in this studio, needed a second draft."
     },
     {
      "type": "h2",
@@ -58,11 +61,15 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "Quality had grown the way the loft had, one screen at a time, each with its own idea of what “high” meant. 2.3.0 gives the whole game one ladder: Light, Balanced, High, Extra, Ultra (4K) and 8K, with Auto choosing for each device. Settings now says which level Auto picked. A strong PC climbs to 4K, and to 8K if a manager asks for it; a strong phone gets a rich picture too; a weak machine stays lean. No screen is allowed its own names or its own levels any more, and a check keeps it that way."
+     "text": "Quality had grown the way the loft had, one screen at a time, each with its own idea of what high meant. 2.3.0 gives the whole game one ladder: Light, Balanced, High, Extra, Ultra, which is 4K, and 8K, with Auto choosing for each device. Settings now says which level Auto picked."
     },
     {
      "type": "p",
-     "text": "Two smaller cuts answered Nik directly. The yellow LEFT, MIDDLE and RIGHT words no longer hang over the Chamber Men goal. And the roulette no longer gives away its aim: nothing on screen tells a manager whose player the gun will find before the shot does."
+     "text": "A strong PC climbs to 4K, and to 8K if a manager asks for it. A strong phone gets a rich picture too. A weak machine stays lean. No screen is allowed its own names or its own levels any more, and a check keeps it that way."
+    },
+    {
+     "type": "p",
+     "text": "Two smaller cuts answered Nik directly. The yellow LEFT, MIDDLE and RIGHT words no longer hang over the Chamber Men goal. And the roulette no longer gives away its aim. Nothing on the screen tells a manager whose player the gun will find, before the shot does."
     }
    ],
    "sources": [
@@ -153,7 +160,7 @@ window.CHRONICLE_VOLUME18={
     "Home",
     "Quality levels"
    ],
-   "words": 702,
+   "words": 731,
    "minutes": 3
   },
   {
@@ -164,17 +171,16 @@ window.CHRONICLE_VOLUME18={
    "dek": "2.3.0 was built around one Chromebook, and around one promise to it: the 3D screens stay 3D.",
    "blocks": [
     {
-     "type": "callout",
-     "label": "Release boundary",
-     "text": "Written on 8 November 2026 from gameplay/r90, the branch that becomes 2.3.0. The live game is 2.2.0, released on 6 November. The numbers below were measured in the build room on a copy of Nik’s Chromebook: two processor threads, a processor slowed four times, an 8.7 Mbps line and a 1920x866 window. Sizes, counts and freezes there are exact. That copy draws its graphics in software, so its frame rates and waiting times only compare one build with another; the proof on the real Chromebook comes before the release."
+     "type": "p",
+     "text": "On the eighth of November, Nik ran a small check page on his Chromebook and pasted back what it found. An Intel UHD graphics chip. 4 gigabytes of memory. Two processor threads. A window 1920 by 866. A line of 8.7 megabits."
     },
     {
      "type": "p",
-     "text": "On 8 November Nik ran a small check page on his Chromebook and pasted back what it found: an Intel UHD graphics chip, 4 GB of memory, two processor threads, a 1920x866 window and a line of 8.7 Mbps. Then the check drew a test scene, and the answer surprised everyone. 307,200 lit triangles a frame, at the full window size, and it held 60 frames a second the whole way."
+     "text": "Then the check drew a test scene, and the answer surprised everyone. 307,200 lit triangles a frame, at the full window size, and it held 60 frames a second the whole way."
     },
     {
      "type": "p",
-     "text": "So the graphics chip was never the problem. The problem was two threads of processor doing everything else: unpacking files, preparing shaders, moving players, and all of it while trying to keep the picture still. The fix had to move that work out of the way and leave the picture alone."
+     "text": "So the graphics chip was never the problem. The suspect had an alibi all along. The problem was two threads of processor doing everything else: unpacking files, preparing shaders, moving players, and all of it while trying to keep the picture still. The fix had to move that work out of the way, and leave the picture alone."
     },
     {
      "type": "h2",
@@ -182,7 +188,11 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "Most games are tuned for the machine their makers wish you owned. Nik’s rule came the same day, and it was short. Chamber Men above all, then the roulette and the Special Player pack stay as they are designed on Light, the level the Chromebook gets, and the Prime Pack keeps its 2D design. A flat screen is otherwise allowed only on a device that cannot draw 3D at all. Light is the same game, made to fit."
+     "text": "Most games are tuned for the machine their makers wish you owned. Nik's rule came the same day, and it was short. Chamber Men above all, then the roulette and the Special Player pack, stay as they are designed on Light, the level the Chromebook gets. The Prime Pack keeps its 2D design. Otherwise, a flat screen is allowed only on a device that cannot draw 3D at all."
+    },
+    {
+     "type": "p",
+     "text": "Light is the same game, made to fit."
     },
     {
      "type": "h2",
@@ -190,11 +200,15 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "Until 2.3.0 the Chromebook had never seen the broadcast penalty. On the copy of Nik’s machine the stadium simply did not arrive in time: the shootout waited 4.2 seconds for 7 to 17 MB of players and stands, gave up, and played on the flat drawing, where repainting a kit cost a second and a half on every kick. Now the stadium’s Light files weigh 4.17 MB instead of 7.48, they are fetched while the season page is still open, and nothing gives up any more. The step waits for the stadium. If the kick clock starts first, a marble LOADING CHAMBER MEN box holds the goal, and the scene takes its place in step with the kicks already shown. If the graphics chip hiccups mid-shootout, the scene rebuilds itself instead of freezing. The flat drawing is left for a device without 3D."
+     "text": "Until 2.3.0, the Chromebook had never seen the broadcast penalty. On the copy of Nik's machine, the stadium simply did not arrive in time. The shootout waited 4.2 seconds for 7 to 17 megabytes of players and stands, gave up, and played on the flat drawing, where repainting a kit cost a second and a half on every kick."
     },
     {
      "type": "p",
-     "text": "On Light the stadium carries one real light, with the fill and the rim folded into it; on frozen frames the taker and the pitch read as bright as before. Every shader and texture is prepared behind the loading screen, so nothing is built in the middle of a kick. On the copy of the Chromebook, the freezes in ten seconds of play went from two of up to 1,538 ms to two of at most 161 ms, and to none at all on Balanced."
+     "text": "Now the stadium's Light files weigh 4.17 megabytes instead of 7.48. They are fetched while the season page is still open. And nothing gives up any more. The step waits for the stadium. If the kick clock starts first, a marble LOADING CHAMBER MEN box holds the goal, and the scene takes its place in step with the kicks already shown. If the graphics chip hiccups in the middle of a shootout, the scene rebuilds itself instead of freezing. The flat drawing is left for a device without 3D."
+    },
+    {
+     "type": "p",
+     "text": "On Light the stadium carries one real light, with the fill and the rim folded into it, and on frozen frames the taker and the pitch read as bright as before. Every shader and texture is prepared behind the loading screen, so nothing is built in the middle of a kick. On the copy of the Chromebook, the freezes in ten seconds of play went from two of up to 1,538 milliseconds, to two of at most 161 milliseconds. On Balanced, to none at all."
     },
     {
      "type": "h2",
@@ -202,11 +216,11 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "The roulette learned the same patience. It used to give up after 15 seconds of loading, or 20 seconds waiting to arm, and show a card where the spin should be. Now it waits as long as the page keeps reporting progress, up to four minutes, tries a fresh start once if something breaks, and rides out a lost graphics context in place. The card is left for a device without 3D, or a scene that fails twice."
+     "text": "The roulette learned the same patience. It used to give up after 15 seconds of loading, or 20 seconds waiting to arm, and show a card where the spin should be. Now it waits as long as the page keeps reporting progress, up to four minutes. It tries a fresh start once if something breaks, and it rides out a lost graphics context in place. The card is left for a device without 3D, or for a scene that fails twice. Twice. The roulette now believes in second chances."
     },
     {
      "type": "p",
-     "text": "On Light the room has two lights and the shot’s flash; the oil lamp’s glow is painted into the felt. The whole scene on the Chromebook copy now downloads 1.56 MB instead of 3.24. It draws 34 batches at rest instead of 44, and never more than 41 in a turn, where the shot used to reach 99. It needs 11 shaders instead of 17, and its stalls in play went from two to none."
+     "text": "On Light the room has two lights and the flash of the shot; the glow of the oil lamp is painted into the felt. On the Chromebook copy, the whole scene now downloads 1.56 megabytes instead of 3.24. It draws 34 batches at rest instead of 44, and never more than 41 in a turn, where the shot used to reach 99. It needs 11 shaders instead of 17. And its stalls in play went from two to none."
     }
    ],
    "sources": [
@@ -290,7 +304,7 @@ window.CHRONICLE_VOLUME18={
     "RRR",
     "Light"
    ],
-   "words": 707,
+   "words": 645,
    "minutes": 3
   },
   {
@@ -298,16 +312,11 @@ window.CHRONICLE_VOLUME18={
    "number": 181,
    "part": "chromebook-light",
    "title": "The packs, without the stutter",
-   "dek": "The Special Player pack loads without its long freeze, the Prime Pack stops fighting its own shadow, and the 2D screens breathe.",
+   "dek": "The Special Player pack loses its long freeze, the Prime Pack stops fighting its own shadow, and the flat screens breathe.",
    "blocks": [
     {
-     "type": "callout",
-     "label": "Release boundary",
-     "text": "Written on 8 November 2026 from gameplay/r90, the branch that becomes 2.3.0. The live game is 2.2.0, released on 6 November. The numbers below were measured in the build room on a copy of Nik’s Chromebook: two processor threads, a processor slowed four times, an 8.7 Mbps line and a 1920x866 window. Sizes, counts and freezes there are exact. That copy draws its graphics in software, so its frame rates and waiting times only compare one build with another; the proof on the real Chromebook comes before the release."
-    },
-    {
      "type": "p",
-     "text": "A pack opening is a held breath. It only works if nothing breaks the hold: no hitch as the card turns, no pause while the music plays on alone. On the Chromebook both packs broke it."
+     "text": "A pack opening is a held breath. It only works if nothing breaks the hold: no hitch as the card turns, no pause while the music plays on alone. On the Chromebook, both packs broke it."
     },
     {
      "type": "h2",
@@ -315,11 +324,11 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "The Special Player pack froze the whole page for 6.4 seconds while it loaded, music and all, even behind the loading screen. Most of that freeze was the page waiting for every shader at once. The rest was sixteen card faces painted in one go, and a whole drawn stadium that was built and thrown away before the first frame, because a photograph replaced it."
+     "text": "The Special Player pack froze the whole page for 6.4 seconds while it loaded, music and all, even behind the loading screen. Most of that freeze was the page waiting for every shader at once. The rest was sixteen card faces painted in one go, and a whole drawn stadium that was built and thrown away before the first frame, because a photograph replaced it. The most elaborate thing on the screen was the one nobody ever saw."
     },
     {
      "type": "p",
-     "text": "Now the shaders are prepared one at a time while the page keeps breathing, the card faces are painted one per beat, and the stadium nobody saw is never built. The longest freeze on the copy of Nik’s Chromebook fell from 6.4 seconds to 0.29. The pack itself got lighter too, from 3.84 MB to 3.54, and plays with no freezes at any level."
+     "text": "Now the shaders are prepared one at a time while the page keeps breathing. The card faces are painted one per beat. And the stadium nobody saw is never built. The longest freeze on the copy of Nik's Chromebook fell from 6.4 seconds to 0.29. The pack itself got lighter too, from 3.84 megabytes to 3.54, and it plays with no freezes at any level."
     },
     {
      "type": "h2",
@@ -327,11 +336,11 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "The Prime Pack was never a 3D scene. It is a marble plate, a card, a clock ring and five stages of clues. Nik was asked whether it should become 3D or stay flat and be made smooth, and chose smooth. It is a guessing screen, the clues have to read at a glance, and the Chromebook’s two threads were better spent on the stadium and the roulette."
+     "text": "The Prime Pack was never a 3D scene. It is a marble plate, a card, a clock ring and five stages of clues. Nik was asked whether it should become 3D, or stay flat and be made smooth. He chose smooth. It is a guessing screen, the clues have to read at a glance, and the Chromebook's two threads were better spent on the stadium and the roulette."
     },
     {
      "type": "p",
-     "text": "The stutter turned out to be work nobody could see. In two seconds of the guessing window on the Chromebook copy, the page changed itself 1,830 times and laid itself out again 121 times. Now it changes the page 120 times and lays it out 8. The clock ring now steps five times a second, a pixel of arc at a time, instead of repainting on every frame. The card’s soft shadow, which the browser used to blur afresh each frame, is now one 25 KB picture, blurred once. The look is the same; only the work is gone."
+     "text": "The stutter turned out to be work nobody could see. In two seconds of the guessing window on the Chromebook copy, the page changed itself 1,830 times, and laid itself out again 121 times. It was extremely busy doing nothing a manager could see. Now it changes the page 120 times, and lays it out 8. The clock ring steps five times a second, a pixel of arc at a time, instead of repainting on every frame. The card's soft shadow, which the browser used to blur afresh on every frame, is now one 25 kilobyte picture, blurred once. The look is the same. Only the work is gone."
     },
     {
      "type": "h2",
@@ -339,11 +348,15 @@ window.CHRONICLE_VOLUME18={
     },
     {
      "type": "p",
-     "text": "The same idea reached every 2D screen. On Light, the costliest effects give way to lighter stand-ins that look nearly the same. A moving block over each screen measures what a frame costs to paint. On the Chromebook copy, History fell from 197.6 ms a frame to 40.0, Settings from 129.2 to 41.7, Season Results from 101.1 to 30.6 and Home from 40.5 to 17.1. The full look on Balanced and above is untouched. Light just stopped paying for what it could not show."
+     "text": "The same idea reached every 2D screen. On Light, the costliest effects give way to lighter stand-ins that look nearly the same. A moving block over each screen measures what a frame costs to paint. On the Chromebook copy, History fell from 197.6 milliseconds a frame to 40.0. Settings, from 129.2 to 41.7. Season Results, from 101.1 to 30.6. And Home, from 40.5 to 17.1. The full look on Balanced and above is untouched. Light just stopped paying for what it could not show."
     },
     {
      "type": "p",
-     "text": "None of this changes a rule. Chamber Men still loads the roulette, the Prime Pack still pays 4, 3, 2 or 1, and a Showdown is still won fifteen points at a time. 2.3.0 only makes sure the weakest machine at the table, Nik’s Chromebook, sees the same game as the strongest."
+     "text": "None of this changes a rule. Chamber Men still loads the roulette. The Prime Pack still pays four, three, two or one. And a Showdown is still won fifteen points at a time. 2.3.0 only makes sure that the weakest machine at the table, Nik's Chromebook, sees the same game as the strongest."
+    },
+    {
+     "type": "p",
+     "text": "Every one of those numbers was measured on a copy. The proof on the real Chromebook still comes before the release."
     }
    ],
    "sources": [
@@ -411,9 +424,9 @@ window.CHRONICLE_VOLUME18={
     "2D screens",
     "Light"
    ],
-   "words": 602,
-   "minutes": 3
+   "words": 556,
+   "minutes": 2
   }
  ],
- "wordCount": 2011
+ "wordCount": 1932
 };
