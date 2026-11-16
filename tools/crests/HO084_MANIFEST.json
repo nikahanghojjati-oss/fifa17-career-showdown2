@@ -1172,6 +1172,692 @@
    "ticket": "HO-093",
    "fromSha256": "584fe990679ebc6d7716e50151ae2e9fe9a609eac4ae1fe82cb0f71d3e7c0246",
    "sha256": "470106c6705143bfe37e76bc3ce971481860b2196834605c3c802d9a986ab50d"
+  },
+  "CREST_IMG_ALAVES_V1_512.webp": {
+   "from": "CREST_IMG_ALAVES_V1_1024.png",
+   "ticket": "HO-088",
+   "fromSha256": "3fd33d96c4c501f41dbacbcff0516c0d6bcd45e5dd8d8104dc8112e2b910844b",
+   "sha256": "add321bead527a73558434d332d8f5ae3dc4bb07d03e538511a45990343d3085",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_ANGERS_V1_512.webp": {
+   "from": "CREST_IMG_ANGERS_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "176f26d8850f266058bf94529501e1d3a5ff5c9f2d9f67510068559b44b939a8",
+   "sha256": "bbf3897454bb4b510c3800f27b381ba15a6d86b19bd2fc190437b06b40470ec1",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_ARSENAL_V1_512.webp": {
+   "from": "CREST_IMG_ARSENAL_V1_1024.png",
+   "ticket": "HO-088",
+   "fromSha256": "771c314a6bf7811a89fc274fc56a0e3f6a8ce46dee133aecd03518e963e42987",
+   "sha256": "07f8b8e9cfaaa5924b5ed24ac0e34c9df60c90b54eba9262b586a73bb5195bf6",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_ATALANTA_V1_512.webp": {
+   "from": "CREST_IMG_ATALANTA_V1_1024.png",
+   "ticket": "HO-087",
+   "fromSha256": "13d40597b7e9b90addaa4dfb70e201e4807a65c93e0c2233417ca6c85dd75c3f",
+   "sha256": "e67f190d0446a2b2d772b6de151fa3ca6a46f500f17fa765909e97b21a9abfb2",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_ATHLETIC_V1_512.webp": {
+   "from": "CREST_IMG_ATHLETIC_V1_1024.png",
+   "ticket": "HO-090",
+   "fromSha256": "649e6e18c5e4f2ab31eaf3d07b2968f41a23ed792ae2b2764455f29cf655bd50",
+   "sha256": "99f2aeb3a6462d5f9852d5159035b0df663d483d6cf0d0925099deda67d0295e",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_ATLETICO_V1_512.webp": {
+   "from": "CREST_IMG_ATLETICO_V1_1024.png",
+   "ticket": "HO-088",
+   "fromSha256": "262e52b8bec20cd1b077b00e5ccfe1fce46d1576d720f8da9f8dfd40fa822fd9",
+   "sha256": "b2e7f24609126185373a1924f18bdc4d4fe79f23142a8a38c4eacdac0cf76c0d",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_AUGSBURG_V1_512.webp": {
+   "from": "CREST_IMG_AUGSBURG_V1_1024.png",
+   "ticket": "HO-091",
+   "fromSha256": "ac409876a256fbdc61ba3e0b7327ed5d3c8fd5b4440d2977794d1d2eb8d02eb2",
+   "sha256": "71e9b0d45759a237e1b03eb81675bb6c4b430180fcf6991a3926098efbc96a0e",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_BARCELONA_V1_512.webp": {
+   "from": "CREST_IMG_BARCELONA_V1_1024.png",
+   "ticket": "HO-084",
+   "fromSha256": "8349895cb9eef2d346811532577279b3b5ae93ab54d488b3aa5967c13db1e2f5",
+   "sha256": "e156f333a2ed4ceb37b225d0cb21d63e2d73a05a455456f9614e9e69de5dbf31",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_BASTIA_V1_512.webp": {
+   "from": "CREST_IMG_BASTIA_V1_1024.png",
+   "ticket": "HO-087",
+   "fromSha256": "8f2ae8d3ca2ff4af7161ef98d437004deafc75b7dcd667a377508e0089f39bf2",
+   "sha256": "3f7be0bfa5b0edbc323d55a055c4d90bcfd6d11766546338ddea4cbcc3386a82",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_BAYERN_V1_512.webp": {
+   "from": "CREST_IMG_BAYERN_V1_1024.png",
+   "ticket": "HO-091",
+   "fromSha256": "21a190704e308db78bc924776beaef9e02ba3f912962f4739c198deaa77544ea",
+   "sha256": "592f3b47bad421caa1ce6ceabea5b15b1ef95a6f76700ed8e43a6d11b5165ee2",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_BETIS_V1_512.webp": {
+   "from": "CREST_IMG_BETIS_V1_1024.png",
+   "ticket": "HO-089",
+   "fromSha256": "e23adc23c067b823c266669a44fff83e5bb1815166b5da2bc4f6050857e797ea",
+   "sha256": "f13a68a95acbde516bcd46920996c2486253c13f3dceddb12eb12e3b004821f1",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_BOLOGNA_V1_512.webp": {
+   "from": "CREST_IMG_BOLOGNA_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "992c4de3b7e9c2069e9086cfc3fbc0fef8344d462bffdcf0d82f255538c8266b",
+   "sha256": "9944418f9a30dc2d7d988a2e4d122bac35e6f3ed584f022c7d9628f31a91d992",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_BORDEAUX_V1_512.webp": {
+   "from": "CREST_IMG_BORDEAUX_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "8d31b5bcf8d367cc9373756c37d8f53aeac0675bdc35803863175fe00d9012ff",
+   "sha256": "a2791f56048bf259596e32e8689ada011ee1f3545c5eee01a9d6103cf678cc1d",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_BORO_V1_512.webp": {
+   "from": "CREST_IMG_BORO_V1_1024.png",
+   "ticket": "HO-085",
+   "fromSha256": "29a530fee5a12d97b14c9a3d164e7c39205b9b9b0f148d3a6819503b75badf84",
+   "sha256": "ea1156b4b2b6761338a3b5f8f236a428be9d9474c8c237d3e19cc2685871203d",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_BOURNEMOUTH_V1_512.webp": {
+   "from": "CREST_IMG_BOURNEMOUTH_V1_1024.png",
+   "ticket": "HO-086",
+   "fromSha256": "5dac151c1c5e44387b4f2ebd06dc6b1bf2719dbcf3d1b8e1be3b492fec6d59f2",
+   "sha256": "8a475a1e9515b2959e5a1807ccd2e4e1dca7283bd91f033fe41bfccca692fb7e",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_BREMEN_V1_512.webp": {
+   "from": "CREST_IMG_BREMEN_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "5deeac8419aeca29dde07d0b26ed07aef281a992df04debdc6cc3f5f3360feb7",
+   "sha256": "c80c6ec2a3ce25b8d9f8019951119cca0acae2d071524b21594025390f8d1130",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_BURNLEY_V1_512.webp": {
+   "from": "CREST_IMG_BURNLEY_V1_1024.png",
+   "ticket": "HO-088",
+   "fromSha256": "587c8c7d1f01d4962c25547625c6993e634ae9eaee268e253916804b86c61c3a",
+   "sha256": "894ad84b1cf86da0d5ce8f62561daa9cb3617f22691836608955e4449e98fc54",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_CAEN_V1_512.webp": {
+   "from": "CREST_IMG_CAEN_V1_1024.png",
+   "ticket": "HO-086",
+   "fromSha256": "0a7c4bd36e5fbbac953d13ff2adc6461332354f58066c70a1a562ae6ae7c9631",
+   "sha256": "cd41aa2542f36bed34c7fb15996423b60752cc35cd2b82e65514b7a8fe608c91",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_CAGLIARI_V1_512.webp": {
+   "from": "CREST_IMG_CAGLIARI_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "bff1c42b4b24e3599f8b5c2a24ee42f1452277f3276f2b6224db0643d1fb7dde",
+   "sha256": "5513ba239a786a04a106db5f5ed16f076cd49ff9fa0f3227d1ded8db56a8e303",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_CELTA_V1_512.webp": {
+   "from": "CREST_IMG_CELTA_V1_1024.png",
+   "ticket": "HO-089",
+   "fromSha256": "09c8737b66d0b3e6b91ce2712df47d779538de026216e21b2042d02aa8570977",
+   "sha256": "7ff1d42b483b1a9aa8024a37e2aea522cc511d2c68e437aca18a63a1bdc48933",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_CHELSEA_V1_512.webp": {
+   "from": "CREST_IMG_CHELSEA_V1_1024.png",
+   "ticket": "HO-084",
+   "fromSha256": "37850a008f255bb31ec71a172c0305a318b00017a9788e8abd8662a7fc83b3d7",
+   "sha256": "8c1f85295ec8d7ac564c90692f72599e35e0f5958a4d0353b600e0b305f18826",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_CROTONE_V1_512.webp": {
+   "from": "CREST_IMG_CROTONE_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "1dce3750b81840c3013b104d031f628baf3c721db697ecd26d3e604dac0b697b",
+   "sha256": "db092757e442ab895e968da068d21f87d1171be5b1fcdbb7c9bc6ad5b6bfc066",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_DARMSTADT_V1_512.webp": {
+   "from": "CREST_IMG_DARMSTADT_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "1b3dc4b762d23f4bd08b0f8a573418f4593819f398bb9d1a639985290ef09578",
+   "sha256": "a4300f58a94e562931a8d8c092c3492d47017a55338cf72a95c5f83138e6d910",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_DEPOR_V1_512.webp": {
+   "from": "CREST_IMG_DEPOR_V1_1024.png",
+   "ticket": "HO-089",
+   "fromSha256": "1cb413d99e560084e245dd5735620b15121f7461604bf4defc98dd0d9c1aa2ec",
+   "sha256": "5a139a4f46c96b68caf6054a1fc7d1fe973822f46f1ed2d9f6d0d9c724c9226c",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_DIJON_V1_512.webp": {
+   "from": "CREST_IMG_DIJON_V1_1024.png",
+   "ticket": "HO-088",
+   "fromSha256": "d44389c9377501e3b084c4b09a8289c38e1719c7ebfbae053ba7477a6e53ecac",
+   "sha256": "758813f1730b641d3b0854772d5330edafdbfb7faf234999733c1e7080447e3e",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_DORTMUND_V1_512.webp": {
+   "from": "CREST_IMG_DORTMUND_V1_1024.png",
+   "ticket": "HO-091",
+   "fromSha256": "4232064071f8400195405c6e9346c23b94dbdd9947410a85486fde5fbb41a916",
+   "sha256": "7054bcf5a5f7026adcc19371ff94118727d73f6f5441242a94453c2a91739f55",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_EIBAR_V1_512.webp": {
+   "from": "CREST_IMG_EIBAR_V1_1024.png",
+   "ticket": "HO-089",
+   "fromSha256": "f0d1b06d76b133394a3c5f8a37c1fa8e6f1f4a6d94ab3c178c7ab902c3460f64",
+   "sha256": "6c0fca75798f02dff66ed74a6f640abe0ba10d2bd34a73404fedf37da2677956",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_EMPOLI_V1_512.webp": {
+   "from": "CREST_IMG_EMPOLI_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "90e2872d20fb1d69d731e11eafd6af736605f954ed19264b3ffc4a15aba6431b",
+   "sha256": "fdde794c570436fd810663d064b64e2e1f7cf560ebd3377c64a65ac817c7f1bc",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_ESPANYOL_V1_512.webp": {
+   "from": "CREST_IMG_ESPANYOL_V1_1024.png",
+   "ticket": "HO-089",
+   "fromSha256": "cdb5b303d72b3b742b14825643a15810a21d2f1d0f99aa106241f5f44de139f1",
+   "sha256": "6cf5c168f430a70d498f3197809171d837d30670336b0cc8cf00a43b7b05dec0",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_EVERTON_V1_512.webp": {
+   "from": "CREST_IMG_EVERTON_V1_1024.png",
+   "ticket": "HO-087",
+   "fromSha256": "093cfbaa3fe887971d586b51154c3bbe0d6451885578d0b2013d76b38c1daf46",
+   "sha256": "810ff2d9276d5ad4a33a1fbbef87399b9c1bc183e5d36f407def6736ac7ff367",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_FIORENTINA_V1_512.webp": {
+   "from": "CREST_IMG_FIORENTINA_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "f7575da823617fd53294a475356697cb6a767cb4ffafc2d35c84cac24a9a6a04",
+   "sha256": "0409226cd6f439559d7fdf4126a6a17d6d0e9aff497b0b758b6eccf919119241",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_FRANKFURT_V1_512.webp": {
+   "from": "CREST_IMG_FRANKFURT_V1_1024.png",
+   "ticket": "HO-085",
+   "fromSha256": "53e6e494a259e6bf03709554dedbf455cd40ec27c76e2e1142b2fe038099df93",
+   "sha256": "49c94153d4f5f5ee97c935f26836ad972a16a0ecef7b72a8dc3c3afa976bde6d",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_FREIBURG_V1_512.webp": {
+   "from": "CREST_IMG_FREIBURG_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "a83c12c0fa38df7108c181fb0a826e776bf44c5d037d77f34b09c06406578ff1",
+   "sha256": "71e352b8224b62702cf4ba8543d858729933f95d797c3f5dbd985cee66c1f9b9",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_GENOA_V1_512.webp": {
+   "from": "CREST_IMG_GENOA_V1_1024.png",
+   "ticket": "HO-085",
+   "fromSha256": "815c5fe1c2505edd2660fd64881d70ae0da604b43e50eee40d33da074eb60657",
+   "sha256": "4d47bbaa23a029a6976f9bd9da51430c52b3c3a143283ed739ee3b1fabaccad9",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_GLADBACH_V1_512.webp": {
+   "from": "CREST_IMG_GLADBACH_V1_1024.png",
+   "ticket": "HO-087",
+   "fromSha256": "ce3a83c13656e50bb9bb202e765a6eff3be48a4871fb98cb3c340f5aa25c21d9",
+   "sha256": "3800f7f740442ab436ec62f6ce42e9dc28a1b50ef67785414c4f675a18f12ba7",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_GRANADA_V1_512.webp": {
+   "from": "CREST_IMG_GRANADA_V1_1024.png",
+   "ticket": "HO-089",
+   "fromSha256": "80c202aff0a81e250b665dfbe75332eeb1d10ea8b853f73ac49f63bccd1a8e84",
+   "sha256": "af1502bf3bf231d1c3d77cfa265253b87176da66a51b6b8ba0e385e130373684",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_GUINGAMP_V1_512.webp": {
+   "from": "CREST_IMG_GUINGAMP_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "c4d294ee1fd997bf28bfbe58fc3031d4a5bdb0663766352a557edcbf27dc1abc",
+   "sha256": "a3f6005462317addcecf3e757f41946c8a23195f713adf0cf6d0bb81420f3d7c",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_HAMBURG_V1_512.webp": {
+   "from": "CREST_IMG_HAMBURG_V1_1024.png",
+   "ticket": "HO-091",
+   "fromSha256": "fd3d570db22ec4bfb8949f69413833513f87222449caf68187d0de373ca02226",
+   "sha256": "1989161f427724bab16ecfc05606ea651cb4b6e0f9cf33a4ffb7d13bd78ba8af",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_HERTHA_V1_512.webp": {
+   "from": "CREST_IMG_HERTHA_V1_1024.png",
+   "ticket": "HO-091",
+   "fromSha256": "eca694414c441d5972f128bf13a4fce9bcad76243e13948f913f093a8865a400",
+   "sha256": "bb8f433e5864a0719ebc01ffeeb399cf5c57d3d999579459930b8275bd1a34fe",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_HOFFENHEIM_V1_512.webp": {
+   "from": "CREST_IMG_HOFFENHEIM_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "53665870b8df0ffb32b3ab9d82ee4d8c5e93ccdeff479df2fbdb9d1b3dcabcab",
+   "sha256": "ec84df72bd03268f00f7b800bbdf3f84d9dc4e5bcbea8559cb61c6fd4bcb3f87",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_HULL_V1_512.webp": {
+   "from": "CREST_IMG_HULL_V1_1024.png",
+   "ticket": "HO-086",
+   "fromSha256": "3089da5275e313c70f828429ad70b91b8f932be765b4fa7c03c4783cee7e69d3",
+   "sha256": "054879c9200ac9cb7e4d5990a166bbd88fe56f5e1bb1bae4fafa3cba8ac63fd9",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_INGOLSTADT_V1_512.webp": {
+   "from": "CREST_IMG_INGOLSTADT_V1_1024.png",
+   "ticket": "HO-086",
+   "fromSha256": "0ed87a87efcbc0c99658eff4d71fd8f8dc2f7dbde5001688db1c8bc8b43e625b",
+   "sha256": "6a03317be75a9714c6a23b1655356d702f7d1205e9a13e7997e6da5593d95b28",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_INTER_V1_512.webp": {
+   "from": "CREST_IMG_INTER_V1_1024.png",
+   "ticket": "HO-090",
+   "fromSha256": "a761714a4d3b476e4d00df08a6e4726f7f2c9f841f4eecfdd3293e84f463c094",
+   "sha256": "74f80bdb8a3effdd4ca1c9b32d78654dca8361c51f960e9c390a2bbdbf281293",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_JUVENTUS_V1_512.webp": {
+   "from": "CREST_IMG_JUVENTUS_V1_1024.png",
+   "ticket": "HO-091",
+   "fromSha256": "e7a9996f5b0b6720b444b89d5f4264b5523e6dc7ddf0932ada767d6264e3dfb0",
+   "sha256": "4afec000fe0555565b964213ec97f13fd57086fa8939f97d08d2608bd1f1ea4d",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_KOELN_V1_512.webp": {
+   "from": "CREST_IMG_KOELN_V1_1024.png",
+   "ticket": "HO-087",
+   "fromSha256": "db7ad822304e7609c46332e39b3c26382c4354ec3ce133fc555deb125b06ce94",
+   "sha256": "d52df24cbec3de7d6675cce26048c57e1d79eaf73792d04db7f10b034ea63770",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_LASPALMAS_V1_512.webp": {
+   "from": "CREST_IMG_LASPALMAS_V1_1024.png",
+   "ticket": "HO-090",
+   "fromSha256": "41ff0d66b47b9c61ece83edf3b539da8e8d0e52443562b334316f4fd13d5717a",
+   "sha256": "55e87a84ebcd985835f63bbab4fd90aef27199b17f0403111e9a1ff950abfff8",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_LAZIO_V1_512.webp": {
+   "from": "CREST_IMG_LAZIO_V1_1024.png",
+   "ticket": "HO-085",
+   "fromSha256": "44407743080b01997cec3dcef756d1e6936eaa65f5f43ee6e1d01478c6f8d1d4",
+   "sha256": "d45389f662e797b3a7d93d88918aec1294e7de59cee36e5f3d84027c1e7eab7d",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_LEGANES_V1_512.webp": {
+   "from": "CREST_IMG_LEGANES_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "d18e36b4dd17da8d8dca96bc345cc3ab3c844db10ee059e5430fd03a9fafe014",
+   "sha256": "db59de4eedb66129614eaf841b409d6f830bda40cd564c74fd9c0d24665ef464",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_LEICESTER_V1_512.webp": {
+   "from": "CREST_IMG_LEICESTER_V1_1024.png",
+   "ticket": "HO-086",
+   "fromSha256": "be71024f5b67bb7704fe0418c52cf3cb7099320ee57c0fdb87dddfb8e75f296e",
+   "sha256": "5d06fb87128d5b5714a8fdce96273bd566af3b0da1c3b89ea68a0af143c02a0e",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_LEIPZIG_V1_512.webp": {
+   "from": "CREST_IMG_LEIPZIG_V1_1024.png",
+   "ticket": "HO-090",
+   "fromSha256": "607275c04782a0128da6dff0ca2ba7abcddae5f64fbad12e499c5bb3380466c2",
+   "sha256": "931f3a7ca3832bc30ebef7b518347da37073a020c40f81b2c3cd92628fcdb7f8",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_LEVERKUSEN_V1_512.webp": {
+   "from": "CREST_IMG_LEVERKUSEN_V1_1024.png",
+   "ticket": "HO-085",
+   "fromSha256": "c8bf070cd771a1b848e281596e0f0615a446f93fed36ba936136ee82992aa740",
+   "sha256": "44e8623852735cc8791363a6162c558a13dcf0711052ee65dd8593fa37658900",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_LILLE_V1_512.webp": {
+   "from": "CREST_IMG_LILLE_V1_1024.png",
+   "ticket": "HO-086",
+   "fromSha256": "6279939faeac222b5198f9009338748b6aa2963422760f542629e45803d0a214",
+   "sha256": "ce1f1056dc2c8a6e2565a147c715b3f20bcfbb35596711776d2fa0df7b03945c",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_LIVERPOOL_V1_512.webp": {
+   "from": "CREST_IMG_LIVERPOOL_V1_1024.png",
+   "ticket": "HO-085",
+   "fromSha256": "35571475534c5881447de30074aa738f89d14f78e251a86742f89696439d3ec3",
+   "sha256": "61a19347f3e9c4868f6ec28eedd20bfd84ecffc7e3febc2c42b204eadf238353",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_LORIENT_V1_512.webp": {
+   "from": "CREST_IMG_LORIENT_V1_1024.png",
+   "ticket": "HO-088",
+   "fromSha256": "a25b2f0deb2cb520d28fbefdb19f9ccdf0b69f4097f99a54ae6e8d350002f9b4",
+   "sha256": "b4b72a22cf0b802e390c7212f5127f4b55a9816ca0a72c55889243647e4ed96f",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_LYON_V1_512.webp": {
+   "from": "CREST_IMG_LYON_V1_1024.png",
+   "ticket": "HO-085",
+   "fromSha256": "c211442736dda5f0fdae8961a9b42ef213e5234bc397b4b4da6438678c88db89",
+   "sha256": "847360d99f340c663a1a80f0877fe341ff4d71a860a33b55532d8925502e3fc9",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_MAINZ_V1_512.webp": {
+   "from": "CREST_IMG_MAINZ_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "e229d1f6e3f47d247e732f6fc862d693a12d838f3e976a160fe50a867750a2cd",
+   "sha256": "7df86c9a9eaa37faeb9c66315e1168e558226851f47e998dfd1bb5c486ac350e",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_MALAGA_V1_512.webp": {
+   "from": "CREST_IMG_MALAGA_V1_1024.png",
+   "ticket": "HO-089",
+   "fromSha256": "6cae6b7c26606f91b4fa186096faa3fbe70c606d6b1ac401f60b0911a83c330a",
+   "sha256": "eefd201093b886983843ddbd283c0b7f49a773d9c08538bd4d03aac07c028190",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_MANCITY_V1_512.webp": {
+   "from": "CREST_IMG_MANCITY_V1_1024.png",
+   "ticket": "HO-088",
+   "fromSha256": "7db3b7f8404e0251f56158ed34a7b903bf27168f5b467982523094123067fa58",
+   "sha256": "6abbfd877ea6c8b7dbffe4242de0f95ddbf621e2a31a6235f018bea7c9114fd9",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_MANUTD_V1_512.webp": {
+   "from": "CREST_IMG_MANUTD_V1_1024.png",
+   "ticket": "HO-085",
+   "fromSha256": "c6ad17cdabae86d640a54035d7bbf92705bbfdd4ab0ff5cf88301cd2fc2c8e7c",
+   "sha256": "4c923c4610ec4847e26c26ff22c31e74ca7efa4c1d541cf9b8679c8ba3c00bcd",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_MARSEILLE_V1_512.webp": {
+   "from": "CREST_IMG_MARSEILLE_V1_1024.png",
+   "ticket": "HO-091",
+   "fromSha256": "cc7a9da9851585562045f6e2497a1624d001855ac5c7a8f88f6063cfff64143c",
+   "sha256": "7ea594d99988cdc4dc78f1939af6f42c4c4b963d2c148eee9fd73bad9f549d3f",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_METZ_V1_512.webp": {
+   "from": "CREST_IMG_METZ_V1_1024.png",
+   "ticket": "HO-084",
+   "fromSha256": "ba23422d85a27b285972674cbcd1633fb3f3bf46a7d2e2cd061a76dd4c12e364",
+   "sha256": "dd64bfc213a891fe2210e72cd4d77a40fdb5c5fd5e7f943fdb505d9633b0fb83",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_MILAN_V1_512.webp": {
+   "from": "CREST_IMG_MILAN_V1_1024.png",
+   "ticket": "HO-091",
+   "fromSha256": "2ce11cc84df34ca174d89ed6479486c82a2305aadedc01001428081a8f8366c3",
+   "sha256": "555699ee435d4922733d9e46f32b3034f293103fecf2dee04c9f86650e819387",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_MONACO_V1_512.webp": {
+   "from": "CREST_IMG_MONACO_V1_1024.png",
+   "ticket": "HO-090",
+   "fromSha256": "46b4e713e38f8663f74beba1512ec21655d8be1348baecf1499c6fc218303838",
+   "sha256": "d46cb302fa84a25bc309d58f1bc64641f8e340d03342d09a363f0c1c0df040b3",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_MONTPELLIER_V1_512.webp": {
+   "from": "CREST_IMG_MONTPELLIER_V1_1024.png",
+   "ticket": "HO-091",
+   "fromSha256": "d95b96d18f09450d02cb896704e0fec92067795807033f8f7aa194ec9f255cb3",
+   "sha256": "f5f89d185d5c94ad4b50f3173d77dbe687ed2a26e403c145a15c537e36714163",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_NANCY_V1_512.webp": {
+   "from": "CREST_IMG_NANCY_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "d270cf198fc49b996b287461f8a65b6f404ca6e8bdb37e8d2bd648d976c64d6b",
+   "sha256": "20f8b0eae50b91a2aa5b2570aad3e0b8d1c49dab04ae8f8c6dd1f4fd1cd7651f",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_NANTES_V1_512.webp": {
+   "from": "CREST_IMG_NANTES_V1_1024.png",
+   "ticket": "HO-090",
+   "fromSha256": "e603cc8b253dfca32a55e0cfcc43f4994a6157d25542c2ce097b6edd5b5777b3",
+   "sha256": "5f33858dde442ecc8d0874834160f43d690f9411886563e013c88fec66ede3c7",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_NAPOLI_V1_512.webp": {
+   "from": "CREST_IMG_NAPOLI_V1_1024.png",
+   "ticket": "HO-087",
+   "fromSha256": "3e5a0b8cd57b3a8c60a228ef31af7df58b526fef7c2e5a695e7f75ba8ff73c94",
+   "sha256": "7b1dba0416375b1b768124540a2551ac584ee483adda9608c307349eda2db5a3",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_NICE_V1_512.webp": {
+   "from": "CREST_IMG_NICE_V1_1024.png",
+   "ticket": "HO-086",
+   "fromSha256": "48b7829b6b1000065f2a10d2c5f714d340255072b43ee261ad74dcc77cca7aae",
+   "sha256": "b1f02d6890d4037d5f6a49f515b266ddba7e15061538f2dbaf0eef81334e4545",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_OSASUNA_V1_512.webp": {
+   "from": "CREST_IMG_OSASUNA_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "6d932269080ffbeb716d9a3f985bfddf40be478feffc696b3b2bb735f3bac52b",
+   "sha256": "ba39b1ac5aeed68ca4935708d27a76f55b81cf3f1442082d7495f3fdc20f7d3f",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_PALACE_V1_512.webp": {
+   "from": "CREST_IMG_PALACE_V1_1024.png",
+   "ticket": "HO-086",
+   "fromSha256": "5c3a1a6b8a8fbf6d96d1ccbba19c64a15a1b8fc990f2859b8f2a9930a2476912",
+   "sha256": "ac1e311641191e3fd9aef5ec06c5b8ffbccf4b96f7344cdceaf5fd51e5b02c2f",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_PALERMO_V1_512.webp": {
+   "from": "CREST_IMG_PALERMO_V1_1024.png",
+   "ticket": "HO-086",
+   "fromSha256": "5fad2496b8c9aa517f19997067840940fa4e0bc7375e016236664d0f98c796a5",
+   "sha256": "c1c31919a38b907479f77647e205e890ab3cb8fde8f5c231603a10bfe52d2430",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_PESCARA_V1_512.webp": {
+   "from": "CREST_IMG_PESCARA_V1_1024.png",
+   "ticket": "HO-087",
+   "fromSha256": "2642def08ebcc42274bdeea1d34d3ac48ab7cb6b0a778a945cb4c2c3a1d3a42e",
+   "sha256": "c216e6879594bc74514242bc66168ba8fd37a0f6bd47e6f1440014df39de2212",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_PSG_V1_512.webp": {
+   "from": "CREST_IMG_PSG_V1_1024.png",
+   "ticket": "HO-090",
+   "fromSha256": "68441187fe3fec917b53e340b9ca194b82ea2e531fdfae388c91a4bbc2e4afa7",
+   "sha256": "0a8c993b7647c7c8c930e83cb7984f43a74fa3897593e210456f6d89a7273f36",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_REALMADRID_V1_512.webp": {
+   "from": "CREST_IMG_REALMADRID_V1_1024.png",
+   "ticket": "HO-089",
+   "fromSha256": "0a22174685d366ef4308aea8473c1442b3c960103202448661a37aebf0c329ab",
+   "sha256": "3e22f86757f859d64a6444493c8015748d78b1890fe7b8e098d63afbe325b168",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_REALSOCIEDAD_V1_512.webp": {
+   "from": "CREST_IMG_REALSOCIEDAD_V1_1024.png",
+   "ticket": "HO-089",
+   "fromSha256": "fecb7ea0cdf61bd2fdb194a0a04784aa28778e4e901a8420cd1d7bdda4789187",
+   "sha256": "282b1f926bf63a6d305c3fc2c28bc25f594f0735102c4c44ec6862bf0e711e02",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_RENNES_V1_512.webp": {
+   "from": "CREST_IMG_RENNES_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "b48a6cde47e51b9f6fbd85e3c2259fbefd1d99ab09fb62ee17df0daff3cd60d9",
+   "sha256": "3e68192ad030c5a3df8624d712d37b9d9600b62b4ce44737f22704f90254e2bf",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_ROMA_V1_512.webp": {
+   "from": "CREST_IMG_ROMA_V1_1024.png",
+   "ticket": "HO-085",
+   "fromSha256": "81e64f532ca7cb7c616c51a995ba5d714f46bb2fe2a9da221be6dfce946415e9",
+   "sha256": "7a1c068a25879c452c0259451fea949d35191a271f97ecf2e72f9023985c6449",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_SAINTETIENNE_V1_512.webp": {
+   "from": "CREST_IMG_SAINTETIENNE_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "0dfad3848250916cd28c332bb5dda5ea0154cd82a8cf5008ce7074e69cd5abf4",
+   "sha256": "cb686bf4f75b8ccf96055f99f8c8b256350095342f0a6c9f3b9029c8c7f4466a",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_SAMPDORIA_V1_512.webp": {
+   "from": "CREST_IMG_SAMPDORIA_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "3e1caf9a7d61b954b37d62a64a6acc0b2445bf6ecdd11fd3bce0440b866b99ab",
+   "sha256": "a7be4f9665de69ccffcf0ac503a7cbd46efcccb37d38aba1cda1353689abc534",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_SASSUOLO_V1_512.webp": {
+   "from": "CREST_IMG_SASSUOLO_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "6eb02aac09a17200a3ac7414b4fb1ba818947a7c83505456ffdcbb72c0e258c4",
+   "sha256": "1c294e1c5bcc2b9b872be67d047be1d97fb5016d5311e99e20cf06148a6f1b26",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_SCHALKE_V1_512.webp": {
+   "from": "CREST_IMG_SCHALKE_V1_1024.png",
+   "ticket": "HO-091",
+   "fromSha256": "ad2a2b08a65145d2945e957e3f27d93a56d75bd8e98a5d8f5187051417323da5",
+   "sha256": "2c996c2b36606da4803216f6611faa20de2c2389cca4b2269c6b0a5a23deabf9",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_SEVILLA_V1_512.webp": {
+   "from": "CREST_IMG_SEVILLA_V1_1024.png",
+   "ticket": "HO-088",
+   "fromSha256": "7e44dfbdf26aab1d478952499d6b108f0ac887cb73d31632f5d6d34ad9a9e399",
+   "sha256": "2438c72f31a1f1d027ae6c8d02f755335a9a13a632d7d199d4d64ae78f683228",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_SOUTHAMPTON_V1_512.webp": {
+   "from": "CREST_IMG_SOUTHAMPTON_V1_1024.png",
+   "ticket": "HO-088",
+   "fromSha256": "b53e923c46f6b5735f40c38c389f283eaf71c300fb30b65f54af3662387dd820",
+   "sha256": "4712d4d6afba0573db4dc83033f35a7309be0214a0f51de85b377c597bdb25d3",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_SPORTING_V1_512.webp": {
+   "from": "CREST_IMG_SPORTING_V1_1024.png",
+   "ticket": "HO-089",
+   "fromSha256": "90a11f4015f82993e51e35c60ba01ee4d5a7ecb65237beda375fac0fcb3fce56",
+   "sha256": "65aa6586f693b72b2f37fe0c416548a12afc8989d1c0c982debceb31df89a551",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_SPURS_V1_512.webp": {
+   "from": "CREST_IMG_SPURS_V1_1024.png",
+   "ticket": "HO-085",
+   "fromSha256": "7837bab9184c69f1948f655376c2be1bc911f5c5f56d088aeff78c6ecf219a6b",
+   "sha256": "d66fc2b09debec442466e827ffa173c9d636a9fd17a5b31367ecbb984104f5ce",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_STOKE_V1_512.webp": {
+   "from": "CREST_IMG_STOKE_V1_1024.png",
+   "ticket": "HO-088",
+   "fromSha256": "38ab6954c62580336a37647ac8f817c1cf1295fcd0d76f2a2c7e9ed6d3dc815b",
+   "sha256": "9795910a646a68115de7bf5b0e20c9d5dd72689556c615ca709288edbf9cca1d",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_SUNDERLAND_V1_512.webp": {
+   "from": "CREST_IMG_SUNDERLAND_V1_1024.png",
+   "ticket": "HO-090",
+   "fromSha256": "fef6a7f99a443151c1c98586f72e1f483a7ab22db47b0ab2b6628dba1cca55c9",
+   "sha256": "c5af219934ce65d871a192bd02f0559a725cb5608ffa675561b98e4a13babfb3",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_SWANSEA_V1_512.webp": {
+   "from": "CREST_IMG_SWANSEA_V1_1024.png",
+   "ticket": "HO-087",
+   "fromSha256": "62c1baa3a167b27ba79556ce7a7ec429183187c2080a88e7faff81d4da007488",
+   "sha256": "f35583efc460684ba61b253e34066f9f202bcd39d597141945f61e388a9aac29",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_TORINO_V1_512.webp": {
+   "from": "CREST_IMG_TORINO_V1_1024.png",
+   "ticket": "HO-084",
+   "fromSha256": "b34dc51d9b3ebc1b8a5a8c3ae6947c4525b30f877b147a9e58b7be59a8426d96",
+   "sha256": "3edc9ead3928b6f8b10b6f404a18af18b84bc6c4778a971ac0ca6b9ad430dd9c",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_TOULOUSE_V1_512.webp": {
+   "from": "CREST_IMG_TOULOUSE_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "bf2c86dde2c67059f477fba702cbf7ac1ddab10817940d7e34e5669c41493d71",
+   "sha256": "121689ed5672ca4321af30e69ec60f515e4388ad39dc427b035702006888a737",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_UDINESE_V1_512.webp": {
+   "from": "CREST_IMG_UDINESE_V1_1024.png",
+   "ticket": "HO-092",
+   "fromSha256": "8fc0af56e147ed06861bb6f48fe140c6002d99de4e6d89db91978efb5c67b567",
+   "sha256": "4a87eccb189b79aefdc26e6dd032ebd645e371e475b33d901ece40c87da9f13f",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_VALENCIA_V1_512.webp": {
+   "from": "CREST_IMG_VALENCIA_V1_1024.png",
+   "ticket": "HO-090",
+   "fromSha256": "79e8d938a08b09aaac77b9a29ed390acfd529ba02abaef52a2b18f0176b23d8c",
+   "sha256": "46394bbeb0f363e483e662639620f6d539d143e8e2683a4c7b3aa5e41a339c87",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_VERONA_V1_512.webp": {
+   "from": "CREST_IMG_VERONA_V1_1024.png",
+   "ticket": "HO-093",
+   "fromSha256": "405cd479e1b70e5c5b9351a474294f7b352abee3c3f57e78c11f9f8ecd163908",
+   "sha256": "5df2099ca24a7e6749737d8797a9f3ef03ddc01293412a4b36fa1274e1e50946",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_VILLARREAL_V1_512.webp": {
+   "from": "CREST_IMG_VILLARREAL_V1_1024.png",
+   "ticket": "HO-090",
+   "fromSha256": "c7320370dced67533bbb89c7c8a8021c2e40cc9382da88663876589f34bb8335",
+   "sha256": "7cf2a62ff73de9292290ab4a434d11c5aeba78d3d908c27e8755f17b6d4add97",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_WATFORD_V1_512.webp": {
+   "from": "CREST_IMG_WATFORD_V1_1024.png",
+   "ticket": "HO-087",
+   "fromSha256": "47d3981ac38b76f93fbb76f4e4ec1de87c1fe7561e6f1075e032d7e8d18f8a5a",
+   "sha256": "2a456340f6e51e472ac74e4706491885ec12747678cf39e6b706053df2ef378c",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_WBA_V1_512.webp": {
+   "from": "CREST_IMG_WBA_V1_1024.png",
+   "ticket": "HO-087",
+   "fromSha256": "e4d7e06f5f7299064fe26463c9477dc14e40960730725b74fdf0774610998085",
+   "sha256": "71e49f532e76f9e08ed212b246587c95b8e0eeee4eae05e0f02714180e7732bc",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_WESTHAM_V1_512.webp": {
+   "from": "CREST_IMG_WESTHAM_V1_1024.png",
+   "ticket": "HO-084",
+   "fromSha256": "8bf438106d549c4ee3a8d23db9be6a282347e53668025686b64144bb30340d1b",
+   "sha256": "c8390c2dcc6df120af07cb6bdc2a83137918dd927f1fa305fa2560dfcebb1db9",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
+  },
+  "CREST_IMG_WOLFSBURG_V1_512.webp": {
+   "from": "CREST_IMG_WOLFSBURG_V1_1024.png",
+   "ticket": "HO-086",
+   "fromSha256": "96dd7dd06bfb59358fe9185c6142dbccfafdd07f9145e73be85c4474915e09b0",
+   "sha256": "994be3732a266d48e0298e93e26045b39e4f274e4cd25604592cef3a95ac1a0d",
+   "note": "512 ball slot, resized from Team V's 1024 master (LANCZOS, q90)"
   }
  },
  "batches": {
