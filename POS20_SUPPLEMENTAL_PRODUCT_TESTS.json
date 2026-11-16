@@ -3409,6 +3409,21 @@
         "^tests/contracts/r94\\-club\\-draw\\-scene\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r94-club-draw-wiring-contracts.cjs",
+      "patterns": [
+        "^js/clubDrawStep\\.js$",
+        "^js/clubDrawScene3d\\.js$",
+        "^js/productionSharedShowdownPresentation\\.js$",
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^js/sharedShowdownSetup\\.js$",
+        "^js/clubScreenV10\\.js$",
+        "^css/clubDraw\\.css$",
+        "^service\\-worker\\.js$",
+        "^tests/contracts/r94\\-club\\-draw\\-wiring\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

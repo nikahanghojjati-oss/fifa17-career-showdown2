@@ -16,7 +16,7 @@
 //                at season-results the page stayed open and the clock jumps 11 minutes so the 10-minute pause ends by itself
 //   coldoffline  tap, the tab closes, the phone opens the app again while offline (cold start), then comes back online
 //   none         no fault (the baseline for the read counts)
-// Write points: setup-confirm (CONFIRM SHOWDOWN), career-start (I STARTED AT), spin-mark (the roulette's last tap, which writes the
+// Write points: setup-confirm (STOP in the R94-02 club draw: the confirm that carries the stop), career-start (I STARTED AT), spin-mark (the roulette's last tap, which writes the
 // manager's mark), tw-guess (LOCK MY GUESSES), tw-lock (first LOCK MY SIGNINGS), tw-verdict (the second LOCK MY SIGNINGS, which
 // completes the Transfer War), season-results (the completing publish), season-commit (LOCK & CONFIRM SEASON), season-ack
 // (CONFIRM SEASON), continue-s2 (CONTINUE TO SEASON 2 + Gazette), spin-mark-s2, the Prime Pack round (prime-mid in season 1,
@@ -42,6 +42,7 @@
 const fs=require("node:fs");
 const path=require("node:path");
 const {spawn,spawnSync}=require("node:child_process");
+const clubDraw=require("./support/club-draw.cjs");
 
 const ROOT=path.resolve(__dirname,"../..");
 const OUT_DIR=path.join(ROOT,"test-results");
@@ -554,27 +555,51 @@ async function main(){
     await signIn(daniel,"Daniel");await signIn(nik,"Nik");
     rivalryId=await startAndJoin(daniel,nik,TOTAL);report.rivalryId=rivalryId;ctx.rivalryId=rivalryId;
     const R=p=>`rivalries/${rivalryId}/${p}`;
-    // League wheel and club pack (Daniel), no fault.
+    // League wheel and the club draw's deal (Daniel's device, by itself), no fault.
     for(const m of both)await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
     await daniel.page.locator("#spinLeague").click({timeout:30000});
-    await daniel.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+    await clubDraw.waitContinueToClubs(daniel.page);
     for(const m of both)await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:120000});
-    await daniel.page.locator("#openClubPack").click({timeout:30000});
-    await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
-    const clubs=await daniel.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
-    report.clubs=clubs;
-    for(const m of both)await m.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).waitFor({state:"visible",timeout:45000});
+    for(const m of both)await clubDraw.waitStop(m.page,120000);
     const careerOverlay=page=>visible(page,"#productionSharedCareerStartOverlay");
-    const confirmTap=page=>clickIf(page,page.getByRole("button",{name:"CONFIRM SHOWDOWN"}));
+    // R94-02: each manager's confirm is his STOP (the stop is computed at the tap, saved on the phone, and sent again after a
+    // fault until Firebase holds it; the ball never rests before that).
+    const stopBtn=page=>page.locator("#continueClubAssignment").filter({hasText:/^\s*STOP\s*$/});
+    const confirmTap=page=>clickIf(page,stopBtn(page));
     seasonNow=1;
     // --- setup-confirm: Daniel confirms (no fault), then the fault phone's confirm completes the setup (revision 6).
     {
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
       await confirmTap(first.page);await sleep(1500);
-      await writePoint(ctx,"setup-confirm",{writer:X,ready:page=>page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).first().isVisible(),tap:page=>page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).first().click({timeout:10000}),
-        settle:(m,page)=>drive(m,careerOverlay,{page,label:"Career Start",stepTaps:p=>confirmTap(p).then(x=>x?"confirm":"")}),
-        checks:async(check)=>{const s=docData(await admin(R("sharedSetup/authoritative")));await check(null,"db.setup",s&&s.phase==="SHOWDOWN_CONFIRMED"&&s.revision===6,`sharedSetup ${JSON.stringify(s&&{phase:s.phase,revision:s.revision})}`);}});
+      // tabkill here is "the tab closed after STOP, before Firebase holds the stop" (limits study note 3): the confirm's commit
+      // is held back on that phone, the stop must already be saved on the device (localStorage), the tab closes, and the
+      // reopened app must send that same stop, never offer a new spin. The hold is lifted once the old tab is gone.
+      const role=X===daniel?"playerOne":"playerTwo",slot=`careerModeShowdown.clubDrawStop.v1:${rivalryId}:${role}`;
+      const COMMIT=new RegExp(`^${FIRESTORE.replace(/[.:/]/g,"\\$&")}/.*:commit`),holdCommits=route=>route.abort("failed");
+      let heldBack=null;
+      const tapStop=async page=>{
+        if(FAULT!=="tabkill"||heldBack)return stopBtn(page).first().click({timeout:10000});
+        heldBack={stop:null,landedBefore:null,released:false};await X.context.route(COMMIT,holdCommits);
+        await stopBtn(page).first().click({timeout:10000});
+        const until=Date.now()+10000;
+        while(Date.now()<until&&heldBack.stop===null){const v=await page.evaluate(k=>localStorage.getItem(k),slot).catch(()=>null);try{const o=JSON.parse(v||"null");if(o&&Number.isInteger(o.stop))heldBack.stop=o.stop;}catch(_e){}if(heldBack.stop===null)await sleep(100);}
+        const s=docData(await admin(R("sharedSetup/authoritative")));heldBack.landedBefore=Boolean(s&&Array.isArray(s.confirmedRoles)&&s.confirmedRoles.includes(role));
+      };
+      await writePoint(ctx,"setup-confirm",{writer:X,ready:async page=>await stopBtn(page).first().isVisible()&&await stopBtn(page).first().isEnabled(),tap:tapStop,
+        settle:async(m,page)=>{if(heldBack&&!heldBack.released){heldBack.released=true;await X.context.unroute(COMMIT,holdCommits).catch(()=>{});}return drive(m,careerOverlay,{page,label:"Career Start",stepTaps:p=>confirmTap(p).then(x=>x?"confirm":"")});},
+        checks:async(check)=>{const s=docData(await admin(R("sharedSetup/authoritative")));await check(null,"db.setup",s&&s.phase==="SHOWDOWN_CONFIRMED"&&s.revision===6&&Array.isArray(s.stops)&&s.stops.length===2,`sharedSetup ${JSON.stringify(s&&{phase:s.phase,revision:s.revision,stops:s.stops})}`);
+          if(heldBack){
+            const kept=s&&Array.isArray(s.stops)?s.stops[s.confirmedRoles.indexOf(role)]:null;
+            await check(X,"draw.tabClosedBeforeAccept",heldBack.stop!==null&&heldBack.landedBefore===false&&kept===heldBack.stop,`saved on the device before the tab closed ${heldBack.stop}, in Firebase before the close ${heldBack.landedBefore}, held now ${kept}`);
+            const left=await X.page.evaluate(k=>localStorage.getItem(k),slot).catch(()=>"(unreadable)");
+            await check(X,"draw.savedStopCleared",left===null,`saved stop still on the device: ${left}`);
+          }}});
     }
+    // The clubs are known once both balls rest (both phones name the same two).
+    for(const m of both)await clubDraw.waitBothRested(m.page,60000).catch(()=>{});
+    const held=await clubDraw.setupState(daniel.page);
+    const clubs=held&&held.clubs?[held.clubs.playerOne,held.clubs.playerTwo]:await clubDraw.names(daniel.page);
+    report.clubs=clubs;
     // --- career-start: the other phone taps I STARTED AT first, then the fault phone (the completing write).
     const startBtn=(page,m)=>page.getByRole("button",{name:`I STARTED AT ${clubs[m===daniel?0:1].toUpperCase()}`,exact:true});
     const careerDone=async()=>{const c=docData(await admin(R("careerStart/authoritative")));return c;};

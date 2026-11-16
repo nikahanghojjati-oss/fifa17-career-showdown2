@@ -199,6 +199,9 @@
   function clAbsolute(path){try{return new root.URL(path,root.document.baseURI).href;}catch(_error){return path;}}
   function clSection(){const doc=clDoc();return doc?doc.getElementById(SCREEN):null;}
   function clContext(section){
+    // R94-02: a draw 2 Setup shows the spin and stop (js/clubDrawStep.js) on the product's own screen, with no managers on
+    // it (Nik 2026-11-15); the packs and frames CL1-CL6 stay for every Setup opened before R94-02.
+    if(section&&section.dataset&&section.dataset.clubDraw==="spin")return false;
     if(section&&section.dataset&&section.dataset.sharedPresentationRole)return true;
     try{return typeof currentShowdown!=="undefined"&&Boolean(currentShowdown&&currentShowdown.selectedLeague);}catch(_error){return false;}
   }
@@ -479,7 +482,7 @@
     const section=clSection(),doc=clDoc();
     if(!section||typeof root.MutationObserver!=="function")return;
     // The product's reveal stage and the shared presentation's role mark live on the section.
-    new root.MutationObserver(clSchedule).observe(section,{attributes:true,attributeFilter:["data-club-reveal-stage","data-shared-presentation-role"]});
+    new root.MutationObserver(clSchedule).observe(section,{attributes:true,attributeFilter:["data-club-reveal-stage","data-shared-presentation-role","data-club-draw"]});
     for(const id of ["clubCardOne","clubCardTwo"]){const node=doc.getElementById(id);if(node)new root.MutationObserver(clSchedule).observe(node,{attributes:true,attributeFilter:["class"]});}
     for(const id of ["clubNameOne","clubNameTwo"]){const node=doc.getElementById(id);if(node)new root.MutationObserver(clSchedule).observe(node,{childList:true,characterData:true,subtree:true});}
   }

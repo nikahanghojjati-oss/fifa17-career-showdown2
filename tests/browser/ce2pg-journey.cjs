@@ -5,6 +5,7 @@ if(process.env.CE2PG_PRIME===undefined)process.env.CE2PG_PRIME="table";
 const rosterRoulette=require("./support/roster-roulette.cjs");
 const primePack=require("./support/prime-pack.cjs");
 const gazette=require("./support/touchline-gazette.cjs");
+const clubDraw=require("./support/club-draw.cjs");
 // CE2PG: "Cloud Emulator 2-player Journey" (r80 flow).
 // Daniel and Nik play the real Career Mode Showdown in two Chromium contexts against the Firebase Auth + Firestore emulators
 // with the composed production Rules (the same production adapter path as tests/browser/r79-two-player-journey-audit.cjs).
@@ -232,7 +233,7 @@ const report={
   realUiSteps:[
     "SIGN IN WITH GOOGLE and the player choice (the emulator switch answers the Google popup with an Auth-emulator account)",
     "Home START automatically writes the career marker; Nik pastes the first real code once; later Showdowns: Daniel's Home START, Nik's Home JOIN tile",
-    "league wheel SPIN, club pack OPEN, CONFIRM SHOWDOWN, I STARTED AT <club> (both)",
+    "league wheel SPIN, the club draw: STOP on each phone (Daniel first, or Nik first in every second Showdown), I STARTED AT <club> (both)",
     "Shared Transfer Challenge every season: START, early end (both), guesses, LOCK MY GUESSES, signings, LOCK MY SIGNINGS, CONTINUE TO SEASON RESULTS",
     "season results typed and published (Daniel first, Nik first, or at the same time), COMMIT & ACKNOWLEDGE (Daniel), ACKNOWLEDGE (Nik), CONTINUE TO SEASON n",
     "after every season: SHOWDOWN HOME, Standings (bottom bar: THIS SHOWDOWN, CAREER), Career Statistics (TABLE, COMPARE, LEADERS), Trophy Room (MORE on a phone), Legacy (VIEW SEASON HISTORY), Rivalry Statistics, Settings; then CONTINUE SHOWDOWN back into the game",
@@ -625,18 +626,20 @@ async function playSetup(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
   await check(nik,`setup.${showdownNow}.leagueWait`,"Nik waits for Daniel on the league wheel",await nik.page.locator("#spinLeague").isDisabled(),"Nik can spin",{screen:"League wheel"});
   await daniel.page.locator("#spinLeague").click({timeout:30000});
-  await daniel.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+  await clubDraw.waitContinueToClubs(daniel.page);
   const league=norm(await daniel.page.locator("#selectedLeague").textContent());
   await nik.page.waitForFunction(l=>document.getElementById("selectedLeague")?.textContent===l,league,{timeout:30000});
   for(const m of [daniel,nik])await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
-  await daniel.page.locator("#openClubPack").click({timeout:30000});
-  await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
-  const read=m=>m.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
-  const clubs=await read(daniel);
-  await nik.page.waitForFunction(c=>document.getElementById("clubNameOne")?.textContent?.trim()===c[0]&&document.getElementById("clubNameTwo")?.textContent?.trim()===c[1],clubs,{timeout:30000});
-  for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
-  await daniel.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
-  await nik.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
+  // R94-02: the club draw. Daniel's device deals three clubs to each ball and locks the season length by itself; each
+  // manager taps STOP on his own phone (Daniel first, or Nik first in every second Showdown); both balls rest on both phones.
+  const nikFirst=showdownNow.charCodeAt(0)%2===0;
+  const clubs=await clubDraw.playClubDraw(daniel,nik,{danielFirst:!nikFirst,timeout:60000});
+  const held=await clubDraw.setupState(daniel.page);
+  const drawn=Boolean(held&&held.candidates&&Array.isArray(held.stops)&&held.stops.length===2);
+  await check(daniel,`setup.${showdownNow}.clubDraw`,"the club draw: six distinct candidates, one stored stop each, every club the third its ball rests on, the same clubs on screen",
+    drawn&&new Set([...held.candidates.playerOne,...held.candidates.playerTwo]).size===6&&held.confirmedRoles.every((role,i)=>Number.isInteger(held.stops[i])&&held.stops[i]>=0&&held.stops[i]<360&&held.clubs[role]===held.candidates[role][Math.floor(held.stops[i]/120)])&&held.clubs.playerOne===clubs[0]&&held.clubs.playerTwo===clubs[1],
+    JSON.stringify({held,clubs,kinds:clubs.kinds}),{screen:"Club Assignment"});
+  console.log(`  club draw: ${clubs.join(" v ")} (drawn as ${clubs.kinds.join("/")})`);
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});

@@ -1,0 +1,68 @@
+/* R94-02 Club Assignment spin and stop (js/clubDrawStep.js, js/clubDrawScene3d.js). Only for a draw 2 Setup:
+   #clubWheelScreen[data-club-draw="spin"]. Every Setup opened before R94-02 keeps the club packs untouched.
+   The two footballs fill a wide pitch band; under each ball the manager's name, and his club only once his ball rests.
+   No dimming, nothing over the balls, no box around the title. */
+#clubWheelScreen[data-club-draw="spin"] .clubRevealProgress,
+#clubWheelScreen[data-club-draw="spin"] .clubPackDoor,
+#clubWheelScreen[data-club-draw="spin"] .clubRevealIndex,
+#clubWheelScreen[data-club-draw="spin"] .clubVs,
+#clubWheelScreen[data-club-draw="spin"] #openClubPack,
+#clubWheelScreen[data-club-draw="spin"] #sharedShowdownSeasonChoice{display:none!important}
+
+/* One frame, as in the picked mock-up: the league line, the pitch, then one row with Daniel's name and club on the left, STOP
+   in the middle and Nik's on the right. The pitch takes the height that keeps that row in view (Chromebook windowed and full
+   screen, phones); BACK and the locked-clubs note follow below and the page scrolls to them. */
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell{width:min(1180px,100%);box-sizing:border-box;margin:0 auto;display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(150px,24%) minmax(0,1fr);grid-template-areas:"head head head" "stage stage stage" "one stop two" "conf conf conf" "back back back";column-gap:14px;align-items:center}
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentHeader{grid-area:head}
+#clubWheelScreen[data-club-draw="spin"] .clubRevealArena,
+#clubWheelScreen[data-club-draw="spin"] .clubRevealArea{display:contents}
+#clubWheelScreen[data-club-draw="spin"] #clubCardOne{grid-area:one}
+#clubWheelScreen[data-club-draw="spin"] #clubCardTwo{grid-area:two}
+#clubWheelScreen[data-club-draw="spin"] #clubRivalryConfirmation{grid-area:conf}
+#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment{grid-area:stop;margin:6px 0;width:100%;min-width:0;white-space:normal;line-height:1.15;overflow-wrap:anywhere}
+#clubWheelScreen[data-club-draw="spin"] #clubAssignmentBack{grid-area:back;justify-self:center}
+
+.clubDrawStage{display:none}
+#clubWheelScreen[data-club-draw="spin"] .clubDrawStage{grid-area:stage;display:block;position:relative;width:100%;height:clamp(300px,calc(100dvh - 491px),620px);
+  border-radius:14px;overflow:hidden;background:#04060a;box-shadow:inset 0 0 0 1px rgba(216,181,90,.45),0 10px 30px rgba(0,0,0,.35)}
+
+/* Captions under the balls: the manager on the left ball is Daniel (playerOne), on the right Nik. */
+#clubWheelScreen[data-club-draw="spin"] .clubRevealCard{height:auto;min-height:0;margin:6px 0;padding:5px 12px;background:linear-gradient(180deg,#0c0d10,#15171b);
+  border:1px solid rgba(216,181,90,.38);border-top:3px solid #d8b55a;border-radius:10px;box-shadow:none;text-align:center}
+#clubWheelScreen[data-club-draw="spin"] .clubRevealCard.is-revealed{border-top-color:var(--club-accent,#d8b55a)}
+#clubWheelScreen[data-club-draw="spin"] .clubManager{position:static;margin:0 0 1px;font-size:12px;line-height:1.2;color:#f3eedf;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+#clubWheelScreen[data-club-draw="spin"] .clubPackStage{position:static;min-height:0;height:auto;perspective:none;overflow:visible}
+#clubWheelScreen[data-club-draw="spin"] .clubCardFace{position:static;opacity:1;transform:none;height:auto;min-height:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:2px;overflow:visible;background:none;box-shadow:none;border:0}
+#clubWheelScreen[data-club-draw="spin"] .clubCardFace::after{content:none}
+/* The club's crest sits beside its name, small, once the ball has rested. */
+#clubWheelScreen[data-club-draw="spin"] .clubCardFace strong{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:30px;padding:0;width:auto;max-width:100%}
+#clubWheelScreen[data-club-draw="spin"] .clubCardFace [data-club-identity="true"]::before{position:static;transform:none;width:26px;height:30px;flex:0 0 auto;margin:0}
+#clubWheelScreen[data-club-draw="spin"] .clubCardEyebrow,
+#clubWheelScreen[data-club-draw="spin"] .clubCardLabel{display:none}
+#clubWheelScreen[data-club-draw="spin"] .clubCardFace strong{color:#e9c869;font-size:clamp(18px,2.1vw,26px);line-height:1.15}
+#clubWheelScreen[data-club-draw="spin"] .clubRevealCard:not(.is-revealed) .clubCardFace strong{color:rgba(243,238,223,.32)}
+#clubWheelScreen[data-club-draw="spin"] .clubCardState{display:block;margin-top:0;color:rgba(243,238,223,.6);letter-spacing:.12em;font-size:10px;line-height:1.3}
+
+/* The flat stand-in (no WebGL2): three crests per manager, the lit one cycling, the picked one gold. */
+.clubDrawFlat{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:12px;padding:16px;box-sizing:border-box;
+  background:radial-gradient(ellipse at 50% 120%,#1f6b2c 0,#0d3a17 55%,#04060a 100%)}
+.clubDrawFlatBall{display:flex;justify-content:center;gap:10px}
+.clubDrawFlatClub{width:clamp(56px,9vw,110px);aspect-ratio:120/144;border-radius:12px;padding:6px;box-sizing:border-box;background:rgba(0,0,0,.35);
+  border:2px solid rgba(216,181,90,.25);opacity:.45;transition:opacity .12s linear,border-color .12s linear}
+.clubDrawFlatClub.is-lit{opacity:1;border-color:#d8b55a}
+.clubDrawFlatClub.is-picked{opacity:1;border-color:#f3dc97;box-shadow:0 0 0 2px #f3dc97}
+.clubDrawFlatCrest,.clubDrawFlatCrest svg{display:block;width:100%;height:100%}
+
+@media (max-width:760px) and (orientation:portrait){
+  #clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell{column-gap:8px;grid-template-columns:minmax(0,1fr) minmax(84px,28%) minmax(0,1fr)}
+  #clubWheelScreen[data-club-draw="spin"] .clubDrawStage{height:clamp(240px,calc(100dvh - 395px),520px);border-radius:12px}
+  #clubWheelScreen[data-club-draw="spin"] .clubRevealCard{padding:5px 6px}
+  #clubWheelScreen[data-club-draw="spin"] .clubManager{font-size:11px;margin-bottom:2px}
+  #clubWheelScreen[data-club-draw="spin"] .clubCardFace strong{font-size:14px;gap:6px;min-height:26px}
+  #clubWheelScreen[data-club-draw="spin"] .clubCardFace [data-club-identity="true"]::before{width:22px;height:26px}
+  #clubWheelScreen[data-club-draw="spin"] .clubCardState{font-size:9px;letter-spacing:.08em}
+  #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment{padding:8px 6px;font-size:12px;letter-spacing:.04em}
+  .clubDrawFlat{grid-template-columns:1fr;gap:8px}
+}
+@media (prefers-reduced-motion:reduce){.clubDrawFlatClub{transition:none}}
