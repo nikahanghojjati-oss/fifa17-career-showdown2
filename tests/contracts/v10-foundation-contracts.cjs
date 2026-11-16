@@ -1403,6 +1403,10 @@ const V10_IMAGES={
     "visual-assets/v10_1/crests/CREST_IMG_ROMA_V1_64.webp":"c3e08eceee8cbc98abac283a75e13c1dc996a450a49916934612c95a6b41a49d",
     "visual-assets/v10_1/crests/CREST_IMG_SPURS_V1_256.webp":"417729674d6a122c14956155cf60afb0eabd368f284a6aadf7a434a41fb3dc8f",
     "visual-assets/v10_1/crests/CREST_IMG_SPURS_V1_64.webp":"903372e834cf1c9151c01e2b0749045b23212f1abc85715e1e0e41619f4a6d98",
+    // HO-094 (Team V, Nik OK 2026-11-16): the empty handcrafted club lounge behind the Club Assignment draw. Loaded on demand.
+    "visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_1X.webp":"94ede8cb779c0145d0fdd34366532d7f694a26d244a344d3fd40dea1c3c3d98b",
+    "visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_2X.webp":"e13f759d41020906dc9b1e41604defdf81982b322333d28943e177c49fb74e53",
+    "visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V3.webp":"e3e8aedb6a904c119da2608d135bae4c0a83c524a692bba863354fb127e64375",
 };
 const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/chamber-men/assets/concrete_512.webp",

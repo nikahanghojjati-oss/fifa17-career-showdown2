@@ -206,7 +206,17 @@ async function main(){
     assert.match(PRES_SRC,/else if\(unsaved\)ssjpSetSharedStatus\("YOUR STOP COULD NOT BE SAVED · Keep this screen open until it lands\."\)/,"the could-not-save note still shows");
     const note=block('#clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus {\n');
     for(const want of [/grid-area:\s*note/,/background:\s*none/,/border:\s*0/,/box-shadow:\s*none/])assert.match(note,want,`plain note: ${want}`);
-    for(const want of [/--cd-plate: none;/,/--cd-plate-phone: none;/,/--cd-plate-pos:/,/background-image: var\(--cd-lounge\), var\(--cd-plate\), var\(--cd-slab\)/])assert.match(CSS_SRC,want,`plate slot: ${want}`);
+    // HO-094 (Nik OK 2026-11-16): the empty handcrafted club lounge fills the slot, picked by the same two media rules in
+    // the stylesheet and the step, decoded before the Reus Gate opens the screen, never precached.
+    for(const want of [/ENV_CLUB_PLATE_HC_V3_1X\.webp/,/ENV_CLUB_PLATE_HC_V3_2X\.webp/,/ENV_CLUB_PHONE_HC_V3\.webp/,/--cd-plate-pos:/,/background-image: var\(--cd-plate\), var\(--cd-slab\)/])assert.match(CSS_SRC,want,`plate slot: ${want}`);
+    const media=name=>{const m=STEP_SRC.match(new RegExp(`const ${name}="([^"]+)"`));assert.ok(m,`${name} in the step`);return m[1];};
+    assert.ok(CSS_SRC.includes(`@media ${media("CD_PLATE_PHONE_MEDIA")} {`),"the step and the stylesheet pick the phone plate by the same rule");
+    assert.ok(CSS_SRC.includes(`@media ${media("CD_PLATE_2X_MEDIA")} {`),"the step and the stylesheet pick the 2X plate by the same rule");
+    assert.match(STEP_SRC,/const plate=cdsPlate\(\);[\s\S]*?await plate;\n\s*if\(!mounting\|\|mounting\.key!==key\)/,"the screen opens only once the plate is decoded (Reus Gate)");
+    assert.equal(/ENV_CLUB_(?:PLATE|PHONE)_HC_V3/.test(SW_SRC),false,"the club lounge is never precached");
+    // Lead 23:38: on desktop windows the box stays inside the side walls, so the lamps, banners and trophies are never behind it.
+    assert.match(CSS_SRC,/--cd-wall: min\(11\.8vw, calc\(50vw - \(100dvh - var\(--sd-nav-top-h, 52px\)\) \* \.681\)\);/,"where the walls end on screen");
+    assert.match(CSS_SRC,/\.clubAssignmentShell \{ width: min\(1640px, 100%, calc\(100vw - 2 \* \(var\(--cd-wall\) \+ 14px\)\)\); \}/,"the box stays inside the walls");
     // Gallery 23:06: on sideways phones the title sits over the pitch only and the right column starts at the top, with a
     // tighter tier for the shortest phones, so Nik's tile is never cut (740x360, 844x390, 568x320 checked with a note showing).
     for(const want of [/--cd-col: clamp\(170px, 29vw, 260px\); --cd-title-h: 26px;/,/margin: 0 calc\(var\(--cd-col\) \+ 10px\) 0 0;/,/margin-top: calc\(0px - var\(--cd-title-h\)\);/,/@media \(orientation: landscape\) and \(max-height: 340px\)/])assert.match(CSS_SRC,want,`sideways fit: ${want}`);

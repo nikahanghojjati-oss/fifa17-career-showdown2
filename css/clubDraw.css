@@ -59,30 +59,39 @@
    (css/v10Shell.css html[data-v10-screen] rules, repeated here because the Team V club look is not mounted in draw mode):
    a night page, the two chips in the top bar, the footer visually hidden (never removed). */
 html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)), html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) body, html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #background { background: #060709; }
-/* Nik 22:14: "CLUB ASSIGNMENT page should in dark marble lounge"; 22:55: the old Club lounge without the heroes; 22:57: it
-   must match the 3D box at every size. The page has a plate slot: --cd-plate (desktop and sideways) and --cd-plate-phone
-   (upright phones) take Team V's hero-free Club lounge (ENV_CLUB_PLATE_V3 1X/2X, ENV_CLUB_PHONE_V3) when it lands, cover-fit
-   at a focal point per size (--cd-plate-pos) so the stadium window, banners, trophies and table frame the 3D box (guides:
-   gameplay/r94/club-assignment-3d/plate-guides/). Until then the slot is empty and the house black-and-gold marble
-   (ENV_SLAB, as Settings, the Rule Book and Chamber Men) shows under a warm lounge light, at Chamber Men's asset tiers.
-   The main scroller keeps it put while the page scrolls. */
+/* Nik 22:14: "CLUB ASSIGNMENT page should in dark marble lounge"; 22:55: the old Club lounge without the heroes; 22:57: "The
+   background show match the layout of our 3d screen box in all sizes". HO-094 (Team V, Nik OK 2026-11-16): a new empty club
+   lounge in the handcrafted house look, ENV_CLUB_PLATE_HC_V3 (1X 1536x864, 2X 3072x1728) and ENV_CLUB_PHONE_HC_V3
+   (1179x2096). It is cover-fit at a focal point per size (--cd-plate-pos) so the lamps, banners and trophies on the side
+   walls stay beside the 3D box and the stadium window shows over it. Loaded on demand (never precached); js/clubDrawStep.js
+   decodes the same file before the Reus Gate opens the screen, using the same two media rules (CD_PLATE_PHONE_MEDIA,
+   CD_PLATE_2X_MEDIA). The house marble (ENV_SLAB) stays underneath as the fallback. The main scroller keeps it put. */
 html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main {
-  --cd-plate: none; --cd-plate-phone: none; --cd-plate-pos: 50% 40%;
-  --cd-lounge: radial-gradient(ellipse 85% 70% at 50% 30%, rgba(58,44,22,.34) 0, rgba(6,7,9,0) 62%), linear-gradient(180deg, rgba(6,7,9,.2), rgba(6,7,9,.55));
+  --cd-plate: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_1X.webp"); --cd-plate-pos: 50% 42%;
   --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp");
-  background-color: #060709; background-image: var(--cd-lounge), var(--cd-plate), var(--cd-slab);
-  background-position: 0 0, 0 0, var(--cd-plate-pos), 50% 50%; background-size: auto, auto, cover, cover; background-repeat: no-repeat;
+  background-color: #060709; background-image: var(--cd-plate), var(--cd-slab);
+  background-position: var(--cd-plate-pos), 50% 50%; background-size: cover, cover; background-repeat: no-repeat;
+}
+/* CD_PLATE_2X_MEDIA: wide windows and sharp screens take the 2X file, except the lightest asset tier. */
+@media (min-width: 1537px), (min-resolution: 1.5dppx) {
+  html:not([data-assets="0"]):has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_2X.webp"); }
 }
 @media (orientation: landscape) and (max-height: 500px) {
-  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate-pos: 50% 50%; }
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate-pos: 50% 42%; }
 }
+/* CD_PLATE_PHONE_MEDIA: upright phones take the tall plate. */
 @media (max-width: 760px) and (orientation: portrait) {
-  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate: var(--cd-plate-phone); --cd-plate-pos: 50% 30%; --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V3.webp"); --cd-plate-pos: 50% 30%; --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
   html[data-assets="0"]:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp"); }
 }
-@media (min-width:1537px), (min-width:901px) and (min-height:865px) {
-  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-slab: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp") 1.25x); }
-  html[data-assets]:not([data-assets="0"]):not([data-assets="1"]):has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-slab: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp") 1.25x, url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp") 2x); }
+/* HO-094 placement (lead 23:38, Nik: "background should match the layout of our 3d screen box in all sizes"): on desktop
+   windows the lamps, banners and trophies stand on the side walls, the outer 11.7% of the plate. --cd-wall is where those
+   walls end on screen for a cover-fit plate centred across, wide windows (the plate fills the width) and squarer ones (the
+   plate fills the height and its sides are cut) alike. The shell, and with it the pitch and the tiles, stays inside the walls
+   with a 14px gap, so nothing on the walls is behind the 3D box. */
+@media (min-width: 761px) and (min-height: 501px) {
+  #clubWheelScreen[data-club-draw="spin"] { --cd-wall: min(11.8vw, calc(50vw - (100dvh - var(--sd-nav-top-h, 52px)) * .681)); }
+  #clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell { width: min(1640px, 100%, calc(100vw - 2 * (var(--cd-wall) + 14px))); }
 }
 html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader {
   position: fixed; z-index: 41; left: auto; right: 84px; top: calc((var(--sd-nav-top-h, 52px) - 28px) / 2);
