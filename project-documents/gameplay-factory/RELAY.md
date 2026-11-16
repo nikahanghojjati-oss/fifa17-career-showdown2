@@ -1,12 +1,45 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-16 5:53 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-16 5:57 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `b4267ad` (Sun 15 Nov 10:16 PM Boston time) · 289 messages · 94 hand-offs · 572 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `2f09137` (Mon 16 Nov 5:56 PM Boston time) · 305 messages · 95 hand-offs · 589 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-094 · G → V · Club Assignment plate without the managers (desktop + phone)
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Mon 16 Nov 5:56 PM · Team G · Sent
+- Mon 16 Nov 5:57 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+### Why
+Nik, 2026-11-16 22:55 UTC (Team G lead thread), verbatim: "Maybe you can put the old background of club assignment in without the heroes / As long as all the items and elements of the background seems visible and in right place".
+Club Assignment is now a 3D "spin and stop" screen (R94-02, ships in 2.7.0): two footballs spin in a framed 3D pitch in the middle of the page, with Home-style tiles below (manager boxes, STOP). The managers holding packs no longer fit. Team G wants the page background to be the existing Club plate with the managers and packs removed.
+
+### Assets (two; one asset = one image ticket = one new chat)
+1. **ENV_CLUB_PLATE_V3** (desktop): edit of `visual-assets/v10_1/plates-v2/ENV_CLUB_PLATE_V2_2X.webp` (the gold lounge with the floodlit stadium window). Deliver 1X 1536x864 and 2X 3072x1728 WebP + SHA256.
+2. **ENV_CLUB_PHONE_V3** (phone): edit of `visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp`. Deliver 1179x2096 WebP + SHA256.
+
+### What changes (scene edit, no faces generated)
+- Remove Daniel, Nik and both black packs completely. Repaint what was behind them as the same room: the side banners and shelves, the armchairs, the stadium window and its floodlights, the trophies, the black-and-gold marble table edge. Keep it continuous and in the right place.
+- Remove the painted manager names and taglines on the side banners ("Daniel The Maestro", "Nik The Manager", "SKILL. VISION. MAGIC.", "TACTICS. DISCIPLINE. PROGRESS."): leave the banners as plain dark-and-gold cloth (Team G draws live text; no baked words). Decorative non-word marks may stay.
+- Keep everything else exactly as it is: framing 16:9 (phone 9:16), warm gold lighting, the window, the marble table front.
+- No people, no players, no readable text anywhere, no added objects.
+
+### Accept when
+- Nik OKs each image at a glance; no trace of a person, hand or pack; the room looks like nothing was ever there.
+- Everything outside the removed areas matches V2 (likeness-lock style: restore original pixels outside the edited zones).
+- Files exported at the sizes above with SHA256.json in hc-art/ho094/.
+
+### After DONE
+Team G (R94-02 build) wires ENV_CLUB_PLATE_V3 / ENV_CLUB_PHONE_V3 into the Club Assignment draw-mode page slot (falls back to marble until then). V2 plates and the pack frames CL1-CL6 stay for old-shape Setups; nothing is deleted.
+
+</details>
 
 ### HO-093 · G → V · Image crests batch 9 of 9
 
@@ -4230,6 +4263,106 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-094 SENT · Team G → Team V · Mon 16 Nov 5:56 PM Boston time
+
+**Club Assignment plate without the managers (desktop + phone)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-093 SENT · Team G → Team V · Sun 15 Nov 7:12 PM Boston time
+
+**Image crests batch 9 of 9** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-092 SENT · Team G → Team V · Sun 15 Nov 7:12 PM Boston time
+
+**Image crests batch 8 of 9** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-091 SENT · Team G → Team V · Sun 15 Nov 7:12 PM Boston time
+
+**Image crests batch 7 of 9** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-090 SENT · Team G → Team V · Sun 15 Nov 7:12 PM Boston time
+
+**Image crests batch 6 of 9** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-089 SENT · Team G → Team V · Sun 15 Nov 7:12 PM Boston time
+
+**Image crests batch 5 of 9** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-088 SENT · Team G → Team V · Sun 15 Nov 7:12 PM Boston time
+
+**Image crests batch 4 of 9** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-087 SENT · Team G → Team V · Sun 15 Nov 7:12 PM Boston time
+
+**Image crests batch 3 of 9** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-086 SENT · Team G → Team V · Sun 15 Nov 7:12 PM Boston time
+
+**Image crests batch 2 of 9** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-085 SENT · Team G → Team V · Sun 15 Nov 7:08 PM Boston time
+
+**Image crests batch 1 of ~10 (Man Utd, Liverpool, Spurs, Roma, Lyon, Leverkusen, Lazio, Frankfurt, Genoa, Boro)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-084 DONE · Team V → Team G · Sun 15 Nov 5:02 PM Boston time
 
 **Pilot: 5 image-made crests + 1 master shirt** · reply needed: no
@@ -4243,6 +4376,16 @@ _Full text not found in archive/._
 ### HO-084 RECEIVED · Team V → Team G · Sun 15 Nov 4:43 PM Boston time
 
 **Pilot: 5 image-made crests + 1 master shirt** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-084 SENT · Team G → Team V · Sun 15 Nov 4:42 PM Boston time
+
+**Pilot: 5 image-made crests + 1 master shirt** · reply needed: yes (receive it)
 
 <details><summary>Full message</summary>
 
@@ -4270,6 +4413,16 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-083 SENT · Team G → Team V · Sun 15 Nov 5:41 AM Boston time
+
+**Roulette hand: side-entry plate rerun at 40 degrees** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-082 DONE · Team V → Team G · Sun 15 Nov 5:00 AM Boston time
 
 **Roulette hand: side-entry upright plate for tall windows** · reply needed: no
@@ -4290,6 +4443,16 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-082 SENT · Team G → Team V · Sun 15 Nov 4:45 AM Boston time
+
+**Roulette hand: side-entry upright plate for tall windows** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-081 DONE · Team V → Team G · Sun 15 Nov 3:08 AM Boston time
 
 **Roulette hand repainted from the shooter's eye (two plates)** · reply needed: no
@@ -4303,6 +4466,16 @@ _Full text not found in archive/._
 ### HO-081 RECEIVED · Team V → Team G · Sun 15 Nov 2:49 AM Boston time
 
 **Roulette hand repainted from the shooter's eye (two plates)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-081 SENT · Team G → Team V · Sun 15 Nov 2:42 AM Boston time
+
+**Roulette hand repainted from the shooter's eye (two plates)** · reply needed: yes (receive it)
 
 <details><summary>Full message</summary>
 
@@ -4343,6 +4516,26 @@ _Full text not found in archive/._
 ### HO-079 RECEIVED · Team V → Team G · Sat 14 Nov 11:33 AM Boston time
 
 **Home logo and screen titles: one flat hand-drawn mark (no AI look)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-080 SENT · Team G → Team V · Sat 14 Nov 11:32 AM Boston time
+
+**Golden Showdown trophy: the Champion trophy cast in gold** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-079 SENT · Team G → Team V · Sat 14 Nov 11:29 AM Boston time
+
+**Home logo and screen titles: one flat hand-drawn mark (no AI look)** · reply needed: yes (receive it)
 
 <details><summary>Full message</summary>
 

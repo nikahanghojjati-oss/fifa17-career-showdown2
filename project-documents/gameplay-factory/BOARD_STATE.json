@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-16 5:53 PM Boston time (EST)",
+ "generated": "2026-11-16 5:57 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 289,
+  "count": 305,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2498,6 +2498,24 @@
     "boston": "Thu 12 Nov 9:02 PM"
    },
    {
+    "time": "2026-11-14 16:29",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-079 SENT",
+    "subject": "Home logo and screen titles: one flat hand-drawn mark (no AI look)",
+    "reply": "yes (receive it)",
+    "boston": "Sat 14 Nov 11:29 AM"
+   },
+   {
+    "time": "2026-11-14 16:32",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-080 SENT",
+    "subject": "Golden Showdown trophy: the Champion trophy cast in gold",
+    "reply": "yes (receive it)",
+    "boston": "Sat 14 Nov 11:32 AM"
+   },
+   {
     "time": "2026-11-14 16:33",
     "from": "Team V",
     "to": "Team G",
@@ -2534,6 +2552,15 @@
     "boston": "Sat 14 Nov 10:34 PM"
    },
    {
+    "time": "2026-11-15 07:42",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-081 SENT",
+    "subject": "Roulette hand repainted from the shooter's eye (two plates)",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 2:42 AM"
+   },
+   {
     "time": "2026-11-15 07:49",
     "from": "Team V",
     "to": "Team G",
@@ -2550,6 +2577,15 @@
     "subject": "Roulette hand repainted from the shooter's eye (two plates)",
     "reply": "no",
     "boston": "Sun 15 Nov 3:08 AM"
+   },
+   {
+    "time": "2026-11-15 09:45",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-082 SENT",
+    "subject": "Roulette hand: side-entry upright plate for tall windows",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 4:45 AM"
    },
    {
     "time": "2026-11-15 09:48",
@@ -2570,6 +2606,15 @@
     "boston": "Sun 15 Nov 5:00 AM"
    },
    {
+    "time": "2026-11-15 10:41",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-083 SENT",
+    "subject": "Roulette hand: side-entry plate rerun at 40 degrees",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 5:41 AM"
+   },
+   {
     "time": "2026-11-15 18:55",
     "from": "Team V",
     "to": "Team G",
@@ -2588,6 +2633,15 @@
     "boston": "Sun 15 Nov 3:33 PM"
    },
    {
+    "time": "2026-11-15 21:42",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-084 SENT",
+    "subject": "Pilot: 5 image-made crests + 1 master shirt",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 4:42 PM"
+   },
+   {
     "time": "2026-11-15 21:43",
     "from": "Team V",
     "to": "Team G",
@@ -2604,6 +2658,96 @@
     "subject": "Pilot: 5 image-made crests + 1 master shirt",
     "reply": "no",
     "boston": "Sun 15 Nov 5:02 PM"
+   },
+   {
+    "time": "2026-11-16 00:08",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-085 SENT",
+    "subject": "Image crests batch 1 of ~10 (Man Utd, Liverpool, Spurs, Roma, Lyon, Leverkusen, Lazio, Frankfurt, Genoa, Boro)",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 7:08 PM"
+   },
+   {
+    "time": "2026-11-16 00:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-086 SENT",
+    "subject": "Image crests batch 2 of 9",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 7:12 PM"
+   },
+   {
+    "time": "2026-11-16 00:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-087 SENT",
+    "subject": "Image crests batch 3 of 9",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 7:12 PM"
+   },
+   {
+    "time": "2026-11-16 00:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-088 SENT",
+    "subject": "Image crests batch 4 of 9",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 7:12 PM"
+   },
+   {
+    "time": "2026-11-16 00:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-089 SENT",
+    "subject": "Image crests batch 5 of 9",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 7:12 PM"
+   },
+   {
+    "time": "2026-11-16 00:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-090 SENT",
+    "subject": "Image crests batch 6 of 9",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 7:12 PM"
+   },
+   {
+    "time": "2026-11-16 00:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-091 SENT",
+    "subject": "Image crests batch 7 of 9",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 7:12 PM"
+   },
+   {
+    "time": "2026-11-16 00:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-092 SENT",
+    "subject": "Image crests batch 8 of 9",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 7:12 PM"
+   },
+   {
+    "time": "2026-11-16 00:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-093 SENT",
+    "subject": "Image crests batch 9 of 9",
+    "reply": "yes (receive it)",
+    "boston": "Sun 15 Nov 7:12 PM"
+   },
+   {
+    "time": "2026-11-16 22:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-094 SENT",
+    "subject": "Club Assignment plate without the managers (desktop + phone)",
+    "reply": "yes (receive it)",
+    "boston": "Mon 16 Nov 5:56 PM"
    }
   ],
   "g2v": {
@@ -2624,8 +2768,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "b4267ad",
-  "head_boston": "Sun 15 Nov 10:16 PM",
+  "head": "2f09137",
+  "head_boston": "Mon 16 Nov 5:56 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3449,7 +3593,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 12709
+    "waiting_min": 12713
    },
    {
     "id": "HO-059",
@@ -3905,6 +4049,19 @@
     "worker": "images",
     "pickup_min": 9,
     "waiting_min": null
+   },
+   {
+    "id": "HO-094",
+    "from": "G",
+    "to": "V",
+    "title": "Club Assignment plate without the managers (desktop + phone)",
+    "stage": "DELIVERED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-094_club-assignment-plate-without-the-manage.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": 0
    }
   ],
   "relay_ok": true
@@ -3976,7 +4133,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
