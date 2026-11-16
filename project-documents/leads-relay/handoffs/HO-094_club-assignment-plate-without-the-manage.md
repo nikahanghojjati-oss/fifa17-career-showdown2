@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-16T22:56:24Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-16T22:56:24Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T22:59:36Z", "by": "V", "status": "RECEIVED", "note": "Team V lead: 2 Astra edit prompts posted (attach V2 PNG), Nik runs, lead locks outside zones + exports"}],
  "from_session": "session_01GU43Q5bagqLyredN5q4Pwh",
- "sessions": {"G": "session_01GU43Q5bagqLyredN5q4Pwh"}
+ "sessions": {"G": "session_01GU43Q5bagqLyredN5q4Pwh", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
 ```
 

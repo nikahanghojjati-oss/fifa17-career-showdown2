@@ -300,6 +300,7 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-15 21:43 | Team V | Team G | HO-084 RECEIVED | Pilot: 5 image-made crests + 1 master shirt | no |
 | 2026-11-15 22:02 | Team V | Team G | HO-084 DONE | Pilot: 5 image-made crests + 1 master shirt | no |
 | 2026-11-16 00:08 | Team G | Team V | HO-085 SENT | Image crests batch 1 of ~10 (Man Utd, Liverpool, Spurs, Roma, Lyon, Leverkusen, Lazio, Frankfurt, Genoa, Boro) | yes (receive it) |
+| 2026-11-16 00:11 | Team V | Team G | HO-085 RECEIVED | Image crests batch 1 of ~10 (Man Utd, Liverpool, Spurs, Roma, Lyon, Leverkusen, Lazio, Frankfurt, Genoa, Boro) | no |
 | 2026-11-16 00:12 | Team G | Team V | HO-086 SENT | Image crests batch 2 of 9 | yes (receive it) |
 | 2026-11-16 00:12 | Team G | Team V | HO-087 SENT | Image crests batch 3 of 9 | yes (receive it) |
 | 2026-11-16 00:12 | Team G | Team V | HO-088 SENT | Image crests batch 4 of 9 | yes (receive it) |
@@ -308,4 +309,22 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-16 00:12 | Team G | Team V | HO-091 SENT | Image crests batch 7 of 9 | yes (receive it) |
 | 2026-11-16 00:12 | Team G | Team V | HO-092 SENT | Image crests batch 8 of 9 | yes (receive it) |
 | 2026-11-16 00:12 | Team G | Team V | HO-093 SENT | Image crests batch 9 of 9 | yes (receive it) |
+| 2026-11-16 00:20 | Team V | Team G | HO-085 DONE | Image crests batch 1 of ~10 (Man Utd, Liverpool, Spurs, Roma, Lyon, Leverkusen, Lazio, Frankfurt, Genoa, Boro) | no |
+| 2026-11-16 00:22 | Team V | Team G | HO-086 RECEIVED | Image crests batch 2 of 9 | no |
+| 2026-11-16 00:22 | Team V | Team G | HO-087 RECEIVED | Image crests batch 3 of 9 | no |
+| 2026-11-16 00:22 | Team V | Team G | HO-088 RECEIVED | Image crests batch 4 of 9 | no |
+| 2026-11-16 00:22 | Team V | Team G | HO-089 RECEIVED | Image crests batch 5 of 9 | no |
+| 2026-11-16 00:22 | Team V | Team G | HO-090 RECEIVED | Image crests batch 6 of 9 | no |
+| 2026-11-16 00:22 | Team V | Team G | HO-091 RECEIVED | Image crests batch 7 of 9 | no |
+| 2026-11-16 00:22 | Team V | Team G | HO-092 RECEIVED | Image crests batch 8 of 9 | no |
+| 2026-11-16 00:22 | Team V | Team G | HO-093 RECEIVED | Image crests batch 9 of 9 | no |
+| 2026-11-16 00:32 | Team V | Team G | HO-086 DONE | Image crests batch 2 of 9 | no |
+| 2026-11-16 00:47 | Team V | Team G | HO-087 DONE | Image crests batch 3 of 9 | no |
+| 2026-11-16 01:12 | Team V | Team G | HO-088 DONE | Image crests batch 4 of 9 | no |
+| 2026-11-16 01:20 | Team V | Team G | HO-089 DONE | Image crests batch 5 of 9 | no |
+| 2026-11-16 02:02 | Team V | Team G | HO-090 DONE | Image crests batch 6 of 9 | no |
+| 2026-11-16 02:56 | Team V | Team G | HO-091 DONE | Image crests batch 7 of 9 | no |
+| 2026-11-16 03:04 | Team V | Team G | HO-092 DONE | Image crests batch 8 of 9 | no |
+| 2026-11-16 03:16 | Team V | Team G | HO-093 DONE | Image crests batch 9 of 9 | no |
 | 2026-11-16 22:56 | Team G | Team V | HO-094 SENT | Club Assignment plate without the managers (desktop + phone) | yes (receive it) |
+| 2026-11-16 22:59 | Team V | Team G | HO-094 RECEIVED | Club Assignment plate without the managers (desktop + phone) | no |
