@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 15 Nov, 9:35 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 15 Nov, 9:43 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.5.1-r92** (main `23bdd43`, Sun 15 Nov 4:47 AM)
 
-🩺 **All clear: every check has a machine.** · Gate #1493: L1… L2… L3A✓ L3B✓ L4✓ L5… L6… · seal pending · POS20 #1493 0/16
+🩺 **All clear: every check has a machine.** · Gate #1493: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #1493 0/16
 
 ## Jobs
 
@@ -50,7 +50,7 @@ Updated Sun 15 Nov, 9:35 PM Boston time. Bug hunting only, no new features until
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 757 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 758 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1493](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1493) | Release 2.6.0 (r93): Golden Showdown, filmed roulette hand, Rules budget sweep | ⏳ 3 passed, 5 running |
+| 🟧 Team G lead | [PR #1493](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1493) | Release 2.6.0 (r93): Golden Showdown, filmed roulette hand, Rules budget sweep | ⏳ 0 passed, 7 running |
 
 **Up next**
 
