@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": "HO-084",
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-16T00:08:02Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T00:11:43Z", "by": "V", "status": "RECEIVED", "note": "Team V crest thread: 10 Astra prompts posted (no club names), Nik runs, V cuts/exports/SHA"}],
+ "evidence": ["claude/project-thread-vraiao 27cf5daf8 project-documents/hc-art/ho085/"],
+ "log": [{"at": "2026-11-16T00:08:02Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T00:11:43Z", "by": "V", "status": "RECEIVED", "note": "Team V crest thread: 10 Astra prompts posted (no club names), Nik runs, V cuts/exports/SHA"}, {"at": "2026-11-16T00:20:15Z", "by": "V", "status": "DONE", "note": "Nik OK 15 Nov 7:20 p.m. Eastern. 10 embroidered crests CREST_IMG_{MANUTD,LIVERPOOL,SPURS,ROMA,LYON,LEVERKUSEN,LAZIO,FRANKFURT,GENOA,BORO}_V1_{1024,256,64}.png (5:6, 4% margin, alpha) + SHA256.json + board. No letters; Leverkusen disc empty; Man Utd imp our own; Roma twins as seated cherubs (first prompt refused)."}],
  "from_session": "session_01GU43Q6ycny5YqAKEeZjFWZ",
  "sessions": {"G": "session_01GU43Q6ycny5YqAKEeZjFWZ", "V": "session_01GU43Q69SMxmTLTsTtZTkeB"}
 }
