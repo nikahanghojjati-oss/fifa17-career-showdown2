@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-16 5:57 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-16 5:58 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `2f09137` (Mon 16 Nov 5:56 PM Boston time) · 305 messages · 95 hand-offs · 589 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `f73db44` (Mon 16 Nov 5:57 PM Boston time) · 305 messages · 95 hand-offs · 589 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -38,6 +38,9 @@ Club Assignment is now a 3D "spin and stop" screen (R94-02, ships in 2.7.0): two
 
 ### After DONE
 Team G (R94-02 build) wires ENV_CLUB_PLATE_V3 / ENV_CLUB_PHONE_V3 into the Club Assignment draw-mode page slot (falls back to marble until then). V2 plates and the pack frames CL1-CL6 stay for old-shape Setups; nothing is deleted.
+
+### Added 2026-11-16 22:57 UTC (Nik): fit the 3D box at every size
+Nik, verbatim: "The background show match the layout of our 3d screen box in all sizes". The page lays a framed 3D pitch box over the middle of the plate (desktop: about the middle 85% of width, from about 30% to 80% of height; phone portrait: a wide box in the upper middle; sideways phones: box on the left, tiles on the right). Compose the plate so its room details (banners, trophies, shelves, armchairs, window frame) sit AROUND that box and stay visible, and nothing important sits behind it. Team G will send a guide image with the box drawn on each size if V asks; Team G crops the plate per size (cover + focal point), so keep the side and top edges rich, the middle calm.
 
 </details>
 
