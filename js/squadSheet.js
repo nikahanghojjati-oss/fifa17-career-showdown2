@@ -740,6 +740,14 @@
   }
   // From season 2 a manager reports a player who left the club in his FIFA save. He leaves for good (a player who left
   // may be signed again later: BUY_BACK) and his place is refilled within his line.
+  // Sol S-SQ-01: the departures list is cumulative and the Rules hold it to 100 entries, so a man loaned out season after
+  // season (back at each season's end) must not add a record each time. A loan that ended at a season's end (returned after
+  // the season he left in) changes nothing once that man leaves again: no buy-back came from it, and he is away or back by
+  // his later record. Only his latest such loan stays, as the last of his records. Every other record stays: each man's
+  // records but his last are followed by his coming back as a kept signing, so the list holds at most one record per man
+  // who left plus one per buy-back: the club's men (33 at most) plus the kept signing rows (3 a window), under 100.
+  function naturalLoan(o){return o.reason==="loaned"&&Number.isInteger(o.returned)&&o.returned>o.season;}
+  function compactOut(out){return out.filter((o,i)=>!naturalLoan(o)||!out.some((x,j)=>j>i&&x.id===o.id));}
   function leave(sheet,id,reason){
     if(!sheet||sheet.season<2)return {ok:false,reason:"Players leave the club from season 2.",sheet};
     if(!LEAVE_REASONS.includes(reason))return {ok:false,reason:"Pick why he left.",sheet};
@@ -752,6 +760,7 @@
     // stored document tells a buy-back (a window after it) from a repeat entry (C2).
     const lastWindow=isSigning(p)?Math.max(p.signedSeason,...(altsOf(next)[p.id]||[]).map(a=>a.season)):p.signedSeason;
     next.out.push({id:p.id,name:p.name,number:p.number,...(twinOf(p)?{pid:p.pid}:{}),signedSeason:lastWindow,reason,season:next.season,stage:next.stage,player:reason==="loaned"?clone(p):null});
+    next.out=compactOut(next.out);
     if(ref.zone==="xi"){setStopgap(next,ref.index,false);refillXi(next,ref.index,[],p);}
     else if(ref.zone==="bench")refillBench(next,ref.index,p);
     next.notes=[];enforceBest(next);
