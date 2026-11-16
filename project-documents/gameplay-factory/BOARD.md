@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sun 15 Nov, 11:02 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sun 15 Nov, 11:07 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.5.1-r92** (main `23bdd43`, Sun 15 Nov 4:47 AM)
 
-🩺 **All clear: every check has a machine.** · Gate #1493: L1✓ L2… L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal pending · POS20 #1493 0/16
+🩺 **All clear: every check has a machine.** · Gate #1493: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1493 0/16
 
 ## Jobs
 
@@ -70,7 +70,7 @@ Updated Sun 15 Nov, 11:02 PM Boston time. Bug hunting only, no new features unti
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 728 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 729 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1493](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1493) | Release 2.6.0 (r93): Golden Showdown, filmed roulette hand, Rules budget sweep | ⏳ 6 passed, 1 running |
+| 🟧 Team G lead | [PR #1493](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1493) | Release 2.6.0 (r93): Golden Showdown, filmed roulette hand, Rules budget sweep | 🟢 8 passed |
 
 **Up next**
 
