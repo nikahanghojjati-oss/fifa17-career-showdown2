@@ -151,9 +151,18 @@
     void cdsStyle();
     return cdsLoad("club-draw-3d",SCENE_JS,()=>Boolean(root.CareerModeClubDraw3d)).then(()=>root.CareerModeClubDraw3d.preload()).catch(()=>false);
   }
+  // The crest table (js/visualIdentity.js) is in before any ball is drawn: the game loads it with the gameplay files, and
+  // the draw makes sure of it here too, so the Reus Gate never opens on a ball without its crests.
+  let identityPromise=null;
+  function cdsIdentity(){
+    const ready=()=>typeof root.getClubIdentity==="function"&&typeof root.loadClubCrestImage==="function";
+    if(ready())return Promise.resolve(true);
+    if(!identityPromise)identityPromise=cdsLoad("visual-identity","js/visualIdentity.js",ready).catch(()=>false).then(ok=>{if(!ok)identityPromise=null;return ok;});
+    return identityPromise;
+  }
   function cdsClubInfo(name){
     // The R94-01 image crest on the ball (the "ball" slot falls back to the largest file there is), the drawn crest otherwise.
-    return Promise.resolve(typeof root.loadClubCrestImage==="function"?root.loadClubCrestImage(name,"ball"):null).catch(()=>null).then(image=>{
+    return cdsIdentity().then(()=>typeof root.loadClubCrestImage==="function"?root.loadClubCrestImage(name,"ball"):null).catch(()=>null).then(image=>{
       let id=null;try{id=typeof root.getClubIdentity==="function"?root.getClubIdentity(name):null;}catch(_error){}
       return {primary:id&&id.primary||"#d8b55a",secondary:id&&id.secondary||"#101010",crest:image||(id&&id.crest)||null};
     });

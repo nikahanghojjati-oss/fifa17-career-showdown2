@@ -104,4 +104,19 @@ let passed=0;const pass=msg=>{passed+=1;process.stdout.write(`PASS ${msg}\n`);};
   M.tune("reset");assert.deepEqual(M.tune({}),before);assert.deepEqual({...M.physics},before);assert.ok(Object.isFrozen(M.physics));
   pass("C8 tune(): known motion numbers only, the third stays 120 deg, reset restores the shipped values");
 }
+// C9 (Nik 2026-11-16, gallery v1): the slow look shows every crest whole. All three are fully lit from its first frame,
+// and the ball turns each crest in turn to the middle of its third (facing the camera) and holds it there before the kick.
+{
+  const SRC=read("js/clubDrawScene3d.js");
+  for(const front of [0,35,59.9,215,359])for(let n=0,f=M.showTarget(front);n<3;n+=1,f+=120){
+    assert.equal(M.mod360(f)%120,60,`front ${front}: stop ${n} is the middle of a third`);
+    assert.ok(f-front>=20&&f-front<=140+240,`front ${front}: stops ahead of the ball`);
+  }
+  assert.equal(new Set([0,1,2].map(n=>M.sectionOf(M.mod360(M.showTarget(35)+n*120)))).size,3,"the three holds show the three crests");
+  assert.match(SRC,/b\.state==="rest"\)\{if\(b\.t>PHYS\.REST0\)\{lightAll\(b\);/,"all crests lit before the slow look starts");
+  assert.match(SRC,/else if\(b\.state==="show"\)\{[\s\S]{0,800}?lightAll\(b\);/,"and kept lit through it");
+  assert.equal(/b\.lit\[i\]=v/.test(SRC),false,"no crest blooms in during the turn");
+  assert.ok(M.physics.SHOW>=.8&&M.physics.SHOW<=1.2,"each crest is held facing the camera for about a second");
+  pass("C9 the slow look: all three crests fully drawn from the first frame, each turned to face the camera and held about a second");
+}
 process.stdout.write(`PASS R94-02 club draw scene: ${passed} checks.\n`);

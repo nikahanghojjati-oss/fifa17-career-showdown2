@@ -23,7 +23,7 @@
   // a blind tap 33%. D0 is not a whole number of turns on purpose: the lead has to be learned before timing helps.
   const PHYS={
     J:120, D0:600, SECTION:120, POSE_PULL:.6,
-    REST0:.9, W_SLOW:112, SHOW:3.4, KICK:1.15, W_FAST:470, GRAV:62,
+    REST0:.9, W_SLOW:112, SHOW:.95, SHOW_MOVE:1.05, SHOW_OUT:.55, KICK:1.15, W_FAST:470, GRAV:62,
     FK:.2, A0:3.4, SETTLE:1.7, BODY_TILT:4.2,
     AWAIT_LEAD:120, AWAIT_W:150, RIVAL_MIN:480, REPLAN_MIN:150, REPLAN_DUR:4.2
   };
@@ -46,6 +46,9 @@
   // Where the ball is shown at rest: the stored angle pulled 40% toward the middle of its own third, so a border never rests
   // facing the manager and the landed crest is always within 36 degrees of the front. The club comes from the integer alone.
   function poseOf(stop){const mid=sectionOf(stop)*PHYS.SECTION+PHYS.SECTION/2;return mid+((stop+.5)-mid)*PHYS.POSE_PULL;}
+  // The slow look's next stop: the middle of the next club third ahead of the face `front` (at least 20 degrees on), where
+  // that crest faces the camera.
+  function showTarget(front){return Math.ceil((front+20-PHYS.SECTION/2)/PHYS.SECTION)*PHYS.SECTION+PHYS.SECTION/2;}
   // The smallest travel >= min that brings the face `front` round to `target` (mod 360).
   function travelTo(front,target,min){let d=mod360(target-front);while(d<min)d+=360;return d;}
   // Grass friction: d(speed)/dt = -(c + k*speed). c is solved so the ball travels exactly `travel`; the speed reaches zero
@@ -390,12 +393,22 @@
     function step(b,dt){
       b.t+=dt;let w=0;
       if(b.state==="idle"){w=0;}
-      else if(b.state==="rest"){if(b.t>PHYS.REST0)setBallState(b,"show");}
+      else if(b.state==="rest"){if(b.t>PHYS.REST0){lightAll(b);b.showSeg=0;b.showA=b.f;b.showB=showTarget(b.f);b.showT=0;b.showCued=false;setBallState(b,"show");}}
       else if(b.state==="show"){
-        // The slow look: one gentle turn while the three club thirds bloom onto the leather.
-        const k=Math.min(1,b.t/.7);w=PHYS.W_SLOW*k*k*(3-2*k);b.f+=w*dt;
-        for(let i=0;i<3;i++){const was=b.lit[i],v=Math.min(1,Math.max(0,(b.t-.2-i*.42)/.8));b.lit[i]=v;if(was<=0&&v>0&&b.i===me)cue.lit(i);}
-        if(b.t>=PHYS.SHOW){setBallState(b,"kick");b.vy=7.3;b.y=.001;if(b.i===me)cue.kick();}
+        // The slow look (Nik 2026-11-16): all three crests are fully drawn from the first frame (their images were decoded
+        // behind the loading screen), and the ball turns each one in turn to face the camera and holds it there (SHOW
+        // seconds) so it can be read; after the third it rolls off and is kicked. Before, the crests bloomed in one by one
+        // during a single continuous turn, so a third could pass the camera blank or half drawn.
+        lightAll(b);b.showT+=dt;
+        if(b.showSeg<3){
+          const span=b.showB-b.showA,dur=Math.max(.45,PHYS.SHOW_MOVE*span/120),k=Math.min(1,b.showT/dur);
+          b.f=b.showA+span*k*k*(3-2*k);w=k<1?span*6*k*(1-k)/dur:0;
+          if(k>=1&&!b.showCued){b.showCued=true;if(b.i===me)cue.lit(sectionOf(mod360(b.showB)));}
+          if(b.showT>=dur+PHYS.SHOW){b.showSeg+=1;b.showA=b.showB;b.showB+=PHYS.SECTION;b.showT=0;b.showCued=false;}
+        }else{
+          const k=Math.min(1,b.showT/PHYS.SHOW_OUT);w=PHYS.W_SLOW*k*k;b.f+=w*dt;
+          if(k>=1){setBallState(b,"kick");b.vy=7.3;b.y=.001;if(b.i===me)cue.kick();}
+        }
       }else if(b.state==="kick"){
         // Spun hard: the ball hops off the turf, lands with weight, bounces once more and digs in.
         const k2=Math.min(1,b.t/PHYS.KICK),e2=k2*k2*(3-2*k2);w=PHYS.W_SLOW+(PHYS.W_FAST-PHYS.W_SLOW)*e2;b.f+=w*dt;lightAll(b);
@@ -577,7 +590,7 @@
   function preload(){return cdLoadEngine().then(()=>true,()=>false);}
 
   const api={contractVersion:1,feature:"cms-club-draw-3d",enginePath:ENGINE_PATH,physics:PHYS_DEFAULT,tune,
-    sectionOf,drawStop,poseOf,travelTo,friction,speedFor,angleDiff,mod360,knobs,mount:mountScene,preload};
+    sectionOf,drawStop,poseOf,showTarget,travelTo,friction,speedFor,angleDiff,mod360,knobs,mount:mountScene,preload};
   if(typeof module!=="undefined"&&module.exports)module.exports=api;
   root.CareerModeClubDraw3d=api;
 })(typeof globalThis!=="undefined"?globalThis:this);
