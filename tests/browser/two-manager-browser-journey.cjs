@@ -500,7 +500,7 @@ async function main(){
       assert.equal(await m.page.locator("#leagueWheelScreen").isVisible(),false,`${m.user}: the witnessed league screen advanced to the club packs without a tap`);
       assert.equal((await m.page.locator("#clubAssignmentLeague").textContent()).trim(),sharedLeague,`${m.user}: the club screen names the shared league`);
     }
-    // R94-02 (Nik 2026-11-15): the club draw is a spin and stop. Nobody opens anything: Daniel's device deals the six
+    // R94-02 (Nik 2026-11-15): the club draw is a spin and stop. Nobody opens anything: Daniel's device deals the twelve
     // candidates and locks his season length by itself; each manager taps STOP on his own device; his club is named under
     // his ball once it rests, and both phones name the same two clubs.
     for(const m of [daniel,nik]){
@@ -511,8 +511,9 @@ async function main(){
     await clubDraw.waitStop(nik.page);await clubDraw.waitStop(daniel.page);
     const drawn=await clubDraw.setupState(daniel.page);
     assert.equal(drawn.phase,"SEASON_LENGTH_COMMITTED","Daniel's device dealt the candidates and locked the season length by itself");
-    const six=[...drawn.candidates.playerOne,...drawn.candidates.playerTwo];
-    assert.equal(new Set(six).size,6,"six distinct candidate clubs");
+    const twelve=[...drawn.candidates.playerOne,...drawn.candidates.playerTwo];
+    assert.equal(twelve.length,12,"six candidate clubs a ball (R95-01 draw 3)");
+    assert.equal(new Set(twelve).size,12,"twelve distinct candidate clubs: no club on both balls");
     await clubDraw.stop(daniel.page);
     await daniel.page.waitForFunction(()=>(window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setup?.stops||[]).length===1,null,{timeout:30000});
     assert.equal(await daniel.page.locator("#continueClubAssignment").isDisabled(),true,"Daniel cannot stop twice");
@@ -530,7 +531,7 @@ async function main(){
       assert.equal((await m.page.locator("#clubPlayerOne").textContent()).trim(),"Daniel","Daniel remains the LEFT/playerOne slot");
       assert.equal((await m.page.locator("#clubNameOne").textContent()).trim(),clubsD[0],"Daniel's left club agrees on both pages");
     }
-    ok("J4.3","the club draw dealt six candidates by itself; each manager stopped his own ball; both pages agree on two clubs with Daniel in the LEFT slot");
+    ok("J4.3","the club draw dealt twelve distinct candidates (six a ball) by itself; each manager stopped his own ball; both pages agree on two clubs with Daniel in the LEFT slot");
 
     // Job 33 (R4a): Career Start opens by itself once both balls rest (no CONTINUE TO CAREER START tap).
     for(const m of [daniel,nik]){
