@@ -167,14 +167,14 @@ function renderLeagueWheelState(){
             note.classList.add("locked");
         }
     }else{
-        if(spinButton.textContent !== "CONTINUE TO CLUB ASSIGNMENT"){
-            spinButton.textContent = "CONTINUE TO CLUB ASSIGNMENT";
+        if(spinButton.textContent !== "CONTINUE TO BALL GAME"){
+            spinButton.textContent = "CONTINUE TO BALL GAME";
         }
         spinButton.disabled = false;
         if(note){
             const message = isLeagueSelectionConfirmed()
-                ? `${selected.name} is confirmed. Continue when you are ready for Club Assignment.`
-                : `${selected.name} is selected and locked. Tap Continue to confirm it and open Club Assignment.`;
+                ? `${selected.name} is confirmed. Continue when you are ready for Ball Game.`
+                : `${selected.name} is selected and locked. Tap Continue to confirm it and open Ball Game.`;
             if(note.textContent !== message){ note.textContent = message; }
             note.classList.remove("hidden", "locked");
         }
@@ -196,7 +196,7 @@ function confirmLeagueSelectionAndContinue(){
 
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice(
-                    "The league confirmation could not be saved, so Club Assignment was not opened.",
+                    "The league confirmation could not be saved, so Ball Game was not opened.",
                     "error",
                     9000
                 );

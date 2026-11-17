@@ -160,7 +160,7 @@ const score=(o={})=>({championsLeague:0,europaLeague:0,leagueTitle:0,domesticCup
   const block=tw.slice(media,tw.indexOf('\n}\n',at));
   assert.match(block,/\.hud-footer \{ position: relative; left: auto; right: auto; bottom: auto; \}/,'rail in flow');
   assert.doesNotMatch(block,/\.hud-footer \{ position: fixed; \}/,'no fixed rail over the scrolling cards');
-  assert.match(block,/min-height: calc\(100svh - 52px\)[^}]*padding-bottom: 4px;/,'world one rail short, no reserved fixed-rail gap');
+  assert.match(block,/min-height: calc\(100svh - 60px\)[^}]*padding-bottom: 4px;/,'world one rail short, no reserved fixed-rail gap');
   ok('M7','LOCK MY SIGNINGS and REFRESH never overlap on a sideways phone (sizes F11)');
 }
 {
