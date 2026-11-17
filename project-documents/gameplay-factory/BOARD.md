@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 16 Nov, 8:55 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 16 Nov, 8:59 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.6.0-r93** (main `5c5472f`, Sun 15 Nov 11:36 PM)
 
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1506](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1506) | Release 2.7.0 (r94): Club Assignment spin and stop, image crests, Story audiobook | ⏳ 4 passed, 5 running |
+| 🟧 Team G lead | [PR #1506](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1506) | Release 2.7.0 (r94): Club Assignment spin and stop, image crests, Story audiobook | ⏳ 6 passed, 3 running |
 
 **Up next**
 
