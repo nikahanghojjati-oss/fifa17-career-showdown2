@@ -306,6 +306,8 @@ html[data-assets="0"] #sqStage{background-image:url("../visual-assets/v10_1/plat
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #sqStage{background-image:image-set(url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1920.webp") 1.25x,url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_2X.webp") 2x)}
 }
 
+/* r95 house (Lane B): keyboard focus ring on the Squad player chips */
+.sqmChip:focus-visible{outline:2px solid #fff3bd;outline-offset:3px;border-radius:6px}
 /* r95 house pass (Lane A, row 03): the Squad step leaves the pale FIFA-slate look. Same layout, same words, same taps;
    every light, grey, green or FIFA-blue surface is now the clubhouse: warm black marble in the gold bevel, gold cursor,
    CONTINUE CAREER gold for the primary button. The pitch itself stays green (it is the pitch). */
