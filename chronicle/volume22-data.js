@@ -1,7 +1,7 @@
 /* THE CHRONICLE · Volume 22 (Team G, r94 / 2.7.0): image crests for all 98 clubs and the red-shirt fix, the Club Assignment
    spin and stop (a real football, one STOP, about half luck), Nik's look notes and Team V's club lounge, the Firebase limits
    study and guards, and the Story retold as an audiobook. Written from gameplay/r94 9742fa70. Loaded by volume22.js.
-   RELEASE LINE: the last sentence of chapter 199 is filled in at the version bump with the live date. */
+   RELEASE LINE: the last sentence of chapter 199 (“Then Nik gives the word, and 2.7.0 goes live.”) was set by the 2.7.0 version bump. */
 window.CHRONICLE_VOLUME22={
  "capturedAt": "2026-11-16T23:55:00Z",
  "part": {
@@ -414,7 +414,7 @@ window.CHRONICLE_VOLUME22={
     },
     {
      "type": "p",
-     "text": "2.7.0 is not live yet. It waits for the last look, the gallery, and Nik’s word."
+     "text": "Then Nik gives the word, and 2.7.0 goes live."
     }
    ],
    "sources": [
@@ -427,9 +427,9 @@ window.CHRONICLE_VOLUME22={
      "kind": "pull-request"
     }
    ],
-   "words": 549,
+   "words": 542,
    "minutes": 2
   }
  ],
- "wordCount": 2849
+ "wordCount": 2842
 };

@@ -31,7 +31,7 @@
   // build is dropped on load: the update may have fixed what failed (2.4.0 closed the tab at High; 2.5.0 fixed its memory, yet
   // 2.4.0's cap kept the Device check off High for 7 days). The level gets one fresh try per build: if it fails again, this
   // build writes its own cap, kept as before. BUILD is the service worker's RUNTIME_REVISION (the release bump moves both).
-  const BUILD="2.6.0-r93";
+  const BUILD="2.7.0-r94";
   const MEMORY_KEY=key=>`careerModeShowdown.gfxSettled.v1.${key}`;
   // r91: where a scene's heavy parts settled (its detail step, for the level it was built at), read on its next visit.
   const DETAIL_KEY=key=>`careerModeShowdown.gfxDetail.v1.${key}`,DETAIL_DAYS_MS=7*864e5;
