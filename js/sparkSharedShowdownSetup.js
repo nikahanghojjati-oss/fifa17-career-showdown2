@@ -150,7 +150,9 @@
       updatedByDeviceId:deviceId
     };
     // R94-02 draw 2: `stops` exists from open on and gains this manager's stop on his confirm.
-    if(prior?Object.hasOwn(prior,"stops"):draw===2)ledger.stops=prior?(type==="confirm"?[...prior.stops,stop]:[...prior.stops]):[];
+    if(prior?Object.hasOwn(prior,"stops"):draw===2||draw===3)ledger.stops=prior?(type==="confirm"?[...prior.stops,stop]:[...prior.stops]):[];
+    // R95-01 draw 3 (six clubs per ball): `draw: 3` is written at open beside `stops` and copied unchanged after.
+    if(prior?Object.hasOwn(prior,"draw"):draw===3)ledger.draw=3;
     return ledger;
   }
   async function authorityContext(options,transaction){
@@ -202,9 +204,10 @@
       const baseRevision=Number(options.baseRevision);
       if(!Number.isInteger(baseRevision)||baseRevision<0)ssrpFail("SETUP_COMMAND_INVALID");
       if(type==="commit-length"&&!LENGTHS.includes(options.totalSeasons))ssrpFail("SETUP_LENGTH_INVALID");
-      // R94-02: open may ask for draw 2; a draw 2 confirm carries the manager's stop (0..359), fixed at his tap.
+      // R94-02: open may ask for draw 2 (R95-01: or draw 3, six clubs per ball); a draw confirm carries the manager's stop
+      // (0..359), fixed at his tap.
       const draw=options.draw===undefined?null:options.draw;
-      if(draw!==null&&(type!=="open"||draw!==2))ssrpFail("SETUP_COMMAND_INVALID");
+      if(draw!==null&&(type!=="open"||(draw!==2&&draw!==3)))ssrpFail("SETUP_COMMAND_INVALID");
       const hasStop=options.stop!==undefined&&options.stop!==null;
       if(hasStop&&(type!=="confirm"||!Number.isInteger(options.stop)||options.stop<0||options.stop>=360))ssrpFail("SETUP_STOP_INVALID");
       ssrpValidateSdk(options.firestore,options.firebaseSdk);
@@ -225,7 +228,7 @@
               && prior.actorRoles[existing]===actorRole
               && (type!=="commit-length"||prior.totalSeasons===options.totalSeasons)
               && (type!=="confirm"||(Object.hasOwn(prior,"stops")?hasStop&&prior.stops[existing-4]===options.stop:!hasStop))
-              && (type!=="open"||Object.hasOwn(prior,"stops")===(draw===2));
+              && (type!=="open"||(Object.hasOwn(prior,"stops")?(Object.hasOwn(prior,"draw")?3:2):null)===draw);
             if(!same)ssrpFail("SETUP_IDEMPOTENCY_CONFLICT");
             return Object.freeze({ok:true,status:"replayed",replayed:true,revision:prior.revision,state:priorState});
           }
@@ -238,7 +241,7 @@
         if(type==="commit-league"||type==="commit-clubs")command=await protocol.prepareDraw({state:priorState,type,operationId});
         else if(type==="commit-length")command={type,operationId,baseRevision,totalSeasons:options.totalSeasons};
         else if(type==="confirm")command={type,operationId,baseRevision,setupHash:await protocol.confirmationHash(priorState),...(hasStop?{stop:options.stop}:{})};
-        else command={type,operationId,baseRevision,...(draw===2?{draw}:{})};
+        else command={type,operationId,baseRevision,...(draw===2||draw===3?{draw}:{})};
         const applied=await protocol.apply({state:priorState,authority:auth,command});
         if(!applied.ok)ssrpFail(applied.code);
         const next=ledgerFrom({
