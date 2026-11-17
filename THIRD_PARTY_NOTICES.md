@@ -22,6 +22,14 @@ The application does not claim Barlow is EA/FIFA's proprietary typeface.
 - Application use (r93, HO-079): the live-text screen titles, in flat gold, on every titled screen.
 - Delivery: `visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2`, stored in this repository and served from the game's own site (`font-display: block`, so a title never paints in a stand-in face).
 
+## Instrument Sans
+
+- Typeface family: Instrument Sans (variable: weight 400-700, width 75-100, with a real italic)
+- Copyright: 2022 The Instrument Sans Project Authors, `https://github.com/Instrument/instrument-sans`
+- License: SIL Open Font License, Version 1.1 (full text: `visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt`)
+- Application use (r95): the one type family for titles, labels, buttons, figures and reading, using its width and weight axes and its italic.
+- Delivery: `visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2` and `instrument-sans-latin-wght-italic.woff2` (Latin subset, from the fontsource `@fontsource-variable/instrument-sans` 5.3.0 package), stored in this repository and served from the game's own site (`font-display: block`).
+
 ## Marco Reus photograph
 
 - Repository file: `assets/marco-reus-2015-cc-by.webp`

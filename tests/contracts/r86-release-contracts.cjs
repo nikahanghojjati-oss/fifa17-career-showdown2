@@ -41,7 +41,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 // names any drift.
 {
   // 2.7.0 (r94) R94-02 (Club Assignment spin and stop): adds its step, 3D scene and CSS. Nothing is removed.
-  const R94_ADDED=["js/clubDrawStep.js","js/clubDrawScene3d.js","css/clubDraw.css"];
+  // r95: the Instrument Sans type sheet and its variable faces (one type family).
+  const R94_ADDED=["js/clubDrawStep.js","js/clubDrawScene3d.js","css/clubDraw.css","css/r95-type.css","visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2","visual-assets/v10_1/shared/fonts/instrument-sans-latin-wght-italic.woff2","visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt"];
   const R94_REMOVED=[];
   const sw=read('service-worker.js');
   assert.match(sw,/const RUNTIME_REVISION = "2\.7\.0-r94";\nconst PREVIOUS_RUNTIME_REVISION = "2\.6\.0-r93";/);
