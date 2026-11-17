@@ -179,3 +179,7 @@
 /* Instrument Sans Narrow is about 3% wider than Barlow Condensed 800 at the tile-label sizes, so a one-word line such as
    SHOWDOWN or CHAMPION measured 1-2 px wider than its tile at 1024x768 and 844x390. These labels tighten their tracking a hair. */
 :root #app :is(.menuTileLabel, .rv-trophyLabel, .trophyCard .notWonYet) { letter-spacing: -.02em !important; }
+
+/* Legacy season history at 360 wide: Instrument Sans Narrow is a little wider than Barlow Condensed, so the winner's name
+   ran 4 px past its cell. The name tightens its tracking a hair; nothing is hidden or cut. */
+:root #app #legacy .legacyHistoryWinner { letter-spacing: -.05em !important; font-weight: 600 !important; }
