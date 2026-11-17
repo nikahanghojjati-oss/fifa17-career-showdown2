@@ -55,7 +55,7 @@ html,body{margin:0;height:100%;background:#050608;color:var(--ink);font:13px/1.3
   "use strict";
   const M=window.CareerModeClubDraw3d,$=id=>document.getElementById(id),stage=$("stage");
   // name, min, max, step: the motion knobs worth feeling by hand (study 0b/0c).
-  const KNOBS=[["J",0,170,1,"luck +-deg"],["D0",360,900,5,"lead deg"],["W_SLOW",40,240,2,"slow deg/s"],["SHOW",1.5,6,.1,"slow look s"],["W_FAST",250,800,5,"fast deg/s"],["KICK",.5,2.5,.05,"kick s"],["FK",.05,.6,.01,"drag k"],["A0",0,8,.1,"rock back deg"],["SETTLE",.6,3,.1,"settle s"],["POSE_PULL",0,1,.05,"pose pull"],["BODY_TILT",0,10,.2,"tilt deg"]];
+  const KNOBS=[["J",0,170,1,"luck +-deg"],["D0",360,900,5,"lead deg"],["W_SLOW",40,240,2,"slow deg/s"],["SHOW",.3,2.5,.05,"crest hold s"],["SHOW_MOVE",.4,2.5,.05,"crest turn s"],["SHOW_OUT",.2,1.5,.05,"roll-off s"],["W_FAST",250,800,5,"fast deg/s"],["KICK",.5,2.5,.05,"kick s"],["FK",.05,.6,.01,"drag k"],["A0",0,8,.1,"rock back deg"],["SETTLE",.6,3,.1,"settle s"],["POSE_PULL",0,1,.05,"pose pull"],["BODY_TILT",0,10,.2,"tilt deg"]];
   const box=$("sliders");
   function sliders(){
     box.textContent="";const P=M.tune({});
