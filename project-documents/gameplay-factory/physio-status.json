@@ -1,22 +1,13 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-17T05:50:33.270Z",
+  "at": "2026-11-17T05:59:11.236Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
-      "head_sha": "fe05e0e38701898e18680a2d4697e4e5bec19f4c",
-      "pr": 1522,
-      "queued_minutes": 11.5,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "26b8b4b89b44d858fc08f6fca4d210db4168a6ce",
-      "pr": 1524,
-      "queued_minutes": 9.4,
+      "head_sha": "2be3e37c86a10703677e984077fafd3aae4fce18",
+      "pr": null,
+      "queued_minutes": 43.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -25,7 +16,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "8b49e83d18a763a28539c51724d6b39b70230317",
       "pr": 1518,
-      "queued_minutes": 6.4,
+      "queued_minutes": 15,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -34,7 +25,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "da173d743fe8418a1510f6071e7f8645bac96428",
       "pr": 1516,
-      "queued_minutes": 6.4,
+      "queued_minutes": 15,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -43,7 +34,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "e483fd36834720e92bf66dcbc3db7dbd9157f14a",
       "pr": 1519,
-      "queued_minutes": 4.4,
+      "queued_minutes": 13,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -52,7 +43,25 @@
       "workflow": "Showdown Gate",
       "head_sha": "dd3f440713bcf6164b89538302d33c42a67ac65a",
       "pr": 1520,
-      "queued_minutes": 2.3,
+      "queued_minutes": 10.9,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "dc49824cf9505da9eaa482b8e5e8be64998c1e52",
+      "pr": 1522,
+      "queued_minutes": 8.1,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "dfe3db59e89bc33b225c224786a531dd03043808",
+      "pr": 1524,
+      "queued_minutes": 5.2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
