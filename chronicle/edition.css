@@ -788,6 +788,35 @@ li.ra-current{margin-left:0;padding-left:6px}
   .book-header #theme-toggle{margin-left:0}
 }
 /* r95 house fix (Lane C): the cover is a bound book in the clubhouse frame (gold bevel), and Listen is a house button. */
-.book-body:not([data-theme=light]) .book-cover{border:3px solid transparent;border-image:linear-gradient(135deg,#FFF1B8 0%,#E8B94A 16%,#8A6A12 38%,#F2C45B 58%,#FFF1B8 74%,#B8862A 100%) 1;box-shadow:inset 0 0 0 1px rgba(0,0,0,.55),inset 0 0 60px rgba(0,0,0,.45)}
+.book-body:not([data-theme=light]) .book-cover{border:3px solid transparent;border-image:linear-gradient(135deg,#FFF1B8 0%,#E8B94A 16%,#8A6A12 38%,#F2C45B 58%,#FFF1B8 74%,#B8862A 100%) 1;box-shadow:inset 0 0 0 1px rgba(0,0,0,.55)}
 .ra-bar button{border-radius:6px}
 .book-body:not([data-theme=light]) .ra-bar .ra-play,html:not([data-theme=light]) .ra-bar .ra-play{background:linear-gradient(115deg,#FFE98F 0%,#F4CB5A 34%,#E8B93F 62%,#CD9526 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 0 rgba(120,80,10,.35),0 2px 0 rgba(0,0,0,.5)}
+/* r95 house fix (Lane C, pass 2): the Story's first page sits in the clubhouse: the frontispiece is a marble plate in the gold
+   bevel frame, the photograph and the dedication are framed the same way, and the footer is a marble band. */
+@media screen{
+:root{--ed-bevel:linear-gradient(135deg,#FFF1B8 0%,#E8B94A 16%,#8A6A12 38%,#F2C45B 58%,#FFF1B8 74%,#B8862A 100%)}
+body:not(.book-body) .hero{width:calc(100% - 2*clamp(14px,3vw,32px));margin:clamp(16px,2.4vw,32px) auto 0;
+  background:var(--ed-marble) center/560px auto,var(--ed-stone);
+  border:3px solid transparent;border-image:var(--ed-bevel) 1;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.55),0 30px 70px rgba(0,0,0,.55)}
+@media(min-width:1001px){body:not(.book-body) .hero-art{align-self:start;margin-top:8px}}
+body:not(.book-body) .hero-art{border:2px solid transparent;border-image:var(--ed-bevel) 1;box-shadow:0 0 0 6px rgba(8,7,5,.9),0 30px 70px rgba(0,0,0,.65)}
+.dedication-leaf{border:3px solid transparent;border-image:var(--ed-bevel) 1}
+body:not(.book-body) footer{background:var(--ed-marble) center/560px auto,var(--ed-stone);border-top:2px solid #8A6A12;box-shadow:inset 0 1px 0 rgba(255,241,184,.35)}
+}
+/* r95 Lane C pass 3: Team V's Story pictures (HO-096) wired in. Every picture layer sits on top of the marble, so a missing file
+   still shows the marble plate. Live text keeps to the calm zones; no picture sits under a face. */
+@media screen{
+body:not(.book-body) .hero{
+  background:url("assets/STORY_LOUNGE_PLATE_HC_V1.webp") center/cover no-repeat,var(--ed-marble) center/560px auto,var(--ed-stone)}
+.book-body:not([data-theme=light]) .book-cover{
+  background:url("assets/STORY_BOOK_COVER_HC_V1.webp") center/cover no-repeat,var(--ed-marble) center/560px auto,var(--ed-stone)}
+@media(max-width:620px){.book-body:not([data-theme=light]) .book-cover{
+  background:url("assets/STORY_BOOK_COVER_HC_V1_PORTRAIT.webp") center/cover no-repeat,var(--ed-marble) center/560px auto,var(--ed-stone)}}
+.book-body:not([data-theme=light]) .latest-reader:before{content:"";display:block;aspect-ratio:6/1;margin:0 0 clamp(20px,3vw,36px);
+  background:url("assets/STORY_MAKING_OF_BANNER_HC_V1.webp") center/cover no-repeat,var(--ed-marble) center/560px auto,var(--ed-stone);
+  border:2px solid transparent;border-image:var(--ed-bevel) 1;box-shadow:0 0 0 5px rgba(8,7,5,.9)}
+@media(max-width:620px){.book-body:not([data-theme=light]) .latest-reader:before{aspect-ratio:3/1}}
+}
+@media screen and (max-width:1000px){body:not(.book-body) .hero{
+  background:url("assets/STORY_LOUNGE_PLATE_HC_V1.webp") 0% center/cover no-repeat,var(--ed-marble) center/560px auto,var(--ed-stone)}}

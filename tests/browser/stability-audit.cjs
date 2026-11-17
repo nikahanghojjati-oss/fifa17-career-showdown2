@@ -158,10 +158,10 @@ async function createShowdownWithRapidActivation(page,prefix){
   await releasePairedFirstGateForGameplayStability(page,prefix);
 }
 async function selectAndConfirmLeague(page,prefix){
-  await page.locator("#spinLeague").click();await page.locator("#spinLeague").filter({hasText:/CONTINUE TO CLUB ASSIGNMENT/i}).waitFor({state:"visible",timeout:8000});
+  await page.locator("#spinLeague").click();await page.locator("#spinLeague").filter({hasText:/CONTINUE TO BALL GAME/i}).waitFor({state:"visible",timeout:8000});
   const selectedLeague=normalizeText(await page.locator("#selectedLeague").textContent());assert.ok(selectedLeague&&!/spin/i.test(selectedLeague));
   await page.waitForTimeout(700);assert.deepEqual(await activeScreens(page),["leagueWheelScreen"]);assert.equal((await readActiveSave(page)).status,"League Selected");await runAxe(page,`${prefix} League Selected`);await assertLayout(page,`${prefix} League Selected`);
-  await page.reload({waitUntil:"domcontentloaded"});await waitForApplication(page);await resumeSavedUnderStability(page,"leagueWheelScreen",prefix);assert.equal(normalizeText(await page.locator("#selectedLeague").textContent()),selectedLeague);assert.match(await page.locator("#spinLeague").innerText(),/CONTINUE TO CLUB ASSIGNMENT/i);
+  await page.reload({waitUntil:"domcontentloaded"});await waitForApplication(page);await resumeSavedUnderStability(page,"leagueWheelScreen",prefix);assert.equal(normalizeText(await page.locator("#selectedLeague").textContent()),selectedLeague);assert.match(await page.locator("#spinLeague").innerText(),/CONTINUE TO BALL GAME/i);
   await page.locator("#spinLeague").click();await waitForScreen(page,"clubWheelScreen");assert.equal((await readActiveSave(page)).status,"League Confirmed");
   await page.locator("#clubAssignmentBack").click();await waitForScreen(page,"leagueWheelScreen");await page.locator("#spinLeague").click();await waitForScreen(page,"clubWheelScreen");checkpoint(`${prefix} league confirmation recovery`,selectedLeague);
 }
