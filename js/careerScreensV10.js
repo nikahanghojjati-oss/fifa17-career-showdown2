@@ -1334,6 +1334,19 @@
   #app #careerStatistics.careerScreenV10 .comparisonPanel { height:31%; }
   #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .comparisonPanel { height:28.6%; }
 }
+/* r95 Lane B: at 568x320 the hub (totals, tabs, panel, action buttons) is taller than the room under the title bar. The whole
+   column scrolls together instead of squeezing: type stays at the 12px floor, the action buttons scroll with the rows
+   (nothing sticky, nothing passes under anything). */
+@media (max-width:900px) and (max-height:340px) and (orientation:landscape) {
+  #app #careerStatistics.careerScreenV10 .careerScreen { overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin; }
+  #app #careerStatistics.careerScreenV10 .phoneHub { position:relative;left:auto;right:auto;top:auto;bottom:auto;margin:8px 12px 0 45%;grid-template-rows:auto auto auto;overflow:visible; }
+  #app #careerStatistics.careerScreenV10 .headlineTiles { height:auto;align-items:stretch;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto; }
+  #app #careerStatistics.careerScreenV10 .headlineTile { height:auto;min-height:58px;padding:3px 4px; }
+  #app #careerStatistics.careerScreenV10 .headlineLabel { letter-spacing:0; }
+  #app #careerStatistics.careerScreenV10 .contentGrid { overflow:visible; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>:is(.careerTablePanel,.comparisonPanel,.leadersPanel,.statePanel) { height:auto;overflow:visible; }
+  #app #careerStatistics.careerScreenV10 .actionRow { position:relative;left:auto;right:auto;bottom:auto;height:auto;margin:6px 12px 10px 45%; }
+}
 `;
 
   // TROPHY-PLATE-V2 (ticket 1610P): desktop Trophy Room on Team V's black-marble trophy-hall plate
