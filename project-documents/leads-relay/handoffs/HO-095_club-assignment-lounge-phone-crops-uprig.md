@@ -13,8 +13,8 @@
  "job": null,
  "status": "DONE",
  "steps": [],
- "evidence": ["claude/project-thread-6kfnkn 025bac00d project-documents/hc-art/ho095/"],
- "log": [{"at": "2026-11-16T23:47:23Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T23:48:40Z", "by": "V", "status": "RECEIVED", "note": "Supervisor lead writing 2 Astra prompts from locked HO-094 desktop room"}, {"at": "2026-11-16T23:58:02Z", "by": "V", "status": "DONE", "note": "ENV_CLUB_PHONE_HC_V4 1179x2096 + ENV_CLUB_SIDEWAYS_HC_V4 2532x1170, Nik OK. Anchor the sideways plate to the RIGHT for cover crops."}],
+ "evidence": ["claude/project-thread-6kfnkn 025bac00d project-documents/hc-art/ho095/", "claude/project-thread-6kfnkn b8ed0a338 project-documents/hc-art/ho095/"],
+ "log": [{"at": "2026-11-16T23:47:23Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-16T23:48:40Z", "by": "V", "status": "RECEIVED", "note": "Supervisor lead writing 2 Astra prompts from locked HO-094 desktop room"}, {"at": "2026-11-16T23:58:02Z", "by": "V", "status": "DONE", "note": "ENV_CLUB_PHONE_HC_V4 1179x2096 + ENV_CLUB_SIDEWAYS_HC_V4 2532x1170, Nik OK. Anchor the sideways plate to the RIGHT for cover crops."}, {"at": "2026-11-17T00:00:48Z", "by": "V", "status": "DONE", "note": "Aligned update: same file names, new pixels (upright lamps beside title + symmetric trophies inside 390x844 crop; sideways no half lamp). Use b8ed0a338. Sideways still right-anchored."}],
  "from_session": "session_01GU43Q5bagqLyredN5q4Pwh",
  "sessions": {"G": "session_01GU43Q5bagqLyredN5q4Pwh", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
