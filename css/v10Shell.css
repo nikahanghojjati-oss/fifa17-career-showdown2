@@ -931,8 +931,9 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
   /* the identity chip (SIGN IN / player name / RECONNECT) is 28px tall: an invisible ::after makes its tap area 44px */
   #app #topHeader #onlinePlayerIdentityBadge { position: relative; }
   #app #topHeader #onlinePlayerIdentityBadge::after { content: ""; position: absolute; inset: -8px -6px; }
-  /* Marco Reus credit links are 14px tall inline text: inline vertical padding widens the tap area and moves nothing */
-  #photoCredit a, .startupPhotoCredit a, .menuAthleteCredit a { padding: 15px 4px; }
+  /* Marco Reus credit links are 14px tall inline text: vertical padding only (15px + 14px + 15px = a 44px tap area). Side padding
+     shifted the credit sideways when this sheet landed after the boot screen had painted (r95 hunt F2), so there is none. */
+  #photoCredit a, .startupPhotoCredit a, .menuAthleteCredit a { padding: 15px 0; }
   /* Settings gear (36px) outside Legacy: invisible ::after makes the tap area 44px */
   html:not([data-v10-screen="legacy"]) .sd-nav-gear { position: relative; }
   html:not([data-v10-screen="legacy"]) .sd-nav-gear::after { content: ""; position: absolute; inset: -4px; }
