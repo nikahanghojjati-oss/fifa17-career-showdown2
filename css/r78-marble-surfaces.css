@@ -17,6 +17,15 @@
    ===================================================================================================== */
 
 
+/* r95 house kit (Lane A): one bevel frame, one primary-button face, one close button, used by every pop-up and error screen. */
+:root {
+  --h95-bevel: linear-gradient(135deg, #FFF1B8 0%, #E8B94A 16%, #8A6A12 38%, #F2C45B 58%, #FFF1B8 74%, #B8862A 100%);
+  --h95-gold-face: linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%);
+  --h95-kicker: #ffd34d;
+  --h95-smoke: linear-gradient(180deg, #14110c, #0a0907);
+  --h95-shield: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 54'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF1B8'/%3E%3Cstop offset='.3' stop-color='%23E8B94A'/%3E%3Cstop offset='.55' stop-color='%238A6A12'/%3E%3Cstop offset='.78' stop-color='%23F2C45B'/%3E%3Cstop offset='1' stop-color='%23B8862A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M24 2 45 9v18c0 13-9 21-21 25C12 48 3 40 3 27V9z' fill='url(%23g)'/%3E%3Cpath d='M24 7 40 12v15c0 10-7 16-16 19C15 43 8 37 8 27V12z' fill='%23100e0a'/%3E%3Cpath d='M24 15v16' stroke='%23FFD34D' stroke-width='4.5' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='38' r='2.8' fill='%23FFD34D'/%3E%3C/svg%3E");
+}
+
 /* ---------- 1 · The marble panel ------------------------------------------------------------------------------
    Opaque near-black marble (tile cropped from the approved ENV_RULE_BOOK_PHONE_V2 floor, darkened), 1px gold edge,
    a thin gold hairline 3px inside, corner radius = --sd-radius (3px). */
@@ -64,9 +73,9 @@
 }
 .r78-btn--primary {
   color: var(--sd-text-on-gold, #07080a);
-  background: var(--sd-gold-metal, linear-gradient(180deg, #fff3b0 0%, #ffd34d 35%, #d4a017 70%, #8a6a12 100%));
+  background: var(--h95-gold-face);
   border-color: #f5d77a;
-  box-shadow: inset 0 1px 0 rgba(255, 248, 214, .8), inset 0 -2px 0 rgba(138, 106, 18, .6);
+  box-shadow: inset 0 1px 0 rgba(255, 248, 214, .8), inset 0 -2px 0 rgba(138, 106, 18, .6), 0 2px 8px rgba(0, 0, 0, .45);
   text-shadow: 0 1px 0 rgba(255, 241, 184, .45);
 }
 .r78-btn--secondary {
@@ -86,21 +95,26 @@
 @media (max-width: 760px) { .r78-btn { min-height: 48px; } }
 
 /* a 44x44 close "x" button for panels and toasts */
-.r78-close {
+/* r95: THE house close button = the Settings gold-bordered square, upgraded: smoked face inside a gold bevel frame,
+   gold x. Every close (sign-in, errors, waiting overlay, Settings, Music) uses this one look. */
+.r78-close,
+:root:not(#r78):not(#r78) :is(#settingsOverlay #settingsClose, .remoteJoiningDismiss, .cmsMusicSheetClose) {
   display: inline-grid;
   place-items: center;
+  box-sizing: border-box;
   width: 44px;
   height: 44px;
   margin: 0;
   padding: 0;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   border-radius: var(--sd-radius, 3px);
-  background: transparent;
-  color: var(--r78-gold);
+  background: var(--h95-smoke) padding-box, var(--h95-bevel) border-box;
+  color: var(--r78-gold-strong);
   font: 400 26px/1 var(--r78-font-body);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .5);
   cursor: pointer;
 }
-.r78-close:hover { border-color: rgba(242, 196, 91, .45); }
+.r78-close:hover { filter: brightness(1.15); }
 .r78-close:focus-visible { outline: 2px solid #fff3bd; outline-offset: 0; }
 
 
@@ -144,22 +158,27 @@
 }
 .r78-error-screen__panel {
   width: min(560px, 100%);
-  padding: 36px 32px 30px;
+  padding: 40px 36px 34px;
   text-align: center;
+  border: 3px solid transparent;
+  background: url("r78-marble-tile.webp") 0 0 / 256px 256px repeat padding-box, linear-gradient(#110f0c, #110f0c) padding-box, var(--h95-bevel) border-box;
+  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .92), inset 0 0 0 4px rgba(242, 196, 91, .28), 0 0 0 1px #000, 0 18px 40px rgba(0, 0, 0, .55);
 }
-.r78-error-screen__close { position: absolute; top: 6px; right: 6px; }
+.r78-error-screen__close { position: absolute; top: 10px; right: 10px; }
 .r78-error-screen__eyebrow {
   margin: 0 0 8px;
-  color: var(--r78-gold);
-  font: var(--r78-weight-label) var(--r78-size-label)/var(--r78-line-label) var(--r78-font-label);
-  letter-spacing: .16em;
+  color: var(--h95-kicker);
+  font: 700 14px/var(--r78-line-label) var(--r78-font-label);
+  letter-spacing: .22em;
   text-transform: uppercase;
 }
-/* title keeps the game's brush title face (as the current identity gate does); only size/colour are set */
+/* r95: the house headline (gold kicker above, white Barlow Condensed below) replaces the old brush-script title */
 .r78-error-screen__title {
-  margin: 0 0 12px;
-  color: var(--sd-gold-300, #ffd34d);
-  font: 400 clamp(30px, 8vw, 40px)/1.1 var(--sd-font-title, "Kaushan Script", cursive);
+  margin: 0 0 14px;
+  color: #fff;
+  font: 700 clamp(30px, 7vw, 42px)/1.05 var(--r78-font-label);
+  letter-spacing: .05em;
+  text-transform: uppercase;
   text-shadow: 0 2px 10px rgba(0, 0, 0, .6);
 }
 .r78-error-screen__body {
@@ -178,22 +197,16 @@
 .r78-error-screen__actions--two { width: 100%; grid-template-columns: 1fr 1fr; }
 @media (max-width: 420px) { .r78-error-screen__actions--two { grid-template-columns: 1fr; } }
 .r78-error-screen__actions .r78-btn { width: 100%; }
-/* small decorative "!" ring above the eyebrow */
+/* r95: the error icon is a struck-gold shield with a warning mark (was a plain "!" in a thin ring) */
 .r78-glyph {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 12px;
-  border: 1px solid var(--r78-gold);
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .3);
+  display: block;
+  width: 48px;
+  height: 54px;
+  margin: 0 auto 14px;
+  background: var(--h95-shield) center / contain no-repeat;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .6));
 }
-.r78-glyph::before {
-  content: "!";
-  color: var(--r78-error);
-  font: 700 20px/1 var(--r78-font-label);
-}
+.r78-glyph::before { content: none; }
 
 
 /* ---------- 4 · Inline note (.r78-note --error / --warn / --info / --success) ---------------------------------
@@ -612,20 +625,20 @@
 }
 :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay > section {
   box-sizing: border-box;
-  padding: 36px 32px 30px !important;
+  padding: 40px 36px 34px !important;
   color: var(--r78-ivory);
-  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat !important;
-  border: 1px solid var(--r78-gold-edge) !important;
+  background: url("r78-marble-tile.webp") 0 0 / 256px 256px repeat padding-box, linear-gradient(#110f0c, #110f0c) padding-box, var(--h95-bevel) border-box !important;
+  border: 3px solid transparent !important;
   border-radius: var(--sd-radius, 3px);
-  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .9), inset 0 0 0 4px rgba(242, 196, 91, .3);
+  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .92), inset 0 0 0 4px rgba(242, 196, 91, .28), 0 0 0 1px #000, 0 18px 40px rgba(0, 0, 0, .55);
   font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
   text-align: center;
 }
 :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay > section > p:first-of-type {
   margin: 0 0 8px;
-  color: var(--r78-gold);
-  font: var(--r78-weight-label) var(--r78-size-label)/var(--r78-line-label) var(--r78-font-label);
-  letter-spacing: .16em;
+  color: var(--h95-kicker);
+  font: 700 14px/var(--r78-line-label) var(--r78-font-label);
+  letter-spacing: .22em;
 }
 :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay > section > p:not(:first-of-type) {
   max-width: 46ch;
@@ -638,20 +651,24 @@
   min-height: 48px;
   margin: 0 auto;
   color: var(--sd-text-on-gold, #07080a);
-  background: var(--sd-gold-metal);
+  background: var(--h95-gold-face);
   border: 1px solid #f5d77a;
   border-radius: var(--sd-radius, 3px);
   clip-path: none;
-  box-shadow: inset 0 1px 0 rgba(255, 248, 214, .8), inset 0 -2px 0 rgba(138, 106, 18, .6);
+  box-shadow: inset 0 1px 0 rgba(255, 248, 214, .8), inset 0 -2px 0 rgba(138, 106, 18, .6), 0 2px 8px rgba(0, 0, 0, .45);
   font: 700 var(--r78-size-button)/1.1 var(--r78-font-label);
   letter-spacing: var(--r78-tracking-label);
 }
 :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay button[aria-label="Close sign-in"] {
   width: 44px !important;
   height: 44px !important;
-  top: 6px !important;
-  right: 6px !important;
-  color: var(--r78-gold) !important;
+  top: 10px !important;
+  right: 10px !important;
+}
+/* phone: optical centre = a little above the geometric centre, never under the notch or the home bar */
+@media (max-width: 760px) and (orientation: portrait) {
+  :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay { padding-bottom: calc(max(16px, env(safe-area-inset-bottom)) + 8vh); }
+  :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay > section { padding: 40px 22px 28px !important; }
 }
 
 /* r84 look fix: on a phone the Career Start card was a short box over the busy Club Assignment screen. It now fills the
@@ -731,4 +748,75 @@
   background: linear-gradient(180deg, #16140f, #080807) padding-box, linear-gradient(135deg, #f2c45b, #8a6a12 45%, #f2c45b) border-box;
   border: 2px solid transparent; text-shadow: none;
   box-shadow: inset 0 0 0 1px #050505, inset 0 1px 0 2px rgba(255, 241, 184, .12), 0 4px 14px rgba(0, 0, 0, .5);
+}
+
+
+/* ---------- r95 house pass · Lane A ------------------------------------------------------------------------------
+   Everything below only changes how things look; no wording, ids, logic or data. All rules carry three id-levels so they
+   win over the older per-screen sheets without !important. */
+
+/* Career error states (Legacy banner, Career Statistics panel, Trophy Room panel): ONE error card = gold bevel frame,
+   smoked marble face, the struck-gold shield icon instead of a plain "!" circle, and the retry button centred below. */
+:root:not(#r78):not(#r78):not(#r95) :is(.legacyStateBanner:has(button), #statePanel.statePanel:has(.stateRetry), .statePanel--unavailable) {
+  box-sizing: border-box;
+  border: 3px solid transparent;
+  border-radius: var(--sd-radius, 3px);
+  background: url("r78-marble-tile.webp") 0 0 / 256px 256px repeat padding-box, linear-gradient(#110f0c, #110f0c) padding-box, var(--h95-bevel) border-box;
+  box-shadow: inset 0 0 0 3px rgba(17, 15, 12, .92), inset 0 0 0 4px rgba(242, 196, 91, .28);
+  color: var(--r78-ivory);
+}
+:root:not(#r78):not(#r78):not(#r95) :is(.legacyStateBanner:has(button) .legacyStateIcon, #statePanel.statePanel:has(.stateRetry) .stateIcon, .statePanel--unavailable .stateGlyph) {
+  display: block;
+  box-sizing: border-box;
+  width: 36px;
+  height: 40px;
+  min-width: 36px;
+  margin: 0 auto 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--h95-shield) center / contain no-repeat;
+  box-shadow: none;
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .6));
+}
+:root:not(#r78):not(#r78):not(#r95) :is(.legacyStateBanner:has(button), #statePanel.statePanel:has(.stateRetry), .statePanel--unavailable) :is(.stateRetry, button) {
+  margin-top: 14px;
+  justify-self: center;
+  align-self: center;
+}
+
+/* WAITING / GET READY pop-ups: the phone gutter is 16px plus the safe area (was 8px), the shell keeps that gap on both sides. */
+@media (max-width: 680px) {
+  :root:not(#r78):not(#r78):not(#r95) :is(#sparkRemoteJoiningOverlay, #productionSharedJourneyEntryOverlay) {
+    padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+  :root:not(#r78):not(#r78):not(#r95) :is(#sparkRemoteJoiningOverlay, #productionSharedJourneyEntryOverlay) .remoteJoiningShell {
+    max-width: calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  }
+}
+
+/* WAITING pop-up on Home (desktop and laptop): nothing covers the two managers' faces. The centred 920px shell sat over both
+   faces, so on a wide landscape window it docks in the open lounge on the left (the faces start right of it) as a narrower card. */
+@media (min-width: 1200px) and (min-height: 600px) and (orientation: landscape) {
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay {
+    place-items: center start; padding: 0 0 0 max(46px, 2.4vw);
+  }
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay .remoteJoiningShell {
+    width: min(540px, 34vw); max-width: min(540px, 34vw);
+  }
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay .remoteJoiningIntro h2 { font-size: clamp(30px, 3.2vw, 46px); }
+}
+/* Sideways phone: the two managers stand in the left third of Home, so the pop-up docks over the tile column on the right. */
+@media (max-height: 599px) and (min-width: 700px) and (orientation: landscape) {
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay {
+    place-items: center end; padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) 0;
+  }
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay .remoteJoiningShell {
+    width: min(500px, calc(100vw - 372px - env(safe-area-inset-right))); max-width: none;
+  }
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay .remoteJoiningIntro h2 { font-size: 30px; }
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay :is(.remoteJoiningBody, .remoteJoiningIntro) p { font-size: 13px; line-height: 1.35; }
 }

@@ -86,7 +86,7 @@ assert.match(play, /5- and 10-season Showdowns: all players can be trained\./,
 assert.equal((main.textContent.match(/can be trained/g) || []).length, 1, "the training rule is written once");
 
 const special = section("02");
-for (const pattern of [/Right after Club Assignment, you each draw one Special Player/, /top 300 FIFA 17 players by potential/,
+for (const pattern of [/Right after the Ball Game, you each draw one Special Player/, /top 300 FIFA 17 players by potential/,
   /never plays for your own club/, /never draw the same player/,
   /free extra signing\. He never counts toward your three Transfer War signings, and your rival's guesses can never release him\./,
   /Career Start shows his FIFA 17 club/, /roulette can never hit him/, /scores no Showdown points/]) {
