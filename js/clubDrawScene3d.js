@@ -502,7 +502,7 @@
         hop(b,dt);
         if(k2>=1&&b.y===0&&b.vy===0)setBallState(b,"spin");
       }else if(b.state==="spin"){
-        w=(PHYS.W_FAST-36*(1-Math.exp(-b.t/5)))*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T)*Math.sin(2.1*b.t/PHYS.RHY_T+.7));b.f+=w*dt;
+        w=(PHYS.W_FAST-36*(1-Math.exp(-b.t/5)))*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T));b.f+=w*dt;
         if(b.queued!==null&&b.t>.6){b.stop=b.queued;b.accepted=b.accepted||!b.queuedPending;b.queued=null;b.queuedPending=false;b.w=w;startStop(b);}
       }else if(b.state==="stopping"){
         const p=b.plan,tt=Math.min(b.t,p.dur);b.f=b.planF0+p.at(tt);w=p.speed(tt);hop(b,dt);
