@@ -293,7 +293,7 @@
     }
     clubRevealComplete=setup.phase==="SHOWDOWN_CONFIRMED"&&drawStep.bothLanded();
     if(clubRevealComplete){screen.dataset.sharedClubPacksWitnessed=ssjpClubDigest(setup)||"true";ssjpFillConfirmation(setup);}else if(confirmation)confirmation.classList.add("hidden");
-    ssjpText(root.document.getElementById("clubPackStatus"),clubRevealComplete?"BOTH BALLS STOPPED · CLUBS LOCKED":"");
+    ssjpText(root.document.getElementById("clubPackStatus"),clubRevealComplete?"CLUBS LOCKED":"");
     ssjpRenderDrawButton(setup,button,role);
     const mine=Boolean(role&&(stored[role]!==null||saved!==null)),theirs=Boolean(role&&stored[role==="playerOne"?"playerTwo":"playerOne"]!==null);
     if(setup.phase==="SHOWDOWN_CONFIRMED"){ssjpSetSharedStatus(state?.ready!==true?"CONNECTION NEEDED · Reconnect both players before Career Start.":clubRevealComplete?"SETUP COMPLETE · Both balls have stopped.":"BOTH STOPPED · Watch the balls come to rest.");ssjpMaybeAutoOpenCareerStart(setup);}
