@@ -953,3 +953,19 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
   #app #trophyRoom button#trophyRoomBack.trophyBack { left: max(16px, env(safe-area-inset-left)); }
   #app #trophyRoom label.trophyPhoneMoreButton { right: max(16px, env(safe-area-inset-right)); }
 }
+
+/* r95 house (Lane B, layout measure), Career Statistics on phones: the whole screen (the headline tiles, tabs, panels and the action
+   buttons) sits on the 16px gutter plus the safe-area inset (12px under 380px wide), where it was 12px from the window edge.
+   Held upright both sides move; held sideways the right side moves (the left side is the face column). Only the side offsets change. */
+@media (max-width: 900px) and (orientation: portrait) {
+  #app #careerStatistics.careerScreenV10 .careerScreen .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen .actionRow { left: max(12px, env(safe-area-inset-left)); right: max(12px, env(safe-area-inset-right)); }
+}
+@media (min-width: 380px) and (max-width: 900px) and (orientation: portrait) {
+  #app #careerStatistics.careerScreenV10 .careerScreen .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen .actionRow { left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); }
+}
+@media (max-height: 480px) and (orientation: landscape) {
+  #app #careerStatistics.careerScreenV10 .careerScreen .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen .actionRow { right: max(16px, env(safe-area-inset-right)); }
+}
