@@ -208,7 +208,7 @@ async function main(){
     for(const want of [/grid-area:\s*note/,/background:\s*none/,/border:\s*0/,/box-shadow:\s*none/])assert.match(note,want,`plain note: ${want}`);
     // HO-094 (Nik OK 2026-11-16): the empty handcrafted club lounge fills the slot, picked by the same two media rules in
     // the stylesheet and the step, decoded before the Reus Gate opens the screen, never precached.
-    for(const want of [/ENV_CLUB_PLATE_HC_V3_1X\.webp/,/ENV_CLUB_PLATE_HC_V3_2X\.webp/,/ENV_CLUB_PHONE_HC_V3\.webp/,/--cd-plate-pos:/,/background-image: var\(--cd-plate\), var\(--cd-slab\)/])assert.match(CSS_SRC,want,`plate slot: ${want}`);
+    for(const want of [/ENV_CLUB_PLATE_HC_V3_1X\.webp/,/ENV_CLUB_PLATE_HC_V3_2X\.webp/,/ENV_CLUB_PHONE_HC_V4\.webp/,/ENV_CLUB_SIDEWAYS_HC_V4\.webp/,/--cd-plate-pos:/,/background-image: var\(--cd-plate\), var\(--cd-slab\)/])assert.match(CSS_SRC,want,`plate slot: ${want}`);
     const media=name=>{const m=STEP_SRC.match(new RegExp(`const ${name}="([^"]+)"`));assert.ok(m,`${name} in the step`);return m[1];};
     assert.ok(CSS_SRC.includes(`@media ${media("CD_PLATE_PHONE_MEDIA")} {`),"the step and the stylesheet pick the phone plate by the same rule");
     assert.ok(CSS_SRC.includes(`@media ${media("CD_PLATE_2X_MEDIA")} {`),"the step and the stylesheet pick the 2X plate by the same rule");

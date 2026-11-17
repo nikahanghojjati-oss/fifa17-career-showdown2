@@ -32,8 +32,9 @@
   const PLATE_DIR="visual-assets/v10_1/plates-hc/";
   const CD_PLATE_PHONE_MEDIA="(max-width: 760px) and (orientation: portrait)";
   const CD_PLATE_SIDE_MEDIA="(orientation: landscape) and (max-height: 500px)";
-  // The upright and sideways phone slots (HO-095 drops its V4 files in here and in the stylesheet; side null = desktop plate).
-  const PLATE_FILES=Object.freeze({phone:"ENV_CLUB_PHONE_HC_V3.webp",side:null});
+  // The upright and sideways phone plates (HO-095), named here and in the stylesheet (W6 checks they agree; side null would
+  // mean the desktop plate).
+  const PLATE_FILES=Object.freeze({phone:"ENV_CLUB_PHONE_HC_V4.webp",side:"ENV_CLUB_SIDEWAYS_HC_V4.webp"});
   const CD_PLATE_2X_MEDIA="(min-width: 1537px), (min-resolution: 1.5dppx)";
   const PLATE_WAIT_MS=8000;
 

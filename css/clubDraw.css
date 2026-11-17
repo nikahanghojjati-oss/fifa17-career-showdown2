@@ -76,17 +76,18 @@ html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main {
 @media (min-width: 1537px), (min-resolution: 1.5dppx) {
   html:not([data-assets="0"]):has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate-desk: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_2X.webp"); }
 }
-/* CD_PLATE_SIDE_MEDIA: sideways phones have their own slot, --cd-plate-side, for HO-095's ENV_CLUB_SIDEWAYS_HC_V4 (lamps in
-   the top strip, a banner and a trophy above and below the right-hand tiles). Until it lands the slot is unset and the
-   desktop plate shows. To drop it in: set --cd-plate-side here and PLATE_FILES.side in js/clubDrawStep.js (W6 checks both). */
+/* CD_PLATE_SIDE_MEDIA: sideways phones take HO-095's ENV_CLUB_SIDEWAYS_HC_V4 (2532x1170) in their own slot, --cd-plate-side.
+   It is anchored right (Team V) and to the top: from 568x320 to 932x430 the cover crop keeps both lamps whole in the top
+   strip and the banner and trophy on the right wall, behind and under the manager tiles; the window and lounge stay behind
+   the pitch. 80% rather than 100% across keeps the left lamp clear of the title on the narrowest phones (568x320), and the
+   top anchor keeps the lamp shades whole where the window is wider than the room (932x430 under the top bar). */
 @media (orientation: landscape) and (max-height: 500px) {
-  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate: var(--cd-plate-side, var(--cd-plate-desk)); --cd-plate-pos: 50% 42%; }
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate-side: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp"); --cd-plate: var(--cd-plate-side, var(--cd-plate-desk)); --cd-plate-pos: 80% 0%; }
 }
-/* CD_PLATE_PHONE_MEDIA: upright phones take the tall plate, ENV_CLUB_PHONE_HC_V3 until HO-095's ENV_CLUB_PHONE_HC_V4 (lamps and
-   banners in the top band beside the title, a trophy ledge in the bottom 10%). To drop it in: change the file here and
-   PLATE_FILES.phone in js/clubDrawStep.js (W6 checks both). */
+/* CD_PLATE_PHONE_MEDIA: upright phones take HO-095's ENV_CLUB_PHONE_HC_V4 (1179x2096): lamps in the top band beside the
+   title, a trophy ledge in the bottom 10%, centred. File names are also in PLATE_FILES in js/clubDrawStep.js (W6). */
 @media (max-width: 760px) and (orientation: portrait) {
-  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V3.webp"); --cd-plate-pos: 50% 30%; --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V4.webp"); --cd-plate-pos: 50% 30%; --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
   html[data-assets="0"]:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp"); }
 }
 /* HO-094 placement (lead 23:38, Nik: "background should match the layout of our 3d screen box in all sizes"): on desktop

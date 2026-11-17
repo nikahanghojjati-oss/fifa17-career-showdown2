@@ -1407,6 +1407,9 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_1X.webp":"94ede8cb779c0145d0fdd34366532d7f694a26d244a344d3fd40dea1c3c3d98b",
     "visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_2X.webp":"e13f759d41020906dc9b1e41604defdf81982b322333d28943e177c49fb74e53",
     "visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V3.webp":"e3e8aedb6a904c119da2608d135bae4c0a83c524a692bba863354fb127e64375",
+    // HO-095 (Team V, Nik OK 2026-11-17): the phone crops of the same room, upright and sideways. Loaded on demand.
+    "visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V4.webp":"068c48aa2dec2b11e482aa7e76549ecdd94b96ba71d7cc31f7954da028cb71f0",
+    "visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp":"488bf0e1cef4a27b5171f71504fd1e15ea48c7f9561ee1e6587e845e54c80280",
 };
 const V10_UNVERSIONED_FIRST_GENERATION=new Set([
   "visual-assets/v10_1/chamber-men/assets/concrete_512.webp",
