@@ -7,22 +7,14 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <!-- r90 MOTION M8: every face ships with the app from ../shared/fonts (OFL, Fontsource builds), so the page never asks Google
      Fonts, the text never swaps when a font lands, and offline it looks the same. The start waits on them (fontsReady). -->
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../shared/fonts/barlow-condensed-latin-700-normal.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../shared/fonts/big-shoulders-display-latin-800-normal.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../shared/fonts/rye-latin-400-normal.woff2">
+<link rel="stylesheet" href="../../../css/r95-type.css">
 <style>
-@font-face { font-family: "Cormorant SC"; font-weight: 700; font-style: normal; font-display: block; src: url(../shared/fonts/CormorantSC-Bold-latin.woff2) format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 500 600; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 700 900; font-display: swap; src: url(../shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
-@font-face { font-family: "Big Shoulders Display"; font-weight: 700 800; font-display: swap; src: url(../shared/fonts/big-shoulders-display-latin-800-normal.woff2) format("woff2"); }
-@font-face { font-family: "Big Shoulders Display"; font-weight: 900; font-display: swap; src: url(../shared/fonts/big-shoulders-display-latin-900-normal.woff2) format("woff2"); }
-@font-face { font-family: "Rye"; font-weight: 400; font-display: swap; src: url(../shared/fonts/rye-latin-400-normal.woff2) format("woff2"); }
 /* HO-040 Roster Russian Roulette · real 3D stage (three.js r128) with the Showdown HUD over it. Same tokens as the Special Player screen. */
 :root {
   --ink: #050506; --gold: #f1c35a; --gold-hi: #fff3c4; --gold-deep: #9c6e22; --ivory: #f6eedb; --muted: #c9bc9c;
-  --num: "Barlow Condensed", "Arial Narrow", sans-serif;
-  --disp: "Big Shoulders Display", "Arial Narrow", sans-serif;
-  --west: "Rye", "Big Shoulders Display", serif;
+  --num: var(--r95-font-narrow);
+  --disp: var(--r95-font-narrow);
+  --west: var(--r95-font);
   color-scheme: dark;
 }
 html, body { height: 100%; }
@@ -61,7 +53,7 @@ body.ready .boot { opacity: 0; visibility: hidden; }
    is hidden like the line above every other title (Nik 2026-11-12: "Remove both"); it keeps its box, so nothing moves. */
 .kicker { visibility: hidden; }
 .title span { display: block; color: transparent; }
-.title::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); content: "ROSTER RUSSIAN ROULETTE"; --hcw: 15.05; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 700 min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif; font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none; filter: none; background: none; pointer-events: none; }
+.title::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); content: "ROSTER RUSSIAN ROULETTE"; --hcw: 15.05; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 650 calc(.9 * min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw))))/var(--hc-h) var(--r95-font); font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: var(--r95-gold-ink, #F2C45B); -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B); text-shadow: none; filter: none; background: none; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .boot, .top { transition: none; } }   /* r90 L38: under Reduce Motion the loading line and the title switch at ready with no fade */
 /* centre column: result line + button */
 /* r90 LOOK L08: the words live in the bottom strip, above the panel, never over the revolver */
@@ -347,7 +339,7 @@ function handPlaceholder(){ const c=document.createElement("canvas"); c.width=16
   x.fillStyle="#2a1d14"; x.beginPath(); x.moveTo(1600,900); x.lineTo(1600,420); x.quadraticCurveTo(1180,380,980,470); x.quadraticCurveTo(900,520,960,600); x.lineTo(1100,900); x.closePath(); x.fill();
   x.fillStyle="#1b1b1f"; x.save(); x.translate(980,470); x.rotate(-.42); x.fillRect(-620,-22,700,44); x.fillRect(40,-70,120,140); x.restore();
   x.fillStyle="#8a6a2a"; x.save(); x.translate(1040,560); x.rotate(-.42); x.fillRect(-10,0,70,120); x.restore();
-  x.font="700 46px 'Barlow Condensed'"; x.fillStyle="rgba(255,255,255,.85)"; x.textAlign="center"; x.fillText("HAND PICTURE · TICKET 1854",1150,860); return c; }
+  x.font="700 46px 'Instrument Sans Narrow'"; x.fillStyle="rgba(255,255,255,.85)"; x.textAlign="center"; x.fillText("HAND PICTURE · TICKET 1854",1150,860); return c; }
 const L=(hex)=>new T.Color(hex).convertSRGBToLinear();
 const portrait=()=>innerWidth<=899&&innerHeight>innerWidth;
 /* R93-04 (Nik 2026-11-15, "Yes, wider camera"): on an upright phone in the game the shooter's eye takes a slightly wider lens and looks a little lower on
@@ -906,7 +898,7 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     /* FIRE mark: a gold pointer fixed to the crane (it does not turn with the drum) at the chamber that lines up with the barrel */
     const ptr=new T.Group(); ptr.position.set(.0165,.016+R+.0062,-.0247); ptr.rotation.y=Math.PI; crane.add(ptr); cyl.userData.pointer=ptr;
     const cone=new T.Mesh(new T.ConeGeometry(.0032,.006,20),new T.MeshStandardMaterial({color:0xffc84a, emissive:0xd98a12, emissiveIntensity:.9, roughness:.35, metalness:.6})); cone.rotation.z=Math.PI; cone.position.y=-.0005; ptr.add(cone);
-    const lblTex=(()=>{ const c=document.createElement("canvas"); c.width=256; c.height=96; const x=c.getContext("2d"); x.clearRect(0,0,256,96); /* r87 polish: a black-and-gold plate behind the words, so they read over the board behind the drum instead of running into its names */ x.beginPath(); x.moveTo(30,16); x.lineTo(226,16); x.arcTo(246,16,246,48,18); x.arcTo(246,80,226,80,18); x.lineTo(30,80); x.arcTo(10,80,10,48,18); x.arcTo(10,16,30,16,18); x.closePath(); x.fillStyle="rgba(12,9,5,.9)"; x.fill(); x.lineWidth=3; x.strokeStyle="#d4a017"; x.stroke(); x.font="700 38px 'Barlow Condensed', Arial"; x.textAlign="center"; x.fillStyle="#ffd36b"; x.fillText("FIRES HERE",128,61); const t=new T.CanvasTexture(c); t.anisotropy=8; return t; })();
+    const lblTex=(()=>{ const c=document.createElement("canvas"); c.width=256; c.height=96; const x=c.getContext("2d"); x.clearRect(0,0,256,96); /* r87 polish: a black-and-gold plate behind the words, so they read over the board behind the drum instead of running into its names */ x.beginPath(); x.moveTo(30,16); x.lineTo(226,16); x.arcTo(246,16,246,48,18); x.arcTo(246,80,226,80,18); x.lineTo(30,80); x.arcTo(10,80,10,48,18); x.arcTo(10,16,30,16,18); x.closePath(); x.fillStyle="rgba(12,9,5,.9)"; x.fill(); x.lineWidth=3; x.strokeStyle="#d4a017"; x.stroke(); x.font="700 38px 'Instrument Sans Narrow', Arial"; x.textAlign="center"; x.fillStyle="#ffd36b"; x.fillText("FIRES HERE",128,61); const t=new T.CanvasTexture(c); t.anisotropy=8; return t; })();
     const lbl=new T.Mesh(new T.PlaneGeometry(.022,.00825),new T.MeshBasicMaterial({map:lblTex, transparent:true, depthWrite:false})); lbl.position.set(0,.0068,0); ptr.add(lbl);
     ptr.visible=false; ptr.scale.set(.001,.001,.001); }
   /* base pin through the cylinder with its knurled head out the front of the frame */
@@ -990,7 +982,7 @@ if(EXTRA_UP){ const top=mat({map:marbleTex(), color:0xc9c0b2, roughness:.22, met
   cafeTable(-3.5,-2.9); chair(-3.5,-3.5,0); chair(-2.85,-2.9,-Math.PI/2);
   cafeTable(3.5,-2.9); chair(3.5,-3.5,0); chair(2.85,-2.9,Math.PI/2);
   cafe.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=false; } }); bake(cafe); }
-function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Barlow Condensed'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
+function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Instrument Sans Narrow'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
 function ringShape(w,h,r,iw,ih,ir){ const sh=new T.Shape(); sh.moveTo(-w/2+r,-h/2); sh.lineTo(w/2-r,-h/2); sh.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r); sh.lineTo(w/2,h/2-r); sh.quadraticCurveTo(w/2,h/2,w/2-r,h/2); sh.lineTo(-w/2+r,h/2); sh.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r); sh.lineTo(-w/2,-h/2+r); sh.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);
   const hole=new T.Path(); hole.moveTo(-iw/2,-ih/2); hole.lineTo(-iw/2,ih/2); hole.lineTo(iw/2,ih/2); hole.lineTo(iw/2,-ih/2); hole.lineTo(-iw/2,-ih/2); sh.holes.push(hole); return sh; }
 /* board: a black-lacquer moulded frame with a gold fillet, the squad screen under glass; easel: walnut A-frame with gold ferrules, caps, a ledge rail and a finial */
@@ -1067,7 +1059,7 @@ function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo
 const POS_COL=(pos)=>pos==="GK"?"#f2d23c":/B$/.test(pos)?"#3f86e8":/^(ST|CF|LS|RS|LF|RF|LW|RW)$/.test(pos)?"#e8502f":"#4fc74d";
 const surname=(name)=>name.includes(". ")?name.slice(name.indexOf(". ")+2):name;
 /* Polish RR-3 / Fable F11-19: a text never grows past its slot: it shrinks (down to minSize), then ends in "…" */
-function fitText(ctx,text,weight,size,minSize,maxW){ let fs=size, t=String(text); const font=()=>{ ctx.font=`${weight} ${fs}px 'Barlow Condensed'`; }; font();
+function fitText(ctx,text,weight,size,minSize,maxW){ let fs=size, t=String(text); const font=()=>{ ctx.font=`${weight} ${fs}px 'Instrument Sans Narrow'`; }; font();
   while(fs>minSize&&ctx.measureText(t).width>maxW){ fs--; font(); }
   if(ctx.measureText(t).width>maxW){ while(t.length>2&&ctx.measureText(t+"…").width>maxW) t=t.slice(0,-1); t+="…"; } return t; }
 function textShadow(ctx,on){ ctx.shadowColor=on?"rgba(0,0,0,.85)":"transparent"; ctx.shadowBlur=on?2.5*BS:0; ctx.shadowOffsetX=0; ctx.shadowOffsetY=on?BS:0; }   /* canvas shadows are in canvas pixels: the same look at every board scale */
@@ -1076,8 +1068,8 @@ function textShadow(ctx,on){ ctx.shadowColor=on?"rgba(0,0,0,.85)":"transparent";
 function playerCard(ctx,sp,club,vsClub){ const {x,y,s}=sp;
   ctx.fillStyle="rgba(0,0,0,.28)"; ctx.beginPath(); ctx.ellipse(x,y+s*.52,s*.46,s*.1,0,0,7); ctx.fill();
   kitShirt(ctx,x,y,s,club,sp.pos,vsClub);
-  ctx.textBaseline="middle"; ctx.textAlign="right"; textShadow(ctx,true); ctx.font=`800 ${Math.round(s*.54)}px 'Barlow Condensed'`; ctx.fillStyle="#fff"; ctx.fillText(String(sp.rating),x-s*.6,y+s*.16);
-  ctx.font=`700 ${Math.round(s*.3)}px 'Barlow Condensed'`; ctx.fillStyle="#fff"; ctx.fillText("↗",x-s*.66,y-s*.24); textShadow(ctx,false);
+  ctx.textBaseline="middle"; ctx.textAlign="right"; textShadow(ctx,true); ctx.font=`800 ${Math.round(s*.54)}px 'Instrument Sans Narrow'`; ctx.fillStyle="#fff"; ctx.fillText(String(sp.rating),x-s*.6,y+s*.16);
+  ctx.font=`700 ${Math.round(s*.3)}px 'Instrument Sans Narrow'`; ctx.fillStyle="#fff"; ctx.fillText("↗",x-s*.66,y-s*.24); textShadow(ctx,false);
   const bw=s*1.34, bh=Math.max(4,s*.1), by=y+s*.6; ctx.fillStyle="rgba(8,22,10,.8)"; ctx.fillRect(x-bw/2,by,bw,bh); ctx.fillStyle="#46cf3a"; ctx.fillRect(x-bw/2+1,by+1,(bw-2)*Math.min(1,sp.rating/99),bh-2);
   const ny=by+bh+s*.36; ctx.textAlign="center";
   { const t=fitText(ctx,surname(sp.name),700,Math.round(s*.46),Math.round(s*.32),sp.nameW); textShadow(ctx,true); ctx.fillStyle="#fff"; ctx.fillText(t,x,ny+1); textShadow(ctx,false); } }
@@ -1091,15 +1083,15 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
   { const g=ctx.createLinearGradient(0,0,0,162); g.addColorStop(0,"#f2f4f6"); g.addColorStop(1,"#d6dade"); ctx.fillStyle=g; ctx.fillRect(0,0,W,162);
     ctx.fillStyle="#c9a24a"; ctx.fillRect(0,158,W,4);
     ctx.save(); ctx.beginPath(); ctx.arc(150,78,52,0,7); ctx.clip(); ctx.strokeStyle="rgba(240,196,48,.75)"; ctx.lineWidth=3; for(let i=-6;i<8;i++){ ctx.beginPath(); ctx.moveTo(100+i*12,136); ctx.lineTo(160+i*12,24); ctx.stroke(); } ctx.restore();
-    ctx.fillStyle=POS_COL(best[0]); ctx.beginPath(); ctx.arc(30,58,8,0,7); ctx.fill(); ctx.textAlign="left"; ctx.font="700 32px 'Barlow Condensed'"; ctx.fillStyle="#22252b"; ctx.fillText(best[0],44,59);
+    ctx.fillStyle=POS_COL(best[0]); ctx.beginPath(); ctx.arc(30,58,8,0,7); ctx.fill(); ctx.textAlign="left"; ctx.font="700 32px 'Instrument Sans Narrow'"; ctx.fillStyle="#22252b"; ctx.fillText(best[0],44,59);
     kitShirt(ctx,150,72,66,club,best[0],vsClub);
-    ctx.font="800 76px 'Barlow Condensed'"; ctx.fillStyle="#22252b"; ctx.fillText(String(best[2]),200,68);
+    ctx.font="800 76px 'Instrument Sans Narrow'"; ctx.fillStyle="#22252b"; ctx.fillText(String(best[2]),200,68);
     ctx.fillStyle="#2b3038"; ctx.fillRect(24,104,270,8); ctx.fillStyle="#46cf3a"; ctx.fillRect(25,105,268*Math.min(1,best[2]/99),6);
     ctx.textAlign="center"; ctx.fillStyle="#22252b"; ctx.fillText(fitText(ctx,surname(best[1]),700,30,22,270),159,132);
     const crest=crestNow(club.club), cs=118, crx=W-24-cs, nameR=crest?crx-18:W-30;
     if(crest){ const k=Math.min(cs/crest.width,cs/crest.height), cw=crest.width*k, chh=crest.height*k; ctx.drawImage(crest,crx+(cs-cw)/2,20+(cs-chh)/2,cw,chh); }
     ctx.textAlign="right"; ctx.fillStyle="#1d2026"; ctx.fillText(fitText(ctx,club.club.toUpperCase(),800,50,30,nameR-330),nameR,64);
-    ctx.font="600 25px 'Barlow Condensed'"; ctx.fillStyle="#4f5560"; ctx.fillText("STARTING XI · "+form+" · OVR "+avg,nameR,110); }
+    ctx.font="600 25px 'Instrument Sans Narrow'"; ctx.fillStyle="#4f5560"; ctx.fillText("STARTING XI · "+form+" · OVR "+avg,nameR,110); }
   /* the pitch in perspective (one half: halfway line at the top, our box at the bottom) with a thick turf edge */
   const PT=174, PB=616, TL=98, TR=926, BLx=28, BRx=996; const kOf=y=>(y-PT)/(PB-PT); const X=(u,y)=>{ const k=kOf(y), l=TL+(BLx-TL)*k, r=TR+(BRx-TR)*k; return l+u*(r-l); };
   { ctx.beginPath(); ctx.moveTo(BLx,PB); ctx.lineTo(BRx,PB); ctx.lineTo(BRx-3,PB+12); ctx.lineTo(BLx+3,PB+12); ctx.closePath(); const e=ctx.createLinearGradient(0,PB,0,PB+12); e.addColorStop(0,"#2e7426"); e.addColorStop(1,"#1d4a18"); ctx.fillStyle=e; ctx.fill();
@@ -1123,13 +1115,13 @@ function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H
   spots.sort((a,c)=>a.y-c.y||a.x-c.x).forEach(sp=>{ b.bubbles.push({slot:sp.num-1,x:sp.x,y:sp.y,name:sp.name,pos:sp.pos,rating:sp.rating,u:sp.x/W,v:1-sp.y/H}); });
   spots.forEach(sp=>playerCard(ctx,sp,club,vsClub));
   /* the bench: a strip of cards under the pitch */
-  const BT=636; ctx.fillStyle="#23272e"; ctx.fillRect(0,BT,W,32); ctx.textAlign="left"; ctx.font="700 24px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",22,BT+17);   /* r90 L10: the bench count line is gone; the four cards say it */
+  const BT=636; ctx.fillStyle="#23272e"; ctx.fillRect(0,BT,W,32); ctx.textAlign="left"; ctx.font="700 24px 'Instrument Sans Narrow'"; ctx.fillStyle="#fff"; ctx.fillText("SUBSTITUTES",22,BT+17);   /* r90 L10: the bench count line is gone; the four cards say it */
   const subs=club.subs.slice(0,4), gapC=10, cw=(W-44-gapC*3)/4, cy=BT+38, ch=H-cy-6;
   subs.forEach(([pos,name,rating],i)=>{ const cx=22+i*(cw+gapC); const g=ctx.createLinearGradient(0,cy,0,cy+ch); g.addColorStop(0,"#262a32"); g.addColorStop(1,"#1a1d22"); roundRect(ctx,cx,cy,cw,ch,6); ctx.fillStyle=g; ctx.fill(); ctx.strokeStyle="rgba(255,255,255,.07)"; ctx.lineWidth=1.5; ctx.stroke();
     const idx=11+i, sx=cx+cw*.5, sy=cy+38; b.bubbles.push({slot:idx,x:sx,y:sy,name,pos,rating,u:sx/W,v:1-sy/H});
-    ctx.fillStyle=POS_COL(pos); ctx.beginPath(); ctx.arc(cx+18,cy+22,6,0,7); ctx.fill(); ctx.textAlign="left"; ctx.font="700 23px 'Barlow Condensed'"; ctx.fillStyle="#d9dce1"; ctx.fillText(pos,cx+29,cy+23);
+    ctx.fillStyle=POS_COL(pos); ctx.beginPath(); ctx.arc(cx+18,cy+22,6,0,7); ctx.fill(); ctx.textAlign="left"; ctx.font="700 23px 'Instrument Sans Narrow'"; ctx.fillStyle="#d9dce1"; ctx.fillText(pos,cx+29,cy+23);
     kitShirt(ctx,sx,sy,44,club,pos,vsClub);
-    ctx.textAlign="right"; ctx.font="800 42px 'Barlow Condensed'"; ctx.fillStyle="#fff"; ctx.fillText(String(rating),cx+cw-14,cy+36);
+    ctx.textAlign="right"; ctx.font="800 42px 'Instrument Sans Narrow'"; ctx.fillStyle="#fff"; ctx.fillText(String(rating),cx+cw-14,cy+36);
     ctx.fillStyle="rgba(8,22,10,.8)"; ctx.fillRect(cx+14,cy+66,cw-28,5); ctx.fillStyle="#46cf3a"; ctx.fillRect(cx+15,cy+67,(cw-30)*Math.min(1,rating/99),3);
     /* Fable F11-19: a long bench surname shrinks, then ends in an ellipsis, and never runs past its card */
     const surW=cw-24; const sur=fitText(ctx,surname(name),700,25,18,surW); ctx.textAlign="center"; ctx.fillStyle="#fff"; ctx.fillText(sur,sx,cy+ch-16); });
@@ -1140,7 +1132,7 @@ function drawHit(key,hit){ const b=boards[key].userData, ctx=b.ctx; const {x,y}=
   const r=19; const g=ctx.createRadialGradient(x,y,r*.3,x,y,r*2.3); g.addColorStop(0,"rgba(0,0,0,1)"); g.addColorStop(.35,"rgba(25,10,4,.92)"); g.addColorStop(.6,"rgba(70,35,10,.6)"); g.addColorStop(1,"rgba(60,30,10,0)"); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*2.3,0,7); ctx.fill();
   ctx.fillStyle="#050302"; ctx.beginPath(); for(let i=0;i<14;i++){ const a=i/14*Math.PI*2, rr=r*(.7+R()*.5); ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr); } ctx.closePath(); ctx.fill();
   ctx.strokeStyle="rgba(255,120,40,.55)"; ctx.lineWidth=2; ctx.stroke();
-  ctx.save(); ctx.translate(x,y+10); ctx.rotate(-.1); /* across the shirt: the surname under it stays readable */ ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=3*BS; ctx.fillStyle="rgba(196,22,22,.95)"; ctx.fillRect(-78,-17,156,34); ctx.shadowColor="transparent"; ctx.strokeStyle="#ffd6c8"; ctx.lineWidth=2.5; ctx.strokeRect(-74,-13,148,26); ctx.fillStyle="#fff"; ctx.font="900 24px 'Big Shoulders Display'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("RELEASED",0,1); ctx.restore(); }
+  ctx.save(); ctx.translate(x,y+10); ctx.rotate(-.1); /* across the shirt: the surname under it stays readable */ ctx.shadowColor="rgba(0,0,0,.5)"; ctx.shadowBlur=3*BS; ctx.fillStyle="rgba(196,22,22,.95)"; ctx.fillRect(-78,-17,156,34); ctx.shadowColor="transparent"; ctx.strokeStyle="#ffd6c8"; ctx.lineWidth=2.5; ctx.strokeRect(-74,-13,148,26); ctx.fillStyle="#fff"; ctx.font="900 24px 'Instrument Sans Narrow'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("RELEASED",0,1); ctx.restore(); }
 function boardHitPoint(key,bubble){ if(!bubble) return boardAimWorld(key); const g=boards[key]; const p=new T.Vector3((bubble.u-.5)*BOARD_W,(bubble.v-.5)*BOARD_H,.012); g.updateMatrixWorld(true); return g.userData.inner.localToWorld(p); }
 function boardTargetWorld(key,bubble){ return boardHitPoint(key,bubble); }
 /* r90 spoiler rule (Nik 2026-11-07: "never reveal who the gun is aiming at"): until the shot the barrel, the hand and the shooter's eye all
@@ -1807,7 +1799,7 @@ window.__rr={ get cylZ(){ return cyl.rotation.z; },
     return {plate:handPlateKey, hand:hand.visible&&hand.material.opacity>.002, gun:gun.visible, gunInFrame:gIn, detached:HP.detached, side:handSide, muzzle:on(HAND_MUZZLE.u,HAND_MUZZLE.v), rear:on(HAND_REAR.u,HAND_REAR.v), cut:HAND_CUT.map(([u,v])=>on(u,v)), corners:[on(0,0),on(1,0),on(1,1),on(0,1)], clear:!!(handLast&&handLast.clear), glove:HAND_GLOVE?[0,1,2,3].flatMap(i=>[0,1,2,3].map(j=>on(HAND_GLOVE[0]+(HAND_GLOVE[2]-HAND_GLOVE[0])*i/3,HAND_GLOVE[1]+(HAND_GLOVE[3]-HAND_GLOVE[1])*j/3))):null, keep:handKeep.map(r=>r.slice()), aim:handAimAt?px(handAimAt):null, board:(()=>{ const g=boards[who]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=px(g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0))); x0=Math.min(x0,v[0]); x1=Math.max(x1,v[0]); y0=Math.min(y0,v[1]); y1=Math.max(y1,v[1]); })); return [x0,y0,x1,y1]; })(), W, H}; }, get rest(){ return {zoom:restZoom,shift:Math.round(restShift),lift:Math.round(closeLift),dbg:closeDbg}; }, get boardRects(){ camera.updateMatrixWorld(true); const o={}; ["D","N"].forEach(k=>{ const g=boards[k]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(camera); const X=(v.x+1)/2*innerWidth, Y=(1-v.y)/2*innerHeight; x0=Math.min(x0,X); x1=Math.max(x1,X); y0=Math.min(y0,Y); y1=Math.max(y1,Y); })); o[k]=[x0,y0,x1,y1].map(Math.round); }); return o; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
   clock(){ manual=performance.now()/1000; last=manual; }, advance(sec,draw){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1&&draw!==false); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardAimWorld(playing.who).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, programs:ri.programs.length, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, level:GFX.name, pixelRatio:renderer.getPixelRatio(), bulletAt, chamber, tt:playing?now()-playing.t0:null, cam:[camera.position.x,camera.position.y,camera.position.z], look:[camLook.x,camLook.y,camLook.z], fov:camera.fov, cylZ:cyl.rotation.z, handK}; } };
 
-const fontsReady=Promise.race([Promise.all(['700 30px "Barlow Condensed"','800 30px "Barlow Condensed"','600 30px "Barlow Condensed"','900 30px "Big Shoulders Display"','800 30px "Big Shoulders Display"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
+const fontsReady=Promise.race([Promise.all(['700 30px "Instrument Sans Narrow"','800 30px "Instrument Sans Narrow"','600 30px "Instrument Sans Narrow"','900 30px "Instrument Sans Narrow"','800 30px "Instrument Sans Narrow"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
 Promise.all([fontsReady,loadAssets()]).then(async()=>{ toGame2("cms-rr-loading",{stage:"build"}); layout(); buildEnv(); { const opts=SQUADS?SQUADS.clubs.map(c=>`<option value="${c.club}">${c.club}</option>`).join(""):""; ["pickD","pickN"].forEach((id,i)=>{ const el=$(id); el.innerHTML=opts; el.value=i?LAYOUT.nikClub:LAYOUT.danielClub; el.addEventListener("change",()=>{ LAYOUT[i?"nikClub":"danielClub"]=el.value; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }); }); }
   camPos.copy(camRest); camLook.copy(lookRest); last=now(); cta.disabled=true;
   fitUnderTitle(); viewShift=restShift; viewZoom=restZoom;   /* 2.3.0 final pass F04 (L37 opening frames): the picture opens already shifted under the title; easing in from 0 drew the title across both boards on the first frames */

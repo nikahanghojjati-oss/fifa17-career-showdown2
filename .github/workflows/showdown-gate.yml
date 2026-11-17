@@ -273,7 +273,7 @@ jobs:
           node scripts/assert-firestore-zero-billing-boundary.mjs
       - name: 'TEST: Shared Setup provider matrix'
         id: gf_setup
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-setup "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs && node tests/firebase/r94-club-draw-rules-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-setup "node tests/firebase/shared-showdown-setup-production-provider-emulator.cjs && node tests/firebase/r94-club-draw-rules-emulator.cjs && node tests/firebase/r95-ball-game-rules-emulator.cjs"
       - name: 'TEST: Transfer fresh-session recovery'
         id: gf_transfer
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-cms-gameplay-fast-transfer "node tests/firebase/shared-transfer-challenge-fresh-session-emulator.cjs && node tests/firebase/transfer-lock-budget-emulator.cjs"

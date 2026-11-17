@@ -44,10 +44,12 @@ const format = section("01");
 assert.match(format, /Daniel starts every Showdown and picks its length: 1, 3, 5 or 10 seasons\./);
 assert.match(format, /Chamber Men, Squad Management, Roster Russian Roulette, Prime Pack, Transfer War, Squad Management again, then the season itself and Season Results\./);
 
-// R94-02 Club Assignment: three random clubs each, one STOP, skill plus luck (about half), no second spin; no club packs.
-assert.match(format, /three random clubs from that league/);
-assert.match(format, /Tap STOP on your own phone/);
-assert.match(format, /skill plus luck.*about half the time/);
+// R95-01 Ball Game (lead 2026-11-17): six clubs each, never one on both balls, one STOP, the crest facing you is yours; no club packs.
+assert.match(format, /The Ball Game then deals each of you six clubs from that league, one football each, and no club appears on both\./);
+assert.match(format, /Press STOP on your own phone and the crest facing you when your football comes to rest is your club\./);
+assert.doesNotMatch(format, /three random clubs/);
+assert.doesNotMatch(format, /skill plus luck|about half the time/, "no skill or luck hints (Nik's clean-screen rule)");
+assert.match(format, /You each stop once\. There is no second spin\./);
 assert.match(format, /There is no second spin\./);
 assert.doesNotMatch(format, /club pack/i, "the Rule Book no longer talks about opening club packs");
 
@@ -86,7 +88,7 @@ assert.match(play, /5- and 10-season Showdowns: all players can be trained\./,
 assert.equal((main.textContent.match(/can be trained/g) || []).length, 1, "the training rule is written once");
 
 const special = section("02");
-for (const pattern of [/Right after Club Assignment, you each draw one Special Player/, /top 300 FIFA 17 players by potential/,
+for (const pattern of [/Right after the Ball Game, you each draw one Special Player/, /top 300 FIFA 17 players by potential/,
   /never plays for your own club/, /never draw the same player/,
   /free extra signing\. He never counts toward your three Transfer War signings, and your rival's guesses can never release him\./,
   /Career Start shows his FIFA 17 club/, /roulette can never hit him/, /scores no Showdown points/]) {

@@ -549,7 +549,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 #app #seasonEntry .v10GoldenStage {
  --g-gold:#ffd34d;--g-gold-hi:#fff1b8;--g-ink:#f5eacb;--g-line:#d9b64e;
  position:relative;box-sizing:border-box;width:100%;margin:0;padding:0;overflow:hidden;color:var(--g-ink);text-align:center;
- font-family:var(--sd-font-condensed,"Barlow Condensed",sans-serif);background-color:#1d1a16;
+ font-family:var(--sd-font-condensed,sans-serif);background-color:#1d1a16;
 }
 #app #seasonEntry .v10GoldenStage .goldenRoom { display:none; }
 #app #seasonEntry .v10GoldenStage :is(.goldenTitleBlock,.goldenWho,.goldenTrophy,.goldenCounter) { position:absolute;left:50%;translate:-50% 0;margin:0;z-index:2; }
@@ -573,7 +573,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 #app #seasonEntry .v10GoldenStage .goldenSeeFinal {
  flex:0 0 auto;width:auto;min-width:min(100%,280px);max-width:100%;min-height:48px;margin:0;padding:0 24px;border:2px solid #e8c267;border-radius:0;
  background:linear-gradient(#fff0b0,#e4b94b 65%,#a47723);color:#17130a;box-shadow:none;cursor:pointer;
- font:700 15px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif);letter-spacing:.1em;
+ font:700 15px/1 var(--sd-font-condensed,sans-serif);letter-spacing:.1em;
  clip-path:polygon(3% 0,97% 0,100% 13%,100% 87%,97% 100%,3% 100%,0 87%,0 13%);transition:filter 120ms ease-out;
 }
 #app #seasonEntry .v10GoldenStage .goldenSeeFinal:hover { filter:brightness(1.08); }
@@ -877,7 +877,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
   position:relative; min-width:0; width:100%; max-width:430px; margin:0 auto;
-  min-height:100%; box-sizing:border-box; padding:0 10px max(10px,env(safe-area-inset-bottom));
+  min-height:100%; box-sizing:border-box; padding:0 max(16px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
   display:grid; grid-template-columns:minmax(0,1fr);
   grid-template-rows:auto 44px auto auto 56px; gap:6px;
   background:#090b0e;
@@ -992,7 +992,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
   position:relative; box-sizing:border-box; width:100%; max-width:880px; margin:0 auto;
-  min-width:0; min-height:max(100svh,356px); height:auto; padding:10px;
+  min-width:0; min-height:max(100svh,356px); height:auto; padding:12px max(16px,env(safe-area-inset-right)) 12px max(16px,env(safe-area-inset-left));
   display:grid; grid-template-columns:minmax(240px,.8fr) minmax(340px,1.2fr);
   grid-template-rows:44px minmax(224px,1fr) auto 44px; gap:8px 14px;
   overflow:visible; background:#090b0e;
@@ -1174,13 +1174,13 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
   display:flex; flex-direction:column; box-sizing:border-box; min-width:0; min-height:460px;
   padding:16px; align-items:center; justify-content:center; gap:4px; text-align:center;
   white-space:pre-line; overflow-wrap:normal; word-break:normal;
-  font:800 34px/1.15 var(--f17-display,"Barlow Condensed","Arial Narrow",sans-serif); letter-spacing:1.4px;
+  font:800 34px/1.15 var(--f17-display,"Arial Narrow",sans-serif); letter-spacing:1.4px;
   color:#c9c2b0; border:1px solid #ad8739; border-radius:5px;
   background:linear-gradient(125deg,#080b0dfc 65%,#292211f5); box-shadow:inset 0 0 0 3px #ad873922,0 6px 22px #0008;
  }
  /* The screen's own sealed word (the tab's ::after for the same hidden-panel state); no new DOM text. */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonEntryGrid:has(#daniel-entry-panel.hidden) .v10SeasonTabletSealed--daniel::after {
-  content:"SEALED"; display:block; font:800 22px/1.2 var(--f17-display,"Barlow Condensed","Arial Narrow",sans-serif); letter-spacing:2px; color:#ad8739;
+  content:"SEALED"; display:block; font:800 22px/1.2 var(--f17-display,"Arial Narrow",sans-serif); letter-spacing:2px; color:#ad8739;
  }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage:has(#season-phone-tab-daniel:checked) .v10SeasonTabletSealed--daniel { color:#f2c45b; border-color:#f2c45b; }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(#nik-entry-panel,.v10SeasonTabletSealed--nik) { grid-column:2; grid-row:1; }
@@ -1188,13 +1188,13 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
   display:flex; flex-direction:column; box-sizing:border-box; min-width:0; min-height:460px;
   padding:16px; align-items:center; justify-content:center; gap:4px; text-align:center;
   white-space:pre-line; overflow-wrap:normal; word-break:normal;
-  font:800 34px/1.15 var(--f17-display,"Barlow Condensed","Arial Narrow",sans-serif); letter-spacing:1.4px;
+  font:800 34px/1.15 var(--f17-display,"Arial Narrow",sans-serif); letter-spacing:1.4px;
   color:#c9c2b0; border:1px solid #ad8739; border-radius:5px;
   background:linear-gradient(125deg,#080b0dfc 65%,#292211f5); box-shadow:inset 0 0 0 3px #ad873922,0 6px 22px #0008;
  }
  /* The screen's own sealed word (the tab's ::after for the same hidden-panel state); no new DOM text. */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonEntryGrid:has(#nik-entry-panel.hidden) .v10SeasonTabletSealed--nik::after {
-  content:"SEALED"; display:block; font:800 22px/1.2 var(--f17-display,"Barlow Condensed","Arial Narrow",sans-serif); letter-spacing:2px; color:#ad8739;
+  content:"SEALED"; display:block; font:800 22px/1.2 var(--f17-display,"Arial Narrow",sans-serif); letter-spacing:2px; color:#ad8739;
  }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage:has(#season-phone-tab-nik:checked) .v10SeasonTabletSealed--nik { color:#f2c45b; border-color:#f2c45b; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .seasonManagerHeader {
@@ -1647,7 +1647,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   min-height:100svh;align-content:start;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader {
-  display:flex;align-items:center;flex-wrap:nowrap;font-family:var(--sd-font-condensed,"Barlow Condensed",sans-serif);
+  display:flex;align-items:center;flex-wrap:nowrap;font-family:var(--sd-font-condensed,sans-serif);
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader h3 { flex:0 0 auto;font-family:inherit; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader p { min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0; }
@@ -1692,7 +1692,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
-  grid-template-rows:44px minmax(224px,1fr) 44px;gap:8px 14px;
+  grid-template-rows:44px minmax(224px,1fr) auto;gap:8px 14px;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) .season-action-row { grid-row:3;padding:0; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene { grid-row:1/4; }
@@ -1782,7 +1782,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   grid-column:1/-1;justify-self:center;width:50%!important;max-width:none;padding:12px 18px;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader { display:flex;align-items:center;flex-wrap:nowrap;gap:12px;padding-bottom:8px;margin:0; }
- #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader h3 { font:800 clamp(24px,calc(var(--sru)*2.1),40px)/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif);flex:0 0 auto; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader h3 { font:800 clamp(24px,calc(var(--sru)*2.1),40px)/1 var(--sd-font-condensed,sans-serif);flex:0 0 auto; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonManagerHeader p { min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonResultCard>label { min-height:44px;overflow-wrap:normal;word-break:normal; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .achievementChecks label { min-height:44px;overflow-wrap:normal;word-break:normal; }
@@ -1917,7 +1917,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button {
   box-sizing:border-box;width:100%;min-width:0;min-height:44px;margin:0;padding:6px 8px;
   border:1px solid #dfbd54;border-radius:0;background:linear-gradient(#141414,#070807);color:#f7cf60;
-  font:800 11px/1.25 var(--sd-font-condensed,"Barlow Condensed",sans-serif);letter-spacing:.06em;text-transform:uppercase;
+  font:800 11px/1.25 var(--sd-font-condensed,sans-serif);letter-spacing:.06em;text-transform:uppercase;
   white-space:normal;overflow-wrap:normal;word-break:normal;box-shadow:inset 0 0 0 2px #88642b44;
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions .backButton {
@@ -2022,7 +2022,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerPhoneTabs label {
   display:flex;align-items:center;justify-content:center;min-width:0;min-height:44px;color:var(--sd-text-secondary,#cfc6b0);
-  font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif);letter-spacing:.12em;border-bottom:2px solid transparent;cursor:pointer;user-select:none;
+  font:700 11px/1 var(--sd-font-condensed,sans-serif);letter-spacing:.12em;border-bottom:2px solid transparent;cursor:pointer;user-select:none;
  }
  #app #seasonEntry.v10FinalMode #stage-root #finalWinnerTabSummary:checked~.finalWinnerPhoneTabs label[for="finalWinnerTabSummary"],
  #app #seasonEntry.v10FinalMode #stage-root #finalWinnerTabHonours:checked~.finalWinnerPhoneTabs label[for="finalWinnerTabHonours"] {
@@ -2190,7 +2190,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    system font; the review heading is focused on open for screen readers only (tabindex -1), so it draws no ring. */
 #app #seasonEntry.seasonScreenV10 .season-review-panel .overallScoreBox { max-width:100%; box-sizing:border-box; }
 #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro,.summaryClub,.summaryLine) {
- font-family:var(--sd-font-condensed,"Barlow Condensed","Arial Narrow",sans-serif);
+ font-family:var(--sd-font-condensed,"Arial Narrow",sans-serif);
 }
 #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #seasonReviewHeading[tabindex="-1"]:focus { outline:none !important; box-shadow:none; }
 /* r73 polish, Final Winner sideways: a little air between the DANIEL WINS line and the two manager labels under it. */
@@ -2219,7 +2219,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  border:1px solid transparent; border-radius:0; color:#f5eacb; text-align:left;
  background:linear-gradient(115deg,#141210f5,#060706f2) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
  box-shadow:inset 0 0 0 1px #050505,0 6px 18px #000a;
- font:600 12px/1.25 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.04em;
+ font:600 12px/1.25 var(--sd-font-condensed,sans-serif); letter-spacing:.04em;
 }
 #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) :is(h3,p) { grid-column:1; min-width:0; margin:0; padding:0; border:0; background:none; box-shadow:none; font:inherit; color:inherit; }
 #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) h3 { grid-row:1; align-self:end; color:#f2c45b; font-weight:800; letter-spacing:.14em; }
@@ -2235,7 +2235,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  min-width:0; min-height:44px; margin:0; padding:0 18px; box-sizing:border-box; border:2px solid transparent; border-radius:0;
  background:linear-gradient(#171512,#070708) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
  box-shadow:inset 0 0 0 1px #050505; color:#f7cf60; text-shadow:none; white-space:nowrap;
- font:800 12px/1.15 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.1em; text-transform:uppercase;
+ font:800 12px/1.15 var(--sd-font-condensed,sans-serif); letter-spacing:.1em; text-transform:uppercase;
 }
 #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:not(.hidden):active { filter:brightness(.86); }
 #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:focus-visible { outline:3px solid #fff5c4; outline-offset:-5px; }
@@ -2283,7 +2283,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   box-sizing:border-box; width:100%; min-width:0; min-height:44px; margin:0; padding:6px 10px; border:2px solid transparent; border-radius:0;
   background:linear-gradient(#171512,#070708) padding-box,linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%) border-box;
   color:#f7cf60; text-shadow:none; box-shadow:inset 0 0 0 1px #050505;
-  font:800 12px/1.2 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;
+  font:800 12px/1.2 var(--sd-font-condensed,sans-serif); letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;
  }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions .backButton {
   background:linear-gradient(180deg,#fff0a6 0,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c 100%) padding-box,linear-gradient(135deg,#fff8d0,#d9a83a 40%,#fff1b8 70%,#a9781a) border-box;
@@ -2396,9 +2396,16 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row:not(.hidden):not(#seasonEntryError),
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel>.seasonReviewActions:has(>button:not(.hidden):not([hidden])) {
   position:sticky;bottom:0;z-index:8;align-self:stretch;box-sizing:border-box;
-  margin-inline:-10px;padding:8px 10px max(8px,env(safe-area-inset-bottom));
+  margin-inline:calc(-1 * max(16px,env(safe-area-inset-left))) calc(-1 * max(16px,env(safe-area-inset-right)));padding:8px max(16px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
   background:var(--r78-panel,#110f0c) url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
   border-top:1px solid #d4a017;box-shadow:0 -1px 0 #000;
+ }
+}
+/* r95 house (Lane B) sideways phone: the band sits in the right-hand column only; it runs to the window edge on the right and keeps
+   the column's own left edge, with the same 16px gutter inside, and its track grows to fit so the buttons clear the bottom edge. */
+@media (max-width:1000px) and (orientation:landscape) and (max-height:520px) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row:not(.hidden):not(#seasonEntryError) {
+  margin-left:0;padding-left:0;
  }
 }
 /* The upright phone grid (JOB-1597) keeps the entry action row in a fixed 56px track: the band's padding fits inside it. */
@@ -2884,7 +2891,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     if(!doc?.head||doc.getElementById?.("v10GoldenCourseRule"))return;
     const style=doc.createElement("style");style.id="v10GoldenCourseRule";
     style.textContent=`
-#app #seasonEntry:not(.v10FinalMode) .v10SeasonStage :is(.seasonGoldenCourse,.seasonGoldenCourseLine) { display:flex; align-items:center; gap:8px; box-sizing:border-box; padding:4px 12px 4px 8px; border:1px solid rgba(240,202,112,.78); border-radius:999px; background:linear-gradient(180deg,rgba(64,46,12,.94),rgba(30,22,6,.94)); color:#e9cf86; font:600 13px/1.15 var(--sd-font-condensed,"Barlow Condensed",sans-serif); letter-spacing:.04em; white-space:nowrap; text-shadow:none; }
+#app #seasonEntry:not(.v10FinalMode) .v10SeasonStage :is(.seasonGoldenCourse,.seasonGoldenCourseLine) { display:flex; align-items:center; gap:8px; box-sizing:border-box; padding:4px 12px 4px 8px; border:1px solid rgba(240,202,112,.78); border-radius:999px; background:linear-gradient(180deg,rgba(64,46,12,.94),rgba(30,22,6,.94)); color:#e9cf86; font:600 13px/1.15 var(--sd-font-condensed,sans-serif); letter-spacing:.04em; white-space:nowrap; text-shadow:none; }
 #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage :is(.seasonGoldenCourse,.seasonGoldenCourseLine) b { font-weight:800; letter-spacing:.07em; color:#ffe7a3; }
 #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourseLine i { font-style:normal; font-weight:800; letter-spacing:.07em; color:#fff3cf; }
 #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourseMark { flex:0 0 auto; width:10px; height:10px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#fff4c6,#e2b448 55%,#8a6418); box-shadow:0 0 0 1px rgba(255,231,163,.5); }

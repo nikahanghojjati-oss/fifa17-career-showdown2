@@ -30,20 +30,16 @@ const DIR="visual-assets/v10_1/tr2/slice-02-plate/";
 const SENTINEL="ZQXRIVALSECRET";
 const CONTROL_IDS=JSON.parse(/const CONTROL_IDS=Object\.freeze\((\[[^\]]+\])\)/.exec(read("js/productionSharedTransferChallenge.js"))[1]);
 
-// Team V 5e05a1f bytes (plate.js: before the four "App (JOB-27)" lines).
+// Team V 5e05a1f bytes (plate.js: before the four "App (JOB-27)" lines). r95: plate.css has the four Barlow @font-face rules taken out (the one family, css/r95-type.css) and the font files are gone.
 const TEAM_V={
   "plate.js":"d294be928cdebcded385fd4e3e895de1e35269c36b6b7dd6f305698b70d7b040",
-  "plate.css":"8c5d359b89c7d5da92aef71590afe21913855837d1808aef7ceec2853160acc1",
+  "plate.css":"53d2e730638b0afec9cc80f90f62d36dc7d3049cdd22cdc7fad88395f71bfd94",
   "platemap.json":"710b219b746494ccb8cc0c543b8ad6d13517cbe833150555489236e012eb30da",
   "assets/DER_TR2_PLATE_G_GLASS_C_V1.webp":"f32d2be2da963daf45342a7478dd439d3e8f19c2349cf3bd435d642bf6405925",
   "assets/ENV_TR2_PLATE_G_LOCKED_V1_1672.webp":"fc982425ed87ed54ccf4d8da1daa3a8530b026a17beb2d7bc4e4262ac967e494",
   "assets/ENV_TR2_PLATE_G_LOCKED_V1_3344.webp":"bde994738d4ad3dd78c2cfa05621b780772150e1406304e33175d11916bd0443",
   "assets/OVL_NIK_FINGERTIP_V1_1672.png":"09aa42ae27b63157cd89ce61ed75515b48b5c219f5828e27ca2b8b15f6b3cd50",
   "assets/OVL_NIK_FINGERTIP_V1_3344.png":"36ebfa43f2a1717be42f8a3e5dc708d1455de5fda4ea1be6f33ac42cd2fa136d",
-  "assets/fonts/barlow-condensed-latin-600-normal.woff2":"215a93c696f442034a46fbb382958f753fda60e30490683aeea6b235fcbb2b66",
-  "assets/fonts/barlow-condensed-latin-700-normal.woff2":"3787a5a419171630e6890cfa47c4da067474d005cd0ff8dc11ec090fdc3ee2b8",
-  "assets/fonts/barlow-latin-400-normal.woff2":"b0a8ad37ac45f5fb22ced461576db72e44e295107aad7a9c8a7a4bad728fd03b",
-  "assets/fonts/barlow-latin-600-normal.woff2":"4b52ddd4836b592df0e4832b8286956883cdc651b015126bdd18f184b7f90cc3",
   "../../shared/wordmarks/TITLE_TRANSFER_V2_480.webp":"a73a62485c52d482916228d99280fe70e6c2fef91fc676686b0f465759f23b57",
   "../../shared/wordmarks/TITLE_TRANSFER_V2_960.webp":"d40abf2d4f45ad9f6e831526fdd116a61049bb9d924d3815c7d76e2b7b34d0fe",
   "../../shared/wordmarks/TITLE_TRANSFER_V2_1920.webp":"349af044418b7473f73439b0370a646065269ba1c90e2c5e4114dee60ed0c9c6",
@@ -79,7 +75,8 @@ check("1 Team V files are 5e05a1f bytes; plate.js differs only by the four marke
     h.appendChild(live);`,`    h.appendChild(el("img", { src: ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp", alt: "", "aria-hidden": "true", decoding: "async" }));`).split("\n").filter(line=>!line.includes('var ASSET_BASE = window.TRANSFER_WAR_BASE || ""; // App (JOB-27)')).join("\n")
     .replace('ASSET_BASE + "../../shared/wordmarks/TITLE_TRANSFER_V1.webp"','"../../shared/wordmarks/TITLE_TRANSFER_V1.webp"')
     .replace('ASSET_BASE + "assets/ENV_TR2_PLATE_G_LOCKED_V1_"','"assets/ENV_TR2_PLATE_G_LOCKED_V1_"')
-    .replace(' || window.TRANSFER_WAR_APP) return; // App (JOB-27): the app passes the frame',') return;');
+    .replace(' || window.TRANSFER_WAR_APP) return; // App (JOB-27): the app passes the frame',') return;')
+    .replace('font-family="Instrument Sans Narrow, sans-serif"','font-family="Barlow Condensed, sans-serif"'); // r95: the one family
   assert.equal(sha256(Buffer.from(original)),TEAM_V["plate.js"],"plate.js minus the marked edits is Team V's");
   for(const banned of ["index.html","preview.html","fixtures.json","evidence","review"])assert.ok(!fs.existsSync(path.join(ROOT,DIR,banned)),`${banned} not copied`);
 });

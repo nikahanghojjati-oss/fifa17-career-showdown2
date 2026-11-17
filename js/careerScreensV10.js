@@ -794,8 +794,8 @@
   #app #trophyRoom .notWonYet {position:relative;inset:auto;min-height:10px;margin:2px 0 0;font-size:7px;line-height:1.2;letter-spacing:.04em}
   #app #trophyRoom .careerRanks,
   #app #trophyRoom .recordRibbon {display:none;position:relative;inset:auto;width:auto;height:auto;visibility:visible}
-  #app #trophyRoom .trophyBack {display:flex;align-items:center;justify-content:center;color:#f4d485;font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;position:fixed;left:10px;right:96px;bottom:calc(var(--tr-hub) + 8px);width:auto;height:44px;min-height:44px;margin:0;border:1px solid #d6b054;background:linear-gradient(#171710,#050607)}
-  #app #trophyRoom .trophyPhoneMoreButton {display:flex;position:fixed;right:10px;bottom:calc(var(--tr-hub) + 8px);width:78px;height:44px;align-items:center;justify-content:center;border:1px solid #d6b054;background:linear-gradient(#171710,#050607);color:#f4d485;font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase;pointer-events:auto;z-index:43}
+  #app #trophyRoom .trophyBack {display:flex;align-items:center;justify-content:center;color:#f4d485;font:700 11px/1 var(--sd-font-condensed,Arial,sans-serif);letter-spacing:.12em;position:fixed;left:10px;right:96px;bottom:calc(var(--tr-hub) + 8px);width:auto;height:44px;min-height:44px;margin:0;border:1px solid #d6b054;background:linear-gradient(#171710,#050607)}
+  #app #trophyRoom .trophyPhoneMoreButton {display:flex;position:fixed;right:10px;bottom:calc(var(--tr-hub) + 8px);width:78px;height:44px;align-items:center;justify-content:center;border:1px solid #d6b054;background:linear-gradient(#171710,#050607);color:#f4d485;font:700 11px/1 var(--sd-font-condensed,Arial,sans-serif);letter-spacing:.12em;text-transform:uppercase;pointer-events:auto;z-index:43}
   #app #trophyRoom .phoneMoreToggle {display:block;position:fixed!important;right:10px!important;bottom:calc(var(--tr-hub) + 8px)!important;width:78px!important;height:44px!important;margin:0!important;opacity:0!important;clip:auto!important;clip-path:none!important;pointer-events:auto!important;z-index:42!important}
   #app #trophyRoom .trophyPhoneSheet.sd-sheet {display:none!important}
   #app #trophyRoom .phoneMoreToggle:checked ~ .trophyPhoneSheet.sd-sheet {display:block!important;position:absolute;inset:calc(var(--tr-hero) + 8px) 18px auto;height:52px;padding:8px;background:none;border:0;transform:none;pointer-events:none;z-index:20}
@@ -1047,7 +1047,7 @@
   }
   #app #careerStatistics.careerScreenV10 .phoneTabs label {
    min-width:0;min-height:44px;display:grid;place-items:center;cursor:pointer;color:#b9b3a4;border-right:1px solid rgba(245,197,24,.24);
-   font:700 11px/1 var(--sd-font-condensed,"Barlow Condensed",sans-serif);letter-spacing:.12em;
+   font:700 11px/1 var(--sd-font-condensed,sans-serif);letter-spacing:.12em;
   }
   #app #careerStatistics.careerScreenV10 .phoneTabs label:last-child { border-right:0; }
   #app #careerStatistics.careerScreenV10 #careerPhoneTable:checked~.phoneTabs label[for="careerPhoneTable"],
@@ -1075,7 +1075,9 @@
   #app #careerStatistics.careerScreenV10 .phoneHeroDaniel { left:0; }
   #app #careerStatistics.careerScreenV10 .phoneHeroNik { left:auto;right:57%; }
   #app #careerStatistics.careerScreenV10 .phoneFaceBand { inset:0 auto 0 0;width:44%;height:auto;background:none; }
-  #app #careerStatistics.careerScreenV10 .titleBlock { left:6%;top:8px;width:88%; }
+  #app #careerStatistics.careerScreenV10 .titleBlock { left:2%;top:8px;width:96%; }
+  #app #careerStatistics.careerScreenV10 .titleWordmark { justify-self:stretch;width:auto; }
+  #app #careerStatistics.careerScreenV10 .titleWordmark .hc-live-title { width:min(100%,353px);max-width:100%; }
   #app #careerStatistics.careerScreenV10 .titleBlock .sd-tagline { font-size:8px;letter-spacing:.24em; }
   #app #careerStatistics.careerScreenV10 .previewChip { top:6px;left:10px; }
   #app #careerStatistics.careerScreenV10 .phoneHub { left:45%;right:12px;top:8px;bottom:60px;grid-template-rows:50px 44px minmax(0,1fr);gap:5px; }
@@ -1331,6 +1333,22 @@
 @media (min-width:901px) and (min-height:481px) and (max-height:699px) {
   #app #careerStatistics.careerScreenV10 .comparisonPanel { height:31%; }
   #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .comparisonPanel { height:28.6%; }
+}
+/* r95 Lane B: at 568x320 the hub (totals, tabs, panel, action buttons) is taller than the room under the title bar. The whole
+   column scrolls together instead of squeezing: type stays at the 12px floor, the action buttons scroll with the rows
+   (nothing sticky, nothing passes under anything). */
+@media (max-width:900px) and (max-height:340px) and (orientation:landscape) {
+  #app #careerStatistics.careerScreenV10 .careerScreen { overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin; }
+  #app #careerStatistics.careerScreenV10 .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state] .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen:has(.actionRow>#careerStatisticsRivalryButton.hidden) .phoneHub { position:relative;left:auto;right:auto;top:auto!important;bottom:auto!important;margin:8px 12px 0 45%;grid-template-rows:auto auto auto;overflow:visible; }
+  #app #careerStatistics.careerScreenV10 .headlineTiles { height:auto;align-items:stretch;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto; }
+  #app #careerStatistics.careerScreenV10 .headlineTile { height:auto;min-height:58px;padding:3px 4px; }
+  #app #careerStatistics.careerScreenV10 .headlineLabel { letter-spacing:0; }
+  #app #careerStatistics.careerScreenV10 .contentGrid { overflow:visible; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>:is(.careerTablePanel,.comparisonPanel,.leadersPanel,.statePanel),
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state] .contentGrid>:is(.careerTablePanel,.comparisonPanel) { top:auto;height:auto!important;overflow:visible; }
+  #app #careerStatistics.careerScreenV10 .actionRow { position:relative;left:auto;right:auto;bottom:auto;height:auto;margin:6px 12px 10px 45%; }
 }
 `;
 
@@ -1725,7 +1743,7 @@
 #app #trophyRoom .trophyCard--golden .managerCounts strong {color:var(--sd-gold-200,#fff1b8)}
 #app #careerStatistics .goldenShowdownNote {
   display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 10px;margin:8px 0 0;padding:6px 10px;
-  color:var(--sd-gold-200,#fff1b8);font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-weight:600;
+  color:var(--sd-gold-200,#fff1b8);font-family:var(--sd-font-condensed,Arial,sans-serif);font-weight:600;
   font-size:12px;line-height:1.2;letter-spacing:.06em;text-align:center;
   border:1px solid var(--sd-gold-600,#e0ae3a);border-radius:var(--sd-radius,3px);
   background:linear-gradient(180deg,rgba(73,55,8,.6),rgba(13,12,10,.75)),#0d0c0a url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;

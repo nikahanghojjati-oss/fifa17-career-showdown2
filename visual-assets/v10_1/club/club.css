@@ -1,14 +1,9 @@
 /* CLUB-V1: the plate owns the world (managers, packs, stadium). Covers, reveal and live UI are layered on top.
    Desktop type scales with --s (1 at the 1366x768 Tier S reference). */
-@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 600; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2) format("woff2"); }
-@font-face { font-family: "Kaushan Script"; font-weight: 400; font-display: block; src: url(../tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2) format("woff2"); }
 
 :root {
   --gold: #F2C45B; --gold-deep: #C99B45; --gold-hi: #FFF1B8; --ink: #0B0D10; --cream: #E9DFC8; --dim: #9A8F7A;
-  --cond: "Barlow Condensed", "Arial Narrow", sans-serif; --text: "Barlow", system-ui, sans-serif;
+  --cond: var(--r95-font-narrow, "Arial Narrow", sans-serif); --text: var(--r95-font, system-ui, sans-serif);
   --s: 1; --k: .889;
   --plate: image-set(url(assets/ENV_CLUB_PLATE_V1_1X.webp) 1x, url(assets/ENV_CLUB_PLATE_V1_2X.webp) 2x);
 }
@@ -94,7 +89,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .clubKicker, #clubWheelScreen h2, .clubAssignmentHeader { position: absolute; transform: translateX(-50%); white-space: nowrap; text-align: center; }
 .clubKicker { font: 600 max(12px, calc(var(--s) * 13px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #E9DFC8; text-shadow: 0 1px 6px #000; }
 #clubWheelScreen h2 {
-  margin: 0; padding: 0 .12em; font: 700 calc(var(--s) * 64px)/1.05 "Kaushan Script", "Brush Script MT", cursive;
+  margin: 0; padding: 0 .12em; font: 700 calc(var(--s) * 64px)/1.05 var(--r95-font, cursive);
   text-transform: uppercase; letter-spacing: -.035em; color: #F2C45B; -webkit-text-stroke: .035em #F2C45B;
   filter: drop-shadow(0 3px 3px rgba(0,0,0,.95)) drop-shadow(0 0 14px rgba(242,196,91,.28));
 }
@@ -181,7 +176,7 @@ main { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 }
 .clubVs > span { font: 600 max(12px, calc(var(--s) * 14px))/1.25 var(--cond); letter-spacing: .5em; padding-left: .5em; color: #F4ECD8; }
 .clubVs strong {
-  display: block; font: 700 calc(var(--s) * 96px)/1.02 "Kaushan Script", "Brush Script MT", cursive; padding: 0 .12em;
+  display: block; font: 700 calc(var(--s) * 96px)/1.02 var(--r95-font, cursive); padding: 0 .12em;
   letter-spacing: -.055em; color: #F2C45B; -webkit-text-stroke: .04em #F2C45B;
   filter: drop-shadow(0 3px 3px rgba(0,0,0,.95)) drop-shadow(0 0 16px rgba(242,196,91,.38));
 }

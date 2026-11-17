@@ -2,25 +2,13 @@
 
 Career Mode Showdown is a personal fan project. This file records third-party material intentionally referenced by the application so licensing/source decisions remain explicit.
 
-## Barlow / Barlow Condensed
+## Instrument Sans
 
-- Typeface family: Barlow
-- Principal designer: Jeremy Tribby
-- Project source: `https://github.com/jpt/barlow`
-- License: SIL Open Font License, Version 1.1
-- Application use: Barlow Condensed 600 / 700 / 800 for selected football-game-inspired display text.
-- Delivery (r87): Google Fonts' own Barlow Condensed v13 WOFF2 files and @font-face rules (`display=swap`), stored in this repository (`assets/fonts/`, `assets/fonts/barlow-condensed.css`) and served from the game's own site, so startup no longer waits on another site.
-- Fallback: local condensed/system fonts are used if a font file cannot load.
-
-The application does not claim Barlow is EA/FIFA's proprietary typeface.
-
-## Cormorant SC
-
-- Typeface family: Cormorant (Cormorant SC, Bold 700, Latin subset)
-- Copyright: 2015 the Cormorant Project Authors, `https://github.com/CatharsisFonts/Cormorant`
-- License: SIL Open Font License, Version 1.1 (full text: `visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt`)
-- Application use (r93, HO-079): the live-text screen titles, in flat gold, on every titled screen.
-- Delivery: `visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2`, stored in this repository and served from the game's own site (`font-display: block`, so a title never paints in a stand-in face).
+- Typeface family: Instrument Sans (variable: weight 400-700, width 75-100, with a real italic)
+- Copyright: 2022 The Instrument Sans Project Authors, `https://github.com/Instrument/instrument-sans`
+- License: SIL Open Font License, Version 1.1 (full text: `visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt`)
+- Application use (r95): the one type family for titles, labels, buttons, figures and reading, using its width and weight axes and its italic.
+- Delivery: `visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2` and `instrument-sans-latin-wght-italic.woff2` (Latin subset, from the fontsource `@fontsource-variable/instrument-sans` 5.3.0 package), stored in this repository and served from the game's own site (`font-display: block`).
 
 ## Marco Reus photograph
 

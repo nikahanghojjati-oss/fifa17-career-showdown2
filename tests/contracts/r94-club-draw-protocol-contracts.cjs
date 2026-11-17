@@ -219,8 +219,8 @@ function decodeValue(value) {
     }
     const oldConfirm = await protocol.apply({state: oldState, authority: authority(vector.rivalryId, vector.managerSlots, "playerOne", vector.coordinatorRole), command: {type: "confirm", operationId: "setup_op_" + hex(32), baseRevision: 4, setupHash: await protocol.confirmationHash(oldState), stop: 30}});
     assert.equal(oldConfirm.code, "SETUP_DRAW_VERSION_MISMATCH", "an old setup never takes a stop");
-    const oldCandidates = await protocol.apply({state: null, authority: auth("playerOne"), command: {type: "open", operationId: "setup_op_" + hex(32), baseRevision: 0, draw: 3}});
-    assert.equal(oldCandidates.ok, false, "only draw 2 exists");
+    const oldCandidates = await protocol.apply({state: null, authority: auth("playerOne"), command: {type: "open", operationId: "setup_op_" + hex(32), baseRevision: 0, draw: 4}});
+    assert.equal(oldCandidates.ok, false, "only draws 2 and 3 exist (R95-01 added draw 3, contract r95-ball-game-protocol)");
     // verifyState refuses a tampered draw 2 state (clubs not matching the stops).
     const tampered = JSON.parse(JSON.stringify(live.state)); tampered.stops = [130, 250];
     await assert.rejects(protocol.verifyState(tampered));

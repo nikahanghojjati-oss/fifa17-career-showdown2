@@ -443,8 +443,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"2.7.0-r94","RUNTIME_REVISION is the current release (r94, 2.7.0-r94)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.6.0-r93");
+  assert.equal(revision,"2.8.0-r95","RUNTIME_REVISION is the current release (r95, 2.8.0-r95)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.7.0-r94");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -493,7 +493,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"2.7.0-r94");assert.equal(prev,"2.6.0-r93");
+  assert.equal(cur,"2.8.0-r95");assert.equal(prev,"2.7.0-r94");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -1519,7 +1519,10 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-15 by the 2.6.0 release bump: the same r93 file with its 2.6.0-r93 pins and v2.6.0 footer, nothing else.
   // Re-pinned 2026-11-17 by the 2.7.0 release bump: the 2.6.0 file (r94 never changed it) with its 2.7.0-r94 pins and v2.7.0
   // footer, nothing else.
-  assert.equal(sha256("index.html"),"034c60100198490cbe86c80520b99c2689d35f02599a3f50920dbc4374c2c144","index.html is 2.7.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, 2.7.0-r94 pins)");
+  // Re-pinned 2026-11-17 by r95: the local Barlow sheet link is gone (the one family, Instrument Sans); nothing else changed.
+  // Re-pinned 2026-11-17 by r95 hunt F7 (the tagline with the script's single spaces), then by the 2.8.0 release bump: the
+  // 2.8.0-r95 pins and v2.8.0 footer, nothing else.
+  assert.equal(sha256("index.html"),"e3290937a6fe49512f79212513965a7ff70ed92fa840ac0a2cc1bd8b75d29de3","index.html is 2.8.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, 2.8.0-r95 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
@@ -1538,7 +1541,7 @@ check("F11 Team V files are copied unchanged; no docs, previews or images are co
     "visual-assets/v10_1/shared/navbar/navbar.js":"7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c",
     // Re-copied from the final Team V pin (phone layout); job 13's only file that changed upstream. Gameplay has edited it
     // since r78 (r78 look, r84 release, r87 red-team fits D-04/D-05, e3df0019); re-pinned 2026-11-01 to gameplay/r87 45c01a72.
-    "visual-assets/v10_1/career-statistics/career-statistics.css":"5bd0356339bd2e7e29a0d5b873c7de971c5c65d73ab92be996cc759624a5711e"
+    "visual-assets/v10_1/career-statistics/career-statistics.css":"dc51d50a294bf5c98e183a3d883b4230568695daacf6de710d69892064095a2a"
   };
   for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals its pinned copy`);
   assert.deepEqual(fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/shared/navbar")).sort(),["navbar.css","navbar.js"]);

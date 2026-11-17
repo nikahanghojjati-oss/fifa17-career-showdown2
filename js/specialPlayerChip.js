@@ -126,7 +126,7 @@
   vertical-align:middle;box-sizing:border-box;border:1px solid var(--sp-tier-edge);border-radius:12px;
   background:linear-gradient(180deg,rgba(73,55,8,.45),rgba(13,12,10,.82)),#0d0c0a url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
   box-shadow:inset 0 0 0 1px rgba(17,15,12,.9),0 1px 2px rgba(0,0,0,.5);
-  color:var(--sd-gold-200,#fff1b8);font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif);font-size:12px;font-style:normal;
+  color:var(--sd-gold-200,#fff1b8);font-family:var(--sd-font-condensed,Arial,sans-serif);font-size:12px;font-style:normal;
   font-weight:600;line-height:1.25;letter-spacing:.03em;text-transform:none;text-align:left;text-shadow:none;white-space:nowrap;}
 #app .spChip>span{display:inline-block;min-width:0;font-size:inherit;font-family:inherit;line-height:inherit;letter-spacing:inherit;text-transform:none;text-align:left;white-space:nowrap;}
 #app .spChip .spChipTag{flex:none;padding:.08em .42em;border-radius:999px;background:var(--sp-tier-bg);color:var(--sp-tier-ink);font-weight:800;letter-spacing:.1em;}

@@ -395,7 +395,7 @@
   // The app's runtime notice for the same failure ("Team V screen could not load…") says what the fallback panel already says,
   // and on a small phone it would cover the panel's buttons: it is dismissed through its own close button. Other notices stay.
   function pcstDismissClubNotice(){
-    try{const notice=root.document.getElementById("appRuntimeNotice");if(notice&&/Team V screen could not (load|update)|Club Assignment visuals|CLUB_V10_MAP/.test(notice.textContent||""))notice.querySelector("button")?.click();}catch(_error){}
+    try{const notice=root.document.getElementById("appRuntimeNotice");if(notice&&/Team V screen could not (load|update)|Ball Game visuals|Club Assignment visuals|CLUB_V10_MAP/.test(notice.textContent||""))notice.querySelector("button")?.click();}catch(_error){}
   }
   function pcstFallbackLayout(overlay){
     pcstDismissClubNotice();

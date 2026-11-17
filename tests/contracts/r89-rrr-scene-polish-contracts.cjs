@@ -178,11 +178,9 @@ ok('P9','the rest shot opens close on the revolver, words only in the bottom str
   const sw=fs.readFileSync(path.join(ROOT,'service-worker.js'),'utf8');
   // M8: every face is local, preloaded, and precached for offline
   assert.doesNotMatch(html,/fonts\.googleapis\.com|fonts\.gstatic\.com/,'M8 no Google Fonts');
+  // r95: the one family replaces Big Shoulders and Rye; those files are gone from the app and from the worker lists
   for(const f of ['big-shoulders-display-latin-800-normal','big-shoulders-display-latin-900-normal','rye-latin-400-normal']){
-    assert.ok(fs.existsSync(path.join(ROOT,`visual-assets/v10_1/shared/fonts/${f}.woff2`)),`M8 ${f} ships`);
-    // 2.4.0: these faces shipped in 2.3.0, so they now sit in the retained 2.3.0-r90 shell instead of the added list.
-    assert.ok(sw.split(`"visual-assets/v10_1/shared/fonts/${f}.woff2"`).length-1>=3,`M8 ${f} is in the shell, the offline pack and the unversioned list`);
-    assert.ok(JSON.parse(fs.readFileSync(path.join(ROOT,'tests/fixtures/shell-paths/2.3.0-r90.json'),'utf8')).paths.includes(`visual-assets/v10_1/shared/fonts/${f}.woff2`),`M8 ${f} is in the retained 2.3.0-r90 shell`);
+    assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/shared/fonts/${f}.woff2`)),`M8 ${f} is gone`);
   }
   // M13: Opus cues with a .wav fallback, loaded in parallel, room tone as soon as it lands
   for(const [name,src] of Object.entries(pm.sfx)){ assert.match(src,/^assets\/sfx\/[a-z_]+\.ogg$/,`M13 ${name} is Opus`); for(const ext of ['ogg','wav']) assert.ok(fs.existsSync(path.join(ROOT,'visual-assets/v10_1/roulette',src.replace(/\.ogg$/,'.'+ext))),`M13 ${name}.${ext} ships`); }
@@ -300,8 +298,8 @@ ok('P17','L38 a status line before ready; L39 the pot back left and smaller, sof
     const src=file.includes('roulette/')?html:fs.readFileSync(path.join(ROOT,file),'utf8');
     const at=src.indexOf('.title::after {'),rule=src.slice(at,src.indexOf('}',at));
     assert.ok(at>=0&&rule.includes(`--hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); content: "${words}";`)&&rule.includes('height: var(--hc-h);')&&rule.includes('calc((100vw - 28px) / var(--hcw))'),`${file}: the live title is the family height, never wider than the screen`);
-    assert.ok(/"Cormorant SC"/.test(rule)&&/color: #C9A45C;/.test(rule)&&!/text-shadow:(?!\s*none)|drop-shadow|gradient/.test(rule),`${file}: Cormorant SC, flat #C9A45C, no shadow`);
-    assert.ok(src.includes('@font-face { font-family: "Cormorant SC"')&&fs.existsSync(path.join(ROOT,'visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2')),`${file} loads the title face`);
+    assert.ok(/var\(--r95-font\)/.test(rule)&&/color: var\(--r95-gold-ink, #F2C45B\);/.test(rule)&&!/text-shadow:(?!\s*none)|drop-shadow|gradient/.test(rule),`${file}: the r95 family, flat gold ink, no shadow`);
+    assert.ok(src.includes('css/r95-type.css'),`${file} loads the one family`);
     assert.ok(src.includes('.kicker { visibility: hidden; }'),`${file}: the banner above the title is hidden and keeps its box`);
     assert.ok(src.includes('.title span { display: block; color: transparent; }'),`${file}: the words stay in the heading, unpainted`);
     assert.ok(!/animation:\s*shine\b|@keyframes shine\b|-webkit-text-stroke/.test(src.slice(src.indexOf('.kicker {'),src.indexOf('.title::after')+900)),`${file}: no moving shine and no outline on the title`);

@@ -58,10 +58,9 @@ assert.match(scene,/function tick\(draw\)\{ const t=now\(\);\s*\/\*[^*]*\*\/\s*i
 ok("A3","F11-01 the turn clock pauses while no frame ran");
 // r90 MOTION M8: the title faces ship with the app, so nothing asks Google Fonts at all (and nothing can block the scripts)
 assert.doesNotMatch(scene,/fonts\.googleapis\.com|fonts\.gstatic\.com/,"no font comes from Google Fonts");
-for(const face of ["big-shoulders-display-latin-800-normal","big-shoulders-display-latin-900-normal","rye-latin-400-normal"]){
-  assert.match(scene,new RegExp(`url\\(\\.\\./shared/fonts/${face}\\.woff2\\)`),`${face} is served locally`);
-  assert.ok(fs.existsSync(path.join(ROOT,`visual-assets/v10_1/shared/fonts/${face}.woff2`)),`${face}.woff2 ships`);
-}
+// r95: the scene's faces are the one family (css/r95-type.css, Instrument Sans, shipped with the app); Big Shoulders and Rye are gone
+assert.match(scene,/css\/r95-type\.css/,"the scene loads the one family");
+for(const face of ["big-shoulders-display-latin-800-normal","big-shoulders-display-latin-900-normal","rye-latin-400-normal"])assert.ok(!fs.existsSync(path.join(ROOT,`visual-assets/v10_1/shared/fonts/${face}.woff2`))&&!scene.includes(face),`${face} is gone`);
 ok("A4","F11-02 + M8 the title fonts never block the scene scripts and never leave the app");
 const step=read("js/rosterRouletteStep.js");
 assert.match(step,/if\(go===false\)\{leftForHome=true;holding=false;rrsLoadingOn\(\);const tear=\(\)=>\{if\(\(running&&running!==run\)\|\|holding\)return;rrsRemovePanel\(\);rrsRemoveStage\(\);rrsLoadingOff\(\);\};/);

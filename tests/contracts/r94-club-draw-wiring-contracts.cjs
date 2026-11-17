@@ -159,7 +159,9 @@ async function main(){
   }
   // W5 ------------------------------------------------------------------------------------------------------------------
   {
-    assert.match(PRES_SRC,/ssjpMutate\("open",\{draw:2\}\)/,"open asks for draw 2");
+    // R95-01 PR 3: a new Setup opens draw 3 (the Ball Game, six clubs a ball); draw 2 Setups still read and show.
+    assert.match(PRES_SRC,/ssjpMutate\("open",\{draw:3\}\)/,"open asks for draw 3");
+    assert.ok(!/ssjpMutate\("open",\{draw:2\}\)/.test(PRES_SRC),"nothing opens draw 2 any more");
     const confirms=[...PRES_SRC.matchAll(/ssjpMutate\("confirm"(,[^)]*)?\)/g)].map(m=>m[0]);
     assert.deepEqual(confirms.filter(x=>x.includes("stop")),['ssjpMutate("confirm",{stop:sendable})','ssjpMutate("confirm",{stop})'],"a stop is sent only as the saved stop (resend) or the tapped/saved one (STOP)");
     assert.match(PRES_SRC,/let stop=drawStep\.pending\(ctx,setup\)===null\?drawStep\.tap\(setup,ctx\):drawStep\.sendable\(ctx,setup\);/,"STOP sends the saved stop first, a new tap only when none is pending");
@@ -174,7 +176,7 @@ async function main(){
     assert.equal(/localStorage|sessionStorage/.test(STEP_SRC.replace(/\/\/.*$/gm,"")),false,"the saved stop goes through js/storage.js (localStorage), never touched directly");
     assert.match(STEP_SRC,/root\.readStorageValue,write=root\.writeStorageValue,remove=root\.removeStorageValue/,"the saved stop uses js/storage.js's helpers");
     assert.equal(/\.set\(|setDoc|updateDoc|runTransaction|mutate\(/.test(STEP_SRC.replace(/\.setItem\(|\.setAttribute\(|listeners\.set|\.set\(b,|const set=/g,"")),false,"the step never writes to Firebase");
-    ok("W5","open asks for draw 2; a stop is only ever the saved one; old-shape Setups keep the club packs; the deal and the length stay the same two coordinator writes");
+    ok("W5","open asks for draw 3 (R95-01); a stop is only ever the saved one; old-shape Setups keep the club packs; the deal and the length stay the same two coordinator writes");
   }
   // W6 ------------------------------------------------------------------------------------------------------------------
   {
@@ -182,11 +184,11 @@ async function main(){
     const rules=CSS_SRC.replace(/\/\*[\s\S]*?\*\//g,"").split("}").map(r=>r.split("{")[0].trim()).filter(Boolean).filter(sel=>!sel.startsWith("@"));
     for(const sel of rules)for(const part of sel.split(","))assert.ok(/#clubWheelScreen\[data-club-draw="spin"\]|^\s*\.clubDraw/.test(part),`draw style outside draw mode: ${part.trim()}`);
     assert.equal(/backdrop-filter|brightness\(|rgba\(0,\s*0,\s*0,\s*0?\.[5-9]\)\s*;\s*position:\s*fixed/.test(CSS_SRC),false,"no dimming");
-    // r94 look (gallery notes): the title is plain Cormorant SC gold text with nothing behind it; the enabled STOP is the
+    // r94 look (gallery notes): the title is plain gold text in the one family (Instrument Sans, r95) with nothing behind it; the enabled STOP is the
     // app's gold metal and the waiting one flat black with a gold edge; nothing in draw mode is blue (the app's cyan bar).
     const block=sel=>{const i=CSS_SRC.indexOf(sel);assert.ok(i>=0,`missing rule ${sel}`);return CSS_SRC.slice(CSS_SRC.indexOf("{",i)+1,CSS_SRC.indexOf("}",i));};
     const title=block('#clubWheelScreen[data-club-draw="spin"] > h2 {');
-    for(const want of [/background:\s*none/,/border:\s*0/,/box-shadow:\s*none/,/"Cormorant SC"/,/color:\s*#C9A45C/])assert.match(title,want,`title: ${want}`);
+    for(const want of [/background:\s*none/,/border:\s*0/,/box-shadow:\s*none/,/var\(--r95-font\)/,/color:\s*var\(--r95-gold-ink, #F2C45B\)/])assert.match(title,want,`title: ${want}`);
     // Nik 22:15 ("color should make sense"): live STOP = Home's gold CONTINUE CAREER tile; waiting STOP = plainly inactive
     // (no gold face, no bevel, dimmed words), and it outranks the r78 gold-bevelled waiting look.
     const live=block('#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment {');
@@ -231,6 +233,29 @@ async function main(){
     assert.equal(/cyan|#00[a-f0-9]{4}\b|blue/i.test(CSS_SRC.replace(/\/\*[\s\S]*?\*\//g,"")),false,"nothing blue in draw mode");
     assert.match(V10_SRC,/section\.dataset\.clubDraw==="spin"\)return false;/,"Team V's pack plate is off in draw mode (CL1-CL6 kept for old Setups)");
     ok("W6","the step, scene and stylesheet are offline; draw styles only in draw mode; no dimming; the pack plate stays for old Setups");
+  }
+  // W8 (R95-01 PR 3) ---------------------------------------------------------------------------------------------------
+  // The Ball Game: a draw 3 Setup (six clubs a ball) shows its six crests in 60 degree slices, by the protocol's own rule;
+  // a draw 2 Setup keeps its thirds (W1); any other shape shows no draw.
+  {
+    const SIX={playerOne:["Osasuna","Espanyol","Getafe","Alaves","Eibar","Leganes"],playerTwo:["Sevilla","Villarreal","Celta Vigo","Malaga","Betis","Granada"]};
+    const six=extra=>drawSetup({drawVersion:3,candidates:structuredClone(SIX),...extra});
+    const protocol=require(path.join(ROOT,"js/sharedShowdownSetup.js"));
+    const {step,calls}=loadPage(fakeStorage());
+    assert.deepEqual(plain(step.candidates(six())),SIX,"six candidates each are a draw");
+    for(const bad of [{playerOne:SIX.playerOne,playerTwo:SIX.playerTwo.slice(0,3)},{playerOne:SIX.playerOne.slice(0,4),playerTwo:SIX.playerTwo.slice(0,4)},{playerOne:[...SIX.playerOne,"X"],playerTwo:[...SIX.playerTwo,"Y"]}])
+      assert.equal(step.candidates(six({candidates:bad})),null,"three or six a ball, the same on both");
+    for(let stop=0;stop<360;stop+=1)for(const role of ["playerOne","playerTwo"]){
+      assert.equal(step.clubFor(six(),role,stop),SIX[role][Math.floor(stop/60)],`${role} ${stop}`);
+      assert.equal(step.clubFor(six(),role,stop),protocol.clubForStop(SIX[role],stop),`protocol ${role} ${stop}`);
+    }
+    assert.equal(protocol.draw3SectionDegrees,60);
+    assert.equal(await step.prepare(six(),CTX),true,"the Ball Game is built");
+    assert.deepEqual(plain(calls.find(c=>c[0]==="mount")),["mount",1,[SIX.playerOne,SIX.playerTwo]],"both balls carry their six clubs");
+    assert.match(STEP_SRC,/row\.dataset\.count=String\(b\.clubs\.length\);/,"the flat stand-in knows how many crests a ball has");
+    assert.match(STEP_SRC,/Math\.floor\(\(\(b\.front%360\)\+360\)%360\/cdsSectionFor\(b\.clubs\.length\)\)/,"and cycles them by their own slices");
+    assert.match(CSS_SRC,/\.clubDrawFlatBall\[data-count="6"\] \.clubDrawFlatClub\{width:clamp\(44px,6\.4vw,92px\)\}/,"six smaller flat crests that wrap on a phone");
+    ok("W8","the Ball Game (draw 3): six crests a ball, the club is candidates[role][floor(stop/60)] like the protocol, both balls mounted with six; the flat stand-in follows");
   }
   console.log(`PASS R94-02 club draw wiring: ${passed} checks.`);
 }

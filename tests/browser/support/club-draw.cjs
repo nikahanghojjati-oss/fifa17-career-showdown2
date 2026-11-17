@@ -3,10 +3,11 @@
 // two-manager journey, the r79 audit, fault injection). A draw 2 Setup has no OPEN CLUB PACKS tap: Daniel's device deals
 // the candidates by itself, both balls turn, each manager taps STOP on his own device (#continueClubAssignment), and his
 // club is named under his ball (#clubNameOne / #clubNameTwo, .is-revealed) once it rests.
-const CONTINUE_TO_CLUBS=/^CONTINUE TO CLUB (PACKS|DRAW)$/;
+// r95: the button reads CONTINUE TO BALL GAME; the older names stay accepted for runs that start on an older build.
+const CONTINUE_TO_CLUBS=/^CONTINUE TO (BALL GAME|CLUB PACKS|CLUB DRAW)$/;
 
 async function waitContinueToClubs(page,timeout=30000){
-  await page.waitForFunction(()=>/^CONTINUE TO CLUB (PACKS|DRAW)$/.test(document.getElementById("spinLeague")?.textContent||""),null,{timeout});
+  await page.waitForFunction(()=>/^CONTINUE TO (BALL GAME|CLUB PACKS|CLUB DRAW)$/.test(document.getElementById("spinLeague")?.textContent||""),null,{timeout});
 }
 async function isDraw(page){return page.evaluate(()=>document.getElementById("clubWheelScreen")?.dataset.clubDraw==="spin").catch(()=>false);}
 async function waitDraw(page,timeout=45000){await page.waitForFunction(()=>document.getElementById("clubWheelScreen")?.dataset.clubDraw==="spin",null,{timeout});}

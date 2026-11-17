@@ -41,7 +41,7 @@ const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 // automatic, so the journey must never need them (Daniel's ACKNOWLEDGE is folded into his COMMIT & ACKNOWLEDGE tap, R7).
 // r79 one start flow: START makes the pair code itself and both managers continue by themselves once connected, so
 // CHOOSE SEASONS (Connect Players), CONNECT PLAYERS (GET READY) and CREATE CODE FOR NIK are no longer taps either.
-const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CLUB DRAW","CONTINUE TO CAREER START","CONTINUE TO THE TRANSFER WAR","REFRESH","REFRESH","#refreshSharedTransferChallenge"]);
+const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CLUB DRAW","CONTINUE TO BALL GAME","CONTINUE TO CAREER START","CONTINUE TO THE TRANSFER WAR","REFRESH","REFRESH","#refreshSharedTransferChallenge"]);
 function assertNoRemovedTaps(m){
   const removed=m.log.taps.filter(tap=>REMOVED_TAPS.has(tap.text)||REMOVED_TAPS.has(`#${tap.id}`));
   assert.deepEqual(removed,[],`${m.user} never needed a removed navigation/read tap`);
@@ -500,7 +500,7 @@ async function main(){
       assert.equal(await m.page.locator("#leagueWheelScreen").isVisible(),false,`${m.user}: the witnessed league screen advanced to the club packs without a tap`);
       assert.equal((await m.page.locator("#clubAssignmentLeague").textContent()).trim(),sharedLeague,`${m.user}: the club screen names the shared league`);
     }
-    // R94-02 (Nik 2026-11-15): the club draw is a spin and stop. Nobody opens anything: Daniel's device deals the six
+    // R94-02 (Nik 2026-11-15): the club draw is a spin and stop. Nobody opens anything: Daniel's device deals the twelve
     // candidates and locks his season length by itself; each manager taps STOP on his own device; his club is named under
     // his ball once it rests, and both phones name the same two clubs.
     for(const m of [daniel,nik]){
@@ -511,8 +511,9 @@ async function main(){
     await clubDraw.waitStop(nik.page);await clubDraw.waitStop(daniel.page);
     const drawn=await clubDraw.setupState(daniel.page);
     assert.equal(drawn.phase,"SEASON_LENGTH_COMMITTED","Daniel's device dealt the candidates and locked the season length by itself");
-    const six=[...drawn.candidates.playerOne,...drawn.candidates.playerTwo];
-    assert.equal(new Set(six).size,6,"six distinct candidate clubs");
+    const twelve=[...drawn.candidates.playerOne,...drawn.candidates.playerTwo];
+    assert.equal(twelve.length,12,"six candidate clubs a ball (R95-01 draw 3)");
+    assert.equal(new Set(twelve).size,12,"twelve distinct candidate clubs: no club on both balls");
     await clubDraw.stop(daniel.page);
     await daniel.page.waitForFunction(()=>(window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setup?.stops||[]).length===1,null,{timeout:30000});
     assert.equal(await daniel.page.locator("#continueClubAssignment").isDisabled(),true,"Daniel cannot stop twice");
@@ -523,13 +524,14 @@ async function main(){
     assert.ok(clubsD[0]&&clubsD[1]&&clubsD[0]!==clubsD[1],"two distinct clubs");
     const held=await clubDraw.setupState(daniel.page);
     assert.equal(held.phase,"SHOWDOWN_CONFIRMED","both stops confirmed the Setup");
-    held.confirmedRoles.forEach((role,index)=>{const stop=held.stops[index];assert.ok(Number.isInteger(stop)&&stop>=0&&stop<360,`${role}: one stored stop 0..359`);assert.equal(held.clubs[role],held.candidates[role][Math.floor(stop/120)],`${role}: the club is the third his ball rests on`);});
+    held.confirmedRoles.forEach((role,index)=>{const stop=held.stops[index];assert.ok(Number.isInteger(stop)&&stop>=0&&stop<360,`${role}: one stored stop 0..359`);assert.equal(held.candidates[role].length,6,`${role}: the Ball Game deals six clubs a ball (R95-01 draw 3)`);assert.equal(held.clubs[role],held.candidates[role][Math.floor(stop/60)],`${role}: the club is the slice his ball rests on`);});
+    assert.equal(new Set([...held.candidates.playerOne,...held.candidates.playerTwo]).size,12,"twelve different clubs: the two balls never share one");
     assert.deepEqual([held.clubs.playerOne,held.clubs.playerTwo],clubsD,"the clubs named on screen are the clubs Firebase holds");
     for(const m of [daniel,nik]){
       assert.equal((await m.page.locator("#clubPlayerOne").textContent()).trim(),"Daniel","Daniel remains the LEFT/playerOne slot");
       assert.equal((await m.page.locator("#clubNameOne").textContent()).trim(),clubsD[0],"Daniel's left club agrees on both pages");
     }
-    ok("J4.3","the club draw dealt six candidates by itself; each manager stopped his own ball; both pages agree on two clubs with Daniel in the LEFT slot");
+    ok("J4.3","the club draw dealt twelve distinct candidates (six a ball) by itself; each manager stopped his own ball; both pages agree on two clubs with Daniel in the LEFT slot");
 
     // Job 33 (R4a): Career Start opens by itself once both balls rest (no CONTINUE TO CAREER START tap).
     for(const m of [daniel,nik]){

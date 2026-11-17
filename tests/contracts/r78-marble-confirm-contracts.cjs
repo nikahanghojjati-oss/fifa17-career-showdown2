@@ -132,7 +132,7 @@ check("R4 the r78 sheets load with the kit and the box on first use, never in th
   const html=read("index.html");
   for(const file of ["r78-type.css","r78-marble-surfaces.css","showdownConfirm.js"])assert.ok(!html.includes(file),`${file} is not a startup file`);
   const v10=read("js/v10Screens.js");
-  assert.match(v10,/const R78_STYLES=Object\.freeze\(\["css\/r78-type\.css","css\/r78-marble-surfaces\.css"\]\);/);
+  assert.match(v10,/const R78_STYLES=Object\.freeze\(\["css\/r78-type\.css","css\/r95-type\.css","css\/r78-marble-surfaces\.css"\]\);/);
   assert.match(v10,/const ALWAYS_ON=Object\.freeze\(\[BASE\+KIT\.styles\[0\],BASE\+NAV\.style,NAV\.shellStyle,\.\.\.R78_STYLES\]\);/);
   assert.match(v10,/const css=\[\.\.\.KIT\.styles\.map\(file=>vsStyle\(BASE\+file\)\),\.\.\.R78_STYLES\.map\(vsStyle\)\];/,"loaded with the kit, before Home's first reveal");
   assert.match(read("css/r78-type.css"),/#loadingScreen \{ --f17-ui: "Segoe UI", "Helvetica Neue", Arial, sans-serif; \}/,"the loading screen keeps its font");
@@ -194,15 +194,16 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
 // 2.5.1: the retained shell is r92's (2.5.0), the same 293 paths as r91's (tests/fixtures/shell-paths/2.5.0-r92.json).
 // 2.6.0: the retained shell is 2.5.1's, the same 293 paths as 2.5.0's (tests/fixtures/shell-paths/2.5.1-r92.json).
 // 2.7.0: the retained shell is 2.6.0's, filled by the 2.6.0 worker with its own 295 paths (tests/fixtures/shell-paths/2.6.0-r93.json).
-const R79_SHELL_PATHS_SHA256="93901e046f3de827217f173c2228c57921f1ed335722f88a0921a310126d9a39";// sorted JSON of 2.6.0-r93's SHELL_PATHS (main 5c5472f6)
+// 2.8.0: the retained shell is 2.7.0's, filled by the 2.7.0 worker with its own 298 paths (tests/fixtures/shell-paths/2.7.0-r94.json).
+const R79_SHELL_PATHS_SHA256="2dc656af5253a8c3a678f8ccf9b6c3d5c4ae451c71d0b726a7dbede7f87cd3d4";// sorted JSON of 2.7.0-r94's SHELL_PATHS (main 5f22a328)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
 check("R4c an r79-only shell cache survives r80 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"2.6.0-r93");
-  assert.equal(diag.previousShellPaths.length,295,"2.6.0 shipped 295 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly 2.6.0's");
-  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],[],"r94 removes no path from the 2.6.0 shell");
+  assert.equal(diag.previousRevision,"2.7.0-r94");
+  assert.equal(diag.previousShellPaths.length,298,"2.7.0 shipped 298 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly 2.7.0's");
+  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p)&&!/\/fonts\/.*\.(woff2|txt|css)$/.test(p))],[],"2.8.0 (r95) removes only old font files (and their licences) from the 2.7.0 shell");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
     // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover

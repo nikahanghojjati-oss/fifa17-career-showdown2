@@ -16,7 +16,7 @@
   //   never dims, greys or blurs the screen behind (HO-027). Static: no animation.
   // - One box at a time; a second ask waits for the first to be answered.
   const LAYER_ID="showdownConfirm";
-  const STYLES=Object.freeze([["r78-type","css/r78-type.css"],["r78-marble-surfaces","css/r78-marble-surfaces.css"]]);
+  const STYLES=Object.freeze([["r78-type","css/r78-type.css"],["r95-type","css/r95-type.css"],["r78-marble-surfaces","css/r78-marble-surfaces.css"]]);
   const STYLE_WAIT_MS=1500;
   const LABELS=Object.freeze({confirm:"OK",cancel:"Cancel"});
   let queue=Promise.resolve();

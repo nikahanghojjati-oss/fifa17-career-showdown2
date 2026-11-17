@@ -33,7 +33,7 @@
   padding: 14px 18px 12px;
   color: var(--r78-gold, #f2c45b);
   border-bottom: 1px solid rgba(242, 196, 91, .35);
-  font: 600 14px/1.2 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+  font: 600 14px/1.2 var(--r78-font-label, "Arial Narrow", sans-serif);
   letter-spacing: .16em;
 }
 #rrStepPanel .rrStepBody {
@@ -46,14 +46,14 @@
 #rrStepPanel .rrStepTitle {
   margin: 0;
   color: var(--sd-gold-300, #ffd34d);
-  font: 700 clamp(26px, 5vw, 34px)/1.05 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+  font: 700 clamp(26px, 5vw, 34px)/1.05 var(--r78-font-label, "Arial Narrow", sans-serif);
   letter-spacing: .02em;
   text-transform: uppercase;
   text-wrap: balance;
 }
 #rrStepPanel :is(.rrStepLine, .rrStepNote, .rrStepError) {
   margin: 0;
-  font: 500 16px/1.4 var(--r78-font-body, "Barlow", system-ui, sans-serif);
+  font: 500 16px/1.4 var(--r78-font-body, system-ui, sans-serif);
 }
 #rrStepPanel .rrStepLine { color: var(--r78-ivory, #f2ebdd); }
 #rrStepPanel .rrStepNote {
@@ -77,7 +77,7 @@
   border: 1px solid var(--r78-gold, #f2c45b);
   border-left-width: 1px;
   border-radius: var(--sd-radius, 3px);
-  font: 700 17px/1.1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+  font: 700 17px/1.1 var(--r78-font-label, "Arial Narrow", sans-serif);
   letter-spacing: .12em;
   text-transform: uppercase;
   text-align: center;
@@ -117,7 +117,7 @@
 #rrStepPanel .rrBoardGroup legend {
   padding: 0 6px;
   color: var(--r78-gold, #f2c45b);
-  font: 600 13px/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+  font: 600 13px/1 var(--r78-font-label, "Arial Narrow", sans-serif);
   letter-spacing: .16em;
 }
 #rrStepPanel .rrBoardRow { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 8px; align-items: center; }
@@ -128,12 +128,12 @@
   background: #07080a;
   border: 1px solid rgba(242, 196, 91, .35);
   border-radius: var(--sd-radius, 3px);
-  font: 600 16px/1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif);
+  font: 600 16px/1 var(--r78-font-label, "Arial Narrow", sans-serif);
   letter-spacing: .04em;
 }
 #rrStepPanel .rrBoardPos { padding: 0 6px; }
 #rrStepPanel .rrBoardSub { display: grid; place-items: center; color: var(--r78-ivory-2, #c9bfa8); }
-#rrStepPanel .rrBoardName { width: 100%; padding: 0 10px; font: 500 16px/1 var(--r78-font-body, "Barlow", system-ui, sans-serif); letter-spacing: 0; }
+#rrStepPanel .rrBoardName { width: 100%; padding: 0 10px; font: 500 16px/1 var(--r78-font-body, system-ui, sans-serif); letter-spacing: 0; }
 #rrStepPanel :is(.rrBoardPos, .rrBoardName):focus-visible { outline: 2px solid #fff3bd; outline-offset: 1px; }
 #rrStepPanel .rrBoardRowShot .rrBoardName { border-color: var(--r78-gold, #f2c45b); box-shadow: inset 0 0 0 1px var(--r78-gold, #f2c45b); }
 #rrStepPanel .rrBoardRowShot .rrBoardName::placeholder { color: var(--r78-gold, #f2c45b); }

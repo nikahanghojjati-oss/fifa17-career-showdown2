@@ -231,7 +231,7 @@
 @media (orientation: landscape) and (max-height: 500px) and (max-width: 1100px) {
   #app #transferChallenge .tw-host {
     --ls-strip: clamp(196px, 26vw, 250px);
-    --ls-foot: 52px;
+    --ls-foot: 60px;
     --ls-top: 0px;
     --ls-line: rgba(242, 196, 91, .34);
   }
@@ -244,7 +244,7 @@
   #app #transferChallenge .tw-host .world {
     position: absolute; inset: 0 0 var(--ls-foot) 0; left: 0 !important; top: 0 !important;
     width: auto !important; height: auto !important; transform: none !important; box-shadow: none;
-    box-sizing: border-box; padding: 6px 12px 4px 0;
+    box-sizing: border-box; padding: 8px max(16px, env(safe-area-inset-right)) 4px 0;
     display: grid; grid-template-columns: var(--ls-strip) minmax(0, 1.35fr) minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr) auto; column-gap: 10px; row-gap: 5px;
   }
@@ -411,7 +411,7 @@
 
   /* ---- HUD rail: HOME, progress, REFRESH ---- */
   #app #transferChallenge .tw-host .hud-footer {
-    position: absolute; left: 0; right: 0; bottom: 0; height: var(--ls-foot); padding: 0 12px; gap: 10px; z-index: 5;
+    position: absolute; left: 0; right: 0; bottom: 0; height: var(--ls-foot); padding: 0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left)); gap: 10px; z-index: 5;
     background: linear-gradient(to top, rgba(6, 5, 3, .98) 0%, rgba(6, 5, 3, .94) 80%, rgba(6, 5, 3, 0) 100%);
   }
   #app #transferChallenge .tw-host .hud-footer :is(.menuButton, .backButton) { height: 44px; min-height: 44px; min-width: 44px; padding: 0 18px; }
@@ -749,7 +749,7 @@
   #app #transferChallenge .tw-host .stage { position: relative; inset: auto; height: auto; min-height: 100svh; }
   #app #transferChallenge .tw-host .world {
     position: relative; inset: auto; width: 100% !important; height: auto !important;
-    min-height: calc(100svh - 52px); grid-template-rows: auto auto;
+    min-height: calc(100svh - 60px); grid-template-rows: auto auto;
     padding-bottom: 4px; align-content: start; overflow: visible;
   }
   #app #transferChallenge .tw-host .panel { min-height: auto; }
@@ -763,6 +763,7 @@
      cover anything). The world is one rail short of the screen, so when nothing scrolls the rail still ends the screen. */
   #app #transferChallenge .tw-host .hud-footer { position: relative; left: auto; right: auto; bottom: auto; }
   #app #transferChallenge .tw-host .hud-mid { flex-direction: column; gap: 3px; }
+  #app #transferChallenge .tw-host .hud-footer { padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right)); }
   #app #transferChallenge .tw-host .hud-title { white-space: normal; text-align: center; font-size: 11px; letter-spacing: .05em; }
   #app #transferChallenge .tw-host .rail { gap: 8px; }
   #app #transferChallenge .tw-host .panel.sealed .frost { left: 38%; right: 38%; }
@@ -1019,7 +1020,7 @@
   color: #f5eacb; background: #0d0b08 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
   border: 1px solid #e8c267; border-radius: 3px;
   box-shadow: inset 0 0 0 2px rgba(13, 11, 8, .92), inset 0 0 0 3px rgba(242, 196, 91, .28);
-  font: 700 15px/1.15 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .06em; text-transform: uppercase;
+  font: 700 15px/1.15 var(--sd-font-condensed, "Arial Narrow", sans-serif); letter-spacing: .06em; text-transform: uppercase;
   pointer-events: none;
 }
 #app #transferChallenge .tw-host .ddStrip[hidden] { display: none !important; }

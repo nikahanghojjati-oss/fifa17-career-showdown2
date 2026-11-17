@@ -32,7 +32,7 @@ const SENTINEL="ZQXSEALEDCLUB";
 // Team V 5e05a1f bytes (club.js: before the marked "App (JOB-34)" edits).
 const TEAM_V={
   "club.js":"4e95b3b1336f88f1868729bb2d5fac436e8941072e8561fb062fc4d36e8f30bf",
-  "club.css":"72ed488f433f4a5b7a94b7e03f56824f46cdcc4ce2af75bec3979e7fa9d1f4dd",
+  "club.css":"073a7c254e861d6b82bf5341830c3e305b9fd98230ccef063f2a13746f6d5d9d",
   "assets/platemap.json":"2d4833e60431a44796346e71abf006020bbbbd7897f6c8227a33ec44ed36a8f2",
   "assets/handmap.json":"dab8e3441e2dc2d36f3f0ae00de9d42e09d1508d8bcaac6e439a314de1c0da28",
   "assets/OVL_CLUB_DANIEL_SIDE_HAND_V1_1X.webp":"8cf447697e04040380835f6a30ef4d53260e4f7961cab270ca1581862127c5e4",
@@ -52,9 +52,7 @@ const TEAM_V={
   // Already shipped by job 26 (pinned in v10-foundation-contracts.cjs too); club.css and the adapter use them.
   "assets/ENV_CLUB_PLATE_V1_1X.webp":"398e74faeb18ab2df655122fa0f78e9737aad4c1eff1ba16d019a305f275c255",
   "assets/ENV_CLUB_PLATE_V1_2X.webp":"fed849bbb2c9f239ae1561f57eb5b145e0e33a518fb7bfd0e424691c00cfd6ca",
-  "assets/ENV_CLUB_PHONE_V1.webp":"b31092d3eac35a9851d9c51406dd0cf7972e2dd9a5a8adb83c78d4a27497ba2a",
-  // club.css's @font-face (../tr2/slice-02-plate/assets/fonts/), Team V 5e05a1f bytes.
-  "../tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2":"addcc80ddcc170ff8c97140ab37ac380ac4e6d0b8fd14e5d107b4cb87ffd778f"
+  "assets/ENV_CLUB_PHONE_V1.webp":"b31092d3eac35a9851d9c51406dd0cf7972e2dd9a5a8adb83c78d4a27497ba2a"
 };
 // Team V's club.js with the marked app edits taken back out.
 function teamVClubJs(source){
@@ -136,7 +134,7 @@ check("4 lazy loading: index.html, the startup line and RUNTIME_REVISION unchang
     if(/\.webp$/.test(full)){assert.ok(imageRule.test(full),full);assert.ok(!shell.has(full),`${full} not precached`);}
     else if(/\.woff2$/.test(full))assert.ok(shell.has(full),`${full} shell cached`);
   }
-  assert.match(sw,/const RUNTIME_REVISION = "2\.7\.0-r94";/,"RUNTIME_REVISION is the current release (r94, 2.7.0-r94)");
+  assert.match(sw,/const RUNTIME_REVISION = "2\.8\.0-r95";/,"RUNTIME_REVISION is the current release (r95, 2.8.0-r95)");
   // The glue loads before club.css, so club.css wins every tie with it while the glue's resets still beat the app.
   assert.deepEqual([...CL.FILES.css],["../../css/v10Club.css","club/club.css"]);
   assert.deepEqual(CL.FILES.script.slice(0,2),["v10-club-plate","club/club.js"]);
@@ -255,7 +253,7 @@ async function browserChecks(){
       // Team V's decoration is aria-hidden; the product text (title, VS, button labels) is still the product's.
       const a11y=await page.evaluate(()=>{const s=document.getElementById("clubWheelScreen");return {decor:[...s.querySelectorAll("[data-cl-decor]")].filter(n=>n.dataset.clDecor!=="wrap").every(n=>n.getAttribute("aria-hidden")==="true"),
         title:s.querySelector(":scope > h2 .sd-visually-hidden").textContent,confirm:document.getElementById("continueClubAssignment").textContent.trim()};});
-      assert.deepEqual(a11y,{decor:true,title:"CLUB ASSIGNMENT",confirm:"CONFIRM & START SHOWDOWN"});
+      assert.deepEqual(a11y,{decor:true,title:"BALL GAME",confirm:"CONFIRM & START SHOWDOWN"});
       await page.setViewportSize({width:1920,height:1080});
       await page.evaluate(()=>{window.navigateBackSmart=window.__clBack;});
     });

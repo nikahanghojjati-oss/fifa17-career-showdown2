@@ -67,7 +67,7 @@
   const DOUBLE_TAP_MS=300;
   // r78 (HO-028 / HO-029): Team V's readable body type and the black-and-gold marble for errors, notes, pop-ups and
   // toasts. They load with the kit sheets (never in the startup bundle) and stay on, like the shell sheet.
-  const R78_STYLES=Object.freeze(["css/r78-type.css","css/r78-marble-surfaces.css"]);
+  const R78_STYLES=Object.freeze(["css/r78-type.css","css/r95-type.css","css/r78-marble-surfaces.css"]);
   const ALWAYS_ON=Object.freeze([BASE+KIT.styles[0],BASE+NAV.style,NAV.shellStyle,...R78_STYLES]);
 
   const registry=new Map();
@@ -171,8 +171,8 @@
       const css=[...KIT.styles.map(file=>vsStyle(BASE+file)),...R78_STYLES.map(vsStyle)];
       for(const [key,file,ready] of KIT.scripts)await vsScript(key,BASE+file,ready);
       await Promise.all(css);
-      // r93 HO-079: every screen title is live text in Cormorant SC (font-display:block); the gate waits for the one file, so a title is never blank or in a stand-in face.
-      {const doc=vsDoc(),fonts=doc&&doc.fonts;if(fonts&&typeof fonts.load==="function"){try{await vsWithin(fonts.load('700 1em "Cormorant SC"'),STYLE_TIMEOUT_MS);}catch(error){}}}
+      // r93 HO-079: every screen title is live text in Instrument Sans (font-display:block); the gate waits for the one file, so a title is never blank or in a stand-in face.
+      {const doc=vsDoc(),fonts=doc&&doc.fonts;if(fonts&&typeof fonts.load==="function"){try{await vsWithin(fonts.load('650 1em "Instrument Sans"'),STYLE_TIMEOUT_MS);}catch(error){}}}
       vsSyncStyles();
       return true;
     })().catch(error=>{kitPromise=null;throw error;});

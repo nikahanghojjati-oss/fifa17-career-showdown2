@@ -186,7 +186,7 @@
     back.style.cssText="position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2;"
       // black-and-gold marble like the roulette step panel's back button (css/v10Roulette.css .rrStepBack): the plain compactButton is white
       +"box-sizing:border-box;min-height:44px;padding:10px 22px;color:#ffd34d;background:linear-gradient(180deg,#17140e,#070605);border:1px solid #d4a017;border-radius:3px;"
-      +"box-shadow:inset 0 1px 0 rgba(242,196,91,.25),0 0 0 1px #000,0 6px 16px rgba(0,0,0,.6);font:700 17px/1.1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.12em;text-transform:uppercase;text-shadow:none;max-width:calc(100% - 24px);text-align:center";
+      +"box-shadow:inset 0 1px 0 rgba(242,196,91,.25),0 0 0 1px #000,0 6px 16px rgba(0,0,0,.6);font:700 17px/1.1 var(--r95-font-narrow);letter-spacing:.12em;text-transform:uppercase;text-shadow:none;max-width:calc(100% - 24px);text-align:center";
     stage.append(frame,back);doc.body.append(stage);
     // The roulette's result panel (z-index 96) stays over this stage until the Prime Pack page is ready (Reus Gate, Fable
     // F13-07: a slow page never shows a plain dark screen); igsPlay closes it on cms-ig-ready, or when the step fails.

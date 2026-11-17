@@ -80,7 +80,7 @@ check("E5 offline fonts and the marble fallback",()=>{
   const sw=read("service-worker.js");
   const set=sw.match(/const UNVERSIONED_SHELL_ASSET_PATHS = new Set\(\[([\s\S]*?)\]\);/)[1];
   const shell=sw.match(/const SHELL_PATHS = Object\.freeze\(\[([\s\S]*?)\]\);/)[1];
-  for(const font of ["barlow-condensed-latin-600-normal","barlow-condensed-latin-700-normal","barlow-latin-400-normal","barlow-latin-600-normal","kaushan-script-latin-400-normal"]){
+  for(const font of ["instrument-sans-latin-wdth-normal","instrument-sans-latin-ext-wdth-normal","instrument-sans-latin-wght-italic"]){
     const p=`"visual-assets/v10_1/shared/fonts/${font}.woff2"`;
     assert.ok(set.includes(p),`${font} is served unversioned from the shell`);
     assert.ok(shell.includes(p),`${font} is precached`);

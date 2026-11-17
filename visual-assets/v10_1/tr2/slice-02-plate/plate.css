@@ -2,10 +2,6 @@
    CSS owns only live text and controls. No CSS frames or boxes around panels.
    All in-world sizes are plate px × --k (k = world width / 1672). */
 
-@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: block; src: url(assets/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: block; src: url(assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 400; font-display: block; src: url(assets/fonts/barlow-latin-400-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 600; font-display: block; src: url(assets/fonts/barlow-latin-600-normal.woff2) format("woff2"); }
 
 :root {
   /* Plate-local aliases consume the shared Showdown foundation without moving registered geometry. */

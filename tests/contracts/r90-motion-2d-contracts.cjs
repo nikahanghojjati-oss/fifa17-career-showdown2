@@ -49,9 +49,10 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
     assert.ok(src.includes("hc-live-title")&&(src.includes(`data-hc-title=\\"${key}\\"`)||src.includes(`data-hc-title="${key}"`)||src.includes(`${key}:{`)||src.includes(`"${key}"`)||src.includes(`'${key}'`)||src.includes(`${key}: {`)),`${file} draws the live title ${key}`);
     assert.doesNotMatch(src,/TITLE_[A-Z_]+_V[123]/,`${file} draws no title picture`);
     assert.match(type,new RegExp(':where\\([^{]*\\.hc-live-title\\[data-hc-title="'+key+'"\\][^{]*\\) \\{ --hcl-cap:[^}]*aspect-ratio: 1920 / \\d+;'),`${key} keeps the box its old picture had, so nothing moves`);}
-  assert.match(type,/font-family: "Cormorant SC";\n  font-style: normal;\n  font-weight: 700;\n  font-display: block;\n  src: url\("\.\.\/visual-assets\/v10_1\/shared\/fonts\/CormorantSC-Bold-latin\.woff2"\)/,"the title face is the shipped Cormorant SC Bold file");
-  assert.match(type,/letter-spacing: \.06em; text-transform: uppercase;/,"live titles: .06em, capitals");
-  assert.match(type,/color: #C9A45C; -webkit-text-fill-color: #C9A45C;/,"live titles: flat #C9A45C");
+  // r95: the title face is the one family (Instrument Sans, declared in css/r95-type.css); Cormorant SC is no longer declared
+  assert.ok(!/font-family: "Cormorant SC"/.test(type)&&/font: 650 calc\(\.9 \* min\([^\n]*var\(--r95-font\);/.test(type),"the title face is the one r95 family");
+  assert.match(type,/letter-spacing: \.08em; text-transform: uppercase;/,"live titles: .08em, capitals");
+  assert.match(type,/color: var\(--r95-gold-ink, #F2C45B\); -webkit-text-fill-color: var\(--r95-gold-ink, #F2C45B\);/,"live titles: flat gold (the r95 gold ink)");
   assert.match(type,/background: none; text-shadow: none; filter: none;/,"live titles: no shadow, no filter, no plate");
   // Home logo: three real widths of the flat V4 file, lighter than the V3 files they replace.
   const home=read("js/homeScreensV10.js");
@@ -64,10 +65,10 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
     ["css/squadScreen.css","#sqStage .sqHeader>.sqTitle","SQUAD MANAGEMENT"],["visual-assets/v10_1/icon-guess/index.html",".packtitle","PRIME PACK"]]){
     const src=read(file),at=src.indexOf(sel+"::after"),rule=src.slice(at,src.indexOf("}",at));assert.ok(at>=0,`${file} draws ${words} over its heading`);
     assert.ok(rule.includes(`content: "${words}"`)||rule.includes(`content:"${words}"`),`${words} is drawn as live text`);
-    assert.ok(/"Cormorant SC"/.test(rule)&&/#C9A45C/.test(rule),`${words}: Cormorant SC, #C9A45C`);
+    assert.ok(/var\(--r95-font\)/.test(rule)&&/--r95-gold-ink/.test(rule),`${words}: the r95 family, the r95 gold ink`);
     assert.doesNotMatch(rule,/text-shadow:(?!\s*none)|drop-shadow/,`${words}: no shadow`);
     assert.match(src.slice(src.lastIndexOf(sel,at-1)-2,at),/color: ?transparent/,`${words}: the words stay in the heading, unpainted`);}
-  ok("M27","live Cormorant SC titles: one shared title height, old boxes kept, flat gold, no shadow; the flat V4 Home logo in three widths; in-game headers keep their box");}
+  ok("M27","live Instrument Sans titles: one shared title height, old boxes kept, flat gold, no shadow; the flat V4 Home logo in three widths; in-game headers keep their box");}
 // M28 (Nik 2026-11-12: every phone and tablet screen matches its desktop screen). Two things were still desktop-only:
 // the flat dark slab behind the numbers (the phone and tablet rules of Career Statistics and of the Final Winner results
 // panel still painted the vein tile), and the title family (tablets and sideways phones lettered the set-up header bar

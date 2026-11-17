@@ -44,10 +44,11 @@
 #clubWheelScreen[data-club-draw="spin"] .clubRevealCard:not(.is-revealed) .clubCardFace strong{color:rgba(243,238,223,.32)}
 #clubWheelScreen[data-club-draw="spin"] .clubCardState{display:block;margin-top:0;color:rgba(243,238,223,.6);letter-spacing:.12em;font-size:10px;line-height:1.3}
 
-/* The flat stand-in (no WebGL2): three crests per manager, the lit one cycling, the picked one gold. */
+/* The flat stand-in (no WebGL2): the crests per manager (3, or 6 for the Ball Game), the lit one cycling, the picked one gold. */
 .clubDrawFlat{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:12px;padding:16px;box-sizing:border-box;
   background:radial-gradient(ellipse at 50% 120%,#1f6b2c 0,#0d3a17 55%,#04060a 100%)}
-.clubDrawFlatBall{display:flex;justify-content:center;gap:10px}
+.clubDrawFlatBall{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.clubDrawFlatBall[data-count="6"] .clubDrawFlatClub{width:clamp(44px,6.4vw,92px)}
 .clubDrawFlatClub{width:clamp(56px,9vw,110px);aspect-ratio:120/144;border-radius:12px;padding:6px;box-sizing:border-box;background:rgba(0,0,0,.35);
   border:2px solid rgba(216,181,90,.25);opacity:.45;transition:opacity .12s linear,border-color .12s linear}
 .clubDrawFlatClub.is-lit{opacity:1;border-color:#d8b55a}
@@ -108,7 +109,7 @@ html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-set
 html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
 html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #seasonIndicator {
   margin: 0 !important; min-height: 28px; box-sizing: border-box; padding: 0 10px !important; display: inline-flex; align-items: center;
-  font: 600 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .1em; text-transform: uppercase;
+  font: 600 12px/1 var(--sd-font-condensed, sans-serif) !important; letter-spacing: .1em; text-transform: uppercase;
   color: #ece6d6 !important; background: #0d0f13 !important; border: 1px solid rgba(242,196,91,.45) !important; border-radius: 2px; box-shadow: none;
 }
 html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; }
@@ -124,12 +125,12 @@ html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-set
 #clubWheelScreen[data-club-draw="spin"] { width: 100%; max-width: none; padding: 6px max(16px, 2vw) 18px; box-sizing: border-box; }
 #clubWheelScreen[data-club-draw="spin"] > h2 {
   width: auto; margin: 0 auto 2px; padding: 0 0 0 .06em; background: none; border: 0; box-shadow: none; text-align: center;
-  font: 700 calc(var(--hc-title-h, 48px) * .74)/1.14 "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  font-synthesis: none; font-variant-numeric: lining-nums; letter-spacing: .06em; text-transform: uppercase;
-  color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none;
+  font: 650 calc(var(--hc-title-h, 48px) * .67)/1.14 var(--r95-font);
+  font-synthesis: none; font-variant-numeric: lining-nums; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--r95-gold-ink, #F2C45B); -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B); text-shadow: none;
 }
 #clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell { background: none; border-top: 0; box-shadow: none; padding: 0; }
-#clubWheelScreen[data-club-draw="spin"] .clubAssignmentEyebrow { color: #C9A45C; }
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentEyebrow { color: var(--r95-gold-ink, #F2C45B); }
 #clubWheelScreen[data-club-draw="spin"] #clubAssignmentLeague { color: #f3eedf; }
 #clubWheelScreen[data-club-draw="spin"] #clubPackStatus { color: rgba(243,238,223,.62); }
 /* STOP (Nik 22:15, "color should make sense"): live, it is Home's gold CONTINUE CAREER tile (soft gold bevel, polished gold
@@ -139,7 +140,7 @@ html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-set
    the draw STOP only. Never faded, never blue. */
 #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment {
   box-sizing: border-box; min-height: 56px; padding: 10px 16px; border: 2px solid transparent; border-image: var(--bevel-gold-soft) 1; border-radius: 0;
-  font: 700 clamp(18px, 1.7vw, 26px)/1.1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .16em; text-transform: uppercase;
+  font: 700 clamp(18px, 1.7vw, 26px)/1.1 var(--r78-font-label, "Arial Narrow", sans-serif); letter-spacing: .16em; text-transform: uppercase;
   color: var(--sd-text-on-gold, #07080a); text-shadow: none; opacity: 1; transform: none;
   background: linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%);
   box-shadow: 0 12px 28px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.55), 0 0 22px rgba(242,196,91,.2), inset 0 0 0 1px rgba(255,255,255,.32), inset 0 -10px 22px rgba(138,106,18,.28);
@@ -189,16 +190,16 @@ html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-set
 #clubWheelScreen[data-club-draw="spin"] .clubAssignmentHeader { text-align: center; padding: 0; background: none; border: 0; box-shadow: none; }
 #clubWheelScreen[data-club-draw="spin"] .clubAssignmentEyebrow {
   display: inline-block; padding-bottom: 6px; color: var(--sd-gold-300, #ffd34d);
-  font: 700 clamp(13px, 1vw, 16px)/1.1 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .12em; text-transform: uppercase;
+  font: 700 clamp(13px, 1vw, 16px)/1.1 var(--sd-font-condensed, "Arial Narrow", sans-serif); letter-spacing: .12em; text-transform: uppercase;
   background: linear-gradient(var(--sd-gold-400, #f2c45b), var(--sd-gold-400, #f2c45b)) center bottom / 34px 2px no-repeat;
 }
 #clubWheelScreen[data-club-draw="spin"] #clubAssignmentLeague {
   margin: 4px 0 0; color: #F4F1EA; text-shadow: 0 2px 10px rgba(0,0,0,.9);
-  font: 700 clamp(26px, 2.6vw, 40px)/1.1 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .01em; text-transform: uppercase;
+  font: 700 clamp(26px, 2.6vw, 40px)/1.1 var(--sd-font-condensed, "Arial Narrow", sans-serif); letter-spacing: .01em; text-transform: uppercase;
 }
 #clubWheelScreen[data-club-draw="spin"] #clubPackStatus {
   min-height: 0; margin: 2px 0 8px; color: #E9DFC8; text-transform: none;
-  font: 400 clamp(13px, 1vw, 16px)/1.35 var(--sd-font-body, Barlow, system-ui, sans-serif); letter-spacing: 0;
+  font: 400 clamp(13px, 1vw, 16px)/1.35 var(--sd-font-body, system-ui, sans-serif); letter-spacing: 0;
 }
 /* The scene's box: Home's gold bevel frame around the pitch, with Home's inner black line. */
 #clubWheelScreen[data-club-draw="spin"] .clubDrawStage {
@@ -220,27 +221,27 @@ html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-set
 #clubWheelScreen[data-club-draw="spin"] .clubRevealCard.is-revealed { border-image: var(--bevel-gold) 1; box-shadow: var(--home-tile-shadow), 0 0 24px rgba(242,196,91,.22); }
 #clubWheelScreen[data-club-draw="spin"] .clubManager {
   margin: 0 0 2px; padding: 0; color: #FFF1B8; text-shadow: none; text-align: left;
-  font: 600 12px/1.15 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .2em; text-transform: uppercase;
+  font: 600 12px/1.15 var(--sd-font-condensed, "Arial Narrow", sans-serif); letter-spacing: .2em; text-transform: uppercase;
 }
 #clubWheelScreen[data-club-draw="spin"] .clubPackStage,
 #clubWheelScreen[data-club-draw="spin"] .clubCardFace { align-items: flex-start; padding: 0; background: none; border: 0; box-shadow: none; }
 #clubWheelScreen[data-club-draw="spin"] .clubCardFace strong {
   justify-content: flex-start; color: #fff; background: none; border: 0; box-shadow: none; text-shadow: 0 2px 10px rgba(0,0,0,.9);
-  font: 700 clamp(18px, 1.6vw, 24px)/1.08 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .01em; text-transform: uppercase;
+  font: 700 clamp(18px, 1.6vw, 24px)/1.08 var(--sd-font-condensed, "Arial Narrow", sans-serif); letter-spacing: .01em; text-transform: uppercase;
 }
 #clubWheelScreen[data-club-draw="spin"] .clubRevealCard:not(.is-revealed) .clubCardFace strong { color: rgba(255,255,255,.4); }
 #clubWheelScreen[data-club-draw="spin"] .clubCardState { padding: 0; color: #CFC6B4; background: none; border: 0; }
 #clubWheelScreen[data-club-draw="spin"] #clubAssignmentBack {
   color: #FFF1B8; border: 2px solid transparent; border-image: var(--bevel-gold) 1; border-radius: 0;
   background: var(--home-tile-face); box-shadow: var(--home-tile-shadow);
-  font: 700 15px/1 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .16em; text-transform: uppercase;
+  font: 700 15px/1 var(--sd-font-condensed, "Arial Narrow", sans-serif); letter-spacing: .16em; text-transform: uppercase;
 }
 /* Nik 22:55: no boxed "CLUB DRAW" bar. The routine line is gone (js/productionSharedShowdownPresentation.js); a real note
    (waiting, saving, could not save, a refused tap, reconnect) is plain cream text right under STOP, no box, no bar. */
 #clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus {
   grid-area: note; justify-self: center; max-width: min(760px, 100%); margin: 2px 0 0; padding: 0; text-align: center;
   color: #E9DFC8; background: none; border: 0; border-image: none; border-radius: 0; box-shadow: none; text-shadow: 0 1px 6px rgba(0,0,0,.9);
-  font: 500 clamp(13px, .95vw, 15px)/1.35 var(--sd-font-body, Barlow, system-ui, sans-serif); letter-spacing: .02em;
+  font: 500 clamp(13px, .95vw, 15px)/1.35 var(--sd-font-body, system-ui, sans-serif); letter-spacing: .02em;
 }
 #clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus::before,
 #clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus::after { content: none; }

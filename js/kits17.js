@@ -5,6 +5,11 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
+  // r95: the one type family. Canvas text cannot read a CSS variable, so the family name is set here, and the face is loaded
+  // (document.fonts.load) before the first draw; callers wait on fontReady (bounded) so no board or shirt is drawn in a stand-in face.
+  const FONT_FAMILY='"Instrument Sans Narrow"';
+  const fontReady=(root.document&&root.document.fonts&&typeof root.document.fonts.load==="function")?root.document.fonts.load("700 24px "+FONT_FAMILY).then(()=>true,()=>false):Promise.resolve(true);
+
   // Kits 17 (r89): every club's 2016-17 HOME kit as FIFA 17 shows it, for all 98 clubs, plus a keeper kit that never clashes, painted in canvas at runtime (no image files, any size), shared by Chamber Men and Russian Roulette. Crests come from getClubCrestSvg (js/visualIdentity.js): our own drawings, never lettering. No sponsor words, no maker logos.
   // UV ("wrap", as a LatheGeometry body): u runs around the body (front centre 0.5, back centre 0 and 1) and rises toward the wearer's LEFT; v=0 hem, v=1 neck. Sleeves: u around the arm (0.5 the front), v=0 cuff, v=1 shoulder. Shorts: one wrap around the hips, v=0 hem, v=1 waistband. Socks: v=0 ankle, v=1 top. Normal map: one tileable knit (repeat it ~24 x 12 on the shirt).
   // API: kit(club) -> {shirt,shorts,socks,collar,dominant}; keeperKit(club,vsClub); textures(club,{role:"outfield"|"gk",vsClub,size:"full"|"phone"|"small",number,name}) -> {shirt,sleeveL,sleeveR,shorts,socks,normal,material,ready}; await ready before uploading (the crest is an SVG image).
@@ -253,7 +258,7 @@
     }
   }
   // Print colour on a plain ground: the trim when it reads (4:1) on that ground, else near-black or near-white.
-  const printFont=(px)=>`800 ${px}px 'Barlow Condensed', 'Arial Narrow', sans-serif`,font=printFont;
+  const printFont=(px)=>`700 ${px}px ${FONT_FAMILY}, 'Arial Narrow', sans-serif`,font=printFont;
   function printInk(k,ground){
     const ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);},bg=ground||k.body;
     const plain=ratio("#141414",bg)>=ratio("#f4f4f2",bg)?"#141414":"#f4f4f2";
@@ -633,6 +638,6 @@
 
   // r94 (Club Assignment ball): the one-colour fabric a club's shirt wears, so the ball wears the same one.
   const fabric=(club)=>solidFabric(kit(club));
-  return Object.freeze({version:"r90-kits17-3",clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,drawFlat,prepare:prepareCrests,deltaE,fabric,
+  return Object.freeze({version:"r90-kits17-3",fontReady,clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,drawFlat,prepare:prepareCrests,deltaE,fabric,
     layouts:Object.freeze(["wrap","remy","ch38","ch42"]),layout:Object.freeze({uv:"wrap",frontU:.5,backU:0,leftOfWearer:"u rises",vHem:0,vNeck:1,crestU:.575,crestV:.75})});
 });

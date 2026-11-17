@@ -433,12 +433,13 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     // r87 proofreading: only four marquee/billboard advertising metaphors changed.
     assert.equal(sha('data/frontPages.js'),'7d115ee41cb85e69d22f90d6d083452c1caf92bf83284aafb4e2355f0aabdc09');
     assert.equal(sha('visual-assets/v10_1/content/frontpage.js'),'a4b8ced9ac63123795bfe1d9ee2741027df7426466b5f5b5314c3bf55a58baf6');
-    assert.equal(sha('visual-assets/v10_1/content/content.css'),'cfa7f1a4227673127ad34f59f5c0c4272248846cf3a456d2c814923ad0f6f7dc');
+    // r95: content.css has the Playfair and Old Standard faces taken out and the paper's text set in the one family (Instrument Sans); the masthead keeps its blackletter.
+    assert.equal(sha('visual-assets/v10_1/content/content.css'),'3bf6d3e920f1fc6ddb4373e7d0719dac68d6c1e20b3f102afbae846b80ada9cc');
     assert.equal(Copy.stories.length,114);assert.equal(Copy.duets.length,288);for(const k of ['briefs','captions','ears','quotes'])assert.equal(Copy.small[k].length,30,k);
     assert.equal(Pages.contentVersion,2);assert.equal(Pages.season.length,477);assert.equal(Pages.final.length,258);
     const sw=read('service-worker.js'),added=new Set(JSON.parse(sw.match(/SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\((\[[^\]]*\])\)/)[1]));
     const r87Shell=JSON.parse(read('tests/fixtures/shell-paths/2.0.0-r87.json')).paths;
-    const files=['js/touchlineGazette.js','data/gazetteCopy.js','data/frontPages.js','css/v10Gazette.css','visual-assets/v10_1/content/content.css','visual-assets/v10_1/content/frontpage.js',...G.FONT_FILES,...['unifrakturmaguntia','playfair-display','old-standard-tt'].map(f=>`visual-assets/v10_1/content/gazette/fonts/LICENSE-${f}.txt`)];
+    const files=['js/touchlineGazette.js','data/gazetteCopy.js','data/frontPages.js','css/v10Gazette.css','visual-assets/v10_1/content/content.css','visual-assets/v10_1/content/frontpage.js',...G.FONT_FILES,...['unifrakturmaguntia'].map(f=>`visual-assets/v10_1/content/gazette/fonts/LICENSE-${f}.txt`)];
     for(const f of files){assert.ok(fs.existsSync(path.join(ROOT,f)),f);assert.ok(sw.includes(`  "${f}",`)&&!added.has(f)&&r87Shell.includes(f),`shell lists ${f} (and, from 2.1.0, the retained r87 shell does too)`);}
     assert.ok(!/content\/gazette\/GZ_[A-Z_]+\.webp/.test(sw),'press photos ride the V10 image runtime cache, not the shell');
     for(const f of G.FONT_FILES)assert.ok(/LICENSE|SIL Open Font License/i.test(read(`visual-assets/v10_1/content/gazette/fonts/LICENSE-${path.basename(f).split('-latin')[0]}.txt`)),f);

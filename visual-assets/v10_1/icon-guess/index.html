@@ -30,16 +30,14 @@
   #guess, #go, #other (read-only box), #suggest, #note, #banner (result), #cta (Continue), #source.
   State to style on: [data-shown="1"] on a tile, .fresh on the parts the current stage just turned up, [hidden].
 -->
+<link rel="stylesheet" href="../../../css/r95-type.css">
 <style>
-@font-face { font-family: "Cormorant SC"; font-weight: 700; font-style: normal; font-display: block; src: url(../shared/fonts/CormorantSC-Bold-latin.woff2) format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-display: swap; src: url("../shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-display: swap; src: url("../shared/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
 :root {
   --ink: #07080a; --text: #f4f1ea; --text-2: #d6c9a6;
   --foil-1: #fff6d2; --foil-2: #f1cf7a; --foil-3: #c4932f; --foil-4: #7d5a17;
   --slot-ink: #fff1c9; --slot-label: #e2bf6a;
   --daniel: #e4dfd2; --nik: #f0d900; /* r90 W9 (LOOK hunt L17): Daniel silver, Nik gold; no blue in the black-and-gold game */
-  --cond: "Barlow Condensed", "Arial Narrow", sans-serif; --body: "Barlow Condensed", system-ui, sans-serif; /* only the two condensed weights: r87 already serves them to framed pages offline */
+  --cond: var(--r95-font-narrow); --body: var(--r95-font-narrow); /* only the two condensed weights: r87 already serves them to framed pages offline */
   --reveal: 520ms; --ease: cubic-bezier(.22, 1, .36, 1);
   color-scheme: dark;
 }
@@ -71,7 +69,7 @@ html.kb .packtitle { display: none; }
    instead of a metal-gradient Barlow line. The words stay in the heading (its box and the screen-reader label are unchanged)
    but are not painted; the lettering is laid over them, centred, at the capital height the text had (1.4em tall picture). */
 .packtitle { position: relative; margin: 0; text-align: center; font: 700 clamp(22px, 3.2vh, 38px)/1 var(--cond); letter-spacing: .3em; padding-left: .3em; text-transform: uppercase; color: transparent; }
-.packtitle::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); pointer-events: none; content: "PRIME PACK"; --hcw: 6.43; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 700 min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif; font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none; filter: none; background: none; }
+.packtitle::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); pointer-events: none; content: "PRIME PACK"; --hcw: 6.43; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 650 calc(.9 * min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw))))/var(--hc-h) var(--r95-font); font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: var(--r95-gold-ink, #F2C45B); -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B); text-shadow: none; filter: none; background: none; }
 .status { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 46px; }
 .beat { font: 700 18px/1 var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--foil-1); text-shadow: 0 2px 6px #000; white-space: nowrap; }
 .beat.last { color: #ffd77a; }
@@ -470,7 +468,7 @@ function drawFlag(canvas, code){
   else if(c==="KR"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h); ctx.fillStyle="#cd2e3a"; ctx.beginPath(); ctx.arc(w/2,h/2,h*.25,Math.PI,0); ctx.fill(); ctx.fillStyle="#0047a0"; ctx.beginPath(); ctx.arc(w/2,h/2,h*.25,0,Math.PI); ctx.fill(); }
   else { // a nation this stand-in has no flag for: a plain gold plate with its code (never a wrong flag)
     const g=ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,"#f1cf7a"); g.addColorStop(1,"#c4932f"); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
-    ctx.fillStyle="#2a2110"; ctx.font=`700 ${Math.round(h*.42)}px "Barlow Condensed", sans-serif`; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(c.replace(/^GB-/,"")||"?",w/2,h/2+h*.03); }
+    ctx.fillStyle="#2a2110"; ctx.font=`700 ${Math.round(h*.42)}px "Instrument Sans Narrow", sans-serif`; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(c.replace(/^GB-/,"")||"?",w/2,h/2+h*.03); }
   const sh=ctx.createLinearGradient(0,0,w,h); sh.addColorStop(0,"rgba(255,255,255,.18)"); sh.addColorStop(.5,"rgba(255,255,255,0)"); sh.addColorStop(1,"rgba(0,0,0,.14)"); ctx.fillStyle=sh; ctx.fillRect(0,0,w,h);
 }
 
