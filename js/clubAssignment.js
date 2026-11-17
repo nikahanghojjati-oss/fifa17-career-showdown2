@@ -420,7 +420,7 @@ function assignClubs(){
         renderReadyAssignmentState();
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
-                "Club Assignment did not save. No clubs were locked.",
+                "Ball Game did not save. No clubs were locked.",
                 "error",
                 9000
             );

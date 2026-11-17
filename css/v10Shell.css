@@ -771,7 +771,7 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
    marble tile with the r78 gold edge, drawn inside the tab's own box (it also replaces the locked-tab padlock: music is never locked). */
 .cmsMusicTab { display: none; }
 @media (max-width: 900px) {
-  [data-nav="hub"] .sd-nav-bottom:has(.cmsMusicTab) { grid-template-columns: repeat(6, minmax(0, 1fr)); padding-left: 2px; padding-right: 2px; }
+  [data-nav="hub"] .sd-nav-bottom:has(.cmsMusicTab) { grid-template-columns: repeat(6, minmax(0, 1fr)); padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right)); }
   .sd-nav-bottom .cmsMusicTab.sd-nav-tab { display: flex; position: relative; isolation: isolate; color: var(--sd-gold-500, #f5c518); background: transparent; border: 0; cursor: pointer; }
   .sd-nav-bottom .cmsMusicTab.sd-nav-tab::before,
   .sd-nav.sd-nav-bottom[data-locked="true"] .cmsMusicTab.sd-nav-tab:not([aria-current="page"])::before {
@@ -922,14 +922,20 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #careerStatistics.careerScreenV10 .managerPortrait { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp') 2x); }
 }
 
+/* r95 house fixes (Lane B) gutter scale for phones, upright and sideways: page content sits 16px (plus the safe-area inset) from
+   each window edge; the corner controls (SIGN IN chip, Settings gear) sit 12px; sibling boxes keep 8px between them. */
 /* r95 house (Lane B, audit pass 2 rows 31-33), phones: tap areas of 44px without moving or growing anything visible, readable locked
    tabs, and a focus ring on the Squad player chips. */
 @media (max-width: 900px) {
+  [data-nav="hub"] .sd-nav-corner { top: max(8px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); }
   /* the identity chip (SIGN IN / player name / RECONNECT) is 28px tall: an invisible ::after makes its tap area 44px */
   #app #topHeader #onlinePlayerIdentityBadge { position: relative; }
   #app #topHeader #onlinePlayerIdentityBadge::after { content: ""; position: absolute; inset: -8px -6px; }
   /* Marco Reus credit links are 14px tall inline text: inline vertical padding widens the tap area and moves nothing */
   #photoCredit a, .startupPhotoCredit a, .menuAthleteCredit a { padding: 15px 4px; }
+  /* Settings gear (36px) outside Legacy: invisible ::after makes the tap area 44px */
+  html:not([data-v10-screen="legacy"]) .sd-nav-gear { position: relative; }
+  html:not([data-v10-screen="legacy"]) .sd-nav-gear::after { content: ""; position: absolute; inset: -4px; }
   /* locked bottom tabs (signed out) keep full opacity and the muted ivory #C9BFA8 (about 10:1 on the bar) instead of 0.72 opacity */
   .sd-nav-bottom[data-locked="true"] .sd-nav-tab:not([aria-current="page"]):not(.cmsMusicTab) { opacity: 1; color: var(--r78-ivory-2, #C9BFA8); }
 }
