@@ -973,6 +973,14 @@
   #app #trophyRoom :is(.trophyPhoneHero,.trophyPhoneArtShade) {display:none}
   #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {background:none}
 }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  @media (min-width:901px) and (min-height:481px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+    #app #trophyRoom .stateNotice { font-size: 13px; }
+  }
+}
 `;
 
   // JOB-1706: Career Statistics phone, sideways and tablet adapter rules; the phone art also loads at sideways and tablet sizes.
@@ -1759,6 +1767,12 @@
 #app #careerStatistics .goldenShowdownTile strong {font-size:13px;line-height:16px;text-align:left}
 #app #careerStatistics .goldenShowdownTile .goldenShowdownCounts {display:flex;flex-wrap:wrap;gap:2px 12px;font-size:13px;line-height:16px;text-align:left}
 #app #careerStatistics .goldenShowdownTile .goldenShowdownWho b {color:var(--sd-gold-200,#fff1b8);font-weight:700}
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  #app #careerStatistics .goldenShowdownNote { font-size: 13px; }
+}
 `;
   function v10Markup(screen){
     const cs=BASE+"career-statistics/",tr=BASE+"trophy-room/";

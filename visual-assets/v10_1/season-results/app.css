@@ -198,7 +198,7 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  #app #seasonEntry.seasonScreenV10 #scoring-heading{margin:0 0 6px;font-size:clamp(17px,1.35vw,26px)}
  #app #seasonEntry.seasonScreenV10 .scoring-panel{grid-template-columns:20% 1fr}
  #app #seasonEntry.seasonScreenV10 .scoring-grid{gap:5px clamp(14px,1.45vw,28px);padding-top:7px}
- #app #seasonEntry.seasonScreenV10 .scoring-rule{font-size:clamp(12px,.75vw,15px)}
+ #app #seasonEntry.seasonScreenV10 .scoring-rule{font-size:clamp(13px,.75vw,15px)}
  #app #seasonEntry.seasonScreenV10 .scoring-trophy{max-height:min(150px,13vh)}
  /* 3. Entry cards (about 35% wide each, y 52.7-84.6%). Both cards: Daniel left, Nik right. A single own card is centred.
     Daniel's forearm cut-out (plate x 139-298 at 1536 wide, drawn above the panels) reaches 20.4% of the width, so his card

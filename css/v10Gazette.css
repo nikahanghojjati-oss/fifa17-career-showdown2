@@ -300,3 +300,13 @@ html[data-gazette] #commentaryV3Bar { display: none !important; }
 #touchlineGazette .cmx-gz--compact .tgz-race h4 { display: inline; margin-right: 8px; }
 #touchlineGazette .cmx-gz--compact .tgz-race__line { display: inline; margin-right: 6px; }
 #touchlineGazette .cmx-gz--compact .tgz-race__chips { display: inline-flex; flex-wrap: wrap; vertical-align: 1px; }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  #touchlineGazette .cmx-gz--compact .tgz-sp { font-size: 13px; }
+  #touchlineGazette .cmx-gz--compact .cmx-paper__dateline { font-size: 13px; }
+  #touchlineGazette .cmx-gz--compact .cmx-gz__edline { font-size: 13px; }
+  #touchlineGazette .cmx-gz--compact .cmx-paper__kicker { font-size: 13px; }
+  #touchlineGazette .cmx-gz--compact .cmx-paper__who small { font-size: 13px; }
+}

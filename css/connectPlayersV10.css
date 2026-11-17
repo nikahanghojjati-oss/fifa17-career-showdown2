@@ -1339,3 +1339,12 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
     white-space: normal; overflow-wrap: normal; word-break: normal;
   }
 }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  .connectPlayersTagline { font-size: 13px; }
+  .connectPlayersRole>span { font-size: 13px; }
+  #persistentNikDanielPairPanel span { font-size: 13px; }
+  #app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton.pairRecoverySecondary { font-size: 13px; }
+}

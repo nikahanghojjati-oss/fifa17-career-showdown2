@@ -116,3 +116,9 @@
 
 html[data-motion-reduced="true"] .footballVisualMedia{transition:none;}
 @media(prefers-reduced-motion:reduce){.footballVisualMedia{transition:none;}}
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  .footballVisualCinematicBand .footballVisualContext { font-size: 13px; }
+}

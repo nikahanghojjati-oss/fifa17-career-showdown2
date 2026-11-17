@@ -266,3 +266,14 @@
     .menuTilePrimary{padding-right:38%;}
     .menuCoverAthlete{width:41%;}
 }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  .menuTilePrimary .menuTileCode { font-size: 13px; }
+  .menuTilePrimary .menuTileMeta { font-size: 13px; }
+  @media(min-width:901px) and (max-height:800px) {
+    .menuTilePrimary .menuTileCode { font-size: 13px; }
+    .menuTilePrimary .menuTileMeta { font-size: 13px; }
+  }
+}

@@ -1344,3 +1344,25 @@ body #settingsOverlay.v10Settings .settingsFooter .sd-btn--primary {
 }
 body #settingsOverlay.v10Settings .settingsMotionMarker { border-radius:50%; }
 body #settingsOverlay.v10Settings .settingsMotionChoice:is(.selected,[aria-checked="true"]) .settingsMotionMarker { background:radial-gradient(circle,#f2c45b 0 4px,#151515 5px); }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  #settingsOverlay.v10Settings .settingsPanelEyebrow { font-size: 13px; }
+  #settingsOverlay.v10Settings .settingsPanelHeading p, #settingsOverlay.v10Settings .settingsDataNote, #settingsOverlay.v10Settings .settingsOfflineNote { font-size: 13px; }
+  #settingsOverlay.v10Settings .settingsUsageDetails > summary { font-size: 13px; }
+  #app #ruleBook.v10RuleBook .ruleSectionNumber, #app #ruleBook.v10RuleBook .ruleSpecialPlayer .ruleSpecialPlayerTag { font-size: 13px; }
+  #app #ruleBook.v10RuleBook .ruleSpecialPlayerNow .spChip { font-size: 13px; }
+  @media (min-width:901px) {
+    #app #ruleBook.v10RuleBook .ruleBookSummary { font-size: 13px; }
+  }
+  @media (max-width:1199px) {
+    :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTagline { font-size: 13px; }
+    :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPanelHeading p, :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsDataNote, :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsOfflineNote { font-size: 13px; }
+    :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsInfoRow span { font-size: 13px; }
+    :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsMotionCopy small, :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsAudioCopy small { font-size: 13px; }
+  }
+  @media (min-width:700px) and (max-width:1199px) and (min-height:501px) {
+    :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTagline { font-size: 13px; }
+  }
+}

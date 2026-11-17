@@ -195,3 +195,24 @@ html[data-career-start-stage="phone"] #app #clubWheelScreen.cl-on { height: 100s
 /* r95 hunt (Nik's rule: faces stay clear): on the sideways-phone band the painted pack sits under the chin, so the crest and name
    covered Nik's mouth. The whole held crest steps down by about a quarter of its own box (scales with the band), nothing hidden. */
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="band"] .pcstHold { transform: translateY(26%); }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  .remoteJoiningHeader { font-size: 13px; }
+  .remoteJoiningEyebrow,.remoteJoiningStep { font-size: 13px; }
+  .remoteJoiningIntro p,.remoteJoiningCard p,.remoteJoiningMeta,.remoteJoiningEmpty,.remoteJoiningStatus { font-size: 13px; }
+  .remoteJoiningInput { font-size: 13px; }
+  .remoteJoiningCode { font-size: 13px; }
+  #productionSharedCareerStartOverlay .settingsInfoRow span { font-size: 13px; }
+  :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstTitleKicker { font-size: 13px; }
+  :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstKicker { font-size: 13px; }
+  :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstRival :is(span, strong) { font-size: 13px; }
+  :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstSpecial span { font-size: 13px; }
+  :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .pcstKicker { font-size: 13px; }
+  :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .pcstRival :is(span, strong) { font-size: 13px; }
+  :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) .pcstNote { font-size: 13px; }
+  :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) .pcstSpecial :is(span, strong) { font-size: 13px; }
+  :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room="tightest"] .remoteJoiningStatus { font-size: 13px !important; }
+  :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="fallback"] .pcstPillar[data-room="tightest"] .pcstFallbackNote { font-size: 13px; }
+}

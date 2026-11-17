@@ -211,3 +211,25 @@
    tighten their tracking so each word stays inside its own box (nothing hidden, cut or shrunk below 12px). */
 :root #app :is(.headlineLabel, .headlineTogether, .actionLabel, .trophyCard h3, .trophyCard .managerCounts span, .trophyCard .notWonYet) { letter-spacing: -.04em !important; }
 :root #app .trophyCard .notWonYet { font-family: var(--r95-font-narrow) !important; line-height: 1.1 !important; }
+
+/* ---- r96 look 3: captions on desktop windows (1024px wide and up) are never under 13px; phones and tablets keep 12px.
+   The eyebrow step moves to 13px, and the rules below set a smaller size at desktop widths (found by tools/font-floor-sweep.cjs:
+   the rule that wins at each size under the floor). They sit here with extra weight so they win over the screen sheets and the
+   styles each screen adds when it opens. Nothing is hidden or moved; a caption is one pixel taller. ---- */
+@media (min-width: 1024px) {
+  :root { --sa-type-eyebrow: 13px; }
+  :root:root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewAchievements span, .seasonReviewWarning) { font-size: max(13px, .65vw); }
+  :root:root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro, .seasonReviewResult) { font-size: max(13px, .7vw); }
+  :root:root #app #seasonEntry.seasonScreenV10 .seasonResultCard > label { font-size: clamp(13px, .7vw, 14px); }
+  :root:root #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button { font-size: 13px; }
+  :root:root #app #careerStatistics.careerScreenV10 .careerTable td, :root:root #app #careerStatistics.careerScreenV10 .rankCrown { font-size: max(13px, calc(var(--cs-u) * .9)); }
+  :root:root #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue, .nValue) { font-size: max(13px, .76vw); }
+  :root:root #app #careerStatistics.careerScreenV10 .headlineLabel, :root:root .headlineLabel { font-size: max(13px, .72vw); }
+  :root:root #app #connectPlayersScreen .connectPlayersTagline { font-size: clamp(13px, min(.68vw, 1.2svh), 20px); }
+  :root:root #connectPlayersScreen .connectPlayersRole > span { font-size: clamp(13px, 1.43vh, 24px); }
+  :root:root #app #legacy[data-rivalry-legacy-v10] .legacyManagerName { font-size: clamp(13px, .72vw, 19px); }
+  :root:root #app #trophyRoom .trophyShelf.is-filtered .managerCounts span { font-size: clamp(13px, .9vw, 20px); }
+  :root:root .rankCrown, :root:root .rv-headStat span, :root:root .sdg-scoreLabel { font-size: 13px; }
+  :root:root .sdg-progress, :root:root .sdg-interim, :root:root .sdg-coverage { font-size: 13px; }
+  :root:root #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label, :root:root #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label:has(input:checked) { font-size: clamp(13px, .7vw, 14px); }
+}

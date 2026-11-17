@@ -982,3 +982,34 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
   #app #statistics #rivalryStatisticsContent.analyticsContent { padding-right: max(16px, env(safe-area-inset-right)); }
   #app #statistics #rvTitleBlock.rv-titleBlock { padding-left: max(16px, env(safe-area-inset-left)); }
 }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  @media (min-width: 901px) {
+    html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app > footer { font-size: 13px; }
+    html[data-v10-setup]:not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge, html[data-v10-setup]:not([data-v10-screen="mainMenu"]) #app #topHeader #seasonIndicator { font-size: 13px !important; }
+  }
+  html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge, html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #seasonIndicator { font-size: 13px !important; }
+  html[data-v10-screen] #app > .stateNote { font-size: 13px; }
+  html[data-v10-tools] #app #topHeader #onlinePlayerIdentityBadge, html[data-v10-tools] #app #topHeader #seasonIndicator { font-size: 13px !important; }
+  .cmsMusicDockText small { font-size: 13px; }
+  .cmsMusicDock button { font-size: 13px; }
+  .cmsMusicSheetText span { font-size: 13px; }
+  .cmsMusicSheetTime small { font-size: 13px; }
+  .cmsMusicSheetHead small { font-size: 13px; }
+  html[data-v10-screen="trophyRoom"] #trophyRoom .heroPlinth > span { font-size: 13px !important; }
+  html[data-v10-screen="trophyRoom"] #trophyRoom .careerRank > :is(span, small) { font-size: 13px !important; }
+  html body #app #seasonEntry.seasonScreenV10 .v10SeasonStage label.season-phone-tab:is([for="season-phone-tab-daniel"], [for="season-phone-tab-nik"]) { font-size: 13px; }
+  html body #app #seasonEntry.seasonScreenV10 .v10SeasonStage label.season-phone-tab::after { font-size: 13px; }
+  @media (min-width: 901px) and (max-width: 1199px) and (orientation: landscape),
+       (min-width: 1200px) and (max-aspect-ratio: 149/100) and (orientation: landscape) {
+    html #app #careerStatistics.careerScreenV10 :is(.headlineTogether, .headlinePair small, .careerTable th, .careerTable td, .managerName, .compareLabel, .leaderLabel, .leaderName) { font-size: 13px; }
+    html body #app #seasonEntry.v10FinalMode #stage-root .finalWinnerEyebrow { font-size: 13px; }
+    html body #app #seasonEntry.v10FinalMode #stage-root #finalWinnerRematch#finalWinnerRematch .finalWinnerRematchSub { font-size: 13px; }
+    html body #app main:has(> #seasonEntry.v10FinalMode) :is(.cmx-bar__tab, .cmv3-numbers > b) { font-size: 13px; }
+  }
+  @media (min-width:901px) and (max-width:1199px) {
+    #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th { font-size: 13px; }
+  }
+}

@@ -2368,3 +2368,52 @@
 @media (max-width:900px) {
   #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn.legacyHistoryClose { min-height:44px !important; }
 }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  @media(min-width:901px) and (max-height:860px) {
+    #app #statistics[data-rivalry-legacy-v10] .rv-label { font-size: 13px; }
+  }
+  @media (max-width:600px) and (orientation:portrait),
+       (min-width:601px) and (max-width:900px) and (orientation:portrait),
+       (max-width:900px) and (max-height:500px) and (orientation:landscape),
+       (min-width:901px), (min-width:700px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+    #app #legacy[data-rivalry-legacy-v10] .legacyClubName { font-size: 13px; }
+    #app #legacy[data-rivalry-legacy-v10] :is(.legacyCardFooter,.legacyCardState) { font-size: 13px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacyStateCopy { font-size: 13px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacyHistoryRow { font-size: 13px; }
+  }
+  @media (min-width:901px) {
+    #app #legacy[data-rivalry-legacy-v10] .legacyClubName { font-size: 13px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn { font-size: 13px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryRow { font-size: 13px; }
+    #app #statistics[data-rivalry-legacy-v10] .rv-trophyLabel { font-size: 13px; }
+    #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn.legacyHistoryClose { font-size: 13px !important; }
+  }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCard .legacyEndedMeta { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyCard .legacyGoldenShowdown, #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory > .legacyHistoryClose { font-size: 13px !important; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryTable thead th { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistorySeasonLabel { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryEuropa { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyHistoryWinner { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListSide small { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListResult { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListSeasons { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyListEnded { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacyArchivePanel .legacyTools button, #app #legacy[data-rivalry-legacy-v10] .legacyJump label, #app #legacy[data-rivalry-legacy-v10] .legacyJumpNote, #app #legacy[data-rivalry-legacy-v10] .legacyListSide small { font-size: 13px; }
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn.legacyHistoryClose { font-size: 13px !important; }
+  @media (min-width:901px) and (min-height:700px) {
+    #app #legacy[data-rivalry-legacy-v10] :is(.legacyClubName,.legacyWinner,.spChipTag,.spChipName,.spChipRank,.legacyCardFooter,.legacyGoldenShowdown,.legacyGoldenShowdownStar,.legacyHistoryTable th,.legacyEyebrow,.legacyTagline) { font-size: 13px !important; }
+  }
+  @media (min-width:901px) and (max-width:1699px) and (min-height:700px) {
+    #app #legacy[data-rivalry-legacy-v10] .legacyHistoryDetail { font-size: 13px !important; }
+  }
+  @media (min-width:901px) {
+    @media (min-width:1700px) and (min-height:900px) {
+      #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) .legacyHistoryEuropa { font-size: 13px; }
+    }
+  }
+}

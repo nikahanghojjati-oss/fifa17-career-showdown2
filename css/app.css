@@ -162,3 +162,75 @@ html[data-motion-reduced="true"] .screen[data-route-state="entering"],html[data-
 @keyframes clubVsHit{0%{opacity:.45;transform:scale(.78)}70%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1.04)}}
 #rivalryStatisticsButton:not([data-test-surface=internal-audit]){display:none!important}
 @media(min-width:901px){#newShowdown{grid-column:7/13;grid-row:1}#ruleBookButton{grid-column:7/10;grid-row:2}#settingsButton{grid-column:10/13;grid-row:2}}
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  footer { font-size: 13px; }
+  .seasonIndicator { font-size: 13px; }
+  .startupSaveNote { font-size: max(13px, var(--s)*16); }
+  #loadingText { font-size: max(13px, var(--s)*22); }
+  .startupPhotoCredit { font-size: 13px; }
+  .fifaMenuEyebrow { font-size: 13px; }
+  .fifaMenuHeadingMeta { font-size: 13px; }
+  .fifaMenuHeadingMeta span { font-size: 13px; }
+  .menuTileCode { font-size: 13px; }
+  .menuTileMeta { font-size: 13px; }
+  .menuCoverTag { font-size: 13px; }
+  .menuCoverTag small { font-size: 13px; }
+  .menuAthleteCredit { font-size: 13px; }
+  .menuBottomStrip { font-size: 13px; }
+  .menuBottomStrip b { font-size: 13px; }
+  .menuBottomStrip strong { font-size: 13px; }
+  .setupBox label { font-size: 13px; }
+  .wheelItem { font-size: 13px; }
+  .clubAssignmentEyebrow { font-size: 13px; }
+  #clubPackStatus { font-size: 13px; }
+  .clubRevealProgress span { font-size: 13px; }
+  .clubRevealIndex { font-size: 13px; }
+  .clubManager { font-size: 13px; }
+  .clubPackBrand small { font-size: 13px; }
+  .clubPackSerial { font-size: 13px; }
+  .clubCardEyebrow { font-size: 13px; }
+  .clubCardLabel { font-size: 13px; }
+  .clubCardState { font-size: 13px; }
+  .clubVs span { font-size: 13px; }
+  .clubRivalryHeadline>span { font-size: 13px; }
+  .clubRivalryHeadline>small { font-size: 13px; }
+  .clubConfirmationSide span { font-size: 13px; }
+  .clubRivalryLockNote { font-size: 13px; }
+  .overviewStatus,.transferOverviewStatus { font-size: 13px; }
+  .showdownScoreboard small { font-size: 13px; }
+  .stateNote { font-size: 13px; }
+  .completionHub p { font-size: 13px; }
+  .transferRulesLine { font-size: 13px; }
+  #transferPhaseStatus { font-size: 13px; }
+  .transferRuleNote { font-size: 13px; }
+  .transferSectionLabel { font-size: 13px; }
+  .signingRow>span,.guessRow>span { font-size: 13px; }
+  .transferResultRow span { font-size: 13px; }
+  .transferEmpty { font-size: 13px; }
+  .seasonEntryHint { font-size: 13px; }
+  .seasonResultCard>label { font-size: 13px; }
+  .achievementChecks label { font-size: 13px; }
+  .formError { font-size: 13px; }
+  .summaryLine { font-size: 13px; }
+  .overallScoreBox span { font-size: 13px; }
+  #appRuntimeNotice { font-size: 13px; }
+  @media(min-width:901px) and (max-height:800px) {
+    .fifaMenuHeadingMeta { font-size: 13px; }
+    .fifaMenuHeadingMeta span { font-size: 13px; }
+    .menuTileMeta { font-size: 13px; }
+    .clubAssignmentEyebrow { font-size: 13px; }
+    #clubPackStatus { font-size: 13px; }
+    .clubRevealProgress span { font-size: 13px; }
+    .clubManager { font-size: 13px; }
+    .clubPackBrand small { font-size: 13px; }
+    .clubPackSerial { font-size: 13px; }
+    .clubCardEyebrow { font-size: 13px; }
+    .clubCardLabel { font-size: 13px; }
+    .clubCardState { font-size: 13px; }
+    .clubVs span { font-size: 13px; }
+    .clubRivalryLockNote { font-size: 13px; }
+  }
+}

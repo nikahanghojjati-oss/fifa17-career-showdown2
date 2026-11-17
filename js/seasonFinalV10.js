@@ -656,6 +656,14 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 #app #seasonEntry .v10GoldenStage.goldenEnter .goldenActions { animation-delay:760ms; }
 @media (prefers-reduced-motion: reduce) { #app #seasonEntry .v10GoldenStage.goldenEnter * { animation:none !important; } }
 html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonEntry .v10GoldenStage.goldenEnter * { animation:none !important; }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  #app #seasonEntry .v10GoldenStage .goldenEyebrow { font-size: 13px; }
+  #app #seasonEntry .v10GoldenStage .goldenStripLabel { font-size: 13px; }
+  #app #seasonEntry .v10GoldenStage .goldenSeason small { font-size: 13px; }
+}
 `;
     parent.appendChild(style);
   }
@@ -1766,7 +1774,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
   box-shadow:inset 0 0 0 2px #83602780,0 8px 22px #0008;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #scoring-heading { font-size:clamp(17px,calc(var(--sru)*1.6),30px);margin:0 0 6px; }
- #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-rule { font-size:clamp(12px,calc(var(--sru)*.9),17px);line-height:1.25; }
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-rule { font-size:clamp(13px,calc(var(--sru)*.9),17px);line-height:1.25; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-trophy { max-height:16svh; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:not(.hidden) {
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3%;width:72.66%;min-width:0;margin:0 auto;
@@ -2829,6 +2837,19 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip { font-size:12px; line-height:1.2; border-radius:10px; }
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipFirst { display:none; }
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipName { max-width:none; overflow:visible; text-overflow:clip; white-space:normal; }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  #app .v10FinalStage .finalWinnerManager .v10SackedStamp { font-size: 13px; }
+  #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) { font-size: 13px; }
+  #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:not(.hidden) { font-size: 13px; }
+  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip { font-size: 13px; }
+  @media (min-width:1200px) and (min-height:600px),
+       (min-width:901px) {
+    #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button { font-size: 13px; }
+  }
+}
 `;
     parent.appendChild(style);
   }
@@ -2910,6 +2931,12 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 #app #seasonEntry:not(.v10FinalMode) .seasonReviewStatus .seasonGoldenCourseMark { flex:0 0 auto; width:8px; height:8px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#fff4c6,#e2b448 55%,#8a6418); }
 /* while the review panel is up, its status bar carries the line: the title line and the card chips step aside */
 #app #seasonEntry:has(#seasonReviewPanel:not(.hidden)) :is(.seasonGoldenCourse,.seasonGoldenCourseLine) { display:none; }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  #app #seasonEntry:not(.v10FinalMode) .seasonReviewStatus .seasonGoldenCourseReview { font-size: 13px; }
+}
 `;
     doc.head.appendChild(style);
   }

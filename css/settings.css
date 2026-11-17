@@ -195,3 +195,23 @@ html[data-motion-reduced="true"] .settingsDialog{animation:none!important;}
     from{transform:translateY(6px) scale(.995)}
     to{transform:none}
 }
+
+/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
+   so each keeps its place; phones keep their own sizes. */
+@media (min-width: 1024px) {
+  .settingsEyebrow { font-size: 13px; }
+  .settingsPanelEyebrow { font-size: 13px; }
+  .settingsPanelHeading p { font-size: 13px; }
+  .settingsInfoRow span { font-size: 13px; }
+  .settingsStatus { font-size: 13px; }
+  .settingsMotionCopy small { font-size: 13px; }
+  .settingsAudioCopy small { font-size: 13px; }
+  .settingsAudioToggle strong { font-size: 13px; }
+  .settingsOfflineNote { font-size: 13px; }
+  .settingsDataNote { font-size: 13px; }
+  .settingsConnectedRivalryPreviewSummary { font-size: 13px; }
+  .settingsConnectedRivalryConfirmLabel { font-size: 13px; }
+  @media(min-width:901px) and (max-height:800px) {
+    .settingsPanelHeading p { font-size: 13px; }
+  }
+}
