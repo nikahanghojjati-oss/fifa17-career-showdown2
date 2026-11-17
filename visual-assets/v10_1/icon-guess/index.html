@@ -32,7 +32,6 @@
 -->
 <link rel="stylesheet" href="../../../css/r95-type.css">
 <style>
-@font-face { font-family: "Cormorant SC"; font-weight: 700; font-style: normal; font-display: block; src: url(../shared/fonts/CormorantSC-Bold-latin.woff2) format("woff2"); }
 :root {
   --ink: #07080a; --text: #f4f1ea; --text-2: #d6c9a6;
   --foil-1: #fff6d2; --foil-2: #f1cf7a; --foil-3: #c4932f; --foil-4: #7d5a17;
@@ -70,7 +69,7 @@ html.kb .packtitle { display: none; }
    instead of a metal-gradient Barlow line. The words stay in the heading (its box and the screen-reader label are unchanged)
    but are not painted; the lettering is laid over them, centred, at the capital height the text had (1.4em tall picture). */
 .packtitle { position: relative; margin: 0; text-align: center; font: 700 clamp(22px, 3.2vh, 38px)/1 var(--cond); letter-spacing: .3em; padding-left: .3em; text-transform: uppercase; color: transparent; }
-.packtitle::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); pointer-events: none; content: "PRIME PACK"; --hcw: 6.43; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 700 min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif; font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none; filter: none; background: none; }
+.packtitle::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); pointer-events: none; content: "PRIME PACK"; --hcw: 6.43; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 650 calc(.9 * min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw))))/var(--hc-h) var(--r95-font); font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: var(--r95-gold-ink, #F2C45B); -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B); text-shadow: none; filter: none; background: none; }
 .status { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 46px; }
 .beat { font: 700 18px/1 var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--foil-1); text-shadow: 0 2px 6px #000; white-space: nowrap; }
 .beat.last { color: #ffd77a; }

@@ -1708,13 +1708,6 @@
    a 14px gutter. The words are the heading's own: a screen reader reads them, and nothing is painted over them.
    font-display is block: the screen is held by the Reus Gate until the face is in (js/v10Screens.js asks for it with the
    kit), so the title never paints in a stand-in face. */
-@font-face {
-  font-family: "Cormorant SC";
-  font-style: normal;
-  font-weight: 700;
-  font-display: block;
-  src: url("../visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2") format("woff2");
-}
 :root { --hc-title-h: clamp(40px, 3.08vw, 59px); }
 /* Markup: <span class="hc-live-title" data-hc-title="KEY" style="--hcw:EM" aria-hidden="true"><span>WORDS</span></span>.
    The outer span is the title's box and a size container: it is only a default box (zero specificity), so every screen's own
@@ -1749,10 +1742,10 @@
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) .hc-live-title > span {
   box-sizing: border-box; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;
   padding: 0 0 .109em .06em;
-  font: 700 min(var(--hcl-cap, calc(var(--hc-title-h) * .88)), calc(98cqw / var(--hcw, 10)), calc(.88 * var(--hcl-h, 1000px)))/1.14 "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font: 650 calc(.9 * min(var(--hcl-cap, calc(var(--hc-title-h) * .88)), calc(98cqw / var(--hcw, 10)), calc(.88 * var(--hcl-h, 1000px))))/1.14 var(--r95-font);
   font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1;
-  letter-spacing: .06em; text-transform: uppercase; text-align: center; white-space: nowrap; text-indent: 0;
-  color: #C9A45C; -webkit-text-fill-color: #C9A45C; -webkit-text-stroke: 0;
+  letter-spacing: .08em; text-transform: uppercase; text-align: center; white-space: nowrap; text-indent: 0;
+  color: var(--r95-gold-ink, #F2C45B); -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B); -webkit-text-stroke: 0;
   background: none; text-shadow: none; filter: none; box-shadow: none; border: 0;
 }
 /* Home logo ("Big 17", Nik's pick 2026-11-12): a wide mark in the old logo's box (640 x 233, the file a 1x screen drew), so the lockup, the tiles
@@ -1763,10 +1756,10 @@
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #clubWheelScreen .clubTitleFallback {
   --hcw: 9.97;
   display: flex; align-items: center; justify-content: center; height: var(--hc-title-h); margin: 0; padding: 0 0 calc(var(--hc-title-h) * .096) .06em; box-sizing: border-box;
-  font: 700 min(calc(var(--hc-title-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-title-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font: 650 calc(.9 * min(calc(var(--hc-title-h) * .88), calc((100vw - 28px) / var(--hcw))))/var(--hc-title-h) var(--r95-font);
   font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1;
-  letter-spacing: .06em; text-transform: uppercase; text-align: center; white-space: nowrap; text-indent: 0;
-  color: #C9A45C !important; -webkit-text-fill-color: #C9A45C !important; -webkit-text-stroke: 0 !important;
+  letter-spacing: .08em; text-transform: uppercase; text-align: center; white-space: nowrap; text-indent: 0;
+  color: var(--r95-gold-ink, #F2C45B) !important; -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B) !important; -webkit-text-stroke: 0 !important;
   background: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important;
   text-shadow: none !important; filter: none !important; box-shadow: none; transform: none !important;
 }
@@ -1786,10 +1779,10 @@
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #leagueWheelScreen.v26Skin > h2::before,
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #createShowdown.v26Skin > h2::before {
   display: flex; position: absolute; inset: 0; align-items: center; justify-content: center; box-sizing: border-box; padding: 0 0 calc(var(--hc-title-h) * .096) .06em;
-  font: 700 min(calc(var(--hc-title-h) * .88), calc(100cqw / var(--hcw)))/var(--hc-title-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font: 650 calc(.9 * min(calc(var(--hc-title-h) * .88), calc(100cqw / var(--hcw))))/var(--hc-title-h) var(--r95-font);
   font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1;
-  letter-spacing: .06em; text-transform: uppercase; text-align: center; white-space: nowrap; text-indent: 0;
-  color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none; filter: none; pointer-events: none;
+  letter-spacing: .08em; text-transform: uppercase; text-align: center; white-space: nowrap; text-indent: 0;
+  color: var(--r95-gold-ink, #F2C45B); -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B); text-shadow: none; filter: none; pointer-events: none;
 }
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #leagueWheelScreen.v26Skin > h2::before { content: "SELECT LEAGUE"; --hcw: 8.28; }
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #createShowdown.v26Skin > h2::before { content: "NEW SHOWDOWN"; --hcw: 9.23; }
@@ -1797,10 +1790,10 @@
    same live text, shared height, never wider than its band. */
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
   content: "SEASON RESULTS"; --hcw: 9.04; display: flex; align-items: center; justify-content: center; box-sizing: border-box; padding: 0 0 calc(var(--hc-title-h) * .096) .06em; background: none !important;
-  font: 700 min(calc(var(--hc-title-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-title-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font: 650 calc(.9 * min(calc(var(--hc-title-h) * .88), calc((100vw - 28px) / var(--hcw))))/var(--hc-title-h) var(--r95-font);
   font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1;
-  letter-spacing: .06em; text-transform: uppercase; text-align: center; white-space: nowrap;
-  color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none; filter: none;
+  letter-spacing: .08em; text-transform: uppercase; text-align: center; white-space: nowrap;
+  color: var(--r95-gold-ink, #F2C45B); -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B); text-shadow: none; filter: none;
 }
 /* Connect Players carries the same "CAREER MODE SHOWDOWN // 17" line above its title that Nik removed everywhere else
    (2026-11-12, "Remove both", PR #1405). Hidden, not removed: its place is kept, so nothing moves. */

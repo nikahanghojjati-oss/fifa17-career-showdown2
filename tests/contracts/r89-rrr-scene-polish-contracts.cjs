@@ -300,8 +300,8 @@ ok('P17','L38 a status line before ready; L39 the pot back left and smaller, sof
     const src=file.includes('roulette/')?html:fs.readFileSync(path.join(ROOT,file),'utf8');
     const at=src.indexOf('.title::after {'),rule=src.slice(at,src.indexOf('}',at));
     assert.ok(at>=0&&rule.includes(`--hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); content: "${words}";`)&&rule.includes('height: var(--hc-h);')&&rule.includes('calc((100vw - 28px) / var(--hcw))'),`${file}: the live title is the family height, never wider than the screen`);
-    assert.ok(/"Cormorant SC"/.test(rule)&&/color: #C9A45C;/.test(rule)&&!/text-shadow:(?!\s*none)|drop-shadow|gradient/.test(rule),`${file}: Cormorant SC, flat #C9A45C, no shadow`);
-    assert.ok(src.includes('@font-face { font-family: "Cormorant SC"')&&fs.existsSync(path.join(ROOT,'visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2')),`${file} loads the title face`);
+    assert.ok(/var\(--r95-font\)/.test(rule)&&/color: var\(--r95-gold-ink, #F2C45B\);/.test(rule)&&!/text-shadow:(?!\s*none)|drop-shadow|gradient/.test(rule),`${file}: the r95 family, flat gold ink, no shadow`);
+    assert.ok(src.includes('css/r95-type.css'),`${file} loads the one family`);
     assert.ok(src.includes('.kicker { visibility: hidden; }'),`${file}: the banner above the title is hidden and keeps its box`);
     assert.ok(src.includes('.title span { display: block; color: transparent; }'),`${file}: the words stay in the heading, unpainted`);
     assert.ok(!/animation:\s*shine\b|@keyframes shine\b|-webkit-text-stroke/.test(src.slice(src.indexOf('.kicker {'),src.indexOf('.title::after')+900)),`${file}: no moving shine and no outline on the title`);

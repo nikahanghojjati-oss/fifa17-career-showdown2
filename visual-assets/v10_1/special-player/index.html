@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="../../../css/r95-type.css">
 <style>
 /* r90 M8: self-hosted faces (shared folder, precached), no Google Fonts round trip before the first frame. */
-@font-face { font-family: "Cormorant SC"; font-weight: 700; font-style: normal; font-display: block; src: url(../shared/fonts/CormorantSC-Bold-latin.woff2) format("woff2"); }
 /* One full-bleed 3D stage. Title over the sky, broadcast lower third (desktop), control strip on the bottom edge. */
 :root {
   --ink: #050506; --gold: #f1c35a; --gold-hi: #fff3c4; --gold-deep: #9c6e22; --ivory: #f6eedb; --muted: #c9bc9c;
@@ -40,7 +39,7 @@ body { margin: 0; background: var(--ink); color: var(--ivory); font-family: var(
    is hidden like the line above every other title (Nik 2026-11-12: "Remove both"); it keeps its box, so nothing moves. */
 .kicker { visibility: hidden; }
 .title span { display: block; color: transparent; }
-.title::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); content: "SPECIAL PLAYER"; --hcw: 8.65; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 700 min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif; font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none; filter: none; background: none; pointer-events: none; }
+.title::after { position: absolute; left: 50%; top: 50%; --hc-h: min(clamp(40px, 3.08vw, 59px), 1.4em); transform: translate(-50%, -50%); content: "SPECIAL PLAYER"; --hcw: 8.65; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 650 calc(.9 * min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw))))/var(--hc-h) var(--r95-font); font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: var(--r95-gold-ink, #F2C45B); -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B); text-shadow: none; filter: none; background: none; pointer-events: none; }
 .who { margin-top: 6px; font: 700 14px/1 var(--num); letter-spacing: .3em; text-transform: uppercase; color: var(--gold-hi); text-shadow: 0 1px 2px #000, 0 0 12px rgba(0,0,0,.6); min-height: 14px; }
 /* broadcast lower third, desktop only */
 .l3 { position: absolute; left: max(28px, env(safe-area-inset-left, 0px)); bottom: 150px; width: min(440px, 31vw); transform: translateX(-24px); opacity: 0; transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .4s; }
