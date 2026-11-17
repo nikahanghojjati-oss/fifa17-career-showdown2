@@ -363,13 +363,14 @@
     try{const path=String(root.location.pathname||"");for(const [re,k] of FRAME_SCENES)if(re.test(path))return k;}catch(_error){}
     return "";
   }
+  // The level a screen draws on Auto from a Device check result: its own, never below the device's, on a phone at most Extra.
+  function gfxSceneLevel(base,m,key){const lv=gfxSceneMeasured(m,key);return base.phone?Math.min(lv,Math.max(m.level,PHONE_SCENE_TOP)):lv;}
   function gfxProfile(scene){
     const base=gfxBaseProfile(),key=typeof scene==="string"&&scene?scene:gfxSceneKey();let p=base;
     if(key&&base.auto&&base.measured){
       // On a phone a screen's own level stops at Extra, the highest level the phone memory budget measures every screen at
       // (tests/browser/phone-memory-budget.cjs, 300 MB; at Ultra the iPhone profile's Chamber Men holds about 396 MB).
-      let lv=gfxSceneMeasured(gfxMeasured(),key);
-      if(base.phone&&Number.isInteger(lv))lv=Math.min(lv,Math.max(base.autoLevel,PHONE_SCENE_TOP));
+      const lv=gfxSceneLevel(base,gfxMeasured(),key);
       if(Number.isInteger(lv)&&lv>base.autoLevel){
         if(sceneCached&&sceneCached.base===base&&sceneCached.key===key)p=sceneCached.p;
         else{
@@ -863,7 +864,7 @@
       gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(Object.keys(own).length?{scenes:own}:{}),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;gfxRemark();return l;},
     // r96: the level Auto draws on each 3D screen after a Device check ({key: level}, the crash cap not counted); null before
     // a check. A screen the check did not time on its own draws the check's level.
-    measuredScenes(){const m=gfxMeasured();if(!m)return null;const out={};for(const k of SCENE_KEYS)out[k]=gfxSceneMeasured(m,k);return out;},
+    measuredScenes(){const m=gfxMeasured();if(!m)return null;const b=gfxBaseProfile(),out={};for(const k of SCENE_KEYS)out[k]=gfxSceneLevel(b,m,k);return out;},
     sceneKeys:SCENE_KEYS.slice(),
     clearMeasured(){gfxWrite(MEASURED_KEY,"null");cached=null;gfxRemark();},
     choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);gfxWrite(CAP_KEY,"null");cached=null;gfxRemark();return v;},
