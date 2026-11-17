@@ -9,7 +9,8 @@
 //   B3 a 1x screen at Light has lower steps now (the detail ladder); without a ladder nothing changes, as before
 //   B4 a heavy part taken off stays off for that visit; on a later visit it may come back after a smooth beat, 6 s smooth
 //      and a timed frame with room; one that then runs slow goes off again and stays off for a week of visits
-//   B5 a visit starts where the last one settled (same built level only); a picked level and the Device check never adapt
+//   B5 a visit starts where the last one settled (same built level only); the Device check never adapts; r96: a picked
+//      level adapts with its own memory
 //   B6 a screen that simply runs under 60 Hz (cheap frames at a steady 30 or 50 fps) steps as 2.3.0 did, then ends where it began;
 //      a busy frame callback or a dear timed draw is
 //   B10 a scene that can fade is told ahead of every change in play (before()), never for the start
@@ -161,15 +162,19 @@ const j = v => JSON.stringify(v);
     assert.deepEqual([other.G.profile().level, go.detail()], [1, 0]);
     // A memory beyond the ladder the scene offers now is held to it.
     const short = sandbox({storage: mem}), gs = short.G.governor(fakeRenderer(short.clock, () => 3), {key: "k", draw() {}, detail: DETAIL(1, [])}); assert.equal(gs.detail(), 1);
-    // A picked level is held as picked: no memory, no steps, nothing saved.
+    // r96 (Nik 2026-11-17 21:44 UTC): a picked level is the ceiling. It starts as built (Auto's memory is not its own), steps
+    // down between beats when slow, and keeps its own memory (key.pick), never Auto's.
     const logP = [], pk = sandbox({storage: {...mem, "careerModeShowdown.gfxQuality.v1": "light"}}), gp = pk.G.governor(fakeRenderer(pk.clock, () => 14), {key: "k", draw() {}, detail: DETAIL(3, logP)});
+    assert.equal(gp.detail(), 0, "a pick starts as built, not where Auto settled");
     await run(pk, gp, 4000, 30); gp.hold(true); await run(pk, gp, 3000, 30); gp.hold(false); await run(pk, gp, 4000, 30); gp.end();
-    assert.deepEqual([gp.detail(), logP.length, pk.store["careerModeShowdown.gfxDetail.v1.k"]], [0, 0, mem["careerModeShowdown.gfxDetail.v1.k"]], "a picked level never adapts");
+    assert.ok(gp.detail() > 0 && logP.length > 0, "a picked level steps its heavy parts down when slow");
+    assert.equal(pk.store["careerModeShowdown.gfxDetail.v1.k"], mem["careerModeShowdown.gfxDetail.v1.k"], "Auto's memory is left as it was");
+    assert.equal(JSON.parse(pk.store["careerModeShowdown.gfxDetail.v1.k.pick"]).at, gp.detail(), "the pick keeps its own");
     // The Device check times the level as built.
     const logB = [], bn = sandbox({search: "?gfx=0&bench=1", storage: mem}); bn.ctx.parent = {postMessage() {}, location: {search: ""}};
     const gb = bn.G.governor(fakeRenderer(bn.clock, () => 14), {key: "k", draw() {}, detail: DETAIL(3, logB)}); await run(bn, gb, 4000, 30);
     assert.deepEqual([gb.detail(), logB.length], [0, 0], "bench: as built");
-    ok("B5", "a visit starts where the last one settled (same built level only); a picked level and the Device check never adapt");
+    ok("B5", "a visit starts where the last one settled (same built level only); the Device check never adapts; a pick adapts with its own memory (r96)");
   }
   // B6
   {

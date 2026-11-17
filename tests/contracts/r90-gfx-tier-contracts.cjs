@@ -172,15 +172,17 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   const r3=fakeRenderer(s3.clock,()=>12);const g3=s3.G.governor(r3,{key:'x',draw(){}});
   let t3=0;while(t3<15000){t3+=16.7;s3.clock.t=t3;g3.frame(t3);}
   assert.equal(g3.pixelRatio(),1,'a frame without room keeps the step');
-  // A level the player picked is held as picked: slow frames change nothing.
+  // r96 (Nik 2026-11-17 21:44 UTC, "Step down when slow, back up"): a level the player picked is the ceiling. Slow frames
+  // step its pixel ratio down as on Auto; the level itself (its files) and the pick stay. (2.3.0 to 2.8.0: never stepped.)
   const s5=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:2,memory:16,cores:8,storage:{'careerModeShowdown.gfxQuality.v1':'extra'}});
   const g5=s5.G.governor(fakeRenderer(s5.clock,()=>30),{key:'z',draw(){}});const p5=g5.pixelRatio();let t5=0;while(t5<5000){t5+=40;s5.clock.t=t5;g5.frame(t5);}
-  assert.equal(g5.pixelRatio(),p5,'a picked level never steps');
+  assert.ok(g5.pixelRatio()<p5,`a picked level steps down when slow (${p5} -> ${g5.pixelRatio()})`);
+  assert.deepEqual([g5.level(),s5.G.profile().level,s5.G.choice()],[3,3,'extra'],'the picked level, its files and the pick stay');
   // Without draw, the governor only steps down.
   const s4=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:2,memory:16,cores:8,storage:{'careerModeShowdown.gfxSettled.v1.y':'1'}});
   const g4=s4.G.governor(fakeRenderer(s4.clock,()=>1),{key:'y'});let t4=0;while(t4<15000){t4+=16.7;g4.frame(t4);}
   assert.equal(g4.pixelRatio(),1);
-  ok('G3','governor: down after 1 s slow, no see-saw, still while held, up only after a timed frame shows room, remembers where it settled');
+  ok('G3','governor: down after 1 s slow (Auto and, r96, a pick), no see-saw, still while held, up only after a timed frame shows room, remembers where it settled');
 }
 // G4
 {

@@ -63,7 +63,8 @@ const TIER = fs.readFileSync(path.join(ROOT, "js/gfxTier.js"), "utf8");
 const SCRIPT = /<script>\n([\s\S]*?)<\/script>\s*<\/body>/.exec(PAGE)[1];
 const KEY = "careerModeShowdown.gfxMeasured.v2", RUN = "careerModeShowdown.deviceCheckRun.v1";
 const LABELS = ["Light", "Balanced", "High", "Extra", "Ultra (4K)", "8K"];
-const SCENES = ["chamber-men", "rrr", "sp"];
+// r96: the Ball Game (club-draw) is timed too, after the other three at each level.
+const SCENES = ["chamber-men", "rrr", "sp", "club-draw"];
 let checks = 0;
 const ok = (id, text) => { checks += 1; console.log(`ok ${checks} ${id} ${text}`); };
 
@@ -104,7 +105,7 @@ async function run(answer, opts){
       const frame = {title: "", contentWindow: {}, removed: false, setAttribute(){}, remove(){ this.removed = true; }};
       Object.defineProperty(frame, "src", {set(url){
         const m = /^(.+?)\?gfx=(\d)&bench=1$/.exec(url); assert.ok(m, `the frame is asked for one level in bench mode (${url})`);
-        const scene = {"device-check-chamber.html": "chamber-men", "visual-assets/v10_1/roulette/index.html": "rrr", "visual-assets/v10_1/special-player/index.html": "sp"}[m[1]];
+        const scene = {"device-check-chamber.html": "chamber-men", "visual-assets/v10_1/roulette/index.html": "rrr", "visual-assets/v10_1/special-player/index.html": "sp", "device-check-ball.html": "club-draw"}[m[1]];
         assert.ok(scene, `a known 3D screen (${m[1]})`);
         const level = Number(m[2]); asked.push(`${scene}@${level}`);
         if(o.dieAt && o.dieAt[0] === scene && o.dieAt[1] === level){ setImmediate(() => signal("die")); return; }
@@ -177,7 +178,10 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
   // D2
   {
     const r = await run(scripted({"sp@2": [hitch("sp", 2), heavy("sp", 2)]}));
-    assert.deepEqual(r.asked, [...order(2), "sp@2"], "two tries, then nothing above is tried");
+    // r96: only that screen stops; the others climb on (each screen keeps its own best level).
+    const rest = l => SCENES.filter(sc => sc !== "sp").map(sc => `${sc}@${l}`);
+    assert.deepEqual(r.asked, [...order(1), "chamber-men@2", "rrr@2", "sp@2", "sp@2", "club-draw@2", ...rest(3), ...rest(4)], "two tries, then nothing above is tried on that screen");
+    assert.equal(r.saved.scenes.sp, 1);
     assert.equal(r.saved.level, 1, "not smooth twice: the level below is saved");
     assert.deepEqual(r.saved.detail.stop, {level: 2, scene: "sp", state: "slow"});
     assert.deepEqual(r.saved.detail.levels[2].sp, [41.5, 22.4, 1, 1920, 866], "the second try is the one saved");
@@ -225,8 +229,9 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.equal(unverified.asked.filter(a => a === "rrr@1").length, 1, "no answer is not tried again");
     assert.equal(unverified.saved, null);
     const lost = await run(scripted({"chamber-men@1": [heavy("chamber-men", 1), "hang"]}));
-    assert.deepEqual(lost.asked, [...order(0), "chamber-men@1", "chamber-men@1"]);
+    assert.deepEqual(lost.asked.slice(0, 6), [...order(0), "chamber-men@1", "chamber-men@1"]);
     assert.equal(lost.saved.level, 0, "the first, clean slow try still settles Balanced");
+    assert.equal(lost.saved.scenes["chamber-men"], 0, "for Chamber Men; the other screens climb on (r96)");
     assert.match(lost.rows, /The second try gave no clean answer: The kick did not finish in 2 minutes\./);
     ok("D5", "failed and not-verified answers are not tried again; a second try with no clean answer leaves the first one");
   }
@@ -251,7 +256,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
   // D7
   {
     assert.ok(PAGE.includes("const SMOOTH_AVG=57,SMOOTH_LOW=45;"), "57 fps average; 45 for the 1% low of an older frame's answer");
-    assert.match(PAGE, /A screen that is not smooth is played once more before it counts, and the check stops at the first level that is still not smooth\./);
+    assert.match(PAGE, /A screen that is not smooth is played once more before it counts, and stops climbing at the first level that is still not smooth\./);
     ok("D7", "the 57 fps average stays and the page says a screen gets a second try");
   }
   // D8
@@ -318,12 +323,21 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
   // D12
   {
     const spSlowHigh = scripted({"sp@2": [heavy("sp", 2), heavy("sp", 2)]});
+    // r96: per screen. Special Player's Balanced is below the iPhone's High, so it draws High; the screens the check passed
+    // higher draw their own level. Nothing below the chip's level is ever saved for a screen.
     const r = await run(spSlowHigh, IPHONE);
-    assert.equal(r.saved, null, "Balanced is below the iPhone's High: nothing is saved (2.4.0 saved Balanced)");
-    assert.equal(r.tier.suggested().level, 2, "Auto stays on High");
-    assert.equal(r.status, "Check done. High was not held: Special Player was not smooth there. Auto stays on High, the level your graphics chip starts at. The check only ever raises Auto.");
+    assert.equal(r.saved.level, 2, "Balanced is below the iPhone's High: the device's level stays High (2.4.0 saved Balanced)");
+    assert.deepEqual({...r.saved.scenes}, {"chamber-men": 4, rrr: 4, sp: 2, "club-draw": 4}, "Special Player draws High; the others what they held");
+    assert.equal(r.tier.suggested().level, 2, "Auto stays on High for the device");
+    assert.equal(r.tier.profile("sp").level, 2); assert.equal(r.tier.profile("club-draw").level, 4);
+    assert.equal(r.status, "Check done. High was not held: Special Player was not smooth there. Chamber Men, Russian Roulette, Ball Game were smooth up to Ultra (4K).");
+    // Every screen below the chip's level, none above it: nothing is saved, and an earlier result is let go (r92).
+    const allSlowHigh = (scene, level) => level >= 2 ? [started(scene, level), ...heavy(scene, level).slice(1)] : allGood(scene, level);
+    const none = await run(allSlowHigh, IPHONE);
+    assert.equal(none.saved, null, "Balanced on every screen is below the iPhone's High: nothing is saved");
+    assert.equal(none.status, "Check done. High was not held: Chamber Men was not smooth there. High was not held: Russian Roulette was not smooth there. High was not held: Special Player was not smooth there. High was not held: Ball Game was not smooth there. Auto stays on High, the level your graphics chip starts at. The check only ever raises Auto.");
     const before = JSON.stringify({level: 3, at: 1700000000000, detail: {scenes: SCENES, held: true}});
-    const let_go = await run(spSlowHigh, {...IPHONE, storage: {[KEY]: before}});
+    const let_go = await run(allSlowHigh, {...IPHONE, storage: {[KEY]: before}});
     assert.equal(let_go.saved, null, "an earlier Extra is let go: Auto is the higher of this result and the chip's level");
     assert.equal(let_go.tier.suggested().level, 2);
     const up = await run(scripted({"sp@4": [heavy("sp", 4), heavy("sp", 4)]}), IPHONE);
@@ -335,9 +349,11 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     const o = await run(() => "silent", {...IPHONE, storage: {[KEY]: old}});
     assert.equal(o.tier.measured(), null, "a 2.4.0 Balanced on an iPhone is not read");
     assert.equal(o.tier.profile().level, 2, "Auto is High");
-    const rtx = await run(scripted({"rrr@3": [heavy("rrr", 3), heavy("rrr", 3)]}), {gpu: "ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)"});
+    const rtx = await run((scene, level) => level >= 3 ? [started(scene, level), ...heavy(scene, level).slice(1)] : allGood(scene, level), {gpu: "ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)"});
     assert.equal(rtx.tier.device().guessLevel, 3); assert.equal(rtx.saved, null, "High is below an RTX 4080's Extra");
     assert.match(rtx.status, /Auto stays on Extra, the level your graphics chip starts at\. The check only ever raises Auto\./);
+    const rtxOne = await run(scripted({"rrr@3": [heavy("rrr", 3), heavy("rrr", 3)]}), {gpu: "ANGLE (NVIDIA, NVIDIA GeForce RTX 4080 Direct3D11 vs_5_0 ps_5_0, D3D11)"});
+    assert.deepEqual([rtxOne.saved.level, rtxOne.saved.scenes.rrr, rtxOne.saved.scenes.sp], [3, 3, 4], "Roulette's High is raised to the chip's Extra; the others keep Ultra");
     assert.match(PAGE, /It only ever raises Auto above the level your graphics chip starts at\./);
     ok("D12", "the check only ever raises Auto above the chip's level; lower results are not saved or read; the page says so");
   }
@@ -363,7 +379,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
         /!\(r\.gfx && r\.gfx\.level === level\)/, /!\(r\.allocTexMB > 0\) && "uploaded no textures"/]) assert.match(budget, need, "an unloaded or broken screen is a failure, not 0 MB");
     const lab = fs.readFileSync(path.join(ROOT, "tests/browser/device-lab.cjs"), "utf8");
     assert.match(lab, /const TOP = process\.env\.DEVLAB_TOP === "1" \? "&gfxpr=top" : "";/);
-    assert.equal((lab.match(/\$\{TOP\}`/g) || []).length, 3, "all three screens");
+    assert.equal((lab.match(/\$\{TOP\}`/g) || []).length, 4, "every screen (r96: the Ball Game too)");
     assert.match(TIER, /top=forcedLevel!==null&&gfxQuery\("gfxpr"\)==="top"/, "only with a forced level (the lab), never in play");
     assert.match(TIER, /if\(base\.top\)start=Math\.max\(start,Math\.min\(max,phone&&view\?Math\.sqrt\(BUFFER_CAP\/view\):max\)\);/);
     const wf = fs.readFileSync(path.join(ROOT, ".github/workflows/phone-memory-budget.yml"), "utf8");
@@ -467,7 +483,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
   {
     const r = await run(allGood, {...IPHONE, session: {}, dieAt: ["chamber-men", 1]});
     assert.deepEqual(r.asked, [...order(0), "chamber-men@1"], "Light's three screens, then Balanced Chamber Men, which closed the tab");
-    assert.equal((r.rows.match(/59\.9 fps/g) || []).length, 3, "the three Light rows are kept after the tab closed");
+    assert.equal((r.rows.match(/59\.9 fps/g) || []).length, 4, "the four Light rows (r96: the Ball Game too) are kept after the tab closed");
     assert.match(r.rows, /<span class="no">failed<\/span><small>The tab closed while this screen was playing, so the check stopped here\.<\/small>/);
     assert.match(r.status, /^Check stopped\. The tab closed while Chamber Men was playing at Balanced\. Light was smooth\. Auto stays on High, the level your graphics chip starts at\. The check only ever raises Auto\. For now the game draws Light at most, because the tab closed at Balanced\.$/, r.status);
     assert.equal(r.saved, null, "nothing saved below the chip's level");

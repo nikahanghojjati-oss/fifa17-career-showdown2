@@ -35,7 +35,19 @@ names and no others.
     already built, so the move is for the scenes that follow on that page and for this scene's pixel ratio. The scene
     itself stays the level it was built at (`governor.level()`, `builtLevel(renderer)`), and a slow warm-up also starts its
     heavy parts one step down. A level found slow is not tried again on that page. That is never saved.
-- **A picked level** (Settings › 3D QUALITY) is held as picked on every screen. The list's Auto entry names the level Auto draws here ("Auto · Light"), and with a level picked a line under the row says what Auto would pick. Neither is ever shown on a game screen.
+- **Per screen on Auto** (r96, Nik 2026-11-17 21:43 UTC: "lighter screens ... quality can be higher"). After a Device
+  check, each 3D screen draws the best level the check passed on that screen (`profile(scene)`, the screen's governor
+  key: `chamber-men`, `rrr`, `sp`, `club-draw`), so the Ball Game can run higher than Chamber Men on the same device. The
+  lowest of them stays the device's level: `profile()` between screens, `html[data-gfx]`, Settings and the weak-device
+  gate read it. A 2.8.0 result (one level) applies to every screen. The crash cap holds every screen; a failure on a
+  screen caps one level below that screen's own level. Before a check, and for a pick, every screen draws one level.
+  Moving between screens at different levels costs nothing extra: each 3D screen already loads its own files behind the
+  loading screen when it opens (Chamber Men's season-page warm-up reads the same `profile("chamber-men")` as its mount).
+- **A picked level** (Settings › 3D QUALITY) is the ceiling on every screen (r96, Nik 2026-11-17 21:44 UTC: "Step down
+  when slow, back up"; 2.3.0 to 2.8.0 held it as picked, and a laptop sat at 24 fps on a picked Ultra in Chamber Men). The
+  level, its files and Settings stay the pick; the governor walks its pixel ratio and heavy parts down between beats when
+  slow and back up to the picked picture (its starting ratio, never past it) by the same rules as Auto, with its own
+  memory (`key.pick`). `?gfx=N` and the Device check's frames never adapt. The list's Auto entry names the level Auto draws here ("Auto · Light"), and with a level picked a line under the row says what Auto would pick. Neither is ever shown on a game screen.
   - On a weak device (2 processor threads or fewer, or 4 GB of memory or less, as the browser reports them), Ultra (4K)
     and 8K are listed only once the Device check has passed them there (Nik 2026-11-12, after the device lab found them
     offered on a 2-thread 4 GB Chromebook). Settings says which levels wait for the check. A pick of one of them saved
@@ -94,7 +106,7 @@ names and no others.
     plays in beats and started low steps up only after a beat ran smooth. A heavy part that came back and ran slow
     again stays off for a week of visits.
   - Each scene starts its next visit where the last one settled (for the same built level).
-  - A picked level never adapts, and neither does the Device check's frame.
+  - A picked level adapts as Auto does, up to its starting ratio (r96); `?gfx=N` and the Device check's frame never adapt.
 
 ## Phones: the 3D file set (r92)
 
@@ -120,9 +132,13 @@ their GPU memory back when they are closed, as Roulette does.
 `device-check.html` (Settings › 3D QUALITY › Device check…) is the only thing that saves a measured level.
 `tests/contracts/r91-device-check-verdict-contracts.cjs` enforces these rules.
 
-- It plays all three 3D screens at each level, lightest first: a Chamber Men kick, a Russian Roulette turn and a Special
-  Player reveal, each in its own frame at `?gfx=N&bench=1`, full window.
-- A level counts only when all three screens answered for it, and every answer:
+- It plays every 3D screen at each level, lightest first: a Chamber Men kick, a Russian Roulette turn, a Special Player
+  reveal and (r96) a Ball Game spin (`device-check-ball.html`), each in its own frame at `?gfx=N&bench=1`, full window.
+- **Each screen climbs on its own** (r96): a screen that is not smooth (or failed) at a level stops there and keeps the
+  level below; the other screens go on climbing. Each screen's best is saved (`scenes` in the result), and the lowest is
+  the device's `level`. A screen not smooth even at Light ends the check (nothing can be saved), and a screen that proves
+  nothing (not verified) still ends the check with nothing saved.
+- A screen's level counts only when its answer:
   - drew the level that was asked (the frame reports both, with its pixel ratio and buffer size);
   - played one whole beat (the kick, the turn, the reveal) while it was timed;
   - used the full files for that level (never the lighter stand-in set of a slow connection);
@@ -133,9 +149,10 @@ their GPU memory back when they are closed, as Roulette does.
   about a tenth of a second fails the 1% low over a 10 s run). Two slow tries settle the level. A second try that gives no
   clean answer leaves the first one standing. Failed and not-verified answers are not tried again.
 - A screen that is not smooth twice, or where the GPU gave up (a lost context, out of memory, a refused 8K buffer), settles
-  that level: Auto becomes the level below, and nothing above is tried.
+  that level for that screen: its Auto becomes the level below, and nothing above is tried on it.
 - **The check only ever raises Auto** (r92, Nik 2026-11-14): Auto is the higher of the check's result and the level the
-  graphics chip starts at. A result below the chip's level is not saved (an earlier one is let go, and the page says Auto
+  graphics chip starts at, per screen too (r96). A result where every screen is at or below the chip's level and one is
+  below it is not saved (an earlier one is let go, and the page says Auto
   stays on the chip's level), and one saved by 2.4.0 below it is not read (`gfxMeasured`).
 - Even Light not smooth saves nothing (r92): there is no level below Light, so it cannot show which level is too heavy.
   Auto keeps the last good result or its guess, and the page says so. A 2.4.0 result that saved Light "not held" is not

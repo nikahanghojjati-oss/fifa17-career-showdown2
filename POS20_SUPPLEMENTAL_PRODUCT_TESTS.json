@@ -3436,6 +3436,24 @@
         "^tests/contracts/r95\\-ball\\-game\\-protocol\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r96-quality-per-screen-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^js/chamberMenScene3d\\.js$",
+        "^js/clubDrawScene3d\\.js$",
+        "^device\\-check\\.html$",
+        "^device\\-check\\-ball\\.html$",
+        "^device\\-check\\-chamber\\.html$",
+        "^visual\\-assets/v10_1/roulette/index\\.html$",
+        "^visual\\-assets/v10_1/special\\-player/index\\.html$",
+        "^service\\-worker\\.js$",
+        "^\\.github/workflows/deploy\\-github\\-pages\\.yml$",
+        "^tests/browser/device\\-lab\\.cjs$",
+        "^tests/contracts/r96\\-quality\\-per\\-screen\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

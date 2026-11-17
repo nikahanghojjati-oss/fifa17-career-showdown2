@@ -141,7 +141,8 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
   // The page's one "holds 60 fps" sentence is for a saved check that held its level; before a check it is "Auto starts
   // there". r92: a check where even Light was not smooth saves nothing, so the page never reads one.
   assert.match(PAGE, /const held60=m&&m\.detail&&typeof m\.detail\.held==="boolean"\?m\.detail\.held:null;/);
-  assert.match(PAGE, /const why=!m\?`Auto starts there on a device like this\. Run the check to measure yours: Auto then uses the best level it kept smooth\.`\s*:held60\?`Measured on this device: it holds 60 fps at \$\{name\} on all three 3D screens\. Auto uses it\.`\s*:`The check measured \$\{name\} on this device\. Auto uses it\.`;/);
+  // r96 (Nik 2026-11-17: each 3D screen draws the best level it held itself): the sentence names the screens that draw higher.
+  assert.match(PAGE, /const why=!m\?`Auto starts there on a device like this\. Run the check to measure yours: Auto then gives each 3D screen the best level it kept smooth\.`\s*:held60\?`Measured on this device: every 3D screen holds 60 fps at \$\{name\}\. Auto uses it\.\$\{own\}`\s*:`The check measured \$\{name\} on this device\. Auto uses it\.\$\{own\}`;/);
   assert.equal((PAGE.slice(PAGE.indexOf("function showGuide()")).match(/60 fps/g) || []).length, 1, "said once, in that one sentence");
   assert.match(PAGE, /These are starting points, not promises\. Only the check on this page measures a device/);
   ok("G5", "the guide promises no frame rate; the page says \"holds 60 fps\" only for a finished check that held its level");
