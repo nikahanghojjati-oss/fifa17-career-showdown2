@@ -70,11 +70,31 @@
   }
 
   // Nationality from the FIFA 17 data (club row first, then any club for a signing).
+  // R96 (Nik 2026-11-17, item 6): a signing known by his SoFIFA playerId (pid) takes his own nation from the full player list
+  // (js/playerSearch.js, the Transfer War's name list) once this page has it, so two men of one name each show their own
+  // (Tottenham's M. Dembele is Belgian, Celtic's French). Without the list, or with no id, the club data by name as before.
   let nations=null;
-  function nationOf(club,p){
+  const foldName=text=>String(text||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();
+  function listNation(p,pid){
+    const search=root.CareerModePlayerSearch,db=pid&&search&&typeof search.ready==="function"?search.ready():null;
+    const row=db&&typeof db.byId==="function"?db.byId(pid):null;
+    return row&&row.nationality&&foldName(row.name)===foldName(p.name)?row.nationality:"";
+  }
+  function nationOf(club,p,pid){
     const d=root.CareerModeFifa17Players;if(!d||!p)return "";
+    if(p.signedSeason){const own=listNation(p,pid);if(own)return own;}
     if(!nations){nations=new Map();for(const [c,data] of Object.entries(d.clubs))for(const row of data.players){nations.set(`${c}|${row[0]}|${row[4]}`,row[5]);if(!nations.has(`*|${row[0]}`))nations.set(`*|${row[0]}`,row[5]);}}
     return (p.signedSeason?null:nations.get(`${club}|${p.name}|${p.number}`))||nations.get(`*|${p.name}`)||"";
+  }
+  // Does this sheet hold two signings of one name with a known id (the only case the club data by name gets wrong for sure)?
+  function hasNamesakes(S,sheet){
+    const seen=new Set();
+    for(const p of [...sheet.xi,...sheet.bench,...sheet.reserves]){
+      if(!p||!p.signedSeason)continue;const k=foldName(p.name);
+      if(seen.has(k)&&[...sheet.xi,...sheet.bench,...sheet.reserves].some(q=>q&&q.signedSeason&&foldName(q.name)===k&&S.playerIdOf(sheet,q)))return true;
+      seen.add(k);
+    }
+    return false;
   }
 
   // ---------- pitch geometry: a fixed trapezoid (FIFA's tilted pitch) ----------
@@ -152,6 +172,22 @@
     layout.append(panel,side);
     const live=el("p","sqmLive");live.setAttribute("role","status");live.setAttribute("aria-live","polite");
     host.append(backdrop,layout);
+    // R96: two men of one name in this squad: the player list (a file from the site, no Firestore) names each one's nation.
+    // When it lands, only the player card is painted again (never the search box or the squad under the manager's finger).
+    try{
+      const search=root.CareerModePlayerSearch,ready=search&&typeof search.ready==="function"&&search.ready();
+      if(!ready&&typeof S.playerIdOf==="function"&&hasNamesakes(S,base)&&root.document&&typeof root.ensureTransferPlayerList==="function"){
+        const landed=event=>{
+          const status=event&&event.detail&&event.detail.status;if(status!=="ready"&&status!=="failed")return;
+          root.document.removeEventListener("career-mode-player-list",landed);
+          if(status!=="ready"||!host.isConnected||!host.classList.contains("sqm"))return;
+          const c=panel.querySelector(".sqmCard");if(!c)return;
+          const ref=playerAt(picked)?picked:cursor;c.replaceWith(card(playerAt(ref),ref));
+        };
+        root.document.addEventListener("career-mode-player-list",landed);
+        root.ensureTransferPlayerList(null);
+      }
+    }catch(e){}
 
     // ----- render -----
     function sqmRender(){
@@ -180,7 +216,7 @@
       const info=el("dl","sqmCardInfo");
       const row=(k,v,cls)=>{const w=el("div",cls||"");w.append(el("dt",null,k),el("dd",null,v));info.appendChild(w);};
       row("Plays",player.positions.join("  ")||"Unknown");
-      const nation=nationOf(club,player);if(nation)row("Nation",nation);
+      const nation=nationOf(club,player,typeof S.playerIdOf==="function"?S.playerIdOf(sheet,player):null);if(nation)row("Nation",nation);
       row(ref.zone==="xi"?"Here":"Squad",ref.zone==="xi"?FIT_WORD[sheet.stopgaps.includes(ref.index)?0:f]:ref.zone==="bench"?"Substitute":"Reserve","fit"+(ref.zone==="xi"?(sheet.stopgaps.includes(ref.index)?0:f):3));
       if(player.number)row("Shirt",`#${player.number}`);
       if(player.signedSeason)row("Signed",`Season ${player.signedSeason}`);

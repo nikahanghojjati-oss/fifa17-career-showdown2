@@ -172,15 +172,17 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   const r3=fakeRenderer(s3.clock,()=>12);const g3=s3.G.governor(r3,{key:'x',draw(){}});
   let t3=0;while(t3<15000){t3+=16.7;s3.clock.t=t3;g3.frame(t3);}
   assert.equal(g3.pixelRatio(),1,'a frame without room keeps the step');
-  // A level the player picked is held as picked: slow frames change nothing.
+  // r96 (Nik 2026-11-17 21:44 UTC, "Step down when slow, back up"): a level the player picked is the ceiling. Slow frames
+  // step its pixel ratio down as on Auto; the level itself (its files) and the pick stay. (2.3.0 to 2.8.0: never stepped.)
   const s5=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:2,memory:16,cores:8,storage:{'careerModeShowdown.gfxQuality.v1':'extra'}});
   const g5=s5.G.governor(fakeRenderer(s5.clock,()=>30),{key:'z',draw(){}});const p5=g5.pixelRatio();let t5=0;while(t5<5000){t5+=40;s5.clock.t=t5;g5.frame(t5);}
-  assert.equal(g5.pixelRatio(),p5,'a picked level never steps');
+  assert.ok(g5.pixelRatio()<p5,`a picked level steps down when slow (${p5} -> ${g5.pixelRatio()})`);
+  assert.deepEqual([g5.level(),s5.G.profile().level,s5.G.choice()],[3,3,'extra'],'the picked level, its files and the pick stay');
   // Without draw, the governor only steps down.
   const s4=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:2,memory:16,cores:8,storage:{'careerModeShowdown.gfxSettled.v1.y':'1'}});
   const g4=s4.G.governor(fakeRenderer(s4.clock,()=>1),{key:'y'});let t4=0;while(t4<15000){t4+=16.7;g4.frame(t4);}
   assert.equal(g4.pixelRatio(),1);
-  ok('G3','governor: down after 1 s slow, no see-saw, still while held, up only after a timed frame shows room, remembers where it settled');
+  ok('G3','governor: down after 1 s slow (Auto and, r96, a pick), no see-saw, still while held, up only after a timed frame shows room, remembers where it settled');
 }
 // G4
 {
@@ -221,7 +223,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
     assert.ok(set.includes('const option = createSettingsElement("option", "", value === "auto" ? getSettingsGfxAutoLabel(tier) : tier.labels[index - 1]);')&&!/SETTINGS_GFX_(CHOICES|NAMES)/.test(set),'the choices, in order, by the shared names');
     assert.ok(set.includes('try{ can8k = Boolean(tier.can8k && tier.can8k()); }catch(_error){ can8k = false; }')&&set.includes('if(value === "8k" && !can8k && tier.choice() !== "8k"){ return; }'),'8K is offered only where the GPU can hold it');
     // r90 (Nik 2026-11-08): what Auto chose is one quiet line under 3D QUALITY, read from the saved state (Device check, crash cap).
-    assert.ok(set.includes('return `Auto would pick ${name} here.${drawn}${getSettingsGfxCheckText(tier)}`;')&&set.includes('if(p && p.fellBack){ drawn = ` ${tier.label(p.level)} is drawn for now (lowered after a graphics error).`; }')&&set.includes('const from = s.lowered ? "Lowered after a graphics error." : s.measured && s.now === s.level ? "Measured by the Device check." : "";')&&set.includes('return name ? `Auto · ${name}` : "Auto";'),'the Auto entry names what Auto draws here (r91: "Auto · Light"); the line adds where it came from');
+    assert.ok(set.includes('return `Auto would pick ${name} here.${drawn}${getSettingsGfxCheckText(tier)}`;')&&set.includes('if(p && p.fellBack){ drawn = ` ${tier.label(p.level)} is drawn for now (lowered after a graphics error).`; }')&&set.includes('const from = s.lowered ? "Lowered after a graphics error." : s.measured && s.now === s.level ? (getSettingsGfxSceneSpan(tier, s.now) || "Measured by the Device check.") : "";')&&set.includes('return name ? `Auto · ${name}` : "Auto";'),'the Auto entry names what Auto draws here (r91: "Auto · Light"); the line adds where it came from');
     assert.ok(set.includes('window.addEventListener("cms-gfx-level", onLevel);')&&SRC.includes('new root.CustomEvent("cms-gfx-level"'),'the line follows a level change while Settings is open');
     assert.ok(/settingsGfxAuto \{ display: block;/.test(css),'the line shows at every width');
     assert.ok(set.includes('window.location.assign("device-check.html");')&&set.includes('"Device check…"'),'the last entry opens the Device check');

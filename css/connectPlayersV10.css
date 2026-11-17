@@ -1343,3 +1343,10 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
 /* r96 look 3: desktop caption floor (13px at 1024px and up) */
 @media (min-width:1024px){.connectPlayersTagline,.connectPlayersRole>span,#persistentNikDanielPairPanel span{font-size: 13px}}
 
+/* r96 look 6: on a desktop window the BACK corner button sits over the top-right of the NIK · JOIN card. Its box was
+   overlapping the PLAYER TWO / NIK · JOIN lines' boxes (the words did not reach it, the boxes did). The two lines now end
+   64px short of the card's right edge, so nothing covers anything. The button has not moved. */
+@media (min-width: 901px) {
+  #app #connectPlayersScreen .connectPlayersRoleNik > span,
+  #app #connectPlayersScreen .connectPlayersRoleNik > h3 { margin-right: 64px; }
+}

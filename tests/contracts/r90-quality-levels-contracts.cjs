@@ -38,7 +38,8 @@ const GL=SCREENS.filter(p=>/new (T|THREE)\.WebGLRenderer\(/.test(read(p)));
   assert.deepEqual(GL.slice().sort(),["js/chamberMenScene3d.js","js/clubDrawScene3d.js","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/special-player/index.html"],"the four 3D screens (a new one joins this list and the rules; R94-02 Club Assignment joined it)");
   for(const p of GL){
     const s=strip(read(p));
-    assert.ok(/CareerModeGfxTier/.test(s)&&/\.profile\(\)/.test(s),`${p}: reads CareerModeGfxTier.profile()`);
+    // r96: profile("chamber-men") names the screen (its own level on Auto after a Device check); still the one profile().
+    assert.ok(/CareerModeGfxTier/.test(s)&&/\.profile\((?:"[a-z-]+")?\)/.test(s),`${p}: reads CareerModeGfxTier.profile()`);
     assert.ok(/\.governor\(renderer/.test(s),`${p}: runs the shared governor`);
     for(const m of s.matchAll(/setPixelRatio\(([^)]*)\)/g))assert.ok(!/\d|devicePixelRatio/.test(m[1]),`${p}: no pixel ratio of its own (setPixelRatio(${m[1]}))`);
   }

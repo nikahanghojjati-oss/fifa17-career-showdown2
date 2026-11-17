@@ -113,7 +113,8 @@
   const GFX_FALLBACK={level:0,name:"light",pixelRatio:1,antialias:true};
   async function quality(){
     const ok=await script(GFX_JS,()=>Boolean(root.CareerModeGfxTier)).catch(()=>false);
-    try{if(ok)return root.CareerModeGfxTier.profile();}catch(_error){}
+    // r96: the Ball Game's own level (on Auto after a Device check, the level it passed itself; the lightest 3D screen).
+    try{if(ok)return root.CareerModeGfxTier.profile("club-draw");}catch(_error){}
     return GFX_FALLBACK;
   }
   // What each level draws (ONE system; study 4.2). Light stays the lightest 3D screen in the game.
@@ -614,7 +615,10 @@
     const heavy=stepAt=>{const at=Math.max(0,Math.min(LADDER.length,Math.round(Number(stepAt))||0));detailOff.clear();LADDER.slice(0,at).forEach(x=>detailOff.add(x));
       if(blades)blades.visible=!detailOff.has("blades");if(bokeh)bokeh.visible=!detailOff.has("bokeh");if(confetti&&detailOff.has("confetti"))confetti.visible=false;};
     const timed=()=>paint(0);
-    const gov=GFX&&typeof GFX.governor==="function"?GFX.governor(renderer,{key:"club-draw",draw:timed,beats:true,detail:LADDER.length?{steps:LADDER.length,apply:heavy}:undefined,onChange:()=>{layoutKey="";layout();}}):null;
+    const gov=GFX&&typeof GFX.governor==="function"?GFX.governor(renderer,{key:"club-draw",draw:timed,beats:true,detail:LADDER.length?{steps:LADDER.length,apply:heavy}:undefined,
+      // r96 (Nik 2026-11-17: every step smooth and seamless): a step in play fades from the frame as it stands (js/gfxTier.js
+      // softCut, inside the stage box, which holds only this canvas), as on Roulette and the Special Player pack.
+      before:()=>GFX.softCut?.(canvas,timed),onChange:()=>{layoutKey="";layout();}}):null;
     const fps=GFX&&typeof GFX.overlay==="function"?GFX.overlay(()=>({calls:renderer.info.render.calls,tris:renderer.info.render.triangles,extra:`programs ${renderer.info.programs?renderer.info.programs.length:0}`})):null;
     let held=false;
     function holdBeat(){const busy=balls.some(b=>["kick","stopping","await","settle"].includes(b.state));if(busy!==held){held=busy;gov?.hold(busy);}}

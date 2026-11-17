@@ -29,7 +29,9 @@ const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
 // the shell's index.html; without a connection the answer is a short page that says so, with the way back to the game.
 const STANDALONE_PAGE_NAVIGATION_PATHS = new Set([
     "device-check.html",
-    "device-check-chamber.html"
+    "device-check-chamber.html",
+    // r96: the Device check's Ball Game frame.
+    "device-check-ball.html"
 ]);
 function standalonePageOffline(){ return new Response('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Device check · Career Mode Showdown</title><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#050505;color:#f5f1e8;font:400 16px/1.5 system-ui,sans-serif;text-align:center"><main style="padding:24px"><h1 style="margin:0 0 8px;font-size:28px;letter-spacing:.06em;color:#f5c518">DEVICE CHECK</h1><p style="margin:0 0 16px">The Device check needs a connection. Try again when you are online.</p><a href="./" style="color:#f5c518">Back to the game</a></main></body></html>',{status:503,headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store"}}); }
 // r86: the Special Player page is its own document in a frame (js/specialPlayerReveal.js). A frame load is a navigation:

@@ -342,20 +342,25 @@
   // is barred too. Shot wins the reason when both apply (the engine's own order); ids join and are never forgotten.
   function pstcNameKey(name){return String(name||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();}
   const pstcPlayerId=value=>Number.isInteger(value)&&value>=1&&value<=999999?value:null;
-  function pstcSavedShot(hits,k,role){const h=hits&&hits[k]&&hits[k][role];if(!h||typeof h!=="object"||h.fired!==true||typeof h.hitName!=="string"||!h.hitName.trim()||!Number.isInteger(h.hitSlot)||h.hitSlot<0||h.hitSlot>14)return null;return {name:h.hitName.trim(),signing:Number.isInteger(h.hitSignedSeason)&&h.hitSignedSeason>=1&&h.hitSignedSeason<=10};}
+  function pstcSavedShot(hits,k,role){const h=hits&&hits[k]&&hits[k][role];if(!h||typeof h!=="object"||h.fired!==true||typeof h.hitName!=="string"||!h.hitName.trim()||!Number.isInteger(h.hitSlot)||h.hitSlot<0||h.hitSlot>14)return null;const signing=Number.isInteger(h.hitSignedSeason)&&h.hitSignedSeason>=1&&h.hitSignedSeason<=10;return {name:h.hitName.trim(),signing,window:signing?h.hitSignedSeason:null};}
   // A shot signing's bar: the ids of this manager's kept signings named key in seasons 1..last, and the whole name when one
   // of them has no id (or none is found).
-  function pstcSignedIds(earlier,last,role,key){
-    const ids=[];let found=false,whole=false;
-    for(let j=1;j<=last;j+=1){const rows=Array.isArray(earlier)&&earlier[j]&&earlier[j][role];if(Array.isArray(rows))for(const row of rows){if(!row||row.release===true||typeof row.name!=="string"||pstcNameKey(row.name)!==key)continue;found=true;const id=pstcPlayerId(row.playerId);if(id===null)whole=true;else ids.push(id);}}
-    return {ids,whole:whole||!found};
+  // R96 (Nik 2026-11-17, item 6): only the man the roulette shot. The hit names him by name and window, so when every kept row
+  // of the name has an id and the rows of that window name one man, only his id is barred: a namesake kept in another window
+  // can be signed again. Two men of the name in that window: every kept id of the name, as before. The squad engine reads
+  // the same rows the same way (js/squadSheet.js shotBar).
+  function pstcSignedIds(earlier,last,role,key,window){
+    const ids=[],inWindow=new Set();let found=false,whole=false;
+    for(let j=1;j<=last;j+=1){const rows=Array.isArray(earlier)&&earlier[j]&&earlier[j][role];if(Array.isArray(rows))for(const row of rows){if(!row||row.release===true||typeof row.name!=="string"||pstcNameKey(row.name)!==key)continue;found=true;const id=pstcPlayerId(row.playerId);if(id===null)whole=true;else ids.push(id);if(j===window)inWindow.add(id);}}
+    if(whole||!found)return {ids,whole:true};
+    return inWindow.size===1&&!inWindow.has(null)?{ids:[...inWindow],whole:false}:{ids,whole:false};
   }
   function pstcRouletteBlocked(earlier,hits,season,role){
     const out=new Map();if((role!=="playerOne"&&role!=="playerTwo")||!Number.isInteger(season)||season<1)return out;
     const bars=new Map();
     const bar=(name,reason,k,{ids,whole})=>{const key=pstcNameKey(name);if(!key)return;const was=bars.get(key)||{name,reason,season:k,ids:new Set(),whole:false};
       for(const id of ids)was.ids.add(id);was.whole=was.whole||whole;bars.set(key,was);};
-    for(let k=1;k<=season;k+=1){const shot=pstcSavedShot(hits,k,role);if(shot)bar(shot.name,"shot",k,shot.signing?pstcSignedIds(earlier,k-1,role,pstcNameKey(shot.name)):{ids:[],whole:true});}
+    for(let k=1;k<=season;k+=1){const shot=pstcSavedShot(hits,k,role);if(shot)bar(shot.name,"shot",k,shot.signing?pstcSignedIds(earlier,k-1,role,pstcNameKey(shot.name),shot.window):{ids:[],whole:true});}
     for(let k=1;k<season;k+=1){const rows=Array.isArray(earlier)&&earlier[k]&&earlier[k][role];if(Array.isArray(rows))for(const row of rows){const name=row&&row.release===true&&typeof row.name==="string"?row.name.trim():"";if(name){const id=pstcPlayerId(row.playerId);bar(name,"guessed",k,id===null?{ids:[],whole:true}:{ids:[id],whole:false});}}}
     for(const [key,b] of bars)out.set(key,Object.freeze({name:b.name,reason:b.reason,season:b.season,ids:Object.freeze([...b.ids].sort((x,y)=>x-y)),whole:b.whole}));
     return out;

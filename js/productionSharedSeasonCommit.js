@@ -172,8 +172,22 @@
     }
     return false;
   }
+  // r96 F3: the final season's own LOCK & CONFIRM / CONFIRM SEASON tap notes, before any write, that this phone is due its
+  // Showdown Champion (the same storage note js/productionSharedMultiSeasonProgression.js writes once the season is accepted).
+  // A tab killed right after the tap often died before that later note, so the reopened tab never looked for the Champion
+  // screen and stayed on Home. The note only steers the reopened tab's resume (js/productionSharedJourneyEntry.js); it is
+  // forgotten when the Champion screen is left or the Showdown was ended early. Final = the last season, or a sacking in it.
+  function psscMarkChampionDueIfFinal(request){
+    try{
+      const total=Number(psscSetupState()?.setup?.totalSeasons),results=psscResultsState(),sacked=results?.ownResult?.sacked===true||results?.opponentResult?.sacked===true;
+      if(request.seasonNumber!==total&&!sacked)return false;
+      if(!/^pair_[0-9a-f]{64}$/.test(String(request.rivalryId||""))||typeof root.writeStorageValue!=="function")return false;
+      if(root.readStorageValue?.("cms.championPending.v1")!==request.rivalryId)root.writeStorageValue("cms.championPending.v1",request.rivalryId);
+      return true;
+    }catch(_error){return false;}
+  }
   async function psscMutate(kind){
-    if(busy)return false;const request=psscRequestContext();if(!request)return false;busy=true;readGeneration+=1;psscSetError("");pendingErrorKind="";psscRender();
+    if(busy)return false;const request=psscRequestContext();if(!request)return false;psscMarkChampionDueIfFinal(request);busy=true;readGeneration+=1;psscSetError("");pendingErrorKind="";psscRender();
     let stage=kind;
     try{
       return await psscQueue(async()=>{

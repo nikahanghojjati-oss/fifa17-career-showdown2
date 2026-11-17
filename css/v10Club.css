@@ -185,7 +185,7 @@ html:not([data-v10-screen="clubWheelScreen"]) #app > main:has(> #clubWheelScreen
 #clubWheelScreen.cl-on .clPhoneScene { display: none; }
 /* JOB-1595 / JOB-1596 reuse the scene and deck on sideways phones and upright tablets. */
 @media (max-width: 760px) and (orientation: portrait),
-       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
+       (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
        (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
   html[data-v10-screen="clubWheelScreen"] #app > main {
     position: fixed; inset: 0; padding: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
@@ -348,7 +348,7 @@ html:not([data-v10-screen="clubWheelScreen"]) #app > main:has(> #clubWheelScreen
 /* JOB-1595: adopted 1171 sideways layout, trimmed for 740x360.
    The scene and deck share one viewport; only main can scroll on smaller devices.
    The last grid row reserves both live actions without moving their DOM/tap order. */
-@media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+@media (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   html[data-v10-screen="clubWheelScreen"] #app #topHeader {
     display: block !important; position: fixed; width: 1px; height: 1px; margin: -1px;
     padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
@@ -541,7 +541,7 @@ html:not([data-v10-screen="clubWheelScreen"]) #app > main:has(> #clubWheelScreen
    the one hero. Longer provider notes fall through to main, never an inner scroller.
    Desktop, including the adopted 1173 block below, is deliberately unchanged. */
 @media (max-width: 760px) and (orientation: portrait),
-       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
+       (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
        (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
   #app #clubWheelScreen.cl-on {
     --sr-hero: 0px; --phone-hero-h: 0px; --noteBleedL: 0px; --noteBleedR: 0px;
@@ -637,7 +637,7 @@ html:not([data-v10-screen="clubWheelScreen"]) #app > main:has(> #clubWheelScreen
   #app #clubWheelScreen.cl-on .clPhoneScene { min-height: 124px; }
   #app #clubWheelScreen.cl-on .clubAssignmentShell { row-gap: 3px; }
 }
-@media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+@media (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on .clubAssignmentShell { height: auto; min-height: 100svh; }
   #app #clubWheelScreen.cl-on .clubAssignmentShell > .menuButton,
   #app #clubWheelScreen.cl-on .clubAssignmentShell > .backButton {
@@ -862,7 +862,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
    (no centring transform) and are left as they were. */
 #app #clubWheelScreen.cl-on .clubAssignmentHeader { transform: none; translate: -50% 0; }
 @media (max-width: 760px) and (orientation: portrait),
-       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
+       (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
        (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
   #app #clubWheelScreen.cl-on .clubAssignmentHeader { translate: none; }
   /* The same panel-rise lowers BACK 16px for its first moment, below the stage's last pixel; main scrolled that far
@@ -896,13 +896,13 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
   #app #clubWheelScreen.cl-on .clPhoneScene { background: none; }
   #app #clubWheelScreen.cl-on .clubAssignmentShell { background: none; }
 }
-@media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+@media (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on .clPhoneScene {
     background: #08090b url("../visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp") center top / cover no-repeat;
   }
 }
 @media (max-width: 760px) and (orientation: portrait),
-       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
+       (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
        (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
   #app #clubWheelScreen.cl-on .clPhoneScene::after { content: none; }
 }
@@ -919,7 +919,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
    Upright phones: the band is an empty box, so it has no padding (100cqh is then its whole height); the plate is the screen's (centre top, width max(100vw, 100svh * 1179 / 2096)) and the band starts at
    its top. Sideways phones: the plate fills the band (cover, centre top; the band is 42vw x 100svh, always tall enough). */
 @media (max-width: 760px) and (orientation: portrait),
-       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+       (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on .clPhoneScene::before,
   #app #clubWheelScreen.cl-on .clPhoneScene::after {
     content: "CLUB PACK\A CM17"; display: block; position: absolute; z-index: 1; pointer-events: none;
@@ -954,7 +954,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
     }
   }
 }
-@media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+@media (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on .clPhoneScene {
     --clp-w: max(42vw, calc(100svh * 1179 / 2096));
     --clp-s: calc(var(--clp-w) / 1179);
@@ -963,7 +963,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
   }
 }
 @media (max-width: 760px) and (orientation: portrait) and (prefers-reduced-motion: reduce),
-       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) and (prefers-reduced-motion: reduce) {
+       (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) and (prefers-reduced-motion: reduce) {
   #app #clubWheelScreen.cl-on .clPhoneScene::before,
   #app #clubWheelScreen.cl-on .clPhoneScene::after { transition: none; }
 }
@@ -984,7 +984,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
 /* r87 sweep P-15: on a phone the step labels (01 DRAW … 05 LOCK) and RIVALRY sit over the managers' dark suits, and the
    first and last labels nearly disappeared. A dark halo keeps every label readable on the art; nothing moves. */
 @media (max-width: 760px) and (orientation: portrait),
-       (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
+       (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape),
        (min-width: 761px) and (max-width: 1024px) and (orientation: portrait) {
   #app #clubWheelScreen.cl-on .clubRevealProgress span,
   #app #clubWheelScreen.cl-on .clubVs > span { color: #e6dcc4; text-shadow: 0 1px 2px #000, 0 0 6px #000, 0 0 10px rgba(0, 0, 0, .85); }
@@ -999,7 +999,7 @@ html[data-motion-reduced="true"] body #app #clubWheelScreen#clubWheelScreen *::a
     left: calc(var(--btnCx) - var(--s) * 430px);
   }
 }
-@media (max-width: 760px) and (orientation: portrait), (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+@media (max-width: 760px) and (orientation: portrait), (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on .clubAssignmentShell:not(:has(> #clubAssignmentBack.hidden)) > #continueClubAssignment { grid-column: 2; }
 }
 /* r90 M25 (Light): the panel's blurred gold under-glow is an SVG blur over 187k px²; Light leaves it out. */
@@ -1089,7 +1089,7 @@ html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelS
   /* the band always holds both men whole under the title and the packs on the lip; the page scrolls if it must */
   #app #clubWheelScreen.cl-on.cl-box .clPhoneScene { min-height: calc(70px + 100vw * .5462); flex-shrink: 0; overflow: visible; }
 }
-@media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+@media (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on.cl-box .clPhoneScene {
     background: #0d0b09 url("../visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3.webp") no-repeat;
     background-position: var(--clb-band-pos, 50% 0);
@@ -1102,7 +1102,7 @@ html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelS
    280-1256) instead of across them; short desktops (html.compact) have no deck, so there each card gets its own plate.
    Upright phones and tablets and sideways phones lay the cards out in the page flow and keep their own rules. */
 @media not all and (max-width: 1024px) and (orientation: portrait) {
- @media not all and (min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+ @media not all and (min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
   #app #clubWheelScreen.cl-on.cl-box .clubCardFace { width: calc(var(--k) * 298px) !important; grid-template-columns: calc(var(--s) * 56px) auto 1fr; }
   #app #clubWheelScreen.cl-on.cl-box #clubCardOne .clubCardFace,
   #app #clubWheelScreen.cl-on.cl-box #clubCardOne .clubRevealIndex,

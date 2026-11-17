@@ -35,7 +35,9 @@ const NAMES = ["Light", "Balanced", "High", "Extra", "Ultra (4K)"];
 const SCENES = [
   { key: "chamber-men", path: "device-check-chamber.html" },
   { key: "rrr", path: "visual-assets/v10_1/roulette/index.html" },
-  { key: "sp", path: "visual-assets/v10_1/special-player/index.html" }
+  { key: "sp", path: "visual-assets/v10_1/special-player/index.html" },
+  // r96: the Device check times the Ball Game too.
+  { key: "club-draw", path: "device-check-ball.html" }
 ];
 const IPHONE = { viewport: { width: 393, height: 852 }, screen: { width: 393, height: 852 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true,
   userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 26_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1" };
