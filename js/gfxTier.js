@@ -364,7 +364,8 @@
     return "";
   }
   // The level a screen draws on Auto from a Device check result: its own, never below the device's, on a phone at most Extra.
-  function gfxSceneLevel(base,m,key){const lv=gfxSceneMeasured(m,key);return base.phone?Math.min(lv,Math.max(m.level,PHONE_SCENE_TOP)):lv;}
+  // No result (cleared in another tab since the profile was cached): no screen of its own (review on #1548).
+  function gfxSceneLevel(base,m,key){if(!m)return null;const lv=gfxSceneMeasured(m,key);return base.phone?Math.min(lv,Math.max(m.level,PHONE_SCENE_TOP)):lv;}
   function gfxProfile(scene){
     const base=gfxBaseProfile(),key=typeof scene==="string"&&scene?scene:gfxSceneKey();let p=base;
     if(key&&base.auto&&base.measured){

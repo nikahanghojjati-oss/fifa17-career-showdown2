@@ -250,6 +250,11 @@ function rest(){
   assert.equal(s.G.profile().phone, true, "the sandbox is a phone");
   assert.deepEqual([s.G.profile("chamber-men").level, s.G.profile("rrr").level, s.G.profile("sp").level, s.G.profile("club-draw").level], [2, 3, 3, 3]);
   assert.deepEqual({...s.G.measuredScenes()}, {"chamber-men": 2, rrr: 3, sp: 3, "club-draw": 3}, "the Device check card says what a phone draws");
+  // The result cleared from another tab after the profile was cached (review on #1548): the screens still open, at the
+  // cached device level, with no error.
+  s.store[MKEY] = "null"; s.G.profile();
+  assert.deepEqual([s.G.profile("club-draw").level, s.G.profile("chamber-men").level], [2, 2]);
+  const gq = s.G.governor(fakeRenderer(s.clock, () => 1), {key: "club-draw", draw() {}, beats: true}); gq.end();
   const w = sandbox({...PHONE});
   w.G.setMeasured(1, {held: true}, {"chamber-men": 1, rrr: 2, sp: 4, "club-draw": 5});
   assert.deepEqual(JSON.parse(w.store[MKEY]).scenes, {"chamber-men": 1, rrr: 2, sp: 3, "club-draw": 3});
