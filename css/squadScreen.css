@@ -284,12 +284,21 @@
 .sqmBackdrop{display:none}
 #sqStage{background:#15110c url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3.webp") 50% 0/100% auto no-repeat local}
 html[data-assets="0"] #sqStage{background-image:url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3_590W.webp")}
-#sqStage .sqShell{padding-top:calc(100vw * 514 / 1179 + 8px)}
+/* r95 house (Lane B, Nik 2026-11-17): the title band starts under the counter lip (y 819 of 2096 on the phone plates) so SQUAD MANAGEMENT sits clear of both coaches (heads, chins, hands, chests) */
+#sqStage .sqShell{padding-top:calc(100vw * 819 / 1179 + 10px)}
 @media (orientation:portrait) and (max-aspect-ratio:59/128){#sqStage{background-image:url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PHONE_HC_V3_TALL.webp")}}
 @media (orientation:landscape){
   #sqStage,html[data-assets="0"] #sqStage{background-color:#19140f;background-image:url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1X.webp")}
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #sqStage{background-image:image-set(url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1X.webp") 1x,url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_2X.webp") 2x)}
   #sqStage .sqShell{padding-top:calc(100vw * 864 / 1536 * .39 + 8px)}
+}
+@media (orientation:landscape) and (max-width:900px){
+  #sqStage .sqShell{padding-top:calc(100vw * 864 / 1536 * .39 + 28px)}
+  /* the whole header block stands in the gap between the two men (they fill about 17% of the width each side): title centred,
+     SEASON and the stage on one centred line under it */
+  #sqStage .sqHeader{box-sizing:border-box;width:62vw;max-width:100%;margin-inline:auto;display:grid;grid-template-columns:auto auto;justify-content:center;column-gap:28px;row-gap:6px;font-size:12px;letter-spacing:.1em}
+  #sqStage .sqHeader .sqTitle{grid-column:1/-1;grid-row:1;justify-self:center}
+  #sqStage .sqHeader>span{grid-row:2;white-space:nowrap}
 }
 @media (min-width:1338px) and (orientation:landscape){
   #sqStage{background-size:max(100vw,calc(100vh * 1536 / 864),1502px) auto;background-position:50% 0;background-attachment:scroll}
