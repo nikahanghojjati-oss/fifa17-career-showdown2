@@ -264,7 +264,7 @@
  }
  #connectPlayersScreen h2#connectPlayersTitle{
   position:static;transform:none;width:auto;max-width:100%;margin:0;padding:0 0 3px;
-  font:italic 900 clamp(27px,8.6vw,37px)/1.12 Impact,"Arial Narrow",sans-serif;
+  font:italic 900 clamp(27px,8.6vw,37px)/1.12 var(--r95-font-narrow);
   letter-spacing:-.03em;color:#ffda4e;background:none;-webkit-text-fill-color:#ffda4e;
   filter:drop-shadow(0 2px 1px #000) drop-shadow(0 0 7px #e3b63670);
  }
@@ -792,7 +792,7 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  }
  #app #connectPlayersScreen h2#connectPlayersTitle {
   position:static;transform:none;width:auto;max-width:100%;margin:0;padding:0 0 3px;
-  font:italic 900 clamp(27px,8.6vw,37px)/1.12 Impact,"Arial Narrow",sans-serif;
+  font:italic 900 clamp(27px,8.6vw,37px)/1.12 var(--r95-font-narrow);
   letter-spacing:-.03em;
   filter:drop-shadow(0 2px 1px #000) drop-shadow(0 0 7px #e3b63670);
   overflow-wrap:normal;word-break:normal;
