@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-17 1:39 PM Boston time (EST)",
+ "generated": "2026-11-17 1:43 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 332,
@@ -3050,11 +3050,11 @@
      "title": "Release 2.8.0 (r95): the Ball Game, one typeface, the house look",
      "draft": false,
      "branch": "gameplay/r95",
-     "sha": "31fbf1803d8266d543dca83725abde746ad7b031",
-     "updated": "2026-11-17T16:18:41Z",
+     "sha": "b3908e2d90d30babd7da708eef8b4805a498cb2a",
+     "updated": "2026-11-17T18:42:45Z",
      "gates": {
-      "passed": 10,
-      "running": 0,
+      "passed": 0,
+      "running": 7,
       "failed": 0,
       "cancelled": 0
      }
@@ -3851,7 +3851,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 13894
+    "waiting_min": 13899
    },
    {
     "id": "HO-059",
@@ -5639,11 +5639,11 @@
     "title": "Release 2.8.0 (r95): the Ball Game, one typeface, the house look",
     "draft": false,
     "branch": "gameplay/r95",
-    "sha": "31fbf1803d8266d543dca83725abde746ad7b031",
-    "updated": "2026-11-17T16:18:41Z",
+    "sha": "b3908e2d90d30babd7da708eef8b4805a498cb2a",
+    "updated": "2026-11-17T18:42:45Z",
     "gates": {
-     "passed": 10,
-     "running": 0,
+     "passed": 0,
+     "running": 7,
      "failed": 0,
      "cancelled": 0
     }
