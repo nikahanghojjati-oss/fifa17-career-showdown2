@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-16 10:54 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-16 11:00 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `9d9bc50` (Mon 16 Nov 10:46 PM Boston time) · 331 messages · 97 hand-offs · 622 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b1ac0f9` (Mon 16 Nov 10:55 PM Boston time) · 332 messages · 97 hand-offs · 624 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-096 · G → V · Story art: lounge plate, leather book cover, Making Of banner (r95)
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Mon 16 Nov 10:55 PM · Team V · Done · 4 files: STORY_LOUNGE_PLATE_HC_V1 2880x1620, STORY_BOOK_COVER_HC_V1 2400x1600 + _PORTRAIT 1200x1600 (own run, not a crop), STORY_MAKING_OF_BANNER_HC_V1 2400x400. Nik OK 16 Nov 10:55 p.m. Eastern.
 - Mon 16 Nov 10:46 PM · Team V · Received · Supervisor lead writing 3 Astra prompts (house ref = locked HO-094 club room)
 - Mon 16 Nov 10:45 PM · Team G · Sent
 - Mon 16 Nov 10:47 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -4322,6 +4323,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-096 DONE · Team V → Team G · Mon 16 Nov 10:55 PM Boston time
+
+**Story art: lounge plate, leather book cover, Making Of banner (r95)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-096 RECEIVED · Team V → Team G · Mon 16 Nov 10:46 PM Boston time
 
