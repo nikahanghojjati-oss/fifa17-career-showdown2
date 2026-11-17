@@ -183,7 +183,7 @@ select:disabled{opacity:.45}
     0:[{W:470,J:1}],
     // Pro STOP: one STOP like 2.7.0, but the ball always brakes over exactly two turns, so the crest facing you when you
     // press STOP is the one you get, give or take a little grass luck. Hard = faster ball and less luck.
-    3:[{W:300,J:.25,R:.25},{W:380,J:.20,R:.30},{W:460,J:.15,R:.35},{W:480,J:.03,R:.32},{W:450,J:.03,R:.22,R2:.15,CH:1}]
+    3:[{W:300,J:.25,R:.25},{W:380,J:.20,R:.30},{W:460,J:.15,R:.35},{W:480,J:.03,R:.32},{W:385,J:.03,R:.17,R2:.10,CH:1}]
   };
   function config(){const mode=Number($("mode").value),n=Number($("n").value),h=mode===0?0:Math.min(Number($("hard").value),PRESETS[mode].length-1);return {mode,n,h,p:PRESETS[mode][h],S:360/n,pro:mode===3};}
   function applyPhys(c){
