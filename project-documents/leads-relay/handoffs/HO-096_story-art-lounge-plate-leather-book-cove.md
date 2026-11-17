@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-17T03:45:37Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-17T03:45:37Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-17T03:46:50Z", "by": "V", "status": "RECEIVED", "note": "Supervisor lead writing 3 Astra prompts (house ref = locked HO-094 club room)"}],
  "from_session": "session_01GU43Q6NcN4P7JSVrEsneAr",
- "sessions": {"G": "session_01GU43Q6NcN4P7JSVrEsneAr"}
+ "sessions": {"G": "session_01GU43Q6NcN4P7JSVrEsneAr", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
 ```
 
