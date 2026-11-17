@@ -333,3 +333,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-16 23:48 | Team V | Team G | HO-095 RECEIVED | Club Assignment lounge phone crops (upright + sideways) | no |
 | 2026-11-16 23:58 | Team V | Team G | HO-095 DONE | Club Assignment lounge phone crops (upright + sideways) | no |
 | 2026-11-17 00:00 | Team V | Team G | HO-095 DONE | Club Assignment lounge phone crops (upright + sideways) | no |
+| 2026-11-17 03:45 | Team G | Team V | HO-096 SENT | Story art: lounge plate, leather book cover, Making Of banner (r95) | yes (receive it) |
