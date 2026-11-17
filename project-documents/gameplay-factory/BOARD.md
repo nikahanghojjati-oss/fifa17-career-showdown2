@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 17 Nov, 11:27 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 17 Nov, 11:31 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.7.0-r94** (main `5f22a32`, Mon 16 Nov 9:17 PM)
 
@@ -26,11 +26,11 @@ Updated Tue 17 Nov, 11:27 AM Boston time. Bug hunting only, no new features unti
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 867 h ago
+🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 868 h ago
 
 **#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 867 h ago
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 868 h ago
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -74,7 +74,7 @@ Updated Tue 17 Nov, 11:27 AM Boston time. Bug hunting only, no new features unti
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 762 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 763 h ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1538](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1538) | Release 2.8.0 (r95): the Ball Game, one typeface, the house look | ⏳ 4 passed, 5 running |
+| 🟧 Team G lead | [PR #1538](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1538) | Release 2.8.0 (r95): the Ball Game, one typeface, the house look | ⏳ 6 passed, 3 running |
 
 **Up next**
 
