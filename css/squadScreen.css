@@ -294,6 +294,11 @@ html[data-assets="0"] #sqStage{background-image:url("../visual-assets/v10_1/plat
 }
 @media (orientation:landscape) and (max-width:900px){
   #sqStage .sqShell{padding-top:calc(100vw * 864 / 1536 * .39 + 28px)}
+  /* the whole header block stands in the gap between the two men (they fill about 17% of the width each side): title centred,
+     SEASON and the stage on one centred line under it */
+  #sqStage .sqHeader{box-sizing:border-box;width:62vw;max-width:100%;margin-inline:auto;display:grid;grid-template-columns:auto auto;justify-content:center;column-gap:28px;row-gap:6px;font-size:12px;letter-spacing:.1em}
+  #sqStage .sqHeader .sqTitle{grid-column:1/-1;grid-row:1;justify-self:center}
+  #sqStage .sqHeader>span{grid-row:2;white-space:nowrap}
 }
 @media (min-width:1338px) and (orientation:landscape){
   #sqStage{background-size:max(100vw,calc(100vh * 1536 / 864),1502px) auto;background-position:50% 0;background-attachment:scroll}
