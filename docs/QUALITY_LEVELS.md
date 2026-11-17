@@ -45,7 +45,9 @@ names and no others.
   loading screen when it opens (Chamber Men's season-page warm-up reads the same `profile("chamber-men")` as its mount).
   On a phone a screen's own level stops at Extra (`PHONE_SCENE_TOP`), the highest level the phone memory budget
   measures every screen at: at Ultra on the iPhone 17 profile Chamber Men holds about 396 MB and Roulette 337 MB. A phone
-  whose every screen held Ultra keeps Ultra, as before.
+  whose every screen held Ultra keeps Ultra, as before. The Ball Game is the lightest screen: about 71 MB of textures at
+  High, Extra and Ultra on that profile (it has no render targets). It stays out of the release budget run because, on the
+  throttled phone profile with software GL, its endless spin never goes quiet enough for the lab to call it loaded.
 - **A picked level** (Settings › 3D QUALITY) is the ceiling on every screen (r96, Nik 2026-11-17 21:44 UTC: "Step down
   when slow, back up"; 2.3.0 to 2.8.0 held it as picked, and a laptop sat at 24 fps on a picked Ultra in Chamber Men). The
   level, its files and Settings stay the pick; the governor walks its pixel ratio and heavy parts down between beats when
@@ -124,7 +126,7 @@ Extra where the chip lists 8.
 
 **Phone memory budget (every release).** `tests/browser/phone-memory-budget.cjs` measures each 3D screen at High and Extra
 on the iPhone 17 profile at the level's top pixel ratio (`?gfx=N&gfxpr=top`, read only with a forced level) and fails over
-300 MB of textures + render buffers (the Ball Game too since r96). `.github/workflows/phone-memory-budget.yml` runs it on pushes to `gameplay/r<N>`.
+300 MB of textures + render buffers. `.github/workflows/phone-memory-budget.yml` runs it on pushes to `gameplay/r<N>`.
 At Extra a phone's sharpness stops at 2.25x (`PHONE_EXTRA_PR`): at 3x Special Player took about 370 MB. r92 numbers
 (MB, High / Extra): Chamber Men 166 / 190, Roulette 214 / 226, Special Player 241 / 263.
 iOS also keeps decoded image copies, so a real iPhone uses more than it counts; only a real iPhone proves a level opens. The Device check's frames and the Special Player page also hand

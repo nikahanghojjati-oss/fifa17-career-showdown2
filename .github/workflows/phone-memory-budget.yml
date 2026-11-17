@@ -14,8 +14,6 @@ on:
       - 'js/chamberMenScene3d.js'
       - 'js/chamberMenStadium*.js'
       - 'device-check-chamber.html'
-      - 'device-check-ball.html'
-      - 'js/clubDrawScene3d.js'
       - 'visual-assets/v10_1/roulette/**'
       - 'visual-assets/v10_1/special-player/**'
       - 'visual-assets/v10_1/chamber-men/**'
