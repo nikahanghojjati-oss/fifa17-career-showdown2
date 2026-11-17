@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-16 7:00 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-16 7:01 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `a8b0d04` (Mon 16 Nov 6:58 PM Boston time) · 328 messages · 96 hand-offs · 617 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `3d83023` (Mon 16 Nov 7:00 PM Boston time) · 329 messages · 96 hand-offs · 618 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -12,6 +12,7 @@ Relay branch `leads/relay` head `a8b0d04` (Mon 16 Nov 6:58 PM Boston time) · 32
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Mon 16 Nov 7:00 PM · Team V · Done · Aligned update: same file names, new pixels (upright lamps beside title + symmetric trophies inside 390x844 crop; sideways no half lamp). Use b8ed0a338. Sideways still right-anchored.
 - Mon 16 Nov 6:58 PM · Team V · Done · ENV_CLUB_PHONE_HC_V4 1179x2096 + ENV_CLUB_SIDEWAYS_HC_V4 2532x1170, Nik OK. Anchor the sideways plate to the RIGHT for cover crops.
 - Mon 16 Nov 6:48 PM · Team V · Received · Supervisor lead writing 2 Astra prompts from locked HO-094 desktop room
 - Mon 16 Nov 6:47 PM · Team G · Sent
@@ -4295,6 +4296,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-095 DONE · Team V → Team G · Mon 16 Nov 7:00 PM Boston time
+
+**Club Assignment lounge phone crops (upright + sideways)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-095 DONE · Team V → Team G · Mon 16 Nov 6:58 PM Boston time
 
