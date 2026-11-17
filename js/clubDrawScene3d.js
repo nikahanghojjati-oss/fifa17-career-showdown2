@@ -109,7 +109,7 @@
   // ---------- ball, pitch and stadium shaders (from the study mock-up v3.1, unchanged look) ----------
   const BALL_VS="varying vec3 vObj;varying vec3 vNg;varying vec3 vW;void main(){vObj=normalize(position);vNg=normalize(mat3(modelMatrix)*normal);vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}";
   const BALL_FS=[
-    "uniform vec3 PC[32];uniform vec3 kA[NSEC];uniform vec3 kB[NSEC];uniform vec3 kC[NSEC];uniform vec3 kT[NSEC];uniform vec3 kS[NSEC];uniform vec3 kN[NSEC];uniform vec3 kH[NSEC];uniform vec4 kP[NSEC];uniform float lit[NSEC];uniform float foc[NSEC];uniform sampler2D atlas;uniform vec3 camP;uniform mat3 rot;uniform float blur;uniform float pulse;uniform float clat;uniform float spd;",
+    "uniform vec3 PC[32];uniform vec3 kA[NSEC];uniform vec3 kB[NSEC];uniform vec3 kC[NSEC];uniform vec3 kT[NSEC];uniform vec3 kS[NSEC];uniform vec3 kN[NSEC];uniform vec3 kH[NSEC];uniform vec4 kP[NSEC];uniform vec3 kK[NSEC];uniform vec3 kQ[NSEC];uniform float kD[NSEC];uniform float lit[NSEC];uniform float foc[NSEC];uniform sampler2D atlas;uniform vec3 camP;uniform mat3 rot;uniform float blur;uniform float pulse;uniform float clat;uniform float spd;",
     "varying vec3 vObj;varying vec3 vNg;varying vec3 vW;",
     "const float TAU=6.2831853;const float G=6.2831853/float(NSEC);",
     "const vec3 KEY=vec3(.430,.765,.479);const vec3 FIL=vec3(-.611,.560,.560);const vec3 BK1=vec3(.667,.477,-.572);const vec3 BK2=vec3(-.667,.477,-.572);",
@@ -123,6 +123,16 @@
     "float aaS(float e,float x){float w=max(fwidth(x),1e-4)*.8;return smoothstep(e-w,e+w,x);}",
     "float aaB(float a,float b,float x){return aaS(a,x)-aaS(b,x);}",
     "float sqw(float x){float w=max(fwidth(x),1e-4)*.8;float f=fract(x);return smoothstep(.5-w,.5+w,f)*(1.-smoothstep(1.-w,1.,f));}",
+    "vec3 bkDeep(vec3 c,vec3 A,vec3 B,vec3 T){if(bkOk(c))return c;if(bkOk(B)&&distance(B,A)>.12)return B;if(bkOk(T)&&distance(T,A)>.12)return T;return bkLum(A)>.06?A*.58:A*1.7+.03;}",
+    // The rest of the kit, by latitude in degrees (la): the collar above the crest (crew one band, vee dips toward the crest,
+    // polo two bands), shorts below the shirt with a waistband and side stripes, then socks under a sock-top band.
+    "vec3 kitDress(vec3 col,float u,float la,vec3 A,vec3 Tr,vec3 Hs,vec3 Ks,vec3 Kq,float D){",
+    " float ax=abs(u-.5);float cy=46.5-(D>.5&&D<1.5?8.*(1.-2.*ax):0.);float cw=D>1.5?2.6:1.9;",
+    " col=mix(col,A,aaS(cy+cw,la));col=mix(col,Tr,aaB(cy,cy+cw,la));if(D>1.5)col=mix(col,Tr,aaB(cy+cw+1.3,cy+cw+2.3,la));",
+    " col=mix(col,Hs,1.-aaS(-27.,la));col=mix(col,Tr,aaB(-28.8,-27.,la));col=mix(col,Tr,aaB(.335,.365,ax)*(1.-aaS(-29.,la))*aaS(-49.,la));",
+    " col=mix(col,Ks,1.-aaS(-49.,la));col=mix(col,Kq,aaB(-54.5,-49.,la));col=mix(col,Tr,aaB(-52.4,-51.2,la));",
+    " return col;",
+    "}",
     "vec3 kitAt(float u,float sv,float lat,vec3 A,vec3 B,vec3 C,vec3 Tr,vec3 S,vec3 H,vec4 P){",
     " float x=u-.5;vec3 col=A;float lum=dot(A,vec3(.3,.6,.1));",
     " if(P.x<.5){",
@@ -131,7 +141,6 @@
     "  else if(P.y<3.5&&P.y>2.5){float yc=.88-.07*(1.-4.*x*x);col=mix(col,Tr,aaS(yc,sv));col=mix(col,A*.55,aaB(-.03,0.,sv-yc));}",
     "  else if(P.y>3.5){col=mix(col,Tr,.95*(1.-smoothstep(.24,.64,sv)));col=mix(col,col*(lum>.55?.84:1.3),sqw(sv*16.)*(1.-aaS(.56,sv)));}",
     "  if(P.y>.5){col=mix(col,Tr,(aaB(-.38,-.31,x)+aaB(.31,.38,x))*(1.-aaS(.66,sv)));}",
-    "  if(P.w>1.5){float hem=.27+.035*(1.-4.*x*x);col=mix(col,H,1.-aaS(hem,sv));col=mix(col,Tr,aaB(-.022,.022,sv-hem));}",
     " }",
     " else if(P.x<1.5){col=mix(A,B,sqw((x*P.z+.5)*.5));}",
     " else if(P.x<2.5){col=mix(A,B,sqw(((lat-clat)/.26+.5)*.5));}",
@@ -141,13 +150,11 @@
     " else if(P.x<6.5){float X=x*2.;float Y=sv*2.-1.;col=mix(A,B,(1.-aaS(.085,abs(Y-1.125*abs(X))/1.5))*aaS(-.05,Y));}",
     " else if(P.x<7.5){col=mix(A,B,1.-aaS(0.,sv-(.05+.9*u)));}",
     " else{col=mix(col,Tr,aaB(-.11,.11,x));col=mix(col,B,aaB(-.08,.08,x));}",
-    " if(mod(P.w,2.)>.5){col=mix(col,S,((1.-aaS(.10,u))+aaS(.90,u))*aaS(.42,sv));}",
+    " if(mod(P.w,2.)>.5){float sl=aaS(.42,sv);col=mix(col,S,((1.-aaS(.10,u))+aaS(.90,u))*sl);col=mix(col,Tr,aaB(.385,.40,abs(x))*sl);}",
     " return col;",
     "}",
-    "#ifdef DETAIL",
     "float h3(vec3 p){p=fract(p*.3183099+.1);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}",
     "float vn3(vec3 x){vec3 i=floor(x);vec3 f=fract(x);f=f*f*(3.-2.*f);return mix(mix(mix(h3(i),h3(i+vec3(1.,0.,0.)),f.x),mix(h3(i+vec3(0.,1.,0.)),h3(i+vec3(1.,1.,0.)),f.x),f.y),mix(mix(h3(i+vec3(0.,0.,1.)),h3(i+vec3(1.,0.,1.)),f.x),mix(h3(i+vec3(0.,1.,1.)),h3(i+vec3(1.,1.,1.)),f.x),f.y),f.z);}",
-    "#endif",
     "void main(){",
     " vec3 d=normalize(vObj);",
     " float s1=-2.;float s2=-2.;vec3 c1=vec3(0.,1.,0.);vec3 c2=vec3(0.,1.,0.);float pent=0.;",
@@ -160,7 +167,7 @@
     " vec3 kBody;vec3 kSec;vec3 kSec2;vec3 kTrim;vec3 kSlv;vec3 kPent;vec3 kShorts;vec4 kPat;float L;float F;",
     " int ki=int(ks+.5);kBody=kA[ki];kSec=kB[ki];kSec2=kC[ki];kTrim=kT[ki];kSlv=kS[ki];kPent=kN[ki];kShorts=kH[ki];kPat=kP[ki];L=lit[ki];F=foc[ki];",
     " float hn=float(NSEC)*.5;float du=g-ks;if(du>hn)du-=float(NSEC);if(du<-hn)du+=float(NSEC);float klat=asin(clamp(d.y,-1.,1.));",
-    " kSlv=bkFix(kSlv,kBody,kSec,kTrim);kShorts=bkFix(kShorts,kBody,kSec,kTrim);vec3 kit=kitAt(clamp(du,0.,1.),clamp(.70+(klat-clat)/1.6,0.,1.),klat,kBody,kSec,kSec2,kTrim,kSlv,kShorts,kPat);",
+    " kSlv=bkFix(kSlv,kBody,kSec,kTrim);kShorts=bkDeep(kShorts,kBody,kSec,kTrim);vec3 kSock=bkDeep(kK[ki],kBody,kSec,kTrim);vec3 kit=kitAt(clamp(du,0.,1.),clamp(.70+(klat-clat)/1.6,0.,1.),klat,kBody,kSec,kSec2,kTrim,kSlv,kShorts,kPat);kit=kitDress(kit,clamp(du,0.,1.),klat*57.2958,kBody,kTrim,kShorts,kSock,kQ[ki],kD[ki]);",
     " F=mix(F,1.,neutral);",
     " vec3 white=vec3(.74,.74,.71);",
     " vec3 classic=mix(white,vec3(.022,.022,.026),pent);",
@@ -177,12 +184,12 @@
     " vec3 crc=pow(cr.rgb/max(cr.a,.001),vec3(2.2));float ca=cr.a*L;base=mix(base,crc,ca);",
     " float wS=.014;float groove=1.-smoothstep(wS*.5,wS*1.5,e);",
     " base*=1.-groove*.86*(1.-.45*ca)*(1.-.30*spd)*(1.-.85*pipe);",
-    " float grain=1.;",
+    " float grain=1.;base*=.95+.10*vn3(d*46.);",
     "#ifdef DETAIL",
     " vec3 ax=normalize(cross(gd,c1+c2));float al=dot(d,ax);",
     " float st=(1.-smoothstep(.12,.22,abs(fract(al*30.)-.5)))*smoothstep(wS*1.1,wS*1.6,e)*(1.-smoothstep(.034,.044,e))*(1.-spd*.8);",
     " base=mix(base,base*.5+vec3(.20),st*.55);",
-    " grain=.80+.40*vn3(d*110.);base*=.955+.09*vn3(d*46.);",
+    " grain=.80+.40*vn3(d*110.);",
     "#endif",
     " vec3 gt=gd-d*dot(gd,d);float slope=1.-smoothstep(0.,.085,e);slope*=slope;",
     " vec3 N=normalize(rot*normalize(d-gt*slope*.62));vec3 Ng=normalize(vNg);vec3 V=normalize(camP-vW);",
@@ -297,6 +304,7 @@
   // stripes, the plain red Bundesliga shirts), BALL_VARIANT gives one of them a different stripe width, fabric or pentagon
   // colour so no two clubs that can share a ball look alike (tests/contracts/r94-club-draw-scene-contracts.cjs C10).
   const PATTERN_ID=Object.freeze({solid:0,stripes:1,hoops:2,halves:3,band:4,twin:5,vee:6,diag:7,centre:8});
+  const COLLAR_ID=Object.freeze({crew:0,vee:1,polo:2});
   const FABRIC_ID=Object.freeze({pin:1,shadow:2,yoke:3,fade:4});
   const BALL_VARIANT=Object.freeze({
     "Southampton":{n:11},"Udinese":{n:11},"Sporting Gijón":{n:11},
@@ -315,7 +323,7 @@
     // and shorts at a glance (United red over white, Freiburg red over black, Liverpool all red).
     const shorts=pattern==="solid"&&k.shorts&&dE(k.shorts,k.body)>25?k.shorts:null;
     return {known:true,pattern,fabric:pattern==="solid"?(v.fabric||(typeof kits.fabric==="function"?kits.fabric(name):"shadow")):"",n:pattern==="stripes"?(v.n||7):0,
-      body:k.body,second,second2:k.second[1]||second,trim:k.trim,sleeves,shorts,pent};
+      body:k.body,second,second2:k.second[1]||second,trim:k.trim,sleeves,shorts,pent,shortsAll:k.shorts,socks:k.socks,sockTop:k.sockTop,collar:k.collar};
   }
   // Two looks can share a ball without being mistaken for each other: a different pattern or fabric, stripes at least four
   // apart in count (bold against thin), or a clearly different second colour, pentagon colour, sleeves or body (CIE76 > 25).
@@ -370,15 +378,15 @@
         cx.save();cx.shadowColor="rgba(0,0,0,.6)";cx.shadowBlur=size*.03;cx.drawImage(im,ox+(size-w)/2,oy+(size-h)/2,w,h);cx.restore();});
       const t=tex(new T.CanvasTexture(cv));t.minFilter=T.LinearMipmapLinearFilter;t.premultiplyAlpha=true;t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return t;
     }
-    const ballDefines={BLUR_TAPS:K.blurTaps,NSEC:NS,ROWS,CREST_S:NS===6?".40":".64"};if(K.gloss)ballDefines.GLOSS=1;if(K.detail)ballDefines.DETAIL=1;
+    const ballDefines={BLUR_TAPS:K.blurTaps,NSEC:NS,ROWS,CREST_S:NS===6?".46":".64"};if(K.gloss)ballDefines.GLOSS=1;if(K.detail)ballDefines.DETAIL=1;
     const sphere=geo(new T.SphereGeometry(1,K.seg[0],K.seg[1]));
     const balls=opts.balls.map((b,idx)=>{
       const kits=root.CareerModeKits17||null,v3=hex=>{const c=srgbColour(T,hex).convertSRGBToLinear();return new T.Vector3(c.r,c.g,c.b);};
       const looks=b.clubs.map(n=>{const lk=ballLook(kits,n,assets.info[n]);if(!lk.known){const cc=clubColours(T,assets.info[n]);lk.v={A:cc[0],N:cc[1]};}return lk;});
       const kv=(f)=>looks.map(f);
       const u={PC:{value:PAN.centres},kA:{value:kv(l=>l.v?l.v.A:v3(l.body))},kB:{value:kv(l=>v3(l.second))},kC:{value:kv(l=>v3(l.second2))},kT:{value:kv(l=>v3(l.trim))},
-        kS:{value:kv(l=>v3(l.sleeves||l.body))},kN:{value:kv(l=>l.v?l.v.N:v3(l.pent))},kH:{value:kv(l=>v3(l.shorts||l.body))},
-        kP:{value:kv(l=>new T.Vector4(PATTERN_ID[l.pattern]||0,FABRIC_ID[l.fabric]||0,l.n||0,(l.sleeves?1:0)+(l.shorts?2:0)))},lit:{value:allN(1)},foc:{value:allN(1)},atlas:{value:atlas(b.clubs.map(n=>assets.images[n]))},
+        kS:{value:kv(l=>v3(l.sleeves||l.body))},kN:{value:kv(l=>l.v?l.v.N:v3(l.pent))},kH:{value:kv(l=>v3(l.shortsAll||l.body))},
+        kP:{value:kv(l=>new T.Vector4(PATTERN_ID[l.pattern]||0,FABRIC_ID[l.fabric]||0,l.n||0,(l.sleeves?1:0)+(l.shorts?2:0)))},kK:{value:kv(l=>v3(l.socks||l.body))},kQ:{value:kv(l=>v3(l.sockTop||l.trim))},kD:{value:kv(l=>COLLAR_ID[l.collar]||0)},lit:{value:allN(1)},foc:{value:allN(1)},atlas:{value:atlas(b.clubs.map(n=>assets.images[n]))},
         camP:{value:new T.Vector3()},rot:{value:new T.Matrix3()},blur:{value:0},pulse:{value:0},clat:{value:PAN.clat},spd:{value:0}};
       const m=mat(new T.ShaderMaterial({uniforms:u,vertexShader:BALL_VS,fragmentShader:BALL_FS,defines:ballDefines}));
       const mesh=new T.Mesh(sphere,m);mesh.rotation.order="YXZ";const tilt=new T.Group();tilt.add(mesh);scene.add(tilt);
