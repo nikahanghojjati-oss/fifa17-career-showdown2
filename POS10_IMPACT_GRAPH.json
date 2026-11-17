@@ -258,7 +258,7 @@
     },
     "LEAGUE_CONFIRMATION_INLINE": {
       "source": "tests/proof-sources/workflows/validate-league-confirmation.yml",
-      "gitBlobSha": "2076f35d089fa4b46e896ba60f3fcb517d9aa76a"
+      "gitBlobSha": "ce8e1a2dd4f83771fc4a98b6693d486ad5329625"
     },
     "SETTINGS_WORKSTREAM_INLINE": {
       "source": "tests/proof-sources/workflows/validate-settings-workstream.yml",
