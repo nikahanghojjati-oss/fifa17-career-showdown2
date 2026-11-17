@@ -112,7 +112,7 @@
   // ---------- ball, pitch and stadium shaders (from the study mock-up v3.1, unchanged look) ----------
   const BALL_VS="varying vec3 vObj;varying vec3 vNg;varying vec3 vW;void main(){vObj=normalize(position);vNg=normalize(mat3(modelMatrix)*normal);vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}";
   const BALL_FS=[
-    "uniform vec3 PC[32];uniform vec3 kA[NSEC];uniform vec3 kB[NSEC];uniform vec3 kC[NSEC];uniform vec3 kT[NSEC];uniform vec3 kS[NSEC];uniform vec3 kN[NSEC];uniform vec3 kH[NSEC];uniform vec4 kP[NSEC];uniform vec3 kK[NSEC];uniform vec3 kQ[NSEC];uniform float kD[NSEC];uniform float lit[NSEC];uniform float foc[NSEC];uniform sampler2D atlas;uniform vec3 camP;uniform mat3 rot;uniform float blur;uniform float pulse;uniform float clat;uniform float spd;",
+    "uniform vec3 PC[32];uniform vec3 kA[NSEC];uniform vec3 kB[NSEC];uniform vec3 kC[NSEC];uniform vec3 kT[NSEC];uniform vec3 kS[NSEC];uniform vec3 kN[NSEC];uniform vec3 kH[NSEC];uniform vec4 kP[NSEC];uniform vec3 kK[NSEC];uniform vec3 kQ[NSEC];uniform float kD[NSEC];uniform float kM[NSEC];uniform float lit[NSEC];uniform float foc[NSEC];uniform sampler2D atlas;uniform vec3 camP;uniform mat3 rot;uniform float blur;uniform float pulse;uniform float clat;uniform float spd;",
     "varying vec3 vObj;varying vec3 vNg;varying vec3 vW;",
     "const float TAU=6.2831853;const float G=6.2831853/float(NSEC);",
     "const vec3 KEY=vec3(.430,.765,.479);const vec3 FIL=vec3(-.611,.560,.560);const vec3 BK1=vec3(.667,.477,-.572);const vec3 BK2=vec3(-.667,.477,-.572);",
@@ -126,11 +126,15 @@
     "float aaS(float e,float x){float w=max(fwidth(x),1e-4)*.8;return smoothstep(e-w,e+w,x);}",
     "float aaB(float a,float b,float x){return aaS(a,x)-aaS(b,x);}",
     "float sqw(float x){float w=max(fwidth(x),1e-4)*.8;float f=fract(x);return smoothstep(.5-w,.5+w,f)*(1.-smoothstep(1.-w,1.,f));}",
+    // The club's medallion behind its crest: one of four shapes (round, shield, hexagon, octagon) so neighbours differ in
+    // outline as well as colour. medP: the point in the crest's own plane, in medallion units; medSd: signed distance (<0 inside).
+    "vec2 medP(vec3 d,float k){float lc=(k+.5)*G;float cp=cos(clat);float sp=sin(clat);vec3 c=vec3(sin(lc)*cp,sp,cos(lc)*cp);vec3 t=vec3(cos(lc),0.,-sin(lc));vec3 b=vec3(-sin(lc)*sp,cp,-cos(lc)*sp);float dc=dot(d,c);return dc>.3?vec2(dot(d,t),dot(d,b))/(dc*CREST_S*1.05):vec2(9.);}",
+    "float medSd(vec2 p,float m){vec2 a=abs(p);if(m<.5)return length(p)-.96;if(m<1.5){float w=p.y>-.18?.84:.84*clamp((p.y+1.06)/.88,0.,1.);return max(a.x-w,max(p.y-.90,-1.06-p.y));}if(m<2.5)return max(a.x*.866+a.y*.5,a.y)-.92;return max(max(a.x,a.y),(a.x+a.y)*.7071)-.90;}",
     "vec3 bkDeep(vec3 c,vec3 A,vec3 B,vec3 T){if(bkOk(c))return c;if(bkOk(B)&&distance(B,A)>.12)return B;if(bkOk(T)&&distance(T,A)>.12)return T;return bkLum(A)>.06?A*.58:A*1.7+.03;}",
     // The rest of the kit, by latitude in degrees (la): the collar above the crest (crew one band, vee dips toward the crest,
     // polo two bands), shorts below the shirt with a waistband and side stripes, then socks under a sock-top band.
     "vec3 kitDress(vec3 col,float u,float la,vec3 A,vec3 Tr,vec3 Hs,vec3 Ks,vec3 Kq,float D){",
-    " float ax=abs(u-.5);float cy=46.5-(D>.5&&D<1.5?8.*(1.-2.*ax):0.);float cw=D>1.5?2.6:1.9;",
+    " float ax=abs(u-.5);float cy=47.-(D>.5&&D<1.5?5.*(1.-2.*ax):0.);float cw=D>1.5?2.6:1.9;",
     " col=mix(col,A,aaS(cy+cw,la));col=mix(col,Tr,aaB(cy,cy+cw,la));if(D>1.5)col=mix(col,Tr,aaB(cy+cw+1.3,cy+cw+2.3,la));",
     " col=mix(col,Hs,1.-aaS(-27.,la));col=mix(col,Tr,aaB(-28.8,-27.,la));col=mix(col,Tr,aaB(.335,.365,ax)*(1.-aaS(-29.,la))*aaS(-49.,la));",
     " col=mix(col,Ks,1.-aaS(-49.,la));col=mix(col,Kq,aaB(-54.5,-49.,la));col=mix(col,Tr,aaB(-52.4,-51.2,la));",
@@ -178,12 +182,16 @@
     " vec3 base=mix(classic,club,L);",
     " float ed=min(u,1.-u)*(360./float(NSEC))*sqrt(max(1.-d.y*d.y,0.));float pw=max(fwidth(ed),.02);float pipe=(1.-smoothstep(1.0-pw,1.0+pw,ed))*L;",
     " float pipeEdge=(1.-smoothstep(1.55-pw,1.55+pw,ed))*L;base=mix(base,base*.38,pipeEdge*(1.-pipe));",
-    " float pp=(u<.5?1.:-1.)*ed;vec3 mt=mix(vec3(.26,.15,.006),vec3(.80,.49,.07),smoothstep(.95,-.25,pp));mt=mix(mt,vec3(1.,.88,.48),(1.-smoothstep(0.,.32,abs(pp+.30)))*.85);base=mix(base,mt,pipe);float pa=acos(clamp(abs(d.y),0.,1.))*57.2958;float ros=(1.-smoothstep(3.6-pw,3.6+pw,pa))*L;base=mix(base,base*.38,(1.-smoothstep(4.6-pw,4.6+pw,pa))*L*(1.-ros));base=mix(base,vec3(.84,.60,.16),ros);base=mix(base,vec3(.30,.20,.05),(1.-smoothstep(1.5-pw,1.5+pw,pa))*L);",
+    " float stc=aaB(1.16,1.40,ed)*sqw(klat*57.2958/2.4)*L;base=mix(base,vec3(.86,.70,.36),stc*.9);float pp=(u<.5?1.:-1.)*ed;vec3 mt=mix(vec3(.26,.15,.006),vec3(.80,.49,.07),smoothstep(.95,-.25,pp));mt=mix(mt,vec3(1.,.88,.48),(1.-smoothstep(0.,.32,abs(pp+.30)))*.85);base=mix(base,mt,pipe);float pa=acos(clamp(abs(d.y),0.,1.))*57.2958;float ros=(1.-smoothstep(3.6-pw,3.6+pw,pa))*L;base=mix(base,base*.38,(1.-smoothstep(4.6-pw,4.6+pw,pa))*L*(1.-ros));base=mix(base,vec3(.84,.60,.16),ros);base=mix(base,vec3(.30,.20,.05),(1.-smoothstep(1.5-pw,1.5+pw,pa))*L);",
     "#if BLUR_TAPS > 3",
     " vec4 cr=(crest(d,k,0.)*2.+crest(d,k,blur)+crest(d,k,-blur)+crest(d,k,blur*2.)+crest(d,k,-blur*2.))/6.;",
     "#else",
     " vec4 cr=(crest(d,k,0.)*2.+crest(d,k,blur*1.5)+crest(d,k,-blur*1.5))/4.;",
     "#endif",
+    " vec2 mp=medP(d,k);float msd=medSd(mp,kM[ki]);float mw=max(fwidth(msd),.004);float mIn=(1.-smoothstep(-mw,mw,msd))*L;",
+    " vec3 mc=kTrim;if(!bkOk(mc)||distance(mc,kBody)<.12)mc=kSec;if(!bkOk(mc)||distance(mc,kBody)<.12)mc=kBody*(bkLum(kBody)>.06?.52:1.8);",
+    " mc=mix(mc,mc*.72,smoothstep(.2,1.,length(mp)));base=mix(base,base*.30,(1.-smoothstep(.07-mw,.07+mw,msd))*L*(1.-mIn));base=mix(base,mc,mIn);",
+    " float mr=(1.-smoothstep(-.085-mw,-.085+mw,msd))*mIn;vec3 mg=mix(vec3(.30,.18,.01),vec3(.86,.56,.10),.5+.5*clamp(mp.y,-1.,1.));mg=mix(mg,vec3(1.,.88,.48),(1.-smoothstep(0.,.03,abs(msd+.035)))*.8);base=mix(base,mg,mIn*(1.-mr));",
     " vec3 crc=pow(cr.rgb/max(cr.a,.001),vec3(2.2));float ca=cr.a*L;base=mix(base,crc,ca);",
     " float wS=.014;float groove=1.-smoothstep(wS*.5,wS*1.5,e);",
     " base*=1.-groove*.86*(1.-.45*ca)*(1.-.30*spd)*(1.-.85*pipe);",
@@ -195,7 +203,7 @@
     " grain=.80+.40*vn3(d*110.);",
     "#endif",
     " vec3 gt=gd-d*dot(gd,d);float slope=1.-smoothstep(0.,.085,e);slope*=slope;",
-    " vec3 N=normalize(rot*normalize(d-gt*slope*.62));vec3 Ng=normalize(vNg);vec3 V=normalize(camP-vW);",
+    " vec3 te=vec3(cos(lon),0.,-sin(lon));vec3 N=normalize(rot*normalize(d-gt*slope*.62+te*(u<.5?1.:-1.)*clamp(ed,0.,1.)*.45*pipe));vec3 Ng=normalize(vNg);vec3 V=normalize(camP-vW);",
     " float nl=max(dot(N,KEY),0.);float nf=max(dot(N,FIL),0.);float nb=max(dot(N,BK1),0.)+max(dot(N,BK2),0.);",
     " float up=N.y*.5+.5;vec3 amb=mix(vec3(.020,.062,.022),vec3(.058,.064,.082),up);",
     " float ao=mix(.28,1.,smoothstep(-1.05,-.25,Ng.y));",
@@ -347,6 +355,13 @@
     }
     return looks;
   }
+  // Medallion shape per club (0 round, 1 shield, 2 hexagon, 3 octagon): fixed per club by its name, and never the same as the
+  // section before it, so six sections differ in outline too.
+  function medalShapes(clubs){
+    const out=[];clubs.forEach((n,i)=>{let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))>>>0;let m=h%4;
+      if(i>0&&m===out[i-1])m=(m+1)%4;if(i===clubs.length-1&&clubs.length>1&&m===out[0])m=(m+1)%4;if(i===clubs.length-1&&i>0&&m===out[i-1])m=(m+1)%4;out.push(m);});
+    return out;
+  }
   // Two looks can share a ball without being mistaken for each other: a different pattern or fabric, stripes at least four
   // apart in count (bold against thin), or a clearly different second colour, pentagon colour, sleeves or body (CIE76 > 25).
   function looksApart(a,b,dE){
@@ -408,7 +423,7 @@
       const kv=(f)=>looks.map(f);
       const u={PC:{value:PAN.centres},kA:{value:kv(l=>l.v?l.v.A:v3(l.body))},kB:{value:kv(l=>v3(l.second))},kC:{value:kv(l=>v3(l.second2))},kT:{value:kv(l=>v3(l.trim))},
         kS:{value:kv(l=>v3(l.sleeves||l.body))},kN:{value:kv(l=>l.v?l.v.N:v3(l.pent))},kH:{value:kv(l=>v3(l.shortsAll||l.body))},
-        kP:{value:kv(l=>new T.Vector4(PATTERN_ID[l.pattern]||0,FABRIC_ID[l.fabric]||0,l.n||0,(l.sleeves?1:0)+(l.shorts?2:0)))},kK:{value:kv(l=>v3(l.socks||l.body))},kQ:{value:kv(l=>v3(l.sockTop||l.trim))},kD:{value:kv(l=>COLLAR_ID[l.collar]||0)},lit:{value:allN(1)},foc:{value:allN(1)},atlas:{value:atlas(b.clubs.map(n=>assets.images[n]))},
+        kP:{value:kv(l=>new T.Vector4(PATTERN_ID[l.pattern]||0,FABRIC_ID[l.fabric]||0,l.n||0,(l.sleeves?1:0)+(l.shorts?2:0)))},kK:{value:kv(l=>v3(l.socks||l.body))},kQ:{value:kv(l=>v3(l.sockTop||l.trim))},kD:{value:kv(l=>COLLAR_ID[l.collar]||0)},kM:{value:medalShapes(b.clubs)},lit:{value:allN(1)},foc:{value:allN(1)},atlas:{value:atlas(b.clubs.map(n=>assets.images[n]))},
         camP:{value:new T.Vector3()},rot:{value:new T.Matrix3()},blur:{value:0},pulse:{value:0},clat:{value:PAN.clat},spd:{value:0}};
       const m=mat(new T.ShaderMaterial({uniforms:u,vertexShader:BALL_VS,fragmentShader:BALL_FS,defines:ballDefines}));
       const mesh=new T.Mesh(sphere,m);mesh.rotation.order="YXZ";const tilt=new T.Group();tilt.add(mesh);scene.add(tilt);
@@ -736,7 +751,7 @@
   function preload(){return cdLoadEngine().then(()=>true,()=>false);}
 
   const api={contractVersion:1,feature:"cms-club-draw-3d",enginePath:ENGINE_PATH,physics:PHYS_DEFAULT,tune,
-    sectionOf,drawStop,poseOf,showTarget,ballLook,looksApart,distinctNeighbours,BALL_VARIANT,travelTo,friction,speedFor,angleDiff,mod360,knobs,mount:mountScene,preload};
+    sectionOf,drawStop,poseOf,showTarget,ballLook,looksApart,distinctNeighbours,medalShapes,BALL_VARIANT,travelTo,friction,speedFor,angleDiff,mod360,knobs,mount:mountScene,preload};
   if(typeof module!=="undefined"&&module.exports)module.exports=api;
   root.CareerModeClubDraw3d=api;
 })(typeof globalThis!=="undefined"?globalThis:this);
