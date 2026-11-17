@@ -1,7 +1,7 @@
 /* THE CHRONICLE · Volume 23 (Team G, r95 / 2.8.0): the Ball Game (one football each, six crests, one STOP), one typeface for the
    whole clubhouse, the pop-ups, sign-in and error screens in the house look, a sharper ball, phone spacing, the Fable hunt before release, 2.8.0 going live (17 November 2026, 2:27 PM Boston = 19:27 UTC),
    and the Story's new first page and art. Written from gameplay/r95, updated from main 30b79695. Loaded by volume23.js.
-   2.9.0 (r96) gets its own Volume 24: see R96 SPOT in november.js. */
+   2.9.0 (r96) has its own Volume 24 (volume24-data.js); chapter 204 says the three items it lists are fixed there. */
 window.CHRONICLE_VOLUME23={
  "capturedAt": "2026-11-17T21:00:00Z",
  "part": {
@@ -364,7 +364,7 @@ window.CHRONICLE_VOLUME23={
     },
     {
      "type": "p",
-     "text": "The next list is already written, and it is short. On the smallest sideways phones, the Career Start panel still hides both faces, as it did in 2.7.0. The tab that reopens on Home after the final confirm is on it. So are some captions on desktop that are smaller than thirteen pixels. Nik asked for them to be fixed. They are not fixed yet."
+     "text": "The next list is already written, and it is short. On the smallest sideways phones, the Career Start panel still hides both faces, as it did in 2.7.0. The tab that reopens on Home after the final confirm is on it. So are some captions on desktop that are smaller than thirteen pixels. Nik asked for them to be fixed, and 2.9.0 fixes all three. Volume 24 tells how."
     },
     {
      "type": "p",
@@ -397,9 +397,9 @@ window.CHRONICLE_VOLUME23={
      "kind": "pull-request"
     }
    ],
-   "words": 319,
+   "words": 323,
    "minutes": 2
   }
  ],
- "wordCount": 1786
+ "wordCount": 1790
 };
