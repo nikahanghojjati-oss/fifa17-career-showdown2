@@ -48,7 +48,8 @@ assert.match(format, /Chamber Men, Squad Management, Roster Russian Roulette, Pr
 assert.match(format, /The Ball Game then deals each of you six clubs from that league, one football each, and no club appears on both\./);
 assert.match(format, /Press STOP on your own phone and the crest facing you when your football comes to rest is your club\./);
 assert.doesNotMatch(format, /three random clubs/);
-assert.match(format, /skill plus luck.*about half the time/);
+assert.doesNotMatch(format, /skill plus luck|about half the time/, "no skill or luck hints (Nik's clean-screen rule)");
+assert.match(format, /You each stop once\. There is no second spin\./);
 assert.match(format, /There is no second spin\./);
 assert.doesNotMatch(format, /club pack/i, "the Rule Book no longer talks about opening club packs");
 
