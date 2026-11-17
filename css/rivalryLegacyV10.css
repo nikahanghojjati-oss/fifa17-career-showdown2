@@ -2345,3 +2345,11 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-comparison:has(.rvSpecialPlayer):not(.hasCoverage) { height:264px; }
   #app #statistics[data-rivalry-legacy-v10] .rv-shell:has(.rv-comparison:not(.hasCoverage) .rvSpecialPlayer) { padding-top:max(calc(26.4svh - 24px),min(26.4svh,136px)); }
 }
+
+/* r95 house (Lane B, layout measure), Legacy on phones held upright, 380px wide and up: the tabs, card, VIEW SEASON HISTORY and BACK
+   sit on the 16px gutter plus the safe-area inset, where they were 10px from the window edge. Under 380px the 10px stays (the season
+   history result column has no room to spare). Only side padding and the BACK offset change. */
+@media (min-width:380px) and (max-width:600px) and (orientation:portrait) {
+  #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { padding-left:max(16px,env(safe-area-inset-left)); padding-right:max(16px,env(safe-area-inset-right)); }
+  #app #legacy[data-rivalry-legacy-v10] .legacyBackV10 { left:max(16px,env(safe-area-inset-left)); }
+}
