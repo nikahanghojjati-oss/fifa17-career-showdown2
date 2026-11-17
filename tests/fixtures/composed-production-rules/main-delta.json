@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.6.0 (main 5c5472f6) deploys the R93-08 Rules; the hunks below are R94-02 (Club Assignment spin and stop: the optional ledger key 'stops', one int 0..359 per manager inside his own confirm). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
+  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.7.0 (main 5f22a328) deploys the R94-02 Rules; gameplay/r95 has no Rules change yet, so there are no hunks. Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
-    "commit": "5c5472f6215a4470bb77a16abd02ef080bbd5271",
-    "sha256": "b3d4661971eb54f1489a7e445089b18b40a55a29654b7b1cceb977221b69f37c",
-    "gitBlobSha1": "9c8ebeeaa13c746b942c46317e8aa0666d71c0c5",
-    "bytes": 193331
+    "commit": "5f22a32894546a24937f0e5e10317fb083c1a0da",
+    "sha256": "4cb7b87855586000481c65a86663491a4bc74ec70d7f3530057200ce61e7bcb3",
+    "gitBlobSha1": "c0e9520f8958a34a9c2af3d6951dcf00bbf00adb",
+    "bytes": 194269
   },
   "candidate": {
     "sha256": "4cb7b87855586000481c65a86663491a4bc74ec70d7f3530057200ce61e7bcb3",
@@ -15,59 +15,5 @@
   "allowedOwners": [
     "R94-02"
   ],
-  "hunks": [
-    {
-      "mainLine": 324,
-      "candidateLine": 324,
-      "removed": [],
-      "added": [
-        "    // R94-02: a draw 2 ledger also carries 'stops' (one int 0..359 per confirmed manager, in confirmedRoles order: where",
-        "    // his ball came to rest). The key is fixed at create and never added or dropped later, so every ledger written",
-        "    // before R94-02 keeps its exact 15-key shape and its replay."
-      ],
-      "owner": "R94-02",
-      "why": "R94-02 comment: says what the new optional ledger key 'stops' holds and that old ledgers keep their exact 15 keys."
-    },
-    {
-      "mainLine": 328,
-      "candidateLine": 331,
-      "removed": [
-        "        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId'"
-      ],
-      "added": [
-        "        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId','stops'"
-      ],
-      "owner": "R94-02",
-      "why": "R94-02: the ledger may carry 'stops' (allowed key only; presence is fixed at create and checked in the transition below)."
-    },
-    {
-      "mainLine": 371,
-      "candidateLine": 374,
-      "removed": [],
-      "added": [
-        "        )",
-        "        // R94-02 stops: write-once per manager, only on his own confirm, the first one kept by the second confirm.",
-        "        && ('stops' in before) == ('stops' in after)",
-        "        && (",
-        "          !('stops' in after)",
-        "          || (i <= 3 && after.stops == [])",
-        "          || (i == 4 && after.stops.size() == 1",
-        "            && after.stops[0] is int && after.stops[0] >= 0 && after.stops[0] < 360)",
-        "          || (i == 5 && after.stops.size() == 2 && after.stops[0] == before.stops[0]",
-        "            && after.stops[1] is int && after.stops[1] >= 0 && after.stops[1] < 360)"
-      ],
-      "owner": "R94-02",
-      "why": "R94-02 stops transition: the key can never be added or dropped after create; empty before the confirms; the first confirm writes one int 0..359, the second keeps it and adds its own. Old ledgers (no key) pass the first branch unchanged."
-    },
-    {
-      "mainLine": 2282,
-      "candidateLine": 2295,
-      "removed": [],
-      "added": [
-        "            && (!('stops' in after) || after.stops == [])"
-      ],
-      "owner": "R94-02",
-      "why": "R94-02 create: a draw 2 ledger is created with stops == [] (no stop exists before the confirms); a create without the key is unchanged."
-    }
-  ]
+  "hunks": []
 }
