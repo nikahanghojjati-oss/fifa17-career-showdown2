@@ -1,65 +1,17 @@
 {
   "schemaVersion": 1,
-  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.7.0 (main 5f22a328) deploys the R94-02 Rules; gameplay/r95 adds the R95-01 Ball Game draw 3 marker ('draw', six clubs per ball). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
+  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.8.0 (main 30b79695) deploys the R95-01 Ball Game Rules; gameplay/r96 starts with no Rules change (0 hunks). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
-    "commit": "5f22a32894546a24937f0e5e10317fb083c1a0da",
-    "sha256": "4cb7b87855586000481c65a86663491a4bc74ec70d7f3530057200ce61e7bcb3",
-    "gitBlobSha1": "c0e9520f8958a34a9c2af3d6951dcf00bbf00adb",
-    "bytes": 194269
+    "commit": "30b79695893dd57808ea870a102c14eeaeb1c020",
+    "sha256": "5b36d9d8e8dd54e213ffb7c7fba2a2b824cf5dc1572093fb8fec30a8f44a1678",
+    "gitBlobSha1": "38f1a33d09a27a9b4750f4f1f6ce3901d1a0347f",
+    "bytes": 194922
   },
   "candidate": {
     "sha256": "5b36d9d8e8dd54e213ffb7c7fba2a2b824cf5dc1572093fb8fec30a8f44a1678",
     "gitBlobSha1": "38f1a33d09a27a9b4750f4f1f6ce3901d1a0347f",
     "bytes": 194922
   },
-  "allowedOwners": [
-    "R95-01"
-  ],
-  "hunks": [
-    {
-      "mainLine": 327,
-      "candidateLine": 327,
-      "removed": [],
-      "added": [
-        "    // R95-01 Ball Game: a draw 3 ledger (six clubs per ball) also carries 'draw', always the int 3, beside 'stops'. It is",
-        "    // written at create and never added, dropped or changed later, so draw 1 and draw 2 ledgers keep their shapes."
-      ],
-      "owner": "R95-01",
-      "why": "R95-01 comment: says what the new optional ledger key 'draw' holds (always 3, beside 'stops') and that draw 1 and draw 2 ledgers keep their shapes."
-    },
-    {
-      "mainLine": 331,
-      "candidateLine": 333,
-      "removed": [
-        "        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId','stops'"
-      ],
-      "added": [
-        "        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId','stops','draw'"
-      ],
-      "owner": "R95-01",
-      "why": "R95-01: the ledger may carry 'draw' (allowed key only; its value and presence are checked at create and in the transition below)."
-    },
-    {
-      "mainLine": 377,
-      "candidateLine": 379,
-      "removed": [],
-      "added": [
-        "        // R95-01: 'draw' never appears, goes or changes after create (any draw present is 3; absent stays absent and 3",
-        "        // stays 3). One form for every ledger: the R95-01 sweep measured it 3 expressions cheaper than testing 'in' twice.",
-        "        && after.get('draw', 3) == 3 && after.get('draw', 0) == before.get('draw', 0)"
-      ],
-      "owner": "R95-01",
-      "why": "R95-01: on every step after create 'draw' can never appear, go or change (any draw present is 3, and it equals the stored one); comment says why this form."
-    },
-    {
-      "mainLine": 2296,
-      "candidateLine": 2301,
-      "removed": [],
-      "added": [
-        "            && (!('draw' in after) || ('stops' in after && after.draw == 3))"
-      ],
-      "owner": "R95-01",
-      "why": "R95-01: at create (open) a ledger may carry 'draw' only as the int 3 and only beside 'stops' (draw 3 = six clubs per ball)."
-    }
-  ]
+  "allowedOwners": [],
+  "hunks": []
 }
