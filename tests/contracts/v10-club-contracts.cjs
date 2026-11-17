@@ -253,7 +253,7 @@ async function browserChecks(){
       // Team V's decoration is aria-hidden; the product text (title, VS, button labels) is still the product's.
       const a11y=await page.evaluate(()=>{const s=document.getElementById("clubWheelScreen");return {decor:[...s.querySelectorAll("[data-cl-decor]")].filter(n=>n.dataset.clDecor!=="wrap").every(n=>n.getAttribute("aria-hidden")==="true"),
         title:s.querySelector(":scope > h2 .sd-visually-hidden").textContent,confirm:document.getElementById("continueClubAssignment").textContent.trim()};});
-      assert.deepEqual(a11y,{decor:true,title:"CLUB ASSIGNMENT",confirm:"CONFIRM & START SHOWDOWN"});
+      assert.deepEqual(a11y,{decor:true,title:"BALL GAME",confirm:"CONFIRM & START SHOWDOWN"});
       await page.setViewportSize({width:1920,height:1080});
       await page.evaluate(()=>{window.navigateBackSmart=window.__clBack;});
     });

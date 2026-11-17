@@ -434,7 +434,7 @@ const settle=()=>new Promise(resolve=>setTimeout(resolve,30));
     assert.equal(sha('data/frontPages.js'),'7d115ee41cb85e69d22f90d6d083452c1caf92bf83284aafb4e2355f0aabdc09');
     assert.equal(sha('visual-assets/v10_1/content/frontpage.js'),'a4b8ced9ac63123795bfe1d9ee2741027df7426466b5f5b5314c3bf55a58baf6');
     // r95: content.css has the Playfair and Old Standard faces taken out and the paper's text set in the one family (Instrument Sans); the masthead keeps its blackletter.
-    assert.equal(sha('visual-assets/v10_1/content/content.css'),'f4d037272decc4b86e1f66b4fa292fb72954a014692c2c1412772ff1a0457714');
+    assert.equal(sha('visual-assets/v10_1/content/content.css'),'3bf6d3e920f1fc6ddb4373e7d0719dac68d6c1e20b3f102afbae846b80ada9cc');
     assert.equal(Copy.stories.length,114);assert.equal(Copy.duets.length,288);for(const k of ['briefs','captions','ears','quotes'])assert.equal(Copy.small[k].length,30,k);
     assert.equal(Pages.contentVersion,2);assert.equal(Pages.season.length,477);assert.equal(Pages.final.length,258);
     const sw=read('service-worker.js'),added=new Set(JSON.parse(sw.match(/SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\((\[[^\]]*\])\)/)[1]));
