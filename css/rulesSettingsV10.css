@@ -1319,3 +1319,10 @@ body #settingsOverlay.v10Settings .settingsFooter .sd-btn--primary {
 body #settingsOverlay.v10Settings .settingsMotionMarker { border-radius:50%; }
 body #settingsOverlay.v10Settings .settingsMotionChoice:is(.selected,[aria-checked="true"]) .settingsMotionMarker { background:radial-gradient(circle,#f2c45b 0 4px,#151515 5px); }
 
+
+/* r95 Lane B: sideways phones (568x320): the six section tabs give their words a little more room, so SHOWDOWN, MANAGEMENT
+   and RECOVERY stay whole inside each tab (tighter side padding and gap, no tracking; same size type, nothing hidden). */
+@media (max-width:640px) and (max-height:500px) and (orientation:landscape) {
+  #app #ruleBook.v10RuleBook .ruleBookTab { gap:4px; padding:3px 3px 3px 4px; letter-spacing:0; }
+  #app #ruleBook.v10RuleBook .ruleBookTab i { width:18px; height:18px; }
+}

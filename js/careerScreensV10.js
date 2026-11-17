@@ -1075,7 +1075,9 @@
   #app #careerStatistics.careerScreenV10 .phoneHeroDaniel { left:0; }
   #app #careerStatistics.careerScreenV10 .phoneHeroNik { left:auto;right:57%; }
   #app #careerStatistics.careerScreenV10 .phoneFaceBand { inset:0 auto 0 0;width:44%;height:auto;background:none; }
-  #app #careerStatistics.careerScreenV10 .titleBlock { left:6%;top:8px;width:88%; }
+  #app #careerStatistics.careerScreenV10 .titleBlock { left:2%;top:8px;width:96%; }
+  #app #careerStatistics.careerScreenV10 .titleWordmark { justify-self:stretch;width:auto; }
+  #app #careerStatistics.careerScreenV10 .titleWordmark .hc-live-title { width:min(100%,353px);max-width:100%; }
   #app #careerStatistics.careerScreenV10 .titleBlock .sd-tagline { font-size:8px;letter-spacing:.24em; }
   #app #careerStatistics.careerScreenV10 .previewChip { top:6px;left:10px; }
   #app #careerStatistics.careerScreenV10 .phoneHub { left:45%;right:12px;top:8px;bottom:60px;grid-template-rows:50px 44px minmax(0,1fr);gap:5px; }
