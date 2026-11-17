@@ -91,7 +91,22 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2",
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2",
     "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2"
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2",
+    // r95 hunt F1: removed in 2.8.0, but a page rolled back to 2.7.0 still asks for them by a relative url() with no ?v=
+    // (the old Club / Career Start plate sheets and the Gazette sheet); answered from that build's retained shell.
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2",
+    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2",
+    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2",
+    // r95 hunt F8: the Gazette blackletter face is precached, but its sheet asks without ?v=, so offline it needs this entry too.
+    "visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2"
 ]);
 
 const SHELL_PATHS = Object.freeze([
