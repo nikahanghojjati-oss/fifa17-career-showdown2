@@ -12,8 +12,8 @@
 /* One frame, as in the picked mock-up: the league line, the pitch, then one row with Daniel's name and club on the left, STOP
    in the middle and Nik's on the right. The pitch takes the height that keeps that row in view (Chromebook windowed and full
    screen, phones); BACK and the locked-clubs note follow below and the page scrolls to them. */
-#clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell{width:min(1180px,100%);box-sizing:border-box;margin:0 auto;display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(150px,24%) minmax(0,1fr);grid-template-areas:"head head head" "stage stage stage" "one stop two" "conf conf conf" "back back back";column-gap:14px;align-items:center}
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell{width:min(1640px,100%);box-sizing:border-box;margin:0 auto;display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(150px,24%) minmax(0,1fr);grid-template-areas:"head head head" "stage stage stage" "one stop two" "note note note" "conf conf conf" "back back back";column-gap:14px;align-items:center}
 #clubWheelScreen[data-club-draw="spin"] .clubAssignmentHeader{grid-area:head}
 #clubWheelScreen[data-club-draw="spin"] .clubRevealArena,
 #clubWheelScreen[data-club-draw="spin"] .clubRevealArea{display:contents}
@@ -24,7 +24,7 @@
 #clubWheelScreen[data-club-draw="spin"] #clubAssignmentBack{grid-area:back;justify-self:center}
 
 .clubDrawStage{display:none}
-#clubWheelScreen[data-club-draw="spin"] .clubDrawStage{grid-area:stage;display:block;position:relative;width:100%;height:clamp(300px,calc(100dvh - 491px),620px);
+#clubWheelScreen[data-club-draw="spin"] .clubDrawStage{grid-area:stage;display:block;position:relative;width:100%;height:clamp(300px,calc(100dvh - 425px),760px);
   border-radius:14px;overflow:hidden;background:#04060a;box-shadow:inset 0 0 0 1px rgba(216,181,90,.45),0 10px 30px rgba(0,0,0,.35)}
 
 /* Captions under the balls: the manager on the left ball is Daniel (playerOne), on the right Nik. */
@@ -54,15 +54,252 @@
 .clubDrawFlatClub.is-picked{opacity:1;border-color:#f3dc97;box-shadow:0 0 0 2px #f3dc97}
 .clubDrawFlatCrest,.clubDrawFlatCrest svg{display:block;width:100%;height:100%}
 
+/* r94 look (gallery notes, 2026-11-16): the draw is a dark stadium scene like the picked mock-up and the other Team V stages,
+   not a panel on the light page. While the draw shows, the page and its header take the shell every Team V stage has
+   (css/v10Shell.css html[data-v10-screen] rules, repeated here because the Team V club look is not mounted in draw mode):
+   a night page, the two chips in the top bar, the footer visually hidden (never removed). */
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)), html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) body, html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #background { background: #060709; }
+/* Nik 22:14: "CLUB ASSIGNMENT page should in dark marble lounge"; 22:55: the old Club lounge without the heroes; 22:57: "The
+   background show match the layout of our 3d screen box in all sizes". HO-094 (Team V, Nik OK 2026-11-16): a new empty club
+   lounge in the handcrafted house look, ENV_CLUB_PLATE_HC_V3 (1X 1536x864, 2X 3072x1728) and ENV_CLUB_PHONE_HC_V3
+   (1179x2096). It is cover-fit at a focal point per size (--cd-plate-pos) so the lamps, banners and trophies on the side
+   walls stay beside the 3D box and the stadium window shows over it. Loaded on demand (never precached); js/clubDrawStep.js
+   decodes the same file before the Reus Gate opens the screen, using the same two media rules (CD_PLATE_PHONE_MEDIA,
+   CD_PLATE_2X_MEDIA). The house marble (ENV_SLAB) stays underneath as the fallback. The main scroller keeps it put. */
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main {
+  --cd-plate-desk: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_1X.webp"); --cd-plate: var(--cd-plate-desk); --cd-plate-pos: 50% 42%;
+  --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp");
+  background-color: #060709; background-image: var(--cd-plate), var(--cd-slab);
+  background-position: var(--cd-plate-pos), 50% 50%; background-size: cover, cover; background-repeat: no-repeat;
+}
+/* CD_PLATE_2X_MEDIA: wide windows and sharp screens take the 2X file, except the lightest asset tier. */
+@media (min-width: 1537px), (min-resolution: 1.5dppx) {
+  html:not([data-assets="0"]):has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate-desk: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_2X.webp"); }
+}
+/* CD_PLATE_SIDE_MEDIA: sideways phones take HO-095's ENV_CLUB_SIDEWAYS_HC_V4 (2532x1170) in their own slot, --cd-plate-side.
+   It is anchored right (Team V) and to the top: from 568x320 to 932x430 the cover crop keeps both lamps whole in the top
+   strip and the banner and trophy on the right wall, behind and under the manager tiles; the window and lounge stay behind
+   the pitch. 80% rather than 100% across keeps the left lamp clear of the title on the narrowest phones (568x320), and the
+   top anchor keeps the lamp shades whole where the window is wider than the room (932x430 under the top bar). */
+@media (orientation: landscape) and (max-height: 500px) {
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate-side: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp"); --cd-plate: var(--cd-plate-side, var(--cd-plate-desk)); --cd-plate-pos: 80% 0%; }
+}
+/* CD_PLATE_PHONE_MEDIA: upright phones take HO-095's ENV_CLUB_PHONE_HC_V4 (1179x2096): lamps in the top band beside the
+   title, a trophy ledge in the bottom 10%, centred. File names are also in PLATE_FILES in js/clubDrawStep.js (W6). */
+@media (max-width: 760px) and (orientation: portrait) {
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-plate: url("../visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V4.webp"); --cd-plate-pos: 50% 30%; --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp"); }
+  html[data-assets="0"]:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)) #app > main { --cd-slab: url("../visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp"); }
+}
+/* HO-094 placement (lead 23:38, Nik: "background should match the layout of our 3d screen box in all sizes"): on desktop
+   windows the lamps, banners and trophies stand on the side walls, the outer 11.7% of the plate. --cd-wall is where those
+   walls end on screen for a cover-fit plate centred across, wide windows (the plate fills the width) and squarer ones (the
+   plate fills the height and its sides are cut) alike. The shell, and with it the pitch and the tiles, stays inside the walls
+   with a 14px gap, so nothing on the walls is behind the 3D box. */
+@media (min-width: 761px) and (min-height: 501px) {
+  #clubWheelScreen[data-club-draw="spin"] { --cd-wall: min(11.8vw, calc(50vw - (100dvh - var(--sd-nav-top-h, 52px)) * .681)); }
+  #clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell { width: min(1640px, 100%, calc(100vw - 2 * (var(--cd-wall) + 14px))); }
+}
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader {
+  position: fixed; z-index: 41; left: auto; right: 84px; top: calc((var(--sd-nav-top-h, 52px) - 28px) / 2);
+  width: auto; height: auto; min-height: 0; display: flex; align-items: center; gap: 6px; padding: 0;
+  background: none; border: 0; box-shadow: none;
+}
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader .brand { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #seasonIndicator {
+  margin: 0 !important; min-height: 28px; box-sizing: border-box; padding: 0 10px !important; display: inline-flex; align-items: center;
+  font: 600 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .1em; text-transform: uppercase;
+  color: #ece6d6 !important; background: #0d0f13 !important; border: 1px solid rgba(242,196,91,.45) !important; border-radius: 2px; box-shadow: none;
+}
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; }
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #seasonIndicator::before,
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #seasonIndicator::after { content: none; }
+html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app > footer { position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+@media (max-width: 900px) {
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); }
+  html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader:not(:focus-within) { width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+/* The stage fills the width under the top bar; the title is the one title family as plain text on the scene (Cormorant SC,
+   flat gold #C9A45C, no band, box, border or shadow), as every other screen title renders. */
+#clubWheelScreen[data-club-draw="spin"] { width: 100%; max-width: none; padding: 6px max(16px, 2vw) 18px; box-sizing: border-box; }
+#clubWheelScreen[data-club-draw="spin"] > h2 {
+  width: auto; margin: 0 auto 2px; padding: 0 0 0 .06em; background: none; border: 0; box-shadow: none; text-align: center;
+  font: 700 calc(var(--hc-title-h, 48px) * .74)/1.14 "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font-synthesis: none; font-variant-numeric: lining-nums; letter-spacing: .06em; text-transform: uppercase;
+  color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none;
+}
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell { background: none; border-top: 0; box-shadow: none; padding: 0; }
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentEyebrow { color: #C9A45C; }
+#clubWheelScreen[data-club-draw="spin"] #clubAssignmentLeague { color: #f3eedf; }
+#clubWheelScreen[data-club-draw="spin"] #clubPackStatus { color: rgba(243,238,223,.62); }
+/* STOP (Nik 22:15, "color should make sense"): live, it is Home's gold CONTINUE CAREER tile (soft gold bevel, polished gold
+   face, dark ink), the strongest button on the screen. Waiting (the slow look and the speed-up, until the ball is at full
+   speed), it is plainly inactive: no gold face, no bevel, no glow, a flat black tile with a faint gold hairline and dimmed
+   cream words. The r78 waiting look (css/r78-marble-surfaces.css section 5, a gold-bevelled black button) is outranked for
+   the draw STOP only. Never faded, never blue. */
+#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment {
+  box-sizing: border-box; min-height: 56px; padding: 10px 16px; border: 2px solid transparent; border-image: var(--bevel-gold-soft) 1; border-radius: 0;
+  font: 700 clamp(18px, 1.7vw, 26px)/1.1 var(--r78-font-label, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--sd-text-on-gold, #07080a); text-shadow: none; opacity: 1; transform: none;
+  background: linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%);
+  box-shadow: 0 12px 28px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.55), 0 0 22px rgba(242,196,91,.2), inset 0 0 0 1px rgba(255,255,255,.32), inset 0 -10px 22px rgba(138,106,18,.28);
+}
+#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment::before, #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment::after { content: none; }
+#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:hover:not(:disabled), #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:focus-visible {
+  background: linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%); outline: 2px solid #f3dc97; outline-offset: 2px; transform: none;
+  box-shadow: 0 0 0 2px var(--sd-black, #060709), 0 0 24px rgba(242,196,91,.4), inset 0 0 0 1px rgba(255,255,255,.32);
+}
+:root:not(#r78):not(#r78) #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:disabled {
+  opacity: 1; cursor: default; color: rgba(233,223,200,.62); border: 1px solid rgba(242,196,91,.26); border-image: none;
+  background: rgba(10,10,12,.82); box-shadow: none; text-shadow: none; font-size: clamp(13px, 1.05vw, 17px); letter-spacing: .1em;
+}
+#clubWheelScreen[data-club-draw="spin"] #clubAssignmentBack {
+  width: min(360px, 100%); min-height: 44px; margin-top: 10px; color: var(--r78-gold-strong, #ffd34d);
+  background: linear-gradient(180deg, #17140e, #070605); border: 1px solid var(--r78-gold-edge, #d4a017); border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(242,196,91,.25), 0 0 0 1px #000; text-shadow: none;
+}
+
 @media (max-width:760px) and (orientation:portrait){
   #clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell{column-gap:8px;grid-template-columns:minmax(0,1fr) minmax(84px,28%) minmax(0,1fr)}
-  #clubWheelScreen[data-club-draw="spin"] .clubDrawStage{height:clamp(240px,calc(100dvh - 395px),520px);border-radius:12px}
+  #clubWheelScreen[data-club-draw="spin"] .clubDrawStage{height:clamp(240px,calc(100dvh - 345px),560px);border-radius:12px}
   #clubWheelScreen[data-club-draw="spin"] .clubRevealCard{padding:5px 6px}
   #clubWheelScreen[data-club-draw="spin"] .clubManager{font-size:11px;margin-bottom:2px}
   #clubWheelScreen[data-club-draw="spin"] .clubCardFace strong{font-size:14px;gap:6px;min-height:26px}
   #clubWheelScreen[data-club-draw="spin"] .clubCardFace [data-club-identity="true"]::before{width:22px;height:26px}
   #clubWheelScreen[data-club-draw="spin"] .clubCardState{font-size:9px;letter-spacing:.08em}
-  #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment{padding:8px 6px;font-size:12px;letter-spacing:.04em}
+  #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment{min-height:52px;padding:8px 6px;font-size:18px;letter-spacing:.12em}
+  :root:not(#r78):not(#r78) #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:disabled{font-size:11px;letter-spacing:.04em}
   .clubDrawFlat{grid-template-columns:1fr;gap:8px}
 }
 @media (prefers-reduced-motion:reduce){.clubDrawFlatClub{transition:none}}
+
+/* r94 gallery (Nik, 2026-11-16): "the title colour the page layout and the boxes around scene should be in showdown home".
+   The draw speaks Home's language, nothing of the old club panels: Home's warm black page, Home's title gold (#C9A45C, the
+   wordmark ink), Home's kicker and headline for the league, and every box is a Home tile: the gold bevel frame
+   (--bevel-gold, the same gradient #mainMenu.v10Home defines, named the same), the smoked black face, the 1px inner line.
+   STOP that can be tapped is Home's gold CONTINUE CAREER tile; waiting STOP and BACK are Home's black tiles. Nothing is
+   drawn over the scene: the stage keeps only the frame, no sheen. Words, ids, places and tap order are unchanged. */
+#clubWheelScreen[data-club-draw="spin"] {
+  --bevel-gold: linear-gradient(135deg, #FFF1B8 0%, #E8B94A 16%, #8A6A12 38%, #F2C45B 58%, #FFF1B8 74%, #B8862A 100%);
+  --bevel-gold-soft: linear-gradient(135deg, #FFE9A0 0%, #D9A83A 28%, #7A5C10 52%, #E8B94A 78%, #FFF1B8 100%);
+  --home-tile-face: linear-gradient(180deg, rgba(26,24,20,.9) 0%, rgba(9,9,11,.94) 46%, rgba(4,4,6,.96) 100%);
+  --home-tile-shadow: 0 12px 26px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.7), inset 0 0 22px rgba(242,196,91,.07);
+}
+/* League line: Home's kicker (gold label with the short gold bar under it) over Home's white condensed headline. */
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentHeader { text-align: center; padding: 0; background: none; border: 0; box-shadow: none; }
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentEyebrow {
+  display: inline-block; padding-bottom: 6px; color: var(--sd-gold-300, #ffd34d);
+  font: 700 clamp(13px, 1vw, 16px)/1.1 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .12em; text-transform: uppercase;
+  background: linear-gradient(var(--sd-gold-400, #f2c45b), var(--sd-gold-400, #f2c45b)) center bottom / 34px 2px no-repeat;
+}
+#clubWheelScreen[data-club-draw="spin"] #clubAssignmentLeague {
+  margin: 4px 0 0; color: #F4F1EA; text-shadow: 0 2px 10px rgba(0,0,0,.9);
+  font: 700 clamp(26px, 2.6vw, 40px)/1.1 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .01em; text-transform: uppercase;
+}
+#clubWheelScreen[data-club-draw="spin"] #clubPackStatus {
+  min-height: 0; margin: 2px 0 8px; color: #E9DFC8; text-transform: none;
+  font: 400 clamp(13px, 1vw, 16px)/1.35 var(--sd-font-body, Barlow, system-ui, sans-serif); letter-spacing: 0;
+}
+/* The scene's box: Home's gold bevel frame around the pitch, with Home's inner black line. */
+#clubWheelScreen[data-club-draw="spin"] .clubDrawStage {
+  border: 2px solid transparent; border-image: var(--bevel-gold) 1; border-radius: 0; background: #04060a;
+  box-shadow: 0 12px 26px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.55);
+}
+/* Under each ball: a Home tile. The manager is the tile's small gold code, the club its white headline. */
+#clubWheelScreen[data-club-draw="spin"] .clubRevealCard {
+  position: relative; isolation: isolate; margin: 8px 0; padding: 9px 14px 10px; text-align: left;
+  border: 2px solid transparent; border-image: var(--bevel-gold) 1; border-radius: 0;
+  background: var(--home-tile-face); box-shadow: var(--home-tile-shadow);
+}
+#clubWheelScreen[data-club-draw="spin"] .clubRevealCard::before {
+  content: ""; position: absolute; z-index: -1; inset: 0; pointer-events: none;
+  border: 1px solid rgba(255,241,184,.3); border-bottom-color: rgba(201,155,69,.22);
+  background: linear-gradient(180deg, rgba(255,243,176,.2) 0, rgba(255,243,176,.06) 24%, transparent 46%);
+}
+#clubWheelScreen[data-club-draw="spin"] .clubRevealCard::after { content: none; }
+#clubWheelScreen[data-club-draw="spin"] .clubRevealCard.is-revealed { border-image: var(--bevel-gold) 1; box-shadow: var(--home-tile-shadow), 0 0 24px rgba(242,196,91,.22); }
+#clubWheelScreen[data-club-draw="spin"] .clubManager {
+  margin: 0 0 2px; padding: 0; color: #FFF1B8; text-shadow: none; text-align: left;
+  font: 600 12px/1.15 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .2em; text-transform: uppercase;
+}
+#clubWheelScreen[data-club-draw="spin"] .clubPackStage,
+#clubWheelScreen[data-club-draw="spin"] .clubCardFace { align-items: flex-start; padding: 0; background: none; border: 0; box-shadow: none; }
+#clubWheelScreen[data-club-draw="spin"] .clubCardFace strong {
+  justify-content: flex-start; color: #fff; background: none; border: 0; box-shadow: none; text-shadow: 0 2px 10px rgba(0,0,0,.9);
+  font: 700 clamp(18px, 1.6vw, 24px)/1.08 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .01em; text-transform: uppercase;
+}
+#clubWheelScreen[data-club-draw="spin"] .clubRevealCard:not(.is-revealed) .clubCardFace strong { color: rgba(255,255,255,.4); }
+#clubWheelScreen[data-club-draw="spin"] .clubCardState { padding: 0; color: #CFC6B4; background: none; border: 0; }
+#clubWheelScreen[data-club-draw="spin"] #clubAssignmentBack {
+  color: #FFF1B8; border: 2px solid transparent; border-image: var(--bevel-gold) 1; border-radius: 0;
+  background: var(--home-tile-face); box-shadow: var(--home-tile-shadow);
+  font: 700 15px/1 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .16em; text-transform: uppercase;
+}
+/* Nik 22:55: no boxed "CLUB DRAW" bar. The routine line is gone (js/productionSharedShowdownPresentation.js); a real note
+   (waiting, saving, could not save, a refused tap, reconnect) is plain cream text right under STOP, no box, no bar. */
+#clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus {
+  grid-area: note; justify-self: center; max-width: min(760px, 100%); margin: 2px 0 0; padding: 0; text-align: center;
+  color: #E9DFC8; background: none; border: 0; border-image: none; border-radius: 0; box-shadow: none; text-shadow: 0 1px 6px rgba(0,0,0,.9);
+  font: 500 clamp(13px, .95vw, 15px)/1.35 var(--sd-font-body, Barlow, system-ui, sans-serif); letter-spacing: .02em;
+}
+#clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus::before,
+#clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus::after { content: none; }
+#clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus:empty,
+#clubWheelScreen[data-club-draw="spin"] #clubPackStatus:empty { display: none; }
+@media (max-width:760px) and (orientation:portrait){
+  #clubWheelScreen[data-club-draw="spin"] .clubRevealCard { padding: 6px 8px 7px; }
+  #clubWheelScreen[data-club-draw="spin"] .clubManager { font-size: 10px; letter-spacing: .14em; }
+  #clubWheelScreen[data-club-draw="spin"] .clubCardFace strong { font-size: 15px; }
+  #clubWheelScreen[data-club-draw="spin"] #clubAssignmentLeague { font-size: 24px; }
+  #clubWheelScreen[data-club-draw="spin"] #clubPackStatus { font-size: 12px; margin-bottom: 6px; }
+}
+
+/* Sideways phones (Nik, 2026-11-16: "the balls and STOP should be on screen together", every sideways phone size): the pitch
+   takes the left and the full height left under the title; the league, both managers' tiles and STOP stack in a column on
+   its right, so both balls and STOP are in view without scrolling. BACK and the locked-clubs note follow below. */
+@media (orientation: landscape) and (max-height: 500px) {
+  #clubWheelScreen[data-club-draw="spin"] { padding: 6px max(12px, env(safe-area-inset-right)) 12px max(12px, env(safe-area-inset-left)); }
+  #clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus { margin: 0; font-size: 11px; line-height: 1.3; }
+  /* Gallery 23:06 (740x360, 844x390: Nik's tile was cut at the bottom): the title sits over the pitch only, so the right column
+     starts at the top of the screen and its full height is free for the league, both tiles, STOP and a note. */
+  #clubWheelScreen[data-club-draw="spin"] { --cd-col: clamp(170px, 29vw, 260px); --cd-title-h: 26px; }
+  #clubWheelScreen[data-club-draw="spin"] > h2 { margin: 0 calc(var(--cd-col) + 10px) 0 0; height: var(--cd-title-h); font-size: 22px; line-height: var(--cd-title-h); text-align: center; white-space: nowrap; }
+  #clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell {
+    margin-top: calc(0px - var(--cd-title-h));
+    grid-template-columns: minmax(0, 1fr) var(--cd-col); column-gap: 10px; row-gap: 5px; align-items: stretch;
+    grid-template-rows: auto auto auto auto 1fr auto auto;
+    grid-template-areas: "stage head" "stage one" "stage stop" "stage note" "stage two" "conf conf" "back back";
+  }
+  #clubWheelScreen[data-club-draw="spin"] .clubDrawStage { margin-top: var(--cd-title-h); height: max(190px, calc(100dvh - 92px)); }
+  #clubWheelScreen[data-club-draw="spin"] .clubAssignmentEyebrow { font-size: 11px; padding-bottom: 4px; }
+  #clubWheelScreen[data-club-draw="spin"] #clubAssignmentLeague { margin-top: 2px; font-size: 20px; }
+  #clubWheelScreen[data-club-draw="spin"] #clubPackStatus { margin: 1px 0 0; font-size: 11px; line-height: 1.25; }
+  #clubWheelScreen[data-club-draw="spin"] .clubRevealCard { margin: 0; padding: 4px 9px 5px; align-self: start; }
+  #clubWheelScreen[data-club-draw="spin"] #clubCardTwo { align-self: start; }
+  #clubWheelScreen[data-club-draw="spin"] .clubManager { font-size: 10px; letter-spacing: .14em; }
+  #clubWheelScreen[data-club-draw="spin"] .clubCardFace strong { min-height: 20px; font-size: 15px; line-height: 1.15; }
+  #clubWheelScreen[data-club-draw="spin"] .clubCardFace [data-club-identity="true"]::before { width: 20px; height: 24px; }
+  #clubWheelScreen[data-club-draw="spin"] .clubCardState { font-size: 9px; }
+  #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment { margin: 0; min-height: 46px; padding: 6px 8px; font-size: 18px; letter-spacing: .12em; }
+  :root:not(#r78):not(#r78) #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:disabled { font-size: 11px; letter-spacing: .04em; }
+  #clubWheelScreen[data-club-draw="spin"] #clubAssignmentBack { margin-top: 4px; }
+}
+/* The shortest sideways phones (iPhone SE, 568x320): the right column tightens so Nik's tile still ends on screen with a
+   note showing and both clubs named. */
+@media (orientation: landscape) and (max-height: 340px) {
+  #clubWheelScreen[data-club-draw="spin"] { --cd-col: clamp(176px, 31vw, 260px); }
+  #clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell { row-gap: 4px; }
+  #clubWheelScreen[data-club-draw="spin"] .clubAssignmentEyebrow { font-size: 10px; padding-bottom: 2px; }
+  #clubWheelScreen[data-club-draw="spin"] #clubAssignmentLeague { margin-top: 0; font-size: 17px; }
+  #clubWheelScreen[data-club-draw="spin"] #clubPackStatus,
+  #clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus { font-size: 10px; line-height: 1.2; }
+  #clubWheelScreen[data-club-draw="spin"] .clubRevealCard { padding: 3px 8px 4px; }
+  #clubWheelScreen[data-club-draw="spin"] .clubManager { font-size: 9px; }
+  #clubWheelScreen[data-club-draw="spin"] .clubCardFace strong { min-height: 16px; font-size: 13px; }
+  #clubWheelScreen[data-club-draw="spin"] .clubCardFace [data-club-identity="true"]::before { width: 16px; height: 19px; }
+  #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment { min-height: 38px; font-size: 16px; }
+}
+@media (orientation: landscape) and (max-height: 500px) and (min-width: 901px) {
+  /* the top bar shows from 901px wide: the pitch gives its height back */
+  #clubWheelScreen[data-club-draw="spin"] .clubDrawStage { height: max(190px, calc(100dvh - 92px - var(--sd-nav-top-h, 52px))); }
+}

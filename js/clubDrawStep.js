@@ -27,6 +27,16 @@
   const STAGE_ID="clubDrawStage";
   const SCENE_JS="js/clubDrawScene3d.js";
   const STYLE_CSS="css/clubDraw.css";
+  // HO-094: the club lounge behind the draw. The same two media rules as css/clubDraw.css pick the file, so the one the page
+  // paints is the one decoded here before the Reus Gate opens the screen. Loaded on demand, never precached.
+  const PLATE_DIR="visual-assets/v10_1/plates-hc/";
+  const CD_PLATE_PHONE_MEDIA="(max-width: 760px) and (orientation: portrait)";
+  const CD_PLATE_SIDE_MEDIA="(orientation: landscape) and (max-height: 500px)";
+  // The upright and sideways phone plates (HO-095), named here and in the stylesheet (W6 checks they agree; side null would
+  // mean the desktop plate).
+  const PLATE_FILES=Object.freeze({phone:"ENV_CLUB_PHONE_HC_V4.webp",side:"ENV_CLUB_SIDEWAYS_HC_V4.webp"});
+  const CD_PLATE_2X_MEDIA="(min-width: 1537px), (min-resolution: 1.5dppx)";
+  const PLATE_WAIT_MS=8000;
 
   let scene=null,sceneKey="",mounting=null,listeners=new Set(),landed=[false,false],started=false,flat=null,lastState=["",""];
 
@@ -148,12 +158,54 @@
   function cdsStyle(){try{if(typeof root.loadRuntimeStyle==="function")return Promise.resolve(root.loadRuntimeStyle("club-draw",STYLE_CSS)).then(()=>true,()=>true);}catch(_error){}return Promise.resolve(true);}
   // The engine and the scene code download during the league reveal, before the candidates exist.
   function cdsPreload(){
-    void cdsStyle();
+    void cdsStyle();void cdsPlate();
     return cdsLoad("club-draw-3d",SCENE_JS,()=>Boolean(root.CareerModeClubDraw3d)).then(()=>root.CareerModeClubDraw3d.preload()).catch(()=>false);
+  }
+  // The crest table (js/visualIdentity.js) is in before any ball is drawn: the game loads it with the gameplay files, and
+  // the draw makes sure of it here too, so the Reus Gate never opens on a ball without its crests.
+  let identityPromise=null;
+  function cdsIdentity(){
+    const ready=()=>typeof root.getClubIdentity==="function"&&typeof root.loadClubCrestImage==="function";
+    if(ready())return Promise.resolve(true);
+    if(!identityPromise)identityPromise=cdsLoad("visual-identity","js/visualIdentity.js",ready).catch(()=>false).then(ok=>{if(!ok)identityPromise=null;return ok;});
+    return identityPromise;
+  }
+  // r94 gallery: each club's third wears its 2016-17 kit (js/kits17.js, the one kit table). Loaded beside the identity table,
+  // behind the loading screen; if it cannot load, the balls fall back to the identity colours (never a blank ball).
+  let kitsPromise=null;
+  function cdsKits(){
+    const ready=()=>Boolean(root.CareerModeKits17);
+    if(ready())return Promise.resolve(true);
+    if(!kitsPromise)kitsPromise=cdsLoad("kits17","js/kits17.js",ready).catch(()=>false).then(ok=>{if(!ok)kitsPromise=null;return ok;});
+    return kitsPromise;
+  }
+  function cdsPlateFile(){
+    const mq=query=>{try{return Boolean(root.matchMedia&&root.matchMedia(query).matches);}catch(_error){return false;}};
+    if(mq(CD_PLATE_PHONE_MEDIA))return PLATE_DIR+PLATE_FILES.phone;
+    if(PLATE_FILES.side&&mq(CD_PLATE_SIDE_MEDIA))return PLATE_DIR+PLATE_FILES.side;
+    const doc=cdsDoc(),lightest=Boolean(doc&&doc.documentElement&&doc.documentElement.dataset.assets==="0");
+    return `${PLATE_DIR}ENV_CLUB_PLATE_HC_V3_${!lightest&&mq(CD_PLATE_2X_MEDIA)?"2X":"1X"}.webp`;
+  }
+  // Resolves once the plate is decoded (or after PLATE_WAIT_MS, or on an error: the house marble then shows under it), so
+  // the screen never opens on a half-painted room.
+  const plateDone=new Set();
+  function cdsPlate(){
+    const file=cdsPlateFile();
+    if(plateDone.has(file)||typeof root.Image!=="function")return Promise.resolve(true);
+    return new Promise(resolve=>{
+      let done=false;const finish=ok=>{if(done)return;done=true;if(ok)plateDone.add(file);resolve(ok);};
+      const timer=root.setTimeout?root.setTimeout(()=>finish(false),PLATE_WAIT_MS):null;
+      const end=ok=>{if(timer&&root.clearTimeout)root.clearTimeout(timer);finish(ok);};
+      try{
+        const img=new root.Image();img.decoding="async";
+        img.onload=()=>{if(typeof img.decode==="function")img.decode().then(()=>end(true),()=>end(true));else end(true);};
+        img.onerror=()=>end(false);img.src=file;
+      }catch(_error){end(false);}
+    });
   }
   function cdsClubInfo(name){
     // The R94-01 image crest on the ball (the "ball" slot falls back to the largest file there is), the drawn crest otherwise.
-    return Promise.resolve(typeof root.loadClubCrestImage==="function"?root.loadClubCrestImage(name,"ball"):null).catch(()=>null).then(image=>{
+    return Promise.all([cdsIdentity(),cdsKits()]).then(()=>typeof root.loadClubCrestImage==="function"?root.loadClubCrestImage(name,"ball"):null).catch(()=>null).then(image=>{
       let id=null;try{id=typeof root.getClubIdentity==="function"?root.getClubIdentity(name):null;}catch(_error){}
       return {primary:id&&id.primary||"#d8b55a",secondary:id&&id.secondary||"#101010",crest:image||(id&&id.crest)||null};
     });
@@ -170,9 +222,11 @@
     if(!stage)return Promise.resolve(false);
     const opts={balls:ROLES.map(role=>({clubs:c[role].slice()})),me:me<0?0:me,clubInfo:cdsClubInfo,sound:cdsSound,reducedMotion:cdsReduced(),size:cdsStageSize};
     const promise=(async()=>{
+      const plate=cdsPlate();
       await cdsStyle();
       let built=null;
       try{if(await cdsLoad("club-draw-3d",SCENE_JS,()=>Boolean(root.CareerModeClubDraw3d)))built=await root.CareerModeClubDraw3d.mount(stage,opts);}catch(_error){built=null;}
+      await plate;
       if(!mounting||mounting.key!==key){if(built)built.dispose();return false;}
       if(!built){built=cdsFlat(stage,opts);flat=true;}else flat=false;
       scene=built;sceneKey=key;landed=[false,false];started=false;lastState=["",""];

@@ -182,6 +182,53 @@ async function main(){
     const rules=CSS_SRC.replace(/\/\*[\s\S]*?\*\//g,"").split("}").map(r=>r.split("{")[0].trim()).filter(Boolean).filter(sel=>!sel.startsWith("@"));
     for(const sel of rules)for(const part of sel.split(","))assert.ok(/#clubWheelScreen\[data-club-draw="spin"\]|^\s*\.clubDraw/.test(part),`draw style outside draw mode: ${part.trim()}`);
     assert.equal(/backdrop-filter|brightness\(|rgba\(0,\s*0,\s*0,\s*0?\.[5-9]\)\s*;\s*position:\s*fixed/.test(CSS_SRC),false,"no dimming");
+    // r94 look (gallery notes): the title is plain Cormorant SC gold text with nothing behind it; the enabled STOP is the
+    // app's gold metal and the waiting one flat black with a gold edge; nothing in draw mode is blue (the app's cyan bar).
+    const block=sel=>{const i=CSS_SRC.indexOf(sel);assert.ok(i>=0,`missing rule ${sel}`);return CSS_SRC.slice(CSS_SRC.indexOf("{",i)+1,CSS_SRC.indexOf("}",i));};
+    const title=block('#clubWheelScreen[data-club-draw="spin"] > h2 {');
+    for(const want of [/background:\s*none/,/border:\s*0/,/box-shadow:\s*none/,/"Cormorant SC"/,/color:\s*#C9A45C/])assert.match(title,want,`title: ${want}`);
+    // Nik 22:15 ("color should make sense"): live STOP = Home's gold CONTINUE CAREER tile; waiting STOP = plainly inactive
+    // (no gold face, no bevel, dimmed words), and it outranks the r78 gold-bevelled waiting look.
+    const live=block('#clubWheelScreen[data-club-draw="spin"] #continueClubAssignment {');
+    assert.match(live,/border-image:\s*var\(--bevel-gold-soft\)/,"the live STOP wears Home's gold bevel");
+    assert.match(live,/background:\s*linear-gradient\(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%\)/,"and Home's CONTINUE CAREER gold");
+    const wait=block(':root:not(#r78):not(#r78) #clubWheelScreen[data-club-draw="spin"] #continueClubAssignment:disabled {');
+    for(const want of [/border-image:\s*none/,/box-shadow:\s*none/,/color:\s*rgba\(233,223,200,\.62\)/,/background:\s*rgba\(10,10,12,\.82\)/])assert.match(wait,want,`waiting STOP: ${want}`);
+    assert.equal(/gradient/.test(wait),false,"the waiting STOP has no gold face");
+    // Nik 22:11-22:14: Home's language. Home's bevel tokens, Home tiles under the balls, the house marble page.
+    assert.match(CSS_SRC,/--bevel-gold: linear-gradient\(135deg, #FFF1B8 0%, #E8B94A 16%, #8A6A12 38%, #F2C45B 58%, #FFF1B8 74%, #B8862A 100%\)/,"Home's gold bevel, same name and value as #mainMenu.v10Home");
+    assert.match(block('#clubWheelScreen[data-club-draw="spin"] .clubRevealCard {\n'),/border-image:\s*var\(--bevel-gold\)/,"the manager boxes are Home tiles");
+    assert.match(CSS_SRC,/ENV_SLAB_HC_V1_1X\.webp/,"the page is the house marble");
+    // Nik 22:55-22:57: no boxed "CLUB DRAW" bar and no routine lines; a real note is plain text under STOP. The page has a
+    // plate slot for Team V's hero-free Club lounge (empty until it lands), placed per size.
+    assert.equal(/CLUB DRAW · Tap STOP|CLUB DRAW · Read your three clubs|CLUB DRAW · THREE CLUBS ON EACH BALL/.test(PRES_SRC),false,"the routine draw lines are gone");
+    assert.match(PRES_SRC,/function ssjpPlaceDrawStatus\(screen\)\{[^}]*shell\.insertBefore\(node,back\)/,"a real note sits in the shell, right above BACK (under STOP)");
+    assert.match(PRES_SRC,/else if\(unsaved\)ssjpSetSharedStatus\("YOUR STOP COULD NOT BE SAVED · Keep this screen open until it lands\."\)/,"the could-not-save note still shows");
+    const note=block('#clubWheelScreen[data-club-draw="spin"] #sharedShowdownPresentationStatus {\n');
+    for(const want of [/grid-area:\s*note/,/background:\s*none/,/border:\s*0/,/box-shadow:\s*none/])assert.match(note,want,`plain note: ${want}`);
+    // HO-094 (Nik OK 2026-11-16): the empty handcrafted club lounge fills the slot, picked by the same two media rules in
+    // the stylesheet and the step, decoded before the Reus Gate opens the screen, never precached.
+    for(const want of [/ENV_CLUB_PLATE_HC_V3_1X\.webp/,/ENV_CLUB_PLATE_HC_V3_2X\.webp/,/ENV_CLUB_PHONE_HC_V4\.webp/,/ENV_CLUB_SIDEWAYS_HC_V4\.webp/,/--cd-plate-pos:/,/background-image: var\(--cd-plate\), var\(--cd-slab\)/])assert.match(CSS_SRC,want,`plate slot: ${want}`);
+    const media=name=>{const m=STEP_SRC.match(new RegExp(`const ${name}="([^"]+)"`));assert.ok(m,`${name} in the step`);return m[1];};
+    assert.ok(CSS_SRC.includes(`@media ${media("CD_PLATE_PHONE_MEDIA")} {`),"the step and the stylesheet pick the phone plate by the same rule");
+    assert.ok(CSS_SRC.includes(`@media ${media("CD_PLATE_2X_MEDIA")} {`),"the step and the stylesheet pick the 2X plate by the same rule");
+    assert.ok(CSS_SRC.includes(`@media ${media("CD_PLATE_SIDE_MEDIA")} {`),"the step and the stylesheet pick the sideways slot by the same rule");
+    // HO-095 slots: the upright and sideways phone files are named once in the step and once in the stylesheet, and agree.
+    const files=STEP_SRC.match(/const PLATE_FILES=Object\.freeze\(\{phone:"([^"]+)",side:(null|"[^"]+")\}\);/);
+    assert.ok(files,"PLATE_FILES in the step");
+    assert.match(CSS_SRC,new RegExp(`--cd-plate: url\\("\\.\\./visual-assets/v10_1/plates-hc/${files[1].replace(/\./g,"\\.")}"\\)`),"the upright phone slot names the same file");
+    if(files[2]==="null")assert.equal(/--cd-plate-side:/.test(CSS_SRC),false,"no sideways file yet: the desktop plate shows");
+    else assert.ok(CSS_SRC.includes(`--cd-plate-side: url("../visual-assets/v10_1/plates-hc/${JSON.parse(files[2])}")`),"the sideways slot names the same file");
+    assert.match(CSS_SRC,/--cd-plate: var\(--cd-plate-side, var\(--cd-plate-desk\)\)/,"sideways phones read their own slot");
+    assert.match(STEP_SRC,/const plate=cdsPlate\(\);[\s\S]*?await plate;\n\s*if\(!mounting\|\|mounting\.key!==key\)/,"the screen opens only once the plate is decoded (Reus Gate)");
+    assert.equal(/ENV_CLUB_(?:PLATE|PHONE)_HC_V3/.test(SW_SRC),false,"the club lounge is never precached");
+    // Lead 23:38: on desktop windows the box stays inside the side walls, so the lamps, banners and trophies are never behind it.
+    assert.match(CSS_SRC,/--cd-wall: min\(11\.8vw, calc\(50vw - \(100dvh - var\(--sd-nav-top-h, 52px\)\) \* \.681\)\);/,"where the walls end on screen");
+    assert.match(CSS_SRC,/\.clubAssignmentShell \{ width: min\(1640px, 100%, calc\(100vw - 2 \* \(var\(--cd-wall\) \+ 14px\)\)\); \}/,"the box stays inside the walls");
+    // Gallery 23:06: on sideways phones the title sits over the pitch only and the right column starts at the top, with a
+    // tighter tier for the shortest phones, so Nik's tile is never cut (740x360, 844x390, 568x320 checked with a note showing).
+    for(const want of [/--cd-col: clamp\(170px, 29vw, 260px\); --cd-title-h: 26px;/,/margin: 0 calc\(var\(--cd-col\) \+ 10px\) 0 0;/,/margin-top: calc\(0px - var\(--cd-title-h\)\);/,/@media \(orientation: landscape\) and \(max-height: 340px\)/])assert.match(CSS_SRC,want,`sideways fit: ${want}`);
+    assert.equal(/cyan|#00[a-f0-9]{4}\b|blue/i.test(CSS_SRC.replace(/\/\*[\s\S]*?\*\//g,"")),false,"nothing blue in draw mode");
     assert.match(V10_SRC,/section\.dataset\.clubDraw==="spin"\)return false;/,"Team V's pack plate is off in draw mode (CL1-CL6 kept for old Setups)");
     ok("W6","the step, scene and stylesheet are offline; draw styles only in draw mode; no dimming; the pack plate stays for old Setups");
   }
