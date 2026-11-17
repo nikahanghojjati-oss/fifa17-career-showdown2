@@ -424,7 +424,7 @@
   }
   function clMount(frame,section){
     if(mountedFrame&&mountedSection===section&&section.classList.contains("cl-on")&&section.querySelector(":scope > .cl-stage")){
-      try{clUpdate(frame,section);return;}catch(error){clWarn("Club Assignment visuals could not update.",error);}
+      try{clUpdate(frame,section);return;}catch(error){clWarn("Ball Game visuals could not update.",error);}
     }
     clTeardown(section);
     try{
@@ -465,7 +465,7 @@
     }catch(error){
       // Any failure leaves the app's own screen exactly as the product rendered it.
       clTeardown(section);
-      clWarn("Club Assignment visuals unavailable; showing the standard screen.",error);
+      clWarn("Ball Game visuals unavailable; showing the standard screen.",error);
     }
   }
   let pending=false;
@@ -475,7 +475,7 @@
       pending=false;
       const screens=v10Screens();
       if(!screens||!registered)return;
-      screens.show(SCREEN).catch(error=>clWarn("Club Assignment visuals could not update.",error));
+      screens.show(SCREEN).catch(error=>clWarn("Ball Game visuals could not update.",error));
     });
   }
   function clObserve(){
@@ -515,7 +515,7 @@
       clObserve();
       if(typeof root.getActiveScreenName==="function"&&root.getActiveScreenName()===SCREEN)clSchedule();
       return screens;
-    }).catch(error=>{registered=null;installed=false;clWarn("Club Assignment visuals unavailable.",error);return null;});
+    }).catch(error=>{registered=null;installed=false;clWarn("Ball Game visuals unavailable.",error);return null;});
     return registered;
   }
 

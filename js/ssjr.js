@@ -115,7 +115,7 @@
   // JOB-27: Team V's Transfer War skin for the shared Transfer Challenge (registers with the loader above).
   const v10Transfer=once(()=>load("v10-transfer","js/transferScreenV10.js",()=>root.CareerModeTransferScreenV10).then(()=>root.CareerModeTransferScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Transfer War visuals unavailable.",error)));
   // JOB-34: Team V's Club Assignment for the club reveal (registers with the loader above; owns clubWheelScreen).
-  const v10Club=once(()=>load("v10-club","js/clubScreenV10.js",()=>root.CareerModeClubScreenV10).then(()=>root.CareerModeClubScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Club Assignment visuals unavailable.",error)));
+  const v10Club=once(()=>load("v10-club","js/clubScreenV10.js",()=>root.CareerModeClubScreenV10).then(()=>root.CareerModeClubScreenV10.install()).catch(error=>root.console?.warn?.("[Career Mode Showdown] Ball Game visuals unavailable.",error)));
   function deferSkins(){
     const V=root.CareerModeV10Screens;
     if(!V||typeof V.defer!=="function")return;
