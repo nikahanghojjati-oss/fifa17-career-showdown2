@@ -11,6 +11,9 @@
 (function(){
   'use strict';
   var main = document.getElementById('book-main');
+  // r94 R94-03: on the cover page (index.html) the Listen bar reads the Prologue and the dedication only.
+  var home = main ? null : document.getElementById('prologue');
+  if(home) main = home.closest('main') || document.body;
   var synth = window.speechSynthesis;
   if(!main || !synth || typeof window.SpeechSynthesisUtterance !== 'function') return;
 
@@ -56,9 +59,21 @@
     if(!list.length && all.length) list.push({ v: all[0], s: 0, label: friendly(all[0]) });
     return list;
   }
-  var voices = [];
+  // r94 (Nik 2026-11-15 "can we add couple more voices"): every English voice the device has is offered. The three
+  // best stay as quick buttons; the rest sit in a "More voices" list. Voices the person installs on the device
+  // (iPhone: Settings > Accessibility > Spoken Content > Voices; Chromebook: Settings > Accessibility > Text-to-Speech)
+  // appear here automatically.
+  function allEnglish(){
+    var all = synth.getVoices() || [], seen = {}, list = [];
+    all.map(function(v){ return { v: v, s: score(v), label: friendly(v) }; })
+       .filter(function(x){ return x.s >= 0; })
+       .sort(function(a, b){ return b.s - a.s || a.v.name.localeCompare(b.v.name); })
+       .forEach(function(x){ if(seen[x.v.name]) return; seen[x.v.name] = 1; list.push(x); });
+    return list;
+  }
+  var voices = [], allVoices = [];
   function refreshVoices(){
-    voices = pickThree();
+    voices = pickThree(); allVoices = allEnglish();
     var bar = main.querySelector('.ra-bar');
     if(bar) drawVoices(bar);
   }
@@ -67,20 +82,28 @@
   function chosenVoice(){
     var want = load(KEY_VOICE);
     for(var i = 0; i < voices.length; i++) if(voices[i].v.name === want) return voices[i];
+    for(var j = 0; j < allVoices.length; j++) if(allVoices[j].v.name === want) return allVoices[j];
     return voices[0] || null;
   }
 
   // ---- what to read ------------------------------------------------------------------------------------------
-  var SKIP = '.ra-bar,.chapter-aside,.novel-notes,.chapter-footer,.chapter-kicker,.book-actions,nav,table,.table-scroll,figure,button,.novel-opener,.novel-end,.novel-break,.visually-hidden,.sr-only,[aria-hidden="true"],.book-toast,script,style';
+  var SKIP = '.dedication-strokes,.prologue-actions,.ra-bar,.chapter-aside,.novel-notes,.chapter-footer,.chapter-kicker,.book-actions,nav,table,.table-scroll,figure,button,.novel-opener,.novel-end,.novel-break,.visually-hidden,.sr-only,[aria-hidden="true"],.book-toast,script,style';
   function blocks(){
-    var root = main.querySelector('.chapter-prose') ? main : main;
-    var nodes = root.querySelectorAll('h1,h2,h3,h4,p,li,blockquote');
+    var roots = home ? [home, document.getElementById('small-axe')].filter(Boolean) : [main];
+    var nodes = [];
+    roots.forEach(function(r){ Array.prototype.push.apply(nodes, r.querySelectorAll('h1,h2,h3,h4,p,li,blockquote')); });
     var out = [];
-    Array.prototype.forEach.call(nodes, function(n){
+    nodes.forEach(function(n){
       if(n.closest(SKIP)) return;
       if(n.tagName === 'P' && n.closest('li,blockquote')) return;        // read the list item or quote once
       if(n.tagName === 'LI' && n.querySelector('li')) return;
-      var t = (n.innerText || n.textContent || '').replace(/\s+/g, ' ').trim();
+      // textContent, not innerText: Chrome's innerText drops the space after a floated drop-cap letter ("I left" became
+      // "Ileft"); line breaks become spaces first.
+      var c = n.cloneNode(true);
+      Array.prototype.forEach.call(c.querySelectorAll('br'), function(br){ br.replaceWith(' '); });
+      Array.prototype.forEach.call(c.querySelectorAll('[aria-hidden="true"],.sr-only,.visually-hidden'), function(x){ x.remove(); });
+      Array.prototype.forEach.call(c.querySelectorAll('cite'), function(x){ x.before('\u0001'); });   // "quote. Who said it"
+      var t = (c.textContent || '').replace(/\s+/g, ' ').replace(/\s*([.!?…])?\s*\u0001\s*/g, function(m, p){ return (p || '.') + ' '; }).trim();
       if(t.length < 2) return;
       if(!n.offsetParent && n.getClientRects().length === 0) return;      // hidden
       out.push({ node: n, text: t });
@@ -145,7 +168,7 @@
     paint();
   }
   function play(){
-    var key = location.hash;
+    var key = home ? 'home' : location.hash;      // on the cover, in-page links change the hash but not the text
     if(state === 'paused' && key === pageKey && queue.length){ state = 'playing'; token++; synth.cancel(); speakNext(token); startKeepAlive(); return; }
     build(); pageKey = key;
     if(!queue.length) return;
@@ -188,7 +211,7 @@
     if(!box) return;
     box.innerHTML = '';
     var cur = chosenVoice();
-    if(voices.length < 2){ box.hidden = true; return; }
+    if(allVoices.length < 2){ box.hidden = true; return; }
     box.hidden = false;
     voices.forEach(function(x){
       var b = el('button', 'ra-voice', x.label);
@@ -202,6 +225,24 @@
       });
       box.appendChild(b);
     });
+    var quick = {}; voices.forEach(function(x){ quick[x.v.name] = 1; });
+    var extra = allVoices.filter(function(x){ return !quick[x.v.name]; });
+    if(extra.length){
+      var sel = el('select', 'ra-more'); sel.setAttribute('aria-label', 'More voices');
+      var first = el('option', '', 'More voices (' + extra.length + ')'); first.value = ''; sel.appendChild(first);
+      extra.forEach(function(x){
+        var name = x.v.name.replace(/^(Google|Microsoft|Chrome OS|Android)\s+/i, '').replace(/\s*\(.*\)$/, '');
+        var o = el('option', '', name + (x.label.indexOf(name) >= 0 ? '' : ' · ' + x.label.replace(/ · .*/, '')));
+        o.value = x.v.name; if(cur && cur.v.name === x.v.name) o.selected = true; sel.appendChild(o);
+      });
+      sel.addEventListener('change', function(){
+        if(!sel.value) return;
+        store(KEY_VOICE, sel.value);
+        drawVoices(bar);
+        if(state === 'playing'){ pause(); play(); }
+      });
+      box.appendChild(sel);
+    }
   }
   function paint(){
     var bar = main.querySelector('.ra-bar');
@@ -219,7 +260,7 @@
     if(main.querySelector('.ra-bar')){ return; }
     if(state !== 'continue'){ if(state !== 'idle') stop(); }
     if(!readable()) return;
-    var title = main.querySelector(':scope > h1') || main.querySelector('h1');
+    var title = home ? home.querySelector('h2') : (main.querySelector(':scope > h1') || main.querySelector('h1'));
     var after = title && title.nextElementSibling && title.nextElementSibling.classList.contains('book-intro') ? title.nextElementSibling : title;
     var bar = el('div', 'ra-bar');
     bar.setAttribute('role', 'group');
@@ -246,7 +287,7 @@
   var pending = 0;
   new MutationObserver(function(){ if(pending) return; pending = requestAnimationFrame(function(){ pending = 0; attach(); }); })
     .observe(main, { childList: true });
-  window.addEventListener('hashchange', function(){ if(state === 'playing' || state === 'paused'){ stop(); } });
+  window.addEventListener('hashchange', function(){ if(!home && (state === 'playing' || state === 'paused')){ stop(); } });
   window.addEventListener('pagehide', function(){ synth.cancel(); });
   attach();
 })();

@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.6.0-r93";
-const PREVIOUS_RUNTIME_REVISION = "2.5.1-r92";
+const RUNTIME_REVISION = "2.7.0-r94";
+const PREVIOUS_RUNTIME_REVISION = "2.6.0-r93";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -181,6 +181,9 @@ const SHELL_PATHS = Object.freeze([
   "visual-assets/v10_1/icon-guess/index.html",
   "js/chamberMenStep.js",
   "js/chamberMenScene3d.js",
+  "js/clubDrawStep.js",
+  "js/clubDrawScene3d.js",
+  "css/clubDraw.css",
   "js/chamberMenStadium3d.js",
   "js/chamberMen.js",
   "css/chamberMen.css",
@@ -416,7 +419,7 @@ const OFFLINE_PACK_PATHS = new Set([
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt",
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt","visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
     "js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html","js/chamberMenStep.js",
-    "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/clubAssignment.js","js/dataEngine.js",
+    "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/clubAssignment.js","js/clubDrawStep.js","js/clubDrawScene3d.js","css/clubDraw.css","js/dataEngine.js",
     "js/leagueWheel.js","js/productionSharedShowdownPresentation.js","js/sharedTransferChallenge.js","js/sparkSharedTransferChallenge.js",
     "js/sparkSharedSeasonResults.js","js/ruleBook.js","js/seasonEngine.js","js/showdownUI.js","js/statistics.js","js/transferChallenge.js",
     "js/transferSelector.js","js/playerSearch.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
@@ -447,17 +450,15 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.6.0 (r93): PREVIOUS is the live 2.5.1-r92 (293 paths, tests/fixtures/shell-paths/2.5.1-r92.json, main 23bdd439; the same
-// list as 2.5.0's, because the 2.5.1 hotfix changed only the Firestore Rules, tests and version strings). The STORY site is
-// never precached.
-// r93 HO-079 (flat logo V4 + live-text titles): adds the Cormorant SC Bold file and the V4 loading logo, drops the V3 loading logo.
+// 2.7.0 (r94): PREVIOUS is the live 2.6.0-r93 (295 paths, tests/fixtures/shell-paths/2.6.0-r93.json, main 5c5472f6). The STORY
+// site is never precached.
+// r94 R94-02 (Club Assignment spin and stop): adds the club draw step, its 3D scene and its CSS. Nothing else in r94 touches the shell.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
-    "assets/loading/LOGO_CM17_WORDMARK_V4_640.webp",
-    "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
-    "visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt"
+    "js/clubDrawStep.js",
+    "js/clubDrawScene3d.js",
+    "css/clubDraw.css"
 ]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([
-    "assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"
 ]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks

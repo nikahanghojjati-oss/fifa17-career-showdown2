@@ -1,6 +1,7 @@
 "use strict";
 const rosterRoulette=require("./support/roster-roulette.cjs");
 const gazette=require("./support/touchline-gazette.cjs");
+const clubDraw=require("./support/club-draw.cjs");
 // G-2b: Daniel and Nik play through the real app screens in two Chromium contexts against the
 // Auth + Firestore emulators (composed production Rules). Test database only; project demo-cms-browser-journey.
 // Run: npx --yes firebase-tools@15.28.1 emulators:exec --config tests/browser/support/firebase.browser-journey.json \
@@ -40,7 +41,7 @@ const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${label}`);};
 // automatic, so the journey must never need them (Daniel's ACKNOWLEDGE is folded into his COMMIT & ACKNOWLEDGE tap, R7).
 // r79 one start flow: START makes the pair code itself and both managers continue by themselves once connected, so
 // CHOOSE SEASONS (Connect Players), CONNECT PLAYERS (GET READY) and CREATE CODE FOR NIK are no longer taps either.
-const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CAREER START","CONTINUE TO THE TRANSFER WAR","REFRESH","REFRESH","#refreshSharedTransferChallenge"]);
+const REMOVED_TAPS=new Set(["CHOOSE SEASONS","#connectPlayersSetup","CONNECT PLAYERS","CREATE CODE FOR NIK","CHECK STATUS","REFRESH / READ","START CAREER","CONTINUE","CONTINUE TO CLUB PACKS","CONTINUE TO CLUB DRAW","CONTINUE TO CAREER START","CONTINUE TO THE TRANSFER WAR","REFRESH","REFRESH","#refreshSharedTransferChallenge"]);
 function assertNoRemovedTaps(m){
   const removed=m.log.taps.filter(tap=>REMOVED_TAPS.has(tap.text)||REMOVED_TAPS.has(`#${tap.id}`));
   assert.deepEqual(removed,[],`${m.user} never needed a removed navigation/read tap`);
@@ -484,7 +485,7 @@ async function main(){
     ok("J4.1","Nik is visibly waiting for the host and cannot draw the shared league");
 
     await daniel.page.locator("#spinLeague").click({timeout:30000});
-    await daniel.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+    await clubDraw.waitContinueToClubs(daniel.page);
     const sharedLeague=(await daniel.page.locator("#selectedLeague").textContent()).trim();
     assert.ok(sharedLeague&&!/Spin|ready|Pair managers/i.test(sharedLeague),`authoritative league revealed: ${sharedLeague}`);
     await nik.page.waitForFunction(league=>document.getElementById("selectedLeague")?.textContent===league,sharedLeague,{timeout:30000});
@@ -494,36 +495,48 @@ async function main(){
     // Both devices witness the real league screen; only Daniel performs the authoritative club draw.
     // Job 33 (R3, fixes the JOB-16 peer gap): after the league reveal both presentations move on to the club packs by themselves.
     for(const m of [daniel,nik]){
-      await m.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+      await clubDraw.waitContinueToClubs(m.page);
       await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
       assert.equal(await m.page.locator("#leagueWheelScreen").isVisible(),false,`${m.user}: the witnessed league screen advanced to the club packs without a tap`);
       assert.equal((await m.page.locator("#clubAssignmentLeague").textContent()).trim(),sharedLeague,`${m.user}: the club screen names the shared league`);
     }
-    assert.match(await nik.page.locator("#openClubPack").textContent(),/WAITING FOR DANIEL/i,"Nik waits for host pack reveal");
-    assert.equal(await nik.page.locator("#openClubPack").isDisabled(),true,"Nik cannot draw the clubs");
-    await daniel.page.locator("#openClubPack").click({timeout:30000});
-    await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
-    const clubsD=await daniel.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
-    await nik.page.waitForFunction(clubs=>document.getElementById("clubNameOne")?.textContent?.trim()===clubs[0]&&document.getElementById("clubNameTwo")?.textContent?.trim()===clubs[1],clubsD,{timeout:30000});
-    const clubsN=await nik.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
+    // R94-02 (Nik 2026-11-15): the club draw is a spin and stop. Nobody opens anything: Daniel's device deals the six
+    // candidates and locks his season length by itself; each manager taps STOP on his own device; his club is named under
+    // his ball once it rests, and both phones name the same two clubs.
+    for(const m of [daniel,nik]){
+      await clubDraw.waitDraw(m.page);
+      assert.equal(await m.page.locator("#openClubPack").isVisible(),false,`${m.user}: no OPEN CLUB PACKS tap in the club draw`);
+      assert.deepEqual(await clubDraw.names(m.page),["?","?"],`${m.user}: no club is named before its ball rests`);
+    }
+    await clubDraw.waitStop(nik.page);await clubDraw.waitStop(daniel.page);
+    const drawn=await clubDraw.setupState(daniel.page);
+    assert.equal(drawn.phase,"SEASON_LENGTH_COMMITTED","Daniel's device dealt the candidates and locked the season length by itself");
+    const six=[...drawn.candidates.playerOne,...drawn.candidates.playerTwo];
+    assert.equal(new Set(six).size,6,"six distinct candidate clubs");
+    await clubDraw.stop(daniel.page);
+    await daniel.page.waitForFunction(()=>(window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setup?.stops||[]).length===1,null,{timeout:30000});
+    assert.equal(await daniel.page.locator("#continueClubAssignment").isDisabled(),true,"Daniel cannot stop twice");
+    await clubDraw.stop(nik.page);
+    for(const m of [daniel,nik])await clubDraw.waitBothRested(m.page,60000);
+    const clubsD=await clubDraw.names(daniel.page),clubsN=await clubDraw.names(nik.page);
     assert.deepEqual(clubsN,clubsD,"both managers see the same two clubs");
     assert.ok(clubsD[0]&&clubsD[1]&&clubsD[0]!==clubsD[1],"two distinct clubs");
+    const held=await clubDraw.setupState(daniel.page);
+    assert.equal(held.phase,"SHOWDOWN_CONFIRMED","both stops confirmed the Setup");
+    held.confirmedRoles.forEach((role,index)=>{const stop=held.stops[index];assert.ok(Number.isInteger(stop)&&stop>=0&&stop<360,`${role}: one stored stop 0..359`);assert.equal(held.clubs[role],held.candidates[role][Math.floor(stop/120)],`${role}: the club is the third his ball rests on`);});
+    assert.deepEqual([held.clubs.playerOne,held.clubs.playerTwo],clubsD,"the clubs named on screen are the clubs Firebase holds");
     for(const m of [daniel,nik]){
       assert.equal((await m.page.locator("#clubPlayerOne").textContent()).trim(),"Daniel","Daniel remains the LEFT/playerOne slot");
       assert.equal((await m.page.locator("#clubNameOne").textContent()).trim(),clubsD[0],"Daniel's left club agrees on both pages");
     }
-    ok("J4.3","host opened the real club packs; both pages agree on two clubs with Daniel in the LEFT slot");
+    ok("J4.3","the club draw dealt six candidates by itself; each manager stopped his own ball; both pages agree on two clubs with Daniel in the LEFT slot");
 
-    // Daniel's original season count is auto-locked; each manager only confirms their own device.
-    for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
-    await daniel.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
-    await nik.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
-    // Job 33 (R4a): the first confirmer's Career Start opens by itself once the rival confirms (no CONTINUE TO CAREER START tap).
+    // Job 33 (R4a): Career Start opens by itself once both balls rest (no CONTINUE TO CAREER START tap).
     for(const m of [daniel,nik]){
       await m.page.waitForFunction(()=>document.getElementById("continueClubAssignment")?.textContent==="CONTINUE TO CAREER START",null,{timeout:30000});
       await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
     }
-    ok("J4.4","both managers confirmed the identical shared setup and both real club screens advanced to Career Start");
+    ok("J4.4","both managers stopped their balls on the identical shared setup and both real club screens advanced to Career Start");
     await shot(daniel,"j4-setup");await shot(nik,"j4-setup");
 
     // J5 career start: each manager confirms only their own FIFA 17 career, then both continue.

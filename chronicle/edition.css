@@ -749,6 +749,7 @@ footer>a{width:auto;margin:0;font-family:var(--ed-label);font-weight:700;font-si
 @media screen{
 .ra-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:0 auto 28px;max-width:40em}
 .book-body:not(.is-reading) .ra-bar{justify-content:flex-start;margin-left:0}
+#prologue .ra-bar{margin:32px auto 36px}
 .ra-bar button{font-family:var(--ed-label);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:13px;line-height:1;
   min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--ed-hair-2);background:transparent;color:var(--ink,var(--ed-ivory));cursor:pointer;
   display:inline-flex;align-items:center;gap:8px;-webkit-tap-highlight-color:transparent;transition:background .2s var(--ed-ease),border-color .2s var(--ed-ease)}
@@ -763,6 +764,10 @@ footer>a{width:auto;margin:0;font-family:var(--ed-label);font-weight:700;font-si
 .ra-voices[hidden]{display:none}
 .ra-bar .ra-voice{font-size:12px;letter-spacing:.1em;padding:0 14px;color:var(--sub,var(--ed-ivory-2))}
 .ra-bar .ra-voice[aria-pressed="true"]{border-color:var(--gold);color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.ra-bar .ra-more{font-family:var(--ed-label);font-weight:600;font-size:12px;letter-spacing:.08em;min-height:44px;padding:0 12px;border-radius:999px;
+  border:1px solid var(--ed-hair-2);background:transparent;color:var(--sub,var(--ed-ivory-2));max-width:100%}
+.ra-bar .ra-more:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.ra-bar .ra-more option{color:#111;background:#fff}
 .ra-current{box-shadow:-3px 0 0 var(--gold);padding-left:12px;margin-left:-15px;transition:box-shadow .3s var(--ed-ease)}
 li.ra-current{margin-left:0;padding-left:6px}
 @media (max-width:520px){.ra-bar{gap:8px}.ra-voices{width:100%}.ra-current{margin-left:-11px;padding-left:8px}}

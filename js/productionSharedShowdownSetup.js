@@ -272,7 +272,12 @@
     if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"&&coordinator){
       for(const seasons of LENGTHS)actions.append(action(`${seasons} SEASON${seasons===1?"":"S"}`,()=>void mutate("commit-length",{totalSeasons:seasons}),state.busy));
     }
-    if(setup.phase==="SEASON_LENGTH_COMMITTED"&&state.managerRole&&!setup.confirmedRoles.includes(state.managerRole))actions.append(action("CONFIRM SETUP",()=>void mutate("confirm"),state.busy,true));
+    // R94-02: a draw 2 Setup (its ledger carries `stops`) is confirmed only by STOP on the Club screen, where the manager sees
+    // his ball (the 3D scene, or the flat stand-in where it cannot run). This panel has no ball, so it never sends a stop.
+    if(setup.phase==="SEASON_LENGTH_COMMITTED"&&state.managerRole&&!setup.confirmedRoles.includes(state.managerRole)){
+      if(Object.hasOwn(setup,"stops"))summary.append(create("p","stateNote","CLUB DRAW · Stop your ball on the Club screen to confirm."));
+      else actions.append(action("CONFIRM SETUP",()=>void mutate("confirm"),state.busy,true));
+    }
     actions.append(action("REFRESH",()=>void refresh(),state.busy));summary.append(actions);body.append(summary);
   }
   function render(){

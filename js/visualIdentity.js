@@ -1043,7 +1043,92 @@ function refreshClubVisualIdentity(showdown = null){
     });
 }
 
+/* CREST-IMAGES begin. R94 HO-084 (Nik 2026-11-15, image crest pilot): Team V's image-made crests for a few clubs, in visual-assets/v10_1/crests/
+   (64 px for lists, 256 px for big slots). The drawn SVG crest stays as the fallback: it shows for every other club and wherever
+   an image fails. getClubCrestSvg itself never changes, so a screen that has not moved to getClubCrestMarkup keeps its crest. */
+const CREST_IMAGE_FILES = Object.freeze({
+    // HO-084 pilot
+    "Barcelona": "BARCELONA", "West Ham United": "WESTHAM", "Metz": "METZ", "Chelsea": "CHELSEA", "Torino": "TORINO",
+    // HO-085
+    "Manchester United": "MANUTD", "Liverpool": "LIVERPOOL", "Tottenham Hotspur": "SPURS", "Roma": "ROMA", "Lyon": "LYON", "Bayer Leverkusen": "LEVERKUSEN", "Lazio": "LAZIO", "Eintracht Frankfurt": "FRANKFURT", "Genoa": "GENOA", "Middlesbrough": "BORO",
+    // HO-086
+    "Palermo": "PALERMO", "Nice": "NICE", "Crystal Palace": "PALACE", "FC Ingolstadt": "INGOLSTADT", "Bournemouth": "BOURNEMOUTH", "Caen": "CAEN", "Leicester City": "LEICESTER", "Hull City": "HULL", "Wolfsburg": "WOLFSBURG", "Lille": "LILLE",
+    // HO-087
+    "Everton": "EVERTON", "1. FC Köln": "KOELN", "Borussia Mönchengladbach": "GLADBACH", "Napoli": "NAPOLI", "Pescara": "PESCARA", "Atalanta": "ATALANTA", "Bastia": "BASTIA", "Watford": "WATFORD", "Swansea City": "SWANSEA", "West Bromwich Albion": "WBA",
+    // HO-088
+    "Manchester City": "MANCITY", "Arsenal": "ARSENAL", "Burnley": "BURNLEY", "Stoke City": "STOKE", "Southampton": "SOUTHAMPTON", "Dijon": "DIJON", "Lorient": "LORIENT", "Alavés": "ALAVES", "Atlético Madrid": "ATLETICO", "Sevilla": "SEVILLA",
+    // HO-089
+    "Real Madrid": "REALMADRID", "Celta Vigo": "CELTA", "Deportivo La Coruña": "DEPOR", "Eibar": "EIBAR", "Espanyol": "ESPANYOL", "Granada": "GRANADA", "Málaga": "MALAGA", "Real Betis": "BETIS", "Real Sociedad": "REALSOCIEDAD", "Sporting Gijón": "SPORTING",
+    // HO-090
+    "Villarreal": "VILLARREAL", "Valencia": "VALENCIA", "Las Palmas": "LASPALMAS", "Athletic Club": "ATHLETIC", "Sunderland": "SUNDERLAND", "Inter Milan": "INTER", "RB Leipzig": "LEIPZIG", "Nantes": "NANTES", "Paris Saint-Germain": "PSG", "Monaco": "MONACO",
+    // HO-091
+    "Marseille": "MARSEILLE", "Montpellier": "MONTPELLIER", "FC Augsburg": "AUGSBURG", "Juventus": "JUVENTUS", "Milan": "MILAN", "Bayern Munich": "BAYERN", "Borussia Dortmund": "DORTMUND", "Schalke 04": "SCHALKE", "Hertha BSC": "HERTHA", "Hamburg": "HAMBURG",
+    // HO-092
+    "Werder Bremen": "BREMEN", "SC Freiburg": "FREIBURG", "Mainz 05": "MAINZ", "Darmstadt 98": "DARMSTADT", "Hoffenheim": "HOFFENHEIM", "Bologna": "BOLOGNA", "Cagliari": "CAGLIARI", "Empoli": "EMPOLI", "Sassuolo": "SASSUOLO", "Udinese": "UDINESE", "Leganés": "LEGANES",
+    // HO-093
+    "Fiorentina": "FIORENTINA", "Crotone": "CROTONE", "Chievo": "VERONA", "Sampdoria": "SAMPDORIA", "Osasuna": "OSASUNA", "Angers": "ANGERS", "Bordeaux": "BORDEAUX", "Guingamp": "GUINGAMP", "Nancy": "NANCY", "Rennes": "RENNES", "Saint-Étienne": "SAINTETIENNE", "Toulouse": "TOULOUSE"
+});
+const CREST_IMAGE_BASE = (() => {
+    try{
+        const src = typeof document !== "undefined" && document.currentScript && document.currentScript.src;
+        if(src) return new URL("../visual-assets/v10_1/crests/", src).href;
+    }catch(_error){}
+    return "visual-assets/v10_1/crests/";
+})();
+const crestImageFailed = new Set();
+const crestPictureCache = new Map();
+/* Sizes per slot, best first: "list" 64 px, "big" 256 px, "ball" 512 px (R94-02's 3D spin) falling back to 256, then the SVG. */
+const CREST_IMAGE_SIZES = Object.freeze({ list: [64], big: [256], ball: [512, 256] });
+function getClubCrestImageUrl(clubName, slot){
+    const stem = CREST_IMAGE_FILES[getClubCanonicalName(clubName)];
+    if(!stem) return "";
+    for(const size of CREST_IMAGE_SIZES[slot] || CREST_IMAGE_SIZES.big){
+        const url = `${CREST_IMAGE_BASE}CREST_IMG_${stem}_V1_${size}.webp`;
+        if(!crestImageFailed.has(url)) return url;
+    }
+    return "";
+}
+/* Markup for a crest slot in the page: the image crest where there is one, else the drawn SVG (same 120x144 frame). */
+function getClubCrestMarkup(clubName, slot){
+    const url = getClubCrestImageUrl(clubName, slot);
+    if(!url) return getClubCrestSvg(clubName);
+    const club = String(getClubCanonicalName(clubName)).replace(/[&"<>]/g, c => ({"&": "&amp;", "\"": "&quot;", "<": "&lt;", ">": "&gt;"})[c]);
+    const size = slot === "list" || slot === "ball" ? slot : "big";
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 144" aria-hidden="true" focusable="false" data-crest-image="${club}" data-crest-slot="${size}">`
+        + `<image href="${url}" x="0" y="0" width="120" height="144" preserveAspectRatio="xMidYMid meet"/></svg>`;
+}
+/* For canvases: the decoded image crest, or null when the club has none or it failed (the caller then draws its SVG crest). */
+function loadClubCrestImage(clubName, slot){
+    const url = getClubCrestImageUrl(clubName, slot);
+    if(!url || typeof Image !== "function") return Promise.resolve(null);
+    if(!crestPictureCache.has(url)){
+        crestPictureCache.set(url, new Promise(resolve => {
+            const image = new Image();
+            image.decoding = "async";
+            image.onload = () => resolve(image);
+            // A failed file is never asked for again this session; the slot's next size is tried (ball: 256), else null.
+            image.onerror = () => { crestImageFailed.add(url); crestPictureCache.delete(url); resolve(loadClubCrestImage(clubName, slot)); };
+            image.src = url;
+        }));
+    }
+    return crestPictureCache.get(url);
+}
+/* An image crest that fails in the page is swapped for the slot's next size, else the drawn SVG; that file is not asked for again this session. */
+if(typeof document !== "undefined" && typeof document.addEventListener === "function"){
+    document.addEventListener("error", event => {
+        const image = event.target;
+        const svg = image && typeof image.closest === "function" && String(image.tagName).toLowerCase() === "image" ? image.closest("svg[data-crest-image]") : null;
+        if(!svg) return;
+        crestImageFailed.add(image.getAttribute("href"));
+        try{ svg.outerHTML = getClubCrestMarkup(svg.getAttribute("data-crest-image"), svg.getAttribute("data-crest-slot") || "big"); }catch(_error){}
+    }, true);
+}
+
+/* CREST-IMAGES end */
 window.getClubIdentity = getClubIdentity;
+window.getClubCrestMarkup = getClubCrestMarkup;
+window.getClubCrestImageUrl = getClubCrestImageUrl;
+window.loadClubCrestImage = loadClubCrestImage;
 window.applyClubIdentity = applyClubIdentity;
 window.refreshClubVisualIdentity = refreshClubVisualIdentity;
 window.getClubCrestSvg = getClubCrestSvg;

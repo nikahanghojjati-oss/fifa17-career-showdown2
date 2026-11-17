@@ -74,6 +74,9 @@ names and no others.
       café tables and their chairs off (Extra and up; the café picture and the marble floor stay). A turn is one
       beat. The shadow map is drawn once, so there is no shadow step. Every step in play is a soft cut: the frame
       as it stands fades out over the new one (`softCut`, a plain cut under Reduce Motion).
+    - Club Assignment (R94-02, `js/clubDrawScene3d.js`): the club-colour confetti at rest off; the floodlight glow
+      off; the grass blades round the two balls off (Extra and up). Light has none of them: two balls (one program),
+      the pitch and the painted stadium, 4 draws and 3 programs. A kick and a ball slowing to rest are each a beat.
     - Special Player: the blur chain at half its size (the glow a little softer); the scene's
       edge smoothing one step down (8 samples to 4, 4 to 2; not at Balanced, which already draws 2, and
       never down to none: a GPU that does not offer the lower count keeps its edges);
@@ -171,7 +174,7 @@ is full, and nothing may cover anything).
 
 ## How a screen joins
 
-**A 3D screen** (WebGL: Russian Roulette, Chamber Men, Special Player):
+**A 3D screen** (WebGL: Russian Roulette, Chamber Men, Special Player, Club Assignment):
 
 ```js
 const p = CareerModeGfxTier.profile();                       // before the renderer: antialias is fixed at creation

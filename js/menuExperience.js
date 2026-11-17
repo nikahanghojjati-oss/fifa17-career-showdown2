@@ -1,5 +1,5 @@
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=2.6.0-r93",
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=2.7.0-r94",
     source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
     license: "https://creativecommons.org/licenses/by/2.0/"
 });

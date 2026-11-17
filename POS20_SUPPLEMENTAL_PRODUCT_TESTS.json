@@ -3363,6 +3363,67 @@
         "^tests/contracts/r93\\-loan\\-records\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r94-squad-shirt-contracts.cjs",
+      "patterns": [
+        "^js/squadScreen\\.js$",
+        "^js/kits17\\.js$",
+        "^tests/contracts/r94\\-squad\\-shirt\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r94-crest-ball-contracts.cjs",
+      "patterns": [
+        "^js/visualIdentity\\.js$",
+        "^visual-assets/v10_1/crests/",
+        "^service\\-worker\\.js$",
+        "^tests/contracts/r94\\-crest\\-ball\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r94-club-draw-protocol-contracts.cjs",
+      "patterns": [
+        "^js/(sharedShowdownSetup|sparkSharedShowdownSetup|sparkCompletedShowdownReader|sparkSharedSeasonCommit|sparkSharedSeasonResults)\\.js$",
+        "^js/sharedShowdownCatalog\\.js$",
+        "^firestore\\.shared\\-setup\\-production\\.fragment\\.rules$",
+        "^tests/fixtures/club\\-draw\\-golden/",
+        "^tests/fixtures/saved\\-showdowns",
+        "^tests/firebase/r94\\-club\\-draw\\-rules\\-emulator\\.cjs$",
+        "^tests/contracts/r94\\-club\\-draw\\-protocol\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r94-club-draw-scene-contracts.cjs",
+      "patterns": [
+        "^js/clubDrawScene3d\\.js$",
+        "^js/gfxTier\\.js$",
+        "^tools/club\\-draw\\-tuning\\.html$",
+        "^service\\-worker\\.js$",
+        "^index\\.html$",
+        "^\\.github/workflows/deploy\\-github\\-pages\\.yml$",
+        "^visual\\-assets/v10_1/roulette/vendor/three\\-r187\\.min\\.js$",
+        "^tests/contracts/r94\\-club\\-draw\\-scene\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r94-club-draw-wiring-contracts.cjs",
+      "patterns": [
+        "^js/clubDrawStep\\.js$",
+        "^js/clubDrawScene3d\\.js$",
+        "^js/productionSharedShowdownPresentation\\.js$",
+        "^js/productionSharedShowdownSetup\\.js$",
+        "^js/sharedShowdownSetup\\.js$",
+        "^js/clubScreenV10\\.js$",
+        "^css/clubDraw\\.css$",
+        "^service\\-worker\\.js$",
+        "^tests/contracts/r94\\-club\\-draw\\-wiring\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

@@ -135,7 +135,7 @@
           }
         }
         const crest=pack.querySelector(".clbCrest");
-        if(open&&crest.dataset.club!==club){crest.innerHTML=typeof root.getClubCrestSvg==="function"?root.getClubCrestSvg(club):"";crest.dataset.club=club;}
+        if(open&&crest.dataset.club!==club){crest.innerHTML=typeof root.getClubCrestMarkup==="function"?root.getClubCrestMarkup(club,"big"):typeof root.getClubCrestSvg==="function"?root.getClubCrestSvg(club):"";crest.dataset.club=club;}
         if(!open&&crest.dataset.club){crest.innerHTML="";delete crest.dataset.club;}
         pack.classList.toggle("is-open",open);
         if(opening&&typeof pack.animate==="function"&&pack.getClientRects().length)clPackOpen(pack,index);
@@ -199,6 +199,9 @@
   function clAbsolute(path){try{return new root.URL(path,root.document.baseURI).href;}catch(_error){return path;}}
   function clSection(){const doc=clDoc();return doc?doc.getElementById(SCREEN):null;}
   function clContext(section){
+    // R94-02: a draw 2 Setup shows the spin and stop (js/clubDrawStep.js) on the product's own screen, with no managers on
+    // it (Nik 2026-11-15); the packs and frames CL1-CL6 stay for every Setup opened before R94-02.
+    if(section&&section.dataset&&section.dataset.clubDraw==="spin")return false;
     if(section&&section.dataset&&section.dataset.sharedPresentationRole)return true;
     try{return typeof currentShowdown!=="undefined"&&Boolean(currentShowdown&&currentShowdown.selectedLeague);}catch(_error){return false;}
   }
@@ -341,7 +344,7 @@
       if(crestFor[index]===club)return;
       crestFor[index]=club;
       const rim=section.querySelectorAll(".panelCrest .crestRim")[index];
-      if(rim)rim.innerHTML=club&&typeof root.getClubCrestSvg==="function"?root.getClubCrestSvg(club):"";
+      if(rim)rim.innerHTML=club&&typeof root.getClubCrestMarkup==="function"?root.getClubCrestMarkup(club,"big"):club&&typeof root.getClubCrestSvg==="function"?root.getClubCrestSvg(club):"";
       const crest=section.querySelector(`.reveal[data-side="${index}"] .rvCrest`);
       if(crest){crest.innerHTML="";delete crest.dataset.club;}
     });
@@ -479,7 +482,7 @@
     const section=clSection(),doc=clDoc();
     if(!section||typeof root.MutationObserver!=="function")return;
     // The product's reveal stage and the shared presentation's role mark live on the section.
-    new root.MutationObserver(clSchedule).observe(section,{attributes:true,attributeFilter:["data-club-reveal-stage","data-shared-presentation-role"]});
+    new root.MutationObserver(clSchedule).observe(section,{attributes:true,attributeFilter:["data-club-reveal-stage","data-shared-presentation-role","data-club-draw"]});
     for(const id of ["clubCardOne","clubCardTwo"]){const node=doc.getElementById(id);if(node)new root.MutationObserver(clSchedule).observe(node,{attributes:true,attributeFilter:["class"]});}
     for(const id of ["clubNameOne","clubNameTwo"]){const node=doc.getElementById(id);if(node)new root.MutationObserver(clSchedule).observe(node,{childList:true,characterData:true,subtree:true});}
   }

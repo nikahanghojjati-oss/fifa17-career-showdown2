@@ -35,6 +35,7 @@ const path=require("node:path");
 const {spawn}=require("node:child_process");
 const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
+const clubDraw=require("./support/club-draw.cjs");
 
 const ROOT=path.resolve(__dirname,"../..");
 const PROJECT="demo-cms-browser-journey";
@@ -196,13 +197,8 @@ async function finishTransferSeason(daniel,nik){
 }
 async function playSetupToTransferChallenge(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:45000});
-  await daniel.page.locator("#openClubPack").click({timeout:30000});
-  await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
-  const clubs=await daniel.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
-  await nik.page.waitForFunction(c=>document.getElementById("clubNameOne")?.textContent?.trim()===c[0]&&document.getElementById("clubNameTwo")?.textContent?.trim()===c[1],clubs,{timeout:30000});
-  for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
-  await daniel.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
-  await nik.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
+  // R94-02: the club draw: each manager taps STOP on his own phone; both balls rest; both phones name the same clubs.
+  const clubs=await clubDraw.playClubDraw(daniel,nik);
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
@@ -366,7 +362,7 @@ async function main(){
     }
     ok("G7w","both: Home START with the ACTIVE session goes straight back to the league wheel");
     await daniel.page.locator("#spinLeague").click({timeout:30000});
-    await daniel.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+    await clubDraw.waitContinueToClubs(daniel.page);
     await playSetupToTransferChallenge(daniel,nik);
     ok("R2","setup confirmed, both started their careers and reached the Transfer Challenge (season 1)");
 

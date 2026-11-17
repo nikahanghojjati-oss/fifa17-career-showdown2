@@ -1,254 +1,73 @@
 {
   "schemaVersion": 1,
-  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.5.1 (main 23bdd439) deploys the R93-07 LOCK MY SIGNINGS Rules; the hunks below are R93-08 (Rules budget sweep: same-check slims of JOIN, Transfer War START and the season commit). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
+  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.6.0 (main 5c5472f6) deploys the R93-08 Rules; the hunks below are R94-02 (Club Assignment spin and stop: the optional ledger key 'stops', one int 0..359 per manager inside his own confirm). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
-    "commit": "23bdd439f8c7156957da477e0f055d1c54b6ef63",
-    "sha256": "2a0d029e911165022ffc40b1ff347372cc78333fa60b152fd5183a339006d9be",
-    "gitBlobSha1": "7fee764aa643704a159516c4818329feb0dc44e2",
-    "bytes": 192364
-  },
-  "candidate": {
+    "commit": "5c5472f6215a4470bb77a16abd02ef080bbd5271",
     "sha256": "b3d4661971eb54f1489a7e445089b18b40a55a29654b7b1cceb977221b69f37c",
     "gitBlobSha1": "9c8ebeeaa13c746b942c46317e8aa0666d71c0c5",
     "bytes": 193331
   },
+  "candidate": {
+    "sha256": "4cb7b87855586000481c65a86663491a4bc74ec70d7f3530057200ce61e7bcb3",
+    "gitBlobSha1": "c0e9520f8958a34a9c2af3d6951dcf00bbf00adb",
+    "bytes": 194269
+  },
   "allowedOwners": [
-    "R93-08"
+    "R94-02"
   ],
   "hunks": [
     {
-      "mainLine": 408,
-      "candidateLine": 408,
-      "removed": [
-        "    function ssjrTransferRoleListValid(value) {",
-        "      return value is list",
-        "        && value.size() <= 2",
-        "        && value.toSet().size() == value.size()",
-        "        && value.toSet().hasOnly(['playerOne','playerTwo']);",
-        "    }"
-      ],
-      "added": [],
-      "owner": "R93-08",
-      "why": "START slim: the role-list helper is no longer needed once START tests each role list as exactly [] (the only value START allows)."
-    },
-    {
-      "mainLine": 1855,
-      "candidateLine": 1849,
+      "mainLine": 324,
+      "candidateLine": 324,
       "removed": [],
       "added": [
-        "          // R93-08 (Rules budget sweep): JOIN (the redeem) is the costliest write of the game (~991 of the 1,000 expressions on",
-        "          // the rivalry document). Each branch now tests the joined slot first, so the branch for the other slot stops after one",
-        "          // comparison. The stored open slot is compared with the one map validOpenSlot accepts (all seven keys must be there,",
-        "          // since validOpenSlot reads every one of them, and each has exactly one allowed value), which is the same check for",
-        "          // far fewer expressions. Every other check is unchanged, so the same JOINs pass and fail."
+        "    // R94-02: a draw 2 ledger also carries 'stops' (one int 0..359 per confirmed manager, in confirmedRoles order: where",
+        "    // his ball came to rest). The key is fixed at create and never added or dropped later, so every ledger written",
+        "    // before R94-02 keeps its exact 15-key shape and its replay."
       ],
-      "owner": "R93-08",
-      "why": "JOIN slim comment: why the open slot is compared with one map literal and the joined slot is tested first."
+      "owner": "R94-02",
+      "why": "R94-02 comment: says what the new optional ledger key 'stops' holds and that old ledgers keep their exact 15 keys."
     },
     {
-      "mainLine": 1863,
-      "candidateLine": 1862,
+      "mainLine": 328,
+      "candidateLine": 331,
       "removed": [
-        "                  validCreatorSlot(beforeSlots[0], \"playerOne\", creatorId)",
-        "                  && validOpenSlot(beforeSlots[1], \"playerTwo\")"
+        "        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId'"
       ],
       "added": [
-        "                  joinSlotId == \"playerTwo\"",
-        "                  && validCreatorSlot(beforeSlots[0], \"playerOne\", creatorId)",
-        "                  && beforeSlots[1] == {\"slotId\": \"playerTwo\", \"accountId\": null, \"profileId\": null, \"saveId\": null, \"displayLabel\": null, \"entitlementState\": \"open\", \"deletionConsent\": false}"
+        "        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId','stops'"
       ],
-      "owner": "R93-08",
-      "why": "JOIN slim: the playerTwo branch tests the joined slot first and compares the stored open slot with the one map validOpenSlot accepts; same checks."
+      "owner": "R94-02",
+      "why": "R94-02: the ledger may carry 'stops' (allowed key only; presence is fixed at create and checked in the transition below)."
     },
     {
-      "mainLine": 1866,
-      "candidateLine": 1866,
-      "removed": [
-        "                  && joinSlotId == \"playerTwo\""
-      ],
-      "added": [],
-      "owner": "R93-08",
-      "why": "JOIN slim: the joinSlotId test moved to the front of its branch (same conjunction)."
-    },
-    {
-      "mainLine": 1871,
-      "candidateLine": 1870,
-      "removed": [
-        "                  validOpenSlot(beforeSlots[0], \"playerOne\")"
-      ],
-      "added": [
-        "                  joinSlotId == \"playerOne\"",
-        "                  && beforeSlots[0] == {\"slotId\": \"playerOne\", \"accountId\": null, \"profileId\": null, \"saveId\": null, \"displayLabel\": null, \"entitlementState\": \"open\", \"deletionConsent\": false}"
-      ],
-      "owner": "R93-08",
-      "why": "JOIN slim: the playerOne branch tests the joined slot first and compares the stored open slot with the one map validOpenSlot accepts; same checks."
-    },
-    {
-      "mainLine": 1873,
-      "candidateLine": 1873,
-      "removed": [
-        "                  && joinSlotId == \"playerOne\""
-      ],
-      "added": [],
-      "owner": "R93-08",
-      "why": "JOIN slim: the joinSlotId test moved to the front of its branch (same conjunction)."
-    },
-    {
-      "mainLine": 1963,
-      "candidateLine": 1962,
+      "mainLine": 371,
+      "candidateLine": 374,
       "removed": [],
       "added": [
-        "      // R93-08 (Rules budget sweep): JOIN (the redeem) spent ~991 of the 1,000 expressions on this document, most of it on",
-        "      // the Terminal Close branch that a redeem can never pass. The redeem branch now comes before it, and starts with the",
-        "      // stored connectionState that validRivalryRedeem requires anyway, so every other update skips it after one test. The",
-        "      // three branches are the same; only their order and that first test changed, so the same updates pass and fail."
+        "        )",
+        "        // R94-02 stops: write-once per manager, only on his own confirm, the first one kept by the second confirm.",
+        "        && ('stops' in before) == ('stops' in after)",
+        "        && (",
+        "          !('stops' in after)",
+        "          || (i <= 3 && after.stops == [])",
+        "          || (i == 4 && after.stops.size() == 1",
+        "            && after.stops[0] is int && after.stops[0] >= 0 && after.stops[0] < 360)",
+        "          || (i == 5 && after.stops.size() == 2 && after.stops[0] == before.stops[0]",
+        "            && after.stops[1] is int && after.stops[1] >= 0 && after.stops[1] < 360)"
       ],
-      "owner": "R93-08",
-      "why": "JOIN reorder comment: why the redeem branch now comes before the Terminal Close branch."
+      "owner": "R94-02",
+      "why": "R94-02 stops transition: the key can never be added or dropped after create; empty before the confirms; the first confirm writes one int 0..359, the second keeps it and adds its own. Old ledgers (no key) pass the first branch unchanged."
     },
     {
-      "mainLine": 1966,
-      "candidateLine": 1969,
-      "removed": [
-        "        || ssjrTerminalValidRivalryUpdate()",
-        "        || (!('terminalProgress' in request.resource.data.data) && validRivalryRedeem());"
-      ],
-      "added": [
-        "        || (resource.data.data.connectionState == 'pending-pair'",
-        "          && !('terminalProgress' in request.resource.data.data)",
-        "          && validRivalryRedeem())",
-        "        || ssjrTerminalValidRivalryUpdate();"
-      ],
-      "owner": "R93-08",
-      "why": "JOIN reorder: the same three update branches; redeem now before Terminal Close and starting with the stored 'pending-pair' it requires anyway."
-    },
-    {
-      "mainLine": 2463,
-      "candidateLine": 2468,
+      "mainLine": 2282,
+      "candidateLine": 2295,
       "removed": [],
       "added": [
-        "        // R93-08 (Rules budget sweep): START is the costliest ledger write of a season (~975 of the 1,000 expressions for one",
-        "        // document, from the two roulette marks). This shape is checked only at START (ssjrTransferValidCreate), where the",
-        "        // ledger is revision 1 with one operation, WINDOW_OPEN, started now, not ended, and every role list empty. Those exact",
-        "        // values are tested once here instead of a general range check (revision 1..7, any of four phases, a timestamp or null,",
-        "        // a valid role list) followed by the exact value in ssjrTransferValidCreate. Same documents pass and fail."
+        "            && (!('stops' in after) || after.stops == [])"
       ],
-      "owner": "R93-08",
-      "why": "START slim comment: the exact START values replace a general range check followed by the same exact values."
-    },
-    {
-      "mainLine": 2465,
-      "candidateLine": 2475,
-      "removed": [
-        "          let historySize = root.operationIds.size();"
-      ],
-      "added": [],
-      "owner": "R93-08",
-      "why": "START slim: the history size is the literal 1 that START requires, so the let is gone."
-    },
-    {
-      "mainLine": 2470,
-      "candidateLine": 2479,
-      "removed": [
-        "            && root.seasonNumber is int"
-      ],
-      "added": [],
-      "owner": "R93-08",
-      "why": "START slim: seasonNumber is int is the first test of ssjrTransferSeasonMatches on the next line."
-    },
-    {
-      "mainLine": 2475,
-      "candidateLine": 2483,
-      "removed": [
-        "            && (root.phase == 'WINDOW_OPEN' || root.phase == 'GUESS_ENTRY' || root.phase == 'SIGNING_ENTRY' || root.phase == 'COMPLETED')",
-        "            && root.revision is int",
-        "            && root.revision >= 1",
-        "            && root.revision <= 7",
-        "            && root.startedAt is timestamp",
-        "            && (root.endedAt == null || root.endedAt is timestamp)",
-        "            && ssjrTransferRoleListValid(root.endRequestedRoles)",
-        "            && ssjrTransferRoleListValid(root.guessLockedRoles)",
-        "            && ssjrTransferRoleListValid(root.signingLockedRoles)"
-      ],
-      "added": [
-        "            && root.revision == 1",
-        "            && root.startedAt == request.time",
-        "            && root.endedAt == null",
-        "            && root.endRequestedRoles == []",
-        "            && root.guessLockedRoles == []",
-        "            && root.signingLockedRoles == []"
-      ],
-      "owner": "R93-08",
-      "why": "START slim: revision, phase, start, end and role lists tested as the exact START values ssjrTransferValidCreate already required."
-    },
-    {
-      "mainLine": 2489,
-      "candidateLine": 2494,
-      "removed": [
-        "            && historySize == root.revision",
-        "            && root.operationTypes.size() == historySize",
-        "            && root.operationHashes.size() == historySize",
-        "            && root.baseRevisions.size() == historySize",
-        "            && root.actorRoles.size() == historySize"
-      ],
-      "added": [
-        "            && root.operationIds.size() == 1",
-        "            && root.operationTypes.size() == 1",
-        "            && root.operationHashes.size() == 1",
-        "            && root.baseRevisions.size() == 1",
-        "            && root.actorRoles.size() == 1"
-      ],
-      "owner": "R93-08",
-      "why": "START slim: the five history lists have exactly one entry at START (revision 1), tested directly."
-    },
-    {
-      "mainLine": 2501,
-      "candidateLine": 2506,
-      "removed": [
-        "            && after.revision == 1",
-        "            && after.phase == 'WINDOW_OPEN'",
-        "            && after.startedAt == request.time",
-        "            && after.endedAt == null",
-        "            && after.endRequestedRoles.size() == 0",
-        "            && after.guessLockedRoles.size() == 0",
-        "            && after.signingLockedRoles.size() == 0"
-      ],
-      "added": [],
-      "owner": "R93-08",
-      "why": "START slim: the exact START values moved into the shape (above), so they are no longer repeated here; WINDOW_OPEN stays the first test."
-    },
-    {
-      "mainLine": 3170,
-      "candidateLine": 3168,
-      "removed": [
-        "            && after.seasonNumber is int"
-      ],
-      "added": [],
-      "owner": "R93-08",
-      "why": "Season commit slim: seasonNumber is int is the first test of ssjrCommitSeasonMatches on the next line."
-    },
-    {
-      "mainLine": 3190,
-      "candidateLine": 3187,
-      "removed": [
-        "            && after.results is map"
-      ],
-      "added": [],
-      "owner": "R93-08",
-      "why": "Season commit slim: results.keys() refuses a non-map just as is map did (an evaluation error refuses the write)."
-    },
-    {
-      "mainLine": 3196,
-      "candidateLine": 3192,
-      "removed": [
-        "            && after.acknowledgedRoles is list",
-        "            && after.acknowledgedRoles.size() == 0"
-      ],
-      "added": [
-        "            && after.acknowledgedRoles == []"
-      ],
-      "owner": "R93-08",
-      "why": "Season commit slim: acknowledgedRoles == [] is the same test as is list and size() == 0."
+      "owner": "R94-02",
+      "why": "R94-02 create: a draw 2 ledger is created with stops == [] (no stop exists before the confirms); a create without the key is unchanged."
     }
   ]
 }

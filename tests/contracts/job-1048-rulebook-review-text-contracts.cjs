@@ -44,6 +44,13 @@ const format = section("01");
 assert.match(format, /Daniel starts every Showdown and picks its length: 1, 3, 5 or 10 seasons\./);
 assert.match(format, /Chamber Men, Squad Management, Roster Russian Roulette, Prime Pack, Transfer War, Squad Management again, then the season itself and Season Results\./);
 
+// R94-02 Club Assignment: three random clubs each, one STOP, skill plus luck (about half), no second spin; no club packs.
+assert.match(format, /three random clubs from that league/);
+assert.match(format, /Tap STOP on your own phone/);
+assert.match(format, /skill plus luck.*about half the time/);
+assert.match(format, /There is no second spin\./);
+assert.doesNotMatch(format, /club pack/i, "the Rule Book no longer talks about opening club packs");
+
 // Nik 2026-11-11 15:29 / 15:31 UTC: Squad Management mirrors each manager's own save; season 1 keeps the launch overalls.
 const squad = section("04");
 assert.match(squad, /Set the same formation and squad as in your own Career Mode save for this Showdown: the same players, the same overalls and the same departures\./);

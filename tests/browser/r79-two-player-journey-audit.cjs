@@ -55,6 +55,7 @@ const path=require("node:path");
 const {spawn}=require("node:child_process");
 const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
+const clubDraw=require("./support/club-draw.cjs");
 
 const ROOT=path.resolve(__dirname,"../..");
 const PROJECT="demo-cms-browser-journey";
@@ -449,15 +450,10 @@ async function playTransferSeason(daniel,nik,tokenD,tokenN){
 async function playSetupToTransferChallenge(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
   await daniel.page.locator("#spinLeague").click({timeout:30000});
-  await daniel.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+  await clubDraw.waitContinueToClubs(daniel.page);
   for(const m of [daniel,nik])await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
-  await daniel.page.locator("#openClubPack").click({timeout:30000});
-  await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
-  const clubs=await daniel.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
-  await nik.page.waitForFunction(c=>document.getElementById("clubNameOne")?.textContent?.trim()===c[0]&&document.getElementById("clubNameTwo")?.textContent?.trim()===c[1],clubs,{timeout:30000});
-  for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
-  await daniel.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
-  await nik.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
+  // R94-02: the club draw: each manager taps STOP on his own phone; both balls rest; both phones name the same clubs.
+  const clubs=await clubDraw.playClubDraw(daniel,nik);
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
@@ -563,7 +559,7 @@ async function main(){
     ok("P2.1","both managers are on the league wheel in the same private session");
     await shot(daniel,"p2-wheel");await shot(nik,"p2-wheel");
     await daniel.page.locator("#spinLeague").click({timeout:30000});
-    await daniel.page.waitForFunction(()=>document.getElementById("spinLeague")?.textContent==="CONTINUE TO CLUB PACKS",null,{timeout:30000});
+    await clubDraw.waitContinueToClubs(daniel.page);
     const league=(await daniel.page.locator("#selectedLeague").textContent()).trim();
     await nik.page.waitForFunction(l=>document.getElementById("selectedLeague")?.textContent===l,league,{timeout:30000});
     for(const m of [daniel,nik])await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
@@ -571,13 +567,8 @@ async function main(){
     const reloadSetup=await reloadMidShowdown(daniel,{expectSession:session1,expectShowdown:await showdownOf(daniel),screens:"#leagueWheelScreen, #clubWheelScreen"});
     await daniel.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
     ok("P2.1b",`Daniel's reload in the shared setup: same Showdown and session, back on the setup screens, no Home frame (${reloadSetup.frames} frames, first: ${reloadSetup.firstScreens})`);
-    await daniel.page.locator("#openClubPack").click({timeout:30000});
-    await daniel.page.waitForFunction(()=>document.getElementById("clubCardTwo")?.classList.contains("is-revealed")&&document.getElementById("clubNameOne")?.textContent!=="?"&&document.getElementById("clubNameTwo")?.textContent!=="?",null,{timeout:30000});
-    const clubs=await daniel.page.evaluate(()=>[document.getElementById("clubNameOne")?.textContent?.trim(),document.getElementById("clubNameTwo")?.textContent?.trim()]);
-    await nik.page.waitForFunction(c=>document.getElementById("clubNameOne")?.textContent?.trim()===c[0]&&document.getElementById("clubNameTwo")?.textContent?.trim()===c[1],clubs,{timeout:30000});
-    for(const m of [daniel,nik])await m.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).waitFor({state:"visible",timeout:30000});
-    await daniel.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
-    await nik.page.getByRole("button",{name:"CONFIRM SHOWDOWN"}).click({timeout:30000});
+    // R94-02: the club draw: each manager taps STOP on his own phone; both balls rest; both phones name the same clubs.
+    const clubs=await clubDraw.playClubDraw(daniel,nik);
     for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
     await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
     await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});

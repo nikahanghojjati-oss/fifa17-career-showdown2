@@ -4,7 +4,7 @@ window.CHRONICLE_VOLUME17={
  "part": {
   "id": "sack-and-spot",
   "title": "The sack and the spot",
-  "dek": "6 November 2026: 2.1.0 is live; 2.2.0 brings the sack and the broadcast penalty.",
+  "dek": "The sixth of November, twenty twenty-six. 2.1.0 is live, and 2.2.0 brings the sack and the broadcast penalty.",
   "image": "legacy.webp"
  },
  "chapters": [
@@ -16,13 +16,16 @@ window.CHRONICLE_VOLUME17={
    "number": 176,
    "blocks": [
     {
-     "type": "callout",
-     "label": "Release boundary",
-     "text": "Written on 6 November 2026 from gameplay/r89, the branch that becomes 2.2.0. The live game is 2.1.0, released on 4 November. Everything below describes the 2.2.0 code as it stands on that branch, and it reaches the phones when 2.2.0 is released."
+     "type": "p",
+     "text": "I am telling this from the sixth of November, from the branch that becomes 2.2.0. The live game is 2.1.0, released on the fourth. None of this reaches the phones until 2.2.0 does."
     },
     {
      "type": "p",
-     "text": "Every career in FIFA 17 lives one bad run from the phone call. The chairman is polite about it. He thanks you for your work, he wishes you well, and then the save file belongs to someone else. For three months the Showdown could not hear that call. A manager who lost his job mid-career had two bad choices: pretend it never happened and keep typing results for a club that had already shown him the door, or end the Showdown early and watch it disappear into the hidden pile of games that never count."
+     "text": "Every career in FIFA 17 lives one bad run from the phone call. The chairman is polite about it. He thanks you for your work, he wishes you well, and then the save file belongs to someone else."
+    },
+    {
+     "type": "p",
+     "text": "For three months the Showdown could not hear that call. A manager who lost his job mid-career had two bad choices. He could pretend it never happened and keep typing results for a club that had already shown him the door. Or he could end the Showdown early, and watch it disappear into the hidden pile of games that never count."
     },
     {
      "type": "p",
@@ -34,11 +37,11 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "So 2.2.0 adds a single line to Season Results, on each manager’s own card: “I was sacked this season.” Only he can tick it, and only for himself. Daniel cannot sack Nik and Nik cannot sack Daniel; the card belongs to the man who lived the season. The line sits on the Season Results card in every Showdown."
+     "text": "So 2.2.0 adds a single line to Season Results, on each manager's own card: “I was sacked this season.” Only he can tick it, and only for himself. Daniel cannot sack Nik. Nik cannot sack Daniel. The Showdown has several rituals for hurting your rival. This is not one of them. The card belongs to the man who lived the season, and the line sits on it in every Showdown."
     },
     {
      "type": "p",
-     "text": "Ticking it changes the button beneath. PUBLISH MY SEASON RESULT becomes PUBLISH · I WAS SACKED, and the first tap does not publish anything. It asks again, in plain words: YES, I WAS SACKED · PUBLISH. Above it the warning spells out what follows, in the season’s own numbers: this Showdown ends after this season, the points so far decide, both phones need version 2.2.0, and publishing is final."
+     "text": "Ticking it changes the button beneath. PUBLISH MY SEASON RESULT becomes PUBLISH · I WAS SACKED, and the first tap publishes nothing at all. It asks again, in plain words: YES, I WAS SACKED · PUBLISH. Above it, the warning spells out what follows, in the season's own numbers. This Showdown ends after this season. The points so far decide. Both phones need version 2.2.0. And publishing is final."
     },
     {
      "type": "h2",
@@ -46,11 +49,19 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "The rule that follows is short, and it is deliberately fair. Any sacking ends the Showdown after that season. Either manager can be sacked, or both in the same season, and either way nothing more is played. Every point earned up to then counts, and the manager with more Showdown points wins, even if he is the one who was sacked. Being sacked is not losing. If the totals are level it is a DRAW, as it has always been here, because this game has no tiebreak anywhere."
+     "text": "The rule that follows is short, and it is deliberately fair. Any sacking ends the Showdown after that season. Either manager can be sacked, or both in the same season, and either way nothing more is played. Every point earned up to then counts, and the manager with more Showdown points wins, even if he is the one who was sacked."
     },
     {
      "type": "p",
-     "text": "The screens keep their order. After a sacked season the Showdown runs exactly as it does after its planned last season: Season Results, then the Final Winner, then the Gazette. No Transfer War opens for a season that will never be played. And a sacking in the planned last season changes nothing about the length: a ten-season Showdown sacked in season ten is still ten seasons, and it can still be Golden."
+     "text": "Being sacked is not losing."
+    },
+    {
+     "type": "p",
+     "text": "If the totals are level, it is a DRAW, as it always has been here, because this game has no tiebreak anywhere."
+    },
+    {
+     "type": "p",
+     "text": "The screens keep their order. After a sacked season, the Showdown runs exactly as it does after its planned last season: Season Results, then the Final Winner, then the Gazette. No Transfer War opens for a season that will never be played. And a sacking in the planned last season changes nothing about the length. A ten-season Showdown sacked in season ten is still ten seasons, and it can still be Golden."
     },
     {
      "type": "h2",
@@ -58,11 +69,11 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "What remains is a completed Showdown, never an abandoned one. It counts on History, Legacy, the Trophy Room and every stats screen, and it carries a quiet line of its own: “Ended — sacked in season 2 of 3 (Nik).” On the Final Winner screen a small crimson SACKED stamp sits beside the name of each manager who lost his job, in the totals band, never over a face, and under the seasons played it reads OF 3 · SACKED."
+     "text": "What remains is a completed Showdown, never an abandoned one. It counts on History, Legacy, the Trophy Room and every stats screen, and it carries a quiet line of its own: “Ended — sacked in season 2 of 3 (Nik).” On the Final Winner screen, a small crimson SACKED stamp sits beside the name of each manager who lost his job, in the totals band, never over a face. Under the seasons played, it reads OF 3 · SACKED."
     },
     {
      "type": "p",
-     "text": "The Touchline Gazette prints its own edition for the day. It has 61 sacked stories, 25 headlines and 61 lines of banter, written for one manager sacked or both, and for the sacked manager winning, losing or drawing: THE BOARD HAS SPOKEN, CLEAR YOUR DESK, TAXI FOR the man in question."
+     "text": "The Touchline Gazette prints its own edition for the day. It has 61 sacked stories, 25 headlines and 61 lines of banter, written for one manager sacked or for both, and for the sacked manager winning, losing or drawing. THE BOARD HAS SPOKEN. CLEAR YOUR DESK. TAXI FOR the man in question."
     },
     {
      "type": "h2",
@@ -70,19 +81,19 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "Under the surface the change is small and strict. A season result may carry one extra key, sacked, and only ever as true. The Firebase Rules check that the season’s commit carries exactly what each manager published, that the Showdown’s running record names who was sacked in the season that ended it, that nothing is accepted after that season, and that the final close says the same. The next season’s first roulette mark is refused, so the Transfer War can never open again."
+     "text": "Under the surface, the change is small and strict. A season result may carry one extra key, sacked, and only ever as true. The Firebase Rules check that the season's commit carries exactly what each manager published. They check that the Showdown's running record names who was sacked in the season that ended it, that nothing is accepted after that season, and that the final close says the same. The first roulette mark of the next season is refused, so the Transfer War can never open again."
     },
     {
      "type": "p",
-     "text": "Two reviews tightened the edges. Codex found that END SHOWDOWN in Settings could still turn a sacked Showdown into an ended-early one; now the Rules refuse it, the phone hands the Showdown to the normal close instead, and Settings tells the manager it is saved to History as a completed Showdown. A second review found the moment between the sacked season being accepted and the running record catching up; END SHOWDOWN now has to name the exact number of seasons accepted, the Rules check that number against the season records themselves, and the gap is closed. If the rival’s phone is still on 2.1.0 when a sacking is published, the waiting screen names him and the exact Settings button to tap: UPDATE TO LATEST VERSION."
+     "text": "Two reviews tightened the edges. Codex found that END SHOWDOWN in Settings could still turn a sacked Showdown into one ended early. Now the Rules refuse it, the phone hands the Showdown to the normal close instead, and Settings tells the manager it is saved to History as a completed Showdown. The sack, it turned out, needed protecting from the quit button. A second review found the moment between the sacked season being accepted and the running record catching up. Now END SHOWDOWN has to name the exact number of seasons accepted, the Rules check that number against the season records themselves, and the gap is closed. And if the rival's phone is still on 2.1.0 when a sacking is published, the waiting screen names him, and the exact Settings button to tap: UPDATE TO LATEST VERSION."
     },
     {
      "type": "p",
-     "text": "All of it stays on the free Spark plan, and every refusal is an ordinary Rules denial. A last change, after Sacked, gave the Rules room to breathe: the season record no longer proves the shape of the stored record a second time on every write, so a tenth-season save uses about 804 of the engine’s 1,000 checks instead of 929."
+     "text": "All of it stays on the free Spark plan, and every refusal is an ordinary Rules denial. One last change, after Sacked, gave the Rules room to breathe. The season record no longer proves the shape of the stored record a second time on every write, so a tenth-season save uses about 804 of the engine's 1,000 checks, instead of 929. On a free plan, that is breathing room."
     },
     {
      "type": "p",
-     "text": "The Rule Book has a tenth card, SACKED, with the five lines a manager needs."
+     "text": "The Rule Book has a tenth card now. SACKED. Five lines, everything a manager needs."
     }
    ],
    "sources": [
@@ -142,24 +153,19 @@ window.CHRONICLE_VOLUME17={
     "Rules",
     "2.2.0"
    ],
-   "words": 920,
+   "words": 949,
    "minutes": 4
   },
   {
    "id": "r89-chamber-turns",
    "title": "Seven shots, one at a time",
-   "dek": "Chamber Men, the shootout that loads the roulette, as the 2.2.0 code plays it.",
+   "dek": "Chamber Men, the shootout that loads the roulette, kick by kick, as the 2.2.0 code plays it.",
    "part": "sack-and-spot",
    "number": 177,
    "blocks": [
     {
-     "type": "callout",
-     "label": "Release boundary",
-     "text": "Written on 6 November 2026 from gameplay/r89, the branch that becomes 2.2.0. The live game is 2.1.0, released on 4 November. Everything below describes the 2.2.0 code as it stands on that branch, and it reaches the phones when 2.2.0 is released."
-    },
-    {
      "type": "p",
-     "text": "Every season now begins at the penalty spot. Before the roulette spins, Daniel and Nik take a shootout of seven shots each, and the shootout decides what the roulette will hold. It arrived in 2.1.0, and every Showdown opens each season with it."
+     "text": "Every season now begins at the penalty spot. Before the roulette spins, Daniel and Nik take a shootout of seven shots each, and the shootout decides what the roulette will hold. It arrived in 2.1.0, and every Showdown opens each season with it. What follows is the 2.2.0 code, still on its branch."
     },
     {
      "type": "h2",
@@ -167,11 +173,15 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "It goes turn by turn, the way a real shootout does. Daniel shoots and Nik keeps; then Nik shoots and Daniel keeps; seven rounds, fourteen kicks. Nobody shoots and keeps on the same kick. The shooter picks LEFT, MIDDLE or RIGHT for his shot, the keeper picks where to dive, and neither sees the other’s pick until both have locked in. The ball goes in when the keeper dives the other way. Both phones show the kick, and then the next one starts."
+     "text": "It goes turn by turn, the way a real shootout does. Daniel shoots and Nik keeps. Then Nik shoots and Daniel keeps. Seven rounds, fourteen kicks. Nobody shoots and keeps on the same kick. There are limits to doing two things at once, even in a game built by minds that run in parallel."
     },
     {
      "type": "p",
-     "text": "There is no clock until the rival has locked in. Then, once the last kick has been shown, the other manager has ten seconds. The clock is tied to the rival’s lock-in as the server recorded it, so leaving the screen and coming back never buys more time. Out of time, a shot is a miss and a keeper stays in the middle."
+     "text": "The shooter picks LEFT, MIDDLE or RIGHT for his shot. The keeper picks where to dive. Neither sees the other's pick until both have locked in. The ball goes in when the keeper dives the other way. Both phones show the kick, and then the next one starts."
+    },
+    {
+     "type": "p",
+     "text": "There is no clock until the rival has locked in. Then, once the last kick has been shown, the other manager has ten seconds. The clock is tied to the rival's lock-in as the server recorded it, so leaving the screen and coming back never buys more time. The clock has heard that one before. Out of time, a shot is a miss, and a keeper stays in the middle."
     },
     {
      "type": "h2",
@@ -179,7 +189,11 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "A review of 2.2.0 found a weakness: a pick locked a moment before the clock ran out could reach the server after it, on a slow network or a retried write, and still be stored as a real side. 2.2.0 closes it from both ends. The phone checks the time on every try of its write, and a pick that lands more than 16.6 seconds after the rival’s lock-in (the 10-second clock, the 4.6 seconds the last kick is shown, and two seconds for the network) is stored as the timeout: a miss, or a keeper in the middle. The Rules hold the same 16.6 seconds and refuse a real side that arrives later. The timeout itself is always allowed, so nobody is ever stuck."
+     "text": "A review of 2.2.0 found a weakness. A pick locked a moment before the clock ran out could reach the server after it, on a slow network or a retried write, and still be stored as a real side."
+    },
+    {
+     "type": "p",
+     "text": "2.2.0 closes it from both ends. The phone checks the time on every try of its write. A pick that lands more than 16.6 seconds after the rival's lock-in is stored as the timeout: a miss, or a keeper in the middle. Those 16.6 seconds are the ten-second clock, plus the 4.6 seconds the last kick is shown, plus two seconds for the network. The Rules hold the same 16.6 seconds, and refuse a real side that arrives later. The timeout itself is always allowed, so nobody is ever stuck."
     },
     {
      "type": "h2",
@@ -187,11 +201,19 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "Chamber Men scores no Showdown points. What it scores is danger. Each goal a manager scores loads one live round into his rival’s roulette cylinder for that season, chamber by chamber in the order of his shots. A cylinder has seven chambers, so a manager’s chance of losing a player is his rival’s goals out of seven: no goals and it never fires, seven and it always does. Even then the roulette still spins, one trigger pull each, because no screen is ever skipped."
+     "text": "Chamber Men scores no Showdown points. What it scores is danger."
     },
     {
      "type": "p",
-     "text": "At full time the board says it plainly, names and goals and nothing else, “Level” when the goals are equal, and under it each cylinder: how many live rounds it holds, and who put them there."
+     "text": "Each goal a manager scores loads one live round into his rival's roulette cylinder for that season, chamber by chamber, in the order of his shots. A cylinder has seven chambers, so a manager's chance of losing a player is his rival's goals out of seven. No goals, and it never fires. Seven, and it always does. Even then the roulette still spins, one trigger pull each, because no screen is ever skipped."
+    },
+    {
+     "type": "p",
+     "text": "At full time the board says it plainly: names, goals, and nothing else, with “Level” when the goals are equal. And under it, each cylinder: how many live rounds it holds, and who put them there."
+    },
+    {
+     "type": "p",
+     "text": "In 2.1.0, every one of those kicks is taken on a marble drawing of a goal. Nik wanted something else."
     }
    ],
    "sources": [
@@ -235,24 +257,19 @@ window.CHRONICLE_VOLUME17={
     "2.1.0",
     "2.2.0"
    ],
-   "words": 512,
+   "words": 531,
    "minutes": 2
   },
   {
    "id": "r89-chamber-broadcast",
    "title": "The camera behind the taker",
-   "dek": "2.2.0 turns the Chamber Men goal into a broadcast penalty: a stadium at night, a taker in his club’s kit, a keeper who dives.",
+   "dek": "2.2.0 turns the Chamber Men goal into a broadcast penalty: a stadium at night, a taker in his club's kit, a keeper who dives.",
    "part": "sack-and-spot",
    "number": 178,
    "blocks": [
     {
-     "type": "callout",
-     "label": "Release boundary",
-     "text": "Written on 6 November 2026 from gameplay/r89, the branch that becomes 2.2.0. The live game is 2.1.0, released on 4 November. Everything below describes the 2.2.0 code as it stands on that branch, and it reaches the phones when 2.2.0 is released."
-    },
-    {
      "type": "p",
-     "text": "Nik’s brief was one sentence: it should look like what it looks like in FIFA 17. In 2.1.0 the shootout was played on a marble drawing of a goal, beautiful and still. In 2.2.0 the camera goes to the stadium."
+     "text": "Nik's brief was one sentence: it should look like what it looks like in FIFA 17. As briefs go, it is short. As jobs go, it is a stadium. In 2.1.0 the shootout was played on a marble drawing of a goal, beautiful and still. In 2.2.0, the camera goes to the stadium."
     },
     {
      "type": "h2",
@@ -260,11 +277,15 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "The camera sits behind and above the taker, as on TV. While the players wait it drifts slowly; on the run-up it pushes in; after the strike it leans after the ball. The taker runs up and strikes, the keeper dives LEFT, MIDDLE or RIGHT, and the taker celebrates a goal or turns away from a miss. The crowd stirs with the run-up. Every frame is worked out from the time since the strike, so both phones show the same kick."
+     "text": "The camera sits behind and above the taker, as on TV. While the players wait, it drifts slowly. On the run-up it pushes in. After the strike it leans after the ball."
     },
     {
      "type": "p",
-     "text": "The taker wears his manager’s club home kit, its 2016-17 colours as FIFA 17 shows them, one of 98 clubs. The keeper wears his own club’s keeper kit, picked so it never clashes with the shirt in front of him. Each club keeps one body for the whole Showdown, chosen from its name, so nothing about who walks up to the ball is random."
+     "text": "The taker runs up and strikes. The keeper dives LEFT, MIDDLE or RIGHT. The taker celebrates a goal, or turns away from a miss. The crowd stirs with the run-up. Every frame is worked out from the time since the strike, so both phones show the same kick."
+    },
+    {
+     "type": "p",
+     "text": "The taker wears his manager's club home kit, in its 2016-17 colours as FIFA 17 shows them, one of 98 clubs. The keeper wears his own club's keeper kit, picked so that it never clashes with the shirt in front of him. Each club keeps one body for the whole Showdown, chosen from its name, so nothing about who walks up to the ball is random."
     },
     {
      "type": "h2",
@@ -272,7 +293,11 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "Around them stands a whole stadium: white posts, a knotted net that bulges when it is hit, a pitch with mown stripes and chalk lines, LED boards carrying only the game’s own marks, a two-tier stand behind the goal, side stands with a crowd in each club’s colour, a roof with floodlights and a night sky. Every texture in it is drawn by code in the repository, so the whole kit belongs to the game: no third-party licence, no real brand. It runs on three.js r187, the same engine the roulette moved to in 2.2.0."
+     "text": "Around them stands a whole stadium. White posts. A knotted net that bulges when it is hit. A pitch with mown stripes and chalk lines. LED boards carrying only the game's own marks. A two-tier stand behind the goal, side stands with a crowd in each club's colour, and a roof with floodlights under a night sky."
+    },
+    {
+     "type": "p",
+     "text": "Every texture in it is drawn by code in the repository, so the whole kit belongs to the game: no third-party licence, no real brand. It runs on three.js, release 187, the same engine the roulette moved to in 2.2.0."
     },
     {
      "type": "h2",
@@ -280,11 +305,19 @@ window.CHRONICLE_VOLUME17={
     },
     {
      "type": "p",
-     "text": "The 3D scene is a picture of the shootout, never its referee. The step that runs the game still owns every pick, clock and score, and the scene only shows what the step decides. The scene is built behind the loading screen, so the shootout appears with the stadium already drawn."
+     "text": "The 3D scene is a picture of the shootout, never its referee. The step that runs the game still owns every pick, every clock and every score, and the scene only shows what the step decides. The scene is built behind the loading screen, so the shootout appears with the stadium already drawn."
     },
     {
      "type": "p",
-     "text": "If the stadium’s own files cannot come in time, a simpler 3D goal in a dark marble hall stands in for it. If it is not ready within six seconds, if the phone has no WebGL2, or if anything goes wrong, the marble goal plays that shootout as before, and a scene that arrives late is thrown away rather than swapped in mid-game. A review found that a slow load could hold the clock back, so when a rival locks in before the stadium is ready, the marble goal now appears at once, and a kick shown while the scene was loading is never lost."
+     "text": "If the stadium's own files cannot come in time, a simpler 3D goal in a dark marble hall stands in for it. If that is not ready within six seconds, if the phone has no WebGL2, or if anything at all goes wrong, the marble goal plays that shootout as before. A scene that arrives late is thrown away rather than swapped in mid-game. Late is late, even for a stadium."
+    },
+    {
+     "type": "p",
+     "text": "A review found that a slow load could hold the clock back. So when a rival locks in before the stadium is ready, the marble goal now appears at once, and a kick shown while the scene was loading is never lost."
+    },
+    {
+     "type": "p",
+     "text": "On one machine at the table, the fallback is all anyone will see. Until the next release, Nik's own Chromebook never once sees the stadium."
     }
    ],
    "sources": [
@@ -328,9 +361,9 @@ window.CHRONICLE_VOLUME17={
     "Kits",
     "2.2.0"
    ],
-   "words": 527,
-   "minutes": 3
+   "words": 534,
+   "minutes": 2
   }
  ],
- "wordCount": 1959
+ "wordCount": 2014
 };

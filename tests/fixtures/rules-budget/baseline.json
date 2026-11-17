@@ -1,147 +1,265 @@
 {
   "schemaVersion": 1,
-  "note": "R93-08 Rules budget sweep baseline: the worst measured expressions per kind of write (of 1,000). Regenerate with node tests/firebase/rules-budget-sweep-emulator.cjs --update-baseline under the Firestore emulator, and review the diff.",
+  "note": "R93-08 Rules budget sweep baseline: the worst measured expressions per kind of write (of 1,000), and since R94-06 the Rules lookups per request (get/exists/getAfter/existsAfter; cap 10 for one document, 20 for a batch or transaction). Regenerate with node tests/firebase/rules-budget-sweep-emulator.cjs --update-baseline under the Firestore emulator, and review the diff.",
   "kinds": {
     "create accounts/*/careerIndex/current + update accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]": {
       "used": 904,
+      "lookups": 8,
       "knownOver": "JOIN (pairing redeem) is a fixed-size write made once per pairing: nothing in it grows with play, so ~904 is its worst case. R93-08 cut it from ~991 with same-check slims; the next ~120 would need dropping the re-check of the stored creator slot, which guards against data written outside the Rules (lead decision)."
+    },
+    "create accounts/*/careerIndex/* + update accounts/*/careerIndex/current + update accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]": {
+      "used": 904,
+      "lookups": 9,
+      "knownOver": "JOIN at a full History index (R94-06, career-index G5J and P7): the same JOIN plus the sealed page_1, one more document whose own Rules are cheap; the worst document is still the rivalry at ~904, the JOIN cost explained on the JOIN kinds above."
     },
     "update accounts/*/careerIndex/current + update accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]": {
       "used": 904,
+      "lookups": 8,
       "knownOver": "JOIN (pairing redeem) is a fixed-size write made once per pairing: nothing in it grows with play, so ~904 is its worst case. R93-08 cut it from ~991 with same-check slims; the next ~120 would need dropping the re-check of the stored creator slot, which guards against data written outside the Rules (lead decision)."
     },
     "create accounts/*/careerIndex/current + create accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]": {
       "used": 904,
+      "lookups": 6,
       "knownOver": "JOIN (pairing redeem) is a fixed-size write made once per pairing: nothing in it grows with play, so ~904 is its worst case. R93-08 cut it from ~991 with same-check slims; the next ~120 would need dropping the re-check of the stored creator slot, which guards against data written outside the Rules (lead decision)."
     },
     "create accounts/*/pairLinks/current + update rivalries/* + update rivalries/*/invites/* [state:redeemed]": {
       "used": 904,
+      "lookups": 3,
       "knownOver": "JOIN (pairing redeem) is a fixed-size write made once per pairing: nothing in it grows with play, so ~904 is its worst case. R93-08 cut it from ~991 with same-check slims; the next ~120 would need dropping the re-check of the stored creator slot, which guards against data written outside the Rules (lead decision)."
     },
     "create rivalries/*/seasonCommits/season_N [COMMITTED]": {
       "used": 898,
+      "lookups": 8,
       "knownOver": "Season commit create is a fixed-size write (two result maps of at most 10 keys, the same in every season), so ~898 is its worst case. ~100 more would need dropping the repeated result-shape check, which the EL suite keeps on purpose against private results forged outside the Rules (lead decision)."
     },
     "update rivalries/*": {
-      "used": 857,
-      "knownOver": "Rivalry updates (Terminal Progress and the END SHOWDOWN close), worst case the 10-season sacked suite. ~848 before R93-08; the JOIN reorder costs these writes the one test that skips the redeem branch (~9)."
+      "used": 866,
+      "lookups": 5,
+      "knownOver": "Rivalry updates (Terminal Progress and the END SHOWDOWN close), worst case the Sacked suite: ~866 for the season-2 Terminal Progress that carries the exact sacked map (R94-06: first measured when the sweep started counting single-document saves; the flows measured before peaked at ~857). ~848 before R93-08; the JOIN reorder costs these writes the one test that skips the redeem branch (~9)."
     },
     "update rivalries/*/sessions/* [state:active]": {
-      "used": 848
+      "used": 848,
+      "lookups": 4
     },
     "create rivalries/*/transferChallenges/season_N/roles/playerTwo + update rivalries/*/transferChallenges/season_N [SIGNING_ENTRY] {lock-guesses}": {
-      "used": 842
+      "used": 842,
+      "lookups": 4
     },
     "update rivalries/*/transferChallenges/season_N [COMPLETED] {lock-signings} + update rivalries/*/transferChallenges/season_N/roles/playerTwo": {
-      "used": 842
+      "used": 842,
+      "lookups": 4
     },
     "create rivalries/*/transferChallenges/season_N/roles/playerOne + update rivalries/*/transferChallenges/season_N [GUESS_ENTRY] {lock-guesses}": {
-      "used": 839
+      "used": 839,
+      "lookups": 4
     },
     "update rivalries/*/transferChallenges/season_N [SIGNING_ENTRY] {lock-signings} + update rivalries/*/transferChallenges/season_N/roles/playerOne": {
-      "used": 839
+      "used": 839,
+      "lookups": 4
     },
     "create rivalries/*/transferChallenges/season_N/roulette/* + update rivalries/*/transferChallenges/season_N [WINDOW_OPEN] {start-window}": {
-      "used": 826
+      "used": 826,
+      "lookups": 8
     },
     "create rivalries/*/seasonResults/season_N [COLLECTING] + create rivalries/*/seasonResults/season_N/roles/playerOne": {
-      "used": 795
+      "used": 795,
+      "lookups": 5
     },
     "create rivalries/*/seasonResults/season_N [COLLECTING] + create rivalries/*/seasonResults/season_N/roles/playerTwo": {
-      "used": 795
+      "used": 795,
+      "lookups": 6
     },
     "update rivalries/*/sessions/* [state:expired]": {
-      "used": 780
+      "used": 780,
+      "lookups": 4
     },
     "create accounts/*/careerIndex/current + create accounts/*/pairLinks/current + create rivalries/* + create rivalries/*/invites/* [state:open]": {
-      "used": 780
+      "used": 780,
+      "lookups": 3
     },
     "update rivalries/* + update rivalries/*/sessions/* [state:closed]": {
-      "used": 776
+      "used": 776,
+      "lookups": 3
     },
     "update rivalries/*/sharedSetup/authoritative [SHOWDOWN_CONFIRMED] {confirm}": {
-      "used": 733
+      "used": 811,
+      "lookups": 4
     },
     "update rivalries/*/primePackRounds/season_N": {
-      "used": 727
+      "used": 727,
+      "lookups": 4
     },
     "create accounts/*/careerIndex/current + create rivalries/* + create rivalries/*/invites/* [state:open] + update accounts/*/pairLinks/current": {
-      "used": 720
+      "used": 720,
+      "lookups": 5
     },
     "create rivalries/* + create rivalries/*/invites/* [state:open] + update accounts/*/careerIndex/current + update accounts/*/pairLinks/current": {
-      "used": 720
+      "used": 720,
+      "lookups": 5
     },
     "create accounts/*/pairLinks/current + create rivalries/* + create rivalries/*/invites/* [state:open]": {
-      "used": 720
+      "used": 720,
+      "lookups": 2
     },
     "create accounts/*/careerIndex/* + create rivalries/* + create rivalries/*/invites/* [state:open] + update accounts/*/careerIndex/current + update accounts/*/pairLinks/current": {
-      "used": 720
+      "used": 720,
+      "lookups": 6
     },
     "create rivalries/*/seasonResults/season_N/roles/playerTwo + update rivalries/*/seasonResults/season_N [RESULTS_READY]": {
-      "used": 711
+      "used": 711,
+      "lookups": 6
     },
     "create rivalries/*/seasonResults/season_N/roles/playerOne + update rivalries/*/seasonResults/season_N [RESULTS_READY]": {
-      "used": 708
+      "used": 708,
+      "lookups": 6
     },
     "update rivalries/*/sharedSetup/authoritative [SEASON_LENGTH_COMMITTED] {confirm}": {
-      "used": 702
+      "used": 761,
+      "lookups": 4
     },
     "update rivalries/*/transferChallenges/season_N [GUESS_ENTRY] {request-end-window}": {
-      "used": 693
+      "used": 693,
+      "lookups": 4
     },
     "update rivalries/*/sharedSetup/authoritative [SEASON_LENGTH_COMMITTED] {commit-length}": {
-      "used": 689
+      "used": 717,
+      "lookups": 4
     },
     "update rivalries/*/transferChallenges/season_N [WINDOW_OPEN] {request-end-window}": {
-      "used": 683
+      "used": 683,
+      "lookups": 4
     },
     "update rivalries/*/sharedSetup/authoritative [LEAGUE_WHEEL_COMMITTED] {commit-league}": {
-      "used": 680
+      "used": 708,
+      "lookups": 4
     },
     "update rivalries/*/sharedSetup/authoritative [CLUB_ASSIGNMENTS_COMMITTED] {commit-clubs}": {
-      "used": 680
+      "used": 708,
+      "lookups": 4
     },
     "create rivalries/*/sharedSetup/*": {
-      "used": 674
+      "used": 674,
+      "lookups": 3
     },
     "update rivalries/*/seasonCommits/season_N [ACKNOWLEDGED]": {
-      "used": 652
+      "used": 652,
+      "lookups": 4
     },
     "update rivalries/*/seasonCommits/season_N [COMMITTED]": {
-      "used": 640
+      "used": 640,
+      "lookups": 4
     },
     "create rivalries/*/careerStart/authoritative [ONE_MANAGER_ACKNOWLEDGED]": {
-      "used": 634
+      "used": 634,
+      "lookups": 5
     },
     "create rivalries/*/sessions/* [state:open]": {
-      "used": 634
+      "used": 634,
+      "lookups": 4
     },
     "update rivalries/*/chamberMenRounds/season_N": {
-      "used": 612
+      "used": 612,
+      "lookups": 4
     },
     "create rivalries/*/sharedSetup/authoritative [SHARED_SETUP_OPEN] {open}": {
-      "used": 606
+      "used": 618,
+      "lookups": 5
     },
     "create rivalries/*/primePackRounds/season_N": {
-      "used": 565
+      "used": 565,
+      "lookups": 4
     },
     "update rivalries/*/careerStart/authoritative [CAREER_START_READY]": {
-      "used": 512
+      "used": 512,
+      "lookups": 4
     },
     "update accounts/*/pairLinks/current": {
-      "used": 512
+      "used": 550,
+      "lookups": 5
     },
     "create rivalries/*/chamberMenRounds/season_N": {
-      "used": 503
+      "used": 503,
+      "lookups": 4
     },
     "create rivalries/*/squadSheets/*": {
-      "used": 450
+      "used": 450,
+      "lookups": 1
     },
     "create rivalries/*/transferChallenges/season_N [NOT_STARTED]": {
-      "used": 382
+      "used": 382,
+      "lookups": 3
     },
     "update rivalries/*/transferChallenges/season_N [NOT_STARTED]": {
-      "used": 357
+      "used": 357,
+      "lookups": 1
+    },
+    "create rivalries/*/state/authoritative + create rivalries/*/state/authoritative/idempotency/*": {
+      "used": 730,
+      "lookups": 5
+    },
+    "create accounts/*/pairLinks/current": {
+      "used": 432,
+      "lookups": 3
+    },
+    "update accounts/*/devices/* [state:revoked]": {
+      "used": 416,
+      "lookups": 2
+    },
+    "create rivalries/*/meters/playerTwo": {
+      "used": 379,
+      "lookups": 1
+    },
+    "create rivalries/*/meters/playerOne": {
+      "used": 376,
+      "lookups": 1
+    },
+    "update rivalries/*/meters/playerOne": {
+      "used": 376,
+      "lookups": 1
+    },
+    "create rivalries/*/sessionOffers/current": {
+      "used": 376,
+      "lookups": 4
+    },
+    "update rivalries/*/sessionOffers/current": {
+      "used": 376,
+      "lookups": 4
+    },
+    "update accounts/*/partner/current": {
+      "used": 370,
+      "lookups": 3
+    },
+    "create accounts/*/careerStart/current": {
+      "used": 357,
+      "lookups": 4
+    },
+    "create accounts/*/partner/current": {
+      "used": 348,
+      "lookups": 3
+    },
+    "update accounts/*/partnerInbox/current": {
+      "used": 345,
+      "lookups": 5
+    },
+    "update accounts/*/careerStart/current": {
+      "used": 329,
+      "lookups": 2
+    },
+    "create accounts/*/partnerInbox/current": {
+      "used": 320,
+      "lookups": 5
+    },
+    "create accounts/*/devices/* [state:active]": {
+      "used": 276,
+      "lookups": 1
+    },
+    "create accounts/*/careerSummary/*": {
+      "used": 211,
+      "lookups": 2
+    },
+    "create accounts/*": {
+      "used": 177,
+      "lookups": 0
     }
   }
 }

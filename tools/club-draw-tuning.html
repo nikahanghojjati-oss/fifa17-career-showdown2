@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- R94-02 Club Assignment 3D tuning page. NOT shipped: tools/ is never staged by deploy-github-pages.yml and this page is
+     not in service-worker.js. It runs js/clubDrawScene3d.js on demo clubs with sliders for the motion, every quality level
+     (?gfx=0..5 holds a level through js/gfxTier.js) and a draws/programs readout. No game state, no Firestore.
+     Open it from a local server at the repo root: /tools/club-draw-tuning.html?gfx=0 -->
+<base href="../">
+<title>Club draw tuning</title>
+<style>
+:root{--gold:#d8b55a;--ink:#f3eedf;--panel:rgba(8,9,11,.86)}
+html,body{margin:0;height:100%;background:#050608;color:var(--ink);font:13px/1.35 system-ui,sans-serif;overflow:hidden}
+#stage{position:absolute;inset:0}
+#panel{position:absolute;top:8px;right:8px;width:290px;max-height:calc(100% - 16px);overflow:auto;background:var(--panel);border:1px solid #3a2f17;border-radius:10px;padding:10px 12px;z-index:2}
+#panel h1{font-size:14px;margin:0 0 6px;color:var(--gold)}
+#panel label{display:grid;grid-template-columns:92px 1fr 48px;gap:6px;align-items:center;margin:3px 0}
+#panel input[type=range]{width:100%}
+#panel output{text-align:right;font-variant-numeric:tabular-nums}
+#panel .row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+#panel button,#panel select{background:#15171b;color:var(--ink);border:1px solid #57461f;border-radius:6px;padding:5px 9px;font:inherit;cursor:pointer}
+#panel button.stop{background:#2a210c;border-color:var(--gold);font-weight:700}
+#panel input[type=text]{width:100%;box-sizing:border-box;background:#111;color:var(--ink);border:1px solid #333;border-radius:4px;padding:3px 5px;font:inherit}
+#probe{white-space:pre;font:11px/1.35 ui-monospace,monospace;color:#cfc6ad;margin-top:6px}
+#hide{position:absolute;top:8px;left:8px;z-index:2}
+.tag{position:absolute;transform:translate(-50%,-100%);padding:3px 10px;border-radius:999px;background:rgba(0,0,0,.55);border:1px solid #6b5420;color:var(--ink);font-weight:600;pointer-events:none;z-index:1;white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<button id="hide" type="button">panel</button>
+<div id="panel">
+  <h1>Club draw tuning</h1>
+  <div class="row">
+    <select id="layout" aria-label="Layout"><option value="wide">Computer (both balls)</option><option value="phone">Phone (own ball in front)</option></select>
+    <select id="me" aria-label="Own ball"><option value="0">Own ball: left</option><option value="1">Own ball: right</option></select>
+  </div>
+  <label>Left clubs <span></span><span></span></label><input id="clubs0" type="text" value="Barcelona, Arsenal, Napoli">
+  <label>Right clubs <span></span><span></span></label><input id="clubs1" type="text" value="Juventus, Chelsea, Bayern Munich">
+  <div class="row">
+    <button id="mount" type="button">Rebuild</button><button id="start" type="button">Start draw</button>
+    <button id="stop" class="stop" type="button">STOP (own)</button><button id="rival" type="button">Rival stops</button>
+  </div>
+  <label>Accept after<input id="lag" type="range" min="0" max="4000" step="50" value="400"><output></output></label>
+  <div id="sliders"></div>
+  <div class="row"><button id="reset" type="button">Default motion</button><button id="aim" type="button">Aim test x200</button></div>
+  <div id="probe"></div>
+</div>
+<script src="js/gfxTier.js"></script>
+<script src="js/visualIdentity.js"></script>
+<script src="js/clubDrawScene3d.js"></script>
+<script>
+(function(){
+  "use strict";
+  const M=window.CareerModeClubDraw3d,$=id=>document.getElementById(id),stage=$("stage");
+  // name, min, max, step: the motion knobs worth feeling by hand (study 0b/0c).
+  const KNOBS=[["J",0,170,1,"luck +-deg"],["D0",360,900,5,"lead deg"],["W_SLOW",40,240,2,"slow deg/s"],["SHOW",.3,2.5,.05,"crest hold s"],["SHOW_MOVE",.4,2.5,.05,"crest turn s"],["SHOW_OUT",.2,1.5,.05,"roll-off s"],["W_FAST",250,800,5,"fast deg/s"],["KICK",.5,2.5,.05,"kick s"],["FK",.05,.6,.01,"drag k"],["A0",0,8,.1,"rock back deg"],["SETTLE",.6,3,.1,"settle s"],["POSE_PULL",0,1,.05,"pose pull"],["BODY_TILT",0,10,.2,"tilt deg"]];
+  const box=$("sliders");
+  function sliders(){
+    box.textContent="";const P=M.tune({});
+    for(const [k,a,b,st,txt] of KNOBS){const l=document.createElement("label"),i=document.createElement("input"),o=document.createElement("output");l.textContent=txt;i.type="range";i.min=a;i.max=b;i.step=st;i.value=P[k];o.textContent=P[k];
+      i.addEventListener("input",()=>{M.tune({[k]:Number(i.value)});o.textContent=i.value;});l.append(i,o);box.append(l);}
+  }
+  const lag=$("lag");const lagOut=lag.nextElementSibling;const showLag=()=>{lagOut.textContent=lag.value+"ms";};lag.addEventListener("input",showLag);showLag();
+  let api=null,tags=[],landedAt=[];
+  function clubs(i){return $("clubs"+i).value.split(",").map(s=>s.trim()).filter(Boolean).slice(0,3);}
+  async function build(){
+    if(api){api.dispose();api=null;}tags.forEach(t=>t.remove());tags=[];
+    const phone=$("layout").value==="phone";stage.style.cssText=phone?"position:absolute;top:0;bottom:0;left:50%;width:min(430px,100%);transform:translateX(-50%)":"position:absolute;inset:0";
+    const balls=[{clubs:clubs(0)},{clubs:clubs(1)}];if(balls.some(b=>b.clubs.length!==3)){$("probe").textContent="Each ball needs 3 clubs.";return;}
+    const t0=performance.now();
+    api=await M.mount(stage,{balls,me:Number($("me").value),sound:()=>true});
+    if(!api){$("probe").textContent="The scene did not start (no WebGL2?).";return;}
+    $("probe").dataset.mountMs=Math.round(performance.now()-t0);
+    tags=[0,1].map(i=>{const t=document.createElement("div");t.className="tag";t.textContent=i?"Nik":"Daniel";stage.append(t);return t;});
+    api.on(e=>{if(e.type==="landed"){landedAt[e.ball]=e;}});
+    window.__clubDraw=api;
+  }
+  function own(){return Number($("me").value);}
+  $("mount").onclick=build;
+  $("start").onclick=()=>api&&api.start();
+  $("stop").onclick=()=>{if(!api)return;const i=own(),stop=api.tap(i);if(stop===null)return;setTimeout(()=>api.accept(i,stop),Number(lag.value));};
+  $("rival").onclick=()=>{if(!api)return;const i=1-own();api.restOn(i,Math.floor(Math.random()*360));};
+  $("reset").onclick=()=>{M.tune("reset");sliders();};
+  // How often a tap timed to the aimed crest lands it: drawStop with the aimed face at the front when the tap lands at
+  // the lead the player learned (the motion constants as set now).
+  $("aim").onclick=()=>{let hit=0,blind=0;const P=M.tune({});for(let n=0;n<200000;n++){const aim=n%3,front=M.mod360(aim*120+60-P.D0+(Math.random()-.5)*40),s=M.drawStop(front,Math.random());if(M.sectionOf(s)===aim)hit++;if(M.sectionOf(M.drawStop(Math.random()*360,Math.random()))===aim)blind++;}
+    alertLine(`timed tap (+-20 deg error): ${(hit/2000).toFixed(1)}%  blind: ${(blind/2000).toFixed(1)}%`);};
+  let note="";function alertLine(s){note=s;}
+  $("hide").onclick=()=>{$("panel").hidden=!$("panel").hidden;};
+  setInterval(()=>{
+    if(!api||!api.alive)return;const p=api.probe();
+    tags.forEach((t,i)=>{const a=api.anchor(i);t.style.left=a.x+"px";t.style.top=a.y+"px";});
+    $("probe").textContent=`level ${p.level}  draws ${p.draws}  programs ${p.programs}  tris ${p.triangles}\npixelRatio ${p.pixelRatio}  frame ${p.frameMs?p.frameMs.toFixed(1)+"ms":"-"}  mount ${$("probe").dataset.mountMs}ms\n`+
+      p.balls.map((b,i)=>`ball ${i}: ${b.state} f=${b.f} stop=${b.stop} club=${b.section>=0?clubs(i)[b.section]:"-"}`).join("\n")+(p.detailOff.length?`\noff: ${p.detailOff.join(",")}`:"")+(note?`\n${note}`:"");
+  },250);
+  sliders();build();
+})();
+</script>
+</body>
+</html>
