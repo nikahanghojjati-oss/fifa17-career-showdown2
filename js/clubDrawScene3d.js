@@ -36,7 +36,10 @@
     CHAOS:0, RHY2:0, RHY_T2:1.55, FLIP_MIN:1.4, FLIP_MAX:3.0, FLIP_T:.26, TELL:.42,
     // SURGE_MIN > 0 (Nik 2026-11-17 04:09 UTC: one direction only): instead of reversing, the ball shifts to a new speed
     // (SURGE_MIN..1 of the wave speed, always at least .25 away from the last) at the same moments, told by the same hop.
-    SURGE_MIN:0
+    SURGE_MIN:0,
+    // FLIP_MAX 0 = no feints and no shifts at all (Nik 04:14 UTC: smooth, one direction); a third slow wave RHY3 every RHY_T3 s
+    // makes the smooth speed drift never repeat within a game.
+    RHY3:0, RHY_T3:3.7
   };
   const PHYS_DEFAULT=Object.freeze({...PHYS});
   // The tuning page only (tools/club-draw-tuning.html): the game never calls it. SECTION is fixed (three clubs per ball).
@@ -557,11 +560,11 @@
       }else if(b.state==="spin"){
         if(PHYS.CHAOS){
           // Master: two waves at fresh phases and feints, each told by a hop, so the rhythm has to be read, not remembered.
-          if(b.flipAt==null){b.ph1=Math.random()*6.2832;b.ph2=Math.random()*6.2832;b.dirT=1;b.dirS=1;b.told=false;b.flipAt=PHYS.FLIP_MIN+Math.random()*(PHYS.FLIP_MAX-PHYS.FLIP_MIN);}
-          if(!b.told&&b.t>=b.flipAt-PHYS.TELL){b.told=true;b.vy=4.2;b.y=.001;if(b.i===me)cue.bounce(.45);}
-          if(b.t>=b.flipAt){if(PHYS.SURGE_MIN>0){let g;do g=PHYS.SURGE_MIN+Math.random()*(1-PHYS.SURGE_MIN);while(Math.abs(g-b.dirT)<.25);b.dirT=g;}else b.dirT=-b.dirT;b.told=false;b.flipAt=b.t+PHYS.FLIP_MIN+Math.random()*(PHYS.FLIP_MAX-PHYS.FLIP_MIN);}
+          if(b.flipAt==null){b.ph1=Math.random()*6.2832;b.ph2=Math.random()*6.2832;b.ph3=Math.random()*6.2832;b.dirT=1;b.dirS=1;b.told=false;b.flipAt=PHYS.FLIP_MIN+Math.random()*(PHYS.FLIP_MAX-PHYS.FLIP_MIN);}
+          if(PHYS.FLIP_MAX>0&&!b.told&&b.t>=b.flipAt-PHYS.TELL){b.told=true;b.vy=4.2;b.y=.001;if(b.i===me)cue.bounce(.45);}
+          if(PHYS.FLIP_MAX>0&&b.t>=b.flipAt){if(PHYS.SURGE_MIN>0){let g;do g=PHYS.SURGE_MIN+Math.random()*(1-PHYS.SURGE_MIN);while(Math.abs(g-b.dirT)<.25);b.dirT=g;}else b.dirT=-b.dirT;b.told=false;b.flipAt=b.t+PHYS.FLIP_MIN+Math.random()*(PHYS.FLIP_MAX-PHYS.FLIP_MIN);}
           const st=2*dt/PHYS.FLIP_T;b.dirS+=Math.max(-st,Math.min(st,b.dirT-b.dirS));
-          w=PHYS.W_FAST*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T+b.ph1)+PHYS.RHY2*Math.sin(6.2832*b.t/PHYS.RHY_T2+b.ph2))*b.dirS;hop(b,dt);
+          w=PHYS.W_FAST*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T+b.ph1)+PHYS.RHY2*Math.sin(6.2832*b.t/PHYS.RHY_T2+b.ph2)+PHYS.RHY3*Math.sin(6.2832*b.t/PHYS.RHY_T3+b.ph3))*b.dirS;hop(b,dt);
         }else w=(PHYS.W_FAST-36*(1-Math.exp(-b.t/5)))*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T));
         b.f+=w*dt;
         if(b.queued!==null&&b.t>.6){b.stop=b.queued;b.accepted=b.accepted||!b.queuedPending;b.queued=null;b.queuedPending=false;b.w=w;startStop(b);}
