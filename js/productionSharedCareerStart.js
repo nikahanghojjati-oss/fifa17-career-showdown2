@@ -202,12 +202,23 @@
     return host.querySelectorAll(".clubPackStage").length===2?"desktop":null;
   }
   function pcstStageBox(node,origin){const r=node.getBoundingClientRect();return {x:r.left-origin.left,y:r.top-origin.top,w:r.width,h:r.height};}
+  // The Club screen's box room (plates-hc/ENV_BOX_PHONE_HC_V3) puts the two managers behind a counter with the club packs on
+  // it, under their chins. js/clubScreenV10.js clBoxLayout says where that plate is drawn (--clb-bg-pos/--clb-bg-size on the
+  // screen upright, --clb-band-pos/--clb-band-size on the band sideways); the holds stand on the counter in plate units,
+  // below the chins and clear of the faces at every size. Without those values (box room off) the old plate's numbers apply.
+  const BOX_PLATE=Object.freeze({packs:Object.freeze([Object.freeze([160,520]),Object.freeze([680,1040])]),top:960,bottom:1219});
+  function pcstPlateVars(node,posVar,sizeVar){
+    try{const style=node&&node.style;if(!style)return null;const pos=String(style.getPropertyValue(posVar)).trim().split(/\s+/).map(parseFloat),width=parseFloat(style.getPropertyValue(sizeVar));
+      return pos.length>=2&&Number.isFinite(pos[0])&&Number.isFinite(pos[1])&&width>0?{x:pos[0],y:pos[1],w:width}:null;}catch(_error){return null;}
+  }
   function pcstStageFrames(overlay,host,mode,origin){
     if(mode==="desktop")return [...host.querySelectorAll(".clubPackStage")].slice(0,2).map(node=>pcstStageBox(node,origin));
-    let k,x0,y0;
-    if(mode==="phone"){const box=pcstStageBox(host,origin),probe=overlay.querySelector(".pcstPlateProbe"),width=probe?probe.getBoundingClientRect().width:Math.max(box.w,root.innerHeight*PHONE_PLATE.w/PHONE_PLATE.h);k=width/PHONE_PLATE.w;x0=box.x+(box.w-width)/2;y0=box.y;}
-    else{const band=pcstStageBox(host.querySelector(".clPhoneScene"),origin);k=Math.max(band.w/PHONE_PLATE.w,band.h/PHONE_PLATE.h);x0=band.x+(band.w-PHONE_PLATE.w*k)/2;y0=band.y;}
-    return PHONE_PLATE.packs.map(([a,b])=>({x:x0+a*k,y:y0+PHONE_PLATE.top*k,w:(b-a)*k,h:(PHONE_PLATE.bottom-PHONE_PLATE.top)*k}));
+    let k,x0,y0,plate=PHONE_PLATE;
+    const scene=host.querySelector(".clPhoneScene"),vars=mode==="phone"?pcstPlateVars(host,"--clb-bg-pos","--clb-bg-size"):pcstPlateVars(scene,"--clb-band-pos","--clb-band-size");
+    if(vars){const box=pcstStageBox(mode==="phone"?host:scene,origin);k=vars.w/PHONE_PLATE.w;x0=box.x+vars.x;y0=box.y+vars.y;plate=BOX_PLATE;}
+    else if(mode==="phone"){const box=pcstStageBox(host,origin),probe=overlay.querySelector(".pcstPlateProbe"),width=probe?probe.getBoundingClientRect().width:Math.max(box.w,root.innerHeight*PHONE_PLATE.w/PHONE_PLATE.h);k=width/PHONE_PLATE.w;x0=box.x+(box.w-width)/2;y0=box.y;}
+    else{const band=pcstStageBox(scene,origin);k=Math.max(band.w/PHONE_PLATE.w,band.h/PHONE_PLATE.h);x0=band.x+(band.w-PHONE_PLATE.w*k)/2;y0=band.y;}
+    return plate.packs.map(([a,b])=>({x:x0+a*k,y:y0+plate.top*k,w:(b-a)*k,h:(plate.bottom-plate.top)*k}));
   }
   function pcstStageHold(role,club){
     const hold=pcstCreate("div","pcstHold");hold.dataset.side=role;hold.setAttribute("aria-hidden","true");
@@ -238,7 +249,7 @@
   }
   // Re-lays the stage on a resize (the Club layout moves the packs with the window); a turn of the phone rebuilds it.
   function pcstStageWatch(on){
-    if(!on){if(stageWatch){root.removeEventListener?.("resize",stageWatch.schedule);root.document?.removeEventListener?.("keydown",stageWatch.escape);stageWatch.observer?.disconnect?.();if(stageWatch.frame)root.cancelAnimationFrame?.(stageWatch.frame);stageWatch=null;}return;}
+    if(!on){if(stageWatch){root.removeEventListener?.("resize",stageWatch.schedule);root.document?.removeEventListener?.("keydown",stageWatch.escape);stageWatch.observer?.disconnect?.();stageWatch.mutations?.disconnect?.();if(stageWatch.frame)root.cancelAnimationFrame?.(stageWatch.frame);stageWatch=null;}return;}
     if(stageWatch||typeof root.addEventListener!=="function")return;
     const watch={frame:0,observer:null};
     watch.schedule=()=>{if(watch.frame||typeof root.requestAnimationFrame!=="function")return;watch.frame=root.requestAnimationFrame(()=>{watch.frame=0;pcstStageLayout();});};
@@ -246,6 +257,7 @@
     // Escape never closes Career Start under a running roulette (Fable F2-18).
     watch.escape=event=>{if(event.key==="Escape"&&!event.defaultPrevented&&pcstPanelOpen()&&!root.CareerModeRosterRouletteStep?.active?.()){event.preventDefault();pcstClosePanel();}};root.document?.addEventListener?.("keydown",watch.escape);
     try{const host=pcstStageHost();if(host&&typeof root.ResizeObserver==="function"){watch.observer=new root.ResizeObserver(watch.schedule);watch.observer.observe(host);host.querySelectorAll(".clubPackStage").forEach(node=>watch.observer.observe(node));}}catch(_error){}
+    try{const host=pcstStageHost();if(host&&typeof root.MutationObserver==="function"){watch.mutations=new root.MutationObserver(watch.schedule);watch.mutations.observe(host,{attributes:true,attributeFilter:["style"]});const scene=host.querySelector(".clPhoneScene");if(scene)watch.mutations.observe(scene,{attributes:true,attributeFilter:["style"]});}}catch(_error){}
     stageWatch=watch;
   }
   // Every way into Career Start (the Club screen's own button, the first confirmer's automatic open, resume from Home, a
