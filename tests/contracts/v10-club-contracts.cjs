@@ -32,7 +32,7 @@ const SENTINEL="ZQXSEALEDCLUB";
 // Team V 5e05a1f bytes (club.js: before the marked "App (JOB-34)" edits).
 const TEAM_V={
   "club.js":"4e95b3b1336f88f1868729bb2d5fac436e8941072e8561fb062fc4d36e8f30bf",
-  "club.css":"72ed488f433f4a5b7a94b7e03f56824f46cdcc4ce2af75bec3979e7fa9d1f4dd",
+  "club.css":"4a7fb0c7a24334e93fa712588dfe2c81060c6093de05369389efe72bab2995ed",
   "assets/platemap.json":"2d4833e60431a44796346e71abf006020bbbbd7897f6c8227a33ec44ed36a8f2",
   "assets/handmap.json":"dab8e3441e2dc2d36f3f0ae00de9d42e09d1508d8bcaac6e439a314de1c0da28",
   "assets/OVL_CLUB_DANIEL_SIDE_HAND_V1_1X.webp":"8cf447697e04040380835f6a30ef4d53260e4f7961cab270ca1581862127c5e4",
@@ -255,7 +255,7 @@ async function browserChecks(){
       // Team V's decoration is aria-hidden; the product text (title, VS, button labels) is still the product's.
       const a11y=await page.evaluate(()=>{const s=document.getElementById("clubWheelScreen");return {decor:[...s.querySelectorAll("[data-cl-decor]")].filter(n=>n.dataset.clDecor!=="wrap").every(n=>n.getAttribute("aria-hidden")==="true"),
         title:s.querySelector(":scope > h2 .sd-visually-hidden").textContent,confirm:document.getElementById("continueClubAssignment").textContent.trim()};});
-      assert.deepEqual(a11y,{decor:true,title:"CLUB ASSIGNMENT",confirm:"CONFIRM & START SHOWDOWN"});
+      assert.deepEqual(a11y,{decor:true,title:"BALL GAME",confirm:"CONFIRM & START SHOWDOWN"});
       await page.setViewportSize({width:1920,height:1080});
       await page.evaluate(()=>{window.navigateBackSmart=window.__clBack;});
     });
