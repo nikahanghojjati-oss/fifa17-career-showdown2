@@ -953,3 +953,31 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
   #app #trophyRoom button#trophyRoomBack.trophyBack { left: max(16px, env(safe-area-inset-left)); }
   #app #trophyRoom label.trophyPhoneMoreButton { right: max(16px, env(safe-area-inset-right)); }
 }
+
+/* r95 house (Lane B, layout measure), Career Statistics on phones: the whole screen (the headline tiles, tabs, panels and the action
+   buttons) sits on the 16px gutter plus the safe-area inset (12px under 380px wide), where it was 12px from the window edge.
+   Held upright both sides move; held sideways the right side moves (the left side is the face column). Only the side offsets change. */
+@media (max-width: 900px) and (orientation: portrait) {
+  #app #careerStatistics.careerScreenV10 .careerScreen .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen .actionRow { left: max(12px, env(safe-area-inset-left)); right: max(12px, env(safe-area-inset-right)); }
+}
+@media (min-width: 380px) and (max-width: 900px) and (orientation: portrait) {
+  #app #careerStatistics.careerScreenV10 .careerScreen .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen .actionRow { left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); }
+}
+@media (max-height: 480px) and (orientation: landscape) {
+  #app #careerStatistics.careerScreenV10 .careerScreen .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen .actionRow { right: max(16px, env(safe-area-inset-right)); }
+}
+
+/* r95 house (Lane B, layout measure), Trophy Room and Rivalry Statistics on phones held sideways: the title, the floating BACK and
+   MORE buttons and the right-hand panels sit on the 16px gutter plus the safe-area inset, where they were 6-12px from the window
+   edge. Only side offsets and side padding change; windows under 380px tall keep the old offsets (the golden card has no room). */
+@media (min-height: 380px) and (max-height: 480px) and (orientation: landscape) {
+  #app #trophyRoom #trophyRoomContent.trophyRoomContent { padding-right: max(16px, env(safe-area-inset-right)); }
+  #app #trophyRoom button#trophyRoomBack.trophyBack { left: max(16px, env(safe-area-inset-left)); }
+  #app #trophyRoom label.trophyPhoneMoreButton { right: max(16px, env(safe-area-inset-right)); }
+  #app #trophyRoom .phoneMoreToggle { right: max(16px, env(safe-area-inset-right)) !important; }
+  #app #statistics #rivalryStatisticsContent.analyticsContent { padding-right: max(16px, env(safe-area-inset-right)); }
+  #app #statistics #rvTitleBlock.rv-titleBlock { padding-left: max(16px, env(safe-area-inset-left)); }
+}

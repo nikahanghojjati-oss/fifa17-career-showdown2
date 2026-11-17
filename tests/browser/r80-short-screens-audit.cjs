@@ -299,7 +299,7 @@ const LISTED = [
       test: f => f.view.startsWith("RULE_BOOK") && f.size === "844x390" && ((f.kind === "scrollers" && /^article\.ruleSection\.sd-panel /.test(f.what)) || (f.kind === "clipped" && / cut by div#ruleBookSections\.ruleBookGrid$/.test(f.what))) }
 ];
 
-module.exports = { LISTED, pageDiag, SCREENS, SIZES, openScreen, showdown, career };
+module.exports = { LISTED, pageDiag, SCREENS, SIZES, openScreen, showdown, career, tabsOf, TAB_SELECTOR, touchSize };
 
 if(require.main === module){
     (async () => {
