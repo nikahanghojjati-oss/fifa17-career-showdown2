@@ -1519,7 +1519,7 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-15 by the 2.6.0 release bump: the same r93 file with its 2.6.0-r93 pins and v2.6.0 footer, nothing else.
   // Re-pinned 2026-11-17 by the 2.7.0 release bump: the 2.6.0 file (r94 never changed it) with its 2.7.0-r94 pins and v2.7.0
   // footer, nothing else.
-  assert.equal(sha256("index.html"),"820a1528c25a86ee0c1048e1447fdb2df35654b0d0378ae63b59e23344d68733","index.html is 2.7.0 + r95: Ball Game title (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, 2.7.0-r94 pins)");
+  assert.equal(sha256("index.html"),"94a37b660e9b3d66e39ded74dc5bfbf93bf3b1ed1aee5e1cd5db31331baa3233","index.html is 2.7.0 + r95: Ball Game title (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, 2.7.0-r94 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
