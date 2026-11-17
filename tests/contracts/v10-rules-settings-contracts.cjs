@@ -45,7 +45,7 @@ check('RS13 Settings: one DONE look at every size, round motion marks with a dot
   assert.equal(css.split('.settingsFooter .sd-btn--primary {').length-1,1,'and only one, so desktop and phone cannot drift apart');
   assert.ok(at>css.lastIndexOf('@media')&&/\n\}\n\/\* Art ledger S03-D2 and S03-D4/.test(css),'it follows the last size block, outside it');
   const done=css.slice(at,css.indexOf('}',at));
-  assert.match(done,/background:linear-gradient\(180deg,#fff0a6 0%,#f4cb55 38%,#d9a52b 72%,#b98a21 100%\);/,'brushed gold');
+  assert.match(done,/background:linear-gradient\(115deg,#FFE98F 0%,#F4CB5A 34%,#E8B93F 62%,#CD9526 100%\);/,'CONTINUE CAREER gold (r95)');
   assert.match(done,/box-shadow:inset 0 0 0 1px rgba\(110,76,10,\.7\),inset 0 1px 0 2px rgba\(255,252,220,\.55\),0 6px 18px rgba\(0,0,0,\.5\);/,'two inner lines and a dark drop shadow, nothing gold outside');
   assert.match(done,/clip-path:none;/,'no cut corner under the bevel');
   assert.match(css,/\n    background: linear-gradient\(180deg, rgba\(120, 88, 24, \.55\), rgba\(30, 22, 6, \.9\)\); box-shadow: inset 0 0 0 1px #050505;\n/,'the chosen motion card has no outer glow');

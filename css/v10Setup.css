@@ -1170,17 +1170,17 @@ html:is([data-motion-reduced="true"], [data-reduced-motion="true"]) :is(#createS
 #sparkRemoteJoiningOverlay .remoteJoiningIntro h2 {
   width: fit-content;
   max-width: 100%;
-  background: linear-gradient(to bottom, #fff1b8, #f2c45b 55%, #b98a2f);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  background: none;
+  color: #fff;
   font-family: var(--v26-cond);
-  font-style: italic;
-  filter: drop-shadow(0 2px 1px rgba(0, 0, 0, .9));
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .6);
 }
 #productionSharedJourneyEntryOverlay .remoteJoiningEyebrow,
 #sparkRemoteJoiningOverlay .remoteJoiningEyebrow,
-#sparkRemoteJoiningOverlay .remoteJoiningStep { color: var(--sd-gold-400, #f2c45b); letter-spacing: .3em; }
+#sparkRemoteJoiningOverlay .remoteJoiningStep { color: var(--h95-kicker, #ffd34d); letter-spacing: .3em; }
 #productionSharedJourneyEntryOverlay p,
 #sparkRemoteJoiningOverlay .remoteJoiningIntro p,
 #sparkRemoteJoiningOverlay .remoteJoiningCard p,
