@@ -132,7 +132,7 @@ check("R4 the r78 sheets load with the kit and the box on first use, never in th
   const html=read("index.html");
   for(const file of ["r78-type.css","r78-marble-surfaces.css","showdownConfirm.js"])assert.ok(!html.includes(file),`${file} is not a startup file`);
   const v10=read("js/v10Screens.js");
-  assert.match(v10,/const R78_STYLES=Object\.freeze\(\["css\/r78-type\.css","css\/r78-marble-surfaces\.css"\]\);/);
+  assert.match(v10,/const R78_STYLES=Object\.freeze\(\["css\/r78-type\.css","css\/r95-type\.css","css\/r78-marble-surfaces\.css"\]\);/);
   assert.match(v10,/const ALWAYS_ON=Object\.freeze\(\[BASE\+KIT\.styles\[0\],BASE\+NAV\.style,NAV\.shellStyle,\.\.\.R78_STYLES\]\);/);
   assert.match(v10,/const css=\[\.\.\.KIT\.styles\.map\(file=>vsStyle\(BASE\+file\)\),\.\.\.R78_STYLES\.map\(vsStyle\)\];/,"loaded with the kit, before Home's first reveal");
   assert.match(read("css/r78-type.css"),/#loadingScreen \{ --f17-ui: "Segoe UI", "Helvetica Neue", Arial, sans-serif; \}/,"the loading screen keeps its font");

@@ -180,7 +180,9 @@
   function cdsKits(){
     const ready=()=>Boolean(root.CareerModeKits17);
     if(ready())return Promise.resolve(true);
-    if(!kitsPromise)kitsPromise=cdsLoad("kits17","js/kits17.js",ready).catch(()=>false).then(ok=>{if(!ok)kitsPromise=null;return ok;});
+    if(!kitsPromise)kitsPromise=cdsLoad("kits17","js/kits17.js",ready).catch(()=>false).then(ok=>{if(!ok)kitsPromise=null;return ok;})
+      // r95: shirt lettering is canvas text: wait (bounded) for the one family before the first draw
+      .then(ok=>ok&&root.CareerModeKits17&&root.CareerModeKits17.fontReady?Promise.race([root.CareerModeKits17.fontReady,new Promise(r=>root.setTimeout(r,1500))]).then(()=>ok):ok);
     return kitsPromise;
   }
   function cdsPlateFile(){

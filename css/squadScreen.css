@@ -1,16 +1,13 @@
 /* r91 / 2.4.0 Squad Management screen. FIFA 17's squad screen, from Nik's reference videos (2026-11-11): frosted light
    panels over a blurred stadium, slate shelves, the yellow cursor, a tilted striped pitch, then the 7 substitutes and the
    reserves in one scrolling page (Nik 00:29 UTC). 12 px type floor, no dimming, nothing covers a button. */
-@font-face{font-family:"Sqm Cond";font-weight:600;font-display:swap;src:url(../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2")}
-@font-face{font-family:"Sqm Cond";font-weight:700;font-display:swap;src:url(../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2")}
-@font-face{font-family:"Sqm Cond";font-weight:800;font-display:swap;src:url(../visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2) format("woff2")}
 .sqm{
   --frost:#e9edf1;--frostInk:#15191f;--frostSoft:#4a525e;--frostLine:rgba(20,25,31,.12);
   --slate:#1b1f25;--slate2:#262b33;--slate3:#30363f;--line:#3b424d;--ink:#f5f6f8;--soft:#b8c0cb;
   --yellow:#f4e11c;--yellowInk:#141414;--gold:#e8c065;
   --gk:#f2a01a;--def:#e6cf22;--mid:#36c964;--att:#2d9ff5;
   --fit3:#36c964;--fit2:#e6cf22;--fit1:#f2891a;--fit0:#ff4a3d;--target:#45e07a;
-  --cond:"Sqm Cond","Barlow Condensed","Arial Narrow",Arial,sans-serif;--text:Barlow,"Segoe UI",Arial,sans-serif;
+  --cond:var(--r95-font-narrow, "Barlow Condensed", "Arial Narrow", sans-serif);--text:var(--r95-font, "Barlow", system-ui, sans-serif);
   position:relative;isolation:isolate;padding:22px 18px 28px;font-family:var(--cond);color:var(--ink);font-size:15px;line-height:1.2;-webkit-font-smoothing:antialiased;
 }
 .sqm *{box-sizing:border-box}
@@ -309,6 +306,8 @@ html[data-assets="0"] #sqStage{background-image:url("../visual-assets/v10_1/plat
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #sqStage{background-image:image-set(url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_1920.webp") 1.25x,url("../visual-assets/v10_1/plates-hc/ENV_COACHES_PLATE_HC_V3_2X.webp") 2x)}
 }
 
+/* r95 house (Lane B): keyboard focus ring on the Squad player chips */
+.sqmChip:focus-visible{outline:2px solid #fff3bd;outline-offset:3px;border-radius:6px}
 /* r95 house pass (Lane A, row 03): the Squad step leaves the pale FIFA-slate look. Same layout, same words, same taps;
    every light, grey, green or FIFA-blue surface is now the clubhouse: warm black marble in the gold bevel, gold cursor,
    CONTINUE CAREER gold for the primary button. The pitch itself stays green (it is the pitch). */

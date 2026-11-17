@@ -165,7 +165,7 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
   assert.match(PAGE, /held=T\.needsCheck\?T\.needsCheck\(\):\[\];/); assert.match(PAGE, /offered here only after the check passes/);
   // Quiet type: no box around the two titles, nothing under 12 px, no glow.
   const style = PAGE.slice(PAGE.indexOf("<style>"), PAGE.indexOf("</style>"));
-  assert.match(style, /\nh2\{margin:0 0 12px;font:800 15px\/1\.2 system-ui,sans-serif;letter-spacing:\.12em;text-transform:uppercase;color:var\(--gold\);text-align:center\}/);
+  assert.match(style, /\nh2\{margin:0 0 12px;font:800 15px\/1\.2 var\(--r95-font\);letter-spacing:\.12em;text-transform:uppercase;color:var\(--gold\);text-align:center\}/);
   assert.doesNotMatch(style, /h2[^{]*\{[^}]*(border|background|box-shadow)/);
   assert.doesNotMatch(style, /text-shadow|filter:|drop-shadow/);
   for (const m of style.matchAll(/font(?:-size)?:[^;}]*?(\d+(?:\.\d+)?)px/g)) assert.ok(Number(m[1]) >= 12, `no type under 12 px (${m[0]})`);

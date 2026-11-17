@@ -67,7 +67,7 @@
   const DOUBLE_TAP_MS=300;
   // r78 (HO-028 / HO-029): Team V's readable body type and the black-and-gold marble for errors, notes, pop-ups and
   // toasts. They load with the kit sheets (never in the startup bundle) and stay on, like the shell sheet.
-  const R78_STYLES=Object.freeze(["css/r78-type.css","css/r78-marble-surfaces.css"]);
+  const R78_STYLES=Object.freeze(["css/r78-type.css","css/r95-type.css","css/r78-marble-surfaces.css"]);
   const ALWAYS_ON=Object.freeze([BASE+KIT.styles[0],BASE+NAV.style,NAV.shellStyle,...R78_STYLES]);
 
   const registry=new Map();
