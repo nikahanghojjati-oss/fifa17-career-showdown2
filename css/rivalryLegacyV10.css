@@ -2346,6 +2346,15 @@
   #app #statistics[data-rivalry-legacy-v10] .rv-shell:has(.rv-comparison:not(.hasCoverage) .rvSpecialPlayer) { padding-top:max(calc(26.4svh - 24px),min(26.4svh,136px)); }
 }
 
+/* r95 house (Lane B, layout measure), Rivalry Statistics on phones held upright: the title, tabs, panels and BACK sit on the 16px
+   gutter plus the safe-area inset (12px under 380px wide), where they were 10px from the window edge. Only the side padding changes. */
+@media (max-width:900px) and (orientation:portrait) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-shell { padding-left:max(12px,env(safe-area-inset-left)); padding-right:max(12px,env(safe-area-inset-right)); }
+}
+@media (min-width:380px) and (max-width:900px) and (orientation:portrait) {
+  #app #statistics[data-rivalry-legacy-v10] .rv-shell { padding-left:max(16px,env(safe-area-inset-left)); padding-right:max(16px,env(safe-area-inset-right)); }
+}
+
 /* r95 house (Lane B), phones upright and sideways: CLOSE SEASON HISTORY is 44px tall (was 36px) so the tap target meets the phone
    minimum. Only the padding grows: label, gold and width stay, and the season table simply starts 8px lower. Desktop stays 36px. */
 @media (max-width:900px) {
