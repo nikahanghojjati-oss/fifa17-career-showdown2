@@ -13,23 +13,24 @@
      screens are timed (Chamber Men: a kick, Russian Roulette: a turn, the Special Player pack: a reveal). A level is saved
      only when all three drew exactly that level and stayed smooth. A screen that did not start, did not finish, or drew
      another level than asked leaves the level not verified: nothing is saved and the last good result stays. -->
+<link rel="stylesheet" href="css/r95-type.css">
 <style>
 :root{--gold:#f5c518;--gold-dim:rgba(219,178,94,.55);--ink:#f5f1e8;--mute:#c1b9aa;--bad:#ff8a7a;--good:#9fe39f}
 *{box-sizing:border-box}
 html{background:#050505}
-body{margin:0;min-height:100vh;color:var(--ink);font:400 15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+body{margin:0;min-height:100vh;color:var(--ink);font:400 15px/1.5 var(--r95-font);
   background:#050505 url("css/r78-marble-tile.webp") center/480px repeat}
 main{max-width:1000px;margin:0 auto;padding:28px 16px 40px}
 /* r93 HO-079: the title is live text in the one title family (Cormorant SC Bold, flat gold ink), at the height every screen title has.
    The words stay in the heading for screen readers; the same words are laid over them. */
 @font-face{font-family:"Cormorant SC";font-style:normal;font-weight:700;font-display:block;src:url("visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2") format("woff2")}
-h1{position:relative;margin:0 0 8px;--hc-h:clamp(40px,3.08vw,59px);height:var(--hc-h);overflow:hidden;font:800 28px/1.05 system-ui,sans-serif;letter-spacing:.06em;color:transparent;text-align:center}
+h1{position:relative;margin:0 0 8px;--hc-h:clamp(40px,3.08vw,59px);height:var(--hc-h);overflow:hidden;font:800 28px/1.05 var(--r95-font);letter-spacing:.06em;color:transparent;text-align:center}
 h1::after{position:absolute;left:0;right:0;top:0;pointer-events:none;content: "DEVICE CHECK"; --hcw: 7.74; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--hc-h); padding: 0 0 calc(var(--hc-h) * .096) .06em; white-space: nowrap; font: 700 min(calc(var(--hc-h) * .88), calc((100vw - 28px) / var(--hcw)))/var(--hc-h) "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif; font-style: normal; font-synthesis: none; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; letter-spacing: .06em; text-transform: uppercase; color: #C9A45C; -webkit-text-fill-color: #C9A45C; background: none;}
 .lede{margin:0 auto 18px;max-width:62ch;text-align:center;color:var(--mute)}
 .card{background:rgba(8,7,5,.88);border:1px solid var(--gold-dim);padding:16px;margin:0 0 14px}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
 button,.btn{appearance:none;min-height:44px;padding:0 20px;border:1px solid var(--gold);background:rgba(0,0,0,.6);color:var(--ink);
-  font:700 14px/44px system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+  font:700 14px/44px var(--r95-font);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;cursor:pointer}
 button.primary{background:var(--gold);color:#15120c}
 button:disabled{opacity:.5;cursor:default}
 button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
@@ -43,7 +44,7 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-of
    full page in the game; the Chamber Men frame sizes its goal as css/chamberMen.css does). */
 #stage.live{position:fixed;inset:0;z-index:5;width:auto;max-height:none;aspect-ratio:auto;border:0}
 #stage .liveNote{position:absolute;left:0;right:0;bottom:max(12px,env(safe-area-inset-bottom,0px));margin:0 auto;width:max-content;max-width:calc(100% - 32px);
-  padding:6px 12px;background:rgba(5,5,5,.86);border:1px solid var(--gold-dim);color:var(--ink);font:600 13px/1.3 system-ui,sans-serif;text-align:center;pointer-events:none}
+  padding:6px 12px;background:rgba(5,5,5,.86);border:1px solid var(--gold-dim);color:var(--ink);font:600 13px/1.3 var(--r95-font);text-align:center;pointer-events:none}
 #stage .idle{position:absolute;inset:0;display:grid;place-items:center;color:var(--mute);padding:16px;text-align:center}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 th,td{padding:8px 6px;border-bottom:1px solid rgba(219,178,94,.25);text-align:left;vertical-align:top}
@@ -55,7 +56,7 @@ td small{display:block;color:var(--mute);font-size:12px}
 td small{overflow-wrap:anywhere}
 /* r91 level guide (Nik 2026-11-12): what this device's chip, processor and memory each say, and the table of which chips
    start at which level. Quiet type, no boxes around the titles, nothing under 12 px, no glow. */
-h2{margin:0 0 12px;font:800 15px/1.2 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-align:center}
+h2{margin:0 0 12px;font:800 15px/1.2 var(--r95-font);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-align:center}
 h2 span{color:var(--mute);font-weight:600}
 .parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0}
 .parts div{padding:2px 16px;border-left:1px solid rgba(219,178,94,.25);text-align:center}

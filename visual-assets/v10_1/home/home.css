@@ -15,9 +15,9 @@
   --foot: #9A8F7A;
   --glass: rgba(10, 12, 15, .78);
   --hair: rgba(201, 155, 69, .45);
-  --cond: "Barlow Condensed", "Arial Narrow", sans-serif;
-  --text: "Barlow", system-ui, sans-serif;
-  --script: "Kaushan Script", cursive;
+  --cond: var(--r95-font-narrow, "Barlow Condensed", "Arial Narrow", sans-serif);
+  --text: var(--r95-font, "Barlow", system-ui, sans-serif);
+  --script: var(--r95-font, "Kaushan Script", cursive);
   --hdr: 52px;
   --ftr: 28px;
   --tile-h: clamp(136px, 17.5vh, 158px);

@@ -1,6 +1,11 @@
 (function(root){
   "use strict";
 
+  // r95: the one type family. Canvas text cannot read a CSS variable, so the family name is set here, and the face is loaded
+  // (document.fonts.load) before the first draw; callers wait on fontReady (bounded) so no board or shirt is drawn in a stand-in face.
+  const FONT_FAMILY='"Instrument Sans Narrow"';
+  const fontReady=(root.document&&root.document.fonts&&typeof root.document.fonts.load==="function")?root.document.fonts.load("700 24px "+FONT_FAMILY).then(()=>true,()=>false):Promise.resolve(true);
+
   // Chamber Men stadium kit (r89, the FIFA 17 look) in three.js r187: everything around the penalty except the players: the Showdown match ball, the goal (posts, bar, stanchions, a knotted net), a mown pitch with chalk lines, LED ad boards (our own marks only), a two-tier stand behind the goal, two side stands with a moving card crowd, the roof floodlights and a night sky.
   // Every texture is drawn by code in tools/chamber-men-assets (numpy + Pillow, rebuilt with `python3 build_all.py`): no third-party licence, no real brand. Files: visual-assets/v10_1/chamber-men/assets/ (licences: tools/chamber-men-assets/LICENSES.md). Only names already in the vendor build are used (no loaders beyond TextureLoader).
   // Units match js/chamberMenScene3d.js: metres, Y up, goal line on z 0, goal centred on x 0, posts 7.32 apart, bar 2.44 high, ball radius .11, penalty spot at z +11, the pitch runs toward +z.
@@ -69,7 +74,7 @@
   function boardArt(T,o){
     const d=root.document;if(!d||typeof d.createElement!=="function")return null;
     const W=o.px||1024,H=Math.round(W/8.9),list=[];
-    const font=px=>`700 ${px}px "Barlow Condensed","Arial Narrow",Arial,sans-serif`;
+    const font=px=>`700 ${px}px ${FONT_FAMILY},"Arial Narrow",Arial,sans-serif`;
     // The biggest size up to maxH whose width fits maxW.
     const fit=(g,text,maxW,maxH)=>{let px=Math.max(8,Math.round(maxH));g.font=font(px);const w=g.measureText(text).width;if(w>maxW){px=Math.max(8,Math.floor(px*maxW/w));g.font=font(px);}return g.measureText(text).width;};
     const base=g=>{
@@ -773,5 +778,5 @@
       dims:{GOAL_W,GOAL_H,BALL_R,SPOT_Z,DEPTH}};
   }
 
-  root.CareerModeChamberMenStadium={contractVersion:1,base:BASE,files:FILES,grass:GRASS,load,urls,build:stadiumBuild,merge:stadiumMerge};
+  root.CareerModeChamberMenStadium={contractVersion:1,fontReady,base:BASE,files:FILES,grass:GRASS,load,urls,build:stadiumBuild,merge:stadiumMerge};
 })(typeof globalThis!=="undefined"?globalThis:this);
