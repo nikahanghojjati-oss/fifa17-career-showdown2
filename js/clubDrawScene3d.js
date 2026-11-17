@@ -33,7 +33,10 @@
     MODE:0, BLUR:1, J0:6, JT:54, NEEDLE_T:.62, POW_MIN:360, POW_RANGE:540, POW_T:.85, POW_DUR:3.4, RHY:0, RHY_T:2.4, SHOW_N6:.55,
     // r95 lab Master: CHAOS 1 adds a second speed wave (RHY2 every RHY_T2 s; both waves start at a fresh phase each spin) and
     // feints: every FLIP_MIN..FLIP_MAX s the ball reverses through zero in FLIP_T s, told by a small hop TELL s before.
-    CHAOS:0, RHY2:0, RHY_T2:1.55, FLIP_MIN:1.4, FLIP_MAX:3.0, FLIP_T:.26, TELL:.42
+    CHAOS:0, RHY2:0, RHY_T2:1.55, FLIP_MIN:1.4, FLIP_MAX:3.0, FLIP_T:.26, TELL:.42,
+    // SURGE_MIN > 0 (Nik 2026-11-17 04:09 UTC: one direction only): instead of reversing, the ball shifts to a new speed
+    // (SURGE_MIN..1 of the wave speed, always at least .25 away from the last) at the same moments, told by the same hop.
+    SURGE_MIN:0
   };
   const PHYS_DEFAULT=Object.freeze({...PHYS});
   // The tuning page only (tools/club-draw-tuning.html): the game never calls it. SECTION is fixed (three clubs per ball).
@@ -556,7 +559,7 @@
           // Master: two waves at fresh phases and feints, each told by a hop, so the rhythm has to be read, not remembered.
           if(b.flipAt==null){b.ph1=Math.random()*6.2832;b.ph2=Math.random()*6.2832;b.dirT=1;b.dirS=1;b.told=false;b.flipAt=PHYS.FLIP_MIN+Math.random()*(PHYS.FLIP_MAX-PHYS.FLIP_MIN);}
           if(!b.told&&b.t>=b.flipAt-PHYS.TELL){b.told=true;b.vy=4.2;b.y=.001;if(b.i===me)cue.bounce(.45);}
-          if(b.t>=b.flipAt){b.dirT=-b.dirT;b.told=false;b.flipAt=b.t+PHYS.FLIP_MIN+Math.random()*(PHYS.FLIP_MAX-PHYS.FLIP_MIN);}
+          if(b.t>=b.flipAt){if(PHYS.SURGE_MIN>0){let g;do g=PHYS.SURGE_MIN+Math.random()*(1-PHYS.SURGE_MIN);while(Math.abs(g-b.dirT)<.25);b.dirT=g;}else b.dirT=-b.dirT;b.told=false;b.flipAt=b.t+PHYS.FLIP_MIN+Math.random()*(PHYS.FLIP_MAX-PHYS.FLIP_MIN);}
           const st=2*dt/PHYS.FLIP_T;b.dirS+=Math.max(-st,Math.min(st,b.dirT-b.dirS));
           w=PHYS.W_FAST*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T+b.ph1)+PHYS.RHY2*Math.sin(6.2832*b.t/PHYS.RHY_T2+b.ph2))*b.dirS;hop(b,dt);
         }else w=(PHYS.W_FAST-36*(1-Math.exp(-b.t/5)))*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T));

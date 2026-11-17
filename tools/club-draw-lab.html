@@ -190,7 +190,7 @@ select:disabled{opacity:.45}
     M.tune("reset");
     const P={MODE:c.pro?0:c.mode,BLUR:c.mode===0?1:0,W_FAST:c.p.W};
     if(c.pro)Object.assign(P,{D0:720,J:c.p.J*c.S,RHY:c.p.R,RHY_T:2.4});
-    if(c.pro&&c.p.CH)Object.assign(P,{CHAOS:1,RHY2:c.p.R2,RHY_T2:1.55,FLIP_MIN:1.0,FLIP_MAX:2.4,FLIP_T:.22,TELL:.36});
+    if(c.pro&&c.p.CH)Object.assign(P,{CHAOS:1,RHY2:c.p.R2,RHY_T2:1.55,FLIP_MIN:1.0,FLIP_MAX:2.4,FLIP_T:.22,TELL:.36,SURGE_MIN:.4});
     if(c.mode===1)Object.assign(P,{J0:c.p.J0*c.S,JT:c.p.JT*c.S,NEEDLE_T:c.p.NT});
     if(c.mode===2)Object.assign(P,{J:c.p.J*c.S,POW_T:c.p.PT,POW_MIN:360,POW_RANGE:540});
     if(c.mode===0)Object.assign(P,{J:120});
@@ -215,12 +215,12 @@ select:disabled{opacity:.45}
     if(c.mode===2)rows.push(["Kick distance",`${P.POW_MIN} to ${P.POW_MIN+P.POW_RANGE} deg (1 to 2.5 turns)`],["Power bar sweep",`${P.POW_T.toFixed(2)} s one way`],["Luck (grass)",`+-${P.J.toFixed(0)} deg`]);
     if(c.mode===0)rows.push(["Lead after STOP",`${P.D0} deg`],["Luck (grass)",`+-${P.J} deg`]);
     if(c.pro)rows.push(["After STOP","exactly 2 turns, so the crest facing you is yours"],P.CHAOS?["Speed",`${Math.round(P.W_FAST*(1-P.RHY-P.RHY2))} to ${Math.round(P.W_FAST*(1+P.RHY+P.RHY2))} deg/s, two waves (${P.RHY_T} s and ${P.RHY_T2} s) that start differently every game`]:["Speed waves",`${Math.round(P.W_FAST*(1-P.RHY))} to ${Math.round(P.W_FAST*(1+P.RHY))} deg/s, every ${P.RHY_T} s`],["Luck (grass)",`+-${P.J.toFixed(0)} deg`],["Time each crest faces you",`${Math.round(1000*c.S/P.W_FAST)} ms`]);
-    if(c.pro&&P.CHAOS)rows.push(["Feints",`the ball reverses every ${P.FLIP_MIN} to ${P.FLIP_MAX} s (in ${P.FLIP_T} s); a small hop ${P.TELL} s before tells you`]);
+    if(c.pro&&P.CHAOS)rows.push(P.SURGE_MIN>0?["Speed shifts",`one direction only; every ${P.FLIP_MIN} to ${P.FLIP_MAX} s the ball jumps to a new speed (${Math.round(P.SURGE_MIN*100)} to 100%) in ${P.FLIP_T} s; a small hop ${P.TELL} s before tells you`]:["Feints",`the ball reverses every ${P.FLIP_MIN} to ${P.FLIP_MAX} s (in ${P.FLIP_T} s); a small hop ${P.TELL} s before tells you`]);
     rows.push(["Blind tap",`${Math.round(100/c.n)}%`]);
     $("numTable").innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("");
   }
   function hint(){
-    const t={3:"Press STOP and the crest facing you is your club, plus a little luck from the grass. The ball speeds up and slows down in waves: wait for the slow moment, then strike."+(cfg&&cfg.p&&cfg.p.CH?" Master: two speed waves that start differently every game, and feints: the ball hops, then reverses. Read the hop, catch the turn.":""),
+    const t={3:"Press STOP and the crest facing you is your club, plus a little luck from the grass. The ball speeds up and slows down in waves: wait for the slow moment, then strike."+(cfg&&cfg.p&&cfg.p.CH?" Master: one direction only, two speed waves that start differently every game, and sudden speed shifts: the ball hops, then jumps to a new speed. Read the hop, catch the shift.":""),
       1:"Two taps. STOP grabs the ball and it starts slowing. A needle then runs across the gold bar: tap TOUCH as it hits the gold middle. Gold middle = you get the crest that was 1 2/3 turns ahead; off the middle = more luck.",
       2:"The ball stands still. A gold bar fills and empties. Press KICK: a fuller bar rolls the ball further (1 to 2.5 turns). Learn which fill lands your club.",
       0:"2.7.0 as it is today: one STOP, big luck (+-120 deg) and blur at full speed."};
