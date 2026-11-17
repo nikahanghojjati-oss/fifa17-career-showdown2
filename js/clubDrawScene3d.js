@@ -328,6 +328,25 @@
     return {known:true,pattern,fabric:pattern==="solid"?(v.fabric||(typeof kits.fabric==="function"?kits.fabric(name):"shadow")):"",n:pattern==="stripes"?(v.n||7):0,
       body:k.body,second,second2:k.second[1]||second,trim:k.trim,sleeves,shorts,pent,shortsAll:k.shorts,socks:k.socks,sockTop:k.sockTop,collar:k.collar};
   }
+  // Six clubs share one ball, so a plain shirt next to another plain shirt of a close colour (Arsenal beside Liverpool) would
+  // run together. The later of the two takes an accent in its own trim, inspired by classic kit details: a chest band, twin
+  // pinstripes or a sash, whichever no neighbour already wears. Body colour, crest and the rest of the kit stay.
+  const BALL_ACCENTS=Object.freeze(["band","twin","diag"]);
+  function distinctNeighbours(looks,dE){
+    const n=looks.length;if(n<2||typeof dE!=="function")return looks;
+    for(let i=0;i<n;i++){
+      const a=looks[i];if(!a||!a.known||a.pattern!=="solid")continue;
+      const prev=looks[(i+n-1)%n],next=looks[(i+1)%n];
+      const close=x=>x&&x!==a&&x.known&&x.pattern===a.pattern&&dE(x.body,a.body)<30;
+      if(!(close(prev)||(i===n-1&&close(next))))continue;
+      const tr=dE(a.trim,a.body)>20?a.trim:(a.second&&dE(a.second,a.body)>20?a.second:null);if(!tr)continue;
+      // A white or near-black trim stays a pair of fine pinstripes, never a wide block of white or black.
+      const lt=hexLum(tr),pool=lt>.88||lt<.12?["twin"]:BALL_ACCENTS,used=new Set(looks.map(l=>l&&l.pattern));
+      const acc=pool.find(p=>!used.has(p))||pool.find(p=>p!==(prev&&prev.pattern)&&p!==(next&&next.pattern));
+      if(acc)looks[i]={...a,pattern:acc,second:tr,second2:tr,fabric:"",accent:acc};
+    }
+    return looks;
+  }
   // Two looks can share a ball without being mistaken for each other: a different pattern or fabric, stripes at least four
   // apart in count (bold against thin), or a clearly different second colour, pentagon colour, sleeves or body (CIE76 > 25).
   function looksApart(a,b,dE){
@@ -385,7 +404,7 @@
     const sphere=geo(new T.SphereGeometry(1,K.seg[0],K.seg[1]));
     const balls=opts.balls.map((b,idx)=>{
       const kits=root.CareerModeKits17||null,v3=hex=>{const c=srgbColour(T,hex).convertSRGBToLinear();return new T.Vector3(c.r,c.g,c.b);};
-      const looks=b.clubs.map(n=>{const lk=ballLook(kits,n,assets.info[n]);if(!lk.known){const cc=clubColours(T,assets.info[n]);lk.v={A:cc[0],N:cc[1]};}return lk;});
+      const looks=b.clubs.map(n=>{const lk=ballLook(kits,n,assets.info[n]);if(!lk.known){const cc=clubColours(T,assets.info[n]);lk.v={A:cc[0],N:cc[1]};}return lk;});distinctNeighbours(looks,kits&&kits.deltaE);
       const kv=(f)=>looks.map(f);
       const u={PC:{value:PAN.centres},kA:{value:kv(l=>l.v?l.v.A:v3(l.body))},kB:{value:kv(l=>v3(l.second))},kC:{value:kv(l=>v3(l.second2))},kT:{value:kv(l=>v3(l.trim))},
         kS:{value:kv(l=>v3(l.sleeves||l.body))},kN:{value:kv(l=>l.v?l.v.N:v3(l.pent))},kH:{value:kv(l=>v3(l.shortsAll||l.body))},
@@ -717,7 +736,7 @@
   function preload(){return cdLoadEngine().then(()=>true,()=>false);}
 
   const api={contractVersion:1,feature:"cms-club-draw-3d",enginePath:ENGINE_PATH,physics:PHYS_DEFAULT,tune,
-    sectionOf,drawStop,poseOf,showTarget,ballLook,looksApart,BALL_VARIANT,travelTo,friction,speedFor,angleDiff,mod360,knobs,mount:mountScene,preload};
+    sectionOf,drawStop,poseOf,showTarget,ballLook,looksApart,distinctNeighbours,BALL_VARIANT,travelTo,friction,speedFor,angleDiff,mod360,knobs,mount:mountScene,preload};
   if(typeof module!=="undefined"&&module.exports)module.exports=api;
   root.CareerModeClubDraw3d=api;
 })(typeof globalThis!=="undefined"?globalThis:this);
