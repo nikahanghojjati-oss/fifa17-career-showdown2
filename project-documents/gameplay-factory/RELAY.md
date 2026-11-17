@@ -1,12 +1,38 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-16 10:45 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-16 10:50 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `3d83023` (Mon 16 Nov 7:00 PM Boston time) · 329 messages · 96 hand-offs · 618 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `9d9bc50` (Mon 16 Nov 10:46 PM Boston time) · 331 messages · 97 hand-offs · 620 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-096 · G → V · Story art: lounge plate, leather book cover, Making Of banner (r95)
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 0 min after delivery
+
+- Mon 16 Nov 10:46 PM · Team V · Received · Supervisor lead writing 3 Astra prompts (house ref = locked HO-094 club room)
+- Mon 16 Nov 10:45 PM · Team G · Sent
+- Mon 16 Nov 10:47 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+### Why
+Nik, 2026-11-17 03:41 UTC (Team G r95 lead thread): the Story's first page and every page before the complete book must look in line with the clubhouse, "and if there is any pages that doesn't look in line with the Clubhouse, we can figure out and make new art for it". Team G's r95 pass (PRs #1509, #1512) put the Story in the house kit (marble, gold bevel, house type, no Kaushan) but three pictures do not exist yet and Team G will not fake them in CSS.
+
+### Assets (three; one asset = one image ticket = one new chat), same HC house look as the club lounge (warm black, walnut, dark stone, brass lamps, gold), no people, no faces, no words or lettering
+1. **STORY_LOUNGE_PLATE_HC_V1** (Story home hero, chronicle/index.html), 2880x1620 WebP. A clubhouse lounge library corner: writing desk, one brass lamp, a leather-bound book lying open, soft key light from top left. Left 45% calm and low in brightness (the white headline sits there).
+2. **STORY_BOOK_COVER_HC_V1** (book cover, chronicle/book.html), 2400x1600 WebP + 1200x1600 portrait crop for phone. Dark leather book cover seen straight on, blind-embossed border, gold foil corner pieces, empty centre 60% (title is live text).
+3. **STORY_MAKING_OF_BANNER_HC_V1** (Making Of and contents header, book.html), 2400x400 WebP. Studio desk at night: two monitors off, brass lamp, marble desktop.
+
+### Accept when
+Nik OKs each; same light and materials as the HC club lounge so the Story sits in the same house; centres calm for live text; no text, no people. SHA256.json in hc-art/story-r95/.
+
+### After DONE
+Team G (r95 lead) wires them into chronicle/edition.css slots; the marble fallback stays.
+
+</details>
 
 ### HO-095 · G → V · Club Assignment lounge phone crops (upright + sideways)
 
@@ -4296,6 +4322,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-096 RECEIVED · Team V → Team G · Mon 16 Nov 10:46 PM Boston time
+
+**Story art: lounge plate, leather book cover, Making Of banner (r95)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-096 SENT · Team G → Team V · Mon 16 Nov 10:45 PM Boston time
+
+**Story art: lounge plate, leather book cover, Making Of banner (r95)** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-095 DONE · Team V → Team G · Mon 16 Nov 7:00 PM Boston time
 

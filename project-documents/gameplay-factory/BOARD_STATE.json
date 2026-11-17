@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-16 10:45 PM Boston time (EST)",
+ "generated": "2026-11-16 10:50 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 329,
+  "count": 331,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2964,6 +2964,24 @@
     "subject": "Club Assignment lounge phone crops (upright + sideways)",
     "reply": "no",
     "boston": "Mon 16 Nov 7:00 PM"
+   },
+   {
+    "time": "2026-11-17 03:45",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-096 SENT",
+    "subject": "Story art: lounge plate, leather book cover, Making Of banner (r95)",
+    "reply": "yes (receive it)",
+    "boston": "Mon 16 Nov 10:45 PM"
+   },
+   {
+    "time": "2026-11-17 03:46",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-096 RECEIVED",
+    "subject": "Story art: lounge plate, leather book cover, Making Of banner (r95)",
+    "reply": "no",
+    "boston": "Mon 16 Nov 10:46 PM"
    }
   ],
   "g2v": {
@@ -2984,8 +3002,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "3d83023",
-  "head_boston": "Mon 16 Nov 7:00 PM",
+  "head": "9d9bc50",
+  "head_boston": "Mon 16 Nov 10:46 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3027,8 +3045,8 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: Showdown Gate on #1512 has waited 3 min for a machine; Showdown Gate on #1510 has waited 3 min for a machine; Showdown Gate on #1511 has waited 2 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -3815,7 +3833,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 13000
+    "waiting_min": 13006
    },
    {
     "id": "HO-059",
@@ -4297,6 +4315,19 @@
     "worker": "images",
     "pickup_min": 0,
     "waiting_min": null
+   },
+   {
+    "id": "HO-096",
+    "from": "G",
+    "to": "V",
+    "title": "Story art: lounge plate, leather book cover, Making Of banner (r95)",
+    "stage": "RECEIVED",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-096_story-art-lounge-plate-leather-book-cove.md",
+    "worker": "images",
+    "pickup_min": 0,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -4368,7 +4399,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
