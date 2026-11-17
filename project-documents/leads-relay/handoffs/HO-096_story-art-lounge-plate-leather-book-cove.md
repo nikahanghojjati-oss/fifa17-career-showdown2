@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-17T03:45:37Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-17T03:46:50Z", "by": "V", "status": "RECEIVED", "note": "Supervisor lead writing 3 Astra prompts (house ref = locked HO-094 club room)"}],
+ "evidence": ["claude/project-thread-6kfnkn 7b24eb461 project-documents/hc-art/story-r95/"],
+ "log": [{"at": "2026-11-17T03:45:37Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-17T03:46:50Z", "by": "V", "status": "RECEIVED", "note": "Supervisor lead writing 3 Astra prompts (house ref = locked HO-094 club room)"}, {"at": "2026-11-17T03:55:21Z", "by": "V", "status": "DONE", "note": "4 files: STORY_LOUNGE_PLATE_HC_V1 2880x1620, STORY_BOOK_COVER_HC_V1 2400x1600 + _PORTRAIT 1200x1600 (own run, not a crop), STORY_MAKING_OF_BANNER_HC_V1 2400x400. Nik OK 16 Nov 10:55 p.m. Eastern."}],
  "from_session": "session_01GU43Q6NcN4P7JSVrEsneAr",
  "sessions": {"G": "session_01GU43Q6NcN4P7JSVrEsneAr", "V": "session_01GU43Q6ygGHrAsJfLkNSMzY"}
 }
