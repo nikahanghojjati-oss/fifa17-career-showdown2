@@ -969,3 +969,15 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
   #app #careerStatistics.careerScreenV10 .careerScreen .phoneHub,
   #app #careerStatistics.careerScreenV10 .careerScreen .actionRow { right: max(16px, env(safe-area-inset-right)); }
 }
+
+/* r95 house (Lane B, layout measure), Trophy Room and Rivalry Statistics on phones held sideways: the title, the floating BACK and
+   MORE buttons and the right-hand panels sit on the 16px gutter plus the safe-area inset, where they were 6-12px from the window
+   edge. Only side offsets and side padding change; windows under 380px tall keep the old offsets (the golden card has no room). */
+@media (min-height: 380px) and (max-height: 480px) and (orientation: landscape) {
+  #app #trophyRoom #trophyRoomContent.trophyRoomContent { padding-right: max(16px, env(safe-area-inset-right)); }
+  #app #trophyRoom button#trophyRoomBack.trophyBack { left: max(16px, env(safe-area-inset-left)); }
+  #app #trophyRoom label.trophyPhoneMoreButton { right: max(16px, env(safe-area-inset-right)); }
+  #app #trophyRoom .phoneMoreToggle { right: max(16px, env(safe-area-inset-right)) !important; }
+  #app #statistics #rivalryStatisticsContent.analyticsContent { padding-right: max(16px, env(safe-area-inset-right)); }
+  #app #statistics #rvTitleBlock.rv-titleBlock { padding-left: max(16px, env(safe-area-inset-left)); }
+}
