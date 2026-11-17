@@ -33,7 +33,7 @@ html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader .brand { 
 html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge,
 html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #seasonIndicator {
   margin: 0 !important; min-height: 32px; box-sizing: border-box; padding: 6px 12px !important; display: inline-flex; align-items: center;
-  font: 600 13px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .08em; text-transform: uppercase; color: #f5f1e8 !important;
+  font: 600 13px/1 var(--sd-font-condensed, sans-serif) !important; letter-spacing: .08em; text-transform: uppercase; color: #f5f1e8 !important;
   background: rgba(6,7,9,.78) !important; border: 1px solid rgba(242,196,91,.62) !important; border-radius: 2px; box-shadow: none;
 }
 html[data-v10-screen="mainMenu"]:not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; }
@@ -66,7 +66,7 @@ html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #a
 html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge,
 html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #seasonIndicator {
   margin: 0 !important; min-height: 28px; box-sizing: border-box; padding: 0 10px !important; display: inline-flex; align-items: center;
-  font: 600 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .1em; text-transform: uppercase;
+  font: 600 12px/1 var(--sd-font-condensed, sans-serif) !important; letter-spacing: .1em; text-transform: uppercase;
   color: #ece6d6 !important; background: #0d0f13 !important; border: 1px solid rgba(242,196,91,.45) !important; border-radius: 2px; box-shadow: none;
 }
 html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; cursor: pointer; }
@@ -79,7 +79,7 @@ html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #a
 }
 /* r73 polish: wherever a Team V screen leaves the app footer on show (Home's band, the phone setup screens, Legacy's tools)
    its version line takes the kit's own face, as on Home, never the old system font. */
-html:is([data-v10-screen], [data-v10-setup], [data-v10-tools]) #app > footer { font-family: var(--sd-font-body, "Barlow", system-ui, sans-serif); }
+html:is([data-v10-screen], [data-v10-setup], [data-v10-tools]) #app > footer { font-family: var(--sd-font-body, system-ui, sans-serif); }
 @media (max-width: 900px) {
   html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); }
   html[data-v10-screen]:not([data-v10-setup]):not([data-v10-screen="mainMenu"]) #app #topHeader:not(:focus-within) {
@@ -131,7 +131,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10 {
   html[data-v10-setup]:not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge,
   html[data-v10-setup]:not([data-v10-screen="mainMenu"]) #app #topHeader #seasonIndicator {
     margin: 0 !important; min-height: 28px; box-sizing: border-box; padding: 0 10px !important; display: inline-flex; align-items: center;
-    font: 600 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .1em; text-transform: uppercase;
+    font: 600 12px/1 var(--sd-font-condensed, sans-serif) !important; letter-spacing: .1em; text-transform: uppercase;
     color: #ece6d6 !important; background: #0d0f13 !important; border: 1px solid rgba(242,196,91,.45) !important; border-radius: 2px; box-shadow: none;
   }
   html[data-v10-setup]:not([data-v10-screen="mainMenu"]) #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; cursor: pointer; }
@@ -146,14 +146,14 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10 {
    js/productionSharedJourneyReconnect.js) drop the old slate / light-blue look for Team V's panel kit. */
 #appRuntimeNotice {
   color: #ece6d6; background: #0d0f13; border: 1px solid rgba(242, 196, 91, .45); border-left: 3px solid var(--sd-gold-400, #f2c45b);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, .55); font-family: var(--sd-font-body, "Barlow", sans-serif);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .55); font-family: var(--sd-font-body, sans-serif);
 }
 #appRuntimeNotice.error { border-left-color: var(--sd-danger, #d0473f); }
 #appRuntimeNotice.success { border-left-color: #6fbf7f; }
 #appRuntimeNotice button { color: var(--sd-gold-400, #f2c45b); }
 html[data-v10-screen] #app > .stateNote {
   color: #ece6d6; background: rgba(7, 8, 10, .92); border: 1px solid rgba(242, 196, 91, .35); border-left: 3px solid var(--sd-gold-400, #f2c45b);
-  font: 600 11px/1.35 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .06em;
+  font: 600 11px/1.35 var(--sd-font-condensed, sans-serif); letter-spacing: .06em;
 }
 /* r87 sweep P-01: after a finished Showdown the reconnect note ("SHOWDOWN COMPLETE · Open the Final Winner or History from
    Home.") sat under Home's fixed chips on phones. On Home it points to where the player already is, so Home leaves it out. */
@@ -198,7 +198,7 @@ html[data-v10-tools] #app #topHeader .brand { position: absolute; width: 1px; he
 html[data-v10-tools] #app #topHeader #onlinePlayerIdentityBadge,
 html[data-v10-tools] #app #topHeader #seasonIndicator {
   margin: 0 !important; min-height: 28px; box-sizing: border-box; padding: 0 10px !important; display: inline-flex; align-items: center;
-  font: 600 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .1em;
+  font: 600 12px/1 var(--sd-font-condensed, sans-serif) !important; letter-spacing: .1em;
   color: #ece6d6 !important; background: #0d0f13 !important; border: 1px solid rgba(242,196,91,.45) !important; border-radius: 2px; box-shadow: none;
 }
 html[data-v10-tools] #app #topHeader #onlinePlayerIdentityBadge { color: #f2c45b !important; cursor: pointer; }
@@ -208,10 +208,10 @@ html[data-v10-tools] #app #topHeader #seasonIndicator::after { content: none; }
   html[data-v10-tools] #app #topHeader { left: 10px; right: auto; top: max(10px, env(safe-area-inset-top)); }
   html[data-v10-tools] #app #topHeader:not(:focus-within) { width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }
-html[data-v10-tools] #legacy { color: #ece6d6; font-family: var(--sd-font-body, "Barlow", sans-serif); padding-top: 18px; }
+html[data-v10-tools] #legacy { color: #ece6d6; font-family: var(--sd-font-body, sans-serif); padding-top: 18px; }
 html[data-v10-tools] #legacy #legacyScreenTitle {
   margin: 8px auto 22px; padding: 0; text-align: center; background: none; border: 0; box-shadow: none; outline: 0;
-  color: var(--sd-gold-400, #f2c45b); font: 400 clamp(40px, 6vw, 72px)/1.05 var(--sd-font-script, "Kaushan Script", cursive);
+  color: var(--sd-gold-400, #f2c45b); font: 400 clamp(40px, 6vw, 72px)/1.05 var(--sd-font-script, cursive);
   letter-spacing: 0; text-shadow: 0 2px 0 rgba(0,0,0,.6), 0 0 24px rgba(242,196,91,.25);
 }
 html[data-v10-tools] #legacy #legacyScreenTitle::before,
@@ -231,7 +231,7 @@ html[data-v10-tools] #legacy :is(p, span, small, li, .legacyEmpty, .careerRestor
 html[data-v10-tools] #legacy :is(.legacyStat strong, .legacyStat span, .legacySectionHeading, .legacyDataControls h3, .legacyImportAnalysis h4, .careerRestorePanel h4,
   .legacyBackupSummary strong, .legacyImportEyebrow, .careerRestoreEyebrow, .careerRestoreLabel, .careerRestorePlan strong, .careerRestoreConflicts > strong,
   .careerRestoreRecovery strong, .careerRestoreConflict h5, .careerRestoreSnapshot strong, .legacyImportDropZone strong) {
-  color: var(--sd-gold-400, #f2c45b) !important; font-family: var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .08em;
+  color: var(--sd-gold-400, #f2c45b) !important; font-family: var(--sd-font-condensed, sans-serif); letter-spacing: .08em;
 }
 html[data-v10-tools] #legacy .legacyStat strong { color: #ece6d6 !important; font-family: var(--sd-font-display, "Bebas Neue", sans-serif); font-size: 40px; letter-spacing: .02em; }
 html[data-v10-tools] #legacy .legacySectionHeading { border-left-color: var(--sd-gold-400, #f2c45b); }
@@ -245,7 +245,7 @@ html[data-v10-tools] #legacy :is(input[type=file], select, .careerRestoreSelect)
 }
 html[data-v10-tools] #legacy :is(.compactButton, .backButton) {
   color: var(--sd-gold-400, #f2c45b); background: #0d0f13; border: 1px solid rgba(242, 196, 91, .55); border-radius: 2px; box-shadow: none;
-  font: 600 13px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .1em;
+  font: 600 13px/1 var(--sd-font-condensed, sans-serif); letter-spacing: .1em;
 }
 html[data-v10-tools] #legacy .compactButton.primaryDataButton { color: #0b0b0c; background: linear-gradient(180deg, #f7d77a, var(--sd-gold-400, #f2c45b)); border-color: var(--sd-gold-400, #f2c45b); }
 html[data-v10-tools] #legacy .compactButton.dangerButton { color: #f0a49e; background: rgba(208, 71, 63, .1); border-color: rgba(208, 71, 63, .7); }
@@ -571,7 +571,7 @@ html:is([data-assets="2"], [data-assets="3"], [data-assets="4"]) #app #careerSta
   --cms-gold: var(--r78-gold, #f2c45b); --cms-gold-strong: var(--r78-gold-strong, #ffd34d); --cms-edge: var(--r78-gold-edge, #d4a017);
   --cms-ink: var(--r78-ivory, #f2ebdd); --cms-meta: var(--r78-ivory-2, #c9bfa8);
   position: relative; display: flex; align-items: center; gap: 8px; box-sizing: border-box; min-width: 0;
-  font-family: var(--sd-font-condensed, "Barlow Condensed", sans-serif); color: var(--cms-ink);
+  font-family: var(--sd-font-condensed, sans-serif); color: var(--cms-ink);
 }
 .sd-nav-top .cmsMusicDock {
   align-self: center; height: 40px; margin-left: 18px; padding: 0 5px; gap: 10px; max-width: 520px; border-radius: 20px;
@@ -592,10 +592,10 @@ html[data-nav="none"] .cmsMusicDock { display: none !important; }
 .cmsMusicDock[data-playing="true"] .cmsMusicDockDisc { animation: cmsMusicDockSpin 3.2s linear infinite; }
 @keyframes cmsMusicDockSpin { to { transform: rotate(360deg); } }
 .cmsMusicDockText { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 1px; line-height: 1.05; }
-.cmsMusicDockText strong { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 700 13px/1.05 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .06em; color: var(--cms-ink); }
-.cmsMusicDockText small { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 500 12px/1.1 var(--sd-font-body, "Barlow", sans-serif); color: var(--cms-meta); }
+.cmsMusicDockText strong { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 700 13px/1.05 var(--sd-font-condensed, sans-serif); letter-spacing: .06em; color: var(--cms-ink); }
+.cmsMusicDockText small { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 500 12px/1.1 var(--sd-font-body, sans-serif); color: var(--cms-meta); }
 .cmsMusicDock[data-failed="true"] .cmsMusicDockText small { color: var(--cms-gold); }
-.cmsMusicDock button { flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-sizing: border-box; padding: 0; cursor: pointer; font: 700 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .12em; }
+.cmsMusicDock button { flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-sizing: border-box; padding: 0; cursor: pointer; font: 700 12px/1 var(--sd-font-condensed, sans-serif); letter-spacing: .12em; }
 .cmsMusicDockPlay { width: 30px; height: 30px; border-radius: 50%; color: var(--sd-text-on-gold, #07080a); background: linear-gradient(180deg, #fff3b0 0%, #ffd34d 40%, #d4a017 100%); border: 1px solid #f5d77a; box-shadow: inset 0 1px 0 rgba(255,248,214,.8), 0 3px 10px rgba(224,168,46,.3); }
 .cmsMusicDockMute { width: 30px; height: 30px; border-radius: 50%; color: var(--cms-ink); background: rgba(9,8,6,.82); border: 1px solid rgba(212,160,23,.7); }
 .cmsMusicDockMute:disabled { opacity: .45; cursor: default; }
@@ -626,7 +626,7 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
     linear-gradient(180deg, rgba(17,15,12,.16) 0%, rgba(17,15,12,.36) 100%),
     var(--r78-panel, #110f0c) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
   box-shadow: inset 0 0 0 3px rgba(17,15,12,.9), inset 0 0 0 4px rgba(242,196,91,.3), 0 0 0 1px #000, 0 18px 44px rgba(0,0,0,.6);
-  font-family: var(--r78-font-body, "Barlow", sans-serif); text-align: left;
+  font-family: var(--r78-font-body, sans-serif); text-align: left;
   opacity: 0; transform: translateY(14px);
   transition: opacity .22s ease-out, transform .26s cubic-bezier(.2,.8,.2,1);
 }
@@ -653,9 +653,9 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
 .cmsMusicSheetDisc i { position: absolute; inset: 31%; border-radius: 50%; background: radial-gradient(circle, #0a0b0e 0 13%, #f7d77a 15%, #e0a82e 70%, #a8761a 100%); }
 .cmsMusicSheet[data-playing="true"] .cmsMusicSheetDisc { animation: cmsMusicDockSpin 4s linear infinite; }
 .cmsMusicSheetText { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.cmsMusicSheetText span { font: 700 12px/1 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .22em; color: var(--cms-gold); }
-.cmsMusicSheetText strong { font: 800 22px/1.05 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .04em; text-transform: uppercase; color: var(--cms-ink); text-shadow: 0 1px 2px rgba(0,0,0,.6); overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.cmsMusicSheetText small { font: 500 15px/1.25 var(--r78-font-body, "Barlow", sans-serif); color: var(--cms-meta); overflow-wrap: anywhere; }
+.cmsMusicSheetText span { font: 700 12px/1 var(--r78-font-label, sans-serif); letter-spacing: .22em; color: var(--cms-gold); }
+.cmsMusicSheetText strong { font: 800 22px/1.05 var(--sd-font-condensed, sans-serif); letter-spacing: .04em; text-transform: uppercase; color: var(--cms-ink); text-shadow: 0 1px 2px rgba(0,0,0,.6); overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.cmsMusicSheetText small { font: 500 15px/1.25 var(--r78-font-body, sans-serif); color: var(--cms-meta); overflow-wrap: anywhere; }
 .cmsMusicSheet[data-failed="true"] .cmsMusicSheetText small { color: var(--cms-gold); }
 .cmsMusicSheetClose { width: 44px; height: 44px; display: grid; place-items: center; align-self: start; border: 1px solid var(--cms-edge); border-radius: 50%; color: var(--cms-ink); background: var(--cms-well); box-shadow: inset 0 1px 0 rgba(255,241,184,.12); }
 .cmsMusicSheetClose svg { width: 18px; height: 18px; }
@@ -663,7 +663,7 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
 .cmsMusicSheetTime { flex: none; display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: "bar bar bar" "a . b"; row-gap: 5px; padding: 10px 16px 0; }
 .cmsMusicSheetBar { grid-area: bar; height: 4px; border-radius: 3px; overflow: hidden; background: rgba(9,8,6,.85); box-shadow: inset 0 0 0 1px rgba(242,196,91,.25); }
 .cmsMusicSheetBar i { display: block; height: 100%; background: linear-gradient(90deg, #d4a017, #ffd34d); transform: scaleX(0); transform-origin: 0 50%; transition: transform .3s linear; }
-.cmsMusicSheetTime small { font: 600 12px/1 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .08em; color: var(--cms-meta); font-variant-numeric: tabular-nums; }
+.cmsMusicSheetTime small { font: 600 12px/1 var(--r78-font-label, sans-serif); letter-spacing: .08em; color: var(--cms-meta); font-variant-numeric: tabular-nums; }
 .cmsMusicSheetTime small:first-of-type { grid-area: a; }
 .cmsMusicSheetTime small:last-of-type { grid-area: b; }
 /* r87: the clock waits for the song's length, so the panel never shows "0:00 … -:--" (js/musicDockV10.js mdTime). */
@@ -694,8 +694,8 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
 @keyframes cmsMusicEq { 0% { height: 20%; } 50% { height: 90%; } 100% { height: 40%; } }
 
 .cmsMusicSheetHead { flex: none; display: flex; align-items: baseline; justify-content: space-between; margin: 0 16px; padding: 10px 2px 8px; border-top: 1px solid rgba(212,160,23,.45); }
-.cmsMusicSheetHead strong { font: 700 13px/1 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .24em; color: var(--cms-gold); }
-.cmsMusicSheetHead small { font: 600 12px/1 var(--r78-font-label, "Barlow Condensed", sans-serif); letter-spacing: .14em; color: var(--cms-meta); }
+.cmsMusicSheetHead strong { font: 700 13px/1 var(--r78-font-label, sans-serif); letter-spacing: .24em; color: var(--cms-gold); }
+.cmsMusicSheetHead small { font: 600 12px/1 var(--r78-font-label, sans-serif); letter-spacing: .14em; color: var(--cms-meta); }
 
 /* The tracklist: a calm, darker marble well (opaque over the opaque panel) with a gold hairline; one real button per row. */
 .cmsMusicSheetList { position: relative; flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; touch-action: pan-y;
@@ -707,10 +707,10 @@ body:has(#settingsOverlay:not(.hidden)) :is(.cmsMusicDock, .cmsMusicSheet, .cmsM
   padding: 9px 12px 9px 10px; margin: 0 0 2px; text-align: left; border: 1px solid transparent; border-radius: 4px; background: transparent;
   box-shadow: inset 0 -1px 0 rgba(242,196,91,.12); transition: background-color .15s linear, border-color .15s linear; }
 .cmsMusicSheetList > li:last-child .cmsMusicSheetSong { box-shadow: none; margin-bottom: 0; }
-.cmsMusicSheetSong em { font: 700 14px/1 var(--r78-font-label, "Barlow Condensed", sans-serif); font-style: normal; color: var(--cms-meta); font-variant-numeric: tabular-nums; }
+.cmsMusicSheetSong em { font: 700 14px/1 var(--r78-font-label, sans-serif); font-style: normal; color: var(--cms-meta); font-variant-numeric: tabular-nums; }
 .cmsMusicSheetSong span { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.cmsMusicSheetSong strong { font: 700 17px/1.15 var(--sd-font-condensed, "Barlow Condensed", sans-serif); letter-spacing: .04em; color: var(--cms-ink); overflow-wrap: anywhere; }
-.cmsMusicSheetSong small { font: 500 15px/1.3 var(--r78-font-body, "Barlow", sans-serif); color: var(--cms-meta); overflow-wrap: anywhere; }
+.cmsMusicSheetSong strong { font: 700 17px/1.15 var(--sd-font-condensed, sans-serif); letter-spacing: .04em; color: var(--cms-ink); overflow-wrap: anywhere; }
+.cmsMusicSheetSong small { font: 500 15px/1.3 var(--r78-font-body, sans-serif); color: var(--cms-meta); overflow-wrap: anywhere; }
 /* The current song: gold edge and bar, gold title, and a "now playing" bars icon that shows whether or not music plays
    (never colour alone; the button also carries aria-current="true"). */
 .cmsMusicSheetSongEq { display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 16px; visibility: hidden; }

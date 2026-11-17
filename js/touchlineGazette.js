@@ -512,7 +512,7 @@
   // ready waits up to ASSET_CAP_MS (its button marked busy) instead of 4 s. Files only: still no Firebase read or write.
   const ASSET_CAP_MS=9000,FINAL_SAFETY_MS=2500,SQUAD_CAP_MS=4000;
   const BASE="visual-assets/v10_1/content/";
-  const FONTS=Object.freeze([["Gazette Mast","normal",400,"unifrakturmaguntia-latin-400-normal"],["Gazette Head","normal",700,"playfair-display-latin-700-normal"],["Gazette Head","normal",900,"playfair-display-latin-900-normal"],["Gazette Head","italic",400,"playfair-display-latin-400-italic"],["Gazette Body","normal",400,"old-standard-tt-latin-400-normal"],["Gazette Body","italic",400,"old-standard-tt-latin-400-italic"],["Gazette Body","normal",700,"old-standard-tt-latin-700-normal"]]);
+  const FONTS=Object.freeze([["Gazette Mast","normal",400,"unifrakturmaguntia-latin-400-normal"]]);
   const FONT_FILES=Object.freeze(FONTS.map(f=>`${BASE}gazette/fonts/${f[3]}.woff2`));
   let installed=false,opening=null,current=null,passing=false,assetsPromise=null;
   // (through js/storage.js, the app's one door to the browser's local storage)
@@ -599,7 +599,7 @@
   // "From the commentary box" (r91): a plain newspaper column above THE RACE, full width, in the paper's own type: the
   // booth's call in italics, then BY THE NUMBERS. No box, no tint, nothing on top of anything; the page scrolls as before.
   const BOOTH_CSS="#touchlineGazette .tgz-booth{margin:6px 0 0;padding:4px 0 0;border-top:2px solid var(--paper-rule,#1b1712)}"+
-    "#touchlineGazette .tgz-booth p{margin:0;font:400 13px/1.3 'Gazette Body',Georgia,serif;color:#14100b}"+
+    "#touchlineGazette .tgz-booth p{margin:0;font:400 13px/1.3 var(--r95-font);color:#14100b}"+
     "#touchlineGazette .tgz-booth b{margin-right:7px;font:700 13px/1 var(--r95-font-narrow);letter-spacing:.16em;text-transform:uppercase;color:#14100b}"+
     "#touchlineGazette .tgz-booth__call{font-style:italic}#touchlineGazette .tgz-booth__numbers{margin-left:12px}#touchlineGazette .tgz-booth__numbers b{margin-right:6px}"+
     "#touchlineGazette .cmx-gz--compact .tgz-booth p{font-size:14px;line-height:1.36}#touchlineGazette .cmx-gz--compact .tgz-booth b{font-size:12px}"+

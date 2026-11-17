@@ -14,9 +14,9 @@
   --v26-cream: var(--sd-text-warm, #e9dfc8);
   --v26-text: var(--sd-text-primary, #f4f1ea);
   --v26-muted: var(--sd-text-secondary, #b9b3a4);
-  --v26-cond: var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif);
-  --v26-body: var(--sd-font-body, "Barlow", system-ui, sans-serif);
-  --v26-title: var(--sd-font-title, "Kaushan Script", "Brush Script MT", cursive);
+  --v26-cond: var(--sd-font-condensed, "Arial Narrow", sans-serif);
+  --v26-body: var(--sd-font-body, system-ui, sans-serif);
+  --v26-title: var(--sd-font-title, cursive);
   --v26-crown: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16'%3E%3Cpath d='M1 4l5 4 6-7 6 7 5-4-2 11H3z' fill='%23f2c45b'/%3E%3C/svg%3E");
 }
 
@@ -73,7 +73,7 @@ html[data-v10-setup] #app > footer { min-height: 0; background: #07080a; color: 
 /* The SIGN IN / player chip matches the season chip beside it, as on Home (inline styles from js/onlinePlayerIdentity.js). */
 html[data-v10-setup] #app #topHeader #onlinePlayerIdentityBadge {
   color: var(--sd-gold-400, #f2c45b) !important; white-space: nowrap;
-  font: 600 12px/1 var(--sd-font-condensed, "Barlow Condensed", sans-serif) !important; letter-spacing: .1em;
+  font: 600 12px/1 var(--sd-font-condensed, sans-serif) !important; letter-spacing: .1em;
 }
 html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255, 255, .08); }
 

@@ -5,7 +5,7 @@
 // 2. Barlow Condensed comes from this site: the same Google Fonts v13 files and @font-face rules, all precached.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
 const root=path.resolve(__dirname,"../.."),read=p=>fs.readFileSync(path.join(root,p),"utf8");
-const html=read("index.html"),offline=read("js/offlineApp.js"),sw=read("service-worker.js"),fonts=read("assets/fonts/barlow-condensed.css");
+const html=read("index.html"),offline=read("js/offlineApp.js"),sw=read("service-worker.js");
 
 // 1a. Registration is chained behind the handover; nothing else at startup registers the worker.
 assert.match(offline,/afterStartupHandover\(\)\.then\(registerOfflineApplication\)\.catch\(/,"startup registration waits for the handover");
@@ -39,44 +39,17 @@ function run(loading,{idle=true,advance=0}={}){
 
   // 2a. No third-party font stylesheet or preconnect in the startup page.
   assert.doesNotMatch(html,/fonts\.googleapis\.com|fonts\.gstatic\.com/,"index.html loads no font stylesheet from another site");
-  const rev=html.match(/<meta name="app-asset-revision" content="([^"]+)">/)[1];
-  assert.ok(html.includes(`<link rel="stylesheet" href="assets/fonts/barlow-condensed.css?v=${rev}">\n<link rel="stylesheet" id="appStyles"`),"local font sheet sits where the Google sheet was, before app.css");
-  // 2b. The nine faces: 600/700/800 x vietnamese, latin-ext, latin, in Google's order, each file present and precached.
-  // r90: latin 600 and 700 load Team V's byte-identical shared copies (one download each instead of two). The local
-  // copies stay in the repository for older shells; the worker precaches only the copy the sheet loads.
-  const SHARED=Object.fromEntries([600,700].map(w=>[`barlow-condensed-latin-${w}-normal.woff2`,`visual-assets/v10_1/shared/fonts/barlow-condensed-latin-${w}-normal.woff2`]));
-  let local=fonts;
-  for(const [name,shared] of Object.entries(SHARED)){
-    assert.equal(fs.readFileSync(path.join(root,"assets/fonts",name)).compare(fs.readFileSync(path.join(root,shared))),0,`the shared ${name} is the same bytes as Google's`);
-    assert.ok(fonts.includes(`src: url(../../${shared}) format('woff2');`),`${name} loads the shared copy`);
-    local=local.replace(`url(../../${shared})`,`url(${name})`);
-  }
-  const faces=[...local.matchAll(/\/\* (\S+) \*\/\n@font-face \{[^}]*font-family: 'Barlow Condensed';[^}]*font-weight: (\d+);[^}]*font-display: swap;[^}]*src: url\((barlow-condensed-[^)]+\.woff2)\) format\('woff2'\);[^}]*unicode-range: [^;]+;\n\}/g)];
-  assert.deepEqual(faces.map(f=>`${f[1]}-${f[2]}`),["vietnamese-600","latin-ext-600","latin-600","vietnamese-700","latin-ext-700","latin-700","vietnamese-800","latin-ext-800","latin-800"]);
+  // 2b. r95: Barlow Condensed is gone. The startup page loads no font sheet of its own; the loading screen's "Startup" face is
+  // the one family's file (Instrument Sans, narrowest width), served unversioned from the shell and precached.
+  assert.doesNotMatch(html,/assets\/fonts\/barlow/,"index.html links no Barlow sheet any more");
+  assert.ok(!fs.existsSync(path.join(root,"assets/fonts")),"the local Barlow sheet and files are gone");
   const shell=[...sw.match(/const SHELL_PATHS = Object\.freeze\(\[([\s\S]*?)\]\);/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
   const unversioned=[...sw.match(/const UNVERSIONED_SHELL_ASSET_PATHS = new Set\(\[([\s\S]*?)\]\);/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
-  assert.ok(shell.includes("assets/fonts/barlow-condensed.css"),"font sheet precached");
-  for(const f of faces){
-    const file=SHARED[f[3]]||`assets/fonts/${f[3]}`,buf=fs.readFileSync(path.join(root,file));
-    assert.equal(buf.subarray(0,4).toString("latin1"),"wOF2",`${file} is a WOFF2 file`);
-    assert.ok(shell.includes(file),`${file} precached`);assert.ok(unversioned.includes(file),`${file} served from the shell without ?v=`);
-  }
-  const removed=[...sw.match(/const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set\(\[([^\]]*)\]\);/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
-  for(const name of Object.keys(SHARED)){
-    assert.ok(!shell.includes(`assets/fonts/${name}`),`the unloaded local ${name} is not precached a second time`);
-    // Codex #1305 P2: a page rolled back to 2.1.0 asked for the local copy without ?v=, so 2.3.0 kept answering it from
-    // that build's retained shell. 2.4.0 rolls back to 2.3.0, which already loads the shared copy: the local copy is
-    // neither in the retained 2.3.0-r90 shell nor listed as removed again, and stays unversioned for any older page.
-    const r90=JSON.parse(fs.readFileSync(path.join(root,"tests/fixtures/shell-paths/2.3.0-r90.json"),"utf8")).paths;
-    assert.ok(!r90.includes(`assets/fonts/${name}`)&&r90.includes(SHARED[name]),`the rollback build (2.3.0) loads the shared ${name}, not the local copy`);
-    assert.ok(!removed.includes(`assets/fonts/${name}`),`the local ${name} is not listed as removed a second time`);
-    assert.ok(unversioned.includes(`assets/fonts/${name}`),`the local ${name} is still served from the retained shell without ?v= after a rollback`);
-  }
-  // 2c. The sheet stands in for the external Google sheet, which the 37,500-byte startup budget never counted. It stays small:
-  // nine @font-face rules and nothing else, so it cannot grow into a second startup stylesheet.
-  const gz=require("node:zlib").gzipSync(Buffer.from(fonts),{level:9}).length;
-  assert.ok(gz<=900,`font sheet gzip ${gz} <= 900`);
-  assert.equal(fonts.replace(/\/\*[\s\S]*?\*\//g,"").replace(/@font-face \{[^}]*\}/g,"").trim(),"","the font sheet holds only @font-face rules");
+  const file="visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2";
+  assert.equal(fs.readFileSync(path.join(root,file)).subarray(0,4).toString("latin1"),"wOF2",`${file} is a WOFF2 file`);
+  assert.ok(shell.includes(file)&&unversioned.includes(file),`${file} precached and served from the shell without ?v=`);
+  assert.match(read("css/app.css"),/@font-face\{font-family:Startup;src:url\(\.\.\/visual-assets\/v10_1\/shared\/fonts\/instrument-sans-latin-wdth-normal\.woff2\);font-weight:400 700;font-stretch:75%;font-display:block\}/,"the loading screen face is the one family's narrow width, no swap");
+  assert.ok(!shell.some(f=>/barlow|assets\/fonts\//.test(f)),"no Barlow file is precached");
 
   // 3. Fable F3-08: the automatic update never reloads a phone waiting on Home for the partner, or mid-Reconnect.
   const safeSrc=offline.slice(offline.indexOf("function autoUpdateSafe(){"),offline.indexOf("function scheduleAutoApplyUpdate(){"));
@@ -109,5 +82,5 @@ function run(loading,{idle=true,advance=0}={}){
   assert.deepEqual(await probeRun([failReply,failReply]),["offline"],"two real failures still mean offline");
   assert.deepEqual(await probeRun([slowReply,slowReply,slowReply,slowReply]),["offline"],"four timeouts in a row (about 15 s of no answer) mean offline");
   assert.deepEqual(await probeRun([okReply],false),["offline"],"the browser's own offline signal is final at once");
-  console.log("PASS r87 first load contracts: worker registers after the handover (bounded 20 s), Barlow Condensed served and precached locally, no auto-update reload during a shared wait, a slow network is not offline");
+  console.log("PASS r87 first load contracts: worker registers after the handover (bounded 20 s), the loading screen face served and precached locally, no auto-update reload during a shared wait, a slow network is not offline");
 })().catch(error=>{console.error(error);process.exit(1);});

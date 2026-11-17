@@ -1519,7 +1519,8 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-15 by the 2.6.0 release bump: the same r93 file with its 2.6.0-r93 pins and v2.6.0 footer, nothing else.
   // Re-pinned 2026-11-17 by the 2.7.0 release bump: the 2.6.0 file (r94 never changed it) with its 2.7.0-r94 pins and v2.7.0
   // footer, nothing else.
-  assert.equal(sha256("index.html"),"94a37b660e9b3d66e39ded74dc5bfbf93bf3b1ed1aee5e1cd5db31331baa3233","index.html is 2.7.0 + r95: Ball Game title (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, 2.7.0-r94 pins)");
+  // Re-pinned 2026-11-17 by r95: the local Barlow sheet link is gone (the one family, Instrument Sans); nothing else changed.
+  assert.equal(sha256("index.html"),"0bba7de937cc41ea4bc4e035113db9591325c38e95ef88020664963c993fc8c1","index.html is 2.7.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, 2.7.0-r94 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
@@ -1538,8 +1539,7 @@ check("F11 Team V files are copied unchanged; no docs, previews or images are co
     "visual-assets/v10_1/shared/navbar/navbar.js":"7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c",
     // Re-copied from the final Team V pin (phone layout); job 13's only file that changed upstream. Gameplay has edited it
     // since r78 (r78 look, r84 release, r87 red-team fits D-04/D-05, e3df0019); re-pinned 2026-11-01 to gameplay/r87 45c01a72.
-    // r95: the headline number is a little smaller so Instrument Sans Narrow's taller line box stays inside its tile at 1366x768.
-    "visual-assets/v10_1/career-statistics/career-statistics.css":"a092ffb2cef7c9e0e85205b0234a89c6071009498e8acec8e81f4b9d4fa9e635"
+    "visual-assets/v10_1/career-statistics/career-statistics.css":"dc51d50a294bf5c98e183a3d883b4230568695daacf6de710d69892064095a2a"
   };
   for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals its pinned copy`);
   assert.deepEqual(fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/shared/navbar")).sort(),["navbar.css","navbar.js"]);

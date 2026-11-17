@@ -80,7 +80,7 @@ const px=v=>{const m=/(\d+(?:\.\d+)?)px/.exec(v);assert.ok(m,`px in ${v}`);retur
 // R4 headlines untouched
 {
   assert.ok(!/cmx-paper__headline|cmx-paper__masthead/.test(css.replace(/\/\*[\s\S]*?\*\//g,"")),"no headline or masthead rule in the page sheet");
-  assert.match(base,/\.cmx-gz \.cmx-paper__headline \{ margin: 0 0 4px; font: 900 30px\/\.98 "Gazette Head"/,"Team V's headline");
+  assert.match(base,/\.cmx-gz \.cmx-paper__headline \{ margin: 0 0 4px; font: 900 30px\/\.98 var\(--r95-font\)/,"Team V's headline");
   ok("R4 headlines and masthead keep Team V's type");
 }
 // R5 the 12px floor

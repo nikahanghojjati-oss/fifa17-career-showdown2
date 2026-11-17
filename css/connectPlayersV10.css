@@ -6,7 +6,7 @@
 /* Desktop: the plate already carries both men and Daniel's pointing hand. Daniel's separate hand overlay (OVL_SJ_DANIEL_HAND_V1) is not shipped in this repo's pinned Team V image list, so none is drawn. */
 .connectPlayersHeader{position:absolute;z-index:1;inset:0;pointer-events:none;text-align:center;}
 .connectPlayersKicker{position:absolute;top:10.2%;left:50.3%;width:40%;margin:0;transform:translateX(-50%);font:600 clamp(13px,1.1vw,16px)/1.4 var(--sd-font-condensed,var(--f17-display));letter-spacing:.36em;white-space:nowrap;color:#d9c489;text-transform:uppercase;text-shadow:0 1px 6px #000;}
-#connectPlayersScreen h2#connectPlayersTitle{position:absolute;top:14.4%;left:50%;width:fit-content;max-width:90%;margin:0;padding:.04em .14em .14em;transform:translateX(-50%);border:0;box-shadow:none;background:linear-gradient(to bottom,#fff1b8,#f2c45b 55%,#b98a2f);-webkit-background-clip:text;background-clip:text;color:transparent;font:400 clamp(2.8rem,4.35vw,4.8rem)/1.12 var(--sd-font-title,"Kaushan Script","Brush Script MT",cursive);letter-spacing:.01em;text-align:center;white-space:nowrap;text-transform:uppercase;filter:drop-shadow(0 3px 1px #000000f5) drop-shadow(0 0 14px #f2c45b47);}
+#connectPlayersScreen h2#connectPlayersTitle{position:absolute;top:14.4%;left:50%;width:fit-content;max-width:90%;margin:0;padding:.04em .14em .14em;transform:translateX(-50%);border:0;box-shadow:none;background:linear-gradient(to bottom,#fff1b8,#f2c45b 55%,#b98a2f);-webkit-background-clip:text;background-clip:text;color:transparent;font:400 clamp(2.8rem,4.35vw,4.8rem)/1.12 var(--sd-font-title,cursive);letter-spacing:.01em;text-align:center;white-space:nowrap;text-transform:uppercase;filter:drop-shadow(0 3px 1px #000000f5) drop-shadow(0 0 14px #f2c45b47);}
 #connectPlayersScreen h2#connectPlayersTitle::before,#connectPlayersScreen h2#connectPlayersTitle::after{display:none;}
 .connectPlayersTagline{position:absolute;top:23.7%;left:50.3%;width:60%;margin:0;transform:translateX(-50%);font:600 clamp(12px,.75vw,13px)/1.4 var(--sd-font-condensed,var(--f17-display));letter-spacing:.3em;white-space:nowrap;color:#e6d4a3;text-transform:uppercase;text-shadow:0 1px 6px #000;}
 .connectPlayersWorkspace{position:absolute;z-index:2;left:23.7%;top:27.6%;width:51.3%;height:63.5%;box-sizing:border-box;min-height:0;display:flex;flex-direction:column;gap:12px;padding:14px;border:1px solid #e0b23080;background:linear-gradient(145deg,#070a0de8,#0c0e11bd);box-shadow:inset 0 1px #ffde6f24,0 12px 44px #0008;}
@@ -918,7 +918,7 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  }
  #app #connectPlayersScreen h2#connectPlayersTitle {
   width:auto;max-width:none;margin:.4vw -2vw 0;padding:0 .14em;
-  font:400 10.2vw/1.25 var(--sd-font-title,"Kaushan Script","Brush Script MT",cursive);
+  font:400 10.2vw/1.25 var(--sd-font-title,cursive);
   letter-spacing:.005em;white-space:nowrap;overflow-wrap:normal;word-break:normal;
   color:#ffd34d;background:linear-gradient(#fffbe0 0%,#ffe45c 38%,#ffc31a 72%,#f0a500 100%);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-text-stroke:.02em #ffd34d;
@@ -962,7 +962,7 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
   margin:0 0 1vw;font:700 5.6vw/1.2 var(--sd-font-condensed,var(--f17-display));letter-spacing:.03em;color:#fff;
  }
  #app #connectPlayersScreen .connectPlayersRole p {
-  margin:0 0 3.2vw;font:400 3.35vw/1.3 var(--sd-font-body,"Barlow",system-ui,sans-serif);color:#d6d3c9;
+  margin:0 0 3.2vw;font:400 3.35vw/1.3 var(--sd-font-body,system-ui,sans-serif);color:#d6d3c9;
  }
  #app #connectPlayersScreen #connectPlayersSetup {
   min-height:10.4vw;padding:0 5vw;border:3px solid #ffe786;outline:2px solid #b48a21;outline-offset:4px;
@@ -1022,7 +1022,7 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
  }
  #app #connectPlayersScreen h2#connectPlayersTitle {
   width:auto;max-width:none;margin:1px -16px 0;padding:0 .14em;
-  font:400 min(11.2svh,48px)/1.3 var(--sd-font-title,"Kaushan Script","Brush Script MT",cursive);
+  font:400 min(11.2svh,48px)/1.3 var(--sd-font-title,cursive);
   letter-spacing:.005em;white-space:nowrap;overflow-wrap:normal;word-break:normal;
   color:#ffd34d;background:linear-gradient(#fffbe0 0%,#ffe45c 38%,#ffc31a 72%,#f0a500 100%);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-text-stroke:.02em #ffd34d;
@@ -1073,7 +1073,7 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
   margin:0 0 3px;font:700 clamp(21px,6.3svh,25px)/1.1 var(--sd-font-condensed,var(--f17-display));letter-spacing:.03em;color:#fff;
  }
  #app #connectPlayersScreen .connectPlayersRole p {
-  display:block;margin:0 0 clamp(6px,2svh,10px);font:400 clamp(14px,4.1svh,16px)/1.3 var(--sd-font-body,"Barlow",system-ui,sans-serif);color:#d6d3c9;
+  display:block;margin:0 0 clamp(6px,2svh,10px);font:400 clamp(14px,4.1svh,16px)/1.3 var(--sd-font-body,system-ui,sans-serif);color:#d6d3c9;
  }
  #app #connectPlayersScreen #connectPlayersSetup {
   width:auto;min-height:44px;margin:0!important;padding:0 24px;border:2px solid #ffe786;outline:1px solid #b48a21;outline-offset:3px;

@@ -7,7 +7,7 @@
   --yellow:#f4e11c;--yellowInk:#141414;--gold:#e8c065;
   --gk:#f2a01a;--def:#e6cf22;--mid:#36c964;--att:#2d9ff5;
   --fit3:#36c964;--fit2:#e6cf22;--fit1:#f2891a;--fit0:#ff4a3d;--target:#45e07a;
-  --cond:var(--r95-font-narrow, "Barlow Condensed", "Arial Narrow", sans-serif);--text:var(--r95-font, "Barlow", system-ui, sans-serif);
+  --cond:var(--r95-font-narrow, "Arial Narrow", sans-serif);--text:var(--r95-font, system-ui, sans-serif);
   position:relative;isolation:isolate;padding:22px 18px 28px;font-family:var(--cond);color:var(--ink);font-size:15px;line-height:1.2;-webkit-font-smoothing:antialiased;
 }
 .sqm *{box-sizing:border-box}
@@ -248,10 +248,10 @@
 
 /* ----- the game's stage around the screen (js/squadSheetStep.js): the Chamber Men stage's frame and buttons, the same black
    marble slab, opaque (no scrim, no dimming). The page scrolls inside it, so every button stays reachable at any size. ----- */
-#sqStage{position:fixed;inset:0;z-index:95;overflow:auto;-webkit-overflow-scrolling:touch;color:var(--r78-ivory,#f2ebdd);background:#050403 url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp") 50% 50%/cover no-repeat;font:500 16px/1.4 var(--r78-font-body,"Barlow",system-ui,sans-serif)}
+#sqStage{position:fixed;inset:0;z-index:95;overflow:auto;-webkit-overflow-scrolling:touch;color:var(--r78-ivory,#f2ebdd);background:#050403 url("../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp") 50% 50%/cover no-repeat;font:500 16px/1.4 var(--r78-font-body,system-ui,sans-serif)}
 #sqStage .sqShell{box-sizing:border-box;width:min(1080px,100%);min-height:100%;margin:0 auto;padding:max(14px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px}
-#sqStage .sqHeader{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid rgba(242,196,91,.35);color:var(--r78-gold,#f2c45b);font:600 14px/1.2 var(--r78-font-label,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.16em;text-transform:uppercase}
-#sqStage .sqTitle{margin:0;color:var(--sd-gold-300,#ffd34d);font:700 clamp(26px,5vw,40px)/1 var(--r78-font-label,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.04em;text-transform:uppercase;text-align:center}
+#sqStage .sqHeader{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid rgba(242,196,91,.35);color:var(--r78-gold,#f2c45b);font:600 14px/1.2 var(--r78-font-label,"Arial Narrow",sans-serif);letter-spacing:.16em;text-transform:uppercase}
+#sqStage .sqTitle{margin:0;color:var(--sd-gold-300,#ffd34d);font:700 clamp(26px,5vw,40px)/1 var(--r78-font-label,"Arial Narrow",sans-serif);letter-spacing:.04em;text-transform:uppercase;text-align:center}
 /* r93 HO-079 (Nik's pick, flat sample A, 2026-11-15): the header title is live text in the one title family (Cormorant SC Bold, flat
    gold, css/r78-type.css). The words stay in the heading (box, header row and screen-reader label unchanged) but are not painted;
    the same words are laid over them, centred, at the shared title height. */
@@ -261,7 +261,7 @@
 #sqStage .sqStatus:empty{display:none}
 #sqStage .sqHost{min-width:0}
 #sqStage .sqActions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-#sqStage .sqActions>button.menuButton,#sqStage .sqActions>button.sqBack{box-sizing:border-box;min-height:48px;min-width:min(100%,280px);display:inline-flex;align-items:center;justify-content:center;padding:10px 22px;border:1px solid var(--r78-gold,#f2c45b);border-radius:var(--sd-radius,3px);font:700 17px/1.1 var(--r78-font-label,"Barlow Condensed","Arial Narrow",sans-serif);letter-spacing:.12em;text-transform:uppercase;text-align:center;white-space:normal;cursor:pointer;transform:none}
+#sqStage .sqActions>button.menuButton,#sqStage .sqActions>button.sqBack{box-sizing:border-box;min-height:48px;min-width:min(100%,280px);display:inline-flex;align-items:center;justify-content:center;padding:10px 22px;border:1px solid var(--r78-gold,#f2c45b);border-radius:var(--sd-radius,3px);font:700 17px/1.1 var(--r78-font-label,"Arial Narrow",sans-serif);letter-spacing:.12em;text-transform:uppercase;text-align:center;white-space:normal;cursor:pointer;transform:none}
 #sqStage .sqActions>button.menuButton{color:var(--sd-text-on-gold,#07080a);background:var(--sd-gold-metal,linear-gradient(180deg,#fff3b0 0%,#ffd34d 35%,#d4a017 70%,#8a6a12 100%));border-color:#f5d77a;box-shadow:inset 0 1px 0 rgba(255,248,214,.8),inset 0 -2px 0 rgba(138,106,18,.6);text-shadow:0 1px 0 rgba(255,241,184,.45)}
 #sqStage .sqActions>button.menuButton:disabled{opacity:1;color:#b5a36a;background:#17140e;border-color:rgba(242,196,91,.45);box-shadow:none;text-shadow:none;cursor:default}
 #sqStage .sqActions>button.sqBack{color:var(--r78-gold-strong,#ffd34d);background:linear-gradient(180deg,#17140e,#070605);border-color:var(--r78-gold-edge,#d4a017);box-shadow:inset 0 1px 0 rgba(242,196,91,.25),0 0 0 1px #000;text-shadow:none}

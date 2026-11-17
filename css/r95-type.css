@@ -37,10 +37,31 @@
   src: url("../visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2") format("woff2");
 }
 
+/* Latin Extended (Polish, Czech, Turkish, Romanian ... club and player names): fetched only when a name needs one of these
+   letters. Declared after the latin faces so it wins for its own range. */
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-stretch: 75% 100%;
+  font-display: block;
+  src: url("../visual-assets/v10_1/shared/fonts/instrument-sans-latin-ext-wdth-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Instrument Sans Narrow";
+  font-style: normal;
+  font-weight: 400 700;
+  font-stretch: 75% 75%;
+  font-display: block;
+  src: url("../visual-assets/v10_1/shared/fonts/instrument-sans-latin-ext-wdth-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root {
-  /* family: the fallbacks are the faces the game used before r95, so a missed file still looks like the game */
-  --r95-font: "Instrument Sans", "R78 Barlow", "Barlow", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  --r95-font-narrow: "Instrument Sans Narrow", "Barlow Condensed", "Arial Narrow", sans-serif;
+  /* family: block-display: nothing paints in a stand-in face; the system stack is only for a file that never arrives */
+  --r95-font: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --r95-font-narrow: "Instrument Sans Narrow", "Arial Narrow", sans-serif;
   --sd-font-display: var(--r95-font);
 
   /* the seven steps (desktop). Clamp only between two neighbouring steps, never past the ends. */
@@ -164,6 +185,8 @@
    Body and reading: width 100. The "condensed" slots (labels, buttons, headings) use the narrowest width, which matches
    Barlow Condensed's width (609 vs 602 px for one line at 100px), so every existing layout keeps its fit. */
 :root {
+  --f17-display: var(--r95-font-narrow);
+  --sd-font-title: var(--r95-font);
   --r78-font-body: var(--r95-font);
   --sd-font-body: var(--r95-font);
   --r78-font-label: var(--r95-font-narrow);
