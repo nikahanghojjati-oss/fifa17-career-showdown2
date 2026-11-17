@@ -877,7 +877,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
   position:relative; min-width:0; width:100%; max-width:430px; margin:0 auto;
-  min-height:100%; box-sizing:border-box; padding:0 10px max(10px,env(safe-area-inset-bottom));
+  min-height:100%; box-sizing:border-box; padding:0 max(16px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
   display:grid; grid-template-columns:minmax(0,1fr);
   grid-template-rows:auto 44px auto auto 56px; gap:6px;
   background:#090b0e;
@@ -992,7 +992,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout {
   position:relative; box-sizing:border-box; width:100%; max-width:880px; margin:0 auto;
-  min-width:0; min-height:max(100svh,356px); height:auto; padding:10px;
+  min-width:0; min-height:max(100svh,356px); height:auto; padding:12px max(16px,env(safe-area-inset-right)) 12px max(16px,env(safe-area-inset-left));
   display:grid; grid-template-columns:minmax(240px,.8fr) minmax(340px,1.2fr);
   grid-template-rows:44px minmax(224px,1fr) auto 44px; gap:8px 14px;
   overflow:visible; background:#090b0e;
@@ -1692,7 +1692,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 @media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
-  grid-template-rows:44px minmax(224px,1fr) 44px;gap:8px 14px;
+  grid-template-rows:44px minmax(224px,1fr) auto;gap:8px 14px;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) .season-action-row { grid-row:3;padding:0; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene { grid-row:1/4; }
@@ -2396,9 +2396,16 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row:not(.hidden):not(#seasonEntryError),
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel>.seasonReviewActions:has(>button:not(.hidden):not([hidden])) {
   position:sticky;bottom:0;z-index:8;align-self:stretch;box-sizing:border-box;
-  margin-inline:-10px;padding:8px 10px max(8px,env(safe-area-inset-bottom));
+  margin-inline:calc(-1 * max(16px,env(safe-area-inset-left))) calc(-1 * max(16px,env(safe-area-inset-right)));padding:8px max(16px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
   background:var(--r78-panel,#110f0c) url("css/r78-marble-tile.webp") 0 0/256px 256px repeat;
   border-top:1px solid #d4a017;box-shadow:0 -1px 0 #000;
+ }
+}
+/* r95 house (Lane B) sideways phone: the band sits in the right-hand column only; it runs to the window edge on the right and keeps
+   the column's own left edge, with the same 16px gutter inside, and its track grows to fit so the buttons clear the bottom edge. */
+@media (max-width:1000px) and (orientation:landscape) and (max-height:520px) {
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row:not(.hidden):not(#seasonEntryError) {
+  margin-left:0;padding-left:0;
  }
 }
 /* The upright phone grid (JOB-1597) keeps the entry action row in a fixed 56px track: the band's padding fits inside it. */
