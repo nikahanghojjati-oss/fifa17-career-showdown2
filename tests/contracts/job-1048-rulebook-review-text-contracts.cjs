@@ -44,9 +44,10 @@ const format = section("01");
 assert.match(format, /Daniel starts every Showdown and picks its length: 1, 3, 5 or 10 seasons\./);
 assert.match(format, /Chamber Men, Squad Management, Roster Russian Roulette, Prime Pack, Transfer War, Squad Management again, then the season itself and Season Results\./);
 
-// R94-02 Club Assignment: three random clubs each, one STOP, skill plus luck (about half), no second spin; no club packs.
-assert.match(format, /three random clubs from that league/);
-assert.match(format, /Tap STOP on your own phone/);
+// R95-01 Ball Game (lead 2026-11-17): six clubs each, never one on both balls, one STOP, the crest facing you is yours; no club packs.
+assert.match(format, /The Ball Game then deals each of you six clubs from that league, one football each, and no club appears on both\./);
+assert.match(format, /Press STOP on your own phone and the crest facing you when your football comes to rest is your club\./);
+assert.doesNotMatch(format, /three random clubs/);
 assert.match(format, /skill plus luck.*about half the time/);
 assert.match(format, /There is no second spin\./);
 assert.doesNotMatch(format, /club pack/i, "the Rule Book no longer talks about opening club packs");
