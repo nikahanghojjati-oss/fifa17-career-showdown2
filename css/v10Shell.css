@@ -927,3 +927,17 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
 @media (max-width: 900px) {
   [data-nav="hub"] .sd-nav-corner { top: max(8px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); }
 }
+
+/* r95 house (Lane B, layout measure), Trophy Room on phones, upright: the trophy shelf, its tabs and the floating BACK and MORE
+   buttons sit on the 16px gutter (plus the safe-area inset) from 380px wide, 12px under that so the card names still fit; they were
+   10px from the window edge. Only the side padding and the two button offsets change. */
+@media (max-width: 900px) and (orientation: portrait) {
+  #app #trophyRoom #trophyRoomContent.trophyRoomContent.sd-stage__ui-content { padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+  #app #trophyRoom button#trophyRoomBack.trophyBack { left: max(12px, env(safe-area-inset-left)); }
+  #app #trophyRoom label.trophyPhoneMoreButton { right: max(12px, env(safe-area-inset-right)); }
+}
+@media (min-width: 380px) and (max-width: 900px) and (orientation: portrait) {
+  #app #trophyRoom #trophyRoomContent.trophyRoomContent.sd-stage__ui-content { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+  #app #trophyRoom button#trophyRoomBack.trophyBack { left: max(16px, env(safe-area-inset-left)); }
+  #app #trophyRoom label.trophyPhoneMoreButton { right: max(16px, env(safe-area-inset-right)); }
+}
