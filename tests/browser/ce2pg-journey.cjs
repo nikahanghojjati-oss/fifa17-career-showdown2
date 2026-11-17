@@ -222,13 +222,17 @@ const VIEWPORTS={1:{daniel:{width:393,height:660},nik:{width:390,height:844}},2:
 // either manager sees and writes the CSS rules that leave a caption under the floor (13px from 1024 wide, 12px below; tools/font-floor-probe.cjs).
 for(const who of ["daniel","nik"]){const spec=process.env["CE2PG_VP_"+who.toUpperCase()];if(spec&&/^\d+x\d+$/.test(spec)){const [w,h]=spec.split("x").map(Number);VIEWPORTS[who]={width:w,height:h};}}
 const FONT_SWEEP=process.env.CE2PG_FONT_SWEEP||"";const fontFound=new Map();
+const fontSweepers=[];
 function startFontSweep(m){
   if(!FONT_SWEEP||m.fontSweep)return;m.fontSweep=true;
   const {sweepPage}=require("../../tools/font-floor-probe.cjs");
-  (async()=>{while(!m.fontSweepStop){try{const w=m.viewport.width,screen=await m.page.evaluate(()=>{const big=[...document.querySelectorAll("body *[id]")].filter(n=>{const r=n.getBoundingClientRect(),s=getComputedStyle(n);return (s.position==="fixed"||s.position==="absolute")&&r.width>innerWidth*.6&&r.height>innerHeight*.5&&s.visibility!=="hidden"&&s.display!=="none"&&n.id!=="background";}).map(n=>n.id).slice(0,3).join("+");return ((window.getActiveScreenName&&window.getActiveScreenName())||"")+(big?"+"+big:"");}).catch(()=>"");
+  const loop=(async()=>{while(!m.fontSweepStop){try{const w=m.viewport.width,screen=await m.page.evaluate(()=>{const big=[...document.querySelectorAll("body *[id]")].filter(n=>{const r=n.getBoundingClientRect(),s=getComputedStyle(n);return (s.position==="fixed"||s.position==="absolute")&&r.width>innerWidth*.6&&r.height>innerHeight*.5&&s.visibility!=="hidden"&&s.display!=="none"&&n.id!=="background";}).map(n=>n.id).slice(0,3).join("+");return ((window.getActiveScreenName&&window.getActiveScreenName())||"")+(big?"+"+big:"");}).catch(()=>"");
       const sig=`${m.user}|${screen}`;if(!(m.fontShots||(m.fontShots=new Set())).has(sig)&&m.fontShots.size<60){m.fontShots.add(sig);try{fs.mkdirSync(FONT_SWEEP+".shots",{recursive:true});await m.page.screenshot({path:`${FONT_SWEEP}.shots/${m.user}-${w}x${m.viewport.height}-${screen.replace(/[^\w+-]/g,"_")}.png`,timeout:8000});}catch(_e){}}
       await sweepPage(m.page,"__none__",w>=1024?13:12,fontFound,`${m.user} ${screen} ${w}x${m.viewport.height}`);}catch(_e){}await new Promise(r=>setTimeout(r,900));}})();
+  fontSweepers.push({m,loop});
 }
+// Signals every sampler loop to stop and waits for each to finish, so the journey process can exit (Codex #1544).
+async function stopFontSweeps(){for(const f of fontSweepers)f.m.fontSweepStop=true;await Promise.all(fontSweepers.map(f=>f.loop.catch(()=>{})));fontSweepers.length=0;}
 function writeFontSweep(){if(!FONT_SWEEP)return;try{const {rowsOf}=require("../../tools/font-floor-probe.cjs");fs.writeFileSync(FONT_SWEEP,JSON.stringify(rowsOf(fontFound),null,1));}catch(_e){}}
 const NAMES={daniel:"Daniel",nik:"Nik"};
 const ROLE={daniel:"playerOne",nik:"playerTwo"};
@@ -1979,7 +1983,7 @@ async function main(){
     }
     const failed=report.checks.some(c=>!c.pass)||Boolean(failure);
     report.verdict=failed?"FAIL":"PASS";
-    writeReport();writeFontSweep();
+    writeReport();await stopFontSweeps();writeFontSweep();
     await browser.close().catch(()=>{});if(appServer)appServer.kill();
     console.log(`METER summary: ${report.meter.map(e=>`${e.label}: ${e.reads}r/${e.writes}w${e.play?` (play ${e.play.reads}r/${e.play.writes}w)`:""}`).join(" | ")}`);
     console.log(`${report.verdict} ${TAG}: ${report.summary.passed}/${report.summary.checks} checks, ${report.problems.length} problem(s), ${Math.round(report.timings.totalMs/1000)} s -> ${rel(REPORT_PATH)}; screenshots in ${rel(SHOT_DIR)}`);
