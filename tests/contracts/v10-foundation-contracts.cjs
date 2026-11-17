@@ -1538,7 +1538,8 @@ check("F11 Team V files are copied unchanged; no docs, previews or images are co
     "visual-assets/v10_1/shared/navbar/navbar.js":"7fbfebd85f7739e32557b4b903e8139b7ec59d28f51abdb0a615d6dfb3295b1c",
     // Re-copied from the final Team V pin (phone layout); job 13's only file that changed upstream. Gameplay has edited it
     // since r78 (r78 look, r84 release, r87 red-team fits D-04/D-05, e3df0019); re-pinned 2026-11-01 to gameplay/r87 45c01a72.
-    "visual-assets/v10_1/career-statistics/career-statistics.css":"5bd0356339bd2e7e29a0d5b873c7de971c5c65d73ab92be996cc759624a5711e"
+    // r95: the headline number is a little smaller so Instrument Sans Narrow's taller line box stays inside its tile at 1366x768.
+    "visual-assets/v10_1/career-statistics/career-statistics.css":"a092ffb2cef7c9e0e85205b0234a89c6071009498e8acec8e81f4b9d4fa9e635"
   };
   for(const [file,hash] of Object.entries(pinned))assert.equal(sha256(file),hash,`${file} equals its pinned copy`);
   assert.deepEqual(fs.readdirSync(path.join(ROOT,"visual-assets/v10_1/shared/navbar")).sort(),["navbar.css","navbar.js"]);
