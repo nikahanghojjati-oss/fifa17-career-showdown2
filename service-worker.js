@@ -63,7 +63,35 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     // r90: no longer precached (the sheet loads the shared copies), but a page rolled back to 2.2.0 still asks for these
     // without ?v=, so they stay here and are answered from that build's retained shell offline.
     // r87: the rest of the local faces, so the offline and error screens keep the brush title and body type offline
-    // r90 M8: the Special Player page's own faces (was Google Fonts)
+    // r90 M8: the Special Player page's own faces (was Google Fonts),
+    "visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-600-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-700-normal.woff2",
+    "assets/fonts/barlow-condensed-vietnamese-800-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
+    "assets/fonts/barlow-condensed-latin-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
+    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2"
 ]);
 
 const SHELL_PATHS = Object.freeze([
