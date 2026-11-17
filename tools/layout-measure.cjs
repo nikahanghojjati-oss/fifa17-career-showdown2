@@ -85,7 +85,7 @@ function measure({ host, phone }){
     // OVERLAP
     // decorative art (absolute/fixed images, empty alt, aria-hidden, window-sized) and sticky or fixed bars (the r80 audit's S5 covers those) are not overlap candidates
     const decorative = el => el.matches("img,svg,canvas,video") && (/^(absolute|fixed)$/.test(getComputedStyle(el).position) || el.getAttribute("alt") === "" || el.closest("[aria-hidden=true]") || box(el).w * box(el).h > vw * vh * 0.3);
-    const barred = el => { for(let a = el; a && a !== document.body; a = a.parentElement) if(/^(fixed|sticky)$/.test(getComputedStyle(a).position)) return true; return false; };
+    const barred = el => { for(let a = el; a && a !== root && root.contains(a); a = a.parentElement) if(/^(fixed|sticky)$/.test(getComputedStyle(a).position)) return true; return false; };
     const leaf = things.filter(el => (!isControl(el) || !el.querySelector("button,a[href],input")) && !decorative(el) && !barred(el));
     for(let i = 0; i < leaf.length; i++) for(let j = i + 1; j < leaf.length; j++){
         const a = leaf[i], c = leaf[j];
@@ -122,8 +122,10 @@ function measure({ host, phone }){
     const scroller = root.querySelector("main") || document.querySelector("main");
     for(const el of things){
         const cs = getComputedStyle(el);
-        if(ownText(el) && /(hidden|clip)/.test(cs.overflowX) && el.scrollWidth > el.clientWidth + 1 && cs.textOverflow !== "ellipsis" || ownText(el) && cs.textOverflow === "ellipsis" && el.scrollWidth > el.clientWidth + 1)
-            add("CLIP", el.scrollWidth - el.clientWidth, el, `text ${el.scrollWidth}px in a ${el.clientWidth}px box`);
+        if(ownText(el) && /(hidden|clip)/.test(cs.overflowX) && el.scrollWidth > el.clientWidth + 1)
+            add("CLIP", el.scrollWidth - el.clientWidth, el, `text ${el.scrollWidth}px wide in a ${el.clientWidth}px box`);
+        else if(ownText(el) && /(hidden|clip)/.test(cs.overflowY) && el.scrollHeight > el.clientHeight + 1)
+            add("CLIP", el.scrollHeight - el.clientHeight, el, `text ${el.scrollHeight}px tall in a ${el.clientHeight}px box`);
         else if(ownText(el)){
             const b = box(el);
             for(let a = el.parentElement; a && a !== document.body && a !== document.documentElement; a = a.parentElement){
