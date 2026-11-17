@@ -196,7 +196,7 @@ jobs:
           assert.strictEqual(track.style.transition, 'none', 'Selected wheel must be settled before normalization/render.');
           assert.strictEqual(track.dataset.leagueWheelAnimating, 'false', 'Selected wheel must not retain animation state.');
           assert.strictEqual(track.style.transform, 'rotate(0deg)', 'Equivalent selected angle must normalize without a transition.');
-          assert.strictEqual(spin.textContent, 'CONTINUE TO BALL GAME');
+          assert.strictEqual(spin.textContent, 'CONTINUE TO CLUB ASSIGNMENT');
           assert.strictEqual(spin.disabled, false, 'Selected league remains waiting for explicit Continue.');
 
           // Route/cancel cleanup must also leave no hidden animation state, and a
