@@ -71,7 +71,7 @@ record. The list below is every pull request merged into gameplay/r94 since 2.6.
 ## Reads and writes
 
 CE2PG single plan, 3 seasons, Firebase emulator only, firebase@12.17.0, both trees side by side on the same container on
-2026-11-16 (~23:47 to 00:15 UTC). Billed = document reads plus Rules lookups on reads and writes, both phones. The harness has
+2026-11-16 (~23:47 to 00:15 UTC). Both PASS (2.6.0 295/295, 2.7.0 296/296, 0 problems). Billed = document reads plus Rules lookups on reads and writes, both phones. The harness has
 no WebGL2, so 2.7.0 plays the Club Assignment flat stand-in (same writes and stored stops as the 3D ball).
 
 | Season | 2.6.0 (main 5c5472f6) billed / writes | 2.7.0 (gameplay/r94 9742fa70) billed / writes |
