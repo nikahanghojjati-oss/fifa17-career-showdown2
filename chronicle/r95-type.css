@@ -18,3 +18,6 @@ h1,h2,h3{text-wrap:balance}
 /* headings: natural weight and a slightly narrow width (the family tops out at 700; Playfair's 900 would read as heavy shouting) */
 h1,h2,h3,.jacket-title,.dedication-motto p{font-weight:650;font-stretch:88%;letter-spacing:-.015em}
 .hero-copy h1{font-size:clamp(46px,5.2vw,88px)}
+
+/* r95: code samples in the Story use the one family too (a browser default would be monospace) */
+code, pre, kbd, samp { font-family: "Instrument Sans", system-ui, sans-serif; font-size: .95em; }
