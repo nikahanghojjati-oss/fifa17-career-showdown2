@@ -19,19 +19,26 @@
   // Engine: the vendored three r187 the other 3D screens use.
   const ENGINE_PATH="visual-assets/v10_1/roulette/vendor/three-r187.min.js";
   const GFX_JS="js/gfxTier.js";
-  // Motion (study 0b/0c). J is the luck dial: a well-timed tap lands the aimed club about 50% (Nik 2026-11-15 23:57 UTC),
-  // a blind tap 33%. D0 is not a whole number of turns on purpose: the lead has to be learned before timing helps.
+  // R95-01 Ball Game, New STOP (Nik's pick 2026-11-17; motion locked 04:37 UTC, lab Master f1f9ea4b). ONE STOP, and the
+  // ball always brakes over exactly two turns (D0 720), so the crest facing the manager when he presses STOP is his club,
+  // give or take J = +-1.8 deg of grass (.03 of a 60 deg slice). The skill is the speed: smooth and always forward, it
+  // drifts in three uneven waves (RHY .22 every 2.4 s, RHY2 .13 every 1.55 s, RHY3 .08 every 3.7 s) that start at a fresh
+  // phase every spin, so the rhythm never repeats: about 168-422 deg/s (spinSpeed). No feints, reversals or speed jumps,
+  // and no blur (Nik 2026-11-17: never blurry): every crest and stitch is sharp at any speed.
   const PHYS={
-    J:120, D0:600, SECTION:120, POSE_PULL:.6,
-    REST0:.9, W_SLOW:112, SHOW:.95, SHOW_MOVE:1.05, SHOW_OUT:.55, KICK:1.15, W_FAST:470, GRAV:62,
+    J:1.8, D0:720, SECTION:120, POSE_PULL:.6,
+    REST0:.9, W_SLOW:112, SHOW:.95, SHOW_N6:.55, SHOW_MOVE:1.05, SHOW_OUT:.55, KICK:1.15, W_FAST:295, GRAV:62,
     FK:.2, A0:3.4, SETTLE:1.7, BODY_TILT:4.2,
-    AWAIT_LEAD:120, AWAIT_W:150, RIVAL_MIN:480, REPLAN_MIN:150, REPLAN_DUR:4.2
+    AWAIT_LEAD:120, AWAIT_W:150, RIVAL_MIN:480, REPLAN_MIN:150, REPLAN_DUR:4.2, BRAKE:3,
+    RHY:.22, RHY_T:2.4, RHY2:.13, RHY_T2:1.55, RHY3:.08, RHY_T3:3.7
   };
   const PHYS_DEFAULT=Object.freeze({...PHYS});
-  // The tuning page only (tools/club-draw-tuning.html): the game never calls it. SECTION is fixed (three clubs per ball).
+  // The tuning page only (tools/club-draw-tuning.html): the game never calls it. SECTION is 120 (three clubs per ball) or
+  // 60 (six); mount sets it from the clubs it is given. Every value stays finite and the waves can never stop the ball.
   function tune(partial){
     if(partial==="reset"){Object.assign(PHYS,PHYS_DEFAULT);return {...PHYS};}
-    for(const [k,v] of Object.entries(partial||{}))if(k!=="SECTION"&&Object.hasOwn(PHYS_DEFAULT,k)&&Number.isFinite(v))PHYS[k]=v;
+    for(const [k,v] of Object.entries(partial||{}))if((k!=="SECTION"||v===120||v===60)&&Object.hasOwn(PHYS_DEFAULT,k)&&Number.isFinite(v))PHYS[k]=v;
+    if(!(PHYS.W_FAST>0)||!(Math.abs(PHYS.RHY)+Math.abs(PHYS.RHY2)+Math.abs(PHYS.RHY3)<.9))Object.assign(PHYS,{W_FAST:PHYS_DEFAULT.W_FAST,RHY:PHYS_DEFAULT.RHY,RHY2:PHYS_DEFAULT.RHY2,RHY3:PHYS_DEFAULT.RHY3});
     return {...PHYS};
   }
 
@@ -40,6 +47,12 @@
   // a - b folded into (-180, 180]
   function angleDiff(a,b){const d=mod360(a-b);return d>180?d-360:d;}
   function sectionOf(stop){return Math.floor(stop/PHYS.SECTION);}
+  // The full-speed spin (deg/s) t seconds into it, for wave phases ph = [ph1, ph2, ph3] drawn fresh at every spin. The
+  // three amplitudes sum to .43 < 1, so it is always forward: W_FAST * .57 = 168 .. W_FAST * 1.43 = 422 deg/s.
+  function spinSpeed(t,ph){
+    const tau=6.2832;
+    return PHYS.W_FAST*(1+PHYS.RHY*Math.sin(tau*t/PHYS.RHY_T+ph[0])+PHYS.RHY2*Math.sin(tau*t/PHYS.RHY_T2+ph[1])+PHYS.RHY3*Math.sin(tau*t/PHYS.RHY_T3+ph[2]));
+  }
   function sceneValidStop(stop){return Number.isInteger(stop)&&stop>=0&&stop<360;}
   // The stored integer, computed ONCE at the tap from the ball face in front of the manager and a random slow-down.
   function drawStop(front,rand01,J){const j=Number.isFinite(J)?J:PHYS.J;return Math.floor(mod360(front+PHYS.D0+(2*rand01-1)*j))%360;}
@@ -60,6 +73,18 @@
     return {c,dur,w0:w,travel,
       at(t){const tt=Math.min(Math.max(t,0),dur),e=Math.exp(-k*tt);return ((w+c/k)*(1-e))/k-(c/k)*tt;},
       speed(t){if(t>=dur)return 0;const tt=Math.max(t,0);return Math.max(0,(w+c/k)*Math.exp(-k*tt)-c/k);}};
+  }
+  // R95-01: the own STOP always travels D0 = 720 deg, but the Master spin can be as slow as 168 deg/s, where pure grass
+  // friction would crawl for up to 16 s. Then the ball keeps its speed (it rolls on, as a ball does when the boot is off it)
+  // and brakes firmly over the last BRAKE seconds: speed continuous, never rising, exact travel, at most ~6 s in all.
+  function stopPlan(w0,travel){
+    const pure=friction(w0,travel);if(pure.dur<=PHYS.REPLAN_DUR)return pure;
+    const w=Math.max(1,w0);let lo=1,hi=Math.min(travel,w/PHYS.FK*.999);
+    for(let i=0;i<60;i+=1){const m=(lo+hi)/2;if(friction(w,m).dur>PHYS.BRAKE)hi=m;else lo=m;}
+    const brake=friction(w,lo),coast=(travel-lo)/w,dur=coast+brake.dur;
+    return {c:brake.c,dur,w0:w,travel,coast,
+      at(t){const tt=Math.min(Math.max(t,0),dur);return tt<=coast?w*tt:travel-lo+brake.at(tt-coast);},
+      speed(t){if(t>=dur)return 0;const tt=Math.max(t,0);return tt<=coast?w:brake.speed(tt-coast);}};
   }
   // The slowest start that still stops within maxDur seconds over `travel` (a re-aimed ball never crawls for ten seconds).
   function speedFor(travel,maxDur){let lo=PHYS.FK*travel*1.05,hi=Math.max(lo*2,travel*4);for(let i=0;i<48;i+=1){const m=(lo+hi)/2;if(friction(m,travel).dur>maxDur)lo=m;else hi=m;}return hi;}
@@ -91,29 +116,50 @@
   // What each level draws (ONE system; study 4.2). Light stays the lightest 3D screen in the game.
   function knobs(level){
     const l=Math.max(0,Math.min(5,Math.round(Number(level))||0));
+    // R95-01 quality raise (memory r95-club-ball-skill-quality): with the spin blur gone each pixel reads one crest instead
+    // of 3 or 5, which pays for the stitched leather on every level. Light (Nik's Chromebook) now has the second highlight,
+    // the visible stitches, grain and reflection band, and a rounder ball, and still 4 draws, 3 programs (measured
+    // SwiftShader 960x433: 2.7.0 Light 37 ms of frame work, r95 Light 40 ms; the pitch and stadium dominate).
     return {level:l,
       atlas:l<=0?512:l===1?768:1024,               // crest atlas, per crest
-      seg:l<=0?[48,32]:l===1?[64,40]:[96,64],      // sphere segments
-      gloss:l>=1,                                   // second floodlight highlight
-      detail:l>=3,                                  // visible stitches, leather grain, reflection band
-      blades:l>=3?(l>=4?9000:6000):0,               // grass blades around each ball (one draw)
-      bokeh:l>=2, confetti:l>=2,                    // floodlight glow sprites; confetti in club colours at rest
-      blurTaps:l>=4?5:3};                           // spin blur on the crests
+      seg:l<=1?[64,40]:l<=3?[96,64]:[128,80],      // sphere segments
+      gloss:true,                                   // second floodlight highlight
+      detail:true,                                  // visible stitches, leather grain, reflection band
+      blades:l>=3?(l>=5?12000:l>=4?9000:6000):0,    // grass blades around each ball (one draw)
+      bokeh:l>=2, confetti:l>=2};                   // floodlight glow sprites; confetti in club colours at rest
   }
 
   // ---------- ball, pitch and stadium shaders (from the study mock-up v3.1, unchanged look) ----------
   const BALL_VS="varying vec3 vObj;varying vec3 vNg;varying vec3 vW;void main(){vObj=normalize(position);vNg=normalize(mat3(modelMatrix)*normal);vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}";
   const BALL_FS=[
-    "uniform vec3 PC[32];uniform vec3 kA[3];uniform vec3 kB[3];uniform vec3 kC[3];uniform vec3 kT[3];uniform vec3 kS[3];uniform vec3 kN[3];uniform vec3 kH[3];uniform vec4 kP[3];uniform float lit[3];uniform float foc[3];uniform sampler2D atlas;uniform vec3 camP;uniform mat3 rot;uniform float blur;uniform float pulse;uniform float clat;uniform float spd;",
+    "uniform vec3 PC[32];uniform vec3 kA[NSEC];uniform vec3 kB[NSEC];uniform vec3 kC[NSEC];uniform vec3 kT[NSEC];uniform vec3 kS[NSEC];uniform vec3 kN[NSEC];uniform vec3 kH[NSEC];uniform vec4 kP[NSEC];uniform vec3 kK[NSEC];uniform vec3 kQ[NSEC];uniform float kD[NSEC];uniform float kM[NSEC];uniform float lit[NSEC];uniform float foc[NSEC];uniform sampler2D atlas;uniform vec3 camP;uniform mat3 rot;uniform float pulse;uniform float clat;",
     "varying vec3 vObj;varying vec3 vNg;varying vec3 vW;",
-    "const float TAU=6.2831853;const float G=2.0943951;",
+    "const float TAU=6.2831853;const float G=6.2831853/float(NSEC);",
     "const vec3 KEY=vec3(.430,.765,.479);const vec3 FIL=vec3(-.611,.560,.560);const vec3 BK1=vec3(.667,.477,-.572);const vec3 BK2=vec3(-.667,.477,-.572);",
-    "vec4 crest(vec3 d,float k,float off){float lc=(k+.5)*G+off;float cp=cos(clat);float sp=sin(clat);vec3 c=vec3(sin(lc)*cp,sp,cos(lc)*cp);vec3 t=vec3(cos(lc),0.,-sin(lc));vec3 b=vec3(-sin(lc)*sp,cp,-cos(lc)*sp);float dc=dot(d,c);vec2 p=vec2(dot(d,t),dot(d,b))/max(dc,.05);float s=.64;vec2 q=p/(2.*s)+.5;float inside=step(0.,q.x)*step(q.x,1.)*step(0.,q.y)*step(q.y,1.)*step(.25,dc);return texture2D(atlas,vec2((k+clamp(q.x,0.,1.))/3.,clamp(q.y,0.,1.)))*inside;}",
+    "vec4 crest(vec3 d,float k,float off){float lc=(k+.5)*G+off;float cp=cos(clat);float sp=sin(clat);vec3 c=vec3(sin(lc)*cp,sp,cos(lc)*cp);vec3 t=vec3(cos(lc),0.,-sin(lc));vec3 b=vec3(-sin(lc)*sp,cp,-cos(lc)*sp);float dc=dot(d,c);vec2 p=vec2(dot(d,t),dot(d,b))/max(dc,.05);float s=CREST_S;vec2 q=p/(2.*s)+.5;float inside=step(0.,q.x)*step(q.x,1.)*step(0.,q.y)*step(q.y,1.)*step(.25,dc);float col=mod(k,3.);float row=floor(k/3.+.01);return texture2D(atlas,vec2((col+clamp(q.x,0.,1.))/3.,(float(ROWS)-1.-row+clamp(q.y,0.,1.))/float(ROWS)))*inside;}",
     // The club's kit on its third. u runs across the third (0..1), sv up the shirt (0 hem, 1 neck), lat is the latitude.
     // P = (pattern, fabric, stripes, sleeves). Every edge is smoothed over one pixel (fwidth), no texture.
+    // A sleeve or shorts colour that is plain white or near black would show as a wasted patch beside the piping: swap it for the kit's own second colour, trim or a deeper body shade.
+    "float bkLum(vec3 c){return dot(c,vec3(.3,.6,.1));}",
+    "bool bkOk(vec3 c){float l=bkLum(c);return l>.09&&l<.80;}",
+    "vec3 bkFix(vec3 c,vec3 A,vec3 B,vec3 T){if(bkOk(c))return c;if(bkOk(B)&&distance(B,A)>.12)return B;if(bkOk(T)&&distance(T,A)>.12)return T;return bkLum(A)>.5?A*.62:A*1.6+.03;}",
     "float aaS(float e,float x){float w=max(fwidth(x),1e-4)*.8;return smoothstep(e-w,e+w,x);}",
     "float aaB(float a,float b,float x){return aaS(a,x)-aaS(b,x);}",
     "float sqw(float x){float w=max(fwidth(x),1e-4)*.8;float f=fract(x);return smoothstep(.5-w,.5+w,f)*(1.-smoothstep(1.-w,1.,f));}",
+    // The club's medallion behind its crest: one of four shapes (round, shield, hexagon, octagon) so neighbours differ in
+    // outline as well as colour. medP: the point in the crest's own plane, in medallion units; medSd: signed distance (<0 inside).
+    "vec2 medP(vec3 d,float k){float lc=(k+.5)*G;float cp=cos(clat);float sp=sin(clat);vec3 c=vec3(sin(lc)*cp,sp,cos(lc)*cp);vec3 t=vec3(cos(lc),0.,-sin(lc));vec3 b=vec3(-sin(lc)*sp,cp,-cos(lc)*sp);float dc=dot(d,c);return dc>.3?vec2(dot(d,t),dot(d,b))/(dc*CREST_S*1.05):vec2(9.);}",
+    "float medSd(vec2 p,float m){vec2 a=abs(p);if(m<.5)return length(p)-.96;if(m<1.5){float w=p.y>-.18?.84:.84*clamp((p.y+1.06)/.88,0.,1.);return max(a.x-w,max(p.y-.90,-1.06-p.y));}if(m<2.5)return max(a.x*.866+a.y*.5,a.y)-.92;return max(max(a.x,a.y),(a.x+a.y)*.7071)-.90;}",
+    "vec3 bkDeep(vec3 c,vec3 A,vec3 B,vec3 T){if(bkOk(c))return c;if(bkOk(B)&&distance(B,A)>.12)return B;if(bkOk(T)&&distance(T,A)>.12)return T;return bkLum(A)>.06?A*.58:A*1.7+.03;}",
+    // The rest of the kit, by latitude in degrees (la): the collar above the crest (crew one band, vee dips toward the crest,
+    // polo two bands), shorts below the shirt with a waistband and side stripes, then socks under a sock-top band.
+    "vec3 kitDress(vec3 col,float u,float la,vec3 A,vec3 Tr,vec3 Hs,vec3 Ks,vec3 Kq,float D){",
+    " float ax=abs(u-.5);float cy=47.-(D>.5&&D<1.5?5.*(1.-2.*ax):0.);float cw=D>1.5?2.6:1.9;",
+    " col=mix(col,A,aaS(cy+cw,la));col=mix(col,Tr,aaB(cy,cy+cw,la));if(D>1.5)col=mix(col,Tr,aaB(cy+cw+1.3,cy+cw+2.3,la));",
+    " col=mix(col,Hs,1.-aaS(-27.,la));col=mix(col,Tr,aaB(-28.8,-27.,la));col=mix(col,Tr,aaB(.335,.365,ax)*(1.-aaS(-29.,la))*aaS(-49.,la));",
+    " col=mix(col,Ks,1.-aaS(-49.,la));col=mix(col,Kq,aaB(-54.5,-49.,la));col=mix(col,Tr,aaB(-52.4,-51.2,la));",
+    " return col;",
+    "}",
     "vec3 kitAt(float u,float sv,float lat,vec3 A,vec3 B,vec3 C,vec3 Tr,vec3 S,vec3 H,vec4 P){",
     " float x=u-.5;vec3 col=A;float lum=dot(A,vec3(.3,.6,.1));",
     " if(P.x<.5){",
@@ -122,7 +168,6 @@
     "  else if(P.y<3.5&&P.y>2.5){float yc=.88-.07*(1.-4.*x*x);col=mix(col,Tr,aaS(yc,sv));col=mix(col,A*.55,aaB(-.03,0.,sv-yc));}",
     "  else if(P.y>3.5){col=mix(col,Tr,.95*(1.-smoothstep(.24,.64,sv)));col=mix(col,col*(lum>.55?.84:1.3),sqw(sv*16.)*(1.-aaS(.56,sv)));}",
     "  if(P.y>.5){col=mix(col,Tr,(aaB(-.38,-.31,x)+aaB(.31,.38,x))*(1.-aaS(.66,sv)));}",
-    "  if(P.w>1.5){float hem=.27+.035*(1.-4.*x*x);col=mix(col,H,1.-aaS(hem,sv));col=mix(col,Tr,aaB(-.022,.022,sv-hem));}",
     " }",
     " else if(P.x<1.5){col=mix(A,B,sqw((x*P.z+.5)*.5));}",
     " else if(P.x<2.5){col=mix(A,B,sqw(((lat-clat)/.26+.5)*.5));}",
@@ -132,53 +177,49 @@
     " else if(P.x<6.5){float X=x*2.;float Y=sv*2.-1.;col=mix(A,B,(1.-aaS(.085,abs(Y-1.125*abs(X))/1.5))*aaS(-.05,Y));}",
     " else if(P.x<7.5){col=mix(A,B,1.-aaS(0.,sv-(.05+.9*u)));}",
     " else{col=mix(col,Tr,aaB(-.11,.11,x));col=mix(col,B,aaB(-.08,.08,x));}",
-    " if(mod(P.w,2.)>.5){col=mix(col,S,((1.-aaS(.10,u))+aaS(.90,u))*aaS(.42,sv));}",
+    " if(mod(P.w,2.)>.5){float sl=aaS(.42,sv);col=mix(col,S,((1.-aaS(.10,u))+aaS(.90,u))*sl);col=mix(col,Tr,aaB(.385,.40,abs(x))*sl);}",
     " return col;",
     "}",
-    "#ifdef DETAIL",
     "float h3(vec3 p){p=fract(p*.3183099+.1);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}",
     "float vn3(vec3 x){vec3 i=floor(x);vec3 f=fract(x);f=f*f*(3.-2.*f);return mix(mix(mix(h3(i),h3(i+vec3(1.,0.,0.)),f.x),mix(h3(i+vec3(0.,1.,0.)),h3(i+vec3(1.,1.,0.)),f.x),f.y),mix(mix(h3(i+vec3(0.,0.,1.)),h3(i+vec3(1.,0.,1.)),f.x),mix(h3(i+vec3(0.,1.,1.)),h3(i+vec3(1.,1.,1.)),f.x),f.y),f.z);}",
-    "#endif",
     "void main(){",
     " vec3 d=normalize(vObj);",
     " float s1=-2.;float s2=-2.;vec3 c1=vec3(0.,1.,0.);vec3 c2=vec3(0.,1.,0.);float pent=0.;",
     " for(int i=0;i<32;i++){vec3 c=PC[i];float s=dot(d,c);if(s>s1){s2=s1;c2=c1;s1=s;c1=c;pent=i<12?1.:0.;}else if(s>s2){s2=s;c2=c;}}",
     " vec3 gv=c1-c2;float gl=max(length(gv),.0001);float e=(s1-s2)/gl;vec3 gd=gv/gl;",
-    " float lon=atan(d.x,d.z);if(lon<0.)lon+=TAU;float g=lon/G;float k=min(floor(g),2.);float u=g-k;",
+    " float lon=atan(d.x,d.z);if(lon<0.)lon+=TAU;float g=lon/G;float k=min(floor(g),float(NSEC-1));float u=g-k;",
     " float lonc=atan(c1.x,c1.z);if(lonc<0.)lonc+=TAU;float gc=lonc/G;float uc=fract(gc);",
     " float polar=step(.99,abs(c1.y))*(1.-pent);float neutral=max(polar,step(min(uc,1.-uc),.03));",
-    " float ks=mix(min(floor(gc),2.),k,neutral);",
+    " float ks=k;",
     " vec3 kBody;vec3 kSec;vec3 kSec2;vec3 kTrim;vec3 kSlv;vec3 kPent;vec3 kShorts;vec4 kPat;float L;float F;",
-    " if(ks<.5){kBody=kA[0];kSec=kB[0];kSec2=kC[0];kTrim=kT[0];kSlv=kS[0];kPent=kN[0];kShorts=kH[0];kPat=kP[0];L=lit[0];F=foc[0];}",
-    " else if(ks<1.5){kBody=kA[1];kSec=kB[1];kSec2=kC[1];kTrim=kT[1];kSlv=kS[1];kPent=kN[1];kShorts=kH[1];kPat=kP[1];L=lit[1];F=foc[1];}",
-    " else{kBody=kA[2];kSec=kB[2];kSec2=kC[2];kTrim=kT[2];kSlv=kS[2];kPent=kN[2];kShorts=kH[2];kPat=kP[2];L=lit[2];F=foc[2];}",
-    " float du=g-ks;if(du>1.5)du-=3.;if(du<-1.5)du+=3.;float klat=asin(clamp(d.y,-1.,1.));",
-    " vec3 kit=kitAt(clamp(du,0.,1.),clamp(.70+(klat-clat)/1.6,0.,1.),klat,kBody,kSec,kSec2,kTrim,kSlv,kShorts,kPat);",
+    " int ki=int(ks+.5);kBody=kA[ki];kSec=kB[ki];kSec2=kC[ki];kTrim=kT[ki];kSlv=kS[ki];kPent=kN[ki];kShorts=kH[ki];kPat=kP[ki];L=lit[ki];F=foc[ki];",
+    " float hn=float(NSEC)*.5;float du=g-ks;if(du>hn)du-=float(NSEC);if(du<-hn)du+=float(NSEC);float klat=asin(clamp(d.y,-1.,1.));",
+    " kSlv=bkFix(kSlv,kBody,kSec,kTrim);kShorts=bkDeep(kShorts,kBody,kSec,kTrim);vec3 kSock=bkDeep(kK[ki],kBody,kSec,kTrim);vec3 kit=kitAt(clamp(du,0.,1.),clamp(.70+(klat-clat)/1.6,0.,1.),klat,kBody,kSec,kSec2,kTrim,kSlv,kShorts,kPat);kit=kitDress(kit,clamp(du,0.,1.),klat*57.2958,kBody,kTrim,kShorts,kSock,kQ[ki],kD[ki]);",
     " F=mix(F,1.,neutral);",
     " vec3 white=vec3(.74,.74,.71);",
     " vec3 classic=mix(white,vec3(.022,.022,.026),pent);",
-    " vec3 club=mix(mix(kit,kPent,pent),vec3(.026,.026,.030),neutral);",
+    " vec3 pk=kPent;if(!bkOk(pk)){pk=kSec;if(!bkOk(pk)||distance(pk,kBody)<.12)pk=kTrim;if(!bkOk(pk)||distance(pk,kBody)<.12)pk=kBody*(bkLum(kBody)>.5?.55:.62);}vec3 club=mix(kit,pk,pent);",
     " vec3 base=mix(classic,club,L);",
-    " float ed=min(u,1.-u)*120.*sqrt(max(1.-d.y*d.y,0.));float pipe=(1.-smoothstep(1.05,1.45,ed))*L;",
-    " float pipeEdge=(1.-smoothstep(1.45,1.9,ed))*L;base=mix(base,base*.35,pipeEdge*(1.-pipe)*neutral);",
-    " base=mix(base,vec3(.80,.56,.13),pipe);",
-    "#if BLUR_TAPS > 3",
-    " vec4 cr=(crest(d,k,0.)*2.+crest(d,k,blur)+crest(d,k,-blur)+crest(d,k,blur*2.)+crest(d,k,-blur*2.))/6.;",
-    "#else",
-    " vec4 cr=(crest(d,k,0.)*2.+crest(d,k,blur*1.5)+crest(d,k,-blur*1.5))/4.;",
-    "#endif",
+    " float ed=min(u,1.-u)*(360./float(NSEC))*sqrt(max(1.-d.y*d.y,0.));float pw=max(fwidth(ed),.02);float pipe=(1.-smoothstep(1.0-pw,1.0+pw,ed))*L;",
+    " float pipeEdge=(1.-smoothstep(1.55-pw,1.55+pw,ed))*L;base=mix(base,base*.38,pipeEdge*(1.-pipe));",
+    " float stc=aaB(1.16,1.40,ed)*sqw(klat*57.2958/2.4)*L;base=mix(base,vec3(.86,.70,.36),stc*.9);float pp=(u<.5?1.:-1.)*ed;vec3 mt=mix(vec3(.26,.15,.006),vec3(.80,.49,.07),smoothstep(.95,-.25,pp));mt=mix(mt,vec3(1.,.88,.48),(1.-smoothstep(0.,.32,abs(pp+.30)))*.85);base=mix(base,mt,pipe);float pa=acos(clamp(abs(d.y),0.,1.))*57.2958;float ros=(1.-smoothstep(3.6-pw,3.6+pw,pa))*L;base=mix(base,base*.38,(1.-smoothstep(4.6-pw,4.6+pw,pa))*L*(1.-ros));base=mix(base,vec3(.84,.60,.16),ros);base=mix(base,vec3(.30,.20,.05),(1.-smoothstep(1.5-pw,1.5+pw,pa))*L);",
+    " vec4 cr=crest(d,k,0.);", // R95-01: no spin blur, one crest lookup per pixel (was 3 or 5)
+    " vec2 mp=medP(d,k);float msd=medSd(mp,kM[ki]);float mw=max(fwidth(msd),.004);float mIn=(1.-smoothstep(-mw,mw,msd))*L;",
+    " vec3 mc=kTrim;if(!bkOk(mc)||distance(mc,kBody)<.12)mc=kSec;if(!bkOk(mc)||distance(mc,kBody)<.12)mc=kBody*(bkLum(kBody)>.06?.52:1.8);",
+    " mc=mix(mc,mc*.72,smoothstep(.2,1.,length(mp)));base=mix(base,base*.30,(1.-smoothstep(.07-mw,.07+mw,msd))*L*(1.-mIn));base=mix(base,mc,mIn);",
+    " float mr=(1.-smoothstep(-.085-mw,-.085+mw,msd))*mIn;vec3 mg=mix(vec3(.30,.18,.01),vec3(.86,.56,.10),.5+.5*clamp(mp.y,-1.,1.));mg=mix(mg,vec3(1.,.88,.48),(1.-smoothstep(0.,.03,abs(msd+.035)))*.8);base=mix(base,mg,mIn*(1.-mr));",
     " vec3 crc=pow(cr.rgb/max(cr.a,.001),vec3(2.2));float ca=cr.a*L;base=mix(base,crc,ca);",
     " float wS=.014;float groove=1.-smoothstep(wS*.5,wS*1.5,e);",
-    " base*=1.-groove*.86*(1.-.45*ca)*(1.-.30*spd)*(1.-.85*pipe);",
-    " float grain=1.;",
+    " base*=1.-groove*.86*(1.-.45*ca)*(1.-.85*pipe);",
+    " float grain=1.;base*=.95+.10*vn3(d*46.);",
     "#ifdef DETAIL",
     " vec3 ax=normalize(cross(gd,c1+c2));float al=dot(d,ax);",
-    " float st=(1.-smoothstep(.12,.22,abs(fract(al*30.)-.5)))*smoothstep(wS*1.1,wS*1.6,e)*(1.-smoothstep(.034,.044,e))*(1.-spd*.8);",
+    " float st=(1.-smoothstep(.12,.22,abs(fract(al*30.)-.5)))*smoothstep(wS*1.1,wS*1.6,e)*(1.-smoothstep(.034,.044,e));",
     " base=mix(base,base*.5+vec3(.20),st*.55);",
-    " grain=.80+.40*vn3(d*110.);base*=.955+.09*vn3(d*46.);",
+    " grain=.80+.40*vn3(d*110.);",
     "#endif",
     " vec3 gt=gd-d*dot(gd,d);float slope=1.-smoothstep(0.,.085,e);slope*=slope;",
-    " vec3 N=normalize(rot*normalize(d-gt*slope*.62));vec3 Ng=normalize(vNg);vec3 V=normalize(camP-vW);",
+    " vec3 te=vec3(cos(lon),0.,-sin(lon));vec3 N=normalize(rot*normalize(d-gt*slope*.62+te*(u<.5?1.:-1.)*clamp(ed,0.,1.)*.45*pipe));vec3 Ng=normalize(vNg);vec3 V=normalize(camP-vW);",
     " float nl=max(dot(N,KEY),0.);float nf=max(dot(N,FIL),0.);float nb=max(dot(N,BK1),0.)+max(dot(N,BK2),0.);",
     " float up=N.y*.5+.5;vec3 amb=mix(vec3(.020,.062,.022),vec3(.058,.064,.082),up);",
     " float ao=mix(.28,1.,smoothstep(-1.05,-.25,Ng.y));",
@@ -290,6 +331,7 @@
   // stripes, the plain red Bundesliga shirts), BALL_VARIANT gives one of them a different stripe width, fabric or pentagon
   // colour so no two clubs that can share a ball look alike (tests/contracts/r94-club-draw-scene-contracts.cjs C10).
   const PATTERN_ID=Object.freeze({solid:0,stripes:1,hoops:2,halves:3,band:4,twin:5,vee:6,diag:7,centre:8});
+  const COLLAR_ID=Object.freeze({crew:0,vee:1,polo:2});
   const FABRIC_ID=Object.freeze({pin:1,shadow:2,yoke:3,fade:4});
   const BALL_VARIANT=Object.freeze({
     "Southampton":{n:11},"Udinese":{n:11},"Sporting Gijón":{n:11},
@@ -308,7 +350,33 @@
     // and shorts at a glance (United red over white, Freiburg red over black, Liverpool all red).
     const shorts=pattern==="solid"&&k.shorts&&dE(k.shorts,k.body)>25?k.shorts:null;
     return {known:true,pattern,fabric:pattern==="solid"?(v.fabric||(typeof kits.fabric==="function"?kits.fabric(name):"shadow")):"",n:pattern==="stripes"?(v.n||7):0,
-      body:k.body,second,second2:k.second[1]||second,trim:k.trim,sleeves,shorts,pent};
+      body:k.body,second,second2:k.second[1]||second,trim:k.trim,sleeves,shorts,pent,shortsAll:k.shorts,socks:k.socks,sockTop:k.sockTop,collar:k.collar};
+  }
+  // Six clubs share one ball, so a plain shirt next to another plain shirt of a close colour (Arsenal beside Liverpool) would
+  // run together. The later of the two takes an accent in its own trim, inspired by classic kit details: a chest band, twin
+  // pinstripes or a sash, whichever no neighbour already wears. Body colour, crest and the rest of the kit stay.
+  const BALL_ACCENTS=Object.freeze(["band","twin","diag"]);
+  function distinctNeighbours(looks,dE){
+    const n=looks.length;if(n<2||typeof dE!=="function")return looks;
+    for(let i=0;i<n;i++){
+      const a=looks[i];if(!a||!a.known||a.pattern!=="solid")continue;
+      const prev=looks[(i+n-1)%n],next=looks[(i+1)%n];
+      const close=x=>x&&x!==a&&x.known&&x.pattern===a.pattern&&dE(x.body,a.body)<30;
+      if(!(close(prev)||(i===n-1&&close(next))))continue;
+      const tr=dE(a.trim,a.body)>20?a.trim:(a.second&&dE(a.second,a.body)>20?a.second:null);if(!tr)continue;
+      // A white or near-black trim stays a pair of fine pinstripes, never a wide block of white or black.
+      const lt=hexLum(tr),pool=lt>.88||lt<.12?["twin"]:BALL_ACCENTS,used=new Set(looks.map(l=>l&&l.pattern));
+      const acc=pool.find(p=>!used.has(p))||pool.find(p=>p!==(prev&&prev.pattern)&&p!==(next&&next.pattern));
+      if(acc)looks[i]={...a,pattern:acc,second:tr,second2:tr,fabric:"",accent:acc};
+    }
+    return looks;
+  }
+  // Medallion shape per club (0 round, 1 shield, 2 hexagon, 3 octagon): fixed per club by its name, and never the same as the
+  // section before it, so six sections differ in outline too.
+  function medalShapes(clubs){
+    const out=[];clubs.forEach((n,i)=>{let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))>>>0;let m=h%4;
+      if(i>0&&m===out[i-1])m=(m+1)%4;if(i===clubs.length-1&&clubs.length>1&&m===out[0])m=(m+1)%4;if(i===clubs.length-1&&i>0&&m===out[i-1])m=(m+1)%4;out.push(m);});
+    return out;
   }
   // Two looks can share a ball without being mistaken for each other: a different pattern or fabric, stripes at least four
   // apart in count (bold against thin), or a clearly different second colour, pentagon colour, sleeves or body (CIE76 > 25).
@@ -345,6 +413,8 @@
   // ---------- the scene ----------
   function build(T,host,opts,P,assets){
     const K=knobs(P.level),d=cdDoc(),reduced=opts.reducedMotion===undefined?cdReducedMotion():Boolean(opts.reducedMotion);
+    const NS=opts.balls[0].clubs.length===6?6:3,ROWS=NS/3;PHYS.SECTION=360/NS; // clubs per ball: 3 (2.7.0) or 6 (r95 lab)
+    const allN=v=>Array.from({length:NS},()=>v);
     const me=opts.me===1?1:0;
     const canvas=d.createElement("canvas");canvas.className="clubDraw3d";canvas.setAttribute("aria-hidden","true");
     canvas.style.cssText="position:absolute;inset:0;width:100%;height:100%;display:block";
@@ -356,24 +426,24 @@
 
     // Crest atlas: three crests side by side, drawn once (the images are already decoded behind the loading screen).
     function atlas(images){
-      const size=K.atlas,cv=d.createElement("canvas");cv.width=size*3;cv.height=size;const cx=cv.getContext("2d");
-      images.forEach((im,i)=>{if(!im)return;const iw=im.naturalWidth||im.width||120,ih=im.naturalHeight||im.height||144,h=size*.90,w=Math.min(size*.92,h*iw/ih);
-        cx.save();cx.shadowColor="rgba(0,0,0,.6)";cx.shadowBlur=size*.03;cx.drawImage(im,i*size+(size-w)/2,(size-h)/2,w,h);cx.restore();});
+      const size=K.atlas,cv=d.createElement("canvas");cv.width=size*3;cv.height=size*ROWS;const cx=cv.getContext("2d");
+      images.forEach((im,i)=>{if(!im)return;const iw=im.naturalWidth||im.width||120,ih=im.naturalHeight||im.height||144,h=size*.90,w=Math.min(size*.92,h*iw/ih),ox=(i%3)*size,oy=Math.floor(i/3)*size;
+        cx.save();cx.shadowColor="rgba(0,0,0,.6)";cx.shadowBlur=size*.03;cx.drawImage(im,ox+(size-w)/2,oy+(size-h)/2,w,h);cx.restore();});
       const t=tex(new T.CanvasTexture(cv));t.minFilter=T.LinearMipmapLinearFilter;t.premultiplyAlpha=true;t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return t;
     }
-    const ballDefines={BLUR_TAPS:K.blurTaps};if(K.gloss)ballDefines.GLOSS=1;if(K.detail)ballDefines.DETAIL=1;
+    const ballDefines={NSEC:NS,ROWS,CREST_S:NS===6?".46":".64"};if(K.gloss)ballDefines.GLOSS=1;if(K.detail)ballDefines.DETAIL=1;
     const sphere=geo(new T.SphereGeometry(1,K.seg[0],K.seg[1]));
     const balls=opts.balls.map((b,idx)=>{
       const kits=root.CareerModeKits17||null,v3=hex=>{const c=srgbColour(T,hex).convertSRGBToLinear();return new T.Vector3(c.r,c.g,c.b);};
-      const looks=b.clubs.map(n=>{const lk=ballLook(kits,n,assets.info[n]);if(!lk.known){const cc=clubColours(T,assets.info[n]);lk.v={A:cc[0],N:cc[1]};}return lk;});
+      const looks=b.clubs.map(n=>{const lk=ballLook(kits,n,assets.info[n]);if(!lk.known){const cc=clubColours(T,assets.info[n]);lk.v={A:cc[0],N:cc[1]};}return lk;});distinctNeighbours(looks,kits&&kits.deltaE);
       const kv=(f)=>looks.map(f);
       const u={PC:{value:PAN.centres},kA:{value:kv(l=>l.v?l.v.A:v3(l.body))},kB:{value:kv(l=>v3(l.second))},kC:{value:kv(l=>v3(l.second2))},kT:{value:kv(l=>v3(l.trim))},
-        kS:{value:kv(l=>v3(l.sleeves||l.body))},kN:{value:kv(l=>l.v?l.v.N:v3(l.pent))},kH:{value:kv(l=>v3(l.shorts||l.body))},
-        kP:{value:kv(l=>new T.Vector4(PATTERN_ID[l.pattern]||0,FABRIC_ID[l.fabric]||0,l.n||0,(l.sleeves?1:0)+(l.shorts?2:0)))},lit:{value:[1,1,1]},foc:{value:[1,1,1]},atlas:{value:atlas(b.clubs.map(n=>assets.images[n]))},
-        camP:{value:new T.Vector3()},rot:{value:new T.Matrix3()},blur:{value:0},pulse:{value:0},clat:{value:PAN.clat},spd:{value:0}};
+        kS:{value:kv(l=>v3(l.sleeves||l.body))},kN:{value:kv(l=>l.v?l.v.N:v3(l.pent))},kH:{value:kv(l=>v3(l.shortsAll||l.body))},
+        kP:{value:kv(l=>new T.Vector4(PATTERN_ID[l.pattern]||0,FABRIC_ID[l.fabric]||0,l.n||0,(l.sleeves?1:0)+(l.shorts?2:0)))},kK:{value:kv(l=>v3(l.socks||l.body))},kQ:{value:kv(l=>v3(l.sockTop||l.trim))},kD:{value:kv(l=>COLLAR_ID[l.collar]||0)},kM:{value:medalShapes(b.clubs)},lit:{value:allN(1)},foc:{value:allN(1)},atlas:{value:atlas(b.clubs.map(n=>assets.images[n]))},
+        camP:{value:new T.Vector3()},rot:{value:new T.Matrix3()},pulse:{value:0},clat:{value:PAN.clat}};
       const m=mat(new T.ShaderMaterial({uniforms:u,vertexShader:BALL_VS,fragmentShader:BALL_FS,defines:ballDefines}));
       const mesh=new T.Mesh(sphere,m);mesh.rotation.order="YXZ";const tilt=new T.Group();tilt.add(mesh);scene.add(tilt);
-      return {i:idx,clubs:b.clubs,u,mesh,tilt,pos:new T.Vector3(),r:1,f:idx?215:35,state:"idle",t:0,lit:[1,1,1],
+      return {i:idx,clubs:b.clubs,u,mesh,tilt,pos:new T.Vector3(),r:1,f:idx?215:35,state:"idle",t:0,lit:allN(1),
         stop:null,pick:-1,accepted:false,plan:null,planF0:0,restA:0,queued:null,queuedPending:false,seamPrev:0,land:0,w:0,y:0,vy:0,sq:0,sqT:9,wp:idx*2.4,wr:0,ox:0,oz:0,oEx:0,oEz:0,yaw:0};
     });
 
@@ -439,21 +509,22 @@
     const listeners=new Set();
     function emit(type,b){for(const fn of listeners)try{fn({type,ball:b.i,state:b.state,stop:b.stop,section:b.pick});}catch(_error){}}
     function setBallState(b,state){if(b.state===state)return;b.state=state;b.t=0;emit("state",b);}
-    function lightAll(b){b.lit=[1,1,1];}
+    function lightAll(b){b.lit=allN(1);}
     // Plans the slow-down from the ball as it is now, to rest on poseOf(stop), with at least `min` degrees to travel.
     function plan(b,min){
-      const target=poseOf(b.stop),w=Math.max(b.w,b.state==="spin"?PHYS.W_FAST*.8:PHYS.AWAIT_W);
+      const target=poseOf(b.stop),w=Math.max(Math.abs(b.w),b.state==="spin"?PHYS.W_FAST*.8:PHYS.AWAIT_W),sd=b.sdir||1;
       // (w is kept fast enough that the grass stops it within REPLAN_DUR seconds.)
-      const travel=travelTo(b.f,target,min);b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(Math.max(w,speedFor(travel+PHYS.A0,PHYS.REPLAN_DUR)),travel+PHYS.A0);b.pick=sectionOf(b.stop);
+      const travel=sd>0?travelTo(b.f,target,min):-travelTo(mod360(-b.f),mod360(-target),min),dist=Math.abs(travel);b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(Math.max(w,speedFor(dist+PHYS.A0,PHYS.REPLAN_DUR)),dist+PHYS.A0);b.pick=sectionOf(b.stop);
       setBallState(b,"stopping");b.t=0; // a replan of a ball already stopping starts its own clock (no jump)
     }
     function startStop(b){
       if(b.state!=="spin")return;
+      b.sdir=b.w<0?-1:1; // defensive: the spin is always forward (spinSpeed), but a ball would slow the way it is going
       b.queued=null;b.queuedPending=false; // the trajectory starting now is the ball's one stop: nothing stays queued behind it
       if(b.own){
         // The tap: the travel is the one the stop came from (lead D0 plus the grass), corrected onto the rest pose.
-        const target=poseOf(b.stop),guess=PHYS.D0+angleDiff(b.tapRest,mod360(b.f+PHYS.D0));
-        const travel=guess+angleDiff(target,mod360(b.f+guess));b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(Math.max(b.w,1),travel+PHYS.A0);b.pick=sectionOf(b.stop);setBallState(b,"stopping");
+        const sd=b.sdir,target=poseOf(b.stop),guess=sd*PHYS.D0+angleDiff(b.tapRest,mod360(b.f+sd*PHYS.D0));
+        const travel=guess+angleDiff(target,mod360(b.f+guess));b.restA=b.f+travel;b.planF0=b.f;b.plan=stopPlan(Math.max(Math.abs(b.w),1),Math.abs(travel)+PHYS.A0);b.pick=sectionOf(b.stop);setBallState(b,"stopping");
       }else plan(b,PHYS.RIVAL_MIN);
       if(b.i===me)cue.grab();
     }
@@ -462,8 +533,9 @@
       emit("landed",b);
     }
     // Shows a ball at rest on a stored stop at once (reload, late join, Reduce Motion).
-    function placeAtRest(b){b.pick=sectionOf(b.stop);b.restA=poseOf(b.stop);b.f=b.restA;b.w=0;b.y=0;b.vy=0;lightAll(b);b.accepted=true;b.plan=null;setBallState(b,"landed");b.land=9;b.u.foc.value=[0,1,2].map(j=>j===b.pick?1:.22);emit("landed",b);}
+    function placeAtRest(b){b.sdir=1;b.pick=sectionOf(b.stop);b.restA=poseOf(b.stop);b.f=b.restA;b.w=0;b.y=0;b.vy=0;lightAll(b);b.accepted=true;b.plan=null;setBallState(b,"landed");b.land=9;b.u.foc.value=allN(0).map((_v,j)=>j===b.pick?1:.22);emit("landed",b);}
     const RAD=Math.PI/180,qT=new T.Quaternion(),m4=new T.Matrix4();
+    function hop(b,dt){if(b.y>0||b.vy>0){b.vy-=PHYS.GRAV*dt;b.y+=b.vy*dt;if(b.y<=0){b.y=0;if(b.vy<-1.4){const hit=-b.vy;b.sq=Math.min(.11,hit*.013);b.sqT=0;b.vy=hit*.40;if(b.i===me)cue.bounce(Math.min(1,hit/8));}else b.vy=0;}}}
     function step(b,dt){
       b.t+=dt;let w=0;
       if(b.state==="idle"){w=0;}
@@ -474,11 +546,11 @@
         // seconds) so it can be read; after the third it rolls off and is kicked. Before, the crests bloomed in one by one
         // during a single continuous turn, so a third could pass the camera blank or half drawn.
         lightAll(b);b.showT+=dt;
-        if(b.showSeg<3){
-          const span=b.showB-b.showA,dur=Math.max(.45,PHYS.SHOW_MOVE*span/120),k=Math.min(1,b.showT/dur);
+        if(b.showSeg<NS){
+          const span=b.showB-b.showA,dur=Math.max(.45,PHYS.SHOW_MOVE*span/120),k=Math.min(1,b.showT/dur),hold=NS===6?PHYS.SHOW_N6:PHYS.SHOW;
           b.f=b.showA+span*k*k*(3-2*k);w=k<1?span*6*k*(1-k)/dur:0;
           if(k>=1&&!b.showCued){b.showCued=true;if(b.i===me)cue.lit(sectionOf(mod360(b.showB)));}
-          if(b.showT>=dur+PHYS.SHOW){b.showSeg+=1;b.showA=b.showB;b.showB+=PHYS.SECTION;b.showT=0;b.showCued=false;}
+          if(b.showT>=dur+hold){b.showSeg+=1;b.showA=b.showB;b.showB+=PHYS.SECTION;b.showT=0;b.showCued=false;}
         }else{
           const k=Math.min(1,b.showT/PHYS.SHOW_OUT);w=PHYS.W_SLOW*k*k;b.f+=w*dt;
           if(k>=1){setBallState(b,"kick");b.vy=7.3;b.y=.001;if(b.i===me)cue.kick();}
@@ -486,28 +558,32 @@
       }else if(b.state==="kick"){
         // Spun hard: the ball hops off the turf, lands with weight, bounces once more and digs in.
         const k2=Math.min(1,b.t/PHYS.KICK),e2=k2*k2*(3-2*k2);w=PHYS.W_SLOW+(PHYS.W_FAST-PHYS.W_SLOW)*e2;b.f+=w*dt;lightAll(b);
-        if(b.y>0||b.vy>0){b.vy-=PHYS.GRAV*dt;b.y+=b.vy*dt;if(b.y<=0){b.y=0;if(b.vy<-1.4){const hit=-b.vy;b.sq=Math.min(.11,hit*.013);b.sqT=0;b.vy=hit*.40;if(b.i===me)cue.bounce(Math.min(1,hit/8));}else b.vy=0;}}
+        hop(b,dt);
         if(k2>=1&&b.y===0&&b.vy===0)setBallState(b,"spin");
       }else if(b.state==="spin"){
-        w=PHYS.W_FAST-36*(1-Math.exp(-b.t/5));b.f+=w*dt;
+        // Fresh wave phases at every spin, so no two spins share a rhythm; the speed only drifts, always forward.
+        if(!b.ph){b.ph=[Math.random()*6.2832,Math.random()*6.2832,Math.random()*6.2832];}
+        // The kick ends at W_FAST; the waves fade in over the first .6 s so the speed never jumps.
+        const e=Math.min(1,b.t/.6),fade=e*e*(3-2*e);w=PHYS.W_FAST+(spinSpeed(b.t,b.ph)-PHYS.W_FAST)*fade;
+        b.f+=w*dt;
         if(b.queued!==null&&b.t>.6){b.stop=b.queued;b.accepted=b.accepted||!b.queuedPending;b.queued=null;b.queuedPending=false;b.w=w;startStop(b);}
       }else if(b.state==="stopping"){
-        const p=b.plan,tt=Math.min(b.t,p.dur);b.f=b.planF0+p.at(tt);w=p.speed(tt);
+        const p=b.plan,tt=Math.min(b.t,p.dur),sd=b.sdir||1;b.f=b.planF0+sd*p.at(tt);w=sd*p.speed(tt);hop(b,dt);
         // The ball never rests on a club Firebase does not hold: short of the last third it waits, rolling, for the accept.
-        if(!b.accepted&&b.restA+PHYS.A0-b.f<PHYS.AWAIT_LEAD){setBallState(b,"await");b.w=Math.max(w,PHYS.AWAIT_W);w=b.w;}
+        if(!b.accepted&&sd*(b.restA-b.f)+PHYS.A0<PHYS.AWAIT_LEAD){setBallState(b,"await");b.w=sd*Math.max(Math.abs(w),PHYS.AWAIT_W);w=b.w;}
         else if(b.t>=p.dur){setBallState(b,"settle");b.oEx=b.ox;b.oEz=b.oz;w=0;}
       }else if(b.state==="await"){
-        w=b.w;b.f+=w*dt;
+        w=(b.sdir||1)*Math.abs(b.w);b.f+=w*dt;
         if(b.accepted){b.w=w;plan(b,PHYS.REPLAN_MIN);}
       }else if(b.state==="settle"){
         // The spin is gone: the bent grass pushes the ball back a few degrees, and it rolls back into its seat and rocks there.
-        const o1=6.283/.58,e1=Math.exp(-b.t/.30);b.f=b.restA+PHYS.A0*e1*(Math.cos(o1*b.t)+Math.sin(o1*b.t)/(o1*.30));
+        const o1=6.283/.58,e1=Math.exp(-b.t/.30);b.f=b.restA+(b.sdir||1)*PHYS.A0*e1*(Math.cos(o1*b.t)+Math.sin(o1*b.t)/(o1*.30));
         const o2=6.283/.70,e2=Math.exp(-b.t/.34),kk=e2*(Math.cos(o2*b.t)+Math.sin(o2*b.t)/(o2*.34));b.ox=b.oEx*kk;b.oz=b.oEz*kk;
         if(b.t>PHYS.SETTLE)landed(b);
-      }else if(b.state==="landed"){b.land+=dt;const fo=b.u.foc.value;for(let j=0;j<3;j++)fo[j]+=((j===b.pick?1:.22)-fo[j])*Math.min(1,dt*3.5);}
-      b.w=w;for(let i=0;i<3;i++)b.u.lit.value[i]=b.lit[i];
-      const sp=Math.min(1,w/PHYS.W_FAST),fast=["kick","spin","stopping","await"].includes(b.state);
-      b.u.blur.value=sp*.034;b.u.spd.value=sp;b.u.pulse.value=b.state==="landed"&&b.land<9?.5+.5*Math.sin(b.land*5):0;
+      }else if(b.state==="landed"){b.land+=dt;const fo=b.u.foc.value;for(let j=0;j<NS;j++)fo[j]+=((j===b.pick?1:.22)-fo[j])*Math.min(1,dt*3.5);}
+      b.w=w;for(let i=0;i<NS;i++)b.u.lit.value[i]=b.lit[i];
+      const sp=Math.min(1,Math.abs(w)/PHYS.W_FAST),fast=["kick","spin","stopping","await"].includes(b.state);
+      b.u.pulse.value=b.state==="landed"&&b.land<9?.5+.5*Math.sin(b.land*5):0;
       // The pattern's axis sits a few degrees off the spin axis (as on any ball spun by a boot), so the panels wobble once per
       // turn; the ball wanders a little inside the chalk ring and its lean always matches how far it has rolled.
       if(fast&&!reduced){const wrT=b.state==="stopping"?.045+.065*(1-sp):.045*sp;b.wr+=(wrT-b.wr)*Math.min(1,dt*3);b.wp+=dt*(.45+2.3*sp);b.ox=b.wr*Math.cos(b.wp)*b.r;b.oz=b.wr*Math.sin(b.wp)*b.r;}
@@ -517,7 +593,7 @@
       b.mesh.rotation.y=b.yaw-b.f*RAD;
       b.tilt.updateMatrix();b.mesh.updateMatrix();qT.copy(b.tilt.quaternion).multiply(b.mesh.quaternion);m4.makeRotationFromQuaternion(qT);b.u.rot.value.setFromMatrix4(m4);
       pitchU["b"+b.i].value.set(b.pos.x+b.ox,b.y,b.pos.z+b.oz);
-      const seamNow=Math.floor(b.f/120);if(seamNow!==b.seamPrev){b.seamPrev=seamNow;if(b.i===me&&sp>.02&&b.state!=="show")cue.tick(sp);}
+      const seamNow=Math.floor(b.f/PHYS.SECTION);if(seamNow!==b.seamPrev){b.seamPrev=seamNow;if(b.i===me&&sp>.02&&b.state!=="show")cue.tick(sp);}
     }
     const lin=hex=>{const c=srgbColour(T,hex);c.convertSRGBToLinear();return new T.Vector3(c.r,c.g,c.b);};
     function paint(dt){
@@ -574,14 +650,17 @@
       start(){balls.forEach((b,i)=>{if(b.state!=="idle")return;if(reduced){lightAll(b);b.f=60;b.state="spin-still";emit("state",b);return;}b.t=-.35*i;setBallState(b,"rest");b.t=-.35*i;});},
       state(i){return ballOf(i).state;},
       // STOP may be pressed while the own ball spins at full speed (or sits still under Reduce Motion).
-      canStop(i){const b=ballOf(i);return b.stop===null&&b.queued===null&&(b.state==="spin"||b.state==="spin-still");}, // a queued stored stop is already this ball's stop
+      canStop(i){const b=ballOf(i);return b.stop===null&&b.queued===null&&(b.state==="spin"||b.state==="spin-still");},
+      // r95 lab: both balls back to the start (a new round on the test page).
+      restart(){balls.forEach((b,i)=>{Object.assign(b,{state:"idle",t:0,stop:null,pick:-1,accepted:false,plan:null,queued:null,queuedPending:false,own:false,sdir:1,ph:null,lit:allN(1),w:0,y:0,vy:0,sq:0,land:0,glowSet:false,f:mod360(b.f)});
+        b.u.foc.value=allN(1);pitchU["glow"+i].value=0;});if(confetti)confetti.visible=false;api.start();}, // a queued stored stop is already this ball's stop
       // The tap. Returns the stored integer (0..359), computed once from the face in front of the manager now. The ball starts
       // slowing at once (the tap is felt) but rests only after accept(i). Never call it twice for one manager.
       tap(i,rand01){
         const b=ballOf(i);if(!api.canStop(i))return null;
         const r=Number.isFinite(rand01)?rand01:secureRandom();
         if(b.state==="spin-still"){b.stop=Math.floor(r*360)%360;b.own=true;b.accepted=false;b.pick=sectionOf(b.stop);b.state="still-pending";emit("state",b);return b.stop;}
-        b.tapRest=mod360(b.f+PHYS.D0+(2*r-1)*PHYS.J);b.stop=Math.floor(b.tapRest)%360;b.own=true;b.accepted=false;startStop(b);
+        b.sdir=b.w<0?-1:1;b.tapRest=mod360(b.f+b.sdir*PHYS.D0+(2*r-1)*PHYS.J);b.stop=Math.floor(b.tapRest)%360;b.own=true;b.accepted=false;startStop(b);
         return b.stop;
       },
       // Firebase holds this manager's stop: the ball may come to rest. A different stored stop (another tab won) re-aims.
@@ -589,7 +668,7 @@
         const b=ballOf(i);
         // Still before full speed with a stop queued: Firebase's stop is the one it will slow toward, already accepted.
         if(b.queued!==null){if(sceneValidStop(storedStop))b.queued=storedStop;b.queuedPending=false;b.accepted=true;return;}
-        if(sceneValidStop(storedStop)&&storedStop!==b.stop){b.stop=storedStop;b.pick=sectionOf(storedStop);if(["stopping","await"].includes(b.state)){b.accepted=true;b.w=Math.max(b.w,PHYS.AWAIT_W);plan(b,PHYS.REPLAN_MIN);return;}
+        if(sceneValidStop(storedStop)&&storedStop!==b.stop){b.stop=storedStop;b.pick=sectionOf(storedStop);if(["stopping","await"].includes(b.state)){b.accepted=true;b.w=Math.max(Math.abs(b.w),PHYS.AWAIT_W);plan(b,PHYS.REPLAN_MIN);return;}
           // Already settling or at rest on another third: the stored stop wins and the ball is shown at rest on it (both
           // phones must end on the same picture). Firebase never changes a stored stop, so this is a safety net only.
           if(b.state==="settle"||b.state==="landed"){b.glowSet=false;placeAtRest(b);return;}}
@@ -603,7 +682,7 @@
         const b=ballOf(i),pending=Boolean(o&&o.pending);if(!sceneValidStop(stop))return false;
         if(b.state==="landed"&&b.stop===stop)return true;
         if(pending&&b.stop===stop&&b.own)return true; // asked again on every render: nothing changes, nothing is emitted
-        if(pending&&(reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;b.own=true;b.accepted=false;b.pick=sectionOf(stop);b.lit=[1,1,1];b.state="still-pending";emit("state",b);return true;}
+        if(pending&&(reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;b.own=true;b.accepted=false;b.pick=sectionOf(stop);b.lit=allN(1);b.state="still-pending";emit("state",b);return true;}
         if(!pending&&(o&&o.immediate||reduced||b.state==="idle"||b.state==="spin-still"||b.state==="still-pending")){b.stop=stop;placeAtRest(b);return true;}
         if(b.state==="spin"){b.stop=stop;b.accepted=!pending;b.own=false;startStop(b);return true;}
         if(["stopping","await","settle","landed"].includes(b.state)){if(!pending)api.accept(i,stop);return true;} // landed on another stop: accept() rests it on the stored one
@@ -641,7 +720,7 @@
   //         the host is still hidden; the scene re-lays itself out once it shows)}
   async function mountScene(host,opts){
     const o=opts||{},off=()=>Boolean(o.signal&&o.signal.aborted);
-    if(!host||!Array.isArray(o.balls)||o.balls.length!==2||o.balls.some(b=>!b||!Array.isArray(b.clubs)||b.clubs.length!==3)||!hasWebgl()||off())return null;
+    if(!host||!Array.isArray(o.balls)||o.balls.length!==2||o.balls.some(b=>!b||!Array.isArray(b.clubs)||(b.clubs.length!==3&&b.clubs.length!==6)||b.clubs.length!==o.balls[0].clubs.length)||!hasWebgl()||off())return null;
     let opened=false;
     try{
       const P=await quality();if(off())return null;
@@ -664,7 +743,7 @@
   function preload(){return cdLoadEngine().then(()=>true,()=>false);}
 
   const api={contractVersion:1,feature:"cms-club-draw-3d",enginePath:ENGINE_PATH,physics:PHYS_DEFAULT,tune,
-    sectionOf,drawStop,poseOf,showTarget,ballLook,looksApart,BALL_VARIANT,travelTo,friction,speedFor,angleDiff,mod360,knobs,mount:mountScene,preload};
+    sectionOf,drawStop,spinSpeed,poseOf,showTarget,ballLook,looksApart,distinctNeighbours,medalShapes,BALL_VARIANT,travelTo,friction,stopPlan,speedFor,angleDiff,mod360,knobs,mount:mountScene,preload};
   if(typeof module!=="undefined"&&module.exports)module.exports=api;
   root.CareerModeClubDraw3d=api;
 })(typeof globalThis!=="undefined"?globalThis:this);
