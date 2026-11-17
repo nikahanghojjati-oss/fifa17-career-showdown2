@@ -292,6 +292,14 @@ window.CHRONICLE_VOLUME24={
    ],
    "sources": [
     {
+     "branch": "claude-gameplay/r96-bump",
+     "ref": "2e238ff9d9792f28e41eaf883e3f8cf0b61a4d9b",
+     "path": "Pull request #1549",
+     "label": "PR #1549: the 2.9.0 version bump, release record and Volume 24",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1549",
+     "kind": "pull-request"
+    },
+    {
      "branch": "gameplay/r96",
      "ref": "a69244837a194217b747fa30cffbc70670aa85b6",
      "path": "Pull request #1548",
