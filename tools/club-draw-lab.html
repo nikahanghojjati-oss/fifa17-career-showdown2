@@ -135,7 +135,7 @@ select:disabled{opacity:.45}
       <option value="0">2.7.0 STOP (today)</option>
     </select>
     <select id="n" aria-label="Clubs per ball"><option value="6">6 clubs a ball</option><option value="3">3 clubs a ball</option></select>
-    <select id="hard" aria-label="Difficulty"><option value="0">Normal</option><option value="1" selected>Hard</option><option value="2">Very hard</option></select>
+    <select id="hard" aria-label="Difficulty"><option value="0">Normal</option><option value="1">Hard</option><option value="2">Very hard</option><option value="3" selected>Expert</option></select>
     <select id="gfx" aria-label="3D quality"><option value="">Quality: Auto</option><option value="0">Light</option><option value="1">Balanced</option><option value="2">High</option><option value="3">Extra</option><option value="4">Ultra</option></select>
     <button id="snd" type="button" aria-pressed="true">Sound on</button>
   </div>
@@ -167,7 +167,7 @@ select:disabled{opacity:.45}
   const POOL=[["Arsenal","Chelsea","Liverpool","Manchester City","Manchester United","Tottenham Hotspur"],
               ["Leicester City","Everton","Southampton","West Ham United","Watford","Stoke City"]];
   const ME=1,RIVAL=0;
-  const store={get(k){try{return JSON.parse(localStorage.getItem("ballLab2."+k));}catch(_e){return null;}},set(k,v){try{localStorage.setItem("ballLab2."+k,JSON.stringify(v));}catch(_e){}}};
+  const store={get(k){try{return JSON.parse(localStorage.getItem("ballLab3."+k));}catch(_e){return null;}},set(k,v){try{localStorage.setItem("ballLab3."+k,JSON.stringify(v));}catch(_e){}}};
   const q=new URLSearchParams(location.search);
   ["mode","n","hard"].forEach(k=>{const v=q.get(k)??store.get(k);if(v!==null&&v!==undefined&&[...$(k).options].some(o=>o.value===String(v)))$(k).value=String(v);});
   $("gfx").value=q.get("gfx")||"";
@@ -183,9 +183,9 @@ select:disabled{opacity:.45}
     0:[{W:470,J:1}],
     // Pro STOP: one STOP like 2.7.0, but the ball always brakes over exactly two turns, so the crest facing you when you
     // press STOP is the one you get, give or take a little grass luck. Hard = faster ball and less luck.
-    3:[{W:300,J:.25,R:.25},{W:380,J:.20,R:.30},{W:460,J:.15,R:.35}]
+    3:[{W:300,J:.25,R:.25},{W:380,J:.20,R:.30},{W:460,J:.15,R:.35},{W:480,J:.06,R:.32}]
   };
-  function config(){const mode=Number($("mode").value),n=Number($("n").value),h=mode===0?0:Number($("hard").value);return {mode,n,h,p:PRESETS[mode][h],S:360/n,pro:mode===3};}
+  function config(){const mode=Number($("mode").value),n=Number($("n").value),h=mode===0?0:Math.min(Number($("hard").value),PRESETS[mode].length-1);return {mode,n,h,p:PRESETS[mode][h],S:360/n,pro:mode===3};}
   function applyPhys(c){
     M.tune("reset");
     const P={MODE:c.pro?0:c.mode,BLUR:c.mode===0?1:0,W_FAST:c.p.W};
