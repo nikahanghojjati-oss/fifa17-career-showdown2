@@ -70,13 +70,31 @@ record. The list below is every pull request merged into gameplay/r94 since 2.6.
 
 ## Reads and writes
 
-READS_TABLE
+CE2PG single plan, 3 seasons, Firebase emulator only, firebase@12.17.0, both trees side by side on the same container on
+2026-11-16 (~23:47 to 00:15 UTC). Billed = document reads plus Rules lookups on reads and writes, both phones. The harness has
+no WebGL2, so 2.7.0 plays the Club Assignment flat stand-in (same writes and stored stops as the 3D ball).
+
+| Season | 2.6.0 (main 5c5472f6) billed / writes | 2.7.0 (gameplay/r94 9742fa70) billed / writes |
+|---|---|---|
+| 1 (START, pairing, setup) | 1,523 / 117 | 1,521 / 117 |
+| 2 | 840 / 58 | 777 / 58 |
+| 3 (final) | 566 / 28 | 541 / 28 |
+| **Total** | **2,929 / 203** | **2,839 / 203** |
+
+Writes are identical, as designed (the stop rides inside the existing confirm). Billed is 90 lower (-3.1 %), almost all in
+season 2 (Nik's phone 331 against 395 billed: 30 fewer document reads and 34 fewer Rules lookups on reads); one run each, and
+run-to-run noise of this size is normal (2.3.0 alone measured 746 to 838 for one season across runs), so this is no saving
+claimed, only no added cost. Detail (doc reads + Rules on reads + Rules on writes): 2.6.0 501+524+498, 271+322+247, 195+220+151;
+2.7.0 500+523+498, 242+288+247, 184+206+151. File: gameplay/r94/measure/READS_WRITES_2.7.0.md (project files). The R94-05 study
+measured the same shape on gameplay/r94: one season 1,216 billed, 41 to 58 seasons a day against the 50,000 daily reads.
 
 ## Update safety
 
 - The shell and service worker advance to 2.7.0-r94 in a fresh `career-mode-showdown-shell-2.7.0-r94` cache, and 2.6.0-r93 is
   retained for rollback, verified against its own 295 paths (`tests/fixtures/shell-paths/2.6.0-r93.json`, from main 5c5472f6).
-  SHELL_NOTE
+  2.7.0 adds the club draw step, its 3D scene and its CSS (`js/clubDrawStep.js`, `js/clubDrawScene3d.js`, `css/clubDraw.css`)
+  and removes none, so `SHELL_PATHS` holds 298 paths. The 98 image crests, the ball crests and the club lounge plates are not
+  precached: each is runtime-cached when a screen first shows it.
 - `js/gfxTier.js` BUILD moves with the service worker's RUNTIME_REVISION, so a crash limit written by 2.6.0 is dropped once on the
   first 2.7.0 load (#1473).
 - An installed phone takes the update on Home, never in the middle of a game screen.
