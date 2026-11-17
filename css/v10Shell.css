@@ -924,6 +924,60 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
 
 /* r95 house fixes (Lane B) gutter scale for phones, upright and sideways: page content sits 16px (plus the safe-area inset) from
    each window edge; the corner controls (SIGN IN chip, Settings gear) sit 12px; sibling boxes keep 8px between them. */
+/* r95 house (Lane B, audit pass 2 rows 31-33), phones: tap areas of 44px without moving or growing anything visible, readable locked
+   tabs, and a focus ring on the Squad player chips. */
 @media (max-width: 900px) {
   [data-nav="hub"] .sd-nav-corner { top: max(8px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); }
+  /* the identity chip (SIGN IN / player name / RECONNECT) is 28px tall: an invisible ::after makes its tap area 44px */
+  #app #topHeader #onlinePlayerIdentityBadge { position: relative; }
+  #app #topHeader #onlinePlayerIdentityBadge::after { content: ""; position: absolute; inset: -8px -6px; }
+  /* Marco Reus credit links are 14px tall inline text: inline vertical padding widens the tap area and moves nothing */
+  #photoCredit a, .startupPhotoCredit a, .menuAthleteCredit a { padding: 15px 4px; }
+  /* Settings gear (36px) outside Legacy: invisible ::after makes the tap area 44px */
+  html:not([data-v10-screen="legacy"]) .sd-nav-gear { position: relative; }
+  html:not([data-v10-screen="legacy"]) .sd-nav-gear::after { content: ""; position: absolute; inset: -4px; }
+  /* locked bottom tabs (signed out) keep full opacity and the muted ivory #C9BFA8 (about 10:1 on the bar) instead of 0.72 opacity */
+  .sd-nav-bottom[data-locked="true"] .sd-nav-tab:not([aria-current="page"]):not(.cmsMusicTab) { opacity: 1; color: var(--r78-ivory-2, #C9BFA8); }
+}
+
+/* r95 house (Lane B, layout measure), Trophy Room on phones, upright: the trophy shelf, its tabs and the floating BACK and MORE
+   buttons sit on the 16px gutter (plus the safe-area inset) from 380px wide, 12px under that so the card names still fit; they were
+   10px from the window edge. Only the side padding and the two button offsets change. */
+@media (max-width: 900px) and (orientation: portrait) {
+  #app #trophyRoom #trophyRoomContent.trophyRoomContent.sd-stage__ui-content { padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+  #app #trophyRoom button#trophyRoomBack.trophyBack { left: max(12px, env(safe-area-inset-left)); }
+  #app #trophyRoom label.trophyPhoneMoreButton { right: max(12px, env(safe-area-inset-right)); }
+}
+@media (min-width: 380px) and (max-width: 900px) and (orientation: portrait) {
+  #app #trophyRoom #trophyRoomContent.trophyRoomContent.sd-stage__ui-content { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+  #app #trophyRoom button#trophyRoomBack.trophyBack { left: max(16px, env(safe-area-inset-left)); }
+  #app #trophyRoom label.trophyPhoneMoreButton { right: max(16px, env(safe-area-inset-right)); }
+}
+
+/* r95 house (Lane B, layout measure), Career Statistics on phones: the whole screen (the headline tiles, tabs, panels and the action
+   buttons) sits on the 16px gutter plus the safe-area inset (12px under 380px wide), where it was 12px from the window edge.
+   Held upright both sides move; held sideways the right side moves (the left side is the face column). Only the side offsets change. */
+@media (max-width: 900px) and (orientation: portrait) {
+  #app #careerStatistics.careerScreenV10 .careerScreen .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen .actionRow { left: max(12px, env(safe-area-inset-left)); right: max(12px, env(safe-area-inset-right)); }
+}
+@media (min-width: 380px) and (max-width: 900px) and (orientation: portrait) {
+  #app #careerStatistics.careerScreenV10 .careerScreen .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen .actionRow { left: max(16px, env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); }
+}
+@media (max-height: 480px) and (orientation: landscape) {
+  #app #careerStatistics.careerScreenV10 .careerScreen .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen .actionRow { right: max(16px, env(safe-area-inset-right)); }
+}
+
+/* r95 house (Lane B, layout measure), Trophy Room and Rivalry Statistics on phones held sideways: the title, the floating BACK and
+   MORE buttons and the right-hand panels sit on the 16px gutter plus the safe-area inset, where they were 6-12px from the window
+   edge. Only side offsets and side padding change; windows under 380px tall keep the old offsets (the golden card has no room). */
+@media (min-height: 380px) and (max-height: 480px) and (orientation: landscape) {
+  #app #trophyRoom #trophyRoomContent.trophyRoomContent { padding-right: max(16px, env(safe-area-inset-right)); }
+  #app #trophyRoom button#trophyRoomBack.trophyBack { left: max(16px, env(safe-area-inset-left)); }
+  #app #trophyRoom label.trophyPhoneMoreButton { right: max(16px, env(safe-area-inset-right)); }
+  #app #trophyRoom .phoneMoreToggle { right: max(16px, env(safe-area-inset-right)) !important; }
+  #app #statistics #rivalryStatisticsContent.analyticsContent { padding-right: max(16px, env(safe-area-inset-right)); }
+  #app #statistics #rvTitleBlock.rv-titleBlock { padding-left: max(16px, env(safe-area-inset-left)); }
 }
