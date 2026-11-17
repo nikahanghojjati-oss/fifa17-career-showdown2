@@ -1075,7 +1075,9 @@
   #app #careerStatistics.careerScreenV10 .phoneHeroDaniel { left:0; }
   #app #careerStatistics.careerScreenV10 .phoneHeroNik { left:auto;right:57%; }
   #app #careerStatistics.careerScreenV10 .phoneFaceBand { inset:0 auto 0 0;width:44%;height:auto;background:none; }
-  #app #careerStatistics.careerScreenV10 .titleBlock { left:6%;top:8px;width:88%; }
+  #app #careerStatistics.careerScreenV10 .titleBlock { left:2%;top:8px;width:96%; }
+  #app #careerStatistics.careerScreenV10 .titleWordmark { justify-self:stretch;width:auto; }
+  #app #careerStatistics.careerScreenV10 .titleWordmark .hc-live-title { width:min(100%,353px);max-width:100%; }
   #app #careerStatistics.careerScreenV10 .titleBlock .sd-tagline { font-size:8px;letter-spacing:.24em; }
   #app #careerStatistics.careerScreenV10 .previewChip { top:6px;left:10px; }
   #app #careerStatistics.careerScreenV10 .phoneHub { left:45%;right:12px;top:8px;bottom:60px;grid-template-rows:50px 44px minmax(0,1fr);gap:5px; }
@@ -1331,6 +1333,22 @@
 @media (min-width:901px) and (min-height:481px) and (max-height:699px) {
   #app #careerStatistics.careerScreenV10 .comparisonPanel { height:31%; }
   #app #careerStatistics.careerScreenV10 .careerStage[data-state="partial"] .comparisonPanel { height:28.6%; }
+}
+/* r95 Lane B: at 568x320 the hub (totals, tabs, panel, action buttons) is taller than the room under the title bar. The whole
+   column scrolls together instead of squeezing: type stays at the 12px floor, the action buttons scroll with the rows
+   (nothing sticky, nothing passes under anything). */
+@media (max-width:900px) and (max-height:340px) and (orientation:landscape) {
+  #app #careerStatistics.careerScreenV10 .careerScreen { overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin; }
+  #app #careerStatistics.careerScreenV10 .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state] .phoneHub,
+  #app #careerStatistics.careerScreenV10 .careerScreen:has(.actionRow>#careerStatisticsRivalryButton.hidden) .phoneHub { position:relative;left:auto;right:auto;top:auto!important;bottom:auto!important;margin:8px 12px 0 45%;grid-template-rows:auto auto auto;overflow:visible; }
+  #app #careerStatistics.careerScreenV10 .headlineTiles { height:auto;align-items:stretch;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto; }
+  #app #careerStatistics.careerScreenV10 .headlineTile { height:auto;min-height:58px;padding:3px 4px; }
+  #app #careerStatistics.careerScreenV10 .headlineLabel { letter-spacing:0; }
+  #app #careerStatistics.careerScreenV10 .contentGrid { overflow:visible; }
+  #app #careerStatistics.careerScreenV10 .contentGrid>:is(.careerTablePanel,.comparisonPanel,.leadersPanel,.statePanel),
+  #app #careerStatistics.careerScreenV10 .careerStage[data-state] .contentGrid>:is(.careerTablePanel,.comparisonPanel) { top:auto;height:auto!important;overflow:visible; }
+  #app #careerStatistics.careerScreenV10 .actionRow { position:relative;left:auto;right:auto;bottom:auto;height:auto;margin:6px 12px 10px 45%; }
 }
 `;
 

@@ -1349,3 +1349,8 @@ html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
 @media (min-width: 380px) and (max-width: 760px) and (orientation: portrait) {
   #app #mainMenu.v10Home > .fifaMenuShell { padding-right: max(16px, env(safe-area-inset-right)); padding-left: max(16px, env(safe-area-inset-left)); }
 }
+
+/* r95 Lane B: sideways phones (568x320) give the tile labels a little more of the tile so "SHOWDOWN" stays whole in START A SHOWDOWN. */
+@media (max-height: 480px) and (orientation: landscape) and (max-width: 600px) {
+  #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer):not(#homeStoryButton) .menuTileLabel { width: 64%; max-width: 64%; }
+}
