@@ -465,7 +465,7 @@ window.CHRONICLE_VOLUME21={
    ],
    "tags": [
     "2.6.0",
-    "Russian Roster Roulette",
+    "Roster Russian Roulette",
     "Team V",
     "Fable"
    ],
