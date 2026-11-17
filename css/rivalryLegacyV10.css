@@ -2353,3 +2353,9 @@
   #app #legacy[data-rivalry-legacy-v10] .sd-stage__layer--ui { padding-left:max(16px,env(safe-area-inset-left)); padding-right:max(16px,env(safe-area-inset-right)); }
   #app #legacy[data-rivalry-legacy-v10] .legacyBackV10 { left:max(16px,env(safe-area-inset-left)); }
 }
+
+/* r95 house (Lane B), phones upright and sideways: CLOSE SEASON HISTORY is 44px tall (was 36px) so the tap target meets the phone
+   minimum. Only the padding grows: label, gold and width stay, and the season table simply starts 8px lower. Desktop stays 36px. */
+@media (max-width:900px) {
+  #app #legacy[data-rivalry-legacy-v10] .legacySeasonHistory:not([hidden]) > .sd-btn.legacyHistoryClose { min-height:44px !important; }
+}
