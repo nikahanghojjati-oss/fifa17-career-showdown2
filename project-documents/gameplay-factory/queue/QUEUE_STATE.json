@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-17T20:55:42Z",
+ "updated": "2026-11-17T20:59:46Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -5074,14 +5074,14 @@
    "pr": 720,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/720",
-   "branch": "qa/job-1677-shared-season-results-route-first-half"
+   "branch": null
   },
   "1678": {
    "state": "pr_open",
    "pr": 717,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/717",
-   "branch": "qa/job-1678-scoring-second-half-audit"
+   "branch": null
   },
   "1679": {
    "state": "pr_open",
