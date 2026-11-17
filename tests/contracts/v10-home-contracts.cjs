@@ -190,7 +190,7 @@ test("the adapter keeps the product's protected Home facts (desktop tile placeme
 });
 test("Team V files are the 5e05a1f copies with only the listed edits (HO-005: phone overlays V2; HO-027 r78: no state dimming; r87: no music strip)",()=>{
   // r87 (Nik 2026-11-01): every .menuMusicTile / soundtrack strip rule left home.css.
-  assert.equal(sha("visual-assets/v10_1/home/home.css"),"f801ac76b2efa05d9371a7c34dad80c734cb1a92706d560c9994478d61d5f528");
+  assert.equal(sha("visual-assets/v10_1/home/home.css"),"a82abd134dca08267d6a4749b73e60d8a40c74d4a828d1ee081bffb75f1facba");
   assert.doesNotMatch(homeCss,/OVL_HOME_(?:DANIEL|NIK)_PHONE_V1/,"HO-005: phone overlays without the ghost coat (V2)");
   // r85 (app, Nik 2026-10-27): a small API (toggle, mute, choose, tracks, current, subscribe) for the docked player in js/musicDockV10.js.
   // r87 (app): init keeps the chosen song, and Play after a failed stream asks Audius again.

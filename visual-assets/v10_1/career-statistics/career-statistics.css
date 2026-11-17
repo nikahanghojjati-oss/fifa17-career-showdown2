@@ -34,7 +34,7 @@ button:focus-visible { outline: 3px solid #fff1b8; outline-offset: 3px; }
 .headlineCopy { min-width: 0; }
 .headlineLabel { color: #f4f1ea; font: 600 clamp(9px,.72vw,13px)/1.05 var(--sd-font-condensed,sans-serif); letter-spacing: .08em; text-transform: uppercase; }
 .headlineTogether { color: #b9b3a4; font: 600 clamp(7px,.52vw,10px)/1 var(--sd-font-condensed,sans-serif); letter-spacing: .14em; text-transform: uppercase; }
-.headlineNumber { margin-top: 1px; color: #ffd34d; font: 700 clamp(44px,4.2vw,70px)/.82 var(--sd-font-condensed,sans-serif); font-variant-numeric: tabular-nums; letter-spacing: -.03em; text-shadow: 0 2px 5px rgba(0,0,0,.8); }
+.headlineNumber { margin-top: 0; color: #ffd34d; font: 700 clamp(40px,3.7vw,64px)/.82 var(--sd-font-condensed,sans-serif); font-variant-numeric: tabular-nums; letter-spacing: -.03em; text-shadow: 0 2px 5px rgba(0,0,0,.8); }
 .headlinePair { display: flex; align-items: baseline; gap: 6px; margin-top: 2px; white-space: nowrap; }
 .headlinePair b { color: #ffd34d; font: 700 clamp(20px,15.5cqw,56px)/.9 var(--sd-font-condensed,sans-serif); font-variant-numeric: tabular-nums; }
 .headlinePair small { color: #b9b3a4; font: 700 clamp(8px,.6vw,10px)/1 var(--sd-font-condensed,sans-serif); letter-spacing: .08em; }

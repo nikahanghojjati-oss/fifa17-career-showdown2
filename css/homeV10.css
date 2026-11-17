@@ -710,7 +710,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
   #app #mainMenu.v10Home > .fifaMenuShell {
     grid-column: 1; grid-row: 2; position: static;
     display: block; height: 100%; min-height: 0; margin: 0;
-    padding: 8px; overflow: visible; box-sizing: border-box;
+    padding: 8px max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left)); overflow: visible; box-sizing: border-box;
     background: #060709;
   }
   #app #mainMenu.v10Home .homeLockup {
@@ -780,7 +780,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
     height: var(--phone-nav); min-height: 0; width: 100%;
   }
   #app:has(#mainMenu.v10Home:not(.hidden)) #topHeader {
-    left: 8px; right: 58px; top: max(6px, env(safe-area-inset-top));
+    left: max(12px, env(safe-area-inset-left)); right: calc(max(12px, env(safe-area-inset-right)) + 46px); top: max(8px, env(safe-area-inset-top));
     width: auto; gap: 6px; justify-content: flex-start;
   }
   #app:has(#mainMenu.v10Home:not(.hidden)) #topHeader #onlinePlayerIdentityBadge {
@@ -821,7 +821,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
   #app #mainMenu.v10Home .lockupKicker,
   #app #mainMenu.v10Home .lockupLegacy { font-size: 8px; letter-spacing: .18em; }
   #app #mainMenu.v10Home > .fifaMenuShell {
-    grid-column: 2; grid-row: 1; padding: 54px 8px 8px;
+    grid-column: 2; grid-row: 1; padding: 54px max(16px, env(safe-area-inset-right)) 8px 16px;
   }
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileLabel {
     font-size: clamp(12px, 1.7vw, 14px);
@@ -1343,4 +1343,9 @@ html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
 @media (min-width:1537px), (min-width:901px) and (min-height:865px) {
   html #app #mainMenu.v10Home .plateView { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1920.webp') 1.25x); }
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #mainMenu.v10Home .plateView { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp') 2x); }
+}
+
+/* r95 house (Lane B): upright phones 380px and wider get the 16px content gutter; narrower ones keep 12px so START A SHOWDOWN fits its tile. */
+@media (min-width: 380px) and (max-width: 760px) and (orientation: portrait) {
+  #app #mainMenu.v10Home > .fifaMenuShell { padding-right: max(16px, env(safe-area-inset-right)); padding-left: max(16px, env(safe-area-inset-left)); }
 }

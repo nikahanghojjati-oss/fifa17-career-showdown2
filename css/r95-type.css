@@ -198,3 +198,7 @@
   --r78-error: var(--r95-error-ink);
   --r78-success: var(--r95-success-ink);
 }
+
+/* Instrument Sans Narrow is about 3% wider than Barlow Condensed 800 at the tile-label sizes, so a one-word line such as
+   SHOWDOWN or CHAMPION measured 1-2 px wider than its tile at 1024x768 and 844x390. These labels tighten their tracking a hair. */
+:root #app :is(.menuTileLabel, .rv-trophyLabel, .trophyCard .notWonYet) { letter-spacing: -.02em !important; }
