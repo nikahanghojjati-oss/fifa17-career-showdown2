@@ -804,3 +804,19 @@ body:not(.book-body) .hero-art{border:2px solid transparent;border-image:var(--e
 .dedication-leaf{border:3px solid transparent;border-image:var(--ed-bevel) 1}
 body:not(.book-body) footer{background:var(--ed-marble) center/560px auto,var(--ed-stone);border-top:2px solid #8A6A12;box-shadow:inset 0 1px 0 rgba(255,241,184,.35)}
 }
+/* r95 Lane C pass 3: Team V's Story pictures (HO-096) wired in. Every picture layer sits on top of the marble, so a missing file
+   still shows the marble plate. Live text keeps to the calm zones; no picture sits under a face. */
+@media screen{
+body:not(.book-body) .hero{
+  background:linear-gradient(90deg,rgba(8,7,5,.72) 0%,rgba(8,7,5,.38) 50%,rgba(8,7,5,.12) 100%),url("assets/STORY_LOUNGE_PLATE_HC_V1.webp") center/cover no-repeat,var(--ed-marble) center/560px auto,var(--ed-stone)}
+.book-body:not([data-theme=light]) .book-cover{
+  background:linear-gradient(rgba(8,7,5,.18),rgba(8,7,5,.18)),url("assets/STORY_BOOK_COVER_HC_V1.webp") center/cover no-repeat,var(--ed-marble) center/560px auto,var(--ed-stone)}
+@media(max-width:620px){.book-body:not([data-theme=light]) .book-cover{
+  background:linear-gradient(rgba(8,7,5,.18),rgba(8,7,5,.18)),url("assets/STORY_BOOK_COVER_HC_V1_PORTRAIT.webp") center/cover no-repeat,var(--ed-marble) center/560px auto,var(--ed-stone)}}
+.book-body:not([data-theme=light]) .latest-reader:before{content:"";display:block;aspect-ratio:6/1;margin:0 0 clamp(20px,3vw,36px);
+  background:url("assets/STORY_MAKING_OF_BANNER_HC_V1.webp") center/cover no-repeat,var(--ed-marble) center/560px auto,var(--ed-stone);
+  border:2px solid transparent;border-image:var(--ed-bevel) 1;box-shadow:0 0 0 5px rgba(8,7,5,.9)}
+@media(max-width:620px){.book-body:not([data-theme=light]) .latest-reader:before{aspect-ratio:3/1}}
+}
+@media screen and (max-width:1000px){body:not(.book-body) .hero{
+  background:linear-gradient(rgba(8,7,5,.66),rgba(8,7,5,.66)),url("assets/STORY_LOUNGE_PLATE_HC_V1.webp") 30% center/cover no-repeat,var(--ed-marble) center/560px auto,var(--ed-stone)}}
