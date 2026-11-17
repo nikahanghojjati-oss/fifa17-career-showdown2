@@ -158,3 +158,24 @@
 
 /* Figures: tabular lining on every score, timer and overall, so columns and counters never jitter (Instrument Sans has tnum) */
 :root { font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1, "lnum" 1; }
+
+/* ---- r95 menus: the old family and colour tokens now point at Instrument Sans and the r95 roles, so every screen that
+   reads them changes at once (Home, Settings, Rule Book, sign-in, errors, waiting, Music, Legacy, stats, Trophy Room ...) ----
+   Body and reading: width 100. The "condensed" slots (labels, buttons, headings) use the narrowest width, which matches
+   Barlow Condensed's width (609 vs 602 px for one line at 100px), so every existing layout keeps its fit. */
+:root {
+  --r78-font-body: var(--r95-font);
+  --sd-font-body: var(--r95-font);
+  --r78-font-label: var(--r95-font-narrow);
+  --sd-font-condensed: var(--r95-font-narrow);
+  --r78-ivory: var(--r95-ink);
+  --r78-ivory-2: var(--r95-ink-2);
+  --r78-gold: var(--r95-gold-ink);
+  --r78-gold-strong: var(--r95-kicker-ink);
+  --r78-error: var(--r95-error-ink);
+  --r78-success: var(--r95-success-ink);
+}
+
+/* Instrument Sans Narrow is about 3% wider than Barlow Condensed 800 at the tile-label sizes, so a one-word line such as
+   SHOWDOWN or CHAMPION measured 1-2 px wider than its tile at 1024x768 and 844x390. These labels tighten their tracking a hair. */
+:root #app :is(.menuTileLabel, .rv-trophyLabel, .trophyCard .notWonYet) { letter-spacing: -.02em !important; }
