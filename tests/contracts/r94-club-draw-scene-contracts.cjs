@@ -113,7 +113,11 @@ let passed=0;const pass=msg=>{passed+=1;process.stdout.write(`PASS ${msg}\n`);};
   const before={...M.tune({})};
   M.tune({J:10,SECTION:90,nope:3,D0:"x"});assert.equal(M.tune({}).J,10);assert.equal(M.tune({}).SECTION,120);assert.equal(M.tune({}).D0,before.D0);assert.ok(!("nope" in M.tune({})));
   M.tune("reset");assert.deepEqual(M.tune({}),before);assert.deepEqual({...M.physics},before);assert.ok(Object.isFrozen(M.physics));
-  pass("C8 tune(): known motion numbers only, the third stays 120 deg, reset restores the shipped values");
+  const SRC=read("js/clubDrawScene3d.js");
+  // Codex #1523: Reset on the tuning page keeps the mounted scene's slice (six clubs = 60 deg) until that scene is freed.
+  assert.match(SRC,/if\(partial==="reset"\)\{Object\.assign\(PHYS,PHYS_DEFAULT\);if\(mountedSection\)PHYS\.SECTION=mountedSection;/);
+  assert.match(SRC,/mountedSection=PHYS\.SECTION=360\/NS;/);assert.match(SRC,/disposed=true;if\(mountedSection===360\/NS\)mountedSection=0;/);
+  pass("C8 tune(): known motion numbers only, the third stays 120 deg, reset restores the shipped values but keeps a mounted scene's slice");
 }
 // C9 (Nik 2026-11-16, gallery v1): the slow look shows every crest whole. All three are fully lit from its first frame,
 // and the ball turns each crest in turn to the middle of its third (facing the camera) and holds it there before the kick.
