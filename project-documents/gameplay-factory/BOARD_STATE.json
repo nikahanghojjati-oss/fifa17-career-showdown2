@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-16 8:35 PM Boston time (EST)",
+ "generated": "2026-11-16 8:39 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 329,
@@ -3017,7 +3017,22 @@
    "revision": "2.6.0-r93",
    "when": "2026-11-15T23:36:52-05:00",
    "subject": "Merge pull request #1493 from nikahanghojjati-oss/gameplay/r93",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1506,
+     "title": "Release 2.7.0 (r94): Club Assignment spin and stop, image crests, Story audiobook",
+     "draft": false,
+     "branch": "gameplay/r94",
+     "sha": "d6718e38a2cfcb020505eb7a5d141b30cf211d6f",
+     "updated": "2026-11-17T01:39:42Z",
+     "gates": {
+      "passed": 0,
+      "running": 9,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
@@ -3809,7 +3824,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 12871
+    "waiting_min": 12875
    },
    {
     "id": "HO-059",
@@ -4362,7 +4377,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -5578,7 +5593,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1506,
+    "title": "Release 2.7.0 (r94): Club Assignment spin and stop, image crests, Story audiobook",
+    "draft": false,
+    "branch": "gameplay/r94",
+    "sha": "d6718e38a2cfcb020505eb7a5d141b30cf211d6f",
+    "updated": "2026-11-17T01:39:42Z",
+    "gates": {
+     "passed": 0,
+     "running": 9,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
