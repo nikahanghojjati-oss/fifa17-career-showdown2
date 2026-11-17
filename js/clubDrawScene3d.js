@@ -30,7 +30,10 @@
     // 1 trap and touch (STOP traps the ball, a second tap on the gold needle decides how true it rolls: slip +-(J0+err*JT)),
     // 2 power roll (the ball waits still after the slow look; a tap on the swinging power bar kicks it POW_MIN..+POW_RANGE).
     // BLUR 0 keeps every crest and stitch sharp at any speed (Nik 2026-11-17: never blurry). RHY makes the top speed breathe.
-    MODE:0, BLUR:1, J0:6, JT:54, NEEDLE_T:.62, POW_MIN:360, POW_RANGE:540, POW_T:.85, POW_DUR:3.4, RHY:0, RHY_T:2.4, SHOW_N6:.55
+    MODE:0, BLUR:1, J0:6, JT:54, NEEDLE_T:.62, POW_MIN:360, POW_RANGE:540, POW_T:.85, POW_DUR:3.4, RHY:0, RHY_T:2.4, SHOW_N6:.55,
+    // r95 lab Master: CHAOS 1 adds a second speed wave (RHY2 every RHY_T2 s; both waves start at a fresh phase each spin) and
+    // feints: every FLIP_MIN..FLIP_MAX s the ball reverses through zero in FLIP_T s, told by a small hop TELL s before.
+    CHAOS:0, RHY2:0, RHY_T2:1.55, FLIP_MIN:1.4, FLIP_MAX:3.0, FLIP_T:.26, TELL:.42
   };
   const PHYS_DEFAULT=Object.freeze({...PHYS});
   // The tuning page only (tools/club-draw-tuning.html): the game never calls it. SECTION is fixed (three clubs per ball).
@@ -459,24 +462,25 @@
     function lightAll(b){b.lit=allN(1);}
     // Plans the slow-down from the ball as it is now, to rest on poseOf(stop), with at least `min` degrees to travel.
     function plan(b,min){
-      const target=poseOf(b.stop),w=Math.max(b.w,b.state==="spin"||b.state==="ready"?PHYS.W_FAST*.8:PHYS.AWAIT_W);
+      const target=poseOf(b.stop),w=Math.max(Math.abs(b.w),b.state==="spin"||b.state==="ready"?PHYS.W_FAST*.8:PHYS.AWAIT_W),sd=b.sdir||1;
       // (w is kept fast enough that the grass stops it within REPLAN_DUR seconds.)
-      const travel=travelTo(b.f,target,min);b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(Math.max(w,speedFor(travel+PHYS.A0,PHYS.REPLAN_DUR)),travel+PHYS.A0);b.pick=sectionOf(b.stop);
+      const travel=sd>0?travelTo(b.f,target,min):-travelTo(mod360(-b.f),mod360(-target),min),dist=Math.abs(travel);b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(Math.max(w,speedFor(dist+PHYS.A0,PHYS.REPLAN_DUR)),dist+PHYS.A0);b.pick=sectionOf(b.stop);
       setBallState(b,"stopping");b.t=0; // a replan of a ball already stopping starts its own clock (no jump)
     }
     function startStop(b){
       if(b.state!=="spin")return;
+      b.sdir=b.w<0?-1:1; // a ball caught spinning backwards (Master feints) slows on the way it is going
       b.queued=null;b.queuedPending=false; // the trajectory starting now is the ball's one stop: nothing stays queued behind it
       if(b.own){
         // The tap: the travel is the one the stop came from (lead D0 plus the grass), corrected onto the rest pose.
-        const target=poseOf(b.stop),guess=PHYS.D0+angleDiff(b.tapRest,mod360(b.f+PHYS.D0));
-        const travel=guess+angleDiff(target,mod360(b.f+guess));b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(Math.max(b.w,1),travel+PHYS.A0);b.pick=sectionOf(b.stop);setBallState(b,"stopping");
+        const sd=b.sdir,target=poseOf(b.stop),guess=sd*PHYS.D0+angleDiff(b.tapRest,mod360(b.f+sd*PHYS.D0));
+        const travel=guess+angleDiff(target,mod360(b.f+guess));b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(Math.max(Math.abs(b.w),1),Math.abs(travel)+PHYS.A0);b.pick=sectionOf(b.stop);setBallState(b,"stopping");
       }else plan(b,PHYS.RIVAL_MIN);
       if(b.i===me)cue.grab();
     }
     // r95 lab: roll from where the ball is now to rest on the absolute angle `abs` (or on poseOf of its stop once stored).
     function rollTo(b,abs,stored,kicked){
-      let travel=abs-b.f;if(stored)travel+=angleDiff(poseOf(b.stop),mod360(abs));while(travel<40)travel+=360;
+      b.sdir=1;let travel=abs-b.f;if(stored)travel+=angleDiff(poseOf(b.stop),mod360(abs));while(travel<40)travel+=360;
       const w0=kicked?Math.min(PHYS.W_FAST,speedFor(travel+PHYS.A0,PHYS.POW_DUR)):Math.max(b.w,1);
       b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(w0,travel+PHYS.A0);setBallState(b,"stopping");b.t=0;
     }
@@ -485,7 +489,7 @@
       emit("landed",b);
     }
     // Shows a ball at rest on a stored stop at once (reload, late join, Reduce Motion).
-    function placeAtRest(b){b.pick=sectionOf(b.stop);b.restA=poseOf(b.stop);b.f=b.restA;b.w=0;b.y=0;b.vy=0;lightAll(b);b.accepted=true;b.plan=null;setBallState(b,"landed");b.land=9;b.u.foc.value=allN(0).map((_v,j)=>j===b.pick?1:.22);emit("landed",b);}
+    function placeAtRest(b){b.sdir=1;b.pick=sectionOf(b.stop);b.restA=poseOf(b.stop);b.f=b.restA;b.w=0;b.y=0;b.vy=0;lightAll(b);b.accepted=true;b.plan=null;setBallState(b,"landed");b.land=9;b.u.foc.value=allN(0).map((_v,j)=>j===b.pick?1:.22);emit("landed",b);}
     const RAD=Math.PI/180,qT=new T.Quaternion(),m4=new T.Matrix4();
     function hop(b,dt){if(b.y>0||b.vy>0){b.vy-=PHYS.GRAV*dt;b.y+=b.vy*dt;if(b.y<=0){b.y=0;if(b.vy<-1.4){const hit=-b.vy;b.sq=Math.min(.11,hit*.013);b.sqT=0;b.vy=hit*.40;if(b.i===me)cue.bounce(Math.min(1,hit/8));}else b.vy=0;}}}
     function step(b,dt){
@@ -514,25 +518,33 @@
         hop(b,dt);
         if(k2>=1&&b.y===0&&b.vy===0)setBallState(b,"spin");
       }else if(b.state==="spin"){
-        w=(PHYS.W_FAST-36*(1-Math.exp(-b.t/5)))*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T));b.f+=w*dt;
+        if(PHYS.CHAOS){
+          // Master: two waves at fresh phases and feints, each told by a hop, so the rhythm has to be read, not remembered.
+          if(b.flipAt==null){b.ph1=Math.random()*6.2832;b.ph2=Math.random()*6.2832;b.dirT=1;b.dirS=1;b.told=false;b.flipAt=PHYS.FLIP_MIN+Math.random()*(PHYS.FLIP_MAX-PHYS.FLIP_MIN);}
+          if(!b.told&&b.t>=b.flipAt-PHYS.TELL){b.told=true;b.vy=4.2;b.y=.001;if(b.i===me)cue.bounce(.45);}
+          if(b.t>=b.flipAt){b.dirT=-b.dirT;b.told=false;b.flipAt=b.t+PHYS.FLIP_MIN+Math.random()*(PHYS.FLIP_MAX-PHYS.FLIP_MIN);}
+          const st=2*dt/PHYS.FLIP_T;b.dirS+=Math.max(-st,Math.min(st,b.dirT-b.dirS));
+          w=PHYS.W_FAST*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T+b.ph1)+PHYS.RHY2*Math.sin(6.2832*b.t/PHYS.RHY_T2+b.ph2))*b.dirS;hop(b,dt);
+        }else w=(PHYS.W_FAST-36*(1-Math.exp(-b.t/5)))*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T));
+        b.f+=w*dt;
         if(b.queued!==null&&b.t>.6){b.stop=b.queued;b.accepted=b.accepted||!b.queuedPending;b.queued=null;b.queuedPending=false;b.w=w;startStop(b);}
       }else if(b.state==="stopping"){
-        const p=b.plan,tt=Math.min(b.t,p.dur);b.f=b.planF0+p.at(tt);w=p.speed(tt);hop(b,dt);
+        const p=b.plan,tt=Math.min(b.t,p.dur),sd=b.sdir||1;b.f=b.planF0+sd*p.at(tt);w=sd*p.speed(tt);hop(b,dt);
         // The ball never rests on a club Firebase does not hold: short of the last third it waits, rolling, for the accept.
-        if(!b.accepted&&b.restA+PHYS.A0-b.f<PHYS.AWAIT_LEAD){setBallState(b,"await");b.w=Math.max(w,PHYS.AWAIT_W);w=b.w;}
+        if(!b.accepted&&sd*(b.restA-b.f)+PHYS.A0<PHYS.AWAIT_LEAD){setBallState(b,"await");b.w=sd*Math.max(Math.abs(w),PHYS.AWAIT_W);w=b.w;}
         else if(b.t>=p.dur){setBallState(b,"settle");b.oEx=b.ox;b.oEz=b.oz;w=0;}
       }else if(b.state==="await"){
-        w=b.w;b.f+=w*dt;
+        w=(b.sdir||1)*Math.abs(b.w);b.f+=w*dt;
         if(b.accepted){b.w=w;plan(b,PHYS.REPLAN_MIN);}
       }else if(b.state==="settle"){
         // The spin is gone: the bent grass pushes the ball back a few degrees, and it rolls back into its seat and rocks there.
-        const o1=6.283/.58,e1=Math.exp(-b.t/.30);b.f=b.restA+PHYS.A0*e1*(Math.cos(o1*b.t)+Math.sin(o1*b.t)/(o1*.30));
+        const o1=6.283/.58,e1=Math.exp(-b.t/.30);b.f=b.restA+(b.sdir||1)*PHYS.A0*e1*(Math.cos(o1*b.t)+Math.sin(o1*b.t)/(o1*.30));
         const o2=6.283/.70,e2=Math.exp(-b.t/.34),kk=e2*(Math.cos(o2*b.t)+Math.sin(o2*b.t)/(o2*.34));b.ox=b.oEx*kk;b.oz=b.oEz*kk;
         if(b.t>PHYS.SETTLE)landed(b);
       }else if(b.state==="ready"){w=0;if(b.queued!==null){b.stop=b.queued;b.accepted=b.accepted||!b.queuedPending;b.queued=null;b.queuedPending=false;b.w=PHYS.W_FAST*.8;plan(b,PHYS.RIVAL_MIN);}}
       else if(b.state==="landed"){b.land+=dt;const fo=b.u.foc.value;for(let j=0;j<NS;j++)fo[j]+=((j===b.pick?1:.22)-fo[j])*Math.min(1,dt*3.5);}
       b.w=w;for(let i=0;i<NS;i++)b.u.lit.value[i]=b.lit[i];
-      const sp=Math.min(1,w/PHYS.W_FAST),fast=["kick","spin","stopping","await"].includes(b.state);
+      const sp=Math.min(1,Math.abs(w)/PHYS.W_FAST),fast=["kick","spin","stopping","await"].includes(b.state);
       b.u.blur.value=PHYS.BLUR?sp*.034:0;b.u.spd.value=PHYS.BLUR?sp:0;b.u.pulse.value=b.state==="landed"&&b.land<9?.5+.5*Math.sin(b.land*5):0;
       // The pattern's axis sits a few degrees off the spin axis (as on any ball spun by a boot), so the panels wobble once per
       // turn; the ball wanders a little inside the chalk ring and its lean always matches how far it has rolled.
@@ -614,7 +626,7 @@
         const abs=b.f+PHYS.POW_MIN+pw*PHYS.POW_RANGE+(2*r-1)*PHYS.J;b.stop=Math.floor(mod360(abs))%360;b.pick=sectionOf(b.stop);b.own=true;b.accepted=false;
         b.w=0;b.vy=4.6+3*pw;b.y=.001;rollTo(b,abs,true,true);if(b.i===me)cue.kick();return b.stop;},
       // r95 lab: both balls back to the start (a new round on the test page).
-      restart(){balls.forEach((b,i)=>{Object.assign(b,{state:"idle",t:0,stop:null,pick:-1,accepted:false,plan:null,queued:null,queuedPending:false,own:false,trapF:null,lit:allN(1),w:0,y:0,vy:0,sq:0,land:0,glowSet:false,f:mod360(b.f)});
+      restart(){balls.forEach((b,i)=>{Object.assign(b,{state:"idle",t:0,stop:null,pick:-1,accepted:false,plan:null,queued:null,queuedPending:false,own:false,trapF:null,sdir:1,flipAt:null,lit:allN(1),w:0,y:0,vy:0,sq:0,land:0,glowSet:false,f:mod360(b.f)});
         b.u.foc.value=allN(1);pitchU["glow"+i].value=0;});if(confetti)confetti.visible=false;api.start();}, // a queued stored stop is already this ball's stop
       // The tap. Returns the stored integer (0..359), computed once from the face in front of the manager now. The ball starts
       // slowing at once (the tap is felt) but rests only after accept(i). Never call it twice for one manager.
@@ -622,7 +634,7 @@
         const b=ballOf(i);if(!api.canStop(i))return null;
         const r=Number.isFinite(rand01)?rand01:secureRandom();
         if(b.state==="spin-still"){b.stop=Math.floor(r*360)%360;b.own=true;b.accepted=false;b.pick=sectionOf(b.stop);b.state="still-pending";emit("state",b);return b.stop;}
-        b.tapRest=mod360(b.f+PHYS.D0+(2*r-1)*PHYS.J);b.stop=Math.floor(b.tapRest)%360;b.own=true;b.accepted=false;startStop(b);
+        b.sdir=b.w<0?-1:1;b.tapRest=mod360(b.f+b.sdir*PHYS.D0+(2*r-1)*PHYS.J);b.stop=Math.floor(b.tapRest)%360;b.own=true;b.accepted=false;startStop(b);
         return b.stop;
       },
       // Firebase holds this manager's stop: the ball may come to rest. A different stored stop (another tab won) re-aims.
@@ -630,7 +642,7 @@
         const b=ballOf(i);
         // Still before full speed with a stop queued: Firebase's stop is the one it will slow toward, already accepted.
         if(b.queued!==null){if(sceneValidStop(storedStop))b.queued=storedStop;b.queuedPending=false;b.accepted=true;return;}
-        if(sceneValidStop(storedStop)&&storedStop!==b.stop){b.stop=storedStop;b.pick=sectionOf(storedStop);if(["stopping","await"].includes(b.state)){b.accepted=true;b.w=Math.max(b.w,PHYS.AWAIT_W);plan(b,PHYS.REPLAN_MIN);return;}
+        if(sceneValidStop(storedStop)&&storedStop!==b.stop){b.stop=storedStop;b.pick=sectionOf(storedStop);if(["stopping","await"].includes(b.state)){b.accepted=true;b.w=Math.max(Math.abs(b.w),PHYS.AWAIT_W);plan(b,PHYS.REPLAN_MIN);return;}
           // Already settling or at rest on another third: the stored stop wins and the ball is shown at rest on it (both
           // phones must end on the same picture). Firebase never changes a stored stop, so this is a safety net only.
           if(b.state==="settle"||b.state==="landed"){b.glowSet=false;placeAtRest(b);return;}}
