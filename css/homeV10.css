@@ -1150,7 +1150,7 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 }
 @media (max-width: 900px) and (max-height: 480px) and (orientation: landscape) {
   #app #mainMenu.v10Home {
-    --home-story-h: 40px;
+    --home-story-h: 44px;
     --home-tile-h: max(44px, calc((var(--home-vh) - var(--phone-nav) - 54px - var(--home-continue-h) - var(--home-story-h) - 3 * var(--home-gap) - 8px) / 2));
   }
   #app #mainMenu.v10Home .fifaMenuGrid { grid-template-rows: var(--home-continue-h) var(--home-tile-h) var(--home-tile-h) var(--home-story-h); }

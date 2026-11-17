@@ -36,8 +36,8 @@ html,body{margin:0;height:100%;background:#050608;color:var(--ink);font:13px/1.3
     <select id="layout" aria-label="Layout"><option value="wide">Computer (both balls)</option><option value="phone">Phone (own ball in front)</option></select>
     <select id="me" aria-label="Own ball"><option value="0">Own ball: left</option><option value="1">Own ball: right</option></select>
   </div>
-  <label>Left clubs <span></span><span></span></label><input id="clubs0" type="text" value="Barcelona, Arsenal, Napoli">
-  <label>Right clubs <span></span><span></span></label><input id="clubs1" type="text" value="Juventus, Chelsea, Bayern Munich">
+  <label>Left clubs <span></span><span></span></label><input id="clubs0" type="text" value="Barcelona, Arsenal, Napoli, Real Madrid, Liverpool, Inter">
+  <label>Right clubs <span></span><span></span></label><input id="clubs1" type="text" value="Juventus, Chelsea, Bayern Munich, Atletico Madrid, Tottenham, Roma">
   <div class="row">
     <button id="mount" type="button">Rebuild</button><button id="start" type="button">Start draw</button>
     <button id="stop" class="stop" type="button">STOP (own)</button><button id="rival" type="button">Rival stops</button>
@@ -64,11 +64,11 @@ html,body{margin:0;height:100%;background:#050608;color:var(--ink);font:13px/1.3
   }
   const lag=$("lag");const lagOut=lag.nextElementSibling;const showLag=()=>{lagOut.textContent=lag.value+"ms";};lag.addEventListener("input",showLag);showLag();
   let api=null,tags=[],landedAt=[];
-  function clubs(i){return $("clubs"+i).value.split(",").map(s=>s.trim()).filter(Boolean).slice(0,3);}
+  function clubs(i){return $("clubs"+i).value.split(",").map(s=>s.trim()).filter(Boolean).slice(0,6);}
   async function build(){
     if(api){api.dispose();api=null;}tags.forEach(t=>t.remove());tags=[];
     const phone=$("layout").value==="phone";stage.style.cssText=phone?"position:absolute;top:0;bottom:0;left:50%;width:min(430px,100%);transform:translateX(-50%)":"position:absolute;inset:0";
-    const balls=[{clubs:clubs(0)},{clubs:clubs(1)}];if(balls.some(b=>b.clubs.length!==3)){$("probe").textContent="Each ball needs 3 clubs.";return;}
+    const balls=[{clubs:clubs(0)},{clubs:clubs(1)}];if(balls.some(b=>b.clubs.length!==6&&b.clubs.length!==3)||balls[0].clubs.length!==balls[1].clubs.length){$("probe").textContent="Each ball needs 6 clubs (the Ball Game) or 3 (2.7.0).";return;}
     const t0=performance.now();
     api=await M.mount(stage,{balls,me:Number($("me").value),sound:()=>true});
     if(!api){$("probe").textContent="The scene did not start (no WebGL2?).";return;}
@@ -85,8 +85,8 @@ html,body{margin:0;height:100%;background:#050608;color:var(--ink);font:13px/1.3
   $("reset").onclick=()=>{M.tune("reset");sliders();};
   // How often a tap timed to the aimed crest lands it: drawStop with the aimed face at the front when the tap lands at
   // the lead the player learned (the motion constants as set now).
-  $("aim").onclick=()=>{let hit=0,blind=0;const P=M.tune({});for(let n=0;n<200000;n++){const aim=n%3,front=M.mod360(aim*120+60-P.D0+(Math.random()-.5)*40),s=M.drawStop(front,Math.random());if(M.sectionOf(s)===aim)hit++;if(M.sectionOf(M.drawStop(Math.random()*360,Math.random()))===aim)blind++;}
-    alertLine(`timed tap (+-20 deg error): ${(hit/2000).toFixed(1)}%  blind: ${(blind/2000).toFixed(1)}%`);};
+  $("aim").onclick=()=>{let hit=0,blind=0;const P=M.tune({});for(let n=0;n<200000;n++){const n3=360/P.SECTION,aim=n%n3,front=M.mod360(aim*P.SECTION+P.SECTION/2-P.D0+(Math.random()-.5)*P.SECTION/3),s=M.drawStop(front,Math.random());if(M.sectionOf(s)===aim)hit++;if(M.sectionOf(M.drawStop(Math.random()*360,Math.random()))===aim)blind++;}
+    alertLine(`timed tap (error up to a sixth of a slice): ${(hit/2000).toFixed(1)}%  blind: ${(blind/2000).toFixed(1)}%`);};
   let note="";function alertLine(s){note=s;}
   $("hide").onclick=()=>{$("panel").hidden=!$("panel").hidden;};
   setInterval(()=>{
