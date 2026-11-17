@@ -16,15 +16,6 @@
    Owner     layout, type and styles only. Words and data stay in the content files.
    ===================================================================================================== */
 
-@font-face{font-family:"Playfair Display";src:url("assets/playfair-display-latin-900-normal.woff2") format("woff2");font-weight:900;font-style:normal;font-display:swap}
-@font-face{font-family:"Playfair Display";src:url("assets/playfair-display-latin-700-normal.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:"Playfair Display";src:url("assets/playfair-display-latin-400-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
-@font-face{font-family:"Old Standard TT";src:url("assets/old-standard-tt-latin-400-normal.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"Old Standard TT";src:url("assets/old-standard-tt-latin-400-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
-@font-face{font-family:"Old Standard TT";src:url("assets/old-standard-tt-latin-700-normal.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
-/* book.css asks for 'Barlow Condensed' but style.css only declared "Condensed": the book fell back to Arial */
-@font-face{font-family:"Barlow Condensed";src:url("assets/barlow-condensed-latin-600-normal.woff2") format("woff2");font-weight:600;font-display:swap}
-@font-face{font-family:"Barlow Condensed";src:url("assets/barlow-condensed-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
 
 @property --ed-turn{syntax:"<angle>";inherits:false;initial-value:0deg}
 
@@ -46,10 +37,10 @@
   --ed-foil:linear-gradient(176deg,#fff0c4 0%,#f0cd7c 34%,#c9973c 66%,#efce80 100%);
   --ed-marble:url("assets/marble.webp");
   --ed-diamond:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M5 0 10 5 5 10 0 5z' fill='%23e4bf6c'/%3E%3C/svg%3E");
-  --ed-serif:"Playfair Display",Georgia,"Times New Roman",serif;
-  --ed-text:"Old Standard TT",Georgia,"Times New Roman",serif;
-  --ed-label:"Barlow Condensed",Condensed,"Arial Narrow",sans-serif;
-  --ed-sans:Barlow,system-ui,sans-serif;
+  --ed-serif:var(--r95-font);
+  --ed-text:var(--r95-font);
+  --ed-label:var(--r95-font-narrow);
+  --ed-sans:var(--r95-font);
   --ed-ease:cubic-bezier(.22,1,.36,1);
   /* the original sheets read these */
   --bg:var(--ed-page);--panel:var(--ed-stone);--gold:var(--ed-gold);--gold-soft:#cfa95c;--text:var(--ed-ivory);

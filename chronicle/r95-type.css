@@ -1,0 +1,20 @@
+/* r95 · the Story reads the one type family too: Instrument Sans (variable roman weight 400-700 and width 75-100, real italic).
+   Loaded last, after edition.css. The Story is its own site (never precached), so it carries its own copies of the two files
+   (assets/instrument-sans-*.woff2, OFL: assets/LICENSE-instrument-sans.txt). Playfair, Old Standard and Barlow are no longer declared. */
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400 700;font-stretch:75% 100%;font-display:swap;src:url("assets/instrument-sans-latin-wdth-normal.woff2") format("woff2")}
+@font-face{font-family:"Instrument Sans";font-style:italic;font-weight:400 700;font-display:swap;src:url("assets/instrument-sans-latin-wght-italic.woff2") format("woff2")}
+/* the same roman file at its narrowest width, for the labels and big numerals that were Barlow Condensed (same width, no extra download) */
+@font-face{font-family:"Instrument Sans Narrow";font-style:normal;font-weight:400 700;font-stretch:75% 75%;font-display:swap;src:url("assets/instrument-sans-latin-wdth-normal.woff2") format("woff2")}
+:root{
+  --r95-font:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --r95-font-narrow:"Instrument Sans Narrow","Arial Narrow",sans-serif;
+  --ed-serif:var(--r95-font);--ed-text:var(--r95-font);--ed-sans:var(--r95-font);--ed-label:var(--r95-font-narrow);
+  --body:var(--r95-font);--display:var(--r95-font-narrow);
+  font-variant-numeric:tabular-nums lining-nums;
+}
+/* weights above 700 clamp to the family's 700; reading text keeps a comfortable measure */
+.origin-copy p,.history-essay p,.prologue-text p,.dedication-text p,.chapter-detail p{max-width:70ch;text-wrap:pretty}
+h1,h2,h3{text-wrap:balance}
+/* headings: natural weight and a slightly narrow width (the family tops out at 700; Playfair's 900 would read as heavy shouting) */
+h1,h2,h3,.jacket-title,.dedication-motto p{font-weight:650;font-stretch:88%;letter-spacing:-.015em}
+.hero-copy h1{font-size:clamp(46px,5.2vw,88px)}
