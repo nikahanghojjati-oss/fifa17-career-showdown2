@@ -25,13 +25,18 @@
     J:120, D0:600, SECTION:120, POSE_PULL:.6,
     REST0:.9, W_SLOW:112, SHOW:.95, SHOW_MOVE:1.05, SHOW_OUT:.55, KICK:1.15, W_FAST:470, GRAV:62,
     FK:.2, A0:3.4, SETTLE:1.7, BODY_TILT:4.2,
-    AWAIT_LEAD:120, AWAIT_W:150, RIVAL_MIN:480, REPLAN_MIN:150, REPLAN_DUR:4.2
+    AWAIT_LEAD:120, AWAIT_W:150, RIVAL_MIN:480, REPLAN_MIN:150, REPLAN_DUR:4.2,
+    // r95 skill lab (tools/club-draw-lab.html; the game keeps MODE 0 until Nik picks). MODE 0 one STOP tap (2.7.0),
+    // 1 trap and touch (STOP traps the ball, a second tap on the gold needle decides how true it rolls: slip +-(J0+err*JT)),
+    // 2 power roll (the ball waits still after the slow look; a tap on the swinging power bar kicks it POW_MIN..+POW_RANGE).
+    // BLUR 0 keeps every crest and stitch sharp at any speed (Nik 2026-11-17: never blurry). RHY makes the top speed breathe.
+    MODE:0, BLUR:1, J0:6, JT:54, NEEDLE_T:.62, POW_MIN:360, POW_RANGE:540, POW_T:.85, POW_DUR:3.4, RHY:0, RHY_T:2.4, SHOW_N6:.55
   };
   const PHYS_DEFAULT=Object.freeze({...PHYS});
   // The tuning page only (tools/club-draw-tuning.html): the game never calls it. SECTION is fixed (three clubs per ball).
   function tune(partial){
     if(partial==="reset"){Object.assign(PHYS,PHYS_DEFAULT);return {...PHYS};}
-    for(const [k,v] of Object.entries(partial||{}))if(k!=="SECTION"&&Object.hasOwn(PHYS_DEFAULT,k)&&Number.isFinite(v))PHYS[k]=v;
+    for(const [k,v] of Object.entries(partial||{}))if((k!=="SECTION"||v===120||v===60)&&Object.hasOwn(PHYS_DEFAULT,k)&&Number.isFinite(v))PHYS[k]=v;
     return {...PHYS};
   }
 
@@ -104,11 +109,11 @@
   // ---------- ball, pitch and stadium shaders (from the study mock-up v3.1, unchanged look) ----------
   const BALL_VS="varying vec3 vObj;varying vec3 vNg;varying vec3 vW;void main(){vObj=normalize(position);vNg=normalize(mat3(modelMatrix)*normal);vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}";
   const BALL_FS=[
-    "uniform vec3 PC[32];uniform vec3 kA[3];uniform vec3 kB[3];uniform vec3 kC[3];uniform vec3 kT[3];uniform vec3 kS[3];uniform vec3 kN[3];uniform vec3 kH[3];uniform vec4 kP[3];uniform float lit[3];uniform float foc[3];uniform sampler2D atlas;uniform vec3 camP;uniform mat3 rot;uniform float blur;uniform float pulse;uniform float clat;uniform float spd;",
+    "uniform vec3 PC[32];uniform vec3 kA[NSEC];uniform vec3 kB[NSEC];uniform vec3 kC[NSEC];uniform vec3 kT[NSEC];uniform vec3 kS[NSEC];uniform vec3 kN[NSEC];uniform vec3 kH[NSEC];uniform vec4 kP[NSEC];uniform float lit[NSEC];uniform float foc[NSEC];uniform sampler2D atlas;uniform vec3 camP;uniform mat3 rot;uniform float blur;uniform float pulse;uniform float clat;uniform float spd;",
     "varying vec3 vObj;varying vec3 vNg;varying vec3 vW;",
-    "const float TAU=6.2831853;const float G=2.0943951;",
+    "const float TAU=6.2831853;const float G=6.2831853/float(NSEC);",
     "const vec3 KEY=vec3(.430,.765,.479);const vec3 FIL=vec3(-.611,.560,.560);const vec3 BK1=vec3(.667,.477,-.572);const vec3 BK2=vec3(-.667,.477,-.572);",
-    "vec4 crest(vec3 d,float k,float off){float lc=(k+.5)*G+off;float cp=cos(clat);float sp=sin(clat);vec3 c=vec3(sin(lc)*cp,sp,cos(lc)*cp);vec3 t=vec3(cos(lc),0.,-sin(lc));vec3 b=vec3(-sin(lc)*sp,cp,-cos(lc)*sp);float dc=dot(d,c);vec2 p=vec2(dot(d,t),dot(d,b))/max(dc,.05);float s=.64;vec2 q=p/(2.*s)+.5;float inside=step(0.,q.x)*step(q.x,1.)*step(0.,q.y)*step(q.y,1.)*step(.25,dc);return texture2D(atlas,vec2((k+clamp(q.x,0.,1.))/3.,clamp(q.y,0.,1.)))*inside;}",
+    "vec4 crest(vec3 d,float k,float off){float lc=(k+.5)*G+off;float cp=cos(clat);float sp=sin(clat);vec3 c=vec3(sin(lc)*cp,sp,cos(lc)*cp);vec3 t=vec3(cos(lc),0.,-sin(lc));vec3 b=vec3(-sin(lc)*sp,cp,-cos(lc)*sp);float dc=dot(d,c);vec2 p=vec2(dot(d,t),dot(d,b))/max(dc,.05);float s=CREST_S;vec2 q=p/(2.*s)+.5;float inside=step(0.,q.x)*step(q.x,1.)*step(0.,q.y)*step(q.y,1.)*step(.25,dc);float col=mod(k,3.);float row=floor(k/3.+.01);return texture2D(atlas,vec2((col+clamp(q.x,0.,1.))/3.,(float(ROWS)-1.-row+clamp(q.y,0.,1.))/float(ROWS)))*inside;}",
     // The club's kit on its third. u runs across the third (0..1), sv up the shirt (0 hem, 1 neck), lat is the latitude.
     // P = (pattern, fabric, stripes, sleeves). Every edge is smoothed over one pixel (fwidth), no texture.
     "float aaS(float e,float x){float w=max(fwidth(x),1e-4)*.8;return smoothstep(e-w,e+w,x);}",
@@ -144,22 +149,20 @@
     " float s1=-2.;float s2=-2.;vec3 c1=vec3(0.,1.,0.);vec3 c2=vec3(0.,1.,0.);float pent=0.;",
     " for(int i=0;i<32;i++){vec3 c=PC[i];float s=dot(d,c);if(s>s1){s2=s1;c2=c1;s1=s;c1=c;pent=i<12?1.:0.;}else if(s>s2){s2=s;c2=c;}}",
     " vec3 gv=c1-c2;float gl=max(length(gv),.0001);float e=(s1-s2)/gl;vec3 gd=gv/gl;",
-    " float lon=atan(d.x,d.z);if(lon<0.)lon+=TAU;float g=lon/G;float k=min(floor(g),2.);float u=g-k;",
+    " float lon=atan(d.x,d.z);if(lon<0.)lon+=TAU;float g=lon/G;float k=min(floor(g),float(NSEC-1));float u=g-k;",
     " float lonc=atan(c1.x,c1.z);if(lonc<0.)lonc+=TAU;float gc=lonc/G;float uc=fract(gc);",
     " float polar=step(.99,abs(c1.y))*(1.-pent);float neutral=max(polar,step(min(uc,1.-uc),.03));",
-    " float ks=mix(min(floor(gc),2.),k,neutral);",
+    " float ks=mix(min(floor(gc),float(NSEC-1)),k,neutral);",
     " vec3 kBody;vec3 kSec;vec3 kSec2;vec3 kTrim;vec3 kSlv;vec3 kPent;vec3 kShorts;vec4 kPat;float L;float F;",
-    " if(ks<.5){kBody=kA[0];kSec=kB[0];kSec2=kC[0];kTrim=kT[0];kSlv=kS[0];kPent=kN[0];kShorts=kH[0];kPat=kP[0];L=lit[0];F=foc[0];}",
-    " else if(ks<1.5){kBody=kA[1];kSec=kB[1];kSec2=kC[1];kTrim=kT[1];kSlv=kS[1];kPent=kN[1];kShorts=kH[1];kPat=kP[1];L=lit[1];F=foc[1];}",
-    " else{kBody=kA[2];kSec=kB[2];kSec2=kC[2];kTrim=kT[2];kSlv=kS[2];kPent=kN[2];kShorts=kH[2];kPat=kP[2];L=lit[2];F=foc[2];}",
-    " float du=g-ks;if(du>1.5)du-=3.;if(du<-1.5)du+=3.;float klat=asin(clamp(d.y,-1.,1.));",
+    " int ki=int(ks+.5);kBody=kA[ki];kSec=kB[ki];kSec2=kC[ki];kTrim=kT[ki];kSlv=kS[ki];kPent=kN[ki];kShorts=kH[ki];kPat=kP[ki];L=lit[ki];F=foc[ki];",
+    " float hn=float(NSEC)*.5;float du=g-ks;if(du>hn)du-=float(NSEC);if(du<-hn)du+=float(NSEC);float klat=asin(clamp(d.y,-1.,1.));",
     " vec3 kit=kitAt(clamp(du,0.,1.),clamp(.70+(klat-clat)/1.6,0.,1.),klat,kBody,kSec,kSec2,kTrim,kSlv,kShorts,kPat);",
     " F=mix(F,1.,neutral);",
     " vec3 white=vec3(.74,.74,.71);",
     " vec3 classic=mix(white,vec3(.022,.022,.026),pent);",
     " vec3 club=mix(mix(kit,kPent,pent),vec3(.026,.026,.030),neutral);",
     " vec3 base=mix(classic,club,L);",
-    " float ed=min(u,1.-u)*120.*sqrt(max(1.-d.y*d.y,0.));float pipe=(1.-smoothstep(1.05,1.45,ed))*L;",
+    " float ed=min(u,1.-u)*(360./float(NSEC))*sqrt(max(1.-d.y*d.y,0.));float pipe=(1.-smoothstep(1.05,1.45,ed))*L;",
     " float pipeEdge=(1.-smoothstep(1.45,1.9,ed))*L;base=mix(base,base*.35,pipeEdge*(1.-pipe)*neutral);",
     " base=mix(base,vec3(.80,.56,.13),pipe);",
     "#if BLUR_TAPS > 3",
@@ -345,6 +348,8 @@
   // ---------- the scene ----------
   function build(T,host,opts,P,assets){
     const K=knobs(P.level),d=cdDoc(),reduced=opts.reducedMotion===undefined?cdReducedMotion():Boolean(opts.reducedMotion);
+    const NS=opts.balls[0].clubs.length===6?6:3,ROWS=NS/3;PHYS.SECTION=360/NS; // clubs per ball: 3 (2.7.0) or 6 (r95 lab)
+    const allN=v=>Array.from({length:NS},()=>v);
     const me=opts.me===1?1:0;
     const canvas=d.createElement("canvas");canvas.className="clubDraw3d";canvas.setAttribute("aria-hidden","true");
     canvas.style.cssText="position:absolute;inset:0;width:100%;height:100%;display:block";
@@ -356,12 +361,12 @@
 
     // Crest atlas: three crests side by side, drawn once (the images are already decoded behind the loading screen).
     function atlas(images){
-      const size=K.atlas,cv=d.createElement("canvas");cv.width=size*3;cv.height=size;const cx=cv.getContext("2d");
-      images.forEach((im,i)=>{if(!im)return;const iw=im.naturalWidth||im.width||120,ih=im.naturalHeight||im.height||144,h=size*.90,w=Math.min(size*.92,h*iw/ih);
-        cx.save();cx.shadowColor="rgba(0,0,0,.6)";cx.shadowBlur=size*.03;cx.drawImage(im,i*size+(size-w)/2,(size-h)/2,w,h);cx.restore();});
+      const size=K.atlas,cv=d.createElement("canvas");cv.width=size*3;cv.height=size*ROWS;const cx=cv.getContext("2d");
+      images.forEach((im,i)=>{if(!im)return;const iw=im.naturalWidth||im.width||120,ih=im.naturalHeight||im.height||144,h=size*.90,w=Math.min(size*.92,h*iw/ih),ox=(i%3)*size,oy=Math.floor(i/3)*size;
+        cx.save();cx.shadowColor="rgba(0,0,0,.6)";cx.shadowBlur=size*.03;cx.drawImage(im,ox+(size-w)/2,oy+(size-h)/2,w,h);cx.restore();});
       const t=tex(new T.CanvasTexture(cv));t.minFilter=T.LinearMipmapLinearFilter;t.premultiplyAlpha=true;t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return t;
     }
-    const ballDefines={BLUR_TAPS:K.blurTaps};if(K.gloss)ballDefines.GLOSS=1;if(K.detail)ballDefines.DETAIL=1;
+    const ballDefines={BLUR_TAPS:K.blurTaps,NSEC:NS,ROWS,CREST_S:NS===6?".40":".64"};if(K.gloss)ballDefines.GLOSS=1;if(K.detail)ballDefines.DETAIL=1;
     const sphere=geo(new T.SphereGeometry(1,K.seg[0],K.seg[1]));
     const balls=opts.balls.map((b,idx)=>{
       const kits=root.CareerModeKits17||null,v3=hex=>{const c=srgbColour(T,hex).convertSRGBToLinear();return new T.Vector3(c.r,c.g,c.b);};
@@ -369,11 +374,11 @@
       const kv=(f)=>looks.map(f);
       const u={PC:{value:PAN.centres},kA:{value:kv(l=>l.v?l.v.A:v3(l.body))},kB:{value:kv(l=>v3(l.second))},kC:{value:kv(l=>v3(l.second2))},kT:{value:kv(l=>v3(l.trim))},
         kS:{value:kv(l=>v3(l.sleeves||l.body))},kN:{value:kv(l=>l.v?l.v.N:v3(l.pent))},kH:{value:kv(l=>v3(l.shorts||l.body))},
-        kP:{value:kv(l=>new T.Vector4(PATTERN_ID[l.pattern]||0,FABRIC_ID[l.fabric]||0,l.n||0,(l.sleeves?1:0)+(l.shorts?2:0)))},lit:{value:[1,1,1]},foc:{value:[1,1,1]},atlas:{value:atlas(b.clubs.map(n=>assets.images[n]))},
+        kP:{value:kv(l=>new T.Vector4(PATTERN_ID[l.pattern]||0,FABRIC_ID[l.fabric]||0,l.n||0,(l.sleeves?1:0)+(l.shorts?2:0)))},lit:{value:allN(1)},foc:{value:allN(1)},atlas:{value:atlas(b.clubs.map(n=>assets.images[n]))},
         camP:{value:new T.Vector3()},rot:{value:new T.Matrix3()},blur:{value:0},pulse:{value:0},clat:{value:PAN.clat},spd:{value:0}};
       const m=mat(new T.ShaderMaterial({uniforms:u,vertexShader:BALL_VS,fragmentShader:BALL_FS,defines:ballDefines}));
       const mesh=new T.Mesh(sphere,m);mesh.rotation.order="YXZ";const tilt=new T.Group();tilt.add(mesh);scene.add(tilt);
-      return {i:idx,clubs:b.clubs,u,mesh,tilt,pos:new T.Vector3(),r:1,f:idx?215:35,state:"idle",t:0,lit:[1,1,1],
+      return {i:idx,clubs:b.clubs,u,mesh,tilt,pos:new T.Vector3(),r:1,f:idx?215:35,state:"idle",t:0,lit:allN(1),trapF:null,
         stop:null,pick:-1,accepted:false,plan:null,planF0:0,restA:0,queued:null,queuedPending:false,seamPrev:0,land:0,w:0,y:0,vy:0,sq:0,sqT:9,wp:idx*2.4,wr:0,ox:0,oz:0,oEx:0,oEz:0,yaw:0};
     });
 
@@ -439,10 +444,10 @@
     const listeners=new Set();
     function emit(type,b){for(const fn of listeners)try{fn({type,ball:b.i,state:b.state,stop:b.stop,section:b.pick});}catch(_error){}}
     function setBallState(b,state){if(b.state===state)return;b.state=state;b.t=0;emit("state",b);}
-    function lightAll(b){b.lit=[1,1,1];}
+    function lightAll(b){b.lit=allN(1);}
     // Plans the slow-down from the ball as it is now, to rest on poseOf(stop), with at least `min` degrees to travel.
     function plan(b,min){
-      const target=poseOf(b.stop),w=Math.max(b.w,b.state==="spin"?PHYS.W_FAST*.8:PHYS.AWAIT_W);
+      const target=poseOf(b.stop),w=Math.max(b.w,b.state==="spin"||b.state==="ready"?PHYS.W_FAST*.8:PHYS.AWAIT_W);
       // (w is kept fast enough that the grass stops it within REPLAN_DUR seconds.)
       const travel=travelTo(b.f,target,min);b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(Math.max(w,speedFor(travel+PHYS.A0,PHYS.REPLAN_DUR)),travel+PHYS.A0);b.pick=sectionOf(b.stop);
       setBallState(b,"stopping");b.t=0; // a replan of a ball already stopping starts its own clock (no jump)
@@ -457,13 +462,20 @@
       }else plan(b,PHYS.RIVAL_MIN);
       if(b.i===me)cue.grab();
     }
+    // r95 lab: roll from where the ball is now to rest on the absolute angle `abs` (or on poseOf of its stop once stored).
+    function rollTo(b,abs,stored,kicked){
+      let travel=abs-b.f;if(stored)travel+=angleDiff(poseOf(b.stop),mod360(abs));while(travel<40)travel+=360;
+      const w0=kicked?Math.min(PHYS.W_FAST,speedFor(travel+PHYS.A0,PHYS.POW_DUR)):Math.max(b.w,1);
+      b.restA=b.f+travel;b.planF0=b.f;b.plan=friction(w0,travel+PHYS.A0);setBallState(b,"stopping");b.t=0;
+    }
     function landed(b){
       b.f=b.restA;b.ox=b.oz=0;setBallState(b,"landed");b.land=0;burst(b);if(b.i===me||balls[me].state==="landed")cue.land();
       emit("landed",b);
     }
     // Shows a ball at rest on a stored stop at once (reload, late join, Reduce Motion).
-    function placeAtRest(b){b.pick=sectionOf(b.stop);b.restA=poseOf(b.stop);b.f=b.restA;b.w=0;b.y=0;b.vy=0;lightAll(b);b.accepted=true;b.plan=null;setBallState(b,"landed");b.land=9;b.u.foc.value=[0,1,2].map(j=>j===b.pick?1:.22);emit("landed",b);}
+    function placeAtRest(b){b.pick=sectionOf(b.stop);b.restA=poseOf(b.stop);b.f=b.restA;b.w=0;b.y=0;b.vy=0;lightAll(b);b.accepted=true;b.plan=null;setBallState(b,"landed");b.land=9;b.u.foc.value=allN(0).map((_v,j)=>j===b.pick?1:.22);emit("landed",b);}
     const RAD=Math.PI/180,qT=new T.Quaternion(),m4=new T.Matrix4();
+    function hop(b,dt){if(b.y>0||b.vy>0){b.vy-=PHYS.GRAV*dt;b.y+=b.vy*dt;if(b.y<=0){b.y=0;if(b.vy<-1.4){const hit=-b.vy;b.sq=Math.min(.11,hit*.013);b.sqT=0;b.vy=hit*.40;if(b.i===me)cue.bounce(Math.min(1,hit/8));}else b.vy=0;}}}
     function step(b,dt){
       b.t+=dt;let w=0;
       if(b.state==="idle"){w=0;}
@@ -474,25 +486,26 @@
         // seconds) so it can be read; after the third it rolls off and is kicked. Before, the crests bloomed in one by one
         // during a single continuous turn, so a third could pass the camera blank or half drawn.
         lightAll(b);b.showT+=dt;
-        if(b.showSeg<3){
-          const span=b.showB-b.showA,dur=Math.max(.45,PHYS.SHOW_MOVE*span/120),k=Math.min(1,b.showT/dur);
+        if(b.showSeg<NS){
+          const span=b.showB-b.showA,dur=Math.max(.45,PHYS.SHOW_MOVE*span/120),k=Math.min(1,b.showT/dur),hold=NS===6?PHYS.SHOW_N6:PHYS.SHOW;
           b.f=b.showA+span*k*k*(3-2*k);w=k<1?span*6*k*(1-k)/dur:0;
           if(k>=1&&!b.showCued){b.showCued=true;if(b.i===me)cue.lit(sectionOf(mod360(b.showB)));}
-          if(b.showT>=dur+PHYS.SHOW){b.showSeg+=1;b.showA=b.showB;b.showB+=PHYS.SECTION;b.showT=0;b.showCued=false;}
-        }else{
+          if(b.showT>=dur+hold){b.showSeg+=1;b.showA=b.showB;b.showB+=PHYS.SECTION;b.showT=0;b.showCued=false;}
+        }else if(PHYS.MODE===2){setBallState(b,"ready");} // power roll: the ball waits for its kick
+        else{
           const k=Math.min(1,b.showT/PHYS.SHOW_OUT);w=PHYS.W_SLOW*k*k;b.f+=w*dt;
           if(k>=1){setBallState(b,"kick");b.vy=7.3;b.y=.001;if(b.i===me)cue.kick();}
         }
       }else if(b.state==="kick"){
         // Spun hard: the ball hops off the turf, lands with weight, bounces once more and digs in.
         const k2=Math.min(1,b.t/PHYS.KICK),e2=k2*k2*(3-2*k2);w=PHYS.W_SLOW+(PHYS.W_FAST-PHYS.W_SLOW)*e2;b.f+=w*dt;lightAll(b);
-        if(b.y>0||b.vy>0){b.vy-=PHYS.GRAV*dt;b.y+=b.vy*dt;if(b.y<=0){b.y=0;if(b.vy<-1.4){const hit=-b.vy;b.sq=Math.min(.11,hit*.013);b.sqT=0;b.vy=hit*.40;if(b.i===me)cue.bounce(Math.min(1,hit/8));}else b.vy=0;}}
+        hop(b,dt);
         if(k2>=1&&b.y===0&&b.vy===0)setBallState(b,"spin");
       }else if(b.state==="spin"){
-        w=PHYS.W_FAST-36*(1-Math.exp(-b.t/5));b.f+=w*dt;
+        w=(PHYS.W_FAST-36*(1-Math.exp(-b.t/5)))*(1+PHYS.RHY*Math.sin(6.2832*b.t/PHYS.RHY_T)*Math.sin(2.1*b.t/PHYS.RHY_T+.7));b.f+=w*dt;
         if(b.queued!==null&&b.t>.6){b.stop=b.queued;b.accepted=b.accepted||!b.queuedPending;b.queued=null;b.queuedPending=false;b.w=w;startStop(b);}
       }else if(b.state==="stopping"){
-        const p=b.plan,tt=Math.min(b.t,p.dur);b.f=b.planF0+p.at(tt);w=p.speed(tt);
+        const p=b.plan,tt=Math.min(b.t,p.dur);b.f=b.planF0+p.at(tt);w=p.speed(tt);hop(b,dt);
         // The ball never rests on a club Firebase does not hold: short of the last third it waits, rolling, for the accept.
         if(!b.accepted&&b.restA+PHYS.A0-b.f<PHYS.AWAIT_LEAD){setBallState(b,"await");b.w=Math.max(w,PHYS.AWAIT_W);w=b.w;}
         else if(b.t>=p.dur){setBallState(b,"settle");b.oEx=b.ox;b.oEz=b.oz;w=0;}
@@ -504,10 +517,11 @@
         const o1=6.283/.58,e1=Math.exp(-b.t/.30);b.f=b.restA+PHYS.A0*e1*(Math.cos(o1*b.t)+Math.sin(o1*b.t)/(o1*.30));
         const o2=6.283/.70,e2=Math.exp(-b.t/.34),kk=e2*(Math.cos(o2*b.t)+Math.sin(o2*b.t)/(o2*.34));b.ox=b.oEx*kk;b.oz=b.oEz*kk;
         if(b.t>PHYS.SETTLE)landed(b);
-      }else if(b.state==="landed"){b.land+=dt;const fo=b.u.foc.value;for(let j=0;j<3;j++)fo[j]+=((j===b.pick?1:.22)-fo[j])*Math.min(1,dt*3.5);}
-      b.w=w;for(let i=0;i<3;i++)b.u.lit.value[i]=b.lit[i];
+      }else if(b.state==="ready"){w=0;if(b.queued!==null){b.stop=b.queued;b.accepted=b.accepted||!b.queuedPending;b.queued=null;b.queuedPending=false;b.w=PHYS.W_FAST*.8;plan(b,PHYS.RIVAL_MIN);}}
+      else if(b.state==="landed"){b.land+=dt;const fo=b.u.foc.value;for(let j=0;j<NS;j++)fo[j]+=((j===b.pick?1:.22)-fo[j])*Math.min(1,dt*3.5);}
+      b.w=w;for(let i=0;i<NS;i++)b.u.lit.value[i]=b.lit[i];
       const sp=Math.min(1,w/PHYS.W_FAST),fast=["kick","spin","stopping","await"].includes(b.state);
-      b.u.blur.value=sp*.034;b.u.spd.value=sp;b.u.pulse.value=b.state==="landed"&&b.land<9?.5+.5*Math.sin(b.land*5):0;
+      b.u.blur.value=PHYS.BLUR?sp*.034:0;b.u.spd.value=PHYS.BLUR?sp:0;b.u.pulse.value=b.state==="landed"&&b.land<9?.5+.5*Math.sin(b.land*5):0;
       // The pattern's axis sits a few degrees off the spin axis (as on any ball spun by a boot), so the panels wobble once per
       // turn; the ball wanders a little inside the chalk ring and its lean always matches how far it has rolled.
       if(fast&&!reduced){const wrT=b.state==="stopping"?.045+.065*(1-sp):.045*sp;b.wr+=(wrT-b.wr)*Math.min(1,dt*3);b.wp+=dt*(.45+2.3*sp);b.ox=b.wr*Math.cos(b.wp)*b.r;b.oz=b.wr*Math.sin(b.wp)*b.r;}
@@ -517,7 +531,7 @@
       b.mesh.rotation.y=b.yaw-b.f*RAD;
       b.tilt.updateMatrix();b.mesh.updateMatrix();qT.copy(b.tilt.quaternion).multiply(b.mesh.quaternion);m4.makeRotationFromQuaternion(qT);b.u.rot.value.setFromMatrix4(m4);
       pitchU["b"+b.i].value.set(b.pos.x+b.ox,b.y,b.pos.z+b.oz);
-      const seamNow=Math.floor(b.f/120);if(seamNow!==b.seamPrev){b.seamPrev=seamNow;if(b.i===me&&sp>.02&&b.state!=="show")cue.tick(sp);}
+      const seamNow=Math.floor(b.f/PHYS.SECTION);if(seamNow!==b.seamPrev){b.seamPrev=seamNow;if(b.i===me&&sp>.02&&b.state!=="show")cue.tick(sp);}
     }
     const lin=hex=>{const c=srgbColour(T,hex);c.convertSRGBToLinear();return new T.Vector3(c.r,c.g,c.b);};
     function paint(dt){
@@ -574,7 +588,22 @@
       start(){balls.forEach((b,i)=>{if(b.state!=="idle")return;if(reduced){lightAll(b);b.f=60;b.state="spin-still";emit("state",b);return;}b.t=-.35*i;setBallState(b,"rest");b.t=-.35*i;});},
       state(i){return ballOf(i).state;},
       // STOP may be pressed while the own ball spins at full speed (or sits still under Reduce Motion).
-      canStop(i){const b=ballOf(i);return b.stop===null&&b.queued===null&&(b.state==="spin"||b.state==="spin-still");}, // a queued stored stop is already this ball's stop
+      canStop(i){const b=ballOf(i);return b.stop===null&&b.queued===null&&b.trapF===null&&(b.state==="spin"||b.state==="spin-still"||b.state==="ready");},
+      // r95 lab, MODE 1. trap(i): STOP traps the ball (it starts slowing at once toward the face in front + D0); touch(i, err01,
+      // rand01) within NEEDLE_T seconds: err01 is how far the needle was from the gold centre (0 clean .. 1 the edge or no
+      // touch); the stored integer is that aim plus a slip of up to +-(J0 + err01*JT). Returns the stop.
+      trap(i){const b=ballOf(i);if(!api.canStop(i)||b.state!=="spin")return false;b.trapF=b.f;b.own=true;b.accepted=false;
+        rollTo(b,b.trapF+PHYS.D0);if(b.i===me)cue.grab();return true;},
+      touch(i,err01,rand01){const b=ballOf(i);if(b.trapF===null||b.stop!==null)return null;const e=Math.max(0,Math.min(1,Number(err01)||0)),r=Number.isFinite(rand01)?rand01:secureRandom();
+        const abs=b.trapF+PHYS.D0+(2*r-1)*(PHYS.J0+e*PHYS.JT);b.stop=Math.floor(mod360(abs))%360;b.pick=sectionOf(b.stop);rollTo(b,abs,true);return b.stop;},
+      // r95 lab, MODE 2. strike(i, power01, rand01): the ball, still after the slow look, is kicked POW_MIN + power*POW_RANGE
+      // degrees on, plus a grass slip of +-J. Returns the stop.
+      strike(i,power01,rand01){const b=ballOf(i);if(!api.canStop(i)||b.state!=="ready")return null;const pw=Math.max(0,Math.min(1,Number(power01)||0)),r=Number.isFinite(rand01)?rand01:secureRandom();
+        const abs=b.f+PHYS.POW_MIN+pw*PHYS.POW_RANGE+(2*r-1)*PHYS.J;b.stop=Math.floor(mod360(abs))%360;b.pick=sectionOf(b.stop);b.own=true;b.accepted=false;
+        b.w=0;b.vy=4.6+3*pw;b.y=.001;rollTo(b,abs,true,true);if(b.i===me)cue.kick();return b.stop;},
+      // r95 lab: both balls back to the start (a new round on the test page).
+      restart(){balls.forEach((b,i)=>{Object.assign(b,{state:"idle",t:0,stop:null,pick:-1,accepted:false,plan:null,queued:null,queuedPending:false,own:false,trapF:null,lit:allN(1),w:0,y:0,vy:0,sq:0,land:0,glowSet:false,f:mod360(b.f)});
+        b.u.foc.value=allN(1);pitchU["glow"+i].value=0;});if(confetti)confetti.visible=false;api.start();}, // a queued stored stop is already this ball's stop
       // The tap. Returns the stored integer (0..359), computed once from the face in front of the manager now. The ball starts
       // slowing at once (the tap is felt) but rests only after accept(i). Never call it twice for one manager.
       tap(i,rand01){
@@ -641,7 +670,7 @@
   //         the host is still hidden; the scene re-lays itself out once it shows)}
   async function mountScene(host,opts){
     const o=opts||{},off=()=>Boolean(o.signal&&o.signal.aborted);
-    if(!host||!Array.isArray(o.balls)||o.balls.length!==2||o.balls.some(b=>!b||!Array.isArray(b.clubs)||b.clubs.length!==3)||!hasWebgl()||off())return null;
+    if(!host||!Array.isArray(o.balls)||o.balls.length!==2||o.balls.some(b=>!b||!Array.isArray(b.clubs)||(b.clubs.length!==3&&b.clubs.length!==6)||b.clubs.length!==o.balls[0].clubs.length)||!hasWebgl()||off())return null;
     let opened=false;
     try{
       const P=await quality();if(off())return null;

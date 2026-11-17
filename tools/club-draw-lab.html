@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- r95 Ball Game skill lab. NOT shipped (tools/ is never staged). Runs the real js/clubDrawScene3d.js ball with the r95
+     candidate games (trap and touch, power roll, the 2.7.0 STOP), 3 or 6 clubs per ball, no blur, and keeps score so Nik
+     can feel the speed and luck numbers before the build. No game state, no Firestore. -->
+<title>Ball Game lab</title>
+<style>
+@font-face{font-family:"BG Cond";font-weight:600;font-display:block;src:url("visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"BG Cond";font-weight:700;font-display:block;src:url("visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"BG Cond";font-weight:800;font-display:block;src:url("visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2") format("woff2")}
+@font-face{font-family:"BG Body";font-weight:400;font-display:block;src:url("visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"BG Body";font-weight:600;font-display:block;src:url("visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2") format("woff2")}
+/* The house: Home's warm black, Home's title gold (#C9A45C), the gold bevel, the smoked black tile, CONTINUE CAREER's gold
+   face for the one live button. The page is dark in both themes, like every Showdown screen. */
+:root{
+  --black:#060709;--ink:#F4F1EA;--cream:#E9DFC8;--mute:rgba(233,223,200,.66);--title:#C9A45C;--gold3:#ffd34d;--gold4:#f2c45b;--hair:rgba(242,196,91,.30);
+  --bevel:linear-gradient(135deg,#FFF1B8 0%,#E8B94A 16%,#8A6A12 38%,#F2C45B 58%,#FFF1B8 74%,#B8862A 100%);
+  --bevel-soft:linear-gradient(135deg,#FFE9A0 0%,#D9A83A 28%,#7A5C10 52%,#E8B94A 78%,#FFF1B8 100%);
+  --tile:linear-gradient(180deg,rgba(26,24,20,.92) 0%,rgba(9,9,11,.95) 46%,rgba(4,4,6,.97) 100%);
+  --tile-shadow:0 12px 26px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.55),inset 0 0 0 1px rgba(0,0,0,.7),inset 0 0 22px rgba(242,196,91,.07);
+  --cond:"BG Cond","Barlow Condensed","Arial Narrow",sans-serif;--body:"BG Body","Barlow",system-ui,sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="light"]){--black:#060709}}
+:root[data-theme="dark"]{--black:#060709}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;-webkit-tap-highlight-color:transparent}
+body{background:#060709 url("visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_1X.webp") 50% 42%/cover no-repeat;color:var(--ink);font:15px/1.35 var(--body);
+  display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100dvh}
+@media (max-aspect-ratio:1/1){body{background-image:url("visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V4.webp");background-position:50% 30%}}
+
+/* Home tile: smoked black face inside a 1px gold bevel. */
+.tile{position:relative;background:var(--tile);box-shadow:var(--tile-shadow);border:1px solid transparent;border-image:var(--bevel) 1}
+
+header{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 16px 8px}
+.kicker{display:inline-block;padding-bottom:6px;color:var(--gold3);font:700 13px/1.1 var(--cond);letter-spacing:.14em;text-transform:uppercase;
+  background:linear-gradient(var(--gold4),var(--gold4)) center bottom/34px 2px no-repeat}
+h1{margin:0;color:var(--title);font:800 clamp(26px,3vw,40px)/1 var(--cond);letter-spacing:.06em;text-transform:uppercase;text-shadow:0 2px 0 #000,0 0 18px rgba(201,164,92,.25)}
+.controls{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.controls select,.controls button{appearance:none;-webkit-appearance:none;font:600 14px/1 var(--cond);letter-spacing:.08em;text-transform:uppercase;color:var(--cream);
+  background:linear-gradient(180deg,#17140e,#070605);border:1px solid var(--hair);border-radius:3px;padding:8px 12px;box-shadow:inset 0 1px 0 rgba(242,196,91,.18),0 0 0 1px #000;cursor:pointer}
+.controls select{padding-right:26px;background-image:linear-gradient(45deg,transparent 50%,var(--gold4) 50%),linear-gradient(135deg,var(--gold4) 50%,transparent 50%),linear-gradient(180deg,#17140e,#070605);
+  background-position:calc(100% - 13px) 52%,calc(100% - 8px) 52%,0 0;background-size:5px 5px,5px 5px,100% 100%;background-repeat:no-repeat}
+.controls :is(select,button):hover{border-color:rgba(242,196,91,.6)}
+:is(select,button):focus-visible{outline:2px solid #f3dc97;outline-offset:2px}
+select:disabled{opacity:.45}
+
+.room{display:grid;grid-template-columns:minmax(200px,250px) minmax(0,1fr) minmax(200px,250px);gap:14px;padding:0 max(16px,4vw);min-height:0}
+.stageWrap{position:relative;min-height:0;padding:1px;background:var(--bevel);box-shadow:0 18px 40px rgba(0,0,0,.7),0 0 0 1px #000}
+#stage{position:absolute;inset:1px;background:#04060a;overflow:hidden}
+.side{display:flex;flex-direction:column;gap:12px;align-self:center}
+
+.aimCard{padding:14px 14px 12px;text-align:center}
+.aimCard .lbl{color:var(--gold3);font:700 12px/1 var(--cond);letter-spacing:.16em;text-transform:uppercase}
+.aimCard .crest{width:72px;height:86px;margin:10px auto 6px;display:grid;place-items:center;filter:drop-shadow(0 6px 10px rgba(0,0,0,.8))}
+.aimCard .crest img{max-width:100%;max-height:100%}
+.aimCard .name{font:700 22px/1.05 var(--cond);letter-spacing:.03em;text-transform:uppercase;color:var(--ink)}
+.scoreCard{padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;text-align:center}
+.scoreCard .big{font:800 34px/1 var(--cond);color:var(--ink);font-variant-numeric:tabular-nums}
+.scoreCard .big.gold{color:var(--gold4)}
+.scoreCard .cap{font:600 11px/1.2 var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.scoreCard .foot{grid-column:1/-1;margin-top:8px;padding-top:8px;border-top:1px solid rgba(242,196,91,.16);font-size:12.5px;color:var(--mute)}
+.scoreCard .foot button{all:unset;cursor:pointer;color:var(--gold4);text-decoration:underline;text-underline-offset:2px;margin-left:4px}
+.numbers{padding:12px 14px;font-size:13px}
+.numbers h2{margin:0 0 6px;color:var(--gold3);font:700 12px/1 var(--cond);letter-spacing:.16em;text-transform:uppercase}
+.numbers table{border-collapse:collapse;width:100%}
+.numbers td{padding:4px 0;border-top:1px solid rgba(242,196,91,.12);vertical-align:top;color:var(--mute)}
+.numbers td:last-child{padding-left:8px;text-align:right;color:var(--cream);font-variant-numeric:tabular-nums}
+.numbers tr:first-child td{border-top:0}
+#probe{margin-top:8px;color:rgba(233,223,200,.45);font:11px/1.3 ui-monospace,monospace}
+.how{padding:12px 14px;font-size:13px;color:var(--cream)}
+.how h2{margin:0 0 6px;color:var(--gold3);font:700 12px/1 var(--cond);letter-spacing:.16em;text-transform:uppercase}
+.how p{margin:0}
+
+.result{position:absolute;left:50%;top:10%;transform:translate(-50%,-6px);z-index:4;padding:10px 26px 9px;font:800 clamp(20px,2.4vw,30px)/1 var(--cond);letter-spacing:.14em;text-transform:uppercase;
+  opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;white-space:nowrap}
+.result.on{opacity:1;transform:translate(-50%,0)}
+.result.hit{color:var(--gold4);text-shadow:0 0 16px rgba(242,196,91,.35)}
+.result.miss{color:var(--cream)}
+.result small{display:block;margin-top:4px;font:600 13px/1 var(--cond);letter-spacing:.12em;color:var(--mute)}
+
+.dock{display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px 16px calc(14px + env(safe-area-inset-bottom))}
+/* The rail: an engraved black channel set in a brushed gold rim. The needle is a polished gold blade; the clean zone a gold
+   inlay with fine engraved lines; the power fill warm gold. */
+.rail{position:relative;width:min(420px,88vw);height:30px;padding:3px;background:var(--bevel-soft);box-shadow:0 8px 18px rgba(0,0,0,.65),0 0 0 1px #000;visibility:hidden}
+.rail.on{visibility:visible}
+.rail .chan{position:absolute;inset:3px;overflow:hidden;background:linear-gradient(180deg,#020203 0%,#0d0c0a 55%,#17140e 100%);box-shadow:inset 0 2px 6px rgba(0,0,0,.95),inset 0 -1px 0 rgba(242,196,91,.12)}
+.rail .ticks{position:absolute;inset:0;background:
+  repeating-linear-gradient(90deg,rgba(242,196,91,.34) 0 1px,transparent 1px 10%) 0 100%/100% 7px no-repeat,
+  repeating-linear-gradient(90deg,rgba(242,196,91,.16) 0 1px,transparent 1px 5%) 0 100%/100% 4px no-repeat}
+.rail .zone{position:absolute;top:0;bottom:0;left:50%;width:16%;transform:translateX(-50%);
+  background:repeating-linear-gradient(115deg,rgba(255,241,184,.10) 0 2px,transparent 2px 5px),linear-gradient(90deg,#8A6A12,#F2C45B 30%,#FFF1B8 50%,#F2C45B 70%,#8A6A12);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),0 0 12px rgba(242,196,91,.35);opacity:.92}
+.rail .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(180deg,#FFE98F 0%,#E8B93F 50%,#9C7019 100%);box-shadow:inset 0 -2px 4px rgba(0,0,0,.35),2px 0 8px rgba(242,196,91,.4)}
+.rail .needle{position:absolute;top:-4px;bottom:-4px;left:0;width:6px;margin-left:-3px;background:linear-gradient(90deg,#7A5C10,#FFF1B8 45%,#E8B94A 60%,#7A5C10);box-shadow:0 0 0 1px #000,0 3px 6px rgba(0,0,0,.8)}
+.rail .word{position:absolute;left:0;right:0;top:calc(100% + 4px);text-align:center;font:600 11px/1 var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+/* The live button is Home's CONTINUE CAREER tile; waiting it is a plain black tile with a gold hairline. */
+#act{width:min(420px,88vw);min-height:58px;padding:10px 16px;margin-top:10px;border:2px solid transparent;border-image:var(--bevel-soft) 1;border-radius:0;cursor:pointer;
+  font:800 clamp(20px,1.8vw,26px)/1 var(--cond);letter-spacing:.18em;text-transform:uppercase;color:#07080a;
+  background:linear-gradient(115deg,#FFE98F 0%,#F4CB5A 34%,#E8B93F 62%,#CD9526 100%);
+  box-shadow:0 12px 28px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.55),0 0 22px rgba(242,196,91,.2),inset 0 0 0 1px rgba(255,255,255,.32),inset 0 -10px 22px rgba(138,106,18,.28)}
+#act:active:not(:disabled){transform:translateY(1px);box-shadow:0 6px 14px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.32),inset 0 -6px 14px rgba(138,106,18,.32)}
+#act:disabled{cursor:default;color:rgba(233,223,200,.62);border:1px solid rgba(242,196,91,.26);border-image:none;background:rgba(10,10,12,.86);box-shadow:none;font-size:16px;letter-spacing:.12em}
+.tag{position:absolute;transform:translate(-50%,-100%);padding:3px 12px 2px;font:700 13px/1.1 var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--cream);
+  background:rgba(6,7,9,.78);border:1px solid var(--hair);pointer-events:none;z-index:2;white-space:nowrap}
+.tag.me{color:#07080a;background:linear-gradient(115deg,#FFE98F,#E8B93F);border-color:#7A5C10}
+
+@media (max-width:980px),(max-aspect-ratio:1/1){
+  .room{grid-template-columns:minmax(0,1fr);padding:0 12px}
+  .side.right{display:none}
+  .side.left{order:2;flex-direction:row;align-self:stretch;gap:8px}
+  .side.left .tile{flex:1}
+  .aimCard{display:grid;grid-template-columns:auto 1fr;align-items:center;text-align:left;gap:0 10px;padding:8px 10px}
+  .aimCard .crest{grid-row:1/3;width:40px;height:48px;margin:0}
+  .aimCard .name{font-size:18px}
+  .scoreCard{padding:8px 10px}.scoreCard .big{font-size:24px}.scoreCard .foot{display:none}
+  .room{grid-template-rows:minmax(0,1fr) auto}
+  header{padding:8px 10px 6px}.controls select,.controls button{font-size:12px;padding:7px 9px}.controls select{padding-right:22px}
+  h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+<header>
+  <span class="kicker">Skill lab · r95</span>
+  <h1>Ball Game</h1>
+  <div class="controls">
+    <select id="mode" aria-label="Game">
+      <option value="1">Trap and touch</option>
+      <option value="2">Power roll</option>
+      <option value="0">2.7.0 STOP (today)</option>
+    </select>
+    <select id="n" aria-label="Clubs per ball"><option value="6">6 clubs a ball</option><option value="3">3 clubs a ball</option></select>
+    <select id="hard" aria-label="Difficulty"><option value="0">Normal</option><option value="1" selected>Hard</option><option value="2">Very hard</option></select>
+    <select id="gfx" aria-label="3D quality"><option value="">Quality: Auto</option><option value="0">Light</option><option value="1">Balanced</option><option value="2">High</option><option value="3">Extra</option><option value="4">Ultra</option></select>
+    <button id="snd" type="button" aria-pressed="true">Sound on</button>
+  </div>
+</header>
+<div class="room">
+  <div class="side left">
+    <div class="tile aimCard" aria-live="polite"><div class="lbl">Aim for</div><div class="crest"><img id="aimImg" alt=""></div><div class="name" id="aimName">-</div></div>
+    <div class="tile scoreCard" id="nums"></div>
+  </div>
+  <div class="stageWrap"><div id="stage"></div><div class="result tile" id="result"></div></div>
+  <div class="side right">
+    <div class="tile how"><h2>How to play</h2><p id="hint"></p></div>
+    <div class="tile numbers"><h2>The numbers</h2><table id="numTable"></table><div id="probe"></div></div>
+  </div>
+</div>
+<div class="dock">
+  <div class="rail" id="meter"><div class="chan"><div class="ticks"></div><div class="zone" id="zone"></div><div class="fill" id="fill"></div><div class="needle" id="needle"></div></div><div class="word" id="mlbl"></div></div>
+  <button id="act" type="button" disabled>Loading</button>
+</div>
+<script src="js/gfxTier.js"></script>
+<script src="js/visualIdentity.js"></script>
+<script src="js/kits17.js"></script>
+<script src="js/clubDrawScene3d.js"></script>
+<script>
+(function(){
+  "use strict";
+  const M=window.CareerModeClubDraw3d,$=id=>document.getElementById(id),stage=$("stage");
+  const POOL=[["Arsenal","Chelsea","Liverpool","Manchester City","Manchester United","Tottenham Hotspur"],
+              ["Leicester City","Everton","Southampton","West Ham United","Watford","Stoke City"]];
+  const ME=1,RIVAL=0;
+  const store={get(k){try{return JSON.parse(localStorage.getItem("ballLab."+k));}catch(_e){return null;}},set(k,v){try{localStorage.setItem("ballLab."+k,JSON.stringify(v));}catch(_e){}}};
+  const q=new URLSearchParams(location.search);
+  ["mode","n","hard"].forEach(k=>{const v=q.get(k)??store.get(k);if(v!==null&&v!==undefined&&[...$(k).options].some(o=>o.value===String(v)))$(k).value=String(v);});
+  $("gfx").value=q.get("gfx")||"";
+  let sound=store.get("sound")!==false;const sndBtn=$("snd");const showSnd=()=>{sndBtn.textContent=sound?"Sound on":"Sound off";sndBtn.setAttribute("aria-pressed",String(sound));};showSnd();
+  sndBtn.onclick=()=>{sound=!sound;store.set("sound",sound);showSnd();};
+
+  // The numbers per game and difficulty, as fractions of one club's slice of the ball (S = 120 deg with 3 clubs, 60 with 6).
+  // W top speed deg/s (no blur: every frame sharp); trap: needle crossing time, slip at a clean touch (J0) and added at
+  // the edge (JT); power: one sweep of the bar, kick distance, grass slip J; today: 2.7.0 exactly (blur on, +-120).
+  const PRESETS={
+    1:[{W:330,NT:.75,J0:.10,JT:.80},{W:380,NT:.58,J0:.12,JT:.95},{W:420,NT:.46,J0:.14,JT:1.05}],
+    2:[{W:420,PT:1.0,J:.14},{W:460,PT:.78,J:.18},{W:500,PT:.62,J:.22}],
+    0:[{W:470,J:1}]
+  };
+  function config(){const mode=Number($("mode").value),n=Number($("n").value),h=mode===0?0:Number($("hard").value);return {mode,n,h,p:PRESETS[mode][h],S:360/n};}
+  function applyPhys(c){
+    M.tune("reset");
+    const P={MODE:c.mode,BLUR:c.mode===0?1:0,W_FAST:c.p.W};
+    if(c.mode===1)Object.assign(P,{J0:c.p.J0*c.S,JT:c.p.JT*c.S,NEEDLE_T:c.p.NT});
+    if(c.mode===2)Object.assign(P,{J:c.p.J*c.S,POW_T:c.p.PT,POW_MIN:360,POW_RANGE:540});
+    if(c.mode===0)Object.assign(P,{J:120});
+    M.tune(P);return M.tune({});
+  }
+  function crestUrl(name){try{return window.getClubCrestImageUrl(name,"big")||"";}catch(_e){return "";}}
+
+  let api=null,tags=[],cfg=null,round=0,aim=0,phase="loading",needle=null,powerT0=0,roundDone=false,doneTimer=0;
+  const key=()=>`stats.${cfg.mode}.${cfg.n}.${cfg.h}`;
+  let stats={hits:0,tries:0};
+  function showStats(){
+    const pct=stats.tries?Math.round(100*stats.hits/stats.tries):0,blind=Math.round(100/cfg.n);
+    $("nums").innerHTML=`<div><div class="big gold">${stats.hits}<span style="color:var(--mute);font-size:.6em">/${stats.tries}</span></div><div class="cap">Hits</div></div>`+
+      `<div><div class="big">${stats.tries?pct+"%":"-"}</div><div class="cap">Your rate</div></div>`+
+      `<div class="foot">A blind tap lands ${blind}%.<button id="resetStats" type="button">Reset</button></div>`;
+    $("resetStats").onclick=()=>{stats={hits:0,tries:0};store.set(key(),stats);showStats();};
+  }
+  function numbers(c,P){
+    const rows=[["Clubs per ball",`${c.n} (each ${c.S} deg)`]];
+    rows.push(["Top speed",`${Math.round(P.W_FAST)} deg/s = ${(P.W_FAST/360).toFixed(2)} turns/s`],["Blur",P.BLUR?"on (2.7.0)":"off: crests stay sharp"]);
+    if(c.mode===1)rows.push(["Lead after STOP",`${P.D0} deg (1 2/3 turns), always the same`],["Needle crossing",`${P.NEEDLE_T.toFixed(2)} s`],["Luck, clean touch",`+-${P.J0.toFixed(0)} deg`],["Luck, touch at the edge",`+-${(P.J0+P.JT).toFixed(0)} deg`]);
+    if(c.mode===2)rows.push(["Kick distance",`${P.POW_MIN} to ${P.POW_MIN+P.POW_RANGE} deg (1 to 2.5 turns)`],["Power bar sweep",`${P.POW_T.toFixed(2)} s one way`],["Luck (grass)",`+-${P.J.toFixed(0)} deg`]);
+    if(c.mode===0)rows.push(["Lead after STOP",`${P.D0} deg`],["Luck (grass)",`+-${P.J} deg`]);
+    rows.push(["Blind tap",`${Math.round(100/c.n)}%`]);
+    $("numTable").innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("");
+  }
+  function hint(){
+    const t={1:"Watch the crests go round. Press STOP to trap the ball (it lands 1 2/3 turns after the crest in front of you), then press TOUCH when the needle is in the gold. Space works too.",
+      2:"The ball waits still. Press KICK when the power bar is right: more power, more turns. Learn how far each power rolls. Space works too.",
+      0:"2.7.0 as it is today: one STOP, big luck (+-120 deg) and blur at full speed."};
+    $("hint").textContent=t[cfg.mode];
+  }
+  async function build(){
+    if(api){api.dispose();api=null;}tags.forEach(t=>t.remove());tags=[];
+    cfg=config();["mode","n","hard"].forEach(k=>store.set(k,$(k).value));$("hard").disabled=cfg.mode===0;
+    const P=applyPhys(cfg);numbers(cfg,P);hint();stats=store.get(key())||{hits:0,tries:0};showStats();
+    setAct("Loading",false);phase="loading";
+    const balls=[{clubs:POOL[0].slice(0,cfg.n)},{clubs:POOL[1].slice(0,cfg.n)}];
+    api=await M.mount(stage,{balls,me:ME,sound:()=>sound});
+    if(!api){setAct("3D NOT AVAILABLE",false);return;}
+    tags=[["Rival",RIVAL],["You",ME]].map(([txt,who])=>{const t=document.createElement("div");t.className="tag"+(who===ME?" me":"");t.textContent=txt;stage.append(t);return t;});
+    api.on(onEvent);
+    newRound(true);
+  }
+  function setAct(txt,on){const b=$("act");b.textContent=txt;b.disabled=!on;}
+  function newRound(first){
+    clearTimeout(doneTimer);roundDone=false;needle=null;meter(false);$("result").className="result tile";
+    aim=Math.floor(Math.random()*cfg.n);const name=POOL[ME][aim];$("aimName").textContent=name;const u=crestUrl(name);$("aimImg").src=u;$("aimImg").hidden=!u;
+    phase="look";setAct(cfg.mode===2?"KICK":"STOP",false);
+    if(first)api.start();else api.restart();
+  }
+  function onEvent(e){
+    if(e.ball===ME&&e.type==="state"){
+      if(e.state==="spin"&&cfg.mode!==2){phase="aim";setAct("STOP",true);}
+      if(e.state==="ready"&&cfg.mode===2){phase="power";powerT0=performance.now();meter(true,"power");setAct("KICK",true);}
+    }
+    if(e.type==="landed"&&e.ball===ME&&!roundDone){
+      roundDone=true;const hit=e.section===aim;stats.tries++;if(hit)stats.hits++;store.set(key(),stats);showStats();
+      const r=$("result");r.innerHTML=`${hit?"Hit":"Miss"}<small>${POOL[ME][e.section]}</small>`;r.className="result tile on "+(hit?"hit":"miss");
+      phase="done";setAct("NEXT ROUND",true);meter(false);
+    }
+  }
+  function meter(on,kind){
+    const m=$("meter");m.classList.toggle("on",Boolean(on));if(!on)return;
+    const P=M.tune({});$("zone").style.display=kind==="needle"?"":"none";$("fill").style.display=kind==="power"?"":"none";$("needle").style.display=kind==="needle"?"":"none";
+    $("mlbl").textContent=kind==="needle"?"Touch in the gold":"Power";
+    
+  }
+  function rivalStops(){setTimeout(()=>{if(api&&api.alive)api.restOn(RIVAL,Math.floor(Math.random()*360));},500+Math.random()*900);}
+  function accept(stop){setTimeout(()=>{if(api&&api.alive)api.accept(ME,stop);},350);}
+  function act(){
+    if(!api)return;
+    if(phase==="done"){newRound(false);return;}
+    if(cfg.mode===0&&phase==="aim"){const s=api.tap(ME);if(s!==null){phase="rolling";setAct("ROLLING",false);accept(s);rivalStops();}return;}
+    if(cfg.mode===1&&phase==="aim"){if(api.trap(ME)){phase="needle";needle={t0:performance.now(),T:M.tune({}).NEEDLE_T*1000};meter(true,"needle");setAct("TOUCH",true);rivalStops();}return;}
+    if(cfg.mode===1&&phase==="needle"){touch();return;}
+    if(cfg.mode===2&&phase==="power"){const s=api.strike(ME,powerNow());if(s!==null){phase="rolling";setAct("ROLLING",false);meter(false);accept(s);rivalStops();}}
+  }
+  function needlePos(){return needle?Math.min(1,(performance.now()-needle.t0)/needle.T):0;}
+  function touch(){const x=needlePos(),err=Math.min(1,Math.abs(x-.5)*2);needle=null;const s=api.touch(ME,err);phase="rolling";setAct("ROLLING",false);setTimeout(()=>meter(false),450);if(s!==null)accept(s);}
+  function powerNow(){const T=M.tune({}).POW_T*1000,x=((performance.now()-powerT0)/T)%2;return x<=1?x:2-x;}
+  function frame(){
+    if(phase==="needle"&&needle){const x=needlePos();$("needle").style.left=`${x*100}%`;if(x>=1)touch();}
+    if(phase==="power"){$("fill").style.width=`${powerNow()*100}%`;}
+    if(api&&api.alive)tags.forEach((t,i)=>{const a=api.anchor(i===0?RIVAL:ME);t.style.left=a.x+"px";t.style.top=a.y+"px";});
+    requestAnimationFrame(frame);
+  }
+  $("act").addEventListener("click",act);
+  addEventListener("keydown",e=>{if(e.code==="Space"||e.code==="Enter"){if(e.target&&e.target.tagName==="SELECT")return;e.preventDefault();act();}});
+  ["mode","n","hard"].forEach(k=>$(k).addEventListener("change",build));
+  $("gfx").addEventListener("change",()=>{const u=new URL(location.href);if($("gfx").value==="")u.searchParams.delete("gfx");else u.searchParams.set("gfx",$("gfx").value);location.href=u.href;});
+  setInterval(()=>{if(!api||!api.alive)return;const p=api.probe();$("probe").textContent=`level ${p.level} · draws ${p.draws} · programs ${p.programs} · frame ${p.frameMs?p.frameMs.toFixed(1)+" ms":"-"}`;},500);
+  requestAnimationFrame(frame);build();
+})();
+</script>
+</body>
+</html>
