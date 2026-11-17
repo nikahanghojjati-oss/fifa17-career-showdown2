@@ -100,7 +100,7 @@
     return drawStepPromise;
   }
   function ssjpDrawContext(){return {rivalryId:String(state?.rivalryId||""),role:state?.managerRole||"",visible:ssjpActiveScreen()==="clubWheelScreen"&&root.document?.visibilityState!=="hidden"};}
-  // Daniel's device moves a draw 2 Setup on by itself: the six candidates right after the league, then his season length.
+  // Daniel's device moves a draw Setup (2, or 3 since R95-01: six clubs a ball) on by itself: the six candidates right after the league, then his season length.
   function ssjpDrawAdvance(setup){
     if(!active||!ssjpPending()||!ssjpIsDraw(setup)||!ssjpCoordinator()||busy)return false;
     if(setup.phase==="LEAGUE_WHEEL_COMMITTED"){if(!drawClubsPromise)drawClubsPromise=ssjpMutate("commit-clubs").finally(()=>{drawClubsPromise=null;});return true;}
@@ -293,7 +293,7 @@
     }
     clubRevealComplete=setup.phase==="SHOWDOWN_CONFIRMED"&&drawStep.bothLanded();
     if(clubRevealComplete){screen.dataset.sharedClubPacksWitnessed=ssjpClubDigest(setup)||"true";ssjpFillConfirmation(setup);}else if(confirmation)confirmation.classList.add("hidden");
-    ssjpText(root.document.getElementById("clubPackStatus"),clubRevealComplete?"BOTH BALLS STOPPED · CLUBS LOCKED":"");
+    ssjpText(root.document.getElementById("clubPackStatus"),clubRevealComplete?"CLUBS LOCKED":"");
     ssjpRenderDrawButton(setup,button,role);
     const mine=Boolean(role&&(stored[role]!==null||saved!==null)),theirs=Boolean(role&&stored[role==="playerOne"?"playerTwo":"playerOne"]!==null);
     if(setup.phase==="SHOWDOWN_CONFIRMED"){ssjpSetSharedStatus(state?.ready!==true?"CONNECTION NEEDED · Reconnect both players before Career Start.":clubRevealComplete?"SETUP COMPLETE · Both balls have stopped.":"BOTH STOPPED · Watch the balls come to rest.");ssjpMaybeAutoOpenCareerStart(setup);}
@@ -389,7 +389,7 @@
     if(!state)return "stale";
     if(id==="spinLeague"){
       if(!state.ready)return "stale";
-      if(!state.setup){if(state.remoteRole!=="host")return "stale";if(!await ssjpMutate("open",{draw:2}))return "failed";}
+      if(!state.setup){if(state.remoteRole!=="host")return "stale";if(!await ssjpMutate("open",{draw:3}))return "failed";}
       if(state.setup&&state.setup.phase==="SHARED_SETUP_OPEN"){if(!ssjpCoordinator())return "stale";return await ssjpMutate("commit-league")?"done":"failed";}
       if(state.setup&&ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED")){if(witnessedLeagueId!==state.setup.leagueId){await ssjpRenderLeague();return "done";}if(ssjpIsDraw(state.setup)&&!ssjpDrawReady(state.setup)){ssjpDrawAdvance(state.setup);ssjpDrawPrepare(state.setup);ssjpLater(ssjpAutoForwardToClubs,250);ssjpSetSharedStatus("LEAGUE REVEALED · Getting the club draw ready.");return "done";}ssjpForceScreen("clubWheelScreen");await ssjpRenderClub();return "done";}return "stale";
     }

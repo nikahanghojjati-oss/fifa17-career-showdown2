@@ -44,10 +44,11 @@
 #clubWheelScreen[data-club-draw="spin"] .clubRevealCard:not(.is-revealed) .clubCardFace strong{color:rgba(243,238,223,.32)}
 #clubWheelScreen[data-club-draw="spin"] .clubCardState{display:block;margin-top:0;color:rgba(243,238,223,.6);letter-spacing:.12em;font-size:10px;line-height:1.3}
 
-/* The flat stand-in (no WebGL2): three crests per manager, the lit one cycling, the picked one gold. */
+/* The flat stand-in (no WebGL2): the crests per manager (3, or 6 for the Ball Game), the lit one cycling, the picked one gold. */
 .clubDrawFlat{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:12px;padding:16px;box-sizing:border-box;
   background:radial-gradient(ellipse at 50% 120%,#1f6b2c 0,#0d3a17 55%,#04060a 100%)}
-.clubDrawFlatBall{display:flex;justify-content:center;gap:10px}
+.clubDrawFlatBall{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.clubDrawFlatBall[data-count="6"] .clubDrawFlatClub{width:clamp(44px,6.4vw,92px)}
 .clubDrawFlatClub{width:clamp(56px,9vw,110px);aspect-ratio:120/144;border-radius:12px;padding:6px;box-sizing:border-box;background:rgba(0,0,0,.35);
   border:2px solid rgba(216,181,90,.25);opacity:.45;transition:opacity .12s linear,border-color .12s linear}
 .clubDrawFlatClub.is-lit{opacity:1;border-color:#d8b55a}

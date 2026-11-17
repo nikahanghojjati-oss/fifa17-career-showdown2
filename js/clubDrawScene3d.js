@@ -2,10 +2,11 @@
   "use strict";
 
   // R94-02 Club Assignment "spin and stop" (Nik's picks 2026-11-15, study gameplay/r94/threads/R94_02_CLUB_ASSIGNMENT_STUDY.md).
-  // Two real stitched footballs on a floodlit pitch, one per manager. Each ball carries that manager's three candidate clubs:
+  // Two real stitched footballs on a floodlit pitch, one per manager. Each ball carries that manager's six candidate clubs (the
+  // Ball Game, draw 3; a 2.7.0 draw 2 ledger replays with three):
   // the 32 panels of a match ball (12 pentagons, 20 hexagons), whole panels per club, a black band with a gold line on the
-  // seams between clubs, the crest in the middle of each third. The ball turns slowly once so the crests can be read, is
-  // spun hard, and STOP lets the grass slow it: the third facing the manager when it rests is his club.
+  // seams between clubs, the crest in the middle of each slice (60 deg for six clubs, 120 for three). The ball turns slowly once so the crests can be
+  // read, is spun hard, and STOP lets the grass slow it: the slice facing the manager when it rests is his club.
   //
   // This module only draws. It never decides a club and never writes: the presentation computes the stop at the tap (tap()),
   // sends it inside the manager's confirm, and calls accept() once Firebase holds it. Until then the ball may slow but never
@@ -33,8 +34,8 @@
     RHY:.22, RHY_T:2.4, RHY2:.13, RHY_T2:1.55, RHY3:.08, RHY_T3:3.7
   };
   const PHYS_DEFAULT=Object.freeze({...PHYS});
-  // The tuning page only (tools/club-draw-tuning.html): the game never calls it. SECTION is 120 (three clubs per ball) or
-  // 60 (six); mount sets it from the clubs it is given. Every value stays finite and the waves can never stop the ball.
+  // The tuning page only (tools/club-draw-tuning.html): the game never calls it. SECTION is 60 (six clubs per ball, the
+  // Ball Game) or 120 (three, a replayed 2.7.0 ledger); mount sets it from the clubs it is given. Every value stays finite and the waves can never stop the ball.
   // The mounted scene's slice (60 or 120): Reset keeps it, so a reset never moves the stop law off the drawn crests.
   let mountedSection=0;
   function tune(partial){
@@ -415,7 +416,7 @@
   // ---------- the scene ----------
   function build(T,host,opts,P,assets){
     const K=knobs(P.level),d=cdDoc(),reduced=opts.reducedMotion===undefined?cdReducedMotion():Boolean(opts.reducedMotion);
-    const NS=opts.balls[0].clubs.length===6?6:3,ROWS=NS/3;mountedSection=PHYS.SECTION=360/NS; // clubs per ball: 3 (2.7.0) or 6 (r95 lab)
+    const NS=opts.balls[0].clubs.length===6?6:3,ROWS=NS/3;mountedSection=PHYS.SECTION=360/NS; // clubs per ball: 6 (Ball Game, draw 3) or 3 (replayed 2.7.0 draw 2)
     const allN=v=>Array.from({length:NS},()=>v);
     const me=opts.me===1?1:0;
     const canvas=d.createElement("canvas");canvas.className="clubDraw3d";canvas.setAttribute("aria-hidden","true");
@@ -426,7 +427,7 @@
     const geo=g=>{own.push(g);return g;},mat=m=>{own.push(m);return m;},tex=t=>{own.push(t);return t;};
     const PAN=panels(T);
 
-    // Crest atlas: three crests side by side, drawn once (the images are already decoded behind the loading screen).
+    // Crest atlas: the ball's crests (six, or three) side by side, drawn once (the images are already decoded behind the loading screen).
     function atlas(images){
       const size=K.atlas,cv=d.createElement("canvas");cv.width=size*3;cv.height=size*ROWS;const cx=cv.getContext("2d");
       images.forEach((im,i)=>{if(!im)return;const iw=im.naturalWidth||im.width||120,ih=im.naturalHeight||im.height||144,h=size*.90,w=Math.min(size*.92,h*iw/ih),ox=(i%3)*size,oy=Math.floor(i/3)*size;
@@ -543,7 +544,7 @@
       if(b.state==="idle"){w=0;}
       else if(b.state==="rest"){if(b.t>PHYS.REST0){lightAll(b);b.showSeg=0;b.showA=b.f;b.showB=showTarget(b.f);b.showT=0;b.showCued=false;setBallState(b,"show");}}
       else if(b.state==="show"){
-        // The slow look (Nik 2026-11-16): all three crests are fully drawn from the first frame (their images were decoded
+        // The slow look (Nik 2026-11-16): every crest is fully drawn from the first frame (their images were decoded
         // behind the loading screen), and the ball turns each one in turn to face the camera and holds it there (SHOW
         // seconds) so it can be read; after the third it rolls off and is kicked. Before, the crests bloomed in one by one
         // during a single continuous turn, so a third could pass the camera blank or half drawn.

@@ -630,14 +630,14 @@ async function playSetup(daniel,nik){
   const league=norm(await daniel.page.locator("#selectedLeague").textContent());
   await nik.page.waitForFunction(l=>document.getElementById("selectedLeague")?.textContent===l,league,{timeout:30000});
   for(const m of [daniel,nik])await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
-  // R94-02: the club draw. Daniel's device deals three clubs to each ball and locks the season length by itself; each
+  // R94-02: the club draw (R95-01: the Ball Game, six clubs a ball, 60 degree slices). Daniel's device deals the clubs to each ball and locks the season length by itself; each
   // manager taps STOP on his own phone (Daniel first, or Nik first in every second Showdown); both balls rest on both phones.
   const nikFirst=showdownNow.charCodeAt(0)%2===0;
   const clubs=await clubDraw.playClubDraw(daniel,nik,{danielFirst:!nikFirst,timeout:60000});
   const held=await clubDraw.setupState(daniel.page);
   const drawn=Boolean(held&&held.candidates&&Array.isArray(held.stops)&&held.stops.length===2);
-  await check(daniel,`setup.${showdownNow}.clubDraw`,"the club draw: six distinct candidates, one stored stop each, every club the third its ball rests on, the same clubs on screen",
-    drawn&&new Set([...held.candidates.playerOne,...held.candidates.playerTwo]).size===6&&held.confirmedRoles.every((role,i)=>Number.isInteger(held.stops[i])&&held.stops[i]>=0&&held.stops[i]<360&&held.clubs[role]===held.candidates[role][Math.floor(held.stops[i]/120)])&&held.clubs.playerOne===clubs[0]&&held.clubs.playerTwo===clubs[1],
+  await check(daniel,`setup.${showdownNow}.clubDraw`,"the Ball Game: six clubs a ball, twelve distinct, one stored stop each, every club the slice its ball rests on, the same clubs on screen",
+    drawn&&held.candidates.playerOne.length===6&&held.candidates.playerTwo.length===6&&new Set([...held.candidates.playerOne,...held.candidates.playerTwo]).size===12&&held.confirmedRoles.every((role,i)=>Number.isInteger(held.stops[i])&&held.stops[i]>=0&&held.stops[i]<360&&held.clubs[role]===held.candidates[role][Math.floor(held.stops[i]/60)])&&held.clubs.playerOne===clubs[0]&&held.clubs.playerTwo===clubs[1],
     JSON.stringify({held,clubs,kinds:clubs.kinds}),{screen:"Club Assignment"});
   console.log(`  club draw: ${clubs.join(" v ")} (drawn as ${clubs.kinds.join("/")})`);
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
