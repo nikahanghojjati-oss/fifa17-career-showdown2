@@ -103,7 +103,7 @@
   const clBoxMap=map=>BOX_ROOM&&map?{...map,protected_boxes:{...map.protected_boxes,...BOX}}:map;
   let boxOpen=[false,false],boxBand=null;
   const PHONE_MQ="(max-width: 760px) and (orientation: portrait)";
-  const SIDE_MQ="(min-width: 600px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape)";
+  const SIDE_MQ="(min-width: 560px) and (max-width: 960px) and (max-height: 500px) and (orientation: landscape)";
   const TABLET_MQ="(min-width: 761px) and (max-width: 1024px) and (orientation: portrait)";
   const clMatch=query=>Boolean(root.matchMedia&&root.matchMedia(query).matches);
   // The element box of a pack drawn so that its pack (PACK_ART.box) fills the plate rect r.
