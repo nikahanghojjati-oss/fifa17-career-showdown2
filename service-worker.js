@@ -50,6 +50,7 @@ const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     // r95: the Instrument Sans variable faces the r95 type sheet asks for by a relative url(), so the request has no ?v=
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2",
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wght-italic.woff2",
+    "visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt",
     "visual-assets/v10_1/roulette/vendor/three-r187.min.js",
     // r90 (Codex #1348 P1): the roulette and Special Player pages load the shared quality module without ?v=; without this
     // entry an offline open falls through to the network and GFXT.profile() throws, so the scene cannot play.
@@ -370,6 +371,7 @@ const SHELL_PATHS = Object.freeze([
     "css/r95-type.css",
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2",
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wght-italic.woff2",
+    "visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt",
     "css/r78-marble-surfaces.css",
     "css/r78-marble-tile.webp",
     "js/showdownConfirm.js",
@@ -466,7 +468,8 @@ const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
     "css/clubDraw.css",
     "css/r95-type.css",
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wght-italic.woff2"
+    "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wght-italic.woff2",
+    "visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt"
 ]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([
 ]);

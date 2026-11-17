@@ -42,7 +42,7 @@ function createRuleBookScreen(){
             "Career Mode Showdown is a game for two managers: Daniel and Nik.",
             "Daniel starts every Showdown and picks its length: 1, 3, 5 or 10 seasons. Nik joins from Home.",
             "The league wheel lands on one of five leagues: Premier League, LaLiga, Bundesliga, Serie A or Ligue 1.",
-            "Club Assignment then deals each of you three random clubs from that league, one football each. Tap STOP on your own phone and the club your football comes to rest on is yours. It stays yours for the whole Showdown.",
+            "The Ball Game then deals each of you three random clubs from that league, one football each. Tap STOP on your own phone and the club your football comes to rest on is yours. It stays yours for the whole Showdown.",
             "It is skill plus luck: stop it at the right moment and your football lands on the club you aimed for about half the time. You each stop once. There is no second spin.",
             "Every season runs in the same order: Chamber Men, Squad Management, Roster Russian Roulette, Prime Pack, Transfer War, Squad Management again, then the season itself and Season Results."
         ]),
@@ -229,7 +229,7 @@ function createScoringRuleSection(){
 // lives in card 08. This Showdown's two chips are filled in when the Rule Book opens (renderRuleBookSpecialPlayers).
 function createSpecialPlayerRuleSection(){
     const article = createRuleSection("02", "SPECIAL PLAYER", [
-        "Right after Club Assignment, you each draw one Special Player.",
+        "Right after the Ball Game, you each draw one Special Player.",
         "He comes from the top 300 FIFA 17 players by potential, from the launch squads. He never plays for your own club, and you and your rival never draw the same player.",
         "Both draws are shown on the reveal screen, and each Special Player stays with his manager for the whole Showdown.",
         "Career Start shows his FIFA 17 club, so you can sign him in your career.",
