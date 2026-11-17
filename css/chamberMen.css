@@ -399,6 +399,8 @@
   /* LOOK L48: on a tall window the stage grows with the height (the pitch keeps 16:9 and the 300 px the score and the
      controls take), so a 1920x1080 screen has no empty band under the controls; 1180 px stays the narrowest. */
   #cmStage .cmShell { width: min(max(1180px, calc((100dvh - 300px) * 16 / 9)), 100%); padding-top: 14px; gap: 10px; }
+  /* r96 look 5: the row captions (PICK YOUR SHOT, PICK YOUR DIVE) are 13 px on a desktop window; phones keep 12 px. */
+  #cmStage .cmRowLabel { font-size: 13px; }
   #cmStage .cmPlay { display: flex; gap: 10px; }
   #cmStage .cmGoalBox { margin: 0; }
   #cmStage .cmGoal { height: clamp(260px, calc(100dvh - 300px), 56.25cqw); border: 1px solid var(--r78-gold-edge, #d4a017); border-radius: 3px; }
