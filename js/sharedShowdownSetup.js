@@ -20,8 +20,16 @@
   const DRAW_STATE_KEYS = [...STATE_KEYS.slice(0, -1), "candidates", "stops", "contentHash"];
   const DRAW_CANDIDATES = 3;
   const STOP_SECTION_DEGREES = 120;
+  // R95-01 Ball Game (draw 3, Nik 2026-11-17): the same spin and stop with SIX candidates per ball (twelve distinct
+  // clubs from the drawn league), so each club holds a 60 degree slice and his club is candidates[floor(stop / 60)].
+  // The marker is one more ledger key, `draw` (always the integer 3), written at open beside `stops` and never changed.
+  // Draw 1 ledgers (no `stops`) and draw 2 ledgers (`stops`, no `draw`) keep their exact keys, hashes and clubs.
+  const DRAW3_STATE_KEYS = [...STATE_KEYS.slice(0, -1), "candidates", "stops", "draw", "contentHash"];
+  const DRAW3_CANDIDATES = 6;
+  const DRAW3_SECTION_DEGREES = 60;
   const LEDGER_KEYS = Object.freeze(["schemaVersion", "objectType", "rivalryId", "revision", "phase", "coordinatorRole", "operationIds", "operationTypes", "baseRevisions", "actorRoles", "totalSeasons", "confirmedRoles", "activeSessionId", "updatedAt", "updatedByDeviceId"]);
   const DRAW_LEDGER_KEYS = Object.freeze([...LEDGER_KEYS, "stops"]);
+  const DRAW3_LEDGER_KEYS = Object.freeze([...DRAW_LEDGER_KEYS, "draw"]);
   const COMMAND_FIELDS = Object.freeze({
     open: [],
     "commit-league": ["leagueId"],
@@ -57,16 +65,22 @@
   // a non-array object; protocol state and commands keep the strict plain-object checks.
   function record(value){ return !!value && typeof value === "object" && !Array.isArray(value); }
   function isDrawState(value){ return plain(value) && Object.hasOwn(value, "stops"); }
-  // His club is the candidate on the section of his ball facing him at rest.
+  // The draw a setup was opened with: 1 (no `stops`), 2 (`stops`) or 3 (`stops` and `draw: 3`).
+  function drawOf(value){ return !record(value) || !Object.hasOwn(value, "stops") ? 1 : Object.hasOwn(value, "draw") ? value.draw : 2; }
+  function candidatesFor(draw){ return draw === 3 ? DRAW3_CANDIDATES : DRAW_CANDIDATES; }
+  // His club is the candidate on the section of his ball facing him at rest: three 120 degree sections on a
+  // draw 2 ball, six 60 degree slices on a draw 3 ball.
   function clubForStop(candidates, stop){
-    if(!Array.isArray(candidates) || candidates.length !== DRAW_CANDIDATES || !validStop(stop)) ssjFail("SETUP_STOP_INVALID");
-    return candidates[Math.floor(stop / STOP_SECTION_DEGREES)];
+    if(!Array.isArray(candidates) || (candidates.length !== DRAW_CANDIDATES && candidates.length !== DRAW3_CANDIDATES) || !validStop(stop)) ssjFail("SETUP_STOP_INVALID");
+    return candidates[Math.floor(stop / (candidates.length === DRAW3_CANDIDATES ? DRAW3_SECTION_DEGREES : STOP_SECTION_DEGREES))];
   }
   // The ledger keys a stored setup document must have: the 15 of every Showdown before R94-02, or those plus
   // `stops` (one integer 0..359 per confirmed manager, in confirmedRoles order). Used by every reader that
   // checks the stored ledger, so old and new Showdowns are recognised in one place.
-  function ledgerKeys(value){ return record(value) && Object.hasOwn(value, "stops") ? DRAW_LEDGER_KEYS : LEDGER_KEYS; }
+  // R95-01: a draw 3 ledger also carries `draw` (3).
+  function ledgerKeys(value){ return record(value) && Object.hasOwn(value, "stops") ? (Object.hasOwn(value, "draw") ? DRAW3_LEDGER_KEYS : DRAW_LEDGER_KEYS) : LEDGER_KEYS; }
   function ledgerStopsValid(value){
+    if(record(value) && Object.hasOwn(value, "draw") && (!Object.hasOwn(value, "stops") || value.draw !== 3)) return false;
     if(!record(value) || !Object.hasOwn(value, "stops")) return true;
     return Array.isArray(value.stops) && Array.isArray(value.confirmedRoles) && value.stops.length === value.confirmedRoles.length && value.stops.every(validStop);
   }
@@ -110,8 +124,8 @@
     }
     return freeze(snapshot);
   }
-  // Draw 2 command shapes: open may carry draw:2, commit-clubs carries candidates instead of clubs, and
-  // confirm carries the manager's stop. Every older command shape is unchanged.
+  // Draw 2 command shapes: open may carry draw:2 (or draw:3, R95-01), commit-clubs carries candidates instead of
+  // clubs (three or six per manager), and confirm carries the manager's stop. Every older command shape is unchanged.
   function commandFields(value){
     if(value.type === "open" && Object.hasOwn(value, "draw")) return ["draw"];
     if(value.type === "commit-clubs" && Object.hasOwn(value, "candidates")) return ["candidates"];
@@ -123,10 +137,11 @@
     exact(value, ["type", "operationId", "baseRevision", ...commandFields(value)], "SETUP_COMMAND_INVALID");
     if(!validId(value.operationId, /^setup_op_[0-9a-f]{32}$/) || !Number.isSafeInteger(value.baseRevision) || value.baseRevision < 0) ssjFail("SETUP_COMMAND_INVALID");
     if(value.type === "commit-league" && !LEAGUES.includes(value.leagueId)) ssjFail("SETUP_LEAGUE_INVALID");
-    if(value.type === "open" && Object.hasOwn(value, "draw") && value.draw !== 2) ssjFail("SETUP_COMMAND_INVALID");
+    if(value.type === "open" && Object.hasOwn(value, "draw") && value.draw !== 2 && value.draw !== 3) ssjFail("SETUP_COMMAND_INVALID");
     if(value.type === "commit-clubs" && Object.hasOwn(value, "candidates")){
       exact(value.candidates, ROLES, "SETUP_CLUBS_INVALID");
-      if(ROLES.some(role => !Array.isArray(value.candidates[role]) || value.candidates[role].length !== DRAW_CANDIDATES || value.candidates[role].some(club => typeof club !== "string"))) ssjFail("SETUP_CLUBS_INVALID");
+      const size = Array.isArray(value.candidates.playerOne) ? value.candidates.playerOne.length : -1;
+      if((size !== DRAW_CANDIDATES && size !== DRAW3_CANDIDATES) || ROLES.some(role => !Array.isArray(value.candidates[role]) || value.candidates[role].length !== size || value.candidates[role].some(club => typeof club !== "string"))) ssjFail("SETUP_CLUBS_INVALID");
     }else if(value.type === "commit-clubs"){
       exact(value.clubs, ROLES, "SETUP_CLUBS_INVALID");
       if(ROLES.some(role => typeof value.clubs[role] !== "string")) ssjFail("SETUP_CLUBS_INVALID");
@@ -140,11 +155,26 @@
     const value = {schemaVersion:1, bindingHash:state.bindingHash, catalogHash:state.catalogHash, coordinatorRole:state.coordinatorRole, leagueId:state.leagueId, clubs:state.clubs, totalSeasons:state.totalSeasons};
     // Draw 2: a manager confirms the league, the length and the six candidates; his stop rides on the
     // confirm itself. Older setups keep the exact value (and hash) they always had.
-    return isDrawState(state) ? {...value, drawVersion:2, candidates:state.candidates} : value;
+    return isDrawState(state) ? {...value, drawVersion:drawOf(state), candidates:state.candidates} : value;
   }
-  function validCandidates(candidates, leagueId, catalog){
+  // R95-01 (Nik 2026-11-17, hard rule): the two balls never share a club. Both managers are dealt from ONE pool of the
+  // drawn league's clubs, without replacement (each pick is spliced out), alternating playerOne, playerTwo, ... So every
+  // draw holds count x 2 distinct clubs of that league BY CONSTRUCTION, whatever indices `pick` returns; a pick outside
+  // the pool fails instead of reusing a club. Draw 2 deals exactly as in 2.7.0 (same picks, same order).
+  async function dealCandidates(pool, count, pick){
+    const available = [...pool];
+    if(available.length < count * ROLES.length) ssjFail("SETUP_DRAW_NOT_AVAILABLE");
+    const candidates = {playerOne:[], playerTwo:[]};
+    for(let index = 0; index < count * ROLES.length; index++){
+      const at = await pick(index, available.length);
+      if(!Number.isSafeInteger(at) || at < 0 || at >= available.length) ssjFail("SETUP_DRAW_NOT_AVAILABLE");
+      candidates[ROLES[index % ROLES.length]].push(available.splice(at, 1)[0]);
+    }
+    return candidates;
+  }
+  function validCandidates(candidates, leagueId, catalog, count){
     exact(candidates, ROLES, "SETUP_CLUBS_INVALID");
-    const all = ROLES.flatMap(role => Array.isArray(candidates[role]) && candidates[role].length === DRAW_CANDIDATES ? candidates[role] : ssjFail("SETUP_CLUBS_INVALID"));
+    const all = ROLES.flatMap(role => Array.isArray(candidates[role]) && candidates[role].length === count ? candidates[role] : ssjFail("SETUP_CLUBS_INVALID"));
     if(new Set(all).size !== all.length || !catalog[leagueId] || !all.every(club => catalog[leagueId].includes(club))) ssjFail("SETUP_CLUBS_INVALID");
   }
   function drawnClubs(state){
@@ -161,8 +191,9 @@
     const clubsByLeague = catalogSnapshot(catalog);
     const catalogHash = await hash(clubsByLeague, cryptoImpl);
     async function verifyState(value){
-      const draw = isDrawState(value);
-      exact(value, draw ? DRAW_STATE_KEYS : STATE_KEYS, "SETUP_STATE_INVALID");
+      const draw = isDrawState(value), version = drawOf(value);
+      exact(value, version === 3 ? DRAW3_STATE_KEYS : draw ? DRAW_STATE_KEYS : STATE_KEYS, "SETUP_STATE_INVALID");
+      if(Object.hasOwn(value, "draw") && value.draw !== 3) ssjFail("SETUP_STATE_INVALID");
       // Copy before the first await so an async digest cannot validate one value
       // and later return a caller-mutated value.
       const state = JSON.parse(JSON.stringify(value));
@@ -175,7 +206,7 @@
       if(draw){
         // Draw 2: candidates from commit-clubs on; clubs only once both managers have stopped.
         if(phaseIndex < 2){ if(state.candidates !== null) ssjFail("SETUP_STATE_INVALID"); }
-        else validCandidates(state.candidates, state.leagueId, clubsByLeague);
+        else validCandidates(state.candidates, state.leagueId, clubsByLeague, candidatesFor(version));
         if(!Array.isArray(state.stops) || state.stops.length !== state.confirmedRoles.length || !state.stops.every(validStop)) ssjFail("SETUP_STATE_INVALID");
         if(phaseIndex < 4){ if(state.clubs !== null) ssjFail("SETUP_STATE_INVALID"); }
         else{
@@ -218,14 +249,10 @@
         return {leagueId:LEAGUES[await boundIndex(state, "league", LEAGUES.length)]};
       }
       if(type === "commit-clubs" && state.phase === "LEAGUE_WHEEL_COMMITTED" && isDrawState(state)){
-        // Six distinct candidates from the drawn league, dealt playerOne, playerTwo, playerOne, ...
-        // Section k of a manager's ball carries his candidate k.
-        const available = [...clubsByLeague[state.leagueId]];
-        if(available.length < DRAW_CANDIDATES * ROLES.length) ssjFail("SETUP_DRAW_NOT_AVAILABLE");
-        const candidates = {playerOne:[], playerTwo:[]};
-        for(let index = 0; index < DRAW_CANDIDATES * ROLES.length; index++){
-          candidates[ROLES[index % ROLES.length]].push(available.splice(await boundIndex(state, `candidate-${index}`, available.length), 1)[0]);
-        }
+        // Six (draw 3: twelve) distinct candidates from the drawn league, dealt playerOne, playerTwo, playerOne, ...
+        // Section k of a manager's ball carries his candidate k. Draw 3 continues the same purposes (candidate-6..11),
+        // so its first six candidates are the ones a draw 2 setup of the same rivalry and league would get.
+        const candidates = await dealCandidates(clubsByLeague[state.leagueId], candidatesFor(drawOf(state)), (index, length) => boundIndex(state, `candidate-${index}`, length));
         return {candidates};
       }
       if(type === "commit-clubs" && state.phase === "LEAGUE_WHEEL_COMMITTED"){
@@ -264,7 +291,8 @@
           if(!prior) ssjFail("SETUP_NOT_OPEN");
           if(request.type !== "confirm" && context.role !== prior.coordinatorRole) ssjFail("SETUP_COORDINATOR_REQUIRED");
         }
-        const draw = request.type === "open" ? request.draw === 2 : isDrawState(prior);
+        const draw = request.type === "open" ? request.draw === 2 || request.draw === 3 : isDrawState(prior);
+        const version = request.type === "open" ? (draw ? request.draw : 1) : drawOf(prior);
         // A command must use the shapes of the draw its setup was opened with.
         if(request.type === "commit-clubs" && Object.hasOwn(request, "candidates") !== draw) ssjFail("SETUP_DRAW_VERSION_MISMATCH");
         if(request.type === "confirm" && Object.hasOwn(request, "stop") !== draw) ssjFail("SETUP_DRAW_VERSION_MISMATCH");
@@ -272,7 +300,8 @@
           schemaVersion:1, bindingHash, catalogHash, coordinatorRole:context.role,
           phase:"SHARED_SETUP_OPEN", revision:0, leagueId:null, clubs:null,
           totalSeasons:null, confirmedRoles:[], receipts:[],
-          ...(draw ? {candidates:null, stops:[]} : {})
+          ...(draw ? {candidates:null, stops:[]} : {}),
+          ...(version === 3 ? {draw:3} : {})
         };
         if(request.type === "commit-league"){
           if(prior.phase !== "SHARED_SETUP_OPEN") ssjFail("SETUP_TRANSITION_INVALID");
@@ -281,7 +310,7 @@
           next.leagueId = request.leagueId; next.phase = "LEAGUE_WHEEL_COMMITTED";
         }else if(request.type === "commit-clubs" && draw){
           if(prior.phase !== "LEAGUE_WHEEL_COMMITTED") ssjFail("SETUP_TRANSITION_INVALID");
-          validCandidates(request.candidates, prior.leagueId, clubsByLeague);
+          validCandidates(request.candidates, prior.leagueId, clubsByLeague, candidatesFor(version));
           const expected = await boundDraw(prior, request.type);
           if(ROLES.some(role => expected.candidates[role].some((club, index) => request.candidates[role][index] !== club))) ssjFail("SETUP_DRAW_MISMATCH");
           next.candidates = {playerOne:[...request.candidates.playerOne], playerTwo:[...request.candidates.playerTwo]};
@@ -329,7 +358,7 @@
       if(!record(ledger) || !Array.isArray(ledger.operationTypes) || !Number.isInteger(index) || index < 0 || index >= ledger.operationTypes.length || !ledgerStopsValid(ledger)) ssjFail("SETUP_STATE_INVALID");
       const type = ledger.operationTypes[index], operationId = ledger.operationIds[index], baseRevision = ledger.baseRevisions[index];
       const draw = Object.hasOwn(ledger, "stops");
-      if(type === "open") return draw ? {type, operationId, baseRevision, draw:2} : {type, operationId, baseRevision};
+      if(type === "open") return draw ? {type, operationId, baseRevision, draw:drawOf(ledger)} : {type, operationId, baseRevision};
       if(type === "commit-league" || type === "commit-clubs") return prepareDraw({state, type, operationId});
       if(type === "commit-length") return {type, operationId, baseRevision, totalSeasons:ledger.totalSeasons};
       if(type === "confirm"){
@@ -341,5 +370,5 @@
     }
     return freeze({apply, verifyState, prepareDraw, confirmationHash, ledgerCommand, catalogHash});
   }
-  return freeze({contractVersion:1, implementationState:"candidate-provider-neutral", productionEnabled:false, canonicalStorageMutation:false, billingRequired:false, roles:ROLES, leagueIds:LEAGUES, allowedSeasonLengths:LENGTHS, phases:PHASES, drawCandidates:DRAW_CANDIDATES, stopSectionDegrees:STOP_SECTION_DEGREES, ledgerKeys, ledgerStopsValid, clubForStop, createProtocol});
+  return freeze({contractVersion:1, implementationState:"candidate-provider-neutral", productionEnabled:false, canonicalStorageMutation:false, billingRequired:false, roles:ROLES, leagueIds:LEAGUES, allowedSeasonLengths:LENGTHS, phases:PHASES, drawCandidates:DRAW_CANDIDATES, stopSectionDegrees:STOP_SECTION_DEGREES, draw3Candidates:DRAW3_CANDIDATES, draw3SectionDegrees:DRAW3_SECTION_DEGREES, drawOf, dealCandidates, ledgerKeys, ledgerStopsValid, clubForStop, createProtocol});
 });

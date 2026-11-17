@@ -43,6 +43,7 @@ const SUITES=[
   {file:"tests/firebase/shared-terminal-close-production-provider-emulator.cjs",env:{},covers:"Terminal Close"},
   {file:"tests/firebase/career-index-emulator.cjs",env:{},covers:"career index and History"},
   {file:"tests/firebase/r94-club-draw-rules-emulator.cjs",env:{},covers:"R94-02 club draw: setup ledgers with stops (open, steps 2-4, both confirms) and the old shape"},
+  {file:"tests/firebase/r95-ball-game-rules-emulator.cjs",env:{},covers:"R95-01 Ball Game: draw 3 setup ledgers with stops + draw (6 clubs per ball; open, steps 2-4, both confirms)"},
   // R94-06 job 4: the saves the flows above never make (tests/fixtures/rules-budget/write-sites.json maps every client save).
   {file:"tests/firebase/career-start-marker-emulator.cjs",env:{},covers:"R94-06: the real-career marker (accounts/*/careerStart/current)"},
   {file:"tests/firebase/career-summary-emulator.cjs",env:{},covers:"R94-06: career summaries written on first open"},
