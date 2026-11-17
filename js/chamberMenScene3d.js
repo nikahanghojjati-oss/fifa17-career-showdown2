@@ -1086,7 +1086,9 @@
   // really draws.
   async function cm3Quality(clubs,full){
     const ok=await cm3Script("gfx-tier",GFX_JS,()=>Boolean(root.CareerModeGfxTier)).catch(()=>false);
-    let p=GFX_FALLBACK;try{if(ok)p=root.CareerModeGfxTier.profile();}catch(_error){}
+    // r96: Chamber Men's own level (on Auto after a Device check, the level it passed itself), for the files the season page
+    // fetches ahead and for the scene the mount builds, so the two always agree.
+    let p=GFX_FALLBACK;try{if(ok)p=root.CareerModeGfxTier.profile("chamber-men");}catch(_error){}
     // Asset size follows the texture level (a phone below High is one size down; a strong phone at High+ gets the full set).
     const q={...p,assets:(p.textureLevel??p.level)<=1?"phone":"desktop"};
     // r90 MOTION M36 (Nik: never flat on his Chromebook): on a slow line (under 10 Mbps) a high level's full set (9.9-14 MB)

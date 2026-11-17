@@ -63,7 +63,9 @@ const TOP = process.env.DEVLAB_TOP === "1" ? "&gfxpr=top" : "";
 const SCENES = {
     chamber: { name: "Chamber Men", url: l => `device-check-chamber.html?gfx=${l}${TOP}` },
     rrr: { name: "RRR", url: l => `visual-assets/v10_1/roulette/index.html?showcase=1&gfx=${l}${TOP}` },
-    sp: { name: "SP pack", url: l => `visual-assets/v10_1/special-player/index.html?gfx=${l}${TOP}` }
+    sp: { name: "SP pack", url: l => `visual-assets/v10_1/special-player/index.html?gfx=${l}${TOP}` },
+    // r96: the Ball Game, as the Device check times it.
+    ball: { name: "Ball Game", url: l => `device-check-ball.html?gfx=${l}${TOP}` }
 };
 const LEVEL_NAMES = ["Light", "Balanced", "High", "Extra", "Ultra (4K)", "8K"];
 

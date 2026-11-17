@@ -12,7 +12,11 @@
      r91 (Sol 6.1 review of 2.3.0; Nik 2026-11-11: Auto covers every level, Light to 8K, from the real test): all three 3D
      screens are timed (Chamber Men: a kick, Russian Roulette: a turn, the Special Player pack: a reveal). A level is saved
      only when all three drew exactly that level and stayed smooth. A screen that did not start, did not finish, or drew
-     another level than asked leaves the level not verified: nothing is saved and the last good result stays. -->
+     another level than asked leaves the level not verified: nothing is saved and the last good result stays.
+     r96 (Nik 2026-11-17 21:43 UTC: lighter screens should run higher than heavy ones): each screen climbs on its own. A screen
+     that is not smooth (or failed) at a level stops there; the others go on climbing. Each screen's best level is saved
+     with the result, Auto draws it on that screen, and the lowest of them stays the device's level. The Ball Game (a spin
+     and its STOP) is timed too. -->
 <link rel="stylesheet" href="css/r95-type.css">
 <style>
 :root{--gold:#f5c518;--gold-dim:rgba(219,178,94,.55);--ink:#f5f1e8;--mute:#c1b9aa;--bad:#ff8a7a;--good:#9fe39f}
@@ -97,7 +101,7 @@ h2 span{color:var(--mute);font-weight:600}
 <body>
 <main>
   <h1>DEVICE CHECK</h1>
-  <p class="lede">Plays a Chamber Men kick, a Russian Roulette turn and a Special Player reveal at each 3D quality level, lightest first. Auto is then set to the best level all three keep smooth at 60 fps, with no stutter. A screen that is not smooth is played once more before it counts, and the check stops at the first level that is still not smooth. It only ever raises Auto above the level your graphics chip starts at. It takes a few minutes. Keep this tab open and in front. Nothing in your Showdown changes.</p>
+  <p class="lede">Plays a Chamber Men kick, a Russian Roulette turn, a Special Player reveal and a Ball Game spin at each 3D quality level, lightest first. Each screen then gets the best level it keeps smooth at 60 fps, with no stutter, so a lighter screen can run higher than a heavier one. A screen that is not smooth is played once more before it counts, and stops climbing at the first level that is still not smooth. It only ever raises Auto above the level your graphics chip starts at. It takes a few minutes. Keep this tab open and in front. Nothing in your Showdown changes.</p>
   <section class="card" id="yours" aria-labelledby="yoursTitle" hidden>
     <h2 id="yoursTitle">Your device</h2>
     <dl id="parts" class="parts"></dl>
@@ -115,7 +119,7 @@ h2 span{color:var(--mute);font-weight:600}
   <section class="card">
     <p id="result" aria-live="polite"></p>
     <div class="wrap"><table>
-      <thead><tr><th scope="col">Level</th><th scope="col">Chamber Men</th><th scope="col">Russian Roulette</th><th scope="col">Special Player</th><th scope="col">Result</th></tr></thead>
+      <thead><tr><th scope="col">Level</th><th scope="col">Chamber Men</th><th scope="col">Russian Roulette</th><th scope="col">Special Player</th><th scope="col">Ball Game</th><th scope="col">Result</th></tr></thead>
       <tbody id="rows"></tbody>
     </table></div>
   </section>
@@ -143,7 +147,9 @@ h2 span{color:var(--mute);font-weight:600}
   const SCENES=[
     {key:"chamber-men",name:"Chamber Men",beat:"kick",path:"device-check-chamber.html"},
     {key:"rrr",name:"Russian Roulette",beat:"turn",path:"visual-assets/v10_1/roulette/index.html"},
-    {key:"sp",name:"Special Player",beat:"reveal",path:"visual-assets/v10_1/special-player/index.html"}
+    {key:"sp",name:"Special Player",beat:"reveal",path:"visual-assets/v10_1/special-player/index.html"},
+    // r96: the Ball Game (Club Assignment), the lightest 3D screen; keys are the screens' governor keys (js/gfxTier.js).
+    {key:"club-draw",name:"Ball Game",beat:"spin",path:"device-check-ball.html"}
   ];
   // Holds 60 fps: the average stays within 5% of 60, and the picture does not stutter.
   // r92 (Nik's iPhone 17, run 4: Special Player at Light averaged 60 fps with the GPU at 2 ms and failed on a 1% low of 44.3):
@@ -188,18 +194,21 @@ h2 span{color:var(--mute);font-weight:600}
     if(!r.complete||!(r.beats>=1))return {state:"unverified",why:`The ${scene.beat} did not finish in time.`};
     return {state:"smooth"};
   }
-  // A level holds only when all three screens are smooth at it. One screen that is slow or failed settles it (the level
-  // is not held); otherwise one screen that proves nothing leaves the whole level not verified.
+  // A level's row: smooth on every screen, smooth on some (r96: each screen climbs on its own, so a lighter screen goes on
+  // above a level a heavier one could not hold), or on none. One screen that proves nothing leaves the row not verified.
   function verdict(level){
     const all=SCENES.map(s=>judge(level,s,results[level][s.key]));
-    if(all.some(j=>j&&(j.state==="slow"||j.state==="failed")))return all.some(j=>j&&j.state==="slow")?"slow":"failed";
     if(all.some(j=>j&&j.state==="unverified"))return "unverified";
     if(all.some(j=>!j))return null;
-    if(all.some(j=>j.state==="skipped"))return "skipped";
-    return "smooth";
+    const n=all.filter(j=>j.state==="smooth").length;
+    if(n===all.length)return "smooth";
+    if(n>0)return {some:n};
+    if(all.some(j=>j.state==="slow"||j.state==="failed"))return all.some(j=>j.state==="slow")?"slow":"failed";
+    return "skipped";
   }
   const VERDICT={smooth:"<span class=\"ok\">Smooth</span>",slow:"<span class=\"no\">Not smooth</span>",failed:"<span class=\"no\">Failed</span>",
     unverified:"<span class=\"unsure\">Not verified</span>",skipped:"<span class=\"skip\">Not tried</span>"};
+  const verdictHtml=v=>v&&typeof v==="object"?`<span class="ok">Smooth on ${v.some} of ${SCENES.length}</span>`:VERDICT[v];
   function cell(level,scene){
     const r=results[level][scene.key],j=judge(level,scene,r);
     if(!j)return "<span class=\"skip\">–</span>";
@@ -225,7 +234,7 @@ h2 span{color:var(--mute);font-weight:600}
   function draw(){
     rows.innerHTML=LEVELS.slice(0,TOP+1).map((name,i)=>{
       const v=verdict(i);
-      return `<tr><th scope="row">${name}</th>${SCENES.map(s=>`<td data-label="${s.name}">${cell(i,s)}</td>`).join("")}<td data-label="Result">${v?VERDICT[v]:"<span class=\"skip\">–</span>"}</td></tr>`;
+      return `<tr><th scope="row">${name}</th>${SCENES.map(s=>`<td data-label="${s.name}">${cell(i,s)}</td>`).join("")}<td data-label="Result">${v?verdictHtml(v):"<span class=\"skip\">–</span>"}</td></tr>`;
     }).join("");
   }
   // r91 level guide (Nik 2026-11-12: "based on your graphic card, this is what we suggest, or based on your CPU"). All of it
@@ -247,9 +256,12 @@ h2 span{color:var(--mute);font-weight:600}
     const wait=held.length?` ${held.join(" and ")} ${held.length>1?"are":"is"} offered here only after the check passes ${held.length>1?"them":"it"}.`:"";
     const level=m?m.level:d.level,name=LEVELS[level]||LEVELS[1];
     const held60=m&&m.detail&&typeof m.detail.held==="boolean"?m.detail.held:null;
-    const why=!m?`Auto starts there on a device like this. Run the check to measure yours: Auto then uses the best level it kept smooth.`
-      :held60?`Measured on this device: it holds 60 fps at ${name} on all three 3D screens. Auto uses it.`
-      :`The check measured ${name} on this device. Auto uses it.`;
+    // r96: a screen the check passed higher than the device's level draws its own level on Auto.
+    const higher=m?ownLevels().filter(x=>x.level>m.level):[];
+    const own=higher.length?` Lighter screens draw higher on Auto: ${higher.map(x=>`${x.name} ${LEVELS[x.level]}`).join(", ")}.`:"";
+    const why=!m?`Auto starts there on a device like this. Run the check to measure yours: Auto then gives each 3D screen the best level it kept smooth.`
+      :held60?`Measured on this device: every 3D screen holds 60 fps at ${name}. Auto uses it.${own}`
+      :`The check measured ${name} on this device. Auto uses it.${own}`;
     // r93 (Nik's iPhone 17, 2026-11-15: "We suggest High", then High failed without being opened): a tab-crash cap that
     // keeps a level shut is said on this card too, with the day it ends.
     const tc=tabCrash();let shut="";
@@ -267,8 +279,14 @@ h2 span{color:var(--mute);font-weight:600}
     if(!m){result.innerHTML=note?`No result saved<small>${esc(note)} Auto uses its starting guess until a check finishes.</small>`:"";return;}
     // A crash cap from play outlives the check (js/gfxTier.js): say what Auto really draws until it ends.
     let low="";try{const s=T.suggested();if(s&&s.lowered)low=` Auto draws ${LEVELS[s.now]} for now: a graphics error in play lowered it. That ends after 7 days, after 3 clean 3D screens, when you pick a level in Settings, or when the game updates.`;}catch(_error){low="";}
-    result.innerHTML=`Auto here: ${LEVELS[m.level]}<small>${esc(extra)}Measured ${new Date(m.at).toLocaleString()} on Chamber Men, Russian Roulette and the Special Player pack. Settings › 3D QUALITY can still pick any level.${esc(low)}</small>`;
+    // r96: each screen's own level, when they differ ("Auto here: Balanced to High", then one line per screen).
+    const own=ownLevels(),top=Math.max(m.level,...own.map(x=>x.level));
+    const per=top>m.level?`On Auto: ${own.map(x=>`${x.name} ${LEVELS[x.level]}`).join(" · ")}. `:"";
+    result.innerHTML=`Auto here: ${LEVELS[m.level]}${top>m.level?` to ${LEVELS[top]}`:""}<small>${esc(extra)}${esc(per)}Measured ${new Date(m.at).toLocaleString()} on the game's 3D screens. Settings › 3D QUALITY can still pick any level.${esc(low)}</small>`;
   }
+  // r96: the level Auto draws on each screen this check times (js/gfxTier.js measuredScenes()).
+  function ownLevels(){let o=null;try{o=T&&T.measuredScenes?T.measuredScenes():null;}catch(_error){o=null;}
+    return o?SCENES.filter(sc=>Number.isInteger(o[sc.key])).map(sc=>({key:sc.key,name:sc.name,level:o[sc.key]})):[];}
   // A level that closed the tab while a 3D screen was opening (in the game or in an earlier check) is not opened again
   // while its cap lasts.
   function tabCrash(){try{return T&&T.tabCrash?T.tabCrash():null;}catch(_error){return null;}}
@@ -309,23 +327,38 @@ h2 span{color:var(--mute);font-weight:600}
   // A run saved by another build is not picked up (Codex on #1473): the update may have fixed what closed the tab, so it
   // must not write a cap for the new build. It is let go, and the check starts fresh when asked.
   const BUILD=T&&T.build||"";
-  function runRead(){try{const v=JSON.parse(sessionStorage.getItem(RUN_KEY)||"null");if(!(v&&v.v===1&&Array.isArray(v.results)&&Number.isInteger(v.level)&&Number.isInteger(v.scene)))return null;
-    if(v.build!==BUILD){sessionStorage.removeItem(RUN_KEY);return null;}return v;}catch(_error){return null;}}
+  // r96: v2 runs keep each screen's own stop (stops), so a lighter screen climbs on past a level a heavier one stopped at.
+  // A run saved by another build, or by an older copy of this page (v1: one climb for all screens), is let go.
+  function runRead(){try{const v=JSON.parse(sessionStorage.getItem(RUN_KEY)||"null");if(!v||typeof v!=="object")return null;
+    if(v.build!==BUILD||v.v!==2){sessionStorage.removeItem(RUN_KEY);return null;}
+    return Array.isArray(v.results)&&Number.isInteger(v.level)&&Number.isInteger(v.scene)&&v.stops&&typeof v.stops==="object"?v:null;}catch(_error){return null;}}
   function runSave(v){try{if(v)sessionStorage.setItem(RUN_KEY,JSON.stringify(v));else sessionStorage.removeItem(RUN_KEY);return true;}catch(_error){return false;}}
   function runKeeps(){try{sessionStorage.setItem(RUN_KEY,"probe");const ok=sessionStorage.getItem(RUN_KEY)==="probe";sessionStorage.removeItem(RUN_KEY);return ok;}catch(_error){return false;}}
   let reloading=false;
+  // Why one screen stopped climbing, in a sentence.
+  function stopText(sc,stop){
+    const r=results[stop.level][sc.key]||{};
+    if(r.died)return `The tab closed while ${sc.name} was playing at ${LEVELS[stop.level]}.`;
+    if(r.crashed)return `${LEVELS[stop.level]} was not tried: the tab closed at that level last time.`;
+    return `${LEVELS[stop.level]} was not held: ${sc.name} ${stop.state==="failed"?"failed":"was not smooth"} there.`;
+  }
   async function run(resume){
     if(running||!T)return;
     running=true;aborted="";startBtn.disabled=true;forgetBtn.hidden=true;result.innerHTML="";
     const keep=resume?true:runKeeps();
-    const st=resume||{v:1,build:BUILD,at:Date.now(),results:LEVELS.map(()=>({})),level:0,scene:0,first:null,ended:null,open:null,played:false};
+    const st=resume||{v:2,build:BUILD,at:Date.now(),results:LEVELS.map(()=>({})),level:0,scene:0,first:null,ended:null,stops:{},open:null,played:false};
     for(let l=0;l<results.length;l+=1){for(const k of Object.keys(results[l]))delete results[l][k];Object.assign(results[l],st.results[l]||{});}
     draw();
-    // The first level that is not smooth ends the climb: nothing above it is tried. r92 (Nik's iPhone 17): a screen that
-    // is not smooth is played once more at the same level (its files are cached by then) before it counts, so one hitch
-    // (a first upload, a pause in the browser) does not fail a level. Two slow tries do. Failed and not-verified answers
-    // are not tried again: they say something other than "too heavy".
+    // r96: every screen climbs on its own. A screen whose first level that is not smooth (or failed) stops there; the
+    // others go on, so the lightest screen can reach a level the heaviest cannot. r92 (Nik's iPhone 17): a screen that is
+    // not smooth is played once more at the same level (its files are cached by then) before it counts, so one hitch (a
+    // first upload, a pause in the browser) does not fail a level. Two slow tries do. Failed answers are not tried again.
+    // A screen that proves nothing (not verified) still ends the whole check: nothing is saved.
+    const climbing=k=>!st.stops[k];
     while(!aborted&&!st.ended&&st.level<=TOP){
+      if(!SCENES.some(sc=>climbing(sc.key)))break;
+      if(st.scene>=SCENES.length){st.scene=0;st.level+=1;continue;}
+      if(!climbing(SCENES[st.scene].key)){st.scene+=1;continue;}
       const level=st.level,scene=SCENES[st.scene],second=Boolean(st.first);
       status.textContent=`${scene.name} · ${LEVELS[level]} (${level+1} of ${TOP+1})${second?", second try":""}…`;
       const tc=tabCrash();
@@ -347,60 +380,73 @@ h2 span{color:var(--mute);font-weight:600}
         st.first=got;st.results[level][scene.key]=results[level][scene.key]=got;draw();if(keep)runSave(st);continue;
       }
       st.results[level][scene.key]=results[level][scene.key]=got;draw();
-      // One screen that is slow, failed or proves nothing settles this level; the other screens are not played for it.
       const j=judge(level,scene,got);
-      if(j.state!=="smooth")st.ended={level,scene:st.scene,state:j.state,why:j.why||""};
-      else if(st.scene<SCENES.length-1)st.scene+=1;else{st.scene=0;st.level+=1;}
+      if(j.state==="unverified")st.ended={level,scene:st.scene,state:j.state,why:j.why||""};
+      else if(j.state!=="smooth")st.stops[scene.key]={level,state:j.state};
+      st.scene+=1;
+      // A screen not smooth even at Light: nothing can be saved (see below), so the others are not played for it.
+      if(level===0&&st.stops[scene.key]){if(keep)runSave(st);break;}
       if(keep)runSave(st);
     }
     runSave(null);
-    // Everything after the stop is not tried.
-    for(let l=0;l<=TOP;l+=1)for(const s of SCENES)if(!results[l][s.key]&&!aborted)results[l][s.key]={skipped:true};
+    // Everything a screen did not reach is not tried.
+    for(let l=0;l<=TOP;l+=1)for(const sc of SCENES)if(!results[l][sc.key]&&!aborted)results[l][sc.key]={skipped:true};
     const ended=st.ended?{...st.ended,scene:SCENES[st.ended.scene]}:null;
     draw();
     stage.innerHTML="<div class=\"idle\">Done.</div>";
     running=false;startBtn.disabled=false;
     if(aborted){status.textContent=aborted;showSaved("The check was stopped, so nothing changed.");return;}
-    const best=ended?ended.level-1:TOP;
+    // Each screen's best: the level under its stop, or the top.
+    const best={};for(const sc of SCENES){const stop=st.stops[sc.key];best[sc.key]=stop?stop.level-1:TOP;}
+    const low=Math.min(...SCENES.map(sc=>best[sc.key]));
     // Not verified: the check proves nothing about that level, so the run is not a result. Nothing is saved; the last
     // good result (if any) stays as it is.
     if(ended&&ended.state==="unverified"){
-      const passed=best>0?` ${LEVELS[best]} and below were smooth.`:best===0?` ${LEVELS[0]} was smooth.`:"";
+      // What every screen held before the stop (a screen that stopped lower counts at its own best).
+      const ok=Math.min(ended.level-1,low);
+      const passed=ok>0?` ${LEVELS[ok]} and below were smooth.`:ok===0?` ${LEVELS[0]} was smooth.`:"";
       status.textContent=`Check not finished: ${ended.scene.name} at ${LEVELS[ended.level]} was not verified. ${ended.why}`;
       showSaved(`The check did not finish, so nothing changed.${passed}`);
       return;
     }
-    // r92 (Nik's iPhone 17, Apple GPU guessed High): even Light not smooth, twice. There is no level below Light, so this
-    // cannot show which level is too heavy here; it must not replace the guess or a good earlier result. Nothing is saved.
-    if(best<0){
+    // r92 (Nik's iPhone 17, Apple GPU guessed High): even Light not smooth, twice, on a screen. There is no level below
+    // Light, so this cannot show which level is too heavy here; it must not replace the guess or a good earlier result.
+    // Nothing is saved.
+    if(low<0){
+      const weak=SCENES.find(sc=>best[sc.key]<0);
       let keeps=LEVELS[1];try{const m=T.measured();keeps=LEVELS[m?m.level:T.device().guessLevel]||keeps;}catch(_error){}
-      status.textContent=`${LEVELS[0]} was not smooth on ${ended.scene.name} here, so Auto keeps ${keeps}. Check again later.`;
+      status.textContent=`${LEVELS[0]} was not smooth on ${weak.name} here, so Auto keeps ${keeps}. Check again later.`;
       showSaved("Nothing changed.");
       return;
     }
-    const level=best;
-    const stop=ended?results[ended.level][ended.scene.key]||{}:{};
-    const why=stop.died?`Check stopped. The tab closed while ${ended.scene.name} was playing at ${LEVELS[ended.level]}.`
-      :stop.crashed?`Check done. ${LEVELS[ended.level]} was not tried: the tab closed at that level last time.`
-      :ended?`Check done. ${LEVELS[ended.level]} was not held: ${ended.scene.name} ${ended.state==="failed"?"failed":"was not smooth"} there.`
+    const stopped=SCENES.filter(sc=>st.stops[sc.key]).sort((a,b)=>st.stops[a.key].level-st.stops[b.key].level);
+    // A tab that closed mid-check stops the whole check (its cap holds every screen below that level): that is the news.
+    const died=stopped.find(sc=>(results[st.stops[sc.key].level][sc.key]||{}).died);
+    const why=died?`Check stopped. ${stopText(died,st.stops[died.key])}`:stopped.length?`Check done. ${[...new Set(stopped.map(sc=>stopText(sc,st.stops[sc.key])))].join(" ")}${stopped.length<SCENES.length?` ${SCENES.filter(sc=>!st.stops[sc.key]).map(sc=>sc.name).join(", ")} ${SCENES.length-stopped.length>1?"were":"was"} smooth up to ${LEVELS[TOP]}.`:""}`
       :`Check done. Every level up to ${LEVELS[TOP]} was smooth.`;
     // r92 (Nik 2026-11-14, "Go" on the simple plan): the check only ever raises Auto above the level the graphics chip
-    // starts at. A result below it is not saved, and an earlier result is let go: Auto is the chip's level again.
+    // starts at. r96: per screen too. A screen below it draws the chip's level; a result where no screen is above the
+    // chip's level and one is below it is not saved, and an earlier result is let go: Auto is the chip's level again.
     let chip=0;try{chip=T.device().guessLevel;}catch(_error){chip=0;}
-    if(level<chip){
+    const high=Math.max(...SCENES.map(sc=>best[sc.key]));
+    if(low<chip&&high<=chip){
       T.clearMeasured();
       // A tab that closed during this check (or before it) holds Auto below that level for now: say so, so the line and the
       // top card agree with what the game draws.
       const tc=tabCrash(),lowNote=tc&&tc.level<chip?` For now the game draws ${LEVELS[tc.level]} at most, because the tab closed at ${LEVELS[tc.from]||"a higher level"}.`:"";
-      const done=stop.died?` ${LEVELS[0]}${best>0?` to ${LEVELS[best]}`:""} ${best>0?"were":"was"} smooth.`:"";
+      const done=died?` ${LEVELS[0]}${low>0?` to ${LEVELS[low]}`:""} ${low>0?"were":"was"} smooth.`:"";
       status.textContent=`${why}${done} Auto stays on ${LEVELS[chip]}, the level your graphics chip starts at. The check only ever raises Auto.${lowNote}`;
       showSaved();
       return;
     }
+    const level=Math.max(chip,low),own=Object.fromEntries(SCENES.map(sc=>[sc.key,Math.max(chip,best[sc.key])]));
     const pick=r=>r&&Number.isFinite(r.avg)?[r.avg,r.p1low,+(+r.pixelRatio).toFixed(2),...(Array.isArray(r.size)?r.size:[0,0])]:null;
-    T.setMeasured(level,{scenes:SCENES.map(s=>s.key),held:true,
-      stop:ended?{level:ended.level,scene:ended.scene.key,state:ended.state}:null,
-      levels:results.slice(0,TOP+1).map(r=>Object.fromEntries(SCENES.map(s=>[s.key,pick(r[s.key])])))});
+    // stop: the lowest screen's stop (what a 2.8.0 reader shows); stops: every screen's.
+    const first=stopped[0];
+    T.setMeasured(level,{scenes:SCENES.map(sc=>sc.key),held:true,
+      stop:first?{level:st.stops[first.key].level,scene:first.key,state:st.stops[first.key].state}:null,
+      stops:Object.fromEntries(stopped.map(sc=>[sc.key,{level:st.stops[sc.key].level,state:st.stops[sc.key].state}])),
+      levels:results.slice(0,TOP+1).map(r=>Object.fromEntries(SCENES.map(sc=>[sc.key,pick(r[sc.key])])))},own);
     status.textContent=why;
     showSaved();
   }
@@ -416,10 +462,13 @@ h2 span{color:var(--mute);font-weight:600}
   {const st=T?runRead():null;
     if(st){
       if(st.open&&SCENES[st.open.scene]&&st.results[st.open.level]){
-        const lv=st.open.level;st.results[lv][SCENES[st.open.scene].key]={died:true};
+        const lv=st.open.level,key=SCENES[st.open.scene].key;st.results[lv][key]={died:true};
         // The level that closed the tab is held below for now in play too (js/gfxTier.js tabDied), as after a death while opening.
-        try{if(lv>0&&T.tabDied)T.tabDied(lv,SCENES[st.open.scene].key);}catch(_error){}
-        st.ended={level:lv,scene:st.open.scene,state:lv>0?"failed":"unverified",why:lv>0?"":"The tab closed while this screen was playing."};st.open=null;st.first=null;
+        // That cap holds every screen, so the others stop below it too (they are not opened above it).
+        try{if(lv>0&&T.tabDied)T.tabDied(lv,key);}catch(_error){}
+        if(lv>0){st.stops[key]={level:lv,state:"failed"};st.scene=st.open.scene+1;st.level=lv;}
+        else st.ended={level:lv,scene:st.open.scene,state:"unverified",why:"The tab closed while this screen was playing."};
+        st.open=null;st.first=null;
       }
       run(st);
     }}

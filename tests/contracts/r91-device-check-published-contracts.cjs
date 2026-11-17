@@ -23,7 +23,8 @@ const ok = (id, text) => { checks += 1; console.log(`ok ${checks} ${id} ${text}`
 
 const staged = new Set(stagedNames());
 const isStaged = p => staged.has(p.split("/")[0]) && exists(p);
-const DEVICE_CHECK = ["device-check.html", "device-check-chamber.html"];
+// r96: the Ball Game frame joined the check (each 3D screen gets its own level).
+const DEVICE_CHECK = ["device-check.html", "device-check-chamber.html", "device-check-ball.html"];
 // Root pages that are deliberately not part of the published game. Empty: a new root page is staged or listed here.
 const NOT_PUBLISHED = new Set([]);
 const worker = read("service-worker.js");
