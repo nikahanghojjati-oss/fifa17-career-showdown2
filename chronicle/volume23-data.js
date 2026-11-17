@@ -96,11 +96,59 @@ window.CHRONICLE_VOLUME23={
    ],
    "sources": [
     {
-     "branch": "claude-gameplay/r95-instrument-titles",
-     "ref": "e441f74ff356d391dffa0119fb7c401417740e64",
+     "branch": "gameplay/r95",
+     "ref": "3299a37c67f6f96299a921232e05aefdfb340c33",
+     "path": "Pull request #1515",
+     "label": "PR #1515: one typeface, Instrument Sans, across the clubhouse",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1515",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r95",
+     "ref": "3299a37c67f6f96299a921232e05aefdfb340c33",
+     "path": "Pull request #1516",
+     "label": "PR #1516: one typeface, Instrument Sans, across the clubhouse",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1516",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r95",
+     "ref": "3299a37c67f6f96299a921232e05aefdfb340c33",
+     "path": "Pull request #1517",
+     "label": "PR #1517: one typeface, Instrument Sans, across the clubhouse",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1517",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r95",
+     "ref": "3299a37c67f6f96299a921232e05aefdfb340c33",
+     "path": "Pull request #1518",
+     "label": "PR #1518: one typeface, Instrument Sans, across the clubhouse",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1518",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r95",
+     "ref": "3299a37c67f6f96299a921232e05aefdfb340c33",
+     "path": "Pull request #1519",
+     "label": "PR #1519: one typeface, Instrument Sans, across the clubhouse",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1519",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r95",
+     "ref": "3299a37c67f6f96299a921232e05aefdfb340c33",
      "path": "Pull request #1520",
      "label": "PR #1520: one typeface, Instrument Sans, across the clubhouse",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1520",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r95",
+     "ref": "3299a37c67f6f96299a921232e05aefdfb340c33",
+     "path": "Pull request #1528",
+     "label": "PR #1528: Instrument Sans on the Gazette and the loading screen",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1528",
      "kind": "pull-request"
     },
     {
