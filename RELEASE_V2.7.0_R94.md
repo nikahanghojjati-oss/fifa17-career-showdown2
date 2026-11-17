@@ -109,7 +109,7 @@ measured the same shape on gameplay/r94: one season 1,216 billed, 41 to 58 seaso
 
 ## Version bump
 
-- `2.7.0-r94` everywhere it is pinned (#BUMP_PR): package files, `APP_VERSION` (Settings and backups), the footer `v2.7.0`,
+- `2.7.0-r94` everywhere it is pinned (#1505): package files, `APP_VERSION` (Settings and backups), the footer `v2.7.0`,
   `app-asset-revision` and every `?v=` on Home's own files and the manifest icons, `js/menuExperience.js`, the service worker's
   `RUNTIME_REVISION` (PREVIOUS `2.6.0-r93`), and `js/gfxTier.js` BUILD. The version strings are the same length as 2.6.0's, so the
   startup budget is unchanged.
