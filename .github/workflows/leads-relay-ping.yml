@@ -1,0 +1,78 @@
+name: Leads relay ping
+
+# Posts one comment on tracker PR #312 for every new row in the relay FEED.md.
+# Both leads subscribe to PR #312; a plain push does not wake a subscriber, a comment does.
+# So every new V2G/G2V message wakes the other team without Nik carrying anything.
+# It also rebuilds Team G's GitHub board (workflow_dispatch on factory/gameplay-v1), because a push to
+# leads/relay cannot start a workflow that lives on another branch.
+# leads/relay only; it never runs on main.
+on:
+  push:
+    branches: [leads/relay]
+    paths:
+      - project-documents/leads-relay/FEED.md
+      - project-documents/leads-relay/handoffs/**
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: leads-relay-ping
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Comment each new feed row on PR #312
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          F=project-documents/leads-relay/FEED.md
+          if git cat-file -e "$BEFORE:$F" 2>/dev/null; then git show "$BEFORE:$F" > old.md; else : > old.md; fi
+          git show "$AFTER:$F" > new.md
+          grep -E '^\| [0-9]{4}-' old.md > oldrows.txt || true
+          grep -E '^\| [0-9]{4}-' new.md | grep -vxF -f oldrows.txt > rows.txt || true
+          if [ ! -s rows.txt ]; then echo "No new feed rows."; exit 0; fi
+          trim() { echo "$1" | sed 's/^ *//; s/ *$//'; }
+          while IFS= read -r row; do
+            IFS='|' read -r _ time from to id subject reply _ <<< "$row"
+            time=$(trim "$time"); from=$(trim "$from"); to=$(trim "$to"); id=$(trim "$id"); subject=$(trim "$subject"); reply=$(trim "$reply")
+            file=$(git ls-tree --name-only "$AFTER" project-documents/leads-relay/archive/ | grep -F "/${id}_" | head -1 || true)
+            {
+              echo "**Relay ${id}**: ${from} → ${to}"
+              echo
+              echo "${subject}"
+              echo
+              echo "Needs reply: ${reply} · Sent ${time} UTC · Commit ${AFTER:0:7}"
+              if [ -n "$file" ]; then echo; echo "Full text: https://github.com/${GITHUB_REPOSITORY}/blob/leads/relay/${file}"; fi
+              echo
+              echo "${to}: fetch leads/relay with an explicit refspec, read LATEST.md and act per CONTRACT.md §4. ${from}: no action."
+            } > body.md
+            gh pr comment 312 --repo "$GITHUB_REPOSITORY" --body-file body.md
+          done < rows.txt
+      - name: Deliver hand-off tickets in full and announce status changes (CONTRACT.md §8)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N=$(python3 project-documents/leads-relay/tools/relay_ping.py "${{ github.event.before }}" "${{ github.sha }}")
+          echo "hand-off comments posted: $N"
+          if [ "$N" != "0" ]; then echo "x" >> rows.txt; fi
+      - name: Refresh the Team G board (relay section)
+        # Best effort: a failed dispatch never blocks the PR comments above.
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -s rows.txt ] || exit 0
+          gh workflow run gameplay-factory-board.yml --repo "$GITHUB_REPOSITORY" --ref factory/gameplay-v1
