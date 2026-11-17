@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-17 2:18 PM Boston time (EST)",
+ "generated": "2026-11-17 2:22 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 332,
@@ -3040,32 +3040,23 @@
  },
  "two": {
   "live": {
-   "sha": "5f22a32",
-   "revision": "2.7.0-r94",
-   "when": "2026-11-16T21:17:14-05:00",
-   "subject": "Release 2.7.0 (r94): Club Assignment spin and stop, image crests, Story audiobook (#1506)",
-   "fixes": [
+   "sha": "30b7969",
+   "revision": "2.8.0-r95",
+   "when": "2026-11-17T14:19:15-05:00",
+   "subject": "Merge pull request #1538 from nikahanghojjati-oss/gameplay/r95",
+   "fixes": [],
+   "today": [
     {
      "pr": 1538,
      "title": "Release 2.8.0 (r95): the Ball Game, one typeface, the house look",
-     "draft": false,
-     "branch": "gameplay/r95",
-     "sha": "b3908e2d90d30babd7da708eef8b4805a498cb2a",
-     "updated": "2026-11-17T18:42:45Z",
-     "gates": {
-      "passed": 8,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-11-17T19:19:15Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "Gate #1538: L1✓ L2… L3A✓ L3B✓ L4✓ L5… L6✓ · seal pending · POS20 #1538 0/16",
+   "gate": "POS20 #304 6/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3851,7 +3842,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 13934
+    "waiting_min": 13938
    },
    {
     "id": "HO-059",
@@ -4417,7 +4408,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -5633,22 +5624,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1538,
-    "title": "Release 2.8.0 (r95): the Ball Game, one typeface, the house look",
-    "draft": false,
-    "branch": "gameplay/r95",
-    "sha": "b3908e2d90d30babd7da708eef8b4805a498cb2a",
-    "updated": "2026-11-17T18:42:45Z",
-    "gates": {
-     "passed": 8,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
