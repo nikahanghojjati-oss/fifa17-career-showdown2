@@ -58,7 +58,7 @@ select:disabled{opacity:.45}
 .aimCard .crest{width:72px;height:86px;margin:10px auto 6px;display:grid;place-items:center;filter:drop-shadow(0 6px 10px rgba(0,0,0,.8))}
 .aimCard .crest img{max-width:100%;max-height:100%}
 .aimCard .name{font:700 22px/1.05 var(--cond);letter-spacing:.03em;text-transform:uppercase;color:var(--ink)}
-.scoreCard{padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;text-align:center}
+.scoreCard{padding:12px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px 10px;text-align:center}
 .scoreCard .big{font:800 34px/1 var(--cond);color:var(--ink);font-variant-numeric:tabular-nums}
 .scoreCard .big.gold{color:var(--gold4)}
 .scoreCard .cap{font:600 11px/1.2 var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
@@ -203,8 +203,10 @@ select:disabled{opacity:.45}
   let stats={hits:0,tries:0};
   function showStats(){
     const pct=stats.tries?Math.round(100*stats.hits/stats.tries):0,blind=Math.round(100/cfg.n);
-    $("nums").innerHTML=`<div><div class="big gold">${stats.hits}<span style="color:var(--mute);font-size:.6em">/${stats.tries}</span></div><div class="cap">Hits</div></div>`+
-      `<div><div class="big">${stats.tries?pct+"%":"-"}</div><div class="cap">Your rate</div></div>`+
+    const pp=stats.tries?Math.round(100*(stats.perf||0)/stats.tries):0;
+    $("nums").innerHTML=`<div><div class="big gold">${stats.hits}<span style="color:var(--mute);font-size:.6em">/${stats.tries}</span></div><div class="cap">Hits (${stats.tries?pct+"%":"-"})</div></div>`+
+      `<div><div class="big">${stats.tries?pp+"%":"-"}</div><div class="cap">Perfect</div></div>`+
+      `<div><div class="big gold">${stats.streak||0}</div><div class="cap">Streak \u00b7 best ${stats.best||0}</div></div>`+
       `<div class="foot">A blind tap lands ${blind}%.<button id="resetStats" type="button">Reset</button></div>`;
     $("resetStats").onclick=()=>{stats={hits:0,tries:0};store.set(key(),stats);showStats();};
   }
@@ -220,7 +222,7 @@ select:disabled{opacity:.45}
     $("numTable").innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("");
   }
   function hint(){
-    const t={3:"Press STOP and the crest facing you is your club, plus a little luck from the grass. The ball speeds up and slows down in waves: wait for the slow moment, then strike."+(cfg&&cfg.p&&cfg.p.CH?" Master: one direction only, two speed waves that start differently every game, and sudden speed shifts: the ball hops, then jumps to a new speed. Read the hop, catch the shift.":""),
+    const t={3:"Press STOP and the crest facing you is your club, plus a little luck from the grass. The ball speeds up and slows down in waves: wait for the slow moment, then strike."+(cfg&&cfg.p&&cfg.p.CH?" Master: one direction only, two speed waves that start differently every game, and sudden speed shifts: the ball hops, then jumps to a new speed. Read the hop, catch the shift. Every hit is graded: PERFECT (crest dead centre), GREAT, GOOD or EDGE. Chase the PERFECT streak.":""),
       1:"Two taps. STOP grabs the ball and it starts slowing. A needle then runs across the gold bar: tap TOUCH as it hits the gold middle. Gold middle = you get the crest that was 1 2/3 turns ahead; off the middle = more luck.",
       2:"The ball stands still. A gold bar fills and empties. Press KICK: a fuller bar rolls the ball further (1 to 2.5 turns). Learn which fill lands your club.",
       0:"2.7.0 as it is today: one STOP, big luck (+-120 deg) and blur at full speed."};
@@ -251,8 +253,11 @@ select:disabled{opacity:.45}
       if(e.state==="ready"&&cfg.mode===2){phase="power";powerT0=performance.now();meter(true,"power");setAct("KICK",true);}
     }
     if(e.type==="landed"&&e.ball===ME&&!roundDone){
-      roundDone=true;const hit=e.section===aim,S=360/cfg.n,lo=aim*S,hi=lo+S,st=e.stop,off=hit?0:Math.round(Math.min(...[lo,hi].map(x=>Math.abs(((st-x)%360+540)%360-180))));stats.tries++;if(hit)stats.hits++;store.set(key(),stats);showStats();
-      const r=$("result");r.innerHTML=hit?`Hit<small>${POOL[ME][e.section]}</small>`:`${off<=10?"So close":"Miss"}<small>${POOL[ME][e.section]} \u00b7 ${off}\u00b0 from ${POOL[ME][aim]}</small>`;r.className="result tile on "+(hit?"hit":"miss");
+      roundDone=true;const hit=e.section===aim,S=360/cfg.n,lo=aim*S,hi=lo+S,st=e.stop,off=hit?0:Math.round(Math.min(...[lo,hi].map(x=>Math.abs(((st-x)%360+540)%360-180))));
+      // Mastery grade (Nik 04:11 UTC): how central the crest was. PERFECT within 1/15 of a slice of its centre (4 deg with 6 clubs).
+      const dev=Math.abs(((st-(lo+S/2))%360+540)%360-180),f=dev/S,grade=!hit?"":f<=1/15?"PERFECT":f<=1/6?"GREAT":f<=1/3?"GOOD":"EDGE";
+      stats.tries++;if(hit)stats.hits++;if(grade==="PERFECT"){stats.perf=(stats.perf||0)+1;stats.streak=(stats.streak||0)+1;stats.best=Math.max(stats.best||0,stats.streak);}else stats.streak=0;store.set(key(),stats);showStats();
+      const r=$("result");r.innerHTML=hit?`${grade}<small>${POOL[ME][e.section]} \u00b7 ${Math.round(dev)}\u00b0 off centre${stats.streak>1?" \u00b7 streak "+stats.streak:""}</small>`:`${off<=10?"So close":"Miss"}<small>${POOL[ME][e.section]} \u00b7 ${off}\u00b0 from ${POOL[ME][aim]}</small>`;r.className="result tile on "+(hit?"hit":"miss");
       phase="done";setAct("NEXT ROUND",true);meter(false);
     }
   }
