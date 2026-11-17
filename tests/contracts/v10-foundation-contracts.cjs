@@ -1519,7 +1519,8 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-15 by the 2.6.0 release bump: the same r93 file with its 2.6.0-r93 pins and v2.6.0 footer, nothing else.
   // Re-pinned 2026-11-17 by the 2.7.0 release bump: the 2.6.0 file (r94 never changed it) with its 2.7.0-r94 pins and v2.7.0
   // footer, nothing else.
-  assert.equal(sha256("index.html"),"034c60100198490cbe86c80520b99c2689d35f02599a3f50920dbc4374c2c144","index.html is 2.7.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, 2.7.0-r94 pins)");
+  // Re-pinned 2026-11-17 by r95: the local Barlow sheet link is gone (the one family, Instrument Sans); nothing else changed.
+  assert.equal(sha256("index.html"),"2b3b49e9487666a2fcb1ba738c7cc51efa79cce0f5127ccb05471648ebaebb3a","index.html is 2.7.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, 2.7.0-r94 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);

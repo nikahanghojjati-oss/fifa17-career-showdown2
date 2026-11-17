@@ -159,7 +159,7 @@
 .r78-error-screen__title {
   margin: 0 0 12px;
   color: var(--sd-gold-300, #ffd34d);
-  font: 400 clamp(30px, 8vw, 40px)/1.1 var(--sd-font-title, "Kaushan Script", cursive);
+  font: 400 clamp(30px, 8vw, 40px)/1.1 var(--sd-font-title, cursive);
   text-shadow: 0 2px 10px rgba(0, 0, 0, .6);
 }
 .r78-error-screen__body {

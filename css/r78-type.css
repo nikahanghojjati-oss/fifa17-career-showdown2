@@ -16,29 +16,13 @@
    showdown-type.css declares "Barlow" with font-display:swap, which can paint one frame in the fallback font.
    "R78 Barlow" points at the SAME two woff2 files (no new download, same cache entry) with font-display:block.
    r78 wiring: the kit's second, preview-only url (for the kit folder) is dropped; this file lives in css/. */
-@font-face {
-  font-family: "R78 Barlow";
-  font-style: normal;
-  font-weight: 400;
-  font-display: block;
-  src: url("../visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "R78 Barlow";
-  font-style: normal;
-  font-weight: 600;
-  font-display: block;
-  src: url("../visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2") format("woff2");
-}
-
-
 /* ---------- 1 · Tokens ---------------------------------------------------------------------------------------
    Contrast numbers (README) are measured against r78-marble-tile.webp: panel mean, 99th-percentile vein pixel and
    the single brightest vein pixel. Body >= 7:1 and secondary >= 4.5:1 hold even on the brightest vein. */
 :root {
   /* families: the shared kit families stay the fallback, so nothing changes if the face above is not reached */
-  --r78-font-body: "R78 Barlow", "Barlow", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  --r78-font-label: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --r78-font-body: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --r78-font-label: "Arial Narrow", sans-serif;
 
   /* sizes (same on desktop and phone) */
   --r78-size-body: 16px;          /* paragraphs, rules, dialog and error copy */

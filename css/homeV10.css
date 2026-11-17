@@ -1187,20 +1187,20 @@ html[data-reduced-motion="true"] #mainMenu.v10Home *::after {
 }
 #story .storyInner { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
 #story .storyKicker { margin: 0; color: #E8B93F; font-size: 12px; letter-spacing: .28em; }
-#story .storyTitle { margin: 0; font: 800 clamp(48px, 9vw, 88px)/.95 var(--cond, "Barlow Condensed", sans-serif); letter-spacing: .02em;
+#story .storyTitle { margin: 0; font: 800 clamp(48px, 9vw, 88px)/.95 var(--cond, sans-serif); letter-spacing: .02em;
   background: linear-gradient(180deg, #FFE98F 0%, #F4CB5A 45%, #CD9526 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 #story .storyLead { margin: 0; max-width: 64ch; font-size: clamp(16px, 2vw, 19px); line-height: 1.55; color: #F4ECDC; }
 #story .storySections { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 6px; }
 #story .storySection { position: relative; margin: 0; padding: 18px 18px 20px; border: 1px solid rgba(201,155,69,.45);
   background: linear-gradient(180deg, rgba(28,26,22,.96), rgba(12,13,16,.96)); }
-#story .storySectionNo { display: block; margin-bottom: 8px; color: #E8B93F; font: 700 14px/1 var(--cond, "Barlow Condensed", sans-serif); letter-spacing: .12em; }
-#story .storySection h3 { margin: 0 0 8px; font: 700 20px/1.1 var(--cond, "Barlow Condensed", sans-serif); letter-spacing: .06em; color: #FFE38A; }
+#story .storySectionNo { display: block; margin-bottom: 8px; color: #E8B93F; font: 700 14px/1 var(--cond, sans-serif); letter-spacing: .12em; }
+#story .storySection h3 { margin: 0 0 8px; font: 700 20px/1.1 var(--cond, sans-serif); letter-spacing: .06em; color: #FFE38A; }
 #story .storySection p { margin: 0; font-size: 15px; line-height: 1.55; color: rgba(244,236,220,.9); }
 #story .storyOffline { margin: 0; padding: 12px 14px; border: 1px solid rgba(232,185,63,.6); background: #15130f; color: #FFE38A; font-size: 15px; }
 #story .storyOffline[hidden] { display: none; }
 #story .storyActions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
 #story .storyButton { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; box-sizing: border-box;
-  border: 1px solid #C99B45; font: 700 16px/1 var(--cond, "Barlow Condensed", sans-serif); letter-spacing: .12em; text-decoration: none; cursor: pointer;
+  border: 1px solid #C99B45; font: 700 16px/1 var(--cond, sans-serif); letter-spacing: .12em; text-decoration: none; cursor: pointer;
   background: #0d0e11; color: #FFE38A; }
 #story .storyButtonPrimary { border-color: #E8B93F; color: #1a1205;
   background: linear-gradient(180deg, rgba(255,255,255,.42) 0, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 50%), linear-gradient(115deg, #FFE98F 0%, #F4CB5A 34%, #E8B93F 62%, #CD9526 100%); }

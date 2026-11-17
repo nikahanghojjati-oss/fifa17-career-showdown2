@@ -1422,7 +1422,7 @@
 #app #legacy[data-rivalry-legacy-v10] .legacyCard .legacyGoldenShowdown,
 #app #statistics[data-rivalry-legacy-v10] .rv-goldenShowdown {
   display:block; box-sizing:border-box; max-width:100%; margin:6px auto 0; padding:3px 8px;
-  color:var(--sd-gold-200,#fff1b8); font-family:var(--sd-font-condensed,"Barlow Condensed",Arial,sans-serif); font-weight:600;
+  color:var(--sd-gold-200,#fff1b8); font-family:var(--sd-font-condensed,Arial,sans-serif); font-weight:600;
   font-size:11px; line-height:14px; letter-spacing:.08em; text-transform:uppercase; text-align:center; white-space:normal;
   border:1px solid var(--sd-gold-600,#e0ae3a); border-radius:var(--sd-radius,3px);
   background:linear-gradient(180deg,rgba(73,55,8,.62),rgba(13,12,10,.78)),#0d0c0a url("r78-marble-tile.webp") 0 0/256px 256px repeat;

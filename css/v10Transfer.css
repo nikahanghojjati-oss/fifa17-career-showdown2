@@ -1019,7 +1019,7 @@
   color: #f5eacb; background: #0d0b08 url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
   border: 1px solid #e8c267; border-radius: 3px;
   box-shadow: inset 0 0 0 2px rgba(13, 11, 8, .92), inset 0 0 0 3px rgba(242, 196, 91, .28);
-  font: 700 15px/1.15 var(--sd-font-condensed, "Barlow Condensed", "Arial Narrow", sans-serif); letter-spacing: .06em; text-transform: uppercase;
+  font: 700 15px/1.15 var(--sd-font-condensed, "Arial Narrow", sans-serif); letter-spacing: .06em; text-transform: uppercase;
   pointer-events: none;
 }
 #app #transferChallenge .tw-host .ddStrip[hidden] { display: none !important; }

@@ -99,7 +99,7 @@
       '<circle cx="50" cy="50" r="39" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 3"/>' +
       '<path d="M33 44 L38 30 L45 39 L50 26 L55 39 L62 30 L67 44 Z" fill="currentColor"/>' +
       '<rect x="33" y="46" width="34" height="3.5" fill="currentColor"/>' +
-      '<text x="50" y="70" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="17" fill="currentColor" letter-spacing="1">CM17</text>';
+      '<text x="50" y="70" text-anchor="middle" font-family="Instrument Sans Narrow, sans-serif" font-weight="700" font-size="17" fill="currentColor" letter-spacing="1">CM17</text>';
     return svg;
   }
 

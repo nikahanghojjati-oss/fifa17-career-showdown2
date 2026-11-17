@@ -71,9 +71,9 @@
   --sd-ease-out: cubic-bezier(.22, 1, .36, 1);
   --sd-ease-in-out: cubic-bezier(.65, 0, .35, 1);
   --sd-ease-press: cubic-bezier(.2, 0, .2, 1);
-  --sd-font-title: "Kaushan Script", "Brush Script MT", cursive;
-  --sd-font-condensed: "Barlow Condensed", "Arial Narrow", sans-serif;
-  --sd-font-body: "Barlow", system-ui, sans-serif;
+  --sd-font-title: cursive;
+  --sd-font-condensed: "Arial Narrow", sans-serif;
+  --sd-font-body: system-ui, sans-serif;
 }
 /* Both native and product preferences replace entrance timing with a short fade.
    Screen motion kits still own the animation itself and must consume these tokens. */
@@ -100,38 +100,3 @@ html[data-reduced-motion="true"] {
 }
 
 /* Local font faces. No remote requests; font-display is intentionally swap. */
-@font-face {
-  font-family: "Kaushan Script";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("fonts/kaushan-script-latin-400-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Barlow Condensed";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("fonts/barlow-condensed-latin-600-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Barlow Condensed";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("fonts/barlow-condensed-latin-700-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Barlow";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("fonts/barlow-latin-400-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Barlow";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("fonts/barlow-latin-600-normal.woff2") format("woff2");
-}
