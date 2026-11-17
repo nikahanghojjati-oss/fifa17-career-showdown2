@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.7.0-r94";
-const PREVIOUS_RUNTIME_REVISION = "2.6.0-r93";
+const RUNTIME_REVISION = "2.8.0-r95";
+const PREVIOUS_RUNTIME_REVISION = "2.7.0-r94";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -419,14 +419,11 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.7.0 (r94): PREVIOUS is the live 2.6.0-r93 (295 paths, tests/fixtures/shell-paths/2.6.0-r93.json, main 5c5472f6). The STORY
+// 2.8.0 (r95): PREVIOUS is the live 2.7.0-r94 (298 paths, tests/fixtures/shell-paths/2.7.0-r94.json, main 5f22a328). The STORY
 // site is never precached.
-// r95: adds the Instrument Sans type sheet and its variable faces (one type family).
-// r94 R94-02 (Club Assignment spin and stop): adds the club draw step, its 3D scene and its CSS. Nothing else in r94 touches the shell.
+// r95 (one type family): adds the Instrument Sans type sheet, its three variable faces and their licence, and removes the 43 old
+// font sheets, faces and licences they replace. Nothing else in r95 touches the shell.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
-    "js/clubDrawStep.js",
-    "js/clubDrawScene3d.js",
-    "css/clubDraw.css",
     "css/r95-type.css",
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2",
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-ext-wdth-normal.woff2",

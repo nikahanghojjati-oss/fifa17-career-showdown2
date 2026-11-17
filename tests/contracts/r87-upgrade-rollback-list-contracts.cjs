@@ -7,8 +7,9 @@
 // (1.9.10-r86 = main 5b4337fd, the build live since 2026-10-30; 2.0.0-r87 = main 00ae2b72, live since 2026-11-02; 2.1.0-r88 =
 // main e6485d7d, live since 2026-11-04; 2.2.0-r89 = main 2fe8d2f5, live since 2026-11-06; 2.3.0-r90 = main a85d286a, live since
 // 2026-11-11; 2.4.0-r91 = main ac0a1338, live since 2026-11-14; 2.5.0-r92 = main 36b648ad, live since 2026-11-14; 2.5.1-r92 = main
-// 23bdd439, live since 2026-11-15; 2.6.0-r93 = main 5c5472f6, live since 2026-11-16). 2.7.0 moves PREVIOUS to 2.6.0-r93: the added set
-// must be exactly the paths 2.7.0 adds to 2.6.0's 295 (the club draw step, its 3D scene and its CSS); this test names them if it is not.
+// 23bdd439, live since 2026-11-15; 2.6.0-r93 = main 5c5472f6, live since 2026-11-16; 2.7.0-r94 = main 5f22a328, live since
+// 2026-11-17). 2.8.0 moves PREVIOUS to 2.7.0-r94: the added set must be exactly the paths 2.8.0 adds to 2.7.0's 298 (the one type
+// family: Instrument Sans, its sheet and its licence) and the removed set exactly the old font files it drops; this test names them if not.
 // Run: node tests/contracts/r87-upgrade-rollback-list-contracts.cjs
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -49,7 +50,7 @@ test("UR2 the rollback list equals the previous revision's real shell, path for 
   assert.deepEqual({missing,extra},{missing:[],extra:[]},`rollback list for ${w.previous} is wrong; SHELL_PATHS_ADDED_SINCE_PREVIOUS should be exactly: ${JSON.stringify(w.shell.filter(p=>!real.includes(p)))}`);
 });
 
-test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.7.0: none)",()=>{
+test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.8.0: 43 old font files)",()=>{
   const real=fixture(w.previous),shell=new Set(w.shell);
   assert.deepEqual(real.filter(p=>!shell.has(p)),w.removed,"a path the previous build precached left SHELL_PATHS without being listed in SHELL_PATHS_REMOVED_SINCE_PREVIOUS");
   assert.deepEqual(w.removed.filter(p=>shell.has(p)),[],"a removed path is still in SHELL_PATHS");
@@ -62,9 +63,9 @@ test("UR4 every added path is a current shell path, listed once",()=>{
   assert.equal(new Set(w.shell).size,w.shell.length,"SHELL_PATHS lists a path twice");
 });
 
-test("UR5 a 2.7.0 worker rolls back to the live 2.6.0 build",()=>{
-  assert.equal(w.revision,"2.7.0-r94");
-  assert.equal(w.previous,"2.6.0-r93");
+test("UR5 a 2.8.0 worker rolls back to the live 2.7.0 build",()=>{
+  assert.equal(w.revision,"2.8.0-r95");
+  assert.equal(w.previous,"2.7.0-r94");
 });
 
 test("UR6 the r87 fixture is r86's list plus what 2.0.0 added, minus the seven acceptance-only scripts",()=>{
@@ -121,6 +122,13 @@ test("UR13 the 2.6.0 fixture is 2.5.1's list plus the V4 loading logo, the title
   assert.equal(r93.length,295);
   assert.deepEqual(r92h.filter(p=>!r93.includes(p)),["assets/loading/LOGO_CM17_WORDMARK_V3_640.webp"]);
   assert.deepEqual(r93.filter(p=>!r92h.includes(p)),["assets/loading/LOGO_CM17_WORDMARK_V4_640.webp","visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2","visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt"]);
+});
+
+test("UR14 the 2.7.0 fixture is 2.6.0's list plus the club draw step, its 3D scene and its CSS, removing none",()=>{
+  const r94=fixture("2.7.0-r94"),r93=fixture("2.6.0-r93");
+  assert.equal(r94.length,298);
+  assert.deepEqual(r93.filter(p=>!r94.includes(p)),[]);
+  assert.deepEqual(r94.filter(p=>!r93.includes(p)),["js/clubDrawStep.js","js/clubDrawScene3d.js","css/clubDraw.css"]);
 });
 
 console.log(`r87 upgrade rollback-list contracts: ${passed} passed (revision ${w.revision}, previous ${w.previous}, ${w.added.length} added since it)`);
