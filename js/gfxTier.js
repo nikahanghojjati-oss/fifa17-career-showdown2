@@ -28,6 +28,9 @@
     {pr:2,max:8,shadowSize:4096,density:1,bloom:true}
   ];
   const BUDGET_MS=16.7,BUFFER_CAP=3840*2160,BUFFER_CAP_8K=7680*4320,PHONE_MAX_PR=3,PHONE_TEX_MAX=1,PHONE_MSAA_MAX=4,PHONE_EXTRA_PR=2.25;
+  // r96: on a phone a 3D screen's own Auto level (per screen, after a Device check) stops at Extra: the phone memory budget
+  // measures every screen at High and Extra (tests/browser/phone-memory-budget.cjs); Ultra there is over 300 MB.
+  const PHONE_SCENE_TOP=3;
   // "Never crash" first (Nik 2026-11-08): a lost context, an out-of-memory error, or (8K) a buffer or target the GPU would
   // not give drops this device one level below the one that failed and remembers it (any level, Auto or picked) until the
   // player picks a level again in Settings.
@@ -363,7 +366,10 @@
   function gfxProfile(scene){
     const base=gfxBaseProfile(),key=typeof scene==="string"&&scene?scene:gfxSceneKey();let p=base;
     if(key&&base.auto&&base.measured){
-      const lv=gfxSceneMeasured(gfxMeasured(),key);
+      // On a phone a screen's own level stops at Extra, the highest level the phone memory budget measures every screen at
+      // (tests/browser/phone-memory-budget.cjs, 300 MB; at Ultra the iPhone profile's Chamber Men holds about 396 MB).
+      let lv=gfxSceneMeasured(gfxMeasured(),key);
+      if(base.phone&&Number.isInteger(lv))lv=Math.min(lv,Math.max(base.autoLevel,PHONE_SCENE_TOP));
       if(Number.isInteger(lv)&&lv>base.autoLevel){
         if(sceneCached&&sceneCached.base===base&&sceneCached.key===key)p=sceneCached.p;
         else{
@@ -852,8 +858,8 @@
     // r96: scenes = each 3D screen's own best level ({"chamber-men":1,"club-draw":3,...}); none lower than `level`, which
     // stays the lowest (what 2D, Settings' gate and a 2.8.0 copy of this file read).
     setMeasured(level,detail,scenes){const n=Math.round(Number(level));if(!Number.isFinite(n))return null;
-      const top=gfxBaseProfile().can8k?5:4,l=Math.max(0,Math.min(top,n)),own={};
-      if(scenes&&typeof scenes==="object")for(const k of SCENE_KEYS){const v=Math.round(Number(scenes[k]));if(Number.isFinite(v))own[k]=Math.max(l,Math.min(top,v));}
+      const b=gfxBaseProfile(),top=b.can8k?5:4,l=Math.max(0,Math.min(top,n)),own={},sTop=b.phone?Math.min(top,PHONE_SCENE_TOP):top;
+      if(scenes&&typeof scenes==="object")for(const k of SCENE_KEYS){const v=Math.round(Number(scenes[k]));if(Number.isFinite(v))own[k]=Math.max(l,Math.min(sTop,v));}
       gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(Object.keys(own).length?{scenes:own}:{}),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;gfxRemark();return l;},
     // r96: the level Auto draws on each 3D screen after a Device check ({key: level}, the crash cap not counted); null before
     // a check. A screen the check did not time on its own draws the check's level.

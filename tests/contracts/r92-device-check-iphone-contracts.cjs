@@ -324,12 +324,12 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
   {
     const spSlowHigh = scripted({"sp@2": [heavy("sp", 2), heavy("sp", 2)]});
     // r96: per screen. Special Player's Balanced is below the iPhone's High, so it draws High; the screens the check passed
-    // higher draw their own level. Nothing below the chip's level is ever saved for a screen.
+    // higher draw their own level, up to Extra on a phone (PHONE_SCENE_TOP). Nothing below the chip's level is ever saved for a screen.
     const r = await run(spSlowHigh, IPHONE);
     assert.equal(r.saved.level, 2, "Balanced is below the iPhone's High: the device's level stays High (2.4.0 saved Balanced)");
-    assert.deepEqual({...r.saved.scenes}, {"chamber-men": 4, rrr: 4, sp: 2, "club-draw": 4}, "Special Player draws High; the others what they held");
+    assert.deepEqual({...r.saved.scenes}, {"chamber-men": 3, rrr: 3, sp: 2, "club-draw": 3}, "Special Player draws High; the others what they held, up to Extra on a phone (the phone memory budget)");
     assert.equal(r.tier.suggested().level, 2, "Auto stays on High for the device");
-    assert.equal(r.tier.profile("sp").level, 2); assert.equal(r.tier.profile("club-draw").level, 4);
+    assert.equal(r.tier.profile("sp").level, 2); assert.equal(r.tier.profile("club-draw").level, 3);
     assert.equal(r.status, "Check done. High was not held: Special Player was not smooth there. Chamber Men, Russian Roulette, Ball Game were smooth up to Ultra (4K).");
     // Every screen below the chip's level, none above it: nothing is saved, and an earlier result is let go (r92).
     const allSlowHigh = (scene, level) => level >= 2 ? [started(scene, level), ...heavy(scene, level).slice(1)] : allGood(scene, level);
@@ -371,7 +371,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
   {
     const budget = fs.readFileSync(path.join(ROOT, "tests/browser/phone-memory-budget.cjs"), "utf8");
     assert.match(budget, /const PHONE_BUDGET_MB = 300;/);
-    assert.match(budget, /const LEVELS = \[2, 3\];/); assert.match(budget, /const SCENES = \["chamber", "rrr", "sp"\];/);
+    assert.match(budget, /const LEVELS = \[2, 3\];/); assert.match(budget, /const SCENES = \["chamber", "rrr", "sp", "ball"\];/);
     assert.match(budget, /"--profiles", "iphone17"/); assert.match(budget, /DEVLAB_MODE: "cpu", DEVLAB_TOP: "1"/);
     assert.match(budget, /const total = Math\.round\(\(r\.allocTexMB \+ r\.allocRbMB\) \* 10\) \/ 10;/, "textures plus render buffers");
     assert.match(budget, /if \(total > PHONE_BUDGET_MB\) failures\.push/);

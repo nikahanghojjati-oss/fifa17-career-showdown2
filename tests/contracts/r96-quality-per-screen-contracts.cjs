@@ -21,6 +21,7 @@
 //      device's level (run in tests/contracts/r91-device-check-verdict-contracts.cjs V5/V9 and r92 D2/D12); its Ball Game
 //      frame and the files it needs are published
 //   P8 every screen steps softly (Ball Game now fades too), and Chamber Men's warm-up and mount load the same level
+//   P9 on a phone a screen's own level stops at Extra (the phone memory budget measures High and Extra)
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -38,7 +39,7 @@ const BUILD = /const BUILD="([^"]+)";/.exec(SRC)[1];
 let checks = 0;
 const ok = (id, text) => { checks += 1; console.log(`ok ${checks} ${id} ${text}`); };
 
-function sandbox({gpu = RTX, dpr = 1.25, memory = 16, cores = 8, search = "", storage = {}, pathname = "/", parent = null} = {}) {
+function sandbox({gpu = RTX, dpr = 1.25, memory = 16, cores = 8, search = "", storage = {}, pathname = "/", parent = null, screen = {width: 1920, height: 1080}} = {}) {
   const clock = {t: 0}, store = {...storage};
   const doc = {
     createElement: tag => tag === "canvas" ? {getContext: () => ({RENDERER: 7937, MAX_RENDERBUFFER_SIZE: 34024, MAX_TEXTURE_SIZE: 3379,
@@ -46,7 +47,7 @@ function sandbox({gpu = RTX, dpr = 1.25, memory = 16, cores = 8, search = "", st
       getParameter: k => k === 37446 || k === 7937 ? gpu : 16384})} : {style: {}, setAttribute() {}, append() {}, remove() {}},
     body: {append() {}}, documentElement: {dataset: {}}, visibilityState: "visible"
   };
-  const ctx = {document: doc, devicePixelRatio: dpr, navigator: {deviceMemory: memory, hardwareConcurrency: cores}, screen: {width: 1920, height: 1080},
+  const ctx = {document: doc, devicePixelRatio: dpr, navigator: {deviceMemory: memory, hardwareConcurrency: cores}, screen,
     innerWidth: 1920, innerHeight: 1080, location: {search, pathname, origin: "http://x"},
     readStorageValue: k => k in store ? store[k] : null, writeStorageValue: (k, v) => { store[k] = String(v); return true; },
     performance: {now: () => clock.t, timeOrigin: 1}, setTimeout: f => { f(); return 0; }, requestAnimationFrame: () => 1, cancelAnimationFrame() {},
@@ -222,5 +223,22 @@ function rest(){
     assert.match(rr, /key:"rrr"[^;]*before:\(\)=>GFXT\.softCut/); assert.match(sp, /key:"sp"[^;]*before:\(\)=>GFX\.softCut/);
     ok("P8", "every 3D screen steps softly between beats, Ball Game included; Chamber Men's warm-up and mount load one level");
   }
-  console.log(`PASS r96 quality per screen contracts (${checks} checks)`);
+  // P9
+{
+  // A phone (iPhone 17 class): a screen's own level stops at Extra, the highest level the phone memory budget measures every
+  // screen at (Ultra on the iPhone profile: Chamber Men about 396 MB, Roulette 337 MB, against 300). A phone whose every
+  // screen held Ultra keeps Ultra, as in 2.8.0.
+  const PHONE = {gpu: "Apple GPU", dpr: 3, memory: 0, cores: 6, screen: {width: 393, height: 852}};
+  const s = sandbox({...PHONE, storage: {[MKEY]: measured(2, {"chamber-men": 2, rrr: 3, sp: 4, "club-draw": 4})}});
+  assert.equal(s.G.profile().phone, true, "the sandbox is a phone");
+  assert.deepEqual([s.G.profile("chamber-men").level, s.G.profile("rrr").level, s.G.profile("sp").level, s.G.profile("club-draw").level], [2, 3, 3, 3]);
+  const w = sandbox({...PHONE});
+  w.G.setMeasured(1, {held: true}, {"chamber-men": 1, rrr: 2, sp: 4, "club-draw": 5});
+  assert.deepEqual(JSON.parse(w.store[MKEY]).scenes, {"chamber-men": 1, rrr: 2, sp: 3, "club-draw": 3});
+  const all = sandbox({...PHONE, storage: {[MKEY]: measured(4, {"chamber-men": 4, rrr: 4, sp: 4, "club-draw": 4})}});
+  assert.deepEqual([all.G.profile().level, all.G.profile("club-draw").level], [4, 4]);
+  ok("P9", "on a phone a screen's own level stops at Extra (the phone memory budget); a phone smooth at Ultra everywhere keeps it");
+}
+
+console.log(`PASS r96 quality per screen contracts (${checks} checks)`);
 }

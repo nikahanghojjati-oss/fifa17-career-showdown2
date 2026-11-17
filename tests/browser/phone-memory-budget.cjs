@@ -15,7 +15,7 @@ const { spawnSync } = require("node:child_process");
 const ROOT = path.resolve(__dirname, "../..");
 const PHONE_BUDGET_MB = 300;
 const LEVELS = [2, 3];                       // High (where an iPhone's Auto starts) and Extra (the next level the check may raise it to)
-const SCENES = ["chamber", "rrr", "sp"];
+const SCENES = ["chamber", "rrr", "sp", "ball"];       // r96: the Ball Game too (Auto may give it its own level)
 const outArg = process.argv.indexOf("--out");
 const out = outArg >= 0 ? process.argv[outArg + 1] : path.join(os.tmpdir(), `phone-memory-budget-${process.pid}.json`);
 
