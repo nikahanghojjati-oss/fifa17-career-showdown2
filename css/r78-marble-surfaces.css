@@ -797,3 +797,26 @@
     max-width: calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right));
   }
 }
+
+/* WAITING pop-up on Home (desktop and laptop): nothing covers the two managers' faces. The centred 920px shell sat over both
+   faces, so on a wide landscape window it docks in the open lounge on the left (the faces start right of it) as a narrower card. */
+@media (min-width: 1200px) and (min-height: 600px) and (orientation: landscape) {
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay {
+    place-items: center start; padding: 0 0 0 max(46px, 2.4vw);
+  }
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay .remoteJoiningShell {
+    width: min(540px, 34vw); max-width: min(540px, 34vw);
+  }
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay .remoteJoiningIntro h2 { font-size: clamp(30px, 3.2vw, 46px); }
+}
+/* Sideways phone: the two managers stand in the left third of Home, so the pop-up docks over the tile column on the right. */
+@media (max-height: 599px) and (min-width: 700px) and (orientation: landscape) {
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay {
+    place-items: center end; padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) 0;
+  }
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay .remoteJoiningShell {
+    width: min(500px, calc(100vw - 372px - env(safe-area-inset-right))); max-width: none;
+  }
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay .remoteJoiningIntro h2 { font-size: 30px; }
+  :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay :is(.remoteJoiningBody, .remoteJoiningIntro) p { font-size: 13px; line-height: 1.35; }
+}
