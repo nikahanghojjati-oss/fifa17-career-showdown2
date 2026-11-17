@@ -1192,6 +1192,11 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
   display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 4px 2px; cursor: pointer; list-style: none;
   font: 600 12px/1.2 var(--sd-font-condensed, inherit); letter-spacing: .14em; color: #c1b9aa;
 }
+/* r95 house (Lane B, layout measure), phones: the DETAILS toggle's tap area is 44px tall (was 32px). Its text and place do not move:
+   the 6px it grows above and below are given back with a negative margin. */
+@media (max-width: 900px), (max-height: 500px) {
+  #settingsOverlay.v10Settings .settingsUsageDetails > summary { min-height: 44px; margin: -6px 0; }
+}
 #settingsOverlay.v10Settings .settingsUsageDetails > summary::-webkit-details-marker { display: none; }
 #settingsOverlay.v10Settings .settingsUsageDetails > summary::after { content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translateY(-2px); }
 #settingsOverlay.v10Settings .settingsUsageDetails[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
