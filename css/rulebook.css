@@ -251,11 +251,6 @@
     .ruleScoreMaximum{gap:12px;}
 }
 
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  .ruleBookHero > span { font-size: 13px; }
-  .ruleSectionHeader > span { font-size: 13px; }
-  .ruleScoreTable span { font-size: 13px; }
-  .ruleScoreMaximum span { font-size: 13px; }
-}
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){.ruleBookHero > span,.ruleSectionHeader > span,.ruleScoreTable span,.ruleScoreMaximum span{font-size: 13px}}
+

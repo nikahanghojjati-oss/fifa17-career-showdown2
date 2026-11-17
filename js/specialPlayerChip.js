@@ -202,17 +202,9 @@ ${spTight("#app #standings.standingsScreenV10 .sdg-side")}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span{display:inline-block;max-width:none;overflow:visible;text-overflow:clip;font-size:inherit;line-height:inherit;}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipName{white-space:normal;}
 
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  #app .spChip { font-size: 13px; }
-  #app #trophyRoom .careerRank .spChip { font-size: 13px; }
-  #app #legacy .legacyHistorySpecialPlayers { font-size: 13px; }
-  #app #standings.standingsScreenV10 .sdg-side span.spChip { font-size: 13px; }
-  #app #seasonEntry .seasonReviewCard .spChip { font-size: 13px; }
-  #app #ruleBook .ruleSpecialPlayer .ruleSpecialPlayerTag { font-size: 13px; }
-  #app #statistics[data-rivalry-legacy-v10] .rv-manager span.spChip { font-size: 13px; }
-}
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){#app .spChip,#app #trophyRoom .careerRank .spChip,#app #legacy .legacyHistorySpecialPlayers,#app #standings.standingsScreenV10 .sdg-side span.spChip,#app #seasonEntry .seasonReviewCard .spChip,#app #ruleBook .ruleSpecialPlayer .ruleSpecialPlayerTag,#app #statistics[data-rivalry-legacy-v10] .rv-manager span.spChip{font-size:13px}}
+
 `;
   function spInstall(doc=root.document){
     try{

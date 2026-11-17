@@ -821,15 +821,6 @@
   :root:not(#r78):not(#r78):not(#r95):is([data-v10-screen="mainMenu"]) #sparkRemoteJoiningOverlay :is(.remoteJoiningBody, .remoteJoiningIntro) p { font-size: 13px; line-height: 1.35; }
 }
 
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  @media (min-width:1200px) and (min-height:600px) and (orientation:landscape) {
-    :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningHeader { font-size: 13px; }
-    :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .remoteJoiningEyebrow { font-size: 13px; }
-    :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > p { font-size: 13px; }
-    :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .remoteJoiningStatus { font-size: 13px; }
-    :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody .settingsInfoRow > span { font-size: 13px; }
-    :root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningActions :is(.compactButton, .menuButton) { font-size: 13px; }
-  }
-}
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1200px) and (min-height:600px) and (orientation:landscape){:root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningHeader,:root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .remoteJoiningEyebrow,:root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > p,:root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody > .remoteJoiningStatus,:root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningBody .settingsInfoRow > span,:root:not(#r78):not(#r78):is([data-v10-screen="leagueWheelScreen"],[data-v10-screen="clubWheelScreen"]) :is(#sparkRemoteJoiningOverlay,#productionSharedCareerStartOverlay,#productionSharedSetupOverlay) .remoteJoiningActions :is(.compactButton, .menuButton){font-size: 13px}}
+

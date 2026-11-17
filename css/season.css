@@ -89,14 +89,6 @@
 
 html[data-motion-reduced="true"] .seasonReviewPanel *{scroll-behavior:auto!important;}
 
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  .seasonReviewStatus { font-size: 13px; }
-  .seasonReviewStatus strong { font-size: 13px; }
-  .seasonReviewIntro { font-size: 13px; }
-  .seasonReviewAchievements span { font-size: 13px; }
-  .seasonReviewScoreHeading { font-size: 13px; }
-  .seasonReviewWarning { font-size: 13px; }
-  .seasonReviewSacked { font-size: 13px; }
-}
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){.seasonReviewStatus,.seasonReviewStatus strong,.seasonReviewIntro,.seasonReviewAchievements span,.seasonReviewScoreHeading,.seasonReviewWarning,.seasonReviewSacked{font-size: 13px}}
+

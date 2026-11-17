@@ -653,23 +653,6 @@
     .trophyShelf,.cabinetSupportingStats,.cabinetAchievementStrip{padding-left:14px;padding-right:14px;}
 }
 
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  .analyticsStatCard span { font-size: 13px; }
-  .analyticsStatCard small { font-size: 13px; }
-  .rivalryStatisticsOverview span { font-size: 13px; }
-  .rivalryManagerHero > span { font-size: 13px; }
-  .comparisonRow > span { font-size: 13px; }
-  .seasonProgressionLabel strong { font-size: 13px; }
-  .seasonProgressionLabel span { font-size: 13px; }
-  .seasonStatTop { font-size: 13px; }
-  .careerStandingsRow.header { font-size: 13px; }
-  .managerCabinetHeader p { font-size: 13px; }
-  .managerCareerPoints span { font-size: 13px; }
-  .trophyGlyph { font-size: 13px; }
-  .trophyCount span { font-size: 13px; }
-  .cabinetAchievementStrip { font-size: 13px; }
-  .recordCard > span { font-size: 13px; }
-  .recordCard > small { font-size: 13px; }
-}
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){.analyticsStatCard span,.analyticsStatCard small,.rivalryStatisticsOverview span,.rivalryManagerHero > span,.comparisonRow > span,.seasonProgressionLabel strong,.seasonProgressionLabel span,.seasonStatTop,.careerStandingsRow.header,.managerCabinetHeader p,.managerCareerPoints span,.trophyGlyph,.trophyCount span,.cabinetAchievementStrip,.recordCard > span,.recordCard > small{font-size: 13px}}
+

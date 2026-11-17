@@ -44,7 +44,7 @@ main{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;disp
 .screen>h2{width:min(1040px,94vw);margin:0 auto 17px;padding:10px 16px 8px 20px;color:var(--f17-ink);background:rgba(247,249,249,.96);border-left:6px solid var(--f17-yellow);box-shadow:var(--f17-shadow-soft);font:800 clamp(28px,3.1vw,40px)/.9 var(--f17-display);letter-spacing:-.4px;text-align:left;text-transform:uppercase;}
 footer{flex:0 0 auto;min-height:33px;padding:7px 22px;color:#d7dfe4;background:linear-gradient(90deg,#252e35,#354149);border-top:2px solid rgba(240,217,0,.78);font-size:12px;line-height:1.2;letter-spacing:.55px;}
 
-@font-face{font-family:Startup;src:url(../visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2);font-weight:400 700;font-stretch:75%;font-display:block}#loadingScreen{--fw:1920;--fh:1080;--t:calc(var(--s)*392);--k:max(100cqw/var(--fw),100cqh/var(--fh));--s:100cqh/1080;--col:min(var(--k)*1170,100cqw - var(--k)*690);--g:#e8c065;position:fixed;inset:0;z-index:100;overflow:hidden;container-type:size;color:#f1e9d6;font:700 14px/1.2 Startup,"Arial Narrow",Arial,sans-serif;white-space:nowrap;background:#0a0806;text-shadow:0 1px 2px #000,0 0 14px #000c;transition:opacity .24s}#loadingScreen.is-exiting{opacity:0;pointer-events:none}.startupScene,.startupAthleteFrame,.startupAthleteFrame img{position:absolute;inset:0}.startupScene{overflow:hidden}.startupAthleteFrame{width:calc(var(--k)*var(--fw));height:calc(var(--k)*var(--fh))}.startupAthleteFrame img{width:100%;height:100%}img.startupReus{left:1.042%;top:.741%;width:41.302%;height:123.981%;clip-path:inset(0 0 25.91% 0)}.startupIdentity,.startupStatus,.startupSaveNote,.startupPhotoCredit{position:absolute;left:var(--col);margin:0}.startupIdentity{top:var(--t);width:calc(var(--s)*640);height:auto}.startupSaveNote{top:calc(var(--t) + var(--s)*128);color:var(--g);font-size:max(12px,var(--s)*16);letter-spacing:.3em}.startupStatus{bottom:max(40px,var(--s)*84);display:grid;grid-template-columns:auto 1fr;gap:max(6px,var(--s)*10) max(10px,var(--s)*18);align-items:center}.startupPulse{grid-row:span 2;height:max(18px,var(--s)*30);display:flex;align-items:flex-end;gap:max(2px,var(--s)*4);transform:skewX(-18deg)}.startupPulse i{width:max(3px,var(--s)*6);height:35%;background:var(--g)}.startupPulse i+i{height:60%}.startupPulse i+i+i{height:100%}.startupPulse i+i+i+i{height:72%}#loadingText{margin:0;font-size:max(12px,var(--s)*22);letter-spacing:.16em}.startupLoader{grid-column:2;position:relative;width:100%;max-width:26em;height:2px;overflow:hidden;background:#e8c06538}.startupLoader i{position:absolute;inset:0;width:38%;background:linear-gradient(90deg,#e8c06500,#f6dc94 55%,var(--g));transform:translateX(-100%);animation:startupSweep 1.8s cubic-bezier(.45,0,.55,1) infinite}@keyframes startupSweep{to{transform:translateX(265%)}}.startupPhotoCredit{left:auto;right:max(10px,1.4cqw);bottom:max(6px,1.3cqh);color:#e9e1cf;font:400 max(12px,var(--s)*14)/1.35 Startup,sans-serif}.startupPhotoCredit a{color:inherit;text-decoration:none}@media (max-aspect-ratio:5/3) and (orientation:landscape){#loadingScreen{--t:calc(var(--s)*200);--col:max(var(--k)*770,100cqw - var(--k)*690)}.startupIdentity,.startupStatus,.startupSaveNote,#loadingText{max-width:calc(100cqw - var(--col) - 12px);white-space:normal}}@media (orientation:portrait){#loadingScreen{--fw:1179;--fh:2096;--d:min(var(--k)*2096 - 100cqh,var(--k)*70);--t:max(8px,var(--k)*100 - var(--d));--s:var(--k)*1.3;--col:max(16px,6.5cqw)}.startupAthleteFrame{left:calc(50% - var(--k)*589.5);top:calc(0px - var(--d))}img.startupReus{left:5.768%;top:15.124%;width:88.38%;height:83.97%;clip-path:inset(0 0 13.33% 0)}.startupIdentity{left:calc(50% - var(--k)*430);width:calc(var(--k)*860)}.startupStatus,.startupSaveNote,.startupPhotoCredit{right:var(--col)}.startupSaveNote{top:calc(var(--t) + var(--k)*160);text-align:center}.startupStatus{bottom:max(46px,var(--s)*62,100cqh + var(--d) - var(--k)*1908)}#loadingText{letter-spacing:.12em;white-space:normal}.startupPhotoCredit{left:var(--col);bottom:6px;max-width:30em;white-space:normal}}html[data-motion-reduced=true] .startupLoader i{animation:none!important;width:100%;transform:none}@media (prefers-reduced-motion:reduce){#loadingScreen .startupLoader i{animation:none!important;width:100%;transform:none}#loadingScreen{transition:none}}
+@font-face{font-family:Startup;src:url(../visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2);font-weight:400 700;font-stretch:75%;font-display:block}#loadingScreen{--fw:1920;--fh:1080;--t:calc(var(--s)*392);--k:max(100cqw/var(--fw),100cqh/var(--fh));--s:100cqh/1080;--col:min(var(--k)*1170,100cqw - var(--k)*690);--g:#e8c065;position:fixed;inset:0;z-index:100;overflow:hidden;container-type:size;color:#f1e9d6;font:700 14px/1.2 Startup,"Arial Narrow",Arial,sans-serif;white-space:nowrap;background:#0a0806;text-shadow:0 1px 2px #000,0 0 14px #000c;transition:opacity .24s}#loadingScreen.is-exiting{opacity:0;pointer-events:none}.startupScene,.startupAthleteFrame,.startupAthleteFrame img{position:absolute;inset:0}.startupScene{overflow:hidden}.startupAthleteFrame{width:calc(var(--k)*var(--fw));height:calc(var(--k)*var(--fh))}.startupAthleteFrame img{width:100%;height:100%}img.startupReus{left:1.042%;top:.741%;width:41.302%;height:123.981%;clip-path:inset(0 0 25.91% 0)}.startupIdentity,.startupStatus,.startupSaveNote,.startupPhotoCredit{position:absolute;left:var(--col);margin:0}.startupIdentity{top:var(--t);width:calc(var(--s)*640);height:auto}.startupSaveNote{top:calc(var(--t) + var(--s)*128);color:var(--g);font-size:max(13px,var(--s)*16);letter-spacing:.3em}.startupStatus{bottom:max(40px,var(--s)*84);display:grid;grid-template-columns:auto 1fr;gap:max(6px,var(--s)*10) max(10px,var(--s)*18);align-items:center}.startupPulse{grid-row:span 2;height:max(18px,var(--s)*30);display:flex;align-items:flex-end;gap:max(2px,var(--s)*4);transform:skewX(-18deg)}.startupPulse i{width:max(3px,var(--s)*6);height:35%;background:var(--g)}.startupPulse i+i{height:60%}.startupPulse i+i+i{height:100%}.startupPulse i+i+i+i{height:72%}#loadingText{margin:0;font-size:max(13px,var(--s)*22);letter-spacing:.16em}.startupLoader{grid-column:2;position:relative;width:100%;max-width:26em;height:2px;overflow:hidden;background:#e8c06538}.startupLoader i{position:absolute;inset:0;width:38%;background:linear-gradient(90deg,#e8c06500,#f6dc94 55%,var(--g));transform:translateX(-100%);animation:startupSweep 1.8s cubic-bezier(.45,0,.55,1) infinite}@keyframes startupSweep{to{transform:translateX(265%)}}.startupPhotoCredit{left:auto;right:max(10px,1.4cqw);bottom:max(6px,1.3cqh);color:#e9e1cf;font:400 max(13px,var(--s)*14)/1.35 Startup,sans-serif}.startupPhotoCredit a{color:inherit;text-decoration:none}@media (max-aspect-ratio:5/3) and (orientation:landscape){#loadingScreen{--t:calc(var(--s)*200);--col:max(var(--k)*770,100cqw - var(--k)*690)}.startupIdentity,.startupStatus,.startupSaveNote,#loadingText{max-width:calc(100cqw - var(--col) - 12px);white-space:normal}}@media (orientation:portrait){#loadingScreen{--fw:1179;--fh:2096;--d:min(var(--k)*2096 - 100cqh,var(--k)*70);--t:max(8px,var(--k)*100 - var(--d));--s:var(--k)*1.3;--col:max(16px,6.5cqw)}.startupAthleteFrame{left:calc(50% - var(--k)*589.5);top:calc(0px - var(--d))}img.startupReus{left:5.768%;top:15.124%;width:88.38%;height:83.97%;clip-path:inset(0 0 13.33% 0)}.startupIdentity{left:calc(50% - var(--k)*430);width:calc(var(--k)*860)}.startupStatus,.startupSaveNote,.startupPhotoCredit{right:var(--col)}.startupSaveNote{top:calc(var(--t) + var(--k)*160);text-align:center}.startupStatus{bottom:max(46px,var(--s)*62,100cqh + var(--d) - var(--k)*1908)}#loadingText{letter-spacing:.12em;white-space:normal}.startupPhotoCredit{left:var(--col);bottom:6px;max-width:30em;white-space:normal}}html[data-motion-reduced=true] .startupLoader i{animation:none!important;width:100%;transform:none}@media (prefers-reduced-motion:reduce){#loadingScreen .startupLoader i{animation:none!important;width:100%;transform:none}#loadingScreen{transition:none}}
 
 .menuButton,.backButton,.compactButton{border:0;cursor:pointer;font-family:var(--f17-display);font-weight:700;text-transform:uppercase;}
 .menuButton{width:100%;min-height:52px;padding:10px 18px;color:#fff;background:var(--f17-ink-2);border-left:5px solid var(--f17-cyan);letter-spacing:1.35px;font-size:17px;transition:transform 90ms ease,background-color 90ms ease,color 90ms ease;}
@@ -145,7 +145,7 @@ input::placeholder{color:#8a969e;}select option{color:#111;background:#fff;}
 #appRuntimeNotice{position:fixed;right:16px;bottom:45px;z-index:50;max-width:min(520px,calc(100vw - 32px));display:flex;align-items:flex-start;gap:12px;padding:11px 13px;color:#fff;background:#303840;border-left:6px solid var(--f17-yellow);box-shadow:var(--f17-shadow);font-size:12px;}#appRuntimeNotice.error{border-left-color:#c75359;}#appRuntimeNotice.success{border-left-color:#4ca16c;}#appRuntimeNotice button{margin-left:auto;color:#fff;background:transparent;border:0;font-size:19px;cursor:pointer;line-height:1;}
 
 @media(min-width:901px) and (max-height:800px){
-    #topHeader{min-height:60px;padding:7px clamp(18px,3vw,48px)}.brand h1{font-size:32px}.brand p{font-size:13px}.seasonIndicator{padding:7px 12px;font-size:11px}main{padding:9px 0 26px}#mainMenu{padding-bottom:12px}.fifaMenuShell{min-height:calc(100dvh - 123px);gap:6px}.fifaMenuHeading{min-height:47px;padding-bottom:5px}.fifaMenuHeading h2{font-size:44px}.fifaMenuHeadingMeta{font-size:10px}.fifaMenuHeadingMeta span{margin-bottom:3px;font-size:8px}.fifaMenuGrid{min-height:400px;grid-template-rows:repeat(2,minmax(92px,1fr)) minmax(96px,auto);gap:5px}.menuTile{padding:11px 14px}.menuTilePrimary{padding-right:43%}.menuTileLabel{font-size:clamp(22px,2vw,29px)}.menuTileTrophy .menuTileLabel,.menuTileRules .menuTileLabel,.menuTileSettings .menuTileLabel{font-size:clamp(18px,1.65vw,24px)}.menuTileMeta{margin-top:4px;font-size:9px}.menuCoverNumber{font-size:52px}.menuBottomStrip{min-height:26px;padding:5px 9px}footer{min-height:27px;padding:5px 18px}
+    #topHeader{min-height:60px;padding:7px clamp(18px,3vw,48px)}.brand h1{font-size:32px}.brand p{font-size:13px}.seasonIndicator{padding:7px 12px;font-size:13px}main{padding:9px 0 26px}#mainMenu{padding-bottom:12px}.fifaMenuShell{min-height:calc(100dvh - 123px);gap:6px}.fifaMenuHeading{min-height:47px;padding-bottom:5px}.fifaMenuHeading h2{font-size:44px}.fifaMenuHeadingMeta{font-size:10px}.fifaMenuHeadingMeta span{margin-bottom:3px;font-size:8px}.fifaMenuGrid{min-height:400px;grid-template-rows:repeat(2,minmax(92px,1fr)) minmax(96px,auto);gap:5px}.menuTile{padding:11px 14px}.menuTilePrimary{padding-right:43%}.menuTileLabel{font-size:clamp(22px,2vw,29px)}.menuTileTrophy .menuTileLabel,.menuTileRules .menuTileLabel,.menuTileSettings .menuTileLabel{font-size:clamp(18px,1.65vw,24px)}.menuTileMeta{margin-top:4px;font-size:9px}.menuCoverNumber{font-size:52px}.menuBottomStrip{min-height:26px;padding:5px 9px}footer{min-height:27px;padding:5px 18px}
     #clubWheelScreen{padding-bottom:18px}#clubWheelScreen>h2{margin-bottom:9px}.clubAssignmentShell{width:min(900px,93vw);padding:9px 12px 11px}.clubAssignmentEyebrow{font-size:9px}#clubAssignmentLeague{margin-top:3px;font-size:32px}#clubPackStatus{margin-top:4px;font-size:10px}.clubRevealProgress{width:min(590px,100%);margin:7px auto 8px}.clubRevealProgress span{padding:5px 3px;font-size:8px}.clubRevealArea{width:min(820px,100%);grid-template-columns:minmax(0,1fr) 60px minmax(0,1fr);gap:8px;margin-bottom:7px}.clubRevealCard{height:220px;padding:7px;grid-template-rows:21px minmax(0,1fr)}.clubManager{min-height:21px;padding-top:0;font-size:10px;line-height:17px}.clubPackDoor{gap:5px}.clubPackBrand{font-size:18px}.clubPackBrand small{font-size:7px}.clubPackSeal{width:48px;height:48px;border-width:4px;font-size:23px}.clubPackSerial{font-size:7px}.clubCardFace{padding:8px 8px 7px;grid-template-rows:auto auto minmax(77px,1fr) auto}.clubCardEyebrow{font-size:7px;margin-bottom:2px}.clubCardLabel{font-size:8px;margin-bottom:2px}.clubCardFace strong{min-height:77px;padding:55px 6px 0;font-size:clamp(18px,2vw,24px)}.clubCardFace [data-club-identity="true"]::before{width:48px;height:54px}.clubCardState{margin-top:3px;padding:4px 7px;font-size:7px}.clubVs span{font-size:7px}.clubVs strong{font-size:36px}.clubRivalryConfirmation{width:min(800px,100%);margin:5px auto 7px;padding:8px 11px 9px}.clubRivalryHeadline>strong{font-size:24px}.clubRivalryHeadline>small{margin-top:3px}.clubRivalryMatchup{margin-top:7px}.clubConfirmationSide{min-height:55px;padding:7px}.clubRivalryLockNote{margin-top:6px;font-size:8px}.clubAssignmentShell>.menuButton,.clubAssignmentShell>.backButton{min-height:38px;margin-top:5px}
 }
 @media(max-width:900px){#topHeader{min-height:64px;padding:9px 18px}.fifaMenuShell{min-height:auto}.fifaMenuGrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:auto}.menuTilePrimary,.menuTileNew,.menuTileLegacy,.menuTileTrophy,.menuTileRules,.menuTileSettings{grid-column:span 1;grid-row:auto;min-height:148px}.menuTileTrophy .menuTileLabel,.menuTileRules .menuTileLabel,.menuTileSettings .menuTileLabel{font-size:clamp(22px,3.2vw,29px)}.menuTilePrimary{min-height:220px;padding-right:42%}.signingRow{grid-template-columns:27px 1fr}.signingRow input{grid-column:2}.screen{width:98vw}}
@@ -162,75 +162,3 @@ html[data-motion-reduced="true"] .screen[data-route-state="entering"],html[data-
 @keyframes clubVsHit{0%{opacity:.45;transform:scale(.78)}70%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1.04)}}
 #rivalryStatisticsButton:not([data-test-surface=internal-audit]){display:none!important}
 @media(min-width:901px){#newShowdown{grid-column:7/13;grid-row:1}#ruleBookButton{grid-column:7/10;grid-row:2}#settingsButton{grid-column:10/13;grid-row:2}}
-
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  footer { font-size: 13px; }
-  .seasonIndicator { font-size: 13px; }
-  .startupSaveNote { font-size: max(13px, var(--s)*16); }
-  #loadingText { font-size: max(13px, var(--s)*22); }
-  .startupPhotoCredit { font-size: 13px; }
-  .fifaMenuEyebrow { font-size: 13px; }
-  .fifaMenuHeadingMeta { font-size: 13px; }
-  .fifaMenuHeadingMeta span { font-size: 13px; }
-  .menuTileCode { font-size: 13px; }
-  .menuTileMeta { font-size: 13px; }
-  .menuCoverTag { font-size: 13px; }
-  .menuCoverTag small { font-size: 13px; }
-  .menuAthleteCredit { font-size: 13px; }
-  .menuBottomStrip { font-size: 13px; }
-  .menuBottomStrip b { font-size: 13px; }
-  .menuBottomStrip strong { font-size: 13px; }
-  .setupBox label { font-size: 13px; }
-  .wheelItem { font-size: 13px; }
-  .clubAssignmentEyebrow { font-size: 13px; }
-  #clubPackStatus { font-size: 13px; }
-  .clubRevealProgress span { font-size: 13px; }
-  .clubRevealIndex { font-size: 13px; }
-  .clubManager { font-size: 13px; }
-  .clubPackBrand small { font-size: 13px; }
-  .clubPackSerial { font-size: 13px; }
-  .clubCardEyebrow { font-size: 13px; }
-  .clubCardLabel { font-size: 13px; }
-  .clubCardState { font-size: 13px; }
-  .clubVs span { font-size: 13px; }
-  .clubRivalryHeadline>span { font-size: 13px; }
-  .clubRivalryHeadline>small { font-size: 13px; }
-  .clubConfirmationSide span { font-size: 13px; }
-  .clubRivalryLockNote { font-size: 13px; }
-  .overviewStatus,.transferOverviewStatus { font-size: 13px; }
-  .showdownScoreboard small { font-size: 13px; }
-  .stateNote { font-size: 13px; }
-  .completionHub p { font-size: 13px; }
-  .transferRulesLine { font-size: 13px; }
-  #transferPhaseStatus { font-size: 13px; }
-  .transferRuleNote { font-size: 13px; }
-  .transferSectionLabel { font-size: 13px; }
-  .signingRow>span,.guessRow>span { font-size: 13px; }
-  .transferResultRow span { font-size: 13px; }
-  .transferEmpty { font-size: 13px; }
-  .seasonEntryHint { font-size: 13px; }
-  .seasonResultCard>label { font-size: 13px; }
-  .achievementChecks label { font-size: 13px; }
-  .formError { font-size: 13px; }
-  .summaryLine { font-size: 13px; }
-  .overallScoreBox span { font-size: 13px; }
-  #appRuntimeNotice { font-size: 13px; }
-  @media(min-width:901px) and (max-height:800px) {
-    .fifaMenuHeadingMeta { font-size: 13px; }
-    .fifaMenuHeadingMeta span { font-size: 13px; }
-    .menuTileMeta { font-size: 13px; }
-    .clubAssignmentEyebrow { font-size: 13px; }
-    #clubPackStatus { font-size: 13px; }
-    .clubRevealProgress span { font-size: 13px; }
-    .clubManager { font-size: 13px; }
-    .clubPackBrand small { font-size: 13px; }
-    .clubPackSerial { font-size: 13px; }
-    .clubCardEyebrow { font-size: 13px; }
-    .clubCardLabel { font-size: 13px; }
-    .clubCardState { font-size: 13px; }
-    .clubVs span { font-size: 13px; }
-    .clubRivalryLockNote { font-size: 13px; }
-  }
-}

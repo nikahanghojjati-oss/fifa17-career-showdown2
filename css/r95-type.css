@@ -224,7 +224,6 @@
   :root:root #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button { font-size: 13px; }
   :root:root #app #careerStatistics.careerScreenV10 .careerTable td, :root:root #app #careerStatistics.careerScreenV10 .rankCrown { font-size: max(13px, calc(var(--cs-u) * .9)); }
   :root:root #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue, .nValue) { font-size: max(13px, .76vw); }
-  :root:root #app #careerStatistics.careerScreenV10 .headlineLabel, :root:root .headlineLabel { font-size: max(13px, .72vw); }
   :root:root #app #connectPlayersScreen .connectPlayersTagline { font-size: clamp(13px, min(.68vw, 1.2svh), 20px); }
   :root:root #connectPlayersScreen .connectPlayersRole > span { font-size: clamp(13px, 1.43vh, 24px); }
   :root:root #app #legacy[data-rivalry-legacy-v10] .legacyManagerName { font-size: clamp(13px, .72vw, 19px); }
@@ -233,3 +232,8 @@
   :root:root .sdg-progress, :root:root .sdg-interim, :root:root .sdg-coverage { font-size: 13px; }
   :root:root #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label, :root:root #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label:has(input:checked) { font-size: clamp(13px, .7vw, 14px); }
 }
+/* The Career Statistics headline tiles are 48px tall on a 600px-high window (a two-line 13px label does not fit), so this label waits for 700px of height. */
+@media (min-width:1024px) and (min-height:700px){:root:root #app #careerStatistics.careerScreenV10 .headlineLabel,:root:root .headlineLabel{font-size:max(13px,.72vw);line-height:1}}
+/* r96 look 3: the old app.css desktop captions (the menu and club-assignment legacy rules), kept here so the startup sheet stays under its size pin. */
+@media (min-width:1024px){footer,.fifaMenuEyebrow,.fifaMenuHeadingMeta,.fifaMenuHeadingMeta span,.menuTileCode,.menuTileMeta,.menuCoverTag,.menuCoverTag small,.menuAthleteCredit,.menuBottomStrip,.menuBottomStrip b,.menuBottomStrip strong,.setupBox label,.wheelItem,.clubAssignmentEyebrow,#clubPackStatus,.clubRevealProgress span,.clubRevealIndex,.clubManager,.clubPackBrand small,.clubPackSerial,.clubCardEyebrow,.clubCardLabel,.clubCardState,.clubVs span,.clubRivalryHeadline>span,.clubRivalryHeadline>small,.clubConfirmationSide span,.clubRivalryLockNote,.overviewStatus,.transferOverviewStatus,.showdownScoreboard small,.stateNote,.completionHub p,.transferRulesLine,#transferPhaseStatus,.transferRuleNote,.transferSectionLabel,.signingRow>span,.guessRow>span,.transferResultRow span,.transferEmpty,.seasonEntryHint,.seasonResultCard>label,.achievementChecks label,.formError,.summaryLine,.overallScoreBox span,#appRuntimeNotice{font-size: 13px}}
+@media (min-width:1024px) and (max-height:800px){.fifaMenuHeadingMeta,.fifaMenuHeadingMeta span,.menuTileMeta,.clubAssignmentEyebrow,#clubPackStatus,.clubRevealProgress span,.clubManager,.clubPackBrand small,.clubPackSerial,.clubCardEyebrow,.clubCardLabel,.clubCardState,.clubVs span,.clubRivalryLockNote{font-size: 13px}}

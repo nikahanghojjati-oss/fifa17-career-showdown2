@@ -2110,13 +2110,7 @@ html[data-v10-setup="start"] #overlay { background: none; }
   }
 }
 
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  html[data-v10-setup] #app #topHeader #onlinePlayerIdentityBadge { font-size: 13px !important; }
-  #clubWheelScreen.v26Skin .clubAssignmentEyebrow { font-size: 13px; }
-  #clubWheelScreen.v26Skin #clubPackStatus { font-size: 13px; }
-  #clubWheelScreen.v26Skin .clubRevealProgress span { font-size: 13px; }
-  #clubWheelScreen.v26Skin .clubRevealIndex { font-size: 13px; }
-  #clubWheelScreen.v26Skin .clubVs span { font-size: 13px; }
-}
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){html[data-v10-setup] #app #topHeader #onlinePlayerIdentityBadge{font-size: 13px !important}}
+@media (min-width:1024px){#clubWheelScreen.v26Skin .clubAssignmentEyebrow,#clubWheelScreen.v26Skin #clubPackStatus,#clubWheelScreen.v26Skin .clubRevealProgress span,#clubWheelScreen.v26Skin .clubRevealIndex,#clubWheelScreen.v26Skin .clubVs span{font-size: 13px}}
+

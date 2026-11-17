@@ -1180,8 +1180,6 @@ html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelS
   html[data-assets]:not([data-assets="0"]):not([data-assets="1"]) #app #clubWheelScreen.cl-on.cl-box .plateBase { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_2X.webp') 2x); }
 }
 
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .screenEyebrow { font-size: 13px; }
-}
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){#clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .screenEyebrow{font-size: 13px}}
+

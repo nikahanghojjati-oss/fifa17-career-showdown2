@@ -657,13 +657,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
 @media (prefers-reduced-motion: reduce) { #app #seasonEntry .v10GoldenStage.goldenEnter * { animation:none !important; } }
 html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonEntry .v10GoldenStage.goldenEnter * { animation:none !important; }
 
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  #app #seasonEntry .v10GoldenStage .goldenEyebrow { font-size: 13px; }
-  #app #seasonEntry .v10GoldenStage .goldenStripLabel { font-size: 13px; }
-  #app #seasonEntry .v10GoldenStage .goldenSeason small { font-size: 13px; }
-}
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){#app #seasonEntry .v10GoldenStage .goldenEyebrow,#app #seasonEntry .v10GoldenStage .goldenStripLabel,#app #seasonEntry .v10GoldenStage .goldenSeason small{font-size: 13px}}
+
 `;
     parent.appendChild(style);
   }
@@ -2834,22 +2830,13 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
    chip shows the surname ("Lewandowski", not "R. Lewandowski"; the title keeps the full name) and a name that is still too
    long takes a second line at its hyphen or space. On desktop the chip keeps Team V's two-line card beside the trophy (SP
    and the name, the rank under them) inside the same 112px, so it comes no nearer the trophy than before. */
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){#app .v10FinalStage .finalWinnerManager .v10SackedStamp,#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden),#app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:not(.hidden),#app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip{font-size: 13px}}
+@media (min-width:1200px) and (min-height:600px), (min-width:1024px){#app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button{font-size: 13px}}
+@media (min-width:1024px){:root #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip{font-size:13px}}
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip { font-size:12px; line-height:1.2; border-radius:10px; }
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipFirst { display:none; }
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChipName { max-width:none; overflow:visible; text-overflow:clip; white-space:normal; }
-
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  #app .v10FinalStage .finalWinnerManager .v10SackedStamp { font-size: 13px; }
-  #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) { font-size: 13px; }
-  #app #seasonEntry.v10FinalMode #stage-root #sharedTerminalClosePanel:not([data-terminal="true"]):not(.hidden) .seasonReviewActions button:not(.hidden) { font-size: 13px; }
-  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerManager .fwSpecialPlayer .spChip { font-size: 13px; }
-  @media (min-width:1200px) and (min-height:600px),
-       (min-width:901px) {
-    #app #seasonEntry .v10FinalStage .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button { font-size: 13px; }
-  }
-}
 `;
     parent.appendChild(style);
   }
@@ -2932,11 +2919,9 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 /* while the review panel is up, its status bar carries the line: the title line and the card chips step aside */
 #app #seasonEntry:has(#seasonReviewPanel:not(.hidden)) :is(.seasonGoldenCourse,.seasonGoldenCourseLine) { display:none; }
 
-/* r96 look 3: desktop caption floor. At 1024px and wider no caption is under 13px. Same selectors as the rules above and later in this file,
-   so each keeps its place; phones keep their own sizes. */
-@media (min-width: 1024px) {
-  #app #seasonEntry:not(.v10FinalMode) .seasonReviewStatus .seasonGoldenCourseReview { font-size: 13px; }
-}
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){#app #seasonEntry:not(.v10FinalMode) .seasonReviewStatus .seasonGoldenCourseReview{font-size: 13px}}
+
 `;
     doc.head.appendChild(style);
   }
