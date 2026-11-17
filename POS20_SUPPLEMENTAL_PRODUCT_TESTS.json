@@ -3436,6 +3436,14 @@
         "^tests/contracts/r95\\-ball\\-game\\-protocol\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r96-final-resume-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedJourneyEntry|productionSharedSeasonCommit|productionSharedMultiSeasonProgression|persistentNikDanielPair|productionSharedTerminalClose|onlinePlayerIdentity|sparkRemoteJoining)\\.js$",
+        "^tests/contracts/r96\\-final\\-resume\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
