@@ -921,3 +921,15 @@ html #app #seasonEntry.seasonScreenV10 .seasonReviewLine.isZero { opacity: .65; 
   #app #careerStatistics.careerScreenV10 .managerPortrait { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp') 1.25x); }
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #careerStatistics.careerScreenV10 .managerPortrait { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp') 1.25x,url('../visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp') 2x); }
 }
+
+/* r95 house (Lane B, audit pass 2 rows 31-33), phones: tap areas of 44px without moving or growing anything visible, readable locked
+   tabs, and a focus ring on the Squad player chips. */
+@media (max-width: 900px) {
+  /* the identity chip (SIGN IN / player name / RECONNECT) is 28px tall: an invisible ::after makes its tap area 44px */
+  #app #topHeader #onlinePlayerIdentityBadge { position: relative; }
+  #app #topHeader #onlinePlayerIdentityBadge::after { content: ""; position: absolute; inset: -8px -6px; }
+  /* Marco Reus credit links are 14px tall inline text: inline vertical padding widens the tap area and moves nothing */
+  #photoCredit a, .startupPhotoCredit a, .menuAthleteCredit a { padding: 15px 4px; }
+  /* locked bottom tabs (signed out) keep full opacity and the muted ivory #C9BFA8 (about 10:1 on the bar) instead of 0.72 opacity */
+  .sd-nav-bottom[data-locked="true"] .sd-nav-tab:not([aria-current="page"]):not(.cmsMusicTab) { opacity: 1; color: var(--r78-ivory-2, #C9BFA8); }
+}
