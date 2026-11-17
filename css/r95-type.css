@@ -1,0 +1,123 @@
+/* =====================================================================================================
+   r95 · ONE type family for the whole clubhouse: Archivo (variable: weight 100-900, width 62-125)
+   Nik picked option B from the type specimen (gameplay/r95/type/type-specimen.html), titles as live gold text.
+
+   This file holds the family, the seven-step scale, the tracking per step, the tabular-figure rule and the foil
+   recipe, as tokens. Later r95 passes move each screen onto these tokens; this file changes no screen by itself.
+   Load order: after css/r78-type.css (lazy, with the other r78 sheets; never in the startup bundle).
+   Static CSS only: no animation, no transition, no JS.
+   ===================================================================================================== */
+
+/* font-display:block like "R78 Barlow": a title or button never paints in a stand-in face. The face is only fetched
+   when something on the page uses it. Latin subset (Archivo v1.2 variable, OFL 1.1: visual-assets/v10_1/shared/fonts/OFL_Archivo.txt). */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: block;
+  src: url("../visual-assets/v10_1/shared/fonts/archivo-latin-wdth-normal.woff2") format("woff2");
+}
+
+:root {
+  /* family: the fallbacks are the faces the game used before r95, so a missed file still looks like the game */
+  --r95-font: "Archivo", "R78 Barlow", "Barlow", "Barlow Condensed", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --sd-font-display: var(--r95-font);
+
+  /* the seven steps (desktop). Clamp only between two neighbouring steps, never past the ends. */
+  --r95-s0: 13px;  /* label, kicker */
+  --r95-s1: 15px;  /* UI, button */
+  --r95-s2: 17px;  /* reading */
+  --r95-s3: 22px;  /* title 3 */
+  --r95-s4: 32px;  /* title 2 */
+  --r95-s5: 48px;  /* title 1 */
+  --r95-s6: 72px;  /* wordmark */
+
+  /* width and weight by job (font-stretch picks the wdth axis) */
+  --r95-stretch-title: 62%;   --r95-weight-title: 800;
+  --r95-stretch-label: 75%;   --r95-weight-label: 650;
+  --r95-stretch-read: 100%;   --r95-weight-read: 400;
+
+  /* tracking per step: tight on the big condensed caps, open on the small labels */
+  --r95-track-wordmark: .02em;
+  --r95-track-title: .02em;
+  --r95-track-title3: .05em;
+  --r95-track-label: .1em;
+  --r95-track-ui: .08em;
+  --r95-track-read: 0;
+
+  /* line heights */
+  --r95-lh-title: 1.02;
+  --r95-lh-ui: 1.15;
+  --r95-lh-read: 1.6;
+
+  /* foil recipe for live gold titles: a hard horizon line in the gradient, a 1px dark lower edge, no glow */
+  --r95-foil: linear-gradient(180deg, #fff3c4 0%, #f4d36c 28%, #e0ae3a 52%, #9a6c14 58%, #d9a431 66%, #f6dc86 82%, #a87818 100%);
+  --r95-foil-edge: #241803;
+}
+
+/* Phones and short landscape windows: the phone column of the scale */
+@media (max-width: 1199px), (max-height: 599px) {
+  :root {
+    --r95-s0: 12px;
+    --r95-s1: 14px;
+    --r95-s2: 16px;
+    --r95-s3: 20px;
+    --r95-s4: 26px;
+    --r95-s5: 36px;
+    --r95-s6: 52px;
+  }
+}
+
+/* Role classes the later passes put on markup that has no natural hook. Each sets family, width, weight, tracking and size. */
+.r95-title,
+.r95-label,
+.r95-ui,
+.r95-read,
+.r95-num {
+  font-family: var(--r95-font);
+}
+.r95-title {
+  font-stretch: var(--r95-stretch-title);
+  font-weight: var(--r95-weight-title);
+  letter-spacing: var(--r95-track-title);
+  line-height: var(--r95-lh-title);
+  text-transform: uppercase;
+}
+.r95-label {
+  font-stretch: var(--r95-stretch-label);
+  font-weight: var(--r95-weight-label);
+  font-size: var(--r95-s0);
+  letter-spacing: var(--r95-track-label);
+  line-height: var(--r95-lh-ui);
+  text-transform: uppercase;
+}
+.r95-ui {
+  font-stretch: var(--r95-stretch-label);
+  font-weight: var(--r95-weight-label);
+  font-size: var(--r95-s1);
+  letter-spacing: var(--r95-track-ui);
+  line-height: var(--r95-lh-ui);
+  text-transform: uppercase;
+}
+.r95-read {
+  font-stretch: var(--r95-stretch-read);
+  font-weight: var(--r95-weight-read);
+  font-size: var(--r95-s2);
+  letter-spacing: var(--r95-track-read);
+  line-height: var(--r95-lh-read);
+}
+/* scores, timers, tables: figures that line up */
+.r95-num {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+/* live gold title. The text is real text (selectable, translatable); the gradient is clipped to the glyphs. */
+.r95-foil {
+  background: var(--r95-foil);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 0 var(--r95-foil-edge)) drop-shadow(0 2px 0 rgba(0, 0, 0, .55));
+}

@@ -47,6 +47,8 @@ const SHELL_FRAME_NAVIGATION_PATHS = new Set([
 // precached copies of the shell it runs (red team R87-B-03).
 const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "css/r78-marble-tile.webp",
+    // r95: the Archivo variable face the r95 type sheet asks for by a relative url(), so the request has no ?v=
+    "visual-assets/v10_1/shared/fonts/archivo-latin-wdth-normal.woff2",
     "visual-assets/v10_1/roulette/vendor/three-r187.min.js",
     // r90 (Codex #1348 P1): the roulette and Special Player pages load the shared quality module without ?v=; without this
     // entry an offline open falls through to the network and GFXT.profile() throws, so the scene cannot play.
@@ -364,6 +366,8 @@ const SHELL_PATHS = Object.freeze([
     "js/startJoinViewModel.js",
     "css/v10Shell.css",
     "css/r78-type.css",
+    "css/r95-type.css",
+    "visual-assets/v10_1/shared/fonts/archivo-latin-wdth-normal.woff2",
     "css/r78-marble-surfaces.css",
     "css/r78-marble-tile.webp",
     "js/showdownConfirm.js",
@@ -452,11 +456,14 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
 // 2.7.0 (r94): PREVIOUS is the live 2.6.0-r93 (295 paths, tests/fixtures/shell-paths/2.6.0-r93.json, main 5c5472f6). The STORY
 // site is never precached.
+// r95: adds the Archivo type sheet and its variable face (one type family).
 // r94 R94-02 (Club Assignment spin and stop): adds the club draw step, its 3D scene and its CSS. Nothing else in r94 touches the shell.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
     "js/clubDrawStep.js",
     "js/clubDrawScene3d.js",
-    "css/clubDraw.css"
+    "css/clubDraw.css",
+    "css/r95-type.css",
+    "visual-assets/v10_1/shared/fonts/archivo-latin-wdth-normal.woff2"
 ]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([
 ]);

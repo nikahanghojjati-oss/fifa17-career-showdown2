@@ -22,6 +22,14 @@ The application does not claim Barlow is EA/FIFA's proprietary typeface.
 - Application use (r93, HO-079): the live-text screen titles, in flat gold, on every titled screen.
 - Delivery: `visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2`, stored in this repository and served from the game's own site (`font-display: block`, so a title never paints in a stand-in face).
 
+## Archivo
+
+- Typeface family: Archivo (variable, weight 100-900, width 62-125)
+- Copyright: 2020 The Archivo Project Authors, `https://github.com/Omnibus-Type/Archivo`
+- License: SIL Open Font License, Version 1.1 (full text: `visual-assets/v10_1/shared/fonts/OFL_Archivo.txt`)
+- Application use (r95): the one type family for titles, labels, buttons, figures and reading, using its width and weight axes.
+- Delivery: `visual-assets/v10_1/shared/fonts/archivo-latin-wdth-normal.woff2` (Latin subset, from the fontsource `@fontsource-variable/archivo` 5.3.0 package), stored in this repository and served from the game's own site (`font-display: block`).
+
 ## Marco Reus photograph
 
 - Repository file: `assets/marco-reus-2015-cc-by.webp`
