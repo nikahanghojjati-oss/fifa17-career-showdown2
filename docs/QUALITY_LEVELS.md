@@ -45,7 +45,9 @@ names and no others.
   loading screen when it opens (Chamber Men's season-page warm-up reads the same `profile("chamber-men")` as its mount).
   On a phone a screen's own level stops at Extra (`PHONE_SCENE_TOP`), the highest level the phone memory budget
   measures every screen at: at Ultra on the iPhone 17 profile Chamber Men holds about 396 MB and Roulette 337 MB. A phone
-  whose every screen held Ultra keeps Ultra, as before. The Ball Game is the lightest screen: about 71 MB of textures at
+  whose every screen held Ultra keeps Ultra, as before. Settings' Auto line then reads "Auto: Balanced to High by
+  screen." (each screen as drawn, crash cap included) when the screens differ, and "Measured by the Device check." when
+  they match. The Ball Game is the lightest screen: about 71 MB of textures at
   High, Extra and Ultra on that profile (it has no render targets). It stays out of the release budget run because, on the
   throttled phone profile with software GL, its endless spin never goes quiet enough for the lab to call it loaded.
 - **A picked level** (Settings › 3D QUALITY) is the ceiling on every screen (r96, Nik 2026-11-17 21:44 UTC: "Step down
@@ -107,9 +109,13 @@ names and no others.
     within 10% of where they began are undone, and the screen's own pace (a 30 fps power mode, a 50 Hz screen) is what
     slow is judged against from there on. A screen that simply runs under 60 Hz ends exactly where it began: steps up
     keep the absolute bar (frames under 17.6 ms), as in 2.3.0, so it never climbs above its start either.
-  - It steps up only after a timed frame shows room, never back to a step that ran slow on that visit. A scene that
-    plays in beats and started low steps up only after a beat ran smooth. A heavy part that came back and ran slow
-    again stays off for a week of visits.
+  - It steps up only after a timed frame shows room. A scene that plays in beats and started low steps up only after a
+    beat ran smooth. A heavy part that came back and ran slow again stays off for a week of visits.
+  - A step that ran slow is tried once more in the same visit (r96, Nik 2026-11-17: "step down when slow, back up"):
+    after three smooth beats in a row (10 s smooth, 15 s for heavy parts, on a screen without beats) and a timed frame
+    with room, between beats only, with the fade. Slow again, it stays off until the next visit, and that second miss
+    never sets the week-long floor. A step taken while nothing the scene can time showed the cost (a weak GPU's page
+    cost, see the probe above) is not retried in the visit: a timed frame cannot tell whether it would fit.
   - Each scene starts its next visit where the last one settled (for the same built level).
   - A picked level adapts as Auto does, up to its starting ratio (r96); `?gfx=N` and the Device check's frame never adapt.
 

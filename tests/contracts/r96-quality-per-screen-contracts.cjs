@@ -22,6 +22,7 @@
 //      frame and the files it needs are published
 //   P8 every screen steps softly (Ball Game now fades too), and Chamber Men's warm-up and mount load the same level
 //   P9 on a phone a screen's own level stops at Extra (the phone memory budget measures High and Extra)
+//   P10 Settings' Auto line names the span by screen when the screens differ
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -82,9 +83,25 @@ const measured = (level, scenes) => JSON.stringify({level, at: Date.now(), ...(s
   for (let i = 0; i < 12; i += 1) { gov.hold(true); run(s, gov, 2000, 42); gov.hold(false); run(s, gov, 1500, 42); }
   assert.ok(gov.pixelRatio() <= 1 + 1e-9 && gov.detail() > 0, `down to the floor, then the heavy parts (${gov.pixelRatio()}, detail ${gov.detail()})`);
   assert.deepEqual([gov.level(), s.G.profile().level, s.G.choice()], [4, 4, "ultra"], "the picked level, its files and the saved pick stay Ultra");
-  // Smooth again within the visit: a step that ran slow is never tried again in that visit (Auto's no see-saw rule).
-  cost.ms = 1; const low = [gov.pixelRatio(), gov.detail()];
-  run(s, gov, 20000, 16.7); assert.deepEqual([gov.pixelRatio(), gov.detail()], low, "no see-saw: nothing that ran slow comes back in the same visit");
+  // Smooth again within the visit, with no beats yet: nothing that ran slow comes back on smooth idle frames alone.
+  cost.ms = 1; const floor = [gov.pixelRatio(), gov.detail()];
+  run(s, gov, 20000, 16.7); assert.deepEqual([gov.pixelRatio(), gov.detail()], floor, "a beat screen waits for smooth beats");
+  // Smooth kicks (r96): after three smooth beats in a row and a timed frame with room, each step that ran slow is tried once
+  // more, between beats only, heavy parts first. Within the same visit it climbs back to the pick.
+  for (let i = 0; i < 60; i += 1) {
+    gov.hold(true); const mid = [gov.pixelRatio(), gov.detail()]; run(s, gov, 1500, 16.7);
+    assert.deepEqual([gov.pixelRatio(), gov.detail()], mid, "never mid-kick, up or down");
+    gov.hold(false); run(s, gov, 7000, 16.7);
+  }
+  assert.deepEqual([gov.pixelRatio(), gov.detail()], [top, 0], `climbs back within the visit when smooth (${gov.pixelRatio()}, detail ${gov.detail()})`);
+  // Slow again: down between beats as before. A step already retried once stays off for the rest of the visit (no see-saw).
+  cost.ms = 30; gov.hold(true); run(s, gov, 3000, 42); gov.hold(false); run(s, gov, 50, 16.7);
+  const second = gov.pixelRatio(); assert.ok(second < top, "slow again: one step down");
+  cost.ms = 1; for (let i = 0; i < 30; i += 1) { gov.hold(true); run(s, gov, 1500, 16.7); gov.hold(false); run(s, gov, 7000, 16.7); }
+  assert.equal(gov.pixelRatio(), second, "a step that ran slow twice is not tried a third time in the visit");
+  // The Auto memory of the visit, for the next one: where it settled.
+  cost.ms = 30; for (let i = 0; i < 12; i += 1) { gov.hold(true); run(s, gov, 2000, 42); gov.hold(false); run(s, gov, 1500, 42); }
+  const low = [gov.pixelRatio(), gov.detail()];
   gov.end();
   // The next visit (a cooler laptop, a lighter moment): it starts where it settled, and after a smooth beat climbs back,
   // heavy parts first, then the pixel ratio, up to the pick and never past it.
@@ -96,7 +113,7 @@ const measured = (level, scenes) => JSON.stringify({level, at: Date.now(), ...(s
   assert.equal(gn.pixelRatio(), top, `climbs back to the pick (${gn.pixelRatio()})`);
   run(n, gn, 20000, 16.7); assert.equal(gn.pixelRatio(), top, "and never past it");
   assert.deepEqual([gn.level(), n.G.choice()], [4, "ultra"]);
-  ok("P1", "a pick is a ceiling: down between beats when slow (never mid-kick), back up when smooth (no see-saw in one visit), never past it; the pick stays");
+  ok("P1", "a pick is a ceiling: down between beats when slow (never mid-kick), back up when smooth within the visit (each slow step retried once, no see-saw) and on the next, never past it; the pick stays");
 }
 
 // P2
@@ -239,6 +256,22 @@ function rest(){
   const all = sandbox({...PHONE, storage: {[MKEY]: measured(4, {"chamber-men": 4, rrr: 4, sp: 4, "club-draw": 4})}});
   assert.deepEqual([all.G.profile().level, all.G.profile("club-draw").level], [4, 4]);
   ok("P9", "on a phone a screen's own level stops at Extra (the phone memory budget); a phone smooth at Ultra everywhere keeps it");
+}
+
+// P10
+{
+  // Settings' Auto line (lead OK 2026-11-17 22:16 UTC): "Auto: Balanced to High by screen." when the screens draw different
+  // levels; "Measured by the Device check." when they all draw the same one. No "this device".
+  const set = read("js/settings.js"), fn = name => { const m = new RegExp(`function ${name}\\(tier(?:, now)?\\)\\{[\\s\\S]*?\\n\\}\\n`).exec(set); assert.ok(m, name); return m[0]; };
+  const line = s => { const c = {tier: s.G}; vm.createContext(c); vm.runInContext(fn("getSettingsGfxAutoText") + fn("getSettingsGfxSceneSpan") + fn("getSettingsGfxCheckText") + "this.out = getSettingsGfxAutoText(tier);", c); return c.out; };
+  assert.equal(line(sandbox({...LAPTOP, storage: {[MKEY]: measured(1, {"chamber-men": 1, rrr: 2, sp: 1, "club-draw": 2})}})), "Auto: Balanced to High by screen.");
+  assert.equal(line(sandbox({...LAPTOP, storage: {[MKEY]: measured(1, {"chamber-men": 1, rrr: 1, sp: 1, "club-draw": 1})}})), "Measured by the Device check.");
+  assert.equal(line(sandbox({...LAPTOP, storage: {[MKEY]: measured(2)}})), "Measured by the Device check.", "a 2.8.0 result: one level");
+  // The crash cap holds the span too: a cap at Balanced leaves no span to show.
+  const capped = sandbox({...LAPTOP, storage: {[MKEY]: measured(1, {"chamber-men": 1, rrr: 3, sp: 1, "club-draw": 3}), [CAP]: JSON.stringify({level: 1, reason: "context lost", at: Date.now(), build: BUILD})}});
+  assert.equal(line(capped), "Measured by the Device check.");
+  assert.ok(!/this device/i.test(fn("getSettingsGfxSceneSpan")), "r80 wording: no \"this device\"");
+  ok("P10", "Settings says \"Auto: Balanced to High by screen.\" when the screens differ, and keeps its line when they match");
 }
 
 console.log(`PASS r96 quality per screen contracts (${checks} checks)`);

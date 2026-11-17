@@ -10,7 +10,7 @@
   // back up toward the pick when smooth); the level itself, its files and Settings stay the pick. ?gfx=N stays as forced.
   // r96 (Nik 2026-11-17 21:43 UTC: "lighter screens ... quality can be higher"): on Auto each 3D screen draws the highest
   // level the Device check passed on that screen (profile(scene)); the lowest of them stays the device's level (2D, Settings).
-  // Scene knobs (crowd, bloom, shadow size) read the profile; the governor only moves the pixel ratio: down when frames run long, up only after a timed frame shows room, never back to a step that ran slow (no see-saw).
+  // Scene knobs (crowd, bloom, shadow size) read the profile; the governor only moves the pixel ratio: down when frames run long, up only after a timed frame shows room, a step that ran slow is tried once more after a smooth stretch (r96), never twice in a visit (no see-saw).
   const KEY="careerModeShowdown.gfxQuality.v1";
   const CHOICES=["auto","light","medium","high","extra","ultra","8k"];
   const NAMES=["light","medium","high","extra","ultra","8k"];
@@ -578,6 +578,12 @@
     let beat=null,due=0,upOk=!(usesBeats&&fromMemory),calmFor=0,idleFor=0,pace=0,busy=0,busyKnown=false,timing=false,trial=-1;
     // slowN: frames in the slow second under way. probe: steps being tried while the scene does not look like the cost.
     let slowN=0,probe=null,probed=false;
+    // r96 (Nik 2026-11-17: "step down when slow, back up"): a step that ran slow is not lost for the whole visit. Once the
+    // screen has run smooth for a while (three smooth beats in a row; 10 s, or 15 s for heavy parts, where there are no
+    // beats) and a timed frame shows room, it is tried once more. Slow again, it stays off until the next visit: at most one
+    // retry per step, so the picture never see-saws.
+    const retried=new Set(),retriedD=new Set();let smoothBeats=0;
+    const ripe=(isBad,wasRetried,quietMs)=>!isBad||(!wasRetried&&(usesBeats?smoothBeats>=3:smoothFor>=quietMs));
     const lost=()=>{if(!ended)gfxFail("the GPU dropped the picture (context lost)");};
     try{renderer.domElement?.addEventListener?.("webglcontextlost",lost);}catch(_error){}
     const apply=i=>{at=i;try{renderer.setPixelRatio(list[at]);}catch(_error){}
@@ -595,11 +601,13 @@
     // before: the scene's last word ahead of a change in play (a step down, a step up, steps put back), so it can let the
     // picture on screen fade into the next one. Never called for the start (behind the loading screen) or a resize.
     const before=()=>{try{o.before?.();}catch(_error){}};
-    const stepDown=why=>{
-      if(at<list.length-1){before();bad.add(at);apply(at+1);}
-      else if(detail&&dAt<detail.steps){before();badD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
+    // blind: taken while neither the callback nor a timed draw showed the cost (see slowStep). A timed frame cannot tell
+    // whether such a step would fit again, so it is not retried this visit (r96).
+    const stepDown=(why,blind)=>{
+      if(at<list.length-1){before();bad.add(at);if(blind)retried.add(at);apply(at+1);}
+      else if(detail&&dAt<detail.steps){before();badD.add(dAt);if(blind)retriedD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
       else return false;
-      forget();upOk=false;return true;
+      forget();upOk=false;smoothBeats=0;return true;
     };
     // Is the scene the cost? Its frame callback keeps the main thread busy, or one timed draw (which waits for the GPU) is
     // dear. Where the callback cannot be timed, or there is no draw to time, there is no telling: slow frames count as
@@ -617,7 +625,7 @@
     // it from there on (smooth is not: see smoothLimit). One such probe a visit.
     const paceHere=ms=>{pace=Math.max(BUDGET_MS,Math.min(50,ms));slowFor=0;slowN=0;smoothFor=0;};
     const undo=ms=>{const b=probe;probe=null;probed=true;
-      for(let i=b.at;i<at;i+=1)bad.delete(i);for(let i=b.dAt;i<dAt;i+=1)badD.delete(i);
+      for(let i=b.at;i<at;i+=1){bad.delete(i);retried.delete(i);}for(let i=b.dAt;i<dAt;i+=1){badD.delete(i);retriedD.delete(i);}
       if((detail&&dAt!==b.dAt)||at!==b.at)before();
       if(detail&&dAt!==b.dAt)setDetail(b.dAt,"restore");if(at!==b.at)apply(b.at);
       forget();upOk=b.upOk;paceHere(ms);avg=pace;};
@@ -625,9 +633,9 @@
       if(loaded()){probe=null;stepDown("slow");return;}
       if(probed){paceHere(seen);return;}
       if(!probe)probe={at,dAt,ms:seen,n:0,upOk};
-      else if(seen<probe.ms*.9){probe=null;stepDown("slow");return;}
+      else if(seen<probe.ms*.9){probe=null;stepDown("slow",true);return;}
       else if(probe.n>=2){undo(seen);return;}
-      if(stepDown("slow"))probe.n+=1;
+      if(stepDown("slow",true))probe.n+=1;
       else if(probe.n>0)undo(seen);
       else{probe=null;probed=true;paceHere(seen);}
     };
@@ -670,13 +678,16 @@
         if(!upOk||typeof o.draw!=="function")return;
         // Heavy parts come back first (they went last): smooth for 6 s and a timed frame under 40% of the budget.
         if(detail&&dAt>dFloor){
-          if(smoothFor>=6000){smoothFor=0;if(badD.has(dAt-1))return;
-            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){before();trial=dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
+          if(smoothFor>=6000){const again=badD.has(dAt-1);if(!ripe(again,retriedD.has(dAt-1),15000))return;
+            smoothFor=0;if(again){retriedD.add(dAt-1);badD.delete(dAt-1);smoothBeats=0;}
+            // A retry that runs slow again is off for this visit only; it never sets the lasting floor a first climb does.
+            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){before();trial=again?-1:dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
           return;
         }
         if(dAt>0)return;
         // Smooth for 3 s: time one real frame; step up only if the next step would still leave a third of the frame free.
-        if(smoothFor>=3000&&at>0&&!bad.has(at-1)){
+        if(smoothFor>=3000&&at>0&&ripe(bad.has(at-1),retried.has(at-1),10000)){
+          if(bad.has(at-1)){retried.add(at-1);bad.delete(at-1);smoothBeats=0;}
           smoothFor=0;const ms=gfxTimedDraw(renderer,o.draw),scale=Math.pow(list[at-1]/list[at],2);
           if(ms*scale<BUDGET_MS*.66){before();apply(at-1);}else bad.add(at-1);
         }
@@ -693,8 +704,8 @@
         if(held)beat={ms:0,slow:0,calm:idleFor>=500?!(avg>slowLimit()):null};
         else{const b=beat;beat=null;slowFor=0;smoothFor=0;calmFor=0;idleFor=0;
           if(b&&adapts()&&b.ms>0){usesBeats=true;
-            if(b.slow>=BEAT_SLOW_MS||(b.ms>=400&&b.slow>=b.ms*.5)){if(b.calm===true||(busyKnown&&busy>BUDGET_MS*.45))due=1;else if(b.calm===null)due=Math.max(due,2);}
-            else if(b.slow===0&&b.ms>=400)upOk=true;}}
+            if(b.slow>=BEAT_SLOW_MS||(b.ms>=400&&b.slow>=b.ms*.5)){smoothBeats=0;if(b.calm===true||(busyKnown&&busy>BUDGET_MS*.45))due=1;else if(b.calm===null)due=Math.max(due,2);}
+            else if(b.slow===0&&b.ms>=400){upOk=true;smoothBeats+=1;}else if(b.slow>0)smoothBeats=0;}}
         bench?.hold(held);
       },
       resize(){const cur=list[at];p=gfxProfile();list=gfxSteps(p,capOf());at=nearest(cur);bad.clear();if(list[at]!==cur)apply(at);},
