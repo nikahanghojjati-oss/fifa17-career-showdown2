@@ -181,11 +181,13 @@
     // R94-02: a draw 2 ledger also carries 'stops' (one int 0..359 per confirmed manager, in confirmedRoles order: where
     // his ball came to rest). The key is fixed at create and never added or dropped later, so every ledger written
     // before R94-02 keeps its exact 15-key shape and its replay.
+    // R95-01 Ball Game: a draw 3 ledger (six clubs per ball) also carries 'draw', always the int 3, beside 'stops'. It is
+    // written at create and never added, dropped or changed later, so draw 1 and draw 2 ledgers keep their shapes.
     function ssjrExactLedgerKeys(root) {
       return root.keys().hasOnly([
         'schemaVersion','objectType','rivalryId','revision','phase','coordinatorRole',
         'operationIds','operationTypes','baseRevisions','actorRoles','totalSeasons',
-        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId','stops'
+        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId','stops','draw'
       ]);
     }
     function ssjrValidLedgerBase(root, rivalryId) {
@@ -223,6 +225,7 @@
         && after.totalSeasons == null
         && after.confirmedRoles.size() == 0
         && (!('stops' in after) || after.stops == [])
+        && (!('draw' in after) || ('stops' in after && after.draw == 3))
         && ssjrSessionHostIsActor(rivalryId, after.activeSessionId)
         && ssjrBothAccountsActive(rivalryId);
     }
@@ -269,6 +272,9 @@
         )
         // R94-02 stops: write-once per manager, only on his own confirm, the first one kept by the second confirm.
         && ('stops' in before) == ('stops' in after)
+        // R95-01: 'draw' never appears, goes or changes after create (any draw present is 3; absent stays absent and 3
+        // stays 3). One form for every ledger: the R95-01 sweep measured it 3 expressions cheaper than testing 'in' twice.
+        && after.get('draw', 3) == 3 && after.get('draw', 0) == before.get('draw', 0)
         && (
           !('stops' in after)
           || (i <= 3 && after.stops == [])
