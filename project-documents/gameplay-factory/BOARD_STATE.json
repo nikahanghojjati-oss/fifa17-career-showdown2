@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-17 7:53 AM Boston time (EST)",
+ "generated": "2026-11-17 7:57 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 332,
@@ -3054,18 +3054,7 @@
    "source": "physio"
   },
   "v_headline": "Queued next",
-  "v_jobs": [
-   {
-    "job": "V-247",
-    "title": "Phone Home tile icons like GOAL_HOME",
-    "worker": "Opus",
-    "lane": "opus",
-    "done": 4,
-    "total": 4,
-    "pr": 381,
-    "current": "Done; handed to Team G as HO-006"
-   }
-  ],
+  "v_jobs": [],
   "inbox": {
    "G": true,
    "V": true
@@ -3836,7 +3825,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 13549
+    "waiting_min": 13553
    },
    {
     "id": "HO-059",
