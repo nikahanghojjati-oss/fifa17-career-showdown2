@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Mon 16 Nov, 10:18 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Mon 16 Nov, 10:22 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.7.0-r94** (main `5f22a32`, Mon 16 Nov 9:17 PM)
 
@@ -34,7 +34,7 @@ Updated Mon 16 Nov, 10:18 PM Boston time. Bug hunting only, no new features unti
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 854 h ago
+🟢 Team green · model not set · worker working, draft PR #775 · CI 6 of 7 passed · last move 855 h ago
 
 **#6 · 1731** `G` Rule Book: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -62,7 +62,7 @@ Updated Mon 16 Nov, 10:18 PM Boston time. Bug hunting only, no new features unti
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 790 h ago
+⚪ Team white · model not set · worker working, draft PR #853 · CI 7 of 8 passed · last move 791 h ago
 
 **#13 · 1830** `G` r76 integration round 2: every r76 fix together, then the meter and CE2PG on the combined head  
 `████░░░░░░` **40.0000 %**  
