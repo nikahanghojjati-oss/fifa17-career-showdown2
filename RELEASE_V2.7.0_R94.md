@@ -107,6 +107,20 @@ measured the same shape on gameplay/r94: one season 1,216 billed, 41 to 58 seaso
 - Finished and in-progress Showdowns are untouched: no setup write happens after revision 6, and every old draw replays to the
   same league and clubs (golden vectors). No saved Showdown is rewritten. Nothing in Firebase is deleted or edited.
 
+## Version bump
+
+- `2.7.0-r94` everywhere it is pinned (#1505): package files, `APP_VERSION` (Settings and backups), the footer `v2.7.0`,
+  `app-asset-revision` and every `?v=` on Home's own files and the manifest icons, `js/menuExperience.js`, the service worker's
+  `RUNTIME_REVISION` (PREVIOUS `2.6.0-r93`), and `js/gfxTier.js` BUILD. The version strings are the same length as 2.6.0's, so the
+  startup budget is unchanged.
+- Rollback shell fixture `tests/fixtures/shell-paths/2.6.0-r93.json` (295 paths, main 5c5472f6). Contracts moved on with it:
+  r86 RR3/RR4, r87 UR3/UR5 and new UR13 (2.6.0 = 2.5.1 plus HO-079, minus the V3 logo), r78 R4c (sorted 2.6.0 list sha
+  `93901e04…`), r79 M, v10-club 4, v10-rules-settings RS9, v10-foundation F9/F9b and F10 (index.html sha `034c6010…`: the 2.6.0
+  file with its 2.7.0-r94 pins and footer, nothing else). Local runs on the bump head: r86 6/6, r87 13/13, r78 8/8, r79 10/10,
+  v10-club 9/9, v10-rules-settings 13/13, v10-foundation 20/20, shared-showdown-production-runtime PASS.
+- Story: chapter 199's last line is the release line ("Then Nik gives the word, and 2.7.0 goes live."), Edition 18 labels say
+  2.7.0 LIVE, Home counts measured in Chromium on the bump head: 199 chapters, 89,472 words, 1,050 sources.
+
 ## Deploy order
 
 - This release changes the Firestore Rules. The Rules deploy runs first on main, and the Pages workflow deploys the site only
