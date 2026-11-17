@@ -35,8 +35,10 @@
   const PHYS_DEFAULT=Object.freeze({...PHYS});
   // The tuning page only (tools/club-draw-tuning.html): the game never calls it. SECTION is 120 (three clubs per ball) or
   // 60 (six); mount sets it from the clubs it is given. Every value stays finite and the waves can never stop the ball.
+  // The mounted scene's slice (60 or 120): Reset keeps it, so a reset never moves the stop law off the drawn crests.
+  let mountedSection=0;
   function tune(partial){
-    if(partial==="reset"){Object.assign(PHYS,PHYS_DEFAULT);return {...PHYS};}
+    if(partial==="reset"){Object.assign(PHYS,PHYS_DEFAULT);if(mountedSection)PHYS.SECTION=mountedSection;return {...PHYS};}
     for(const [k,v] of Object.entries(partial||{}))if((k!=="SECTION"||v===120||v===60)&&Object.hasOwn(PHYS_DEFAULT,k)&&Number.isFinite(v))PHYS[k]=v;
     if(!(PHYS.W_FAST>0)||!(Math.abs(PHYS.RHY)+Math.abs(PHYS.RHY2)+Math.abs(PHYS.RHY3)<.9))Object.assign(PHYS,{W_FAST:PHYS_DEFAULT.W_FAST,RHY:PHYS_DEFAULT.RHY,RHY2:PHYS_DEFAULT.RHY2,RHY3:PHYS_DEFAULT.RHY3});
     return {...PHYS};
@@ -413,7 +415,7 @@
   // ---------- the scene ----------
   function build(T,host,opts,P,assets){
     const K=knobs(P.level),d=cdDoc(),reduced=opts.reducedMotion===undefined?cdReducedMotion():Boolean(opts.reducedMotion);
-    const NS=opts.balls[0].clubs.length===6?6:3,ROWS=NS/3;PHYS.SECTION=360/NS; // clubs per ball: 3 (2.7.0) or 6 (r95 lab)
+    const NS=opts.balls[0].clubs.length===6?6:3,ROWS=NS/3;mountedSection=PHYS.SECTION=360/NS; // clubs per ball: 3 (2.7.0) or 6 (r95 lab)
     const allN=v=>Array.from({length:NS},()=>v);
     const me=opts.me===1?1:0;
     const canvas=d.createElement("canvas");canvas.className="clubDraw3d";canvas.setAttribute("aria-hidden","true");
@@ -629,7 +631,7 @@
     const relayout=()=>{dirty=true;};
     const ro=typeof root.ResizeObserver==="function"?new root.ResizeObserver(relayout):null;
     function free(){
-      if(disposed)return;disposed=true;if(raf)root.cancelAnimationFrame(raf);ro?.disconnect();root.removeEventListener?.("resize",relayout);
+      if(disposed)return;disposed=true;if(mountedSection===360/NS)mountedSection=0;if(raf)root.cancelAnimationFrame(raf);ro?.disconnect();root.removeEventListener?.("resize",relayout);
       gov?.end();fps?.stop();
       if(blades){blades.geometry.dispose();}
       for(const v of own)try{v.dispose&&v.dispose();}catch(_error){}
