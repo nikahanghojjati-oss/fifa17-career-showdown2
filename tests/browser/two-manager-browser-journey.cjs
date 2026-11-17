@@ -523,7 +523,8 @@ async function main(){
     assert.ok(clubsD[0]&&clubsD[1]&&clubsD[0]!==clubsD[1],"two distinct clubs");
     const held=await clubDraw.setupState(daniel.page);
     assert.equal(held.phase,"SHOWDOWN_CONFIRMED","both stops confirmed the Setup");
-    held.confirmedRoles.forEach((role,index)=>{const stop=held.stops[index];assert.ok(Number.isInteger(stop)&&stop>=0&&stop<360,`${role}: one stored stop 0..359`);assert.equal(held.clubs[role],held.candidates[role][Math.floor(stop/120)],`${role}: the club is the third his ball rests on`);});
+    held.confirmedRoles.forEach((role,index)=>{const stop=held.stops[index];assert.ok(Number.isInteger(stop)&&stop>=0&&stop<360,`${role}: one stored stop 0..359`);assert.equal(held.candidates[role].length,6,`${role}: the Ball Game deals six clubs a ball (R95-01 draw 3)`);assert.equal(held.clubs[role],held.candidates[role][Math.floor(stop/60)],`${role}: the club is the slice his ball rests on`);});
+    assert.equal(new Set([...held.candidates.playerOne,...held.candidates.playerTwo]).size,12,"twelve different clubs: the two balls never share one");
     assert.deepEqual([held.clubs.playerOne,held.clubs.playerTwo],clubsD,"the clubs named on screen are the clubs Firebase holds");
     for(const m of [daniel,nik]){
       assert.equal((await m.page.locator("#clubPlayerOne").textContent()).trim(),"Daniel","Daniel remains the LEFT/playerOne slot");

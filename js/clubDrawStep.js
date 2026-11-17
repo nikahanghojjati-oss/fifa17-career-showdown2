@@ -6,7 +6,8 @@
   "use strict";
 
   // R94-02 PR 3: the Club Assignment "spin and stop" step on #clubWheelScreen, for a shared Setup opened with draw 2
-  // (its ledger carries `stops`). js/productionSharedShowdownPresentation.js owns every write and calls this module to show
+  // (its ledger carries `stops`). R95-01 PR 3: a new Setup opens draw 3, six clubs a ball in 60 degree slices; a draw 2
+  // Setup (three a ball, 120 degree thirds) still shows as before. The section always follows the candidates it has. js/productionSharedShowdownPresentation.js owns every write and calls this module to show
   // the draw: one ball per manager (js/clubDrawScene3d.js; a flat stand-in where WebGL2 cannot run), STOP on the
   // manager's own device, the club named under a ball only once that ball rests.
   //
@@ -19,10 +20,10 @@
   // - The ball never rests before Firebase holds the stop: the scene keeps it rolling until accept(). When Firebase holds a
   //   different stop (the other tab of the same manager won), that stored stop is what the ball rests on.
   // - Both phones show the same picture: the rest pose is a fixed function of the stored integer (clubDrawScene3d poseOf).
-  // - This module never writes to Firebase and never decides a club: the club is candidates[role][floor(stop / 120)], the
-  //   same rule js/sharedShowdownSetup.js applies when both have stopped.
+  // - This module never writes to Firebase and never decides a club: the club is candidates[role][floor(stop / (360 / n))]
+  //   for n candidates a ball (3 or 6), the same rule js/sharedShowdownSetup.js applies when both have stopped.
   const ROLES=Object.freeze(["playerOne","playerTwo"]);
-  const SECTION=120;
+  const CDS_COUNTS=Object.freeze([3,6]);
   const PENDING_KEY="careerModeShowdown.clubDrawStop.v1";
   const STAGE_ID="clubDrawStage";
   const SCENE_JS="js/clubDrawScene3d.js";
@@ -45,10 +46,13 @@
   function cdsIsDraw(setup){return Boolean(setup&&typeof setup==="object"&&Object.hasOwn(setup,"stops"));}
   function cdsCandidates(setup){
     const c=setup&&setup.candidates;
-    return c&&ROLES.every(role=>Array.isArray(c[role])&&c[role].length===3&&c[role].every(name=>typeof name==="string"&&name))?c:null;
+    const n=c&&Array.isArray(c.playerOne)?c.playerOne.length:0;
+    return c&&CDS_COUNTS.includes(n)&&ROLES.every(role=>Array.isArray(c[role])&&c[role].length===n&&c[role].every(name=>typeof name==="string"&&name))?c:null;
   }
+  // The degrees of one club on a ball with n clubs: 120 (draw 2) or 60 (draw 3).
+  function cdsSectionFor(n){return 360/n;}
   function cdsDigest(setup){const c=cdsCandidates(setup);return c?`${setup.leagueId}|${c.playerOne.join(",")}|${c.playerTwo.join(",")}`:"";}
-  function cdsClubFor(setup,role,stop){const c=cdsCandidates(setup);return c&&cdsValidStop(stop)?c[role][Math.floor(stop/SECTION)]:null;}
+  function cdsClubFor(setup,role,stop){const c=cdsCandidates(setup);return c&&cdsValidStop(stop)?c[role][Math.floor(stop/cdsSectionFor(c[role].length))]:null;}
   // The stop each manager has in Firebase (confirmedRoles and stops are in the same order).
   function cdsStoredStops(setup){
     const out={playerOne:null,playerTwo:null};
@@ -100,7 +104,7 @@
     try{if(store.read(cdsSlot(ctx))!==null)store.remove(cdsSlot(ctx));}catch(_error){}
   }
 
-  // ---- the flat stand-in (no WebGL2, or the 3D scene failed): the three crests per manager, the lit one cycling fast ----
+  // ---- the flat stand-in (no WebGL2, or the 3D scene failed): the crests per manager (3 or 6), the lit one cycling fast ----
   // Same contract as the scene: a tap computes the stop once (uniform: there is no ball to time), the lit crest keeps
   // cycling until accept(), then it settles on the stored third.
   function cdsFlat(host,opts){
@@ -108,7 +112,7 @@
     const balls=opts.balls.map((b,i)=>({i,clubs:b.clubs,state:"idle",stop:null,accepted:false,front:i*40,pick:-1,queued:null,queuedPending:false}));
     const wrap=d.createElement("div");wrap.className="clubDrawFlat";
     balls.forEach(b=>{
-      const row=d.createElement("div");row.className="clubDrawFlatBall";row.dataset.ball=String(b.i);
+      const row=d.createElement("div");row.className="clubDrawFlatBall";row.dataset.ball=String(b.i);row.dataset.count=String(b.clubs.length);
       b.cells=b.clubs.map(name=>{const cell=d.createElement("span");cell.className="clubDrawFlatClub";const crest=d.createElement("span");crest.className="clubDrawFlatCrest";
         try{if(typeof root.getClubCrestMarkup==="function")crest.innerHTML=root.getClubCrestMarkup(name,"list");else if(typeof root.getClubCrestSvg==="function")crest.innerHTML=root.getClubCrestSvg(name);}catch(_error){}
         cell.append(crest);row.append(cell);return cell;});
@@ -117,8 +121,8 @@
     host.append(wrap);
     const emit=(type,b)=>{for(const fn of emitters)try{fn({type,ball:b.i,state:b.state,stop:b.stop,section:b.pick});}catch(_error){}};
     const set=(b,state)=>{if(b.state!==state){b.state=state;emit("state",b);}};
-    const paint=b=>{const lit=b.state==="landed"?b.pick:Math.floor(((b.front%360)+360)%360/SECTION);b.cells.forEach((cell,k)=>{cell.classList.toggle("is-lit",k===lit);cell.classList.toggle("is-picked",b.state==="landed"&&k===b.pick);});};
-    const land=b=>{b.pick=Math.floor(b.stop/SECTION);set(b,"landed");paint(b);emit("landed",b);};
+    const paint=b=>{const lit=b.state==="landed"?b.pick:Math.floor(((b.front%360)+360)%360/cdsSectionFor(b.clubs.length));b.cells.forEach((cell,k)=>{cell.classList.toggle("is-lit",k===lit);cell.classList.toggle("is-picked",b.state==="landed"&&k===b.pick);});};
+    const land=b=>{b.pick=Math.floor(b.stop/cdsSectionFor(b.clubs.length));set(b,"landed");paint(b);emit("landed",b);};
     let tick=null;
     const run=()=>{if(tick)return;tick=root.setInterval(()=>{balls.forEach(b=>{
       if(b.state==="spin"||b.state==="await")b.front+=reduced?0:47;
