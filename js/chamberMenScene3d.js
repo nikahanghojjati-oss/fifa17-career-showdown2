@@ -185,7 +185,10 @@
   let cm3Parsed=null;const cm3Kits=new Map();
   // A kit's key and its kits17 options: one per body, club, role, rival and squad number (dress() paints by the same key).
   function cm3KitMemo(body,club,role,vs,number){return `${body}|${club}|${role}|${vs}|${number}`;}
-  function cm3KitNumber(club,role){return role==="gk"?1:SHIRT_NUMBERS[cm3Hash(`number|${club}`)%SHIRT_NUMBERS.length];}
+  // r96: only the keeper's number is painted into his kit (1, chest and shorts). A taker's number is a decal on his back
+  // (cm3TakerNumber), so a club's seven takers wear seven different numbers without one more kit painted.
+  function cm3KitNumber(club,role){return role==="gk"?1:null;}
+  function cm3TakerNumber(club,round){const n=SHIRT_NUMBERS.length;return SHIRT_NUMBERS[(cm3Hash(`number|${club}`)+((round||1)-1)*3)%n];}
   function cm3KitPlan(K,Q,clubs){
     const c=clubs||{},one=String(c.playerOne||""),two=String(c.playerTwo||""),list=cm3BodyList(K),size=Q.assets==="phone"?"phone":"full",out=[];
     for(const [club,vs] of [[one,two],[two,one]])for(const role of ["outfield","gk"]){const body=cm3BodyOf(club,list),number=cm3KitNumber(club,role);
@@ -651,7 +654,7 @@
     const kitMemo=new Map(),kitTex=new Map();
     const dress=(a,club,role,vs)=>{
       look(a,club,role);
-      // r90 L04: a squad number on the back (the camera is behind the taker): one per club for the Showdown, 1 for keepers.
+      // r90 L04: the keeper's 1 is painted on his kit; r96: a taker's number is a decal on his back (decalOn).
       const number=cm3KitNumber(club,role);
       // r90 MOTION M2: a Showdown has four kits at most (each club taking and keeping, against the other), so each is painted
       // once and its textures stay uploaded: a new kick only swaps maps (painting one cost 1.1-2.2 s of main thread).
@@ -670,6 +673,38 @@
       if(t.shirt===t.shorts){Promise.resolve(t.ready).then(()=>{if(!disposed&&a.kitToken===token)put();},()=>{});return;}
       // A kit painted in full already went up to the GPU: no second upload.
       put();if(t.cmUploaded)return;Promise.resolve(t.ready).then(()=>{if(disposed||a.kitToken!==token)return;t.cmUploaded=true;for(const m of ["kitShirt","kitShorts","kitSocks"])if(a.mats[m]?.map)a.mats[m].map.needsUpdate=true;},()=>{});
+    };
+
+    // r96: a taker's squad number as a decal on his back. The camera is behind him, so the number is what the taker shows; it is drawn
+    // by kits17.numberDecal (the kit's own print) on a small plane fixed to his spine, a different number for each of his club's
+    // kicks (cm3TakerNumber). No kit is painted again: a kick only swaps the plane's picture. The depth is measured once by a ray
+    // from behind onto his shirt, so the plane sits just off the cloth on every body.
+    const decalTex=new Map(),DECAL_SIZE=.3,DECAL_DROP=.02;
+    const decalFor=a=>{
+      const spine=a.bones.mixamorigSpine2;if(!spine||!K.numberDecal)return null;
+      a.holder.updateMatrixWorld(true);
+      const o=new T.Vector3(),q=new T.Quaternion(),ws=new T.Vector3();spine.getWorldPosition(o);a.model.getWorldQuaternion(q);spine.getWorldScale(ws);
+      const back=new T.Vector3(0,0,-1).applyQuaternion(q),up=new T.Vector3(0,1,0).applyQuaternion(q);
+      const shirt=[];a.model.traverse(m=>{if(m.isSkinnedMesh&&[].concat(m.material).some(x=>x&&x.name==="kitShirt"))shirt.push(m);});
+      let at=null;
+      try{const rc=new T.Raycaster(o.clone().addScaledVector(back,1),back.clone().negate(),0,2);const hit=rc.intersectObjects(shirt,false)[0];if(hit)at=hit.point.clone();}catch(_error){at=null;}
+      if(!at)at=o.clone().addScaledVector(back,.11);
+      at.addScaledVector(back,.006).addScaledVector(up,-DECAL_DROP);
+      const mat=new T.MeshStandardMaterial({transparent:true,roughness:.78,metalness:0,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2});
+      const geo=new T.PlaneGeometry(DECAL_SIZE,DECAL_SIZE);own.push(geo,mat);
+      const mesh=new T.Mesh(geo,mat);mesh.name="cmNumberDecal";mesh.castShadow=false;mesh.receiveShadow=true;mesh.frustumCulled=false;mesh.renderOrder=2;
+      mesh.position.copy(at);mesh.quaternion.copy(q).multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),Math.PI));
+      mesh.scale.setScalar(1);scene.add(mesh);spine.attach(mesh);return mesh;
+    };
+    const decalOn=(a,club,round)=>{
+      try{
+        if(!a||!K.numberDecal)return;
+        const d=a.decal===undefined?(a.decal=decalFor(a)):a.decal;if(!d)return;
+        const number=cm3TakerNumber(club,round),key=`${club}|${number}`;
+        let tex=decalTex.get(key);
+        if(!tex){tex=new T.CanvasTexture(K.numberDecal(club,{number}));tex.colorSpace=T.SRGBColorSpace;tex.anisotropy=aniso;decalTex.set(key,tex);own.push(tex);}
+        if(d.material.map!==tex){const first=!d.material.map;d.material.map=tex;if(first)d.material.needsUpdate=true;}
+      }catch(_error){/* no number on his back; the kick still plays */}
     };
 
     // ---------- the kick ----------
@@ -1007,8 +1042,8 @@
     const setLineup=(takerClub,keeperClub,round)=>{
       const next={taker:String(takerClub||""),keeper:String(keeperClub||""),round:round||1};
       next.style=styleOf(next.taker,next.round);
-      if(next.taker===lineup.taker&&next.keeper===lineup.keeper&&next.style===lineup.style)return false;
-      lineup=next;useRigs(next.taker,next.keeper);dress(taker,next.taker,"outfield",next.keeper);dress(keeper,next.keeper,"gk",next.taker);
+      if(next.taker===lineup.taker&&next.keeper===lineup.keeper&&next.style===lineup.style){decalOn(taker,next.taker,next.round);return false;}
+      lineup=next;useRigs(next.taker,next.keeper);dress(taker,next.taker,"outfield",next.keeper);dress(keeper,next.keeper,"gk",next.taker);decalOn(taker,next.taker,next.round);
       return true;
     };
     // r90 Light (Nik 2026-11-08: smooth on his Chromebook, 2 CPU threads): everything a Showdown can show is compiled and

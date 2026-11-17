@@ -323,6 +323,16 @@
     g.fillStyle=k.body;g.beginPath();g.arc(x,y-s*.02,s*.15,0,Math.PI*2);g.fill();
   }
 
+  // r96: a squad number as a small picture of its own (a decal for the taker's back), in the kit's own print: the same ink, edge and
+  // face as backPrint draws on the shirt, with no panel (on a striped shirt the dark edge keeps it readable). One 256 px square.
+  function numberDecal(club,opts){
+    const o=opts||{},k=kit(String(club&&club.club||club||"")),c=canvas(256,256),g=c.getContext("2d");
+    if(!g||o.number==null||o.number==="")return c;
+    const solidBack=k.pattern==="solid"||k.pattern==="gk",{ink,edge}=printInk(k,solidBack?k.body:null);
+    const px=o.px||168,t=String(o.number);g.font=font(px);g.textAlign="center";g.textBaseline="middle";g.lineJoin="round";
+    g.lineWidth=px*.09;g.strokeStyle=edge;g.strokeText(t,128,134);g.fillStyle=ink;g.fillText(t,128,134);
+    return c;
+  }
   function paintShirt(c,k,im,opts){
     const W=c.width,H=c.height,g=c.getContext("2d");
     paintPattern(g,W,H,k);
@@ -638,6 +648,6 @@
 
   // r94 (Club Assignment ball): the one-colour fabric a club's shirt wears, so the ball wears the same one.
   const fabric=(club)=>solidFabric(kit(club));
-  return Object.freeze({version:"r90-kits17-3",fontReady,clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,drawFlat,prepare:prepareCrests,deltaE,fabric,
+  return Object.freeze({version:"r90-kits17-3",fontReady,clubs:Object.freeze(Object.keys(SHIRT)),kit,keeperKit,textures,numberDecal,drawFlat,prepare:prepareCrests,deltaE,fabric,
     layouts:Object.freeze(["wrap","remy","ch38","ch42"]),layout:Object.freeze({uv:"wrap",frontU:.5,backU:0,leftOfWearer:"u rises",vHem:0,vNeck:1,crestU:.575,crestV:.75})});
 });
