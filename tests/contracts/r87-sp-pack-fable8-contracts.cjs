@@ -156,7 +156,8 @@ ok("R90-PS9 hunt M3/M4/M5/M8: wall-clock timeline, bloom by level, 4x MSAA above
   assert.match(page,/const smpWant=pw\*ph>1920\*1080\?Math\.min\(4,GQ\.samples\):GQ\.samples, smpLow=edgesDown\?fitSamples\(Math\.max\(2,smpWant>>1\)\):0, smp=DIRECT\?0:smpLow>=2\?smpLow:fitSamples\(smpWant\)/,"M5: 8x only up to 1080p, 4x above");
   assert.ok(!/fonts\.(googleapis|gstatic)\.com/.test(page),"M8: no Google Fonts request");
   const faces=[...page.matchAll(/url\("\.\.\/shared\/fonts\/([^"]+\.woff2)"\)/g)].map(m=>m[1]);
-  assert.ok(faces.length>=16,"Barlow Condensed and Big Shoulders, latin and latin-ext");
+  // r95: the page reads the one family from css/r95-type.css; only the title face (Cormorant SC, until the r95 title pass) is still declared here
+  assert.ok(/css\/r95-type\.css/.test(page),"the one family comes from css/r95-type.css");
   const sw=read("service-worker.js");
   for(const f of new Set(faces)){ assert.ok(fs.existsSync(path.join(ROOT,"visual-assets/v10_1/shared/fonts",f)),f); assert.ok(sw.includes('"visual-assets/v10_1/shared/fonts/'+f+'"'),"precached "+f); }
 });

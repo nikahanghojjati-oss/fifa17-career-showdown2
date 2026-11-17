@@ -47,6 +47,7 @@ const SHELL_FRAME_NAVIGATION_PATHS = new Set([
 // precached copies of the shell it runs (red team R87-B-03).
 const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "css/r78-marble-tile.webp",
+    "css/r95-type.css",
     // r95: the Instrument Sans variable faces the r95 type sheet asks for by a relative url(), so the request has no ?v=
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2",
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wght-italic.woff2",

@@ -560,7 +560,7 @@ html:not([data-v10-screen="clubWheelScreen"]) #app > main:has(> #clubWheelScreen
   #app #clubWheelScreen.cl-on #clubAssignmentLeague { min-width: 0; white-space: normal; overflow-wrap: normal; }
   #app #clubWheelScreen.cl-on .clubAssignmentHeader .glyph { width: 14px; height: 14px; }
   #app #clubWheelScreen.cl-on .clubTitleFallback {
-    font-family: "Kaushan Script", "Brush Script MT", cursive; font-weight: 700;
+    font-family: var(--r95-font, "Kaushan Script", cursive); font-weight: 700;
     -webkit-text-stroke: .025em #ffda69; padding: 0 .06em .08em;
   }
   #app #clubWheelScreen.cl-on .clubRevealCard {

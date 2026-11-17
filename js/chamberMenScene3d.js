@@ -129,7 +129,9 @@
   }
   function cm3Scripts(){
     return Promise.all([cm3Script("chamber-men-stadium",STADIUM_JS,()=>Boolean(root.CareerModeChamberMenStadium)),cm3Script("kits17",KITS_JS,()=>Boolean(root.CareerModeKits17)),
-      cm3Script("meshopt-decoder",MESHOPT_JS,()=>Boolean(root.MeshoptDecoder))]).then(list=>list.every(Boolean),()=>false);
+      cm3Script("meshopt-decoder",MESHOPT_JS,()=>Boolean(root.MeshoptDecoder))]).then(list=>list.every(Boolean),()=>false)
+      // r95: the board and shirt lettering is canvas text: the one family must be loaded before the first draw (bounded, never blocks)
+      .then(ok=>Promise.race([Promise.all([root.CareerModeChamberMenStadium&&root.CareerModeChamberMenStadium.fontReady,root.CareerModeKits17&&root.CareerModeKits17.fontReady]),new Promise(r=>root.setTimeout(r,1500))]).then(()=>ok));
   }
   // The two body files this Showdown's clubs wear (one when both clubs share a body).
   function cm3BodyFiles(tier,clubs){

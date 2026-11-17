@@ -7,30 +7,15 @@
 <body>
 <title>Special Player Big Jump</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="../../../css/r95-type.css">
 <style>
 /* r90 M8: self-hosted faces (shared folder, precached), no Google Fonts round trip before the first frame. */
 @font-face { font-family: "Cormorant SC"; font-weight: 700; font-style: normal; font-display: block; src: url(../shared/fonts/CormorantSC-Bold-latin.woff2) format("woff2"); }
-@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:500;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-500-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:500;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-500-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:600;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:600;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-600-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-700-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:800;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-800-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:800;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-800-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:"Barlow Condensed";font-style:italic;font-weight:600;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-600-italic.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Barlow Condensed";font-style:italic;font-weight:600;font-display:block;src:url("../shared/fonts/barlow-condensed-latin-ext-600-italic.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:700;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-700-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:700;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:800;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-800-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:800;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:900;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-900-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Big Shoulders Display";font-style:normal;font-weight:900;font-display:block;src:url("../shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 /* One full-bleed 3D stage. Title over the sky, broadcast lower third (desktop), control strip on the bottom edge. */
 :root {
   --ink: #050506; --gold: #f1c35a; --gold-hi: #fff3c4; --gold-deep: #9c6e22; --ivory: #f6eedb; --muted: #c9bc9c;
-  --num: "Barlow Condensed", "Arial Narrow", sans-serif;
-  --disp: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --num: var(--r95-font-narrow);
+  --disp: var(--r95-font-narrow);
   color-scheme: dark;
 }
 html, body { height: 100%; }
@@ -371,7 +356,7 @@ function emboss(ctx, txt, x, y, col, light){
 const LEFT_X=106, COIN_Y=336;
 function leftStack(ctx, p, t, clues){
   ctx.textAlign="center";
-  if(clues>=1){ ctx.font='600 50px "Barlow Condensed"'; emboss(ctx,p.pos,LEFT_X,208,t.text); }
+  if(clues>=1){ ctx.font='600 50px "Instrument Sans Narrow"'; emboss(ctx,p.pos,LEFT_X,208,t.text); }
   if(clues>=2){ ctx.fillStyle=t.text; ctx.globalAlpha=.55; ctx.fillRect(LEFT_X-30,224,60,1.5); ctx.globalAlpha=1; ctx.save(); ctx.shadowColor="rgba(0,0,0,.35)"; ctx.shadowBlur=4; ctx.shadowOffsetY=2; drawFlag(ctx,p.nation,LEFT_X-31,238,62,40); ctx.restore(); }
   if(clues>=3){ ctx.fillStyle=t.text; ctx.globalAlpha=.55; ctx.fillRect(LEFT_X-30,292,60,1.5); ctx.globalAlpha=1; ctx.save(); ctx.shadowColor="rgba(0,0,0,.35)"; ctx.shadowBlur=5; ctx.shadowOffsetY=2; coinFace(ctx,p.club,LEFT_X,COIN_Y,32); ctx.restore(); }
 }
@@ -380,10 +365,10 @@ function drawCardBack(ctx, p, clues){
   ctx.save(); shieldPath(ctx,14); ctx.clip();
   const bg=ctx.createLinearGradient(0,404,0,470); bg.addColorStop(0,t.band[0]); bg.addColorStop(.5,t.band[1]); bg.addColorStop(1,t.band[2]); ctx.fillStyle=bg; ctx.fillRect(0,410,CW,58);
   ctx.fillStyle="rgba(0,0,0,.25)"; ctx.fillRect(0,468,CW,2);
-  ctx.textAlign="center"; ctx.font='800 34px "Big Shoulders Display"'; ctx.fillStyle=t.bandText; if(ctx.letterSpacing!==undefined) ctx.letterSpacing="4px"; ctx.fillText("SPECIAL PLAYER",CW/2,450); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
-  ctx.globalAlpha=.16; ctx.fillStyle=t.text; ctx.font='900 300px "Big Shoulders Display"'; ctx.fillText("17",CW/2+30,370); ctx.globalAlpha=1;
+  ctx.textAlign="center"; ctx.font='800 34px "Instrument Sans Narrow"'; ctx.fillStyle=t.bandText; if(ctx.letterSpacing!==undefined) ctx.letterSpacing="4px"; ctx.fillText("SPECIAL PLAYER",CW/2,450); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
+  ctx.globalAlpha=.16; ctx.fillStyle=t.text; ctx.font='900 300px "Instrument Sans Narrow"'; ctx.fillText("17",CW/2+30,370); ctx.globalAlpha=1;
   ctx.textAlign="center";
-  if(clues>=1){ ctx.font='700 72px "Barlow Condensed"'; emboss(ctx,p.pos,112,150,t.text,true); }
+  if(clues>=1){ ctx.font='700 72px "Instrument Sans Narrow"'; emboss(ctx,p.pos,112,150,t.text,true); }
   if(clues>=2){ ctx.save(); ctx.shadowColor="rgba(0,0,0,.4)"; ctx.shadowBlur=8; ctx.shadowOffsetY=3; drawFlag(ctx,p.nation,66,176,92,60); ctx.restore(); }
   if(clues>=3){ ctx.save(); ctx.shadowColor="rgba(0,0,0,.4)"; ctx.shadowBlur=8; ctx.shadowOffsetY=3; coinFace(ctx,p.club,112,304,46); ctx.restore(); }
   ctx.restore();
@@ -402,25 +387,25 @@ function drawScoutBack(ctx, p){
   const dark=t.text.charAt(1)<"8"; // gold, silver, bronze cards carry dark ink
   const plate=dark?"rgba(255,250,236,.62)":"rgba(6,8,16,.58)";
   ctx.fillStyle=plate; ctx.beginPath(); ctx.roundRect?ctx.roundRect(52,72,CW-104,326,14):ctx.rect(52,72,CW-104,326); ctx.fill();
-  ctx.textAlign="center"; ctx.fillStyle=t.sub; ctx.font='700 17px "Barlow Condensed"'; if(ctx.letterSpacing!==undefined) ctx.letterSpacing="4px";
+  ctx.textAlign="center"; ctx.fillStyle=t.sub; ctx.font='700 17px "Instrument Sans Narrow"'; if(ctx.letterSpacing!==undefined) ctx.letterSpacing="4px";
   ctx.fillText("SCOUTING REPORT",CW/2,104); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
-  ctx.font='700 40px "Barlow Condensed"'; emboss(ctx,p.short+"  ·  "+p.pos,CW/2,146,t.text,!dark);
-  ctx.font='italic 600 24px "Barlow Condensed"'; ctx.fillStyle=t.text; ctx.fillText(sc[0],CW/2,178);
+  ctx.font='700 40px "Instrument Sans Narrow"'; emboss(ctx,p.short+"  ·  "+p.pos,CW/2,146,t.text,!dark);
+  ctx.font='italic 600 24px "Instrument Sans Narrow"'; ctx.fillStyle=t.text; ctx.fillText(sc[0],CW/2,178);
   ctx.globalAlpha=.5; ctx.fillRect(CW/2-60,192,120,2); ctx.globalAlpha=1;
-  let fs=24, lines; do { ctx.font='600 '+fs+'px "Barlow Condensed"'; lines=wrapBalanced(ctx,sc[1],CW-140); fs--; } while(lines.length*fs*1.3>180&&fs>14);
+  let fs=24, lines; do { ctx.font='600 '+fs+'px "Instrument Sans Narrow"'; lines=wrapBalanced(ctx,sc[1],CW-140); fs--; } while(lines.length*fs*1.3>180&&fs>14);
   ctx.fillStyle=t.sub; const lh=(fs+1)*1.3, top=222+Math.max(0,(180-lines.length*lh)/2); /* centred in its 180 px band, not hung from the top */ lines.forEach((l,i)=>ctx.fillText(l,CW/2,top+i*lh));
   const bg=ctx.createLinearGradient(0,404,0,470); bg.addColorStop(0,t.band[0]); bg.addColorStop(.5,t.band[1]); bg.addColorStop(1,t.band[2]); ctx.fillStyle=bg; ctx.fillRect(0,410,CW,58);
   ctx.fillStyle="rgba(0,0,0,.25)"; ctx.fillRect(0,468,CW,2);
-  ctx.font='800 30px "Big Shoulders Display"'; ctx.fillStyle=t.bandText; if(ctx.letterSpacing!==undefined) ctx.letterSpacing="4px"; ctx.fillText("WHY HE IS SPECIAL",CW/2,449); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
+  ctx.font='800 30px "Instrument Sans Narrow"'; ctx.fillStyle=t.bandText; if(ctx.letterSpacing!==undefined) ctx.letterSpacing="4px"; ctx.fillText("WHY HE IS SPECIAL",CW/2,449); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
   ctx.fillStyle=plate; ctx.beginPath(); ctx.moveTo(70,484); ctx.lineTo(CW-70,484); ctx.lineTo(CW-70,590); ctx.lineTo(CW/2,668); ctx.lineTo(70,590); ctx.closePath(); ctx.fill();
-  fs=25; do { ctx.font='600 '+fs+'px "Barlow Condensed"'; lines=wrapBalanced(ctx,sc[2],CW-170); fs--; } while(lines.length*fs*1.25>140&&fs>14);
+  fs=25; do { ctx.font='600 '+fs+'px "Instrument Sans Narrow"'; lines=wrapBalanced(ctx,sc[2],CW-170); fs--; } while(lines.length*fs*1.25>140&&fs>14);
   ctx.fillStyle=t.text; const lh2=(fs+1)*1.25, top2=514+Math.max(0,(120-lines.length*lh2)/2); /* centred in the plate's upper part (it narrows to a point below) */ lines.forEach((l,i)=>ctx.fillText(l,CW/2,top2+i*lh2));
   ctx.restore();
 }
 function shieldHalf(y){ const Y=1.6-y/CH*3.2; return Y>=-.9?1.1:Math.max(0,1.1*(Y+1.6)/.7); } // half width (card units) at canvas y
 function fitLine(ctx, txt, y, size, weight, col, sp){
   const room=2*(shieldHalf(y-size*.8)/2.2*CW)-48; let fs=size;
-  const set=()=>{ ctx.font=weight+' '+fs+'px "Barlow Condensed"'; if(ctx.letterSpacing!==undefined) ctx.letterSpacing=sp+"px"; };
+  const set=()=>{ ctx.font=weight+' '+fs+'px "Instrument Sans Narrow"'; if(ctx.letterSpacing!==undefined) ctx.letterSpacing=sp+"px"; };
   set(); while(ctx.measureText(txt).width>room&&fs>10){ fs-=.5; set(); }
   emboss(ctx,txt,CW/2,y,col); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
 }
@@ -430,17 +415,17 @@ function drawCardFront(ctx, p, noOvr){
   const sp=ctx.createRadialGradient(318,210,10,318,210,190); sp.addColorStop(0,"rgba(255,255,255,.28)"); sp.addColorStop(1,"rgba(255,255,255,0)"); ctx.fillStyle=sp; ctx.fillRect(120,40,392,360);
   shirtBack(ctx,p,318,96,1.3);
   ctx.textAlign="center";
-  if(!noOvr){ ctx.font='600 112px "Barlow Condensed"'; emboss(ctx,String(p.ovr),LEFT_X,150,t.text,true); } /* idea 8: the count-up draws it until it lands */
+  if(!noOvr){ ctx.font='600 112px "Instrument Sans Narrow"'; emboss(ctx,String(p.ovr),LEFT_X,150,t.text,true); } /* idea 8: the count-up draws it until it lands */
   leftStack(ctx,p,t,3);
   const nb=ctx.createLinearGradient(0,408,0,462); nb.addColorStop(0,t.band[0]); nb.addColorStop(.5,t.band[1]); nb.addColorStop(1,t.band[2]); ctx.fillStyle=nb; ctx.fillRect(0,412,CW,52);
   ctx.fillStyle="rgba(255,255,255,.5)"; ctx.fillRect(0,412,CW,1.5); ctx.fillStyle="rgba(0,0,0,.3)"; ctx.fillRect(0,463,CW,2);
-  let fs=46; const setF=()=>ctx.font=`800 ${fs}px "Big Shoulders Display"`; setF(); while(ctx.measureText(p.short).width>CW-120&&fs>26){fs--;setF();}
+  let fs=46; const setF=()=>ctx.font=`800 ${fs}px "Instrument Sans Narrow"`; setF(); while(ctx.measureText(p.short).width>CW-120&&fs>26){fs--;setF();}
   ctx.fillStyle="rgba(255,255,255,.4)"; ctx.fillText(p.short,CW/2,453.5); ctx.fillStyle=t.bandText; ctx.fillText(p.short,CW/2,452);
   ctx.fillStyle=t.text; ctx.globalAlpha=.5; ctx.fillRect(CW/2-.75,484,1.5,118); ctx.globalAlpha=1;
   p.stats.forEach(([lab,v],i)=>{
     const col=i<3?0:1, row=i%3, x=col?CW/2+70:CW/2-118, y=516+row*40;
-    ctx.textAlign="right"; ctx.font='700 40px "Barlow Condensed"'; emboss(ctx,String(v),x+40,y,t.text);
-    ctx.textAlign="left"; ctx.font='500 32px "Barlow Condensed"'; emboss(ctx,lab,x+48,y,t.sub);
+    ctx.textAlign="right"; ctx.font='700 40px "Instrument Sans Narrow"'; emboss(ctx,String(v),x+40,y,t.text);
+    ctx.textAlign="left"; ctx.font='500 32px "Instrument Sans Narrow"'; emboss(ctx,lab,x+48,y,t.sub);
   });
   ctx.textAlign="center";
   ctx.fillStyle=t.text; ctx.globalAlpha=.5; ctx.fillRect(CW/2-110,612,220,1.5); ctx.globalAlpha=1;
@@ -455,11 +440,11 @@ function drawPack(ctx, w, h){
   const fr=ctx.createLinearGradient(0,0,w,h); fr.addColorStop(0,"#fff3c4"); fr.addColorStop(.4,"#e3ad44"); fr.addColorStop(.7,"#8f621c"); fr.addColorStop(1,"#f6d27c");
   ctx.strokeStyle=fr; ctx.lineWidth=14; ctx.strokeRect(18,18,w-36,h-36); ctx.lineWidth=3; ctx.strokeRect(40,40,w-80,h-80);
   ctx.fillStyle=fr; ctx.save(); ctx.translate(w/2,h*.33); ctx.beginPath(); ctx.moveTo(-96,46); ctx.lineTo(-108,-40); ctx.lineTo(-52,4); ctx.lineTo(0,-66); ctx.lineTo(52,4); ctx.lineTo(108,-40); ctx.lineTo(96,46); ctx.closePath(); ctx.fill(); ctx.fillRect(-98,58,196,18); ctx.restore();
-  ctx.textAlign="center"; ctx.font='900 34px "Big Shoulders Display"'; if(ctx.letterSpacing!==undefined) ctx.letterSpacing="6px"; ctx.fillText("FIFA 17 SHOWDOWN",w/2+5,h*.53); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
-  ctx.font='900 116px "Big Shoulders Display"'; ctx.fillText("SPECIAL",w/2,h*.65);
-  ctx.font='600 34px "Barlow Condensed"'; ctx.fillStyle="#efe5cc"; if(ctx.letterSpacing!==undefined) ctx.letterSpacing="12px"; ctx.fillText("PLAYER",w/2+6,h*.72); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
+  ctx.textAlign="center"; ctx.font='900 34px "Instrument Sans Narrow"'; if(ctx.letterSpacing!==undefined) ctx.letterSpacing="6px"; ctx.fillText("FIFA 17 SHOWDOWN",w/2+5,h*.53); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
+  ctx.font='900 116px "Instrument Sans Narrow"'; ctx.fillText("SPECIAL",w/2,h*.65);
+  ctx.font='600 34px "Instrument Sans Narrow"'; ctx.fillStyle="#efe5cc"; if(ctx.letterSpacing!==undefined) ctx.letterSpacing="12px"; ctx.fillText("PLAYER",w/2+6,h*.72); if(ctx.letterSpacing!==undefined) ctx.letterSpacing="0px";
   ctx.fillStyle=fr; ctx.fillRect(w*.3,h*.78,w*.4,4);
-  ctx.font='900 60px "Big Shoulders Display"'; ctx.fillStyle="#fff3c4"; ctx.fillText("17",w/2,h*.88);
+  ctx.font='900 60px "Instrument Sans Narrow"'; ctx.fillStyle="#fff3c4"; ctx.fillText("17",w/2,h*.88);
 }
 function canvasTex(w,h,draw,linear){ const c=document.createElement("canvas"); c.width=w; c.height=h; const ctx=c.getContext("2d"); draw&&draw(ctx); const tx=new T.CanvasTexture(c); if(!linear) tx.colorSpace=T.SRGBColorSpace; tx.anisotropy=Math.min(GQ.aniso,renderer.capabilities.getMaxAnisotropy()); return {c,ctx,tx}; }
 
@@ -1115,7 +1100,7 @@ function encore(p,i){ const lvl=tierLevel(p.tier), side=i%2?-1:1;
 /* idea 8: rating count-up from 40, landing on the real number with a tick per step; quicker for a lower tier (.7 s at rank 51+,
    1.7 s for the top 3). A skip lands it at once. */
 let count=null, frontFull=false;
-function drawOvr(v){ const c=ovrTex.ctx, t=TIER[cur().tier]; c.setTransform(2,0,0,2,0,0); c.clearRect(0,0,140,120); c.textAlign="center"; c.font='600 112px "Barlow Condensed"'; emboss(c,String(v),70,100,t.text,true); ovrTex.tx.needsUpdate=true; }
+function drawOvr(v){ const c=ovrTex.ctx, t=TIER[cur().tier]; c.setTransform(2,0,0,2,0,0); c.clearRect(0,0,140,120); c.textAlign="center"; c.font='600 112px "Instrument Sans Narrow"'; emboss(c,String(v),70,100,t.text,true); ovrTex.tx.needsUpdate=true; }
 function startCount(p){ if(frontFull||REDUCED){ finishCount(); return; } count={t0:clock(),dur:COUNT_S[tierLevel(p.tier)],to:p.ovr,shown:COUNT_FROM,tickAt:-1}; drawOvr(COUNT_FROM); ovrMesh.visible=true; }
 function finishCount(){ count=null; ovrMesh.visible=false; if(!frontFull){ frontMat.map=prep().face; frontFull=true; } }
 function stepCount(now){ if(!count) return; const k=clamp01((now-count.t0-.15)/count.dur), v=Math.round(COUNT_FROM+(count.to-COUNT_FROM)*(1-Math.pow(1-k,2)));
@@ -1364,7 +1349,7 @@ window.__mq={ player(i){ manual=performance.now()/1000; last=manual; queue.lengt
     mips=mipA.concat(mipB).reduce((a,m)=>a+m.width*m.height*(HDR?8:4),0); return { cards:cards/1048576, targets:(rt+mips)/1048576, shadow:sm*sm*4/1048576, buffer:cv.width*cv.height*12/1048576 }; },
   get t(){ return vtt; }, get band(){ return bandDbg; }, get phase(){ return phase; }, get idx(){ return idx; } };
 
-const fontsReady=Promise.race([Promise.all(['600 60px "Barlow Condensed"','700 30px "Barlow Condensed"','500 30px "Barlow Condensed"','800 30px "Barlow Condensed"','800 40px "Big Shoulders Display"','900 40px "Big Shoulders Display"'].map(f=>document.fonts.load(f))).catch(()=>null), new Promise(r=>setTimeout(r,3000))]); /* Fable F8-03: a failed font falls back, never fails the page */
+const fontsReady=Promise.race([Promise.all(['600 60px "Instrument Sans Narrow"','700 30px "Instrument Sans Narrow"','500 30px "Instrument Sans Narrow"','800 30px "Instrument Sans Narrow"','800 40px "Instrument Sans Narrow"','900 40px "Instrument Sans Narrow"'].map(f=>document.fonts.load(f))).catch(()=>null), new Promise(r=>setTimeout(r,3000))]); /* Fable F8-03: a failed font falls back, never fails the page */
 Promise.all([fontsReady,loadPano(),loadGrass(),loadPlate(),loadBoards(),loadSide("assets/stand_left_soft_V1.jpg","plateL","hasL"),loadSide("assets/stand_right_soft_V1.jpg","plateR","hasR"),loadCrests(),loadPackArt(),loadCardArt()].map(p=>Promise.resolve(p).then(busy))).then(async()=>{ resize(); busy(); await nextTask(); buildEnv(); lightMetals(); busy(); await nextTask(); await prepareCardsSlow(); busy();
   await compileSlow(); await warmTexturesSlow(); busy(); warmDraw(); busy(); await nextTask(); /* r90: a few timed frames behind the loading screen settle the Auto level (skipped on software GL), then the governor starts */ (GFX?GFX.calibrate(renderer,render).then(p=>{ PR=p.pixelRatio; resize(); },()=>{}):Promise.resolve()).then(()=>{ startGfx(); startPlayer(0);
   /* in the game: draw the first frame, tell the game it is ready, and start once the game shows this page (its loading screen covers the wait) */
