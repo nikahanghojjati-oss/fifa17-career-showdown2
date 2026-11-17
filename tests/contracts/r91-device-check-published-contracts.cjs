@@ -60,7 +60,7 @@ const OWN_PAGES = new Set([...setOf("STANDALONE_PAGE_NAVIGATION_PATHS"), ...setO
   const check = read("device-check.html");
   assert.ok(/<h1>DEVICE CHECK<\/h1>/.test(check) && check.includes('<a class="btn" href="./">Back to the game</a>'), "the page carries its heading and the way back");
   // r93 HO-079: the heading is live text in Cormorant SC Bold (flat gold, no shadow) at the family height; the words stay in the heading.
-  assert.ok(check.includes('h1{position:relative;margin:0 0 8px;--hc-h:clamp(40px,3.08vw,59px);height:var(--hc-h);') && /h1::after\{[^}]*content: "DEVICE CHECK";[^}]*"Cormorant SC"[^}]*color: #C9A45C;/.test(check) && check.includes('@font-face{font-family:"Cormorant SC"') && !/TITLE_DEVICE_CHECK_V3/.test(check), "the heading is the live Cormorant SC DEVICE CHECK text");
+  assert.ok(check.includes('h1{position:relative;margin:0 0 8px;--hc-h:clamp(40px,3.08vw,59px);height:var(--hc-h);') && /h1::after\{[^}]*content: "DEVICE CHECK";[^}]*var\(--r95-font\)[^}]*color: var\(--r95-gold-ink, #F2C45B\);/.test(check) && check.includes('css/r95-type.css') && !/TITLE_DEVICE_CHECK_V3/.test(check), "the heading is the live Instrument Sans DEVICE CHECK text");
   assert.ok(fs.existsSync(path.join(ROOT, "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2")), "Cormorant SC Bold file");
   for(const framed of [...read("device-check.html").matchAll(/path:"([^"]+\.html)"/g)].map(m => m[1])) assert.ok(OWN_PAGES.has(framed), `the worker answers the framed page ${framed} with that page`);
   ok("P2", `everything the Device check pages load is in the published site (${seen} files), and each framed scene is a page of its own`);

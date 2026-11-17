@@ -124,12 +124,12 @@ html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-set
 #clubWheelScreen[data-club-draw="spin"] { width: 100%; max-width: none; padding: 6px max(16px, 2vw) 18px; box-sizing: border-box; }
 #clubWheelScreen[data-club-draw="spin"] > h2 {
   width: auto; margin: 0 auto 2px; padding: 0 0 0 .06em; background: none; border: 0; box-shadow: none; text-align: center;
-  font: 700 calc(var(--hc-title-h, 48px) * .74)/1.14 "Cormorant SC", "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  font-synthesis: none; font-variant-numeric: lining-nums; letter-spacing: .06em; text-transform: uppercase;
-  color: #C9A45C; -webkit-text-fill-color: #C9A45C; text-shadow: none;
+  font: 650 calc(var(--hc-title-h, 48px) * .67)/1.14 var(--r95-font);
+  font-synthesis: none; font-variant-numeric: lining-nums; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--r95-gold-ink, #F2C45B); -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B); text-shadow: none;
 }
 #clubWheelScreen[data-club-draw="spin"] .clubAssignmentShell { background: none; border-top: 0; box-shadow: none; padding: 0; }
-#clubWheelScreen[data-club-draw="spin"] .clubAssignmentEyebrow { color: #C9A45C; }
+#clubWheelScreen[data-club-draw="spin"] .clubAssignmentEyebrow { color: var(--r95-gold-ink, #F2C45B); }
 #clubWheelScreen[data-club-draw="spin"] #clubAssignmentLeague { color: #f3eedf; }
 #clubWheelScreen[data-club-draw="spin"] #clubPackStatus { color: rgba(243,238,223,.62); }
 /* STOP (Nik 22:15, "color should make sense"): live, it is Home's gold CONTINUE CAREER tile (soft gold bevel, polished gold

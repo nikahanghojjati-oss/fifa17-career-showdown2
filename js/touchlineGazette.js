@@ -600,7 +600,7 @@
   // booth's call in italics, then BY THE NUMBERS. No box, no tint, nothing on top of anything; the page scrolls as before.
   const BOOTH_CSS="#touchlineGazette .tgz-booth{margin:6px 0 0;padding:4px 0 0;border-top:2px solid var(--paper-rule,#1b1712)}"+
     "#touchlineGazette .tgz-booth p{margin:0;font:400 13px/1.3 'Gazette Body',Georgia,serif;color:#14100b}"+
-    "#touchlineGazette .tgz-booth b{margin-right:7px;font:700 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#14100b}"+
+    "#touchlineGazette .tgz-booth b{margin-right:7px;font:700 13px/1 var(--r95-font-narrow);letter-spacing:.16em;text-transform:uppercase;color:#14100b}"+
     "#touchlineGazette .tgz-booth__call{font-style:italic}#touchlineGazette .tgz-booth__numbers{margin-left:12px}#touchlineGazette .tgz-booth__numbers b{margin-right:6px}"+
     "#touchlineGazette .cmx-gz--compact .tgz-booth p{font-size:14px;line-height:1.36}#touchlineGazette .cmx-gz--compact .tgz-booth b{font-size:12px}"+
     "#touchlineGazette .cmx-gz--compact .tgz-booth__numbers{display:block;margin:4px 0 0}";
