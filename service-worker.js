@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.8.0-r95";
-const PREVIOUS_RUNTIME_REVISION = "2.7.0-r94";
+const RUNTIME_REVISION = "2.9.0-r96";
+const PREVIOUS_RUNTIME_REVISION = "2.8.0-r95";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -421,62 +421,12 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.8.0 (r95): PREVIOUS is the live 2.7.0-r94 (298 paths, tests/fixtures/shell-paths/2.7.0-r94.json, main 5f22a328). The STORY
+// 2.9.0 (r96): PREVIOUS is the live 2.8.0-r95 (260 paths, tests/fixtures/shell-paths/2.8.0-r95.json, main 30b79695). The STORY
 // site is never precached.
-// r95 (one type family): adds the Instrument Sans type sheet, its three variable faces and their licence, and removes the 43 old
-// font sheets, faces and licences they replace. Nothing else in r95 touches the shell.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
-    "css/r95-type.css",
-    "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/instrument-sans-latin-ext-wdth-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wght-italic.woff2",
-    "visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt"
-]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([
-    "assets/fonts/barlow-condensed.css",
-    "assets/fonts/barlow-condensed-vietnamese-600-normal.woff2",
-    "assets/fonts/barlow-condensed-vietnamese-700-normal.woff2",
-    "assets/fonts/barlow-condensed-vietnamese-800-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-800-normal.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt",
-    "visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
-    "visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
-]);
+// r96 adds and removes no shell path: its new Device check frame (device-check-ball.html) is a standalone page, always from the
+// network, like the other Device check pages. Both sets are empty, so PREVIOUS_SHELL_PATHS is this build's list.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.

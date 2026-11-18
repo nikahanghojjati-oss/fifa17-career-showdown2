@@ -443,8 +443,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"2.8.0-r95","RUNTIME_REVISION is the current release (r95, 2.8.0-r95)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.7.0-r94");
+  assert.equal(revision,"2.9.0-r96","RUNTIME_REVISION is the current release (r96, 2.9.0-r96)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.8.0-r95");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -493,7 +493,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"2.8.0-r95");assert.equal(prev,"2.7.0-r94");
+  assert.equal(cur,"2.9.0-r96");assert.equal(prev,"2.8.0-r95");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -1522,7 +1522,9 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-17 by r95: the local Barlow sheet link is gone (the one family, Instrument Sans); nothing else changed.
   // Re-pinned 2026-11-17 by r95 hunt F7 (the tagline with the script's single spaces), then by the 2.8.0 release bump: the
   // 2.8.0-r95 pins and v2.8.0 footer, nothing else.
-  assert.equal(sha256("index.html"),"e3290937a6fe49512f79212513965a7ff70ed92fa840ac0a2cc1bd8b75d29de3","index.html is 2.8.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, 2.8.0-r95 pins)");
+  // Re-pinned 2026-11-17 by the 2.9.0 release bump: the 2.8.0 file (r96 never changed it) with its 2.9.0-r96 pins and v2.9.0
+  // footer, nothing else.
+  assert.equal(sha256("index.html"),"4d3b930bc693d8d51ace59f8cf94371b7d393fbf33aba02372e3a0dab3c54a71","index.html is 2.9.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, 2.9.0-r96 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);

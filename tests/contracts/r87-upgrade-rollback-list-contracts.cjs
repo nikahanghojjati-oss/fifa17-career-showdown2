@@ -8,8 +8,8 @@
 // main e6485d7d, live since 2026-11-04; 2.2.0-r89 = main 2fe8d2f5, live since 2026-11-06; 2.3.0-r90 = main a85d286a, live since
 // 2026-11-11; 2.4.0-r91 = main ac0a1338, live since 2026-11-14; 2.5.0-r92 = main 36b648ad, live since 2026-11-14; 2.5.1-r92 = main
 // 23bdd439, live since 2026-11-15; 2.6.0-r93 = main 5c5472f6, live since 2026-11-16; 2.7.0-r94 = main 5f22a328, live since
-// 2026-11-17). 2.8.0 moves PREVIOUS to 2.7.0-r94: the added set must be exactly the paths 2.8.0 adds to 2.7.0's 298 (the one type
-// family: Instrument Sans, its sheet and its licence) and the removed set exactly the old font files it drops; this test names them if not.
+// 2026-11-17; 2.8.0-r95 = main 30b79695, live since 2026-11-17). 2.9.0 moves PREVIOUS to 2.8.0-r95: 2.9.0 adds and removes no shell
+// path, so both sets must be empty and the rollback list exactly 2.8.0's 260; this test names any drift.
 // Run: node tests/contracts/r87-upgrade-rollback-list-contracts.cjs
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -50,7 +50,7 @@ test("UR2 the rollback list equals the previous revision's real shell, path for 
   assert.deepEqual({missing,extra},{missing:[],extra:[]},`rollback list for ${w.previous} is wrong; SHELL_PATHS_ADDED_SINCE_PREVIOUS should be exactly: ${JSON.stringify(w.shell.filter(p=>!real.includes(p)))}`);
 });
 
-test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.8.0: 43 old font files)",()=>{
+test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.9.0: none)",()=>{
   const real=fixture(w.previous),shell=new Set(w.shell);
   assert.deepEqual(real.filter(p=>!shell.has(p)),w.removed,"a path the previous build precached left SHELL_PATHS without being listed in SHELL_PATHS_REMOVED_SINCE_PREVIOUS");
   assert.deepEqual(w.removed.filter(p=>shell.has(p)),[],"a removed path is still in SHELL_PATHS");
@@ -63,9 +63,9 @@ test("UR4 every added path is a current shell path, listed once",()=>{
   assert.equal(new Set(w.shell).size,w.shell.length,"SHELL_PATHS lists a path twice");
 });
 
-test("UR5 a 2.8.0 worker rolls back to the live 2.7.0 build",()=>{
-  assert.equal(w.revision,"2.8.0-r95");
-  assert.equal(w.previous,"2.7.0-r94");
+test("UR5 a 2.9.0 worker rolls back to the live 2.8.0 build",()=>{
+  assert.equal(w.revision,"2.9.0-r96");
+  assert.equal(w.previous,"2.8.0-r95");
 });
 
 test("UR6 the r87 fixture is r86's list plus what 2.0.0 added, minus the seven acceptance-only scripts",()=>{
@@ -129,6 +129,15 @@ test("UR14 the 2.7.0 fixture is 2.6.0's list plus the club draw step, its 3D sce
   assert.equal(r94.length,298);
   assert.deepEqual(r93.filter(p=>!r94.includes(p)),[]);
   assert.deepEqual(r94.filter(p=>!r93.includes(p)),["js/clubDrawStep.js","js/clubDrawScene3d.js","css/clubDraw.css"]);
+});
+
+test("UR15 the 2.8.0 fixture is 2.7.0's list plus Instrument Sans (sheet, three faces, licence), minus the 43 old font files",()=>{
+  const r95=fixture("2.8.0-r95"),r94=fixture("2.7.0-r94");
+  assert.equal(r95.length,260);
+  assert.deepEqual(r95.filter(p=>!r94.includes(p)),["css/r95-type.css","visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2","visual-assets/v10_1/shared/fonts/instrument-sans-latin-ext-wdth-normal.woff2","visual-assets/v10_1/shared/fonts/instrument-sans-latin-wght-italic.woff2","visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt"]);
+  const removed=r94.filter(p=>!r95.includes(p));
+  assert.equal(removed.length,43);
+  assert.deepEqual(removed.filter(p=>!/\/fonts\/[^/]+\.(woff2|txt|css)$/.test(p)),[],"2.8.0 removed only font files and their licences");
 });
 
 console.log(`r87 upgrade rollback-list contracts: ${passed} passed (revision ${w.revision}, previous ${w.previous}, ${w.added.length} added since it)`);
