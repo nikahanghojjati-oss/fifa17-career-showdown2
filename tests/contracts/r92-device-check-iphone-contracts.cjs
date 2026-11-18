@@ -30,7 +30,7 @@
 //   D13 a phone never asks for more than 4 MSAA samples (Special Player's half-float target at Extra: ~146 -> ~78 MB)
 //   D14 the phone memory budget runs in every release: tests/browser/phone-memory-budget.cjs measures each 3D screen at High
 //      and Extra on the iPhone 17 profile at the level's top pixel ratio (?gfxpr=top) and fails over 300 MB of textures +
-//      render buffers; .github/workflows/phone-memory-budget.yml runs it on pushes to the release branches
+//      render buffers; .github/workflows/phone-memory-budget.yml runs it on pushes to the release branches. r97: the live 2D canvases count too
 //   D15 at Extra a phone's sharpness stops at 2.25x (Special Player at 3x on the iPhone 17 profile: 370 MB; at 2.25x: 263 MB);
 //      High and computers are unchanged (the cap is behind phone&&level===3)
 //   D11 a phone's Special Player card art stops at 2x (Extra on the iPhone 17 profile: card faces 170 -> 109 MB, the whole
@@ -391,11 +391,14 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.match(budget, /const PHONE_BUDGET_MB = 300;/);
     assert.match(budget, /const LEVELS = \[2, 3\];/); assert.match(budget, /const SCENES = \["chamber", "rrr", "sp"\];/);
     assert.match(budget, /"--profiles", "iphone17"/); assert.match(budget, /DEVLAB_MODE: "cpu", DEVLAB_TOP: "1"/);
-    assert.match(budget, /const total = Math\.round\(\(r\.allocTexMB \+ r\.allocRbMB\) \* 10\) \/ 10;/, "textures plus render buffers");
+    // r97: plus the live 2D canvases (Roulette at High held 128 MB of them beside its GPU textures).
+    assert.match(budget, /const total = Math\.round\(\(r\.allocTexMB \+ r\.allocRbMB \+ r\.canvas2dMB\) \* 10\) \/ 10;/, "textures plus render buffers plus live 2D canvases");
+    assert.match(budget, /!Number\.isFinite\(r\.canvas2dMB\) && "2D canvases not counted"/, "a run that did not count them fails");
     assert.match(budget, /if \(total > PHONE_BUDGET_MB\) failures\.push/);
     for (const need of [/!r\.ready && "never finished loading"/, /\(r\.errors \|\| \[\]\)\.length && `page errors/, /!\(r\.rafFrames > 0 && r\.callsMedian > 0\) && "drew nothing"/,
         /!\(r\.gfx && r\.gfx\.level === level\)/, /!\(r\.allocTexMB > 0\) && "uploaded no textures"/]) assert.match(budget, need, "an unloaded or broken screen is a failure, not 0 MB");
     const lab = fs.readFileSync(path.join(ROOT, "tests/browser/device-lab.cjs"), "utf8");
+    assert.match(lab, /HTMLCanvasElement\.prototype\.getContext = function \(type\) \{ const x = gc\.apply\(this, arguments\); if \(x && \/\^2d\$\/i\.test\(String\(type\)\)\) L\.c2d\.add\(this\); return x; \};/, "device-lab counts every 2D canvas");
     assert.match(lab, /const TOP = process\.env\.DEVLAB_TOP === "1" \? "&gfxpr=top" : "";/);
     assert.equal((lab.match(/\$\{TOP\}`/g) || []).length, 4, "every screen (r96: the Ball Game too)");
     assert.match(TIER, /top=forcedLevel!==null&&gfxQuery\("gfxpr"\)==="top"/, "only with a forced level (the lab), never in play");

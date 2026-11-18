@@ -5,6 +5,9 @@
 // may reach in play). Runs tests/browser/device-lab.cjs (cpu mode, iPhone 17 profile, DEVLAB_TOP=1) and fails over budget.
 // Where it runs: on pushes to the release branches (.github/workflows/phone-memory-budget.yml) and by hand:
 //   CMS_CHROMIUM_PATH=/opt/pw-browsers/chromium node tests/browser/phone-memory-budget.cjs [--out file.json]
+// r97 (Nik's iPhone 17 closed the Device check on Roulette at High, 2026-11-18): the 2D canvases the page still holds count too
+// (device-lab canvas2dMB: width x height x 4 of every live 2D canvas). A scene that paints its pictures on canvases keeps them
+// beside the GPU copies; Roulette at High held 128 MB of them beside 214 MB on the GPU, and only the GPU half was counted.
 // Limits: Chromium with software GL, not WebKit. iOS also keeps decoded image copies beside the GPU ones, so a real iPhone
 // uses more than this counts; the budget leaves room for that. Only a real iPhone proves a level opens.
 const fs = require("node:fs");
@@ -43,13 +46,13 @@ for (const scene of SCENES) for (const level of LEVELS) {
     // A screen that never finished loading, threw, drew nothing or ran at another level is not a measurement (0 MB would pass).
     const bad = [!r.ready && "never finished loading", (r.errors || []).length && `page errors: ${r.errors.join(" | ")}`,
         !(r.rafFrames > 0 && r.callsMedian > 0) && "drew nothing", !(r.gfx && r.gfx.level === level) && `ran at level ${r.gfx && r.gfx.level}`,
-        !(r.allocTexMB > 0) && "uploaded no textures"].filter(Boolean);
+        !(r.allocTexMB > 0) && "uploaded no textures", !Number.isFinite(r.canvas2dMB) && "2D canvases not counted"].filter(Boolean);
     if (bad.length) { failures.push(`${scene} at level ${level}: not measured (${bad.join("; ")})`); continue; }
-    const total = Math.round((r.allocTexMB + r.allocRbMB) * 10) / 10;
+    const total = Math.round((r.allocTexMB + r.allocRbMB + r.canvas2dMB) * 10) / 10;
     const canvas = r.canvas ? `${r.canvas.w}x${r.canvas.h}` : "?";
-    console.log(`${scene.padEnd(8)} ${r.levelName.padEnd(6)} ${String(total).padStart(6)} MB (textures ${r.allocTexMB} + buffers ${r.allocRbMB}) at ${canvas}`);
+    console.log(`${scene.padEnd(8)} ${r.levelName.padEnd(6)} ${String(total).padStart(6)} MB (textures ${r.allocTexMB} + buffers ${r.allocRbMB} + 2D canvases ${r.canvas2dMB}) at ${canvas}`);
     if (total > PHONE_BUDGET_MB) failures.push(`${scene} at ${r.levelName}: ${total} MB is over the ${PHONE_BUDGET_MB} MB phone budget`);
 }
 if (failures.length) { console.error(`FAIL phone memory budget\n  ${failures.join("\n  ")}`); process.exit(1); }
-console.log(`PASS phone memory budget: every 3D screen at High and Extra fits ${PHONE_BUDGET_MB} MB on the iPhone 17 profile at its top pixel ratio`);
+console.log(`PASS phone memory budget: every 3D screen at High and Extra fits ${PHONE_BUDGET_MB} MB (GPU and live 2D canvases) on the iPhone 17 profile at its top pixel ratio`);
 })().catch(error => { console.error(error); process.exit(1); });

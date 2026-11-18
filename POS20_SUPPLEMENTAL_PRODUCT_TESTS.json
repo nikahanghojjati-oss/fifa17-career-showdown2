@@ -3463,6 +3463,17 @@
         "^tests/contracts/r96\\-quality\\-per\\-screen\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r97-rrr-phone-canvas-contracts.cjs",
+      "patterns": [
+        "^visual\\-assets/v10_1/roulette/index\\.html$",
+        "^tests/browser/phone\\-memory\\-budget\\.cjs$",
+        "^tests/browser/device\\-lab\\.cjs$",
+        "^tests/browser/r97\\-rrr\\-phone\\-canvas\\-compare\\.cjs$",
+        "^tests/contracts/r97\\-rrr\\-phone\\-canvas\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

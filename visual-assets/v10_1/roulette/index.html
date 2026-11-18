@@ -1705,8 +1705,24 @@ function buildEnv(){ if(!LOOK.hdri&&!LIGHT) return; const pm=new T.PMREMGenerato
    says it is ready, so the first frame anyone sees, and the first muzzle flash, smoke puff or spin blur, never stalls on a compile.
    The old page compiled each of those the first time it appeared, in the middle of a turn. Then js/gfxTier.js times a few real frames. */
 function toGame2(type,extra){ if(EMBED) try{ parent.postMessage(Object.assign({type},extra||{}),location.origin); }catch(e){} }
+/* r97 phone memory (Nik's iPhone 17 closed the Device check on this screen at High): each picture this scene paints is a 2D canvas
+   that three.js uploads to the GPU and then keeps, so a phone holds it twice (Chromium, iPhone profile: 2D canvases 78 MB at
+   Balanced, 128 MB at High, beside 123 / 214 MB of GPU textures). On a phone a canvas is let go once every texture drawn from it
+   is on the GPU, unless it is painted again in play: the boards (their canvas, first and spare: boardTex marks them __tex).
+   The picture is the same (the GPU copy is what is drawn). The canvas cannot be uploaded again, so a lost context that comes back
+   cannot rebuild the scene: the turn is handed to the game's result card (EMBED) or the page reloads, as after a context that
+   never comes back. window.__rr.freed says what was let go; a freed texture that is ever uploaded again counts in reuploads. */
+let FREED=null;
+function freeCanvases(all){ const keep=new Set(); ["D","N"].forEach(k=>{ const b=boards[k].userData; [b.canvas,b.first,b.spare].forEach(c=>{ if(c) keep.add(c); }); });
+  const by=new Map(); all.forEach(t=>{ const c=t.image; if(!(c&&typeof HTMLCanvasElement!=="undefined"&&c instanceof HTMLCanvasElement)||keep.has(c)||c.__tex) return; if(!by.has(c)) by.set(c,[]); by.get(c).push(t); });
+  const out={canvases:0,mb:0,kept:keep.size,reuploads:0};
+  by.forEach((ts,c)=>{ if(!ts.every(t=>{ const p=renderer.properties.get(t); return p&&p.__webglTexture; })) return;
+    out.canvases+=1; out.mb+=c.width*c.height*4/1048576;
+    ts.forEach(t=>{ t.onUpdate=()=>{ out.reuploads+=1; }; }); c.width=c.height=0; });
+  out.mb=Math.round(out.mb*10)/10; FREED=out; }
 async function warmUp(){ const all=new Set(); scene.traverse(o=>{ (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(!m) return; for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!v.isRenderTargetTexture) all.add(v); } }); });
   ["D","N"].forEach(k=>{ const c=boards[k].userData.spare; if(c) all.add(c.__tex); }); all.forEach(t=>{ try{ renderer.initTexture(t); }catch(e){} });
+  if(GFX.phone) freeCanvases(all);
   toGame2("cms-rr-loading",{stage:"compile"});
   /* r90 MOTION M9: where the GPU cannot compile in the background (no KHR_parallel_shader_compile: most Chromebooks, software GL)
      compileAsync is one long blocking task (59.7 s in the container). The shaders are built a few materials at a time instead,
@@ -1749,6 +1765,8 @@ renderer.domElement.addEventListener("webglcontextlost",e=>{ e.preventDefault();
 /* on restore the frame clock keeps the last frame's time (as on the way back from the back-forward cache, Codex P2 on #1326), so tick()
    moves the turn clock past the gap and the turn picks up where it stopped instead of firing its cues together */
 renderer.domElement.addEventListener("webglcontextrestored",()=>{ clearTimeout(lostTimer); lostTimer=0; lostOn=false; if(leaving||lostSent) return;
+  /* r97: a phone let its painted canvases go (freeCanvases): the scene cannot be rebuilt, so the turn goes on as after a context that never comes back */
+  if(FREED&&FREED.canvases){ lostSent=true; if(EMBED) toGame("cms-rr-error",{message:"webgl context lost"}); else location.reload(); return; }
   try{ buildEnv(); }catch(e){} renderer.shadowMap.needsUpdate=true; if(window.__rrReady&&!rafId) rafId=requestAnimationFrame(frame); },false);
 /* back-forward cache (Codex P2 on #1261): a page kept for Back is only paused and picks up again on pageshow; a real unload frees everything.
    On the way back "last" keeps the time of the final frame before the pause, so tick() moves the turn clock past the whole gap
@@ -1791,7 +1809,7 @@ $("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sou
 $("forceFire").addEventListener("click",()=>startTurn(true)); $("forceSafe").addEventListener("click",()=>startTurn(false));
 $("reset").addEventListener("click",()=>{ turn=0; loaded=false; playing=null; done={D:null,N:null}; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); slot(slotD,"At the table","wait"); slot(slotN,"Waits","wait"); setBusy(false); result.className="result"; result.textContent=chamberCaption(GAME)||"One bullet. Seven chambers."; });
 if(qs.get("tools")!=="1") document.body.classList.add("game");
-window.__rr={ get cylZ(){ return cyl.rotation.z; },
+window.__rr={ get cylZ(){ return cyl.rotation.z; }, get freed(){ return FREED?{...FREED}:null; },
   /* r93 R93-04 (tests/contracts/r93-rrr-hand-props-contracts.cjs): the hand on screen, in px: muzzle, rear of the bore, the sleeve's cut corners, the aim
      point and the shooter's board; whether the hand and the revolver on the felt are drawn, and whether that revolver is inside the frame */
   get handPose(){ camera.updateMatrixWorld(true); hand.updateMatrixWorld(true); const W=innerWidth, H=innerHeight, px=v=>{ const n=v.clone().project(camera); return [(n.x+1)/2*W,(1-n.y)/2*H,n.z]; }, on=(u,v)=>px(hand.localToWorld(new T.Vector3(u-.5,v-.5,0)));
