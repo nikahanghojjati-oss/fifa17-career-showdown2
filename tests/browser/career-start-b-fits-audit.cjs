@@ -163,6 +163,17 @@ async function checkFallback(page, kase, width, height, expectedMode, errors){
                 });
                 if(shotDir){ fs.mkdirSync(shotDir, { recursive: true }); await page.screenshot({ path: path.join(shotDir, `career-start-b-${kase.name}-${width}x${height}.png`) }); }
                 const label = `${kase.name} ${width}x${height}`;
+                // r96: a panel that grew past a short screen (inline bottom:auto, max-height:none) gives that back when the window turns roomy,
+                // and takes the same height again when it returns (rotation or resize never keeps a grown panel).
+                const grown = await page.evaluate(() => { const p = document.querySelector("#productionSharedCareerStartOverlay .pcstPillar"); return p.style.maxHeight === "none" ? Math.round(p.getBoundingClientRect().height) : 0; });
+                if(grown){
+                    await page.setViewportSize({ width: 874, height: 402 }); await page.waitForTimeout(500);
+                    const roomy = await page.evaluate(() => { const p = document.querySelector("#productionSharedCareerStartOverlay .pcstPillar"); return { bottom: p.style.bottom, maxHeight: p.style.maxHeight }; });
+                    assert.deepEqual(roomy, { bottom: "", maxHeight: "" }, `${label}: the grown panel is released when the window turns roomy`);
+                    await page.setViewportSize({ width, height }); await page.waitForTimeout(500);
+                    const back = await page.evaluate(() => Math.round(document.querySelector("#productionSharedCareerStartOverlay .pcstPillar").getBoundingClientRect().height));
+                    assert.equal(back, grown, `${label}: the panel takes the same height when the window returns`);
+                }
                 assert.equal(audit.stage, true, `${label}: Career Start is a stage on the Club plate`);
                 assert.equal(audit.mode, expectedMode, `${label}: layout mode`);
                 assert.deepEqual(audit.holds.map(h => h.fits), ["fits", "fits"], `${label}: crest and name inside each pack frame ${JSON.stringify(audit.holds)}`);
