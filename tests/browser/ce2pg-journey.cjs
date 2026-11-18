@@ -1752,7 +1752,7 @@ async function playShowdown(ctx,spec){
       try{await nik.page.waitForFunction(id=>window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase==="DELETED"&&window.CareerModeProductionSharedTerminalClose.getState().rivalryId===id,entry.rivalryId,{timeout:60000});await nik.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000});}
       catch(_e){await check(nik,`${spec.name}.end.nikHome`,"Nik's phone goes Home by itself after END SHOWDOWN",false,await describe(nik),{screen:"Showdown Home"});}
       entry.state="ended";billedModel?.markFinished(entry.rivalryId);
-      entry.endedDate=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date()));
+      entry.endedDate=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"America/New_York"}).format(new Date()));
     });
     const end=mark(`${spec.name}:ended`);
     await careerCheckpoint(ctx,`${spec.name}.ended`,{settingsLive:false});
