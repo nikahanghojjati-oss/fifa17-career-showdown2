@@ -52,6 +52,14 @@
 //      marks that screen, says where the check stopped and what the game draws now; that level is held below for now
 //      (the same cap as a death while opening), and the top card and Settings say the same level
 //   D21 a death at Light saves nothing and lowers nothing: the check is not finished, and the Light rows done are kept
+//   D22 r97 (Nik's iPhone 17 on 2.9.0, 2026-11-18: "Device check on iphone closes my screen on rrr on high and doesnt
+//      continue the check for rest of screens"). At 56642b8f the run lived in the tab's sessionStorage, which iOS loses
+//      when it closes the whole tab or the home-screen app, and a death wrote one cap that held every screen, so after
+//      Russian Roulette closed the tab at High, Special Player and the Ball Game were "not opened again" at High and above.
+//      Now the run is kept in the saved data for 30 minutes: opening the check again (a new tab) goes on where it was,
+//      Russian Roulette stops at High and the other screens climb on; the same after a reload in the same tab
+//   D23 the saved run is never mistaken for a death: another open tab's live run is left alone; a run older than 30
+//      minutes or from another build is let go with no cap; a check the player leaves (hidden tab, Back) clears it at once
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -65,7 +73,9 @@ const KEY = "careerModeShowdown.gfxMeasured.v2", RUN = "careerModeShowdown.devic
 const LABELS = ["Light", "Balanced", "High", "Extra", "Ultra (4K)", "8K"];
 // r96: the Ball Game (club-draw) is timed too, after the other three at each level.
 const SCENES = ["chamber-men", "rrr", "sp", "club-draw"];
-let checks = 0;
+let checks = 0, finished = false;
+// r97: a page that never ends its run leaves no timer behind, and node would exit 0 half way; that is a failure.
+process.on("exit", () => { if(!finished){ console.error(`FAIL r92 device check iPhone contracts: stopped after ${checks} checks (a run never ended)`); process.exitCode = 1; } });
 const ok = (id, text) => { checks += 1; console.log(`ok ${checks} ${id} ${text}`); };
 
 // A clean answer for (scene, level): the level asked, drawn, a whole beat, a full-size buffer, smooth frames.
@@ -80,7 +90,7 @@ const started = (scene, level) => ({type: "cms-gfx-bench", phase: "started", sce
 // answer; the next load finds the screen still open).
 async function run(answer, opts){
   const o = opts || {}, store = {...(o.storage || {})}, asked = [];
-  let wake = null, loads = 0;
+  let wake = null, loads = 0, died = false;
   const signal = kind => { const w = wake; wake = null; if(w) w(kind); };
   const nextSignal = () => new Promise(r => { wake = r; });
   const boot = () => {
@@ -108,7 +118,7 @@ async function run(answer, opts){
         const scene = {"device-check-chamber.html": "chamber-men", "visual-assets/v10_1/roulette/index.html": "rrr", "visual-assets/v10_1/special-player/index.html": "sp", "device-check-ball.html": "club-draw"}[m[1]];
         assert.ok(scene, `a known 3D screen (${m[1]})`);
         const level = Number(m[2]); asked.push(`${scene}@${level}`);
-        if(o.dieAt && o.dieAt[0] === scene && o.dieAt[1] === level){ setImmediate(() => signal("die")); return; }
+        if(o.dieAt && o.dieAt[0] === scene && o.dieAt[1] === level && !died){ died = true; setImmediate(() => signal(o.closeApp ? "close" : "die")); return; }
         setImmediate(() => {
           if(o.hideAt && o.hideAt[0] === scene && o.hideAt[1] === level){ doc.visibilityState = "hidden"; docListeners.visibilitychange(); return; }
           // Noise that must never count: another window's message, another origin's, another scene's.
@@ -126,10 +136,12 @@ async function run(answer, opts){
     }
   };
   const sandbox = {document: doc, location: {origin: "https://game.test", search: "", reload(){ setImmediate(() => signal("reload")); }}, navigator: o.phone ? {hardwareConcurrency: 4, userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 26_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1", maxTouchPoints: 5} : {deviceMemory: 32, hardwareConcurrency: 16}, screen: o.phone ? {width: 393, height: 852} : {width: 1920, height: 1080}, devicePixelRatio: o.phone ? 3 : 1, innerWidth: o.phone ? 393 : 1920, innerHeight: o.phone ? 852 : 1080, matchMedia: q => ({matches: Boolean(o.phone) && /pointer:\s*coarse|hover:\s*none/.test(q), addEventListener(){}, removeEventListener(){}}),
-    readStorageValue: k => k in store ? store[k] : null, writeStorageValue: (k, v) => { store[k] = String(v); return true; },
+    // r97: the run is kept in the saved data (store); clearing a real run ends it.
+    readStorageValue: k => k in store ? store[k] : null, writeStorageValue: (k, v) => { const was = store[k]; store[k] = String(v);
+      if(k === RUN && String(v) === "null" && was && was !== "probe" && was !== "null") setImmediate(() => signal("end")); return true; },
     performance: {now: () => 0, timeOrigin: o.timeOrigin}, URLSearchParams,
     sessionStorage: o.session ? {getItem: k => k in o.session ? o.session[k] : null, setItem: (k, v) => { o.session[k] = String(v); },
-      removeItem: k => { const was = o.session[k]; delete o.session[k]; if(k === RUN && was && was !== "probe") setImmediate(() => signal("end")); }} : undefined, CustomEvent: function(type, init){ this.type = type; this.detail = init && init.detail; }, dispatchEvent(){},
+      removeItem: k => { delete o.session[k]; }} : undefined, setInterval: () => 0, clearInterval(){}, CustomEvent: function(type, init){ this.type = type; this.detail = init && init.detail; }, dispatchEvent(){},
     addEventListener(type, f){ if(type === "message") messageListeners.add(f); }, removeEventListener(type, f){ if(type === "message") messageListeners.delete(f); },
     setTimeout(f){ timerId += 1; timers.set(timerId, f); return timerId; }, clearTimeout(id){ timers.delete(id); },
     requestAnimationFrame: () => 1, cancelAnimationFrame(){}, requestIdleCallback: () => 1, Date, Math, JSON, Object, Promise, Number, String, Boolean, Array, isFinite};
@@ -148,6 +160,10 @@ async function run(answer, opts){
   else for(let n = 0; n < 60; n += 1){
     const kind = await sig;
     if(kind === "end"){ await new Promise(r => setImmediate(r)); break; }
+    // r97 closeApp: iOS closed the whole tab (or the home-screen app): its sessionStorage is gone, and the check is opened
+    // again a minute later (o.reopenAfterMs) in a new tab.
+    if(kind === "close"){ for(const k of Object.keys(o.session)) delete o.session[k];
+      if(store[RUN] && store[RUN] !== "null"){ const v = JSON.parse(store[RUN]); v.beat -= (o.reopenAfterMs ?? 6e4); store[RUN] = JSON.stringify(v); } }
     sig = nextSignal(); page = boot();
   }
   const el = page.el, sandbox = page.sandbox;
@@ -156,6 +172,8 @@ async function run(answer, opts){
 }
 const allGood = (scene, level) => [started(scene, level), good(scene, level)];
 const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s => `${s}@${level}`)).flat();
+// r97: every level up to `top`, then the screens other than `held` from `top + 1` to Ultra (a tab-crash cap on one screen).
+const orderBut = (top, held) => [...order(top), ...Array.from({length: 4 - top}, (_, i) => SCENES.filter(s => s !== held).map(s => `${s}@${top + 1 + i}`)).flat()];
 // Answers that change from one try to the next: tries[`${scene}@${level}`] is a list, one answer per try.
 const scripted = tries => { const seen = {}; return (scene, level) => { const k = `${scene}@${level}`, list = tries[k]; if(!list) return allGood(scene, level);
   const i = seen[k] || 0; seen[k] = i + 1; return list[Math.min(i, list.length - 1)]; }; };
@@ -421,11 +439,11 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.deepEqual(oldMark.asked, order(4), "an older build's opening mark does not cap High");
     assert.equal(oldMark.store[OPEN], "[]", "the older mark is cleared");
     const sameMark = await run(allGood, {...IPHONE, storage: {[OPEN]: mark({build: BUILD})}, session: {[TAB]: "T1"}, timeOrigin: 222});
-    assert.deepEqual(sameMark.asked, order(1), "this build's mark is a death: High is not opened");
+    assert.deepEqual(sameMark.asked, orderBut(1, "chamber-men"), "this build's mark is a death: High is not opened on Chamber Men (r97: the other screens climb on)");
     assert.equal(JSON.parse(sameMark.store[CAP]).build, BUILD, "the cap it writes carries this build");
     // The same cap from this build still keeps High shut, as before.
     const same = await run(allGood, {...IPHONE, storage: {[CAP]: nikCap({build: BUILD})}});
-    assert.deepEqual(same.asked, order(1), "a cap from this build keeps High shut");
+    assert.deepEqual(same.asked, orderBut(1, "chamber-men"), "a cap from this build keeps High shut on its screen");
     assert.match(same.status, /High was not tried: the tab closed at that level last time/);
     assert.match(same.rows, /The tab closed at this level last time, so it was not opened again\./);
     for (const write of [/gfxWrite\(CAP_KEY,JSON\.stringify\(\{level,reason:TAB_CRASH,[^\n]*?,at:Date\.now\(\),build:BUILD\}\)\)/, /gfxWrite\(CAP_KEY,JSON\.stringify\(\{level,reason:String\(reason\|\|"failed"\),at:Date\.now\(\),build:BUILD\}\)\)/])
@@ -437,7 +455,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     const same = await run(allGood, {...IPHONE, storage: {[CAP]: nikCap({build: BUILD})}});
     const day = new Date(Date.now() - 20 * 36e5 + 7 * 864e5).toLocaleDateString(undefined, {day: "numeric", month: "long"});
     assert.match(same.suggest, /We suggest <b>High<\/b>/, "the chip's level is still named");
-    assert.ok(same.suggest.includes(`<small class="shut">Last time the tab closed at High, so the game draws Balanced at most until ${day}, or until you pick a level in Settings or the game updates. This check stops below High until then.</small>`), same.suggest);
+    assert.ok(same.suggest.includes(`<small class="shut">Last time the tab closed at High on Chamber Men, so the game draws Balanced at most until ${day}, or until you pick a level in Settings or the game updates. This check stops Chamber Men below High until then.</small>`), same.suggest);
     const free = await run(allGood, IPHONE);
     assert.doesNotMatch(free.suggest, /class="shut"/, "no line without a cap");
     assert.equal(same.tier.suggested().now, 1, "Auto draws Balanced while the cap lasts");
@@ -469,7 +487,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.deepEqual(r.asked, one.asked, "the same screens in the same order as in one page");
     assert.equal(r.loads, r.asked.length, "each screen opened in a page of its own (one reload before every screen after the first)");
     assert.equal(r.saved.level, one.saved.level, "and the same result");
-    assert.equal(r.session[RUN], undefined, "a finished run leaves nothing behind");
+    assert.equal(r.store[RUN], "null", "a finished run leaves nothing behind");
     assert.equal(r.status, one.status);
     const retry = await run(scripted({"sp@0": [hitch("sp", 0), allGood("sp", 0)]}), {session: {}});
     assert.equal(retry.loads, retry.asked.length, "a second try opens in a fresh page too");
@@ -482,23 +500,29 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
   // D20
   {
     const r = await run(allGood, {...IPHONE, session: {}, dieAt: ["chamber-men", 1]});
-    assert.deepEqual(r.asked, [...order(0), "chamber-men@1"], "Light's three screens, then Balanced Chamber Men, which closed the tab");
-    assert.equal((r.rows.match(/59\.9 fps/g) || []).length, 4, "the four Light rows (r96: the Ball Game too) are kept after the tab closed");
-    assert.match(r.rows, /<span class="no">failed<\/span><small>The tab closed while this screen was playing, so the check stopped here\.<\/small>/);
-    assert.match(r.status, /^Check stopped\. The tab closed while Chamber Men was playing at Balanced\. Light was smooth\. Auto stays on High, the level your graphics chip starts at\. The check only ever raises Auto\. For now the game draws Light at most, because the tab closed at Balanced\.$/, r.status);
-    assert.equal(r.saved, null, "nothing saved below the chip's level");
-    const tc = r.tier.tabCrash(); assert.equal(tc.level, 0); assert.equal(tc.from, 1);
+    // r97: only Chamber Men stops at Balanced; the other screens climb on from the next one, in the fresh page.
+    const rest = Array.from({length: 4}, (_, i) => SCENES.slice(1).map(s => `${s}@${i + 1}`)).flat();
+    assert.deepEqual(r.asked, [...order(0), "chamber-men@1", ...rest], "Light's four screens, Balanced Chamber Men (which closed the tab), then the other screens climb on");
+    assert.equal((r.rows.match(/59\.9 fps/g) || []).length, 16, "the four Light rows are kept after the tab closed, and the other screens' rows follow");
+    assert.match(r.rows, /<span class="no">failed<\/span><small>The tab closed while this screen was playing, so it was not tried higher\.<\/small>/);
+    assert.equal(r.status, "Check done. The tab closed while Chamber Men was playing at Balanced. Russian Roulette, Special Player, Ball Game were smooth up to Ultra (4K).", r.status);
+    assert.equal(r.saved.level, 2, "the chip's level (the check only raises Auto)");
+    assert.deepEqual(r.saved.scenes, {"chamber-men": 2, "rrr": 3, "sp": 3, "club-draw": 3}, "each screen's own level (a phone stops at Extra)");
+    assert.deepEqual(r.saved.detail.stops, {"chamber-men": {level: 1, state: "failed"}});
+    const tc = r.tier.tabCrash(); assert.equal(tc.level, 0); assert.equal(tc.from, 1); assert.equal(tc.scene, "chamber-men");
     assert.equal(JSON.parse(r.store[CAP]).build, BUILD);
-    assert.match(r.suggest, /<small class="shut">Last time the tab closed at Balanced, so the game draws Light at most until /, "the top card says it");
+    assert.match(r.suggest, /<small class="shut">Last time the tab closed at Balanced on Chamber Men, so the game draws Light at most until /, "the top card says it");
+    assert.doesNotMatch(r.suggest, /every 3D screen holds 60 fps/, "Chamber Men did not hold the saved level");
+    assert.match(r.result, /For now every 3D screen draws Light at most, because the tab closed at Balanced on Chamber Men\. That ends after 7 days, when you pick a level in Settings, or when the game updates\./);
     assert.equal(r.tier.label(r.tier.suggested().now), "Light", "and Settings reads Auto · Light");
-    assert.equal(r.session[RUN], undefined);
+    assert.equal(r.store[RUN], "null");
     // Codex on #1473: a run saved by another build (the game updated before the tab came back) is let go, with no cap.
     const st = {v: 1, build: "2.4.0-r91", at: Date.now(), results: [{}, {}, {}, {}, {}], level: 1, scene: 0, first: null, ended: null, open: {level: 1, scene: 0}, played: false};
-    const old = await run(allGood, {...IPHONE, session: {[RUN]: JSON.stringify(st)}, noStart: true, settle: true});
+    const old = await run(allGood, {...IPHONE, storage: {[RUN]: JSON.stringify(st)}, session: {}, noStart: true, settle: true});
     assert.equal(old.tier.tabCrash(), null, "an older build's saved run writes no cap");
-    assert.equal(old.session[RUN], undefined, "and is let go");
+    assert.equal(old.store[RUN], "null", "and is let go");
     assert.deepEqual(old.asked, [], "nothing opens by itself");
-    ok("D20", "a tab that dies mid-check keeps the rows done, marks the screen, says where it stopped, and the game holds below that level for now");
+    ok("D20", "a tab that dies mid-check keeps the rows done, marks the screen, the other screens climb on (r97), and the game holds below that level for now");
   }
   // D21
   {
@@ -508,5 +532,63 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.equal(r.saved, null); assert.equal(r.tier.tabCrash(), null, "nothing below Light to hold");
     ok("D21", "a tab that dies at Light saves and lowers nothing, and keeps the Light rows done");
   }
+  // D22
+  {
+    // Nik's run: every screen smooth up to Balanced; at High, Chamber Men played, then Russian Roulette closed the tab.
+    const nik = rrrAt => {
+      const rest = [...SCENES.filter(s => s !== "rrr").map(s => `${s}@3`), ...SCENES.filter(s => s !== "rrr").map(s => `${s}@4`)];
+      return [...order(1), "chamber-men@2", "rrr@2", "sp@2", "club-draw@2", ...rest];
+    };
+    for(const closeApp of [true, false]){
+      const r = await run(allGood, {...IPHONE, session: {}, dieAt: ["rrr", 2], closeApp});
+      const how = closeApp ? "after iOS closed the tab and the check was opened again" : "after the tab reloaded";
+      assert.deepEqual(r.asked, nik(), `the check goes on ${how}: Special Player and the Ball Game at High, then every screen but Roulette above it`);
+      assert.match(r.rows, /The tab closed while this screen was playing, so it was not tried higher\./);
+      assert.equal((r.rows.match(/59\.9 fps/g) || []).length, 4 * 2 + 3 + 3 * 2, "Light and Balanced rows kept, then 3 at High, 3 at Extra, 3 at Ultra");
+      assert.equal(r.status, "Check done. The tab closed while Russian Roulette was playing at High. Chamber Men, Special Player, Ball Game were smooth up to Ultra (4K).", r.status);
+      assert.ok(r.saved, `a result is saved ${how}`);
+      assert.deepEqual(r.saved.scenes, {"chamber-men": 3, "rrr": 2, "sp": 3, "club-draw": 3}, "per screen: Roulette at the chip's High (its best was Balanced), the others Extra (a phone's top)");
+      assert.deepEqual(r.saved.detail.stops, {rrr: {level: 2, state: "failed"}});
+      const tc = r.tier.tabCrash(); assert.equal(tc.from, 2); assert.equal(tc.level, 1); assert.equal(tc.scene, "rrr", "the cap names Roulette");
+      assert.equal(r.store[RUN], "null", "a finished run leaves nothing behind");
+      assert.match(r.suggest, /Last time the tab closed at High on Russian Roulette, so the game draws Balanced at most until .*This check stops Russian Roulette below High until then\./);
+      assert.match(r.result, /For now every 3D screen draws Balanced at most, because the tab closed at High on Russian Roulette\./, "the result line says what play draws while the cap lasts");
+    }
+    // While it goes on, the page says where the tab closed.
+    assert.match(PAGE, /`The tab closed while \$\{SCENES\[st\.closed\.scene\]\.name\} was playing at \$\{LEVELS\[st\.closed\.level\]\}\. Going on with the other screens\. `/);
+    assert.match(PAGE, /status\.textContent=`\$\{closed\}\$\{scene\.name\} · /);
+    // The run is kept in the saved data (js/storage.js), not in the tab's sessionStorage.
+    assert.match(PAGE, /JSON\.parse\(readStorageValue\(RUN_KEY\)\|\|"null"\)/);
+    assert.doesNotMatch(PAGE, /sessionStorage\.(get|set|remove)Item\(RUN_KEY/);
+    // A later check of the same device in a fresh tab: Roulette stays below High while the cap lasts, the others climb.
+    const again = await run(allGood, {...IPHONE, session: {}, storage: {[CAP]: JSON.stringify({level: 1, reason: "the tab closed while this 3D screen was playing", tab: true, from: 2, scene: "rrr", bench: true, at: Date.now(), build: BUILD})}});
+    assert.deepEqual(again.asked, [...order(1), "chamber-men@2", "sp@2", "club-draw@2", ...SCENES.filter(s => s !== "rrr").map(s => `${s}@3`), ...SCENES.filter(s => s !== "rrr").map(s => `${s}@4`)]);
+    assert.match(again.status, /High was not tried: the tab closed at that level last time\./);
+    ok("D22", "Nik's iPhone: after Roulette closes the tab at High (reload, or the app closed and the check opened again), the check goes on and saves each screen's level");
+  }
+  // D23
+  {
+    const st = extra => JSON.stringify({v: 2, build: BUILD, at: Date.now(), results: LABELS.map(() => ({})), level: 2, scene: 1, first: null, ended: null, stops: {}, open: {level: 2, scene: 1}, played: false, tab: "OTHER", beat: Date.now(), ...(extra || {})});
+    const busy = await run(allGood, {...IPHONE, storage: {[RUN]: st()}, session: {}, noStart: true, settle: true});
+    assert.deepEqual(busy.asked, [], "another tab's live run is left alone");
+    assert.equal(busy.tier.tabCrash(), null, "and is not read as a death");
+    assert.notEqual(busy.store[RUN], "null", "it stays for the tab running it");
+    assert.equal(busy.status, "A Device check is running in another tab. Keep one check open at a time.");
+    for(const [why, extra] of [["older than 30 minutes", {beat: Date.now() - 31 * 6e4}], ["from another build", {build: "2.8.0-r95", beat: Date.now() - 6e4}]]){
+      const r = await run(allGood, {...IPHONE, storage: {[RUN]: st(extra)}, session: {}, noStart: true, settle: true});
+      assert.deepEqual(r.asked, [], `a run ${why} does not go on`);
+      assert.equal(r.tier.tabCrash(), null, `a run ${why} writes no cap`);
+      assert.equal(r.store[RUN], "null", `a run ${why} is let go`);
+    }
+    // The player hides the tab during Roulette at High: the run is cleared at once, so nothing reads it as a death later.
+    const hid = await run(allGood, {...IPHONE, session: {}, hideAt: ["rrr", 2]});
+    assert.equal(hid.store[RUN], "null"); assert.equal(hid.tier.tabCrash(), null); assert.equal(hid.saved, null);
+    assert.match(PAGE, /window\.addEventListener\("pagehide",\(\)=>\{if\(running&&!reloading\)\{stopBeat\(\);runSave\(null\);\}\}\);/, "leaving the page (Back) clears it too");
+    // While a screen plays, the run's beat says the tab is alive.
+    assert.match(PAGE, /beat=setInterval\(\(\)=>\{if\(live&&live\.open\)runSave\(live\);\},RUN_BEAT_MS\);/);
+    assert.match(PAGE, /const RUN_KEEP_MS=30\*60000,RUN_LIVE_MS=15000,RUN_BEAT_MS=5000;/);
+    ok("D23", "the saved run is never read as a death by mistake: a live tab's run is left alone, a stale or older build's run is let go, leaving the check clears it");
+  }
+  finished = true;
   console.log(`PASS r92 device check iPhone contracts (${checks} checks)`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

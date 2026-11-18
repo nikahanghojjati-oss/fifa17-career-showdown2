@@ -274,13 +274,19 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
     const CAP = "careerModeShowdown.gfxCap.v1";
     const tabCap = JSON.stringify({level: 3, reason: "the tab closed while this 3D screen was opening", tab: true, from: 4, scene: "roulette/index.html", bench: false, at: Date.now(), build: BUILD});
     const r = await run(allGood, {storage: {[CAP]: tabCap}});
-    assert.deepEqual(r.asked, order(3), "no frame is opened at Ultra");
-    assert.equal(r.saved.level, 3); assert.deepEqual(r.saved.detail.stop, {level: 4, scene: "chamber-men", state: "failed"});
+    // r97: the cap names Roulette, so only Roulette is not opened at Ultra; the other screens climb on.
+    const others = l => SCENES.filter(s => s !== "rrr").map(s => `${s}@${l}`);
+    assert.deepEqual(r.asked, [...order(3), ...others(4)], "no Roulette frame is opened at Ultra");
+    assert.equal(r.saved.level, 3); assert.deepEqual(r.saved.detail.stop, {level: 4, scene: "rrr", state: "failed"});
+    assert.deepEqual(r.saved.scenes, {"chamber-men": 4, "rrr": 3, "sp": 4, "club-draw": 4});
     assert.match(r.status, /Ultra \(4K\) was not tried: the tab closed at that level last time\./);
     assert.match(r.rows, /The tab closed at this level last time, so it was not opened again\./);
     assert.equal(r.store[CAP], tabCap, "the cap stays");
     // On a GPU that could show 8K: 8K is not opened either (nothing above the first level that fails is tried).
-    const k = await run(allGood, {gpu8k: true, storage: {[CAP]: tabCap}}); assert.deepEqual(k.asked, order(3)); assert.equal(k.saved.level, 3);
+    const k = await run(allGood, {gpu8k: true, storage: {[CAP]: tabCap}}); assert.deepEqual(k.asked, [...order(3), ...others(4), ...others(5)]); assert.equal(k.saved.level, 3);
+    // A cap that does not say its screen holds every screen, as before.
+    const blind = await run(allGood, {storage: {[CAP]: JSON.stringify({...JSON.parse(tabCap), scene: ""})}});
+    assert.deepEqual(blind.asked, order(3), "a cap with no screen named: no frame is opened at Ultra");
     // A cap from a graphics failure (not a dead tab) does not stop the check from playing the level: V2.
     ok("V12", "a level that closed the tab is not opened again by the check; it counts as failed and the page says why");
   }
