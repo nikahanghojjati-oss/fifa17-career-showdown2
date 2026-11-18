@@ -3,7 +3,7 @@
 // freeCanvases). This proves the picture does not change: it plays the same Roulette frames twice on the iPhone 15 Pro profile
 // at one level, once with the page as it is and once with another copy of it (--before FILE, e.g. gameplay/r97's), with the
 // same random numbers (Math.random seeded before any script) and the frame clock stepped by hand (window.__rr.clock/advance).
-// At each moment (rest, the spin, the aim, the shot, the result) it compares the WebGL canvas pixel for pixel
+// At each moment (the spin, the aim, the shot, the result, the table after the turn) it compares the WebGL canvas pixel for pixel
 // (canvas.toDataURL right after the draw) and the whole page screenshot, and saves both screenshots.
 // Run: node tests/browser/r97-rrr-phone-canvas-compare.cjs --before FILE [--level 2] [--out DIR] [--same]
 //   --same plays this page twice (no copy): proof that the replay itself repeats exactly.
@@ -57,11 +57,12 @@ async function play(which){
     const pn = performance.now; performance.now = () => 5000; try { __rr.clock(); } finally { performance.now = pn; }
     // From here only __rr.advance draws: the page's own frame loop would add frames as fast as the machine allows.
     window.requestAnimationFrame = () => 0; });
-  // Two seconds at rest first: the camera still eases toward its rest pose from where loading left it.
+  // The table before the turn is saved to look at but not compared: the camera eases toward its rest pose from wherever the
+  // real-time frames of loading left it, so even the same page twice differs there. The table after the turn is compared.
   await page.evaluate(() => { __rr.advance(2, false); });
-  await grab("rest");
+  await grab("before turn (not compared)");
   await page.evaluate(() => { __rr.play({fire: true}); });
-  for(const [name, sec] of [["spin", 2], ["aim", 6], ["shot", 7.5], ["result", 6]]){ await page.evaluate(s => { __rr.advance(s, false); }, sec); await grab(name); }
+  for(const [name, sec] of [["spin", 2], ["aim", 6], ["shot", 7.5], ["result", 6], ["after turn", 10]]){ await page.evaluate(s => { __rr.advance(s, false); }, sec); await grab(name); }
   const info = await page.evaluate(() => ({fonts: ['700 30px "Instrument Sans Narrow"', '400 40px "Rye"'].every(f => document.fonts.check(f)), freed: __rr.freed, state: {level: __rr.state.level, calls: __rr.state.calls}, gfx: (() => { const p = window.CareerModeGfxTier.profile(); return {level: p.level, phone: p.phone, pixelRatio: p.pixelRatio}; })()}));
   await browser.close(); server.close();
   return {which, shots, info, errors};
@@ -70,14 +71,15 @@ async function play(which){
 (async () => {
   const before = await play("before"), after = await play("after");
   const rows = before.shots.map((b, i) => { const a = after.shots[i]; return {moment: b.name, glSame: b.gl === a.gl, pageSame: b.page === a.page, before: b.gl, after: a.gl}; });
+  const compared = rows.filter(r => !/not compared/.test(r.moment));
   if(OUT){ fs.mkdirSync(OUT, {recursive: true});
-    for(const r of [before, after]) for(const s of r.shots){ fs.writeFileSync(path.join(OUT, `${r.which}-${s.name}.png`), s.png); fs.writeFileSync(path.join(OUT, `${r.which}-${s.name}-webgl.png`), s.glPng); } }
+    for(const r of [before, after]) for(const s of r.shots){ const n = s.name.replace(/ \(.*\)/, "").replace(/ /g, "-"); fs.writeFileSync(path.join(OUT, `${r.which}-${n}.png`), s.png); fs.writeFileSync(path.join(OUT, `${r.which}-${n}-webgl.png`), s.glPng); } }
   const report = {level: LEVEL, rows, before: before.info, after: after.info, errors: {before: before.errors, after: after.errors}};
   console.log(JSON.stringify(report, null, 2));
-  const bad = rows.filter(r => !r.glSame || !r.pageSame);
+  const bad = compared.filter(r => !r.glSame || !r.pageSame);
   if(bad.length || !(after.info.freed && after.info.freed.canvases > 0) || after.info.freed.reuploads || after.errors.length){
     console.error(`FAIL Roulette phone canvases: ${bad.length ? `pictures differ at ${bad.map(r => r.moment).join(", ")}` : after.info.freed && after.info.freed.reuploads ? "a freed canvas was uploaded again" : after.errors.length ? "page errors" : "nothing was freed"}`);
     process.exit(1);
   }
-  console.log(`PASS Roulette phone canvases at level ${LEVEL}: the same picture at every moment, ${after.info.freed.canvases} canvases (${after.info.freed.mb} MB) let go`);
+  console.log(`PASS Roulette phone canvases at level ${LEVEL}: the same picture at all ${compared.length} moments, ${after.info.freed.canvases} canvases (${after.info.freed.mb} MB) let go`);
 })().catch(error => { console.error(error); process.exit(1); });
