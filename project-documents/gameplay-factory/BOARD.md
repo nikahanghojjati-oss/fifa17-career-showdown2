@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 17 Nov, 11:01 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 17 Nov, 11:05 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.8.0-r95** (main `30b7969`, Tue 17 Nov 2:19 PM)
 
@@ -70,7 +70,7 @@ Updated Tue 17 Nov, 11:01 PM Boston time. Bug hunting only, no new features unti
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 776 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 777 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1552](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1552) | Release 2.9.0 (r96): gameplay/r96 into main | ⏳ 4 passed, 5 running |
+| 🟧 Team G lead | [PR #1552](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1552) | Release 2.9.0 (r96): gameplay/r96 into main | ⏳ 6 passed, 3 running |
 
 **Up next**
 
