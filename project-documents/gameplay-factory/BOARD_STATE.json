@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-17 10:40 PM Boston time (EST)",
+ "generated": "2026-11-17 10:44 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 332,
@@ -3044,7 +3044,22 @@
    "revision": "2.8.0-r95",
    "when": "2026-11-17T14:19:15-05:00",
    "subject": "Merge pull request #1538 from nikahanghojjati-oss/gameplay/r95",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1552,
+     "title": "Release 2.9.0 (r96): gameplay/r96 into main",
+     "draft": false,
+     "branch": "gameplay/r96",
+     "sha": "0a0156739523fe8e6c4cd10d6bbe6a0bb3583f26",
+     "updated": "2026-11-18T03:43:09Z",
+     "gates": {
+      "passed": 0,
+      "running": 9,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 1538,
@@ -3842,7 +3857,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 14436
+    "waiting_min": 14440
    },
    {
     "id": "HO-059",
@@ -4408,7 +4423,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -5624,7 +5639,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1552,
+    "title": "Release 2.9.0 (r96): gameplay/r96 into main",
+    "draft": false,
+    "branch": "gameplay/r96",
+    "sha": "0a0156739523fe8e6c4cd10d6bbe6a0bb3583f26",
+    "updated": "2026-11-18T03:43:09Z",
+    "gates": {
+     "passed": 0,
+     "running": 9,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
