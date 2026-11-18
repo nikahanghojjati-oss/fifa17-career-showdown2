@@ -50,7 +50,9 @@
     return "unavailable";
   }
   // r80 Ended early row: "Ended early · 18 Oct 2026 · 1 season"; an unknown date or count (closes before the mark) is a dash.
-  // r87 career fixes (A-04): the date is the UTC day, so Daniel's and Nik's phones print the same date in any time zone.
+  // r87 career fixes (A-04): both phones print the same date in any time zone. r96 (Nik 2026-11-18, Sol 6.2 P3): that date is
+  // Boston's day (America/New_York) on both phones, not UTC's, so a Showdown ended at 8 PM in Boston reads as that day. Display
+  // only: the stored endedAt is untouched.
   // r89 Sacked: "Ended · sacked in season 2 of 3 (Nik)". Never mixed with "Ended early" (END SHOWDOWN, never counted).
   function sackedText(row){
     if(!row||row.endedBy!=="sacked")return "";const who=["daniel","nik"].filter(m=>row.sacked?.[m]===true).map(m=>csNames[m]);
@@ -58,7 +60,7 @@
   }
   function endedEarlyText(row){
     const at=row&&Number.isFinite(row.endedAt)&&row.endedAt>0?new Date(row.endedAt):null,played=row&&Number.isInteger(row.seasonsPlayed)?row.seasonsPlayed:null;
-    let date="-";if(at){try{date=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"}).format(at);}catch(_error){date="-";}}
+    let date="-";if(at){try{date=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"America/New_York"}).format(at);}catch(_error){date="-";}}
     return TEXT.historyStatus.abandoned+" · "+date+" · "+(played===null?"- seasons":played+(played===1?" season":" seasons"));
   }
   // r84 Golden Showdown (Nik): a manager who scores the most a season can score in every season of a finished 10-season
