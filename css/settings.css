@@ -195,3 +195,8 @@ html[data-motion-reduced="true"] .settingsDialog{animation:none!important;}
     from{transform:translateY(6px) scale(.995)}
     to{transform:none}
 }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){.settingsEyebrow,.settingsPanelEyebrow,.settingsPanelHeading p,.settingsInfoRow span,.settingsStatus,.settingsMotionCopy small,.settingsAudioCopy small,.settingsAudioToggle strong,.settingsOfflineNote,.settingsDataNote,.settingsConnectedRivalryPreviewSummary,.settingsConnectedRivalryConfirmLabel{font-size: 13px}}
+@media (min-width:1024px) and (max-height:800px){.settingsPanelHeading p{font-size: 13px}}
+

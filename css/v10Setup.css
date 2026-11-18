@@ -2109,3 +2109,8 @@ html[data-v10-setup="start"] #overlay { background: none; }
     position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
   }
 }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){html[data-v10-setup] #app #topHeader #onlinePlayerIdentityBadge{font-size: 13px !important}}
+@media (min-width:1024px){#clubWheelScreen.v26Skin .clubAssignmentEyebrow,#clubWheelScreen.v26Skin #clubPackStatus,#clubWheelScreen.v26Skin .clubRevealProgress span,#clubWheelScreen.v26Skin .clubRevealIndex,#clubWheelScreen.v26Skin .clubVs span{font-size: 13px}}
+

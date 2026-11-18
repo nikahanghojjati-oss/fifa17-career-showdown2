@@ -211,3 +211,32 @@
    tighten their tracking so each word stays inside its own box (nothing hidden, cut or shrunk below 12px). */
 :root #app :is(.headlineLabel, .headlineTogether, .actionLabel, .trophyCard h3, .trophyCard .managerCounts span, .trophyCard .notWonYet) { letter-spacing: -.04em !important; }
 :root #app .trophyCard .notWonYet { font-family: var(--r95-font-narrow) !important; line-height: 1.1 !important; }
+
+/* ---- r96 look 3: captions on desktop windows (1024px wide and up) are never under 13px; phones and tablets keep 12px.
+   The eyebrow step moves to 13px, and the rules below set a smaller size at desktop widths (found by tools/font-floor-sweep.cjs:
+   the rule that wins at each size under the floor). They sit here with extra weight so they win over the screen sheets and the
+   styles each screen adds when it opens. Nothing is hidden or moved; a caption is one pixel taller. ---- */
+@media (min-width: 1024px) {
+  :root { --sa-type-eyebrow: 13px; }
+  :root:root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewAchievements span, .seasonReviewWarning) { font-size: max(13px, .65vw); }
+  :root:root #app #seasonEntry.seasonScreenV10 .season-review-panel :is(.seasonReviewIntro, .seasonReviewResult) { font-size: max(13px, .7vw); }
+  :root:root #app #seasonEntry.seasonScreenV10 .seasonResultCard > label { font-size: clamp(13px, .7vw, 14px); }
+  :root:root #app #seasonEntry.v10FinalMode #stage-root .finalWinnerActionsSlot .v10FinalExit .seasonEntryActions button { font-size: 13px; }
+  :root:root #app #careerStatistics.careerScreenV10 .careerTable td, :root:root #app #careerStatistics.careerScreenV10 .rankCrown { font-size: max(13px, calc(var(--cs-u) * .9)); }
+  :root:root #app #careerStatistics.careerScreenV10 .compareRow :is(.dValue, .nValue) { font-size: max(13px, .76vw); }
+  :root:root #app #connectPlayersScreen .connectPlayersTagline { font-size: clamp(13px, min(.68vw, 1.2svh), 20px); }
+  :root:root #connectPlayersScreen .connectPlayersRole > span { font-size: clamp(13px, 1.43vh, 24px); }
+  :root:root #app #legacy[data-rivalry-legacy-v10] .legacyManagerName { font-size: clamp(13px, .72vw, 19px); }
+  :root:root #app #trophyRoom .trophyShelf.is-filtered .managerCounts span { font-size: clamp(13px, .9vw, 20px); }
+  :root:root .rankCrown, :root:root .rv-headStat span, :root:root .sdg-scoreLabel { font-size: 13px; }
+  :root:root .sdg-progress, :root:root .sdg-interim, :root:root .sdg-coverage { font-size: 13px; }
+  :root:root #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label, :root:root #app #seasonEntry.seasonScreenV10 .seasonResultCard .achievementChecks label:has(input:checked) { font-size: clamp(13px, .7vw, 14px); }
+}
+/* The Career Statistics headline tiles are 48px tall on a 600px-high window (a two-line 13px label does not fit), so this label waits for 700px of height. */
+@media (min-width:1024px) and (min-height:700px){:root:root #app #careerStatistics.careerScreenV10 .headlineLabel,:root:root .headlineLabel{font-size:max(13px,.72vw);line-height:1}}
+/* r96 look 3: the old app.css desktop captions (the menu and club-assignment legacy rules), kept here so the startup sheet stays under its size pin. */
+@media (min-width:1024px){footer,.fifaMenuEyebrow,.fifaMenuHeadingMeta,.fifaMenuHeadingMeta span,.menuTileCode,.menuTileMeta,.menuCoverTag,.menuCoverTag small,.menuAthleteCredit,.menuBottomStrip,.menuBottomStrip b,.menuBottomStrip strong,.setupBox label,.wheelItem,.clubAssignmentEyebrow,#clubPackStatus,.clubRevealProgress span,.clubRevealIndex,.clubManager,.clubPackBrand small,.clubPackSerial,.clubCardEyebrow,.clubCardLabel,.clubCardState,.clubVs span,.clubRivalryHeadline>span,.clubRivalryHeadline>small,.clubConfirmationSide span,.clubRivalryLockNote,.overviewStatus,.transferOverviewStatus,.showdownScoreboard small,.stateNote,.completionHub p,.transferRulesLine,#transferPhaseStatus,.transferRuleNote,.transferSectionLabel,.signingRow>span,.guessRow>span,.transferResultRow span,.transferEmpty,.seasonEntryHint,.seasonResultCard>label,.achievementChecks label,.formError,.summaryLine,.overallScoreBox span,#appRuntimeNotice{font-size: 13px}}
+@media (min-width:1024px) and (max-height:800px){.fifaMenuHeadingMeta,.fifaMenuHeadingMeta span,.menuTileMeta,.clubAssignmentEyebrow,#clubPackStatus,.clubRevealProgress span,.clubManager,.clubPackBrand small,.clubPackSerial,.clubCardEyebrow,.clubCardLabel,.clubCardState,.clubVs span,.clubRivalryLockNote{font-size: 13px}}
+/* r96 look 3: 1024x768 fit. The Rivalry head-to-head caption (hidden, but it reserves room) wrapped to two lines at 13px and pushed BACK over the seasons panel; the Career Statistics table head gets its tight spacing back. */
+@media (min-width:1024px) and (max-width:1439px){:root:root #app #careerStatistics.careerScreenV10 .careerTable :is(th,td){padding-inline:1px}:root:root #app #careerStatistics.careerScreenV10 .careerTable thead th{letter-spacing:0}}
+@media (min-width:1024px) and (max-width:1279px){:root:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(3){width:25%}:root:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #app #careerStatistics.careerScreenV10 .careerTablePanel .careerTable thead th:nth-child(4){width:20%}:root:root #app #statistics .rv-headCaption{letter-spacing:1.2px;line-height:16.8px}}

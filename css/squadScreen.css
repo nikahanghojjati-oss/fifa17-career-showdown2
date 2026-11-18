@@ -352,3 +352,7 @@ html[data-assets="0"] #sqStage{background-image:url("../visual-assets/v10_1/plat
   .sqmSide{padding:16px 16px 14px}
   .sqmClub{line-height:1.1;margin-top:2px}
 }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){.sqmCardInfo dt,.sqmBadge,.sqmFormCard small{font-size: 13px}}
+

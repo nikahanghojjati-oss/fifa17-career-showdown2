@@ -1317,3 +1317,9 @@ html[data-assets="0"] #app #transferChallenge .tw-host .phone-hero-bg { backgrou
   #app #transferChallenge .tw-host .stage.fit::before,
   #app #transferChallenge .tw-host .scene-atmos { background-image:image-set(url('../visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1920.webp') 1.25x); }
 }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){#transferChallenge .tw-host .hud-footer :is(.menuButton, .backButton),#transferChallenge .tw-host .hud-footer :is(.backButton, #refreshSharedTransferChallenge)::after,#app #transferChallenge .tw-host .transferComboboxList .transferComboboxOption span,#app #transferChallenge .tw-host .transferComboboxList .transferComboboxPlayer em,#app #transferChallenge .tw-host .transferComboboxList :is(.transferComboboxHint, .transferComboboxNotice){font-size: 13px}}
+@media (min-width:1101px){#app #transferChallenge .tw-host .tw-desktop-content .rules-line .stat-l{font-size: 13px}}
+@media (min-width:1024px) and (max-width: 1100px){#app #transferChallenge .tw-host .rail .num{font-size: 13px}}
+

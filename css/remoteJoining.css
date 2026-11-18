@@ -192,6 +192,14 @@ html[data-career-start-stage="phone"] #app #clubWheelScreen.cl-on { height: 100s
   #sparkRemoteJoiningOverlay .remoteJoiningShell { max-width:calc(100vw - 16px); }
 }
 
+/* r95 hunt (Nik's rule: faces stay clear): on the sideways-phone band the painted pack sits under the chin, so the crest and name
+   covered Nik's mouth. The whole held crest steps down by about a quarter of its own box (scales with the band), nothing hidden. */
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="band"] .pcstHold { transform: translateY(26%); }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){.remoteJoiningHeader,.remoteJoiningEyebrow,.remoteJoiningStep,.remoteJoiningIntro p,.remoteJoiningCard p,.remoteJoiningMeta,.remoteJoiningEmpty,.remoteJoiningStatus,.remoteJoiningInput,.remoteJoiningCode,#productionSharedCareerStartOverlay .settingsInfoRow span,:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstTitleKicker,:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstKicker,:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstRival :is(span, strong),:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstSpecial span,:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .pcstKicker,:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .pcstRival :is(span, strong),:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) .pcstNote,:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) .pcstSpecial :is(span, strong),:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage[data-stage-mode="fallback"] .pcstPillar[data-room="tightest"] .pcstFallbackNote{font-size: 13px}}
+@media (min-width:1024px){:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room="tightest"] .remoteJoiningStatus{font-size: 13px !important}}
+
 /* r96: on the narrowest sideways phones (568x320) the band is 239px wide, so the 22px title ran under BACK; it steps down so
    BACK and the title sit side by side, nothing hidden. */
 @media (max-width: 620px) and (orientation: landscape) {
