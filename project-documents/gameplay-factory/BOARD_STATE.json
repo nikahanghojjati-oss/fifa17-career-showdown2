@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-18 7:31 AM Boston time (EST)",
+ "generated": "2026-11-18 7:35 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 332,
@@ -3040,27 +3040,18 @@
  },
  "two": {
   "live": {
-   "sha": "30b7969",
-   "revision": "2.8.0-r95",
-   "when": "2026-11-17T14:19:15-05:00",
-   "subject": "Merge pull request #1538 from nikahanghojjati-oss/gameplay/r95",
-   "fixes": [
+   "sha": "56642b8",
+   "revision": "2.9.0-r96",
+   "when": "2026-11-18T07:34:17-05:00",
+   "subject": "Merge pull request #1552 from nikahanghojjati-oss/gameplay/r96",
+   "fixes": [],
+   "today": [
     {
      "pr": 1552,
      "title": "Release 2.9.0 (r96): gameplay/r96 into main",
-     "draft": false,
-     "branch": "gameplay/r96",
-     "sha": "0a0156739523fe8e6c4cd10d6bbe6a0bb3583f26",
-     "updated": "2026-11-18T03:44:53Z",
-     "gates": {
-      "passed": 10,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-11-18T12:34:18Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
@@ -3851,7 +3842,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 14967
+    "waiting_min": 14971
    },
    {
     "id": "HO-059",
@@ -4417,7 +4408,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -5633,22 +5624,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1552,
-    "title": "Release 2.9.0 (r96): gameplay/r96 into main",
-    "draft": false,
-    "branch": "gameplay/r96",
-    "sha": "0a0156739523fe8e6c4cd10d6bbe6a0bb3583f26",
-    "updated": "2026-11-18T03:44:53Z",
-    "gates": {
-     "passed": 10,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
