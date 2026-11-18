@@ -35,7 +35,7 @@ window.CHRONICLE_VOLUME24={
     },
     {
      "type": "p",
-     "text": "The faces come first. On a phone held sideways at 568 by 320 pixels, the Career Start panel sat between the two managers and covered them both. There were two reasons, and neither was new. The sideways layout, with the picture in a band on the left and the words on the right, only began at 600 pixels wide, so the smallest phones fell through to the desktop layout. And the crests the managers hold were placed with the numbers of an older picture, so they landed on Nik’s chin. The band now begins at 560 pixels, and the crests stand on the counter, measured from where the picture really is."
+     "text": "The faces come first. On a phone held sideways at 568 by 320 pixels, the Career Start panel sat between the two managers and covered them both. There were two reasons, and neither was new. The sideways layout, with the picture in a band on the left and the words on the right, only began at 600 pixels wide, so the smallest phones fell through to the desktop layout. And the crests the managers hold were placed with the numbers of an older picture, so they landed on Nik’s chin. The band now begins at 560 pixels, and the crests stand on the counter, measured from where the picture really is. One more line comes back with them. An older rule hid the rival’s name whenever the panel had to tighten, and the smallest phones now tighten, so the rule is gone. Nothing is hidden; if the words need more room, the page scrolls."
     },
     {
      "type": "p",
@@ -57,6 +57,14 @@ window.CHRONICLE_VOLUME24={
      "path": "Pull request #1541",
      "label": "PR #1541: Career Start faces clear at 568x320 and on the counter plate",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1541",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r96",
+     "ref": "7a638ba866cf8d968f5cb3a40e0f03d6bcd37707",
+     "path": "Pull request #1550",
+     "label": "PR #1550: Career Start keeps the rival line on small phones",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1550",
      "kind": "pull-request"
     },
     {
@@ -92,7 +100,7 @@ window.CHRONICLE_VOLUME24={
      "kind": "pull-request"
     }
    ],
-   "words": 420,
+   "words": 463,
    "minutes": 2
   },
   {
@@ -181,6 +189,14 @@ window.CHRONICLE_VOLUME24={
     },
     {
      "type": "p",
+     "text": "Then Sol finds the door next to it. That evening Sol 6.2 runs the season-end hunt Nik asked for, and reports one real gap: a plain refresh, in the same tab, right after the first acknowledgement of the final season. The tab can see the Showdown live and then closed, with no entering in between, so neither path to the Champion wakes, and Nik is left on Home waiting for Daniel for half a minute or more. Now a fresh page that is due to crown a Showdown watches for its close as well, and hands it to the one Champion run. Forced the same way, it failed two times out of two before, and passes three out of three after."
+    },
+    {
+     "type": "p",
+     "text": "Sol found one smaller thing on the way out. The Legacy page printed the day a Showdown ended early in UTC, so a game stopped at eight in the evening in Boston said it ended the next day. Nik picks Boston time, on both phones, and that is what it says now. The stored time is not touched."
+    },
+    {
+     "type": "p",
      "text": "None of that is a real phone. The proof of this one belongs to Nik and Daniel, on the night one of them closes the tab too soon."
     }
    ],
@@ -192,9 +208,17 @@ window.CHRONICLE_VOLUME24={
      "label": "PR #1546: a tab reopened right after the final CONFIRM lands on Final Winner",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1546",
      "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r96",
+     "ref": "f97b4f604e60fcab412ecde6cbbfef644940dae9",
+     "path": "Pull request #1551",
+     "label": "PR #1551: a refresh right after the final CONFIRM opens Final Winner (Sol SS-01); Legacy date in Boston time",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1551",
+     "kind": "pull-request"
     }
    ],
-   "words": 391,
+   "words": 570,
    "minutes": 2
   },
   {
@@ -257,7 +281,7 @@ window.CHRONICLE_VOLUME24={
    "number": 209,
    "part": "every-screen",
    "title": "The word, again",
-   "dek": "The Rules do not change. The hunt waits for the next release. And then 2.9.0 goes live.",
+   "dek": "The Rules do not change. Sol finds two last things, and both are fixed. And then 2.9.0 goes live.",
    "tags": [
     "2.9.0",
     "Release",
@@ -271,11 +295,11 @@ window.CHRONICLE_VOLUME24={
     },
     {
      "type": "p",
-     "text": "There is no bug hunt this time either, and that is not for want of trying. In the evening Nik asks for one bounded hunt at the most bug-prone part of the game, for two models released that day, Astra 6.2 and Sol 6.2: the end of a season, the commit, the Sacked tick, and reopening a tab at every step. The job is written and pinned. Then the usage limit arrives before Astra has answered, and the hunt moves to the next release, to run against the build that is actually live."
+     "text": "There was no Fable hunt this time. In the evening Nik asks instead for one bounded hunt at the most bug-prone part of the game, for two models released that day, Astra 6.2 and Sol 6.2: the end of a season, the commit, the Sacked tick, and reopening a tab at every step. The usage limit arrives before Astra has answered. Sol answers. One commit per season holds, the reloads hold, twenty-seven Sacked cases hold, and the Rules at season ten stay well inside their budget. It finds the refresh after the final confirm and the date on the Legacy page, and both are fixed before the word. Astra’s turn moves to the next release."
     },
     {
      "type": "p",
-     "text": "So 2.9.0 is the short list, fixed, and one idea of Nik’s, built. The phone that dies at the last second comes back to the Champion. Only the shot Dembélé stays gone. The faces on the smallest phones are clear, the desktop captions are readable, no box hides behind a button, and each 3D screen plays as high as it can."
+     "text": "So 2.9.0 is the short list, fixed, and one idea of Nik’s, built. The phone that dies or refreshes at the last second comes back to the Champion. Only the shot Dembélé stays gone. The faces on the smallest phones are clear, the desktop captions are readable, no box hides behind a button, and each 3D screen plays as high as it can."
     },
     {
      "type": "p",
@@ -293,10 +317,18 @@ window.CHRONICLE_VOLUME24={
    "sources": [
     {
      "branch": "claude-gameplay/r96-bump",
-     "ref": "2e238ff9d9792f28e41eaf883e3f8cf0b61a4d9b",
+     "ref": "3df28f179abe5c1f2fc79d05794de5e76d212cd5",
      "path": "Pull request #1549",
      "label": "PR #1549: the 2.9.0 version bump, release record and Volume 24",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1549",
+     "kind": "pull-request"
+    },
+    {
+     "branch": "gameplay/r96",
+     "ref": "f97b4f604e60fcab412ecde6cbbfef644940dae9",
+     "path": "Pull request #1551",
+     "label": "PR #1551: a refresh right after the final CONFIRM opens Final Winner (Sol SS-01); Legacy date in Boston time",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1551",
      "kind": "pull-request"
     },
     {
@@ -324,9 +356,9 @@ window.CHRONICLE_VOLUME24={
      "kind": "pull-request"
     }
    ],
-   "words": 273,
+   "words": 297,
    "minutes": 1
   }
  ],
- "wordCount": 1866
+ "wordCount": 2112
 };

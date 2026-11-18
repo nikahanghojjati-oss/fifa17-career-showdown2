@@ -8,7 +8,7 @@ r96 is 2.9.0. On 17 November (19:45 UTC) Nik picked all six items left on the li
 "fix these but no fable until i authorize". No Fable model worked on r96. Later that evening he asked for the 3D quality to
 follow each screen's weight, and chose on a card that a hand-picked level becomes a ceiling. This file is the release record. The
 list below is every pull request merged into gameplay/r96 since 2.8.0 went live (main 30b79695): the Rules re-pin f5808a4 (no
-Rules change), #1540 to #1546 and #1548, and this release's version bump (the PR that adds this file). #1547 was closed, never
+Rules change), #1540 to #1546, #1548, #1550 and #1551, and this release's version bump (the PR that adds this file). #1547 was closed, never
 merged.
 
 ## What changed
@@ -18,7 +18,10 @@ merged.
   (`css/v10Club.css` and `SIDE_MQ` in `js/clubScreenV10.js`); the Ball Game at 568x320 uses the same band. The held crests are
   placed from the box-room plate's real position (`pcstStageFrames` in `js/productionSharedCareerStart.js`), so they stand on the
   counter instead of on Nik's chin, upright phones included; r95's `translateY(26%)` rule is gone. The 22 px title is 18 px on
-  landscape screens up to 620 px wide. `career-start-b-fits-audit` now passes at 844x390 and 915x412 (failed before) and at
+  landscape screens up to 620 px wide. #1550 then removes an older rule (`css/remoteJoining.css`) that hid the `RIVAL:` line
+  whenever the panel tightened, which 568x320 now does: the rival line shows at every size, the tightest step loses a little gap and
+  padding, and a panel that still cannot fit takes the height its words need and the page scrolls (`main` is the only scroller).
+  `career-start-b-fits-audit` now passes at 844x390 and 915x412 (failed before) and at
   568x320, 640x360, 667x375, 740x360 and 874x402.
 - **Desktop captions at least 13 px** (#1543 and #1544, item 3). Chamber Men's PICK YOUR SHOT / PICK YOUR DIVE row captions go
   from 12 to 13 px at 900 px wide and up (#1543; the stage already used the width its height allows: 60 % at 1920x866, 66 % at
@@ -44,6 +47,17 @@ merged.
   invents the other manager's action and opens the Champion only from a verified CLOSED terminal witness. After: forced runs 3/3
   pass, 3-season outage runs 3/3 pass with Final Winner 2.8 to 3.0 s after reopening. New contract
   `tests/contracts/r96-final-resume-contracts.cjs` (10 checks).
+- **A refresh right after the final CONFIRM opens Final Winner** (#1551, Sol 6.2 red team SS-01, P2). A same-tab refresh at the
+  first ACKNOWLEDGED of the final season could read the pair live (`paired/active`) and then closed with no `continuing` between,
+  so neither `championAfterClose` nor #1546's entry follow ran and the phone sat on Home ("WAITING FOR DANIEL") for 30 s or more.
+  A fresh page still on Home whose live pair names the Showdown it is due to crown (`cms.championPending.v1`) now arms the same
+  follow; `championTakingOver(pair)` hands the close to one shared Champion run; `openCanonicalCareerContinue`
+  (`js/onlinePlayerIdentity.js`) asks it before START. Same guards: CLOSED with its witness only, DELETED keeps Home, once per
+  Showdown, 3 minutes, no writes, at most one Terminal Close read on this path. Forced replay: 2/2 stuck before, 3/3 PASS after
+  (Final Winner at 4.7, 7.3 and 16.0 s). Contract F3-11 to F3-16 (16/16).
+- **Legacy ended-early date in Boston time** (#1551, Sol P3; Nik 2026-11-18: "Boston time on both phones"). `endedEarlyText`
+  (`js/careerScreenSeam.js`) formats the day in `America/New_York` instead of UTC; display only, the stored `endedAt` is untouched.
+  This reverses r87 A-04 (rewritten to pin Boston's day across six time zones, DST included); DST-6/7 updated.
 - **3D quality per screen; a picked level is a ceiling** (#1548, Nik 2026-11-17 21:43 to 21:45 UTC).
   - A hand-picked level is a ceiling: the governor walks its ladder (pixel ratio first, then heavy parts) only between beats, with
     a soft fade, and climbs back toward the pick, never above it. `?gfx=N` stays forced, the crash cap and the weak-device
@@ -63,7 +77,7 @@ merged.
 - **Story** (#1540, this PR). #1540 says 2.8.0 is live and completes Volume 23. This PR adds Volume 24, "A Level for Every
   Screen" (chapters 205 to 209), the 2.9.0 dispatch (`#latest/r96`), Edition 21 labels, the newest-volume banner exemption on the
   new part, and revises chapter 204's "not fixed yet" line (those three items are fixed in 2.9.0). The live line is dateless
-  ("Then Nik gives the word, and 2.9.0 goes live."). Counts measured in Chromium: 209 chapters, 93,128 words, 1,078 cited
+  ("Then Nik gives the word, and 2.9.0 goes live."). Counts measured in Chromium: 209 chapters, 93,374 words, 1,080 cited
   source URLs. The Story is its own site, outside the game's shell.
 
 ## Firestore Rules
@@ -145,11 +159,13 @@ offline (0 of 4 missing). Log: gameplay/r96/threads/bump/probe-update.log (proje
 - The no-flash rules and the Reus Gate are unchanged.
 - Firebase remains Spark-only, billing remains OFF and App Check enforcement remains OFF.
 
-## Moved to the next release
+## Red team
 
-- The bounded season-end red team for Astra 6.2 and Sol 6.2 (packet `r96-redteam/SEASON_END_HUNT_R96.md` on audit-packets,
-  pinned at gameplay/r96 93af7740): Nik hit the usage limit before Astra answered (23:24 UTC), so it runs against the next build
-  after 2.9.0 ships, re-pinned.
+- The bounded season-end red team (packet `r96-redteam/SEASON_END_HUNT_R96.md` on audit-packets, pinned at gameplay/r96
+  93af7740). **Sol 6.2** reported (gameplay/r96/redteam/SOL_SEASON_END_R96.pdf): SS-01 (P2) and the UTC Legacy date (P3), both
+  fixed in #1551; everything else clean (one commit per season, reload, 27 Sacked cases, points and History, season-10 Rules at
+  832 of 1,000). **Astra 6.2** did not answer before Nik's usage limit; its run moves to the next release, re-pinned to the build
+  that ships.
 
 ## SSJR status
 
