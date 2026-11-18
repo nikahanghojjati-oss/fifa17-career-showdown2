@@ -304,3 +304,8 @@ html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-set
   /* the top bar shows from 901px wide: the pitch gives its height back */
   #clubWheelScreen[data-club-draw="spin"] .clubDrawStage { height: max(190px, calc(100dvh - 92px - var(--sd-nav-top-h, 52px))); }
 }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){#clubWheelScreen[data-club-draw="spin"] .clubManager,#clubWheelScreen[data-club-draw="spin"] .clubCardState{font-size: 13px}}
+@media (min-width:1024px){html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #onlinePlayerIdentityBadge, html:has(#clubWheelScreen[data-club-draw="spin"]:not(.hidden)):not([data-v10-setup]) #app #topHeader #seasonIndicator{font-size: 13px !important}}
+

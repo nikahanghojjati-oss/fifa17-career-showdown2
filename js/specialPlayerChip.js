@@ -201,6 +201,10 @@ ${spTight("#app #standings.standingsScreenV10 .sdg-side")}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager span.spChip{display:inline-flex;min-width:0;max-width:100%;margin:0;overflow:visible;font-size:12px;line-height:1.2;white-space:normal;}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span{display:inline-block;max-width:none;overflow:visible;text-overflow:clip;font-size:inherit;line-height:inherit;}
 #app #statistics[data-rivalry-legacy-v10] .rv-manager .spChip>span.spChipName{white-space:normal;}
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){#app .spChip,#app #trophyRoom .careerRank .spChip,#app #legacy .legacyHistorySpecialPlayers,#app #standings.standingsScreenV10 .sdg-side span.spChip,#app #seasonEntry .seasonReviewCard .spChip,#app #ruleBook .ruleSpecialPlayer .ruleSpecialPlayerTag,#app #statistics[data-rivalry-legacy-v10] .rv-manager span.spChip{font-size:13px}}
+
 `;
   function spInstall(doc=root.document){
     try{

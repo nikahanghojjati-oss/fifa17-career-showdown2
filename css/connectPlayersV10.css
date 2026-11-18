@@ -693,7 +693,7 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
 }
 
 /* QoL 1 (BH-12): on the recovery screen DELETE OLD SHOWDOWN & START OVER is the one action (r91: backup restore cut), smaller (still a 44px tap target, JOB-1102). #app prefix beats the Team V sheets that load later. */
-#app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton.pairRecoverySecondary{flex:0 0 auto;min-height:44px;padding:6px 10px;font-size:12px;letter-spacing:.04em;}
+#app #connectPlayersScreen #persistentNikDanielPairPanel .menuButton.pairRecoverySecondary{flex:0 0 auto;min-height:44px;padding:6px 10px;font-size:13px;letter-spacing:.04em;}
 
 
 /* JOB-1696: one foreground main scrolls; media-scoped #app selectors win
@@ -1339,6 +1339,9 @@ html[data-reduced-motion="true"] #connectPlayersScreen *::after {
     white-space: normal; overflow-wrap: normal; word-break: normal;
   }
 }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){.connectPlayersTagline,.connectPlayersRole>span,#persistentNikDanielPairPanel span{font-size: 13px}}
 
 /* r96 look 6: on a desktop window the BACK corner button sits over the top-right of the NIK · JOIN card. Its box was
    overlapping the PLAYER TWO / NIK · JOIN lines' boxes (the words did not reach it, the boxes did). The two lines now end

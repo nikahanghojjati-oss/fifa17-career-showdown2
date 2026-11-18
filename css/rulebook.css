@@ -250,3 +250,7 @@
     .ruleScoreTable strong{font-size:14px;}
     .ruleScoreMaximum{gap:12px;}
 }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){.ruleBookHero > span,.ruleSectionHeader > span,.ruleScoreTable span,.ruleScoreMaximum span{font-size: 13px}}
+

@@ -1323,6 +1323,10 @@ body #settingsOverlay.v10Settings #photoCredit a {
   color: #ffd34d; text-decoration: underline; text-decoration-color: rgba(242, 196, 91, .55); text-underline-offset: 3px;
 }
 body #settingsOverlay.v10Settings #photoCredit a:hover, body #settingsOverlay.v10Settings #photoCredit a:focus-visible { text-decoration-color: #ffd34d; }
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){#settingsOverlay.v10Settings .settingsPanelEyebrow,#settingsOverlay.v10Settings .settingsPanelHeading p, #settingsOverlay.v10Settings .settingsDataNote, #settingsOverlay.v10Settings .settingsOfflineNote,#settingsOverlay.v10Settings .settingsUsageDetails > summary,#app #ruleBook.v10RuleBook .ruleSectionNumber, #app #ruleBook.v10RuleBook .ruleSpecialPlayer .ruleSpecialPlayerTag,#app #ruleBook.v10RuleBook .ruleSpecialPlayerNow .spChip,#app #ruleBook.v10RuleBook .ruleBookSummary{font-size: 13px}}
+@media (min-width:1024px) and (max-width:1199px){:is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTagline,:is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsPanelHeading p, :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsDataNote, :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsOfflineNote,:is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsInfoRow span,:is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsMotionCopy small, :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsAudioCopy small{font-size: 13px}}
+@media (min-width:1024px) and (max-width:1199px) and (min-height:501px){:is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) .settingsTagline{font-size: 13px}}
 @media (max-width: 1199px) {
   :is(#app #settingsOverlay.v10Settings, #app ~ #settingsOverlay.v10Settings) #settingsContent > .settingsPanel {
     border: 3px solid transparent; border-radius: 3px;

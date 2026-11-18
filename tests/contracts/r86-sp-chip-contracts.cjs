@@ -222,7 +222,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT,NC));
   // "SP · surname" form (the first part is hidden) and, if still too long, a second line at its space or hyphen.
   assert.match(Chip.css,/#app \.spChip \.spChipName\{flex:0 1 auto;max-width:none;overflow:visible;text-overflow:clip;color:#f6eedb;white-space:normal;overflow-wrap:normal;word-break:normal;hyphens:manual;\}/,'a name is never cut; it breaks at a space or hyphen only');
   assert.doesNotMatch(Chip.css,/ellipsis/,'no chip part ends in dots');
-  assert.deepEqual([...Chip.css.matchAll(/font-size:([^;}]+)/g)].map(m=>m[1]).filter(v=>v!=='12px'&&v!=='inherit'),[],'every size in the chip sheet is 12px or inherited from the chip');
+  assert.deepEqual([...Chip.css.matchAll(/font-size:([^;}]+)/g)].map(m=>m[1]).filter(v=>v!=='12px'&&v!=='13px'&&v!=='inherit'),[],'every size in the chip sheet is 12px, or 13px on a desktop window (r96 look 3), or inherited from the chip');
   assert.ok((Chip.css.match(/\.spChip :is\(\.spChipRank,\.spChipFirst\)\{display:none;\}/g)||[]).length>=4,'tight spots show "SP · surname": the rank and the first name are hidden there');
   assert.match(read('css/v10Shell.css'),/\.careerTable tbody tr:has\(\.spChip\) td \{ vertical-align: top; \}\n#app #careerStatistics\.careerScreenV10 \.careerTable tbody tr:has\(\.spChip\) td:nth-child\(2\) \{ position: relative; z-index: 1; overflow: visible; clip-path: inset\(0 -100vw 0 0\); \}/,'Career Table: a row with a chip is two lines, and the whole chip may run on under the numbers');
   const sr=read('js/productionSharedSeasonResults.js');

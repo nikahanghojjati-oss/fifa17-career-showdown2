@@ -652,3 +652,7 @@
     .managerCabinetHeader{padding:14px;}
     .trophyShelf,.cabinetSupportingStats,.cabinetAchievementStrip{padding-left:14px;padding-right:14px;}
 }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){.analyticsStatCard span,.analyticsStatCard small,.rivalryStatisticsOverview span,.rivalryManagerHero > span,.comparisonRow > span,.seasonProgressionLabel strong,.seasonProgressionLabel span,.seasonStatTop,.careerStandingsRow.header,.managerCabinetHeader p,.managerCareerPoints span,.trophyGlyph,.trophyCount span,.cabinetAchievementStrip,.recordCard > span,.recordCard > small{font-size: 13px}}
+
