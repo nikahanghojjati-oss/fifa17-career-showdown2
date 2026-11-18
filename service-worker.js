@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.8.0-r95";
-const PREVIOUS_RUNTIME_REVISION = "2.7.0-r94";
+const RUNTIME_REVISION = "2.9.0-r96";
+const PREVIOUS_RUNTIME_REVISION = "2.8.0-r95";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -29,7 +29,9 @@ const CHRONICLE_PATH = /^chronicle(?:\/|$)/;
 // the shell's index.html; without a connection the answer is a short page that says so, with the way back to the game.
 const STANDALONE_PAGE_NAVIGATION_PATHS = new Set([
     "device-check.html",
-    "device-check-chamber.html"
+    "device-check-chamber.html",
+    // r96: the Device check's Ball Game frame.
+    "device-check-ball.html"
 ]);
 function standalonePageOffline(){ return new Response('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Device check · Career Mode Showdown</title><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#050505;color:#f5f1e8;font:400 16px/1.5 system-ui,sans-serif;text-align:center"><main style="padding:24px"><h1 style="margin:0 0 8px;font-size:28px;letter-spacing:.06em;color:#f5c518">DEVICE CHECK</h1><p style="margin:0 0 16px">The Device check needs a connection. Try again when you are online.</p><a href="./" style="color:#f5c518">Back to the game</a></main></body></html>',{status:503,headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store"}}); }
 // r86: the Special Player page is its own document in a frame (js/specialPlayerReveal.js). A frame load is a navigation:
@@ -419,62 +421,12 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.8.0 (r95): PREVIOUS is the live 2.7.0-r94 (298 paths, tests/fixtures/shell-paths/2.7.0-r94.json, main 5f22a328). The STORY
+// 2.9.0 (r96): PREVIOUS is the live 2.8.0-r95 (260 paths, tests/fixtures/shell-paths/2.8.0-r95.json, main 30b79695). The STORY
 // site is never precached.
-// r95 (one type family): adds the Instrument Sans type sheet, its three variable faces and their licence, and removes the 43 old
-// font sheets, faces and licences they replace. Nothing else in r95 touches the shell.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([
-    "css/r95-type.css",
-    "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/instrument-sans-latin-ext-wdth-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wght-italic.woff2",
-    "visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt"
-]);
-const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([
-    "assets/fonts/barlow-condensed.css",
-    "assets/fonts/barlow-condensed-vietnamese-600-normal.woff2",
-    "assets/fonts/barlow-condensed-vietnamese-700-normal.woff2",
-    "assets/fonts/barlow-condensed-vietnamese-800-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-ext-600-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-ext-800-normal.woff2",
-    "assets/fonts/barlow-condensed-latin-800-normal.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-700-normal.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-900-normal.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/playfair-display-latin-400-italic.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-normal.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-400-italic.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/old-standard-tt-latin-700-normal.woff2",
-    "visual-assets/v10_1/content/gazette/fonts/LICENSE-playfair-display.txt",
-    "visual-assets/v10_1/content/gazette/fonts/LICENSE-old-standard-tt.txt",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-700-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/kaushan-script-latin-400-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/CormorantSC-Bold-latin.woff2",
-    "visual-assets/v10_1/shared/fonts/OFL_CormorantSC.txt",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-500-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-800-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-600-italic.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-500-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-700-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-800-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/barlow-condensed-latin-ext-600-italic.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-700-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-700-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-800-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-800-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-900-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/big-shoulders-display-latin-ext-900-normal.woff2",
-    "visual-assets/v10_1/shared/fonts/rye-latin-400-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-600-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-condensed-latin-700-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-400-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/barlow-latin-600-normal.woff2",
-    "visual-assets/v10_1/tr2/slice-02-plate/assets/fonts/kaushan-script-latin-400-normal.woff2"
-]);
+// r96 adds and removes no shell path: its new Device check frame (device-check-ball.html) is a standalone page, always from the
+// network, like the other Device check pages. Both sets are empty, so PREVIOUS_SHELL_PATHS is this build's list.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);
+const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
 // for it (a page rolled back to an older build keeps its own copy), else the network, never a hard miss.

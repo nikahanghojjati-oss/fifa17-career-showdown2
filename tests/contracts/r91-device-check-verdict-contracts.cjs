@@ -4,11 +4,12 @@
 // In 2.3.0 the check ignored a scene that errored and never compared the level drawn with the level asked, so a Chamber
 // Men failure plus a smooth Roulette saved Ultra, and Light results returned for every level also saved Ultra. The page's
 // own script runs here (device-check.html, in a sandbox with the real js/gfxTier.js) against scripted scene frames:
-//   V1 all three 3D screens are timed (Chamber Men, Russian Roulette, the Special Player pack), each level forced, in order
+//   V1 every 3D screen is timed (Chamber Men, Russian Roulette, the Special Player pack, r96 the Ball Game), each level forced, in order
 //   V2 a clean run saves the top level: Ultra on a GPU without an 8K buffer, 8K where it has one (never asked otherwise)
 //   V3 Sol's first false pass: a screen that does not start leaves the level not verified; nothing is saved
 //   V4 Sol's second false pass: a level drawn that is not the level asked is not verified; nothing is saved
-//   V5 a screen that is not smooth settles its level: the level below is saved and nothing above is tried
+//   V5 a screen that is not smooth stops there: the level below is its own and nothing above is tried on it; r96 the other
+//      screens climb on, each saves its own best, and the lowest is the device's level
 //   V6 no answer, an answer that never finishes, a beat not played, the lighter stand-in files, an older screen's answer:
 //      all not verified
 //   V7 the GPU giving up at a level (a lost context, a refused 8K buffer) is as final as slow; at Light it proves nothing
@@ -27,7 +28,8 @@ const BUILD = /const BUILD="([^"]+)";/.exec(TIER)[1];
 const SCRIPT = /<script>\n([\s\S]*?)<\/script>\s*<\/body>/.exec(PAGE)[1];
 const KEY = "careerModeShowdown.gfxMeasured.v2";
 const LABELS = ["Light", "Balanced", "High", "Extra", "Ultra (4K)", "8K"];
-const SCENES = ["chamber-men", "rrr", "sp"];
+// r96: the Ball Game (club-draw) is timed too, after the other three at each level.
+const SCENES = ["chamber-men", "rrr", "sp", "club-draw"];
 let checks = 0;
 const ok = (id, text) => { checks += 1; console.log(`ok ${checks} ${id} ${text}`); };
 
@@ -62,7 +64,7 @@ async function run(answer, opts){
       const frame = {title: "", contentWindow: {}, removed: false, setAttribute(){}, remove(){ this.removed = true; }};
       Object.defineProperty(frame, "src", {set(url){
         const m = /^(.+?)\?gfx=(\d)&bench=1$/.exec(url); assert.ok(m, `the frame is asked for one level in bench mode (${url})`);
-        const scene = {"device-check-chamber.html": "chamber-men", "visual-assets/v10_1/roulette/index.html": "rrr", "visual-assets/v10_1/special-player/index.html": "sp"}[m[1]];
+        const scene = {"device-check-chamber.html": "chamber-men", "visual-assets/v10_1/roulette/index.html": "rrr", "visual-assets/v10_1/special-player/index.html": "sp", "device-check-ball.html": "club-draw"}[m[1]];
         assert.ok(scene, `a known 3D screen (${m[1]})`);
         const level = Number(m[2]); asked.push(`${scene}@${level}`);
         setImmediate(() => {
@@ -109,7 +111,7 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
     assert.match(r.result, /Auto here: Ultra \(4K\)/);
     assert.equal(r.tier.profile().level, 4, "Auto plays the measured level");
     assert.ok(!r.asked.some(a => a.endsWith("@5")), "8K is never asked of a GPU without a 7680 px buffer");
-    ok("V1", "all three 3D screens are timed at each level, lightest first, each level forced in bench mode");
+    ok("V1", "every 3D screen (r96: four, with the Ball Game) is timed at each level, lightest first, each level forced in bench mode");
     const k = await run(allGood, {gpu8k: true});
     assert.deepEqual(k.asked, order(5)); assert.equal(k.saved.level, 5, "a GPU with an 8K buffer that holds 8K in all three gets 8K on Auto");
     assert.equal(k.tier.profile().level, 5);
@@ -155,14 +157,20 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
   // V5
   {
     const spSlowAtHigh = (scene, level) => scene === "sp" && level === 2 ? [started(scene, level), good(scene, level, {avg: 48.3, p1low: 31})] : allGood(scene, level);
+    // r96 (Nik 2026-11-17 21:43 UTC: lighter screens should run higher than heavy ones): only that screen stops climbing.
     const r = await run(spSlowAtHigh);
-    assert.equal(r.saved.level, 1, "one screen not smooth at High: Auto is Balanced");
-    assert.deepEqual(r.asked, [...order(2), "sp@2"], "nothing above the first level that is not smooth is tried (r92: the slow screen gets one second try)");
-    assert.match(r.status, /High was not held: Special Player was not smooth there/);
+    assert.equal(r.saved.level, 1, "one screen not smooth at High: the device's level is Balanced");
+    assert.deepEqual({...r.saved.scenes}, {"chamber-men": 4, rrr: 4, sp: 1, "club-draw": 4}, "each screen keeps the best level it held itself");
+    const rest = l => SCENES.filter(s => s !== "sp").map(s => `${s}@${l}`);
+    assert.deepEqual(r.asked, [...order(1), "chamber-men@2", "rrr@2", "sp@2", "sp@2", "club-draw@2", ...rest(3), ...rest(4)],
+      "the slow screen gets one second try (r92) and is not tried above it; the other screens climb on");
+    assert.match(r.status, /High was not held: Special Player was not smooth there\. Chamber Men, Russian Roulette, Ball Game were smooth up to Ultra \(4K\)\./);
     assert.deepEqual(r.saved.detail.stop, {level: 2, scene: "sp", state: "slow"});
-    // The 1% low alone can fail a level; the first screen that is slow ends that level at once.
+    assert.match(r.rows, /Smooth on 3 of 4/, "a row smooth on some screens says how many");
+    // The 1% low alone can fail a screen at a level.
     const lows = await run((scene, level) => scene === "chamber-men" && level === 1 ? [good(scene, level, {avg: 59.5, p1low: 38})] : allGood(scene, level));
-    assert.equal(lows.saved.level, 0); assert.deepEqual(lows.asked, [...order(0), "chamber-men@1", "chamber-men@1"]);
+    assert.equal(lows.saved.level, 0); assert.equal(lows.saved.scenes["chamber-men"], 0); assert.equal(lows.saved.scenes.rrr, 4);
+    assert.deepEqual(lows.asked.slice(0, 7), [...order(0), "chamber-men@1", "chamber-men@1", "rrr@1"]);
     // Even Light not smooth: r92 (Nik's iPhone 17) saves nothing; tests/contracts/r92-device-check-iphone-contracts.cjs.
     const weak = await run((scene, level) => [good(scene, level, {avg: 24, p1low: 11})]);
     assert.equal(weak.saved, null); assert.deepEqual(weak.asked, ["chamber-men@0", "chamber-men@0"]);
@@ -170,7 +178,7 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
     // Too slow to finish its beat in the time allowed: the frames it did draw settle it (never "not verified" for ever).
     const crawl = await run((scene, level) => level === 1 && scene === "rrr" ? [good(scene, level, {avg: 0.8, p1low: 0.3, beats: 0, complete: false})] : allGood(scene, level));
     assert.equal(crawl.saved.level, 0, "a turn too slow to finish is slow");
-    ok("V5", "a screen that is not smooth settles its level: the level below is saved, nothing above is tried; even-Light-slow saves nothing (r92)");
+    ok("V5", "a screen that is not smooth stops there (the level below is its own, nothing above is tried on it) while the others climb on (r96); even-Light-slow saves nothing (r92)");
   }
   // V6
   {
@@ -225,18 +233,23 @@ const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s =>
     assert.equal(r.saved.level, 2);
     assert.deepEqual(r.saved.detail.scenes, SCENES);
     assert.equal(r.saved.detail.held, true);
-    assert.deepEqual(r.saved.detail.levels[2], {"chamber-men": [59.9, 55.2, 1.5, 2880, 1299], rrr: [59.9, 55.2, 1.5, 2880, 1299], sp: [59.9, 55.2, 1.5, 2880, 1299]});
-    assert.deepEqual(r.saved.detail.levels[3], {"chamber-men": [51, 40, 2, 3840, 1732], rrr: null, sp: null}, "the level that was not held keeps its number; screens not played stay empty");
+    const at2 = [59.9, 55.2, 1.5, 2880, 1299];
+    assert.deepEqual(r.saved.detail.levels[2], {"chamber-men": at2, rrr: at2, sp: at2, "club-draw": at2});
+    assert.deepEqual(r.saved.detail.levels[3], {"chamber-men": [51, 40, 2, 3840, 1732], rrr: at2, sp: at2, "club-draw": at2}, "the screen that was not held keeps its number; the others climb on (r96)");
+    assert.deepEqual(r.saved.detail.levels[4]["chamber-men"], null, "a screen not played above its stop stays empty");
+    assert.deepEqual({...r.saved.scenes}, {"chamber-men": 2, rrr: 4, sp: 4, "club-draw": 4});
+    assert.deepEqual({...r.saved.detail.stops}, {"chamber-men": {level: 3, state: "slow"}});
     assert.match(r.rows, /2880×1299 · ×1\.50/, "the table shows the buffer size and pixel ratio each level really drew");
     assert.match(r.rows, /not tried/);
-    ok("V9", "saved: the level, the three scenes, and per level the frame rate, pixel ratio and buffer size each screen drew");
+    assert.match(r.result, /Auto here: High to Ultra \(4K\)/); assert.match(r.result, /On Auto: Chamber Men High · Russian Roulette Ultra \(4K\) · Special Player Ultra \(4K\) · Ball Game Ultra \(4K\)\./);
+    ok("V9", "saved: the device's level, each screen's own (r96), and per level the frame rate, pixel ratio and buffer size each screen drew");
   }
   // The page itself.
   {
     const scripts = [...PAGE.matchAll(/<script[^>]*\bsrc="([^"]+)"/g)].map(m => m[1]);
     assert.deepEqual(scripts, ["js/storage.js", "js/gfxTier.js"], "the Device check loads only storage and the quality module");
     assert.ok(PAGE.includes("const SMOOTH_AVG=57,SMOOTH_LOW=45;"), "the 60 fps rule");
-    assert.ok(/<th scope="col">Chamber Men<\/th><th scope="col">Russian Roulette<\/th><th scope="col">Special Player<\/th><th scope="col">Result<\/th>/.test(PAGE), "one column per 3D screen");
+    assert.ok(/<th scope="col">Chamber Men<\/th><th scope="col">Russian Roulette<\/th><th scope="col">Special Player<\/th><th scope="col">Ball Game<\/th><th scope="col">Result<\/th>/.test(PAGE), "one column per 3D screen (r96: the Ball Game too)");
     assert.ok(!/font-size:\s*(?:[0-9]|1[01])px/.test(PAGE), "no text under 12 px");
     ok("V10", "the page: two scripts, the 60 fps rule, one column per 3D screen, 12 px floor");
   }

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- r96 Device check frame (device-check.html; at the root, beside device-check-chamber.html): the real Ball Game scene
+     (js/clubDrawScene3d.js) on demo clubs, spun and stopped on a loop. With ?gfx=N&bench=1 js/gfxTier.js holds level N and
+     posts the frame times to the parent. No game state, no Firestore, no writes: the stops are made up here and never sent. -->
+<title>Ball Game bench</title>
+<!-- The pitch takes about the size it has in the game (css/clubDraw.css: the 1640 px frame, the height that keeps the STOP row
+     in view; phones in portrait and short landscape windows as there), so each level is timed on a real-size canvas. -->
+<style>
+html,body{margin:0;height:100%;background:#050505;overflow:hidden}
+#cdStage{position:relative;width:min(1640px,calc(100% - 32px));margin:16px auto 0;height:clamp(300px,calc(100dvh - 425px),760px);background:#04060a}
+@media (max-width:760px) and (orientation:portrait){#cdStage{width:calc(100% - 16px);height:clamp(240px,calc(100dvh - 345px),560px)}}
+@media (orientation:landscape) and (max-height:500px){#cdStage{height:max(190px,calc(100dvh - 92px))}}
+</style>
+</head>
+<body>
+<div id="cdStage"></div>
+<script src="js/visualIdentity.js"></script>
+<script src="js/clubDrawScene3d.js"></script>
+<script>
+(function(){
+  "use strict";
+  // Six clubs a ball, as in the Ball Game: the same clubs on every device.
+  const BALLS=[{clubs:["Barcelona","Arsenal","Napoli","Real Madrid","Liverpool","Inter"]},{clubs:["Juventus","Chelsea","Bayern Munich","Atletico Madrid","Tottenham","Roma"]}];
+  const tell=msg=>{try{if(parent!==window)parent.postMessage({type:"cms-gfx-bench",phase:"result",scene:"club-draw",...msg},location.origin);}catch(_error){}};
+  async function start(){
+    const stage=document.getElementById("cdStage");
+    let api=null;
+    // reducedMotion:false: the check always times a spin (under Reduce Motion the game's balls sit still, so there is no beat).
+    try{api=await window.CareerModeClubDraw3d.mount(stage,{balls:BALLS,me:0,sound:()=>false,reducedMotion:false});}catch(_error){api=null;}
+    if(!api){tell({error:"The 3D scene did not start on this device (no WebGL2, or it loaded too slowly)."});return;}
+    window.__cdBenchReady=true;
+    // The check removes this frame once the screen is timed: its GPU memory is handed back at once (as the Chamber Men frame does).
+    addEventListener("pagehide",e=>{if(e.persisted)return;try{api.dispose();}catch(_error){}});
+    // One round: both balls turn, are spun hard, both STOPs are pressed at full speed (each stop accepted a moment later, as in
+    // the game), both balls rest, and a new round starts. Each spin and stop is one held beat.
+    let tapped=[false,false],restAt=0;
+    const round=()=>{tapped=[false,false];restAt=0;try{api.restart();}catch(_error){}};
+    try{api.start();}catch(_error){}
+    setInterval(()=>{
+      if(!api.alive)return;
+      for(const i of [0,1]){
+        if(tapped[i]||!api.canStop(i))continue;
+        tapped[i]=true;
+        const stop=api.tap(i);
+        if(stop!==null)setTimeout(()=>{try{api.accept(i,stop);}catch(_error){}},180);
+      }
+      if(tapped[0]&&tapped[1]&&api.state(0)==="landed"&&api.state(1)==="landed"){
+        if(!restAt)restAt=Date.now();else if(Date.now()-restAt>=1500)round();
+      }
+    },100);
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
+})();
+</script>
+</body>
+</html>

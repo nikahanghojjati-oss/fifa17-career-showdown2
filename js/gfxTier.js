@@ -5,7 +5,12 @@
   // Use: p=profile() before the WebGLRenderer (antialias is fixed at context creation), then setPixelRatio(p.pixelRatio); await calibrate(renderer,draw) behind the loading screen (skipped on software GL); gov=governor(renderer,{key,draw,onChange}) (without draw it only steps down), then gov.frame(now) each frame, gov.hold(false) between beats, gov.end() on dispose; overlay(()=>({calls,tris})) shows only with ?fps=1.
   // Levels: 0 light (Chromebook class), 1 medium, 2 high, 3 extra, 4 ultra (native size, up to 2x past it within 3840x2160), 5 8k (only on a GPU with a 7680 px buffer, never a phone: up to 4x past native within 7680x4320; a lost context or refused buffer falls back to ultra, said in the ?fps=1 overlay).
   // r91 (Nik 2026-11-11: "Auto should allow all qualities based on device real test ... from light to 8k"): Auto covers every level. Its guess from the GPU name stays conservative (never past extra); the Device check (device-check.html) replaces the guess with the best level Chamber Men, Russian Roulette and the Special Player pack all held, up to ultra and, where the GPU can hold it, 8k. Below ultra, Auto never renders above devicePixelRatio.
-  // A picked level is held as picked (the governor moves only Auto). Scene knobs (crowd, bloom, shadow size) read the profile; the governor only moves the pixel ratio: down when frames run long, up only after a timed frame shows room, never back to a step that ran slow (no see-saw).
+  // r96 (Nik 2026-11-17 21:44 UTC, "Step down when slow, back up"): a picked level is a ceiling, not a promise. The governor
+  // walks a picked level's ladder exactly as it walks Auto's (pixel ratio, then the scene's heavy parts, between beats only,
+  // back up toward the pick when smooth); the level itself, its files and Settings stay the pick. ?gfx=N stays as forced.
+  // r96 (Nik 2026-11-17 21:43 UTC: "lighter screens ... quality can be higher"): on Auto each 3D screen draws the highest
+  // level the Device check passed on that screen (profile(scene)); the lowest of them stays the device's level (2D, Settings).
+  // Scene knobs (crowd, bloom, shadow size) read the profile; the governor only moves the pixel ratio: down when frames run long, up only after a timed frame shows room, a step that ran slow is tried once more after a smooth stretch (r96), never twice in a visit (no see-saw).
   const KEY="careerModeShowdown.gfxQuality.v1";
   const CHOICES=["auto","light","medium","high","extra","ultra","8k"];
   const NAMES=["light","medium","high","extra","ultra","8k"];
@@ -23,6 +28,9 @@
     {pr:2,max:8,shadowSize:4096,density:1,bloom:true}
   ];
   const BUDGET_MS=16.7,BUFFER_CAP=3840*2160,BUFFER_CAP_8K=7680*4320,PHONE_MAX_PR=3,PHONE_TEX_MAX=1,PHONE_MSAA_MAX=4,PHONE_EXTRA_PR=2.25;
+  // r96: on a phone a 3D screen's own Auto level (per screen, after a Device check) stops at Extra: the phone memory budget
+  // measures every screen at High and Extra (tests/browser/phone-memory-budget.cjs); Ultra there is over 300 MB.
+  const PHONE_SCENE_TOP=3;
   // "Never crash" first (Nik 2026-11-08): a lost context, an out-of-memory error, or (8K) a buffer or target the GPU would
   // not give drops this device one level below the one that failed and remembers it (any level, Auto or picked) until the
   // player picks a level again in Settings.
@@ -31,7 +39,7 @@
   // build is dropped on load: the update may have fixed what failed (2.4.0 closed the tab at High; 2.5.0 fixed its memory, yet
   // 2.4.0's cap kept the Device check off High for 7 days). The level gets one fresh try per build: if it fails again, this
   // build writes its own cap, kept as before. BUILD is the service worker's RUNTIME_REVISION (the release bump moves both).
-  const BUILD="2.8.0-r95";
+  const BUILD="2.9.0-r96";
   const MEMORY_KEY=key=>`careerModeShowdown.gfxSettled.v1.${key}`;
   // r91: where a scene's heavy parts settled (its detail step, for the level it was built at), read on its next visit.
   const DETAIL_KEY=key=>`careerModeShowdown.gfxDetail.v1.${key}`,DETAIL_DAYS_MS=7*864e5;
@@ -39,6 +47,11 @@
   // r91: a new key. A 2.3.0 result (…gfxMeasured.v1) came from a check that timed two scenes and could save a level one of
   // them never drew, so it is not read; Auto goes back to its guess until the check is run again.
   const MEASURED_KEY="careerModeShowdown.gfxMeasured.v2";
+  // r96 per screen: the Device check also saves each 3D screen's own best level in the same record (scenes:{key:level});
+  // `level` stays the lowest of them, so a 2.8.0 copy of this file reads the record as before. A record without a screen's
+  // own level (a 2.8.0 check, or a screen it did not time) gives that screen the record's level: an old result still
+  // applies to every screen. Keys are the scenes' governor keys.
+  const SCENE_KEYS=["chamber-men","rrr","sp","club-draw"];
   // ?bench=1 (Device check frames): no adapting. Frame times are recorded after BENCH_SETTLE_MS for at least BENCH_MS and until
   // the scene has played one whole beat (a kick, a turn, a reveal: one gov.hold(true) .. gov.hold(false)); a scene that has not
   // finished one by BENCH_MAX_MS posts what it has, marked incomplete. Posted once.
@@ -70,6 +83,11 @@
   function gfxMeasured(){
     try{const m=JSON.parse(gfxRead(MEASURED_KEY)||"null");if(!(m&&Number.isInteger(m.level)&&m.level>=0&&m.level<=5&&!(m.detail&&m.detail.held===false)))return null;
       return m.level>=gfxChipLevel()?m:null;}catch(_error){return null;}
+  }
+  // The level the Device check passed on one screen: its own, never below the record's level (which is the lowest of them).
+  function gfxSceneMeasured(m,scene){
+    if(!m)return null;const v=m.scenes&&typeof m.scenes==="object"?m.scenes[scene]:undefined;
+    return Number.isInteger(v)&&v>=m.level&&v<=5?v:m.level;
   }
   // The level Auto starts at from the graphics chip and the device (memory, threads, phone): the check's floor.
   function gfxChipLevel(){try{return gfxClassify(gfxGpuInfo().name,gfxScreenEnv()).level;}catch(_error){return 0;}}
@@ -306,7 +324,7 @@
       assetLevel,textureLevel:phone?Math.min(assetLevel,PHONE_TEX_MAX):assetLevel,slowNet:Boolean(base.slowNet),
       antialias:!base.software,shadowSize:L.shadowSize,density:L.density,bloom:L.bloom};
   }
-  function gfxProfile(){
+  function gfxBaseProfile(){
     if(cached)return cached;
     const env=gfxScreenEnv(),info=gfxGpuInfo(),gpu=info.name,c=gfxChoice(),auto=gfxClassify(gpu,env);
     const can8k=gfxCan8k({...info,software:auto.software},env);
@@ -323,15 +341,50 @@
     }
     const bench=forcedLevel!==null&&gfxQuery("bench")==="1",top=forcedLevel!==null&&gfxQuery("gfxpr")==="top";
     cached=gfxBuild(level,{dpr:env.dpr,gpu,software:auto.software,phone:env.phone,can8k,slowNet:gfxSlowNet(),choice:forcedLevel!==null?`gfx=${forcedLevel}`:c,bench,top});
-    cached.auto=c==="auto"&&forcedLevel===null;cached.autoLevel=autoLevel;cached.measured=Boolean(measured);cached.guessLevel=auto.level;cached.strongPhone=Boolean(auto.strongPhone);
+    cached.auto=c==="auto"&&forcedLevel===null;cached.picked=c!=="auto"&&forcedLevel===null;cached.autoLevel=autoLevel;cached.measured=Boolean(measured);cached.guessLevel=auto.level;cached.strongPhone=Boolean(auto.strongPhone);
     // What was asked for by ?gfx=N (null otherwise): the Device check compares it with what was drawn.
     cached.asked=forcedLevel;
     // The level that was picked, where the gate drew a lower one (null otherwise).
     cached.gated=gated;
     gfxMarkRoot(cached.level,cached.assetLevel);
-    // A 3D screen in its own frame (Roulette, the pack, the Device check's frames) is opening from here on.
-    if(!openedHere&&gfxFramed()){openedHere=true;gfxOpenArm(cached.level,gfxSceneName());}
     return cached;
+  }
+  // r96 per screen. profile(scene) is the profile of one 3D screen (its governor key: "chamber-men", "club-draw", "rrr",
+  // "sp"), for the files it loads ahead and the picture it builds. sceneOpening(scene) and the governor make it this page's
+  // screen: from then on profile(), calibrate and the never-crash cap read that screen's profile, until its governor ends
+  // (or its mount ends without one). A screen in its own frame (Roulette, the Special Player pack) is known by its page.
+  // Only Auto with a Device check result differs by screen: a screen the check passed higher than the device's level draws
+  // its own level (the crash cap still holds it). A pick, ?gfx=N and Auto before a check are one level for every screen.
+  // The page's html[data-gfx] keeps the device's level: 2D screens never follow one 3D screen.
+  let sceneKey="",sceneCached=null;
+  const FRAME_SCENES=[[/(^|\/)roulette\/index\.html$/,"rrr"],[/(^|\/)special-player\/index\.html$/,"sp"]];
+  function gfxSceneKey(){
+    if(sceneKey)return sceneKey;if(!gfxFramed())return "";
+    try{const path=String(root.location.pathname||"");for(const [re,k] of FRAME_SCENES)if(re.test(path))return k;}catch(_error){}
+    return "";
+  }
+  // The level a screen draws on Auto from a Device check result: its own, never below the device's, on a phone at most Extra.
+  // No result (cleared in another tab since the profile was cached): no screen of its own (review on #1548).
+  function gfxSceneLevel(base,m,key){if(!m)return null;const lv=gfxSceneMeasured(m,key);return base.phone?Math.min(lv,Math.max(m.level,PHONE_SCENE_TOP)):lv;}
+  function gfxProfile(scene){
+    const base=gfxBaseProfile(),key=typeof scene==="string"&&scene?scene:gfxSceneKey();let p=base;
+    if(key&&base.auto&&base.measured){
+      // On a phone a screen's own level stops at Extra, the highest level the phone memory budget measures every screen at
+      // (tests/browser/phone-memory-budget.cjs, 300 MB; at Ultra the iPhone profile's Chamber Men holds about 396 MB).
+      const lv=gfxSceneLevel(base,gfxMeasured(),key);
+      if(Number.isInteger(lv)&&lv>base.autoLevel){
+        if(sceneCached&&sceneCached.base===base&&sceneCached.key===key)p=sceneCached.p;
+        else{
+          p=gfxBuild(lv,{dpr:base.dpr,gpu:base.gpu,software:base.software,phone:base.phone,can8k:base.can8k,slowNet:base.slowNet,choice:base.choice});
+          p.auto=true;p.picked=false;p.autoLevel=lv;p.measured=true;p.guessLevel=base.guessLevel;p.strongPhone=base.strongPhone;p.asked=null;p.gated=null;
+          p.deviceLevel=base.autoLevel;
+          sceneCached={base,key,p};
+        }
+      }
+    }
+    // A 3D screen in its own frame (Roulette, the pack, the Device check's frames) is opening from here on, at its own level.
+    if(!openedHere&&gfxFramed()){openedHere=true;gfxOpenArm(p.level,gfxSceneName());}
+    return p;
   }
   function gfxSceneName(){try{return String(root.location.pathname||"").split("/").filter(Boolean).slice(-2).join("/");}catch(_error){return "";}}
   // r90 (Nik 2026-11-08, "the best quality it can hold, on every screen"): the resolved level on the root element as
@@ -348,9 +401,9 @@
   }
   let lastMark=null;
   function gfxParent(){try{return root.parent&&root.parent!==root&&root.parent.document?root.parent:null;}catch(_error){return null;}}
-  function gfxRemark(){try{const p=gfxProfile();gfxMarkRoot(p.level,p.assetLevel);}catch(_error){}}
+  function gfxRemark(){try{const p=gfxBaseProfile();gfxMarkRoot(p.level,p.assetLevel);}catch(_error){}}
   function gfxSetLevel(level,ownOnly){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,slowNet:p.slowNet,choice:p.choice});
-    next.auto=p.auto;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;gfxMarkRoot(next.level,next.assetLevel,ownOnly);return next;}
+    next.auto=p.auto;next.picked=p.picked;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;gfxMarkRoot(next.level,next.assetLevel,ownOnly);return next;}
   // The device could not hold this level (a lost context, an out-of-memory error, an 8K buffer or target refused): one
   // level down, remembered, the live governor moved at once. Scenes call gov.end() before forceContextLoss() on dispose,
   // so their own clean-up never counts; neither does a context lost while the page is hidden (the browser reclaiming it).
@@ -358,11 +411,12 @@
   function gfxFail(reason){
     if(root.document&&root.document.visibilityState==="hidden")return gfxProfile();
     failCount+=1;
-    const cur=(cached||gfxProfile()).level,old=gfxCap();
+    // The level that failed is the one this screen draws (r96: its own level on Auto after a Device check).
+    const cur=gfxProfile().level,old=gfxCap();
     const level=Math.max(0,Math.min(cur>=5?4:cur-1,old?old.level:4));
     gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),at:Date.now(),build:BUILD}));cached=null;benchFailed=String(reason||"failed");
     try{active?.sync();}catch(_error){}
-    const p=gfxProfile();gfxMarkRoot(p.level,p.assetLevel);return p;
+    const b=gfxBaseProfile();gfxMarkRoot(b.level,b.assetLevel);return gfxProfile();
   }
   // MSAA for a render target: the highest sample count at or under the wish that the GPU supports for both the colour format
   // (RGBA16F with hdr, else RGBA8) and DEPTH_COMPONENT24 (W3's fix on #1265; MAX_SAMPLES alone is not enough). Without the
@@ -397,7 +451,7 @@
         target.samples=target.samples>4?4:0;target.dispose();
       }
     }catch(_error){ok=false;}
-    if(!ok&&cached&&cached.level===5)gfxFail("a render target the GPU would not complete");
+    if(!ok&&cached&&gfxProfile().level===5)gfxFail("a render target the GPU would not complete");
     return ok;
   }
 
@@ -480,31 +534,40 @@
       const fresh=Date.now()-Number(v.t||0)<=DETAIL_DAYS_MS;
       return {at:Math.max(0,Math.min(steps,v.at)),floor:fresh&&Number.isInteger(v.floor)?Math.max(0,Math.min(steps,v.floor)):0};}catch(_error){return {at:0,floor:0};}
   }
+  // r96: where a picked level settled on a screen, for the level it was picked at (another pick starts as built).
+  function gfxPickRatio(k,level){try{const v=JSON.parse(gfxRead(MEMORY_KEY(k))||"null");return v&&v.level===level&&Number.isFinite(v.pr)?Number(v.pr):NaN;}catch(_error){return NaN;}}
   function gfxGovernor(renderer,opts){
-    const o=opts||{},key=o.key?String(o.key):"";let p=gfxProfile();
+    // The scene's key names the screen (r96: on Auto after a Device check, each screen draws its own level).
+    const o=opts||{},key=o.key?String(o.key):"";if(key)sceneKey=key;let p=gfxProfile();
     // The level this scene was built at (calibrate may since have moved the level for what comes next).
     const built=gfxBuiltLevel(renderer);
     // A 3D screen on the game's own page (Chamber Men) is opening from here on; a framed one marked itself already.
     if(!gfxFramed())gfxOpenArm(built,key);
     const size=()=>{const c=renderer.domElement;return {w:c?.clientWidth||0,h:c?.clientHeight||0};};
     // Ultra's buffer cap comes from the live canvas size.
-    const capOf=()=>{const s=size();if(!s.w||!s.h)return p.maxPixelRatio;
+    const capOf=()=>{const s=size();if(!s.w||!s.h)return p.picked&&!p.auto?Math.max(p.minPixelRatio,Math.min(p.maxPixelRatio,p.pixelRatio)):p.maxPixelRatio;
       let cap=p.level>=4?Math.max(p.dpr,Math.sqrt(p.bufferCap/(s.w*s.h))):p.maxPixelRatio;
       if(p.phone)cap=Math.min(cap,Math.sqrt(BUFFER_CAP/(s.w*s.h)));
+      // r96: a pick's ceiling is the picture it draws as picked (its starting ratio): the steps come back up to it, never past.
+      if(p.picked&&!p.auto)cap=Math.min(cap,p.pixelRatio);
       return Math.max(p.minPixelRatio,cap);};
     let list=gfxSteps(p,capOf());
     const nearest=v=>{let i=0,d=1e9;list.forEach((x,k)=>{const e=Math.abs(x-v);if(e<d){d=e;i=k;}});return i;};
     let at=nearest(p.pixelRatio);
     // A level that ran slow last time on this screen is where the next visit starts.
-    const settled=key?Number(gfxRead(MEMORY_KEY(key))):NaN;
+    // r96: a picked level keeps its own memory, beside Auto's (key.pick: the ratio with the level it was for, and the heavy
+    // parts with theirs), so moving between Auto and a pick never starts one from where the other settled.
+    const pickKey=key?`${key}.pick`:"",picked=()=>Boolean(p.picked)&&!p.auto;
+    const settled=key?(picked()?gfxPickRatio(pickKey,built):Number(gfxRead(MEMORY_KEY(key)))):NaN;
     const bench=gfxQuery("bench")==="1"?gfxBench(renderer,o.draw,key,()=>p,()=>list[at],o.info):null;
-    // The scene's heavy parts: detail step 0 (as built) .. steps (lightest). Only Auto walks them; a picked level and the
-    // Device check draw the level as built.
+    // The scene's heavy parts: detail step 0 (as built) .. steps (lightest). Auto and (r96) a picked level walk them; ?gfx=N
+    // and the Device check draw the level as built.
     const detail=o.detail&&Number.isInteger(o.detail.steps)&&o.detail.steps>0&&typeof o.detail.apply==="function"?o.detail:null;
-    const adapts=()=>Boolean(p.auto)&&!bench;
+    const adapts=()=>Boolean(p.auto||p.picked)&&!bench;
+    const memKey=()=>picked()?pickKey:key;
     let dAt=0,dFloor=0,fromMemory=false;
-    if(p.auto&&Number.isFinite(settled)&&settled>0){const i=nearest(settled);if(i>at){at=i;fromMemory=true;}}
-    if(detail&&key&&adapts()){const m=gfxDetailRead(key,built,detail.steps);dAt=Math.max(m.at,m.floor);dFloor=m.floor;if(dAt>0)fromMemory=true;}
+    if(adapts()&&Number.isFinite(settled)&&settled>0){const i=nearest(settled);if(i>at){at=i;fromMemory=true;}}
+    if(detail&&key&&adapts()){const m=gfxDetailRead(memKey(),built,detail.steps);dAt=Math.max(m.at,m.floor);dFloor=m.floor;if(dAt>0)fromMemory=true;}
     const bad=new Set(),badD=new Set(),born=gfxNow(),fails0=failCount;
     let held=false,last=0,avg=BUDGET_MS,slowFor=0,smoothFor=0,ended=false;
     // beat: the frames of the hold under way. due: a step down owed since a beat ran slow. upOk: a step up is allowed.
@@ -516,6 +579,12 @@
     let beat=null,due=0,upOk=!(usesBeats&&fromMemory),calmFor=0,idleFor=0,pace=0,busy=0,busyKnown=false,timing=false,trial=-1;
     // slowN: frames in the slow second under way. probe: steps being tried while the scene does not look like the cost.
     let slowN=0,probe=null,probed=false;
+    // r96 (Nik 2026-11-17: "step down when slow, back up"): a step that ran slow is not lost for the whole visit. Once the
+    // screen has run smooth for a while (three smooth beats in a row; 10 s, or 15 s for heavy parts, where there are no
+    // beats) and a timed frame shows room, it is tried once more. Slow again, it stays off until the next visit: at most one
+    // retry per step, so the picture never see-saws.
+    const retried=new Set(),retriedD=new Set();let smoothBeats=0;
+    const ripe=(isBad,wasRetried,quietMs)=>!isBad||(!wasRetried&&(usesBeats?smoothBeats>=3:smoothFor>=quietMs));
     const lost=()=>{if(!ended)gfxFail("the GPU dropped the picture (context lost)");};
     try{renderer.domElement?.addEventListener?.("webglcontextlost",lost);}catch(_error){}
     const apply=i=>{at=i;try{renderer.setPixelRatio(list[at]);}catch(_error){}
@@ -533,11 +602,13 @@
     // before: the scene's last word ahead of a change in play (a step down, a step up, steps put back), so it can let the
     // picture on screen fade into the next one. Never called for the start (behind the loading screen) or a resize.
     const before=()=>{try{o.before?.();}catch(_error){}};
-    const stepDown=why=>{
-      if(at<list.length-1){before();bad.add(at);apply(at+1);}
-      else if(detail&&dAt<detail.steps){before();badD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
+    // blind: taken while neither the callback nor a timed draw showed the cost (see slowStep). A timed frame cannot tell
+    // whether such a step would fit again, so it is not retried this visit (r96).
+    const stepDown=(why,blind)=>{
+      if(at<list.length-1){before();bad.add(at);if(blind)retried.add(at);apply(at+1);}
+      else if(detail&&dAt<detail.steps){before();badD.add(dAt);if(blind)retriedD.add(dAt);if(trial===dAt)dFloor=Math.max(dFloor,dAt+1);trial=-1;setDetail(dAt+1,why||"slow");}
       else return false;
-      forget();upOk=false;return true;
+      forget();upOk=false;smoothBeats=0;return true;
     };
     // Is the scene the cost? Its frame callback keeps the main thread busy, or one timed draw (which waits for the GPU) is
     // dear. Where the callback cannot be timed, or there is no draw to time, there is no telling: slow frames count as
@@ -555,7 +626,7 @@
     // it from there on (smooth is not: see smoothLimit). One such probe a visit.
     const paceHere=ms=>{pace=Math.max(BUDGET_MS,Math.min(50,ms));slowFor=0;slowN=0;smoothFor=0;};
     const undo=ms=>{const b=probe;probe=null;probed=true;
-      for(let i=b.at;i<at;i+=1)bad.delete(i);for(let i=b.dAt;i<dAt;i+=1)badD.delete(i);
+      for(let i=b.at;i<at;i+=1){bad.delete(i);retried.delete(i);}for(let i=b.dAt;i<dAt;i+=1){badD.delete(i);retriedD.delete(i);}
       if((detail&&dAt!==b.dAt)||at!==b.at)before();
       if(detail&&dAt!==b.dAt)setDetail(b.dAt,"restore");if(at!==b.at)apply(b.at);
       forget();upOk=b.upOk;paceHere(ms);avg=pace;};
@@ -563,9 +634,9 @@
       if(loaded()){probe=null;stepDown("slow");return;}
       if(probed){paceHere(seen);return;}
       if(!probe)probe={at,dAt,ms:seen,n:0,upOk};
-      else if(seen<probe.ms*.9){probe=null;stepDown("slow");return;}
+      else if(seen<probe.ms*.9){probe=null;stepDown("slow",true);return;}
       else if(probe.n>=2){undo(seen);return;}
-      if(stepDown("slow"))probe.n+=1;
+      if(stepDown("slow",true))probe.n+=1;
       else if(probe.n>0)undo(seen);
       else{probe=null;probed=true;paceHere(seen);}
     };
@@ -588,8 +659,9 @@
         // Device check: the level stays as forced and every frame counts, held or not.
         if(bench){bench.frame(t);return;}
         const dt=last?Math.min(100,t-last):BUDGET_MS;last=t;avg+=(dt-avg)*.08;
-        // A level the player picked stays as picked: no steps either way.
-        if(!p.auto)return;
+        // ?gfx=N (tests, the memory proof) stays as forced: no steps either way. r96: Auto and a picked level adapt; a pick
+        // is the ceiling the steps come back up to.
+        if(!adapts())return;
         timeWork();
         // The screen turned out faster than the pace taken for it (a power mode ended): judge against the new one.
         if(pace&&avg<pace*.8)pace=avg<=SMOOTH_MS?0:avg;
@@ -607,13 +679,16 @@
         if(!upOk||typeof o.draw!=="function")return;
         // Heavy parts come back first (they went last): smooth for 6 s and a timed frame under 40% of the budget.
         if(detail&&dAt>dFloor){
-          if(smoothFor>=6000){smoothFor=0;if(badD.has(dAt-1))return;
-            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){before();trial=dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
+          if(smoothFor>=6000){const again=badD.has(dAt-1);if(!ripe(again,retriedD.has(dAt-1),15000))return;
+            smoothFor=0;if(again){retriedD.add(dAt-1);badD.delete(dAt-1);smoothBeats=0;}
+            // A retry that runs slow again is off for this visit only; it never sets the lasting floor a first climb does.
+            if(gfxTimedDraw(renderer,o.draw)<BUDGET_MS*.4){before();trial=again?-1:dAt-1;setDetail(dAt-1,"smooth");forget();}else badD.add(dAt-1);}
           return;
         }
         if(dAt>0)return;
         // Smooth for 3 s: time one real frame; step up only if the next step would still leave a third of the frame free.
-        if(smoothFor>=3000&&at>0&&!bad.has(at-1)){
+        if(smoothFor>=3000&&at>0&&ripe(bad.has(at-1),retried.has(at-1),10000)){
+          if(bad.has(at-1)){retried.add(at-1);bad.delete(at-1);smoothBeats=0;}
           smoothFor=0;const ms=gfxTimedDraw(renderer,o.draw),scale=Math.pow(list[at-1]/list[at],2);
           if(ms*scale<BUDGET_MS*.66){before();apply(at-1);}else bad.add(at-1);
         }
@@ -630,8 +705,8 @@
         if(held)beat={ms:0,slow:0,calm:idleFor>=500?!(avg>slowLimit()):null};
         else{const b=beat;beat=null;slowFor=0;smoothFor=0;calmFor=0;idleFor=0;
           if(b&&adapts()&&b.ms>0){usesBeats=true;
-            if(b.slow>=BEAT_SLOW_MS||(b.ms>=400&&b.slow>=b.ms*.5)){if(b.calm===true||(busyKnown&&busy>BUDGET_MS*.45))due=1;else if(b.calm===null)due=Math.max(due,2);}
-            else if(b.slow===0&&b.ms>=400)upOk=true;}}
+            if(b.slow>=BEAT_SLOW_MS||(b.ms>=400&&b.slow>=b.ms*.5)){smoothBeats=0;if(b.calm===true||(busyKnown&&busy>BUDGET_MS*.45))due=1;else if(b.calm===null)due=Math.max(due,2);}
+            else if(b.slow===0&&b.ms>=400){upOk=true;smoothBeats+=1;}else if(b.slow>0)smoothBeats=0;}}
         bench?.hold(held);
       },
       resize(){const cur=list[at];p=gfxProfile();list=gfxSteps(p,capOf());at=nearest(cur);bad.clear();if(list[at]!==cur)apply(at);},
@@ -649,8 +724,12 @@
       workMs(){return busyKnown?+busy.toFixed(1):null;},
       end(){if(ended)return;ended=true;gfxOpenDone();if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}
         // Steps still on probe are not what the scene settled at: the place the probe began is.
-        if(key&&adapts()){const sAt=probe?probe.at:at,sD=probe?probe.dAt:dAt;gfxWrite(MEMORY_KEY(key),list[sAt]);if(detail)gfxWrite(DETAIL_KEY(key),JSON.stringify({level:built,at:sD,floor:dFloor,t:Date.now()}));}
-        if(active===api)active=null;}
+        if(key&&adapts()){const sAt=probe?probe.at:at,sD=probe?probe.dAt:dAt;
+          if(picked())gfxWrite(MEMORY_KEY(pickKey),JSON.stringify({pr:list[sAt],level:built}));else gfxWrite(MEMORY_KEY(key),list[sAt]);
+          if(detail)gfxWrite(DETAIL_KEY(memKey()),JSON.stringify({level:built,at:sD,floor:dFloor,t:Date.now()}));}
+        if(active===api)active=null;
+        // The screen is over: this page reads the device's level again (r96 per screen) until the next one names itself.
+        if(key&&sceneKey===key)sceneKey="";}
     };
     active=api;
     return api;
@@ -775,7 +854,8 @@
     // "now" is the level Auto starts at on this device, read fresh from storage each call (Codex on #1284): the Device check
     // result and a crash cap may have been saved by the roulette or SP frame's own copy of this module. A scene's five-frame
     // calibration is not saved (each scene calibrates again), so it is not part of what Settings shows.
-    suggested(){const p=gfxProfile(),m=gfxMeasured(),level=m?m.level:p.guessLevel,cap=gfxCap(),now=cap?Math.min(level,cap.level):level;
+    // r96: level is the device's level, the lowest of the 3D screens (measuredScenes() has each screen's own).
+    suggested(){const p=gfxBaseProfile(),m=gfxMeasured(),level=m?m.level:p.guessLevel,cap=gfxCap(),now=cap?Math.min(level,cap.level):level;
       return {level,name:NAMES[level],measured:Boolean(m),now,nowName:NAMES[now],lowered:now<level};},
     // Device check: what this device is taken for before any check (phone or computer, GPU, the level Auto starts at).
     device(){const p=gfxProfile();return {phone:Boolean(p.phone),gpu:p.gpu,software:Boolean(p.software),strongPhone:Boolean(p.strongPhone),
@@ -788,9 +868,16 @@
     // on #1389): a device whose GPU gave up at a level in play keeps that cap even when the check then holds the level;
     // the cap ends by its own rules (7 days, 3 clean scenes, or a pick in Settings).
     measured:gfxMeasured,benchStats:gfxBenchStats,
-    setMeasured(level,detail){const n=Math.round(Number(level));if(!Number.isFinite(n))return null;
-      const l=Math.max(0,Math.min(gfxProfile().can8k?5:4,n));
-      gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;gfxRemark();return l;},
+    // r96: scenes = each 3D screen's own best level ({"chamber-men":1,"club-draw":3,...}); none lower than `level`, which
+    // stays the lowest (what 2D, Settings' gate and a 2.8.0 copy of this file read).
+    setMeasured(level,detail,scenes){const n=Math.round(Number(level));if(!Number.isFinite(n))return null;
+      const b=gfxBaseProfile(),top=b.can8k?5:4,l=Math.max(0,Math.min(top,n)),own={},sTop=b.phone?Math.min(top,PHONE_SCENE_TOP):top;
+      if(scenes&&typeof scenes==="object")for(const k of SCENE_KEYS){const v=Math.round(Number(scenes[k]));if(Number.isFinite(v))own[k]=Math.max(l,Math.min(sTop,v));}
+      gfxWrite(MEASURED_KEY,JSON.stringify({level:l,at:Date.now(),...(Object.keys(own).length?{scenes:own}:{}),...(detail&&typeof detail==="object"?{detail}:{})}));cached=null;gfxRemark();return l;},
+    // r96: the level Auto draws on each 3D screen after a Device check ({key: level}, the crash cap not counted); null before
+    // a check. A screen the check did not time on its own draws the check's level.
+    measuredScenes(){const m=gfxMeasured();if(!m)return null;const b=gfxBaseProfile(),out={};for(const k of SCENE_KEYS)out[k]=gfxSceneLevel(b,m,k);return out;},
+    sceneKeys:SCENE_KEYS.slice(),
     clearMeasured(){gfxWrite(MEASURED_KEY,"null");cached=null;gfxRemark();},
     choice:gfxChoice,setChoice(c){const v=CHOICES.includes(String(c))?String(c):"auto";gfxWrite(KEY,v);gfxWrite(CAP_KEY,"null");cached=null;gfxRemark();return v;},
     // offers(choice): may Settings offer this choice on this device? Everything, except: 8K only where the GPU can hold it,
@@ -815,7 +902,8 @@
     // sceneOpening(scene): a 3D screen on the game's own page says it is about to load and build (the tab-crash guard's
     // mark; a framed screen marks itself). sceneOpened(): the mount ended without a scene. The governor ends the mark of
     // one that did open.
-    sceneOpening(scene){try{if(!gfxFramed())gfxOpenArm(gfxProfile().level,scene);}catch(_error){}},sceneOpened(){try{gfxOpenDone();}catch(_error){}},
+    // r96: the screen that opens is this page's screen (its own level on Auto after a Device check) until it ends.
+    sceneOpening(scene){try{if(scene)sceneKey=String(scene);if(!gfxFramed())gfxOpenArm(gfxProfile().level,scene);}catch(_error){}},sceneOpened(){try{gfxOpenDone();sceneKey="";}catch(_error){}},
     reset(){cached=null;}};
   // On load, first: did this tab die while a 3D screen was opening? (The cap it writes is read by everything below.)
   try{gfxOpenSweep();}catch(_error){}

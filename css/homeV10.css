@@ -1354,3 +1354,11 @@ html #app #mainMenu.v10Home .menuBottomStrip { display: none !important; }
 @media (max-height: 480px) and (orientation: landscape) and (max-width: 600px) {
   #app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer):not(#homeStoryButton) .menuTileLabel { width: 64%; max-width: 64%; }
 }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){#mainMenu.v10Home .menuTile .menuTileCode,#mainMenu.v10Home .menuAthleteCredit,#story .storyKicker{font-size: 13px}}
+@media (min-width:1200px) and (max-width: 1350px) and (min-height: 620px) and (max-height: 690px) and (orientation: landscape){#mainMenu.v10Home #continueCareer .menuTileMeta,#mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode{font-size: 13px}}
+@media (min-width:1351px) and (max-width: 1420px) and (min-height: 730px) and (max-height: 800px) and (orientation: landscape){#mainMenu.v10Home #continueCareer .menuTileMeta,#mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode{font-size: 13px}}
+@media (min-width:1200px) and (max-width: 1849px) and (min-height: 700px) and (pointer: fine){#app #mainMenu.v10Home .fifaMenuGrid > .menuTile:not(#continueCareer) .menuTileCode{font-size: 13px}}
+@media (min-width:1024px) and (max-width: 1366px){#app #mainMenu.v10Home #continueCareer .menuTileMeta{font-size: 13px}}
+

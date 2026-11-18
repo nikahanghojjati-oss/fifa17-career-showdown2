@@ -266,3 +266,8 @@
     .menuTilePrimary{padding-right:38%;}
     .menuCoverAthlete{width:41%;}
 }
+
+/* r96 look 3: desktop caption floor (13px at 1024px and up) */
+@media (min-width:1024px){.menuTilePrimary .menuTileCode,.menuTilePrimary .menuTileMeta{font-size: 13px}}
+@media (min-width:1024px) and (max-height:800px){.menuTilePrimary .menuTileCode,.menuTilePrimary .menuTileMeta{font-size: 13px}}
+

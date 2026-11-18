@@ -101,11 +101,19 @@ check('B5 Trophy Room never shows "0 Shared"; r90 W9 (LOOK L26): a record nobody
 });
 
 // ---- A-04: the ended-early date is the same on both phones ----
-check('A-04 the ended-early date is the UTC day on every phone (London and Tehran agree)',()=>{
-  const code=`const S=require(${JSON.stringify(path.join(ROOT,'js/careerScreenSeam.js'))});process.stdout.write(S.endedEarlyText({endedAt:Date.parse('2026-10-30T22:45:00Z'),seasonsPlayed:2}));`;
-  const out=['Europe/London','Asia/Tehran','America/Los_Angeles','Pacific/Kiritimati'].map(TZ=>spawnSync(process.execPath,['-e',code],{env:{...process.env,TZ},encoding:'utf8'}).stdout);
-  assert.deepEqual(new Set(out).size,1,out.join(' | '));
-  assert.equal(out[0],'Ended early · 30 Oct 2026 · 2 seasons');
+// r96 (Nik 2026-11-18, Sol 6.2 P3): the day is Boston's (America/New_York) on every phone, not UTC's.
+check('A-04 the ended-early date is Boston\'s day on every phone (London, Tehran, Los Angeles and Kiritimati agree)',()=>{
+  const run=(at,TZ)=>spawnSync(process.execPath,['-e',`const S=require(${JSON.stringify(path.join(ROOT,'js/careerScreenSeam.js'))});process.stdout.write(S.endedEarlyText({endedAt:Date.parse(${JSON.stringify(at)}),seasonsPlayed:2}));`],{env:{...process.env,TZ},encoding:'utf8'}).stdout;
+  const zones=['Europe/London','Asia/Tehran','America/Los_Angeles','Pacific/Kiritimati','America/New_York','UTC'];
+  const same=(at,want)=>{const out=zones.map(TZ=>run(at,TZ));assert.deepEqual(new Set(out).size,1,out.join(' | '));assert.equal(out[0],want);};
+  same('2026-10-30T22:45:00Z','Ended early · 30 Oct 2026 · 2 seasons');
+  // Sol 6.2 P3: END SHOWDOWN at 8 PM in Boston on 17 Nov is 01:00 UTC on 18 Nov; both phones say 17 Nov.
+  same('2026-11-18T01:00:00Z','Ended early · 17 Nov 2026 · 2 seasons');
+  // a minute before and after Boston's midnight (EST, UTC-5)
+  same('2026-11-18T04:59:00Z','Ended early · 17 Nov 2026 · 2 seasons');
+  same('2026-11-18T05:00:00Z','Ended early · 18 Nov 2026 · 2 seasons');
+  // summer time (EDT, UTC-4): 11:30 PM in Boston on 1 Jul
+  same('2026-07-02T03:30:00Z','Ended early · 1 Jul 2026 · 2 seasons');
 });
 
 // ---- A-05: the partial banner counts finished Showdowns only ----

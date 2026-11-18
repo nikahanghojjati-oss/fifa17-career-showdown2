@@ -349,8 +349,20 @@ function getSettingsGfxAutoText(tier){
         }
         // On Auto the pick itself reads "Auto · Light" in the select (Nik 2026-11-12: "the auto pick ... very visible"), so
         // the line only adds what the select cannot say: where the level came from, and which levels wait for the check.
-        const from = s.lowered ? "Lowered after a graphics error." : s.measured && s.now === s.level ? "Measured by the Device check." : "";
+        const from = s.lowered ? "Lowered after a graphics error." : s.measured && s.now === s.level ? (getSettingsGfxSceneSpan(tier, s.now) || "Measured by the Device check.") : "";
         return `${from}${getSettingsGfxCheckText(tier)}`.trim();
+    }catch(_error){
+        return "";
+    }
+}
+// r96 (Nik 2026-11-17: lighter screens draw higher): after a Device check each 3D screen draws its own level on Auto. When
+// they differ the line says the span, "Auto: Balanced to High by screen." (each screen as drawn, the crash cap included);
+// when every screen draws the same level it stays "Measured by the Device check.".
+function getSettingsGfxSceneSpan(tier, now){
+    try{
+        if(!Array.isArray(tier.sceneKeys) || !tier.sceneKeys.length){ return ""; }
+        const top = Math.max(...tier.sceneKeys.map(key => tier.profile(key).level));
+        return Number.isInteger(top) && top > now && tier.label(top) ? `Auto: ${tier.label(now)} to ${tier.label(top)} by screen.` : "";
     }catch(_error){
         return "";
     }

@@ -86,8 +86,8 @@ function rebuildsSame(club,season,stage,events,locked,label){
   }
 
   // N3 Namesakes across seasons: the CM kept in S1, the ST in S2. Each is his own man for a guess, a loan, a sale and a
-  // buy-back, and the roulette shooting one leaves the other. A shot bars both ids (the Transfer War LOCK refuses the name's
-  // kept ids: the board names him by name only), and a Special Player's name bars both.
+  // buy-back, and the roulette shooting one leaves the other. R96 (Nik 2026-11-17, item 6): a shot bars only the shot man's
+  // id (the hit's window names one man), exactly as the Transfer War LOCK refuses; a Special Player's name bars both.
   {
     const club='Crotone',events=[null,ev([CM]),ev([ST])];
     const s2=S.replay({club,special:null,season:2,stage:'post',events,docs:{}}).proposal;
@@ -115,23 +115,29 @@ function rebuildsSame(club,season,stage,events,locked,label){
     const b3=S.replay({club,special:null,season:3,stage:'post',events:evsB,docs:dB}).proposal;
     assert.deepEqual(men(b3,T).map(p=>`${p.id}:${p.rating}:${p.signedSeason}`).sort(),['s|m. dembele#211591:75:3','s|m. dembele:82:1'],'the ST bought back at 75, the CM unchanged');
     assert.ok(b3.notes.some(n=>n.reason==='bought-back'));rebuildsSame(club,3,'post',evsB,b3,'namesake bought back');
-    // the roulette shoots the ST (window 2): he leaves, the CM stays; both ids barred, exactly as the Transfer War LOCK refuses
+    // the roulette shoots the ST (window 2): he leaves, the CM stays; only the shot man's id is barred, exactly as LOCK refuses
     const pre3=S.replay({club,special:null,season:3,stage:'pre',events:evs3,docs:{}}).proposal,board=S.board(pre3);
     const i=board.findIndex(r=>r.name===T&&r.signedSeason===2),j=board.findIndex(r=>r.name===T&&r.signedSeason===1);
     assert.ok(i>=0&&j>=0,'both on the S3 board');
-    for(const [slot,signed,stays] of [[i,2,'s|m. dembele'],[j,1,'s|m. dembele#211591']]){
+    for(const [slot,signed,stays,shotId] of [[i,2,'s|m. dembele',211591],[j,1,'s|m. dembele#211591',162240]]){
       const hit={fired:true,hitName:T,hitNumber:null,hitSlot:slot,hitSignedSeason:signed,version:'v'};
       const evs=events.concat([ev([],hit)]);
       const p=S.replay({club,special:null,season:3,stage:'post',events:evs,docs:{}}).proposal;
       assert.deepEqual(men(p,T).map(x=>x.id),[stays],`the roulette shoots the window-${signed} man only`);
-      assert.deepEqual(p.barIds['s|m. dembele'],[162240,211591],'both ids barred from then on');
+      assert.deepEqual(p.barIds['s|m. dembele'],[shotId],'only the shot man\'s id is barred from then on');
       const map=TW.rouletteBlocked([null,{playerOne:[CM],playerTwo:[]},{playerOne:[ST],playerTwo:[]}],{3:{playerOne:hit,playerTwo:null}},3,'playerOne');
-      for(const id of [162240,211591])assert.equal(Boolean(TW.blockedFor(map,T,id)),Boolean(S.barredAs(p,{name:T,playerId:id})),`LOCK and the engine agree on ${id}`);
+      assert.deepEqual(map.get('m. dembele').ids,[shotId],'LOCK bars only the shot man\'s id');
+      assert.equal(map.get('m. dembele').whole,false,'never the whole name');
+      for(const id of [162240,211591]){
+        assert.equal(Boolean(TW.blockedFor(map,T,id)),id===shotId,`LOCK refuses ${id} only when he is the shot man`);
+        assert.equal(Boolean(TW.blockedFor(map,T,id)),Boolean(S.barredAs(p,{name:T,playerId:id})),`LOCK and the engine agree on ${id}`);
+      }
+      assert.ok(TW.blockedFor(map,T,null),'a typed name with no id is still refused (it could be the shot man)');
       rebuildsSame(club,3,'post',evs,p,`shot window ${signed}`);
     }
     const sp=S.replay({club,special:{playerOne:{name:T,overall:82},playerTwo:null},season:2,stage:'post',events,docs:{}}).proposal;
     assert.equal(men(sp,T).length,0,'a Special Player\'s name bars every Dembélé');
-    ok('N3','namesakes across seasons: each is his own man for a guess, a loan, a sale and a buy-back; the roulette shooting one leaves the other, both ids barred as LOCK refuses; a Special Player\'s name bars both');
+    ok('N3','namesakes across seasons: each is his own man for a guess, a loan, a sale and a buy-back; the roulette shooting one leaves the other and bars only his id, as LOCK refuses (R96); a Special Player\'s name bars both');
   }
 
   // N4 Two namesakes of ONE window on the Roulette board, which the hit names by name and window only. The manager swapped
@@ -423,6 +429,126 @@ function rebuildsSame(club,season,stage,events,locked,label){
     }
     assert.ok(stats.fallback>=3&&stats.twinsOnBoard>=3,`the check reaches 2.5.1's fallback (${stats.fallback}) and later namesakes on the board (${stats.twinsOnBoard})`);
     ok('N8',`mixed versions: ${stats.screens} locked "pre" screens (${stats.fallback} that 2.5.1 builds from the document's rows, ${stats.twinsOnBoard} with a later namesake on the board): a 2.5.1 phone and a 2.6.0 phone build the same Roulette rows and board version both ways, Astra's window included; no playerId is ever a number; only where a manager kept two different men of one name can 2.5.1's own rule stand one elsewhere (${stats.collapsedDiffer} screens, ${stats.collapsedSame} the same)`);
+  }
+  // N9 R96 (Nik 2026-11-17, item 6): a shot bars only the man the roulette shot, so his namesake kept in another window can
+  // be signed again in the Transfer War, and the squad takes him back as himself. Where the board cannot tell the two apart
+  // (two men of the name in the hit's window) or a row of the name has no id, every kept id (or the whole name) stays barred,
+  // as before. Through random careers the LOCK and the squad engine refuse exactly the same men, and a 2.8.0 phone (main
+  // 30b79695, its engine vendored byte for byte) puts every locked board of this build together with the same rows.
+  {
+    const club='Crotone',hitOf=(sheet,signed)=>{const b=S.board(sheet),i=b.findIndex(r=>r.name===T&&r.signedSeason===signed);assert.ok(i>=0,`window-${signed} man on the board`);return {fired:true,hitName:T,hitNumber:null,hitSlot:i,hitSignedSeason:signed,version:'v'};};
+    const lock=(rowsBy,hits,season)=>TW.rouletteBlocked(rowsBy.map(r=>r?{playerOne:r,playerTwo:[]}:null),hits.map(h=>h?{playerOne:h,playerTwo:null}:null),season,'playerOne');
+    // S1 CM, S2 ST; S3 pre the CM is sold; S3 the roulette shoots the ST; S4 the CM is signed again
+    const rowsBy=[null,[CM],[ST],[]],events=[null,ev([CM]),ev([ST])];
+    let pre3=S.replay({club,special:null,season:3,stage:'pre',events,docs:{}}).proposal;
+    pre3=S.leave(pre3,'s|m. dembele','sold').sheet;const hit3=hitOf(pre3,2),docs={'3_pre':docOf(pre3)};
+    events[3]=ev([],hit3);
+    const map4=lock(rowsBy,[null,null,null,hit3,null],4);
+    assert.equal(TW.blockedFor(map4,T,162240),null,'LOCK lets the CM (not shot) be signed again');
+    assert.ok(TW.blockedFor(map4,T,211591),'LOCK still refuses the shot ST');
+    const again={...CM,overall:84};events[4]=ev([again,{...ST,slot:3}]);rowsBy[4]=[again,{...ST,slot:3}];
+    const post4=S.replay({club,special:null,season:4,stage:'post',events,docs}).proposal;
+    assert.deepEqual(men(post4,T).map(p=>`${p.id}:${p.rating}:${p.signedSeason}`),['s|m. dembele:84:4'],'the CM is back at 84 as himself; the shot ST never returns');
+    assert.ok(!post4.excluded.includes('s|m. dembele'),'he is no longer away');
+    assert.ok(S.validate(post4).ok);rebuildsSame(club,4,'post',events,post4,'namesake signed again after the other was shot');
+    // the other way round: the CM shot, the ST (sold) signed again
+    {
+      const evs=[null,ev([CM]),ev([ST])];let p3=S.replay({club,special:null,season:3,stage:'pre',events:evs,docs:{}}).proposal;
+      p3=S.leave(p3,'s|m. dembele#211591','sold').sheet;const h=hitOf(p3,1),d={'3_pre':docOf(p3)};evs[3]=ev([],h);
+      const m=lock([null,[CM],[ST],[]],[null,null,null,h,null],4);
+      assert.equal(TW.blockedFor(m,T,211591),null,'LOCK lets the ST be signed again');assert.ok(TW.blockedFor(m,T,162240),'and refuses the shot CM');
+      evs[4]=ev([{...ST,overall:76}]);
+      const p4=S.replay({club,special:null,season:4,stage:'post',events:evs,docs:d}).proposal;
+      assert.deepEqual(men(p4,T).map(p=>`${p.id}:${p.rating}:${p.signedSeason}`),['s|m. dembele#211591:76:4'],'the ST is back as himself');
+      rebuildsSame(club,4,'post',evs,p4,'the ST signed again after the CM was shot');
+    }
+    // two men of the name in the hit's window: the board cannot say which, so both stay barred (as before)
+    {
+      const A=row(1,T,85,'CM',162240),B=row(2,T,85,'CM',211591),evs=[null,ev([A,B])];
+      const p2=S.replay({club,special:null,season:2,stage:'pre',events:evs,docs:{}}).proposal,h=hitOf(p2,1);evs[2]=ev([],h);
+      const p=S.replay({club,special:null,season:2,stage:'post',events:evs,docs:{}}).proposal,m=lock([null,[A,B],[]],[null,null,h],2);
+      assert.deepEqual(m.get('m. dembele').ids,[162240,211591]);assert.deepEqual(p.barIds['s|m. dembele'],[162240,211591],'same window: both ids, as before');
+    }
+    // a row of the name with no id (typed): the whole name stays barred (as before)
+    {
+      const typed=row(1,T,82,'CM'),evs=[null,ev([typed]),ev([ST])];
+      const p3=S.replay({club,special:null,season:3,stage:'pre',events:evs,docs:{}}).proposal,h=hitOf(p3,1);evs[3]=ev([],h);
+      const m=lock([null,[typed],[ST],[]],[null,null,null,h],3),p=S.replay({club,special:null,season:3,stage:'post',events:evs,docs:{}}).proposal;
+      assert.equal(m.get('m. dembele').whole,true,'LOCK: the whole name');
+      for(const id of [162240,211591,null])assert.ok(TW.blockedFor(m,T,id)&&S.barredAs(p,{name:T,playerId:id}),`legacy: ${id} refused by both`);
+    }
+    // LOCK and the engine agree, and a 2.8.0 rival builds the same boards, through random careers with shots and buy-backs
+    const crypto=require('node:crypto');
+    const raw=fs.readFileSync(path.join(root,'tests/fixtures/r96-mixed-versions/squadSheet-2.8.0.js.txt'));
+    assert.equal(crypto.createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex'),'4f85eacd1ed3c98bcb05705bf0d07aa4d28aaa86','the 2.8.0 squad engine (main 30b79695 js/squadSheet.js), byte for byte');
+    const mod={exports:{}};new Function('module','exports','require',raw.toString('utf8'))(mod,mod.exports,()=>{throw new Error('2.8.0 engine: no require');});
+    const Old=mod.exports,R=get('js/rosterRoulette.js');
+    const boardBy=(E,c,season,evs,doc)=>{const out=E.replay({club:c,special:null,season,stage:'pre',events:evs,docs:{[`${season}_pre`]:doc}});if(out.sheet)return {formation:out.sheet.formation,board:E.board(out.sheet)};const rows=E.boardFromDoc(doc,out.auto||null);return rows?{formation:doc.formation,board:rows}:null;};
+    const triples=b=>({formation:b.formation,rows:b.board.map(r=>[r.name,r.number,r.signedSeason])});
+    const mul=seed=>{let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};};
+    const P=['GK','CB','RB','LB','CDM','CM','CAM','RM','LM','RW','LW','ST'],last=Number(process.env.R96_NAMESAKE_SEEDS||300);
+    const stats={careers:0,compared:0,narrow:0,backAfterShot:0,boards:0,oldStops:0};
+    for(let seed=1;seed<=last;seed+=1){
+      const r=mul(seed+7000),pick=a=>a[Math.floor(r()*a.length)],c=pick(['Crotone','Arsenal','Eibar','Pescara','Burnley']);
+      const cast=[];['Twin A','Twin B'].forEach((n,i)=>{for(let j=0;j<3;j+=1)cast.push([`${n} ${seed%11}`,7000+i*10+j]);});
+      const evs=[null],rowsBy=[null],hits=[null];let lastDoc=null,shotIds=new Set();
+      for(let k=1;k<=6;k+=1)for(const stage of ['pre','post']){
+        if(stage==='post'){
+          const preDoc=lastDoc&&lastDoc.key===`${k}_pre`?lastDoc.doc:null;
+          const pre=S.replay({club:c,special:null,season:k,stage:'pre',events:evs,docs:preDoc?{[`${k}_pre`]:preDoc}:{}});
+          const preSheet=pre.sheet||pre.proposal,board=S.board(preSheet).map((x,i)=>[x,i]).filter(([x])=>x.name);
+          let hit={fired:false};
+          if(r()<0.6){const twins=board.filter(([x])=>x.signedSeason!==null),[x,i]=twins.length&&r()<0.85?pick(twins):pick(board);hit={fired:true,hitName:x.name,hitNumber:x.number,hitSlot:i,hitSignedSeason:x.signedSeason,version:'v'};}
+          // the LOCK of season k: this season's shot, guesses before it
+          const m=TW.rouletteBlocked(rowsBy.map(x=>x?{playerOne:x,playerTwo:[]}:null).concat([null]),hits.concat([hit.fired?hit:null]).map(h=>h?{playerOne:h,playerTwo:null}:null),k,'playerOne');
+          const rows=[];
+          for(let slot=1;slot<=3;slot+=1){if(r()<0.2)continue;const [name,id]=pick(cast),pid=r()<0.1?null:id;if(TW.blockedFor(m,name,pid))continue;rows.push(row(slot,name,60+Math.floor(r()*30),pick(P),pid,r()<0.2));}
+          if(hit.fired&&hit.hitSignedSeason){const w=evs[hit.hitSignedSeason],ws=w?w.kept:[];if(S.namesakesIn(ws.map(x=>({...x,release:false})),hit.hitName)&&preDoc){const pid=S.docShotPid(preDoc,hit);if(pid!==null)hit={...hit,pid};}}
+          evs[k]=ev(rows,hit);rowsBy[k]=rows;hits[k]=hit.fired?hit:null;
+          for(const e of m.values())if(e.reason==='shot'&&e.whole===false&&e.ids.length===1)stats.narrow+=1;
+          // every man LOCK let through and kept is in the squad as himself (never refused by the engine)
+          const post=S.replay({club:c,special:null,season:k,stage:'post',events:evs,docs:preDoc?{[`${k}_pre`]:preDoc}:{}}).proposal;
+          // (a name the rival also guessed in this same window is that guess's business, not the roulette's)
+          for(const x of rows.filter(x=>!x.release&&!rows.some(q=>q.release&&q.name===x.name))){
+            assert.ok(!S.barredAs(post,{name:x.name,playerId:x.playerId??null}),`seed ${seed} S${k}: ${x.name} ${x.playerId} passed LOCK but the squad refuses him`);
+            if(x.playerId&&shotIds.has(`${x.name}|${x.playerId}`))assert.fail(`seed ${seed} S${k}: shot man ${x.playerId} signed again`);
+          }
+          // LOCK of the next season without its own shot = the engine's bars after this window, for every man of the cast
+          const next=TW.rouletteBlocked(rowsBy.map(x=>x?{playerOne:x,playerTwo:[]}:null).concat([null]),hits.concat([null]).map(h=>h?{playerOne:h,playerTwo:null}:null),k+1,'playerOne');
+          for(const [name,id] of cast)for(const pid of [id,null]){assert.equal(Boolean(TW.blockedFor(next,name,pid)),Boolean(S.barredAs(post,{name,playerId:pid})),`seed ${seed} S${k}: LOCK and the engine agree on ${name} ${pid}`);stats.compared+=1;}
+          if(hit.fired&&hit.hitSignedSeason){const e=next.get(TW.nameKey(hit.hitName));if(e)for(const id of e.ids)if(e.ids.length===1)shotIds.add(`${hit.hitName}|${id}`);}
+          if(rows.some(x=>!x.release&&x.playerId&&[...next.values()].some(e=>e.reason==='shot'&&TW.nameKey(e.name)===TW.nameKey(x.name))))stats.backAfterShot+=1;
+        }
+        const out=S.replay({club:c,special:null,season:k,stage,events:evs,docs:lastDoc?{[lastDoc.key]:lastDoc.doc}:{}});assert.ok(!out.error,`seed ${seed}: ${out.error}`);
+        let sheet=out.proposal;
+        for(let m=0;m<Math.floor(r()*5);m+=1){
+          const refs=[...sheet.xi.map((_,i)=>({zone:'xi',index:i})),...sheet.bench.map((_,i)=>({zone:'bench',index:i})),...sheet.reserves.map((_,i)=>({zone:'res',index:i}))];
+          const people=all(sheet),u=r(),op=u<0.5?{t:'swap',a:pick(refs),b:pick(refs)}:u<0.8&&k>1&&people.length>14?{t:'leave',id:pick(people.filter(p=>p.signedSeason!==null).concat(people)).id,reason:pick(S.leaveReasons)}:k>1?{t:'rate',id:pick(people).id,overall:50+Math.floor(r()*45)}:null;
+          if(!op)continue;const res=S.apply(sheet,[op]);if(!res.errors.length)sheet=res.sheet;
+        }
+        assert.ok(S.validate(sheet).ok,`seed ${seed} S${k} ${stage}: locks`);
+        const doc=docOf(sheet);lastDoc={key:`${k}_${stage}`,doc};
+        rebuildsSame(c,k,stage,evs,sheet,`r96 seed ${seed} S${k} ${stage}`);
+        if(stage==='pre'){
+          const now=boardBy(S,c,k,evs,doc),old=boardBy(Old,c,k,evs,doc);assert.ok(now&&old,`seed ${seed} S${k}: both builds put a board together`);
+          // The one place the builds part (release record): a namesake signed again after the other was shot, which 2.8.0's
+          // wider bar refuses. Where its chain still holds him (back from a loan) it stands him in his old window, so the
+          // roulette's version check stops the spin and asks that phone to update; anywhere else it reads the document's rows.
+          if(JSON.stringify(triples(old))!==JSON.stringify(triples(now))){
+            const oldBars=Old.replay({club:c,special:null,season:k,stage:'pre',events:evs,docs:{}}).proposal;
+            const refused=all(sheet).some(p=>p.signedSeason&&Old.barredAs(oldBars,{name:p.name,playerId:S.playerIdOf(sheet,p)})&&!S.barredAs(sheet,{name:p.name,playerId:S.playerIdOf(sheet,p)}));
+            assert.ok(refused,`seed ${seed} S${k}: a 2.8.0 phone builds the same Roulette rows`);
+            stats.oldStops+=1;continue;
+          }
+          const clubs={playerOne:c,playerTwo:'Arsenal'},other={formation:S.launch('Arsenal').formation,board:S.board(S.launch('Arsenal'))};
+          assert.equal(R.version(clubs,{sheets:{playerOne:old,playerTwo:other}}),R.version(clubs,{sheets:{playerOne:now,playerTwo:other}}),`seed ${seed} S${k}: the same shared board version`);
+          stats.boards+=1;
+        }
+      }
+      stats.careers+=1;
+    }
+    assert.ok(stats.narrow>20&&stats.backAfterShot>5,`the fuzz reaches narrowed shots (${stats.narrow}) and a namesake signed after a shot (${stats.backAfterShot})`);
+    ok('N9',`R96 a shot bars only the shot man: his namesake from another window is signed again and back as himself (both ways); same-window pairs and typed rows stay barred as before; fuzz ${stats.careers} careers: LOCK and the engine agree on ${stats.compared} men, ${stats.narrow} narrowed shots, ${stats.backAfterShot} windows signing a namesake after a shot, and a 2.8.0 phone builds the same ${stats.boards} boards and board versions (${stats.oldStops} where it holds a namesake signed again after the other was shot in his old window: the roulette's version check asks it to update)`);
   }
   console.log(`PASS r94 namesake signings contracts (${checks} checks)`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
