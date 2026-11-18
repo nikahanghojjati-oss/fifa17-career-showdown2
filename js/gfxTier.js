@@ -418,7 +418,10 @@
     // The level that failed is the one this screen draws (r96: its own level on Auto after a Device check).
     const cur=gfxProfile().level,old=gfxCap();
     const level=Math.max(0,Math.min(cur>=5?4:cur-1,old?old.level:4));
-    gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),at:Date.now(),build:BUILD}));cached=null;benchFailed=String(reason||"failed");
+    // r97 (Codex on #1553): a tab death's stops stay when a later screen fails, or the next Device check would open the
+    // screen that closed the tab at its fatal level again. The cap then keeps the tab-death rules (no lift after clean scenes).
+    const tab=old&&old.tab?{tab:true,from:old.from,scene:String(old.scene||""),scenes:gfxTabScenes(old,old.scene),bench:Boolean(old.bench)}:{};
+    gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),...tab,at:Date.now(),build:BUILD}));cached=null;benchFailed=String(reason||"failed");
     try{active?.sync();}catch(_error){}
     const b=gfxBaseProfile();gfxMarkRoot(b.level,b.assetLevel);return gfxProfile();
   }

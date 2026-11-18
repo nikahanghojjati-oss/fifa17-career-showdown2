@@ -446,7 +446,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.deepEqual(same.asked, orderBut(1, "chamber-men"), "a cap from this build keeps High shut on its screen");
     assert.match(same.status, /High was not tried: the tab closed at that level last time/);
     assert.match(same.rows, /The tab closed at this level last time, so it was not opened again\./);
-    for (const write of [/gfxWrite\(CAP_KEY,JSON\.stringify\(\{level,reason:TAB_CRASH,[^\n]*?,at:Date\.now\(\),build:BUILD\}\)\)/, /gfxWrite\(CAP_KEY,JSON\.stringify\(\{level,reason:String\(reason\|\|"failed"\),at:Date\.now\(\),build:BUILD\}\)\)/])
+    for (const write of [/gfxWrite\(CAP_KEY,JSON\.stringify\(\{level,reason:TAB_CRASH,[^\n]*?,at:Date\.now\(\),build:BUILD\}\)\)/, /gfxWrite\(CAP_KEY,JSON\.stringify\(\{level,reason:String\(reason\|\|"failed"\),\.\.\.tab,at:Date\.now\(\),build:BUILD\}\)\)/])
       assert.match(TIER, write, "every cap the module writes carries the build");
     ok("D16", "a crash cap or opening mark from an older build is dropped, so an update gives the level a fresh try; this build's cap still blocks");
   }
