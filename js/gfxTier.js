@@ -253,9 +253,13 @@
     if(keep.length!==all.length)gfxWrite(OPEN_KEY,JSON.stringify(keep));
     if(!died)return null;
     const old=gfxCap(),level=Math.max(0,Math.min(died.level>=5?4:died.level-1,old?old.level:4));
-    gfxWrite(CAP_KEY,JSON.stringify({level,reason:TAB_CRASH,tab:true,from:died.level,scene:String(died.scene||""),bench:Boolean(died.bench),at:Date.now(),build:BUILD}));
+    gfxWrite(CAP_KEY,JSON.stringify({level,reason:TAB_CRASH,tab:true,from:died.level,scene:String(died.scene||""),scenes:gfxTabScenes(old,died.scene),bench:Boolean(died.bench),at:Date.now(),build:BUILD}));
     cached=null;return died;
   }
+  // r97 (Codex on #1553): every screen that closed the tab while a cap lasts, so a second death on another screen does not
+  // let the Device check open the first one's fatal level again. "" stands for a screen that could not be named.
+  function gfxTabScenes(old,scene){const prev=old&&old.tab?(Array.isArray(old.scenes)?old.scenes:[old.scene]).map(x=>String(x||"")):[];
+    return [...new Set([...prev,String(scene||"")])].slice(-8);}
   function gfxOpenArm(level,scene){
     if(opening||!(level>0))return;
     try{if(root.document&&root.document.visibilityState==="hidden")return;}catch(_error){}
@@ -414,7 +418,10 @@
     // The level that failed is the one this screen draws (r96: its own level on Auto after a Device check).
     const cur=gfxProfile().level,old=gfxCap();
     const level=Math.max(0,Math.min(cur>=5?4:cur-1,old?old.level:4));
-    gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),at:Date.now(),build:BUILD}));cached=null;benchFailed=String(reason||"failed");
+    // r97 (Codex on #1553): a tab death's stops stay when a later screen fails, or the next Device check would open the
+    // screen that closed the tab at its fatal level again. The cap then keeps the tab-death rules (no lift after clean scenes).
+    const tab=old&&old.tab?{tab:true,from:old.from,scene:String(old.scene||""),scenes:gfxTabScenes(old,old.scene),bench:Boolean(old.bench)}:{};
+    gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),...tab,at:Date.now(),build:BUILD}));cached=null;benchFailed=String(reason||"failed");
     try{active?.sync();}catch(_error){}
     const b=gfxBaseProfile();gfxMarkRoot(b.level,b.assetLevel);return gfxProfile();
   }
@@ -891,12 +898,13 @@
     can8k(){return Boolean(gfxProfile().can8k);},samples:gfxSamples,checkTarget:gfxCheckTarget,
     // tabCrash(): the cap left by a tab that died while a 3D screen was opening (null when there is none). The Device
     // check does not open a level above it again.
-    tabCrash(){const c=gfxCap();return c&&c.tab?{level:c.level,from:Number.isInteger(c.from)?c.from:c.level+1,scene:String(c.scene||""),bench:Boolean(c.bench),at:c.at,until:Number(c.at||0)+CAP_DAYS_MS}:null;},
+    // r97: scenes lists every screen that closed the tab while the cap lasts (scene is the latest).
+    tabCrash(){const c=gfxCap();return c&&c.tab?{level:c.level,from:Number.isInteger(c.from)?c.from:c.level+1,scene:String(c.scene||""),scenes:Array.isArray(c.scenes)?c.scenes.map(x=>String(x||"")):[String(c.scene||"")],bench:Boolean(c.bench),at:c.at,until:Number(c.at||0)+CAP_DAYS_MS}:null;},
     // tabDied(level, scene): r93, the Device check saw its page die while one of its screens was playing (the page came back
     // with that screen still open). The same cap as a tab that died while a screen was opening: one level below, until 7 days,
     // a pick in Settings or the next build.
     tabDied(level,scene){const l=Math.round(Number(level));if(!(l>0&&l<=5))return null;const old=gfxCap(),cap=Math.max(0,Math.min(l>=5?4:l-1,old?old.level:4));
-      gfxWrite(CAP_KEY,JSON.stringify({level:cap,reason:"the tab closed while this 3D screen was playing",tab:true,from:l,scene:String(scene||""),bench:true,at:Date.now(),build:BUILD}));cached=null;return cap;},
+      gfxWrite(CAP_KEY,JSON.stringify({level:cap,reason:"the tab closed while this 3D screen was playing",tab:true,from:l,scene:String(scene||""),scenes:gfxTabScenes(old,scene),bench:true,at:Date.now(),build:BUILD}));cached=null;return cap;},
     // fallback(reason): a scene that hit an out-of-memory sign of its own drops the device one level (remembered).
     fallback:gfxFail,fallback8k:gfxFail,
     // sceneOpening(scene): a 3D screen on the game's own page says it is about to load and build (the tab-crash guard's

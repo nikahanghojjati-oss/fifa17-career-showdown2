@@ -140,7 +140,8 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
   assert.doesNotMatch(g.limits, /fps|\b60\b/i);
   // The page's one "holds 60 fps" sentence is for a saved check that held its level; before a check it is "Auto starts
   // there". r92: a check where even Light was not smooth saves nothing, so the page never reads one.
-  assert.match(PAGE, /const held60=m&&m\.detail&&typeof m\.detail\.held==="boolean"\?m\.detail\.held:null;/);
+  // r97: not when a screen stopped at or below the saved level (a death below the chip's level; the chip's level is the floor).
+  assert.match(PAGE, /const held60=m&&m\.detail&&typeof m\.detail\.held==="boolean"\?m\.detail\.held&&!under:null;/);
   // r96 (Nik 2026-11-17: each 3D screen draws the best level it held itself): the sentence names the screens that draw higher.
   assert.match(PAGE, /const why=!m\?`Auto starts there on a device like this\. Run the check to measure yours: Auto then gives each 3D screen the best level it kept smooth\.`\s*:held60\?`Measured on this device: every 3D screen holds 60 fps at \$\{name\}\. Auto uses it\.\$\{own\}`\s*:`The check measured \$\{name\} on this device\. Auto uses it\.\$\{own\}`;/);
   assert.equal((PAGE.slice(PAGE.indexOf("function showGuide()")).match(/60 fps/g) || []).length, 1, "said once, in that one sentence");
@@ -211,7 +212,7 @@ const plain = G => JSON.parse(JSON.stringify(G.guide()));
   assert.ok(PAGE.includes("#status:empty{display:none}"), "an empty status line takes no room");
   // run(): the status words are written, then wait() runs to stage.classList.add("live") before the first await yields.
   const run = PAGE.slice(PAGE.indexOf("async function run("), PAGE.indexOf("const j=judge("));
-  const says = run.indexOf("status.textContent=`${scene.name}"), waits = run.indexOf("await wait(scene,level)");
+  const says = run.indexOf("status.textContent=`${closed}${scene.name}"), waits = run.indexOf("await wait(scene,level)");
   assert.ok(says > 0 && waits > says, "the status words are written right before the screen is opened");
   assert.ok(!/await /.test(run.slice(says, waits)), "nothing is awaited between the status words and the open");
   const wait = PAGE.slice(PAGE.indexOf("function wait(scene,level){"), PAGE.indexOf("async function run("));

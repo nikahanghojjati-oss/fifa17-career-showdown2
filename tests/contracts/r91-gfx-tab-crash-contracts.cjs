@@ -11,6 +11,7 @@
 //   T4 no false alarm: another tab's mark, a live frame on the same load, a clean reload, a tab that cannot be told apart
 //   T5 the cap does not lift after clean scenes; it ends after 7 days or with a pick in Settings; a Device check leaves it
 //   T6 Settings and the docs say what happened
+//   T7 (r97, Codex on #1553) a later graphics failure on another screen keeps the tab death's stops
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -130,7 +131,7 @@ const cap = store => JSON.parse(store[CAP] || "null");
   const c = cap(store); assert.deepEqual([c.level, c.tab, c.from, c.scene, c.bench], [3, true, 4, "roulette/index.html", false]);
   assert.match(c.reason, /the tab closed while this 3D screen was opening/);
   assert.deepEqual(home.marks(), [], "the mark is spent");
-  assert.deepEqual(j(home.G.tabCrash()), j({level: 3, from: 4, scene: "roulette/index.html", bench: false, at: c.at, until: c.at + 7 * 864e5}));
+  assert.deepEqual(j(home.G.tabCrash()), j({level: 3, from: 4, scene: "roulette/index.html", scenes: ["roulette/index.html"], bench: false, at: c.at, until: c.at + 7 * 864e5}));
   // Roulette opens again, one level down, and that is the level it marks.
   const again = load({store, tab, framed: true, origin: 5000}); const p = again.G.profile();
   assert.equal(p.level, 3); assert.equal(p.fellBack.from, 4); assert.deepEqual(again.marks().map(x => x.level), [3]);
@@ -196,5 +197,21 @@ const cap = store => JSON.parse(store[CAP] || "null");
   assert.match(docs, /careerModeShowdown\.gfxOpening\.v1/);
   for (const k of ["careerModeShowdown.gfxOpening.v1", "careerModeShowdown.gfxTab.v1", "OPEN_RUN_MS=20000", "OPEN_STALE_MS=864e5"]) assert.ok(SRC.includes(k), k);
   ok("T6", "Settings and docs/QUALITY_LEVELS.md say what happened");
+}
+// T7
+{
+  const store = pick("ultra"), tab = {}; load({store, tab, framed: true, origin: 1}).G.profile(); load({store, tab, origin: 2});
+  assert.equal(cap(store).level, 3);
+  // Another screen loses its context at the capped level: the cap goes one lower and still names Roulette's tab death.
+  const sp = load({store, tab, framed: true, origin: 2, pathname: "/visual-assets/v10_1/special-player/index.html"}); sp.G.profile();
+  sp.G.fallback("the GPU dropped the picture (context lost)");
+  const c = cap(store), t = load({store, tab, origin: 2, pathname: "/index.html"}).G.tabCrash();
+  assert.equal(c.level, 2); assert.equal(c.tab, true); assert.equal(c.reason, "the GPU dropped the picture (context lost)");
+  assert.ok(t, "tabCrash still reports the tab death after a later graphics failure");
+  assert.deepEqual(Array.from(t.scenes), ["roulette/index.html"]); assert.equal(t.from, 4);
+  // A graphics failure with no tab death before it stays an ordinary cap.
+  const g = {...pick("ultra")}; const f = load({store: g, framed: true, origin: 2}); f.G.profile(); f.G.fallback("the GPU ran out of memory");
+  assert.equal(cap(g).tab, undefined); assert.equal(load({store: g, origin: 2, pathname: "/index.html"}).G.tabCrash(), null);
+  ok("T7", "a later graphics failure on another screen keeps the tab death's stops");
 }
 console.log(`PASS r91 gfx tab-crash contracts (${checks} checks)`);
