@@ -130,7 +130,7 @@ const cap = store => JSON.parse(store[CAP] || "null");
   const c = cap(store); assert.deepEqual([c.level, c.tab, c.from, c.scene, c.bench], [3, true, 4, "roulette/index.html", false]);
   assert.match(c.reason, /the tab closed while this 3D screen was opening/);
   assert.deepEqual(home.marks(), [], "the mark is spent");
-  assert.deepEqual(j(home.G.tabCrash()), j({level: 3, from: 4, scene: "roulette/index.html", bench: false, at: c.at, until: c.at + 7 * 864e5}));
+  assert.deepEqual(j(home.G.tabCrash()), j({level: 3, from: 4, scene: "roulette/index.html", scenes: ["roulette/index.html"], bench: false, at: c.at, until: c.at + 7 * 864e5}));
   // Roulette opens again, one level down, and that is the level it marks.
   const again = load({store, tab, framed: true, origin: 5000}); const p = again.G.profile();
   assert.equal(p.level, 3); assert.equal(p.fellBack.from, 4); assert.deepEqual(again.marks().map(x => x.level), [3]);

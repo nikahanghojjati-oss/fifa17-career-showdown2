@@ -168,7 +168,7 @@ async function run(answer, opts){
   }
   const el = page.el, sandbox = page.sandbox;
   const saved = store[KEY] && store[KEY] !== "null" ? JSON.parse(store[KEY]) : null;
-  return {asked, saved, changed: (store[KEY] || null) !== before, status: el("status").textContent, result: el("result").innerHTML, suggest: el("suggest").innerHTML, rows: el("rows").innerHTML, store, tier: sandbox.CareerModeGfxTier, loads, session: o.session};
+  return {asked, saved, changed: (store[KEY] || null) !== before, status: el("status").textContent, result: el("result").innerHTML, suggest: el("suggest").innerHTML, rows: el("rows").innerHTML, store, tier: sandbox.CareerModeGfxTier, loads, session: o.session, startDisabled: el("start").disabled};
 }
 const allGood = (scene, level) => [started(scene, level), good(scene, level)];
 const order = top => Array.from({length: top + 1}, (_, level) => SCENES.map(s => `${s}@${level}`)).flat();
@@ -564,6 +564,14 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     const again = await run(allGood, {...IPHONE, session: {}, storage: {[CAP]: JSON.stringify({level: 1, reason: "the tab closed while this 3D screen was playing", tab: true, from: 2, scene: "rrr", bench: true, at: Date.now(), build: BUILD})}});
     assert.deepEqual(again.asked, [...order(1), "chamber-men@2", "sp@2", "club-draw@2", ...SCENES.filter(s => s !== "rrr").map(s => `${s}@3`), ...SCENES.filter(s => s !== "rrr").map(s => `${s}@4`)]);
     assert.match(again.status, /High was not tried: the tab closed at that level last time\./);
+    // Codex on #1553: a second death on another screen while the cap lasts keeps the first screen held too.
+    const twice = await run(allGood, {...IPHONE, session: {}, dieAt: ["sp", 3], storage: {[CAP]: JSON.stringify({level: 1, reason: "the tab closed while this 3D screen was playing", tab: true, from: 2, scene: "rrr", bench: true, at: Date.now(), build: BUILD})}});
+    assert.ok(twice.asked.includes("sp@3") && !twice.asked.some(x => /^rrr@[234]$/.test(x)));
+    assert.deepEqual(twice.tier.tabCrash().scenes, ["rrr", "sp"], "the cap keeps both screens");
+    assert.equal(twice.tier.tabCrash().level, 1);
+    const next = await run(allGood, {...IPHONE, session: {}, storage: {[CAP]: twice.store[CAP]}});
+    assert.ok(!next.asked.some(x => /^(rrr|sp)@[234]$/.test(x)), `neither Roulette nor Special Player is opened above Balanced again (${next.asked.join(" ")})`);
+    assert.ok(next.asked.includes("club-draw@4") && next.asked.includes("chamber-men@4"), "the other screens still climb");
     ok("D22", "Nik's iPhone: after Roulette closes the tab at High (reload, or the app closed and the check opened again), the check goes on and saves each screen's level");
   }
   // D23
@@ -571,6 +579,11 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     const st = extra => JSON.stringify({v: 2, build: BUILD, at: Date.now(), results: LABELS.map(() => ({})), level: 2, scene: 1, first: null, ended: null, stops: {}, open: {level: 2, scene: 1}, played: false, tab: "OTHER", beat: Date.now(), ...(extra || {})});
     const busy = await run(allGood, {...IPHONE, storage: {[RUN]: st()}, session: {}, noStart: true, settle: true});
     assert.deepEqual(busy.asked, [], "another tab's live run is left alone");
+    assert.equal(busy.startDisabled, true, "and Start waits (Codex on #1553)");
+    // Start pressed anyway (the button is off; the handler checks again): the other tab's run is not written over.
+    const other = st(), pressed = await run(allGood, {...IPHONE, storage: {[RUN]: other}, session: {}, settle: true});
+    assert.deepEqual(pressed.asked, []); assert.equal(pressed.store[RUN], other, "the run is untouched");
+    assert.match(PAGE, /if\(!resume&&runRead\(\)\)\{takeOver\(\);return;\}/);
     assert.equal(busy.tier.tabCrash(), null, "and is not read as a death");
     assert.notEqual(busy.store[RUN], "null", "it stays for the tab running it");
     assert.equal(busy.status, "A Device check is running in another tab. Keep one check open at a time.");

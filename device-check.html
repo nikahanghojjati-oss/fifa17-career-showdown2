@@ -298,10 +298,12 @@ h2 span{color:var(--mute);font-weight:600}
   // while its cap lasts.
   function tabCrash(){try{return T&&T.tabCrash?T.tabCrash():null;}catch(_error){return null;}}
   // r97: the screen a tab-crash cap names (js/gfxTier.js writes a governor key, or the page of a framed screen), "" when
-  // it cannot be told. capHolds: the cap keeps this screen below its level in the check.
+  // it cannot be told. capHolds: the cap keeps this screen below its level in the check: every screen that closed the tab
+  // while the cap lasts (Codex on #1553), and every screen when one of them cannot be named.
   function capScene(name){const n=String(name||"");if(SCENES.some(sc=>sc.key===n))return n;
     for(const [re,k] of [[/roulette/,"rrr"],[/special-player/,"sp"],[/chamber/,"chamber-men"],[/ball|club-draw/,"club-draw"]])if(re.test(n))return k;return "";}
-  function capHolds(tc,key){const k=capScene(tc&&tc.scene);return !k||k===key;}
+  function capHolds(tc,key){const all=tc&&Array.isArray(tc.scenes)&&tc.scenes.length?tc.scenes:[tc&&tc.scene];
+    return all.some(n=>{const k=capScene(n);return !k||k===key;});}
   const capName=tc=>{const k=capScene(tc&&tc.scene),sc=SCENES.find(x=>x.key===k);return sc?sc.name:"";};
   // The measurement under way, so a hidden tab can stop it at once (Codex on #1266).
   let cancelWait=null;
@@ -371,6 +373,8 @@ h2 span{color:var(--mute);font-weight:600}
   }
   async function run(resume){
     if(running||!T)return;
+    // A fresh start never writes over a run another live tab is playing (Codex on #1553).
+    if(!resume&&runRead()){takeOver();return;}
     running=true;aborted="";startBtn.disabled=true;forgetBtn.hidden=true;result.innerHTML="";
     const keep=resume?true:runKeeps();
     const st=resume||{v:2,build:BUILD,at:Date.now(),results:LEVELS.map(()=>({})),level:0,scene:0,first:null,ended:null,stops:{},open:null,played:false};
@@ -497,9 +501,11 @@ h2 span{color:var(--mute);font-weight:600}
   // (the tab reloaded, or was closed and the check opened again): that screen stops at the level that closed the tab, the
   // rows already done are kept, and the other screens go on climbing.
   // A run another open tab is playing is left to it; once its beat stops (that tab died too), this page takes it over.
-  function resume(){const st=T&&!running?runRead():null;
-    if(st&&st.busy){status.textContent="A Device check is running in another tab. Keep one check open at a time.";setTimeout(resume,RUN_LIVE_MS);}
-    else if(st){
+  function takeOver(){const st=T&&!running?runRead():null;
+    // Start waits too (Codex on #1553): a new run would overwrite the one being played, or one this page is about to take over.
+    if(st&&st.busy){status.textContent="A Device check is running in another tab. Keep one check open at a time.";startBtn.disabled=true;setTimeout(takeOver,RUN_LIVE_MS);return;}
+    if(T&&!running)startBtn.disabled=false;
+    if(st){
       if(st.open&&SCENES[st.open.scene]&&st.results[st.open.level]){
         const lv=st.open.level,key=SCENES[st.open.scene].key;st.results[lv][key]={died:true};
         // The level that closed the tab is held below for now in play (js/gfxTier.js tabDied), as after a death while opening.
@@ -510,7 +516,7 @@ h2 span{color:var(--mute);font-weight:600}
       }
       run(st);
     }}
-  resume();
+  takeOver();
 })();
 </script>
 </body>
