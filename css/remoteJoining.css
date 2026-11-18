@@ -145,8 +145,7 @@ html[data-career-start-stage="phone"] #app #clubWheelScreen.cl-on { height: 100s
   position: static; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; width: 100%; max-width: none; margin-top: auto;
 }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage:is([data-stage-mode="phone"], [data-stage-mode="band"], [data-stage-mode="fallback"]) .remoteJoiningActions .compactButton:not(.r78-btn--primary) { min-height: 44px; }
-/* a short panel (under 290px) drops the rival line, then tightens step by step until nothing overflows */
-:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room] .pcstRival { display: none; }
+/* a short panel tightens step by step until nothing overflows; the rival line is never dropped (r96: Nik's rule, nothing is hidden) */
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tight"], [data-room="tighter"], [data-room="tightest"]) { gap: 6px; padding: 10px 12px; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tight"], [data-room="tighter"], [data-room="tightest"]) .pcstNote { font-size: 13px; line-height: 1.3; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tight"], [data-room="tighter"], [data-room="tightest"]) .pcstChips .settingsInfoRow { padding: 4px 10px; }
@@ -160,6 +159,7 @@ html[data-career-start-stage="phone"] #app #clubWheelScreen.cl-on { height: 100s
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar:is([data-room="tighter"], [data-room="tightest"]) .remoteJoiningActions .compactButton:not(.r78-btn--primary) { min-height: 34px; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room="tightest"] .pcstKicker { display: none; }
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room="tightest"] .remoteJoiningStatus { padding: 3px 8px; font-size: 12px !important; line-height: 1.25 !important; }
+:root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstPillar[data-room="tightest"] { gap: 3px; padding: 7px 10px; }
 /* the stage's own way out (the card's close and the Club screen's BACK step aside with the stage): a small gold-outline BACK,
    in the button row on desktop and on the title row on phones, clear of the title, the packs and the panel */
 :root:not(#pcst-b):not(#pcst-b):not(#pcst-b):not(#pcst-b) #productionSharedCareerStartOverlay.pcstStage .pcstBack { pointer-events: auto; }

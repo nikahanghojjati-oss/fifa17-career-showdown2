@@ -788,7 +788,7 @@ async function main(){
     assert.equal(confirms.length,1,`one confirm for the double tap: ${JSON.stringify(confirms)}`);
     assert.match(confirms[0],/Ends this Showdown for both players\. Legacy keeps it as Ended early\./);
     ok("R80e","END SHOWDOWN double-tapped: one confirm, one closure write, a success notice and no error");
-    const today=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date()));
+    const today=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"America/New_York"}).format(new Date()));
     for(const m of [daniel,nik]){
       const cards=await legacyCards(m),ended=cards.filter(c=>c.status==="abandoned");
       assert.equal(ended.length,1,`${m.user}: exactly one Ended early row (the test run never shows): ${JSON.stringify(cards)}`);
@@ -865,7 +865,7 @@ async function main(){
     assert.match((await noticeText(daniel))?.text||"",/^This Showdown was ended for both players\. Legacy keeps it as Ended early\.$/);
     ok("R80g.2","Nik opened a brand-new browser and, without CONTINUE (no setup state, no session on that page), tapped END SHOWDOWN in Settings: R3 closed with endedEarly {seasonsPlayed: 1}; Daniel's phone went Home by itself");
     // R3 can end on a later calendar day than R2 when a run crosses midnight: accept R2's date or the date now.
-    const todayNow=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date()));
+    const todayNow=await daniel.page.evaluate(()=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"America/New_York"}).format(new Date()));
     const r3Day=todayNow===today?today:`(?:${today}|${todayNow})`;
     for(const m of [daniel,nik]){
       const cards=await legacyCards(m,{abandoned:2,name:"r80g-legacy"}),ended=cards.filter(c=>c.status==="abandoned");

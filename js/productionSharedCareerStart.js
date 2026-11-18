@@ -201,6 +201,9 @@
     if(scene&&typeof root.getComputedStyle==="function"&&root.getComputedStyle(scene).display!=="none")return root.innerWidth>root.innerHeight?"band":"phone";
     return host.querySelectorAll(".clubPackStage").length===2?"desktop":null;
   }
+  // r96: when even the tightest step does not fit (small phones, long names), nothing is hidden: the panel takes the height its
+  // words need and the page scrolls (main is the only scroller), so the rival line and both buttons stay reachable.
+  function pcstPillarGrow(pillar){if(pillar.scrollHeight>pillar.clientHeight+1){pillar.style.bottom="auto";pillar.style.maxHeight="none";}}
   function pcstStageBox(node,origin){const r=node.getBoundingClientRect();return {x:r.left-origin.left,y:r.top-origin.top,w:r.width,h:r.height};}
   // The Club screen's box room (plates-hc/ENV_BOX_PHONE_HC_V3) puts the two managers behind a counter with the club packs on
   // it, under their chins. js/clubScreenV10.js clBoxLayout says where that plate is drawn (--clb-bg-pos/--clb-bg-size on the
@@ -398,9 +401,9 @@
       if(mode==="phone"){title.style.top=`${Math.round(top+12)}px`;pillar.style.top=`${Math.round(Math.max(band.y+band.h,packBottom+6))}px`;}
       else{Object.assign(title.style,{top:`${Math.round(top+10)}px`,left:`${Math.round(band.x)}px`,width:`${Math.round(band.w)}px`});Object.assign(pillar.style,{left:`${Math.round(band.x+band.w+8)}px`,top:`${Math.round(top+8)}px`});}
       const back=overlay.querySelector(".pcstBack");if(back&&!pillar.contains(back)&&!(actions&&actions.contains(back))){back.removeAttribute("style");back.style.top=`${Math.round(top+(mode==="phone"?10:8))}px`;}
-      // The rival line shows only when the panel has 290px or more; then the panel tightens until nothing overflows.
+      // The panel tightens step by step until nothing overflows; the rival line stays.
       const room=pillar.getBoundingClientRect().height;if(room<290)pillar.dataset.room="short";
-      for(const step of ["tight","tighter","tightest"])if(pillar.scrollHeight>pillar.clientHeight+1)pillar.dataset.room=step;
+      for(const step of ["tight","tighter","tightest"])if(pillar.scrollHeight>pillar.clientHeight+1)pillar.dataset.room=step;pcstPillarGrow(pillar);
     }
     return mode;
   }
@@ -421,7 +424,7 @@
     const below=Math.max(title.getBoundingClientRect().bottom,back?back.getBoundingClientRect().bottom:0)-origin.top+10;
     pillar.style.top=`${Math.round(below)}px`;pillar.style.maxHeight=`${Math.max(0,Math.floor(origin.height-below-8))}px`;
     const room=pillar.getBoundingClientRect().height;if(room<290)pillar.dataset.room="short";
-    for(const step of ["tight","tighter","tightest"])if(pillar.scrollHeight>pillar.clientHeight+1)pillar.dataset.room=step;
+    for(const step of ["tight","tighter","tightest"])if(pillar.scrollHeight>pillar.clientHeight+1)pillar.dataset.room=step;pcstPillarGrow(pillar);
     return "fallback";
   }
   async function pcstRetryStage(button){

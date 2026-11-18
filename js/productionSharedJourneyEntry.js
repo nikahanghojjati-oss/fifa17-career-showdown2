@@ -483,15 +483,34 @@
   // ENTRY_CLOSE_WINDOW_MS of it, once per Showdown on this page. One Terminal Close read on this path only (none when already
   // CLOSED here); ended early (DELETED) or any failure keeps Home. Nothing is written, nothing of the other phone is assumed.
   const ENTRY_CLOSE_WINDOW_MS=180000;
-  let enteringRivalryId="",enteringAt=0,entryPairUnsubscribe=null;const entryCloseTried=new Set();
+  let enteringRivalryId="",enteringAt=0,entryPairUnsubscribe=null,entryChampionRun=null;const entryCloseTried=new Set();
   function watchEntryPair(){
     if(entryPairUnsubscribe)return;const pair=root.CareerModePersistentNikDanielPair;if(!pair||typeof pair.subscribe!=="function")return;
     entryPairUnsubscribe=pair.subscribe(followEntryPair);followEntryPair(pair.getState?.());
   }
+  // r96 F3b (Sol 6.2 SS-01): a same-tab refresh right after the final CONFIRM SEASON can read the pair as still live and then
+  // see it close straight away, with no "continuing" between (the reload resume's own pair read already came back closed, or
+  // the pair's listener let it go first), so the entry above was never armed. On a fresh page that has not left Home yet, a
+  // live pair naming the Showdown this phone is due to crown (cms.championPending.v1, written at its final tap) arms the same
+  // follow. Nothing else changes: the same window, once per Showdown, Home only, the same CLOSED-with-witness check (DELETED
+  // or another save keeps Home). No read here.
+  let pageLeftHome=false;
   function followEntryPair(next){
     if(!next)return;
     if(next.status==="continuing"&&validRivalry(next.rivalryId)){enteringRivalryId=next.rivalryId;enteringAt=Date.now();return;}
+    if(!enteringRivalryId&&!pageLeftHome&&next.connectionState==="active"&&validRivalry(next.rivalryId)&&next.rivalryId===championPending()&&!entryCloseTried.has(next.rivalryId)){enteringRivalryId=next.rivalryId;enteringAt=Date.now();return;}
     if(pairSaysClosed(next,enteringRivalryId))championAfterEntryClosed(enteringRivalryId,next);
+  }
+  // r96 F3b: the reload resume (js/onlinePlayerIdentity.js openCanonicalCareerContinue) asks here before its START decision
+  // when its fresh pair read says the Showdown is no longer live: true means the Champion screen of the Showdown this page
+  // was entering, or due to crown, takes over (so START's "Waiting for Daniel" never opens over it).
+  // It answers with that Champion run (a promise of whether Final Winner opened), or null when nothing takes over.
+  function championTakingOver(pair){
+    const id=enteringRivalryId||(!pageLeftHome?championPending():"");
+    if(!validRivalry(id)||!pairSaysClosed(pair,id))return null;
+    if(entryChampionRun&&entryChampionRun.rivalryId===id)return entryChampionRun.promise;
+    if(!enteringRivalryId){enteringRivalryId=id;enteringAt=Date.now();}
+    return championAfterEntryClosed(id,pair)&&entryChampionRun?entryChampionRun.promise:null;
   }
   function championAfterEntryClosed(rivalryId,pair){
     if(!validRivalry(rivalryId)||rivalryId!==enteringRivalryId||Date.now()-enteringAt>ENTRY_CLOSE_WINDOW_MS||entryCloseTried.has(rivalryId))return false;
@@ -499,7 +518,10 @@
     entryCloseTried.add(rivalryId);enteringRivalryId="";
     // The entry's own layers over Home (GET READY, Remote Joining waiting for a session that is now closed) go first.
     disarmRemoteReturn();closePanel();try{root.CareerModeSparkRemoteJoining?.closePanel?.();}catch(_error){}try{root.CareerModeConnectPlayersScreenV10?.close?.({restoreFocus:false});}catch(_error){}
-    void championForClosedRivalry(rivalryId,pair);
+    // As after a reload at the close (championAfterClose): the live-game flag, and with it js/ssjr.js's loading screen, stays
+    // until the Champion screen is up; when it cannot open, the resume lets go and Home shows.
+    const promise=championForClosedRivalry(rivalryId,pair).catch(()=>false).then(shown=>{if(!shown)root.careerModeTabResumeLetGo=true;try{root.sessionStorage?.removeItem(LIVE_GAME_KEY);}catch(_error){}return shown;});
+    entryChampionRun={rivalryId,promise};
     return true;
   }
   // Leaving the Champion screen of a closed Showdown (BACK TO SHOWDOWN HOME, REMATCH, any route) forgets the note. The close
@@ -509,7 +531,7 @@
     const screen=root.getActiveScreenName?.()||"",closed=closedHere();
     if(lastScreen==="seasonEntry"&&screen&&screen!=="seasonEntry"&&closed)clearChampionPending(closed);
     // r96 F3: the entry reached a game screen, so the followers there own the close from now on.
-    if(screen&&screen!=="mainMenu")enteringRivalryId="";
+    if(screen&&screen!=="mainMenu"){enteringRivalryId="";pageLeftHome=true;}
     lastScreen=screen;
   }
   // F1: a page left on a game screen that is not the Champion screen (a stale tab's dashboard or Season 1 wheel, Career
@@ -663,5 +685,5 @@
   }
   function install(){if(installed)return true;installed=true;root.document?.addEventListener?.("career-mode-screen-shown",followChampionScreen);root.addEventListener?.("career-mode-shared-terminal-close-state-change",followClose);/* F1: a due Champion screen is a live game for the reload resume (and its loading screen) */if(championPending())try{root.sessionStorage?.setItem(LIVE_GAME_KEY,"1");}catch(_error){}installStartButton();applyLocalDrawLock();watchEntryPair();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();watchEntryPair();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())startStartupResume();return true;}
 
-  return Object.freeze({contractVersion:7,feature:"ssjr-production-paired-first-entry",startOpensWaitingOverLeagueWheel:true,startNeverOffersToCloseLiveShowdown:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openWaiting,followStartDecision,closeEndedThenNew,continueFromLockedWheel,startupResume:()=>startupResumePromise,openPanel,closePanel,openSharedExperience,openClosedShowdown,openFinalResult,championAfterClose,isPending:pending});
+  return Object.freeze({contractVersion:7,feature:"ssjr-production-paired-first-entry",startOpensWaitingOverLeagueWheel:true,startNeverOffersToCloseLiveShowdown:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openWaiting,followStartDecision,closeEndedThenNew,continueFromLockedWheel,startupResume:()=>startupResumePromise,openPanel,closePanel,openSharedExperience,openClosedShowdown,openFinalResult,championAfterClose,championTakingOver,isPending:pending});
 });
