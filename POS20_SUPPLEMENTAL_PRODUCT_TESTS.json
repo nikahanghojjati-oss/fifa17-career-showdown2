@@ -3471,6 +3471,8 @@
         "^tests/browser/phone\\-memory\\-budget\\.cjs$",
         "^tests/browser/device\\-lab\\.cjs$",
         "^tests/browser/r97\\-rrr\\-phone\\-canvas\\-compare\\.cjs$",
+        "^js/rosterRouletteStep\\.js$",
+        "^tests/browser/support/ce2pg\\-rrr\\-context\\-loss\\.cjs$",
         "^tests/contracts/r97\\-rrr\\-phone\\-canvas\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]

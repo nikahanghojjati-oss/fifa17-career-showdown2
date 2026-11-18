@@ -398,7 +398,8 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     for (const need of [/!r\.ready && "never finished loading"/, /\(r\.errors \|\| \[\]\)\.length && `page errors/, /!\(r\.rafFrames > 0 && r\.callsMedian > 0\) && "drew nothing"/,
         /!\(r\.gfx && r\.gfx\.level === level\)/, /!\(r\.allocTexMB > 0\) && "uploaded no textures"/]) assert.match(budget, need, "an unloaded or broken screen is a failure, not 0 MB");
     const lab = fs.readFileSync(path.join(ROOT, "tests/browser/device-lab.cjs"), "utf8");
-    assert.match(lab, /HTMLCanvasElement\.prototype\.getContext = function \(type\) \{ const x = gc\.apply\(this, arguments\); if \(x && \/\^2d\$\/i\.test\(String\(type\)\)\) L\.c2d\.add\(this\); return x; \};/, "device-lab counts every 2D canvas");
+    assert.match(lab, /HTMLCanvasElement\.prototype\.getContext = function \(type\) \{ const x = gc\.apply\(this, arguments\); if \(x && \/\^2d\$\/i\.test\(String\(type\)\) && !this\.__labSeen\) \{ this\.__labSeen = true; L\.c2d\.push\(new WeakRef\(this\)\); \}/, "device-lab tracks every 2D canvas, weakly (Codex on #1554)");
+    assert.match(lab, /for\(let i = 0; i < 2; i \+= 1\) await cdp\.send\("HeapProfiler\.collectGarbage"\)/, "dropped canvases are collected before the count");
     assert.match(lab, /const TOP = process\.env\.DEVLAB_TOP === "1" \? "&gfxpr=top" : "";/);
     assert.equal((lab.match(/\$\{TOP\}`/g) || []).length, 4, "every screen (r96: the Ball Game too)");
     assert.match(TIER, /top=forcedLevel!==null&&gfxQuery\("gfxpr"\)==="top"/, "only with a forced level (the lab), never in play");

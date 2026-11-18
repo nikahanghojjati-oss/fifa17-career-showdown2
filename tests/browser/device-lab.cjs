@@ -102,11 +102,13 @@ function spoofScript(p, opts){
 // Layer 2/3 counters: draw calls, triangles, passes, pixels per pass, allocations, per-frame main-thread time.
 function instrumentScript(){
     return `(() => {
-        const L = window.__lab = { go: false, frames: [], long: [], allocMB: { tex: 0, rb: 0 }, attrs: null, buf: null, passList: [], t0: 0, c2d: new Set() };
+        const L = window.__lab = { go: false, frames: [], long: [], allocMB: { tex: 0, rb: 0 }, attrs: null, buf: null, passList: [], t0: 0, c2d: [] };
         /* r97 (Nik's iPhone 17: Roulette closed the tab at High): every 2D canvas the page paints, so its backing stores still alive
            (width x height x 4) can be counted beside the GPU memory. A scene's pictures painted on canvases are held twice on a phone. */
-        { const gc = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function (type) { const x = gc.apply(this, arguments); if (x && /^2d$/i.test(String(type))) L.c2d.add(this); return x; }; }
-        L.canvas2dMB = () => { let px = 0; for (const c of L.c2d) px += (c.width | 0) * (c.height | 0); return px * 4 / 1048576; };
+        { const gc = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function (type) { const x = gc.apply(this, arguments); if (x && /^2d$/i.test(String(type)) && !this.__labSeen) { this.__labSeen = true; L.c2d.push(new WeakRef(this)); } return x; }; }
+        // Weakly held (Codex on #1554): a canvas a scene paints with and drops is collected as in production, and the
+        // measurement forces a garbage collection first, so only canvases the scene still holds are counted.
+        L.canvas2dMB = () => { let px = 0; L.c2d = L.c2d.filter(r => { const c = r.deref(); if (!c) return false; px += (c.width | 0) * (c.height | 0); return true; }); return px * 4 / 1048576; };
         try { new PerformanceObserver(l => { for (const e of l.getEntries()) L.long.push([Math.round(e.startTime), Math.round(e.duration)]); }).observe({ type: "longtask", buffered: true }); } catch (e) {}
         let cur = null;
         let lastVp = [0, 0]; /* three.js sets the viewport only when it changes, so it must persist across frames */
@@ -219,6 +221,8 @@ async function cpuRun(browser, key, p, sceneKey, level){
         const loadMs = Date.now() - t0;
         await page.evaluate(() => { window.__lab.frames.length = 0; window.__lab.measureFrom = performance.now(); window.__lab.long.length = 0; });
         await page.waitForTimeout(MEASURE_MS);
+        // Canvases nothing holds any more go first (counted weakly, see canvas2dMB).
+        for(let i = 0; i < 2; i += 1) await cdp.send("HeapProfiler.collectGarbage").catch(() => {});
         const data = await page.evaluate(() => {
             const L = window.__lab, c = L.mainCanvas || document.querySelector("canvas"), T = window.CareerModeGfxTier;
             const prof = T ? T.profile() : null;
