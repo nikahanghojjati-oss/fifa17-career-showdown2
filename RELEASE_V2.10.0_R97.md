@@ -74,7 +74,7 @@ bump (the PR that adds this file).
   `volume25.js`; builder gameplay/r97/threads/bump/v25.py in project files), the 2.10.0 dispatch (`#latest/r97`, R97 SPOT
   filled, R98 SPOT left), Edition 22 labels, the newest-volume banner exemption on the new part, Volumes 23 to 25 added to the
   Story home's volume list. The live line is dateless ("Then Nik gives the word, and 2.10.0 goes live."). Counts measured in
-  Chromium: SOURCES_COUNT. The Story is its own site, outside the game's shell.
+  Chromium: 214 chapters, 95,265 words, 1,086 cited source URLs. The Story is its own site, outside the game's shell.
 
 ## Firestore Rules
 
@@ -97,7 +97,7 @@ PROBE_SECTION
   `app-asset-revision` and every `?v=` on Home's own files and the manifest icons, `js/menuExperience.js`, the service worker's
   `RUNTIME_REVISION` (PREVIOUS `2.9.0-r96`), and `js/gfxTier.js` BUILD. `index.html` differs from 2.9.0's only in those version
   strings (r97 never changed it). Each version string is one character longer than 2.9.0's; F10's startup budget check still
-  passes (STARTUP_GZIP).
+  passes: 33,980 of 34,000 gzip bytes (2.9.0: 33,979).
 - Rollback shell fixture `tests/fixtures/shell-paths/2.9.0-r96.json` (260 paths, main 56642b8f; path for path 2.8.0's list).
   Contracts moved on with it: r86 RR3/RR4, r87 UR3/UR5 and new UR16 (2.9.0 = 2.8.0), r78 R4c (the sorted list sha `e0996bb2…`
   is unchanged because the list is), r79 M, v10-club 4, v10-rules-settings RS9, v10-foundation F9/F9b and F10 (index.html
