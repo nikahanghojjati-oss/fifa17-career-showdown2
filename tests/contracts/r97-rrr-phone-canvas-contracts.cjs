@@ -42,6 +42,26 @@ ok("C4", "__rr.freed says what went and counts any re-upload; the before/after p
 assert.match(BUDGET, /const total = Math\.round\(\(r\.allocTexMB \+ r\.allocRbMB \+ r\.canvas2dMB\) \* 10\) \/ 10;/);
 assert.match(LAB, /canvas2dMB: data\.canvas2dMB == null \? null : r1\(data\.canvas2dMB\)/);
 ok("C5", "the phone memory budget counts live 2D canvases beside the GPU memory");
+// C7 (r97 slow font load): labels painted before the font arrived are painted again, kept off freeCanvases until then
+//   the label on the pointer ("FIRES HERE"), each board's plate and the boards are redone when document.fonts has the face; the page waits
+//   FONT_WAIT_MS for the fonts behind the loading screen and tells the game it is still busy meanwhile. Real run (slow fonts held back,
+//   labels measured as painted): tests/browser/r97-rrr-late-fonts.cjs
+assert.match(RR, /const FONT_FACES=\[[^\n]*\], FONT_WAIT_MS=15000;/);
+assert.ok(RR.indexOf("const FONT_FACES=") < RR.indexOf("function cv(w,h)"), "defined before the gun and its label are built (a const below them is in its dead zone and fontsOk would say yes)");
+assert.match(RR, /function lateFont\(c,t,paint\)\{ if\(fontsOk\(\)\) return; c\.__late=\{t,paint\}; LATE\.push\(c\); \}/);
+assert.match(RR, /lateFont\(c,t,paint\); return t; \}\)\(\);/, "the pointer label");
+assert.match(RR, /paint\(\); const t=new T\.CanvasTexture\(c\); t\.colorSpace=T\.SRGBColorSpace; t\.anisotropy=8; lateFont\(c,t,paint\); return t; \}/, "the board plate");
+assert.match(RR, /function repaintLate\(\)\{ if\(!fontsOk\(\)\|\|\(!LATE\.length&&!boardsLate\)\) return;/);
+assert.match(RR, /l\.paint\(\); l\.t\.needsUpdate=true;/);
+assert.match(RR, /if\(boardsLate&&SQUADS&&!playing&&turn===0&&/, "the boards are drawn again only before a turn has begun");
+assert.match(RR, /function drawBoard\(key,club\)\{[^\n]*\n? ?[^\n]*if\(!boardsLate&&!fontsOk\(\)\) boardsLate=true;/);
+assert.match(free, /LATE\.forEach\(c=>keep\.add\(c\)\);/, "a canvas still waiting for the font is not freed");
+assert.match(RR, /layout\(\); buildEnv\(\); repaintLate\(\);/, "labels are redone before warm-up uploads and frees them");
+assert.match(RR, /document\.fonts\.addEventListener\("loadingdone",repaintLate\); document\.fonts\.ready\.then\(repaintLate\)/);
+assert.match(RR, /document\.fonts\.load\(f\)\.catch\(\(\)=>\[\]\)\)\), new Promise\(r=>setTimeout\(r,FONT_WAIT_MS\)\)\]\);/, "a font file that fails does not stop the start");
+assert.match(RR, /setInterval\(\(\)=>toGame2\("cms-rr-loading",\{stage:"fonts"\}\),2000\)/, "the game's loading screen hears the wait");
+assert.ok(fs.existsSync(path.join(ROOT, "tests/browser/r97-rrr-late-fonts.cjs")));
+ok("C7", "a label painted before its font is painted again once document.fonts has it; the start waits 15 s behind the loading screen; pending canvases are kept");
 // C6
 (async () => {
   const STEP = fs.readFileSync(path.join(ROOT, "js/rosterRouletteStep.js"), "utf8");
