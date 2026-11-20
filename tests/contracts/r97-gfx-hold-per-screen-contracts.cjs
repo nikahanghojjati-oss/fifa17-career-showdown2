@@ -12,6 +12,7 @@
 //   H7 a Device check frame (?gfx=N&bench=1) measures the level it asks for over a graphics-error hold, and honours it once it
 //      fails there itself (review on #1555)
 //   H8 calibrating a held screen on Auto never moves the device's level or the other screens (review on #1555)
+//   H9 nor when the hold is two levels down, or the five frames are slow, on the game page or in a frame (review on #1559)
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -155,7 +156,7 @@ const RR = "/visual-assets/v10_1/roulette/index.html", SP = "/visual-assets/v10_
   ok("H7", "a Device check frame measures the level it asks for over a hold, and honours one it makes");
 }
 // H8
-(async () => {
+const h8 = (async () => {
   const MID = "ANGLE (NVIDIA, NVIDIA GeForce GTX 1060 6GB (0x00001C03) Direct3D11 vs_5_0 ps_5_0, D3D11)";
   const device = {gpu: MID, dpr: 1, memory: 8, cores: 8, screen: [1920, 1080], view: [1920, 1035]};
   const store = {}, home = load({store, device, pathname: "/index.html"}), auto = home.G.profile().level;
@@ -167,5 +168,25 @@ const RR = "/visual-assets/v10_1/roulette/index.html", SP = "/visual-assets/v10_
   assert.deepEqual(["rrr", "chamber-men", "club-draw"].map(k => f.G.profile(k).level), [auto, auto, auto], "the other screens keep the device's level");
   assert.equal(f.ctx.document.documentElement.dataset.gfx, String(auto - 1), "the pack's page marks what it draws");
   ok("H8", "calibrating a held screen never moves the device's level or the other screens");
+})();
+h8.catch(e => { console.error(e); process.exit(1); });
+// H9
+(async () => {
+  await h8;
+  const MID = "ANGLE (NVIDIA, NVIDIA GeForce GTX 1060 6GB (0x00001C03) Direct3D11 vs_5_0 ps_5_0, D3D11)";
+  const device = {gpu: MID, dpr: 1, memory: 8, cores: 8, screen: [1920, 1080], view: [1920, 1035]};
+  const auto = load({store: {}, device, pathname: "/index.html"}).G.profile().level;
+  const others = {"chamber-men": ["rrr", "club-draw", "sp"], sp: ["rrr", "chamber-men", "club-draw"]};
+  for (const [key, held, cost] of [["chamber-men", auto - 2, 0], ["sp", auto - 2, 0], ["sp", auto - 1, 40]]) {
+    const store = {[CAP]: j({caps: [{scene: key, level: held, reason: "context lost", at: Date.now(), build: BUILD}]})};
+    const page = key === "sp" ? load({store, device, framed: true, pathname: SP}) : load({store, device, pathname: "/index.html"});
+    if (key !== "sp") page.G.sceneOpening(key);
+    assert.equal(page.G.profile().level, held);
+    const r = page.renderer(); const p = await page.G.calibrate(r, () => { page.clock.t += cost; });
+    assert.equal(p.level, held, `${key} stays at its hold after a ${cost ? "slow" : "fast"} calibration`);
+    assert.deepEqual(others[key].map(k => page.G.profile(k).level), others[key].map(() => auto), `${key}: the other screens keep the device's level`);
+    if (key !== "sp") assert.equal(page.ctx.document.documentElement.dataset.gfx, String(auto), "the game page's 2D keeps the device's level");
+  }
+  ok("H9", "calibrating a screen held two levels down, or slow, never moves the device's level or the other screens");
   console.log(`PASS r97 gfx hold per screen contracts (${checks} checks)`);
 })().catch(e => { console.error(e); process.exit(1); });
