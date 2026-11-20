@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.9.0-r96";
-const PREVIOUS_RUNTIME_REVISION = "2.8.0-r95";
+const RUNTIME_REVISION = "2.10.0-r97";
+const PREVIOUS_RUNTIME_REVISION = "2.9.0-r96";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -421,10 +421,11 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.9.0 (r96): PREVIOUS is the live 2.8.0-r95 (260 paths, tests/fixtures/shell-paths/2.8.0-r95.json, main 30b79695). The STORY
+// 2.10.0 (r97): PREVIOUS is the live 2.9.0-r96 (260 paths, tests/fixtures/shell-paths/2.9.0-r96.json, main 56642b8f). The STORY
 // site is never precached.
-// r96 adds and removes no shell path: its new Device check frame (device-check-ball.html) is a standalone page, always from the
-// network, like the other Device check pages. Both sets are empty, so PREVIOUS_SHELL_PATHS is this build's list.
+// r97 adds and removes no shell path: its changes are to shell files already listed (gfxTier, Career Start, the roulette frame)
+// and to device-check.html, a standalone page always from the network. Both sets are empty, so PREVIOUS_SHELL_PATHS is this
+// build's list.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut

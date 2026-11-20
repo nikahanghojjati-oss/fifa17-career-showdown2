@@ -161,6 +161,18 @@ body.embed .mid { bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
 <script>
 (function(){
 "use strict";
+/* r97 (slow font load): the scene starts once its fonts are in, or after FONT_WAIT_MS at the latest (the loading screen stays up
+   meanwhile). A label painted before the font arrived (the wait ran out, or the font file never came) would stay in Arial for the
+   whole game (the gun and its label are built as the script runs, before the fonts have even been asked for), so each such canvas is remembered, kept off phones' freeCanvases (they are a few hundred KB: the label, two plates)
+   and painted again, once, when document.fonts has the face; the boards are drawn again the same way where no turn has begun. */
+const FONT_FACES=['700 30px "Instrument Sans Narrow"','800 30px "Instrument Sans Narrow"','600 30px "Instrument Sans Narrow"','900 30px "Instrument Sans Narrow"'], FONT_WAIT_MS=15000;
+function fontsOk(){ try{ return FONT_FACES.every(f=>document.fonts.check(f)); }catch(e){ return true; } }
+const LATE=[]; let boardsLate=false;
+function lateFont(c,t,paint){ if(fontsOk()) return; c.__late={t,paint}; LATE.push(c); }
+function repaintLate(){ if(!fontsOk()||(!LATE.length&&!boardsLate)) return;
+  LATE.splice(0).forEach(c=>{ const l=c.__late; c.__late=null; if(!l||!c.width) return; try{ l.paint(); l.t.needsUpdate=true; }catch(e){} });
+  if(boardsLate&&SQUADS&&!playing&&turn===0&&boards.D.userData.club&&boards.N.userData.club){ boardsLate=false; setBoards(boards.D.userData.club.club,boards.N.userData.club.club); } }
+function fontsLanded(){ try{ document.fonts.addEventListener("loadingdone",repaintLate); document.fonts.ready.then(repaintLate); }catch(e){} }
 // r87 (Team G): a browser without WebGL (switched off, old GPU, some headless runs) cannot draw the stage. Say so once
 // instead of letting three.js throw: in the game the result and the release still show without the scene.
 if(!(function(){ try{ var c=document.createElement("canvas"); return !!(window.WebGL2RenderingContext&&c.getContext("webgl2")); /* r89: three.js r187 draws with WebGL 2 only */ }catch(e){ return false; } })()){
@@ -898,7 +910,9 @@ function prism(section,len,m){ const n=section.length; const pos=[],nor=[],uv=[]
     /* FIRE mark: a gold pointer fixed to the crane (it does not turn with the drum) at the chamber that lines up with the barrel */
     const ptr=new T.Group(); ptr.position.set(.0165,.016+R+.0062,-.0247); ptr.rotation.y=Math.PI; crane.add(ptr); cyl.userData.pointer=ptr;
     const cone=new T.Mesh(new T.ConeGeometry(.0032,.006,20),new T.MeshStandardMaterial({color:0xffc84a, emissive:0xd98a12, emissiveIntensity:.9, roughness:.35, metalness:.6})); cone.rotation.z=Math.PI; cone.position.y=-.0005; ptr.add(cone);
-    const lblTex=(()=>{ const c=document.createElement("canvas"); c.width=256; c.height=96; const x=c.getContext("2d"); x.clearRect(0,0,256,96); /* r87 polish: a black-and-gold plate behind the words, so they read over the board behind the drum instead of running into its names */ x.beginPath(); x.moveTo(30,16); x.lineTo(226,16); x.arcTo(246,16,246,48,18); x.arcTo(246,80,226,80,18); x.lineTo(30,80); x.arcTo(10,80,10,48,18); x.arcTo(10,16,30,16,18); x.closePath(); x.fillStyle="rgba(12,9,5,.9)"; x.fill(); x.lineWidth=3; x.strokeStyle="#d4a017"; x.stroke(); x.font="700 38px 'Instrument Sans Narrow', Arial"; x.textAlign="center"; x.fillStyle="#ffd36b"; x.fillText("FIRES HERE",128,61); const t=new T.CanvasTexture(c); t.anisotropy=8; return t; })();
+    const lblTex=(()=>{ const c=document.createElement("canvas"); c.width=256; c.height=96;
+      const paint=()=>{ const x=c.getContext("2d"); x.clearRect(0,0,256,96); /* r87 polish: a black-and-gold plate behind the words, so they read over the board behind the drum instead of running into its names */ x.beginPath(); x.moveTo(30,16); x.lineTo(226,16); x.arcTo(246,16,246,48,18); x.arcTo(246,80,226,80,18); x.lineTo(30,80); x.arcTo(10,80,10,48,18); x.arcTo(10,16,30,16,18); x.closePath(); x.fillStyle="rgba(12,9,5,.9)"; x.fill(); x.lineWidth=3; x.strokeStyle="#d4a017"; x.stroke(); x.font="700 38px 'Instrument Sans Narrow', Arial"; x.textAlign="center"; x.fillStyle="#ffd36b"; x.fillText("FIRES HERE",128,61); };
+      paint(); const t=new T.CanvasTexture(c); t.anisotropy=8; lateFont(c,t,paint); return t; })();
     const lbl=new T.Mesh(new T.PlaneGeometry(.022,.00825),new T.MeshBasicMaterial({map:lblTex, transparent:true, depthWrite:false})); lbl.position.set(0,.0068,0); ptr.add(lbl);
     ptr.visible=false; ptr.scale.set(.001,.001,.001); }
   /* base pin through the cylinder with its knurled head out the front of the frame */
@@ -982,7 +996,9 @@ if(EXTRA_UP){ const top=mat({map:marbleTex(), color:0xc9c0b2, roughness:.22, met
   cafeTable(-3.5,-2.9); chair(-3.5,-3.5,0); chair(-2.85,-2.9,-Math.PI/2);
   cafeTable(3.5,-2.9); chair(3.5,-3.5,0); chair(2.85,-2.9,Math.PI/2);
   cafe.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=false; } }); bake(cafe); }
-function plateTex(text){ const [c,ctx]=cv(512,128); const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Instrument Sans Narrow'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; return t; }
+function plateTex(text){ const [c,ctx]=cv(512,128);
+  const paint=()=>{ const g=ctx.createLinearGradient(0,0,0,128); g.addColorStop(0,"#f3d98a"); g.addColorStop(.5,"#c9a24a"); g.addColorStop(1,"#f0cf74"); ctx.fillStyle=g; ctx.fillRect(0,0,512,128); ctx.strokeStyle="#6b4a14"; ctx.lineWidth=4; ctx.strokeRect(10,10,492,108); ctx.font="700 64px 'Instrument Sans Narrow'"; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#5a3c0c"; ctx.fillText(text,256,70); ctx.fillStyle="#fff2c0"; ctx.fillText(text,256,66); ctx.fillStyle="#3b2706"; ctx.fillText(text,256,68); };
+  paint(); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; t.anisotropy=8; lateFont(c,t,paint); return t; }
 function ringShape(w,h,r,iw,ih,ir){ const sh=new T.Shape(); sh.moveTo(-w/2+r,-h/2); sh.lineTo(w/2-r,-h/2); sh.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r); sh.lineTo(w/2,h/2-r); sh.quadraticCurveTo(w/2,h/2,w/2-r,h/2); sh.lineTo(-w/2+r,h/2); sh.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r); sh.lineTo(-w/2,-h/2+r); sh.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);
   const hole=new T.Path(); hole.moveTo(-iw/2,-ih/2); hole.lineTo(-iw/2,ih/2); hole.lineTo(iw/2,ih/2); hole.lineTo(iw/2,-ih/2); hole.lineTo(-iw/2,-ih/2); sh.holes.push(hole); return sh; }
 /* board: a black-lacquer moulded frame with a gold fillet, the squad screen under glass; easel: walnut A-frame with gold ferrules, caps, a ledge rail and a finial */
@@ -1073,7 +1089,7 @@ function playerCard(ctx,sp,club,vsClub){ const {x,y,s}=sp;
   const bw=s*1.34, bh=Math.max(4,s*.1), by=y+s*.6; ctx.fillStyle="rgba(8,22,10,.8)"; ctx.fillRect(x-bw/2,by,bw,bh); ctx.fillStyle="#46cf3a"; ctx.fillRect(x-bw/2+1,by+1,(bw-2)*Math.min(1,sp.rating/99),bh-2);
   const ny=by+bh+s*.36; ctx.textAlign="center";
   { const t=fitText(ctx,surname(sp.name),700,Math.round(s*.46),Math.round(s*.32),sp.nameW); textShadow(ctx,true); ctx.fillStyle="#fff"; ctx.fillText(t,x,ny+1); textShadow(ctx,false); } }
-function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; b.bubbles.length=0; b.club=club; const other=boards[key==="D"?"N":"D"].userData.club, vsClub=other&&other!==club?other.club:undefined;
+function drawBoard(key,club){ const b=boards[key].userData, ctx=b.ctx, W=1024, H=780; if(!boardsLate&&!fontsOk()) boardsLate=true; b.bubbles.length=0; b.club=club; const other=boards[key==="D"?"N":"D"].userData.club, vsClub=other&&other!==club?other.club:undefined;
   const form=(club.formation||formationOf(club.xi));
   ctx.setTransform(BS,0,0,BS,0,0); ctx.clearRect(0,0,W,H); ctx.textBaseline="middle";
   { const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1b1e24"); g.addColorStop(1,"#101216"); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
@@ -1705,8 +1721,24 @@ function buildEnv(){ if(!LOOK.hdri&&!LIGHT) return; const pm=new T.PMREMGenerato
    says it is ready, so the first frame anyone sees, and the first muzzle flash, smoke puff or spin blur, never stalls on a compile.
    The old page compiled each of those the first time it appeared, in the middle of a turn. Then js/gfxTier.js times a few real frames. */
 function toGame2(type,extra){ if(EMBED) try{ parent.postMessage(Object.assign({type},extra||{}),location.origin); }catch(e){} }
+/* r97 phone memory (Nik's iPhone 17 closed the Device check on this screen at High): each picture this scene paints is a 2D canvas
+   that three.js uploads to the GPU and then keeps, so a phone holds it twice (Chromium, iPhone profile: 2D canvases 78 MB at
+   Balanced, 128 MB at High, beside 123 / 214 MB of GPU textures). On a phone a canvas is let go once every texture drawn from it
+   is on the GPU, unless it is painted again in play: the boards (their canvas, first and spare: boardTex marks them __tex).
+   The picture is the same (the GPU copy is what is drawn). The canvas cannot be uploaded again, so a lost context that comes back
+   cannot rebuild the scene: the turn is handed to the game's result card (EMBED) or the page reloads, as after a context that
+   never comes back. window.__rr.freed says what was let go; a freed texture that is ever uploaded again counts in reuploads. */
+let FREED=null;
+function freeCanvases(all){ const keep=new Set(); ["D","N"].forEach(k=>{ const b=boards[k].userData; [b.canvas,b.first,b.spare].forEach(c=>{ if(c) keep.add(c); }); }); LATE.forEach(c=>keep.add(c));
+  const by=new Map(); all.forEach(t=>{ const c=t.image; if(!(c&&typeof HTMLCanvasElement!=="undefined"&&c instanceof HTMLCanvasElement)||keep.has(c)||c.__tex) return; if(!by.has(c)) by.set(c,[]); by.get(c).push(t); });
+  const out={canvases:0,mb:0,kept:keep.size,reuploads:0};
+  by.forEach((ts,c)=>{ if(!ts.every(t=>{ const p=renderer.properties.get(t); return p&&p.__webglTexture; })) return;
+    out.canvases+=1; out.mb+=c.width*c.height*4/1048576;
+    ts.forEach(t=>{ t.onUpdate=()=>{ out.reuploads+=1; }; }); c.width=c.height=0; });
+  out.mb=Math.round(out.mb*10)/10; FREED=out; }
 async function warmUp(){ const all=new Set(); scene.traverse(o=>{ (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(!m) return; for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!v.isRenderTargetTexture) all.add(v); } }); });
   ["D","N"].forEach(k=>{ const c=boards[k].userData.spare; if(c) all.add(c.__tex); }); all.forEach(t=>{ try{ renderer.initTexture(t); }catch(e){} });
+  if(GFX.phone) freeCanvases(all);
   toGame2("cms-rr-loading",{stage:"compile"});
   /* r90 MOTION M9: where the GPU cannot compile in the background (no KHR_parallel_shader_compile: most Chromebooks, software GL)
      compileAsync is one long blocking task (59.7 s in the container). The shaders are built a few materials at a time instead,
@@ -1749,6 +1781,8 @@ renderer.domElement.addEventListener("webglcontextlost",e=>{ e.preventDefault();
 /* on restore the frame clock keeps the last frame's time (as on the way back from the back-forward cache, Codex P2 on #1326), so tick()
    moves the turn clock past the gap and the turn picks up where it stopped instead of firing its cues together */
 renderer.domElement.addEventListener("webglcontextrestored",()=>{ clearTimeout(lostTimer); lostTimer=0; lostOn=false; if(leaving||lostSent) return;
+  /* r97: a phone let its painted canvases go (freeCanvases): the scene cannot be rebuilt, so the turn goes on as after a context that never comes back */
+  if(FREED&&FREED.canvases){ lostSent=true; if(EMBED) toGame("cms-rr-error",{message:"webgl context lost"}); else location.reload(); return; }
   try{ buildEnv(); }catch(e){} renderer.shadowMap.needsUpdate=true; if(window.__rrReady&&!rafId) rafId=requestAnimationFrame(frame); },false);
 /* back-forward cache (Codex P2 on #1261): a page kept for Back is only paused and picks up again on pageshow; a real unload frees everything.
    On the way back "last" keeps the time of the final frame before the pause, so tick() moves the turn clock past the whole gap
@@ -1791,7 +1825,7 @@ $("sound").addEventListener("click",()=>{ const v=!SFX.on; SFX.enable(v); $("sou
 $("forceFire").addEventListener("click",()=>startTurn(true)); $("forceSafe").addEventListener("click",()=>startTurn(false));
 $("reset").addEventListener("click",()=>{ turn=0; loaded=false; playing=null; done={D:null,N:null}; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); slot(slotD,"At the table","wait"); slot(slotN,"Waits","wait"); setBusy(false); result.className="result"; result.textContent=chamberCaption(GAME)||"One bullet. Seven chambers."; });
 if(qs.get("tools")!=="1") document.body.classList.add("game");
-window.__rr={ get cylZ(){ return cyl.rotation.z; },
+window.__rr={ get cylZ(){ return cyl.rotation.z; }, get freed(){ return FREED?{...FREED}:null; },
   /* r93 R93-04 (tests/contracts/r93-rrr-hand-props-contracts.cjs): the hand on screen, in px: muzzle, rear of the bore, the sleeve's cut corners, the aim
      point and the shooter's board; whether the hand and the revolver on the felt are drawn, and whether that revolver is inside the frame */
   get handPose(){ camera.updateMatrixWorld(true); hand.updateMatrixWorld(true); const W=innerWidth, H=innerHeight, px=v=>{ const n=v.clone().project(camera); return [(n.x+1)/2*W,(1-n.y)/2*H,n.z]; }, on=(u,v)=>px(hand.localToWorld(new T.Vector3(u-.5,v-.5,0)));
@@ -1799,8 +1833,10 @@ window.__rr={ get cylZ(){ return cyl.rotation.z; },
     return {plate:handPlateKey, hand:hand.visible&&hand.material.opacity>.002, gun:gun.visible, gunInFrame:gIn, detached:HP.detached, side:handSide, muzzle:on(HAND_MUZZLE.u,HAND_MUZZLE.v), rear:on(HAND_REAR.u,HAND_REAR.v), cut:HAND_CUT.map(([u,v])=>on(u,v)), corners:[on(0,0),on(1,0),on(1,1),on(0,1)], clear:!!(handLast&&handLast.clear), glove:HAND_GLOVE?[0,1,2,3].flatMap(i=>[0,1,2,3].map(j=>on(HAND_GLOVE[0]+(HAND_GLOVE[2]-HAND_GLOVE[0])*i/3,HAND_GLOVE[1]+(HAND_GLOVE[3]-HAND_GLOVE[1])*j/3))):null, keep:handKeep.map(r=>r.slice()), aim:handAimAt?px(handAimAt):null, board:(()=>{ const g=boards[who]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=px(g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0))); x0=Math.min(x0,v[0]); x1=Math.max(x1,v[0]); y0=Math.min(y0,v[1]); y1=Math.max(y1,v[1]); })); return [x0,y0,x1,y1]; })(), W, H}; }, get rest(){ return {zoom:restZoom,shift:Math.round(restShift),lift:Math.round(closeLift),dbg:closeDbg}; }, get boardRects(){ camera.updateMatrixWorld(true); const o={}; ["D","N"].forEach(k=>{ const g=boards[k]; g.updateMatrixWorld(true); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; [-1,1].forEach(sx=>[-1,1].forEach(sy=>{ const v=g.userData.inner.localToWorld(new T.Vector3(sx*BOARD_W/2,sy*BOARD_H/2,0)).project(camera); const X=(v.x+1)/2*innerWidth, Y=(1-v.y)/2*innerHeight; x0=Math.min(x0,X); x1=Math.max(x1,X); y0=Math.min(y0,Y); y1=Math.max(y1,Y); })); o[k]=[x0,y0,x1,y1].map(Math.round); }); return o; }, get kits(){ return !!KITS; }, boardPng(key){ return boards[key].userData.canvas.toDataURL("image/png"); }, setBoards(d,n){ LAYOUT.danielClub=d; LAYOUT.nikClub=n; setBoards(d,n); }, play(o){ startTurn(o&&typeof o.fire==="boolean"?o.fire:undefined, o&&o.target); return playing; },
   clock(){ manual=performance.now()/1000; last=manual; }, advance(sec,draw){ if(manual===null) this.clock(); const n=Math.round(sec*30); for(let i=0;i<n;i++){ manual+=1/30; tick(i===n-1&&draw!==false); } }, get state(){ let aimDot=null; if(playing){ const mw=new T.Vector3(), md=new T.Vector3(); muzzle.getWorldPosition(mw); gun.getWorldDirection(md); const tg=boardAimWorld(playing.who).sub(mw); tg.y=0; tg.normalize(); md.y=0; md.normalize(); aimDot=md.dot(tg); } const ri=renderer.info; return {aimDot, calls:ri.render.calls, tris:ri.render.triangles, programs:ri.programs.length, turn, playing:!!playing, fire:playing?playing.fire:null, target:playing?playing.target.name:null, done, level:GFX.name, pixelRatio:renderer.getPixelRatio(), bulletAt, chamber, tt:playing?now()-playing.t0:null, cam:[camera.position.x,camera.position.y,camera.position.z], look:[camLook.x,camLook.y,camLook.z], fov:camera.fov, cylZ:cyl.rotation.z, handK}; } };
 
-const fontsReady=Promise.race([Promise.all(['700 30px "Instrument Sans Narrow"','800 30px "Instrument Sans Narrow"','600 30px "Instrument Sans Narrow"','900 30px "Instrument Sans Narrow"','800 30px "Instrument Sans Narrow"','400 40px "Rye"'].map(f=>document.fonts.load(f))), new Promise(r=>setTimeout(r,3000))]);
-Promise.all([fontsReady,loadAssets()]).then(async()=>{ toGame2("cms-rr-loading",{stage:"build"}); layout(); buildEnv(); { const opts=SQUADS?SQUADS.clubs.map(c=>`<option value="${c.club}">${c.club}</option>`).join(""):""; ["pickD","pickN"].forEach((id,i)=>{ const el=$(id); el.innerHTML=opts; el.value=i?LAYOUT.nikClub:LAYOUT.danielClub; el.addEventListener("change",()=>{ LAYOUT[i?"nikClub":"danielClub"]=el.value; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }); }); }
+const fontsReady=Promise.race([Promise.all(['700 30px "Instrument Sans Narrow"','800 30px "Instrument Sans Narrow"','600 30px "Instrument Sans Narrow"','900 30px "Instrument Sans Narrow"','800 30px "Instrument Sans Narrow"','400 40px "Rye"'].map(f=>document.fonts.load(f).catch(()=>[]))), new Promise(r=>setTimeout(r,FONT_WAIT_MS))]);
+/* r97: while the fonts load the game's loading screen hears that this page is still busy (it gives up after 45 s of silence) */
+const fontPing=setInterval(()=>toGame2("cms-rr-loading",{stage:"fonts"}),2000); fontsReady.then(()=>clearInterval(fontPing)); fontsLanded();
+Promise.all([fontsReady,loadAssets()]).then(async()=>{ toGame2("cms-rr-loading",{stage:"build"}); layout(); buildEnv(); repaintLate(); { const opts=SQUADS?SQUADS.clubs.map(c=>`<option value="${c.club}">${c.club}</option>`).join(""):""; ["pickD","pickN"].forEach((id,i)=>{ const el=$(id); el.innerHTML=opts; el.value=i?LAYOUT.nikClub:LAYOUT.danielClub; el.addEventListener("change",()=>{ LAYOUT[i?"nikClub":"danielClub"]=el.value; setBoards(LAYOUT.danielClub,LAYOUT.nikClub); }); }); }
   camPos.copy(camRest); camLook.copy(lookRest); last=now(); cta.disabled=true;
   fitUnderTitle(); viewShift=restShift; viewZoom=restZoom;   /* 2.3.0 final pass F04 (L37 opening frames): the picture opens already shifted under the title; easing in from 0 drew the title across both boards on the first frames */
   await warmUp(); last=now();

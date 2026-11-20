@@ -179,7 +179,7 @@ h2 span{color:var(--mute);font-weight:600}
     if(r.skipped)return {state:"skipped"};
     // The tab died at this level before (js/gfxTier.js tabCrash): as final as a graphics failure, and not opened again.
     // r93: the tab closed while this screen was playing in this check (the page reloaded with the screen still open).
-    if(r.died)return level>0?{state:"failed",why:"The tab closed while this screen was playing, so the check stopped here."}:{state:"unverified",why:"The tab closed while this screen was playing."};
+    if(r.died)return level>0?{state:"failed",why:"The tab closed while this screen was playing, so it was not tried higher."}:{state:"unverified",why:"The tab closed while this screen was playing."};
     if(r.crashed)return level>0?{state:"failed",why:"The tab closed at this level last time, so it was not opened again."}:{state:"unverified",why:"The tab closed at this level last time."};
     if(r.error)return {state:"unverified",why:r.error};
     if(r.failed)return level>0?{state:"failed",why:`The graphics chip gave up at this level: ${r.failed}.`}:{state:"unverified",why:`The graphics chip gave up: ${r.failed}.`};
@@ -255,7 +255,9 @@ h2 span{color:var(--mute);font-weight:600}
     let m=null,held=[];try{m=T.measured();}catch(_error){m=null;}try{held=T.needsCheck?T.needsCheck():[];}catch(_error){held=[];}
     const wait=held.length?` ${held.join(" and ")} ${held.length>1?"are":"is"} offered here only after the check passes ${held.length>1?"them":"it"}.`:"";
     const level=m?m.level:d.level,name=LEVELS[level]||LEVELS[1];
-    const held60=m&&m.detail&&typeof m.detail.held==="boolean"?m.detail.held:null;
+    // r97: a screen that stopped at or below the saved level (the chip's level counts as the floor) did not hold it.
+    const under=m&&m.detail&&m.detail.stops&&typeof m.detail.stops==="object"&&Object.values(m.detail.stops).some(x=>x&&x.level<=m.level);
+    const held60=m&&m.detail&&typeof m.detail.held==="boolean"?m.detail.held&&!under:null;
     // r96: a screen the check passed higher than the device's level draws its own level on Auto.
     const higher=m?ownLevels().filter(x=>x.level>m.level):[];
     const own=higher.length?` Lighter screens draw higher on Auto: ${higher.map(x=>`${x.name} ${LEVELS[x.level]}`).join(", ")}.`:"";
@@ -266,7 +268,8 @@ h2 span{color:var(--mute);font-weight:600}
     // keeps a level shut is said on this card too, with the day it ends.
     const tc=tabCrash();let shut="";
     if(tc){const day=new Date(tc.until).toLocaleDateString(undefined,{day:"numeric",month:"long"});
-      shut=`Last time the tab closed at ${LEVELS[tc.from]||"a higher level"}, so the game draws ${LEVELS[tc.level]} at most until ${day}, or until you pick a level in Settings or the game updates. This check stops below ${LEVELS[tc.from]||"that level"} until then.`;}
+      const who=capName(tc);
+      shut=`Last time the tab closed at ${LEVELS[tc.from]||"a higher level"}${who?` on ${who}`:""}, so ${capDraws(tc)} at most until ${day}, or until you pick a level in Settings or the game updates. This check stops ${who?`${who} `:""}below ${LEVELS[tc.from]||"that level"} until then.`;}
     $("suggest").innerHTML=`We suggest <b>${esc(name)}</b><small>${esc(why+wait)}</small>${shut?`<small class="shut">${esc(shut)}</small>`:""}`;
     $("guideRows").innerHTML=g.rows.map(r=>`<tr${r.mine?" class=\"mine\"":""}><th scope="row">${esc(r.label)}${r.mine?"<span class=\"tag\">Your device</span>":""}</th>`
       +`<td data-label="Chips that start here">${esc(r.who)}${r.level===5&&!d.can8k?"<small>Not on this device.</small>":""}</td><td data-label="What it draws">${esc(r.draws)}</td></tr>`).join("");
@@ -278,9 +281,15 @@ h2 span{color:var(--mute);font-weight:600}
     const extra=note?`${note} `:"";
     if(!m){result.innerHTML=note?`No result saved<small>${esc(note)} Auto uses its starting guess until a check finishes.</small>`:"";return;}
     // A crash cap from play outlives the check (js/gfxTier.js): say what Auto really draws until it ends.
-    let low="";try{const s=T.suggested();if(s&&s.lowered)low=` Auto draws ${LEVELS[s.now]} for now: a graphics error in play lowered it. That ends after 7 days, after 3 clean 3D screens, when you pick a level in Settings, or when the game updates.`;}catch(_error){low="";}
     // r96: each screen's own level, when they differ ("Auto here: Balanced to High", then one line per screen).
     const own=ownLevels(),top=Math.max(m.level,...own.map(x=>x.level));
+    // r97: a tab-crash cap holds every 3D screen in play (js/gfxTier.js); it does not end after clean screens. Said whenever
+    // it holds any screen below its own level.
+    let low="";try{const s=T.suggested(),tc=tabCrash();
+      if(tc&&tc.level<top)low=` For now ${capDraws(tc,true)} at most, because the tab closed at ${LEVELS[tc.from]||"a higher level"}${capName(tc)?` on ${capName(tc)}`:""}. That ends after 7 days, when you pick a level in Settings, or when the game updates.`;
+      else if(s&&s.lowered&&!tc)low=` Auto draws ${LEVELS[s.now]} for now: a graphics error in play lowered it. That ends after 7 days, after 3 clean 3D screens, when you pick a level in Settings, or when the game updates.`;
+      // r97: a graphics error on one screen holds only that screen.
+      else if(s&&s.held&&Object.keys(s.held).length&&!tc)low=` For now ${Object.entries(s.held).map(([k,l])=>`${(SCENES.find(x=>x.key===capScene(k))||{name:"a 3D screen"}).name} draws ${LEVELS[l]}`).join(" and ")}: a graphics error in play lowered it there. That ends after 7 days, after 3 clean plays of that screen, when you pick a level in Settings, or when the game updates.`;}catch(_error){low="";}
     const per=top>m.level?`On Auto: ${own.map(x=>`${x.name} ${LEVELS[x.level]}`).join(" · ")}. `:"";
     result.innerHTML=`Auto here: ${LEVELS[m.level]}${top>m.level?` to ${LEVELS[top]}`:""}<small>${esc(extra)}${esc(per)}Measured ${new Date(m.at).toLocaleString()} on the game's 3D screens. Settings › 3D QUALITY can still pick any level.${esc(low)}</small>`;
   }
@@ -290,6 +299,23 @@ h2 span{color:var(--mute);font-weight:600}
   // A level that closed the tab while a 3D screen was opening (in the game or in an earlier check) is not opened again
   // while its cap lasts.
   function tabCrash(){try{return T&&T.tabCrash?T.tabCrash():null;}catch(_error){return null;}}
+  // r97: the screen a tab-crash cap names (js/gfxTier.js writes a governor key, or the page of a framed screen), "" when
+  // it cannot be told. capHolds: the cap keeps this screen below its level in the check: every screen that closed the tab
+  // while the cap lasts (Codex on #1553), and every screen when one of them cannot be named.
+  function capScene(name){const n=String(name||"");if(SCENES.some(sc=>sc.key===n))return n;
+    for(const [re,k] of [[/roulette/,"rrr"],[/special-player/,"sp"],[/chamber/,"chamber-men"],[/ball|club-draw/,"club-draw"]])if(re.test(n))return k;return "";}
+  function capHolds(tc,key){const all=tc&&Array.isArray(tc.scenes)&&tc.scenes.length?tc.scenes:[tc&&tc.scene];
+    return all.some(n=>{const k=capScene(n);return !k||k===key;});}
+  const capName=tc=>{const k=capScene(tc&&tc.scene),sc=SCENES.find(x=>x.key===k);return sc?sc.name:"";};
+  // r97 (Nik 2026-11-18, option A): a hold keeps only its own screen lower (tc.levels {"rrr":1}; "" holds every screen). The
+  // level this check may open a screen at, null when nothing holds it. A cap from before r97 (no levels) holds as capHolds says.
+  function capLevel(tc,key){if(!tc)return null;
+    if(tc.levels&&typeof tc.levels==="object"){const l=[tc.levels[key],tc.levels[""]].filter(Number.isInteger);return l.length?Math.min(...l):null;}
+    return capHolds(tc,key)?tc.level:null;}
+  // What the hold draws, in words: "Russian Roulette draws Balanced", or "the game draws Balanced" when it holds every screen.
+  function capDraws(tc,every){const lv=tc&&tc.levels&&typeof tc.levels==="object"?tc.levels:null;
+    if(!lv||Number.isInteger(lv[""]))return `${every?"every 3D screen":"the game"} draws ${LEVELS[tc.level]}`;
+    return Object.entries(lv).map(([k,l])=>`${(SCENES.find(x=>x.key===capScene(k))||{name:"a 3D screen"}).name} draws ${LEVELS[l]}`).join(" and ");}
   // The measurement under way, so a hidden tab can stop it at once (Codex on #1266).
   let cancelWait=null;
   function wait(scene,level){
@@ -323,18 +349,32 @@ h2 span{color:var(--mute);font-weight:600}
   // each screen, so every screen opens in a fresh page. A screen still open when the page dies is the one that closed the
   // tab: the next load keeps the rows already done, marks that screen and says where the check stopped. Without
   // sessionStorage the check runs in one page, as before.
-  const RUN_KEY="careerModeShowdown.deviceCheckRun.v1";
+  // r97 (Nik's iPhone 17 on 2.9.0, 2026-11-18: "closes my screen on rrr on high and doesn't continue the check for rest of
+  // screens"): the run is kept in the browser's saved data (js/storage.js), not in the tab's sessionStorage, which iOS loses
+  // when it closes the whole tab or the home-screen app. Opening the check again within RUN_KEEP_MS goes on where it was.
+  // sessionStorage still names this tab (RUN_TAB_KEY): a run whose tab is still alive (its beat is fresh) is another tab's
+  // and is left alone, so a second open copy never reads a running screen as one that closed the tab. A check the player
+  // leaves (hidden tab, Back, a closed tab) clears the run at once, so only a page that died leaves a screen open.
+  const RUN_KEY="careerModeShowdown.deviceCheckRun.v1",RUN_TAB_KEY="careerModeShowdown.deviceCheckTab.v1";
+  const RUN_KEEP_MS=30*60000,RUN_LIVE_MS=15000,RUN_BEAT_MS=5000;
   // A run saved by another build is not picked up (Codex on #1473): the update may have fixed what closed the tab, so it
   // must not write a cap for the new build. It is let go, and the check starts fresh when asked.
   const BUILD=T&&T.build||"";
+  const TAB=(()=>{try{const ss=sessionStorage;let id=ss.getItem(RUN_TAB_KEY);
+    if(!id){id=`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}`;ss.setItem(RUN_TAB_KEY,id);id=ss.getItem(RUN_TAB_KEY);}return id||"";}catch(_error){return "";}})();
   // r96: v2 runs keep each screen's own stop (stops), so a lighter screen climbs on past a level a heavier one stopped at.
-  // A run saved by another build, or by an older copy of this page (v1: one climb for all screens), is let go.
-  function runRead(){try{const v=JSON.parse(sessionStorage.getItem(RUN_KEY)||"null");if(!v||typeof v!=="object")return null;
-    if(v.build!==BUILD||v.v!==2){sessionStorage.removeItem(RUN_KEY);return null;}
-    return Array.isArray(v.results)&&Number.isInteger(v.level)&&Number.isInteger(v.scene)&&v.stops&&typeof v.stops==="object"?v:null;}catch(_error){return null;}}
-  function runSave(v){try{if(v)sessionStorage.setItem(RUN_KEY,JSON.stringify(v));else sessionStorage.removeItem(RUN_KEY);return true;}catch(_error){return false;}}
-  function runKeeps(){try{sessionStorage.setItem(RUN_KEY,"probe");const ok=sessionStorage.getItem(RUN_KEY)==="probe";sessionStorage.removeItem(RUN_KEY);return ok;}catch(_error){return false;}}
-  let reloading=false;
+  // A run saved by another build, or by an older copy of this page (v1: one climb for all screens), is let go; so is one
+  // last saved more than RUN_KEEP_MS ago. {busy:true}: another open tab is running it.
+  function runRead(){try{const v=JSON.parse(readStorageValue(RUN_KEY)||"null");if(!v||typeof v!=="object")return null;
+    if(v.build!==BUILD||v.v!==2||!(Array.isArray(v.results)&&Number.isInteger(v.level)&&Number.isInteger(v.scene)&&v.stops&&typeof v.stops==="object")){runSave(null);return null;}
+    const age=Date.now()-Number(v.beat||v.at||0);
+    if(!(age>=0&&age<=RUN_KEEP_MS)){runSave(null);return null;}
+    if(v.tab!==TAB&&age<RUN_LIVE_MS)return {busy:true};
+    return v;}catch(_error){return null;}}
+  function runSave(v){try{if(v){v.tab=TAB;v.beat=Date.now();}return writeStorageValue(RUN_KEY,v?JSON.stringify(v):"null")!==false;}catch(_error){return false;}}
+  function runKeeps(){if(!TAB)return false;try{writeStorageValue(RUN_KEY,"probe");const ok=readStorageValue(RUN_KEY)==="probe";writeStorageValue(RUN_KEY,"null");return ok;}catch(_error){return false;}}
+  let reloading=false,live=null,beat=0;
+  function stopBeat(){live=null;if(beat){clearInterval(beat);beat=0;}}
   // Why one screen stopped climbing, in a sentence.
   function stopText(sc,stop){
     const r=results[stop.level][sc.key]||{};
@@ -344,9 +384,15 @@ h2 span{color:var(--mute);font-weight:600}
   }
   async function run(resume){
     if(running||!T)return;
+    // A fresh start never writes over a run another live tab is playing (Codex on #1553).
+    if(!resume&&runRead()){takeOver();return;}
     running=true;aborted="";startBtn.disabled=true;forgetBtn.hidden=true;result.innerHTML="";
     const keep=resume?true:runKeeps();
     const st=resume||{v:2,build:BUILD,at:Date.now(),results:LEVELS.map(()=>({})),level:0,scene:0,first:null,ended:null,stops:{},open:null,played:false};
+    // r97: while a screen plays, the run's beat says this tab is alive (another tab opening the check leaves it alone).
+    if(keep){stopBeat();live=st;beat=setInterval(()=>{if(live&&live.open)runSave(live);},RUN_BEAT_MS);}
+    // r97: the screen that closed the tab, said for the rest of the run.
+    const closed=st.closed&&SCENES[st.closed.scene]?`The tab closed while ${SCENES[st.closed.scene].name} was playing at ${LEVELS[st.closed.level]}. Going on with the other screens. `:"";
     for(let l=0;l<results.length;l+=1){for(const k of Object.keys(results[l]))delete results[l][k];Object.assign(results[l],st.results[l]||{});}
     draw();
     // r96: every screen climbs on its own. A screen whose first level that is not smooth (or failed) stops there; the
@@ -360,10 +406,14 @@ h2 span{color:var(--mute);font-weight:600}
       if(st.scene>=SCENES.length){st.scene=0;st.level+=1;continue;}
       if(!climbing(SCENES[st.scene].key)){st.scene+=1;continue;}
       const level=st.level,scene=SCENES[st.scene],second=Boolean(st.first);
-      status.textContent=`${scene.name} · ${LEVELS[level]} (${level+1} of ${TOP+1})${second?", second try":""}…`;
+      status.textContent=`${closed}${scene.name} · ${LEVELS[level]} (${level+1} of ${TOP+1})${second?", second try":""}…`;
       const tc=tabCrash();
       let got;
-      if(tc&&level>tc.level)got={crashed:true};
+      // r97: a level that closed the tab is not opened again on the screen that closed it; the other screens go on climbing
+      // (each opens in a fresh page, and the check's frames draw the level asked whatever the cap). A cap whose screen is
+      // not known holds every screen, as before.
+      const held=capLevel(tc,scene.key);
+      if(held!==null&&level>held)got={crashed:true};
       else{
         // A screen already played in this page is let go before the next one opens: a fresh page for each screen.
         if(keep&&st.played){st.played=false;if(runSave(st)){reloading=true;location.reload();return;}}
@@ -388,7 +438,7 @@ h2 span{color:var(--mute);font-weight:600}
       if(level===0&&st.stops[scene.key]){if(keep)runSave(st);break;}
       if(keep)runSave(st);
     }
-    runSave(null);
+    stopBeat();runSave(null);
     // Everything a screen did not reach is not tried.
     for(let l=0;l<=TOP;l+=1)for(const sc of SCENES)if(!results[l][sc.key]&&!aborted)results[l][sc.key]={skipped:true};
     const ended=st.ended?{...st.ended,scene:SCENES[st.ended.scene]}:null;
@@ -420,9 +470,9 @@ h2 span{color:var(--mute);font-weight:600}
       return;
     }
     const stopped=SCENES.filter(sc=>st.stops[sc.key]).sort((a,b)=>st.stops[a.key].level-st.stops[b.key].level);
-    // A tab that closed mid-check stops the whole check (its cap holds every screen below that level): that is the news.
+    // r97: a tab that closed mid-check stops only the screen that was playing; the others climbed on.
     const died=stopped.find(sc=>(results[st.stops[sc.key].level][sc.key]||{}).died);
-    const why=died?`Check stopped. ${stopText(died,st.stops[died.key])}`:stopped.length?`Check done. ${[...new Set(stopped.map(sc=>stopText(sc,st.stops[sc.key])))].join(" ")}${stopped.length<SCENES.length?` ${SCENES.filter(sc=>!st.stops[sc.key]).map(sc=>sc.name).join(", ")} ${SCENES.length-stopped.length>1?"were":"was"} smooth up to ${LEVELS[TOP]}.`:""}`
+    const why=stopped.length?`Check done. ${[...new Set(stopped.map(sc=>stopText(sc,st.stops[sc.key])))].join(" ")}${stopped.length<SCENES.length?` ${SCENES.filter(sc=>!st.stops[sc.key]).map(sc=>sc.name).join(", ")} ${SCENES.length-stopped.length>1?"were":"was"} smooth up to ${LEVELS[TOP]}.`:""}`
       :`Check done. Every level up to ${LEVELS[TOP]} was smooth.`;
     // r92 (Nik 2026-11-14, "Go" on the simple plan): the check only ever raises Auto above the level the graphics chip
     // starts at. r96: per screen too. A screen below it draws the chip's level; a result where no screen is above the
@@ -433,7 +483,7 @@ h2 span{color:var(--mute);font-weight:600}
       T.clearMeasured();
       // A tab that closed during this check (or before it) holds Auto below that level for now: say so, so the line and the
       // top card agree with what the game draws.
-      const tc=tabCrash(),lowNote=tc&&tc.level<chip?` For now the game draws ${LEVELS[tc.level]} at most, because the tab closed at ${LEVELS[tc.from]||"a higher level"}.`:"";
+      const tc=tabCrash(),lowNote=tc&&tc.level<chip?` For now ${capDraws(tc)} at most, because the tab closed at ${LEVELS[tc.from]||"a higher level"}.`:"";
       const done=died?` ${LEVELS[0]}${low>0?` to ${LEVELS[low]}`:""} ${low>0?"were":"was"} smooth.`:"";
       status.textContent=`${why}${done} Auto stays on ${LEVELS[chip]}, the level your graphics chip starts at. The check only ever raises Auto.${lowNote}`;
       showSaved();
@@ -451,27 +501,34 @@ h2 span{color:var(--mute);font-weight:600}
     showSaved();
   }
   // A hidden tab stops drawing, so its numbers would be wrong: stop and say so.
-  document.addEventListener("visibilitychange",()=>{if(running&&!reloading&&document.visibilityState==="hidden"){aborted="The tab was hidden, so the check stopped. Start it again and keep the tab in front.";if(cancelWait)cancelWait();stage.replaceChildren();}});
+  // r97: the run is let go at once (the page may not run again), so only a page that died leaves a screen open.
+  document.addEventListener("visibilitychange",()=>{if(running&&!reloading&&document.visibilityState==="hidden"){aborted="The tab was hidden, so the check stopped. Start it again and keep the tab in front.";stopBeat();runSave(null);if(cancelWait)cancelWait();stage.replaceChildren();}});
+  window.addEventListener("pagehide",()=>{if(running&&!reloading){stopBeat();runSave(null);}});
   startBtn.addEventListener("click",()=>run());
   forgetBtn.addEventListener("click",()=>{T.clearMeasured();showSaved();status.textContent="Auto goes back to its starting guess from this device's graphics chip.";});
   if(!T){startBtn.disabled=true;status.textContent="The check could not load. Reload the page.";}
   draw();showSaved();
-  {const tc=tabCrash();if(T&&tc)status.textContent=`Last time the tab closed while a 3D screen was opening at ${LEVELS[tc.from]||"a level"}. The game draws ${LEVELS[tc.level]} at most for now, and this check stops below ${LEVELS[tc.from]||"that level"}.`;}
-  // r93: a check under way goes on in this fresh page; one whose screen was still open when the page died ends here, with
-  // the rows already done and that screen marked.
-  {const st=T?runRead():null;
+  {const tc=tabCrash(),who=capName(tc);if(T&&tc)status.textContent=`Last time the tab closed during ${who||"a 3D screen"} at ${LEVELS[tc.from]||"a level"}. ${(d=>d[0].toUpperCase()+d.slice(1))(capDraws(tc))} at most for now, and this check stops ${who?`${who} `:""}below ${LEVELS[tc.from]||"that level"}.`;}
+  // r93: a check under way goes on in this fresh page. r97: so does one whose screen was still open when the page died
+  // (the tab reloaded, or was closed and the check opened again): that screen stops at the level that closed the tab, the
+  // rows already done are kept, and the other screens go on climbing.
+  // A run another open tab is playing is left to it; once its beat stops (that tab died too), this page takes it over.
+  function takeOver(){const st=T&&!running?runRead():null;
+    // Start waits too (Codex on #1553): a new run would overwrite the one being played, or one this page is about to take over.
+    if(st&&st.busy){status.textContent="A Device check is running in another tab. Keep one check open at a time.";startBtn.disabled=true;setTimeout(takeOver,RUN_LIVE_MS);return;}
+    if(T&&!running)startBtn.disabled=false;
     if(st){
       if(st.open&&SCENES[st.open.scene]&&st.results[st.open.level]){
         const lv=st.open.level,key=SCENES[st.open.scene].key;st.results[lv][key]={died:true};
-        // The level that closed the tab is held below for now in play too (js/gfxTier.js tabDied), as after a death while opening.
-        // That cap holds every screen, so the others stop below it too (they are not opened above it).
+        // The level that closed the tab is held below for now in play (js/gfxTier.js tabDied), as after a death while opening.
         try{if(lv>0&&T.tabDied)T.tabDied(lv,key);}catch(_error){}
-        if(lv>0){st.stops[key]={level:lv,state:"failed"};st.scene=st.open.scene+1;st.level=lv;}
+        if(lv>0){st.stops[key]={level:lv,state:"failed"};st.scene=st.open.scene+1;st.level=lv;st.closed={level:lv,scene:st.open.scene};}
         else st.ended={level:lv,scene:st.open.scene,state:"unverified",why:"The tab closed while this screen was playing."};
-        st.open=null;st.first=null;
+        st.open=null;st.first=null;st.played=false;
       }
       run(st);
     }}
+  takeOver();
 })();
 </script>
 </body>

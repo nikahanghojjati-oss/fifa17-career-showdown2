@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.8.0 (main 30b79695) deploys the R95-01 Ball Game Rules; gameplay/r96 starts with no Rules change (0 hunks). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
+  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.9.0 (main 56642b8f) deploys the same Rules as 2.8.0 (R95-01 Ball Game); gameplay/r97 starts with no Rules change (0 hunks). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
-    "commit": "30b79695893dd57808ea870a102c14eeaeb1c020",
+    "commit": "56642b8fcc7376e03ebf60dd18dd16a8008390c6",
     "sha256": "5b36d9d8e8dd54e213ffb7c7fba2a2b824cf5dc1572093fb8fec30a8f44a1678",
     "gitBlobSha1": "38f1a33d09a27a9b4750f4f1f6ce3901d1a0347f",
     "bytes": 194922

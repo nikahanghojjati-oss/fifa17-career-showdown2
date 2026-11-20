@@ -39,7 +39,7 @@
   // build is dropped on load: the update may have fixed what failed (2.4.0 closed the tab at High; 2.5.0 fixed its memory, yet
   // 2.4.0's cap kept the Device check off High for 7 days). The level gets one fresh try per build: if it fails again, this
   // build writes its own cap, kept as before. BUILD is the service worker's RUNTIME_REVISION (the release bump moves both).
-  const BUILD="2.9.0-r96";
+  const BUILD="2.10.0-r97";
   const MEMORY_KEY=key=>`careerModeShowdown.gfxSettled.v1.${key}`;
   // r91: where a scene's heavy parts settled (its detail step, for the level it was built at), read on its next visit.
   const DETAIL_KEY=key=>`careerModeShowdown.gfxDetail.v1.${key}`,DETAIL_DAYS_MS=7*864e5;
@@ -205,11 +205,45 @@
   // The cap is not for ever (lead review on #1271): one stray driver reset must not cost a level for good. It expires after
   // 7 days, or after 3 clean scenes (20 s or more, no failure) at the capped level.
   const CAP_DAYS_MS=7*864e5,CAP_CLEAN=3,CAP_CLEAN_MS=20000;
-  function gfxCap(){
-    try{const v=JSON.parse(gfxRead(CAP_KEY)||"null");if(!(v&&v.reason&&Number.isInteger(v.level)&&v.level>=0&&v.level<=4))return null;
-      if(v.build!==BUILD||Date.now()-Number(v.at||0)>CAP_DAYS_MS||(v.clean|0)>=CAP_CLEAN){gfxWrite(CAP_KEY,"null");return null;}return v;}catch(_error){return null;}
+  // r97 (Nik 2026-11-18, option A): a cap holds only the 3D screen that failed. A tab that closed, or a context that was lost,
+  // on Russian Roulette keeps Roulette one level down; Chamber Men, the Ball Game and the Special Player keep their own level.
+  // The cap is a list of holds {scene,level,reason,at,build,tab,from,bench,clean}, one per screen ("rrr", "sp", "chamber-men",
+  // "club-draw"); a hold whose screen cannot be named (scene "") holds every screen, as every cap did before, and so does a
+  // cap saved in the old one-object form without screens. Each hold ends on its own: 7 days, 3 clean scenes of its screen
+  // at its level (not a closed tab's), the next build; a pick in Settings ends them all.
+  const CAP_SCENES=[[/roulette|^rrr$/,"rrr"],[/special-player|^sp$/,"sp"],[/chamber/,"chamber-men"],[/ball|club-draw/,"club-draw"]];
+  function gfxCapScene(name){const n=String(name||"");for(const [re,k] of CAP_SCENES)if(re.test(n))return k;return "";}
+  function gfxCapOk(e){return Boolean(e&&e.reason&&Number.isInteger(e.level)&&e.level>=0&&e.level<=4&&e.build===BUILD&&Date.now()-Number(e.at||0)<=CAP_DAYS_MS&&(e.clean|0)<CAP_CLEAN);}
+  function gfxCapList(){
+    let v=null;try{v=JSON.parse(gfxRead(CAP_KEY)||"null");}catch(_error){v=null;}if(!v)return [];
+    let all;
+    if(Array.isArray(v.caps))all=v.caps.filter(e=>e&&typeof e==="object").map(e=>({...e,scene:gfxCapScene(e.scene)}));
+    else{// the one-object form (2.9.0 and #1553): its screens, or every screen when it names none
+      const names=Array.isArray(v.scenes)&&v.scenes.length?v.scenes:v.tab&&v.scene?[v.scene]:[""];
+      all=[...new Set(names.map(gfxCapScene))].map(scene=>({...v,scene,scenes:undefined}));}
+    const ok=all.filter(gfxCapOk);
+    if(ok.length!==all.length)gfxCapSave(ok);
+    return ok;
   }
-  function gfxCapClean(level){const v=gfxCap();if(!v||v.level!==level||v.tab)return;v.clean=(v.clean|0)+1;gfxWrite(CAP_KEY,v.clean>=CAP_CLEAN?"null":JSON.stringify(v));if(v.clean>=CAP_CLEAN)cached=null;}
+  function gfxCapSave(list){gfxWrite(CAP_KEY,list.length?JSON.stringify({caps:list}):"null");}
+  // The hold on one screen: its own and any that holds every screen, the lowest level. No scene: the device's own level
+  // (2D, Settings, a page with no 3D screen open), held only by holds on every screen.
+  function gfxCap(scene){
+    const key=gfxCapScene(scene),list=gfxCapList().filter(e=>e.scene===""||(key&&e.scene===key));if(!list.length)return null;
+    const low=list.reduce((a,e)=>e.level<a.level?e:a);return {...low,scenes:list.map(e=>e.scene)};
+  }
+  // A new hold on one screen ("" every screen): never above the hold it already has.
+  function gfxCapPut(scene,level,fields){
+    const key=gfxCapScene(scene),list=gfxCapList(),old=list.find(e=>e.scene===key),rest=list.filter(e=>e!==old);
+    const l=Math.max(0,Math.min(level,old?old.level:4));
+    // (Codex on #1553) a hold that came from a closed tab stays one: a later context loss on the same screen keeps its stops.
+    const tab=old&&old.tab&&!fields.tab?{tab:true,from:old.from,bench:Boolean(old.bench),tabReason:old.reason}:{};
+    gfxCapSave(rest.concat({...fields,...tab,scene:key,level:l,at:Date.now(),build:BUILD}));cached=null;return l;
+  }
+  function gfxCapClean(level,scene){
+    const key=gfxCapScene(scene),list=gfxCapList(),e=list.filter(x=>(x.scene===""||(key&&x.scene===key))&&x.level===level&&!x.tab)[0];if(!e)return;
+    e.clean=(e.clean|0)+1;gfxCapSave(e.clean>=CAP_CLEAN?list.filter(x=>x!==e):list);if(e.clean>=CAP_CLEAN)cached=null;
+  }
   // r91: a tab that dies while a 3D screen opens. A lost WebGL context is caught (gfxFail); a tab the browser kills for
   // memory, or one the player has to reload because it hung, is not: nothing runs, the level stays, and the next open dies
   // the same way (2.3.0: Roulette on the Chromebook, first open). So a scene leaves a mark while it opens and takes it
@@ -252,9 +286,9 @@
     }
     if(keep.length!==all.length)gfxWrite(OPEN_KEY,JSON.stringify(keep));
     if(!died)return null;
-    const old=gfxCap(),level=Math.max(0,Math.min(died.level>=5?4:died.level-1,old?old.level:4));
-    gfxWrite(CAP_KEY,JSON.stringify({level,reason:TAB_CRASH,tab:true,from:died.level,scene:String(died.scene||""),bench:Boolean(died.bench),at:Date.now(),build:BUILD}));
-    cached=null;return died;
+    // r97: the screen that was opening is held, the others keep their level.
+    gfxCapPut(died.scene,died.level>=5?4:died.level-1,{reason:TAB_CRASH,tab:true,from:died.level,bench:Boolean(died.bench)});
+    return died;
   }
   function gfxOpenArm(level,scene){
     if(opening||!(level>0))return;
@@ -281,7 +315,7 @@
     if(level===5&&!base.can8k)level=4;
     // The Device check asks for one exact level and reports what was drawn; an older crash cap does not stand in for it (a
     // failure during the check writes the cap as always, and from then on this frame honours it and reports the failure).
-    const cap=base.bench&&!benchFailed?null:gfxCap();if(cap&&level>cap.level){fellBack={...cap,from:level};level=cap.level;}
+    const cap=base.bench&&!benchFailed?null:gfxCap(base.scene);if(cap&&level>cap.level){fellBack={...cap,from:level};level=cap.level;}
     const L=LEVELS[level],dpr=base.dpr,phone=Boolean(base.phone);
     // Auto and the named levels stay at or under the screen's own ratio; ultra and 8K always reach it (a 4K or 8K screen
     // draws at native size) and may draw past it (2x, 4x) while the buffer stays within 3840x2160 (8K: 7680x4320; the
@@ -375,17 +409,31 @@
       if(Number.isInteger(lv)&&lv>base.autoLevel){
         if(sceneCached&&sceneCached.base===base&&sceneCached.key===key)p=sceneCached.p;
         else{
-          p=gfxBuild(lv,{dpr:base.dpr,gpu:base.gpu,software:base.software,phone:base.phone,can8k:base.can8k,slowNet:base.slowNet,choice:base.choice});
+          p=gfxBuild(lv,{dpr:base.dpr,gpu:base.gpu,software:base.software,phone:base.phone,can8k:base.can8k,slowNet:base.slowNet,choice:base.choice,scene:key});
           p.auto=true;p.picked=false;p.autoLevel=lv;p.measured=true;p.guessLevel=base.guessLevel;p.strongPhone=base.strongPhone;p.asked=null;p.gated=null;
           p.deviceLevel=base.autoLevel;
           sceneCached={base,key,p};
         }
       }
     }
+    // r97: a hold on this screen alone (a closed tab or a lost context here) draws this screen lower; the device's level and
+    // the other screens stay. (The Device check's ?bench=1 frames draw the level they ask for, as before.)
+    if(key&&p===base&&!(gfxBenchFrame()&&!benchFailed)){const held=gfxCap(key),want=base.fellBack?base.fellBack.from:base.level;
+      if(held&&held.level<base.level){
+        if(sceneCached&&sceneCached.base===base&&sceneCached.key===key&&sceneCached.held===held.level)p=sceneCached.p;
+        else{
+          p=gfxBuild(want,{dpr:base.dpr,gpu:base.gpu,software:base.software,phone:base.phone,can8k:base.can8k,slowNet:base.slowNet,choice:base.choice,scene:key});
+          p.auto=base.auto;p.picked=base.picked;p.autoLevel=base.autoLevel;p.measured=base.measured;p.guessLevel=base.guessLevel;p.strongPhone=base.strongPhone;p.asked=base.asked;p.gated=base.gated;
+          p.deviceLevel=base.level;
+          sceneCached={base,key,p,held:held.level};
+        }
+      }}
     // A 3D screen in its own frame (Roulette, the pack, the Device check's frames) is opening from here on, at its own level.
     if(!openedHere&&gfxFramed()){openedHere=true;gfxOpenArm(p.level,gfxSceneName());}
     return p;
   }
+  // A Device check frame (?gfx=N&bench=1) measures the level it asks for; a hold does not stand in for it (see gfxBuild).
+  function gfxBenchFrame(){const f=gfxQuery("gfx");return f!==null&&/^[0-5]$/.test(f)&&gfxQuery("bench")==="1";}
   function gfxSceneName(){try{return String(root.location.pathname||"").split("/").filter(Boolean).slice(-2).join("/");}catch(_error){return "";}}
   // r90 (Nik 2026-11-08, "the best quality it can hold, on every screen"): the resolved level on the root element as
   // html[data-gfx="0".."5"], here and on the app page around the roulette frame, so 2D screens (marble plates, blurs,
@@ -402,8 +450,11 @@
   let lastMark=null;
   function gfxParent(){try{return root.parent&&root.parent!==root&&root.parent.document?root.parent:null;}catch(_error){return null;}}
   function gfxRemark(){try{const p=gfxBaseProfile();gfxMarkRoot(p.level,p.assetLevel);}catch(_error){}}
-  function gfxSetLevel(level,ownOnly){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,slowNet:p.slowNet,choice:p.choice});
-    next.auto=p.auto;next.picked=p.picked;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;gfxMarkRoot(next.level,next.assetLevel,ownOnly);return next;}
+  // r97 (review on #1555): the device's profile is built with the device's holds only; a hold on this screen alone is laid
+  // over it by gfxProfile, so calibrating a held screen never moves the other screens.
+  function gfxSetLevel(level,ownOnly){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,slowNet:p.slowNet,choice:p.choice,scene:""});
+    next.auto=p.auto;next.picked=p.picked;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;
+    const here=gfxProfile();gfxMarkRoot(here.level,here.assetLevel,ownOnly);return here;}
   // The device could not hold this level (a lost context, an out-of-memory error, an 8K buffer or target refused): one
   // level down, remembered, the live governor moved at once. Scenes call gov.end() before forceContextLoss() on dispose,
   // so their own clean-up never counts; neither does a context lost while the page is hidden (the browser reclaiming it).
@@ -412,9 +463,9 @@
     if(root.document&&root.document.visibilityState==="hidden")return gfxProfile();
     failCount+=1;
     // The level that failed is the one this screen draws (r96: its own level on Auto after a Device check).
-    const cur=gfxProfile().level,old=gfxCap();
-    const level=Math.max(0,Math.min(cur>=5?4:cur-1,old?old.level:4));
-    gfxWrite(CAP_KEY,JSON.stringify({level,reason:String(reason||"failed"),at:Date.now(),build:BUILD}));cached=null;benchFailed=String(reason||"failed");
+    // r97: the screen that failed is held one level down (its own hold, see gfxCapPut); a page with no screen named holds all.
+    const cur=gfxProfile().level;
+    gfxCapPut(gfxSceneKey(),cur>=5?4:cur-1,{reason:String(reason||"failed")});benchFailed=String(reason||"failed");
     try{active?.sync();}catch(_error){}
     const b=gfxBaseProfile();gfxMarkRoot(b.level,b.assetLevel);return gfxProfile();
   }
@@ -494,6 +545,10 @@
     const settle=times.slice(2).sort((a,b)=>a-b),ms=settle[Math.floor(settle.length/2)]??times[times.length-1];
     p.calibratedMs=+ms.toFixed(2);p.calSlow=false;
     if(!p.auto)return p;
+    // r97 (Nik's option A; review on #1559): a screen held below the device draws its hold. Five frames on it say nothing
+    // about the device's level or the other screens, so neither moves; the hold ends as it always does (gfxCapClean).
+    // A frame of its own (the pack, Roulette) marks its own page with what it draws, as a calibration there always has.
+    if(p.deviceLevel!==undefined&&p!==gfxBaseProfile()){if(gfxFramed())gfxMarkRoot(p.level,p.assetLevel,true);return p;}
     let level=p.level;const slow=ms>BUDGET_MS*.8;
     if(slow){calBad.add(level);if(level>0)level-=1;}
     else if(ms<BUDGET_MS*.25&&level<Math.min(3,p.autoLevel+1)&&!calBad.has(level+1))level+=1;
@@ -722,7 +777,7 @@
       frameMs(){return +avg.toFixed(1);},
       // The frame callback's main-thread time, smoothed (null where it cannot be timed).
       workMs(){return busyKnown?+busy.toFixed(1):null;},
-      end(){if(ended)return;ended=true;gfxOpenDone();if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}
+      end(){if(ended)return;ended=true;gfxOpenDone();if(failCount===fails0&&p.fellBack&&gfxNow()-born>=CAP_CLEAN_MS)gfxCapClean(p.level,key);try{renderer.domElement?.removeEventListener?.("webglcontextlost",lost);}catch(_error){}
         // Steps still on probe are not what the scene settled at: the place the probe began is.
         if(key&&adapts()){const sAt=probe?probe.at:at,sD=probe?probe.dAt:dAt;
           if(picked())gfxWrite(MEMORY_KEY(pickKey),JSON.stringify({pr:list[sAt],level:built}));else gfxWrite(MEMORY_KEY(key),list[sAt]);
@@ -855,8 +910,10 @@
     // result and a crash cap may have been saved by the roulette or SP frame's own copy of this module. A scene's five-frame
     // calibration is not saved (each scene calibrates again), so it is not part of what Settings shows.
     // r96: level is the device's level, the lowest of the 3D screens (measuredScenes() has each screen's own).
-    suggested(){const p=gfxBaseProfile(),m=gfxMeasured(),level=m?m.level:p.guessLevel,cap=gfxCap(),now=cap?Math.min(level,cap.level):level;
-      return {level,name:NAMES[level],measured:Boolean(m),now,nowName:NAMES[now],lowered:now<level};},
+    // r97: held = the screens a hold keeps lower than the device ({"rrr":1}); now and lowered are the device's own level.
+    suggested(){const p=gfxBaseProfile(),m=gfxMeasured(),level=m?m.level:p.guessLevel,cap=gfxCap(),now=cap?Math.min(level,cap.level):level,held={};
+      for(const e of gfxCapList())if(e.scene&&(held[e.scene]===undefined||e.level<held[e.scene]))held[e.scene]=e.level;
+      return {level,name:NAMES[level],measured:Boolean(m),now,nowName:NAMES[now],lowered:now<level,held};},
     // Device check: what this device is taken for before any check (phone or computer, GPU, the level Auto starts at).
     device(){const p=gfxProfile();return {phone:Boolean(p.phone),gpu:p.gpu,software:Boolean(p.software),strongPhone:Boolean(p.strongPhone),
       guessLevel:p.guessLevel,guessName:NAMES[p.guessLevel],can8k:Boolean(p.can8k),dpr:p.dpr};},
@@ -891,12 +948,16 @@
     can8k(){return Boolean(gfxProfile().can8k);},samples:gfxSamples,checkTarget:gfxCheckTarget,
     // tabCrash(): the cap left by a tab that died while a 3D screen was opening (null when there is none). The Device
     // check does not open a level above it again.
-    tabCrash(){const c=gfxCap();return c&&c.tab?{level:c.level,from:Number.isInteger(c.from)?c.from:c.level+1,scene:String(c.scene||""),bench:Boolean(c.bench),at:c.at,until:Number(c.at||0)+CAP_DAYS_MS}:null;},
+    // r97: scenes lists every screen that closed the tab while its hold lasts (scene is the latest), levels each one's held
+    // level ({"rrr":1}; "" for a screen that could not be named, which holds every screen); level is the lowest of them.
+    tabCrash(){const tabs=gfxCapList().filter(e=>e.tab);if(!tabs.length)return null;
+      const last=tabs.reduce((a,e)=>Number(e.at||0)>=Number(a.at||0)?e:a),low=tabs.reduce((a,e)=>e.level<a.level?e:a),levels={};for(const e of tabs)levels[e.scene]=e.level;
+      return {level:low.level,from:Number.isInteger(last.from)?last.from:last.level+1,scene:last.scene,scenes:tabs.map(e=>e.scene),levels,bench:Boolean(last.bench),at:last.at,until:Number(last.at||0)+CAP_DAYS_MS};},
     // tabDied(level, scene): r93, the Device check saw its page die while one of its screens was playing (the page came back
     // with that screen still open). The same cap as a tab that died while a screen was opening: one level below, until 7 days,
     // a pick in Settings or the next build.
-    tabDied(level,scene){const l=Math.round(Number(level));if(!(l>0&&l<=5))return null;const old=gfxCap(),cap=Math.max(0,Math.min(l>=5?4:l-1,old?old.level:4));
-      gfxWrite(CAP_KEY,JSON.stringify({level:cap,reason:"the tab closed while this 3D screen was playing",tab:true,from:l,scene:String(scene||""),bench:true,at:Date.now(),build:BUILD}));cached=null;return cap;},
+    tabDied(level,scene){const l=Math.round(Number(level));if(!(l>0&&l<=5))return null;
+      return gfxCapPut(scene,l>=5?4:l-1,{reason:"the tab closed while this 3D screen was playing",tab:true,from:l,bench:true});},
     // fallback(reason): a scene that hit an out-of-memory sign of its own drops the device one level (remembered).
     fallback:gfxFail,fallback8k:gfxFail,
     // sceneOpening(scene): a 3D screen on the game's own page says it is about to load and build (the tab-crash guard's
