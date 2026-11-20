@@ -85,11 +85,50 @@ bump (the PR that adds this file).
 
 ## Reads and writes
 
-READS_WRITES_SECTION
+CE2PG single plan, 3 seasons, waits off, Firebase emulator only (no production reads), firebase@12.17.0, both managers and both
+phones, run side by side on the same cloud container on 2026-11-20 (~13:44 to 14:01 UTC). 2.9.0 = main 56642b8f; 2.10.0 = this
+branch's bump commit acdb6a85 (gameplay/r97 ccef1668 + the bump). Both use the same composed Rules `5b36d9d8…`. Both runs PASS
+296/296, 0 problems. Billed = the CE2PG meter's own definition (document reads plus Rules lookups on reads and on writes). The
+harness Chromium has no WebGL2, so the 3D screens play their flat stand-ins (same reads and writes).
+
+| Season | 2.9.0 billed / writes | 2.10.0 billed / writes | Change |
+|---|---|---|---|
+| 1 (START, pairing, setup) | 1,512 / 117 | 1,442 / 117 | -70 |
+| 2 | 848 / 58 | 842 / 58 | -6 |
+| 3 (final) | 543 / 28 | 501 / 28 | -42 |
+| **Total** | **2,903 / 203** | **2,785 / 203** | **-118 (-4.1 %)** |
+
+Detail (doc reads + Rules on reads + Rules on writes): 2.9.0 496+518+498, 276+325+247, 182+210+151; 2.10.0 461+483+498,
+273+322+247, 161+189+151. Writes and Rules lookups on writes are identical every season, as designed: r97 adds no Firestore
+read or write in play (the Device check run, the per-screen holds and the Roulette's freed canvases all live on the device). The
+difference is in listener and page-check reads, one run each; it is of the run-to-run size seen before (2.9.0 measured 2,843 on
+2026-11-17 and 2,903 here), so no saving is claimed, only no added cost. Logs: gameplay/r97/threads/bump/m290-3s.log and
+b2100-3s.log (project files).
 
 ## Update safety
 
-PROBE_SECTION
+- The shell and service worker advance to 2.10.0-r97 in a fresh `career-mode-showdown-shell-2.10.0-r97` cache, and 2.9.0-r96 is
+  retained for rollback, verified against its own 260 paths (`tests/fixtures/shell-paths/2.9.0-r96.json`, from main 56642b8f).
+  r97 adds and removes no shell path (`device-check.html` is a standalone network page; the Roulette frame, `js/gfxTier.js`,
+  `js/productionSharedCareerStart.js` and `css/remoteJoining.css` were already in the shell), so
+  `SHELL_PATHS_ADDED_SINCE_PREVIOUS` and `SHELL_PATHS_REMOVED_SINCE_PREVIOUS` are both empty and `SHELL_PATHS` still holds 260
+  paths. The hunt's `sw-sets.cjs` against main 56642b8f: 0 truly added, 0 truly removed, none declared either way, no shell file
+  missing on disk.
+- Real service-worker update, measured with the hunt's update probe (local only, no Firebase): a page installed on 2.9.0 (main
+  56642b8f, offline pack filled) is served the 2.10.0 tree, reloads and takes 2.10.0 in 4.8 s (one explicit
+  `registration.update()` after the reload, which this container needs). The 2.10.0 worker reports its own shell complete (0
+  missing) and the retained 2.9.0 shell verified against its 260 paths (0 missing), recovery revision 2.9.0-r96. Fonts: 0
+  missing on 2.10.0 online and offline. Rollback to 2.9.0 is accepted, the page comes back as 2.9.0-r96, and its fonts are all
+  found online and offline (0 of 4 missing). Log: gameplay/r97/threads/bump/probe-update.log (project files).
+- `js/gfxTier.js` BUILD moves with the service worker's RUNTIME_REVISION, so a crash or lost-context cap written by 2.9.0 is
+  dropped once on the first 2.10.0 load (caps carry their build). A 2.9.0 Device check
+  result (per screen) is kept; a Device check run left open by 2.9.0 lived in `sessionStorage` and is not read by 2.10.0.
+- An installed phone takes the update on Home, never in the middle of a game screen.
+- **Mixed versions.** 2.10.0 adds no Firestore key and no Rules change, and the roulette's records and the season commit are
+  written exactly as in 2.9.0, so a 2.9.0 phone and a 2.10.0 phone can share a Showdown. The per-screen holds and the Device
+  check run are local to each device. Release-day step anyway: both managers open Home once on 2.10.0 before the first 2.10.0
+  Showdown.
+- Finished and in-progress Showdowns are untouched. No saved Showdown is rewritten. Nothing in Firebase is deleted or edited.
 
 ## Version bump
 
@@ -104,6 +143,17 @@ PROBE_SECTION
   `900455c5…` with its 2.10.0-r97 pins and footer).
 - Version comparison: no code compares versions as strings; the patterns that read a revision (`js/backup.js`, two contracts) use
   `\d+`, so 2.10.0 parses.
+
+## Tests on this branch
+
+- Full product contracts at cf3e1492 (`node tests/support/run-selected-product-contracts.cjs --all`): **363/363 pass**, exit 0
+  (frozen POS10 floor + POS20 supplements; r87-career-load-gate-edges G-06 passed this time). Ops `pos20-control-plane` passes.
+  Log: gameplay/r97/threads/bump/full-contracts.log (project files).
+- Bump contracts on acdb6a85: r86-release, r87-upgrade-rollback-list (16), r78-marble-confirm, r79-modes-settings, v10-club,
+  v10-foundation, v10-rules-settings, r90-gfx-tier, r91-gfx-tab-crash, r91-device-check-verdict, r92-device-check-iphone,
+  r96-quality-per-screen, r97-gfx-hold-per-screen: 13/13 pass.
+- CE2PG 3 seasons on both builds (above) and the real service-worker update probe (above). Story counts and pages checked in
+  Chromium (book, `#volume/one-screen-at-a-time`, `#read/r97-live`, `#latest`, `#latest/r97`; no page errors).
 
 ## Release day
 
