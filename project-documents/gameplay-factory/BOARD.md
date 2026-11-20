@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 20 Nov, 12:13 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Fri 20 Nov, 12:17 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.9.0-r96** (main `56642b8`, Wed 18 Nov 7:34 AM)
 
-🩺 **All clear: every check has a machine.** · Gate #1559: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1559 0/16
+🩺 **All clear: every check has a machine.** · Gate #1559: L1… L2… L3A✓ L3B✓ L4✓ L5… L6… · seal pending · POS20 #1559 0/16
 
 ## Jobs
 
@@ -22,7 +22,7 @@ Updated Fri 20 Nov, 12:13 PM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 940 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 941 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,7 +58,7 @@ Updated Fri 20 Nov, 12:13 PM Boston time. Bug hunting only, no new features unti
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 879 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 880 h ago
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
@@ -2122,7 +2122,7 @@ Live page: [mega/index.html](https://github.com/nikahanghojjati-oss/fifa17-caree
 
 | Lane | Item | What | State |
 | --- | --- | --- | --- |
-| 🟧 Team G lead | [PR #1559](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1559) | Release 2.10.0 (r97): gameplay/r97 into main | ⏳ 1 passed, 8 running |
+| 🟧 Team G lead | [PR #1559](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1559) | Release 2.10.0 (r97): gameplay/r97 into main | 🔴 3 passed, 5 running, 1 failed |
 
 **Up next**
 
