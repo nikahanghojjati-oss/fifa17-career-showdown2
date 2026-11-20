@@ -201,14 +201,15 @@ const measured = (level, scenes) => JSON.stringify({level, at: Date.now(), ...(s
   const s = sandbox({...LAPTOP, storage: {[MKEY]: measured(1, scenes)}}); s.G.sceneOpening("club-draw");
   s.G.governor(fakeRenderer(s.clock, () => 1), {key: "club-draw", draw() {}});
   s.G.fallback("the GPU dropped the picture (context lost)");
-  assert.equal(JSON.parse(s.store[CAP]).level, 3, "a failure at the Ball Game's Ultra caps one below it, not below the device's level");
+  // r97 (Nik 2026-11-18, option A): the hold is the Ball Game's alone.
+  assert.deepEqual(JSON.parse(s.store[CAP]).caps.map(e => [e.scene, e.level]), [["club-draw", 3]], "a failure at the Ball Game's Ultra holds the Ball Game one below it, not below the device's level");
   assert.deepEqual([s.G.profile("club-draw").level, s.G.profile("chamber-men").level], [3, 1]);
   // calibrate never second-guesses a measured screen.
   (async () => {
     const m = sandbox({...LAPTOP, storage: {[MKEY]: measured(1, scenes)}}), r = fakeRenderer(m.clock, () => 20); m.G.sceneOpening("club-draw");
     m.G.governor(r, {key: "club-draw", draw() {}}); const p = await m.G.calibrate(r, () => {});
     assert.equal(p.level, 4, "calibrate leaves the Ball Game's measured Ultra");
-    ok("P6", "the crash cap holds every screen; a failure caps one below that screen's level; calibrate leaves a measured screen");
+    ok("P6", "a crash cap with no screen holds every screen; a failure holds that screen one below its level; calibrate leaves a measured screen");
     rest();
   })().catch(error => { console.error(error); process.exitCode = 1; });
 }
