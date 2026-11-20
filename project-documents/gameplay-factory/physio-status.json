@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-20T19:37:23.848Z",
+  "at": "2026-11-20T19:49:54.089Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -10,7 +10,7 @@
     "lanes": [
       {
         "name": "L1 core",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L2 browser full",
@@ -18,7 +18,7 @@
       },
       {
         "name": "L3A storage gameplay",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L3B visual",
@@ -34,7 +34,7 @@
       },
       {
         "name": "L6 browser journey",
-        "state": "running"
+        "state": "pass"
       }
     ],
     "seal": "PENDING"
