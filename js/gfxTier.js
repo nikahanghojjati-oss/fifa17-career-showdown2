@@ -545,6 +545,10 @@
     const settle=times.slice(2).sort((a,b)=>a-b),ms=settle[Math.floor(settle.length/2)]??times[times.length-1];
     p.calibratedMs=+ms.toFixed(2);p.calSlow=false;
     if(!p.auto)return p;
+    // r97 (Nik's option A; review on #1559): a screen held below the device draws its hold. Five frames on it say nothing
+    // about the device's level or the other screens, so neither moves; the hold ends as it always does (gfxCapClean).
+    // A frame of its own (the pack, Roulette) marks its own page with what it draws, as a calibration there always has.
+    if(p.deviceLevel!==undefined&&p!==gfxBaseProfile()){if(gfxFramed())gfxMarkRoot(p.level,p.assetLevel,true);return p;}
     let level=p.level;const slow=ms>BUDGET_MS*.8;
     if(slow){calBad.add(level);if(level>0)level-=1;}
     else if(ms<BUDGET_MS*.25&&level<Math.min(3,p.autoLevel+1)&&!calBad.has(level+1))level+=1;
