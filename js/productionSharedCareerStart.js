@@ -203,7 +203,13 @@
   }
   // r96: when even the tightest step does not fit (small phones, long names), nothing is hidden: the panel takes the height its
   // words need and the page scrolls (main is the only scroller), so the rival line and both buttons stay reachable.
-  function pcstPillarGrow(pillar){if(pillar.scrollHeight>pillar.clientHeight+1){pillar.style.bottom="auto";pillar.style.maxHeight="none";}}
+  // r97: the grown panel is only reachable if there is scroll room under it (an upright phone clips the Club screen to the window,
+  // html[data-career-start-stage="phone"] in css/remoteJoining.css): --pcst-need is the height the panel needs, and main scrolls to it.
+  function pcstReachReset(){try{const root_=root.document&&root.document.documentElement;if(root_){root_.style.removeProperty("--pcst-need");delete root_.dataset.careerStartReach;}}catch(_error){}}
+  function pcstPillarGrow(pillar){
+    if(pillar.scrollHeight>pillar.clientHeight+1){pillar.style.bottom="auto";pillar.style.maxHeight="none";}
+    if(pillar.style.maxHeight==="none"){try{const overlay=pillar.closest("#"+PANEL_ID),top=overlay?overlay.getBoundingClientRect().top:0,need=Math.ceil(pillar.getBoundingClientRect().bottom-top+8);if(need>root.innerHeight){const html=root.document.documentElement;html.style.setProperty("--pcst-need",`${need}px`);html.dataset.careerStartReach="1";}}catch(_error){}}
+  }
   function pcstStageBox(node,origin){const r=node.getBoundingClientRect();return {x:r.left-origin.left,y:r.top-origin.top,w:r.width,h:r.height};}
   // The Club screen's box room (plates-hc/ENV_BOX_PHONE_HC_V3) puts the two managers behind a counter with the club packs on
   // it, under their chins. js/clubScreenV10.js clBoxLayout says where that plate is drawn (--clb-bg-pos/--clb-bg-size on the
@@ -244,7 +250,7 @@
   }
   function pcstStageOff(overlay){
     try{
-      const doc=root.document;pcstStageWatch(false);
+      const doc=root.document;pcstStageWatch(false);pcstReachReset();
       if(doc&&doc.documentElement&&doc.documentElement.dataset)delete doc.documentElement.dataset[STAGE_ATTR];
       if(overlay&&overlay.classList&&overlay.classList.contains("pcstStage")){overlay.classList.remove("pcstStage");delete overlay.dataset.stageMode;overlay.style.removeProperty("top");if(doc.body&&overlay.parentNode!==doc.body)doc.body.append(overlay);}
     }catch(_error){}
@@ -386,7 +392,7 @@
     });
     const title=overlay.querySelector(".pcstTitle"),pillar=overlay.querySelector(".pcstPillar"),actions=overlay.querySelector(".remoteJoiningActions"),scene=host.querySelector(".clPhoneScene");
     if(!title||!pillar)return null;
-    pillar.removeAttribute("data-room");pillar.removeAttribute("style");title.removeAttribute("style");
+    pillar.removeAttribute("data-room");pillar.removeAttribute("style");title.removeAttribute("style");pcstReachReset();
     if(mode==="desktop"){
       title.style.top=`${Math.round(H*.09)}px`;title.style.setProperty("--pcst-title",`${Math.round(H*.058)}px`);
       const left=frames[0].x+frames[0].w,right=frames[1].x,room=right-left-16,width=Math.round(room>=240?Math.min(380,room):Math.min(380,W*.27));
@@ -417,7 +423,7 @@
     overlay.style.top=`${Math.round(pcstTopBarBottom({top:0}))}px`;
     const title=overlay.querySelector(".pcstTitle"),pillar=overlay.querySelector(".pcstPillar"),back=overlay.querySelector(".pcstBack");
     if(!title||!pillar)return null;
-    pillar.removeAttribute("data-room");pillar.removeAttribute("style");title.removeAttribute("style");
+    pillar.removeAttribute("data-room");pillar.removeAttribute("style");title.removeAttribute("style");pcstReachReset();
     const origin=overlay.getBoundingClientRect();
     title.style.top="12px";title.style.setProperty("--pcst-title",`${Math.round(Math.max(22,Math.min(34,origin.height*.05)))}px`);
     if(back){back.removeAttribute("style");back.style.top="10px";}
