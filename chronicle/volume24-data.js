@@ -2,7 +2,7 @@
    captions at 13px, the Connect Players box under BACK, the Story), two namesakes and one bullet, the tab that reopened on Home
    after the final confirm, Chamber Men on a real graphics card, a picked level as a ceiling and a level for every 3D screen, the
    hunt moved to the next release, and 2.9.0 going live (dateless until it ships). Written 17 November 2026 from gameplay/r96.
-   Loaded by volume24.js. Edit this JSON directly. */
+   Loaded by volume24.js. Edit this JSON directly. 2.10.0 (r97) has its own Volume 25 (volume25-data.js). */
 window.CHRONICLE_VOLUME24={
  "capturedAt": "2026-11-17T23:55:00Z",
  "part": {
