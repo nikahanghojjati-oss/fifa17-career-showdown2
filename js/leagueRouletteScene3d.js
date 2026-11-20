@@ -125,7 +125,7 @@
   function knobs(level){
     const l=Math.max(0,Math.min(5,Math.round(Number(level))||0));
     return {level:l,board:l<=1?1024:2048,seg:l<=0?96:l<=2?128:192,ballSeg:l<=1?[28,18]:[40,26],
-      clearcoat:l>=2,envSize:l<=1?256:512,sheen:l>=3};
+      clearcoat:l>=2,envSize:l<=1?256:512,sheen:l>=3,ghosts:l<=0?8:12};
   }
 
   // ---------- geometry helpers ----------
@@ -139,8 +139,8 @@
     const out=new T.BufferGeometry();out.setAttribute("position",new T.Float32BufferAttribute(pos,3));out.setAttribute("normal",new T.Float32BufferAttribute(nor,3));return out;
   }
 
-  // Board dimensions (wheel radius RW = 1.06; the ball is a real roulette ball, about 1/30 of the wheel).
-  const D={RW:1.06,POCKET_IN:.80,POCKET_OUT:1.02,POCKET_Y:-.10,CONE_IN:.30,CONE_OUT:.78,BR:.038,TRACK_R:1.300,TRACK_Y:.053,
+  // Board dimensions (wheel radius RW = 1.06; the ball is a roulette ball sized to read on a phone: 1/20 of the wheel).
+  const D={RW:1.06,POCKET_IN:.80,POCKET_OUT:1.02,POCKET_Y:-.10,CONE_IN:.30,CONE_OUT:.78,BR:.052,TRACK_R:1.282,TRACK_Y:.053,
     APRON_IN:1.075,APRON_OUT:1.27,APRON_YIN:-.07,APRON_YOUT:.05,REST_R:.91,WALL:1.336,RIM_IN:1.365,RIM_OUT:1.58};
   const apronY=r=>D.APRON_YIN+(r-D.APRON_IN)*(D.APRON_YOUT-D.APRON_YIN)/(D.APRON_OUT-D.APRON_IN);
   const smooth=x=>{const t=Math.max(0,Math.min(1,x));return t*t*(3-2*t);};
@@ -216,14 +216,29 @@
     return {canvas:cv,paint};
   }
 
-  // The ball track and apron, laid top-down: a light polished maple track, then dark mahogany turned on a lathe (fine rings).
-  function woodCanvas(size){
+  // The ball track and apron, laid top-down, in the house black-and-gold marble: the apron (where the deflectors sit) is
+  // black marble with gold veins, framed by gold inlay rings and eight gold rays under the deflectors; the ball track is
+  // deep polished black lacquer (the white ball reads best on it) with a gold line along the wall.
+  function bowlCanvas(size,marble){
     const cv=lrDoc().createElement("canvas");cv.width=cv.height=size;const x=cv.getContext("2d"),c=size/2,S=size/2/D.RIM_IN;
-    x.fillStyle="#1a0d06";x.fillRect(0,0,size,size);const rnd=seedRng("wood");
-    const g=x.createRadialGradient(c,c,D.APRON_IN*S,c,c,D.RIM_IN*S);
-    g.addColorStop(0,"#2a140a");g.addColorStop(.55,"#4a2511");g.addColorStop(.86,"#5c3216");g.addColorStop(.875,"#a8743e");g.addColorStop(.95,"#c48a4a");g.addColorStop(1,"#8a5a2b");
-    x.fillStyle=g;x.beginPath();x.arc(c,c,D.RIM_IN*S,0,Math.PI*2);x.fill();
-    for(let r=D.APRON_IN*S;r<D.APRON_OUT*S;r+=Math.max(1.5,size/400)){x.beginPath();x.arc(c,c,r,0,Math.PI*2);x.strokeStyle=`rgba(${rnd()<.5?"0,0,0":"255,210,160"},${.03+rnd()*.05})`;x.lineWidth=1;x.stroke();}
+    x.fillStyle="#0b0908";x.fillRect(0,0,size,size);
+    const ring=(r0,r1,style)=>{x.beginPath();x.arc(c,c,r1*S,0,Math.PI*2);x.arc(c,c,r0*S,0,Math.PI*2,true);x.fillStyle=style;x.fill();};
+    // apron: marble, tiled at its real scale, a soft lift toward the track
+    if(marble){const pat=x.createPattern(marble,"repeat");x.save();x.beginPath();x.arc(c,c,D.APRON_OUT*S,0,Math.PI*2);x.arc(c,c,(D.APRON_IN-.02)*S,0,Math.PI*2,true);x.clip();
+      x.globalAlpha=1;x.fillStyle=pat;x.setTransform(size/1400,0,0,size/1400,0,0);x.fillRect(0,0,1400,1400);x.restore();}
+    else ring(D.APRON_IN-.02,D.APRON_OUT,"#15110d");
+    const lift=x.createRadialGradient(c,c,D.APRON_IN*S,c,c,D.APRON_OUT*S);lift.addColorStop(0,"rgba(0,0,0,.35)");lift.addColorStop(.7,"rgba(40,30,18,.05)");lift.addColorStop(1,"rgba(90,70,40,.18)");
+    ring(D.APRON_IN-.02,D.APRON_OUT,lift);
+    // eight gold rays under the deflectors, tapering toward the wheel
+    for(let j=0;j<8;j++){const a=(j+.5)*Math.PI/4,w=.012;x.beginPath();
+      const p=(r,da)=>[c+Math.cos(-a+da)*r*S,c+Math.sin(-a+da)*r*S];
+      x.moveTo(...p(D.APRON_IN+.02,0));x.lineTo(...p(1.175,w/1.175*3));x.lineTo(...p(D.APRON_OUT-.012,0));x.lineTo(...p(1.175,-w/1.175*3));x.closePath();
+      const g=x.createLinearGradient(...p(D.APRON_IN,0),...p(D.APRON_OUT,0));g.addColorStop(0,"rgba(226,181,82,.15)");g.addColorStop(.5,"rgba(246,214,138,.85)");g.addColorStop(1,"rgba(226,181,82,.25)");x.fillStyle=g;x.fill();}
+    // gold inlays: inner edge, a fine mid line, the track edge
+    ring(D.APRON_IN-.02,D.APRON_IN-.004,"#c99a3e");ring(1.17,1.174,"rgba(232,192,101,.55)");ring(D.APRON_OUT-.012,D.APRON_OUT,"#d8ad55");
+    // the ball track: black lacquer with a faint warm sheen, gold line at the wall
+    const tg=x.createRadialGradient(c,c,D.APRON_OUT*S,c,c,D.RIM_IN*S);tg.addColorStop(0,"#0d0a08");tg.addColorStop(.45,"#17120d");tg.addColorStop(.8,"#0e0b08");tg.addColorStop(1,"#070605");
+    ring(D.APRON_OUT,D.WALL-.004,tg);ring(D.WALL-.004,D.WALL+.004,"#d6aa52");ring(D.WALL+.004,D.RIM_IN,"#120e0a");
     return cv;
   }
   // A small warm studio for reflections (two soft boxes above, a dim room), filtered once.
@@ -257,14 +272,14 @@
 
     // bowl: marble body and rim, the polished wood ball track and apron, gold beads, eight gold deflectors
     const marbleTex=assets.marble?tex(new T.Texture(assets.marble)):null;
-    if(marbleTex){marbleTex.needsUpdate=true;marbleTex.wrapS=marbleTex.wrapT=T.RepeatWrapping;marbleTex.repeat.set(8,1);marbleTex.colorSpace=T.SRGBColorSpace;marbleTex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());}
-    const marble=mat(new T.MeshStandardMaterial({color:marbleTex?0xffffff:0x15130f,map:marbleTex,roughness:.28,metalness:0,envMapIntensity:.9}));
-    const woodM=mat(new T.MeshStandardMaterial({color:0x4a2a16,roughness:.32,metalness:0,envMapIntensity:.8}));
+    if(marbleTex){marbleTex.needsUpdate=true;marbleTex.wrapS=marbleTex.wrapT=T.RepeatWrapping;marbleTex.repeat.set(10,1);marbleTex.colorSpace=T.SRGBColorSpace;marbleTex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());}
+    const marble=mat(new T.MeshStandardMaterial({color:marbleTex?0xffffff:0x15130f,map:marbleTex,roughness:.2,metalness:0,envMapIntensity:1.2}));
+    const woodM=mat(new T.MeshStandardMaterial({color:0xffffff,roughness:.2,metalness:0,envMapIntensity:1.15}));
     const gold=mat(new T.MeshStandardMaterial({color:0xe2b552,roughness:.22,metalness:1,envMapIntensity:1.25}));
     const body=new T.Mesh(geo(lathe(T,[[1.46,-.34],[1.56,-.22],[D.RIM_OUT,-.02],[1.555,.13],[1.49,.185],[D.RIM_IN+.005,.19]],K.seg)),marble);scene.add(body);
     const trackG=geo(lathe(T,[[D.RIM_IN,.19],[1.344,.16],[D.WALL,.085],[1.325,.06],[1.295,.053],[D.APRON_OUT,D.APRON_YOUT],[D.APRON_IN,D.APRON_YIN],[1.068,-.085],[1.064,-.3]],K.seg));
     {const p=trackG.attributes.position,uv=trackG.attributes.uv;for(let i=0;i<p.count;i++)uv.setXY(i,.5+p.getX(i)/(2*D.RIM_IN),.5-p.getZ(i)/(2*D.RIM_IN));uv.needsUpdate=true;}
-    const woodTex=tex(new T.CanvasTexture(woodCanvas(K.board/2)));woodTex.colorSpace=T.SRGBColorSpace;woodTex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+    const woodTex=tex(new T.CanvasTexture(bowlCanvas(K.board,assets.marble)));woodTex.colorSpace=T.SRGBColorSpace;woodTex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
     woodM.map=woodTex;woodM.color.set(0xffffff);woodM.needsUpdate=true;
     const track=new T.Mesh(trackG,woodM);scene.add(track);
     const beadG=mergeGeo(T,[[new T.TorusGeometry(D.RIM_IN,.011,10,K.seg),new T.Matrix4().makeRotationX(Math.PI/2).setPosition(0,.192,0)],
@@ -297,13 +312,21 @@
     head.add(new T.Mesh(geo(mergeGeo(T,tparts)),gold));
 
     // balls: glossy ivory-white, one in play at a time, with a contact shadow
-    const ballM=mat(K.clearcoat?new T.MeshPhysicalMaterial({color:0xf6f3ec,roughness:.18,metalness:0,clearcoat:1,clearcoatRoughness:.04,envMapIntensity:1.3})
-      :new T.MeshStandardMaterial({color:0xf6f3ec,roughness:.14,metalness:0,envMapIntensity:1.35}));
+    const ballM=mat(K.clearcoat?new T.MeshPhysicalMaterial({color:0xfffdf6,emissive:0x2a2720,roughness:.12,metalness:0,clearcoat:1,clearcoatRoughness:.03,envMapIntensity:1.5})
+      :new T.MeshStandardMaterial({color:0xfffdf6,emissive:0x2a2720,roughness:.1,metalness:0,envMapIntensity:1.55}));
     const ballG=geo(new T.SphereGeometry(D.BR,K.ballSeg[0],K.ballSeg[1]));
     const ball=new T.Mesh(ballG,ballM);ball.visible=false;scene.add(ball);
     const bsCv=d.createElement("canvas");bsCv.width=bsCv.height=64;{const x=bsCv.getContext("2d"),g=x.createRadialGradient(32,32,2,32,32,32);g.addColorStop(0,"rgba(0,0,0,.65)");g.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=g;x.fillRect(0,0,64,64);}
     const bsM=mat(new T.MeshBasicMaterial({map:tex(new T.CanvasTexture(bsCv)),transparent:true,depthWrite:false}));
     const ballShadow=new T.Mesh(geo(new T.PlaneGeometry(D.BR*3.2,D.BR*3.2)),bsM);ballShadow.rotation.x=-Math.PI/2;ballShadow.visible=false;scene.add(ballShadow);
+    // The motion streak: a fast ball moves several of its own widths between two frames, which reads as a jumpy ball.
+    // Faint copies along the path the ball just ran (evaluated from the motion itself, so the same at 30 or 120 fps)
+    // blur it like a camera would. One instanced draw, additive, fading with speed.
+    const GHOSTS=K.ghosts,GHOST_GAP=1/420;
+    const ghostM=mat(new T.MeshBasicMaterial({color:0xffffff,transparent:true,depthWrite:false,blending:T.AdditiveBlending}));
+    const ghosts=new T.InstancedMesh(geo(new T.SphereGeometry(D.BR*.96,16,10)),ghostM,GHOSTS);ghosts.visible=false;ghosts.frustumCulled=false;scene.add(ghosts);
+    const ghostCol=new T.Color();for(let i=0;i<GHOSTS;i++)ghosts.setColorAt(i,ghostCol.setRGB(0,0,0));
+    const gPos=new T.Vector3(),gScale=new T.Vector3(),gQ=new T.Quaternion();
 
     // ---- state ----
     const W_WHEEL=reduced?.25:1.25;         // wheel head rad/s, counter-clockwise from above (calm, about 12 s a turn)
@@ -313,6 +336,7 @@
     function ballAtWorld(r,y,theta){ball.position.set(Math.cos(theta)*r,y,-Math.sin(theta)*r);}
     function shadowAt(r,ground,theta,h){ballShadow.visible=ball.visible;ballShadow.position.set(Math.cos(theta)*r,ground+.002,-Math.sin(theta)*r);const s=1+h*6;ballShadow.scale.set(s,s,s);bsM.opacity=Math.max(.15,.9-h*10);}
     function waitingBall(){
+      ghosts.visible=false;
       if(stage>=DROPS){ball.visible=false;ballShadow.visible=false;return;}
       ball.visible=true;ball.scale.setScalar(1);ballAtWorld(D.TRACK_R,D.TRACK_Y+D.BR,LAUNCH+thePlan.drops[stage].launch);
       shadowAt(D.TRACK_R,D.TRACK_Y,LAUNCH+thePlan.drops[stage].launch,0);
@@ -323,7 +347,7 @@
     // hops across the frets ((1-s)^3, starting at the speed it fell with) and settles in the planned pocket.
     function planBeat(k){
       const dr=thePlan.drops[k],T1=dr.orbit,T2=T1+.75,T3=T2+dr.bounce;
-      const w0=-11.5,w1=-5.2,w2=-4.2;                 // ball rad/s: launch, leaving the track, reaching the wheel
+      const w0=-9.2,w1=-4.8,w2=-3.9;                  // ball rad/s: launch, leaving the track, reaching the wheel
       const theta0=LAUNCH+dr.launch;
       const orbitTravel=(w0+w1)/2*T1,fallTravel=(w1+w2)/2*(T2-T1);
       const phiAt=t=>phi+W_WHEEL*t;
@@ -333,28 +357,44 @@
       const corr=wrapPi(wantEntry-(theta0+orbitTravel+fallTravel));
       return {k,dr,T1,T2,T3,w0,w1,w2,theta0,orbitTravel,target,Db,corr,t:0,phi0:phi,landed:false};
     }
-    function stepBeat(b,dt){
-      b.t+=dt;const t=b.t;
+    // Where the ball is at time t of beat b (pure: the streak samples it a few milliseconds back).
+    function beatPos(b,t){
+      t=Math.max(0,t);
       if(t<b.T1){
         const s=t/b.T1,theta=b.theta0+(b.w0*t+(b.w1-b.w0)*t*s/2)+b.corr*smooth(s);
         const wob=.004*Math.sin(t*23)*(1-s);
-        ballAtWorld(D.TRACK_R+wob,D.TRACK_Y+D.BR,theta);shadowAt(D.TRACK_R,D.TRACK_Y,theta,0);return;
+        return {r:D.TRACK_R+wob,y:D.TRACK_Y+D.BR,theta,sr:D.TRACK_R,ground:D.TRACK_Y,hop:0,speed:Math.abs(b.w0+(b.w1-b.w0)*s)};
       }
       if(t<b.T2){
         const u=(t-b.T1)/(b.T2-b.T1),tt=t-b.T1,theta=b.theta0+b.orbitTravel+b.corr+(b.w1*tt+(b.w2-b.w1)*tt*u/2);
         const r=D.TRACK_R+(D.APRON_IN-.03-D.TRACK_R)*(u*u*(1.4-.4*u));
         const ground=r>D.APRON_OUT?D.TRACK_Y:apronY(Math.max(D.APRON_IN,r));
         const hop=u>.42&&u<.82?.03*Math.sin(Math.PI*(u-.42)/.4):0;
-        ballAtWorld(r,ground+D.BR+hop,theta);shadowAt(r,ground,theta,hop);return;
+        return {r,y:ground+D.BR+hop,theta,sr:r,ground,hop,speed:Math.abs(b.w1+(b.w2-b.w1)*u)};
       }
       const s=Math.min(1,(t-b.T2)/(b.T3-b.T2)),phiNow=b.phi0+W_WHEEL*t;
       const alpha=b.target+b.Db*Math.pow(1-s,3);
       const r=D.REST_R+(D.APRON_IN-.03-D.REST_R)*Math.pow(1-s,2.2)+.012*Math.sin(s*19)*(1-s)*(1-s);
       const n=b.dr.hops,edges=[0,.2,.37,.5,.6,.67].slice(0,n+1),amps=[.055,.032,.016,.007,.003];
       let hop=0;for(let i=0;i<n;i++){const a0=edges[i],a1=edges[i+1];if(s>=a0&&s<a1){hop=amps[i]*Math.sin(Math.PI*(s-a0)/(a1-a0));break;}}
-      const restY=D.POCKET_Y+D.BR,ground=restY-D.BR+(.03*(1-smooth(s*1.6)));
-      ballAtWorld(r,restY+(.03*(1-smooth(s*1.6)))+hop,phiNow+alpha);shadowAt(r,ground,phiNow+alpha,hop);
-      if(s>=1&&!b.landed){b.landed=true;emit("landed",{index:b.k,league:b.dr.league,pocket:b.dr.pocket,by:b.dr.by});}
+      const restY=D.POCKET_Y+D.BR,lift=.03*(1-smooth(s*1.6));
+      return {r,y:restY+lift+hop,theta:phiNow+alpha,sr:r,ground:restY-D.BR+lift,hop,speed:Math.abs(W_WHEEL-3*b.Db*Math.pow(1-s,2)/(b.T3-b.T2)),s};
+    }
+    function streak(b){
+      const p0=beatPos(b,b.t),k=Math.max(0,Math.min(1,(p0.speed-2.2)/4.5));
+      if(k<=0||!ball.visible){ghosts.visible=false;return;}
+      ghosts.visible=true;
+      for(let i=0;i<GHOSTS;i++){
+        const p=beatPos(b,b.t-(i+1)*GHOST_GAP),f=1-(i+1)/(GHOSTS+1);
+        gPos.set(Math.cos(p.theta)*p.r,p.y,-Math.sin(p.theta)*p.r);gScale.setScalar(.7+.3*f);
+        m4.compose(gPos,gQ,gScale);ghosts.setMatrixAt(i,m4);ghosts.setColorAt(i,ghostCol.setScalar(.2*k*f));
+      }
+      ghosts.instanceMatrix.needsUpdate=true;if(ghosts.instanceColor)ghosts.instanceColor.needsUpdate=true;
+    }
+    function stepBeat(b,dt){
+      b.t+=dt;const p=beatPos(b,b.t);
+      ballAtWorld(p.r,p.y,p.theta);shadowAt(p.sr,p.ground,p.theta,p.hop);streak(b);
+      if(b.t>=b.T3&&!b.landed){b.landed=true;ghosts.visible=false;emit("landed",{index:b.k,league:b.dr.league,pocket:b.dr.pocket,by:b.dr.by});}
     }
     // After the ball rests: a beat to read it, the section splits and joins its neighbours, the ball is lifted away.
     const HOLD=reduced?.35:.7,MERGE=reduced?.25:1.5,LIFT=reduced?.15:.45;

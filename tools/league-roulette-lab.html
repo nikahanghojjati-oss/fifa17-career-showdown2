@@ -11,40 +11,46 @@
 <title>League roulette lab</title>
 <link rel="stylesheet" href="css/r95-type.css">
 <style>
-:root{--gold:#e2b552;--ink:#f3eedf}
-html,body{margin:0;height:100%;background:#0a0806;color:var(--ink);font:13px/1.35 "Instrument Sans",system-ui,sans-serif;overflow:hidden}
-#plate{position:absolute;inset:0;background:#0a0806 url("visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp") center/cover no-repeat}
-@media (orientation:portrait){#plate{background-image:url("visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp")}}
-#screen{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;justify-items:center}
-h2{margin:clamp(10px,2.2vh,26px) 0 0;font:700 clamp(22px,3.4vh,40px)/1 "Instrument Sans Narrow","Arial Narrow",sans-serif;letter-spacing:.14em;color:#f6dc94;text-shadow:0 2px 6px #000}
-#stage{position:relative;width:100%;height:100%;min-height:0}
-#foot{display:grid;justify-items:center;gap:8px;padding:0 0 clamp(10px,2.4vh,28px)}
-#status{font:700 clamp(13px,1.9vh,18px)/1.2 "Instrument Sans Narrow",sans-serif;letter-spacing:.18em;text-transform:uppercase;text-shadow:0 1px 3px #000;text-align:center}
-#balls{display:flex;gap:22px;font:600 13px/1 "Instrument Sans",sans-serif;letter-spacing:.08em}
+/* The live Select League room (Team V's handcrafted box room, HO-068: ENV_BOX_*_HC_V3): Daniel and Nik stand behind the
+   black marble counter, the wheel rests on the counter between them, the two actions sit on the counter's gold lip.
+   Layout is placed in script from the plate's own landmarks (lip, Daniel's fingertip, Nik's elbow), so the wheel never
+   covers a hand or a face at any size. */
+:root{--gold:#F2C45B;--ink:#F4EFE3;--ink2:#C9BFA8;--kick:#FFD34D;--room:#0d0b09}
+html,body{margin:0;height:100%;background:var(--room);color:var(--ink);font:15px/1.35 "Instrument Sans",system-ui,sans-serif;overflow:hidden}
+#plate{position:absolute;background:var(--room) no-repeat 0 0/100% 100%;background-image:url("visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_2X.webp")}
+#plate.tall{background-image:url("visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_TALL.webp")}
+#head{position:absolute;left:0;right:0;display:grid;justify-items:center;gap:clamp(8px,1.6vh,18px);text-align:center;padding:0 16px}
+#head h2{margin:0;font:700 clamp(26px,min(5.6vh,8.4vw),50px)/1.05 "Instrument Sans",system-ui,sans-serif;letter-spacing:.055em;color:var(--gold);text-shadow:0 2px 10px rgba(0,0,0,.55)}
+#status{margin:0;font:600 clamp(12px,1.75vh,15px)/1.2 "Instrument Sans",sans-serif;font-stretch:85%;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-shadow:0 1px 4px #000}
+#balls{display:flex;gap:18px;font:600 12px/1 "Instrument Sans",sans-serif;font-stretch:85%;letter-spacing:.12em;color:var(--ink2)}
 #balls span{display:flex;align-items:center;gap:6px}
-#balls i{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#e9e4d8 55%,#a49d8e);box-shadow:0 1px 2px #000}
-#balls i.used{opacity:.25}
-#drop{min-width:220px;padding:12px 26px;border-radius:6px;border:1px solid #fff1b8;background:linear-gradient(180deg,#fff0a6,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c);color:#1a1305;font:700 16px/1 "Instrument Sans Narrow",sans-serif;letter-spacing:.16em;cursor:pointer}
-#drop:disabled{filter:saturate(.4) brightness(.8);cursor:default}
-#panel{position:absolute;top:8px;right:8px;width:250px;background:rgba(8,9,11,.86);border:1px solid #3a2f17;border-radius:10px;padding:10px 12px;z-index:3}
+#balls i{width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#ebe6da 55%,#a39b8b);box-shadow:0 1px 2px #000}
+#balls i.used{opacity:.22}
+#stage{position:absolute}
+#actions{position:absolute;left:0;right:0;display:flex;justify-content:center;gap:12px;padding:0 16px}
+#actions button{height:52px;min-width:0;flex:0 1 min(306px,24vw);border-radius:2px;font:700 16px/1 "Instrument Sans",sans-serif;font-stretch:85%;letter-spacing:.06em;cursor:pointer}
+#drop{border:1px solid #fff0b0;background:linear-gradient(180deg,#fbe08a,#f2c45b 45%,#d9a53a);color:#130E03;box-shadow:0 2px 0 #7a5a17,0 6px 14px rgba(0,0,0,.45)}
+#drop:disabled{filter:saturate(.35) brightness(.78);cursor:default}
+#back{border:1px solid #c9a24b;background:linear-gradient(180deg,#14110d,#0a0806);color:var(--gold)}
+#actions.stack{flex-direction:column;align-items:stretch}
+#actions.stack button{flex:none}
+#panel{position:absolute;top:8px;right:8px;width:250px;background:rgba(8,9,11,.86);border:1px solid #3a2f17;border-radius:10px;padding:10px 12px;z-index:3;font-size:13px}
 #panel h1{font-size:14px;margin:0 0 6px;color:var(--gold)}
 #panel .row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
 #panel button,#panel select,#panel input{background:#15171b;color:var(--ink);border:1px solid #57461f;border-radius:6px;padding:5px 8px;font:inherit}
 #probe{white-space:pre;font:11px/1.35 ui-monospace,monospace;color:#cfc6ad;margin-top:6px}
-#loading{position:absolute;inset:0;display:grid;place-items:center;background:#0a0806;z-index:4;letter-spacing:.2em;color:#e8c065}
+#loading{position:absolute;inset:0;display:grid;place-items:center;background:var(--room);z-index:4;letter-spacing:.2em;color:#e8c065}
 </style>
 </head>
 <body>
 <div id="plate"></div>
-<div id="screen">
-  <h2>LEAGUE ROULETTE</h2>
-  <div id="stage"></div>
-  <div id="foot">
-    <div id="status">Five leagues. Four balls. One league stays.</div>
-    <div id="balls"><span>DANIEL <i></i><i></i></span><span>NIK <i></i><i></i></span></div>
-    <button id="drop" type="button">DROP BALL</button>
-  </div>
+<div id="head">
+  <h2>SELECT LEAGUE</h2>
+  <p id="status">Five leagues. Four balls. One league stays.</p>
+  <div id="balls"><span>DANIEL <i></i><i></i></span><span>NIK <i></i><i></i></span></div>
 </div>
+<div id="stage"></div>
+<div id="actions"><button id="drop" type="button">DROP BALL</button><button id="back" type="button">BACK</button></div>
 <div id="panel">
   <h1>League roulette lab</h1>
   <div class="row"><select id="winner"></select><input id="seed" value="rivalry-demo" size="12" aria-label="Seed"></div>
@@ -74,6 +80,38 @@ h2{margin:clamp(10px,2.2vh,26px) 0 0;font:700 clamp(22px,3.4vh,40px)/1 "Instrume
     status.textContent=st===0?"Five leagues. Four balls. One league stays.":`${who(nx.by)} TO DROP · BALL ${Math.floor(st/2)+1} OF 2`;
     drop.textContent=`${who(nx.by)} · DROP BALL`;drop.disabled=false;
   }
+  // ---- the room: where the plate, the title, the wheel and the actions go ----
+  // Plate landmarks (fractions of the plate): the counter's gold lip, Daniel's fingertip, Nik's elbow (box plate 1536x864;
+  // tall phone plate 1179x2620).
+  const WIDE={ar:1536/864,lip:652/864,finger:527/1536,elbow:968/1536},TALL={ar:1179/2620,lip:1219/2620};
+  const plate=document.getElementById("plate"),head=document.getElementById("head"),acts=document.getElementById("actions");
+  function place(){
+    const W=innerWidth,H=innerHeight,wide=W>=H;
+    plate.classList.toggle("tall",!wide);
+    if(wide){
+      const pw=Math.max(W,H*WIDE.ar),ph=pw/WIDE.ar,left=(W-pw)/2;
+      const top=Math.min(0,H-Math.max(70,H*.1)-WIDE.lip*ph),L=top+WIDE.lip*ph;
+      Object.assign(plate.style,{left:left+"px",top:top+"px",width:pw+"px",height:ph+"px"});
+      acts.classList.remove("stack");acts.style.top=(L-26)+"px";acts.style.bottom="";
+      head.style.top=Math.max(16,Math.min(H*.12,top+ph*.11))+"px";
+      const hb=head.offsetTop+head.offsetHeight;
+      // the wheel: its rim stops 2% of the plate short of Daniel's fingertip and of Nik's elbow, and it rests on the counter
+      const R=Math.min((.5-WIDE.finger-.02)*pw,(WIDE.elbow-.5-.02)*pw);
+      let S=2*R/.917;S=Math.min(S,(L-42-hb)/.86);
+      const cx=W/2,bottom=L-34;
+      Object.assign(host.style,{width:S+"px",height:S+"px",left:(cx-S/2)+"px",top:(bottom-.91*S)+"px"});
+    }else{
+      const pw=Math.max(W,H*TALL.ar),ph=pw/TALL.ar,left=(W-pw)/2;
+      const L=Math.max(TALL.lip*ph,H*.5),top=L-TALL.lip*ph;
+      Object.assign(plate.style,{left:left+"px",top:top+"px",width:pw+"px",height:ph+"px"});
+      head.style.top=Math.max(14,top+ph*.035)+"px";
+      acts.classList.add("stack");acts.style.top="";acts.style.bottom=Math.max(14,H*.02)+"px";
+      const ab=acts.offsetHeight+Math.max(14,H*.02)+10;
+      let S=Math.min(W-24,(H-ab-L-10)/.86);
+      Object.assign(host.style,{width:S+"px",height:S+"px",left:(W-S)/2+"px",top:(L+6-.06*S)+"px"});
+    }
+  }
+  addEventListener("resize",place);place();
   async function start(){
     if(scene)scene.dispose();scene=null;
     const reduced=q.get("reduced")==="1"?true:undefined;
