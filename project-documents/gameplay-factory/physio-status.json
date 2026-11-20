@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-20T17:42:29.188Z",
+  "at": "2026-11-20T17:55:11.851Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -30,14 +30,14 @@
       },
       {
         "name": "L5 rules regression",
-        "state": "running"
+        "state": "pass"
       },
       {
         "name": "L6 browser journey",
         "state": "pass"
       }
     ],
-    "seal": "PENDING"
+    "seal": "PASS"
   },
   "pos20": {
     "pr": 1559,
