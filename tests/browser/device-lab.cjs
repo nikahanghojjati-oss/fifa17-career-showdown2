@@ -102,7 +102,13 @@ function spoofScript(p, opts){
 // Layer 2/3 counters: draw calls, triangles, passes, pixels per pass, allocations, per-frame main-thread time.
 function instrumentScript(){
     return `(() => {
-        const L = window.__lab = { go: false, frames: [], long: [], allocMB: { tex: 0, rb: 0 }, attrs: null, buf: null, passList: [], t0: 0 };
+        const L = window.__lab = { go: false, frames: [], long: [], allocMB: { tex: 0, rb: 0 }, attrs: null, buf: null, passList: [], t0: 0, c2d: [] };
+        /* r97 (Nik's iPhone 17: Roulette closed the tab at High): every 2D canvas the page paints, so its backing stores still alive
+           (width x height x 4) can be counted beside the GPU memory. A scene's pictures painted on canvases are held twice on a phone. */
+        { const gc = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function (type) { const x = gc.apply(this, arguments); if (x && /^2d$/i.test(String(type)) && !this.__labSeen) { this.__labSeen = true; L.c2d.push(new WeakRef(this)); } return x; }; }
+        // Weakly held (Codex on #1554): a canvas a scene paints with and drops is collected as in production, and the
+        // measurement forces a garbage collection first, so only canvases the scene still holds are counted.
+        L.canvas2dMB = () => { let px = 0; L.c2d = L.c2d.filter(r => { const c = r.deref(); if (!c) return false; px += (c.width | 0) * (c.height | 0); return true; }); return px * 4 / 1048576; };
         try { new PerformanceObserver(l => { for (const e of l.getEntries()) L.long.push([Math.round(e.startTime), Math.round(e.duration)]); }).observe({ type: "longtask", buffered: true }); } catch (e) {}
         let cur = null;
         let lastVp = [0, 0]; /* three.js sets the viewport only when it changes, so it must persist across frames */
@@ -215,10 +221,12 @@ async function cpuRun(browser, key, p, sceneKey, level){
         const loadMs = Date.now() - t0;
         await page.evaluate(() => { window.__lab.frames.length = 0; window.__lab.measureFrom = performance.now(); window.__lab.long.length = 0; });
         await page.waitForTimeout(MEASURE_MS);
+        // Canvases nothing holds any more go first (counted weakly, see canvas2dMB).
+        for(let i = 0; i < 2; i += 1) await cdp.send("HeapProfiler.collectGarbage").catch(() => {});
         const data = await page.evaluate(() => {
             const L = window.__lab, c = L.mainCanvas || document.querySelector("canvas"), T = window.CareerModeGfxTier;
             const prof = T ? T.profile() : null;
-            return { frames: L.frames.map(f => [f.ms, f.calls, f.tris, f.passes, f.passPx]), long: L.long, allocMB: L.allocMB, attrs: L.attrs, canvas: c ? { w: c.width, h: c.height, cssW: c.clientWidth, cssH: c.clientHeight } : null,
+            return { frames: L.frames.map(f => [f.ms, f.calls, f.tris, f.passes, f.passPx]), long: L.long, allocMB: L.allocMB, canvas2dMB: L.canvas2dMB ? L.canvas2dMB() : null, attrs: L.attrs, canvas: c ? { w: c.width, h: c.height, cssW: c.clientWidth, cssH: c.clientHeight } : null,
                 gfx: prof ? { level: prof.level, pixelRatio: prof.pixelRatio, assetLevel: prof.assetLevel, shadowSize: prof.shadowSize, density: prof.density, bloom: prof.bloom, antialias: prof.antialias, fellBack: prof.fellBack ? prof.fellBack.reason : null } : null,
                 spMem: window.__mq && window.__mq.mem ? window.__mq.mem() : null, spGq: window.__mq && window.__mq.gq ? window.__mq.gq : null, measureMs: performance.now() - L.measureFrom };
         });
@@ -231,7 +239,7 @@ async function cpuRun(browser, key, p, sceneKey, level){
             jsMsMedian: r1(percentile(ms, .5)), jsMsP95: r1(percentile(ms, .95)), jsMsMax: r1(Math.max(0, ...ms)),
             callsMedian: percentile(pick(1), .5), trisMedian: percentile(pick(2), .5), passesMedian: percentile(pick(3), .5), passPxMedian: percentile(pick(4), .5),
             longTasks: longs.length, longMs: longs.reduce((s, l) => s + l[1], 0), longMax: Math.max(0, ...longs.map(l => l[1])),
-            allocTexMB: r1(data.allocMB.tex), allocRbMB: r1(data.allocMB.rb), msaa: data.attrs ? Boolean(data.attrs.antialias) : null, canvas: data.canvas, gfx: data.gfx, spMem: data.spMem
+            allocTexMB: r1(data.allocMB.tex), allocRbMB: r1(data.allocMB.rb), canvas2dMB: data.canvas2dMB == null ? null : r1(data.canvas2dMB), msaa: data.attrs ? Boolean(data.attrs.antialias) : null, canvas: data.canvas, gfx: data.gfx, spMem: data.spMem
         };
     }catch(error){
         await context.close().catch(() => null);
