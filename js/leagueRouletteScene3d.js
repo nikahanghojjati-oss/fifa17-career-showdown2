@@ -17,9 +17,9 @@
   const ENGINE_PATH="visual-assets/v10_1/roulette/vendor/three-r187.min.js";
   const GFX_JS="js/gfxTier.js";
   const MARBLE_PATH="css/r78-marble-tile.webp";
-  // The quality key this screen shares with the Ball Game (the next screen, the same light class of scene): gfxTier knows
-  // it ("club-draw"), so a crash here never holds every screen. A name with "roulette" in it would hold Russian Roulette.
-  const GFX_KEY="club-draw";
+  // The screen's own quality key (js/gfxTier.js CAP_SCENES, r98): a crash here holds only this screen, never the Ball Game,
+  // Russian Roulette or every screen. Not in the Device check's list: it draws the device's own level.
+  const GFX_KEY="league";
 
   // The five leagues round the wheel, so no two neighbours look alike (purple, red, navy, orange, azure). The protocol order
   // (js/sharedShowdownSetup.js LEAGUES) is a different list and is not changed.
