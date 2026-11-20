@@ -418,7 +418,7 @@
     }
     // r97: a hold on this screen alone (a closed tab or a lost context here) draws this screen lower; the device's level and
     // the other screens stay. (The Device check's ?bench=1 frames draw the level they ask for, as before.)
-    if(key&&p===base&&!(base.bench&&!benchFailed)){const held=gfxCap(key),want=base.fellBack?base.fellBack.from:base.level;
+    if(key&&p===base&&!(gfxBenchFrame()&&!benchFailed)){const held=gfxCap(key),want=base.fellBack?base.fellBack.from:base.level;
       if(held&&held.level<base.level){
         if(sceneCached&&sceneCached.base===base&&sceneCached.key===key&&sceneCached.held===held.level)p=sceneCached.p;
         else{
@@ -432,6 +432,8 @@
     if(!openedHere&&gfxFramed()){openedHere=true;gfxOpenArm(p.level,gfxSceneName());}
     return p;
   }
+  // A Device check frame (?gfx=N&bench=1) measures the level it asks for; a hold does not stand in for it (see gfxBuild).
+  function gfxBenchFrame(){const f=gfxQuery("gfx");return f!==null&&/^[0-5]$/.test(f)&&gfxQuery("bench")==="1";}
   function gfxSceneName(){try{return String(root.location.pathname||"").split("/").filter(Boolean).slice(-2).join("/");}catch(_error){return "";}}
   // r90 (Nik 2026-11-08, "the best quality it can hold, on every screen"): the resolved level on the root element as
   // html[data-gfx="0".."5"], here and on the app page around the roulette frame, so 2D screens (marble plates, blurs,
@@ -448,8 +450,11 @@
   let lastMark=null;
   function gfxParent(){try{return root.parent&&root.parent!==root&&root.parent.document?root.parent:null;}catch(_error){return null;}}
   function gfxRemark(){try{const p=gfxBaseProfile();gfxMarkRoot(p.level,p.assetLevel);}catch(_error){}}
-  function gfxSetLevel(level,ownOnly){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,slowNet:p.slowNet,choice:p.choice,scene:gfxSceneKey()});
-    next.auto=p.auto;next.picked=p.picked;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;gfxMarkRoot(next.level,next.assetLevel,ownOnly);return next;}
+  // r97 (review on #1555): the device's profile is built with the device's holds only; a hold on this screen alone is laid
+  // over it by gfxProfile, so calibrating a held screen never moves the other screens.
+  function gfxSetLevel(level,ownOnly){const p=gfxProfile();const next=gfxBuild(Math.max(0,Math.min(4,level)),{dpr:p.dpr,gpu:p.gpu,software:p.software,phone:p.phone,can8k:p.can8k,slowNet:p.slowNet,choice:p.choice,scene:""});
+    next.auto=p.auto;next.picked=p.picked;next.autoLevel=p.autoLevel;next.measured=p.measured;next.guessLevel=p.guessLevel;next.strongPhone=p.strongPhone;cached=next;
+    const here=gfxProfile();gfxMarkRoot(here.level,here.assetLevel,ownOnly);return here;}
   // The device could not hold this level (a lost context, an out-of-memory error, an 8K buffer or target refused): one
   // level down, remembered, the live governor moved at once. Scenes call gov.end() before forceContextLoss() on dispose,
   // so their own clean-up never counts; neither does a context lost while the page is hidden (the browser reclaiming it).

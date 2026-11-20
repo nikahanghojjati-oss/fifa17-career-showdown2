@@ -9,6 +9,9 @@
 //   H5 each hold ends on its own: 7 days, 3 clean plays of its own screen (never a closed tab's), the next build; a pick in
 //      Settings ends them all
 //   H6 the Device check opens each screen up to its own hold (device-check.html capLevel), says which screen is held
+//   H7 a Device check frame (?gfx=N&bench=1) measures the level it asks for over a graphics-error hold, and honours it once it
+//      fails there itself (review on #1555)
+//   H8 calibrating a held screen on Auto never moves the device's level or the other screens (review on #1555)
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -140,4 +143,29 @@ const RR = "/visual-assets/v10_1/roulette/index.html", SP = "/visual-assets/v10_
   assert.match(page, /if\(!lv\|\|Number\.isInteger\(lv\[""\]\)\)return `\$\{every\?"every 3D screen":"the game"\} draws \$\{LEVELS\[tc\.level\]\}`;/);
   ok("H6", "the Device check opens each screen up to its own hold and says which screen is held (run in r92 D17, D20, D22)");
 }
-console.log(`PASS r97 gfx hold per screen contracts (${checks} checks)`);
+// H7
+{
+  const store = {...pick("ultra"), [CAP]: j({caps: [{scene: "sp", level: 2, reason: "context lost", at: Date.now(), build: BUILD}]})};
+  const f = load({store, framed: true, pathname: SP, search: "?gfx=3&bench=1"});
+  assert.deepEqual([f.G.profile().level, f.G.profile().asked], [3, 3], "the check measures High over the pack's hold");
+  assert.equal(load({store, framed: true, pathname: SP, search: "?gfx=3"}).G.profile().level, 2, "without bench=1 the hold stands");
+  assert.equal(load({store, framed: true, pathname: SP}).G.profile().level, 2, "and in play");
+  f.G.governor(f.renderer(), {key: "sp", draw() {}}); f.G.fallback("context lost");
+  assert.equal(f.G.profile().level, 2, "a failure in the check itself is honoured from then on");
+  ok("H7", "a Device check frame measures the level it asks for over a hold, and honours one it makes");
+}
+// H8
+(async () => {
+  const MID = "ANGLE (NVIDIA, NVIDIA GeForce GTX 1060 6GB (0x00001C03) Direct3D11 vs_5_0 ps_5_0, D3D11)";
+  const device = {gpu: MID, dpr: 1, memory: 8, cores: 8, screen: [1920, 1080], view: [1920, 1035]};
+  const store = {}, home = load({store, device, pathname: "/index.html"}), auto = home.G.profile().level;
+  assert.ok(auto >= 1 && auto <= 3, `a mid device starts on Auto at Balanced..High (${auto})`);
+  store[CAP] = j({caps: [{scene: "sp", level: auto - 1, reason: "context lost", at: Date.now(), build: BUILD}]});
+  const f = load({store, device, framed: true, pathname: SP}); assert.equal(f.G.profile().level, auto - 1);
+  const p = await f.G.calibrate(f.renderer(), () => {});
+  assert.equal(p.level, auto - 1, "the pack stays at its hold after a fast calibration");
+  assert.deepEqual(["rrr", "chamber-men", "club-draw"].map(k => f.G.profile(k).level), [auto, auto, auto], "the other screens keep the device's level");
+  assert.equal(f.ctx.document.documentElement.dataset.gfx, String(auto - 1), "the pack's page marks what it draws");
+  ok("H8", "calibrating a held screen never moves the device's level or the other screens");
+  console.log(`PASS r97 gfx hold per screen contracts (${checks} checks)`);
+})().catch(e => { console.error(e); process.exit(1); });
