@@ -422,6 +422,8 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
   }
   // D16-D18 (r93): crash caps carry their build.
   const CAP = "careerModeShowdown.gfxCap.v1", OPEN = "careerModeShowdown.gfxOpening.v1", TAB = "careerModeShowdown.gfxTab.v1";
+  // r97: the cap is a list of holds, one per screen; this reads the lowest (and every screen held), or an old one-object cap.
+  const capOf = raw => { const v = JSON.parse(raw || "null"); if (!v || !Array.isArray(v.caps)) return v; const low = v.caps.reduce((a, e) => e.level < a.level ? e : a); return {...low, scenes: v.caps.map(e => e.scene)}; };
   const BUILD = /const BUILD="([^"]+)";/.exec(TIER)[1];
   const SW = fs.readFileSync(path.join(ROOT, "service-worker.js"), "utf8");
   // Nik's cap, as 2.4.0 and 2.5.0 wrote it: the tab closed while Chamber Men opened at High in a Device check, 20 hours ago.
@@ -444,14 +446,16 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.equal(oldMark.store[OPEN], "[]", "the older mark is cleared");
     const sameMark = await run(allGood, {...IPHONE, storage: {[OPEN]: mark({build: BUILD})}, session: {[TAB]: "T1"}, timeOrigin: 222});
     assert.deepEqual(sameMark.asked, orderBut(1, "chamber-men"), "this build's mark is a death: High is not opened on Chamber Men (r97: the other screens climb on)");
-    assert.equal(JSON.parse(sameMark.store[CAP]).build, BUILD, "the cap it writes carries this build");
+    assert.equal(capOf(sameMark.store[CAP]).build, BUILD, "the cap it writes carries this build");
     // The same cap from this build still keeps High shut, as before.
     const same = await run(allGood, {...IPHONE, storage: {[CAP]: nikCap({build: BUILD})}});
     assert.deepEqual(same.asked, orderBut(1, "chamber-men"), "a cap from this build keeps High shut on its screen");
     assert.match(same.status, /High was not tried: the tab closed at that level last time/);
     assert.match(same.rows, /The tab closed at this level last time, so it was not opened again\./);
-    for (const write of [/gfxWrite\(CAP_KEY,JSON\.stringify\(\{level,reason:TAB_CRASH,[^\n]*?,at:Date\.now\(\),build:BUILD\}\)\)/, /gfxWrite\(CAP_KEY,JSON\.stringify\(\{level,reason:String\(reason\|\|"failed"\),\.\.\.tab,at:Date\.now\(\),build:BUILD\}\)\)/])
-      assert.match(TIER, write, "every cap the module writes carries the build");
+    // r97: every hold is written in one place (gfxCapPut), with the build; the tab death, tabDied and a graphics failure go through it.
+    assert.match(TIER, /gfxCapSave\(rest\.concat\(\{\.\.\.fields,\.\.\.tab,scene:key,level:l,at:Date\.now\(\),build:BUILD\}\)\)/, "every cap the module writes carries the build");
+    assert.equal((TIER.match(/gfxWrite\(CAP_KEY,(?!"null")/g) || []).length, 1, "and nothing else writes one (a pick in Settings clears them)");
+    for (const via of [/gfxCapPut\(died\.scene,/, /return gfxCapPut\(scene,l>=5\?4:l-1,/, /gfxCapPut\(gfxSceneKey\(\),cur>=5\?4:cur-1,/]) assert.match(TIER, via);
     ok("D16", "a crash cap or opening mark from an older build is dropped, so an update gives the level a fresh try; this build's cap still blocks");
   }
   // D17
@@ -459,11 +463,13 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     const same = await run(allGood, {...IPHONE, storage: {[CAP]: nikCap({build: BUILD})}});
     const day = new Date(Date.now() - 20 * 36e5 + 7 * 864e5).toLocaleDateString(undefined, {day: "numeric", month: "long"});
     assert.match(same.suggest, /We suggest <b>High<\/b>/, "the chip's level is still named");
-    assert.ok(same.suggest.includes(`<small class="shut">Last time the tab closed at High on Chamber Men, so the game draws Balanced at most until ${day}, or until you pick a level in Settings or the game updates. This check stops Chamber Men below High until then.</small>`), same.suggest);
+    assert.ok(same.suggest.includes(`<small class="shut">Last time the tab closed at High on Chamber Men, so Chamber Men draws Balanced at most until ${day}, or until you pick a level in Settings or the game updates. This check stops Chamber Men below High until then.</small>`), same.suggest);
     const free = await run(allGood, IPHONE);
     assert.doesNotMatch(free.suggest, /class="shut"/, "no line without a cap");
-    assert.equal(same.tier.suggested().now, 1, "Auto draws Balanced while the cap lasts");
-    assert.equal(same.tier.label(same.tier.suggested().now), "Balanced", "Settings reads Auto · Balanced, the level the check stops below High at");
+    // r97 (Nik 2026-11-18, option A): only Chamber Men is held; Auto stays High for the device and the other screens.
+    assert.equal(same.tier.suggested().now, 2, "Auto stays High for the device");
+    assert.equal(same.tier.suggested().held["chamber-men"], 1, "Chamber Men is held at Balanced while the cap lasts");
+    assert.equal(same.tier.label(same.tier.suggested().now), "High", "Settings reads Auto · High");
     const settings = fs.readFileSync(path.join(ROOT, "js/settings.js"), "utf8");
     assert.match(settings, /const name = tier\.label\(tier\.suggested\(\)\.now\);/, "the Auto label is the level Auto draws now (the cap counted)");
     assert.match(settings, /window\.addEventListener\("pageshow", onLevel\);\n\s*window\.addEventListener\("storage", onLevel\);/, "the row reads the saved state again after Back and after another tab saves");
@@ -479,7 +485,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.equal(r.tier.suggested().now, 2, "Auto is High again");
     // A failure in this build writes a fresh cap with this build (one try per build, then shut again).
     r.tier.setChoice("high"); r.tier.fallback("test: out of memory");
-    const fresh = JSON.parse(r.store[CAP]);
+    const fresh = capOf(r.store[CAP]);
     assert.equal(fresh.build, BUILD); assert.equal(fresh.level, 1);
     assert.equal(r.tier.profile().level, 1, "and the level is lowered at once");
     ok("D18", "a pick in Settings still clears a cap; a failure in this build writes a fresh one");
@@ -514,11 +520,12 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.deepEqual(r.saved.scenes, {"chamber-men": 2, "rrr": 3, "sp": 3, "club-draw": 3}, "each screen's own level (a phone stops at Extra)");
     assert.deepEqual(r.saved.detail.stops, {"chamber-men": {level: 1, state: "failed"}});
     const tc = r.tier.tabCrash(); assert.equal(tc.level, 0); assert.equal(tc.from, 1); assert.equal(tc.scene, "chamber-men");
-    assert.equal(JSON.parse(r.store[CAP]).build, BUILD);
-    assert.match(r.suggest, /<small class="shut">Last time the tab closed at Balanced on Chamber Men, so the game draws Light at most until /, "the top card says it");
+    assert.equal(capOf(r.store[CAP]).build, BUILD);
+    assert.match(r.suggest, /<small class="shut">Last time the tab closed at Balanced on Chamber Men, so Chamber Men draws Light at most until /, "the top card says it");
     assert.doesNotMatch(r.suggest, /every 3D screen holds 60 fps/, "Chamber Men did not hold the saved level");
-    assert.match(r.result, /For now every 3D screen draws Light at most, because the tab closed at Balanced on Chamber Men\. That ends after 7 days, when you pick a level in Settings, or when the game updates\./);
-    assert.equal(r.tier.label(r.tier.suggested().now), "Light", "and Settings reads Auto · Light");
+    assert.match(r.result, /For now Chamber Men draws Light at most, because the tab closed at Balanced on Chamber Men\. That ends after 7 days, when you pick a level in Settings, or when the game updates\./);
+    // r97 (option A): only Chamber Men is held; Settings' Auto row is the device's level, and suggested().held names the hold.
+    assert.equal(r.tier.label(r.tier.suggested().now), "High", "and Settings reads Auto · High"); assert.equal(r.tier.suggested().held["chamber-men"], 0);
     assert.equal(r.store[RUN], "null");
     // Codex on #1473: a run saved by another build (the game updated before the tab came back) is let go, with no cap.
     const st = {v: 1, build: "2.4.0-r91", at: Date.now(), results: [{}, {}, {}, {}, {}], level: 1, scene: 0, first: null, ended: null, open: {level: 1, scene: 0}, played: false};
@@ -555,8 +562,8 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
       assert.deepEqual(r.saved.detail.stops, {rrr: {level: 2, state: "failed"}});
       const tc = r.tier.tabCrash(); assert.equal(tc.from, 2); assert.equal(tc.level, 1); assert.equal(tc.scene, "rrr", "the cap names Roulette");
       assert.equal(r.store[RUN], "null", "a finished run leaves nothing behind");
-      assert.match(r.suggest, /Last time the tab closed at High on Russian Roulette, so the game draws Balanced at most until .*This check stops Russian Roulette below High until then\./);
-      assert.match(r.result, /For now every 3D screen draws Balanced at most, because the tab closed at High on Russian Roulette\./, "the result line says what play draws while the cap lasts");
+      assert.match(r.suggest, /Last time the tab closed at High on Russian Roulette, so Russian Roulette draws Balanced at most until .*This check stops Russian Roulette below High until then\./);
+      assert.match(r.result, /For now Russian Roulette draws Balanced at most, because the tab closed at High on Russian Roulette\./, "the result line says what play draws while the cap lasts");
     }
     // While it goes on, the page says where the tab closed.
     assert.match(PAGE, /`The tab closed while \$\{SCENES\[st\.closed\.scene\]\.name\} was playing at \$\{LEVELS\[st\.closed\.level\]\}\. Going on with the other screens\. `/);
@@ -573,8 +580,11 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
     assert.ok(twice.asked.includes("sp@3") && !twice.asked.some(x => /^rrr@[234]$/.test(x)));
     assert.deepEqual(twice.tier.tabCrash().scenes, ["rrr", "sp"], "the cap keeps both screens");
     assert.equal(twice.tier.tabCrash().level, 1);
+    // r97 (Nik 2026-11-18, option A): each screen is held below the level that closed the tab on it: Roulette Balanced, the pack High.
+    assert.deepEqual(JSON.parse(JSON.stringify(twice.tier.tabCrash().levels)), {rrr: 1, sp: 2});
     const next = await run(allGood, {...IPHONE, session: {}, storage: {[CAP]: twice.store[CAP]}});
-    assert.ok(!next.asked.some(x => /^(rrr|sp)@[234]$/.test(x)), `neither Roulette nor Special Player is opened above Balanced again (${next.asked.join(" ")})`);
+    assert.ok(!next.asked.some(x => /^rrr@[234]$/.test(x) || /^sp@[34]$/.test(x)), `Roulette is not opened above Balanced, nor Special Player above High (${next.asked.join(" ")})`);
+    assert.ok(next.asked.includes("sp@2"), "the pack is opened at its own held level");
     assert.ok(next.asked.includes("club-draw@4") && next.asked.includes("chamber-men@4"), "the other screens still climb");
     ok("D22", "Nik's iPhone: after Roulette closes the tab at High (reload, or the app closed and the check opened again), the check goes on and saves each screen's level");
   }

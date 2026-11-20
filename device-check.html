@@ -269,7 +269,7 @@ h2 span{color:var(--mute);font-weight:600}
     const tc=tabCrash();let shut="";
     if(tc){const day=new Date(tc.until).toLocaleDateString(undefined,{day:"numeric",month:"long"});
       const who=capName(tc);
-      shut=`Last time the tab closed at ${LEVELS[tc.from]||"a higher level"}${who?` on ${who}`:""}, so the game draws ${LEVELS[tc.level]} at most until ${day}, or until you pick a level in Settings or the game updates. This check stops ${who?`${who} `:""}below ${LEVELS[tc.from]||"that level"} until then.`;}
+      shut=`Last time the tab closed at ${LEVELS[tc.from]||"a higher level"}${who?` on ${who}`:""}, so ${capDraws(tc)} at most until ${day}, or until you pick a level in Settings or the game updates. This check stops ${who?`${who} `:""}below ${LEVELS[tc.from]||"that level"} until then.`;}
     $("suggest").innerHTML=`We suggest <b>${esc(name)}</b><small>${esc(why+wait)}</small>${shut?`<small class="shut">${esc(shut)}</small>`:""}`;
     $("guideRows").innerHTML=g.rows.map(r=>`<tr${r.mine?" class=\"mine\"":""}><th scope="row">${esc(r.label)}${r.mine?"<span class=\"tag\">Your device</span>":""}</th>`
       +`<td data-label="Chips that start here">${esc(r.who)}${r.level===5&&!d.can8k?"<small>Not on this device.</small>":""}</td><td data-label="What it draws">${esc(r.draws)}</td></tr>`).join("");
@@ -286,8 +286,10 @@ h2 span{color:var(--mute);font-weight:600}
     // r97: a tab-crash cap holds every 3D screen in play (js/gfxTier.js); it does not end after clean screens. Said whenever
     // it holds any screen below its own level.
     let low="";try{const s=T.suggested(),tc=tabCrash();
-      if(tc&&tc.level<top)low=` For now every 3D screen draws ${LEVELS[tc.level]} at most, because the tab closed at ${LEVELS[tc.from]||"a higher level"}${capName(tc)?` on ${capName(tc)}`:""}. That ends after 7 days, when you pick a level in Settings, or when the game updates.`;
-      else if(s&&s.lowered&&!tc)low=` Auto draws ${LEVELS[s.now]} for now: a graphics error in play lowered it. That ends after 7 days, after 3 clean 3D screens, when you pick a level in Settings, or when the game updates.`;}catch(_error){low="";}
+      if(tc&&tc.level<top)low=` For now ${capDraws(tc,true)} at most, because the tab closed at ${LEVELS[tc.from]||"a higher level"}${capName(tc)?` on ${capName(tc)}`:""}. That ends after 7 days, when you pick a level in Settings, or when the game updates.`;
+      else if(s&&s.lowered&&!tc)low=` Auto draws ${LEVELS[s.now]} for now: a graphics error in play lowered it. That ends after 7 days, after 3 clean 3D screens, when you pick a level in Settings, or when the game updates.`;
+      // r97: a graphics error on one screen holds only that screen.
+      else if(s&&s.held&&Object.keys(s.held).length&&!tc)low=` For now ${Object.entries(s.held).map(([k,l])=>`${(SCENES.find(x=>x.key===capScene(k))||{name:"a 3D screen"}).name} draws ${LEVELS[l]}`).join(" and ")}: a graphics error in play lowered it there. That ends after 7 days, after 3 clean plays of that screen, when you pick a level in Settings, or when the game updates.`;}catch(_error){low="";}
     const per=top>m.level?`On Auto: ${own.map(x=>`${x.name} ${LEVELS[x.level]}`).join(" · ")}. `:"";
     result.innerHTML=`Auto here: ${LEVELS[m.level]}${top>m.level?` to ${LEVELS[top]}`:""}<small>${esc(extra)}${esc(per)}Measured ${new Date(m.at).toLocaleString()} on the game's 3D screens. Settings › 3D QUALITY can still pick any level.${esc(low)}</small>`;
   }
@@ -305,6 +307,15 @@ h2 span{color:var(--mute);font-weight:600}
   function capHolds(tc,key){const all=tc&&Array.isArray(tc.scenes)&&tc.scenes.length?tc.scenes:[tc&&tc.scene];
     return all.some(n=>{const k=capScene(n);return !k||k===key;});}
   const capName=tc=>{const k=capScene(tc&&tc.scene),sc=SCENES.find(x=>x.key===k);return sc?sc.name:"";};
+  // r97 (Nik 2026-11-18, option A): a hold keeps only its own screen lower (tc.levels {"rrr":1}; "" holds every screen). The
+  // level this check may open a screen at, null when nothing holds it. A cap from before r97 (no levels) holds as capHolds says.
+  function capLevel(tc,key){if(!tc)return null;
+    if(tc.levels&&typeof tc.levels==="object"){const l=[tc.levels[key],tc.levels[""]].filter(Number.isInteger);return l.length?Math.min(...l):null;}
+    return capHolds(tc,key)?tc.level:null;}
+  // What the hold draws, in words: "Russian Roulette draws Balanced", or "the game draws Balanced" when it holds every screen.
+  function capDraws(tc,every){const lv=tc&&tc.levels&&typeof tc.levels==="object"?tc.levels:null;
+    if(!lv||Number.isInteger(lv[""]))return `${every?"every 3D screen":"the game"} draws ${LEVELS[tc.level]}`;
+    return Object.entries(lv).map(([k,l])=>`${(SCENES.find(x=>x.key===capScene(k))||{name:"a 3D screen"}).name} draws ${LEVELS[l]}`).join(" and ");}
   // The measurement under way, so a hidden tab can stop it at once (Codex on #1266).
   let cancelWait=null;
   function wait(scene,level){
@@ -401,7 +412,8 @@ h2 span{color:var(--mute);font-weight:600}
       // r97: a level that closed the tab is not opened again on the screen that closed it; the other screens go on climbing
       // (each opens in a fresh page, and the check's frames draw the level asked whatever the cap). A cap whose screen is
       // not known holds every screen, as before.
-      if(tc&&level>tc.level&&capHolds(tc,scene.key))got={crashed:true};
+      const held=capLevel(tc,scene.key);
+      if(held!==null&&level>held)got={crashed:true};
       else{
         // A screen already played in this page is let go before the next one opens: a fresh page for each screen.
         if(keep&&st.played){st.played=false;if(runSave(st)){reloading=true;location.reload();return;}}
@@ -471,7 +483,7 @@ h2 span{color:var(--mute);font-weight:600}
       T.clearMeasured();
       // A tab that closed during this check (or before it) holds Auto below that level for now: say so, so the line and the
       // top card agree with what the game draws.
-      const tc=tabCrash(),lowNote=tc&&tc.level<chip?` For now the game draws ${LEVELS[tc.level]} at most, because the tab closed at ${LEVELS[tc.from]||"a higher level"}.`:"";
+      const tc=tabCrash(),lowNote=tc&&tc.level<chip?` For now ${capDraws(tc)} at most, because the tab closed at ${LEVELS[tc.from]||"a higher level"}.`:"";
       const done=died?` ${LEVELS[0]}${low>0?` to ${LEVELS[low]}`:""} ${low>0?"were":"was"} smooth.`:"";
       status.textContent=`${why}${done} Auto stays on ${LEVELS[chip]}, the level your graphics chip starts at. The check only ever raises Auto.${lowNote}`;
       showSaved();
@@ -496,7 +508,7 @@ h2 span{color:var(--mute);font-weight:600}
   forgetBtn.addEventListener("click",()=>{T.clearMeasured();showSaved();status.textContent="Auto goes back to its starting guess from this device's graphics chip.";});
   if(!T){startBtn.disabled=true;status.textContent="The check could not load. Reload the page.";}
   draw();showSaved();
-  {const tc=tabCrash(),who=capName(tc);if(T&&tc)status.textContent=`Last time the tab closed during ${who||"a 3D screen"} at ${LEVELS[tc.from]||"a level"}. The game draws ${LEVELS[tc.level]} at most for now, and this check stops ${who?`${who} `:""}below ${LEVELS[tc.from]||"that level"}.`;}
+  {const tc=tabCrash(),who=capName(tc);if(T&&tc)status.textContent=`Last time the tab closed during ${who||"a 3D screen"} at ${LEVELS[tc.from]||"a level"}. ${(d=>d[0].toUpperCase()+d.slice(1))(capDraws(tc))} at most for now, and this check stops ${who?`${who} `:""}below ${LEVELS[tc.from]||"that level"}.`;}
   // r93: a check under way goes on in this fresh page. r97: so does one whose screen was still open when the page died
   // (the tab reloaded, or was closed and the check opened again): that screen stops at the level that closed the tab, the
   // rows already done are kept, and the other screens go on climbing.

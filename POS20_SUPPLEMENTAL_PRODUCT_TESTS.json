@@ -3476,6 +3476,15 @@
         "^tests/contracts/r97\\-rrr\\-phone\\-canvas\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r97-gfx-hold-per-screen-contracts.cjs",
+      "patterns": [
+        "^js/gfxTier\\.js$",
+        "^device\\-check\\.html$",
+        "^tests/contracts/r97\\-gfx\\-hold\\-per\\-screen\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

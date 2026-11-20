@@ -59,7 +59,8 @@ function load({store, tab = {}, origin = 1000, framed = false, pathname = "/visu
     hide: () => { doc.visibilityState = "hidden"; handlers.doc.visibilitychange && handlers.doc.visibilitychange(); }};
 }
 const pick = level => ({[PICK]: level});
-const cap = store => JSON.parse(store[CAP] || "null");
+// r97: the cap is a list of holds, one per screen ({caps:[{scene,level,...}]}); this reads the lowest, with every screen held.
+const cap = store => { const v = JSON.parse(store[CAP] || "null"); if (!v || !Array.isArray(v.caps)) return v; const low = v.caps.reduce((a, e) => e.level < a.level ? e : a); return {...low, scenes: v.caps.map(e => e.scene)}; };
 
 // T1
 {
@@ -87,7 +88,7 @@ const cap = store => JSON.parse(store[CAP] || "null");
   c.G.sceneOpening("chamber-men"); assert.equal(c.marks().length, 1); c.G.sceneOpened(); assert.deepEqual(c.marks(), [], "a mount that ends without a scene takes the mark off");
   // A tab that dies during that load is capped like any other: same tab, a new load, the mark still there.
   const s4 = pick("extra"), tab4 = {}, d1 = load({store: s4, tab: tab4, pathname: "/index.html", origin: 1000}); d1.G.sceneOpening("chamber-men");
-  const d2 = load({store: s4, tab: tab4, pathname: "/index.html", origin: 9000}); assert.equal(d2.G.profile().level, 2, "Extra died while Chamber Men loaded: High next time");
+  const d2 = load({store: s4, tab: tab4, pathname: "/index.html", origin: 9000}); assert.equal(d2.G.profile("chamber-men").level, 2, "Extra died while Chamber Men loaded: High next time on Chamber Men"); assert.equal(d2.G.profile().level, 3, "r97 (option A): the device level stays");
   assert.deepEqual([cap(s4).level, cap(s4).scene, cap(s4).tab], [2, "chamber-men", true]);
   // A framed screen marked itself already; Light has nothing below it.
   const fr = load({store: pick("extra"), framed: true}); fr.G.profile(); fr.G.sceneOpening("x"); assert.equal(fr.marks().length, 1);
@@ -128,10 +129,10 @@ const cap = store => JSON.parse(store[CAP] || "null");
   const dead = load({store, tab, framed: true, origin: 1000}); assert.equal(dead.G.profile().level, 4); assert.equal(dead.marks().length, 1);
   // The player reloads. The game's page loads the module: the mark is this tab's, from an earlier load.
   const home = load({store, tab, origin: 5000, pathname: "/index.html"});
-  const c = cap(store); assert.deepEqual([c.level, c.tab, c.from, c.scene, c.bench], [3, true, 4, "roulette/index.html", false]);
+  const c = cap(store); assert.deepEqual([c.level, c.tab, c.from, c.scene, c.bench], [3, true, 4, "rrr", false]);
   assert.match(c.reason, /the tab closed while this 3D screen was opening/);
   assert.deepEqual(home.marks(), [], "the mark is spent");
-  assert.deepEqual(j(home.G.tabCrash()), j({level: 3, from: 4, scene: "roulette/index.html", scenes: ["roulette/index.html"], bench: false, at: c.at, until: c.at + 7 * 864e5}));
+  assert.deepEqual(j(home.G.tabCrash()), j({level: 3, from: 4, scene: "rrr", scenes: ["rrr"], levels: {rrr: 3}, bench: false, at: c.at, until: c.at + 7 * 864e5}));
   // Roulette opens again, one level down, and that is the level it marks.
   const again = load({store, tab, framed: true, origin: 5000}); const p = again.G.profile();
   assert.equal(p.level, 3); assert.equal(p.fellBack.from, 4); assert.deepEqual(again.marks().map(x => x.level), [3]);
@@ -146,7 +147,7 @@ const cap = store => JSON.parse(store[CAP] || "null");
   const low = load({store: s4, tab: t4, framed: true, origin: 1}); assert.equal(low.G.profile().level, 1); load({store: s4, tab: t4, origin: 2}); assert.equal(cap(s4).level, 0, "one below what was opening, never above an older cap");
   const s5 = {"careerModeShowdown.gfxMeasured.v2": j({level: 3, at: Date.now()})}, t5 = {};
   assert.equal(load({store: s5, tab: t5, framed: true, origin: 1}).G.profile().level, 3); const auto = load({store: s5, tab: t5, origin: 2, pathname: "/index.html"});
-  assert.deepEqual([auto.G.suggested().now, auto.G.suggested().lowered], [2, true], "Settings reads Auto as lowered");
+  assert.deepEqual([auto.G.suggested().now, auto.G.suggested().lowered, j(auto.G.suggested().held)], [3, false, j({rrr: 2})], "r97 (option A): Auto stays for the device, Roulette is held one down");
   ok("T3", "same tab, a new load, the mark still there: the level is capped one down before the scene opens again");
 }
 // T4
@@ -177,7 +178,7 @@ const cap = store => JSON.parse(store[CAP] || "null");
   // Three clean scenes of 30 s at the capped level: a GPU-failure cap would lift here; this one stays.
   for (let i = 0; i < 4; i += 1) { const f = load({store, tab, framed: true, origin: 2, now: i * 1e5}); f.G.profile(); const gov = f.G.governor(f.renderer(), {key: "rrr", draw() {}}); f.frames(gov, 30000); gov.end(); }
   assert.equal(cap(store).level, 3, "clean scenes at the lower level do not put the level that closed the tab back");
-  assert.match(SRC, /function gfxCapClean\(level\)\{const v=gfxCap\(\);if\(!v\|\|v\.level!==level\|\|v\.tab\)return;/);
+  assert.match(SRC, /function gfxCapClean\(level,scene\)\{\n?\s*const key=gfxCapScene\(scene\),list=gfxCapList\(\),e=list\.filter\(x=>\(x\.scene===""\|\|\(key&&x\.scene===key\)\)&&x\.level===level&&!x\.tab\)\[0\];if\(!e\)return;/);
   // (The same three scenes do lift a GPU-failure cap, as before.)
   const g = {...pick("ultra"), [CAP]: j({level: 3, reason: "the GPU ran out of memory", at: Date.now(), build: BUILD})};
   for (let i = 0; i < 3; i += 1) { const f = load({store: g, framed: true, origin: 2}); f.G.profile(); const gov = f.G.governor(f.renderer(), {key: "rrr", draw() {}}); f.frames(gov, 30000); gov.end(); }
@@ -202,16 +203,21 @@ const cap = store => JSON.parse(store[CAP] || "null");
 {
   const store = pick("ultra"), tab = {}; load({store, tab, framed: true, origin: 1}).G.profile(); load({store, tab, origin: 2});
   assert.equal(cap(store).level, 3);
-  // Another screen loses its context at the capped level: the cap goes one lower and still names Roulette's tab death.
-  const sp = load({store, tab, framed: true, origin: 2, pathname: "/visual-assets/v10_1/special-player/index.html"}); sp.G.profile();
+  // Another screen loses its context: r97 (option A) it gets its own hold, one below what it drew, and Roulette's tab death stays.
+  const sp = load({store, tab, framed: true, origin: 2, pathname: "/visual-assets/v10_1/special-player/index.html"}); assert.equal(sp.G.profile().level, 4, "the pack is not held by Roulette's death");
   sp.G.fallback("the GPU dropped the picture (context lost)");
-  const c = cap(store), t = load({store, tab, origin: 2, pathname: "/index.html"}).G.tabCrash();
-  assert.equal(c.level, 2); assert.equal(c.tab, true); assert.equal(c.reason, "the GPU dropped the picture (context lost)");
+  const holds = JSON.parse(store[CAP]).caps.map(e => [e.scene, e.level, Boolean(e.tab)]).sort();
+  assert.deepEqual(holds, [["rrr", 3, true], ["sp", 3, false]]);
+  const t = load({store, tab, origin: 2, pathname: "/index.html"}).G.tabCrash();
   assert.ok(t, "tabCrash still reports the tab death after a later graphics failure");
-  assert.deepEqual(Array.from(t.scenes), ["roulette/index.html"]); assert.equal(t.from, 4);
-  // A graphics failure with no tab death before it stays an ordinary cap.
+  assert.deepEqual(Array.from(t.scenes), ["rrr"]); assert.equal(t.from, 4); assert.deepEqual(j(t.levels), j({rrr: 3}));
+  // A context loss on the screen that closed the tab keeps its tab-death stops (Codex on #1553) and goes one lower.
+  const rr = load({store, tab, framed: true, origin: 2}); assert.equal(rr.G.profile().level, 3); rr.G.fallback("the GPU ran out of memory");
+  const r = JSON.parse(store[CAP]).caps.find(e => e.scene === "rrr"); assert.deepEqual([r.level, r.tab, r.from], [2, true, 4]);
+  // A graphics failure with no tab death before it stays an ordinary hold.
   const g = {...pick("ultra")}; const f = load({store: g, framed: true, origin: 2}); f.G.profile(); f.G.fallback("the GPU ran out of memory");
   assert.equal(cap(g).tab, undefined); assert.equal(load({store: g, origin: 2, pathname: "/index.html"}).G.tabCrash(), null);
-  ok("T7", "a later graphics failure on another screen keeps the tab death's stops");
+  ok("T7", "a later graphics failure on another screen holds only that screen and keeps the tab death's stops");
 }
+
 console.log(`PASS r91 gfx tab-crash contracts (${checks} checks)`);

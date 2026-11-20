@@ -134,7 +134,7 @@ function fakeRenderer(clock,cost,css=[1280,720]){
   }
   assert.equal(sandbox({storage:{'careerModeShowdown.gfxQuality.v1':'light'}}).G.profile().level,0,'light can be picked');
   const sg=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:{'careerModeShowdown.gfxQuality.v1':'light'}}).G;
-  assert.deepEqual({...sg.suggested()},{level:3,name:'extra',measured:false,now:3,nowName:'extra',lowered:false},'Settings sees what Auto would pick');assert.equal(sg.choice(),'light');
+  assert.deepEqual(JSON.parse(JSON.stringify(sg.suggested())),{level:3,name:'extra',measured:false,now:3,nowName:'extra',lowered:false,held:{}},'Settings sees what Auto would pick');assert.equal(sg.choice(),'light');
   assert.equal(sg.setChoice('bogus'),'auto');assert.equal(sg.profile().level,3,'a new pick applies to the next screen');
   // Codex on #1284: a crash cap or Device check saved by the roulette/SP frame's own copy shows in Settings without a reload.
   {const sx=sandbox({gpu:strong,dpr:1,memory:32,cores:16});sx.G.profile();
@@ -362,7 +362,7 @@ function g8(){
   const f=s.G.profile();assert.deepEqual([f.level,f.name],[4,'ultra'],'context lost: Ultra');assert.ok(/context lost/.test(f.fellBack.reason));
   assert.ok(gov.pixelRatio()**2*1920*1080<=3840*2160+1,`the governor moved back under the 4K buffer (${gov.pixelRatio()})`);gov.end();
   assert.ok(SRC.includes('...(p.fellBack?[`fell back from ${LABELS[p.fellBack.from]} to ${LABELS[p.level]}: ${p.fellBack.reason}`]:[]),'),'the ?fps=1 overlay says so');assert.equal(f.fellBack.from,5);
-  assert.equal(s.G.profile().level,4,'stays Ultra on the next screen');s.G.setChoice('8k');assert.equal(s.G.profile().level,5,'picking 8K again tries again');
+  assert.equal(s.G.profile('chamber-men').level,4,'stays Ultra on that screen next time');assert.equal(s.G.profile('rrr').level,5,'r97 (option A): another screen keeps 8K');assert.equal(s.G.profile().level,5,'r97: the device level stays');s.G.setChoice('8k');assert.equal(s.G.profile().level,5,'picking 8K again tries again');
   // Never offered: a GPU under 7680, a phone, software GL; Auto never picks it (a measured result tops out at Ultra).
   for(const [why,o] of [['small buffer',{maxBuffer:4096}],['small texture',{maxTexture:4096}],['phone',{screen:[402,874],dpr:3}],['software',{gpu:'SwiftShader'}]]){
     const n=sandbox({gpu:strong,dpr:1,memory:32,cores:16,storage:pick,...o}).G;assert.equal(n.can8k(),false,why);assert.ok(n.profile().level<=4,`${why}: 8K pick plays Ultra`);
@@ -429,7 +429,7 @@ async function g11(){
   const s=sandbox({gpu:'ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 Direct3D11 vs_5_0 ps_5_0, D3D11)',dpr:2,memory:16,cores:8});
   const lost=[];const r=fakeRenderer(s.clock,()=>2);r.domElement.addEventListener=(n,f)=>lost.push(f);r.domElement.removeEventListener=()=>{};
   const gov=s.G.governor(r,{key:'chamber'});assert.equal(s.G.profile().level,2);lost[0]();
-  assert.deepEqual([s.G.profile().level,s.G.profile().fellBack.from,html(s).gfx],[1,2,'1'],'context lost: one level down, marked');
+  assert.deepEqual([s.G.profile().level,s.G.profile().fellBack.from,html(s).gfx],[1,2,'2'],'context lost: this screen one level down (r97, option A: the 2D level stays)');
   s.G.reset();assert.equal(s.G.profile().level,1,'remembered on this device');
   lost[0]();assert.equal(s.G.profile().level,0,'a second loss goes down again');gov.end();
   s.G.setChoice('auto');assert.equal(s.G.profile().level,2,'a new pick in Settings tries again');
@@ -451,7 +451,7 @@ async function g11(){
   assert.equal(sandbox({connection:{saveData:true}}).G.profile().assetLevel,0,'never below 0');
   // Lead review on #1271: the cap is not for ever. 7 days, or 3 clean scenes of 20 s at the capped level, clear it.
   {const c=sandbox({gpu:strong,memory:32,cores:16});c.G.fallback('x');assert.equal(c.G.profile().level,2);
-   const old=JSON.parse(c.store['careerModeShowdown.gfxCap.v1']);old.at-=8*864e5;c.store['careerModeShowdown.gfxCap.v1']=JSON.stringify(old);c.G.reset();
+   const old=JSON.parse(c.store['careerModeShowdown.gfxCap.v1']);for(const e of old.caps)e.at-=8*864e5;c.store['careerModeShowdown.gfxCap.v1']=JSON.stringify(old);c.G.reset();
    assert.equal(c.G.profile().level,3,'a cap older than 7 days is gone');
    c.G.fallback('y');assert.equal(c.G.profile().level,2);
    for(let i=0;i<3;i+=1){c.G.reset();const g=c.G.governor(fakeRenderer(c.clock,()=>1),{});c.clock.t+=i===0?5000:21000;g.end();}
