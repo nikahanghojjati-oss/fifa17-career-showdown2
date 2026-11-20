@@ -110,7 +110,14 @@ check('B5 every way in shows option B: the old card never renders, the Club scre
   assert.match(audit,/const MODE_AT = \{ "844x390": "band", "915x412": "band", "820x1180": "phone" \};/);
   assert.match(audit,/name: "resume-from-home", from: "home"/,'the audit covers the resume path from Home');
   assert.match(audit,/getByRole\("button", \{ name: "Close Career Start" \}\)\.click\(\)/,'the audit taps the stage BACK itself');
-  assert.match(audit,/old card visible/,'the audit watches every frame for the old card');
+  assert.match(audit,/the panel and its buttons are reached by scrolling main/,'r97: a grown panel must be reachable by scrolling main');
+});
+check('B6 r97 the small heading is never hidden at the tightest step, and a grown panel is reachable',()=>{
+  assert.doesNotMatch(css,/pcstPillar\[data-room="tightest"\] \.pcstKicker \{ display: none; \}/,'the tightest step no longer hides the small heading');
+  assert.match(css,/pcstPillar\[data-room="tightest"\] \.pcstKicker \{ line-height: 1\.15; \}/);
+  assert.match(css,/html\[data-career-start-stage="phone"\]\[data-career-start-reach\] #app #clubWheelScreen\.cl-on \{ overflow-x: clip; overflow-y: visible; margin-bottom: max\(0px, calc\(var\(--pcst-need, 0px\) - 100svh\)\); \}/,'the room under a grown panel is margin: the Club screen and its plate keep their size');
+  assert.match(js,/if\(need>root\.innerHeight\)\{const html=root\.document\.documentElement;html\.style\.setProperty\("--pcst-need",`\$\{need\}px`\);html\.dataset\.careerStartReach="1";\}/);
+  assert.equal((js.match(/pcstReachReset\(\);/g)||[]).length,3,'reset at each layout (stage and fallback) and when the stage goes');
 });
 
 console.log(`PASS r87 Career Start option B contracts: ${checks} checks`);

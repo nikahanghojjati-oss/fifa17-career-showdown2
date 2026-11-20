@@ -170,6 +170,7 @@ async function checkFallback(page, kase, width, height, expectedMode, errors){
                     await page.setViewportSize({ width: 874, height: 402 }); await page.waitForTimeout(500);
                     const roomy = await page.evaluate(() => { const p = document.querySelector("#productionSharedCareerStartOverlay .pcstPillar"); return { bottom: p.style.bottom, maxHeight: p.style.maxHeight }; });
                     assert.deepEqual(roomy, { bottom: "", maxHeight: "" }, `${label}: the grown panel is released when the window turns roomy`);
+                    assert.equal(await page.evaluate(() => document.documentElement.style.getPropertyValue("--pcst-need")), "", `${label}: the Club screen is no taller than the window when the panel fits again`);
                     await page.setViewportSize({ width, height }); await page.waitForTimeout(500);
                     const back = await page.evaluate(() => Math.round(document.querySelector("#productionSharedCareerStartOverlay .pcstPillar").getBoundingClientRect().height));
                     assert.equal(back, grown, `${label}: the panel takes the same height when the window returns`);
@@ -180,7 +181,14 @@ async function checkFallback(page, kase, width, height, expectedMode, errors){
                 assert.deepEqual(audit.holds.map(h => h.club), kase.clubs, `${label}: Daniel's club left, Nik's right`);
                 assert.deepEqual(audit.covers, [], `${label}: nothing covers anything`);
                 assert.equal(audit.overflow, false, `${label}: the words fit their panel`);
-                assert.equal(audit.onScreen, true, `${label}: the stage stays on screen`);
+                if(audit.onScreen !== true){
+                    // r97: a panel that had to grow past the window (r96) is reached by scrolling main: scrolled to the end, the whole panel and its
+                    // buttons are inside the window (before r97 the Club screen clipped it and the buttons could not be reached).
+                    const reach = await page.evaluate(() => { const main = document.querySelector("main"); if(main) main.scrollTop = main.scrollHeight;
+                        const p = document.querySelector("#productionSharedCareerStartOverlay .pcstPillar"), r = p.getBoundingClientRect(), buttons = [...p.querySelectorAll("button")].map(b => b.getBoundingClientRect());
+                        return { scrolls: Boolean(main && main.scrollHeight > main.clientHeight + 1), bottom: Math.round(r.bottom), view: innerHeight, buttonsIn: buttons.every(b => b.top >= -.5 && b.bottom <= innerHeight + .5), need: getComputedStyle(document.documentElement).getPropertyValue("--pcst-need") }; });
+                    assert.ok(reach.scrolls && reach.bottom <= reach.view + .5 && reach.buttonsIn, `${label}: the panel and its buttons are reached by scrolling main ${JSON.stringify(reach)}`);
+                }
                 assert.equal(view.attr, audit.mode, `${label}: the Club screen knows Career Start is up`);
                 assert.equal(view.inClub, true, `${label}: the stage sits on the Club screen`);
                 assert.deepEqual(view.clubButtons, [], `${label}: the Club screen's own buttons step aside`);
