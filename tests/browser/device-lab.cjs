@@ -221,6 +221,11 @@ async function cpuRun(browser, key, p, sceneKey, level){
         const loadMs = Date.now() - t0;
         await page.evaluate(() => { window.__lab.frames.length = 0; window.__lab.measureFrom = performance.now(); window.__lab.long.length = 0; });
         await page.waitForTimeout(MEASURE_MS);
+        // r97 (phone memory budget on #1559): a slow software-GL runner can go a whole window without a frame at a phone's
+        // top pixel ratio (Roulette at Extra, 884x1917: 1 frame in 3 s on a9c2562, 0 on 16f4d37 twice). The window goes on,
+        // up to 30 s more, until the scene has drawn 2 frames, so a slow runner is measured instead of reported as drawing
+        // nothing. The memory read below is the same either way.
+        for(let i = 0; i < 60; i += 1){ const n = await page.evaluate(() => window.__lab.frames.length).catch(() => 2); if(n >= 2) break; await page.waitForTimeout(500); }
         // Canvases nothing holds any more go first (counted weakly, see canvas2dMB).
         for(let i = 0; i < 2; i += 1) await cdp.send("HeapProfiler.collectGarbage").catch(() => {});
         const data = await page.evaluate(() => {
