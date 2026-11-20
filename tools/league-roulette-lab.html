@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- R98-01 League Roulette lab. NOT shipped: tools/ is never staged by deploy-github-pages.yml and this page is not in
+     service-worker.js. It runs js/leagueRouletteScene3d.js on a demo seed and winner (every quality level: ?gfx=0..5),
+     with a draws/programs readout. No game state, no Firestore. Open it from a local server at the repo root:
+     /tools/league-roulette-lab.html?gfx=0  (&winner=laliga &seed=abc &stage=2 &reduced=1 &panel=0) -->
+<base href="../">
+<title>League roulette lab</title>
+<link rel="stylesheet" href="css/r95-type.css">
+<style>
+:root{--gold:#e2b552;--ink:#f3eedf}
+html,body{margin:0;height:100%;background:#0a0806;color:var(--ink);font:13px/1.35 "Instrument Sans",system-ui,sans-serif;overflow:hidden}
+#plate{position:absolute;inset:0;background:#0a0806 url("visual-assets/v10_1/league/assets/ENV_LEAGUE_PLATE_V1_2X.webp") center/cover no-repeat}
+@media (orientation:portrait){#plate{background-image:url("visual-assets/v10_1/league/assets/ENV_LEAGUE_PHONE_V1.webp")}}
+#screen{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;justify-items:center}
+h2{margin:clamp(10px,2.2vh,26px) 0 0;font:700 clamp(22px,3.4vh,40px)/1 "Instrument Sans Narrow","Arial Narrow",sans-serif;letter-spacing:.14em;color:#f6dc94;text-shadow:0 2px 6px #000}
+#stage{position:relative;width:100%;height:100%;min-height:0}
+#foot{display:grid;justify-items:center;gap:8px;padding:0 0 clamp(10px,2.4vh,28px)}
+#status{font:700 clamp(13px,1.9vh,18px)/1.2 "Instrument Sans Narrow",sans-serif;letter-spacing:.18em;text-transform:uppercase;text-shadow:0 1px 3px #000;text-align:center}
+#balls{display:flex;gap:22px;font:600 13px/1 "Instrument Sans",sans-serif;letter-spacing:.08em}
+#balls span{display:flex;align-items:center;gap:6px}
+#balls i{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#e9e4d8 55%,#a49d8e);box-shadow:0 1px 2px #000}
+#balls i.used{opacity:.25}
+#drop{min-width:220px;padding:12px 26px;border-radius:6px;border:1px solid #fff1b8;background:linear-gradient(180deg,#fff0a6,#f8d764 20%,#e4b032 54%,#f4cf58 80%,#c98f1c);color:#1a1305;font:700 16px/1 "Instrument Sans Narrow",sans-serif;letter-spacing:.16em;cursor:pointer}
+#drop:disabled{filter:saturate(.4) brightness(.8);cursor:default}
+#panel{position:absolute;top:8px;right:8px;width:250px;background:rgba(8,9,11,.86);border:1px solid #3a2f17;border-radius:10px;padding:10px 12px;z-index:3}
+#panel h1{font-size:14px;margin:0 0 6px;color:var(--gold)}
+#panel .row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+#panel button,#panel select,#panel input{background:#15171b;color:var(--ink);border:1px solid #57461f;border-radius:6px;padding:5px 8px;font:inherit}
+#probe{white-space:pre;font:11px/1.35 ui-monospace,monospace;color:#cfc6ad;margin-top:6px}
+#loading{position:absolute;inset:0;display:grid;place-items:center;background:#0a0806;z-index:4;letter-spacing:.2em;color:#e8c065}
+</style>
+</head>
+<body>
+<div id="plate"></div>
+<div id="screen">
+  <h2>LEAGUE ROULETTE</h2>
+  <div id="stage"></div>
+  <div id="foot">
+    <div id="status">Five leagues. Four balls. One league stays.</div>
+    <div id="balls"><span>DANIEL <i></i><i></i></span><span>NIK <i></i><i></i></span></div>
+    <button id="drop" type="button">DROP BALL</button>
+  </div>
+</div>
+<div id="panel">
+  <h1>League roulette lab</h1>
+  <div class="row"><select id="winner"></select><input id="seed" value="rivalry-demo" size="12" aria-label="Seed"></div>
+  <div class="row"><button id="reset" type="button">Reset</button><button id="all" type="button">Play all</button><button id="end" type="button">Show end</button></div>
+  <div id="probe"></div>
+</div>
+<div id="loading">LOADING</div>
+<script src="js/visualIdentity.js"></script>
+<script src="js/leagueRouletteScene3d.js"></script>
+<script>
+(async()=>{
+  const R=window.CareerModeLeagueRoulette3d,q=new URLSearchParams(location.search);
+  const sel=document.getElementById("winner"),seedIn=document.getElementById("seed");
+  for(const id of R.wheel){const o=document.createElement("option");o.value=id;o.textContent=R.looks[id].name;sel.append(o);}
+  sel.value=q.get("winner")||"laliga";seedIn.value=q.get("seed")||"rivalry-demo";
+  if(q.get("panel")==="0")document.getElementById("panel").hidden=true;
+  const host=document.getElementById("stage"),drop=document.getElementById("drop"),status=document.getElementById("status"),dots=[...document.querySelectorAll("#balls i")];
+  let scene=null;
+  const who=by=>by==="nik"?"NIK":"DANIEL";
+  function chips(){if(!scene)return;const st=scene.stage;const used=scene.plan.drops.slice(0,st+(scene.busy?1:0));
+    let d=0,n=0;dots.forEach(x=>x.classList.remove("used"));for(const u of used){if(u.by==="daniel")dots[d++].classList.add("used");else dots[2+n++].classList.add("used");}}
+  function caption(){
+    if(!scene)return;const st=scene.stage;
+    if(st>=4){const L=R.looks[scene.plan.winner].name.toUpperCase();status.textContent=`${L} · THE SHOWDOWN LEAGUE`;drop.textContent="CONTINUE TO BALL GAME";drop.disabled=false;return;}
+    const nx=scene.plan.drops[st];
+    if(scene.busy){status.textContent=`${who(nx.by)} · BALL ${Math.floor(st/2)+1} · ROLLING`;drop.disabled=true;drop.textContent="ROLLING…";return;}
+    status.textContent=st===0?"Five leagues. Four balls. One league stays.":`${who(nx.by)} TO DROP · BALL ${Math.floor(st/2)+1} OF 2`;
+    drop.textContent=`${who(nx.by)} · DROP BALL`;drop.disabled=false;
+  }
+  async function start(){
+    if(scene)scene.dispose();scene=null;
+    const reduced=q.get("reduced")==="1"?true:undefined;
+    scene=await R.mount(host,{seed:seedIn.value,winner:sel.value,stage:Number(q.get("stage")||0),reducedMotion:reduced});
+    document.getElementById("loading").style.display="none";
+    if(!scene){status.textContent="3D unavailable";return;}
+    window.lab=scene;
+    scene.on((type,data)=>{if(type==="landed")status.textContent=`${R.looks[data.league].name.toUpperCase()} IS OUT`;if(type==="merged"||type==="done")caption();chips();});
+    caption();chips();
+  }
+  drop.addEventListener("click",async()=>{if(!scene||scene.busy)return;if(scene.stage>=4)return;const p=scene.drop(scene.stage);caption();chips();await p;caption();chips();});
+  document.getElementById("reset").onclick=start;sel.onchange=start;seedIn.onchange=start;
+  document.getElementById("end").onclick=()=>{scene&&scene.showStage(4);caption();chips();};
+  document.getElementById("all").onclick=async()=>{for(let k=scene.stage;k<4;k++){const p=scene.drop(k);caption();chips();await p;}};
+  setInterval(()=>{if(scene)document.getElementById("probe").textContent=JSON.stringify(scene.probe(),null,1);},500);
+  await start();
+})();
+</script>
+</body>
+</html>
