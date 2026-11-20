@@ -21,10 +21,10 @@ if(!BEFORE){ console.error("--before FILE is required (the page to compare with)
 const PAGE = "visual-assets/v10_1/roulette/index.html";
 const TYPES = {".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".webp": "image/webp", ".png": "image/png", ".woff2": "font/woff2", ".mp3": "audio/mpeg", ".ogg": "audio/ogg"};
 // The same random numbers in both runs, from the first script on.
-// The page paints its labels once its fonts load or after 3 s (fontsReady). In software GL a load can pass 3 s, and one run
+// The page paints its labels once its fonts load or after 15 s (fontsReady, FONT_WAIT_MS). In software GL a load can pass 15 s, and one run
 // would paint them in the fallback font: here the page waits for the fonts in both runs (this test only).
 const SEEDED = `(() => { let s = 20261118 >>> 0; Math.random = () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
-  const st = window.setTimeout; window.setTimeout = (f, ms, ...a) => st(f, ms === 3000 && !window.__rrReady ? 600000 : ms, ...a); })();`;
+  const st = window.setTimeout; window.setTimeout = (f, ms, ...a) => st(f, ms === 15000 && !window.__rrReady ? 600000 : ms, ...a); })();`;
 const hash = b => crypto.createHash("sha256").update(b).digest("hex").slice(0, 16);
 
 async function play(which){
