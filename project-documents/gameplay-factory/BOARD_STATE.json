@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-20 9:52 AM Boston time (EST)",
+ "generated": "2026-11-20 9:56 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 332,
@@ -3044,13 +3044,28 @@
    "revision": "2.9.0-r96",
    "when": "2026-11-18T07:34:17-05:00",
    "subject": "Merge pull request #1552 from nikahanghojjati-oss/gameplay/r96",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1559,
+     "title": "Release 2.10.0 (r97): gameplay/r97 into main",
+     "draft": false,
+     "branch": "gameplay/r97",
+     "sha": "a9c25629930961f902cbb1b07deca5b974c793ea",
+     "updated": "2026-11-20T14:55:48Z",
+     "gates": {
+      "passed": 0,
+      "running": 9,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
    "state": "clear",
    "line": "All clear: every check has a machine.",
-   "gate": "POS20 #304 6/16",
+   "gate": "Gate #1559: L1… L2… L3A… L3B… L4… L5… L6… · seal pending · POS20 #1559 0/16",
    "source": "physio"
   },
   "v_headline": "Queued next",
@@ -3836,7 +3851,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 17988
+    "waiting_min": 17992
    },
    {
     "id": "HO-059",
@@ -4402,7 +4417,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -5618,7 +5633,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1559,
+    "title": "Release 2.10.0 (r97): gameplay/r97 into main",
+    "draft": false,
+    "branch": "gameplay/r97",
+    "sha": "a9c25629930961f902cbb1b07deca5b974c793ea",
+    "updated": "2026-11-20T14:55:48Z",
+    "gates": {
+     "passed": 0,
+     "running": 9,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
