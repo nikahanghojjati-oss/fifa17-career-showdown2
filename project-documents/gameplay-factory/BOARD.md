@@ -6,13 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Fri 20 Nov, 11:36 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
-
-> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
+Updated Fri 20 Nov, 11:40 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.9.0-r96** (main `56642b8`, Wed 18 Nov 7:34 AM)
 
-🩺 **All clear (from GitHub).** · Gate #1559: L1✓ L2✓ L4✓ L5✓ L6✓ · POS20 #1559 10/10
+🩺 **All clear: every check has a machine.** · Gate #1559: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1559 0/16
 
 ## Jobs
 
