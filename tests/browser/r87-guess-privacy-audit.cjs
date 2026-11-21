@@ -197,8 +197,7 @@ async function startAndJoin(daniel,nik){
 }
 async function playSetup(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
-  await daniel.page.locator("#spinLeague").click({timeout:30000});
-  await clubDraw.waitContinueToClubs(daniel.page);
+  await clubDraw.playLeagueRoulette(daniel,nik);
   for(const m of [daniel,nik])await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
   // R94-02: the club draw: each manager taps STOP on his own phone; both balls rest; both phones name the same clubs.
   const clubs=await clubDraw.playClubDraw(daniel,nik);

@@ -51,7 +51,9 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   assert.equal(r96.length,260);
   assert.deepEqual(added,shell.filter(p=>!r96.includes(p)),'the added list is this shell minus 2.9.0\'s');
-  assert.deepEqual(added,R97_ADDED,'r97 adds no shell path');
+  // R98-01 League Roulette adds its board and step ahead of the 2.11.0 bump (the bump pins them as r98's own additions).
+  const R98_ADDED=['js/leagueRouletteStep.js','js/leagueRouletteScene3d.js'];
+  assert.deepEqual(added,[...R97_ADDED,...R98_ADDED],'r97 adds no shell path; r98 so far adds the League Roulette');
   assert.deepEqual(removed,R97_REMOVED,'r97 removes no shell path');
   assert.deepEqual(r96.filter(p=>!shell.includes(p)),removed,'every 2.9.0 shell path is still precached');
   assert.equal(shell.length,260-removed.length+added.length);

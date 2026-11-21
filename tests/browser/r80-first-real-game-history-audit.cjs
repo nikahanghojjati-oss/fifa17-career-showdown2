@@ -420,8 +420,7 @@ async function playTransferSeason(daniel,nik,tokenD,tokenN){
 // The shared setup through the real UI (as P2, without its reload): league, clubs, both confirm, both start their careers.
 async function playSetupToTransferChallenge(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
-  await daniel.page.locator("#spinLeague").click({timeout:30000});
-  await clubDraw.waitContinueToClubs(daniel.page);
+  await clubDraw.playLeagueRoulette(daniel,nik);
   for(const m of [daniel,nik])await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});
   // R94-02: the club draw: each manager taps STOP on his own phone; both balls rest; both phones name the same clubs.
   const clubs=await clubDraw.playClubDraw(daniel,nik);

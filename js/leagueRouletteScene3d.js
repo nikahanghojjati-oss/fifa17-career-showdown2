@@ -67,7 +67,7 @@
   }
   // plan(seed, winner): the four drops that leave `winner`. Drops alternate Daniel, Nik, Daniel, Nik (Daniel starts the
   // Showdown). Each ball lands in a pocket of the league it removes, never on that section's two edge pockets.
-  function plan(seed,winner){
+  function lrPlan(seed,winner){
     if(!WHEEL.includes(winner))throw new Error("LEAGUE_ROULETTE_WINNER_INVALID");
     const rng=seedRng(`league-roulette-v1|${String(seed)}|${winner}`);
     const losers=WHEEL.filter(id=>id!==winner);
@@ -122,7 +122,7 @@
 
   // What each level draws (ONE system). Light (Nik's Chromebook, 2 CPU threads) stays light: one 1024 board texture,
   // standard materials, about a dozen draws.
-  function knobs(level){
+  function lrKnobs(level){
     const l=Math.max(0,Math.min(5,Math.round(Number(level))||0));
     return {level:l,board:l<=1?1024:2048,seg:l<=0?96:l<=2?128:192,ballSeg:l<=1?[28,18]:[40,26],
       clearcoat:l>=2,envSize:l<=1?256:512,sheen:l>=3,ghosts:l<=0?8:12};
@@ -174,7 +174,7 @@
       cx.restore();
     }
     // owners: the wheel before this beat; anim: {league,start,len,left,right,half,f} while a section splits (f 0..1).
-    function paint(owners,anim){
+    function lrPaintBoard(owners,anim){
       cx.clearRect(0,0,size,size);
       // polished dark wood under everything (lip, gaps, hub)
       const wood=cx.createRadialGradient(c,c,0,c,c,D.RW*S);wood.addColorStop(0,"#2b1a10");wood.addColorStop(.7,"#3a2414");wood.addColorStop(1,"#1d110a");
@@ -213,7 +213,7 @@
         if(whole){for(let i=0;i<3;i++)label(s.league,-Math.PI/2+i*Math.PI*2/3,alpha);}else label(s.league,mid,alpha);
       }
     }
-    return {canvas:cv,paint};
+    return {canvas:cv,paint:lrPaintBoard};
   }
 
   // The ball track and apron, laid top-down, in the house black-and-gold marble: the apron (where the deflectors sit) is
@@ -255,9 +255,9 @@
   }
 
   // ---------- the scene ----------
-  function build(T,host,opts,P,assets){
-    const K=knobs(P.level),d=lrDoc(),reduced=opts.reducedMotion===undefined?lrReducedMotion():Boolean(opts.reducedMotion);
-    const thePlan=opts.plan;
+  function lrBuild(T,host,opts,P,assets){
+    const K=lrKnobs(P.level),d=lrDoc(),reduced=opts.reducedMotion===undefined?lrReducedMotion():Boolean(opts.reducedMotion);
+    let thePlan=opts.plan;
     const canvas=d.createElement("canvas");canvas.className="leagueRoulette3d";canvas.setAttribute("aria-hidden","true");
     canvas.style.cssText="position:absolute;inset:0;width:100%;height:100%;display:block";
     const renderer=new T.WebGLRenderer({canvas,antialias:P.antialias!==false,alpha:true,powerPreference:"high-performance"});
@@ -430,7 +430,7 @@
 
     // ---- layout: the whole bowl in view, a little above centre, tilted like a player standing at the table ----
     let size={w:2,h:1},layoutKey="";
-    function layout(){
+    function lrLayout(){
       const w=Math.max(1,host.clientWidth||opts.size?.().w||1),h=Math.max(1,host.clientHeight||opts.size?.().h||1),k=`${w}x${h}`;
       if(k===layoutKey)return;layoutKey=k;size={w,h};
       renderer.setSize(w,h,false);cam.aspect=w/h;
@@ -442,23 +442,23 @@
 
     // ---- quality: the shared governor (held while a ball moves) ----
     const GFX=root.CareerModeGfxTier;
-    const paint=()=>renderer.render(scene,cam);
-    const gov=GFX&&typeof GFX.governor==="function"?GFX.governor(renderer,{key:GFX_KEY,draw:paint,beats:true,before:()=>GFX.softCut?.(canvas,paint),onChange:()=>{layoutKey="";layout();}}):null;
+    const lrPaint=()=>renderer.render(scene,cam);
+    const gov=GFX&&typeof GFX.governor==="function"?GFX.governor(renderer,{key:GFX_KEY,draw:lrPaint,beats:true,before:()=>GFX.softCut?.(canvas,lrPaint),onChange:()=>{layoutKey="";lrLayout();}}):null;
     const fps=GFX&&typeof GFX.overlay==="function"?GFX.overlay(()=>({calls:renderer.info.render.calls,tris:renderer.info.render.triangles,extra:`programs ${renderer.info.programs?renderer.info.programs.length:0}`})):null;
     let isHeld=false;function held(v){if(v!==isHeld){isHeld=v;gov?.hold(v);}}
 
-    function clock(){return root.performance?.now?.()??Date.now();}
-    let raf=0,last=clock(),disposed=false,dirty=true;
+    function lrClock(){return root.performance?.now?.()??Date.now();}
+    let raf=0,last=lrClock(),disposed=false,dirty=true;
     const tick=now=>{
       raf=0;if(disposed)return;
-      if(!canvas.isConnected){free();return;}
+      if(!canvas.isConnected){lrFree();return;}
       const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;
-      if(d.visibilityState!=="hidden"&&host.clientWidth>0){gov?.frame(now);if(dirty){dirty=false;layout();}frame(dt);paint();}
+      if(d.visibilityState!=="hidden"&&host.clientWidth>0){gov?.frame(now);if(dirty){dirty=false;lrLayout();}frame(dt);lrPaint();}
       raf=root.requestAnimationFrame(tick);
     };
     const relayout=()=>{dirty=true;};
     const ro=typeof root.ResizeObserver==="function"?new root.ResizeObserver(relayout):null;
-    function free(){
+    function lrFree(){
       if(disposed)return;disposed=true;if(raf)root.cancelAnimationFrame(raf);ro?.disconnect();root.removeEventListener?.("resize",relayout);
       gov?.end();fps?.stop();
       for(const v of own)try{v.dispose&&v.dispose();}catch(_error){}
@@ -466,11 +466,15 @@
       canvas.remove();listeners.clear();
     }
     if(lrPosition(host)==="static")host.style.position="relative";
-    host.prepend(canvas);layout();waitingBall();
+    host.prepend(canvas);lrLayout();waitingBall();
     ro?.observe(host);root.addEventListener?.("resize",relayout);
 
     const api={
-      contractVersion:1,level:K.level,reduced,plan:thePlan,
+      contractVersion:1,level:K.level,reduced,
+      get plan(){return thePlan;},
+      // Before ball 1 the board is the same five sections whatever the league: the live screen opens it before the shared
+      // draw exists and gives it the real seed and league here, once Daniel's first ball has drawn it (never mid-roulette).
+      setPlan(seed,winner){if(stage!==0||beat||!WHEEL.includes(winner))return false;thePlan=lrPlan(String(seed||""),winner);owners=ownersAt(thePlan,0);boardDirty=true;waitingBall();return true;},
       get stage(){return stage;},
       get busy(){return Boolean(beat);},
       // The wheel as it stands after `k` drops, at once (a reload, a late join, Reduce Motion catching up). Never replays.
@@ -493,15 +497,15 @@
         painter.paint(owners,null);boardTex.needsUpdate=true;boardDirty=false;
         const was=ball.visible;ball.visible=true;ballShadow.visible=true;
         try{if(typeof renderer.compileAsync==="function")await renderer.compileAsync(scene,cam);else renderer.compile(scene,cam);}catch(_error){}
-        if(disposed)return;paint();ball.visible=was;ballShadow.visible=was;
-        if(GFX&&typeof GFX.calibrate==="function"){try{await GFX.calibrate(renderer,paint,{frames:5});}catch(_error){}gov?.resize();}
-        if(!disposed){dirty=true;layout();paint();}
+        if(disposed)return;lrPaint();ball.visible=was;ballShadow.visible=was;
+        if(GFX&&typeof GFX.calibrate==="function"){try{await GFX.calibrate(renderer,lrPaint,{frames:5});}catch(_error){}gov?.resize();}
+        if(!disposed){dirty=true;lrLayout();lrPaint();}
       },
       // Test page and proofs: step the clock by hand (seconds), no frame loop needed.
-      advance(seconds){let n=Math.round(seconds*60);while(n-->0)frame(1/60);layout();paint();},
+      advance(seconds){let n=Math.round(seconds*60);while(n-->0)frame(1/60);lrLayout();lrPaint();},
       probe(){return {level:K.level,draws:renderer.info.render.calls,programs:renderer.info.programs?renderer.info.programs.length:0,triangles:renderer.info.render.triangles,
         pixelRatio:renderer.getPixelRatio(),frameMs:gov?gov.frameMs():null,stage,busy:Boolean(beat),leagues:[...new Set(owners)],board:K.board};},
-      dispose:free,
+      dispose:lrFree,
       get alive(){return !disposed;}
     };
     raf=root.requestAnimationFrame(tick);
@@ -511,35 +515,36 @@
 
   // mount(host, opts): the roulette inside `host` (a positioned box), resolved once the marks and marble are decoded, every
   // shader compiled and the first frame drawn (the Reus Gate). null where it cannot run.
-  // opts = {seed (string both phones share), winner (league id the shared draw gave), stage (drops already shown, 0..4),
+  // opts = {seed (string both phones share), winner (league id the shared draw gave; left out before ball 1, see setPlan),
+  //         stage (drops already shown, 0..4),
   //         reducedMotion (default: the system setting), signal (AbortSignal), size () -> {w, h}}
-  async function mount(host,opts){
+  async function lrMount(host,opts){
     const o=opts||{},off=()=>Boolean(o.signal&&o.signal.aborted);
-    if(!host||!WHEEL.includes(o.winner)||!lrHasWebgl()||off())return null;
+    if(!host||(o.winner!=null&&!WHEEL.includes(o.winner))||!lrHasWebgl()||off())return null;
     let opened=false;
     try{
-      const thePlan=plan(String(o.seed||""),o.winner);
+      const thePlan=lrPlan(String(o.seed||""),o.winner||WHEEL[0]);
       const P=await lrQuality();if(off())return null;
       try{root.CareerModeGfxTier?.sceneOpening?.(GFX_KEY);}catch(_error){}
       const marks={};
       const [T,marble]=await Promise.all([lrLoadEngine(),lrImage(MARBLE_PATH),...WHEEL.map(async id=>{marks[id]=await lrImage(lrMarkSrc(id));}),
         root.document?.fonts?.load?root.document.fonts.load('700 40px "Instrument Sans Narrow"').catch(()=>null):null]);
       if(!T||off()||!host.isConnected)return null;
-      const api=build(T,host,{...o,plan:thePlan},P,{marks,marble});
-      if(o.stage)api.showStage(o.stage);
+      const api=lrBuild(T,host,{...o,plan:thePlan},P,{marks,marble});
+      if(o.stage&&o.winner)api.showStage(o.stage);
       await api.warm();
       if(off()){api.dispose();return null;}
-      opened=true;mount.last=api;
+      opened=true;lrMount.last=api;
       return api;
     }catch(error){
       try{root.console?.warn?.("League roulette 3D scene unavailable.",error);}catch(_error){}
       return null;
     }finally{if(!opened){try{root.CareerModeGfxTier?.sceneOpened?.();}catch(_error){}}}
   }
-  function preload(){return lrLoadEngine().then(()=>true,()=>false);}
+  function lrPreload(){return lrLoadEngine().then(()=>true,()=>false);}
 
   const api={contractVersion:1,feature:"cms-league-roulette-3d",enginePath:ENGINE_PATH,wheel:WHEEL,looks:LEAGUE_LOOK,pockets:POCKETS,drops:DROPS,
-    seedRng,startOwners,runsOf,mergeInfo,mergeOwners,plan,ownersAt,knobs,mount,preload};
+    seedRng,startOwners,runsOf,mergeInfo,mergeOwners,plan:lrPlan,ownersAt,knobs:lrKnobs,mount:lrMount,preload:lrPreload};
   if(typeof module!=="undefined"&&module.exports)module.exports=api;
   root.CareerModeLeagueRoulette3d=api;
 })(typeof globalThis!=="undefined"?globalThis:this);

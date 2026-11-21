@@ -9,6 +9,18 @@ const CONTINUE_TO_CLUBS=/^CONTINUE TO (BALL GAME|CLUB PACKS|CLUB DRAW)$/;
 async function waitContinueToClubs(page,timeout=30000){
   await page.waitForFunction(()=>/^CONTINUE TO (BALL GAME|CLUB PACKS|CLUB DRAW)$/.test(document.getElementById("spinLeague")?.textContent||""),null,{timeout});
 }
+// R98-01 League Roulette: four balls, Daniel, Nik, Daniel, Nik, each dropped from his own phone once the ball before it has
+// rested on that phone (#spinLeague reads DROP BALL there, WAITING FOR ... on the other). Daniel's first ball draws the
+// league; the clubs follow the fourth. A Setup opened before the roulette goes straight on to CONTINUE after ball 1.
+async function playLeagueRoulette(daniel,nik,timeout=60000){
+  await daniel.page.locator("#spinLeague").click({timeout:30000});
+  for(const m of [nik,daniel,nik]){
+    const next=await m.page.waitForFunction(()=>{const b=document.getElementById("spinLeague"),t=(b?.textContent||"").trim();if(/^CONTINUE TO /.test(t))return "done";return t==="DROP BALL"&&!b.disabled?"drop":false;},null,{timeout});
+    if(await next.jsonValue()==="done")break;
+    await m.page.locator("#spinLeague").click({timeout:30000});
+  }
+  await waitContinueToClubs(daniel.page,timeout);
+}
 async function isDraw(page){return page.evaluate(()=>document.getElementById("clubWheelScreen")?.dataset.clubDraw==="spin").catch(()=>false);}
 async function waitDraw(page,timeout=45000){await page.waitForFunction(()=>document.getElementById("clubWheelScreen")?.dataset.clubDraw==="spin",null,{timeout});}
 // STOP opens once the season length is locked and this manager's ball turns at full speed.
@@ -42,4 +54,4 @@ async function playClubDraw(daniel,nik,{danielFirst=true,timeout=60000}={}){
   return a;
 }
 
-module.exports={CONTINUE_TO_CLUBS,waitContinueToClubs,isDraw,waitDraw,waitStop,stop,kind,names,waitBothRested,setupState,playClubDraw};
+module.exports={playLeagueRoulette,CONTINUE_TO_CLUBS,waitContinueToClubs,isDraw,waitDraw,waitStop,stop,kind,names,waitBothRested,setupState,playClubDraw};

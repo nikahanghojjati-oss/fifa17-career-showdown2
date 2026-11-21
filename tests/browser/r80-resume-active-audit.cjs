@@ -361,8 +361,7 @@ async function main(){
       await homeTapResumes(m,"newShowdown",{expect:"leagueWheelScreen",session,screens:"#leagueWheelScreen",label:"G7w"});
     }
     ok("G7w","both: Home START with the ACTIVE session goes straight back to the league wheel");
-    await daniel.page.locator("#spinLeague").click({timeout:30000});
-    await clubDraw.waitContinueToClubs(daniel.page);
+    await clubDraw.playLeagueRoulette(daniel,nik);
     await playSetupToTransferChallenge(daniel,nik);
     ok("R2","setup confirmed, both started their careers and reached the Transfer Challenge (season 1)");
 
