@@ -109,7 +109,10 @@ function ok(label) { checks += 1; process.stdout.write(`ok ${checks} ${label}\n`
     assert.ok(sw.includes(`  "${file}",\n`), `${file} is in the shell`);
     assert.ok(sw.includes(`"${file}"`) && /SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set\(\[[^\]]*"js\/leagueRouletteStep\.js"/.test(sw));
   }
-  ok("Reus Gate hold, own quality key, both files in the shell and named as added");
+  const B = read("js/leagueRouletteScene3d.js");
+  assert.ok(B.includes("const W_WHEEL=reduced?0:1.25;"), "Reduce Motion: the wheel stands still");
+  assert.ok(B.includes("const HOLD=reduced?.6:.7,MERGE=reduced?0:1.5,LIFT=reduced?0:.45;"), "Reduce Motion: sections join and the ball goes at once");
+  ok("Reus Gate hold, own quality key, both files in the shell and named as added, Reduce Motion still");
 }
 
 // ---- 6. The step under a screen that syncs on every event (Codex P1 on #1563) -------------------------------------------

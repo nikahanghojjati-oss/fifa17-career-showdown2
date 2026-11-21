@@ -329,7 +329,7 @@
     const gPos=new T.Vector3(),gScale=new T.Vector3(),gQ=new T.Quaternion();
 
     // ---- state ----
-    const W_WHEEL=reduced?.25:1.25;         // wheel head rad/s, counter-clockwise from above (calm, about 12 s a turn)
+    const W_WHEEL=reduced?0:1.25;           // wheel head rad/s, counter-clockwise from above (calm, about 12 s a turn); still under Reduce Motion
     const LAUNCH=-Math.PI*.28;              // the croupier's side: right of the camera
     let phi=0,stage=0,owners=ownersAt(thePlan,0),anim=null,beat=null,boardDirty=true;
     const listeners=new Set();const emit=(type,data)=>{for(const fn of listeners){try{fn(type,data);}catch(_error){}}};
@@ -397,7 +397,9 @@
       if(b.t>=b.T3&&!b.landed){b.landed=true;ghosts.visible=false;emit("landed",{index:b.k,league:b.dr.league,pocket:b.dr.pocket,by:b.dr.by});}
     }
     // After the ball rests: a beat to read it, the section splits and joins its neighbours, the ball is lifted away.
-    const HOLD=reduced?.35:.7,MERGE=reduced?.25:1.5,LIFT=reduced?.15:.45;
+    // Reduce Motion: no spin, no growing ball, no sliding sections: the ball is shown in its pocket for a beat to read,
+    // then the board shows the merged sections at once and the ball is gone.
+    const HOLD=reduced?.6:.7,MERGE=reduced?0:1.5,LIFT=reduced?0:.45;
     function startMerge(k){const info=mergeInfo(owners,thePlan.drops[k].league);anim={...info,f:0,t:0,k};boardDirty=true;}
     function finishStage(k){owners=mergeOwners(owners,thePlan.drops[k].league);anim=null;stage=k+1;boardDirty=true;emit("merged",{index:k,stage,leagues:[...new Set(owners)]});
       if(stage>=DROPS)emit("done",{league:owners[0]});}
@@ -407,8 +409,8 @@
       phi+=W_WHEEL*dt;head.rotation.y=phi;
       if(beat){
         if(reduced&&!beat.reducedDone){
-          beat.t+=dt;const s=Math.min(1,beat.t/.3),a=(thePlan.drops[beat.k].pocket+.5)*STEP+phi;
-          ball.visible=true;ball.scale.setScalar(.6+.4*s);ballAtWorld(D.REST_R,D.POCKET_Y+D.BR,a);shadowAt(D.REST_R,D.POCKET_Y,a,0);
+          const s=1,a=(thePlan.drops[beat.k].pocket+.5)*STEP+phi;
+          ball.visible=true;ball.scale.setScalar(1);ballAtWorld(D.REST_R,D.POCKET_Y+D.BR,a);shadowAt(D.REST_R,D.POCKET_Y,a,0);
           if(s>=1){beat.reducedDone=true;beat.landed=true;beat.after=0;emit("landed",{index:beat.k,league:thePlan.drops[beat.k].league,pocket:thePlan.drops[beat.k].pocket,by:thePlan.drops[beat.k].by});}
         }else if(!beat.landed)stepBeat(beat,dt);
         if(beat.landed){
@@ -416,9 +418,9 @@
           const a=(thePlan.drops[beat.k].pocket+.5)*STEP+phi;
           if(beat.after<HOLD+MERGE){ballAtWorld(D.REST_R,D.POCKET_Y+D.BR,a);shadowAt(D.REST_R,D.POCKET_Y,a,0);}
           if(beat.after>=HOLD&&!anim&&stage===beat.k)startMerge(beat.k);
-          if(anim){anim.f=smooth((beat.after-HOLD)/MERGE);boardDirty=true;}
+          if(anim){anim.f=MERGE>0?smooth((beat.after-HOLD)/MERGE):1;boardDirty=true;}
           if(beat.after>=HOLD+MERGE){
-            const l=Math.min(1,(beat.after-HOLD-MERGE)/LIFT);
+            const l=LIFT>0?Math.min(1,(beat.after-HOLD-MERGE)/LIFT):1;
             if(stage===beat.k)finishStage(beat.k);
             ball.scale.setScalar(Math.max(.001,1-l));ballAtWorld(D.REST_R,D.POCKET_Y+D.BR+l*.12,a);bsM.opacity=.6*(1-l);
             if(l>=1){const k=beat.k;beat=null;waitingBall();held(false);const r=resolveDrop;resolveDrop=null;if(r)r({index:k,stage});}
