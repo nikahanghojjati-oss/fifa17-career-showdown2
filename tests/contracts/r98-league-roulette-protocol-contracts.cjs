@@ -110,8 +110,8 @@ function ledgerAt(vector, revision, drops) {
     "after.drops == before.drops + 1", "after.diff(before).affectedKeys().hasOnly(['drops', 'updatedAt', 'updatedByDeviceId', 'activeSessionId'])",
     "(before.drops % 2 == 1) == (ssjrActorRole(rivalryId) != before.coordinatorRole)", "ssjrValidLedgerBase(after, rivalryId)"]) assert.ok(dropFn.includes(pin), pin);
   assert.match(RULES, /allow update: if ssjrValidUpdateLedger\(rivalryId\);/, "the update grant line is unchanged from 2.10.0");
-  assert.match(RULES, /&& ssjrTransitionShapeValid\(before, after\)\)\n\s*\|\| ssjrValidDropLedger\(rivalryId\);/, "a ball is judged only after the step checks refused");
-  ok("Rules: drops in the exact keys, 0 at create, kept by every step, commit-clubs after 4, one ball at a time by the right manager touching only drops and the stamp");
+  assert.match(RULES, /return after\.revision == before\.revision \+ 1\n\s*\? ssjrValidLedgerBase\(after, rivalryId\)[\s\S]*?&& ssjrTransitionShapeValid\(before, after\)\n\s*: ssjrValidDropLedger\(rivalryId\);/, "the revision alone picks a step or a ball; neither pays for the other");
+  ok("Rules: drops in the exact keys, 0 at create, kept by every step, commit-clubs after 4, one ball at a time by the right manager touching only drops and the stamp, picked by the revision");
 
   // ---- 5. Provider pins: the plain path writes only the counter and the stamp ------------------------------------------
   const dropSrc = PROVIDER.slice(PROVIDER.indexOf("async function drop("));
