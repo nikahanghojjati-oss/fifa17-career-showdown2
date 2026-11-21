@@ -104,7 +104,7 @@ function ledgerAt(vector, revision, drops) {
   assert.match(RULES, /'stops','draw','drops'\n/, "the exact-keys list allows drops");
   assert.match(RULES, /\(!\('drops' in after\) \|\| \('draw' in after && after\.drops == 0\)\)/, "create: drops only 0 and only with draw");
   assert.ok(RULES.includes("&& !after.diff(before).affectedKeys().hasAny(i == 1 ? ['draw'] : ['draw', 'drops'])"), "a step never touches draw, and drops only on commit-league");
-  assert.ok(RULES.includes("&& (i > 2 || (i == 1 ? after.get('drops', -1) == before.get('drops', -1) * 2 + 1 : before.get('drops', 4) == 4))"), "commit-league moves drops 0 to 1 (absent stays absent); commit-clubs waits for all four balls");
+  assert.ok(RULES.includes("&& (i > 2 || (i == 1 ? ('drops' in after) == ('drops' in before) && after.get('drops', -1) == before.get('drops', -1) * 2 + 1 : before.get('drops', 4) == 4))"), "commit-league moves drops 0 to 1 and never adds or removes the key; commit-clubs waits for all four balls");
   const dropFn = RULES.slice(RULES.indexOf("function ssjrValidDropLedger("), RULES.indexOf("}", RULES.indexOf("function ssjrValidDropLedger(")));
   for (const pin of ["after.revision == before.revision", "before.phase == 'LEAGUE_WHEEL_COMMITTED'", "before.get('drops', 0) in [1, 2, 3]",
     "after.drops == before.drops + 1", "after.diff(before).affectedKeys().hasOnly(['drops', 'updatedAt', 'updatedByDeviceId', 'activeSessionId'])",
