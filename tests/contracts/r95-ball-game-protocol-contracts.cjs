@@ -212,7 +212,8 @@ async function play(protocol, {rivalryId, slots}, draw, stops = [10, 250]) {
   const adapter = fs.readFileSync(path.join(ROOT, "js/sparkSharedShowdownSetup.js"), "utf8");
   for (const needle of ['if(draw!==null&&(type!=="open"||(draw!==2&&draw!==3)))ssrpFail("SETUP_COMMAND_INVALID");', 'if(prior?Object.hasOwn(prior,"draw"):draw===3)ledger.draw=3;', '(Object.hasOwn(prior,"stops")?(Object.hasOwn(prior,"draw")?3:2):null)===draw']) assert.ok(adapter.includes(needle), needle);
   const rules = fs.readFileSync(path.join(ROOT, "firestore.shared-setup-production.fragment.rules"), "utf8");
-  for (const needle of ["'stops','draw'", "(!('draw' in after) || ('stops' in after && after.draw == 3))", "after.get('draw', 3) == 3 && after.get('draw', 0) == before.get('draw', 0)"]) assert.ok(rules.includes(needle), needle);
+  for (const needle of ["'stops','draw'", "(!('draw' in after) || ('stops' in after && after.draw == 3))", "!after.diff(before).affectedKeys().hasAny(i == 1 ? ['draw'] : ['draw', 'drops'])"]) assert.ok(rules.includes(needle), needle);
+  // R98-01: one diff keeps draw unchanged on every step (it was the two get() reads before); draw is 3 from create.
   ok("the adapter opens and carries draw 3; the Rules take draw == 3 only at create beside stops and keep it unchanged");
 
   process.stdout.write(`PASS R95-01 Ball Game protocol: ${checks} checks (draw 2 and 3 golden, twelve distinct, 60 degree slices, refusals, readers).\n`);
