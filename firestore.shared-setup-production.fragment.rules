@@ -276,13 +276,12 @@
         )
         // R94-02 stops: write-once per manager, only on his own confirm, the first one kept by the second confirm.
         && ('stops' in before) == ('stops' in after)
-        // R95-01: 'draw' never appears, goes or changes after create (any draw present is 3; absent stays absent and 3
-        // stays 3). One form for every ledger: the R95-01 sweep measured it 3 expressions cheaper than testing 'in' twice.
-        && after.get('draw', 3) == 3 && after.get('draw', 0) == before.get('draw', 0)
-        // R98-01: 'drops' never appears or goes after create; commit-league moves it from 0 to 1, every later step keeps it,
-        // and commit-clubs needs all four balls dropped. Absent stays absent (-1 both sides).
-        && after.get('drops', -1) == (i == 1 && before.get('drops', -1) == 0 ? 1 : before.get('drops', -1))
-        && (i != 2 || before.get('drops', 4) == 4)
+        // R95-01 + R98-01: 'draw' (always 3, checked at create) and 'drops' (the roulette balls) never appear, go or
+        // change on a step, except that commit-league moves 'drops' from 0 to 1 (the coordinator's first ball is the league
+        // draw): -1 * 2 + 1 keeps an absent counter absent, 0 * 2 + 1 makes it 1. commit-clubs needs all four balls.
+        // One diff for both keys: the R98-01 sweep measured it cheaper than reading each key on both sides.
+        && !after.diff(before).affectedKeys().hasAny(i == 1 ? ['draw'] : ['draw', 'drops'])
+        && (i > 2 || (i == 1 ? after.get('drops', -1) == before.get('drops', -1) * 2 + 1 : before.get('drops', 4) == 4))
         && (
           !('stops' in after)
           || (i <= 3 && after.stops == [])
@@ -295,8 +294,8 @@
     // R98-01 League Roulette: one ball (2, 3 or 4) dropped while the league is drawn and the clubs are not. Nothing but
     // 'drops' and the write stamp changes, the count moves by exactly one (so a ball never drops twice), and the ball is
     // the actor's: the coordinator drops the odd balls, his rival the even ones. The same authority as every ledger write.
-    // It is asked only after ssjrValidUpdateLedger refused, which a drop fails on its first check (the revision stays), so a
-    // normal step never pays for it and a drop pays for the base checks once.
+    // ssjrValidUpdateLedger asks it only after the step checks refused, which a drop fails on their first check (the revision
+    // stays), so a normal step never pays for it and a drop pays for the base checks once.
     function ssjrValidDropLedger(rivalryId) {
       let before = resource.data;
       let after = request.resource.data;
@@ -311,13 +310,15 @@
     function ssjrValidUpdateLedger(rivalryId) {
       let before = resource.data;
       let after = request.resource.data;
-      // R98-01: the revision first, so a roulette drop (same revision) leaves here before the base checks.
-      return after.revision == before.revision + 1
+      // R98-01: the revision first, so a roulette drop (same revision) leaves the step checks before the base checks and
+      // is then judged as one ball by ssjrValidDropLedger.
+      return (after.revision == before.revision + 1
         && ssjrValidLedgerBase(after, rivalryId)
         && after.coordinatorRole == before.coordinatorRole
         && ssjrPrefixPreserved(before, after)
         && ssjrNewOperationValid(before, after)
-        && ssjrTransitionShapeValid(before, after);
+        && ssjrTransitionShapeValid(before, after))
+        || ssjrValidDropLedger(rivalryId);
     }
 // SSJR_SHARED_SETUP_FUNCTIONS_END
 
@@ -326,7 +327,7 @@
         allow get: if ssjrEntitled(rivalryId);
         allow list, delete: if false;
         allow create: if ssjrValidCreateLedger(rivalryId);
-        allow update: if ssjrValidUpdateLedger(rivalryId) || ssjrValidDropLedger(rivalryId);
+        allow update: if ssjrValidUpdateLedger(rivalryId);
       }
 
       match /sharedSetup/leagueProjection {

@@ -1,17 +1,127 @@
 {
   "schemaVersion": 1,
-  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.9.0 (main 56642b8f) deploys the same Rules as 2.8.0 (R95-01 Ball Game); gameplay/r97 starts with no Rules change (0 hunks). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
+  "purpose": "Reviewed allowlist of every line by which the composed production Firestore Rules differ from what production main deploys. 2.10.0 (main 4353ab5a) deploys the same Rules as 2.9.0; gameplay/r98 adds R98-01 League Roulette (owner R98-ROULETTE: the 'drops' counter on draw 3 setup ledgers and ssjrValidDropLedger, judged inside ssjrValidUpdateLedger; no new grant line). Regenerate only with node tests/support/composed-production-rules.cjs --print-main-delta origin/main, then review every hunk.",
   "productionMain": {
-    "commit": "56642b8fcc7376e03ebf60dd18dd16a8008390c6",
+    "commit": "4353ab5a1dc5a8ef33995400cbe50e4f3e773d70",
     "sha256": "5b36d9d8e8dd54e213ffb7c7fba2a2b824cf5dc1572093fb8fec30a8f44a1678",
     "gitBlobSha1": "38f1a33d09a27a9b4750f4f1f6ce3901d1a0347f",
     "bytes": 194922
   },
   "candidate": {
-    "sha256": "5b36d9d8e8dd54e213ffb7c7fba2a2b824cf5dc1572093fb8fec30a8f44a1678",
-    "gitBlobSha1": "38f1a33d09a27a9b4750f4f1f6ce3901d1a0347f",
-    "bytes": 194922
+    "sha256": "e3e1a208183cb43e85258f87cf8b70877aa96b651a631c3d8c608e06a0bcb7cb",
+    "gitBlobSha1": "da0dde0fad6b6071b957c58274ba3e202cfa906c",
+    "bytes": 197148
   },
-  "allowedOwners": [],
-  "hunks": []
+  "allowedOwners": [
+    "R98-ROULETTE"
+  ],
+  "hunks": [
+    {
+      "mainLine": 329,
+      "candidateLine": 329,
+      "removed": [],
+      "added": [
+        "    // R98-01 League Roulette: a draw 3 ledger may also carry 'drops' (the roulette balls dropped so far): 0 at create, 1 on",
+        "    // commit-league (the coordinator's first ball), then 2, 3, 4 through ssjrValidDropLedger only, and commit-clubs needs 4.",
+        "    // It is written at create and never added or dropped later; ledgers without it keep their shapes."
+      ],
+      "owner": "R98-ROULETTE",
+      "why": "R98-01 League Roulette (Nik 2026-11-20 option A): the 'drops' ball counter on draw 3 setup ledgers: exact keys, create at 0, a step never touches draw or drops except commit-league (0 to 1), commit-clubs after 4, one ball at a time by the right manager (ssjrValidDropLedger, asked only after the step checks refuse; the update grant line is unchanged)."
+    },
+    {
+      "mainLine": 333,
+      "candidateLine": 336,
+      "removed": [
+        "        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId','stops','draw'"
+      ],
+      "added": [
+        "        'confirmedRoles','activeSessionId','updatedAt','updatedByDeviceId','stops','draw','drops'"
+      ],
+      "owner": "R98-ROULETTE",
+      "why": "R98-01 League Roulette (Nik 2026-11-20 option A): the 'drops' ball counter on draw 3 setup ledgers: exact keys, create at 0, a step never touches draw or drops except commit-league (0 to 1), commit-clubs after 4, one ball at a time by the right manager (ssjrValidDropLedger, asked only after the step checks refuse; the update grant line is unchanged)."
+    },
+    {
+      "mainLine": 379,
+      "candidateLine": 382,
+      "removed": [
+        "        // R95-01: 'draw' never appears, goes or changes after create (any draw present is 3; absent stays absent and 3",
+        "        // stays 3). One form for every ledger: the R95-01 sweep measured it 3 expressions cheaper than testing 'in' twice.",
+        "        && after.get('draw', 3) == 3 && after.get('draw', 0) == before.get('draw', 0)"
+      ],
+      "added": [
+        "        // R95-01 + R98-01: 'draw' (always 3, checked at create) and 'drops' (the roulette balls) never appear, go or",
+        "        // change on a step, except that commit-league moves 'drops' from 0 to 1 (the coordinator's first ball is the league",
+        "        // draw): -1 * 2 + 1 keeps an absent counter absent, 0 * 2 + 1 makes it 1. commit-clubs needs all four balls.",
+        "        // One diff for both keys: the R98-01 sweep measured it cheaper than reading each key on both sides.",
+        "        && !after.diff(before).affectedKeys().hasAny(i == 1 ? ['draw'] : ['draw', 'drops'])",
+        "        && (i > 2 || (i == 1 ? after.get('drops', -1) == before.get('drops', -1) * 2 + 1 : before.get('drops', 4) == 4))"
+      ],
+      "owner": "R98-ROULETTE",
+      "why": "R98-01 League Roulette (Nik 2026-11-20 option A): the 'drops' ball counter on draw 3 setup ledgers: exact keys, create at 0, a step never touches draw or drops except commit-league (0 to 1), commit-clubs after 4, one ball at a time by the right manager (ssjrValidDropLedger, asked only after the step checks refuse; the update grant line is unchanged)."
+    },
+    {
+      "mainLine": 2268,
+      "candidateLine": 2274,
+      "removed": [],
+      "added": [
+        "        // R98-01 League Roulette: one ball (2, 3 or 4) dropped while the league is drawn and the clubs are not. Nothing but",
+        "        // 'drops' and the write stamp changes, the count moves by exactly one (so a ball never drops twice), and the ball is",
+        "        // the actor's: the coordinator drops the odd balls, his rival the even ones. The same authority as every ledger write.",
+        "        // ssjrValidUpdateLedger asks it only after the step checks refused, which a drop fails on their first check (the revision",
+        "        // stays), so a normal step never pays for it and a drop pays for the base checks once.",
+        "        function ssjrValidDropLedger() {",
+        "          let before = resource.data;",
+        "          let after = request.resource.data;",
+        "          return after.revision == before.revision",
+        "            && before.phase == 'LEAGUE_WHEEL_COMMITTED'",
+        "            && before.get('drops', 0) in [1, 2, 3]",
+        "            && after.drops == before.drops + 1",
+        "            && after.diff(before).affectedKeys().hasOnly(['drops', 'updatedAt', 'updatedByDeviceId', 'activeSessionId'])",
+        "            && (before.drops % 2 == 1) == (ssjrActorRole(rivalryId) != before.coordinatorRole)",
+        "            && ssjrValidLedgerBase(after);",
+        "        }"
+      ],
+      "owner": "R98-ROULETTE",
+      "why": "R98-01 League Roulette (Nik 2026-11-20 option A): the 'drops' ball counter on draw 3 setup ledgers: exact keys, create at 0, a step never touches draw or drops except commit-league (0 to 1), commit-clubs after 4, one ball at a time by the right manager (ssjrValidDropLedger, asked only after the step checks refuse; the update grant line is unchanged)."
+    },
+    {
+      "mainLine": 2271,
+      "candidateLine": 2293,
+      "removed": [
+        "          return ssjrValidLedgerBase(after)",
+        "            && after.revision == before.revision + 1"
+      ],
+      "added": [
+        "          // R98-01: the revision first, so a roulette drop (same revision) leaves the step checks before the base checks and",
+        "          // is then judged as one ball by ssjrValidDropLedger.",
+        "          return (after.revision == before.revision + 1",
+        "            && ssjrValidLedgerBase(after)"
+      ],
+      "owner": "R98-ROULETTE",
+      "why": "R98-01 League Roulette (Nik 2026-11-20 option A): the 'drops' ball counter on draw 3 setup ledgers: exact keys, create at 0, a step never touches draw or drops except commit-league (0 to 1), commit-clubs after 4, one ball at a time by the right manager (ssjrValidDropLedger, asked only after the step checks refuse; the update grant line is unchanged)."
+    },
+    {
+      "mainLine": 2276,
+      "candidateLine": 2300,
+      "removed": [
+        "            && ssjrTransitionShapeValid(before, after);"
+      ],
+      "added": [
+        "            && ssjrTransitionShapeValid(before, after))",
+        "            || ssjrValidDropLedger();"
+      ],
+      "owner": "R98-ROULETTE",
+      "why": "R98-01 League Roulette (Nik 2026-11-20 option A): the 'drops' ball counter on draw 3 setup ledgers: exact keys, create at 0, a step never touches draw or drops except commit-league (0 to 1), commit-clubs after 4, one ball at a time by the right manager (ssjrValidDropLedger, asked only after the step checks refuse; the update grant line is unchanged)."
+    },
+    {
+      "mainLine": 2302,
+      "candidateLine": 2327,
+      "removed": [],
+      "added": [
+        "            && (!('drops' in after) || ('draw' in after && after.drops == 0))"
+      ],
+      "owner": "R98-ROULETTE",
+      "why": "R98-01 League Roulette (Nik 2026-11-20 option A): the 'drops' ball counter on draw 3 setup ledgers: exact keys, create at 0, a step never touches draw or drops except commit-league (0 to 1), commit-clubs after 4, one ball at a time by the right manager (ssjrValidDropLedger, asked only after the step checks refuse; the update grant line is unchanged)."
+    }
+  ]
 }
