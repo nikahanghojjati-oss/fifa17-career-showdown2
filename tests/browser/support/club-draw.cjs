@@ -34,6 +34,11 @@ async function playLeagueRoulette(daniel,nik,timeout=60000){
     ball+=1;
   }
   try{await waitContinueToClubs(daniel.page,timeout);}catch(error){await fail(error,"after ball 4");}
+  // CMS_LEAGUE_ROULETTE_3D=1 (a browser with WebGL): both phones showed the four balls on the 3D board, not the 2D fallback.
+  if(process.env.CMS_LEAGUE_ROULETTE_3D==="1")for(const m of [daniel,nik]){
+    const view=await rouletteView(m.page);
+    if(!view.board||view.board.failed||view.board.stage!==4)await fail(new Error("the 3D board did not show all four balls"),"3D board");
+  }
 }
 async function isDraw(page){return page.evaluate(()=>document.getElementById("clubWheelScreen")?.dataset.clubDraw==="spin").catch(()=>false);}
 async function waitDraw(page,timeout=45000){await page.waitForFunction(()=>document.getElementById("clubWheelScreen")?.dataset.clubDraw==="spin",null,{timeout});}

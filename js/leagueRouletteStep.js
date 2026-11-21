@@ -125,15 +125,26 @@
     markSynced();
     if(lrsAlive())void lrsCatchUp();
   }
+  // Something for the board to do: a plan to take (before the first ball) or a ball the ledger holds that it has not shown.
+  function lrsBehind(){
+    if(!lrsAlive()||!target.winner)return false;
+    return planKey!==`${target.seed}|${target.winner}`||scene.stage<target.drops;
+  }
+  // "settled" is told only after the board has shown something, so a screen that answers it by syncing again (the
+  // presentation re-renders on every event) never loops; and the run is the playback guard before any event goes out.
   function lrsCatchUp(){
     if(playing)return playing;
+    if(!lrsBehind())return Promise.resolve();
+    let shown=false;
     const run=(async()=>{
+      await null;
       for(let guard=0;guard<8&&lrsAlive();guard+=1){
         const s=scene;
         if(!target.winner)return;
         const key=`${target.seed}|${target.winner}`;
         if(planKey!==key){if(s.stage!==0||s.busy||!s.setPlan(target.seed,target.winner))return;planKey=key;}
         if(s.stage>=target.drops)return;
+        shown=true;
         if(target.instant){s.showStage(target.drops);lrsEmit("merged",{stage:s.stage});return;}
         const index=s.stage;lrsEmit("rolling",{index});
         await s.drop(index);
@@ -141,7 +152,7 @@
       }
     })();
     playing=run;
-    run.finally(()=>{if(playing===run)playing=null;lrsEmit("settled",{stage:lrsStage()});});
+    run.catch(()=>{}).finally(()=>{if(playing===run)playing=null;if(shown)lrsEmit("settled",{stage:lrsStage()});});
     return run;
   }
 

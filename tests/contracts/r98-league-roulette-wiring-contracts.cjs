@@ -112,4 +112,51 @@ function ok(label) { checks += 1; process.stdout.write(`ok ${checks} ${label}\n`
   ok("Reus Gate hold, own quality key, both files in the shell and named as added");
 }
 
-process.stdout.write(`R98-01 League Roulette wiring contracts passed: ${checks} checks.\n`);
+// ---- 6. The step under a screen that syncs on every event (Codex P1 on #1563) -------------------------------------------
+// The presentation answers every board event by rendering, and rendering syncs the board again. A sync with nothing new
+// must not start a run or tell "settled", or the two feed each other forever and the screen never gets a turn.
+async function stepLoopCheck() {
+  const saved = {document: globalThis.document, R: globalThis.CareerModeLeagueRoulette3d, S: globalThis.CareerModeLeagueRouletteStep};
+  const el = () => ({classList: {toggle() {}, add() {}, contains: () => false}, appendChild(child) { child.parentNode = this; }, setAttribute() {}, remove() {}});
+  const wheel = el(), screen = el();
+  globalThis.document = {getElementById: id => id === "leagueWheel" ? wheel : id === "leagueWheelScreen" ? screen : null,
+    createElement: () => el(), head: el()};
+  const scene = {alive: true, stage: 0, busy: false, plan: null, setPlan() { return true; }, showStage(k) { this.stage = k; },
+    async drop(i) { this.busy = true; await new Promise(r => setImmediate(r)); this.busy = false; this.stage = i + 1; }, on() {}, dispose() { this.alive = false; }};
+  globalThis.CareerModeLeagueRoulette3d = {mount: async () => scene};
+  const file = require.resolve("../../js/leagueRouletteStep.js");
+  delete require.cache[file];
+  const step = require(file);
+  try {
+    let events = 0, settled = 0, rolled = 0;
+    let ledger = {seed: "a|b", winner: null, drops: 0};
+    step.on(type => { events += 1; if (type === "settled") settled += 1; if (type === "rolling") rolled += 1; if (events < 500) step.sync(ledger); });
+    step.arm(true);
+    step.sync(ledger);
+    assert.ok(await step.ensure(), "the board mounts");
+    for (let i = 0; i < 20; i += 1) await new Promise(r => setImmediate(r));
+    assert.ok(events <= 2, `no ball and no league: the board stays quiet (${events} events)`);
+    ledger = {seed: "a|b", winner: "laliga", drops: 0};
+    step.sync(ledger);
+    for (let i = 0; i < 20; i += 1) await new Promise(r => setImmediate(r));
+    assert.ok(events <= 2 && settled === 0, `the league is known but no ball dropped: nothing to show (${events} events)`);
+    ledger = {seed: "a|b", winner: "laliga", drops: 2};
+    step.sync(ledger);
+    for (let i = 0; i < 60 && !step.caughtUp(); i += 1) await new Promise(r => setImmediate(r));
+    for (let i = 0; i < 20; i += 1) await new Promise(r => setImmediate(r));
+    assert.equal(step.stage(), 2);
+    assert.equal(rolled, 2, "each ball rolls once, however often the screen syncs");
+    assert.equal(settled, 1, "one run, one settled");
+    assert.ok(events < 10, `bounded (${events} events)`);
+  } finally {
+    step.arm(false);
+    delete require.cache[file];
+    globalThis.document = saved.document; globalThis.CareerModeLeagueRoulette3d = saved.R; globalThis.CareerModeLeagueRouletteStep = saved.S;
+    if (saved.document === undefined) delete globalThis.document;
+  }
+  ok("step: a screen that syncs on every event gets no loop; each ball rolls once and settles once");
+}
+
+stepLoopCheck().then(() => {
+  process.stdout.write(`R98-01 League Roulette wiring contracts passed: ${checks} checks.\n`);
+}).catch(error => { console.error(error); process.exit(1); });
