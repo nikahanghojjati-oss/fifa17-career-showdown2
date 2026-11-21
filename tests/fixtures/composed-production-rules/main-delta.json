@@ -8,9 +8,9 @@
     "bytes": 194922
   },
   "candidate": {
-    "sha256": "e3e1a208183cb43e85258f87cf8b70877aa96b651a631c3d8c608e06a0bcb7cb",
-    "gitBlobSha1": "da0dde0fad6b6071b957c58274ba3e202cfa906c",
-    "bytes": 197148
+    "sha256": "9d2d526978b9c069a2073e96d0df640f18146fc2a8fda95a8288e95b73a759ed",
+    "gitBlobSha1": "e323c3414b51ec639a79918fd61a6b7d13ff9b5f",
+    "bytes": 197187
   },
   "allowedOwners": [
     "R98-ROULETTE"
@@ -51,10 +51,10 @@
       "added": [
         "        // R95-01 + R98-01: 'draw' (always 3, checked at create) and 'drops' (the roulette balls) never appear, go or",
         "        // change on a step, except that commit-league moves 'drops' from 0 to 1 (the coordinator's first ball is the league",
-        "        // draw): -1 * 2 + 1 keeps an absent counter absent, 0 * 2 + 1 makes it 1. commit-clubs needs all four balls.",
+        "        // draw): the key stays present or absent, and 0 * 2 + 1 makes it 1. commit-clubs needs all four balls.",
         "        // One diff for both keys: the R98-01 sweep measured it cheaper than reading each key on both sides.",
         "        && !after.diff(before).affectedKeys().hasAny(i == 1 ? ['draw'] : ['draw', 'drops'])",
-        "        && (i > 2 || (i == 1 ? after.get('drops', -1) == before.get('drops', -1) * 2 + 1 : before.get('drops', 4) == 4))"
+        "        && (i > 2 || (i == 1 ? ('drops' in after) == ('drops' in before) && after.get('drops', -1) == before.get('drops', -1) * 2 + 1 : before.get('drops', 4) == 4))"
       ],
       "owner": "R98-ROULETTE",
       "why": "R98-01 League Roulette (Nik 2026-11-20 option A): the 'drops' ball counter on draw 3 setup ledgers: exact keys, create at 0, a step never touches draw or drops except commit-league (0 to 1), commit-clubs after 4, one ball at a time by the right manager (ssjrValidDropLedger, asked only after the step checks refuse; the update grant line is unchanged)."

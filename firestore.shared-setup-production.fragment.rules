@@ -278,10 +278,10 @@
         && ('stops' in before) == ('stops' in after)
         // R95-01 + R98-01: 'draw' (always 3, checked at create) and 'drops' (the roulette balls) never appear, go or
         // change on a step, except that commit-league moves 'drops' from 0 to 1 (the coordinator's first ball is the league
-        // draw): -1 * 2 + 1 keeps an absent counter absent, 0 * 2 + 1 makes it 1. commit-clubs needs all four balls.
+        // draw): the key stays present or absent, and 0 * 2 + 1 makes it 1. commit-clubs needs all four balls.
         // One diff for both keys: the R98-01 sweep measured it cheaper than reading each key on both sides.
         && !after.diff(before).affectedKeys().hasAny(i == 1 ? ['draw'] : ['draw', 'drops'])
-        && (i > 2 || (i == 1 ? after.get('drops', -1) == before.get('drops', -1) * 2 + 1 : before.get('drops', 4) == 4))
+        && (i > 2 || (i == 1 ? ('drops' in after) == ('drops' in before) && after.get('drops', -1) == before.get('drops', -1) * 2 + 1 : before.get('drops', 4) == 4))
         && (
           !('stops' in after)
           || (i <= 3 && after.stops == [])

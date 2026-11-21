@@ -152,7 +152,7 @@ function dropOptions(db,uid,rivalryId,now,ball,known,extra={}){
     let plain=nextLedger(null,PLAIN3);
     await assertSucceeds(write(dbA,PLAIN3,plain));plain=await stored(PLAIN3);
     next=nextLedger(plain,PLAIN3);
-    await assertFails(write(dbA,PLAIN3,{...next,drops:1}));
+    for(const bad of [1,-1,0,4])await assertFails(write(dbA,PLAIN3,{...next,drops:bad}),"commit-league never adds drops (-1 is the absent sentinel, Codex #1562)");
     await assertSucceeds(write(dbA,PLAIN3,next));plain=await stored(PLAIN3);assert.equal(Object.hasOwn(plain,"drops"),false);
     await assertFails(ball(dbB,PLAIN3,2));
     await assertSucceeds(write(dbA,PLAIN3,nextLedger(plain,PLAIN3)));

@@ -90,7 +90,7 @@
       "lookups": 3
     },
     "update rivalries/*/sharedSetup/authoritative [LEAGUE_WHEEL_COMMITTED] {commit-league}": {
-      "used": 752,
+      "used": 761,
       "lookups": 4
     },
     "update rivalries/*/sharedSetup/authoritative [CLUB_ASSIGNMENTS_COMMITTED] {commit-clubs}": {
