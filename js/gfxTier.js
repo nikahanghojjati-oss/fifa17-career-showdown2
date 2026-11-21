@@ -211,7 +211,9 @@
   // "club-draw"); a hold whose screen cannot be named (scene "") holds every screen, as every cap did before, and so does a
   // cap saved in the old one-object form without screens. Each hold ends on its own: 7 days, 3 clean scenes of its screen
   // at its level (not a closed tab's), the next build; a pick in Settings ends them all.
-  const CAP_SCENES=[[/roulette|^rrr$/,"rrr"],[/special-player|^sp$/,"sp"],[/chamber/,"chamber-men"],[/ball|club-draw/,"club-draw"]];
+  // r98 (R98-01): the League Roulette is its own screen ("league"). Its entry comes first, so its name never falls into
+  // Russian Roulette's /roulette/ below; every other name keeps the mapping it had.
+  const CAP_SCENES=[[/^league(-roulette)?$/,"league"],[/roulette|^rrr$/,"rrr"],[/special-player|^sp$/,"sp"],[/chamber/,"chamber-men"],[/ball|club-draw/,"club-draw"]];
   function gfxCapScene(name){const n=String(name||"");for(const [re,k] of CAP_SCENES)if(re.test(n))return k;return "";}
   function gfxCapOk(e){return Boolean(e&&e.reason&&Number.isInteger(e.level)&&e.level>=0&&e.level<=4&&e.build===BUILD&&Date.now()-Number(e.at||0)<=CAP_DAYS_MS&&(e.clean|0)<CAP_CLEAN);}
   function gfxCapList(){
