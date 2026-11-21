@@ -1,0 +1,69 @@
+# Morning pack for Saturday 11 Oct (Nik)
+
+> **Superseded by [TOMORROW.md](TOMORROW.md): one system, bare numbers only.** The long Codex lines below still work as a fallback. Setup: INSTRUCTIONS.md (ChatGPT) and CODEX_SETUP.md (Codex).
+
+Everything below is ready now. The board's Type now list stays the live source; this pack just gives you a big first batch.
+
+## A0. Do this one first (Sol chat, a real bug fix from the lead)
+Paste this line into a new Sol chat (Job 1579, Season Results newer-tap fix, confirmed on the emulator):
+```
+Job 1579: read project-documents/gameplay-factory/jobs/JOB-1579.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says.
+```
+
+## A0b. Then this one (Sol chat, the season-2 publish stall fix, Job 1587)
+```
+Job 1587: read project-documents/gameplay-factory/jobs/JOB-1587.md on branch factory/gameplay-v1 with the GitHub connector and do exactly what it says.
+```
+With 1579 and 1587 done, stage 1 has no open leads.
+
+## A. GPT-6 Sol chat: 150 numbers, type each one alone in a new chat
+All 150 can run at the same time, from either account, without waiting for any merge: the first fix of each of the 9 screen areas, plus audits (bug hunts in the game code) and mockup studies (phone, sideways, tablet, improved desktop, states sheets). Each number once.
+
+`1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72 74 76 78 80 82 84 86 88 90 92 94 96 98 100 102 104 106 108 110 112 114 116 118 120 122 124 126 128 130 132 134 136 138 140 142 144 146 148 150 152 154 156 158 160 162 164 166 168 170 172 174 176 178 180 182 184 186 188 190 192 194 196 198 200 202 204 206 208 210 212 214 216 218 220 222 224 226 228 230 232 234 236 238 240 242 244 246 248 250 252 254 256 258 260 262 264 266 268 270 272 274 276 278 280 282`
+
+Order to follow: type them from the smallest up. Then use the board's Type now list for the fixes that unlock as pull requests merge.
+
+## B. Codex: 7 jobs, one line each
+Codex on the web can't pick a branch, so each line fetches the factory branch itself. Paste the line into a new Codex task on this repo. The PR may point at `main`; the Team G lead retargets it. Nothing else to do.
+
+C1 to C3 are the Team G lead's faster-check jobs (in order, one at a time). C4 to C7 measure real screen sizes with a browser and give the Sol chat fixes real numbers.
+
+### C1 · Job 1580 · Gate: run the Rules lane only when its inputs changed (first, alone)
+```
+Run this repo task. Do `git fetch origin factory/gameplay-v1`, read `git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1580.md`, and do exactly what it says. Open the pull request as a draft; if you cannot choose its base branch that is fine, the Team G lead retargets it to gameplay/bug-list-1.
+```
+
+### C2 · Job 1581 · Gate: split the slowest lane and cache downloads (only after C1 is merged)
+```
+Run this repo task. Do `git fetch origin factory/gameplay-v1`, read `git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1581.md`, and do exactly what it says. Open the pull request as a draft; if you cannot choose its base branch that is fine, the Team G lead retargets it to gameplay/bug-list-1.
+```
+
+### C3 · Job 1582 · Gate: screenshots of changed screens as a run artifact (only after C2 is merged)
+```
+Run this repo task. Do `git fetch origin factory/gameplay-v1`, read `git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1582.md`, and do exactly what it says. Open the pull request as a draft; if you cannot choose its base branch that is fine, the Team G lead retargets it to gameplay/bug-list-1.
+```
+
+### C4 · Job 1583 · Measure the home screens at ten sizes (report only) (any time)
+```
+Run this repo task. Do `git fetch origin factory/gameplay-v1`, read `git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1583.md`, and do exactly what it says. Open the pull request as a draft; if you cannot choose its base branch that is fine, the Team G lead retargets it to gameplay/bug-list-1.
+```
+
+### C5 · Job 1584 · Measure the transfer screens at ten sizes (report only) (any time)
+```
+Run this repo task. Do `git fetch origin factory/gameplay-v1`, read `git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1584.md`, and do exactly what it says. Open the pull request as a draft; if you cannot choose its base branch that is fine, the Team G lead retargets it to gameplay/bug-list-1.
+```
+
+### C6 · Job 1585 · Measure season results, final winner and standings at ten sizes (report only) (any time)
+```
+Run this repo task. Do `git fetch origin factory/gameplay-v1`, read `git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1585.md`, and do exactly what it says. Open the pull request as a draft; if you cannot choose its base branch that is fine, the Team G lead retargets it to gameplay/bug-list-1.
+```
+
+### C7 · Job 1586 · Measure the club packs screens at ten sizes (report only) (any time)
+```
+Run this repo task. Do `git fetch origin factory/gameplay-v1`, read `git show FETCH_HEAD:project-documents/gameplay-factory/jobs/JOB-1586.md`, and do exactly what it says. Open the pull request as a draft; if you cannot choose its base branch that is fine, the Team G lead retargets it to gameplay/bug-list-1.
+```
+
+### C8 · coming: the season-2 publish stall fix (the lead will add its job number here once the cause is captured)
+
+## When you are back
+Point Claude at [RUN_REPORT.md](RUN_REPORT.md) (generated on GitHub, no Claude usage): what finished, which pull requests, what is stuck. One read is all Claude needs for the summary.
