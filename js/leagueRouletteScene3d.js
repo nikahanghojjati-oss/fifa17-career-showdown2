@@ -103,7 +103,7 @@
   const GFX_FALLBACK={level:0,name:"light",pixelRatio:1,antialias:true};
   async function lrQuality(){
     const ok=await lrScript(GFX_JS,()=>Boolean(root.CareerModeGfxTier)).catch(()=>false);
-    try{if(ok)return root.CareerModeGfxTier.profile(GFX_KEY);}catch(_error){}
+    try{if(ok)return root.CareerModeGfxTier.profile("league");}catch(_error){}
     return GFX_FALLBACK;
   }
   function lrImage(src){

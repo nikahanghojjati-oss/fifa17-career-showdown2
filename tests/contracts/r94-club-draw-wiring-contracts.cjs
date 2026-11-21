@@ -160,7 +160,7 @@ async function main(){
   // W5 ------------------------------------------------------------------------------------------------------------------
   {
     // R95-01 PR 3: a new Setup opens draw 3 (the Ball Game, six clubs a ball); draw 2 Setups still read and show.
-    assert.match(PRES_SRC,/ssjpMutate\("open",\{draw:3\}\)/,"open asks for draw 3");
+    assert.match(PRES_SRC,/ssjpMutate\("open",roulette\?\{draw:3,roulette:true\}:\{draw:3\}\)/,"open asks for draw 3 (R98-01: with the League Roulette when its board is armed)");
     assert.ok(!/ssjpMutate\("open",\{draw:2\}\)/.test(PRES_SRC),"nothing opens draw 2 any more");
     const confirms=[...PRES_SRC.matchAll(/ssjpMutate\("confirm"(,[^)]*)?\)/g)].map(m=>m[0]);
     assert.deepEqual(confirms.filter(x=>x.includes("stop")),['ssjpMutate("confirm",{stop:sendable})','ssjpMutate("confirm",{stop})'],"a stop is sent only as the saved stop (resend) or the tapped/saved one (STOP)");
@@ -169,7 +169,7 @@ async function main(){
     assert.match(PRES_SRC,/if\(id==="continueClubAssignment"&&ssjpIsDraw\(state\.setup\)\)return ssjpDecideDraw\(\);/,"the draw's button is STOP");
     assert.match(PRES_SRC,/if\(ssjpIsDraw\(setup\)\)return ssjpRenderDraw\(setup,screen,open\);/,"only a draw 2 Setup shows the draw; an old-shape Setup keeps the club packs");
     assert.match(PRES_SRC,/function ssjpIsDraw\(setup\)\{return Boolean\(setup&&typeof setup==="object"&&Object\.hasOwn\(setup,"stops"\)\);\}/,"draw 2 is the ledger key stops, as in the protocol");
-    assert.match(PRES_SRC,/setup\.phase==="LEAGUE_WHEEL_COMMITTED"\)\{if\(!drawClubsPromise\)drawClubsPromise=ssjpMutate\("commit-clubs"\)/,"the coordinator deals the candidates by itself (the same commit-clubs write)");
+    assert.match(PRES_SRC,/setup\.phase==="LEAGUE_WHEEL_COMMITTED"\)\{(?:if\(ssjpRouletteLedger\(\)&&state\.setupDrops<4\)return false;)?if\(!drawClubsPromise\)drawClubsPromise=ssjpMutate\("commit-clubs"\)/,"the coordinator deals the candidates by itself (the same commit-clubs write; R98-01: after the fourth ball)");
     assert.match(PRES_SRC,/setup\.phase==="CLUB_ASSIGNMENTS_COMMITTED"\)\{void ssjpCommitPreparedSeasonLength\(\);/,"then locks his season length by itself (the same commit-length write)");
     assert.match(SETUP_SRC,/if\(Object\.hasOwn\(setup,"stops"\)\)summary\.append\(create\("p","stateNote","CLUB DRAW · Stop your ball on the Club screen to confirm\."\)\);\s*else actions\.append\(action\("CONFIRM SETUP",\(\)=>void mutate\("confirm"\)/,"the Setup panel offers CONFIRM SETUP only for an old-shape Setup; a draw 2 Setup is confirmed only by STOP");
     assert.equal(/mutate\("confirm",/.test(SETUP_SRC),false,"the Setup panel never sends a stop (no blind stop anywhere)");
