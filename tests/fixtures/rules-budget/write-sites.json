@@ -15,7 +15,7 @@
     "js/sparkSharedCareerStart.js": {"sites": 1, "writes": ["rivalries/*/careerStart/authoritative"]},
     "js/sparkSharedSeasonCommit.js": {"sites": 1, "writes": ["rivalries/*/seasonCommits/season_N"]},
     "js/sparkSharedSeasonResults.js": {"sites": 3, "writes": ["rivalries/*/sharedSetup/*", "rivalries/*/seasonResults/season_N", "rivalries/*/seasonResults/season_N/roles/playerOne", "rivalries/*/seasonResults/season_N/roles/playerTwo"]},
-    "js/sparkSharedShowdownSetup.js": {"sites": 1, "writes": ["rivalries/*/sharedSetup/authoritative"]},
+    "js/sparkSharedShowdownSetup.js": {"sites": 3, "writes": ["rivalries/*/sharedSetup/authoritative"]},
     "js/sparkSharedTransferChallenge.js": {"sites": 4, "writes": ["rivalries/*/transferChallenges/season_N", "rivalries/*/transferChallenges/season_N/roles/playerOne", "rivalries/*/transferChallenges/season_N/roles/playerTwo", "rivalries/*/transferChallenges/season_N/roulette/*"]},
     "js/sparkTerminalClose.js": {"sites": 3, "writes": ["rivalries/*", "rivalries/*/sessions/*"]},
     "js/squadSheetStep.js": {"sites": 1, "writes": ["rivalries/*/squadSheets/*"]}

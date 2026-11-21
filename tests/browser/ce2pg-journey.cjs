@@ -641,8 +641,7 @@ async function nikJoins(daniel,nik,code,{typed,length}){
 async function playSetup(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
   await check(nik,`setup.${showdownNow}.leagueWait`,"Nik waits for Daniel on the league wheel",await nik.page.locator("#spinLeague").isDisabled(),"Nik can spin",{screen:"League wheel"});
-  await daniel.page.locator("#spinLeague").click({timeout:30000});
-  await clubDraw.waitContinueToClubs(daniel.page);
+  await clubDraw.playLeagueRoulette(daniel,nik);
   const league=norm(await daniel.page.locator("#selectedLeague").textContent());
   await nik.page.waitForFunction(l=>document.getElementById("selectedLeague")?.textContent===l,league,{timeout:30000});
   for(const m of [daniel,nik])await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:30000});

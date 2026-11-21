@@ -3485,6 +3485,26 @@
         "^tests/contracts/r97\\-gfx\\-hold\\-per\\-screen\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r98-league-roulette-protocol-contracts.cjs",
+      "patterns": [
+        "^js/(sharedShowdownSetup|sparkSharedShowdownSetup|sparkCompletedShowdownReader|sparkSharedSeasonCommit|sparkSharedSeasonResults)\\.js$",
+        "^firestore\\.shared\\-setup\\-production\\.fragment\\.rules$",
+        "^tests/fixtures/club\\-draw\\-golden/",
+        "^tests/firebase/r98\\-league\\-roulette\\-rules\\-emulator\\.cjs$",
+        "^tests/contracts/r98\\-league\\-roulette\\-protocol\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r98-league-roulette-wiring-contracts.cjs",
+      "patterns": [
+        "^js/(leagueRouletteScene3d|leagueRouletteStep|productionSharedShowdownPresentation|productionSharedShowdownSetup|sharedShowdownSetup|v10Setup|gfxTier)\\.js$",
+        "^service\\-worker\\.js$",
+        "^tests/contracts/r98\\-league\\-roulette\\-wiring\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

@@ -30,6 +30,15 @@
   const LEDGER_KEYS = Object.freeze(["schemaVersion", "objectType", "rivalryId", "revision", "phase", "coordinatorRole", "operationIds", "operationTypes", "baseRevisions", "actorRoles", "totalSeasons", "confirmedRoles", "activeSessionId", "updatedAt", "updatedByDeviceId"]);
   const DRAW_LEDGER_KEYS = Object.freeze([...LEDGER_KEYS, "stops"]);
   const DRAW3_LEDGER_KEYS = Object.freeze([...DRAW_LEDGER_KEYS, "draw"]);
+  // R98-01 League Roulette (Nik 2026-11-20, option A): Daniel and Nik each drop two balls on a 3D roulette, taking turns,
+  // and every league a ball lands in leaves until one is left. The league is still the one commit-league draws (the
+  // roulette only shows how the other four leave), so the protocol state, its hashes and every club stay as they were.
+  // The marker is one more ledger key, `drops` (the balls dropped so far), on a draw 3 ledger only: 0 at open, 1 with
+  // commit-league (the coordinator's first ball is the tap that draws the league), then one small write per ball,
+  // coordinator and rival in turn (ball 2 rival, ball 3 coordinator, ball 4 rival), and commit-clubs waits for all 4.
+  // Ledgers without it keep their exact keys and replay as before.
+  const ROULETTE_LEDGER_KEYS = Object.freeze([...DRAW3_LEDGER_KEYS, "drops"]);
+  const ROULETTE_BALLS = 4;
   const COMMAND_FIELDS = Object.freeze({
     open: [],
     "commit-league": ["leagueId"],
@@ -78,8 +87,23 @@
   // `stops` (one integer 0..359 per confirmed manager, in confirmedRoles order). Used by every reader that
   // checks the stored ledger, so old and new Showdowns are recognised in one place.
   // R95-01: a draw 3 ledger also carries `draw` (3).
-  function ledgerKeys(value){ return record(value) && Object.hasOwn(value, "stops") ? (Object.hasOwn(value, "draw") ? DRAW3_LEDGER_KEYS : DRAW_LEDGER_KEYS) : LEDGER_KEYS; }
+  // R98-01: a roulette ledger (draw 3) also carries `drops`.
+  function ledgerKeys(value){ return record(value) && Object.hasOwn(value, "stops") ? (Object.hasOwn(value, "draw") ? (Object.hasOwn(value, "drops") ? ROULETTE_LEDGER_KEYS : DRAW3_LEDGER_KEYS) : DRAW_LEDGER_KEYS) : LEDGER_KEYS; }
+  // R98-01 `drops` against the ledger's revision: 0 while only open is written, 1..4 while the league is drawn and the
+  // balls are dropping, 4 from commit-clubs on.
+  function dropsValid(value){
+    if(!record(value) || !Object.hasOwn(value, "drops")) return true;
+    const drops = value.drops, revision = value.revision;
+    if(!Object.hasOwn(value, "draw") || !Number.isInteger(drops) || !Number.isInteger(revision)) return false;
+    return revision <= 1 ? drops === 0 : revision === 2 ? drops >= 1 && drops <= ROULETTE_BALLS : drops === ROULETTE_BALLS;
+  }
+  // The manager who drops ball `ball` (1..4): the coordinator the odd balls, his rival the even ones.
+  function rouletteDropRole(coordinatorRole, ball){
+    if(!ROLES.includes(coordinatorRole) || !Number.isInteger(ball) || ball < 1 || ball > ROULETTE_BALLS) return null;
+    return ball % 2 === 1 ? coordinatorRole : ROLES.find(role => role !== coordinatorRole);
+  }
   function ledgerStopsValid(value){
+    if(!dropsValid(value)) return false;
     if(record(value) && Object.hasOwn(value, "draw") && (!Object.hasOwn(value, "stops") || value.draw !== 3)) return false;
     if(!record(value) || !Object.hasOwn(value, "stops")) return true;
     return Array.isArray(value.stops) && Array.isArray(value.confirmedRoles) && value.stops.length === value.confirmedRoles.length && value.stops.every(validStop);
@@ -370,5 +394,5 @@
     }
     return freeze({apply, verifyState, prepareDraw, confirmationHash, ledgerCommand, catalogHash});
   }
-  return freeze({contractVersion:1, implementationState:"candidate-provider-neutral", productionEnabled:false, canonicalStorageMutation:false, billingRequired:false, roles:ROLES, leagueIds:LEAGUES, allowedSeasonLengths:LENGTHS, phases:PHASES, drawCandidates:DRAW_CANDIDATES, stopSectionDegrees:STOP_SECTION_DEGREES, draw3Candidates:DRAW3_CANDIDATES, draw3SectionDegrees:DRAW3_SECTION_DEGREES, drawOf, dealCandidates, ledgerKeys, ledgerStopsValid, clubForStop, createProtocol});
+  return freeze({contractVersion:1, implementationState:"candidate-provider-neutral", productionEnabled:false, canonicalStorageMutation:false, billingRequired:false, roles:ROLES, leagueIds:LEAGUES, allowedSeasonLengths:LENGTHS, phases:PHASES, drawCandidates:DRAW_CANDIDATES, stopSectionDegrees:STOP_SECTION_DEGREES, draw3Candidates:DRAW3_CANDIDATES, draw3SectionDegrees:DRAW3_SECTION_DEGREES, drawOf, dealCandidates, ledgerKeys, ledgerStopsValid, clubForStop, rouletteBalls:ROULETTE_BALLS, rouletteDropRole, createProtocol});
 });

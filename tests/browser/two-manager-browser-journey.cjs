@@ -484,8 +484,7 @@ async function main(){
     assert.equal(await nik.page.locator("#spinLeague").isDisabled(),true,"Nik cannot draw shared setup authority");
     ok("J4.1","Nik is visibly waiting for the host and cannot draw the shared league");
 
-    await daniel.page.locator("#spinLeague").click({timeout:30000});
-    await clubDraw.waitContinueToClubs(daniel.page);
+    await clubDraw.playLeagueRoulette(daniel,nik);
     const sharedLeague=(await daniel.page.locator("#selectedLeague").textContent()).trim();
     assert.ok(sharedLeague&&!/Spin|ready|Pair managers/i.test(sharedLeague),`authoritative league revealed: ${sharedLeague}`);
     await nik.page.waitForFunction(league=>document.getElementById("selectedLeague")?.textContent===league,sharedLeague,{timeout:30000});

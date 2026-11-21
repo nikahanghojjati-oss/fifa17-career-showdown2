@@ -264,7 +264,9 @@
     if(typeof root.loadRuntimeStyle==="function")root.loadRuntimeStyle(STYLE[0],STYLE[1]).catch(error=>v26Report("The setup styles are unavailable.",error));
     doc.addEventListener(EVENT,event=>{lastShown=event&&event.detail?event.detail.screen||null:null;});
     for(const id of Object.keys(SCREENS)){
-      screens.register(id,{css:[],js:[],frame:()=>FRAMES[id],mount:(frame,host)=>v26Mount(frame,host),unmount:host=>v26Unmount(host)});
+      // R98-01: Select League stays behind the loading screen while the League Roulette board is still being built (Reus Gate);
+      // js/leagueRouletteStep.js shows it again once the board has drawn, or at once where 3D cannot run.
+      screens.register(id,{css:[],js:[],frame:()=>{if(id==="leagueWheelScreen"&&screens.HOLD){const step=root.CareerModeLeagueRouletteStep;if(step&&step.holding()){void step.ensure();return screens.HOLD;}}return FRAMES[id];},mount:(frame,host)=>v26Mount(frame,host),unmount:host=>v26Unmount(host)});
     }
     v26WatchScreens();
     const current=v26ActiveScreen();

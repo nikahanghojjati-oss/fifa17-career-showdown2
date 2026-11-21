@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- R98-01 League Roulette lab. NOT shipped: tools/ is never staged by deploy-github-pages.yml and this page is not in
+     service-worker.js. It runs js/leagueRouletteScene3d.js on a demo seed and winner (every quality level: ?gfx=0..5),
+     with a draws/programs readout. No game state, no Firestore. Open it from a local server at the repo root:
+     /tools/league-roulette-lab.html?gfx=0  (&winner=laliga &seed=abc &stage=2 &reduced=1 &panel=0) -->
+<base href="../">
+<title>League roulette lab</title>
+<link rel="stylesheet" href="css/r95-type.css">
+<style>
+/* The live Select League room (Team V's handcrafted box room, HO-068: ENV_BOX_*_HC_V3): Daniel and Nik stand behind the
+   black marble counter, the wheel rests on the counter between them, the two actions sit on the counter's gold lip.
+   Layout is placed in script from the plate's own landmarks (lip, Daniel's fingertip, Nik's elbow), so the wheel never
+   covers a hand or a face at any size. */
+:root{--gold:#F2C45B;--ink:#F4EFE3;--ink2:#C9BFA8;--kick:#FFD34D;--room:#0d0b09}
+html,body{margin:0;height:100%;background:var(--room);color:var(--ink);font:15px/1.35 "Instrument Sans",system-ui,sans-serif;overflow:hidden}
+#plate{position:absolute;background:var(--room) no-repeat 0 0/100% 100%;background-image:url("visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_2X.webp")}
+#plate.tall{background-image:url("visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_TALL.webp")}
+#head{position:absolute;left:0;right:0;display:grid;justify-items:center;gap:clamp(8px,1.6vh,18px);text-align:center;padding:0 16px}
+#head h2{margin:0;font:700 clamp(26px,min(5.6vh,8.4vw),50px)/1.05 "Instrument Sans",system-ui,sans-serif;letter-spacing:.055em;color:var(--gold);text-shadow:0 2px 10px rgba(0,0,0,.55)}
+#status{margin:0;font:600 clamp(12px,1.75vh,15px)/1.2 "Instrument Sans",sans-serif;font-stretch:85%;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-shadow:0 1px 4px #000}
+#balls{display:flex;gap:18px;font:600 12px/1 "Instrument Sans",sans-serif;font-stretch:85%;letter-spacing:.12em;color:var(--ink2)}
+#balls span{display:flex;align-items:center;gap:6px}
+#balls i{width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#ebe6da 55%,#a39b8b);box-shadow:0 1px 2px #000}
+#balls i.used{opacity:.22}
+#stage{position:absolute}
+#actions{position:absolute;left:0;right:0;display:flex;justify-content:center;gap:12px;padding:0 16px}
+#actions button{height:52px;min-width:0;flex:0 1 min(306px,24vw);border-radius:2px;font:700 16px/1 "Instrument Sans",sans-serif;font-stretch:85%;letter-spacing:.06em;cursor:pointer}
+#drop{border:1px solid #fff0b0;background:linear-gradient(180deg,#fbe08a,#f2c45b 45%,#d9a53a);color:#130E03;box-shadow:0 2px 0 #7a5a17,0 6px 14px rgba(0,0,0,.45)}
+#drop:disabled{filter:saturate(.35) brightness(.78);cursor:default}
+#back{border:1px solid #c9a24b;background:linear-gradient(180deg,#14110d,#0a0806);color:var(--gold)}
+#actions.stack{flex-direction:column;align-items:stretch}
+#actions.stack button{flex:none}
+#panel{position:absolute;top:8px;right:8px;width:250px;background:rgba(8,9,11,.86);border:1px solid #3a2f17;border-radius:10px;padding:10px 12px;z-index:3;font-size:13px}
+#panel h1{font-size:14px;margin:0 0 6px;color:var(--gold)}
+#panel .row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+#panel button,#panel select,#panel input{background:#15171b;color:var(--ink);border:1px solid #57461f;border-radius:6px;padding:5px 8px;font:inherit}
+#probe{white-space:pre;font:11px/1.35 ui-monospace,monospace;color:#cfc6ad;margin-top:6px}
+#loading{position:absolute;inset:0;display:grid;place-items:center;background:var(--room);z-index:4;letter-spacing:.2em;color:#e8c065}
+</style>
+</head>
+<body>
+<div id="plate"></div>
+<div id="head">
+  <h2>SELECT LEAGUE</h2>
+  <p id="status">Five leagues. Four balls. One league stays.</p>
+  <div id="balls"><span>DANIEL <i></i><i></i></span><span>NIK <i></i><i></i></span></div>
+</div>
+<div id="stage"></div>
+<div id="actions"><button id="drop" type="button">DROP BALL</button><button id="back" type="button">BACK</button></div>
+<div id="panel">
+  <h1>League roulette lab</h1>
+  <div class="row"><select id="winner"></select><input id="seed" value="rivalry-demo" size="12" aria-label="Seed"></div>
+  <div class="row"><button id="reset" type="button">Reset</button><button id="all" type="button">Play all</button><button id="end" type="button">Show end</button></div>
+  <div id="probe"></div>
+</div>
+<div id="loading">LOADING</div>
+<script src="js/visualIdentity.js"></script>
+<script src="js/leagueRouletteScene3d.js"></script>
+<script>
+(async()=>{
+  const R=window.CareerModeLeagueRoulette3d,q=new URLSearchParams(location.search);
+  const sel=document.getElementById("winner"),seedIn=document.getElementById("seed");
+  for(const id of R.wheel){const o=document.createElement("option");o.value=id;o.textContent=R.looks[id].name;sel.append(o);}
+  sel.value=q.get("winner")||"laliga";seedIn.value=q.get("seed")||"rivalry-demo";
+  if(q.get("panel")==="0")document.getElementById("panel").hidden=true;
+  const host=document.getElementById("stage"),drop=document.getElementById("drop"),status=document.getElementById("status"),dots=[...document.querySelectorAll("#balls i")];
+  let scene=null;
+  const who=by=>by==="nik"?"NIK":"DANIEL";
+  function chips(){if(!scene)return;const st=scene.stage;const used=scene.plan.drops.slice(0,st+(scene.busy?1:0));
+    let d=0,n=0;dots.forEach(x=>x.classList.remove("used"));for(const u of used){if(u.by==="daniel")dots[d++].classList.add("used");else dots[2+n++].classList.add("used");}}
+  function caption(){
+    if(!scene)return;const st=scene.stage;
+    if(st>=4){const L=R.looks[scene.plan.winner].name.toUpperCase();status.textContent=`${L} · THE SHOWDOWN LEAGUE`;drop.textContent="CONTINUE TO BALL GAME";drop.disabled=false;return;}
+    const nx=scene.plan.drops[st];
+    if(scene.busy){status.textContent=`${who(nx.by)} · BALL ${Math.floor(st/2)+1} · ROLLING`;drop.disabled=true;drop.textContent="ROLLING…";return;}
+    status.textContent=st===0?"Five leagues. Four balls. One league stays.":`${who(nx.by)} TO DROP · BALL ${Math.floor(st/2)+1} OF 2`;
+    drop.textContent=`${who(nx.by)} · DROP BALL`;drop.disabled=false;
+  }
+  // ---- the room: where the plate, the title, the wheel and the actions go ----
+  // Plate landmarks (fractions of the plate): the counter's gold lip, Daniel's fingertip, Nik's elbow (box plate 1536x864;
+  // tall phone plate 1179x2620).
+  const WIDE={ar:1536/864,lip:652/864,finger:527/1536,elbow:968/1536},TALL={ar:1179/2620,lip:1219/2620};
+  const plate=document.getElementById("plate"),head=document.getElementById("head"),acts=document.getElementById("actions");
+  function place(){
+    const W=innerWidth,H=innerHeight,wide=W>=H;
+    plate.classList.toggle("tall",!wide);
+    if(wide){
+      const pw=Math.max(W,H*WIDE.ar),ph=pw/WIDE.ar,left=(W-pw)/2;
+      const top=Math.min(0,H-Math.max(70,H*.1)-WIDE.lip*ph),L=top+WIDE.lip*ph;
+      Object.assign(plate.style,{left:left+"px",top:top+"px",width:pw+"px",height:ph+"px"});
+      acts.classList.remove("stack");acts.style.top=(L-26)+"px";acts.style.bottom="";
+      head.style.top=Math.max(16,Math.min(H*.12,top+ph*.11))+"px";
+      const hb=head.offsetTop+head.offsetHeight;
+      // the wheel: its rim stops 2% of the plate short of Daniel's fingertip and of Nik's elbow, and it rests on the counter
+      const R=Math.min((.5-WIDE.finger-.02)*pw,(WIDE.elbow-.5-.02)*pw);
+      let S=2*R/.917;S=Math.min(S,(L-42-hb)/.86);
+      const cx=W/2,bottom=L-34;
+      Object.assign(host.style,{width:S+"px",height:S+"px",left:(cx-S/2)+"px",top:(bottom-.91*S)+"px"});
+    }else{
+      const pw=Math.max(W,H*TALL.ar),ph=pw/TALL.ar,left=(W-pw)/2;
+      const L=Math.max(TALL.lip*ph,H*.5),top=L-TALL.lip*ph;
+      Object.assign(plate.style,{left:left+"px",top:top+"px",width:pw+"px",height:ph+"px"});
+      head.style.top=Math.max(14,top+ph*.035)+"px";
+      acts.classList.add("stack");acts.style.top="";acts.style.bottom=Math.max(14,H*.02)+"px";
+      const ab=acts.offsetHeight+Math.max(14,H*.02)+10;
+      let S=Math.min(W-24,(H-ab-L-10)/.86);
+      Object.assign(host.style,{width:S+"px",height:S+"px",left:(W-S)/2+"px",top:(L+6-.06*S)+"px"});
+    }
+  }
+  addEventListener("resize",place);place();
+  async function start(){
+    if(scene)scene.dispose();scene=null;
+    const reduced=q.get("reduced")==="1"?true:undefined;
+    scene=await R.mount(host,{seed:seedIn.value,winner:sel.value,stage:Number(q.get("stage")||0),reducedMotion:reduced});
+    document.getElementById("loading").style.display="none";
+    if(!scene){status.textContent="3D unavailable";return;}
+    window.lab=scene;
+    scene.on((type,data)=>{if(type==="landed")status.textContent=`${R.looks[data.league].name.toUpperCase()} IS OUT`;if(type==="merged"||type==="done")caption();chips();});
+    caption();chips();
+  }
+  drop.addEventListener("click",async()=>{if(!scene||scene.busy)return;if(scene.stage>=4)return;const p=scene.drop(scene.stage);caption();chips();await p;caption();chips();});
+  document.getElementById("reset").onclick=start;sel.onchange=start;seedIn.onchange=start;
+  document.getElementById("end").onclick=()=>{scene&&scene.showStage(4);caption();chips();};
+  document.getElementById("all").onclick=async()=>{for(let k=scene.stage;k<4;k++){const p=scene.drop(k);caption();chips();await p;}};
+  setInterval(()=>{if(scene)document.getElementById("probe").textContent=JSON.stringify(scene.probe(),null,1);},500);
+  await start();
+})();
+</script>
+</body>
+</html>
