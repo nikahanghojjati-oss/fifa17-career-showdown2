@@ -144,9 +144,17 @@
   function providerOptions(context){
     return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,rivalryId:context.rivalryId,sessionId:context.sessionId,deviceId:context.deviceId,nowEpochMs:Date.now(),cryptoImpl:root.crypto};
   }
+  // R98-01: the ball count of one Showdown only grows (the Rules move it by one, never back), so a read that started before
+  // this phone's own ball landed never takes the count back down; another Showdown starts from its own count.
+  function sameShowdown(a,b){return Boolean(a&&b&&a.bindingHash===b.bindingHash&&a.receipts?.[0]?.operationHash&&a.receipts[0].operationHash===b.receipts?.[0]?.operationHash);}
+  function heldDrops(result){
+    const next=Number.isInteger(result&&result.drops)?result.drops:null;
+    if(next===null||!Number.isInteger(state.setupDrops)||!sameShowdown(state.setup,result.state))return next;
+    return Math.max(next,state.setupDrops);
+  }
   function accept(result,context,message){
     if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_PROVIDER_FAILED");
-    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,saveId:context.saveId||null,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,setupUpdatedAtMs:Number.isFinite(result.updatedAtMs)?result.updatedAtMs:null,setupDrops:Number.isInteger(result.drops)?result.drops:null,message});
+    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,saveId:context.saveId||null,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,setupUpdatedAtMs:Number.isFinite(result.updatedAtMs)?result.updatedAtMs:null,setupDrops:heldDrops(result),message});
   }
   // r49: taps used to be dropped with SHARED_SETUP_BUSY whenever any module's background refresh was
   // in flight (every 2.5-15s), so the wheel/packs/confirm needed a second tap. Refreshes now coalesce,
@@ -319,6 +327,8 @@
   function drop(ball){
     if(dropInFlight)return dropInFlight;
     if(mutateInFlight)return Promise.resolve(Object.freeze({ok:false,code:"SHARED_SETUP_BUSY"}));
+    // A read already on its way answers for the ledger before this ball: it is dropped, not adopted.
+    setupGeneration+=1;
     const run=(async()=>{
       const before=storageSnapshot();
       try{

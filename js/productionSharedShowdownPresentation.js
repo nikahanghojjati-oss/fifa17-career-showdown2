@@ -233,7 +233,7 @@
   async function ssjpDrop(ball){
     if(busy){lastMutationCode="SHARED_SETUP_BUSY";lastMutationMessage="";return false;}
     busy=true;lastMutationCode="";lastMutationMessage="";
-    const run=(async()=>{try{const api=await ssjpEnsureSetup();if(typeof api.drop!=="function"){lastMutationCode="SHARED_SETUP_PROVIDER_UNAVAILABLE";return false;}const result=await api.drop(ball),landed=Boolean(result&&result.ok===true);ssjpAdoptState(api.getState());lastMutationCode=landed?"":String(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");lastMutationMessage=landed?"":String(result&&result.message||"");return landed;}finally{busy=false;await ssjpRenderCurrent();}})();
+    const run=(async()=>{try{const api=await ssjpEnsureSetup();if(typeof api.drop!=="function"){lastMutationCode="SHARED_SETUP_PROVIDER_UNAVAILABLE";return false;}const result=await api.drop(ball),landed=Boolean(result&&result.ok===true),replayed=landed&&result.replayed===true;try{const b=root.document&&root.document.getElementById("spinLeague");if(b&&b.dataset)b.dataset.sharedDrop=`${ball}:${result&&result.ok===true?"ok":"refused"}:${result&&(result.code||(result.replayed?"replayed":result.drops))}`;}catch(_error){}ssjpAdoptState(api.getState());lastMutationCode=landed?"":String(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");lastMutationMessage=landed?"":String(result&&result.message||"");return replayed?"replayed":landed;}finally{busy=false;await ssjpRenderCurrent();}})();
     mutationPromise=run;run.finally(()=>{if(mutationPromise===run)mutationPromise=null;}).catch(()=>{});return run;
   }
 
@@ -473,7 +473,8 @@
       if(roulette&&state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"&&ssjpRouletteLedger()&&state.setupDrops<4){
         if(!rouletteStep.caughtUp())return "done";
         const ball=state.setupDrops+1;if(ssjpBallRole(ball)!==state.managerRole)return "stale";
-        return await ssjpDrop(ball)?"done":"failed";
+        // A ball this phone held as next had already dropped (its copy was behind): the tap re-reads and drops the real next one.
+        const dropped=await ssjpDrop(ball);return dropped==="replayed"?"stale":dropped?"done":"failed";
       }
       if(state.setup&&ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED")){if(witnessedLeagueId!==state.setup.leagueId){await ssjpRenderLeague();return "done";}if(ssjpIsDraw(state.setup)&&!ssjpDrawReady(state.setup)){ssjpDrawAdvance(state.setup);ssjpDrawPrepare(state.setup);ssjpLater(ssjpAutoForwardToClubs,250);ssjpSetSharedStatus("LEAGUE REVEALED · Getting the Ball Game ready.");return "done";}ssjpForceScreen("clubWheelScreen");await ssjpRenderClub();return "done";}return "stale";
     }
@@ -502,14 +503,16 @@
   async function ssjpHandleControlClickNow(id){
     if(!ssjpHandlesControl(id))return false;await ssjpEnsureSetup();await ssjpAwaitIdle();
     tapFailure="";tapFailureCode="";tapFailureSignature="";
-    const first=await ssjpDecideControl(id);if(first==="done")return true;
+    const first=await ssjpDecideControl(id);ssjpNoteTap(id,first);if(first==="done")return true;
     const before=ssjpStateSignature();
     try{await ssjpRefresh();}catch(_error){}
     if(first==="stale"&&ssjpStateSignature()===before)return true;
-    const second=await ssjpDecideControl(id);
+    const second=await ssjpDecideControl(id);ssjpNoteTap(id,`${first}/${second}`);
     if(second==="failed"){const failure=ssjpDescribeFailure(lastMutationCode,lastMutationMessage);tapFailure=`THAT TAP DID NOT GO THROUGH · ${failure.tapDetail}`;tapFailureCode=failure.code;tapFailureSignature=ssjpStateSignature();}
     return true;
   }
+  // The last tap's outcome on the button itself (done, stale, failed): what a browser proof reads when a step does not move.
+  function ssjpNoteTap(id,outcome){const button=root.document&&root.document.getElementById(id);if(button&&button.dataset)button.dataset.sharedTap=`${outcome}@${ssjpStateSignature()}`;}
   function ssjpHandleControlClick(id){
     if(!ssjpHandlesControl(id))return Promise.resolve(false);
     if(actionPromise)return actionPromise;

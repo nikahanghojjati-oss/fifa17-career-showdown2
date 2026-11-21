@@ -86,7 +86,10 @@ function ok(label) { checks += 1; process.stdout.write(`ok ${checks} ${label}\n`
   assert.ok(drop.includes("known=state.setup&&Number.isInteger(state.setupDrops)?{drops:state.setupDrops,revision:state.revision,coordinatorRole:state.setup.coordinatorRole}:null"));
   assert.ok(drop.includes("const drops=Math.max(Number.isInteger(state.setupDrops)?state.setupDrops:0,result.drops);"), "the count never goes back");
   assert.ok(drop.includes("if(dropInFlight)return dropInFlight;"), "a double tap drops once");
-  assert.ok(W.includes("setupDrops:Number.isInteger(result.drops)?result.drops:null"), "every read and step carries the count");
+  assert.ok(W.includes("setupDrops:heldDrops(result),"), "every read and step carries the count");
+  assert.ok(W.includes("return Math.max(next,state.setupDrops);"), "a read that started before this phone's ball never takes the count back down");
+  assert.ok(drop.includes("setupGeneration+=1;"), "a read already on its way when a ball drops is not adopted");
+  assert.ok(read("js/productionSharedShowdownPresentation.js").includes(`return dropped==="replayed"?"stale":dropped?"done":"failed";`), "a ball already dropped makes the tap re-read and drop the real next ball");
   assert.match(W, /refresh,mutate,drop,openPanel,/);
   ok("wrapper: drop() is one write on the held ledger (no read), double tap safe, the count only grows");
 }

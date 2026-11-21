@@ -12,14 +12,28 @@ async function waitContinueToClubs(page,timeout=30000){
 // R98-01 League Roulette: four balls, Daniel, Nik, Daniel, Nik, each dropped from his own phone once the ball before it has
 // rested on that phone (#spinLeague reads DROP BALL there, WAITING FOR ... on the other). Daniel's first ball draws the
 // league; the clubs follow the fourth. A Setup opened before the roulette goes straight on to CONTINUE after ball 1.
+// What the league screen shows and holds on one phone (for a failure message).
+async function rouletteView(page){
+  return page.evaluate(()=>{const s=window.CareerModeProductionSharedShowdownSetup?.getState?.(),st=window.CareerModeLeagueRouletteStep;
+    return {button:document.getElementById("spinLeague")?.textContent?.trim(),disabled:document.getElementById("spinLeague")?.disabled,tap:document.getElementById("spinLeague")?.dataset.sharedTap||null,drop:document.getElementById("spinLeague")?.dataset.sharedDrop||null,
+      result:document.getElementById("selectedLeague")?.textContent?.trim(),status:document.getElementById("sharedShowdownPresentationStatus")?.textContent?.trim(),
+      phase:s?.setup?.phase||null,drops:s?.setupDrops??null,board:st?{armed:st.armed(),failed:st.failed(),stage:st.stage(),busy:st.busy(),caughtUp:st.caughtUp()}:null};}).catch(error=>({error:String(error)}));
+}
 async function playLeagueRoulette(daniel,nik,timeout=60000){
+  const fail=async(error,step)=>{const where=`[league roulette ${step}] daniel=${JSON.stringify(await rouletteView(daniel.page))} nik=${JSON.stringify(await rouletteView(nik.page))}`;console.error(where);error.message+=` ${where}`;error.stack=`${error.message}\n${error.stack||""}`;throw error;};
   await daniel.page.locator("#spinLeague").click({timeout:30000});
+  let ball=2;
   for(const m of [nik,daniel,nik]){
-    const next=await m.page.waitForFunction(()=>{const b=document.getElementById("spinLeague"),t=(b?.textContent||"").trim();if(/^CONTINUE TO /.test(t))return "done";return t==="DROP BALL"&&!b.disabled?"drop":false;},null,{timeout});
+    let next;
+    try{next=await m.page.waitForFunction(()=>{const b=document.getElementById("spinLeague"),t=(b?.textContent||"").trim();if(/^CONTINUE TO /.test(t))return "done";return t==="DROP BALL"&&!b.disabled?"drop":false;},null,{timeout});}
+    catch(error){await fail(error,`waiting for ball ${ball}`);}
     if(await next.jsonValue()==="done")break;
     await m.page.locator("#spinLeague").click({timeout:30000});
+    try{await m.page.waitForFunction(b=>(window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setupDrops||0)>=b,ball,{timeout:20000});}
+    catch(error){await fail(error,`ball ${ball} did not land on the phone that dropped it`);}
+    ball+=1;
   }
-  await waitContinueToClubs(daniel.page,timeout);
+  try{await waitContinueToClubs(daniel.page,timeout);}catch(error){await fail(error,"after ball 4");}
 }
 async function isDraw(page){return page.evaluate(()=>document.getElementById("clubWheelScreen")?.dataset.clubDraw==="spin").catch(()=>false);}
 async function waitDraw(page,timeout=45000){await page.waitForFunction(()=>document.getElementById("clubWheelScreen")?.dataset.clubDraw==="spin",null,{timeout});}
@@ -54,4 +68,4 @@ async function playClubDraw(daniel,nik,{danielFirst=true,timeout=60000}={}){
   return a;
 }
 
-module.exports={playLeagueRoulette,CONTINUE_TO_CLUBS,waitContinueToClubs,isDraw,waitDraw,waitStop,stop,kind,names,waitBothRested,setupState,playClubDraw};
+module.exports={playLeagueRoulette,rouletteView,CONTINUE_TO_CLUBS,waitContinueToClubs,isDraw,waitDraw,waitStop,stop,kind,names,waitBothRested,setupState,playClubDraw};
