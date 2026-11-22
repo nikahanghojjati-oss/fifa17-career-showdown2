@@ -432,7 +432,20 @@
       }}
     // A 3D screen in its own frame (Roulette, the pack, the Device check's frames) is opening from here on, at its own level.
     if(!openedHere&&gfxFramed()){openedHere=true;gfxOpenArm(p.level,gfxSceneName());}
+    if(gfxCapScene(key)==="league")p=gfxSharpBoard(p);
     return p;
+  }
+  // r98 (Nik 2026-11-22: the League Roulette "looks pixelated, especially on phone"): the roulette is one small board, about
+  // a dozen draws, so at every level it draws at the screen's own sharpness (its device pixel ratio, at most 3x, within the
+  // 4K buffer) instead of the level's lower ratio stretched up. The governor still steps it down a quarter at a time on a
+  // device that cannot hold its frame time, to the level's own floor.
+  let sharpCached=null;
+  function gfxSharpBoard(p){
+    if(sharpCached&&sharpCached.from===p)return sharpCached.p;
+    let want=Math.min(Number(p.dpr)||1,PHONE_MAX_PR);const view=gfxViewPx();
+    if(view)want=Math.min(want,Math.sqrt((p.bufferCap||BUFFER_CAP)/view));
+    const out=want>p.pixelRatio+1e-6?{...p,pixelRatio:want,maxPixelRatio:Math.max(p.maxPixelRatio,want)}:p;
+    sharpCached={from:p,p:out};return out;
   }
   // A Device check frame (?gfx=N&bench=1) measures the level it asks for; a hold does not stand in for it (see gfxBuild).
   function gfxBenchFrame(){const f=gfxQuery("gfx");return f!==null&&/^[0-5]$/.test(f)&&gfxQuery("bench")==="1";}
