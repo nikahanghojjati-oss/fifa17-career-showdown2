@@ -39,7 +39,7 @@
   html.lr3d-room[data-v10-setup="league"] #background,html.lr3d-room[data-v10-setup="league"][data-v10-screen] #background{background-image:url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1X.webp)!important}
   html.lr3d-room:is([data-assets="2"],[data-assets="3"],[data-assets="4"])[data-v10-setup="league"] #background{background-image:image-set(url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1X.webp) 1x,url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_2X.webp) 2x)!important}
 }
-@media (min-width:1537px),(min-width:901px) and (min-height:865px){
+@media (min-width:1537px) and (orientation:landscape),(min-width:901px) and (min-height:865px) and (orientation:landscape){
   html.lr3d-room[data-v10-setup="league"] #background,html.lr3d-room[data-v10-setup="league"][data-v10-screen] #background{background-image:image-set(url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1920.webp) 1.25x)!important}
   html.lr3d-room:is([data-assets="2"],[data-assets="3"],[data-assets="4"])[data-v10-setup="league"] #background,html.lr3d-room:is([data-assets="2"],[data-assets="3"],[data-assets="4"])[data-v10-setup="league"][data-v10-screen] #background{background-image:image-set(url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1920.webp) 1.25x,url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_2X.webp) 2x)!important}
 }
@@ -63,7 +63,7 @@
   #app #leagueWheelScreen.v26Skin.lr3d-on #leagueWheel{margin-bottom:14px!important}
   #leagueWheel.lr3d-on>.lr3dHost{height:calc(100% * 1.18 / .917);top:calc(50% - 50% * 1.18 / .917)}
 }
-@media (max-width:900px) and (orientation:landscape){
+@media (min-width:640px) and (max-width:900px) and (max-height:440px) and (orientation:landscape){
   #app #leagueWheelScreen.v26Skin.lr3d-on:not(.hidden){--v26-wheel:min(calc(100svh - 84px),48vw)!important;
     grid-template-columns:var(--v26-wheel) minmax(0,250px)!important;grid-template-rows:repeat(5,auto)!important;align-content:center!important;column-gap:22px!important}
   #app #leagueWheelScreen.v26Skin.lr3d-on>h2{grid-column:2!important;grid-row:1!important;width:min(30vw,250px)!important;margin:0 auto!important}
@@ -125,7 +125,7 @@
 
   // ---- Desktop placement (Nik 2026-11-22: bigger, never touching either man) ----------------------------------------
   // On a desktop window the room plate (ENV_BOX_PLATE_HC_V4, 1536x864, drawn "cover" on #background) has Daniel left and
-  // Nik right. The board is placed in the plate's own pixels: as large as it can be (at most 30% larger than the 2D wheel's
+  // Nik right. The board is placed in the plate's own pixels: as large as it can be (at most 45% larger than the 2D wheel's
   // box, 389 plate px) while every row of its silhouette keeps MARGIN plate px from both men's outlines, its top clears the
   // title lines and its foot clears the buttons. Phones and tablets have no men (CSS below) and keep the box placement.
   const DESKTOP_MQ="(min-width:901px) and (orientation:landscape)";
@@ -203,8 +203,11 @@
   function lrsLayoutSoon(){if(layoutRaf||typeof root.requestAnimationFrame!=="function")return;layoutRaf=root.requestAnimationFrame(()=>{layoutRaf=0;lrsLayout();});}
   let layoutWatching=false;
   function lrsWatchLayout(){if(layoutWatching||typeof root.addEventListener!=="function")return;layoutWatching=true;root.addEventListener("resize",lrsLayoutSoon,{passive:true});
-    const note=lrsById("leagueStateNote");
-    if(note&&typeof root.MutationObserver==="function")new root.MutationObserver(lrsLayoutSoon).observe(note,{attributes:true,attributeFilter:["class"],childList:true,characterData:true,subtree:true});}
+    // (Claude review on #1564) anything that moves the lines or buttons the board keeps clear of places it again: the lock
+    // note, the result line's text and size (data-v26-league), a button shown or hidden. Each place is one cheap measurement
+    // and changes nothing that is watched here (the host's own style is not watched), so it cannot loop.
+    const screen=lrsById(SCREEN_ID);
+    if(screen&&typeof root.MutationObserver==="function")new root.MutationObserver(lrsLayoutSoon).observe(screen,{attributes:true,attributeFilter:["class","hidden","data-v26-league"],childList:true,characterData:true,subtree:true});}
 
   function lrsArm(on){
     if(!on){lrsTeardown();failed=false;target={seed:"",winner:null,drops:0,instant:false};lrsFreshSync();}

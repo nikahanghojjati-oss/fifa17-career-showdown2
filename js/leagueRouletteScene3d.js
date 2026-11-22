@@ -122,13 +122,14 @@
 
   // What each level draws (ONE system). Light (Nik's Chromebook, 2 CPU threads) stays light: one 1024 board texture,
   // standard materials, about a dozen draws.
-  function lrKnobs(level,phone){
+  function lrKnobs(level){
     const l=Math.max(0,Math.min(5,Math.round(Number(level))||0));
     // r98 (Nik 2026-11-22, "pixelated around the edges"): the bowl and wheel are round at every level (a 96-sided lathe
     // showed its corners on a big board) and the board texture is sharp enough for a 3x phone.
-    // A phone keeps the picture sizes it had (1024 below High, 2048 from High); the gold masks are half the picture's size
-    // (thin lines, metal only), so the phone memory budget holds (tests/browser/phone-memory-budget.cjs).
-    return {level:l,board:phone?(l<=1?1024:2048):l<=0?1536:2048,seg:l<=1?224:288,ballSeg:l<=1?[28,18]:[40,26],
+    // The pictures keep the sizes they had (1024 at Light and Balanced, 2048 from High): the board is repainted every frame
+    // while a section merges, so Light stays light, and 1024 is still above the board's size on screen there. The gold masks
+    // are half the picture's size (thin lines, metal only); phone memory budget: tests/browser/phone-memory-budget.cjs.
+    return {level:l,board:l<=1?1024:2048,seg:l<=1?224:288,ballSeg:l<=1?[28,18]:[40,26],
       clearcoat:l>=2,envSize:l<=1?256:512,sheen:l>=3,ghosts:l<=0?8:12};
   }
 
@@ -278,7 +279,7 @@
 
   // ---------- the scene ----------
   function lrBuild(T,host,opts,P,assets){
-    const K=lrKnobs(P.level,Boolean(P.phone)),d=lrDoc(),reduced=opts.reducedMotion===undefined?lrReducedMotion():Boolean(opts.reducedMotion);
+    const K=lrKnobs(P.level),d=lrDoc(),reduced=opts.reducedMotion===undefined?lrReducedMotion():Boolean(opts.reducedMotion);
     let thePlan=opts.plan;
     const canvas=d.createElement("canvas");canvas.className="leagueRoulette3d";canvas.setAttribute("aria-hidden","true");
     canvas.style.cssText="position:absolute;inset:0;width:100%;height:100%;display:block";
@@ -293,8 +294,6 @@
     const fill=new T.DirectionalLight(0xdfe8ff,.35);fill.position.set(3,2.2,-1.5);scene.add(fill);
 
     // bowl: marble body and rim, the polished wood ball track and apron, gold beads, eight gold deflectors
-    const marbleTex=assets.marble?tex(new T.Texture(assets.marble)):null;
-    if(marbleTex){marbleTex.needsUpdate=true;marbleTex.wrapS=marbleTex.wrapT=T.RepeatWrapping;marbleTex.repeat.set(10,1);marbleTex.colorSpace=T.SRGBColorSpace;marbleTex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());}
     // Nik 2026-11-22: black metal with gold, polished black marble; no shadows, no tints
     const marble=mat(new T.MeshStandardMaterial({color:0x141312,roughness:.4,metalness:.85,envMapIntensity:.9}));
     const woodM=mat(new T.MeshStandardMaterial({color:0xffffff,roughness:.3,metalness:.1,envMapIntensity:.65}));
