@@ -1,0 +1,74 @@
+{
+ "ENV_BOX_PHONE_HC_V4.webp": {
+  "bytes": 88294,
+  "size": [
+   1179,
+   2096
+  ],
+  "sha256": "cfd2e6c2f84fccbaedec0aef863b3b48078b8248a417d7c7a728ff93b6f38362"
+ },
+ "ENV_BOX_PHONE_HC_V4_590W.webp": {
+  "bytes": 29078,
+  "size": [
+   590,
+   1049
+  ],
+  "sha256": "6e7cd018d5b4b44c78f01713299db714ff315a78f297cb041352e3c8e0fbc18c"
+ },
+ "ENV_BOX_PHONE_HC_V4_TALL.webp": {
+  "bytes": 98804,
+  "size": [
+   1179,
+   2620
+  ],
+  "sha256": "7289250ff0774e8e19189ec5a7da77e4f860efd39bf7e94118e91e0a4748b3ee"
+ },
+ "ENV_BOX_PHONE_HC_V4_TALL_590W.webp": {
+  "bytes": 31604,
+  "size": [
+   590,
+   1311
+  ],
+  "sha256": "6dbd75cdc968e60cf5ab259a1c0e7c6ab1cc3a1ee9b9f5d021f457b1cb84e74b"
+ },
+ "ENV_BOX_PLATE_EMPTY_HC_V4_1X.webp": {
+  "bytes": 70314,
+  "size": [
+   1536,
+   864
+  ],
+  "sha256": "897f848d0182474478cd78a132a4350b1d9b4e90f69148b5e4380bf60806418b"
+ },
+ "ENV_BOX_PLATE_EMPTY_HC_V4_2X.webp": {
+  "bytes": 185040,
+  "size": [
+   3072,
+   1728
+  ],
+  "sha256": "232dca44d403c1440eb1562a56036df699f409cf7fbfb3f98010e6e54195e4ce"
+ },
+ "ENV_BOX_PLATE_HC_V4_1X.webp": {
+  "bytes": 87554,
+  "size": [
+   1536,
+   864
+  ],
+  "sha256": "645b41dbfe384d76518bcd8d9cf1344c70dd31f79e3512b9d9b7a379f53883ab"
+ },
+ "ENV_BOX_PLATE_HC_V4_2X.webp": {
+  "bytes": 215810,
+  "size": [
+   3072,
+   1728
+  ],
+  "sha256": "bd44186644ecb67326ae9983638f1c5a540e2e22a0531b94ca444ba45631e342"
+ },
+ "ENV_BOX_SIDEWAYS_HC_V4.webp": {
+  "bytes": 120746,
+  "size": [
+   2400,
+   1200
+  ],
+  "sha256": "c7d4ba923d3d8e79ef7214b6472a9c7d091f6dee4cd92c70c8658b80b3952813"
+ }
+}
