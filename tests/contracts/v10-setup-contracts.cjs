@@ -168,7 +168,7 @@ function buildSetupMarkup(doc,main){
   el(doc,box,"button",{id:"continueSharedSetupGate",cls:"menuButton",text:"CONTINUE"});
 
   const league=doc.getElementById("leagueWheelScreen");
-  el(doc,league,"h2",{text:"SELECT LEAGUE",attrs:{"data-route-focus-target":"true"}});
+  el(doc,league,"h2",{text:"LEAGUE ROULETTE",attrs:{"data-route-focus-target":"true"}});
   const container=el(doc,league,"div",{cls:"wheelContainer"});
   el(doc,container,"div",{cls:"wheelPointer",text:"▼"});
   const wheel=el(doc,container,"div",{id:"leagueWheel",cls:"leagueWheel"});

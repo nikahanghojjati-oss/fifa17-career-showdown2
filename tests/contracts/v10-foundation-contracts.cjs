@@ -779,6 +779,16 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_590W.webp":"28a8f08a43ea409b35b02275cfcf6741b23ba5b897432df9e1da56de08d80e75",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_TALL.webp":"6f74f7503a231edad302bffde9ebdde01578835dcae2b089f9c4408a0918b666",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_TALL_590W.webp":"c2afbe5ad0edd820bf53c96cd492c97946985418307203a5b62ba592bd93467b",
+    // R98-01 Team V HO-097 (Nik OK 2026-11-22): the League Roulette's rooms. The box room with the men further apart (desktop,
+    // 1X/2X from Team V, the 1920 cut resized from the 2X master like V3_1920) and without the men (upright, tall, sideways).
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1X.webp":"645b41dbfe384d76518bcd8d9cf1344c70dd31f79e3512b9d9b7a379f53883ab",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_2X.webp":"bd44186644ecb67326ae9983638f1c5a540e2e22a0531b94ca444ba45631e342",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1920.webp":"07ef695f75020922c7764b660119125ab7dbc4ce7ffa3630fdf43cd01778bf1e",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4.webp":"cfd2e6c2f84fccbaedec0aef863b3b48078b8248a417d7c7a728ff93b6f38362",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4_590W.webp":"6e7cd018d5b4b44c78f01713299db714ff315a78f297cb041352e3c8e0fbc18c",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4_TALL.webp":"7289250ff0774e8e19189ec5a7da77e4f860efd39bf7e94118e91e0a4748b3ee",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4_TALL_590W.webp":"6dbd75cdc968e60cf5ab259a1c0e7c6ab1cc3a1ee9b9f5d021f457b1cb84e74b",
+    "visual-assets/v10_1/plates-hc/ENV_BOX_SIDEWAYS_HC_V4.webp":"c7d4ba923d3d8e79ef7214b6472a9c7d091f6dee4cd92c70c8658b80b3952813",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1X.webp":"485d49234ec0cb5d146f159aff45797615059be0549e2b3c6ca02a014b45a4dd",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_2X.webp":"f6e4309c3a6eb3f1d8ff96431123692966e619435ce4d9f0d46cd727c28ebf93",
     "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp":"7309ab041d465de5d33ee05c6961ec09b7b62d1733259034261ccdf261831d1d",
@@ -1526,7 +1536,8 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // footer, nothing else.
   // Re-pinned 2026-11-20 by the 2.10.0 release bump: the 2.9.0 file (r97 never changed it) with its 2.10.0-r97 pins and v2.10.0
   // footer, nothing else.
-  assert.equal(sha256("index.html"),"900455c53110baf3c29df42db4f3592b3ce06e1c168d10e71a4ccd79292e399f","index.html is 2.10.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, 2.10.0-r97 pins)");
+  // Re-pinned 2026-11-22 by R98-01 look round 2: the league screen title reads LEAGUE ROULETTE (Nik), nothing else.
+  assert.equal(sha256("index.html"),"9301682288a21cc5d88daa75039b47bde8e5d81ad17245aeddbe70045c271e05","index.html is 2.10.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, 2.10.0-r97 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);

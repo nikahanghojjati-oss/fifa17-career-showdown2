@@ -432,7 +432,22 @@
       }}
     // A 3D screen in its own frame (Roulette, the pack, the Device check's frames) is opening from here on, at its own level.
     if(!openedHere&&gfxFramed()){openedHere=true;gfxOpenArm(p.level,gfxSceneName());}
+    // (Claude review on #1564) a hold on the league (a closed tab or a lost context there) or a fallback keeps the held
+    // picture: the sharp board never undoes a hold.
+    if(gfxCapScene(key)==="league"&&!p.fellBack&&!gfxCap(key))p=gfxSharpBoard(p);
     return p;
+  }
+  // r98 (Nik 2026-11-22: the League Roulette "looks pixelated, especially on phone"): the roulette is one small board, about
+  // a dozen draws, so at every level it draws at the screen's own sharpness (its device pixel ratio, at most 3x, within the
+  // 4K buffer) instead of the level's lower ratio stretched up. The governor still steps it down a quarter at a time on a
+  // device that cannot hold its frame time, to the level's own floor.
+  let sharpCached=null;
+  function gfxSharpBoard(p){
+    if(sharpCached&&sharpCached.from===p)return sharpCached.p;
+    let want=Math.min(Number(p.dpr)||1,PHONE_MAX_PR);const view=gfxViewPx();
+    if(view)want=Math.min(want,Math.sqrt((p.bufferCap||BUFFER_CAP)/view));
+    const out=want>p.pixelRatio+1e-6?{...p,pixelRatio:want,maxPixelRatio:Math.max(p.maxPixelRatio,want),sharpBoard:true}:p;
+    sharpCached={from:p,p:out};return out;
   }
   // A Device check frame (?gfx=N&bench=1) measures the level it asks for; a hold does not stand in for it (see gfxBuild).
   function gfxBenchFrame(){const f=gfxQuery("gfx");return f!==null&&/^[0-5]$/.test(f)&&gfxQuery("bench")==="1";}
@@ -551,6 +566,9 @@
     // about the device's level or the other screens, so neither moves; the hold ends as it always does (gfxCapClean).
     // A frame of its own (the pack, Roulette) marks its own page with what it draws, as a calibration there always has.
     if(p.deviceLevel!==undefined&&p!==gfxBaseProfile()){if(gfxFramed())gfxMarkRoot(p.level,p.assetLevel,true);return p;}
+    // (Claude review on #1564) the League Roulette draws sharper than its level; five frames at that ratio say nothing about
+    // the device's level, so neither the level nor the other screens move.
+    if(p.sharpBoard)return p;
     let level=p.level;const slow=ms>BUDGET_MS*.8;
     if(slow){calBad.add(level);if(level>0)level-=1;}
     else if(ms<BUDGET_MS*.25&&level<Math.min(3,p.autoLevel+1)&&!calBad.has(level+1))level+=1;

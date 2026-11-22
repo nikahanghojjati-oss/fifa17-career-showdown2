@@ -1768,7 +1768,7 @@
   letter-spacing: .08em; text-transform: uppercase; text-align: center; white-space: nowrap; text-indent: 0;
   color: var(--r95-gold-ink, #F2C45B); -webkit-text-fill-color: var(--r95-gold-ink, #F2C45B); text-shadow: none; filter: none; pointer-events: none;
 }
-:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #leagueWheelScreen.v26Skin > h2::before { content: "SELECT LEAGUE"; --hcw: 8.28; }
+:root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #leagueWheelScreen.v26Skin > h2::before { content: "LEAGUE ROULETTE"; --hcw: 9.80; }
 :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4) #createShowdown.v26Skin > h2::before { content: "NEW SHOWDOWN"; --hcw: 9.23; }
 /* Season Results on phones draws its title in the scene's lower band (::after of the phone scene, the scene is decoration): the
    same live text, shared height, never wider than its band. */

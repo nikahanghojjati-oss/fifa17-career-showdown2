@@ -111,7 +111,13 @@ html,body{margin:0;height:100%;background:var(--room);color:var(--ink);font:15px
       Object.assign(host.style,{width:S+"px",height:S+"px",left:(W-S)/2+"px",top:(L+6-.06*S)+"px"});
     }
   }
-  addEventListener("resize",place);place();
+  // ?fill=1 (device lab, R98-01 round 3): the board at the size the game gives it, or a little larger. Upright phones: the
+  // full width less 16 px and 1.18 times as tall; sideways phones: min(height - 84, 48% of the width) / .917 (both
+  // js/leagueRouletteStep.js); desktop: 75% of the window height (the game's largest is 73% at 1920x866, 68% at 1920x1035).
+  if(q.get("fill")==="1"){const place0=place;place=function(){place0();const W=innerWidth,H=innerHeight,up=W<=900&&H>W,side=W<=900&&!up;
+    const w=up?W-16:side?Math.round(Math.min(H-84,W*.48)/.917):Math.round(H*.75),h=up?Math.round(w*1.18):w;
+    Object.assign(host.style,{width:w+"px",height:h+"px",left:(W-w)/2+"px",top:Math.max(0,(H-h)/2)+"px"});};}
+  addEventListener("resize",()=>place());place();
   async function start(){
     if(scene)scene.dispose();scene=null;
     const reduced=q.get("reduced")==="1"?true:undefined;
@@ -121,6 +127,9 @@ html,body{margin:0;height:100%;background:var(--room);color:var(--ink);font:15px
     window.lab=scene;
     scene.on((type,data)=>{if(type==="landed")status.textContent=`${R.looks[data.league].name.toUpperCase()} IS OUT`;if(type==="merged"||type==="done")caption();chips();});
     caption();chips();
+    // ?auto=1 (device lab): drop the four balls one after another and start again, so frames are timed through the beats
+    if(q.get("auto")==="1"&&!window.__labAuto){window.__labAuto=setInterval(()=>{const sc=window.lab;if(!sc||sc.busy)return;
+      if(sc.stage<4){sc.drop(sc.stage);return;}if(!window.__labEnd)window.__labEnd=Date.now();else if(Date.now()-window.__labEnd>1500){window.__labEnd=0;sc.showStage(0);caption();chips();}},400);}
   }
   drop.addEventListener("click",async()=>{if(!scene||scene.busy)return;if(scene.stage>=4)return;const p=scene.drop(scene.stage);caption();chips();await p;caption();chips();});
   document.getElementById("reset").onclick=start;sel.onchange=start;seedIn.onchange=start;

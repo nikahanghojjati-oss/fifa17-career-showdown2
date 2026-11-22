@@ -389,7 +389,7 @@ const IPHONE = {gpu: "Apple GPU", phone: true};
   {
     const budget = fs.readFileSync(path.join(ROOT, "tests/browser/phone-memory-budget.cjs"), "utf8");
     assert.match(budget, /const PHONE_BUDGET_MB = 300;/);
-    assert.match(budget, /const LEVELS = \[2, 3\];/); assert.match(budget, /const SCENES = \["chamber", "rrr", "sp"\];/);
+    assert.match(budget, /const LEVELS = \[2, 3\];/); assert.match(budget, /const SCENES = \["chamber", "rrr", "sp", "league"\];/); // r98: the League Roulette is measured too
     assert.match(budget, /"--profiles", "iphone17"/); assert.match(budget, /DEVLAB_MODE: "cpu", DEVLAB_TOP: "1"/);
     // r97: plus the live 2D canvases (Roulette at High held 128 MB of them beside its GPU textures).
     assert.match(budget, /const total = Math\.round\(\(r\.allocTexMB \+ r\.allocRbMB \+ r\.canvas2dMB\) \* 10\) \/ 10;/, "textures plus render buffers plus live 2D canvases");

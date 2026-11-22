@@ -18,7 +18,8 @@ const { spawnSync } = require("node:child_process");
 const ROOT = path.resolve(__dirname, "../..");
 const PHONE_BUDGET_MB = 300;
 const LEVELS = [2, 3];                       // High (where an iPhone's Auto starts) and Extra (the next level the check may raise it to)
-const SCENES = ["chamber", "rrr", "sp"];
+// r98: the League Roulette draws at the phone's own pixel ratio (up to 3x) at every level, so it is measured too.
+const SCENES = ["chamber", "rrr", "sp", "league"];
 const outArg = process.argv.indexOf("--out");
 const out = outArg >= 0 ? process.argv[outArg + 1] : path.join(os.tmpdir(), `phone-memory-budget-${process.pid}.json`);
 
