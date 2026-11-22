@@ -6,7 +6,7 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Sat 21 Nov, 11:27 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Sat 21 Nov, 11:31 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.10.0-r97** (main `4353ab5`, Fri 20 Nov 3:11 PM)
 
@@ -26,11 +26,11 @@ Updated Sat 21 Nov, 11:27 PM Boston time. Bug hunting only, no new features unti
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 975 h ago
+🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 976 h ago
 
 **#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 975 h ago
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 976 h ago
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -74,7 +74,7 @@ Updated Sat 21 Nov, 11:27 PM Boston time. Bug hunting only, no new features unti
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 870 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 871 h ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
