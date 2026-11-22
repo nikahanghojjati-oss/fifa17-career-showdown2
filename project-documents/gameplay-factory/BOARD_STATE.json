@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-22 6:15 PM Boston time (EST)",
+ "generated": "2026-11-22 6:19 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 334,
@@ -3062,7 +3062,22 @@
    "revision": "2.10.0-r97",
    "when": "2026-11-20T15:11:00-05:00",
    "subject": "Merge pull request #1559 from nikahanghojjati-oss/gameplay/r97",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1567,
+     "title": "Release 2.11.0 (r98): League Roulette",
+     "draft": false,
+     "branch": "gameplay/r98",
+     "sha": "c758d10c00647dcbd27277bd1b801280d46859fd",
+     "updated": "2026-11-22T23:19:46Z",
+     "gates": {
+      "passed": 0,
+      "running": 9,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": []
   },
   "physio": {
@@ -3854,7 +3869,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 21371
+    "waiting_min": 21375
    },
    {
     "id": "HO-059",
@@ -4433,7 +4448,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -5649,7 +5664,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1567,
+    "title": "Release 2.11.0 (r98): League Roulette",
+    "draft": false,
+    "branch": "gameplay/r98",
+    "sha": "c758d10c00647dcbd27277bd1b801280d46859fd",
+    "updated": "2026-11-22T23:19:46Z",
+    "gates": {
+     "passed": 0,
+     "running": 9,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
