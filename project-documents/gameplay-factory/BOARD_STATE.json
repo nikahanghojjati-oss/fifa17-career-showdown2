@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-21 9:26 PM Boston time (EST)",
+ "generated": "2026-11-21 9:28 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 332,
@@ -3836,7 +3836,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 20122
+    "waiting_min": 20124
    },
    {
     "id": "HO-059",
@@ -4343,7 +4343,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-097_league-roulette-room-without-the-men-pho.md",
     "worker": "images",
     "pickup_min": null,
-    "waiting_min": 1
+    "waiting_min": 3
    }
   ],
   "relay_ok": true
