@@ -17,6 +17,8 @@ on:
       - 'visual-assets/v10_1/roulette/**'
       - 'visual-assets/v10_1/special-player/**'
       - 'visual-assets/v10_1/chamber-men/**'
+      - 'js/leagueRouletteScene3d.js'
+      - 'tools/league-roulette-lab.html'
       - 'tests/browser/device-lab.cjs'
       - 'tests/browser/phone-memory-budget.cjs'
       - 'package.json'
