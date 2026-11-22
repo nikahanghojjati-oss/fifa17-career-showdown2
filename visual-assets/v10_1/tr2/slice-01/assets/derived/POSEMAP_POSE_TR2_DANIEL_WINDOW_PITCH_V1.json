@@ -1,0 +1,29 @@
+{
+  "crown_y": 65,
+  "chin_y": 460,
+  "head_height": 395,
+  "eye_left": [
+    400,
+    325
+  ],
+  "eye_right": [
+    490,
+    310
+  ],
+  "protected_contacts": {
+    "palm_up_hand": {
+      "x0": 790,
+      "y0": 685,
+      "x1": 1010,
+      "y1": 900
+    },
+    "blank_sheet": {
+      "x0": 175,
+      "y0": 650,
+      "x1": 590,
+      "y1": 975
+    }
+  },
+  "bottom_crop_line_y": 1200,
+  "estimate": true
+}

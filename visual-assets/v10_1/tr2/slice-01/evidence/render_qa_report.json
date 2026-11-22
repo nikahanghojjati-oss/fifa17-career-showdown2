@@ -1,0 +1,397 @@
+{
+  "consoleErrors": {
+    "F1_1366x768_dpr1.png": [],
+    "F1_1366x768_dpr2.png": [],
+    "F2_1366x768_dpr1.png": [],
+    "F2_1366x768_dpr2.png": [],
+    "F3_1366x768_dpr1.png": [],
+    "F3_1366x768_dpr2.png": [],
+    "F4_390x844_dpr2.png": [],
+    "F4_390x844_dpr1.png": [],
+    "F5_390x844_dpr2.png": [],
+    "F5_390x844_dpr1.png": [],
+    "S1_1366x768_dpr1.png": [],
+    "S2_1366x768_dpr1.png": [],
+    "F2_1920x1080_dpr1_spotcheck.png": [],
+    "F2_1440x900_dpr1_spotcheck.png": [],
+    "F2_1366x640_dpr1_spotcheck.png": [],
+    "F5_360x780_dpr1_spotcheck.png": []
+  },
+  "failedRequests": {
+    "F1_1366x768_dpr1.png": [],
+    "F1_1366x768_dpr2.png": [],
+    "F2_1366x768_dpr1.png": [],
+    "F2_1366x768_dpr2.png": [],
+    "F3_1366x768_dpr1.png": [],
+    "F3_1366x768_dpr2.png": [],
+    "F4_390x844_dpr2.png": [],
+    "F4_390x844_dpr1.png": [],
+    "F5_390x844_dpr2.png": [],
+    "F5_390x844_dpr1.png": [],
+    "S1_1366x768_dpr1.png": [],
+    "S2_1366x768_dpr1.png": [],
+    "F2_1920x1080_dpr1_spotcheck.png": [],
+    "F2_1440x900_dpr1_spotcheck.png": [],
+    "F2_1366x640_dpr1_spotcheck.png": [],
+    "F5_360x780_dpr1_spotcheck.png": []
+  },
+  "tabOrder": {
+    "F2": [
+      "backToShowdownHome",
+      "refreshSharedTransferChallenge",
+      "p1Guess1Type",
+      "p1Guess2Type",
+      "p1Guess3Type",
+      "completeTransferChallenge",
+      "body",
+      "backToShowdownHome",
+      "refreshSharedTransferChallenge"
+    ],
+    "F5": [
+      "backToShowdownHome",
+      "refreshSharedTransferChallenge",
+      "p1Guess1Type",
+      "p1Guess2Type",
+      "p1Guess3Type",
+      "completeTransferChallenge",
+      "body",
+      "backToShowdownHome",
+      "refreshSharedTransferChallenge"
+    ]
+  },
+  "contrast": {
+    "F1": [
+      {
+        "selector": "#transferPhaseStatus .status-text",
+        "textColor": [
+          244,
+          239,
+          229
+        ],
+        "brightestBg": [
+          64,
+          60,
+          59
+        ],
+        "ratio": 9.51
+      },
+      {
+        "selector": ".phase-intro",
+        "textColor": [
+          185,
+          180,
+          168
+        ],
+        "brightestBg": [
+          58,
+          54,
+          48
+        ],
+        "ratio": 5.8
+      },
+      {
+        "selector": ".rules-line",
+        "textColor": [
+          242,
+          196,
+          91
+        ],
+        "brightestBg": [
+          66,
+          58,
+          39
+        ],
+        "ratio": 6.87
+      },
+      {
+        "selector": ".rule-note",
+        "textColor": [
+          185,
+          180,
+          168
+        ],
+        "brightestBg": [
+          63,
+          58,
+          49
+        ],
+        "ratio": 5.46
+      },
+      {
+        "selector": ".btn-secondary",
+        "textColor": [
+          244,
+          239,
+          229
+        ],
+        "brightestBg": [
+          34,
+          41,
+          50
+        ],
+        "ratio": 12.8
+      }
+    ],
+    "F2": [
+      {
+        "selector": ".guess-header .status-text",
+        "textColor": [
+          244,
+          239,
+          229
+        ],
+        "brightestBg": [
+          28,
+          28,
+          26
+        ],
+        "ratio": 14.89
+      },
+      {
+        "selector": ".guess-viewer-panel .phase-intro",
+        "textColor": [
+          185,
+          180,
+          168
+        ],
+        "brightestBg": [
+          27,
+          27,
+          24
+        ],
+        "ratio": 8.35
+      },
+      {
+        "selector": ".guess-heading",
+        "textColor": [
+          244,
+          239,
+          229
+        ],
+        "brightestBg": [
+          21,
+          21,
+          20
+        ],
+        "ratio": 15.94
+      },
+      {
+        "selector": ".rule-note",
+        "textColor": [
+          185,
+          180,
+          168
+        ],
+        "brightestBg": [
+          25,
+          22,
+          20
+        ],
+        "ratio": 8.71
+      },
+      {
+        "selector": ".privacy-note",
+        "textColor": [
+          185,
+          180,
+          168
+        ],
+        "brightestBg": [
+          25,
+          22,
+          15
+        ],
+        "ratio": 8.73
+      },
+      {
+        "selector": ".btn-primary",
+        "textColor": [
+          18,
+          14,
+          6
+        ],
+        "brightestBg": [
+          245,
+          206,
+          108
+        ],
+        "ratio": 12.76
+      },
+      {
+        "selector": "#p1Guess1Value",
+        "textColor": [
+          185,
+          180,
+          168
+        ],
+        "brightestBg": [
+          9,
+          10,
+          13
+        ],
+        "ratio": 9.57
+      }
+    ]
+  },
+  "measurements": {
+    "E7_gaze_check": {
+      "eyeX": 928.862800802139,
+      "eyeY": 184.2142303728003,
+      "gazeX": 668.862800802139,
+      "gazeY": 384.21423037280033,
+      "panelRight": 606
+    },
+    "F1": {
+      "poseLeftRect": {
+        "x": 270.4375,
+        "y": 32.5,
+        "width": 414.984375,
+        "height": 622.46875,
+        "top": 32.5,
+        "right": 685.421875,
+        "bottom": 654.96875,
+        "left": 270.4375
+      },
+      "poseRightRect": {
+        "x": 730.78125,
+        "y": 49.15625,
+        "width": 409.796875,
+        "height": 614.6875,
+        "top": 49.15625,
+        "right": 1140.578125,
+        "bottom": 663.84375,
+        "left": 730.78125
+      },
+      "panelRect": {
+        "x": 433,
+        "y": 460,
+        "width": 500,
+        "height": 238,
+        "top": 460,
+        "right": 933,
+        "bottom": 698,
+        "left": 433
+      },
+      "dossierRect": null,
+      "statusFontSize": "15px",
+      "headingFontSize": "15px",
+      "ruleNoteFontSize": "14px",
+      "clearanceLeftPanelTopMinusPoseTop": 427.5,
+      "clearanceRightPanelTopMinusPoseTop": 410.84375
+    },
+    "F2": {
+      "poseLeftRect": {
+        "x": 230.08111572265625,
+        "y": 10.910926818847656,
+        "width": 526.8484497070312,
+        "height": 658.3156127929688,
+        "top": 10.910926818847656,
+        "right": 756.9295654296875,
+        "bottom": 669.2265396118164,
+        "left": 230.08111572265625
+      },
+      "poseRightRect": {
+        "x": 686.4608154296875,
+        "y": 40.14686584472656,
+        "width": 513.1500244140625,
+        "height": 641.214111328125,
+        "top": 40.14686584472656,
+        "right": 1199.61083984375,
+        "bottom": 681.3609771728516,
+        "left": 686.4608154296875
+      },
+      "panelRect": {
+        "x": 782,
+        "y": 330,
+        "width": 560,
+        "height": 470.671875,
+        "top": 330,
+        "right": 1342,
+        "bottom": 800.671875,
+        "left": 782
+      },
+      "dossierRect": {
+        "x": 59.99360656738281,
+        "y": 490.046875,
+        "width": 339.9859619140625,
+        "height": 250.11248779296875,
+        "top": 490.046875,
+        "right": 399.9795684814453,
+        "bottom": 740.1593627929688,
+        "left": 59.99360656738281
+      },
+      "statusFontSize": "15px",
+      "headingFontSize": "26px",
+      "ruleNoteFontSize": "14px",
+      "clearanceLeftPanelTopMinusPoseTop": 319.08907318115234,
+      "clearanceRightPanelTopMinusPoseTop": 289.85313415527344
+    },
+    "F3": {
+      "poseLeftRect": {
+        "x": 230.06887817382812,
+        "y": 10.910926818847656,
+        "width": 526.848388671875,
+        "height": 658.3156127929688,
+        "top": 10.910926818847656,
+        "right": 756.9172668457031,
+        "bottom": 669.2265396118164,
+        "left": 230.06887817382812
+      },
+      "poseRightRect": {
+        "x": 686.4657592773438,
+        "y": 40.14686584472656,
+        "width": 513.1499633789062,
+        "height": 641.214111328125,
+        "top": 40.14686584472656,
+        "right": 1199.61572265625,
+        "bottom": 681.3609771728516,
+        "left": 686.4657592773438
+      },
+      "panelRect": {
+        "x": 46,
+        "y": 330,
+        "width": 560,
+        "height": 470.671875,
+        "top": 330,
+        "right": 606,
+        "bottom": 800.671875,
+        "left": 46
+      },
+      "dossierRect": {
+        "x": 965.9860229492188,
+        "y": 490.046875,
+        "width": 339.98590087890625,
+        "height": 250.11248779296875,
+        "top": 490.046875,
+        "right": 1305.971923828125,
+        "bottom": 740.1593627929688,
+        "left": 965.9860229492188
+      },
+      "statusFontSize": "15px",
+      "headingFontSize": "26px",
+      "ruleNoteFontSize": "14px",
+      "clearanceLeftPanelTopMinusPoseTop": 319.08907318115234,
+      "clearanceRightPanelTopMinusPoseTop": 289.85313415527344
+    },
+    "F1_pageBytes": 998887,
+    "F4_pageBytes": 964139
+  },
+  "screenshots": [
+    "F1_1366x768_dpr1.png",
+    "F1_1366x768_dpr2.png",
+    "F2_1366x768_dpr1.png",
+    "F2_1366x768_dpr2.png",
+    "F3_1366x768_dpr1.png",
+    "F3_1366x768_dpr2.png",
+    "F4_390x844_dpr2.png",
+    "F4_390x844_dpr1.png",
+    "F5_390x844_dpr2.png",
+    "F5_390x844_dpr1.png",
+    "S1_1366x768_dpr1.png",
+    "S2_1366x768_dpr1.png",
+    "F2_1920x1080_dpr1_spotcheck.png",
+    "F2_1440x900_dpr1_spotcheck.png",
+    "F2_1366x640_dpr1_spotcheck.png",
+    "F5_360x780_dpr1_spotcheck.png"
+  ]
+}

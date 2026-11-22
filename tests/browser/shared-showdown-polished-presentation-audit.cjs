@@ -44,6 +44,9 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
       async mutate(type,extra={}){
         window.__sharedMutationCounts[type]=(window.__sharedMutationCounts[type]||0)+1;
         if(providerDelayMs>0)await new Promise(resolve=>setTimeout(resolve,providerDelayMs));
+        // r50 fixtures: a write can be rejected (transient failure, or authority already moved on).
+        if(window.__failNext&&window.__failNext[type]>0){window.__failNext[type]-=1;return {ok:false,code:"SHARED_SETUP_TRANSIENT_WRITE_FAILURE"};}
+        if(type==="open"&&serverSetup)return {ok:false,code:"SHARED_SETUP_ALREADY_OPEN"};
         if(type==="open")serverSetup={schemaVersion:1,bindingHash:"sha256:"+"1".repeat(64),catalogHash:"sha256:"+"2".repeat(64),coordinatorRole:"playerOne",phase:"SHARED_SETUP_OPEN",revision:1,leagueId:null,clubs:null,totalSeasons:null,confirmedRoles:[],receipts:[],contentHash:"sha256:"+"3".repeat(64)};
         else if(type==="commit-league")serverSetup={...serverSetup,phase:"LEAGUE_WHEEL_COMMITTED",revision:2,leagueId:"laliga"};
         else if(type==="commit-clubs")serverSetup={...serverSetup,phase:"CLUB_ASSIGNMENTS_COMMITTED",revision:3,clubs:{playerOne:"Osasuna",playerTwo:"Espanyol"}};
@@ -68,6 +71,8 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
   const host=await hostContext.newPage();
   const peer=await peerContext.newPage();
   const mismatch=await mismatchContext.newPage();
+  const retryContext=await browser.newContext({viewport:{width:390,height:844},isMobile:true});
+  const retry=await retryContext.newPage();
   const errors=[];host.on("pageerror",e=>errors.push(`host: ${e.message}`));peer.on("pageerror",e=>errors.push(`peer: ${e.message}`));
   try{
     await prepare(host,{managerRole:"playerOne",remoteRole:"host",initialSetup:null,reducedMotion:false,providerDelayMs:180});
@@ -76,6 +81,7 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     await firstSpinButton.click({noWaitAfter:true});
     await host.waitForFunction(()=>document.getElementById("spinLeague")?.getAttribute("aria-busy")==="true",null,{timeout:1500});
     assert.equal(await firstSpinButton.isDisabled(),true,"The authoritative league action must disable immediately while provider work is in flight instead of accepting throwaway extra taps.");
+    assert.equal(await firstSpinButton.textContent(),"WORKING…","r50: the tapped control must visibly show that the tap was accepted.");
     await firstSpinButton.click({force:true,noWaitAfter:true});
     await host.waitForFunction(()=>document.getElementById("leagueWheelScreen")?.dataset.sharedLeagueWitnessed==="laliga",null,{timeout:5000});
     assert.deepEqual(await host.evaluate(()=>window.__getSharedMutationCounts()),{open:1,"commit-league":1,"commit-clubs":0,"commit-length":0,confirm:0},"Rapid repeat taps must coalesce into one open + one league commit.");
@@ -150,9 +156,37 @@ async function prepare(page,{managerRole,remoteRole,initialSetup,reducedMotion=t
     assert.match(await mismatch.locator("#sharedShowdownSeasonChoice").innerText(),/SEASON PLAN MISMATCH|recovery/i);
     assert.equal(await mismatch.locator("#sharedShowdownSeasonChoice [data-shared-season]:visible").count(),0,"Season mismatch recovery must not fall back to a second season picker.");
 
+    // r50: one tap must do one thing even when this device's view is stale or a write is rejected.
+    await prepare(retry,{managerRole:"playerOne",remoteRole:"host",initialSetup:null,reducedMotion:true});
+    retry.on("pageerror",e=>errors.push(`retry: ${e.message}`));
+    await retry.evaluate(()=>window.__setSharedServerSetup({schemaVersion:1,bindingHash:"sha256:"+"1".repeat(64),catalogHash:"sha256:"+"2".repeat(64),coordinatorRole:"playerOne",phase:"SHARED_SETUP_OPEN",revision:1,leagueId:null,clubs:null,totalSeasons:null,confirmedRoles:[],receipts:[],contentHash:"sha256:"+"3".repeat(64)}));
+    assert.equal(await retry.evaluate(()=>window.CareerModeProductionSharedShowdownPresentation.getState().phase),null,"fixture: this device still shows an empty Setup while authority is already open");
+    await retry.locator("#spinLeague").click();
+    await retry.waitForFunction(()=>document.getElementById("leagueWheelScreen")?.dataset.sharedLeagueWitnessed==="laliga",null,{timeout:5000});
+    assert.deepEqual(await retry.evaluate(()=>window.__getSharedMutationCounts()),{open:1,"commit-league":1,"commit-clubs":0,"commit-length":0,confirm:0},"A spin tap on a stale empty view must re-read authority and spin in the same tap, never needing a second tap or opening twice.");
+    await retry.locator("#spinLeague").click();
+    await retry.locator("#clubWheelScreen").waitFor({state:"visible",timeout:5000});
+    await retry.evaluate(()=>{window.__failNext={"commit-clubs":1};});
+    await retry.locator("#openClubPack").click();
+    await retry.waitForFunction(()=>Boolean(document.getElementById("clubWheelScreen")?.dataset.sharedClubPacksWitnessed),null,{timeout:5000});
+    const retryClubs=await retry.evaluate(()=>({attempts:window.__getSharedMutationCounts()["commit-clubs"],phase:window.__getSharedServerSetup().phase}));
+    assert.equal(retryClubs.attempts,2,"A rejected pack write must be retried once inside the same tap after re-reading authority.");
+    assert.notEqual(retryClubs.phase,"LEAGUE_WHEEL_COMMITTED","One pack tap must reach committed clubs despite one transient rejection.");
+    const beforeFailure=await retry.evaluate(()=>window.__getSharedMutationCounts().confirm);
+    await retry.evaluate(async()=>{const setup=window.__getSharedServerSetup();window.__setSharedServerSetup({...setup,phase:"SEASON_LENGTH_COMMITTED",revision:5,totalSeasons:5,confirmedRoles:[]});window.__failNext={confirm:2};await window.CareerModeProductionSharedShowdownPresentation.refresh();});
+    const confirmButton=retry.locator("#continueClubAssignment");await confirmButton.waitFor({state:"visible",timeout:3000});
+    await confirmButton.click();
+    await retry.waitForFunction(()=>/THAT TAP DID NOT GO THROUGH/.test(document.getElementById("sharedShowdownPresentationStatus")?.textContent||""),null,{timeout:5000});
+    assert.equal(await retry.evaluate(()=>window.__getSharedMutationCounts().confirm)-beforeFailure,2,"A persistently rejected confirm makes exactly one bounded retry, then stops.");
+    assert.match(await retry.locator("#sharedShowdownPresentationStatus").textContent(),/SHARED SETUP TRANSIENT WRITE FAILURE/,"The failure must be visible with its code instead of looking like an ignored tap.");
+    assert.equal(await confirmButton.isDisabled(),false,"After a visible failure the control is usable again.");
+    await confirmButton.click();
+    await retry.waitForFunction(()=>(window.__getSharedServerSetup().confirmedRoles||[]).includes("playerOne"),null,{timeout:5000});
+    assert.doesNotMatch(await retry.locator("#sharedShowdownPresentationStatus").textContent(),/THAT TAP DID NOT GO THROUGH/,"The failure notice clears once authority moves on.");
+
     assert.deepEqual(errors,[],"Polished two-role presentation emitted page errors.");
-    process.stdout.write("PASS Shared Showdown polished presentation + bunny click reliability: delayed provider work disables controls immediately, rapid repeat taps coalesce to one authoritative mutation, one Continue click enters club packs, one final confirmation enters Career Start when the rival already confirmed, fresh rivalries reset reveal witnesses, Daniel's original season choice remains authoritative, and both manager roles still witness the real League Wheel and two-pack club reveal.\n");
+    process.stdout.write("PASS Shared Showdown polished presentation + bunny click reliability: delayed provider work disables controls immediately, rapid repeat taps coalesce to one authoritative mutation, one Continue click enters club packs, one final confirmation enters Career Start when the rival already confirmed, fresh rivalries reset reveal witnesses, a tap on a stale view or after a rejected write re-reads authority and completes in the same tap (r50) or shows the failure, Daniel's original season choice remains authoritative, and both manager roles still witness the real League Wheel and two-pack club reveal.\n");
   }finally{
-    await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await mismatchContext.close().catch(()=>{});await browser.close().catch(()=>{});
+    await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await mismatchContext.close().catch(()=>{});await retryContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
 })().catch(error=>{console.error(error);process.exitCode=1;});

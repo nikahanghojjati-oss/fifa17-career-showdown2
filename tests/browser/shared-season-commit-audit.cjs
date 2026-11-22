@@ -38,11 +38,11 @@ async function exposeServer(page){
   await page.exposeFunction('__ssjrCommitAuditRead',role=>projection(role));
   await page.exposeFunction('__ssjrCommitAuditMutate',(type,payload)=>mutate(type,payload));
 }
-async function prepare(page,{role,saveId}){
+async function prepare(page,{role,saveId,failInitialRead=false}){
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function'&&typeof window.navigateTo==='function',null,{timeout:12000});
-  await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo})=>{
+  await page.evaluate(async({role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,failInitialRead})=>{
     await ensureGameplayModules();
     currentShowdown={id:saveId,currentRound:1,totalRounds:3,status:'Ready',sharedJourney:{mode:'shared',rivalryId},managers:{playerOne:'Daniel',playerTwo:'Nik'},selectedLeague:null,clubs:{playerOne:null,playerTwo:null},transferChallenges:[],rounds:[],score:{playerOne:0,playerTwo:0}};
     const setup={status:'ready',ready:true,revision:6,phase:'SHOWDOWN_CONFIRMED',rivalryId,sessionId,deviceId:'device_'+(role==='playerOne'?'1':'2').repeat(32),managerRole:role,setup:{phase:'SHOWDOWN_CONFIRMED',revision:6,coordinatorRole:'playerOne',leagueId:'premier_league',clubs:{playerOne:'Arsenal',playerTwo:'Liverpool'},totalSeasons:3,confirmedRoles:['playerOne','playerTwo']}};
@@ -55,15 +55,16 @@ async function prepare(page,{role,saveId}){
     await loadRuntimeScript('ssjr-r10-audit-results','js/productionSharedSeasonResults.js',()=>window.CareerModeProductionSharedSeasonResults);
     CareerModeProductionSharedSeasonResults.install();
     const opened=await CareerModeProductionSharedSeasonResults.open();if(!opened)throw new Error('r9 Shared Season Results did not open for r10 audit.');
+    window.__forceCommitReadFailure=failInitialRead;
     window.CareerModeSparkSharedSeasonCommit={
-      read:async()=>window.__ssjrCommitAuditRead(role),
+      read:async()=>window.__forceCommitReadFailure?{ok:false,code:'permission-denied'}:window.__ssjrCommitAuditRead(role),
       commitSeason:async options=>window.__ssjrCommitAuditMutate('commit',{role,baseRevision:options.baseRevision,operationId:options.operationId}),
       acknowledgeSeason:async options=>window.__ssjrCommitAuditMutate('acknowledge',{role,baseRevision:options.baseRevision,operationId:options.operationId})
     };
     await loadRuntimeScript('ssjr-r10-audit-adapter','js/productionSharedSeasonCommit.js',()=>window.CareerModeProductionSharedSeasonCommit);
-    CareerModeProductionSharedSeasonCommit.install();await CareerModeProductionSharedSeasonCommit.refresh();
+    CareerModeProductionSharedSeasonCommit.install();await CareerModeProductionSharedSeasonCommit.refresh().catch(error=>{if(!failInitialRead)throw error;});
     window.__ssjrCommitAudit={storageBefore:Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),storageAfter:()=>Object.fromEntries(canonicalKeys.map(key=>[key,localStorage.getItem(key)])),localState:()=>({selectedLeague:currentShowdown.selectedLeague,clubs:structuredClone(currentShowdown.clubs),transferChallenges:structuredClone(currentShowdown.transferChallenges),rounds:structuredClone(currentShowdown.rounds),score:structuredClone(currentShowdown.score)}),refresh:()=>CareerModeProductionSharedSeasonCommit.refresh(),state:()=>CareerModeProductionSharedSeasonCommit.getState()};
-  },{role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo});
+  },{role,saveId,rivalryId,sessionId,canonicalKeys,resultOne,resultTwo,failInitialRead});
   await page.locator('#seasonEntry').waitFor({state:'visible',timeout:8000});
   await page.locator('#seasonReviewPanel').waitFor({state:'visible',timeout:5000});
   await page.locator('#sharedSeasonCommitAction').waitFor({state:'visible',timeout:5000});
@@ -78,11 +79,27 @@ const unchanged={selectedLeague:null,clubs:{playerOne:null,playerTwo:null},trans
   const host=await hostContext.newPage(),peer=await peerContext.newPage(),errors=[];host.on('pageerror',error=>errors.push(`host: ${error.message}`));peer.on('pageerror',error=>errors.push(`peer: ${error.message}`));
   await exposeServer(host);await exposeServer(peer);
   try{
-    await prepare(host,{role:'playerOne',saveId:'shared_commit_host'});await prepare(peer,{role:'playerTwo',saveId:'shared_commit_peer'});
+    await prepare(host,{role:'playerOne',saveId:'shared_commit_host',failInitialRead:true});await prepare(peer,{role:'playerTwo',saveId:'shared_commit_peer'});
+    assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'RETRY COMMIT CHECK','published Results must expose a safe recovery action when Commit read fails');
+    assert.match(await host.locator('#sharedSeasonCommitStatus').textContent(),/permission-denied/,'the user must see the read failure code');
+    assert.equal(server.calls.length,0,'retry must not mutate the shared season');
+    await host.evaluate(()=>{window.__forceCommitReadFailure=false;});
+    await host.locator('#sharedSeasonCommitAction').click();
+    await host.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='COMMIT SHARED SEASON');
+    assert.equal(server.calls.length,0,'recovering the missing Commit control must only read');
     assert.equal(await host.locator('#seasonReviewOne').isVisible(),true);assert.equal(await host.locator('#seasonReviewTwo').isVisible(),true,'coordinator must experience the complete shared Season Review before commit');
     assert.equal(await peer.locator('#seasonReviewOne').isVisible(),true);assert.equal(await peer.locator('#seasonReviewTwo').isVisible(),true,'peer must experience the same complete shared Season Review before commit');
     assert.equal(await host.locator('#sharedSeasonCommitAction').textContent(),'COMMIT SHARED SEASON');assert.equal(await host.locator('#sharedSeasonCommitAction').isEnabled(),true);
     assert.equal(await peer.locator('#sharedSeasonCommitAction').textContent(),'WAITING FOR COORDINATOR');assert.equal(await peer.locator('#sharedSeasonCommitAction').isDisabled(),true,'non-coordinator must not create the commit');
+    await peer.evaluate(()=>{window.__forceCommitReadFailure=true;});
+    await peer.evaluate(()=>window.__ssjrCommitAudit.refresh().catch(()=>{}));
+    await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='RETRY COMMIT CHECK');
+    assert.match(await peer.locator('#sharedSeasonCommitStatus').textContent(),/permission-denied/,'a later read failure must replace the stale waiting state with its failure code');
+    assert.equal(server.calls.length,0,'failed polling after an earlier successful read must not mutate Commit');
+    await peer.evaluate(()=>{window.__forceCommitReadFailure=false;});
+    await peer.locator('#sharedSeasonCommitAction').click();
+    await peer.waitForFunction(()=>document.getElementById('sharedSeasonCommitAction')?.textContent==='WAITING FOR COORDINATOR');
+    assert.equal(server.calls.length,0,'recovering a later failed read must remain read-only');
     await host.locator('#sharedSeasonCommitAction').click();await host.waitForFunction(()=>/could not be committed/i.test(document.getElementById('seasonReviewError')?.textContent||''),null,{timeout:5000});
     assert.equal(server.revision,0,'rejected commit must not advance provider state');
     await refresh(host);assert.match(await host.locator('#seasonReviewError').textContent(),/could not be committed/i,'a Results refresh must preserve a still-relevant Commit error');

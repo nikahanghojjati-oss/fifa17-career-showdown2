@@ -1,0 +1,3232 @@
+{
+  "schema": "SHOWDOWN_FACTORY_QA_V1",
+  "generatedAt": "2026-10-03T15:51:42.417Z",
+  "base": "http://127.0.0.1:8765/visual-assets/v10_1/home/",
+  "screenFolder": "visual-assets/v10_1/home",
+  "frames": [
+    "HM2"
+  ],
+  "viewports": [
+    {
+      "w": 1366,
+      "h": 768,
+      "dpr": 1,
+      "label": "1366x768"
+    },
+    {
+      "w": 1440,
+      "h": 900,
+      "dpr": 1,
+      "label": "1440x900"
+    },
+    {
+      "w": 1920,
+      "h": 1080,
+      "dpr": 1,
+      "label": "1920x1080"
+    },
+    {
+      "w": 1366,
+      "h": 640,
+      "dpr": 1,
+      "label": "1366x640"
+    },
+    {
+      "w": 393,
+      "h": 660,
+      "dpr": 3,
+      "label": "393x660@3x",
+      "phone": true
+    },
+    {
+      "w": 360,
+      "h": 640,
+      "dpr": 2,
+      "label": "360x640",
+      "phone": true
+    },
+    {
+      "w": 375,
+      "h": 553,
+      "dpr": 2,
+      "label": "375x553",
+      "phone": true
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "dpr": 2,
+      "label": "390x844",
+      "phone": true
+    },
+    {
+      "w": 430,
+      "h": 932,
+      "dpr": 2,
+      "label": "430x932",
+      "phone": true
+    }
+  ],
+  "results": [
+    {
+      "frame": "HM2",
+      "viewport": {
+        "w": 1366,
+        "h": 768,
+        "dpr": 1,
+        "label": "1366x768"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "NIK",
+          "rect": {
+            "left": 1171.78125,
+            "top": 8,
+            "right": 1223.828125,
+            "bottom": 48,
+            "width": 52.046875,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "WHAT YOU GOTValentino Khan & NITTI",
+          "rect": {
+            "left": 879,
+            "top": 474.734375,
+            "right": 986.453125,
+            "bottom": 528.125,
+            "width": 107.453125,
+            "height": 53.390625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "SNOW GLOBEHadji Gaviota",
+          "rect": {
+            "left": 992.453125,
+            "top": 474.734375,
+            "right": 1099.921875,
+            "bottom": 528.125,
+            "width": 107.46875,
+            "height": 53.390625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "NASTYgrouptherapy.",
+          "rect": {
+            "left": 1105.921875,
+            "top": 474.734375,
+            "right": 1213.375,
+            "bottom": 528.125,
+            "width": 107.453125,
+            "height": 53.390625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "I'M ALWAYS RIGHTThe Holdup",
+          "rect": {
+            "left": 1219.375,
+            "top": 474.734375,
+            "right": 1326.84375,
+            "bottom": 528.125,
+            "width": 107.46875,
+            "height": 53.390625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicToggle",
+          "label": "PLAY TRACK",
+          "rect": {
+            "left": 1145.234375,
+            "top": 533.734375,
+            "right": 1252.234375,
+            "bottom": 573.734375,
+            "width": 107,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicMute",
+          "label": "MUTE",
+          "rect": {
+            "left": 1260.234375,
+            "top": 533.734375,
+            "right": 1326.84375,
+            "bottom": 573.734375,
+            "width": 66.609375,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "continueCareer",
+          "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+          "rect": {
+            "left": 32.78125,
+            "top": 596,
+            "right": 345.890625,
+            "bottom": 732,
+            "width": 313.109375,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "newShowdown",
+          "label": "JOINJOIN DANIEL'S SHOWDOWNPaste Daniel's code",
+          "rect": {
+            "left": 353.890625,
+            "top": 596,
+            "right": 510.4375,
+            "bottom": 732,
+            "width": 156.546875,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "legacyButton",
+          "label": "HISTORYLEGACYCompleted rivalries and season history",
+          "rect": {
+            "left": 518.4375,
+            "top": 596,
+            "right": 675,
+            "bottom": 732,
+            "width": 156.5625,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "careerStatisticsButton",
+          "label": "DATASTATISTICSCareer totals, manager comparison and honours",
+          "rect": {
+            "left": 683,
+            "top": 596,
+            "right": 839.546875,
+            "bottom": 732,
+            "width": 156.546875,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "trophyRoomButton",
+          "label": "HONOURSTROPHY ROOMCareer trophies, standings and records",
+          "rect": {
+            "left": 847.546875,
+            "top": 596,
+            "right": 1004.109375,
+            "bottom": 732,
+            "width": 156.5625,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "ruleBookButton",
+          "label": "RULESRULE BOOKScoring and competition rules",
+          "rect": {
+            "left": 1012.109375,
+            "top": 596,
+            "right": 1168.65625,
+            "bottom": 732,
+            "width": 156.546875,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "settingsButton",
+          "label": "SETTINGSSETTINGSAccount, device and preferences",
+          "rect": {
+            "left": 1176.65625,
+            "top": 596,
+            "right": 1333.21875,
+            "bottom": 732,
+            "width": 156.5625,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "continueCareer",
+        "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+        "rect": {
+          "left": 32.78125,
+          "top": 596,
+          "right": 345.890625,
+          "bottom": 732,
+          "width": 313.109375,
+          "height": 136
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 592.3125,
+              "top": 69.4375,
+              "right": 743.453125,
+              "bottom": 326.78125,
+              "width": 151.140625,
+              "height": 257.34375
+            }
+          ],
+          "nik": [
+            {
+              "left": 857.828125,
+              "top": 24.5,
+              "right": 1062.0625,
+              "bottom": 322.6875,
+              "width": 204.234375,
+              "height": 298.1875
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "HM2__1366x768.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 592.3125,
+                "top": 69.4375,
+                "right": 743.453125,
+                "bottom": 326.78125,
+                "width": 151.140625,
+                "height": 257.34375
+              }
+            ],
+            "nik": [
+              {
+                "left": 857.828125,
+                "top": 24.5,
+                "right": 1062.0625,
+                "bottom": 322.6875,
+                "width": 204.234375,
+                "height": 298.1875
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "continueCareer",
+              "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+              "rect": {
+                "left": 32.78125,
+                "top": 596,
+                "right": 345.890625,
+                "bottom": 732,
+                "width": 313.109375,
+                "height": 136
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": {
+        "w": 1440,
+        "h": 900,
+        "dpr": 1,
+        "label": "1440x900"
+      },
+      "scroll": {
+        "html": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "NIK",
+          "rect": {
+            "left": 1245.78125,
+            "top": 8,
+            "right": 1297.828125,
+            "bottom": 48,
+            "width": 52.046875,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "WHAT YOU GOTValentino Khan & NITTI",
+          "rect": {
+            "left": 947.234375,
+            "top": 542.75,
+            "right": 1058.671875,
+            "bottom": 595.640625,
+            "width": 111.4375,
+            "height": 52.890625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "SNOW GLOBEHadji Gaviota",
+          "rect": {
+            "left": 1064.671875,
+            "top": 542.75,
+            "right": 1176.109375,
+            "bottom": 595.640625,
+            "width": 111.4375,
+            "height": 52.890625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "NASTYgrouptherapy.",
+          "rect": {
+            "left": 1182.109375,
+            "top": 542.75,
+            "right": 1293.546875,
+            "bottom": 595.640625,
+            "width": 111.4375,
+            "height": 52.890625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "I'M ALWAYS RIGHTThe Holdup",
+          "rect": {
+            "left": 1299.546875,
+            "top": 542.75,
+            "right": 1410.984375,
+            "bottom": 595.640625,
+            "width": 111.4375,
+            "height": 52.890625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicToggle",
+          "label": "PLAY TRACK",
+          "rect": {
+            "left": 1229.375,
+            "top": 601.421875,
+            "right": 1336.375,
+            "bottom": 641.421875,
+            "width": 107,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicMute",
+          "label": "MUTE",
+          "rect": {
+            "left": 1344.375,
+            "top": 601.421875,
+            "right": 1410.984375,
+            "bottom": 641.421875,
+            "width": 66.609375,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "continueCareer",
+          "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+          "rect": {
+            "left": 34.546875,
+            "top": 707,
+            "right": 365.265625,
+            "bottom": 864.5,
+            "width": 330.71875,
+            "height": 157.5
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "newShowdown",
+          "label": "JOINJOIN DANIEL'S SHOWDOWNPaste Daniel's code",
+          "rect": {
+            "left": 373.265625,
+            "top": 707,
+            "right": 538.625,
+            "bottom": 864.5,
+            "width": 165.359375,
+            "height": 157.5
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "legacyButton",
+          "label": "HISTORYLEGACYCompleted rivalries and season history",
+          "rect": {
+            "left": 546.625,
+            "top": 707,
+            "right": 712,
+            "bottom": 864.5,
+            "width": 165.375,
+            "height": 157.5
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "careerStatisticsButton",
+          "label": "DATASTATISTICSCareer totals, manager comparison and honours",
+          "rect": {
+            "left": 720,
+            "top": 707,
+            "right": 885.359375,
+            "bottom": 864.5,
+            "width": 165.359375,
+            "height": 157.5
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "trophyRoomButton",
+          "label": "HONOURSTROPHY ROOMCareer trophies, standings and records",
+          "rect": {
+            "left": 893.359375,
+            "top": 707,
+            "right": 1058.71875,
+            "bottom": 864.5,
+            "width": 165.359375,
+            "height": 157.5
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "ruleBookButton",
+          "label": "RULESRULE BOOKScoring and competition rules",
+          "rect": {
+            "left": 1066.71875,
+            "top": 707,
+            "right": 1232.078125,
+            "bottom": 864.5,
+            "width": 165.359375,
+            "height": 157.5
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "settingsButton",
+          "label": "SETTINGSSETTINGSAccount, device and preferences",
+          "rect": {
+            "left": 1240.078125,
+            "top": 707,
+            "right": 1405.453125,
+            "bottom": 864.5,
+            "width": 165.375,
+            "height": 157.5
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "continueCareer",
+        "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+        "rect": {
+          "left": 34.546875,
+          "top": 707,
+          "right": 365.265625,
+          "bottom": 864.5,
+          "width": 330.71875,
+          "height": 157.5
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 613.828125,
+              "top": 81.28125,
+              "right": 790.765625,
+              "bottom": 382.546875,
+              "width": 176.9375,
+              "height": 301.265625
+            }
+          ],
+          "nik": [
+            {
+              "left": 924.671875,
+              "top": 28.6875,
+              "right": 1163.765625,
+              "bottom": 377.78125,
+              "width": 239.09375,
+              "height": 349.09375
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "HM2__1440x900.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 613.828125,
+                "top": 81.28125,
+                "right": 790.765625,
+                "bottom": 382.546875,
+                "width": 176.9375,
+                "height": 301.265625
+              }
+            ],
+            "nik": [
+              {
+                "left": 924.671875,
+                "top": 28.6875,
+                "right": 1163.765625,
+                "bottom": 377.78125,
+                "width": 239.09375,
+                "height": 349.09375
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "continueCareer",
+              "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+              "rect": {
+                "left": 34.546875,
+                "top": 707,
+                "right": 365.265625,
+                "bottom": 864.5,
+                "width": 330.71875,
+                "height": 157.5
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": {
+        "w": 1920,
+        "h": 1080,
+        "dpr": 1,
+        "label": "1920x1080"
+      },
+      "scroll": {
+        "html": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "NIK",
+          "rect": {
+            "left": 1725.78125,
+            "top": 8,
+            "right": 1777.828125,
+            "bottom": 48,
+            "width": 52.046875,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "WHAT YOU GOTValentino Khan & NITTI",
+          "rect": {
+            "left": 1230.21875,
+            "top": 655.109375,
+            "right": 1385.71875,
+            "bottom": 695.109375,
+            "width": 155.5,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "SNOW GLOBEHadji Gaviota",
+          "rect": {
+            "left": 1391.71875,
+            "top": 655.109375,
+            "right": 1547.21875,
+            "bottom": 695.109375,
+            "width": 155.5,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "NASTYgrouptherapy.",
+          "rect": {
+            "left": 1553.21875,
+            "top": 655.109375,
+            "right": 1708.71875,
+            "bottom": 695.109375,
+            "width": 155.5,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "I'M ALWAYS RIGHTThe Holdup",
+          "rect": {
+            "left": 1714.71875,
+            "top": 655.109375,
+            "right": 1870.234375,
+            "bottom": 695.109375,
+            "width": 155.515625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicToggle",
+          "label": "PLAY TRACK",
+          "rect": {
+            "left": 1688.625,
+            "top": 713.609375,
+            "right": 1795.625,
+            "bottom": 753.609375,
+            "width": 107,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicMute",
+          "label": "MUTE",
+          "rect": {
+            "left": 1803.625,
+            "top": 713.609375,
+            "right": 1870.234375,
+            "bottom": 753.609375,
+            "width": 66.609375,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "continueCareer",
+          "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+          "rect": {
+            "left": 46.078125,
+            "top": 886,
+            "right": 491.03125,
+            "bottom": 1044,
+            "width": 444.953125,
+            "height": 158
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "newShowdown",
+          "label": "JOINJOIN DANIEL'S SHOWDOWNPaste Daniel's code",
+          "rect": {
+            "left": 499.03125,
+            "top": 886,
+            "right": 721.515625,
+            "bottom": 1044,
+            "width": 222.484375,
+            "height": 158
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "legacyButton",
+          "label": "HISTORYLEGACYCompleted rivalries and season history",
+          "rect": {
+            "left": 729.515625,
+            "top": 886,
+            "right": 952,
+            "bottom": 1044,
+            "width": 222.484375,
+            "height": 158
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "careerStatisticsButton",
+          "label": "DATASTATISTICSCareer totals, manager comparison and honours",
+          "rect": {
+            "left": 960,
+            "top": 886,
+            "right": 1182.46875,
+            "bottom": 1044,
+            "width": 222.46875,
+            "height": 158
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "trophyRoomButton",
+          "label": "HONOURSTROPHY ROOMCareer trophies, standings and records",
+          "rect": {
+            "left": 1190.46875,
+            "top": 886,
+            "right": 1412.953125,
+            "bottom": 1044,
+            "width": 222.484375,
+            "height": 158
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "ruleBookButton",
+          "label": "RULESRULE BOOKScoring and competition rules",
+          "rect": {
+            "left": 1420.953125,
+            "top": 886,
+            "right": 1643.4375,
+            "bottom": 1044,
+            "width": 222.484375,
+            "height": 158
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "settingsButton",
+          "label": "SETTINGSSETTINGSAccount, device and preferences",
+          "rect": {
+            "left": 1651.4375,
+            "top": 886,
+            "right": 1873.921875,
+            "bottom": 1044,
+            "width": 222.484375,
+            "height": 158
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "continueCareer",
+        "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+        "rect": {
+          "left": 46.078125,
+          "top": 886,
+          "right": 491.03125,
+          "bottom": 1044,
+          "width": 444.953125,
+          "height": 158
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 832.53125,
+              "top": 97.59375,
+              "right": 1044.96875,
+              "bottom": 459.3125,
+              "width": 212.4375,
+              "height": 361.71875
+            }
+          ],
+          "nik": [
+            {
+              "left": 1205.734375,
+              "top": 34.4375,
+              "right": 1492.8125,
+              "bottom": 453.5625,
+              "width": 287.078125,
+              "height": 419.125
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "HM2__1920x1080.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 832.53125,
+                "top": 97.59375,
+                "right": 1044.96875,
+                "bottom": 459.3125,
+                "width": 212.4375,
+                "height": 361.71875
+              }
+            ],
+            "nik": [
+              {
+                "left": 1205.734375,
+                "top": 34.4375,
+                "right": 1492.8125,
+                "bottom": 453.5625,
+                "width": 287.078125,
+                "height": 419.125
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "continueCareer",
+              "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+              "rect": {
+                "left": 46.078125,
+                "top": 886,
+                "right": 491.03125,
+                "bottom": 1044,
+                "width": 444.953125,
+                "height": 158
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": {
+        "w": 1366,
+        "h": 640,
+        "dpr": 1,
+        "label": "1366x640"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "NIK",
+          "rect": {
+            "left": 1171.78125,
+            "top": 8,
+            "right": 1223.828125,
+            "bottom": 48,
+            "width": 52.046875,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "WHAT YOU GOTValentino Khan & NITTI",
+          "rect": {
+            "left": 1092.15625,
+            "top": 282.359375,
+            "right": 1203.171875,
+            "bottom": 335.25,
+            "width": 111.015625,
+            "height": 52.890625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "SNOW GLOBEHadji Gaviota",
+          "rect": {
+            "left": 1209.171875,
+            "top": 282.359375,
+            "right": 1320.203125,
+            "bottom": 335.25,
+            "width": 111.03125,
+            "height": 52.890625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "NASTYgrouptherapy.",
+          "rect": {
+            "left": 1092.15625,
+            "top": 341.25,
+            "right": 1203.171875,
+            "bottom": 381.25,
+            "width": 111.015625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "I'M ALWAYS RIGHTThe Holdup",
+          "rect": {
+            "left": 1209.171875,
+            "top": 341.25,
+            "right": 1320.203125,
+            "bottom": 381.25,
+            "width": 111.03125,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicToggle",
+          "label": "PLAY TRACK",
+          "rect": {
+            "left": 1092.15625,
+            "top": 386.78125,
+            "right": 1202.1875,
+            "bottom": 426.78125,
+            "width": 110.03125,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicMute",
+          "label": "MUTE",
+          "rect": {
+            "left": 1210.1875,
+            "top": 386.78125,
+            "right": 1320.21875,
+            "bottom": 426.78125,
+            "width": 110.03125,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "continueCareer",
+          "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+          "rect": {
+            "left": 32.78125,
+            "top": 468,
+            "right": 345.890625,
+            "bottom": 604,
+            "width": 313.109375,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "newShowdown",
+          "label": "JOINJOIN DANIEL'S SHOWDOWNPaste Daniel's code",
+          "rect": {
+            "left": 353.890625,
+            "top": 468,
+            "right": 510.4375,
+            "bottom": 604,
+            "width": 156.546875,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "legacyButton",
+          "label": "HISTORYLEGACYCompleted rivalries and season history",
+          "rect": {
+            "left": 518.4375,
+            "top": 468,
+            "right": 675,
+            "bottom": 604,
+            "width": 156.5625,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "careerStatisticsButton",
+          "label": "DATASTATISTICSCareer totals, manager comparison and honours",
+          "rect": {
+            "left": 683,
+            "top": 468,
+            "right": 839.546875,
+            "bottom": 604,
+            "width": 156.546875,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "trophyRoomButton",
+          "label": "HONOURSTROPHY ROOMCareer trophies, standings and records",
+          "rect": {
+            "left": 847.546875,
+            "top": 468,
+            "right": 1004.109375,
+            "bottom": 604,
+            "width": 156.5625,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "ruleBookButton",
+          "label": "RULESRULE BOOKScoring and competition rules",
+          "rect": {
+            "left": 1012.109375,
+            "top": 468,
+            "right": 1168.65625,
+            "bottom": 604,
+            "width": 156.546875,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "settingsButton",
+          "label": "SETTINGSSETTINGSAccount, device and preferences",
+          "rect": {
+            "left": 1176.65625,
+            "top": 468,
+            "right": 1333.21875,
+            "bottom": 604,
+            "width": 156.5625,
+            "height": 136
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "continueCareer",
+        "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+        "rect": {
+          "left": 32.78125,
+          "top": 468,
+          "right": 345.890625,
+          "bottom": 604,
+          "width": 313.109375,
+          "height": 136
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 592.3125,
+              "top": 69.4375,
+              "right": 743.453125,
+              "bottom": 326.78125,
+              "width": 151.140625,
+              "height": 257.34375
+            }
+          ],
+          "nik": [
+            {
+              "left": 857.828125,
+              "top": 24.5,
+              "right": 1062.0625,
+              "bottom": 322.6875,
+              "width": 204.234375,
+              "height": 298.1875
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "HM2__1366x640.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 592.3125,
+                "top": 69.4375,
+                "right": 743.453125,
+                "bottom": 326.78125,
+                "width": 151.140625,
+                "height": 257.34375
+              }
+            ],
+            "nik": [
+              {
+                "left": 857.828125,
+                "top": 24.5,
+                "right": 1062.0625,
+                "bottom": 322.6875,
+                "width": 204.234375,
+                "height": 298.1875
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "continueCareer",
+              "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+              "rect": {
+                "left": 32.78125,
+                "top": 468,
+                "right": 345.890625,
+                "bottom": 604,
+                "width": 313.109375,
+                "height": 136
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": {
+        "w": 393,
+        "h": 660,
+        "dpr": 3,
+        "label": "393x660@3x",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "NIK",
+          "rect": {
+            "left": 233.546875,
+            "top": 1.5,
+            "right": 277.546875,
+            "bottom": 45.5,
+            "width": 44,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicToggle",
+          "label": "PLAY TRACK",
+          "rect": {
+            "left": 23,
+            "top": 373.34375,
+            "right": 136.609375,
+            "bottom": 417.34375,
+            "width": 113.609375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicMute",
+          "label": "MUTE",
+          "rect": {
+            "left": 144.609375,
+            "top": 373.34375,
+            "right": 213.453125,
+            "bottom": 417.34375,
+            "width": 68.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "continueCareer",
+          "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+          "rect": {
+            "left": 12,
+            "top": 434.34375,
+            "right": 231.390625,
+            "bottom": 521,
+            "width": 219.390625,
+            "height": 86.65625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "newShowdown",
+          "label": "JOINJOIN DANIEL'S SHOWDOWNPaste Daniel's code",
+          "rect": {
+            "left": 236.390625,
+            "top": 434.34375,
+            "right": 381,
+            "bottom": 521,
+            "width": 144.609375,
+            "height": 86.65625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "legacyButton",
+          "label": "HISTORYLEGACYCompleted rivalries and season history",
+          "rect": {
+            "left": 12,
+            "top": 529,
+            "right": 81.796875,
+            "bottom": 601,
+            "width": 69.796875,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "careerStatisticsButton",
+          "label": "DATASTATISTICSCareer totals, manager comparison and honours",
+          "rect": {
+            "left": 86.796875,
+            "top": 529,
+            "right": 156.59375,
+            "bottom": 601,
+            "width": 69.796875,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "trophyRoomButton",
+          "label": "HONOURSTROPHY ROOMCareer trophies, standings and records",
+          "rect": {
+            "left": 161.59375,
+            "top": 529,
+            "right": 231.390625,
+            "bottom": 601,
+            "width": 69.796875,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "ruleBookButton",
+          "label": "RULESRULE BOOKScoring and competition rules",
+          "rect": {
+            "left": 236.390625,
+            "top": 529,
+            "right": 306.1875,
+            "bottom": 601,
+            "width": 69.796875,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "settingsButton",
+          "label": "SETTINGSSETTINGSAccount, device and preferences",
+          "rect": {
+            "left": 311.1875,
+            "top": 529,
+            "right": 381,
+            "bottom": 601,
+            "width": 69.8125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "continueCareer",
+        "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+        "rect": {
+          "left": 12,
+          "top": 434.34375,
+          "right": 231.390625,
+          "bottom": 521,
+          "width": 219.390625,
+          "height": 86.65625
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 135.453125,
+              "top": 72.953125,
+              "right": 185.765625,
+              "bottom": 158.609375,
+              "width": 50.3125,
+              "height": 85.65625
+            }
+          ],
+          "nik": [
+            {
+              "left": 223.828125,
+              "top": 58,
+              "right": 291.8125,
+              "bottom": 157.25,
+              "width": 67.984375,
+              "height": 99.25
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "HM2__393x660@3x.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 135.453125,
+                "top": 72.953125,
+                "right": 185.765625,
+                "bottom": 158.609375,
+                "width": 50.3125,
+                "height": 85.65625
+              }
+            ],
+            "nik": [
+              {
+                "left": 223.828125,
+                "top": 58,
+                "right": 291.8125,
+                "bottom": 157.25,
+                "width": 67.984375,
+                "height": 99.25
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "continueCareer",
+              "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+              "rect": {
+                "left": 12,
+                "top": 434.34375,
+                "right": 231.390625,
+                "bottom": 521,
+                "width": 219.390625,
+                "height": 86.65625
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": {
+        "w": 360,
+        "h": 640,
+        "dpr": 2,
+        "label": "360x640",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "NIK",
+          "rect": {
+            "left": 200.546875,
+            "top": 1.5,
+            "right": 244.546875,
+            "bottom": 45.5,
+            "width": 44,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicToggle",
+          "label": "PLAY TRACK",
+          "rect": {
+            "left": 23,
+            "top": 353.34375,
+            "right": 136.609375,
+            "bottom": 397.34375,
+            "width": 113.609375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicMute",
+          "label": "MUTE",
+          "rect": {
+            "left": 144.609375,
+            "top": 353.34375,
+            "right": 213.453125,
+            "bottom": 397.34375,
+            "width": 68.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "continueCareer",
+          "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+          "rect": {
+            "left": 12,
+            "top": 414.34375,
+            "right": 211.59375,
+            "bottom": 501,
+            "width": 199.59375,
+            "height": 86.65625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "newShowdown",
+          "label": "JOINJOIN DANIEL'S SHOWDOWNPaste Daniel's code",
+          "rect": {
+            "left": 216.59375,
+            "top": 414.34375,
+            "right": 348,
+            "bottom": 501,
+            "width": 131.40625,
+            "height": 86.65625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "legacyButton",
+          "label": "HISTORYLEGACYCompleted rivalries and season history",
+          "rect": {
+            "left": 12,
+            "top": 509,
+            "right": 75.1875,
+            "bottom": 581,
+            "width": 63.1875,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "careerStatisticsButton",
+          "label": "DATASTATISTICSCareer totals, manager comparison and honours",
+          "rect": {
+            "left": 80.1875,
+            "top": 509,
+            "right": 143.390625,
+            "bottom": 581,
+            "width": 63.203125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "trophyRoomButton",
+          "label": "HONOURSTROPHY ROOMCareer trophies, standings and records",
+          "rect": {
+            "left": 148.390625,
+            "top": 509,
+            "right": 211.59375,
+            "bottom": 581,
+            "width": 63.203125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "ruleBookButton",
+          "label": "RULESRULE BOOKScoring and competition rules",
+          "rect": {
+            "left": 216.59375,
+            "top": 509,
+            "right": 279.796875,
+            "bottom": 581,
+            "width": 63.203125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "settingsButton",
+          "label": "SETTINGSSETTINGSAccount, device and preferences",
+          "rect": {
+            "left": 284.796875,
+            "top": 509,
+            "right": 348,
+            "bottom": 581,
+            "width": 63.203125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "continueCareer",
+        "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+        "rect": {
+          "left": 12,
+          "top": 414.34375,
+          "right": 211.59375,
+          "bottom": 501,
+          "width": 199.59375,
+          "height": 86.65625
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 153.640625,
+              "top": 69.984375,
+              "right": 193.953125,
+              "bottom": 138.609375,
+              "width": 40.3125,
+              "height": 68.625
+            }
+          ],
+          "nik": [
+            {
+              "left": 224.453125,
+              "top": 58,
+              "right": 278.921875,
+              "bottom": 137.53125,
+              "width": 54.46875,
+              "height": 79.53125
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "HM2__360x640.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 153.640625,
+                "top": 69.984375,
+                "right": 193.953125,
+                "bottom": 138.609375,
+                "width": 40.3125,
+                "height": 68.625
+              }
+            ],
+            "nik": [
+              {
+                "left": 224.453125,
+                "top": 58,
+                "right": 278.921875,
+                "bottom": 137.53125,
+                "width": 54.46875,
+                "height": 79.53125
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "continueCareer",
+              "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+              "rect": {
+                "left": 12,
+                "top": 414.34375,
+                "right": 211.59375,
+                "bottom": 501,
+                "width": 199.59375,
+                "height": 86.65625
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": {
+        "w": 375,
+        "h": 553,
+        "dpr": 2,
+        "label": "375x553",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "NIK",
+          "rect": {
+            "left": 215.546875,
+            "top": 1.5,
+            "right": 259.546875,
+            "bottom": 45.5,
+            "width": 44,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicToggle",
+          "label": "PLAY TRACK",
+          "rect": {
+            "left": 23,
+            "top": 292.34375,
+            "right": 136.609375,
+            "bottom": 336.34375,
+            "width": 113.609375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicMute",
+          "label": "MUTE",
+          "rect": {
+            "left": 144.609375,
+            "top": 292.34375,
+            "right": 213.453125,
+            "bottom": 336.34375,
+            "width": 68.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "continueCareer",
+          "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+          "rect": {
+            "left": 12,
+            "top": 348.34375,
+            "right": 220.59375,
+            "bottom": 431,
+            "width": 208.59375,
+            "height": 82.65625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "newShowdown",
+          "label": "JOINJOIN DANIEL'S SHOWDOWNPaste Daniel's code",
+          "rect": {
+            "left": 225.59375,
+            "top": 348.34375,
+            "right": 362.984375,
+            "bottom": 431,
+            "width": 137.390625,
+            "height": 82.65625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "legacyButton",
+          "label": "HISTORYLEGACYCompleted rivalries and season history",
+          "rect": {
+            "left": 12,
+            "top": 436,
+            "right": 78.1875,
+            "bottom": 492,
+            "width": 66.1875,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "careerStatisticsButton",
+          "label": "DATASTATISTICSCareer totals, manager comparison and honours",
+          "rect": {
+            "left": 83.1875,
+            "top": 436,
+            "right": 149.390625,
+            "bottom": 492,
+            "width": 66.203125,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "trophyRoomButton",
+          "label": "HONOURSTROPHY ROOMCareer trophies, standings and records",
+          "rect": {
+            "left": 154.390625,
+            "top": 436,
+            "right": 220.59375,
+            "bottom": 492,
+            "width": 66.203125,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "ruleBookButton",
+          "label": "RULESRULE BOOKScoring and competition rules",
+          "rect": {
+            "left": 225.59375,
+            "top": 436,
+            "right": 291.796875,
+            "bottom": 492,
+            "width": 66.203125,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "settingsButton",
+          "label": "SETTINGSSETTINGSAccount, device and preferences",
+          "rect": {
+            "left": 296.796875,
+            "top": 436,
+            "right": 362.984375,
+            "bottom": 492,
+            "width": 66.1875,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "continueCareer",
+        "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+        "rect": {
+          "left": 12,
+          "top": 348.34375,
+          "right": 220.59375,
+          "bottom": 431,
+          "width": 208.59375,
+          "height": 82.65625
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 162.59375,
+              "top": 70.328125,
+              "right": 204.078125,
+              "bottom": 140.96875,
+              "width": 41.484375,
+              "height": 70.640625
+            }
+          ],
+          "nik": [
+            {
+              "left": 235.484375,
+              "top": 58,
+              "right": 291.546875,
+              "bottom": 139.859375,
+              "width": 56.0625,
+              "height": 81.859375
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "HM2__375x553.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 162.59375,
+                "top": 70.328125,
+                "right": 204.078125,
+                "bottom": 140.96875,
+                "width": 41.484375,
+                "height": 70.640625
+              }
+            ],
+            "nik": [
+              {
+                "left": 235.484375,
+                "top": 58,
+                "right": 291.546875,
+                "bottom": 139.859375,
+                "width": 56.0625,
+                "height": 81.859375
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "continueCareer",
+              "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+              "rect": {
+                "left": 12,
+                "top": 348.34375,
+                "right": 220.59375,
+                "bottom": 431,
+                "width": 208.59375,
+                "height": 82.65625
+              },
+              "visibleInViewport": true
+            },
+            "rule": "primary visible at 375x553"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": {
+        "w": 390,
+        "h": 844,
+        "dpr": 2,
+        "label": "390x844",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "NIK",
+          "rect": {
+            "left": 230.546875,
+            "top": 1.5,
+            "right": 274.546875,
+            "bottom": 45.5,
+            "width": 44,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "WHAT YOU GOTValentino Khan & NITTI",
+          "rect": {
+            "left": 23,
+            "top": 500.34375,
+            "right": 105.234375,
+            "bottom": 544.34375,
+            "width": 82.234375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "SNOW GLOBEHadji Gaviota",
+          "rect": {
+            "left": 110.234375,
+            "top": 500.34375,
+            "right": 192.484375,
+            "bottom": 544.34375,
+            "width": 82.25,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "NASTYgrouptherapy.",
+          "rect": {
+            "left": 197.484375,
+            "top": 500.34375,
+            "right": 279.734375,
+            "bottom": 544.34375,
+            "width": 82.25,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "I'M ALWAYS RIGHTThe Holdup",
+          "rect": {
+            "left": 284.734375,
+            "top": 500.34375,
+            "right": 366.984375,
+            "bottom": 544.34375,
+            "width": 82.25,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicToggle",
+          "label": "PLAY TRACK",
+          "rect": {
+            "left": 23,
+            "top": 550.34375,
+            "right": 136.609375,
+            "bottom": 594.34375,
+            "width": 113.609375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicMute",
+          "label": "MUTE",
+          "rect": {
+            "left": 144.609375,
+            "top": 550.34375,
+            "right": 213.453125,
+            "bottom": 594.34375,
+            "width": 68.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "continueCareer",
+          "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+          "rect": {
+            "left": 12,
+            "top": 611.34375,
+            "right": 229.59375,
+            "bottom": 698,
+            "width": 217.59375,
+            "height": 86.65625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "newShowdown",
+          "label": "JOINJOIN DANIEL'S SHOWDOWNPaste Daniel's code",
+          "rect": {
+            "left": 234.59375,
+            "top": 611.34375,
+            "right": 377.984375,
+            "bottom": 698,
+            "width": 143.390625,
+            "height": 86.65625
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "legacyButton",
+          "label": "HISTORYLEGACYCompleted rivalries and season history",
+          "rect": {
+            "left": 12,
+            "top": 706,
+            "right": 81.1875,
+            "bottom": 778,
+            "width": 69.1875,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "careerStatisticsButton",
+          "label": "DATASTATISTICSCareer totals, manager comparison and honours",
+          "rect": {
+            "left": 86.1875,
+            "top": 706,
+            "right": 155.390625,
+            "bottom": 778,
+            "width": 69.203125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "trophyRoomButton",
+          "label": "HONOURSTROPHY ROOMCareer trophies, standings and records",
+          "rect": {
+            "left": 160.390625,
+            "top": 706,
+            "right": 229.59375,
+            "bottom": 778,
+            "width": 69.203125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "ruleBookButton",
+          "label": "RULESRULE BOOKScoring and competition rules",
+          "rect": {
+            "left": 234.59375,
+            "top": 706,
+            "right": 303.796875,
+            "bottom": 778,
+            "width": 69.203125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "settingsButton",
+          "label": "SETTINGSSETTINGSAccount, device and preferences",
+          "rect": {
+            "left": 308.796875,
+            "top": 706,
+            "right": 377.984375,
+            "bottom": 778,
+            "width": 69.1875,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "continueCareer",
+        "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+        "rect": {
+          "left": 12,
+          "top": 611.34375,
+          "right": 229.59375,
+          "bottom": 698,
+          "width": 217.59375,
+          "height": 86.65625
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 22.78125,
+              "top": 90.9375,
+              "right": 133.59375,
+              "bottom": 279.609375,
+              "width": 110.8125,
+              "height": 188.671875
+            }
+          ],
+          "nik": [
+            {
+              "left": 217.453125,
+              "top": 58,
+              "right": 367.1875,
+              "bottom": 276.625,
+              "width": 149.734375,
+              "height": 218.625
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "HM2__390x844.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 22.78125,
+                "top": 90.9375,
+                "right": 133.59375,
+                "bottom": 279.609375,
+                "width": 110.8125,
+                "height": 188.671875
+              }
+            ],
+            "nik": [
+              {
+                "left": 217.453125,
+                "top": 58,
+                "right": 367.1875,
+                "bottom": 276.625,
+                "width": 149.734375,
+                "height": 218.625
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "continueCareer",
+              "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+              "rect": {
+                "left": 12,
+                "top": 611.34375,
+                "right": 229.59375,
+                "bottom": 698,
+                "width": 217.59375,
+                "height": 86.65625
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "HM2",
+      "viewport": {
+        "w": 430,
+        "h": 932,
+        "dpr": 2,
+        "label": "430x932",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "NIK",
+          "rect": {
+            "left": 270.546875,
+            "top": 1.5,
+            "right": 314.546875,
+            "bottom": 45.5,
+            "width": 44,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "WHAT YOU GOTValentino Khan & NITTI",
+          "rect": {
+            "left": 23,
+            "top": 601.6875,
+            "right": 115.234375,
+            "bottom": 645.6875,
+            "width": 92.234375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "SNOW GLOBEHadji Gaviota",
+          "rect": {
+            "left": 120.234375,
+            "top": 601.6875,
+            "right": 212.484375,
+            "bottom": 645.6875,
+            "width": 92.25,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "NASTYgrouptherapy.",
+          "rect": {
+            "left": 217.484375,
+            "top": 601.6875,
+            "right": 309.734375,
+            "bottom": 645.6875,
+            "width": 92.25,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "I'M ALWAYS RIGHTThe Holdup",
+          "rect": {
+            "left": 314.734375,
+            "top": 601.6875,
+            "right": 406.984375,
+            "bottom": 645.6875,
+            "width": 92.25,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicToggle",
+          "label": "PLAY TRACK",
+          "rect": {
+            "left": 23,
+            "top": 651.6875,
+            "right": 136.609375,
+            "bottom": 695.6875,
+            "width": 113.609375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "menuMusicMute",
+          "label": "MUTE",
+          "rect": {
+            "left": 144.609375,
+            "top": 651.6875,
+            "right": 213.453125,
+            "bottom": 695.6875,
+            "width": 68.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "continueCareer",
+          "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+          "rect": {
+            "left": 12,
+            "top": 712.6875,
+            "right": 253.59375,
+            "bottom": 786,
+            "width": 241.59375,
+            "height": 73.3125
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "newShowdown",
+          "label": "JOINJOIN DANIEL'S SHOWDOWNPaste Daniel's code",
+          "rect": {
+            "left": 258.59375,
+            "top": 712.6875,
+            "right": 417.984375,
+            "bottom": 786,
+            "width": 159.390625,
+            "height": 73.3125
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "legacyButton",
+          "label": "HISTORYLEGACYCompleted rivalries and season history",
+          "rect": {
+            "left": 12,
+            "top": 794,
+            "right": 89.1875,
+            "bottom": 866,
+            "width": 77.1875,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "careerStatisticsButton",
+          "label": "DATASTATISTICSCareer totals, manager comparison and honours",
+          "rect": {
+            "left": 94.1875,
+            "top": 794,
+            "right": 171.390625,
+            "bottom": 866,
+            "width": 77.203125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "trophyRoomButton",
+          "label": "HONOURSTROPHY ROOMCareer trophies, standings and records",
+          "rect": {
+            "left": 176.390625,
+            "top": 794,
+            "right": 253.59375,
+            "bottom": 866,
+            "width": 77.203125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "ruleBookButton",
+          "label": "RULESRULE BOOKScoring and competition rules",
+          "rect": {
+            "left": 258.59375,
+            "top": 794,
+            "right": 335.796875,
+            "bottom": 866,
+            "width": 77.203125,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "settingsButton",
+          "label": "SETTINGSSETTINGSAccount, device and preferences",
+          "rect": {
+            "left": 340.796875,
+            "top": 794,
+            "right": 417.984375,
+            "bottom": 866,
+            "width": 77.1875,
+            "height": 72
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "continueCareer",
+        "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+        "rect": {
+          "left": 12,
+          "top": 712.6875,
+          "right": 253.59375,
+          "bottom": 786,
+          "width": 241.59375,
+          "height": 73.3125
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 13.96875,
+              "top": 107.421875,
+              "right": 143.3125,
+              "bottom": 327.65625,
+              "width": 129.34375,
+              "height": 220.234375
+            }
+          ],
+          "nik": [
+            {
+              "left": 241.21875,
+              "top": 68.96875,
+              "right": 416,
+              "bottom": 324.171875,
+              "width": 174.78125,
+              "height": 255.203125
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "HM2__430x932.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 13.96875,
+                "top": 107.421875,
+                "right": 143.3125,
+                "bottom": 327.65625,
+                "width": 129.34375,
+                "height": 220.234375
+              }
+            ],
+            "nik": [
+              {
+                "left": 241.21875,
+                "top": 68.96875,
+                "right": 416,
+                "bottom": 324.171875,
+                "width": 174.78125,
+                "height": 255.203125
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "continueCareer",
+              "label": "CAREERCONTINUE CAREERDaniel vs Nik · Season 2 of 3",
+              "rect": {
+                "left": 12,
+                "top": 712.6875,
+                "right": 253.59375,
+                "bottom": 786,
+                "width": 241.59375,
+                "height": 73.3125
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    }
+  ],
+  "pass": true,
+  "failingRuns": []
+}

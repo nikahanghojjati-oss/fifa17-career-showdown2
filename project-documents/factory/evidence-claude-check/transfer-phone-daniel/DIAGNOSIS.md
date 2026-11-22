@@ -1,0 +1,6 @@
+# Transfer War phone: Daniel's face cut and Nik covering him (lead diagnosis, 2026-10-06)
+
+1. **Face cut and blurred.** The phone picture of Daniel (`visual-assets/v10_1/tr2/slice-02-plate/assets/OVL_TRANSFER_DANIEL_PHONE_V1.webp`) was cut out of the desktop Transfer War picture along a hand-drawn outline (`assets/phonemap.json` > `cutouts.daniel_phone`). That outline runs **through** Daniel's face (magenta line in `current_contour_on_plate.jpg`, plate x 548-561 at y 100-183, while his face spans about x 525-665), and the cut-out softens its edge, so about a quarter of his face is erased and blurred (`current_daniel_phone_cutout.jpg`, magenta = transparent). The outline also takes in background on his left.
+2. **Nik covering Daniel.** On phone the two pictures sit at 22% and 78% of the width (`plate.css` `.phone-hero-daniel { left: 22% }`, `.phone-hero-nik { left: 78% }`), but the composition rule in `tools/MAKE_ASSETS.md` says Daniel at 14% and Nik at 84%, both faces fully clear. Nik is drawn on top, so his shoulder covers Daniel's body.
+
+No new picture is needed: the full Daniel is in the desktop picture already. The fix is a new outline around the whole of Daniel, a fresh cut-out from the same picture, and the 14% / 84% positions.

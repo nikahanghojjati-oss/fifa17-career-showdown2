@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" data-nav="hub">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Navigation bar · proof</title>
+<link rel="stylesheet" href="../showdown-tokens.css">
+<link rel="stylesheet" href="../showdown-type.css">
+<link rel="stylesheet" href="../showdown-ui.css">
+<link rel="stylesheet" href="navbar.css">
+<style>
+  html, body { margin: 0; height: 100%; background: var(--sd-black); color: var(--sd-text-primary); font-family: var(--sd-font-body); }
+  body { overflow: hidden; }
+  .frame { position: absolute; inset: var(--sd-nav-top-h) 0 0 0; display: grid; place-content: center; gap: var(--sd-space-2); text-align: center; padding: var(--sd-space-2); }
+  @media (max-width: 900px) { .frame { inset: 0 0 var(--sd-nav-bottom-space) 0; } }
+  .frame h1 { margin: 0; font: 800 28px/1 var(--sd-font-condensed); letter-spacing: .12em; color: var(--sd-gold-300); }
+  .frame p { margin: 0; color: var(--sd-text-secondary); }
+  .row { display: flex; gap: var(--sd-space-1); justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<main class="frame">
+  <h1>HUB TEST PAGE</h1>
+  <p id="state">nav: home · unlocked</p>
+  <div class="row">
+    <button class="sd-btn sd-btn--secondary" type="button" data-lock="">Unlocked</button>
+    <button class="sd-btn sd-btn--secondary" type="button" data-lock="transfer-window">Lock: transfer-window</button>
+    <button class="sd-btn sd-btn--secondary" type="button" data-lock="season-entry">Lock: season-entry</button>
+    <button class="sd-btn sd-btn--secondary" type="button" data-lock="setup">Lock: setup</button>
+  </div>
+</main>
+<script src="navbar.js"></script>
+<script>
+  /* Fixture: nav { active, locked, reason }. ?locked=setup opens the locked frame directly. */
+  var reason = new URLSearchParams(location.search).get("locked");
+  var out = document.getElementById("state");
+  function show(s) { out.textContent = "nav: " + s.active + " · " + (s.locked ? "locked (" + s.reason + ")" : "unlocked"); }
+  SDNav.mount({
+    nav: { active: "home", locked: !!reason, reason: reason || null },
+    routes: { home: "#home", career: "#career", standings: "#standings", stats: "#stats", rules: "#rules", settings: "#settings" },
+    onNavigate: function (key) { SDNav.set({ active: key }); show(SDNav.state()); },
+    adopt: false
+  });
+  show(SDNav.state());
+  document.querySelectorAll("[data-lock]").forEach(function (b) {
+    b.addEventListener("click", function () { var r = b.dataset.lock; SDNav.set({ locked: !!r, reason: r || null }); show(SDNav.state()); });
+  });
+</script>
+</body>
+</html>

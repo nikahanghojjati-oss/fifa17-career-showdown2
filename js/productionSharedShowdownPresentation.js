@@ -12,7 +12,7 @@
   const SEASON_PANEL_ID="sharedShowdownSeasonChoice";
   const STATUS_ID="sharedShowdownPresentationStatus";
   const POLL_MS=2500;
-  let installed=false,active=false,setupApi=null,unsubscribe=null,state=null,busy=false,pollBusy=false,pollTimer=null,preparedSeasonCommitPromise=null,actionPromise=null,presentationContextKey="";
+  let installed=false,active=false,setupApi=null,unsubscribe=null,state=null,busy=false,pollBusy=false,pollTimer=null,preparedSeasonCommitPromise=null,actionPromise=null,presentationContextKey="",mutationPromise=null,lastMutationCode="",workingControlId="",tapFailure="",tapFailureSignature="";
   let timers=[];
   let witnessedLeagueId=null;
   let witnessedClubDigest=null;
@@ -80,10 +80,10 @@
   }
   function ssjpSetSharedStatus(message){
     let node=root.document&&root.document.getElementById(STATUS_ID);const screen=root.document&&root.document.getElementById(ssjpActiveScreen());if(!screen)return;
-    if(!node){node=root.document.createElement("p");node.id=STATUS_ID;node.className="stateNote";node.setAttribute("role","status");node.setAttribute("aria-live","polite");const container=screen.querySelector(".wheelContainer")||screen.querySelector(".clubAssignmentStage")||screen;container.insertBefore(node,container.firstChild);}ssjpText(node,message);
+    if(!node){node=root.document.createElement("p");node.id=STATUS_ID;node.className="stateNote";node.setAttribute("role","status");node.setAttribute("aria-live","polite");const container=screen.querySelector(".wheelContainer")||screen.querySelector(".clubAssignmentStage")||screen;container.insertBefore(node,container.firstChild);}if(tapFailure&&tapFailureSignature!==ssjpStateSignature()){tapFailure="";tapFailureSignature="";}ssjpText(node,tapFailure?`${tapFailure} · ${message}`:message);
   }
   function ssjpRemoveForeignStatus(){const node=root.document&&root.document.getElementById(STATUS_ID);if(node&&node.closest(`#${ssjpActiveScreen()}`)==null)node.remove();}
-  function ssjpSetControl(button,{label,disabled=false,hidden=false}={}){if(!button)return;button.disabled=Boolean(disabled);button.classList.toggle("hidden",Boolean(hidden));button.setAttribute("aria-disabled",String(Boolean(disabled)));if(label)ssjpText(button,label);delete button.dataset.sharedJourneyLocked;button.removeAttribute("title");}
+  function ssjpSetControl(button,{label,disabled=false,hidden=false}={}){if(!button)return;if(workingControlId&&button.id===workingControlId&&!hidden){label="WORKING…";disabled=true;}button.disabled=Boolean(disabled);button.classList.toggle("hidden",Boolean(hidden));button.setAttribute("aria-disabled",String(Boolean(disabled)));if(label)ssjpText(button,label);delete button.dataset.sharedJourneyLocked;button.removeAttribute("title");}
   function ssjpClubDigest(setup){return setup&&setup.clubs?`${setup.leagueId}|${setup.clubs.playerOne}|${setup.clubs.playerTwo}`:null;}
 
   function ssjpRenderLeague(){
@@ -155,7 +155,9 @@
   async function ssjpPoll(){if(!active||!ssjpPending()||busy||pollBusy||root.document&&root.document.visibilityState==="hidden")return;pollBusy=true;try{await ssjpRefresh();}catch(_error){}finally{pollBusy=false;}}
   function ssjpStartPolling(){if(pollTimer!==null||typeof root.setInterval!=="function")return;pollTimer=root.setInterval(()=>void ssjpPoll(),POLL_MS);}
   function ssjpStopPolling(){if(pollTimer!==null){root.clearInterval(pollTimer);pollTimer=null;}}
-  async function ssjpMutate(type,extra){if(busy)return false;busy=true;try{const api=await ssjpEnsureSetup(),result=await api.mutate(type,extra||{});ssjpAdoptState(api.getState());await ssjpRenderCurrent();return result&&result.ok===true;}finally{busy=false;await ssjpRenderCurrent();}}
+  async function ssjpMutate(type,extra){if(busy){lastMutationCode="SHARED_SETUP_BUSY";return Promise.resolve(false);}busy=true;lastMutationCode="";const run=(async()=>{try{const api=await ssjpEnsureSetup(),result=await api.mutate(type,extra||{});ssjpAdoptState(api.getState());await ssjpRenderCurrent();lastMutationCode=result&&result.ok===true?"":String(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");return result&&result.ok===true;}finally{busy=false;await ssjpRenderCurrent();}})();mutationPromise=run;run.finally(()=>{if(mutationPromise===run)mutationPromise=null;}).catch(()=>{});return run;}
+  function ssjpStateSignature(){return state?`${state.ready?1:0}|${state.remoteRole||""}|${state.setup?.phase||""}|${state.setup?.revision||0}`:"";}
+  async function ssjpAwaitIdle(){for(let attempt=0;attempt<3&&mutationPromise;attempt+=1){try{await mutationPromise;}catch(_error){}}}
   async function ssjpCommitPreparedSeasonLength(){
     if(preparedSeasonCommitPromise)return preparedSeasonCommitPromise;
     const seasons=ssjpPreparedSeasonLength();
@@ -180,34 +182,51 @@
     }
   }
   function ssjpHandlesControl(id){return active&&ssjpPending()&&HANDLED.has(id);}
-  async function ssjpHandleControlClickNow(id){
-    if(!ssjpHandlesControl(id))return false;await ssjpEnsureSetup();
+  // r50: one tap must do one thing. A tap decides from the latest authoritative Setup state; when the
+  // state was stale or the write was rejected, the tap re-reads authority once and acts on the fresh
+  // state instead of silently needing a second tap. Phase-guarded provider transitions keep this from
+  // ever duplicating a draw: a write that already landed is seen as the next phase on the re-read.
+  async function ssjpDecideControl(id){
+    if(!state)return "stale";
     if(id==="spinLeague"){
-      if(!state.ready){await ssjpRefresh();return true;}
-      if(!state.setup){if(state.remoteRole!=="host"){await ssjpRefresh();return true;}if(!await ssjpMutate("open"))return true;}
-      if(state.setup&&state.setup.phase==="SHARED_SETUP_OPEN"){if(ssjpCoordinator())await ssjpMutate("commit-league");else await ssjpRefresh();return true;}
-      if(state.setup&&ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED")){if(witnessedLeagueId!==state.setup.leagueId){await ssjpRenderLeague();return true;}ssjpForceScreen("clubWheelScreen");await ssjpRenderClub();return true;}return true;
+      if(!state.ready)return "stale";
+      if(!state.setup){if(state.remoteRole!=="host")return "stale";if(!await ssjpMutate("open"))return "failed";}
+      if(state.setup&&state.setup.phase==="SHARED_SETUP_OPEN"){if(!ssjpCoordinator())return "stale";return await ssjpMutate("commit-league")?"done":"failed";}
+      if(state.setup&&ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED")){if(witnessedLeagueId!==state.setup.leagueId){await ssjpRenderLeague();return "done";}ssjpForceScreen("clubWheelScreen");await ssjpRenderClub();return "done";}return "stale";
     }
-    if(id==="openClubPack"){if(state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"){if(ssjpCoordinator())await ssjpMutate("commit-clubs");else await ssjpRefresh();return true;}await ssjpRefresh();return true;}
+    if(id==="openClubPack"){if(state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"&&ssjpCoordinator())return await ssjpMutate("commit-clubs")?"done":"failed";return "stale";}
     if(id==="continueClubAssignment"){
-      if(!clubRevealComplete){await ssjpRenderClub();return true;}
+      if(!clubRevealComplete){await ssjpRenderClub();return "done";}
       if(state.setup&&state.setup.phase==="SEASON_LENGTH_COMMITTED"&&!state.setup.confirmedRoles.includes(state.managerRole)){
         const confirmed=await ssjpMutate("confirm");
         if(confirmed&&state?.setup?.phase==="SHOWDOWN_CONFIRMED"&&state?.ready===true)await ssjpOpenCareerStart();
-        return true;
+        return confirmed?"done":"failed";
       }
-      if(state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"){await ssjpOpenCareerStart();return true;}
-      await ssjpRefresh();return true;
+      if(state.setup&&state.setup.phase==="SHOWDOWN_CONFIRMED"&&state.ready===true)return await ssjpOpenCareerStart()?"done":"stale";
+      return "stale";
     }
-    return false;
+    return "done";
+  }
+  async function ssjpHandleControlClickNow(id){
+    if(!ssjpHandlesControl(id))return false;await ssjpEnsureSetup();await ssjpAwaitIdle();
+    tapFailure="";tapFailureSignature="";
+    const first=await ssjpDecideControl(id);if(first==="done")return true;
+    const before=ssjpStateSignature();
+    try{await ssjpRefresh();}catch(_error){}
+    if(first==="stale"&&ssjpStateSignature()===before)return true;
+    const second=await ssjpDecideControl(id);
+    if(second==="failed"){tapFailure=`THAT TAP DID NOT GO THROUGH · ${String(lastMutationCode||"SHARED_SETUP_MUTATION_FAILED").replace(/_/g," ")} · TAP AGAIN`;tapFailureSignature=ssjpStateSignature();}
+    return true;
   }
   function ssjpHandleControlClick(id){
     if(!ssjpHandlesControl(id))return Promise.resolve(false);
     if(actionPromise)return actionPromise;
     const button=root.document&&root.document.getElementById(id);
-    if(button){button.disabled=true;button.setAttribute("aria-disabled","true");button.setAttribute("aria-busy","true");}
+    workingControlId=id;
+    if(button){button.disabled=true;button.setAttribute("aria-disabled","true");button.setAttribute("aria-busy","true");ssjpText(button,"WORKING…");}
     const current=Promise.resolve().then(()=>ssjpHandleControlClickNow(id)).finally(async()=>{
       if(actionPromise===current)actionPromise=null;
+      if(workingControlId===id&&!actionPromise)workingControlId="";
       if(button)button.removeAttribute("aria-busy");
       await ssjpRenderCurrent();
     });
@@ -215,7 +234,7 @@
     return current;
   }
   async function ssjpActivate(){active=true;await ssjpEnsureGameplay();await ssjpEnsureSetup();await ssjpRefresh();const plain=root.document&&root.document.getElementById("productionSharedSetupOverlay");if(plain)plain.classList.add("hidden");ssjpForceScreen("leagueWheelScreen");await ssjpRenderLeague();ssjpStartPolling();return true;}
-  function ssjpDeactivate(){active=false;ssjpStopPolling();ssjpResetWitnesses();presentationContextKey="";actionPromise=null;const panel=root.document&&root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.remove();const note=root.document&&root.document.getElementById(STATUS_ID);if(note)note.remove();return true;}
+  function ssjpDeactivate(){active=false;ssjpStopPolling();ssjpResetWitnesses();presentationContextKey="";actionPromise=null;workingControlId="";tapFailure="";tapFailureSignature="";const panel=root.document&&root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.remove();const note=root.document&&root.document.getElementById(STATUS_ID);if(note)note.remove();return true;}
   function ssjpInstall(){if(installed)return true;installed=true;return true;}
 
   return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-showdown-polished-presentation",productionEnabled:true,pairingRequired:true,exactActiveSessionRequired:true,providerOwnsDrawAuthority:true,bothManagerRolesWitnessLeagueWheel:true,bothManagerRolesWitnessClubPacks:true,peerAutoRefreshesAuthority:true,singleClickActionSerialization:true,contextScopedRevealWitnesses:true,oneClickFinalConfirmationHandoff:true,usesLeagueWheelScreen:true,usesClubPackRevealScreen:true,engineeringSetupPanelPlayerFacing:false,localRandomLeagueAuthority:false,localRandomClubAuthority:false,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,install:ssjpInstall,activate:ssjpActivate,deactivate:ssjpDeactivate,refresh:ssjpRefresh,handleControlClick:ssjpHandleControlClick,handlesControl:ssjpHandlesControl,renderCurrent:ssjpRenderCurrent,isPresentationActive:()=>active&&ssjpPending(),getState:()=>Object.freeze({active:active&&ssjpPending(),phase:state&&state.setup&&state.setup.phase||null,revision:state&&state.setup&&state.setup.revision||0,managerRole:state&&state.managerRole||null,route:ssjpActiveScreen(),leagueWitnessed:witnessedLeagueId,clubPacksWitnessed:witnessedClubDigest,clubRevealComplete})});

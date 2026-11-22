@@ -1,0 +1,7413 @@
+[
+  {
+    "rank": 1,
+    "name": "Cristiano Ronaldo",
+    "club": "Real Madrid",
+    "overall": 94,
+    "potential": 94,
+    "number": 7,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "LW",
+    "stats": {
+      "PAC": 92,
+      "SHO": 92,
+      "PAS": 81,
+      "DRI": 91,
+      "DEF": 33,
+      "PHY": 80
+    },
+    "list_index": 1,
+    "file_values": {
+      "overall": 94,
+      "position": "LW",
+      "stats": {
+        "PAC": 92,
+        "SHO": 92,
+        "PAS": 82,
+        "DRI": 91,
+        "DEF": 32,
+        "PHY": 80
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/cristiano-ronaldo/60",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 2,
+    "name": "Neymar",
+    "club": "FC Barcelona",
+    "overall": 92,
+    "potential": 94,
+    "number": 11,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "LW",
+    "stats": {
+      "PAC": 91,
+      "SHO": 84,
+      "PAS": 78,
+      "DRI": 95,
+      "DEF": 30,
+      "PHY": 56
+    },
+    "list_index": 2,
+    "file_values": {
+      "overall": 92,
+      "position": "LW",
+      "stats": {
+        "PAC": 91,
+        "SHO": 84,
+        "PAS": 79,
+        "DRI": 95,
+        "DEF": 30,
+        "PHY": 58
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/neymar/58",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 3,
+    "name": "P. Pogba",
+    "club": "Manchester United",
+    "overall": 88,
+    "potential": 94,
+    "number": 6,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CM",
+    "stats": {
+      "PAC": 77,
+      "SHO": 80,
+      "PAS": 83,
+      "DRI": 87,
+      "DEF": 72,
+      "PHY": 87
+    },
+    "list_index": 3,
+    "file_values": {
+      "overall": 88,
+      "position": "CM",
+      "stats": {
+        "PAC": 77,
+        "SHO": 80,
+        "PAS": 84,
+        "DRI": 87,
+        "DEF": 72,
+        "PHY": 87
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/paul-pogba/44",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester United"
+  },
+  {
+    "rank": 4,
+    "name": "L. Messi",
+    "club": "FC Barcelona",
+    "overall": 93,
+    "potential": 93,
+    "number": 10,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "RW",
+    "stats": {
+      "PAC": 89,
+      "SHO": 90,
+      "PAS": 86,
+      "DRI": 96,
+      "DEF": 26,
+      "PHY": 61
+    },
+    "list_index": 4,
+    "file_values": {
+      "overall": 93,
+      "position": "RW",
+      "stats": {
+        "PAC": 89,
+        "SHO": 90,
+        "PAS": 86,
+        "DRI": 96,
+        "DEF": 26,
+        "PHY": 61
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/lionel-messi/59",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 5,
+    "name": "P. Dybala",
+    "club": "Juventus",
+    "overall": 85,
+    "potential": 93,
+    "number": 21,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "ST",
+    "stats": {
+      "PAC": 88,
+      "SHO": 86,
+      "PAS": 76,
+      "DRI": 90,
+      "DEF": 23,
+      "PHY": 66
+    },
+    "list_index": 5,
+    "file_values": {
+      "overall": 86,
+      "position": "ST",
+      "stats": {
+        "PAC": 88,
+        "SHO": 86,
+        "PAS": 80,
+        "DRI": 90,
+        "DEF": 24,
+        "PHY": 66
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/paulo-dybala/29",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Juventus"
+  },
+  {
+    "rank": 6,
+    "name": "L. Suárez",
+    "club": "FC Barcelona",
+    "overall": 92,
+    "potential": 92,
+    "number": 9,
+    "nation": "Uruguay",
+    "nationCode": "UY",
+    "position": "ST",
+    "stats": {
+      "PAC": 82,
+      "SHO": 90,
+      "PAS": 79,
+      "DRI": 87,
+      "DEF": 42,
+      "PHY": 79
+    },
+    "list_index": 6,
+    "file_values": {
+      "overall": 92,
+      "position": "ST",
+      "stats": {
+        "PAC": 82,
+        "SHO": 90,
+        "PAS": 79,
+        "DRI": 87,
+        "DEF": 42,
+        "PHY": 79
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/luis-suarez/57",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 6,
+    "name": "M. Neuer",
+    "club": "FC Bayern München",
+    "overall": 92,
+    "potential": 92,
+    "number": 1,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "GK",
+    "stats": {
+      "DIV": 89,
+      "HAN": 90,
+      "KIC": 95,
+      "REF": 89,
+      "SPD": 58,
+      "POS": 91
+    },
+    "list_index": 7,
+    "file_values": {
+      "overall": 92,
+      "position": "GK",
+      "stats": {
+        "DIV": 89,
+        "HAN": 90,
+        "KIC": 95,
+        "REF": 89,
+        "SPD": 60,
+        "POS": 91
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/manuel-neuer/22",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 8,
+    "name": "De Gea",
+    "club": "Manchester United",
+    "overall": 90,
+    "potential": 92,
+    "number": 1,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "GK",
+    "stats": {
+      "DIV": 88,
+      "HAN": 85,
+      "KIC": 87,
+      "REF": 90,
+      "SPD": 56,
+      "POS": 85
+    },
+    "list_index": 8,
+    "file_values": {
+      "overall": 90,
+      "position": "GK",
+      "stats": {
+        "DIV": 88,
+        "HAN": 85,
+        "KIC": 87,
+        "REF": 90,
+        "SPD": 56,
+        "POS": 86
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/de-gea/54",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester United"
+  },
+  {
+    "rank": 9,
+    "name": "T. Courtois",
+    "club": "Chelsea",
+    "overall": 89,
+    "potential": 92,
+    "number": 13,
+    "nation": "Belgium",
+    "nationCode": "BE",
+    "position": "GK",
+    "stats": {
+      "DIV": 84,
+      "HAN": 91,
+      "KIC": 69,
+      "REF": 89,
+      "SPD": 46,
+      "POS": 86
+    },
+    "list_index": 9,
+    "file_values": {
+      "overall": 89,
+      "position": "GK",
+      "stats": {
+        "DIV": 84,
+        "HAN": 91,
+        "KIC": 69,
+        "REF": 89,
+        "SPD": 49,
+        "POS": 86
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/thibaut-courtois/49",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Chelsea"
+  },
+  {
+    "rank": 10,
+    "name": "G. Donnarumma",
+    "club": "Milan",
+    "overall": 76,
+    "potential": 92,
+    "number": 99,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "GK",
+    "stats": {
+      "DIV": 78,
+      "HAN": 72,
+      "KIC": 72,
+      "REF": 84,
+      "SPD": 46,
+      "POS": 70
+    },
+    "list_index": 10,
+    "file_values": {
+      "overall": 80,
+      "position": "GK",
+      "stats": {
+        "DIV": 85,
+        "HAN": 73,
+        "KIC": 72,
+        "REF": 87,
+        "SPD": 48,
+        "POS": 73
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/gianluigi-donnarumma/13913",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Milan"
+  },
+  {
+    "rank": 11,
+    "name": "K. Mbappé",
+    "club": "AS Monaco",
+    "overall": 71,
+    "potential": 92,
+    "number": 29,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "LW",
+    "stats": {
+      "PAC": 81,
+      "SHO": 64,
+      "PAS": 65,
+      "DRI": 74,
+      "DEF": 39,
+      "PHY": 62
+    },
+    "list_index": 11,
+    "file_values": {
+      "overall": 79,
+      "position": "ST",
+      "stats": {
+        "PAC": 88,
+        "SHO": 71,
+        "PAS": 72,
+        "DRI": 81,
+        "DEF": 47,
+        "PHY": 68
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/kylian-mbappe-lottin/14218",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "AS Monaco"
+  },
+  {
+    "rank": 12,
+    "name": "A. Griezmann",
+    "club": "Atlético Madrid",
+    "overall": 88,
+    "potential": 91,
+    "number": 7,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "ST",
+    "stats": {
+      "PAC": 86,
+      "SHO": 85,
+      "PAS": 78,
+      "DRI": 87,
+      "DEF": 30,
+      "PHY": 67
+    },
+    "list_index": 12,
+    "file_values": {
+      "overall": 88,
+      "position": "ST",
+      "stats": {
+        "PAC": 86,
+        "SHO": 85,
+        "PAS": 78,
+        "DRI": 87,
+        "DEF": 30,
+        "PHY": 67
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/antoine-griezmann/45",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Atlético Madrid"
+  },
+  {
+    "rank": 12,
+    "name": "K. De Bruyne",
+    "club": "Manchester City",
+    "overall": 88,
+    "potential": 91,
+    "number": 17,
+    "nation": "Belgium",
+    "nationCode": "BE",
+    "position": "CAM",
+    "stats": {
+      "PAC": 77,
+      "SHO": 83,
+      "PAS": 86,
+      "DRI": 84,
+      "DEF": 40,
+      "PHY": 75
+    },
+    "list_index": 13,
+    "file_values": {
+      "overall": 88,
+      "position": "CAM",
+      "stats": {
+        "PAC": 77,
+        "SHO": 84,
+        "PAS": 87,
+        "DRI": 84,
+        "DEF": 40,
+        "PHY": 75
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/kevin-de-bruyne/41",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester City"
+  },
+  {
+    "rank": 14,
+    "name": "J. Oblak",
+    "club": "Atlético Madrid",
+    "overall": 87,
+    "potential": 91,
+    "number": 13,
+    "nation": "Slovenia",
+    "nationCode": "SI",
+    "position": "GK",
+    "stats": {
+      "DIV": 83,
+      "HAN": 90,
+      "KIC": 77,
+      "REF": 82,
+      "SPD": 43,
+      "POS": 87
+    },
+    "list_index": 14,
+    "file_values": {
+      "overall": 87,
+      "position": "GK",
+      "stats": {
+        "DIV": 83,
+        "HAN": 90,
+        "KIC": 77,
+        "REF": 82,
+        "SPD": 52,
+        "POS": 87
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/jan-oblak/17",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Atlético Madrid"
+  },
+  {
+    "rank": 15,
+    "name": "R. Varane",
+    "club": "Real Madrid",
+    "overall": 84,
+    "potential": 91,
+    "number": 5,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CB",
+    "stats": {
+      "PAC": 77,
+      "SHO": 45,
+      "PAS": 60,
+      "DRI": 63,
+      "DEF": 85,
+      "PHY": 78
+    },
+    "list_index": 15,
+    "file_values": {
+      "overall": 84,
+      "position": "CB",
+      "stats": {
+        "PAC": 82,
+        "SHO": 45,
+        "PAS": 60,
+        "DRI": 63,
+        "DEF": 84,
+        "PHY": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/raphael-varane/4086",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 16,
+    "name": "L. Sané",
+    "club": "Manchester City",
+    "overall": 79,
+    "potential": 91,
+    "number": 19,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "RM",
+    "stats": {
+      "PAC": 91,
+      "SHO": 75,
+      "PAS": 70,
+      "DRI": 83,
+      "DEF": 34,
+      "PHY": 64
+    },
+    "list_index": 16,
+    "file_values": {
+      "overall": 82,
+      "position": "LM",
+      "stats": {
+        "PAC": 91,
+        "SHO": 75,
+        "PAS": 71,
+        "DRI": 85,
+        "DEF": 34,
+        "PHY": 66
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/leroy-sane/3970",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester City"
+  },
+  {
+    "rank": 17,
+    "name": "O. Dembélé",
+    "club": "Borussia Dortmund",
+    "overall": 77,
+    "potential": 91,
+    "number": 7,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "RM",
+    "stats": {
+      "PAC": 84,
+      "SHO": 72,
+      "PAS": 70,
+      "DRI": 82,
+      "DEF": 41,
+      "PHY": 52
+    },
+    "list_index": 17,
+    "file_values": {
+      "overall": 81,
+      "position": "RM",
+      "stats": {
+        "PAC": 92,
+        "SHO": 73,
+        "PAS": 73,
+        "DRI": 85,
+        "DEF": 31,
+        "PHY": 56
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/ousmane-dembele/14134",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Borussia Dortmund"
+  },
+  {
+    "rank": 18,
+    "name": "Gabriel Jesus",
+    "club": "Manchester City",
+    "overall": null,
+    "potential": 91,
+    "number": 33,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": null,
+    "stats": null,
+    "list_index": 18,
+    "file_values": {
+      "overall": 79,
+      "position": "RM",
+      "stats": {
+        "PAC": 86,
+        "SHO": 76,
+        "PAS": 70,
+        "DRI": 85,
+        "DEF": 26,
+        "PHY": 66
+      }
+    },
+    "audit_status": "NOT FOUND",
+    "source_url": "https://www.futwiz.com/fifa17/player/gabriel-jesus/18589",
+    "note": "Manchester City card was issued after the January 2017 arrival; not a September 2016 card.",
+    "stats_basis": "UNRESOLVED",
+    "source_club": "Manchester City"
+  },
+  {
+    "rank": 19,
+    "name": "G. Bale",
+    "club": "Real Madrid",
+    "overall": 90,
+    "potential": 90,
+    "number": 11,
+    "nation": "Wales",
+    "nationCode": "GB-WLS",
+    "position": "RW",
+    "stats": {
+      "PAC": 94,
+      "SHO": 87,
+      "PAS": 84,
+      "DRI": 86,
+      "DEF": 57,
+      "PHY": 76
+    },
+    "list_index": 19,
+    "file_values": {
+      "overall": 90,
+      "position": "RW",
+      "stats": {
+        "PAC": 94,
+        "SHO": 87,
+        "PAS": 84,
+        "DRI": 86,
+        "DEF": 57,
+        "PHY": 77
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/gareth-bale/55",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 19,
+    "name": "R. Lewandowski",
+    "club": "FC Bayern München",
+    "overall": 90,
+    "potential": 90,
+    "number": 9,
+    "nation": "Poland",
+    "nationCode": "PL",
+    "position": "ST",
+    "stats": {
+      "PAC": 81,
+      "SHO": 87,
+      "PAS": 74,
+      "DRI": 85,
+      "DEF": 38,
+      "PHY": 82
+    },
+    "list_index": 20,
+    "file_values": {
+      "overall": 90,
+      "position": "ST",
+      "stats": {
+        "PAC": 81,
+        "SHO": 87,
+        "PAS": 74,
+        "DRI": 85,
+        "DEF": 38,
+        "PHY": 82
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/robert-lewandowski/52",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 19,
+    "name": "Z. Ibrahimović",
+    "club": "Manchester United",
+    "overall": 90,
+    "potential": 90,
+    "number": 9,
+    "nation": "Sweden",
+    "nationCode": "SE",
+    "position": "ST",
+    "stats": {
+      "PAC": 72,
+      "SHO": 90,
+      "PAS": 81,
+      "DRI": 85,
+      "DEF": 31,
+      "PHY": 86
+    },
+    "list_index": 21,
+    "file_values": {
+      "overall": 90,
+      "position": "ST",
+      "stats": {
+        "PAC": 72,
+        "SHO": 90,
+        "PAS": 81,
+        "DRI": 85,
+        "DEF": 31,
+        "PHY": 86
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/zlatan-ibrahimovic/53",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester United"
+  },
+  {
+    "rank": 22,
+    "name": "E. Hazard",
+    "club": "Chelsea",
+    "overall": 88,
+    "potential": 90,
+    "number": 10,
+    "nation": "Belgium",
+    "nationCode": "BE",
+    "position": "LM",
+    "stats": {
+      "PAC": 90,
+      "SHO": 81,
+      "PAS": 82,
+      "DRI": 91,
+      "DEF": 32,
+      "PHY": 64
+    },
+    "list_index": 22,
+    "file_values": {
+      "overall": 89,
+      "position": "LW",
+      "stats": {
+        "PAC": 90,
+        "SHO": 81,
+        "PAS": 83,
+        "DRI": 92,
+        "DEF": 32,
+        "PHY": 66
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/eden-hazard/34",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Chelsea"
+  },
+  {
+    "rank": 23,
+    "name": "J. Rodríguez",
+    "club": "Real Madrid",
+    "overall": 87,
+    "potential": 90,
+    "number": 10,
+    "nation": "Colombia",
+    "nationCode": "CO",
+    "position": "CAM",
+    "stats": {
+      "PAC": 76,
+      "SHO": 85,
+      "PAS": 85,
+      "DRI": 85,
+      "DEF": 40,
+      "PHY": 68
+    },
+    "list_index": 23,
+    "file_values": {
+      "overall": 87,
+      "position": "CAM",
+      "stats": {
+        "PAC": 76,
+        "SHO": 85,
+        "PAS": 85,
+        "DRI": 84,
+        "DEF": 40,
+        "PHY": 68
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/james-rodriguez/6",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 24,
+    "name": "C. Eriksen",
+    "club": "Tottenham Hotspur",
+    "overall": 84,
+    "potential": 90,
+    "number": 23,
+    "nation": "Denmark",
+    "nationCode": "DK",
+    "position": "CAM",
+    "stats": {
+      "PAC": 76,
+      "SHO": 76,
+      "PAS": 84,
+      "DRI": 84,
+      "DEF": 44,
+      "PHY": 59
+    },
+    "list_index": 24,
+    "file_values": {
+      "overall": 86,
+      "position": "CAM",
+      "stats": {
+        "PAC": 76,
+        "SHO": 76,
+        "PAS": 86,
+        "DRI": 84,
+        "DEF": 45,
+        "PHY": 60
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/christian-eriksen/4618",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Tottenham Hotspur"
+  },
+  {
+    "rank": 24,
+    "name": "M. Verratti",
+    "club": "Paris Saint-Germain",
+    "overall": 85,
+    "potential": 90,
+    "number": 6,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "CM",
+    "stats": {
+      "PAC": 68,
+      "SHO": 58,
+      "PAS": 83,
+      "DRI": 87,
+      "DEF": 78,
+      "PHY": 68
+    },
+    "list_index": 25,
+    "file_values": {
+      "overall": 86,
+      "position": "CM",
+      "stats": {
+        "PAC": 68,
+        "SHO": 58,
+        "PAS": 83,
+        "DRI": 88,
+        "DEF": 77,
+        "PHY": 68
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/marco-verratti/3679",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Paris Saint-Germain"
+  },
+  {
+    "rank": 26,
+    "name": "H. Kane",
+    "club": "Tottenham Hotspur",
+    "overall": 84,
+    "potential": 90,
+    "number": 10,
+    "nation": "England",
+    "nationCode": "GB-ENG",
+    "position": "ST",
+    "stats": {
+      "PAC": 73,
+      "SHO": 84,
+      "PAS": 71,
+      "DRI": 78,
+      "DEF": 42,
+      "PHY": 81
+    },
+    "list_index": 26,
+    "file_values": {
+      "overall": 85,
+      "position": "ST",
+      "stats": {
+        "PAC": 73,
+        "SHO": 85,
+        "PAS": 72,
+        "DRI": 78,
+        "DEF": 42,
+        "PHY": 81
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/harry-kane/23",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Tottenham Hotspur"
+  },
+  {
+    "rank": 26,
+    "name": "R. Lukaku",
+    "club": "Everton",
+    "overall": 84,
+    "potential": 90,
+    "number": 10,
+    "nation": "Belgium",
+    "nationCode": "BE",
+    "position": "ST",
+    "stats": {
+      "PAC": 82,
+      "SHO": 82,
+      "PAS": 66,
+      "DRI": 74,
+      "DEF": 34,
+      "PHY": 84
+    },
+    "list_index": 27,
+    "file_values": {
+      "overall": 85,
+      "position": "ST",
+      "stats": {
+        "PAC": 85,
+        "SHO": 84,
+        "PAS": 69,
+        "DRI": 74,
+        "DEF": 34,
+        "PHY": 84
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/romelu-lukaku/5028",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Everton"
+  },
+  {
+    "rank": 28,
+    "name": "Bernardo Silva",
+    "club": "AS Monaco",
+    "overall": 81,
+    "potential": 90,
+    "number": 10,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "RM",
+    "stats": {
+      "PAC": 79,
+      "SHO": 69,
+      "PAS": 78,
+      "DRI": 83,
+      "DEF": 45,
+      "PHY": 60
+    },
+    "list_index": 28,
+    "file_values": {
+      "overall": 83,
+      "position": "RM",
+      "stats": {
+        "PAC": 79,
+        "SHO": 72,
+        "PAS": 80,
+        "DRI": 86,
+        "DEF": 45,
+        "PHY": 61
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/bernardo-silva/10675",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "AS Monaco"
+  },
+  {
+    "rank": 28,
+    "name": "E. Bailly",
+    "club": "Manchester United",
+    "overall": 82,
+    "potential": 90,
+    "number": 3,
+    "nation": "Ivory Coast",
+    "nationCode": "CI",
+    "position": "CB",
+    "stats": {
+      "PAC": 81,
+      "SHO": 41,
+      "PAS": 53,
+      "DRI": 59,
+      "DEF": 82,
+      "PHY": 83
+    },
+    "list_index": 29,
+    "file_values": {
+      "overall": 83,
+      "position": "CB",
+      "stats": {
+        "PAC": 81,
+        "SHO": 42,
+        "PAS": 54,
+        "DRI": 63,
+        "DEF": 84,
+        "PHY": 84
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/eric-bailly/4036",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester United"
+  },
+  {
+    "rank": 30,
+    "name": "A. Martial",
+    "club": "Manchester United",
+    "overall": 82,
+    "potential": 90,
+    "number": 11,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "LM",
+    "stats": {
+      "PAC": 91,
+      "SHO": 79,
+      "PAS": 70,
+      "DRI": 87,
+      "DEF": 42,
+      "PHY": 76
+    },
+    "list_index": 30,
+    "file_values": {
+      "overall": 82,
+      "position": "LM",
+      "stats": {
+        "PAC": 91,
+        "SHO": 79,
+        "PAS": 70,
+        "DRI": 86,
+        "DEF": 41,
+        "PHY": 76
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/anthony-martial/25",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester United"
+  },
+  {
+    "rank": 30,
+    "name": "D. Alli",
+    "club": "Tottenham Hotspur",
+    "overall": 80,
+    "potential": 90,
+    "number": 20,
+    "nation": "England",
+    "nationCode": "GB-ENG",
+    "position": "CAM",
+    "stats": {
+      "PAC": 75,
+      "SHO": 74,
+      "PAS": 74,
+      "DRI": 78,
+      "DEF": 61,
+      "PHY": 77
+    },
+    "list_index": 31,
+    "file_values": {
+      "overall": 82,
+      "position": "CAM",
+      "stats": {
+        "PAC": 76,
+        "SHO": 76,
+        "PAS": 75,
+        "DRI": 79,
+        "DEF": 61,
+        "PHY": 77
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/dele-alli/24",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Tottenham Hotspur"
+  },
+  {
+    "rank": 32,
+    "name": "Y. Tielemans",
+    "club": "RSC Anderlecht",
+    "overall": 77,
+    "potential": 90,
+    "number": 31,
+    "nation": "Belgium",
+    "nationCode": "BE",
+    "position": "CM",
+    "stats": {
+      "PAC": 60,
+      "SHO": 73,
+      "PAS": 77,
+      "DRI": 77,
+      "DEF": 67,
+      "PHY": 64
+    },
+    "list_index": 32,
+    "file_values": {
+      "overall": 79,
+      "position": "CM",
+      "stats": {
+        "PAC": 60,
+        "SHO": 76,
+        "PAS": 77,
+        "DRI": 77,
+        "DEF": 68,
+        "PHY": 67
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/youri-tielemans/10445",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "RSC Anderlecht"
+  },
+  {
+    "rank": 33,
+    "name": "G. Higuaín",
+    "club": "Juventus",
+    "overall": 88,
+    "potential": 89,
+    "number": 9,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "ST",
+    "stats": {
+      "PAC": 80,
+      "SHO": 87,
+      "PAS": 68,
+      "DRI": 82,
+      "DEF": 24,
+      "PHY": 74
+    },
+    "list_index": 33,
+    "file_values": {
+      "overall": 89,
+      "position": "ST",
+      "stats": {
+        "PAC": 80,
+        "SHO": 87,
+        "PAS": 69,
+        "DRI": 83,
+        "DEF": 24,
+        "PHY": 75
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/gonzalo-higuain/43",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Juventus"
+  },
+  {
+    "rank": 33,
+    "name": "J. Boateng",
+    "club": "FC Bayern München",
+    "overall": 90,
+    "potential": 89,
+    "number": 17,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CB",
+    "stats": {
+      "PAC": 79,
+      "SHO": 50,
+      "PAS": 72,
+      "DRI": 68,
+      "DEF": 90,
+      "PHY": 85
+    },
+    "list_index": 34,
+    "file_values": {
+      "overall": 89,
+      "position": "CB",
+      "stats": {
+        "PAC": 78,
+        "SHO": 50,
+        "PAS": 72,
+        "DRI": 68,
+        "DEF": 89,
+        "PHY": 84
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/jerome-boateng/21",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 33,
+    "name": "L. Modrić",
+    "club": "Real Madrid",
+    "overall": 89,
+    "potential": 89,
+    "number": 19,
+    "nation": "Croatia",
+    "nationCode": "HR",
+    "position": "CM",
+    "stats": {
+      "PAC": 74,
+      "SHO": 75,
+      "PAS": 86,
+      "DRI": 89,
+      "DEF": 72,
+      "PHY": 66
+    },
+    "list_index": 35,
+    "file_values": {
+      "overall": 89,
+      "position": "CM",
+      "stats": {
+        "PAC": 74,
+        "SHO": 75,
+        "PAS": 86,
+        "DRI": 89,
+        "DEF": 72,
+        "PHY": 66
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/luka-modric/47",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 33,
+    "name": "M. Özil",
+    "club": "Arsenal",
+    "overall": 89,
+    "potential": 89,
+    "number": 11,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CAM",
+    "stats": {
+      "PAC": 72,
+      "SHO": 74,
+      "PAS": 86,
+      "DRI": 86,
+      "DEF": 24,
+      "PHY": 58
+    },
+    "list_index": 36,
+    "file_values": {
+      "overall": 89,
+      "position": "CAM",
+      "stats": {
+        "PAC": 72,
+        "SHO": 74,
+        "PAS": 87,
+        "DRI": 86,
+        "DEF": 24,
+        "PHY": 57
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/mesut-ozil/50",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Arsenal"
+  },
+  {
+    "rank": 33,
+    "name": "S. Agüero",
+    "club": "Manchester City",
+    "overall": 89,
+    "potential": 89,
+    "number": 10,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "ST",
+    "stats": {
+      "PAC": 89,
+      "SHO": 88,
+      "PAS": 75,
+      "DRI": 89,
+      "DEF": 23,
+      "PHY": 70
+    },
+    "list_index": 37,
+    "file_values": {
+      "overall": 89,
+      "position": "ST",
+      "stats": {
+        "PAC": 89,
+        "SHO": 88,
+        "PAS": 75,
+        "DRI": 89,
+        "DEF": 23,
+        "PHY": 70
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/sergio-aguero/51",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester City"
+  },
+  {
+    "rank": 33,
+    "name": "Sergio Ramos",
+    "club": "Real Madrid",
+    "overall": 89,
+    "potential": 89,
+    "number": 4,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CB",
+    "stats": {
+      "PAC": 78,
+      "SHO": 63,
+      "PAS": 70,
+      "DRI": 70,
+      "DEF": 87,
+      "PHY": 83
+    },
+    "list_index": 38,
+    "file_values": {
+      "overall": 89,
+      "position": "CB",
+      "stats": {
+        "PAC": 78,
+        "SHO": 63,
+        "PAS": 70,
+        "DRI": 70,
+        "DEF": 88,
+        "PHY": 83
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/sergio-ramos/48",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 33,
+    "name": "Thiago Silva",
+    "club": "Paris Saint-Germain",
+    "overall": 89,
+    "potential": 89,
+    "number": 2,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "CB",
+    "stats": {
+      "PAC": 74,
+      "SHO": 57,
+      "PAS": 73,
+      "DRI": 73,
+      "DEF": 90,
+      "PHY": 79
+    },
+    "list_index": 39,
+    "file_values": {
+      "overall": 89,
+      "position": "CB",
+      "stats": {
+        "PAC": 74,
+        "SHO": 57,
+        "PAS": 73,
+        "DRI": 73,
+        "DEF": 90,
+        "PHY": 79
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/thiago-silva/46",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Paris Saint-Germain"
+  },
+  {
+    "rank": 40,
+    "name": "T. Kroos",
+    "club": "Real Madrid",
+    "overall": 88,
+    "potential": 89,
+    "number": 8,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CM",
+    "stats": {
+      "PAC": 45,
+      "SHO": 80,
+      "PAS": 88,
+      "DRI": 79,
+      "DEF": 69,
+      "PHY": 70
+    },
+    "list_index": 40,
+    "file_values": {
+      "overall": 88,
+      "position": "CM",
+      "stats": {
+        "PAC": 45,
+        "SHO": 80,
+        "PAS": 88,
+        "DRI": 79,
+        "DEF": 69,
+        "PHY": 70
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/toni-kroos/37",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 41,
+    "name": "B. Leno",
+    "club": "Bayer 04 Leverkusen",
+    "overall": 86,
+    "potential": 89,
+    "number": 1,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "GK",
+    "stats": {
+      "DIV": 85,
+      "HAN": 86,
+      "KIC": 80,
+      "REF": 83,
+      "SPD": 46,
+      "POS": 86
+    },
+    "list_index": 41,
+    "file_values": {
+      "overall": 86,
+      "position": "GK",
+      "stats": {
+        "DIV": 85,
+        "HAN": 86,
+        "KIC": 76,
+        "REF": 83,
+        "SPD": 49,
+        "POS": 85
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/bernd-leno/3683",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Bayer 04 Leverkusen"
+  },
+  {
+    "rank": 41,
+    "name": "Coutinho",
+    "club": "Liverpool",
+    "overall": 85,
+    "potential": 89,
+    "number": 10,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "CAM",
+    "stats": {
+      "PAC": 82,
+      "SHO": 74,
+      "PAS": 82,
+      "DRI": 87,
+      "DEF": 33,
+      "PHY": 56
+    },
+    "list_index": 42,
+    "file_values": {
+      "overall": 86,
+      "position": "LW",
+      "stats": {
+        "PAC": 82,
+        "SHO": 77,
+        "PAS": 82,
+        "DRI": 88,
+        "DEF": 35,
+        "PHY": 64
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/coutinho/3656",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Liverpool"
+  },
+  {
+    "rank": 41,
+    "name": "D. Alaba",
+    "club": "FC Bayern München",
+    "overall": 87,
+    "potential": 89,
+    "number": 27,
+    "nation": "Austria",
+    "nationCode": "AT",
+    "position": "LB",
+    "stats": {
+      "PAC": 86,
+      "SHO": 73,
+      "PAS": 81,
+      "DRI": 83,
+      "DEF": 83,
+      "PHY": 73
+    },
+    "list_index": 43,
+    "file_values": {
+      "overall": 86,
+      "position": "LB",
+      "stats": {
+        "PAC": 86,
+        "SHO": 73,
+        "PAS": 81,
+        "DRI": 81,
+        "DEF": 82,
+        "PHY": 74
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/david-alaba/19",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 44,
+    "name": "Isco",
+    "club": "Real Madrid",
+    "overall": 84,
+    "potential": 89,
+    "number": 22,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CAM",
+    "stats": {
+      "PAC": 72,
+      "SHO": 75,
+      "PAS": 80,
+      "DRI": 86,
+      "DEF": 39,
+      "PHY": 62
+    },
+    "list_index": 44,
+    "file_values": {
+      "overall": 85,
+      "position": "CM",
+      "stats": {
+        "PAC": 72,
+        "SHO": 77,
+        "PAS": 81,
+        "DRI": 88,
+        "DEF": 51,
+        "PHY": 62
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/isco/4087",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 45,
+    "name": "M. Icardi",
+    "club": "Inter",
+    "overall": 82,
+    "potential": 89,
+    "number": 9,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "ST",
+    "stats": {
+      "PAC": 78,
+      "SHO": 81,
+      "PAS": 57,
+      "DRI": 76,
+      "DEF": 26,
+      "PHY": 66
+    },
+    "list_index": 45,
+    "file_values": {
+      "overall": 84,
+      "position": "ST",
+      "stats": {
+        "PAC": 79,
+        "SHO": 83,
+        "PAS": 61,
+        "DRI": 77,
+        "DEF": 26,
+        "PHY": 68
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/mauro-icardi/4068",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Inter"
+  },
+  {
+    "rank": 46,
+    "name": "André Gomes",
+    "club": "FC Barcelona",
+    "overall": 84,
+    "potential": 89,
+    "number": 21,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "CM",
+    "stats": {
+      "PAC": 69,
+      "SHO": 71,
+      "PAS": 80,
+      "DRI": 83,
+      "DEF": 71,
+      "PHY": 81
+    },
+    "list_index": 46,
+    "file_values": {
+      "overall": 83,
+      "position": "CM",
+      "stats": {
+        "PAC": 69,
+        "SHO": 71,
+        "PAS": 79,
+        "DRI": 81,
+        "DEF": 71,
+        "PHY": 81
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/andre-gomes/9030",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 46,
+    "name": "G. Rulli",
+    "club": "Real Sociedad",
+    "overall": 82,
+    "potential": 89,
+    "number": 1,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "GK",
+    "stats": {
+      "DIV": 85,
+      "HAN": 79,
+      "KIC": 70,
+      "REF": 86,
+      "SPD": 54,
+      "POS": 80
+    },
+    "list_index": 47,
+    "file_values": {
+      "overall": 83,
+      "position": "GK",
+      "stats": {
+        "DIV": 85,
+        "HAN": 79,
+        "KIC": 75,
+        "REF": 86,
+        "SPD": 51,
+        "POS": 82
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/geronimo-rulli/10158",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Sociedad"
+  },
+  {
+    "rank": 46,
+    "name": "Marquinhos",
+    "club": "Paris Saint-Germain",
+    "overall": 82,
+    "potential": 89,
+    "number": 5,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "CB",
+    "stats": {
+      "PAC": 73,
+      "SHO": 38,
+      "PAS": 67,
+      "DRI": 69,
+      "DEF": 84,
+      "PHY": 76
+    },
+    "list_index": 48,
+    "file_values": {
+      "overall": 83,
+      "position": "CB",
+      "stats": {
+        "PAC": 74,
+        "SHO": 38,
+        "PAS": 67,
+        "DRI": 70,
+        "DEF": 84,
+        "PHY": 76
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/marquinhos/4003",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Paris Saint-Germain"
+  },
+  {
+    "rank": 46,
+    "name": "T. Horn",
+    "club": "1. FC Köln",
+    "overall": 82,
+    "potential": 89,
+    "number": 1,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "GK",
+    "stats": {
+      "DIV": 80,
+      "HAN": 80,
+      "KIC": 83,
+      "REF": 83,
+      "SPD": 45,
+      "POS": 82
+    },
+    "list_index": 49,
+    "file_values": {
+      "overall": 83,
+      "position": "GK",
+      "stats": {
+        "DIV": 80,
+        "HAN": 82,
+        "KIC": 83,
+        "REF": 84,
+        "SPD": 48,
+        "POS": 82
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/timo-horn/3853",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "1. FC Köln"
+  },
+  {
+    "rank": 50,
+    "name": "A. Belotti",
+    "club": "Torino",
+    "overall": 77,
+    "potential": 89,
+    "number": 9,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "ST",
+    "stats": {
+      "PAC": 77,
+      "SHO": 76,
+      "PAS": 55,
+      "DRI": 74,
+      "DEF": 26,
+      "PHY": 77
+    },
+    "list_index": 50,
+    "file_values": {
+      "overall": 82,
+      "position": "ST",
+      "stats": {
+        "PAC": 81,
+        "SHO": 80,
+        "PAS": 57,
+        "DRI": 76,
+        "DEF": 29,
+        "PHY": 83
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/andrea-belotti/8221",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Torino"
+  },
+  {
+    "rank": 50,
+    "name": "J. Butland",
+    "club": "Stoke City",
+    "overall": 82,
+    "potential": 89,
+    "number": 1,
+    "nation": "England",
+    "nationCode": "GB-ENG",
+    "position": "GK",
+    "stats": {
+      "DIV": 81,
+      "HAN": 83,
+      "KIC": 73,
+      "REF": 85,
+      "SPD": 51,
+      "POS": 79
+    },
+    "list_index": 51,
+    "file_values": {
+      "overall": 82,
+      "position": "GK",
+      "stats": {
+        "DIV": 81,
+        "HAN": 83,
+        "KIC": 73,
+        "REF": 85,
+        "SPD": 48,
+        "POS": 79
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/jack-butland/6955",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Stoke City"
+  },
+  {
+    "rank": 50,
+    "name": "Marco Asensio",
+    "club": "Real Madrid",
+    "overall": 81,
+    "potential": 89,
+    "number": 20,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CAM",
+    "stats": {
+      "PAC": 72,
+      "SHO": 70,
+      "PAS": 83,
+      "DRI": 82,
+      "DEF": 39,
+      "PHY": 61
+    },
+    "list_index": 52,
+    "file_values": {
+      "overall": 82,
+      "position": "CAM",
+      "stats": {
+        "PAC": 79,
+        "SHO": 73,
+        "PAS": 83,
+        "DRI": 82,
+        "DEF": 41,
+        "PHY": 61
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/marco-asensio/4082",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 53,
+    "name": "K. Baldé Diao",
+    "club": "Lazio",
+    "overall": 78,
+    "potential": 89,
+    "number": 14,
+    "nation": "Senegal",
+    "nationCode": "SN",
+    "position": "LW",
+    "stats": {
+      "PAC": 91,
+      "SHO": 70,
+      "PAS": 70,
+      "DRI": 83,
+      "DEF": 29,
+      "PHY": 71
+    },
+    "list_index": 53,
+    "file_values": {
+      "overall": 81,
+      "position": "LW",
+      "stats": {
+        "PAC": 91,
+        "SHO": 72,
+        "PAS": 72,
+        "DRI": 85,
+        "DEF": 29,
+        "PHY": 72
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/keita-balde-diao/10286",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Lazio"
+  },
+  {
+    "rank": 54,
+    "name": "M. Rashford",
+    "club": "Manchester United",
+    "overall": 76,
+    "potential": 89,
+    "number": 19,
+    "nation": "England",
+    "nationCode": "GB-ENG",
+    "position": "ST",
+    "stats": {
+      "PAC": 90,
+      "SHO": 73,
+      "PAS": 66,
+      "DRI": 79,
+      "DEF": 31,
+      "PHY": 65
+    },
+    "list_index": 54,
+    "file_values": {
+      "overall": 78,
+      "position": "ST",
+      "stats": {
+        "PAC": 91,
+        "SHO": 73,
+        "PAS": 68,
+        "DRI": 81,
+        "DEF": 31,
+        "PHY": 65
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/marcus-rashford/33",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester United"
+  },
+  {
+    "rank": 55,
+    "name": "A. Lafont",
+    "club": "Toulouse Football Club",
+    "overall": 74,
+    "potential": 89,
+    "number": 40,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "GK",
+    "stats": {
+      "DIV": 75,
+      "HAN": 74,
+      "KIC": 69,
+      "REF": 76,
+      "SPD": 48,
+      "POS": 74
+    },
+    "list_index": 55,
+    "file_values": {
+      "overall": 77,
+      "position": "GK",
+      "stats": {
+        "DIV": 78,
+        "HAN": 77,
+        "KIC": 71,
+        "REF": 79,
+        "SPD": 46,
+        "POS": 76
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/alban-lafont/14197",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Toulouse Football Club"
+  },
+  {
+    "rank": 56,
+    "name": "C. Pulisic",
+    "club": "Borussia Dortmund",
+    "overall": 69,
+    "potential": 89,
+    "number": 22,
+    "nation": "United States",
+    "nationCode": "US",
+    "position": "LM",
+    "stats": {
+      "PAC": 82,
+      "SHO": 58,
+      "PAS": 60,
+      "DRI": 76,
+      "DEF": 28,
+      "PHY": 44
+    },
+    "list_index": 56,
+    "file_values": {
+      "overall": 76,
+      "position": "RM",
+      "stats": {
+        "PAC": 87,
+        "SHO": 66,
+        "PAS": 66,
+        "DRI": 81,
+        "DEF": 31,
+        "PHY": 54
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/christian-pulisic/13054",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Borussia Dortmund"
+  },
+  {
+    "rank": 57,
+    "name": "A. Sánchez",
+    "club": "Arsenal",
+    "overall": 87,
+    "potential": 88,
+    "number": 7,
+    "nation": "Chile",
+    "nationCode": "CL",
+    "position": "LW",
+    "stats": {
+      "PAC": 86,
+      "SHO": 82,
+      "PAS": 79,
+      "DRI": 88,
+      "DEF": 39,
+      "PHY": 74
+    },
+    "list_index": 57,
+    "file_values": {
+      "overall": 88,
+      "position": "ST",
+      "stats": {
+        "PAC": 86,
+        "SHO": 84,
+        "PAS": 79,
+        "DRI": 88,
+        "DEF": 40,
+        "PHY": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/alexis-sanchez/15",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Arsenal"
+  },
+  {
+    "rank": 57,
+    "name": "D. Godín",
+    "club": "Atlético Madrid",
+    "overall": 88,
+    "potential": 88,
+    "number": 2,
+    "nation": "Uruguay",
+    "nationCode": "UY",
+    "position": "CB",
+    "stats": {
+      "PAC": 65,
+      "SHO": 48,
+      "PAS": 65,
+      "DRI": 63,
+      "DEF": 88,
+      "PHY": 79
+    },
+    "list_index": 58,
+    "file_values": {
+      "overall": 88,
+      "position": "CB",
+      "stats": {
+        "PAC": 65,
+        "SHO": 48,
+        "PAS": 65,
+        "DRI": 63,
+        "DEF": 88,
+        "PHY": 79
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/diego-godin/39",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Atlético Madrid"
+  },
+  {
+    "rank": 57,
+    "name": "G. Buffon",
+    "club": "Juventus",
+    "overall": 88,
+    "potential": 88,
+    "number": 1,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "GK",
+    "stats": {
+      "DIV": 87,
+      "HAN": 88,
+      "KIC": 68,
+      "REF": 84,
+      "SPD": 49,
+      "POS": 90
+    },
+    "list_index": 59,
+    "file_values": {
+      "overall": 88,
+      "position": "GK",
+      "stats": {
+        "DIV": 87,
+        "HAN": 88,
+        "KIC": 68,
+        "REF": 84,
+        "SPD": 46,
+        "POS": 90
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/gianluigi-buffon/16085",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Juventus"
+  },
+  {
+    "rank": 57,
+    "name": "G. Chiellini",
+    "club": "Juventus",
+    "overall": 88,
+    "potential": 88,
+    "number": 3,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "CB",
+    "stats": {
+      "PAC": 74,
+      "SHO": 46,
+      "PAS": 53,
+      "DRI": 58,
+      "DEF": 90,
+      "PHY": 85
+    },
+    "list_index": 60,
+    "file_values": {
+      "overall": 88,
+      "position": "CB",
+      "stats": {
+        "PAC": 74,
+        "SHO": 46,
+        "PAS": 54,
+        "DRI": 58,
+        "DEF": 90,
+        "PHY": 85
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/giorgio-chiellini/35",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Juventus"
+  },
+  {
+    "rank": 57,
+    "name": "H. Lloris",
+    "club": "Tottenham Hotspur",
+    "overall": 88,
+    "potential": 88,
+    "number": 1,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "GK",
+    "stats": {
+      "DIV": 87,
+      "HAN": 87,
+      "KIC": 68,
+      "REF": 90,
+      "SPD": 65,
+      "POS": 82
+    },
+    "list_index": 61,
+    "file_values": {
+      "overall": 88,
+      "position": "GK",
+      "stats": {
+        "DIV": 87,
+        "HAN": 87,
+        "KIC": 68,
+        "REF": 90,
+        "SPD": 64,
+        "POS": 82
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/hugo-lloris/20",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Tottenham Hotspur"
+  },
+  {
+    "rank": 57,
+    "name": "Iniesta",
+    "club": "FC Barcelona",
+    "overall": 88,
+    "potential": 88,
+    "number": 8,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CM",
+    "stats": {
+      "PAC": 73,
+      "SHO": 72,
+      "PAS": 87,
+      "DRI": 90,
+      "DEF": 59,
+      "PHY": 60
+    },
+    "list_index": 62,
+    "file_values": {
+      "overall": 88,
+      "position": "CM",
+      "stats": {
+        "PAC": 73,
+        "SHO": 72,
+        "PAS": 87,
+        "DRI": 90,
+        "DEF": 59,
+        "PHY": 60
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/iniesta/16068",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 57,
+    "name": "M. Hummels",
+    "club": "FC Bayern München",
+    "overall": 87,
+    "potential": 88,
+    "number": 5,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CB",
+    "stats": {
+      "PAC": 64,
+      "SHO": 58,
+      "PAS": 74,
+      "DRI": 71,
+      "DEF": 88,
+      "PHY": 77
+    },
+    "list_index": 63,
+    "file_values": {
+      "overall": 88,
+      "position": "CB",
+      "stats": {
+        "PAC": 64,
+        "SHO": 58,
+        "PAS": 74,
+        "DRI": 71,
+        "DEF": 89,
+        "PHY": 76
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/mats-hummels/12",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 57,
+    "name": "M. Reus",
+    "club": "Borussia Dortmund",
+    "overall": 88,
+    "potential": 88,
+    "number": 11,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "LM",
+    "stats": {
+      "PAC": 90,
+      "SHO": 85,
+      "PAS": 84,
+      "DRI": 86,
+      "DEF": 40,
+      "PHY": 63
+    },
+    "list_index": 64,
+    "file_values": {
+      "overall": 88,
+      "position": "LM",
+      "stats": {
+        "PAC": 90,
+        "SHO": 85,
+        "PAS": 84,
+        "DRI": 86,
+        "DEF": 40,
+        "PHY": 65
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/marco-reus/32",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Borussia Dortmund"
+  },
+  {
+    "rank": 57,
+    "name": "P. Čech",
+    "club": "Arsenal",
+    "overall": 88,
+    "potential": 88,
+    "number": 33,
+    "nation": "Czech Republic",
+    "nationCode": "CZ",
+    "position": "GK",
+    "stats": {
+      "DIV": 83,
+      "HAN": 90,
+      "KIC": 77,
+      "REF": 85,
+      "SPD": 45,
+      "POS": 85
+    },
+    "list_index": 65,
+    "file_values": {
+      "overall": 88,
+      "position": "GK",
+      "stats": {
+        "DIV": 83,
+        "HAN": 90,
+        "KIC": 77,
+        "REF": 85,
+        "SPD": 46,
+        "POS": 85
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/petr-cech/36",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Arsenal"
+  },
+  {
+    "rank": 57,
+    "name": "Pepe",
+    "club": "Real Madrid",
+    "overall": 88,
+    "potential": 88,
+    "number": 3,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "CB",
+    "stats": {
+      "PAC": 70,
+      "SHO": 50,
+      "PAS": 56,
+      "DRI": 59,
+      "DEF": 88,
+      "PHY": 81
+    },
+    "list_index": 66,
+    "file_values": {
+      "overall": 88,
+      "position": "CB",
+      "stats": {
+        "PAC": 70,
+        "SHO": 50,
+        "PAS": 57,
+        "DRI": 61,
+        "DEF": 87,
+        "PHY": 81
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/pepe/42",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 67,
+    "name": "Thiago",
+    "club": "FC Bayern München",
+    "overall": 84,
+    "potential": 88,
+    "number": 6,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CM",
+    "stats": {
+      "PAC": 72,
+      "SHO": 75,
+      "PAS": 82,
+      "DRI": 89,
+      "DEF": 57,
+      "PHY": 62
+    },
+    "list_index": 67,
+    "file_values": {
+      "overall": 86,
+      "position": "CM",
+      "stats": {
+        "PAC": 72,
+        "SHO": 75,
+        "PAS": 84,
+        "DRI": 90,
+        "DEF": 61,
+        "PHY": 63
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/thiago/78",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 68,
+    "name": "A. Lacazette",
+    "club": "Olympique Lyonnais",
+    "overall": 85,
+    "potential": 88,
+    "number": 10,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "ST",
+    "stats": {
+      "PAC": 86,
+      "SHO": 82,
+      "PAS": 75,
+      "DRI": 84,
+      "DEF": 34,
+      "PHY": 76
+    },
+    "list_index": 68,
+    "file_values": {
+      "overall": 85,
+      "position": "ST",
+      "stats": {
+        "PAC": 86,
+        "SHO": 83,
+        "PAS": 75,
+        "DRI": 85,
+        "DEF": 38,
+        "PHY": 77
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/alexandre-lacazette/3682",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Olympique Lyonnais"
+  },
+  {
+    "rank": 69,
+    "name": "A. Laporte",
+    "club": "Athletic Club de Bilbao",
+    "overall": 84,
+    "potential": 88,
+    "number": 4,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CB",
+    "stats": {
+      "PAC": 65,
+      "SHO": 50,
+      "PAS": 66,
+      "DRI": 61,
+      "DEF": 86,
+      "PHY": 78
+    },
+    "list_index": 69,
+    "file_values": {
+      "overall": 84,
+      "position": "CB",
+      "stats": {
+        "PAC": 70,
+        "SHO": 50,
+        "PAS": 66,
+        "DRI": 61,
+        "DEF": 86,
+        "PHY": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/aymeric-laporte/9195",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Athletic Club de Bilbao"
+  },
+  {
+    "rank": 69,
+    "name": "Casemiro",
+    "club": "Real Madrid",
+    "overall": 82,
+    "potential": 88,
+    "number": 14,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "CDM",
+    "stats": {
+      "PAC": 61,
+      "SHO": 68,
+      "PAS": 71,
+      "DRI": 71,
+      "DEF": 80,
+      "PHY": 84
+    },
+    "list_index": 70,
+    "file_values": {
+      "overall": 84,
+      "position": "CDM",
+      "stats": {
+        "PAC": 61,
+        "SHO": 68,
+        "PAS": 72,
+        "DRI": 71,
+        "DEF": 82,
+        "PHY": 84
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/casemiro/4083",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 69,
+    "name": "Koke",
+    "club": "Atlético Madrid",
+    "overall": 84,
+    "potential": 88,
+    "number": 6,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CM",
+    "stats": {
+      "PAC": 71,
+      "SHO": 75,
+      "PAS": 85,
+      "DRI": 82,
+      "DEF": 55,
+      "PHY": 74
+    },
+    "list_index": 71,
+    "file_values": {
+      "overall": 84,
+      "position": "CM",
+      "stats": {
+        "PAC": 71,
+        "SHO": 75,
+        "PAS": 86,
+        "DRI": 82,
+        "DEF": 63,
+        "PHY": 75
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/koke/5325",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Atlético Madrid"
+  },
+  {
+    "rank": 69,
+    "name": "M. ter Stegen",
+    "club": "FC Barcelona",
+    "overall": 83,
+    "potential": 88,
+    "number": 1,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "GK",
+    "stats": {
+      "DIV": 84,
+      "HAN": 81,
+      "KIC": 83,
+      "REF": 85,
+      "SPD": 38,
+      "POS": 78
+    },
+    "list_index": 72,
+    "file_values": {
+      "overall": 84,
+      "position": "GK",
+      "stats": {
+        "DIV": 84,
+        "HAN": 81,
+        "KIC": 83,
+        "REF": 85,
+        "SPD": 45,
+        "POS": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/marc-andre-ter-stegen/5013",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 69,
+    "name": "S. Mustafi",
+    "club": "Arsenal",
+    "overall": 83,
+    "potential": 88,
+    "number": 20,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CB",
+    "stats": {
+      "PAC": 70,
+      "SHO": 57,
+      "PAS": 63,
+      "DRI": 60,
+      "DEF": 83,
+      "PHY": 79
+    },
+    "list_index": 73,
+    "file_values": {
+      "overall": 84,
+      "position": "CB",
+      "stats": {
+        "PAC": 70,
+        "SHO": 57,
+        "PAS": 64,
+        "DRI": 62,
+        "DEF": 83,
+        "PHY": 79
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/shkodran-mustafi/4962",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Arsenal"
+  },
+  {
+    "rank": 69,
+    "name": "Y. Carrasco",
+    "club": "Atlético Madrid",
+    "overall": 82,
+    "potential": 88,
+    "number": 10,
+    "nation": "Belgium",
+    "nationCode": "BE",
+    "position": "LM",
+    "stats": {
+      "PAC": 88,
+      "SHO": 75,
+      "PAS": 76,
+      "DRI": 84,
+      "DEF": 28,
+      "PHY": 64
+    },
+    "list_index": 74,
+    "file_values": {
+      "overall": 84,
+      "position": "LM",
+      "stats": {
+        "PAC": 88,
+        "SHO": 78,
+        "PAS": 76,
+        "DRI": 87,
+        "DEF": 29,
+        "PHY": 64
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/yannick-carrasco/8165",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Atlético Madrid"
+  },
+  {
+    "rank": 75,
+    "name": "J. Giménez",
+    "club": "Atlético Madrid",
+    "overall": 83,
+    "potential": 88,
+    "number": 24,
+    "nation": "Uruguay",
+    "nationCode": "UY",
+    "position": "CB",
+    "stats": {
+      "PAC": 69,
+      "SHO": 45,
+      "PAS": 51,
+      "DRI": 52,
+      "DEF": 84,
+      "PHY": 83
+    },
+    "list_index": 75,
+    "file_values": {
+      "overall": 83,
+      "position": "CB",
+      "stats": {
+        "PAC": 70,
+        "SHO": 45,
+        "PAS": 51,
+        "DRI": 52,
+        "DEF": 85,
+        "PHY": 81
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/jose-maria-gimenez/10466",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Atlético Madrid"
+  },
+  {
+    "rank": 75,
+    "name": "João Mário",
+    "club": "Inter",
+    "overall": 83,
+    "potential": 88,
+    "number": 6,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "RM",
+    "stats": {
+      "PAC": 76,
+      "SHO": 73,
+      "PAS": 80,
+      "DRI": 83,
+      "DEF": 70,
+      "PHY": 72
+    },
+    "list_index": 76,
+    "file_values": {
+      "overall": 83,
+      "position": "CM",
+      "stats": {
+        "PAC": 76,
+        "SHO": 73,
+        "PAS": 80,
+        "DRI": 83,
+        "DEF": 70,
+        "PHY": 72
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/joao-mario/4070",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Inter"
+  },
+  {
+    "rank": 75,
+    "name": "M. Perin",
+    "club": "Genoa",
+    "overall": 83,
+    "potential": 88,
+    "number": 1,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "GK",
+    "stats": {
+      "DIV": 80,
+      "HAN": 85,
+      "KIC": 71,
+      "REF": 90,
+      "SPD": 57,
+      "POS": 78
+    },
+    "list_index": 77,
+    "file_values": {
+      "overall": 83,
+      "position": "GK",
+      "stats": {
+        "DIV": 80,
+        "HAN": 85,
+        "KIC": 71,
+        "REF": 90,
+        "SPD": 56,
+        "POS": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/mattia-perin/5710",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Genoa"
+  },
+  {
+    "rank": 75,
+    "name": "R. Sterling",
+    "club": "Manchester City",
+    "overall": 82,
+    "potential": 88,
+    "number": 7,
+    "nation": "England",
+    "nationCode": "GB-ENG",
+    "position": "LM",
+    "stats": {
+      "PAC": 93,
+      "SHO": 71,
+      "PAS": 72,
+      "DRI": 86,
+      "DEF": 46,
+      "PHY": 61
+    },
+    "list_index": 78,
+    "file_values": {
+      "overall": 83,
+      "position": "RM",
+      "stats": {
+        "PAC": 93,
+        "SHO": 71,
+        "PAS": 74,
+        "DRI": 86,
+        "DEF": 46,
+        "PHY": 61
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/raheem-sterling/3801",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester City"
+  },
+  {
+    "rank": 75,
+    "name": "S. Umtiti",
+    "club": "FC Barcelona",
+    "overall": 82,
+    "potential": 88,
+    "number": 23,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CB",
+    "stats": {
+      "PAC": 75,
+      "SHO": 64,
+      "PAS": 70,
+      "DRI": 70,
+      "DEF": 82,
+      "PHY": 78
+    },
+    "list_index": 79,
+    "file_values": {
+      "overall": 83,
+      "position": "CB",
+      "stats": {
+        "PAC": 75,
+        "SHO": 64,
+        "PAS": 70,
+        "DRI": 70,
+        "DEF": 82,
+        "PHY": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/samuel-umtiti/7614",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 80,
+    "name": "J. Tah",
+    "club": "Bayer 04 Leverkusen",
+    "overall": 79,
+    "potential": 88,
+    "number": 4,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CB",
+    "stats": {
+      "PAC": 72,
+      "SHO": 27,
+      "PAS": 57,
+      "DRI": 57,
+      "DEF": 78,
+      "PHY": 78
+    },
+    "list_index": 80,
+    "file_values": {
+      "overall": 82,
+      "position": "CB",
+      "stats": {
+        "PAC": 72,
+        "SHO": 27,
+        "PAS": 58,
+        "DRI": 57,
+        "DEF": 82,
+        "PHY": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/jonathan-tah/3860",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Bayer 04 Leverkusen"
+  },
+  {
+    "rank": 80,
+    "name": "N. Süle",
+    "club": "TSG 1899 Hoffenheim",
+    "overall": 81,
+    "potential": 88,
+    "number": 25,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CB",
+    "stats": {
+      "PAC": 58,
+      "SHO": 39,
+      "PAS": 49,
+      "DRI": 44,
+      "DEF": 83,
+      "PHY": 80
+    },
+    "list_index": 81,
+    "file_values": {
+      "overall": 82,
+      "position": "CB",
+      "stats": {
+        "PAC": 60,
+        "SHO": 39,
+        "PAS": 49,
+        "DRI": 44,
+        "DEF": 83,
+        "PHY": 80
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/niklas-sule/9180",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "TSG 1899 Hoffenheim"
+  },
+  {
+    "rank": 80,
+    "name": "S. de Vrij",
+    "club": "Lazio",
+    "overall": 82,
+    "potential": 88,
+    "number": 3,
+    "nation": "Netherlands",
+    "nationCode": "NL",
+    "position": "CB",
+    "stats": {
+      "PAC": 67,
+      "SHO": 41,
+      "PAS": 58,
+      "DRI": 65,
+      "DEF": 84,
+      "PHY": 71
+    },
+    "list_index": 82,
+    "file_values": {
+      "overall": 82,
+      "position": "CB",
+      "stats": {
+        "PAC": 69,
+        "SHO": 41,
+        "PAS": 58,
+        "DRI": 65,
+        "DEF": 84,
+        "PHY": 75
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/stefan-de-vrij/5759",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Lazio"
+  },
+  {
+    "rank": 83,
+    "name": "A. Rabiot",
+    "club": "Paris Saint-Germain",
+    "overall": 78,
+    "potential": 88,
+    "number": 25,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CM",
+    "stats": {
+      "PAC": 63,
+      "SHO": 70,
+      "PAS": 75,
+      "DRI": 75,
+      "DEF": 69,
+      "PHY": 75
+    },
+    "list_index": 83,
+    "file_values": {
+      "overall": 81,
+      "position": "CM",
+      "stats": {
+        "PAC": 71,
+        "SHO": 71,
+        "PAS": 77,
+        "DRI": 78,
+        "DEF": 73,
+        "PHY": 77
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/adrien-rabiot/3999",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Paris Saint-Germain"
+  },
+  {
+    "rank": 83,
+    "name": "C. Tolisso",
+    "club": "Olympique Lyonnais",
+    "overall": 78,
+    "potential": 88,
+    "number": 8,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CM",
+    "stats": {
+      "PAC": 73,
+      "SHO": 74,
+      "PAS": 74,
+      "DRI": 73,
+      "DEF": 76,
+      "PHY": 80
+    },
+    "list_index": 84,
+    "file_values": {
+      "overall": 81,
+      "position": "CM",
+      "stats": {
+        "PAC": 75,
+        "SHO": 75,
+        "PAS": 77,
+        "DRI": 76,
+        "DEF": 78,
+        "PHY": 82
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/corentin-tolisso/3930",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Olympique Lyonnais"
+  },
+  {
+    "rank": 83,
+    "name": "Deulofeu",
+    "club": "Milan",
+    "overall": 81,
+    "potential": 88,
+    "number": 7,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "RM",
+    "stats": {
+      "PAC": 91,
+      "SHO": 69,
+      "PAS": 73,
+      "DRI": 87,
+      "DEF": 26,
+      "PHY": 60
+    },
+    "list_index": 85,
+    "file_values": {
+      "overall": 81,
+      "position": "RM",
+      "stats": {
+        "PAC": 91,
+        "SHO": 70,
+        "PAS": 74,
+        "DRI": 87,
+        "DEF": 26,
+        "PHY": 60
+      }
+    },
+    "audit_status": "CAREER_MODE_FALLBACK",
+    "source_url": "https://raw.githubusercontent.com/ifrankandrade/data-visualization/main/datasets/players_17.csv",
+    "note": "Exact roster calendar date unverified; not a verified FUT card. Club differs from supplied later-season club.",
+    "stats_basis": "FIFA17_CAREER_MODE_EXPORT",
+    "source_club": "Everton",
+    "source_csv_line": 276,
+    "roster": "170002"
+  },
+  {
+    "rank": 83,
+    "name": "Samu Castillejo",
+    "club": "Villarreal CF",
+    "overall": 80,
+    "potential": 88,
+    "number": 19,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "LM",
+    "stats": {
+      "PAC": 87,
+      "SHO": 64,
+      "PAS": 77,
+      "DRI": 82,
+      "DEF": 37,
+      "PHY": 51
+    },
+    "list_index": 86,
+    "file_values": {
+      "overall": 81,
+      "position": "RM",
+      "stats": {
+        "PAC": 87,
+        "SHO": 67,
+        "PAS": 79,
+        "DRI": 82,
+        "DEF": 37,
+        "PHY": 51
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/samu-castillejo/8753",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Villarreal CF"
+  },
+  {
+    "rank": 87,
+    "name": "A. Areola",
+    "club": "Paris Saint-Germain",
+    "overall": 81,
+    "potential": 88,
+    "number": 16,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "GK",
+    "stats": {
+      "DIV": 84,
+      "HAN": 80,
+      "KIC": 72,
+      "REF": 85,
+      "SPD": 54,
+      "POS": 76
+    },
+    "list_index": 87,
+    "file_values": {
+      "overall": 80,
+      "position": "GK",
+      "stats": {
+        "DIV": 82,
+        "HAN": 79,
+        "KIC": 72,
+        "REF": 83,
+        "SPD": 53,
+        "POS": 76
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/alphonse-areola/4002",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Paris Saint-Germain"
+  },
+  {
+    "rank": 87,
+    "name": "D. Rugani",
+    "club": "Juventus",
+    "overall": 79,
+    "potential": 88,
+    "number": 24,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "CB",
+    "stats": {
+      "PAC": 63,
+      "SHO": 39,
+      "PAS": 51,
+      "DRI": 62,
+      "DEF": 83,
+      "PHY": 72
+    },
+    "list_index": 88,
+    "file_values": {
+      "overall": 80,
+      "position": "CB",
+      "stats": {
+        "PAC": 64,
+        "SHO": 39,
+        "PAS": 52,
+        "DRI": 62,
+        "DEF": 84,
+        "PHY": 75
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/daniele-rugani/3986",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Juventus"
+  },
+  {
+    "rank": 87,
+    "name": "Gelson Martins",
+    "club": "Sporting CP",
+    "overall": 78,
+    "potential": 88,
+    "number": 77,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "RM",
+    "stats": {
+      "PAC": 92,
+      "SHO": 71,
+      "PAS": 69,
+      "DRI": 84,
+      "DEF": 34,
+      "PHY": 49
+    },
+    "list_index": 89,
+    "file_values": {
+      "overall": 80,
+      "position": "RM",
+      "stats": {
+        "PAC": 93,
+        "SHO": 70,
+        "PAS": 72,
+        "DRI": 85,
+        "DEF": 38,
+        "PHY": 58
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/gelson-martins/12924",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Sporting CP"
+  },
+  {
+    "rank": 87,
+    "name": "Héctor Bellerín",
+    "club": "Arsenal",
+    "overall": 79,
+    "potential": 88,
+    "number": 24,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "RB",
+    "stats": {
+      "PAC": 95,
+      "SHO": 51,
+      "PAS": 68,
+      "DRI": 77,
+      "DEF": 74,
+      "PHY": 68
+    },
+    "list_index": 90,
+    "file_values": {
+      "overall": 80,
+      "position": "RB",
+      "stats": {
+        "PAC": 95,
+        "SHO": 51,
+        "PAS": 68,
+        "DRI": 77,
+        "DEF": 74,
+        "PHY": 69
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/hector-bellerin/3810",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Arsenal"
+  },
+  {
+    "rank": 87,
+    "name": "J. Brandt",
+    "club": "Bayer 04 Leverkusen",
+    "overall": 79,
+    "potential": 88,
+    "number": 19,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "LM",
+    "stats": {
+      "PAC": 79,
+      "SHO": 73,
+      "PAS": 74,
+      "DRI": 82,
+      "DEF": 26,
+      "PHY": 60
+    },
+    "list_index": 91,
+    "file_values": {
+      "overall": 80,
+      "position": "LM",
+      "stats": {
+        "PAC": 82,
+        "SHO": 73,
+        "PAS": 75,
+        "DRI": 83,
+        "DEF": 26,
+        "PHY": 60
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/julian-brandt/9183",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Bayer 04 Leverkusen"
+  },
+  {
+    "rank": 87,
+    "name": "K. Zouma",
+    "club": "Chelsea",
+    "overall": 80,
+    "potential": 88,
+    "number": 5,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CB",
+    "stats": {
+      "PAC": 73,
+      "SHO": 50,
+      "PAS": 58,
+      "DRI": 55,
+      "DEF": 80,
+      "PHY": 81
+    },
+    "list_index": 92,
+    "file_values": {
+      "overall": 80,
+      "position": "CB",
+      "stats": {
+        "PAC": 73,
+        "SHO": 50,
+        "PAS": 58,
+        "DRI": 55,
+        "DEF": 80,
+        "PHY": 81
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/kurt-zouma/3896",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Chelsea"
+  },
+  {
+    "rank": 87,
+    "name": "Saúl",
+    "club": "Atlético Madrid",
+    "overall": 80,
+    "potential": 88,
+    "number": 8,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CM",
+    "stats": {
+      "PAC": 73,
+      "SHO": 65,
+      "PAS": 76,
+      "DRI": 80,
+      "DEF": 77,
+      "PHY": 75
+    },
+    "list_index": 93,
+    "file_values": {
+      "overall": 80,
+      "position": "CM",
+      "stats": {
+        "PAC": 73,
+        "SHO": 65,
+        "PAS": 77,
+        "DRI": 80,
+        "DEF": 77,
+        "PHY": 75
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/saul/8166",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Atlético Madrid"
+  },
+  {
+    "rank": 87,
+    "name": "T. Lemar",
+    "club": "AS Monaco",
+    "overall": 78,
+    "potential": 88,
+    "number": 27,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "RM",
+    "stats": {
+      "PAC": 80,
+      "SHO": 72,
+      "PAS": 76,
+      "DRI": 80,
+      "DEF": 62,
+      "PHY": 69
+    },
+    "list_index": 94,
+    "file_values": {
+      "overall": 80,
+      "position": "LM",
+      "stats": {
+        "PAC": 83,
+        "SHO": 75,
+        "PAS": 77,
+        "DRI": 82,
+        "DEF": 62,
+        "PHY": 69
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/thomas-lemar/9576",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "AS Monaco"
+  },
+  {
+    "rank": 95,
+    "name": "A. Christensen",
+    "club": "Borussia Mönchengladbach",
+    "overall": 78,
+    "potential": 88,
+    "number": 3,
+    "nation": "Denmark",
+    "nationCode": "DK",
+    "position": "CB",
+    "stats": {
+      "PAC": 66,
+      "SHO": 31,
+      "PAS": 60,
+      "DRI": 66,
+      "DEF": 80,
+      "PHY": 68
+    },
+    "list_index": 95,
+    "file_values": {
+      "overall": 79,
+      "position": "CB",
+      "stats": {
+        "PAC": 66,
+        "SHO": 31,
+        "PAS": 61,
+        "DRI": 68,
+        "DEF": 81,
+        "PHY": 68
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/andreas-christensen/9608",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Borussia Mönchengladbach"
+  },
+  {
+    "rank": 95,
+    "name": "A. Correa",
+    "club": "Atlético Madrid",
+    "overall": 79,
+    "potential": 88,
+    "number": 11,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "ST",
+    "stats": {
+      "PAC": 83,
+      "SHO": 79,
+      "PAS": 65,
+      "DRI": 86,
+      "DEF": 49,
+      "PHY": 58
+    },
+    "list_index": 96,
+    "file_values": {
+      "overall": 79,
+      "position": "ST",
+      "stats": {
+        "PAC": 83,
+        "SHO": 79,
+        "PAS": 65,
+        "DRI": 86,
+        "DEF": 49,
+        "PHY": 58
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/angel-correa/10063",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Atlético Madrid"
+  },
+  {
+    "rank": 97,
+    "name": "A. Sanabria",
+    "club": "Real Betis",
+    "overall": 78,
+    "potential": 88,
+    "number": 9,
+    "nation": "Paraguay",
+    "nationCode": "PY",
+    "position": "ST",
+    "stats": {
+      "PAC": 77,
+      "SHO": 75,
+      "PAS": 66,
+      "DRI": 81,
+      "DEF": 25,
+      "PHY": 66
+    },
+    "list_index": 97,
+    "file_values": {
+      "overall": 78,
+      "position": "ST",
+      "stats": {
+        "PAC": 82,
+        "SHO": 75,
+        "PAS": 68,
+        "DRI": 82,
+        "DEF": 25,
+        "PHY": 66
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/antonio-sanabria/10903",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Betis"
+  },
+  {
+    "rank": 98,
+    "name": "A. Halilović",
+    "club": "UD Las Palmas",
+    "overall": 79,
+    "potential": 88,
+    "number": 20,
+    "nation": "Croatia",
+    "nationCode": "HR",
+    "position": "CAM",
+    "stats": {
+      "PAC": 80,
+      "SHO": 65,
+      "PAS": 78,
+      "DRI": 81,
+      "DEF": 47,
+      "PHY": 50
+    },
+    "list_index": 98,
+    "file_values": {
+      "overall": 77,
+      "position": "CAM",
+      "stats": {
+        "PAC": 77,
+        "SHO": 64,
+        "PAS": 76,
+        "DRI": 80,
+        "DEF": 28,
+        "PHY": 44
+      }
+    },
+    "audit_status": "CAREER_MODE_FALLBACK",
+    "source_url": "https://raw.githubusercontent.com/ifrankandrade/data-visualization/main/datasets/players_17.csv",
+    "note": "Exact roster calendar date unverified; not a verified FUT card. Club differs from supplied later-season club.",
+    "stats_basis": "FIFA17_CAREER_MODE_EXPORT",
+    "source_club": "Hamburger SV",
+    "source_csv_line": 525,
+    "roster": "170002"
+  },
+  {
+    "rank": 98,
+    "name": "K. Dolberg",
+    "club": "Ajax",
+    "overall": 68,
+    "potential": 88,
+    "number": 25,
+    "nation": "Denmark",
+    "nationCode": "DK",
+    "position": "ST",
+    "stats": {
+      "PAC": 68,
+      "SHO": 68,
+      "PAS": 54,
+      "DRI": 65,
+      "DEF": 19,
+      "PHY": 61
+    },
+    "list_index": 99,
+    "file_values": {
+      "overall": 77,
+      "position": "ST",
+      "stats": {
+        "PAC": 76,
+        "SHO": 77,
+        "PAS": 61,
+        "DRI": 74,
+        "DEF": 26,
+        "PHY": 69
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/kasper-dolberg/13313",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Ajax"
+  },
+  {
+    "rank": 98,
+    "name": "Renato Sanches",
+    "club": "FC Bayern München",
+    "overall": 78,
+    "potential": 88,
+    "number": 35,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "CM",
+    "stats": {
+      "PAC": 82,
+      "SHO": 72,
+      "PAS": 70,
+      "DRI": 79,
+      "DEF": 72,
+      "PHY": 84
+    },
+    "list_index": 100,
+    "file_values": {
+      "overall": 77,
+      "position": "CM",
+      "stats": {
+        "PAC": 81,
+        "SHO": 72,
+        "PAS": 69,
+        "DRI": 78,
+        "DEF": 70,
+        "PHY": 83
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/renato-sanches/3880",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 101,
+    "name": "B. Embolo",
+    "club": "FC Schalke 04",
+    "overall": 76,
+    "potential": 88,
+    "number": 36,
+    "nation": "Switzerland",
+    "nationCode": "CH",
+    "position": "RM",
+    "stats": {
+      "PAC": 86,
+      "SHO": 72,
+      "PAS": 67,
+      "DRI": 79,
+      "DEF": 33,
+      "PHY": 79
+    },
+    "list_index": 101,
+    "file_values": {
+      "overall": 76,
+      "position": "RM",
+      "stats": {
+        "PAC": 86,
+        "SHO": 72,
+        "PAS": 67,
+        "DRI": 79,
+        "DEF": 33,
+        "PHY": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/breel-embolo/11505",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Schalke 04"
+  },
+  {
+    "rank": 102,
+    "name": "K. Iheanacho",
+    "club": "Manchester City",
+    "overall": 74,
+    "potential": 88,
+    "number": 72,
+    "nation": "Nigeria",
+    "nationCode": "NG",
+    "position": "ST",
+    "stats": {
+      "PAC": 87,
+      "SHO": 73,
+      "PAS": 61,
+      "DRI": 74,
+      "DEF": 22,
+      "PHY": 67
+    },
+    "list_index": 102,
+    "file_values": {
+      "overall": 75,
+      "position": "ST",
+      "stats": {
+        "PAC": 87,
+        "SHO": 75,
+        "PAS": 61,
+        "DRI": 75,
+        "DEF": 22,
+        "PHY": 67
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/kelechi-iheanacho/3965",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester City"
+  },
+  {
+    "rank": 103,
+    "name": "M. Sarr",
+    "club": "OGC Nice",
+    "overall": 69,
+    "potential": 88,
+    "number": 32,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "LB",
+    "stats": {
+      "PAC": 71,
+      "SHO": 44,
+      "PAS": 65,
+      "DRI": 65,
+      "DEF": 69,
+      "PHY": 67
+    },
+    "list_index": 103,
+    "file_values": {
+      "overall": 74,
+      "position": "CB",
+      "stats": {
+        "PAC": 74,
+        "SHO": 47,
+        "PAS": 67,
+        "DRI": 65,
+        "DEF": 73,
+        "PHY": 77
+      }
+    },
+    "audit_status": "CAREER_MODE_FALLBACK",
+    "source_url": "https://raw.githubusercontent.com/ifrankandrade/data-visualization/main/datasets/players_17.csv",
+    "note": "Exact roster calendar date unverified; not a verified FUT card. ",
+    "stats_basis": "FIFA17_CAREER_MODE_EXPORT",
+    "source_club": "OGC Nice",
+    "source_csv_line": 5530,
+    "roster": "170002"
+  },
+  {
+    "rank": 103,
+    "name": "T. Hernández",
+    "club": "Deportivo Alavés",
+    "overall": 66,
+    "potential": 88,
+    "number": 15,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "LB",
+    "stats": {
+      "PAC": 67,
+      "SHO": 28,
+      "PAS": 49,
+      "DRI": 60,
+      "DEF": 65,
+      "PHY": 66
+    },
+    "list_index": 104,
+    "file_values": {
+      "overall": 74,
+      "position": "LB",
+      "stats": {
+        "PAC": 85,
+        "SHO": 32,
+        "PAS": 59,
+        "DRI": 74,
+        "DEF": 71,
+        "PHY": 75
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/theo-hernandez/14614",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Deportivo Alavés"
+  },
+  {
+    "rank": 105,
+    "name": "L. Martínez",
+    "club": "Racing Club",
+    "overall": 60,
+    "potential": 88,
+    "number": 32,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "ST",
+    "stats": {
+      "PAC": 64,
+      "SHO": 59,
+      "PAS": 42,
+      "DRI": 61,
+      "DEF": 28,
+      "PHY": 68
+    },
+    "list_index": 105,
+    "file_values": {
+      "overall": 72,
+      "position": "ST",
+      "stats": {
+        "PAC": 78,
+        "SHO": 64,
+        "PAS": 48,
+        "DRI": 67,
+        "DEF": 28,
+        "PHY": 71
+      }
+    },
+    "audit_status": "CAREER_MODE_FALLBACK",
+    "source_url": "https://raw.githubusercontent.com/ifrankandrade/data-visualization/main/datasets/players_17.csv",
+    "note": "Exact roster calendar date unverified; not a verified FUT card. ",
+    "stats_basis": "FIFA17_CAREER_MODE_EXPORT",
+    "source_club": "Racing Club",
+    "source_csv_line": 13839,
+    "roster": "170002"
+  },
+  {
+    "rank": 106,
+    "name": "E. Barco",
+    "club": "Independiente",
+    "overall": 60,
+    "potential": 88,
+    "number": 27,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "CAM",
+    "stats": {
+      "PAC": 85,
+      "SHO": 53,
+      "PAS": 54,
+      "DRI": 64,
+      "DEF": 33,
+      "PHY": 40
+    },
+    "list_index": 106,
+    "file_values": {
+      "overall": 69,
+      "position": "CAM",
+      "stats": {
+        "PAC": 84,
+        "SHO": 54,
+        "PAS": 57,
+        "DRI": 71,
+        "DEF": 33,
+        "PHY": 42
+      }
+    },
+    "audit_status": "CAREER_MODE_FALLBACK",
+    "source_url": "https://raw.githubusercontent.com/ifrankandrade/data-visualization/main/datasets/players_17.csv",
+    "note": "Exact roster calendar date unverified; not a verified FUT card. ",
+    "stats_basis": "FIFA17_CAREER_MODE_EXPORT",
+    "source_club": "Independiente",
+    "source_csv_line": 13855,
+    "roster": "170002"
+  },
+  {
+    "rank": 107,
+    "name": "A. Robben",
+    "club": "FC Bayern München",
+    "overall": 87,
+    "potential": 87,
+    "number": 10,
+    "nation": "Netherlands",
+    "nationCode": "NL",
+    "position": "RM",
+    "stats": {
+      "PAC": 86,
+      "SHO": 85,
+      "PAS": 81,
+      "DRI": 90,
+      "DEF": 32,
+      "PHY": 62
+    },
+    "list_index": 107,
+    "file_values": {
+      "overall": 87,
+      "position": "RM",
+      "stats": {
+        "PAC": 86,
+        "SHO": 85,
+        "PAS": 81,
+        "DRI": 90,
+        "DEF": 32,
+        "PHY": 62
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/arjen-robben/15977",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 107,
+    "name": "A. Vidal",
+    "club": "FC Bayern München",
+    "overall": 87,
+    "potential": 87,
+    "number": 23,
+    "nation": "Chile",
+    "nationCode": "CL",
+    "position": "CM",
+    "stats": {
+      "PAC": 77,
+      "SHO": 81,
+      "PAS": 80,
+      "DRI": 79,
+      "DEF": 84,
+      "PHY": 84
+    },
+    "list_index": 108,
+    "file_values": {
+      "overall": 87,
+      "position": "CM",
+      "stats": {
+        "PAC": 75,
+        "SHO": 81,
+        "PAS": 80,
+        "DRI": 79,
+        "DEF": 84,
+        "PHY": 85
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/arturo-vidal/9",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 107,
+    "name": "David Silva",
+    "club": "Manchester City",
+    "overall": 87,
+    "potential": 87,
+    "number": 21,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CAM",
+    "stats": {
+      "PAC": 68,
+      "SHO": 72,
+      "PAS": 87,
+      "DRI": 87,
+      "DEF": 32,
+      "PHY": 58
+    },
+    "list_index": 109,
+    "file_values": {
+      "overall": 87,
+      "position": "CAM",
+      "stats": {
+        "PAC": 68,
+        "SHO": 72,
+        "PAS": 87,
+        "DRI": 87,
+        "DEF": 36,
+        "PHY": 58
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/david-silva/7",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester City"
+  },
+  {
+    "rank": 107,
+    "name": "I. Rakitić",
+    "club": "FC Barcelona",
+    "overall": 87,
+    "potential": 87,
+    "number": 4,
+    "nation": "Croatia",
+    "nationCode": "HR",
+    "position": "CM",
+    "stats": {
+      "PAC": 66,
+      "SHO": 84,
+      "PAS": 86,
+      "DRI": 82,
+      "DEF": 59,
+      "PHY": 66
+    },
+    "list_index": 110,
+    "file_values": {
+      "overall": 87,
+      "position": "CM",
+      "stats": {
+        "PAC": 66,
+        "SHO": 84,
+        "PAS": 86,
+        "DRI": 82,
+        "DEF": 60,
+        "PHY": 66
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/ivan-rakitic/16",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 107,
+    "name": "L. Bonucci",
+    "club": "Juventus",
+    "overall": 87,
+    "potential": 87,
+    "number": 19,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "CB",
+    "stats": {
+      "PAC": 70,
+      "SHO": 53,
+      "PAS": 68,
+      "DRI": 69,
+      "DEF": 87,
+      "PHY": 81
+    },
+    "list_index": 111,
+    "file_values": {
+      "overall": 87,
+      "position": "CB",
+      "stats": {
+        "PAC": 70,
+        "SHO": 53,
+        "PAS": 68,
+        "DRI": 70,
+        "DEF": 87,
+        "PHY": 81
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/leonardo-bonucci/18",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Juventus"
+  },
+  {
+    "rank": 107,
+    "name": "P. Aubameyang",
+    "club": "Borussia Dortmund",
+    "overall": 86,
+    "potential": 87,
+    "number": 17,
+    "nation": "Gabon",
+    "nationCode": "GA",
+    "position": "ST",
+    "stats": {
+      "PAC": 96,
+      "SHO": 84,
+      "PAS": 75,
+      "DRI": 80,
+      "DEF": 37,
+      "PHY": 71
+    },
+    "list_index": 112,
+    "file_values": {
+      "overall": 87,
+      "position": "ST",
+      "stats": {
+        "PAC": 96,
+        "SHO": 84,
+        "PAS": 75,
+        "DRI": 81,
+        "DEF": 37,
+        "PHY": 71
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/pierre-emerick-aubameyang/3",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Borussia Dortmund"
+  },
+  {
+    "rank": 107,
+    "name": "Piqué",
+    "club": "FC Barcelona",
+    "overall": 86,
+    "potential": 87,
+    "number": 3,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CB",
+    "stats": {
+      "PAC": 61,
+      "SHO": 61,
+      "PAS": 70,
+      "DRI": 64,
+      "DEF": 86,
+      "PHY": 76
+    },
+    "list_index": 113,
+    "file_values": {
+      "overall": 87,
+      "position": "CB",
+      "stats": {
+        "PAC": 65,
+        "SHO": 61,
+        "PAS": 69,
+        "DRI": 65,
+        "DEF": 86,
+        "PHY": 77
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/pique/3655",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 107,
+    "name": "S. Handanovič",
+    "club": "Inter",
+    "overall": 87,
+    "potential": 87,
+    "number": 1,
+    "nation": "Slovenia",
+    "nationCode": "SI",
+    "position": "GK",
+    "stats": {
+      "DIV": 86,
+      "HAN": 89,
+      "KIC": 69,
+      "REF": 86,
+      "SPD": 54,
+      "POS": 86
+    },
+    "list_index": 114,
+    "file_values": {
+      "overall": 87,
+      "position": "GK",
+      "stats": {
+        "DIV": 86,
+        "HAN": 89,
+        "KIC": 69,
+        "REF": 86,
+        "SPD": 56,
+        "POS": 86
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/samir-handanovic/11",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Inter"
+  },
+  {
+    "rank": 115,
+    "name": "I. Gündoğan",
+    "club": "Manchester City",
+    "overall": 85,
+    "potential": 87,
+    "number": 8,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CM",
+    "stats": {
+      "PAC": 75,
+      "SHO": 72,
+      "PAS": 84,
+      "DRI": 87,
+      "DEF": 63,
+      "PHY": 72
+    },
+    "list_index": 115,
+    "file_values": {
+      "overall": 85,
+      "position": "CM",
+      "stats": {
+        "PAC": 75,
+        "SHO": 73,
+        "PAS": 84,
+        "DRI": 87,
+        "DEF": 63,
+        "PHY": 72
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/ilkay-gundogan/15992",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester City"
+  },
+  {
+    "rank": 116,
+    "name": "Alex Sandro",
+    "club": "Juventus",
+    "overall": 84,
+    "potential": 87,
+    "number": 12,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "LB",
+    "stats": {
+      "PAC": 87,
+      "SHO": 64,
+      "PAS": 75,
+      "DRI": 81,
+      "DEF": 79,
+      "PHY": 76
+    },
+    "list_index": 116,
+    "file_values": {
+      "overall": 84,
+      "position": "LB",
+      "stats": {
+        "PAC": 86,
+        "SHO": 66,
+        "PAS": 76,
+        "DRI": 81,
+        "DEF": 79,
+        "PHY": 81
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/alex-sandro/3767",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Juventus"
+  },
+  {
+    "rank": 116,
+    "name": "Carvajal",
+    "club": "Real Madrid",
+    "overall": 83,
+    "potential": 87,
+    "number": 2,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "RB",
+    "stats": {
+      "PAC": 82,
+      "SHO": 45,
+      "PAS": 72,
+      "DRI": 79,
+      "DEF": 81,
+      "PHY": 78
+    },
+    "list_index": 117,
+    "file_values": {
+      "overall": 84,
+      "position": "RB",
+      "stats": {
+        "PAC": 82,
+        "SHO": 45,
+        "PAS": 73,
+        "DRI": 79,
+        "DEF": 82,
+        "PHY": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/carvajal/4085",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 118,
+    "name": "Roberto Firmino",
+    "club": "Liverpool",
+    "overall": 82,
+    "potential": 87,
+    "number": 11,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "CF",
+    "stats": {
+      "PAC": 79,
+      "SHO": 80,
+      "PAS": 78,
+      "DRI": 84,
+      "DEF": 40,
+      "PHY": 72
+    },
+    "list_index": 118,
+    "file_values": {
+      "overall": 83,
+      "position": "ST",
+      "stats": {
+        "PAC": 79,
+        "SHO": 80,
+        "PAS": 79,
+        "DRI": 85,
+        "DEF": 47,
+        "PHY": 76
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/roberto-firmino/6643",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Liverpool"
+  },
+  {
+    "rank": 119,
+    "name": "Ederson",
+    "club": "SL Benfica",
+    "overall": 78,
+    "potential": 87,
+    "number": 1,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "GK",
+    "stats": {
+      "DIV": 80,
+      "HAN": 72,
+      "KIC": 80,
+      "REF": 82,
+      "SPD": 57,
+      "POS": 75
+    },
+    "list_index": 119,
+    "file_values": {
+      "overall": 82,
+      "position": "GK",
+      "stats": {
+        "DIV": 81,
+        "HAN": 76,
+        "KIC": 82,
+        "REF": 87,
+        "SPD": 63,
+        "POS": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/ederson/8628",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "SL Benfica"
+  },
+  {
+    "rank": 119,
+    "name": "L. Karius",
+    "club": "Liverpool",
+    "overall": 82,
+    "potential": 87,
+    "number": 1,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "GK",
+    "stats": {
+      "DIV": 84,
+      "HAN": 76,
+      "KIC": 80,
+      "REF": 85,
+      "SPD": 48,
+      "POS": 80
+    },
+    "list_index": 120,
+    "file_values": {
+      "overall": 82,
+      "position": "GK",
+      "stats": {
+        "DIV": 84,
+        "HAN": 75,
+        "KIC": 76,
+        "REF": 85,
+        "SPD": 50,
+        "POS": 79
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/loris-karius/7116",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Liverpool"
+  },
+  {
+    "rank": 119,
+    "name": "S. Aurier",
+    "club": "Paris Saint-Germain",
+    "overall": 83,
+    "potential": 87,
+    "number": 19,
+    "nation": "Ivory Coast",
+    "nationCode": "CI",
+    "position": "RB",
+    "stats": {
+      "PAC": 85,
+      "SHO": 66,
+      "PAS": 73,
+      "DRI": 77,
+      "DEF": 80,
+      "PHY": 85
+    },
+    "list_index": 121,
+    "file_values": {
+      "overall": 82,
+      "position": "RB",
+      "stats": {
+        "PAC": 85,
+        "SHO": 66,
+        "PAS": 73,
+        "DRI": 77,
+        "DEF": 80,
+        "PHY": 85
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/serge-aurier/3669",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Paris Saint-Germain"
+  },
+  {
+    "rank": 122,
+    "name": "F. Bernardeschi",
+    "club": "Fiorentina",
+    "overall": 78,
+    "potential": 87,
+    "number": 10,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "RM",
+    "stats": {
+      "PAC": 83,
+      "SHO": 70,
+      "PAS": 74,
+      "DRI": 82,
+      "DEF": 36,
+      "PHY": 64
+    },
+    "list_index": 122,
+    "file_values": {
+      "overall": 81,
+      "position": "RM",
+      "stats": {
+        "PAC": 83,
+        "SHO": 75,
+        "PAS": 77,
+        "DRI": 85,
+        "DEF": 36,
+        "PHY": 65
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/federico-bernardeschi/9247",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Fiorentina"
+  },
+  {
+    "rank": 122,
+    "name": "J. Weigl",
+    "club": "Borussia Dortmund",
+    "overall": 79,
+    "potential": 87,
+    "number": 33,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CDM",
+    "stats": {
+      "PAC": 70,
+      "SHO": 50,
+      "PAS": 74,
+      "DRI": 73,
+      "DEF": 73,
+      "PHY": 66
+    },
+    "list_index": 123,
+    "file_values": {
+      "overall": 81,
+      "position": "CDM",
+      "stats": {
+        "PAC": 71,
+        "SHO": 51,
+        "PAS": 76,
+        "DRI": 74,
+        "DEF": 76,
+        "PHY": 68
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/julian-weigl/11434",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Borussia Dortmund"
+  },
+  {
+    "rank": 122,
+    "name": "L. Goretzka",
+    "club": "FC Schalke 04",
+    "overall": 79,
+    "potential": 87,
+    "number": 8,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CM",
+    "stats": {
+      "PAC": 81,
+      "SHO": 69,
+      "PAS": 77,
+      "DRI": 78,
+      "DEF": 75,
+      "PHY": 74
+    },
+    "list_index": 124,
+    "file_values": {
+      "overall": 81,
+      "position": "CM",
+      "stats": {
+        "PAC": 81,
+        "SHO": 70,
+        "PAS": 78,
+        "DRI": 79,
+        "DEF": 76,
+        "PHY": 75
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/leon-goretzka/8482",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Schalke 04"
+  },
+  {
+    "rank": 122,
+    "name": "M. Kovačić",
+    "club": "Real Madrid",
+    "overall": 79,
+    "potential": 87,
+    "number": 16,
+    "nation": "Croatia",
+    "nationCode": "HR",
+    "position": "CM",
+    "stats": {
+      "PAC": 80,
+      "SHO": 67,
+      "PAS": 82,
+      "DRI": 85,
+      "DEF": 49,
+      "PHY": 64
+    },
+    "list_index": 125,
+    "file_values": {
+      "overall": 81,
+      "position": "CM",
+      "stats": {
+        "PAC": 82,
+        "SHO": 67,
+        "PAS": 82,
+        "DRI": 85,
+        "DEF": 59,
+        "PHY": 69
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/mateo-kovacic/4078",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 122,
+    "name": "M. Sanson",
+    "club": "Olympique de Marseille",
+    "overall": 78,
+    "potential": 87,
+    "number": 8,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CM",
+    "stats": {
+      "PAC": 73,
+      "SHO": 71,
+      "PAS": 76,
+      "DRI": 76,
+      "DEF": 72,
+      "PHY": 73
+    },
+    "list_index": 126,
+    "file_values": {
+      "overall": 81,
+      "position": "CDM",
+      "stats": {
+        "PAC": 77,
+        "SHO": 75,
+        "PAS": 81,
+        "DRI": 80,
+        "DEF": 77,
+        "PHY": 77
+      }
+    },
+    "audit_status": "CAREER_MODE_FALLBACK",
+    "source_url": "https://raw.githubusercontent.com/ifrankandrade/data-visualization/main/datasets/players_17.csv",
+    "note": "Exact roster calendar date unverified; not a verified FUT card. Club differs from supplied later-season club.",
+    "stats_basis": "FIFA17_CAREER_MODE_EXPORT",
+    "source_club": "Montpellier HSC",
+    "source_csv_line": 744,
+    "roster": "170002"
+  },
+  {
+    "rank": 127,
+    "name": "Denis Suárez",
+    "club": "FC Barcelona",
+    "overall": 80,
+    "potential": 87,
+    "number": 6,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "LM",
+    "stats": {
+      "PAC": 77,
+      "SHO": 71,
+      "PAS": 80,
+      "DRI": 83,
+      "DEF": 43,
+      "PHY": 57
+    },
+    "list_index": 127,
+    "file_values": {
+      "overall": 80,
+      "position": "CM",
+      "stats": {
+        "PAC": 81,
+        "SHO": 74,
+        "PAS": 81,
+        "DRI": 84,
+        "DEF": 51,
+        "PHY": 58
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/denis-suarez/7508",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 127,
+    "name": "J. Kimmich",
+    "club": "FC Bayern München",
+    "overall": 78,
+    "potential": 87,
+    "number": 32,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CM",
+    "stats": {
+      "PAC": 71,
+      "SHO": 55,
+      "PAS": 79,
+      "DRI": 78,
+      "DEF": 75,
+      "PHY": 71
+    },
+    "list_index": 128,
+    "file_values": {
+      "overall": 80,
+      "position": "CM",
+      "stats": {
+        "PAC": 71,
+        "SHO": 67,
+        "PAS": 80,
+        "DRI": 78,
+        "DEF": 76,
+        "PHY": 71
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/joshua-kimmich/4065",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 127,
+    "name": "J. Stones",
+    "club": "Manchester City",
+    "overall": 78,
+    "potential": 87,
+    "number": 24,
+    "nation": "England",
+    "nationCode": "GB-ENG",
+    "position": "CB",
+    "stats": {
+      "PAC": 75,
+      "SHO": 35,
+      "PAS": 65,
+      "DRI": 71,
+      "DEF": 78,
+      "PHY": 76
+    },
+    "list_index": 129,
+    "file_values": {
+      "overall": 80,
+      "position": "CB",
+      "stats": {
+        "PAC": 75,
+        "SHO": 35,
+        "PAS": 67,
+        "DRI": 72,
+        "DEF": 80,
+        "PHY": 77
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/john-stones/3966",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester City"
+  },
+  {
+    "rank": 127,
+    "name": "K. Coman",
+    "club": "FC Bayern München",
+    "overall": 81,
+    "potential": 87,
+    "number": 29,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "LW",
+    "stats": {
+      "PAC": 93,
+      "SHO": 76,
+      "PAS": 74,
+      "DRI": 84,
+      "DEF": 19,
+      "PHY": 58
+    },
+    "list_index": 130,
+    "file_values": {
+      "overall": 80,
+      "position": "LW",
+      "stats": {
+        "PAC": 93,
+        "SHO": 75,
+        "PAS": 74,
+        "DRI": 84,
+        "DEF": 19,
+        "PHY": 58
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/kingsley-coman/3799",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 131,
+    "name": "A. Romagnoli",
+    "club": "Milan",
+    "overall": 78,
+    "potential": 87,
+    "number": 13,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "CB",
+    "stats": {
+      "PAC": 67,
+      "SHO": 34,
+      "PAS": 48,
+      "DRI": 61,
+      "DEF": 80,
+      "PHY": 77
+    },
+    "list_index": 131,
+    "file_values": {
+      "overall": 79,
+      "position": "CB",
+      "stats": {
+        "PAC": 67,
+        "SHO": 34,
+        "PAS": 51,
+        "DRI": 61,
+        "DEF": 81,
+        "PHY": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/alessio-romagnoli/8681",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Milan"
+  },
+  {
+    "rank": 131,
+    "name": "M. Dahoud",
+    "club": "Borussia Mönchengladbach",
+    "overall": 79,
+    "potential": 87,
+    "number": 8,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CM",
+    "stats": {
+      "PAC": 71,
+      "SHO": 64,
+      "PAS": 75,
+      "DRI": 82,
+      "DEF": 62,
+      "PHY": 69
+    },
+    "list_index": 132,
+    "file_values": {
+      "overall": 79,
+      "position": "CM",
+      "stats": {
+        "PAC": 71,
+        "SHO": 65,
+        "PAS": 75,
+        "DRI": 81,
+        "DEF": 62,
+        "PHY": 69
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/mahmoud-dahoud/10645",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Borussia Mönchengladbach"
+  },
+  {
+    "rank": 133,
+    "name": "Grimaldo",
+    "club": "SL Benfica",
+    "overall": 77,
+    "potential": 87,
+    "number": 3,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "LB",
+    "stats": {
+      "PAC": 86,
+      "SHO": 59,
+      "PAS": 71,
+      "DRI": 78,
+      "DEF": 71,
+      "PHY": 68
+    },
+    "list_index": 133,
+    "file_values": {
+      "overall": 78,
+      "position": "LB",
+      "stats": {
+        "PAC": 86,
+        "SHO": 59,
+        "PAS": 71,
+        "DRI": 80,
+        "DEF": 71,
+        "PHY": 69
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/grimaldo/8568",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "SL Benfica"
+  },
+  {
+    "rank": 134,
+    "name": "A. Diawara",
+    "club": "Napoli",
+    "overall": 74,
+    "potential": 87,
+    "number": 42,
+    "nation": "Guinea",
+    "nationCode": "GN",
+    "position": "CDM",
+    "stats": {
+      "PAC": 76,
+      "SHO": 50,
+      "PAS": 71,
+      "DRI": 76,
+      "DEF": 65,
+      "PHY": 74
+    },
+    "list_index": 134,
+    "file_values": {
+      "overall": 77,
+      "position": "CDM",
+      "stats": {
+        "PAC": 76,
+        "SHO": 50,
+        "PAS": 72,
+        "DRI": 77,
+        "DEF": 68,
+        "PHY": 77
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/amadou-diawara/13911",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Napoli"
+  },
+  {
+    "rank": 135,
+    "name": "I. Diop",
+    "club": "Toulouse Football Club",
+    "overall": 73,
+    "potential": 87,
+    "number": 5,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CB",
+    "stats": {
+      "PAC": 65,
+      "SHO": 29,
+      "PAS": 48,
+      "DRI": 46,
+      "DEF": 72,
+      "PHY": 80
+    },
+    "list_index": 135,
+    "file_values": {
+      "overall": 76,
+      "position": "CB",
+      "stats": {
+        "PAC": 65,
+        "SHO": 30,
+        "PAS": 49,
+        "DRI": 48,
+        "DEF": 76,
+        "PHY": 81
+      }
+    },
+    "audit_status": "CAREER_MODE_FALLBACK",
+    "source_url": "https://raw.githubusercontent.com/ifrankandrade/data-visualization/main/datasets/players_17.csv",
+    "note": "Exact roster calendar date unverified; not a verified FUT card. ",
+    "stats_basis": "FIFA17_CAREER_MODE_EXPORT",
+    "source_club": "Toulouse Football Club",
+    "source_csv_line": 2620,
+    "roster": "170002"
+  },
+  {
+    "rank": 135,
+    "name": "J. Jankto",
+    "club": "Udinese",
+    "overall": 68,
+    "potential": 87,
+    "number": 14,
+    "nation": "Czech Republic",
+    "nationCode": "CZ",
+    "position": "LM",
+    "stats": {
+      "PAC": 83,
+      "SHO": 50,
+      "PAS": 65,
+      "DRI": 67,
+      "DEF": 49,
+      "PHY": 57
+    },
+    "list_index": 136,
+    "file_values": {
+      "overall": 76,
+      "position": "CM",
+      "stats": {
+        "PAC": 83,
+        "SHO": 65,
+        "PAS": 73,
+        "DRI": 76,
+        "DEF": 62,
+        "PHY": 67
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/jakub-jankto/12825",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Udinese"
+  },
+  {
+    "rank": 135,
+    "name": "L. Bailey",
+    "club": "Bayer 04 Leverkusen",
+    "overall": 74,
+    "potential": 87,
+    "number": 9,
+    "nation": "Jamaica",
+    "nationCode": "JM",
+    "position": "LM",
+    "stats": {
+      "PAC": 93,
+      "SHO": 67,
+      "PAS": 69,
+      "DRI": 78,
+      "DEF": 29,
+      "PHY": 60
+    },
+    "list_index": 137,
+    "file_values": {
+      "overall": 76,
+      "position": "LM",
+      "stats": {
+        "PAC": 93,
+        "SHO": 70,
+        "PAS": 70,
+        "DRI": 80,
+        "DEF": 23,
+        "PHY": 62
+      }
+    },
+    "audit_status": "CAREER_MODE_FALLBACK",
+    "source_url": "https://raw.githubusercontent.com/ifrankandrade/data-visualization/main/datasets/players_17.csv",
+    "note": "Exact roster calendar date unverified; not a verified FUT card. Club differs from supplied later-season club.",
+    "stats_basis": "FIFA17_CAREER_MODE_EXPORT",
+    "source_club": "KRC Genk",
+    "source_csv_line": 2094,
+    "roster": "170002"
+  },
+  {
+    "rank": 135,
+    "name": "L. Hernández",
+    "club": "Atlético Madrid",
+    "overall": 75,
+    "potential": 87,
+    "number": 19,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CB",
+    "stats": {
+      "PAC": 65,
+      "SHO": 42,
+      "PAS": 53,
+      "DRI": 56,
+      "DEF": 75,
+      "PHY": 70
+    },
+    "list_index": 138,
+    "file_values": {
+      "overall": 76,
+      "position": "CB",
+      "stats": {
+        "PAC": 65,
+        "SHO": 42,
+        "PAS": 53,
+        "DRI": 56,
+        "DEF": 76,
+        "PHY": 71
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/lucas-hernandez/11103",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Atlético Madrid"
+  },
+  {
+    "rank": 139,
+    "name": "A. Saint-Maximin",
+    "club": "Sporting Club de Bastia",
+    "overall": 67,
+    "potential": 87,
+    "number": 10,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "ST",
+    "stats": {
+      "PAC": 85,
+      "SHO": 60,
+      "PAS": 62,
+      "DRI": 77,
+      "DEF": 22,
+      "PHY": 47
+    },
+    "list_index": 139,
+    "file_values": {
+      "overall": 75,
+      "position": "LM",
+      "stats": {
+        "PAC": 85,
+        "SHO": 62,
+        "PAS": 64,
+        "DRI": 81,
+        "DEF": 22,
+        "PHY": 53
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/allan-saint-maximin/10443",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Sporting Club de Bastia"
+  },
+  {
+    "rank": 139,
+    "name": "H. Onyekuru",
+    "club": "KAS Eupen",
+    "overall": 64,
+    "potential": 87,
+    "number": 21,
+    "nation": "Nigeria",
+    "nationCode": "NG",
+    "position": "LM",
+    "stats": {
+      "PAC": 80,
+      "SHO": 56,
+      "PAS": 54,
+      "DRI": 70,
+      "DEF": 26,
+      "PHY": 54
+    },
+    "list_index": 140,
+    "file_values": {
+      "overall": 75,
+      "position": "LM",
+      "stats": {
+        "PAC": 86,
+        "SHO": 68,
+        "PAS": 64,
+        "DRI": 76,
+        "DEF": 27,
+        "PHY": 55
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/henry-onyekuru/15100",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "KAS Eupen"
+  },
+  {
+    "rank": 139,
+    "name": "V. Kovalenko",
+    "club": "Shakhtar Donetsk",
+    "overall": 75,
+    "potential": 87,
+    "number": 74,
+    "nation": "Ukraine",
+    "nationCode": "UA",
+    "position": "CAM",
+    "stats": {
+      "PAC": 77,
+      "SHO": 72,
+      "PAS": 73,
+      "DRI": 75,
+      "DEF": 60,
+      "PHY": 69
+    },
+    "list_index": 141,
+    "file_values": {
+      "overall": 75,
+      "position": "CAM",
+      "stats": {
+        "PAC": 77,
+        "SHO": 72,
+        "PAS": 73,
+        "DRI": 75,
+        "DEF": 60,
+        "PHY": 70
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/viktor-kovalenko/13318",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Shakhtar Donetsk"
+  },
+  {
+    "rank": 142,
+    "name": "M. de Ligt",
+    "club": "Ajax",
+    "overall": 63,
+    "potential": 87,
+    "number": 36,
+    "nation": "Netherlands",
+    "nationCode": "NL",
+    "position": "CB",
+    "stats": {
+      "PAC": 58,
+      "SHO": 28,
+      "PAS": 48,
+      "DRI": 40,
+      "DEF": 63,
+      "PHY": 62
+    },
+    "list_index": 142,
+    "file_values": {
+      "overall": 72,
+      "position": "CB",
+      "stats": {
+        "PAC": 68,
+        "SHO": 36,
+        "PAS": 56,
+        "DRI": 62,
+        "DEF": 68,
+        "PHY": 72
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/matthijs-de-ligt/15488",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Ajax"
+  },
+  {
+    "rank": 143,
+    "name": "K. Havertz",
+    "club": "Bayer 04 Leverkusen",
+    "overall": 57,
+    "potential": 87,
+    "number": 29,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CAM",
+    "stats": {
+      "PAC": 61,
+      "SHO": 48,
+      "PAS": 55,
+      "DRI": 60,
+      "DEF": 39,
+      "PHY": 53
+    },
+    "list_index": 143,
+    "file_values": {
+      "overall": 70,
+      "position": "RM",
+      "stats": {
+        "PAC": 72,
+        "SHO": 51,
+        "PAS": 66,
+        "DRI": 71,
+        "DEF": 40,
+        "PHY": 55
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/kai-havertz/15667",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Bayer 04 Leverkusen"
+  },
+  {
+    "rank": 144,
+    "name": "A. Barzagli",
+    "club": "Juventus",
+    "overall": 86,
+    "potential": 86,
+    "number": 15,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "CB",
+    "stats": {
+      "PAC": 74,
+      "SHO": 37,
+      "PAS": 56,
+      "DRI": 63,
+      "DEF": 89,
+      "PHY": 79
+    },
+    "list_index": 144,
+    "file_values": {
+      "overall": 86,
+      "position": "CB",
+      "stats": {
+        "PAC": 74,
+        "SHO": 37,
+        "PAS": 56,
+        "DRI": 63,
+        "DEF": 89,
+        "PHY": 80
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/andrea-barzagli/3773",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Juventus"
+  },
+  {
+    "rank": 144,
+    "name": "A. Di María",
+    "club": "Paris Saint-Germain",
+    "overall": 87,
+    "potential": 86,
+    "number": 11,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "RW",
+    "stats": {
+      "PAC": 87,
+      "SHO": 79,
+      "PAS": 84,
+      "DRI": 87,
+      "DEF": 47,
+      "PHY": 70
+    },
+    "list_index": 145,
+    "file_values": {
+      "overall": 86,
+      "position": "RW",
+      "stats": {
+        "PAC": 86,
+        "SHO": 78,
+        "PAS": 84,
+        "DRI": 87,
+        "DEF": 47,
+        "PHY": 70
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/angel-di-maria/14",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Paris Saint-Germain"
+  },
+  {
+    "rank": 144,
+    "name": "C. Marchisio",
+    "club": "Juventus",
+    "overall": 86,
+    "potential": 86,
+    "number": 8,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "CM",
+    "stats": {
+      "PAC": 77,
+      "SHO": 74,
+      "PAS": 83,
+      "DRI": 83,
+      "DEF": 76,
+      "PHY": 75
+    },
+    "list_index": 146,
+    "file_values": {
+      "overall": 86,
+      "position": "CM",
+      "stats": {
+        "PAC": 79,
+        "SHO": 74,
+        "PAS": 83,
+        "DRI": 84,
+        "DEF": 76,
+        "PHY": 75
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/claudio-marchisio/3772",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Juventus"
+  },
+  {
+    "rank": 144,
+    "name": "Cesc Fàbregas",
+    "club": "Chelsea",
+    "overall": 86,
+    "potential": 86,
+    "number": 4,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CM",
+    "stats": {
+      "PAC": 63,
+      "SHO": 77,
+      "PAS": 89,
+      "DRI": 81,
+      "DEF": 61,
+      "PHY": 64
+    },
+    "list_index": 147,
+    "file_values": {
+      "overall": 86,
+      "position": "CM",
+      "stats": {
+        "PAC": 63,
+        "SHO": 77,
+        "PAS": 88,
+        "DRI": 80,
+        "DEF": 60,
+        "PHY": 64
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/cesc-fabregas/3661",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Chelsea"
+  },
+  {
+    "rank": 144,
+    "name": "Diego Costa",
+    "club": "Chelsea",
+    "overall": 85,
+    "potential": 86,
+    "number": 19,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "ST",
+    "stats": {
+      "PAC": 75,
+      "SHO": 82,
+      "PAS": 63,
+      "DRI": 77,
+      "DEF": 40,
+      "PHY": 88
+    },
+    "list_index": 148,
+    "file_values": {
+      "overall": 86,
+      "position": "ST",
+      "stats": {
+        "PAC": 77,
+        "SHO": 84,
+        "PAS": 65,
+        "DRI": 77,
+        "DEF": 40,
+        "PHY": 89
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/diego-costa/3658",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Chelsea"
+  },
+  {
+    "rank": 144,
+    "name": "E. Cavani",
+    "club": "Paris Saint-Germain",
+    "overall": 85,
+    "potential": 86,
+    "number": 9,
+    "nation": "Uruguay",
+    "nationCode": "UY",
+    "position": "ST",
+    "stats": {
+      "PAC": 76,
+      "SHO": 83,
+      "PAS": 71,
+      "DRI": 79,
+      "DEF": 42,
+      "PHY": 80
+    },
+    "list_index": 149,
+    "file_values": {
+      "overall": 86,
+      "position": "ST",
+      "stats": {
+        "PAC": 78,
+        "SHO": 84,
+        "PAS": 71,
+        "DRI": 79,
+        "DEF": 42,
+        "PHY": 80
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/edinson-cavani/3681",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Paris Saint-Germain"
+  },
+  {
+    "rank": 144,
+    "name": "F. Ribéry",
+    "club": "FC Bayern München",
+    "overall": 86,
+    "potential": 86,
+    "number": 7,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "LM",
+    "stats": {
+      "PAC": 82,
+      "SHO": 76,
+      "PAS": 83,
+      "DRI": 90,
+      "DEF": 25,
+      "PHY": 59
+    },
+    "list_index": 150,
+    "file_values": {
+      "overall": 86,
+      "position": "LM",
+      "stats": {
+        "PAC": 82,
+        "SHO": 76,
+        "PAS": 83,
+        "DRI": 90,
+        "DEF": 25,
+        "PHY": 59
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/franck-ribery/75",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 144,
+    "name": "H. Mkhitaryan",
+    "club": "Manchester United",
+    "overall": 85,
+    "potential": 86,
+    "number": 22,
+    "nation": "Armenia",
+    "nationCode": "AM",
+    "position": "RM",
+    "stats": {
+      "PAC": 83,
+      "SHO": 77,
+      "PAS": 81,
+      "DRI": 87,
+      "DEF": 55,
+      "PHY": 70
+    },
+    "list_index": 151,
+    "file_values": {
+      "overall": 86,
+      "position": "RM",
+      "stats": {
+        "PAC": 85,
+        "SHO": 79,
+        "PAS": 81,
+        "DRI": 87,
+        "DEF": 55,
+        "PHY": 70
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/henrikh-mkhitaryan/4042",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester United"
+  },
+  {
+    "rank": 144,
+    "name": "Jordi Alba",
+    "club": "FC Barcelona",
+    "overall": 86,
+    "potential": 86,
+    "number": 18,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "LB",
+    "stats": {
+      "PAC": 93,
+      "SHO": 69,
+      "PAS": 75,
+      "DRI": 83,
+      "DEF": 81,
+      "PHY": 75
+    },
+    "list_index": 152,
+    "file_values": {
+      "overall": 86,
+      "position": "LB",
+      "stats": {
+        "PAC": 93,
+        "SHO": 69,
+        "PAS": 75,
+        "DRI": 83,
+        "DEF": 81,
+        "PHY": 75
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/jordi-alba/4357",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 144,
+    "name": "K. Benzema",
+    "club": "Real Madrid",
+    "overall": 87,
+    "potential": 86,
+    "number": 9,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "ST",
+    "stats": {
+      "PAC": 81,
+      "SHO": 84,
+      "PAS": 77,
+      "DRI": 82,
+      "DEF": 22,
+      "PHY": 74
+    },
+    "list_index": 153,
+    "file_values": {
+      "overall": 86,
+      "position": "ST",
+      "stats": {
+        "PAC": 81,
+        "SHO": 84,
+        "PAS": 77,
+        "DRI": 82,
+        "DEF": 22,
+        "PHY": 74
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/karim-benzema/8",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 144,
+    "name": "M. Hamšik",
+    "club": "Napoli",
+    "overall": 85,
+    "potential": 86,
+    "number": 17,
+    "nation": "Slovakia",
+    "nationCode": "SK",
+    "position": "CM",
+    "stats": {
+      "PAC": 76,
+      "SHO": 78,
+      "PAS": 83,
+      "DRI": 82,
+      "DEF": 64,
+      "PHY": 69
+    },
+    "list_index": 154,
+    "file_values": {
+      "overall": 86,
+      "position": "CM",
+      "stats": {
+        "PAC": 76,
+        "SHO": 79,
+        "PAS": 83,
+        "DRI": 82,
+        "DEF": 67,
+        "PHY": 70
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/marek-hamsik/3769",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Napoli"
+  },
+  {
+    "rank": 144,
+    "name": "Marcelo",
+    "club": "Real Madrid",
+    "overall": 86,
+    "potential": 86,
+    "number": 12,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "LB",
+    "stats": {
+      "PAC": 79,
+      "SHO": 69,
+      "PAS": 80,
+      "DRI": 84,
+      "DEF": 82,
+      "PHY": 80
+    },
+    "list_index": 155,
+    "file_values": {
+      "overall": 86,
+      "position": "LB",
+      "stats": {
+        "PAC": 79,
+        "SHO": 69,
+        "PAS": 80,
+        "DRI": 84,
+        "DEF": 82,
+        "PHY": 80
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/marcelo/2",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 144,
+    "name": "Miranda",
+    "club": "Inter",
+    "overall": 86,
+    "potential": 86,
+    "number": 25,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "CB",
+    "stats": {
+      "PAC": 75,
+      "SHO": 49,
+      "PAS": 56,
+      "DRI": 64,
+      "DEF": 89,
+      "PHY": 77
+    },
+    "list_index": 156,
+    "file_values": {
+      "overall": 86,
+      "position": "CB",
+      "stats": {
+        "PAC": 72,
+        "SHO": 49,
+        "PAS": 56,
+        "DRI": 64,
+        "DEF": 89,
+        "PHY": 77
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/miranda/3774",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Inter"
+  },
+  {
+    "rank": 144,
+    "name": "R. Nainggolan",
+    "club": "Roma",
+    "overall": 84,
+    "potential": 86,
+    "number": 4,
+    "nation": "Belgium",
+    "nationCode": "BE",
+    "position": "CM",
+    "stats": {
+      "PAC": 79,
+      "SHO": 78,
+      "PAS": 78,
+      "DRI": 81,
+      "DEF": 81,
+      "PHY": 84
+    },
+    "list_index": 157,
+    "file_values": {
+      "overall": 86,
+      "position": "CM",
+      "stats": {
+        "PAC": 79,
+        "SHO": 80,
+        "PAS": 78,
+        "DRI": 82,
+        "DEF": 81,
+        "PHY": 84
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/radja-nainggolan/3690",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Roma"
+  },
+  {
+    "rank": 144,
+    "name": "Sergio Busquets",
+    "club": "FC Barcelona",
+    "overall": 87,
+    "potential": 86,
+    "number": 5,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CDM",
+    "stats": {
+      "PAC": 42,
+      "SHO": 59,
+      "PAS": 79,
+      "DRI": 74,
+      "DEF": 83,
+      "PHY": 81
+    },
+    "list_index": 158,
+    "file_values": {
+      "overall": 86,
+      "position": "CDM",
+      "stats": {
+        "PAC": 42,
+        "SHO": 59,
+        "PAS": 79,
+        "DRI": 74,
+        "DEF": 82,
+        "PHY": 81
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/sergio-busquets/10",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Barcelona"
+  },
+  {
+    "rank": 144,
+    "name": "T. Müller",
+    "club": "FC Bayern München",
+    "overall": 87,
+    "potential": 86,
+    "number": 25,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CF",
+    "stats": {
+      "PAC": 78,
+      "SHO": 83,
+      "PAS": 77,
+      "DRI": 78,
+      "DEF": 46,
+      "PHY": 72
+    },
+    "list_index": 159,
+    "file_values": {
+      "overall": 86,
+      "position": "CF",
+      "stats": {
+        "PAC": 78,
+        "SHO": 82,
+        "PAS": 77,
+        "DRI": 78,
+        "DEF": 46,
+        "PHY": 71
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/thomas-muller/13",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 144,
+    "name": "V. Kompany",
+    "club": "Manchester City",
+    "overall": 86,
+    "potential": 86,
+    "number": 4,
+    "nation": "Belgium",
+    "nationCode": "BE",
+    "position": "CB",
+    "stats": {
+      "PAC": 69,
+      "SHO": 54,
+      "PAS": 62,
+      "DRI": 65,
+      "DEF": 86,
+      "PHY": 81
+    },
+    "list_index": 160,
+    "file_values": {
+      "overall": 86,
+      "position": "CB",
+      "stats": {
+        "PAC": 69,
+        "SHO": 54,
+        "PAS": 62,
+        "DRI": 64,
+        "DEF": 84,
+        "PHY": 80
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/vincent-kompany/3660",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Manchester City"
+  },
+  {
+    "rank": 161,
+    "name": "Javi Martinez",
+    "club": "FC Bayern München",
+    "overall": 84,
+    "potential": 86,
+    "number": 8,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "CB",
+    "stats": {
+      "PAC": 52,
+      "SHO": 61,
+      "PAS": 70,
+      "DRI": 65,
+      "DEF": 84,
+      "PHY": 78
+    },
+    "list_index": 161,
+    "file_values": {
+      "overall": 85,
+      "position": "CB",
+      "stats": {
+        "PAC": 51,
+        "SHO": 61,
+        "PAS": 70,
+        "DRI": 65,
+        "DEF": 85,
+        "PHY": 79
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/javi-martinez/3666",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Bayern München"
+  },
+  {
+    "rank": 161,
+    "name": "M. Pjanić",
+    "club": "Juventus",
+    "overall": 85,
+    "potential": 86,
+    "number": 5,
+    "nation": "Bosnia Herzegovina",
+    "nationCode": "BA",
+    "position": "CM",
+    "stats": {
+      "PAC": 74,
+      "SHO": 75,
+      "PAS": 86,
+      "DRI": 84,
+      "DEF": 64,
+      "PHY": 68
+    },
+    "list_index": 162,
+    "file_values": {
+      "overall": 85,
+      "position": "CM",
+      "stats": {
+        "PAC": 75,
+        "SHO": 75,
+        "PAS": 86,
+        "DRI": 86,
+        "DEF": 63,
+        "PHY": 68
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/miralem-pjanic/3770",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Juventus"
+  },
+  {
+    "rank": 161,
+    "name": "T. Alderweireld",
+    "club": "Tottenham Hotspur",
+    "overall": 85,
+    "potential": 86,
+    "number": 4,
+    "nation": "Belgium",
+    "nationCode": "BE",
+    "position": "CB",
+    "stats": {
+      "PAC": 66,
+      "SHO": 58,
+      "PAS": 70,
+      "DRI": 64,
+      "DEF": 86,
+      "PHY": 79
+    },
+    "list_index": 163,
+    "file_values": {
+      "overall": 85,
+      "position": "CB",
+      "stats": {
+        "PAC": 66,
+        "SHO": 58,
+        "PAS": 71,
+        "DRI": 64,
+        "DEF": 86,
+        "PHY": 79
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/toby-alderweireld/3553",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Tottenham Hotspur"
+  },
+  {
+    "rank": 164,
+    "name": "K. Manolas",
+    "club": "Roma",
+    "overall": 84,
+    "potential": 86,
+    "number": 44,
+    "nation": "Greece",
+    "nationCode": "GR",
+    "position": "CB",
+    "stats": {
+      "PAC": 80,
+      "SHO": 19,
+      "PAS": 42,
+      "DRI": 60,
+      "DEF": 86,
+      "PHY": 82
+    },
+    "list_index": 164,
+    "file_values": {
+      "overall": 84,
+      "position": "CB",
+      "stats": {
+        "PAC": 80,
+        "SHO": 19,
+        "PAS": 42,
+        "DRI": 60,
+        "DEF": 86,
+        "PHY": 83
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/kostas-manolas/3689",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Roma"
+  },
+  {
+    "rank": 165,
+    "name": "A. Lopes",
+    "club": "Olympique Lyonnais",
+    "overall": 83,
+    "potential": 86,
+    "number": 1,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "GK",
+    "stats": {
+      "DIV": 86,
+      "HAN": 79,
+      "KIC": 76,
+      "REF": 87,
+      "SPD": 60,
+      "POS": 77
+    },
+    "list_index": 165,
+    "file_values": {
+      "overall": 83,
+      "position": "GK",
+      "stats": {
+        "DIV": 86,
+        "HAN": 79,
+        "KIC": 80,
+        "REF": 87,
+        "SPD": 62,
+        "POS": 77
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/anthony-lopes/3674",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Olympique Lyonnais"
+  },
+  {
+    "rank": 165,
+    "name": "Danilo Pereira",
+    "club": "FC Porto",
+    "overall": 82,
+    "potential": 86,
+    "number": 22,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "CDM",
+    "stats": {
+      "PAC": 68,
+      "SHO": 59,
+      "PAS": 66,
+      "DRI": 74,
+      "DEF": 83,
+      "PHY": 87
+    },
+    "list_index": 166,
+    "file_values": {
+      "overall": 83,
+      "position": "CDM",
+      "stats": {
+        "PAC": 68,
+        "SHO": 62,
+        "PAS": 69,
+        "DRI": 74,
+        "DEF": 82,
+        "PHY": 88
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/danilo-pereira/6421",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Porto"
+  },
+  {
+    "rank": 165,
+    "name": "J. Draxler",
+    "club": "Paris Saint-Germain",
+    "overall": 84,
+    "potential": 86,
+    "number": 23,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CAM",
+    "stats": {
+      "PAC": 77,
+      "SHO": 79,
+      "PAS": 80,
+      "DRI": 86,
+      "DEF": 34,
+      "PHY": 64
+    },
+    "list_index": 167,
+    "file_values": {
+      "overall": 83,
+      "position": "CAM",
+      "stats": {
+        "PAC": 77,
+        "SHO": 78,
+        "PAS": 79,
+        "DRI": 85,
+        "DEF": 34,
+        "PHY": 64
+      }
+    },
+    "audit_status": "CAREER_MODE_FALLBACK",
+    "source_url": "https://raw.githubusercontent.com/ifrankandrade/data-visualization/main/datasets/players_17.csv",
+    "note": "Exact roster calendar date unverified; not a verified FUT card. Club differs from supplied later-season club.",
+    "stats_basis": "FIFA17_CAREER_MODE_EXPORT",
+    "source_club": "VfL Wolfsburg",
+    "source_csv_line": 101,
+    "roster": "170002"
+  },
+  {
+    "rank": 165,
+    "name": "K. Koulibaly",
+    "club": "Napoli",
+    "overall": 82,
+    "potential": 86,
+    "number": 26,
+    "nation": "Senegal",
+    "nationCode": "SN",
+    "position": "CB",
+    "stats": {
+      "PAC": 74,
+      "SHO": 26,
+      "PAS": 43,
+      "DRI": 56,
+      "DEF": 82,
+      "PHY": 86
+    },
+    "list_index": 168,
+    "file_values": {
+      "overall": 83,
+      "position": "CB",
+      "stats": {
+        "PAC": 74,
+        "SHO": 26,
+        "PAS": 43,
+        "DRI": 56,
+        "DEF": 84,
+        "PHY": 86
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/kalidou-koulibaly/6453",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Napoli"
+  },
+  {
+    "rank": 165,
+    "name": "M. Musacchio",
+    "club": "Villarreal CF",
+    "overall": 83,
+    "potential": 86,
+    "number": 5,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "CB",
+    "stats": {
+      "PAC": 63,
+      "SHO": 51,
+      "PAS": 66,
+      "DRI": 58,
+      "DEF": 84,
+      "PHY": 76
+    },
+    "list_index": 169,
+    "file_values": {
+      "overall": 83,
+      "position": "CB",
+      "stats": {
+        "PAC": 72,
+        "SHO": 51,
+        "PAS": 66,
+        "DRI": 58,
+        "DEF": 84,
+        "PHY": 79
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/mateo-musacchio/16103",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Villarreal CF"
+  },
+  {
+    "rank": 165,
+    "name": "N. Kanté",
+    "club": "Chelsea",
+    "overall": 81,
+    "potential": 86,
+    "number": 7,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "CM",
+    "stats": {
+      "PAC": 80,
+      "SHO": 66,
+      "PAS": 74,
+      "DRI": 77,
+      "DEF": 80,
+      "PHY": 83
+    },
+    "list_index": 170,
+    "file_values": {
+      "overall": 83,
+      "position": "CM",
+      "stats": {
+        "PAC": 82,
+        "SHO": 66,
+        "PAS": 75,
+        "DRI": 78,
+        "DEF": 81,
+        "PHY": 83
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/ngolo-kante/3888",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Chelsea"
+  },
+  {
+    "rank": 165,
+    "name": "Oscar",
+    "club": null,
+    "overall": 83,
+    "potential": 86,
+    "number": 8,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "CAM",
+    "stats": {
+      "PAC": 77,
+      "SHO": 75,
+      "PAS": 79,
+      "DRI": 83,
+      "DEF": 43,
+      "PHY": 46
+    },
+    "list_index": 171,
+    "file_values": {
+      "overall": 83,
+      "position": "CAM",
+      "stats": {
+        "PAC": 77,
+        "SHO": 75,
+        "PAS": 79,
+        "DRI": 83,
+        "DEF": 43,
+        "PHY": 46
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/oscar/15836",
+    "note": "Chelsea original base card used, following the earlier Oscar exception; supplied club remains null.",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Chelsea"
+  },
+  {
+    "rank": 165,
+    "name": "V. van Dijk",
+    "club": "Southampton",
+    "overall": 79,
+    "potential": 86,
+    "number": 17,
+    "nation": "Netherlands",
+    "nationCode": "NL",
+    "position": "CB",
+    "stats": {
+      "PAC": 67,
+      "SHO": 61,
+      "PAS": 65,
+      "DRI": 67,
+      "DEF": 79,
+      "PHY": 83
+    },
+    "list_index": 172,
+    "file_values": {
+      "overall": 83,
+      "position": "CB",
+      "stats": {
+        "PAC": 75,
+        "SHO": 61,
+        "PAS": 66,
+        "DRI": 68,
+        "DEF": 82,
+        "PHY": 83
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/virgil-van-dijk/7033",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Southampton"
+  },
+  {
+    "rank": 165,
+    "name": "William Carvalho",
+    "club": "Sporting CP",
+    "overall": 84,
+    "potential": 86,
+    "number": 14,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "CDM",
+    "stats": {
+      "PAC": 54,
+      "SHO": 59,
+      "PAS": 74,
+      "DRI": 74,
+      "DEF": 82,
+      "PHY": 85
+    },
+    "list_index": 173,
+    "file_values": {
+      "overall": 83,
+      "position": "CDM",
+      "stats": {
+        "PAC": 53,
+        "SHO": 59,
+        "PAS": 75,
+        "DRI": 74,
+        "DEF": 80,
+        "PHY": 83
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/william-carvalho/7929",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Sporting CP"
+  },
+  {
+    "rank": 174,
+    "name": "G. Xhaka",
+    "club": "Arsenal",
+    "overall": 84,
+    "potential": 86,
+    "number": 29,
+    "nation": "Switzerland",
+    "nationCode": "CH",
+    "position": "CM",
+    "stats": {
+      "PAC": 51,
+      "SHO": 66,
+      "PAS": 81,
+      "DRI": 72,
+      "DEF": 72,
+      "PHY": 77
+    },
+    "list_index": 174,
+    "file_values": {
+      "overall": 82,
+      "position": "CDM",
+      "stats": {
+        "PAC": 51,
+        "SHO": 66,
+        "PAS": 81,
+        "DRI": 72,
+        "DEF": 72,
+        "PHY": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/granit-xhaka/6071",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Arsenal"
+  },
+  {
+    "rank": 174,
+    "name": "M. Götze",
+    "club": "Borussia Dortmund",
+    "overall": 84,
+    "potential": 86,
+    "number": 10,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CAM",
+    "stats": {
+      "PAC": 70,
+      "SHO": 70,
+      "PAS": 78,
+      "DRI": 89,
+      "DEF": 31,
+      "PHY": 61
+    },
+    "list_index": 175,
+    "file_values": {
+      "overall": 82,
+      "position": "CM",
+      "stats": {
+        "PAC": 70,
+        "SHO": 72,
+        "PAS": 81,
+        "DRI": 88,
+        "DEF": 38,
+        "PHY": 61
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/mario-gotze/3664",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Borussia Dortmund"
+  },
+  {
+    "rank": 174,
+    "name": "Morata",
+    "club": "Real Madrid",
+    "overall": 82,
+    "potential": 86,
+    "number": 21,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "ST",
+    "stats": {
+      "PAC": 83,
+      "SHO": 79,
+      "PAS": 69,
+      "DRI": 79,
+      "DEF": 23,
+      "PHY": 73
+    },
+    "list_index": 176,
+    "file_values": {
+      "overall": 82,
+      "position": "ST",
+      "stats": {
+        "PAC": 83,
+        "SHO": 79,
+        "PAS": 69,
+        "DRI": 79,
+        "DEF": 23,
+        "PHY": 73
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/morata/4084",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Real Madrid"
+  },
+  {
+    "rank": 174,
+    "name": "S. Savić",
+    "club": "Atlético Madrid",
+    "overall": 82,
+    "potential": 86,
+    "number": 15,
+    "nation": "Montenegro",
+    "nationCode": "ME",
+    "position": "CB",
+    "stats": {
+      "PAC": 63,
+      "SHO": 35,
+      "PAS": 52,
+      "DRI": 56,
+      "DEF": 83,
+      "PHY": 75
+    },
+    "list_index": 177,
+    "file_values": {
+      "overall": 82,
+      "position": "CB",
+      "stats": {
+        "PAC": 63,
+        "SHO": 35,
+        "PAS": 52,
+        "DRI": 56,
+        "DEF": 83,
+        "PHY": 75
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/stefan-savic/7371",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Atlético Madrid"
+  },
+  {
+    "rank": 178,
+    "name": "Fabinho",
+    "club": "AS Monaco",
+    "overall": 79,
+    "potential": 86,
+    "number": 2,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "CDM",
+    "stats": {
+      "PAC": 75,
+      "SHO": 61,
+      "PAS": 72,
+      "DRI": 75,
+      "DEF": 79,
+      "PHY": 79
+    },
+    "list_index": 178,
+    "file_values": {
+      "overall": 81,
+      "position": "CDM",
+      "stats": {
+        "PAC": 75,
+        "SHO": 65,
+        "PAS": 73,
+        "DRI": 75,
+        "DEF": 80,
+        "PHY": 80
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/fabinho/8430",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "AS Monaco"
+  },
+  {
+    "rank": 178,
+    "name": "Felipe Anderson",
+    "club": "Lazio",
+    "overall": 79,
+    "potential": 86,
+    "number": 10,
+    "nation": "Brazil",
+    "nationCode": "BR",
+    "position": "LW",
+    "stats": {
+      "PAC": 92,
+      "SHO": 74,
+      "PAS": 72,
+      "DRI": 86,
+      "DEF": 30,
+      "PHY": 55
+    },
+    "list_index": 179,
+    "file_values": {
+      "overall": 81,
+      "position": "RW",
+      "stats": {
+        "PAC": 92,
+        "SHO": 75,
+        "PAS": 77,
+        "DRI": 86,
+        "DEF": 34,
+        "PHY": 56
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/felipe-anderson/6663",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Lazio"
+  },
+  {
+    "rank": 178,
+    "name": "R. Barkley",
+    "club": "Everton",
+    "overall": 81,
+    "potential": 86,
+    "number": 8,
+    "nation": "England",
+    "nationCode": "GB-ENG",
+    "position": "CAM",
+    "stats": {
+      "PAC": 78,
+      "SHO": 73,
+      "PAS": 76,
+      "DRI": 82,
+      "DEF": 56,
+      "PHY": 75
+    },
+    "list_index": 180,
+    "file_values": {
+      "overall": 81,
+      "position": "CAM",
+      "stats": {
+        "PAC": 80,
+        "SHO": 73,
+        "PAS": 77,
+        "DRI": 82,
+        "DEF": 56,
+        "PHY": 76
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/ross-barkley/5991",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Everton"
+  },
+  {
+    "rank": 178,
+    "name": "Sergio Rico",
+    "club": "Sevilla FC",
+    "overall": 80,
+    "potential": 86,
+    "number": 1,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "GK",
+    "stats": {
+      "DIV": 80,
+      "HAN": 80,
+      "KIC": 77,
+      "REF": 82,
+      "SPD": 50,
+      "POS": 80
+    },
+    "list_index": 181,
+    "file_values": {
+      "overall": 81,
+      "position": "GK",
+      "stats": {
+        "DIV": 80,
+        "HAN": 79,
+        "KIC": 78,
+        "REF": 83,
+        "SPD": 52,
+        "POS": 81
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/sergio-rico/7873",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Sevilla FC"
+  },
+  {
+    "rank": 178,
+    "name": "Suso",
+    "club": "Milan",
+    "overall": 77,
+    "potential": 86,
+    "number": 8,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "RM",
+    "stats": {
+      "PAC": 79,
+      "SHO": 71,
+      "PAS": 74,
+      "DRI": 84,
+      "DEF": 24,
+      "PHY": 48
+    },
+    "list_index": 182,
+    "file_values": {
+      "overall": 81,
+      "position": "RW",
+      "stats": {
+        "PAC": 81,
+        "SHO": 73,
+        "PAS": 80,
+        "DRI": 86,
+        "DEF": 24,
+        "PHY": 52
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/suso/6849",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Milan"
+  },
+  {
+    "rank": 183,
+    "name": "Bruma",
+    "club": "Galatasaray SK",
+    "overall": 77,
+    "potential": 86,
+    "number": 20,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "LW",
+    "stats": {
+      "PAC": 93,
+      "SHO": 70,
+      "PAS": 70,
+      "DRI": 83,
+      "DEF": 28,
+      "PHY": 58
+    },
+    "list_index": 183,
+    "file_values": {
+      "overall": 80,
+      "position": "LM",
+      "stats": {
+        "PAC": 93,
+        "SHO": 71,
+        "PAS": 71,
+        "DRI": 85,
+        "DEF": 34,
+        "PHY": 64
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/bruma/3800",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Galatasaray SK"
+  },
+  {
+    "rank": 183,
+    "name": "M. Lanzini",
+    "club": "West Ham United",
+    "overall": 79,
+    "potential": 86,
+    "number": 10,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "CAM",
+    "stats": {
+      "PAC": 82,
+      "SHO": 70,
+      "PAS": 76,
+      "DRI": 85,
+      "DEF": 26,
+      "PHY": 53
+    },
+    "list_index": 184,
+    "file_values": {
+      "overall": 80,
+      "position": "CAM",
+      "stats": {
+        "PAC": 82,
+        "SHO": 70,
+        "PAS": 76,
+        "DRI": 85,
+        "DEF": 27,
+        "PHY": 53
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/manuel-lanzini/4265",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "West Ham United"
+  },
+  {
+    "rank": 183,
+    "name": "N. Fekir",
+    "club": "Olympique Lyonnais",
+    "overall": 81,
+    "potential": 86,
+    "number": 18,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "RW",
+    "stats": {
+      "PAC": 83,
+      "SHO": 77,
+      "PAS": 76,
+      "DRI": 87,
+      "DEF": 31,
+      "PHY": 75
+    },
+    "list_index": 185,
+    "file_values": {
+      "overall": 80,
+      "position": "CAM",
+      "stats": {
+        "PAC": 82,
+        "SHO": 76,
+        "PAS": 75,
+        "DRI": 86,
+        "DEF": 31,
+        "PHY": 76
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/nabil-fekir/3938",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Olympique Lyonnais"
+  },
+  {
+    "rank": 183,
+    "name": "Nélson Semedo",
+    "club": "SL Benfica",
+    "overall": 76,
+    "potential": 86,
+    "number": 50,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "RB",
+    "stats": {
+      "PAC": 89,
+      "SHO": 53,
+      "PAS": 63,
+      "DRI": 76,
+      "DEF": 69,
+      "PHY": 67
+    },
+    "list_index": 186,
+    "file_values": {
+      "overall": 80,
+      "position": "RB",
+      "stats": {
+        "PAC": 91,
+        "SHO": 54,
+        "PAS": 64,
+        "DRI": 78,
+        "DEF": 73,
+        "PHY": 70
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/nelson-semedo/13104",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "SL Benfica"
+  },
+  {
+    "rank": 183,
+    "name": "Williams",
+    "club": "Athletic Club de Bilbao",
+    "overall": 80,
+    "potential": 86,
+    "number": 11,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "RW",
+    "stats": {
+      "PAC": 92,
+      "SHO": 75,
+      "PAS": 73,
+      "DRI": 79,
+      "DEF": 34,
+      "PHY": 79
+    },
+    "list_index": 187,
+    "file_values": {
+      "overall": 80,
+      "position": "RW",
+      "stats": {
+        "PAC": 94,
+        "SHO": 75,
+        "PAS": 72,
+        "DRI": 79,
+        "DEF": 34,
+        "PHY": 79
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/williams/10385",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Athletic Club de Bilbao"
+  },
+  {
+    "rank": 188,
+    "name": "A. Milik",
+    "club": "Napoli",
+    "overall": 79,
+    "potential": 86,
+    "number": 99,
+    "nation": "Poland",
+    "nationCode": "PL",
+    "position": "ST",
+    "stats": {
+      "PAC": 74,
+      "SHO": 82,
+      "PAS": 62,
+      "DRI": 71,
+      "DEF": 37,
+      "PHY": 73
+    },
+    "list_index": 188,
+    "file_values": {
+      "overall": 79,
+      "position": "ST",
+      "stats": {
+        "PAC": 74,
+        "SHO": 82,
+        "PAS": 62,
+        "DRI": 72,
+        "DEF": 37,
+        "PHY": 73
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/arkadiusz-milik/4108",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Napoli"
+  },
+  {
+    "rank": 188,
+    "name": "A. Pléa",
+    "club": "OGC Nice",
+    "overall": 77,
+    "potential": 86,
+    "number": 14,
+    "nation": "France",
+    "nationCode": "FR",
+    "position": "ST",
+    "stats": {
+      "PAC": 79,
+      "SHO": 79,
+      "PAS": 75,
+      "DRI": 76,
+      "DEF": 38,
+      "PHY": 67
+    },
+    "list_index": 189,
+    "file_values": {
+      "overall": 79,
+      "position": "ST",
+      "stats": {
+        "PAC": 82,
+        "SHO": 79,
+        "PAS": 75,
+        "DRI": 76,
+        "DEF": 41,
+        "PHY": 74
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/alassane-plea/7802",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "OGC Nice"
+  },
+  {
+    "rank": 188,
+    "name": "Arrizabalaga",
+    "club": "Athletic Club de Bilbao",
+    "overall": 73,
+    "potential": 86,
+    "number": 26,
+    "nation": "Spain",
+    "nationCode": "ES",
+    "position": "GK",
+    "stats": {
+      "DIV": 74,
+      "HAN": 70,
+      "KIC": 74,
+      "REF": 77,
+      "SPD": 34,
+      "POS": 69
+    },
+    "list_index": 190,
+    "file_values": {
+      "overall": 79,
+      "position": "GK",
+      "stats": {
+        "DIV": 77,
+        "HAN": 81,
+        "KIC": 75,
+        "REF": 80,
+        "SPD": 33,
+        "POS": 76
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/kepa-arrizabalaga/7852",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Athletic Club de Bilbao"
+  },
+  {
+    "rank": 188,
+    "name": "D. Origi",
+    "club": "Liverpool",
+    "overall": 78,
+    "potential": 86,
+    "number": 27,
+    "nation": "Belgium",
+    "nationCode": "BE",
+    "position": "ST",
+    "stats": {
+      "PAC": 85,
+      "SHO": 74,
+      "PAS": 68,
+      "DRI": 76,
+      "DEF": 31,
+      "PHY": 73
+    },
+    "list_index": 191,
+    "file_values": {
+      "overall": 79,
+      "position": "ST",
+      "stats": {
+        "PAC": 86,
+        "SHO": 76,
+        "PAS": 68,
+        "DRI": 76,
+        "DEF": 31,
+        "PHY": 77
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/divock-origi/9459",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Liverpool"
+  },
+  {
+    "rank": 188,
+    "name": "D. Sánchez",
+    "club": "Ajax",
+    "overall": 71,
+    "potential": 86,
+    "number": 5,
+    "nation": "Colombia",
+    "nationCode": "CO",
+    "position": "CB",
+    "stats": {
+      "PAC": 72,
+      "SHO": 33,
+      "PAS": 50,
+      "DRI": 49,
+      "DEF": 69,
+      "PHY": 78
+    },
+    "list_index": 192,
+    "file_values": {
+      "overall": 79,
+      "position": "CB",
+      "stats": {
+        "PAC": 72,
+        "SHO": 47,
+        "PAS": 50,
+        "DRI": 52,
+        "DEF": 77,
+        "PHY": 79
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/davinson-sanchez/11099",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Ajax"
+  },
+  {
+    "rank": 188,
+    "name": "João Cancelo",
+    "club": "Valencia CF",
+    "overall": 79,
+    "potential": 86,
+    "number": 2,
+    "nation": "Portugal",
+    "nationCode": "PT",
+    "position": "RB",
+    "stats": {
+      "PAC": 89,
+      "SHO": 63,
+      "PAS": 74,
+      "DRI": 80,
+      "DEF": 75,
+      "PHY": 68
+    },
+    "list_index": 193,
+    "file_values": {
+      "overall": 79,
+      "position": "RB",
+      "stats": {
+        "PAC": 92,
+        "SHO": 65,
+        "PAS": 75,
+        "DRI": 80,
+        "DEF": 75,
+        "PHY": 70
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/joao-cancelo/8721",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Valencia CF"
+  },
+  {
+    "rank": 188,
+    "name": "L. Vietto",
+    "club": "Sevilla FC",
+    "overall": 79,
+    "potential": 86,
+    "number": 9,
+    "nation": "Argentina",
+    "nationCode": "AR",
+    "position": "ST",
+    "stats": {
+      "PAC": 76,
+      "SHO": 78,
+      "PAS": 72,
+      "DRI": 85,
+      "DEF": 36,
+      "PHY": 63
+    },
+    "list_index": 194,
+    "file_values": {
+      "overall": 79,
+      "position": "ST",
+      "stats": {
+        "PAC": 76,
+        "SHO": 78,
+        "PAS": 72,
+        "DRI": 85,
+        "DEF": 36,
+        "PHY": 63
+      }
+    },
+    "audit_status": "OK",
+    "source_url": "https://www.futwiz.com/fifa17/player/luciano-vietto/7889",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Sevilla FC"
+  },
+  {
+    "rank": 188,
+    "name": "M. Benassi",
+    "club": "Torino",
+    "overall": 77,
+    "potential": 86,
+    "number": 15,
+    "nation": "Italy",
+    "nationCode": "IT",
+    "position": "CM",
+    "stats": {
+      "PAC": 69,
+      "SHO": 70,
+      "PAS": 74,
+      "DRI": 76,
+      "DEF": 71,
+      "PHY": 77
+    },
+    "list_index": 195,
+    "file_values": {
+      "overall": 79,
+      "position": "CM",
+      "stats": {
+        "PAC": 69,
+        "SHO": 70,
+        "PAS": 76,
+        "DRI": 77,
+        "DEF": 72,
+        "PHY": 78
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/marco-benassi/8979",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Torino"
+  },
+  {
+    "rank": 188,
+    "name": "M. Keane",
+    "club": "Burnley",
+    "overall": 75,
+    "potential": 86,
+    "number": 5,
+    "nation": "England",
+    "nationCode": "GB-ENG",
+    "position": "CB",
+    "stats": {
+      "PAC": 67,
+      "SHO": 39,
+      "PAS": 56,
+      "DRI": 60,
+      "DEF": 76,
+      "PHY": 75
+    },
+    "list_index": 196,
+    "file_values": {
+      "overall": 79,
+      "position": "CB",
+      "stats": {
+        "PAC": 69,
+        "SHO": 43,
+        "PAS": 60,
+        "DRI": 60,
+        "DEF": 80,
+        "PHY": 79
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/michael-keane/7935",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Burnley"
+  },
+  {
+    "rank": 188,
+    "name": "M. Meyer",
+    "club": "FC Schalke 04",
+    "overall": 80,
+    "potential": 86,
+    "number": 7,
+    "nation": "Germany",
+    "nationCode": "DE",
+    "position": "CAM",
+    "stats": {
+      "PAC": 75,
+      "SHO": 64,
+      "PAS": 78,
+      "DRI": 85,
+      "DEF": 35,
+      "PHY": 54
+    },
+    "list_index": 197,
+    "file_values": {
+      "overall": 79,
+      "position": "CAM",
+      "stats": {
+        "PAC": 74,
+        "SHO": 63,
+        "PAS": 77,
+        "DRI": 85,
+        "DEF": 35,
+        "PHY": 53
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/maximilian-meyer/9166",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "FC Schalke 04"
+  },
+  {
+    "rank": 188,
+    "name": "P. Zieliński",
+    "club": "Napoli",
+    "overall": 76,
+    "potential": 86,
+    "number": 20,
+    "nation": "Poland",
+    "nationCode": "PL",
+    "position": "CM",
+    "stats": {
+      "PAC": 77,
+      "SHO": 66,
+      "PAS": 77,
+      "DRI": 79,
+      "DEF": 55,
+      "PHY": 61
+    },
+    "list_index": 198,
+    "file_values": {
+      "overall": 79,
+      "position": "CM",
+      "stats": {
+        "PAC": 83,
+        "SHO": 69,
+        "PAS": 79,
+        "DRI": 81,
+        "DEF": 62,
+        "PHY": 61
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/piotr-zielinski/8677",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Napoli"
+  },
+  {
+    "rank": 188,
+    "name": "S. Milinković-Savić",
+    "club": "Lazio",
+    "overall": 76,
+    "potential": 86,
+    "number": 21,
+    "nation": "Serbia",
+    "nationCode": "RS",
+    "position": "CM",
+    "stats": {
+      "PAC": 69,
+      "SHO": 68,
+      "PAS": 71,
+      "DRI": 74,
+      "DEF": 69,
+      "PHY": 80
+    },
+    "list_index": 199,
+    "file_values": {
+      "overall": 79,
+      "position": "CM",
+      "stats": {
+        "PAC": 72,
+        "SHO": 70,
+        "PAS": 72,
+        "DRI": 79,
+        "DEF": 73,
+        "PHY": 81
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/sergej-milinkovic-savic/11962",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "Lazio"
+  },
+  {
+    "rank": 188,
+    "name": "V. Nilsson Lindelöf",
+    "club": "SL Benfica",
+    "overall": 78,
+    "potential": 86,
+    "number": 14,
+    "nation": "Sweden",
+    "nationCode": "SE",
+    "position": "CB",
+    "stats": {
+      "PAC": 65,
+      "SHO": 43,
+      "PAS": 55,
+      "DRI": 59,
+      "DEF": 79,
+      "PHY": 76
+    },
+    "list_index": 200,
+    "file_values": {
+      "overall": 79,
+      "position": "CB",
+      "stats": {
+        "PAC": 67,
+        "SHO": 43,
+        "PAS": 57,
+        "DRI": 59,
+        "DEF": 79,
+        "PHY": 79
+      }
+    },
+    "audit_status": "WRONG",
+    "source_url": "https://www.futwiz.com/fifa17/player/victor-nilsson-lindelof/11342",
+    "note": "",
+    "stats_basis": "FIFA17_ORIGINAL_FUT_BASE",
+    "source_club": "SL Benfica"
+  }
+]

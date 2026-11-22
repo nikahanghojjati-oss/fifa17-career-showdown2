@@ -1,0 +1,62 @@
+{
+  "schema": "cms-data-contract-v1-fixture",
+  "contractVersion": "1.0",
+  "scenario": "nav",
+  "summary": "Top bar lock state for every screen id (DATA_CONTRACT_V1 section 10), from navLockState.",
+  "generator": "tests/support/data-contract-v1-fixtures.cjs",
+  "lockText": "Finish this step first",
+  "screens": {
+    "mainMenu": {
+      "locked": false,
+      "reason": null
+    },
+    "createShowdown": {
+      "locked": false,
+      "reason": null
+    },
+    "leagueWheelScreen": {
+      "locked": true,
+      "reason": "setup"
+    },
+    "clubWheelScreen": {
+      "locked": true,
+      "reason": "setup"
+    },
+    "dashboard": {
+      "locked": false,
+      "reason": null
+    },
+    "transferChallenge": {
+      "locked": true,
+      "reason": "transfer-window"
+    },
+    "seasonEntry": {
+      "locked": true,
+      "reason": "season-entry"
+    },
+    "seasonSummary": {
+      "locked": false,
+      "reason": null
+    },
+    "statistics": {
+      "locked": false,
+      "reason": null
+    },
+    "careerStatistics": {
+      "locked": false,
+      "reason": null
+    },
+    "trophyRoom": {
+      "locked": false,
+      "reason": null
+    },
+    "legacy": {
+      "locked": false,
+      "reason": null
+    },
+    "ruleBook": {
+      "locked": false,
+      "reason": null
+    }
+  }
+}

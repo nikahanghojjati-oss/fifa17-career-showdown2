@@ -1,0 +1,145 @@
+{
+  "pass": true,
+  "runs": [
+    {
+      "frame": "TR1",
+      "viewport": "1366x768",
+      "failures": []
+    },
+    {
+      "frame": "TR1",
+      "viewport": "1440x900",
+      "failures": []
+    },
+    {
+      "frame": "TR1",
+      "viewport": "1920x1080",
+      "failures": []
+    },
+    {
+      "frame": "TR1",
+      "viewport": "1366x640",
+      "failures": []
+    },
+    {
+      "frame": "TR2",
+      "viewport": "1366x768",
+      "failures": []
+    },
+    {
+      "frame": "TR2",
+      "viewport": "1440x900",
+      "failures": []
+    },
+    {
+      "frame": "TR2",
+      "viewport": "1920x1080",
+      "failures": []
+    },
+    {
+      "frame": "TR2",
+      "viewport": "1366x640",
+      "failures": []
+    },
+    {
+      "frame": "TR3",
+      "viewport": "1366x768",
+      "failures": []
+    },
+    {
+      "frame": "TR3",
+      "viewport": "1440x900",
+      "failures": []
+    },
+    {
+      "frame": "TR3",
+      "viewport": "1920x1080",
+      "failures": []
+    },
+    {
+      "frame": "TR3",
+      "viewport": "1366x640",
+      "failures": []
+    },
+    {
+      "frame": "TR4",
+      "viewport": "1366x768",
+      "failures": []
+    },
+    {
+      "frame": "TR4",
+      "viewport": "1440x900",
+      "failures": []
+    },
+    {
+      "frame": "TR4",
+      "viewport": "1920x1080",
+      "failures": []
+    },
+    {
+      "frame": "TR4",
+      "viewport": "1366x640",
+      "failures": []
+    },
+    {
+      "frame": "TR5",
+      "viewport": "1366x768",
+      "failures": []
+    },
+    {
+      "frame": "TR5",
+      "viewport": "1440x900",
+      "failures": []
+    },
+    {
+      "frame": "TR5",
+      "viewport": "1920x1080",
+      "failures": []
+    },
+    {
+      "frame": "TR5",
+      "viewport": "1366x640",
+      "failures": []
+    },
+    {
+      "frame": "TR6",
+      "viewport": "1366x768",
+      "failures": []
+    },
+    {
+      "frame": "TR6",
+      "viewport": "1440x900",
+      "failures": []
+    },
+    {
+      "frame": "TR6",
+      "viewport": "1920x1080",
+      "failures": []
+    },
+    {
+      "frame": "TR6",
+      "viewport": "1366x640",
+      "failures": []
+    },
+    {
+      "frame": "TR7",
+      "viewport": "1366x768",
+      "failures": []
+    },
+    {
+      "frame": "TR7",
+      "viewport": "1440x900",
+      "failures": []
+    },
+    {
+      "frame": "TR7",
+      "viewport": "1920x1080",
+      "failures": []
+    },
+    {
+      "frame": "TR7",
+      "viewport": "1366x640",
+      "failures": []
+    }
+  ]
+}

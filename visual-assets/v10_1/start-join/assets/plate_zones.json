@@ -1,0 +1,53 @@
+{
+ "source": "project-documents/factory/mockups/MOCKUP_START_JOIN.png",
+ "size": [
+  1672,
+  941
+ ],
+ "format": "rectangles [x0, y0, x1, y1] in source pixels, inclusive, already include the margin",
+ "zones": [
+  [
+   0,
+   0,
+   1005,
+   78
+  ],
+  [
+   1315,
+   12,
+   1505,
+   78
+  ],
+  [
+   1532,
+   8,
+   1672,
+   96
+  ],
+  [
+   450,
+   92,
+   1245,
+   256
+  ],
+  [
+   398,
+   266,
+   1278,
+   826
+  ],
+  [
+   0,
+   888,
+   1672,
+   941
+  ],
+  [
+   0,
+   535,
+   140,
+   705
+  ]
+ ],
+ "made_by": "Claude, 2026-10-02"
+}

@@ -1,0 +1,30 @@
+{
+  "crown_y": 55,
+  "chin_y": 430,
+  "head_height": 375,
+  "eye_left": [
+    430,
+    325
+  ],
+  "eye_right": [
+    510,
+    315
+  ],
+  "protected_contacts": {
+    "pen_to_chin_hand": {
+      "x0": 380,
+      "y0": 430,
+      "x1": 620,
+      "y1": 620
+    },
+    "clipboard": {
+      "x0": 580,
+      "y0": 700,
+      "x1": 1090,
+      "y1": 1080,
+      "note": "may be partly covered by own panel in F3"
+    }
+  },
+  "bottom_crop_line_y": 1150,
+  "estimate": true
+}

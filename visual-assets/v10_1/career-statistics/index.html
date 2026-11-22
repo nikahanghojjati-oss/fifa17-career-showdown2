@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en" data-nav="hub">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Career Statistics · Career Mode Showdown</title>
+<link rel="stylesheet" href="../shared/showdown-tokens.css">
+<link rel="stylesheet" href="../shared/showdown-type.css">
+<link rel="stylesheet" href="../shared/showdown-ui.css">
+<link rel="stylesheet" href="../shared/stage.css">
+<link rel="stylesheet" href="../shared/motion.css">
+<link rel="stylesheet" href="../shared/navbar/navbar.css">
+<link rel="stylesheet" href="career-statistics.css">
+</head>
+<body>
+<div id="stage-root" class="careerStage" data-primary="careerStatisticsTrophyButton">
+  <div class="scene sd-stage" id="careerScene" data-plate-width="1672" data-plate-height="941">
+    <div class="sd-stage__layer sd-stage__layer--plate" aria-hidden="true">
+      <div class="sd-stage__registered">
+        <div class="sd-stage__plate"></div>
+        <span class="managerMarker managerDaniel" data-manager="daniel" role="presentation"></span>
+        <span class="managerMarker managerNik" data-manager="nik" role="presentation"></span>
+      </div>
+    </div>
+    <div class="sd-stage__layer sd-stage__layer--atmosphere" aria-hidden="true"></div>
+
+    <div class="phoneSceneArt" aria-hidden="true">
+      <picture class="phoneBackground">
+        <source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/ENV_CS_PHONE_V1.webp">
+        <img alt="" decoding="async">
+      </picture>
+      <picture class="phoneHero phoneHeroDaniel">
+        <source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/OVL_CS_DANIEL_PHONE_V1.webp">
+        <img alt="" decoding="async">
+      </picture>
+      <picture class="phoneHero phoneHeroNik">
+        <source media="(max-width: 760px) and (orientation: portrait)" srcset="assets/OVL_CS_NIK_PHONE_V1.webp">
+        <img alt="" decoding="async">
+      </picture>
+      <span class="phoneHeroContact phoneHeroContactDaniel"></span>
+      <span class="phoneHeroContact phoneHeroContactNik"></span>
+    </div>
+
+    <div class="sd-stage__layer sd-stage__layer--ui">
+      <div class="stateBackdrop" aria-hidden="true"></div>
+      <main id="careerStatistics" class="careerScreen" aria-labelledby="careerStatisticsScreenTitle">
+        <section class="phoneFaceBand" aria-label="Career Statistics presentation">
+          <header class="titleBlock">
+            <p class="sd-eyebrow">CAREER MODE SHOWDOWN 17</p>
+            <h1 id="careerStatisticsScreenTitle" class="titleWordmark" data-sd-enter="title" tabindex="-1" data-route-focus-target="true">
+              <span class="sd-visually-hidden">CAREER STATISTICS</span>
+              <img src="assets/TITLE_CS_V1.webp" alt="" aria-hidden="true" width="1216" height="126" decoding="async">
+            </h1>
+            <p class="sd-tagline">TWO MANAGERS. ONE LEGACY.</p>
+          </header>
+        </section>
+
+        <div id="previewChip" class="previewChip" hidden>Preview data</div>
+
+        <section class="phoneHub" aria-label="Career Statistics data">
+          <section id="headlineTiles" class="headlineTiles" aria-label="Career headline totals"></section>
+
+          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneTable" aria-label="Career Table" aria-controls="careerTablePanel" checked>
+          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneCompare" aria-label="Manager Comparison" aria-controls="comparisonPanel">
+          <input class="phoneTabControl" type="radio" name="careerPhoneTab" id="careerPhoneLeaders" aria-label="Career Leaders" aria-controls="leadersPanel">
+          <div class="phoneTabs" aria-label="Career Statistics sections">
+            <label for="careerPhoneTable">TABLE</label>
+            <label for="careerPhoneCompare">COMPARE</label>
+            <label for="careerPhoneLeaders">LEADERS</label>
+          </div>
+
+          <section id="careerStatisticsContent" class="contentGrid" aria-live="polite">
+            <section id="careerTablePanel" data-sd-enter="panel" class="glassPanel careerTablePanel" aria-labelledby="careerTableHeading"></section>
+            <section id="comparisonPanel" data-sd-enter="panel" class="glassPanel comparisonPanel" aria-labelledby="comparisonHeading"></section>
+            <section id="leadersPanel" data-sd-enter="panel" class="glassPanel leadersPanel" aria-labelledby="leadersHeading"></section>
+            <section id="statePanel" class="glassPanel statePanel" hidden></section>
+          </section>
+        </section>
+
+        <nav class="actionRow" aria-label="Career Statistics actions" data-phone-primary="careerStatisticsTrophyButton">
+          <button id="careerStatisticsRivalryButton" class="actionButton secondary" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h3V9H4v10Zm6 0h3V5h-3v14Zm6 0h3V12h-3v7Z"/></svg></span><span class="actionLabel">CURRENT RIVALRY STATISTICS</span><span aria-hidden="true">›</span></button>
+          <button id="careerStatisticsTrophyButton" data-sd-enter="button" class="actionButton primary" type="button"><img src="../shared/trophies/TRO_SHOWDOWN_CHAMPION_V1_512.webp" alt="" aria-hidden="true"><span class="actionLabel">OPEN TROPHY ROOM</span><span aria-hidden="true">›</span></button>
+          <button class="actionButton secondary backButton" type="button"><span class="buttonIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg></span><span class="actionLabel">BACK TO MAIN MENU</span><span aria-hidden="true">›</span></button>
+        </nav>
+      </main>
+      <div class="gridOverlay" aria-hidden="true"></div>
+    </div>
+
+    <div class="sd-stage__layer sd-stage__layer--cutout" aria-hidden="true">
+      <div class="sd-stage__registered">
+        <span class="contactShadow"></span>
+        <div class="sd-stage__cutout armCutout" data-src1x="assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_1X.webp" data-src2x="assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_2X.webp"></div>
+      </div>
+    </div>
+    <div class="sd-stage__layer sd-stage__layer--light" aria-hidden="true">
+      <div class="sd-stage__registered">
+        <span class="sd-stage__rim armRim" data-src1x="assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_1X.webp" data-src2x="assets/OVL_CS_DANIEL_CROSSED_ARMS_V1_RIM_2X.webp"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="topChrome" aria-hidden="true">
+    <span class="cmMark">CM 17</span>
+    <span>HOME</span><span>CAREER</span><span>STANDINGS</span><span class="active">STATS</span><span>RULES</span>
+    <span class="settingsGlyph">⚙</span>
+  </div>
+  <div class="nav-reserve" aria-hidden="true"></div>
+</div>
+<script src="../shared/stage.js"></script>
+<script src="../shared/motion.js"></script>
+<script src="../shared/navbar/navbar.js"></script>
+<script>SDNav.mount({nav:{active:"stats",locked:false,reason:null},routes:{home:"../home/index.html",career:"../start-join/index.html",standings:"../standings/index.html",stats:"index.html",rules:"../rule-book/index.html",settings:"../settings/index.html"}});</script>
+<script src="career-statistics.js"></script>
+</body>
+</html>

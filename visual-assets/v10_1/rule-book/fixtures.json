@@ -1,0 +1,152 @@
+{
+  "version": "RULE_BOOK_V1_FIXTURES",
+  "authority": "origin/main@2de237391e17c7de2c6deb606b102b68ee640212 (js/ruleBook.js createRuleBookScreen/createRuleSection/createScoringRuleSection/openRuleBook, js/optionalModules.js Rule Book lazy route, js/screens.js registered route + smart Back) + project-documents/factory/PRODUCT_TRUTH.md + DATA_CONTRACT_V1.md §0",
+  "managerOrder": [
+    "daniel",
+    "nik"
+  ],
+  "strings": {
+    "heading": "RULE BOOK",
+    "hero": {
+      "eyebrow": "CAREER MODE SHOWDOWN",
+      "title": "THE LOCKED COMPETITION RULES",
+      "summary": "Daniel and Nik. One league. Permanent clubs. One rivalry."
+    },
+    "sections": {
+      "01": {
+        "title": "SHOWDOWN FORMAT",
+        "rules": [
+          "Career Mode Showdown is a two-player rivalry for Daniel and Nik.",
+          "Daniel is Player One. Nik is Player Two.",
+          "Both managers compete in the same selected league.",
+          "The assigned clubs remain fixed for the entire Showdown, across every season.",
+          "A Showdown may contain 1, 3, 5, or 10 seasons."
+        ]
+      },
+      "02": {
+        "title": "MATCH PLAY",
+        "rules": [
+          "Career Mode matches are simulated.",
+          "A Champions League final may be played or simulated by the manager.",
+          "The main domestic cup final may be played or simulated by the manager.",
+          "No other match-play exceptions are part of the current rules."
+        ]
+      },
+      "03": {
+        "title": "TRANSFER CHALLENGE",
+        "rules": [
+          "Each manager may sign a maximum of three players per season.",
+          "The transfer window challenge lasts 15 minutes.",
+          "The opponent receives three guesses.",
+          "Each guess must be either a league or a nationality.",
+          "If a signing matches a correct guess, that signing must be released before the season begins."
+        ]
+      },
+      "04": {
+        "title": "SCORING",
+        "rows": [
+          {
+            "label": "Champions League winner",
+            "value": "+5"
+          },
+          {
+            "label": "Domestic league winner",
+            "value": "+3"
+          },
+          {
+            "label": "Main domestic cup winner",
+            "value": "+1"
+          },
+          {
+            "label": "100 league points and/or 100 league goals",
+            "value": "+1 MAX"
+          },
+          {
+            "label": "League Top Scorer and/or Top Assist",
+            "value": "+1 MAX"
+          }
+        ],
+        "maximum": {
+          "label": "MAXIMUM PER MANAGER / SEASON",
+          "value": "11"
+        }
+      },
+      "05": {
+        "title": "TIEBREAK",
+        "rules": [
+          "If both managers finish a season with the same Showdown points, use the approved fallback.",
+          "The manager with the better league finishing position wins the season.",
+          "If both managers finish in the same league position, the manager with more league points wins.",
+          "No goal-difference, goals-scored, or head-to-head tiebreak is used."
+        ]
+      },
+      "06": {
+        "title": "CONNECTION & RECOVERY",
+        "rules": [
+          "Daniel and Nik connect once before the first Showdown and can then continue the same career from a remembered account and browser.",
+          "A new or forgotten browser may need to be connected again before play continues.",
+          "Device storage may be used internally for recovery and rollback, but it does not create a separate gameplay mode.",
+          "Results are entered manually from FIFA 17; screenshots and match notes are not required."
+        ]
+      }
+    },
+    "buttons": {
+      "back": "BACK TO MAIN MENU"
+    },
+    "contractOnly": {
+      "interimLabel": "Current Showdown only. Career history is not yet available.",
+      "renderOnRuleBook": false
+    }
+  },
+  "ids": {
+    "screen": "ruleBook",
+    "entryButton": "ruleBookButton",
+    "classes": [
+      "screen",
+      "hidden",
+      "ruleBookScreen",
+      "ruleBookHero",
+      "ruleBookGrid",
+      "ruleSection",
+      "ruleSectionHeader",
+      "scoringRuleSection",
+      "ruleScoreTable",
+      "ruleScoreMaximum",
+      "ruleBookActions",
+      "backButton"
+    ],
+    "attributes": [
+      "data-smart-back"
+    ]
+  },
+  "frames": {
+    "RB1": {
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "values": {},
+      "note": "Opened from Home. Static ready Rule Book with all six sections present and Back to Main Menu available."
+    },
+    "RB2": {
+      "previewLabel": "Preview data",
+      "status": "ready",
+      "values": {},
+      "note": "Long-content stress frame. Main has no collapsed/open section state, so all six sections remain expanded; verify the longest copy and scoring rows without changing wording."
+    }
+  },
+  "routes": {
+    "fromHome": {
+      "triggerId": "ruleBookButton",
+      "loader": "openOptionalModule('ruleBook')",
+      "module": "ensureRuleBookModule()",
+      "open": "openRuleBook()",
+      "target": "ruleBook"
+    },
+    "back": {
+      "control": ".backButton[data-smart-back]",
+      "handler": "navigateBackSmart()",
+      "legalTargets": [
+        "mainMenu"
+      ]
+    }
+  }
+}

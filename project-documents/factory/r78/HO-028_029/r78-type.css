@@ -1,0 +1,435 @@
+/* =====================================================================================================
+   r78 "look and feel" · HO-028 · ONE readable body type for every screen (Team V kit, Team G wires it)
+
+   Body: Barlow 400 (600 for emphasis), 16px on desktop and phone, line-height 1.55, about 64ch per line.
+   Labels, eyebrows, buttons: Barlow Condensed 600/700, uppercase, letter-spacing .08em.
+   Titles (Kaushan Script brush titles, wordmark pictures, .sd-title, screen hero titles): NOT touched here.
+
+   Load order: after every existing v10 sheet (rulesSettingsV10.css, visual-assets/.../rule-book/rule-book.css,
+   v10Shell.css ...). Place this file in css/ next to r78-marble-surfaces.css and r78-marble-tile.webp.
+   Selectors start with :root where they must beat the #app-prefixed v10 rules regardless of load order.
+   Static CSS only: no animation, no transition, no JS.
+   ===================================================================================================== */
+
+
+/* ---------- 0 · Font face: the self-hosted Barlow files main already ships, with font-display:block ------------
+   showdown-type.css declares "Barlow" with font-display:swap, which can paint one frame in the fallback font.
+   "R78 Barlow" points at the SAME two woff2 files (no new download, same cache entry) with font-display:block.
+   First url = this file in css/ (production). Second url = this file in the kit folder
+   project-documents/factory/r78/HO-028_029/ (preview only); the browser only tries it if the first one fails. */
+@font-face {
+  font-family: "R78 Barlow";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("../visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2") format("woff2"),
+       url("../../../../visual-assets/v10_1/shared/fonts/barlow-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "R78 Barlow";
+  font-style: normal;
+  font-weight: 600;
+  font-display: block;
+  src: url("../visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2") format("woff2"),
+       url("../../../../visual-assets/v10_1/shared/fonts/barlow-latin-600-normal.woff2") format("woff2");
+}
+
+
+/* ---------- 1 · Tokens ---------------------------------------------------------------------------------------
+   Contrast numbers (README) are measured against r78-marble-tile.webp: panel mean, 99th-percentile vein pixel and
+   the single brightest vein pixel. Body >= 7:1 and secondary >= 4.5:1 hold even on the brightest vein. */
+:root {
+  /* families: the shared kit families stay the fallback, so nothing changes if the face above is not reached */
+  --r78-font-body: "R78 Barlow", "Barlow", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --r78-font-label: "Barlow Condensed", "Arial Narrow", sans-serif;
+
+  /* sizes (same on desktop and phone) */
+  --r78-size-body: 16px;          /* paragraphs, rules, dialog and error copy */
+  --r78-size-secondary: 15px;     /* helper lines, notes, toasts, meta copy */
+  --r78-size-label: 13px;         /* condensed eyebrows / small labels */
+  --r78-size-heading: 18px;       /* condensed gold section headings (Rules sections, panel headings) */
+  --r78-size-button: 15px;        /* condensed button labels */
+  --r78-size-input: 16px;         /* never below 16px: stops iOS zoom on focus */
+
+  /* weights, rhythm, measure */
+  --r78-weight-body: 400;
+  --r78-weight-strong: 600;
+  --r78-weight-label: 600;
+  --r78-weight-heading: 700;
+  --r78-line: 1.55;
+  --r78-line-secondary: 1.5;
+  --r78-line-label: 1.2;
+  --r78-measure: 64ch;
+  --r78-para-gap: .75em;
+  --r78-item-gap: .5em;           /* between list items (Rules bullets) */
+  --r78-tracking-label: .08em;
+
+  /* colours */
+  --r78-ivory: #F2EBDD;           /* body text */
+  --r78-ivory-2: #C9BFA8;         /* secondary text */
+  --r78-gold: var(--sd-gold-400, #f2c45b);        /* condensed headings, labels */
+  --r78-gold-strong: var(--sd-gold-300, #ffd34d); /* values, numbers, warn text */
+  --r78-gold-edge: var(--sd-gold-700, #d4a017);
+  --r78-error: #F07C6F;           /* error TEXT (passes 4.5:1 on the marble) */
+  --r78-error-edge: #A3241D;      /* deep red bar / edge, never a flood */
+  --r78-success: #7CC48F;         /* success TEXT */
+  --r78-success-edge: #2F7D4E;    /* deep green bar / edge */
+  --r78-warn: var(--sd-gold-300, #ffd34d);
+  --r78-warn-edge: var(--sd-gold-700, #d4a017);
+  --r78-panel: #110f0c;           /* solid fallback colour of the marble tile (its mean colour) */
+}
+
+/* Opt-in utility classes for new markup (dialogs, notes, any screen that wants the body type by class). */
+.r78-body,
+.r78-prose p,
+.r78-prose li {
+  max-width: var(--r78-measure);
+  color: var(--r78-ivory);
+  font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.r78-prose p { margin: 0 0 var(--r78-para-gap); }
+.r78-prose p:last-child { margin-bottom: 0; }
+.r78-body strong,
+.r78-prose strong { font-weight: var(--r78-weight-strong); color: var(--r78-ivory); }
+.r78-secondary {
+  max-width: var(--r78-measure);
+  color: var(--r78-ivory-2);
+  font: var(--r78-weight-body) var(--r78-size-secondary)/var(--r78-line-secondary) var(--r78-font-body);
+}
+.r78-label {
+  color: var(--r78-gold);
+  font: var(--r78-weight-label) var(--r78-size-label)/var(--r78-line-label) var(--r78-font-label);
+  letter-spacing: var(--r78-tracking-label);
+  text-transform: uppercase;
+}
+.r78-heading {
+  color: var(--r78-gold);
+  font: var(--r78-weight-heading) var(--r78-size-heading)/var(--r78-line-label) var(--r78-font-label);
+  letter-spacing: var(--r78-tracking-label);
+  text-transform: uppercase;
+}
+
+
+/* =====================================================================================================
+   2 · RULES SCREEN FIRST (Rule Book: #ruleBook.v10RuleBook, built by js/ruleBook.js, decorated by
+   js/rulesSettingsV10.js, laid out by css/rulesSettingsV10.css + visual-assets/v10_1/rule-book/rule-book.css)
+   One body font (Barlow), gold condensed section headings, ivory body, shorter lines, more air.
+   Title block (crown, CAREER MODE SHOWDOWN eyebrow, RULE BOOK wordmark picture, tagline): untouched.
+   ===================================================================================================== */
+
+/* 2a · hero summary line under the wordmark ("Daniel and Nik. One league. Permanent clubs. One rivalry.").
+   Stays on the plate, so it keeps a strong local text shadow. Phones keep it visually hidden as today. */
+:root #app #ruleBook.v10RuleBook .ruleBookHero > .ruleBookSummary {
+  max-width: 46ch;
+  color: var(--r78-ivory) !important;
+  font: var(--r78-weight-body) var(--r78-size-secondary)/1.45 var(--r78-font-body);
+  letter-spacing: 0;
+  text-shadow: 0 1px 2px #000, 0 0 6px #000, 0 0 14px #000;
+}
+
+/* 2b · the six section cards: opaque black marble face (no see-through), more inner air.
+   Phones / tablets / small laptops paint the face on the card itself (rulesSettingsV10.css uses !important there). */
+:root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection,
+:root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection.scoringRuleSection {
+  background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+@media (min-width: 701px) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection {
+    padding: 20px 26px 22px 24px;
+  }
+}
+/* Big landscape desktops (>=1200 wide, 3:2 and wider) draw the gold bevel in ::before and the face in ::after;
+   keep the bevel, swap the face for the same opaque marble. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection,
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection.scoringRuleSection {
+    background: none !important;
+    padding: 22px 30px 24px 28px;
+  }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection::after {
+    background: var(--r78-panel) url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+  }
+  /* rows breathe a little more than the old one-view board */
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { row-gap: 20px; column-gap: 20px; }
+}
+
+/* 2c · section headings: gold, condensed, uppercase. Number badge keeps its own look. */
+:root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader {
+  margin-bottom: 14px;
+}
+:root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSectionHeader h3,
+:root #app #ruleBook.v10RuleBook .ruleSectionHeader h3 {
+  color: var(--r78-gold);
+  font: var(--r78-weight-heading) var(--r78-size-heading)/1.15 var(--r78-font-label);
+  letter-spacing: var(--r78-tracking-label);
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+/* 2d · the rules themselves: ivory Barlow 16/1.55, about 64ch, a clear gap between rules. */
+:root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection ul {
+  display: grid;
+  gap: var(--r78-item-gap);
+  max-width: var(--r78-measure);
+}
+:root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li {
+  padding-left: 18px;
+  color: var(--r78-ivory);
+  font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+  letter-spacing: 0;
+  overflow-wrap: break-word;
+  text-wrap: pretty;        /* avoids a lone last word ("manager.") where supported; harmless elsewhere */
+}
+:root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li::before {
+  top: .78em;               /* centre of the first line at line-height 1.55 */
+  width: 8px;
+  height: 2px;
+  background: var(--r78-gold);
+  box-shadow: none;
+}
+
+/* 2e · Scoring: one list, one row per award (label left in body type, value right in gold), hairline rules.
+   The old two-up grid squeezed "100 league points and/or 100 league goals" into a half column. */
+:root #app #ruleBook.v10RuleBook .ruleScoreTable {
+  display: grid;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  padding-top: 0;
+}
+:root #app #ruleBook.v10RuleBook .ruleScoreTable::before { content: none; display: none; }
+:root #app #ruleBook.v10RuleBook .ruleScoreRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: nowrap;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(242, 196, 91, .16);
+  color: var(--r78-ivory);
+  font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+  letter-spacing: 0;
+  text-transform: none;
+}
+:root #app #ruleBook.v10RuleBook .ruleScoreRow:first-child { padding-top: 0; }
+:root #app #ruleBook.v10RuleBook .ruleScoreRow span { min-width: 0; }
+:root #app #ruleBook.v10RuleBook .ruleScoreRow strong {
+  flex: 0 0 auto;
+  color: var(--r78-gold-strong);
+  font: var(--r78-weight-strong) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+:root #app #ruleBook.v10RuleBook .ruleScoreMaximum {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(242, 196, 91, .55);
+  color: var(--r78-gold);
+  font: var(--r78-weight-label) 14px/1.3 var(--r78-font-label);
+  letter-spacing: var(--r78-tracking-label);
+  text-transform: uppercase;
+}
+:root #app #ruleBook.v10RuleBook .ruleScoreMaximum strong {
+  color: var(--r78-gold-strong);
+  font: var(--r78-weight-heading) 24px/1 var(--r78-font-label);
+  letter-spacing: 0;
+}
+
+/* 2f · phones (accordion, max-width 699 portrait): same type, a little more air inside the open section. */
+@media (max-width: 699px) and (orientation: portrait) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { gap: 8px; }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleBookDisclosureHeader { min-height: 52px; margin: 0; padding: 6px 12px; }
+  :root #app #ruleBook.v10RuleBook .ruleBookDisclosure > :not(summary) { margin: 0 14px; padding: 12px 0 14px; }
+  :root #app #ruleBook.v10RuleBook .ruleSectionHeader h3 { font-size: 17px; }
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection li { padding-left: 16px; }
+}
+/* 2g · desktop: the board is now taller than one view, so BACK TO MAIN MENU follows the last row instead of floating
+   over rule text (it was sticky; with 16px copy it covered the Scoring rows while scrolling). The top navbar keeps
+   HOME one tap away. Phones keep their docked Back. */
+@media (min-width: 901px) {
+  :root #app #ruleBook.v10RuleBook .ruleBookActions {
+    position: relative;
+    bottom: auto;
+    margin: 28px auto 32px;
+  }
+  :root #app #ruleBook.v10RuleBook .ruleBookActions::before { content: none; display: none; }
+}
+
+/* sideways phones (one-card tab view): same type, the card scrolls inside as before. */
+@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  :root #app #ruleBook.v10RuleBook #ruleBookSections .ruleSection { padding: 12px 16px; }
+}
+
+
+/* =====================================================================================================
+   3 · EVERY OTHER SCREEN · generic body-text layer
+   Point the app's body-font tokens at the r78 face, then set size / line / colour on the body-copy classes
+   the v10 screens use. Labels, buttons, numbers and titles keep their own rules.
+   Team G: check each screen at the five checklist sizes after wiring (README); fixed-height boxes are listed.
+   ===================================================================================================== */
+
+/* 3a · one body family everywhere: old shell font (Segoe UI/Arial via --f17-ui) and the Team V body token. */
+:root {
+  --f17-ui: var(--r78-font-body);
+  --sd-font-body: var(--r78-font-body);
+}
+
+/* 3b · Team V shared body class (showdown-type.css .sd-body grows to 18px on wide screens: fixed to 16px). */
+:root .sd-body {
+  max-width: var(--r78-measure);
+  color: var(--r78-ivory);
+  font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+}
+:root .sd-body--secondary { color: var(--r78-ivory-2); font-size: var(--r78-size-secondary); line-height: var(--r78-line-secondary); }
+:root .sd-body strong { font-weight: var(--r78-weight-strong); }
+
+/* 3c · Home: the line under RIVALRY HEADQUARTERS (js/homeScreensV10.js adds .sd-body). Its .sd-label keeps condensed. */
+:root #mainMenu.v10Home .fifaMenuHeadingMeta {
+  color: var(--r78-ivory);
+  font: var(--r78-weight-body) var(--r78-size-body)/var(--r78-line) var(--r78-font-body);
+}
+
+/* 3d · Settings: panel intros, data note, update note, row labels and motion/audio helper lines (were 12px). */
+:root #settingsOverlay.v10Settings .settingsPanelHeading p,
+:root #settingsOverlay.v10Settings .settingsDataNote,
+:root #settingsOverlay.v10Settings .settingsOfflineNote,
+:root #settingsOverlay.v10Settings .settingsApplicationUpdateStatus {
+  max-width: var(--r78-measure);
+  color: var(--r78-ivory-2);
+  font: var(--r78-weight-body) var(--r78-size-secondary)/var(--r78-line-secondary) var(--r78-font-body);
+}
+/* row labels (PLAYER, DEVICE, CURRENT SHOWDOWN ...) are labels: condensed, readable size (were 8px) */
+:root #settingsOverlay.v10Settings .settingsInfoRow span {
+  color: var(--r78-ivory-2);
+  font: var(--r78-weight-label) var(--r78-size-label)/var(--r78-line-label) var(--r78-font-label);
+  letter-spacing: var(--r78-tracking-label);
+  text-transform: uppercase;
+}
+/* helper line under each Motion / Audio choice name: own line (it ran into the name: "FULL MOTIONAlways use…") */
+:root #settingsOverlay.v10Settings .settingsMotionCopy small { display: block; margin-top: 4px; }
+:root #settingsOverlay.v10Settings .settingsMotionCopy small,
+:root #settingsOverlay.v10Settings .settingsAudioCopy small {
+  color: var(--r78-ivory-2);
+  font-family: var(--r78-font-body);
+  font-size: var(--r78-size-secondary);
+  line-height: var(--r78-line-secondary);
+}
+
+/* 3d+ · Settings on big landscape desktops is one 1920x1080 composition shrunk with CSS zoom
+   (rulesSettingsV10.css: zoom min(100vw/1920px, 100vh/1080px, 1.5) on each .settingsPanel; 0.75 at 1440x900).
+   This screen only uses SMALLER on-screen sizes than the global tokens, so the approved composition stays intact:
+   all three panels and the whole Showdown Data card (with Delete Current Showdown) in one view, no page scroll.
+   On screen: panel intros, notes and row values 14px; motion/audio helper lines 13px; row labels 12px.
+   Each size divides by the same zoom factor so it SHOWS at that size from 1440x900 up to 2560x1440; the type is paid for
+   with tighter spacing inside the panels. Short laptop windows: see the block after this one. */
+@media (min-width: 1200px) and (min-height: 600px) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root #settingsOverlay.v10Settings { --r78-settings-zoom: min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5); }
+    :root #settingsOverlay.v10Settings :is(.settingsPanelHeading p, .settingsDataNote, .settingsOfflineNote,
+      .settingsApplicationUpdateStatus) {
+      font-size: calc(14px / var(--r78-settings-zoom));
+      line-height: 1.35;
+    }
+    :root #settingsOverlay.v10Settings :is(.settingsMotionCopy small, .settingsAudioCopy small) {
+      font-size: calc(13px / var(--r78-settings-zoom));
+      line-height: 1.3;
+    }
+    :root #settingsOverlay.v10Settings .settingsInfoRow span {
+      font-size: calc(12px / var(--r78-settings-zoom));
+      line-height: 1.1;
+    }
+    /* row values and choice names (condensed) */
+    :root #settingsOverlay.v10Settings :is(.settingsInfoRow strong, .settingsMotionCopy strong, .settingsAudioCopy strong) {
+      font-size: calc(14px / var(--r78-settings-zoom));
+      line-height: 1.15;
+    }
+    /* Height budget: the 1920x1080 composition had about 9px to spare, so the bigger type is paid for with spacing
+       inside the panels (panel padding, heading gaps, row gaps, the band above the motion summary down to its STANDARD chip).
+       Panel sizes, positions and order are unchanged. */
+    :root #settingsOverlay.v10Settings #settingsDialog #settingsContent > .settingsPanel { padding-top: 12px; padding-bottom: 12px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsPanelHeading { margin-bottom: 6px; padding-bottom: 6px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsPanelHeading p { margin-top: 3px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsInfoGrid { row-gap: 2px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow { padding-top: 2px; padding-bottom: 2px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsInfoRow strong { margin-top: 1px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsMotionSummary { padding-top: 22px; }
+    :root #settingsOverlay.v10Settings #settingsContent :is(.settingsOfflineNote, .settingsApplicationUpdateStatus) { margin-top: 6px; padding-top: 5px; padding-bottom: 5px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsOfflineActions { margin-top: 8px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsDataNote { margin-top: 6px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsMotionChoices { margin-top: 6px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsMotionChoice { padding: 8px; column-gap: 7px; }
+    :root #settingsOverlay.v10Settings #settingsContent :is(.settingsMotionMarker, .settingsMotionCopy) { margin-top: 2px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsMotionCopy small { margin-top: 2px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsAudioRow { margin-top: 6px; padding-top: 6px; padding-bottom: 6px; }
+    /* main caps this line at 390px, sized for its old 9px text; at 13px it would wrap to three short lines */
+    :root #settingsOverlay.v10Settings #settingsContent .settingsAudioCopy { gap: 3px; }
+    :root #settingsOverlay.v10Settings #settingsContent .settingsAudioCopy small { max-width: 60ch; }
+  }
+}
+/* Smaller laptop windows: full compensation would not fit there, so the zoom divisor has a floor and the type shrinks a
+   little with the window. 16:9 windows under 1920x1080 (1600x900, 1536x864, 1366x768, 1280x720) keep the 16:9 layout at
+   divisor 0.85 (1366x768: about 11.5px intros, 11px helpers, 10px labels; main shows 8.5 / 6.4 / 5.7px there).
+   16:10 and 3:2 windows under 900px tall (1280x800) keep the 1440x900 layout at divisor 0.75. */
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 1079px) and (min-aspect-ratio: 17/10) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root #settingsOverlay.v10Settings { --r78-settings-zoom: max(min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5), 0.85); }
+  }
+}
+@media (min-width: 1200px) and (min-height: 600px) and (max-height: 899px) and (max-aspect-ratio: 169/100) and (min-aspect-ratio: 3/2) and (orientation: landscape) {
+  @supports (zoom: calc(1px / 1px)) {
+    :root #settingsOverlay.v10Settings { --r78-settings-zoom: max(min(calc(100vw / 1920px), calc(100vh / 1080px), 1.5), 0.75); }
+  }
+}
+
+/* 3e · Connect Players role copy (was 3.35vw / clamp(14px..16px)). */
+:root #app #connectPlayersScreen .connectPlayersRole p {
+  color: var(--r78-ivory);
+  font: var(--r78-weight-body) var(--r78-size-secondary)/var(--r78-line-secondary) var(--r78-font-body);
+}
+
+/* 3f · Club: season-choice note and rivalry lock note (were 13px / 11px). FIXED-HEIGHT BOX: check 360x640. */
+:root #clubWheelScreen.cl-on #sharedShowdownSeasonChoice > .stateNote,
+:root #app #clubWheelScreen.cl-on .clubRivalryLockNote {
+  color: var(--r78-ivory-2);
+  font: var(--r78-weight-body) var(--r78-size-secondary)/var(--r78-line-secondary) var(--r78-font-body);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* 3g · Legacy tools (Settings > History & Backup), Save Library, Restore and the Start / Join overlays:
+   body copy in these (old f17) blocks was 10-12px. Colours come from r78-marble-surfaces.css. */
+:root :is(.legacyEmpty, .legacyDataStatus, .legacyImportStatus, .legacyImportFileState, .careerRestoreIntro,
+  .careerRestoreStatus, .careerRestorePlan span, .careerRestoreRecovery span, .careerRestoreConflict p,
+  .saveLibraryEmptyState p, .saveLibraryCompatibilityState p, .saveLibraryBlockedState p, .saveLibraryEmptyCopy,
+  .saveLibraryIdentityUnavailable, .remoteJoiningIntro p, .remoteJoiningCard p, .remoteJoiningBody > p,
+  .remoteJoiningMeta, .remoteJoiningEmpty, .remoteJoiningStatus, .analyticsEmpty, .analyticsIdentityNotice,
+  .seasonEntryHint) {
+  font-family: var(--r78-font-body) !important;
+  font-size: var(--r78-size-secondary) !important;
+  line-height: var(--r78-line-secondary) !important;
+  font-weight: var(--r78-weight-body);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* 3h · Form errors (Transfer Challenge, Season Results): body type, error colour from the marble sheet. */
+:root .formError,
+:root .seasonReviewError {
+  font: var(--r78-weight-strong) var(--r78-size-secondary)/var(--r78-line-secondary) var(--r78-font-body);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* 3i · Inputs: at least 16px on phones (iOS zooms the page on focus below 16px). Desktop keeps its own sizes. */
+@media (max-width: 900px) {
+  :root :is(#app, #settingsOverlay, .remoteJoiningOverlay, .r78-modal) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select, textarea) {
+    font-size: max(var(--r78-size-input), 1em);
+  }
+}

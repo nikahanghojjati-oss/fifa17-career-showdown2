@@ -1,0 +1,325 @@
+html,body{margin:0;width:100%;height:100%;background:#07080a;overflow:hidden}body{font-family:var(--sd-font-body);color:var(--sd-text-primary)}.screen,.rv-stage{width:100vw;height:100vh;min-height:560px}.rv-stage{position:relative;overflow:hidden;background:#07080a}.rv-shell{position:absolute;inset:0;z-index:2}.topbarReserve{position:absolute;inset:0 0 auto;height:52px;z-index:5;pointer-events:none}.managerMarker{position:absolute;top:12%;width:20%;height:52%;z-index:6;pointer-events:none}.managerMarkerDaniel{left:5%}.managerMarkerNik{right:5%}.rv-titleBlock{position:absolute;left:29%;top:9.1%;width:42.5%;text-align:center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.7))}.rv-titleBlock .sd-eyebrow{font-size:clamp(10px,.85vw,14px);letter-spacing:.55em}.rv-titleBlock .sd-eyebrow::before{width:20px;height:13px;margin-bottom:2px}.rv-wordmark{width:100%;margin-top:4px}.rv-wordmark picture,.rv-wordmark img{display:block;width:100%;height:auto}.rv-titleBlock .sd-tagline{margin-top:-2px;font-size:clamp(10px,.9vw,15px);letter-spacing:.36em}.rv-preview{position:absolute;top:2.6%;left:50%;transform:translateX(-50%)}.rv-interim{position:absolute;left:29%;top:6.6%;width:42%;text-align:center;font:600 11px/1.2 var(--sd-font-condensed);letter-spacing:.06em;color:var(--sd-text-secondary);text-shadow:0 1px 4px #000}.rv-comparison{position:absolute;left:27.6%;top:26.4%;width:44.7%;height:37.4%;padding:0 2.2%;box-sizing:border-box}.rv-manager{position:absolute;top:2%;display:flex;align-items:center;gap:10px;font-family:var(--sd-font-condensed)}.rv-manager strong{display:block;color:var(--sd-gold-300);font-size:20px;letter-spacing:.04em}.rv-manager span{display:block;font-size:13px;color:var(--sd-text-primary);text-transform:uppercase}.rv-manager--left{left:6%;text-align:left}.rv-manager--right{right:6%;text-align:right}.rv-crest{width:46px;height:54px}.rv-crest svg{width:100%;height:100%;display:block}.rv-rows{position:absolute;left:6%;right:6%;top:25%;bottom:4%;display:grid;grid-template-rows:repeat(7,1fr)}.rv-row{display:grid;grid-template-columns:1fr 34px 1.7fr 1fr;align-items:center;border-top:1px solid rgba(255,255,255,.10);font-family:var(--sd-font-condensed)}.rv-value{font-size:23px;font-weight:700;font-variant-numeric:tabular-nums}.rv-value.left{text-align:right;padding-right:14px}.rv-value.right{text-align:left;padding-left:14px}.rv-value.is-leader{color:var(--sd-gold-300)}.rv-icon{text-align:center;color:var(--sd-gold-300);font-size:18px}.rv-label{text-align:center;color:var(--sd-text-secondary);font-size:13px;letter-spacing:.03em}.rv-bottom{position:absolute;top:63.1%;height:24.9%;box-sizing:border-box}.rv-bottom--head{left:2.4%;width:30.6%}.rv-bottom--seasons{left:33.4%;width:31.8%}.rv-bottom--trophies{left:65.5%;width:32.2%}.rv-actions{position:absolute;left:39.8%;top:88.2%;width:20.5%;height:7%;display:flex;align-items:center;justify-content:center}.rv-actions .sd-btn{width:100%;height:48px}.rv-state{display:none}.nav-reserve{display:none}@media(max-width:900px){.rv-stage{height:calc(100svh - 56px - env(safe-area-inset-bottom));min-height:0}.nav-reserve{display:block;position:fixed;left:0;right:0;bottom:0;height:calc(56px + env(safe-area-inset-bottom))}.rv-shell{top:46%;background:linear-gradient(180deg,rgba(7,8,10,.96),#07080a)}.rv-titleBlock{left:4%;top:2%;width:92%}.rv-comparison{left:4%;top:22%;width:92%;height:44%}.rv-bottom{display:none}.rv-actions{left:8%;top:auto;bottom:16px;width:84%;height:auto}.rv-preview{top:16%}.rv-interim{left:8%;top:18%;width:84%}.managerMarker{top:3%;height:38%}.managerMarkerDaniel{left:4%}.managerMarkerNik{right:4%}}
+/* JOB-067 step 4: desktop geometry measured from 1672×941 mockup. */
+@media (min-width:1024px){
+  .rv-comparison{left:27.63%;top:26.35%;width:44.74%;height:37.41%}
+  .rv-bottom{top:62.91%;height:23.91%}
+  .rv-bottom--head{left:2.39%;width:30.56%}
+  .rv-bottom--seasons{left:33.49%;width:31.58%}
+  .rv-bottom--trophies{left:65.55%;width:32.18%}
+  .rv-actions{left:39.77%;top:87.99%;width:20.51%;height:5.1%}
+  .rv-comparison,.rv-bottom{background:linear-gradient(180deg,rgba(9,11,13,.88),rgba(5,7,9,.82));box-shadow:0 12px 32px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,211,77,.14)}
+  .rv-bottom .sd-panel__header{height:16%;min-height:0;padding:9px 18px 6px;font-size:16px;box-sizing:border-box}
+  .rv-bottom .sd-panel__header::after{display:inline-block;width:25%;height:2px;margin:0 0 4px 16px;vertical-align:middle}
+  .rv-mini{font:600 14px/1.5 var(--sd-font-condensed);color:var(--sd-text-primary)}
+}
+/* JOB-067 step 5: data hierarchy and mockup elements. */
+.rv-progress{position:absolute;left:35%;right:35%;top:5%;text-align:center;color:var(--sd-text-secondary);font:600 10px/1.2 var(--sd-font-condensed);letter-spacing:.11em;text-transform:uppercase}
+.rv-headGrid{height:76%;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;padding:0 5%;box-sizing:border-box}
+.rv-headStat{text-align:center;border-right:1px solid rgba(255,255,255,.16)}
+.rv-headStat:last-child{border-right:0}.rv-headStat span{display:block;color:var(--sd-text-secondary);font:600 12px/1 var(--sd-font-condensed);letter-spacing:.08em;text-transform:uppercase}
+.rv-headStat strong{display:block;margin-top:10px;color:var(--sd-text-primary);font:700 clamp(34px,3.2vw,58px)/.9 var(--sd-font-condensed);font-variant-numeric:tabular-nums}
+.rv-headStat:first-child strong{color:var(--sd-gold-300)}
+.rv-seasonTable{width:94%;margin:0 auto;border-collapse:collapse;table-layout:fixed;font:600 12px/1.15 var(--sd-font-condensed);font-variant-numeric:tabular-nums}
+.rv-seasonTable th{height:24px;color:var(--sd-text-secondary);font-size:9px;letter-spacing:.09em;text-transform:uppercase;border:1px solid rgba(255,255,255,.14)}
+.rv-seasonTable td{height:23px;text-align:center;border:1px solid rgba(255,255,255,.12);color:var(--sd-text-primary)}
+.rv-seasonTable td:nth-child(2){color:var(--sd-gold-300);font-weight:700}
+.rv-seasonWinner{display:flex;align-items:center;justify-content:center;gap:6px}.rv-seasonCrest{display:inline-grid;width:17px;height:20px}.rv-seasonCrest svg{width:100%;height:100%}.rv-drawMark{color:var(--sd-gold-300);font-weight:700}
+.rv-emptyInline{display:grid;place-items:center;height:72%;padding:0 9%;text-align:center;color:var(--sd-text-secondary);font:600 13px/1.35 var(--sd-font-condensed)}
+.rv-trophyGrid{height:76%;display:grid;grid-template-columns:repeat(4,1fr);align-items:end;gap:2px;padding:2px 4% 8px;box-sizing:border-box}
+.rv-trophy{text-align:center;min-width:0}.rv-trophy img{display:block;width:auto;height:84px;max-width:90%;margin:0 auto;object-fit:contain;filter:drop-shadow(0 3px 7px rgba(0,0,0,.8))}
+.rv-trophyLabel{display:block;color:var(--sd-text-primary);font:600 9px/1.05 var(--sd-font-condensed);letter-spacing:.03em;text-transform:uppercase;min-height:19px}
+.rv-trophyCount{display:block;margin-top:3px;color:var(--sd-text-secondary);font:700 10px/1 var(--sd-font-condensed);font-variant-numeric:tabular-nums}.rv-trophyCount b{color:var(--sd-gold-300)}
+.rv-rowSvg{display:block;width:18px;height:18px;margin:auto;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.rv-transferUnavailable{font-size:12px!important;letter-spacing:.02em}
+@media(max-height:700px) and (min-width:1024px){.rv-titleBlock{top:8.2%}.rv-comparison{top:25.5%;height:37%}.rv-bottom{top:62.5%;height:24%}.rv-actions{top:88%}.rv-trophy img{height:64px}.rv-row{min-height:0}.rv-value{font-size:20px}}
+/* JOB-067 step 6: registered depth sandwich. Runtime WebP overlays are exported from likeness-locked plate pixels; full-canvas registration stays at 0,0. */
+.rv-cutout{inset:0!important;pointer-events:none;filter:drop-shadow(2px 5px 6px rgba(0,0,0,.3))}
+.rv-rim{inset:0!important;--sd-rim-opacity:.24;--sd-rim-angle:112deg}.rv-rim--nik{--sd-rim-opacity:.17}
+.rv-contact--daniel{--sd-contact-x:27.2%;--sd-contact-y:44%;--sd-contact-w:1.7%;--sd-contact-h:9.5%;--sd-contact-alpha:.42;--sd-contact-blur:7px;--sd-contact-dx:3px;--sd-contact-dy:3px}
+.rv-contact--nik{--sd-contact-x:71.5%;--sd-contact-y:57%;--sd-contact-w:2.4%;--sd-contact-h:3.8%;--sd-contact-alpha:.38;--sd-contact-blur:7px;--sd-contact-dx:-2px;--sd-contact-dy:2px}
+
+/* JOB-067 step 7: explicit loading / empty / unavailable / partial states. */
+.rv-coverage{position:absolute;left:6%;right:6%;top:22%;z-index:4;padding:5px 9px;border:1px solid rgba(242,196,91,.42);background:rgba(7,8,10,.91);color:var(--sd-gold-300);font:600 11px/1.25 var(--sd-font-body);text-align:center}
+.rv-comparison.hasCoverage .rv-rows{top:34%}
+.rv-readState{position:absolute;left:6%;right:6%;top:25%;bottom:7%;z-index:5;display:grid;place-items:center;padding:24px;border:1px dashed rgba(242,196,91,.35);background:linear-gradient(180deg,rgba(7,8,10,.94),rgba(9,10,13,.88));color:var(--sd-text-primary);text-align:center;font:600 14px/1.45 var(--sd-font-body)}
+.rv-readState::before{content:"◇";display:block;margin:0 auto 10px;color:var(--sd-gold-300);font:700 34px/1 var(--sd-font-condensed)}
+.rv-readState.loading::before{content:"◌";animation:rv-state-spin 1s linear infinite}@keyframes rv-state-spin{to{transform:rotate(360deg)}}
+.rv-bottom.isState .rv-headGrid,.rv-bottom.isState .rv-seasonTable,.rv-bottom.isState .rv-trophyGrid{display:none}.rv-bottom.isState .rv-emptyInline{height:76%}
+
+/* Short-laptop safety: keep the primary action comfortably inside 1366×640. */
+@media (min-width:1024px) and (max-height:700px){.rv-actions{top:86.5%}}
+
+/* Claude fix 2026-10-03: display:grid beat the hidden attribute, so the loading panel covered the ready totals. */
+.rv-readState[hidden],.rv-coverage[hidden]{display:none!important}
+
+
+/* Claude fix 1: make the lower trio fill its mockup-height panels instead of leaving an auto-height body stranded at the top. */
+@media (min-width:1024px){
+  .rv-bottom{
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr);
+  }
+  .rv-bottom > div{
+    min-height:0;
+    height:100%;
+  }
+  .rv-headGrid,
+  .rv-trophyGrid{
+    height:100%;
+  }
+  .rv-seasonTable{
+    height:100%;
+  }
+}
+
+/* JOB-068 phone (<=900px): heroes on top, one panel at a time below. Desktop never sees any of this. */
+.rv-phoneArt,.rv-tabs{display:none}
+@media(max-width:900px){
+  .rv-stage .sd-stage__layer--plate,.rv-stage .sd-stage__layer--cutout,.rv-stage .sd-stage__layer--light,.topbarReserve,.managerMarker{display:none}
+  .rv-phoneArt{display:block;position:absolute;z-index:1;inset:0;overflow:hidden;pointer-events:none}
+  .rv-phoneBg{position:absolute;inset:0;display:block}
+  .rv-phoneBg img{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 36%}
+  .rv-phoneArt::after{content:"";position:absolute;z-index:4;inset:36% 0 0;background:linear-gradient(180deg,rgba(7,8,10,0) 0%,rgba(7,8,10,.82) 34%,#07080a 62%)}
+  .rv-phoneHero{position:absolute;z-index:3;top:0;display:block;height:61%;filter:drop-shadow(0 8px 10px rgba(0,0,0,.5)) drop-shadow(0 0 3px rgba(255,211,77,.3))}
+  .rv-phoneHero img{display:block;height:100%;width:auto;object-fit:contain;object-position:top left}
+  .rv-phoneHero--daniel{left:-3%;top:1%}
+  .rv-phoneHero--nik{left:48%;top:0;height:63%}
+  .rv-phoneContact{position:absolute;z-index:2;top:50%;width:30%;height:8%;border-radius:50%;background:rgba(0,0,0,.48);filter:blur(12px);opacity:.7}
+  .rv-phoneContact--daniel{left:2%}.rv-phoneContact--nik{right:2%}
+  .rv-shell{--rv-panel-h:max(120px,calc(100svh - 56px - env(safe-area-inset-bottom) - 413px));z-index:5;top:0;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;padding:0 12px 12px;box-sizing:border-box;background:none}
+  .rv-titleBlock{position:static;order:1;width:100%;margin-bottom:0}
+  .rv-titleBlock .sd-eyebrow{font-size:8px;letter-spacing:.32em;margin:0}
+  .rv-titleBlock .sd-eyebrow::before{width:16px;height:10px;margin-bottom:1px}
+  .rv-wordmark{width:68%;margin:0 auto}
+  .rv-titleBlock .sd-tagline{font-size:9px;letter-spacing:.28em;margin:0}
+  .rv-preview{position:absolute;order:0;left:auto;right:8px;top:8px;transform:none;font-size:10px;min-height:0;padding:3px 8px}
+  .rv-interim{position:static;order:2;width:100%;font-size:10px;line-height:1.2;text-align:center}
+  .rv-tabs{display:flex;order:3;gap:0;min-height:0;border:1px solid var(--sd-edge);background:rgba(7,8,10,.9)}
+  .rv-tabs button{flex:1 1 0;min-width:0;min-height:44px;padding:0 2px;font-size:11px;letter-spacing:.06em}
+  .rv-comparison,.rv-bottom{position:relative;order:4;left:auto;top:auto;width:auto;height:auto;flex:0 0 var(--rv-panel-h);height:var(--rv-panel-h);min-height:0;display:none;overflow:hidden;padding:0;box-sizing:border-box;background:linear-gradient(180deg,rgba(9,11,13,.9),rgba(5,7,9,.86))}
+  .rv-shell[data-tab="totals"] .rv-comparison,.rv-shell[data-tab="head"] .rv-bottom--head,.rv-shell[data-tab="seasons"] .rv-bottom--seasons,.rv-shell[data-tab="trophies"] .rv-bottom--trophies{display:block}
+  .rv-actions{position:static;order:5;width:100%;height:auto}
+  .rv-actions .sd-btn{height:44px}
+  /* totals panel */
+  .rv-manager{top:5px;gap:7px}.rv-manager strong{font-size:16px}.rv-manager span{font-size:11px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rv-manager--left{left:12px}.rv-manager--right{right:12px}
+  .rv-crest{width:28px;height:33px}
+  .rv-progress{left:50%;right:auto;width:92px;transform:translateX(-50%);top:9px;font-size:8px;line-height:1.3;letter-spacing:.08em}
+  .rv-coverage{left:8px;right:8px;top:42px;font-size:10px}
+  .rv-rows{left:10px;right:10px;top:42px;bottom:9px}
+  .rv-rows{grid-template-rows:repeat(7,minmax(20px,1fr));overflow-y:auto}.rv-comparison.hasCoverage .rv-rows{top:80px}
+  .rv-row{grid-template-columns:1fr 28px 1.7fr 1fr}
+  .rv-value{font-size:17px}.rv-value.left{padding-right:10px}.rv-value.right{padding-left:10px}
+  .rv-label{font-size:11px}.rv-icon{font-size:14px}.rv-rowSvg{width:14px;height:14px}
+  .rv-readState{left:8px;right:8px;top:42px;bottom:8px;padding:10px;font-size:12px}
+  .rv-readState::before{font-size:24px;margin-bottom:4px}
+  /* lower panels become full-size tab bodies */
+  .rv-bottom{display:none;grid-template-rows:auto minmax(0,1fr)}
+  .rv-shell[data-tab="head"] .rv-bottom--head,.rv-shell[data-tab="seasons"] .rv-bottom--seasons,.rv-shell[data-tab="trophies"] .rv-bottom--trophies{display:grid}
+  .rv-bottom .sd-panel__header{min-height:0;height:auto;padding:6px 12px 4px;font-size:13px}
+  .rv-bottom .sd-panel__header::after{display:inline-block;width:25%;height:2px;margin:0 0 3px 10px;vertical-align:middle}
+  .rv-bottom>div{min-height:0;height:100%;overflow:auto}
+  .rv-headGrid{height:100%}.rv-headStat strong{font-size:44px;margin-top:6px}.rv-headStat span{font-size:11px}
+  .rv-seasonTable{height:auto;width:96%;margin:4px auto 0}.rv-seasonTable td{height:22px}
+  .rv-emptyInline{height:100%;font-size:12px}
+  .rv-trophyGrid{height:100%;padding:4px 2% 6px}.rv-trophy img{height:min(84px,100%)}.rv-trophyLabel{font-size:10px}.rv-trophyCount{font-size:12px}
+}
+
+/* JOB-154 phone: Showdown Points become the big score strip, the other six rows stay a compact list. */
+@media(max-width:900px){
+  .rv-rows{grid-template-rows:32px repeat(6,minmax(16px,1fr))}
+  .rv-row:first-child{background:linear-gradient(90deg,rgba(255,211,77,0),rgba(255,211,77,.10),rgba(255,211,77,0));border-top:0}
+  .rv-row:first-child .rv-value{font-size:30px;line-height:1}
+  .rv-row:first-child .rv-label{color:var(--sd-text-primary);letter-spacing:.1em;text-transform:uppercase;font-size:11px}
+}
+
+/* JOB-068 fix: the Totals table ends on a whole row (height snapped to 17 px rows) and a gold fade shows when it scrolls. */
+@media(max-width:900px){
+  .rv-rows{bottom:auto;grid-template-rows:32px;grid-auto-rows:17px;overflow-y:auto;overscroll-behavior:contain;
+    height:calc(32px + round(down, calc(var(--rv-panel-h) - 42px - 9px - 32px), 17px));
+    background:linear-gradient(to top,#07090b,#07090b) local bottom/100% 14px no-repeat,linear-gradient(to top,rgba(255,211,77,.38),rgba(255,211,77,0)) scroll bottom/100% 14px no-repeat}
+  .rv-rows .rv-row:first-child{height:32px}
+  .rv-row{min-height:0}
+  .rv-comparison.hasCoverage .rv-rows{height:calc(32px + round(down, calc(var(--rv-panel-h) - 80px - 9px - 32px), 17px))}
+}
+
+/* JOB-070 fix round (review items 1-6): mockup spacing on desktop; phone untouched. */
+.rv-headCaption{display:none}
+@media(min-width:901px){
+  .rv-titleBlock{left:30.2%;width:40%}
+  .rv-trophy img{height:clamp(72px,8vw,112px)}
+  .rv-headCaption{display:block;margin:0;padding:0 4% 8px;text-align:center;font-size:clamp(10px,.8vw,13px);letter-spacing:.2em;white-space:nowrap}
+}
+@media(min-width:1024px) and (min-height:701px){
+  .rv-comparison{top:26.8%;height:36.4%}
+  .rv-bottom{top:63.5%;height:24.4%}
+  .rv-actions{top:88.9%;height:5.8%}
+}
+@media(min-width:901px) and (max-height:700px){.rv-trophy img{height:64px}}
+
+
+/* JOB-161 part 2: Rivalry Statistics signature motion. */
+@keyframes rv-stat-deal-left{
+  from{opacity:0;transform:translate3d(-18px,0,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes rv-stat-deal-right{
+  from{opacity:0;transform:translate3d(18px,0,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes rv-head-score-slam{
+  from{opacity:0;transform:scale(1.3)}
+  to{opacity:1;transform:scale(1)}
+}
+.rv-motion-deal .rv-value.left{
+  animation:rv-stat-deal-left var(--rv-row-duration,260ms) var(--rv-row-ease,cubic-bezier(.22,1,.36,1)) var(--rv-row-delay,0ms) both;
+  will-change:transform,opacity
+}
+.rv-motion-deal .rv-value.right{
+  animation:rv-stat-deal-right var(--rv-row-duration,260ms) var(--rv-row-ease,cubic-bezier(.22,1,.36,1)) var(--rv-row-delay,0ms) both;
+  will-change:transform,opacity
+}
+.rv-headStat strong.rv-motion-head-slam{
+  animation:rv-head-score-slam var(--rv-head-duration,180ms) var(--rv-head-ease,cubic-bezier(.22,1,.36,1)) var(--rv-head-delay,390ms) both;
+  transform-origin:50% 50%;
+  will-change:transform,opacity
+}
+.rv-motion-burst{
+  position:absolute;
+  inset:0;
+  z-index:9;
+  width:100%;
+  height:100%;
+  pointer-events:none
+}
+html[data-motion-reduced="true"] .rv-motion-deal .rv-value,
+html[data-reduced-motion="true"] .rv-motion-deal .rv-value,
+html[data-motion-reduced="true"] .rv-headStat strong.rv-motion-head-slam,
+html[data-reduced-motion="true"] .rv-headStat strong.rv-motion-head-slam{
+  animation:none!important;
+  transform:none!important;
+  opacity:1!important
+}
+@media(prefers-reduced-motion:reduce){
+  .rv-motion-deal .rv-value,
+  .rv-headStat strong.rv-motion-head-slam{
+    animation:none!important;
+    transform:none!important;
+    opacity:1!important
+  }
+}
+
+
+/* JOB-162 step 1: interaction feel and reduced motion. */
+:root{
+  --rv-control-feedback:100ms;
+  --rv-control-press:80ms;
+  --rv-tab-crossfade:110ms;
+}
+.rv-tabs button,
+.rv-actions .sd-btn{
+  transition:
+    opacity var(--rv-control-feedback) ease-out,
+    color var(--rv-control-feedback) ease-out,
+    background-color var(--rv-control-feedback) ease-out,
+    border-color var(--rv-control-feedback) ease-out,
+    filter var(--rv-control-feedback) ease-out,
+    transform var(--rv-control-press) ease-out;
+  will-change:transform,opacity,filter;
+}
+.rv-tabs button:hover,
+.rv-actions .sd-btn:hover{
+  filter:brightness(1.08);
+}
+.rv-tabs button:active,
+.rv-actions .sd-btn:active{
+  opacity:.92;
+  transform:scale(.985);
+}
+@keyframes rv-tab-crossfade{
+  from{opacity:.72}
+  to{opacity:1}
+}
+@keyframes rv-reduced-fade{
+  from{opacity:.78}
+  to{opacity:1}
+}
+.rv-tabs button[aria-selected="true"],
+.rv-tabs button[aria-pressed="true"]{
+  animation:rv-tab-crossfade var(--rv-tab-crossfade) ease-out both;
+}
+@media(max-width:900px){
+  .rv-shell[data-tab="totals"] .rv-comparison,
+  .rv-shell[data-tab="head"] .rv-bottom--head,
+  .rv-shell[data-tab="seasons"] .rv-bottom--seasons,
+  .rv-shell[data-tab="trophies"] .rv-bottom--trophies{
+    animation:rv-tab-crossfade var(--rv-tab-crossfade) ease-out both;
+  }
+}
+
+/* motion.js exposes the app preference on html[data-motion-reduced] and
+   the mounted screen root as [data-sd-motion-reduced]. Both paths fade only. */
+html[data-motion-reduced="true"] .rv-tabs button,
+html[data-motion-reduced="true"] .rv-actions .sd-btn,
+#statistics[data-sd-motion-reduced="true"] .rv-tabs button,
+#statistics[data-sd-motion-reduced="true"] .rv-actions .sd-btn{
+  transition:opacity var(--rv-control-feedback) ease-out!important;
+  transform:none!important;
+  filter:none!important;
+}
+html[data-motion-reduced="true"] .rv-motion-deal .rv-value,
+html[data-motion-reduced="true"] .rv-headStat strong.rv-motion-head-slam,
+html[data-motion-reduced="true"] .rv-tabs button[aria-selected="true"],
+html[data-motion-reduced="true"] .rv-tabs button[aria-pressed="true"],
+html[data-motion-reduced="true"] .rv-shell[data-tab="totals"] .rv-comparison,
+html[data-motion-reduced="true"] .rv-shell[data-tab="head"] .rv-bottom--head,
+html[data-motion-reduced="true"] .rv-shell[data-tab="seasons"] .rv-bottom--seasons,
+html[data-motion-reduced="true"] .rv-shell[data-tab="trophies"] .rv-bottom--trophies,
+#statistics[data-sd-motion-reduced="true"] .rv-motion-deal .rv-value,
+#statistics[data-sd-motion-reduced="true"] .rv-headStat strong.rv-motion-head-slam,
+#statistics[data-sd-motion-reduced="true"] .rv-tabs button[aria-selected="true"],
+#statistics[data-sd-motion-reduced="true"] .rv-tabs button[aria-pressed="true"],
+#statistics[data-sd-motion-reduced="true"] .rv-shell[data-tab="totals"] .rv-comparison,
+#statistics[data-sd-motion-reduced="true"] .rv-shell[data-tab="head"] .rv-bottom--head,
+#statistics[data-sd-motion-reduced="true"] .rv-shell[data-tab="seasons"] .rv-bottom--seasons,
+#statistics[data-sd-motion-reduced="true"] .rv-shell[data-tab="trophies"] .rv-bottom--trophies{
+  animation:rv-reduced-fade var(--rv-control-feedback) ease-out both!important;
+  transform:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .rv-tabs button,
+  .rv-actions .sd-btn{
+    transition:opacity var(--rv-control-feedback) ease-out!important;
+    transform:none!important;
+    filter:none!important;
+  }
+  .rv-motion-deal .rv-value,
+  .rv-headStat strong.rv-motion-head-slam,
+  .rv-tabs button[aria-selected="true"],
+  .rv-tabs button[aria-pressed="true"],
+  .rv-shell[data-tab="totals"] .rv-comparison,
+  .rv-shell[data-tab="head"] .rv-bottom--head,
+  .rv-shell[data-tab="seasons"] .rv-bottom--seasons,
+  .rv-shell[data-tab="trophies"] .rv-bottom--trophies{
+    animation:rv-reduced-fade var(--rv-control-feedback) ease-out both!important;
+    transform:none!important;
+  }
+}
+
+/* Job 234 (final review item 4): the shared top bar now mounts here, so keep the preview chip and interim line clear of it. */
+.rv-preview{top:60px;left:auto;right:2.4%;transform:none}
+.rv-interim{top:58px}
+@media(max-width:900px){
+  .rv-preview{left:8px;right:auto}
+}
+
+/* CC-008 B4 · 1366x640: the interim line sat on the eyebrow and the tagline ran under the comparison panel.
+   Short desktops drop the decorative eyebrow and use a narrower wordmark so the tagline clears the panel. */
+@media (min-width:1024px) and (max-height:700px){
+  .rv-titleBlock{top:calc(52px + 22px);left:33%;width:34%}
+  .rv-titleBlock .sd-eyebrow{display:none}
+  .rv-interim{top:calc(52px + 4px)}
+  .rv-actions{top:89%}
+}
+/* CC-008 B7 · 375x553: the desktop .screen min-height (560px) made the phone page scroll by 7 px. */
+@media(max-width:900px){.screen{min-height:0}}

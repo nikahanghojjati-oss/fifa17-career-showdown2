@@ -1,0 +1,51 @@
+LEAGUE 393x852 [V3]: FAIL
+  - Nik's face 20% under <div#leagueWheel class="leagueWheel">
+  - Nik's face 20% under <div class="wheelTrack">
+  - Daniel's face 19% under <div#leagueWheel class="leagueWheel">
+  - Daniel's face 19% under <div class="wheelTrack">
+  pixels over faces: Daniel 146 px changed (max diff 74), Nik 44 px changed (max diff 22)
+LEAGUE 393x660 [V3]: FAIL
+  - Nik's face 7% under <div#leagueWheel class="leagueWheel">
+  - Nik's face 7% under <div class="wheelTrack">
+  - Daniel's face 6% under <div#leagueWheel class="leagueWheel">
+  - Daniel's face 6% under <div class="wheelTrack">
+  pixels over faces: Daniel 0 px changed (max diff 2), Nik 0 px changed (max diff 1)
+LEAGUE 375x667 [V3]: FAIL
+  - Daniel's face 4% under <div#leagueWheel class="leagueWheel">
+  - Nik's face 4% under <div#leagueWheel class="leagueWheel">
+  - Daniel's face 4% under <div class="wheelTrack">
+  - Nik's face 4% under <div class="wheelTrack">
+  pixels over faces: Daniel 0 px changed (max diff 1), Nik 0 px changed (max diff 1)
+LEAGUE 360x640 [V3]: FAIL
+  - Daniel's face 1% under <div#leagueWheel class="leagueWheel">
+  - Daniel's face 1% under <div class="wheelTrack">
+  pixels over faces: Daniel 455 px changed (max diff 255), Nik 558 px changed (max diff 255)
+STANDINGS 393x852 [V3]: OK
+  pixels over faces: Daniel 23464 px changed (max diff 51), Nik 33474 px changed (max diff 61)
+STANDINGS 393x660 [V3]: OK
+  pixels over faces: Daniel 16794 px changed (max diff 78), Nik 23719 px changed (max diff 80)
+STANDINGS 375x667 [V3]: OK
+  pixels over faces: Daniel 15155 px changed (max diff 70), Nik 21378 px changed (max diff 74)
+STANDINGS 360x640 [V3]: OK
+  pixels over faces: Daniel 14217 px changed (max diff 76), Nik 20200 px changed (max diff 81)
+RIVALRY 393x852 [V3]: OK
+  pixels over faces: Daniel 24413 px changed (max diff 42), Nik 35488 px changed (max diff 65)
+RIVALRY 393x660 [V3]: OK
+  pixels over faces: Daniel 13869 px changed (max diff 32), Nik 21991 px changed (max diff 54)
+RIVALRY 375x667 [V3]: OK
+  pixels over faces: Daniel 13846 px changed (max diff 34), Nik 20557 px changed (max diff 56)
+RIVALRY 360x640 [V3]: OK
+  pixels over faces: Daniel 12732 px changed (max diff 34), Nik 19153 px changed (max diff 56)
+TROPHY_ROOM 393x852 [V3]: OK
+  note: 1 audit name-match on div.heroSpotlight (spotlight glow, not a manager)
+  pixels over faces: Daniel 18705 px changed (max diff 189), Nik 22702 px changed (max diff 167)
+TROPHY_ROOM 393x660 [V3]: OK
+  note: 1 audit name-match on div.heroSpotlight (spotlight glow, not a manager)
+  pixels over faces: Daniel 12389 px changed (max diff 189), Nik 15209 px changed (max diff 175)
+TROPHY_ROOM 375x667 [V3]: OK
+  note: 1 audit name-match on div.heroSpotlight (spotlight glow, not a manager)
+  pixels over faces: Daniel 10895 px changed (max diff 167), Nik 13405 px changed (max diff 150)
+TROPHY_ROOM 360x640 [V3]: OK
+  note: 1 audit name-match on div.heroSpotlight (spotlight glow, not a manager)
+  pixels over faces: Daniel 10048 px changed (max diff 171), Nik 12449 px changed (max diff 158)
+swap check V3: FAIL (4 screen-size runs)

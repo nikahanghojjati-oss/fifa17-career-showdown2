@@ -1,0 +1,11 @@
+{
+  "screen_source_bytes": 29958,
+  "new_1x_overlay_bytes": 17592,
+  "existing_plate_1x_webp_bytes": 288588,
+  "existing_title_webp_bytes": 77696,
+  "existing_trophy_webp_bytes": 43896,
+  "conservative_shared_css_js_fonts_allowance_bytes": 184320,
+  "conservative_first_paint_bytes": 642050,
+  "limit_bytes": 921600,
+  "pass": true
+}

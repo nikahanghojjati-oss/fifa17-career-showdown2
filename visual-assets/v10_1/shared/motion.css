@@ -1,0 +1,345 @@
+/* Showdown shared motion kit · JOB-016
+   Opt in by importing showdown-tokens.css before this file.
+   Motion is class/data driven so screens can lazy-load this kit. */
+
+:root {
+  --sd-motion-flash: rgba(255, 211, 77, .88);
+  --sd-motion-glint: rgba(255, 243, 176, .92);
+  --sd-motion-particle: var(--sd-gold-500, #f5c518);
+  --sd-motion-reveal-dim: .78;
+}
+
+/* Elements are visible by default. JS adds .sd-motion-ready only while orchestrating. */
+.sd-motion-ready [data-sd-enter] {
+  animation-fill-mode: both;
+  animation-play-state: paused;
+}
+
+.sd-motion-ready [data-sd-enter].sd-is-animating {
+  animation-play-state: running;
+  will-change: transform, opacity;
+}
+
+/* Staged elements stay at their start pose until the orchestrator releases them. */
+.sd-motion-ready [data-sd-enter="scene"]:not(.sd-is-animating):not(.sd-entered) {
+  opacity: 0;
+  transform: scale(1.04);
+}
+
+.sd-motion-ready [data-sd-enter="character-left"]:not(.sd-is-animating):not(.sd-entered) {
+  opacity: 0;
+  transform: translate3d(-24px, 0, 0);
+}
+
+.sd-motion-ready [data-sd-enter="character-right"]:not(.sd-is-animating):not(.sd-entered) {
+  opacity: 0;
+  transform: translate3d(24px, 0, 0);
+}
+
+.sd-motion-ready [data-sd-enter="panel"]:not(.sd-is-animating):not(.sd-entered) {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+}
+
+/* Scene: 0–400 ms. */
+@keyframes sd-scene-in {
+  from { opacity: 0; transform: scale(1.04); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.sd-motion-ready [data-sd-enter="scene"].sd-is-animating {
+  animation: sd-scene-in var(--sd-duration-scene, 400ms) var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+}
+
+/* Characters: 150–600 ms, outer edge → resting position. */
+@keyframes sd-character-in-left {
+  from { opacity: 0; transform: translate3d(-24px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes sd-character-in-right {
+  from { opacity: 0; transform: translate3d(24px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.sd-motion-ready [data-sd-enter="character-left"].sd-is-animating,
+.sd-motion-ready .sd-character-in-left.sd-is-animating {
+  animation: sd-character-in-left var(--sd-duration-character, 450ms) var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+}
+
+.sd-motion-ready [data-sd-enter="character-right"].sd-is-animating,
+.sd-motion-ready .sd-character-in-right.sd-is-animating {
+  animation: sd-character-in-right var(--sd-duration-character, 450ms) var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+}
+
+/* Transform-only title wipe: an overlay slides away instead of animating clip-path. */
+.sd-title-wipe,
+[data-sd-enter="title"] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.sd-title-wipe::after,
+[data-sd-enter="title"]::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 2;
+  pointer-events: none;
+  background: var(--sd-black, #07080a);
+  transform: translate3d(102%, 0, 0);
+  transform-origin: right center;
+}
+
+.sd-motion-ready [data-sd-enter="title"]:not(.sd-is-animating):not(.sd-entered)::after,
+.sd-motion-ready .sd-title-wipe:not(.sd-is-animating):not(.sd-entered)::after {
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes sd-title-wipe-cover {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(102%, 0, 0); }
+}
+
+.sd-motion-ready [data-sd-enter="title"].sd-is-animating::after,
+.sd-motion-ready .sd-title-wipe.sd-is-animating::after {
+  animation: sd-title-wipe-cover var(--sd-duration-title, 450ms) var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+  will-change: transform;
+}
+
+.sd-title-wipe.sd-entered::after,
+[data-sd-enter="title"].sd-entered::after {
+  transform: translate3d(102%, 0, 0);
+}
+
+/* Metallic glint: once per entrance or reveal. */
+.sd-glint {
+  position: relative;
+  overflow: hidden;
+}
+
+.sd-glint::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: -30%;
+  bottom: -30%;
+  left: -34%;
+  width: 28%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(100deg, transparent 0%, var(--sd-motion-glint) 48%, transparent 100%);
+  transform: translate3d(-160%, 0, 0) skewX(-16deg);
+}
+
+@keyframes sd-glint-pass {
+  0% { opacity: 0; transform: translate3d(-160%, 0, 0) skewX(-16deg); }
+  18% { opacity: .78; }
+  72% { opacity: .46; }
+  100% { opacity: 0; transform: translate3d(540%, 0, 0) skewX(-16deg); }
+}
+
+.sd-glint.sd-is-glinting::before,
+[data-sd-glint="true"].sd-is-glinting::before {
+  animation: sd-glint-pass 420ms var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+  will-change: transform, opacity;
+}
+
+/* Panels: 400–900 ms, 60 ms stagger through --i. */
+@keyframes sd-panel-rise {
+  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.sd-motion-ready [data-sd-enter="panel"].sd-is-animating,
+.sd-motion-ready .sd-panel-rise.sd-is-animating {
+  animation: sd-panel-rise var(--sd-duration-panel, 500ms) var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+  animation-delay: calc(var(--i, 0) * var(--sd-duration-stagger, 60ms));
+}
+
+/* Primary-action payoff. */
+@keyframes sd-button-pulse {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.025); }
+  70% { transform: scale(.995); }
+}
+
+.sd-button-pulse.sd-is-pulsing,
+[data-sd-enter="button"].sd-is-pulsing {
+  animation: sd-button-pulse 320ms var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+  will-change: transform;
+}
+
+/* Count-up support: JS owns values, CSS owns stable figures + leader flash. */
+.sd-count-up,
+[data-sd-count] {
+  position: relative;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.sd-count-up::after,
+[data-sd-count]::after {
+  content: "";
+  position: absolute;
+  inset: -5px -8px;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at center, rgba(245, 197, 24, .28), transparent 68%);
+}
+
+@keyframes sd-count-leader-flash {
+  0%, 100% { opacity: 0; transform: scale(.96); }
+  45% { opacity: 1; transform: scale(1); }
+}
+
+.sd-count-up.sd-count-leader.sd-count-complete::after,
+[data-sd-count].sd-count-leader.sd-count-complete::after {
+  animation: sd-count-leader-flash 260ms var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+  will-change: transform, opacity;
+}
+
+/* Reward accents. */
+@keyframes sd-crown-pop {
+  0% { opacity: 0; transform: translate3d(0, 7px, 0) scale(.58) rotate(-7deg); }
+  62% { opacity: 1; transform: translate3d(0, -2px, 0) scale(1.08) rotate(2deg); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) rotate(0); }
+}
+
+.sd-crown-pop.sd-is-popping,
+[data-sd-enter="crown"].sd-is-popping {
+  animation: sd-crown-pop 420ms var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+  will-change: transform, opacity;
+}
+
+.sd-card-flip {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+@keyframes sd-card-flip {
+  0% { opacity: 0; transform: perspective(900px) rotateY(-82deg) scale(.94); }
+  70% { opacity: 1; transform: perspective(900px) rotateY(4deg) scale(1.015); }
+  100% { opacity: 1; transform: perspective(900px) rotateY(0) scale(1); }
+}
+
+.sd-card-flip.sd-is-flipping,
+[data-sd-enter="card"].sd-is-flipping {
+  animation: sd-card-flip 520ms var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+  will-change: transform, opacity;
+}
+
+@keyframes sd-slam-in {
+  0% { opacity: 0; transform: translate3d(0, -20px, 0) scale(1.08); }
+  68% { opacity: 1; transform: translate3d(0, 2px, 0) scale(.992); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+.sd-slam-in.sd-is-slamming,
+[data-sd-enter="slam"].sd-is-slamming {
+  animation: sd-slam-in 360ms var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+  will-change: transform, opacity;
+}
+
+/* Reveal recipe: dim/zoom anticipation, transform-only flash overlay, settle. */
+.sd-reveal-target {
+  position: relative;
+  isolation: isolate;
+}
+
+.sd-reveal-target::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 8;
+  pointer-events: none;
+  opacity: 0;
+  background: var(--sd-motion-flash);
+}
+
+@keyframes sd-reveal-anticipate {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: var(--sd-motion-reveal-dim); transform: scale(.985); }
+}
+
+@keyframes sd-reveal-flash {
+  0%, 100% { opacity: 0; transform: scale(.96); }
+  36% { opacity: .9; transform: scale(1.01); }
+}
+
+@keyframes sd-reveal-settle {
+  0% { opacity: var(--sd-motion-reveal-dim); transform: scale(1.018); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.sd-reveal-target.sd-reveal-anticipating {
+  animation: sd-reveal-anticipate 300ms var(--sd-ease-in-out, cubic-bezier(.65,0,.35,1)) both;
+  will-change: transform, opacity;
+}
+
+.sd-reveal-target.sd-reveal-flashing::after {
+  animation: sd-reveal-flash 120ms linear both;
+  will-change: transform, opacity;
+}
+
+.sd-reveal-target.sd-reveal-settling {
+  animation: sd-reveal-settle 420ms var(--sd-ease-out, cubic-bezier(.22,1,.36,1)) both;
+  will-change: transform, opacity;
+}
+
+/* Reduced-motion contract: every choreographed effect becomes a 150 ms fade only. */
+@keyframes sd-reduced-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+html[data-motion-reduced="true"] .sd-motion-ready [data-sd-enter].sd-is-animating,
+html[data-reduced-motion="true"] .sd-motion-ready [data-sd-enter].sd-is-animating,
+html[data-motion-reduced="true"] .sd-is-popping,
+html[data-reduced-motion="true"] .sd-is-popping,
+html[data-motion-reduced="true"] .sd-is-flipping,
+html[data-reduced-motion="true"] .sd-is-flipping,
+html[data-motion-reduced="true"] .sd-is-slamming,
+html[data-reduced-motion="true"] .sd-is-slamming,
+html[data-motion-reduced="true"] .sd-reveal-anticipating,
+html[data-reduced-motion="true"] .sd-reveal-anticipating,
+html[data-motion-reduced="true"] .sd-reveal-settling,
+html[data-reduced-motion="true"] .sd-reveal-settling {
+  animation: sd-reduced-fade var(--sd-duration-reduced, 150ms) linear both !important;
+  transform: none !important;
+}
+
+html[data-motion-reduced="true"] .sd-title-wipe::after,
+html[data-reduced-motion="true"] .sd-title-wipe::after,
+html[data-motion-reduced="true"] [data-sd-enter="title"]::after,
+html[data-reduced-motion="true"] [data-sd-enter="title"]::after,
+html[data-motion-reduced="true"] .sd-glint::before,
+html[data-reduced-motion="true"] .sd-glint::before,
+html[data-motion-reduced="true"] .sd-reveal-target::after,
+html[data-reduced-motion="true"] .sd-reveal-target::after,
+html[data-motion-reduced="true"] .sd-count-up::after,
+html[data-reduced-motion="true"] .sd-count-up::after {
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sd-motion-ready [data-sd-enter].sd-is-animating,
+  .sd-is-popping,
+  .sd-is-flipping,
+  .sd-is-slamming,
+  .sd-reveal-anticipating,
+  .sd-reveal-settling {
+    animation: sd-reduced-fade var(--sd-duration-reduced, 150ms) linear both !important;
+    transform: none !important;
+  }
+
+  .sd-title-wipe::after,
+  [data-sd-enter="title"]::after,
+  .sd-glint::before,
+  .sd-reveal-target::after,
+  .sd-count-up::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}

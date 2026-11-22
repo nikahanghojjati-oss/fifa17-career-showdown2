@@ -1,0 +1,360 @@
+{
+  "generated": "2026-09-28T01:13:22Z",
+  "entries": [
+    {
+      "asset_id": "ENV_TR2_WARROOM_PLATE_V1",
+      "role": "source",
+      "path": "assets/src/ENV_TR2_WARROOM_PLATE_V1.png",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sha256": "224a674659c853834d48e92411ffec5325b3c70c6e34f1d4e779a820128b15bb",
+      "derived_from": null,
+      "operations": [
+        {
+          "op": "verify_sha256",
+          "result": "match"
+        }
+      ],
+      "tool": "sha256sum",
+      "date": "2026-09-28"
+    },
+    {
+      "asset_id": "POSE_TRANSFER_DANIEL_FOCUSED_V1",
+      "role": "source",
+      "path": "assets/src/POSE_TRANSFER_DANIEL_FOCUSED_V1.png",
+      "width": 1122,
+      "height": 1402,
+      "mode": "RGBA",
+      "sha256": "8c9cde1e4ef118d57ca9b1b6dacc7429bb70494e5f8ebce853ed7f46036b2c49",
+      "derived_from": null,
+      "operations": [
+        {
+          "op": "verify_sha256",
+          "result": "match"
+        }
+      ],
+      "tool": "sha256sum",
+      "date": "2026-09-28"
+    },
+    {
+      "asset_id": "POSE_TRANSFER_NIK_TACTICAL_V1",
+      "role": "source",
+      "path": "assets/src/POSE_TRANSFER_NIK_TACTICAL_V1.png",
+      "width": 1122,
+      "height": 1402,
+      "mode": "RGBA",
+      "sha256": "92c40b1290b06945122ba442bb0368c8025cc20b39e494c3d69926396b8488f5",
+      "derived_from": null,
+      "operations": [
+        {
+          "op": "verify_sha256",
+          "result": "match"
+        }
+      ],
+      "tool": "sha256sum",
+      "date": "2026-09-28"
+    },
+    {
+      "asset_id": "POSE_TR2_DANIEL_WINDOW_PITCH_V1",
+      "role": "source",
+      "path": "assets/src/POSE_TR2_DANIEL_WINDOW_PITCH_V1.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "sha256": "e606f640fcc0fceb57991c585e59d0366dc955dd83ebba1b14cddb5d9b397d2e",
+      "derived_from": null,
+      "operations": [
+        {
+          "op": "verify_sha256",
+          "result": "match"
+        }
+      ],
+      "tool": "sha256sum",
+      "date": "2026-09-28"
+    },
+    {
+      "asset_id": "POSE_TR2_NIK_WINDOW_POINT_V1",
+      "role": "source",
+      "path": "assets/src/POSE_TR2_NIK_WINDOW_POINT_V1.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "sha256": "ea7d465e70488045a1ebdaf431ecd6db205a89c5b2439a32f942f1c08e6c77ac",
+      "derived_from": null,
+      "operations": [
+        {
+          "op": "verify_sha256",
+          "result": "match"
+        }
+      ],
+      "tool": "sha256sum",
+      "date": "2026-09-28"
+    },
+    {
+      "asset_id": "ENV_TR2_WARROOM_PLATE_V1_MASTER",
+      "role": "plate master (cleaned, upscaled x2)",
+      "path": "assets/derived/ENV_TR2_WARROOM_PLATE_V1_MASTER.png",
+      "width": 3344,
+      "height": 1882,
+      "mode": "RGB",
+      "sha256": "2ef694beb09904ef3c55e74acdac832a482a271a84c4c3380cb0e8397ec9cea9",
+      "derived_from": "224a674659c853834d48e92411ffec5325b3c70c6e34f1d4e779a820128b15bb",
+      "operations": [
+        {
+          "op": "corner_mark_removal",
+          "region_px": [
+            1555,
+            10,
+            1665,
+            55
+          ],
+          "method": "cv2.inpaint TELEA"
+        },
+        {
+          "op": "upscale",
+          "method": "Lanczos x2 + unsharp(radius=1.0, amount=40%)",
+          "issue": "CP1-A-UPSCALE"
+        }
+      ],
+      "tool": "opencv-python-headless 5.0.0.93 + Pillow 12.3.0",
+      "date": "2026-09-28"
+    },
+    {
+      "asset_id": "POSE_TRANSFER_DANIEL_FOCUSED_V1_INTAKE",
+      "role": "pose intake output",
+      "path": "assets/derived/POSE_TRANSFER_DANIEL_FOCUSED_V1_INTAKE.png",
+      "width": 1122,
+      "height": 1402,
+      "mode": "RGBA",
+      "sha256": "9b592ce3d17fb26f8bf7a43688ca0958e2719f49e223aec5cbddcbb6c882ffae",
+      "derived_from": "8c9cde1e4ef118d57ca9b1b6dacc7429bb70494e5f8ebce853ed7f46036b2c49",
+      "operations": [
+        {
+          "op": "alpha_remap",
+          "range": "248-254 -> 255",
+          "pixels_changed": 945151,
+          "hist_248_254_before": {
+            "248": 1621,
+            "249": 2342,
+            "250": 4342,
+            "251": 11320,
+            "252": 264740,
+            "253": 659957,
+            "254": 829
+          }
+        },
+        {
+          "op": "despeckle",
+          "faint_nonzero_before": 20585,
+          "faint_nonzero_after": 7825,
+          "pixels_zeroed": 12760
+        },
+        {
+          "op": "edge_erosion",
+          "kernel": "3x3 minimum filter, 1px (+1px extra on upper 45% if halo>1.5)",
+          "halo_ratio_before": 3.1659,
+          "halo_ratio_after": 2.9921,
+          "extra_erosion_applied": true
+        },
+        {
+          "op": "edge_color_decontamination",
+          "params": {
+            "interior_mean_b": 137.46083810736013,
+            "cut_fraction": 0.5,
+            "deviation": "cut applied across full partial-alpha band (~10-20px measured), scaled by (1-alpha/255), not a fixed 2px ring - see CLOUD_BUILD_RESULT.md"
+          }
+        }
+      ],
+      "tool": "numpy 2.4.6 + scipy 1.17.1 + opencv-python-headless 5.0.0.93",
+      "date": "2026-09-28"
+    },
+    {
+      "asset_id": "POSE_TRANSFER_NIK_TACTICAL_V1_INTAKE",
+      "role": "pose intake output",
+      "path": "assets/derived/POSE_TRANSFER_NIK_TACTICAL_V1_INTAKE.png",
+      "width": 1122,
+      "height": 1402,
+      "mode": "RGBA",
+      "sha256": "a42d52e60fed094fc7c8dcb24c86133c3d466f6b9129c010599f6e0001a8c649",
+      "derived_from": "92c40b1290b06945122ba442bb0368c8025cc20b39e494c3d69926396b8488f5",
+      "operations": [
+        {
+          "op": "alpha_remap",
+          "range": "248-254 -> 255",
+          "pixels_changed": 952624,
+          "hist_248_254_before": {
+            "248": 1371,
+            "249": 1985,
+            "250": 3683,
+            "251": 11727,
+            "252": 326695,
+            "253": 606498,
+            "254": 665
+          }
+        },
+        {
+          "op": "despeckle",
+          "faint_nonzero_before": 27446,
+          "faint_nonzero_after": 8407,
+          "pixels_zeroed": 19039
+        },
+        {
+          "op": "edge_erosion",
+          "kernel": "3x3 minimum filter, 1px (+1px extra on upper 45% if halo>1.5)",
+          "halo_ratio_before": 2.8372,
+          "halo_ratio_after": 2.6595,
+          "extra_erosion_applied": true
+        },
+        {
+          "op": "edge_color_decontamination",
+          "params": {
+            "interior_mean_b": 137.99987648926563,
+            "cut_fraction": 0.5,
+            "deviation": "cut applied across full partial-alpha band (~10-20px measured), scaled by (1-alpha/255), not a fixed 2px ring - see CLOUD_BUILD_RESULT.md"
+          }
+        }
+      ],
+      "tool": "numpy 2.4.6 + scipy 1.17.1 + opencv-python-headless 5.0.0.93",
+      "date": "2026-09-28"
+    },
+    {
+      "asset_id": "POSE_TR2_DANIEL_WINDOW_PITCH_V1_INTAKE",
+      "role": "pose intake output",
+      "path": "assets/derived/POSE_TR2_DANIEL_WINDOW_PITCH_V1_INTAKE.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "sha256": "38833c058fc1b12a658743867b9de53796e24059f8c9e280dfeedafadac086e7",
+      "derived_from": "e606f640fcc0fceb57991c585e59d0366dc955dd83ebba1b14cddb5d9b397d2e",
+      "operations": [
+        {
+          "op": "alpha_remap",
+          "range": "248-254 -> 255",
+          "pixels_changed": 985911,
+          "hist_248_254_before": {
+            "248": 1847,
+            "249": 2571,
+            "250": 4206,
+            "251": 9623,
+            "252": 97270,
+            "253": 869224,
+            "254": 1170
+          }
+        },
+        {
+          "op": "despeckle",
+          "faint_nonzero_before": 17995,
+          "faint_nonzero_after": 9255,
+          "pixels_zeroed": 8740
+        },
+        {
+          "op": "edge_erosion",
+          "kernel": "3x3 minimum filter, 1px (+1px extra on upper 45% if halo>1.5)",
+          "halo_ratio_before": 2.6842,
+          "halo_ratio_after": 2.6329,
+          "extra_erosion_applied": true
+        },
+        {
+          "op": "edge_color_decontamination",
+          "params": {
+            "interior_mean_b": 135.60931458302767,
+            "cut_fraction": 0.5,
+            "deviation": "cut applied across full partial-alpha band (~10-20px measured), scaled by (1-alpha/255), not a fixed 2px ring - see CLOUD_BUILD_RESULT.md"
+          }
+        }
+      ],
+      "tool": "numpy 2.4.6 + scipy 1.17.1 + opencv-python-headless 5.0.0.93",
+      "date": "2026-09-28"
+    },
+    {
+      "asset_id": "POSE_TR2_NIK_WINDOW_POINT_V1_INTAKE",
+      "role": "pose intake output",
+      "path": "assets/derived/POSE_TR2_NIK_WINDOW_POINT_V1_INTAKE.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "sha256": "776aaa28da4c624be468a3f650dcda63da4fe50563c1b825d5fcddeb57607176",
+      "derived_from": "ea7d465e70488045a1ebdaf431ecd6db205a89c5b2439a32f942f1c08e6c77ac",
+      "operations": [
+        {
+          "op": "alpha_remap",
+          "range": "248-254 -> 255",
+          "pixels_changed": 1036120,
+          "hist_248_254_before": {
+            "248": 1286,
+            "249": 1808,
+            "250": 2872,
+            "251": 12097,
+            "252": 155629,
+            "253": 861319,
+            "254": 1109
+          }
+        },
+        {
+          "op": "despeckle",
+          "faint_nonzero_before": 13887,
+          "faint_nonzero_after": 8149,
+          "pixels_zeroed": 5738
+        },
+        {
+          "op": "edge_erosion",
+          "kernel": "3x3 minimum filter, 1px (+1px extra on upper 45% if halo>1.5)",
+          "halo_ratio_before": 2.329,
+          "halo_ratio_after": 2.3006,
+          "extra_erosion_applied": true
+        },
+        {
+          "op": "edge_color_decontamination",
+          "params": {
+            "interior_mean_b": 136.9845053786121,
+            "cut_fraction": 0.5,
+            "deviation": "cut applied across full partial-alpha band (~10-20px measured), scaled by (1-alpha/255), not a fixed 2px ring - see CLOUD_BUILD_RESULT.md"
+          }
+        }
+      ],
+      "tool": "numpy 2.4.6 + scipy 1.17.1 + opencv-python-headless 5.0.0.93",
+      "date": "2026-09-28"
+    },
+    {
+      "asset_id": "POSE_TR2_NIK_WINDOW_POINT_V1_DENOISE_CANDIDATE",
+      "role": "Nik skin denoise candidate (not shipped in frames)",
+      "path": "assets/derived/POSE_TR2_NIK_WINDOW_POINT_V1_DENOISE_CANDIDATE.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "sha256": "1666ef5d2a9b315cbb680eed642371ac42af84eb427c9174024d35f6204ac546",
+      "derived_from": "ea7d465e70488045a1ebdaf431ecd6db205a89c5b2439a32f942f1c08e6c77ac",
+      "operations": [
+        {
+          "op": "fastNlMeansDenoisingColored_masked_blend",
+          "mask_polygon_src_px": [
+            [
+              396.0,
+              105.0
+            ],
+            [
+              594.0,
+              105.0
+            ],
+            [
+              585.0,
+              425.0
+            ],
+            [
+              405.0,
+              425.0
+            ]
+          ],
+          "h": 3,
+          "hColor": 3,
+          "template": 7,
+          "search": 21,
+          "blend": 0.6
+        }
+      ],
+      "tool": "opencv-python-headless 5.0.0.93",
+      "date": "2026-09-28"
+    }
+  ]
+}

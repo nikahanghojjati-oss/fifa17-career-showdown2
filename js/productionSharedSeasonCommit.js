@@ -6,8 +6,9 @@
   "use strict";
 
   const POLL_MS=15000;
+  function psscReadTimeoutMs(){const value=Number(root.CMS_COMMIT_READ_TIMEOUT_MS);return Number.isFinite(value)&&value>=1000&&value<=25000?value:25000;}
   const ACTION_ID="sharedSeasonCommitAction";
-  let installed=false,busy=false,provider=null,conflictGuard=null,setupApi=null,resultsApi=null,view=null,contextKey="",providerChain=Promise.resolve(),refreshPromise=null,headingObserver=null,bootstrapObserver=null,errorMessage="",pendingErrorKind="";
+  let installed=false,busy=false,provider=null,conflictGuard=null,setupApi=null,resultsApi=null,view=null,contextKey="",providerChain=Promise.resolve(),refreshPromise=null,refreshRequestKey="",headingObserver=null,bootstrapObserver=null,errorMessage="",pendingErrorKind="",readError="",readErrorKey="",readGeneration=0;
 
   function psscFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
   function psscShowdown(){try{return typeof currentShowdown!=="undefined"?currentShowdown:null;}catch(_error){return null;}}
@@ -24,6 +25,8 @@
     await psscLoadScript("ssjr-production-setup","js/productionSharedShowdownSetup.js",()=>root.CareerModeProductionSharedShowdownSetup);
     await psscLoadScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);
     await psscLoadScript("ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js",()=>root.CareerModeSharedShowdownCatalog);
+    await psscLoadScript("ssjr-shared-setup-protocol","js/sharedShowdownSetup.js",()=>root.CareerModeSharedShowdownSetup);
+    await psscLoadScript("ssjr-season-results-protocol","js/sharedSeasonResults.js",()=>root.CareerModeSharedSeasonResults);
     await psscLoadScript("ssjr-season-commit-protocol","js/sharedSeasonCommit.js",()=>root.CareerModeSharedSeasonCommit);
     await psscLoadScript("ssjr-season-commit-provider","js/sparkSharedSeasonCommit.js",()=>root.CareerModeSparkSharedSeasonCommit);
     await psscLoadScript("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime);
@@ -35,19 +38,21 @@
     if(!conflictGuard||typeof conflictGuard.execute!=="function")psscFail("JOURNEY_CONFLICT_GUARD_UNAVAILABLE");
   }
   function psscSeason(){const progression=root.CareerModeProductionSharedMultiSeasonProgression,fallback=psscShowdown()?.currentRound,season=Number(psscSharedMarker()&&progression&&typeof progression.resolveSeason==="function"?progression.resolveSeason(fallback):fallback);if(!Number.isInteger(season)||season<1)psscFail("SEASON_COMMIT_SEASON_INVALID");return season;}
-  function psscSetupState(){try{return setupApi?.getState?.()||null;}catch(_error){return null;}}
-  function psscResultsState(){try{return resultsApi?.getState?.()||null;}catch(_error){return null;}}
+  function psscSetupState(){try{return (setupApi||root.CareerModeProductionSharedShowdownSetup)?.getState?.()||null;}catch(_error){return null;}}
+  function psscResultsState(){try{return (resultsApi||root.CareerModeProductionSharedSeasonResults)?.getState?.()||null;}catch(_error){return null;}}
   function psscRequestContext(){const showdown=psscShowdown(),setup=psscSetupState(),rivalryId=String(showdown?.sharedJourney?.rivalryId||setup?.rivalryId||"").trim();let seasonNumber;try{seasonNumber=psscSeason();}catch(_error){return null;}const saveId=String(showdown?.id||showdown?.saveId||"").trim(),key=rivalryId?`${saveId||"shared"}|${rivalryId}:season_${seasonNumber}`:"";return key?Object.freeze({key,rivalryId,seasonNumber}):null;}
   function psscContextMatches(request){const current=psscRequestContext();return Boolean(request&&current&&request.key===current.key);}
-  function psscResultsReady(request=psscRequestContext()){const results=psscResultsState();return Boolean(request&&results&&results.state?.phase==="RESULTS_READY"&&results.state?.revision===2&&Number(results.seasonNumber)===request.seasonNumber&&String(results.rivalryId||"")===request.rivalryId&&results.allResults?.playerOne&&results.allResults?.playerTwo);}
+  function psscResultsPublished(request=psscRequestContext()){const results=psscResultsState();return Boolean(request&&results&&results.state?.phase==="RESULTS_READY"&&results.state?.revision===2&&Number(results.seasonNumber)===request.seasonNumber&&String(results.rivalryId||"")===request.rivalryId);}
+  function psscResultsReady(request=psscRequestContext()){const results=psscResultsState();return Boolean(psscResultsPublished(request)&&results.allResults?.playerOne&&results.allResults?.playerTwo);}
   function psscResultError(result,message){if(result&&result.ok===true)return result;const error=new Error(message||"Shared Season Commit request was rejected.");error.code=result&&result.code||"SEASON_COMMIT_PROVIDER_FAILED";throw error;}
+  function psscWithTimeout(promise,ms,code){let timer=null;const timeout=new Promise((_,reject)=>{timer=root.setTimeout?.(()=>{const error=new Error("The Shared Season Commit check took too long. Check your connection and retry.");error.code=code;reject(error);},ms);});return Promise.race([promise,timeout]).finally(()=>{if(timer!==null)root.clearTimeout?.(timer);});}
   function psscQueue(task){const run=providerChain.then(task,task);providerChain=run.catch(()=>{});return run;}
   function psscRandomOperationId(){if(!root.crypto||typeof root.crypto.getRandomValues!=="function")psscFail("SEASON_COMMIT_CRYPTO_UNAVAILABLE");const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);return `season_commit_op_${Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}`;}
   async function psscProviderContext(request=psscRequestContext()){
     if(!psscSharedMarker())psscFail("SEASON_COMMIT_SHARED_MODE_REQUIRED");
     if(!request||!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     await psscEnsureDependencies();
-    if(!psscResultsReady(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
+    if(!psscResultsPublished(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
     await setupApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     await resultsApi.refresh();if(!psscContextMatches(request))psscFail("SEASON_COMMIT_CONTEXT_STALE");
     if(!psscResultsReady(request))psscFail("SEASON_COMMIT_RESULTS_NOT_READY","Both managers must publish Shared Season Results before the shared season can be committed.");
@@ -71,8 +76,12 @@
   function psscManagerName(role){return psscShowdown()?.managers?.[role]||(role==="playerOne"?"Manager 1":"Manager 2");}
   function psscRender(){
     const ui=psscEnsureUi();if(!ui)return false;
-    const request=psscRequestContext(),eligible=Boolean(psscSharedMarker()&&request&&contextKey===request.key&&view&&psscResultsReady(request));
-    psscHidden(ui.status,!eligible);psscHidden(ui.action,!eligible);if(!eligible)return false;
+    const request=psscRequestContext(),ready=Boolean(psscSharedMarker()&&request&&psscResultsPublished(request)),eligible=Boolean(ready&&psscResultsReady(request)&&contextKey===request.key&&view);
+    psscHidden(ui.status,!ready);psscHidden(ui.action,!ready);if(!ready)return false;
+    if(!eligible){
+      psscText(ui.status,readError?`SHARED SEASON COMMIT CHECK FAILED · ${readError} · YOUR PUBLISHED RESULTS ARE SAVED`:'CHECKING SHARED SEASON COMMIT · YOUR PUBLISHED RESULTS ARE SAVED');
+      psscText(ui.action,readError?'RETRY COMMIT CHECK':'CHECK SHARED SEASON COMMIT');psscDisable(ui.action,busy||Boolean(refreshPromise));return false;
+    }
     const role=view.managerRole,coordinator=view.coordinatorRole,phase=view.phase||"RESULTS_READY";
     if(phase==="ACKNOWLEDGED"){
       psscText(ui.status,"SHARED SEASON COMMIT ACKNOWLEDGED BY BOTH MANAGERS · SCORING REMAINS LOCKED FOR THE NEXT CAPABILITY");psscText(ui.action,"SEASON COMMIT ACKNOWLEDGED ✓");psscDisable(ui.action,true);return true;
@@ -86,18 +95,31 @@
     else{psscText(ui.status,`BOTH RESULTS ARE READY · WAITING FOR ${psscManagerName(coordinator)} TO COMMIT THE SHARED SEASON`);psscText(ui.action,"WAITING FOR COORDINATOR");psscDisable(ui.action,true);}
     return true;
   }
-  function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;psscRender();return true;}
-  async function psscRefreshNow(request=psscRequestContext()){
+  function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();return true;}
+  async function psscRefreshNow(request=psscRequestContext(),generation=0){
     if(!request)return null;
     if(contextKey&&contextKey!==request.key){psscSetError("");pendingErrorKind="";}
     const ctx=await psscProviderContext(request);if(!psscContextMatches(request))return null;const result=psscResultError(await provider.read(ctx.options),"Shared Season Commit could not be read.");if(!psscContextMatches(request))return null;
+    if(generation&&generation!==readGeneration)return null;
     if(pendingErrorKind&&psscSatisfied(pendingErrorKind,result)){psscSetError("");pendingErrorKind="";}
     psscBind(result,ctx,request);return view;
   }
-  function psscRefresh(){const request=psscRequestContext();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;const current=psscQueue(()=>psscRefreshNow(request));refreshPromise=current;current.then(()=>{if(refreshPromise===current)refreshPromise=null;},()=>{if(refreshPromise===current)refreshPromise=null;});return current;}
+  function psscRefresh(){
+    const request=psscRequestContext();if(!request)return Promise.resolve(null);
+    if(refreshPromise&&refreshRequestKey===request.key)return refreshPromise;
+    if(contextKey!==request.key){view=null;contextKey="";if(readErrorKey!==request.key){readError="";readErrorKey="";}}
+    refreshRequestKey=request.key;
+    const generation=++readGeneration;
+    const current=psscQueue(()=>psscWithTimeout(psscRefreshNow(request,generation),psscReadTimeoutMs(),"SEASON_COMMIT_CHECK_TIMEOUT"));refreshPromise=current;psscRender();
+    current.then(()=>{if(refreshPromise===current){refreshPromise=null;psscRender();}},error=>{
+      if(error?.code==="SEASON_COMMIT_CHECK_TIMEOUT"&&readGeneration===generation)readGeneration+=1;
+      if(refreshPromise===current){refreshPromise=null;if(psscContextMatches(request)&&psscResultsPublished(request)){const previous=readErrorKey===request.key?readError:"";view=null;contextKey="";readErrorKey=request.key;readError=String(error?.code||"SEASON_COMMIT_CHECK_FAILED").replace(/[^A-Za-z0-9_-]/g,"").slice(0,80);psscRender();if(readError!==previous)psscReport("Unable to check Shared Season Commit",error);}}
+    });
+    return current;
+  }
   function psscSatisfied(kind,current){if(kind==="commit")return Boolean(current.committed);return Boolean(current.ownAcknowledged||current.phase==="ACKNOWLEDGED");}
   async function psscMutate(kind){
-    if(busy)return false;const request=psscRequestContext();if(!request)return false;busy=true;psscSetError("");pendingErrorKind="";psscRender();const operationId=psscRandomOperationId();
+    if(busy)return false;const request=psscRequestContext();if(!request)return false;busy=true;readGeneration+=1;psscSetError("");pendingErrorKind="";psscRender();const operationId=psscRandomOperationId();
     try{
       return await psscQueue(async()=>{
         const ctx=await psscProviderContext(request);if(!psscContextMatches(request))return false;let current=psscResultError(await provider.read(ctx.options));
@@ -117,8 +139,8 @@
     }catch(error){if(psscContextMatches(request)){pendingErrorKind=kind;psscSetError(error.message||error.code||"Shared Season Commit failed.");psscReport("Unable to update Shared Season Commit",error);}return false;}
     finally{busy=false;if(psscContextMatches(request))psscRender();}
   }
-  function psscCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!psscSharedMarker())return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;void psscMutate(view?.committed?"acknowledge":"commit");}
-  async function psscTick(){if(!psscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;if(view?.phase==="ACKNOWLEDGED"){psscRender();return;}try{await psscRefresh();}catch(_error){}}
+  function psscCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!psscSharedMarker())return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;const request=psscRequestContext();if(!request||contextKey!==request.key||!view||!psscResultsReady(request)){void psscRefresh().catch(()=>{});return;}void psscMutate(view.committed?"acknowledge":"commit");}
+  async function psscTick(){if(!psscSharedMarker()||busy||root.document?.visibilityState==="hidden")return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;psscRender();if(view?.phase==="ACKNOWLEDGED"&&contextKey===psscRequestContext()?.key)return;try{await psscRefresh();}catch(_error){}}
   function psscAttachHeadingObserver(){
     if(!root.MutationObserver||!root.document)return false;const heading=psscField("seasonReviewHeading");if(!heading)return false;if(headingObserver)return true;
     headingObserver=new root.MutationObserver(()=>void psscTick());headingObserver.observe(heading,{childList:true,characterData:true,subtree:true});return true;

@@ -1,0 +1,7837 @@
+{
+  "schema": "SHOWDOWN_FACTORY_QA_V1",
+  "generatedAt": "2026-10-03T00:38:50.178Z",
+  "base": "http://127.0.0.1:8765/visual-assets/v10_1/league/",
+  "screenFolder": "visual-assets/v10_1/league",
+  "frames": [
+    "L1",
+    "L2",
+    "L3",
+    "L4"
+  ],
+  "viewports": [
+    {
+      "w": 1366,
+      "h": 768,
+      "dpr": 1,
+      "label": "1366x768"
+    },
+    {
+      "w": 1440,
+      "h": 900,
+      "dpr": 1,
+      "label": "1440x900"
+    },
+    {
+      "w": 1920,
+      "h": 1080,
+      "dpr": 1,
+      "label": "1920x1080"
+    },
+    {
+      "w": 1366,
+      "h": 640,
+      "dpr": 1,
+      "label": "1366x640"
+    },
+    {
+      "w": 393,
+      "h": 660,
+      "dpr": 3,
+      "label": "393x660@3x",
+      "phone": true
+    },
+    {
+      "w": 360,
+      "h": 640,
+      "dpr": 2,
+      "label": "360x640",
+      "phone": true
+    },
+    {
+      "w": 375,
+      "h": 553,
+      "dpr": 2,
+      "label": "375x553",
+      "phone": true
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "dpr": 2,
+      "label": "390x844",
+      "phone": true
+    },
+    {
+      "w": 430,
+      "h": 932,
+      "dpr": 2,
+      "label": "430x932",
+      "phone": true
+    }
+  ],
+  "results": [
+    {
+      "frame": "L1",
+      "viewport": {
+        "w": 1366,
+        "h": 768,
+        "dpr": 1,
+        "label": "1366x768"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 983.0625,
+            "top": 7.5,
+            "right": 1059.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPIN WHEEL",
+          "rect": {
+            "left": 425,
+            "top": 660.578125,
+            "right": 725,
+            "bottom": 716.578125,
+            "width": 300,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 741,
+            "top": 660.578125,
+            "right": 941,
+            "bottom": 716.578125,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPIN WHEEL",
+        "rect": {
+          "left": 425,
+          "top": 660.578125,
+          "right": 725,
+          "bottom": 716.578125,
+          "width": 300,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 341.5,
+              "top": 184.3125,
+              "right": 342.5,
+              "bottom": 185.3125,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1024.5,
+              "top": 184.3125,
+              "right": 1025.5,
+              "bottom": 185.3125,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L1__1366x768.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 341.5,
+                "top": 184.3125,
+                "right": 342.5,
+                "bottom": 185.3125,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1024.5,
+                "top": 184.3125,
+                "right": 1025.5,
+                "bottom": 185.3125,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPIN WHEEL",
+              "rect": {
+                "left": 425,
+                "top": 660.578125,
+                "right": 725,
+                "bottom": 716.578125,
+                "width": 300,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L1",
+      "viewport": {
+        "w": 1440,
+        "h": 900,
+        "dpr": 1,
+        "label": "1440x900"
+      },
+      "scroll": {
+        "html": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 1057.0625,
+            "top": 7.5,
+            "right": 1133.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPIN WHEEL",
+          "rect": {
+            "left": 462,
+            "top": 773.953125,
+            "right": 762,
+            "bottom": 829.953125,
+            "width": 300,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 778,
+            "top": 773.953125,
+            "right": 978,
+            "bottom": 829.953125,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPIN WHEEL",
+        "rect": {
+          "left": 462,
+          "top": 773.953125,
+          "right": 762,
+          "bottom": 829.953125,
+          "width": 300,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 360,
+              "top": 216,
+              "right": 361,
+              "bottom": 217,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1080,
+              "top": 216,
+              "right": 1081,
+              "bottom": 217,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L1__1440x900.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 360,
+                "top": 216,
+                "right": 361,
+                "bottom": 217,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1080,
+                "top": 216,
+                "right": 1081,
+                "bottom": 217,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPIN WHEEL",
+              "rect": {
+                "left": 462,
+                "top": 773.953125,
+                "right": 762,
+                "bottom": 829.953125,
+                "width": 300,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L1",
+      "viewport": {
+        "w": 1920,
+        "h": 1080,
+        "dpr": 1,
+        "label": "1920x1080"
+      },
+      "scroll": {
+        "html": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 1537.0625,
+            "top": 7.5,
+            "right": 1613.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPIN WHEEL",
+          "rect": {
+            "left": 702,
+            "top": 928.75,
+            "right": 1002,
+            "bottom": 984.75,
+            "width": 300,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 1018,
+            "top": 928.75,
+            "right": 1218,
+            "bottom": 984.75,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPIN WHEEL",
+        "rect": {
+          "left": 702,
+          "top": 928.75,
+          "right": 1002,
+          "bottom": 984.75,
+          "width": 300,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 480,
+              "top": 259.1875,
+              "right": 481,
+              "bottom": 260.1875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1440,
+              "top": 259.1875,
+              "right": 1441,
+              "bottom": 260.1875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L1__1920x1080.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 480,
+                "top": 259.1875,
+                "right": 481,
+                "bottom": 260.1875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1440,
+                "top": 259.1875,
+                "right": 1441,
+                "bottom": 260.1875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPIN WHEEL",
+              "rect": {
+                "left": 702,
+                "top": 928.75,
+                "right": 1002,
+                "bottom": 984.75,
+                "width": 300,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L1",
+      "viewport": {
+        "w": 1366,
+        "h": 640,
+        "dpr": 1,
+        "label": "1366x640"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 983.0625,
+            "top": 7.5,
+            "right": 1059.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPIN WHEEL",
+          "rect": {
+            "left": 425,
+            "top": 576,
+            "right": 725,
+            "bottom": 628,
+            "width": 300,
+            "height": 52
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 741,
+            "top": 576,
+            "right": 941,
+            "bottom": 628,
+            "width": 200,
+            "height": 52
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPIN WHEEL",
+        "rect": {
+          "left": 425,
+          "top": 576,
+          "right": 725,
+          "bottom": 628,
+          "width": 300,
+          "height": 52
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 341.5,
+              "top": 153.59375,
+              "right": 342.5,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1024.5,
+              "top": 153.59375,
+              "right": 1025.5,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L1__1366x640.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 341.5,
+                "top": 153.59375,
+                "right": 342.5,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1024.5,
+                "top": 153.59375,
+                "right": 1025.5,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPIN WHEEL",
+              "rect": {
+                "left": 425,
+                "top": 576,
+                "right": 725,
+                "bottom": 628,
+                "width": 300,
+                "height": 52
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L1",
+      "viewport": {
+        "w": 393,
+        "h": 660,
+        "dpr": 3,
+        "label": "393x660@3x",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 214.703125,
+            "top": 1.5,
+            "right": 279.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPIN WHEEL",
+          "rect": {
+            "left": 16,
+            "top": 554,
+            "right": 377,
+            "bottom": 598,
+            "width": 361,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 604,
+            "right": 377,
+            "bottom": 648,
+            "width": 361,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPIN WHEEL",
+        "rect": {
+          "left": 16,
+          "top": 554,
+          "right": 377,
+          "bottom": 598,
+          "width": 361,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 98.25,
+              "top": 158.390625,
+              "right": 99.25,
+              "bottom": 159.390625,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 294.75,
+              "top": 158.390625,
+              "right": 295.75,
+              "bottom": 159.390625,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L1__393x660@3x.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 98.25,
+                "top": 158.390625,
+                "right": 99.25,
+                "bottom": 159.390625,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 294.75,
+                "top": 158.390625,
+                "right": 295.75,
+                "bottom": 159.390625,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPIN WHEEL",
+              "rect": {
+                "left": 16,
+                "top": 554,
+                "right": 377,
+                "bottom": 598,
+                "width": 361,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L1",
+      "viewport": {
+        "w": 360,
+        "h": 640,
+        "dpr": 2,
+        "label": "360x640",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 181.703125,
+            "top": 1.5,
+            "right": 246.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPIN WHEEL",
+          "rect": {
+            "left": 16,
+            "top": 534,
+            "right": 344,
+            "bottom": 578,
+            "width": 328,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 584,
+            "right": 344,
+            "bottom": 628,
+            "width": 328,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPIN WHEEL",
+        "rect": {
+          "left": 16,
+          "top": 534,
+          "right": 344,
+          "bottom": 578,
+          "width": 328,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 90,
+              "top": 153.59375,
+              "right": 91,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 270,
+              "top": 153.59375,
+              "right": 271,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L1__360x640.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 90,
+                "top": 153.59375,
+                "right": 91,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 270,
+                "top": 153.59375,
+                "right": 271,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPIN WHEEL",
+              "rect": {
+                "left": 16,
+                "top": 534,
+                "right": 344,
+                "bottom": 578,
+                "width": 328,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L1",
+      "viewport": {
+        "w": 375,
+        "h": 553,
+        "dpr": 2,
+        "label": "375x553",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 196.703125,
+            "top": 1.5,
+            "right": 261.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPIN WHEEL",
+          "rect": {
+            "left": 16,
+            "top": 497,
+            "right": 261,
+            "bottom": 541,
+            "width": 245,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 267,
+            "top": 497,
+            "right": 359,
+            "bottom": 541,
+            "width": 92,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPIN WHEEL",
+        "rect": {
+          "left": 16,
+          "top": 497,
+          "right": 261,
+          "bottom": 541,
+          "width": 245,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 93.75,
+              "top": 132.71875,
+              "right": 94.75,
+              "bottom": 133.71875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 281.25,
+              "top": 132.71875,
+              "right": 282.25,
+              "bottom": 133.71875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L1__375x553.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 93.75,
+                "top": 132.71875,
+                "right": 94.75,
+                "bottom": 133.71875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 281.25,
+                "top": 132.71875,
+                "right": 282.25,
+                "bottom": 133.71875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPIN WHEEL",
+              "rect": {
+                "left": 16,
+                "top": 497,
+                "right": 261,
+                "bottom": 541,
+                "width": 245,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "primary visible at 375x553"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L1",
+      "viewport": {
+        "w": 390,
+        "h": 844,
+        "dpr": 2,
+        "label": "390x844",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 211.703125,
+            "top": 1.5,
+            "right": 276.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPIN WHEEL",
+          "rect": {
+            "left": 16,
+            "top": 738,
+            "right": 374,
+            "bottom": 782,
+            "width": 358,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 788,
+            "right": 374,
+            "bottom": 832,
+            "width": 358,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPIN WHEEL",
+        "rect": {
+          "left": 16,
+          "top": 738,
+          "right": 374,
+          "bottom": 782,
+          "width": 358,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 97.5,
+              "top": 202.546875,
+              "right": 98.5,
+              "bottom": 203.546875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 292.5,
+              "top": 202.546875,
+              "right": 293.5,
+              "bottom": 203.546875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L1__390x844.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 97.5,
+                "top": 202.546875,
+                "right": 98.5,
+                "bottom": 203.546875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 292.5,
+                "top": 202.546875,
+                "right": 293.5,
+                "bottom": 203.546875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPIN WHEEL",
+              "rect": {
+                "left": 16,
+                "top": 738,
+                "right": 374,
+                "bottom": 782,
+                "width": 358,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L1",
+      "viewport": {
+        "w": 430,
+        "h": 932,
+        "dpr": 2,
+        "label": "430x932",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 251.703125,
+            "top": 1.5,
+            "right": 316.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPIN WHEEL",
+          "rect": {
+            "left": 16,
+            "top": 826,
+            "right": 414,
+            "bottom": 870,
+            "width": 398,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 876,
+            "right": 414,
+            "bottom": 920,
+            "width": 398,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPIN WHEEL",
+        "rect": {
+          "left": 16,
+          "top": 826,
+          "right": 414,
+          "bottom": 870,
+          "width": 398,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 107.5,
+              "top": 223.671875,
+              "right": 108.5,
+              "bottom": 224.671875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 322.5,
+              "top": 223.671875,
+              "right": 323.5,
+              "bottom": 224.671875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L1__430x932.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 107.5,
+                "top": 223.671875,
+                "right": 108.5,
+                "bottom": 224.671875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 322.5,
+                "top": 223.671875,
+                "right": 323.5,
+                "bottom": 224.671875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPIN WHEEL",
+              "rect": {
+                "left": 16,
+                "top": 826,
+                "right": 414,
+                "bottom": 870,
+                "width": 398,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L2",
+      "viewport": {
+        "w": 1366,
+        "h": 768,
+        "dpr": 1,
+        "label": "1366x768"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 983.0625,
+            "top": 7.5,
+            "right": 1059.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPINNING...",
+          "rect": {
+            "left": 425,
+            "top": 660.578125,
+            "right": 725,
+            "bottom": 716.578125,
+            "width": 300,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 741,
+            "top": 660.578125,
+            "right": 941,
+            "bottom": 716.578125,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPINNING...",
+        "rect": {
+          "left": 425,
+          "top": 660.578125,
+          "right": 725,
+          "bottom": 716.578125,
+          "width": 300,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 341.5,
+              "top": 184.3125,
+              "right": 342.5,
+              "bottom": 185.3125,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1024.5,
+              "top": 184.3125,
+              "right": 1025.5,
+              "bottom": 185.3125,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L2__1366x768.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 341.5,
+                "top": 184.3125,
+                "right": 342.5,
+                "bottom": 185.3125,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1024.5,
+                "top": 184.3125,
+                "right": 1025.5,
+                "bottom": 185.3125,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPINNING...",
+              "rect": {
+                "left": 425,
+                "top": 660.578125,
+                "right": 725,
+                "bottom": 716.578125,
+                "width": 300,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L2",
+      "viewport": {
+        "w": 1440,
+        "h": 900,
+        "dpr": 1,
+        "label": "1440x900"
+      },
+      "scroll": {
+        "html": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 1057.0625,
+            "top": 7.5,
+            "right": 1133.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPINNING...",
+          "rect": {
+            "left": 462,
+            "top": 773.953125,
+            "right": 762,
+            "bottom": 829.953125,
+            "width": 300,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 778,
+            "top": 773.953125,
+            "right": 978,
+            "bottom": 829.953125,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPINNING...",
+        "rect": {
+          "left": 462,
+          "top": 773.953125,
+          "right": 762,
+          "bottom": 829.953125,
+          "width": 300,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 360,
+              "top": 216,
+              "right": 361,
+              "bottom": 217,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1080,
+              "top": 216,
+              "right": 1081,
+              "bottom": 217,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L2__1440x900.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 360,
+                "top": 216,
+                "right": 361,
+                "bottom": 217,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1080,
+                "top": 216,
+                "right": 1081,
+                "bottom": 217,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPINNING...",
+              "rect": {
+                "left": 462,
+                "top": 773.953125,
+                "right": 762,
+                "bottom": 829.953125,
+                "width": 300,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L2",
+      "viewport": {
+        "w": 1920,
+        "h": 1080,
+        "dpr": 1,
+        "label": "1920x1080"
+      },
+      "scroll": {
+        "html": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 1537.0625,
+            "top": 7.5,
+            "right": 1613.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPINNING...",
+          "rect": {
+            "left": 702,
+            "top": 928.75,
+            "right": 1002,
+            "bottom": 984.75,
+            "width": 300,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 1018,
+            "top": 928.75,
+            "right": 1218,
+            "bottom": 984.75,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPINNING...",
+        "rect": {
+          "left": 702,
+          "top": 928.75,
+          "right": 1002,
+          "bottom": 984.75,
+          "width": 300,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 480,
+              "top": 259.1875,
+              "right": 481,
+              "bottom": 260.1875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1440,
+              "top": 259.1875,
+              "right": 1441,
+              "bottom": 260.1875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L2__1920x1080.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 480,
+                "top": 259.1875,
+                "right": 481,
+                "bottom": 260.1875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1440,
+                "top": 259.1875,
+                "right": 1441,
+                "bottom": 260.1875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPINNING...",
+              "rect": {
+                "left": 702,
+                "top": 928.75,
+                "right": 1002,
+                "bottom": 984.75,
+                "width": 300,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L2",
+      "viewport": {
+        "w": 1366,
+        "h": 640,
+        "dpr": 1,
+        "label": "1366x640"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 983.0625,
+            "top": 7.5,
+            "right": 1059.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPINNING...",
+          "rect": {
+            "left": 425,
+            "top": 576,
+            "right": 725,
+            "bottom": 628,
+            "width": 300,
+            "height": 52
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 741,
+            "top": 576,
+            "right": 941,
+            "bottom": 628,
+            "width": 200,
+            "height": 52
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPINNING...",
+        "rect": {
+          "left": 425,
+          "top": 576,
+          "right": 725,
+          "bottom": 628,
+          "width": 300,
+          "height": 52
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 341.5,
+              "top": 153.59375,
+              "right": 342.5,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1024.5,
+              "top": 153.59375,
+              "right": 1025.5,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L2__1366x640.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 341.5,
+                "top": 153.59375,
+                "right": 342.5,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1024.5,
+                "top": 153.59375,
+                "right": 1025.5,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPINNING...",
+              "rect": {
+                "left": 425,
+                "top": 576,
+                "right": 725,
+                "bottom": 628,
+                "width": 300,
+                "height": 52
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L2",
+      "viewport": {
+        "w": 393,
+        "h": 660,
+        "dpr": 3,
+        "label": "393x660@3x",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 214.703125,
+            "top": 1.5,
+            "right": 279.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPINNING...",
+          "rect": {
+            "left": 16,
+            "top": 554,
+            "right": 377,
+            "bottom": 598,
+            "width": 361,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 604,
+            "right": 377,
+            "bottom": 648,
+            "width": 361,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPINNING...",
+        "rect": {
+          "left": 16,
+          "top": 554,
+          "right": 377,
+          "bottom": 598,
+          "width": 361,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 98.25,
+              "top": 158.390625,
+              "right": 99.25,
+              "bottom": 159.390625,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 294.75,
+              "top": 158.390625,
+              "right": 295.75,
+              "bottom": 159.390625,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L2__393x660@3x.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 98.25,
+                "top": 158.390625,
+                "right": 99.25,
+                "bottom": 159.390625,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 294.75,
+                "top": 158.390625,
+                "right": 295.75,
+                "bottom": 159.390625,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPINNING...",
+              "rect": {
+                "left": 16,
+                "top": 554,
+                "right": 377,
+                "bottom": 598,
+                "width": 361,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L2",
+      "viewport": {
+        "w": 360,
+        "h": 640,
+        "dpr": 2,
+        "label": "360x640",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 181.703125,
+            "top": 1.5,
+            "right": 246.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPINNING...",
+          "rect": {
+            "left": 16,
+            "top": 534,
+            "right": 344,
+            "bottom": 578,
+            "width": 328,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 584,
+            "right": 344,
+            "bottom": 628,
+            "width": 328,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPINNING...",
+        "rect": {
+          "left": 16,
+          "top": 534,
+          "right": 344,
+          "bottom": 578,
+          "width": 328,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 90,
+              "top": 153.59375,
+              "right": 91,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 270,
+              "top": 153.59375,
+              "right": 271,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L2__360x640.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 90,
+                "top": 153.59375,
+                "right": 91,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 270,
+                "top": 153.59375,
+                "right": 271,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPINNING...",
+              "rect": {
+                "left": 16,
+                "top": 534,
+                "right": 344,
+                "bottom": 578,
+                "width": 328,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L2",
+      "viewport": {
+        "w": 375,
+        "h": 553,
+        "dpr": 2,
+        "label": "375x553",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 196.703125,
+            "top": 1.5,
+            "right": 261.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPINNING...",
+          "rect": {
+            "left": 16,
+            "top": 497,
+            "right": 261,
+            "bottom": 541,
+            "width": 245,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 267,
+            "top": 497,
+            "right": 359,
+            "bottom": 541,
+            "width": 92,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPINNING...",
+        "rect": {
+          "left": 16,
+          "top": 497,
+          "right": 261,
+          "bottom": 541,
+          "width": 245,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 93.75,
+              "top": 132.71875,
+              "right": 94.75,
+              "bottom": 133.71875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 281.25,
+              "top": 132.71875,
+              "right": 282.25,
+              "bottom": 133.71875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L2__375x553.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 93.75,
+                "top": 132.71875,
+                "right": 94.75,
+                "bottom": 133.71875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 281.25,
+                "top": 132.71875,
+                "right": 282.25,
+                "bottom": 133.71875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPINNING...",
+              "rect": {
+                "left": 16,
+                "top": 497,
+                "right": 261,
+                "bottom": 541,
+                "width": 245,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "primary visible at 375x553"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L2",
+      "viewport": {
+        "w": 390,
+        "h": 844,
+        "dpr": 2,
+        "label": "390x844",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 211.703125,
+            "top": 1.5,
+            "right": 276.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPINNING...",
+          "rect": {
+            "left": 16,
+            "top": 738,
+            "right": 374,
+            "bottom": 782,
+            "width": 358,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 788,
+            "right": 374,
+            "bottom": 832,
+            "width": 358,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPINNING...",
+        "rect": {
+          "left": 16,
+          "top": 738,
+          "right": 374,
+          "bottom": 782,
+          "width": 358,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 97.5,
+              "top": 202.546875,
+              "right": 98.5,
+              "bottom": 203.546875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 292.5,
+              "top": 202.546875,
+              "right": 293.5,
+              "bottom": 203.546875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L2__390x844.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 97.5,
+                "top": 202.546875,
+                "right": 98.5,
+                "bottom": 203.546875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 292.5,
+                "top": 202.546875,
+                "right": 293.5,
+                "bottom": 203.546875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPINNING...",
+              "rect": {
+                "left": 16,
+                "top": 738,
+                "right": 374,
+                "bottom": 782,
+                "width": 358,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L2",
+      "viewport": {
+        "w": 430,
+        "h": 932,
+        "dpr": 2,
+        "label": "430x932",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 251.703125,
+            "top": 1.5,
+            "right": 316.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "SPINNING...",
+          "rect": {
+            "left": 16,
+            "top": 826,
+            "right": 414,
+            "bottom": 870,
+            "width": 398,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 876,
+            "right": 414,
+            "bottom": 920,
+            "width": 398,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "SPINNING...",
+        "rect": {
+          "left": 16,
+          "top": 826,
+          "right": 414,
+          "bottom": 870,
+          "width": 398,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 107.5,
+              "top": 223.671875,
+              "right": 108.5,
+              "bottom": 224.671875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 322.5,
+              "top": 223.671875,
+              "right": 323.5,
+              "bottom": 224.671875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L2__430x932.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 107.5,
+                "top": 223.671875,
+                "right": 108.5,
+                "bottom": 224.671875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 322.5,
+                "top": 223.671875,
+                "right": 323.5,
+                "bottom": 224.671875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "SPINNING...",
+              "rect": {
+                "left": 16,
+                "top": 826,
+                "right": 414,
+                "bottom": 870,
+                "width": 398,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L3",
+      "viewport": {
+        "w": 1366,
+        "h": 768,
+        "dpr": 1,
+        "label": "1366x768"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 983.0625,
+            "top": 7.5,
+            "right": 1059.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "CONTINUE TO CLUB ASSIGNMENT",
+          "rect": {
+            "left": 408.296875,
+            "top": 660.578125,
+            "right": 741.703125,
+            "bottom": 716.578125,
+            "width": 333.40625,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 757.703125,
+            "top": 660.578125,
+            "right": 957.703125,
+            "bottom": 716.578125,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "CONTINUE TO CLUB ASSIGNMENT",
+        "rect": {
+          "left": 408.296875,
+          "top": 660.578125,
+          "right": 741.703125,
+          "bottom": 716.578125,
+          "width": 333.40625,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 341.5,
+              "top": 184.3125,
+              "right": 342.5,
+              "bottom": 185.3125,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1024.5,
+              "top": 184.3125,
+              "right": 1025.5,
+              "bottom": 185.3125,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L3__1366x768.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 341.5,
+                "top": 184.3125,
+                "right": 342.5,
+                "bottom": 185.3125,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1024.5,
+                "top": 184.3125,
+                "right": 1025.5,
+                "bottom": 185.3125,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "CONTINUE TO CLUB ASSIGNMENT",
+              "rect": {
+                "left": 408.296875,
+                "top": 660.578125,
+                "right": 741.703125,
+                "bottom": 716.578125,
+                "width": 333.40625,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L3",
+      "viewport": {
+        "w": 1440,
+        "h": 900,
+        "dpr": 1,
+        "label": "1440x900"
+      },
+      "scroll": {
+        "html": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 1057.0625,
+            "top": 7.5,
+            "right": 1133.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "CONTINUE TO CLUB ASSIGNMENT",
+          "rect": {
+            "left": 445.296875,
+            "top": 773.953125,
+            "right": 778.703125,
+            "bottom": 829.953125,
+            "width": 333.40625,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 794.703125,
+            "top": 773.953125,
+            "right": 994.703125,
+            "bottom": 829.953125,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "CONTINUE TO CLUB ASSIGNMENT",
+        "rect": {
+          "left": 445.296875,
+          "top": 773.953125,
+          "right": 778.703125,
+          "bottom": 829.953125,
+          "width": 333.40625,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 360,
+              "top": 216,
+              "right": 361,
+              "bottom": 217,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1080,
+              "top": 216,
+              "right": 1081,
+              "bottom": 217,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L3__1440x900.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 360,
+                "top": 216,
+                "right": 361,
+                "bottom": 217,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1080,
+                "top": 216,
+                "right": 1081,
+                "bottom": 217,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "CONTINUE TO CLUB ASSIGNMENT",
+              "rect": {
+                "left": 445.296875,
+                "top": 773.953125,
+                "right": 778.703125,
+                "bottom": 829.953125,
+                "width": 333.40625,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L3",
+      "viewport": {
+        "w": 1920,
+        "h": 1080,
+        "dpr": 1,
+        "label": "1920x1080"
+      },
+      "scroll": {
+        "html": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 1537.0625,
+            "top": 7.5,
+            "right": 1613.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "CONTINUE TO CLUB ASSIGNMENT",
+          "rect": {
+            "left": 685.296875,
+            "top": 928.75,
+            "right": 1018.703125,
+            "bottom": 984.75,
+            "width": 333.40625,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 1034.703125,
+            "top": 928.75,
+            "right": 1234.703125,
+            "bottom": 984.75,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "CONTINUE TO CLUB ASSIGNMENT",
+        "rect": {
+          "left": 685.296875,
+          "top": 928.75,
+          "right": 1018.703125,
+          "bottom": 984.75,
+          "width": 333.40625,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 480,
+              "top": 259.1875,
+              "right": 481,
+              "bottom": 260.1875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1440,
+              "top": 259.1875,
+              "right": 1441,
+              "bottom": 260.1875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L3__1920x1080.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 480,
+                "top": 259.1875,
+                "right": 481,
+                "bottom": 260.1875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1440,
+                "top": 259.1875,
+                "right": 1441,
+                "bottom": 260.1875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "CONTINUE TO CLUB ASSIGNMENT",
+              "rect": {
+                "left": 685.296875,
+                "top": 928.75,
+                "right": 1018.703125,
+                "bottom": 984.75,
+                "width": 333.40625,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L3",
+      "viewport": {
+        "w": 1366,
+        "h": 640,
+        "dpr": 1,
+        "label": "1366x640"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 983.0625,
+            "top": 7.5,
+            "right": 1059.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "CONTINUE TO CLUB ASSIGNMENT",
+          "rect": {
+            "left": 408.296875,
+            "top": 576,
+            "right": 741.703125,
+            "bottom": 628,
+            "width": 333.40625,
+            "height": 52
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 757.703125,
+            "top": 576,
+            "right": 957.703125,
+            "bottom": 628,
+            "width": 200,
+            "height": 52
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "CONTINUE TO CLUB ASSIGNMENT",
+        "rect": {
+          "left": 408.296875,
+          "top": 576,
+          "right": 741.703125,
+          "bottom": 628,
+          "width": 333.40625,
+          "height": 52
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 341.5,
+              "top": 153.59375,
+              "right": 342.5,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1024.5,
+              "top": 153.59375,
+              "right": 1025.5,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L3__1366x640.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 341.5,
+                "top": 153.59375,
+                "right": 342.5,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1024.5,
+                "top": 153.59375,
+                "right": 1025.5,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "CONTINUE TO CLUB ASSIGNMENT",
+              "rect": {
+                "left": 408.296875,
+                "top": 576,
+                "right": 741.703125,
+                "bottom": 628,
+                "width": 333.40625,
+                "height": 52
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L3",
+      "viewport": {
+        "w": 393,
+        "h": 660,
+        "dpr": 3,
+        "label": "393x660@3x",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 214.703125,
+            "top": 1.5,
+            "right": 279.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "CONTINUE TO CLUB ASSIGNMENT",
+          "rect": {
+            "left": 16,
+            "top": 554,
+            "right": 377,
+            "bottom": 598,
+            "width": 361,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 604,
+            "right": 377,
+            "bottom": 648,
+            "width": 361,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "CONTINUE TO CLUB ASSIGNMENT",
+        "rect": {
+          "left": 16,
+          "top": 554,
+          "right": 377,
+          "bottom": 598,
+          "width": 361,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 98.25,
+              "top": 158.390625,
+              "right": 99.25,
+              "bottom": 159.390625,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 294.75,
+              "top": 158.390625,
+              "right": 295.75,
+              "bottom": 159.390625,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L3__393x660@3x.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 98.25,
+                "top": 158.390625,
+                "right": 99.25,
+                "bottom": 159.390625,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 294.75,
+                "top": 158.390625,
+                "right": 295.75,
+                "bottom": 159.390625,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "CONTINUE TO CLUB ASSIGNMENT",
+              "rect": {
+                "left": 16,
+                "top": 554,
+                "right": 377,
+                "bottom": 598,
+                "width": 361,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L3",
+      "viewport": {
+        "w": 360,
+        "h": 640,
+        "dpr": 2,
+        "label": "360x640",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 181.703125,
+            "top": 1.5,
+            "right": 246.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "CONTINUE TO CLUB ASSIGNMENT",
+          "rect": {
+            "left": 16,
+            "top": 534,
+            "right": 344,
+            "bottom": 578,
+            "width": 328,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 584,
+            "right": 344,
+            "bottom": 628,
+            "width": 328,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "CONTINUE TO CLUB ASSIGNMENT",
+        "rect": {
+          "left": 16,
+          "top": 534,
+          "right": 344,
+          "bottom": 578,
+          "width": 328,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 90,
+              "top": 153.59375,
+              "right": 91,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 270,
+              "top": 153.59375,
+              "right": 271,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L3__360x640.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 90,
+                "top": 153.59375,
+                "right": 91,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 270,
+                "top": 153.59375,
+                "right": 271,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "CONTINUE TO CLUB ASSIGNMENT",
+              "rect": {
+                "left": 16,
+                "top": 534,
+                "right": 344,
+                "bottom": 578,
+                "width": 328,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L3",
+      "viewport": {
+        "w": 375,
+        "h": 553,
+        "dpr": 2,
+        "label": "375x553",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 196.703125,
+            "top": 1.5,
+            "right": 261.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "CONTINUE TO CLUB ASSIGNMENT",
+          "rect": {
+            "left": 16,
+            "top": 497,
+            "right": 261,
+            "bottom": 541,
+            "width": 245,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 267,
+            "top": 497,
+            "right": 359,
+            "bottom": 541,
+            "width": 92,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "CONTINUE TO CLUB ASSIGNMENT",
+        "rect": {
+          "left": 16,
+          "top": 497,
+          "right": 261,
+          "bottom": 541,
+          "width": 245,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 93.75,
+              "top": 132.71875,
+              "right": 94.75,
+              "bottom": 133.71875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 281.25,
+              "top": 132.71875,
+              "right": 282.25,
+              "bottom": 133.71875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L3__375x553.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 93.75,
+                "top": 132.71875,
+                "right": 94.75,
+                "bottom": 133.71875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 281.25,
+                "top": 132.71875,
+                "right": 282.25,
+                "bottom": 133.71875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "CONTINUE TO CLUB ASSIGNMENT",
+              "rect": {
+                "left": 16,
+                "top": 497,
+                "right": 261,
+                "bottom": 541,
+                "width": 245,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "primary visible at 375x553"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L3",
+      "viewport": {
+        "w": 390,
+        "h": 844,
+        "dpr": 2,
+        "label": "390x844",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 211.703125,
+            "top": 1.5,
+            "right": 276.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "CONTINUE TO CLUB ASSIGNMENT",
+          "rect": {
+            "left": 16,
+            "top": 738,
+            "right": 374,
+            "bottom": 782,
+            "width": 358,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 788,
+            "right": 374,
+            "bottom": 832,
+            "width": 358,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "CONTINUE TO CLUB ASSIGNMENT",
+        "rect": {
+          "left": 16,
+          "top": 738,
+          "right": 374,
+          "bottom": 782,
+          "width": 358,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 97.5,
+              "top": 202.546875,
+              "right": 98.5,
+              "bottom": 203.546875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 292.5,
+              "top": 202.546875,
+              "right": 293.5,
+              "bottom": 203.546875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L3__390x844.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 97.5,
+                "top": 202.546875,
+                "right": 98.5,
+                "bottom": 203.546875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 292.5,
+                "top": 202.546875,
+                "right": 293.5,
+                "bottom": 203.546875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "CONTINUE TO CLUB ASSIGNMENT",
+              "rect": {
+                "left": 16,
+                "top": 738,
+                "right": 374,
+                "bottom": 782,
+                "width": 358,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L3",
+      "viewport": {
+        "w": 430,
+        "h": 932,
+        "dpr": 2,
+        "label": "430x932",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 251.703125,
+            "top": 1.5,
+            "right": 316.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "CONTINUE TO CLUB ASSIGNMENT",
+          "rect": {
+            "left": 16,
+            "top": 826,
+            "right": 414,
+            "bottom": 870,
+            "width": 398,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 876,
+            "right": 414,
+            "bottom": 920,
+            "width": 398,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "CONTINUE TO CLUB ASSIGNMENT",
+        "rect": {
+          "left": 16,
+          "top": 826,
+          "right": 414,
+          "bottom": 870,
+          "width": 398,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 107.5,
+              "top": 223.671875,
+              "right": 108.5,
+              "bottom": 224.671875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 322.5,
+              "top": 223.671875,
+              "right": 323.5,
+              "bottom": 224.671875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L3__430x932.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 107.5,
+                "top": 223.671875,
+                "right": 108.5,
+                "bottom": 224.671875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 322.5,
+                "top": 223.671875,
+                "right": 323.5,
+                "bottom": 224.671875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "CONTINUE TO CLUB ASSIGNMENT",
+              "rect": {
+                "left": 16,
+                "top": 826,
+                "right": 414,
+                "bottom": 870,
+                "width": 398,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L4",
+      "viewport": {
+        "w": 1366,
+        "h": 768,
+        "dpr": 1,
+        "label": "1366x768"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1366,
+          "height": 768,
+          "clientWidth": 1366,
+          "clientHeight": 768,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 983.0625,
+            "top": 7.5,
+            "right": 1059.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "LEAGUE LOCKED",
+          "rect": {
+            "left": 425,
+            "top": 660.578125,
+            "right": 725,
+            "bottom": 716.578125,
+            "width": 300,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 741,
+            "top": 660.578125,
+            "right": 941,
+            "bottom": 716.578125,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "LEAGUE LOCKED",
+        "rect": {
+          "left": 425,
+          "top": 660.578125,
+          "right": 725,
+          "bottom": 716.578125,
+          "width": 300,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 341.5,
+              "top": 184.3125,
+              "right": 342.5,
+              "bottom": 185.3125,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1024.5,
+              "top": 184.3125,
+              "right": 1025.5,
+              "bottom": 185.3125,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L4__1366x768.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 341.5,
+                "top": 184.3125,
+                "right": 342.5,
+                "bottom": 185.3125,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1024.5,
+                "top": 184.3125,
+                "right": 1025.5,
+                "bottom": 185.3125,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "LEAGUE LOCKED",
+              "rect": {
+                "left": 425,
+                "top": 660.578125,
+                "right": 725,
+                "bottom": 716.578125,
+                "width": 300,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L4",
+      "viewport": {
+        "w": 1440,
+        "h": 900,
+        "dpr": 1,
+        "label": "1440x900"
+      },
+      "scroll": {
+        "html": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1440,
+          "height": 900,
+          "clientWidth": 1440,
+          "clientHeight": 900,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 1057.0625,
+            "top": 7.5,
+            "right": 1133.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "LEAGUE LOCKED",
+          "rect": {
+            "left": 462,
+            "top": 773.953125,
+            "right": 762,
+            "bottom": 829.953125,
+            "width": 300,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 778,
+            "top": 773.953125,
+            "right": 978,
+            "bottom": 829.953125,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "LEAGUE LOCKED",
+        "rect": {
+          "left": 462,
+          "top": 773.953125,
+          "right": 762,
+          "bottom": 829.953125,
+          "width": 300,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 360,
+              "top": 216,
+              "right": 361,
+              "bottom": 217,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1080,
+              "top": 216,
+              "right": 1081,
+              "bottom": 217,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L4__1440x900.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 360,
+                "top": 216,
+                "right": 361,
+                "bottom": 217,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1080,
+                "top": 216,
+                "right": 1081,
+                "bottom": 217,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "LEAGUE LOCKED",
+              "rect": {
+                "left": 462,
+                "top": 773.953125,
+                "right": 762,
+                "bottom": 829.953125,
+                "width": 300,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L4",
+      "viewport": {
+        "w": 1920,
+        "h": 1080,
+        "dpr": 1,
+        "label": "1920x1080"
+      },
+      "scroll": {
+        "html": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1920,
+          "height": 1080,
+          "clientWidth": 1920,
+          "clientHeight": 1080,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 1537.0625,
+            "top": 7.5,
+            "right": 1613.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "LEAGUE LOCKED",
+          "rect": {
+            "left": 702,
+            "top": 928.75,
+            "right": 1002,
+            "bottom": 984.75,
+            "width": 300,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 1018,
+            "top": 928.75,
+            "right": 1218,
+            "bottom": 984.75,
+            "width": 200,
+            "height": 56
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "LEAGUE LOCKED",
+        "rect": {
+          "left": 702,
+          "top": 928.75,
+          "right": 1002,
+          "bottom": 984.75,
+          "width": 300,
+          "height": 56
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 480,
+              "top": 259.1875,
+              "right": 481,
+              "bottom": 260.1875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1440,
+              "top": 259.1875,
+              "right": 1441,
+              "bottom": 260.1875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L4__1920x1080.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 480,
+                "top": 259.1875,
+                "right": 481,
+                "bottom": 260.1875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1440,
+                "top": 259.1875,
+                "right": 1441,
+                "bottom": 260.1875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "LEAGUE LOCKED",
+              "rect": {
+                "left": 702,
+                "top": 928.75,
+                "right": 1002,
+                "bottom": 984.75,
+                "width": 300,
+                "height": 56
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L4",
+      "viewport": {
+        "w": 1366,
+        "h": 640,
+        "dpr": 1,
+        "label": "1366x640"
+      },
+      "scroll": {
+        "html": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 1366,
+          "height": 640,
+          "clientWidth": 1366,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 983.0625,
+            "top": 7.5,
+            "right": 1059.828125,
+            "bottom": 47.5,
+            "width": 76.765625,
+            "height": 40
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "LEAGUE LOCKED",
+          "rect": {
+            "left": 425,
+            "top": 576,
+            "right": 725,
+            "bottom": 628,
+            "width": 300,
+            "height": 52
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 741,
+            "top": 576,
+            "right": 941,
+            "bottom": 628,
+            "width": 200,
+            "height": 52
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "LEAGUE LOCKED",
+        "rect": {
+          "left": 425,
+          "top": 576,
+          "right": 725,
+          "bottom": 628,
+          "width": 300,
+          "height": 52
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 341.5,
+              "top": 153.59375,
+              "right": 342.5,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 1024.5,
+              "top": 153.59375,
+              "right": 1025.5,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L4__1366x640.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 341.5,
+                "top": 153.59375,
+                "right": 342.5,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 1024.5,
+                "top": 153.59375,
+                "right": 1025.5,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "LEAGUE LOCKED",
+              "rect": {
+                "left": 425,
+                "top": 576,
+                "right": 725,
+                "bottom": 628,
+                "width": 300,
+                "height": 52
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L4",
+      "viewport": {
+        "w": 393,
+        "h": 660,
+        "dpr": 3,
+        "label": "393x660@3x",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 393,
+          "height": 660,
+          "clientWidth": 393,
+          "clientHeight": 660,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 214.703125,
+            "top": 1.5,
+            "right": 279.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "LEAGUE LOCKED",
+          "rect": {
+            "left": 16,
+            "top": 554,
+            "right": 377,
+            "bottom": 598,
+            "width": 361,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 604,
+            "right": 377,
+            "bottom": 648,
+            "width": 361,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "LEAGUE LOCKED",
+        "rect": {
+          "left": 16,
+          "top": 554,
+          "right": 377,
+          "bottom": 598,
+          "width": 361,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 98.25,
+              "top": 158.390625,
+              "right": 99.25,
+              "bottom": 159.390625,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 294.75,
+              "top": 158.390625,
+              "right": 295.75,
+              "bottom": 159.390625,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L4__393x660@3x.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 98.25,
+                "top": 158.390625,
+                "right": 99.25,
+                "bottom": 159.390625,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 294.75,
+                "top": 158.390625,
+                "right": 295.75,
+                "bottom": 159.390625,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "LEAGUE LOCKED",
+              "rect": {
+                "left": 16,
+                "top": 554,
+                "right": 377,
+                "bottom": 598,
+                "width": 361,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L4",
+      "viewport": {
+        "w": 360,
+        "h": 640,
+        "dpr": 2,
+        "label": "360x640",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 360,
+          "height": 640,
+          "clientWidth": 360,
+          "clientHeight": 640,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 181.703125,
+            "top": 1.5,
+            "right": 246.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "LEAGUE LOCKED",
+          "rect": {
+            "left": 16,
+            "top": 534,
+            "right": 344,
+            "bottom": 578,
+            "width": 328,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 584,
+            "right": 344,
+            "bottom": 628,
+            "width": 328,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "LEAGUE LOCKED",
+        "rect": {
+          "left": 16,
+          "top": 534,
+          "right": 344,
+          "bottom": 578,
+          "width": 328,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 90,
+              "top": 153.59375,
+              "right": 91,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 270,
+              "top": 153.59375,
+              "right": 271,
+              "bottom": 154.59375,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L4__360x640.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 90,
+                "top": 153.59375,
+                "right": 91,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 270,
+                "top": 153.59375,
+                "right": 271,
+                "bottom": 154.59375,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "LEAGUE LOCKED",
+              "rect": {
+                "left": 16,
+                "top": 534,
+                "right": 344,
+                "bottom": 578,
+                "width": 328,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L4",
+      "viewport": {
+        "w": 375,
+        "h": 553,
+        "dpr": 2,
+        "label": "375x553",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 375,
+          "height": 553,
+          "clientWidth": 375,
+          "clientHeight": 553,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 196.703125,
+            "top": 1.5,
+            "right": 261.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "LEAGUE LOCKED",
+          "rect": {
+            "left": 16,
+            "top": 497,
+            "right": 261,
+            "bottom": 541,
+            "width": 245,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 267,
+            "top": 497,
+            "right": 359,
+            "bottom": 541,
+            "width": 92,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "LEAGUE LOCKED",
+        "rect": {
+          "left": 16,
+          "top": 497,
+          "right": 261,
+          "bottom": 541,
+          "width": 245,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 93.75,
+              "top": 132.71875,
+              "right": 94.75,
+              "bottom": 133.71875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 281.25,
+              "top": 132.71875,
+              "right": 282.25,
+              "bottom": 133.71875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L4__375x553.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 93.75,
+                "top": 132.71875,
+                "right": 94.75,
+                "bottom": 133.71875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 281.25,
+                "top": 132.71875,
+                "right": 282.25,
+                "bottom": 133.71875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "LEAGUE LOCKED",
+              "rect": {
+                "left": 16,
+                "top": 497,
+                "right": 261,
+                "bottom": 541,
+                "width": 245,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "primary visible at 375x553"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L4",
+      "viewport": {
+        "w": 390,
+        "h": 844,
+        "dpr": 2,
+        "label": "390x844",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 390,
+          "height": 844,
+          "clientWidth": 390,
+          "clientHeight": 844,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 211.703125,
+            "top": 1.5,
+            "right": 276.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "LEAGUE LOCKED",
+          "rect": {
+            "left": 16,
+            "top": 738,
+            "right": 374,
+            "bottom": 782,
+            "width": 358,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 788,
+            "right": 374,
+            "bottom": 832,
+            "width": 358,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "LEAGUE LOCKED",
+        "rect": {
+          "left": 16,
+          "top": 738,
+          "right": 374,
+          "bottom": 782,
+          "width": 358,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 97.5,
+              "top": 202.546875,
+              "right": 98.5,
+              "bottom": 203.546875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 292.5,
+              "top": 202.546875,
+              "right": 293.5,
+              "bottom": 203.546875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L4__390x844.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 97.5,
+                "top": 202.546875,
+                "right": 98.5,
+                "bottom": 203.546875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 292.5,
+                "top": 202.546875,
+                "right": 293.5,
+                "bottom": 203.546875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "LEAGUE LOCKED",
+              "rect": {
+                "left": 16,
+                "top": 738,
+                "right": 374,
+                "bottom": 782,
+                "width": 358,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    },
+    {
+      "frame": "L4",
+      "viewport": {
+        "w": 430,
+        "h": 932,
+        "dpr": 2,
+        "label": "430x932",
+        "phone": true
+      },
+      "scroll": {
+        "html": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "body": {
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        },
+        "stage": {
+          "selector": "#stage-root",
+          "width": 430,
+          "height": 932,
+          "clientWidth": 430,
+          "clientHeight": 932,
+          "horizontal": false,
+          "vertical": false
+        }
+      },
+      "controls": [
+        {
+          "tag": "button",
+          "id": "onlinePlayerIdentityBadge",
+          "label": "SIGN IN",
+          "rect": {
+            "left": 251.703125,
+            "top": 1.5,
+            "right": 316.546875,
+            "bottom": 45.5,
+            "width": 64.84375,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": "spinLeague",
+          "label": "LEAGUE LOCKED",
+          "rect": {
+            "left": 16,
+            "top": 826,
+            "right": 414,
+            "bottom": 870,
+            "width": 398,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        },
+        {
+          "tag": "button",
+          "id": null,
+          "label": "BACK",
+          "rect": {
+            "left": 16,
+            "top": 876,
+            "right": 414,
+            "bottom": 920,
+            "width": 398,
+            "height": 44
+          },
+          "fullyInsideViewport": true
+        }
+      ],
+      "controlsOutsideViewport": [],
+      "primary": {
+        "id": "spinLeague",
+        "label": "LEAGUE LOCKED",
+        "rect": {
+          "left": 16,
+          "top": 826,
+          "right": 414,
+          "bottom": 870,
+          "width": 398,
+          "height": 44
+        },
+        "visibleInViewport": true
+      },
+      "inputFonts": [],
+      "inputsBelow16px": [],
+      "fixtureStrings": {
+        "missing": []
+      },
+      "hardGates": {
+        "H1": {
+          "pass": true,
+          "daniel": [
+            {
+              "left": 107.5,
+              "top": 223.671875,
+              "right": 108.5,
+              "bottom": 224.671875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "nik": [
+            {
+              "left": 322.5,
+              "top": 223.671875,
+              "right": 323.5,
+              "bottom": 224.671875,
+              "width": 1,
+              "height": 1
+            }
+          ],
+          "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+        },
+        "H7": {
+          "pass": true,
+          "reducedMotion": "reduce",
+          "checkedAfterMs": 300,
+          "runningAnimations": []
+        }
+      },
+      "consoleErrors": [],
+      "failedRequests": [],
+      "screenshot": "L4__430x932.png",
+      "gates": {
+        "H1": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "daniel": [
+              {
+                "left": 107.5,
+                "top": 223.671875,
+                "right": 108.5,
+                "bottom": 224.671875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "nik": [
+              {
+                "left": 322.5,
+                "top": 223.671875,
+                "right": 323.5,
+                "bottom": 224.671875,
+                "width": 1,
+                "height": 1
+              }
+            ],
+            "rule": "data-manager=\"daniel\" must be left of data-manager=\"nik\""
+          }
+        },
+        "H5": {
+          "pass": true,
+          "details": {
+            "noScroll": true,
+            "primary": {
+              "id": "spinLeague",
+              "label": "LEAGUE LOCKED",
+              "rect": {
+                "left": 16,
+                "top": 826,
+                "right": 414,
+                "bottom": 870,
+                "width": 398,
+                "height": 44
+              },
+              "visibleInViewport": true
+            },
+            "rule": "no page/stage scroll and primary visible"
+          }
+        },
+        "H6": {
+          "pass": true,
+          "details": {
+            "inputsBelow16px": [],
+            "inputFonts": []
+          }
+        },
+        "H7": {
+          "pass": true,
+          "details": {
+            "pass": true,
+            "reducedMotion": "reduce",
+            "checkedAfterMs": 300,
+            "runningAnimations": []
+          }
+        },
+        "CONTROL_BOUNDS": {
+          "pass": true,
+          "details": []
+        },
+        "CONSOLE": {
+          "pass": true,
+          "details": []
+        },
+        "REQUESTS": {
+          "pass": true,
+          "details": []
+        },
+        "FIXTURE_STRINGS": {
+          "pass": true,
+          "details": []
+        }
+      }
+    }
+  ],
+  "pass": true,
+  "failingRuns": []
+}

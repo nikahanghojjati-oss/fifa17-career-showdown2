@@ -1,0 +1,448 @@
+[
+  {
+    "w": 1366,
+    "h": 768,
+    "full": "visual-assets/v10_1/club/evidence/edges_after/full/CL1_1366x768.png",
+    "items": [
+      {
+        "name": "face_daniel",
+        "kind": "face",
+        "box": [
+          260,
+          80,
+          455,
+          320
+        ],
+        "screen": {
+          "left": 231.22395833333331,
+          "top": 70.95833333333333,
+          "width": 173.41796875,
+          "height": 213.4375,
+          "right": 404.6419270833333,
+          "bottom": 284.3958333333333
+        }
+      },
+      {
+        "name": "face_nik",
+        "kind": "face",
+        "box": [
+          1040,
+          65,
+          1265,
+          320
+        ],
+        "screen": {
+          "left": 924.8958333333333,
+          "top": 57.61848958333333,
+          "width": 200.09765625,
+          "height": 226.77734375,
+          "right": 1124.9934895833333,
+          "bottom": 284.3958333333333
+        }
+      },
+      {
+        "name": "hand_daniel_top",
+        "kind": "hand",
+        "box": [
+          224,
+          284,
+          396,
+          376
+        ],
+        "screen": {
+          "left": 199.20833333333331,
+          "top": 252.38020833333331,
+          "width": 152.96354166666669,
+          "height": 81.81770833333331,
+          "right": 352.171875,
+          "bottom": 334.19791666666663
+        }
+      },
+      {
+        "name": "hand_daniel_side",
+        "kind": "hand",
+        "box": [
+          514,
+          448,
+          584,
+          572
+        ],
+        "screen": {
+          "left": 457.11197916666663,
+          "top": 398.22916666666663,
+          "width": 62.25260416666663,
+          "height": 110.27604166666669,
+          "right": 519.3645833333333,
+          "bottom": 508.5052083333333
+        }
+      },
+      {
+        "name": "hand_nik_top",
+        "kind": "hand",
+        "box": [
+          1114,
+          282,
+          1286,
+          376
+        ],
+        "screen": {
+          "left": 990.7057291666666,
+          "top": 250.6015625,
+          "width": 152.96354166666663,
+          "height": 83.59635416666663,
+          "right": 1143.6692708333333,
+          "bottom": 334.19791666666663
+        }
+      },
+      {
+        "name": "hand_nik_side",
+        "kind": "hand",
+        "box": [
+          940,
+          458,
+          1014,
+          586
+        ],
+        "screen": {
+          "left": 835.9635416666666,
+          "top": 407.1223958333333,
+          "width": 65.80989583333337,
+          "height": 113.83333333333331,
+          "right": 901.7734375,
+          "bottom": 520.9557291666666
+        }
+      },
+      {
+        "name": "header_daniel",
+        "kind": "seam",
+        "box": [
+          246,
+          72,
+          468,
+          86
+        ],
+        "screen": {
+          "left": 218.7734375,
+          "top": 63.84375,
+          "width": 197.4296875,
+          "height": 12.450520833333329,
+          "right": 416.203125,
+          "bottom": 76.29427083333333
+        }
+      },
+      {
+        "name": "title_daniel",
+        "kind": "seam",
+        "box": [
+          452,
+          88,
+          470,
+          302
+        ],
+        "screen": {
+          "left": 401.9739583333333,
+          "top": 78.07291666666666,
+          "width": 16.0078125,
+          "height": 190.31510416666666,
+          "right": 417.9817708333333,
+          "bottom": 268.3880208333333
+        }
+      },
+      {
+        "name": "title_nik",
+        "kind": "seam",
+        "box": [
+          1026,
+          88,
+          1044,
+          302
+        ],
+        "screen": {
+          "left": 912.4453125,
+          "top": 78.07291666666666,
+          "width": 16.0078125,
+          "height": 190.31510416666666,
+          "right": 928.453125,
+          "bottom": 268.3880208333333
+        }
+      },
+      {
+        "name": "rail_daniel",
+        "kind": "seam",
+        "box": [
+          546,
+          302,
+          564,
+          394
+        ],
+        "screen": {
+          "left": 485.5703125,
+          "top": 268.3880208333333,
+          "width": 16.0078125,
+          "height": 81.81770833333331,
+          "right": 501.578125,
+          "bottom": 350.20572916666663
+        }
+      },
+      {
+        "name": "tab_daniel",
+        "kind": "seam",
+        "box": [
+          552,
+          566,
+          610,
+          586
+        ],
+        "screen": {
+          "left": 490.90625,
+          "top": 503.1692708333333,
+          "width": 51.58072916666663,
+          "height": 17.786458333333314,
+          "right": 542.4869791666666,
+          "bottom": 520.9557291666666
+        }
+      },
+      {
+        "name": "tab_nik",
+        "kind": "seam",
+        "box": [
+          916,
+          566,
+          984,
+          590
+        ],
+        "screen": {
+          "left": 814.6197916666666,
+          "top": 503.1692708333333,
+          "width": 60.47395833333337,
+          "height": 21.343749999999943,
+          "right": 875.09375,
+          "bottom": 524.5130208333333
+        }
+      }
+    ]
+  },
+  {
+    "w": 1920,
+    "h": 1080,
+    "full": "visual-assets/v10_1/club/evidence/edges_after/full/CL1_1920x1080.png",
+    "items": [
+      {
+        "name": "face_daniel",
+        "kind": "face",
+        "box": [
+          260,
+          80,
+          455,
+          320
+        ],
+        "screen": {
+          "left": 325,
+          "top": 100,
+          "width": 243.75,
+          "height": 300,
+          "right": 568.75,
+          "bottom": 400
+        }
+      },
+      {
+        "name": "face_nik",
+        "kind": "face",
+        "box": [
+          1040,
+          65,
+          1265,
+          320
+        ],
+        "screen": {
+          "left": 1300,
+          "top": 81.25,
+          "width": 281.25,
+          "height": 318.75,
+          "right": 1581.25,
+          "bottom": 400
+        }
+      },
+      {
+        "name": "hand_daniel_top",
+        "kind": "hand",
+        "box": [
+          224,
+          284,
+          396,
+          376
+        ],
+        "screen": {
+          "left": 280,
+          "top": 355,
+          "width": 215,
+          "height": 115,
+          "right": 495,
+          "bottom": 470
+        }
+      },
+      {
+        "name": "hand_daniel_side",
+        "kind": "hand",
+        "box": [
+          514,
+          448,
+          584,
+          572
+        ],
+        "screen": {
+          "left": 642.5,
+          "top": 560,
+          "width": 87.5,
+          "height": 155,
+          "right": 730,
+          "bottom": 715
+        }
+      },
+      {
+        "name": "hand_nik_top",
+        "kind": "hand",
+        "box": [
+          1114,
+          282,
+          1286,
+          376
+        ],
+        "screen": {
+          "left": 1392.5,
+          "top": 352.5,
+          "width": 215,
+          "height": 117.5,
+          "right": 1607.5,
+          "bottom": 470
+        }
+      },
+      {
+        "name": "hand_nik_side",
+        "kind": "hand",
+        "box": [
+          940,
+          458,
+          1014,
+          586
+        ],
+        "screen": {
+          "left": 1175,
+          "top": 572.5,
+          "width": 92.5,
+          "height": 160,
+          "right": 1267.5,
+          "bottom": 732.5
+        }
+      },
+      {
+        "name": "header_daniel",
+        "kind": "seam",
+        "box": [
+          246,
+          72,
+          468,
+          86
+        ],
+        "screen": {
+          "left": 307.5,
+          "top": 90,
+          "width": 277.5,
+          "height": 17.5,
+          "right": 585,
+          "bottom": 107.5
+        }
+      },
+      {
+        "name": "title_daniel",
+        "kind": "seam",
+        "box": [
+          452,
+          88,
+          470,
+          302
+        ],
+        "screen": {
+          "left": 565,
+          "top": 110,
+          "width": 22.5,
+          "height": 267.5,
+          "right": 587.5,
+          "bottom": 377.5
+        }
+      },
+      {
+        "name": "title_nik",
+        "kind": "seam",
+        "box": [
+          1026,
+          88,
+          1044,
+          302
+        ],
+        "screen": {
+          "left": 1282.5,
+          "top": 110,
+          "width": 22.5,
+          "height": 267.5,
+          "right": 1305,
+          "bottom": 377.5
+        }
+      },
+      {
+        "name": "rail_daniel",
+        "kind": "seam",
+        "box": [
+          546,
+          302,
+          564,
+          394
+        ],
+        "screen": {
+          "left": 682.5,
+          "top": 377.5,
+          "width": 22.5,
+          "height": 115,
+          "right": 705,
+          "bottom": 492.5
+        }
+      },
+      {
+        "name": "tab_daniel",
+        "kind": "seam",
+        "box": [
+          552,
+          566,
+          610,
+          586
+        ],
+        "screen": {
+          "left": 690,
+          "top": 707.5,
+          "width": 72.5,
+          "height": 25,
+          "right": 762.5,
+          "bottom": 732.5
+        }
+      },
+      {
+        "name": "tab_nik",
+        "kind": "seam",
+        "box": [
+          916,
+          566,
+          984,
+          590
+        ],
+        "screen": {
+          "left": 1145,
+          "top": 707.5,
+          "width": 85,
+          "height": 30,
+          "right": 1230,
+          "bottom": 737.5
+        }
+      }
+    ]
+  }
+]

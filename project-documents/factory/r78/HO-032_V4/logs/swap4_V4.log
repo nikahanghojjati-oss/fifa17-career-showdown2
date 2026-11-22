@@ -1,0 +1,17 @@
+LEAGUE 393x852 [V4]: FAIL
+  - Daniel's face 4% under <div#leagueWheel class="leagueWheel">
+  - Nik's face 4% under <div#leagueWheel class="leagueWheel">
+  - Daniel's face 4% under <div class="wheelTrack">
+  - Nik's face 4% under <div class="wheelTrack">
+  pixels over faces: Daniel 0 px changed (max diff 2), Nik 0 px changed (max diff 2)
+LEAGUE 393x660 [V4]: FAIL
+  - Daniel's face 1% under <div#leagueWheel class="leagueWheel">
+  - Nik's face 1% under <div#leagueWheel class="leagueWheel">
+  - Daniel's face 1% under <div class="wheelTrack">
+  - Nik's face 1% under <div class="wheelTrack">
+  pixels over faces: Daniel 0 px changed (max diff 0), Nik 0 px changed (max diff 0)
+LEAGUE 375x667 [V4]: OK
+  pixels over faces: Daniel 0 px changed (max diff 0), Nik 108 px changed (max diff 252)
+LEAGUE 360x640 [V4]: OK
+  pixels over faces: Daniel 500 px changed (max diff 255), Nik 714 px changed (max diff 255)
+swap check V4: FAIL (2 screen-size runs)

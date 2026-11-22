@@ -1,0 +1,27 @@
+{
+  "build_size": [
+    1920,
+    1080
+  ],
+  "plate_ssim": 0.5960906420163763,
+  "build_ssim": 0.5964741638936376,
+  "ssim_floor": 0.44609064201637627,
+  "plate_deltaE": 12.633888244628906,
+  "build_deltaE": 9.684184074401855,
+  "deltaE_ceiling": 18.633888244628906,
+  "protected_ssim": {
+    "face_daniel": 0.9397236571651363,
+    "face_nik": 0.9380871008851891,
+    "hand_daniel": 0.8648812731934022,
+    "hand_nik": 0.9510020193756938
+  },
+  "faces_min": 0.9380871008851891,
+  "other_protected_min": 0.8648812731934022,
+  "gates": {
+    "faces>=0.90": true,
+    "other_protected>=0.75": true,
+    "ssim>=plate-0.15": true,
+    "deltaE<=plate+6": true
+  },
+  "pass": true
+}

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>League V1 · Select League</title>
+<link rel="stylesheet" href="../shared/motion.css">\n<link rel="stylesheet" href="league.css">
+</head>
+<body>
+<svg class="vh" aria-hidden="true" focusable="false"><filter id="brush" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+<div id="stage-root" class="stage" data-frame="L1" data-primary="spinLeague">
+  <div class="scene" data-sd-enter="scene" aria-hidden="true">
+    <div class="plate"></div>
+    <div class="heal heal-head"></div>
+    <div class="heal heal-title"></div>
+    <div class="heal heal-deck"></div>
+    <div class="heal heal-foot"></div>
+    <div class="slot-veil"></div>
+  </div>
+
+  <div class="phone-hero-band" aria-hidden="true">
+    <picture class="phone-hero-bg" data-sd-enter="scene">
+      <source srcset="assets/ENV_LEAGUE_PHONE_V1.webp" type="image/webp">
+      <img src="assets/ENV_LEAGUE_PHONE_V1.webp" alt="">
+    </picture>
+    <picture class="phone-hero-person phone-hero-person--daniel" data-sd-enter="character-left">
+      <source srcset="assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp" type="image/webp">
+      <img src="assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp" alt="">
+    </picture>
+    <picture class="phone-hero-person phone-hero-person--nik" data-sd-enter="character-right">
+      <source srcset="assets/OVL_LEAGUE_NIK_PHONE_V1.webp" type="image/webp">
+      <img src="assets/OVL_LEAGUE_NIK_PHONE_V1.webp" alt="">
+    </picture>
+    <div class="phone-hero-gradient"></div>
+  </div>
+
+  <header id="topHeader">
+    <div class="cm-badge" aria-hidden="true"><span>CM 17</span></div>
+    <div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN // 17</p></div>
+    <nav class="product-nav" aria-label="Primary navigation" style="margin-left:auto;display:flex;align-items:stretch;height:100%;">
+      <button type="button" disabled title="Finish this step first" style="min-width:86px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">HOME</button>
+      <button type="button" disabled title="Finish this step first" aria-current="page" style="min-width:86px;border:0;border-left:1px solid rgba(201,155,69,.24);background:rgba(242,196,91,.12);color:#F2C45B;font:700 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">CAREER</button>
+      <button type="button" disabled title="Finish this step first" style="min-width:104px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">STANDINGS</button>
+      <button type="button" disabled title="Finish this step first" style="min-width:82px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">STATS</button>
+      <button type="button" disabled title="Finish this step first" style="min-width:82px;border:0;border-left:1px solid rgba(201,155,69,.24);background:transparent;color:#E9DFC8;font:600 13px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.16em;">RULES</button>
+      <button type="button" disabled title="Finish this step first" aria-label="Settings" style="width:56px;border:0;border-left:1px solid rgba(201,155,69,.38);background:rgba(10,12,15,.72);color:#F2C45B;font:600 20px/1 system-ui,sans-serif;">⚙</button>
+    </nav>
+    <button id="onlinePlayerIdentityBadge" type="button" hidden>Sign in</button>
+    <div class="seasonIndicator" id="seasonIndicator" hidden>Season 1 / 5</div>
+  </header>
+
+  <main class="league-main">
+    <section id="leagueWheelScreen" class="screen league-screen">
+      <div class="title-block sd-glint" data-sd-enter="title">
+        <div class="kicker" aria-hidden="true">CAREER MODE SHOWDOWN 17</div>
+        <h2>SELECT LEAGUE</h2>
+      </div>
+      <div class="wheelContainer league-wheel-stack" data-sd-enter="panel">
+        <div class="wheel-bezel" aria-hidden="true"></div>
+        <div class="wheelPointer"><span class="vh">▼</span></div>
+        <div class="finger-contact" aria-hidden="true"></div>
+        <div id="leagueWheel" class="leagueWheel">
+          <picture class="wheel-rim-art" aria-hidden="true">
+            <source srcset="../shared/art/wheel/WHEEL_RIM_V1.webp" type="image/webp">
+            <img src="../shared/art/wheel/WHEEL_RIM_V1.webp" alt="">
+          </picture>
+          <div class="wheel-rim" aria-hidden="true"></div>
+          <div class="wheelTrack">
+            <div class="wheelItem">Premier League</div>
+            <div class="wheelItem">LaLiga</div>
+            <div class="wheelItem">Bundesliga</div>
+            <div class="wheelItem">Serie A</div>
+            <div class="wheelItem">Ligue 1</div>
+          </div>
+          <div class="wheel-blur" aria-hidden="true"></div>
+          <div class="wheel-hub" aria-hidden="true"></div>
+        </div>
+        <div class="subtitle-row">
+          <div id="selectedLeague" role="status" aria-live="polite" aria-atomic="true">Spin to select league</div>
+        </div>
+        <div id="leagueStateNote" class="stateNote hidden" role="status" aria-live="polite"></div>
+        <div class="button-row phone-action-dock">
+          <button class="menuButton sd-btn sd-btn--primary" id="spinLeague" data-sd-enter="button" type="button">SPIN WHEEL</button>
+          <button class="backButton sd-btn sd-btn--secondary" data-smart-back type="button">BACK</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="slogan slogan-left sd-panel" data-sd-enter="panel" aria-hidden="true"><span>DIFFERENT LEAGUES</span><span>DIFFERENT STORIES</span><span>SAME PASSION</span></div>
+  <div class="slogan slogan-right sd-panel" data-sd-enter="panel" aria-hidden="true"><span>WHERE RIVALS</span><span>CREATE LEGENDS</span></div>
+
+  <div class="scene scene-top" data-sd-enter="scene" aria-hidden="true"><img class="finger-ovl" alt="" src="assets/OVL_DANIEL_FINGER_V1_1X.png" srcset="assets/OVL_DANIEL_FINGER_V1_1X.png 1x, assets/OVL_DANIEL_FINGER_V1_2X.png 2x"></div>
+  <div class="manager-marker manager-marker--daniel" data-manager="daniel"></div>
+  <div class="manager-marker manager-marker--nik" data-manager="nik"></div>
+
+  <footer><span class="foot-name">Career Mode Showdown</span><br><span class="foot-ver">v1.9.1</span><span class="foot-tag" aria-hidden="true">FOOTBALL BRINGS US TOGETHER<i class="crown"></i></span></footer>
+  <div class="grid-layer" aria-hidden="true"></div>
+</div>
+<script src="../../../js/visualIdentity.js"></script>
+<script src="league.js"></script>
+</body>
+</html>

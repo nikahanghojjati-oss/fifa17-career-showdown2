@@ -1,0 +1,59 @@
+{
+  "version": "PHONEMAP_TR_V1",
+  "units": "1X plate px (= mockup px)",
+  "plate_1x_size": [1672, 941],
+  "source_plate": "visual-assets/v10_1/trophy-room/assets/ENV_TR_PLATE_V1_2X.png",
+  "source_scale": 2,
+  "cutouts": {
+    "daniel_phone": {
+      "polygon": [
+        [362,108],[329,111],[305,127],[288,150],[279,177],[282,212],[294,245],[306,268],
+        [324,293],[294,315],[259,326],[224,340],[194,360],[174,390],[159,424],[153,462],
+        [157,501],[163,542],[173,590],[190,606],[505,606],[514,584],[507,550],[500,505],
+        [494,461],[488,418],[479,382],[468,350],[456,326],[469,309],[470,292],[461,279],
+        [447,268],[438,248],[446,225],[450,198],[447,168],[431,140],[405,119]
+      ]
+    },
+    "nik_phone": {
+      "polygon": [
+        [1189,102],[1155,108],[1128,123],[1111,146],[1104,171],[1110,205],[1121,231],[1126,259],
+        [1140,286],[1157,307],[1142,324],[1124,338],[1118,365],[1119,410],[1121,456],[1124,505],
+        [1128,556],[1135,597],[1558,597],[1565,570],[1558,539],[1547,505],[1531,474],[1510,442],
+        [1488,414],[1468,390],[1445,367],[1418,346],[1386,330],[1351,320],[1322,313],[1309,295],
+        [1315,275],[1323,252],[1324,224],[1320,194],[1310,164],[1296,138],[1268,118],[1227,106]
+      ]
+    }
+  },
+  "phone_frame": {
+    "frame_px": [393, 660],
+    "background": {
+      "asset": "ENV_TR_PHONE_V1.webp",
+      "fit": "cover",
+      "position_pct": [50, 50]
+    },
+    "figures": {
+      "daniel": {
+        "asset": "OVL_TR_DANIEL_PHONE_V1.webp",
+        "side": "left",
+        "center_x_pct": 19,
+        "top_pct": 1.5,
+        "visible_figure_height_pct": 50,
+        "overlap_center_pct": 1
+      },
+      "nik": {
+        "asset": "OVL_TR_NIK_PHONE_V1.webp",
+        "side": "right",
+        "center_x_pct": 87,
+        "top_pct": 1,
+        "visible_figure_height_pct": 50,
+        "overlap_center_pct": 1
+      }
+    },
+    "hero_zone_bottom_pct": 55,
+    "dark_bottom_gradient": {
+      "start_pct": 48,
+      "opaque_pct": 66
+    },
+    "notes": "Percentages refer to the visible alpha figure after trimming transparent canvas. Daniel's face is held in the left third and Nik's in the right third; both faces stay fully visible and separated. Only the shoulders may overlap near centre. Daniel remains left and Nik right; never mirror."
+  }
+}
