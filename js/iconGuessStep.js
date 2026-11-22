@@ -356,5 +356,7 @@
   }
 
   return Object.freeze({contractVersion:1,feature:"cms-prime-pack-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,collection:COLLECTION,doneKey:DONE_KEY,
-    applies:igsApplies,wonPoints:ctx=>wonMemo.has(igsKey(ctx))?wonMemo.get(igsKey(ctx)):null,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,leave:igsLeave,applyGuess:igsApplyGuess,run:igsRun,close:igsClose,end:igsEnd,markDone:ctx=>igsMark(DONE_KEY,igsKey(ctx)),wentHome:()=>wentHome,ensure:igsEnsure});
+    applies:igsApplies,wonPoints:ctx=>wonMemo.has(igsKey(ctx))?wonMemo.get(igsKey(ctx)):null,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,leave:igsLeave,applyGuess:igsApplyGuess,run:igsRun,close:igsClose,end:igsEnd,markDone:ctx=>igsMark(DONE_KEY,igsKey(ctx)),wentHome:()=>wentHome,ensure:igsEnsure,
+    // Fable FJ12-03 (r98): the Prime Pack is at the managers' pace; Career Start's open limit waits while it runs.
+    active:()=>Boolean(running)});
 });
