@@ -59,7 +59,13 @@ function ok(label) { checks += 1; process.stdout.write(`ok ${checks} ${label}\n`
   assert.ok(P.includes(`ssjpMutate("open",roulette?{draw:3,roulette:true}:{draw:3})`), "Daniel's phone opens a roulette Setup when the board is armed");
   assert.ok(P.includes(`if(setup.phase==="LEAGUE_WHEEL_COMMITTED"){if(ssjpRouletteLedger()&&state.setupDrops<4)return false;`), "the clubs are drawn only after the fourth ball");
   assert.ok(P.includes(`const ball=state.setupDrops+1;if(ssjpBallRole(ball)!==state.managerRole)return "stale";`), "only the manager whose ball it is drops it");
-  assert.ok(P.includes(`if(!rouletteStep.caughtUp())return "done";`), "a ball drops only once the one before it has rested on this phone");
+  assert.ok(P.includes(`if(roulette&&!rouletteStep.caughtUp())return "done";`), "a ball drops only once the one before it has rested on this phone");
+  // Release review (#1567): the balls follow the ledger. A phone where js/leagueRouletteStep.js did not load still gets its
+  // DROP BALL (text steps) and asks for the board again; it never falls back to the plain wheel while balls are due.
+  assert.ok(P.includes(`function ssjpRouletteBallsDue(){return Boolean(state&&state.ready&&state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"&&ssjpRouletteLedger()&&state.setupDrops<4);}`), "balls are due from the ledger alone");
+  assert.ok(P.includes(`else if(ssjpRouletteBallsDue()){ssjpRetryRouletteStep();return ssjpRenderRoulette(screen,result,button,note);}`), "no board here: the text steps, and the board is asked for again");
+  assert.ok(P.includes(`if(ssjpRouletteBallsDue()){\n        if(roulette&&!rouletteStep.caughtUp())return "done";`), "the drop tap follows the ledger, not the board");
+  assert.ok(P.includes("const out=step?step.leagueOut(drops-1):null"), "the text steps run without the board");
   assert.ok(P.includes("function ssjpBallRole(ball){const coordinator=state?.setup?.coordinatorRole;return ball%2===1?coordinator:(coordinator===\"playerOne\"?\"playerTwo\":\"playerOne\");}"));
   for (const coordinator of ["playerOne", "playerTwo"]) for (const ball of [1, 2, 3, 4]) {
     const mine = ball % 2 === 1 ? coordinator : (coordinator === "playerOne" ? "playerTwo" : "playerOne");
@@ -72,7 +78,7 @@ function ok(label) { checks += 1; process.stdout.write(`ok ${checks} ${label}\n`
   assert.ok(P.includes("if(rouletteStep)rouletteStep.arm(false);"), "leaving the shared journey frees the board");
   // the league is named, and the screen moves on, only once all four balls have joined the board on this phone
   const render = P.slice(P.indexOf("function ssjpRenderRoulette("), P.indexOf("async function ssjpDrop("));
-  assert.ok(render.indexOf("if(!step.caughtUp())") < render.indexOf("if(drops<4)") && render.indexOf("if(drops<4)") < render.indexOf("ssjpLater(ssjpAutoForwardToClubs,LEAGUE_REVEAL_HOLD_MS)"));
+  assert.ok(render.indexOf("if(step&&!step.caughtUp())") < render.indexOf("if(drops<4)") && render.indexOf("if(drops<4)") < render.indexOf("ssjpLater(ssjpAutoForwardToClubs,LEAGUE_REVEAL_HOLD_MS)"));
   assert.doesNotMatch(render, /ssjpMutate\(/, "rendering never writes");
   ok("presentation: roulette open, ball 1 = commit-league, balls 2-4 by their owner after the last rested, clubs after ball 4, shared seed");
 }
