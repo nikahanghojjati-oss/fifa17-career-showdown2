@@ -77,7 +77,7 @@ possible on release day.
   builder gameplay/r98/threads/bump/v26.py in project files), the 2.11.0 dispatch (`#latest/r98`, R98 SPOT filled, R99 SPOT
   left), Edition 23 labels, the newest-volume banner exemption on the new part, Volume 26 on the Story home's volume list. The
   live line is dateless ("Then Nik gives the word, and 2.11.0 goes live."). Counts measured in Chromium: 219 chapters, 97,292
-  words, SOURCES_COUNT cited source URLs. The Story is its own site, outside the game's shell.
+  words, 1,091 cited source URLs. The Story is its own site, outside the game's shell.
 
 ## Firestore Rules: CHANGED this release
 
@@ -101,7 +101,29 @@ possible on release day.
 
 ## Reads and writes
 
-READS_WRITES_SECTION
+CE2PG single plan, 3 seasons, waits off, Firebase emulator only (no production reads), firebase@12.17.0, both managers and both
+phones, run side by side on the same cloud container on 2026-11-22 (~22:15 to 22:45 UTC). 2.10.0 = main 4353ab5a; 2.11.0 = this
+branch's bump commit 9665361 (gameplay/r98 3e716932 + the bump). Each run uses its own composed Rules (2.10.0 `5b36d9d8…`, 2.11.0
+`8eb56137…`). Both runs PASS 296/296, 0 problems. Billed = the CE2PG meter's own definition (document reads plus Rules lookups
+on reads and on writes). The harness Chromium has no WebGL, so the 3D screens, the League Roulette included, play their flat
+stand-ins; the roulette's balls are still dropped turn by turn through the real protocol (same reads and writes).
+
+| Season | 2.10.0 billed / writes | 2.11.0 billed / writes | Change |
+|---|---|---|---|
+| 1 (START, pairing, setup) | 1,519 / 117 | 1,540 / 120 | +21, +3 writes |
+| 2 | 787 / 58 | 803 / 58 | +16 |
+| 3 (final) | 528 / 28 | 586 / 28 | +58 |
+| **Total** | **2,834 / 203** | **2,929 / 206** | **+95 (+3.4 %), +3 writes** |
+
+Detail (doc reads + Rules on reads + Rules on writes): 2.10.0 498+523+498, 247+293+247, 176+201+151; 2.11.0 504+523+513,
+256+300+247, 202+233+151. What r98 adds by design is in season 1 only: the three ball writes (+3 writes, +15 Rules lookups on
+writes) and the other phone's existing Setup listener seeing each ball (#1563 measured ~+7 listener reads, +33 billed once per
+Showdown); FJ12-04 takes ~5 reads off each 15 s Career Start check while a manager waits (waits are off in this run, so it barely
+shows). Seasons 2 and 3 run no r98 code path that reads Firestore (r98 touches only the setup and Career Start); their difference
+is in listener and page-check reads, one run each, of the run-to-run size seen before (2.10.0 measured 2,785 on 2026-11-20 and
+2,834 here). So the release cost claimed is +3 writes and about +33 billed reads per Showdown, nothing per season after the first.
+Nik's minimum of 14 seasons a day stays far inside Spark. Logs: gameplay/r98/threads/bump/m2100-3s.log and b2110-3s.log (project
+files).
 
 ## Update safety
 
@@ -137,7 +159,11 @@ READS_WRITES_SECTION
 
 ## Tests on this branch
 
-FULL_CONTRACTS_SECTION
+- Full product contracts at 52f8030 (`node tests/support/run-selected-product-contracts.cjs --all`, 19 m 45 s): **361/365 pass**.
+  The 4 that failed there (shared-showdown-production-runtime, stability, static-app-release, release-shell-coherence) each ask
+  that `RELEASE_V2.11.0_R98.md` exists for the current runtime; 52f8030 is the commit before this record. All 4 pass on the record
+  head. So **365/365** across the two commits, with no product file changed between them. Log:
+  gameplay/r98/threads/bump/full-contracts.log (project files).
 - Bump contracts on 9665361: r86-release, r87-upgrade-rollback-list (17), r78-marble-confirm, r79-modes-settings, v10-club,
   v10-foundation, v10-rules-settings, r90-gfx-tier, reus-gate-startup, composed-production-rules: all pass.
 - CE2PG 3 seasons on both builds, the real service-worker update probe and the Rules compile probe (above). Story pages checked in

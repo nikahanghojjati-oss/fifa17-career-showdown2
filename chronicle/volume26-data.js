@@ -282,6 +282,14 @@ window.CHRONICLE_VOLUME26={
    ],
    "sources": [
     {
+     "branch": "claude-gameplay/r98-bump",
+     "ref": "ac13dedb0a55bf099bf7e3b09e4753df86e1dbc1",
+     "path": "Pull request #1566",
+     "label": "PR #1566: the 2.11.0 version bump, release record and Volume 26",
+     "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1566",
+     "kind": "pull-request"
+    },
+    {
      "branch": "gameplay/r98",
      "ref": "f35bfd73f0f68092f2870bda456fc708fd843c7b",
      "path": "Pull request #1565",
