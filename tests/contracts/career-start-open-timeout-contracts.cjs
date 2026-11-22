@@ -143,7 +143,10 @@ async function fj12(){
     assert.notEqual(w.status(),ERROR,'FJ12-03 no "took too long" while the Squad Sheet is on screen');assert.equal(settled,null);
     squad.on=false;prime.on=true;for(let i=0;i<8;i+=1)await w.advance(25000);// 400 s from the tap in all
     assert.notEqual(w.status(),ERROR,'FJ12-03 no "took too long" while the Prime Pack is on screen, past the 2-minute open limit');assert.equal(settled,null);
-    prime.on=false;w.transfer.gate.resolve();await w.advance(0);await run;
+    // Code review: the loads between steps (here after the Prime Pack, before the Transfer War draws) get a fresh 2 minutes.
+    prime.on=false;for(let i=0;i<4;i+=1)await w.advance(25000);
+    assert.notEqual(w.status(),ERROR,'FJ12-03 no "took too long" in the load after a step, 7 minutes after the tap');assert.equal(settled,null);
+    w.transfer.gate.resolve();await w.advance(0);await run;
     assert.equal(settled,true,'FJ12-03 the open succeeds after the Prime Pack');assert.equal(w.shown(),false);
     console.log('PASS FJ12-03 the Career Start limit waits while the Squad Sheet or the Prime Pack is on screen');
   }
@@ -170,6 +173,13 @@ async function fj12(){
     assert.equal(w.polls().length,1,'FJ12-02 the 15 s check runs again for the new Showdown');
     late.resolve(w.result(0));await opening;await w.advance(0);
     assert.equal(w.api.getState().state.phase,'CAREER_START_PENDING');
+    // Code review: a read in flight when the Setup changes is never adopted, and getState() reads another Setup's view as none
+    // without changing anything.
+    const slow=deferred();w.controls.read=()=>slow.promise;const pending=w.api.refresh();await flush();
+    const r3={...w.state,rivalryId:'r3'};w.sandbox.CareerModeProductionSharedShowdownSetup.getState=()=>r3;// a new Setup state object, as setState() makes
+    assert.equal(w.api.getState(),null,'getState() hides the earlier Showdown\'s view');
+    slow.resolve({ok:true,revision:2,managerRole:'playerOne',state:{phase:'CAREER_START_READY',revision:2,acknowledgedRoles:['playerOne','playerTwo']}});
+    assert.equal(await pending,null,'the r2 read is not adopted for r3');assert.equal(w.api.getState(),null);
     console.log('PASS FJ12-02 a second Showdown on the same page never shows the first one\'s Career Start, and its 15 s check runs');
   }
   // FJ12-04: the 15 s check re-reads Career Start only; the confirmed Setup is re-read only after a failed Career Start read.

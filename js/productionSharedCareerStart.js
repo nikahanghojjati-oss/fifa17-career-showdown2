@@ -49,8 +49,10 @@
     // r88: Chamber Men, before the roulette, is at the managers' pace too (each kick's clock waits for the rival to lock in).
     // Fable FJ12-03 (r98): so are the Squad Sheet (before the roulette) and the Prime Pack (after it): the 2-minute open limit
     // counts from the tap, so without them a long shootout and roulette left a false "took too long" over the Prime Pack.
-    const began=Date.now();
-    const timeout=new Promise((_,reject)=>{const fire=()=>{if(root.CareerModeRosterRouletteStep?.active?.()||root.CareerModeChamberMenStep?.active?.()||root.CareerModeSquadSheetStep?.active?.()||root.CareerModeIconGuessStep?.active?.()||(transferOpening&&Date.now()-began<TRANSFER_OPEN_LIMIT_MS)){timer=root.setTimeout(fire,25000);return;}reject(error);};timer=root.setTimeout(fire,25000);});
+    // The 2 minutes count from the tap, or from the last check that saw one of these steps on screen, so the loads between
+    // steps (the next step's files, its draw) get the same 2 minutes a cold first open does.
+    let began=Date.now();
+    const timeout=new Promise((_,reject)=>{const fire=()=>{if(root.CareerModeRosterRouletteStep?.active?.()||root.CareerModeChamberMenStep?.active?.()||root.CareerModeSquadSheetStep?.active?.()||root.CareerModeIconGuessStep?.active?.()){began=Date.now();timer=root.setTimeout(fire,25000);return;}if(transferOpening&&Date.now()-began<TRANSFER_OPEN_LIMIT_MS){timer=root.setTimeout(fire,25000);return;}reject(error);};timer=root.setTimeout(fire,25000);});
     let active=true;request={wait:promise=>Promise.race([promise,timeout]).then(value=>{if(!active)throw error;return value;})};
     return Promise.race([Promise.resolve().then(()=>task(request)),timeout]).catch(failure=>{if(failure===error){lastError=error.message;if(task===pcstOpenPanelNow)pcstEnsurePanel();pcstRender();pcstDecorateControl();}throw failure;}).finally(()=>{active=false;root.clearTimeout(timer);});
   }
@@ -71,11 +73,16 @@
   // and start the 15 s check again (the first READY stopped it). In memory only, no read.
   function pcstForgetOtherShowdown(){
     if(!view||!viewKey)return false;const key=pcstSetupKey(pcstSetupState());if(!key||key===viewKey)return false;
-    view=null;viewKey="";readyKey="";lastReadOk=false;fastWaitKey="";fastWaitSince=0;pcstStartPolling();return true;
+    view=null;viewKey="";readyKey="";lastReadOk=false;fastWaitKey="";fastWaitSince=0;refreshPromise=null;pcstStartPolling();return true;
   }
+  // A read that was in flight when the Setup changed belongs to the earlier Showdown: it is never adopted.
+  function pcstStaleRead(state){const key=pcstSetupKey(state),now=pcstSetupKey(pcstSetupState());return Boolean(key&&now&&key!==now);}
+  // getState() stays read-only: a view of another Setup reads as none (refresh, render and the checks do the forgetting).
+  function pcstCurrentView(){const now=view&&viewKey?pcstSetupKey(pcstSetupState()):"";return now&&now!==viewKey?null:view;}
   function pcstStartPolling(){if(installed&&pollTimer===null&&typeof root.setInterval==="function")pollTimer=root.setInterval(()=>void pcstTick(lastReadOk),POLL_MS);return true;}
   function pcstApplyView(result,state){
-    view={...result,setup:state.setup};viewKey=pcstSetupKey(state);readyKey=pcstReady()?pcstSetupKey(state):"";lastError="";pcstRender();pcstDecorateControl();pcstNoteSeasonStart(state);if(pcstReady()){pcstStopPolling();pcstScheduleAutoContinue();}return view;
+    if(pcstStaleRead(state))return pcstCurrentView();
+    view={...result,setup:state.setup};viewKey=pcstSetupKey(state);lastReadOk=true;readyKey=pcstReady()?pcstSetupKey(state):"";lastError="";pcstRender();pcstDecorateControl();pcstNoteSeasonStart(state);if(pcstReady()){pcstStopPolling();pcstScheduleAutoContinue();}return view;
   }
   // r87 RE-05: Career Start READY is where season 1 starts for the reads meter; the reads before it (Home, pairing, setup, Special
   // Player, this panel) are setup, never part of a season's cost (js/sparkPrivatePairing.js, noteSeasonStart).
@@ -86,6 +93,7 @@
   function pcstAutoContinueKey(){return view&&view.state&&view.setup?`${view.setup.rivalryId||pcstSetupState()?.rivalryId||""}|${view.state.revision}`:"";}
   function pcstScheduleAutoContinue(){if(typeof root.setTimeout==="function")root.setTimeout(()=>void pcstAutoContinue(),0);else void pcstAutoContinue();}
   async function pcstAutoContinue(){
+    pcstForgetOtherShowdown();
     if(busy||!pcstReady()||!pcstPanelOpen())return false;const key=pcstAutoContinueKey();if(!key||key===autoContinueKey)return false;
     autoContinueKey=key;return pcstOpenTransferChallenge();
   }
@@ -103,7 +111,7 @@
     const run=pcstSerialize(()=>pcstWithTimeout(async request=>{const ctx=await pcstProviderOptions(light===true,request),result=await request.wait(provider.read(ctx.options));if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});return pcstApplyView(result,ctx.state);},request));
     // Fable FJ12-04 (r98): the 15 s check re-reads the confirmed Setup only after a Career Start read that failed (the Setup is
     // final once confirmed, and the Career Start read itself checks the session, device, rivalry and confirmed ledger).
-    run.then(()=>{lastReadOk=true;},()=>{lastReadOk=false;});
+    run.catch(()=>{lastReadOk=false;});
     refreshPromise=run.finally(()=>{if(refreshPromise===wrapped)refreshPromise=null;});
     const wrapped=refreshPromise;
     return wrapped;
@@ -145,6 +153,7 @@
     }
   }
   async function pcstOpenTransferChallenge(){
+    pcstForgetOtherShowdown();
     if(busy||!pcstReady())return false;
     busy=true;pcstRender();
     try{
@@ -156,7 +165,7 @@
       const opened=await transfer.open();
       transferOpening=false;
       // r87: the manager left the Russian Roster Roulette or the Prime Pack for Showdown Home; it opens again from there. Not a failure.
-      if(opened!==true&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.()||root.CareerModeChamberMenStep?.wentHome?.())){pcstClosePanel();return false;}
+      if(opened!==true&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.()||root.CareerModeChamberMenStep?.wentHome?.()||root.CareerModeSquadSheetStep?.wentHome?.())){pcstClosePanel();return false;}
       // The roulette or the Prime Pack could not start (Setup not read, its files not loaded): its own reason, not a generic one (Fable F2-05).
       const reason=opened!==true&&typeof transfer.rouletteError==="function"?transfer.rouletteError():"";
       if(reason){lastError=reason;return false;}
@@ -537,7 +546,7 @@
     // Fable F6-01: a BACK TO SHOWDOWN HOME from the roulette opened here (CONTINUE CAREER from Home) stays on Home, as it does
     // from the panel; only a roulette that could not start (its own reason) or a failed open shows Career Start below.
     if(!pcstPanelOpen()&&pcstReadyHere()&&await request.wait(pcstOpenTransferChallenge()))return pcstCloseReveal();
-    if(!pcstPanelOpen()&&pcstReadyHere()&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.()||root.CareerModeChamberMenStep?.wentHome?.()))return pcstCloseReveal();
+    if(!pcstPanelOpen()&&pcstReadyHere()&&(root.CareerModeRosterRouletteStep?.wentHome?.()||root.CareerModeIconGuessStep?.wentHome?.()||root.CareerModeChamberMenStep?.wentHome?.()||root.CareerModeSquadSheetStep?.wentHome?.()))return pcstCloseReveal();
     const overlay=pcstEnsurePanel();stageRetries=0;stageFailed=false;retryFailed=false;stageFailed=!(await request.wait(pcstClubBackdrop()));overlay.classList.remove("hidden");pcstRender();pcstCloseReveal();await request.wait(pcstRefresh(false,request));return true;
   }
   function pcstClosePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay){overlay.classList.add("hidden");pcstStageOff(overlay);}return true;}
@@ -556,7 +565,7 @@
     return true;
   }
   function pcstCapture(event){const button=event.target&&event.target.closest&&event.target.closest(`#${CONTROL_ID}`);if(!button||button.dataset.sharedCareerStart!=="true"||!pcstConfirmed())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();void pcstOpenPanel().catch(error=>pcstReport("Could not open Career Start",error));}
-  function pcstWaitingKey(){if(!view||!view.state||pcstReady()||!pcstOwnAcknowledged(view)||!pcstPanelOpen())return "";return `${view.managerRole}|${view.state.revision}`;}
+  function pcstWaitingKey(){pcstForgetOtherShowdown();if(!view||!view.state||pcstReady()||!pcstOwnAcknowledged(view)||!pcstPanelOpen())return "";return `${view.managerRole}|${view.state.revision}`;}
   function pcstFastPollDue(){const key=pcstWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}return now-fastWaitSince<FAST_POLL_WINDOW_MS;}
   // r75: while this screen waits on the partner, one live listener watches the shared document the partner's move changes;
   // the 3 s check below keeps running as the fallback and reads from the listener while it is healthy.
@@ -578,5 +587,5 @@
   }
   function pcstInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pcstCapture,true);const observer=new MutationObserver(()=>pcstDecorateControl());observer.observe(root.document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:["disabled","class"]});}if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>void pcstTick(lastReadOk),POLL_MS);root.setInterval(pcstFastTick,FAST_POLL_MS);}void pcstEnsureDependencies().then(()=>pcstTick()).catch(()=>{});return true;}
 
-  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-career-start",productionEnabled:true,requiresConfirmedSharedSetup:true,requiresExactActiveSession:true,twoManagerAcknowledgement:true,routesReadyStateToTransferChallenge:true,reconcilesConcurrentAcknowledgement:true,persistentVisibleErrors:true,canonicalStorageMutation:false,billingRequired:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pcstWaitingKey()),autoContinuesWhenBothStarted:true,visibilityAwarePolling:true,serializedOperations:true,terminalPollingStops:true,deactivatesSetupPresentation:true,install:pcstInstall,openPanel:pcstOpenPanel,closePanel:pcstClosePanel,refresh:pcstRefresh,openTransferChallenge:pcstOpenTransferChallenge,errorText:pcstErrorText,careerStartStage:"option-b",fitHold:pcstFitHold,layoutAudit:pcstStageAudit,getState:()=>{pcstForgetOtherShowdown();return view;}});
+  return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-career-start",productionEnabled:true,requiresConfirmedSharedSetup:true,requiresExactActiveSession:true,twoManagerAcknowledgement:true,routesReadyStateToTransferChallenge:true,reconcilesConcurrentAcknowledgement:true,persistentVisibleErrors:true,canonicalStorageMutation:false,billingRequired:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pcstWaitingKey()),autoContinuesWhenBothStarted:true,visibilityAwarePolling:true,serializedOperations:true,terminalPollingStops:true,deactivatesSetupPresentation:true,install:pcstInstall,openPanel:pcstOpenPanel,closePanel:pcstClosePanel,refresh:pcstRefresh,openTransferChallenge:pcstOpenTransferChallenge,errorText:pcstErrorText,careerStartStage:"option-b",fitHold:pcstFitHold,layoutAudit:pcstStageAudit,getState:pcstCurrentView});
 });
