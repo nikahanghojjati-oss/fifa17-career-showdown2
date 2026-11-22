@@ -65,13 +65,14 @@
 }
 @media (min-width:640px) and (max-width:900px) and (max-height:440px) and (orientation:landscape){
   #app #leagueWheelScreen.v26Skin.lr3d-on:not(.hidden){--v26-wheel:min(calc(100svh - 84px),48vw)!important;
-    grid-template-columns:var(--v26-wheel) minmax(0,250px)!important;grid-template-rows:repeat(5,auto)!important;align-content:center!important;column-gap:22px!important}
+    grid-template-columns:var(--v26-wheel) minmax(0,250px)!important;grid-template-rows:repeat(6,auto)!important;align-content:center!important;column-gap:22px!important}
   #app #leagueWheelScreen.v26Skin.lr3d-on>h2{grid-column:2!important;grid-row:1!important;width:min(30vw,250px)!important;margin:0 auto!important}
   #app #leagueWheelScreen.v26Skin.lr3d-on #selectedLeague{grid-column:2!important;grid-row:2!important;align-self:center!important}
-  #app #leagueWheelScreen.v26Skin.lr3d-on #leagueStateNote{grid-column:2!important;grid-row:3!important}
-  #app #leagueWheelScreen.v26Skin.lr3d-on #spinLeague{grid-column:2!important;grid-row:4!important}
-  #app #leagueWheelScreen.v26Skin.lr3d-on .wheelContainer>.backButton,#app #leagueWheelScreen.v26Skin.lr3d-on #spinLeague.hidden+.backButton{grid-column:2!important;grid-row:5!important}
-  #app #leagueWheelScreen.v26Skin.lr3d-on #leagueWheel,#app #leagueWheelScreen.v26Skin.lr3d-on .wheelPointer{grid-column:1!important;grid-row:1 / 6!important;transform:none!important}
+  #app #leagueWheelScreen.v26Skin.lr3d-on #sharedShowdownPresentationStatus{grid-column:2!important;grid-row:3!important;margin:0!important;font-size:12px!important;line-height:1.3!important}
+  #app #leagueWheelScreen.v26Skin.lr3d-on #leagueStateNote{grid-column:2!important;grid-row:4!important}
+  #app #leagueWheelScreen.v26Skin.lr3d-on #spinLeague{grid-column:2!important;grid-row:5!important}
+  #app #leagueWheelScreen.v26Skin.lr3d-on .wheelContainer>.backButton,#app #leagueWheelScreen.v26Skin.lr3d-on #spinLeague.hidden+.backButton{grid-column:2!important;grid-row:6!important}
+  #app #leagueWheelScreen.v26Skin.lr3d-on #leagueWheel,#app #leagueWheelScreen.v26Skin.lr3d-on .wheelPointer{grid-column:1!important;grid-row:1 / 7!important;transform:none!important}
 }
 `;
   let armed=false,failed=false,scene=null,host=null,mountPromise=null,generation=0,playing=null,planKey="",screenObserver=null;
@@ -155,7 +156,9 @@
     let textBottom=-Infinity,buttonsTop=Infinity;
     for(const el of screen.querySelectorAll("h2,#selectedLeague")){const r=lrsVisibleRect(el);if(r)textBottom=Math.max(textBottom,r.bottom);}
     // the lock note shows above the buttons once the league is set: the board keeps clear of it too (Codex, PR #1564)
-    for(const el of screen.querySelectorAll("button,#leagueStateNote")){const r=lrsVisibleRect(el);if(r)buttonsTop=Math.min(buttonsTop,r.top);}
+    // r98 gallery: so is the shared flow's status line (js/productionSharedShowdownPresentation.js, "BOTH PLAYERS CONNECTED ·
+    // Drop the first ball." and the rest), which every shared Showdown shows above the buttons.
+    for(const el of screen.querySelectorAll("button,#leagueStateNote,#sharedShowdownPresentationStatus")){const r=lrsVisibleRect(el);if(r)buttonsTop=Math.min(buttonsTop,r.top);}
     if(!Number.isFinite(textBottom)||!Number.isFinite(buttonsTop))return null;
     // (Claude review on #1564) the search runs again only when what it depends on has changed
     const memo=[P.s,P.x0,P.y0,textBottom,buttonsTop].map(v=>Math.round(v*100)).join(",");
