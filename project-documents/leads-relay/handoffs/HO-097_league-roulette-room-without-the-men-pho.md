@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-22T02:24:41Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-22T02:30:06Z", "by": "V", "status": "WORKING", "note": "New Team V lead: parts 1+2. Astra removes the men (desktop + upright phone), V builds tall/sideways in code; part 2 = men re-placed further apart in code from V3 pixels (faces untouched)."}],
+ "evidence": ["claude/project-thread-ie3afv 4cd0d1736 project-documents/hc-art/ho097/"],
+ "log": [{"at": "2026-11-22T02:24:41Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-22T02:30:06Z", "by": "V", "status": "WORKING", "note": "New Team V lead: parts 1+2. Astra removes the men (desktop + upright phone), V builds tall/sideways in code; part 2 = men re-placed further apart in code from V3 pixels (faces untouched)."}, {"at": "2026-11-22T02:48:42Z", "by": "V", "status": "DONE", "note": "Nik OK 21 Nov 9:48 p.m. Eastern. ENV_BOX_PHONE_HC_V4 (+590W), ENV_BOX_PHONE_HC_V4_TALL (+590W), ENV_BOX_SIDEWAYS_HC_V4 2400x1200, part 2 ENV_BOX_PLATE_HC_V4_1X/2X (men 120px@2X further apart each, ~29% more window, faces original pixels), spare ENV_BOX_PLATE_EMPTY_HC_V4_1X/2X. SHA256.json in folder."}],
  "from_session": "session_01GU43Q7tkNNiwFECumxKomV",
  "sessions": {"G": "session_01GU43Q7tkNNiwFECumxKomV", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
 }
