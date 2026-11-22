@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-21 9:47 PM Boston time (EST)",
+ "generated": "2026-11-21 9:49 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 332,
+  "count": 333,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2991,6 +2991,15 @@
     "subject": "Story art: lounge plate, leather book cover, Making Of banner (r95)",
     "reply": "no",
     "boston": "Mon 16 Nov 10:55 PM"
+   },
+   {
+    "time": "2026-11-22 02:48",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-097 DONE",
+    "subject": "League Roulette room without the men (phone upright, tall, sideways)",
+    "reply": "no",
+    "boston": "Sat 21 Nov 9:48 PM"
    }
   ],
   "g2v": {
@@ -3011,8 +3020,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "c4ad7a9",
-  "head_boston": "Sat 21 Nov 9:30 PM",
+  "head": "72e5ad5",
+  "head_boston": "Sat 21 Nov 9:48 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3836,7 +3845,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 20143
+    "waiting_min": 20144
    },
    {
     "id": "HO-059",
@@ -4337,8 +4346,8 @@
     "from": "G",
     "to": "V",
     "title": "League Roulette room without the men (phone upright, tall, sideways)",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-097_league-roulette-room-without-the-men-pho.md",
     "worker": "images",
@@ -4415,7 +4424,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,

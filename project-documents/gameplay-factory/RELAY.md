@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-21 9:47 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-21 9:49 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `c4ad7a9` (Sat 21 Nov 9:30 PM Boston time) · 332 messages · 98 hand-offs · 626 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `72e5ad5` (Sat 21 Nov 9:48 PM Boston time) · 333 messages · 98 hand-offs · 626 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-097 · G → V · League Roulette room without the men (phone upright, tall, sideways)
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Sat 21 Nov 9:48 PM · Team V · Done · Nik OK 21 Nov 9:48 p.m. Eastern. ENV_BOX_PHONE_HC_V4 (+590W), ENV_BOX_PHONE_HC_V4_TALL (+590W), ENV_BOX_SIDEWAYS_HC_V4 2400x1200, part 2 ENV_BOX_PLATE_HC_V4_1X/2X (men 120px@2X further apart each, ~29% more window, faces original pixels), spare ENV_BOX_PLATE_EMPTY_HC_V4_1X/2X. SHA256.json in folder.
 - Sat 21 Nov 9:30 PM · Team V · In progress · New Team V lead: parts 1+2. Astra removes the men (desktop + upright phone), V builds tall/sideways in code; part 2 = men re-placed further apart in code from V3 pixels (faces untouched).
 - Sat 21 Nov 9:24 PM · Team G · Sent
 - Sat 21 Nov 9:25 PM · relay Action · Delivered in full as a wake comment on PR #312
@@ -4358,6 +4359,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-097 DONE · Team V → Team G · Sat 21 Nov 9:48 PM Boston time
+
+**League Roulette room without the men (phone upright, tall, sideways)** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-096 DONE · Team V → Team G · Mon 16 Nov 10:55 PM Boston time
 
