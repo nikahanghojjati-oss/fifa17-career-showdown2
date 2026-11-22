@@ -198,15 +198,17 @@ check("R4b the marble tile is served from the precached shell without a ?v= quer
 // 2.9.0: the retained shell is 2.8.0's, filled by the 2.8.0 worker with its own 260 paths (tests/fixtures/shell-paths/2.8.0-r95.json).
 // 2.10.0: the retained shell is 2.9.0's, filled by the 2.9.0 worker with its own 260 paths, the same list as 2.8.0's
 // (tests/fixtures/shell-paths/2.9.0-r96.json), so the list hash is unchanged.
-const R79_SHELL_PATHS_SHA256="e0996bb2034942f6af9ed7708350041d4a79a1d61689837f2a685f83de0e0e61";// sorted JSON of 2.9.0-r96's SHELL_PATHS (main 56642b8f; = 2.8.0's)
+// 2.11.0: the retained shell is 2.10.0's, filled by the 2.10.0 worker with its own 260 paths, the same list as 2.9.0's and
+// 2.8.0's (tests/fixtures/shell-paths/2.10.0-r97.json), so the list hash is unchanged.
+const R79_SHELL_PATHS_SHA256="e0996bb2034942f6af9ed7708350041d4a79a1d61689837f2a685f83de0e0e61";// sorted JSON of 2.10.0-r97's SHELL_PATHS (main 4353ab5a; = 2.9.0's = 2.8.0's)
 let previousShellChecks=Promise.reject(new Error("R4c did not run"));previousShellChecks.catch(()=>{});
 check("R4c an r79-only shell cache survives r80 activation and stays the rollback target",()=>{
   const crypto=require("node:crypto");
   const probe=swWorld(),diag=probe.diag;
-  assert.equal(diag.previousRevision,"2.9.0-r96");
-  assert.equal(diag.previousShellPaths.length,260,"2.9.0 shipped 260 shell paths");
-  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly 2.9.0's");
-  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],[],"2.10.0 (r97) removes no path from the 2.9.0 shell");
+  assert.equal(diag.previousRevision,"2.10.0-r97");
+  assert.equal(diag.previousShellPaths.length,260,"2.10.0 shipped 260 shell paths");
+  assert.equal(crypto.createHash("sha256").update(JSON.stringify([...diag.previousShellPaths].sort())).digest("hex"),R79_SHELL_PATHS_SHA256,"the previous list is exactly 2.10.0's");
+  assert.deepEqual([...diag.previousShellPaths.filter(p=>!diag.shellPaths.includes(p))],[],"2.11.0 (r98) removes no path from the 2.10.0 shell");
   previousShellChecks=(async()=>{
     const IMG="career-mode-showdown-v10-images-",PREV="career-mode-showdown-shell-"+diag.previousRevision;
     // 1. a real r79 install: r79's own list only, plus its image cache and an older leftover
