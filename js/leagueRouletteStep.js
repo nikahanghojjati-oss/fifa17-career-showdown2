@@ -30,6 +30,7 @@
   width:calc(100% * var(--lr-scale,1) / .917);height:calc(100% * var(--lr-scale,1) / .917);
   left:calc(50% - 50% * var(--lr-scale,1) / .917);top:calc(100% - 91% * var(--lr-scale,1) / .917 - var(--lr-lift,0px))}
 #leagueWheel.lr3d-on{--lr-lift:14px}
+@media (prefers-reduced-motion:no-preference){#leagueWheel>.lr3dHost.lr3dPlaced{transition:left .35s ease,top .35s ease,width .35s ease,height .35s ease}}
 @media not all and (min-width:901px) and (orientation:landscape){
   html.lr3d-room[data-v10-setup="league"] #background,html.lr3d-room[data-v10-setup="league"][data-v10-screen] #background{
     background-color:#0b0908!important;background-image:url(visual-assets/v10_1/plates-hc/ENV_BOX_ROOM_LR_PHONE_V1.webp)!important;
@@ -44,11 +45,13 @@
 }
 @media (max-width:900px) and (orientation:landscape){
   #app #leagueWheelScreen.v26Skin.lr3d-on:not(.hidden){--v26-wheel:min(calc(100svh - 84px),48vw)!important;
-    grid-template-columns:var(--v26-wheel) minmax(0,250px)!important;grid-template-rows:auto auto auto auto!important;align-content:center!important;column-gap:22px!important}
+    grid-template-columns:var(--v26-wheel) minmax(0,250px)!important;grid-template-rows:repeat(5,auto)!important;align-content:center!important;column-gap:22px!important}
   #app #leagueWheelScreen.v26Skin.lr3d-on>h2{grid-column:2!important;grid-row:1!important;width:min(30vw,250px)!important;margin:0 auto!important}
   #app #leagueWheelScreen.v26Skin.lr3d-on #selectedLeague{grid-column:2!important;grid-row:2!important;align-self:center!important}
-  #app #leagueWheelScreen.v26Skin.lr3d-on #leagueStateNote{grid-column:2!important;grid-row:2!important}
-  #app #leagueWheelScreen.v26Skin.lr3d-on #leagueWheel,#app #leagueWheelScreen.v26Skin.lr3d-on .wheelPointer{grid-column:1!important;grid-row:1 / 5!important;transform:none!important}
+  #app #leagueWheelScreen.v26Skin.lr3d-on #leagueStateNote{grid-column:2!important;grid-row:3!important}
+  #app #leagueWheelScreen.v26Skin.lr3d-on #spinLeague{grid-column:2!important;grid-row:4!important}
+  #app #leagueWheelScreen.v26Skin.lr3d-on .wheelContainer>.backButton,#app #leagueWheelScreen.v26Skin.lr3d-on #spinLeague.hidden+.backButton{grid-column:2!important;grid-row:5!important}
+  #app #leagueWheelScreen.v26Skin.lr3d-on #leagueWheel,#app #leagueWheelScreen.v26Skin.lr3d-on .wheelPointer{grid-column:1!important;grid-row:1 / 6!important;transform:none!important}
 }
 `;
   let armed=false,failed=false,scene=null,host=null,mountPromise=null,generation=0,playing=null,planKey="",screenObserver=null;
@@ -126,8 +129,9 @@
     if(typeof root.matchMedia!=="function"||!root.matchMedia(DESKTOP_MQ).matches)return null;
     const P=lrsPlate(),screen=lrsById(SCREEN_ID);if(!P||!screen)return null;
     let textBottom=-Infinity,buttonsTop=Infinity;
-    for(const el of screen.querySelectorAll("h2,#selectedLeague,#leagueStateNote")){const r=lrsVisibleRect(el);if(r)textBottom=Math.max(textBottom,r.bottom);}
-    for(const el of screen.querySelectorAll("button")){const r=lrsVisibleRect(el);if(r)buttonsTop=Math.min(buttonsTop,r.top);}
+    for(const el of screen.querySelectorAll("h2,#selectedLeague")){const r=lrsVisibleRect(el);if(r)textBottom=Math.max(textBottom,r.bottom);}
+    // the lock note shows above the buttons once the league is set: the board keeps clear of it too (Codex, PR #1564)
+    for(const el of screen.querySelectorAll("button,#leagueStateNote")){const r=lrsVisibleRect(el);if(r)buttonsTop=Math.min(buttonsTop,r.top);}
     if(!Number.isFinite(textBottom)||!Number.isFinite(buttonsTop))return null;
     const fits=(hw,cx,top)=>{ // plate px: host width, centre x, host top
       for(let k=0;k<PROFILE.length;k+=1){
@@ -157,10 +161,14 @@
     const w=wheel.getBoundingClientRect(),key=[box.left-w.left,box.top-w.top,box.size].map(v=>Math.round(v)).join(",");
     if(key===lastBox)return;lastBox=key;
     const [l,t,z]=key.split(",");host.style.left=`${l}px`;host.style.top=`${t}px`;host.style.width=`${z}px`;host.style.height=`${z}px`;
+    // once placed, a later move (the lock note showing) glides instead of jumping; the first placement never animates
+    if(!host.classList.contains("lr3dPlaced")&&typeof root.requestAnimationFrame==="function"){const placed=host;root.requestAnimationFrame(()=>placed.classList.add("lr3dPlaced"));}
   }
   function lrsLayoutSoon(){if(layoutRaf||typeof root.requestAnimationFrame!=="function")return;layoutRaf=root.requestAnimationFrame(()=>{layoutRaf=0;lrsLayout();});}
   let layoutWatching=false;
-  function lrsWatchLayout(){if(layoutWatching||typeof root.addEventListener!=="function")return;layoutWatching=true;root.addEventListener("resize",lrsLayoutSoon,{passive:true});}
+  function lrsWatchLayout(){if(layoutWatching||typeof root.addEventListener!=="function")return;layoutWatching=true;root.addEventListener("resize",lrsLayoutSoon,{passive:true});
+    const note=lrsById("leagueStateNote");
+    if(note&&typeof root.MutationObserver==="function")new root.MutationObserver(lrsLayoutSoon).observe(note,{attributes:true,attributeFilter:["class"],childList:true,characterData:true,subtree:true});}
 
   function lrsArm(on){
     if(!on){lrsTeardown();failed=false;target={seed:"",winner:null,drops:0,instant:false};lrsFreshSync();}
