@@ -126,9 +126,9 @@
     const l=Math.max(0,Math.min(5,Math.round(Number(level))||0));
     // r98 (Nik 2026-11-22, "pixelated around the edges"): the bowl and wheel are round at every level (a 96-sided lathe
     // showed its corners on a big board) and the board texture is sharp enough for a 3x phone.
-    // A phone draws the board about 750 device px across even at 3x, so its pictures stay 1024 (phone memory budget,
-    // tests/browser/phone-memory-budget.cjs); the gold masks are half the picture's size (thin lines, metal only).
-    return {level:l,board:phone?1024:l<=0?1536:2048,seg:l<=1?224:288,ballSeg:l<=1?[28,18]:[40,26],
+    // A phone keeps the picture sizes it had (1024 below High, 2048 from High); the gold masks are half the picture's size
+    // (thin lines, metal only), so the phone memory budget holds (tests/browser/phone-memory-budget.cjs).
+    return {level:l,board:phone?(l<=1?1024:2048):l<=0?1536:2048,seg:l<=1?224:288,ballSeg:l<=1?[28,18]:[40,26],
       clearcoat:l>=2,envSize:l<=1?256:512,sheen:l>=3,ghosts:l<=0?8:12};
   }
 
