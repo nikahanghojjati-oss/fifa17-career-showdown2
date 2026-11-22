@@ -111,10 +111,11 @@ html,body{margin:0;height:100%;background:var(--room);color:var(--ink);font:15px
       Object.assign(host.style,{width:S+"px",height:S+"px",left:(W-S)/2+"px",top:(L+6-.06*S)+"px"});
     }
   }
-  // ?fill=1 (device lab, R98-01 round 3): the board at the size the game gives it, a little larger to be safe. Upright: the
-  // full width less 16 px and 1.18 times as tall (js/leagueRouletteStep.js), sideways and desktop: 70% of the window height.
-  if(q.get("fill")==="1"){const place0=place;place=function(){place0();const W=innerWidth,H=innerHeight;
-    const w=W<=900&&H>W?W-16:Math.round(H*.7),h=W<=900&&H>W?Math.round(w*1.18):w;
+  // ?fill=1 (device lab, R98-01 round 3): the board at the size the game gives it, or a little larger. Upright phones: the
+  // full width less 16 px and 1.18 times as tall; sideways phones: min(height - 84, 48% of the width) / .917 (both
+  // js/leagueRouletteStep.js); desktop: 75% of the window height (the game's largest is 73% at 1920x866, 68% at 1920x1035).
+  if(q.get("fill")==="1"){const place0=place;place=function(){place0();const W=innerWidth,H=innerHeight,up=W<=900&&H>W,side=W<=900&&!up;
+    const w=up?W-16:side?Math.round(Math.min(H-84,W*.48)/.917):Math.round(H*.75),h=up?Math.round(w*1.18):w;
     Object.assign(host.style,{width:w+"px",height:h+"px",left:(W-w)/2+"px",top:Math.max(0,(H-h)/2)+"px"});};}
   addEventListener("resize",()=>place());place();
   async function start(){

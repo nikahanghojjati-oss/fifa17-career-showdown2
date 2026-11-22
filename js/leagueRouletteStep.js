@@ -30,7 +30,7 @@
   width:calc(100% * var(--lr-scale,1) / .917);height:calc(100% * var(--lr-scale,1) / .917);
   left:calc(50% - 50% * var(--lr-scale,1) / .917);top:calc(100% - 91% * var(--lr-scale,1) / .917 - var(--lr-lift,0px))}
 #leagueWheel.lr3d-on{--lr-lift:14px}
-@media (prefers-reduced-motion:no-preference){#leagueWheel>.lr3dHost.lr3dPlaced{transition:left .35s ease,top .35s ease,width .35s ease,height .35s ease}}
+@media (prefers-reduced-motion:no-preference){#leagueWheel>.lr3dHost.lr3dPlaced{transition:left .35s ease,top .35s ease}}
 /* Team V HO-097 (Nik OK 2026-11-22): the League Roulette's own rooms. Desktop: the box room with the two men further apart
    (ENV_BOX_PLATE_HC_V4, same frame and anchors as V3), so the board grows between them. Phones and tablets: the same room
    without the men, upright (PHONE_HC_V4, TALL on 9:20 phones) and sideways (SIDEWAYS_HC_V4). Only while the 3D board is
@@ -157,6 +157,13 @@
     // the lock note shows above the buttons once the league is set: the board keeps clear of it too (Codex, PR #1564)
     for(const el of screen.querySelectorAll("button,#leagueStateNote")){const r=lrsVisibleRect(el);if(r)buttonsTop=Math.min(buttonsTop,r.top);}
     if(!Number.isFinite(textBottom)||!Number.isFinite(buttonsTop))return null;
+    // (Claude review on #1564) the search runs again only when what it depends on has changed
+    const memo=[P.s,P.x0,P.y0,textBottom,buttonsTop].map(v=>Math.round(v*100)).join(",");
+    if(memo===boxMemo.key)return boxMemo.box;
+    boxMemo.key=memo;boxMemo.box=lrsSearchBox(P,textBottom,buttonsTop);return boxMemo.box;
+  }
+  const boxMemo={key:"",box:null};
+  function lrsSearchBox(P,textBottom,buttonsTop){
     const fits=(hw,cx,top)=>{ // plate px: host width, centre x, host top
       for(let k=0;k<PROFILE.length;k+=1){
         const y=top+hw*(.175+k*.025),half=hw*PROFILE[k];
