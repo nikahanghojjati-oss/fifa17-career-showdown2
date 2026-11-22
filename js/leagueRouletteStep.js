@@ -104,6 +104,7 @@
     if(wheel)wheel.classList.toggle("lr3d-on",on);if(screen)screen.classList.toggle("lr3d-on",on);
     // phones and tablets: the room without the two men behind the big board (Nik 2026-11-22)
     const html=lrsDoc()&&lrsDoc().documentElement;if(html)html.classList.toggle("lr3d-room",on);
+    if(!on)lrsLiftLine(false);
   }
   function lrsTeardown(){
     generation+=1;
@@ -175,10 +176,22 @@
     }
     return null;
   }
+  // Nik 2026-11-22 (card: "Move the line up"): on desktop the SPIN TO PICK THE LEAGUE line rises to sit just under the title's
+  // letters, so the board gains that height. Only the line moves (a transform: the title, the buttons and the page keep their
+  // places). The title's letters end 59% down its box at every desktop size measured (56-59%); 62% is used, and the gap is
+  // 13% of the title box (17 px at 1920x866).
+  function lrsLiftLine(on){
+    const line=lrsById("selectedLeague"),screen=lrsById(SCREEN_ID);if(!line)return;
+    line.style.removeProperty("transform");if(!on||!screen)return;
+    const title=lrsVisibleRect(screen.querySelector("h2")),r=lrsVisibleRect(line);if(!title||!r)return;
+    const want=title.top+title.height*.62+Math.max(14,title.height*.13)-r.height*.3,shift=Math.min(0,Math.round(want-r.top));
+    if(shift<0)line.style.transform=`translateY(${shift}px)`;
+  }
   let layoutRaf=0,lastBox="";
   function lrsLayout(){
     if(!host)return;const wheel=host.parentNode;if(!wheel||typeof wheel.getBoundingClientRect!=="function")return;
     if(!lrsShown())return;
+    lrsLiftLine(typeof root.matchMedia==="function"&&root.matchMedia(DESKTOP_MQ).matches);
     const box=lrsDesktopBox();host.style.removeProperty("visibility");
     if(!box){if(lastBox){lastBox="";host.style.removeProperty("left");host.style.removeProperty("top");host.style.removeProperty("width");host.style.removeProperty("height");}return;}
     const w=wheel.getBoundingClientRect(),key=[box.left-w.left,box.top-w.top,box.size].map(v=>Math.round(v)).join(",");
