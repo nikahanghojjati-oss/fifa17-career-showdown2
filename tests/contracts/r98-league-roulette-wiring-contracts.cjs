@@ -61,9 +61,11 @@ function ok(label) { checks += 1; process.stdout.write(`ok ${checks} ${label}\n`
   assert.ok(P.includes(`const ball=state.setupDrops+1;if(ssjpBallRole(ball)!==state.managerRole)return "stale";`), "only the manager whose ball it is drops it");
   assert.ok(P.includes(`if(roulette&&!rouletteStep.caughtUp())return "done";`), "a ball drops only once the one before it has rested on this phone");
   // Release review (#1567): the balls follow the ledger. A phone where js/leagueRouletteStep.js did not load still gets its
-  // DROP BALL (text steps) and asks for the board again; it never falls back to the plain wheel while balls are due.
+  // DROP BALL (text steps); it never falls back to the plain wheel while balls are due.
   assert.ok(P.includes(`function ssjpRouletteBallsDue(){return Boolean(state&&state.ready&&state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"&&ssjpRouletteLedger()&&state.setupDrops<4);}`), "balls are due from the ledger alone");
-  assert.ok(P.includes(`else if(ssjpRouletteBallsDue()){ssjpRetryRouletteStep();return ssjpRenderRoulette(screen,result,button,note);}`), "no board here: the text steps, and the board is asked for again");
+  assert.ok(P.includes(`else if(ssjpRouletteTextSteps())return ssjpRenderRoulette(screen,result,button,note);`), "no board here: the text steps from the first ball to the fourth");
+  assert.ok(P.includes(`state.setup.phase==="SHARED_SETUP_OPEN"&&ssjpRouletteLedger()`), "before ball 1 too: both phones describe the roulette");
+  assert.doesNotMatch(P, /ssjpRetryRouletteStep/, "the board is never loaded late over a screen that moved on");
   assert.ok(P.includes(`if(ssjpRouletteBallsDue()){\n        if(roulette&&!rouletteStep.caughtUp())return "done";`), "the drop tap follows the ledger, not the board");
   assert.ok(P.includes("const out=step?step.leagueOut(drops-1):null"), "the text steps run without the board");
   assert.ok(P.includes("function ssjpBallRole(ball){const coordinator=state?.setup?.coordinatorRole;return ball%2===1?coordinator:(coordinator===\"playerOne\"?\"playerTwo\":\"playerOne\");}"));
