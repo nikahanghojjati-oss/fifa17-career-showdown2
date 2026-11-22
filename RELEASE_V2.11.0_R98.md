@@ -144,6 +144,15 @@ files).
 - **Mixed versions: not safe for the roulette.** See "Release day" above: a 2.10.0 rival stops at Select League against a 2.11.0
   host until it updates. A 2.11.0 phone still reads every older Showdown (ledgers without `drops` keep their shapes).
 - Finished and in-progress Showdowns are untouched. No saved Showdown is rewritten. Nothing in Firebase is deleted or edited.
+- **Rollback to 2.10.0 and Showdowns started on 2.11.0 (Claude release review of #1567).** Every Showdown opened on 2.11.0 keeps
+  `drops` in its Setup ledger, and 2.10.0 reads that ledger with an exact key list that has no `drops`
+  (js/sparkSharedShowdownSetup.js assertLedger, js/sparkCompletedShowdownReader.js). So after a rollback to 2.10.0-r97:
+  - a Showdown started on 2.11.0 and still in progress **cannot continue** (Setup, Career Start, Transfer War and Season Results
+    refuse its ledger with SETUP_PROVIDER_STATE_INVALID) until 2.11.0 is live again;
+  - a **finished** Showdown started on 2.11.0 keeps all its data (nothing is rewritten or deleted), but the 2.10.0 screens that
+    re-read its Setup (Rivalry Legacy, the final screen, the closed-Showdown career load) may not open it until 2.11.0 is back;
+  - Showdowns started before 2.11.0 are not affected either way.
+  This is the same property the `stops` (r94) and `draw` (r95) keys had. Going forward to 2.11.0 again restores everything.
 
 ## Version bump
 
