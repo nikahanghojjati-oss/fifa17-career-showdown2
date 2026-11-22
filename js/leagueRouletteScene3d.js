@@ -122,11 +122,13 @@
 
   // What each level draws (ONE system). Light (Nik's Chromebook, 2 CPU threads) stays light: one 1024 board texture,
   // standard materials, about a dozen draws.
-  function lrKnobs(level){
+  function lrKnobs(level,phone){
     const l=Math.max(0,Math.min(5,Math.round(Number(level))||0));
     // r98 (Nik 2026-11-22, "pixelated around the edges"): the bowl and wheel are round at every level (a 96-sided lathe
     // showed its corners on a big board) and the board texture is sharp enough for a 3x phone.
-    return {level:l,board:l<=0?1536:2048,seg:l<=1?224:288,ballSeg:l<=1?[28,18]:[40,26],
+    // A phone draws the board about 750 device px across even at 3x, so its pictures stay 1024 (phone memory budget,
+    // tests/browser/phone-memory-budget.cjs); the gold masks are half the picture's size (thin lines, metal only).
+    return {level:l,board:phone?1024:l<=0?1536:2048,seg:l<=1?224:288,ballSeg:l<=1?[28,18]:[40,26],
       clearcoat:l>=2,envSize:l<=1?256:512,sheen:l>=3,ghosts:l<=0?8:12};
   }
 
@@ -155,7 +157,7 @@
   function boardPainter(size,marks,marble){
     const d=lrDoc(),cv=d.createElement("canvas");cv.width=cv.height=size;const cx=cv.getContext("2d"),c=size/2,S=size/2/D.RW;
     // the painted gold (section borders, rings, pocket lines) is real metal: a mask, white where gold, sets its metalness
-    const mv=d.createElement("canvas");mv.width=mv.height=size;const mx=mv.getContext("2d");
+    const mv=d.createElement("canvas");mv.width=mv.height=size/2;const mx=mv.getContext("2d");mx.scale(.5,.5);
         // Board angle a (radians, counter-clockwise seen from above, 0 = +x) -> canvas angle -a.
     function sector(rIn,rOut,a0,a1){cx.beginPath();cx.arc(c,c,rOut*S,-a0,-a1,true);cx.arc(c,c,rIn*S,-a1,-a0,false);cx.closePath();}
     function paintRun(league,p0,p1){
@@ -239,7 +241,7 @@
   // deep polished black lacquer (the white ball reads best on it) with a gold line along the wall.
   function bowlCanvas(size,marble){
     const cv=lrDoc().createElement("canvas");cv.width=cv.height=size;const x=cv.getContext("2d"),c=size/2,S=size/2/D.RIM_IN;
-    const mv=lrDoc().createElement("canvas");mv.width=mv.height=size;const m=mv.getContext("2d");m.fillStyle="#000";m.fillRect(0,0,size,size);
+    const mv=lrDoc().createElement("canvas");mv.width=mv.height=size/2;const m=mv.getContext("2d");m.scale(.5,.5);m.fillStyle="#000";m.fillRect(0,0,size,size);
     x.fillStyle="#0b0908";x.fillRect(0,0,size,size);
     const ring=(r0,r1,style,metal)=>{for(const [g,st] of metal?[[x,style],[m,"#fff"]]:[[x,style]]){g.beginPath();g.arc(c,c,r1*S,0,Math.PI*2);g.arc(c,c,r0*S,0,Math.PI*2,true);g.fillStyle=st;g.fill();}};
     // apron: marble, tiled at its real scale, a soft lift toward the track
@@ -276,7 +278,7 @@
 
   // ---------- the scene ----------
   function lrBuild(T,host,opts,P,assets){
-    const K=lrKnobs(P.level),d=lrDoc(),reduced=opts.reducedMotion===undefined?lrReducedMotion():Boolean(opts.reducedMotion);
+    const K=lrKnobs(P.level,Boolean(P.phone)),d=lrDoc(),reduced=opts.reducedMotion===undefined?lrReducedMotion():Boolean(opts.reducedMotion);
     let thePlan=opts.plan;
     const canvas=d.createElement("canvas");canvas.className="leagueRoulette3d";canvas.setAttribute("aria-hidden","true");
     canvas.style.cssText="position:absolute;inset:0;width:100%;height:100%;display:block";

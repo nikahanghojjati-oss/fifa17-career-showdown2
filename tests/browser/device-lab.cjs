@@ -65,7 +65,9 @@ const SCENES = {
     rrr: { name: "RRR", url: l => `visual-assets/v10_1/roulette/index.html?showcase=1&gfx=${l}${TOP}` },
     sp: { name: "SP pack", url: l => `visual-assets/v10_1/special-player/index.html?gfx=${l}${TOP}` },
     // r96: the Ball Game, as the Device check times it.
-    ball: { name: "Ball Game", url: l => `device-check-ball.html?gfx=${l}${TOP}` }
+    ball: { name: "Ball Game", url: l => `device-check-ball.html?gfx=${l}${TOP}` },
+    // r98 (R98-01): the League Roulette at its game size (?fill=1), dropping all four balls on a loop (?auto=1).
+    league: { name: "League Roulette", url: l => `tools/league-roulette-lab.html?gfx=${l}${TOP}&panel=0&fill=1&auto=1` }
 };
 const LEVEL_NAMES = ["Light", "Balanced", "High", "Extra", "Ultra (4K)", "8K"];
 
