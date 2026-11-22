@@ -336,4 +336,5 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-17 03:45 | Team G | Team V | HO-096 SENT | Story art: lounge plate, leather book cover, Making Of banner (r95) | yes (receive it) |
 | 2026-11-17 03:46 | Team V | Team G | HO-096 RECEIVED | Story art: lounge plate, leather book cover, Making Of banner (r95) | no |
 | 2026-11-17 03:55 | Team V | Team G | HO-096 DONE | Story art: lounge plate, leather book cover, Making Of banner (r95) | no |
+| 2026-11-22 02:24 | Team G | Team V | HO-097 SENT | League Roulette room without the men (phone upright, tall, sideways) | yes (receive it) |
 | 2026-11-22 02:48 | Team V | Team G | HO-097 DONE | League Roulette room without the men (phone upright, tall, sideways) | no |
