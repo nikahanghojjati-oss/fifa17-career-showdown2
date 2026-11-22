@@ -779,6 +779,9 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_590W.webp":"28a8f08a43ea409b35b02275cfcf6741b23ba5b897432df9e1da56de08d80e75",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_TALL.webp":"6f74f7503a231edad302bffde9ebdde01578835dcae2b089f9c4408a0918b666",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V3_TALL_590W.webp":"c2afbe5ad0edd820bf53c96cd492c97946985418307203a5b62ba592bd93467b",
+    // R98-01 (Nik 2026-11-22): League Roulette on phones stands in the box room without the two men. Until Team V's men-free
+    // room (HO-097) lands, it is the empty middle of ENV_BOX_PLATE_HC_V3_2X (x 1156-1916, full height, unedited pixels).
+    "visual-assets/v10_1/plates-hc/ENV_BOX_ROOM_LR_PHONE_V1.webp":"c4bfdd668b2d8491b391d0f9d9e0711c5c7668856b8c4d23caa0a4feda097c00",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_1X.webp":"485d49234ec0cb5d146f159aff45797615059be0549e2b3c6ca02a014b45a4dd",
     "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V3_2X.webp":"f6e4309c3a6eb3f1d8ff96431123692966e619435ce4d9f0d46cd727c28ebf93",
     "visual-assets/v10_1/plates-hc/ENV_HALL_PHONE_HC_V3.webp":"7309ab041d465de5d33ee05c6961ec09b7b62d1733259034261ccdf261831d1d",
@@ -1526,7 +1529,8 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // footer, nothing else.
   // Re-pinned 2026-11-20 by the 2.10.0 release bump: the 2.9.0 file (r97 never changed it) with its 2.10.0-r97 pins and v2.10.0
   // footer, nothing else.
-  assert.equal(sha256("index.html"),"900455c53110baf3c29df42db4f3592b3ce06e1c168d10e71a4ccd79292e399f","index.html is 2.10.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, 2.10.0-r97 pins)");
+  // Re-pinned 2026-11-22 by R98-01 look round 2: the league screen title reads LEAGUE ROULETTE (Nik), nothing else.
+  assert.equal(sha256("index.html"),"9301682288a21cc5d88daa75039b47bde8e5d81ad17245aeddbe70045c271e05","index.html is 2.10.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, 2.10.0-r97 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);

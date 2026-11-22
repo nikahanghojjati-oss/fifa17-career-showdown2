@@ -147,38 +147,49 @@
   const wrapPi=a=>{a=(a+Math.PI)%(Math.PI*2);if(a<0)a+=Math.PI*2;return a-Math.PI;};
 
   // ---------- the board canvas (pockets, sections, names, marks), drawn top-down in the wheel's own frame ----------
-  function boardPainter(size,marks){
+  function boardPainter(size,marks,marble){
     const d=lrDoc(),cv=d.createElement("canvas");cv.width=cv.height=size;const cx=cv.getContext("2d"),c=size/2,S=size/2/D.RW;
-    const shade=(hex,k)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(k<0?v*(1+k):v+(255-v)*k)));return `rgb(${f(n>>16)},${f((n>>8)&255)},${f(n&255)})`;};
-    // Board angle a (radians, counter-clockwise seen from above, 0 = +x) -> canvas angle -a.
+        // Board angle a (radians, counter-clockwise seen from above, 0 = +x) -> canvas angle -a.
     function sector(rIn,rOut,a0,a1){cx.beginPath();cx.arc(c,c,rOut*S,-a0,-a1,true);cx.arc(c,c,rIn*S,-a1,-a0,false);cx.closePath();}
     function paintRun(league,p0,p1){
       const L=LEAGUE_LOOK[league],a0=p0*STEP,a1=p1*STEP;
-      sector(D.POCKET_IN,D.POCKET_OUT,a0,a1);cx.fillStyle=shade(L.colour,-.18);cx.fill();
-      const g=cx.createRadialGradient(c,c,D.CONE_IN*S,c,c,D.CONE_OUT*S);g.addColorStop(0,shade(L.colour,.16));g.addColorStop(.55,L.colour);g.addColorStop(1,shade(L.colour,-.22));
-      sector(D.CONE_IN,D.CONE_OUT,a0,a1);cx.fillStyle=g;cx.fill();
-      // the league's accent: a thin band at the cone's foot
-      sector(D.CONE_OUT-.035,D.CONE_OUT-.02,a0,a1);cx.fillStyle=L.accent;cx.globalAlpha=.85;cx.fill();cx.globalAlpha=1;
+      // Nik 2026-11-22: the league's own colour, flat (no lighter or darker shading, no second colour band)
+      sector(D.POCKET_IN,D.POCKET_OUT,a0,a1);cx.fillStyle=L.colour;cx.fill();
+      sector(D.CONE_IN,D.CONE_OUT,a0,a1);cx.fillStyle=L.colour;cx.fill();
+      // an engraved guilloché in the colour itself: fine rays and rings cut into the lacquer, read as texture, not a tint
+      cx.save();sector(D.CONE_IN,D.CONE_OUT,a0,a1);cx.clip();cx.lineWidth=.0035*S;cx.strokeStyle="rgba(255,255,255,.075)";
+      for(let a=a0;a<a1;a+=STEP/6){cx.beginPath();cx.moveTo(c+Math.cos(a)*D.CONE_IN*S,c-Math.sin(a)*D.CONE_IN*S);cx.lineTo(c+Math.cos(a)*D.CONE_OUT*S,c-Math.sin(a)*D.CONE_OUT*S);cx.stroke();}
+      cx.strokeStyle="rgba(0,0,0,.12)";for(let r=D.CONE_IN+.03;r<D.CONE_OUT;r+=.03){cx.beginPath();cx.arc(c,c,r*S,-a0,-a1,true);cx.stroke();}
+      cx.restore();
     }
     function goldLine(a,rIn,rOut,w){cx.beginPath();cx.moveTo(c+Math.cos(a)*rIn*S,c-Math.sin(a)*rIn*S);cx.lineTo(c+Math.cos(a)*rOut*S,c-Math.sin(a)*rOut*S);cx.lineWidth=w*S;cx.strokeStyle="#e9c46a";cx.stroke();}
     function ring(r,w,col){cx.beginPath();cx.arc(c,c,r*S,0,Math.PI*2);cx.lineWidth=w*S;cx.strokeStyle=col;cx.stroke();}
+    // Names sit on the outer part of the section and marks inside it (Nik 2026-11-22: big and readable). One letter size for
+    // every league: as large as the longest name allows while it stays inside its own section (60 of the section's 72 deg).
+    const LABEL_R=.655;let labelFs=0;
+    function labelSize(){
+      if(labelFs)return labelFs;
+      let widest=0;cx.save();cx.font=`700 100px "Instrument Sans Narrow","Arial Narrow",Arial,sans-serif`;
+      for(const id of WHEEL){const n=LEAGUE_LOOK[id].name.toUpperCase();widest=Math.max(widest,[...n].reduce((w,ch)=>w+cx.measureText(ch).width+8,0)-8);}
+      cx.restore();labelFs=Math.min(.092*S,(LABEL_R*S*(60*Math.PI/180))/widest*100);return labelFs;
+    }
     // Name round the arc, letter tops toward the hub (upright where the wheel faces the camera), and the mark above it.
     function label(league,mid,alpha){
-      if(alpha<=.01)return;const L=LEAGUE_LOOK[league],name=L.name.toUpperCase(),fs=.068*S,rr=.50*S;
+      if(alpha<=.01)return;const L=LEAGUE_LOOK[league],name=L.name.toUpperCase(),fs=labelSize(),rr=LABEL_R*S;
       cx.save();cx.globalAlpha=alpha;cx.font=`700 ${fs}px "Instrument Sans Narrow","Arial Narrow",Arial,sans-serif`;cx.textAlign="center";cx.textBaseline="middle";
       const track=fs*.08,widths=[...name].map(ch=>cx.measureText(ch).width+track),W=widths.reduce((s,w)=>s+w,0)-track;
-      let a=mid-W/rr/2;cx.fillStyle="#fbf3dc";cx.shadowColor="rgba(0,0,0,.55)";cx.shadowBlur=fs*.12;cx.shadowOffsetY=fs*.04;
+      let a=mid-W/rr/2;cx.fillStyle="#fbf3dc";
       [...name].forEach((ch,i)=>{const at=a+widths[i]/2/rr;cx.save();cx.translate(c+Math.cos(at)*rr,c-Math.sin(at)*rr);cx.rotate(Math.atan2(-Math.cos(at),-Math.sin(at)));cx.fillText(ch,0,0);cx.restore();a+=widths[i]/rr;});
       const im=marks[league];
-      if(im){const rm=.645*S,sz=.15*S;cx.save();cx.translate(c+Math.cos(mid)*rm,c-Math.sin(mid)*rm);cx.rotate(Math.atan2(-Math.cos(mid),-Math.sin(mid)));cx.drawImage(im,-sz/2,-sz/2,sz,sz);cx.restore();}
+      if(im){const rm=.455*S,sz=.21*S;cx.save();cx.translate(c+Math.cos(mid)*rm,c-Math.sin(mid)*rm);cx.rotate(Math.atan2(-Math.cos(mid),-Math.sin(mid)));cx.drawImage(im,-sz/2,-sz/2,sz,sz);cx.restore();}
       cx.restore();
     }
     // owners: the wheel before this beat; anim: {league,start,len,left,right,half,f} while a section splits (f 0..1).
     function lrPaintBoard(owners,anim){
       cx.clearRect(0,0,size,size);
-      // polished dark wood under everything (lip, gaps, hub)
-      const wood=cx.createRadialGradient(c,c,0,c,c,D.RW*S);wood.addColorStop(0,"#2b1a10");wood.addColorStop(.7,"#3a2414");wood.addColorStop(1,"#1d110a");
-      cx.fillStyle=wood;cx.beginPath();cx.arc(c,c,D.RW*S,0,Math.PI*2);cx.fill();
+      // black marble with its gold veins under everything (lip, gaps, hub)
+      cx.fillStyle="#0b0a09";cx.beginPath();cx.arc(c,c,D.RW*S,0,Math.PI*2);cx.fill();
+      if(marble){cx.save();cx.beginPath();cx.arc(c,c,D.RW*S,0,Math.PI*2);cx.clip();cx.fillStyle=cx.createPattern(marble,"repeat");cx.setTransform(size/1100,0,0,size/1100,0,0);cx.fillRect(0,0,1100,1100);cx.restore();}
       const runs=runsOf(owners);
       for(const r of runs)paintRun(r.league,r.start,r.start+r.len);
       const f=anim?Math.max(0,Math.min(1,anim.f)):0;
@@ -188,7 +199,7 @@
         if(rightLen>0)paintRun(anim.right,anim.start+anim.len-rightLen*f,anim.start+anim.len);
       }
       // pocket separators under the 3D frets
-      for(let p=0;p<POCKETS;p++){const a=p*STEP;cx.beginPath();cx.moveTo(c+Math.cos(a)*D.POCKET_IN*S,c-Math.sin(a)*D.POCKET_IN*S);cx.lineTo(c+Math.cos(a)*D.POCKET_OUT*S,c-Math.sin(a)*D.POCKET_OUT*S);cx.lineWidth=.006*S;cx.strokeStyle="rgba(10,6,3,.7)";cx.stroke();}
+      for(let p=0;p<POCKETS;p++){const a=p*STEP;cx.beginPath();cx.moveTo(c+Math.cos(a)*D.POCKET_IN*S,c-Math.sin(a)*D.POCKET_IN*S);cx.lineTo(c+Math.cos(a)*D.POCKET_OUT*S,c-Math.sin(a)*D.POCKET_OUT*S);cx.lineWidth=.006*S;cx.strokeStyle="#c9a24a";cx.stroke();}
       // section borders across the cone; while a section splits, its centre line and the two moving fronts
       const edges=new Set();
       if(runs.length>1)for(const r of runs)edges.add(r.start);
@@ -227,8 +238,6 @@
     if(marble){const pat=x.createPattern(marble,"repeat");x.save();x.beginPath();x.arc(c,c,D.APRON_OUT*S,0,Math.PI*2);x.arc(c,c,(D.APRON_IN-.02)*S,0,Math.PI*2,true);x.clip();
       x.globalAlpha=1;x.fillStyle=pat;x.setTransform(size/1400,0,0,size/1400,0,0);x.fillRect(0,0,1400,1400);x.restore();}
     else ring(D.APRON_IN-.02,D.APRON_OUT,"#15110d");
-    const lift=x.createRadialGradient(c,c,D.APRON_IN*S,c,c,D.APRON_OUT*S);lift.addColorStop(0,"rgba(0,0,0,.35)");lift.addColorStop(.7,"rgba(40,30,18,.05)");lift.addColorStop(1,"rgba(90,70,40,.18)");
-    ring(D.APRON_IN-.02,D.APRON_OUT,lift);
     // eight gold rays under the deflectors, tapering toward the wheel
     for(let j=0;j<8;j++){const a=(j+.5)*Math.PI/4,w=.012;x.beginPath();
       const p=(r,da)=>[c+Math.cos(-a+da)*r*S,c+Math.sin(-a+da)*r*S];
@@ -273,8 +282,9 @@
     // bowl: marble body and rim, the polished wood ball track and apron, gold beads, eight gold deflectors
     const marbleTex=assets.marble?tex(new T.Texture(assets.marble)):null;
     if(marbleTex){marbleTex.needsUpdate=true;marbleTex.wrapS=marbleTex.wrapT=T.RepeatWrapping;marbleTex.repeat.set(10,1);marbleTex.colorSpace=T.SRGBColorSpace;marbleTex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());}
-    const marble=mat(new T.MeshStandardMaterial({color:marbleTex?0xffffff:0x15130f,map:marbleTex,roughness:.2,metalness:0,envMapIntensity:1.2}));
-    const woodM=mat(new T.MeshStandardMaterial({color:0xffffff,roughness:.2,metalness:0,envMapIntensity:1.15}));
+    // Nik 2026-11-22: black metal with gold, polished black marble; no shadows, no tints
+    const marble=mat(new T.MeshStandardMaterial({color:0x141312,roughness:.4,metalness:.85,envMapIntensity:.9}));
+    const woodM=mat(new T.MeshStandardMaterial({color:0xffffff,roughness:.3,metalness:.1,envMapIntensity:.8}));
     const gold=mat(new T.MeshStandardMaterial({color:0xe2b552,roughness:.22,metalness:1,envMapIntensity:1.25}));
     const body=new T.Mesh(geo(lathe(T,[[1.46,-.34],[1.56,-.22],[D.RIM_OUT,-.02],[1.555,.13],[1.49,.185],[D.RIM_IN+.005,.19]],K.seg)),marble);scene.add(body);
     const trackG=geo(lathe(T,[[D.RIM_IN,.19],[1.344,.16],[D.WALL,.085],[1.325,.06],[1.295,.053],[D.APRON_OUT,D.APRON_YOUT],[D.APRON_IN,D.APRON_YIN],[1.068,-.085],[1.064,-.3]],K.seg));
@@ -288,18 +298,15 @@
     const dia=new T.InstancedMesh(geo(new T.IcosahedronGeometry(.032,0)),gold,8),m4=new T.Matrix4(),q=new T.Quaternion(),sc=new T.Vector3(),ps=new T.Vector3();
     for(let j=0;j<8;j++){const a=(j+.5)*Math.PI/4,r=1.175,vert=j%2===0;q.setFromEuler(new T.Euler(0,a,0));sc.set(vert?.55:1.7,.45,vert?1.7:.55);ps.set(Math.cos(a)*r,apronY(r)+.012,-Math.sin(a)*r);m4.compose(ps,q,sc);dia.setMatrixAt(j,m4);}
     scene.add(dia);
-    // bowl shadow on the page
-    const shCv=d.createElement("canvas");shCv.width=shCv.height=128;{const x=shCv.getContext("2d"),g=x.createRadialGradient(64,64,20,64,64,64);g.addColorStop(0,"rgba(0,0,0,.75)");g.addColorStop(.62,"rgba(0,0,0,.45)");g.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=g;x.fillRect(0,0,128,128);}
-    const shTex=tex(new T.CanvasTexture(shCv));
-    const bowlShadow=new T.Mesh(geo(new T.PlaneGeometry(4.1,4.1)),mat(new T.MeshBasicMaterial({map:shTex,transparent:true,depthWrite:false})));bowlShadow.rotation.x=-Math.PI/2;bowlShadow.position.y=-.345;scene.add(bowlShadow);
+    // no shadow on the page under the bowl, and none under the ball (Nik 2026-11-22)
 
     // wheel head (turns): one lathe with the board texture laid top-down, the 40 frets, the gold turret
     const head=new T.Group();scene.add(head);
     const headG=geo(lathe(T,[[1.06,-.3],[1.06,-.075],[1.035,-.066],[D.POCKET_OUT,D.POCKET_Y+.004],[D.POCKET_OUT-.01,D.POCKET_Y],[D.POCKET_IN+.01,D.POCKET_Y],[D.POCKET_IN,D.POCKET_Y+.006],[D.CONE_OUT,-.05],[D.CONE_IN,.10],[.28,.115],[0,.118]],K.seg));
     {const p=headG.attributes.position,uv=headG.attributes.uv;for(let i=0;i<p.count;i++)uv.setXY(i,.5+p.getX(i)/(2*D.RW),.5-p.getZ(i)/(2*D.RW));uv.needsUpdate=true;}
-    const painter=boardPainter(K.board,assets.marks);
+    const painter=boardPainter(K.board,assets.marks,assets.marble);
     const boardTex=tex(new T.CanvasTexture(painter.canvas));boardTex.colorSpace=T.SRGBColorSpace;boardTex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());boardTex.minFilter=T.LinearMipmapLinearFilter;
-    const headM=mat(new T.MeshStandardMaterial({map:boardTex,roughness:.36,metalness:0,envMapIntensity:.75}));
+    const headM=mat(new T.MeshStandardMaterial({map:boardTex,roughness:.3,metalness:0,envMapIntensity:.6}));
     head.add(new T.Mesh(headG,headM));
     const fretG=geo(new T.BoxGeometry(D.POCKET_OUT-D.POCKET_IN,.032,.009));
     const frets=new T.InstancedMesh(fretG,gold,POCKETS);
@@ -318,7 +325,7 @@
     const ball=new T.Mesh(ballG,ballM);ball.visible=false;scene.add(ball);
     const bsCv=d.createElement("canvas");bsCv.width=bsCv.height=64;{const x=bsCv.getContext("2d"),g=x.createRadialGradient(32,32,2,32,32,32);g.addColorStop(0,"rgba(0,0,0,.65)");g.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=g;x.fillRect(0,0,64,64);}
     const bsM=mat(new T.MeshBasicMaterial({map:tex(new T.CanvasTexture(bsCv)),transparent:true,depthWrite:false}));
-    const ballShadow=new T.Mesh(geo(new T.PlaneGeometry(D.BR*3.2,D.BR*3.2)),bsM);ballShadow.rotation.x=-Math.PI/2;ballShadow.visible=false;scene.add(ballShadow);
+    const ballShadow=new T.Mesh(geo(new T.PlaneGeometry(D.BR*3.2,D.BR*3.2)),bsM);ballShadow.rotation.x=-Math.PI/2;ballShadow.visible=false;
     // The motion streak: a fast ball moves several of its own widths between two frames, which reads as a jumpy ball.
     // Faint copies along the path the ball just ran (evaluated from the motion itself, so the same at 30 or 120 fps)
     // blur it like a camera would. One instanced draw, additive, fading with speed.
