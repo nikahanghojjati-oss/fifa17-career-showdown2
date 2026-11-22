@@ -5,6 +5,20 @@
 Written Thu 15 Oct 2026, 6:50 p.m. Eastern, by the old Team V lead thread "Showdown Factory job board" when Nik moved Team V to a fresh thread to save usage.
 Repo: nikahanghojjati-oss/fifa17-career-showdown2. Team V work branch: `factory/v1-wtt5ye` (never main).
 
+## 0. CURRENT STATE (Sat 21 Nov 2026, 9:30 p.m. Eastern) - read this before everything below
+
+Written by the Team V supervisor lead thread (cmsg_01EujkXvkVgpeb1tEe71X8oGQEQ7VvJanZzDvXq3LNNkHs) when Nik said "start a new lead". Sections 2-5 below are from Oct and partly out of date; this block wins.
+
+**Your job now:** Team G sends picture hand-offs (HO-0NN) on leads/relay. Nik types "relay" here. You: read FEED.md tail + the handoff file, `handoff.py set HO-0NN RECEIVED --by V`, write Astra prompts, judge Nik's results, cut/export/measure, get Nik's OK, `handoff.py set HO-0NN DONE --by V --evidence ...`, `feed_sync.py --team V`, push. **NO WAKES** (ignore the WAKE text handoff.py prints; Nik types "relay HO-0NN" in Team G's thread himself).
+
+**Pictures:** ChatGPT **Work mode, Astra 6, Extra High** only (normal/incognito/outside-project chats fail). Every prompt in a code block ("prompt box"). Skill: showdown-astra-image-prompts. Astra lessons: takes words literally, say what TO make; at 9/10 stop editing; at most one small change per edit, "Keep this image exactly the same. Change only..."; never ask it to remove texture; fresh chat after 2 edits; name no clubs. **Best trick:** attach the locked HO-094 Club room (claude/project-thread-6kfnkn project-documents/hc-art/ho094/tries/CLUB_DESK_TRY1.png) as the house reference, and for phone/other crops attach the locked desktop picture and ask for "the same room, tall framing". Check every result under Team G's layout boxes at all listed screen sizes before showing Nik (phones crop ~9% off each side at 390x844).
+
+**Work branch for art:** claude/project-thread-6kfnkn, folder project-documents/hc-art/<ticket>/ (tries/, review/, exports, SHA256.json, README). Tools: hc-art/ho081/tools/fin.py (decon edge clean), hc-art/ho084/tools/crest.py (rembg isnet-general-use or KEY=1 grey colour-key cut).
+
+**Done recently (all DONE on relay):** HO-079 flat logo, HO-080 gold busts, HO-081..084 Roulette hands + crest pilot, HO-085..093 crests (crest thread), HO-094 Club room HC V3 (desktop + phone), HO-095 Club phone V4 upright + sideways (sideways must be right-anchored), HO-096 Story art (lounge, book cover wide + portrait, Making Of banner). Nothing open from Team V as of 21 Nov.
+
+**Memory:** /tmp/claude/memory/team/silo/MEMORY.md, team-v-supervisor-lead.md, gpt-image-generator-mode.md.
+
 ## 1. How to use these files
 
 | File | What it is | How to read it |
