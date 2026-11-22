@@ -558,8 +558,7 @@ async function main(){
     const R=p=>`rivalries/${rivalryId}/${p}`;
     // League wheel and the club draw's deal (Daniel's device, by itself), no fault.
     for(const m of both)await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
-    await daniel.page.locator("#spinLeague").click({timeout:30000});
-    await clubDraw.waitContinueToClubs(daniel.page);
+    await clubDraw.playLeagueRoulette(daniel,nik);
     for(const m of both)await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:120000});
     for(const m of both)await clubDraw.waitStop(m.page,120000);
     const careerOverlay=page=>visible(page,"#productionSharedCareerStartOverlay");

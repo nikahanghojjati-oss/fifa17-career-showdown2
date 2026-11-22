@@ -144,9 +144,17 @@
   function providerOptions(context){
     return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,rivalryId:context.rivalryId,sessionId:context.sessionId,deviceId:context.deviceId,nowEpochMs:Date.now(),cryptoImpl:root.crypto};
   }
+  // R98-01: the ball count of one Showdown only grows (the Rules move it by one, never back), so a read that started before
+  // this phone's own ball landed never takes the count back down; another Showdown starts from its own count.
+  function sameShowdown(a,b){return Boolean(a&&b&&a.bindingHash===b.bindingHash&&a.receipts?.[0]?.operationHash&&a.receipts[0].operationHash===b.receipts?.[0]?.operationHash);}
+  function heldDrops(result){
+    const next=Number.isInteger(result&&result.drops)?result.drops:null;
+    if(next===null||!Number.isInteger(state.setupDrops)||!sameShowdown(state.setup,result.state))return next;
+    return Math.max(next,state.setupDrops);
+  }
   function accept(result,context,message){
     if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_PROVIDER_FAILED");
-    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,saveId:context.saveId||null,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,setupUpdatedAtMs:Number.isFinite(result.updatedAtMs)?result.updatedAtMs:null,message});
+    return setState({status:"ready",busy:false,ready:true,revision:result.revision||0,phase:result.state&&result.state.phase||null,rivalryId:context.rivalryId,saveId:context.saveId||null,sessionId:context.sessionId,accountId:context.accountId,deviceId:context.deviceId,managerRole:context.managerRole,remoteRole:context.remoteRole,setup:result.state||null,setupUpdatedAtMs:Number.isFinite(result.updatedAtMs)?result.updatedAtMs:null,setupDrops:heldDrops(result),message});
   }
   // r49: taps used to be dropped with SHARED_SETUP_BUSY whenever any module's background refresh was
   // in flight (every 2.5-15s), so the wheel/packs/confirm needed a second tap. Refreshes now coalesce,
@@ -312,6 +320,36 @@
   function otherShowdown(saveId,rivalryId){const shellSave=shellSaveId(),pairRivalry=pairRivalryId();return Boolean((saveId&&shellSave&&saveId!==shellSave)||(rivalryId&&pairRivalry&&String(rivalryId)!==pairRivalry));}
   const OTHER_SHOWDOWN_OPEN=freeze({...INITIAL_STATE,open:true});
   function currentState(){return otherShowdown(state.saveId,state.rivalryId)?(state.open?OTHER_SHOWDOWN_OPEN:INITIAL_STATE):state;}
+  // R98-01 League Roulette: one ball (2, 3 or 4) dropped by this manager. The ledger this phone holds says whose ball it is,
+  // so the normal path is one small write and no read; a stale copy (the rival's poll lags, a double tap, a second tab) is
+  // refused by the Rules and the provider reads the ledger once to answer "replayed". Ball 1 is commit-league.
+  let dropInFlight=null;
+  function drop(ball){
+    if(dropInFlight)return dropInFlight;
+    if(mutateInFlight)return Promise.resolve(Object.freeze({ok:false,code:"SHARED_SETUP_BUSY"}));
+    // A read already on its way answers for the ledger before this ball: it is dropped, not adopted.
+    setupGeneration+=1;
+    const run=(async()=>{
+      const before=storageSnapshot();
+      try{
+        const context=await resolveContext();assertShellSave(context);
+        const known=state.setup&&Number.isInteger(state.setupDrops)?{drops:state.setupDrops,revision:state.revision,coordinatorRole:state.setup.coordinatorRole}:null;
+        if(typeof context.adapter.drop!=="function")fail("SHARED_SETUP_PROVIDER_UNAVAILABLE","Setup cannot make safe changes right now.");
+        const result=await context.adapter.drop({...providerOptions(context),ball,managerRole:context.managerRole,known});
+        assertStorageUnchanged(before);
+        if(!result||result.ok!==true)fail(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");
+        const drops=Math.max(Number.isInteger(state.setupDrops)?state.setupDrops:0,result.drops);
+        setState({status:"ready",busy:false,setupDrops:drops,message:result.replayed?"That ball had already dropped. Nothing was dropped twice.":"Both managers see the same ball."});
+        return Object.freeze({ok:true,drops,replayed:result.replayed===true});
+      }catch(error){
+        try{assertStorageUnchanged(before);}catch(storageError){error=storageError;}
+        const failure=describeFailure(error,"SHARED_SETUP_MUTATION_FAILED");
+        return Object.freeze({ok:false,code:failure.code,message:failure.kind==="message"?failure.text:""});
+      }
+    })();
+    dropInFlight=run;
+    return run.finally(()=>{if(dropInFlight===run)dropInFlight=null;});
+  }
   function assertShellSave(context){if(otherShowdown(context.saveId,context.rivalryId))fail("SHARED_SETUP_AUTHORITY_MISMATCH","This connection no longer matches this Showdown. Reconnect both players.");}
 
   return freeze({
@@ -328,6 +366,6 @@
     canonicalStorageMutation:false,
     canonicalStorageKeys:CANONICAL_KEYS,
     billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,persistentFirestoreCache:false,
-    refresh,mutate,openPanel,closePanel,subscribe,describeFailure,getState:currentState
+    refresh,mutate,drop,openPanel,closePanel,subscribe,describeFailure,getState:currentState
   });
 });

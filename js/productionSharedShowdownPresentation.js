@@ -35,6 +35,11 @@
   // The draw starts by itself: Daniel's device commits the six candidates and the season length right after the league, so
   // the Setup still makes its 6 writes and nobody taps to open anything. A Setup opened before R94-02 keeps the club packs.
   let drawStep=null,drawStepPromise=null,drawClubsPromise=null,drawResendAt=0,drawClosedKey="",drawListening=false;
+  // R98-01 League Roulette (Nik 2026-11-20, option A): the 3D roulette replaces the league wheel. Daniel's first ball is
+  // commit-league (it draws the league); then Nik, Daniel, Nik each drop one ball from their own phone (the ledger's
+  // `drops`, one small write each, no read). The board (js/leagueRouletteStep.js) only shows what the ledger holds, and
+  // the clubs are drawn only once the fourth ball is in. A Setup opened before the roulette keeps its league at once.
+  let rouletteStep=null,rouletteStepPromise=null,rouletteListening=false;
 
   function ssjpPending(){
     const entry=root.CareerModeProductionSharedJourneyEntry;
@@ -68,6 +73,8 @@
     ssjpClearTimers();ssjpClearLeagueForwardWaiter();if(drawStep)drawStep.dispose();drawClosedKey="";drawResendAt=0;witnessedLeagueId=null;leagueSpinUntil=0;witnessedClubDigest=null;revealingClubDigest=null;clubRevealComplete=false;revealedSummaryClubs=0;preparedSeasonCommitPromise=null;autoCareerStartKey="";
     const league=root.document&&root.document.getElementById("leagueWheelScreen"),club=root.document&&root.document.getElementById("clubWheelScreen");
     if(league)delete league.dataset.sharedLeagueWitnessed;
+    // Another Showdown on this page: its board starts again from its own ledger.
+    if(rouletteStep&&rouletteStep.armed()){rouletteStep.arm(false);rouletteStep.arm(true);}
     if(club){delete club.dataset.sharedClubPacksWitnessed;delete club.dataset.sharedPackDigest;delete club.dataset.clubDraw;}
   }
   function ssjpAdoptState(next){
@@ -89,6 +96,25 @@
   }
   async function ssjpEnsureGameplay(){if(typeof root.ensureGameplayModules!=="function")throw new Error("Gameplay presentation loader is unavailable.");await root.ensureGameplayModules();if(typeof root.ensureRequiredFootballVisualExperience==="function")await root.ensureRequiredFootballVisualExperience();}
   function ssjpIsDraw(setup){return Boolean(setup&&typeof setup==="object"&&Object.hasOwn(setup,"stops"));}
+  function ssjpEnsureRouletteStep(){
+    if(rouletteStep)return Promise.resolve(rouletteStep);
+    if(!rouletteStepPromise)rouletteStepPromise=ssjpLoadScript("league-roulette-step","js/leagueRouletteStep.js",()=>root.CareerModeLeagueRouletteStep).then(()=>{
+      rouletteStep=root.CareerModeLeagueRouletteStep||null;
+      // A ball setting off, landing, its section joining the neighbours, or the board opening re-renders the words.
+      if(rouletteStep&&!rouletteListening){rouletteListening=true;rouletteStep.on(type=>{if(type!=="drop"&&active&&ssjpPending()&&ssjpActiveScreen()==="leagueWheelScreen")void ssjpRenderLeague();});}
+      return rouletteStep;
+    }).catch(error=>{rouletteStepPromise=null;throw error;});
+    return rouletteStepPromise;
+  }
+  function ssjpRouletteOn(){return Boolean(rouletteStep&&rouletteStep.armed());}
+  // The roulette ledger carries `drops`; one opened before R98 does not (its league shows at once, its clubs follow at once).
+  function ssjpRouletteLedger(){return Number.isInteger(state?.setupDrops);}
+  function ssjpDrops(){return ssjpRouletteLedger()?state.setupDrops:4;}
+  // The ball's owner: the coordinator (Daniel) drops balls 1 and 3, his rival balls 2 and 4 (js/sharedShowdownSetup.js rouletteDropRole).
+  function ssjpBallRole(ball){const coordinator=state?.setup?.coordinatorRole;return ball%2===1?coordinator:(coordinator==="playerOne"?"playerTwo":"playerOne");}
+  function ssjpRoleName(role){return String(ssjpManagers()[role]||(role===state?.setup?.coordinatorRole?"Daniel":"Nik"));}
+  // Both phones build the same board from the same shared Showdown: its binding and the open receipt.
+  function ssjpRouletteSeed(setup){const receipt=setup&&Array.isArray(setup.receipts)?setup.receipts[0]:null;return `${setup&&setup.bindingHash||""}|${receipt&&receipt.operationHash||""}`;}
   function ssjpEnsureDrawStep(){
     if(drawStep)return Promise.resolve(drawStep);
     if(!drawStepPromise)drawStepPromise=ssjpLoadScript("club-draw-step","js/clubDrawStep.js",()=>root.CareerModeClubDrawStep).then(()=>{
@@ -103,7 +129,7 @@
   // Daniel's device moves a draw Setup (2, or 3 since R95-01: six clubs a ball) on by itself: the six candidates right after the league, then his season length.
   function ssjpDrawAdvance(setup){
     if(!active||!ssjpPending()||!ssjpIsDraw(setup)||!ssjpCoordinator()||busy)return false;
-    if(setup.phase==="LEAGUE_WHEEL_COMMITTED"){if(!drawClubsPromise)drawClubsPromise=ssjpMutate("commit-clubs").finally(()=>{drawClubsPromise=null;});return true;}
+    if(setup.phase==="LEAGUE_WHEEL_COMMITTED"){if(ssjpRouletteLedger()&&state.setupDrops<4)return false;if(!drawClubsPromise)drawClubsPromise=ssjpMutate("commit-clubs").finally(()=>{drawClubsPromise=null;});return true;}
     if(setup.phase==="CLUB_ASSIGNMENTS_COMMITTED"){void ssjpCommitPreparedSeasonLength();return true;}
     return false;
   }
@@ -143,6 +169,7 @@
     const screen=root.document.getElementById("leagueWheelScreen"),result=root.document.getElementById("selectedLeague"),button=root.document.getElementById("spinLeague"),note=root.document.getElementById("leagueStateNote"),wheel=root.document.getElementById("leagueWheel"),track=wheel&&wheel.querySelector(".wheelTrack");
     if(!screen||!button||!result)return false;screen.dataset.sharedPresentationRole=state&&state.managerRole||"unresolved";
     const ready=Boolean(state&&state.ready);
+    if(ssjpRouletteOn()){ssjpRouletteSync();if(ready)return ssjpRenderRoulette(screen,result,button,note);}
     if(!ready){ssjpClearLeagueLock(null,track);ssjpText(result,"Connect both players to spin");ssjpSetControl(button,{label:"CONNECT BOTH PLAYERS FIRST",disabled:true});if(note){ssjpText(note,state&&state.message||"Both players must be connected before the wheel can spin.");note.classList.remove("hidden");}return true;}
     if(!state.setup){ssjpClearLeagueLock(note,track);ssjpText(result,"League wheel ready");ssjpSetControl(button,{label:state.remoteRole==="host"?"SPIN WHEEL":`WAITING FOR ${ssjpHostUpper()}`,disabled:state.remoteRole!=="host"||ssjpActionBusy()});ssjpSetSharedStatus(state.remoteRole==="host"?"BOTH PLAYERS CONNECTED · Spin the wheel.":`BOTH PLAYERS CONNECTED · Waiting for ${ssjpHostName()} to spin.`);return true;}
     if(state.setup.phase==="SHARED_SETUP_OPEN"){ssjpClearLeagueLock(note,track);ssjpText(result,"Spin to reveal the league");ssjpSetControl(button,{label:ssjpCoordinator()?"SPIN WHEEL":`WAITING FOR ${ssjpHostUpper()} TO SPIN`,disabled:!ssjpCoordinator()||ssjpActionBusy()});ssjpSetSharedStatus(ssjpCoordinator()?"SETUP OPEN · Spin the wheel.":`SETUP OPEN · Waiting for ${ssjpHostName()} to spin.`);return true;}
@@ -158,6 +185,56 @@
     if(ssjpIsDraw(state.setup)){ssjpDrawAdvance(state.setup);ssjpDrawPrepare(state.setup);}
     ssjpText(result,league&&league.name||state.setup.leagueId);
     ssjpSetControl(button,{label:ssjpIsDraw(state.setup)?"CONTINUE TO BALL GAME":"CONTINUE TO CLUB PACKS",disabled:ssjpActionBusy()});if(note){ssjpText(note,`${league&&league.name||state.setup.leagueId} is locked for both managers. No reroll.`);note.classList.remove("hidden");}ssjpSetSharedStatus(ssjpIsDraw(state.setup)?"LEAGUE REVEALED · Next: the Ball Game.":"LEAGUE REVEALED · Next: the club packs.");return true;
+  }
+
+  // R98-01: Select League as the League Roulette. The button is DROP BALL for the manager whose ball it is and a plain
+  // "waiting" for the other; it rests while a ball rolls; the league is named only once the fourth ball has joined the board.
+  function ssjpRenderRoulette(screen,result,button,note){
+    const step=rouletteStep,setup=state.setup,hideNote=()=>{if(note){ssjpText(note,"");note.classList.add("hidden");}};
+    if(!setup||setup.phase==="SHARED_SETUP_OPEN"){
+      const mine=setup?ssjpCoordinator():state.remoteRole==="host";
+      ssjpText(result,"Five leagues. Four balls. One league stays.");
+      ssjpSetControl(button,{label:mine?"DROP BALL":`WAITING FOR ${ssjpHostUpper()}`,disabled:!mine||ssjpActionBusy()});
+      ssjpSetSharedStatus(mine?"BOTH PLAYERS CONNECTED · Drop the first ball.":`BOTH PLAYERS CONNECTED · ${ssjpHostName()} drops the first ball.`);
+      hideNote();return true;
+    }
+    const drops=ssjpDrops();
+    if(ssjpIsDraw(setup)){ssjpDrawAdvance(setup);ssjpDrawPrepare(setup);}
+    const league=ssjpLeagueRecord(setup.leagueId),name=league&&league.name||setup.leagueId;
+    if(!step.caughtUp()){
+      const index=Math.min(3,step.stage()),who=ssjpRoleName(ssjpBallRole(index+1)).toUpperCase();
+      ssjpText(result,`Ball ${index+1} of 4 · ${who}`);
+      ssjpSetControl(button,{label:"BALL ROLLING…",disabled:true});
+      ssjpSetSharedStatus(`${who}'S BALL IS ROLLING · Both managers see the same ball.`);
+      hideNote();return true;
+    }
+    if(drops<4){
+      const ball=drops+1,role=ssjpBallRole(ball),mine=role===state.managerRole,who=ssjpRoleName(role).toUpperCase();
+      const out=step.leagueOut(drops-1),outName=out?(ssjpLeagueRecord(out)?.name||out):"";
+      ssjpText(result,outName?`${outName} is out`:`Ball ${drops} of 4 is in`);
+      ssjpSetControl(button,{label:mine?"DROP BALL":`WAITING FOR ${who}`,disabled:!mine||ssjpActionBusy()});
+      ssjpSetSharedStatus(mine?`YOUR BALL · Ball ${ball} of 4.`:`${who} DROPS NEXT · Ball ${ball} of 4.`);
+      hideNote();return true;
+    }
+    if(witnessedLeagueId!==setup.leagueId){witnessedLeagueId=setup.leagueId;screen.dataset.sharedLeagueWitnessed=setup.leagueId;ssjpLater(ssjpAutoForwardToClubs,LEAGUE_REVEAL_HOLD_MS);}
+    ssjpText(result,name);
+    ssjpSetControl(button,{label:ssjpIsDraw(setup)?"CONTINUE TO BALL GAME":"CONTINUE TO CLUB PACKS",disabled:ssjpActionBusy()});
+    if(note){ssjpText(note,`${name} is locked for both managers. No reroll.`);note.classList.remove("hidden");}
+    ssjpSetSharedStatus(ssjpIsDraw(setup)?"LEAGUE LOCKED · Next: the Ball Game.":"LEAGUE LOCKED · Next: the club packs.");
+    return true;
+  }
+  // The board follows the ledger as this phone holds it (also before both players are connected, so it never waits).
+  function ssjpRouletteSync(){
+    const setup=state&&state.setup,step=rouletteStep;
+    if(!setup||!setup.leagueId||!ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED"))step.sync({seed:"",winner:null,drops:0});
+    else step.sync({seed:ssjpRouletteSeed(setup),winner:setup.leagueId,drops:ssjpDrops(),instant:!ssjpRouletteLedger()});
+    void step.ensure();
+  }
+  async function ssjpDrop(ball){
+    if(busy){lastMutationCode="SHARED_SETUP_BUSY";lastMutationMessage="";return false;}
+    busy=true;lastMutationCode="";lastMutationMessage="";
+    const run=(async()=>{try{const api=await ssjpEnsureSetup();if(typeof api.drop!=="function"){lastMutationCode="SHARED_SETUP_PROVIDER_UNAVAILABLE";return false;}const result=await api.drop(ball),landed=Boolean(result&&result.ok===true),replayed=landed&&result.replayed===true;try{const b=root.document&&root.document.getElementById("spinLeague");if(b&&b.dataset)b.dataset.sharedDrop=`${ball}:${result&&result.ok===true?"ok":"refused"}:${result&&(result.code||(result.replayed?"replayed":result.drops))}`;}catch(_error){}ssjpAdoptState(api.getState());lastMutationCode=landed?"":String(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");lastMutationMessage=landed?"":String(result&&result.message||"");return replayed?"replayed":landed;}finally{busy=false;await ssjpRenderCurrent();}})();
+    mutationPromise=run;run.finally(()=>{if(mutationPromise===run)mutationPromise=null;}).catch(()=>{});return run;
   }
 
   function ssjpAutoForwardToClubs(){
@@ -353,7 +430,7 @@
   // Daniel's SPIN (open + commit-league) ended on "THAT TAP DID NOT GO THROUGH · Both managers now have the same setup."
   function ssjpMutationLanded(result){return Boolean(result&&(result.ok===true||(result.ok===undefined&&result.status==="ready"&&!result.errorCode)));}
   async function ssjpMutate(type,extra){if(busy){lastMutationCode="SHARED_SETUP_BUSY";lastMutationMessage="";return Promise.resolve(false);}busy=true;lastMutationCode="";lastMutationMessage="";const run=(async()=>{try{const api=await ssjpEnsureSetup(),result=await api.mutate(type,extra||{}),landed=ssjpMutationLanded(result);ssjpAdoptState(api.getState());await ssjpRenderCurrent();lastMutationCode=landed?"":String(result&&result.code||"SHARED_SETUP_MUTATION_FAILED");lastMutationMessage=landed?"":String(result&&result.message||"");return landed;}finally{busy=false;await ssjpRenderCurrent();}})();mutationPromise=run;run.finally(()=>{if(mutationPromise===run)mutationPromise=null;}).catch(()=>{});return run;}
-  function ssjpStateSignature(){return state?`${state.ready?1:0}|${state.remoteRole||""}|${state.setup?.phase||""}|${state.setup?.revision||0}`:"";}
+  function ssjpStateSignature(){return state?`${state.ready?1:0}|${state.remoteRole||""}|${state.setup?.phase||""}|${state.setup?.revision||0}|${Number.isInteger(state.setupDrops)?state.setupDrops:""}`:"";}
   async function ssjpAwaitIdle(){for(let attempt=0;attempt<3&&mutationPromise;attempt+=1){try{await mutationPromise;}catch(_error){}}}
   async function ssjpCommitPreparedSeasonLength(){
     if(preparedSeasonCommitPromise)return preparedSeasonCommitPromise;
@@ -389,8 +466,16 @@
     if(!state)return "stale";
     if(id==="spinLeague"){
       if(!state.ready)return "stale";
-      if(!state.setup){if(state.remoteRole!=="host")return "stale";if(!await ssjpMutate("open",{draw:3}))return "failed";}
+      const roulette=ssjpRouletteOn();
+      if(!state.setup){if(state.remoteRole!=="host")return "stale";if(!await ssjpMutate("open",roulette?{draw:3,roulette:true}:{draw:3}))return "failed";}
       if(state.setup&&state.setup.phase==="SHARED_SETUP_OPEN"){if(!ssjpCoordinator())return "stale";return await ssjpMutate("commit-league")?"done":"failed";}
+      // R98-01: balls 2-4, each from the phone of the manager whose ball it is, once the last one has come to rest.
+      if(roulette&&state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"&&ssjpRouletteLedger()&&state.setupDrops<4){
+        if(!rouletteStep.caughtUp())return "done";
+        const ball=state.setupDrops+1;if(ssjpBallRole(ball)!==state.managerRole)return "stale";
+        // A ball this phone held as next had already dropped (its copy was behind): the tap re-reads and drops the real next one.
+        const dropped=await ssjpDrop(ball);return dropped==="replayed"?"stale":dropped?"done":"failed";
+      }
       if(state.setup&&ssjpPhaseAtLeast("LEAGUE_WHEEL_COMMITTED")){if(witnessedLeagueId!==state.setup.leagueId){await ssjpRenderLeague();return "done";}if(ssjpIsDraw(state.setup)&&!ssjpDrawReady(state.setup)){ssjpDrawAdvance(state.setup);ssjpDrawPrepare(state.setup);ssjpLater(ssjpAutoForwardToClubs,250);ssjpSetSharedStatus("LEAGUE REVEALED · Getting the Ball Game ready.");return "done";}ssjpForceScreen("clubWheelScreen");await ssjpRenderClub();return "done";}return "stale";
     }
     if(id==="openClubPack"){if(state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"&&ssjpCoordinator())return await ssjpMutate("commit-clubs")?"done":"failed";return "stale";}
@@ -418,14 +503,16 @@
   async function ssjpHandleControlClickNow(id){
     if(!ssjpHandlesControl(id))return false;await ssjpEnsureSetup();await ssjpAwaitIdle();
     tapFailure="";tapFailureCode="";tapFailureSignature="";
-    const first=await ssjpDecideControl(id);if(first==="done")return true;
+    const first=await ssjpDecideControl(id);ssjpNoteTap(id,first);if(first==="done")return true;
     const before=ssjpStateSignature();
     try{await ssjpRefresh();}catch(_error){}
     if(first==="stale"&&ssjpStateSignature()===before)return true;
-    const second=await ssjpDecideControl(id);
+    const second=await ssjpDecideControl(id);ssjpNoteTap(id,`${first}/${second}`);
     if(second==="failed"){const failure=ssjpDescribeFailure(lastMutationCode,lastMutationMessage);tapFailure=`THAT TAP DID NOT GO THROUGH · ${failure.tapDetail}`;tapFailureCode=failure.code;tapFailureSignature=ssjpStateSignature();}
     return true;
   }
+  // The last tap's outcome on the button itself (done, stale, failed): what a browser proof reads when a step does not move.
+  function ssjpNoteTap(id,outcome){const button=root.document&&root.document.getElementById(id);if(button&&button.dataset)button.dataset.sharedTap=`${outcome}@${ssjpStateSignature()}`;}
   function ssjpHandleControlClick(id){
     if(!ssjpHandlesControl(id))return Promise.resolve(false);
     if(actionPromise)return actionPromise;
@@ -441,8 +528,8 @@
     actionPromise=current;
     return current;
   }
-  async function ssjpActivate(){active=true;await ssjpEnsureGameplay();await ssjpEnsureSetup();await ssjpRefresh();const plain=root.document&&root.document.getElementById("productionSharedSetupOverlay");if(plain)plain.classList.add("hidden");ssjpForceScreen("leagueWheelScreen");await ssjpRenderLeague();ssjpStartPolling();return true;}
-  function ssjpDeactivate(){active=false;ssjpStopPolling();ssjpResetWitnesses();presentationContextKey="";actionPromise=null;workingControlId="";tapFailure="";tapFailureCode="";tapFailureSignature="";const panel=root.document&&root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.remove();const note=root.document&&root.document.getElementById(STATUS_ID);if(note)note.remove();return true;}
+  async function ssjpActivate(){active=true;await ssjpEnsureGameplay();await ssjpEnsureSetup();await ssjpRefresh();const plain=root.document&&root.document.getElementById("productionSharedSetupOverlay");if(plain)plain.classList.add("hidden");try{const step=await ssjpEnsureRouletteStep();if(step)step.arm(true);}catch(_error){}ssjpForceScreen("leagueWheelScreen");await ssjpRenderLeague();ssjpStartPolling();return true;}
+  function ssjpDeactivate(){active=false;ssjpStopPolling();ssjpResetWitnesses();if(rouletteStep)rouletteStep.arm(false);presentationContextKey="";actionPromise=null;workingControlId="";tapFailure="";tapFailureCode="";tapFailureSignature="";const panel=root.document&&root.document.getElementById(SEASON_PANEL_ID);if(panel)panel.remove();const note=root.document&&root.document.getElementById(STATUS_ID);if(note)note.remove();return true;}
   function ssjpInstall(){if(installed)return true;installed=true;return true;}
 
   return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-showdown-polished-presentation",productionEnabled:true,pairingRequired:true,exactActiveSessionRequired:true,providerOwnsDrawAuthority:true,bothManagerRolesWitnessLeagueWheel:true,bothManagerRolesWitnessClubPacks:true,peerAutoRefreshesAuthority:true,singleClickActionSerialization:true,contextScopedRevealWitnesses:true,oneClickFinalConfirmationHandoff:true,leagueRevealAutoForwardsToClubPacks:true,firstConfirmerAutoOpensCareerStart:true,usesLeagueWheelScreen:true,usesClubPackRevealScreen:true,engineeringSetupPanelPlayerFacing:false,localRandomLeagueAuthority:false,localRandomClubAuthority:false,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,appCheckEnforcementRequired:false,install:ssjpInstall,activate:ssjpActivate,deactivate:ssjpDeactivate,refresh:ssjpRefresh,handleControlClick:ssjpHandleControlClick,handlesControl:ssjpHandlesControl,renderCurrent:ssjpRenderCurrent,isPresentationActive:()=>active&&ssjpPending(),getState:()=>Object.freeze({active:active&&ssjpPending(),phase:state&&state.setup&&state.setup.phase||null,revision:state&&state.setup&&state.setup.revision||0,managerRole:state&&state.managerRole||null,route:ssjpActiveScreen(),leagueWitnessed:witnessedLeagueId,clubPacksWitnessed:witnessedClubDigest,clubRevealComplete})});

@@ -188,6 +188,8 @@ const SHELL_PATHS = Object.freeze([
   "js/chamberMenScene3d.js",
   "js/clubDrawStep.js",
   "js/clubDrawScene3d.js",
+  "js/leagueRouletteStep.js",
+  "js/leagueRouletteScene3d.js",
   "css/clubDraw.css",
   "js/chamberMenStadium3d.js",
   "js/chamberMen.js",
@@ -395,7 +397,7 @@ const OFFLINE_PACK_PATHS = new Set([
     "visual-assets/v10_1/content/frontpage.js","visual-assets/v10_1/content/gazette/fonts/unifrakturmaguntia-latin-400-normal.woff2",
     "visual-assets/v10_1/content/gazette/fonts/LICENSE-unifrakturmaguntia.txt",
     "js/iconGuessStep.js","js/iconGuess.js","js/iconNames.js","data/icons.js","visual-assets/v10_1/icon-guess/index.html","js/chamberMenStep.js",
-    "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/clubAssignment.js","js/clubDrawStep.js","js/clubDrawScene3d.js","css/clubDraw.css","js/dataEngine.js",
+    "js/chamberMenScene3d.js","visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js","js/chamberMenStadium3d.js","js/chamberMen.js","css/chamberMen.css","js/squadSheetStep.js","js/squadSheet.js","js/squadScreen.js","css/squadScreen.css","js/clubAssignment.js","js/clubDrawStep.js","js/clubDrawScene3d.js","js/leagueRouletteStep.js","js/leagueRouletteScene3d.js","css/clubDraw.css","js/dataEngine.js",
     "js/leagueWheel.js","js/productionSharedShowdownPresentation.js","js/sharedTransferChallenge.js","js/sparkSharedTransferChallenge.js",
     "js/sparkSharedSeasonResults.js","js/ruleBook.js","js/seasonEngine.js","js/showdownUI.js","js/statistics.js","js/transferChallenge.js",
     "js/transferSelector.js","js/playerSearch.js","js/trophyRoom.js","js/visualIdentity.js","assets/marco-reus-2015-cc-by.webp",
@@ -426,7 +428,8 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // r97 adds and removes no shell path: its changes are to shell files already listed (gfxTier, Career Start, the roulette frame)
 // and to device-check.html, a standalone page always from the network. Both sets are empty, so PREVIOUS_SHELL_PATHS is this
 // build's list.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set([]);
+// R98-01 League Roulette: the live Select League board and its step.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
