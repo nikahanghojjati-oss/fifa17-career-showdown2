@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-21 9:49 PM Boston time (EST)",
+ "generated": "2026-11-21 9:51 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 333,
+  "count": 334,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -2993,6 +2993,15 @@
     "boston": "Mon 16 Nov 10:55 PM"
    },
    {
+    "time": "2026-11-22 02:24",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-097 SENT",
+    "subject": "League Roulette room without the men (phone upright, tall, sideways)",
+    "reply": "yes (receive it)",
+    "boston": "Sat 21 Nov 9:24 PM"
+   },
+   {
     "time": "2026-11-22 02:48",
     "from": "Team V",
     "to": "Team G",
@@ -3020,8 +3029,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "72e5ad5",
-  "head_boston": "Sat 21 Nov 9:48 PM",
+  "head": "5d910de",
+  "head_boston": "Sat 21 Nov 9:49 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3845,7 +3854,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 20144
+    "waiting_min": 20147
    },
    {
     "id": "HO-059",
