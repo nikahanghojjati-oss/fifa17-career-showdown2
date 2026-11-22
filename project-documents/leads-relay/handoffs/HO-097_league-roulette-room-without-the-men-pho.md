@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-22T02:24:41Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-22T02:24:41Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-22T02:30:06Z", "by": "V", "status": "WORKING", "note": "New Team V lead: parts 1+2. Astra removes the men (desktop + upright phone), V builds tall/sideways in code; part 2 = men re-placed further apart in code from V3 pixels (faces untouched)."}],
  "from_session": "session_01GU43Q7tkNNiwFECumxKomV",
- "sessions": {"G": "session_01GU43Q7tkNNiwFECumxKomV"}
+ "sessions": {"G": "session_01GU43Q7tkNNiwFECumxKomV", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
 }
 ```
 
