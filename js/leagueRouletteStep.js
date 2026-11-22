@@ -31,11 +31,31 @@
   left:calc(50% - 50% * var(--lr-scale,1) / .917);top:calc(100% - 91% * var(--lr-scale,1) / .917 - var(--lr-lift,0px))}
 #leagueWheel.lr3d-on{--lr-lift:14px}
 @media (prefers-reduced-motion:no-preference){#leagueWheel>.lr3dHost.lr3dPlaced{transition:left .35s ease,top .35s ease,width .35s ease,height .35s ease}}
+/* Team V HO-097 (Nik OK 2026-11-22): the League Roulette's own rooms. Desktop: the box room with the two men further apart
+   (ENV_BOX_PLATE_HC_V4, same frame and anchors as V3), so the board grows between them. Phones and tablets: the same room
+   without the men, upright (PHONE_HC_V4, TALL on 9:20 phones) and sideways (SIDEWAYS_HC_V4). Only while the 3D board is
+   on (html.lr3d-room); the 2D wheel keeps the V3 rooms it was placed in. */
+@media (min-width:901px) and (orientation:landscape){
+  html.lr3d-room[data-v10-setup="league"] #background,html.lr3d-room[data-v10-setup="league"][data-v10-screen] #background{background-image:url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1X.webp)!important}
+  html.lr3d-room:is([data-assets="2"],[data-assets="3"],[data-assets="4"])[data-v10-setup="league"] #background{background-image:image-set(url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1X.webp) 1x,url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_2X.webp) 2x)!important}
+}
+@media (min-width:1537px),(min-width:901px) and (min-height:865px){
+  html.lr3d-room[data-v10-setup="league"] #background,html.lr3d-room[data-v10-setup="league"][data-v10-screen] #background{background-image:image-set(url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1920.webp) 1.25x)!important}
+  html.lr3d-room:is([data-assets="2"],[data-assets="3"],[data-assets="4"])[data-v10-setup="league"] #background,html.lr3d-room:is([data-assets="2"],[data-assets="3"],[data-assets="4"])[data-v10-setup="league"][data-v10-screen] #background{background-image:image-set(url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1920.webp) 1.25x,url(visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_2X.webp) 2x)!important}
+}
 @media not all and (min-width:901px) and (orientation:landscape){
   html.lr3d-room[data-v10-setup="league"] #background,html.lr3d-room[data-v10-setup="league"][data-v10-screen] #background{
-    background-color:#0b0908!important;background-image:url(visual-assets/v10_1/plates-hc/ENV_BOX_ROOM_LR_PHONE_V1.webp)!important;
-    background-size:cover!important;background-position:50% 58%!important}
+    background-color:#0b0908!important;background-image:url(visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4.webp)!important;
+    background-size:cover!important;background-position:50% 50%!important}
+  html.lr3d-room[data-assets="0"][data-v10-setup="league"] #background{background-image:url(visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4_590W.webp)!important}
   #leagueWheel.lr3d-on{--lr-lift:0px}
+}
+@media (orientation:portrait) and (max-aspect-ratio:59/128){
+  html.lr3d-room[data-v10-setup="league"] #background,html.lr3d-room[data-v10-setup="league"][data-v10-screen] #background{background-image:url(visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4_TALL.webp)!important}
+  html.lr3d-room[data-assets="0"][data-v10-setup="league"] #background{background-image:url(visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4_TALL_590W.webp)!important}
+}
+@media (max-width:900px) and (orientation:landscape){
+  html.lr3d-room[data-v10-setup="league"] #background,html.lr3d-room[data-v10-setup="league"][data-v10-screen] #background,html.lr3d-room[data-assets="0"][data-v10-setup="league"] #background{background-image:url(visual-assets/v10_1/plates-hc/ENV_BOX_SIDEWAYS_HC_V4.webp)!important}
 }
 @media (max-width:900px) and (orientation:portrait){
   #app #leagueWheelScreen.v26Skin.lr3d-on,#app #leagueWheelScreen.v26Skin.lr3d-on :is(.wheelPointer,#leagueWheel){--v26-wheel:min(88vw,calc(100svh - 330px),640px)!important}
@@ -103,15 +123,18 @@
 
 
   // ---- Desktop placement (Nik 2026-11-22: bigger, never touching either man) ----------------------------------------
-  // On a desktop window the room plate (ENV_BOX_PLATE_HC_V3, 1536x864, drawn "cover" on #background) has Daniel left and
+  // On a desktop window the room plate (ENV_BOX_PLATE_HC_V4, 1536x864, drawn "cover" on #background) has Daniel left and
   // Nik right. The board is placed in the plate's own pixels: as large as it can be (at most 30% larger than the 2D wheel's
   // box, 389 plate px) while every row of its silhouette keeps MARGIN plate px from both men's outlines, its top clears the
   // title lines and its foot clears the buttons. Phones and tablets have no men (CSS below) and keep the box placement.
   const DESKTOP_MQ="(min-width:901px) and (orientation:landscape)";
-  const PLATE={w:1536,h:864},BASE_HOST=389,MAX_GROW=1.30,MIN_GROW=.80,MARGIN=12;
-  // The men's outlines, traced on the plate: Daniel's right edge and Nik's left edge, x at plate y (pointing hand at 397).
-  const DANIEL=[[0,400],[250,395],[280,440],[300,475],[330,490],[360,500],[385,515],[397,530],[412,530],[425,492],[440,478],[470,462],[500,456],[550,490],[600,525],[650,575],[864,600]];
-  const NIK=[[0,1075],[250,1085],[270,1060],[290,1040],[310,1010],[340,985],[370,970],[400,965],[864,962]];
+  const PLATE={w:1536,h:864},BASE_HOST=389,MAX_GROW=1.45,MIN_GROW=.80,MARGIN=12;
+  // The men's outlines on the V4 plate (Team V HO-097: the men 60 plate px further apart each), measured against Team V's
+  // empty room (ENV_BOX_PLATE_EMPTY_HC_V4, the same pixels without the men): Daniel's right edge and Nik's left edge, x at
+  // plate y, each the outermost point within 12 px above or below (pointing hand at y 400-420). Below the lip (652) the
+  // counter covers both; the line runs on from there.
+  const DANIEL=[[0,302],[80,302],[100,332],[120,344],[140,351],[160,352],[180,354],[200,354],[220,343],[240,334],[260,334],[280,329],[300,338],[320,398],[340,422],[360,432],[380,442],[400,466],[420,466],[440,443],[460,448],[480,456],[500,461],[520,470],[540,476],[560,484],[580,493],[600,498],[620,504],[640,516],[660,516],[864,540]];
+  const NIK=[[0,1150],[90,1150],[100,1150],[120,1150],[140,1144],[160,1150],[180,1150],[200,1147],[220,1147],[240,1150],[260,1150],[280,1150],[300,1150],[320,1128],[340,1090],[360,1046],[380,1029],[400,1028],[420,1024],[440,1026],[460,1032],[480,1032],[500,1033],[520,1038],[540,1046],[560,1052],[580,1060],[600,1070],[620,1082],[640,1096],[660,1116],[864,1140]];
   // The board's silhouette in its host box (rendered and measured): half-width at each 1/40 of the host's height, from .175.
   const PROFILE_TOP=.16,PROFILE_BOTTOM=.955;
   const PROFILE=[.169,.23,.278,.314,.344,.37,.39,.409,.424,.435,.446,.453,.459,.463,.463,.463,.461,.459,.453,.448,.439,.427,.412,.398,.381,.36,.338,.308,.273,.232,.169,.062];
