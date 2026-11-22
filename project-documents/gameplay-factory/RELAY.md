@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-21 9:28 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-21 9:31 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `9c22156` (Sat 21 Nov 9:24 PM Boston time) · 332 messages · 98 hand-offs · 625 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `c4ad7a9` (Sat 21 Nov 9:30 PM Boston time) · 332 messages · 98 hand-offs · 626 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-097 · G → V · League Roulette room without the men (phone upright, tall, sideways)
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Sat 21 Nov 9:30 PM · Team V · In progress · New Team V lead: parts 1+2. Astra removes the men (desktop + upright phone), V builds tall/sideways in code; part 2 = men re-placed further apart in code from V3 pixels (faces untouched).
 - Sat 21 Nov 9:24 PM · Team G · Sent
 - Sat 21 Nov 9:25 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -34,8 +35,8 @@ Nik, 2026-11-22 02:17-02:21 UTC (R98-01 League Roulette thread), in short: the l
 - Nik OKs each at a glance; no trace of a person; room looks like nothing was ever there; outside the edited zones matches V3 pixels.
 - WebP + SHA256.json in project-documents/hc-art/ho097/.
 
-### Possible part 2 (only if Nik picks it on the R98-01 builder's card)
-**ENV_BOX_PLATE_HC_V4** desktop (1536x864 1X + 2X): the men moved a bit further apart so there is about 30% more window between Daniel's fingertip and Nik's arm (for a 20-30% bigger board at 1920x866). Faces, hooks and the cabinet stay. Team G will confirm before V starts this part.
+### Part 2: GO (Nik picked "Team V widens the room" on the R98-01 builder's card, 2026-11-22 02:28 UTC)
+**ENV_BOX_PLATE_HC_V4** desktop (1536x864 1X + 2X): the men moved a bit further apart so there is about 30% more window between Daniel's fingertip and Nik's arm (for a 20-30% bigger board at 1920x866). Faces, hooks and the cabinet stay. Confirmed: start it. Team G's placement code sizes the board from the plate's two man outlines, so with the new plate Team G only retraces those two outlines; the board then grows 25-30% (ships ~14% bigger at 1920x866 until then).
 
 ### After DONE
 Team G (R98-01 builder, branch claude-gameplay/r98-league-roulette-3-look) wires the phone plates into League Roulette; until then phones use the empty middle of the desktop plate. V3 files stay; nothing is deleted.
