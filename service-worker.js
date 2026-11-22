@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.10.0-r97";
-const PREVIOUS_RUNTIME_REVISION = "2.9.0-r96";
+const RUNTIME_REVISION = "2.11.0-r98";
+const PREVIOUS_RUNTIME_REVISION = "2.10.0-r97";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -423,12 +423,10 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.10.0 (r97): PREVIOUS is the live 2.9.0-r96 (260 paths, tests/fixtures/shell-paths/2.9.0-r96.json, main 56642b8f). The STORY
+// 2.11.0 (r98): PREVIOUS is the live 2.10.0-r97 (260 paths, tests/fixtures/shell-paths/2.10.0-r97.json, main 4353ab5a). The STORY
 // site is never precached.
-// r97 adds and removes no shell path: its changes are to shell files already listed (gfxTier, Career Start, the roulette frame)
-// and to device-check.html, a standalone page always from the network. Both sets are empty, so PREVIOUS_SHELL_PATHS is this
-// build's list.
-// R98-01 League Roulette: the live Select League board and its step.
+// r98 adds the League Roulette (R98-01): the live Select League board and its step. It removes no shell path; the Team V
+// HO-097 rooms are images, runtime-cached like every other plate.
 const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut

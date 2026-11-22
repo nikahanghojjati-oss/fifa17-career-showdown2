@@ -3,7 +3,7 @@
    (pixel for pixel); Nik's option A, a crash holds only its own screen in play; the Roulette's words in the house typeface on
    every load; the Career Start heading kept and REFRESH reached by scrolling; the red team moved on; 2.10.0 going live (dateless
    until it ships). Written 20 November 2026 from gameplay/r97. Loaded by volume25.js. Builder: gameplay/r97/threads/bump/v25.py
-   (project files), or edit this JSON directly. */
+   (project files), or edit this JSON directly. 2.11.0 (r98) has its own Volume 26 (volume26-data.js). */
 window.CHRONICLE_VOLUME25={
  "capturedAt": "2026-11-20T14:30:00Z",
  "part": {

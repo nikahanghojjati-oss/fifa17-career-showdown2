@@ -8,9 +8,9 @@
 // main e6485d7d, live since 2026-11-04; 2.2.0-r89 = main 2fe8d2f5, live since 2026-11-06; 2.3.0-r90 = main a85d286a, live since
 // 2026-11-11; 2.4.0-r91 = main ac0a1338, live since 2026-11-14; 2.5.0-r92 = main 36b648ad, live since 2026-11-14; 2.5.1-r92 = main
 // 23bdd439, live since 2026-11-15; 2.6.0-r93 = main 5c5472f6, live since 2026-11-16; 2.7.0-r94 = main 5f22a328, live since
-// 2026-11-17; 2.8.0-r95 = main 30b79695, live since 2026-11-17; 2.9.0-r96 = main 56642b8f, live since 2026-11-18). 2.10.0 moves
-// PREVIOUS to 2.9.0-r96: 2.10.0 adds and removes no shell path, so both sets must be empty and the rollback list exactly 2.9.0's
-// 260; this test names any drift.
+// 2026-11-17; 2.8.0-r95 = main 30b79695, live since 2026-11-17; 2.9.0-r96 = main 56642b8f, live since 2026-11-18; 2.10.0-r97 =
+// main 4353ab5a, live since 2026-11-20). 2.11.0 moves PREVIOUS to 2.10.0-r97: 2.11.0 adds the two League Roulette files and
+// removes no shell path, so the rollback list is exactly 2.10.0's 260; this test names any drift.
 // Run: node tests/contracts/r87-upgrade-rollback-list-contracts.cjs
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -51,7 +51,7 @@ test("UR2 the rollback list equals the previous revision's real shell, path for 
   assert.deepEqual({missing,extra},{missing:[],extra:[]},`rollback list for ${w.previous} is wrong; SHELL_PATHS_ADDED_SINCE_PREVIOUS should be exactly: ${JSON.stringify(w.shell.filter(p=>!real.includes(p)))}`);
 });
 
-test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.10.0: none)",()=>{
+test("UR3 the previous build's paths are all still precached, except the ones listed as removed (2.11.0: none)",()=>{
   const real=fixture(w.previous),shell=new Set(w.shell);
   assert.deepEqual(real.filter(p=>!shell.has(p)),w.removed,"a path the previous build precached left SHELL_PATHS without being listed in SHELL_PATHS_REMOVED_SINCE_PREVIOUS");
   assert.deepEqual(w.removed.filter(p=>shell.has(p)),[],"a removed path is still in SHELL_PATHS");
@@ -64,9 +64,9 @@ test("UR4 every added path is a current shell path, listed once",()=>{
   assert.equal(new Set(w.shell).size,w.shell.length,"SHELL_PATHS lists a path twice");
 });
 
-test("UR5 a 2.10.0 worker rolls back to the live 2.9.0 build",()=>{
-  assert.equal(w.revision,"2.10.0-r97");
-  assert.equal(w.previous,"2.9.0-r96");
+test("UR5 a 2.11.0 worker rolls back to the live 2.10.0 build",()=>{
+  assert.equal(w.revision,"2.11.0-r98");
+  assert.equal(w.previous,"2.10.0-r97");
 });
 
 test("UR6 the r87 fixture is r86's list plus what 2.0.0 added, minus the seven acceptance-only scripts",()=>{
@@ -145,6 +145,14 @@ test("UR16 the 2.9.0 fixture is 2.8.0's list, path for path (r96 added and remov
   const r96=fixture("2.9.0-r96"),r95=fixture("2.8.0-r95");
   assert.equal(r96.length,260);
   assert.deepEqual(r96,r95);
+});
+
+test("UR17 the 2.10.0 fixture is 2.9.0's list, path for path (r97 added and removed no shell path); 2.11.0 adds only the League Roulette",()=>{
+  const r97=fixture("2.10.0-r97"),r96=fixture("2.9.0-r96");
+  assert.equal(r97.length,260);
+  assert.deepEqual(r97,r96);
+  assert.deepEqual(w.added,["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js"],"r98 adds the League Roulette board and its step");
+  assert.deepEqual(w.removed,[],"r98 removes no shell path");
 });
 
 console.log(`r87 upgrade rollback-list contracts: ${passed} passed (revision ${w.revision}, previous ${w.previous}, ${w.added.length} added since it)`);
