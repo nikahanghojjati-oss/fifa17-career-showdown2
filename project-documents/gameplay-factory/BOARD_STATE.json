@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-22 6:25 PM Boston time (EST)",
+ "generated": "2026-11-22 6:29 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 334,
@@ -3071,8 +3071,8 @@
      "sha": "c758d10c00647dcbd27277bd1b801280d46859fd",
      "updated": "2026-11-22T23:19:46Z",
      "gates": {
-      "passed": 1,
-      "running": 8,
+      "passed": 4,
+      "running": 5,
       "failed": 0,
       "cancelled": 0
      }
@@ -3869,7 +3869,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 21381
+    "waiting_min": 21385
    },
    {
     "id": "HO-059",
@@ -5673,8 +5673,8 @@
     "sha": "c758d10c00647dcbd27277bd1b801280d46859fd",
     "updated": "2026-11-22T23:19:46Z",
     "gates": {
-     "passed": 1,
-     "running": 8,
+     "passed": 4,
+     "running": 5,
      "failed": 0,
      "cancelled": 0
     }
