@@ -107,6 +107,11 @@
     return rouletteStepPromise;
   }
   function ssjpRouletteOn(){return Boolean(rouletteStep&&rouletteStep.armed());}
+  // Release review (#1567): the balls follow the ledger, not this phone's board. A roulette ledger before its fourth ball is
+  // played with the text steps where js/leagueRouletteStep.js did not load or arm here (as where 3D cannot run), so the
+  // rival's DROP BALL never vanishes. The board is not loaded late: it would replay balls over a screen that moved on.
+  function ssjpRouletteBallsDue(){return Boolean(state&&state.ready&&state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"&&ssjpRouletteLedger()&&state.setupDrops<4);}
+  function ssjpRouletteTextSteps(){return ssjpRouletteBallsDue()||Boolean(state&&state.ready&&state.setup&&state.setup.phase==="SHARED_SETUP_OPEN"&&ssjpRouletteLedger());}
   // The roulette ledger carries `drops`; one opened before R98 does not (its league shows at once, its clubs follow at once).
   function ssjpRouletteLedger(){return Number.isInteger(state?.setupDrops);}
   function ssjpDrops(){return ssjpRouletteLedger()?state.setupDrops:4;}
@@ -170,6 +175,7 @@
     if(!screen||!button||!result)return false;screen.dataset.sharedPresentationRole=state&&state.managerRole||"unresolved";
     const ready=Boolean(state&&state.ready);
     if(ssjpRouletteOn()){ssjpRouletteSync();if(ready)return ssjpRenderRoulette(screen,result,button,note);}
+    else if(ssjpRouletteTextSteps())return ssjpRenderRoulette(screen,result,button,note);
     if(!ready){ssjpClearLeagueLock(null,track);ssjpText(result,"Connect both players to spin");ssjpSetControl(button,{label:"CONNECT BOTH PLAYERS FIRST",disabled:true});if(note){ssjpText(note,state&&state.message||"Both players must be connected before the wheel can spin.");note.classList.remove("hidden");}return true;}
     if(!state.setup){ssjpClearLeagueLock(note,track);ssjpText(result,"League wheel ready");ssjpSetControl(button,{label:state.remoteRole==="host"?"SPIN WHEEL":`WAITING FOR ${ssjpHostUpper()}`,disabled:state.remoteRole!=="host"||ssjpActionBusy()});ssjpSetSharedStatus(state.remoteRole==="host"?"BOTH PLAYERS CONNECTED · Spin the wheel.":`BOTH PLAYERS CONNECTED · Waiting for ${ssjpHostName()} to spin.`);return true;}
     if(state.setup.phase==="SHARED_SETUP_OPEN"){ssjpClearLeagueLock(note,track);ssjpText(result,"Spin to reveal the league");ssjpSetControl(button,{label:ssjpCoordinator()?"SPIN WHEEL":`WAITING FOR ${ssjpHostUpper()} TO SPIN`,disabled:!ssjpCoordinator()||ssjpActionBusy()});ssjpSetSharedStatus(ssjpCoordinator()?"SETUP OPEN · Spin the wheel.":`SETUP OPEN · Waiting for ${ssjpHostName()} to spin.`);return true;}
@@ -201,7 +207,7 @@
     const drops=ssjpDrops();
     if(ssjpIsDraw(setup)){ssjpDrawAdvance(setup);ssjpDrawPrepare(setup);}
     const league=ssjpLeagueRecord(setup.leagueId),name=league&&league.name||setup.leagueId;
-    if(!step.caughtUp()){
+    if(step&&!step.caughtUp()){
       const index=Math.min(3,step.stage()),who=ssjpRoleName(ssjpBallRole(index+1)).toUpperCase();
       ssjpText(result,`Ball ${index+1} of 4 · ${who}`);
       ssjpSetControl(button,{label:"BALL ROLLING…",disabled:true});
@@ -210,7 +216,7 @@
     }
     if(drops<4){
       const ball=drops+1,role=ssjpBallRole(ball),mine=role===state.managerRole,who=ssjpRoleName(role).toUpperCase();
-      const out=step.leagueOut(drops-1),outName=out?(ssjpLeagueRecord(out)?.name||out):"";
+      const out=step?step.leagueOut(drops-1):null,outName=out?(ssjpLeagueRecord(out)?.name||out):"";
       ssjpText(result,outName?`${outName} is out`:`Ball ${drops} of 4 is in`);
       ssjpSetControl(button,{label:mine?"DROP BALL":`WAITING FOR ${who}`,disabled:!mine||ssjpActionBusy()});
       ssjpSetSharedStatus(mine?`YOUR BALL · Ball ${ball} of 4.`:`${who} DROPS NEXT · Ball ${ball} of 4.`);
@@ -470,8 +476,8 @@
       if(!state.setup){if(state.remoteRole!=="host")return "stale";if(!await ssjpMutate("open",roulette?{draw:3,roulette:true}:{draw:3}))return "failed";}
       if(state.setup&&state.setup.phase==="SHARED_SETUP_OPEN"){if(!ssjpCoordinator())return "stale";return await ssjpMutate("commit-league")?"done":"failed";}
       // R98-01: balls 2-4, each from the phone of the manager whose ball it is, once the last one has come to rest.
-      if(roulette&&state.setup&&state.setup.phase==="LEAGUE_WHEEL_COMMITTED"&&ssjpRouletteLedger()&&state.setupDrops<4){
-        if(!rouletteStep.caughtUp())return "done";
+      if(ssjpRouletteBallsDue()){
+        if(roulette&&!rouletteStep.caughtUp())return "done";
         const ball=state.setupDrops+1;if(ssjpBallRole(ball)!==state.managerRole)return "stale";
         // A ball this phone held as next had already dropped (its copy was behind): the tap re-reads and drops the real next one.
         const dropped=await ssjpDrop(ball);return dropped==="replayed"?"stale":dropped?"done":"failed";
