@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-23T00:13:18.510Z",
+  "at": "2026-11-23T00:13:40.294Z",
   "state": "ALL_CLEAR",
   "checks": [],
   "helpers_paused": [],
@@ -10,31 +10,31 @@
     "lanes": [
       {
         "name": "L1 core",
-        "state": "queued"
+        "state": "running"
       },
       {
         "name": "L2 browser full",
-        "state": "queued"
+        "state": "running"
       },
       {
         "name": "L3A storage gameplay",
-        "state": "queued"
+        "state": "running"
       },
       {
         "name": "L3B visual",
-        "state": "queued"
+        "state": "running"
       },
       {
         "name": "L4 remote",
-        "state": "queued"
+        "state": "running"
       },
       {
         "name": "L5 rules regression",
-        "state": "queued"
+        "state": "running"
       },
       {
         "name": "L6 browser journey",
-        "state": "queued"
+        "state": "running"
       }
     ],
     "seal": "PENDING"
