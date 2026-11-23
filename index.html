@@ -5,6 +5,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="app-asset-revision" content="2.11.0-r98">
 <title>Career Mode Showdown</title>
+<script>
+/* R99-01 clubhouse themes (Nik 2026-11-23): the clubhouse is Current (no attribute), Silver or Black Metal, picked in Settings and
+   kept by each phone or laptop for itself (localStorage; never Firestore, never sent to the other phone). A theme draws each room plate from
+   plates-hc/<theme>/ (the same room recoloured; Daniel and Nik untouched, tools/clubhouse-themes) and the panel marble from
+   css/r78-marble-tile-metal.webp. It is set here, before any sheet or picture is asked for, so no room paints in the wrong
+   colours. Sheets are rewritten as they load (capture phase, before their own load handlers), pictures as they are added.
+   The current look runs none of it: no observer, nothing rewritten. */
+(function(w,d){var K="cmsClubhouseTheme",cur=null,mo=null,P=/plates-hc\/(?:(?:silver|black)\/)?((?:ENV|TILE)_)/g,M=/r78-marble-tile(?:-metal)?\.webp/g;
+function fix(v){return v.replace(P,"plates-hc/"+(cur?cur+"/":"")+"$1").replace(M,cur?"r78-marble-tile-metal.webp":"r78-marble-tile.webp");}
+function hit(v){return v&&(v.indexOf("plates-hc/")>=0||v.indexOf("r78-marble-tile")>=0);}
+function rules(list){for(var i=0;i<list.length;i++){var r=list[i];if(r.styleSheet)sheet(r.styleSheet);if(r.cssRules)rules(r.cssRules);var s=r.style;if(!s||!hit(s.cssText))continue;
+var ps=["background","mask","-webkit-mask"];for(var j=0;j<s.length;j++)ps.push(s[j]);
+for(j=0;j<ps.length;j++){var p=ps[j],v=s.getPropertyValue(p);if(hit(v)){var f=fix(v);if(f!==v)s.setProperty(p,f,s.getPropertyPriority(p));}}}}
+function sheet(x){var l;try{l=x.cssRules;}catch(e){return;}if(l)rules(l);}
+function at(n,a){var v=n.getAttribute(a);if(hit(v)){var f=fix(v);if(f!==v)n.setAttribute(a,f);}}
+function el(n){if(n.nodeType!==1)return;var all=[n].concat([].slice.call(n.querySelectorAll("img,source,style,[style]")));
+for(var i=0;i<all.length;i++){var e=all[i];if(e.tagName==="STYLE"&&e.sheet)sheet(e.sheet);if(e.tagName==="IMG"||e.tagName==="SOURCE"){at(e,"srcset");at(e,"src");}at(e,"style");}}
+function all(){for(var i=0;i<d.styleSheets.length;i++)sheet(d.styleSheets[i]);el(d.documentElement);}
+function watch(){if(mo||!w.MutationObserver)return;mo=new MutationObserver(function(list){if(!cur)return;for(var i=0;i<list.length;i++){var m=list[i];
+if(m.type==="attributes")at(m.target,m.attributeName);else for(var j=0;j<m.addedNodes.length;j++)el(m.addedNodes[j]);}});
+mo.observe(d.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:["src","srcset"]});}
+/* A screen that builds its own <style>, or its pictures from markup, would ask for the plain room before the observer runs (a
+   picture starts loading as its markup is parsed), so that text is rewritten as it is set. Only in a theme; strings with no room
+   in them pass untouched. */
+function set(o,k,f){var D=Object.getOwnPropertyDescriptor(o,k);if(D&&D.set)Object.defineProperty(o,k,{configurable:true,enumerable:D.enumerable,get:D.get,set:function(v){D.set.call(this,f(this,v));}});}
+function hook(){var E=w.Element&&w.Element.prototype,S=w.HTMLStyleElement,T=Object.getOwnPropertyDescriptor(w.Node.prototype,"textContent");if(!E||E.__cmsClubhouse)return;E.__cmsClubhouse=1;
+var g=function(_n,v){return cur&&typeof v==="string"&&hit(v)?fix(v):v;},A=E.insertAdjacentHTML;set(E,"innerHTML",g);
+E.insertAdjacentHTML=function(where,v){return A.call(this,where,g(this,v));};
+var SA=E.setAttribute;E.setAttribute=function(k,v){return SA.call(this,k,k==="srcset"||k==="src"?g(this,v):v);};
+if(w.HTMLImageElement){set(w.HTMLImageElement.prototype,"src",g);set(w.HTMLImageElement.prototype,"srcset",g);}if(w.HTMLSourceElement)set(w.HTMLSourceElement.prototype,"srcset",g);
+if(S&&T)Object.defineProperty(S.prototype,"textContent",{configurable:true,enumerable:T.enumerable,get:T.get,set:function(v){T.set.call(this,typeof v==="string"&&hit(v)?fix(v):v);}});}
+function use(t){cur=t==="silver"||t==="black"?t:null;if(cur){d.documentElement.setAttribute("data-clubhouse",cur);hook();watch();}else d.documentElement.removeAttribute("data-clubhouse");}
+d.addEventListener("load",function(e){var t=e.target;if(cur&&t&&t.tagName==="LINK"&&t.sheet)sheet(t.sheet);},true);
+try{use(w.localStorage.getItem(K));}catch(e){}
+w.cmsClubhouse={theme:function(){return cur||"current";},fix:function(v){return typeof v==="string"&&hit(v)?fix(v):v;},set:function(t){var was=cur;use(t);try{cur?w.localStorage.setItem(K,cur):w.localStorage.removeItem(K);}catch(e){}
+if(was!==cur)all();if(!cur&&mo){mo.disconnect();mo=null;}return cur||"current";}};
+})(window,document);
+</script>
+<style>
+/* Silver rooms are light, and a title can sit on the silver wall or on a manager's black suit (phones, small windows). So the words
+   that sit straight on the room keep their colour (gold titles, light lines) and get a thin dark edge that reads on both. Black Metal
+   keeps them as they are. */
+html[data-clubhouse="silver"] :is(.hc-live-title>span,#clubWheelScreen .clubTitleFallback,.fifaMenuHeading,.fifaMenuHeading *,.ruleBookSummary,#app>footer){text-shadow:0 0 1px #0b0c0e,0 1px 1px #0b0c0e,0 0 .08em rgba(11,12,14,.9),0 .04em .3em rgba(11,12,14,.55)!important}
+html[data-clubhouse="silver"] img.hc-logo-img{filter:drop-shadow(0 2px 2px rgba(0,0,0,.75)) drop-shadow(0 0 12px rgba(0,0,0,.35))!important}
+</style>
 <link rel="preload" as="image" href="assets/loading/ENV_LOADING_PHONE_HC_590W.webp?v=2.11.0-r98" media="(orientation: portrait)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/loading/REUS_P_590W.webp?v=2.11.0-r98" media="(orientation: portrait)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/loading/ENV_LOADING_PLATE_HC_1X.webp?v=2.11.0-r98" media="(orientation: landscape)" fetchpriority="high">

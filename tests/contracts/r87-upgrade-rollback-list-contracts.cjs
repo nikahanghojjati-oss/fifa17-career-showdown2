@@ -151,7 +151,8 @@ test("UR17 the 2.10.0 fixture is 2.9.0's list, path for path (r97 added and remo
   const r97=fixture("2.10.0-r97"),r96=fixture("2.9.0-r96");
   assert.equal(r97.length,260);
   assert.deepEqual(r97,r96);
-  assert.deepEqual(w.added,["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js"],"r98 adds the League Roulette board and its step");
+  // R99-01 (2026-11-23): until the r99 bump rolls PREVIOUS to 2.11.0, the added list also carries r99's Black Metal panel marble.
+  assert.deepEqual(w.added,["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js","css/r78-marble-tile-metal.webp"],"r98 adds the League Roulette board and its step; r99 the metal panel marble");
   assert.deepEqual(w.removed,[],"r98 removes no shell path");
 });
 

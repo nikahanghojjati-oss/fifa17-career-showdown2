@@ -1063,6 +1063,39 @@ async function runSettingsEndShowdown(button){
    stored and are never shown. The ACCOUNT panel's pairing rows (Paired with ..., UNPAIR)
    are js/showdownModes.js. */
 
+// R99-01 (Nik 2026-11-23): the clubhouse look, on this device only. Current is the brown wood and marble the rooms were painted
+// in; Silver and Black Metal are the same rooms recoloured, with Daniel and Nik untouched. index.html applies the pick before
+// anything paints (window.cmsClubhouse) and keeps it in this browser; nothing is read from or written to Firestore.
+const SETTINGS_CLUBHOUSE_THEMES = [["current", "Current"], ["silver", "Silver"], ["black", "Black Metal"]];
+function createClubhouseControl(){
+    const row = createSettingsElement("div", "settingsAudioRow settingsGfxRow settingsClubhouseRow");
+    const copy = createSettingsElement("div", "settingsAudioCopy");
+    const label = createSettingsElement("strong", "", "CLUBHOUSE");
+    label.id = "settingsClubhouseLabel";
+    const hint = createSettingsElement("small", "settingsClubhouseHint", "The rooms behind every screen. Each phone or laptop keeps its own pick.");
+    hint.id = "settingsClubhouseHint";
+    copy.append(label, hint);
+    const select = createSettingsElement("select", "settingsGfxSelect settingsClubhouseSelect");
+    select.setAttribute("aria-labelledby", "settingsClubhouseLabel settingsClubhouseHint");
+    for(const [value, text] of SETTINGS_CLUBHOUSE_THEMES){
+        const option = createSettingsElement("option", "", text);
+        option.value = value;
+        select.append(option);
+    }
+    const api = window.cmsClubhouse;
+    select.value = api ? api.theme() : "current";
+    select.disabled = !api;
+    select.addEventListener("change", () => {
+        if(!window.cmsClubhouse){ return; }
+        select.value = window.cmsClubhouse.set(select.value);
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(`Clubhouse: ${select.options[select.selectedIndex].textContent}.`, "success", 2500);
+        }
+    });
+    row.append(copy, select);
+    return row;
+}
+
 function createDataPanel(){
     const live = getSettingsLiveShowdown();
     const active = live ? live.showdown : null;
@@ -1106,6 +1139,7 @@ function createDataPanel(){
     );
 
     if(active){ panel.append(info, actions, note); }else{ panel.append(info, note); }
+    panel.append(createClubhouseControl());
     return panel;
 }
 

@@ -49,6 +49,8 @@ const SHELL_FRAME_NAVIGATION_PATHS = new Set([
 // precached copies of the shell it runs (red team R87-B-03).
 const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "css/r78-marble-tile.webp",
+    // R99-01: the Silver and Black Metal clubhouses draw the panels with its metal-black copy (index.html rewrites the url).
+    "css/r78-marble-tile-metal.webp",
     "css/r95-type.css",
     // r95: the Instrument Sans variable faces the r95 type sheet asks for by a relative url(), so the request has no ?v=
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2",
@@ -356,6 +358,7 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt",
     "css/r78-marble-surfaces.css",
     "css/r78-marble-tile.webp",
+    "css/r78-marble-tile-metal.webp",
     "js/showdownConfirm.js",
     "visual-assets/v10_1/shared/navbar/navbar.css",
     "visual-assets/v10_1/shared/navbar/navbar.js",
@@ -427,7 +430,9 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // site is never precached.
 // r98 adds the League Roulette (R98-01): the live Select League board and its step. It removes no shell path; the Team V
 // HO-097 rooms are images, runtime-cached like every other plate.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js"]);
+// r99 adds the metal panel marble of the Silver and Black Metal clubhouses (R99-01, 4 KB); their room plates are images,
+// runtime-cached like every other plate.
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js","css/r78-marble-tile-metal.webp"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
