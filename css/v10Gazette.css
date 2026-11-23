@@ -331,4 +331,6 @@ html[data-gazette] #commentaryV3Bar { display: none !important; }
 }
 @container tgz (max-width: 399px) {
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text { column-count: 1; }
+  /* very narrow laptop windows: the title shrinks with the paper and may wrap, so it never runs past the paper edge */
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__mastrow > h2 { font-size: clamp(24px, 8.4cqw, 36px); white-space: normal; text-wrap: balance; }
 }
