@@ -39,7 +39,7 @@
   // build is dropped on load: the update may have fixed what failed (2.4.0 closed the tab at High; 2.5.0 fixed its memory, yet
   // 2.4.0's cap kept the Device check off High for 7 days). The level gets one fresh try per build: if it fails again, this
   // build writes its own cap, kept as before. BUILD is the service worker's RUNTIME_REVISION (the release bump moves both).
-  const BUILD="2.10.0-r97";
+  const BUILD="2.11.0-r98";
   const MEMORY_KEY=key=>`careerModeShowdown.gfxSettled.v1.${key}`;
   // r91: where a scene's heavy parts settled (its detail step, for the level it was built at), read on its next visit.
   const DETAIL_KEY=key=>`careerModeShowdown.gfxDetail.v1.${key}`,DETAIL_DAYS_MS=7*864e5;
@@ -211,7 +211,9 @@
   // "club-draw"); a hold whose screen cannot be named (scene "") holds every screen, as every cap did before, and so does a
   // cap saved in the old one-object form without screens. Each hold ends on its own: 7 days, 3 clean scenes of its screen
   // at its level (not a closed tab's), the next build; a pick in Settings ends them all.
-  const CAP_SCENES=[[/roulette|^rrr$/,"rrr"],[/special-player|^sp$/,"sp"],[/chamber/,"chamber-men"],[/ball|club-draw/,"club-draw"]];
+  // r98 (R98-01): the League Roulette is its own screen ("league"). Its entry comes first, so its name never falls into
+  // Russian Roulette's /roulette/ below; every other name keeps the mapping it had.
+  const CAP_SCENES=[[/^league(-roulette)?$/,"league"],[/roulette|^rrr$/,"rrr"],[/special-player|^sp$/,"sp"],[/chamber/,"chamber-men"],[/ball|club-draw/,"club-draw"]];
   function gfxCapScene(name){const n=String(name||"");for(const [re,k] of CAP_SCENES)if(re.test(n))return k;return "";}
   function gfxCapOk(e){return Boolean(e&&e.reason&&Number.isInteger(e.level)&&e.level>=0&&e.level<=4&&e.build===BUILD&&Date.now()-Number(e.at||0)<=CAP_DAYS_MS&&(e.clean|0)<CAP_CLEAN);}
   function gfxCapList(){
@@ -430,7 +432,22 @@
       }}
     // A 3D screen in its own frame (Roulette, the pack, the Device check's frames) is opening from here on, at its own level.
     if(!openedHere&&gfxFramed()){openedHere=true;gfxOpenArm(p.level,gfxSceneName());}
+    // (Claude review on #1564) a hold on the league (a closed tab or a lost context there) or a fallback keeps the held
+    // picture: the sharp board never undoes a hold.
+    if(gfxCapScene(key)==="league"&&!p.fellBack&&!gfxCap(key))p=gfxSharpBoard(p);
     return p;
+  }
+  // r98 (Nik 2026-11-22: the League Roulette "looks pixelated, especially on phone"): the roulette is one small board, about
+  // a dozen draws, so at every level it draws at the screen's own sharpness (its device pixel ratio, at most 3x, within the
+  // 4K buffer) instead of the level's lower ratio stretched up. The governor still steps it down a quarter at a time on a
+  // device that cannot hold its frame time, to the level's own floor.
+  let sharpCached=null;
+  function gfxSharpBoard(p){
+    if(sharpCached&&sharpCached.from===p)return sharpCached.p;
+    let want=Math.min(Number(p.dpr)||1,PHONE_MAX_PR);const view=gfxViewPx();
+    if(view)want=Math.min(want,Math.sqrt((p.bufferCap||BUFFER_CAP)/view));
+    const out=want>p.pixelRatio+1e-6?{...p,pixelRatio:want,maxPixelRatio:Math.max(p.maxPixelRatio,want),sharpBoard:true}:p;
+    sharpCached={from:p,p:out};return out;
   }
   // A Device check frame (?gfx=N&bench=1) measures the level it asks for; a hold does not stand in for it (see gfxBuild).
   function gfxBenchFrame(){const f=gfxQuery("gfx");return f!==null&&/^[0-5]$/.test(f)&&gfxQuery("bench")==="1";}
@@ -549,6 +566,9 @@
     // about the device's level or the other screens, so neither moves; the hold ends as it always does (gfxCapClean).
     // A frame of its own (the pack, Roulette) marks its own page with what it draws, as a calibration there always has.
     if(p.deviceLevel!==undefined&&p!==gfxBaseProfile()){if(gfxFramed())gfxMarkRoot(p.level,p.assetLevel,true);return p;}
+    // (Claude review on #1564) the League Roulette draws sharper than its level; five frames at that ratio say nothing about
+    // the device's level, so neither the level nor the other screens move.
+    if(p.sharpBoard)return p;
     let level=p.level;const slow=ms>BUDGET_MS*.8;
     if(slow){calBad.add(level);if(level>0)level-=1;}
     else if(ms<BUDGET_MS*.25&&level<Math.min(3,p.autoLevel+1)&&!calBad.has(level+1))level+=1;

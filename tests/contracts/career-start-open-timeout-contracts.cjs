@@ -128,4 +128,74 @@ async function r88Chamber(){
     console.log('PASS CM-CS2 the Career Start limit waits while Chamber Men is on screen');
   }
 }
-main().then(fable6).then(r88Chamber).catch(error=>{console.error(error);process.exitCode=1;});
+// r98 Fable job 12 (Career Start).
+async function fj12(){
+  // FJ12-03: the Squad Sheet (before the roulette) and the Prime Pack (after it) are at the managers' pace too. The 2-minute
+  // open limit counts from the tap, so a long shootout + roulette used to leave "took too long" over the Prime Pack.
+  {
+    const w=rouletteWorld(),RealDate=Date;w.sandbox.Date=class extends RealDate{static now(){return w.clock();}};
+    const squad={on:false,home:false,active:()=>squad.on,wentHome:()=>squad.home},prime={on:false,home:false,active:()=>prime.on,wentHome:()=>prime.home};
+    w.sandbox.CareerModeSquadSheetStep=squad;w.sandbox.CareerModeIconGuessStep=prime;
+    await w.api.openPanel();await w.advance(0);w.api.closePanel();
+    w.transfer.gate=deferred();
+    let settled=null;const run=w.api.openPanel().then(v=>{settled=v;},()=>{settled='rejected';});
+    squad.on=true;for(let i=0;i<8;i+=1)await w.advance(25000);
+    assert.notEqual(w.status(),ERROR,'FJ12-03 no "took too long" while the Squad Sheet is on screen');assert.equal(settled,null);
+    squad.on=false;prime.on=true;for(let i=0;i<8;i+=1)await w.advance(25000);// 400 s from the tap in all
+    assert.notEqual(w.status(),ERROR,'FJ12-03 no "took too long" while the Prime Pack is on screen, past the 2-minute open limit');assert.equal(settled,null);
+    // Code review: the loads between steps (here after the Prime Pack, before the Transfer War draws) get a fresh 2 minutes.
+    prime.on=false;for(let i=0;i<4;i+=1)await w.advance(25000);
+    assert.notEqual(w.status(),ERROR,'FJ12-03 no "took too long" in the load after a step, 7 minutes after the tap');assert.equal(settled,null);
+    w.transfer.gate.resolve();await w.advance(0);await run;
+    assert.equal(settled,true,'FJ12-03 the open succeeds after the Prime Pack');assert.equal(w.shown(),false);
+    console.log('PASS FJ12-03 the Career Start limit waits while the Squad Sheet or the Prime Pack is on screen');
+  }
+  const pollWorld=()=>{
+    const intervals=[];
+    const w=world({extend:sandbox=>{sandbox.setInterval=(fn,ms)=>{const item={fn,ms,on:true};intervals.push(item);return item;};sandbox.clearInterval=item=>{if(item)item.on=false;};sandbox.MutationObserver=class{observe(){}};sandbox.addEventListener=()=>{};}});
+    w.sandbox.document.addEventListener=()=>{};w.sandbox.document.documentElement={};
+    return {...w,polls:()=>intervals.filter(item=>item.ms===15000&&item.on)};
+  };
+  // FJ12-02: a page that played one Showdown to the end starts the next one without a reload. The earlier Showdown's READY view
+  // never shows on the new Career Start, never counts as READY, and the 15 s check starts again.
+  {
+    const w=pollWorld();w.api.install();await w.advance(0);
+    w.controls.read=async()=>({ok:true,revision:2,managerRole:'playerOne',state:{phase:'CAREER_START_READY',revision:2,acknowledgedRoles:['playerOne','playerTwo']}});
+    await w.api.openPanel();await w.advance(0);
+    assert.equal(w.api.getState().state.phase,'CAREER_START_READY');assert.equal(w.polls().length,0,'FJ12-02 the first READY stops the 15 s check');
+    w.state.rivalryId='r2';w.state.setup={...w.state.setup,clubs:{playerOne:'Club C',playerTwo:'Club D'}};
+    const late=deferred();w.controls.read=()=>late.promise;
+    const opening=w.api.openPanel();await flush();
+    assert.equal(w.api.getState(),null,'FJ12-02 the earlier Showdown\'s view is forgotten');
+    assert.doesNotMatch(String(w.status()),/BOTH MANAGERS STARTED/,'FJ12-02 the new Career Start never shows the earlier Showdown as started');
+    assert.equal(w.action('CONTINUE TO THE TRANSFER WAR'),undefined,'FJ12-02 no CONTINUE TO THE TRANSFER WAR before the new read');
+    assert.ok(w.action('I STARTED AT CLUB C'),'FJ12-02 the new club is on the panel');
+    assert.equal(w.polls().length,1,'FJ12-02 the 15 s check runs again for the new Showdown');
+    late.resolve(w.result(0));await opening;await w.advance(0);
+    assert.equal(w.api.getState().state.phase,'CAREER_START_PENDING');
+    // Code review: a read in flight when the Setup changes is never adopted, and getState() reads another Setup's view as none
+    // without changing anything.
+    const slow=deferred();w.controls.read=()=>slow.promise;const pending=w.api.refresh();await flush();
+    const r3={...w.state,rivalryId:'r3'};w.sandbox.CareerModeProductionSharedShowdownSetup.getState=()=>r3;// a new Setup state object, as setState() makes
+    assert.equal(w.api.getState(),null,'getState() hides the earlier Showdown\'s view');
+    slow.resolve({ok:true,revision:2,managerRole:'playerOne',state:{phase:'CAREER_START_READY',revision:2,acknowledgedRoles:['playerOne','playerTwo']}});
+    assert.equal(await pending,null,'the r2 read is not adopted for r3');assert.equal(w.api.getState(),null);
+    console.log('PASS FJ12-02 a second Showdown on the same page never shows the first one\'s Career Start, and its 15 s check runs');
+  }
+  // FJ12-04: the 15 s check re-reads Career Start only; the confirmed Setup is re-read only after a failed Career Start read.
+  {
+    const w=pollWorld();w.api.install();await w.advance(0);await w.api.openPanel();await w.advance(0);
+    const tick=w.polls()[0];assert.ok(tick,'the 15 s check is installed');
+    w.calls.length=0;tick.fn();await w.advance(0);
+    assert.deepEqual(w.calls.filter(c=>c==='setup'||c==='read'),['read'],'FJ12-04 a 15 s check after a good read does not re-read the Setup');
+    w.controls.read=async()=>({ok:false,code:'CAREER_START_READ_FAILED'});
+    w.calls.length=0;tick.fn();await w.advance(0);
+    w.controls.read=async()=>w.result(0);
+    w.calls.length=0;tick.fn();await w.advance(0);
+    assert.deepEqual(w.calls.filter(c=>c==='setup'||c==='read'),['setup','read'],'FJ12-04 after a failed read the next check re-reads the Setup');
+    w.calls.length=0;tick.fn();await w.advance(0);
+    assert.deepEqual(w.calls.filter(c=>c==='setup'||c==='read'),['read'],'FJ12-04 and is light again once a read succeeds');
+    console.log('PASS FJ12-04 the 15 s Career Start check skips the Setup re-read unless the last read failed');
+  }
+}
+main().then(fable6).then(r88Chamber).then(fj12).catch(error=>{console.error(error);process.exitCode=1;});

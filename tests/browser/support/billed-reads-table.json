@@ -1,7 +1,7 @@
 {
   "_comment": "Billed-reads model for tests/browser/support/billed-meter.cjs. The per-path Rules lookup counts are DERIVED at run time from the composed production Rules (firestore.spark.generated.rules) by rules-lookups.cjs: every distinct document a rule reaches with get()/exists()/getAfter()/existsAfter() through any helper chain is one billed read. This file only holds (1) the sha256 of the Rules text the derivation was reviewed against, so changing the Rules fails tests/contracts/r84-billed-budget-contracts.cjs until someone re-reviews the exclusions below and updates the pin, and (2) the lookups a normal ALLOWED request never evaluates (an || alternative that is only reached when the first one fails).",
-  "rulesSha256": "5b36d9d8e8dd54e213ffb7c7fba2a2b824cf5dc1572093fb8fec30a8f44a1678",
-  "reviewedAt": "2026-11-17",
+  "rulesSha256": "8eb561370649c928bf3560bc5523bf772203f1eaa2eb81c308d137a59671c2cf",
+  "reviewedAt": "2026-11-21",
   "readExclusions": {
     "/rivalries/{rivalryId}": {
       "exclude": [

@@ -113,7 +113,7 @@ function api_page(){return revealWorld().api.page;}
 // R6 the confirm time comes with the existing Setup read
 {
   const spark=read('js/sparkSharedShowdownSetup.js'),prod=read('js/productionSharedShowdownSetup.js');
-  assert.match(spark,/const updatedAtMs=ssrpTimestampMillis\(ctx\.ledger\.updatedAt\);\s*return Object\.freeze\(\{ok:true,status:"live",revision:ctx\.ledger\.revision,state,updatedAtMs:Number\.isFinite\(updatedAtMs\)\?updatedAtMs:null\}\);/);
+  assert.match(spark,/const updatedAtMs=ssrpTimestampMillis\(ctx\.ledger\.updatedAt\);\s*return Object\.freeze\(\{ok:true,status:"live",revision:ctx\.ledger\.revision,state,updatedAtMs:Number\.isFinite\(updatedAtMs\)\?updatedAtMs:null(?:,drops:ledgerDrops\(ctx\.ledger\))?\}\);/);
   assert.match(prod,/setupUpdatedAtMs:Number\.isFinite\(result\.updatedAtMs\)\?result\.updatedAtMs:null/);
   assert.match(revealSource,/!Number\.isFinite\(state\.setupUpdatedAtMs\)&&typeof setupApi\.refresh==="function"/,'a manager whose last Setup state came from their own tap reads it once');
   assert.ok(!/firestore|getDoc|setDoc|runTransaction/i.test(revealSource.replace(/\/\/.*$/gm,'')),'the reveal itself does no Firebase IO');

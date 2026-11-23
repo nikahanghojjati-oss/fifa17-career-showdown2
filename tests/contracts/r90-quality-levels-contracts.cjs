@@ -35,7 +35,7 @@ const SCREENS=walk(".",p=>/\.(js|html)$/.test(p)&&!/^(tools|tests|chronicle)\//.
   .filter(p=>p!=="js/gfxTier.js");
 const GL=SCREENS.filter(p=>/new (T|THREE)\.WebGLRenderer\(/.test(read(p)));
 {
-  assert.deepEqual(GL.slice().sort(),["js/chamberMenScene3d.js","js/clubDrawScene3d.js","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/special-player/index.html"],"the four 3D screens (a new one joins this list and the rules; R94-02 Club Assignment joined it)");
+  assert.deepEqual(GL.slice().sort(),["js/chamberMenScene3d.js","js/clubDrawScene3d.js","js/leagueRouletteScene3d.js","visual-assets/v10_1/roulette/index.html","visual-assets/v10_1/special-player/index.html"],"the five 3D screens (a new one joins this list and the rules; R94-02 Club Assignment joined it, R98-01 League Roulette joined it)");
   for(const p of GL){
     const s=strip(read(p));
     // r96: profile("chamber-men") names the screen (its own level on Auto after a Device check); still the one profile().

@@ -35,49 +35,49 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   ok('RR2','the site deploy waits for the same commit\'s Rules deploy, or for the last one on main to have succeeded');
 }
 
-// RR3 (red team #5, moved on by 2.0.0, 2.1.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0, the 2.5.1 hotfix, 2.6.0, 2.7.0, 2.8.0, 2.9.0 and again by
-// 2.10.0): PREVIOUS is the live 2.9.0-r96, so the retained shell is exactly 2.9.0's own 260 paths (tests/fixtures/shell-paths/2.9.0-r96.json,
-// main 56642b8f): this release's shell minus what 2.10.0 added, plus what it removed. tests/contracts/r87-upgrade-rollback-list-contracts.cjs
+// RR3 (red team #5, moved on by 2.0.0, 2.1.0, 2.2.0, 2.3.0, 2.4.0, 2.5.0, the 2.5.1 hotfix, 2.6.0, 2.7.0, 2.8.0, 2.9.0, 2.10.0 and
+// again by 2.11.0): PREVIOUS is the live 2.10.0-r97, so the retained shell is exactly 2.10.0's own 260 paths
+// (tests/fixtures/shell-paths/2.10.0-r97.json, main 4353ab5a): this release's shell minus what 2.11.0 added, plus what it removed. tests/contracts/r87-upgrade-rollback-list-contracts.cjs
 // names any drift.
 {
-  // 2.10.0 (r97) adds and removes no shell path (its changes are to files already in the shell and to the standalone Device check page).
-  const R97_ADDED=[];
-  const R97_REMOVED=[];
+  // 2.11.0 (r98) adds the League Roulette (R98-01: the live Select League board and its step) and removes no shell path.
+  const R98_ADDED=['js/leagueRouletteStep.js','js/leagueRouletteScene3d.js'];
+  const R98_REMOVED=[];
   const sw=read('service-worker.js');
-  assert.match(sw,/const RUNTIME_REVISION = "2\.10\.0-r97";\nconst PREVIOUS_RUNTIME_REVISION = "2\.9\.0-r96";/);
+  assert.match(sw,/const RUNTIME_REVISION = "2\.11\.0-r98";\nconst PREVIOUS_RUNTIME_REVISION = "2\.10\.0-r97";/);
   const set=name=>JSON.parse('['+new RegExp(`const ${name} = new Set\\(\\[([^\\]]*)\\]\\);`).exec(sw)[1]+']');
   const added=set('SHELL_PATHS_ADDED_SINCE_PREVIOUS'),removed=set('SHELL_PATHS_REMOVED_SINCE_PREVIOUS');
-  const r96=JSON.parse(read('tests/fixtures/shell-paths/2.9.0-r96.json')).paths;
+  const r97=JSON.parse(read('tests/fixtures/shell-paths/2.10.0-r97.json')).paths;
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
-  assert.equal(r96.length,260);
-  assert.deepEqual(added,shell.filter(p=>!r96.includes(p)),'the added list is this shell minus 2.9.0\'s');
-  assert.deepEqual(added,R97_ADDED,'r97 adds no shell path');
-  assert.deepEqual(removed,R97_REMOVED,'r97 removes no shell path');
-  assert.deepEqual(r96.filter(p=>!shell.includes(p)),removed,'every 2.9.0 shell path is still precached');
+  assert.equal(r97.length,260);
+  assert.deepEqual(added,shell.filter(p=>!r97.includes(p)),'the added list is this shell minus 2.10.0\'s');
+  assert.deepEqual(added,R98_ADDED,'r98 adds the League Roulette board and its step');
+  assert.deepEqual(removed,R98_REMOVED,'r98 removes no shell path');
+  assert.deepEqual(r97.filter(p=>!shell.includes(p)),removed,'every 2.10.0 shell path is still precached');
   assert.equal(shell.length,260-removed.length+added.length);
-  for(const p of ['js/gfxTier.js','js/chamberMenStep.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js','js/kits17.js','data/gazetteSacked.js','visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js','js/iconGuessStep.js','js/touchlineGazette.js','js/rosterRouletteStep.js','js/squadScreen.js','js/playerSearch.js','js/clubDrawStep.js','js/clubDrawScene3d.js','css/clubDraw.css'])assert.ok(r96.includes(p)&&!added.includes(p),`${p} is in 2.8.0's own list`);
+  for(const p of ['js/gfxTier.js','js/chamberMenStep.js','js/chamberMenScene3d.js','js/chamberMenStadium3d.js','js/kits17.js','data/gazetteSacked.js','visual-assets/v10_1/roulette/vendor/three-r187.min.js','visual-assets/v10_1/chamber-men/vendor/meshopt_decoder-0.22.0.js','js/iconGuessStep.js','js/touchlineGazette.js','js/rosterRouletteStep.js','js/squadScreen.js','js/playerSearch.js','js/clubDrawStep.js','js/clubDrawScene3d.js','css/clubDraw.css'])assert.ok(r97.includes(p)&&!added.includes(p),`${p} is in 2.10.0's own list`);
   assert.ok(!shell.some(p=>/^data\/fifa17\/players-/.test(p)),'the Transfer War player list is fetched on demand, never precached');
   assert.ok(!shell.some(p=>p.startsWith('visual-assets/v10_1/icon-guess/')&&/\.(webp|png|jpe?g)$/.test(p)),'Prime Pack pictures stay runtime-cached (V10_IMAGE_PATH)');
   assert.ok(!shell.some(p=>p.startsWith('chronicle/')),'the STORY site (chronicle/) is never precached');
   assert.ok(!shell.some(p=>p.startsWith('device-check')||p.startsWith('assets/level-guide/')),'the Device check pages are never precached');
-  ok('RR3','the retained 2.9.0-r96 shell is verified against its own 260 paths');
+  ok('RR3','the retained 2.10.0-r97 shell is verified against its own 260 paths');
 }
 
-// RR4 (2.10.0): one version everywhere it is pinned: package files, APP_VERSION (Settings and backups show it), the footer, the
+// RR4 (2.11.0): one version everywhere it is pinned: package files, APP_VERSION (Settings and backups show it), the footer, the
 // asset revision, every ?v= on Home's own files and the manifest icons, and the service worker.
 {
   const html=read('index.html'),app=read('js/app.js'),sw=read('service-worker.js'),manifest=read('manifest.webmanifest');
-  assert.equal(JSON.parse(read('package.json')).version,'2.10.0');
-  const lock=JSON.parse(read('package-lock.json'));assert.equal(lock.version,'2.10.0');assert.equal(lock.packages[''].version,'2.10.0');
-  assert.match(app,/^const APP_VERSION = "2\.10\.0";/);
-  assert.match(html,/<meta name="app-asset-revision" content="2\.10\.0-r97">/);
-  assert.match(html,/<footer>Career Mode Showdown<br>v2\.10\.0<\/footer>/);
+  assert.equal(JSON.parse(read('package.json')).version,'2.11.0');
+  const lock=JSON.parse(read('package-lock.json'));assert.equal(lock.version,'2.11.0');assert.equal(lock.packages[''].version,'2.11.0');
+  assert.match(app,/^const APP_VERSION = "2\.11\.0";/);
+  assert.match(html,/<meta name="app-asset-revision" content="2\.11\.0-r98">/);
+  assert.match(html,/<footer>Career Mode Showdown<br>v2\.11\.0<\/footer>/);
   const pins=[...html.matchAll(/\?v=([0-9][^"&]*)/g),...manifest.matchAll(/\?v=([0-9][^"&]*)/g),...app.matchAll(/\?v=([0-9][^"&]*)/g),...read('js/menuExperience.js').matchAll(/\?v=([0-9][^"&]*)/g)].map(m=>m[1]);
-  assert.ok(pins.length>=17,`${pins.length} pins`);assert.deepEqual([...new Set(pins)],['2.10.0-r97'],'every pinned asset revision is 2.10.0-r97');
-  assert.match(sw,/^const RUNTIME_REVISION = "2\.10\.0-r97";/);
-  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest','service-worker.js'])for(const old of ['1.9.9-r85','1.9.10-r86','2.0.0-r87','2.1.0-r88','2.2.0-r89','2.3.0-r90','2.4.0-r91','2.5.0-r92','2.5.1-r92','2.6.0-r93','2.7.0-r94','2.8.0-r95'])assert.ok(!read(file).includes(old),`${file} has no ${old} pin`);
-  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest'])assert.ok(!read(file).includes('2.9.0-r96'),`${file} has no 2.9.0-r96 pin`);
-  ok('RR4','2.10.0-r97 is the one version pinned everywhere');
+  assert.ok(pins.length>=17,`${pins.length} pins`);assert.deepEqual([...new Set(pins)],['2.11.0-r98'],'every pinned asset revision is 2.11.0-r98');
+  assert.match(sw,/^const RUNTIME_REVISION = "2\.11\.0-r98";/);
+  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest','service-worker.js'])for(const old of ['1.9.9-r85','1.9.10-r86','2.0.0-r87','2.1.0-r88','2.2.0-r89','2.3.0-r90','2.4.0-r91','2.5.0-r92','2.5.1-r92','2.6.0-r93','2.7.0-r94','2.8.0-r95','2.9.0-r96'])assert.ok(!read(file).includes(old),`${file} has no ${old} pin`);
+  for(const file of ['index.html','js/app.js','js/menuExperience.js','manifest.webmanifest'])assert.ok(!read(file).includes('2.10.0-r97'),`${file} has no 2.10.0-r97 pin`);
+  ok('RR4','2.11.0-r98 is the one version pinned everywhere');
 }
 
 // RR5 (old-era cut): there are no "live from date X" release gates. The only *_FROM_MS=Date.parse literal left in js/ is

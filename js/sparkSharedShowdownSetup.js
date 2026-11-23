@@ -11,6 +11,7 @@
   const TYPES=Object.freeze(["open","commit-league","commit-clubs","commit-length","confirm","confirm"]);
   const PHASES=Object.freeze(["SHARED_SETUP_OPEN","LEAGUE_WHEEL_COMMITTED","CLUB_ASSIGNMENTS_COMMITTED","SEASON_LENGTH_COMMITTED","SHOWDOWN_CONFIRMED"]);
   const LENGTHS=Object.freeze([1,3,5,10]);
+  const ROULETTE_BALLS=4;
   const CANONICAL_KEYS=Object.freeze([
     "careerModeShowdown.saveLibrary",
     "careerModeShowdown.legacyShowdowns",
@@ -125,7 +126,7 @@
     }
     return state;
   }
-  function ledgerFrom({prior,nextState,rivalryId,operationId,type,baseRevision,actorRole,totalSeasons,stop,draw,sessionId,deviceId,updatedAtValue}){
+  function ledgerFrom({prior,nextState,rivalryId,operationId,type,baseRevision,actorRole,totalSeasons,stop,draw,roulette,sessionId,deviceId,updatedAtValue}){
     const operationIds=prior?[...prior.operationIds,operationId]:[operationId];
     const operationTypes=prior?[...prior.operationTypes,type]:[type];
     const baseRevisions=prior?[...prior.baseRevisions,baseRevision]:[baseRevision];
@@ -153,8 +154,13 @@
     if(prior?Object.hasOwn(prior,"stops"):draw===2||draw===3)ledger.stops=prior?(type==="confirm"?[...prior.stops,stop]:[...prior.stops]):[];
     // R95-01 draw 3 (six clubs per ball): `draw: 3` is written at open beside `stops` and copied unchanged after.
     if(prior?Object.hasOwn(prior,"draw"):draw===3)ledger.draw=3;
+    // R98-01 League Roulette: `drops` is 0 at open, 1 with commit-league (the coordinator's first ball draws the league),
+    // then only drop() moves it; every later step copies it.
+    if(prior?Object.hasOwn(prior,"drops"):roulette===true&&draw===3)ledger.drops=prior?(type==="commit-league"?1:prior.drops):0;
     return ledger;
   }
+  // The balls dropped so far on a roulette ledger; null on every other ledger.
+  function ledgerDrops(ledger){return ledger&&Object.hasOwn(ledger,"drops")&&Number.isInteger(ledger.drops)?ledger.drops:null;}
   async function authorityContext(options,transaction){
     const uid=accountId(options.user);
     const rivalryId=ssrpNormalizeRivalryId(options.rivalryId);
@@ -208,6 +214,9 @@
       // (0..359), fixed at his tap.
       const draw=options.draw===undefined?null:options.draw;
       if(draw!==null&&(type!=="open"||(draw!==2&&draw!==3)))ssrpFail("SETUP_COMMAND_INVALID");
+      // R98-01: open may ask for the League Roulette (draw 3 only): the ledger then carries `drops`.
+      const roulette=options.roulette===true;
+      if(options.roulette!==undefined&&options.roulette!==false&&!(roulette&&type==="open"&&draw===3))ssrpFail("SETUP_COMMAND_INVALID");
       const hasStop=options.stop!==undefined&&options.stop!==null;
       if(hasStop&&(type!=="confirm"||!Number.isInteger(options.stop)||options.stop<0||options.stop>=360))ssrpFail("SETUP_STOP_INVALID");
       ssrpValidateSdk(options.firestore,options.firebaseSdk);
@@ -228,12 +237,15 @@
               && prior.actorRoles[existing]===actorRole
               && (type!=="commit-length"||prior.totalSeasons===options.totalSeasons)
               && (type!=="confirm"||(Object.hasOwn(prior,"stops")?hasStop&&prior.stops[existing-4]===options.stop:!hasStop))
-              && (type!=="open"||(Object.hasOwn(prior,"stops")?(Object.hasOwn(prior,"draw")?3:2):null)===draw);
+              && (type!=="open"||(Object.hasOwn(prior,"stops")?(Object.hasOwn(prior,"draw")?3:2):null)===draw)
+              && (type!=="open"||Object.hasOwn(prior,"drops")===roulette);
             if(!same)ssrpFail("SETUP_IDEMPOTENCY_CONFLICT");
-            return Object.freeze({ok:true,status:"replayed",replayed:true,revision:prior.revision,state:priorState});
+            return Object.freeze({ok:true,status:"replayed",replayed:true,revision:prior.revision,state:priorState,drops:ledgerDrops(prior)});
           }
         }
         if(baseRevision!==(prior?prior.revision:0))ssrpFail("SETUP_STALE_BASE_REVISION");
+        // R98-01: the clubs are drawn only once all four roulette balls have dropped.
+        if(type==="commit-clubs"&&prior&&Object.hasOwn(prior,"drops")&&prior.drops!==ROULETTE_BALLS)ssrpFail("SETUP_ROULETTE_UNFINISHED");
         const host=ctx.rivalry.slots.find(item=>item.accountId===ctx.session.data.hostAccountId);
         if(!host)ssrpFail("SETUP_SESSION_MEMBERS_MISMATCH");
         const auth=authority({rivalryId:ctx.rivalryId,rivalry:ctx.rivalry,session:ctx.session,role:actorRole,deviceId:ctx.deviceId,epochMs:ctx.epochMs,hostRole:host.slotId});
@@ -255,12 +267,57 @@
           totalSeasons:options.totalSeasons,
           stop:hasStop?options.stop:null,
           draw,
+          roulette,
           sessionId:ctx.sessionId,
           deviceId:ctx.deviceId,
           updatedAtValue:updatedAt(options.firebaseSdk,ctx.epochMs)
         });
         transaction.set(ctx.refs.setup,next);
-        return Object.freeze({ok:true,status:"accepted",replayed:false,revision:applied.state.revision,state:applied.state});
+        return Object.freeze({ok:true,status:"accepted",replayed:false,revision:applied.state.revision,state:applied.state,drops:ledgerDrops(next)});
+      });
+    }catch(error){return resultError(error);}
+  }
+  // R98-01 League Roulette: ball `ball` (2..4; ball 1 is commit-league) dropped by the manager whose turn it is. One small
+  // write and no read: a plain update of `drops` (plus the stamp every ledger write carries); the Rules check the turn, the
+  // count and the authority. Only when that update is refused does one transaction read the ledger, to tell a drop that
+  // already landed (a double tap, a retry, a second tab: "replayed") from one that may not happen (not his turn, not open).
+  // A ball never drops twice: the Rules take drops only from ball - 1 to ball.
+  async function ssrpUpdateApi(sdk){
+    if(typeof sdk.updateDoc==="function")return sdk;
+    const meter=root.CareerModeFirestoreBudget?.meterSdk||(value=>value);
+    const url=root.CareerModeProductionFirebaseRuntime?.firebaseFirestoreModule;
+    if(typeof url!=="string"||!/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/firebase-firestore\.js$/.test(url))return null;
+    try{const module=await import(url);return module&&typeof module.updateDoc==="function"&&typeof module.doc==="function"?meter(module):null;}catch(_error){return null;}
+  }
+  async function drop(options={}){
+    try{
+      const ball=options.ball;
+      if(!Number.isInteger(ball)||ball<2||ball>ROULETTE_BALLS)ssrpFail("SETUP_ROULETTE_BALL_INVALID");
+      if(!ROLES.includes(options.managerRole))ssrpFail("SETUP_ROULETTE_ROLE_INVALID");
+      ssrpValidateSdk(options.firestore,options.firebaseSdk);
+      accountId(options.user);
+      const rivalryId=ssrpNormalizeRivalryId(options.rivalryId),sessionId=ssrpNormalizeSessionId(options.sessionId),deviceId=ssrpNormalizeDeviceId(options.deviceId);
+      const epochMs=nowEpochMs(options.nowEpochMs),sdk=options.firebaseSdk,db=options.firestore,protocol=ssrpProtocolModule();
+      const fields=()=>({drops:ball,updatedAt:updatedAt(sdk,epochMs),updatedByDeviceId:deviceId,activeSessionId:sessionId});
+      const known=options.known;
+      // The plain update, only when the ledger this phone holds says it is this manager's ball now.
+      if(known&&known.drops===ball-1&&known.revision===2&&protocol.rouletteDropRole(known.coordinatorRole,ball)===options.managerRole){
+        const api=await ssrpUpdateApi(sdk);
+        if(api){
+          try{await api.updateDoc(api.doc(db,"rivalries",rivalryId,"sharedSetup","authoritative"),fields());return Object.freeze({ok:true,status:"accepted",replayed:false,drops:ball});}
+          catch(error){if(!/permission/i.test(String(error&&error.code||error&&error.message||"")))throw error;}
+        }
+      }
+      const ref=sdk.doc(db,"rivalries",rivalryId,"sharedSetup","authoritative");
+      return await sdk.runTransaction(db,async transaction=>{
+        const value=ssrpSnapshot(await transaction.get(ref));
+        const ledger=value?assertLedger(value,rivalryId):null;
+        if(!ledger||!Object.hasOwn(ledger,"drops"))ssrpFail("SETUP_ROULETTE_NOT_OPEN");
+        if(ledger.drops>=ball)return Object.freeze({ok:true,status:"replayed",replayed:true,drops:ledger.drops});
+        if(ledger.revision!==2||ledger.drops!==ball-1)ssrpFail("SETUP_ROULETTE_NOT_OPEN");
+        if(protocol.rouletteDropRole(ledger.coordinatorRole,ball)!==options.managerRole)ssrpFail("SETUP_ROULETTE_NOT_YOUR_BALL");
+        transaction.update(ref,fields());
+        return Object.freeze({ok:true,status:"accepted",replayed:false,drops:ball});
       });
     }catch(error){return resultError(error);}
   }
@@ -274,7 +331,7 @@
         if(!ctx.ledger)return Object.freeze({ok:true,status:"empty",revision:0,state:null});
         const state=await rebuild(protocol,ctx.ledger,ctx.rivalry,ctx.rivalryId,cryptoImpl);
         const updatedAtMs=ssrpTimestampMillis(ctx.ledger.updatedAt);
-        return Object.freeze({ok:true,status:"live",revision:ctx.ledger.revision,state,updatedAtMs:Number.isFinite(updatedAtMs)?updatedAtMs:null});
+        return Object.freeze({ok:true,status:"live",revision:ctx.ledger.revision,state,updatedAtMs:Number.isFinite(updatedAtMs)?updatedAtMs:null,drops:ledgerDrops(ctx.ledger)});
       });
     }catch(error){return resultError(error);}
   }
@@ -289,6 +346,7 @@
     catalogVersion:(()=>{const catalog=ssrpCatalogModule();return catalog&&catalog.version||null;})(),
     setupPath:"rivalries/{rivalryId}/sharedSetup/authoritative",
     mutate,
+    drop,
     read
   });
 });
