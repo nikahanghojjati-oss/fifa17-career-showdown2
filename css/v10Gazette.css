@@ -329,3 +329,6 @@ html[data-gazette] #commentaryV3Bar { display: none !important; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__side { padding-left: 0; border-left: 0; }
   #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text { column-count: 2; }
 }
+@container tgz (max-width: 399px) {
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text { column-count: 1; }
+}
