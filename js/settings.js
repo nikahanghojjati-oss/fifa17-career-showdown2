@@ -1064,9 +1064,10 @@ async function runSettingsEndShowdown(button){
    are js/showdownModes.js. */
 
 // R99-01 (Nik 2026-11-23): the clubhouse look, on this device only. Current is the brown wood and marble the rooms were painted
-// in; Silver and Black Metal are the same rooms recoloured, with Daniel and Nik untouched. index.html applies the pick before
+// in; Silver and Metal Black are the same rooms recoloured, with Daniel and Nik untouched. index.html applies the pick before
 // anything paints (window.cmsClubhouse) and keeps it in this browser; nothing is read from or written to Firestore.
-const SETTINGS_CLUBHOUSE_THEMES = [["current", "Current"], ["silver", "Silver"], ["black", "Black Metal"]];
+// Names Nik gave them (2026-11-23): Wooden Clubhouse (the rooms as painted), Silver Clubhouse, Metal Black Clubhouse.
+const SETTINGS_CLUBHOUSE_THEMES = [["current", "Wooden Clubhouse"], ["silver", "Silver Clubhouse"], ["black", "Metal Black Clubhouse"]];
 function createClubhouseControl(){
     const row = createSettingsElement("div", "settingsAudioRow settingsGfxRow settingsClubhouseRow");
     const copy = createSettingsElement("div", "settingsAudioCopy");
@@ -1089,7 +1090,7 @@ function createClubhouseControl(){
         if(!window.cmsClubhouse){ return; }
         select.value = window.cmsClubhouse.set(select.value);
         if(typeof window.showAppNotice === "function"){
-            window.showAppNotice(`Clubhouse: ${select.options[select.selectedIndex].textContent}.`, "success", 2500);
+            window.showAppNotice(`${select.options[select.selectedIndex].textContent} is on.`, "success", 2500);
         }
     });
     row.append(copy, select);
