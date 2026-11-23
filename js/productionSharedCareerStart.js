@@ -400,6 +400,9 @@
     const origin=overlay.getBoundingClientRect(),W=origin.width,H=origin.height,frames=pcstStageFrames(overlay,host,mode,origin);
     overlay.querySelectorAll(".pcstHold").forEach((hold,index)=>{
       const frame=frames[index];if(!frame)return;const fit=pcstFitHold(frame),crest=hold.querySelector(".pcstHoldCrest"),name=hold.querySelector(".pcstHoldName");
+      // r99: on the sideways band the held crest stands lower, clear of the chin (it used to be moved by a CSS translateY of 26% of its own box, which
+      // let the name hang below the pack frame on 844x390 and 915x412). The hold's box now starts there and ends at the pack's lower edge, so the crest and the name are inside the frame.
+      if(mode==="band"){fit.y+=fit.h*.26;fit.h=Math.max(0,frame.y+frame.h-1-fit.y);fit.crest=Math.max(0,Math.floor(Math.min(fit.w,fit.h-fit.label*1.5)));}
       hold.dataset.frame=[frame.x,frame.y,frame.w,frame.h].map(v=>Math.round(v*100)/100).join(",");
       Object.assign(hold.style,{left:`${fit.x}px`,top:`${fit.y}px`,width:`${fit.w}px`,height:`${fit.h}px`,gap:`${fit.gap}px`});
       // One line at the clamp size; a slightly long name shrinks to fit; a long one ("Borussia Mönchengladbach") takes two
@@ -439,7 +442,7 @@
   // The app's runtime notice for the same failure ("Team V screen could not load…") says what the fallback panel already says,
   // and on a small phone it would cover the panel's buttons: it is dismissed through its own close button. Other notices stay.
   function pcstDismissClubNotice(){
-    try{const notice=root.document.getElementById("appRuntimeNotice");if(notice&&/Team V screen could not (load|update)|Ball Game visuals|Club Assignment visuals|CLUB_V10_MAP/.test(notice.textContent||""))notice.querySelector("button")?.click();}catch(_error){}
+    try{const notice=root.document.getElementById("appRuntimeNotice");if(notice&&/(Team V|This) screen could not (load|update)|Ball Game visuals|Club Assignment visuals|CLUB_V10_MAP/.test(notice.textContent||""))notice.querySelector("button")?.click();}catch(_error){}
   }
   function pcstFallbackLayout(overlay){
     pcstDismissClubNotice();
@@ -483,7 +486,11 @@
       const fits=[x,y,w,h].every(Number.isFinite)&&crest.right-crest.left>0&&inside(crest,frame)&&inside(label,frame)&&name.scrollWidth<=name.clientWidth+1;
       return {side:hold.dataset.side,club:name.textContent,fits:fits?"fits":"OVERFLOW",frame:[x,y,w,h].map(Math.round),crest:Math.round(crest.right-crest.left),label:parseFloat(name.style.fontSize)};
     });
-    const title=box(overlay.querySelector(".pcstTitle")),pillarNode=overlay.querySelector(".pcstPillar"),pillar=box(pillarNode),actionsNode=overlay.querySelector(".remoteJoiningActions"),actions=actionsNode?box(actionsNode):null;
+    // r99: on the desktop stage the actions row is as wide as the window (so its buttons can centre), but only its buttons are ever drawn: the audit
+    // measures the buttons themselves (the union of their boxes), not the empty row either side of them.
+    const buttonsBox=node=>{const kids=[...node.children].map(box).filter(r=>r.right-r.left>0&&r.bottom-r.top>0);
+      return kids.length?{left:Math.min(...kids.map(r=>r.left)),top:Math.min(...kids.map(r=>r.top)),right:Math.max(...kids.map(r=>r.right)),bottom:Math.max(...kids.map(r=>r.bottom))}:box(node);};
+    const title=box(overlay.querySelector(".pcstTitle")),pillarNode=overlay.querySelector(".pcstPillar"),pillar=box(pillarNode),actionsNode=overlay.querySelector(".remoteJoiningActions"),actions=actionsNode?buttonsBox(actionsNode):null;
     const backNode=overlay.querySelector(".pcstBack"),covers=[],named={title,pillar};if(actions&&!pillarNode.contains(actionsNode))named.buttons=actions;
     if(backNode&&!(actionsNode&&actionsNode.contains(backNode))){named.back=box(backNode);if(overlap(named.back,pillar))covers.push("back covers pillar");}
     frames.forEach((frame,index)=>{for(const [key,r] of Object.entries(named))if(overlap(r,frame))covers.push(`${key} covers pack ${index+1}`);});

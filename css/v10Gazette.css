@@ -44,11 +44,23 @@ html[data-gazette] #app main:has(#seasonEntry[data-gazette]:not(.hidden)) {
 #touchlineGazette .cmx-fp-screen__eyebrow { display: none; }
 /* 2.0.0: the paper takes the room between the managers' faces (the plate's inner face edges sit 374px either side of its
    centre, 48vw of the window at the narrowest crop), so the type can be read on a laptop without leaning in */
-#touchlineGazette .cmx-fp-screen__desk { width: min(clamp(540px, calc(48vw - 40px), 700px), 100%); }
+#touchlineGazette .cmx-fp-screen__desk { width: min(clamp(540px, calc(48vw - 40px), 700px), var(--tgz-gap, 100%), 100%); }
 /* r91 HO-070: on big screens the paper is a little wider (780px), so it runs shorter and CONTINUE stays in view at 1920x866;
    at 1700px the plate's inner face edges are still clear of a 780px paper. */
 @media (min-width: 1700px) {
-  #touchlineGazette .cmx-fp-screen__desk { width: min(780px, 100%); }
+  #touchlineGazette .cmx-fp-screen__desk { width: min(780px, var(--tgz-gap, 100%), 100%); }
+}
+/* r99 R99-02 (Nik 2026-11-23: "touchline gazette is covering part of my face"): the paper stays between the two faces at
+   every desktop window. The board room is drawn "cover" at 16:9 (width = the larger of the window's width and its height x
+   16/9, centred), and its two face boxes (tests/fixtures/team-v/HC_FACE_ZONES.json, ENV_BOARD_PLATE_HC_V3: Daniel's ends at
+   29.5% of the picture, Nik's starts at 66.5%) leave 37% of the picture's width between them, centred 2% left of the window's
+   centre. The paper (and CONTINUE under it) is that wide less 40px (its -1.6deg tilt adds up to 12px each side), and the
+   desk is moved left by the same 2%, so the paper never lies on either face. A narrower paper only runs taller: the page
+   scrolls to CONTINUE as it always has, nothing is hidden. (A taller page only draws the room larger, so the faces then
+   sit farther apart than this width assumes.) */
+@media (min-width: 701px) and (min-height: 521px), (min-width: 1001px) {
+  #touchlineGazette.tgzPage { --tgz-room-w: max(100vw, calc(100dvh * 16 / 9)); --tgz-gap: calc(var(--tgz-room-w) * .37 - 40px); }
+  #touchlineGazette .cmx-fp-screen { padding-right: calc(20px + var(--tgz-room-w) * .04); }
 }
 /* 2.0.0 readability (Nik 2026-11-01: "the stories are good ... it's very hard to see the words"): the reading type is set
    at reading sizes, in full-strength ink, and js/touchlineGazette.js fit() no longer shrinks the paper under 92% on desktop
@@ -304,3 +316,16 @@ html[data-gazette] #commentaryV3Bar { display: none !important; }
 /* r96 look 3: desktop caption floor (13px at 1024px and up) */
 @media (min-width:1024px){#touchlineGazette .cmx-gz--compact .tgz-sp,#touchlineGazette .cmx-gz--compact .cmx-paper__dateline,#touchlineGazette .cmx-gz--compact .cmx-gz__edline,#touchlineGazette .cmx-gz--compact .cmx-paper__kicker,#touchlineGazette .cmx-gz--compact .cmx-paper__who small{font-size: 13px}}
 
+/* Where the two faces leave the paper less than 560px (laptop windows, about 1620px wide or narrower at 16:9), the paper keeps its
+   words and its pictures and only re-stacks: the masthead takes the full width with the two ears under it, the numbers sit under
+   the photo, and the story runs in two columns. Same type sizes (13px and up), nothing hidden; the page scrolls to CONTINUE. */
+#touchlineGazette .cmx-fp-screen__desk { container: tgz / inline-size; }
+@container tgz (max-width: 559px) {
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__mastrow { grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__mastrow > h2 { grid-column: 1 / -1; grid-row: 1; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__mastrow .cmx-gz__ear:first-child { grid-column: 1; grid-row: 2; text-align: left; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__mastrow .cmx-gz__ear:last-child { grid-column: 2; grid-row: 2; text-align: right; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__front { grid-template-columns: minmax(0, 1fr); gap: 6px 0; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__side { padding-left: 0; border-left: 0; }
+  #touchlineGazette .cmx-gz:not(.cmx-gz--compact) .cmx-gz__text { column-count: 2; }
+}
