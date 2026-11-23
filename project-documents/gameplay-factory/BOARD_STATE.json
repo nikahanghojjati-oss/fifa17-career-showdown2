@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-23 12:14 PM Boston time (EST)",
+ "generated": "2026-11-23 12:18 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 334,
@@ -3058,27 +3058,18 @@
  },
  "two": {
   "live": {
-   "sha": "4353ab5",
-   "revision": "2.10.0-r97",
-   "when": "2026-11-20T15:11:00-05:00",
-   "subject": "Merge pull request #1559 from nikahanghojjati-oss/gameplay/r97",
-   "fixes": [
+   "sha": "fec8af6",
+   "revision": "2.11.0-r98",
+   "when": "2026-11-23T12:16:44-05:00",
+   "subject": "Merge pull request #1567 from nikahanghojjati-oss/gameplay/r98",
+   "fixes": [],
+   "today": [
     {
      "pr": 1567,
      "title": "Release 2.11.0 (r98): League Roulette",
-     "draft": false,
-     "branch": "gameplay/r98",
-     "sha": "2c56bd37732a181f1a24c11407beff2042a56cc1",
-     "updated": "2026-11-23T00:13:26Z",
-     "gates": {
-      "passed": 9,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-11-23T17:16:45Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
@@ -3869,7 +3860,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 22449
+    "waiting_min": 22454
    },
    {
     "id": "HO-059",
@@ -4448,7 +4439,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 42,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -5664,22 +5655,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1567,
-    "title": "Release 2.11.0 (r98): League Roulette",
-    "draft": false,
-    "branch": "gameplay/r98",
-    "sha": "2c56bd37732a181f1a24c11407beff2042a56cc1",
-    "updated": "2026-11-23T00:13:26Z",
-    "gates": {
-     "passed": 9,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {
