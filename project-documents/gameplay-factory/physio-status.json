@@ -1,13 +1,13 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-24T20:34:31.401Z",
+  "at": "2026-11-24T20:48:46.879Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
       "head_sha": "2b016641611d1c81caf39060be2756d588a9cb37",
       "pr": 1595,
-      "queued_minutes": 362.2,
+      "queued_minutes": 376.5,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -16,7 +16,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "199e434ce41bd0ab057e831e0b2b59afbaad589c",
       "pr": 1600,
-      "queued_minutes": 319.3,
+      "queued_minutes": 333.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -25,7 +25,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "1f3c4ab0e012e9adafb72fcef049a80c0be944a9",
       "pr": 1601,
-      "queued_minutes": 318.5,
+      "queued_minutes": 332.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -34,7 +34,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "7899c70205ff08cafd617104df275e7844553fc5",
       "pr": 1604,
-      "queued_minutes": 294.6,
+      "queued_minutes": 308.9,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -43,7 +43,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "9ba575760b73d71ee9eeacd2c6da2aa30e346b32",
       "pr": 1605,
-      "queued_minutes": 290.3,
+      "queued_minutes": 304.5,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -52,7 +52,7 @@
       "workflow": "Validate POS20",
       "head_sha": "677c73e2e720229f108e212e6d77c81ee95f0c67",
       "pr": null,
-      "queued_minutes": 198.1,
+      "queued_minutes": 212.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -61,7 +61,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "ff49413467139157340373f7e03a1fc23d70f346",
       "pr": 1591,
-      "queued_minutes": 157.2,
+      "queued_minutes": 171.5,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -70,7 +70,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "33c37914a80a443321e6a2a0312952e967283e82",
       "pr": 1598,
-      "queued_minutes": 157,
+      "queued_minutes": 171.2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -79,7 +79,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "6c08529c933940f9478e10a6f2d2a5886f0d0a40",
       "pr": 1599,
-      "queued_minutes": 130.6,
+      "queued_minutes": 144.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -88,7 +88,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "3c7d717f7557ec39b9ac9848623dc1fe2d17e865",
       "pr": 1579,
-      "queued_minutes": 121.8,
+      "queued_minutes": 136.1,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -97,34 +97,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "ec28bb13dddfd449f0408baf1f0595a0af4847a7",
       "pr": 1594,
-      "queued_minutes": 120,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "0b6e1ea38a2cac2f27663ab2b8fd2ae0b48a43a1",
-      "pr": 1588,
-      "queued_minutes": 119.2,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "9ffdb4a229755865d2db91b52c4f72381c264abc",
-      "pr": 1596,
-      "queued_minutes": 119.2,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "337e910d5271991e712725fc37435ef62648b2cb",
-      "pr": 1606,
-      "queued_minutes": 119.1,
+      "queued_minutes": 134.3,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -133,7 +106,34 @@
       "workflow": "Showdown Gate",
       "head_sha": "bd5ef5c32fdef58c537583c736a3cf7ae61d1b96",
       "pr": 1603,
-      "queued_minutes": 119.1,
+      "queued_minutes": 133.4,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "0b6e1ea38a2cac2f27663ab2b8fd2ae0b48a43a1",
+      "pr": 1588,
+      "queued_minutes": 133.4,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "9ffdb4a229755865d2db91b52c4f72381c264abc",
+      "pr": 1596,
+      "queued_minutes": 133.4,
+      "action": "none",
+      "attempt": 0,
+      "max_attempts": 2
+    },
+    {
+      "workflow": "Showdown Gate",
+      "head_sha": "337e910d5271991e712725fc37435ef62648b2cb",
+      "pr": 1606,
+      "queued_minutes": 133.3,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -142,7 +142,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "60cf4f7a2f0d0645230bd35f8b3b42b9e9b876ab",
       "pr": 1608,
-      "queued_minutes": 113,
+      "queued_minutes": 127.2,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -151,7 +151,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "364e9236f750a475100d6732f0ca323b30d2320f",
       "pr": 1576,
-      "queued_minutes": 108.3,
+      "queued_minutes": 122.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -160,7 +160,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "9eef4d896a214a8462803865bc1f272b370ada5b",
       "pr": 1581,
-      "queued_minutes": 98.1,
+      "queued_minutes": 112.3,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -169,7 +169,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "7b7f4ceb86721dfd7f1f012bbbb11858d5986f1a",
       "pr": 1610,
-      "queued_minutes": 9.5,
+      "queued_minutes": 23.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -178,7 +178,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "df56138c9761ab8f6f41211adcf6b0179a845e4f",
       "pr": 1609,
-      "queued_minutes": 9.4,
+      "queued_minutes": 23.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
