@@ -155,14 +155,20 @@ async function danielReloadsAsNikJoins({join=true}={}){
   w.sdk.runTransaction=(db,fn)=>real(db,tx=>fn({...tx,get:async ref=>{if(armed&&ref.path===invite){armed=false;
     if(join){await nik.tap();assert.equal(nik.pair.getState().connectionState,"active","Nik's JOIN landed");}
     else{const doc=w.docs.get(invite);w.docs.set(invite,{...doc,data:{...doc.data,state:"revoked"}});}}return tx.get(ref);}}));
-  const daniel=w.page("daniel");armed=true;await daniel.init();await w.advance(1000);
+  const daniel=w.page("daniel");armed=true;await daniel.init();
+  // The reload's own pair check runs after init returns: wait (bounded) until it settled, never a fixed settle.
+  await until(w,()=>{const s=daniel.pair.getState();return s.initialized===true&&s.busy!==true&&Boolean(s.connectionState);},"Daniel's reload settled its pair check");
+  assert.equal(armed,false,"Nik's join (or the closed code) came between Daniel's pair-link read and his code read");
   return {w,rid,nik,daniel};
 }
+// Bounded wait: the page's hashing (webcrypto) resolves on real time, so each step yields 10 ms of real time and moves the fake
+// clock 100 ms; at most 300 steps (3 s real, 30 s on the page's clock).
+const realPause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+async function until(w,ok,label){for(let i=0;i<300&&!ok();i++){await realPause(10);await w.advance(100);await settle();}assert.ok(ok(),`${label} (within 30 s)`);}
 
 test("B6-11: Daniel's phone reloads as Nik's JOIN lands: Daniel still goes on into that Showdown by himself, once",async()=>{
   const {w,rid,nik,daniel}=await danielReloadsAsNikJoins();
-  await w.advance(10*1000);await quiet(daniel);
-  assert.equal(daniel.pair.getState().connectionState,"active","Daniel learns that Nik joined (no stuck WAITING)");
+  await until(w,()=>daniel.pair.getState().connectionState==="active"&&daniel.entered===1,"Daniel learns that Nik joined and goes on (no stuck WAITING)");await quiet(daniel);
   assert.equal(daniel.pair.getState().rivalryId,rid,"the same Showdown");
   assert.equal(daniel.entered,1,"Daniel goes on into the Showdown once");
   assert.equal(nik.redeems,1,"one join");assert.equal(rivalryWrites(w,rid),2,"the Showdown and its invite were written once each");
@@ -172,7 +178,7 @@ test("B6-11: Daniel's phone reloads as Nik's JOIN lands: Daniel still goes on in
 
 test("B6-12: a code seen closed without a join gets one last look (two reads), then the wait stops as before",async()=>{
   const {w,rid,daniel}=await danielReloadsAsNikJoins({join:false});
-  const before=w.reads.length;await w.advance(10*1000);await quiet(daniel);
+  const before=w.reads.length;await w.advance(10*1000);await quiet(daniel);await until(w,()=>!daniel.pair.getState().busy,"the last look settled");
   assert.equal(daniel.pair.getState().connectionState,"pending-pair","nobody joined");assert.equal(daniel.pair.getState().rivalryId,rid);
   assert.deepEqual(w.reads.slice(before).sort(),["accounts/daniel/pairLinks/current",`rivalries/${rid}`].sort(),"one last look: the pair link and the rivalry only");
   const after=w.reads.length;await w.advance(30*MINUTE);
