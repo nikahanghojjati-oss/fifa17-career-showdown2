@@ -162,8 +162,9 @@ let checks=0;const ok=label=>{checks++;void label;};
   // 5. Workflow shape of the watchdog: least privilege, Showdown Gate only.
   const wd=readWorkflow(root,'.github/workflows/gate-watchdog.yml');
   assertPinnedUses(wd,'.github/workflows/gate-watchdog.yml');ok('watchdog actions use full commit SHAs');
-  // r100: one Physio queue (no per-run group): a running Physio is never cancelled, older pending runs collapse into one.
-  assert.deepEqual(wd.concurrency,{group:'showdown-gate-watchdog','cancel-in-progress':false},'one Physio queue, never cancelling a running Physio');ok('physio runs share one queue');
+  // r100: two Physio queues (per-run checks, sweeps), never one group per run: a running Physio is never cancelled,
+  // older pending runs collapse, and a per-run check can never replace a pending sweep.
+  assert.deepEqual(wd.concurrency,{group:"showdown-gate-watchdog-${{ github.event_name == 'workflow_run' && 'run' || 'sweep' }}",'cancel-in-progress':false},'per-run checks and sweeps queue apart, never cancelling a running Physio');ok('physio runs queue in two lanes');
   assert.equal(wd.name,'Showdown Gate Physio');assert.equal(wd.jobs.watchdog.name,'Showdown Gate Physio');
   assert.deepEqual(wd.permissions,{actions:'write',contents:'write','pull-requests':'read'},'the Physio holds exactly actions: write, contents: write and read-only pull-requests');
   for(const job of Object.values(wd.jobs))assert.ok(!('permissions' in job));

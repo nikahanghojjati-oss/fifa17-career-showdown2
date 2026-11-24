@@ -26,11 +26,12 @@ permissions:
   # Read-only: physio-status.json shows the newest open non-draft PR into main next to the Physio.
   pull-requests: read
 
-# r100 (2026-11-24): ONE queue for every Physio run. A run in progress is never cancelled; GitHub keeps at most one
-# pending run and drops older pending ones (31 per-run Physio runs had piled up while machines were short). A dropped
-# per-run check is not lost: every sweep re-checks the last 180 min of Showdown Gate, POS20 and Gameplay Fast runs.
+# r100 (2026-11-24): two queues, one for per-run checks and one for sweeps. A run in progress is never cancelled; in
+# each queue GitHub keeps at most one pending run and drops older pending ones (31 per-run Physio runs had piled up
+# while machines were short). A dropped per-run check is not lost: the sweep re-checks the last 180 min of Showdown
+# Gate, POS20 and Gameplay Fast runs, and a per-run check can never replace a pending sweep (own queue, Codex #1612).
 concurrency:
-  group: showdown-gate-watchdog
+  group: showdown-gate-watchdog-${{ github.event_name == 'workflow_run' && 'run' || 'sweep' }}
   cancel-in-progress: false
 
 jobs:
