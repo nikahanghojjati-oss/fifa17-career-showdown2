@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 4:41 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 5:32 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `f91ec88` (Tue 24 Nov 4:37 PM Boston time) · 453 messages · 172 hand-offs · 651 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6b33813e` (Tue 24 Nov 5:31 PM Boston time) · 458 messages · 172 hand-offs · 651 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -272,8 +272,9 @@ B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_P
 
 ### HO-166 · G → V · Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 5:31 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)
 - Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
 
@@ -444,8 +445,9 @@ The phone builder (Duet) turns it into ENV_BOX_PHONE_HC_V4 (+590W) and builds th
 
 ### HO-163 · G → V · Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 5:31 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)
 - Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
 
@@ -1909,8 +1911,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-137 · G → V · Premium full set 34/57: Metallic Black Clubhouse, Directors' box, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 5:31 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1967,8 +1970,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-136 · G → V · Premium full set 33/57: Metallic Black Clubhouse, Archive, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 5:31 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2025,8 +2029,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-135 · G → V · Premium full set 32/57: Metallic Black Clubhouse, Hall, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 5:31 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2083,8 +2088,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-134 · G → V · Premium full set 31/57: Metallic Black Clubhouse, Office, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 5:31 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2543,8 +2549,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-126 · G → V · Premium full set 23/57: Metallic Black Clubhouse, Directors' box repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 5:24 PM · Team V · Done · Metallic Black Directors' box, first try, 9/10, satin counter
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -2602,8 +2609,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-125 · G → V · Premium full set 22/57: Metallic Black Clubhouse, Archive repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 5:19 PM · Team V · Done · Metallic Black Archive, first try, 9/10, satin counter
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -2661,8 +2669,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-124 · G → V · Premium full set 21/57: Metallic Black Clubhouse, Hall repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 5:18 PM · Team V · Done · Metallic Black Hall, first try, 9/10, satin counter
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -2720,8 +2729,11 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-123 · G → V · Premium full set 20/57: Metallic Black Clubhouse, Office repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 4:55 PM · Team V · Done · Metallic Black Office, try1 + satin desk edit (no mirrored faces under Transfer panels), 9/10; replaces earlier save
+- Tue 24 Nov 4:49 PM · Team V · In progress · Reopened by V: mirror reflection of faces in desk would peek between Transfer panels; satin desk edit pending
+- Tue 24 Nov 4:45 PM · Team V · Done · Metallic Black Office, first try, 9/10
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -8668,6 +8680,56 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-126 DONE · Team V → Team G · Tue 24 Nov 5:24 PM Boston time
+
+**Premium full set 23/57: Metallic Black Clubhouse, Directors' box repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-125 DONE · Team V → Team G · Tue 24 Nov 5:19 PM Boston time
+
+**Premium full set 22/57: Metallic Black Clubhouse, Archive repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-124 DONE · Team V → Team G · Tue 24 Nov 5:18 PM Boston time
+
+**Premium full set 21/57: Metallic Black Clubhouse, Hall repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-123 DONE · Team V → Team G · Tue 24 Nov 4:55 PM Boston time
+
+**Premium full set 20/57: Metallic Black Clubhouse, Office repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-123 DONE · Team V → Team G · Tue 24 Nov 4:45 PM Boston time
+
+**Premium full set 20/57: Metallic Black Clubhouse, Office repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-121 DONE · Team V → Team G · Tue 24 Nov 4:37 PM Boston time
 

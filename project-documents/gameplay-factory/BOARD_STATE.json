@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 4:41 PM Boston time (EST)",
+ "generated": "2026-11-24 5:32 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 453,
+  "count": 458,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -4080,6 +4080,51 @@
     "subject": "Premium full set 18/57: Silver Clubhouse, Club room, phone band repaint",
     "reply": "no",
     "boston": "Tue 24 Nov 4:37 PM"
+   },
+   {
+    "time": "2026-11-24 21:45",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-123 DONE",
+    "subject": "Premium full set 20/57: Metallic Black Clubhouse, Office repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 4:45 PM"
+   },
+   {
+    "time": "2026-11-24 21:55",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-123 DONE",
+    "subject": "Premium full set 20/57: Metallic Black Clubhouse, Office repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 4:55 PM"
+   },
+   {
+    "time": "2026-11-24 22:18",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-124 DONE",
+    "subject": "Premium full set 21/57: Metallic Black Clubhouse, Hall repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 5:18 PM"
+   },
+   {
+    "time": "2026-11-24 22:19",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-125 DONE",
+    "subject": "Premium full set 22/57: Metallic Black Clubhouse, Archive repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 5:19 PM"
+   },
+   {
+    "time": "2026-11-24 22:24",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-126 DONE",
+    "subject": "Premium full set 23/57: Metallic Black Clubhouse, Directors' box repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 5:24 PM"
    }
   ],
   "g2v": {
@@ -4100,8 +4145,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "f91ec88",
-  "head_boston": "Tue 24 Nov 4:37 PM",
+  "head": "6b33813",
+  "head_boston": "Tue 24 Nov 5:31 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -4143,10 +4188,10 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1607 has waited 256 min for a machine; Showdown Gate on #1592 has waited 238 min for a machine; Showdown Gate on #1598 has waited 213 min for a machine; Showdown Gate on #1599 has waited 187 min for a machine; Showdown Gate on #1594 has waited 176 min for a machine; Showdown Gate on #1596 has waited 176 min for a machine; Showdown Gate on #1606 has waited 176 min for a machine; Showdown Gate on #1603 has waited 176 min for a machine; Showdown Gate on #1588 has waited 176 min for a machine; Showdown Gate on #1608 has waited 169 min for a machine; Showdown Gate on #1576 has waited 165 min for a machine; Showdown Gate on #1581 has waited 154 min for a machine; Showdown Gate on #1610 has waited 66 min for a machine; Showdown Gate on #1609 has waited 66 min for a machine; Showdown Gate on #1612 has waited 39 min for a machine; Showdown Gate on #1579 has waited 16 min for a machine; Showdown Gate on #1604 has waited 8 min for a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "state": "clear",
+   "line": "All clear (from GitHub).",
+   "gate": "POS20 #304 7/7",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -4931,7 +4976,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24157
+    "waiting_min": 24207
    },
    {
     "id": "HO-059",
@@ -5770,8 +5815,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 20/57: Metallic Black Clubhouse, Office repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-123_premium-full-set-20-57-metallic-black-cl.md",
     "worker": "images",
@@ -5783,8 +5828,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 21/57: Metallic Black Clubhouse, Hall repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-124_premium-full-set-21-57-metallic-black-cl.md",
     "worker": "images",
@@ -5796,8 +5841,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 22/57: Metallic Black Clubhouse, Archive repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-125_premium-full-set-22-57-metallic-black-cl.md",
     "worker": "images",
@@ -5809,8 +5854,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 23/57: Metallic Black Clubhouse, Directors' box repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-126_premium-full-set-23-57-metallic-black-cl.md",
     "worker": "images",
@@ -5913,7 +5958,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 31/57: Metallic Black Clubhouse, Office, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-134_premium-full-set-31-57-metallic-black-cl.md",
@@ -5926,7 +5971,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 32/57: Metallic Black Clubhouse, Hall, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-135_premium-full-set-32-57-metallic-black-cl.md",
@@ -5939,7 +5984,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 33/57: Metallic Black Clubhouse, Archive, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-136_premium-full-set-33-57-metallic-black-cl.md",
@@ -5952,7 +5997,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 34/57: Metallic Black Clubhouse, Directors' box, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-137_premium-full-set-34-57-metallic-black-cl.md",
@@ -6290,7 +6335,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-163_premium-league-roulette-room-2-6-metalli.md",
@@ -6329,7 +6374,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-166_premium-league-roulette-room-5-6-metalli.md",
@@ -6472,7 +6517,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 89,
+  "moving": 85,
   "next": 42,
   "nik": 2,
   "later": 21,
