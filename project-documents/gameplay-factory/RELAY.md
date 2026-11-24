@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 12:58 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 2:01 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `677c73e` (Tue 24 Nov 12:16 PM Boston time) · 412 messages · 162 hand-offs · 647 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `4f48f14` (Tue 24 Nov 2:01 PM Boston time) · 414 messages · 162 hand-offs · 648 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -3033,8 +3033,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-108 · G → V · Premium full set 5/57: Silver Clubhouse, Coaches' room repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 1:56 PM · Team V · Done · Platinum Coaches' room, try1 + calm counter veins edit, 9/10, Nik's Astra run 24 Nov
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -8061,6 +8062,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### SWATCH READY · Team G → Team V · Tue 24 Nov 2:01 PM Boston time
+
+**Platinum phone swatch cut from HO-108 (people-free, 1728 tall): REF_COACHES_SILVER_SWATCH.webp in attachments/ho-premium-full/; HO-119 can start** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-108 DONE · Team V → Team G · Tue 24 Nov 1:56 PM Boston time
+
+**Premium full set 5/57: Silver Clubhouse, Coaches' room repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### SWATCHES READY · Team G → Team V · Tue 24 Nov 12:16 PM Boston time
 

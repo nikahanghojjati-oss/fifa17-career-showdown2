@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 12:58 PM Boston time (EST)",
+ "generated": "2026-11-24 2:01 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 412,
+  "count": 413,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -3711,6 +3711,15 @@
     "subject": "Platinum phone swatches cut from HO-104..107 (people-free, 1728 tall): REF_{OFFICE,HALL,ARCHIVE,BOX}_SILVER_SWATCH.webp in attachments/ho-premium-full/; HO-115..118 can start",
     "reply": "no",
     "boston": "Tue 24 Nov 12:16 PM"
+   },
+   {
+    "time": "2026-11-24 18:56",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-108 DONE",
+    "subject": "Premium full set 5/57: Silver Clubhouse, Coaches' room repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 1:56 PM"
    }
   ],
   "g2v": {
@@ -3731,8 +3740,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "677c73e",
-  "head_boston": "Tue 24 Nov 12:16 PM",
+  "head": "90b5aa0",
+  "head_boston": "Tue 24 Nov 1:56 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -4562,7 +4571,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 23934
+    "waiting_min": 23997
    },
    {
     "id": "HO-059",
@@ -5206,8 +5215,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 5/57: Silver Clubhouse, Coaches' room repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-108_premium-full-set-5-57-silver-clubhouse-c.md",
     "worker": "images",
@@ -5973,7 +5982,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 95,
+  "moving": 94,
   "next": 42,
   "nik": 2,
   "later": 21,
