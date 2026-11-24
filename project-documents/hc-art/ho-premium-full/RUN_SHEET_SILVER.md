@@ -501,7 +501,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
 
-Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+Keep image 1 exactly the same in camera, framing and layout: the finished picture shows exactly the layout of image 1, a flat straight-on wall with the two wall lamps at the top, the wide window across the upper middle, the tall plain panelled wall below it, and the two trophies and two old balls on the ledge at the bottom. Image 2 is only a sample of materials and light: do not copy its banner, pedestal, armchair, floor, camera angle or layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
 
 Keep in the same places and at the same sizes: the two wall lamps, the window with the stadium, the panelled wall, the trophies and balls along the bottom. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
 
