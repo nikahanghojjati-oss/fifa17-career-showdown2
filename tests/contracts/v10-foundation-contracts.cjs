@@ -792,7 +792,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/silver/ENV_BOX_PLATE_HC_V4_2X.webp":"7b0709d2cf3eb6400cc66c7ed1c39d6cd622625a651a123d7cb7adee64415a8d",
     "visual-assets/v10_1/plates-hc/silver/ENV_BOX_SIDEWAYS_HC_V4.webp":"04983d7e1caedf6db7693de6db5e8776aad5f4ce310efba83896a57f4b17c7f5",
     "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_PHONE_HC_V3.webp":"eba02928049d8149968a4a91c6a612d2f59edc0044216dd5dddaed4f61da3875",
-    "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_PHONE_HC_V4.webp":"788ab40ede50fa324a2698a105500d4be66626100d7344da5d3f79e7851b325a",
+    "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_PHONE_HC_V4.webp":"719d1fb5c988180afd6ffb135f6e63805eb92575a263d2d70afc23013bc51ba0",
     "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_PLATE_HC_V3_1X.webp":"48f3a7f057b945ab8907aaca50058110931d745829e11abf37962161caccb4fe",
     "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_PLATE_HC_V3_2X.webp":"5e4c509208f26a23760133b83225a6b634e6a1f880656241c512285cfd6499dd",
     "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_SIDEWAYS_HC_V4.webp":"b899b2482d516949dbdacb6848949598fbe54eadbe4a8545dc8001b57d02c4a2",
