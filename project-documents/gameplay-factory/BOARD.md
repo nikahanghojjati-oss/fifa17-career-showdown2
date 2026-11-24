@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 24 Nov, 6:26 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 24 Nov, 6:51 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.11.0-r98** (main `fec8af6`, Mon 23 Nov 12:16 PM)
 
-🐕 **Barking: Showdown Gate on #1586 has waited 159 min for a machine; Showdown Gate on #1589 has waited 145 min for a machine; Showdown Gate on #1591 has waited 78 min for a machine; Showdown Gate on #1588 has waited 49 min for a machine; Showdown Gate on #1590 has waited 42 min for a machine; Showdown Gate on #1579 has waited 18 min for a machine; Showdown Gate on #1592 has waited 2 min for a machine.** · Gate #1580: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1580 0/16
+🐕 **Barking: Showdown Gate on #1591 has waited 107 min for a machine; Showdown Gate on #1579 has waited 47 min for a machine; Showdown Gate on #1588 has waited 20 min for a machine; Showdown Gate on #1593 has waited 20 min for a machine; Showdown Gate on #1590 has waited 3 min for a machine.** · Gate #1580: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1580 0/16
 
 ## Jobs
 
@@ -26,11 +26,11 @@ Updated Tue 24 Nov, 6:26 AM Boston time. Bug hunting only, no new features until
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 1030 h ago
+🟢 Team green · model not set · worker working, draft PR #774 · CI 6 of 7 passed · last move 1031 h ago
 
 **#4 · 1729** `G` Standings: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 1030 h ago
+🟢 Team green · model not set · worker working, draft PR #779 · CI 6 of 7 passed · last move 1031 h ago
 
 **#5 · 1730** `G` Trophy Room: sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -42,19 +42,19 @@ Updated Tue 24 Nov, 6:26 AM Boston time. Bug hunting only, no new features until
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 1030 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 1031 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 1001 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 1002 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 958 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 959 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 954 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 955 h ago
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
@@ -74,7 +74,7 @@ Updated Tue 24 Nov, 6:26 AM Boston time. Bug hunting only, no new features until
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 925 h ago
+⚪ Team white · model not set · worker working, draft PR #875 · CI 7 of 8 passed · last move 926 h ago
 
 **#16 · 1838** `G` CE2PG release run C: 10 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
