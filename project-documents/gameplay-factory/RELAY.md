@@ -1,12 +1,36 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 10:59 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 12:58 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `5b61ae5` (Tue 24 Nov 10:57 AM Boston time) · 403 messages · 161 hand-offs · 635 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `677c73e` (Tue 24 Nov 12:16 PM Boston time) · 412 messages · 162 hand-offs · 647 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-161 · V → G · Rename: Silver Clubhouse is now the Platinum Clubhouse
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+
+- Tue 24 Nov 12:15 PM · Team G · Done · display name Platinum everywhere; key `silver` and file/folder names unchanged, keep delivering to silver/
+- Tue 24 Nov 11:36 AM · Team V · Sent
+
+<details><summary>Full ticket</summary>
+
+## What
+Nik, 24 Nov 2026, 11:35 a.m. Eastern: "we are going to call it platinum from now on, relay to team g as well."
+
+The **Silver Clubhouse is renamed the Platinum Clubhouse**, everywhere from now on.
+
+- Every name a player sees (Settings clubhouse picker, labels, Rule Book, any copy) says **Platinum** / **Platinum Clubhouse**, never Silver.
+- New tickets, prompts and docs say Platinum. The open premium tickets HO-104..122 stay as they are (no reissue needed); Team V reads "Silver" in them as Platinum.
+- Team V keeps delivering to `project-documents/hc-art/ho-premium-full/silver/` with the current `*_SILVER_*` file names so nothing already wired breaks. Team G decides whether to rename the Settings key `silver` and the file names in code; if you do, tell Team V on this ticket and we will deliver to the new names.
+- Look rule for Platinum stays as Nik set it today: bright platinum (brushed platinum leaf, pale veined marble, polished nickel) that still reads as night (warm lamps, soft shadow only at the far ends).
+
+## Done when
+The display name says Platinum everywhere and Team G has said here whether the key/file names change (set DONE).
+
+</details>
 
 ### HO-160 · G → V · Premium full set 57/57: Premium Matte Black Clubhouse, Loading tunnel, phone band repaint
 
@@ -470,8 +494,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-152 · G → V · Premium full set 49/57: Premium Matte Black Clubhouse, Board Room, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -528,8 +553,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-151 · G → V · Premium full set 48/57: Premium Matte Black Clubhouse, Home lounge, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -586,8 +612,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-150 · G → V · Premium full set 47/57: Premium Matte Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -637,8 +664,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-149 · G → V · Premium full set 46/57: Premium Matte Black Clubhouse, Loading tunnel (behind Reus) repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -693,8 +721,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-148 · G → V · Premium full set 45/57: Premium Matte Black Clubhouse, Club room repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -749,8 +778,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-147 · G → V · Premium full set 44/57: Premium Matte Black Clubhouse, Players' tunnel repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -807,8 +837,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-146 · G → V · Premium full set 43/57: Premium Matte Black Clubhouse, Coaches' room repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -865,8 +896,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-145 · G → V · Premium full set 42/57: Premium Matte Black Clubhouse, Directors' box repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -923,8 +955,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-144 · G → V · Premium full set 41/57: Premium Matte Black Clubhouse, Archive repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -981,8 +1014,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-143 · G → V · Premium full set 40/57: Premium Matte Black Clubhouse, Hall repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1039,8 +1073,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-142 · G → V · Premium full set 39/57: Premium Matte Black Clubhouse, Office repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1557,8 +1592,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-133 · G → V · Premium full set 30/57: Metallic Black Clubhouse, Board Room, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1615,8 +1651,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-132 · G → V · Premium full set 29/57: Metallic Black Clubhouse, Home lounge, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1673,8 +1710,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-131 · G → V · Premium full set 28/57: Metallic Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1724,8 +1762,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-130 · G → V · Premium full set 27/57: Metallic Black Clubhouse, Loading tunnel (behind Reus) repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1780,8 +1819,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-129 · G → V · Premium full set 26/57: Metallic Black Clubhouse, Club room repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1836,8 +1876,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-128 · G → V · Premium full set 25/57: Metallic Black Clubhouse, Players' tunnel repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1894,8 +1935,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-127 · G → V · Premium full set 24/57: Metallic Black Clubhouse, Coaches' room repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1952,8 +1994,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-126 · G → V · Premium full set 23/57: Metallic Black Clubhouse, Directors' box repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2010,8 +2053,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-125 · G → V · Premium full set 22/57: Metallic Black Clubhouse, Archive repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2068,8 +2112,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-124 · G → V · Premium full set 21/57: Metallic Black Clubhouse, Hall repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2126,8 +2171,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-123 · G → V · Premium full set 20/57: Metallic Black Clubhouse, Office repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2644,8 +2690,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-114 · G → V · Premium full set 11/57: Silver Clubhouse, Board Room, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2702,8 +2749,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-113 · G → V · Premium full set 10/57: Silver Clubhouse, Home lounge, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2760,8 +2808,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-112 · G → V · Premium full set 9/57: Silver Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2811,8 +2860,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-111 · G → V · Premium full set 8/57: Silver Clubhouse, Loading tunnel (behind Reus) repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2867,8 +2917,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-110 · G → V · Premium full set 7/57: Silver Clubhouse, Club room repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2923,8 +2974,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-109 · G → V · Premium full set 6/57: Silver Clubhouse, Players' tunnel repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2981,8 +3033,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-108 · G → V · Premium full set 5/57: Silver Clubhouse, Coaches' room repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -3039,8 +3092,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-107 · G → V · Premium full set 4/57: Silver Clubhouse, Directors' box repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 11:56 AM · Team V · Done · Platinum Directors' box, first try 9/10 (updated Platinum prompt).
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -3097,8 +3152,12 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-106 · G → V · Premium full set 3/57: Silver Clubhouse, Archive repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 11:53 AM · Team V · Done · Replaced by Platinum Archive v3 + arch marble fix (9/10). Nik 24 Nov 11:35 a.m. Eastern: Silver is now called Platinum (HO-161).
+- Tue 24 Nov 11:34 AM · Team V · Done · Replaced by Nik's pick: first try (bright platinum look). Nik 24 Nov 11:33 a.m. Eastern: darker version too dark, prefers platinum approach for Silver.
+- Tue 24 Nov 11:33 AM · Team V · Done · 9/10 after 1 edit (night falloff + dark graphite vault), aligned <1px
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -3155,8 +3214,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-105 · G → V · Premium full set 2/57: Silver Clubhouse, Hall repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 11:24 AM · Team V · Done · 9/10 first try, aligned <1px
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -3213,8 +3274,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-104 · G → V · Premium full set 1/57: Silver Clubhouse, Office repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 11:09 AM · Team V · Done · 9/10 first try, aligned <1px
+- Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -7998,6 +8061,96 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### SWATCHES READY · Team G → Team V · Tue 24 Nov 12:16 PM Boston time
+
+**Platinum phone swatches cut from HO-104..107 (people-free, 1728 tall): REF_{OFFICE,HALL,ARCHIVE,BOX}_SILVER_SWATCH.webp in attachments/ho-premium-full/; HO-115..118 can start** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-161 DONE · Team G → Team V · Tue 24 Nov 12:15 PM Boston time
+
+**Rename: display name Platinum everywhere (PR #1607); key `silver` and file/folder names unchanged, keep delivering to silver/** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-107 DONE · Team V → Team G · Tue 24 Nov 11:56 AM Boston time
+
+**Premium full set 4/57: Silver Clubhouse, Directors' box repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-106 DONE · Team V → Team G · Tue 24 Nov 11:53 AM Boston time
+
+**Premium full set 3/57: Silver Clubhouse, Archive repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-161 SENT · Team V → Team G · Tue 24 Nov 11:36 AM Boston time
+
+**Rename: Silver Clubhouse is now the Platinum Clubhouse** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-106 DONE · Team V → Team G · Tue 24 Nov 11:34 AM Boston time
+
+**Premium full set 3/57: Silver Clubhouse, Archive repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-106 DONE · Team V → Team G · Tue 24 Nov 11:33 AM Boston time
+
+**Premium full set 3/57: Silver Clubhouse, Archive repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-105 DONE · Team V → Team G · Tue 24 Nov 11:24 AM Boston time
+
+**Premium full set 2/57: Silver Clubhouse, Hall repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-104 DONE · Team V → Team G · Tue 24 Nov 11:09 AM Boston time
+
+**Premium full set 1/57: Silver Clubhouse, Office repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-160 SENT · Team G → Team V · Tue 24 Nov 10:57 AM Boston time
 
