@@ -200,8 +200,8 @@ const WAIT_POINTS=Object.freeze({
   "career-start-open":{cat:"careerStart",share:0.5,full:true,why:"Career Start open on both phones, both managers creating their FIFA careers, nobody has tapped I STARTED"},
   "career-start-waiting":{cat:"careerStart",share:0.5,full:true,why:"one manager tapped I STARTED, the other still creating his career"},
   "transfer-window":{cat:"transfer",share:0.6,why:"window open (at most 14 of the transfer minutes, see pointMinutes), both on the transfer screen"},
-  "transfer-guesses":{cat:"transfer",share:0.2,why:"one manager locked guesses, the other still typing (half of what is left after the window)"},
-  "transfer-signings":{cat:"transfer",share:0.2,why:"one manager locked signings, the other still typing (the other half)"},
+  "transfer-guesses":{cat:"transfer",share:0.2,sampleMin:5.5,warmMin:3.5,why:"one manager locked guesses, the other still typing (half of what is left after the window)"},
+  "transfer-signings":{cat:"transfer",share:0.2,sampleMin:5.5,warmMin:3.5,why:"one manager locked signings, the other still typing (the other half)"},
   "results-entry":{cat:"results",share:1,why:"both on the results entry screen while the season is played offline"},
   "results-published":{cat:"results",share:0,why:"first manager published, the other still on the results screen (priced into results-entry at the dearer rate)"},
   "commit":{cat:"short",share:1,why:"both published, waiting for the coordinator's commit"},
@@ -1397,7 +1397,9 @@ async function budgetWait(point){
   if(!BUDGET_MODE)return;
   const def=WAIT_POINTS[point];if(!def)throw new Error(`unknown wait point ${point}`);
   const target=pointMinutes(point,WAIT_PROFILES[REALTIME_PROFILE||"slow"]);
-  const sample=def.share===0?SAMPLE_LONG_MIN:REALTIME_WAITS||def.full?target:Math.min(target,def.cat==="short"?SAMPLE_SHORT_MIN:SAMPLE_LONG_MIN);
+  // The Transfer War lock waits re-check every 30 s only for the fast lane's first 3 min (then every 2 min), so their sample runs past
+  // it (sampleMin) and their steady rate is taken after it (warmMin); the first minutes still count as measured.
+  const sample=def.share===0?SAMPLE_LONG_MIN:REALTIME_WAITS||def.full?target:Math.min(target,def.sampleMin||(def.cat==="short"?SAMPLE_SHORT_MIN:SAMPLE_LONG_MIN));
   const {daniel}=ctxRef;
   // The game's own read brake (CareerModeFirestoreBudget, r84 #994) engages after 150+ reads in 5 minutes without a tap, so a long wait can
   // cost less per minute than its first minutes: record whether it tripped during the wait.
@@ -1409,7 +1411,7 @@ async function budgetWait(point){
   const after={daniel:await stat(ctxRef.daniel),nik:await stat(ctxRef.nik)};
   const brake=Object.fromEntries(["daniel","nik"].map(u=>[u,{trips:(after[u]?.trips||0)-(before[u]?.trips||0),onAtEnd:Boolean(after[u]?.since)}]));
   meter.mark(`wait:${point}:${showdownNow}.S${seasonNow}:start@${from}`);meter.mark(`wait:${point}:${showdownNow}.S${seasonNow}:end@${to}`);
-  budgetWaits.push({brake,showdown:showdownNow,season:seasonNow,point,cat:def.cat,share:def.share,targetMin:target,sampleMin:(to-from)/60000,from,to});
+  budgetWaits.push({brake,showdown:showdownNow,season:seasonNow,point,cat:def.cat,share:def.share,warmMs:def.warmMin?def.warmMin*60000:null,targetMin:target,sampleMin:(to-from)/60000,from,to});
   await unlockProbe(point);
 }
 // CE2PG_UNLOCKS=N (budget mode): after a wait point's sample, each phone in turn locks and unlocks N times (the page goes hidden for
@@ -1532,7 +1534,7 @@ function seasonBilled(fromT,toT){
   const measured=priceWindow(fromT,toT);
   const waits=budgetWaits.filter(w=>w.from>=fromT&&w.to<=toT);
   const rows=waits.map(w=>{
-    const warm=Math.min(30000,(w.to-w.from)/2);
+    const warm=w.warmMs&&!REALTIME_WAITS?Math.min(w.warmMs,(w.to-w.from)*0.8):Math.min(30000,(w.to-w.from)/2);
     const tail=priceWindow(w.from+warm,w.to),tailMin=(tail.ms)/60000||1e-9;
     const whole=priceWindow(w.from,w.to);
     // Real-time runs only: what extrapolating just the first SAMPLE minutes of this wait would have predicted for the whole wait.
