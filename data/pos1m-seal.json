@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "engine": "POS1M",
+  "sealed": false,
+  "note": "Not sealed yet. POS1M's million-story workflow replaces this whole file when it seals a build; until then Settings shows no Proof Wall plaque."
+}

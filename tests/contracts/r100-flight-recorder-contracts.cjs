@@ -266,6 +266,11 @@ await check('FR9 review fixes: the tap hands on only the six public documents an
   assert.match(settings,/function refreshSettingsOfflinePanel\(\)\{\n    if\(!settingsContent\)\{ return false; \}\n[^\n]*\n    if\(settingsView === "flight"\)\{ return false; \}/,'an offline-state change leaves the Flight Recorder page alone');
   assert.match(settings,/if\(settingsView === "flight"\)\{ return; \}\n                renderSettings\(\);/,'so does a preferences change');
   assert.match(settings,/"\.settingsFlightRecorderBack",/,'BACK TO SETTINGS keeps focus across a redraw');
+  // until POS1M seals a build the shipped seal file is an unsealed placeholder: fetched without a 404 and never a plaque
+  const placeholder=JSON.parse(read('data/pos1m-seal.json'));
+  assert.equal(placeholder.schemaVersion,1);assert.equal(placeholder.engine,'POS1M');assert.equal(placeholder.sealed,false);
+  for(const key of ['build','commit','sealedAt','stories','laws','plantedBugs'])assert.equal(Object.hasOwn(placeholder,key),false,`the placeholder has no ${key}, so settingsProofSealValid rejects it`);
+  assert.match(settings,/seal\.schemaVersion === 1 && seal\.engine === "POS1M"\s*&& typeof seal\.build === "string"/,'the plaque needs a build');
 });
 
 await check('FR8 zero Firebase reads or writes: the recorder names no Firestore call and no fetch',()=>{
