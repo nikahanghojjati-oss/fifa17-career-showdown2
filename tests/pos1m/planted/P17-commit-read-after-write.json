@@ -1,0 +1,9 @@
+{
+ "id": "P17-commit-read-after-write",
+ "law": "L12_LIVENESS",
+ "title": "The commit transaction reads after it writes",
+ "file": "js/sparkSharedSeasonCommit.js",
+ "find": "tx.set(ctx.commitRef,scpStorageFromCore(applied.state,{rivalryId:ctx.rivalryId,sessionId:ctx.sessionId,deviceId:ctx.deviceId,serverTimestamp:sdk.serverTimestamp()}));}",
+ "replace": "tx.set(ctx.commitRef,scpStorageFromCore(applied.state,{rivalryId:ctx.rivalryId,sessionId:ctx.sessionId,deviceId:ctx.deviceId,serverTimestamp:sdk.serverTimestamp()}));await tx.get(ctx.commitRef);}",
+ "why": "Firestore throws on a read after a write in one transaction; a kinder stand-in would let this pass."
+}

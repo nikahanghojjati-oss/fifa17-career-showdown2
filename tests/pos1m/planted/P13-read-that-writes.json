@@ -1,0 +1,9 @@
+{
+ "id": "P13-read-that-writes",
+ "law": "L14_BUDGET",
+ "title": "Every progression read also writes a document",
+ "file": "js/sparkSharedMultiSeasonProgression.js",
+ "find": "return msp13Freeze({setup,managerRole:actor.managerRole,acceptedSeasons,commitPhases:phases});",
+ "replace": "tx.set(sdk.doc(db,\"rivalries\",rivalryId,\"meters\",`multiRead_${uid}`),{at:Date.now()});return msp13Freeze({setup,managerRole:actor.managerRole,acceptedSeasons,commitPhases:phases});",
+ "why": "A read that writes: billed writes per season grow with every look at the step."
+}

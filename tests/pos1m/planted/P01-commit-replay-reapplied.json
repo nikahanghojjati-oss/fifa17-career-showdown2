@@ -1,0 +1,9 @@
+{
+ "id": "P01-commit-replay-reapplied",
+ "law": "L13_REPEAT_ONCE",
+ "title": "A repeated COMMIT SHARED SEASON tap is applied again instead of replayed",
+ "file": "js/sparkSharedSeasonCommit.js",
+ "find": "let current=null;if(ctx.stored){",
+ "replace": "let current=null;if(ctx.stored&&type!==\"commit-season\"){",
+ "why": "The provider skips the stored commit for commit-season, so the same command again builds a fresh commit and overwrites the accepted one."
+}
