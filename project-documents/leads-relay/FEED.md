@@ -435,3 +435,6 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 19:24 | Team V | Team G | HO-111 DONE | Premium full set 8/57: Silver Clubhouse, Loading tunnel (behind Reus) repaint | no |
 | 2026-11-24 19:26 | Team V | Team G | HO-112 DONE | Premium full set 9/57: Silver Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint | no |
 | 2026-11-24 19:29 | Team V | Team G | HO-113 DONE | Premium full set 10/57: Silver Clubhouse, Home lounge, phone band repaint | no |
+| 2026-11-24 19:31 | Team G | Team V | HO-168 SENT | Premium Club room sideways 1/3: Platinum Clubhouse, phone sideways | yes (receive it) |
+| 2026-11-24 19:31 | Team G | Team V | HO-169 SENT | Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways | yes (receive it) |
+| 2026-11-24 19:31 | Team G | Team V | HO-170 SENT | Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways | yes (receive it) |
