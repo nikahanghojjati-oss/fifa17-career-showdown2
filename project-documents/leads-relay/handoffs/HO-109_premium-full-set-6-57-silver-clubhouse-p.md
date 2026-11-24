@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RETURNED",
+ "status": "WORKING",
  "steps": [],
  "evidence": ["claude/project-thread-ie3afv 99ae9946 project-documents/hc-art/ho-premium-full/silver/ENV_TUNNEL_PLATE_SILVER_P1_2X.webp"],
- "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:58Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-24T19:18:02Z", "by": "V", "status": "DONE", "note": "Platinum Players' tunnel, first try, 9/10"}, {"at": "2026-11-24T20:24:08Z", "by": "G", "status": "RETURNED", "note": "REDO (Nik 20:23 UTC \"repaint the Tunnel darker\"): same composition, materials and size 3072x1728, but NIGHT like the rest of Platinum: warm lamp, darker corners, lit pitch the brightest thing. New Light paragraph and steps in the REDO section of this ticket; save as the same asset name, then DONE again. HO-120 waits for the redo swatch."}],
+ "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:58Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-24T19:18:02Z", "by": "V", "status": "DONE", "note": "Platinum Players' tunnel, first try, 9/10"}, {"at": "2026-11-24T20:24:08Z", "by": "G", "status": "RETURNED", "note": "REDO (Nik 20:23 UTC \"repaint the Tunnel darker\"): same composition, materials and size 3072x1728, but NIGHT like the rest of Platinum: warm lamp, darker corners, lit pitch the brightest thing. New Light paragraph and steps in the REDO section of this ticket; save as the same asset name, then DONE again. HO-120 waits for the redo swatch."}, {"at": "2026-11-24T20:27:13Z", "by": "V", "status": "WORKING", "note": "REDO received; night prompt in RUN_SHEET_SILVER.md (806dbdb11)"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
