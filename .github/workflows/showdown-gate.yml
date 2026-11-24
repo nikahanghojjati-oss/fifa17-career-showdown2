@@ -811,9 +811,84 @@ jobs:
           overwrite: true
           retention-days: 7
 
+  l8-pos1m:
+    name: L8 POS1M ${{ matrix.shard }}
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L8-${{ matrix.shard }} --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      # POS1M (Phoenix B4): Node only, no emulator, no browser, no production Firebase. The stand-in's own harshness first.
+      - name: 'TEST: POS1M stand-in contracts'
+        id: pos1m_standin
+        run: node tests/pos1m/standin-contracts.cjs
+      - name: 'TEST: POS1M Ring 1 (20,000 stories, shard of 3)'
+        id: pos1m_ring1
+        run: node tests/pos1m/run.cjs --stories 20000 --seed 1 --shard ${{ matrix.shard }}/3 --workers 4 --quiet --out "$RUNNER_TEMP/pos1m-ring1-${{ matrix.shard }}.json"
+      - name: 'TEST: POS1M planted bugs are caught'
+        id: pos1m_planted
+        run: node tests/pos1m/planted.cjs --stories 240 --workers 4 --out "$RUNNER_TEMP/pos1m-planted-${{ matrix.shard }}.json"
+      - name: Upload POS1M reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: pos1m-ring1-${{ matrix.shard }}
+          path: ${{ runner.temp }}/pos1m-*.json
+          if-no-files-found: ignore
+          retention-days: 7
+          overwrite: true
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L8-${{ matrix.shard }} --route "$RUNNER_TEMP/route.json" --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: showdown-gate-lane-L8-${{ matrix.shard }}
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
   seal:
     name: seal
-    needs: [l1-core, l2-browser-full, l3a, l3b, l4-remote, l5-rules-regression, l6-browser-journey, l7-ironman]
+    needs: [l1-core, l2-browser-full, l3a, l3b, l4-remote, l5-rules-regression, l6-browser-journey, l7-ironman, l8-pos1m]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 8
