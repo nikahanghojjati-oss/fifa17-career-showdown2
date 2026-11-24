@@ -3564,7 +3564,7 @@
     {
       "path": "tests/contracts/r100-fresh-device-champion-contracts.cjs",
       "patterns": [
-        "^js/(productionSharedJourneyEntry|productionSharedTerminalClose|sparkTerminalClose)\\.js$",
+        "^js/(productionSharedJourneyEntry|productionSharedTerminalClose|sparkTerminalClose|persistentNikDanielPair|sparkConnectedRivalry)\\.js$",
         "^tests/contracts/r100\\-fresh\\-device\\-champion\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]

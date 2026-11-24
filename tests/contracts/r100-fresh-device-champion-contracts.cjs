@@ -5,6 +5,9 @@
 // Close read, judged by the close's server-checked time; Final Winner shows as today when the close is at most 10 minutes old.
 // Never on a phone that showed the Champion (cms.championShown.v1), never once the page left Home, never twice on a page, and
 // Home always stays when anything is off (old close, ended early, another save, a failed read).
+// In 3.0 (Nik 2026-11-24 "Put that fix in"): a truly fresh device holds no save at all, so FD11/FD12 add the rebuild: the closed
+// pair's exact slot rebuilds the shell (as a live Showdown's does), Connected Rivalry points this device at the closed rivalry
+// (read-only check, local pointer; allowClosed only on that call), then the same Terminal Close read and Final Winner.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -137,7 +140,44 @@ const SHOWN="cms.championShown.v1",DUE="cms.championPending.v1";
     assert.match(spark,/closedAtMs:stcMillis\(rivalry\.updatedAt\)/);
     assert.match(read("js/productionSharedTerminalClose.js"),/closedAtMs:Number\.isFinite\(terminalRead\.closedAtMs\)/);
     assert.match(ENTRY,/const FRESH_CHAMPION_MS=10\*60\*1000;/);
-    ok("FD10","no new write, no new read path; the close time comes from the same Terminal Close read");
+    ok("FD10","no write to Firebase; the close time comes from the same Terminal Close read");
+  }
+  // FD11 Connected Rivalry: a closed rivalry is accepted only when the caller asks (attachRivalry allowClosed), with the same
+  // exact slot check; never a deleted, ended or other-account rivalry. Run for real on the function body.
+  {
+    const cr=read("js/sparkConnectedRivalry.js");
+    const start=cr.indexOf("  function crAssertActiveRivalryValue(");const end=cr.indexOf("\n  function crRemoteManagerBindings(");
+    assert.ok(start>0&&end>start);
+    const sandbox={};vm.createContext(sandbox);
+    vm.runInContext(`function crIsEnvelopeValue(v,kind,id){return Boolean(v&&v.kind===kind&&v.id===id);}function crError(code,message){return Object.assign(new Error(message||code),{code});}\n${cr.slice(start,end)}\nglobalThis.check=crAssertActiveRivalryValue;`,sandbox);
+    const ACC="acc_1",binding={managerRole:"playerOne",profileId:"profile_"+"a".repeat(24),saveId:SAVE};
+    const value=(connectionState,extra={})=>({kind:"rivalry",id:R,lifecycleState:"live",...extra,data:{connectionState,authorizedAccountIds:[ACC,"acc_2"],managerSlots:[{slotId:"playerOne",accountId:ACC,profileId:binding.profileId,saveId:SAVE,entitlementState:"active"},{slotId:"playerTwo",accountId:"acc_2",profileId:"profile_"+"b".repeat(24),saveId:"save_"+"2".repeat(24),entitlementState:"active"}]}});
+    const code=fn=>{try{fn();return "ok";}catch(error){return error.code;}};
+    assert.equal(code(()=>sandbox.check(value("active"),R,ACC,binding)),"ok");
+    assert.equal(code(()=>sandbox.check(value("closed"),R,ACC,binding)),"CONNECTED_RIVALRY_NOT_ACTIVE","closed refused by default");
+    assert.equal(code(()=>sandbox.check(value("closed"),R,ACC,binding,{allowClosed:true})),"ok","closed accepted only when asked");
+    assert.equal(code(()=>sandbox.check(value("closed",{lifecycleState:"deleted"}),R,ACC,binding,{allowClosed:true})),"CONNECTED_RIVALRY_NOT_FOUND");
+    assert.equal(code(()=>sandbox.check(value("pending-pair"),R,ACC,binding,{allowClosed:true})),"CONNECTED_RIVALRY_NOT_ACTIVE");
+    assert.equal(code(()=>sandbox.check(value("closed"),R,"acc_3",binding,{allowClosed:true})),"CONNECTED_RIVALRY_NOT_ACTIVE","another account");
+    assert.equal(code(()=>sandbox.check(value("closed"),R,ACC,{...binding,saveId:"save_"+"9".repeat(24)},{allowClosed:true})),"CONNECTED_RIVALRY_BINDING_MISMATCH","another save");
+    assert.match(cr,/crAssertActiveRivalryValue\(rivalrySnapshot\.exists\(\)\?rivalrySnapshot\.data\(\):null,rivalryId,accountId,binding,\{allowClosed:options\.allowClosed===true\}\);/);
+    assert.equal((cr.match(/allowClosed/g)||[]).length,5,"allowClosed lives only in the attach path");
+    ok("FD11","Connected Rivalry attaches a closed rivalry only when asked, with the same exact slot check");
+  }
+  // FD12 the rebuild: only on the fresh-device path, only with no active save, the closed pair's own exact ids, then the attach.
+  {
+    const pair=read("js/persistentNikDanielPair.js");
+    const fn=pair.slice(pair.indexOf("async function pairAdoptClosedShowdownShell"),pair.indexOf("\n",pair.indexOf("async function pairAdoptClosedShowdownShell")));
+    assert.match(fn,/if\(state\.rivalryId\|\|state\.busy\|\|/,"never while a Showdown is live");
+    assert.match(fn,/if\(!pairHasExactShowdownShell\(role,saveId,profileId\)\)\{if\(runtime\.getLibrarySnapshot\?\.\(\)\?\.activeSaveId\|\|/,"rebuilt only on a device with no active save; an exact shell is reused");
+    assert.match(fn,/runtime\.adoptOnlineEntry\(\{saveId,profileId,role,totalRounds\}\)/);
+    assert.match(fn,/pairAttachRecoveryPointer\(context,binding,rivalryId,\{allowClosed:true\}\)\)\.ok===true;\}$/);
+    assert.doesNotMatch(fn,/setDoc|updateDoc|transaction\.set|transaction\.update|deleteDoc/,"nothing written to Firebase");
+    assert.match(pair,/pairLastClosedProviderProfileId=pairValidProfileId\(slot\.profileId\)\?slot\.profileId:null;pairLastClosedManagerRole=link\.managerRole;/,"the closed slot's own ids, from the pair read already made");
+    assert.match(ENTRY,/if\(recentOnly\)await adoptClosedShell\(rivalryId,pair\);/,"only on the fresh-device path (a close at most 10 minutes old)");
+    const adopt=ENTRY.slice(ENTRY.indexOf("async function adoptClosedShell"),ENTRY.indexOf("async function championForClosedRivalry"));
+    assert.match(adopt,/pair\?\.closedRivalryId!==rivalryId\)return false;/);assert.match(adopt,/if\(before\?\.activeSaveId\)return false;/);
+    ok("FD12","the closed Showdown's shell is rebuilt only on a device with no save, from the closed slot's ids, then pointed at");
   }
   console.log(`PASS r100 fresh-device Champion contracts (${passed})`);
 })().catch(error=>{console.error(error);process.exit(1);});

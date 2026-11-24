@@ -463,9 +463,17 @@
   // The Champion screen of one closed Showdown on this phone's own save: one Terminal Close read (none when this page already
   // holds it CLOSED), then Season Results' host draws Final Winner. False (Home stays) when it is not this save's, not CLOSED
   // with its finish witness (DELETED: ended early), or anything fails.
+  async function adoptClosedShell(rivalryId,pair){
+    const api=root.CareerModePersistentNikDanielPair;if(!api||typeof api.adoptClosedShowdownShell!=="function"||pair?.closedRivalryId!==rivalryId)return false;
+    const before=root.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.();if(before?.activeSaveId)return false;
+    try{return await api.adoptClosedShowdownShell()===true;}catch(_error){return false;}
+  }
   async function championForClosedRivalry(rivalryId,pair,{recentOnly=false}={}){
     try{
       await ensureSaveAuthority();
+      // Phoenix F3: a phone swapped right after the last CONFIRM has no save of this Showdown: its shell is rebuilt from the
+      // closed pair's exact slot and pointed at the closed rivalry (only on a device with no active save; nothing written remotely).
+      if(recentOnly)await adoptClosedShell(rivalryId,pair);
       const library=root.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.();
       if(pair?.closedProviderSaveId&&library?.activeSaveId!==pair.closedProviderSaveId){clearChampionPending(rivalryId);return false;}
       // The closed Showdown's own save is put back in memory (as Home's CONTINUE does, without its navigation): Terminal Close
