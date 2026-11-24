@@ -71,6 +71,24 @@ play a Showdown with a phone on 2.12.0. The habit that kept 2.11.0 safe stays an
 
 ## Reads and writes
 
+**Official numbers: Chrome 153, 296/296.** The verify thread ran the same 3-season CE2PG on full Chrome 153 (the browser whose
+storage wipe keeps the sign-in, see below), on the PR head 3800e178 and on live 2.11.0 (main fec8af69), in one container:
+
+| Season | 2.11.0 billed / writes | 2.12.0 (3800e178) billed / writes |
+|---|---|---|
+| 1 (START, pairing, setup) | not split here | 1,538 / 120 |
+| 2 | not split here | 807 / 58 |
+| 3 (final) | not split here | 603 / 28 |
+| **Total** | **2,843 / 206** | **2,948 / 206** |
+
+2.12.0 passed **296/296**, with all 46 wipe checks and all 48 fresh-browser checks green (live 2.11.0 also passed 296/296).
+Writes are equal (206), and the Rules lookups on writes are again 513 / 247 / 151. The +105 reads (+3.7 %) are run-to-run noise,
+not a cost: the same 2.11.0 code measured 2,843, 2,929 (2026-11-22) and 2,961 (below), a spread of about ±120, and the 2.12.0
+runs measured 2,914, 2,925 and 2,948. The noise comes from listener and page-check timing. No clubhouse makes a Firestore call.
+So r99 adds no read or write. Log: gameplay/r99/threads/bump/wipe-check/b2120-3s-chrome153-pass.log (project files).
+
+Supporting runs from the bump thread follow.
+
 CE2PG single plan, 3 seasons, waits off, Firebase emulator only (no production reads), firebase@12.17.0, both managers and both
 phones, run side by side on the same cloud container on 2026-11-24 (~02:47 to 03:05 UTC). 2.11.0 = main fec8af69; 2.12.0 = this
 branch's bump commit f61a7d7e (gameplay/r99 cbd4ddea + the bump). Both runs compose the same Rules (`8eb56137…`). Billed = the
@@ -96,8 +114,19 @@ the harness wipes each page's local storage at the end (Career Statistics says "
 "unavailable", Settings THIS DEVICE "Not ready"); every season check, every live career-page check on both phones and every
 brand-new-browser check (`end.fresh.*`, `end.all.identical.*-fresh`) passes, as do zz.pageerrors / zz.network / zz.production /
 zz.meter. The failure is identical on the live 2.11.0 tree (main fec8af69), so it does not come from r99; the 2.11.0 bump's run of
-the same 2.11.0 code passed these checks on 2026-11-22. It is reported to the lead as a separate investigation (History/career,
-sensitive), not fixed here. Logs: gameplay/r99/threads/bump/m2110-3s.log and b2120-3s.log (project files).
+the same 2.11.0 code passed these checks on 2026-11-22.
+
+**Cause: the test browser, not the game** (verify thread verdict, 2026-11-24, proven by the 296/296 Chrome 153 runs above). On Chrome 157 and later, the harness's CDP wipe
+(`Storage.clearDataForOrigin`, `local_storage`) also clears sessionStorage, which holds the Firebase sign-in, so the reopened page
+is signed out. On full Chrome 153 the same call keeps sessionStorage and live 2.11.0 passes 296/296. This container has no
+Chrome 153 (its `chromium-1243/real` binary reports 158.0.8127.36 and the 153 download is blocked), so the check was re-run on
+the PR head 3800e178 with a local-only, uncommitted harness patch that saves sessionStorage before the wipe and puts it back
+after, as Chrome 153 does: **all 44 `end.wiped.*` checks pass, 294/296**. The two misses are `zz.production` on the wiped pages
+and come from the patch itself: it stops on `/manifest.webmanifest` to restore the session, and that one page load fetched
+`js/productionFirebaseRuntime.js` without the emulator hook (no production host was contacted, `forbidden: []`). That run
+measured 1,531 / 835 / 559 = 2,925 billed reads, 206 writes (120 / 58 / 28), Rules-on-writes again 513 / 247 / 151. The harness
+fix itself (restore sessionStorage, or clear localStorage without the CDP call) is left to the verify thread. Logs:
+gameplay/r99/threads/bump/m2110-3s.log, b2120-3s.log and b3800-ssfix-3s.log; probe in bump/wipe-check/ (project files).
 
 ## Update safety
 
