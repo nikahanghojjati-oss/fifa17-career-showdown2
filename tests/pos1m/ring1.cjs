@@ -378,7 +378,7 @@ class Manager{
 // Story
 // ---------------------------------------------------------------------------------------------------------------
 class Story{
-  constructor(plan,{trace=false,mutant=null}={}){
+  constructor(plan,{trace=process.env.POS1M_TRACE==="1",mutant=null}={}){
     this.plan=plan;this.mutant=mutant;
     this.sim=new Sim(plan.seed);this.sim.traceOn=trace;this.traceOn=trace;
     this.over=false;this.error=null;this.violations=[];this.moves=[];this.repeats=[];this.observations=[];
