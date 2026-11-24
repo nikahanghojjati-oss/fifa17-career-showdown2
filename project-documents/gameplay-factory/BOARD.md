@@ -6,13 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 24 Nov, 5:32 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
-
-> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
+Updated Tue 24 Nov, 6:09 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.12.0-r99** (main `7dc0d48`, Tue 24 Nov 8:12 AM)
 
-🩺 **All clear (from GitHub).** · POS20 #304 7/7
+🐕 **Barking: Showdown Gate on #1594 has waited 275 min for a machine; Showdown Gate on #1603 has waited 274 min for a machine; Showdown Gate on #1588 has waited 274 min for a machine; Showdown Gate on #1596 has waited 274 min for a machine; Showdown Gate on #1606 has waited 274 min for a machine; Showdown Gate on #1608 has waited 268 min for a machine; Showdown Gate on #1576 has waited 263 min for a machine; Showdown Gate on #1581 has waited 253 min for a machine; Showdown Gate on #1611 has waited 145 min for a machine; Showdown Gate on #1612 has waited 138 min for a machine; Showdown Gate on #1579 has waited 114 min for a machine; Showdown Gate on #1604 has waited 106 min for a machine; Showdown Gate on #1605 has waited 99 min for a machine; POS20 has waited 24 min for a machine; Showdown Gate on #1599 has waited 18 min for a machine; Showdown Gate on #1598 has waited 18 min for a machine; Showdown Gate on #1591 has waited 18 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -48,11 +46,11 @@ Updated Tue 24 Nov, 5:32 PM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 1012 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 1013 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 969 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 970 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -72,7 +70,7 @@ Updated Tue 24 Nov, 5:32 PM Boston time. Bug hunting only, no new features until
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 939 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 940 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -1991,8 +1989,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`███████░░░` **70.9302 %**  
-Team V hand-offs: 122 of 172 done
+`████████░░` **75.0000 %**  
+Team V hand-offs: 129 of 172 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  
