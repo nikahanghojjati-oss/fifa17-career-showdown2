@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": ["claude/project-thread-ie3afv 816b4d57a project-documents/hc-art/ho-premium-full/black/ENV_OFFICE_PLATE_BLACK_P1_2X.webp"],
- "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:58Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-24T21:45:59Z", "by": "V", "status": "DONE", "note": "Metallic Black Office, first try, 9/10"}, {"at": "2026-11-24T21:49:52Z", "by": "V", "status": "WORKING", "note": "Reopened by V: mirror reflection of faces in desk would peek between Transfer panels; satin desk edit pending"}],
+ "evidence": ["claude/project-thread-ie3afv 816b4d57a project-documents/hc-art/ho-premium-full/black/ENV_OFFICE_PLATE_BLACK_P1_2X.webp", "claude/project-thread-ie3afv 1716a21d0 project-documents/hc-art/ho-premium-full/black/ENV_OFFICE_PLATE_BLACK_P1_2X.webp"],
+ "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:58Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-24T21:45:59Z", "by": "V", "status": "DONE", "note": "Metallic Black Office, first try, 9/10"}, {"at": "2026-11-24T21:49:52Z", "by": "V", "status": "WORKING", "note": "Reopened by V: mirror reflection of faces in desk would peek between Transfer panels; satin desk edit pending"}, {"at": "2026-11-24T21:55:43Z", "by": "V", "status": "DONE", "note": "Metallic Black Office, try1 + satin desk edit (no mirrored faces under Transfer panels), 9/10; replaces earlier save"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
