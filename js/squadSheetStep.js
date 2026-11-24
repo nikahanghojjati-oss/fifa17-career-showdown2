@@ -21,6 +21,9 @@
   const KEPT_KEY="careerModeShowdown.squadSheets.v1",KEPT_MAX=48,DONE_KEY="careerModeShowdown.squadDone.v1",DONE_MAX=60;
   const DRAFT_KEY="careerModeShowdown.squadDraft.v1",DRAFT_MAX=4,LOAD_WAIT_MS=12000,POLL_MS=4000;
   const BRIDGE_FAST_FOR_MS=60000,BRIDGE_SLOW_MS=8000,BRIDGE_FAILED_MS=30000;
+  // Lead on #1588: a new listener often delivers a cached copy before its first server copy. Until the stream has delivered a
+  // server copy once, the first bridge read waits BRIDGE_FIRST_MS, so a healthy (slow) start never pays a bridge read.
+  const BRIDGE_FIRST_MS=5000;
   const STAGE_WORD=Object.freeze({pre:"Before the Russian Roulette",post:"After the Transfer War"});
   const NEXT_WORD=Object.freeze({pre:"GO TO THE RUSSIAN ROULETTE",post:"GO TO SEASON RESULTS"});
   const LIST_MAX=Object.freeze({names:18,out:100,ov:150});
@@ -145,15 +148,15 @@
       // left Squad Management waiting on the rival's lock for good. While the copy is from cache the rival's document is read
       // (one billed read each): every 4 s for the first minute, then every 8 s; none while the page is hidden or the phone is
       // offline, and 30 s after a failed read. Worst case, a stream dead for 5 minutes on a visible page: 15 + 30 = 45 reads.
-      let live=true,bridging=false;
-      const bridge=async()=>{if(bridging)return;bridging=true;const since=Date.now();let next=POLL_MS;
+      let live=true,bridging=false,served=false;
+      const bridge=async()=>{if(bridging)return;bridging=true;const since=Date.now();let next=served?POLL_MS:BRIDGE_FIRST_MS;
         try{while(!stopped&&!live){await sqsWait(next);if(stopped||live)break;
           if(doc0?.visibilityState==="hidden"||root.navigator?.onLine===false){next=1000;continue;}
           sqsServerNext(io,ctx.season,"pre",role);const read=await sqsGet(io,ctx,role,ctx.season,"pre",false);if(stopped||live)break;
           if(!read.ok){next=BRIDGE_FAILED_MS;continue;}if(read.data){take(read.data);break;}
           next=Date.now()-since<BRIDGE_FAST_FOR_MS?POLL_MS:BRIDGE_SLOW_MS;}}finally{bridging=false;}};
       const doc0=sqsDoc();
-      stop=api.onSnapshot(ref,{includeMetadataChanges:true},snap=>{if(stopped)return;if(snap.metadata?.fromCache){live=false;void bridge();return;}live=true;if(snap.exists())take(snap.data());},error=>{if(!stopped)onError(error);});
+      stop=api.onSnapshot(ref,{includeMetadataChanges:true},snap=>{if(stopped)return;if(snap.metadata?.fromCache){live=false;void bridge();return;}live=true;served=true;if(snap.exists())take(snap.data());},error=>{if(!stopped)onError(error);});
       return ()=>{stopped=true;try{stop();}catch(_error){}};
     }
     const doc=sqsDoc();

@@ -16,6 +16,9 @@
   // Chamber Men keeps the 2.5 s pace (a kick's deadline is 14.6 s after the rival's kick, so a slower bridge would let the timer
   // decide a turn) and waits 5 s after a failed read.
   const BRIDGE_FAST_MS=2500,BRIDGE_FAST_FOR_MS=Infinity,BRIDGE_SLOW_MS=2500,BRIDGE_FAILED_MS=5000;
+  // Lead on #1588: a new listener often delivers a cached copy before its first server copy. Until the stream has delivered a
+  // server copy once, the first bridge read waits BRIDGE_FIRST_MS, so a healthy (slow) start never pays a bridge read.
+  const BRIDGE_FIRST_MS=5000;
   // Codex C2: past the rival's lock-in by the pick clock, the last kick's reveal and 2 s for the network, a pick lands as the
   // timeout '-'. The Rules hold 16.6 s (the 2.2.0 reveal); this phone's own limit is never longer.
   const LATE_MS=PICK_MS+KICK_MS+2000;
@@ -170,13 +173,13 @@
       // server (one billed read each) every 2.5 s, as the kick clock needs; none while the page is hidden or the phone is offline,
       // and 5 s after a failed read. The reads stop as soon as a server copy is back. Worst case, a stream dead for 5 minutes on a
       // visible page: 120 reads on that phone (only during such a fault; a shootout lasts about 2-3 minutes).
-      let stopped=false,live=true,bridging=false;
-      const bridge=async()=>{if(bridging)return;bridging=true;const since=Date.now();let next=BRIDGE_FAST_MS;
+      let stopped=false,live=true,bridging=false,served=false;
+      const bridge=async()=>{if(bridging)return;bridging=true;const since=Date.now();let next=served?BRIDGE_FAST_MS:BRIDGE_FIRST_MS;
         try{while(!stopped&&!live){await cmsWait(next);if(stopped||live)break;
           if(root.document?.visibilityState==="hidden"||root.navigator?.onLine===false){next=1000;continue;}
           try{cmsServerNext(io,ctx.season);const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped&&!live)onData(data);next=Date.now()-since<BRIDGE_FAST_FOR_MS?BRIDGE_FAST_MS:BRIDGE_SLOW_MS;}
           catch(_error){next=BRIDGE_FAILED_MS;}}}finally{bridging=false;}};
-      const off=api.onSnapshot(listenRef,{includeMetadataChanges:true},snap=>{if(stopped)return;if(snap.metadata?.fromCache){live=false;void bridge();return;}live=true;if(snap.metadata?.hasPendingWrites)return;onData(snap.exists()?snap.data():null);},onError);
+      const off=api.onSnapshot(listenRef,{includeMetadataChanges:true},snap=>{if(stopped)return;if(snap.metadata?.fromCache){live=false;void bridge();return;}live=true;served=true;if(snap.metadata?.hasPendingWrites)return;onData(snap.exists()?snap.data():null);},onError);
       return ()=>{stopped=true;try{off();}catch(_error){}};
     }
     let stopped=false;

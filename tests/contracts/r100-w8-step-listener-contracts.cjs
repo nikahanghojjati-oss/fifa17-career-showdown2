@@ -22,7 +22,8 @@ function harness(file,watch,wait){
   const root={document:{visibilityState:"visible"},navigator:{onLine:true},CareerModeFirestoreBudget:{readServerNext:path=>{reads.asks.push(path);}}};
   const line=source.match(/const BRIDGE_FAST_MS=[^;]+;/);assert.ok(line,`${file} sets its bridge pace`);
   const pace=vm.runInNewContext(`${line[0].replace("const ","var ")}({BRIDGE_FAST_MS,BRIDGE_FAST_FOR_MS,BRIDGE_SLOW_MS,BRIDGE_FAILED_MS})`,{Infinity});
-  const sandbox={root,Promise,Date:FakeDate,POLL_MS:2500,...pace,COLLECTION:"x",setTimeout:(fn,ms)=>{timers.push({fn,ms});}};
+  const first=source.match(/const BRIDGE_FIRST_MS=(\d+);/);assert.ok(first,`${file} waits before its first bridge read until a server copy has arrived`);
+  const sandbox={root,Promise,Date:FakeDate,POLL_MS:2500,...pace,BRIDGE_FIRST_MS:Number(first[1]),COLLECTION:"x",setTimeout:(fn,ms)=>{timers.push({fn,ms});}};
   const code=`const ${wait}=ms=>new Promise(r=>setTimeout(r,ms));
     async function ${watch.replace("Watch","SnapshotApi")}(io){return io.sdk;}
     function ${watch.replace("Watch","Ref")}(io,season){return {season};}
@@ -62,7 +63,7 @@ function harness(file,watch,wait){
     // A failed bridge read is tried again 2.5 s later; it never ends the step.
     const g=harness(file,watch,wait);const seen=[];let ended=0;await g.api.watch(g.io,{season:1},d=>seen.push(d),()=>{ended+=1;});
     g.state.snap(g.snap(true,null));await g.tick();const real=g.io.sdk.runTransaction;g.io.sdk.runTransaction=async()=>{throw Object.assign(new Error("offline"),{code:"unavailable"});};
-    await g.fire();assert.equal(ended,0);assert.equal(g.timers.length,1,"tried again");assert.equal(g.timers[0].ms,want.BRIDGE_FAILED_MS,"the hold-off after a failed read");g.io.sdk.runTransaction=real;g.state.server={kicks:7};await g.fire(want.BRIDGE_FAILED_MS);assert.deepEqual(seen.at(-1),{kicks:7});
+    await g.fire(5000);assert.equal(ended,0);assert.equal(g.timers.length,1,"tried again");assert.equal(g.timers[0].ms,want.BRIDGE_FAILED_MS,"the hold-off after a failed read");g.io.sdk.runTransaction=real;g.state.server={kicks:7};await g.fire(want.BRIDGE_FAILED_MS);assert.deepEqual(seen.at(-1),{kicks:7});
     // A failed read waits 30 s before the next (offline does not spin failed reads), then goes on.
     assert.equal(g.timers.length,1);
     // Budget (Spark): 2.5 s for the first minute, then 8 s; hidden or offline pages make no read; worst case for 5 minutes.
@@ -81,6 +82,14 @@ function harness(file,watch,wait){
       let answer;const real=d.io.sdk.runTransaction;d.io.sdk.runTransaction=()=>new Promise(r=>{answer=r;});const t=d.timers.shift();t.fn();await d.tick();
       d.state.snap(d.snap(false,{kicks:6,revision:6}));await d.tick();answer({kicks:5,revision:5});await d.tick();
       assert.deepEqual(seen,[{kicks:6,revision:6}],"the older read is never applied after the newer server copy");d.io.sdk.runTransaction=real;}
+    // Lead on #1588: a healthy listener that starts with a cached copy and gets its server copy within 5 s makes no bridge read;
+    // a stream refused from the start is bridged 5 s in, then at the step's pace.
+    {const c=harness(file,watch,wait);const seen=[];await c.api.watch(c.io,{season:1},x=>seen.push(x),()=>{});
+      c.state.snap(c.snap(true,{kicks:1}));await c.tick();assert.equal(c.timers[0].ms,5000,"the first bridge read waits 5 s until a server copy has arrived");
+      c.state.snap(c.snap(false,{kicks:2}));await c.tick();await c.fire(5000);assert.equal(c.reads.n,0,"cached copy, then the server copy: no bridge read on a healthy start");
+      assert.equal(c.timers.length,0);assert.deepEqual(seen,[{kicks:2}]);
+      const r=harness(file,watch,wait);await r.api.watch(r.io,{season:1},()=>{},()=>{});r.state.snap(r.snap(true,null));await r.tick();
+      await r.fire(5000);assert.equal(r.reads.n,1,"a stream refused from the start: first bridge read at 5 s");assert.equal(r.timers[0].ms,want.BRIDGE_FAST_MS,"then the step's pace");}
     ok(`${file}: a listener whose stream is down is bridged by server reads (${want.BRIDGE_FAST_MS/1000} s, ${want.BRIDGE_SLOW_MS/1000} s after the first minute; none hidden or offline; ${want.BRIDGE_FAILED_MS/1000} s after a failure; at most ${want.max5} in 5 minutes); a read in flight when it is back is dropped; reads stop when it is live again or the step ends`);
   }
   // The Prime Pack never steps back: an older revision of the round is ignored (the step's own guard, like Chamber Men's).
@@ -94,7 +103,8 @@ function harness(file,watch,wait){
     const body=source.slice(start,end+4);const line=source.match(/const BRIDGE_FAST_FOR_MS=[^;]+;/);assert.ok(line);
     const timers=[],state={snap:null,gets:0,data:null,fail:false,asks:[],unasked:0};const clock={now:Date.parse("2026-11-24T09:00:00Z")};class FakeDate extends Date{static now(){return clock.now;}}
     const doc={visibilityState:"visible"},root={navigator:{onLine:true},CareerModeFirestoreBudget:{readServerNext:path=>{state.asks.push(path);}}};
-    const code=`${line[0]}const POLL_MS=4000,COLLECTION="x";const sqsWait=ms=>new Promise(r=>setTimeout(r,ms));
+    const firstLine=source.match(/const BRIDGE_FIRST_MS=\d+;/);assert.ok(firstLine);
+    const code=`${line[0]}${firstLine[0]}const POLL_MS=4000,COLLECTION="x";const sqsWait=ms=>new Promise(r=>setTimeout(r,ms));
       function sqsOther(r){return r==="playerOne"?"playerTwo":"playerOne";}function sqsPointKey(){return "k";}function sqsKept(){return null;}function sqsKeep(){}
       function sqsParse(raw){return raw;}async function sqsSnapshotApi(io){return io.sdk;}function sqsRef(){return {};}function sqsDocId(s,st,r){return s+"_"+st+"_"+r;}function sqsDoc(){return doc;}
       ${(source.match(/  function sqsServerNext\(io,season,stage,role\)\{[^\n]*\n/)||[""])[0]}
@@ -115,6 +125,9 @@ function harness(file,watch,wait){
     assert.equal(state.unasked,0,"every bridge read asked for the server first");assert.equal(state.asks[0],"rivalries/r/x/1_pre_playerTwo","the rival's locked document");
     assert.ok(state.gets<=45,`a stream dead for 5 minutes costs ${state.gets} reads (at most 45)`);
     state.data={locked:true};await fire();assert.deepEqual(got,[{locked:true}],"the rival's lock arrives by the read");assert.equal(timers.length,0,"and the reads stop");assert.equal(errors,0);
+    {const t0=timers.length;state.gets=0;const got2=[];await api.watch(io,{managerRole:"playerOne",season:1},d=>got2.push(d),()=>{});
+      state.snap(snap(true,null));await tick();assert.equal(timers.at(-1).ms,5000,"Squad Management: the first bridge read waits 5 s until a server copy has arrived");
+      state.snap(snap(false,null));await tick();const t=timers.pop();clock.now+=t.ms;t.fn();await tick();assert.equal(state.gets,0,"cached copy, then the server copy: no bridge read on a healthy start");assert.equal(timers.length,t0);}
     ok("squadSheetStep.js: the wait for the rival's lock is bridged by reads while the listener is down (4 s, 8 s after a minute, none hidden or offline, 30 s after a failure, at most 45 in 5 minutes) and stops once the lock is in");}
   console.log(`PASS r100 W8 step listener contracts: ${passed} checks`);
 })().catch(error=>{console.error(error);process.exit(1);});
