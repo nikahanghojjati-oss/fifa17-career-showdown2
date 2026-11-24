@@ -516,7 +516,7 @@
     return true;
   }
 
-  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (js/optionalModules.js).
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
   try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["squad-sheet"]=()=>{boardsMemo.clear();};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"cms-squad-management-step",stageId:STAGE_ID,collection:COLLECTION,keptKey:KEPT_KEY,doneKey:DONE_KEY,
     applies:sqsApplies,ensure:sqsEnsure,run:sqsRun,boards:sqsBoards,history:sqsHistory,close:sqsClose,end:sqsEnd,isDone:sqsIsDone,markDone:sqsMarkDone,wentHome:()=>wentHome,active:()=>Boolean(running),

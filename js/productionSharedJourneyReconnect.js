@@ -228,7 +228,7 @@
     return true;
   }
 
-  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (js/optionalModules.js).
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
   try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["journey-reconnect"]=()=>{pjrGeneration+=1;state=null;contextKey="";lastReportedCode="";heldTransientCode="";};}catch(_error){}
   return Object.freeze({
     contractVersion:1,feature:"ssjr-production-shared-journey-reconnect",productionEnabled:true,runtimeRevision:"1.9.1-r14",pollIntervalMs:POLL_MS,
