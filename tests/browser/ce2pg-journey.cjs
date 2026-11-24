@@ -1920,11 +1920,17 @@ async function main(){
         // r92 (T3): the page is taken off the game before its storage is wiped (a game page that finds its own storage empty under it logs
         // "The Save Library could not be inspected safely"). The keys are read, the page goes to about:blank, and the browser itself clears
         // the origin's local storage; the game is opened again from its address, as a phone that lost its storage would.
+        // r100: on Chrome 157 (headless shell) clearing "local_storage" also clears the tab's sessionStorage, where the Firebase
+        // sign-in lives, so the wiped page came back signed out and every end.wiped check failed falsely (Chrome 149/153 keep it).
+        // The check is about losing LOCAL storage only: the tab's sessionStorage is saved first and put back, before the game's
+        // own scripts run, on the first load that finds local storage empty (the wiped load; later loads leave it alone).
         const keys=await m.page.evaluate(()=>Object.keys(localStorage));
+        const session=await m.page.evaluate(()=>Object.fromEntries(Object.keys(sessionStorage).map(k=>[k,sessionStorage.getItem(k)])));
+        await m.page.addInitScript(saved=>{try{if(localStorage.length===0)for(const [k,v] of Object.entries(saved))if(sessionStorage.getItem(k)===null)sessionStorage.setItem(k,v);}catch(_e){}},session);
         await m.page.goto("about:blank");
         const cdp=await m.context.newCDPSession(m.page);
         try{await cdp.send("Storage.clearDataForOrigin",{origin:new URL(BASE).origin,storageTypes:"local_storage"});}finally{await cdp.detach().catch(()=>{});}
-        report.observations.push({where:"storage wipe",user:m.user,localStorageKeys:keys});
+        report.observations.push({where:"storage wipe",user:m.user,localStorageKeys:keys,sessionStorageKeysKept:Object.keys(session)});
         await m.page.goto(urlFor(m.account),{waitUntil:"domcontentloaded"});
         await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
         await m.page.waitForFunction(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.initialized===true&&s.busy===false);},null,{timeout:30000}).catch(()=>{});
