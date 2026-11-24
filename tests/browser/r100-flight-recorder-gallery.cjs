@@ -23,7 +23,7 @@ const output = path.resolve(process.env.CMS_TEST_RESULTS || "test-results", "r10
 const scale = Number(process.env.CMS_FR_SCALE || 1);
 const sizes = (process.env.CMS_FR_SIZES || "1920x866,1920x1035,1366x768,1280x650,390x844,375x667,844x390,768x1024").split(",").map(s => s.split("x").map(Number));
 const APP_VERSION = /const APP_VERSION = "([^"]+)"/.exec(fs.readFileSync(path.resolve(__dirname, "../../js/app.js"), "utf8"))[1];
-const SEAL = { schemaVersion: 1, engine: "POS1M", build: APP_VERSION, commit: "c0ffee".padEnd(40, "0"), sealedAt: "2026-11-28T03:00:00Z",
+const SEAL = { schemaVersion: 1, engine: "POS1M", sealed: true, build: APP_VERSION, commit: "c0ffee".padEnd(40, "0"), sealedAt: "2026-11-28T03:00:00Z",
   stories: { survived: 1000000, run: 1000000 }, laws: { held: 15, total: 15 }, plantedBugs: { caught: 40, total: 40 }, ledgerReplays: { refound: 12, total: 12 } };
 const STEPS = showdown(3, { stamp: plainStamp }).steps;
 
@@ -166,14 +166,14 @@ async function assertClearOfChrome(page, targets, label) {
       }
       // ---- no plaque without a valid seal for this build ----
       if (width === 1920 && height === 866 || width === 390) {
-        for (const seal of [null, { ...SEAL, build: "9.9.9" }, { ...SEAL, stories: { survived: 999999, run: 1000000 } }]) {
+        for (const seal of [null, { ...SEAL, build: "9.9.9" }, { ...SEAL, stories: { survived: 999999, run: 1000000 } }, { ...SEAL, sealed: false }]) {
           browser = await launch();
           const context = await browser.newContext({ viewport: { width, height }, reducedMotion: "reduce", isMobile: phone, hasTouch: phone });
           const page = await context.newPage();
           try {
             await boot(page, { seal });
             await openSettings(page);
-            assert.equal(await page.locator(".settingsProofWall").count(), 0, `no plaque for ${JSON.stringify(seal && { build: seal.build, stories: seal.stories })}`);
+            assert.equal(await page.locator(".settingsProofWall").count(), 0, `no plaque for ${JSON.stringify(seal && { build: seal.build, stories: seal.stories, sealed: seal.sealed })}`);
           } finally { await context.close().catch(() => {}); await browser.close().catch(() => {}); browser = null; }
         }
         console.log(`PASS ${tag} no plaque without a whole seal for this build`);

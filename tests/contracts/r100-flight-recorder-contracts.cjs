@@ -271,7 +271,18 @@ await check('FR9 review fixes: the tap hands on only the six public documents an
   const placeholder=JSON.parse(read('data/pos1m-seal.json'));
   assert.equal(placeholder.schemaVersion,1);assert.equal(placeholder.engine,'POS1M');assert.equal(placeholder.sealed,false);
   for(const key of ['build','commit','sealedAt','stories','laws','plantedBugs'])assert.equal(Object.hasOwn(placeholder,key),false,`the placeholder has no ${key}, so settingsProofSealValid rejects it`);
-  assert.match(settings,/seal\.schemaVersion === 1 && seal\.engine === "POS1M"\s*&& typeof seal\.build === "string"/,'the plaque needs a build');
+  assert.match(settings,/seal\.schemaVersion === 1 && seal\.engine === "POS1M" && seal\.sealed === true\s*&& typeof seal\.build === "string"/,'the plaque needs a build');
+  // Codex #1581: only a run POS1M itself sealed (tests/pos1m/seal.cjs: whole shard set, replays run and passed) becomes a plaque
+  {
+    const fn=/function settingsProofSealValid\(seal\)\{[\s\S]*?\n\}/.exec(settings)[0];
+    const valid=new Function('getSettingsApplicationVersion',fn+'\nreturn settingsProofSealValid;')(()=> '3.0.0');
+    const good={schemaVersion:1,engine:'POS1M',sealed:true,build:'3.0.0',commit:'a'.repeat(40),sealedAt:'2026-11-28T03:00:00Z',stories:{survived:9,run:9},laws:{held:3,total:3},plantedBugs:{caught:2,total:2}};
+    assert.equal(valid(good),true,'a whole seal for this build shows');
+    assert.equal(valid({...good,sealed:false}),false,'counts that match but a run POS1M did not seal (shards missing, replays failed) show nothing');
+    const {sealed,...noFlag}=good;assert.equal(valid(noFlag),false,'no sealed flag, no plaque');
+    assert.equal(valid({...good,sealed:'true'}),false,'only the boolean true seals');
+    assert.equal(valid({...good,build:'2.11.0'}),false);assert.equal(valid({...good,laws:{held:2,total:3}}),false);
+  }
 });
 
 await check('FR8 zero Firebase reads or writes: the recorder names no Firestore call and no fetch',()=>{

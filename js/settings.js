@@ -1190,14 +1190,15 @@ function createFlightRecorderPanel(recorder){
 function settingsProofSealValid(seal){
     const count = value => Number.isInteger(value) && value > 0;
     const whole = (value, done, all) => Boolean(value && typeof value === "object" && count(value[all]) && value[done] === value[all]);
-    return Boolean(seal && typeof seal === "object" && seal.schemaVersion === 1 && seal.engine === "POS1M"
+    return Boolean(seal && typeof seal === "object" && seal.schemaVersion === 1 && seal.engine === "POS1M" && seal.sealed === true
         && typeof seal.build === "string" && seal.build === getSettingsApplicationVersion()
         && typeof seal.commit === "string" && /^[0-9a-f]{40}$/.test(seal.commit)
         && typeof seal.sealedAt === "string" && !Number.isNaN(Date.parse(seal.sealedAt))
         && whole(seal.stories, "survived", "run") && whole(seal.laws, "held", "total") && whole(seal.plantedBugs, "caught", "total"));
 }
 // The seal is a static file in the build (not precached: until POS1M's first green million there is none). A missing file or a
-// seal for another build, with a story lost, a law broken or a planted bug missed, shows no plaque. Offline: asked again next open.
+// seal for another build, not sealed by POS1M (a shard missing, a replay failed or not run), with a story lost, a law broken or a
+// planted bug missed, shows no plaque. Offline: asked again next open.
 function loadSettingsProofSeal(){
     if(settingsProofSeal !== undefined || settingsProofSealLoad || typeof fetch !== "function"){ return; }
     settingsProofSealLoad = fetch(SETTINGS_PROOF_SEAL_PATH, { cache: "no-cache", credentials: "same-origin" })
