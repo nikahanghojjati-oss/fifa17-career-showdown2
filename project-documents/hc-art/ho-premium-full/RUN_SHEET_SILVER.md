@@ -293,6 +293,141 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 No men in these pictures. Image 2 is the swatch cut from the finished Platinum Directors' box (HO-107).
 
+## HO-115 · Platinum Clubhouse, Office, phone band repaint
+
+- Image 1: [ENV_OFFICE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png)
+- Image 2: [REF_OFFICE_SILVER_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_OFFICE_SILVER_SWATCH.png)
+- Saves as `ENV_OFFICE_PHONE_SILVER_P1`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the dark window with the floodlight, the lamp at the right edge, the desk with the two blotters. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+Walls and panels: hand-laid square platinum leaves, exactly like image 2, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. Frames: polished nickel that mirrors the room. Lamp metal: polished nickel; shades stay warm cream and lit. Counter: honed pale grey-white marble with a few long, smooth, softly curving grey veins that flow gently across the slab like brush strokes, with no jagged, broken or cracked lines, exactly the stone of image 2, no brown or beige tint, holding a soft dim reflection of the lamps and of the dark suits.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Near each lamp the platinum glows a bright warm champagne silver; away from the lamps it settles to cool clear silver-grey, and only the far corners and the very top of the room fall into soft shadow, so it reads as a bright lounge after dark, not a dark room. Behind each man the wall sits at a calm middle grey so the black suits read crisply against it. The colour is neutral platinum with a trace of warmth: never beige, taupe, brown or blue. Stone is light with dark veins, never dark stone with white cracks. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials, handcrafted, clean sharp detail; clear air, no fog, no haze, no glow halo, no noise grain, no streaks, no cloudy, swirl, crackle or cracked-ice patterns in the stone or metal. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-116 · Platinum Clubhouse, Hall, phone band repaint
+
+- Image 1: [ENV_HALL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_HALL_PHONE_HC_V3.png)
+- Image 2: [REF_HALL_SILVER_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_HALL_SILVER_SWATCH.png)
+- Saves as `ENV_HALL_PHONE_SILVER_P1`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the stone pillars, the double door with its fanlight, the side table and lamp, the wall lamp at the right, the counter edge, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+Walls and panels: hand-laid square platinum leaves, exactly like image 2, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. Frames: polished nickel that mirrors the room. Lamp metal: polished nickel; shades stay warm cream and lit. Counter: honed pale grey-white marble with a few long, smooth, softly curving grey veins that flow gently across the slab like brush strokes, with no jagged, broken or cracked lines, exactly the stone of image 2, no brown or beige tint, holding a soft dim reflection of the lamps and of the dark suits.
+
+Light: It is night. Light comes only from the same warm lamps in the same places. Near each lamp the platinum glows a bright warm champagne silver; away from the lamps it settles to cool clear silver-grey, and only the far corners and the very top of the room fall into soft shadow, so it reads as a bright lounge after dark, not a dark room. Behind each man the wall sits at a calm middle grey so the black suits read crisply against it. The colour is neutral platinum with a trace of warmth: never beige, taupe, brown or blue. Stone is light with dark veins, never dark stone with white cracks. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials, handcrafted, clean sharp detail; clear air, no fog, no haze, no glow halo, no noise grain, no streaks, no cloudy, swirl, crackle or cracked-ice patterns in the stone or metal. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-117 · Platinum Clubhouse, Archive, phone band repaint
+
+- Image 1: [ENV_ARCHIVE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png)
+- Image 2: [REF_ARCHIVE_SILVER_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_ARCHIVE_SILVER_SWATCH.png)
+- Saves as `ENV_ARCHIVE_PHONE_SILVER_P1`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the vaulted corridor of arches, the two lit display niches, the counter edge, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+Walls and panels: hand-laid square platinum leaves, exactly like image 2, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. Frames: polished nickel that mirrors the room. Lamp metal: polished nickel; shades stay warm cream and lit. Counter: honed pale grey-white marble with a few long, smooth, softly curving grey veins that flow gently across the slab like brush strokes, with no jagged, broken or cracked lines, exactly the stone of image 2, no brown or beige tint, holding a soft dim reflection of the lamps and of the dark suits.
+
+Light: It is night. Light comes only from the same warm lamps in the same places. Near each lamp the platinum glows a bright warm champagne silver; away from the lamps it settles to cool clear silver-grey, and only the far corners and the very top of the room fall into soft shadow, so it reads as a bright lounge after dark, not a dark room. Behind each man the wall sits at a calm middle grey so the black suits read crisply against it. The colour is neutral platinum with a trace of warmth: never beige, taupe, brown or blue. Stone is light with dark veins, never dark stone with white cracks. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials, handcrafted, clean sharp detail; clear air, no fog, no haze, no glow halo, no noise grain, no streaks, no cloudy, swirl, crackle or cracked-ice patterns in the stone or metal. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-118 · Platinum Clubhouse, Directors' box, phone band repaint
+
+- Image 1: [ENV_BOX_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_BOX_PHONE_HC_V3.png)
+- Image 2: [REF_BOX_SILVER_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_BOX_SILVER_SWATCH.png)
+- Saves as `ENV_BOX_PHONE_SILVER_P1`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the window with the night stadium and pitch, the counter rail, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+Walls and panels: hand-laid square platinum leaves, exactly like image 2, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. Frames: polished nickel that mirrors the room. Lamp metal: polished nickel; shades stay warm cream and lit. Counter: honed pale grey-white marble with a few long, smooth, softly curving grey veins that flow gently across the slab like brush strokes, with no jagged, broken or cracked lines, exactly the stone of image 2, no brown or beige tint, holding a soft dim reflection of the lamps and of the dark suits.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Near each lamp the platinum glows a bright warm champagne silver; away from the lamps it settles to cool clear silver-grey, and only the far corners and the very top of the room fall into soft shadow, so it reads as a bright lounge after dark, not a dark room. Behind each man the wall sits at a calm middle grey so the black suits read crisply against it. The colour is neutral platinum with a trace of warmth: never beige, taupe, brown or blue. Stone is light with dark veins, never dark stone with white cracks. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials, handcrafted, clean sharp detail; clear air, no fog, no haze, no glow halo, no noise grain, no streaks, no cloudy, swirl, crackle or cracked-ice patterns in the stone or metal. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-119 · Platinum Clubhouse, Coaches' room, phone band repaint
+
+- Image 1: [ENV_COACHES_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_COACHES_PHONE_HC_V3.png)
+- Image 2: [REF_COACHES_SILVER_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_COACHES_SILVER_SWATCH.png)
+- Saves as `ENV_COACHES_PHONE_SILVER_P1`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the shelf with the old balls, the small wall lamp, the window with the pitch, the counter rail, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+Walls and panels: hand-laid square platinum leaves, exactly like image 2, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. Frames: polished nickel that mirrors the room. Lamp metal: polished nickel; shades stay warm cream and lit. Counter: honed pale grey-white marble with a few long, smooth, softly curving grey veins that flow gently across the slab like brush strokes, with no jagged, broken or cracked lines, exactly the stone of image 2, no brown or beige tint, holding a soft dim reflection of the lamps and of the dark suits.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Near each lamp the platinum glows a bright warm champagne silver; away from the lamps it settles to cool clear silver-grey, and only the far corners and the very top of the room fall into soft shadow, so it reads as a bright lounge after dark, not a dark room. Behind each man the wall sits at a calm middle grey so the black suits read crisply against it. The colour is neutral platinum with a trace of warmth: never beige, taupe, brown or blue. Stone is light with dark veins, never dark stone with white cracks. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials, handcrafted, clean sharp detail; clear air, no fog, no haze, no glow halo, no noise grain, no streaks, no cloudy, swirl, crackle or cracked-ice patterns in the stone or metal. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
 ## HO-165 · Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men
 
 - Image 1: [IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png)
