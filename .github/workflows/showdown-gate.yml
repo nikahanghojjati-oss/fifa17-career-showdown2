@@ -1,6 +1,6 @@
 # Showdown Gate: the PR check set since 2026-10-10 (Nik chose the switch after a READY exit report). It
 # replaces Validate POS20 and Validate Gameplay Fast, which stay archived (manual dispatch only) for rollback.
-# Seven lanes run in parallel; each lane computes its own route with the unchanged POS20 router (no shared
+# Eight lanes run in parallel (L7 Ironman is a matrix: one job per fault); each lane computes its own route with the unchanged POS20 router (no shared
 # selector job), and the seal requires every lane green on the exact head with every routed id executed.
 # GATE_COVERAGE.json maps every command of the 16 old gates to a step here, and
 # tests/contracts/showdown-gate-coverage-contracts.cjs enforces it. Every job is read-only and every checkout
@@ -704,9 +704,114 @@ jobs:
           overwrite: true
           retention-days: 7
 
+  # L7 Ironman (Phoenix W10): the fault-injection journey, one job per fault (each with its own emulators), plus one 3-season
+  # CE2PG. Routed by scripts/showdown-gate.mjs (l7Decision): on a PR into a release branch it runs only when game or journey
+  # files change; a skip is recomputed and verified by the seal. Seeded from the head; a failure reruns once with the same seed
+  # (scripts/ironman-leg.mjs): a second failure is red, a pass on the rerun is FLAKY (listed by the seal, filed and fixed).
+  l7-ironman:
+    name: L7 Ironman ${{ matrix.leg }}
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        leg: [none, network, lock, evict, reload, tabkill, twotabs, quota, coldoffline, ce2pg]
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L7-${{ matrix.leg }} --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        if: steps.route.outputs.l7_run == 'true'
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Firebase emulator and npx caches
+        if: steps.route.outputs.l7_run == 'true'
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            ~/.cache/firebase/emulators
+            ~/.npm/_npx
+          key: showdown-gate-L6-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Restore Playwright and Chromium browser caches
+        if: steps.route.outputs.l7_run == 'true'
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            /tmp/cms-chromium-runtime
+          key: showdown-gate-browsers-ubuntu-24.04-playwright-1.62.1-chromium-149.0.0-v1
+      - name: Install locked dependencies
+        if: steps.route.outputs.l7_run == 'true'
+        run: npm ci
+      # firebase@12.17.0: 12.17.1 breaks emulator sign-in in the browser journeys (CE2PG), so L6 and L7 pin 12.17.0.
+      - name: Install pinned Firebase emulator test dependencies
+        if: steps.route.outputs.l7_run == 'true'
+        run: npm install --no-save --package-lock=false firebase@12.17.0 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: 'TEST: Ironman leg (fault journey or 3-season CE2PG, seeded, one rerun)'
+        id: ironman
+        if: steps.route.outputs.l7_run == 'true'
+        env:
+          CMS_CHROMIUM_MULTI_CONTEXT: '1'
+          IRONMAN_SEED: ${{ steps.route.outputs.seed }}
+        run: node scripts/ironman-leg.mjs --leg ${{ matrix.leg }} --seed "$IRONMAN_SEED" --seasons 3 --out "test-results/ironman-${{ matrix.leg }}.json"
+      - name: Upload Ironman reports
+        if: always() && steps.route.outputs.l7_run == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: ironman-${{ matrix.leg }}
+          path: test-results
+          if-no-files-found: ignore
+          retention-days: 7
+          overwrite: true
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L7-${{ matrix.leg }} --route "$RUNNER_TEMP/route.json" --ironman "test-results/ironman-${{ matrix.leg }}.json" --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: showdown-gate-lane-L7-${{ matrix.leg }}
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
   seal:
     name: seal
-    needs: [l1-core, l2-browser-full, l3a, l3b, l4-remote, l5-rules-regression, l6-browser-journey]
+    needs: [l1-core, l2-browser-full, l3a, l3b, l4-remote, l5-rules-regression, l6-browser-journey, l7-ironman]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 8

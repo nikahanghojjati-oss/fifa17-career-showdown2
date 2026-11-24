@@ -160,12 +160,20 @@ let checks=0;const ok=()=>{checks++;};
   ok();
 
   // 5. Lane structure, TEST: naming, step ids that record ran ids, runner pin, no POS20-named checks.
-  const laneJobs=Object.values(gateLib.LANES).map(l=>l.job);
-  assert.deepEqual(Object.keys(gate.jobs),[...laneJobs,'seal'],'Showdown Gate has exactly seven lanes and the seal');
+  // L7 Ironman is one matrix job (l7-ironman) whose legs are lane records L7-<leg>; every other lane is one job.
+  const laneJobs=[...new Set(Object.values(gateLib.LANES).map(l=>l.job))];
+  assert.deepEqual(Object.keys(gate.jobs),[...laneJobs,'seal'],'Showdown Gate has exactly eight lane jobs and the seal');
+  const l7Job=gateJob('l7-ironman');
+  assert.deepEqual(l7Job.strategy?.matrix?.leg,[...gateLib.L7_LEGS],'L7 runs one job per Ironman leg, exactly the legs scripts/showdown-gate.mjs records');
+  assert.equal(l7Job.strategy?.['fail-fast'],false,'one red leg never cancels the other legs');
+  assert.deepEqual(gateLib.LANE_IDS.filter(gateLib.isL7),gateLib.L7_LEGS.map(gateLib.l7Lane));
   const TEST_COMMAND=/npm run (?:test:|work:benchmark)|node tests\/|emulators:exec|pos10-proof-runner|assert-firestore-zero-billing|build-production-firestore-rules|pos20-impact-router|showdown-gate\.mjs route/;
   for(const [laneId,def] of Object.entries(gateLib.LANES)){
     const job=gateJob(def.job);
-    assert.equal(job.name,def.name);
+    const l7=gateLib.isL7(laneId);
+    // A matrix leg names its lane through the matrix value: --lane L7-${{ matrix.leg }}.
+    const laneArg=l7?'L7-${{ matrix.leg }}':laneId;
+    assert.equal(job.name,l7?`${def.name} \${{ matrix.leg }}`:def.name);
     assert.equal(job['runs-on'],'ubuntu-24.04',`${def.job} runs-on must be pinned`);
     assert.equal(job.if,"${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}",`${def.job} must skip draft PRs`);
     assert.ok(!('needs' in job),`${def.job} must not depend on another job (no shared selector)`);
@@ -175,6 +183,7 @@ let checks=0;const ok=()=>{checks++;};
       if(commandLines(step.run).filter(line=>!/^(?:pkill|pgrep|for) /.test(line)).some(line=>TEST_COMMAND.test(line)))assert.match(step.label,/^TEST: /,`${def.job} step running tests must be named TEST: (${step.label})`);
       if(/^TEST: /.test(step.label)&&step.id!=='route')assert.ok(def.steps[step.id],`${def.job} TEST step "${step.label}" must record its ids in scripts/showdown-gate.mjs LANES`);
       if(laneId==='L5'&&(step.id==='regression'||step.id==='budget_sweep'))assert.equal(step.if,"steps.route.outputs.l5_run == 'true'",'L5 regression and Rules budget sweep must use the independently verified input route');
+      else if(l7&&step.id==='ironman')assert.equal(step.if,"steps.route.outputs.l7_run == 'true'",'the Ironman leg must use the independently verified input route');
       else if(/^TEST: /.test(step.label)&&step.if)assert.match(step.if,/^(?:steps\.route\.outputs\.(?:has_[a-z]+|lifecycle_routed) == 'true')(?: \|\| steps\.route\.outputs\.(?:has_[a-z]+|lifecycle_routed) == 'true')*$/,`${def.job} TEST step "${step.label}" may only be conditioned on the route`);
       if(screenshotContract.LABELS.includes(step.label)){
         screenshotContract.assertScreenshotEvidence(step,laneId);
@@ -183,11 +192,11 @@ let checks=0;const ok=()=>{checks++;};
       }
     }
     const route=job.steps.find(s=>s.id==='route');
-    assert.ok(route&&route.run.includes(`--lane ${laneId}`),`${def.job} computes its own route`);
+    assert.ok(route&&route.run.includes(`--lane ${laneArg} `),`${def.job} computes its own route`);
     const record=job.steps.find(s=>s.label==='Record lane result');
-    assert.ok(record&&record.if==='always()'&&record.run.includes(`finalize --lane ${laneId}`),`${def.job} records lane.json`);
+    assert.ok(record&&record.if==='always()'&&record.run.includes(`finalize --lane ${laneArg} `),`${def.job} records lane.json`);
     const upload=job.steps.find(s=>s.label==='Upload lane record');
-    assert.equal(upload?.with?.name,`showdown-gate-lane-${laneId}`);
+    assert.equal(upload?.with?.name,`showdown-gate-lane-${laneArg}`);
     ok();
   }
   const seal=gateJob('seal');
@@ -215,7 +224,7 @@ let checks=0;const ok=()=>{checks++;};
   const oldL3Fixed=['GF_RULES_BUILD_ZERO_BILLING','GF_SHARED_SETUP_PROVIDER','GF_TRANSFER_FRESH_SESSION','GF_LIFECYCLE_1_3','GF_TERMINAL_CLOSE','GF_PERSISTENT_PAIR','GF_TWO_MANAGER_JOURNEY_3_10','GF_CAREER_INDEX','GF_COMPLETED_READ','GF_CLOSED_ADAPTER','GF_COMPLETED_TRANSFER','GF_SEASON_ACK'];
   const splitRoutes=[['full',gateLib.computeRoute({files:[],forceFull:true})],['visual-only',gateLib.computeRoute({files:['css/homeV10.css'],forceFull:false})]];
   assert.deepEqual(splitRoutes[1][1].proofGroups,['VISUAL'],'the visual-only example must actually select only VISUAL proofs');
-  assert.deepEqual(gateLib.LANE_IDS,['L1','L2','L3A','L3B','L4','L5','L6']);
+  assert.deepEqual(gateLib.LANE_IDS,['L1','L2','L3A','L3B','L4','L5','L6',...gateLib.L7_LEGS.map(gateLib.l7Lane)]);
   assert.deepEqual(gateLib.LANES.L3A.groups,['STORAGE']);
   assert.deepEqual(gateLib.LANES.L3B.groups,['VISUAL']);
   assert.deepEqual(gateLib.LANES.L3A.fixed,oldL3Fixed);
@@ -234,7 +243,7 @@ let checks=0;const ok=()=>{checks++;};
 
   // 7. Cache both Playwright's download directory and the bundled Chromium runtime the audits use.
   // Versioned exact keys prevent restoring another browser/tool version; keep cold-cache installs.
-  for(const lane of ['L2','L3A','L3B','L4','L6']){
+  for(const lane of ['L2','L3A','L3B','L4','L6','L7-none']){
     const job=gateJob(gateLib.LANES[lane].job);
     const cache=job.steps.find(step=>step.label==='Restore Playwright and Chromium browser caches');
     assert.ok(cache,`${lane}: browser downloads must be cached`);
@@ -246,7 +255,7 @@ let checks=0;const ok=()=>{checks++;};
     assert.ok(!cache.with['restore-keys'],'browser caches must not fall back to another version');
     ok();
   }
-  for(const lane of ['L1','L3A','L4','L5','L6']){
+  for(const lane of ['L1','L3A','L4','L5','L6','L7-none']){
     const job=gateJob(gateLib.LANES[lane].job);
     const cache=job.steps.find(step=>step.label==='Restore Firebase emulator and npx caches');
     assert.ok(cache,`${lane}: firebase-tools downloads must be cached`);

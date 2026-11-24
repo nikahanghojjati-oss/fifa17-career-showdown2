@@ -42,6 +42,8 @@ function state(story){if(!story.lawState)story.lawState={scanned:0,commits:new M
 // A chapter starts from a checkpoint the real providers played: the laws start from what that record already holds.
 function fromCheckpoint(story){
   const ls=state(story);
+  // Seasons already accepted at the checkpoint: their writes are not on this story's meter (L14 divides by new seasons).
+  story.acceptedAtCheckpoint=[...story.world.server.docs].filter(([p,e])=>seasonOf("seasonCommits",p)!==null&&e.data.phase==="ACKNOWLEDGED").length;
   story.packFromCheckpoint=new Set([...story.world.server.docs.keys()].map(p=>seasonOf("primePackRounds",p)).filter(s=>s!==null));
   for(const [path,entry] of story.world.server.docs){
     const d=entry.data;
@@ -302,7 +304,7 @@ function final(story,views){
     }
   }
   // L14: budgets per accepted season.
-  const seasons=Math.max(1,accepted.length);
+  const seasons=Math.max(1,accepted.length-(story.acceptedAtCheckpoint||0));
   if(server.meter.writes/seasons>BUDGET.writesPerSeason)story.violation("L14_BUDGET",`${Math.round(server.meter.writes/seasons)} writes per season (budget ${BUDGET.writesPerSeason})`);
 }
 
