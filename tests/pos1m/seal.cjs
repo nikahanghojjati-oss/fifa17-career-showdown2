@@ -1,6 +1,6 @@
 "use strict";
 // POS1M seal: the one file that says what the last full POS1M run proved, on which build and commit.
-//   node tests/pos1m/seal.cjs --reports dir/ --planted planted.json [--replays-ok true|false] [--memory dir/] [--out data/pos1m-seal.json]
+//   node tests/pos1m/seal.cjs --reports dir/ --planted planted.json [--replays-ok true|false] [--memory dir/] [--gate gate-compare.json] [--out data/pos1m-seal.json]
 // --reports holds the Ring 1 shard reports (run.cjs --out); --planted the planted-bug report (planted.cjs --out). Shape
 // agreed with B5: {schemaVersion, engine, build, commit, sealedAt, stories{survived,run}, laws{held,total},
 // plantedBugs{caught,total}, ledgerReplays{refound,total}}, plus the failing laws and the first failing seeds (capped).
@@ -11,13 +11,15 @@ const path=require("node:path");
 const {execSync}=require("node:child_process");
 const {LAW_TEXT,MEMORY_CAP}=require("./shrink.cjs");
 const ROOT=path.resolve(__dirname,"../..");
+// Real game bugs POS1M found itself (each kept as a replay and re-planted as a ledger bug).
+const REAL_CATCHES=[{id:"W12",law:"L6_PRIME_PACK",what:"a Prime Pack guess retried after a lost answer spent a second token",replay:"tests/pos1m/replays/L6_PRIME_PACK-70068-044dc9938e.json",fix:"#1583",missedBy:"the Gate and every review"}];
 
-function args(argv){const out={reports:null,planted:null,"replays-ok":null,memory:null,out:path.join(ROOT,"data/pos1m-seal.json")};for(let i=0;i<argv.length;i+=2){const k=argv[i].replace(/^--/,"");if(!(k in out))throw new Error(`unknown option ${argv[i]}`);out[k]=argv[i+1];}return out;}
+function args(argv){const out={reports:null,planted:null,"replays-ok":null,memory:null,gate:null,out:path.join(ROOT,"data/pos1m-seal.json")};for(let i=0;i<argv.length;i+=2){const k=argv[i].replace(/^--/,"");if(!(k in out))throw new Error(`unknown option ${argv[i]}`);out[k]=argv[i+1];}return out;}
 function commit(){if(process.env.GITHUB_SHA)return process.env.GITHUB_SHA;try{return execSync("git rev-parse HEAD",{cwd:ROOT,encoding:"utf8"}).trim();}catch(_error){return null;}}
 
 // A planted report without whole counts seals nothing (an old or broken report must not read as all caught).
 function counts(value,key){const ok=value&&Number.isInteger(value[key])&&Number.isInteger(value.total)&&value.total>0;return ok?{[key]:value[key],total:value.total}:{[key]:0,total:0,missing:true};}
-function seal({reports,planted,replaysOk}){
+function seal({reports,planted,replaysOk,gate=null}){
   const laws=Object.keys(LAW_TEXT),broken=new Set(),first=[];
   let run=0,failed=0,cells=new Set();
   for(const r of reports){
@@ -36,7 +38,11 @@ function seal({reports,planted,replaysOk}){
     ledgerReplays:counts(planted&&planted.ledgerReplays,"refound"),
     replaysPassed:replaysOk,
     shards:reports.length,coverageCells:cells.size,
-    brokenLaws:[...broken].sort(),firstFailures:first
+    brokenLaws:[...broken].sort(),firstFailures:first,
+    // Both numbers, as measured (lead 2026-11-24: never tilt the planted set): today's Gate contract lane on the same
+    // planted bugs (gate-compare.cjs --out), the bugs only POS1M caught, and the real bugs POS1M found that the Gate missed.
+    gateComparison:gate?{bugs:gate.bugs,gateCaught:gate.gateCaught,pos1mCaught:gate.pos1mCaught,points:gate.pos1mPercent-gate.gatePercent,onlyPos1m:gate.results.filter(r=>r.pos1mCaught&&!r.gateCaught).map(r=>r.id)}:null,
+    realCatches:REAL_CATCHES
   };
   value.sealed=failed===0&&held===laws.length&&!broken.has("CRASH")&&!value.plantedBugs.missing&&value.plantedBugs.caught===value.plantedBugs.total&&(value.ledgerReplays.missing?value.ledgerReplays.total===0:value.ledgerReplays.refound===value.ledgerReplays.total)&&replaysOk!==false;
   return value;
@@ -47,7 +53,8 @@ if(require.main===module){
   if(!opt.reports)throw new Error("--reports dir/ is required");
   const reports=fs.readdirSync(opt.reports).filter(n=>n.endsWith(".json")).sort().map(n=>JSON.parse(fs.readFileSync(path.join(opt.reports,n),"utf8")));
   const planted=opt.planted?JSON.parse(fs.readFileSync(opt.planted,"utf8")):null;
-  const value=seal({reports,planted,replaysOk:opt["replays-ok"]===null?null:opt["replays-ok"]==="true"});
+  const gate=opt.gate?JSON.parse(fs.readFileSync(opt.gate,"utf8")):null;
+  const value=seal({reports,planted,gate,replaysOk:opt["replays-ok"]===null?null:opt["replays-ok"]==="true"});
   fs.mkdirSync(path.dirname(path.resolve(opt.out)),{recursive:true});
   fs.writeFileSync(opt.out,`${JSON.stringify(value,null,1)}\n`);
   console.log(`${value.sealed?"SEALED":"NOT SEALED"} POS1M ${value.build} at ${String(value.commit).slice(0,8)}: ${value.stories.survived} of ${value.stories.run} stories survived, laws ${value.laws.held}/${value.laws.total}, planted bugs ${value.plantedBugs.caught}/${value.plantedBugs.total}, ledger replays ${value.ledgerReplays.refound}/${value.ledgerReplays.total}, replays ${value.replaysPassed===null?"not run":value.replaysPassed?"pass":"FAIL"} (${value.shards} shards).`);

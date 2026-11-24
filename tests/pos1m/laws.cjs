@@ -4,6 +4,8 @@
 // each phone was shown; they never trust the code under test to grade itself (scoring has its own oracle here).
 //
 // L1  At most one commit per season, and it never changes once accepted.
+//     (Kept as its own law, defence in depth (lead 2026-11-24): today every commit tamper also stalls on the game's own
+//     sealed hash, so L12 catches it too and L1 has no sole planted catcher.)
 // L2  No phone ever writes an action for the other manager.
 // L3  Equal totals are a draw. There is no tiebreak anywhere.
 // L4  Nothing private shows early: guesses, signings and results stay hidden until the game reveals them.
