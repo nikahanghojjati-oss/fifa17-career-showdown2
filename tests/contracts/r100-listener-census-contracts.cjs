@@ -47,7 +47,7 @@ const CENSUS={
       pins:[/function fsbCtxDelivery\(watch,snapshot\)\{\n\s*if\(fsbCtxWatches\.get\(watch\.path\)!==watch\)return;\n\s*if\(!snapshot\|\|!snapshot\.metadata\|\|snapshot\.metadata\.fromCache\|\|snapshot\.metadata\.hasPendingWrites\)\{watch\.healthy=false;return;\}/,
         /if\(!watch\|\|!watch\.healthy\|\|watch\.dirty\|\|!watch\.snapshot\)return null;/,/root\.setTimeout\(\(\)=>fsbListened\(path,null\),5000\)/]},
     {name:"budget wait listener (fsbWatchWaitPoint: League Roulette/setup, Career Start, Transfer War, Season Results, Season Commit, scoring, presentation)",kind:"reason",proof:"wait",
-      reason:"The screens skip their own 3 s and 15 s checks only while watchHealthy is true. A cached copy makes it false at once (and a copy not confirmed by the server within the window does too), so the screens' timed checks read the server again.",
+      reason:"The screens skip their own 3 s and 15 s checks only while watchHealthy is true. A cached copy makes it false at once (fsbWaitLive), so the screens' timed checks read the server again.",
       pins:[/function fsbWaitDelivery\(wait,snapshot\)\{\n\s*if\(fsbWait!==wait\)return;\n\s*if\(!snapshot\|\|!snapshot\.metadata\|\|snapshot\.metadata\.fromCache\|\|snapshot\.metadata\.hasPendingWrites\)\{wait\.healthy=false;return;\}/,
         /if\(!wait\|\|!wait\.healthy\|\|wait\.dirty\)return false;/,/function fsbWaitHealthy\(\)\{return fsbWaitLive\(\)&&fsbNow\(\)-fsbWait\.confirmedAt<=/]}],
     // the read meter's own fromCache tests (a cached delivery bills nothing) are not listeners
