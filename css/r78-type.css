@@ -1225,6 +1225,14 @@
   :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxGuide { display: inline-flex; align-items: center; min-height: 44px; }
 }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect option { background: #15120c; color: #f5f1e8; }
+/* R99-01: the longest clubhouse name ("Premium Matte Black Clubhouse") stays whole on the narrowest phones: a touch smaller and
+   tighter there, never under the 12px floor. */
+@media (max-width: 379px) {
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsClubhouseRow .settingsGfxSelect { font-size: max(12px, .88em); letter-spacing: .01em; padding: 0 26px 0 10px; background-position: right 9px center; }
+}
+@media (max-width: 339px) {
+  :root body #settingsOverlay.v10Settings #settingsContent .settingsClubhouseRow .settingsGfxSelect { font-size: max(12px, .8em); letter-spacing: 0; }
+}
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:disabled { opacity: .6; cursor: default; }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect:focus-visible { outline: 2px solid var(--sd-gold-500, #f5c518); outline-offset: 2px; }
 /* r90: what Auto chose on this device, one quiet line under 3D QUALITY (Settings only, never on a game screen). */

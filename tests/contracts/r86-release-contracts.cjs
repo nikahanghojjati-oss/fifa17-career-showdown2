@@ -41,7 +41,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 // names any drift.
 {
   // 2.11.0 (r98) adds the League Roulette (R98-01: the live Select League board and its step) and removes no shell path.
-  // R99-01 (2026-11-23): until the r99 bump rolls PREVIOUS to 2.11.0, the added list also carries r99's Black Metal panel marble.
+  // R99-01 (2026-11-23): until the r99 bump rolls PREVIOUS to 2.11.0, the added list also carries r99's themed-clubhouse panel marble.
   const R98_ADDED=['js/leagueRouletteStep.js','js/leagueRouletteScene3d.js','css/r78-marble-tile-metal.webp'];
   const R98_REMOVED=[];
   const sw=read('service-worker.js');
