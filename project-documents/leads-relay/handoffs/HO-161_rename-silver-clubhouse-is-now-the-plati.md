@@ -11,12 +11,12 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T16:36:55Z", "by": "V", "status": "SENT", "note": ""}],
+ "evidence": ["https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1607"],
+ "log": [{"at": "2026-11-24T16:36:55Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-24T17:15:00Z", "by": "G", "status": "DONE", "note": "display name Platinum everywhere; key `silver` and file/folder names unchanged, keep delivering to silver/"}],
  "from_session": "session_01GU43Q53Fzq53MAmD6ztZ5f",
- "sessions": {"V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
+ "sessions": {"V": "session_01GU43Q53Fzq53MAmD6ztZ5f", "G": "session_01GU43Q6fCkcGKdHhAqsFt2E"}
 }
 ```
 
