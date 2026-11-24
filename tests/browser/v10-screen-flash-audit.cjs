@@ -36,6 +36,12 @@ async function slowLateSkins(context){
         await route.continue().catch(() => {});
     });
 }
+// r100 B7 (Nik 2026-11-23 "flash test is most important thing"): CMS_CLUBHOUSE=silver|black|matte runs the whole audit in that
+// clubhouse (this device's pick, localStorage), so every clubhouse's own UI finish is held to the same no-flash rules as Wooden.
+const CLUBHOUSE = /^(silver|black|matte)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
+async function pickClubhouse(target){
+    if(CLUBHOUSE) await target.addInitScript(theme => { try{ localStorage.setItem("cmsClubhouseTheme", theme); }catch(_error){} }, CLUBHOUSE);
+}
 const SHOW_TIMEOUT_MS = 8000;
 const OLD_PAGE = "rgb(168, 189, 197)";
 
@@ -384,6 +390,7 @@ async function clubReducedMotionPass(browser, report, pageErrors){
         for(const mode of ["REDUCE MOTION", "FOLLOW DEVICE"]){
             const label = `${viewport.width}x${viewport.height} Club ${mode}`;
             const context = await browser.newContext({ viewport, serviceWorkers: "block", reducedMotion: mode === "FOLLOW DEVICE" ? "reduce" : "no-preference" });
+            await pickClubhouse(context);
             try{
                 const page = await context.newPage();
                 page.on("pageerror", error => pageErrors.push(`${label}: ${error.message}`));
@@ -453,11 +460,13 @@ async function clubReducedMotionPass(browser, report, pageErrors){
             const context = await browser.newContext({ viewport: vp.viewport, deviceScaleFactor: vp.deviceScaleFactor, isMobile: vp.isMobile === true, hasTouch: vp.hasTouch === true, reducedMotion: "no-preference" });
             const page = await context.newPage();
             page.on("pageerror", error => pageErrors.push(`${vp.name}: ${error.message}`));
+            await pickClubhouse(page);
             await page.addInitScript(RECORDER);
             await slowLateSkins(context);
             const cdp = await context.newCDPSession(page);
             await cdp.send("Emulation.setCPUThrottlingRate", { rate: CPU_THROTTLE });
             await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
+            if(CLUBHOUSE) assert.equal(await page.evaluate(() => document.documentElement.getAttribute("data-clubhouse")), CLUBHOUSE, `${vp.name}: the run is in the ${CLUBHOUSE} clubhouse`);
             await waitForHome(page);
             const summary = { name: vp.name, journeys: [] };
             const order = LATE_SKINS ? [...journeys].sort((a, b) => ["setup", "seasonResults"].includes(b.name) - ["setup", "seasonResults"].includes(a.name)) : journeys;
