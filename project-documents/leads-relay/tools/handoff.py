@@ -66,6 +66,10 @@ def touch(team, sid, thread=None):
     p = inbox()
     j = json.load(open(p))
     e = j.setdefault(team, {})
+    if e.get("pinned"):
+        # v1.5 (Nik 2026-11-24): a pinned lead is changed only by that team's lead with register --pin.
+        # Worker threads that write the relay never take over the INBOX, so no wake reaches a random session.
+        return
     if e.get("session_id") != sid or e.get("state") != "active":
         same = e.get("session_id") == sid
         e["session_id"], e["state"], e["updated"] = sid, "active", now()
@@ -82,17 +86,8 @@ def stamp(t, team, sid):
 
 
 def coordinator_line(to, text):
-    """Nik 2026-10-29: leads rotate, coordinators stay. Every wake also goes to the other team's coordinator.
-    v1.4 note: project coordinators are archived between turns (seen 2026-11-02), so this wake is best effort only."""
-    try:
-        c = json.load(open(inbox())).get("coordinators", {}).get(to, {})
-    except Exception:
-        c = {}
-    if c.get("session_id"):
-        print(f"ALSO WAKE (best effort; skip if get_session says archived) Team {to}'s coordinator: same create_trigger + fire_trigger with persistent_session_id={c['session_id']} and prompt:")
-        print(f"  For Team {to}'s coordinator: {text} Make sure your current lead picks this up; start a lead thread if none is active.")
-    else:
-        print(f"Team {to}'s coordinator id is missing from INBOX.json 'coordinators'. Ask your own coordinator (message_coordinator) to reach it, and tell Nik in one line.")
+    """v1.5 (Nik 2026-11-24): coordinators are never woken by the relay. Nik carries it."""
+    print(f"  Do not wake Team {to}'s coordinator or any other session. Tell Nik in one line.")
 
 
 def wake_line(to, text, session=None):
@@ -103,6 +98,16 @@ def wake_line(to, text, session=None):
     except Exception:
         e = {}
     sid, state = e.get("session_id"), e.get("state", "active")
+    try:
+        wakes = json.load(open(inbox())).get("wakes", "off")
+    except Exception:
+        wakes = "off"
+    if wakes != "on":
+        print(f"WAKES OFF (Nik's order, INBOX.json \"wakes\": \"off\"): commit and push only; do NOT create, fire or run any trigger, routine or session.")
+        print(f"  Tell Nik in one line that a relay note for Team {to} is waiting; he types \"relay\" in that team's lead thread.")
+        return
+    if e.get("pinned"):
+        session = None  # v1.5: pinned lead wins over any ticket-stamped worker session
     targets = []
     if session:
         targets.append(session)
@@ -116,16 +121,11 @@ def wake_line(to, text, session=None):
         print(f"  Tell Nik now, in one line, to paste project-documents/leads-relay/NEW_LEAD_START.md's box into the new Team {to} lead thread.")
         coordinator_line(to, text)
         return
-    print(f"WAKE NOW (CONTRACT.md §9): one claude-code-remote create_trigger per session below,")
-    for x in targets:
-        print(f"  persistent_session_id={x}")
-    print(f"  NO schedule (leave cron_expression and run_once_at empty), initiation human_request, and the prompt below;")
-    print(f"  THEN call fire_trigger on each new trig_ id at once (2026-11-02: run_once_at wakes sat undelivered; fire_trigger delivers in seconds).")
-    print(f"  Prompt:")
-    print(f"  Relay for Team {to}: {text} Fetch leads/relay (+refs/heads/leads/relay:refs/remotes/origin/leads/relay) and act per CONTRACT.md.")
-    print(f"  (create_trigger works from every lead thread; send_message with session_id={sid} also works where that tool exists.)")
-    coordinator_line(to, text)
-    print(f"  Then (CONTRACT.md §11) call get_session on each: skip any that is archived; if none is live, tell Nik the paste line.")
+    print(f"WAKE NOW (v1.5): ONE claude-code-remote send_message to the pinned Team {to} lead, nothing else:")
+    print(f"  session_id={targets[0]}")
+    print(f"  message: Relay for Team {to}: {text} Fetch leads/relay (+refs/heads/leads/relay:refs/remotes/origin/leads/relay) and act per CONTRACT.md.")
+    print(f"  NEVER create_trigger, fire_trigger, routines or new sessions; never wake a coordinator or any other session.")
+    print(f"  If send_message fails or get_session shows that lead archived, do not retry elsewhere: tell Nik in one line.")
 
 
 def register(a):
@@ -140,6 +140,10 @@ def register(a):
         e["thread"] = a.thread
     e["state"] = a.state
     e["updated"] = now()
+    if getattr(a, "pin", False):
+        e["pinned"] = True
+    if getattr(a, "unpin", False):
+        e.pop("pinned", None)
     json.dump(j, open(p, "w"), indent=1, ensure_ascii=False)
     open(p, "a").write("\n")
     print(f"INBOX {a.team} = {e.get('session_id')} ({a.state}). Commit and push leads/relay.")
@@ -242,6 +246,8 @@ r.add_argument("--team", choices=TEAMS, required=True)
 r.add_argument("--session", default=None, help="this thread's session id (new lead)")
 r.add_argument("--thread", default=None, help="short thread name")
 r.add_argument("--state", choices=("active", "rotating"), default="active")
+r.add_argument("--pin", action="store_true", help="v1.5: only a register by this team's lead can change this entry (relay writes by workers never do)")
+r.add_argument("--unpin", action="store_true")
 a = p.parse_args()
 if a.cmd == "new":
     new(a)

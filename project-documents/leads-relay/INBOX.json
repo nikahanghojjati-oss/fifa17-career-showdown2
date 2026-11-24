@@ -7,10 +7,11 @@
   "state": "active"
  },
  "V": {
-  "session_id": "session_01GU43Q4Pzep7ADdjW9oEDst",
-  "thread": "(auto: last relay writer)",
-  "updated": "2026-11-24T21:19:45Z",
-  "state": "active"
+  "session_id": "session_01GU43Q53Fzq53MAmD6ztZ5f",
+  "thread": "Team V lead (cmsg_01EujkXvkVgpeb1tEe71X8oGRAXEaNuNXTks1jCy2uSaF4)",
+  "updated": "2026-11-24T23:49:57Z",
+  "state": "active",
+  "pinned": true
  },
  "coordinators": {
   "_how": "Each project's coordinator (channel session) outlives lead threads. Every wake also goes to the other team's coordinator (Nik 2026-10-29: leads always change, reach the coordinator). Each coordinator keeps its own entry current; any lead that learns a newer id updates it.",
@@ -25,5 +26,7 @@
    "note": "old id session_01GU43Q7ydoc8k1EApN53yr8 is archived; Team V coordinator: put your current id here",
    "updated": "2026-10-31T04:05:00Z"
   }
- }
+ },
+ "wakes": "off",
+ "_wakes": "Nik's switch. off = no wakes at all (Nik types relay). on = ONE send_message to the pinned other lead only; never triggers, routines, new sessions or coordinators. Only Nik's own words flip it."
 }
