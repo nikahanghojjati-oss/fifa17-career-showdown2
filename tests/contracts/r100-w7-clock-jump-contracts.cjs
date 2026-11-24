@@ -54,5 +54,21 @@ const near=(a,b,label)=>assert.ok(Math.abs(a-b)<=1500,`${label}: ${a-b} ms off`)
     let tries=0;user.getIdTokenResult=async()=>{tries+=1;throw new Error("offline");};t.wall+=11*MIN;await api.srjServerNow(user);await api.srjServerNow(user);assert.equal(tries,1);t.wall+=31000;await api.srjServerNow(user);assert.equal(tries,2);
   }
   ok("W7-5 without performance.now the clock behaves as in r87");
+  // 6. Verify on #1586: a write made while a measure is still on its way (the running clock started it right after a wake with
+  // a jumped clock) waits for that measure and stamps server time; it neither starts a second refresh nor takes the old offset.
+  {const {t,user,api,pass}=phone();await api.srjServerNow(user);pass(30000);t.wall+=5*MIN;
+    let release;const answered=new Promise(r=>{release=r;});let refreshes=0;
+    user.getIdTokenResult=async()=>{refreshes+=1;await answered;return {issuedAtTime:new Date(t.server).toUTCString()};};
+    api.srjClockNow();await new Promise(r=>setImmediate(r));assert.equal(refreshes,1,"the running clock started one measure");
+    const write=api.srjServerNow(user),second=api.srjServerNow(user);let settled=false;write.then(()=>{settled=true;});
+    await new Promise(r=>setImmediate(r));assert.equal(settled,false,"the write waits for the measure on its way");
+    pass(300);release();near(await write,t.server,"the write made during the measure");near(await second,t.server,"a second write during it");
+    assert.equal(refreshes,1,"one shared refresh");
+    // A measure that fails while a write waits: the write keeps the last offset (as before) and the next tries wait 30 s.
+    pass(31000);t.wall+=5*MIN;let fail;const failing=new Promise((_r,j)=>{fail=j;});user.getIdTokenResult=async()=>{refreshes+=1;await failing;};
+    const waiting=api.srjServerNow(user);await new Promise(r=>setImmediate(r));fail(new Error("offline"));
+    near(await waiting,t.server+5*MIN,"a failed measure leaves the last offset");assert.equal(refreshes,2);
+    await api.srjServerNow(user);assert.equal(refreshes,2,"held off for 30 s after a real failure");
+    ok("W7-6 a write during a measure on its way waits for it (one shared refresh); only a real failure holds measures off for 30 s");}
   console.log(`PASS r100 W7 clock jump contracts: ${passed} checks`);
 })().catch(error=>{console.error(error);process.exit(1);});

@@ -122,28 +122,32 @@
   // offset is measured again before the next session write, and a quick check started for the reads, instead of stamping
   // writes minutes off for up to 10 minutes (the Rules refuse those, and the Showdown would not close by itself).
   const SRJ_CLOCK_DRIFT_MS=2000,SRJ_CLOCK_RECHECK_MS=30000;
-  let srjClock={known:false,offsetMs:0,at:0,steadyAt:0},srjClockUser=null,srjClockCheck=null,srjClockTriedAt=-Infinity,srjClockFailed=false;
+  let srjClock={known:false,offsetMs:0,at:0,steadyAt:0},srjClockUser=null,srjClockMeasure=null,srjClockTriedAt=-Infinity,srjClockFailed=false;
   function srjSteadyNow(){try{const now=root.performance?.now?.();return Number.isFinite(now)?now:null;}catch(_error){return null;}}
   // A failed measure (offline, no token) is not tried again for 30 s, by the writes or the running clock: on a bad connection
   // each write would otherwise wait on a forced token refresh that keeps failing. Until then the last offset is used, as before.
-  function srjClockRecentlyTried(){return Math.abs((srjSteadyNow()??Date.now())-srjClockTriedAt)<SRJ_CLOCK_RECHECK_MS;}
+  // A measure still on its way is shared: a write made meanwhile waits for it (verify on #1586), and only a real failure counts.
+  function srjClockHeldOff(){return srjClockFailed&&Math.abs((srjSteadyNow()??Date.now())-srjClockTriedAt)<SRJ_CLOCK_RECHECK_MS;}
   function srjClockDrifted(){if(!srjClock.known)return false;const steady=srjSteadyNow();if(steady===null||!srjClock.steadyAt)return false;return Math.abs((Date.now()-srjClock.at)-(steady-srjClock.steadyAt))>SRJ_CLOCK_DRIFT_MS;}
-  function srjClockNow(){if(srjClockDrifted()&&srjClockUser&&!srjClockCheck&&!srjClockRecentlyTried()){srjClockCheck=srjServerNow(srjClockUser).catch(()=>{}).finally(()=>{srjClockCheck=null;});}return Date.now()+(srjClock.known?srjClock.offsetMs:0);}
+  function srjClockNow(){if(srjClockDrifted()&&srjClockUser&&!srjClockMeasure&&!srjClockHeldOff())void srjServerNow(srjClockUser).catch(()=>{});return Date.now()+(srjClock.known?srjClock.offsetMs:0);}
+  async function srjMeasureClock(user){
+    srjClockTriedAt=srjSteadyNow()??Date.now();let measured=false;
+    try{
+      const sent=Date.now(),token=await user.getIdTokenResult(true),got=Date.now();
+      const issued=Date.parse(String(token&&token.issuedAtTime||""));
+      if(Number.isFinite(issued)&&issued>0&&got>=sent&&got-sent<30000){
+        const server=issued+(issued%1000===0?500:0);
+        srjClock={known:true,offsetMs:server-Math.round((sent+got)/2),at:got,steadyAt:srjSteadyNow()||0};measured=true;
+      }
+    }catch(_error){}
+    srjClockFailed=!measured;
+  }
   async function srjServerNow(user){
     if(user)srjClockUser=user;
     if(srjClock.known&&Math.abs(Date.now()-srjClock.at)<SRJ_CLOCK_REFRESH_MS&&!srjClockDrifted())return Date.now()+srjClock.offsetMs;
-    if(srjClockFailed&&srjClockRecentlyTried())return Date.now()+(srjClock.known?srjClock.offsetMs:0);
-    try{
-      if(user&&typeof user.getIdTokenResult==="function"){
-        srjClockTriedAt=srjSteadyNow()??Date.now();srjClockFailed=true;const sent=Date.now(),token=await user.getIdTokenResult(true),got=Date.now();
-        const issued=Date.parse(String(token&&token.issuedAtTime||""));
-        if(Number.isFinite(issued)&&issued>0&&got>=sent&&got-sent<30000){
-          const server=issued+(issued%1000===0?500:0);
-          srjClock={known:true,offsetMs:server-Math.round((sent+got)/2),at:got,steadyAt:srjSteadyNow()||0};srjClockFailed=false;
-        }
-      }
-    }catch(_error){}
-    return srjClockNow();
+    if(!srjClockMeasure&&!srjClockHeldOff()&&user&&typeof user.getIdTokenResult==="function"){const run=srjMeasureClock(user);srjClockMeasure=run;run.finally(()=>{if(srjClockMeasure===run)srjClockMeasure=null;}).catch(()=>{});}
+    if(srjClockMeasure)await srjClockMeasure.catch(()=>{});
+    return Date.now()+(srjClock.known?srjClock.offsetMs:0);
   }
   function srjOperationOptions(context,sessionId){
     return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId,nowEpochMs:srjClockNow(),cryptoImpl:root.crypto};
