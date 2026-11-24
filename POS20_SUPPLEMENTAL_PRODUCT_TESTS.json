@@ -3526,6 +3526,18 @@
         "^tests/contracts/r100\\-showdown\\-reset\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r100-b6-join-offline-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^tests/contracts/r100\\-b6\\-join\\-offline\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
+        "^tests/support/home-join-window-fixture\\.cjs$"
+      ]
     }
   ]
 }
