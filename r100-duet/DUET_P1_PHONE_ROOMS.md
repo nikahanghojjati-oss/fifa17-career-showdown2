@@ -11,7 +11,7 @@ Nik picked this job on 2026-11-24 (card "Phone plates and Story only"). It repla
 - Nik pastes your report into the lead thread. Keep it short (format at the end).
 
 ## Read first
-- **`/mnt/project-files/gameplay/r100/threads/B7_STATUS.md`, section "how phone plates are built"** if you can reach the project folder. If you can't, ask Nik to paste it. Start from paint.py on branch `claude-gameplay/r100-premium-pilot-rooms` (PR #1604), not the base.
+- **`/mnt/project-files/gameplay/r100/threads/B7_STATUS.md`, section "how phone plates are built"** (copied to this branch as `r100-duet/B7_PHONE_PLATES_NOTES.md`). Start from paint.py on branch `claude-gameplay/r100-premium-pilot-rooms` (PR #1604), not the base.
 - `tools/clubhouse-themes/` (build.py, paint.py, pin.py, finish.py, masks/): how the pilot rooms were built. paint.py lays the Wooden managers' own pixels back over a painting through a mask pulled in 3 px, so faces stay pixel-identical to Wooden.
 - `visual-assets/v10_1/plates-hc/` and `visual-assets/v10_1/plates-hc/{silver,black,matte}/`: today's plates (63 per clubhouse, recoloured).
 - PR #1604 (pilot rooms: Board Room + Home for all three clubhouses) and PR #1600 (per-clubhouse UI finish): the patterns to follow.
