@@ -444,17 +444,19 @@ Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest s
 - Saves as `ENV_BOX_PHONE_V4_BLACK_P1`
 - No people: check that no trace of a person appears.
 
+- Try 1 (24 Nov) scored 4/10: Astra changed the shape (814x1932, much narrower), zoomed in, removed the middle window bar and the floodlights, and redrew the stadium. Try 2 uses the prompt below (framing lock, no lamps). Start a NEW chat.
+
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
 
-Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop, widen the window or move the camera, and keep the same tall 9:16 shape. The window stays the same size in the same place, with its one thin upright bar down the middle and the three small floodlights above the stands; the counter rail stays just below the middle of the picture, with the same amount of wall above the window and stone below the rail. The stadium, crowd and seats inside the window stay exactly as they are, not redrawn. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
 
 Keep in the same places and at the same sizes: the window with the night stadium, the crowd and the green pitch exactly as they are, the window frames, the counter rail, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter. The middle of the picture stays calm and uncluttered: a large roulette board will sit there.
 
 The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
-Walls and panels: gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. Frames: black chrome with a thin polished gold inner line. Lamp metal: polished gold; shades stay warm cream and lit. The rail becomes polished gold with one crisp warm highlight. Counter: polished black granite with a satin sheen: it shows only soft, blurred glows of the lamps, never a sharp mirror image.
+Walls and panels: gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. Frames: black chrome with a thin polished gold inner line. The rail becomes polished gold with one crisp warm highlight. Counter: polished black granite with a satin sheen: it shows only soft, blurred glows of the lamps, never a sharp mirror image.
 
-Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps.
+Light: It is night. This room has no lamps: light comes only from the floodlit stadium glow through the window and a soft warm glow on the counter rail. Add no lamps. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps.
 
 Objects keep their identity and their own colours and are relit by the new room.
 
