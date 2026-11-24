@@ -194,13 +194,15 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ## HO-130 · Metallic Black Clubhouse, Loading tunnel (behind Reus) repaint
 
 - Image 1: [ENV_LOADING_PLATE_HC_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_LOADING_PLATE_HC_2X.png)
-- Image 2: [REF_PILOT_BLACK.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_BLACK.png)
+- Image 2 (NEW for try 3): [REF_TUNNEL_BLACK_SWATCH_V.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_TUNNEL_BLACK_SWATCH_V.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_TUNNEL_BLACK_SWATCH_V.png)), a people-free cut of the approved HO-128 Black tunnel
 - Saves as `ENV_LOADING_PLATE_BLACK_P1_2X`
 
 - Try 1 (24 Nov) scored 7/10: the tall wood panels between the pillars were left as wood, and the square pillars came back as round chrome columns (same problem as HO-128 try 1). Try 2 uses the prompt below (square pillars, no wood left), matching the approved HO-128 tunnel.
 
+- Try 2 (24 Nov) scored 7/10 again: wood panels and round columns came back. Try 3 uses the approved HO-128 tunnel as Image 2 (people-free cut) and a first line that names the square pillars and no wood. Start a NEW chat.
+
 ```
-Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+Image 1 is the picture to edit. Image 2 is the finished version of this same tunnel in this clubhouse; make the whole tunnel look exactly like image 2: square blackened-steel pillars with one thin gold hairline on each corner, black steel walls, no wood anywhere. Copy only its materials, colours and light, never its framing.
 
 Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
 
