@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T20:01:11Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_SILVER.md (000132095)"}],
+ "evidence": ["claude/project-thread-ie3afv 8466c5729 project-documents/hc-art/ho-premium-full/silver/ENV_CLUB_PHONE_SILVER_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T20:01:11Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_SILVER.md (000132095)"}, {"at": "2026-11-24T21:37:42Z", "by": "V", "status": "DONE", "note": "Platinum Club phone band, try2 (layout locked), 9/10; raw already in register (overlay check), resized to 1179x2096 (feature align unreliable on plain walls)"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
