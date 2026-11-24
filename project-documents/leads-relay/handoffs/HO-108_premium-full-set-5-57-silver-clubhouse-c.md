@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:58Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}],
+ "evidence": ["claude/project-thread-ie3afv a1b8c86a0 project-documents/hc-art/ho-premium-full/silver/ENV_COACHES_PLATE_SILVER_P1_2X.webp"],
+ "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:58Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-24T18:56:27Z", "by": "V", "status": "DONE", "note": "Platinum Coaches' room, try1 + calm counter veins edit, 9/10, Nik's Astra run 24 Nov"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
- "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
+ "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
 ```
 
