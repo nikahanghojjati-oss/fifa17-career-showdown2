@@ -74,7 +74,7 @@
   // (no createShowdown, no Home on the way), so nothing else redrew them and his league wheel kept NO ACTIVE SHOWDOWN.
   let pairHomeKey=null;
   function pairRedrawHome(){const key=`${state.rivalryId||""}|${state.closedRivalryId||""}|${state.closedProviderSaveId||""}`;if(key===pairHomeKey)return;pairHomeKey=key;try{root.refreshMainMenuExperience?.();}catch(_error){}}
-  function pairSetState(next){state=pairFreezeDeep(pairHeldIfEnded({...state,...next}));pairRememberActiveShell();for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRedrawHome();pairRender();pairSyncWaitingPoll();pairContinueAfterWaitEnded();if(endedHeldNow)pairAnnounceEnded();return state;}
+  function pairSetState(next){state=pairFreezeDeep(pairHeldIfEnded({...state,...next}));/* Phoenix W5: a new Showdown's rivalry clears the last one's page memory before anyone sees it (js/optionalModules.js) */try{const reset=root.CareerModeShowdownReset;reset?.noteRivalry?.(state.closedRivalryId);reset?.noteRivalry?.(state.rivalryId);}catch(_error){}pairRememberActiveShell();for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRedrawHome();pairRender();pairSyncWaitingPoll();pairContinueAfterWaitEnded();if(endedHeldNow)pairAnnounceEnded();return state;}
   // r79 (PR #901, smoothness): once the pair is ACTIVE this device remembers, locally, that its shell is paired (only the saveId,
   // no rivalry or account data; through js/storage.js, the one owner of local storage), so a reload mid-Showdown never holds the
   // loading screen for a pre-pair recovery (js/ssjr.js).

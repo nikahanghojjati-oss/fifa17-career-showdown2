@@ -352,6 +352,8 @@
   }
   function assertShellSave(context){if(otherShowdown(context.saveId,context.rivalryId))fail("SHARED_SETUP_AUTHORITY_MISMATCH","This connection no longer matches this Showdown. Reconnect both players.");}
 
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (js/optionalModules.js).
+  try{root.CareerModeShowdownReset?.register?.("shared-setup",()=>{setupGeneration+=1;refreshInFlight=null;heldReadFailure=false;state=INITIAL_STATE;});}catch(_error){}
   return freeze({
     contractVersion:1,
     feature:"ssjr-production-paired-first-shared-setup",

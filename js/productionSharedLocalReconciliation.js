@@ -136,5 +136,7 @@
     if(typeof root.setInterval==="function")timer=root.setInterval(lrPoll,POLL_MS);
     lrPoll();return true;
   }
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (js/optionalModules.js).
+  try{root.CareerModeShowdownReset?.register?.("local-reconciliation",()=>{if(uiBusy||previewInFlight)return;state=null;uiError="";uiContextKey="";autoLastAt=-Infinity;});}catch(_error){}
   return Object.freeze({contractVersion:2,feature:"ssjr-production-shared-local-reconciliation",productionEnabled:true,runtimeRevision:"1.9.1-r20",pollIntervalMs:POLL_MS,autoFinalCheck:true,autoCheckMinGapMs:AUTO_GAP_MS,autoCheck:lrAutoCheck,install:lrInstall,refresh:lrRefresh,preview:lrPreviewOnce,previewFromUi:lrPreviewFromUi,apply:lrApply,getState:()=>state,isActive:lrSharedActive,canonicalStorageMutation:false,providerWriteRequired:false,automaticLocalApply:false,candidateCOnly:true,acceptanceStorageProofScope:"local-reconciliation-preview"});
 });

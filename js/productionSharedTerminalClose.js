@@ -412,6 +412,8 @@
     return true;
   }
 
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (js/optionalModules.js).
+  try{root.CareerModeShowdownReset?.register?.("terminal-close",()=>{stateGeneration+=1;state=null;stateContextKey="";heldRefreshFailure="";rivalryWakeRequested=false;});}catch(_error){}
   return Object.freeze({
     contractVersion:1,feature:"ssjr-production-shared-terminal-close",productionEnabled:true,runtimeRevision:"1.9.1-r18",pollIntervalMs:POLL_MS,
     requiresFinalReconciliation:true,requiresExactActiveSessionToClose:true,sameWitnessRetry:true,terminalReadAfterReload:true,terminalSessionResurrection:false,

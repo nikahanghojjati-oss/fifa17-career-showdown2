@@ -1,3 +1,42 @@
+/* showdown-reset:begin */
+// Phoenix W5 (r100): the page never reloads between Showdowns, so every module that keeps a Showdown's data in memory
+// registers one clear here. It runs when a rivalry this page has not seen before appears (a new Showdown starts: Daniel's
+// START, Nik's JOIN) and when the ended Showdown is let go on Home (career-mode-permanent-pair-ended). A clear puts the
+// module's Showdown data back to what a freshly loaded page holds (no read, no write, no render); install flags, API
+// handles, listeners, timers and work in flight stay. History, career and pairing caches are not Showdown data and never
+// register. tests/contracts/r100-showdown-reset-contracts.cjs fails when a module keeps Showdown data and does not register.
+(function(root){
+  "use strict";
+  if(!root||root.CareerModeShowdownReset)return;
+  const RIVALRY=/^pair_[0-9a-f]{64}$/;
+  const clears=new Map(),seen=new Set();
+  let running=false,runs=0,last=null;
+  function showdownResetRegister(name,clear){
+    if(typeof name!=="string"||!/^[a-z][a-z0-9-]{1,60}$/.test(name)||typeof clear!=="function")return false;
+    clears.set(name,clear);return true;
+  }
+  function showdownResetRun(reason){
+    if(running)return null;
+    running=true;const cleared=[],failed=[];
+    try{for(const [name,clear] of clears){try{clear(reason);cleared.push(name);}catch(_error){failed.push(name);}}}
+    finally{running=false;}
+    runs+=1;last=Object.freeze({reason:String(reason||""),at:Date.now(),cleared:Object.freeze(cleared),failed:Object.freeze(failed)});
+    return last;
+  }
+  // Called by the permanent pair (js/persistentNikDanielPair.js, the remembered live Showdown) right after its state changes
+  // and before its listeners run. Only a rivalry never seen on this page resets; the first one does not (the page has
+  // nothing earlier to forget), and a rivalry seen before never resets again (no flapping).
+  function showdownResetNoteRivalry(rivalryId){
+    const id=String(rivalryId||"").trim().toLowerCase();if(!RIVALRY.test(id)||seen.has(id))return false;
+    const earlier=seen.size>0;seen.add(id);if(!earlier)return false;
+    showdownResetRun("new-showdown");return true;
+  }
+  if(typeof root.addEventListener==="function")root.addEventListener("career-mode-permanent-pair-ended",()=>{showdownResetRun("showdown-ended");});
+  root.CareerModeShowdownReset=Object.freeze({contractVersion:1,feature:"cms-showdown-reset",register:showdownResetRegister,noteRivalry:showdownResetNoteRivalry,reset:showdownResetRun,
+    registered:()=>Object.freeze([...clears.keys()]),runs:()=>runs,lastRun:()=>last,providerReadRequired:false,providerWriteRequired:false});
+})(typeof window!=="undefined"?window:globalThis);
+/* showdown-reset:end */
+
 function getApplicationAssetRevision(){
 const meta = document.querySelector('meta[name="app-asset-revision"]');
 const revision = meta && meta.content ? meta.content.trim() : "";
