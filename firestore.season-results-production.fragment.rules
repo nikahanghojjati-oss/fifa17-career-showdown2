@@ -353,13 +353,35 @@
         && root.kicks.playerOne is string && root.kicks.playerOne.size() <= 14
         && root.kicks.playerTwo is string && root.kicks.playerTwo.size() <= 14
         && root.revision is int
-        && root.updatedAt == request.time
-        && ssjrWriteAuthorityValid(rivalryId, root.updatedByDeviceId, root.activeSessionId);
+        && root.updatedAt == request.time;
+    }
+    // B4 costed option (not shipped): a kick after the first keeps the rivalry and the named Session lookups (live pairing,
+    // the actor in it, the active Session of this Showdown) and leaves out the acting account and device lookups, which no
+    // app flow changes during play. The first kick (create) keeps the full shared write authority.
+    function ssjrChamberKickAuthorityValid(rivalryId, deviceId, sessionId) {
+      let rivalryRoot = get(/databases/$(database)/documents/rivalries/$(rivalryId));
+      let rivalry = rivalryRoot.data.data;
+      let session = get(/databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId));
+      let sessionData = session.data.data;
+      return request.auth != null
+        && ssjrValidDeviceId(deviceId)
+        && validSessionId(sessionId)
+        && rivalryRoot.data.lifecycleState == 'live'
+        && rivalry.connectionState == 'active'
+        && request.auth.uid in rivalry.authorizedAccountIds
+        && session.data.objectId == sessionId
+        && sessionData.rivalryId == rivalryId
+        && sessionData.state == 'active'
+        && sessionData.memberAccountIds is list
+        && sessionData.memberAccountIds.size() == 2
+        && rivalry.authorizedAccountIds[0] in sessionData.memberAccountIds
+        && rivalry.authorizedAccountIds[1] in sessionData.memberAccountIds;
     }
     function ssjrChamberCreateValid(rivalryId, seasonId) {
       let after = request.resource.data;
       let role = ssjrActorRole(rivalryId);
       return ssjrChamberShape(after, rivalryId, seasonId)
+        && ssjrWriteAuthorityValid(rivalryId, request.resource.data.updatedByDeviceId, request.resource.data.activeSessionId)
         && after.revision == 1
         && after.kicks[role].matches('[LMR-]')
         && after.kicks[ssjrPackOther(role)] == '';
@@ -370,6 +392,7 @@
       let role = ssjrActorRole(rivalryId);
       let other = ssjrPackOther(role);
       return ssjrChamberShape(after, rivalryId, seasonId)
+        && ssjrChamberKickAuthorityValid(rivalryId, request.resource.data.updatedByDeviceId, request.resource.data.activeSessionId)
         && after.seasonNumber == before.seasonNumber
         && after.revision == before.revision + 1
         && after.kicks[other] == before.kicks[other]
