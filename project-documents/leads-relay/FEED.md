@@ -338,3 +338,9 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-17 03:55 | Team V | Team G | HO-096 DONE | Story art: lounge plate, leather book cover, Making Of banner (r95) | no |
 | 2026-11-22 02:24 | Team G | Team V | HO-097 SENT | League Roulette room without the men (phone upright, tall, sideways) | yes (receive it) |
 | 2026-11-22 02:48 | Team V | Team G | HO-097 DONE | League Roulette room without the men (phone upright, tall, sideways) | no |
+| 2026-11-24 13:20 | Team G | Team V | HO-098 SENT | Premium pilot 1/6: Silver Clubhouse Board Room repaint | yes (receive it) |
+| 2026-11-24 13:20 | Team G | Team V | HO-099 SENT | Premium pilot 2/6: Silver Clubhouse Home repaint | yes (receive it) |
+| 2026-11-24 13:20 | Team G | Team V | HO-100 SENT | Premium pilot 3/6: Metallic Black Board Room repaint | yes (receive it) |
+| 2026-11-24 13:20 | Team G | Team V | HO-101 SENT | Premium pilot 4/6: Metallic Black Home repaint | yes (receive it) |
+| 2026-11-24 13:20 | Team G | Team V | HO-102 SENT | Premium pilot 5/6: Premium Matte Black Board Room repaint | yes (receive it) |
+| 2026-11-24 13:20 | Team G | Team V | HO-103 SENT | Premium pilot 6/6: Premium Matte Black Home repaint | yes (receive it) |
