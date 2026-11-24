@@ -1,0 +1,10 @@
+{
+ "id": "R01-start-before-both-spun",
+ "law": "L5_ORDER",
+ "title": "Ledger replay RT5-FLOW-02: START opens the Transfer War before the rival spun",
+ "file": "js/sparkSharedTransferChallenge.js",
+ "find": "if((spun.length||stspRouletteEligible(stspTimestampMillis(ctx.setup.updatedAt)))&&!ROLES.every(role=>spun.includes(role)))stspFail(\"TRANSFER_ROULETTE_PENDING\");",
+ "replace": "",
+ "why": "Re-plants the bug fixed as RT5-FLOW-02: the coordinator's START no longer waits for both spin marks, so Nik's roulette (and Prime Pack) is skipped.",
+ "ledger": "RT5-FLOW-02 (Sol RT5, fix in js/sparkSharedTransferChallenge.js startWindow)"
+}
