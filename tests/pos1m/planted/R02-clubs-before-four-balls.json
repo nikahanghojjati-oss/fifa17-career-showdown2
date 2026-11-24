@@ -1,0 +1,10 @@
+{
+ "id": "R02-clubs-before-four-balls",
+ "law": "L5_ORDER",
+ "title": "Ledger replay R98-01: the clubs are drawn before all four League Roulette balls dropped",
+ "file": "js/sparkSharedShowdownSetup.js",
+ "find": "if(type===\"commit-clubs\"&&prior&&Object.hasOwn(prior,\"drops\")&&prior.drops!==ROULETTE_BALLS)ssrpFail(\"SETUP_ROULETTE_UNFINISHED\");",
+ "replace": "",
+ "why": "Re-plants the guard added with R98-01: without it the coordinator's clubs tap ends the League Roulette before Nik dropped his balls.",
+ "ledger": "R98-01 (League Roulette build, guard in js/sparkSharedShowdownSetup.js mutate)"
+}

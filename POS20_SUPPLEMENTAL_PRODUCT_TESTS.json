@@ -3528,6 +3528,15 @@
       ]
     },
     {
+      "path": "tests/contracts/r100-w7-clock-jump-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/r100\\-w7\\-clock\\-jump\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
       "path": "tests/contracts/r100-b6-join-offline-contracts.cjs",
       "patterns": [
         "^js/persistentNikDanielPair\\.js$",

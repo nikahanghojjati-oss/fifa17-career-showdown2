@@ -1,0 +1,9 @@
+{
+ "id": "F03-commit-stale-copy-wins",
+ "law": "L2_NO_INVENTED_ACTION",
+ "title": "Season commit checks a stale copy of the commit (read outside the transaction)",
+ "file": "js/sparkSharedSeasonCommit.js",
+ "find": "const stored=await scpGet(tx,commitRef);",
+ "replace": "const stored=scpSnapshot(await options.firebaseSdk.getDoc(commitRef));",
+ "why": "The stored commit is read outside the transaction, so two phones committing (or acknowledging) at once both see the old commit and the later write replaces the earlier one."
+}
