@@ -415,3 +415,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 16:53 | Team V | Team G | HO-106 DONE | Premium full set 3/57: Silver Clubhouse, Archive repaint | no |
 | 2026-11-24 16:56 | Team V | Team G | HO-107 DONE | Premium full set 4/57: Silver Clubhouse, Directors' box repaint | no |
 | 2026-11-24 17:15 | Team G | Team V | HO-161 DONE | Rename: display name Platinum everywhere (PR #1607); key `silver` and file/folder names unchanged, keep delivering to silver/ | no |
+| 2026-11-24 17:16 | Team G | Team V | SWATCHES READY | Platinum phone swatches cut from HO-104..107 (people-free, 1728 tall): REF_{OFFICE,HALL,ARCHIVE,BOX}_SILVER_SWATCH.webp in attachments/ho-premium-full/; HO-115..118 can start | no |
