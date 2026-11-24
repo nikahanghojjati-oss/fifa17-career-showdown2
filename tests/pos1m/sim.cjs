@@ -86,19 +86,16 @@ class Sim{
       timer.fn();
     }
   }
-  // Seeded WebCrypto stand-in: digest without the thread pool, seeded random bytes, cached digests (pure function).
+  // Seeded WebCrypto stand-in: digest without the thread pool, seeded random bytes.
   makeCrypto(){
-    const sim=this,cache=new Map();
+    const sim=this;
     const subtle={
       digest(algorithm,data){
         const name=String(typeof algorithm==="string"?algorithm:algorithm&&algorithm.name).toUpperCase().replace("-","");
         if(name!=="SHA256")return Promise.reject(new Error(`POS1M crypto supports SHA-256 only, not ${name}`));
-        const bytes=data instanceof ArrayBuffer?Buffer.from(data):Buffer.from(data.buffer,data.byteOffset,data.byteLength);
-        const key=bytes.length<=4096?bytes.toString("latin1"):null;
-        let out=key!==null?cache.get(key):undefined;
-        if(!out){out=nodeCrypto.createHash("sha256").update(bytes).digest();if(key!==null){if(cache.size>50_000)cache.clear();cache.set(key,out);}}
-        const copy=new ArrayBuffer(out.length);new Uint8Array(copy).set(out);
-        return Promise.resolve(copy);
+        const view=data instanceof ArrayBuffer?new Uint8Array(data):new Uint8Array(data.buffer,data.byteOffset,data.byteLength);
+        const out=nodeCrypto.createHash("sha256").update(view).digest();
+        return Promise.resolve(out.buffer.slice(out.byteOffset,out.byteOffset+out.length));
       }
     };
     return {

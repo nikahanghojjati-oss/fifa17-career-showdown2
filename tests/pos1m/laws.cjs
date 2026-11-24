@@ -39,6 +39,17 @@ function oracleScore(result){
 
 function state(story){if(!story.lawState)story.lawState={scanned:0,commits:new Map(),acknowledged:new Map(),transferDone:new Set(),resultsReady:new Set()};return story.lawState;}
 
+// A chapter starts from a checkpoint the real providers played: the laws start from what that record already holds.
+function fromCheckpoint(story){
+  const ls=state(story);
+  for(const [path,entry] of story.world.server.docs){
+    const d=entry.data;
+    const c=seasonOf("seasonCommits",path);if(c!==null){ls.commits.set(c,canonical(d.results));if(d.phase==="ACKNOWLEDGED")ls.acknowledged.set(c,0);}
+    const t=seasonOf("transferChallenges",path);if(t!==null&&d.phase==="COMPLETED")ls.transferDone.add(t);
+    const r=seasonOf("seasonResults",path);if(r!==null&&d.phase==="RESULTS_READY")ls.resultsReady.add(r);
+  }
+}
+
 function scanWrites(story){
   const ls=state(story),log=story.world.server.writeLog;
   for(;ls.scanned<log.length;ls.scanned+=1){
@@ -161,13 +172,19 @@ function final(story,views){
   // L9 and L12: the Showdown ends exactly at its length, or right after a sacked season.
   const sacked=accepted.find(c=>W.ROLES.some(role=>c.data.results[role].sacked===true));
   if(story.status==="done"){
-    if(!multi.terminal)story.violation("L12_LIVENESS","the managers stopped but the Showdown is not complete");
-    const expectedEnd=sacked?sacked.season:story.plan.totalSeasons;
-    if(multi.acceptedSeasons!==expectedEnd)story.violation(sacked?"L9_SACKED_ENDS":"L12_LIVENESS",`the Showdown ended after ${multi.acceptedSeasons} seasons, expected ${expectedEnd}${sacked?` (sacked in season ${sacked.season})`:""}`);
+    const stop=story.plan.stopAtSeason;// a prefix or a chapter stops before this season
+    if(sacked){
+      if(!multi.terminal||multi.acceptedSeasons!==sacked.season)story.violation("L9_SACKED_ENDS",`sacked in season ${sacked.season}, but the Showdown ${multi.terminal?"ended":"goes on"} after ${multi.acceptedSeasons} seasons`);
+    }else if(stop){
+      if(multi.terminal||multi.acceptedSeasons!==stop-1)story.violation("L12_LIVENESS",`the story should stop before season ${stop}, it holds ${multi.acceptedSeasons} accepted seasons (terminal ${multi.terminal})`);
+    }else{
+      if(!multi.terminal)story.violation("L12_LIVENESS","the managers stopped but the Showdown is not complete");
+      if(multi.acceptedSeasons!==story.plan.totalSeasons)story.violation("L12_LIVENESS",`the Showdown ended after ${multi.acceptedSeasons} seasons, expected ${story.plan.totalSeasons}`);
+    }
   }
   // L14: budgets per accepted season.
   const seasons=Math.max(1,accepted.length);
   if(server.meter.writes/seasons>BUDGET.writesPerSeason)story.violation("L14_BUDGET",`${Math.round(server.meter.writes/seasons)} writes per season (budget ${BUDGET.writesPerSeason})`);
 }
 
-module.exports={onObserve,afterMove,onRepeat,final,oracleScore,BUDGET};
+module.exports={fromCheckpoint,onObserve,afterMove,onRepeat,final,oracleScore,BUDGET};

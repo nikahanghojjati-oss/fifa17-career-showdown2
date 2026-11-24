@@ -30,7 +30,8 @@ function sessionDoc(nowMs,id=SESSION,expiresAtMs=nowMs+4*60*60*1000){
   return {schemaVersion:1,objectType:"session",objectId:id,revision:1,parentRevision:0,lifecycleState:"live",contentHash:`sha256:${"0".repeat(64)}`,priorContentHash:`sha256:${"1".repeat(64)}`,updatedAt:lastActivityAt,updatedByAccountId:A,updatedByDeviceId:DEVICE.playerOne,data:{rivalryId:RIVALRY,state:"active",hostAccountId:A,memberAccountIds:[A,B],createdAt,expiresAt,lastActivityAt,revokedAt:null},tombstone:null};
 }
 
-function seed(server,nowMs,{sessionHours=12}={}){
+// The live session outlasts any story (a real 4-hour session that expires and is re-joined is a separate fault move).
+function seed(server,nowMs,{sessionHours=72}={}){
   for(const role of ROLES){
     server.adminSet(`accounts/${ACCOUNT[role]}`,accountDoc(ACCOUNT[role]));
     server.adminSet(`accounts/${ACCOUNT[role]}/devices/${DEVICE[role]}`,deviceDoc(DEVICE[role]));
@@ -40,9 +41,10 @@ function seed(server,nowMs,{sessionHours=12}={}){
   server.adminSet(`rivalries/${RIVALRY}/sessions/${SESSION}`,sessionDoc(nowMs,SESSION,nowMs+sessionHours*60*60*1000));
 }
 
-function makeWorld(sim,{faults={},skewMs={playerOne:0,playerTwo:0}}={}){
+function makeWorld(sim,{faults={},skewMs={playerOne:0,playerTwo:0},checkpoint=null}={}){
   const server=new Server(sim,faults);
-  seed(server,sim.now);
+  if(checkpoint){server.docs=new Map(checkpoint.docs);server.version=checkpoint.version;server.autoSeq=checkpoint.autoSeq;}
+  else seed(server,sim.now);
   return {server,sdk,sim,skewMs};
 }
 // The options object every spark provider takes. client is the phone's Firestore instance (one tab).

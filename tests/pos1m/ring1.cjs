@@ -27,10 +27,29 @@ const POSITIONS=["ST","CB","LW","RW","CM","GK","LB","RB","CAM","CDM"];
 // ---------------------------------------------------------------------------------------------------------------
 // Story plan: everything a seed decides up front (so a replay can be cut down move by move later).
 // ---------------------------------------------------------------------------------------------------------------
+// One story in 20 is a whole Showdown; the rest are season chapters forked from a checkpoint that a calm story played
+// through the real providers (never built by hand, so forking cannot make the stand-in kinder). The whole Showdowns
+// rotate through every length and Sacked in the first, a middle and the last season.
+const FULL_EVERY=20;
+const FULL_ROTATION=[].concat(...LENGTHS.map(L=>[null,"first","middle","last"].map(sack=>({L,sack}))));
+const CHECKPOINT_VARIANTS=4;
 function planFor(seed,overrides={}){
   const sim=new Sim(seed^0x5eed);
   const r=()=>sim.random();
-  const totalSeasons=overrides.totalSeasons||(r()<0.45?1:r()<0.6?3:r()<0.75?5:10);
+  let kind="chapter",totalSeasons,fromSeason=1,checkpointSeed=null,sackedSeason=null;
+  const sackedRole=r()<0.5?"playerOne":"playerTwo";
+  if(overrides.kind==="full"||(overrides.kind!=="chapter"&&seed%FULL_EVERY===0)){
+    kind="full";
+    const spec=FULL_ROTATION[Math.floor(seed/FULL_EVERY)%FULL_ROTATION.length];
+    totalSeasons=overrides.totalSeasons||spec.L;
+    const sack=overrides.sack!==undefined?overrides.sack:spec.sack;
+    sackedSeason=sack==="first"?1:sack==="last"?totalSeasons:sack==="middle"?Math.max(1,Math.ceil(totalSeasons/2)):null;
+  }else{
+    totalSeasons=overrides.totalSeasons||(r()<0.3?1:r()<0.45?3:r()<0.6?5:10);
+    fromSeason=overrides.fromSeason||1+Math.floor(r()*totalSeasons);
+    checkpointSeed=fromSeason>1?(totalSeasons*1000+fromSeason*10+Math.floor(r()*CHECKPOINT_VARIANTS)):null;
+    sackedSeason=r()<0.12?fromSeason:null;// a chapter can be the season a manager is sacked
+  }
   const calm=r()<0.15;// some stories have no faults at all: the happy path must hold too
   const level=calm?0:r();
   const faults=calm?{contentionDenied:0.5}:{
@@ -43,13 +62,27 @@ function planFor(seed,overrides={}){
   };
   const chaos=calm?{rate:0}:{
     rate:0.05+0.35*level,// chance per actor move that a fault move happens first
+    budget:1+Math.floor(r()*16),// fault moves per story; then the faults stop and the game must reach the end (L11, L12)
     weights:{kill:3,offline:3,swap:1,secondTab:1,repeat:4,skew:1}
   };
   const skewMs={playerOne:calm?0:Math.round((r()-0.5)*600_000),playerTwo:calm?0:Math.round((r()-0.5)*600_000)};
-  const sackedSeason=r()<0.08?1+Math.floor(r()*totalSeasons):null;
-  const sackedRole=r()<0.5?"playerOne":"playerTwo";
   const expireWindow=r()<0.2;// the 15-minute Transfer War runs out instead of both ending early
-  return {seed,totalSeasons,faults,chaos,skewMs,sackedSeason,sackedRole,expireWindow,...overrides};
+  const stopAtSeason=kind==="chapter"&&fromSeason<totalSeasons?fromSeason+1:null;// a chapter plays one season
+  return {seed,kind,totalSeasons,fromSeason,stopAtSeason,checkpointSeed,faults,chaos,skewMs,sackedSeason,sackedRole,expireWindow,...overrides};
+}
+// A calm prefix played through the real providers up to (not including) season `until`; cached per process.
+const checkpoints=new Map();
+async function checkpointFor(totalSeasons,until,variant){
+  const key=`${totalSeasons}:${until}:${variant}`;
+  if(checkpoints.has(key))return checkpoints.get(key);
+  const plan={seed:variant,kind:"prefix",totalSeasons,fromSeason:1,stopAtSeason:until,checkpointSeed:null,faults:{contentionDenied:0.5},chaos:{rate:0},skewMs:{playerOne:0,playerTwo:0},sackedSeason:null,sackedRole:"playerOne",expireWindow:false};
+  const story=new Story(plan);
+  const summary=await story.run();
+  if(summary.error||summary.violations.length)throw new Error(`checkpoint ${key} failed: ${summary.error||JSON.stringify(summary.violations)}`);
+  const server=story.world.server;
+  const cp=Object.freeze({key,docs:new Map(server.docs),version:server.version,autoSeq:server.autoSeq,now:story.sim.now+60_000,teamCount:story.teamCount});
+  checkpoints.set(key,cp);
+  return cp;
 }
 
 // The manager's intent for a season: fixed per (seed, role, season), so a fresh tab or swapped phone means the same.
@@ -106,6 +139,7 @@ class Manager{
     const result=await this.call(tab,provider,fn,extra,key);
     this.story.recordMove(this.role,tab,key,provider,fn,extra,result);
     if(result&&result.ok&&this.story.chaosRoll("repeat")){// a repeated tap: exactly the same command again
+      this.story.faultMoves+=1;
       const again=await this.call(tab,provider,fn,extra,`${key}:repeat`);
       this.story.recordRepeat(this.role,key,provider,fn,extra,result,again);
     }
@@ -121,7 +155,7 @@ class Manager{
       if(acted===true){idle=0;continue;}
       if(acted==="terminal"){this.done=true;this.story.managerDone(this.role);return;}
       idle+=1;
-      await this.wait(idle<10?3_000*idle:15_000*Math.min(8,idle-8));// polls back off; the rival's move wakes it sooner
+      await this.wait(Math.min(60_000,10_000*idle));// slow fallback polls; the rival's move (listener) wakes it sooner
     }
   }
   // One look at the shared record and at most one move. Returns true (moved), false (waiting) or "terminal".
@@ -155,6 +189,7 @@ class Manager{
       const multi=await this.call(tab,"Multi","read",{});
       if(!multi.ok)return false;
       if(multi.state.terminal)return "terminal";
+      if(plan.stopAtSeason&&multi.state.activeSeason>=plan.stopAtSeason)return "terminal";
       k.season=multi.state.activeSeason;k.stage="transfer";
     }
     const season=k.season,intent=intentFor(this.story,role,season);
@@ -221,9 +256,9 @@ class Manager{
 class Story{
   constructor(plan,{trace=false,mutant=null}={}){
     this.plan=plan;this.mutant=mutant;
-    this.sim=new Sim(plan.seed);this.sim.traceOn=trace;
+    this.sim=new Sim(plan.seed);this.sim.traceOn=trace;this.traceOn=trace;
     this.over=false;this.error=null;this.violations=[];this.moves=[];this.repeats=[];this.observations=[];
-    this.finished=new Set();this.teamCount=null;
+    this.finished=new Set();this.teamCount=null;this.faultMoves=0;
     this.coverage=new Set();
   }
   teamCountFor(setupState){
@@ -231,10 +266,11 @@ class Story{
     const catalog=require(path.join(W.ROOT,"js/sharedShowdownCatalog.js")).catalog;
     this.teamCount=catalog[setupState.leagueId].length;return this.teamCount;
   }
-  chaosRoll(kind){const chaos=this.plan.chaos;if(!chaos.rate)return false;const total=Object.values(chaos.weights).reduce((a,b)=>a+b,0);return this.sim.chance(chaos.rate*chaos.weights[kind]/total);}
+  chaosRoll(kind){const chaos=this.plan.chaos;if(!chaos.rate||this.faultMoves>=chaos.budget)return false;const total=Object.values(chaos.weights).reduce((a,b)=>a+b,0);return this.sim.chance(chaos.rate*chaos.weights[kind]/total);}
   async maybeChaos(manager,tab){
-    const chaos=this.plan.chaos;if(!chaos.rate||this.faultsStopped)return;
+    const chaos=this.plan.chaos;if(!chaos.rate||this.faultsStopped||this.faultMoves>=chaos.budget)return;
     if(!this.sim.chance(chaos.rate))return;
+    this.faultMoves+=1;
     const weights=chaos.weights,kinds=Object.keys(weights).filter(k=>k!=="repeat"),total=kinds.reduce((a,k)=>a+weights[k],0);
     let roll=this.sim.random()*total,kind=kinds[0];
     for(const k of kinds){roll-=weights[k];if(roll<=0){kind=k;break;}}
@@ -276,15 +312,19 @@ class Story{
   crash(error,role){this.error=error;this.errorRole=role;this.over=true;}
   violation(law,detail){if(this.violations.some(v=>v.law===law))return;this.violations.push({law,detail,t:this.sim.now-this.sim.epochMs,moves:this.moves.length});}
   async run(){
+    let cp=null;
+    if(this.plan.checkpointSeed!==null&&this.plan.fromSeason>1)cp=await checkpointFor(this.plan.totalSeasons,this.plan.fromSeason,this.plan.checkpointSeed%CHECKPOINT_VARIANTS);
+    if(cp){this.sim=new Sim(this.plan.seed,{epochMs:cp.now});this.sim.traceOn=this.traceOn;}
     const sim=this.sim;
     sim.install();
     try{
-      this.world=W.makeWorld(sim,{faults:this.plan.faults});
+      this.world=W.makeWorld(sim,{faults:this.plan.faults,checkpoint:cp});
+      if(cp){this.teamCount=cp.teamCount;laws.fromCheckpoint(this);}
       if(this.mutant&&this.mutant.install)this.mutant.install(this);
       this.managers={playerOne:new Manager(this,"playerOne"),playerTwo:new Manager(this,"playerTwo")};
       this.managers.playerOne.start();this.managers.playerTwo.start();
       // Liveness budget: generous virtual time per season (a Transfer War can take 15 minutes plus waits).
-      const budgetMs=(2+this.plan.totalSeasons)*3*60*60*1000;
+      const budgetMs=(2+this.plan.totalSeasons-this.plan.fromSeason+1)*3*60*60*1000;
       const status=await sim.run(()=>this.over,{untilMs:sim.epochMs+budgetMs});
       this.status=status;
       if(!this.error&&status!=="done")this.violation("L12_LIVENESS",`story did not reach the end in ${budgetMs/3600000} virtual hours (${status}); finished: ${[...this.finished].join(",")||"none"}`);
