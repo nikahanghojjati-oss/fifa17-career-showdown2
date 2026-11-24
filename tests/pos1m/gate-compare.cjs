@@ -14,6 +14,7 @@ const path=require("node:path");
 const {spawn}=require("node:child_process");
 const Mutant=require("./mutant.cjs");
 const ROOT=path.resolve(__dirname,"../..");
+const PIN=/operator: '(match|doesNotMatch)'|input did not match the regular expression|input was expected to not match/;
 
 function args(argv){
   const out={pos1m:null,workers:Math.max(1,Math.min(os.availableParallelism?os.availableParallelism():os.cpus().length,8)),only:null,out:null,timeoutMs:180_000};
@@ -76,16 +77,19 @@ async function pool(items,workers,fn){const out=[];let next=0;await Promise.all(
     const counted=relevant.filter(t=>baseline.get(t).pass);
     const runs=await pool(counted,opt.workers,test=>runTest(dir,test,opt.timeoutMs));
     const failing=runs.filter(r=>!r.pass).map(r=>r.test);
+    // A contract that failed only on a source-text pin (assert.match on the file's text) goes red on any edit of that
+    // line, a refactor too; one that failed on behaviour ran the code. Both turn the Gate red; the report keeps them apart.
+    const byBehaviour=runs.filter(r=>!r.pass&&!PIN.test(r.tail)).map(r=>r.test);
     const p=pos1m&&pos1m.results.find(r=>r.id===bug.id);
-    results.push({id:bug.id,law:bug.law,ledger:bug.ledger||null,contractsRun:counted.length,contractsFailing:failing,gateCaught:failing.length>0,pos1mCaught:p?p.caught:null});
+    results.push({id:bug.id,law:bug.law,ledger:bug.ledger||null,contractsRun:counted.length,contractsFailing:failing,gateCaught:failing.length>0,gateCaughtByBehaviour:byBehaviour.length>0,failTails:runs.filter(r=>!r.pass).map(r=>({test:r.test,pin:PIN.test(r.tail),tail:r.tail.slice(-300)})),pos1mCaught:p?p.caught:null});
     console.log(`${bug.id}: Gate contracts ${failing.length?`CAUGHT by ${failing.map(f=>path.basename(f)).join(", ")}`:`missed (${counted.length} relevant ran green)`}; POS1M ${p?p.caught?"CAUGHT":"MISSED":"?"}`);
     fs.rmSync(dir,{recursive:true,force:true});
   }
   fs.rmSync(scratch,{recursive:true,force:true});
-  const n=results.length,gate=results.filter(r=>r.gateCaught).length,ours=results.filter(r=>r.pos1mCaught).length;
+  const n=results.length,gate=results.filter(r=>r.gateCaught).length,ours=results.filter(r=>r.pos1mCaught).length,behaviour=results.filter(r=>r.gateCaughtByBehaviour).length;
   const brokenBefore=[...baseline.values()].filter(r=>!r.pass).map(r=>({test:r.test,tail:r.tail}));
-  const report={engine:"POS1M",kind:"gate-compare",lane:"contracts",bugs:n,gateCaught:gate,pos1mCaught:ours,gatePercent:Math.round(100*gate/Math.max(1,n)),pos1mPercent:Math.round(100*ours/Math.max(1,n)),contractsFailingBeforeChange:brokenBefore,results,wallMs:Date.now()-started};
+  const report={engine:"POS1M",kind:"gate-compare",lane:"contracts",bugs:n,gateCaught:gate,pos1mCaught:ours,gatePercent:Math.round(100*gate/Math.max(1,n)),gateCaughtByBehaviour:behaviour,gateBehaviourPercent:Math.round(100*behaviour/Math.max(1,n)),pos1mPercent:Math.round(100*ours/Math.max(1,n)),contractsFailingBeforeChange:brokenBefore,results,wallMs:Date.now()-started};
   if(opt.out)fs.writeFileSync(opt.out,JSON.stringify(report,null,1));
-  console.log(`Gate contract lane caught ${gate} of ${n} (${report.gatePercent}%); POS1M Ring 1 caught ${ours} of ${n} (${report.pos1mPercent}%): ${report.pos1mPercent-report.gatePercent} points.`);
+  console.log(`Gate contract lane caught ${gate} of ${n} (${report.gatePercent}%; ${behaviour} by running the code, the rest only by a source-text pin); POS1M Ring 1 caught ${ours} of ${n} (${report.pos1mPercent}%): ${report.pos1mPercent-report.gatePercent} points (${report.pos1mPercent-report.gateBehaviourPercent} against behaviour catches).`);
   if(brokenBefore.length)console.log(`Not counted (already failing on the unchanged copy): ${brokenBefore.map(b=>b.test).join(", ")}`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

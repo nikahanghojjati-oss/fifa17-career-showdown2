@@ -6,6 +6,7 @@
 const os=require("node:os");
 const fs=require("node:fs");
 const {Worker,isMainThread,parentPort,workerData}=require("node:worker_threads");
+const FAILURES_KEPT=200;// a report keeps the first 200 failing stories (every one is still counted in failed)
 
 function args(argv){
   const out={stories:200,workers:Math.max(1,Math.min(os.availableParallelism?os.availableParallelism():os.cpus().length,8)),shard:"1/1",seed:1,out:null,kind:null,quiet:false,shrink:false};
@@ -61,7 +62,7 @@ if(isMainThread){
     worker.on("message",m=>{
       total.stories+=1;total.kinds[m.kind]=(total.kinds[m.kind]||0)+1;total.playedMs+=m.ms;total.writes+=m.writes;total.transactions+=m.transactions;total.attempts+=m.attempts;
       for(const c of m.coverage)total.cells.add(c);
-      if(m.error||m.violations.length){total.failed+=1;total.failures.push({seed:m.seed,kind:m.kind,totalSeasons:m.totalSeasons,fromSeason:m.fromSeason,violations:m.violations,error:m.error});if(!options.quiet)console.log(JSON.stringify(total.failures[total.failures.length-1]).slice(0,1200));}
+      if(m.error||m.violations.length){total.failed+=1;if(total.failures.length<FAILURES_KEPT)total.failures.push({seed:m.seed,kind:m.kind,totalSeasons:m.totalSeasons,fromSeason:m.fromSeason,violations:m.violations,error:m.error});if(!options.quiet)console.log(JSON.stringify({seed:m.seed,violations:m.violations,error:m.error}).slice(0,1200));}
     });
     worker.on("error",error=>{total.failed+=1;total.failures.push({worker:w,error:String(error.stack||error)});});
     worker.on("exit",()=>{running-=1;if(!running)done();});
