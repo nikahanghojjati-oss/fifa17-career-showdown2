@@ -142,3 +142,39 @@ test("B6-10: the resend expires 10 minutes after the tap; later Home still offer
   await tapTile(nik);
   assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);assert.equal(nik.redeems,1);
 });
+
+// ---- Daniel's side (Ironman fault reload at point home-join, Gate run 45387682623): Daniel's phone reloads right as Nik taps
+// JOIN. The reload read Daniel's pair link while it was still "pending" and his code just after Nik's join closed it, so the
+// code counted as expired and the waiting poll stopped for good: Daniel sat on WAITING over the league wheel while Nik waited
+// for him. Now a code whose end is known gets one last look (the same two reads) before the poll stops.
+// Daniel reloads (a fresh page of the same phone); Nik's join lands between his pair-link read and his code read.
+async function danielReloadsAsNikJoins({join=true}={}){
+  const w=world(),rid=await w.start(),nik=w.page("nik");await nik.init();
+  assert.equal(nik.label(),"JOIN DANIEL'S SHOWDOWN");w.joinFrom=w.writes.length;
+  const invite=`rivalries/${rid}/invites/${rid}`,real=w.sdk.runTransaction;let armed=false;
+  w.sdk.runTransaction=(db,fn)=>real(db,tx=>fn({...tx,get:async ref=>{if(armed&&ref.path===invite){armed=false;
+    if(join){await nik.tap();assert.equal(nik.pair.getState().connectionState,"active","Nik's JOIN landed");}
+    else{const doc=w.docs.get(invite);w.docs.set(invite,{...doc,data:{...doc.data,state:"revoked"}});}}return tx.get(ref);}}));
+  const daniel=w.page("daniel");armed=true;await daniel.init();await w.advance(1000);
+  return {w,rid,nik,daniel};
+}
+
+test("B6-11: Daniel's phone reloads as Nik's JOIN lands: Daniel still goes on into that Showdown by himself, once",async()=>{
+  const {w,rid,nik,daniel}=await danielReloadsAsNikJoins();
+  await w.advance(10*1000);await quiet(daniel);
+  assert.equal(daniel.pair.getState().connectionState,"active","Daniel learns that Nik joined (no stuck WAITING)");
+  assert.equal(daniel.pair.getState().rivalryId,rid,"the same Showdown");
+  assert.equal(daniel.entered,1,"Daniel goes on into the Showdown once");
+  assert.equal(nik.redeems,1,"one join");assert.equal(rivalryWrites(w,rid),2,"the Showdown and its invite were written once each");
+  const reads=w.reads.length;await w.advance(10*MINUTE);
+  assert.equal(daniel.entered,1);assert.equal(w.reads.filter((p,i)=>i>=reads&&p.startsWith("accounts/daniel/pairLinks")).length,0,"no waiting poll is left running");
+});
+
+test("B6-12: a code seen closed without a join gets one last look (two reads), then the wait stops as before",async()=>{
+  const {w,rid,daniel}=await danielReloadsAsNikJoins({join:false});
+  const before=w.reads.length;await w.advance(10*1000);await quiet(daniel);
+  assert.equal(daniel.pair.getState().connectionState,"pending-pair","nobody joined");assert.equal(daniel.pair.getState().rivalryId,rid);
+  assert.deepEqual(w.reads.slice(before).sort(),["accounts/daniel/pairLinks/current",`rivalries/${rid}`].sort(),"one last look: the pair link and the rivalry only");
+  const after=w.reads.length;await w.advance(30*MINUTE);
+  assert.equal(w.reads.length,after,"then no more reads");assert.equal(daniel.entered,0);
+});
