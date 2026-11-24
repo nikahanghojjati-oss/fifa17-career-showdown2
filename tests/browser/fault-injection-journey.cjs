@@ -684,7 +684,10 @@ function sameShowdownState(a,b){
   // and the other on Home (No Showdown live, its pair let go there). The Champion screen writes "Showdown Complete"
   // (productionSharedMultiSeasonProgression.js) and Home writes "Showdown complete" (menuExperience.js): both count.
   const over=s=>/^(Showdown complete|No Showdown live)$/i.test(String(s?.season||"").trim());
-  if(pointNow==="terminal-close"&&over(a)&&over(b))return true;
+  // The same holds at every point once no Showdown is live (terminal close, END SHOWDOWN, sacked, UNPAIR): a tab that played the
+  // ended Showdown may still hold its last transfer/commit phase in memory while a tab opened later holds none; neither is shown
+  // with no Showdown live, and the next Showdown's start clears both (the home-join point checks that).
+  if(over(a)&&over(b))return true;
   const n=s=>Number((/Season (\d+)/.exec(s?.season||"")||[])[1]||0);
   const [lo,hi]=n(a)<=n(b)?[a,b]:[b,a];
   return n(hi)===n(lo)+1&&lo?.commit==="ACKNOWLEDGED"&&(hi?.transfer===null||hi?.transfer==="NOT_STARTED");
