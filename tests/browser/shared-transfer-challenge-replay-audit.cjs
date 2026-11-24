@@ -7,11 +7,11 @@ const rivalryA='pair_'+('a'.repeat(64));
 const rivalryB='pair_'+('b'.repeat(64));
 const sessionId='session_'+('c'.repeat(64));
 
-async function prepare(page,{managerRole,saveId}){
+async function prepare(page,{managerRole,saveId,initialPhase='COMPLETED'}){
   await page.goto(baseUrl.href,{waitUntil:'domcontentloaded'});
   await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});await page.evaluate(()=>window.CareerModeSharedJourneyReady?.());
   await page.waitForFunction(()=>typeof window.ensureGameplayModules==='function'&&typeof window.loadRuntimeScript==='function',null,{timeout:12000});
-  await page.evaluate(async({managerRole,saveId,rivalryA,rivalryB,sessionId})=>{
+  await page.evaluate(async({managerRole,saveId,rivalryA,rivalryB,sessionId,initialPhase})=>{
     await ensureGameplayModules();
     const roleOther=managerRole==='playerOne'?'playerTwo':'playerOne';
     const managers={playerOne:'Daniel',playerTwo:'Nik'};
@@ -22,7 +22,7 @@ async function prepare(page,{managerRole,saveId}){
     currentShowdown={id:saveId,currentRound:1,status:'Ready',sharedJourney:{mode:'shared',rivalryId:rivalryA},managers};
 
     let activeRivalry=rivalryA;
-    let serverPhase='COMPLETED';
+    let serverPhase=initialPhase;
     let reads=0;
     let mutations=0;
     let raceMode=false;
@@ -86,10 +86,28 @@ async function prepare(page,{managerRole,saveId}){
       rivalryB
     };
     await CareerModeProductionSharedTransferChallenge.open();
-  },{managerRole,saveId,rivalryA,rivalryB,sessionId});
+  },{managerRole,saveId,rivalryA,rivalryB,sessionId,initialPhase});
 }
 
-async function assertReplay(page,roleLabel){
+// Phoenix W2: the shared record decides; device notes only skip what was already seen. A manager whose own guess and
+// signing locks are in the record saw those phases (on whichever device), so a page with no notes of its own never replays
+// them: the completed Transfer War (the verdicts) shows straight away.
+async function assertNoReplayOfOwnLocks(page,roleLabel){
+  await page.locator('#transferChallenge').waitFor({state:'visible',timeout:5000});
+  const baseline=await page.evaluate(()=>window.__transferAudit.counts());
+  assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),null,`${roleLabel} must not replay phases his own locks prove he saw.`);
+  assert.equal(await page.locator('#transferChallenge').getAttribute('data-transfer-phase'),'completed');
+  await page.waitForFunction(()=>document.getElementById('continueFromTransfers')?.textContent==='CONTINUE TO SEASON RESULTS',null,{timeout:3000});
+  assert.equal(await page.locator('#continueFromTransfers').isDisabled(),false,'the live r9 route is available at once');
+  assert.equal(await page.locator('#continueFromTransfers').getAttribute('data-shared-season-results-route'),'true','r9 route ownership must be explicit');
+  const after=await page.evaluate(()=>window.__transferAudit.counts());
+  assert.equal(after.mutations,0,'opening the completed Transfer War must never invoke a provider mutation');
+  assert.equal(after.reads,baseline.reads,'no extra provider read');
+}
+
+// A phase he never saw and never acted in still replays read-only first: here the transfer window he missed (it ended
+// while he was away), before the live Guess Entry he has not locked yet.
+async function assertMissedWindowReplay(page,roleLabel){
   await page.locator('#transferChallenge').waitFor({state:'visible',timeout:5000});
   const baseline=await page.evaluate(()=>window.__transferAudit.counts());
   assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),'WINDOW_OPEN',`${roleLabel} must replay the missed transfer window first.`);
@@ -97,30 +115,24 @@ async function assertReplay(page,roleLabel){
   assert.match(await page.locator('#transferPhaseStatus').textContent(),/REPLAY ·/);
   assert.equal(await page.locator('#transferTimerDisplay').textContent(),'REPLAY','historical window must never look like a live timer');
   assert.equal(await page.evaluate(()=>[...document.querySelectorAll('#transferChallenge input,#transferChallenge select')].every(node=>node.disabled)),true,'historical replay inputs must remain read-only');
-
   await page.locator('#continueFromTransfers').click();
-  assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),'GUESS_ENTRY',`${roleLabel} must replay private Guess Entry second.`);
-  assert.equal(await page.locator('#transferChallenge').getAttribute('data-transfer-phase'),'guess_entry');
-  assert.equal(await page.locator('#transferChallenge .transferGuessCard:not(.hidden)').count(),1,'replay must not expose both guess cards before the real completed stage is rendered');
-
-  await page.locator('#continueFromTransfers').click();
-  assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),'SIGNING_ENTRY',`${roleLabel} must replay private Signing Entry third.`);
-  assert.equal(await page.locator('#transferChallenge').getAttribute('data-transfer-phase'),'signing_entry');
-  assert.equal(await page.locator('#transferChallenge .transferManagerCard:not(.hidden)').count(),1,'replay must keep the rival signing card hidden until actual completion');
-  const signingSelectorWidths=await page.locator('#transferChallenge .transferManagerCard:not(.hidden) .signingRow:first-child .transferCombobox').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().width));
-  assert.equal(signingSelectorWidths.length,2,`${roleLabel} must render separate previous-league and nationality selectors.`);
-  assert.equal(signingSelectorWidths.every(width=>width>=100),true,`${roleLabel} must give both signing selectors usable width instead of collapsing one into the row-number column: ${signingSelectorWidths.join(",")}`);
-
-  await page.locator('#continueFromTransfers').click();
-  assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),null,`${roleLabel} must leave replay only after every earlier canonical phase was witnessed.`);
-  assert.equal(await page.locator('#transferChallenge').getAttribute('data-transfer-phase'),'completed');
-  await page.waitForFunction(()=>document.getElementById('continueFromTransfers')?.textContent==='CONTINUE TO SEASON RESULTS',null,{timeout:3000});
-  assert.equal(await page.locator('#continueFromTransfers').textContent(),'CONTINUE TO SEASON RESULTS');
-  assert.equal(await page.locator('#continueFromTransfers').isDisabled(),false,'live r9 route must become available only after historical replay is fully witnessed');
-  assert.equal(await page.locator('#continueFromTransfers').getAttribute('data-shared-season-results-route'),'true','r9 route ownership must be explicit after replay completion');
+  assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),null,`${roleLabel} must leave replay once the missed window was witnessed.`);
+  await page.waitForFunction(()=>document.getElementById('transferChallenge')?.dataset?.transferPhase==='guess_entry',null,{timeout:5000});
+  assert.equal(await page.locator('#transferChallenge .transferGuessCard:not(.hidden)').count(),1,'only his own guess card shows in the live Guess Entry');
   const after=await page.evaluate(()=>window.__transferAudit.counts());
   assert.equal(after.mutations,0,'ordered replay must never invoke a provider mutation');
   assert.equal(after.reads,baseline.reads,'replay-next actions must not make provider reads');
+}
+
+// Live Signing Entry: his own card only, with separate usable previous-league and nationality selectors.
+async function assertLiveSigningSelectors(page,roleLabel){
+  assert.equal(await page.evaluate(()=>window.__transferAudit.setPhase('SIGNING_ENTRY')),'SIGNING_ENTRY',`${roleLabel} must enter the live signing phase.`);
+  await page.waitForFunction(()=>document.getElementById('transferChallenge')?.dataset?.transferPhase==='signing_entry',null,{timeout:5000});
+  assert.equal(await page.locator('#transferChallenge').getAttribute('data-shared-transfer-replay'),null,'his own guess lock means no Guess Entry replay before signings');
+  assert.equal(await page.locator('#transferChallenge .transferManagerCard:not(.hidden)').count(),1,'the rival signing card stays hidden until completion');
+  const signingSelectorWidths=await page.locator('#transferChallenge .transferManagerCard:not(.hidden) .signingRow:first-child .transferCombobox:is(:has([id$="League"]),:has([id$="Nationality"]))').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().width));
+  assert.equal(signingSelectorWidths.length,2,`${roleLabel} must render separate previous-league and nationality selectors.`);
+  assert.equal(signingSelectorWidths.every(width=>width>=100),true,`${roleLabel} must give both signing selectors usable width instead of collapsing one into the row-number column: ${signingSelectorWidths.join(",")}`);
 }
 
 async function assertActiveGuessGuard(page,roleLabel){
@@ -193,12 +205,13 @@ async function assertCrossSaveRace(page){
   const errors=[];host.on('pageerror',error=>errors.push(`host: ${error.message}`));peer.on('pageerror',error=>errors.push(`peer: ${error.message}`));
   try{
     await prepare(host,{managerRole:'playerOne',saveId:'shared_save_host'});
-    await assertReplay(host,'Player One desktop');
+    await assertNoReplayOfOwnLocks(host,'Player One desktop');
     await assertCrossSaveRace(host);
 
-    await prepare(peer,{managerRole:'playerTwo',saveId:'shared_save_peer'});
-    await assertReplay(peer,'Player Two mobile');
+    await prepare(peer,{managerRole:'playerTwo',saveId:'shared_save_peer',initialPhase:'GUESS_ENTRY'});
+    await assertMissedWindowReplay(peer,'Player Two mobile');
     await assertActiveGuessGuard(peer,'Player Two mobile');
+    await assertLiveSigningSelectors(peer,'Player Two mobile');
     await assertForegroundClockResync(peer,'Player Two mobile');
     const beforeSwitch=await peer.evaluate(()=>window.__transferAudit.counts().reads);
     await peer.evaluate(()=>window.__transferAudit.switchSave());
@@ -207,7 +220,7 @@ async function assertCrossSaveRace(page){
     assert.equal(await peer.locator('#transferChallenge').getAttribute('data-transfer-phase'),'window','switching away from a completed shared Save must refresh and render the new Save context on the real automatic poll');
 
     assert.deepEqual(errors,[],'Shared Transfer Challenge replay audit emitted page errors.');
-    process.stdout.write('PASS Shared Transfer Challenge ordered full-screen replay and Save isolation: Player One desktop and Player Two mobile each replay missed WINDOW_OPEN -> GUESS_ENTRY -> SIGNING_ENTRY before actual COMPLETED, with both previous-league and nationality signing selectors independently usable; the live mobile guess value remains disabled until a League/Nationality type is selected and clears safely when type is removed; returning the mobile page to the foreground forces a fresh server-time anchor so a suspended monotonic clock cannot leave the 15-minute display stale; replay stays read-only/private with zero provider mutations or replay reads; the r9 Season Results route activates only after replay is complete; an in-flight Save A read is discarded when Save B becomes active; and the real 15-second automatic poll detects a completed-Save context switch.\n');
+    process.stdout.write('PASS Shared Transfer Challenge replay and Save isolation: Player One desktop opens a completed Transfer War he locked straight on the verdicts (no replay of phases his own locks prove he saw); Player Two mobile replays only the missed WINDOW_OPEN read-only before the live Guess Entry, then live Signing Entry keeps two usable selectors; stale Save races discarded; foreground clock resync; no provider mutations.\n');
   }finally{
     await hostContext.close().catch(()=>{});await peerContext.close().catch(()=>{});await browser.close().catch(()=>{});
   }
