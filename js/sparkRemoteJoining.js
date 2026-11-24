@@ -117,21 +117,39 @@
   // Date.now()+offset keeps running while the phone sleeps. Re-measured every 10 minutes; if it cannot be measured (offline,
   // no token) the phone's own clock is used, as before. Costs no Firestore read. Reads and expiry checks use the same offset.
   const SRJ_CLOCK_REFRESH_MS=10*60*1000;
-  let srjClock={known:false,offsetMs:0,at:0};
-  function srjClockNow(){return Date.now()+(srjClock.known?srjClock.offsetMs:0);}
-  async function srjServerNow(user){
-    if(srjClock.known&&Math.abs(Date.now()-srjClock.at)<SRJ_CLOCK_REFRESH_MS)return srjClockNow();
+  // Phoenix W7 (r100): the offset holds only while the phone's clock runs evenly. If the phone clock is set or corrected
+  // (a jump of minutes), or the page slept, the wall clock and the steady page clock (performance.now) drift apart: then the
+  // offset is measured again before the next session write, and a quick check started for the reads, instead of stamping
+  // writes minutes off for up to 10 minutes (the Rules refuse those, and the Showdown would not close by itself).
+  const SRJ_CLOCK_DRIFT_MS=2000,SRJ_CLOCK_RECHECK_MS=30000,SRJ_CLOCK_WAIT_MS=8000;
+  let srjClock={known:false,offsetMs:0,at:0,steadyAt:0},srjClockUser=null,srjClockMeasure=null,srjClockTriedAt=-Infinity,srjClockFailed=false;
+  function srjSteadyNow(){try{const now=root.performance?.now?.();return Number.isFinite(now)?now:null;}catch(_error){return null;}}
+  // A failed measure (offline, no token) is not tried again for 30 s, by the writes or the running clock: on a bad connection
+  // each write would otherwise wait on a forced token refresh that keeps failing. Until then the last offset is used, as before.
+  // A measure still on its way is shared: a write made meanwhile waits for it (verify on #1586), and only a real failure counts.
+  function srjClockHeldOff(){return srjClockFailed&&Math.abs((srjSteadyNow()??Date.now())-srjClockTriedAt)<SRJ_CLOCK_RECHECK_MS;}
+  function srjClockDrifted(){if(!srjClock.known)return false;const steady=srjSteadyNow();if(steady===null||!srjClock.steadyAt)return false;return Math.abs((Date.now()-srjClock.at)-(steady-srjClock.steadyAt))>SRJ_CLOCK_DRIFT_MS;}
+  function srjClockNow(){if(srjClockDrifted()&&srjClockUser&&!srjClockMeasure&&!srjClockHeldOff())void srjServerNow(srjClockUser).catch(()=>{});return Date.now()+(srjClock.known?srjClock.offsetMs:0);}
+  async function srjMeasureClock(user){
+    srjClockTriedAt=srjSteadyNow()??Date.now();let measured=false;
     try{
-      if(user&&typeof user.getIdTokenResult==="function"){
-        const sent=Date.now(),token=await user.getIdTokenResult(true),got=Date.now();
-        const issued=Date.parse(String(token&&token.issuedAtTime||""));
-        if(Number.isFinite(issued)&&issued>0&&got>=sent&&got-sent<30000){
-          const server=issued+(issued%1000===0?500:0);
-          srjClock={known:true,offsetMs:server-Math.round((sent+got)/2),at:got};
-        }
+      const sent=Date.now(),token=await user.getIdTokenResult(true),got=Date.now();
+      const issued=Date.parse(String(token&&token.issuedAtTime||""));
+      if(Number.isFinite(issued)&&issued>0&&got>=sent&&got-sent<30000){
+        const server=issued+(issued%1000===0?500:0);
+        srjClock={known:true,offsetMs:server-Math.round((sent+got)/2),at:got,steadyAt:srjSteadyNow()||0};measured=true;
       }
     }catch(_error){}
-    return srjClockNow();
+    srjClockFailed=!measured;
+  }
+  async function srjServerNow(user){
+    if(user)srjClockUser=user;
+    if(srjClock.known&&Math.abs(Date.now()-srjClock.at)<SRJ_CLOCK_REFRESH_MS&&!srjClockDrifted())return Date.now()+srjClock.offsetMs;
+    if(!srjClockMeasure&&!srjClockHeldOff()&&user&&typeof user.getIdTokenResult==="function"){const run=srjMeasureClock(user);srjClockMeasure=run;run.finally(()=>{if(srjClockMeasure===run)srjClockMeasure=null;}).catch(()=>{});}
+    // A write waits at most 8 s for the measure (Auth's own timeout is ~30 s and would end on the old offset anyway); a measure
+    // that lands later still updates the offset for the writes after it.
+    if(srjClockMeasure){const measure=srjClockMeasure.catch(()=>{});if(typeof root.setTimeout==="function"){let timer=null;await Promise.race([measure,new Promise(resolve=>{timer=root.setTimeout(resolve,SRJ_CLOCK_WAIT_MS);})]);try{root.clearTimeout?.(timer);}catch(_error){}}else await measure;}
+    return Date.now()+(srjClock.known?srjClock.offsetMs:0);
   }
   function srjOperationOptions(context,sessionId){
     return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId,nowEpochMs:srjClockNow(),cryptoImpl:root.crypto};

@@ -1,0 +1,15 @@
+{
+ "id": "P03-leaked-guess",
+ "law": "L4_PRIVACY",
+ "title": "The rival's guesses show before the Transfer War is complete",
+ "file": "js/sparkSharedTransferChallenge.js",
+ "find": "if(readOpponent===\"ifCompleted\"&&!(state&&state.phase===\"COMPLETED\"))readOpponent=false;if(readOpponent){if(!state||state.phase!==\"COMPLETED\")stspFail(\"TRANSFER_PRIVATE_READ_BLOCKED\");opponent=stspPrivateState(stspSnapshot(await transaction.get(refs.opponent)),rivalryId,seasonNumber,opponentRole,catalog);if(!opponent)stspFail(\"TRANSFER_PRIVATE_STATE_INVALID\");}",
+ "replace": "if(readOpponent===\"ifCompleted\"&&!state)readOpponent=false;if(readOpponent){opponent=stspPrivateState(stspSnapshot(await transaction.get(refs.opponent)),rivalryId,seasonNumber,opponentRole,catalog);if(!opponent&&state.phase===\"COMPLETED\")stspFail(\"TRANSFER_PRIVATE_STATE_INVALID\");}",
+ "why": "The read fetches the rival's private transfer doc in every phase and shows his locked guesses and signings while this manager can still change his own. (In production the Rules would also refuse that read: Ring 2 covers the Rules side.)",
+ "also": [
+  {
+   "find": "const opponentInputs=state.phase===\"COMPLETED\"&&ctx.opponent?",
+   "replace": "const opponentInputs=ctx.opponent?"
+  }
+ ]
+}

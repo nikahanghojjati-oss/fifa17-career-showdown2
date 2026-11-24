@@ -1,0 +1,9 @@
+{
+ "id": "P24-guessed-player-re-signed",
+ "law": "L8_GUESSED_PLAYER",
+ "title": "The Transfer War LOCK lets a manager sign again a player the rival guessed",
+ "file": "js/productionSharedTransferChallenge.js",
+ "find": "for(let k=1;k<season;k+=1){const rows=Array.isArray(earlier)&&earlier[k]&&earlier[k][role];if(Array.isArray(rows))for(const row of rows){const name=row&&row.release===true",
+ "replace": "for(let k=1;k<0;k+=1){const rows=Array.isArray(earlier)&&earlier[k]&&earlier[k][role];if(Array.isArray(rows))for(const row of rows){const name=row&&row.release===true",
+ "why": "The LOCK check forgets the guessed bars (only shot players stay barred), so a man the rival guessed comes back in a later window. Nik's rule: a guessed player can not be signed again."
+}

@@ -1,0 +1,9 @@
+{
+ "id": "X02-old-release-re-signed",
+ "law": "L8_GUESSED_PLAYER",
+ "title": "A guessed player released two or more seasons ago can be signed again",
+ "file": "js/productionSharedTransferChallenge.js",
+ "find": "for(let k=1;k<season;k+=1){const rows=Array.isArray(earlier)&&earlier[k]&&earlier[k][role];",
+ "replace": "for(let k=Math.max(1,season-1);k<season;k+=1){const rows=Array.isArray(earlier)&&earlier[k]&&earlier[k][role];",
+ "why": "The release bar only looks one season back, so a player the rival guessed (and the game released) in season 1 can be signed again in season 3. Only a Showdown of three or more seasons shows it."
+}

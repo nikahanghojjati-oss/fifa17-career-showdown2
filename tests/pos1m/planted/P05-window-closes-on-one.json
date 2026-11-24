@@ -1,0 +1,9 @@
+{
+ "id": "P05-window-closes-on-one",
+ "law": "L5_ORDER",
+ "title": "The Transfer War closes when only one manager asks to end it",
+ "file": "js/sparkSharedTransferChallenge.js",
+ "find": "next.endRequestedRoles.push(ctx.role);if(next.endRequestedRoles.length===2){next.phase=\"GUESS_ENTRY\";",
+ "replace": "next.endRequestedRoles.push(ctx.role);if(next.endRequestedRoles.length>=1){next.phase=\"GUESS_ENTRY\";",
+ "why": "One END tap skips the rival's window: his Transfer War is cut short."
+}
