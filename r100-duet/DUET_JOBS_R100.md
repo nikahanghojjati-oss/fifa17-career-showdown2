@@ -1,3 +1,5 @@
+> **SHELVED 2026-11-24 17:56 UTC (Nik): not run.** See DUET_P1_PHONE_ROOMS.md and DUET_P2_STORY_NOTES.md.
+
 # Claude Duet jobs for 3.0.0 "Phoenix", Tue 24 to Thu 26 Nov 2026
 
 Follow `r100-duet/DUET_ROLE_R100.md` (role, model, budget, rules) and `r100-sol/_HOUSE_RULES_R100.md` (game summary, evidence rule, how to run things, report format). One Duet channel per job. Read and run only.

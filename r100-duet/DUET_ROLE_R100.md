@@ -1,3 +1,5 @@
+> **Superseded 2026-11-24 17:56 UTC (Nik):** Duet no longer tests (Opus reviewing Opus adds little). Duet jobs for 3.0 are P1 `DUET_P1_PHONE_ROOMS.md` and P2 `DUET_P2_STORY_NOTES.md`. D1-D13 in DUET_JOBS_R100.md are shelved.
+
 # Claude Duet role for 3.0.0 "Phoenix" (r100), set by the r100 Team G lead, 2026-11-24
 
 Duet is the INDEPENDENT TESTER for 3.0.0. It never builds, fixes or merges. Builders are the Opus high threads in Nik's project; the r100 lead verifies every finding against the code and routes fixes.
