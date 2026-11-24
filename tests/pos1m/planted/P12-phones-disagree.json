@@ -1,0 +1,9 @@
+{
+ "id": "P12-phones-disagree",
+ "law": "L11_CONVERGE",
+ "title": "Nik's Home dashboard shows the two managers' totals swapped",
+ "file": "js/sparkSharedMultiSeasonProgression.js",
+ "find": "managerTotals:{playerOne:Number(history.managerRecords?.playerOne?.totalPoints)||0,playerTwo:Number(history.managerRecords?.playerTwo?.totalPoints)||0},",
+ "replace": "managerTotals:authority.managerRole===\"playerTwo\"?{playerOne:Number(history.managerRecords?.playerTwo?.totalPoints)||0,playerTwo:Number(history.managerRecords?.playerOne?.totalPoints)||0}:{playerOne:Number(history.managerRecords?.playerOne?.totalPoints)||0,playerTwo:Number(history.managerRecords?.playerTwo?.totalPoints)||0},",
+ "why": "A role-dependent dashboard: the two phones show different running totals for the same accepted seasons. Each total on its own is a real total, so only comparing the two phones can see it."
+}

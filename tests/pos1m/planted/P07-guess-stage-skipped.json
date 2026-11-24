@@ -1,0 +1,9 @@
+{
+ "id": "P07-guess-stage-skipped",
+ "law": "L5_ORDER",
+ "title": "Signings open when only one manager has locked guesses",
+ "file": "js/sparkSharedTransferChallenge.js",
+ "find": "next.guessLockedRoles.push(ctx.role);if(next.guessLockedRoles.length===2)next.phase=\"SIGNING_ENTRY\";",
+ "replace": "next.guessLockedRoles.push(ctx.role);if(next.guessLockedRoles.length>=1)next.phase=\"SIGNING_ENTRY\";",
+ "why": "The rival's guess step is skipped."
+}

@@ -56,6 +56,8 @@ function scanWrites(story){
     const w=log[ls.scanned];
     if(w.via==="admin")continue;
     const writer=ROLE_OF_UID[w.uid];
+    // L14: looking at a step never writes (a write on every look is a billed write per poll).
+    if(w.call&&/\.read$/.test(w.call))story.violation("L14_BUDGET",`${w.call} wrote ${w.path.split("/").slice(2).join("/")}`);
     // L2: a role array may only grow by the writer's own role; appended operation receipts are the writer's own.
     if(w.after){
       for(const [key,value] of Object.entries(w.after)){
@@ -96,6 +98,7 @@ function scanWrites(story){
     if(transferSeason!==null&&w.after){
       if(w.after.phase==="COMPLETED")ls.transferDone.add(transferSeason);
       if(transferSeason>1&&!w.before&&!ls.acknowledged.has(transferSeason-1))story.violation("L5_ORDER",`season ${transferSeason} Transfer War opened before season ${transferSeason-1} was acknowledged`);
+      transferStep(story,transferSeason,w);
     }
     // L9: nothing of a later season is written after a sacked season was accepted.
     if(ls.sackedSeason&&(transferSeason||resultsSeason||commitSeason)>ls.sackedSeason)story.violation("L9_SACKED_ENDS",`season ${transferSeason||resultsSeason||commitSeason} written after the Showdown ended at sacked season ${ls.sackedSeason}`);
@@ -123,11 +126,38 @@ function onObserve(story,role,provider,fn,extra,result){
   }
 }
 
+// L5 inside the Transfer War: each phase is reached only the fair way, in order, never skipped and never back.
+//   WINDOW_OPEN -> GUESS_ENTRY  both managers asked to end, or 15 minutes passed on the server clock since the stamped
+//                              start (less 3.5 s: each phone's server estimate may be 1.5 s off, plus rounding)
+//   GUESS_ENTRY -> SIGNING_ENTRY  both locked their guesses;  SIGNING_ENTRY -> COMPLETED  both locked their signings
+const TRANSFER_ORDER=["NOT_STARTED","WINDOW_OPEN","GUESS_ENTRY","SIGNING_ENTRY","COMPLETED"];
+const WINDOW_MS=15*60_000,ESTIMATE_SLACK_MS=3_500;
+const bothIn=list=>Array.isArray(list)&&W.ROLES.every(role=>list.includes(role));
+const millisOf=value=>value&&typeof value.toMillis==="function"?value.toMillis():value&&Number.isFinite(value.seconds)?value.seconds*1000+Math.floor((value.nanoseconds||0)/1e6):null;
+function transferStep(story,season,w){
+  const from=w.before?w.before.phase:"NOT_STARTED",to=w.after.phase;
+  if(from===to)return;
+  const a=TRANSFER_ORDER.indexOf(from),b=TRANSFER_ORDER.indexOf(to);
+  if(a<0||b<0||b<a){story.violation("L5_ORDER",`season ${season} Transfer War went ${from} -> ${to}`);return;}
+  if(b>a+1&&!(from==="NOT_STARTED"&&to==="WINDOW_OPEN")){story.violation("L5_ORDER",`season ${season} Transfer War skipped from ${from} to ${to}`);return;}
+  if(to==="GUESS_ENTRY"&&!bothIn(w.after.endRequestedRoles)){
+    const started=millisOf(w.after.startedAt);
+    if(started===null||w.at<started+WINDOW_MS-ESTIMATE_SLACK_MS)story.violation("L5_ORDER",`season ${season} Transfer War closed after ${started===null?"?":Math.round((w.at-started)/1000)} s with end requests ${JSON.stringify(w.after.endRequestedRoles)}`);
+  }
+  if(to==="SIGNING_ENTRY"&&!bothIn(w.after.guessLockedRoles))story.violation("L5_ORDER",`season ${season} signings opened with guesses locked by ${JSON.stringify(w.after.guessLockedRoles)}`);
+  if(to==="COMPLETED"&&!bothIn(w.after.signingLockedRoles))story.violation("L5_ORDER",`season ${season} Transfer War completed with signings locked by ${JSON.stringify(w.after.signingLockedRoles)}`);
+}
+
+// Game refusals are upper-case codes (SEASON_RESULTS_...); Firestore transport errors are lower-case (unavailable, ...).
+const GAME_CODE=/^[A-Z][A-Z0-9_]+$/;
+
 function afterMove(story){scanWrites(story);}
 
 function onRepeat(story,role,key,provider,fn,extra,first,again){
   // L13: the exact same command again (same operation id and base) must be a replay, never a second action.
   if(again&&again.ok&&again.replayed!==true&&!(provider==="Transfer"&&fn==="markSpun"))story.violation("L13_REPEAT_ONCE",`${role} ${key}: the repeated tap was accepted as a new action`);
+  // ...and answered with the saved result, never a game error (a network error on the repeat is fine: it is retried).
+  if(first&&first.ok&&again&&!again.ok&&GAME_CODE.test(again.code||""))story.violation("L13_REPEAT_ONCE",`${role} ${key}: the repeated tap was refused with ${again.code}`);
   scanWrites(story);
 }
 
@@ -140,11 +170,17 @@ function final(story,views){
   const accepted=commits.filter(c=>c.data.phase==="ACKNOWLEDGED");
   // L7: results never carry both; and every season score follows the rules.
   for(const c of commits){for(const role of W.ROLES){const r=c.data.results&&c.data.results[role];if(r&&r.europaLeague===true&&r.championsLeague===true)story.violation("L7_EL_OR_CL",`season ${c.season} ${role} has Europa League and Champions League`);}}
+  // L1: each commit holds exactly what the two managers published (no swapped, stale or edited copy).
+  for(const c of commits)for(const role of W.ROLES){
+    const own=docs.get(`${BASE}/seasonResults/season_${c.season}/roles/${role}`);
+    if(own&&own.data.result&&c.data.results&&canonical(own.data.result)!==canonical(c.data.results[role]))story.violation("L1_ONE_COMMIT",`season ${c.season} commit holds ${role} ${canonical(c.data.results[role])}, published ${canonical(own.data.result)}`);
+  }
   const a=views.playerOne,b=views.playerTwo;
   if(!a.multi.ok||!b.multi.ok){story.violation("L11_CONVERGE",`final read failed: ${a.multi.code||""} ${b.multi.code||""}`);return;}
   // L11: both phones agree once the faults stop.
   const strip=value=>{const copy=JSON.parse(JSON.stringify(value));delete copy.managerRole;if(copy.state)delete copy.state.managerRole;return copy;};
   if(canonical(strip(a.multi.state))!==canonical(strip(b.multi.state)))story.violation("L11_CONVERGE","the two phones disagree on the step");
+  else if(canonical(strip(a.multi))!==canonical(strip(b.multi)))story.violation("L11_CONVERGE","the two phones disagree on the Home dashboard or its History");
   if(a.history&&b.history&&canonical(a.history.projection)!==canonical(b.history.projection))story.violation("L11_CONVERGE","the two phones disagree on History");
   for(let i=0;i<a.scoring.length;i+=1){const x=a.scoring[i],y=b.scoring[i];if(!x.ok||!y.ok||canonical(x.scoring)!==canonical(y.scoring)||x.winner!==y.winner)story.violation("L11_CONVERGE",`the two phones disagree on season ${i+1} scoring`);}
   // L7 oracle and L3 on every accepted season.

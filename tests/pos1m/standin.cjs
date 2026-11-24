@@ -249,10 +249,16 @@ class Server{
       if(after!==null&&sizeOf(after)>MAX_DOC_BYTES)fail("invalid-argument",`Document ${write.path} exceeds the maximum allowed size of 1,048,576 bytes`);
       changed.push({path:write.path,before,after});
     }
+    // Ring 1 Rules model: the few refusals the game relies on the Rules for (tests/pos1m/rules-model.cjs). A refused
+    // write changes nothing, like a transaction the Rules deny. Ring 2 runs the real Rules.
+    if(this.rules&&via!=="admin")for(const change of changed){
+      const reason=this.rules({uid:actor.uid,path:change.path,before:change.before?change.before.data:null,after:change.after});
+      if(reason){this.version-=1;this.meter.rulesDenied=(this.meter.rulesDenied||0)+1;fail("permission-denied",`Missing or insufficient permissions. (Ring 1 Rules model: ${reason})`);}
+    }
     for(const change of changed){
       if(change.after===null){this.docs.delete(change.path);this.meter.deletes+=1;}
       else{this.docs.set(change.path,{data:change.after,version,updateTime:this.sim.now});this.meter.writes+=1;}
-      this.writeLog.push({seq:this.writeLog.length+1,at:this.sim.now,uid:actor.uid,client:actor.label,via,path:change.path,before:change.before?change.before.data:null,after:change.after});
+      this.writeLog.push({seq:this.writeLog.length+1,at:this.sim.now,uid:actor.uid,client:actor.label,call:actor.activeCall||null,via,path:change.path,before:change.before?change.before.data:null,after:change.after});
     }
     for(const change of changed)for(const client of this.clients)client.serverChanged(change.path);
     return version;

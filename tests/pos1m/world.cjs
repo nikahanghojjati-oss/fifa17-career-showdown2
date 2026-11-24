@@ -43,6 +43,7 @@ function seed(server,nowMs,{sessionHours=72}={}){
 
 function makeWorld(sim,{faults={},skewMs={playerOne:0,playerTwo:0},checkpoint=null}={}){
   const server=new Server(sim,faults);
+  server.rules=require("./rules-model.cjs").rules;
   if(checkpoint){server.docs=new Map(checkpoint.docs);server.version=checkpoint.version;server.autoSeq=checkpoint.autoSeq;}
   else seed(server,sim.now);
   return {server,sdk,sim,skewMs};

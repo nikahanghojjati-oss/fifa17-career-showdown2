@@ -78,7 +78,8 @@ async function checkpointFor(totalSeasons,until,variant){
   const plan={seed:variant,kind:"prefix",totalSeasons,fromSeason:1,stopAtSeason:until,checkpointSeed:null,faults:{contentionDenied:0.5},chaos:{rate:0},skewMs:{playerOne:0,playerTwo:0},sackedSeason:null,sackedRole:"playerOne",expireWindow:false};
   const story=new Story(plan);
   const summary=await story.run();
-  if(summary.error||summary.violations.length)throw new Error(`checkpoint ${key} failed: ${summary.error||JSON.stringify(summary.violations)}`);
+  // A calm prefix that breaks a law is itself a finding: every story forked from it reports that law (never a crash).
+  if(summary.error||summary.violations.length){const failed=Object.freeze({key,failed:true,error:summary.error,violations:summary.violations});checkpoints.set(key,failed);return failed;}
   const server=story.world.server;
   const cp=Object.freeze({key,docs:new Map(server.docs),version:server.version,autoSeq:server.autoSeq,now:story.sim.now+60_000,teamCount:story.teamCount});
   checkpoints.set(key,cp);
@@ -116,11 +117,19 @@ class Manager{
   }
   nextOp(prefix){this.opSeq+=1;const roleBit=this.role==="playerOne"?1:2;return prefix+(roleBit*0x10000000+this.story.plan.seed%0x1000000*0x10+this.opSeq).toString(16).padStart(32,"0").slice(-32);}
   start(){const tab=this.newTab();this.loops.add(tab);this.loop(tab).catch(error=>this.story.crash(error,this.role));return tab;}
-  opts(tab,extra={}){return W.providerOptions(this.story.world,{role:this.role,deviceId:tab.deviceId,client:tab.client},extra);}
+  // Clocks as production passes them: Transfer War uses the server time measured from a fresh sign-in token
+  // (js/productionSharedTransferChallenge.js pstcAuthoritativeNow), within about a second and a half; every other
+  // provider gets the phone's own clock (Date.now()), which can be minutes off.
+  opts(tab,extra={},provider=null){
+    const o=W.providerOptions(this.story.world,{role:this.role,deviceId:tab.deviceId,client:tab.client},extra);
+    if(provider==="Transfer"){if(tab.serverEstimateMs===undefined)tab.serverEstimateMs=this.story.sim.int(3_001)-1_500;o.nowEpochMs=this.story.sim.now+tab.serverEstimateMs;}
+    return o;
+  }
   async call(tab,provider,fn,extra,label){
     // A phone that just moved already holds the new state from its own answer; it reads again only after that.
     if(fn==="read"&&tab.fresh&&tab.fresh.key===`${provider}:${extra.seasonNumber||0}`){const fresh=tab.fresh.value;tab.fresh=null;return fresh;}
-    const result=await PROVIDERS[provider][fn](this.opts(tab,extra));
+    tab.client.activeCall=`${provider}.${fn}`;// which tap a write came from (L14: a read never writes)
+    const result=await PROVIDERS[provider][fn](this.opts(tab,extra,provider));
     if(fn!=="read"&&result&&result.ok&&result.state&&["Transfer","Results","Setup"].includes(provider)&&!result.replayed){
       tab.fresh={key:`${provider}:${extra.seasonNumber||0}`,value:{...result,revision:result.state.revision,...(provider==="Transfer"?{spunRoles:["playerOne","playerTwo"]}:{})}};
     }
@@ -205,8 +214,13 @@ class Manager{
       const base=t.revision;
       if(t.phase==="WINDOW_OPEN"){
         if(plan.expireWindow){
-          const due=t.startedAtEpochMs+15*60_000+2_000,now=tab.client.now();
-          if(now<due){await this.sleep(Math.min(5*60_000,due-now));return true;}
+          const due=t.startedAtEpochMs+15*60_000+2_000,now=this.opts(tab,{},"Transfer").nowEpochMs;
+          if(now<due){
+            // An early tap on the expiry (a stale screen or a retry): the server must refuse it while the window is open.
+            if(!k.early)k.early=0;
+            if(k.early<2&&this.story.sim.chance(0.35)){k.early+=1;await this.mutate(tab,`transfer:early:${season}:${tab.gen}:${k.early}`,"Transfer","advanceExpiredWindow",base,{seasonNumber:season},"transfer_op_");return true;}
+            await this.sleep(Math.min(5*60_000,due-now));return true;
+          }
           return this.moved(await this.mutate(tab,`transfer:expire:${season}`,"Transfer","advanceExpiredWindow",base,{seasonNumber:season},"transfer_op_"));
         }
         if(!t.endRequestedRoles.includes(role))return this.moved(await this.mutate(tab,`transfer:end:${season}`,"Transfer","requestEndWindow",base,{seasonNumber:season},"transfer_op_"));
@@ -314,6 +328,9 @@ class Story{
   async run(){
     let cp=null;
     if(this.plan.checkpointSeed!==null&&this.plan.fromSeason>1)cp=await checkpointFor(this.plan.totalSeasons,this.plan.fromSeason,this.plan.checkpointSeed%CHECKPOINT_VARIANTS);
+    if(cp&&cp.failed){
+      return {seed:this.plan.seed,totalSeasons:this.plan.totalSeasons,status:"checkpoint-failed",error:cp.error?`calm checkpoint ${cp.key}: ${cp.error}`:null,violations:cp.violations.map(v=>({...v,detail:`calm checkpoint ${cp.key}: ${v.detail}`})),moves:0,repeats:0,tabs:0,virtualMs:0,meter:null,writes:0,coverage:[]};
+    }
     if(cp){this.sim=new Sim(this.plan.seed,{epochMs:cp.now});this.sim.traceOn=this.traceOn;}
     const sim=this.sim;
     sim.install();
@@ -352,8 +369,9 @@ class Story{
         views[role]={multi,history,scoring};
       }
     })().then(()=>{done=true;},e=>{error=e;done=true;});
-    await sim.run(()=>done);
+    await sim.run(()=>done,{untilMs:sim.now+6*60*60*1000});
     if(error)throw error;
+    if(!done||!views.playerOne||!views.playerTwo){this.violation("L12_LIVENESS","the final no-fault reads never answered");return;}
     laws.final(this,views);
   }
   summary(){
