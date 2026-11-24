@@ -1,17 +1,223 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 2:16 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 4:29 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `444e5ba` (Tue 24 Nov 2:15 PM Boston time) · 420 messages · 168 hand-offs · 648 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `e450229` (Tue 24 Nov 4:19 PM Boston time) · 451 messages · 172 hand-offs · 649 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
+### HO-171 · V → G · Actions queue check (Nik): Physio loop fills the queue; Team V cancelled its 2 runs
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+
+- Tue 24 Nov 4:09 PM · Team G · Done · Team G cancelled 33 queued runs (32 Physio + 1 throwaway proof run). #1612 stops the Physio loop once it is on main. Remaining slowness: only ~3 jobs run at once on a public repo, likely GitHub-side.
+- Tue 24 Nov 3:55 PM · Team V · Sent
+
+<details><summary>Full ticket</summary>
+
+## What
+Nik, 24 Nov 2026 3:55 p.m. Eastern, asked each team to check the Actions queue of every repo it pushes to, because Team G's checks are starved (only 3-9 jobs running since ~18:40 UTC).
+
+Team V pushes only to fifa17-career-showdown2. Snapshot at 20:56 UTC (3:56 p.m. Eastern): **3 runs in progress, 55 queued**.
+
+**In progress (3), all Team G's Showdown Gate on PRs:** #1599 W4 remember sign-in (started 18:23 UTC), #1592 Phoenix W3 tap memory (17:33 UTC), #1607 HO-161 Platinum name (17:14 UTC). Each has been running for 2-4 hours.
+
+**Queued (55):**
+- **30 x "Showdown Gate Physio" (event workflow_run, branch main)**, queued 4 to 119 minutes ago, about one every 2-5 minutes, plus 1 workflow_dispatch Physio run. This looks like a self-feeding loop: every finished Gate run starts a Physio run, and the Physio runs pile up. This is the biggest item. Your PR "Physio: one queue for every run" (claude-gameplay/r100-physio-one-queue) seems to target exactly this. Until it lands, cancelling the queued Physio runs except the newest would free the queue.
+- 19 x Showdown Gate on PRs. The oldest are 5-6 hours old: pos1m-ring3 (383 min), premium-clubhouse-ui, the "Throwaway: draft-PR proof (do not merge)" run (340 min, a clear cancel candidate), premium-pilot-rooms (now superseded by the desktop-rooms PR?) and main-suites. Then about 14 r100 Phoenix/B6/W8/W9 PRs and the two new B7/Duet Platinum room PRs.
+- 1 x Ironman full matrix (push gameplay/r100, 207 min).
+- 1 x Gameplay factory progress poller and 1 x Gameplay factory board auto-update (workflow_dispatch, factory/gameplay-v1).
+- **Team V's own: 2 runs, both CANCELLED by Team V:** "Leads relay ping" (push leads/relay, HO-117 DONE, 60 min) and "Validate POS20" on PR #312 leads/relay (219 min).
+
+**Team V does not cancel Team G runs.** Your call on the Physio pile, the throwaway proof run and any superseded PR gates.
+
+**Note:** every Team V relay commit (handoff.py set DONE) starts one "Leads relay ping" run plus one "Validate POS20" run on PR #312. With about 70 premium tickets closing this week, that's up to about 140 small runs. If you want, disable those two on leads/relay until the freeze (relay wakes are off anyway). Say so here and Team V will do it, or do it yourselves.
+
+## Done when
+Team G has read this and chosen what to cancel (set DONE).
+
+</details>
+
+### HO-170 · G → V · Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+
+- Tue 24 Nov 2:33 PM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
+- Tue 24 Nov 2:31 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Club room sideways set, ticket 3 of 3 (r100 lead 2026-11-24 19:30 UTC). The sideways phone Club room is its own picture, not a crop of the desktop Club room, so it needs its own painting in each premium clubhouse. Same deadline as the full set: **DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
+Art direction: Premium Matte Black = charcoal felt/suede/black oak, no glint anywhere, warm charcoal walls lighter than the suits; unmistakably different from Metallic Black (Fable review section 2). Match the approved paintings of this clubhouse, above all the finished desktop Club room (HO-148). No people in this room.
+
+### What
+- **Clubhouse:** Premium Matte Black Clubhouse (Settings key `matte`). **Room:** Club room, phone sideways.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the Wooden plate `visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp` (2532x1170), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try or the old recolour.
+  2. Image 2, `REF_CLUB_MATTE_SWATCH.webp`: the swatch Team G cuts from the finished HO-148 Club room painting and posts at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_CLUB_MATTE_SWATCH.webp (the same one the Club phone ticket uses). **Do not start this ticket until it is there**; Team G posts it within the hour after HO-148 is DONE.
+- **Save the result as:** `ENV_CLUB_SIDEWAYS_MATTE_P1` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as image 1 (overlay test: the counter strip and the window sit exactly where they were); no people; night, warm lamps in the same places; the look matches HO-148; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the two wall lamps with pleated shades along the top, the wide window on the left with the floodlit stadium, the two leather armchairs and the low table under the window, the tall wall panel on the right with the one hanging pennant banner, the gold trophy and the old leather ball on the low shelf at the lower right, and the counter strip along the bottom at exactly the same height.
+
+The room: A private tailor's room in charcoal wool and black oak: real textiles and real wood, handcrafted.
+The wall panels become upholstered charcoal wool flannel woven in a fine straight herringbone, the herringbone lines running neatly up and down each panel, with visible stitched seams, framed in black-stained open-pore oak with straight grain in mouldings that keep the same panel layout. The back wall below the window becomes upholstered charcoal wool flannel woven in a fine straight herringbone, the herringbone lines running neatly up and down each panel, with visible stitched seams, framed in black-stained open-pore oak with straight grain in mouldings that keep the same panel layout. The window frames become black-stained open-pore oak. The low shelf becomes black-stained open-pore oak. The banner rod and lamp arms become aged satin brass; the shades stay warm cream and lit. The floor becomes dark charcoal wool carpet with soft contact shadows. The counter strip becomes one solid slab of honed black slate with a dry stone surface like a slate blackboard and a few faint pale mineral lines, fully matte, with no reflection.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window, and spreads as a wide soft candle-warm wash with long gentle gradients across the walls. Every surface is matte: soft shading shows the form, and nothing glints anywhere. Up close you see only the straight herringbone weave, the straight oak grain and the stitching.
+
+Objects keep their identity and their own colours (the gold trophies, the old leather balls, the leather armchairs, the dark banners) and are relit by the new room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same wide framing as image 1 (about 2.16:1), nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/matte/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_CLUB_SIDEWAYS_MATTE_P1.webp` aligned to image 1 at 2532x1170, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G)
+The phone builder (Duet) turns it into `plates-hc/matte/ENV_CLUB_SIDEWAYS_HC_V4.webp`. No men, no mask. Then it goes on the board for Nik.
+
+</details>
+
+### HO-169 · G → V · Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways
+
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+
+- Tue 24 Nov 2:33 PM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
+- Tue 24 Nov 2:31 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Club room sideways set, ticket 2 of 3 (r100 lead 2026-11-24 19:30 UTC). The sideways phone Club room is its own picture, not a crop of the desktop Club room, so it needs its own painting in each premium clubhouse. Same deadline as the full set: **DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
+Art direction: Metallic Black = small, sharp, warm GOLD highlights; every large surface near true black; clearly different from Premium Matte Black (Nik 2026-11-24 pick 2). Match the approved paintings of this clubhouse, above all the finished desktop Club room (HO-129). No people in this room.
+
+### What
+- **Clubhouse:** Metallic Black Clubhouse (Settings key `black`). **Room:** Club room, phone sideways.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the Wooden plate `visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp` (2532x1170), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try or the old recolour.
+  2. Image 2, `REF_CLUB_BLACK_SWATCH.webp`: the swatch Team G cuts from the finished HO-129 Club room painting and posts at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_CLUB_BLACK_SWATCH.webp (the same one the Club phone ticket uses). **Do not start this ticket until it is there**; Team G posts it within the hour after HO-129 is DONE.
+- **Save the result as:** `ENV_CLUB_SIDEWAYS_BLACK_P1` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as image 1 (overlay test: the counter strip and the window sit exactly where they were); no people; night, warm lamps in the same places; the look matches HO-129; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the two wall lamps with pleated shades along the top, the wide window on the left with the floodlit stadium, the two leather armchairs and the low table under the window, the tall wall panel on the right with the one hanging pennant banner, the gold trophy and the old leather ball on the low shelf at the lower right, and the counter strip along the bottom at exactly the same height.
+
+The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+The wall panels become gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. The back wall below the window becomes gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. The window frames become black chrome with a thin polished gold inner line. The low shelf becomes blackened steel with a polished gold edge. The banner rod and lamp arms become polished gold; the shades stay warm cream and lit. The floor becomes mirror-polished black granite with dim true reflections of the lamps. The counter strip becomes mirror-polished black granite with dim true reflections of the lamps.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps.
+
+Objects keep their identity and their own colours (the gold trophies, the old leather balls, the leather armchairs, the dark banners) and are relit by the new room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same wide framing as image 1 (about 2.16:1), nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/black/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_CLUB_SIDEWAYS_BLACK_P1.webp` aligned to image 1 at 2532x1170, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G)
+The phone builder (Duet) turns it into `plates-hc/black/ENV_CLUB_SIDEWAYS_HC_V4.webp`. No men, no mask. Then it goes on the board for Nik.
+
+</details>
+
+### HO-168 · G → V · Premium Club room sideways 1/3: Platinum Clubhouse, phone sideways
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+
+- Tue 24 Nov 3:05 PM · Team V · Done · Platinum Club room sideways, no people, first try, 9/10, aligned 2532x1170
+- Tue 24 Nov 2:33 PM · Team V · In progress · prompt in RUN_SHEET_SILVER.md (6bfdad739)
+- Tue 24 Nov 2:33 PM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
+- Tue 24 Nov 2:31 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Club room sideways set, ticket 1 of 3 (r100 lead 2026-11-24 19:30 UTC). The sideways phone Club room is its own picture, not a crop of the desktop Club room, so it needs its own painting in each premium clubhouse. Same deadline as the full set: **DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
+Art direction: Platinum (key silver) = platinum lounge at night lit by the same warm lamps (bright near lamps, pewter/graphite corners); mirror look from polished nickel and real reflections (Nik 2026-11-24 pick 1). Match the approved paintings of this clubhouse, above all the finished desktop Club room (HO-110). No people in this room.
+
+### What
+- **Clubhouse:** Platinum Clubhouse (Settings key `silver`). **Room:** Club room, phone sideways.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the Wooden plate `visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp` (2532x1170), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try or the old recolour.
+  2. Image 2, `REF_CLUB_SILVER_SWATCH.webp`: the swatch Team G cuts from the finished HO-110 Club room painting and posts at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_CLUB_SILVER_SWATCH.webp (the same one the Club phone ticket uses). **Do not start this ticket until it is there**; Team G posts it within the hour after HO-110 is DONE.
+- **Save the result as:** `ENV_CLUB_SIDEWAYS_SILVER_P1` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as image 1 (overlay test: the counter strip and the window sit exactly where they were); no people; night, warm lamps in the same places; the look matches HO-110; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the two wall lamps with pleated shades along the top, the wide window on the left with the floodlit stadium, the two leather armchairs and the low table under the window, the tall wall panel on the right with the one hanging pennant banner, the gold trophy and the old leather ball on the low shelf at the lower right, and the counter strip along the bottom at exactly the same height.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+The wall panels become hand-laid square silver leaves, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. The back wall below the window becomes hand-laid square silver leaves, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. The window frames become polished nickel that mirrors the room. The low shelf becomes pale marble with a polished nickel edge. The banner rod and lamp arms become polished nickel; the shades stay warm cream and lit. The floor becomes honed pale stone that holds soft reflections of the lamps, with true contact shadows. The counter strip becomes honed pale grey marble with soft dark veins, holding a soft dim reflection of the lamps.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. The silver near each lamp glows warm champagne and falls away to cool pewter and graphite in the corners and toward the ceiling, so the room has depth and darker corners. The colour is neutral silver with a trace of warmth, never blue. Stone is light with dark veins, never dark stone with white cracks.
+
+Objects keep their identity and their own colours (the gold trophies, the old leather balls, the leather armchairs, the dark banners) and are relit by the new room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same wide framing as image 1 (about 2.16:1), nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/silver/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_CLUB_SIDEWAYS_SILVER_P1.webp` aligned to image 1 at 2532x1170, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G)
+The phone builder (Duet) turns it into `plates-hc/silver/ENV_CLUB_SIDEWAYS_HC_V4.webp`. No men, no mask. Then it goes on the board for Nik.
+
+</details>
+
 ### HO-167 · G → V · Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
 
+- Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -66,8 +272,9 @@ B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_P
 
 ### HO-166 · G → V · Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
 
+- Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -122,8 +329,10 @@ B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_P
 
 ### HO-165 · G → V · Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 2:17 PM · Team V · In progress · Platinum run sheet entry with updated Platinum wording; scoring in thread Finish premium clubhouse repaints
+- Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -178,8 +387,9 @@ B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_P
 
 ### HO-164 · G → V · Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
 
+- Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -234,8 +444,9 @@ The phone builder (Duet) turns it into ENV_BOX_PHONE_HC_V4 (+590W) and builds th
 
 ### HO-163 · G → V · Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
 
+- Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -290,8 +501,10 @@ The phone builder (Duet) turns it into ENV_BOX_PHONE_HC_V4 (+590W) and builds th
 
 ### HO-162 · G → V · Premium League Roulette room 1/6: Platinum Clubhouse, phone upright, no men
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 2:17 PM · Team V · In progress · Platinum run sheet entry with updated Platinum wording; scoring in thread Finish premium clubhouse repaints
+- Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2566,8 +2779,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-122 · G → V · Premium full set 19/57: Silver Clubhouse, Loading tunnel, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 4:19 PM · Team V · Done · Platinum Loading phone band, try2 (framing locked, night like the clubhouse), 9/10, aligned 1179x2096
+- Tue 24 Nov 3:01 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_SILVER.md (000132095)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2622,8 +2837,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-121 · G → V · Premium full set 18/57: Silver Clubhouse, Club room, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 3:01 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_SILVER.md (000132095)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2678,8 +2894,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-120 · G → V · Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+↩️ Returned
 
+- Tue 24 Nov 3:24 PM · Team G · RETURNED · HOLD (Nik 20:23 UTC asked for a darker Platinum Tunnel, HO-109 redo): please stop; the old REF_TUNNEL_SILVER_SWATCH is withdrawn. Team G re-cuts it from the night redo and posts a FEED line; start again from the Wooden phone plate then.
+- Tue 24 Nov 3:01 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_SILVER.md (000132095)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2736,8 +2954,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-119 · G → V · Premium full set 16/57: Silver Clubhouse, Coaches' room, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 3:00 PM · Team V · Done · Platinum Coaches phone band, first try, 9/10, aligned 1179x2096
+- Tue 24 Nov 2:18 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_SILVER.md (2220f42df)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2794,8 +3014,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-118 · G → V · Premium full set 15/57: Silver Clubhouse, Directors' box, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 2:58 PM · Team V · Done · Platinum Directors' box phone band, first try, 9/10, aligned 1179x2096
+- Tue 24 Nov 2:18 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_SILVER.md (2220f42df)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2852,8 +3074,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-117 · G → V · Premium full set 14/57: Silver Clubhouse, Archive, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 2:55 PM · Team V · Done · Platinum Archive phone band, try1 + calm counter edit, 9/10, aligned 1179x2096
+- Tue 24 Nov 2:18 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_SILVER.md (2220f42df)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2910,8 +3134,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-116 · G → V · Premium full set 13/57: Silver Clubhouse, Hall, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 2:50 PM · Team V · Done · Platinum Hall phone band, try1 + door/table/pillars match edit, 9/10, aligned 1179x2096
+- Tue 24 Nov 2:18 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_SILVER.md (2220f42df)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2968,8 +3194,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-115 · G → V · Premium full set 12/57: Silver Clubhouse, Office, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 2:41 PM · Team V · Done · Platinum Office phone band, first try, 9/10, aligned 1179x2096
+- Tue 24 Nov 2:18 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_SILVER.md (2220f42df)
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -3026,8 +3254,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-114 · G → V · Premium full set 11/57: Silver Clubhouse, Board Room, phone band repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 2:36 PM · Team V · Done · Platinum Board Room phone band, first try, 9/10, aligned 1179x2096
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -3085,8 +3314,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-113 · G → V · Premium full set 10/57: Silver Clubhouse, Home lounge, phone band repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 2:29 PM · Team V · Done · Platinum Home phone band, first try, 9/10, aligned 1179x2096
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -3144,8 +3374,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-112 · G → V · Premium full set 9/57: Silver Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 2:26 PM · Team V · Done · Platinum material slab, try1 + neutral grey/even light edit, 9/10; resized (not aligned: whole surface repainted) to 3072x1728
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -3196,8 +3427,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-111 · G → V · Premium full set 8/57: Silver Clubhouse, Loading tunnel (behind Reus) repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 2:24 PM · Team V · Done · Platinum Loading tunnel, first try, 9/10, aligned 3840x2160
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -3253,8 +3485,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-110 · G → V · Premium full set 7/57: Silver Clubhouse, Club room repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 2:24 PM · Team V · Done · Platinum Club room, try1 + marble floor edit, 9/10
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -3310,8 +3543,12 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-109 · G → V · Premium full set 6/57: Silver Clubhouse, Players' tunnel repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 3:32 PM · Team V · Done · REDO at night (Nik 'repaint the Tunnel darker'): new chat from Wooden plate, 9/10; square marble pillars, platinum walls, pitch lit; replaces first try
+- Tue 24 Nov 3:27 PM · Team V · In progress · REDO received; night prompt in RUN_SHEET_SILVER.md (806dbdb11)
+- Tue 24 Nov 3:24 PM · Team G · RETURNED · REDO (Nik 20:23 UTC "repaint the Tunnel darker"): same composition, materials and size 3072x1728, but NIGHT like the rest of Platinum: warm lamp, darker corners, lit pitch the brightest thing. New Light paragraph and steps in the REDO section of this ticket; save as the same asset name, then DONE again. HO-120 waits for the redo swatch.
+- Tue 24 Nov 2:18 PM · Team V · Done · Platinum Players' tunnel, first try, 9/10
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -3364,6 +3601,37 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 ### After DONE (Team G, B7 premium clubhouses thread)
 Team G aligns the painting, lays the original Daniel and Nik pixels back with the existing hero masks pulled in a few px (faces pixel-identical), derives every size the game uses (`_1920`, `_1X`, `_2X`, `_590W`, TALL, SIDEWAYS), cuts the phone swatch for the matching phone ticket, and puts it on the board for Nik.
+
+### REDO (Nik 2026-11-24 20:23 UTC: "repaint the Tunnel darker")
+Nik approved the other Platinum rooms as built. This tunnel came back far brighter than the rest of the Platinum lounge, closer to day than night. Redo it with the same composition and materials, but it must read as **night**: warm lamp, darker corners, and the lit pitch at the end as the brightest thing.
+
+- **Route and attachments:** the same as above. Start a **new chat from the Wooden plate** (image 1) plus `REF_PILOT_SILVER.webp` (image 2). Never edit the first result.
+- **Prompt:** the one below. Only the Light paragraph has changed.
+- **Size:** keep 3072x1728.
+- **Save as:** the same asset, `ENV_TUNNEL_PLATE_SILVER_P1_2X`. It replaces your first delivery in `project-documents/hc-art/ho-premium-full/silver/`. Update its line in `SHA256.json`, then set HO-109 DONE again.
+- **Check before saving:** put it next to the finished Platinum Office and Hall. It should look as dark as they do at night, and the pitch at the end must be the brightest thing in the picture.
+- **Phone follow-on:** HO-120 (the Platinum Tunnel phone room) waits for this redo. Team G cuts a new `REF_TUNNEL_SILVER_SWATCH.webp` from it.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the tunnel receding to the steps and the floodlit pitch with the goal at the far end, the ribbed pillars and wall panels on both sides, the handrails, the caged bulkhead lamp on the right wall, the ribbed floor mat, and the counter strip along the bottom at exactly the same height.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+The wall panels become hand-laid square silver leaves, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout, and the pillars become pale grey marble with soft darker grey veins (light stone with dark veins, never dark stone with white cracks). The handrails become polished nickel. The bulkhead lamp cage becomes polished nickel; its glass stays warm and lit. The floor becomes a graphite ribbed rubber mat with polished nickel edge strips. The counter strip becomes honed pale grey marble with soft dark veins, holding a soft dim reflection of the lamps and of the dark suits.
+
+Light: It is night, and this tunnel is dim, as dark overall as image 1. The only light comes from the one caged bulkhead lamp on the right wall and the floodlit pitch at the far end. The lit pitch at the far end is the brightest thing in the picture. The bulkhead lamp throws a warm champagne pool on the right wall and handrail near it; away from that pool the silver leaf falls to dark pewter and deep graphite, and the ceiling and the corners are close to black. The marble pillars show their pale stone only where the lamp or the pitch light grazes them; the rest of each pillar sits in soft shadow at a low middle grey. The floor mat is dark graphite with a faint sheen only toward the pitch. Behind each man the wall is dark pewter, lighter than his black suit and darker than his face, so both men read crisply. The colour is neutral silver with a trace of warmth, never blue. Stone is light with dark veins, never dark stone with white cracks. The two men stay lit exactly as they are now.
+
+The far end stays a real night pitch: green grass, white goal, floodlit stands, exactly as they are.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
 
 </details>
 
@@ -8398,6 +8666,316 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-122 DONE · Team V → Team G · Tue 24 Nov 4:19 PM Boston time
+
+**Premium full set 19/57: Silver Clubhouse, Loading tunnel, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-171 SENT · Team V → Team G · Tue 24 Nov 3:55 PM Boston time
+
+**Actions queue check (Nik): Physio loop fills the queue; Team V cancelled its 2 runs** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-109 DONE · Team V → Team G · Tue 24 Nov 3:32 PM Boston time
+
+**Premium full set 6/57: Silver Clubhouse, Players' tunnel repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-120 HOLD · Team G → Team V · Tue 24 Nov 3:24 PM Boston time
+
+**Platinum Tunnel phone waits for the HO-109 redo; REF_TUNNEL_SILVER_SWATCH withdrawn, re-cut after the redo is DONE** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-109 RETURNED · Team G → Team V · Tue 24 Nov 3:24 PM Boston time
+
+**REDO the Platinum Players' tunnel darker (Nik 20:23 UTC): night like the rest of Platinum, lit pitch the brightest thing; new Light paragraph in the ticket's REDO section** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-168 DONE · Team V → Team G · Tue 24 Nov 3:05 PM Boston time
+
+**Premium Club room sideways 1/3: Platinum Clubhouse, phone sideways** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-119 DONE · Team V → Team G · Tue 24 Nov 3:00 PM Boston time
+
+**Premium full set 16/57: Silver Clubhouse, Coaches' room, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-118 DONE · Team V → Team G · Tue 24 Nov 2:58 PM Boston time
+
+**Premium full set 15/57: Silver Clubhouse, Directors' box, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-117 DONE · Team V → Team G · Tue 24 Nov 2:55 PM Boston time
+
+**Premium full set 14/57: Silver Clubhouse, Archive, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-116 DONE · Team V → Team G · Tue 24 Nov 2:50 PM Boston time
+
+**Premium full set 13/57: Silver Clubhouse, Hall, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### SWATCHES READY · Team G → Team V · Tue 24 Nov 2:45 PM Boston time
+
+**Platinum swatches cut from HO-109 and HO-111 (no people, 1728 tall): REF_TUNNEL_SILVER_SWATCH.webp and REF_LOADING_SILVER_SWATCH.webp in attachments/ho-premium-full/; HO-120 (Tunnel phone) and HO-122 (Loading phone) can start** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-115 DONE · Team V → Team G · Tue 24 Nov 2:41 PM Boston time
+
+**Premium full set 12/57: Silver Clubhouse, Office, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-114 DONE · Team V → Team G · Tue 24 Nov 2:36 PM Boston time
+
+**Premium full set 11/57: Silver Clubhouse, Board Room, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-170 RECEIVED · Team V → Team G · Tue 24 Nov 2:33 PM Boston time
+
+**Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-169 RECEIVED · Team V → Team G · Tue 24 Nov 2:33 PM Boston time
+
+**Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-168 RECEIVED · Team V → Team G · Tue 24 Nov 2:33 PM Boston time
+
+**Premium Club room sideways 1/3: Platinum Clubhouse, phone sideways** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### SWATCH READY · Team G → Team V · Tue 24 Nov 2:32 PM Boston time
+
+**Platinum Club swatch cut from HO-110 (no people, 1100x1728): REF_CLUB_SILVER_SWATCH.webp in attachments/ho-premium-full/; HO-121 (Club phone) and HO-168 (Club sideways) can start** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-170 SENT · Team G → Team V · Tue 24 Nov 2:31 PM Boston time
+
+**Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-169 SENT · Team G → Team V · Tue 24 Nov 2:31 PM Boston time
+
+**Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-168 SENT · Team G → Team V · Tue 24 Nov 2:31 PM Boston time
+
+**Premium Club room sideways 1/3: Platinum Clubhouse, phone sideways** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-113 DONE · Team V → Team G · Tue 24 Nov 2:29 PM Boston time
+
+**Premium full set 10/57: Silver Clubhouse, Home lounge, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-112 DONE · Team V → Team G · Tue 24 Nov 2:26 PM Boston time
+
+**Premium full set 9/57: Silver Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-111 DONE · Team V → Team G · Tue 24 Nov 2:24 PM Boston time
+
+**Premium full set 8/57: Silver Clubhouse, Loading tunnel (behind Reus) repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-110 DONE · Team V → Team G · Tue 24 Nov 2:24 PM Boston time
+
+**Premium full set 7/57: Silver Clubhouse, Club room repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-109 DONE · Team V → Team G · Tue 24 Nov 2:18 PM Boston time
+
+**Premium full set 6/57: Silver Clubhouse, Players' tunnel repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-167 RECEIVED · Team V → Team G · Tue 24 Nov 2:17 PM Boston time
+
+**Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-166 RECEIVED · Team V → Team G · Tue 24 Nov 2:17 PM Boston time
+
+**Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-165 RECEIVED · Team V → Team G · Tue 24 Nov 2:17 PM Boston time
+
+**Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-164 RECEIVED · Team V → Team G · Tue 24 Nov 2:17 PM Boston time
+
+**Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-163 RECEIVED · Team V → Team G · Tue 24 Nov 2:17 PM Boston time
+
+**Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-162 RECEIVED · Team V → Team G · Tue 24 Nov 2:17 PM Boston time
+
+**Premium League Roulette room 1/6: Platinum Clubhouse, phone upright, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-167 SENT · Team G → Team V · Tue 24 Nov 2:15 PM Boston time
 
