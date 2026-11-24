@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 24 Nov, 2:11 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 24 Nov, 2:18 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.11.0-r98** (main `fec8af6`, Mon 23 Nov 12:16 PM)
 
-🐕 **Barking: Showdown Gate on #1583 has waited 92 min for a machine; Showdown Gate on #1577 has waited 90 min for a machine; Showdown Gate on #1582 has waited 90 min for a machine; Showdown Gate on #1578 has waited 89 min for a machine; Showdown Gate on #1576 has waited 85 min for a machine; Showdown Gate on #1581 has waited 80 min for a machine.** · Gate #1580: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1580 0/16
+🐕 **Barking: Showdown Gate on #1583 has waited 108 min for a machine; Showdown Gate on #1582 has waited 106 min for a machine; Showdown Gate on #1577 has waited 106 min for a machine; Showdown Gate on #1576 has waited 100 min for a machine; Showdown Gate on #1581 has waited 95 min for a machine.** · Gate #1580: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1580 0/16
 
 ## Jobs
 
@@ -22,7 +22,7 @@ Updated Tue 24 Nov, 2:11 AM Boston time. Bug hunting only, no new features until
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 1026 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 1027 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
@@ -58,7 +58,7 @@ Updated Tue 24 Nov, 2:11 AM Boston time. Bug hunting only, no new features until
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 965 h ago
+⚪ Team white · model not set · worker working, draft PR #851 · CI 7 of 8 passed · last move 966 h ago
 
 **#12 · 1825** `G` Exact Rules lookup cost per season, and a ranked plan to cut it (emulator only, report only)  
 `████░░░░░░` **40.0000 %**  
