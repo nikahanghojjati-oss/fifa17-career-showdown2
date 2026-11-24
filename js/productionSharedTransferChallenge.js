@@ -672,13 +672,13 @@
       // squad screen: the wait says to update that phone (the roulette's own signal, the version on his spin mark).
       rivalBehind:stage==="pre"&&!view.state&&pstcSpunBeforeSquads(view.spinMarks?.[rival])};
   }
+  // Phoenix W2: this manager's own spin mark for this season, from the Transfer Challenge read just made (no new read). Only
+  // before the window starts (once it has, view.state already says both spun).
+  function pstcOwnSpinSaved(){const role=view?.managerRole;return Boolean(view&&!view.state&&(role==="playerOne"||role==="playerTwo")&&view.spinMarks&&view.spinMarks[role]);}
   // M1 (2.4.0 hunt): a spin mark saved by a roulette engine before squad sheets (js/rosterRoulette.js ENGINE_REVISION 3 is the
   // first that spins on the two locked "pre" squads; a version reads rr4.<revision>.<hash>). Only a whole outcome counts; a
   // bare mark (true) or anything unreadable is not taken as "before squads".
   const PSTC_SQUAD_ROULETTE_REVISION=3;
-  // Phoenix W2: this manager's own spin mark for this season, from the Transfer Challenge read just made (no new read). Only
-  // before the window starts (once it has, view.state already says both spun).
-  function pstcOwnSpinSaved(){const role=view?.managerRole;return Boolean(view&&!view.state&&(role==="playerOne"||role==="playerTwo")&&view.spinMarks&&view.spinMarks[role]);}
   function pstcSpunBeforeSquads(mark){
     const revision=mark&&typeof mark==="object"&&typeof mark.fired==="boolean"&&typeof mark.version==="string"?/^rr\d+\.(\d+)\./.exec(mark.version):null;
     return Boolean(revision)&&Number(revision[1])<PSTC_SQUAD_ROULETTE_REVISION;
