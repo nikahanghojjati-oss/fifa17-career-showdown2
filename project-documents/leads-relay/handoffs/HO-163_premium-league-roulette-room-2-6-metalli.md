@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T19:15:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:17:29Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-11-24T22:31:13Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)"}],
+ "evidence": ["claude/project-thread-ie3afv 4176d57c2 project-documents/hc-art/ho-premium-full/black/ENV_BOX_PHONE_V4_BLACK_P1.webp"],
+ "log": [{"at": "2026-11-24T19:15:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:17:29Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-11-24T22:31:13Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)"}, {"at": "2026-11-24T23:58:26Z", "by": "V", "status": "DONE", "note": "Black League Roulette phone room, try2 9/10: framing locked (try1 changed shape), black steel + gold frames, gold rail, satin counter, no people. Astra redrew the stadium, so the ORIGINAL stadium pixels from Image 1 were laid back inside both window panes (soft 1px mask, new gold frame and middle bar kept); RAW is untouched Astra output"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
