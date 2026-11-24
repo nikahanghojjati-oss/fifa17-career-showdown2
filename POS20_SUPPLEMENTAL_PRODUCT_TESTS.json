@@ -3526,6 +3526,15 @@
         "^tests/contracts/r100\\-showdown\\-reset\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r100-w7-clock-jump-contracts.cjs",
+      "patterns": [
+        "^js/sparkRemoteJoining\\.js$",
+        "^js/productionSharedTerminalClose\\.js$",
+        "^tests/contracts/r100\\-w7\\-clock\\-jump\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
