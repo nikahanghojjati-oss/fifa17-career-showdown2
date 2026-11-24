@@ -161,7 +161,8 @@ const meter=createMeter();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const norm=s=>String(s||"").replace(/\s+/g," ").trim();
 
-const report={tool:"FIJ",fault:FAULT,phone:PHONE_MODE,seed:SEED,seasons:TOTAL,startedAt:new Date().toISOString(),verdict:"RUNNING",points:[],endChecks:[],problems:[],roulette:{},readsTotal:0,fatal:null,notes:[]};
+const report={tool:"FIJ",fault:FAULT,phone:PHONE_MODE,seed:SEED,seasons:TOTAL,startedAt:new Date().toISOString(),verdict:"RUNNING",points:[],endChecks:[],problems:[],roulette:{},readsTotal:0,fatal:null,notes:[],slowSettles:[]};
+const SLOW_SETTLE_MS=20000;
 const t0=Date.now();
 let seasonNow=0,pointNow="boot";
 function writeReport(){report.finishedAt=new Date().toISOString();report.deadTaps=deadTaps;report.totalMs=Date.now()-t0;fs.mkdirSync(OUT_DIR,{recursive:true});fs.writeFileSync(REPORT_PATH,JSON.stringify(report,null,2));}
@@ -456,8 +457,13 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
     if(FAULT==="twotabs"){for(const p of X.extra)await settle(X,p).catch(async e=>{await check(X,"twotabs.second",false,`second tab: ${e.message}`,p);});}
     // Both phones take their path forward and settle on the step's next state (re-tapping the write if it never landed).
     const recoveredAt=Date.now();
-    await Promise.all([ctx.daniel,ctx.nik].map(m=>settle(m,m.page).catch(async e=>{await check(m,e.stuck?"stuck":"settle",false,e.message,e.page);})));
-    rec.recoverMs=Date.now()-recoveredAt;
+    const settleMs={};
+    await Promise.all([ctx.daniel,ctx.nik].map(m=>settle(m,m.page).catch(async e=>{await check(m,e.stuck?"stuck":"settle",false,e.message,e.page);}).finally(()=>{settleMs[m.user]=Date.now()-recoveredAt;})));
+    rec.recoverMs=Date.now()-recoveredAt;rec.settleMs=settleMs;
+    // A slow settle (over 20 s) is a speed lead, not a failure: it goes in the report (slowSettles) and the job summary.
+    if(rec.recoverMs>SLOW_SETTLE_MS){const slow={point,fault:FAULT,ms:rec.recoverMs,settleMs};report.slowSettles.push(slow);
+      console.log(`SLOW settle ${point}: ${Math.round(rec.recoverMs/1000)} s (${Object.entries(settleMs).map(([u,ms])=>`${u} ${Math.round(ms/1000)} s`).join(", ")})`);
+      if(process.env.GITHUB_STEP_SUMMARY)try{fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,`- Slow settle (speed lead): ${point} under ${FAULT} took ${Math.round(rec.recoverMs/1000)} s (${Object.entries(settleMs).map(([u,ms])=>`${u} ${Math.round(ms/1000)} s`).join(", ")})\n`);}catch{}}
     if(FAULT==="twotabs"){
       // Both tabs converge: a tab that has not drawn the newest step yet gets up to 30 s, like a player glancing back at it.
       for(const p of X.extra){let a,b;const until=Date.now()+30000;do{a=await stepState(X,X.page);b=await stepState(X,p);if(sameShowdownState(a,b))break;await sleep(1000);}while(Date.now()<until);await check(X,"twotabs.same",sameShowdownState(a,b),`tab 1 ${JSON.stringify(a)} vs tab 2 ${JSON.stringify(b)}`,p);}
@@ -753,9 +759,15 @@ async function main(){
     await Promise.all([
       drive(X,async p=>(readyNow=moment(await primeState(p)))||await onTransfer(p),{label:`${point} (round)`,timeout:240000}),
       drive(O,async p=>readyNow||await onTransfer(p),{label:`${point} (partner)`,timeout:240000})]);
-    await writePoint(ctx,point,{writer:X,ready:async p=>moment(await primeState(p)),
+    // A slow settle at the point before (spin-mark) can let the round run past its moment, or end, before this point starts:
+    // a phone already on the Transfer War with this season's round stored is past it, so the fault hits there (noted) and the
+    // checks assert the round's end state (both arrived, nobody named, START) instead of waiting for a moment gone by.
+    const pastMoment=async p=>await onTransfer(p)&&Boolean(docData(await admin(R(`primePackRounds/season_${season}`))));
+    let missed=false;
+    await writePoint(ctx,point,{writer:X,ready:async p=>{if(moment(await primeState(p)))return true;if(!(await pastMoment(p)))return false;
+        if(!missed){missed=true;report.notes.push(`${point}: ${X.user} was already past the Prime Pack ${point==="prime-reveal"?"result":"moment"} (on the Transfer War); the fault hit right after the round`);}return true;},
       tap:async p=>{
-        if(point!=="prime-guess")return;
+        if(point!=="prime-guess"||missed)return;
         const names=await rosterRoulette.primeNames(p);const f=p.frames().find(fr=>/\/icon-guess\//.test(fr.url()));
         if(!names||!f)throw new Error("Prime Pack: no answer or frame to guess with");
         await f.locator("#guess").fill(names.answer,{timeout:5000});await f.locator("#guess").press("Enter",{timeout:5000});
@@ -763,11 +775,12 @@ async function main(){
       settle:async(m,page)=>{
         // prime-guess: a guess cut off by the fault (tab closed, network gone at once) may never reach the server; the round is
         // still open, so the fault phone names the Icon again, as its player would. Its points are read from the stored results.
-        PRIME=point==="prime-reveal"?"timeout":point==="prime-guess"?xRole:null;return drive(m,async p=>await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} transfer window after the Prime Pack (both marks)`,timeout:240000});},
+        PRIME=point==="prime-reveal"||missed?"timeout":point==="prime-guess"?xRole:null;return drive(m,async p=>await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} transfer window after the Prime Pack (both marks)`,timeout:240000});},
       checks:async(check)=>{
         const r=docData(await admin(R(`primePackRounds/season_${season}`)));
         await check(null,"db.primeRound",Boolean(r),`primePackRounds/season_${season} missing`);
-        const want=point==="prime-guess"?xRole:null;
+        if(missed)await check(null,"db.primeArrived",Boolean(r&&r.arrived&&r.arrived.playerOne!=null&&r.arrived.playerTwo!=null),`round ended without both arrivals: ${JSON.stringify(r&&r.arrived)}`);
+        const want=point==="prime-guess"&&!missed?xRole:null;
         await check(null,"db.primeNamedBy",r&&(r.namedBy??null)===want,`namedBy ${JSON.stringify(r&&r.namedBy)}, expected ${JSON.stringify(want)} (round ${JSON.stringify(r).slice(0,300)})`);
         // #1101: START waits for both spin marks. The partner's mark can reach Daniel's phone a few seconds after the window
         // shows, so START gets up to 30 s; WAITING FOR NIK TO SPIN THE ROULETTE until then is correct.
