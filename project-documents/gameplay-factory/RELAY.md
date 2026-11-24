@@ -1,12 +1,348 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 2:14 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 2:16 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `4f48f14` (Tue 24 Nov 2:01 PM Boston time) · 414 messages · 162 hand-offs · 648 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `444e5ba` (Tue 24 Nov 2:15 PM Boston time) · 420 messages · 168 hand-offs · 648 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-167 · G → V · Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Tue 24 Nov 2:15 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+League Roulette set, ticket 6 of 6 (r100 lead 2026-11-24 19:13 UTC): the men-free room HO-097 made for League Roulette, now painted in each premium clubhouse so no recoloured room ships next to painted ones. Same deadline as the full set: **DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
+Art direction: Premium Matte Black = charcoal felt/suede/black oak, no glint anywhere, warm charcoal walls lighter than the suits; unmistakably different from Metallic Black (Fable review section 2). Match the approved paintings of this clubhouse, above all the finished Directors' box (HO-145), which is the same room. No men in this picture at all, so no likeness risk.
+
+### What
+- **Clubhouse:** Premium Matte Black Clubhouse (Settings key `matte`). **Room:** League Roulette room without the men, desktop.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the Wooden men-free desktop room `ENV_BOX_PLATE_EMPTY_HC_V4_2X.webp` (3072x1728, Team V's own HO-097 output), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho097/ENV_BOX_PLATE_EMPTY_HC_V4_2X.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try or the old recolour.
+  2. Image 2, `REF_BOX_MATTE_SWATCH.webp`: the people-free swatch Team G cuts from the finished HO-145 Directors' box painting and posts at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_BOX_MATTE_SWATCH.webp. **Do not start this ticket until it is there**; Team G posts it within the hour after HO-145 is DONE.
+- **Save the result as:** `ENV_BOX_PLATE_EMPTY_MATTE_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as image 1 (overlay test: the thin rail along the top of the counter and the window sit exactly where they were); no person or trace of a person anywhere; calm middle; night, warm lamps in the same places; the look matches HO-145; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the big three-pane window across the middle with the night stadium, the crowd, the small ceiling spots and the green pitch exactly as they are, the coat hooks on the left with the grey coat and the yellow and black striped scarf, the glass wall cabinet on the right with the decanter and glasses, and the thin rail along the top of the counter at exactly the same height. The middle of the picture stays calm and uncluttered: a large roulette board will sit there.
+
+The room: A private tailor's room in charcoal wool and black oak: real textiles and real wood, handcrafted.
+The wall panels become upholstered charcoal wool flannel woven in a fine straight herringbone, the herringbone lines running neatly up and down each panel, with visible stitched seams, framed in black-stained open-pore oak with straight grain in mouldings that keep the same panel layout. The window frames become black-stained open-pore oak. The wall cabinet becomes black-stained oak frames with matte black linen backs. The coat hooks become aged satin brass. The rail becomes aged satin brass with a soft dull sheen. The counter becomes one solid slab of honed black slate with a dry stone surface like a slate blackboard and a few faint pale mineral lines, fully matte, with no reflection.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window, and spreads as a wide soft candle-warm wash with long gentle gradients across the walls. Every surface is matte: soft shading shows the form, and nothing glints anywhere. Up close you see only the straight herringbone weave, the straight oak grain and the stitching.
+
+Objects keep their identity and their own colours (the grey coat, the yellow and black striped scarf, the amber decanter and the glasses) and are relit by the new room.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/matte/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_BOX_PLATE_EMPTY_MATTE_P1_2X.webp` aligned to image 1 at 3072x1728, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G)
+B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_PLATE_HC_V4 (1920, 1X, 2X); the phone builder (Duet) derives ENV_BOX_SIDEWAYS_HC_V4 from it. Faces stay pixel-identical to Wooden. Then it goes on the board for Nik.
+
+</details>
+
+### HO-166 · G → V · Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Tue 24 Nov 2:15 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+League Roulette set, ticket 5 of 6 (r100 lead 2026-11-24 19:13 UTC): the men-free room HO-097 made for League Roulette, now painted in each premium clubhouse so no recoloured room ships next to painted ones. Same deadline as the full set: **DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
+Art direction: Metallic Black = small, sharp, warm GOLD highlights; every large surface near true black; clearly different from Premium Matte Black (Nik 2026-11-24 pick 2). Match the approved paintings of this clubhouse, above all the finished Directors' box (HO-126), which is the same room. No men in this picture at all, so no likeness risk.
+
+### What
+- **Clubhouse:** Metallic Black Clubhouse (Settings key `black`). **Room:** League Roulette room without the men, desktop.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the Wooden men-free desktop room `ENV_BOX_PLATE_EMPTY_HC_V4_2X.webp` (3072x1728, Team V's own HO-097 output), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho097/ENV_BOX_PLATE_EMPTY_HC_V4_2X.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try or the old recolour.
+  2. Image 2, `REF_BOX_BLACK_SWATCH.webp`: the people-free swatch Team G cuts from the finished HO-126 Directors' box painting and posts at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_BOX_BLACK_SWATCH.webp. **Do not start this ticket until it is there**; Team G posts it within the hour after HO-126 is DONE.
+- **Save the result as:** `ENV_BOX_PLATE_EMPTY_BLACK_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as image 1 (overlay test: the thin rail along the top of the counter and the window sit exactly where they were); no person or trace of a person anywhere; calm middle; night, warm lamps in the same places; the look matches HO-126; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the big three-pane window across the middle with the night stadium, the crowd, the small ceiling spots and the green pitch exactly as they are, the coat hooks on the left with the grey coat and the yellow and black striped scarf, the glass wall cabinet on the right with the decanter and glasses, and the thin rail along the top of the counter at exactly the same height. The middle of the picture stays calm and uncluttered: a large roulette board will sit there.
+
+The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+The wall panels become gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. The window frames become black chrome with a thin polished gold inner line. The wall cabinet becomes blackened steel frames with polished gold edges and black glass shelves. The coat hooks become polished gold. The rail becomes polished gold with one crisp warm highlight. The counter becomes mirror-polished black granite with dim true reflections of the lamps.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps.
+
+Objects keep their identity and their own colours (the grey coat, the yellow and black striped scarf, the amber decanter and the glasses) and are relit by the new room.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/black/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_BOX_PLATE_EMPTY_BLACK_P1_2X.webp` aligned to image 1 at 3072x1728, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G)
+B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_PLATE_HC_V4 (1920, 1X, 2X); the phone builder (Duet) derives ENV_BOX_SIDEWAYS_HC_V4 from it. Faces stay pixel-identical to Wooden. Then it goes on the board for Nik.
+
+</details>
+
+### HO-165 · G → V · Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Tue 24 Nov 2:15 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+League Roulette set, ticket 4 of 6 (r100 lead 2026-11-24 19:13 UTC): the men-free room HO-097 made for League Roulette, now painted in each premium clubhouse so no recoloured room ships next to painted ones. Same deadline as the full set: **DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
+Art direction: Platinum (key silver) = platinum lounge at night lit by the same warm lamps (bright near lamps, pewter/graphite corners); mirror look from polished nickel and real reflections (Nik 2026-11-24 pick 1). Match the approved paintings of this clubhouse, above all the finished Directors' box (HO-107), which is the same room. No men in this picture at all, so no likeness risk.
+
+### What
+- **Clubhouse:** Platinum Clubhouse (Settings key `silver`). **Room:** League Roulette room without the men, desktop.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the Wooden men-free desktop room `ENV_BOX_PLATE_EMPTY_HC_V4_2X.webp` (3072x1728, Team V's own HO-097 output), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho097/ENV_BOX_PLATE_EMPTY_HC_V4_2X.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try or the old recolour.
+  2. Image 2, `REF_BOX_SILVER_SWATCH.webp`: the people-free swatch Team G cut from the finished HO-107 Directors' box painting, raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_BOX_SILVER_SWATCH.webp
+- **Save the result as:** `ENV_BOX_PLATE_EMPTY_SILVER_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as image 1 (overlay test: the thin rail along the top of the counter and the window sit exactly where they were); no person or trace of a person anywhere; calm middle; night, warm lamps in the same places; the look matches HO-107; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the big three-pane window across the middle with the night stadium, the crowd, the small ceiling spots and the green pitch exactly as they are, the coat hooks on the left with the grey coat and the yellow and black striped scarf, the glass wall cabinet on the right with the decanter and glasses, and the thin rail along the top of the counter at exactly the same height. The middle of the picture stays calm and uncluttered: a large roulette board will sit there.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+The wall panels become hand-laid square silver leaves, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. The window frames become polished nickel that mirrors the room. The wall cabinet becomes satin nickel frames with pale marble shelves. The coat hooks become polished nickel. The rail becomes polished nickel with one small sharp warm highlight. The counter becomes honed pale grey marble with soft dark veins, holding a soft dim reflection of the lamps.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. The silver near each lamp glows warm champagne and falls away to cool pewter and graphite in the corners and toward the ceiling, so the room has depth and darker corners. The colour is neutral silver with a trace of warmth, never blue. Stone is light with dark veins, never dark stone with white cracks.
+
+Objects keep their identity and their own colours (the grey coat, the yellow and black striped scarf, the amber decanter and the glasses) and are relit by the new room.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/silver/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_BOX_PLATE_EMPTY_SILVER_P1_2X.webp` aligned to image 1 at 3072x1728, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G)
+B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_PLATE_HC_V4 (1920, 1X, 2X); the phone builder (Duet) derives ENV_BOX_SIDEWAYS_HC_V4 from it. Faces stay pixel-identical to Wooden. Then it goes on the board for Nik.
+
+</details>
+
+### HO-164 · G → V · Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Tue 24 Nov 2:15 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+League Roulette set, ticket 3 of 6 (r100 lead 2026-11-24 19:13 UTC): the men-free room HO-097 made for League Roulette, now painted in each premium clubhouse so no recoloured room ships next to painted ones. Same deadline as the full set: **DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
+Art direction: Premium Matte Black = charcoal felt/suede/black oak, no glint anywhere, warm charcoal walls lighter than the suits; unmistakably different from Metallic Black (Fable review section 2). Match the approved paintings of this clubhouse, above all the finished Directors' box (HO-145), which is the same room. No men in this picture at all, so no likeness risk.
+
+### What
+- **Clubhouse:** Premium Matte Black Clubhouse (Settings key `matte`). **Room:** League Roulette room without the men, phone upright.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the Wooden men-free phone room `visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4.webp` (1179x2096, from HO-097), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try or the old recolour.
+  2. Image 2, `REF_BOX_MATTE_SWATCH.webp`: the people-free swatch Team G cuts from the finished HO-145 Directors' box painting and posts at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_BOX_MATTE_SWATCH.webp. **Do not start this ticket until it is there**; Team G posts it within the hour after HO-145 is DONE.
+- **Save the result as:** `ENV_BOX_PHONE_V4_MATTE_P1` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as image 1 (overlay test: the counter edge and the window sit exactly where they were); no person or trace of a person anywhere; calm middle; night, warm lamps in the same places; the look matches HO-145; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the window with the night stadium, the crowd and the green pitch exactly as they are, the window frames, the counter rail, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter. The middle of the picture stays calm and uncluttered: a large roulette board will sit there.
+
+The room: A private tailor's room in charcoal wool and black oak: real textiles and real wood, handcrafted.
+Walls and panels: upholstered charcoal wool flannel woven in a fine straight herringbone, the herringbone lines running neatly up and down each panel, with visible stitched seams, framed in black-stained open-pore oak with straight grain in mouldings that keep the same panel layout. Frames: black-stained open-pore oak. Lamp metal: aged satin brass; shades stay warm cream and lit. The rail becomes aged satin brass with a soft dull sheen. Counter: one solid slab of honed black slate with a dry stone surface like a slate blackboard and a few faint pale mineral lines, fully matte, with no reflection.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window, and spreads as a wide soft candle-warm wash with long gentle gradients across the walls. Every surface is matte: soft shading shows the form, and nothing glints anywhere. Up close you see only the straight herringbone weave, the straight oak grain and the stitching.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/matte/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_BOX_PHONE_V4_MATTE_P1.webp` aligned to image 1 at 1179x2096, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G)
+The phone builder (Duet) turns it into ENV_BOX_PHONE_HC_V4 (+590W) and builds the TALL version in code, as HO-097 did. Faces stay pixel-identical to Wooden. Then it goes on the board for Nik.
+
+</details>
+
+### HO-163 · G → V · Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Tue 24 Nov 2:15 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+League Roulette set, ticket 2 of 6 (r100 lead 2026-11-24 19:13 UTC): the men-free room HO-097 made for League Roulette, now painted in each premium clubhouse so no recoloured room ships next to painted ones. Same deadline as the full set: **DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
+Art direction: Metallic Black = small, sharp, warm GOLD highlights; every large surface near true black; clearly different from Premium Matte Black (Nik 2026-11-24 pick 2). Match the approved paintings of this clubhouse, above all the finished Directors' box (HO-126), which is the same room. No men in this picture at all, so no likeness risk.
+
+### What
+- **Clubhouse:** Metallic Black Clubhouse (Settings key `black`). **Room:** League Roulette room without the men, phone upright.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the Wooden men-free phone room `visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4.webp` (1179x2096, from HO-097), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try or the old recolour.
+  2. Image 2, `REF_BOX_BLACK_SWATCH.webp`: the people-free swatch Team G cuts from the finished HO-126 Directors' box painting and posts at https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_BOX_BLACK_SWATCH.webp. **Do not start this ticket until it is there**; Team G posts it within the hour after HO-126 is DONE.
+- **Save the result as:** `ENV_BOX_PHONE_V4_BLACK_P1` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as image 1 (overlay test: the counter edge and the window sit exactly where they were); no person or trace of a person anywhere; calm middle; night, warm lamps in the same places; the look matches HO-126; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the window with the night stadium, the crowd and the green pitch exactly as they are, the window frames, the counter rail, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter. The middle of the picture stays calm and uncluttered: a large roulette board will sit there.
+
+The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+Walls and panels: gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. Frames: black chrome with a thin polished gold inner line. Lamp metal: polished gold; shades stay warm cream and lit. The rail becomes polished gold with one crisp warm highlight. Counter: mirror-polished black granite with dim true reflections of the lamps.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/black/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_BOX_PHONE_V4_BLACK_P1.webp` aligned to image 1 at 1179x2096, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G)
+The phone builder (Duet) turns it into ENV_BOX_PHONE_HC_V4 (+590W) and builds the TALL version in code, as HO-097 did. Faces stay pixel-identical to Wooden. Then it goes on the board for Nik.
+
+</details>
+
+### HO-162 · G → V · Premium League Roulette room 1/6: Platinum Clubhouse, phone upright, no men
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Tue 24 Nov 2:15 PM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+League Roulette set, ticket 1 of 6 (r100 lead 2026-11-24 19:13 UTC): the men-free room HO-097 made for League Roulette, now painted in each premium clubhouse so no recoloured room ships next to painted ones. Same deadline as the full set: **DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
+Art direction: Platinum (key silver) = platinum lounge at night lit by the same warm lamps (bright near lamps, pewter/graphite corners); mirror look from polished nickel and real reflections (Nik 2026-11-24 pick 1). Match the approved paintings of this clubhouse, above all the finished Directors' box (HO-107), which is the same room. No men in this picture at all, so no likeness risk.
+
+### What
+- **Clubhouse:** Platinum Clubhouse (Settings key `silver`). **Room:** League Roulette room without the men, phone upright.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the Wooden men-free phone room `visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4.webp` (1179x2096, from HO-097), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try or the old recolour.
+  2. Image 2, `REF_BOX_SILVER_SWATCH.webp`: the people-free swatch Team G cut from the finished HO-107 Directors' box painting, raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_BOX_SILVER_SWATCH.webp
+- **Save the result as:** `ENV_BOX_PHONE_V4_SILVER_P1` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as image 1 (overlay test: the counter edge and the window sit exactly where they were); no person or trace of a person anywhere; calm middle; night, warm lamps in the same places; the look matches HO-107; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the window with the night stadium, the crowd and the green pitch exactly as they are, the window frames, the counter rail, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter. The middle of the picture stays calm and uncluttered: a large roulette board will sit there.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+Walls and panels: hand-laid square silver leaves, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. Frames: polished nickel that mirrors the room. Lamp metal: polished nickel; shades stay warm cream and lit. The rail becomes polished nickel with one small sharp warm highlight. Counter: honed pale grey marble with soft dark veins, holding a soft dim reflection of the lamps.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. The silver near each lamp glows warm champagne and falls away to cool pewter and graphite in the corners and toward the ceiling, so the room has depth and darker corners. The colour is neutral silver with a trace of warmth, never blue. Stone is light with dark veins, never dark stone with white cracks.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/silver/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_BOX_PHONE_V4_SILVER_P1.webp` aligned to image 1 at 1179x2096, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G)
+The phone builder (Duet) turns it into ENV_BOX_PHONE_HC_V4 (+590W) and builds the TALL version in code, as HO-097 did. Faces stay pixel-identical to Wooden. Then it goes on the board for Nik.
+
+</details>
 
 ### HO-161 · V → G · Rename: Silver Clubhouse is now the Platinum Clubhouse
 
@@ -8062,6 +8398,66 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-167 SENT · Team G → Team V · Tue 24 Nov 2:15 PM Boston time
+
+**Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-166 SENT · Team G → Team V · Tue 24 Nov 2:15 PM Boston time
+
+**Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-165 SENT · Team G → Team V · Tue 24 Nov 2:15 PM Boston time
+
+**Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-164 SENT · Team G → Team V · Tue 24 Nov 2:15 PM Boston time
+
+**Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-163 SENT · Team G → Team V · Tue 24 Nov 2:15 PM Boston time
+
+**Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-162 SENT · Team G → Team V · Tue 24 Nov 2:15 PM Boston time
+
+**Premium League Roulette room 1/6: Platinum Clubhouse, phone upright, no men** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### SWATCH READY · Team G → Team V · Tue 24 Nov 2:01 PM Boston time
 
