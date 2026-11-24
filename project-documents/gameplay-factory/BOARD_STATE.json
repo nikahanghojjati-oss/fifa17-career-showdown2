@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-23 11:49 PM Boston time (EST)",
+ "generated": "2026-11-23 11:56 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 334,
@@ -3062,7 +3062,22 @@
    "revision": "2.11.0-r98",
    "when": "2026-11-23T12:16:44-05:00",
    "subject": "Merge pull request #1567 from nikahanghojjati-oss/gameplay/r98",
-   "fixes": [],
+   "fixes": [
+    {
+     "pr": 1580,
+     "title": "Release 2.12.0 (r99): From a fan, for the fans; four clubhouses",
+     "draft": false,
+     "branch": "gameplay/r99",
+     "sha": "a64b284a7df43ea56db3100eae31358f08a3b58b",
+     "updated": "2026-11-24T04:53:30Z",
+     "gates": {
+      "passed": 0,
+      "running": 9,
+      "failed": 0,
+      "cancelled": 0
+     }
+    }
+   ],
    "today": [
     {
      "pr": 1567,
@@ -3073,7 +3088,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1573 has waited 49 min for a machine; Showdown Gate on #1578 has waited 9 min for a machine.",
+   "line": "Barking: Showdown Gate on #1579 has waited 3 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -3860,7 +3875,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 23144
+    "waiting_min": 23152
    },
    {
     "id": "HO-059",
@@ -4439,7 +4454,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 42,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -5655,7 +5670,22 @@
     ]
    }
   },
-  "fixes": []
+  "fixes": [
+   {
+    "pr": 1580,
+    "title": "Release 2.12.0 (r99): From a fan, for the fans; four clubhouses",
+    "draft": false,
+    "branch": "gameplay/r99",
+    "sha": "a64b284a7df43ea56db3100eae31358f08a3b58b",
+    "updated": "2026-11-24T04:53:30Z",
+    "gates": {
+     "passed": 0,
+     "running": 9,
+     "failed": 0,
+     "cancelled": 0
+    }
+   }
+  ]
  },
  "jobs": [
   {
