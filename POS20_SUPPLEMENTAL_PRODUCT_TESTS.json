@@ -3536,6 +3536,18 @@
         "^tests/contracts/r100\\-w8\\-step\\-listener\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r100-listener-census-contracts.cjs",
+      "patterns": [
+        "^js/",
+        "^tests/contracts/r100\\-listener\\-census\\-contracts\\.cjs$",
+        "^tests/contracts/r100\\-w8\\-step\\-listener\\-contracts\\.cjs$",
+        "^tests/contracts/firestore\\-budget\\-contracts\\.cjs$",
+        "^tests/contracts/waiting\\-reads\\-contracts\\.cjs$",
+        "^tests/contracts/r86\\-unlock\\-reads\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

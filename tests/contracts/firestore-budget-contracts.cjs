@@ -791,6 +791,37 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     pair.stopJoinNoteWatch();home=false;const off=reads();await world.advance(5*60000);assert.equal(reads(),off,"fallback: none off Home");
   });
 
+  await check("FB11w8","Phoenix W8 listener census: a note listener whose stream is down (it only turns fromCache) still brings Daniel's JOIN to Nik's Home, by the memoised read once per 30 s, and stops when a server copy is back",async()=>{
+    const stallWorld=async()=>{const w=await nikPairWorld();let home=true;w.isHomeShown=()=>home;w.leave=()=>{home=false;};w.reads=()=>w.serverReads[w.inbox]||0;
+      await w.pair.readPartnerRecord();assert.equal(await w.pair.watchJoinNote({isHomeShown:w.isHomeShown}),true);assert.equal(w.reads(),1);
+      // the stream goes down: the SDK marks its copy fromCache and delivers nothing more, not even an error
+      w.stall=()=>{w.world.cacheDeliver(w.inbox);for(const listener of w.world.activeListeners())listener.next=()=>{};};return w;};
+    // Daniel's START writes the note while Nik's listener is down: JOIN shows within one memo window, with one read
+    {const w=await stallWorld();w.stall();await w.world.advance(1000);const before=w.reads(),rivalryId=`pair_3${"4".repeat(63)}`;
+      w.world.serverWrite(w.inbox,{schemaVersion:1,rivalryId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:w.world.clock.now},expiresAt:{__ms:w.world.clock.now+20*60000}});
+      let seen=null;for(let t=0;t<=35000&&seen===null;t+=1000){if(w.pair.getJoinNoteState(w.world.clock.now).note?.rivalryId===rivalryId)seen=t;else await w.world.advance(1000);}
+      assert.ok(seen!==null&&seen<=30000,`Daniel's note reaches Nik's Home while the listener is down (${seen} ms)`);
+      assert.equal(w.reads()-before,1,"one read found it");assert.ok(w.listeners.max<=1,"never a second listener");
+      assert.equal(w.listeners.active,0,"JOIN showing: the watch stops");
+      await w.world.advance(5*60000);assert.equal(w.reads()-before,1,"nothing more is read while JOIN shows");}
+    // a quiet stall for the whole 10-minute Home window: at most one read per 30 s, none hidden, none off Home
+    {const w=await stallWorld();w.stall();const before=w.reads();
+      for(let t=0;t<10*60000;t+=5000){await w.pair.watchJoinNote({isHomeShown:w.isHomeShown,resume:true});await w.world.advance(5000);}
+      const quiet=w.reads()-before;assert.ok(quiet>=15&&quiet<=21,`10 stalled minutes on Home: ${quiet} note reads (once per 30 s)`);
+      await w.world.advance(5*60000);assert.equal(w.reads()-before,quiet,"the 10-minute window ends the reads");}
+    {const w=await stallWorld();w.stall();await w.world.advance(1000);w.world.setVisible(false);const before=w.reads();await w.world.advance(5*60000);
+      assert.equal(w.reads(),before,"hidden: no bridge read");w.world.setVisible(true);}
+    {const w=await stallWorld();w.stall();await w.world.advance(1000);w.pair.stopJoinNoteWatch();w.leave();const before=w.reads();await w.world.advance(5*60000);
+      assert.equal(w.reads(),before,"off Home: no bridge read");}
+    // the stream comes back before the first bridge read: its server copy ends the bridge, nothing extra is read
+    {const w=await stallWorld();const [listener]=w.world.activeListeners();const next=listener.next;w.world.cacheDeliver(w.inbox);await w.world.advance(1000);
+      next({exists:()=>false,data:()=>undefined,metadata:{fromCache:false,hasPendingWrites:false},ref:{path:w.inbox}});
+      const before=w.reads();await w.world.advance(5*60000);assert.equal(w.reads(),before,"a live listener again: no bridge reads");}
+    // offline: the bridge waits for the browser to come back
+    {const w=await stallWorld();w.world.sandbox.navigator={onLine:false};w.stall();const before=w.reads();await w.world.advance(3*60000);
+      assert.equal(w.reads(),before,"offline: no bridge read");w.world.sandbox.navigator={onLine:true};await w.world.advance(2000);assert.equal(w.reads()-before,1,"back online: one read at once");}
+  });
+
   await check("FB11d","Codex #903: a miss the listener delivered is never served as the 30 s memo once the listener is gone (Daniel may write right after)",async()=>{
     const {world,pair,serverReads,inbox}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
     const reads=()=>serverReads[inbox]||0;
