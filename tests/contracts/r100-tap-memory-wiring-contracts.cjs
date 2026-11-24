@@ -55,8 +55,14 @@ const req=season=>({key:`k${season}`,rivalryId:R,seasonNumber:season});
     const a=page(storage,coord);assert.equal(a.api.resend(req(3)),true);await a.flush();assert.deepEqual(JSON.parse(JSON.stringify(a.sent)),[{kind:"commit",resend:true}]);
     const b=page(storage,coord);assert.equal(b.api.resend(req(3)),false,"a second reload never sends it a third time");await b.flush();assert.equal(b.sent.length,0);}
   {const storage=new Map();page(storage,coord).api.note("commit",req(3));
-    const a=page(storage,{...coord,committed:true});assert.equal(a.api.resend(req(3)),false,"landed: never resent");
-    const ack=page(storage,{...coord,committed:true});assert.equal(ack.api.resend(req(3)),false);}
+    const a=page(storage,{...coord,committed:true,ownAcknowledged:true});assert.equal(a.api.resend(req(3)),false,"both halves landed: never resent");
+    const ack=page(storage,{...coord,committed:true,ownAcknowledged:true});assert.equal(ack.api.resend(req(3)),false);}
+  // Codex #1592: the commit landed but the tab died before (or during) his own acknowledgement: the one tap finishes by itself.
+  {const storage=new Map();page(storage,coord).api.note("commit",req(3));
+    const a=page(storage,{...coord,committed:true,ownAcknowledged:false});assert.equal(a.api.resend(req(3)),true,"LOCK & CONFIRM resent for its acknowledgement half");await a.flush();
+    assert.deepEqual(JSON.parse(JSON.stringify(a.sent)),[{kind:"commit",resend:true}]);
+    assert.equal(page(storage,{...coord,committed:true,ownAcknowledged:false}).api.resend(req(3)),false,"still once only");}
+  assert.match(src,/psscBind\(current,ctx,request\);if\(kind!=="commit"\|\|psscSatisfied\("acknowledge",current\)\)psscTapClear\(kind,request\);/,"the commit note is kept until his acknowledgement lands (finally ends it on this page)");
   {const storage=new Map();page(storage,coord).api.note("commit",req(3));
     const a=page(storage,coord,{ready:false});assert.equal(a.api.resend(req(3)),false,"results not ready: not sent (and dropped)");}
   {const storage=new Map();page(storage,{...coord,committed:true}).api.note("acknowledge",req(3));

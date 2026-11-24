@@ -199,7 +199,8 @@
   function psscTapScope(kind,request,role=view?.managerRole){return request&&PSSC_TAP_STEP[kind]&&(role==="playerOne"||role==="playerTwo")?{rivalryId:request.rivalryId,season:request.seasonNumber,step:PSSC_TAP_STEP[kind],role}:null;}
   function psscTapNote(kind,request){try{const scope=psscTapScope(kind,request);if(scope)psscTapMemory()?.note?.(scope,{operationId:psscRandomOperationId().replace(/^season_commit_op_/,"tap_")});}catch(_error){}}
   function psscTapClear(kind,request){try{const scope=psscTapScope(kind,request);if(scope)psscTapMemory()?.clear?.(scope);}catch(_error){}}
-  function psscTapPending(kind,current){if(!current||current.phase==="ACKNOWLEDGED")return false;if(kind==="commit")return current.managerRole===current.coordinatorRole&&!current.committed;return Boolean(current.committed)&&!current.ownAcknowledged;}
+  // Codex #1592: LOCK & CONFIRM SEASON is one tap with two writes, so its note stays open until his own acknowledgement is there.
+  function psscTapPending(kind,current){if(!current||current.phase==="ACKNOWLEDGED")return false;if(kind==="commit")return current.managerRole===current.coordinatorRole&&(!current.committed||!current.ownAcknowledged);return Boolean(current.committed)&&!current.ownAcknowledged;}
   let tapResendKey="";
   function psscTapResend(request){
     if(!request||!view||contextKey!==request.key||busy)return false;
@@ -223,7 +224,7 @@
         const ctx=await psscProviderContext(request);if(!psscContextMatches(request))return false;let current=psscResultError(await provider.read(ctx.options));
         if(!psscContextMatches(request))return false;
         if(!psscSatisfied(kind,current)){if(!await psscWrite(kind,ctx,request,current))return false;if(kind==="commit")stage="acknowledge";current=psscResultError(await provider.read(ctx.options));if(!psscContextMatches(request))return false;}
-        psscBind(current,ctx,request);psscTapClear(kind,request);
+        psscBind(current,ctx,request);if(kind!=="commit"||psscSatisfied("acknowledge",current))psscTapClear(kind,request);
         // One tap for the coordinator: COMMIT & ACKNOWLEDGE records his own acknowledgement right after the commit (each write keeps its own operationId and stale retry).
         // If this second half fails, the committed view shows the existing CONFIRM SEASON button (only this R7 case re-reads
         // at once; a manager's own ACKNOWLEDGE failure keeps its error until the next read, exactly as before).
