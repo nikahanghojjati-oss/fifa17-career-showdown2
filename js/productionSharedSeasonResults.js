@@ -260,7 +260,8 @@
         for(;;){
           if(current.ownResult){pssrTapClear(request,publishRole);pssrDraftClear(publishRole,request);view={...current,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;pssrRender();return true;}
           draft.operationId=draft.operationId||pssrRandomOperationId();draft.baseRevision=Number(current.revision||0);
-          pssrTapNote(request,publishRole,draft.operationId,draft.result);
+          // Codex #1592: a resend keeps the note it took (marked resent), so a reload during it never earns another resend.
+          if(!resend)pssrTapNote(request,publishRole,draft.operationId,draft.result);
           const publishedResult=await pssrWithPrimePack(ctx,request,draft.result);if(!pssrContextMatches(request))return false;
           const published=await provider.publishResult({...ctx.options,operationId:draft.operationId,baseRevision:draft.baseRevision,result:publishedResult});
           if(published?.code==="SEASON_RESULTS_STALE_BASE_REVISION"&&!staleRetried){staleRetried=true;current=await pssrPublishRead(ctx,request);if(!pssrContextMatches(request))return false;continue;}

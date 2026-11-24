@@ -72,7 +72,7 @@ const req=season=>({key:`k${season}`,rivalryId:R,seasonNumber:season});
 {
   const src=read("js/productionSharedSeasonResults.js");
   const fns=["pssrTapMemory","pssrTapMemoryLoad","pssrTapScope","pssrTapNote","pssrTapClear","pssrTapResend"].map(n=>body(src,n)).join("\n");
-  assert.match(src,/draft\.operationId=draft\.operationId\|\|pssrRandomOperationId\(\);draft\.baseRevision=Number\(current\.revision\|\|0\);\n\s*pssrTapNote\(request,publishRole,draft\.operationId,draft\.result\);/,"noted with the operationId just before the write");
+  assert.match(src,/draft\.operationId=draft\.operationId\|\|pssrRandomOperationId\(\);draft\.baseRevision=Number\(current\.revision\|\|0\);\n[^\n]*\n\s*if\(!resend\)pssrTapNote\(request,publishRole,draft\.operationId,draft\.result\);/,"noted with the operationId just before the write, never again by its own resend (Codex #1592)");
   assert.match(src,/if\(resend\)draft=\{contextKey,seasonNumber:view\.seasonNumber,managerRole:view\.managerRole,result:resend\.payload,fingerprint:"",operationId:resend\.operationId,/,"the resend publishes the noted result with the noted operationId");
   const page=(storage,view,season=3)=>{
     const sb=sandbox(storage,{sent:[]});
