@@ -1,0 +1,148 @@
+# Ironman full matrix (r100 Phoenix W10): the long proof behind the Showdown Gate's L7 lane. Every fault of the fault-injection
+# journey on a 10-season Showdown (seasons 1-3 carry the write points, the 10th season's acknowledgement is the terminal close),
+# each in its own job with its own emulators, plus a 10-season CE2PG; then one job builds the fault x point table and applies
+# the reads-vs-fault-free rule across the jobs (tests/browser/support/fij-matrix.cjs).
+# Where it runs: NOT as a pull_request workflow (tests/operations/pos10-authority.test.mjs keeps Showdown Gate the only one). It runs
+# on pushes to the release branches (gameplay/r<N>) when game or journey files change, and on manual dispatch (any seed).
+# Seeded from the pushed commit (the first 8 hex digits, as L7), or from the seed typed at dispatch; a failure reruns once with the
+# same seed (scripts/ironman-leg.mjs). Emulator only; never touches production Firebase.
+name: Ironman full matrix
+
+on:
+  push:
+    branches: ['gameplay/r[0-9]*']
+    paths:
+      - 'js/**'
+      - 'data/**'
+      - 'css/**'
+      - 'assets/**'
+      - 'visual-assets/**'
+      - 'index.html'
+      - 'service-worker.js'
+      - 'manifest.webmanifest'
+      - 'firestore*.rules'
+      - 'firebase*.json'
+      - 'scripts/build-production-firestore-rules*.mjs'
+      - 'scripts/inject-persistent-pair-rules.mjs'
+      - 'scripts/ironman-*.mjs'
+      - 'tests/browser/fault-injection-journey.cjs'
+      - 'tests/browser/ce2pg-journey.cjs'
+      - 'tests/browser/support/**'
+      - 'tests/support/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/ironman-full-matrix.yml'
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: 'Seed (a whole number); empty = from the commit'
+        required: false
+        default: ''
+      seasons:
+        description: 'Seasons per Showdown'
+        required: false
+        default: '10'
+        type: choice
+        options: ['10', '3']
+
+permissions:
+  contents: read
+
+# One run per branch at a time; a newer push waits for the running one (a 10-season matrix takes a while) instead of cancelling it.
+concurrency:
+  group: ironman-full-matrix-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  leg:
+    name: Ironman ${{ matrix.leg }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        leg: [none, network, lock, evict, reload, tabkill, twotabs, quota, coldoffline, ce2pg]
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Firebase emulator and npx caches
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            ~/.cache/firebase/emulators
+            ~/.npm/_npx
+          key: showdown-gate-L6-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Restore Playwright and Chromium browser caches
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            /tmp/cms-chromium-runtime
+          key: showdown-gate-browsers-ubuntu-24.04-playwright-1.62.1-chromium-149.0.0-v1
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Install pinned Firebase emulator test dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.0 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: Ironman leg (seeded, one rerun)
+        env:
+          CMS_CHROMIUM_MULTI_CONTEXT: '1'
+          IRONMAN_SEED_INPUT: ${{ github.event.inputs.seed }}
+          IRONMAN_SEASONS: ${{ github.event.inputs.seasons || '10' }}
+          IRONMAN_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          seed="$IRONMAN_SEED_INPUT"
+          if [[ -z "$seed" ]]; then seed=$((16#${IRONMAN_SHA:0:8})); fi
+          node scripts/ironman-leg.mjs --leg ${{ matrix.leg }} --seed "$seed" --seasons "$IRONMAN_SEASONS" --out "test-results/ironman-${{ matrix.leg }}.json"
+      - name: Upload Ironman reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: ironman-full-${{ matrix.leg }}
+          path: test-results
+          if-no-files-found: ignore
+          retention-days: 14
+          overwrite: true
+
+  table:
+    name: Ironman fault x point table
+    needs: [leg]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+      - name: Download every leg's reports
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          pattern: ironman-full-*
+          path: ${{ runner.temp }}/legs
+      - name: Fault x point table and reads against the fault-free run
+        run: node scripts/ironman-matrix.mjs --dir "$RUNNER_TEMP/legs" --out "$RUNNER_TEMP/table"
+      - name: Upload the table
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: ironman-full-table
+          path: ${{ runner.temp }}/table
+          if-no-files-found: ignore
+          retention-days: 30
+          overwrite: true

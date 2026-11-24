@@ -36,6 +36,11 @@
 //                                                                          own emulators; prints the fault x point matrix
 //      FIJ_FAULTS=network,reload FIJ_PHONE=alt-nik node tests/browser/fault-injection-journey.cjs
 //      FIJ_FAULT=network node tests/browser/fault-injection-journey.cjs    one fault
+// Seeds (r100 Phoenix W10): FIJ_SEED=<whole number> picks, from that seed alone, how long each point stays offline (5-30 s) or
+// locked (8-20 s), which tab writes in twotabs, and (when FIJ_PHONE is not set) whether the faults start on Daniel or on Nik.
+// The same seed replays the same fault timings; without FIJ_SEED the fixed tables below are used, as before.
+// Seasons: FIJ_SEASONS=3 (default), 5 or 10. Seasons 1-3 carry the points above; seasons 4 to N-1 play without faults and the
+// last season's acknowledgement is the terminal-close point (the Showdown Gate's L7 plays 3; the Ironman full matrix 10).
 // Options: FIJ_AFTER_LAND=1 (reload/evict/tab kill wait until the acknowledgement is stored first), FIJ_ONLY=point,point (fault only there; the other points run fault-free), FIJ_PORT_BASE (default 19610; each parallel run adds 10), FIJ_APP_PORT (default 14711), FIJ_DEBUG=1.
 // Output: test-results/fij-<fault>-<phone>.json and test-results/fij-matrix.json (+ screenshots of problems).
 // Test database only (demo project on the local emulators). Never touches production Firebase.
@@ -43,6 +48,7 @@ const fs=require("node:fs");
 const path=require("node:path");
 const {spawn,spawnSync}=require("node:child_process");
 const clubDraw=require("./support/club-draw.cjs");
+const fijMatrix=require("./support/fij-matrix.cjs");
 
 const ROOT=path.resolve(__dirname,"../..");
 const OUT_DIR=path.join(ROOT,"test-results");
@@ -56,7 +62,15 @@ const POINTS=["setup-confirm","career-start","spin-mark","prime-mid","tw-guess",
 // point, so nothing is decided before its fault) = nobody guesses.
 let PRIME="timeout";const primeWon={daniel:0,nik:0};
 const PROJECT="demo-cms-browser-journey";
-const PHONE_MODE=process.env.FIJ_PHONE||"alt";
+// FIJ_SEED: a small seeded generator (mulberry32) for every fault choice the harness makes (see the header).
+const SEED=/^\d+$/.test(process.env.FIJ_SEED||"")?Number(process.env.FIJ_SEED):null;
+if(process.env.FIJ_SEED&&SEED===null){console.error(`FIJ_SEED must be a whole number (got ${process.env.FIJ_SEED})`);process.exit(2);}
+function seededRandom(seed){let a=seed>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+const RAND=SEED===null?null:seededRandom(SEED);
+const pickInt=(lo,hi)=>lo+Math.floor(RAND()*(hi-lo+1));
+const PHONE_MODE=process.env.FIJ_PHONE||(SEED===null?"alt":(SEED%2?"alt-nik":"alt"));
+const TOTAL=Number(process.env.FIJ_SEASONS||3);// the game offers 1, 3, 5 or 10 seasons; the points need at least 3
+if(![3,5,10].includes(TOTAL)){console.error(`FIJ_SEASONS must be 3, 5 or 10 (got ${process.env.FIJ_SEASONS})`);process.exit(2);}
 const FAULT=process.env.FIJ_FAULT||"";
 
 // ---------------------------------------------------------------------------------------------------------------------------
@@ -84,28 +98,9 @@ if(!process.env.FIRESTORE_EMULATOR_HOST&&!FAULT){
         while(running<parallel&&next<jobs.length&&free.length){const job=jobs[next++],slot=free.shift();running+=1;runJob(job,slot).then(r=>{results.push(r);free.push(slot);running-=1;pump();});}
       };pump();
     });
-    const matrix={};
-    for(const r of results){
-      const file=path.join(OUT_DIR,`fij-${r.fault}-${r.phone}.json`);let rep=null;try{rep=JSON.parse(fs.readFileSync(file,"utf8"));}catch(_e){}
-      matrix[`${r.fault}/${r.phone}`]={exit:r.code,verdict:rep?.verdict||"NO REPORT",points:rep?.points||[],end:rep?.endChecks||[],fatal:rep?.fatal||null,reads:rep?.readsTotal??null};
-    }
-    fs.writeFileSync(path.join(OUT_DIR,"fij-matrix.json"),JSON.stringify(matrix,null,2));
-    const head=`| fault | ${POINTS.join(" | ")} | end |`;
-    console.log(`\nFAULT x WRITE POINT (phone in brackets)\n${head}\n|${"---|".repeat(POINTS.length+2)}`);
-    for(const [key,v] of Object.entries(matrix)){
-      const cell=p=>{const x=v.points.find(q=>q.point===p);return x?`${x.pass?"PASS":"FAIL"} (${x.phone[0].toUpperCase()})`:"-";};
-      console.log(`| ${key} | ${POINTS.map(cell).join(" | ")} | ${v.verdict==="PASS"?"PASS":v.end.filter(e=>!e.pass).length?"FAIL":v.verdict} |`);
-    }
-    // Reads: a fault run may not cost more than 2.5 x the fault-free run (the same phone order), point by point and in total.
-    for(const [key,v] of Object.entries(matrix)){
-      const base=matrix[`none/${key.split("/")[1]}`];if(!base||key.startsWith("none/"))continue;
-      v.readsVsBaseline={total:v.reads,baseline:base.reads};
-      if(base.reads&&v.reads>2.5*base.reads+100){v.verdict="FAIL";v.end.push({id:"reads.vsBaseline",pass:false,detail:`${v.reads} reads vs ${base.reads} without faults`});}
-      for(const p of v.points){const b=base.points.find(q=>q.point===p.point);if(b&&p.readsPoint>3*b.readsPoint+60){p.pass=false;p.checks.push({id:"reads.vsBaseline",pass:false,detail:`${p.readsPoint} reads at this point vs ${b.readsPoint} without faults`});v.verdict="FAIL";}}
-    }
-    fs.writeFileSync(path.join(OUT_DIR,"fij-matrix.json"),JSON.stringify(matrix,null,2));
-    const bad=Object.values(matrix).filter(v=>v.verdict!=="PASS");
-    console.log(`\n${bad.length?"FAIL":"PASS"} fault-injection journey: ${Object.keys(matrix).length-bad.length}/${Object.keys(matrix).length} runs pass -> test-results/fij-matrix.json`);
+    // The fault x point table and the reads-vs-baseline rule live in tests/browser/support/fij-matrix.cjs (the Ironman full
+    // matrix workflow builds the same table from its jobs' reports).
+    const {matrix,bad}=fijMatrix.buildMatrix({results,outDir:OUT_DIR,points:POINTS,log:console.log});
     process.exit(bad.length?1:0);
   })();
   return;
@@ -153,17 +148,20 @@ const SDK_DIR=path.join(ROOT,"node_modules/firebase");
 const DEBUG=process.env.FIJ_DEBUG==="1";
 const deadTaps=[];// dead buttons seen (tapped five times with nothing happening), reported with the run
 const READS_PER_MIN=Number(process.env.FIJ_READS_PER_MIN||150);
-const BASELINE_READS=Number(process.env.FIJ_BASELINE_READS||1200);
+const BASELINE_READS=Number(process.env.FIJ_BASELINE_READS||Math.round(1200*TOTAL/3));
 const STUCK_MS=Number(process.env.FIJ_STUCK_MS||90000);
 const NAMES={daniel:"Daniel",nik:"Nik"},ROLE={daniel:"playerOne",nik:"playerTwo"};
 const VIEWPORTS={daniel:{width:393,height:660},nik:{width:390,height:844}};
-const NETWORK_S=[5,30,8,12,20,6,15,10,25,7,9,18,11];// seconds offline per point (5-30 s)
-const LOCK_S=[8,20,12,15,9,18,10,14,11,16,8,13];
+// Seconds offline (5-30 s) and locked (8-20 s) per point, and which tab writes in twotabs (true = the second tab): fixed tables
+// without FIJ_SEED, drawn from the seed with it (drawn once, in this order, so a seed always gives the same tables).
+const NETWORK_S=RAND?Array.from({length:13},()=>pickInt(5,30)):[5,30,8,12,20,6,15,10,25,7,9,18,11];
+const LOCK_S=RAND?Array.from({length:12},()=>pickInt(8,20)):[8,20,12,15,9,18,10,14,11,16,8,13];
+const SECOND_TAB_WRITES=RAND?Array.from({length:16},()=>RAND()<0.5):null;
 const meter=createMeter();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const norm=s=>String(s||"").replace(/\s+/g," ").trim();
 
-const report={tool:"FIJ",fault:FAULT,phone:PHONE_MODE,startedAt:new Date().toISOString(),verdict:"RUNNING",points:[],endChecks:[],problems:[],roulette:{},readsTotal:0,fatal:null,notes:[]};
+const report={tool:"FIJ",fault:FAULT,phone:PHONE_MODE,seed:SEED,seasons:TOTAL,startedAt:new Date().toISOString(),verdict:"RUNNING",points:[],endChecks:[],problems:[],roulette:{},readsTotal:0,fatal:null,notes:[]};
 const t0=Date.now();
 let seasonNow=0,pointNow="boot";
 function writeReport(){report.finishedAt=new Date().toISOString();report.deadTaps=deadTaps;report.totalMs=Date.now()-t0;fs.mkdirSync(OUT_DIR,{recursive:true});fs.writeFileSync(REPORT_PATH,JSON.stringify(report,null,2));}
@@ -181,6 +179,13 @@ const PLAN=[
 ,
   {daniel:{leaguePosition:2,leaguePoints:70,leagueGoals:60,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false},nik:{leaguePosition:3,leaguePoints:65,leagueGoals:55,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false}}
 ];// season 1: Daniel 5 (3+1+1) v Nik 5 (5): a draw; season 2: Daniel 1 v Nik 6 (3+1+1+1); season 3: Daniel 0 v Nik 1. Totals Daniel 6, Nik 12.
+// Seasons 4-10 (FIJ_SEASONS 5 or 10): a fixed round of three more lines, Daniel's title, Nik's Champions League, a quiet season.
+const EXTRA_PLAN=[
+  {daniel:{leaguePosition:1,leaguePoints:90,leagueGoals:84,domesticCup:false,championsLeague:false,topScorer:false,topAssist:true},nik:{leaguePosition:2,leaguePoints:82,leagueGoals:75,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false}},
+  {daniel:{leaguePosition:4,leaguePoints:66,leagueGoals:58,domesticCup:true,championsLeague:false,topScorer:false,topAssist:false},nik:{leaguePosition:2,leaguePoints:79,leagueGoals:72,domesticCup:false,championsLeague:true,topScorer:false,topAssist:false}},
+  {daniel:{leaguePosition:5,leaguePoints:60,leagueGoals:51,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false},nik:{leaguePosition:6,leaguePoints:57,leagueGoals:49,domesticCup:false,championsLeague:false,topScorer:false,topAssist:false}}
+];
+while(PLAN.length<TOTAL)PLAN.push(EXTRA_PLAN[(PLAN.length-3)%EXTRA_PLAN.length]);
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // Emulator admin reads (never the app's reads) and Rules
@@ -395,7 +400,7 @@ async function inject(ctx,X,tap,other,rec){
       const second=await X.context.newPage();await preparePage(X,second);
       await second.goto(urlFor(X.account),{waitUntil:"domcontentloaded",timeout:20000}).catch(()=>{});await waitLoaded(second);
       X.extra.push(second);
-      const writeIn=i%2===0?second:X.page;rec.detail=`second tab open; the write tapped in the ${writeIn===second?"second":"first"} tab`;
+      const writeIn=(SECOND_TAB_WRITES?SECOND_TAB_WRITES[i%SECOND_TAB_WRITES.length]:i%2===0)?second:X.page;rec.detail=`second tab open; the write tapped in the ${writeIn===second?"second":"first"} tab`;
       // The tab that writes gets back into the game first (a new tab opens on Showdown Home).
       if(tap)await drive(X,tap.ready||(async()=>true),{page:writeIn,timeout:120000,label:`${rec.point} (tab ready)`});
       await runTap(writeIn);await runOther();
@@ -549,7 +554,7 @@ async function main(){
   if(!process.env.CMS_BASE_URL){server=spawn(process.execPath,[path.join(ROOT,"tests/support/static-server.cjs")],{stdio:"ignore",env:{...process.env,CMS_TEST_PORT:String(APP_PORT)}});await sleep(800);}
   const runtime=await resolveChromiumRuntime();
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
-  const ctx={};let rivalryId=null;const TOTAL=3;// the game offers 1, 3, 5 or 10 seasons
+  const ctx={};let rivalryId=null;
   try{
     ctx.daniel=await openManager(browser,"daniel");ctx.nik=await openManager(browser,"nik");
     const {daniel,nik}=ctx;const both=[daniel,nik];
@@ -667,7 +672,16 @@ async function main(){
     seasonNow=3;await plainContinue(ctx,3,TOTAL);
     await primePoint(R,"prime-reveal",3);
     await plainTransfers(ctx,3);await plainResults(ctx,R,3);
-    await commitWithFaults(ctx,R,3,true);
+    // FIJ_SEASONS 5 or 10: season 3 is committed plainly, seasons 4 to N-1 play without faults, season N closes the Showdown.
+    if(TOTAL>3){
+      await plainCommit(ctx,3);
+      for(let k=4;k<=TOTAL;k+=1){
+        seasonNow=k;await plainContinue(ctx,k,TOTAL);await plainPrime(ctx,k);
+        await plainTransfers(ctx,k);await plainResults(ctx,R,k);
+        if(k<TOTAL)await plainCommit(ctx,k);
+      }
+    }
+    await commitWithFaults(ctx,R,TOTAL,true);
     // --- end checks
     pointNow="end";
     const endCheck=(id,ok,detail)=>{report.endChecks.push({id,pass:Boolean(ok),detail:ok?undefined:String(detail).slice(0,1200)});console.log(`${ok?"ok  ":"FAIL"} end.${id}${ok?"":` -> ${String(detail).slice(0,400)}`}`);return ok;};
@@ -703,7 +717,7 @@ async function main(){
       const txt=await m.page.evaluate(()=>document.getElementById("finalWinnerScreen")?.innerText.replace(/\s+/g," ")||"").catch(()=>"");screens.push(txt);
       if(!txt&&await visible(m.page,"#mainMenu"))report.notes.push(`end: ${m.user} is on Showdown Home after the close (Final Winner not re-shown)`);
       else endCheck(`final.${m.user}`,txt.includes(String(totals.daniel))&&txt.includes(String(totals.nik))&&/NIK/i.test(txt),`Final Winner on ${m.user}: ${txt.slice(0,300)} (expected Nik ${totals.nik}, Daniel ${totals.daniel})`);
-      for(const k of [1,2,3]){const r=m.roulette[k]||{};endCheck(`roulette.${m.user}.s${k}`,r.steps>0&&!r.replays,JSON.stringify(r));}
+      for(let k=1;k<=TOTAL;k+=1){const r=m.roulette[k]||{};endCheck(`roulette.${m.user}.s${k}`,r.steps>0&&!r.replays,JSON.stringify(r));}
       endCheck(`errors.${m.user}`,m.log.pageErrors.length===0,JSON.stringify(m.log.pageErrors.slice(0,5)));
       endCheck(`production.${m.user}`,m.log.forbidden.length===0,JSON.stringify(m.log.forbidden.slice(0,3)));
       report.roulette[m.user]=m.roulette;report.consoleErrors=[...(report.consoleErrors||[]),...m.log.consoleErrors.slice(0,10)];
@@ -899,6 +913,12 @@ async function plainContinue(ctx,next,total){
     markRouletteFinished(m,next);
   }
 }
+// A season's Prime Pack round without a fault (FIJ_SEASONS 5 or 10): both phones play it together (it needs both), nobody names
+// the Icon, and both go on to the transfer window with both roulette marks.
+async function plainPrime(ctx,season){
+  PRIME="timeout";
+  await Promise.all([ctx.daniel,ctx.nik].map(m=>drive(m,async p=>await onTransfer(p)&&await spunBoth(p),{label:`season ${season} Prime Pack to the transfer window`,timeout:240000})));
+}
 async function fillSeasonResult(page,prefix,result){
   await page.locator(`#${prefix}LeaguePosition`).fill(String(result.leaguePosition));
   await page.locator(`#${prefix}LeaguePoints`).fill(String(result.leaguePoints));
@@ -1005,7 +1025,7 @@ async function commitWithFaults(ctx,R,season,final){
     // Closed: the Showdown Champion screen, or (a phone that reloaded after the close) Showdown Home with no live Showdown.
     if(final)return (await finalShown(p)&&await closedPhase(p)==="CLOSED")||(await closedInDb()&&await visible(p,"#mainMenu")&&!(await p.locator("#mainMenu").filter({hasText:/CONTINUE SHOWDOWN|Daniel vs Nik · Season \d+ of/}).count()));
     // A phone that reloads after the acknowledgement resumes in the next season (its roulette or Transfer Challenge).
-    if(await seasonIs(p,season+1,3)&&(await visible(p,"#cmStage")||await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p)))return true;
+    if(await seasonIs(p,season+1,TOTAL)&&(await visible(p,"#cmStage")||await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await onTransfer(p)))return true;
     return await commitLabel(p)==="SEASON CONFIRMED ✓"&&await p.evaluate(n=>{const s=window.CareerModeProductionSharedCanonicalScoring?.getState?.();return s?.phase==="SCORING_RECONCILED"&&s.seasonNumber===n;},season).catch(()=>false);
   };
   await writePoint(ctx,point,{writer:nik,landed:async()=>(await commitDoc())?.phase==="ACKNOWLEDGED",ready:async p=>await commitLabel(p)==="CONFIRM SEASON",tap:p=>p.locator("#sharedSeasonCommitAction").click({timeout:10000}),
@@ -1022,9 +1042,9 @@ async function commitWithFaults(ctx,R,season,final){
       }
       if(!final){
         for(const m of both)await m.page.waitForFunction(()=>Boolean((document.getElementById("sharedHistoryConvergenceSummary")?.textContent||"").trim())||/Season [2-9]/.test(document.getElementById("seasonIndicator")?.textContent||""),null,{timeout:45000}).catch(()=>{});
-        const sums=[];for(const m of both){if(await seasonIs(m.page,season+1,3)){await check(m,"history.notSkipped",false,`${m.user} resumed straight into season ${season+1} (no Shared History, CONTINUE or Gazette for season ${season})`);continue;}sums.push(norm(await m.page.locator("#sharedHistoryConvergenceSummary").textContent().catch(()=>"")));}
+        const sums=[];for(const m of both){if(await seasonIs(m.page,season+1,TOTAL)){await check(m,"history.notSkipped",false,`${m.user} resumed straight into season ${season+1} (no Shared History, CONTINUE or Gazette for season ${season})`);continue;}sums.push(norm(await m.page.locator("#sharedHistoryConvergenceSummary").textContent().catch(()=>"")));}
         const want=`Daniel ${scoreSeason(PLAN[0].daniel)} - ${scoreSeason(PLAN[0].nik)} Nik`;
-        await check(null,"history.same",sums.every(x=>x===sums[0]&&/^1 of 3 seasons? played/.test(x)&&x.includes(want)),`Shared History: ${JSON.stringify(sums)}`);
+        await check(null,"history.same",sums.every(x=>x===sums[0]&&new RegExp(`^1 of ${TOTAL} seasons? played`).test(x)&&x.includes(want)),`Shared History: ${JSON.stringify(sums)}`);
       }
     }});
 }
