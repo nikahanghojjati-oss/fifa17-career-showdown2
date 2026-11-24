@@ -20,7 +20,16 @@ The other phone pictures have nobody in them, so they take their painting as it 
   ENV_BOX_PLATE_EMPTY_<LOOK>_P1_2X  (HO-165..167) -> ENV_BOX_SIDEWAYS_HC_V4: the empty desktop room cut to 2:1 (BOX_SIDE_CUT)
   ENV_CLUB_SIDEWAYS_<LOOK>_P1       (HO-168..170) -> ENV_CLUB_SIDEWAYS_HC_V4 (its own picture, same size)
   ENV_SLAB_<LOOK>_P1_2X             (HO-112/131/150) -> ENV_SLAB_PHONE_HC_V1 (+_590W): the desktop slab turned upright (rot90)
-B7 builds the desktop files from the same deliveries; this builds only the phone files.
+B7 builds the desktop files from the same deliveries (desk_out, paint_desk):
+  ENV_<ROOM>_PLATE_<LOOK>_P1_2X   -> ENV_<ROOM>_PLATE_HC_V3_{1920,1X,2X} with the men laid back (hero mask, as the pilot);
+                                     CLUB -> ENV_CLUB_PLATE_HC_V3_{1X,2X} and LOADING -> assets/loading/<theme>/ENV_LOADING_PLATE_HC_{1X,2X}
+                                     (nobody in them: the painting as it is)
+  ENV_SLAB_<LOOK>_P1_2X           -> ENV_SLAB_HC_V1_{1920,1X,2X} and TILE_SLAB_HC_V1_512 (the Wooden tile is the 2X slab's
+                                     1024 px square at SLAB_TILE_BOX, halved; made seamless across its edges, tile_from)
+  ENV_BOX_PLATE_EMPTY_<LOOK>_P1_2X -> ENV_BOX_PLATE_HC_V4_{1920,1X,2X}: the Wooden V4 men (placed apart, HO-097 part 2) laid
+                                     on the painted empty room through masks/ENV_BOX_PLATE_HC_V4_1920.png
+Each desktop file gets the same checks as a phone file: alignment, 0 face pixels changed before encoding, face drift after
+WebP, file size against Wooden.
 
 Every phone file is checked as it is written (paint_phone): the painting's alignment to the Wooden plate (phase correlation;
 a master off by a whole pixel is shifted, never the Wooden), 0 changed pixels in the fully Wooden core of the hero mask before
@@ -67,6 +76,11 @@ OTHER_MASTERS = {
 # (left, top, right, bottom) and scaled to 2400x1200 (matched 2026-11-24: mean difference 1.24 levels against the Wooden file,
 # its WebP noise; 0.5 px either way doubles it).
 BOX_SIDE_CUT = (0, 60, 3072, 1596)
+# TILE_SLAB_HC_V1_512 is the Wooden 2X slab's square at this box, halved (matched 2026-11-24: normalised correlation 0.84; the
+# rest is its seamless edges).
+SLAB_TILE_BOX = (1024, 352, 2048, 1376)
+TILE_SEAM = 40   # px of the 512 tile blended across each edge so the tile repeats without a seam
+DESK_SIZE_SLACK = 0.10  # a desktop plate may be at most this much bigger than the Wooden file it replaces
 # The phone slab is the desktop slab turned upright (ROTATE_90) and resized: 1.49 levels against Wooden ENV_SLAB_PHONE_HC_V1.
 
 def _plates(folder, pattern):
@@ -96,6 +110,23 @@ def other_out(kind):
         return [(SRC, n, None, "rot90") for n in _plates(SRC, r"^ENV_SLAB_PHONE_HC_V1(_590W)?\.webp$")]
     raise KeyError(kind)
 
+def desk_out(room):
+    """(folder, Wooden name, mask name or None) for every desktop file a desktop painting for ROOM becomes."""
+    if room == "LOADING":
+        return [(LOADING, n, None) for n in _plates(LOADING, r"^ENV_LOADING_PLATE_HC_(1X|2X)\.webp$")]
+    if room == "CLUB":
+        return [(SRC, n, None) for n in _plates(SRC, r"^ENV_CLUB_PLATE_HC_V3_(1X|2X)\.webp$")]
+    return [(SRC, n, f"ENV_{room}_PLATE_HC_V3_1920") for n in _plates(SRC, rf"^ENV_{room}_PLATE_HC_V3_(1920|1X|2X)\.webp$")]
+
+def desk_extra(kind):
+    """(folder, Wooden name, mask, framing) for the desktop files B7 builds from a men-free master."""
+    if kind == "slab":
+        return ([(SRC, n, None, "desk") for n in _plates(SRC, r"^ENV_SLAB_HC_V1_(1920|1X|2X)\.webp$")] +
+                [(SRC, n, None, "tile") for n in _plates(SRC, r"^TILE_SLAB_HC_V1_512\.webp$")])
+    if kind == "lr_desk":
+        return [(SRC, n, "ENV_BOX_PLATE_HC_V4_1920", "desk") for n in _plates(SRC, r"^ENV_BOX_PLATE_HC_V4_(1920|1X|2X)\.webp$")]
+    return []
+
 def painted():
     """(theme, plate name, painting, room) for every plate a painting replaces (build.py skips these)."""
     return [t[:4] for t in _targets()]
@@ -116,15 +147,21 @@ def _targets(masters=None):
                 if m: masters[(room, THEME[m.group(1)], kind)] = os.path.join(PAINTINGS, f)
     for (room, theme, kind), path in sorted(masters.items()):
         if kind == "desk":
-            for g in _plates(SRC, rf"^ENV_{room}_PLATE_HC_V3_(1920|1X|2X)\.webp$"):
-                out.append((theme, g, path, room, SRC, None, "desk", kind))
+            for folder, g, mask in desk_out(room):
+                out.append((theme, g, path, room, folder, mask, "desk", kind))
         else:
             for folder, g, mask, framing in (phone_out(room) if kind == "phone" else other_out(kind)):
                 out.append((theme, g, path, room, folder, mask, framing, kind))
+            for folder, g, mask, framing in desk_extra(kind):
+                out.append((theme, g, path, room, folder, mask, framing, kind))
     return out
 
-def hero_mask(room, size):
-    path = os.path.join(MASKS, f"ENV_{room}_PLATE_HC_V3_1920.png")
+def hero_mask(room, size, mask=None):
+    """The desktop hero mask (masks/<mask>.png, a 1920 cut) at this size, pulled in and feathered. mask None and room None:
+    nobody in the room, all painting."""
+    if mask is None and room is None:
+        return np.zeros((size[1], size[0], 1), np.float32)
+    path = os.path.join(MASKS, (mask or f"ENV_{room}_PLATE_HC_V3_1920") + ".png")
     m = Image.open(path).convert("L").resize(size, Image.LANCZOS)
     k = max(3, 2 * round(PULL_IN * size[0] / 1920) + 1)
     m = m.filter(ImageFilter.MinFilter(k)).filter(ImageFilter.GaussianBlur(FEATHER * size[0] / 1920))
@@ -251,20 +288,58 @@ def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None, 
             "core_px": int(core.sum()), "core_changed_pre_encode": changed,
             "core_decoded_mean_diff": drift, "face_crops": crop}
 
+def tile_from(master):
+    """TILE_SLAB_HC_V1_512 from a 2X slab painting: the same square as the Wooden tile, halved, then made seamless: a copy
+    rolled by half a tile (its own edges meet in the middle, so it repeats) takes over in a TILE_SEAM band at each edge."""
+    m = master if master.size == (3072, 1728) else master.resize((3072, 1728), Image.LANCZOS)
+    a = np.asarray(m.crop(SLAB_TILE_BOX).resize((512, 512), Image.LANCZOS), np.float32)
+    r = np.roll(a, (256, 256), axis=(0, 1))
+    d = np.minimum(np.arange(512), np.arange(512)[::-1]).astype(np.float32)
+    w1 = np.clip(d / TILE_SEAM, 0, 1); w1 = w1 * w1 * (3 - 2 * w1)  # 0 at the edge, 1 a band in
+    w = (w1[:, None] * w1[None, :])[..., None]
+    return Image.fromarray(np.clip(a * w + r * (1 - w) + .5, 0, 255).astype(np.uint8))
+
+def paint_desk(theme, name, path, room, folder, mask, framing, crops_root=None):
+    """One desktop file: the painting aligned to the Wooden plate at this size, the Wooden men laid back through the hero
+    mask (if the room has them), the same checks as paint_phone, written to <folder>/<theme>/<name>.webp."""
+    wood = Image.open(os.path.join(folder, name + ".webp")).convert("RGB")
+    master = Image.open(path).convert("RGB")
+    dx = dy = 0
+    if framing == "tile":
+        src = tile_from(master)
+    else:
+        src = master if master.size == wood.size else master.resize(wood.size, Image.LANCZOS)
+        if not name.startswith("ENV_SLAB_"):  # the slab is a whole-surface repaint with nothing to align to
+            dx, dy = shift_of(src, wood)
+            assert abs(dx) <= 4 and abs(dy) <= 4, f"{theme}/{name}: painting is {dx},{dy} px off the Wooden plate"
+            if dx or dy: src = shifted(src, dx, dy)
+    m = hero_mask(None if mask is None else room, wood.size, mask)
+    w8 = np.asarray(wood); w = w8.astype(np.float32)
+    out = np.clip(np.asarray(src, np.float32) * (1 - m) + w * m + .5, 0, 255).astype(np.uint8)
+    core = m[..., 0] >= 1.0
+    changed = int(np.any(out[core] != w8[core], axis=-1).sum()) if core.any() else 0
+    assert changed == 0, f"{theme}/{name}: {changed} face pixels changed before encoding"
+    wood_bytes = os.path.getsize(os.path.join(folder, name + ".webp"))
+    data, q = encode(Image.fromarray(out), int(wood_bytes * (1 + DESK_SIZE_SLACK)), 76 if core.any() else 40)
+    dec = np.asarray(Image.open(io.BytesIO(data)).convert("RGB"), np.float32)
+    drift = round(float(np.abs(dec[core] - w[core]).mean()), 3) if core.any() else None
+    assert drift is None or drift <= FACE_DRIFT_MAX, f"{theme}/{name}: faces drift {drift} levels after WebP (max {FACE_DRIFT_MAX})"
+    crop = face_crops(wood, Image.fromarray(dec.astype(np.uint8)), m, os.path.join(crops_root, theme, name + ".jpg")) if crops_root else None
+    os.makedirs(os.path.join(folder, theme), exist_ok=True)
+    dest = os.path.join(folder, theme, name + ".webp")
+    with open(dest, "wb") as fh: fh.write(data)
+    return {"file": os.path.relpath(dest, ROOT), "shift": [dx, dy], "quality": q, "bytes": len(data),
+            "wooden_bytes": wood_bytes, "size_vs_wooden": round(len(data) / wood_bytes - 1, 3), "core_px": int(core.sum()),
+            "core_changed_pre_encode": changed, "core_decoded_mean_diff": drift, "face_crops": crop}
+
 def build(masters=None, dest_root=None, crops_root=None):
     done = []
     for theme, name, painting, room, folder, mask, framing, kind in _targets(masters):
-        if kind != "desk":
+        if framing in ("desk", "tile"):
+            if dest_root: continue  # the stand-in proof covers the phone files only
+            done.append(paint_desk(theme, name, painting, room, folder, mask, framing, crops_root))
+        else:
             done.append(paint_phone(theme, name, painting, room, folder, mask, framing, dest_root, crops_root, kind))
-            continue
-        wood = Image.open(os.path.join(SRC, name + ".webp")).convert("RGB")
-        paint = Image.open(painting).convert("RGB")
-        if paint.size != wood.size: paint = paint.resize(wood.size, Image.LANCZOS)
-        m = hero_mask(room, wood.size)
-        out = np.asarray(paint, np.float32) * (1 - m) + np.asarray(wood, np.float32) * m
-        dest = os.path.join(SRC, theme, name + ".webp")
-        Image.fromarray(np.clip(out + .5, 0, 255).astype(np.uint8)).save(dest, quality=90, method=6)
-        done.append({"file": os.path.relpath(dest, ROOT)})
     return done
 
 def stand_in_masters():
