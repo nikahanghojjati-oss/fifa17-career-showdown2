@@ -164,6 +164,35 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
 ```
 
+## HO-109 REDO · Platinum Clubhouse, Players' tunnel at night (Nik 24 Nov: "repaint the Tunnel darker")
+
+- New chat from the Wooden plate. Never edit the first result.
+- Image 1: [ENV_TUNNEL_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_TUNNEL_PLATE_HC_V3_2X.png)
+- Image 2: [REF_PILOT_SILVER.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_SILVER.png)
+- Saves as `ENV_TUNNEL_PLATE_SILVER_P1_2X` (replaces the first one)
+- Check: as dark as the Platinum Office and Hall at night; the lit pitch is the brightest thing.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the tunnel receding to the steps and the floodlit pitch with the goal at the far end, the ribbed pillars and wall panels on both sides, the handrails, the caged bulkhead lamp on the right wall, the ribbed floor mat, and the counter strip along the bottom at exactly the same height.
+
+The room: The Platinum Clubhouse players' tunnel at night: real metal leaf, real polished nickel, real stone, handcrafted.
+The wall panels become hand-laid square platinum leaves, exactly like image 2, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout, and the pillars become pale grey-white marble with a few long soft grey veins, exactly the stone of image 2 (light stone with dark veins, never dark stone with white cracks). The handrails become polished nickel. The bulkhead lamp cage becomes polished nickel; its glass stays warm and lit. The floor becomes a graphite ribbed rubber mat with polished nickel edge strips. The counter strip becomes honed pale grey-white marble with no streaks or brushed lines, and a few long, smooth, softly curving single grey veins that flow gently across the slab like brush strokes, with no braided, netted, jagged or cracked lines, exactly the stone of image 2, no brown or beige tint, holding a soft dim reflection of the lamps and of the dark suits.
+
+Light: It is night, and this tunnel is dim, as dark overall as image 1. The only light comes from the one caged bulkhead lamp on the right wall and the floodlit pitch at the far end. The lit pitch at the far end is the brightest thing in the picture. The bulkhead lamp throws a warm champagne pool on the right wall and handrail near it; away from that pool the platinum leaf falls to dark pewter and deep graphite, and the ceiling and the corners are close to black. The marble pillars show their pale stone only where the lamp or the pitch light grazes them; the rest of each pillar sits in soft shadow at a low middle grey. The floor mat is dark graphite with a faint sheen only toward the pitch. Behind each man the wall is dark pewter, lighter than his black suit and darker than his face, so both men read crisply. The colour is neutral platinum with a trace of warmth, never blue. Stone is light with dark veins, never dark stone with white cracks. The two men stay lit exactly as they are now.
+
+The far end stays a real night pitch: green grass, white goal, floodlit stands, exactly as they are.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain, no streaks and no cloudy, swirl, crackle or cracked-ice patterns in the stone or metal: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
 ## HO-110 · Platinum Clubhouse, Club room repaint
 
 - Image 1: [ENV_CLUB_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_CLUB_PLATE_HC_V3_2X.png)
