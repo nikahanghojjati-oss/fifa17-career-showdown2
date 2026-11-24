@@ -251,8 +251,9 @@
   function pmspCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!pmspSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;void pmspAdvance();}
   // r75: a wake that arrives while a refresh is running (Shared History converging, setup changing) runs once more right
   // after it instead of being dropped until the 15 s poll; the final season reached Final Winner up to 10 s late without it.
-  // r100 read cut (B4): the 15 s check re-read this season's commit (1 document + 1 Rules lookup per phone) on every
-  // screen, ~100 billed reads a season. The accepted count only moves when both managers commit and acknowledge a season,
+  // r100 read cut (B4): the 15 s checks (this one, Final Reconciliation's and Terminal Close's, which both ask Final, which
+  // asks this module) re-read this season's commit (1 document + 1 Rules lookup per phone) on every screen, ~100 billed
+  // reads a season. A season already known to be terminal is always due. The accepted count only moves when both managers commit and acknowledge a season,
   // on the Season Results and Review screens, and that move also arrives as an event (wait context, history convergence,
   // setup, visibility), which still wakes a read at once. So while this page already holds the season for this context and
   // shows only a setup, Career Start, season-start (dashboard: Chamber Men, Prime Pack, Russian Roulette, squads) or Transfer
@@ -262,6 +263,7 @@
   function pmspPollDue(){
     const request=pmspRequest();if(!request)return false;
     if(!view?.state||contextKey!==request.key||String(view.rivalryId||"")!==request.rivalryId)return true;
+    if(view.state.terminal===true)return true;
     if(PMSP_DUE_SCREENS.some(pmspShown))return true;
     return !PMSP_QUIET_SCREENS.some(pmspShown);
   }
@@ -270,5 +272,5 @@
 
   // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
   try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["multi-season"]=()=>{view=null;contextKey="";exposedKey="";exposedSeason=0;announcedKey="";lastErrorCode="";lastErrorKey="";heldErrorKey="";heldSeason=null;};}catch(_error){}
-  return Object.freeze({upgradeHold:Object.freeze({note:pmspNoteLiveSeason,holds:pmspHoldsForReview,continuedInto:pmspContinuedInto,markContinued:pmspMarkContinued}),lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,continueOpensNextTransferChallenge:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,seasonUnknown:pmspSeasonUnknown,nameSeason:pmspNameSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,releaseHeldSeason:pmspReleaseHeldSeason,isActive:pmspSharedMarker});
+  return Object.freeze({quietNow:()=>{try{return !pmspPollDue();}catch(_error){return false;}},upgradeHold:Object.freeze({note:pmspNoteLiveSeason,holds:pmspHoldsForReview,continuedInto:pmspContinuedInto,markContinued:pmspMarkContinued}),lastError:()=>lastErrorCode,contractVersion:1,feature:"ssjr-production-shared-multi-season-progression",productionEnabled:true,runtimeRevision:"1.9.1-r13",supportedLengths:Object.freeze([1,3,5,10]),requiresHistoryConvergence:true,requiresVisibleHistoryWitnessBeforeAdvance:true,exactOnceLocalCursor:true,replaysAcceptedSeasonsFromOneOnFreshRuntime:true,resumesAuthoritativeSeasonAfterFreshSession:true,fixedClubs:true,continueOpensNextTransferChallenge:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,install:pmspInstall,refresh:pmspRefresh,getState:()=>view,resolveSeason:pmspResolveSeason,seasonUnknown:pmspSeasonUnknown,nameSeason:pmspNameSeason,decorateDashboard:pmspDecorateDashboard,canContinue:pmspCanContinue,continueToNextSeason:pmspAdvance,resumeFromAuthority:pmspResumeFromAuthority,releaseHeldSeason:pmspReleaseHeldSeason,isActive:pmspSharedMarker});
 });

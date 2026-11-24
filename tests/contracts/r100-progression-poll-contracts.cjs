@@ -11,6 +11,8 @@
 //   P6 a changed context or another rivalry's season: due
 //   P7 the real registration: the timer asks the commit listener first, then pmspPollDue, and only then wakes
 //   P8 the event and visibility wakes are registered unchanged
+//   P9 a season known to be terminal is always due, on any screen
+//   P10 Final Reconciliation (and Terminal Close through it) reads nothing while Multi Season is quiet, before any multi/history refresh
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -24,9 +26,9 @@ const src=[
   pick(/function pmspShown\(id\)\{[^\n]*\}\n/),
   pick(/function pmspPollDue\(\)\{[\s\S]*?\n  \}\n/)
 ].join("");
-function world({shown=[],held=true,key="k1",heldKey="k1",heldRivalry="r1"}={}){
+function world({shown=[],held=true,key="k1",heldKey="k1",heldRivalry="r1",terminal=false}={}){
   const ctx={
-    view:held?{state:{acceptedSeasons:0},rivalryId:heldRivalry}:null,contextKey:heldKey,
+    view:held?{state:{acceptedSeasons:0,terminal},rivalryId:heldRivalry}:null,contextKey:heldKey,
     pmspRequest:()=>({rivalryId:"r1",key}),
     pmspField:id=>({classList:{contains:c=>c==="hidden"&&!shown.includes(id)}})
   };
@@ -52,5 +54,17 @@ assert.equal(world({shown:["transferChallenge"],key:"k2"}),true);assert.equal(wo
   for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-history-convergence-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"])assert.ok(install.includes(`"${event}"`),event);
   assert.ok(/addEventListener\?\.\(event,pmspWake\)/.test(install)&&/addEventListener\?\.\("visibilitychange",pmspWake\)/.test(install));
   ok("P8","every event wake and the visibility wake still call pmspWake directly");
+}
+for(const id of ["transferChallenge","dashboard","clubWheelScreen"])assert.equal(world({shown:[id],terminal:true}),true,id);ok("P9","a terminal season is due on every screen");
+{
+  assert.ok(/quietNow:\(\)=>\{try\{return !pmspPollDue\(\);\}catch\(_error\)\{return false;\}\}/.test(code),"Multi Season exports quietNow = not due (false on any error)");
+  const fin=fs.readFileSync(path.resolve(__dirname,"../../js/productionSharedFinalReconciliation.js"),"utf8");
+  const body=fin.slice(fin.indexOf("async function pfrRefreshNow("),fin.indexOf("function pfrRefresh()"));
+  const quiet=body.indexOf("multiApi.quietNow()"),multi=body.indexOf("await multiApi.refresh()"),history=body.indexOf("await historyApi.refresh()");
+  assert.ok(quiet>0&&quiet<multi&&multi<history,"the quiet check comes before both refreshes");
+  assert.ok(/if\(typeof multiApi\.quietNow==="function"&&multiApi\.quietNow\(\)\)return pfrCurrentView\(\);/.test(body),"quiet keeps the held view and reads nothing");
+  const term=fs.readFileSync(path.resolve(__dirname,"../../js/productionSharedTerminalClose.js"),"utf8");
+  assert.ok(/final=finalApi\.getState\(\);if\(!final\|\|final\.phase!=="FINAL_SEASON_RECONCILED"[^;]*\)final=await finalApi\.refresh\(\);/.test(term),"Terminal Close still asks Final (and so inherits the quiet check), and its own terminal read is untouched");
+  ok("P10","Final Reconciliation reads nothing while Multi Season is quiet; Terminal Close goes through it");
 }
 console.log(`PASS r100 progression poll contracts (${n} checks)`);
