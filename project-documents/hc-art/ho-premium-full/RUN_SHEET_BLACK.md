@@ -351,6 +351,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 - Image 1: [ENV_ARCHIVE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png)
 - Image 2: [REF_ARCHIVE_BLACK_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_ARCHIVE_BLACK_SWATCH.png)
 - Saves as `ENV_ARCHIVE_PHONE_BLACK_P1`
+- Try 1 (24 Nov) scored 8/10: Astra added two wall lamps at the end of the corridor. Try 2 uses the prompt below (no-lamps line).
 
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
@@ -362,11 +363,11 @@ Keep the two men exactly as they are: the same faces, hair, beards, suits, shirt
 Keep in the same places and at the same sizes: the vaulted corridor of arches, the two lit display niches, the counter edge, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
 
 The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
-Walls and panels: gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. Frames: black chrome with a thin polished gold inner line. Lamp metal: polished gold; shades stay warm cream and lit. Counter: polished black granite with a satin sheen: it shows only soft, blurred glows of the lamps and a faint dark shape of the suits, never a sharp mirror image of faces, hands or papers.
+Walls and panels: gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. Frames: black chrome with a thin polished gold inner line. Counter: polished black granite with a satin sheen: it shows only soft, blurred glows of the lamps and a faint dark shape of the suits, never a sharp mirror image of faces, hands or papers.
 
 Every door, shelf, niche, table and frame takes the same material it has in image 2 (blackened steel, black chrome with gold lines, or polished black granite); no wood is left anywhere in the room.
 
-Light: It is night. Light comes only from the same warm lamps in the same places. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Behind each man a broad soft warm reflection lies on the steel, clean and crisp-edged like a lamp seen in a black car door, with no glowing haze, so the black suits stand out from the wall. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps. The two men stay lit exactly as they are now.
+Light: It is night. This room has no lamps: light comes only from the two lit display niches and the soft warm glow already in image 1. Add no lamps, sconces or wall lights anywhere; the far end wall of the corridor stays plain dark steel with nothing on it. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Behind each man a broad soft warm reflection lies on the steel, clean and crisp-edged like a lamp seen in a black car door, with no glowing haze, so the black suits stand out from the wall. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps. The two men stay lit exactly as they are now.
 
 Objects keep their identity and their own colours and are relit by the new room.
 
