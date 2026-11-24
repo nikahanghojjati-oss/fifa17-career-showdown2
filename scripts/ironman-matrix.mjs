@@ -35,6 +35,26 @@ export function collect(dir){
   return {legs,reports};
 }
 
+// Who a red point goes to (r100 Phoenix owners, lead 2026-11-24). Anything not listed goes to the lead to route.
+export const OWNERS=Object.freeze({
+  fault:{swap:'B3 (fresh-device resume)'},
+  point:{'home-join':'B6 (JOIN survives offline)','unpair':'B6 (JOIN survives offline)','league-ball':'B2 (Ironman weak points)','chamber-kick':'B2 (Ironman weak points)','terminal-close':'B2 (Ironman weak points)'}
+});
+export function ownerOf({leg,point}){return OWNERS.fault[leg]||OWNERS.point[point]||'lead (route it)';}
+// The red report: every failed point of every leg, grouped by owner, each with its one-command replay (from the leg record).
+export function redReport({legs,t,sha='',runUrl=''}){
+  const byOwner={};
+  for(const l of Object.values(legs))if(l.verdict!=='PASS')for(const f of (l.failures?.length?l.failures:[{point:'?',phone:'-',checks:[l.verdict],replay:l.replay}])){
+    const owner=ownerOf({leg:l.leg,point:f.point});(byOwner[owner]||(byOwner[owner]=[])).push(`- ${l.leg} ${l.verdict} at ${f.point} (${f.phone}): ${(f.checks||[]).join(', ')}. Replay: \`${f.replay}\``);
+  }
+  const lines=[`Ironman full matrix red on ${sha.slice(0,8)||'?'}${runUrl?` (${runUrl})`:''}.`,''];
+  for(const [owner,items] of Object.entries(byOwner).sort())lines.push(`**${owner}**`,...items,'');
+  if(t.missing.length)lines.push(`Missing reports: ${t.missing.join(', ')}`,'');
+  if(t.bad.length)lines.push(`Reads rule red: ${t.bad.length} fault run(s); see the table artifact.`,'');
+  lines.push('FLAKY legs count: passing on the rerun never closes a finding.');
+  return lines.join('\n');
+}
+
 export function table({legs,reports,outDir=null,log=console.log}){
   const points=[...new Set(reports.flatMap(r=>(r.points||[]).map(p=>p.point)))];
   const results=reports.map(r=>({fault:r.fault,phone:r.phone,code:r.verdict==='PASS'?0:1,report:r}));
@@ -58,5 +78,7 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,`### Ironman full matrix: ${t.ok?'PASS':'FAIL'}\n\n${lines.join('\n')}\n`);
   for(const l of t.flaky)console.log(`::warning title=Ironman FLAKY ${l.leg}::passed only on the rerun (seed ${l.seed}). Replay: ${l.replay}`);
   if(!t.ok)console.log(`::error title=Ironman full matrix::${t.failed.map(l=>l.leg).join(', ')||'no leg'} failed twice; ${t.bad.length} fault run(s) red; missing: ${t.missing.join(', ')||'none'}`);
+  if(!t.ok&&opt('report')){fs.mkdirSync(path.dirname(path.resolve(opt('report'))),{recursive:true});fs.writeFileSync(opt('report'),`${redReport({legs,t,sha:process.env.GITHUB_SHA||'',runUrl:process.env.GITHUB_SERVER_URL&&process.env.GITHUB_RUN_ID?`${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`:''})}\n`);}
+  else if(t.flaky.length&&opt('report')){fs.writeFileSync(opt('report'),`${redReport({legs,t:{...t,missing:[],bad:[]},sha:process.env.GITHUB_SHA||''}).replace('red on','FLAKY on')}\n`);}
   process.exitCode=t.ok?0:1;
 }

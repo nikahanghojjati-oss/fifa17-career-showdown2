@@ -120,6 +120,9 @@ jobs:
     needs: [leg]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      issues: write
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
@@ -136,7 +139,22 @@ jobs:
           pattern: ironman-full-*
           path: ${{ runner.temp }}/legs
       - name: Fault x point table and reads against the fault-free run
-        run: node scripts/ironman-matrix.mjs --dir "$RUNNER_TEMP/legs" --out "$RUNNER_TEMP/table"
+        id: matrix
+        run: node scripts/ironman-matrix.mjs --dir "$RUNNER_TEMP/legs" --out "$RUNNER_TEMP/table" --report red-report.md
+      # Red or FLAKY (lead 2026-11-24): the failures by owner, each with its replay, go to one standing issue that the lead and
+      # the owners read; one comment per red run, the issue reopened if it was closed. No thread can be woken from here.
+      - name: Report a red or FLAKY matrix to the lead and owners
+        if: ${{ always() && hashFiles('red-report.md') != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          REPORT: red-report.md
+        run: |
+          set -euo pipefail
+          title="Ironman full matrix: red runs on ${GITHUB_REF_NAME}"
+          num=$(gh api "repos/$GH_REPO/issues?state=all&per_page=100" --jq "[.[]|select(.pull_request==null and .title==\"$title\")][0].number // empty")
+          if [[ -z "$num" ]]; then gh api "repos/$GH_REPO/issues" -f title="$title" -F body=@"$REPORT" --jq .html_url
+          else gh api -X PATCH "repos/$GH_REPO/issues/$num" -f state=open >/dev/null; gh api "repos/$GH_REPO/issues/$num/comments" -F body=@"$REPORT" --jq .html_url; fi
       - name: Upload the table
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7

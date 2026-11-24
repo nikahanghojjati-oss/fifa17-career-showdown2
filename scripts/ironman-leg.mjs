@@ -19,7 +19,9 @@ export const FIJ_FAULTS=Object.freeze(['none','network','lock','evict','reload',
 export const LEGS=Object.freeze([...FIJ_FAULTS,'ce2pg']);
 export const SEASONS=Object.freeze([3,10]);
 
-export function legPlan({leg,seed,seasons=3}){
+// epilogue=false (Showdown Gate on a PR that changes no pairing, Home, Settings or sync file) stops the journey after the
+// Showdown it plays: the epilogue points (home-join, end-showdown, sacked, unpair) run in the full matrix and on such PRs.
+export function legPlan({leg,seed,seasons=3,epilogue=true}){
   if(!LEGS.includes(leg))throw new Error(`unknown Ironman leg ${leg} (one of ${LEGS.join(', ')})`);
   if(!Number.isSafeInteger(seed)||seed<0)throw new Error(`the seed must be a whole number 0 or more (got ${seed})`);
   if(!SEASONS.includes(seasons))throw new Error(`seasons must be ${SEASONS.join(' or ')} (got ${seasons})`);
@@ -28,21 +30,25 @@ export function legPlan({leg,seed,seasons=3}){
     const env={CE2PG_PLAN:'single',CE2PG_SEASONS:String(seasons),CE2PG_RUN:String(run)};
     return {leg,seed,seasons,script:'tests/browser/ce2pg-journey.cjs',env,replay:`CE2PG_PLAN=single CE2PG_SEASONS=${seasons} CE2PG_RUN=${run} node tests/browser/ce2pg-journey.cjs`};
   }
-  const env={FIJ_FAULT:leg,FIJ_SEED:String(seed),FIJ_SEASONS:String(seasons)};
-  return {leg,seed,seasons,script:'tests/browser/fault-injection-journey.cjs',env,replay:`FIJ_FAULT=${leg} FIJ_SEED=${seed} FIJ_SEASONS=${seasons} node tests/browser/fault-injection-journey.cjs`};
+  if(typeof epilogue!=='boolean')throw new Error(`epilogue must be true or false (got ${epilogue})`);
+  const env={FIJ_FAULT:leg,FIJ_SEED:String(seed),FIJ_SEASONS:String(seasons),...(epilogue?{}:{FIJ_EPILOGUE:'0'})};
+  return {leg,seed,seasons,epilogue,script:'tests/browser/fault-injection-journey.cjs',env,replay:`${fijPrefix({leg,seed,seasons,epilogue})} node tests/browser/fault-injection-journey.cjs`};
+}
+const fijPrefix=({leg,seed,seasons,epilogue=true,only=null})=>`${epilogue?'':'FIJ_EPILOGUE=0 '}FIJ_FAULT=${leg} FIJ_SEED=${seed} FIJ_SEASONS=${seasons}${only?` FIJ_ONLY=${only}`:''}`;
+export function fijReplay(o){return `${fijPrefix(o)} node tests/browser/fault-injection-journey.cjs`;
 }
 
 // The failed points of the last attempt's journey report, each with a one-command replay of that point alone (FIJ_ONLY keeps
 // every other point fault-free; the seed keeps the phone, the timings and the picks of that point).
-export function failuresOf({leg,seed,seasons,outDir}){
+export function failuresOf({leg,seed,seasons,outDir,epilogue=true}){
   let names=[];try{names=fs.readdirSync(outDir).filter(name=>name.startsWith(`fij-${leg}-`)&&name.endsWith('.json')&&!name.endsWith('.emulators.json'));}catch{return [];}
   const out=[];
   for(const name of names){
     let report=null;try{report=JSON.parse(fs.readFileSync(path.join(outDir,name),'utf8'));}catch{continue;}
-    for(const p of report?.points||[])if(!p.pass)out.push({point:p.point,phone:p.phone,checks:(p.checks||[]).filter(c=>!c.pass).map(c=>c.id),replay:`FIJ_FAULT=${leg} FIJ_SEED=${seed} FIJ_SEASONS=${seasons} FIJ_ONLY=${p.point} node tests/browser/fault-injection-journey.cjs`});
-    if(report?.fatal&&!out.some(f=>f.point===report.fatal.point))out.push({point:report.fatal.point||'?',phone:'-',checks:['fatal'],replay:`FIJ_FAULT=${leg} FIJ_SEED=${seed} FIJ_SEASONS=${seasons} node tests/browser/fault-injection-journey.cjs`});
+    for(const p of report?.points||[])if(!p.pass)out.push({point:p.point,phone:p.phone,checks:(p.checks||[]).filter(c=>!c.pass).map(c=>c.id),replay:fijReplay({leg,seed,seasons,epilogue,only:p.point})});
+    if(report?.fatal&&!out.some(f=>f.point===report.fatal.point))out.push({point:report.fatal.point||'?',phone:'-',checks:['fatal'],replay:fijReplay({leg,seed,seasons,epilogue})});
     const end=(report?.endChecks||[]).filter(c=>!c.pass).map(c=>c.id);
-    if(end.length)out.push({point:'end',phone:'-',checks:end,replay:`FIJ_FAULT=${leg} FIJ_SEED=${seed} FIJ_SEASONS=${seasons} node tests/browser/fault-injection-journey.cjs`});
+    if(end.length)out.push({point:'end',phone:'-',checks:end,replay:fijReplay({leg,seed,seasons,epilogue})});
   }
   return out;
 }
@@ -61,8 +67,8 @@ function moveAttempt(outDir,attempt){
   for(const name of fs.readdirSync(outDir)){if(/^attempt-\d+$/.test(name))continue;fs.renameSync(path.join(outDir,name),path.join(target,name));}
 }
 
-export function runLeg({leg,seed,seasons=3,out=null,command=null,env=process.env,log=console.log,outDir=path.join(root,'test-results')}){
-  const plan=legPlan({leg,seed,seasons});
+export function runLeg({leg,seed,seasons=3,epilogue=true,out=null,command=null,env=process.env,log=console.log,outDir=path.join(root,'test-results')}){
+  const plan=legPlan({leg,seed,seasons,epilogue});
   const attempts=[];
   for(let attempt=1;attempt<=2;attempt+=1){
     const started=Date.now();
@@ -76,11 +82,11 @@ export function runLeg({leg,seed,seasons=3,out=null,command=null,env=process.env
     if(attempt===1)moveAttempt(outDir,1);
   }
   const verdict=verdictOf(attempts.map(a=>a.exit));
-  const failures=leg==='ce2pg'?[]:failuresOf({leg,seed,seasons,outDir});
-  const record={schema:'ironman-leg/v1',leg,seed,seasons,verdict,attempts,replay:plan.replay,failures,finishedAt:new Date().toISOString()};
+  const failures=leg==='ce2pg'?[]:failuresOf({leg,seed,seasons,outDir,epilogue});
+  const record={schema:'ironman-leg/v1',leg,seed,seasons,epilogue:leg==='ce2pg'?null:epilogue,verdict,attempts,replay:plan.replay,failures,finishedAt:new Date().toISOString()};
   if(out){fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});fs.writeFileSync(out,`${JSON.stringify(record,null,2)}\n`);}
   const failureLines=failures.map(f=>`- ${f.point} (${f.phone}): ${f.checks.join(', ')}. Replay: \`${f.replay}\``);
-  if(env.GITHUB_STEP_SUMMARY)fs.appendFileSync(env.GITHUB_STEP_SUMMARY,`### Ironman ${leg}: ${verdict}\n\nSeed ${seed}, ${seasons} seasons, ${attempts.length} attempt(s).\n\nReplay: \`${plan.replay}\`\n\n${failureLines.length?`Failed points (last attempt):\n\n${failureLines.join('\n')}\n\n`:''}`);
+  if(env.GITHUB_STEP_SUMMARY)fs.appendFileSync(env.GITHUB_STEP_SUMMARY,`### Ironman ${leg}: ${verdict}\n\nSeed ${seed}, ${seasons} seasons${leg==='ce2pg'?'':epilogue?', with the epilogue':', epilogue off (no pairing, Home, Settings or sync file changed)'}, ${attempts.length} attempt(s).\n\nReplay: \`${plan.replay}\`\n\n${failureLines.length?`Failed points (last attempt):\n\n${failureLines.join('\n')}\n\n`:''}`);
   for(const line of failureLines)log(`IRONMAN ${leg} failed point ${line.slice(2)}`);
   if(verdict==='FLAKY')log(`::warning title=Ironman FLAKY ${leg}::passed only on the rerun with seed ${seed}. File it and fix it. Replay: ${plan.replay}`);
   if(verdict==='FAIL')log(`::error title=Ironman FAIL ${leg}::failed twice with seed ${seed}. Replay: ${plan.replay}`);
@@ -101,7 +107,9 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   try{
     const opts=args(process.argv.slice(2));
     const seed=Number(opts.seed);
-    const record=runLeg({leg:String(opts.leg||''),seed,seasons:Number(opts.seasons||3),out:opts.out||null});
+    // --epilogue true|false (the Gate route's l7_heavy); anything else is refused, and leaving it out keeps the epilogue.
+    const epilogue=opts.epilogue===undefined?true:opts.epilogue==='true'?true:opts.epilogue==='false'?false:(()=>{throw new Error(`--epilogue must be true or false (got ${opts.epilogue})`);})();
+    const record=runLeg({leg:String(opts.leg||''),seed,seasons:Number(opts.seasons||3),epilogue,out:opts.out||null});
     process.exitCode=record.verdict==='FAIL'?1:0;
   }catch(error){console.error(error.message);process.exitCode=2;}
 }

@@ -780,7 +780,9 @@ jobs:
         env:
           CMS_CHROMIUM_MULTI_CONTEXT: '1'
           IRONMAN_SEED: ${{ steps.route.outputs.seed }}
-        run: node scripts/ironman-leg.mjs --leg ${{ matrix.leg }} --seed "$IRONMAN_SEED" --seasons 3 --out "test-results/ironman-${{ matrix.leg }}.json"
+          # The heavy set (epilogue points) runs when the route says so; fail-closed in scripts/showdown-gate.mjs l7Decision.
+          IRONMAN_EPILOGUE: ${{ steps.route.outputs.l7_heavy }}
+        run: node scripts/ironman-leg.mjs --leg ${{ matrix.leg }} --seed "$IRONMAN_SEED" --seasons 3 --epilogue "$IRONMAN_EPILOGUE" --out "test-results/ironman-${{ matrix.leg }}.json"
       - name: Upload Ironman reports
         if: always() && steps.route.outputs.l7_run == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7

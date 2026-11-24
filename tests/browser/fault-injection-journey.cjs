@@ -283,10 +283,12 @@ async function pathForward(m,page=m.page){
   // shootout, or the Transfer War's read-only replay of phases he already played, is played through and counted against the
   // point (swap.straightBack); during the chamber-kick point itself the shootout is still the live step.
   // Chamber Men stays mounted under Squad Management, the roulette and Prime Pack until the roulette ends (Codex on #1579):
-  // only Chamber Men in front counts.
+  // only Chamber Men in front counts, and only after his OWN spin mark landed (B3): before it, the shootout and roulette are still
+  // his live step on the fresh device. A Transfer War record still at NOT_STARTED does not prove his mark landed.
   if(page.__fijSwapped&&pointNow!=="chamber-kick"&&await visible(page,"#cmStage")&&!(await page.locator("#sqStage:visible, #rrStage:visible, #rrStepPanel:visible, #igStage:visible, #igStepPanel:visible").count().catch(()=>0))){
     const did=await rosterRoulette.playChamberMen(page).catch(()=>"")||"";
-    const note=`Chamber Men shown again in season ${seasonNow}`;if(!(m.swapSeen||(m.swapSeen=[])).includes(note))m.swapSeen.push(note);
+    if(await ownMarkLanded(page,m)){const note=`Chamber Men shown again in season ${seasonNow} after his own spin mark landed`;if(!(m.swapSeen||(m.swapSeen=[])).includes(note))m.swapSeen.push(note);}
+    else{const note=`${pointNow}: ${m.user}'s fresh device showed Chamber Men before his own spin mark landed (his live step)`;if(!report.notes.includes(note))report.notes.push(note);}
     return did&&did!=="wait"?did:"chamber-wait";
   }
   {const replay=page.locator("#transferChallenge button:visible").filter({hasText:/^\s*CONTINUE REPLAY/}).first();
@@ -455,6 +457,11 @@ async function hitAfterTap(kind,P,i,rec){
 }
 // The fault on phone X. tap(page) is the write tapped on X (null when the other phone writes, then `other` runs during the fault).
 const ONLY=(process.env.FIJ_ONLY||"").split(",").filter(Boolean);
+// FIJ_EPILOGUE=0 (the Showdown Gate on a PR that changes no pairing, Home, Settings or sync file): the run stops after the
+// Showdown it plays; the epilogue points run in the full matrix and on PRs that touch those files.
+const EPILOGUE=process.env.FIJ_EPILOGUE!=="0",EPILOGUE_POINTS=["home-join","end-showdown","sacked","unpair"];
+const RUN_POINTS=EPILOGUE?POINTS:POINTS.filter(p=>!EPILOGUE_POINTS.includes(p));
+report.epilogue=EPILOGUE;
 async function inject(ctx,X,tap,other,rec){
   const i=pointIndex;
   if(ONLY.length&&!ONLY.includes(rec.point)){rec.detail="(no fault here: FIJ_ONLY)";if(tap)await tap(X.page);if(other)await other();return;}
@@ -865,10 +872,12 @@ async function main(){
     report.readsTotal=readsOf(meter.events);report.readsByPhone={daniel:readsOf(meter.events,"daniel"),nik:readsOf(meter.events,"nik")};
     endCheck("reads.total",FAULT==="none"||report.readsTotal<=BASELINE_READS*2.5,`${report.readsTotal} document reads in the run (fault-free run ~${BASELINE_READS}, limit x2.5)`);
     // --- r100 W9 epilogue: two more short Showdowns of the same pair (home-join, end-showdown, sacked, unpair).
+    if(EPILOGUE){
     const errorsBefore={daniel:daniel.log.pageErrors.length,nik:nik.log.pageErrors.length},deadBefore=deadTaps.length;
     await epilogue(ctx,endCheck);
     for(const m of both){endCheck(`epilogue.errors.${m.user}`,m.log.pageErrors.length===errorsBefore[m.user],JSON.stringify(m.log.pageErrors.slice(errorsBefore[m.user],errorsBefore[m.user]+5)));endCheck(`epilogue.production.${m.user}`,m.log.forbidden.length===0,JSON.stringify(m.log.forbidden.slice(0,3)));}
     endCheck("epilogue.noDeadButtons",deadTaps.length===deadBefore,deadTaps.slice(deadBefore).join(" | "));
+    }else report.notes.push(`epilogue off (FIJ_EPILOGUE=0): ${EPILOGUE_POINTS.join(", ")} not run`);
     report.readsTotal=readsOf(meter.events);report.readsByPhone={daniel:readsOf(meter.events,"daniel"),nik:readsOf(meter.events,"nik")};
   }catch(error){
     report.fatal={message:String(error&&error.message||error).slice(0,1500),point:pointNow,stack:String(error&&error.stack||"").split("\n").slice(0,6).join("\n")};
@@ -877,10 +886,10 @@ async function main(){
     for(const m of [ctx.daniel,ctx.nik].filter(Boolean))await problem(m,"fatal",report.fatal[`state_${m.user}`]);
   }finally{
     report.readsTotal=report.readsTotal||readsOf(meter.events);
-    const pass=!report.fatal&&report.points.length===POINTS.length&&report.points.every(p=>p.pass)&&report.endChecks.every(c=>c.pass);
+    const pass=!report.fatal&&report.points.length===RUN_POINTS.length&&report.points.every(p=>p.pass)&&report.endChecks.every(c=>c.pass);
     report.verdict=pass?"PASS":"FAIL";writeReport();
     await browser.close().catch(()=>{});if(server)server.kill();
-    console.log(`${report.verdict} ${TAG}: ${report.points.filter(p=>p.pass).length}/${POINTS.length} points pass, ${report.endChecks.filter(c=>!c.pass).length} end check(s) failed, ${report.readsTotal} reads, ${Math.round((Date.now()-t0)/1000)} s -> ${path.relative(ROOT,REPORT_PATH)}`);
+    console.log(`${report.verdict} ${TAG}: ${report.points.filter(p=>p.pass).length}/${RUN_POINTS.length} points pass, ${report.endChecks.filter(c=>!c.pass).length} end check(s) failed, ${report.readsTotal} reads, ${Math.round((Date.now()-t0)/1000)} s -> ${path.relative(ROOT,REPORT_PATH)}`);
   }
   process.exitCode=report.verdict==="PASS"?0:1;
 
@@ -1175,6 +1184,8 @@ async function rouletteFinalTapReady(page){
   const t=norm(await b.textContent().catch(()=>""));
   return /TRANSFER WAR|PRIME PACK|RELEASED HIM/i.test(t);
 }
+// This manager's own spin mark for the season on this page landed (B3): his role in spunRoles, or a Transfer War past NOT_STARTED.
+async function ownMarkLanded(page,m){const s=await tcState(page);if(!s)return false;if(s.state)return Boolean(s.state.phase&&s.state.phase!=="NOT_STARTED");return Array.isArray(s.spunRoles)&&s.spunRoles.includes(ROLE[m.account]);}
 async function spunBoth(page){const s=await tcState(page);return Boolean(s&&(s.state||Array.isArray(s.spunRoles)&&s.spunRoles.includes("playerOne")&&s.spunRoles.includes("playerTwo")));}
 // pathForward without playing the roulette (the Career Start settle stops at the roulette).
 async function pathForwardNoRoulette(m,page){if(await visible(page,"#cmStage")||await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await atPrime(page))return "";return pathForward(m,page);}
@@ -1350,6 +1361,8 @@ async function commitWithFaults(ctx,R,season,final){
     const label=await commitLabel(p);
     if(m===daniel&&label==="LOCK & CONFIRM SEASON"&&await clickIf(p,p.locator("#sharedSeasonCommitAction")))return "commit";
     if(m===nik&&label==="CONFIRM SEASON"&&await clickIf(p,p.locator("#sharedSeasonCommitAction")))return "ack";
+    // B3: Daniel's LOCK & CONFIRM landed but his own confirm half did not; his fresh device shows CONFIRM SEASON by design.
+    if(m===daniel&&p.__fijSwapped&&label==="CONFIRM SEASON"&&await clickIf(p,p.locator("#sharedSeasonCommitAction"))){const note=`${pointNow}: Daniel's fresh device showed CONFIRM SEASON (his own confirm half had not landed) and he tapped it`;if(!report.notes.includes(note))report.notes.push(note);return "own-confirm";}
     // Back on the results screen after a reload: the commit panel lives on the review card.
     return toResults(m,p).then(x=>x===true?"":x||"");
   };
@@ -1402,11 +1415,13 @@ async function commitWithFaults(ctx,R,season,final){
         if(FAULT==="quota"&&ctx.manualClose)report.notes.push(`${pointNow}: the automatic close failed in the quota pause; CLOSE SHOWDOWN (the designed fallback) closed it the next day`);
         else await check(null,"autoClose",!ctx.manualClose,"the Showdown did not close by itself: CLOSE SHOWDOWN had to be tapped");
         // F1 item 3: a phone that reloaded at the close comes back to the Showdown Champion screen, not Showdown Home.
-        for(const m of both){const shown=await m.page.waitForFunction(()=>{const f=document.getElementById("finalWinnerScreen");return Boolean(f&&getComputedStyle(f).visibility!=="hidden"&&f.getClientRects().length>0&&!f.classList.contains("hidden"));},null,{timeout:30000}).then(()=>true,()=>false);await check(m,"champion.afterReload",shown,`${m.user} ended on ${await describe(m,m.page).catch(()=>"?")} after the close (no Showdown Champion screen)`);}
+        // B3 / lead (2026-11-24): the fresh-device Champion (F3) is out of 3.0; a swapped device must land on Home instead.
+        for(const m of both){if(m.page.__fijSwapped){const home=await m.page.locator("#mainMenu").waitFor({state:"visible",timeout:30000}).then(()=>true,()=>false)||await finalShown(m.page);await check(m,"home.afterSwapClose",home,`${m.user}'s fresh device ended on ${await describe(m,m.page).catch(()=>"?")} after the close (neither Home nor the Champion screen)`);continue;}
+          const shown=await m.page.waitForFunction(()=>{const f=document.getElementById("finalWinnerScreen");return Boolean(f&&getComputedStyle(f).visibility!=="hidden"&&f.getClientRects().length>0&&!f.classList.contains("hidden"));},null,{timeout:30000}).then(()=>true,()=>false);await check(m,"champion.afterReload",shown,`${m.user} ended on ${await describe(m,m.page).catch(()=>"?")} after the close (no Showdown Champion screen)`);}
       }
       if(!final){
         for(const m of both)await m.page.waitForFunction(()=>Boolean((document.getElementById("sharedHistoryConvergenceSummary")?.textContent||"").trim())||/Season [2-9]/.test(document.getElementById("seasonIndicator")?.textContent||""),null,{timeout:45000}).catch(()=>{});
-        const sums=[];for(const m of both){if(await seasonIs(m.page,season+1,TOTAL)){await check(m,"history.notSkipped",false,`${m.user} resumed straight into season ${season+1} (no Shared History, CONTINUE or Gazette for season ${season})`);continue;}sums.push(norm(await m.page.locator("#sharedHistoryConvergenceSummary").textContent().catch(()=>"")));}
+        const sums=[];for(const m of both){if(await seasonIs(m.page,season+1,TOTAL)){if(m.page.__fijSwapped){report.notes.push(`${pointNow}: ${m.user}'s fresh device resumed straight into season ${season+1} (the agreed Gazette gap, B3)`);continue;}await check(m,"history.notSkipped",false,`${m.user} resumed straight into season ${season+1} (no Shared History, CONTINUE or Gazette for season ${season})`);continue;}sums.push(norm(await m.page.locator("#sharedHistoryConvergenceSummary").textContent().catch(()=>"")));}
         const want=`Daniel ${scoreSeason(PLAN[0].daniel)} - ${scoreSeason(PLAN[0].nik)} Nik`;
         await check(null,"history.same",sums.every(x=>x===sums[0]&&new RegExp(`^1 of ${TOTAL} seasons? played`).test(x)&&x.includes(want)),`Shared History: ${JSON.stringify(sums)}`);
       }

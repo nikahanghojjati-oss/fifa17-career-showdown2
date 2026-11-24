@@ -75,8 +75,9 @@ async function run(){
   const job=gate.jobs['l7-ironman'];
   const step=job.steps.find(s=>s.id==='ironman');
   assert.equal(step.if,"steps.route.outputs.l7_run == 'true'");
-  assert.match(step.run,/^node scripts\/ironman-leg\.mjs --leg \$\{\{ matrix\.leg \}\} --seed "\$IRONMAN_SEED" --seasons 3 --out "test-results\/ironman-\$\{\{ matrix\.leg \}\}\.json"$/);
+  assert.match(step.run,/^node scripts\/ironman-leg\.mjs --leg \$\{\{ matrix\.leg \}\} --seed "\$IRONMAN_SEED" --seasons 3 --epilogue "\$IRONMAN_EPILOGUE" --out "test-results\/ironman-\$\{\{ matrix\.leg \}\}\.json"$/);
   assert.equal(step.env?.IRONMAN_SEED,'${{ steps.route.outputs.seed }}');
+  assert.equal(step.env?.IRONMAN_EPILOGUE,'${{ steps.route.outputs.l7_heavy }}','the epilogue follows the route\'s heavy set');
   assert.equal(step.env?.CMS_CHROMIUM_MULTI_CONTEXT,'1');
   assert.ok(job.steps.some(s=>/firebase@12\.17\.0 /.test(String(s.run||''))),'L7 pins firebase@12.17.0 (12.17.1 breaks emulator sign-in in CE2PG)');
   assert.ok(gate.jobs.seal.needs.includes('l7-ironman'));
@@ -134,6 +135,52 @@ async function run(){
       fs.writeFileSync(path.join(dir,'fij-swap-alt.emulators.json'),'{}');
       assert.deepEqual(L.failuresOf({leg:'swap',seed:7,seasons:3,outDir:dir}),[{point:'tw-lock',phone:'nik',checks:['swap.straightBack'],replay:'FIJ_FAULT=swap FIJ_SEED=7 FIJ_SEASONS=3 FIJ_ONLY=tw-lock node tests/browser/fault-injection-journey.cjs'}]);
     }finally{fs.rmSync(dir,{recursive:true,force:true});}
+  }
+  ok();
+
+  // 9. The heavy set (lead OK 2026-11-24): the epilogue and the three slowest legs run on a PR into a release branch only when
+  // it may touch pairing, Home, Settings or sync, fail-closed; always on PRs into main, pushes and manual runs. A light-set
+  // skip of a heavy leg is verified by the seal like any L7 skip; a leg that ran without the epilogue must be the light set.
+  {
+    assert.deepEqual([...S.L7_HEAVY_LEGS],['double','twotabs','coldoffline']);
+    const look=['css/app.css','assets/kits/a.png','visual-assets/home/home.css','js/leagueRouletteScene3d.js','js/gfxTier.js','tests/pos1m/run.cjs'];
+    const heavy=['js/persistentNikDanielPair.js','js/settings.js','js/homeScreensV10.js','js/productionSharedSeasonCommit.js','js/app.js','index.html','firestore.rules','package.json','tests/browser/fault-injection-journey.cjs','scripts/ironman-leg.mjs','.github/workflows/showdown-gate.yml','new-folder/thing.js'];
+    assert.equal(S.l7Heavy([...outside,...look]),false,'look-only and Node-only files are the light set');
+    for(const file of heavy)assert.equal(S.l7Heavy([...look,file]),true,`heavy set: ${file}`);
+    for(const files of [null,undefined,'css/a.css',[null],['']])assert.equal(S.l7Heavy(files),true,'unknown inputs run the heavy set');
+    const d=(leg,extra={})=>S.l7Decision({event:'pull_request',baseRef:'gameplay/r100',files:look,leg,...extra});
+    assert.deepEqual([d('none').l7_run,d('none').l7_heavy],[true,false],'light set: the leg runs without the epilogue');
+    for(const leg of S.L7_HEAVY_LEGS)assert.equal(d(leg).l7_run,false,`light set skips the heavy leg ${leg}`);
+    for(const extra of [{files:[...look,'js/settings.js']},{baseRef:'main'},{event:'push'},{event:'workflow_dispatch'},{baseRef:null},{files:null}])
+      for(const leg of ['none','double'])assert.deepEqual([d(leg,extra).l7_run,d(leg,extra).l7_heavy],[true,true],`heavy set: ${leg} ${JSON.stringify(extra)}`);
+    assert.equal(d('double',{files:outside}).l7_run,false,'no game file: everything skips as before');
+    // Seal: with look-only files the heavy legs' skips verify and the others pass without the epilogue.
+    const light=()=>{const lanes={};for(const lane of S.LANE_IDS){const leg=S.isL7(lane)?S.LANES[lane].leg:null;
+      lanes[lane]=leg&&S.L7_HEAVY_LEGS.includes(leg)?S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:{ironman:{outcome:'skipped'}},l7Run:false,l7Reason:d(leg).l7_reason,l7Heavy:false,files:look})
+        :S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:allSteps(lane),...(leg?{files:look,l7Heavy:false,ironman:{verdict:'PASS',seed:1,seasons:3,epilogue:leg==='ce2pg'?null:false,attempts:[{exit:0}],replay:'x'}}:{})});}return lanes;};
+    const sealOn=(files,lanes)=>S.evaluateSeal({event:'pull_request',draft:false,headSha:head,baseSha:base,baseRef:'gameplay/r100',files,prLiveHead:head,route,needs,lanes,runId,runAttempt:1});
+    assert.equal(sealOn(look,light()).verdict,'PASS',`light set seals: ${JSON.stringify(sealOn(look,light()).failures)}`);
+    {const lanes=light();for(const lane of S.LANE_IDS)if(S.isL7(lane))lanes[lane].files=[...look,'js/settings.js'];assert.equal(sealOn([...look,'js/settings.js'],lanes).verdict,'FAIL_TEST','a pairing file refuses the light set (skipped heavy legs and no epilogue)');}
+    {const lanes=light();const files=[...look,'js/settings.js'];for(const lane of S.LANE_IDS)if(S.isL7(lane)){lanes[lane]=S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:allSteps(lane),files,l7Heavy:true,ironman:{verdict:'PASS',seed:1,seasons:3,epilogue:S.LANES[lane].leg==='ce2pg'?null:true,attempts:[{exit:0}],replay:'x'}});}assert.equal(sealOn(files,lanes).verdict,'PASS','the heavy set with the epilogue seals');
+      lanes['L7-network'].ironman.epilogue=false;assert.ok(sealOn(files,lanes).failures.some(f=>/without the epilogue/.test(f)),'a leg that dropped the epilogue on the heavy set fails');}
+    // The leg runner: FIJ_EPILOGUE=0 only on the light set, and in every replay it prints; --epilogue takes only true or false.
+    assert.deepEqual(L.legPlan({leg:'network',seed:42,epilogue:false}).env,{FIJ_FAULT:'network',FIJ_SEED:'42',FIJ_SEASONS:'3',FIJ_EPILOGUE:'0'});
+    assert.equal(L.legPlan({leg:'network',seed:42,epilogue:false}).replay,'FIJ_EPILOGUE=0 FIJ_FAULT=network FIJ_SEED=42 FIJ_SEASONS=3 node tests/browser/fault-injection-journey.cjs');
+    assert.throws(()=>L.legPlan({leg:'network',seed:42,epilogue:'false'}));
+    const cli=spawnSync(process.execPath,['scripts/ironman-leg.mjs','--leg','none','--seed','1','--epilogue','maybe'],{cwd:root,encoding:'utf8'});
+    assert.equal(cli.status,2,'--epilogue maybe is refused before anything runs');
+    assert.match(fij,/const EPILOGUE=process\.env\.FIJ_EPILOGUE!=="0"/,'the journey keeps the epilogue unless told 0');
+    // Red full matrix: failures grouped by owner with their replays, posted to one standing issue.
+    const M=await import(path.join(root,'scripts/ironman-matrix.mjs'));
+    assert.equal(M.ownerOf({leg:'swap',point:'tw-lock'}),'B3 (fresh-device resume)');assert.equal(M.ownerOf({leg:'network',point:'home-join'}),'B6 (JOIN survives offline)');assert.equal(M.ownerOf({leg:'lock',point:'tw-guess'}),'lead (route it)');
+    const legs={network:{leg:'network',verdict:'FAIL',replay:'r',failures:[{point:'home-join',phone:'nik',checks:['pair.joined'],replay:'FIJ_FAULT=network FIJ_SEED=1 FIJ_SEASONS=10 FIJ_ONLY=home-join node tests/browser/fault-injection-journey.cjs'}]},reload:{leg:'reload',verdict:'FLAKY',replay:'R',failures:[]},none:{leg:'none',verdict:'PASS',failures:[]}};
+    const md=M.redReport({legs,t:{missing:[],bad:[]},sha:'abcdef0123'});
+    assert.match(md,/\*\*B6 \(JOIN survives offline\)\*\*\n- network FAIL at home-join \(nik\): pair\.joined\. Replay: `FIJ_FAULT=network FIJ_SEED=1 FIJ_SEASONS=10 FIJ_ONLY=home-join/);
+    assert.match(md,/\*\*lead \(route it\)\*\*\n- reload FLAKY at \?/);assert.doesNotMatch(md,/- none /);
+    const full=readWorkflow(root,'.github/workflows/ironman-full-matrix.yml');
+    assert.equal(full.jobs.table.permissions?.issues,'write');
+    assert.ok(full.jobs.table.steps.some(s=>/--report red-report\.md/.test(String(s.run||''))));
+    assert.ok(full.jobs.table.steps.some(s=>/Ironman full matrix: red runs on/.test(String(s.run||''))&&/hashFiles\('red-report\.md'\)/.test(String(s.if||''))));
   }
   ok();
 
