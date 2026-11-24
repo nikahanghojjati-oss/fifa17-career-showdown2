@@ -3712,6 +3712,23 @@
         "^tests/contracts/r100\\-fresh\\-device\\-resume\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r100-tap-memory-contracts.cjs",
+      "patterns": [
+        "^js/sharedTapMemory\\.js$",
+        "^tests/contracts/r100\\-tap\\-memory\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r100-tap-memory-wiring-contracts.cjs",
+      "patterns": [
+        "^js/(sharedTapMemory|productionSharedSeasonCommit|productionSharedSeasonResults|productionSharedTransferChallenge|productionSharedCareerStart|productionSharedTerminalClose|productionFirebaseRuntime)\\.js$",
+        "^service\\-worker\\.js$",
+        "^tests/contracts/r100\\-tap\\-memory\\-wiring\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
