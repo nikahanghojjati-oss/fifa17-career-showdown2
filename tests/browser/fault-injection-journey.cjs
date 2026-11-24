@@ -598,10 +598,11 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
       await inject(ctx,X,null,async()=>{try{await tap(writer.page);}catch(e){rec.tapBlocked=String(e.message).split("\n")[0].slice(0,160);}},rec);
     }else if(writer){await inject(ctx,X,tapFn,other,rec);}
     else{await inject(ctx,X,null,other,rec);}
-    if(FAULT==="twotabs"){for(const p of X.extra)await settle(X,p).catch(async e=>{await check(X,"twotabs.second",false,`second tab: ${e.message}`,p);});}
-    // Both phones take their path forward and settle on the step's next state (re-tapping the write if it never landed).
+    // Both phones take their path forward and settle on the step's next state (re-tapping the write if it never landed). A
+    // second tab (twotabs) settles at the same time: its next state can need the rival's move (B2 on #1579: league-ball).
     const recoveredAt=Date.now();
-    await Promise.all([ctx.daniel,ctx.nik].map(m=>settle(m,m.page).catch(async e=>{await check(m,e.stuck?"stuck":"settle",false,e.message,e.page);})));
+    await Promise.all([...[ctx.daniel,ctx.nik].map(m=>settle(m,m.page).catch(async e=>{await check(m,e.stuck?"stuck":"settle",false,e.message,e.page);})),
+      ...(FAULT==="twotabs"?X.extra.map(p=>settle(X,p).catch(async e=>{await check(X,"twotabs.second",false,`second tab: ${e.message}`,p);})):[])]);
     rec.recoverMs=Date.now()-recoveredAt;
     if(rec.listenRefused)await check(X,"listener.cut",rec.listenRefused()>0,"no Listen request was refused: the fault never took the listener down");
     if(rec.swapped)await check(X,"swap.straightBack",!X.swapSeen.length,`the fresh device showed steps he already played: ${X.swapSeen.join("; ")}`);
