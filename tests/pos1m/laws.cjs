@@ -8,7 +8,7 @@
 // L3  Equal totals are a draw. There is no tiebreak anywhere.
 // L4  Nothing private shows early: guesses, signings and results stay hidden until the game reveals them.
 // L5  The season order is never skipped or reordered (Ring 1 part: Transfer War -> Results -> Commit -> next season).
-// L6  Prime Pack has one winner worth 4, 3, 2 or 1, or no winner.                      (step modules: tests/pos1m/steps)
+// L6  Prime Pack has one winner worth 4, 3, 2 or 1 by the server time of his right guess, or no winner.
 // L7  Europa League +3 or Champions League +5, never both; season scores follow the rules (independent oracle).
 // L8  A guessed player never joins the board and cannot be signed again.               (step modules: tests/pos1m/steps)
 // L9  Sacked ends the Showdown after that season, and points so far decide.
@@ -100,6 +100,8 @@ function scanWrites(story){
       if(transferSeason>1&&!w.before&&!ls.acknowledged.has(transferSeason-1))story.violation("L5_ORDER",`season ${transferSeason} Transfer War opened before season ${transferSeason-1} was acknowledged`);
       transferStep(story,transferSeason,w);
     }
+    const packSeason=seasonOf("primePackRounds",w.path);
+    if(packSeason!==null)packStep(story,packSeason,w);
     // L9: nothing of a later season is written after a sacked season was accepted.
     if(ls.sackedSeason&&(transferSeason||resultsSeason||commitSeason)>ls.sackedSeason)story.violation("L9_SACKED_ENDS",`season ${transferSeason||resultsSeason||commitSeason} written after the Showdown ended at sacked season ${ls.sackedSeason}`);
     if(commitSeason!==null&&w.after&&w.after.phase==="ACKNOWLEDGED"&&w.after.results&&Object.values(w.after.results).some(r=>r&&r.sacked===true))ls.sackedSeason=commitSeason;
@@ -148,6 +150,49 @@ function transferStep(story,season,w){
   if(to==="COMPLETED"&&!bothIn(w.after.signingLockedRoles))story.violation("L5_ORDER",`season ${season} Transfer War completed with signings locked by ${JSON.stringify(w.after.signingLockedRoles)}`);
 }
 
+// L6 Prime Pack, from the product rules (Nik 2026-11-01 and the r88 spec): the round starts 3 s after the later arrival;
+// stage k is its reveal then its guessing timer (reveal 2.5 s then 25 s; then 1.5 s + 20 s three times); a right guess
+// in stage 1, 2, 3, 4 is worth 4, 3, 2, 1, judged by the server time of the winning write; the Rules take it until 2 s
+// after the stage 4 timer. Two guesses each. One winner at most, and only he scores.
+const PACK_LEAD_MS=3_000,PACK_STAGE_MS=[27_500,21_500,21_500,21_500],PACK_SLACK_MS=2_000,PACK_POINTS=[4,3,2,1],PACK_CHIPS=2;
+function packOracle(round){
+  if(!round||!W.ROLES.includes(round.namedBy))return null;
+  const a=millisOf(round.arrived&&round.arrived.playerOne),b=millisOf(round.arrived&&round.arrived.playerTwo),at=millisOf(round.updatedAt);
+  if(a===null||b===null||at===null)return {role:round.namedBy,points:null,why:"winner without both arrivals"};
+  let elapsed=at-(Math.max(a,b)+PACK_LEAD_MS);
+  if(elapsed<0)return {role:round.namedBy,points:null,why:`winning guess ${-elapsed} ms before the start`};
+  for(let i=0;i<PACK_STAGE_MS.length;i+=1){if(elapsed<PACK_STAGE_MS[i]||(i===PACK_STAGE_MS.length-1&&elapsed<PACK_STAGE_MS[i]+PACK_SLACK_MS))return {role:round.namedBy,points:PACK_POINTS[i]};elapsed-=PACK_STAGE_MS[i];}
+  return {role:round.namedBy,points:null,why:"winning guess after the round ended"};
+}
+function packStep(story,season,w){
+  const before=w.before,after=w.after;
+  if(!after){story.violation("L6_PRIME_PACK",`season ${season} Prime Pack round deleted`);return;}
+  if(before&&before.namedBy&&after.namedBy!==before.namedBy)story.violation("L6_PRIME_PACK",`season ${season} Prime Pack winner changed ${before.namedBy} -> ${after.namedBy}`);
+  if(after.namedBy&&ROLE_OF_UID[w.uid]!==after.namedBy&&!(before&&before.namedBy===after.namedBy))story.violation("L6_PRIME_PACK",`season ${season} ${ROLE_OF_UID[w.uid]} named ${after.namedBy} the Prime Pack winner`);
+  for(const role of W.ROLES){
+    const used=after.chipsUsed&&after.chipsUsed[role],was=before&&before.chipsUsed?before.chipsUsed[role]:0;
+    if(!Number.isInteger(used)||used<was||used>PACK_CHIPS)story.violation("L6_PRIME_PACK",`season ${season} ${role} guesses used ${was} -> ${used}`);
+    const arrivedBefore=before&&before.arrived?millisOf(before.arrived[role]):null,arrivedAfter=after.arrived?millisOf(after.arrived[role]):null;
+    const bothBefore=before&&before.arrived&&W.ROLES.every(r=>millisOf(before.arrived[r])!==null);
+    if(bothBefore&&arrivedAfter!==arrivedBefore)story.violation("L6_PRIME_PACK",`season ${season} ${role} arrival moved after the round started`);
+  }
+}
+function packFinal(story,commits){
+  const docs=story.world.server.docs;
+  for(const c of commits){
+    const results=c.data.results;if(!results)continue;
+    const scored=W.ROLES.filter(role=>results[role]&&results[role].primePack!==undefined);
+    if(scored.length>1){story.violation("L6_PRIME_PACK",`season ${c.season}: both managers scored the Prime Pack`);continue;}
+    const round=docs.get(`${BASE}/primePackRounds/season_${c.season}`);
+    const oracle=packOracle(round&&round.data);
+    if(!oracle){if(scored.length)story.violation("L6_PRIME_PACK",`season ${c.season}: ${scored[0]} scored ${results[scored[0]].primePack} for a Prime Pack nobody won`);continue;}
+    if(oracle.points===null){story.violation("L6_PRIME_PACK",`season ${c.season}: ${oracle.why}`);continue;}
+    if(scored.length&&scored[0]!==oracle.role)story.violation("L6_PRIME_PACK",`season ${c.season}: ${scored[0]} scored the Prime Pack ${oracle.role} won`);
+    else if(!scored.length)story.violation("L6_PRIME_PACK",`season ${c.season}: ${oracle.role} won the Prime Pack (${oracle.points}) but scored nothing`);
+    else if(results[oracle.role].primePack!==oracle.points)story.violation("L6_PRIME_PACK",`season ${c.season}: ${oracle.role} scored ${results[oracle.role].primePack} for a stage worth ${oracle.points}`);
+  }
+}
+
 // Game refusals are upper-case codes (SEASON_RESULTS_...); Firestore transport errors are lower-case (unavailable, ...).
 const GAME_CODE=/^[A-Z][A-Z0-9_]+$/;
 
@@ -170,6 +215,7 @@ function final(story,views){
   const accepted=commits.filter(c=>c.data.phase==="ACKNOWLEDGED");
   // L7: results never carry both; and every season score follows the rules.
   for(const c of commits){for(const role of W.ROLES){const r=c.data.results&&c.data.results[role];if(r&&r.europaLeague===true&&r.championsLeague===true)story.violation("L7_EL_OR_CL",`season ${c.season} ${role} has Europa League and Champions League`);}}
+  packFinal(story,commits);
   // L1: each commit holds exactly what the two managers published (no swapped, stale or edited copy).
   for(const c of commits)for(const role of W.ROLES){
     const own=docs.get(`${BASE}/seasonResults/season_${c.season}/roles/${role}`);

@@ -44,6 +44,7 @@ function install(bug){
     m._compile(mutated,absolute);
     m.loaded=true;
     require.cache[absolute]=m;installed.push(absolute);
+    (global.__pos1mPlanted||(global.__pos1mPlanted=new Map())).set(absolute,mutated);// fresh per-tab copies (fresh.cjs) too
   }
   return installed;
 }

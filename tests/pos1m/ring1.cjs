@@ -17,6 +17,8 @@ const laws=require("./laws.cjs");
 const P=name=>require(path.join(W.ROOT,"js",name));
 const Setup=P("sparkSharedShowdownSetup.js"),Career=P("sparkSharedCareerStart.js"),Transfer=P("sparkSharedTransferChallenge.js"),Results=P("sparkSharedSeasonResults.js"),Commit=P("sparkSharedSeasonCommit.js"),Scoring=P("sparkSharedCanonicalScoring.js"),History=P("sparkSharedHistoryConvergence.js"),Multi=P("sparkSharedMultiSeasonProgression.js");
 const PROVIDERS={Setup,Career,Transfer,Results,Commit,Scoring,History,Multi};
+const Guess=require(path.join(W.ROOT,"js","iconGuess.js"));
+const {freshModule}=require("./fresh.cjs");
 
 const LENGTHS=[1,3,5,10];
 const NETWORK=new Set(["unavailable","deadline-exceeded","resource-exhausted","aborted","failed-precondition","internal","unknown","cancelled","permission-denied"]);
@@ -100,6 +102,25 @@ function intentFor(story,role,season){
   const result={leaguePosition:position,leaguePoints:Math.min((teamCount-1)*6,30+Math.floor(r()*80)),leagueGoals:20+Math.floor(r()*90),domesticCup:r()<0.3,championsLeague:cl,topScorer:r()<0.2,topAssist:r()<0.2,...(el?{europaLeague:true}:{})};
   if(story.plan.sackedSeason===season&&story.plan.sackedRole===role)result.sacked=true;
   return {guesses,signings,result};
+}
+
+// The Prime Pack plan for a season, shared by both managers (one story decides who knows the Icon): a winner and his
+// stage, or nobody; each manager's wrong guesses before that; sometimes the loser also names it a moment too late (the
+// race the server must settle with one winner).
+function packPlanFor(story,season){
+  const sim=new Sim((story.plan.seed*7_000_003)^(season*104_729));
+  const winner=sim.chance(0.7)?sim.pick(W.ROLES):null,stage=1+sim.int(4);
+  const guesses={playerOne:[],playerTwo:[]};
+  for(const role of W.ROLES){
+    const last=winner?stage:4;
+    const wrongs=Math.min(role===winner?1:2,sim.int(3));
+    for(let i=0;i<wrongs;i+=1)guesses[role].push({stage:1+sim.int(last),correct:false});
+    if(role===winner)guesses[role].push({stage,correct:true});
+    else if(winner&&sim.chance(0.15))guesses[role].push({stage,correct:true,late:true});
+    guesses[role].sort((a,b)=>a.stage-b.stage||(a.correct?1:0)-(b.correct?1:0));
+    guesses[role]=guesses[role].slice(0,2);// two chips
+  }
+  return {winner,stage,guesses};
 }
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -206,8 +227,11 @@ class Manager{
       const transfer=await this.call(tab,"Transfer","read",{seasonNumber:season});
       if(!transfer.ok)return false;
       const t=transfer.state;
+      if(!t&&!transfer.spunRoles.includes(role)){const mark=await this.call(tab,"Transfer","markSpun",{seasonNumber:season,managerRole:role});return this.moved(mark);}
+      // Roster Roulette -> Prime Pack -> Transfer War: this phone plays the Prime Pack before its Transfer War screen.
+      if(!k.pack||k.pack.season!==season)k.pack={season,done:false,points:0,arrived:false,next:0};
+      if(!k.pack.done)return this.primePack(tab,k.pack,season);
       if(!t){
-        if(!transfer.spunRoles.includes(role)){const mark=await this.call(tab,"Transfer","markSpun",{seasonNumber:season,managerRole:role});return this.moved(mark);}
         if(role==="playerOne"&&transfer.spunRoles.includes("playerTwo"))return this.moved(await this.mutate(tab,`transfer:start:${season}`,"Transfer","startWindow",0,{seasonNumber:season},"transfer_op_"));
         return false;
       }
@@ -245,6 +269,9 @@ class Manager{
       if(!published){
         const teamCount=this.story.teamCount;
         const result={...intent.result,leaguePosition:Math.min(intent.result.leaguePosition,teamCount),leaguePoints:Math.min(intent.result.leaguePoints,(teamCount-1)*6)};
+        // The results screen adds the Prime Pack points this phone's step module reads from the round (never typed).
+        if(!k.pack||k.pack.season!==season||!k.pack.done){k.stage="transfer";return true;}
+        if(k.pack.points>0)result.primePack=k.pack.points;
         return this.moved(await this.mutate(tab,`results:publish:${season}`,"Results","publishResult",results.revision||0,{seasonNumber:season,result},"season_result_op_"));
       }
       if(!rs||rs.phase!=="RESULTS_READY")return false;
@@ -260,6 +287,38 @@ class Manager{
     if(!acknowledged.includes(role))return this.moved(await this.mutate(tab,`ack:${season}`,"Commit","acknowledgeSeason",commit.revision,{seasonNumber:season},"season_commit_op_"));
     if(commit.phase==="ACKNOWLEDGED"||acknowledged.length===2){k.season=null;return true;}
     return false;
+  }
+  serverEstimate(tab){if(tab.serverEstimateMs===undefined)tab.serverEstimateMs=this.story.sim.int(3_001)-1_500;return this.story.sim.now+tab.serverEstimateMs;}
+  // The Prime Pack through the real step module (js/iconGuessStep.js: arrive, applyGuess, pointsFor, record), one fresh copy
+  // per tab. The screen's timers are this actor's sleeps; its listener is the rival's nudge plus a re-read.
+  async primePack(tab,pack,season){
+    const story=this.story,role=this.role,step=tab.packStep||(tab.packStep=freshModule("js/iconGuessStep.js"));
+    const ctx={rivalryId:W.RIVALRY,managerRole:role,season,confirmedAtMs:story.confirmedAtMs()};
+    if(!step.applies(ctx)){pack.done=true;story.cell("Pack:skipped");return true;}
+    const io={firestore:tab.client,sdk:story.world.sdk,rivalryId:W.RIVALRY,sessionId:W.SESSION,deviceId:tab.deviceId,now:()=>this.serverEstimate(tab)};
+    const attempt=async(label,fn)=>{tab.client.activeCall=`Pack.${label}`;try{const value=await fn();story.cell(`Pack.${label}:ok`);return {ok:true,value};}catch(error){story.cell(`Pack.${label}:${error.code||"error"}`);return {ok:false,error};}};
+    if(!pack.arrived){const r=await attempt("arrive",()=>step.arrive(io,ctx));if(!r.ok)return false;pack.arrived=true;this.moved({ok:true});return true;}
+    const ref=story.world.sdk.doc(tab.client,"rivalries",W.RIVALRY,"primePackRounds",`season_${season}`);
+    const read=await attempt("read",()=>story.world.sdk.runTransaction(tab.client,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;}));
+    if(!read.ok)return false;
+    const record=step.record(read.value,season);
+    if(!record){if(!read.value){pack.arrived=false;return true;}story.violation("L6_PRIME_PACK",`season ${season} round record is unreadable: ${JSON.stringify(read.value).slice(0,200)}`);pack.done=true;return true;}
+    const now=this.serverEstimate(tab),outcome=Guess.outcome(record,now);
+    if(outcome.state==="waiting"){if(record.arrived[role]===null){pack.arrived=false;return true;}await this.wait(5_000);return true;}
+    if(outcome.state==="won"||outcome.state==="draw"){
+      const points=await attempt("pointsFor",()=>step.pointsFor(io,ctx));
+      if(!points.ok)return false;
+      pack.points=points.value;pack.done=true;return true;
+    }
+    const start=Guess.startMs(record),at=Guess.beatAt(start,now),plan=packPlanFor(story,season).guesses[role];
+    const g=plan[pack.next];
+    if(!g||at.phase==="over"){await this.sleep(Math.max(500,Guess.endsAt(start)+Guess.drawSlackMs+500-now));return true;}
+    const windowStart=start+Guess.stageStarts[g.stage-1]+Guess.stages[g.stage-1].revealMs;
+    if(at.beat<g.stage-1||at.phase!=="window"){await this.wait(Math.max(200,windowStart-now)+(g.late?1_500:story.sim.int(8_000)));return true;}
+    pack.next+=1;
+    const guess=await attempt("guess",()=>step.applyGuess(io,ctx,g.correct));
+    if(guess.ok&&guess.value&&guess.value.ok)this.moved({ok:true});
+    return true;
   }
   moved(result){const ok=Boolean(result&&result.ok);if(ok)this.story.moveLanded(this.role);return ok;}
 }
@@ -322,6 +381,7 @@ class Story{
   recordRepeat(role,key,provider,fn,extra,first,again){this.repeats.push({role,key,fn,first,again});laws.onRepeat(this,role,key,provider,fn,extra,first,again);}
   // The rival hears about a move through its listener: usually within seconds, sometimes only by its next poll.
   moveLanded(role){const rival=this.managers[W.other(role)];if(this.sim.chance(0.15))return;this.sim.setTimer(()=>rival.nudge(),50+this.sim.int(5_000));}
+  confirmedAtMs(){const setup=this.world.server.docs.get(`rivalries/${W.RIVALRY}/sharedSetup/authoritative`);const at=setup&&setup.data.updatedAt;return at&&typeof at.toMillis==="function"?at.toMillis():this.sim.now;}
   managerDone(role){this.finished.add(role);if(this.finished.size===2)this.over=true;}
   crash(error,role){this.error=error;this.errorRole=role;this.over=true;}
   violation(law,detail){if(this.violations.some(v=>v.law===law))return;this.violations.push({law,detail,t:this.sim.now-this.sim.epochMs,moves:this.moves.length});}
