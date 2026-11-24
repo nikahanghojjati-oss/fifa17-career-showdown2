@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24 12:55 AM Boston time (EST)",
+ "generated": "2026-11-24 1:20 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 334,
@@ -3071,8 +3071,8 @@
      "sha": "a64b284a7df43ea56db3100eae31358f08a3b58b",
      "updated": "2026-11-24T04:53:30Z",
      "gates": {
-      "passed": 9,
-      "running": 1,
+      "passed": 10,
+      "running": 0,
       "failed": 0,
       "cancelled": 0
      }
@@ -3081,10 +3081,10 @@
    "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1579 has waited 67 min for a machine; Showdown Gate on #1580 has waited 64 min for a machine; Showdown Gate on #1583 has waited 29 min for a machine; Showdown Gate on #1582 has waited 28 min for a machine; Showdown Gate on #1577 has waited 28 min for a machine; Showdown Gate on #1578 has waited 26 min for a machine; Showdown Gate on #1576 has waited 22 min for a machine; Showdown Gate on #1581 has waited 17 min for a machine.",
-   "gate": "Gate #1580: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal pending · POS20 #1580 0/16",
-   "source": "physio"
+   "state": "clear",
+   "line": "All clear (from GitHub).",
+   "gate": "Gate #1580: L1✓ L2✓ L4✓ L5✓ L6✓ · POS20 #1580 10/10",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -3869,7 +3869,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 23211
+    "waiting_min": 23236
    },
    {
     "id": "HO-059",
@@ -5673,8 +5673,8 @@
     "sha": "a64b284a7df43ea56db3100eae31358f08a3b58b",
     "updated": "2026-11-24T04:53:30Z",
     "gates": {
-     "passed": 9,
-     "running": 1,
+     "passed": 10,
+     "running": 0,
      "failed": 0,
      "cancelled": 0
     }
