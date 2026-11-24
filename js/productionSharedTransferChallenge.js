@@ -116,7 +116,15 @@
       let saved=null;try{const storageKey=pstcViewingStorageKey();if(storageKey)saved=JSON.parse(root.readStorageValue?.(storageKey)||"null");}catch(_error){}
       witnessedByContext.set(scope,new Set(Array.isArray(saved)?saved.filter(phase=>REPLAY_PHASES.includes(phase)||phase==="RESULTS_VIEWED"):[]));
     }
-    return witnessedByContext.get(scope);
+    // Phoenix W2 (fresh device): a phase this manager acted in, by the shared record, was on his screen, whichever device it
+    // was: his own locked guesses mean he saw the window and the guesses, his own locked signings mean he saw the signings.
+    // So a phone swapped in later never replays them; the device note stays only a speed-up. The verdicts still show once here.
+    const witnessed=witnessedByContext.get(scope),role=view?.managerRole,state=view?.state;
+    if(state&&(role==="playerOne"||role==="playerTwo")&&key===viewContextKey){
+      if(Array.isArray(state.guessLockedRoles)&&state.guessLockedRoles.includes(role)){witnessed.add("WINDOW_OPEN");witnessed.add("GUESS_ENTRY");}
+      if(Array.isArray(state.signingLockedRoles)&&state.signingLockedRoles.includes(role)){witnessed.add("WINDOW_OPEN");witnessed.add("GUESS_ENTRY");witnessed.add("SIGNING_ENTRY");}
+    }
+    return witnessed;
   }
   function pstcCanResumeResults(){return Boolean(pstcCanRoute()&&view.state?.phase==="COMPLETED"&&!pstcReplayPhase()&&REPLAY_PHASES.every(phase=>pstcWitnessSet(viewContextKey).has(phase))&&pstcWitnessSet(viewContextKey).has("RESULTS_VIEWED"));}
   // r93 O1 (HUNT_AREAS_1_2, Nik's pick 2026-11-15): this phone has not shown this manager the completed Transfer War yet (a
@@ -639,7 +647,10 @@
         resync:()=>{clockRefreshPerformanceMs=Number.NaN;return pstcEnsureServerClock(options.user,request);}};
       // The Transfer War started, so both managers spun with this season's cylinders already (their marks hold the outcome):
       // nothing finished is shown again and the roulette is passed too.
-      if(view.state){step.markDone(ctx);return true;}
+      // Phoenix W2 (fresh device): this manager's own spin mark for this season is on the server, so he finished this season's
+      // Chamber Men and roulette (the mark is written by the roulette's last tap). A phone swapped in after that goes straight
+      // on; nothing finished is shown again. The shared record decides, this phone's done note is only a speed-up.
+      if(view.state||pstcOwnSpinSaved(request)){step.markDone(ctx);return true;}
       const go=await step.run(ctx,io);
       if(go!==true){if(!step.wentHome?.())rouletteError=PSTC_ROULETTE_TEXT.chamberLoad;return false;}
       const cylinders=await step.cylinders(ctx,io);
@@ -661,6 +672,9 @@
       // squad screen: the wait says to update that phone (the roulette's own signal, the version on his spin mark).
       rivalBehind:stage==="pre"&&!view.state&&pstcSpunBeforeSquads(view.spinMarks?.[rival])};
   }
+  // Phoenix W2: this manager's own spin mark for this season, from the Transfer Challenge read just made for this request (no
+  // new read). Only before the window starts (once it has, view.state already says both spun).
+  function pstcOwnSpinSaved(request){const role=view?.managerRole;return Boolean(view&&request&&viewContextKey===request.key&&!view.state&&(role==="playerOne"||role==="playerTwo")&&view.spinMarks&&view.spinMarks[role]);}
   // M1 (2.4.0 hunt): a spin mark saved by a roulette engine before squad sheets (js/rosterRoulette.js ENGINE_REVISION 3 is the
   // first that spins on the two locked "pre" squads; a version reads rr4.<revision>.<hash>). Only a whole outcome counts; a
   // bare mark (true) or anything unreadable is not taken as "before squads".
@@ -690,6 +704,8 @@
       if(!view||!view.managerRole||!request)return true;
       // The Transfer War started: both squads were locked and the roulette spun on them (nothing finished is shown again).
       if(view.state)return true;
+      // Phoenix W2: his own spin mark is saved, so both squads were locked before it (the roulette waits for both): straight on.
+      if(pstcOwnSpinSaved(request))return true;
       // M1 (2.4.0 hunt): both managers already spun this season's roulette on a version before squads (an update in the middle
       // of the Showdown): that roulette is settled without squads, so no squad is asked for it. From the marks the Transfer
       // Challenge read just made; a season spun on squads (or not spun yet) still asks as before.
@@ -809,7 +825,9 @@
       if(typeof step.ensureDraw==="function"&&!await step.ensureDraw()){rouletteError=PSTC_ROULETTE_TEXT.draw;return false;}
       rouletteGate={key:request.key,applies:pstcRouletteAppliesTo(confirmedAtMs,step)};
       // Done on this browser before (or the step does not run for this manager): his mark still goes to the server once.
-      if(!step.decide(ctx)){rouletteClearedKey=request.key;await pstcAfterSpin(request);return true;}
+      // Phoenix W2: his own spin mark is saved (another device, or cleared storage): the roulette is finished for him, its
+      // result card was read before that mark was written. Only the rival's spin can still be waited for (the dashboard says so).
+      if(pstcOwnSpinSaved(request)||!step.decide(ctx)){rouletteClearedKey=request.key;await pstcAfterSpin(request);return true;}
       const go=await step.runBeforeTransfers(ctx);
       if(go){rouletteClearedKey=request.key;await pstcAfterSpin(request);}
       return go;
