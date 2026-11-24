@@ -33,6 +33,7 @@
   async function pssrEnsureDependencies(){
     if(typeof root.ensureGameplayModules==="function")await root.ensureGameplayModules();
     else if(typeof root.ensureGameplayRuntime==="function")await root.ensureGameplayRuntime();
+    pssrTapMemoryLoad();
     await pssrLoadScript("ssjr-production-setup","js/productionSharedShowdownSetup.js",()=>root.CareerModeProductionSharedShowdownSetup);
     await pssrLoadScript("ssjr-production-transfer-challenge","js/productionSharedTransferChallenge.js",()=>root.CareerModeProductionSharedTransferChallenge);
     await pssrLoadScript("ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js",()=>root.CareerModeSharedShowdownCatalog);
@@ -105,7 +106,30 @@
     const result=pssrResultError(await provider.read(ctx.options),"Season Results could not be loaded.");if(!pssrContextMatches(request))return null;
     view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;pssrRender();
     if(result.ownResult||result.state?.phase==="RESULTS_READY")pssrSetError("");
+    pssrTapResend(request);
     return view;
+  }
+  // Phoenix W3 (one shared tap memory, js/sharedTapMemory.js): CONFIRM MY RESULT (publish) is noted on this phone before it is
+  // sent, with its operationId and the reviewed result. If the tab dies before the write is known to have landed, the reopened
+  // screen sends it once by itself after its own read, only while that read shows no result of this manager for this season.
+  // A note never outlives its season or its Showdown. Without the helper every tap works exactly as before.
+  function pssrTapMemory(){try{return root.CareerModeSharedTapMemory||null;}catch(_error){return null;}}
+  let tapMemoryLoading=null,tapResendKey="";
+  function pssrTapMemoryLoad(){if(!tapMemoryLoading)tapMemoryLoading=pssrLoadScript("shared-tap-memory","js/sharedTapMemory.js",()=>root.CareerModeSharedTapMemory).then(()=>pssrTapMemory(),()=>{tapMemoryLoading=null;return null;});return tapMemoryLoading;}
+  function pssrTapScope(request,role){return request&&(role==="playerOne"||role==="playerTwo")?{rivalryId:request.rivalryId,season:request.seasonNumber,step:"seasonPublish",role}:null;}
+  function pssrTapNote(request,role,operationId,result){try{const scope=pssrTapScope(request,role);if(scope)pssrTapMemory()?.note?.(scope,{operationId,payload:result});}catch(_error){}}
+  function pssrTapClear(request,role){try{const scope=pssrTapScope(request,role);if(scope)pssrTapMemory()?.clear?.(scope);}catch(_error){}}
+  function pssrTapResend(request){
+    if(!request||!view||contextKey!==request.key||busy||!view.managerRole)return false;
+    const memory=pssrTapMemory();if(!memory){void pssrTapMemoryLoad().then(loaded=>{if(loaded&&pssrContextMatches(request))pssrTapResend(request);});return false;}
+    try{memory.moveOn?.({rivalryId:request.rivalryId,season:request.seasonNumber});}catch(_error){}
+    const scope=pssrTapScope(request,view.managerRole);if(!scope||!memory.peek?.(scope))return false;
+    const pending=!view.ownResult&&view.state?.phase!=="RESULTS_READY";
+    const note=memory.takeForResend(scope,{pending,live:{rivalryId:request.rivalryId,season:request.seasonNumber}});
+    if(!note||!note.payload||typeof note.payload!=="object")return false;
+    const once=`${request.key}|${view.managerRole}`;if(tapResendKey===once)return false;tapResendKey=once;
+    if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(pssrContextMatches(request))void pssrPublish(note);},0);
+    return true;
   }
   function pssrRefresh(light=false){const request=pssrRequestContext();if(!request)return Promise.resolve(null);if(refreshPromise&&contextKey===request.key)return refreshPromise;const current=pssrQueueProvider(()=>pssrRefreshNow(request,light===true));refreshPromise=current;current.then(()=>{if(refreshPromise===current)refreshPromise=null;},()=>{if(refreshPromise===current)refreshPromise=null;});return current;}
   function pssrRandomOperationId(){if(!root.crypto||typeof root.crypto.getRandomValues!=="function")pssrFail("SEASON_RESULTS_CRYPTO_UNAVAILABLE");const bytes=new Uint8Array(16);root.crypto.getRandomValues(bytes);return `season_result_op_${Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}`;}
@@ -147,7 +171,7 @@
     return true;
   }
   function pssrContinental(id){const match=/^(p[12])(ChampionsLeague|EuropaLeague)$/.exec(String(id||""));if(!match||pssrField(id)?.checked!==true)return;const other=pssrField(`${match[1]}${match[2]==="ChampionsLeague"?"EuropaLeague":"ChampionsLeague"}`);if(other?.checked)other.checked=false;}
-  function pssrDraftChange(event){const role=view?.managerRole,id=event?.target?.id;pssrContinental(id);if(!role||!id||!pssrSharedMarker()||!pssrDraftFieldIds(role).includes(id))return;pssrDraftSave();}
+  function pssrDraftChange(event){const role=view?.managerRole,id=event?.target?.id;pssrContinental(id);if(!role||!id||!pssrSharedMarker()||!pssrDraftFieldIds(role).includes(id))return;pssrTapClear(pssrRequestContext(),role);pssrDraftSave();}
   function pssrCard(role){const input=pssrField(`${pssrRolePrefix(role)}LeaguePosition`);return input&&input.closest?input.closest(".seasonResultCard"):null;}
   function pssrSetError(message=""){
     const value=String(message||"");
@@ -192,7 +216,7 @@
     if(!view||!view.managerRole)return false;if(view.ownResult){root.CareerModeSeasonFinalV10?.reviewFinalSeason?.();pssrRender();return true;}
     try{const result=pssrReadForm(view.managerRole);draft={contextKey,seasonNumber:view.seasonNumber,managerRole:view.managerRole,result,fingerprint:pssrFingerprint(result),operationId:null,baseRevision:null};pssrSetError("");pssrRenderReview(result);return true;}catch(error){draft=null;pssrSetError(error.message||error.code);return false;}
   }
-  function pssrEdit(){if(busy||view?.ownResult)return false;draft=null;pssrSetError("");pssrEntryMode(false);pssrRenderEntry();const input=pssrField(`${pssrRolePrefix(view.managerRole)}LeaguePosition`);input?.focus?.({preventScroll:true});return true;}
+  function pssrEdit(){if(busy||view?.ownResult)return false;pssrTapClear(pssrRequestContext(),view?.managerRole);draft=null;pssrSetError("");pssrEntryMode(false);pssrRenderEntry();const input=pssrField(`${pssrRolePrefix(view.managerRole)}LeaguePosition`);input?.focus?.({preventScroll:true});return true;}
   // Prime Pack: the manager who named this season's masked Icon first publishes his result with primePack:N, N = 4, 3, 2 or 1
   // by the stage of his right guess (the Rules accept it only when the round record names him and its server time gives N). Read once from the round record. A read that fails stops the publish (TRY AGAIN),
   // so a won point is never dropped by a bad connection.
@@ -214,13 +238,19 @@
     const points=await step.pointsFor({firestore:ctx.options.firestore,sdk:ctx.options.firebaseSdk,rivalryId:ctx.options.rivalryId},gameCtx);
     return withPoints(points);
   }
-  async function pssrPublish(){
-    if(busy||!draft||!view?.managerRole)return false;
+  async function pssrPublish(resend=null){
+    if(busy||!view?.managerRole)return false;
+    // Phoenix W3: the noted tap sent again after a reload: the same result and the same operationId (a publish that did land
+    // is bound to it, never written twice). It skips the form checks: the form was reviewed and confirmed before the note.
+    if(resend)draft={contextKey,seasonNumber:view.seasonNumber,managerRole:view.managerRole,result:resend.payload,fingerprint:"",operationId:resend.operationId,baseRevision:null,sackedConfirmed:true};
+    if(!draft)return false;
     // r89 Sacked: the confirm step. A sacked result ends the Showdown and is final, so the first PUBLISH tap only asks again.
     if(draft.result?.sacked===true&&draft.sackedConfirmed!==true){draft.sackedConfirmed=true;pssrSetError("");pssrRenderReview(draft.result);return false;}
     if(draft.contextKey!==contextKey||draft.seasonNumber!==view.seasonNumber||draft.managerRole!==view.managerRole){pssrSetError("This Showdown's season changed while you were reviewing. Review your result again.");draft=null;return false;}
-    let currentResult;try{currentResult=pssrReadForm(view.managerRole);}catch(error){pssrSetError(error.message||error.code);return false;}
-    if(pssrFingerprint(currentResult)!==draft.fingerprint){pssrSetError("Your result changed after you reviewed it. Tap EDIT MY RESULT, review it again, then publish.");return false;}
+    if(!resend){
+      let currentResult;try{currentResult=pssrReadForm(view.managerRole);}catch(error){pssrSetError(error.message||error.code);return false;}
+      if(pssrFingerprint(currentResult)!==draft.fingerprint){pssrSetError("Your result changed after you reviewed it. Tap EDIT MY RESULT, review it again, then publish.");return false;}
+    }
     const request=pssrRequestContext();if(!request||!pssrContextMatches(request))return false;backGen+=1;if(backTimer!==null){try{root.clearTimeout?.(backTimer);}catch(_error){}backTimer=null;}busy=true;pssrSetError("");const publishRole=view.managerRole;let failed="";pssrRender();
     try{
       return await pssrQueueProvider(async()=>{
@@ -228,8 +258,10 @@
         let current=await pssrPublishRead(ctx,request);if(!pssrContextMatches(request))return false;
         let staleRetried=false,contentionRetries=0;
         for(;;){
-          if(current.ownResult){pssrDraftClear(publishRole,request);view={...current,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;pssrRender();return true;}
+          if(current.ownResult){pssrTapClear(request,publishRole);pssrDraftClear(publishRole,request);view={...current,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;pssrRender();return true;}
           draft.operationId=draft.operationId||pssrRandomOperationId();draft.baseRevision=Number(current.revision||0);
+          // Codex #1592: a resend keeps the note it took (marked resent), so a reload during it never earns another resend.
+          if(!resend)pssrTapNote(request,publishRole,draft.operationId,draft.result);
           const publishedResult=await pssrWithPrimePack(ctx,request,draft.result);if(!pssrContextMatches(request))return false;
           const published=await provider.publishResult({...ctx.options,operationId:draft.operationId,baseRevision:draft.baseRevision,result:publishedResult});
           if(published?.code==="SEASON_RESULTS_STALE_BASE_REVISION"&&!staleRetried){staleRetried=true;current=await pssrPublishRead(ctx,request);if(!pssrContextMatches(request))return false;continue;}
@@ -242,11 +274,13 @@
           // publishes and re-reads. A re-read that is itself contended, denied or offline keeps the bounded JOB-1611 retry.
           if(PSSR_CONTENTION_CODES.includes(published?.code)&&contentionRetries<PSSR_CONTENTION_RETRY_MS.length){await pssrWait(PSSR_CONTENTION_RETRY_MS[contentionRetries]);contentionRetries+=1;if(!pssrContextMatches(request))return false;const fresh=await provider.read(ctx.options);if(!pssrContextMatches(request))return false;if(!(fresh?.ok!==true&&PSSR_DENIED_CODES.includes(published.code)&&!PSSR_READ_RETRY_CODES.includes(fresh?.code))){if(fresh?.ok===true)current=fresh;continue;}}
           const result=pssrResultError(published,"Your season result could not be confirmed.");if(!pssrContextMatches(request))return true;
-          pssrDraftClear(publishRole,request);view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
+          pssrTapClear(request,publishRole);pssrDraftClear(publishRole,request);view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
         }
       });
     }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Confirming your season result failed.");pssrReport("Could not confirm your season result",error);}else failed=PSSR_BACK_FAILED;return false;}
-    finally{busy=false;if(pssrContextMatches(request))pssrRender();else pssrRenderWhenBack(request,failed);}
+    // Phoenix W3: this attempt got its answer on this page (landed, refused or failed): the note is done. It only ever serves a
+    // tab that died before the answer, so an edit after a failed publish can never be replaced by the old result.
+    finally{pssrTapClear(request,publishRole);busy=false;if(pssrContextMatches(request))pssrRender();else pssrRenderWhenBack(request,failed);}
   }
   // W1 (2.4.0): a publish can end while this phone has no connection and its Season Results context is not readable (the
   // Showdown's setup is unavailable offline). It then had nothing to draw on: the screen kept the CONFIRM button it drew as

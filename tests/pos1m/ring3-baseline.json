@@ -1,0 +1,332 @@
+{
+ "kind": "pos1m-ring3-baseline",
+ "release": "2.12.0",
+ "commit": "a64b284a",
+ "measuredAt": "2026-11-24",
+ "how": "CE2PG_PLAN=single CE2PG_SEASONS=3 node tests/browser/ce2pg-journey.cjs on that commit, with the Ring 3 meter added to its harness only",
+ "limits": {
+  "billed": {
+   "ratio": 1.05,
+   "plus": 20,
+   "unit": "billed reads/season"
+  },
+  "writes": {
+   "ratio": 1.05,
+   "plus": 5,
+   "unit": "writes/season"
+  },
+  "minutes": {
+   "ratio": 1.1,
+   "plus": 0.25,
+   "unit": "min/season"
+  },
+  "tapToReady": {
+   "ratio": 1.25,
+   "plus": 250,
+   "unit": "ms p90"
+  },
+  "reusHold": {
+   "ratio": 1.25,
+   "plus": 500,
+   "unit": "ms p90"
+  },
+  "rivalToScreen": {
+   "ratio": 1.25,
+   "plus": 500,
+   "unit": "ms p90"
+  },
+  "stepBilled": {
+   "ratio": 1.1,
+   "plus": 25,
+   "unit": "billed/season"
+  }
+ },
+ "perSeason": {
+  "seasons": 3,
+  "billed": 980.3,
+  "writes": 68.7,
+  "minutes": 2.02
+ },
+ "all": {
+  "tapToReady": {
+   "n": 29,
+   "median": 115,
+   "p90": 409,
+   "max": 2705
+  },
+  "reusHold": {
+   "n": 16,
+   "median": 289,
+   "p90": 410,
+   "max": 430
+  },
+  "rivalToScreen": {
+   "n": 13,
+   "median": 2359,
+   "p90": 5776,
+   "max": 7476
+  }
+ },
+ "tapToReady": {
+  "? -> transferChallenge": {
+   "n": 6,
+   "median": 50,
+   "p90": 54,
+   "max": 54
+  },
+  "clubWheelScreen -> clubWheelScreen/productionSharedCareerStartOverlay": {
+   "n": 1,
+   "median": 373,
+   "p90": 373,
+   "max": 373
+  },
+  "clubWheelScreen/cmStage -> clubWheelScreen/sqStage": {
+   "n": 1,
+   "median": 451,
+   "p90": 451,
+   "max": 451
+  },
+  "clubWheelScreen/productionSharedCareerStartOverlay -> clubWheelScreen/cmStage": {
+   "n": 1,
+   "median": 712,
+   "p90": 712,
+   "max": 712
+  },
+  "createShowdown -> leagueWheelScreen/connectPlayersScreen": {
+   "n": 1,
+   "median": 332,
+   "p90": 332,
+   "max": 332
+  },
+  "dashboard/cmStage -> dashboard/sqStage": {
+   "n": 2,
+   "median": 301,
+   "p90": 301,
+   "max": 301
+  },
+  "leagueWheelScreen -> clubWheelScreen": {
+   "n": 1,
+   "median": 2705,
+   "p90": 2705,
+   "max": 2705
+  },
+  "mainMenu -> createShowdown": {
+   "n": 1,
+   "median": 90,
+   "p90": 90,
+   "max": 90
+  },
+  "mainMenu -> mainMenu/connectPlayersScreen": {
+   "n": 1,
+   "median": 91,
+   "p90": 91,
+   "max": 91
+  },
+  "mainMenu/connectPlayersScreen -> mainMenu": {
+   "n": 1,
+   "median": 409,
+   "p90": 409,
+   "max": 409
+  },
+  "seasonEntry -> dashboard/cmStage": {
+   "n": 3,
+   "median": 63,
+   "p90": 97,
+   "max": 97
+  },
+  "transferChallenge -> seasonEntry": {
+   "n": 2,
+   "median": 158,
+   "p90": 158,
+   "max": 158
+  },
+  "transferChallenge -> transferChallenge/sqStage": {
+   "n": 4,
+   "median": 297,
+   "p90": 304,
+   "max": 304
+  },
+  "transferChallenge/sqStage -> seasonEntry": {
+   "n": 4,
+   "median": 115,
+   "p90": 143,
+   "max": 143
+  }
+ },
+ "reusHold": {
+  "clubWheelScreen/cmStage": {
+   "n": 2,
+   "median": 300,
+   "p90": 300,
+   "max": 300
+  },
+  "clubWheelScreen/sqStage": {
+   "n": 2,
+   "median": 430,
+   "p90": 430,
+   "max": 430
+  },
+  "dashboard/cmStage": {
+   "n": 4,
+   "median": 310,
+   "p90": 331,
+   "max": 331
+  },
+  "dashboard/sqStage": {
+   "n": 4,
+   "median": 289,
+   "p90": 290,
+   "max": 290
+  },
+  "transferChallenge/sqStage": {
+   "n": 4,
+   "median": 286,
+   "p90": 293,
+   "max": 293
+  }
+ },
+ "rivalToScreen": {
+  "clubWheelScreen": {
+   "n": 1,
+   "median": 2715,
+   "p90": 2715,
+   "max": 2715
+  },
+  "clubWheelScreen/cmStage": {
+   "n": 1,
+   "median": 275,
+   "p90": 275,
+   "max": 275
+  },
+  "clubWheelScreen/productionSharedCareerStartOverlay": {
+   "n": 1,
+   "median": 361,
+   "p90": 361,
+   "max": 361
+  },
+  "clubWheelScreen/sqStage": {
+   "n": 1,
+   "median": 421,
+   "p90": 421,
+   "max": 421
+  },
+  "dashboard/cmStage": {
+   "n": 1,
+   "median": 220,
+   "p90": 220,
+   "max": 220
+  },
+  "dashboard/sqStage": {
+   "n": 2,
+   "median": 252,
+   "p90": 252,
+   "max": 252
+  },
+  "leagueWheelScreen": {
+   "n": 3,
+   "median": 5776,
+   "p90": 7476,
+   "max": 7476
+  },
+  "leagueWheelScreen/sparkRemoteJoiningOverlay": {
+   "n": 1,
+   "median": 3185,
+   "p90": 3185,
+   "max": 3185
+  },
+  "mainMenu": {
+   "n": 1,
+   "median": 5652,
+   "p90": 5652,
+   "max": 5652
+  },
+  "mainMenu/sparkRemoteJoiningOverlay": {
+   "n": 1,
+   "median": 2359,
+   "p90": 2359,
+   "max": 2359
+  }
+ },
+ "steps": {
+  "seasonEntry": {
+   "billedPerSeason": 258.3,
+   "writesPerSeason": 13
+  },
+  "transferChallenge": {
+   "billedPerSeason": 210.3,
+   "writesPerSeason": 16
+  },
+  "dashboard/cmStage": {
+   "billedPerSeason": 181.3,
+   "writesPerSeason": 18.7
+  },
+  "clubWheelScreen/cmStage": {
+   "billedPerSeason": 96.7,
+   "writesPerSeason": 9.3
+  },
+  "leagueWheelScreen": {
+   "billedPerSeason": 41,
+   "writesPerSeason": 3
+  },
+  "?": {
+   "billedPerSeason": 38.3,
+   "writesPerSeason": 3
+  },
+  "clubWheelScreen/productionSharedCareerStartOverlay": {
+   "billedPerSeason": 19.3,
+   "writesPerSeason": 1.3
+  },
+  "mainMenu": {
+   "billedPerSeason": 16.7,
+   "writesPerSeason": 3.7
+  },
+  "leagueWheelScreen/sparkRemoteJoiningOverlay": {
+   "billedPerSeason": 15.7,
+   "writesPerSeason": 2.3
+  },
+  "transferChallenge/sqStage": {
+   "billedPerSeason": 12,
+   "writesPerSeason": 1.3
+  },
+  "dashboard/rrStepPanel": {
+   "billedPerSeason": 11.3,
+   "writesPerSeason": 1.3
+  },
+  "leagueWheelScreen/connectPlayersScreen": {
+   "billedPerSeason": 10.7,
+   "writesPerSeason": 3
+  },
+  "clubWheelScreen": {
+   "billedPerSeason": 10.7,
+   "writesPerSeason": 1
+  },
+  "dashboard": {
+   "billedPerSeason": 10,
+   "writesPerSeason": 0
+  },
+  "dashboard/sqStage": {
+   "billedPerSeason": 8,
+   "writesPerSeason": 1.3
+  },
+  "mainMenu/connectPlayersScreen": {
+   "billedPerSeason": 7.3,
+   "writesPerSeason": 1
+  },
+  "mainMenu/sparkRemoteJoiningOverlay": {
+   "billedPerSeason": 6.3,
+   "writesPerSeason": 1
+  },
+  "createShowdown": {
+   "billedPerSeason": 5.7,
+   "writesPerSeason": 1
+  },
+  "clubWheelScreen/rrStepPanel": {
+   "billedPerSeason": 5.3,
+   "writesPerSeason": 0.7
+  },
+  "clubWheelScreen/sqStage": {
+   "billedPerSeason": 4.7,
+   "writesPerSeason": 0.7
+  }
+ }
+}
