@@ -4,7 +4,8 @@
 // For each bug a fresh worker installs the change, then plays seeded stories (the same seed list for every bug, whole
 // Showdowns first so every length and Sacked position is reached early) until it has CATCHES catching stories or runs
 // out. A bug is caught when a story breaks a law or crashes. It also checks the bar "each law has one planted bug that
-// only it catches": for each bug, the laws broken in every catching story are recorded.
+// only it catches": for each bug, the laws broken in every catching story are recorded. A bug that needs a rare race
+// (two phones acting within one round trip) names its own story count ("stories": N), the floor for that bug only.
 const os=require("node:os");
 const fs=require("node:fs");
 const {Worker,isMainThread,parentPort,workerData}=require("node:worker_threads");
@@ -30,7 +31,7 @@ if(isMainThread){
   const next=()=>{
     if(!queue.length){if(!active)finish();return;}
     const bug=queue.shift();active+=1;
-    const worker=new Worker(__filename,{workerData:{bug,seeds:seedList(opt.stories)}});
+    const worker=new Worker(__filename,{workerData:{bug,seeds:seedList(Math.max(opt.stories,bug&&bug.stories||0))}});
     worker.on("message",m=>results.push(m));
     worker.on("error",e=>results.push({id:bug?bug.id:"baseline",law:bug&&bug.law,caught:false,error:String(e.stack||e)}));
     worker.on("exit",()=>{active-=1;next();});
