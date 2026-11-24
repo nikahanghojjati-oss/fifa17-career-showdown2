@@ -1282,16 +1282,30 @@ async function transfersWithFaults(ctx,R,season){
   for(const m of both)await drive(m,async p=>await transferPhase(p)==="guess_entry",{label:"guesses"});
   const fillGuess=async(m,page)=>{if(m===daniel){await page.locator("#p2Guess1Type").selectOption("league");await fillCombo(page,"p2Guess1Value","Premier League");}else{await page.locator("#p1Guess1Type").selectOption("nationality");await fillCombo(page,"p1Guess1Value","Brazil");}};
   const lockBtn=(page,name)=>page.getByRole("button",{name,exact:true});
+  // QA S2 (twotabs seed 3): #completeTransferChallenge turns from LOCK MY GUESSES into LOCK MY SIGNINGS in the same element,
+  // so a click aimed at one label could land on the other (and the auto-accepted confirm then locked empty signings).
+  // lockClick arms a capture-phase guard first: while armed, a click on a button whose label is not the expected one is
+  // stopped before any app handler sees it. The check runs at dispatch time, so the label cannot change in between.
+  // It looks only at trusted clicks on a LOCK MY ... button: the marble confirm answer (an untrusted OK click fired from
+  // inside the same dispatch) and every other button pass untouched.
+  const lockClick=async(page,name,timeout)=>{
+    await page.evaluate(label=>{window.__fijExpectLabel=label;window.__fijLockBlocked=0;if(!window.__fijLockGuard){window.__fijLockGuard=true;window.addEventListener("click",e=>{const want=window.__fijExpectLabel;if(!want||!e.isTrusted)return;const b=e.target&&e.target.closest?e.target.closest("button"):null;if(!b||!/^LOCK MY /.test((b.textContent||"").replace(/\s+/g," ").trim()))return;if((b.textContent||"").replace(/\s+/g," ").trim()!==want){e.stopImmediatePropagation();e.preventDefault();window.__fijLockBlocked=(window.__fijLockBlocked||0)+1;}},true);}},name);
+    let blocked=0;
+    try{await lockBtn(page,name).click({timeout});}
+    finally{blocked=await page.evaluate(()=>{const n=window.__fijLockBlocked||0;window.__fijExpectLabel=null;return n;}).catch(()=>0);}
+    if(blocked)report.notes.push(`${pointNow}: a ${name} click found the button relabelled (now another LOCK MY label) and was stopped before the app saw it`);
+    return !blocked;
+  };
   const has=(s,key,role)=>Boolean(s?.state?.[key]?.includes(role));
   // tw-guess: the other phone locks first; the fault phone's lock moves the challenge to signings.
   {
     const X=faultPhone(ctx),first=X===daniel?nik:daniel;
-    await fillGuess(first,first.page);await lockBtn(first.page,"LOCK MY GUESSES").click({timeout:30000});
+    await fillGuess(first,first.page);await lockClick(first.page,"LOCK MY GUESSES",30000);
     await first.page.waitForFunction(r=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.guessLockedRoles?.includes(r)===true,ROLE[first.account],{timeout:30000});
     const ready=async p=>await transferPhase(p)==="guess_entry"&&await lockBtn(p,"LOCK MY GUESSES").isVisible();
-    await writePoint(ctx,"tw-guess",{writer:X,landed:async()=>{const t=docData(await admin(R(`transferChallenges/season_${season}`)));return Boolean(t&&Array.isArray(t.guessLockedRoles)&&t.guessLockedRoles.includes(ROLE[X.account]));},ready,tap:async p=>{await fillGuess(X,p);await lockBtn(p,"LOCK MY GUESSES").click({timeout:10000});},
+    await writePoint(ctx,"tw-guess",{writer:X,landed:async()=>{const t=docData(await admin(R(`transferChallenges/season_${season}`)));return Boolean(t&&Array.isArray(t.guessLockedRoles)&&t.guessLockedRoles.includes(ROLE[X.account]));},ready,tap:async p=>{await fillGuess(X,p);await lockClick(p,"LOCK MY GUESSES",10000);},
       settle:(m,page)=>drive(m,async p=>await transferPhase(p)==="signing_entry",{page,label:"signings",stepTaps:async p=>{
-        if(await transferPhase(p)==="guess_entry"&&!has(await tcState(p),"guessLockedRoles",ROLE[m.account])&&await lockBtn(p,"LOCK MY GUESSES").isVisible()){await fillGuess(m,p).catch(()=>{});await lockBtn(p,"LOCK MY GUESSES").click({timeout:5000});return "re-lock guesses";}return "";}}),
+        if(await transferPhase(p)==="guess_entry"&&!has(await tcState(p),"guessLockedRoles",ROLE[m.account])&&await lockBtn(p,"LOCK MY GUESSES").isVisible()){await fillGuess(m,p).catch(()=>{});return await lockClick(p,"LOCK MY GUESSES",5000)?"re-lock guesses":"";}return "";}}),
       checks:async(check)=>{for(const m of both){const s=await tcState(m.page);await check(m,"guesses.both",has(s,"guessLockedRoles","playerOne")&&has(s,"guessLockedRoles","playerTwo"),JSON.stringify(s?.state?.guessLockedRoles));}}});
   }
   const fillSigning=async(m,page)=>{
@@ -1299,10 +1313,10 @@ async function transfersWithFaults(ctx,R,season){
     else{await page.locator("#p2Signing1Name").fill(`ZP${season}V Nik Signing`);await page.locator("#p2Signing1Overall").fill("71");await page.locator("#p2Signing1Position").selectOption("ST");await fillCombo(page,"p2Signing1League","Serie A TIM");await fillCombo(page,"p2Signing1Nationality","Brazil");}
   };
   const signReady=async p=>await transferPhase(p)==="signing_entry"&&await lockBtn(p,"LOCK MY SIGNINGS").isVisible();
-  const relockSign=m=>async p=>{if(await transferPhase(p)==="signing_entry"&&!has(await tcState(p),"signingLockedRoles",ROLE[m.account])&&await lockBtn(p,"LOCK MY SIGNINGS").isVisible()){const filled=await p.locator(m===daniel?"#p1Signing1Name":"#p2Signing1Name").inputValue().catch(()=>"");if(!filled)await fillSigning(m,p).catch(()=>{});await lockBtn(p,"LOCK MY SIGNINGS").click({timeout:5000});return "re-lock signings";}return "";};
+  const relockSign=m=>async p=>{if(await transferPhase(p)==="signing_entry"&&!has(await tcState(p),"signingLockedRoles",ROLE[m.account])&&await lockBtn(p,"LOCK MY SIGNINGS").isVisible()){const filled=await p.locator(m===daniel?"#p1Signing1Name":"#p2Signing1Name").inputValue().catch(()=>"");if(!filled)await fillSigning(m,p).catch(()=>{});return await lockClick(p,"LOCK MY SIGNINGS",5000)?"re-lock signings":"";}return "";};
   // tw-lock: the fault phone locks its signings first.
   const XL=faultPhone(ctx),second=XL===daniel?nik:daniel;
-  await writePoint(ctx,"tw-lock",{writer:XL,landed:async()=>{const t=docData(await admin(R(`transferChallenges/season_${season}`)));return Boolean(t&&(t.phase==="COMPLETED"||Array.isArray(t.signingLockedRoles)&&t.signingLockedRoles.includes(ROLE[XL.account])));},ready:signReady,tap:async p=>{await fillSigning(XL,p);await lockBtn(p,"LOCK MY SIGNINGS").click({timeout:10000});},
+  await writePoint(ctx,"tw-lock",{writer:XL,landed:async()=>{const t=docData(await admin(R(`transferChallenges/season_${season}`)));return Boolean(t&&(t.phase==="COMPLETED"||Array.isArray(t.signingLockedRoles)&&t.signingLockedRoles.includes(ROLE[XL.account])));},ready:signReady,tap:async p=>{await fillSigning(XL,p);await lockClick(p,"LOCK MY SIGNINGS",10000);},
     settle:(m,page)=>drive(m,async p=>has(await tcState(p),"signingLockedRoles",ROLE[XL.account])&&await transferPhase(p)==="signing_entry",{page,label:"first signings locked",stepTaps:m===XL?relockSign(m):null}),
     checks:async(check)=>{
       const own=docData(await admin(R(`transferChallenges/season_${season}/roles/${ROLE[XL.account]}`)));await check(null,"db.ownSignings",Boolean(own),"the locked signings are not in the database");
@@ -1312,7 +1326,7 @@ async function transfersWithFaults(ctx,R,season){
   // tw-verdict: the other phone's lock completes the Transfer War (the verdict). Its phone is the next point's fault phone.
   {
     const writer=second;// the second locker writes the verdict; the fault phone alternates as usual
-    await writePoint(ctx,"tw-verdict",{writer,ready:signReady,tap:async p=>{await fillSigning(writer,p);await lockBtn(p,"LOCK MY SIGNINGS").click({timeout:10000});},
+    await writePoint(ctx,"tw-verdict",{writer,ready:signReady,tap:async p=>{await fillSigning(writer,p);await lockClick(p,"LOCK MY SIGNINGS",10000);},
       settle:(m,page)=>drive(m,async p=>await transferPhase(p)==="completed",{page,label:"verdict",stepTaps:relockSign(m)}),
       checks:async(check)=>{
         const t=docData(await admin(R(`transferChallenges/season_${season}`)));await check(null,"db.verdict",t&&/COMPLETED/.test(JSON.stringify(t.state||t)),`transfer ${JSON.stringify(t).slice(0,300)}`);
