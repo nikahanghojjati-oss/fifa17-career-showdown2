@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.11.0-r98";
-const PREVIOUS_RUNTIME_REVISION = "2.10.0-r97";
+const RUNTIME_REVISION = "2.12.0-r99";
+const PREVIOUS_RUNTIME_REVISION = "2.11.0-r98";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -49,6 +49,8 @@ const SHELL_FRAME_NAVIGATION_PATHS = new Set([
 // precached copies of the shell it runs (red team R87-B-03).
 const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "css/r78-marble-tile.webp",
+    // R99-01: every themed clubhouse (Silver, Metallic Black, Premium Matte Black) draws the panels with its metal-black copy (index.html rewrites the url).
+    "css/r78-marble-tile-metal.webp",
     "css/r95-type.css",
     // r95: the Instrument Sans variable faces the r95 type sheet asks for by a relative url(), so the request has no ?v=
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2",
@@ -356,6 +358,7 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt",
     "css/r78-marble-surfaces.css",
     "css/r78-marble-tile.webp",
+    "css/r78-marble-tile-metal.webp",
     "js/showdownConfirm.js",
     "visual-assets/v10_1/shared/navbar/navbar.css",
     "visual-assets/v10_1/shared/navbar/navbar.js",
@@ -423,11 +426,11 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.11.0 (r98): PREVIOUS is the live 2.10.0-r97 (260 paths, tests/fixtures/shell-paths/2.10.0-r97.json, main 4353ab5a). The STORY
+// 2.12.0 (r99): PREVIOUS is the live 2.11.0-r98 (262 paths, tests/fixtures/shell-paths/2.11.0-r98.json, main fec8af69). The STORY
 // site is never precached.
-// r98 adds the League Roulette (R98-01): the live Select League board and its step. It removes no shell path; the Team V
-// HO-097 rooms are images, runtime-cached like every other plate.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js"]);
+// r99 adds the metal panel marble of the themed clubhouses (R99-01, 4 KB). It removes no shell path; the themed room
+// plates and themed loading rooms are images, runtime-cached like every other plate (never precached).
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["css/r78-marble-tile-metal.webp"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
@@ -572,7 +575,10 @@ self.addEventListener("message",event=>{
 });
 self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const status=await verifyCache(RUNTIME_REVISION); if(!status.ok){throw new Error(`Refusing activation with incomplete application shell: ${status.missing.join(", ")}`);} await clearForcedRevision(); const recovery=await findRecoveryRuntime(); const keepShellCaches=new Set([CACHE_NAME,recovery.ok?recovery.cacheName:""] .filter(Boolean)); const keepImageCaches=new Set([V10_IMAGE_CACHE_NAME,recovery.ok?v10ImageCacheName(recovery.revision):""].filter(Boolean)); const cacheNames=await caches.keys(); await Promise.all(cacheNames.map(name=>{if(name.startsWith(CACHE_PREFIX)&&!keepShellCaches.has(name)){return caches.delete(name);}if(name.startsWith(MODE_CACHE_PREFIX)&&name!==MODE_CACHE_NAME){return caches.delete(name);}if(name.startsWith(V10_IMAGE_CACHE_PREFIX)&&!keepImageCaches.has(name)){return caches.delete(name);}return Promise.resolve(false);})); await self.clients.claim(); })()); });
 async function cachedShellResponse(path,revision){ const cacheName=cacheNameForRevision(revision); if(!cacheName||!(await cacheExists(cacheName))){return null;} const cache=await caches.open(cacheName); return cache.match(versionedShellUrl(path,revision)); }
-function isV10ImagePath(path){ return V10_IMAGE_PATH.test(path)||ON_DEMAND_DATA_PATH.test(path); }
+// r99 (R99-01): the themed (Silver, Metallic Black, Premium Matte Black) loading rooms are kept like the rooms (cache-first once seen), so a themed phone opens
+// offline in its own clubhouse; the Wooden loading room stays in the shell.
+const THEMED_LOADING_PATH = /^assets\/loading\/(?:silver|black|matte)\/ENV_LOADING_[A-Z0-9_]+\.webp$/;
+function isV10ImagePath(path){ return V10_IMAGE_PATH.test(path)||ON_DEMAND_DATA_PATH.test(path)||THEMED_LOADING_PATH.test(path); }
 // Images follow the shell the page runs: after a rollback they come from the retained revision's own image cache
 // (or its shell cache, for revisions that precached them), so an offline rollback keeps the art it had viewed. A miss is
 // fetched by path: each Team V image path names one generation (_V<n> name, bytes pinned by v10-foundation F9c).

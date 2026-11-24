@@ -16,7 +16,8 @@ const Career = require("../../js/sharedCareerStart.js");
 
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const shotDir = process.env.CMS_CAREER_START_SHOTS || "";
-const SIZES = [[1366, 768], [1440, 900], [1920, 1080], [393, 660], [375, 553], [360, 640], [412, 915]];
+// r99 R99-02: both Chromebook windows (1920x866 windowed, 1920x1035 full screen) are checked too; the buttons row no longer reaches the managers' jackets.
+const SIZES = [[1366, 768], [1440, 900], [1920, 1080], [1920, 866], [1920, 1035], [393, 660], [375, 553], [360, 640], [412, 915]];
 // Sideways phones (band mode) and a tablet: pending and waiting.
 const EXTRA_SIZES = [[844, 390], [915, 412], [820, 1180]];
 const MODE_AT = { "844x390": "band", "915x412": "band", "820x1180": "phone" };
@@ -224,5 +225,5 @@ async function checkFallback(page, kase, width, height, expectedMode, errors){
     }finally{ await browser.close().catch(() => {}); }
     for(const line of lines) console.log(`ok ${line}`);
     if(failures.length){ for(const failure of failures) console.error(`FAIL ${failure}`); throw new Error(`${failures.length} Career Start option B check(s) failed`); }
-    console.log(`PASS Career Start option B fits audit: ${lines.length} layouts (7 sizes x pending, waiting, long names, resume from Home; sideways 844x390 and 915x412 and tablet 820x1180 x pending, waiting; Club visuals failing x 3 sizes); crest and name fit inside the pack frame at every size, nothing covers anything, main is the only scroller.`);
+    console.log(`PASS Career Start option B fits audit: ${lines.length} layouts (9 sizes x pending, waiting, long names, resume from Home; sideways 844x390 and 915x412 and tablet 820x1180 x pending, waiting; Club visuals failing x 3 sizes); crest and name fit inside the pack frame at every size, nothing covers anything, main is the only scroller.`);
 })().catch(error => { console.error("CAREER START OPTION B FITS AUDIT FAILED"); console.error(error.stack || error); process.exit(1); });

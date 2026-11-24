@@ -29,6 +29,9 @@
 //      Statistics) its manager's block leaves its panel or reaches the rows under it. Season Results draws its chips
 //      from the live Showdown, which the seeded page has none of, so seasonResultsChips places them as the app does.
 //      See specialPlayerFixture, seasonResultsChips and specialPlayerChipsClear.
+// GAZETTE_FINAL and GAZETTE_SEASON (r99 R99-02, deskOnly) draw the Touchline Gazette in the board room at desktop windows only. On a phone the paper
+//   starts under the chins by construction (css/v10Gazette.css, the room is a ::before this audit cannot read); an upright tablet crops the
+//   desktop room so Daniel is off screen, which is a crop, not a cover.
 // Sizes (CMS_FACECHECK_GROUP; desk-short = three short desktop windows, CMS_FACECHECK_DESKTOP=1 opens any sizes as a desktop window): touch-up = phone and tablet upright; touch-side = phone and tablet sideways; desk = both
 // Chromebook windows (1920x866 windowed, 1920x1035 full screen); more = a small and a large upright phone; phone = Team V's
 // four upright phones; full (default) = all of them. The Gate runs touch-up, touch-side and desk (one test:browser audit
@@ -166,6 +169,21 @@ const SCREENS = {
     GOLDEN_COURSE_REVIEW: { host: "seasonEntry", open: page => seasonResultsOpen(page, "course", true) },
     GOLDEN_COURSE_NEXT: { host: "seasonEntry", open: async page => { await seasonResultsOpen(page, "course", true); await page.waitForSelector("#seasonEntry .seasonGoldenCourseLine, #seasonEntry .seasonGoldenCourse", { state: "attached", timeout: 15000 }); await seasonResultsOpen(page, "courseNext", false); } },
     FINAL_WINNER: { host: "seasonEntry", open: async page => { await seed(page, "finished"); await page.evaluate(() => window.openSeasonEntry()); } },
+    // r99 R99-02 (Nik 2026-11-23: "touchline gazette is covering part of my face"): the Touchline Gazette's final paper, which stands
+    // in the same board room as Final Winner. It opens as the app opens it: REMATCH on Final Winner is held for the paper (js/touchlineGazette.js).
+    GAZETTE_FINAL: { host: "seasonEntry", deskOnly: true, open: async page => { await seed(page, "finished"); await page.evaluate(() => window.openSeasonEntry());
+        await page.waitForSelector("#finalWinnerRematch", { state: "attached", timeout: 20000 });
+        await page.evaluate(() => document.getElementById("finalWinnerRematch").click());
+        await page.waitForSelector("#touchlineGazette .cmx-paper", { timeout: 20000 });
+        await page.evaluate(() => document.fonts && document.fonts.ready); } },
+    // The season paper (after Season Results, on CONTINUE TO SEASON N+1) in the same room: the fixture's progression module has no
+    // continue action of its own, so this gives it one that goes nowhere and taps it the way the player does.
+    GAZETTE_SEASON: { host: "seasonEntry", deskOnly: true, open: async page => { await seasonResultsOpen(page, "course", true);
+        await page.evaluate(() => { const m = window.CareerModeProductionSharedMultiSeasonProgression;
+            window.CareerModeProductionSharedMultiSeasonProgression = { getState: m.getState, canContinue: () => true, continueToNextSeason: () => false };
+            const b = document.createElement("button"); b.id = "sharedMultiSeasonContinueAction"; b.textContent = "CONTINUE TO SEASON 4"; document.getElementById("seasonEntry").appendChild(b); b.click(); });
+        await page.waitForSelector("#touchlineGazette .cmx-paper", { timeout: 20000 });
+        await page.evaluate(() => document.fonts && document.fonts.ready); } },
     // r93: the Golden Showdown screen, drawn before Final Winner when a manager closes a 10-season Showdown on 150.
     GOLDEN: { host: "seasonEntry", open: async page => { await seed(page, "golden"); await page.evaluate(() => window.openSeasonEntry()); await page.waitForSelector("#seasonEntry .v10GoldenStage", { timeout: 20000 }); } },
     RIVALRY: { host: "statistics", open: async page => { await seed(page, "finished"); await page.evaluate(async () => { await ensureOptionalModule("statistics"); window.openRivalryStatistics({ model: window.__cmsRivalryFixture }); }); } },
@@ -864,7 +882,7 @@ if(require.main === module) (async () => {
             const page = await context.newPage();
             const errors = [];
             page.on("pageerror", e => errors.push(e.message));
-            for(const key of keys){ errors.length = 0; await openAny(page, key); await report(page, key, w, h, 2, errors); }
+            for(const key of keys){ if(SCREENS[key].deskOnly) continue; errors.length = 0; await openAny(page, key); await report(page, key, w, h, 2, errors); }
             await context.close();
         }
         // desktop: open once per screen, then drag the window through every desktop size

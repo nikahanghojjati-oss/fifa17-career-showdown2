@@ -29,6 +29,11 @@ const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const shotDir = process.env.CMS_OLD_ART_SHOTS || "";
 const reportFile = process.env.CMS_OLD_ART_REPORT || "";
 const touchSize = (w, h) => w < 900 || h < 500;
+// R99-01 clubhouse themes: CMS_CLUBHOUSE=silver|black|matte opens every screen in that clubhouse (this device's pick, localStorage).
+// Every room drawn must then be that theme's copy (plates-hc/<theme>/), and no plain room may even be downloaded: a plain room
+// fetched first could paint for a moment before the themed one (A3, A4).
+const THEME = /^(silver|black|matte)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
+const PLAIN_ROOM = /visual-assets\/v10_1\/plates-hc\/(?:ENV|TILE)_/;
 
 // ---------- window shapes ----------
 const NAMED = {
@@ -108,6 +113,7 @@ const LISTED = {};
 // tall) the current rooms too.
 const KNOWN_SHAPES = [];
 const SCENERY = /(ENV_|OVL_|_PLATE_|PACK_)/;
+const KNOWN_PLAIN_FETCH = /^$/;
 const CURRENT = /visual-assets\/v10_1\/plates-hc\//;
 function drawnPictures(){
     const vw = innerWidth, vh = innerHeight, out = [];
@@ -132,6 +138,7 @@ function judge(key, drawn){
     const listed = LISTED[key];
     const old = scenery.filter(d => !CURRENT.test(d.url) && !(listed && listed.allow.test(d.url)));
     const findings = old.map(d => `A1 old picture ${d.url.replace(/^.*visual-assets\/v10_1\//, "")} on ${d.el}`);
+    if(THEME) for(const d of scenery) if(PLAIN_ROOM.test(d.url)) findings.push(`A3 plain room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${THEME} clubhouse on ${d.el}`);
     const room = ROOM[key];
     if(room && !scenery.some(d => CURRENT.test(d.url) && new RegExp(`ENV_(${room})_`).test(d.url))) findings.push(`A2 the ${room.replace("|", " or ")} room is not drawn`);
     return [...new Set(findings)];
@@ -149,6 +156,7 @@ if(require.main === module){
         const check = async (page, key, w, h, requested) => {
             const drawn = await page.evaluate(drawnPictures);
             const findings = judge(key, drawn), known = KNOWN_SHAPES.find(k => k.match(w, h));
+            if(THEME && requested) for(const u of requested) if(PLAIN_ROOM.test(u) && !KNOWN_PLAIN_FETCH.test(u)) findings.push(`A4 plain room ${u.replace(/^.*plates-hc\//, "")} downloaded in the ${THEME} clubhouse`);
             if(known && findings.length){ console.log(`KNOWN ${key} ${w}x${h} (${known.name}; ${known.follow})${findings.map(f => "\n   " + f).join("")}`); return; }
             for(const what of findings) report.push({ screen: key, size: `${w}x${h}`, what });
             if(requested) for(const u of requested){ const shortName = u.replace(/^.*visual-assets\/v10_1\//, ""); if(SCENERY.test(u) && !CURRENT.test(u) && !(LISTED[key] && LISTED[key].allow.test(u)) && !drawn.some(d => d.url === u)) notes.set(`${key} ${shortName}`, (notes.get(`${key} ${shortName}`) || 0) + 1); }
@@ -162,6 +170,7 @@ if(require.main === module){
             if(desk.length){
                 const context = await browser.newContext({ viewport: { width: desk[0][0], height: desk[0][1] }, serviceWorkers: "block" });
                 await context.route("**/*", route => new URL(route.request().url()).origin === baseUrl.origin ? route.continue() : route.abort());
+                if(THEME) await context.addInitScript(t => { try{ localStorage.setItem("cmsClubhouseTheme", t); }catch(_error){} }, THEME);
                 const page = await context.newPage(); const seen = watch(page);
                 for(const key of keys){
                     await page.setViewportSize({ width: desk[0][0], height: desk[0][1] }); seen.clear();
@@ -174,6 +183,7 @@ if(require.main === module){
             for(const [w, h] of touch){
                 const context = await browser.newContext({ viewport: { width: w, height: h }, isMobile: true, hasTouch: true, serviceWorkers: "block" });
                 await context.route("**/*", route => new URL(route.request().url()).origin === baseUrl.origin ? route.continue() : route.abort());
+                if(THEME) await context.addInitScript(t => { try{ localStorage.setItem("cmsClubhouseTheme", t); }catch(_error){} }, THEME);
                 const page = await context.newPage(); const seen = watch(page);
                 for(const key of keys){ seen.clear(); await openScreen(page, key); await check(page, key, w, h, seen); }
                 await context.close();
@@ -185,6 +195,6 @@ if(require.main === module){
         if(reportFile) fs.writeFileSync(reportFile, JSON.stringify({ report, notes: Object.fromEntries(notes) }, null, 1));
         const secs = Math.round((Date.now() - started) / 1000);
         if(report.length){ console.error(`FAIL r91 old art: ${report.length} finding(s) across ${keys.length} screens x ${SIZES.length} sizes (${secs}s).`); process.exitCode = 1; }
-        else console.log(`PASS r91 old art: ${keys.length} screens x ${SIZES.length} sizes draw only current rooms (${secs}s).`);
+        else console.log(`PASS r91 old art: ${keys.length} screens x ${SIZES.length} sizes draw only current rooms${THEME ? ` of the ${THEME} clubhouse` : ""} (${secs}s).`);
     })().catch(error => { console.error(error); process.exitCode = 1; });
 }

@@ -3,13 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-asset-revision" content="2.11.0-r98">
+<meta name="app-asset-revision" content="2.12.0-r99">
 <title>Career Mode Showdown</title>
-<link rel="preload" as="image" href="assets/loading/ENV_LOADING_PHONE_HC_590W.webp?v=2.11.0-r98" media="(orientation: portrait)" fetchpriority="high">
-<link rel="preload" as="image" href="assets/loading/REUS_P_590W.webp?v=2.11.0-r98" media="(orientation: portrait)" fetchpriority="high">
-<link rel="preload" as="image" href="assets/loading/ENV_LOADING_PLATE_HC_1X.webp?v=2.11.0-r98" media="(orientation: landscape)" fetchpriority="high">
-<link rel="preload" as="image" href="assets/loading/REUS_D_1X.webp?v=2.11.0-r98" media="(orientation: landscape)" fetchpriority="high">
-<link rel="stylesheet" id="appStyles" href="css/app.css?v=2.11.0-r98">
+<script>
+/* R99-01 clubhouse themes (Nik 2026-11-23): the clubhouse is Wooden (no attribute), Silver, Metallic Black or Premium Matte Black (key matte), picked in Settings and
+   kept by each phone or laptop for itself (localStorage; never Firestore, never sent to the other phone). A theme draws each room plate from
+   plates-hc/<theme>/ (the same room recoloured; Daniel and Nik untouched, tools/clubhouse-themes) and the panel marble from
+   css/r78-marble-tile-metal.webp. It is set here, before any sheet or picture is asked for, so no room paints in the wrong
+   colours. Sheets are rewritten as they load (capture phase, before their own load handlers), pictures as they are added.
+   The current look runs none of it: no observer, nothing rewritten. */
+(function(w,d){var K="cmsClubhouseTheme",cur=null,mo=null,P=/plates-hc\/(?:(?:silver|black|matte)\/)?((?:ENV|TILE)_)/g,M=/r78-marble-tile(?:-metal)?\.webp/g;var BASE={silver:"#61656c",black:"#111314",matte:"#141312"},bg=new WeakMap();
+function fix(v){return v.replace(P,"plates-hc/"+(cur?cur+"/":"")+"$1").replace(M,cur?"r78-marble-tile-metal.webp":"r78-marble-tile.webp");}
+function hit(v){return v&&(v.indexOf("plates-hc/")>=0||v.indexOf("r78-marble-tile")>=0);}
+function rules(list){for(var i=0;i<list.length;i++){var r=list[i];if(r.styleSheet)sheet(r.styleSheet);if(r.cssRules)rules(r.cssRules);var s=r.style;if(!s||!hit(s.cssText))continue;
+var ps=["background","mask","-webkit-mask"];for(var j=0;j<s.length;j++)ps.push(s[j]);
+var room=false;for(j=0;j<ps.length;j++){var p=ps[j],v=s.getPropertyValue(p);if(hit(v)){if(v.search(P)>=0)room=true;var f=fix(v);if(f!==v)s.setProperty(p,f,s.getPropertyPriority(p));}}
+if(room)base(s);}}
+/* the colour round a room (where the picture does not reach, e.g. beside Final Winner's board room) follows the clubhouse too */
+function base(s){var bc=s.getPropertyValue("background-color"),o=bg.get(s);if(o===undefined){if(!bc||bc==="transparent"||/^rgba\(.*,\s*0\)$/.test(bc))return;bg.set(s,o={v:bc,p:s.getPropertyPriority("background-color")});}
+var want=cur?BASE[cur]:o.v;if(bc!==want)s.setProperty("background-color",want,o.p);}
+function sheet(x){var l;try{l=x.cssRules;}catch(e){return;}if(l)rules(l);}
+function at(n,a){var v=n.getAttribute(a);if(hit(v)){var f=fix(v);if(f!==v)n.setAttribute(a,f);}}
+/* A screen's own sheet (loaded while that screen may already show) waits unapplied until it is rewritten, so it never asks for
+   the plain room in the frame before its load event; then it applies at once. Only in a theme. */
+function hold(n){if(n.tagName==="LINK"&&n.rel==="stylesheet"&&n.getAttribute("data-optional-style")!==null&&!n.sheet&&!("cmsMedia" in n)){n.cmsMedia=n.media;n.media="not all";}}
+function free(t){if(t&&"cmsMedia" in t){var m=t.cmsMedia;delete t.cmsMedia;t.media=m||"";}}
+function el(n){if(n.nodeType!==1)return;hold(n);var all=[n].concat([].slice.call(n.querySelectorAll("img,source,style,[style]")));
+for(var i=0;i<all.length;i++){var e=all[i];if(e.tagName==="STYLE"&&e.sheet)sheet(e.sheet);if(e.tagName==="IMG"||e.tagName==="SOURCE"){at(e,"srcset");at(e,"src");}at(e,"style");}}
+function all(){for(var i=0;i<d.styleSheets.length;i++)sheet(d.styleSheets[i]);el(d.documentElement);}
+function watch(){if(mo||!w.MutationObserver)return;mo=new MutationObserver(function(list){if(!cur)return;for(var i=0;i<list.length;i++){var m=list[i];
+if(m.type==="attributes")at(m.target,m.attributeName);else for(var j=0;j<m.addedNodes.length;j++)el(m.addedNodes[j]);}});
+mo.observe(d.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:["src","srcset"]});}
+/* A screen that builds its own <style>, or its pictures from markup, would ask for the plain room before the observer runs (a
+   picture starts loading as its markup is parsed), so that text is rewritten as it is set. Only in a theme; strings with no room
+   in them pass untouched. */
+function set(o,k,f){var D=Object.getOwnPropertyDescriptor(o,k);if(D&&D.set)Object.defineProperty(o,k,{configurable:true,enumerable:D.enumerable,get:D.get,set:function(v){D.set.call(this,f(this,v));}});}
+function hook(){var E=w.Element&&w.Element.prototype,S=w.HTMLStyleElement,T=Object.getOwnPropertyDescriptor(w.Node.prototype,"textContent");if(!E||E.__cmsClubhouse)return;E.__cmsClubhouse=1;
+var g=function(_n,v){return cur&&typeof v==="string"&&hit(v)?fix(v):v;},A=E.insertAdjacentHTML;set(E,"innerHTML",g);
+E.insertAdjacentHTML=function(where,v){return A.call(this,where,g(this,v));};
+var SA=E.setAttribute;E.setAttribute=function(k,v){return SA.call(this,k,k==="srcset"||k==="src"?g(this,v):v);};
+var C=w.CSSStyleDeclaration&&w.CSSStyleDeclaration.prototype,SP=C&&C.setProperty;if(SP)C.setProperty=function(k,v,p){return SP.call(this,k,g(this,v),p);};
+if(w.HTMLImageElement){set(w.HTMLImageElement.prototype,"src",g);set(w.HTMLImageElement.prototype,"srcset",g);}if(w.HTMLSourceElement)set(w.HTMLSourceElement.prototype,"srcset",g);
+if(S&&T)Object.defineProperty(S.prototype,"textContent",{configurable:true,enumerable:T.enumerable,get:T.get,set:function(v){T.set.call(this,typeof v==="string"&&hit(v)?fix(v):v);}});}
+function use(t){cur=t==="silver"||t==="black"||t==="matte"?t:null;if(cur){d.documentElement.setAttribute("data-clubhouse",cur);hook();watch();}else d.documentElement.removeAttribute("data-clubhouse");}
+d.addEventListener("load",function(e){var t=e.target;if(cur&&t&&t.tagName==="LINK"&&t.sheet)sheet(t.sheet);free(t);},true);
+d.addEventListener("error",function(e){free(e.target);},true);
+/* The loading room (assets/loading, never visual-assets) of the picked clubhouse is asked for first, like the Wooden one below. */
+function pre(){if(!cur||!d.head)return;var B="assets/loading/",L=[["PHONE_HC_590W","(orientation: portrait)"],["PLATE_HC_1X","(orientation: landscape)"]];
+for(var i=0;i<L.length;i++){var l=d.createElement("link");l.rel="preload";l.as="image";l.href=B+cur+"/ENV_LOADING_"+L[i][0]+".webp";l.media=L[i][1];l.setAttribute("fetchpriority","high");d.head.appendChild(l);}}
+try{use(w.localStorage.getItem(K));pre();}catch(e){}
+w.cmsClubhouse={theme:function(){return cur||"current";},fix:function(v){return typeof v==="string"&&hit(v)?fix(v):v;},set:function(t){var was=cur;use(t);try{cur?w.localStorage.setItem(K,cur):w.localStorage.removeItem(K);}catch(e){}
+if(was!==cur)all();if(!cur&&mo){mo.disconnect();mo=null;}return cur||"current";}};
+})(window,document);
+</script>
+<style>
+/* Silver rooms are light, and a title can sit on the silver wall or on a manager's black suit (phones, small windows). So the words
+   that sit straight on the room keep their colour (gold titles, light lines) and get a thin dark edge that reads on both. Metallic Black
+   and Premium Matte Black keep them as they are: gold and ivory already read on black. */
+html[data-clubhouse="silver"] :is(#loadingScreen :is(.startupSaveNote,.startupStatus,.startupPhotoCredit),.hc-live-title>span,#clubWheelScreen .clubTitleFallback,.fifaMenuHeading,.fifaMenuHeading *,.ruleBookSummary,#app>footer,#finalWinnerHeading,.finalWinnerTotals *,.heroPlinth>*,.connectPlayersTagline,#selectedLeague,.sqHeader>span,#cmStage :is(.cmHeader *,.cmStatus,.cmRowLabel,.cmCylStrip)){text-shadow:0 0 1px #0b0c0e,0 1px 1px #0b0c0e,0 0 .08em rgba(11,12,14,.9),0 .04em .3em rgba(11,12,14,.55),0 0 .7em rgba(11,12,14,.38)!important}
+html[data-clubhouse="silver"] :is(img.hc-logo-img,#loadingScreen img.startupIdentity){filter:drop-shadow(0 0 1px rgba(11,12,14,.85)) drop-shadow(0 2px 2px rgba(0,0,0,.75)) drop-shadow(0 0 14px rgba(0,0,0,.42))!important}
+/* The ground some rooms stand on (seen beside the picture on wide windows, or behind it while it loads) follows the clubhouse too. */
+html[data-clubhouse="silver"] #app #trophyRoom .sd-stage__layer--plate::before{background:linear-gradient(180deg,#71757c,#61656c 60%,#595d63)}
+html[data-clubhouse="silver"] #app :is(#legacy,#trophyRoom) :is(.sd-stage__layer--plate,.trophyPhoneBackdrop){background-color:#61656c}
+html[data-clubhouse="black"] #app #trophyRoom .sd-stage__layer--plate::before{background:linear-gradient(180deg,#1f2124,#111314 60%,#0d0f10)}
+html[data-clubhouse="black"] #app :is(#legacy,#trophyRoom) :is(.sd-stage__layer--plate,.trophyPhoneBackdrop){background-color:#111314}
+html[data-clubhouse="matte"] #app #trophyRoom .sd-stage__layer--plate::before{background:linear-gradient(180deg,#1d1c1b,#141312 60%,#100f0e)}
+html[data-clubhouse="matte"] #app :is(#legacy,#trophyRoom) :is(.sd-stage__layer--plate,.trophyPhoneBackdrop){background-color:#141312}
+/* The loading room follows the clubhouse too (Nik 2026-11-23: "any screen that has clubhouse art or clubhouse background should
+   match"): the same tunnel with Reus in front, recoloured, drawn in place of the Wooden one at every size it comes in. */
+html[data-clubhouse="silver"]{--cms-room:url("assets/loading/silver/ENV_LOADING_PLATE_HC_1X.webp");--cms-room-2x:url("assets/loading/silver/ENV_LOADING_PLATE_HC_2X.webp");--cms-room-phone:url("assets/loading/silver/ENV_LOADING_PHONE_HC_590W.webp");--cms-room-phone-2x:url("assets/loading/silver/ENV_LOADING_PHONE_HC.webp")}
+html[data-clubhouse="black"]{--cms-room:url("assets/loading/black/ENV_LOADING_PLATE_HC_1X.webp");--cms-room-2x:url("assets/loading/black/ENV_LOADING_PLATE_HC_2X.webp");--cms-room-phone:url("assets/loading/black/ENV_LOADING_PHONE_HC_590W.webp");--cms-room-phone-2x:url("assets/loading/black/ENV_LOADING_PHONE_HC.webp")}
+html[data-clubhouse="matte"]{--cms-room:url("assets/loading/matte/ENV_LOADING_PLATE_HC_1X.webp");--cms-room-2x:url("assets/loading/matte/ENV_LOADING_PLATE_HC_2X.webp");--cms-room-phone:url("assets/loading/matte/ENV_LOADING_PHONE_HC_590W.webp");--cms-room-phone-2x:url("assets/loading/matte/ENV_LOADING_PHONE_HC.webp")}
+html[data-clubhouse="silver"] #loadingScreen img.startupRoom,html[data-clubhouse="black"] #loadingScreen img.startupRoom,html[data-clubhouse="matte"] #loadingScreen img.startupRoom{content:var(--cms-room)}
+@media (orientation: portrait){html[data-clubhouse="silver"] #loadingScreen img.startupRoom,html[data-clubhouse="black"] #loadingScreen img.startupRoom,html[data-clubhouse="matte"] #loadingScreen img.startupRoom{content:var(--cms-room-phone)}}
+@media (orientation: portrait) and (min-resolution: 1.5dppx),(orientation: portrait) and (min-width: 700px){html[data-clubhouse="silver"] #loadingScreen picture+picture img.startupRoom,html[data-clubhouse="black"] #loadingScreen picture+picture img.startupRoom,html[data-clubhouse="matte"] #loadingScreen picture+picture img.startupRoom{content:var(--cms-room-phone-2x)}}
+@media (orientation: landscape) and (min-resolution: 1.5dppx) and (min-width: 1000px),(orientation: landscape) and (min-width: 2200px){html[data-clubhouse="silver"] #loadingScreen picture+picture img.startupRoom,html[data-clubhouse="black"] #loadingScreen picture+picture img.startupRoom,html[data-clubhouse="matte"] #loadingScreen picture+picture img.startupRoom{content:var(--cms-room-2x)}}
+</style>
+<link rel="preload" as="image" href="assets/loading/ENV_LOADING_PHONE_HC_590W.webp?v=2.12.0-r99" media="(orientation: portrait)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/loading/REUS_P_590W.webp?v=2.12.0-r99" media="(orientation: portrait)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/loading/ENV_LOADING_PLATE_HC_1X.webp?v=2.12.0-r99" media="(orientation: landscape)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/loading/REUS_D_1X.webp?v=2.12.0-r99" media="(orientation: landscape)" fetchpriority="high">
+<link rel="stylesheet" id="appStyles" href="css/app.css?v=2.12.0-r99">
 </head>
 <body>
 <div id="background"></div>
@@ -19,28 +93,28 @@
 <div class="startupScene" aria-hidden="true">
 <div class="startupAthleteFrame">
 <picture>
-<source media="(orientation: portrait)" srcset="assets/loading/ENV_LOADING_PHONE_HC_590W.webp?v=2.11.0-r98" width="590" height="1049">
-<img class="startupRoom" src="assets/loading/ENV_LOADING_PLATE_HC_1X.webp?v=2.11.0-r98" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
+<source media="(orientation: portrait)" srcset="assets/loading/ENV_LOADING_PHONE_HC_590W.webp?v=2.12.0-r99" width="590" height="1049">
+<img class="startupRoom" src="assets/loading/ENV_LOADING_PLATE_HC_1X.webp?v=2.12.0-r99" width="1920" height="1080" alt="" decoding="async" fetchpriority="high">
 </picture>
 <picture>
 <source media="(orientation: portrait) and (min-resolution: 1.5dppx), (orientation: portrait) and (min-width: 700px)" srcset="assets/loading/ENV_LOADING_PHONE_HC.webp" width="1179" height="2096">
 <source media="(orientation: landscape) and (min-resolution: 1.5dppx) and (min-width: 1000px), (orientation: landscape) and (min-width: 2200px)" srcset="assets/loading/ENV_LOADING_PLATE_HC_2X.webp" width="3840" height="2160">
-<source media="(orientation: portrait)" srcset="assets/loading/ENV_LOADING_PHONE_HC_590W.webp?v=2.11.0-r98" width="590" height="1049">
-<img class="startupRoom" src="assets/loading/ENV_LOADING_PLATE_HC_1X.webp?v=2.11.0-r98" width="1920" height="1080" alt="" decoding="async" fetchpriority="low">
+<source media="(orientation: portrait)" srcset="assets/loading/ENV_LOADING_PHONE_HC_590W.webp?v=2.12.0-r99" width="590" height="1049">
+<img class="startupRoom" src="assets/loading/ENV_LOADING_PLATE_HC_1X.webp?v=2.12.0-r99" width="1920" height="1080" alt="" decoding="async" fetchpriority="low">
 </picture>
 <picture>
-<source media="(orientation: portrait)" srcset="assets/loading/REUS_P_590W.webp?v=2.11.0-r98" width="521" height="881">
-<img id="startupAthlete" class="startupReus" src="assets/loading/REUS_D_1X.webp?v=2.11.0-r98" width="793" height="1339" alt="" decoding="async" fetchpriority="high">
+<source media="(orientation: portrait)" srcset="assets/loading/REUS_P_590W.webp?v=2.12.0-r99" width="521" height="881">
+<img id="startupAthlete" class="startupReus" src="assets/loading/REUS_D_1X.webp?v=2.12.0-r99" width="793" height="1339" alt="" decoding="async" fetchpriority="high">
 </picture>
 <picture>
 <source media="(orientation: portrait) and (min-resolution: 1.5dppx), (orientation: portrait) and (min-width: 700px)" srcset="assets/loading/REUS_P.webp" width="1042" height="1760">
 <source media="(orientation: landscape) and (min-resolution: 1.5dppx) and (min-width: 1000px), (orientation: landscape) and (min-width: 2200px)" srcset="assets/loading/REUS_D_2X.webp" width="1586" height="2678">
-<source media="(orientation: portrait)" srcset="assets/loading/REUS_P_590W.webp?v=2.11.0-r98" width="521" height="881">
-<img class="startupReus" src="assets/loading/REUS_D_1X.webp?v=2.11.0-r98" width="793" height="1339" alt="" decoding="async" fetchpriority="low">
+<source media="(orientation: portrait)" srcset="assets/loading/REUS_P_590W.webp?v=2.12.0-r99" width="521" height="881">
+<img class="startupReus" src="assets/loading/REUS_D_1X.webp?v=2.12.0-r99" width="793" height="1339" alt="" decoding="async" fetchpriority="low">
 </picture>
 </div>
 </div>
-<img class="startupIdentity" src="assets/loading/LOGO_CM17_WORDMARK_V4_640.webp?v=2.11.0-r98" width="640" height="92" alt="" decoding="async">
+<img class="startupIdentity" src="assets/loading/LOGO_CM17_WORDMARK_V4_640.webp?v=2.12.0-r99" width="640" height="92" alt="" decoding="async">
 <div class="startupStatus">
 <div class="startupPulse" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <p id="loadingText">PREPARING CAREER MODE SHOWDOWN</p>
@@ -402,7 +476,7 @@
 <button class="backButton" data-smart-back type="button">BACK TO HOME</button>
 </section>
 </main>
-<footer>Career Mode Showdown<br>v2.11.0</footer>
+<footer>Career Mode Showdown<br>v2.12.0</footer>
 </div>
 
 <script>
@@ -427,12 +501,12 @@ w.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="SCRIPT"
 d.addEventListener("DOMContentLoaded",function(){setTimeout(function(){if(failed)return;if(typeof applicationStarted!=="undefined"&&applicationStarted)mark(function(s){s.removeItem(K);});else w.cmsBootFail("The game did not start","js/app.js did not run");},0);},{once:true});
 })(window,document);
 </script>
-<script defer src="js/storage.js?v=2.11.0-r98"></script>
-<script defer src="js/showdown.js?v=2.11.0-r98"></script>
-<script defer src="js/scoring.js?v=2.11.0-r98"></script>
-<script defer src="js/screens.js?v=2.11.0-r98"></script>
-<script defer src="js/menuExperience.js?v=2.11.0-r98"></script>
-<script defer src="js/optionalModules.js?v=2.11.0-r98"></script>
-<script defer src="js/app.js?v=2.11.0-r98"></script>
+<script defer src="js/storage.js?v=2.12.0-r99"></script>
+<script defer src="js/showdown.js?v=2.12.0-r99"></script>
+<script defer src="js/scoring.js?v=2.12.0-r99"></script>
+<script defer src="js/screens.js?v=2.12.0-r99"></script>
+<script defer src="js/menuExperience.js?v=2.12.0-r99"></script>
+<script defer src="js/optionalModules.js?v=2.12.0-r99"></script>
+<script defer src="js/app.js?v=2.12.0-r99"></script>
 </body>
 </html>
