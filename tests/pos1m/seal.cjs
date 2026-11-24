@@ -4,7 +4,7 @@
 // --reports holds the Ring 1 shard reports (run.cjs --out); --planted the planted-bug report (planted.cjs --out). Shape
 // agreed with B5: {schemaVersion, engine, build, commit, sealedAt, stories{survived,run}, laws{held,total},
 // plantedBugs{caught,total}, ledgerReplays{refound,total}}, plus the failing laws and the first failing seeds (capped).
-// "sealed" is true only when every story survived, every law held, every planted bug and ledger replay was caught and
+// "sealed" is true only when the whole shard set is there, every story survived, every law held, every planted bug and ledger replay was caught and
 // every saved replay passed. Exit 1 when it is not.
 const fs=require("node:fs");
 const path=require("node:path");
@@ -50,7 +50,7 @@ function seal({reports,planted,replaysOk,gate=null,shards=null,expectStories=nul
     gateComparison:gate?{bugs:gate.bugs,gateCaught:gate.gateCaught,pos1mCaught:gate.pos1mCaught,points:gate.pos1mPercent-gate.gatePercent,onlyPos1m:gate.results.filter(r=>r.pos1mCaught&&!r.gateCaught).map(r=>r.id)}:null,
     realCatches:REAL_CATCHES
   };
-  value.sealed=complete&&failed===0&&held===laws.length&&!broken.has("CRASH")&&!value.plantedBugs.missing&&value.plantedBugs.caught===value.plantedBugs.total&&(value.ledgerReplays.missing?value.ledgerReplays.total===0:value.ledgerReplays.refound===value.ledgerReplays.total)&&replaysOk!==false;
+  value.sealed=complete&&failed===0&&held===laws.length&&!broken.has("CRASH")&&!value.plantedBugs.missing&&value.plantedBugs.caught===value.plantedBugs.total&&!value.ledgerReplays.missing&&value.ledgerReplays.refound===value.ledgerReplays.total&&replaysOk===true;// Codex #1585: absent evidence is never success (saved replays must have run and passed)
   return value;
 }
 
