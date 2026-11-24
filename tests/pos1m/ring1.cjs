@@ -19,6 +19,7 @@ const Setup=P("sparkSharedShowdownSetup.js"),Career=P("sparkSharedCareerStart.js
 const PROVIDERS={Setup,Career,Transfer,Results,Commit,Scoring,History,Multi};
 const Guess=require(path.join(W.ROOT,"js","iconGuess.js"));
 const {freshModule}=require("./fresh.cjs");
+const ProductionTransfer=require(path.join(W.ROOT,"js","productionSharedTransferChallenge.js"));
 
 const LENGTHS=[1,3,5,10];
 const NETWORK=new Set(["unavailable","deadline-exceeded","resource-exhausted","aborted","failed-precondition","internal","unknown","cancelled","permission-denied"]);
@@ -95,7 +96,11 @@ function intentFor(story,role,season){
   const teamCount=story.teamCount||18;
   const count=1+Math.floor(r()*3);
   const guesses=Array.from({length:count},(_,i)=>r()<0.5?{slot:i+1,type:"league",valueId:pick(LEAGUES)}:{slot:i+1,type:"nationality",valueId:pick(NATIONS)});
-  const signings=Array.from({length:1+Math.floor(r()*3)},(_,i)=>({slot:i+1,name:`${role==="playerOne"?"Daniel":"Nik"} S${season} P${i+1}`,position:pick(POSITIONS),overall:60+Math.floor(r()*30),leagueId:pick(LEAGUES),nationalityId:pick(NATIONS)}));
+  // Signings come from a small pool of men per manager, so a man can be wanted again in a later window (the same man:
+  // same league and nation). A man the rival guessed earlier may not be signed again: the LOCK check refuses him.
+  const who=role==="playerOne"?"Daniel":"Nik",pool=[0,1,2,3,4,5].sort(()=>r()-0.5),count2=1+Math.floor(r()*3);
+  const man=n=>{const m=new Sim((story.plan.seed*13_001)^(n*977)^(role==="playerOne"?0x51:0x52));return {name:`${who} Target ${n+1}`,position:m.pick(POSITIONS),overall:60+m.int(30),leagueId:m.pick(LEAGUES),nationalityId:m.pick(NATIONS)};};
+  const signings=pool.slice(0,count2).map((n,i)=>({slot:i+1,...man(n)}));
   // Results: sometimes the same as the rival's shape so equal totals (draws) happen often enough to test.
   const position=1+Math.floor(r()*Math.min(teamCount,6));
   const cl=r()<0.2,el=!cl&&r()<0.2;
@@ -255,7 +260,11 @@ class Manager{
         return false;
       }
       if(t.phase==="SIGNING_ENTRY"){
-        if(!t.signingLockedRoles.includes(role))return this.moved(await this.mutate(tab,`transfer:sign:${season}`,"Transfer","lockSignings",base,{seasonNumber:season,signings:intent.signings},"transfer_op_"));
+        if(!t.signingLockedRoles.includes(role)){
+          const signings=await this.allowedSignings(tab,k,season,intent.signings);
+          if(!signings)return false;
+          return this.moved(await this.mutate(tab,`transfer:sign:${season}`,"Transfer","lockSignings",base,{seasonNumber:season,signings},"transfer_op_"));
+        }
         return false;
       }
       if(t.phase!=="COMPLETED")return false;
@@ -287,6 +296,23 @@ class Manager{
     if(!acknowledged.includes(role))return this.moved(await this.mutate(tab,`ack:${season}`,"Commit","acknowledgeSeason",commit.revision,{seasonNumber:season},"season_commit_op_"));
     if(commit.phase==="ACKNOWLEDGED"||acknowledged.length===2){k.season=null;return true;}
     return false;
+  }
+  // The Transfer War LOCK check the screen runs (js/productionSharedTransferChallenge.js rouletteBlocked + blockedFor, the real
+  // functions): earlier windows' verdicts, read once per tab like the screen; a refused man is swapped for a new one.
+  async allowedSignings(tab,k,season,wanted){
+    k.verdicts=k.verdicts||{};
+    for(let s=1;s<season;s+=1){
+      if(k.verdicts[s])continue;
+      const earlier=await this.call(tab,"Transfer","read",{seasonNumber:s});
+      if(!earlier.ok||!earlier.verdicts)return null;
+      k.verdicts[s]=earlier.verdicts;
+    }
+    const map=ProductionTransfer.rouletteBlocked([null,...Array.from({length:season-1},(_,i)=>k.verdicts[i+1])],[null],season,this.role);
+    return wanted.map(row=>{
+      if(!ProductionTransfer.blockedFor(map,row.name,null))return row;
+      this.story.cell("Transfer.lock:refused-guessed");
+      return {...row,name:`${row.name} (new S${season})`};
+    });
   }
   serverEstimate(tab){if(tab.serverEstimateMs===undefined)tab.serverEstimateMs=this.story.sim.int(3_001)-1_500;return this.story.sim.now+tab.serverEstimateMs;}
   // The Prime Pack through the real step module (js/iconGuessStep.js: arrive, applyGuess, pointsFor, record), one fresh copy
@@ -426,7 +452,9 @@ class Story{
         const history=accepted?await History.read(o({throughSeason:accepted})):null;
         const scoring=[];
         for(let season=1;season<=accepted;season+=1)scoring.push(await Scoring.read(o({seasonNumber:season,teamCount:this.teamCount||20})));
-        views[role]={multi,history,scoring};
+        const transfers=[];
+        for(let season=1;season<=accepted;season+=1)transfers.push(await Transfer.read(o({seasonNumber:season})));
+        views[role]={multi,history,scoring,transfers};
       }
     })().then(()=>{done=true;},e=>{error=e;done=true;});
     await sim.run(()=>done,{untilMs:sim.now+6*60*60*1000});

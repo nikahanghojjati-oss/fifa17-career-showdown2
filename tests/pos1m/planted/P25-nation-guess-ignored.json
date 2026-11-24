@@ -1,0 +1,9 @@
+{
+ "id": "P25-nation-guess-ignored",
+ "law": "L8_GUESSED_PLAYER",
+ "title": "A right nationality guess does not release the signing",
+ "file": "js/sparkSharedTransferChallenge.js",
+ "find": "return (state.inputs[role].signings||[]).map(signing=>{const matchedBy=guesses.filter(guess=>(guess.type===\"league\"&&guess.valueId===signing.leagueId)||(guess.type===\"nationality\"&&guess.valueId===signing.nationalityId));",
+ "replace": "return (state.inputs[role].signings||[]).map(signing=>{const matchedBy=guesses.filter(guess=>(guess.type===\"league\"&&guess.valueId===signing.leagueId));",
+ "why": "Only league guesses count, so a signing whose nation the rival named is kept: the rival's right guess is lost."
+}

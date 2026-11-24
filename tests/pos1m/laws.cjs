@@ -10,7 +10,7 @@
 // L5  The season order is never skipped or reordered (Ring 1 part: Transfer War -> Results -> Commit -> next season).
 // L6  Prime Pack has one winner worth 4, 3, 2 or 1 by the server time of his right guess, or no winner.
 // L7  Europa League +3 or Champions League +5, never both; season scores follow the rules (independent oracle).
-// L8  A guessed player never joins the board and cannot be signed again.               (step modules: tests/pos1m/steps)
+// L8  A signing the rival guessed (his league or nation) is released, never joins, and cannot be signed again.
 // L9  Sacked ends the Showdown after that season, and points so far decide.
 // L10 History and career totals count only finished seasons and Showdowns, each once.
 // L11 Once the faults stop, both phones agree on the step and the totals.
@@ -193,6 +193,29 @@ function packFinal(story,commits){
   }
 }
 
+// L8 from the product rules: a signing is guessed when the rival's guess names his league or his nation; a guessed
+// signing is released (never joins) and that man (same name, accents and case aside) is never signed again by that manager.
+const nameKey=name=>String(name||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();
+function guessedFinal(story,views){
+  for(const role of W.ROLES){
+    const reads=views[role].transfers||[],guessed=new Map();
+    reads.forEach((t,i)=>{
+      const season=i+1;
+      if(!t||!t.ok||!t.verdicts||!t.ownInputs||!t.opponentInputs){story.violation("L8_GUESSED_PLAYER",`${role} could not read season ${season}'s Transfer War verdicts: ${t&&t.code}`);return;}
+      const guesses=t.opponentInputs.guesses||[],rows=t.verdicts[role]||[];
+      for(const signing of t.ownInputs.signings||[]){
+        const was=guessed.get(nameKey(signing.name));
+        if(was)story.violation("L8_GUESSED_PLAYER",`${role} signed ${signing.name} in season ${season}, guessed by the rival in season ${was}`);
+        const hit=guesses.some(g=>(g.type==="league"&&g.valueId===signing.leagueId)||(g.type==="nationality"&&g.valueId===signing.nationalityId));
+        const row=rows.find(v=>v.slot===signing.slot&&v.name===signing.name);
+        if(!row)story.violation("L8_GUESSED_PLAYER",`${role} season ${season}: no verdict for ${signing.name}`);
+        else if(row.release!==hit)story.violation("L8_GUESSED_PLAYER",`${role} season ${season}: ${signing.name} ${hit?"was guessed but kept":"was not guessed but released"}`);
+      }
+      for(const signing of t.ownInputs.signings||[]){const hit=guesses.some(g=>(g.type==="league"&&g.valueId===signing.leagueId)||(g.type==="nationality"&&g.valueId===signing.nationalityId));if(hit&&!guessed.has(nameKey(signing.name)))guessed.set(nameKey(signing.name),season);}
+    });
+  }
+}
+
 // Game refusals are upper-case codes (SEASON_RESULTS_...); Firestore transport errors are lower-case (unavailable, ...).
 const GAME_CODE=/^[A-Z][A-Z0-9_]+$/;
 
@@ -216,6 +239,7 @@ function final(story,views){
   // L7: results never carry both; and every season score follows the rules.
   for(const c of commits){for(const role of W.ROLES){const r=c.data.results&&c.data.results[role];if(r&&r.europaLeague===true&&r.championsLeague===true)story.violation("L7_EL_OR_CL",`season ${c.season} ${role} has Europa League and Champions League`);}}
   packFinal(story,commits);
+  guessedFinal(story,views);
   // L1: each commit holds exactly what the two managers published (no swapped, stale or edited copy).
   for(const c of commits)for(const role of W.ROLES){
     const own=docs.get(`${BASE}/seasonResults/season_${c.season}/roles/${role}`);
