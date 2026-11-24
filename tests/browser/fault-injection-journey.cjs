@@ -316,9 +316,16 @@ async function pathForward(m,page=m.page){
     if(await clickIf(page,page.locator("button:visible").filter({hasText:/^\s*SIGN IN\s*$/})))return "home:sign-in";
     // The live Showdown: the START tile reads CONTINUE SHOWDOWN / JOIN (what a player taps); else the CAREER tile when it names
     // the live season.
+    // Nik's JOIN (B6 on #1579): Home's join check can open the connect box over the tile, and then the box takes the tap, so a
+    // player taps the box's own JOIN DANIEL'S SHOWDOWN. The tile's label reads just JOIN. Both re-taps wait 8 s for the answer.
+    const box=page.locator("#connectPlayersScreen");
+    if(await box.isVisible().catch(()=>false)){
+      const join=box.locator("button:visible").filter({hasText:/^\s*JOIN DANIEL'S SHOWDOWN\s*$/}).first();
+      if(await join.count().catch(()=>0)){if(Date.now()-(page.__fijJoinTap||0)<8000)return "partner-wait";page.__fijJoinTap=Date.now();await join.click({timeout:5000}).catch(()=>{});return "home:join-box";}
+    }
     const start=page.locator("#newShowdown");
     const startLabel=norm(await start.locator(".menuTileLabel").textContent().catch(()=>""));
-    if(/CONTINUE SHOWDOWN|JOIN DANIEL/.test(startLabel)){await start.click({timeout:5000}).catch(()=>{});return `home:${startLabel}`;}
+    if(/^JOIN$|CONTINUE SHOWDOWN|JOIN DANIEL/.test(startLabel)){if(/JOIN/.test(startLabel)){if(Date.now()-(page.__fijJoinTap||0)<8000)return "partner-wait";page.__fijJoinTap=Date.now();}await start.click({timeout:5000}).catch(()=>{});return `home:${startLabel}`;}
     const tile=page.locator("#mainMenu button:visible,#mainMenu .menuTile:visible").filter({hasText:/Daniel vs Nik · Season \d+ of/}).first();
     if(await tile.count()){const label=norm(await tile.textContent().catch(()=>""));await tile.click({timeout:5000}).catch(()=>{});return `home:${label.slice(0,40)}`;}
     return "";
@@ -908,7 +915,12 @@ async function main(){
     await Promise.all([
       drive(X,async p=>(readyNow=moment(await primeState(p)))||await onTransfer(p),{label:`${point} (round)`,timeout:240000}),
       drive(O,async p=>readyNow||await onTransfer(p),{label:`${point} (partner)`,timeout:240000})]);
-    await writePoint(ctx,point,{writer:X,ready:async p=>moment(await primeState(p)),
+    // prime-reveal (B2 on #1579): the result can show and move on between two polls; a phone already on the Transfer War with
+    // this season's round stored is past the reveal, so the fault hits there (noted) instead of waiting for a moment gone by.
+    const pastReveal=async p=>point==="prime-reveal"&&await onTransfer(p)&&Boolean(docData(await admin(R(`primePackRounds/season_${season}`))));
+    let notedPast=false;
+    await writePoint(ctx,point,{writer:X,ready:async p=>{if(moment(await primeState(p)))return true;if(!(await pastReveal(p)))return false;
+        if(!notedPast){notedPast=true;report.notes.push(`${point}: ${X.user} was already past the Prime Pack result (on the Transfer War); the fault hit right after the reveal`);}return true;},
       tap:async p=>{
         if(point!=="prime-guess")return;
         const names=await rosterRoulette.primeNames(p);const f=p.frames().find(fr=>/\/icon-guess\//.test(fr.url()));
