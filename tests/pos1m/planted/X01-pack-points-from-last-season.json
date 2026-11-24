@@ -1,0 +1,9 @@
+{
+ "id": "X01-pack-points-from-last-season",
+ "law": "L6_PRIME_PACK",
+ "title": "Prime Pack points are remembered per manager, not per season",
+ "file": "js/iconGuessStep.js",
+ "find": "const key=igsKey(ctx);if(wonMemo.has(key))return wonMemo.get(key);",
+ "replace": "const key=`${ctx.rivalryId}|${ctx.managerRole}`;if(wonMemo.has(key))return wonMemo.get(key);",
+ "why": "The won-points memo in pointsFor forgets the season, so a phone that stays open into the next season publishes last season's Prime Pack points. Each season alone is right; only a multi-season story with a long-lived tab shows it."
+}
