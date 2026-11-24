@@ -25,7 +25,7 @@ if(isMainThread){
   let bugs=Mutant.list();
   if(opt.only)bugs=bugs.filter(b=>opt.only.includes(b.id));
   for(const bug of bugs)Mutant.mutatedFiles(bug);// every planted bug still applies at this head
-  const queue=opt.baseline?[null]:[...bugs],results=[];
+  const queue=opt.baseline?[null]:[...bugs],results=[],ledgerIds=new Set(bugs.filter(b=>b.ledger).map(b=>b.id));
   let active=0;const started=Date.now();
   const next=()=>{
     if(!queue.length){if(!active)finish();return;}
@@ -42,7 +42,10 @@ if(isMainThread){
     const sole=new Map();
     for(const r of results)if(r.caught){const sets=r.catches.map(c=>c.laws);const only=sets.every(s=>s.length===1&&s[0]===sets[0][0])?sets[0][0]:null;if(only&&!sole.has(only))sole.set(only,r.id);}
     const caught=results.filter(r=>r.caught).length;
-    const report={engine:"POS1M",kind:opt.baseline?"baseline":"planted",total:results.length,caught,results,soleCatchers:Object.fromEntries(sole),wallMs:Date.now()-started};
+    // Ledger replays (a "ledger" key: a confirmed Fable/Sol fix reverted) are counted on their own for the seal.
+    const ledger=results.filter(r=>ledgerIds.has(r.id));
+    const report={engine:"POS1M",kind:opt.baseline?"baseline":"planted",total:results.length,caught,plantedBugs:{caught:caught-ledger.filter(r=>r.caught).length,total:results.length-ledger.length},ledgerReplays:{refound:ledger.filter(r=>r.caught).length,total:ledger.length},results,soleCatchers:Object.fromEntries(sole),wallMs:Date.now()-started};
+    if(!opt.baseline)console.log(`ledger replays re-found: ${report.ledgerReplays.refound} of ${report.ledgerReplays.total}`);
     if(opt.out)fs.writeFileSync(opt.out,JSON.stringify(report,null,1));
     console.log(`laws with a planted bug only they catch: ${[...sole.keys()].sort().join(", ")||"none"}`);
     if(opt.baseline){const r=results[0];console.log(r&&!r.caught?`PASS POS1M baseline: the unchanged game breaks no law in ${r.stories} stories`:`FAIL POS1M baseline: the unchanged game broke a law`);process.exitCode=r&&!r.caught?0:1;return;}

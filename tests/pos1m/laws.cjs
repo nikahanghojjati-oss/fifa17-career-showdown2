@@ -100,6 +100,8 @@ function scanWrites(story){
       if(transferSeason>1&&!w.before&&!ls.acknowledged.has(transferSeason-1))story.violation("L5_ORDER",`season ${transferSeason} Transfer War opened before season ${transferSeason-1} was acknowledged`);
       transferStep(story,transferSeason,w);
     }
+    // L5 in Setup (League Roulette): the clubs are drawn only after all four balls dropped.
+    if(w.path===`${BASE}/sharedSetup/authoritative`&&w.after&&w.before&&Array.isArray(w.after.operationTypes)&&w.after.operationTypes.includes("commit-clubs")&&!(w.before.operationTypes||[]).includes("commit-clubs")&&Object.prototype.hasOwnProperty.call(w.before,"drops")&&w.before.drops!==4)story.violation("L5_ORDER",`clubs drawn after ${w.before.drops} of 4 League Roulette balls`);
     const packSeason=seasonOf("primePackRounds",w.path);
     if(packSeason!==null)packStep(story,packSeason,w);
     // L9: nothing of a later season is written after a sacked season was accepted.
@@ -141,6 +143,8 @@ function transferStep(story,season,w){
   if(from===to)return;
   const a=TRANSFER_ORDER.indexOf(from),b=TRANSFER_ORDER.indexOf(to);
   if(a<0||b<0||b<a){story.violation("L5_ORDER",`season ${season} Transfer War went ${from} -> ${to}`);return;}
+  // RT5-FLOW-02 (product rule: roulette, then Prime Pack, then Transfer War): the window opens only once both managers spun.
+  if(to==="WINDOW_OPEN"&&!(w.before&&w.before.spins&&W.ROLES.every(role=>w.before.spins[role]!==undefined&&w.before.spins[role]!==null&&w.before.spins[role]!==false)))story.violation("L5_ORDER",`season ${season} Transfer War opened before both managers spun the roulette (${JSON.stringify(w.before&&w.before.spins&&Object.keys(w.before.spins))})`);
   if(b>a+1&&!(from==="NOT_STARTED"&&to==="WINDOW_OPEN")){story.violation("L5_ORDER",`season ${season} Transfer War skipped from ${from} to ${to}`);return;}
   if(to==="GUESS_ENTRY"&&!bothIn(w.after.endRequestedRoles)){
     const started=millisOf(w.after.startedAt);
@@ -293,4 +297,4 @@ function final(story,views){
   if(server.meter.writes/seasons>BUDGET.writesPerSeason)story.violation("L14_BUDGET",`${Math.round(server.meter.writes/seasons)} writes per season (budget ${BUDGET.writesPerSeason})`);
 }
 
-module.exports={fromCheckpoint,onObserve,afterMove,onRepeat,final,oracleScore,BUDGET};
+module.exports={fromCheckpoint,onObserve,afterMove,onRepeat,final,oracleScore,BUDGET,GAME_CODE};
