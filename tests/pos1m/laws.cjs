@@ -4,13 +4,15 @@
 // each phone was shown; they never trust the code under test to grade itself (scoring has its own oracle here).
 //
 // L1  At most one commit per season, and it never changes once accepted.
+//     (Kept as its own law, defence in depth (lead 2026-11-24): today every commit tamper also stalls on the game's own
+//     sealed hash, so L12 catches it too and L1 has no sole planted catcher.)
 // L2  No phone ever writes an action for the other manager.
 // L3  Equal totals are a draw. There is no tiebreak anywhere.
 // L4  Nothing private shows early: guesses, signings and results stay hidden until the game reveals them.
 // L5  The season order is never skipped or reordered (Ring 1 part: Transfer War -> Results -> Commit -> next season).
 // L6  Prime Pack has one winner worth 4, 3, 2 or 1 by the server time of his right guess, or no winner.
 // L7  Europa League +3 or Champions League +5, never both; season scores follow the rules (independent oracle).
-// L8  A guessed player never joins the board and cannot be signed again.               (step modules: tests/pos1m/steps)
+// L8  A signing the rival guessed (his league or nation) is released, never joins, and cannot be signed again.
 // L9  Sacked ends the Showdown after that season, and points so far decide.
 // L10 History and career totals count only finished seasons and Showdowns, each once.
 // L11 Once the faults stop, both phones agree on the step and the totals.
@@ -44,6 +46,7 @@ function fromCheckpoint(story){
   const ls=state(story);
   // Seasons already accepted at the checkpoint: their writes are not on this story's meter (L14 divides by new seasons).
   story.acceptedAtCheckpoint=[...story.world.server.docs].filter(([p,e])=>seasonOf("seasonCommits",p)!==null&&e.data.phase==="ACKNOWLEDGED").length;
+  story.packFromCheckpoint=new Set([...story.world.server.docs.keys()].map(p=>seasonOf("primePackRounds",p)).filter(s=>s!==null));
   for(const [path,entry] of story.world.server.docs){
     const d=entry.data;
     const c=seasonOf("seasonCommits",path);if(c!==null){ls.commits.set(c,canonical(d.results));if(d.phase==="ACKNOWLEDGED")ls.acknowledged.set(c,0);}
@@ -102,6 +105,8 @@ function scanWrites(story){
       if(transferSeason>1&&!w.before&&!ls.acknowledged.has(transferSeason-1))story.violation("L5_ORDER",`season ${transferSeason} Transfer War opened before season ${transferSeason-1} was acknowledged`);
       transferStep(story,transferSeason,w);
     }
+    // L5 in Setup (League Roulette): the clubs are drawn only after all four balls dropped.
+    if(w.path===`${BASE}/sharedSetup/authoritative`&&w.after&&w.before&&Array.isArray(w.after.operationTypes)&&w.after.operationTypes.includes("commit-clubs")&&!(w.before.operationTypes||[]).includes("commit-clubs")&&Object.prototype.hasOwnProperty.call(w.before,"drops")&&w.before.drops!==4)story.violation("L5_ORDER",`clubs drawn after ${w.before.drops} of 4 League Roulette balls`);
     const packSeason=seasonOf("primePackRounds",w.path);
     if(packSeason!==null)packStep(story,packSeason,w);
     // L9: nothing of a later season is written after a sacked season was accepted.
@@ -143,6 +148,8 @@ function transferStep(story,season,w){
   if(from===to)return;
   const a=TRANSFER_ORDER.indexOf(from),b=TRANSFER_ORDER.indexOf(to);
   if(a<0||b<0||b<a){story.violation("L5_ORDER",`season ${season} Transfer War went ${from} -> ${to}`);return;}
+  // RT5-FLOW-02 (product rule: roulette, then Prime Pack, then Transfer War): the window opens only once both managers spun.
+  if(to==="WINDOW_OPEN"&&!(w.before&&w.before.spins&&W.ROLES.every(role=>w.before.spins[role]!==undefined&&w.before.spins[role]!==null&&w.before.spins[role]!==false)))story.violation("L5_ORDER",`season ${season} Transfer War opened before both managers spun the roulette (${JSON.stringify(w.before&&w.before.spins&&Object.keys(w.before.spins))})`);
   if(b>a+1&&!(from==="NOT_STARTED"&&to==="WINDOW_OPEN")){story.violation("L5_ORDER",`season ${season} Transfer War skipped from ${from} to ${to}`);return;}
   if(to==="GUESS_ENTRY"&&!bothIn(w.after.endRequestedRoles)){
     const started=millisOf(w.after.startedAt);
@@ -181,6 +188,9 @@ function packStep(story,season,w){
 }
 function packFinal(story,commits){
   const docs=story.world.server.docs;
+  // Each guess tap spends at most one of the manager's two guesses (a lost answer must not cost a second one).
+  // First real POS1M catch (W12, fixed in #1583): a guess whose answer was lost must not spend a second token on retry.
+  if(!heldOff("pack-chips-per-tap"))for(const [path,entry] of docs){const season=seasonOf("primePackRounds",path);if(season===null||!entry.data.chipsUsed)continue;for(const role of W.ROLES){const taps=story.packTaps&&story.packTaps[`${season}:${role}`]||0;if(entry.data.chipsUsed[role]>taps&&!story.packFromCheckpoint?.has(season))story.violation("L6_PRIME_PACK",`season ${season} ${role} used ${entry.data.chipsUsed[role]} guesses with ${taps} guess taps`);}}
   for(const c of commits){
     const results=c.data.results;if(!results)continue;
     const scored=W.ROLES.filter(role=>results[role]&&results[role].primePack!==undefined);
@@ -195,7 +205,34 @@ function packFinal(story,commits){
   }
 }
 
+// L8 from the product rules: a signing is guessed when the rival's guess names his league or his nation; a guessed
+// signing is released (never joins) and that man (same name, accents and case aside) is never signed again by that manager.
+const nameKey=name=>String(name||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();
+function guessedFinal(story,views){
+  for(const role of W.ROLES){
+    const reads=views[role].transfers||[],guessed=new Map();
+    reads.forEach((t,i)=>{
+      const season=i+1;
+      if(!t||!t.ok||!t.verdicts||!t.ownInputs||!t.opponentInputs){story.violation("L8_GUESSED_PLAYER",`${role} could not read season ${season}'s Transfer War verdicts: ${t&&t.code}`);return;}
+      const guesses=t.opponentInputs.guesses||[],rows=t.verdicts[role]||[];
+      for(const signing of t.ownInputs.signings||[]){
+        const was=guessed.get(nameKey(signing.name));
+        if(was)story.violation("L8_GUESSED_PLAYER",`${role} signed ${signing.name} in season ${season}, guessed by the rival in season ${was}`);
+        const hit=guesses.some(g=>(g.type==="league"&&g.valueId===signing.leagueId)||(g.type==="nationality"&&g.valueId===signing.nationalityId));
+        const row=rows.find(v=>v.slot===signing.slot&&v.name===signing.name);
+        if(!row)story.violation("L8_GUESSED_PLAYER",`${role} season ${season}: no verdict for ${signing.name}`);
+        else if(row.release!==hit)story.violation("L8_GUESSED_PLAYER",`${role} season ${season}: ${signing.name} ${hit?"was guessed but kept":"was not guessed but released"}`);
+      }
+      for(const signing of t.ownInputs.signings||[]){const hit=guesses.some(g=>(g.type==="league"&&g.valueId===signing.leagueId)||(g.type==="nationality"&&g.valueId===signing.nationalityId));if(hit&&!guessed.has(nameKey(signing.name)))guessed.set(nameKey(signing.name),season);}
+    });
+  }
+}
+
 // Game refusals are upper-case codes (SEASON_RESULTS_...); Firestore transport errors are lower-case (unavailable, ...).
+// Checks held off the per-PR slice while a known real bug waits for its fix (id -> the fix job). Replays and POS1M_HELD=1
+// run them all. Delete an entry in the push that lands after its fix, so the per-PR slice guards it from then on.
+const HELD={};// "pack-chips-per-tap" released 2026-11-24 after W12 (#1583) merged
+const heldOff=id=>Boolean(HELD[id])&&process.env.POS1M_HELD!=="1";
 const GAME_CODE=/^[A-Z][A-Z0-9_]+$/;
 
 function afterMove(story){scanWrites(story);}
@@ -218,6 +255,7 @@ function final(story,views){
   // L7: results never carry both; and every season score follows the rules.
   for(const c of commits){for(const role of W.ROLES){const r=c.data.results&&c.data.results[role];if(r&&r.europaLeague===true&&r.championsLeague===true)story.violation("L7_EL_OR_CL",`season ${c.season} ${role} has Europa League and Champions League`);}}
   packFinal(story,commits);
+  guessedFinal(story,views);
   // L1: each commit holds exactly what the two managers published (no swapped, stale or edited copy).
   for(const c of commits)for(const role of W.ROLES){
     const own=docs.get(`${BASE}/seasonResults/season_${c.season}/roles/${role}`);
@@ -271,4 +309,4 @@ function final(story,views){
   if(server.meter.writes/seasons>BUDGET.writesPerSeason)story.violation("L14_BUDGET",`${Math.round(server.meter.writes/seasons)} writes per season (budget ${BUDGET.writesPerSeason})`);
 }
 
-module.exports={fromCheckpoint,onObserve,afterMove,onRepeat,final,oracleScore,BUDGET};
+module.exports={fromCheckpoint,onObserve,afterMove,onRepeat,final,oracleScore,BUDGET,GAME_CODE,HELD};

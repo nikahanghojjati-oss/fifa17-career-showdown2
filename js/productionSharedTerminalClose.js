@@ -277,7 +277,10 @@
   // r87 W3-6: the atomic session close is checked against server time (freshSessionActivity: server - 5 min .. + 1 min), so it
   // uses the connection's server-anchored clock (js/sparkRemoteJoining.js clockNow); the phone clock only if that is missing.
   function ptcNow(){try{const now=Number(root.CareerModeSparkRemoteJoining?.clockNow?.());if(Number.isFinite(now)&&now>0)return now;}catch(_error){}return Date.now();}
-  function ptcCloseOptions(context,intent){return {user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:context.request.rivalryId,sessionId:intent.sessionId,deviceId:context.deviceId,intent,nowEpochMs:ptcNow(),cryptoImpl:root.crypto};}
+  // Phoenix W7 (r100): the close stamps the session with the server-anchored time measured for this write (measured again when
+  // the phone clock jumped or the page slept), as the session's other writes do; the running clock only if that is missing.
+  async function ptcServerNow(context){try{const now=Number(await root.CareerModeSparkRemoteJoining?.serverNow?.(context.user));if(Number.isFinite(now)&&now>0)return now;}catch(_error){}return ptcNow();}
+  async function ptcCloseOptions(context,intent){return {user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,rivalryId:context.request.rivalryId,sessionId:intent.sessionId,deviceId:context.deviceId,intent,nowEpochMs:await ptcServerNow(context),cryptoImpl:root.crypto};}
   function ptcAccepted(request,intent,result){
     const closed=protocol.closeResult(intent,result);if(ptcRequest()?.key!==request.key)return null;try{remoteApi?.forgetSession?.();}catch(_error){}
     return ptcPublish(request,{phase:"CLOSED",rivalryId:request.rivalryId,sessionId:intent.sessionId,rivalryRevision:closed.rivalryRevision,sessionRevision:closed.sessionRevision,terminal:true,terminalWitness:ptcClone(intent),replayed:closed.replayed,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});
@@ -307,7 +310,7 @@
       try{
         const context=await ptcResolveContext(request);if(!ptcStillCurrent(request,generation)||(automaticKey&&ptcAutomaticKey(context)!==automaticKey))ptcFail("TERMINAL_CLOSE_CONTEXT_CHANGED");
         if(!ptcRemoteActive(context,intent.sessionId))ptcFail("TERMINAL_CLOSE_ACTIVE_SESSION_REQUIRED","The connection ended. Reconnect both players, then close the Showdown.");
-        const result=await provider.close(ptcCloseOptions(context,intent));
+        const options=await ptcCloseOptions(context,intent);if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};const result=await provider.close(options);
         if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
         if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"The close is not confirmed yet. Tap TRY CLOSING AGAIN. Nothing new is started.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
@@ -336,7 +339,7 @@
         // Codex #910: the other phone deleted the rivalry before this RETRY: DELETED at once, no close sent against it.
         if(terminalRead?.ok===true&&terminalRead.deleted===true&&terminalRead.rivalryState==="closed"){try{remoteApi?.forgetSession?.();}catch(_error){}ptcPublish(request,ptcDeletedState(request,terminalRead));return {ok:true,status:"deleted",rivalryId:request.rivalryId};}
         if(terminalRead?.ok===true&&terminalRead.terminal===true){if(!ptcSameFinalResult(terminalRead,intent))ptcFail("TERMINAL_CLOSE_REPLAY_CONFLICT");try{remoteApi?.forgetSession?.();}catch(_error){}ptcPublish(request,ptcClosedState(request,terminalRead));return {ok:true,status:"replayed",replayed:true,rivalryId:request.rivalryId,sessionId:terminalRead.terminalWitness.sessionId,rivalryState:"closed",sessionState:"closed",rivalryRevision:terminalRead.rivalryRevision};}
-        const result=await provider.close(ptcCloseOptions(context,intent));
+        const options=await ptcCloseOptions(context,intent);if(!ptcStillCurrent(request,generation))return changed;const result=await provider.close(options);
         if(!ptcStillCurrent(request,generation))return changed;
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
         if(ptcAmbiguous(result)){ptcPublish(request,current);return {...result,recoverable:true};}
