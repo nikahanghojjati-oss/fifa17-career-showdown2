@@ -64,19 +64,18 @@ export function l7Affected(files){
 }
 // The heavy set (Phoenix B1, lead OK 2026-11-24): the epilogue points (home-join, end-showdown, sacked, unpair: two more
 // short Showdowns) and the three slowest legs. A PR into a release branch runs them only when it may touch pairing, Home,
-// Settings or sync, and that is fail-closed too: the light set is a short list of files known to be look-only (3D scenes,
-// styles, art, kits, commentary words) or Node-only. Any other file, invalid evidence, a PR into main and every push or
+// Settings or sync, and that is fail-closed too: the light set is a short list of files known to be look-only (styles, art)
+// or Node-only (POS1M); every js/** and data/** file is game code and runs the full set. Any other file, invalid evidence, a PR into main and every push or
 // manual run (the Ironman full matrix, gameplay/r* pushes) run the heavy set. Nothing is dropped: a skipped heavy leg is a
 // verified skip, the same as a skipped L7.
 export const L7_HEAVY_LEGS=Object.freeze(['double','twotabs','coldoffline']);
-export const L7_LIGHT_ONLY=Object.freeze([
-  'css/**','assets/**','visual-assets/**','tests/pos1m/**',
-  'js/chamberMenScene3d.js','js/chamberMenStadium3d.js','js/clubDrawScene3d.js','js/leagueRouletteScene3d.js','js/footballVisuals.js',
-  'js/fullMotionHonor.js','js/gfxTier.js','js/kits17.js','js/commentaryEngine.js','js/commentaryV3.js','js/iconNames.js',
-  'js/visualIdentity.js','js/menuFeedback.js','js/ruleBook.js','js/trophyRoom.js','js/statistics.js'
-]);
+export const L7_LIGHT_ONLY=Object.freeze(['css/**','assets/**','visual-assets/**','tests/pos1m/**']);
+// Never light (lead brief 2026-11-24, Nik "All six"): any js/**, data/**, firestore*.rules, service-worker.js or index.html
+// change runs the full set, even a 3D scene or commentary file: game code is game code.
+export const L7_NEVER_LIGHT=Object.freeze(['js/**','data/**','firestore*.rules','service-worker.js','index.html']);
 export function l7Heavy(files){
   if(!Array.isArray(files)||files.some(file=>typeof file!=='string'||!file))return true;
+  if(files.some(file=>L7_NEVER_LIGHT.some(glob=>path.matchesGlob(file,glob))))return true;
   return files.some(file=>!L7_SKIP_ONLY.some(glob=>path.matchesGlob(file,glob))&&!L7_LIGHT_ONLY.some(glob=>path.matchesGlob(file,glob)));
 }
 export function l7Decision({event,baseRef,files,leg=null}){

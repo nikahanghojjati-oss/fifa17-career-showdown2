@@ -144,7 +144,11 @@ async function run(){
   // skip of a heavy leg is verified by the seal like any L7 skip; a leg that ran without the epilogue must be the light set.
   {
     assert.deepEqual([...S.L7_HEAVY_LEGS],['double','twotabs','coldoffline']);
-    const look=['css/app.css','assets/kits/a.png','visual-assets/home/home.css','js/leagueRouletteScene3d.js','js/gfxTier.js','tests/pos1m/run.cjs'];
+    const look=['css/app.css','assets/kits/a.png','visual-assets/home/home.css','tests/pos1m/run.cjs'];
+    // Game code is never light: every js/** (even a 3D scene or commentary words), data/**, Rules, the service worker, index.html.
+    for(const file of ['js/leagueRouletteScene3d.js','js/gfxTier.js','js/commentaryEngine.js','js/kits17.js','js/trophyRoom.js','js/statistics.js','data/clubs.js','firestore.rules','firestore.career-start-production.fragment.rules','service-worker.js','index.html'])
+      assert.equal(S.l7Heavy([...look,file]),true,`game code runs the full set: ${file}`);
+    for(const glob of S.L7_LIGHT_ONLY)assert.ok(!S.L7_NEVER_LIGHT.some(never=>glob.startsWith(never.replace(/\*.*$/,''))),`the light set holds no game code: ${glob}`);
     const heavy=['js/persistentNikDanielPair.js','js/settings.js','js/homeScreensV10.js','js/productionSharedSeasonCommit.js','js/app.js','index.html','firestore.rules','package.json','tests/browser/fault-injection-journey.cjs','scripts/ironman-leg.mjs','.github/workflows/showdown-gate.yml','new-folder/thing.js'];
     assert.equal(S.l7Heavy([...outside,...look]),false,'look-only and Node-only files are the light set');
     for(const file of heavy)assert.equal(S.l7Heavy([...look,file]),true,`heavy set: ${file}`);
