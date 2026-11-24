@@ -111,7 +111,9 @@ const PORTS={auth:PORT_BASE,firestore:PORT_BASE+1,hub:PORT_BASE+2,logging:PORT_B
 const TAG=process.env.FIJ_TAG||`fij-${FAULT}-${PHONE_MODE}`;
 const REPORT_PATH=path.join(OUT_DIR,`${TAG}.json`);
 const SHOT_DIR=path.join(OUT_DIR,TAG);
-if(![...ALL_FAULTS,"none"].includes(FAULT)){console.error(`FIJ_FAULT must be one of ${ALL_FAULTS.join(", ")}, none (got ${FAULT})`);process.exit(2);}
+// POINT_FAULTS: a fault for one point only, run by hand (FIJ_FAULT=silentcommit FIJ_PHONE=nik); not a Gate leg.
+const POINT_FAULTS=["silentcommit"];
+if(![...ALL_FAULTS,...POINT_FAULTS,"none"].includes(FAULT)){console.error(`FIJ_FAULT must be one of ${[...ALL_FAULTS,...POINT_FAULTS].join(", ")}, none (got ${FAULT})`);process.exit(2);}
 
 // One fault: start this run's own emulators and run this file inside them.
 if(!process.env.FIRESTORE_EMULATOR_HOST){
@@ -144,6 +146,7 @@ const APP_PORT=Number(process.env.FIJ_APP_PORT||14711);
 const BASE=(process.env.CMS_BASE_URL||`http://127.0.0.1:${APP_PORT}/`).replace(/\/?$/,"/");
 const FIRESTORE=`http://127.0.0.1:${PORTS.firestore}`;
 const SWITCH=path.join(ROOT,"tests/browser/support/emulator-runtime-switch.js");
+const SILENT_COMMIT=path.join(ROOT,"tests/browser/support/fij-silent-commit.js");
 const SDK_DIR=path.join(ROOT,"node_modules/firebase");
 const DEBUG=process.env.FIJ_DEBUG==="1";
 const deadTaps=[];// dead buttons seen (tapped five times with nothing happening), reported with the run
@@ -217,6 +220,15 @@ async function newContext(browser,account){
   await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,route=>{const name=route.request().url().match(/(firebase-[a-z-]+\.js)$/)[1];return route.fulfill({path:path.join(SDK_DIR,name),contentType:"text/javascript; charset=utf-8"});});
   await installFirestoreMeter(context,{sdkDir:SDK_DIR,user:account,sink:meter.events,firestoreOrigin:FIRESTORE});
   await context.addInitScript({path:SWITCH});
+  if(FAULT==="silentcommit"){
+    // Registered after the meter's route, so Playwright answers firebase-firestore.js with this one: the meter wrapper with its
+    // onSnapshot return handed to the hook, which reaches every listener (the budget layer imports the module itself).
+    const meterModule=require("./support/firestore-meter.cjs"),needle="  return R.onSnapshot(...out);\n}";
+    if(!meterModule.WRAPPER_SOURCE.includes(needle))throw new Error("firestore-meter wrapper changed: onSnapshot return not found");
+    const body=meterModule.WRAPPER_SOURCE.replace(needle,"  return typeof globalThis.__fijWrapListen===\"function\"?globalThis.__fijWrapListen(R.onSnapshot,out,target):R.onSnapshot(...out);\n}");
+    await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/firebase-firestore\.js$/,route=>route.fulfill({body,contentType:"text/javascript; charset=utf-8"}));
+    await context.addInitScript({path:SILENT_COMMIT});
+  }
   return context;
 }
 async function preparePage(m,page){wirePage(m,page);await installMarbleConfirmAnswers(page,{answer:true});}
@@ -374,6 +386,28 @@ async function inject(ctx,X,tap,other,rec){
   const runOther=async()=>{if(other)await other();};
   switch(FAULT){
     case "none":await runTap(X.page);await runOther();break;
+    // r100 (B6's one-off stall): at season-commit the waiting phone's Season Commit authority listener goes silent (attached,
+    // no error, nothing delivered) while the rival locks the season. CONFIRM SEASON must still show within 20 s, by a read.
+    // Run with FIJ_PHONE=nik (the waiting phone). Every other point plays without a fault.
+    case "silentcommit":{
+      if(rec.point!=="season-commit"||tap){rec.detail="(no fault here: silentcommit hits the waiting phone at season-commit)";await runTap(X.page);await runOther();break;}
+      // The stall B6 saw needs this state on the waiting phone: the budget layer's one wait listener is healthy (so Season Commit's
+      // timers are held back; in a normal run it watches the commit itself) and a listener on the commit has delivered a server copy.
+      const state=()=>X.page.evaluate(()=>{const s=window.CareerModeFirestoreBudget?.stats?.()||{};return {watching:String(s.watching||""),healthy:s.watchHealthy===true,served:window.__fijCommitServed||0};}).catch(()=>({watching:"",healthy:false,served:0}));
+      let before=await state();const until=Date.now()+45000;
+      while(Date.now()<until&&!(before.healthy&&before.served>0)){await sleep(500);before=await state();}
+      rec.silentState=before;const reached=before.healthy&&before.served>0;rec.silentStateReached=reached;
+      rec.checks.push({id:"silentcommit.state",phone:X.user,pass:reached,detail:reached?undefined:`state not reached in 45 s: ${JSON.stringify(before)}`});
+      await X.page.evaluate(()=>{window.__fijSilenced=0;window.__fijSilentCommits=true;}).catch(()=>{});
+      await runOther();const t0=Date.now();let label="";
+      while(Date.now()-t0<90000){label=await X.page.evaluate(()=>document.getElementById("sharedSeasonCommitAction")?.textContent||"").catch(()=>"");if(label==="CONFIRM SEASON"||label==="SEASON CONFIRMED ✓")break;await sleep(250);}
+      const waited=Date.now()-t0,held=await X.page.evaluate(()=>window.__fijSilenced||0).catch(()=>-1);
+      await X.page.evaluate(()=>{window.__fijSilentCommits=false;}).catch(()=>{});
+      rec.detail=`commit listeners silent (${reached?`wait listener healthy on ${before.watching}, ${before.served} commit listener(s) served`:`state not reached: ${JSON.stringify(before)}`}); "${label}" after ${Math.round(waited/1000)} s, ${held} deliveries held back`;rec.silentWaitMs=waited;rec.silenced=held;
+      const shown=label==="CONFIRM SEASON"||label==="SEASON CONFIRMED ✓";
+      rec.checks.push({id:"silentcommit.prompt",phone:X.user,pass:shown&&waited<=20000,detail:shown&&waited<=20000?undefined:`${X.user} saw "${label}" ${Math.round(waited/1000)} s after the rival's lock (limit 20 s), ${held} deliveries held back`});
+      break;
+    }
     case "network":{
       const s=NETWORK_S[i%NETWORK_S.length];rec.detail=`offline ${s}s`;
       // The tap first, then the network drops at once: the write is in flight (it may or may not reach the server).

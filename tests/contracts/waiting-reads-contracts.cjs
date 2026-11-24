@@ -169,14 +169,26 @@ async function check(label,fn){try{await fn();console.log(`PASS ${label}`);}catc
       for(const phase of ["results","commit"]){
         await check(`${screen}/${role}/${phase} healthy ten-minute wait and listener recovery`,async()=>{
           const w=await screenWorld(screen,role,phase),watched=phase==="results"?RESULTS:COMMIT;
+          // Phoenix r100 (B6's stall, lead thread): while playerTwo waits on the coordinator's commit, the 15 s check reads the
+          // commit from the server even though the listener looks healthy (a silent listener must not hold CONFIRM SEASON back):
+          // one light read of the commit per 15 s (40 in ten minutes), plus the provider's own context check every 5 minutes (2 more
+          // reads), so at most 44. Every other healthy wait still reads nothing.
+          const waitCheck=phase==="commit"&&role==="playerTwo",idle=waitCheck?44:10;
           assert.equal(w.budget.stats().watching,watched,"this screen attaches the exact document awaited");
           assert.equal(w.budget.stats().watchHealthy,true,"first server snapshot establishes health");
-          const before={...w.meter},calls=w.calls();await w.advance(600000);
+          const before={...w.meter},calls=w.calls(),commitBefore=w.readsByPath.get(COMMIT)||0;await w.advance(600000);
           const reads=w.meter.reads-before.reads;
           console.log(`MEASURE ${screen}/${role}/${phase}: ${reads} reads / 10 min, ${w.meter.transactions-before.transactions} server transactions`);
-          assert.ok(reads<=10,`healthy wait read ${reads} documents; maximum 10`);
-          assert.equal(w.meter.transactions-before.transactions,0,"healthy wait never repeats a server transaction");
-          assert.equal(w.calls(),calls,"healthy wait does not re-enter provider chains");
+          assert.ok(reads<=idle,`healthy wait read ${reads} documents; maximum ${idle}`);
+          if(waitCheck){
+            assert.ok(reads>=39,`the 15 s wait check reads the commit while the listener looks healthy (${reads} reads)`);
+            const commitReads=(w.readsByPath.get(COMMIT)||0)-commitBefore;
+            assert.ok(commitReads>=39&&commitReads<=41,`one commit read per 15 s (${commitReads})`);
+            assert.ok(reads-commitReads<=4,`the wait check reads little besides the commit (${reads-commitReads})`);
+          }else{
+            assert.equal(w.meter.transactions-before.transactions,0,"healthy wait never repeats a server transaction");
+            assert.equal(w.calls(),calls,"healthy wait does not re-enter provider chains");
+          }
           // Use a genuine server delivery, including the initial non-cache snapshot, through the real budget listener.
           const next=phase==="results"?{phase:"COLLECTING",revision:1,partnerTouched:true}:{phase:"COMMITTED",committed:true};
           const delivered=w.calls(),watchedReads=w.readsByPath.get(watched)||0;w.serverWrite(watched,next);await w.advance(1000);
@@ -189,8 +201,8 @@ async function check(label,fn){try{await fn();console.log(`PASS ${label}`);}catc
           if(role==="playerTwo"||phase==="results")assert.ok(w.calls()>failedCalls,"3 s backup runs even after ten minutes waiting");
           await w.advance(66000);assert.equal(w.budget.stats().watchHealthy,true,"existing retry reattaches and recovers");
           const recovered=w.calls(),readAfter=w.meter.reads;await w.advance(600000);
-          assert.equal(w.calls(),recovered,"recovered listener stops backup provider checks");
-          assert.ok(w.meter.reads-readAfter<=10,"recovery restores the idle read budget");
+          if(!waitCheck)assert.equal(w.calls(),recovered,"recovered listener stops backup provider checks");
+          assert.ok(w.meter.reads-readAfter<=idle,"recovery restores the idle read budget");
           const writes=w.meter.docWrites+w.meter.verifyWrites;w.setVisible(false);const hidden=w.meter.reads;await w.advance(60000);
           assert.equal(w.meter.reads,hidden,"hidden tab reads zero");assert.equal(w.meter.docWrites+w.meter.verifyWrites,writes,"idle writes stay zero");assert.equal(w.forbidden(),0);
         });
@@ -205,7 +217,9 @@ async function check(label,fn){try{await fn();console.log(`PASS ${label}`);}catc
       const watched=phase==="results"?RESULTS:COMMIT,listener=w.activeListeners()[0];
       const snapshot={exists:()=>true,data:()=>w.server.get(watched).data,metadata:{fromCache:false,hasPendingWrites:false}};
       listener.next(snapshot);await w.advance(3000);assert.equal(w.budget.stats().watchHealthy,true);
-      const confirmed=w.calls();await w.advance(30000);assert.equal(w.calls(),confirmed);
+      const confirmed=w.calls(),confirmedReads=w.meter.reads;await w.advance(30000);
+      // results: a healthy listener stops every check; commit (playerTwo waits): only the 15 s wait check, 2 reads in 30 s.
+      if(phase==="results")assert.equal(w.calls(),confirmed);else assert.ok(w.meter.reads-confirmedReads<=2,"only the 15 s wait check reads while the commit listener looks healthy");
       w.cacheDeliver(watched);assert.equal(w.budget.stats().watchHealthy,false);
       const cached=w.calls();await w.advance(3000);assert.ok(w.calls()>cached,"cache-only delivery resumes backup");
       listener.next(snapshot);await w.advance(3000);

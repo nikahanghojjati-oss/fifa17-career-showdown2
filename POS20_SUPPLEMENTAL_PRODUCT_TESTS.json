@@ -3535,6 +3535,16 @@
         "^tests/contracts/r100\\-w7\\-clock\\-jump\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r100-season-commit-wait-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedSeasonCommit\\.js$",
+        "^tests/browser/fault\\-injection\\-journey\\.cjs$",
+        "^tests/browser/support/fij\\-silent\\-commit\\.js$",
+        "^tests/contracts/r100\\-season\\-commit\\-wait\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
