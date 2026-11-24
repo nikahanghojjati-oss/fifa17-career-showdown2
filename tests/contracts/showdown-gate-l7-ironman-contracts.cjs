@@ -17,12 +17,15 @@ async function run(){
   let checks=0;const ok=()=>{checks+=1;};
 
   // 1. Legs: the eight faults, the fault-free baseline and CE2PG; one lane record each, all in the one matrix job.
-  assert.deepEqual([...S.L7_LEGS],['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','ce2pg']);
-  assert.deepEqual([...L.LEGS],[...S.L7_LEGS],'the leg runner knows exactly the Gate legs');
+  assert.deepEqual([...S.L7_LEGS],['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','swap','skew','double','listener','lostreply','ce2pg']);
+  // Every Gate leg is a leg the runner knows; the full matrix runs every leg the runner knows (r100 W9: also swap, skew, double, listener).
+  for(const leg of S.L7_LEGS)assert.ok(L.LEGS.includes(leg),`the leg runner knows the Gate leg ${leg}`);
+  const fullMatrix=fs.readFileSync(path.join(root,'.github/workflows/ironman-full-matrix.yml'),'utf8');
+  assert.deepEqual(fullMatrix.match(/^\s+leg: \[([^\]]+)\]$/m)[1].split(',').map(x=>x.trim()),[...L.LEGS],'the full matrix runs every leg');
   for(const leg of S.L7_LEGS){const def=S.LANES[S.l7Lane(leg)];assert.equal(def.job,'l7-ironman');assert.equal(def.leg,leg);assert.deepEqual(def.fixed,[`IRONMAN_${leg.toUpperCase()}`]);}
   const fij=fs.readFileSync(path.join(root,'tests/browser/fault-injection-journey.cjs'),'utf8');
   const faults=JSON.parse(fij.match(/const ALL_FAULTS=(\[[^\]]+\])/)[1]);
-  assert.deepEqual(S.L7_LEGS.filter(leg=>!['none','ce2pg'].includes(leg)),faults,'L7 has one leg per fault of the journey');
+  assert.deepEqual(L.FIJ_FAULTS.filter(leg=>leg!=='none'),faults,'the leg runner has one leg per fault of the journey');
   ok();
 
   // 2. Route: fail-closed, skipping only when every file is plainly outside the game.
@@ -111,6 +114,27 @@ async function run(){
   }
   assert.match(fij,/const NETWORK_S=RAND\?Array\.from\(\{length:13\},\(\)=>pickInt\(5,30\)\)/,'with a seed the offline seconds stay 5-30');
   assert.match(fij,/const LOCK_S=RAND\?Array\.from\(\{length:12\},\(\)=>pickInt\(8,20\)\)/,'with a seed the locked seconds stay 8-20');
+  ok();
+
+  // 8. The full matrix table needs every journey leg's own report, the fault-free baseline above all (Codex on #1574):
+  // PASS leg records with one report of 1,000,000 reads are not a green matrix.
+  {
+    const M=await import(path.join(root,'scripts/ironman-matrix.mjs'));
+    const legs=Object.fromEntries(L.LEGS.map(leg=>[leg,{schema:'ironman-leg/v1',leg,verdict:'PASS',seed:1,seasons:10,attempts:[{attempt:1,exit:0}],replay:'x'}]));
+    const rep=(fault,reads)=>({tool:'FIJ',fault,phone:'alt',verdict:'PASS',points:[{point:'tw-lock',phone:'nik',pass:true,checks:[],readsPoint:10}],endChecks:[],readsTotal:reads});
+    const quiet=()=>{};
+    let t=M.table({legs,reports:[rep('network',1000000)],log:quiet});
+    assert.equal(t.ok,false,'a matrix without the fault-free report is not green');assert.ok(t.missing.includes('none (journey report)'));
+    const all=L.LEGS.filter(leg=>leg!=='ce2pg').map(leg=>rep(leg,leg==='none'?1000:1200));
+    t=M.table({legs,reports:all,log:quiet});assert.equal(t.ok,true,`every report present and in budget: ${JSON.stringify(t.missing)}`);
+    t=M.table({legs,reports:all.map(r=>r.fault==='network'?{...r,readsTotal:1000000}:r),log:quiet});assert.equal(t.ok,false,'the reads rule holds once the baseline is there');    // Every failed point comes with a one-command replay of that point alone (seed + fault + point).
+    const dir=fs.mkdtempSync(path.join(os.tmpdir(),'ironman-fail-'));
+    try{
+      fs.writeFileSync(path.join(dir,'fij-swap-alt.json'),JSON.stringify({tool:'FIJ',fault:'swap',points:[{point:'tw-lock',phone:'nik',pass:false,checks:[{id:'swap.straightBack',pass:false},{id:'reads',pass:true}]},{point:'tw-guess',phone:'daniel',pass:true,checks:[]}],endChecks:[]}));
+      fs.writeFileSync(path.join(dir,'fij-swap-alt.emulators.json'),'{}');
+      assert.deepEqual(L.failuresOf({leg:'swap',seed:7,seasons:3,outDir:dir}),[{point:'tw-lock',phone:'nik',checks:['swap.straightBack'],replay:'FIJ_FAULT=swap FIJ_SEED=7 FIJ_SEASONS=3 FIJ_ONLY=tw-lock node tests/browser/fault-injection-journey.cjs'}]);
+    }finally{fs.rmSync(dir,{recursive:true,force:true});}
+  }
   ok();
 
   console.log(`PASS Showdown Gate L7 Ironman: ${S.L7_LEGS.length} legs in one matrix job, fail-closed route and verified skips, one seed per head, one rerun with the same seed (PASS / FLAKY listed by the seal / FAIL) (${checks} groups).`);

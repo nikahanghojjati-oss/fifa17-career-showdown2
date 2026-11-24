@@ -15,7 +15,7 @@ import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-export const FIJ_FAULTS=Object.freeze(['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline']);
+export const FIJ_FAULTS=Object.freeze(['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','swap','skew','double','listener','lostreply']);
 export const LEGS=Object.freeze([...FIJ_FAULTS,'ce2pg']);
 export const SEASONS=Object.freeze([3,10]);
 
@@ -30,6 +30,21 @@ export function legPlan({leg,seed,seasons=3}){
   }
   const env={FIJ_FAULT:leg,FIJ_SEED:String(seed),FIJ_SEASONS:String(seasons)};
   return {leg,seed,seasons,script:'tests/browser/fault-injection-journey.cjs',env,replay:`FIJ_FAULT=${leg} FIJ_SEED=${seed} FIJ_SEASONS=${seasons} node tests/browser/fault-injection-journey.cjs`};
+}
+
+// The failed points of the last attempt's journey report, each with a one-command replay of that point alone (FIJ_ONLY keeps
+// every other point fault-free; the seed keeps the phone, the timings and the picks of that point).
+export function failuresOf({leg,seed,seasons,outDir}){
+  let names=[];try{names=fs.readdirSync(outDir).filter(name=>name.startsWith(`fij-${leg}-`)&&name.endsWith('.json')&&!name.endsWith('.emulators.json'));}catch{return [];}
+  const out=[];
+  for(const name of names){
+    let report=null;try{report=JSON.parse(fs.readFileSync(path.join(outDir,name),'utf8'));}catch{continue;}
+    for(const p of report?.points||[])if(!p.pass)out.push({point:p.point,phone:p.phone,checks:(p.checks||[]).filter(c=>!c.pass).map(c=>c.id),replay:`FIJ_FAULT=${leg} FIJ_SEED=${seed} FIJ_SEASONS=${seasons} FIJ_ONLY=${p.point} node tests/browser/fault-injection-journey.cjs`});
+    if(report?.fatal&&!out.some(f=>f.point===report.fatal.point))out.push({point:report.fatal.point||'?',phone:'-',checks:['fatal'],replay:`FIJ_FAULT=${leg} FIJ_SEED=${seed} FIJ_SEASONS=${seasons} node tests/browser/fault-injection-journey.cjs`});
+    const end=(report?.endChecks||[]).filter(c=>!c.pass).map(c=>c.id);
+    if(end.length)out.push({point:'end',phone:'-',checks:end,replay:`FIJ_FAULT=${leg} FIJ_SEED=${seed} FIJ_SEASONS=${seasons} node tests/browser/fault-injection-journey.cjs`});
+  }
+  return out;
 }
 
 // verdict from the exit codes of the attempts (at most two).
@@ -61,9 +76,12 @@ export function runLeg({leg,seed,seasons=3,out=null,command=null,env=process.env
     if(attempt===1)moveAttempt(outDir,1);
   }
   const verdict=verdictOf(attempts.map(a=>a.exit));
-  const record={schema:'ironman-leg/v1',leg,seed,seasons,verdict,attempts,replay:plan.replay,finishedAt:new Date().toISOString()};
+  const failures=leg==='ce2pg'?[]:failuresOf({leg,seed,seasons,outDir});
+  const record={schema:'ironman-leg/v1',leg,seed,seasons,verdict,attempts,replay:plan.replay,failures,finishedAt:new Date().toISOString()};
   if(out){fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});fs.writeFileSync(out,`${JSON.stringify(record,null,2)}\n`);}
-  if(env.GITHUB_STEP_SUMMARY)fs.appendFileSync(env.GITHUB_STEP_SUMMARY,`### Ironman ${leg}: ${verdict}\n\nSeed ${seed}, ${seasons} seasons, ${attempts.length} attempt(s).\n\nReplay: \`${plan.replay}\`\n\n`);
+  const failureLines=failures.map(f=>`- ${f.point} (${f.phone}): ${f.checks.join(', ')}. Replay: \`${f.replay}\``);
+  if(env.GITHUB_STEP_SUMMARY)fs.appendFileSync(env.GITHUB_STEP_SUMMARY,`### Ironman ${leg}: ${verdict}\n\nSeed ${seed}, ${seasons} seasons, ${attempts.length} attempt(s).\n\nReplay: \`${plan.replay}\`\n\n${failureLines.length?`Failed points (last attempt):\n\n${failureLines.join('\n')}\n\n`:''}`);
+  for(const line of failureLines)log(`IRONMAN ${leg} failed point ${line.slice(2)}`);
   if(verdict==='FLAKY')log(`::warning title=Ironman FLAKY ${leg}::passed only on the rerun with seed ${seed}. File it and fix it. Replay: ${plan.replay}`);
   if(verdict==='FAIL')log(`::error title=Ironman FAIL ${leg}::failed twice with seed ${seed}. Replay: ${plan.replay}`);
   log(`IRONMAN ${leg}: ${verdict} (seed ${seed}, ${seasons} seasons) -> replay: ${plan.replay}`);

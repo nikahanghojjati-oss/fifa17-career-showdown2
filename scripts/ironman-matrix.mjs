@@ -39,7 +39,10 @@ export function table({legs,reports,outDir=null,log=console.log}){
   const points=[...new Set(reports.flatMap(r=>(r.points||[]).map(p=>p.point)))];
   const results=reports.map(r=>({fault:r.fault,phone:r.phone,code:r.verdict==='PASS'?0:1,report:r}));
   const {matrix,bad}=buildMatrix({results,outDir:outDir||path.join(root,'test-results'),points,log,write:Boolean(outDir)});
+  // Every leg left its record, and every journey leg its own report (the fault-free one is every comparison's baseline):
+  // a leg record without its journey report proves nothing, so it counts as missing (Codex on #1574).
   const missing=LEGS.filter(leg=>!legs[leg]);
+  for(const leg of LEGS.filter(leg=>leg!=='ce2pg'&&legs[leg]))if(!reports.some(r=>r.fault===leg&&Array.isArray(r.points)&&typeof r.verdict==='string'))missing.push(`${leg} (journey report)`);
   const failed=Object.values(legs).filter(l=>l.verdict==='FAIL');
   const flaky=Object.values(legs).filter(l=>l.verdict==='FLAKY');
   return {matrix,bad,missing,failed,flaky,ok:!bad.length&&!missing.length&&!failed.length};

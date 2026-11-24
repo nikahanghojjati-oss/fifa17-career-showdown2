@@ -15,13 +15,29 @@
 //                app's own pause trips; then the limit lifts and it is the next day: the player opens the app again (reload), or
 //                at season-results the page stayed open and the clock jumps 11 minutes so the 10-minute pause ends by itself
 //   coldoffline  tap, the tab closes, the phone opens the app again while offline (cold start), then comes back online
+//   swap         tap, then that phone is replaced by a fresh browser (empty local and session storage, no tabs): the same
+//                manager opens the app, signs in and carries on (a new phone or a wiped one; Phoenix W2's proof)
+//   skew         that phone's clock runs 5 minutes fast or slow (the seed picks the sign per point) from before the tap until the
+//                point's checks are done (Phoenix W7's proof)
+//   double       both phones are hit at the same point by the same fault (the seed picks network, lock, evict, reload, tabkill or
+//                coldoffline per point)
+//   listener     only the live listener of that phone dies (its Firestore Listen stream is refused) from before the tap until
+//                both phones settle; one-off reads and writes still work (Phoenix W8's proof)
+//   lostreply    the tap's transaction commit lands in the database but its answer is lost on the way back; the SDK's retry
+//                finds its own write (the replay path of every commit guard: an idempotent answer, never a refusal)
 //   none         no fault (the baseline for the read counts)
 // Write points: setup-confirm (STOP in the R94-02 club draw: the confirm that carries the stop), career-start (I STARTED AT), spin-mark (the roulette's last tap, which writes the
 // manager's mark), tw-guess (LOCK MY GUESSES), tw-lock (first LOCK MY SIGNINGS), tw-verdict (the second LOCK MY SIGNINGS, which
 // completes the Transfer War), season-results (the completing publish), season-commit (LOCK & CONFIRM SEASON), season-ack
 // (CONFIRM SEASON), continue-s2 (CONTINUE TO SEASON 2 + Gazette), spin-mark-s2, the Prime Pack round (prime-mid in season 1,
 // prime-guess in season 2, prime-reveal in season 3: see POINTS), terminal-close (season 2's acknowledgement, after
-// which both phones close the Showdown by themselves). The phone alternates per point (FIJ_PHONE=alt starts with Daniel,
+// which both phones close the Showdown by themselves).
+// r100 Phoenix W9 points: league-ball (the fault phone's first ball of the League Roulette), chamber-kick (one of the fault
+// phone's locked kicks in season 1's Chamber Men, the kick the seed picks), and after the Showdown an epilogue of two more short
+// Showdowns of the same pair: home-join (Daniel STARTs a second Showdown from Home, Nik taps JOIN on his Home),
+// end-showdown (that Showdown's season 1 is confirmed, then Daniel taps END SHOWDOWN in Settings), sacked (a third Showdown:
+// the fault phone confirms its season 1 result with "I was sacked this season" ticked, so the Showdown ends after season 1)
+// and unpair (Daniel taps UNPAIR in Settings; Nik's next tap on Home learns it). The phone alternates per point (FIJ_PHONE=alt starts with Daniel,
 // alt-nik with Nik; daniel or nik pins it). When the fault phone is not the one writing, the fault hits it while the other writes.
 // After each fault the phone takes the path a player would (CONTINUE SHOWDOWN, TRY AGAIN, sign in, the visible step button; a
 // stuck screen is one with none of those for 90 s) and the suite checks, per point:
@@ -52,9 +68,9 @@ const fijMatrix=require("./support/fij-matrix.cjs");
 
 const ROOT=path.resolve(__dirname,"../..");
 const OUT_DIR=path.join(ROOT,"test-results");
-const ALL_FAULTS=["network","lock","evict","reload","tabkill","twotabs","quota","coldoffline"];
+const ALL_FAULTS=["network","lock","evict","reload","tabkill","twotabs","quota","coldoffline","swap","skew","double","listener","lostreply"];
 const DEFAULT_JOBS=["none",...ALL_FAULTS];// "none" is the read baseline the matrix compares every fault run with
-const POINTS=["setup-confirm","career-start","spin-mark","prime-mid","tw-guess","tw-lock","tw-verdict","season-results","season-commit","season-ack","continue-s2","spin-mark-s2","prime-guess","prime-reveal","terminal-close"];
+const POINTS=["league-ball","setup-confirm","career-start","chamber-kick","spin-mark","prime-mid","tw-guess","tw-lock","tw-verdict","season-results","season-commit","season-ack","continue-s2","spin-mark-s2","prime-guess","prime-reveal","terminal-close","home-join","end-showdown","sacked","unpair"];
 // r87 Prime Pack (js/iconGuessStep.js) under faults: prime-mid (season 1, the fault in stage 2's guess window, nobody has guessed),
 // prime-guess (season 2, the fault right after the fault phone names the masked Icon: its point must stand), prime-reveal
 // (season 3, nobody guesses, the fault when the four stages have run out and the result shows). PRIME is how pathForward plays a
@@ -157,6 +173,13 @@ const VIEWPORTS={daniel:{width:393,height:660},nik:{width:390,height:844}};
 const NETWORK_S=RAND?Array.from({length:13},()=>pickInt(5,30)):[5,30,8,12,20,6,15,10,25,7,9,18,11];
 const LOCK_S=RAND?Array.from({length:12},()=>pickInt(8,20)):[8,20,12,15,9,18,10,14,11,16,8,13];
 const SECOND_TAB_WRITES=RAND?Array.from({length:16},()=>RAND()<0.5):null;
+// r100 W9 faults: the skew's sign per point (true = fast), the double fault's kind per point, and which of the fault phone's
+// kicks (1-5) the chamber-kick point hits. Drawn after the tables above, so a seed's older tables stay the same.
+const SKEW_MS=5*60*1000;
+const SKEW_FAST=RAND?Array.from({length:22},()=>RAND()<0.5):Array.from({length:22},(_,i)=>i%2===0);
+const DOUBLE_KINDS=["network","lock","evict","reload","tabkill","coldoffline"];
+const DOUBLE_KIND=RAND?Array.from({length:22},()=>DOUBLE_KINDS[Math.floor(RAND()*DOUBLE_KINDS.length)]):Array.from({length:22},(_,i)=>DOUBLE_KINDS[i%DOUBLE_KINDS.length]);
+const CHAMBER_KICK=RAND?pickInt(1,5):2;
 const meter=createMeter();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const norm=s=>String(s||"").replace(/\s+/g," ").trim();
@@ -256,6 +279,25 @@ async function pathForward(m,page=m.page){
   }
   if(await gazette.tapGazetteIfShown(page))return "gazette";
   for(const name of ["SIGN IN WITH GOOGLE",new RegExp(`^${NAMES[m.account]} · PLAYER`,"i"),"TRY AGAIN"]){if(await clickIf(page,page.locator("#onlinePlayerIdentityOverlay button,[id^='onlinePlayerIdentity'] button").filter({hasText:name})))return `identity:${name}`;}
+  // r100 W9 swap (B3's harness): a fresh device must take the shared record's step. Chamber Men shown again after this season's
+  // shootout, or the Transfer War's read-only replay of phases he already played, is played through and counted against the
+  // point (swap.straightBack); during the chamber-kick point itself the shootout is still the live step.
+  if(page.__fijSwapped&&pointNow!=="chamber-kick"&&await visible(page,"#cmStage")){
+    const did=await rosterRoulette.playChamberMen(page).catch(()=>"")||"";
+    const note=`Chamber Men shown again in season ${seasonNow}`;if(!(m.swapSeen||(m.swapSeen=[])).includes(note))m.swapSeen.push(note);
+    return did&&did!=="wait"?did:"chamber-wait";
+  }
+  {const replay=page.locator("#transferChallenge button:visible").filter({hasText:/^\s*CONTINUE REPLAY/}).first();
+    if(await replay.count().catch(()=>0)){
+      // Only a phase his own lock proves he saw is a wrong replay (B3): with his guesses locked he saw the window and the
+      // guesses. A lock that died with the old device never landed, so one replay of the window before the live step is by design.
+      const ownGuesses=Boolean((await tcState(page))?.state?.guessLockedRoles?.includes(ROLE[m.account]));
+      if(await clickIf(page,replay)){
+        if(page.__fijSwapped&&ownGuesses)(m.swapSeen||(m.swapSeen=[])).push(`Transfer War replay step in season ${seasonNow} after his own guesses were locked`);
+        else report.notes.push(`${pointNow}: ${m.user} tapped CONTINUE REPLAY (${page.__fijSwapped?"fresh device, ":""}own guesses ${ownGuesses?"locked":"not locked"})`);
+        return "transfer-replay";
+      }
+    }}
   if(await atPrime(page)){const st=await rosterRoulette.playPrimePack(page,{primeGuesser:PRIME});return st&&st!=="wait"?st:"prime-wait";}
   // r91 Squad Management (#sqStage): before the roulette and before Season Results; Lock my squad, then the next button.
   {const squad=await rosterRoulette.playSquad(page).catch(()=>null);if(squad)return squad==="wait"?"squad-wait":squad;}
@@ -295,6 +337,9 @@ async function rouletteStep(m,page=m.page){
   }).catch(()=>({}));
   const season=info.panelSeason||seasonNow;
   const r=m.roulette[season]||(m.roulette[season]={steps:0,spins:0,finished:false,replays:0});
+  // A fresh device (swap) has no "gone" memory: the roulette scene itself for a finished season is a replay there too.
+  // After his own spin mark the new device goes straight on: the scene or the result card (#rrStepPanel) again is a replay (B3).
+  if(r.finished&&page.__fijSwapped&&!page.__fijGone?.has(season)&&!r.replayCounted){r.replays+=1;r.replayCounted=true;await problem(m,"roulette.replay.swap",`season ${season} roulette ${await visible(page,"#rrStage")?"scene":"result card"} shows again on the fresh device: ${await describe(m,page)}`);}
   if(r.finished&&page.__fijGone?.has(season)&&!r.replayCounted){r.replays+=1;r.replayCounted=true;await problem(m,"roulette.replay",`season ${season} roulette shows again after it finished: ${await describe(m,page)}`);}
   const step=await rosterRoulette.playRoulette(page);
   if(step&&step!=="wait"){r.steps+=1;if(step==="spin")r.spins+=1;}
@@ -314,12 +359,12 @@ async function drive(m,goal,{page=null,stepTaps=null,firstTaps=null,timeout=1800
     if(!did&&stepTaps)did=await stepTaps(p()).catch(()=>"")||"";
     if(!did)did=await retryTap(m,p()).catch(()=>"");
     // A tap that changes nothing (a dead button) is not progress: after five in a row a player gives up on it and goes Home.
-    if(did&&did===lastDid&&!["loading","roulette-wait","prime-wait","squad-wait"].includes(did)){repeats+=1;if(repeats>=5){const home=p().locator("button:visible").filter({hasText:/^\s*(BACK TO HOME|BACK TO SHOWDOWN HOME|HOME)\s*$/}).first();if(await clickIf(p(),home)){deadTaps.push(`${pointNow}: ${m.user} ${did} x${repeats}`);{const note=`${pointNow}: ${m.user} tapped ${did} ${repeats} times with nothing happening (dead button), then went Home`;if(!report.notes.includes(note))report.notes.push(note);}log(`  ${m.user} ${label}: ${did} did nothing ${repeats} times -> BACK TO HOME`);did="home-after-dead-tap";}repeats=0;}}else repeats=0;
+    if(did&&did===lastDid&&!["loading","roulette-wait","prime-wait","squad-wait","partner-wait","chamber-wait"].includes(did)){repeats+=1;if(repeats>=5){const home=p().locator("button:visible").filter({hasText:/^\s*(BACK TO HOME|BACK TO SHOWDOWN HOME|HOME)\s*$/}).first();if(await clickIf(p(),home)){deadTaps.push(`${pointNow}: ${m.user} ${did} x${repeats}`);{const note=`${pointNow}: ${m.user} tapped ${did} ${repeats} times with nothing happening (dead button), then went Home`;if(!report.notes.includes(note))report.notes.push(note);}log(`  ${m.user} ${label}: ${did} did nothing ${repeats} times -> BACK TO HOME`);did="home-after-dead-tap";}repeats=0;}}else repeats=0;
     lastDid=did;
     // A running Prime Pack round is progress (its stages run out in about 95 s, longer than STUCK_MS); a round that never ends
     // still fails on the drive's own timeout.
-    if(did==="prime-wait"||did==="squad-wait")idleSince=Date.now();
-    if(did&&did!=="loading"&&did!=="roulette-wait"&&did!=="prime-wait"&&did!=="squad-wait"){idleSince=Date.now();log(`  ${m.user} ${label}: ${did}`);if(DEBUG){const d=await describe(m,p());if(d!==lastDesc){lastDesc=d;log(`    ${d.slice(0,600)}`);}}}
+    if(did==="prime-wait"||did==="squad-wait"||did==="partner-wait"||did==="chamber-wait")idleSince=Date.now();
+    if(did&&did!=="loading"&&did!=="roulette-wait"&&did!=="prime-wait"&&did!=="squad-wait"&&did!=="partner-wait"&&did!=="chamber-wait"){idleSince=Date.now();log(`  ${m.user} ${label}: ${did}`);if(DEBUG){const d=await describe(m,p());if(d!==lastDesc){lastDesc=d;log(`    ${d.slice(0,600)}`);}}}
     const now=Date.now();
     if(now-idleSince>STUCK_MS||now>until){
       lastDesc=await describe(m,p());
@@ -361,6 +406,51 @@ async function quotaOn(m){
   await m.context.route(new RegExp(`^${FIRESTORE.replace(/[.:/]/g,"\\$&")}/`),quotaHandler);
 }
 async function quotaOff(m){if(quotaHandler)await m.context.unroute(new RegExp(`^${FIRESTORE.replace(/[.:/]/g,"\\$&")}/`),quotaHandler).catch(()=>{});quotaHandler=null;}
+// r100 W9 swap: the phone is replaced by a fresh browser (a new context: no local or session storage, no tabs), and the same
+// manager opens the app there. The meter follows the new context (installFirestoreMeter tags it with the same manager).
+async function swapDevice(ctx,X){
+  for(const p of [X.page,...X.extra.splice(0)])await p.close({runBeforeUnload:false}).catch(()=>{});
+  await X.context.close().catch(()=>{});
+  X.context=await newContext(ctx.browser,X.account);X.clockInstalled=false;X.swaps=(X.swaps||0)+1;
+  X.page=await X.context.newPage();X.page.__fijSwapped=true;await preparePage(X,X.page);
+  await X.page.goto(urlFor(X.account),{waitUntil:"domcontentloaded",timeout:20000}).catch(()=>{});await waitLoaded(X.page);
+  // The manager signs in on the new device first (Home's SIGN IN, then his player), as a real person would (B3's harness).
+  const label=NAMES[X.account].toUpperCase(),until=Date.now()+60000;
+  while(Date.now()<until&&!(await X.page.evaluate(t=>document.getElementById("onlinePlayerIdentityBadge")?.textContent===t,label).catch(()=>false))){
+    if(!await clickIf(X.page,X.page.locator("#onlinePlayerIdentityOverlay button,[id^='onlinePlayerIdentity'] button").filter({hasText:"SIGN IN WITH GOOGLE"})))
+      if(!await clickIf(X.page,X.page.getByRole("button",{name:new RegExp(`^${NAMES[X.account]} · PLAYER`,"i")})))
+        await clickIf(X.page,X.page.locator("button:visible").filter({hasText:/^\s*SIGN IN\s*$/}));
+    await sleep(700);
+  }
+  return X.page.evaluate(()=>document.getElementById("onlinePlayerIdentityBadge")?.textContent||"").catch(()=>"?");
+}
+// r100 W9 skew: the phone's own clock (Date) runs ms ahead (or behind); timers keep running at the normal speed. 0 = right again.
+async function skewClock(X,ms){
+  if(!X.clockInstalled){await X.context.clock.install();X.clockInstalled=true;}
+  await X.context.clock.setSystemTime(Date.now()+ms);
+}
+// r100 W9 listener: the phone's Firestore Listen stream is refused (the live listener dies and keeps failing to reconnect);
+// one-off reads, transactions and writes still reach the database.
+const LISTEN_RE=new RegExp(`^${FIRESTORE.replace(/[.:/]/g,"\\$&")}/.*Firestore/Listen/channel`);
+// r100 W9 lostreply: a transaction's commit call (REST commit, or the RPC name on older SDKs).
+const COMMIT_RE=new RegExp(`^${FIRESTORE.replace(/[.:/]/g,"\\$&")}/.*(documents:commit|Firestore/Commit)`);
+// One fault that hits a phone after the tap (the double fault runs it on both phones at once).
+async function hitAfterTap(kind,P,i,rec){
+  switch(kind){
+    case "network":{const s=NETWORK_S[i%NETWORK_S.length];await P.context.setOffline(true);await sleep(s*1000);await P.context.setOffline(false);return `${P.user} offline ${s}s`;}
+    case "lock":{
+      const s=LOCK_S[i%LOCK_S.length];await setHidden(P.page,true);
+      let cdp=null;try{cdp=await P.context.newCDPSession(P.page);await cdp.send("Page.setWebLifecycleState",{state:"frozen"});}catch(_e){cdp=null;}
+      await sleep(s*1000);try{if(cdp){await cdp.send("Page.setWebLifecycleState",{state:"active"});await cdp.detach();}}catch(_e){}
+      await setHidden(P.page,false);return `${P.user} locked ${s}s`;
+    }
+    case "evict":await setHidden(P.page,true);await sleep(4000);await P.page.reload({waitUntil:"domcontentloaded"}).catch(()=>{});return `${P.user} hidden, then reloaded`;
+    case "reload":await P.page.reload({waitUntil:"domcontentloaded"}).catch(()=>{});return `${P.user} reloaded`;
+    case "tabkill":await reopenTab(P);return `${P.user} tab closed, app reopened`;
+    case "coldoffline":{const s=NETWORK_S[i%NETWORK_S.length];await reopenTab(P,{offline:true});await sleep(s*1000);await P.context.setOffline(false);return `${P.user} tab closed, cold start offline ${s}s`;}
+  }
+  throw new Error(`unknown fault ${kind}`);
+}
 // The fault on phone X. tap(page) is the write tapped on X (null when the other phone writes, then `other` runs during the fault).
 const ONLY=(process.env.FIJ_ONLY||"").split(",").filter(Boolean);
 async function inject(ctx,X,tap,other,rec){
@@ -406,6 +496,41 @@ async function inject(ctx,X,tap,other,rec){
       await runTap(writeIn);await runOther();
       break;
     }
+    case "swap":rec.detail="tap, then a fresh browser (empty storage): the same manager signs in and carries on";await runTap(X.page);await runOther();rec.swapped=true;rec.detail+=` (signed in as ${await swapDevice(ctx,X)})`;break;
+    case "skew":{
+      const ms=(SKEW_FAST[i%SKEW_FAST.length]?1:-1)*SKEW_MS;rec.detail=`the phone's clock ${ms>0?"5 min fast":"5 min slow"}`;
+      try{await skewClock(X,ms);}catch(e){rec.detail+=` (clock: ${String(e.message).split("\n")[0]})`;}
+      Object.defineProperty(rec,"release",{configurable:true,writable:true,value:async()=>{await skewClock(X,0).catch(()=>{});}});
+      await runTap(X.page);await runOther();break;
+    }
+    case "lostreply":{
+      // r100 W9 lostreply: the tap's transaction commit reaches the database and lands, but its answer never reaches the
+      // phone (the connection drops on the way back). The SDK retries the transaction, which now finds its own write: the
+      // replay path of every commit guard (an idempotent answer, never a refusal or a second write). Plain writes (the
+      // Write stream) are not touched; a point with no transaction commit in 15 s says so.
+      let hits=0;
+      const drop=async route=>{if(hits>0)return route.continue();hits+=1;try{await route.fetch();}catch(_e){}await route.abort("connectionreset").catch(()=>{});};
+      await X.context.route(COMMIT_RE,drop);
+      // When the rival writes (the fault phone only follows), the rival's tap goes first and the window is the fault phone's own
+      // follow-up commit, if any.
+      try{await runTap(X.page);if(!tap)await runOther();const until=Date.now()+15000;while(!hits&&Date.now()<until)await sleep(250);}
+      finally{await X.context.unroute(COMMIT_RE,drop).catch(()=>{});}
+      rec.detail=hits?"the commit landed, its answer was lost":"no transaction commit from this phone in 15 s (plain write)";
+      if(tap)await runOther();break;
+    }
+    case "listener":{
+      rec.detail="the live listener dies (Listen stream refused) until both phones settle";
+      const refuse=route=>route.abort("failed");await X.context.route(LISTEN_RE,refuse);
+      Object.defineProperty(rec,"release",{configurable:true,writable:true,value:async()=>{await X.context.unroute(LISTEN_RE,refuse).catch(()=>{});}});
+      Object.defineProperty(rec,"releaseAfterSettle",{configurable:true,writable:true,value:true});
+      await runTap(X.page);await runOther();break;
+    }
+    case "double":{
+      const kind=DOUBLE_KIND[i%DOUBLE_KIND.length],Y=X===ctx.daniel?ctx.nik:ctx.daniel;
+      await runTap(X.page);await runOther();
+      const done=await Promise.all([hitAfterTap(kind,X,i,rec),hitAfterTap(kind,Y,i+1,rec)]);
+      rec.detail=`both phones: ${kind} (${done.join("; ")})`;break;
+    }
     case "quota":{
       rec.detail="RESOURCE_EXHAUSTED on reads and writes, then the next day (clock +11 min)";
       // The SDK retries a refused transaction a few times with back-off before it gives up with resource-exhausted, so the
@@ -442,7 +567,7 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
   const X=faultPhone(ctx),rec={point,phone:X.user,writer:writer?writer.user:"auto",fault:FAULT,pass:false,checks:[],detail:""};
   Object.defineProperty(rec,"landed",{value:landed,enumerable:false});
   console.log(`POINT ${point}: ${FAULT} on ${X.user}${writer?` (writer ${writer.user})`:""}`);
-  const startIdx=meter.events.length,started=Date.now();
+  const startIdx=meter.events.length,started=Date.now();X.swapSeen=[];
   const check=async(m,id,ok,detail,page)=>{rec.checks.push({id,phone:m?m.user:"both",pass:Boolean(ok),detail:ok?undefined:String(detail).slice(0,800)});if(!ok)await problem(m,id,detail,page);return Boolean(ok);};
   try{
     // The writer reaches the write's screen first (both phones are already there in the normal flow).
@@ -458,12 +583,17 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
     const recoveredAt=Date.now();
     await Promise.all([ctx.daniel,ctx.nik].map(m=>settle(m,m.page).catch(async e=>{await check(m,e.stuck?"stuck":"settle",false,e.message,e.page);})));
     rec.recoverMs=Date.now()-recoveredAt;
+    if(rec.swapped)await check(X,"swap.straightBack",!X.swapSeen.length,`the fresh device showed steps he already played: ${X.swapSeen.join("; ")}`);
+    // listener: the stream comes back once both phones settled without it (their rival's move had to arrive another way).
+    if(rec.releaseAfterSettle&&rec.release){const release=rec.release;rec.release=null;await release();}
     if(FAULT==="twotabs"){
       // Both tabs converge: a tab that has not drawn the newest step yet gets up to 30 s, like a player glancing back at it.
       for(const p of X.extra){let a,b;const until=Date.now()+30000;do{a=await stepState(X,X.page);b=await stepState(X,p);if(sameShowdownState(a,b))break;await sleep(1000);}while(Date.now()<until);await check(X,"twotabs.same",sameShowdownState(a,b),`tab 1 ${JSON.stringify(a)} vs tab 2 ${JSON.stringify(b)}`,p);}
       await closeExtraTabs(X);
     }
     if(checks)await checks(check,X);
+    // skew: the clock is put right once the point's checks are done.
+    if(rec.release){const release=rec.release;rec.release=null;await release();}
     // Reads: the 60 s after recovery on the faulted phone (both phones idle on the step's next screen).
     // Steady state: 10 s for the catch-up reads after recovery, then the window.
     await sleep(Number(process.env.FIJ_READ_SETTLE_MS||10000));
@@ -472,6 +602,7 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
     rec.readsAfter=Math.round(perMin);rec.readsPoint=readsOf(meter.events.slice(startIdx));
     await check(X,"reads",perMin<=READS_PER_MIN,`${Math.round(perMin)} document reads/min on ${X.user} after recovery (limit ${READS_PER_MIN})`);
   }catch(error){await check(X,error.stuck?"stuck":"fatal",false,error.message);}
+  finally{if(rec.release){const release=rec.release;rec.release=null;await release().catch(()=>{});}}
   rec.ms=Date.now()-started;rec.pass=rec.checks.length>0&&rec.checks.every(c=>c.pass);
   report.points.push(rec);writeReport();
   console.log(`RESULT ${point}: ${rec.pass?"PASS":"FAIL"} (${FAULT} on ${X.user}${rec.detail?`, ${rec.detail}`:""}${rec.tapBlocked?", tap blocked":""}; recovered in ${Math.round((rec.recoverMs||0)/1000)} s, ${rec.readsPoint??"?"} reads, ${rec.readsAfter??"?"}/min after)`);
@@ -556,14 +687,15 @@ async function main(){
   const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const ctx={};let rivalryId=null;
   try{
-    ctx.daniel=await openManager(browser,"daniel");ctx.nik=await openManager(browser,"nik");
+    ctx.browser=browser;ctx.daniel=await openManager(browser,"daniel");ctx.nik=await openManager(browser,"nik");
     const {daniel,nik}=ctx;const both=[daniel,nik];
     await signIn(daniel,"Daniel");await signIn(nik,"Nik");
     rivalryId=await startAndJoin(daniel,nik,TOTAL);report.rivalryId=rivalryId;ctx.rivalryId=rivalryId;
     const R=p=>`rivalries/${rivalryId}/${p}`;
     // League wheel and the club draw's deal (Daniel's device, by itself), no fault.
     for(const m of both)await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
-    await clubDraw.playLeagueRoulette(daniel,nik);
+    seasonNow=1;
+    await leagueBallPoint(ctx);
     for(const m of both)await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:120000});
     for(const m of both)await clubDraw.waitStop(m.page,120000);
     const careerOverlay=page=>visible(page,"#productionSharedCareerStartOverlay");
@@ -643,6 +775,7 @@ async function main(){
           if(!await atPrime(daniel.page))await check(daniel,"start.enabled",start&&!start.disabled&&!start.hidden,`Daniel's START: ${JSON.stringify(start)}`);
         }});
     };
+    await chamberKickPoint(ctx,R,1);
     await spinMarkPoint("spin-mark",1);
     await primePoint(R,"prime-mid",1);
     await transfersWithFaults(ctx,R,1);
@@ -724,6 +857,12 @@ async function main(){
     }
     report.readsTotal=readsOf(meter.events);report.readsByPhone={daniel:readsOf(meter.events,"daniel"),nik:readsOf(meter.events,"nik")};
     endCheck("reads.total",FAULT==="none"||report.readsTotal<=BASELINE_READS*2.5,`${report.readsTotal} document reads in the run (fault-free run ~${BASELINE_READS}, limit x2.5)`);
+    // --- r100 W9 epilogue: two more short Showdowns of the same pair (home-join, end-showdown, sacked, unpair).
+    const errorsBefore={daniel:daniel.log.pageErrors.length,nik:nik.log.pageErrors.length},deadBefore=deadTaps.length;
+    await epilogue(ctx,endCheck);
+    for(const m of both){endCheck(`epilogue.errors.${m.user}`,m.log.pageErrors.length===errorsBefore[m.user],JSON.stringify(m.log.pageErrors.slice(errorsBefore[m.user],errorsBefore[m.user]+5)));endCheck(`epilogue.production.${m.user}`,m.log.forbidden.length===0,JSON.stringify(m.log.forbidden.slice(0,3)));}
+    endCheck("epilogue.noDeadButtons",deadTaps.length===deadBefore,deadTaps.slice(deadBefore).join(" | "));
+    report.readsTotal=readsOf(meter.events);report.readsByPhone={daniel:readsOf(meter.events,"daniel"),nik:readsOf(meter.events,"nik")};
   }catch(error){
     report.fatal={message:String(error&&error.message||error).slice(0,1500),point:pointNow,stack:String(error&&error.stack||"").split("\n").slice(0,6).join("\n")};
     for(const m of [ctx.daniel,ctx.nik].filter(Boolean))report.fatal[`state_${m.user}`]=await describe(m);
@@ -782,17 +921,206 @@ async function main(){
     if(await rouletteFinalTapReady(m.page)){await m.page.locator("#rrStepPanel .rrStepPrimary").click({timeout:10000});markRouletteFinished(m,season,true);}
     else markRouletteFinished(m,season);
   }
+
+  // ----- r100 W9 epilogue: Showdown 2 (home-join, end-showdown after season 1) and Showdown 3 (sacked in season 1, unpair) -----
+  async function epilogue(ctx,endCheck){
+    const {daniel,nik}=ctx;const both=[daniel,nik];
+    const closedInDb=async rid=>plain(F(await admin(`rivalries/${rid}`),"data","connectionState"))==="closed";
+    const settingsOpen=p=>visible(p,"#settingsOverlay");
+    const openSettingsOn=async p=>{if(await clickIf(p,p.locator("#settingsButton")))return true;return clickIf(p,p.locator("#onlinePlayerIdentityBadge"));};
+    const closeSettingsOn=p=>clickIf(p,p.locator("#settingsOverlay .settingsFooter .menuButton"));
+    // Home with no Showdown live: the season line says so (Nik's career tile still offers JOIN DANIEL'S SHOWDOWN for the next one).
+    const noneLive=p=>p.evaluate(()=>(document.getElementById("seasonIndicator")?.textContent||"").trim()==="No Showdown live").catch(()=>false);
+    const onQuietHome=async p=>await visible(p,"#mainMenu")&&!(await settingsOpen(p))&&await noneLive(p);
+    // A new Showdown of the same pair: Daniel STARTs from Home, the code shows; Nik's Home turns into JOIN by itself.
+    const newShowdown=async length=>{
+      for(const m of both){m.roulette={};for(const p of [m.page,...m.extra])p.__fijGone=new Set();}
+      for(const m of both)await backHome(m);
+      await daniel.page.locator("#newShowdown").click({timeout:30000});
+      await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
+      await daniel.page.locator("#roundAmount").selectOption(String(length));
+      await daniel.page.locator("#startShowdown").click({timeout:30000});
+      await pairPanel(daniel).locator("code").waitFor({timeout:30000});
+      const code=(await pairPanel(daniel).locator("code").innerText()).trim();
+      const meta=`Daniel started ${length} seasons. Tap to join.`;
+      await nik.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileMeta")?.textContent||"").trim()===text,meta,{timeout:90000});
+      return {rid:code.replace(/^CMS17R?-/,""),meta};
+    };
+    const bothActive=async rid=>{for(const m of both)await m.page.waitForFunction(id=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.connectionState==="active"&&s.rivalryId===id);},rid,{timeout:60000});};
+    // The setup and season 1 without a fault, up to the given step.
+    const plainSetup=async()=>{
+      for(const m of both)await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:60000});
+      await clubDraw.playLeagueRoulette(daniel,nik);
+      for(const m of both)await m.page.locator("#clubWheelScreen").waitFor({state:"visible",timeout:120000});
+      const clubs=await clubDraw.playClubDraw(daniel,nik,{timeout:60000});
+      for(const m of both)await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:60000});
+      await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
+      await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
+      await playChamberMenBoth(ctx,1);
+      for(const m of both)await playRouletteToEnd(m,1);
+      await plainPrime(ctx,1);await plainTransfers(ctx,1);
+    };
+    seasonNow=1;
+    // --- home-join: Showdown 2 (3 seasons); Nik taps JOIN on his Home.
+    const s2=await newShowdown(3),R2=p=>`rivalries/${s2.rid}/${p}`;
+    await writePoint(ctx,"home-join",{writer:nik,ready:async p=>await visible(p,"#mainMenu")&&norm(await p.locator("#newShowdown .menuTileMeta").textContent().catch(()=>""))===s2.meta,tap:p=>p.locator("#newShowdown").click({timeout:10000}),
+      settle:(m,page)=>drive(m,p=>visible(p,"#leagueWheelScreen"),{page,label:"Showdown 2's league screen",timeout:240000}),
+      checks:async(check)=>{
+        for(const m of both){const st=await m.page.evaluate(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return s?{conn:s.connectionState,rid:s.rivalryId}:null;}).catch(()=>null);await check(m,"pair.joined",st&&st.conn==="active"&&st.rid===s2.rid,`pair ${JSON.stringify(st)}, expected ${s2.rid}`);}
+        await check(null,"db.joined",plain(F(await admin(`rivalries/${s2.rid}`),"data","connectionState"))==="active",`rivalry ${s2.rid} is not active`);
+      }});
+    await bothActive(s2.rid);
+    await plainSetup();await plainResults(ctx,R2,1);await plainCommit(ctx,1);
+    // --- end-showdown: Daniel taps END SHOWDOWN in Settings with season 1 confirmed.
+    {
+      for(const m of both)await backHome(m);
+      await openSettingsOn(daniel.page);
+      const endBtn=p=>p.locator("#settingsOverlay .settingsDeleteCurrentShowdown");
+      await endBtn(daniel.page).waitFor({state:"visible",timeout:30000});
+      let lastTap=0;
+      const endTaps=async p=>{
+        if(await closedInDb(s2.rid)){if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";}
+        if(await settingsOpen(p)){if(Date.now()-lastTap>8000&&await clickIf(p,endBtn(p))){lastTap=Date.now();return "end-again";}return "partner-wait";}
+        if(await visible(p,"#mainMenu")&&await openSettingsOn(p))return "open-settings";
+        return "";
+      };
+      await writePoint(ctx,"end-showdown",{writer:daniel,ready:p=>endBtn(p).isVisible(),tap:async p=>{lastTap=Date.now();await endBtn(p).click({timeout:10000});},
+        settle:(m,page)=>drive(m,async p=>await closedInDb(s2.rid)&&await onQuietHome(p),{page,label:"Home after END SHOWDOWN",firstTaps:m===daniel?endTaps:async p=>{if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";},timeout:240000}),
+        checks:async(check)=>{
+          const doc=await admin(`rivalries/${s2.rid}`);
+          await check(null,"db.ended",plain(F(doc,"data","connectionState"))==="closed"&&plain(F(doc,"data","endedEarly","seasonsPlayed"))===1&&F(doc,"data","terminalClose")===undefined,`rivalry ${JSON.stringify(plain(F(doc,"data","endedEarly")))} terminalClose ${JSON.stringify(plain(F(doc,"data","terminalClose")))}`);
+        }});
+    }
+    // --- sacked: Showdown 3 (3 seasons); the fault phone confirms season 1 with "I was sacked this season" ticked.
+    const s3=await newShowdown(3),R3=p=>`rivalries/${s3.rid}/${p}`;
+    await nik.page.locator("#newShowdown").click({timeout:30000});
+    await bothActive(s3.rid);
+    await plainSetup();
+    {
+      const X=faultPhone(ctx),first=X===daniel?nik:daniel,xRole=ROLE[X.account];
+      await drive(first,async p=>/CONFIRMED/.test(await reviewHeading(p))&&Boolean(await admin(R3(`seasonResults/season_1/roles/${ROLE[first.account]}`))),{label:"first publish",stepTaps:p=>publishSteps(first,p,1,R3)});
+      for(const m of both)await drive(m,p=>visible(p,"#seasonEntry"),{label:"results screen",stepTaps:p=>toResults(m,p).then(x=>x===true?"":x||"")});
+      await writePoint(ctx,"sacked",{writer:X,ready:p=>p.locator("#completeSeason").isVisible(),
+        tap:async p=>{
+          const prefix=X.account==="daniel"?"p1":"p2";
+          await fillSeasonResult(p,prefix,PLAN[0][X.account]);await p.locator(`#${prefix}Sacked`).setChecked(true);
+          await p.locator("#completeSeason").click({timeout:10000});
+          await p.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="REVIEW YOUR SEASON RESULT",null,{timeout:10000});
+          await p.locator("#confirmSeasonCompletion").click({timeout:10000});
+          await p.waitForFunction(()=>document.getElementById("confirmSeasonCompletion")?.textContent==="YES, I WAS SACKED · CONFIRM",null,{timeout:15000});
+          await p.locator("#confirmSeasonCompletion").click({timeout:10000});
+        },
+        settle:(m,page)=>drive(m,async p=>await reviewHeading(p)==="BOTH MANAGERS CONFIRMED",{page,label:"both published (one sacked)",stepTaps:p=>publishSteps(m,p,1,R3,{sacked:m===X})}),
+        checks:async(check)=>{
+          const own=docData(await admin(R3(`seasonResults/season_1/roles/${xRole}`)));
+          await check(null,"db.sackedResult",own&&/"sacked":true/.test(JSON.stringify(own)),`stored ${JSON.stringify(own).slice(0,300)}`);
+        }});
+      // The season is confirmed without a fault; the Showdown ends after it by itself (Sacked) on both phones.
+      await drive(daniel,async p=>await commitLabel(p)==="LOCK & CONFIRM SEASON",{label:"commit ready"});
+      await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:10000});
+      await drive(nik,async p=>await commitLabel(p)==="CONFIRM SEASON",{label:"ack ready"});
+      await nik.page.locator("#sharedSeasonCommitAction").click({timeout:10000});
+      for(const m of both)await drive(m,async p=>await finalShown(p)&&await closedPhase(p)==="CLOSED",{label:"Showdown 3 closed after the sacked season",timeout:240000});
+      const rivalry=await admin(`rivalries/${s3.rid}`),term=plain(F(rivalry,"data","terminalClose"));
+      endCheck("sacked.closed",plain(F(rivalry,"data","connectionState"))==="closed"&&term&&term.endedBy==="sacked"&&term.completedSeason===1&&term.sacked?.[xRole]===true,`terminalClose ${JSON.stringify(term).slice(0,400)}`);
+      endCheck("sacked.noSeason2",!(await admin(R3("transferChallenges/season_2")))&&!(await admin(R3("seasonResults/season_2"))),"something exists for season 2 after the sacked season");
+    }
+    // --- unpair: Daniel taps UNPAIR in Settings; Nik's next tap on Home learns it and opens the code box.
+    {
+      for(const m of both)await backHome(m);
+      const uid=async m=>m.page.evaluate(()=>window.CareerModeSparkConnectedAccount?.getState?.().accountId||null).catch(()=>null);
+      const uids={daniel:await uid(daniel),nik:await uid(nik)};
+      const partnerActive=async who=>{const d=await admin(`accounts/${uids[who]}/partner/current`);return plain(F(d,"active"));};
+      await openSettingsOn(daniel.page);
+      const unpairBtn=p=>p.locator("#onlinePlayerIdentitySettingsPanel .settingsUnpairButton");
+      await unpairBtn(daniel.page).waitFor({state:"visible",timeout:30000});
+      let lastTap=0,nikTap=0;
+      const danielTaps=async p=>{
+        if(await partnerActive("daniel")===false){if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";}
+        if(await settingsOpen(p)){if(Date.now()-lastTap>8000&&await clickIf(p,unpairBtn(p))){lastTap=Date.now();return "unpair-again";}return "partner-wait";}
+        if(await visible(p,"#mainMenu")&&await openSettingsOn(p))return "open-settings";
+        return "";
+      };
+      const codeBox=p=>visible(p,"#connectPlayersScreen #persistentNikDanielPairCode");
+      const nikTaps=async p=>{
+        if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";
+        if(await partnerActive("daniel")!==false)return "partner-wait";
+        if(await visible(p,"#mainMenu")&&Date.now()-nikTap>8000){nikTap=Date.now();await p.locator("#newShowdown").click({timeout:5000}).catch(()=>{});return "home-tap";}
+        // A screen that waits for Daniel (opened before the UNPAIR landed): back Home and tap again, as a player would.
+        if(!(await visible(p,"#mainMenu"))&&Date.now()-nikTap>15000&&await backHome({...nik,page:p}))return "back-home";
+        return "";
+      };
+      await writePoint(ctx,"unpair",{writer:daniel,ready:p=>unpairBtn(p).isVisible(),tap:async p=>{lastTap=Date.now();await unpairBtn(p).click({timeout:10000});},
+        settle:(m,page)=>m===daniel?drive(m,async p=>await partnerActive("daniel")===false&&await visible(p,"#mainMenu")&&!(await settingsOpen(p)),{page,label:"Home after UNPAIR",firstTaps:danielTaps,timeout:240000})
+          :drive(m,codeBox,{page,label:"Nik's code box after Daniel's UNPAIR",firstTaps:nikTaps,timeout:240000}),
+        checks:async(check)=>{
+          await check(null,"db.unpaired",await partnerActive("daniel")===false&&await partnerActive("nik")===false,`partner records: Daniel ${await partnerActive("daniel")}, Nik ${await partnerActive("nik")}`);
+        }});
+    }
+  }
 }
 // Chamber Men (7 kicks each, turn by turn, 10 s clock) needs BOTH phones tapping at the same time, so both play it together and stop
 // when it is over and the roulette shows (the roulette itself is played by the caller, phone by phone). Not drive(): its generic
 // path-forward would tap the roulette's panels the moment they show, and "wait" (the rival's turn) is not a dead tap here.
+// r100 W9 league-ball: the League Roulette's four balls (Daniel, Nik, Daniel, Nik), each from its own phone. The fault hits
+// the fault phone's first ball: Daniel's ball 1 (it draws the league) or Nik's ball 2. Both phones then drop their own
+// remaining balls and reach the Ball Game; both must show the same league and four landed balls.
+async function leagueBallPoint(ctx){
+  const {daniel,nik}=ctx;const X=faultPhone(ctx);
+  const button=p=>p.locator("#spinLeague");
+  const tappable=async p=>{const b=button(p);if(!(await b.isVisible().catch(()=>false))||!(await b.isEnabled().catch(()=>false)))return false;return !/WAITING/i.test(norm(await b.textContent().catch(()=>"")));};
+  const dropReady=p=>p.evaluate(()=>{const b=document.getElementById("spinLeague");return Boolean(b&&!b.disabled&&(b.textContent||"").trim()==="DROP BALL");}).catch(()=>false);
+  const view=p=>p.evaluate(()=>({league:document.getElementById("selectedLeague")?.textContent?.trim()||"",drops:window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setupDrops??null})).catch(()=>({}));
+  await writePoint(ctx,"league-ball",{writer:X,ready:X===daniel?tappable:dropReady,tap:p=>button(p).click({timeout:10000}),
+    other:null,
+    settle:(m,page)=>drive(m,p=>visible(p,"#clubWheelScreen"),{page,label:"the Ball Game after the four balls",timeout:240000,stepTaps:async p=>{if(await tappable(p)){await button(p).click({timeout:5000}).catch(()=>{});return "league-tap";}return "";}}),
+    checks:async(check)=>{
+      const v=[await view(daniel.page),await view(nik.page)];
+      await check(null,"league.same",v[0].league&&v[0].league===v[1].league,`leagues ${JSON.stringify(v)}`);
+      for(const [i,m] of [daniel,nik].entries())await check(m,"league.fourBalls",v[i].drops===null||v[i].drops===4,`setupDrops on ${m.user}: ${v[i].drops}`);
+    }});
+}
+// r100 W9 chamber-kick: season 1's shootout; the rival plays on by itself while the fault phone plays up to its kick number
+// CHAMBER_KICK (seeded 1-5), locks it, and the fault hits right after the lock (the pick in flight). A kick a crash loses is a
+// miss by the rules (W6, Nik's choice); the checks are that the shootout ends on both phones, once, and the roulette follows.
+async function chamberKickPoint(ctx,R,season){
+  const {daniel,nik}=ctx;const X=faultPhone(ctx),O=X===daniel?nik:daniel;
+  const kickReady=async p=>{
+    const st=p.locator("#cmStage");if(!(await st.isVisible().catch(()=>false)))return false;
+    if(await st.locator(".cmTurn").getAttribute("data-turn").catch(()=>null)!=="shoot")return false;
+    if(!(await st.locator(".cmLock").isVisible().catch(()=>false))||!(await st.locator('.cmChoice[data-kind="shot"]').first().isEnabled().catch(()=>false)))return false;
+    const kick=Number(((await st.locator(".cmTurnCount").textContent().catch(()=>""))||"").replace(/\D+/g," ").trim().split(" ")[0])||1;
+    return kick>=CHAMBER_KICK;
+  };
+  const partner=playChamberMenOne(O,season).then(()=>null,e=>e);
+  await playChamberMenOne(X,season,{stopAt:kickReady});
+  const settleOne=async(m,page)=>{
+    if(m===O&&page===O.page){const e=await partner;if(e)throw e;return true;}
+    return playChamberMenOne({...m,get page(){return page;}},season);
+  };
+  await writePoint(ctx,"chamber-kick",{writer:X,ready:async p=>await kickReady(p)||await chamberOver(p),
+    tap:async p=>{if(await chamberOver(p)){report.notes.push(`chamber-kick: the shootout was over before ${X.user}'s kick ${CHAMBER_KICK}`);return;}const did=await rosterRoulette.playChamberMen(p);if(did!=="chamber-kick")throw new Error(`Chamber Men: no kick locked (${did})`);},
+    settle:(m,page)=>m===X&&page===X.page?playChamberMenOne(X,season).then(()=>true):settleOne(m,page),
+    checks:async(check)=>{
+      const doc=docData(await admin(R(`chamberMenRounds/season_${season}`)));
+      await check(null,"db.chamberRound",Boolean(doc),`chamberMenRounds/season_${season} missing`);
+      for(const m of [daniel,nik])await check(m,"chamber.over",await chamberOver(m.page),`${m.user} is not past Chamber Men: ${await describe(m,m.page)}`);
+    }});
+}
+// Chamber Men stays on screen underneath the roulette, so the roulette showing is what ends it.
+const chamberOver=async p=>await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await atPrime(p)||await onTransfer(p);
 async function playChamberMenBoth(ctx,season){
-  // Chamber Men stays on screen underneath the roulette, so the roulette showing is what ends it.
-  const over=async p=>await visible(p,"#rrStage")||await visible(p,"#rrStepPanel")||await atPrime(p)||await onTransfer(p);
+  await Promise.all([ctx.daniel,ctx.nik].map(m=>playChamberMenOne(m,season)));
+}
+// One phone's part of the shootout (its kicks and dives, the Squad screen that comes over it), until the roulette shows.
+// stopAt(page): an optional early stop (the chamber-kick point stops the fault phone at its kick).
+async function playChamberMenOne(m,season,{stopAt=null}={}){
+  const over=chamberOver;
   const one=async m=>{
     const until=Date.now()+240000;let idleSince=Date.now();
     for(;;){
       if(await over(m.page).catch(()=>false))return;
+      if(stopAt&&await stopAt(m.page).catch(()=>false))return;
       let did="";
       // r91: the Squad Management screen comes up over Chamber Men before the roulette; both phones lock (the screen waits
       // for the rival's lock).
@@ -805,7 +1133,7 @@ async function playChamberMenBoth(ctx,season){
       await sleep(600);
     }
   };
-  await Promise.all([ctx.daniel,ctx.nik].map(one));
+  await one(m);
 }
 // The last roulette tap: the result panel's GO TO THE PRIME PACK / GO TO THE TRANSFER WAR (or I HAVE RELEASED HIM when it is the last).
 async function rouletteFinalTapReady(page){
@@ -936,16 +1264,19 @@ async function toResults(m,page){
   return false;
 }
 // Publish this manager's result from wherever the results screen is (fill, REVIEW, CONFIRM). Returns what it did.
-async function publishSteps(m,page,season,R){
+async function publishSteps(m,page,season,R,{sacked=false}={}){
   const prefix=m.account==="daniel"?"p1":"p2";
   const heading=await reviewHeading(page);
   if(/CONFIRMED/.test(heading))return "";
+  // r100 W9 sacked: a sacked result asks once more (YES, I WAS SACKED · CONFIRM); nothing is published before that tap.
+  if(await clickIf(page,page.locator("#confirmSeasonCompletion").filter({hasText:/^\s*YES, I WAS SACKED · CONFIRM\s*$/})))return "sacked-confirm";
   const own=await admin(R(`seasonResults/season_${season}/roles/${ROLE[m.account]}`));if(own)return "";
   const goto=await toResults(m,page);if(goto&&goto!==true)return goto;if(!goto)return "";
   if(heading==="REVIEW YOUR SEASON RESULT"&&await clickIf(page,page.locator("#confirmSeasonCompletion")))return "confirm";
   if(await page.locator("#completeSeason").isVisible().catch(()=>false)){
     const typed=await page.locator(`#${prefix}LeaguePoints`).inputValue().catch(()=>"");
     if(typed!==String(PLAN[season-1][m.account].leaguePoints))await fillSeasonResult(page,prefix,PLAN[season-1][m.account]);
+    if(sacked)await page.locator(`#${prefix}Sacked`).setChecked(true).catch(()=>{});
     await page.locator("#completeSeason").click({timeout:5000});
     await page.waitForFunction(()=>document.getElementById("seasonReviewHeading")?.textContent==="REVIEW YOUR SEASON RESULT",null,{timeout:10000}).catch(()=>{});
     if(await clickIf(page,page.locator("#confirmSeasonCompletion")))return "fill+confirm";

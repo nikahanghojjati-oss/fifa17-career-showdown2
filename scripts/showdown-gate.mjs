@@ -49,7 +49,7 @@ export function l5Decision({event,baseRef,files}){
 // two-phone Showdown per job), so on a PR into a release branch it runs only when something the game or those journeys
 // load changed. The rule is fail-closed: a PR skips L7 only when EVERY changed file is plainly outside the game (notes,
 // the Story, planning files, Node-only contracts and their JSON registers). Anything else, including a new folder, runs it.
-export const L7_LEGS=Object.freeze(['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','ce2pg']);
+export const L7_LEGS=Object.freeze(['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','swap','skew','double','listener','lostreply','ce2pg']);
 export const L7_SKIP_ONLY=Object.freeze([
   '*.md','**/*.md','chronicle/**','project-documents/**','authority-history/**','docs/**','audit/**','gameplay/**','owner-sns/**',
   'pos10-recovery/**','WORK_ENVIRONMENT_ARCHIVE/**','acceptance/**','tools/**','tests/contracts/**','tests/operations/**',
