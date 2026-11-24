@@ -185,6 +185,7 @@ function guessHarness(device){
     pstcSetSelector(input,kind,id){const label=labels[kind]?.[id];if(label){input.value=label;input.dataset.canonicalId=id;}else{input.value=String(id||"");delete input.dataset.canonicalId;}},
     pstcSyncGuessValue(typeNode,valueNode,editable){valueNode.disabled=!editable||!typeNode.value;},
     pstcRequestContext:()=>request,
+    pstcTapClear(){},// Phoenix W3: a changed guess drops the tap note (r100-tap-memory-wiring W7)
     URL,RegExp,Number,String,Array,JSON
   };
   let replay=null,request={key:"k",rivalryId:RIVALRY,seasonNumber:2};
