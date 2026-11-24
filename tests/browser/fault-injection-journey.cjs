@@ -522,7 +522,11 @@ async function inject(ctx,X,tap,other,rec){
     }
     case "listener":{
       rec.detail="the live listener dies (Listen stream refused) until both phones settle";
-      const refuse=route=>route.abort("failed");await X.context.route(LISTEN_RE,refuse);
+      let refused=0;const refuse=route=>{refused+=1;return route.abort("failed");};await X.context.route(LISTEN_RE,refuse);
+      // The stream already open would keep delivering (a route only sees new requests, Codex on #1579): a 300 ms network blip
+      // cuts every open connection, and the Listen stream's reconnects then meet the refusal. The point fails if none did.
+      await X.context.setOffline(true);await sleep(300);await X.context.setOffline(false);
+      Object.defineProperty(rec,"listenRefused",{configurable:true,value:()=>refused});
       Object.defineProperty(rec,"release",{configurable:true,writable:true,value:async()=>{await X.context.unroute(LISTEN_RE,refuse).catch(()=>{});}});
       Object.defineProperty(rec,"releaseAfterSettle",{configurable:true,writable:true,value:true});
       await runTap(X.page);await runOther();break;
@@ -585,6 +589,7 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
     const recoveredAt=Date.now();
     await Promise.all([ctx.daniel,ctx.nik].map(m=>settle(m,m.page).catch(async e=>{await check(m,e.stuck?"stuck":"settle",false,e.message,e.page);})));
     rec.recoverMs=Date.now()-recoveredAt;
+    if(rec.listenRefused)await check(X,"listener.cut",rec.listenRefused()>0,"no Listen request was refused: the fault never took the listener down");
     if(rec.swapped)await check(X,"swap.straightBack",!X.swapSeen.length,`the fresh device showed steps he already played: ${X.swapSeen.join("; ")}`);
     // listener: the stream comes back once both phones settled without it (their rival's move had to arrive another way).
     if(rec.releaseAfterSettle&&rec.release){const release=rec.release;rec.release=null;await release();}
@@ -934,6 +939,26 @@ async function main(){
     // Home with no Showdown live: the season line says so (Nik's career tile still offers JOIN DANIEL'S SHOWDOWN for the next one).
     const noneLive=p=>p.evaluate(()=>(document.getElementById("seasonIndicator")?.textContent||"").trim()==="No Showdown live").catch(()=>false);
     const onQuietHome=async p=>await visible(p,"#mainMenu")&&!(await settingsOpen(p))&&await noneLive(p);
+    const signedIn=(p,m)=>p.evaluate(t=>document.getElementById("onlinePlayerIdentityBadge")?.textContent===t,NAMES[m.account].toUpperCase()).catch(()=>false);
+    // The manager who acts from Settings (END SHOWDOWN, UNPAIR) after a fault: a signed-out tab signs in first (pathForward),
+    // a tab that went back into the Showdown goes Home, then Settings again, and the button is tapped again every 8 s until the
+    // database shows it landed.
+    const settingsActor=(m,{done,button})=>{let last=0;const taps=async p=>{
+      if(await done()){if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";}
+      if(!(await signedIn(p,m))){if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";}
+      if(await settingsOpen(p)){if(Date.now()-last>8000&&await clickIf(p,button(p))){last=Date.now();return "settings-again";}return "partner-wait";}
+      if(await visible(p,"#mainMenu")&&await openSettingsOn(p))return "open-settings";
+      if(await backHome({...m,page:p}))return "back-home";
+      return "";
+    };taps.tapped=()=>{last=Date.now();};return taps;};
+    // The other manager waits on Home (signed in) for the change, without walking back into the Showdown it ends.
+    const homeWaiter=m=>async p=>{
+      if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";
+      if(!(await signedIn(p,m)))return "";
+      if(await visible(p,"#mainMenu"))return "partner-wait";
+      if(await backHome({...m,page:p}))return "back-home";
+      return "";
+    };
     // A new Showdown of the same pair: Daniel STARTs from Home, the code shows; Nik's Home turns into JOIN by itself.
     const newShowdown=async length=>{
       for(const m of both){m.roulette={};for(const p of [m.page,...m.extra])p.__fijGone=new Set();}
@@ -947,6 +972,16 @@ async function main(){
       const meta=`Daniel started ${length} seasons. Tap to join.`;
       await nik.page.waitForFunction(text=>(document.querySelector("#newShowdown .menuTileMeta")?.textContent||"").trim()===text,meta,{timeout:90000});
       return {rid:code.replace(/^CMS17R?-/,""),meta};
+    };
+    // Nik's JOIN: the Home tile, or the JOIN DANIEL'S SHOWDOWN button of the connect box when Home's own join check opened it
+    // over the tile first (seen on the Gate: the box intercepts the tile's tap). A player taps the JOIN in front of him.
+    const nikJoin=async p=>{
+      const box=p.locator("#connectPlayersScreen");
+      if(await box.isVisible().catch(()=>false)){
+        report.notes.push(`${pointNow}: Nik's connect box was open over Home when he went to JOIN`);
+        await box.locator("button:visible").filter({hasText:/^\s*JOIN DANIEL'S SHOWDOWN\s*$/}).first().click({timeout:10000});return;
+      }
+      await p.locator("#newShowdown").click({timeout:10000});
     };
     const bothActive=async rid=>{for(const m of both)await m.page.waitForFunction(id=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.connectionState==="active"&&s.rivalryId===id);},rid,{timeout:60000});};
     // The setup and season 1 without a fault, up to the given step.
@@ -965,7 +1000,7 @@ async function main(){
     seasonNow=1;
     // --- home-join: Showdown 2 (3 seasons); Nik taps JOIN on his Home.
     const s2=await newShowdown(3),R2=p=>`rivalries/${s2.rid}/${p}`;
-    await writePoint(ctx,"home-join",{writer:nik,ready:async p=>await visible(p,"#mainMenu")&&norm(await p.locator("#newShowdown .menuTileMeta").textContent().catch(()=>""))===s2.meta,tap:p=>p.locator("#newShowdown").click({timeout:10000}),
+    await writePoint(ctx,"home-join",{writer:nik,ready:async p=>await visible(p,"#mainMenu")&&norm(await p.locator("#newShowdown .menuTileMeta").textContent().catch(()=>""))===s2.meta,tap:p=>nikJoin(p),
       settle:(m,page)=>drive(m,p=>visible(p,"#leagueWheelScreen"),{page,label:"Showdown 2's league screen",timeout:240000}),
       checks:async(check)=>{
         for(const m of both){const st=await m.page.evaluate(()=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return s?{conn:s.connectionState,rid:s.rivalryId}:null;}).catch(()=>null);await check(m,"pair.joined",st&&st.conn==="active"&&st.rid===s2.rid,`pair ${JSON.stringify(st)}, expected ${s2.rid}`);}
@@ -979,15 +1014,9 @@ async function main(){
       await openSettingsOn(daniel.page);
       const endBtn=p=>p.locator("#settingsOverlay .settingsDeleteCurrentShowdown");
       await endBtn(daniel.page).waitFor({state:"visible",timeout:30000});
-      let lastTap=0;
-      const endTaps=async p=>{
-        if(await closedInDb(s2.rid)){if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";}
-        if(await settingsOpen(p)){if(Date.now()-lastTap>8000&&await clickIf(p,endBtn(p))){lastTap=Date.now();return "end-again";}return "partner-wait";}
-        if(await visible(p,"#mainMenu")&&await openSettingsOn(p))return "open-settings";
-        return "";
-      };
-      await writePoint(ctx,"end-showdown",{writer:daniel,ready:p=>endBtn(p).isVisible(),tap:async p=>{lastTap=Date.now();await endBtn(p).click({timeout:10000});},
-        settle:(m,page)=>drive(m,async p=>await closedInDb(s2.rid)&&await onQuietHome(p),{page,label:"Home after END SHOWDOWN",firstTaps:m===daniel?endTaps:async p=>{if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";},timeout:240000}),
+      const endTaps=settingsActor(daniel,{done:()=>closedInDb(s2.rid),button:endBtn}),nikWaits=homeWaiter(nik);
+      await writePoint(ctx,"end-showdown",{writer:daniel,ready:p=>endBtn(p).isVisible(),tap:async p=>{endTaps.tapped();await endBtn(p).click({timeout:10000});},
+        settle:(m,page)=>drive(m,async p=>await closedInDb(s2.rid)&&await onQuietHome(p)&&await signedIn(p,m),{page,label:"Home after END SHOWDOWN",firstTaps:m===daniel?endTaps:async p=>await closedInDb(s2.rid)?(await settingsOpen(p)&&await closeSettingsOn(p)?"close-settings":""):nikWaits(p),timeout:240000}),
         checks:async(check)=>{
           const doc=await admin(`rivalries/${s2.rid}`);
           await check(null,"db.ended",plain(F(doc,"data","connectionState"))==="closed"&&plain(F(doc,"data","endedEarly","seasonsPlayed"))===1&&F(doc,"data","terminalClose")===undefined,`rivalry ${JSON.stringify(plain(F(doc,"data","endedEarly")))} terminalClose ${JSON.stringify(plain(F(doc,"data","terminalClose")))}`);
@@ -995,7 +1024,7 @@ async function main(){
     }
     // --- sacked: Showdown 3 (3 seasons); the fault phone confirms season 1 with "I was sacked this season" ticked.
     const s3=await newShowdown(3),R3=p=>`rivalries/${s3.rid}/${p}`;
-    await nik.page.locator("#newShowdown").click({timeout:30000});
+    await nikJoin(nik.page);
     await bothActive(s3.rid);
     await plainSetup();
     {
@@ -1036,24 +1065,20 @@ async function main(){
       await openSettingsOn(daniel.page);
       const unpairBtn=p=>p.locator("#onlinePlayerIdentitySettingsPanel .settingsUnpairButton");
       await unpairBtn(daniel.page).waitFor({state:"visible",timeout:30000});
-      let lastTap=0,nikTap=0;
-      const danielTaps=async p=>{
-        if(await partnerActive("daniel")===false){if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";}
-        if(await settingsOpen(p)){if(Date.now()-lastTap>8000&&await clickIf(p,unpairBtn(p))){lastTap=Date.now();return "unpair-again";}return "partner-wait";}
-        if(await visible(p,"#mainMenu")&&await openSettingsOn(p))return "open-settings";
-        return "";
-      };
+      let nikTap=0;
+      const danielTaps=settingsActor(daniel,{done:async()=>await partnerActive("daniel")===false,button:unpairBtn});
       const codeBox=p=>visible(p,"#connectPlayersScreen #persistentNikDanielPairCode");
       const nikTaps=async p=>{
         if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";
+        if(!(await signedIn(p,nik)))return "";
         if(await partnerActive("daniel")!==false)return "partner-wait";
         if(await visible(p,"#mainMenu")&&Date.now()-nikTap>8000){nikTap=Date.now();await p.locator("#newShowdown").click({timeout:5000}).catch(()=>{});return "home-tap";}
         // A screen that waits for Daniel (opened before the UNPAIR landed): back Home and tap again, as a player would.
         if(!(await visible(p,"#mainMenu"))&&Date.now()-nikTap>15000&&await backHome({...nik,page:p}))return "back-home";
         return "";
       };
-      await writePoint(ctx,"unpair",{writer:daniel,ready:p=>unpairBtn(p).isVisible(),tap:async p=>{lastTap=Date.now();await unpairBtn(p).click({timeout:10000});},
-        settle:(m,page)=>m===daniel?drive(m,async p=>await partnerActive("daniel")===false&&await visible(p,"#mainMenu")&&!(await settingsOpen(p)),{page,label:"Home after UNPAIR",firstTaps:danielTaps,timeout:240000})
+      await writePoint(ctx,"unpair",{writer:daniel,ready:p=>unpairBtn(p).isVisible(),tap:async p=>{danielTaps.tapped();await unpairBtn(p).click({timeout:10000});},
+        settle:(m,page)=>m===daniel?drive(m,async p=>await partnerActive("daniel")===false&&await visible(p,"#mainMenu")&&!(await settingsOpen(p))&&await signedIn(p,m),{page,label:"Home after UNPAIR",firstTaps:danielTaps,timeout:240000})
           :drive(m,codeBox,{page,label:"Nik's code box after Daniel's UNPAIR",firstTaps:nikTaps,timeout:240000}),
         checks:async(check)=>{
           await check(null,"db.unpaired",await partnerActive("daniel")===false&&await partnerActive("nik")===false,`partner records: Daniel ${await partnerActive("daniel")}, Nik ${await partnerActive("nik")}`);
