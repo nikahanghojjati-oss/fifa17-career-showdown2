@@ -367,6 +367,7 @@ class Manager{
     const windowStart=start+Guess.stageStarts[g.stage-1]+Guess.stages[g.stage-1].revealMs;
     if(at.beat<g.stage-1||at.phase!=="window"){await this.wait(Math.max(200,windowStart-now)+(g.late?1_500:story.sim.int(8_000)));return true;}
     pack.next+=1;
+    const taps=story.packTaps||(story.packTaps={});taps[`${season}:${role}`]=(taps[`${season}:${role}`]||0)+1;
     const guess=await attempt("guess",()=>step.applyGuess(io,ctx,g.correct));
     if(guess.ok&&guess.value&&guess.value.ok)this.moved({ok:true});
     return true;

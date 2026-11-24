@@ -1,5 +1,17 @@
 {
  "schemaVersion": 1,
  "cap": 200,
- "entries": []
+ "entries": [
+  {
+   "signature": "L6_PRIME_PACK: season # P used # guesses with # guess taps",
+   "law": "L6_PRIME_PACK",
+   "detail": "season 3 playerOne used 2 guesses with 1 guess taps",
+   "replay": "L6_PRIME_PACK-70068-044dc9938e.json",
+   "firstSeen": "2026-11-24T05:11:36.348Z",
+   "lastSeen": "2026-11-24T05:11:36.348Z",
+   "firstHead": "82865e8df8aa41d98f999cd5daa5a61b3481efdb",
+   "lastHead": "82865e8df8aa41d98f999cd5daa5a61b3481efdb",
+   "count": 1
+  }
+ ]
 }

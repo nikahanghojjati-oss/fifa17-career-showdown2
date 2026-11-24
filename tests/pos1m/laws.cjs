@@ -42,6 +42,7 @@ function state(story){if(!story.lawState)story.lawState={scanned:0,commits:new M
 // A chapter starts from a checkpoint the real providers played: the laws start from what that record already holds.
 function fromCheckpoint(story){
   const ls=state(story);
+  story.packFromCheckpoint=new Set([...story.world.server.docs.keys()].map(p=>seasonOf("primePackRounds",p)).filter(s=>s!==null));
   for(const [path,entry] of story.world.server.docs){
     const d=entry.data;
     const c=seasonOf("seasonCommits",path);if(c!==null){ls.commits.set(c,canonical(d.results));if(d.phase==="ACKNOWLEDGED")ls.acknowledged.set(c,0);}
@@ -183,6 +184,8 @@ function packStep(story,season,w){
 }
 function packFinal(story,commits){
   const docs=story.world.server.docs;
+  // Each guess tap spends at most one of the manager's two guesses (a lost answer must not cost a second one).
+  for(const [path,entry] of docs){const season=seasonOf("primePackRounds",path);if(season===null||!entry.data.chipsUsed)continue;for(const role of W.ROLES){const taps=story.packTaps&&story.packTaps[`${season}:${role}`]||0;if(entry.data.chipsUsed[role]>taps&&!story.packFromCheckpoint?.has(season))story.violation("L6_PRIME_PACK",`season ${season} ${role} used ${entry.data.chipsUsed[role]} guesses with ${taps} guess taps`);}}
   for(const c of commits){
     const results=c.data.results;if(!results)continue;
     const scored=W.ROLES.filter(role=>results[role]&&results[role].primePack!==undefined);
