@@ -553,7 +553,7 @@ async function inject(ctx,X,tap,other,rec){
       X.extra.push(second);
       const writeIn=(SECOND_TAB_WRITES?SECOND_TAB_WRITES[i%SECOND_TAB_WRITES.length]:i%2===0)?second:X.page;rec.detail=`second tab open; the write tapped in the ${writeIn===second?"second":"first"} tab`;
       // The tab that writes gets back into the game first (a new tab opens on Showdown Home).
-      if(tap)await drive(X,tap.ready||(async()=>true),{page:writeIn,timeout:120000,label:`${rec.point} (tab ready)`});
+      if(tap)await drive(X,tap.ready||(async()=>true),{page:writeIn,timeout:120000,label:`${rec.point} (tab ready)`,firstTaps:tap.prep||null});
       await runTap(writeIn);await runOther();
       break;
     }
@@ -630,7 +630,7 @@ const readsOf=(events,user)=>events.filter(e=>e.k==="read"&&(!user||e.user===use
 // ---------------------------------------------------------------------------------------------------------------------------
 // One write point: the fault around the write, the path forward on both phones, then the convergence checks.
 // ---------------------------------------------------------------------------------------------------------------------------
-async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,landed=null}){
+async function writePoint(ctx,point,{writer,tap,ready,prep=null,other=null,settle,checks,landed=null}){
   pointNow=point;
   // tapkill proves W3 tap memory on the phone that writes, so at a W3 point it always faults the writer (any seed, any phone mode).
   const X=FAULT==="tapkill"&&writer&&W3_TAPS.has(point)?writer:faultPhone(ctx),rec={point,phone:X.user,writer:writer?writer.user:"auto",fault:FAULT,pass:false,checks:[],detail:""};
@@ -640,8 +640,11 @@ async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,l
   const check=async(m,id,ok,detail,page)=>{rec.checks.push({id,phone:m?m.user:"both",pass:Boolean(ok),detail:ok?undefined:String(detail).slice(0,800)});if(!ok)await problem(m,id,detail,page);return Boolean(ok);};
   try{
     // The writer reaches the write's screen first (both phones are already there in the normal flow).
-    if(writer&&ready)await drive(writer,ready,{timeout:120000,label:`${point} (ready)`});
-    const tapFn=writer?Object.assign(page=>tap(page),{ready}):null;
+    // prep: the taps that bring a tab to the write's screen when the generic path forward cannot (Settings for END SHOWDOWN
+    // and UNPAIR): the twotabs second tab is a fresh tab that has never had them (Codex on #1579). They run before the
+    // generic path forward, which would otherwise tap CONTINUE SHOWDOWN on Home and take the tab back into the game.
+    if(writer&&ready)await drive(writer,ready,{timeout:120000,label:`${point} (ready)`,firstTaps:prep});
+    const tapFn=writer?Object.assign(page=>tap(page),{ready,prep}):null;
     if(writer&&writer!==X){
       // The fault hits the phone that does not write, while the other one writes.
       await inject(ctx,X,null,async()=>{try{await tap(writer.page);}catch(e){rec.tapBlocked=String(e.message).split("\n")[0].slice(0,160);}},rec);
@@ -1020,6 +1023,14 @@ async function main(){
     const settingsOpen=p=>visible(p,"#settingsOverlay");
     const openSettingsOn=async p=>{if(await clickIf(p,p.locator("#settingsButton")))return true;return clickIf(p,p.locator("#onlinePlayerIdentityBadge"));};
     const closeSettingsOn=p=>clickIf(p,p.locator("#settingsOverlay .settingsFooter .menuButton"));
+    // A fresh second tab resumes the live Showdown on its own screen: back Home first (as the first tab did), then Settings.
+    const settingsPrep=async p=>{
+      // Signed out (a fresh tab still signing in): leave it to the path forward, as settingsActor does.
+      if(!(await signedIn(p,daniel)))return await settingsOpen(p)&&await closeSettingsOn(p)?"close-settings":"";
+      if(await settingsOpen(p))return "";
+      if(!(await visible(p,"#mainMenu")))return await backHome({...daniel,page:p})?"back-home":"";
+      return await openSettingsOn(p)?"open-settings":"";
+    };
     // Home with no Showdown live: the season line says so (Nik's career tile still offers JOIN DANIEL'S SHOWDOWN for the next one).
     const noneLive=p=>p.evaluate(()=>(document.getElementById("seasonIndicator")?.textContent||"").trim()==="No Showdown live").catch(()=>false);
     const onQuietHome=async p=>await visible(p,"#mainMenu")&&!(await settingsOpen(p))&&await noneLive(p);
@@ -1104,7 +1115,7 @@ async function main(){
       const endBtn=p=>p.locator("#settingsOverlay .settingsDeleteCurrentShowdown");
       await endBtn(daniel.page).waitFor({state:"visible",timeout:30000});
       const endTaps=settingsActor(daniel,{done:()=>closedInDb(s2.rid),button:endBtn}),nikWaits=homeWaiter(nik);
-      await writePoint(ctx,"end-showdown",{writer:daniel,ready:p=>endBtn(p).isVisible(),tap:async p=>{endTaps.tapped();await endBtn(p).click({timeout:10000});},
+      await writePoint(ctx,"end-showdown",{writer:daniel,ready:p=>endBtn(p).isVisible(),prep:settingsPrep,tap:async p=>{endTaps.tapped();await endBtn(p).click({timeout:10000});},
         settle:(m,page)=>drive(m,async p=>await closedInDb(s2.rid)&&await onQuietHome(p)&&await signedIn(p,m),{page,label:"Home after END SHOWDOWN",firstTaps:m===daniel?endTaps:async p=>await closedInDb(s2.rid)?(await settingsOpen(p)&&await closeSettingsOn(p)?"close-settings":""):nikWaits(p),timeout:240000}),
         checks:async(check)=>{
           const doc=await admin(`rivalries/${s2.rid}`);
@@ -1166,7 +1177,7 @@ async function main(){
         if(!(await visible(p,"#mainMenu"))&&Date.now()-nikTap>15000&&await backHome({...nik,page:p}))return "back-home";
         return "";
       };
-      await writePoint(ctx,"unpair",{writer:daniel,ready:p=>unpairBtn(p).isVisible(),tap:async p=>{danielTaps.tapped();await unpairBtn(p).click({timeout:10000});},
+      await writePoint(ctx,"unpair",{writer:daniel,ready:p=>unpairBtn(p).isVisible(),prep:settingsPrep,tap:async p=>{danielTaps.tapped();await unpairBtn(p).click({timeout:10000});},
         settle:(m,page)=>m===daniel?drive(m,async p=>await partnerActive("daniel")===false&&await visible(p,"#mainMenu")&&!(await settingsOpen(p))&&await signedIn(p,m),{page,label:"Home after UNPAIR",firstTaps:danielTaps,timeout:240000})
           :drive(m,codeBox,{page,label:"Nik's code box after Daniel's UNPAIR",firstTaps:nikTaps,timeout:240000}),
         checks:async(check)=>{
