@@ -344,3 +344,9 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 13:20 | Team G | Team V | HO-101 SENT | Premium pilot 4/6: Metallic Black Home repaint | yes (receive it) |
 | 2026-11-24 13:20 | Team G | Team V | HO-102 SENT | Premium pilot 5/6: Premium Matte Black Board Room repaint | yes (receive it) |
 | 2026-11-24 13:20 | Team G | Team V | HO-103 SENT | Premium pilot 6/6: Premium Matte Black Home repaint | yes (receive it) |
+| 2026-11-24 15:28 | Team V | Team G | HO-098 DONE | Premium pilot 1/6: Silver Clubhouse Board Room repaint | no |
+| 2026-11-24 15:28 | Team V | Team G | HO-099 DONE | Premium pilot 2/6: Silver Clubhouse Home repaint | no |
+| 2026-11-24 15:28 | Team V | Team G | HO-100 DONE | Premium pilot 3/6: Metallic Black Board Room repaint | no |
+| 2026-11-24 15:28 | Team V | Team G | HO-101 DONE | Premium pilot 4/6: Metallic Black Home repaint | no |
+| 2026-11-24 15:28 | Team V | Team G | HO-102 DONE | Premium pilot 5/6: Premium Matte Black Board Room repaint | no |
+| 2026-11-24 15:28 | Team V | Team G | HO-103 DONE | Premium pilot 6/6: Premium Matte Black Home repaint | no |
