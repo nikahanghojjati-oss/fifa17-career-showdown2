@@ -20,18 +20,19 @@ const MARK={fired:false,version:"rr4.3.abc",bullets:0};
 
 // ---- R1/R2: pstcOwnSpinSaved and its three uses
 {
-  const sb={view:null};vm.runInNewContext(`${fn("pstcOwnSpinSaved")}\nglobalThis.own=pstcOwnSpinSaved;`,sb);
-  sb.view={managerRole:"playerTwo",state:null,spinMarks:{playerOne:null,playerTwo:MARK}};assert.equal(sb.own(),true,"his own mark: finished for him");
+  const sb={view:null,viewContextKey:"k1"};const REQ={key:"k1"};vm.runInNewContext(`${fn("pstcOwnSpinSaved")}\nglobalThis.own=pstcOwnSpinSaved;`,sb);
+  sb.view={managerRole:"playerTwo",state:null,spinMarks:{playerOne:null,playerTwo:MARK}};assert.equal(sb.own(REQ),true,"his own mark: finished for him");
   ok("R1","his own spin mark for this season says Chamber Men, the squad step and the roulette are finished for him");
-  sb.view={managerRole:"playerTwo",state:null,spinMarks:{playerOne:MARK,playerTwo:null}};assert.equal(sb.own(),false,"only the rival spun: his steps still run");
-  sb.view={managerRole:"playerTwo",state:null,spinMarks:null};assert.equal(sb.own(),false);
-  sb.view={managerRole:"playerTwo",state:{phase:"WINDOW_OPEN"},spinMarks:{playerTwo:MARK}};assert.equal(sb.own(),false,"once the window started, view.state already rules");
-  sb.view={managerRole:"",state:null,spinMarks:{playerTwo:MARK}};assert.equal(sb.own(),false,"no role, no answer");
-  sb.view=null;assert.equal(sb.own(),false);
+  sb.view={managerRole:"playerTwo",state:null,spinMarks:{playerOne:MARK,playerTwo:null}};assert.equal(sb.own(REQ),false,"only the rival spun: his steps still run");
+  sb.view={managerRole:"playerTwo",state:null,spinMarks:null};assert.equal(sb.own(REQ),false);
+  sb.view={managerRole:"playerTwo",state:{phase:"WINDOW_OPEN"},spinMarks:{playerTwo:MARK}};assert.equal(sb.own(REQ),false,"once the window started, view.state already rules");
+  sb.view={managerRole:"",state:null,spinMarks:{playerTwo:MARK}};assert.equal(sb.own(REQ),false,"no role, no answer");
+  sb.view=null;assert.equal(sb.own(REQ),false);
+  sb.view={managerRole:"playerTwo",state:null,spinMarks:{playerTwo:MARK}};assert.equal(sb.own({key:"k2"}),false,"a view of another request (season, Showdown) never counts");assert.equal(sb.own(),false);
   // The three steps use it before showing anything.
-  assert.match(fn("pstcChamberMenFirst"),/if\(view\.state\|\|pstcOwnSpinSaved\(\)\)\{step\.markDone\(ctx\);return true;\}/,"Chamber Men: marked done, not shown");
-  assert.match(fn("pstcSquadFirst"),/if\(pstcOwnSpinSaved\(\)\)return true;/,"squad step passed");
-  assert.match(fn("pstcRouletteFirst"),/if\(pstcOwnSpinSaved\(\)\|\|!step\.decide\(ctx\)\)\{rouletteClearedKey=request\.key;await pstcAfterSpin\(request\);return true;\}/,"roulette passed, the rival's spin still waited for");
+  assert.match(fn("pstcChamberMenFirst"),/if\(view\.state\|\|pstcOwnSpinSaved\(request\)\)\{step\.markDone\(ctx\);return true;\}/,"Chamber Men: marked done, not shown");
+  assert.match(fn("pstcSquadFirst"),/if\(pstcOwnSpinSaved\(request\)\)return true;/,"squad step passed");
+  assert.match(fn("pstcRouletteFirst"),/if\(pstcOwnSpinSaved\(request\)\|\|!step\.decide\(ctx\)\)\{rouletteClearedKey=request\.key;await pstcAfterSpin\(request\);return true;\}/,"roulette passed, the rival's spin still waited for");
   ok("R2","without his own mark the steps run as before; Chamber Men, the squad step and the roulette each pass on it before drawing");
 }
 
