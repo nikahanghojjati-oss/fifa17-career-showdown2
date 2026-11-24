@@ -8,7 +8,7 @@ const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("n
 const source=fs.readFileSync(path.resolve(__dirname,"../../js/productionSharedTerminalClose.js"),"utf8");
 const pick=(re,name)=>{const m=source.match(re);assert.ok(m,`productionSharedTerminalClose.js must define ${name}`);return m[0];};
 const code=[pick(/^  function ptcNow\(\)[^\n]*$/m,"ptcNow"),pick(/^  async function ptcServerNow\(context\)[^\n]*$/m,"ptcServerNow"),pick(/^  async function ptcCloseOptions\(context,intent\)[^\n]*$/m,"ptcCloseOptions")].join("\n");
-assert.equal((source.match(/provider\.close\(await ptcCloseOptions\(context,intent\)\)/g)||[]).length,2,"both close paths wait for the measured time");
+assert.equal((source.match(/const options=await ptcCloseOptions\(context,intent\);if\(!ptcStillCurrent\(request,generation\)\)return [^;]+;const result=await provider\.close\(options\);/g)||[]).length,2,"both close paths wait for the measured time, then check the Showdown is still current before closing (verify on #1586)");
 const SERVER=Date.parse("2026-11-01T06:30:00Z"),FAST=SERVER+5*60*1000,STALE=SERVER+5*60*1000-40;
 async function options(remote){
   class PhoneDate extends Date{static now(){return FAST;}}
@@ -27,6 +27,6 @@ async function options(remote){
   assert.deepEqual(asked,{uid:"u"},"measured for the signed-in user");
   assert.equal(await options({serverNow:async()=>{throw new Error("offline");},clockNow:()=>SERVER}),SERVER);
   assert.equal(await options({serverNow:async()=>Number.NaN,clockNow:()=>SERVER}),SERVER);
-  console.log("ok 3 TC-CLOCK-3 (Phoenix W7) the close waits for the time measured for this write; if that fails, the running connection clock");
+  console.log("ok 3 TC-CLOCK-3 (Phoenix W7) the close waits for the time measured for this write (if that fails, the running connection clock), then re-checks the Showdown is still current");
   console.log("PASS r87 terminal close clock contracts: 3 checks");
 })().catch(error=>{console.error(error);process.exit(1);});

@@ -37,12 +37,21 @@ const near=(a,b,label)=>assert.ok(Math.abs(a-b)<=1500,`${label}: ${a-b} ms off`)
     let tries=0;user.getIdTokenResult=async()=>{tries+=1;throw new Error("offline");};
     for(let i=0;i<50;i+=1){api.srjClockNow();await new Promise(r=>setImmediate(r));pass(100);}
     assert.ok(tries<=1,`the running clock retried ${tries} times in 5 s (at most once per 30 s)`);
-    ok("W7-4 offline after a jump: writes keep the last offset (as before) and the running clock retries at most every 30 s");}
+    // Writes too (verify on #1586): while measuring keeps failing, a write does not wait on a forced refresh more than once per 30 s.
+    let writeTries=0;user.getIdTokenResult=async()=>{writeTries+=1;throw new Error("offline");};pass(31000);
+    for(let i=0;i<20;i+=1){near(await api.srjServerNow(user),t.server+5*MIN,"offline write keeps the last offset");pass(500);}
+    assert.equal(writeTries,1,`writes forced ${writeTries} refreshes in 10 s while offline (at most one per 30 s)`);
+    pass(30000);await api.srjServerNow(user);assert.equal(writeTries,2,"tried again after 30 s");
+    user.getIdTokenResult=async()=>{t.tokens+=1;return {issuedAtTime:new Date(t.server).toUTCString()};};t.offline=false;pass(31000);
+    near(await api.srjServerNow(user),t.server,"back online: measured again");
+    ok("W7-4 offline after a jump: writes keep the last offset (as before); the running clock and the writes each try at most every 30 s, then heal");}
   // 5. No steady clock (very old browsers): exactly the r87 behaviour.
   {const t={wall:SERVER+5*MIN,tokens:0};class PhoneDate extends Date{static now(){return t.wall;}}
     const user={async getIdTokenResult(){t.tokens+=1;return {issuedAtTime:new Date(SERVER).toUTCString()};}};
     const api=vm.runInNewContext(`${block}\n({srjClockNow,srjServerNow})`,{root:{},Date:PhoneDate,Number,Math,String,Promise,Infinity});
     near(await api.srjServerNow(user),SERVER,"no performance");t.wall+=5*MIN;near(await api.srjServerNow(user),SERVER+5*MIN,"no performance after a jump: the offset is kept, as in r87");assert.equal(t.tokens,1);
+    // r87 without a steady clock: a failed measure is tried again on a write after 30 s by the phone clock.
+    let tries=0;user.getIdTokenResult=async()=>{tries+=1;throw new Error("offline");};t.wall+=11*MIN;await api.srjServerNow(user);await api.srjServerNow(user);assert.equal(tries,1);t.wall+=31000;await api.srjServerNow(user);assert.equal(tries,2);
   }
   ok("W7-5 without performance.now the clock behaves as in r87");
   console.log(`PASS r100 W7 clock jump contracts: ${passed} checks`);

@@ -308,7 +308,7 @@
       try{
         const context=await ptcResolveContext(request);if(!ptcStillCurrent(request,generation)||(automaticKey&&ptcAutomaticKey(context)!==automaticKey))ptcFail("TERMINAL_CLOSE_CONTEXT_CHANGED");
         if(!ptcRemoteActive(context,intent.sessionId))ptcFail("TERMINAL_CLOSE_ACTIVE_SESSION_REQUIRED","The connection ended. Reconnect both players, then close the Showdown.");
-        const result=await provider.close(await ptcCloseOptions(context,intent));
+        const options=await ptcCloseOptions(context,intent);if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};const result=await provider.close(options);
         if(!ptcStillCurrent(request,generation))return {ok:false,code:"TERMINAL_CLOSE_CONTEXT_CHANGED"};
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
         if(ptcAmbiguous(result)){ptcPublish(request,{phase:"RECOVERY_PENDING",rivalryId:request.rivalryId,sessionId:intent.sessionId,terminal:false,intent:ptcClone(intent),automaticSaving:false,automaticCloseFailed:true,message:"The close is not confirmed yet. Tap TRY CLOSING AGAIN. Nothing new is started.",canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false});return {...result,recoverable:true};}
@@ -337,7 +337,7 @@
         // Codex #910: the other phone deleted the rivalry before this RETRY: DELETED at once, no close sent against it.
         if(terminalRead?.ok===true&&terminalRead.deleted===true&&terminalRead.rivalryState==="closed"){try{remoteApi?.forgetSession?.();}catch(_error){}ptcPublish(request,ptcDeletedState(request,terminalRead));return {ok:true,status:"deleted",rivalryId:request.rivalryId};}
         if(terminalRead?.ok===true&&terminalRead.terminal===true){if(!ptcSameFinalResult(terminalRead,intent))ptcFail("TERMINAL_CLOSE_REPLAY_CONFLICT");try{remoteApi?.forgetSession?.();}catch(_error){}ptcPublish(request,ptcClosedState(request,terminalRead));return {ok:true,status:"replayed",replayed:true,rivalryId:request.rivalryId,sessionId:terminalRead.terminalWitness.sessionId,rivalryState:"closed",sessionState:"closed",rivalryRevision:terminalRead.rivalryRevision};}
-        const result=await provider.close(await ptcCloseOptions(context,intent));
+        const options=await ptcCloseOptions(context,intent);if(!ptcStillCurrent(request,generation))return changed;const result=await provider.close(options);
         if(!ptcStillCurrent(request,generation))return changed;
         if(result?.ok===true){ptcAccepted(request,intent,result);return result;}
         if(ptcAmbiguous(result)){ptcPublish(request,current);return {...result,recoverable:true};}
