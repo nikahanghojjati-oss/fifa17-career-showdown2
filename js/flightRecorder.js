@@ -196,7 +196,7 @@ function render(container,options={}){
     row.append(when,el(document,"b","flightRecorderWho",step.who),el(document,"span","flightRecorderWhat",step.text));
     list.append(row);
   }
-  if(options.note!==false)wrap.append(el(document,"p","flightRecorderNote","Server times, shown in this device's clock. \"by\" means this device saw the step a little later. Picks, guesses, signings and scores are never kept here."));
+  if(options.note!==false)wrap.append(el(document,"p","flightRecorderNote","Server times, shown in your local time. \"by\" marks a step that arrived a little later. Picks, guesses, signings and scores are never kept here."));
   container.append(wrap);
   return wrap;
 }

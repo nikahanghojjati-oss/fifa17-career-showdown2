@@ -100,7 +100,7 @@ await check('FR3 privacy at every step: journal, saved copy and page hold no gue
     const words=container.textContent.replace(/[^A-Za-z]+/g,' ').trim().split(' ').filter(Boolean);
     const vocabulary=new Set(('Daniel Nik SET UP SEASON THE END No steps on this phone yet Each step of the Showdown appears here with its server time as it happens '+
       'Opened Locked league clubs season count Confirmed Started career Transfer War guesses signings Asked to end Closed when clock ran out Published s results and confirmed '+
-      'The closed by Server times shown in device s clock means saw a little later Picks guesses signings scores are never kept here PM AM Mon Tue Wed Thu Fri Sat Sun Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec').split(' '));
+      'The closed by Server times shown in your local time marks a that arrived a little later Picks guesses signings scores are never kept here PM AM Mon Tue Wed Thu Fri Sat Sun Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec').split(' '));
     for(const w of words)assert.ok(vocabulary.has(w),`step ${n}: unexpected word on the page: ${w}`);
   }
   assert.ok(n>60,'a whole 3-season Showdown was played');
