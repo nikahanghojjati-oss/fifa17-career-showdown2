@@ -3532,6 +3532,20 @@
         "^tests/contracts/r100\\-turning\\-points\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r100-flight-recorder-contracts.cjs",
+      "patterns": [
+        "^js/flightRecorder\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/settings\\.js$",
+        "^js/sparkShared[A-Za-z]*\\.js$",
+        "^js/sparkTerminalClose\\.js$",
+        "^service\\-worker\\.js$",
+        "^tests/support/flight\\-recorder\\-fixture\\.cjs$",
+        "^tests/contracts/r100\\-flight\\-recorder\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
