@@ -3543,6 +3543,16 @@
         "^tests/contracts/r100\\-fresh\\-device\\-resume\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r100-transfer-reads-contracts.cjs",
+      "patterns": [
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^firestore\\.transfer\\-challenge\\-production\\.fragment\\.rules$",
+        "^tests/contracts/r100\\-transfer\\-reads\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
