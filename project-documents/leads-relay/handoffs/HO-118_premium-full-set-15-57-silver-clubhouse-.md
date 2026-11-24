@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:18:51Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_SILVER.md (2220f42df)"}],
+ "evidence": ["claude/project-thread-ie3afv dbfb28c64 project-documents/hc-art/ho-premium-full/silver/ENV_BOX_PHONE_SILVER_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:18:51Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_SILVER.md (2220f42df)"}, {"at": "2026-11-24T19:58:28Z", "by": "V", "status": "DONE", "note": "Platinum Directors' box phone band, first try, 9/10, aligned 1179x2096"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
