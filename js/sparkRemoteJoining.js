@@ -709,7 +709,7 @@
     feature:"stage5e-production-private-remote-joining-runtime",
     productionRulesPublished:true,
     providerIdentity:"standard-firebase-request-auth-uid",
-    authPersistence:"browserSessionPersistence",
+    authPersistence:"remembered-on-device",
     registeredDeviceAuthority:"account-owned-mutation-metadata",
     exactCapabilityBits:256,
     hostSessionTtlMs:SRJ_HOST_TTL_MS,

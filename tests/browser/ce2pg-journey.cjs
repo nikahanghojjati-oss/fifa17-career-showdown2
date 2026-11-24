@@ -1486,8 +1486,8 @@ async function killTab(m){
   await m.page.goto(urlFor(m.account),{waitUntil:"domcontentloaded"});
   await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:45000});
   const last=[...outageRuns].reverse().find(o=>o.user===m.user);if(last)last.killed=true;
-  // Sign-in is session-only by design (browserSessionPersistence, set in js/sparkConnectedAccount.js), so a new tab
-  // asks for SIGN IN WITH GOOGLE once; the player is then known from the Google account.
+  // Since r100 W4 the phone remembers sign-in (js/sparkConnectedAccount.js), so a new tab normally comes back signed in; if it
+  // still asks for SIGN IN WITH GOOGLE (a browser that cleared it), the player signs in once and is known from the Google account.
   const label=NAMES[m.account];
   const sign=m.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"});
   if(!(await sign.isVisible().catch(()=>false)))await m.page.locator("#newShowdown").click({timeout:10000}).catch(()=>{});

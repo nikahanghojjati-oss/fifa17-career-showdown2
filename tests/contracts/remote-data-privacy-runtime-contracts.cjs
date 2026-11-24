@@ -47,7 +47,7 @@ assert.equal(provider.cloudRunAllowed, false);
 assert.equal(provider.cloudFunctionsAllowed, false);
 assert.equal(provider.appCheckEnforcement, false);
 assert.equal(provider.firestoreBrowserPersistence, "memory-only");
-assert.equal(provider.googleAuthPersistence, "browserSessionPersistence-popup-only-no-extra-scopes");
+assert.equal(provider.googleAuthPersistence, "remembered-on-device-popup-only-no-extra-scopes");
 
 assert.equal(productionEnvironment.projectId, "fifa17-career-showdown-prod");
 assert.equal(productionEnvironment.activation?.productionSecurityRulesSource, provider.productionRulesSource);

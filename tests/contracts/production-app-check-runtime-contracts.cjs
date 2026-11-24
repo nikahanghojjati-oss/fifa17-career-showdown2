@@ -23,7 +23,7 @@ function accountSdk(calls){
     getAuth(app){calls.push(["getAuth",app]);return {name:"auth"};},
     GoogleAuthProvider:function GoogleAuthProvider(){},
     async signInWithPopup(){},async signOut(){},onAuthStateChanged(){return()=>{};},async setPersistence(){},
-    browserSessionPersistence:{type:"SESSION"},
+    indexedDBLocalPersistence:{type:"LOCAL"},browserLocalPersistence:{type:"LOCAL"},
     initializeFirestore(app,options){calls.push(["initializeFirestore",app,options]);return {name:"firestore"};},
     memoryLocalCache(){calls.push(["memoryLocalCache"]);return {kind:"memory"};},
     Timestamp:{now(){return {seconds:1,nanoseconds:0};}},serverTimestamp(){return {kind:"server-timestamp"};},doc(){},runTransaction(){}
@@ -35,7 +35,7 @@ function accountSdk(calls){
   assert.equal(runtime.enforcementEnabled,false);
   assert.equal(runtime.firebaseAppCheckModule,null);
   assert.equal(runtime.persistentFirestoreCache,false);
-  assert.equal(runtime.authPersistence,"browserSessionPersistence");
+  assert.equal(runtime.authPersistence,"remembered-on-device");
   assert.equal(runtime.billingRequired,false);
   assert.equal(runtime.blazeRequired,false);
   assert.equal(runtime.cloudRunRequired,false);
@@ -61,7 +61,7 @@ function accountSdk(calls){
   const accountCalls=[];
   const services=await runtime.ensureAccountServices({context:eligible,accountSdk:accountSdk(accountCalls)});
   assert.equal(services.ok,true);
-  assert.equal(services.authPersistence,"browserSessionPersistence");
+  assert.equal(services.authPersistence,"remembered-on-device");
   assert.equal(services.persistentFirestoreCache,false);
   assert.deepEqual(accountCalls.map(x=>x[0]),["getAuth","memoryLocalCache","initializeFirestore"]);
 

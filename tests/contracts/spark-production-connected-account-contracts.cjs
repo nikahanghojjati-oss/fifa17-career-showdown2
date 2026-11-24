@@ -11,7 +11,7 @@ const FIRESTORE_WRITE_SCOPE="spark-private-account-device-pairing-connected-riva
 assert.equal(runtime.contractVersion,2);
 assert.equal(runtime.provider,"google");
 assert.equal(runtime.signInFlow,"popup");
-assert.equal(runtime.authPersistence,"browserSessionPersistence");
+assert.equal(runtime.authPersistence,"remembered-on-device");
 assert.equal(runtime.persistentFirestoreCache,false);
 assert.equal(runtime.billingRequired,false);
 assert.equal(runtime.blazeRequired,false);
@@ -21,7 +21,8 @@ assert.equal(runtime.browserFirestoreWrites,FIRESTORE_WRITE_SCOPE);
 assert.equal(runtime.additionalGoogleScopes,0);
 assert.match(runtimeSource,/firebase-auth\.js/);
 assert.match(runtimeSource,/firebase-firestore\.js/);
-assert.match(runtimeSource,/browserSessionPersistence/);
+assert.ok(runtimeSource.includes('rememberedPersistence:typeof root.indexedDB?.open==="function"?sdk.indexedDBLocalPersistence:sdk.browserLocalPersistence'),"r100 W4: IndexedDB, or local storage only without IndexedDB");
+assert.doesNotMatch(runtimeSource,/browserSessionPersistence|inMemoryPersistence/,"r100 W4: no session-only or memory sign-in left");
 assert.match(runtimeSource,/memoryLocalCache/);
 assert.match(runtimeSource,/signInWithPopup/);
 assert.match(runtimeSource,/function connectedAccountSettingsOpen\(\)/);
@@ -34,7 +35,7 @@ assert.doesNotMatch(runtimeSource,/signInWithRedirect|firebase-functions|firebas
 
 assert.match(controllerSource,/new sparkConnectedServices\.authSdk\.GoogleAuthProvider\(\)/);
 assert.match(controllerSource,/signInWithPopup\(sparkConnectedServices\.auth,provider\)/);
-assert.match(controllerSource,/setPersistence\(sparkConnectedServices\.auth,authSdk\.browserSessionPersistence\)/);
+assert.match(controllerSource,/setPersistence\(sparkConnectedServices\.auth,rememberedPersistence\)/);
 assert.match(controllerSource,/CareerModeSparkAccountBootstrap/);
 assert.match(controllerSource,/Private Remote Joining is available from Showdown Home/);
 assert.match(controllerSource,/REMOTE JOINING\",\"Available from Showdown Home · private requirements apply/);
@@ -60,7 +61,7 @@ const account=require("../../js/sparkConnectedAccount.js");
 
 assert.equal(account.provider,"google");
 assert.equal(account.signInFlow,"popup");
-assert.equal(account.authPersistence,"browserSessionPersistence");
+assert.equal(account.authPersistence,"remembered-on-device");
 assert.equal(account.firestorePersistence,"memory-only");
 assert.equal(account.billingRequired,false);
 assert.equal(account.blazeRequired,false);
@@ -77,7 +78,7 @@ const services={
   firestore:{name:"memory-firestore"},
   authSdk:{
     GoogleAuthProvider:GoogleProvider,
-    browserSessionPersistence:{type:"SESSION"},
+    rememberedPersistence:{type:"LOCAL"},
     async setPersistence(target,persistence){assert.equal(target,auth);calls.push(["setPersistence",persistence.type]);},
     onAuthStateChanged(target){assert.equal(target,auth);calls.push(["onAuthStateChanged"]);return ()=>{};},
     async signInWithPopup(target,provider){assert.equal(target,auth);assert.ok(provider instanceof GoogleProvider);calls.push(["signInWithPopup"]);return {user:{uid:"acct_production_spark",displayName:"Player One",email:"player@example.test"}};},
@@ -99,7 +100,7 @@ const mockRuntime={async ensureAccountServices(){calls.push(["ensureAccountServi
   assert.equal(signedIn.accountId,"acct_production_spark");
   assert.ok(calls.find(call=>call[0]==="signInWithPopup"));
   assert.deepEqual(calls.find(call=>call[0]==="bootstrap"),["bootstrap","acct_production_spark"]);
-  assert.ok(calls.findIndex(call=>call[0]==="setPersistence")<calls.findIndex(call=>call[0]==="signInWithPopup"),"browserSessionPersistence must be set before popup sign-in.");
+  assert.ok(calls.findIndex(call=>call[0]==="setPersistence")<calls.findIndex(call=>call[0]==="signInWithPopup"),"the remembered persistence must be set before popup sign-in.");
 
   const signedOut=await account.signOut();
   assert.equal(signedOut.status,"signed-out");

@@ -206,7 +206,7 @@
     "productionClientAuth": "lazy-on-explicit-connected-account-demand",
     "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
     "firestorePersistence": "memory-only",
-    "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
+    "googleAuthPersistence": "remembered-on-device-popup-only-no-extra-scopes",
     "billingRequired": false,
     "storageInitialized": false,
     "functionsInitialized": false
@@ -218,7 +218,7 @@
     "productionStatus": "production-proven-r5-r6-publication-convergence-open",
     "appCheckEnforcement": false,
     "firestorePersistence": "memory-only",
-    "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
+    "googleAuthPersistence": "remembered-on-device-popup-only-no-extra-scopes",
     "billingRequired": false,
     "firebasePlan": "Spark"
   },

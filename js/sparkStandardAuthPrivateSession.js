@@ -24,7 +24,7 @@
     protocolState:"candidate-emulator-boundary",
     providerIdentity:"standard-firebase-request-auth-uid",
     productionAuthProviderPolicy:"existing-google-popup-only",
-    authPersistence:"browserSessionPersistence",
+    authPersistence:"remembered-on-device",
     additionalOAuthScopes:false,
     customTokenRequired:false,
     customDeviceClaimsRequired:false,

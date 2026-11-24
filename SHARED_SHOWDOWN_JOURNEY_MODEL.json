@@ -380,7 +380,7 @@
     "cloudFunctions": false,
     "appCheckEnforcement": false,
     "firestorePersistence": "memory-only",
-    "googleAuth": "popup-only-browserSessionPersistence-no-extra-scopes",
+    "googleAuth": "popup-only-remembered-on-device-no-extra-scopes",
     "managerCount": 2,
     "publicDiscovery": false,
     "durableClientRawAuthorityIds": false,

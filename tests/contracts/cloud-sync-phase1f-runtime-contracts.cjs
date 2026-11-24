@@ -85,6 +85,6 @@ assert.equal(bootstrap.ownerZeroBillingAuthorization?.blazeMayBeEnabled,false);
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudRunAllowed,false);
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudFunctionsAllowed,false);
 assert.equal(bootstrap.liveRuntime?.firestorePersistence,"memory-only");
-assert.equal(bootstrap.liveRuntime?.googleAuthPersistence,"browserSessionPersistence-popup-only-no-extra-scopes");
+assert.equal(bootstrap.liveRuntime?.googleAuthPersistence,"remembered-on-device-popup-only-no-extra-scopes");
 
 process.stdout.write("PASS active Phase 1F safety boundary: isolated emulator, deny-by-default Rules, transactional/adversarial proof, shipped-runtime separation, Spark zero-billing and current auth/persistence locks remain protected without historical PR or NEXT_TASK wording requirements.\n");

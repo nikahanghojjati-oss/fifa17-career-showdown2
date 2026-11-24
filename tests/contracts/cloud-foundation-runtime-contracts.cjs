@@ -28,7 +28,7 @@ assert.equal(guards.provider.cloudRunAllowed, false);
 assert.equal(guards.provider.cloudFunctionsAllowed, false);
 assert.equal(guards.provider.appCheckEnforcement, false);
 assert.equal(guards.provider.firestoreBrowserPersistence, "memory-only");
-assert.equal(guards.provider.googleAuthPersistence, "browserSessionPersistence-popup-only-no-extra-scopes");
+assert.equal(guards.provider.googleAuthPersistence, "remembered-on-device-popup-only-no-extra-scopes");
 assert.equal(guards.product.managerCount, 2);
 assert.equal(guards.product.pairingAndExactActiveBeforeLeagueOrClubs, true);
 assert.equal(guards.product.candidateCOnlyDestructiveRemoteToLocalApply, true);

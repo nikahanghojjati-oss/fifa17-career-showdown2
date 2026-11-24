@@ -53,7 +53,7 @@ for(const f of ["index.html","service-worker.js","manifest.webmanifest"]){
 }
 const runtime=read("js/productionFirebaseRuntime.js");
 assert.ok(runtime.includes('const PRODUCTION_ORIGIN="https://nikahanghojjati-oss.github.io"'),"3c production origin gate unchanged");
-assert.ok(runtime.includes("signInWithPopup:sdk.signInWithPopup")&&runtime.includes("browserSessionPersistence:sdk.browserSessionPersistence"),"3d production keeps Google popup + session persistence");
+assert.ok(runtime.includes("signInWithPopup:sdk.signInWithPopup")&&runtime.includes('rememberedPersistence:typeof root.indexedDB?.open==="function"?sdk.indexedDBLocalPersistence:sdk.browserLocalPersistence'),"3d production keeps Google popup + remembered sign-in (r100 W4)");
 assert.ok(runtime.includes("additionalGoogleScopes:0")&&runtime.includes("enforcement:false"),"3e no extra scopes, App Check enforcement off");
 
 // 4. The Pages artifact never contains tests/ (deploy copies an explicit list).
@@ -88,11 +88,11 @@ assert.ok(!/functions|hosting|storage|database|pubsub|eventarc/.test(JSON.string
 (async()=>{
   const prodApi=require(path.join(root,"js/productionFirebaseRuntime.js"));
   const fakeFn=()=>({});
-  const accountSdk={getAuth:fakeFn,GoogleAuthProvider:function(){},signInWithPopup:fakeFn,signOut:fakeFn,onAuthStateChanged:fakeFn,setPersistence:fakeFn,browserSessionPersistence:{},initializeFirestore:fakeFn,memoryLocalCache:fakeFn,Timestamp:{},serverTimestamp:fakeFn,doc:fakeFn,runTransaction:fakeFn};
+  const accountSdk={getAuth:fakeFn,GoogleAuthProvider:function(){},signInWithPopup:fakeFn,signOut:fakeFn,onAuthStateChanged:fakeFn,setPersistence:fakeFn,indexedDBLocalPersistence:{},browserLocalPersistence:{},initializeFirestore:fakeFn,memoryLocalCache:fakeFn,Timestamp:{},serverTimestamp:fakeFn,doc:fakeFn,runTransaction:fakeFn};
   const context={origin:"https://nikahanghojjati-oss.github.io",pathname:"/fifa17-career-showdown2/",online:true};
   const prod=await prodApi.ensureAccountServices({context,accountSdk,baseRuntimeOptions:{context,runtimeConfig:{schemaVersion:1,configured:true,firebaseConfig:{projectId:"fifa17-career-showdown-prod"}},firebaseSdk:{initializeApp:()=>({})}}});
   assert.equal(prod.ok,true,"6a production services build with a fake SDK");
-  const fakeModule={initializeApp:fakeFn,getAuth:fakeFn,connectAuthEmulator:fakeFn,GoogleAuthProvider:function(){},signInWithCredential:fakeFn,signOut:fakeFn,onAuthStateChanged:fakeFn,setPersistence:fakeFn,browserSessionPersistence:{},initializeFirestore:fakeFn,memoryLocalCache:fakeFn,connectFirestoreEmulator:fakeFn,Timestamp:{},serverTimestamp:fakeFn,doc:fakeFn,runTransaction:fakeFn};
+  const fakeModule={initializeApp:fakeFn,getAuth:fakeFn,connectAuthEmulator:fakeFn,GoogleAuthProvider:function(){},signInWithCredential:fakeFn,signOut:fakeFn,onAuthStateChanged:fakeFn,setPersistence:fakeFn,indexedDBLocalPersistence:{},browserLocalPersistence:{},initializeFirestore:fakeFn,memoryLocalCache:fakeFn,connectFirestoreEmulator:fakeFn,Timestamp:{},serverTimestamp:fakeFn,doc:fakeFn,runTransaction:fakeFn};
   const shim=Switch.createRuntime(Switch.decide(loc(`http://127.0.0.1:4173/${ON}`)),async()=>fakeModule);
   const test=await shim.ensureAccountServices();
   assert.deepEqual(Object.keys(test).sort(),Object.keys(prod).sort(),"6b same top-level services keys");

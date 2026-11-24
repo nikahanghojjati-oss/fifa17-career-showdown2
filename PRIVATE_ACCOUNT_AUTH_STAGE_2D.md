@@ -62,7 +62,7 @@ The preflight validates at least these invariants:
 - the Stage 2C provider policy remains Google federated sign-in through `GoogleAuthProvider`;
 - the Stage 2C GitHub Pages flow remains explicit-user-gesture `signInWithPopup()`;
 - `signInWithRedirect()` remains unauthorized until its separate hosting/auth-domain compatibility gate is reviewed;
-- Auth persistence remains `browserSessionPersistence`, never silently `browserLocalPersistence`;
+- Auth persistence is remembered on the device since r100 W4 (Nik, 2026-11-24): `indexedDBLocalPersistence`, or `browserLocalPersistence` only where the browser has no IndexedDB, set explicitly and failing closed otherwise (never silently `browserSessionPersistence` or anything else); SIGN OUT ends it on that device;
 - the production GitHub Pages host `nikahanghojjati-oss.github.io` is explicitly represented in the future authorized-domain plan;
 - a Firestore location decision is explicit before provisioning readiness can pass;
 - persistent Firestore offline cache remains disabled;

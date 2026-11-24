@@ -110,7 +110,7 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.equal(session.protocolState,"candidate-emulator-boundary");
   assert.equal(session.providerIdentity,"standard-firebase-request-auth-uid");
   assert.equal(session.productionAuthProviderPolicy,"existing-google-popup-only");
-  assert.equal(session.authPersistence,"browserSessionPersistence");
+  assert.equal(session.authPersistence,"remembered-on-device");
   assert.equal(session.additionalOAuthScopes,false);
   assert.equal(session.customTokenRequired,false);
   assert.equal(session.customDeviceClaimsRequired,false);

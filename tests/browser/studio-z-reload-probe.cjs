@@ -580,8 +580,9 @@ async function main(){
         assert.equal(await m.page.locator("#seasonIndicator").textContent(),"Season 2 / 3");
       }
       ok("J9.2","after a fresh exact session both managers resume on the Season 2 of 3 dashboard at 9-3 (no Career Start, no season-1 replay)");
-      // Studio Z4: Nik closes his tab and opens the game again. The new tab signs in again (session-only sign-in), and one
-      // CONTINUE CAREER tap re-attaches to the pair's current session through the shared pointer: still no code.
+      // Studio Z4: Nik closes his tab and opens the game again. Since r100 W4 the phone remembers sign-in, so the new tab is
+      // signed in as Nik with no SIGN IN WITH GOOGLE tap, and one CONTINUE CAREER tap re-attaches to the pair's current session
+      // through the shared pointer: still no code.
       {
         const oldPage=nik.page;
         nik.page=await nik.context.newPage();
@@ -591,9 +592,8 @@ async function main(){
         await oldPage.close();
         await nik.page.goto(urlFor("nik"),{waitUntil:"domcontentloaded"});
         await nik.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
-        await nik.page.locator("#continueCareer").click({timeout:30000});
-        await nik.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"}).click({timeout:30000});
         await nik.page.waitForFunction(()=>document.getElementById("onlinePlayerIdentityBadge")?.textContent==="NIK",null,{timeout:30000});
+        assert.equal(await nik.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"}).isVisible().catch(()=>false),false,"r100 W4: the reopened tab is still signed in (no SIGN IN WITH GOOGLE)");
         await nik.page.waitForFunction(()=>window.CareerModePersistentNikDanielPair?.getState?.()?.status==="paired",null,{timeout:30000});
         await nik.page.locator("#continueCareer").click({timeout:30000});
         await nik.page.waitForFunction(()=>window.CareerModeSparkRemoteJoining?.getState?.()?.sessionState==="active",null,{timeout:45000});

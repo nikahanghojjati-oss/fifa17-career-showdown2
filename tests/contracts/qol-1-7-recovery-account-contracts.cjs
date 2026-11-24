@@ -195,7 +195,7 @@ function q4NothingElseMoved(){
     assert.doesNotMatch(source,/signInWithPopup|signInWithRedirect|setPersistence|browserLocalPersistence|addScope|GoogleAuthProvider|signOut\(/,`Q4 ${file} carries no sign-in mechanics`);
   }
   const account=read("js/sparkConnectedAccount.js");
-  assert.match(account,/browserSessionPersistence/,"Q4 sign-in stays browserSessionPersistence");
+  assert.match(account,/setPersistence\(sparkConnectedServices\.auth,rememberedPersistence\)/,"Q4 sign-in stays on the reviewed remembered persistence (r100 W4)");
   assert.match(account,/signInWithPopup/,"Q4 sign-in stays popup-only");
   assert.doesNotMatch(account,/addScope|setCustomParameters\(\{[^}]*scope/i,"Q4 sign-in adds no extra scopes");
   const createButtons=(pairSource.match(/pairCreateElement\("button"/g)||[]).length;

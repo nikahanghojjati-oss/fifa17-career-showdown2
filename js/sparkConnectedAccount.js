@@ -162,8 +162,13 @@
       if(!resolved||resolved.ok!==true)return sparkConnectedSetState({status:"runtime-unavailable",initialized:true,busy:false,message:sparkConnectedLocalModeMessage("Connected account services are unavailable.")});
       sparkConnectedServices=resolved;
       const authSdk=sparkConnectedServices.authSdk;
-      if(!authSdk||typeof authSdk.setPersistence!=="function"||!authSdk.browserSessionPersistence)return sparkConnectedSetState({status:"persistence-policy-unavailable",initialized:true,busy:false,message:sparkConnectedLocalModeMessage("Required session-only sign-in policy is unavailable.")});
-      try{await authSdk.setPersistence(sparkConnectedServices.auth,authSdk.browserSessionPersistence);}catch(_error){return sparkConnectedSetState({status:"persistence-policy-failed",initialized:true,busy:false,message:sparkConnectedLocalModeMessage("Session-only sign-in could not be prepared.")});}
+      /* r100 W4 (Nik 2026-11-24 13:31 UTC, "The phone remembers sign in"): Firebase Auth keeps the sign-in on this device with the
+         SDK's own remembered persistence, chosen by js/productionFirebaseRuntime.js (rememberedPersistence). Firebase keeps its
+         own key; game code never stores it. SIGN OUT ends it on this device (signOut clears the remembered user). Popup
+         only, no extra scopes, Firestore memory-only: unchanged. A policy that cannot be set fails closed as before. */
+      const rememberedPersistence=authSdk?.rememberedPersistence;
+      if(!authSdk||typeof authSdk.setPersistence!=="function"||!rememberedPersistence)return sparkConnectedSetState({status:"persistence-policy-unavailable",initialized:true,busy:false,message:sparkConnectedLocalModeMessage("Required sign-in policy is unavailable.")});
+      try{await authSdk.setPersistence(sparkConnectedServices.auth,rememberedPersistence);}catch(_error){return sparkConnectedSetState({status:"persistence-policy-failed",initialized:true,busy:false,message:sparkConnectedLocalModeMessage("Sign-in could not be prepared.")});}
       await sparkConnectedLoadBootstrapScript();
       if(!sparkConnectedAuthUnsubscribe){
         sparkConnectedAuthUnsubscribe=authSdk.onAuthStateChanged(sparkConnectedServices.auth,user=>{void sparkConnectedActivateUser(user);},()=>sparkConnectedSetState({status:"auth-state-error",initialized:true,busy:false,connected:false,message:sparkConnectedLocalModeMessage("Authentication state could not be read.")}));
@@ -283,5 +288,5 @@
 
   function sparkConnectedGetState(){return sparkConnectedState;}
 
-  return sparkConnectedFreeze({contractVersion:1,provider:"google",signInFlow:"popup",authPersistence:"browserSessionPersistence",firestorePersistence:"memory-only",billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,additionalGoogleScopes:0,writeScope:"self-account-create-only",privatePairingPath:SPARK_PRIVATE_PAIRING_PATH,connectedRivalryPath:SPARK_CONNECTED_RIVALRY_PATH,initialize:sparkConnectedInitialize,signIn:sparkConnectedSignIn,signOut:sparkConnectedSignOut,mountWhenSettingsReady:sparkConnectedMountWhenSettingsReady,subscribe:sparkConnectedSubscribe,getState:sparkConnectedGetState});
+  return sparkConnectedFreeze({contractVersion:1,provider:"google",signInFlow:"popup",authPersistence:"remembered-on-device",firestorePersistence:"memory-only",billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,additionalGoogleScopes:0,writeScope:"self-account-create-only",privatePairingPath:SPARK_PRIVATE_PAIRING_PATH,connectedRivalryPath:SPARK_CONNECTED_RIVALRY_PATH,initialize:sparkConnectedInitialize,signIn:sparkConnectedSignIn,signOut:sparkConnectedSignOut,mountWhenSettingsReady:sparkConnectedMountWhenSettingsReady,subscribe:sparkConnectedSubscribe,getState:sparkConnectedGetState});
 });

@@ -120,7 +120,8 @@
       signOut:authModule.signOut,
       onAuthStateChanged:authModule.onAuthStateChanged,
       setPersistence:authModule.setPersistence,
-      browserSessionPersistence:authModule.browserSessionPersistence,
+      indexedDBLocalPersistence:authModule.indexedDBLocalPersistence,
+      browserLocalPersistence:authModule.browserLocalPersistence,
       initializeFirestore:firestoreModule.initializeFirestore,
       memoryLocalCache:firestoreModule.memoryLocalCache,
       Timestamp:firestoreModule.Timestamp,
@@ -180,7 +181,7 @@
           authInitialized:false,
           firestoreInitialized:false,
           persistentFirestoreCache:false,
-          authPersistence:"browserSessionPersistence",
+          authPersistence:"remembered-on-device",
           browserFirestoreWrites:BROWSER_FIRESTORE_WRITE_SCOPE
         });
         return runtimeState;
@@ -218,7 +219,7 @@
         for(const name of ["getAuth","GoogleAuthProvider","signInWithPopup","signOut","onAuthStateChanged","setPersistence","initializeFirestore","memoryLocalCache","serverTimestamp","doc","runTransaction"]){
           if(typeof sdk[name]!=="function")throw new Error(`Firebase account SDK method unavailable: ${name}`);
         }
-        if(!sdk.browserSessionPersistence)throw new Error("Firebase browserSessionPersistence is unavailable.");
+        if(!sdk.indexedDBLocalPersistence||!sdk.browserLocalPersistence)throw new Error("Firebase remembered sign-in persistence is unavailable.");
         if(!sdk.Timestamp)throw new Error("Firebase Timestamp support is unavailable.");
         const auth=sdk.getAuth(productionApp);
         const firestore=sdk.initializeFirestore(productionApp,{localCache:sdk.memoryLocalCache()});
@@ -232,7 +233,9 @@
             signOut:sdk.signOut,
             onAuthStateChanged:sdk.onAuthStateChanged,
             setPersistence:sdk.setPersistence,
-            browserSessionPersistence:sdk.browserSessionPersistence
+            /* r100 W4: sign-in is remembered on this device with the SDK's own persistence: IndexedDB, or the browser's local
+               storage only where there is no IndexedDB. js/sparkConnectedAccount.js sets it (and fails closed if it cannot). */
+            rememberedPersistence:typeof root.indexedDB?.open==="function"?sdk.indexedDBLocalPersistence:sdk.browserLocalPersistence
           }),
           firestoreSdk:Object.freeze({Timestamp:sdk.Timestamp,serverTimestamp:sdk.serverTimestamp,doc:sdk.doc,runTransaction:sdk.runTransaction}),
           billingRequired:false,
@@ -240,13 +243,13 @@
           cloudRunRequired:false,
           cloudFunctionsRequired:false,
           persistentFirestoreCache:false,
-          authPersistence:"browserSessionPersistence",
+          authPersistence:"remembered-on-device",
           provider:"google",
           signInFlow:"popup",
           additionalGoogleScopes:0,
           writeScope:BROWSER_FIRESTORE_WRITE_SCOPE
         });
-        setRuntimeState({...runtimeState,authInitialized:true,firestoreInitialized:true,persistentFirestoreCache:false,authPersistence:"browserSessionPersistence",browserFirestoreWrites:BROWSER_FIRESTORE_WRITE_SCOPE});
+        setRuntimeState({...runtimeState,authInitialized:true,firestoreInitialized:true,persistentFirestoreCache:false,authPersistence:"remembered-on-device",browserFirestoreWrites:BROWSER_FIRESTORE_WRITE_SCOPE});
         return accountServices;
       }catch(error){
         if(root.console&&typeof root.console.warn==="function"){
@@ -334,7 +337,7 @@
     cloudRunRequired:false,
     cloudFunctionsRequired:false,
     persistentFirestoreCache:false,
-    authPersistence:"browserSessionPersistence",
+    authPersistence:"remembered-on-device",
     provider:"google",
     signInFlow:"popup",
     additionalGoogleScopes:0,

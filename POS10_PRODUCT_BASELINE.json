@@ -100,7 +100,7 @@
       "cloudFunctionsAllowed": false,
       "appCheckEnforcement": false,
       "firestoreBrowserPersistence": "memory-only",
-      "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
+      "googleAuthPersistence": "remembered-on-device-popup-only-no-extra-scopes",
       "productionRulesSource": "firestore.spark.rules"
     },
     "product": {
