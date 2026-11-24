@@ -243,7 +243,14 @@ async function newContext(browser,account){
   await context.addInitScript({path:SWITCH});
   return context;
 }
-async function preparePage(m,page){wirePage(m,page);await installMarbleConfirmAnswers(page,{answer:true});}
+// FIJ_CLICKLOG=1 (debugging only): every trusted click and every move to the seasons screen is printed with the tab it came from.
+const CLICKLOG=process.env.FIJ_CLICKLOG==="1";
+let tabSerial=0;
+async function preparePage(m,page){wirePage(m,page);await installMarbleConfirmAnswers(page,{answer:true});
+  if(CLICKLOG){const tab=`${m.account}#${++tabSerial}`;page.on("console",msg=>{const t=msg.text();if(t.startsWith("[fijclick]"))console.log(`--- ${new Date().toISOString().slice(11,23)} ${tab} [${pointNow}] ${t.slice(10)}`);});
+    await page.addInitScript(()=>{addEventListener("click",e=>{const b=e.target&&e.target.closest?e.target.closest("button,.menuTile,[role=button]"):null;console.log(`[fijclick]click ${e.isTrusted?"trusted":"untrusted"} ${b?(b.id?"#"+b.id+" ":"")+(b.textContent||"").replace(/\s+/g," ").trim().slice(0,60):e.target&&e.target.tagName}`);},true);
+      const wrap=()=>{for(const name of ["navigateTo","showScreen"]){const f=window[name];if(typeof f!=="function"||f.__fijWrapped)continue;const w=function(id){if(id==="createShowdown")console.log(`[fijclick]${name}(createShowdown) ${(new Error().stack||"").split("\n").slice(2,7).map(l=>l.trim().replace(/https?:\/\/[^/]+\//,"")).join(" < ")}`);return f.apply(this,arguments);};w.__fijWrapped=true;window[name]=w;}};
+      setInterval(wrap,250);});}}
 async function waitLoaded(page,timeout=40000){await page.locator("#loadingScreen").waitFor({state:"hidden",timeout}).catch(()=>{});}
 async function openManager(browser,account){
   const context=await newContext(browser,account);
@@ -824,7 +831,9 @@ async function main(){
     const careerDone=async()=>{const c=docData(await admin(R("careerStart/authoritative")));return c;};
     {
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
-      await drive(first,p=>startBtn(p,first).isVisible(),{label:"I STARTED AT"});await startBtn(first.page,first).click({timeout:10000});await sleep(1500);
+      // tapkill seed 4: the phone faulted at setup-confirm reopened signed out; the sign-in box came up over a visible
+      // I STARTED AT and took the click. Wait (path forward signs in) until nothing covers the button.
+      await drive(first,async p=>await startBtn(p,first).isVisible()&&!(await visible(p,"#onlinePlayerIdentityOverlay")),{label:"I STARTED AT"});await startBtn(first.page,first).click({timeout:10000});await sleep(1500);
       // After Career Start each phone plays this season's roulette; the settle stops at the roulette (spin-mark is the next point).
       const atRoulette=async page=>await visible(page,"#cmStage")||await visible(page,"#rrStage")||await visible(page,"#rrStepPanel")||await onTransfer(page);
       await writePoint(ctx,"career-start",{writer:X,landed:async()=>{const c=await careerDone();return Boolean(c&&(c.revision===2||Array.isArray(c.acknowledgedRoles)&&c.acknowledgedRoles.includes(ROLE[X.account])));},ready:p=>startBtn(p,X).isVisible(),tap:p=>startBtn(p,X).click({timeout:10000}),

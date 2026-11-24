@@ -716,7 +716,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        leg: [none, network, lock, evict, reload, tabkill, twotabs, quota, coldoffline, swap, skew, double, listener, lostreply, ce2pg]
+        leg: [none, network, lock, evict, reload, tabkill, twotabs, quota, coldoffline, swap, skew, double, listener, lostreply, tapkill, ce2pg]
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:

@@ -17,7 +17,7 @@ async function run(){
   let checks=0;const ok=()=>{checks+=1;};
 
   // 1. Legs: the eight faults, the fault-free baseline and CE2PG; one lane record each, all in the one matrix job.
-  assert.deepEqual([...S.L7_LEGS],['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','swap','skew','double','listener','lostreply','ce2pg']);
+  assert.deepEqual([...S.L7_LEGS],['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','swap','skew','double','listener','lostreply','tapkill','ce2pg']);
   // Every Gate leg is a leg the runner knows; the full matrix runs every leg the runner knows (r100 W9: also swap, skew, double, listener).
   for(const leg of S.L7_LEGS)assert.ok(L.LEGS.includes(leg),`the leg runner knows the Gate leg ${leg}`);
   const fullMatrix=fs.readFileSync(path.join(root,'.github/workflows/ironman-full-matrix.yml'),'utf8');
