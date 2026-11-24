@@ -67,6 +67,10 @@ const clubDraw=require("./support/club-draw.cjs");
 // (Nik's real times): slow = longest he plays, fast = quickest, mid = in between.
 //   CE2PG_TRANSFER_MIN / CE2PG_RESULTS_MIN (default 40 / 90, slow)   CE2PG_MID_TRANSFER_MIN / CE2PG_MID_RESULTS_MIN (30 / 60)
 //   CE2PG_FAST_TRANSFER_MIN / CE2PG_FAST_RESULTS_MIN (25 / 30)       CE2PG_SHORT_MIN (1) each short wait (commit, ack, CONTINUE)
+//   CE2PG_CAREER_START_MIN / CE2PG_MID_CAREER_START_MIN / CE2PG_FAST_CAREER_START_MIN (10 / 6 / 4): once a Showdown, both managers create
+//   their FIFA 17 careers while Career Start is open; half the minutes nobody has tapped I STARTED, half one has and waits for the other.
+//   These two waits are sampled for their full slow minutes (the waiting phone polls every 3 s for its first 3 minutes, then every 15 s,
+//   so a short sample would not be steady) and the mid and fast paces are priced from that sample.
 // The results minutes are priced at the dearer of the two states a manager can be in on that screen (nobody has published yet, or this
 // manager has published and waits for the other).
 // Waits are sampled, then extrapolated linearly at the steady per-minute rate measured in the sample (CE2PG_BUDGET_SAMPLE_MIN for the
@@ -187,12 +191,14 @@ function startAppServer(rewrites=[]){
 const num=(name,fallback)=>{const v=Number(process.env[name]);return Number.isFinite(v)&&process.env[name]!==""&&process.env[name]!==undefined?v:fallback;};
 // The only place real-play waiting times live (slow, mid and fast pace; the gate checks all three).
 const WAIT_PROFILES=Object.freeze({
-  slow:Object.freeze({label:"slow",transfer:num("CE2PG_TRANSFER_MIN",40),results:num("CE2PG_RESULTS_MIN",90),short:num("CE2PG_SHORT_MIN",1)}),
-  mid:Object.freeze({label:"mid",transfer:num("CE2PG_MID_TRANSFER_MIN",30),results:num("CE2PG_MID_RESULTS_MIN",60),short:num("CE2PG_SHORT_MIN",1)}),
-  fast:Object.freeze({label:"fast",transfer:num("CE2PG_FAST_TRANSFER_MIN",25),results:num("CE2PG_FAST_RESULTS_MIN",30),short:num("CE2PG_SHORT_MIN",1)})
+  slow:Object.freeze({label:"slow",transfer:num("CE2PG_TRANSFER_MIN",40),results:num("CE2PG_RESULTS_MIN",90),short:num("CE2PG_SHORT_MIN",1),careerStart:num("CE2PG_CAREER_START_MIN",10)}),
+  mid:Object.freeze({label:"mid",transfer:num("CE2PG_MID_TRANSFER_MIN",30),results:num("CE2PG_MID_RESULTS_MIN",60),short:num("CE2PG_SHORT_MIN",1),careerStart:num("CE2PG_MID_CAREER_START_MIN",6)}),
+  fast:Object.freeze({label:"fast",transfer:num("CE2PG_FAST_TRANSFER_MIN",25),results:num("CE2PG_FAST_RESULTS_MIN",30),short:num("CE2PG_SHORT_MIN",1),careerStart:num("CE2PG_FAST_CAREER_START_MIN",4)})
 });
 // Wait points: which profile bucket pays for each, and its share of that bucket (transfer minutes are split over the screen's phases).
 const WAIT_POINTS=Object.freeze({
+  "career-start-open":{cat:"careerStart",share:0.5,full:true,why:"Career Start open on both phones, both managers creating their FIFA careers, nobody has tapped I STARTED"},
+  "career-start-waiting":{cat:"careerStart",share:0.5,full:true,why:"one manager tapped I STARTED, the other still creating his career"},
   "transfer-window":{cat:"transfer",share:0.6,why:"window open (at most 14 of the transfer minutes, see pointMinutes), both on the transfer screen"},
   "transfer-guesses":{cat:"transfer",share:0.2,why:"one manager locked guesses, the other still typing (half of what is left after the window)"},
   "transfer-signings":{cat:"transfer",share:0.2,why:"one manager locked signings, the other still typing (the other half)"},
@@ -673,7 +679,9 @@ async function playSetup(daniel,nik){
   console.log(`  club draw: ${clubs.join(" v ")} (drawn as ${clubs.kinds.join("/")})`);
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
   for(const m of [daniel,nik])await checkNoEarlierShowdown(m,"careerStart",{selector:"#productionSharedCareerStartOverlay",clubs:[...clubs]});
+  await budgetWait("career-start-open");
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
+  await budgetWait("career-start-waiting");
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
   await rosterRoulette.waitForTransfer([daniel.page,nik.page],45000);
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
@@ -1389,7 +1397,7 @@ async function budgetWait(point){
   if(!BUDGET_MODE)return;
   const def=WAIT_POINTS[point];if(!def)throw new Error(`unknown wait point ${point}`);
   const target=pointMinutes(point,WAIT_PROFILES[REALTIME_PROFILE||"slow"]);
-  const sample=def.share===0?SAMPLE_LONG_MIN:REALTIME_WAITS?target:Math.min(target,def.cat==="short"?SAMPLE_SHORT_MIN:SAMPLE_LONG_MIN);
+  const sample=def.share===0?SAMPLE_LONG_MIN:REALTIME_WAITS||def.full?target:Math.min(target,def.cat==="short"?SAMPLE_SHORT_MIN:SAMPLE_LONG_MIN);
   const {daniel}=ctxRef;
   // The game's own read brake (CareerModeFirestoreBudget, r84 #994) engages after 150+ reads in 5 minutes without a tap, so a long wait can
   // cost less per minute than its first minutes: record whether it tripped during the wait.
@@ -1543,15 +1551,15 @@ function seasonBilled(fromT,toT){
   const sampledMs=waits.reduce((a,w)=>a+(w.to-w.from),0);
   const harnessMinutes=Math.max(0,(measured.ms-sampledMs)/60000);// in-game play/setup time the harness really spends in this season
   for(const [name,prof] of Object.entries(WAIT_PROFILES)){
-    let extraBilled=0,extraWrites=0,transferMin=0,resultsMin=0,shortMin=0;
+    let extraBilled=0,extraWrites=0,transferMin=0,resultsMin=0,shortMin=0,careerStartMin=0;
     for(const [i,w] of waits.entries()){
       const def=WAIT_POINTS[w.point],r=rows[i],want=pointMinutes(w.point,prof);
       extraBilled+=r.pricedRatePerMin*(want-w.sampleMin);extraWrites+=r.writeRatePerMin*(want-w.sampleMin);
-      if(def.cat==="transfer")transferMin+=want;else if(def.cat==="results")resultsMin+=want;else shortMin+=want;
+      if(def.cat==="transfer")transferMin+=want;else if(def.cat==="results")resultsMin+=want;else if(def.cat==="careerStart")careerStartMin+=want;else shortMin+=want;
     }
     const billed=Math.round(measured.billed+extraBilled);
-    const seasonMinutes=transferMin+resultsMin+shortMin+harnessMinutes;
-    profiles[name]={label:prof.label,transferMin:Math.round(transferMin*10)/10,resultsMin:Math.round(resultsMin*10)/10,shortMin:Math.round(shortMin*10)/10,harnessMin:Math.round(harnessMinutes*10)/10,seasonMinutes:Math.round(seasonMinutes*10)/10,
+    const seasonMinutes=transferMin+resultsMin+shortMin+careerStartMin+harnessMinutes;
+    profiles[name]={label:prof.label,transferMin:Math.round(transferMin*10)/10,resultsMin:Math.round(resultsMin*10)/10,shortMin:Math.round(shortMin*10)/10,careerStartMin:Math.round(careerStartMin*10)/10,harnessMin:Math.round(harnessMinutes*10)/10,seasonMinutes:Math.round(seasonMinutes*10)/10,
       billed,writes:Math.round(measured.writes+extraWrites),...paceBudget(seasonMinutes,billed)};
   }
   // Real-time validation of the extrapolation: measured total vs the total predicted from each wait's first sample minutes only.
@@ -1615,7 +1623,7 @@ function printBilled(label,b){
   if(b.check)console.log(`  EXTRAPOLATION CHECK ${label}: real-time waits cost ${b.check.realWaitBilled} billed; extrapolating only the first ${SAMPLE_LONG_MIN}/${SAMPLE_SHORT_MIN} min of each wait predicts ${b.check.predictedWaitBilled} (season ${b.check.realBilled} real vs ${b.check.predictedBilled} predicted, ${Math.round((b.check.predictedBilled-b.check.realBilled)/b.check.realBilled*1000)/10}%)`);
   console.log(`BILLED ${label}: measured ${Math.round(m.ms/1000)} s: ${m.docReads} doc reads + ${m.rulesReads} rules lookups on reads (+${m.rulesOnWrites} on writes) = ${m.billed} billed, ${m.writes} writes [daniel ${m.byUser.daniel.docReads}+${m.byUser.daniel.rulesReads}=${m.byUser.daniel.billed}, nik ${m.byUser.nik.docReads}+${m.byUser.nik.rulesReads}=${m.byUser.nik.billed}]; self lookups counted ${m.selfLookups}`);
   if(b.rows.length){
-    for(const pr of Object.values(b.profiles))console.log(`  BILLED ${label} @ ${pr.label}: season ${pr.seasonMinutes} min (transfer ${pr.transferMin} + results ${pr.resultsMin} + short waits ${pr.shortMin} + harness play ${pr.harnessMin}) -> ${pr.seasonsPerDay} seasons/day, budget ${pr.budget}; measured ${pr.billed} billed reads, ${pr.writes} writes: ${pr.pass?"PASS":"FAIL"}; the cost allows ${pr.realSeasonsPerDay} seasons/day`);
+    for(const pr of Object.values(b.profiles))console.log(`  BILLED ${label} @ ${pr.label}: season ${pr.seasonMinutes} min (transfer ${pr.transferMin} + results ${pr.resultsMin} + short waits ${pr.shortMin}${pr.careerStartMin?` + career start ${pr.careerStartMin}`:""} + harness play ${pr.harnessMin}) -> ${pr.seasonsPerDay} seasons/day, budget ${pr.budget}; measured ${pr.billed} billed reads, ${pr.writes} writes: ${pr.pass?"PASS":"FAIL"}; the cost allows ${pr.realSeasonsPerDay} seasons/day`);
     console.log(`  waits (${b.sampledMinutes} min sampled${REALTIME_WAITS?`, REAL TIME at the ${REALTIME_PROFILE} pace`:", extrapolated linearly at the sample's steady per-minute rate"}): ${b.rows.map(r=>`${r.point} ${r.sampleMin.toFixed(1)}/${r.targetMin}min ${r.tailBilled}b@${r.ratePerMin.toFixed(1)}/min (billed per minute of the sample: ${r.perMinute.join(",")}; read brake trips D ${r.brake.daniel.trips} N ${r.brake.nik.trips}${r.brake.daniel.onAtEnd||r.brake.nik.onAtEnd?", ON at the end":""}) [D ${r.perDevice.daniel.billedPerMin}, N ${r.perDevice.nik.billedPerMin} billed/min; docs D ${r.perDevice.daniel.docsPerMin}, N ${r.perDevice.nik.docsPerMin}/min] ${r.topModules.slice(0,3).map(x=>`${x.key} ${x.perMin}/min`).join(", ")}`).join("\n    ")}`);
   }
 }
@@ -1975,7 +1983,7 @@ async function main(){
       const lines=[],failures=[];
       for(const e of seasons)for(const pr of Object.values(e.billed.profiles)){
         const bad=!pr.pass||pr.writes>BUDGET.writesPerSeason;
-        lines.push(`${e.label} @ ${pr.label}: ${pr.seasonMinutes} min (transfer ${pr.transferMin} + results ${pr.resultsMin} + short ${pr.shortMin} + harness ${pr.harnessMin}) -> ${pr.seasonsPerDay}/day, budget ${pr.budget}, billed ${pr.billed}, writes ${pr.writes}, capacity ${pr.realSeasonsPerDay}/day: ${bad?"FAIL":"PASS"}`);
+        lines.push(`${e.label} @ ${pr.label}: ${pr.seasonMinutes} min (transfer ${pr.transferMin} + results ${pr.resultsMin} + short ${pr.shortMin}${pr.careerStartMin?` + career start ${pr.careerStartMin}`:""} + harness ${pr.harnessMin}) -> ${pr.seasonsPerDay}/day, budget ${pr.budget}, billed ${pr.billed}, writes ${pr.writes}, capacity ${pr.realSeasonsPerDay}/day: ${bad?"FAIL":"PASS"}`);
         if(bad)failures.push({e,pr});
       }
       const worst=[...seasons].sort((a,b)=>Math.max(...Object.values(b.billed.profiles).map(x=>x.billed/x.budget))-Math.max(...Object.values(a.billed.profiles).map(x=>x.billed/x.budget)))[0];
