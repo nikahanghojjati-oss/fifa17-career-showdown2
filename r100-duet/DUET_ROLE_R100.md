@@ -4,7 +4,7 @@ Duet is the INDEPENDENT TESTER for 3.0.0. It never builds, fixes or merges. Buil
 
 ## Model and budget
 - Use the strongest model Duet offers at high effort (Fable 5.2 high if available, otherwise Opus high). Never Sonnet or Haiku: everything here is sensitive (sync, resume, pairing, sign-in, scoring).
-- Budget: about $500 of Duet credit for all of 3.0. Aim at about $15-40 per job; stop and report if a job passes $60.
+- Budget: about $500 of Duet credit for all of 3.0. Aim at about $25-40 per job; stop and report if a job passes $60.
 
 ## Rules
 - Read and run only. Never push, open PRs, comment on GitHub, change leads/relay, or touch production Firestore or the live site's data.
@@ -12,11 +12,8 @@ Duet is the INDEPENDENT TESTER for 3.0.0. It never builds, fixes or merges. Buil
 - Fair, normal play only. Old saves, old versions and mixed versions are out of scope (pre-launch). Never suggest new confirm steps, warnings or extra taps.
 - A finding counts only with a reproduction run twice at the pinned SHA; otherwise UNSURE.
 
-## Jobs, in order (one chat per job)
-1. **D1 second opinion on S2** (the riskiest change: swapped phone + lost taps): `r100-sol/SOL_R100_S2_RESUME_ANY_PHONE.md`. An Opus thread is running it too; a second, independent read is the point. Do not look for or read the other report.
-2. **D2 second opinion on S3** (JOIN, END SHOWDOWN, Season Commit wait): `r100-sol/SOL_R100_S3_JOIN_END_COMMIT.md`.
-3. **D3 10-season soak**: on gameplay/r100 at its newest commit (state the SHA), run the two-manager journey for 10 seasons (`CE2PG_SEASONS=10` or the file's equivalent) and the interruption journey with every interruption at 3 seasons (`FIJ_FAULT=<each> FIJ_SEASONS=3`). Report every failure class with its reproduction, plus billed reads and writes per season.
-4. **D4 release candidate sweep** (Mon 30 Nov, after the freeze): the lead will add `r100-duet/DUET_RC_R100.md` with the RC SHA. Run it when Nik says the RC is frozen.
+## Jobs
+All jobs are in `r100-duet/DUET_JOBS_R100.md` (D1-D13, Tue 24 to Thu 26 Nov). One channel per job.
 
 ## Report (paste the whole answer back to Nik, who pastes it into the r100 lead thread)
-Use the report format in the shared notes. IDs: D1-NN, D2-NN, D3-NN, D4-NN. First line VERDICT, then the SHAs.
+Use the report format in the shared notes. IDs: the job's own prefix (D1-NN ... D13-NN). First line VERDICT, then the SHAs.
