@@ -1,0 +1,9 @@
+{
+ "id": "P19-results-replay-lost",
+ "law": "L13_REPEAT_ONCE",
+ "title": "A repeated PUBLISH tap gets an error instead of the saved answer",
+ "file": "js/sparkSharedSeasonResults.js",
+ "find": "if(current){const index=current.operationIds.indexOf(operationId);if(index>=0){",
+ "replace": "if(current){const index=-1;if(index>=0){",
+ "why": "The idempotency lookup is gone, so the same publish again (a double tap, or a retry after a lost answer) is treated as a new command and refused as stale: the manager sees an error for a result that was saved."
+}

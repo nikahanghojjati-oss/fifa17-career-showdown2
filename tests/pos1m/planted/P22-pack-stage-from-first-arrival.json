@@ -1,0 +1,9 @@
+{
+ "id": "P22-pack-stage-from-first-arrival",
+ "law": "L6_PRIME_PACK",
+ "title": "Prime Pack points are timed from the first arrival, not the later one",
+ "file": "js/iconGuessStep.js",
+ "find": "startMs=arrived.playerOne&&arrived.playerTwo?Math.max(arrived.playerOne,arrived.playerTwo)+guess.leadMs:null;",
+ "replace": "startMs=arrived.playerOne&&arrived.playerTwo?Math.min(arrived.playerOne,arrived.playerTwo)+guess.leadMs:null;",
+ "why": "The round starts 3 s after the LATER arrival. Timing from the first arrival puts a right guess in a later stage than the screens showed, so the winner scores fewer points."
+}

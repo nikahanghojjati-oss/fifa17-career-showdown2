@@ -1,0 +1,9 @@
+{
+ "id": "P18-scoring-swapped-for-nik",
+ "law": "L11_CONVERGE",
+ "title": "Nik's phone shows one season's scores swapped",
+ "file": "js/sparkSharedCanonicalScoring.js",
+ "find": "scoring:projection.scoring,winner:projection.winner});",
+ "replace": "scoring:commit.managerRole===\"playerTwo\"?{playerOne:projection.scoring.playerTwo,playerTwo:projection.scoring.playerOne}:projection.scoring,winner:projection.winner});",
+ "why": "A role-dependent projection: the two phones show different totals for the same accepted season."
+}

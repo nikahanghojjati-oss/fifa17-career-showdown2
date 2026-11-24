@@ -1,0 +1,9 @@
+{
+ "id": "P10-pending-season-counted",
+ "law": "L10_HISTORY_ONCE",
+ "title": "A committed but unacknowledged season counts as accepted",
+ "file": "js/sparkSharedMultiSeasonProgression.js",
+ "find": "return value.phase===\"ACKNOWLEDGED\"?\"accepted\":\"pending\";",
+ "replace": "return \"accepted\";",
+ "why": "Progression counts a season before both managers have acknowledged it."
+}

@@ -1,0 +1,9 @@
+{
+ "id": "P06-window-expires-early",
+ "law": "L5_ORDER",
+ "title": "The 15-minute window can be expired after 5 minutes",
+ "file": "js/sparkSharedTransferChallenge.js",
+ "find": "if(ctx.now<next.startedAtEpochMs+protocol.windowMs)stspFail(\"TRANSFER_WINDOW_STILL_OPEN\");",
+ "replace": "if(ctx.now<next.startedAtEpochMs+protocol.windowMs/3)stspFail(\"TRANSFER_WINDOW_STILL_OPEN\");",
+ "why": "The expiry check uses a third of the window, so a phone that taps the timer early ends the Transfer War."
+}

@@ -641,7 +641,7 @@
   // fsbServerNext: documents whose next read must reach the server (no copy, no read already in flight), set by readServerNext.
   const fsbServerNext=new Map();
   const fsbWrapped=new WeakMap(),fsbEntries=new Map(),fsbInflight=new Map(),fsbCadence=new Map(),fsbWaitAsks=new Map(),fsbFreshPaths=new Map();
-  const fsbStats={immutableReuses:0,reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,brakeTrips:0,brakeSince:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0,peekWrites:0,transactionKept:0,contextServed:0,directReads:0,directFailures:0,deniedRefusals:0};
+  const fsbStats={immutableReuses:0,reusedReads:0,quietReuses:0,freshReruns:0,serverReads:0,serverTransactions:0,readOnlyWithoutCommit:0,quotaTrips:0,pausedRefusals:0,brakeTrips:0,brakeSince:0,listenersAttached:0,listenerDeliveries:0,listenerServed:0,listenerFallbacks:0,listenerRebuildWaitMs:0,peekWrites:0,transactionKept:0,contextServed:0,directReads:0,directFailures:0,deniedRefusals:0};
   let fsbPause=null,fsbResumeTimer=null,fsbAccountId=null,fsbFirestore=null,fsbInputAt=0,fsbFreshAskAt=0,fsbChainAt=0;
   // After the listener sees the partner's move (or the page comes back from hidden) every screen re-checks in a short chain
   // (commit -> scoring -> history -> final result). A document read after that moment already reflects it, so for the next
@@ -1446,7 +1446,12 @@
   // play pauses, or the listener errors or falls behind; the screen's own 3 s check keeps running throughout and simply
   // reads from the server again whenever the listener is not healthy. A change seen by the listener wakes the screen at once.
   const FSB_WAIT_CONFIRM_MS=30000,FSB_WAIT_LAG_MS=5000,FSB_WAIT_RETRY_MS=60000,FSB_WAIT_OWNER_MS=4500;
-  const fsbWaitFailed=new Map(),fsbReturnWakes=new Map();
+  // Phoenix W8 (r100): a listener that dies on a passing network error is built again soon (2 s, then 8 s, then 30 s), not
+  // after a full minute, so the rival's move still shows within seconds; the screen is woken at once for one check meanwhile.
+  // A Rules refusal or the daily limit keeps the full minute. A listener that stays up a minute starts the count again.
+  // When the listener is healthy nothing here runs, so it costs no read.
+  const FSB_WAIT_BACKOFF_MS=Object.freeze([2000,8000,30000]);
+  const fsbWaitFailed=new Map(),fsbReturnWakes=new Map(),fsbWaitFailures=new Map();
   let fsbWaitReturn=null,fsbWait=null,fsbSnapshotApi=null,fsbSnapshotApiPromise=null;
   function fsbStable(value){
     if(value===null||typeof value!=="object")return JSON.stringify(value);
@@ -1484,7 +1489,16 @@
     if(!wait.lagUntil){wait.lagUntil=fsbNow()+FSB_WAIT_LAG_MS;wait.lagVersion=version;wait.lagSerial=serial;}
   }
   function fsbDetachWait(){const wait=fsbWait;fsbWait=null;if(wait&&typeof wait.unsubscribe==="function"){try{wait.unsubscribe();}catch(_error){}}if(wait&&wait.returning)fsbListened(wait.path,null);}
-  function fsbWaitFail(path){fsbDetachWait();fsbStats.listenerFallbacks+=1;fsbWaitFailed.set(path,fsbNow()+FSB_WAIT_RETRY_MS);}
+  function fsbWaitFail(path,error){
+    const wait=fsbWait&&fsbWait.path===path?fsbWait:null;fsbDetachWait();fsbStats.listenerFallbacks+=1;
+    const code=String(error&&error.code||"").toLowerCase(),lasting=Boolean(error)&&(fsbIsQuotaError(error)||/permission|unauthenticated/.test(code));
+    // A listener that stayed up a minute starts the count again; one that keeps dying right after it is built backs off.
+    const count=(wait&&wait.attachedAt&&fsbNow()-wait.attachedAt>=FSB_WAIT_RETRY_MS?0:(fsbWaitFailures.get(path)||0))+1;fsbWaitFailures.set(path,count);
+    const delay=lasting?FSB_WAIT_RETRY_MS:(FSB_WAIT_BACKOFF_MS[count-1]??FSB_WAIT_RETRY_MS);
+    fsbWaitFailed.set(path,fsbNow()+delay);fsbStats.listenerRebuildWaitMs=delay;
+    // The screens that were waiting on it check once now (their own timers pick up the rebuilt listener after the delay).
+    if(wait&&!lasting)fsbWakeOwners(wait);
+  }
   // Forgotten copies are never reused, but their content is kept for change detection: a document that is merely forgotten
   // (not changed) must not count as changed, or every later check would re-run on fresh reads and forget again.
   function fsbForgetContext(){fsbDenied.clear();for(const [path,entry] of fsbEntries)if(!fsbOwnAccountPath(path))entry.forgotten=true;}
@@ -1546,10 +1560,10 @@
     const api=fsbSnapshotApi;
     if(!api){fsbLoadSnapshotApi();return release();}
     fsbDetachWait();
-    const wait={path,owners:new Map([[owner,{wake,seen:at,relaxed}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
+    const wait={path,attachedAt:at,owners:new Map([[owner,{wake,seen:at,relaxed}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
     fsbWait=wait;fsbStats.listenersAttached+=1;
     try{
-      wait.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbWaitDelivery(wait,snapshot),error=>{fsbCountRead(fsbMeterFailureUnits(error),true,wait.priced?0:fsbReadLookups(path));if(fsbWait!==wait)return;fsbWaitFail(path);if(fsbIsQuotaError(error))fsbTrip();fsbAuthorityDenied(error,path);});
+      wait.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbWaitDelivery(wait,snapshot),error=>{fsbCountRead(fsbMeterFailureUnits(error),true,wait.priced?0:fsbReadLookups(path));if(fsbWait!==wait)return;fsbWaitFail(path,error);if(fsbIsQuotaError(error))fsbTrip();fsbAuthorityDenied(error,path);});
     }catch(_error){if(fsbWait===wait)fsbWaitFail(path);}
     return false;
   }
@@ -1775,6 +1789,6 @@
     roleShare:fsbRoleShare,
     braking:()=>fsbBraking(),
     stats:()=>Object.freeze({...fsbStats,remembered:fsbEntries.size,watching:fsbWait?fsbWait.path:null,watchHealthy:fsbWaitLive()}),
-    reset(){fsbDetachWait();fsbCtxRivalry=null;fsbCtxDetach();fsbExternal.clear();fsbCtxReturn=[];fsbWaitReturn=null;fsbDenied.clear();fsbCtxFailed.clear();fsbReturnListen([]);fsbWaitFailed.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbServerNext.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
+    reset(){fsbDetachWait();fsbCtxRivalry=null;fsbCtxDetach();fsbExternal.clear();fsbCtxReturn=[];fsbWaitReturn=null;fsbDenied.clear();fsbCtxFailed.clear();fsbReturnListen([]);fsbWaitFailed.clear();fsbWaitFailures.clear();fsbReturnWakes.clear();fsbEntries.clear();fsbInflight.clear();fsbCadence.clear();fsbWaitAsks.clear();fsbFreshPaths.clear();fsbServerNext.clear();fsbPause=null;fsbInputAt=0;fsbFreshAskAt=0;fsbChainAt=0;fsbPublish();}
   });
 })(typeof globalThis!=="undefined"?globalThis:this);

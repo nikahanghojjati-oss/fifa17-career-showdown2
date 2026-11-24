@@ -1,0 +1,9 @@
+{
+ "id": "P16-history-total-double",
+ "law": "L10_HISTORY_ONCE",
+ "title": "History adds a season's points twice",
+ "file": "js/sharedHistoryConvergence.js",
+ "find": "record.seasons+=1;record.totalPoints+=score;",
+ "replace": "record.seasons+=1;record.totalPoints+=score+(record.seasons===2?score:0);",
+ "why": "Career totals count one season twice."
+}

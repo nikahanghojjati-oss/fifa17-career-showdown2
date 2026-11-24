@@ -1,0 +1,16 @@
+{
+ "id": "P08-europa-league-five",
+ "law": "L7_EL_OR_CL",
+ "title": "The Europa League scores 5 like the Champions League (in both scoring copies)",
+ "file": "js/sharedCanonicalScoring.js",
+ "find": "europaLeague:3,primePack:4});",
+ "replace": "europaLeague:5,primePack:4});",
+ "why": "EL is +3, CL is +5. Changed in Scoring and in History together, so the game's own History cross-check agrees with the wrong value and only the rules oracle can see it.",
+ "also": [
+  {
+   "file": "js/sharedHistoryConvergence.js",
+   "find": "europaLeague=result.europaLeague===true?3:0",
+   "replace": "europaLeague=result.europaLeague===true?5:0"
+  }
+ ]
+}

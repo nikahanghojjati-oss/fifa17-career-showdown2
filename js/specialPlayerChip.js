@@ -229,6 +229,8 @@ ${spTight("#app #standings.standingsScreenV10 .sdg-side")}
     ensuring=run;return run;
   }
 
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["special-player-chip"]=()=>{lastLive=null;};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"cms-special-player-chip",managers:MANAGERS,tiers:TIERS,rule:RULE,css:CSS,styleId:STYLE_ID,
     ready:spReady,ensure:spEnsure,install:spInstall,chip:spChip,forShowdown:spForShowdown,forRow:spForRow,live:spLive,liveFor:spLiveFor,latest:spLatest,
     html:spHtml,element:spElement,title:spTitle,clubLine:spClubLine});
