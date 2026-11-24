@@ -55,24 +55,35 @@ function seasonMinutes(phases){
 }
 
 // events: the recorder's sink; meterEvents: the CE2PG meter's events; phases: report.timings.phases; meterEntries: report.meter;
-// price(events) -> {billed, writes} (billed-meter.cjs price with the run's Rules model).
-function summarize({events,meterEvents=[],phases=[],meterEntries=[],price=null}){
+// playWindows: the seasons' play windows [from,to) (CE2PG meterEntry); attribute(events, allEvents, keyFn) -> Map key ->
+// {docs, rules, writes} (billed-meter.cjs attribute with the run's Rules model).
+function summarize({events,meterEvents=[],phases=[],meterEntries=[],playWindows=null,attribute=null}){
   if(!ENABLED)return null;
   const byUser={};for(const e of events)(byUser[e.user]||(byUser[e.user]=[])).push(e);
   const taps=[],holds=[],rival=[],intervals=[];
   const users=Object.keys(byUser);
   for(const user of users){
     const list=byUser[user].sort((a,b)=>a.t-b.t);
-    let state=null,since=null,bootAt=-Infinity,loadingFrom=null;
+    let state=null,since=null,bootAt=-Infinity,loadingFrom=null,settled=null,regated=null;
     const changes=[];
     for(const e of list){
-      if(e.k==="boot"){bootAt=e.t;if(state&&since!==null)intervals.push({user,screen:state.screen,from:since,to:e.t});state=null;since=null;loadingFrom=null;continue;}
+      if(e.k==="boot"){bootAt=e.t;if(state&&since!==null)intervals.push({user,screen:state.screen,from:since,to:e.t});state=null;since=null;loadingFrom=null;settled=null;regated=null;continue;}
       if(e.k!=="state")continue;
       if(e.loading&&loadingFrom===null)loadingFrom=e.t;
       if(!e.loading&&loadingFrom!==null){holds.push({user,screen:e.screen,ms:e.t-loadingFrom,boot:loadingFrom-bootAt<1000});loadingFrom=null;}
       if(state&&since!==null&&e.screen!==state.screen)intervals.push({user,screen:state.screen,from:since,to:e.t});
       if(!state||e.screen!==state.screen)since=e.t;
-      if(!e.loading&&state&&e.screen!==state.screen&&e.t-bootAt>2000)changes.push({t:e.t,from:state.screen,to:e.screen});
+      // A step is ready when its screen shows with the Reus Gate down. A screen change made under the gate counts when the gate
+      // clears; a screen that showed and then had the gate rise on it within 300 ms is ready only when that gate clears.
+      if(e.loading){
+        const last=changes[changes.length-1];
+        if(last&&last.to===e.screen&&e.t-last.t<=300&&!regated){regated=changes.pop();settled=last.from;}
+      }else{
+        if(regated&&regated.to===e.screen){regated.t=e.t;changes.push(regated);settled=e.screen;}
+        else if(settled!==null&&e.screen!==settled&&e.t-bootAt>2000){changes.push({t:e.t,from:settled,to:e.screen});settled=e.screen;}
+        else settled=e.screen;
+        regated=null;
+      }
       state={screen:e.screen,loading:e.loading};
     }
     if(state&&since!==null)intervals.push({user,screen:state.screen,from:since,to:list.length?list[list.length-1].t:since});
@@ -93,17 +104,19 @@ function summarize({events,meterEvents=[],phases=[],meterEntries=[],price=null})
   }
   const seasons=meterEntries.filter(e=>e.billed&&e.billed.measured).map(e=>({label:e.label,billed:e.billed.measured.billed,docReads:e.billed.measured.docReads,rulesLookups:e.billed.measured.rulesReads+(e.billed.measured.rulesOnWrites||0),writes:e.billed.measured.writes}));
   const minutes=seasonMinutes(phases);
-  // Billed reads and writes per step (screen), both phones, averaged per season played.
+  // Billed reads and writes per step (screen), both phones, averaged per season played: only the events inside the seasons'
+  // play windows (the same ones the season totals use, so sign-in, page checks and the end checks are left out), priced in
+  // time order with one listener state (billed-meter.cjs attribute), so a listener attached on one step and first delivered
+  // on the next is priced once.
   let steps=null;
-  if(price&&intervals.length){
-    const n=Math.max(1,seasons.length),acc={};
-    const evs=meterEvents.filter(e=>e.k==="read"||e.k==="write"||e.k==="listener");
-    const iv=intervals.sort((a,b)=>a.from-b.from);
-    const ofUser={};for(const i of iv)(ofUser[i.user]||(ofUser[i.user]=[])).push(i);
-    const buckets={};
-    for(const e of evs){const list=ofUser[e.user];if(!list)continue;const i=list.find(x=>e.t>=x.from&&e.t<x.to)||null;const k=i?i.screen||"?":"(between screens)";(buckets[k]||(buckets[k]=[])).push(e);}
-    for(const [k,list] of Object.entries(buckets)){const p=price(list);acc[k]={billedPerSeason:+(p.billed/n).toFixed(1),writesPerSeason:+(p.writes/n).toFixed(1)};}
-    steps=Object.fromEntries(Object.entries(acc).sort((a,b)=>b[1].billedPerSeason-a[1].billedPerSeason));
+  if(attribute&&intervals.length){
+    const n=Math.max(1,seasons.length);
+    const all=meterEvents.filter(e=>e.k==="read"||e.k==="write"||e.k==="listener");
+    const inPlay=e=>!playWindows||playWindows.some(([a,b])=>e.t>=a&&e.t<b);
+    const ofUser={};for(const i of intervals.sort((a,b)=>a.from-b.from))(ofUser[i.user]||(ofUser[i.user]=[])).push(i);
+    const stepOf=e=>{const list=ofUser[e.user];const i=list&&list.find(x=>e.t>=x.from&&e.t<x.to);return i?i.screen||"?":"(between screens)";};
+    const out=attribute(all.filter(inPlay).sort((a,b)=>a.t-b.t),all,stepOf);
+    steps=Object.fromEntries([...out.entries()].map(([k,v])=>[k,{billedPerSeason:+((v.docs+v.rules)/n).toFixed(1),writesPerSeason:+(v.writes/n).toFixed(1)}]).sort((a,b)=>b[1].billedPerSeason-a[1].billedPerSeason));
   }
   return {
     schema:1,
