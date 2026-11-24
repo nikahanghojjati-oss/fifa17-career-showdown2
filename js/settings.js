@@ -1063,6 +1063,51 @@ async function runSettingsEndShowdown(button){
    stored and are never shown. The ACCOUNT panel's pairing rows (Paired with ..., UNPAIR)
    are js/showdownModes.js. */
 
+// R99-01 (Nik 2026-11-23): the clubhouse look, on this device only. Wooden is the brown wood and marble the rooms were painted
+// in; Silver, Metallic Black and Premium Matte Black are the same rooms recoloured, with Daniel and Nik untouched. index.html
+// applies the pick before anything paints (window.cmsClubhouse) and keeps it in this browser; nothing is read from or written
+// to Firestore. Names Nik gave them (2026-11-23): Wooden Clubhouse (the rooms as painted), Silver Clubhouse, Metallic Black
+// Clubhouse (key "black") and Premium Matte Black Clubhouse (key "matte"). Each has one line on what the room is made of.
+const SETTINGS_CLUBHOUSE_THEMES = [
+    ["current", "Wooden Clubhouse", "Walnut panels and marble under warm lamplight, as the rooms were painted."],
+    ["silver", "Silver Clubhouse", "Polished silver panels in clean, cool daylight."],
+    ["black", "Metallic Black Clubhouse", "Brushed gunmetal and black marble, caught by gold lamplight."],
+    ["matte", "Premium Matte Black Clubhouse", "Soft-touch matte black, quiet and deep, lit by warm gold."]
+];
+function settingsClubhouseHintText(value){
+    const theme = SETTINGS_CLUBHOUSE_THEMES.find(([key]) => key === value) || SETTINGS_CLUBHOUSE_THEMES[0];
+    return `${theme[2]} Each phone or laptop keeps its own pick.`;
+}
+function createClubhouseControl(){
+    const row = createSettingsElement("div", "settingsAudioRow settingsGfxRow settingsClubhouseRow");
+    const copy = createSettingsElement("div", "settingsAudioCopy");
+    const label = createSettingsElement("strong", "", "CLUBHOUSE");
+    label.id = "settingsClubhouseLabel";
+    const api = window.cmsClubhouse;
+    const hint = createSettingsElement("small", "settingsClubhouseHint", settingsClubhouseHintText(api ? api.theme() : "current"));
+    hint.id = "settingsClubhouseHint";
+    copy.append(label, hint);
+    const select = createSettingsElement("select", "settingsGfxSelect settingsClubhouseSelect");
+    select.setAttribute("aria-labelledby", "settingsClubhouseLabel settingsClubhouseHint");
+    for(const [value, text] of SETTINGS_CLUBHOUSE_THEMES){
+        const option = createSettingsElement("option", "", text);
+        option.value = value;
+        select.append(option);
+    }
+    select.value = api ? api.theme() : "current";
+    select.disabled = !api;
+    select.addEventListener("change", () => {
+        if(!window.cmsClubhouse){ return; }
+        select.value = window.cmsClubhouse.set(select.value);
+        hint.textContent = settingsClubhouseHintText(select.value);
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(`${select.options[select.selectedIndex].textContent} is on.`, "success", 2500);
+        }
+    });
+    row.append(copy, select);
+    return row;
+}
+
 function createDataPanel(){
     const live = getSettingsLiveShowdown();
     const active = live ? live.showdown : null;
@@ -1106,6 +1151,7 @@ function createDataPanel(){
     );
 
     if(active){ panel.append(info, actions, note); }else{ panel.append(info, note); }
+    panel.append(createClubhouseControl());
     return panel;
 }
 

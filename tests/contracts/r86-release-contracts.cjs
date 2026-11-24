@@ -41,7 +41,8 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 // names any drift.
 {
   // 2.11.0 (r98) adds the League Roulette (R98-01: the live Select League board and its step) and removes no shell path.
-  const R98_ADDED=['js/leagueRouletteStep.js','js/leagueRouletteScene3d.js'];
+  // R99-01 (2026-11-23): until the r99 bump rolls PREVIOUS to 2.11.0, the added list also carries r99's themed-clubhouse panel marble.
+  const R98_ADDED=['js/leagueRouletteStep.js','js/leagueRouletteScene3d.js','css/r78-marble-tile-metal.webp'];
   const R98_REMOVED=[];
   const sw=read('service-worker.js');
   assert.match(sw,/const RUNTIME_REVISION = "2\.11\.0-r98";\nconst PREVIOUS_RUNTIME_REVISION = "2\.10\.0-r97";/);
@@ -51,7 +52,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   assert.equal(r97.length,260);
   assert.deepEqual(added,shell.filter(p=>!r97.includes(p)),'the added list is this shell minus 2.10.0\'s');
-  assert.deepEqual(added,R98_ADDED,'r98 adds the League Roulette board and its step');
+  assert.deepEqual(added,R98_ADDED,'r98 adds the League Roulette board and its step; r99 the metal panel marble');
   assert.deepEqual(removed,R98_REMOVED,'r98 removes no shell path');
   assert.deepEqual(r97.filter(p=>!shell.includes(p)),removed,'every 2.10.0 shell path is still precached');
   assert.equal(shell.length,260-removed.length+added.length);
