@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 7:45 AM Boston time (EST)",
+ "generated": "2026-11-24 8:25 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 334,
+  "count": 340,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -3009,6 +3009,60 @@
     "subject": "League Roulette room without the men (phone upright, tall, sideways)",
     "reply": "no",
     "boston": "Sat 21 Nov 9:48 PM"
+   },
+   {
+    "time": "2026-11-24 13:20",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-098 SENT",
+    "subject": "Premium pilot 1/6: Silver Clubhouse Board Room repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 8:20 AM"
+   },
+   {
+    "time": "2026-11-24 13:20",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-099 SENT",
+    "subject": "Premium pilot 2/6: Silver Clubhouse Home repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 8:20 AM"
+   },
+   {
+    "time": "2026-11-24 13:20",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-100 SENT",
+    "subject": "Premium pilot 3/6: Metallic Black Board Room repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 8:20 AM"
+   },
+   {
+    "time": "2026-11-24 13:20",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-101 SENT",
+    "subject": "Premium pilot 4/6: Metallic Black Home repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 8:20 AM"
+   },
+   {
+    "time": "2026-11-24 13:20",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-102 SENT",
+    "subject": "Premium pilot 5/6: Premium Matte Black Board Room repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 8:20 AM"
+   },
+   {
+    "time": "2026-11-24 13:20",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-103 SENT",
+    "subject": "Premium pilot 6/6: Premium Matte Black Home repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 8:20 AM"
    }
   ],
   "g2v": {
@@ -3029,8 +3083,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5d910de",
-  "head_boston": "Sat 21 Nov 9:49 PM",
+  "head": "4c426c7",
+  "head_boston": "Tue 24 Nov 8:23 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -3058,33 +3112,24 @@
  },
  "two": {
   "live": {
-   "sha": "fec8af6",
-   "revision": "2.11.0-r98",
-   "when": "2026-11-23T12:16:44-05:00",
-   "subject": "Merge pull request #1567 from nikahanghojjati-oss/gameplay/r98",
-   "fixes": [
+   "sha": "7dc0d48",
+   "revision": "2.12.0-r99",
+   "when": "2026-11-24T08:12:01-05:00",
+   "subject": "Merge pull request #1580 from nikahanghojjati-oss/gameplay/r99",
+   "fixes": [],
+   "today": [
     {
      "pr": 1580,
      "title": "Release 2.12.0 (r99): From a fan, for the fans; four clubhouses",
-     "draft": false,
-     "branch": "gameplay/r99",
-     "sha": "a64b284a7df43ea56db3100eae31358f08a3b58b",
-     "updated": "2026-11-24T04:53:30Z",
-     "gates": {
-      "passed": 10,
-      "running": 0,
-      "failed": 0,
-      "cancelled": 0
-     }
+     "merged": "2026-11-24T13:12:01Z"
     }
-   ],
-   "today": []
+   ]
   },
   "physio": {
    "state": "clear",
-   "line": "All clear (from GitHub).",
-   "gate": "Gate #1580: L1✓ L2✓ L4✓ L5✓ L6✓ · POS20 #1580 10/10",
-   "source": "github"
+   "line": "All clear: every check has a machine.",
+   "gate": "POS20 #304 6/16",
+   "source": "physio"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -3869,7 +3914,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 23620
+    "waiting_min": 23661
    },
    {
     "id": "HO-059",
@@ -4377,6 +4422,84 @@
     "worker": "images",
     "pickup_min": null,
     "waiting_min": null
+   },
+   {
+    "id": "HO-098",
+    "from": "G",
+    "to": "V",
+    "title": "Premium pilot 1/6: Silver Clubhouse Board Room repaint",
+    "stage": "WORKING",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-098_premium-pilot-1-6-silver-clubhouse-board.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-099",
+    "from": "G",
+    "to": "V",
+    "title": "Premium pilot 2/6: Silver Clubhouse Home repaint",
+    "stage": "WORKING",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-099_premium-pilot-2-6-silver-clubhouse-home-.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-100",
+    "from": "G",
+    "to": "V",
+    "title": "Premium pilot 3/6: Metallic Black Board Room repaint",
+    "stage": "WORKING",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-100_premium-pilot-3-6-metallic-black-board-r.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-101",
+    "from": "G",
+    "to": "V",
+    "title": "Premium pilot 4/6: Metallic Black Home repaint",
+    "stage": "WORKING",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-101_premium-pilot-4-6-metallic-black-home-re.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-102",
+    "from": "G",
+    "to": "V",
+    "title": "Premium pilot 5/6: Premium Matte Black Board Room repaint",
+    "stage": "WORKING",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-102_premium-pilot-5-6-premium-matte-black-bo.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-103",
+    "from": "G",
+    "to": "V",
+    "title": "Premium pilot 6/6: Premium Matte Black Home repaint",
+    "stage": "WORKING",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-103_premium-pilot-6-6-premium-matte-black-ho.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -4448,7 +4571,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 48,
   "next": 42,
   "nik": 2,
   "later": 21,
@@ -5664,22 +5787,7 @@
     ]
    }
   },
-  "fixes": [
-   {
-    "pr": 1580,
-    "title": "Release 2.12.0 (r99): From a fan, for the fans; four clubhouses",
-    "draft": false,
-    "branch": "gameplay/r99",
-    "sha": "a64b284a7df43ea56db3100eae31358f08a3b58b",
-    "updated": "2026-11-24T04:53:30Z",
-    "gates": {
-     "passed": 10,
-     "running": 0,
-     "failed": 0,
-     "cancelled": 0
-    }
-   }
-  ]
+  "fixes": []
  },
  "jobs": [
   {

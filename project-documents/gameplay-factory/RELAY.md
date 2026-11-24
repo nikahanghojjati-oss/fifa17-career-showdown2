@@ -1,12 +1,384 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 7:45 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 8:25 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `5d910de` (Sat 21 Nov 9:49 PM Boston time) · 334 messages · 98 hand-offs · 629 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `4c426c7` (Tue 24 Nov 8:23 AM Boston time) · 340 messages · 104 hand-offs · 635 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-103 · G → V · Premium pilot 6/6: Premium Matte Black Home repaint
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+
+- Tue 24 Nov 8:23 AM · Team V · In progress · Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src.
+- Tue 24 Nov 8:20 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Ticket 6 of 6 in the premium clubhouse pilot (HO-098 to HO-103). Nik judges all 6 together, with the new UI, on one Team G board before the other 57 paintings are ordered. The full set must land in 3.0 (freeze Mon 30 Nov noon Boston).
+
+### Why
+Nik 2026-11-24 03:20 UTC: Silver, Metallic Black and Premium Matte Black "look very AI generated", the two blacks look alike, none look premium. Fable art review (gameplay/r100 `PREMIUM_CLUBHOUSES_ART_REVIEW.md`, page https://claude.ai/artifact/U9FjWYXx5uJzPt8uLHxVeD): a code recolour cannot reach premium; each room must be repainted as a same-composition edit of the Wooden plate. Nik said yes to the three picks on 2026-11-24 13:13 UTC.
+Art direction for this one: Premium Matte Black = charcoal felt/suede/black oak, no glint anywhere, warm charcoal walls lighter than the suits; must be unmistakably different from Metallic Black (Fable review section 2).
+
+### What
+- **Clubhouse:** Premium Matte Black Clubhouse (Settings key `matte`). **Room:** Home lounge (used by Home).
+- **Attach this one file only:** the Wooden 2X plate `visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp` (3072x1728), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp (convert to PNG first if ChatGPT refuses WebP). Never attach a previous try or the old Premium Matte Black Clubhouse recolour.
+- **Save the result as:** `ENV_HOME_PLATE_MATTE_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach the one file above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as the Wooden plate (overlay test: pillars, window or door, lamp and the counter edge along the bottom (about nine tenths of the way down) line up); both men still in place at the same size; night, warm lamps in the same places; the look matches the art direction; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from the Wooden plate. Max 3 tries.
+
+### Prompt
+```
+Keep this image exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the lounge on the left (table lamp on the sideboard, folded plaid blankets, two brown leather armchairs, round table with the old leather ball in a bowl and the glass of whisky, the sofa with the grey throw, the rug), the big window across the middle and right with the night stadium, crowd, floodlights and green pitch exactly as they are, the wall lamp on the pillar at the right, and the counter along the bottom edge at exactly the same height.
+
+The room: A private tailor's room in charcoal felt, suede and black oak: real textiles and real wood, handcrafted.
+Repaint the lounge walls and panels as upholstered charcoal wool felt and black suede with visible stitched seams, framed in black-stained open-pore oak, with soft black limewash plaster on the ceiling. The pillars beside the window become honed black basalt. The window frames become black-stained open-pore oak. The lamp arm becomes aged satin brass; the shades stay warm cream and lit. The sideboard becomes black-stained open-pore oak. The floor becomes dark charcoal wool carpet with soft contact shadows under the chairs, the table and the sofa. The counter becomes honed basalt, fully matte.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the stadium glow through the window, and spreads as a wide soft candle-warm wash with long gentle gradients across the walls. Every surface is matte: soft shading shows the form, and nothing glints anywhere. The walls are warm espresso charcoal, clearly lighter than the black suits, so both men read against them. Up close the weave of the felt, the pores of the oak and the stitching are visible. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours (brown leather armchairs and sofa, plaid wool blankets, the old leather ball, the glass of whisky, the grey throw, the rug, the lamp shades) and are relit by the new room, each standing on the floor or table with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain and no streaks. No new objects, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-pilot/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_HOME_PLATE_MATTE_P1_2X.webp` aligned to the Wooden plate and sized 3072x1728 (the 2X master), plus a line in `SHA256.json`.
+- Do not composite the men back yourselves; Team G does it (below). Do not delete or replace any existing plate.
+
+### Accept when
+- Team V gate: framing aligned to the Wooden plate, rail/counter at the same height, the men in place, no AI tells (fog, glow halo, noise, streaks, repeating cells, melted edges), score /10 per the Astra skill.
+- Nik OKs it on the Team G pilot board (rooms plus UI together).
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G aligns the painting, lays the original Daniel and Nik pixels from the Wooden 2X plate back on top with the existing hero masks pulled in a few px (faces pixel-identical, hero-pixel contract unchanged), derives `_1920`, `_1X` and `_2X`, and puts it on the board for Nik. **Timing (Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release):** the pilot is due back today; as soon as Nik OKs the pilot, Team G sends the remaining 57 tickets (all three clubhouses, desktop first, then phone) and all of them must be DONE before the 3.0 freeze, Mon 30 Nov noon Boston. If the pilot needs a second round, only the failing rooms are redone.
+
+</details>
+
+### HO-102 · G → V · Premium pilot 5/6: Premium Matte Black Board Room repaint
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+
+- Tue 24 Nov 8:23 AM · Team V · In progress · Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src.
+- Tue 24 Nov 8:20 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Ticket 5 of 6 in the premium clubhouse pilot (HO-098 to HO-103). Nik judges all 6 together, with the new UI, on one Team G board before the other 57 paintings are ordered. The full set must land in 3.0 (freeze Mon 30 Nov noon Boston).
+
+### Why
+Nik 2026-11-24 03:20 UTC: Silver, Metallic Black and Premium Matte Black "look very AI generated", the two blacks look alike, none look premium. Fable art review (gameplay/r100 `PREMIUM_CLUBHOUSES_ART_REVIEW.md`, page https://claude.ai/artifact/U9FjWYXx5uJzPt8uLHxVeD): a code recolour cannot reach premium; each room must be repainted as a same-composition edit of the Wooden plate. Nik said yes to the three picks on 2026-11-24 13:13 UTC.
+Art direction for this one: Premium Matte Black = charcoal felt/suede/black oak, no glint anywhere, warm charcoal walls lighter than the suits; must be unmistakably different from Metallic Black (Fable review section 2).
+
+### What
+- **Clubhouse:** Premium Matte Black Clubhouse (Settings key `matte`). **Room:** Board Room (used by Season Results, Final Winner and other screens that use the Board Room).
+- **Attach this one file only:** the Wooden 2X plate `visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp` (3072x1728), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp (convert to PNG first if ChatGPT refuses WebP). Never attach a previous try or the old Premium Matte Black Clubhouse recolour.
+- **Save the result as:** `ENV_BOARD_PLATE_MATTE_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach the one file above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as the Wooden plate (overlay test: pillars, window or door, lamp and the thin rail along the top of the counter (about three quarters of the way down) line up); both men still in place at the same size; night, warm lamps in the same places; the look matches the art direction; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from the Wooden plate. Max 3 tries.
+
+### Prompt
+```
+Keep this image exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the wall lamp on the left with its pleated shade, the door on the right with its handle, the tall stone pillars at the far left and far right edges, the panel layout of the wall, and the thin rail along the top of the counter with the counter filling the lower quarter. The rail stays at exactly the same height.
+
+The room: A private tailor's room in charcoal felt, suede and black oak: real textiles and real wood, handcrafted.
+Repaint the wall panels as upholstered charcoal wool felt and black suede with visible stitched seams, framed in black-stained open-pore oak mouldings that keep the same panel layout, with soft black limewash plaster above. The door becomes black-stained open-pore oak with an aged satin brass handle. The pillars at the far edges become honed black basalt. The lamp arm becomes aged satin brass; the shade stays warm cream and lit. The rail becomes aged satin brass with a soft dull sheen. The counter becomes honed basalt, fully matte, with soft contact shadows and no reflection.
+
+Light: It is night. Light comes only from the same warm lamps in the same places, and spreads as a wide soft candle-warm wash with long gentle gradients across the walls. Every surface is matte: soft shading shows the form, and nothing glints anywhere. The walls are warm espresso charcoal, clearly lighter than the black suits, so both men read against them. Up close the weave of the felt, the pores of the oak and the stitching are visible. The two men stay lit exactly as they are now.
+
+The lamp shade and the door handle keep their shape; the room holds no other objects.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain and no streaks. No new objects, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-pilot/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_BOARD_PLATE_MATTE_P1_2X.webp` aligned to the Wooden plate and sized 3072x1728 (the 2X master), plus a line in `SHA256.json`.
+- Do not composite the men back yourselves; Team G does it (below). Do not delete or replace any existing plate.
+
+### Accept when
+- Team V gate: framing aligned to the Wooden plate, rail/counter at the same height, the men in place, no AI tells (fog, glow halo, noise, streaks, repeating cells, melted edges), score /10 per the Astra skill.
+- Nik OKs it on the Team G pilot board (rooms plus UI together).
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G aligns the painting, lays the original Daniel and Nik pixels from the Wooden 2X plate back on top with the existing hero masks pulled in a few px (faces pixel-identical, hero-pixel contract unchanged), derives `_1920`, `_1X` and `_2X`, and puts it on the board for Nik. **Timing (Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release):** the pilot is due back today; as soon as Nik OKs the pilot, Team G sends the remaining 57 tickets (all three clubhouses, desktop first, then phone) and all of them must be DONE before the 3.0 freeze, Mon 30 Nov noon Boston. If the pilot needs a second round, only the failing rooms are redone.
+
+</details>
+
+### HO-101 · G → V · Premium pilot 4/6: Metallic Black Home repaint
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+
+- Tue 24 Nov 8:23 AM · Team V · In progress · Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src.
+- Tue 24 Nov 8:20 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Ticket 4 of 6 in the premium clubhouse pilot (HO-098 to HO-103). Nik judges all 6 together, with the new UI, on one Team G board before the other 57 paintings are ordered. The full set must land in 3.0 (freeze Mon 30 Nov noon Boston).
+
+### Why
+Nik 2026-11-24 03:20 UTC: Silver, Metallic Black and Premium Matte Black "look very AI generated", the two blacks look alike, none look premium. Fable art review (gameplay/r100 `PREMIUM_CLUBHOUSES_ART_REVIEW.md`, page https://claude.ai/artifact/U9FjWYXx5uJzPt8uLHxVeD): a code recolour cannot reach premium; each room must be repainted as a same-composition edit of the Wooden plate. Nik said yes to the three picks on 2026-11-24 13:13 UTC.
+Art direction for this one: Metallic Black = small, sharp, warm GOLD highlights; every large surface stays near true black; clearly different from Premium Matte Black (Nik 2026-11-24 pick 2).
+
+### What
+- **Clubhouse:** Metallic Black Clubhouse (Settings key `black`). **Room:** Home lounge (used by Home).
+- **Attach this one file only:** the Wooden 2X plate `visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp` (3072x1728), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp (convert to PNG first if ChatGPT refuses WebP). Never attach a previous try or the old Metallic Black Clubhouse recolour.
+- **Save the result as:** `ENV_HOME_PLATE_BLACK_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach the one file above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as the Wooden plate (overlay test: pillars, window or door, lamp and the counter edge along the bottom (about nine tenths of the way down) line up); both men still in place at the same size; night, warm lamps in the same places; the look matches the art direction; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from the Wooden plate. Max 3 tries.
+
+### Prompt
+```
+Keep this image exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the lounge on the left (table lamp on the sideboard, folded plaid blankets, two brown leather armchairs, round table with the old leather ball in a bowl and the glass of whisky, the sofa with the grey throw, the rug), the big window across the middle and right with the night stadium, crowd, floodlights and green pitch exactly as they are, the wall lamp on the pillar at the right, and the counter along the bottom edge at exactly the same height.
+
+The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+Repaint the lounge walls and panels as gun-blued blackened steel with fine shadow gaps and machined chamfered edges, each edge catching a hairline of warm lamp light. The ceiling becomes deep black. The pillars beside the window become black chrome that shows the wall lamp as a tall soft warm reflection. The window frames become black chrome with a thin polished gold inner line. The lamp arm becomes polished gold; the shades stay warm cream and lit. The sideboard becomes blackened steel with a polished gold edge. The floor becomes mirror-polished black granite with dim true reflections of the lamps, the armchairs and the table. The counter becomes mirror-polished black granite.
+
+Light: It is night. Light comes only from the same warm lamps in the same places{' and the stadium glow through the window' if rm=='HOME' else ''}. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Behind each man a broad soft warm reflection lies on the steel so the black suits stand out from the wall. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours (brown leather armchairs and sofa, plaid wool blankets, the old leather ball, the glass of whisky, the grey throw, the rug, the lamp shades) and are relit by the new room, each standing on the floor or table with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain and no streaks. No new objects, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-pilot/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_HOME_PLATE_BLACK_P1_2X.webp` aligned to the Wooden plate and sized 3072x1728 (the 2X master), plus a line in `SHA256.json`.
+- Do not composite the men back yourselves; Team G does it (below). Do not delete or replace any existing plate.
+
+### Accept when
+- Team V gate: framing aligned to the Wooden plate, rail/counter at the same height, the men in place, no AI tells (fog, glow halo, noise, streaks, repeating cells, melted edges), score /10 per the Astra skill.
+- Nik OKs it on the Team G pilot board (rooms plus UI together).
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G aligns the painting, lays the original Daniel and Nik pixels from the Wooden 2X plate back on top with the existing hero masks pulled in a few px (faces pixel-identical, hero-pixel contract unchanged), derives `_1920`, `_1X` and `_2X`, and puts it on the board for Nik. **Timing (Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release):** the pilot is due back today; as soon as Nik OKs the pilot, Team G sends the remaining 57 tickets (all three clubhouses, desktop first, then phone) and all of them must be DONE before the 3.0 freeze, Mon 30 Nov noon Boston. If the pilot needs a second round, only the failing rooms are redone.
+
+</details>
+
+### HO-100 · G → V · Premium pilot 3/6: Metallic Black Board Room repaint
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+
+- Tue 24 Nov 8:23 AM · Team V · In progress · Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src.
+- Tue 24 Nov 8:20 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Ticket 3 of 6 in the premium clubhouse pilot (HO-098 to HO-103). Nik judges all 6 together, with the new UI, on one Team G board before the other 57 paintings are ordered. The full set must land in 3.0 (freeze Mon 30 Nov noon Boston).
+
+### Why
+Nik 2026-11-24 03:20 UTC: Silver, Metallic Black and Premium Matte Black "look very AI generated", the two blacks look alike, none look premium. Fable art review (gameplay/r100 `PREMIUM_CLUBHOUSES_ART_REVIEW.md`, page https://claude.ai/artifact/U9FjWYXx5uJzPt8uLHxVeD): a code recolour cannot reach premium; each room must be repainted as a same-composition edit of the Wooden plate. Nik said yes to the three picks on 2026-11-24 13:13 UTC.
+Art direction for this one: Metallic Black = small, sharp, warm GOLD highlights; every large surface stays near true black; clearly different from Premium Matte Black (Nik 2026-11-24 pick 2).
+
+### What
+- **Clubhouse:** Metallic Black Clubhouse (Settings key `black`). **Room:** Board Room (used by Season Results, Final Winner and other screens that use the Board Room).
+- **Attach this one file only:** the Wooden 2X plate `visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp` (3072x1728), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp (convert to PNG first if ChatGPT refuses WebP). Never attach a previous try or the old Metallic Black Clubhouse recolour.
+- **Save the result as:** `ENV_BOARD_PLATE_BLACK_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach the one file above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as the Wooden plate (overlay test: pillars, window or door, lamp and the thin rail along the top of the counter (about three quarters of the way down) line up); both men still in place at the same size; night, warm lamps in the same places; the look matches the art direction; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from the Wooden plate. Max 3 tries.
+
+### Prompt
+```
+Keep this image exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the wall lamp on the left with its pleated shade, the door on the right with its handle, the tall stone pillars at the far left and far right edges, the panel layout of the wall, and the thin rail along the top of the counter with the counter filling the lower quarter. The rail stays at exactly the same height.
+
+The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+Repaint the wall panels as gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. The door becomes blackened steel with a polished gold handle. The pillars at the far edges become black chrome that shows the lamp as a tall soft warm reflection. The lamp arm becomes polished gold; the shade stays warm cream and lit. The rail becomes polished gold with one crisp warm highlight. The counter becomes mirror-polished black granite with dim true reflections of the lamp and of the two men.
+
+Light: It is night. Light comes only from the same warm lamps in the same places{'' if rm=='HOME' else ''}. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Behind each man a broad soft warm reflection lies on the steel so the black suits stand out from the wall. The two men stay lit exactly as they are now.
+
+The lamp shade and the door handle keep their shape; the room holds no other objects.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain and no streaks. No new objects, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-pilot/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_BOARD_PLATE_BLACK_P1_2X.webp` aligned to the Wooden plate and sized 3072x1728 (the 2X master), plus a line in `SHA256.json`.
+- Do not composite the men back yourselves; Team G does it (below). Do not delete or replace any existing plate.
+
+### Accept when
+- Team V gate: framing aligned to the Wooden plate, rail/counter at the same height, the men in place, no AI tells (fog, glow halo, noise, streaks, repeating cells, melted edges), score /10 per the Astra skill.
+- Nik OKs it on the Team G pilot board (rooms plus UI together).
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G aligns the painting, lays the original Daniel and Nik pixels from the Wooden 2X plate back on top with the existing hero masks pulled in a few px (faces pixel-identical, hero-pixel contract unchanged), derives `_1920`, `_1X` and `_2X`, and puts it on the board for Nik. **Timing (Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release):** the pilot is due back today; as soon as Nik OKs the pilot, Team G sends the remaining 57 tickets (all three clubhouses, desktop first, then phone) and all of them must be DONE before the 3.0 freeze, Mon 30 Nov noon Boston. If the pilot needs a second round, only the failing rooms are redone.
+
+</details>
+
+### HO-099 · G → V · Premium pilot 2/6: Silver Clubhouse Home repaint
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+
+- Tue 24 Nov 8:23 AM · Team V · In progress · Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src.
+- Tue 24 Nov 8:20 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Ticket 2 of 6 in the premium clubhouse pilot (HO-098 to HO-103). Nik judges all 6 together, with the new UI, on one Team G board before the other 57 paintings are ordered. The full set must land in 3.0 (freeze Mon 30 Nov noon Boston).
+
+### Why
+Nik 2026-11-24 03:20 UTC: Silver, Metallic Black and Premium Matte Black "look very AI generated", the two blacks look alike, none look premium. Fable art review (gameplay/r100 `PREMIUM_CLUBHOUSES_ART_REVIEW.md`, page https://claude.ai/artifact/U9FjWYXx5uJzPt8uLHxVeD): a code recolour cannot reach premium; each room must be repainted as a same-composition edit of the Wooden plate. Nik said yes to the three picks on 2026-11-24 13:13 UTC.
+Art direction for this one: Silver = platinum lounge at night lit by the same warm lamps (bright near lamps, pewter/graphite corners); the mirror look comes from polished nickel and real reflections, not an evenly bright room (Nik 2026-11-24 pick 1).
+
+### What
+- **Clubhouse:** Silver Clubhouse (Settings key `silver`). **Room:** Home lounge (used by Home).
+- **Attach this one file only:** the Wooden 2X plate `visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp` (3072x1728), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp (convert to PNG first if ChatGPT refuses WebP). Never attach a previous try or the old Silver Clubhouse recolour.
+- **Save the result as:** `ENV_HOME_PLATE_SILVER_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach the one file above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as the Wooden plate (overlay test: pillars, window or door, lamp and the counter edge along the bottom (about nine tenths of the way down) line up); both men still in place at the same size; night, warm lamps in the same places; the look matches the art direction; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from the Wooden plate. Max 3 tries.
+
+### Prompt
+```
+Keep this image exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the lounge on the left (table lamp on the sideboard, folded plaid blankets, two brown leather armchairs, round table with the old leather ball in a bowl and the glass of whisky, the sofa with the grey throw, the rug), the big window across the middle and right with the night stadium, crowd, floodlights and green pitch exactly as they are, the wall lamp on the pillar at the right, and the counter along the bottom edge at exactly the same height.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+Repaint the lounge walls and the panels as hand-laid silver leaf in visible square leaves with slight tone changes from leaf to leaf, set between satin nickel pilasters. The ceiling becomes deep graphite plaster. The pillars beside the window become pale grey marble with soft darker grey veins. The window frames and the lamp arm become polished nickel that mirrors the room; the lamp shades stay warm cream and lit. The sideboard gets a pale marble top and nickel edges. The floor becomes honed pale stone that holds soft reflections of the lamps and the furniture, with true contact shadows under the chairs, the table and the sofa. The counter becomes honed pale grey marble with soft dark veins.
+
+Light: It is night. Light comes only from the same warm lamps in the same places{' and the stadium glow through the window' if rm=='HOME' else ''}. The silver near each lamp glows warm champagne and falls away to cool pewter and graphite in the corners and toward the ceiling, so the room has depth and darker corners. Behind each man the wall sits at a calm middle grey so the black suits read crisply against it. The colour is neutral silver with a trace of warmth, never blue. Stone is light with dark veins, never dark stone with white cracks. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours (brown leather armchairs and sofa, plaid wool blankets, the old leather ball, the glass of whisky, the grey throw, the rug, the lamp shades) and are relit by the new room, each standing on the floor or table with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain and no streaks. No new objects, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-pilot/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_HOME_PLATE_SILVER_P1_2X.webp` aligned to the Wooden plate and sized 3072x1728 (the 2X master), plus a line in `SHA256.json`.
+- Do not composite the men back yourselves; Team G does it (below). Do not delete or replace any existing plate.
+
+### Accept when
+- Team V gate: framing aligned to the Wooden plate, rail/counter at the same height, the men in place, no AI tells (fog, glow halo, noise, streaks, repeating cells, melted edges), score /10 per the Astra skill.
+- Nik OKs it on the Team G pilot board (rooms plus UI together).
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G aligns the painting, lays the original Daniel and Nik pixels from the Wooden 2X plate back on top with the existing hero masks pulled in a few px (faces pixel-identical, hero-pixel contract unchanged), derives `_1920`, `_1X` and `_2X`, and puts it on the board for Nik. **Timing (Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release):** the pilot is due back today; as soon as Nik OKs the pilot, Team G sends the remaining 57 tickets (all three clubhouses, desktop first, then phone) and all of them must be DONE before the 3.0 freeze, Mon 30 Nov noon Boston. If the pilot needs a second round, only the failing rooms are redone.
+
+</details>
+
+### HO-098 · G → V · Premium pilot 1/6: Silver Clubhouse Board Room repaint
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+
+- Tue 24 Nov 8:23 AM · Team V · In progress · Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src.
+- Tue 24 Nov 8:20 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Ticket 1 of 6 in the premium clubhouse pilot (HO-098 to HO-103). Nik judges all 6 together, with the new UI, on one Team G board before the other 57 paintings are ordered. The full set must land in 3.0 (freeze Mon 30 Nov noon Boston).
+
+### Why
+Nik 2026-11-24 03:20 UTC: Silver, Metallic Black and Premium Matte Black "look very AI generated", the two blacks look alike, none look premium. Fable art review (gameplay/r100 `PREMIUM_CLUBHOUSES_ART_REVIEW.md`, page https://claude.ai/artifact/U9FjWYXx5uJzPt8uLHxVeD): a code recolour cannot reach premium; each room must be repainted as a same-composition edit of the Wooden plate. Nik said yes to the three picks on 2026-11-24 13:13 UTC.
+Art direction for this one: Silver = platinum lounge at night lit by the same warm lamps (bright near lamps, pewter/graphite corners); the mirror look comes from polished nickel and real reflections, not an evenly bright room (Nik 2026-11-24 pick 1).
+
+### What
+- **Clubhouse:** Silver Clubhouse (Settings key `silver`). **Room:** Board Room (used by Season Results, Final Winner and other screens that use the Board Room).
+- **Attach this one file only:** the Wooden 2X plate `visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp` (3072x1728), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp (convert to PNG first if ChatGPT refuses WebP). Never attach a previous try or the old Silver Clubhouse recolour.
+- **Save the result as:** `ENV_BOARD_PLATE_SILVER_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach the one file above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same framing as the Wooden plate (overlay test: pillars, window or door, lamp and the thin rail along the top of the counter (about three quarters of the way down) line up); both men still in place at the same size; night, warm lamps in the same places; the look matches the art direction; no fog, halo, noise, streaks, text, logos or new objects.
+4. Save, or retry in a new chat from the Wooden plate. Max 3 tries.
+
+### Prompt
+```
+Keep this image exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the wall lamp on the left with its pleated shade, the door on the right with its handle, the tall stone pillars at the far left and far right edges, the panel layout of the wall, and the thin rail along the top of the counter with the counter filling the lower quarter. The rail stays at exactly the same height.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+Repaint the wall panels as hand-laid silver leaf in visible square leaves with slight tone changes from leaf to leaf, set in satin nickel mouldings that keep the same panel layout. The door becomes the same door in silver leaf with a polished nickel handle. The pillars at the far edges become pale grey marble with soft darker grey veins. The lamp arm becomes polished nickel; the shade stays warm cream and lit. The rail becomes polished nickel and shows the lamp as one small sharp warm highlight. The counter becomes honed pale grey marble with soft dark veins, holding a soft dim reflection of the lamp and of the dark suits.
+
+Light: It is night. Light comes only from the same warm lamps in the same places{'' if rm=='HOME' else ''}. The silver near each lamp glows warm champagne and falls away to cool pewter and graphite in the corners and toward the ceiling, so the room has depth and darker corners. Behind each man the wall sits at a calm middle grey so the black suits read crisply against it. The colour is neutral silver with a trace of warmth, never blue. Stone is light with dark veins, never dark stone with white cracks. The two men stay lit exactly as they are now.
+
+The lamp shade and the door handle keep their shape; the room holds no other objects.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain and no streaks. No new objects, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-pilot/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_BOARD_PLATE_SILVER_P1_2X.webp` aligned to the Wooden plate and sized 3072x1728 (the 2X master), plus a line in `SHA256.json`.
+- Do not composite the men back yourselves; Team G does it (below). Do not delete or replace any existing plate.
+
+### Accept when
+- Team V gate: framing aligned to the Wooden plate, rail/counter at the same height, the men in place, no AI tells (fog, glow halo, noise, streaks, repeating cells, melted edges), score /10 per the Astra skill.
+- Nik OKs it on the Team G pilot board (rooms plus UI together).
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G aligns the painting, lays the original Daniel and Nik pixels from the Wooden 2X plate back on top with the existing hero masks pulled in a few px (faces pixel-identical, hero-pixel contract unchanged), derives `_1920`, `_1X` and `_2X`, and puts it on the board for Nik. **Timing (Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release):** the pilot is due back today; as soon as Nik OKs the pilot, Team G sends the remaining 57 tickets (all three clubhouses, desktop first, then phone) and all of them must be DONE before the 3.0 freeze, Mon 30 Nov noon Boston. If the pilot needs a second round, only the failing rooms are redone.
+
+</details>
 
 ### HO-097 · G → V · League Roulette room without the men (phone upright, tall, sideways)
 
@@ -4359,6 +4731,66 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-103 SENT · Team G → Team V · Tue 24 Nov 8:20 AM Boston time
+
+**Premium pilot 6/6: Premium Matte Black Home repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-102 SENT · Team G → Team V · Tue 24 Nov 8:20 AM Boston time
+
+**Premium pilot 5/6: Premium Matte Black Board Room repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-101 SENT · Team G → Team V · Tue 24 Nov 8:20 AM Boston time
+
+**Premium pilot 4/6: Metallic Black Home repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-100 SENT · Team G → Team V · Tue 24 Nov 8:20 AM Boston time
+
+**Premium pilot 3/6: Metallic Black Board Room repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-099 SENT · Team G → Team V · Tue 24 Nov 8:20 AM Boston time
+
+**Premium pilot 2/6: Silver Clubhouse Home repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-098 SENT · Team G → Team V · Tue 24 Nov 8:20 AM Boston time
+
+**Premium pilot 1/6: Silver Clubhouse Board Room repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-097 DONE · Team V → Team G · Sat 21 Nov 9:48 PM Boston time
 
