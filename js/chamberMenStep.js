@@ -13,7 +13,9 @@
   const STAGE_ID="cmStage",COLLECTION="chamberMenRounds",OBJECT_TYPE="sharedChamberMenRound";
   const DONE_KEY="careerModeShowdown.chamberMenDone.v2",KEPT_KEY="careerModeShowdown.chamberMenKicks.v2",KEYS_MAX=60,SCHEMA=2;
   const PICK_MS=10000,KICK_MS=4600,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500,NOTICE_MS=2500;
-  const BRIDGE_FAST_MS=2500,BRIDGE_FAST_FOR_MS=60000,BRIDGE_SLOW_MS=8000,BRIDGE_FAILED_MS=30000;
+  // Chamber Men keeps the 2.5 s pace (a kick's deadline is 14.6 s after the rival's kick, so a slower bridge would let the timer
+  // decide a turn) and waits 5 s after a failed read.
+  const BRIDGE_FAST_MS=2500,BRIDGE_FAST_FOR_MS=Infinity,BRIDGE_SLOW_MS=2500,BRIDGE_FAILED_MS=5000;
   // Codex C2: past the rival's lock-in by the pick clock, the last kick's reveal and 2 s for the network, a pick lands as the
   // timeout '-'. The Rules hold 16.6 s (the 2.2.0 reveal); this phone's own limit is never longer.
   const LATE_MS=PICK_MS+KICK_MS+2000;
@@ -162,14 +164,14 @@
       const listenRef=api===io.sdk?ref:api.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,cmsSeasonId(ctx.season));
       // Phoenix W8 (r100): a listener whose stream is down goes quiet (the SDK only marks its copy fromCache): B1's listener fault
       // (#1579) left a shootout waiting on the rival's kick for good. While the copy is from cache, the record is read from the
-      // server (one billed read each): every 2.5 s for the first minute (live turns stay smooth), then every 8 s; none while the
-      // page is hidden or the phone is offline, and 30 s after a failed read. The reads stop as soon as a server copy is back.
-      // Worst case, a stream dead for 5 minutes on a visible page: 24 + 30 = 54 reads on that phone.
+      // server (one billed read each) every 2.5 s, as the kick clock needs; none while the page is hidden or the phone is offline,
+      // and 5 s after a failed read. The reads stop as soon as a server copy is back. Worst case, a stream dead for 5 minutes on a
+      // visible page: 120 reads on that phone (only during such a fault; a shootout lasts about 2-3 minutes).
       let stopped=false,live=true,bridging=false;
       const bridge=async()=>{if(bridging)return;bridging=true;const since=Date.now();let next=BRIDGE_FAST_MS;
         try{while(!stopped&&!live){await cmsWait(next);if(stopped||live)break;
           if(root.document?.visibilityState==="hidden"||root.navigator?.onLine===false){next=1000;continue;}
-          try{const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped)onData(data);next=Date.now()-since<BRIDGE_FAST_FOR_MS?BRIDGE_FAST_MS:BRIDGE_SLOW_MS;}
+          try{const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped&&!live)onData(data);next=Date.now()-since<BRIDGE_FAST_FOR_MS?BRIDGE_FAST_MS:BRIDGE_SLOW_MS;}
           catch(_error){next=BRIDGE_FAILED_MS;}}}finally{bridging=false;}};
       const off=api.onSnapshot(listenRef,{includeMetadataChanges:true},snap=>{if(stopped)return;if(snap.metadata?.fromCache){live=false;void bridge();return;}live=true;if(snap.metadata?.hasPendingWrites)return;onData(snap.exists()?snap.data():null);},onError);
       return ()=>{stopped=true;try{off();}catch(_error){}};

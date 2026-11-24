@@ -19,7 +19,9 @@ function harness(file,watch,wait){
   };
   const clock={now:Date.parse("2026-11-24T09:00:00Z")};class FakeDate extends Date{static now(){return clock.now;}}
   const root={document:{visibilityState:"visible"},navigator:{onLine:true}};
-  const sandbox={root,Promise,Date:FakeDate,POLL_MS:2500,BRIDGE_FAST_MS:2500,BRIDGE_FAST_FOR_MS:60000,BRIDGE_SLOW_MS:8000,BRIDGE_FAILED_MS:30000,COLLECTION:"x",setTimeout:(fn,ms)=>{timers.push({fn,ms});}};
+  const line=source.match(/const BRIDGE_FAST_MS=[^;]+;/);assert.ok(line,`${file} sets its bridge pace`);
+  const pace=vm.runInNewContext(`${line[0].replace("const ","var ")}({BRIDGE_FAST_MS,BRIDGE_FAST_FOR_MS,BRIDGE_SLOW_MS,BRIDGE_FAILED_MS})`,{Infinity});
+  const sandbox={root,Promise,Date:FakeDate,POLL_MS:2500,...pace,COLLECTION:"x",setTimeout:(fn,ms)=>{timers.push({fn,ms});}};
   const code=`const ${wait}=ms=>new Promise(r=>setTimeout(r,ms));
     async function ${watch.replace("Watch","SnapshotApi")}(io){return io.sdk;}
     function ${watch.replace("Watch","Ref")}(io,season){return {season};}
@@ -30,12 +32,17 @@ function harness(file,watch,wait){
   const snap=(fromCache,data,pending=false)=>({metadata:{fromCache,hasPendingWrites:pending},exists:()=>Boolean(data),data:()=>data});
   const tick=async()=>{for(let i=0;i<6;i+=1)await new Promise(r=>setImmediate(r));};
   const fire=async(ms=2500)=>{const t=timers.shift();assert.ok(t,"a bridge read is scheduled");assert.equal(t.ms,ms);clock.now+=t.ms;t.fn();await tick();};
-  for(const name of ["BRIDGE_FAST_MS=2500","BRIDGE_FAST_FOR_MS=60000","BRIDGE_SLOW_MS=8000","BRIDGE_FAILED_MS=30000"])assert.ok(source.includes(name),`${file} sets ${name}`);
-  return {api,state,reads,timers,snap,tick,fire,root,clock,io:{sdk,firestore:{},rivalryId:"r"}};
+  return {api,state,reads,timers,snap,tick,fire,root,clock,pace,source,io:{sdk,firestore:{},rivalryId:"r"}};
 }
 (async()=>{
+  // Pace per step (verify on #1588): Chamber Men's kick clock needs 2.5 s all along (5 s after a failure); the Prime Pack slows
+  // to 8 s after a minute and waits 30 s after a failure.
+  const PACE={"chamberMenStep.js":{BRIDGE_FAST_MS:2500,BRIDGE_FAST_FOR_MS:Infinity,BRIDGE_SLOW_MS:2500,BRIDGE_FAILED_MS:5000,max5:120,firstMinute:24},
+    "iconGuessStep.js":{BRIDGE_FAST_MS:2500,BRIDGE_FAST_FOR_MS:60000,BRIDGE_SLOW_MS:8000,BRIDGE_FAILED_MS:30000,max5:54,firstMinute:24}};
   for(const [file,watch,wait] of [["chamberMenStep.js","cmsWatch","cmsWait"],["iconGuessStep.js","igsWatch","igsWait"]]){
+    const want=PACE[file];
     const h=harness(file,watch,wait);const got=[];let errors=0;
+    for(const k of ["BRIDGE_FAST_MS","BRIDGE_FAST_FOR_MS","BRIDGE_SLOW_MS","BRIDGE_FAILED_MS"])assert.equal(h.pace[k],want[k],`${file} ${k}`);
     const stop=await h.api.watch(h.io,{season:1},data=>got.push(data),()=>{errors+=1;});
     // A healthy listener: server copies are delivered, no read is made.
     h.state.snap(h.snap(false,{kicks:1}));await h.tick();assert.deepEqual(got,[{kicks:1}]);assert.equal(h.reads.n,0);assert.equal(h.timers.length,0);
@@ -54,20 +61,30 @@ function harness(file,watch,wait){
     // A failed bridge read is tried again 2.5 s later; it never ends the step.
     const g=harness(file,watch,wait);const seen=[];let ended=0;await g.api.watch(g.io,{season:1},d=>seen.push(d),()=>{ended+=1;});
     g.state.snap(g.snap(true,null));await g.tick();const real=g.io.sdk.runTransaction;g.io.sdk.runTransaction=async()=>{throw Object.assign(new Error("offline"),{code:"unavailable"});};
-    await g.fire();assert.equal(ended,0);assert.equal(g.timers.length,1,"tried again");assert.equal(g.timers[0].ms,30000,"30 s after a failed read");g.io.sdk.runTransaction=real;g.state.server={kicks:7};await g.fire(30000);assert.deepEqual(seen.at(-1),{kicks:7});
+    await g.fire();assert.equal(ended,0);assert.equal(g.timers.length,1,"tried again");assert.equal(g.timers[0].ms,want.BRIDGE_FAILED_MS,"the hold-off after a failed read");g.io.sdk.runTransaction=real;g.state.server={kicks:7};await g.fire(want.BRIDGE_FAILED_MS);assert.deepEqual(seen.at(-1),{kicks:7});
     // A failed read waits 30 s before the next (offline does not spin failed reads), then goes on.
     assert.equal(g.timers.length,1);
     // Budget (Spark): 2.5 s for the first minute, then 8 s; hidden or offline pages make no read; worst case for 5 minutes.
     const b=harness(file,watch,wait);await b.api.watch(b.io,{season:1},()=>{},()=>{});b.state.snap(b.snap(true,null));await b.tick();
     let elapsed=0;const at=[];while(elapsed<300000){const t=b.timers[0];if(!t)break;const before=b.reads.n;await b.fire(t.ms);elapsed+=t.ms;if(b.reads.n>before)at.push(elapsed);}
-    assert.ok(at.filter(x=>x<=60000).length<=24,"at most 24 reads in the first minute");
-    assert.ok(at.filter(x=>x>60000).every((x,i,a)=>i===0||x-a[i-1]===8000),"8 s apart after the first minute");
-    console.log(`  ${file}: reads for a stream dead 5 minutes on a visible page = ${b.reads.n}`);assert.ok(b.reads.n<=54,`a stream dead for 5 minutes costs ${b.reads.n} reads (at most 54)`);
+    assert.ok(at.filter(x=>x<=60000).length<=want.firstMinute,"at most 24 reads in the first minute");
+    assert.ok(at.filter(x=>x>60000).every((x,i,a)=>i===0||x-a[i-1]===want.BRIDGE_SLOW_MS),"the slow pace after the first minute");
+    console.log(`  ${file}: reads for a stream dead 5 minutes on a visible page = ${b.reads.n}`);assert.ok(b.reads.n<=want.max5,`a stream dead for 5 minutes costs ${b.reads.n} reads (at most ${want.max5})`);
     b.root.document.visibilityState="hidden";const hiddenBefore=b.reads.n;for(let i=0;i<20;i+=1)await b.fire(b.timers[0].ms);assert.equal(b.reads.n,hiddenBefore,"no read while hidden");assert.equal(b.timers[0].ms,1000);
     b.root.document.visibilityState="visible";b.root.navigator.onLine=false;for(let i=0;i<20;i+=1)await b.fire(1000);assert.equal(b.reads.n,hiddenBefore,"no read while offline");
     b.root.navigator.onLine=true;await b.fire(1000);assert.equal(b.reads.n,hiddenBefore+1,"reads again within a second of coming back");
     assert.equal(errors,0);
-    ok(`${file}: a listener whose stream is down is bridged by server reads (2.5 s for a minute, then 8 s; none hidden or offline; 30 s after a failure; at most 54 in 5 minutes); they stop when it is live again or the step ends`);
+    // Verify on #1588: a bridge read still on its way when the listener is back is dropped (it may be older than the server copy).
+    {const d=harness(file,watch,wait);const seen=[];await d.api.watch(d.io,{season:1},x=>seen.push(x),()=>{});d.state.snap(d.snap(true,null));await d.tick();
+      let answer;const real=d.io.sdk.runTransaction;d.io.sdk.runTransaction=()=>new Promise(r=>{answer=r;});const t=d.timers.shift();t.fn();await d.tick();
+      d.state.snap(d.snap(false,{kicks:6,revision:6}));await d.tick();answer({kicks:5,revision:5});await d.tick();
+      assert.deepEqual(seen,[{kicks:6,revision:6}],"the older read is never applied after the newer server copy");d.io.sdk.runTransaction=real;}
+    ok(`${file}: a listener whose stream is down is bridged by server reads (${want.BRIDGE_FAST_MS/1000} s, ${want.BRIDGE_SLOW_MS/1000} s after the first minute; none hidden or offline; ${want.BRIDGE_FAILED_MS/1000} s after a failure; at most ${want.max5} in 5 minutes); a read in flight when it is back is dropped; reads stop when it is live again or the step ends`);
   }
+  // The Prime Pack never steps back: an older revision of the round is ignored (the step's own guard, like Chamber Men's).
+  {const src=fs.readFileSync(path.resolve(__dirname,"../../js/iconGuessStep.js"),"utf8");
+    assert.match(src,/const revision=Number\(data&&data\.revision\);if\(Number\.isFinite\(revision\)\)\{if\(revision<seenRevision\)return;seenRevision=revision;\}\n\s*record=next;/,"Prime Pack onData ignores an older revision");
+    assert.match(src,/let seenRevision=-Infinity,record=null,/);
+    ok("iconGuessStep.js: the Prime Pack screen never steps back to an older revision of the round");}
   console.log(`PASS r100 W8 step listener contracts: ${passed} checks`);
 })().catch(error=>{console.error(error);process.exit(1);});

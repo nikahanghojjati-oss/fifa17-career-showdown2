@@ -143,7 +143,7 @@
       const bridge=async()=>{if(bridging)return;bridging=true;const since=Date.now();let next=BRIDGE_FAST_MS;
         try{while(!stopped&&!live){await igsWait(next);if(stopped||live)break;
           if(root.document?.visibilityState==="hidden"||root.navigator?.onLine===false){next=1000;continue;}
-          try{const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped)onData(data);next=Date.now()-since<BRIDGE_FAST_FOR_MS?BRIDGE_FAST_MS:BRIDGE_SLOW_MS;}
+          try{const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped&&!live)onData(data);next=Date.now()-since<BRIDGE_FAST_FOR_MS?BRIDGE_FAST_MS:BRIDGE_SLOW_MS;}
           catch(_error){next=BRIDGE_FAILED_MS;}}}finally{bridging=false;}};
       const off=api.onSnapshot(listenRef,{includeMetadataChanges:true},snap=>{if(stopped)return;if(snap.metadata?.fromCache){live=false;void bridge();return;}live=true;if(snap.metadata?.hasPendingWrites)return;onData(snap.exists()?snap.data():null);},onError);
       return ()=>{stopped=true;try{off();}catch(_error){}};
@@ -271,7 +271,7 @@
       const {frame,back}=igsStage();
       // resultShown: the result on screen as "winner:points" (or "draw:0"); it follows the server's record, so a winner that
       // lands after a shown draw (the Rules' 2 s slack) replaces it (Fable F12-03).
-      let record=null,ready=false,stop=null,timer=null,shownBeat=-2,finished=false,resultShown="",sentChips={playerOne:null,playerTwo:null};
+      let seenRevision=-Infinity,record=null,ready=false,stop=null,timer=null,shownBeat=-2,finished=false,resultShown="",sentChips={playerOne:null,playerTwo:null};
       // After this phone's right guess: the round record as the server stamped it (its updatedAt gives the stage and points).
       const readBack=()=>io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(igsRef(io,ctx.season));return snap.exists()?snap.data():null;}).then(data=>onData(data),()=>{});
       const end=value=>{if(finished)return;finished=true;if(playEnd===endNow)playEnd=null;root.clearInterval(timer);root.removeEventListener("message",onMessage);igsDoc().removeEventListener?.("visibilitychange",onVisibility);try{stop&&stop();}catch(_error){}resolve(value);};
@@ -327,6 +327,9 @@
         if(finished)return;
         const next=igsRecord(data,ctx.season);
         if(!next)return;
+        // Phoenix W8 (r100): never step back. A read that left before a newer server copy can land after it (the bridge while
+        // the listener comes back): an older revision is ignored.
+        const revision=Number(data&&data.revision);if(Number.isFinite(revision)){if(revision<seenRevision)return;seenRevision=revision;}
         record=next;
         if(away&&igsDoc().visibilityState==="hidden"&&!record.winner&&record.arrived[me]!==null&&record.arrived[other]===null)leave();
         render();
