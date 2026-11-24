@@ -23,14 +23,14 @@ function args(argv){
   return out;
 }
 
-async function shrinkFailures(failures){
+async function shrinkFailures(failures,kind=null){
   const {execFileSync}=require("node:child_process");
   const seen=new Set();
   for(const f of failures){
     const law=f.violations&&f.violations[0]?f.violations[0].law:null;
     if(!law||seen.has(law)||seen.size>=5||!Number.isInteger(f.seed))continue;
     seen.add(law);
-    try{console.log(execFileSync(process.execPath,[require("node:path").join(__dirname,"shrink.cjs"),"--seed",String(f.seed),"--law",law],{encoding:"utf8",timeout:600_000}));}
+    try{console.log(execFileSync(process.execPath,[require("node:path").join(__dirname,"shrink.cjs"),"--seed",String(f.seed),"--law",law,...(kind?["--kind",kind]:[])],{encoding:"utf8",timeout:600_000}));}
     catch(error){console.log(`shrink of seed ${f.seed} (${law}) failed: ${String(error.stdout||error.message).slice(-400)}`);}
   }
 }
@@ -52,7 +52,7 @@ if(isMainThread){
     console.log(total.failed?`FAIL POS1M Ring 1: ${total.failed} of ${total.stories} stories broke a law`:`PASS POS1M Ring 1: ${total.stories} stories, every law held (${total.cells.size} coverage cells, ${(wallMs/1000).toFixed(0)} s)`);
     process.exitCode=total.failed?1:0;
     // --shrink: the first failure of each law becomes a replay file + memory entry + fix brief (at most 5 per run).
-    if(options.shrink&&total.failed)shrinkFailures(total.failures).catch(error=>{console.error(error);process.exitCode=1;});
+    if(options.shrink&&total.failed)shrinkFailures(total.failures,options.kind).catch(error=>{console.error(error);process.exitCode=1;});
   };
   for(let w=0;w<options.workers;w+=1){
     const slice=seeds.slice(w*per,(w+1)*per);

@@ -1,7 +1,7 @@
 "use strict";
 // POS1M shrinker: a failing story becomes the smallest plan that still breaks the same law, saved as a replay file
 // (tests/pos1m/replays/, kept forever) and remembered in tests/pos1m/memory.json (capped at 200 entries).
-//   node tests/pos1m/shrink.cjs --seed 70001 [--law L13_REPEAT_ONCE] [--mutant P19-results-replay-lost] [--dir out/]
+//   node tests/pos1m/shrink.cjs --seed 70001 [--law L13_REPEAT_ONCE] [--kind full|chapter] [--mutant P19-results-replay-lost] [--dir out/]
 // Greedy, one knob at a time, each kept only when the same law still breaks: fewer fault moves (halving to none), each
 // network fault off, listener delay and clock skew off, the window run-out off, a shorter whole Showdown. The story is
 // deterministic from (seed, plan), so the replay reproduces it exactly on the same code.
@@ -50,8 +50,9 @@ function variants(plan){
   return out;
 }
 
-async function shrink(seed,{law=null,runStory,planFor}){
-  let plan=planFor(seed);
+async function shrink(seed,{law=null,runStory,planFor,overrides={}}){
+  // The same plan the failing run used (run.cjs --kind full|chapter changes it; Codex #1585).
+  let plan=planFor(seed,overrides);
   const first=await runStory(seed,{plan});
   const broken=first.violations.find(v=>!law||v.law===law);
   if(!broken)return {reproduced:false,first};
@@ -100,7 +101,7 @@ if(require.main===module){
     if(opt.mutant){const M=require("./mutant.cjs");M.install(M.list().find(b=>b.id===opt.mutant));}
     const {runStory,planFor}=require("./ring1.cjs");
     const seed=Number(opt.seed);
-    const result=await shrink(seed,{law:opt.law||null,runStory,planFor});
+    const result=await shrink(seed,{law:opt.law||null,runStory,planFor,overrides:opt.kind?{kind:opt.kind}:{}});
     if(!result.reproduced){console.log(`seed ${seed}: no ${opt.law||"law"} broke, nothing to shrink`);process.exitCode=1;return;}
     const replay={schemaVersion:1,engine:"POS1M",law:result.law,detail:result.detail,seed,plan:result.plan,shrunk:result.steps,head:head(),planted:opt.mutant||null,savedAt:new Date().toISOString()};
     const dir=opt.dir?path.resolve(opt.dir):opt.mutant?null:REPLAYS;
