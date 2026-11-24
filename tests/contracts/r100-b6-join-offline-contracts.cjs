@@ -201,3 +201,29 @@ test("B6-13: leaving Home while the tap's own check is still in flight also forg
   await tapTile(nik);
   assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);assert.equal(nik.redeems,1,"his own tap on Home joins as before");
 });
+
+test("B6-14: a hidden Home tab keeps the resend (Codex #1591): it is made once Home is shown again, still once",async()=>{
+  const {w,rid,nik,net}=await nikOnJoin();
+  await tapAsNetworkDrops(nik,net);
+  await nik.visibility(false);await net.up();await w.advance(10*1000);await quiet(nik);
+  assert.equal(nik.redeems,0,"nothing is sent while the tab is hidden");
+  await nik.visibility(true);await w.advance(10*1000);await quiet(nik);
+  assert.equal(nik.pair.getState().connectionState,"active","shown again on Home: the cut JOIN lands by itself");assert.equal(nik.pair.getState().rivalryId,rid);
+  assert.equal(nik.redeems,1,"exactly one join");assert.equal(nik.entered,1);assert.equal(nik.fallbacks,0);
+  await w.advance(5*MINUTE);assert.equal(nik.redeems,1);
+});
+
+test("B6-15: leaving Home while the resend's own checks are in flight cancels it (Codex #1598): no join over the screen he chose",async()=>{
+  const {w,rid,nik,net}=await nikOnJoin();
+  await tapAsNetworkDrops(nik,net);
+  // Hold the resend's own Showdown check (which.read), leave Home, then release it (online): the resend must not go on.
+  const which=nik.s.CareerModeWhichShowdownIsLive,realRead=which.read;let release=null,held=false;const gate=new Promise(resolve=>{release=resolve;});
+  nik.s.CareerModeWhichShowdownIsLive={...which,read:async(...args)=>{if(!held){held=true;await gate;}return realRead.apply(which,args);}};
+  await net.up();
+  for(let i=0;i<300&&!held;i++){await w.advance(500);await settle();}
+  assert.equal(held,true,"the resend's check is in flight");
+  await nik.screen("history");release();await quiet(nik);await w.advance(10*1000);await quiet(nik);
+  assert.equal(nik.redeems,0,"no join after Nik left Home");assert.equal(nik.entered,0,"never taken into the Showdown over History");assert.equal(nik.fallbacks,0);
+  await nik.screen("mainMenu");await tapTile(nik);
+  assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);assert.equal(nik.redeems,1,"his own tap on Home joins as before");
+});
