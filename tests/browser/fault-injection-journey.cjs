@@ -282,7 +282,9 @@ async function pathForward(m,page=m.page){
   // r100 W9 swap (B3's harness): a fresh device must take the shared record's step. Chamber Men shown again after this season's
   // shootout, or the Transfer War's read-only replay of phases he already played, is played through and counted against the
   // point (swap.straightBack); during the chamber-kick point itself the shootout is still the live step.
-  if(page.__fijSwapped&&pointNow!=="chamber-kick"&&await visible(page,"#cmStage")){
+  // Chamber Men stays mounted under Squad Management, the roulette and Prime Pack until the roulette ends (Codex on #1579):
+  // only Chamber Men in front counts.
+  if(page.__fijSwapped&&pointNow!=="chamber-kick"&&await visible(page,"#cmStage")&&!(await page.locator("#sqStage:visible, #rrStage:visible, #rrStepPanel:visible, #igStage:visible, #igStepPanel:visible").count().catch(()=>0))){
     const did=await rosterRoulette.playChamberMen(page).catch(()=>"")||"";
     const note=`Chamber Men shown again in season ${seasonNow}`;if(!(m.swapSeen||(m.swapSeen=[])).includes(note))m.swapSeen.push(note);
     return did&&did!=="wait"?did:"chamber-wait";
@@ -1071,6 +1073,12 @@ async function leagueBallPoint(ctx){
   const tappable=async p=>{const b=button(p);if(!(await b.isVisible().catch(()=>false))||!(await b.isEnabled().catch(()=>false)))return false;return !/WAITING/i.test(norm(await b.textContent().catch(()=>"")));};
   const dropReady=p=>p.evaluate(()=>{const b=document.getElementById("spinLeague");return Boolean(b&&!b.disabled&&(b.textContent||"").trim()==="DROP BALL");}).catch(()=>false);
   const view=p=>p.evaluate(()=>({league:document.getElementById("selectedLeague")?.textContent?.trim()||"",drops:window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setupDrops??null})).catch(()=>({}));
+  // Nik's first ball is ball 2: Daniel drops ball 1 first, without a fault (Codex on #1579).
+  if(X===nik){
+    await drive(daniel,tappable,{timeout:120000,label:"league-ball (Daniel's ball 1)"});
+    await button(daniel.page).click({timeout:10000});
+    await daniel.page.waitForFunction(()=>(window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setupDrops||0)>=1,null,{timeout:30000});
+  }
   await writePoint(ctx,"league-ball",{writer:X,ready:X===daniel?tappable:dropReady,tap:p=>button(p).click({timeout:10000}),
     other:null,
     settle:(m,page)=>drive(m,p=>visible(p,"#clubWheelScreen"),{page,label:"the Ball Game after the four balls",timeout:240000,stepTaps:async p=>{if(await tappable(p)){await button(p).click({timeout:5000}).catch(()=>{});return "league-tap";}return "";}}),
