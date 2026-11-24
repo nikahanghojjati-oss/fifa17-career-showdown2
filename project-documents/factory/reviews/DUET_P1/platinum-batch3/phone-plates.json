@@ -1,0 +1,44 @@
+[
+ {
+  "file": "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_PHONE_HC_V4.webp",
+  "shift": [
+   2,
+   -2
+  ],
+  "quality": 66,
+  "bytes": 64952,
+  "wooden_bytes": 59320,
+  "size_vs_wooden": 0.095,
+  "core_px": 0,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": null
+ },
+ {
+  "file": "assets/loading/silver/ENV_LOADING_PHONE_HC.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 78,
+  "bytes": 128372,
+  "wooden_bytes": 125564,
+  "size_vs_wooden": 0.022,
+  "core_px": 0,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": null
+ },
+ {
+  "file": "assets/loading/silver/ENV_LOADING_PHONE_HC_590W.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 76,
+  "bytes": 41406,
+  "wooden_bytes": 38232,
+  "size_vs_wooden": 0.083,
+  "core_px": 0,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": null
+ }
+]
