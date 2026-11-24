@@ -3535,6 +3535,175 @@
         "^tests/contracts/r100\\-w7\\-clock\\-jump\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/full-gameplay-lifecycle-contracts.cjs",
+      "patterns": [
+        "^js/sharedCanonicalScoring\\.js$",
+        "^js/sharedCareerStart\\.js$",
+        "^js/sharedFinalReconciliation\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedMultiSeasonProgression\\.js$",
+        "^js/sharedSeasonCommit\\.js$",
+        "^js/sharedSeasonResults\\.js$",
+        "^js/sharedTerminalClose\\.js$",
+        "^js/sharedTransferChallenge\\.js$",
+        "^tests/contracts/full\\-gameplay\\-lifecycle\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/persistent-nik-daniel-pair-contracts.cjs",
+      "patterns": [
+        "^\\.github/workflows/deploy\\-firestore\\-rules\\-zero\\-billing\\.yml$",
+        "^js/app\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/optionalModules\\.js$",
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/productionSharedJourneyEntry\\.js$",
+        "^js/showdown\\.js$",
+        "^js/showdownModes\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^scripts/build\\-production\\-firestore\\-rules\\-with\\-persistent\\-pair\\.mjs$",
+        "^scripts/build\\-production\\-firestore\\-rules\\.mjs$",
+        "^scripts/inject\\-persistent\\-pair\\-rules\\.mjs$",
+        "^service\\-worker\\.js$",
+        "^tests/contracts/persistent\\-nik\\-daniel\\-pair\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/production-firestore-rules-deployment-path-contracts.cjs",
+      "patterns": [
+        "^PRODUCTION_FIRESTORE_RULES_DEPLOYMENT\\.md$",
+        "^firebase\\.json$",
+        "^firestore\\.rules$",
+        "^tests/contracts/production\\-firestore\\-rules\\-deployment\\-path\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-prime-pack-f13-contracts.cjs",
+      "patterns": [
+        "^data/icons\\.js$",
+        "^js/iconGuess\\.js$",
+        "^js/iconGuessStep\\.js$",
+        "^js/iconNames\\.js$",
+        "^js/productionSharedSeasonResults\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^tests/contracts/r87\\-prime\\-pack\\-f13\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-sizes-fixes-contracts.cjs",
+      "patterns": [
+        "^css/remoteJoining\\.css$",
+        "^js/careerScreenSeam\\.js$",
+        "^js/sharedCareerAnalytics\\.js$",
+        "^tests/contracts/r87\\-sizes\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-terminal-close-clock-contracts.cjs",
+      "patterns": [
+        "^js/productionSharedTerminalClose\\.js$",
+        "^js/sparkRemoteJoining\\.js$",
+        "^tests/contracts/r87\\-terminal\\-close\\-clock\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r87-words-fixes-contracts.cjs",
+      "patterns": [
+        "^data/frontPages\\.js$",
+        "^js/careerScreenSeam\\.js$",
+        "^js/importAnalysis\\.js$",
+        "^js/showdownUI\\.js$",
+        "^js/transferScreenV10\\.js$",
+        "^js/trophyRoom\\.js$",
+        "^tests/contracts/r87\\-words\\-fixes\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r89-kits17-contracts.cjs",
+      "patterns": [
+        "^data/clubs\\.js$",
+        "^js/chamberMenScene3d\\.js$",
+        "^js/kits17\\.js$",
+        "^tests/contracts/r89\\-kits17\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/remote-joining-readiness-contracts.cjs",
+      "patterns": [
+        "^REMOTE_JOINING_READINESS\\.json$",
+        "^tests/contracts/remote\\-joining\\-readiness\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/shared-transfer-challenge-provider-contracts.cjs",
+      "patterns": [
+        "^data/transferOptions\\.js$",
+        "^js/sparkSharedTransferChallenge\\.js$",
+        "^tests/contracts/shared\\-transfer\\-challenge\\-provider\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/showdown-gate-l5-inputs-contracts.cjs",
+      "patterns": [
+        "^\\.github/workflows/showdown\\-gate\\.yml$",
+        "^scripts/showdown\\-gate\\.mjs$",
+        "^tests/contracts/showdown\\-gate\\-l5\\-inputs\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/showdown-gate-l7-ironman-contracts.cjs",
+      "patterns": [
+        "^\\.github/workflows/showdown\\-gate\\.yml$",
+        "^\\.github/workflows/ironman\\-full\\-matrix\\.yml$",
+        "^scripts/showdown\\-gate\\.mjs$",
+        "^scripts/ironman\\-leg\\.mjs$",
+        "^scripts/ironman\\-matrix\\.mjs$",
+        "^GATE_COVERAGE\\.json$",
+        "^tests/contracts/showdown\\-gate\\-l7\\-ironman\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/showdown-gate-l8-pos1m-contracts.cjs",
+      "patterns": [
+        "^\\.github/workflows/showdown\\-gate\\.yml$",
+        "^scripts/showdown\\-gate\\.mjs$",
+        "^tests/contracts/showdown\\-gate\\-l8\\-pos1m\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/showdown-gate-screenshots-contracts.cjs",
+      "patterns": [
+        "^\\.github/workflows/showdown\\-gate\\.yml$",
+        "^scripts/showdown\\-gate\\.mjs$",
+        "^scripts/gate\\-screenshots\\.mjs$",
+        "^tests/contracts/showdown\\-gate\\-screenshots\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/stage4-mutation-rate-limit-contracts.cjs",
+      "patterns": [
+        "^js/productionFirebaseRuntime\\.js$",
+        "^js/sparkConnectedRivalry\\.js$",
+        "^tests/contracts/stage4\\-mutation\\-rate\\-limit\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
