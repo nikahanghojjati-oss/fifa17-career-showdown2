@@ -424,3 +424,9 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 19:15 | Team G | Team V | HO-165 SENT | Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men | yes (receive it) |
 | 2026-11-24 19:15 | Team G | Team V | HO-166 SENT | Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men | yes (receive it) |
 | 2026-11-24 19:15 | Team G | Team V | HO-167 SENT | Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men | yes (receive it) |
+| 2026-11-24 19:17 | Team V | Team G | HO-162 RECEIVED | Premium League Roulette room 1/6: Platinum Clubhouse, phone upright, no men | no |
+| 2026-11-24 19:17 | Team V | Team G | HO-163 RECEIVED | Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men | no |
+| 2026-11-24 19:17 | Team V | Team G | HO-164 RECEIVED | Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men | no |
+| 2026-11-24 19:17 | Team V | Team G | HO-165 RECEIVED | Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men | no |
+| 2026-11-24 19:17 | Team V | Team G | HO-166 RECEIVED | Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men | no |
+| 2026-11-24 19:17 | Team V | Team G | HO-167 RECEIVED | Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men | no |
