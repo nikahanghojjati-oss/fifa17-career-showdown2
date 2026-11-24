@@ -265,6 +265,9 @@ async function describe(m,page=m.page){
   }).catch(e=>`(page unavailable: ${String(e.message).split("\n")[0]})`);
 }
 const visible=(page,sel)=>page.locator(sel).first().isVisible().catch(()=>false);
+// The connect box (#connectPlayersScreen): does its code field hold a code, and close it with its BACK.
+const boxHasCode=box=>box.locator("#persistentNikDanielPairCode").inputValue({timeout:2000}).then(v=>Boolean(String(v||"").trim())).catch(()=>false);
+async function closeBox(box){const back=box.locator("button:visible").filter({hasText:/^\s*BACK\s*$/}).first();if(!(await back.count().catch(()=>0)))return false;await back.click({timeout:5000}).catch(()=>{});await box.waitFor({state:"hidden",timeout:5000}).catch(()=>{});return true;}
 async function clickIf(page,locator){if(await locator.first().isVisible().catch(()=>false)&&await locator.first().isEnabled().catch(()=>false)){await locator.first().click({timeout:5000}).catch(()=>{});return true;}return false;}
 const btn=(page,name)=>page.getByRole("button",{name,exact:typeof name==="string"});
 
@@ -324,7 +327,9 @@ async function pathForward(m,page=m.page){
     const box=page.locator("#connectPlayersScreen");
     if(await box.isVisible().catch(()=>false)){
       const join=box.locator("button:visible").filter({hasText:/^\s*JOIN DANIEL'S SHOWDOWN\s*$/}).first();
-      if(await join.count().catch(()=>0)){if(Date.now()-(page.__fijJoinTap||0)<8000)return "partner-wait";page.__fijJoinTap=Date.now();await join.click({timeout:5000}).catch(()=>{});return "home:join-box";}
+      // B6: an EMPTY code field means the box only says "paste the code first": close it (BACK) and use the Home tile.
+      if(await join.count().catch(()=>0)&&!(await boxHasCode(box))){if(await closeBox(box))return "home:join-box-back";}
+      else if(await join.count().catch(()=>0)){if(Date.now()-(page.__fijJoinTap||0)<8000)return "partner-wait";page.__fijJoinTap=Date.now();await join.click({timeout:5000}).catch(()=>{});return "home:join-box";}
     }
     const start=page.locator("#newShowdown");
     const startLabel=norm(await start.locator(".menuTileLabel").textContent().catch(()=>""));
@@ -1057,8 +1062,13 @@ async function main(){
     const nikJoin=async p=>{
       const box=p.locator("#connectPlayersScreen");
       if(await box.isVisible().catch(()=>false)){
-        report.notes.push(`${pointNow}: Nik's connect box was open over Home when he went to JOIN`);
-        await box.locator("button:visible").filter({hasText:/^\s*JOIN DANIEL'S SHOWDOWN\s*$/}).first().click({timeout:10000});return;
+        if(await boxHasCode(box)){
+          report.notes.push(`${pointNow}: Nik's connect box was open over Home (code filled) when he went to JOIN`);
+          await box.locator("button:visible").filter({hasText:/^\s*JOIN DANIEL'S SHOWDOWN\s*$/}).first().click({timeout:10000});return;
+        }
+        // B6: an empty box (opened by an earlier tap on a stale tile) only asks for the code: BACK, then the tile.
+        report.notes.push(`${pointNow}: Nik's connect box was open over Home with no code; he closed it and tapped JOIN on Home`);
+        await closeBox(box);
       }
       await p.locator("#newShowdown").click({timeout:10000});
     };
