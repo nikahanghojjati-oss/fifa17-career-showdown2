@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "RETURNED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T20:01:11Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_SILVER.md (000132095)"}],
+ "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T20:01:11Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_SILVER.md (000132095)"}, {"at": "2026-11-24T20:24:55Z", "by": "G", "status": "RETURNED", "note": "HOLD (Nik 20:23 UTC asked for a darker Platinum Tunnel, HO-109 redo): please stop; the old REF_TUNNEL_SILVER_SWATCH is withdrawn. Team G re-cuts it from the night redo and posts a FEED line; start again from the Wooden phone plate then."}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
