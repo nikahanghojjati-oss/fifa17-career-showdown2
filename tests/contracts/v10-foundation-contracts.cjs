@@ -443,8 +443,8 @@ check("F8 the bar mounts hidden behind Loading and shows once Loading leaves",as
 check("F9 images use a runtime cache keyed by RUNTIME_REVISION; the precache keeps only kit, fonts, CSS and JS",()=>{
   const sw=read("service-worker.js"),html=read("index.html");
   const revision=/const RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1];
-  assert.equal(revision,"2.11.0-r98","RUNTIME_REVISION is the current release (r98, 2.11.0-r98)");
-  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.10.0-r97");
+  assert.equal(revision,"2.12.0-r99","RUNTIME_REVISION is the current release (r99, 2.12.0-r99)");
+  assert.equal(/const PREVIOUS_RUNTIME_REVISION = "([^"]+)";/.exec(sw)[1],"2.11.0-r98");
   assert.equal(/app-asset-revision"\s+content="([^"]+)/.exec(html)[1],revision);
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   const v10=shell.filter(p=>p.startsWith("visual-assets/v10_1/"));
@@ -493,7 +493,7 @@ function swWorld(){
 
 check("F9b a rollback keeps its own Team V images (offline too); other old image caches are cleared",async()=>{
   const w=swWorld(),cur=w.diag.revision,prev=w.diag.previousRevision,IMG="career-mode-showdown-v10-images-";
-  assert.equal(cur,"2.11.0-r98");assert.equal(prev,"2.10.0-r97");
+  assert.equal(cur,"2.12.0-r99");assert.equal(prev,"2.11.0-r98");
   w.fill(cur);const prevShell=w.fill(prev);
   const art="visual-assets/v10_1/trophy-room/assets/ENV_TR_PHONE_V1.webp",only="visual-assets/v10_1/career-statistics/assets/ENV_CS_PLATE_V1_1X.webp";
   // An older revision precached the art in its shell; the retained shell still has it.
@@ -1730,7 +1730,8 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-22 by R98-01 look round 2: the league screen title reads LEAGUE ROULETTE (Nik), nothing else.
   // Re-pinned 2026-11-22 by the 2.11.0 release bump: that file with its 2.11.0-r98 pins and v2.11.0 footer, nothing else.
   // R99-01 re-pin (Nik 2026-11-23, clubhouse themes): the inline theme script and the Silver ink style in the head; nothing else changed.
-  assert.equal(sha256("index.html"),"b0e48606f77104dfb0fa1bba236228d31faf2aef1efc3b4427c1e9b027099668","index.html is 2.11.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, LEAGUE ROULETTE title, 2.11.0-r98 pins, R99-01 clubhouse themes)");
+  // Re-pinned 2026-11-24 by the 2.12.0 release bump: that file with its 2.12.0-r99 pins and v2.12.0 footer, nothing else.
+  assert.equal(sha256("index.html"),"75b6db05865c8cb436dc7ab68eb746335b32d77b6ca0b8df6014b16bc9090711","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, 2.12.0-r99 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
