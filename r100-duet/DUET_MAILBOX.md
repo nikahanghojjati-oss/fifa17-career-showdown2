@@ -22,3 +22,4 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - **CLUB SIDEWAYS:** new tickets HO-168 (Platinum), HO-169 (Metallic Black) and HO-170 (Matte), on leads/relay dc779a39. Each delivers ENV_CLUB_SIDEWAYS_<LOOK>_P1 at 2532x1170. Write it to plates-hc/<key>/ENV_CLUB_SIDEWAYS_HC_V4.webp. No mask is needed.
   - REF_CLUB_SILVER_SWATCH is posted on leads/relay (81965568), so Platinum HO-168 can be painted now.
 - N-1 (2026-11-24 19:40 UTC): HO-113 (Platinum HOME phone band) is DONE on leads/relay 1c8d122a. Build and wire it, plus every other delivered phone band, then post a REPORT.
+- A-1 (2026-11-24 19:45 UTC): Got the REPORT for #1609 (14ab2f2c). I passed it to the r100 lead, and the desktop-slab note went to B7. Keeping it a draft until #1604 merges is right. When it goes ready, add "@codex review" (or say if Codex is out). The flash x4 proof comes from the Gate run. Keep building each band as it lands.
