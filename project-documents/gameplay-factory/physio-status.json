@@ -1,13 +1,13 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-24T10:53:39.576Z",
+  "at": "2026-11-24T10:54:10.280Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
       "head_sha": "43115101444f3a36a32a3aae6477bf9c75849ca3",
       "pr": 1584,
-      "queued_minutes": 157.9,
+      "queued_minutes": 158.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -16,7 +16,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "1e47884ac64b393db3dc21a3b442a7e97b0ba7c1",
       "pr": 1581,
-      "queued_minutes": 148.8,
+      "queued_minutes": 149.3,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -25,7 +25,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "948f25808677ce8d72427014e09ae8166251cf2c",
       "pr": 1587,
-      "queued_minutes": 142.9,
+      "queued_minutes": 143.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -34,7 +34,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "7c9e7a5bf4d807424935e5bf8d7272c8565015fc",
       "pr": 1586,
-      "queued_minutes": 137.8,
+      "queued_minutes": 138.3,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -43,7 +43,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "497869d310ea9d9674e35237835dba480b912213",
       "pr": 1589,
-      "queued_minutes": 123.1,
+      "queued_minutes": 123.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -52,7 +52,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "10f696967883631ae739c87183e8c2fc0e8070d5",
       "pr": 1579,
-      "queued_minutes": 114.5,
+      "queued_minutes": 115,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -61,7 +61,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "fb4f4ff9d11400ca3245a417bec809f3dfc9d566",
       "pr": 1591,
-      "queued_minutes": 56.6,
+      "queued_minutes": 57.1,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -70,7 +70,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "c09616a4411ed6b35a904394cdbe6cbcc0ea3b92",
       "pr": 1588,
-      "queued_minutes": 27.2,
+      "queued_minutes": 27.7,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -79,7 +79,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "9f89c4a3c7e2ad8d409e6103a6ea135f27f6a05f",
       "pr": 1590,
-      "queued_minutes": 20.1,
+      "queued_minutes": 20.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
