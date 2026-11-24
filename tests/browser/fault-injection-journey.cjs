@@ -626,7 +626,8 @@ const readsOf=(events,user)=>events.filter(e=>e.k==="read"&&(!user||e.user===use
 // ---------------------------------------------------------------------------------------------------------------------------
 async function writePoint(ctx,point,{writer,tap,ready,other=null,settle,checks,landed=null}){
   pointNow=point;
-  const X=faultPhone(ctx),rec={point,phone:X.user,writer:writer?writer.user:"auto",fault:FAULT,pass:false,checks:[],detail:""};
+  // tapkill proves W3 tap memory on the phone that writes, so at a W3 point it always faults the writer (any seed, any phone mode).
+  const X=FAULT==="tapkill"&&writer&&W3_TAPS.has(point)?writer:faultPhone(ctx),rec={point,phone:X.user,writer:writer?writer.user:"auto",fault:FAULT,pass:false,checks:[],detail:""};
   Object.defineProperty(rec,"landed",{value:landed,enumerable:false});
   console.log(`POINT ${point}: ${FAULT} on ${X.user}${writer?` (writer ${writer.user})`:""}`);
   const startIdx=meter.events.length,started=Date.now();X.swapSeen=[];
