@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-24T14:10:22Z",
+ "updated": "2026-11-24T15:05:39Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -4619,21 +4619,21 @@
    "pr": 488,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/488",
-   "branch": "qa/job-1530-spark-terminal-close-2"
+   "branch": null
   },
   "1531": {
    "state": "merged",
    "pr": 489,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/489",
-   "branch": "qa/job-1531-production-canonical-scoring-1"
+   "branch": null
   },
   "1532": {
    "state": "merged",
    "pr": 490,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/490",
-   "branch": "qa/job-1532-production-canonical-scoring-2"
+   "branch": null
   },
   "1533": {
    "state": "merged",
