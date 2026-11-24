@@ -1,0 +1,53 @@
+{
+ "schemaVersion": 1,
+ "engine": "POS1M",
+ "law": "L6_PRIME_PACK",
+ "detail": "season 3 playerOne used 2 guesses with 1 guess taps",
+ "seed": 70068,
+ "plan": {
+  "seed": 70068,
+  "kind": "chapter",
+  "totalSeasons": 3,
+  "fromSeason": 3,
+  "stopAtSeason": null,
+  "checkpointSeed": 3033,
+  "faults": {
+   "callError": 0.03827458489893426,
+   "lostAck": 0.07839446437429665,
+   "contentionDenied": 0.5,
+   "phantomAbort": 0.008652335153892637,
+   "listenerDelayMs": 0,
+   "listenerStall": 0,
+   "listenerDeath": 0
+  },
+  "chaos": {
+   "rate": 0.3528317303862422,
+   "budget": 4,
+   "weights": {
+    "kill": 3,
+    "offline": 3,
+    "swap": 1,
+    "secondTab": 1,
+    "repeat": 4,
+    "skew": 1
+   }
+  },
+  "skewMs": {
+   "playerOne": 0,
+   "playerTwo": 0
+  },
+  "sackedSeason": null,
+  "sackedRole": "playerOne",
+  "expireWindow": false
+ },
+ "shrunk": [
+  "listenerStall off",
+  "listenerDeath off",
+  "listener delay off",
+  "clock skew off"
+ ],
+ "head": "82865e8df8aa41d98f999cd5daa5a61b3481efdb",
+ "planted": null,
+ "savedAt": "2026-11-24T05:11:36.347Z",
+ "fixedBy": "W12 (#1583, Prime Pack once-per-tap)"
+}

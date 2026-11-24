@@ -15,7 +15,7 @@ const DIR=path.join(__dirname,"planted");
 function list(){return fs.readdirSync(DIR).filter(name=>name.endsWith(".json")).sort().map(name=>load(path.join(DIR,name)));}
 function load(file){
   const bug=JSON.parse(fs.readFileSync(file,"utf8"));
-  for(const key of ["id","law","title","file","find","replace","why"])if(typeof bug[key]!=="string"||!bug[key])throw new Error(`${file}: ${key} missing`);
+  for(const key of ["id","law","title","file","find","replace","why"])if(typeof bug[key]!=="string"||(!bug[key]&&key!=="replace"))throw new Error(`${file}: ${key} missing`);// an empty replace deletes (a guard removed)
   if(bug.find===bug.replace)throw new Error(`${bug.id}: find and replace are the same`);
   for(const edit of bug.also||[])if((edit.file!==undefined&&typeof edit.file!=="string")||typeof edit.find!=="string"||typeof edit.replace!=="string"||!edit.find||edit.find===edit.replace)throw new Error(`${file}: bad also edit`);
   return bug;
