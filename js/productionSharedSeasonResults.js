@@ -295,15 +295,10 @@
   function pssrWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(pssrWaitingKey()||pssrLiveScreen()?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonResults/season_${request.seasonNumber}`:null)(pssrRequestContext()):null);}catch(_error){path=null;}let relaxed=false;try{relaxed=Boolean(path&&!pssrWaitingKey()&&pssrLiveScreen());}catch(_error){relaxed=false;}return budget.watchWaitPoint("season-results",path,pssrWaitWake,{relaxed});}
   function pssrWaitWake(){if(!busy){void pssrTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void pssrTick(true);},400);}
   function pssrWaitHealthy(){const request=pssrRequestContext(),live=root.CareerModeFirestoreBudget?.stats?.();return Boolean(request&&live?.watchHealthy&&live.watching===`rivalries/${request.rivalryId}/seasonResults/season_${request.seasonNumber}`);}
-  // Phoenix W8 (r100): the wait line names the rival and says how this phone is checking: LIVE while the listener is healthy,
-  // otherwise the time of the last server check (so a slow link never looks stuck). The 3 s tick redraws only that line.
-  function pssrCheckedAt(at){try{return new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit"}).format(new Date(at)).toUpperCase();}catch(_error){return "";}}
-  let checkedView=null,checkedAt=0;
-  // Every new view comes from a check (a read or this phone's own publish), so its first showing is the time of that check.
-  function pssrNoteChecked(){if(view&&view!==checkedView){checkedView=view;checkedAt=Date.now();}return checkedAt;}
-  function pssrWaitLine(role){const rival=String(pssrManagerName(role==="playerOne"?"playerTwo":"playerOne")).toUpperCase(),at=pssrNoteChecked(),time=at>0?pssrCheckedAt(at):"";return `CONFIRMED · WAITING FOR ${rival}${pssrWaitHealthy()?" · LIVE":time?` · CHECKED\u00a0${time.replace(/\s/g,"\u00a0")}`:""}`;}
-  function pssrRefreshWaitLine(){const node=pssrField("seasonReviewStatusMeta");if(!node||!view||!view.ownResult||view.state?.phase==="RESULTS_READY"||!/^CONFIRMED · WAITING FOR /.test(String(node.textContent||"")))return;const line=pssrWaitLine(view.managerRole);if(node.textContent!==line)node.textContent=line;}
-  function pssrFastTick(){pssrWatchWait();pssrRefreshWaitLine();if(pssrWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!pssrFastPollDue())return;void pssrTick(true);}
+  // Phoenix W8 (r100): the wait line names the rival. (Nik 2026-11-24 15:35 UTC: the W8 "· LIVE" / "· CHECKED h:mm PM" words
+  // are dropped; Phoenix stays in the background. The W8 listener rebuild is unchanged.)
+  function pssrWaitLine(role){const rival=String(pssrManagerName(role==="playerOne"?"playerTwo":"playerOne")).toUpperCase();return `CONFIRMED · WAITING FOR ${rival}`;}
+  function pssrFastTick(){pssrWatchWait();if(pssrWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!pssrFastPollDue())return;void pssrTick(true);}
   // r75: the 15 s check of the visible Season Results screen reads the shared results from the server (see Transfer).
   // r84: the listener also watches while Season Results is open and not yet RESULTS_READY (not only after this manager publishes):
   // 15 s fresh reads here were ~32 billed reads/min for both phones over a 30-90 minute results wait.
@@ -313,6 +308,6 @@
   function pssrInstall(){if(installed)return true;installed=true;if(root.document){root.document.addEventListener("click",pssrCapture,true);root.document.addEventListener("input",pssrDraftChange,true);root.document.addEventListener("change",pssrDraftChange,true);}root.addEventListener?.("career-mode-shared-season-cursor-change",()=>void pssrTick());if(typeof root.setInterval==="function"){pollTimer=root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())void pssrTick();},POLL_MS);root.setInterval(pssrFastTick,FAST_POLL_MS);}return true;}
 
   // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
-  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["season-results"]=()=>{view=null;draft=null;contextKey="";renderedContextKey="";formContextKey="";errorMessage="";fastWaitKey="";fastWaitSince=0;checkedView=null;checkedAt=0;};}catch(_error){}
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["season-results"]=()=>{view=null;draft=null;contextKey="";renderedContextKey="";formContextKey="";errorMessage="";fastWaitKey="";fastWaitSince=0;};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-results",productionEnabled:true,requiresCompletedSharedTransfer:true,privateUntilBothPublished:true,reusesSeasonEntry:true,interceptsLocalSeasonPersistence:true,authoritativeScoring:false,canonicalStorageMutation:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(pssrWaitingKey()),install:pssrInstall,open:pssrOpen,refresh:pssrRefresh,getState:()=>view,isActive:pssrSharedMarker,canRoute:pssrCanRoute});
 });

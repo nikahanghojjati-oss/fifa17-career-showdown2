@@ -111,12 +111,12 @@
       psscText(ui.status,"SEASON CONFIRMED BY BOTH MANAGERS");psscText(ui.action,"SEASON CONFIRMED ✓");psscDisable(ui.action,true);return true;
     }
     if(view.committed){
-      if(view.ownAcknowledged){psscText(ui.status,`YOU CONFIRMED THIS SEASON · WAITING FOR ${rivalName}${psscWaitSuffix()}${sackedHint}`);psscText(ui.action,"CONFIRMED ✓ · WAITING FOR RIVAL");psscDisable(ui.action,true);}
+      if(view.ownAcknowledged){psscText(ui.status,`YOU CONFIRMED THIS SEASON · WAITING FOR ${rivalName}${sackedHint}`);psscText(ui.action,"CONFIRMED ✓ · WAITING FOR RIVAL");psscDisable(ui.action,true);}
       else{psscText(ui.status,"SEASON RESULT LOCKED · BOTH MANAGERS CONFIRM TO SCORE IT");psscText(ui.action,"CONFIRM SEASON");psscDisable(ui.action,busy);}
       return true;
     }
     if(role===coordinator){psscText(ui.status,`BOTH RESULTS ARE IN · LOCK THE SEASON${psscClashWarning("You")}`);psscText(ui.action,"LOCK & CONFIRM SEASON");psscDisable(ui.action,busy);}
-    else{psscText(ui.status,`BOTH RESULTS ARE IN · WAITING FOR ${String(psscManagerName(coordinator)).toUpperCase()} TO LOCK THE SEASON${psscWaitSuffix()}${psscClashWarning(psscManagerName(coordinator))}${sackedHint}`);psscText(ui.action,`WAITING FOR ${String(psscManagerName(coordinator)).toUpperCase()}`);psscDisable(ui.action,true);}
+    else{psscText(ui.status,`BOTH RESULTS ARE IN · WAITING FOR ${String(psscManagerName(coordinator)).toUpperCase()} TO LOCK THE SEASON${psscClashWarning(psscManagerName(coordinator))}${sackedHint}`);psscText(ui.action,`WAITING FOR ${String(psscManagerName(coordinator)).toUpperCase()}`);psscDisable(ui.action,true);}
     return true;
   }
   // r87 shared reads meter: the season's ACKNOWLEDGED also tells the reads meter this phone's role and Firestore, so it writes this
@@ -298,17 +298,9 @@
   // timer checks stop while that listener is healthy; deliveries still wake the provider immediately.
   function psscWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(psscWaitScreen()&&psscResultsReady()&&view?.phase!=="ACKNOWLEDGED"?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`:null)(psscRequestContext()):null);}catch(_error){path=null;}return budget.watchWaitPoint("season-commit",path,psscWaitWake);}
   function psscWaitWake(){const inflight=refreshPromise;if(inflight){const again=()=>{if(!busy)void psscTick(true);};inflight.then(again,again);return;}if(!busy){void psscTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void psscTick(true);},400);}
-  // Phoenix W8 (r100): the wait line says how this phone is checking: LIVE while the listener is healthy, otherwise the time of
-  // the last server check (a slow link never looks stuck), kept together on one line when the line wraps. The 3 s tick redraws
-  // only when that part changes.
-  function psscCheckedAt(at){try{return new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit"}).format(new Date(at)).toUpperCase();}catch(_error){return "";}}
-  let checkedView=null,checkedAt=0;
-  // Every new view comes from a check (a read or this phone's own confirm), so its first showing is the time of that check.
-  function psscNoteChecked(){if(view&&view!==checkedView){checkedView=view;checkedAt=Date.now();}return checkedAt;}
-  function psscWaitSuffix(){const at=psscNoteChecked(),time=at>0?psscCheckedAt(at):"";return psscWaitHealthy()?" · LIVE":time?` · CHECKED\u00a0${time.replace(/\s/g,"\u00a0")}`:"";}
-  let psscShownSuffix=null;
-  function psscRefreshWaitLine(){if(!view||!psscWaitingKey())return;const suffix=psscWaitSuffix();if(suffix===psscShownSuffix)return;psscShownSuffix=suffix;try{psscRender();}catch(_error){}}
-  function psscFastTick(){psscWatchWait();psscRefreshWaitLine();if(psscWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!psscFastPollDue())return;void psscTick(true);}
+  // Phoenix (r100, Nik 2026-11-24 15:35 UTC): the W8 "· LIVE" / "· CHECKED h:mm PM" wait-line words are dropped; Phoenix stays in
+  // the background. The W8 listener rebuild (back-off) is unchanged.
+  function psscFastTick(){psscWatchWait();if(psscWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!psscFastPollDue())return;void psscTick(true);}
   // r75: the 15 s check of the visible Season Commit screen reads the shared commit from the server (see Transfer).
   // r84: no commit exists before both results are published, so the fresh read starts then (before, it ran every check of the
   // results wait: ~37 billed reads/min for both phones); a healthy listener on the commit replaces it.
@@ -322,6 +314,6 @@
   function psscInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-connected-account-state-change","career-mode-firestore-quota"])root.addEventListener?.(event,()=>psscDropWaitContext());root.addEventListener?.("career-mode-shared-wait-context-change",()=>void psscTick());root.document?.addEventListener?.("visibilitychange",()=>{if(root.document.visibilityState==="hidden")psscDropWaitContext(true);else psscWaitReturn();});if(root.document)root.document.addEventListener("click",psscCapture,true);psscInstallObservers();root.addEventListener?.("career-mode-shared-season-cursor-change",()=>void psscTick());if(typeof root.setInterval==="function"){root.setInterval(()=>{if(!psscWaitHealthy())void psscTick();},POLL_MS);root.setInterval(psscFastTick,FAST_POLL_MS);}if(typeof root.setTimeout==="function")root.setTimeout(()=>void psscTick(),0);return true;}
 
   // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
-  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["season-commit"]=()=>{psscDropWaitContext();waitSettled.clear();view=null;contextKey="";refreshRequestKey="";errorMessage="";pendingErrorKind="";readError="";readErrorKey="";readGeneration+=1;heldReportKey="";fastWaitKey="";fastWaitSince=0;waitFailures={key:"",count:0};checkedView=null;checkedAt=0;psscShownSuffix=null;};}catch(_error){}
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["season-commit"]=()=>{psscDropWaitContext();waitSettled.clear();view=null;contextKey="";refreshRequestKey="";errorMessage="";pendingErrorKind="";readError="";readErrorKey="";readGeneration+=1;heldReportKey="";fastWaitKey="";fastWaitSince=0;waitFailures={key:"",count:0};};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-season-commit",productionEnabled:true,runtimeRevision:"1.9.1-r10",requiresResultsReady:true,requiresCoordinatorCommit:true,requiresBothAcknowledgements:true,coordinatorCommitAlsoAcknowledges:true,reusesSeasonReview:true,distinctFromLocalConfirm:true,boundedStaleRetry:true,canonicalStorageMutation:false,authoritativeScoring:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,waitingListenerHealthy:psscWaitHealthy,isWaitingForRival:()=>Boolean(psscWaitingKey()),install:psscInstall,refresh:psscRefresh,seasonResultClash:psscSeasonResultClash,getState:()=>view,isActive:psscSharedMarker});
 });

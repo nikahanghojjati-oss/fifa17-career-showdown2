@@ -186,13 +186,16 @@ ok(`R4 all ${Object.keys(REGISTERED).length} clears load, run three times withou
   assert.match(clearBody(read('js/productionSharedLocalReconciliation.js'),'local-reconciliation'),/^if\(uiBusy\|\|previewInFlight\)return "skip";/);
   ok('R7 review fixes: no ended reset (so no repeat and no Career Start poll on Home); busy Ball Game, League Roulette and Local Reconciliation report skipped; League Roulette forgets its sync');
 }
-// 6. Phoenix W8 (#1582) added wait state to Season Commit and Season Results: a new Showdown starts it fresh (no back-off
-// count or "CHECKED" time carried over from the earlier Showdown's wait).
+// 6. Phoenix W8 (#1582) added wait state to Season Commit: a new Showdown starts it fresh (no back-off count carried over from
+// the earlier Showdown's wait). Nik 2026-11-24 15:35 UTC dropped W8's "· LIVE" / "· CHECKED h:mm PM" wait-line words, so their
+// last-check state is gone from both modules (and from their clears).
 {
-  const commit=clearBody(read('js/productionSharedSeasonCommit.js'),'season-commit');
-  for(const reset of ['waitFailures={key:"",count:0};','checkedView=null;','checkedAt=0;','psscShownSuffix=null;'])assert.ok(commit.includes(reset),`season-commit clears ${reset}`);
-  const results=clearBody(read('js/productionSharedSeasonResults.js'),'season-results');
-  for(const reset of ['checkedView=null;','checkedAt=0;'])assert.ok(results.includes(reset),`season-results clears ${reset}`);
-  ok('R8 the W8 wait state (listener back-off count, last-check time, shown wait suffix) starts fresh in a new Showdown');
+  const commitSource=read('js/productionSharedSeasonCommit.js'),resultsSource=read('js/productionSharedSeasonResults.js');
+  const commit=clearBody(commitSource,'season-commit');
+  assert.ok(commit.includes('waitFailures={key:"",count:0};'),'season-commit clears the W8 listener back-off count');
+  for(const [name,source] of [['season-commit',commitSource],['season-results',resultsSource]]){
+    for(const gone of ['" · LIVE"',' · CHECKED','checkedView','checkedAt','ShownSuffix','WaitSuffix','RefreshWaitLine'])assert.ok(!source.includes(gone),`${name} no longer has ${gone}`);
+  }
+  ok('R8 the W8 listener back-off count starts fresh in a new Showdown; the W8 LIVE/CHECKED wait-line words are gone');
 }
 console.log(`r100 showdown reset contracts: ${passed} passed`);
