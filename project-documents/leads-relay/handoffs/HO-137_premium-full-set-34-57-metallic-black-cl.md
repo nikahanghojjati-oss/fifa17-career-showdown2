@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T22:31:13Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)"}],
+ "evidence": ["claude/project-thread-ie3afv 4c7d6d8ff project-documents/hc-art/ho-premium-full/black/ENV_BOX_PHONE_BLACK_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T22:31:13Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)"}, {"at": "2026-11-24T22:45:26Z", "by": "V", "status": "DONE", "note": "Black Directors' box phone, try1 9/10: black steel + gold trim, window/stadium kept, satin counter, men untouched, aligned <1px"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
