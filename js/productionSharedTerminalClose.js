@@ -154,6 +154,8 @@
     if(state.phase==="CLOSED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     if(state.phase==="DELETED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     if(state.phase==="CLOSED"||state.phase==="DELETED")ptcNoteEnded(state.rivalryId||request.rivalryId);
+    // Phoenix W3: a closed or ended Showdown never sends a noted tap again (js/sharedTapMemory.js); nothing to load for it.
+    if(state.phase==="CLOSED"||state.phase==="DELETED")try{root.CareerModeSharedTapMemory?.forgetShowdown?.(state.rivalryId||request.rivalryId);}catch(_error){}
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
     if(state.phase==="DELETED"&&previousPhase!=="DELETED")ptcLeaveEndedShowdown(state.rivalryId||request.rivalryId);
     return state;

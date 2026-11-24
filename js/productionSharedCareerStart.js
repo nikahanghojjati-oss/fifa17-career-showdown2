@@ -18,6 +18,7 @@
   async function pcstLoadScript(key,path,ready){if(ready())return ready();if(typeof root.loadRuntimeScript!=="function")throw new Error("Release-owned runtime loader is unavailable.");await root.loadRuntimeScript(key,path,ready);return ready();}
   async function pcstEnsureDependencies(){
     if(typeof root.loadRuntimeStyle==="function")await root.loadRuntimeStyle("ssjr-career-start","css/remoteJoining.css");
+    pcstTapMemoryLoad();
     await pcstLoadScript("ssjr-production-setup","js/productionSharedShowdownSetup.js",()=>root.CareerModeProductionSharedShowdownSetup);
     await pcstLoadScript("ssjr-shared-setup-protocol","js/sharedShowdownSetup.js",()=>root.CareerModeSharedShowdownSetup);
     await pcstLoadScript("ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js",()=>root.CareerModeSharedShowdownCatalog);
@@ -108,7 +109,7 @@
     pcstForgetOtherShowdown();
     if(pcstReady()&&readyKey&&pcstConfirmed()&&readyKey===pcstSetupKey(pcstSetupState()))return Promise.resolve(view);
     if(refreshPromise)return refreshPromise;
-    const run=pcstSerialize(()=>pcstWithTimeout(async request=>{const ctx=await pcstProviderOptions(light===true,request),result=await request.wait(provider.read(ctx.options));if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});return pcstApplyView(result,ctx.state);},request));
+    const run=pcstSerialize(()=>pcstWithTimeout(async request=>{const ctx=await pcstProviderOptions(light===true,request),result=await request.wait(provider.read(ctx.options));if(!result||result.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:result&&result.code});const applied=pcstApplyView(result,ctx.state);pcstTapResend(result,ctx.state);return applied;},request));
     // Fable FJ12-04 (r98): the 15 s check re-reads the confirmed Setup only after a Career Start read that failed (the Setup is
     // final once confirmed, and the Career Start read itself checks the session, device, rivalry and confirmed ledger).
     run.catch(()=>{lastReadOk=false;});
@@ -116,27 +117,49 @@
     const wrapped=refreshPromise;
     return wrapped;
   }
-  async function pcstAcknowledge(){
+  // Phoenix W3 (one shared tap memory, js/sharedTapMemory.js): I STARTED AT is noted on this phone before it is sent, with its
+  // operationId. If the tab dies before it is known to have landed, the reopened Career Start sends it once by itself after its
+  // own read, only while that read shows this manager not acknowledged and Career Start not ready. Without the helper every
+  // tap works exactly as before.
+  function pcstTapMemory(){try{return root.CareerModeSharedTapMemory||null;}catch(_error){return null;}}
+  let tapMemoryLoading=null,tapResendKey="";
+  function pcstTapMemoryLoad(){if(!tapMemoryLoading)tapMemoryLoading=pcstLoadScript("shared-tap-memory","js/sharedTapMemory.js",()=>root.CareerModeSharedTapMemory).then(()=>pcstTapMemory(),()=>{tapMemoryLoading=null;return null;});return tapMemoryLoading;}
+  function pcstTapScope(state){const role=state?.managerRole;return state&&/^pair_[0-9a-f]{64}$/.test(String(state.rivalryId||""))&&(role==="playerOne"||role==="playerTwo")?{rivalryId:state.rivalryId,season:1,step:"careerStart",role}:null;}
+  function pcstTapNote(operationId){try{const scope=pcstTapScope(pcstSetupState());if(scope)pcstTapMemory()?.note?.(scope,{operationId});}catch(_error){}}
+  function pcstTapClear(state){try{const scope=pcstTapScope(state);if(scope)pcstTapMemory()?.clear?.(scope);}catch(_error){}}
+  function pcstTapResend(result,state){
+    if(busy||!result||result.ok!==true)return false;
+    const memory=pcstTapMemory();if(!memory){void pcstTapMemoryLoad().then(loaded=>{if(loaded)pcstTapResend(result,state);});return false;}
+    const scope=pcstTapScope(state);if(!scope||!memory.peek?.(scope))return false;
+    const pending=result.state?.phase!=="CAREER_START_READY"&&!pcstOwnAcknowledged(result);
+    const note=memory.takeForResend(scope,{pending,live:{rivalryId:scope.rivalryId,season:1}});
+    if(!note)return false;
+    const once=`${scope.rivalryId}|${scope.role}`;if(tapResendKey===once)return false;tapResendKey=once;
+    if(typeof root.setTimeout==="function")root.setTimeout(()=>{void pcstAcknowledge({resendOperationId:note.operationId});},0);
+    return true;
+  }
+  async function pcstAcknowledge({resendOperationId=""}={}){
     if(busy)return false;
     busy=true;lastError="";pcstRender();
-    const operationId=pcstRandomOperationId();
+    const operationId=resendOperationId||pcstRandomOperationId();
+    if(!resendOperationId)pcstTapNote(operationId);
     try{
       return await pcstSerialize(async()=>{
         return pcstWithTimeout(async request=>{
         const ctx=await pcstProviderOptions(false,request);
         let current=await request.wait(provider.read(ctx.options));
         if(!current||current.ok!==true)throw Object.assign(new Error("Career Start could not be read."),{code:current&&current.code});
-        if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state);return true;}
+        if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstTapClear(ctx.state);pcstApplyView(current,ctx.state);return true;}
         for(let attempt=0;attempt<2;attempt+=1){
           const result=await request.wait(provider.acknowledge({...ctx.options,operationId,baseRevision:current.revision||0}));
-          if(result&&result.ok===true){pcstApplyView(result,ctx.state);return true;}
+          if(result&&result.ok===true){pcstTapClear(ctx.state);pcstApplyView(result,ctx.state);return true;}
           const code=result&&result.code||"CAREER_START_PROVIDER_FAILED";
           // Job 21: two managers acknowledging at once -> the loser is rejected by the Rules (permission-denied); treat it like a stale revision (re-read, retry once).
           if(["CAREER_START_STALE_BASE_REVISION","CAREER_START_ROLE_ALREADY_ACKNOWLEDGED","CAREER_START_ALREADY_READY","permission-denied","firestore/permission-denied","permission_denied"].includes(code)){
             const refreshed=await request.wait(provider.read(ctx.options));
             if(!refreshed||refreshed.ok!==true)throw Object.assign(new Error("Career Start could not be reconciled after another acknowledgement."),{code:refreshed&&refreshed.code||code});
             current=refreshed;
-            if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstApplyView(current,ctx.state);return true;}
+            if(current?.state?.phase==="CAREER_START_READY"||pcstOwnAcknowledged(current)){pcstTapClear(ctx.state);pcstApplyView(current,ctx.state);return true;}
             if((code==="CAREER_START_STALE_BASE_REVISION"||code==="permission-denied"||code==="firestore/permission-denied"||code==="permission_denied")&&attempt===0)continue;
           }
           throw Object.assign(new Error("Career Start acknowledgement was rejected."),{code});
