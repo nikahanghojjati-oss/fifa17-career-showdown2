@@ -46,13 +46,22 @@ function seasonMinutes(phases){
   // Minutes per season outside FIFA: the season's play phases, page checks left out. A season's own steps (Roulette, Prime Pack,
   // Chamber Men, the squad) run after the CONTINUE of the season before (season 1: after START, JOIN and setup), so
   // S<k>-continue counts for season k+1.
-  const seasonMs={};
+  const seasonMs={},played=new Set();
   for(const p of phases){
     let m,k=null;
     if((m=/^(.*)-S(\d+)-(transfers|results|commit)$/.exec(p.phase)))k=`${m[1]}/S${m[2]}`;
     else if((m=/^(.*)-S(\d+)-continue$/.exec(p.phase)))k=`${m[1]}/S${Number(m[2])+1}`;
     else if((m=/^(.*)-(setup|start|join)$/.exec(p.phase)))k=`${m[1]}/S1`;
     if(k)seasonMs[k]=(seasonMs[k]||0)+p.ms;
+    if(k&&/-(transfers|results|commit)$/.test(p.phase))played.add(k);
+  }
+  // A CONTINUE whose next season is never played (a Showdown ended early after it) stays counted, on the season it followed,
+  // so the average is over the seasons actually played.
+  for(const k of Object.keys(seasonMs)){
+    if(played.has(k))continue;
+    const m=/^(.*)\/S(\d+)$/.exec(k),prev=m&&`${m[1]}/S${Number(m[2])-1}`;
+    if(prev&&played.has(prev))seasonMs[prev]+=seasonMs[k];
+    delete seasonMs[k];
   }
   return Object.entries(seasonMs).map(([season,ms])=>({season,minutes:+(ms/60000).toFixed(2)}));
 }

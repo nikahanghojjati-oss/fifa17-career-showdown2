@@ -7,6 +7,7 @@
 //   T5 step costs use only the play windows and price a listener attached on one step and delivered on the next once
 //   T6 the CONTINUE of season k counts for season k+1 in the minutes outside FIFA
 //   T7 a slow transition (31 s) is kept at its full duration, so a slower step can never improve the p90
+//   T9 a CONTINUE before a season that is never played (Showdown ended early) counts on the season before, not as a season
 //   T8 timing budgets cover only the play windows: page-check transitions outside them do not dilute the p90
 const assert=require("node:assert/strict");
 const path=require("node:path");
@@ -83,5 +84,10 @@ const boot=(user,t)=>({k:"boot",user,t});
   assert.deepEqual(r.all.tapToReady,{n:1,median:1000,p90:1000,max:1000});
   assert.equal(r.samples.tapToReady.length,20);
   ok("T8","the play-window budget sees the one 1,000 ms game transition, not 19 page-check ones (all samples kept in the report)");
+}
+{
+  const phases=[{phase:"C-setup",ms:60000},{phase:"C-S1-transfers",ms:60000},{phase:"C-S1-continue",ms:60000},{phase:"C-end-showdown",ms:60000}];
+  assert.deepEqual(ring3.seasonMinutes(phases),[{season:"C/S1",minutes:3}]);
+  ok("T9","an early-ended Showdown's last CONTINUE counts on season 1; no unplayed season 2 in the average");
 }
 console.log(`PASS POS1M Ring 3 meter contracts (${n} checks)`);
