@@ -88,6 +88,8 @@
   // Kept documents: [key, data] (a locked screen) or [key, 0] (no document at a screen this manager already went past).
   function sqsKept(key){const found=sqsRead(KEPT_KEY).find(item=>Array.isArray(item)&&item[0]===key);return found?found[1]:undefined;}
   function sqsKeep(key,data){sqsWrite(KEPT_KEY,[...sqsRead(KEPT_KEY).filter(item=>!(Array.isArray(item)&&item[0]===key)),[key,data||0]],KEPT_MAX);}
+  // Codex #1588: a bridge read must reach the server, not a budget-layer copy kept for up to 60 s (15 s under the read brake).
+  function sqsServerNext(io,season,stage,role){try{root.CareerModeFirestoreBudget?.readServerNext?.(`rivalries/${io.rivalryId}/${COLLECTION}/${sqsDocId(season,stage,role)}`);}catch(_error){}}
   function sqsRef(io,season,stage,role){return io.sdk.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,sqsDocId(season,stage,role));}
   // One manager's document for one screen: the kept copy, else one transaction read (the production SDK has no getDoc).
   // {ok:true, data|null} or {ok:false, error}. past: a screen before the one on now (an empty answer is kept, it can't change).
@@ -147,7 +149,7 @@
       const bridge=async()=>{if(bridging)return;bridging=true;const since=Date.now();let next=POLL_MS;
         try{while(!stopped&&!live){await sqsWait(next);if(stopped||live)break;
           if(doc0?.visibilityState==="hidden"||root.navigator?.onLine===false){next=1000;continue;}
-          const read=await sqsGet(io,ctx,role,ctx.season,"pre",false);if(stopped||live)break;
+          sqsServerNext(io,ctx.season,"pre",role);const read=await sqsGet(io,ctx,role,ctx.season,"pre",false);if(stopped||live)break;
           if(!read.ok){next=BRIDGE_FAILED_MS;continue;}if(read.data){take(read.data);break;}
           next=Date.now()-since<BRIDGE_FAST_FOR_MS?POLL_MS:BRIDGE_SLOW_MS;}}finally{bridging=false;}};
       const doc0=sqsDoc();

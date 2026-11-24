@@ -12,13 +12,14 @@ function pick(source,name){
 function harness(file,watch,wait){
   const source=fs.readFileSync(path.resolve(__dirname,"../../js",file),"utf8");const body=pick(source,watch);
   assert.doesNotMatch(body,/getDocs?\(|getDocFromServer|setDoc|updateDoc|tx\.(set|update)\(/,`${watch}: the bridge only reads the one record`);
-  const timers=[],reads={n:0},state={snap:null,unsubscribed:0,server:{kicks:1}};
+  const timers=[],reads={n:0,asks:[],unasked:0},state={snap:null,unsubscribed:0,server:{kicks:1}};
+  const prefix=watch.slice(0,3),helper=source.match(new RegExp(`  function ${prefix}ServerNext\\(io,season\\)\\{[^\\n]*\\n`));assert.ok(helper,`${file}: each bridge read asks the budget layer for a server read`);
   const sdk={
     onSnapshot:(ref,opts,next,error)=>{assert.deepEqual({...opts},{includeMetadataChanges:true});state.snap=next;return ()=>{state.unsubscribed+=1;};},
-    runTransaction:async(_fs,fn)=>fn({get:async()=>{reads.n+=1;return {exists:()=>true,data:()=>({...state.server})};}})
+    runTransaction:async(_fs,fn)=>fn({get:async()=>{reads.n+=1;if(reads.asks.length<reads.n)reads.unasked+=1;return {exists:()=>true,data:()=>({...state.server})};}})
   };
   const clock={now:Date.parse("2026-11-24T09:00:00Z")};class FakeDate extends Date{static now(){return clock.now;}}
-  const root={document:{visibilityState:"visible"},navigator:{onLine:true}};
+  const root={document:{visibilityState:"visible"},navigator:{onLine:true},CareerModeFirestoreBudget:{readServerNext:path=>{reads.asks.push(path);}}};
   const line=source.match(/const BRIDGE_FAST_MS=[^;]+;/);assert.ok(line,`${file} sets its bridge pace`);
   const pace=vm.runInNewContext(`${line[0].replace("const ","var ")}({BRIDGE_FAST_MS,BRIDGE_FAST_FOR_MS,BRIDGE_SLOW_MS,BRIDGE_FAILED_MS})`,{Infinity});
   const sandbox={root,Promise,Date:FakeDate,POLL_MS:2500,...pace,COLLECTION:"x",setTimeout:(fn,ms)=>{timers.push({fn,ms});}};
@@ -26,7 +27,7 @@ function harness(file,watch,wait){
     async function ${watch.replace("Watch","SnapshotApi")}(io){return io.sdk;}
     function ${watch.replace("Watch","Ref")}(io,season){return {season};}
     function ${watch.replace("Watch","SeasonId")}(s){return "season_"+s;}
-    ${body}
+    ${helper[0]}${body}
     ({watch:${watch}})`;
   const api=vm.runInNewContext(code,sandbox);
   const snap=(fromCache,data,pending=false)=>({metadata:{fromCache,hasPendingWrites:pending},exists:()=>Boolean(data),data:()=>data});
@@ -49,7 +50,7 @@ function harness(file,watch,wait){
     h.state.snap(h.snap(false,{kicks:2},true));await h.tick();assert.equal(got.length,1,"own pending write still skipped");
     // The stream dies: the SDK marks the copy fromCache. That copy is not shown; the record is read every 2.5 s instead.
     h.state.snap(h.snap(true,{kicks:1}));await h.tick();assert.equal(got.length,1,"a cached copy is never shown");
-    h.state.server={kicks:3};await h.fire();assert.equal(h.reads.n,1);assert.deepEqual(got.at(-1),{kicks:3},"the rival's kick arrives by the read");
+    h.state.server={kicks:3};await h.fire();assert.equal(h.reads.n,1);assert.deepEqual(h.reads.asks,["rivalries/r/x/season_1"],"the bridge read asked for the server first (Codex #1588)");assert.deepEqual(got.at(-1),{kicks:3},"the rival's kick arrives by the read");
     h.state.snap(h.snap(true,{kicks:1}));await h.tick();assert.equal(h.timers.length,1,"one bridge at a time");
     h.state.server={kicks:4};await h.fire();assert.equal(h.reads.n,2);assert.deepEqual(got.at(-1),{kicks:4});
     // The listener is back with a server copy: the reads stop.
@@ -69,6 +70,7 @@ function harness(file,watch,wait){
     let elapsed=0;const at=[];while(elapsed<300000){const t=b.timers[0];if(!t)break;const before=b.reads.n;await b.fire(t.ms);elapsed+=t.ms;if(b.reads.n>before)at.push(elapsed);}
     assert.ok(at.filter(x=>x<=60000).length<=want.firstMinute,"at most 24 reads in the first minute");
     assert.ok(at.filter(x=>x>60000).every((x,i,a)=>i===0||x-a[i-1]===want.BRIDGE_SLOW_MS),"the slow pace after the first minute");
+    assert.equal(b.reads.unasked,0,"every bridge read in 5 minutes asked for the server first");
     console.log(`  ${file}: reads for a stream dead 5 minutes on a visible page = ${b.reads.n}`);assert.ok(b.reads.n<=want.max5,`a stream dead for 5 minutes costs ${b.reads.n} reads (at most ${want.max5})`);
     b.root.document.visibilityState="hidden";const hiddenBefore=b.reads.n;for(let i=0;i<20;i+=1)await b.fire(b.timers[0].ms);assert.equal(b.reads.n,hiddenBefore,"no read while hidden");assert.equal(b.timers[0].ms,1000);
     b.root.document.visibilityState="visible";b.root.navigator.onLine=false;for(let i=0;i<20;i+=1)await b.fire(1000);assert.equal(b.reads.n,hiddenBefore,"no read while offline");
@@ -90,12 +92,13 @@ function harness(file,watch,wait){
   {const source=fs.readFileSync(path.resolve(__dirname,"../../js/squadSheetStep.js"),"utf8");
     const start=source.indexOf("  async function sqsWatch(io,ctx,onDoc,onError){");const end=source.indexOf("\n  }\n",start);assert.ok(start>0);
     const body=source.slice(start,end+4);const line=source.match(/const BRIDGE_FAST_FOR_MS=[^;]+;/);assert.ok(line);
-    const timers=[],state={snap:null,gets:0,data:null,fail:false};const clock={now:Date.parse("2026-11-24T09:00:00Z")};class FakeDate extends Date{static now(){return clock.now;}}
-    const doc={visibilityState:"visible"},root={navigator:{onLine:true}};
+    const timers=[],state={snap:null,gets:0,data:null,fail:false,asks:[],unasked:0};const clock={now:Date.parse("2026-11-24T09:00:00Z")};class FakeDate extends Date{static now(){return clock.now;}}
+    const doc={visibilityState:"visible"},root={navigator:{onLine:true},CareerModeFirestoreBudget:{readServerNext:path=>{state.asks.push(path);}}};
     const code=`${line[0]}const POLL_MS=4000,COLLECTION="x";const sqsWait=ms=>new Promise(r=>setTimeout(r,ms));
       function sqsOther(r){return r==="playerOne"?"playerTwo":"playerOne";}function sqsPointKey(){return "k";}function sqsKept(){return null;}function sqsKeep(){}
-      function sqsParse(raw){return raw;}async function sqsSnapshotApi(io){return io.sdk;}function sqsRef(){return {};}function sqsDocId(){return "d";}function sqsDoc(){return doc;}
-      async function sqsGet(){state.gets+=1;if(state.fail)return {ok:false,error:{code:"unavailable"}};return {ok:true,data:state.data};}
+      function sqsParse(raw){return raw;}async function sqsSnapshotApi(io){return io.sdk;}function sqsRef(){return {};}function sqsDocId(s,st,r){return s+"_"+st+"_"+r;}function sqsDoc(){return doc;}
+      ${(source.match(/  function sqsServerNext\(io,season,stage,role\)\{[^\n]*\n/)||[""])[0]}
+      async function sqsGet(){state.gets+=1;if(state.asks.length<state.gets)state.unasked+=1;if(state.fail)return {ok:false,error:{code:"unavailable"}};return {ok:true,data:state.data};}
       ${body}({watch:sqsWatch})`;
     const api=vm.runInNewContext(code,{root,doc,state,Promise,Date:FakeDate,setTimeout:(fn,ms)=>{timers.push({fn,ms});}});
     const tick=async()=>{for(let i=0;i<6;i+=1)await new Promise(r=>setImmediate(r));};
@@ -108,6 +111,8 @@ function harness(file,watch,wait){
     state.fail=true;await fire(4000);assert.equal(timers[0].ms,30000,"30 s after a failed read");state.fail=false;
     doc.visibilityState="hidden";await fire(30000);assert.equal(state.gets,2);assert.equal(timers[0].ms,1000);const g=state.gets;await fire(1000);assert.equal(state.gets,g,"no read while hidden");doc.visibilityState="visible";
     let n=0;while(clock.now<Date.parse("2026-11-24T09:05:00Z")&&timers.length){await fire();n+=1;}
+    assert.ok(/function sqsServerNext\(io,season,stage,role\)/.test(source),"Squad Management's bridge asks for a server read");
+    assert.equal(state.unasked,0,"every bridge read asked for the server first");assert.equal(state.asks[0],"rivalries/r/x/1_pre_playerTwo","the rival's locked document");
     assert.ok(state.gets<=45,`a stream dead for 5 minutes costs ${state.gets} reads (at most 45)`);
     state.data={locked:true};await fire();assert.deepEqual(got,[{locked:true}],"the rival's lock arrives by the read");assert.equal(timers.length,0,"and the reads stop");assert.equal(errors,0);
     ok("squadSheetStep.js: the wait for the rival's lock is bridged by reads while the listener is down (4 s, 8 s after a minute, none hidden or offline, 30 s after a failure, at most 45 in 5 minutes) and stops once the lock is in");}

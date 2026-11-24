@@ -70,6 +70,9 @@
     const record={v:1,season,arrived,chipsUsed:{playerOne:data.chipsUsed?.playerOne,playerTwo:data.chipsUsed?.playerTwo},winner};
     return guess.outcome(record,0)?record:null;
   }
+  // Codex #1588: a bridge read must reach the server. Through the budget layer a read-only transaction may otherwise reuse a
+  // copy for up to 60 s (or 15 s under the read brake), so the rival's move could wait that long after the bridge read.
+  function igsServerNext(io,season){try{root.CareerModeFirestoreBudget?.readServerNext?.(`rivalries/${io.rivalryId}/${COLLECTION}/${igsSeasonId(season)}`);}catch(_error){}}
   function igsRef(io,season){return io.sdk.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,igsSeasonId(season));}
   function igsStamp(io){return {activeSessionId:io.sessionId,updatedByDeviceId:io.deviceId,updatedAt:io.sdk.serverTimestamp()};}
   // This manager is on the screen: his arrival is written once (the first one stands; a reload never moves the start).
@@ -143,7 +146,7 @@
       const bridge=async()=>{if(bridging)return;bridging=true;const since=Date.now();let next=BRIDGE_FAST_MS;
         try{while(!stopped&&!live){await igsWait(next);if(stopped||live)break;
           if(root.document?.visibilityState==="hidden"||root.navigator?.onLine===false){next=1000;continue;}
-          try{const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped&&!live)onData(data);next=Date.now()-since<BRIDGE_FAST_FOR_MS?BRIDGE_FAST_MS:BRIDGE_SLOW_MS;}
+          try{igsServerNext(io,ctx.season);const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped&&!live)onData(data);next=Date.now()-since<BRIDGE_FAST_FOR_MS?BRIDGE_FAST_MS:BRIDGE_SLOW_MS;}
           catch(_error){next=BRIDGE_FAILED_MS;}}}finally{bridging=false;}};
       const off=api.onSnapshot(listenRef,{includeMetadataChanges:true},snap=>{if(stopped)return;if(snap.metadata?.fromCache){live=false;void bridge();return;}live=true;if(snap.metadata?.hasPendingWrites)return;onData(snap.exists()?snap.data():null);},onError);
       return ()=>{stopped=true;try{off();}catch(_error){}};

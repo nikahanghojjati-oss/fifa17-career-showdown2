@@ -831,6 +831,39 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       assert.equal(w.reads(),before,"offline: no bridge read");w.world.sandbox.navigator={onLine:true};await w.world.advance(2000);assert.equal(w.reads()-before,1,"back online: one read at once");}
   });
 
+  await check("FB-W8-STEP","Codex #1588: a step bridge read through the budget layer reaches the server every time (readServerNext), so the rival's move shows within one bridge interval even past the first minute, when the 8 s pace is too slow for the fast-check window",async()=>{
+    for(const [file,watch,wait,ids,collection] of [["js/iconGuessStep.js","igsWatch","igsWait","igs","primePackRounds"],["js/chamberMenStep.js","cmsWatch","cmsWait","cms","chamberMenRounds"]]){
+      const world=createWorld(),src=fs.readFileSync(path.join(ROOT,file),"utf8");
+      const start=src.indexOf(`  async function ${watch}(io,ctx,onData,onError){`);assert.ok(start>0,`${watch} is where it was`);const body=src.slice(start,src.indexOf("\n  }\n",start)+4);
+      const helper=src.match(new RegExp(`  function ${ids}ServerNext\\(io,season\\)\\{[^\\n]*\\n`));assert.ok(helper,`${file} asks the budget layer for a server read`);
+      const pace=src.match(/const BRIDGE_FAST_MS=[^;]+;/);assert.ok(pace,`${file} sets its bridge pace`);
+      const realCollection=(src.match(/COLLECTION="([^"]+)"/)||[])[1];assert.ok(realCollection,`${file} names its collection`);
+      const rivalryId=`pair_9${"0".repeat(63)}`,docPath=`rivalries/${rivalryId}/${realCollection}/season_1`;
+      world.serverWrite(docPath,{revision:1,mark:"first"});
+      const sdk=world.services.firestoreSdk;
+      const io={sdk:{...sdk,onSnapshot:world.sdk.onSnapshot,doc:(_db,...segments)=>({path:segments.join("/")})},firestore:world.db,rivalryId};
+      const seen=[];
+      const code=`${pace[0].replace("const ","var ")}var COLLECTION=${JSON.stringify(realCollection)},POLL_MS=2500;const root=globalThis;
+        const ${wait}=ms=>new Promise(r=>setTimeout(r,ms));
+        function ${ids}SeasonId(s){return "season_"+s;}
+        async function ${watch.replace("Watch","SnapshotApi")}(io){return io.sdk;}
+        function ${ids}Ref(io,season){return io.sdk.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,${ids}SeasonId(season));}
+        ${helper[0]}${body}
+        (${watch})`;
+      const run=vm.runInContext(code,world.sandbox);
+      const off=await run(io,{season:1,managerRole:"playerOne"},data=>{seen.push(data&&data.mark);},()=>{});
+      await world.advance(100);assert.equal(seen.at(-1),"first",`${watch}: the listener's first server copy`);
+      // the stream goes down: one cached copy, then silence
+      world.cacheDeliver(docPath);for(const listener of world.activeListeners())listener.next=()=>{};
+      await world.advance(70000);   // past the first minute: Prime Pack is on its 8 s pace now
+      world.server.set(docPath,{data:{revision:2,mark:"rival moved"},version:999});const movedAt=world.clock.now;
+      let shownAt=null;for(let t=0;t<=20000&&shownAt===null;t+=500){if(seen.at(-1)==="rival moved")shownAt=world.clock.now-movedAt;else await world.advance(500);}
+      const step=file.includes("iconGuess")?8000:2500;
+      assert.ok(shownAt!==null&&shownAt<=step+500,`${watch}: the rival's move shows within one bridge interval through the budget layer (${shownAt} ms, interval ${step} ms)`);
+      off();
+    }
+  });
+
   await check("FB11d","Codex #903: a miss the listener delivered is never served as the 30 s memo once the listener is gone (Daniel may write right after)",async()=>{
     const {world,pair,serverReads,inbox}=await nikPairWorld();let home=true;const isHomeShown=()=>home;
     const reads=()=>serverReads[inbox]||0;
