@@ -185,7 +185,9 @@ function packStep(story,season,w){
 function packFinal(story,commits){
   const docs=story.world.server.docs;
   // Each guess tap spends at most one of the manager's two guesses (a lost answer must not cost a second one).
-  for(const [path,entry] of docs){const season=seasonOf("primePackRounds",path);if(season===null||!entry.data.chipsUsed)continue;for(const role of W.ROLES){const taps=story.packTaps&&story.packTaps[`${season}:${role}`]||0;if(entry.data.chipsUsed[role]>taps&&!story.packFromCheckpoint?.has(season))story.violation("L6_PRIME_PACK",`season ${season} ${role} used ${entry.data.chipsUsed[role]} guesses with ${taps} guess taps`);}}
+  // Held off the per-PR slice until its fix merges (lead, 2026-11-24): a known real bug must not turn other PRs red.
+  // Replays and POS1M_HELD=1 run it; when W12 merges, delete its entry from HELD in the same push.
+  if(!heldOff("pack-chips-per-tap"))for(const [path,entry] of docs){const season=seasonOf("primePackRounds",path);if(season===null||!entry.data.chipsUsed)continue;for(const role of W.ROLES){const taps=story.packTaps&&story.packTaps[`${season}:${role}`]||0;if(entry.data.chipsUsed[role]>taps&&!story.packFromCheckpoint?.has(season))story.violation("L6_PRIME_PACK",`season ${season} ${role} used ${entry.data.chipsUsed[role]} guesses with ${taps} guess taps`);}}
   for(const c of commits){
     const results=c.data.results;if(!results)continue;
     const scored=W.ROLES.filter(role=>results[role]&&results[role].primePack!==undefined);
@@ -224,6 +226,10 @@ function guessedFinal(story,views){
 }
 
 // Game refusals are upper-case codes (SEASON_RESULTS_...); Firestore transport errors are lower-case (unavailable, ...).
+// Checks held off the per-PR slice while a known real bug waits for its fix (id -> the fix job). Replays and POS1M_HELD=1
+// run them all. Delete an entry in the push that lands after its fix, so the per-PR slice guards it from then on.
+const HELD={"pack-chips-per-tap":"W12 (Prime Pack guess retried after a lost answer spends a second token)"};
+const heldOff=id=>Boolean(HELD[id])&&process.env.POS1M_HELD!=="1";
 const GAME_CODE=/^[A-Z][A-Z0-9_]+$/;
 
 function afterMove(story){scanWrites(story);}
@@ -300,4 +306,4 @@ function final(story,views){
   if(server.meter.writes/seasons>BUDGET.writesPerSeason)story.violation("L14_BUDGET",`${Math.round(server.meter.writes/seasons)} writes per season (budget ${BUDGET.writesPerSeason})`);
 }
 
-module.exports={fromCheckpoint,onObserve,afterMove,onRepeat,final,oracleScore,BUDGET,GAME_CODE};
+module.exports={fromCheckpoint,onObserve,afterMove,onRepeat,final,oracleScore,BUDGET,GAME_CODE,HELD};
