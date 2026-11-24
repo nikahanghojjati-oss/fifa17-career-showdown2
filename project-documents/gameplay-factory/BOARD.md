@@ -6,13 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 24 Nov, 3:35 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
-
-> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
+Updated Tue 24 Nov, 3:55 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.11.0-r98** (main `fec8af6`, Mon 23 Nov 12:16 PM)
 
-🩺 **All clear (from GitHub).** · Gate #1580: L1✓ L2✓ L4✓ L5✓ L6✓ · POS20 #1580 10/10
+🐕 **Barking: Showdown Gate has waited 36 min for a machine; Showdown Gate on #1584 has waited 36 min for a machine; Showdown Gate on #1576 has waited 28 min for a machine; Showdown Gate on #1579 has waited 27 min for a machine; Showdown Gate on #1581 has waited 27 min for a machine; Showdown Gate on #1587 has waited 21 min for a machine; Showdown Gate on #1586 has waited 16 min for a machine; Showdown Gate on #1585 has waited 6 min for a machine; Showdown Gate on #1588 has waited 1 min for a machine; Showdown Gate on #1589 has waited 1 min for a machine.** · Gate #1580: L1✓ L2✓ L3A✓ L3B✓ L4✓ L5✓ L6✓ · seal PASS · POS20 #1580 0/16
 
 ## Jobs
 
@@ -48,11 +46,11 @@ Updated Tue 24 Nov, 3:35 AM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 998 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 999 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 955 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 956 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
