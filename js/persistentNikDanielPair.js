@@ -3,21 +3,24 @@
 // clear to window.CareerModeShowdownClears (a plain object, name -> clear; a module may load before this file). The reset runs them all
 // when the permanent pair below reports a rivalry this page has not seen before (a new Showdown: Daniel's START, Nik's JOIN)
 // and when the ended Showdown is let go on Home (career-mode-permanent-pair-ended). A clear puts the module's Showdown data
-// back to what a freshly loaded page holds (no read, no write, no render); install flags, API handles, listeners, timers and
-// work in flight stay. History, career and pairing caches are not Showdown data and never register.
+// back to what a freshly loaded page holds (no read, no write, no render). It only runs between Showdowns, so a clear may stop that
+// module's page work for the old Showdown (a wait listener, a setup poll, a 3D scene) as the module itself does when a Showdown
+// changes; install flags and API handles stay, and the next screen builds again. A clear that returns "skip" (its screen is busy
+// or on show) is reported as skipped. The ended reset runs once per closed rivalry. History, career and pairing caches are not
+// Showdown data and never register.
 // tests/contracts/r100-showdown-reset-contracts.cjs fails when a module keeps Showdown data and does not register.
 (function(root){
   "use strict";
   if(!root||root.CareerModeShowdownReset)return;
-  const RIVALRY=/^pair_[0-9a-f]{64}$/,seen=new Set();
+  const RIVALRY=/^pair_[0-9a-f]{64}$/,seen=new Set(),ended=new Set();
   let running=false,runs=0,last=null;
   function showdownResetClears(){const clears=root.CareerModeShowdownClears;return clears&&typeof clears==="object"?clears:(root.CareerModeShowdownClears={});}
   function showdownResetRun(reason){
     if(running)return null;
-    running=true;const cleared=[],failed=[];
-    try{for(const [name,clear] of Object.entries(showdownResetClears())){if(typeof clear!=="function")continue;try{clear(reason);cleared.push(name);}catch(_error){failed.push(name);}}}
+    running=true;const cleared=[],skipped=[],failed=[];
+    try{for(const [name,clear] of Object.entries(showdownResetClears())){if(typeof clear!=="function")continue;try{(clear(reason)==="skip"?skipped:cleared).push(name);}catch(_error){failed.push(name);}}}
     finally{running=false;}
-    runs+=1;last=Object.freeze({reason:String(reason||""),at:Date.now(),cleared:Object.freeze(cleared),failed:Object.freeze(failed)});
+    runs+=1;last=Object.freeze({reason:String(reason||""),at:Date.now(),cleared:Object.freeze(cleared),skipped:Object.freeze(skipped),failed:Object.freeze(failed)});
     return last;
   }
   // Only a rivalry never seen on this page resets; the first one does not (the page has nothing earlier to forget), and a
@@ -27,8 +30,15 @@
     const earlier=seen.size>0;seen.add(id);if(!earlier)return false;
     showdownResetRun("new-showdown");return true;
   }
+  // The pair re-holds an ended rivalry (and fires the event again) whenever a later read still names it: reset once per closed
+  // rivalry, and never while a Showdown is live.
+  function showdownResetEnded(event){
+    const id=String(event?.detail?.closedRivalryId||"").trim().toLowerCase();if(!RIVALRY.test(id)||ended.has(id))return false;
+    let live=null;try{live=root.CareerModePersistentNikDanielPair?.getState?.()?.rivalryId||null;}catch(_error){live=null;}if(live)return false;
+    ended.add(id);showdownResetRun("showdown-ended");return true;
+  }
   showdownResetClears();
-  if(typeof root.addEventListener==="function")root.addEventListener("career-mode-permanent-pair-ended",()=>{showdownResetRun("showdown-ended");});
+  if(typeof root.addEventListener==="function")root.addEventListener("career-mode-permanent-pair-ended",showdownResetEnded);
   root.CareerModeShowdownReset=Object.freeze({contractVersion:1,feature:"cms-showdown-reset",noteRivalry:showdownResetNoteRivalry,reset:showdownResetRun,
     registered:()=>Object.freeze(Object.keys(showdownResetClears())),runs:()=>runs,lastRun:()=>last,providerReadRequired:false,providerWriteRequired:false});
 })(typeof globalThis!=="undefined"?globalThis:this);

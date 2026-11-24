@@ -644,13 +644,13 @@ async function nikJoins(daniel,nik,code,{typed,length}){
 async function checkNoEarlierShowdown(m,where,{selector=null,clubs=[]}={}){
   const prev=(ctxRef?.career||[]).filter(e=>e!==ctxRef.entry&&e.rivalryId).at(-1);if(!prev)return true;
   const seen=await m.page.evaluate(({prevId,selector})=>{
-    const names=["ProductionSharedShowdownSetup","ProductionSharedCareerStart","ProductionSharedTransferChallenge","ProductionSharedSeasonResults","ProductionSharedSeasonCommit","ProductionSharedCanonicalScoring","ProductionSharedHistoryConvergence","ProductionSharedMultiSeasonProgression","ProductionSharedJourneyReconnect","ProductionSharedFinalReconciliation","ProductionSharedTerminalClose"];
+    const names=["ProductionSharedShowdownSetup","ProductionSharedCareerStart","ProductionSharedTransferChallenge","ProductionSharedSeasonResults","ProductionSharedSeasonCommit","ProductionSharedCanonicalScoring","ProductionSharedHistoryConvergence","ProductionSharedMultiSeasonProgression","ProductionSharedJourneyReconnect","ProductionSharedFinalReconciliation","ProductionSharedTerminalClose","ProductionSharedLocalReconciliation","ProductionSharedJourneyConflicts"];
     const holding=[];for(const n of names){let s="";try{s=JSON.stringify(window["CareerMode"+n]?.getState?.()??null)||"";}catch(_e){s="";}if(s.includes(prevId))holding.push(n);}
     const reset=window.CareerModeShowdownReset,node=selector?document.querySelector(selector):null;
     return {holding,runs:reset?.runs?.()??null,last:reset?.lastRun?.()??null,text:node?node.innerText:""};
   },{prevId:prev.rivalryId,selector}).catch(error=>({error:String(error&&error.message||error)}));
   const text=String(seen.text||"").toUpperCase(),stale=(prev.clubs||[]).filter(c=>!clubs.includes(c)&&text.includes(String(c).toUpperCase()));
-  return check(m,`${showdownNow}.noEarlier.${where}`,`back to back without a reload: ${where} keeps and shows nothing of Showdown ${prev.name} (no module state names its rivalry, the reset ran${selector?", none of its clubs on screen":""})`,
+  return check(m,`${showdownNow}.noEarlier.${where}`,`back to back without a reload: ${where} keeps and shows nothing of Showdown ${prev.name} (none of 13 modules' state names its rivalry, the reset ran${selector?", none of its clubs on screen":""})`,
     !seen.error&&seen.holding.length===0&&Number(seen.runs)>=1&&Array.isArray(seen.last?.failed)&&seen.last.failed.length===0&&stale.length===0&&!(selector&&/BOTH MANAGERS STARTED/.test(text)),
     JSON.stringify({error:seen.error,holding:seen.holding,runs:seen.runs,last:seen.last,stale,prevClubs:prev.clubs,clubs}).slice(0,1200),{screen:where});
 }

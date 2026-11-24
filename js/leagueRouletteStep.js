@@ -309,7 +309,7 @@
   function lrsOn(fn){listeners.add(fn);return()=>listeners.delete(fn);}
 
   // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
-  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["league-roulette"]=()=>{if(root.getActiveScreenName?.()===SCREEN_ID)return;lrsTeardown();target={seed:"",winner:null,drops:0,instant:false};};}catch(_error){}
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["league-roulette"]=()=>{if(root.getActiveScreenName?.()===SCREEN_ID)return "skip";lrsTeardown();target={seed:"",winner:null,drops:0,instant:false};lrsFreshSync();};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"cms-league-roulette-step",screenId:SCREEN_ID,
     arm:lrsArm,armed:()=>armed,holding:lrsHolding,ensure:lrsEnsure,sync:lrsSync,stage:lrsStage,busy:lrsBusy,caughtUp:lrsCaughtUp,leagueOut:lrsLeagueOut,failed:()=>failed,on:lrsOn,dispose:lrsTeardown});
 });
