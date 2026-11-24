@@ -1,6 +1,6 @@
 /* THE CHRONICLE · Volume 27 (Team G, r99 / 2.12.0): "From a fan, for the fans.", Nik's headline (2026-11-24 02:44 and 02:46 UTC:
    he is a big fan of Career Mode and built this for all the fans, all football fans; no words beyond his); the four clubhouses
-   (Wooden, Silver, Metallic Black, Premium Matte Black; heroes masked, per device, never Firebase, loading room too); the
+   (Wooden, Platinum, Metallic Black, Premium Matte Black; heroes masked, per device, never Firebase, loading room too); the
    Gazette paper off the faces, Career Start buttons off the jackets, sideways crest names inside their packs; no Rules change,
    mixed versions safe, the rollback line for a themed phone; 2.12.0 going live (dateless until it ships). Written 24 November
    2026 from gameplay/r99. Loaded by volume27.js. Builder: gameplay/r99/threads/bump/v27.py (project files), or edit this JSON
@@ -61,7 +61,7 @@ window.CHRONICLE_VOLUME27={
      "branch": "gameplay/r99",
      "ref": "cbd4ddead4f8889bcac8403d714f463ac538b0f2",
      "path": "Pull request #1571",
-     "label": "PR #1571: four clubhouses in Settings: Wooden, Silver, Metallic Black and Premium Matte Black",
+     "label": "PR #1571: four clubhouses in Settings: Wooden, Platinum, Metallic Black and Premium Matte Black",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1571",
      "kind": "pull-request"
     },
@@ -82,7 +82,7 @@ window.CHRONICLE_VOLUME27={
    "number": 221,
    "part": "for-the-fans",
    "title": "Four finishes",
-   "dek": "Fifty minutes after 2.11.0 goes live, Nik asks for the clubhouse to come in more than one finish. By that evening there are four: wood, silver, black metal and matte.",
+   "dek": "Fifty minutes after 2.11.0 goes live, Nik asks for the clubhouse to come in more than one finish. By that evening there are four: wood, platinum, black metal and matte.",
    "tags": [
     "2.12.0",
     "Clubhouse",
@@ -92,7 +92,7 @@ window.CHRONICLE_VOLUME27={
    "blocks": [
     {
      "type": "p",
-     "text": "2.11.0 went live on the twenty-third of November at twenty-four minutes past noon, Boston time. Fifty minutes later Nik asked for the clubhouse itself to change. Not the screens, not the heroes: the rooms. The warm wood and marble the game had been painted in would stay, and next to it there would be a silver clubhouse and a black metal one, picked in Settings."
+     "text": "2.11.0 went live on the twenty-third of November at twenty-four minutes past noon, Boston time. Fifty minutes later Nik asked for the clubhouse itself to change. Not the screens, not the heroes: the rooms. The warm wood and marble the game had been painted in would stay, and next to it there would be one in silver (Platinum, as it is called now) and one in black metal, picked in Settings."
     },
     {
      "type": "p",
@@ -108,11 +108,11 @@ window.CHRONICLE_VOLUME27={
     },
     {
      "type": "p",
-     "text": "The silver came in two versions, and he picked the second. The black took longer. He asked for it more premium and more metallic, not just darker; then for black metal, with no silver, grey or white in it. It became Metallic Black, brushed gunmetal and black marble caught by gold lamplight. And because a black that shines is not the only black, a fourth clubhouse arrived beside it: Premium Matte Black, soft-touch, quiet and deep, lit by warm gold."
+     "text": "The silver, now Platinum, came in two versions, and he picked the second. The black took longer. He asked for it more premium and more metallic, not just darker; then for black metal, with no silver, grey or white in it. It became Metallic Black, brushed gunmetal and black marble caught by gold lamplight. And because a black that shines is not the only black, a fourth clubhouse arrived beside it: Premium Matte Black, soft-touch, quiet and deep, lit by warm gold."
     },
     {
      "type": "p",
-     "text": "Four clubhouses, then: Wooden, the rooms as they were painted; Silver; Metallic Black; Premium Matte Black. Each phone or laptop keeps its own pick. It is never written to Firebase and never sent to the other phone, so Daniel can sit in silver while Nik stays in wood. The choice is applied before anything paints, so no room ever shows in the wrong colours first. The Wooden clubhouse runs none of the recolouring at all."
+     "text": "Four clubhouses, then: Wooden, the rooms as they were painted; Platinum; Metallic Black; Premium Matte Black. Each phone or laptop keeps its own pick. It is never written to Firebase and never sent to the other phone, so Daniel can sit in platinum while Nik stays in wood. The choice is applied before anything paints, so no room ever shows in the wrong colours first. The Wooden clubhouse runs none of the recolouring at all."
     },
     {
      "type": "p",
@@ -124,7 +124,7 @@ window.CHRONICLE_VOLUME27={
      "branch": "gameplay/r99",
      "ref": "cbd4ddead4f8889bcac8403d714f463ac538b0f2",
      "path": "Pull request #1571",
-     "label": "PR #1571: four clubhouses in Settings: Wooden, Silver, Metallic Black and Premium Matte Black",
+     "label": "PR #1571: four clubhouses in Settings: Wooden, Platinum, Metallic Black and Premium Matte Black",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1571",
      "kind": "pull-request"
     }
@@ -202,7 +202,7 @@ window.CHRONICLE_VOLUME27={
     },
     {
      "type": "p",
-     "text": "The note also says what a rollback would do, in plain words. If the game ever went back to 2.11.0, a phone that picked Silver or one of the blacks would show the Wooden clubhouse, because 2.11.0 has never heard of the others. The pick itself stays on the phone, and the clubhouse comes back when 2.12.0 does. Showdowns would not notice either way: nothing about them changed."
+     "text": "The note also says what a rollback would do, in plain words. If the game ever went back to 2.11.0, a phone that picked Platinum or one of the blacks would show the Wooden clubhouse, because 2.11.0 has never heard of the others. The pick itself stays on the phone, and the clubhouse comes back when 2.12.0 does. Showdowns would not notice either way: nothing about them changed."
     },
     {
      "type": "p",
@@ -234,7 +234,7 @@ window.CHRONICLE_VOLUME27={
      "branch": "gameplay/r99",
      "ref": "cbd4ddead4f8889bcac8403d714f463ac538b0f2",
      "path": "Pull request #1571",
-     "label": "PR #1571: four clubhouses in Settings: Wooden, Silver, Metallic Black and Premium Matte Black",
+     "label": "PR #1571: four clubhouses in Settings: Wooden, Platinum, Metallic Black and Premium Matte Black",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1571",
      "kind": "pull-request"
     },
