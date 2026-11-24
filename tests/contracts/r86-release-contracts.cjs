@@ -42,7 +42,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 {
   // 2.12.0 (r99) adds the themed clubhouses' metal panel marble (R99-01) and removes no shell path; themed room plates and
   // themed loading rooms are runtime-cached images.
-  const R99_ADDED=['css/r78-marble-tile-metal.webp'];
+  const R99_ADDED=['js/sharedTapMemory.js','css/r78-marble-tile-metal.webp'];// r100 W3: the shared tap memory
   const R99_REMOVED=[];
   const sw=read('service-worker.js');
   assert.match(sw,/const RUNTIME_REVISION = "2\.12\.0-r99";\nconst PREVIOUS_RUNTIME_REVISION = "2\.11\.0-r98";/);
@@ -52,7 +52,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
   const shell=JSON.parse(/const SHELL_PATHS\s*=\s*Object\.freeze\((\[[\s\S]*?\])\);/.exec(sw)[1]);
   assert.equal(r98.length,262);
   assert.deepEqual(added,shell.filter(p=>!r98.includes(p)),'the added list is this shell minus 2.11.0\'s');
-  assert.deepEqual(added,R99_ADDED,'r99 adds the metal panel marble');
+  assert.deepEqual(added,R99_ADDED,'r99 adds the metal panel marble; r100 the shared tap memory');
   assert.deepEqual(removed,R99_REMOVED,'r99 removes no shell path');
   assert.deepEqual(r98.filter(p=>!shell.includes(p)),removed,'every 2.11.0 shell path is still precached');
   assert.equal(shell.length,262-removed.length+added.length);

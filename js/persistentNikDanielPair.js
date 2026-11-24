@@ -76,7 +76,7 @@
   // Job 33 (R1): while Daniel's code is shown and Nik has not joined yet, re-read the pair link every 4 s for at most
   // 3 minutes, then every 15 s, instead of waiting for a CHECK STATUS tap. Read-only; paused while the tab is hidden.
   const PAIR_WAIT_FAST_MS=4000,PAIR_WAIT_SLOW_MS=15000,PAIR_WAIT_WINDOW_MS=180000;
-  let pairWaitTimer=null,pairWaitKey="",pairWaitSince=0,pairWaitEndedKey="";
+  let pairWaitTimer=null,pairWaitKey="",pairWaitSince=0,pairWaitEndedKey="",pairWaitLastLookKey="",pairWaitLastLookUntil=0;
   // r87 Fable F4-03/F3-04/F4-04: the waiting code's own expiry (from createPairing, or after a reload from ONE invite read per
   // code and page) bounds the wait: the poll reads only while Home or Connect Players is on screen and stops a minute after the
   // code expired (30 minutes after the wait began when the expiry could not be read: no invite lives longer). An expired code
@@ -121,10 +121,21 @@
   function pairRememberActiveShell(){if(state.status!=="paired"||state.connectionState!=="active"||!pairValidSaveId(state.providerSaveId))return;try{if(typeof root.readStorageValue==="function"&&typeof root.writeStorageValue==="function"&&root.readStorageValue(PAIRED_SHELL_KEY)!==state.providerSaveId)root.writeStorageValue(PAIRED_SHELL_KEY,state.providerSaveId);}catch(_error){}}
   function pairWaitingKey(){const staleNikPending=state.managerRole==="playerTwo"&&pairCurrentIdentityRole()==="playerTwo";return state.connectionState==="pending-pair"&&state.capability&&state.rivalryId&&state.accountId&&!staleNikPending?`${state.accountId}|${state.rivalryId}`:"";}
   function pairClearWaitingTimer(){if(pairWaitTimer!==null){root.clearTimeout?.(pairWaitTimer);pairWaitTimer=null;}}
+  /* r100 B6: the one last look is owed only for a code whose end this page knows (an open code expired, or one seen closed) */
+  function pairWaitLastLookDue(key){return Boolean(key)&&pairWaitLastLookKey!==key&&Number.isFinite(pairCodeExpiresAt());}
   function pairSyncWaitingPoll(){
-    const key=pairWaitingKey();if(!key){if(pairWaitKey)pairWaitEndedKey=pairWaitKey;pairWaitKey="";pairWaitSince=0;pairClearWaitingTimer();return;}
-    if(key!==pairWaitKey){pairWaitKey=key;pairWaitSince=Date.now();}
-    if(Date.now()>=pairWaitStopAt()){pairClearWaitingTimer();return;}
+    const key=pairWaitingKey();if(!key){if(pairWaitKey)pairWaitEndedKey=pairWaitKey;pairWaitKey="";pairWaitSince=0;pairWaitLastLookKey="";pairWaitLastLookUntil=0;pairClearWaitingTimer();return;}
+    if(key!==pairWaitKey){pairWaitKey=key;pairWaitSince=Date.now();pairWaitLastLookKey="";pairWaitLastLookUntil=0;}
+    if(Date.now()>=pairWaitStopAt()){
+      /* r100 B6 (Ironman reload at home-join): a code seen closed or expired gets ONE last look (the same two reads) before the
+         poll stops, because Nik's JOIN closes the code: a reload (or any refresh) that read the pair link just before his join
+         landed and the code just after it saw "pending" with a closed code and stopped for good, so Daniel sat on WAITING. */
+      if(!pairWaitLastLookDue(key)){pairClearWaitingTimer();return;}
+      if(!pairWaitLastLookUntil)pairWaitLastLookUntil=Date.now()+PAIR_WAIT_WINDOW_MS;
+      if(Date.now()>=pairWaitLastLookUntil){pairWaitLastLookKey=key;pairClearWaitingTimer();return;}
+      if(pairWaitTimer!==null||typeof root.setTimeout!=="function")return;
+      pairWaitTimer=root.setTimeout(()=>{pairWaitTimer=null;void pairWaitingPollTick();},PAIR_WAIT_FAST_MS);pairWaitTimer?.unref?.();return;
+    }
     if(pairWaitTimer!==null||typeof root.setTimeout!=="function")return;
     const delay=Math.max(0,Math.min(Date.now()-pairWaitSince<PAIR_WAIT_WINDOW_MS?PAIR_WAIT_FAST_MS:PAIR_WAIT_SLOW_MS,pairWaitStopAt()-Date.now()));
     pairWaitTimer=root.setTimeout(()=>{pairWaitTimer=null;void pairWaitingPollTick();},delay);pairWaitTimer?.unref?.();
@@ -135,10 +146,13 @@
   function pairContinueAfterWaitEnded(){if(!pairWaitEndedKey||state.busy)return;const key=pairWaitEndedKey;pairWaitEndedKey="";if(state.connectionState==="active"&&state.status==="paired"&&`${state.accountId}|${state.rivalryId}`===key)void Promise.resolve().then(pairAutoContinueAfterConnect).catch(()=>{});}
   async function pairWaitingPollTick(){
     /* r87 Fable F4-04: the code just expired: redraw once (Home tile and panel say so), no read; the poll then stays stopped */
-    if(pairWaitingKey()&&Date.now()>=pairWaitStopAt()){pairSetState({});return;}
+    if(pairWaitingKey()&&Date.now()>=pairWaitStopAt()&&!pairWaitLastLookDue(pairWaitingKey())){pairSetState({});return;}
+    let lastLook=false;
     try{
       const key=pairWaitingKey();
-      if(key&&!state.busy&&!pairInitializePromise&&pairWaitScreenShown()&&Date.now()<pairWaitStopAt()&&root.CareerModeSparkPrivatePairing?.getState?.()?.registered===true){
+      if(key&&!state.busy&&!pairInitializePromise&&pairWaitScreenShown()&&(Date.now()<pairWaitStopAt()||pairWaitLastLookDue(key))&&root.CareerModeSparkPrivatePairing?.getState?.()?.registered===true){
+        /* r100 B6: past the code's end this is the one last look; it is used up even if the read fails */
+        if(Date.now()>=pairWaitStopAt()){pairWaitLastLookKey=key;lastLook=true;}
         // Same read as CHECK STATUS (pair link + rivalry); the panel is only re-rendered when the connection changed.
         // r87 Fable F3-04: only these two documents are read fresh, never every read of the page.
         const context=await pairResolveContext(),budget=root.CareerModeFirestoreBudget;if(typeof budget?.wantFresh==="function"){for(const ref of [pairLinkReference(context),pairRivalryReference(context,state.rivalryId)])if(typeof ref?.path==="string"&&ref.path)budget.wantFresh(ref.path);}
@@ -150,6 +164,8 @@
         }
       }
     }catch(_error){}
+    /* r100 B6: after the last look a code still waiting is drawn as expired (as the stop's redraw did) */
+    if(lastLook&&pairWaitingKey()){pairSetState({});return;}
     pairSyncWaitingPoll();
   }
 
@@ -372,7 +388,10 @@ function pairCreateDurableRedemptionWitness(context,role,manager,rivalryId){retu
     if(parsed&&committed.checked&&pairJoinRefusedCode(error)){pairRefusedJoinRivalryIds.add(parsed.rivalryId);pairNotifyPartner();}
     // BH-11 (#7): remove only the empty local copy this attempt created, and only when the join was definitely refused.
     if(createdShell&&committed.checked&&pairJoinFailureIsDefinitive(error)){try{await pairDeleteExactPreparedShell(context,role,createdShell.saveId,createdShell.profileId);}catch(_error){}}
-    return pairSetState({status:error?.code?.includes("SHARED_SHELL")?"save-required":"error",busy:false,message:pairContextualJoinMessage(error)});
+    const failed=pairSetState({status:error?.code?.includes("SHARED_SHELL")?"save-required":"error",busy:false,message:pairContextualJoinMessage(error)});
+    // r100 B6: the caller is told whether the provider answered with a refusal (dead code, Rules refusal) or the join was only
+    // cut (network); the page state itself is unchanged, so a later state never carries it.
+    return pairFreezeDeep({...failed,joinRefused:pairJoinRefusedCode(error)});
   }finally{action.release();}}
 const PAIR_DEAD_CODE_ERRORS=new Set(["PAIRING_CAPABILITY_ALREADY_USED","PAIRING_CAPABILITY_EXPIRED","PAIRING_CAPABILITY_NOT_FOUND","PAIRING_RIVALRY_NOT_JOINABLE","PAIRING_TWO_MANAGER_LIMIT"]);
 const pairRefusedJoinRivalryIds=new Set();

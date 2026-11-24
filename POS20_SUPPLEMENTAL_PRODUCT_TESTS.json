@@ -3545,6 +3545,35 @@
       ]
     },
     {
+      "path": "tests/contracts/r100-tap-memory-contracts.cjs",
+      "patterns": [
+        "^js/sharedTapMemory\\.js$",
+        "^tests/contracts/r100\\-tap\\-memory\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r100-tap-memory-wiring-contracts.cjs",
+      "patterns": [
+        "^js/(sharedTapMemory|productionSharedSeasonCommit|productionSharedSeasonResults|productionSharedTransferChallenge|productionSharedCareerStart|productionSharedTerminalClose|productionFirebaseRuntime)\\.js$",
+        "^service\\-worker\\.js$",
+        "^tests/contracts/r100\\-tap\\-memory\\-wiring\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
+    },
+    {
+      "path": "tests/contracts/r100-b6-join-offline-contracts.cjs",
+      "patterns": [
+        "^js/persistentNikDanielPair\\.js$",
+        "^js/sparkPrivatePairing\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
+        "^js/whichShowdownIsLive\\.js$",
+        "^tests/contracts/r100\\-b6\\-join\\-offline\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$",
+        "^tests/support/home-join-window-fixture\\.cjs$"
+      ]
+    },
+    {
       "path": "tests/contracts/r100-w4-remember-sign-in-contracts.cjs",
       "patterns": [
         "^js/productionFirebaseRuntime\\.js$",
