@@ -528,7 +528,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
 
-Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop or move the camera. The opening at the end of the tunnel, the steps, the floor mat and the bottom edge sit at exactly the same places and sizes as in image 1, with the same amount of ceiling at the top and floor at the bottom. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
 
 Keep in the same places and at the same sizes: the tunnel receding to the pitch, the pillars and handrails, the bulkhead lamps. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
 
