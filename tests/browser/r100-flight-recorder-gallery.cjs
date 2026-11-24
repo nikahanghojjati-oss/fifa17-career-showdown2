@@ -1,12 +1,10 @@
 "use strict";
-// r100 Phoenix B5: the real app, no Firebase. Three checks per window size, screenshots to test-results/r100-flight-recorder/:
-//   settings  Settings with the FLIGHT RECORDER button in SHOWDOWN DATA and the Proof Wall plaque (a sample seal for this build,
-//             served in place of data/pos1m-seal.json, which POS1M writes): both painted, inside the window, clear of every other
-//             card, DONE and each other; no plaque at all when the seal is missing or belongs to another build.
-//   flight    FLIGHT RECORDER opens the page inside Settings: a whole 3-season Showdown fed through observe() step by step, with a
-//             sentinel in every private field (tests/support/flight-recorder-fixture.cjs). At EVERY step the page's whole DOM
-//             (text and attributes) and localStorage hold no sentinel; at the end every row is painted, not cut, inside the width,
-//             rows never overlap; BACK TO SETTINGS returns to the panels.
+// r100 Phoenix B5: the real app, no Firebase. Two checks per window size, screenshots to test-results/r100-flight-recorder/:
+//   background  Nik 2026-11-24: Phoenix stays in the background. A whole 3-season Showdown is fed through observe() step by
+//             step with a sentinel in every private field (tests/support/flight-recorder-fixture.cjs): the recorder keeps every
+//             step silently, and after EVERY step the page's whole DOM (text and attributes) and localStorage hold no
+//             sentinel. Settings, opened with a full journal and a whole POS1M seal on the server, shows no FLIGHT RECORDER and
+//             no Proof Wall, and the game never asks for data/pos1m-seal.json.
 //   phoenix   Phoenix Rebirth: a cold first open with a live Showdown shows no phoenix; the same browser reloaded rises it once
 //             over the status line (screenshot mid-rise), never covering a button, gone after about a second; a page that has
 //             risen does not rise again.
@@ -29,9 +27,10 @@ const STEPS = showdown(3, { stamp: plainStamp }).steps;
 
 function overlaps(a, b) { return a && b && a.x < b.x + b.width - 1 && b.x < a.x + a.width - 1 && a.y < b.y + b.height - 1 && b.y < a.y + a.height - 1; }
 
-async function boot(page, { seal = SEAL } = {}) {
+async function boot(page, { seal = SEAL, asked = null } = {}) {
   await page.route(/https:\/\/(?:[^/]*\.)?googleapis\.com\//, route => route.abort());
-  await page.route(/\/data\/pos1m-seal\.json(\?.*)?$/, route => seal ? route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(seal) }) : route.fulfill({ status: 404, body: "" }));
+  // a whole seal for this build sits on the server: the game must never ask for it
+  await page.route(/\/data\/pos1m-seal\.json(\?.*)?$/, route => { if (asked) asked.count += 1; return seal ? route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(seal) }) : route.fulfill({ status: 404, body: "" }); });
   await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
   await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 20000 });
   await page.evaluate(() => loadRuntimeScript("flight-recorder", "js/flightRecorder.js", () => Boolean(window.CareerModeFlightRecorder)));
@@ -44,15 +43,6 @@ async function openSettings(page) {
   await page.locator("#settingsOverlay:not(.hidden) #settingsContent").waitFor({ state: "visible", timeout: 10000 });
   await page.waitForTimeout(500);
 }
-const probe = (page, selectors) => page.evaluate(selectors => {
-  const box = el => { if (!el) return null; const r = el.getBoundingClientRect(); return r.width && r.height ? { x: r.x, y: r.y, width: r.width, height: r.height } : null; };
-  const vis = el => { for (let n = el; n && n.nodeType === 1; n = n.parentElement) { const s = getComputedStyle(n); if (s.display === "none" || s.visibility === "hidden" || Number(s.opacity) === 0) return false; } return true; };
-  const out = {};
-  for (const [name, selector] of Object.entries(selectors)) out[name] = [...document.querySelectorAll(selector)].filter(vis).map(el => ({ box: box(el), text: el.textContent.trim().slice(0, 80), cut: el.scrollWidth > el.clientWidth + 1 }));
-  const content = document.getElementById("settingsContent");
-  out.view = { w: innerWidth, h: innerHeight, scroll: content ? content.scrollHeight - content.clientHeight : 0 };
-  return out;
-}, selectors);
 async function assertPrivate(page, label) {
   const leak = await page.evaluate(source => {
     const secret = new RegExp(source);
@@ -62,39 +52,6 @@ async function assertPrivate(page, label) {
     return m ? (html.slice(Math.max(0, m.index - 80), m.index + 40)) : null;
   }, SECRET.source);
   assert.equal(leak, null, `${label}: a private value reached the page or this browser's storage: ${leak}`);
-}
-
-async function assertClearOfChrome(page, targets, label) {
-  // every scroll position of every scroller: the painted part of each target (cut to its scrollers) stays clear of the page
-  // title, the x, DONE and (for the plaque) the sticky Account card
-  const hits = await page.evaluate(targets => {
-    const shown = el => { for (let n = el; n && n.nodeType === 1; n = n.parentElement) { const s = getComputedStyle(n); if (s.display === "none" || s.visibility === "hidden" || Number(s.opacity) === 0) return false; } return true; };
-    const painted = el => {
-      let r = el.getBoundingClientRect(); let x1 = r.left, y1 = r.top, x2 = r.right, y2 = r.bottom;
-      for (let n = el.parentElement; n && n !== document.documentElement; n = n.parentElement) {
-        const s = getComputedStyle(n);
-        if (s.overflowX !== "visible" || s.overflowY !== "visible") { const c = n.getBoundingClientRect(); x1 = Math.max(x1, c.left); y1 = Math.max(y1, c.top); x2 = Math.min(x2, c.right); y2 = Math.min(y2, c.bottom); }
-      }
-      x1 = Math.max(x1, 0); y1 = Math.max(y1, 0); x2 = Math.min(x2, innerWidth); y2 = Math.min(y2, innerHeight);
-      return x2 - x1 > 1 && y2 - y1 > 1 ? { x1, y1, x2, y2 } : null;
-    };
-    const meet = (a, b) => a && b && a.x1 < b.x2 - 1 && b.x1 < a.x2 - 1 && a.y1 < b.y2 - 1 && b.y1 < a.y2 - 1;
-    const chrome = [...document.querySelectorAll(".settingsTitleBlock, #settingsClose, .settingsFooter .menuButton, #settingsContent > .settingsConnectedAccountPanel")].filter(shown);
-    const scrollers = [document.scrollingElement, ...document.querySelectorAll("#settingsOverlay, #settingsOverlay *")].filter(n => n && n.scrollHeight > n.clientHeight + 1 && (n === document.scrollingElement || /auto|scroll/.test(getComputedStyle(n).overflowY)));
-    const saved = scrollers.map(n => n.scrollTop);
-    const out = [];
-    const check = where => {
-      for (const selector of targets) for (const el of document.querySelectorAll(selector)) {
-        if (!shown(el)) continue;
-        const a = painted(el);
-        for (const c of chrome) if (c !== el && !c.contains(el) && !el.contains(c) && meet(a, painted(c))) out.push(`${selector} meets ${c.className || c.id} ${where}`);
-      }
-    };
-    check("at the top");
-    scrollers.forEach((n, i) => { for (const f of [0.25, 0.5, 0.75, 1]) { n.scrollTop = Math.round((n.scrollHeight - n.clientHeight) * f); check(`with scroller ${i} at ${f * 100}%`); } n.scrollTop = saved[i]; });
-    return [...new Set(out)];
-  }, targets);
-  assert.deepEqual(hits, [], `${label}: ${hits.join("; ")}`);
 }
 
 (async () => {
@@ -108,75 +65,39 @@ async function assertClearOfChrome(page, targets, label) {
     const launch = () => chromium.launch({ headless: true, ...runtime });
     let browser = null;
     try {
-      // ---- settings + flight ----
+      // ---- background: records silently, nothing of it is shown ----
       {
         browser = await launch();
         const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: scale, reducedMotion: "reduce", isMobile: phone, hasTouch: phone });
         const page = await context.newPage();
+        const asked = { count: 0 };
         try {
-          await boot(page);
-          // a live Showdown in its second season, seen step by step
-          const cut = STEPS.findIndex(step => /transferChallenges\/season_2$/.test(step.path) && step.data.revision === 3);
-          await feed(page, STEPS.slice(0, cut + 1));
-          await openSettings(page);
-          // the seal arrives after the first draw and the panels are drawn again; wait until both are in and fully shown
-          await page.waitForFunction(() => {
-            const shown = el => { for (let n = el; n && n.nodeType === 1; n = n.parentElement) { const s = getComputedStyle(n); if (s.display === "none" || s.visibility === "hidden" || Number(s.opacity) < 1) return false; } return true; };
-            const button = document.querySelector(".settingsFlightRecorderButton"), plaque = document.querySelector(".settingsProofWall");
-            return Boolean(button && plaque && shown(button) && shown(plaque));
-          }, null, { timeout: 10000 });
-          const main = await probe(page, { button: ".settingsFlightRecorderButton", plaque: ".settingsProofWall", panels: "#settingsContent > .settingsPanel:not(.settingsProofWall)", done: ".settingsFooter .menuButton" });
-          await page.screenshot({ path: path.join(output, `${tag}-settings.png`) });
-          assert.equal(main.button.length, 1, `FLIGHT RECORDER is in SHOWDOWN DATA (${JSON.stringify(main.button)})`);
-          assert.equal(main.plaque.length, 1, "the Proof Wall plaque is painted");
-          assert.match(main.plaque[0].text, /PROOF WALL\s*BUILD/);
-          for (const item of [...main.button, ...main.plaque]) {
-            assert.ok(item.box && item.box.x >= 0 && item.box.x + item.box.width <= main.view.w + 1, `inside the width: ${item.text}`);
-            assert.equal(item.cut, false, `not cut: ${item.text}`);
-          }
-          for (const card of main.panels) assert.ok(!overlaps(main.plaque[0].box, card.box), `plaque clear of ${card.text.slice(0, 30)}`);
-          for (const done of main.done) assert.ok(!overlaps(main.plaque[0].box, done.box), "plaque clear of DONE");
-          await assertClearOfChrome(page, [".settingsProofWall", ".settingsFlightRecorderButton"], "Settings");
-          await page.locator(".settingsFlightRecorderButton").click();
-          await page.locator(".settingsFlightRecorderPanel").waitFor({ state: "visible", timeout: 5000 });
-          // the rest of the Showdown arrives while the page is open: every step, private check after each
-          for (let i = cut + 1; i < STEPS.length; i += 1) {
+          await boot(page, { asked });
+          for (let i = 0; i < STEPS.length; i += 1) {
             await feed(page, [STEPS[i]]);
             await assertPrivate(page, `step ${i + 1}`);
           }
-          await page.waitForTimeout(200);
-          const flight = await probe(page, { rows: ".flightRecorderStep", back: ".settingsFlightRecorderBack", others: "#settingsContent > .settingsPanel:not(.settingsFlightRecorderPanel)", heads: ".flightRecorderGroupHead" });
-          await page.screenshot({ path: path.join(output, `${tag}-flight.png`) });
-          await page.screenshot({ path: path.join(output, `${tag}-flight-full.png`), fullPage: true });
-          assert.equal(flight.others.length, 0, "the Flight Recorder page stands alone");
-          assert.equal(flight.back.length, 1, "BACK TO SETTINGS is there");
-          assert.equal(flight.rows.length, 6 + 2 + 3 * 10 + 1, "every step of the 3-season Showdown");
-          assert.deepEqual(flight.heads.map(h => h.text), ["SET-UP", "SEASON 1", "SEASON 2", "SEASON 3", "THE END"]);
-          for (const row of flight.rows) {
-            assert.ok(row.box && row.box.x >= 0 && row.box.x + row.box.width <= flight.view.w + 1, `row inside the width: ${row.text}`);
-            assert.equal(row.cut, false, `row not cut: ${row.text}`);
-          }
-          for (let i = 0; i < flight.rows.length; i += 1) for (let j = i + 1; j < flight.rows.length; j += 1) assert.ok(!overlaps(flight.rows[i].box, flight.rows[j].box), "rows do not overlap");
-          await assertPrivate(page, "the end");
-          await assertClearOfChrome(page, [".settingsFlightRecorderPanel"], "Flight Recorder");
-          await page.locator(".settingsFlightRecorderBack").click();
-          await page.locator(".settingsFlightRecorderButton").waitFor({ state: "visible", timeout: 5000 });
-          console.log(`PASS ${tag} settings + flight: ${flight.rows.length} steps, plaque "${main.plaque[0].text.replace(/\s+/g, " ").slice(0, 70)}"`);
+          assert.equal(await page.evaluate(() => window.CareerModeFlightRecorder.steps().steps.length), 6 + 2 + 3 * 10 + 1, "every step of the 3-season Showdown is recorded");
+          await openSettings(page);
+          await page.waitForTimeout(800);
+          const shown = await page.evaluate(() => {
+            const visibleText = document.body.innerText;
+            return {
+              words: (visibleText.match(/FLIGHT RECORDER|PROOF WALL|STORIES SURVIVED|PLANTED BUGS|Sealed by POS1M/gi) || []),
+              nodes: [...document.querySelectorAll("[class*='flightRecorder' i], [class*='proofWall' i], [data-flight-recorder-steps], [data-settings-view='flight']")].map(el => el.className || el.tagName),
+              rows: [...document.querySelectorAll("time")].filter(el => /flight/i.test(el.className)).length
+            };
+          });
+          await page.screenshot({ path: path.join(output, `${tag}-settings.png`) });
+          assert.deepEqual(shown.words, [], "Settings shows no Flight Recorder or Proof Wall words");
+          assert.deepEqual(shown.nodes, [], "no Flight Recorder or Proof Wall element exists anywhere");
+          // and every SHOWDOWN DATA button there is today's: no new way in
+          const buttons = await page.evaluate(() => [...document.querySelectorAll("#settingsContent button")].map(b => b.textContent.trim().toUpperCase()));
+          assert.ok(!buttons.some(t => /FLIGHT|RECORDER|PROOF/.test(t)), `no button opens it: ${buttons.join(" | ")}`);
+          await assertPrivate(page, "Settings open");
+          assert.equal(asked.count, 0, "the game never asks for data/pos1m-seal.json");
+          console.log(`PASS ${tag} background: ${STEPS.length} steps recorded silently; no Flight Recorder or Proof Wall anywhere; seal never asked for`);
         } finally { await context.close().catch(() => {}); await browser.close().catch(() => {}); browser = null; }
-      }
-      // ---- no plaque without a valid seal for this build ----
-      if (width === 1920 && height === 866 || width === 390) {
-        for (const seal of [null, { ...SEAL, build: "9.9.9" }, { ...SEAL, stories: { survived: 999999, run: 1000000 } }, { ...SEAL, sealed: false }]) {
-          browser = await launch();
-          const context = await browser.newContext({ viewport: { width, height }, reducedMotion: "reduce", isMobile: phone, hasTouch: phone });
-          const page = await context.newPage();
-          try {
-            await boot(page, { seal });
-            await openSettings(page);
-            assert.equal(await page.locator(".settingsProofWall").count(), 0, `no plaque for ${JSON.stringify(seal && { build: seal.build, stories: seal.stories, sealed: seal.sealed })}`);
-          } finally { await context.close().catch(() => {}); await browser.close().catch(() => {}); browser = null; }
-        }
-        console.log(`PASS ${tag} no plaque without a whole seal for this build`);
       }
       // ---- phoenix ----
       {

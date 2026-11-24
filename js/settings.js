@@ -774,8 +774,6 @@ function createOfflinePanel(){
 
 function refreshSettingsOfflinePanel(){
     if(!settingsContent){ return false; }
-    // the Flight Recorder page shows nothing of the offline state: it keeps its focus and scroll
-    if(settingsView === "flight"){ return false; }
     const applicationUpdate = settingsContent.querySelector(".settingsApplicationUpdateButton");
     if(applicationUpdate){
         const state = getSettingsOfflineState();
@@ -1110,133 +1108,6 @@ function createClubhouseControl(){
     return row;
 }
 
-// r100 Phoenix B5: the Flight Recorder page and the Proof Wall plaque. Both show only what this browser already holds: the
-// recorder's journal (js/flightRecorder.js, the public step ledger of this Showdown, never a pick, guess, signing or score)
-// and the seal file POS1M bakes into the build (data/pos1m-seal.json). No Firebase read or write. The Flight Recorder opens
-// inside Settings from SHOWDOWN DATA; BACK TO SETTINGS or closing Settings returns to the panels.
-const SETTINGS_FLIGHT_JOURNAL_KEY = "careerModeShowdown.flightRecorder";
-const SETTINGS_PROOF_SEAL_PATH = "data/pos1m-seal.json";
-let settingsView = "main";
-let settingsFlightUnsubscribe = null;
-let settingsProofSeal;
-let settingsProofSealLoad = null;
-
-function getSettingsFlightRecorder(){
-    const recorder = window.CareerModeFlightRecorder;
-    return recorder && typeof recorder.steps === "function" && typeof recorder.render === "function" ? recorder : null;
-}
-function settingsFlightRecorderHasSteps(){
-    try{
-        const recorder = getSettingsFlightRecorder();
-        return Boolean(recorder && recorder.steps().steps.length);
-    }catch(_error){ return false; }
-}
-// Settings can open before any read of this page reached the recorder (offline, or straight after a reload): a saved journal
-// loads the module, then the panels are drawn again with the FLIGHT RECORDER button.
-function ensureSettingsFlightRecorder(){
-    if(getSettingsFlightRecorder() || typeof window.loadRuntimeScript !== "function"){ return; }
-    let saved = null;
-    try{ saved = typeof readStorageValue === "function" ? readStorageValue(SETTINGS_FLIGHT_JOURNAL_KEY, true) : null; }catch(_error){ saved = null; }
-    if(!saved){ return; }
-    window.loadRuntimeScript("flight-recorder", "js/flightRecorder.js", () => Boolean(window.CareerModeFlightRecorder))
-        .then(() => {
-            if(settingsOverlay && !settingsOverlay.classList.contains("hidden") && settingsView === "main" && settingsFlightRecorderHasSteps()){ renderSettings(); }
-        })
-        .catch(() => {});
-}
-function stopSettingsFlightUpdates(){
-    if(typeof settingsFlightUnsubscribe === "function"){
-        try{ settingsFlightUnsubscribe(); }catch(_error){}
-    }
-    settingsFlightUnsubscribe = null;
-}
-function openSettingsFlightRecorder(){
-    if(!getSettingsFlightRecorder()){ return; }
-    settingsView = "flight";
-    renderSettings();
-    focusSettingsControl(".settingsFlightRecorderBack");
-}
-function closeSettingsFlightRecorder(){
-    settingsView = "main";
-    renderSettings();
-    focusSettingsControl(".settingsFlightRecorderButton");
-}
-function createFlightRecorderPanel(recorder){
-    const panel = createSettingsPanel(
-        "THIS SHOWDOWN",
-        "FLIGHT RECORDER",
-        "Every step of this Showdown with its server time: who locked, who published, when."
-    );
-    panel.classList.add("sd-panel", "settingsFlightRecorderPanel");
-    const back = createSettingsElement("button", "menuButton settingsFlightRecorderBack", "BACK TO SETTINGS");
-    back.type = "button";
-    back.addEventListener("click", () => closeSettingsFlightRecorder());
-    const body = createSettingsElement("div", "settingsFlightRecorderBody");
-    const draw = () => {
-        body.replaceChildren();
-        try{ recorder.render(body); }catch(_error){ body.replaceChildren(createSettingsElement("p", "settingsDataNote", "The Flight Recorder could not be drawn here.")); }
-    };
-    draw();
-    stopSettingsFlightUpdates();
-    if(typeof recorder.onChange === "function"){
-        settingsFlightUnsubscribe = recorder.onChange(() => {
-            if(settingsView === "flight" && body.isConnected){ draw(); }
-        });
-    }
-    panel.append(back, body);
-    return panel;
-}
-
-function settingsProofSealValid(seal){
-    const count = value => Number.isInteger(value) && value > 0;
-    const whole = (value, done, all) => Boolean(value && typeof value === "object" && count(value[all]) && value[done] === value[all]);
-    return Boolean(seal && typeof seal === "object" && seal.schemaVersion === 1 && seal.engine === "POS1M" && seal.sealed === true
-        && typeof seal.build === "string" && seal.build === getSettingsApplicationVersion()
-        && typeof seal.commit === "string" && /^[0-9a-f]{40}$/.test(seal.commit)
-        && typeof seal.sealedAt === "string" && !Number.isNaN(Date.parse(seal.sealedAt))
-        && whole(seal.stories, "survived", "run") && whole(seal.laws, "held", "total") && whole(seal.plantedBugs, "caught", "total"));
-}
-// The seal is a static file in the build (not precached: until POS1M's first green million there is none). A missing file or a
-// seal for another build, not sealed by POS1M (a shard missing, a replay failed or not run), with a story lost, a law broken or a
-// planted bug missed, shows no plaque. Offline: asked again next open.
-function loadSettingsProofSeal(){
-    if(settingsProofSeal !== undefined || settingsProofSealLoad || typeof fetch !== "function"){ return; }
-    settingsProofSealLoad = fetch(SETTINGS_PROOF_SEAL_PATH, { cache: "no-cache", credentials: "same-origin" })
-        .then(response => response.ok ? response.json().catch(() => null) : null)
-        .then(seal => settingsProofSealValid(seal) ? Object.freeze(seal) : null, () => undefined)
-        .then(seal => {
-            settingsProofSeal = seal;
-            settingsProofSealLoad = null;
-            if(seal && settingsOverlay && !settingsOverlay.classList.contains("hidden") && settingsView === "main"){ renderSettings(); }
-        });
-}
-function settingsProofCount(done, all){
-    const format = value => Number(value).toLocaleString("en-US");
-    return `${format(done)} of ${format(all)}`;
-}
-function createProofWallPlaque(){
-    const seal = settingsProofSeal;
-    if(!seal){ return null; }
-    const plaque = createSettingsElement("section", "settingsPanel sd-panel settingsProofWall");
-    plaque.setAttribute("aria-label", "Proof Wall");
-    const heading = createSettingsElement("div", "settingsProofWallHeading");
-    heading.append(
-        createSettingsElement("span", "settingsPanelEyebrow", "PROOF WALL"),
-        createSettingsElement("h3", "", `BUILD ${seal.build}`)
-    );
-    const facts = createSettingsElement("div", "settingsProofWallFacts");
-    facts.append(
-        createSettingsInfoRow("STORIES SURVIVED", settingsProofCount(seal.stories.survived, seal.stories.run)),
-        createSettingsInfoRow("LAWS HELD", settingsProofCount(seal.laws.held, seal.laws.total)),
-        createSettingsInfoRow("PLANTED BUGS CAUGHT", settingsProofCount(seal.plantedBugs.caught, seal.plantedBugs.total))
-    );
-    let sealed = "";
-    try{ sealed = new Date(seal.sealedAt).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }); }catch(_error){ sealed = ""; }
-    const note = createSettingsElement("p", "settingsProofWallNote", `Sealed by POS1M${sealed ? ` on ${sealed}` : ""} · ${seal.commit.slice(0, 7)}`);
-    plaque.append(heading, facts, note);
-    return plaque;
-}
-
 function createDataPanel(){
     const live = getSettingsLiveShowdown();
     const active = live ? live.showdown : null;
@@ -1260,12 +1131,6 @@ function createDataPanel(){
     );
 
     const actions = createSettingsElement("div", "settingsOfflineActions settingsDataActions");
-    if(settingsFlightRecorderHasSteps()){
-        const recorder = createSettingsElement("button", "menuButton settingsFlightRecorderButton", "FLIGHT RECORDER");
-        recorder.type = "button";
-        recorder.addEventListener("click", () => openSettingsFlightRecorder());
-        actions.appendChild(recorder);
-    }
     if(active){
         const endCurrent = createSettingsElement(
             "button",
@@ -1285,7 +1150,7 @@ function createDataPanel(){
             : "No Showdown in progress. Your finished Showdowns are on the History screen."
     );
 
-    if(actions.childElementCount){ panel.append(info, actions, note); }else{ panel.append(info, note); }
+    if(active){ panel.append(info, actions, note); }else{ panel.append(info, note); }
     panel.append(createClubhouseControl());
     return panel;
 }
@@ -1295,22 +1160,12 @@ function renderSettings(){
     if(!settingsContent){ return; }
 
     const fragment = document.createDocumentFragment();
-    const flightRecorder = settingsView === "flight" ? getSettingsFlightRecorder() : null;
-    if(flightRecorder){
-        fragment.append(createFlightRecorderPanel(flightRecorder));
-    }else{
-        settingsView = "main";
-        stopSettingsFlightUpdates();
-        fragment.append(
-            createApplicationPanel(),
-            createMotionPanel(),
-            createOfflinePanel(),
-            createDataPanel()
-        );
-        const plaque = createProofWallPlaque();
-        if(plaque){ fragment.append(plaque); }
-    }
-    if(settingsContent.dataset){ settingsContent.dataset.settingsView = settingsView; }
+    fragment.append(
+        createApplicationPanel(),
+        createMotionPanel(),
+        createOfflinePanel(),
+        createDataPanel()
+    );
     // DONE may live in the content grid (placeSettingsFooter); hand it back to the dialog first so the rebuild keeps it.
     const keptFooter = settingsDialog?.querySelector?.(".settingsFooter");
     if(keptFooter && keptFooter.parentElement === settingsContent && typeof settingsDialog.append === "function"){ settingsDialog.append(keptFooter); }
@@ -1358,9 +1213,7 @@ function getSettingsFocusRestoreSelector(){
         ".settingsAudioToggle",
         ".settingsOfflineInstallButton",
         ".settingsOfflineUpdateButton",
-        ".settingsApplicationUpdateButton",
-        ".settingsFlightRecorderBack",
-        ".settingsFlightRecorderButton"
+        ".settingsApplicationUpdateButton"
     ]){
         if(active.matches(selector)){ return selector; }
     }
@@ -1479,11 +1332,8 @@ function setSettingsBackgroundInert(inert){
 function openSettings(){
     ensureSettingsDialog();
     settingsOfflineGuidance = "";
-    settingsView = "main";
     if(isSettingsOnlineCareer()){ refreshSettingsOnlineHistory(); }
     renderSettings();
-    ensureSettingsFlightRecorder();
-    loadSettingsProofSeal();
     refreshSettingsPartnerMeter();
 
     settingsPreviousFocus = document.activeElement instanceof HTMLElement
@@ -1515,8 +1365,6 @@ function closeSettings(restoreFocus = true){
     }
     settingsPreviousFocus = null;
     settingsOfflineGuidance = "";
-    settingsView = "main";
-    stopSettingsFlightUpdates();
 }
 
 function initializeSettings(){
@@ -1527,8 +1375,6 @@ function initializeSettings(){
         settingsPreferenceListenerBound = true;
         window.addEventListener("career-mode-preferences-change", event => {
             if(settingsOverlay && !settingsOverlay.classList.contains("hidden")){
-                // the Flight Recorder page shows no preference: it keeps its focus and scroll
-                if(settingsView === "flight"){ return; }
                 renderSettings();
                 if(event && event.detail && event.detail.source === "user"){
                     focusSelectedSettingsMotionChoice();

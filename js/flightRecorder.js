@@ -1,5 +1,7 @@
 (function(root,factory){const api=factory(root);if(typeof module!=="undefined"&&module.exports)module.exports=api;else root.CareerModeFlightRecorder=api;})(typeof globalThis!=="undefined"?globalThis:this,function(root){"use strict";
-// r100 Phoenix B5: the Flight Recorder and Phoenix Rebirth. Zero reads and zero writes to Firebase.
+// r100 Phoenix B5: the Flight Recorder and Phoenix Rebirth. Zero reads and zero writes to Firebase. The Flight Recorder is a
+// silent background journal (Nik 2026-11-24: Phoenix stays in the background): no page, button or text of it is shown to
+// players. steps() and phoenixState() are for our tests and B1's fault suite only; the one thing players see is the phoenix.
 // The Firestore budget layer (js/sparkPrivatePairing.js, fsbTap) hands this module every server copy of a document the phone
 // reads or a listener delivers anyway. observe() keeps only the PUBLIC step ledger of this Showdown's shared documents:
 //   rivalries/{id}                                connectionState (active / closed) and its updatedAt
@@ -12,7 +14,7 @@
 // guesses, signings, spins, results, scores, totals, clubs, leagues, ids or hashes, and never a per-manager document
 // (.../roles/..., Prime Pack, sessions, accounts). So the journal cannot hold a rival's pick, guess, signing or score at any
 // step, before or after a reveal. A step's time is exact when this phone saw the document at that step's own revision (the
-// last step of a document carries its updatedAt); a step it only saw later is shown as "by" the later time.
+// last step of a document carries its updatedAt); a step it only saw later is kept with exact:false (seen "by" that time).
 // Phoenix Rebirth: while a shared Showdown is live this browser keeps one mark (its rivalry id). A page that starts with the
 // mark already there (a reload, a closed tab opened again, an evicted page) and then sees that same live rivalry is a resume:
 // a small gold phoenix rises once over the status line for about a second. A cold first open has no mark, so no phoenix.
@@ -33,7 +35,6 @@ const STEP_TEXT=Object.freeze({
   "close:close":"The Showdown closed"});
 
 let journal=null,loaded=false,resumeMark=undefined,markHeld=null,phoenix={armed:false,rose:0,armedAt:0,rivalryId:null,timer:null};
-const listeners=new Set();
 
 // Saved through storage.js's helpers in their quiet form (quiet=true; storage.js is the only file that touches the browser's storage): a blocked or full
 // storage never raises the "may not have saved" notice in the middle of a step. After a failed write the journal stays in
@@ -105,7 +106,6 @@ function validStep(step){
     (step.actor===null||Object.hasOwn(ROLES,step.actor))&&(step.at===null||Number.isInteger(step.at)&&step.at>1577836800000&&step.at<4102444800000)&&typeof step.exact==="boolean";
 }
 function save(){if(journal)writeJson(JOURNAL_KEY,journal);}
-function notifyListeners(){for(const fn of listeners){try{fn();}catch(_error){}}}
 
 function upsert(rivalryId,kind,season,index,type,actor,at,exact){
   if(!journal||journal.rivalryId!==rivalryId)return false;
@@ -148,7 +148,7 @@ function observeData(path,data){
       if(upsert(where.rivalryId,where.kind,where.season,index,op.type,op.actor,at,exact))changed=true;
     });
   }
-  if(changed){save();notifyListeners();}
+  if(changed)save();
   return changed;
 }
 
@@ -172,49 +172,6 @@ function steps(){
     who:step.actor?ROLES[step.actor]:"",text:STEP_TEXT[`${step.kind}:${step.type}`]}));
   return Object.freeze({rivalryId:journal.rivalryId,steps:Object.freeze(list)});
 }
-
-// ---------------------------------------------------------------------------------------------------------------------------
-// The Flight Recorder view (Settings: SHOWDOWN DATA > FLIGHT RECORDER). Times are the server's, shown in this device's clock.
-function el(document,tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined&&text!==null)node.textContent=String(text);return node;}
-function timeText(ms){
-  if(ms===null)return "";
-  try{return new Date(ms).toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit",second:"2-digit"});}catch(_error){return "";}
-}
-function dayText(ms){
-  try{return new Date(ms).toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"});}catch(_error){return "";}
-}
-function groupOf(step){return step.kind==="setup"||step.kind==="careerStart"?"SET-UP":step.kind==="close"?"THE END":`SEASON ${step.season}`;}
-function render(container,options={}){
-  const document=container&&container.ownerDocument;
-  if(!document)return null;
-  const view=steps();
-  const wrap=el(document,"div","flightRecorder");
-  wrap.dataset.flightRecorderSteps=String(view.steps.length);
-  if(!view.steps.length){
-    wrap.append(el(document,"p","flightRecorderEmpty","No steps yet. Each step of the Showdown appears here with its server time as it happens."));
-    container.append(wrap);return wrap;
-  }
-  let group=null,list=null,day=null;
-  for(const step of view.steps){
-    const name=groupOf(step);
-    if(name!==group){group=name;const section=el(document,"section","flightRecorderGroup");section.append(el(document,"h4","flightRecorderGroupHead",name));list=el(document,"ol","flightRecorderList");section.append(list);wrap.append(section);}
-    const row=el(document,"li","flightRecorderStep");
-    row.dataset.kind=step.kind;
-    const when=el(document,"time","flightRecorderTime");
-    if(step.at!==null){
-      when.dateTime=new Date(step.at).toISOString();
-      const today=dayText(step.at);
-      when.textContent=(step.exact?"":"by ")+timeText(step.at);
-      if(today!==day){day=today;row.append(el(document,"span","flightRecorderDay",today));}
-    }else when.textContent="—";
-    row.append(when,el(document,"b","flightRecorderWho",step.who),el(document,"span","flightRecorderWhat",step.text));
-    list.append(row);
-  }
-  if(options.note!==false)wrap.append(el(document,"p","flightRecorderNote","Server times, shown in your local time. \"by\" marks a step that arrived a little later. Picks, guesses, signings and scores are never kept here."));
-  container.append(wrap);
-  return wrap;
-}
-function onChange(fn){if(typeof fn==="function"){listeners.add(fn);return()=>listeners.delete(fn);}return()=>{};}
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // Phoenix Rebirth.
@@ -313,6 +270,6 @@ function rise(line){
 function phoenixState(){loadJournal();return Object.freeze({resumeMark:resumeMark||null,armed:phoenix.armed,rose:phoenix.rose});}
 
 return Object.freeze({contractVersion:1,feature:"r100-flight-recorder",providerReadRequired:false,providerWriteRequired:false,
-  journalKey:JOURNAL_KEY,markKey:MARK_KEY,route,extract,observe,observeData,steps,render,onChange,phoenixState,
-  _resetForTests(){journal=null;loaded=false;resumeMark=undefined;markHeld=null;storageBroken=false;seenRevision.clear();seenState.clear();disarm();phoenix={armed:false,rose:0,armedAt:0,rivalryId:null,timer:null};listeners.clear();}});
+  journalKey:JOURNAL_KEY,markKey:MARK_KEY,route,extract,observe,observeData,steps,phoenixState,
+  _resetForTests(){journal=null;loaded=false;resumeMark=undefined;markHeld=null;storageBroken=false;seenRevision.clear();seenState.clear();disarm();phoenix={armed:false,rose:0,armedAt:0,rivalryId:null,timer:null};}});
 });
