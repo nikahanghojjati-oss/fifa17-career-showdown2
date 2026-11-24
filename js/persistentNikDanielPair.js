@@ -1,3 +1,38 @@
+/* showdown-reset:begin */
+// Phoenix W5 (r100): the page never reloads between Showdowns, so every module that keeps a Showdown's data in memory adds one
+// clear to window.CareerModeShowdownClears (a plain object, name -> clear; a module may load before this file). The reset runs them all
+// when the permanent pair below reports a rivalry this page has not seen before (a new Showdown: Daniel's START, Nik's JOIN)
+// and when the ended Showdown is let go on Home (career-mode-permanent-pair-ended). A clear puts the module's Showdown data
+// back to what a freshly loaded page holds (no read, no write, no render); install flags, API handles, listeners, timers and
+// work in flight stay. History, career and pairing caches are not Showdown data and never register.
+// tests/contracts/r100-showdown-reset-contracts.cjs fails when a module keeps Showdown data and does not register.
+(function(root){
+  "use strict";
+  if(!root||root.CareerModeShowdownReset)return;
+  const RIVALRY=/^pair_[0-9a-f]{64}$/,seen=new Set();
+  let running=false,runs=0,last=null;
+  function showdownResetClears(){const clears=root.CareerModeShowdownClears;return clears&&typeof clears==="object"?clears:(root.CareerModeShowdownClears={});}
+  function showdownResetRun(reason){
+    if(running)return null;
+    running=true;const cleared=[],failed=[];
+    try{for(const [name,clear] of Object.entries(showdownResetClears())){if(typeof clear!=="function")continue;try{clear(reason);cleared.push(name);}catch(_error){failed.push(name);}}}
+    finally{running=false;}
+    runs+=1;last=Object.freeze({reason:String(reason||""),at:Date.now(),cleared:Object.freeze(cleared),failed:Object.freeze(failed)});
+    return last;
+  }
+  // Only a rivalry never seen on this page resets; the first one does not (the page has nothing earlier to forget), and a
+  // rivalry seen before never resets again (no flapping).
+  function showdownResetNoteRivalry(rivalryId){
+    const id=String(rivalryId||"").trim().toLowerCase();if(!RIVALRY.test(id)||seen.has(id))return false;
+    const earlier=seen.size>0;seen.add(id);if(!earlier)return false;
+    showdownResetRun("new-showdown");return true;
+  }
+  showdownResetClears();
+  if(typeof root.addEventListener==="function")root.addEventListener("career-mode-permanent-pair-ended",()=>{showdownResetRun("showdown-ended");});
+  root.CareerModeShowdownReset=Object.freeze({contractVersion:1,feature:"cms-showdown-reset",noteRivalry:showdownResetNoteRivalry,reset:showdownResetRun,
+    registered:()=>Object.freeze(Object.keys(showdownResetClears())),runs:()=>runs,lastRun:()=>last,providerReadRequired:false,providerWriteRequired:false});
+})(typeof globalThis!=="undefined"?globalThis:this);
+/* showdown-reset:end */
 (function(root,factory){
   const api=factory(root);
   if(typeof module!=="undefined"&&module.exports)module.exports=api;
@@ -74,7 +109,7 @@
   // (no createShowdown, no Home on the way), so nothing else redrew them and his league wheel kept NO ACTIVE SHOWDOWN.
   let pairHomeKey=null;
   function pairRedrawHome(){const key=`${state.rivalryId||""}|${state.closedRivalryId||""}|${state.closedProviderSaveId||""}`;if(key===pairHomeKey)return;pairHomeKey=key;try{root.refreshMainMenuExperience?.();}catch(_error){}}
-  function pairSetState(next){state=pairFreezeDeep(pairHeldIfEnded({...state,...next}));/* Phoenix W5: a new Showdown's rivalry clears the last one's page memory before anyone sees it (js/optionalModules.js) */try{const reset=root.CareerModeShowdownReset;reset?.noteRivalry?.(state.closedRivalryId);reset?.noteRivalry?.(state.rivalryId);}catch(_error){}pairRememberActiveShell();for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRedrawHome();pairRender();pairSyncWaitingPoll();pairContinueAfterWaitEnded();if(endedHeldNow)pairAnnounceEnded();return state;}
+  function pairSetState(next){state=pairFreezeDeep(pairHeldIfEnded({...state,...next}));pairRememberActiveShell();/* Phoenix W5: a new Showdown's rivalry clears the last one's page memory before anyone sees it (the reset above) */try{const reset=root.CareerModeShowdownReset;reset?.noteRivalry?.(state.closedRivalryId);reset?.noteRivalry?.(state.rivalryId);}catch(_error){}for(const listener of pairListeners){try{listener(state);}catch(_error){}}pairRedrawHome();pairRender();pairSyncWaitingPoll();pairContinueAfterWaitEnded();if(endedHeldNow)pairAnnounceEnded();return state;}
   // r79 (PR #901, smoothness): once the pair is ACTIVE this device remembers, locally, that its shell is paired (only the saveId,
   // no rivalry or account data; through js/storage.js, the one owner of local storage), so a reload mid-Showdown never holds the
   // loading screen for a pre-pair recovery (js/ssjr.js).
