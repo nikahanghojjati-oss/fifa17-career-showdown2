@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-23 11:56 PM Boston time (EST)",
+ "generated": "2026-11-24 12:05 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 334,
@@ -3071,20 +3071,14 @@
      "sha": "a64b284a7df43ea56db3100eae31358f08a3b58b",
      "updated": "2026-11-24T04:53:30Z",
      "gates": {
-      "passed": 0,
-      "running": 9,
+      "passed": 3,
+      "running": 6,
       "failed": 0,
       "cancelled": 0
      }
     }
    ],
-   "today": [
-    {
-     "pr": 1567,
-     "title": "Release 2.11.0 (r98): League Roulette",
-     "merged": "2026-11-23T17:16:45Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
    "state": "barking",
@@ -3875,7 +3869,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 23152
+    "waiting_min": 23161
    },
    {
     "id": "HO-059",
@@ -5679,8 +5673,8 @@
     "sha": "a64b284a7df43ea56db3100eae31358f08a3b58b",
     "updated": "2026-11-24T04:53:30Z",
     "gates": {
-     "passed": 0,
-     "running": 9,
+     "passed": 3,
+     "running": 6,
      "failed": 0,
      "cancelled": 0
     }
