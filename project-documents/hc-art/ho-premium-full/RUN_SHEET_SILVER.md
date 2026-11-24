@@ -428,6 +428,31 @@ Finish: real materials, handcrafted, clean sharp detail; clear air, no fog, no h
 Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
 ```
 
+## HO-168 · Platinum Clubhouse, Club room sideways (no people) repaint
+
+- Image 1: [ENV_CLUB_SIDEWAYS_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_CLUB_SIDEWAYS_HC_V4.png)
+- Image 2: [REF_CLUB_SILVER_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_CLUB_SILVER_SWATCH.png)
+- Saves as `ENV_CLUB_SIDEWAYS_SILVER_P1` (aligned 2532x1170)
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the two wall lamps with pleated shades along the top, the wide window on the left with the floodlit stadium, the two leather armchairs and the low table under the window, the tall wall panel on the right with the one hanging pennant banner, the gold trophy and the old leather ball on the low shelf at the lower right, and the counter strip along the bottom at exactly the same height.
+
+The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
+The wall panels become hand-laid square platinum leaves, exactly like image 2, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. The back wall below the window becomes hand-laid square platinum leaves, exactly like image 2, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. The window frames become polished nickel that mirrors the room. The low shelf becomes pale marble with a polished nickel edge. The banner rod and lamp arms become polished nickel; the shades stay warm cream and lit. The floor becomes the same pale grey-white marble as the counter, laid as large square slabs with thin straight joints, each slab with a few long, smooth, softly curving grey veins, polished so it holds soft clear reflections of the lamps and furniture, with true contact shadows and no grain, speckle or beige tint. The counter strip becomes honed pale grey-white marble with a few long, smooth, softly curving grey veins that flow gently across the slab like brush strokes, with no jagged, broken or cracked lines, exactly the stone of image 2, no brown or beige tint, holding a soft dim reflection of the lamps.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Near each lamp the platinum glows a bright warm champagne silver; away from the lamps it settles to cool clear silver-grey, and only the far corners and the very top of the room fall into soft shadow, so it reads as a bright lounge after dark, not a dark room. The colour is neutral platinum with a trace of warmth: never beige, taupe, brown or blue. Stone is light with dark veins, never dark stone with white cracks.
+
+Objects keep their identity and their own colours (the gold trophies, the old leather balls, the leather armchairs, the dark banners) and are relit by the new room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no haze, no glow halo around lamps, no noise grain, no streaks and no cloudy, swirl, crackle or cracked-ice patterns in the stone or metal: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same wide framing as image 1 (about 2.16:1), nothing cropped or extended at any edge, largest size available.
+```
+
 ## HO-165 · Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men
 
 - Image 1: [IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png)
