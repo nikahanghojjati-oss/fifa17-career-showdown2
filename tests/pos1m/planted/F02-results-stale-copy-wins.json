@@ -1,0 +1,9 @@
+{
+ "id": "F02-results-stale-copy-wins",
+ "law": "L2_NO_INVENTED_ACTION",
+ "title": "Season results publish over a stale copy (read outside the transaction)",
+ "file": "js/sparkSharedSeasonResults.js",
+ "find": "state=ssrpPublicState(ssrpSnapshot(await transaction.get(refs.public)),",
+ "replace": "state=ssrpPublicState(ssrpSnapshot(await sdk.getDoc(refs.public)),",
+ "why": "The public results are read outside the transaction, so two managers publishing at once both build on the empty copy and the later publish wipes the earlier one, though the earlier phone was told it was saved."
+}

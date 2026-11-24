@@ -4,7 +4,7 @@
    join, the flat wheel kept as the no-3D fallback; three look rounds (LEAGUE ROULETTE, black metal and gold, a sharp board,
    Team V's HO-097 rooms); the Fable FJ12/FJ13 findings and the both-phones-first release step; 2.11.0 going live (dateless
    until it ships). Written 22 November 2026 from gameplay/r98. Loaded by volume26.js. Builder:
-   gameplay/r98/threads/bump/v26.py (project files), or edit this JSON directly. */
+   gameplay/r98/threads/bump/v26.py (project files), or edit this JSON directly. 2.12.0 (r99) has its own Volume 27 (volume27-data.js). */
 window.CHRONICLE_VOLUME26={
  "capturedAt": "2026-11-22T23:00:00Z",
  "part": {
