@@ -778,7 +778,7 @@ await check("PC7 the identity sidecar reads the partner record once per load and
   assert.match(pairSource,/\(\)=>\{if\(noteWatch\.seq===seq&&noteWatch\.mode==="listen"\)pairJoinNoteFallback\(\);\}/,"a listener error falls back to the memoised read");
   const surfaceText=identity.slice(identity.indexOf("function configureOnlineProductSurface"),identity.indexOf("function ensureOnlineIdentityOverlay"));
   assert.doesNotMatch(surfaceText,/watchJoinNote|onSnapshot/,"render never attaches the listener");
-  assert.match(identity,/addEventListener\("visibilitychange",\(\)=>\{if\(root\.document\.visibilityState==="visible"\)void refreshJoinNoteOnHome\(\{resume:true\}\);\}\)/);
+  assert.match(identity,/addEventListener\("visibilitychange",\(\)=>\{if\(root\.document\.visibilityState==="visible"\)\{void refreshJoinNoteOnHome\(\{resume:true\}\);scheduleJoinTapResend\(\);\}\}\)/);
   const surface=identity.slice(identity.indexOf("function configureOnlineProductSurface"),identity.indexOf("function ensureOnlineIdentityOverlay"));
   const tile=identity.slice(identity.indexOf("function nikHomeTile"),identity.indexOf("async function resolveOnlineDependencies"));
   for(const [label,text] of [["render",surface],["tile",tile]])assert.doesNotMatch(text,/readJoinNote|readPartnerRecord|runTransaction|getDoc/,`${label} never reads`);
