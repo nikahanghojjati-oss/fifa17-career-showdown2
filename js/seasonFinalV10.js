@@ -565,7 +565,37 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
       }
       section.append(head,list);(panel.querySelector(".finalWinnerHonours")||panel.lastElementChild)?.after(section);added.push(section);
       panel.classList.add("v10HasTurning");
-    }catch(error){for(const node of added)node.remove();panel.classList.remove("v10HasTurning");fail(error);}
+      sfTurningWatchFit(panel,section);
+    }catch(error){for(const node of added)node.remove();panel.classList.remove("v10HasTurning","v10TurningNoRoom");fail(error);}
+  }
+  // The desktop third column stays only where it really fits: every line whole and inside the panel, and clear of every word of
+  // the summary and the honours. A window too small for it keeps today's two-part panel (v10TurningNoRoom). Measured when the
+  // column first shows, on every window resize and when the fonts settle. The tab layouts (phones, tablets) are left to their rules.
+  function sfTurningFit(panel,section){
+    if(!panel.isConnected)return;
+    const view=root,shown=el=>Boolean(el)&&view.getComputedStyle(el).display!=="none",tabs=panel.querySelector(".finalWinnerPhoneTabs");
+    panel.classList.remove("v10TurningNoRoom");
+    if(shown(tabs)||!shown(section))return;
+    const box=section.getBoundingClientRect();let room=section.scrollHeight<=section.clientHeight+1;
+    for(const line of section.querySelectorAll(".finalWinnerTurningLine")){
+      const r=line.getBoundingClientRect();
+      if(line.scrollWidth>line.clientWidth+1||line.scrollHeight>line.clientHeight+1||r.top<box.top-1||r.bottom>box.bottom+1)room=false;
+    }
+    for(const cell of panel.querySelectorAll(".finalWinnerMetaStrip *, .finalWinnerHonours *")){
+      if(!room)break;if(cell.children.length||!cell.textContent.trim())continue;
+      const r=cell.getBoundingClientRect();
+      if(r.width&&r.height&&r.right>box.left-4&&r.left<box.right+4&&r.bottom>box.top&&r.top<box.bottom)room=false;
+    }
+    if(!room)panel.classList.add("v10TurningNoRoom");
+  }
+  function sfTurningWatchFit(panel,section){
+    const fit=()=>{try{sfTurningFit(panel,section);}catch(error){panel.classList.add("v10TurningNoRoom");}};
+    let observer=null;
+    const stop=()=>{root.removeEventListener?.("resize",onResize);observer?.disconnect();};
+    function onResize(){if(!panel.isConnected){stop();return;}fit();}
+    fit();root.addEventListener?.("resize",onResize);
+    if(typeof root.ResizeObserver==="function"){observer=new root.ResizeObserver(onResize);observer.observe(section);}
+    root.document?.fonts?.ready?.then(onResize,()=>{});
   }
   // r93 Golden Showdown screen (part A; Nik's card 2026-11-14 16:33 UTC: right BEFORE Final Winner). When the verified final
   // result is Golden it is drawn in place of the Final Winner, with one button, SEE FINAL WINNER, which draws the Final Winner
@@ -2242,9 +2272,14 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTurningLine { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; column-gap:10px; min-width:0; margin:0; padding:0; border-top:1px solid #c49d4944; }
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTurningKicker { font:800 10px/1.1 var(--sd-font-condensed,sans-serif); letter-spacing:.12em; color:var(--sd-gold-300,#f2c45b); white-space:nowrap; }
 #app #seasonEntry.v10FinalMode #stage-root .finalWinnerTurningText { min-width:0; font:600 12px/1.25 var(--sd-font-condensed,sans-serif); letter-spacing:.02em; color:#f3ead2; overflow-wrap:break-word; }
-@media (min-width:901px) and (min-height:501px) {
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning { grid-template-columns:31% minmax(0,.9fr) minmax(0,1.1fr); }
- #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerTurning {
+/* desktop, and the r91 in-between windows that keep the desktop panel with no tabs (761-900 wide and over 500 tall held sideways,
+   900 wide held upright under 960 tall). The column is kept only where sfTurningFit finds it fits (else v10TurningNoRoom: the
+   panel is exactly today's); the honours keep their natural width so no number runs into the column. */
+@media (min-width:901px) and (min-height:501px),
+       (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape),
+       (min-width:900px) and (max-width:900px) and (max-height:959px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning:not(.v10TurningNoRoom) { grid-template-columns:minmax(0,31%) minmax(max-content,.9fr) minmax(0,1.1fr); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning:not(.v10TurningNoRoom) .finalWinnerTurning {
   display:grid; grid-template-rows:auto minmax(0,1fr); row-gap:calc(var(--fwu,10px)*.25); grid-row:1/-1; grid-column:3; overflow:hidden;
   padding:calc(var(--fwu,10px)*.5) calc(var(--fwu,10px)*.8) calc(var(--fwu,10px)*.3); border-left:1px solid #b38d414d;
  }

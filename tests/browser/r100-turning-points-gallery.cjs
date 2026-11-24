@@ -15,7 +15,10 @@ const { result } = require("../support/career-fixture-helpers.cjs");
 const baseUrl = process.env.CMS_BASE_URL || "http://127.0.0.1:4511/";
 const output = path.resolve(process.env.CMS_TEST_RESULTS || "test-results", "r100-turning-points");
 const scale = Number(process.env.CMS_TP_SCALE || 1);
-const sizes = (process.env.CMS_TP_SIZES || "1920x866,1920x1035,1366x768,1280x650,390x844,375x667,844x390,768x1024").split(",").map(s => s.split("x").map(Number));
+const sizes = (process.env.CMS_TP_SIZES || "1920x866,1920x1035,1366x768,1280x650,1100x700,880x600,800x900,390x844,375x667,844x390,768x1024").split(",").map(s => s.split("x").map(Number));
+// Where the lines must show: Nik's Chromebook (windowed and full screen) and every phone and tablet. Any other window may keep
+// today's panel when the third column has no room (v10TurningNoRoom), but then it must be exactly today's: no column, no tab.
+const MUST_SHOW = new Set((process.env.CMS_TP_MUST_SHOW || "1920x866,1920x1035,800x900,390x844,375x667,844x390,768x1024").split(","));
 // Daniel comes from 4 down and wins 13-10; the Europa League is the whole margin in season 2.
 const GAMES = {
   three: { totalSeasons: 3, seasons: [
@@ -124,13 +127,28 @@ function overlaps(a, b) { return a && b && a.x < b.x + b.width - 1 && b.x < a.x 
             const buttons = [...document.querySelectorAll("#v10ExitSlot button")].map(box).filter(Boolean);
             const vis = el => { for (let n = el; n; n = n.parentElement) { const s = getComputedStyle(n); if (s.display === "none" || s.visibility === "hidden" || Number(s.opacity) === 0) return false; } return true; };
             const others = ["finalWinnerMetaStrip", "finalWinnerHonours", "outcomeHeadline", "danielTotal", "nikTotal"].map(id => document.getElementById(id)).filter(el => el && vis(el)).map(box).filter(Boolean)
-              .concat([...document.querySelectorAll(".finalWinnerPhoneTabs label")].filter(vis).map(box).filter(Boolean));
+              .concat([...document.querySelectorAll(".finalWinnerPhoneTabs label")].filter(vis).map(box).filter(Boolean))
+              // every painted word of the summary and the honours table too: a cell can run past its own column's box
+              .concat([...document.querySelectorAll("#finalWinnerMetaStrip *, #finalWinnerHonours *")].filter(el => !el.children.length && el.textContent.trim() && vis(el)).map(box).filter(Boolean));
             const main = document.querySelector("#app main");
-            return { present: Boolean(block), visible: block ? vis(block) : false, box: box(block), inner: block ? block.scrollHeight - block.clientHeight : 0, lines: lines.map(l => ({ text: l.textContent.trim(), box: box(l), clipped: l.scrollWidth > l.clientWidth + 1 || l.scrollHeight > l.clientHeight + 1 })),
+            const panel = document.querySelector(".finalWinnerResultsPanel");
+            const tabTurning = document.querySelector("label[for='finalWinnerTabTurning']");
+            return { noRoom: Boolean(panel && panel.classList.contains("v10TurningNoRoom")), tabShown: Boolean(tabTurning && vis(tabTurning)), columns: panel ? getComputedStyle(panel).gridTemplateColumns.split(" ").length : 0,
+              present: Boolean(block), visible: block ? vis(block) : false, box: box(block), inner: block ? block.scrollHeight - block.clientHeight : 0, lines: lines.map(l => ({ text: l.textContent.trim(), box: box(l), clipped: l.scrollWidth > l.clientWidth + 1 || l.scrollHeight > l.clientHeight + 1 })),
               buttons, others, scroll: main ? { top: main.scrollTop, height: main.scrollHeight, client: main.clientHeight } : null, writes: window.__tpWrites, view: { w: innerWidth, h: innerHeight } };
           });
           await page.screenshot({ path: path.join(output, `${tag}.png`) });
           assert.equal(probe.present, true, "Turning Points block is on Final Winner");
+          if (!probe.visible && !MUST_SHOW.has(`${width}x${height}`)) {
+            // no room for a third column here: the panel must be exactly today's
+            assert.equal(probe.noRoom, true, "a hidden column is the measured no-room case (v10TurningNoRoom)");
+            assert.equal(probe.tabShown, false, "no TURNING POINTS tab");
+            assert.ok(probe.columns <= 2, `today's two-part panel (${probe.columns} columns)`);
+            for (const b of probe.buttons) for (const o of probe.others) assert.ok(!overlaps(o, b), "summary and honours clear of the exits");
+            assert.equal(probe.writes, 0, "no write");
+            console.log(`PASS ${tag}: no room for a third column; today's panel kept`);
+            continue;
+          }
           assert.equal(probe.visible, true, "Turning Points block is painted");
           assert.ok(probe.lines.length >= 1 && probe.lines.length <= 3, `1 to 3 lines (got ${probe.lines.length})`);
           assert.ok(probe.inner <= 1, `every line fits the panel with no scroll of its own (${probe.inner}px over)`);
