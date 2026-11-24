@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "2.11.0-r98";
-const PREVIOUS_RUNTIME_REVISION = "2.10.0-r97";
+const RUNTIME_REVISION = "2.12.0-r99";
+const PREVIOUS_RUNTIME_REVISION = "2.11.0-r98";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -427,13 +427,11 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // nothing to roll back to. Each release lists here the shell paths it added since PREVIOUS_RUNTIME_REVISION and the ones it
 // removed, so PREVIOUS_SHELL_PATHS is exactly the list that build precached (tests/fixtures/shell-paths/<revision>.json).
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
-// 2.11.0 (r98): PREVIOUS is the live 2.10.0-r97 (260 paths, tests/fixtures/shell-paths/2.10.0-r97.json, main 4353ab5a). The STORY
+// 2.12.0 (r99): PREVIOUS is the live 2.11.0-r98 (262 paths, tests/fixtures/shell-paths/2.11.0-r98.json, main fec8af69). The STORY
 // site is never precached.
-// r98 adds the League Roulette (R98-01): the live Select League board and its step. It removes no shell path; the Team V
-// HO-097 rooms are images, runtime-cached like every other plate.
-// r99 adds the metal panel marble of the themed clubhouses (R99-01, 4 KB); their room plates are images,
-// runtime-cached like every other plate.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js","js/turningPoints.js","css/r78-marble-tile-metal.webp"]);
+// r99 adds the metal panel marble of the themed clubhouses (R99-01, 4 KB); r100 adds the Turning Points engine (B5). It removes no shell path; the themed room
+// plates and themed loading rooms are images, runtime-cached like every other plate (never precached).
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/turningPoints.js","css/r78-marble-tile-metal.webp"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks
