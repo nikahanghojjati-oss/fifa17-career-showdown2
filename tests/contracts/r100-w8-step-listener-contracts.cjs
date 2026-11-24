@@ -86,5 +86,30 @@ function harness(file,watch,wait){
     assert.match(src,/const revision=Number\(data&&data\.revision\);if\(Number\.isFinite\(revision\)\)\{if\(revision<seenRevision\)return;seenRevision=revision;\}\n\s*record=next;/,"Prime Pack onData ignores an older revision");
     assert.match(src,/let seenRevision=-Infinity,record=null,/);
     ok("iconGuessStep.js: the Prime Pack screen never steps back to an older revision of the round");}
+  // Squad Management waits once for the rival's locked "pre" document (the next step after Chamber Men in B1's replay).
+  {const source=fs.readFileSync(path.resolve(__dirname,"../../js/squadSheetStep.js"),"utf8");
+    const start=source.indexOf("  async function sqsWatch(io,ctx,onDoc,onError){");const end=source.indexOf("\n  }\n",start);assert.ok(start>0);
+    const body=source.slice(start,end+4);const line=source.match(/const BRIDGE_FAST_FOR_MS=[^;]+;/);assert.ok(line);
+    const timers=[],state={snap:null,gets:0,data:null,fail:false};const clock={now:Date.parse("2026-11-24T09:00:00Z")};class FakeDate extends Date{static now(){return clock.now;}}
+    const doc={visibilityState:"visible"},root={navigator:{onLine:true}};
+    const code=`${line[0]}const POLL_MS=4000,COLLECTION="x";const sqsWait=ms=>new Promise(r=>setTimeout(r,ms));
+      function sqsOther(r){return r==="playerOne"?"playerTwo":"playerOne";}function sqsPointKey(){return "k";}function sqsKept(){return null;}function sqsKeep(){}
+      function sqsParse(raw){return raw;}async function sqsSnapshotApi(io){return io.sdk;}function sqsRef(){return {};}function sqsDocId(){return "d";}function sqsDoc(){return doc;}
+      async function sqsGet(){state.gets+=1;if(state.fail)return {ok:false,error:{code:"unavailable"}};return {ok:true,data:state.data};}
+      ${body}({watch:sqsWatch})`;
+    const api=vm.runInNewContext(code,{root,doc,state,Promise,Date:FakeDate,setTimeout:(fn,ms)=>{timers.push({fn,ms});}});
+    const tick=async()=>{for(let i=0;i<6;i+=1)await new Promise(r=>setImmediate(r));};
+    const fire=async ms=>{const t=timers.shift();assert.ok(t,"a bridge read is scheduled");if(ms!==undefined)assert.equal(t.ms,ms);clock.now+=t.ms;t.fn();await tick();};
+    const io={sdk:{onSnapshot:(ref,opts,next)=>{state.snap=next;return ()=>{};}},firestore:{},rivalryId:"r"};
+    const got=[];let errors=0;await api.watch(io,{managerRole:"playerOne",season:1},d=>got.push(d),()=>{errors+=1;});
+    const snap=(fromCache,data)=>({metadata:{fromCache},exists:()=>Boolean(data),data:()=>data});
+    state.snap(snap(false,null));await tick();assert.equal(timers.length,0,"a healthy listener: no read");
+    state.snap(snap(true,null));await tick();await fire(4000);assert.equal(state.gets,1);assert.equal(got.length,0);
+    state.fail=true;await fire(4000);assert.equal(timers[0].ms,30000,"30 s after a failed read");state.fail=false;
+    doc.visibilityState="hidden";await fire(30000);assert.equal(state.gets,2);assert.equal(timers[0].ms,1000);const g=state.gets;await fire(1000);assert.equal(state.gets,g,"no read while hidden");doc.visibilityState="visible";
+    let n=0;while(clock.now<Date.parse("2026-11-24T09:05:00Z")&&timers.length){await fire();n+=1;}
+    assert.ok(state.gets<=45,`a stream dead for 5 minutes costs ${state.gets} reads (at most 45)`);
+    state.data={locked:true};await fire();assert.deepEqual(got,[{locked:true}],"the rival's lock arrives by the read");assert.equal(timers.length,0,"and the reads stop");assert.equal(errors,0);
+    ok("squadSheetStep.js: the wait for the rival's lock is bridged by reads while the listener is down (4 s, 8 s after a minute, none hidden or offline, 30 s after a failure, at most 45 in 5 minutes) and stops once the lock is in");}
   console.log(`PASS r100 W8 step listener contracts: ${passed} checks`);
 })().catch(error=>{console.error(error);process.exit(1);});
