@@ -115,6 +115,8 @@ async function main(){
     await context.close();context=await launchPhone(runtime,dir);page=await openTab(context);
     await expectRemembered(page,uid,"browser restart");ok("W5","a full browser restart comes back signed in as Nik with no tap");
 
+    // A second tab of the same browser is open and signed in as well (Codex #1599: SIGN OUT must reach it too).
+    const otherTab=await openTab(context);await expectRemembered(otherTab,uid,"second open tab");await page.bringToFront();
     // SIGN OUT in Settings ends it on this phone.
     if(await page.locator("#settingsButton").isVisible().catch(()=>false))await page.locator("#settingsButton").click({timeout:30000});
     else await page.locator("#onlinePlayerIdentityBadge").click({timeout:30000});
@@ -131,6 +133,13 @@ async function main(){
     await expectSignedOut(page,"right after SIGN OUT");
     assert.ok(await page.locator("#mainMenu").isVisible(),"the fresh start lands on Home");
     ok("W6","SIGN OUT in Settings signs the phone out and the app starts again on Home, signed out");
+    // The other open tab learns it from Firebase and starts again on Home, signed out, too (no previous player left on screen).
+    await otherTab.waitForFunction(()=>{const s=window.CareerModeSparkConnectedAccount?.getState?.();return Boolean(s&&s.initialized===true&&s.busy!==true&&s.signedIn===false)&&(document.getElementById("onlinePlayerIdentityBadge")?.textContent||"").split(" · ")[0]!=="NIK";},null,{timeout:30000});
+    await otherTab.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
+    await expectSignedOut(otherTab,"the other open tab after SIGN OUT");assert.ok(await otherTab.locator("#mainMenu").isVisible(),"the other tab is on Home");
+    assert.equal(await otherTab.evaluate(()=>window.CareerModeOnlinePlayerIdentity?.getState?.()?.accountId??null),null,"the other tab keeps no player of the previous account");
+    await otherTab.close();
+    ok("W6b","SIGN OUT in one tab also signs out another open tab of the same browser, which starts again on Home");
     await page.reload({waitUntil:"domcontentloaded"});await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
     await expectSignedOut(page,"reload after SIGN OUT");
     await page.close();page=await openTab(context);await expectSignedOut(page,"new tab after SIGN OUT");
