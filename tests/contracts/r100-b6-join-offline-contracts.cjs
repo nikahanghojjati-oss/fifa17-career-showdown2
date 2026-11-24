@@ -25,6 +25,8 @@ async function nikOnJoin(){
   assert.equal(nik.label(),"JOIN DANIEL'S SHOWDOWN");assert.equal(nik.pair.getJoinNoteState().note?.rivalryId,rid);
   w.joinFrom=w.writes.length;return {w,rid,nik,net:cutNetwork(w,nik)};
 }
+// The resend's START runs real hashing and many awaits: let it finish (bounded) before checking.
+async function quiet(nik){for(let i=0;i<200&&(nik.pair.getState().busy||nik.identity.getState().busy);i++)await settle();await settle();}
 // The tile's own click (openHomeStart), as a player's tap; waits for that one START flow.
 async function tapTile(nik){await nik.tap();}
 // The Ironman network fault: the tap first, then the network drops at once (the flow is in flight).
@@ -36,7 +38,7 @@ test("B6-1: a JOIN tap whose pair check the network cut keeps Home (no paste box
   assert.equal(nik.fallbacks,0,"the paste-a-code box must not open over Home for a JOIN the network cut");
   assert.equal(nik.redeems,0);assert.notEqual(nik.pair.getState().connectionState,"active");
   await w.advance(30*1000);assert.equal(nik.redeems,0,"nothing is sent while the phone is offline");
-  await net.up();await w.advance(10*1000);
+  await net.up();await w.advance(10*1000);await quiet(nik);
   assert.equal(nik.pair.getState().connectionState,"active","the JOIN lands by itself once the network is back");
   assert.equal(nik.pair.getState().rivalryId,rid,"it joins the Showdown Nik tapped");
   assert.equal(nik.redeems,1,"exactly one join");assert.equal(nik.entered,1,"Nik goes on into the Showdown once");
@@ -52,7 +54,7 @@ test("B6-2: a JOIN whose join transaction the network cut keeps Home and lands o
   await tapTile(nik);
   assert.equal(nik.redeems,1,"the first join was tapped");assert.notEqual(nik.pair.getState().connectionState,"active");
   assert.equal(nik.fallbacks,0,"no paste box after a join the network cut");
-  await net.up();await w.advance(10*1000);
+  await net.up();await w.advance(10*1000);await quiet(nik);
   assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);
   assert.equal(nik.redeems,2,"the one resend");assert.equal(nik.entered,1);
   assert.equal(rivalryWrites(w,rid),2,"the Showdown and its invite were written once each (no doubled join)");
@@ -62,9 +64,9 @@ test("B6-3: one resend per tap; if it is cut too, Home still offers JOIN and a t
   const {w,rid,nik,net}=await nikOnJoin();
   await tapAsNetworkDrops(nik,net);
   // The network comes back only for a moment: the resend is cut again.
-  nik.s.navigator.onLine=true;nik.s.dispatchEvent(new nik.s.CustomEvent("online"));await w.advance(10*1000);
+  nik.s.navigator.onLine=true;nik.s.dispatchEvent(new nik.s.CustomEvent("online"));await w.advance(10*1000);await quiet(nik);
   assert.notEqual(nik.pair.getState().connectionState,"active");assert.equal(nik.fallbacks,0);
-  w.offline=false;nik.s.dispatchEvent(new nik.s.CustomEvent("online"));await w.advance(10*MINUTE);
+  w.offline=false;nik.s.dispatchEvent(new nik.s.CustomEvent("online"));await w.advance(10*MINUTE);await quiet(nik);
   assert.equal(nik.redeems,0,"no further automatic attempt after the one resend");
   assert.equal(nik.label(),"JOIN DANIEL'S SHOWDOWN","Home still offers JOIN");
   await tapTile(nik);
@@ -78,7 +80,7 @@ test("B6-4: the resend never joins another Showdown than the one Nik tapped",asy
   // While Nik is offline, Daniel's JOIN note comes to name a different Showdown.
   const other=`pair_3${"b".repeat(63)}`,note=w.docs.get(INBOX);
   w.docs.set(INBOX,{...note,rivalryId:other});
-  await net.up();await w.advance(10*1000);
+  await net.up();await w.advance(10*1000);await quiet(nik);
   assert.equal(nik.pair.getJoinNoteState().note?.rivalryId,other,"the fresh read sees the other Showdown");
   assert.equal(nik.redeems,0,"no join is sent for a Showdown Nik did not tap");
   assert.notEqual(nik.pair.getState().rivalryId,rid);assert.notEqual(nik.pair.getState().connectionState,"active");
@@ -88,7 +90,7 @@ test("B6-4: the resend never joins another Showdown than the one Nik tapped",asy
 test("B6-5: the resend is dropped when Nik left Home; his tap on Home joins as before",async()=>{
   const {w,rid,nik,net}=await nikOnJoin();
   await tapAsNetworkDrops(nik,net);await nik.screen("history");
-  await net.up();await w.advance(10*1000);
+  await net.up();await w.advance(10*1000);await quiet(nik);
   assert.equal(nik.redeems,0,"nothing is sent for him away from Home");
   await nik.screen("mainMenu");await tapTile(nik);
   assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);assert.equal(nik.redeems,1);
@@ -97,7 +99,7 @@ test("B6-5: the resend is dropped when Nik left Home; his tap on Home joins as b
 test("B6-6: a tap of his own as the network returns and the resend make one join together",async()=>{
   const {w,rid,nik,net}=await nikOnJoin();
   await tapAsNetworkDrops(nik,net);
-  await net.up();await tapTile(nik);await w.advance(10*1000);
+  await net.up();await tapTile(nik);await w.advance(10*1000);await quiet(nik);
   assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);
   assert.equal(nik.redeems,1,"one join");assert.equal(nik.entered,1);assert.equal(rivalryWrites(w,rid),2);
 });
@@ -109,4 +111,34 @@ test("B6-7: online, a refused JOIN still opens Connect Players as before (no res
   await tapTile(nik);
   assert.equal(calls,1);assert.equal(nik.fallbacks,1,"an answered refusal keeps today's Connect Players fallback");
   await w.advance(10*MINUTE);assert.equal(calls,1,"no automatic resend for a join the provider answered");
+});
+
+test("B6-8: a refusal the provider answered while the network blinked still opens Connect Players with its reason (no resend)",async()=>{
+  const {w,nik,net}=await nikOnJoin();
+  const pairing=nik.s.CareerModeSparkPrivatePairing;let calls=0;
+  // The network drops and comes back between the tap and the provider's answer, which is a real refusal.
+  pairing.redeemPairing=async()=>{calls++;await net.down();await net.up();return {ok:false,code:"PAIRING_CAPABILITY_EXPIRED",message:"This code has expired."};};
+  await tapTile(nik);
+  assert.equal(calls,1);assert.equal(nik.fallbacks,1,"the refusal keeps the Connect Players fallback, so Nik sees why");
+  assert.equal(nik.pair.getState().status,"error");assert.equal(nik.pair.getState().joinRefused,undefined,"the refusal flag never sticks on the page state");
+  await w.advance(10*MINUTE);assert.equal(calls,1,"no automatic resend after a refusal");
+});
+
+test("B6-9: leaving Home forgets the resend, even if Nik is back on Home before the network returns",async()=>{
+  const {w,rid,nik,net}=await nikOnJoin();
+  await tapAsNetworkDrops(nik,net);await nik.screen("history");await nik.screen("mainMenu");
+  await net.up();await w.advance(10*1000);await quiet(nik);
+  assert.equal(nik.redeems,0,"no automatic join after Home was left");assert.equal(nik.fallbacks,0);
+  await tapTile(nik);
+  assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);assert.equal(nik.redeems,1);
+});
+
+test("B6-10: the resend expires 10 minutes after the tap; later Home still offers JOIN and a tap joins",async()=>{
+  const {w,rid,nik,net}=await nikOnJoin();
+  await tapAsNetworkDrops(nik,net);
+  await w.advance(10*MINUTE+1000);await net.up();await w.advance(10*1000);await quiet(nik);
+  assert.equal(nik.redeems,0,"no join made by itself more than 10 minutes after the tap");assert.equal(nik.fallbacks,0);
+  assert.equal(nik.label(),"JOIN DANIEL'S SHOWDOWN");
+  await tapTile(nik);
+  assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);assert.equal(nik.redeems,1);
 });

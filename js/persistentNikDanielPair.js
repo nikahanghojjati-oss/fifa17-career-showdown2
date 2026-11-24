@@ -372,7 +372,10 @@ function pairCreateDurableRedemptionWitness(context,role,manager,rivalryId){retu
     if(parsed&&committed.checked&&pairJoinRefusedCode(error)){pairRefusedJoinRivalryIds.add(parsed.rivalryId);pairNotifyPartner();}
     // BH-11 (#7): remove only the empty local copy this attempt created, and only when the join was definitely refused.
     if(createdShell&&committed.checked&&pairJoinFailureIsDefinitive(error)){try{await pairDeleteExactPreparedShell(context,role,createdShell.saveId,createdShell.profileId);}catch(_error){}}
-    return pairSetState({status:error?.code?.includes("SHARED_SHELL")?"save-required":"error",busy:false,message:pairContextualJoinMessage(error)});
+    const failed=pairSetState({status:error?.code?.includes("SHARED_SHELL")?"save-required":"error",busy:false,message:pairContextualJoinMessage(error)});
+    // r100 B6: the caller is told whether the provider answered with a refusal (dead code, Rules refusal) or the join was only
+    // cut (network); the page state itself is unchanged, so a later state never carries it.
+    return pairFreezeDeep({...failed,joinRefused:pairJoinRefusedCode(error)});
   }finally{action.release();}}
 const PAIR_DEAD_CODE_ERRORS=new Set(["PAIRING_CAPABILITY_ALREADY_USED","PAIRING_CAPABILITY_EXPIRED","PAIRING_CAPABILITY_NOT_FOUND","PAIRING_RIVALRY_NOT_JOINABLE","PAIRING_TWO_MANAGER_LIMIT"]);
 const pairRefusedJoinRivalryIds=new Set();
