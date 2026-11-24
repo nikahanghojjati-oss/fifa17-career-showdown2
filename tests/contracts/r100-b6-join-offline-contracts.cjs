@@ -227,3 +227,17 @@ test("B6-15: leaving Home while the resend's own checks are in flight cancels it
   await nik.screen("mainMenu");await tapTile(nik);
   assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);assert.equal(nik.redeems,1,"his own tap on Home joins as before");
 });
+
+test("B6-16: a cut JOIN that did land (only its answer was lost) goes on into that Showdown once the network is back (Codex #1598)",async()=>{
+  const {w,rid,nik,net}=await nikOnJoin();
+  // The join's transaction commits, then the network drops before the phone hears back.
+  const inner=w.sdk.runTransaction;let lost=false;
+  w.sdk.runTransaction=async(...args)=>{const before=rivalryWrites(w,rid);const out=await inner(...args);if(!lost&&rivalryWrites(w,rid)>before){lost=true;await net.down();throw OFFLINE();}return out;};
+  await tapTile(nik);
+  assert.equal(lost,true,"the join was written and its answer lost");assert.equal(nik.entered,0);assert.equal(nik.fallbacks,0,"no paste box for a cut answer");
+  await net.up();await w.advance(10*1000);await quiet(nik);await w.advance(10*1000);await quiet(nik);
+  assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);
+  assert.equal(nik.entered,1,"Nik goes on into the Showdown he tapped, once, without another tap");
+  assert.equal(rivalryWrites(w,rid),2,"never joined twice");
+  await w.advance(5*MINUTE);assert.equal(nik.entered,1);
+});
