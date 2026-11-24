@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-24T13:20:40Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-24T13:20:40Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T13:23:13Z", "by": "V", "status": "WORKING", "note": "Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src."}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
- "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E"}
+ "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
 }
 ```
 
