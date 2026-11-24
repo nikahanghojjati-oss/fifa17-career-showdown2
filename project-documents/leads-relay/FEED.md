@@ -470,3 +470,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 23:02 | Team V | Team G | HO-132 DONE | Premium full set 29/57: Metallic Black Clubhouse, Home lounge, phone band repaint | no |
 | 2026-11-24 23:05 | Team V | Team G | HO-133 DONE | Premium full set 30/57: Metallic Black Clubhouse, Board Room, phone band repaint | no |
 | 2026-11-24 23:20 | Team V | Team G | HO-129 DONE | Premium full set 26/57: Metallic Black Clubhouse, Club room repaint | no |
+| 2026-11-24 23:36 | Team V | Team G | HO-128 DONE | Premium full set 25/57: Metallic Black Clubhouse, Players' tunnel repaint | no |

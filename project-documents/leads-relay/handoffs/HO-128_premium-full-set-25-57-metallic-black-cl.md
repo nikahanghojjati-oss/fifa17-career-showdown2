@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:59Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}],
+ "evidence": ["claude/project-thread-ie3afv 8c9db2791 project-documents/hc-art/ho-premium-full/black/ENV_TUNNEL_PLATE_BLACK_P1_2X.webp"],
+ "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:59Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-24T23:36:05Z", "by": "V", "status": "DONE", "note": "Black Players' tunnel, try2 9/10 (try1 had round columns + repeated flame highlights): square blackened-steel pillars with gold hairline corners, bulkhead lamp/handrails/mat/night pitch kept, satin counter, men untouched, aligned ~1px"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
- "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
+ "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
 ```
 
