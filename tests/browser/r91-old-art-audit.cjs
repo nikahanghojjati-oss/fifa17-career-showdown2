@@ -29,10 +29,10 @@ const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const shotDir = process.env.CMS_OLD_ART_SHOTS || "";
 const reportFile = process.env.CMS_OLD_ART_REPORT || "";
 const touchSize = (w, h) => w < 900 || h < 500;
-// R99-01 clubhouse themes: CMS_CLUBHOUSE=silver|black opens every screen in that clubhouse (this device's pick, localStorage).
+// R99-01 clubhouse themes: CMS_CLUBHOUSE=silver|black|matte opens every screen in that clubhouse (this device's pick, localStorage).
 // Every room drawn must then be that theme's copy (plates-hc/<theme>/), and no plain room may even be downloaded: a plain room
 // fetched first could paint for a moment before the themed one (A3, A4).
-const THEME = /^(silver|black)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
+const THEME = /^(silver|black|matte)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
 const PLAIN_ROOM = /visual-assets\/v10_1\/plates-hc\/(?:ENV|TILE)_/;
 
 // ---------- window shapes ----------

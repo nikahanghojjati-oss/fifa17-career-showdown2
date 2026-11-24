@@ -5,18 +5,19 @@ import hashlib, os, re
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 T = os.path.join(ROOT, "tests", "contracts", "v10-foundation-contracts.cjs")
 lines = []
-for theme in ("silver", "black"):
+for theme in ("silver", "black", "matte"):
     d = os.path.join(ROOT, "visual-assets", "v10_1", "plates-hc", theme)
     for f in sorted(os.listdir(d)):
         rel = f"visual-assets/v10_1/plates-hc/{theme}/{f}"
         h = hashlib.sha256(open(os.path.join(ROOT, rel), "rb").read()).hexdigest()
         lines.append(f'    "{rel}":"{h}",')
-START = "    // R99-01 clubhouse themes (Nik 2026-11-23): the Silver and Black Metal copies of the rooms (tools/clubhouse-themes/build.py).\n"
+START = "    // R99-01 clubhouse themes (Nik 2026-11-23): the Silver, Metallic Black and Premium Matte Black copies of the rooms (tools/clubhouse-themes/build.py).\n"
 END = "    // R99-01 end\n"
 s = open(T).read()
 block = START + "\n".join(lines) + "\n" + END
-if START in s:
-    s = re.sub(re.escape(START) + r".*?" + re.escape(END), lambda m: block, s, flags=re.S)
+OLD = re.compile(r"    // R99-01 clubhouse themes \(Nik 2026-11-23\):[^\n]*\n.*?" + re.escape(END), re.S)
+if OLD.search(s):
+    s = OLD.sub(lambda m: block, s, count=1)
 else:
     anchor = re.search(r'    "visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512\.webp":"[0-9a-f]+",\n', s)
     s = s[: anchor.end()] + block + s[anchor.end():]

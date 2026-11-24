@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""R99-01 clubhouse themes (Nik 2026-11-23): Silver and Metal Black copies of the 2D room plates.
+"""R99-01 clubhouse themes (Nik 2026-11-23): Silver, Metallic Black and Premium Matte Black copies of the 2D room plates.
 
 The rooms are Team V's handcrafted plates (visual-assets/v10_1/plates-hc). Daniel and Nik are painted into most of them, so
 a theme is a recoloured copy of each plate: the room itself (wood, walls, desk, floor) changes colour, the two managers stay
@@ -9,7 +9,7 @@ birefnet-portrait model, see make_masks.sh); each plate size uses the mask of it
 through a window keeps its night colours (PROTECT rectangles, as fractions of the picture). Lamps and brass glow keep their
 warm light. Green (the pitch) and blue keep their colour.
 
-  python3 tools/clubhouse-themes/build.py            # writes plates-hc/silver/*.webp and plates-hc/black/*.webp
+  python3 tools/clubhouse-themes/build.py            # writes plates-hc/<theme>/*.webp (silver, black, matte)
   python3 tools/clubhouse-themes/build.py NAME ...   # only those plates (file names without .webp)
 
 Needs Pillow, numpy and scipy. The output names keep each source's _V<n> generation (F9c pins their bytes).
@@ -21,7 +21,7 @@ from PIL import Image, ImageDraw, ImageFilter
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SRC = os.path.join(ROOT, "visual-assets", "v10_1", "plates-hc")
 MASKS = os.path.join(os.path.dirname(__file__), "masks")
-THEMES = tuple(os.environ.get("CMS_THEMES", "silver,black").split(","))
+THEMES = tuple(os.environ.get("CMS_THEMES", "silver,black,matte").split(","))
 
 # The plates that have a themed copy: every in-use room plate (the V2 generations are no longer drawn anywhere).
 def plates():
@@ -111,15 +111,18 @@ def object_mask(name, size):
 # How an object takes the new room's light (Nik 2026-11-23 19:57 UTC: "make sure the object you are cutting matches with
 # background color so cutting doesnt look obvious"): it keeps its own colours (a brown ball stays a brown ball), but the warm
 # lamp-light cast of the brown room is taken off with the room's own white balance, and its brightness moves part of the way
-# to where the room's light puts it (Silver lifts it a little, Metal Black settles it a little).
+# to where the room's light puts it (Silver lifts it a little, Metallic Black settles it a little).
 HARMONY = {
     # Nik 2026-11-23 21:55 UTC: objects are never painted in the room colour, but "coloring of objects in each theme should
     # still follow that theme coloring scheme": each object keeps its own colours and is graded into the clubhouse's palette,
     # the way a colourist grades one scene: shadows take the clubhouse's shadow colour, highlights its light colour.
     # Silver: cool slate shadows, clean daylight highlights, a little less of the old warm saturation.
     "silver": {"shadow": np.array([0.9, 0.97, 1.1], np.float32), "high": np.array([0.97, 0.99, 1.03], np.float32), "toward": 0.45, "sat": 0.76},
-    # Metal Black: deep steel shadows and warm gold highlights (the house black and gold), colour kept rich.
-    "black": {"shadow": np.array([0.92, 0.97, 1.08], np.float32), "high": np.array([1.04, 1.0, 0.92], np.float32), "toward": 0.25, "sat": 0.86},
+    # Metallic Black: deep steel shadows and warm gold highlights (the house black and gold), colour kept rich.
+    "black": {"shadow": np.array([0.92, 0.97, 1.08], np.float32), "high": np.array([1.04, 1.0, 0.92], np.float32), "toward": 0.3, "sat": 0.86},
+    # Premium Matte Black (Nik 2026-11-23 23:21 UTC): soft warm-neutral shadows and a candle-warm light, colour a little quieter,
+    # the way a matte room lets objects glow softly instead of shine.
+    "matte": {"shadow": np.array([0.99, 0.98, 0.99], np.float32), "high": np.array([1.03, 1.0, 0.94], np.float32), "toward": 0.3, "sat": 0.8},
 }
 
 # The light of each clubhouse (Nik 2026-11-23 20:15 UTC: "professional lighting and attention to details and coloring for
@@ -133,13 +136,22 @@ LIGHT = {
     "silver": {"floor": 0.48, "span": 0.58, "gamma": 0.85, "detail": 1.9, "tint": np.array([0.93, 0.97, 1.06], np.float32), "pool": 0.08,
                "contrast": 1.9, "mid": 0.7, "clip": 0.12, "sheen": 0.18, "shine": 0.2,
                "knee": 0.82, "knee_slope": 0.35, "denoise": True, "recess": 0.5},  # no white glare beside the lamps
-    # Metal Black (Nik 2026-11-23 21:47 UTC: "more premium and more metallic and more distinction from current wooden design,
-    # don't just darken the room"): brushed gunmetal. The wood's own grain is mostly taken out and a straight brushed grain
-    # laid along the panels instead; raised panel edges catch the light as bright bevels; the lamps' warm light runs across
-    # the metal as a gold sheen (the house black and gold); the marble stays polished stone.
-    "black": {"floor": 0.03, "span": 0.62, "gamma": 0.95, "detail": 0.3, "clip": 0.035, "bevel": 2.0, "contrast": 1.35, "mid": 0.18,
-              "sheen": 0.12, "brush": 0.16, "tint": np.array([0.95, 0.985, 1.05], np.float32), "pool": 0.32, "lift": 0.03, "denoise": True},
-    # the panel marble tile (css/r78-marble-tile-metal.webp) keeps the first Metal Black grade: plain neutral black stone
+    # Metallic Black (Nik 2026-11-23 21:47 UTC: "more premium and more metallic and more distinction from current wooden design,
+    # don't just darken the room"; 23:21 UTC: "too bright ... supposed to be metallic, not grey or silver"): dark brushed
+    # black metal (23:27 UTC: "should not shine like a silver ... or lighten up like a gray or like a white"). The wood's own
+    # grain is mostly taken out and a straight brushed grain laid along the panels instead; raised panel edges catch the light as bright bevels; the broad light runs across the metal as a reflection (sheen) while the
+    # unlit metal stays deep but never a black hole (sheen_floor, lift); the lamps' warm light is a gold sheen.
+    "black": {"floor": 0.014, "span": 0.44, "gamma": 1.2, "detail": 0.3, "clip": 0.04, "bevel": 3.0, "contrast": 1.5, "mid": 0.13,
+              "sheen": 0.18, "sheen_floor": -0.5, "brush": 0.2, "tint": np.array([0.99, 0.99, 1.0], np.float32), "pool": 0.24,
+              "lift": 0.028, "cap": 0.24, "denoise": True},  # cap: reflections stay black metal, never silver, grey or white
+    # Premium Matte Black (Nik 2026-11-23 23:21-23:23 UTC: "premium should feel like a premium design"): soft-touch black,
+    # like a matte lacquered or suede-lined room, and the opposite of Metallic Black's finish: where metal has deep blacks and
+    # sharp reflections, matte has none. The light is spread evenly across every surface (a narrow tone range lifted off true
+    # black), the painted texture kept quiet and fine, only the slowest fall-off of light across the walls, a warm-neutral
+    # black (never blue or grey) and the lamps' light as soft candle-warm pools.
+    "matte": {"floor": 0.05, "span": 0.17, "gamma": 1.0, "detail": 0.3, "clip": 0.03, "contrast": 1.0, "mid": 0.1,
+              "sheen": 0.04, "tint": np.array([1.0, 0.98, 0.955], np.float32), "pool": 0.2, "denoise": True},
+    # the panel marble tile (css/r78-marble-tile-metal.webp) keeps the first Metallic Black grade: plain neutral black stone
     "tile": {"floor": 0.018, "span": 0.93, "gamma": 1.06, "detail": 0.35, "tint": np.array([0.96, 0.99, 1.05], np.float32), "pool": 0.28},
 }
 WARM = np.array([1.0, 0.8, 0.52], np.float32)
@@ -212,7 +224,7 @@ def recolor(rgb, keep_out, theme, objects=None):
     if lt.get("sheen", 0):
         broad = blurred(L * room + local * (1 - room), a.shape[1] / 24)
         broad = (broad - float(np.median(broad))) / max(float(np.percentile(np.abs(broad - np.median(broad)), 95)), 1e-3)
-        nl = np.clip(nl + lt["sheen"] * np.clip(broad, -1.5, 1.5) * room, 0, hi)
+        nl = np.clip(nl + lt["sheen"] * np.clip(broad, lt.get("sheen_floor", -1.5), 1.5) * room, 0, hi)
     if lt.get("shine", 0):
         nl = np.clip(nl + lt["shine"] * smooth(nl, 0.72, 0.98) * room, 0, hi)
     # brushed finish: the fine straight grain of brushed metal, laid over the room so it reads as metal and never as the
@@ -232,13 +244,17 @@ def recolor(rgb, keep_out, theme, objects=None):
     if lt.get("knee"):
         k = lt["knee"]
         nl = np.where(nl > k, k + (0.97 - k) * np.tanh((nl - k) / (0.97 - k) * lt.get("knee_slope", 0.4) * 2.5), nl)
+    # cap: on black metal even the brightest reflection stays dark metal (Nik 2026-11-23 23:27 UTC: "should not shine like a
+    # silver ... or lighten up like a gray or like a white"): the light rolls off smoothly under a low ceiling
+    if lt.get("cap"):
+        nl = lt["cap"] * np.tanh(np.maximum(nl, 0) / lt["cap"])
     # recess: a deep, unlit space (the lounge behind the Ball Game's glass) stays dim on a bright clubhouse, so the room
     # keeps its depth instead of turning to fog
     if lt.get("recess"):
         r40 = a.shape[1] / 40  # measured on the room alone, so the managers' white shirts never light a halo round them
         deep = smooth(blurred(L * room, r40) / np.maximum(blurred(room, r40), 1e-3), 0.025, 0.12)
         nl = nl * (lt["recess"] + (1 - lt["recess"]) * deep)
-    if shine_spot is not None and lt.get("knee"):
+    if shine_spot is not None and (lt.get("knee") or 0) >= 0.6:  # Silver only: on dark metal the reflection is just the room
         # a lamp's reflection on polished stone stays a soft highlight below white (its warmth comes from the lamp pool)
         nl = nl * (1 - shine_spot) + np.minimum(nl, lt["knee"] - 0.04) * shine_spot
     nl = np.clip(nl, 0, 1)
