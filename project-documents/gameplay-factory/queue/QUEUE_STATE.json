@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-24T15:05:39Z",
+ "updated": "2026-11-24T16:00:28Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -4577,42 +4577,42 @@
    "pr": 569,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/569",
-   "branch": "qa/job-1524-production-showdown-setup-2"
+   "branch": null
   },
   "1525": {
    "state": "merged",
    "pr": 571,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/571",
-   "branch": "qa/job-1525-spark-showdown-setup-1"
+   "branch": null
   },
   "1526": {
    "state": "merged",
    "pr": 572,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/572",
-   "branch": "qa/job-1526-spark-showdown-setup-2"
+   "branch": null
   },
   "1527": {
    "state": "merged",
    "pr": 574,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/574",
-   "branch": "qa/job-1527-shared-showdown-setup-1"
+   "branch": null
   },
   "1528": {
    "state": "merged",
    "pr": 575,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/575",
-   "branch": "qa/job-1528-shared-showdown-setup-2"
+   "branch": null
   },
   "1529": {
    "state": "merged",
    "pr": 487,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/487",
-   "branch": "qa/job-1529-spark-terminal-close-1"
+   "branch": null
   },
   "1530": {
    "state": "merged",
