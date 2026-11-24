@@ -1,6 +1,6 @@
 "use strict";
 // r100 Phoenix B5: Final Winner with Turning Points, read-only provider doubles as in champion-review-season-visible-audit.cjs.
-// Draws a finished 3-season Showdown (and the 1-season fixture game) at the Chromebook sizes and on phones, checks the three
+// Draws a finished 3-season Showdown, the 1-season fixture game, a 3-season draw and a Sacked ending at the Chromebook sizes and on phones, checks the three
 // lines are on screen, inside the viewport (or reachable by main's scroll on phones), clear of the faces, the exits and each
 // other, and writes the screenshots to test-results/r100-turning-points/.
 //   CMS_BASE_URL (default http://127.0.0.1:4511/)   CMS_TP_SIZES=1920x866,390x844   CMS_TP_SCALE=2 (screenshots for people)
@@ -23,9 +23,33 @@ const GAMES = {
     [result({ europaLeague: true, domesticCup: true }), result()],
     [result({ leaguePosition: 1, championsLeague: true, domesticCup: true }), result({ primePack: 2 })]
   ] },
-  one: {}
+  one: {},
+  // level at 9 each after 3 seasons: told as a draw, never a winner
+  draw: { totalSeasons: 3, seasons: [
+    [result({ leaguePosition: 1, championsLeague: true }), result()],
+    [result(), result({ leaguePosition: 1, championsLeague: true })],
+    [result({ domesticCup: true }), result({ domesticCup: true })]
+  ] },
+  // Nik sacked in season 2 of 3 (sackedFixture below records the ending as the real modules do)
+  sacked: { totalSeasons: 3, seasons: [
+    [result({ leaguePosition: 1, championsLeague: true }), result({ domesticCup: true })],
+    [result({ domesticCup: true }), result({ leaguePosition: 18, sacked: true })]
+  ] }
 };
-const games = (process.env.CMS_TP_GAMES || "three,one").split(",");
+const games = (process.env.CMS_TP_GAMES || "three,one,draw,sacked").split(",");
+// A Sacked ending as js/sharedFinalReconciliation.js and js/sharedTerminalClose.js record it: the Showdown is complete after the
+// sacked season (sackedSeason), the final witness says endedBy "sacked" and completedSeason = the seasons played.
+function sackedFixture(fixture) {
+  const Terminal = require("../../js/sharedTerminalClose.js");
+  const p = fixture.finished.history.projection, played = p.acceptedSeasons;
+  const fr = { ...fixtures.finalReconciliation(p), acceptedSeasons: played, completedSeason: played, endedBy: "sacked", sacked: { playerOne: false, playerTwo: true } };
+  const multi = fixtures.multiFor(p);
+  fixture.finished.multiSeason = { ...multi, phase: "SHOWDOWN_COMPLETE", state: { ...multi.state, phase: "SHOWDOWN_COMPLETE", activeSeason: null, completedSeason: played, terminal: true, sackedSeason: played } };
+  fixture.finished.finalReconciliation = fr;
+  fixture.finished.terminalClose = { ...fixture.finished.terminalClose, terminalWitness: JSON.parse(JSON.stringify(Terminal.prepare(fr, { sessionId: fixtures.SESSION }))) };
+  return fixture;
+}
+const EXPECT = { draw: /^THE SHOWDOWN\s*Level at 9 points each after 3 seasons: a draw\./, sacked: /^SEASON 2\s*Nik was sacked, so the Showdown ended there, with Daniel 8 points ahead\./ };
 
 async function open(page, fixture) {
   await page.route(/https:\/\/(?:[^/]*\.)?googleapis\.com\//, route => route.abort());
@@ -75,7 +99,7 @@ function overlaps(a, b) { return a && b && a.x < b.x + b.width - 1 && b.x < a.x 
   const failures = [];
   {
     for (const game of games) {
-      const fixture = fixtures.completedShowdownStorage(GAMES[game]);
+      const fixture = game === "sacked" ? sackedFixture(fixtures.completedShowdownStorage(GAMES[game])) : fixtures.completedShowdownStorage(GAMES[game]);
       for (const [width, height] of sizes) {
         const phone = width < 900 || height < 500;
         // one browser per size: the CI runtime is single-process and a second context in it can stall
@@ -102,14 +126,16 @@ function overlaps(a, b) { return a && b && a.x < b.x + b.width - 1 && b.x < a.x 
             const others = ["finalWinnerMetaStrip", "finalWinnerHonours", "outcomeHeadline", "danielTotal", "nikTotal"].map(id => document.getElementById(id)).filter(el => el && vis(el)).map(box).filter(Boolean)
               .concat([...document.querySelectorAll(".finalWinnerPhoneTabs label")].filter(vis).map(box).filter(Boolean));
             const main = document.querySelector("#app main");
-            return { present: Boolean(block), visible: block ? vis(block) : false, box: box(block), lines: lines.map(l => ({ text: l.textContent.trim(), box: box(l), clipped: l.scrollWidth > l.clientWidth + 1 || l.scrollHeight > l.clientHeight + 1 })),
+            return { present: Boolean(block), visible: block ? vis(block) : false, box: box(block), inner: block ? block.scrollHeight - block.clientHeight : 0, lines: lines.map(l => ({ text: l.textContent.trim(), box: box(l), clipped: l.scrollWidth > l.clientWidth + 1 || l.scrollHeight > l.clientHeight + 1 })),
               buttons, others, scroll: main ? { top: main.scrollTop, height: main.scrollHeight, client: main.clientHeight } : null, writes: window.__tpWrites, view: { w: innerWidth, h: innerHeight } };
           });
           await page.screenshot({ path: path.join(output, `${tag}.png`) });
           assert.equal(probe.present, true, "Turning Points block is on Final Winner");
           assert.equal(probe.visible, true, "Turning Points block is painted");
           assert.ok(probe.lines.length >= 1 && probe.lines.length <= 3, `1 to 3 lines (got ${probe.lines.length})`);
+          assert.ok(probe.inner <= 1, `every line fits the panel with no scroll of its own (${probe.inner}px over)`);
           for (const line of probe.lines) {
+            assert.ok(line.box && line.box.y >= probe.box.y - 1 && line.box.y + line.box.height <= probe.box.y + probe.box.height + 1, `line inside the panel: ${line.text}`);
             assert.ok(line.box, `line has a box: ${line.text}`);
             assert.equal(line.clipped, false, `line is not cut: ${line.text}`);
             assert.ok(line.box.x >= 0 && line.box.x + line.box.width <= probe.view.w + 1, `line inside the width: ${line.text}`);
@@ -119,6 +145,8 @@ function overlaps(a, b) { return a && b && a.x < b.x + b.width - 1 && b.x < a.x 
           for (let i = 0; i < probe.lines.length; i += 1) for (let j = i + 1; j < probe.lines.length; j += 1) assert.ok(!overlaps(probe.lines[i].box, probe.lines[j].box), "lines do not overlap");
           for (const b of probe.buttons) assert.ok(!overlaps(probe.box, b), "block clear of the exits");
           assert.equal(probe.writes, 0, "no write");
+          if (EXPECT[game]) assert.match(probe.lines[0].text, EXPECT[game], "the first line tells how it ended");
+          if (game === "draw") for (const line of probe.lines) assert.doesNotMatch(line.text, /\b(won|wins|beat|winner|tie-?break)\b/i, "a draw names no winner");
           console.log(`PASS ${tag}: ${probe.lines.map(l => l.text).join(" | ")}`);
         } catch (error) {
           console.error(`FAIL ${tag}: ${error.message}`);

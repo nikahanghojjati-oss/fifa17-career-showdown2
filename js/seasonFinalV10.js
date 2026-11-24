@@ -2284,6 +2284,13 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerTurning .finalWinnerTurningLine:first-child { border-top:0; }
  #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerTurning .finalWinnerTurningText { font-size:13px; }
 }
+/* short upright phones (375x667): the panel under the totals is about 140px tall, so the season kicker runs in at the start of
+   its line instead of taking a row of its own, and all three lines fit without a scroll */
+@media (max-width:760px) and (max-height:720px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerTurning .finalWinnerTurningLine { display:block; padding:5px 0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerTurning .finalWinnerTurningKicker { display:inline; margin-right:7px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerTurning .finalWinnerTurningText { display:inline; font-size:13px; line-height:1.25; }
+}
 /* r73 polish. Review: the projected overall bar is sized min(620px,92vw) by the old app sheet, wider than the review
    panel on phones, so it stops at the panel's inner edge; the review lines take the game's condensed face instead of the
    system font; the review heading is focused on open for screen readers only (tabindex -1), so it draws no ring. */
