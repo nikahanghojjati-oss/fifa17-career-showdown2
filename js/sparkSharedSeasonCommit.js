@@ -121,6 +121,8 @@
         const storedRevision=ctx.stored?ctx.stored.revision:0;
         let current=null;if(ctx.stored){current=await scpCoreFromStorage(ctx.stored,ctx.ready,ctx.teamCount,cryptoImpl);try{current=await protocol.verifyState(current);}catch(_error){scpFail("SEASON_COMMIT_PROVIDER_STATE_INVALID");}}
         const applied=await protocol.apply({state:current,setup:ctx.setup,seasonResults:ctx.ready,seasonNumber:ctx.seasonNumber,actorRole:ctx.actorRole,command:{type,operationId,baseRevision}});
+        // PLANTED BUG (L7 proof, DO NOT MERGE): the commit guard refuses a replay of the same operation instead of answering it.
+        if(applied.idempotent)scpFail("SEASON_COMMIT_REPLAY_REFUSED");
         if(!applied.idempotent){seenRevision=storedRevision;tx.set(ctx.commitRef,scpStorageFromCore(applied.state,{rivalryId:ctx.rivalryId,sessionId:ctx.sessionId,deviceId:ctx.deviceId,serverTimestamp:sdk.serverTimestamp()}));}
         return scpFreeze({ok:true,replayed:Boolean(applied.idempotent),revision:applied.state.revision,phase:applied.state.phase,state:protocol.projectForRole(applied.state,ctx.actorRole)});
       });
