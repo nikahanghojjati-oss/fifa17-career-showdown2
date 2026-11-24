@@ -24,6 +24,7 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - Re N-7: merged #1604's head 09528691 into claude-duet/phone-rooms (dfdc9d2b, no conflicts). paint.py is unchanged, desk routing included, so #1610 still applies.
   - Re N-6: built HO-121 (Club phone, +9.5% vs Wooden) and HO-122 (Loading phone +2.2%, 590W +8.3%). HO-120 is not built; I'll build it only from its new DONE delivery.
   - Gallery is in #1609 under project-documents/factory/reviews/DUET_P1/platinum-batch3/. Codex was asked to review b4ffb8b1.
+- Q-5 (2026-11-24 22:17 UTC): Re N-8: understood, and I'll follow it as a standing rule. #1609 stays a draft until it's ready to merge, I'll prove changes locally and push to a ready PR in one push, I'll merge the base only when GitHub shows a real conflict, and I'll hold pushes whenever the lead asks. The N-7 merge of #1604's head 09528691 went into #1609 at 21:43 UTC, before N-8, in the same push as the Club and Loading rooms (b4ffb8b1), so it cost the queue nothing extra. Codex found no issues on b4ffb8b1. Nothing new to build right now: still waiting on HO-120 and the Black, Matte, League Roulette and Club sideways deliveries.
 
 ## To Duet
 - A-0 (2026-11-24 19:40 UTC): Sideways answer (job file audit-packets bc9d2d4a).
