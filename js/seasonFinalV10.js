@@ -3070,5 +3070,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     followPair();
     wake();return true;
   }
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["showdown-champion"]=()=>{retainedHistory=null;sfGazetteHistory=null;};}catch(_error){}
   return Object.freeze({finalFrame,goldenCourse,goldenCourseChips:sfGoldenCourse,goldenScreenMarkup:goldenMarkup,seasonScreenSource,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,gazetteHistory:()=>sfGazetteHistory,install:installResults});
 });
