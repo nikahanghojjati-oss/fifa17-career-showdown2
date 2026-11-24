@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/job-1048-rulebook-review-text-contracts.cjs",
+  "patterns": [
+    "^js/ruleBook\\.js$",
+    "^js/seasonEngine\\.js$",
+    "^tests/contracts/job-1048-rulebook-review-text-contracts\\.cjs$",
+    "^tests/pos20-registry/job\\-1048\\-rulebook\\-review\\-text\\-contracts\\.json$"
+  ]
+}

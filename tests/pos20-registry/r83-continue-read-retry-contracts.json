@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r83-continue-read-retry-contracts.cjs",
+  "patterns": [
+    "^js/sparkRemoteJoining\\.js$",
+    "^tests/contracts/r83-continue-read-retry-contracts\\.cjs$",
+    "^tests/pos20-registry/r83\\-continue\\-read\\-retry\\-contracts\\.json$"
+  ]
+}

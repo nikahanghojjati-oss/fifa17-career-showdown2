@@ -1,0 +1,13 @@
+{
+  "path": "tests/contracts/permanent-pairing-client-contracts.cjs",
+  "patterns": [
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/onlinePlayerIdentity\\.js$",
+    "^js/whichShowdownIsLive\\.js$",
+    "^js/sparkRemoteJoining\\.js$",
+    "^js/careerStartMarker\\.js$",
+    "^firestore\\.persistent\\-pair\\-production\\.fragment\\.rules$",
+    "^tests/contracts/permanent\\-pairing\\-client\\-contracts\\.cjs$",
+    "^tests/pos20-registry/permanent\\-pairing\\-client\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "path": "tests/contracts/r87-prime-pack-f13-contracts.cjs",
+  "patterns": [
+    "^data/icons\\.js$",
+    "^js/iconGuess\\.js$",
+    "^js/iconGuessStep\\.js$",
+    "^js/iconNames\\.js$",
+    "^js/productionSharedSeasonResults\\.js$",
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^tests/contracts/r87\\-prime\\-pack\\-f13\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-prime\\-pack\\-f13\\-contracts\\.json$"
+  ]
+}

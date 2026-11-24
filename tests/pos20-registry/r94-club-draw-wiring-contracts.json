@@ -1,0 +1,15 @@
+{
+  "path": "tests/contracts/r94-club-draw-wiring-contracts.cjs",
+  "patterns": [
+    "^js/clubDrawStep\\.js$",
+    "^js/clubDrawScene3d\\.js$",
+    "^js/productionSharedShowdownPresentation\\.js$",
+    "^js/productionSharedShowdownSetup\\.js$",
+    "^js/sharedShowdownSetup\\.js$",
+    "^js/clubScreenV10\\.js$",
+    "^css/clubDraw\\.css$",
+    "^service\\-worker\\.js$",
+    "^tests/contracts/r94\\-club\\-draw\\-wiring\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r94\\-club\\-draw\\-wiring\\-contracts\\.json$"
+  ]
+}

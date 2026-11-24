@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r87-rematch-contracts.cjs",
+  "patterns": [
+    "^js/(seasonFinalV10|onlinePlayerIdentity|productionSharedJourneyEntry|sharedHistoryConvergence)\\.js$",
+    "^firestore\\.rules$",
+    "^tests/support/(active-showdown-fixtures|career-fixture-helpers)\\.cjs$",
+    "^tests/contracts/r87-rematch-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-rematch\\-contracts\\.json$"
+  ]
+}

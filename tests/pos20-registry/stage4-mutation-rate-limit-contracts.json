@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/stage4-mutation-rate-limit-contracts.cjs",
+  "patterns": [
+    "^js/productionFirebaseRuntime\\.js$",
+    "^js/sparkConnectedRivalry\\.js$",
+    "^tests/contracts/stage4\\-mutation\\-rate\\-limit\\-contracts\\.cjs$",
+    "^tests/pos20-registry/stage4\\-mutation\\-rate\\-limit\\-contracts\\.json$"
+  ]
+}

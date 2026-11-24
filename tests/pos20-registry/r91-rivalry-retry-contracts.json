@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r91-rivalry-retry-contracts.cjs",
+  "patterns": [
+    "^js/rivalryLegacyV10\\.js$",
+    "^js/sparkClosedShowdownCareerLoader\\.js$",
+    "^tests/contracts/r91-rivalry-retry-contracts\\.cjs$",
+    "^tests/pos20-registry/r91\\-rivalry\\-retry\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "path": "tests/contracts/r79-modes-settings-contracts.cjs",
+  "patterns": [
+    "^js/showdownModes\\.js$",
+    "^js/onlinePlayerIdentity\\.js$",
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/careerStartMarker\\.js$",
+    "^js/whichShowdownIsLive\\.js$",
+    "^js/productionSharedJourneyEntry\\.js$",
+    "^js/settings\\.js$",
+    "^css/v10Setup\\.css$",
+    "^css/connectPlayersV10\\.css$",
+    "^css/rulesSettingsV10\\.css$",
+    "^service\\-worker\\.js$",
+    "^index\\.html$",
+    "^tests/contracts/r79\\-modes\\-settings\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r79\\-modes\\-settings\\-contracts\\.json$"
+  ]
+}

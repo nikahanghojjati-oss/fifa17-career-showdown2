@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r80-online-save-wording-contracts.cjs",
+  "patterns": [
+    "^js/.*\\.js$",
+    "^index\\.html$",
+    "^visual-assets/.*/strings\\.json$",
+    "^tests/contracts/r80\\-online\\-save\\-wording\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r80\\-online\\-save\\-wording\\-contracts\\.json$"
+  ]
+}

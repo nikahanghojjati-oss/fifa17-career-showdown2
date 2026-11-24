@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/start-join-view-model-contracts.cjs",
+  "patterns": [
+    "^js/startJoinViewModel\\.js$",
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/sparkRemoteJoining\\.js$",
+    "^js/onlinePlayerIdentity\\.js$",
+    "^js/screens\\.js$",
+    "^tests/contracts/start-join-view-model-contracts\\.cjs$",
+    "^tests/pos20-registry/start\\-join\\-view\\-model\\-contracts\\.json$"
+  ]
+}

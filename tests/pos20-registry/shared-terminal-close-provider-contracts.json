@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/shared-terminal-close-provider-contracts.cjs",
+  "patterns": [
+    "^js/sharedTerminalClose\\.js$",
+    "^js/sparkTerminalClose\\.js$",
+    "^js/sparkPrivateSession\\.js$",
+    "^js/sparkStandardAuthPrivateSession\\.js$",
+    "^tests/contracts/shared-terminal-close-provider-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-terminal\\-close\\-provider\\-contracts\\.json$"
+  ]
+}

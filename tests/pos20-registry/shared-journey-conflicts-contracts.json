@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/shared-journey-conflicts-contracts.cjs",
+  "patterns": [
+    "^js/sharedJourneyConflicts\\.js$",
+    "^tests/contracts/shared-journey-conflicts-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-journey\\-conflicts\\-contracts\\.json$"
+  ]
+}

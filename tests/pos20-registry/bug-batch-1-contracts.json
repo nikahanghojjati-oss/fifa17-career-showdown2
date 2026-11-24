@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/bug-batch-1-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedShowdownSetup\\.js$",
+    "^js/productionSharedShowdownPresentation\\.js$",
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^js/sharedTransferChallenge\\.js$",
+    "^tests/contracts/bug-batch-1-contracts\\.cjs$",
+    "^tests/pos20-registry/bug\\-batch\\-1\\-contracts\\.json$"
+  ]
+}

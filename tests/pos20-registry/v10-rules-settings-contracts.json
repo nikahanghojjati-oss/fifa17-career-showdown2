@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/v10-rules-settings-contracts.cjs",
+  "patterns": [
+    "^js/(rulesSettingsV10|ruleBook|settings|v10Screens)\\.js$",
+    "^css/rulesSettingsV10\\.css$",
+    "^visual-assets/v10_1/(rule-book|settings|shared/plates|shared/wordmarks)/",
+    "^service-worker\\.js$",
+    "^tests/contracts/v10-rules-settings-contracts\\.cjs$",
+    "^tests/pos20-registry/v10\\-rules\\-settings\\-contracts\\.json$"
+  ]
+}

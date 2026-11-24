@@ -1,0 +1,19 @@
+{
+  "path": "tests/contracts/fewer-taps-contracts.cjs",
+  "patterns": [
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/productionSharedJourneyEntry\\.js$",
+    "^js/productionSharedShowdownPresentation\\.js$",
+    "^js/productionSharedCareerStart\\.js$",
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^js/productionSharedSeasonResults\\.js$",
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^js/productionSharedCanonicalScoring\\.js$",
+    "^js/productionSharedHistoryConvergence\\.js$",
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^js/ssjr\\.js$",
+    "^js/connectPlayersScreenV10\\.js$",
+    "^tests/contracts/fewer-taps-contracts\\.cjs$",
+    "^tests/pos20-registry/fewer\\-taps\\-contracts\\.json$"
+  ]
+}

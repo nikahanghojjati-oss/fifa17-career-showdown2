@@ -9,6 +9,7 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
+import {createRequire} from 'node:module';
 import {classifyRun,githubClient,SEAL_JOB_NAME,MAX_ATTEMPTS} from './gate-watchdog.mjs';
 
 export const SCHEMA='showdown-gate/v1';
@@ -16,6 +17,7 @@ export const LANE_SCHEMA='showdown-gate-lane/v1';
 export const ROUTER='scripts/pos20-impact-router.mjs';
 export const VERDICTS=Object.freeze(['PASS','FAIL_TEST','INFRA_RETRYING','INFRA_EXHAUSTED','DRAFT','SUPERSEDED','HEAD_UNKNOWN']);
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const {loadPos20Registry}=createRequire(import.meta.url)('../tests/support/pos20-registry.cjs');
 const readJson=file=>JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
 const graph=readJson('POS10_IMPACT_GRAPH.json');
 const proofGroup=new Map();
@@ -85,7 +87,7 @@ export const laneArgOf=lane=>isL7(lane)?'L7-${{ matrix.leg }}':isL8(lane)?'L8-${
 // Exactly the list `node tests/support/run-selected-product-contracts.cjs --all` executes.
 export function registeredContracts(){
   const manifest=readJson('CURRENT_PRODUCT_TEST_MANIFEST.json');
-  const supplemental=readJson('POS20_SUPPLEMENTAL_PRODUCT_TESTS.json');
+  const supplemental=loadPos20Registry(root);
   return [...new Set([...manifest.tests,...supplemental.tests.map(entry=>entry.path)])];
 }
 

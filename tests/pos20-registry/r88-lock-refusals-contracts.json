@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r88-lock-refusals-contracts.cjs",
+  "patterns": [
+    "^js/(productionSharedTransferChallenge|rosterRoulette|transferSelector)\\.js$",
+    "^data/(fifa17Players|rosterSquads)\\.js$",
+    "^tests/contracts/r88\\-lock\\-refusals\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r88\\-lock\\-refusals\\-contracts\\.json$"
+  ]
+}

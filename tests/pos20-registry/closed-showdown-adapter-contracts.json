@@ -1,0 +1,18 @@
+{
+  "path": "tests/contracts/closed-showdown-adapter-contracts.cjs",
+  "patterns": [
+    "^js/sharedClosedShowdownAdapter\\.js$",
+    "^js/sparkClosedShowdownCareerLoader\\.js$",
+    "^js/sparkCompletedShowdownReader\\.js$",
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/sharedActiveShowdownAdapter\\.js$",
+    "^js/sharedCareerAnalytics\\.js$",
+    "^js/sharedHistoryConvergence\\.js$",
+    "^js/sharedTerminalClose\\.js$",
+    "^js/sharedFinalReconciliation\\.js$",
+    "^tests/support/active-showdown-fixtures\\.cjs$",
+    "^tests/support/career-fixture-helpers\\.cjs$",
+    "^tests/contracts/closed-showdown-adapter-contracts\\.cjs$",
+    "^tests/pos20-registry/closed\\-showdown\\-adapter\\-contracts\\.json$"
+  ]
+}

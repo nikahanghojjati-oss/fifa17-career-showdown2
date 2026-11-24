@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/sweep-missing-season-stats-contracts.cjs",
+  "patterns": [
+    "^js/sharedSeasonResults\\.js$",
+    "^js/sparkSharedSeasonResults\\.js$",
+    "^tests/contracts/sweep-missing-season-stats-contracts\\.cjs$",
+    "^tests/pos20-registry/sweep\\-missing\\-season\\-stats\\-contracts\\.json$"
+  ]
+}

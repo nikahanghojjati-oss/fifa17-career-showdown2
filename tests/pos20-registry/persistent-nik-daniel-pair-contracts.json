@@ -1,0 +1,21 @@
+{
+  "path": "tests/contracts/persistent-nik-daniel-pair-contracts.cjs",
+  "patterns": [
+    "^\\.github/workflows/deploy\\-firestore\\-rules\\-zero\\-billing\\.yml$",
+    "^js/app\\.js$",
+    "^js/onlinePlayerIdentity\\.js$",
+    "^js/optionalModules\\.js$",
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/productionSharedJourneyEntry\\.js$",
+    "^js/showdown\\.js$",
+    "^js/showdownModes\\.js$",
+    "^js/sparkPrivatePairing\\.js$",
+    "^js/whichShowdownIsLive\\.js$",
+    "^scripts/build\\-production\\-firestore\\-rules\\-with\\-persistent\\-pair\\.mjs$",
+    "^scripts/build\\-production\\-firestore\\-rules\\.mjs$",
+    "^scripts/inject\\-persistent\\-pair\\-rules\\.mjs$",
+    "^service\\-worker\\.js$",
+    "^tests/contracts/persistent\\-nik\\-daniel\\-pair\\-contracts\\.cjs$",
+    "^tests/pos20-registry/persistent\\-nik\\-daniel\\-pair\\-contracts\\.json$"
+  ]
+}

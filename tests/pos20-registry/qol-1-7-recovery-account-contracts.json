@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/qol-1-7-recovery-account-contracts.cjs",
+  "patterns": [
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/sparkPrivatePairing\\.js$",
+    "^js/connectPlayersScreenV10\\.js$",
+    "^css/connectPlayersV10\\.css$",
+    "^tests/contracts/qol-1-7-recovery-account-contracts\\.cjs$",
+    "^tests/pos20-registry/qol\\-1\\-7\\-recovery\\-account\\-contracts\\.json$"
+  ]
+}

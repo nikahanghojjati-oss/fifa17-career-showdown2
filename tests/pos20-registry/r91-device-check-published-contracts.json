@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r91-device-check-published-contracts.cjs",
+  "patterns": [
+    "^[^/]+\\.html$",
+    "^service\\-worker\\.js$",
+    "^js/.+\\.js$",
+    "^\\.github/workflows/deploy\\-github\\-pages\\.yml$",
+    "^tests/support/stage\\-pages\\-artifact\\.cjs$",
+    "^tests/contracts/r91\\-device\\-check\\-published\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r91\\-device\\-check\\-published\\-contracts\\.json$"
+  ]
+}

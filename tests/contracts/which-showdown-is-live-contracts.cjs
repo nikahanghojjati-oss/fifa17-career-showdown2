@@ -218,7 +218,7 @@ await check("W7 the module is precached, lazy (not a startup file) and registere
   assert.ok(!html.includes("whichShowdownIsLive"),"not a startup script (startup budget)");
   assert.match(read("js/onlinePlayerIdentity.js"),/loadOnlineDependency\("which-showdown","js\/whichShowdownIsLive\.js",\(\)=>root\.CareerModeWhichShowdownIsLive\)/);
   assert.match(read("js/productionSharedJourneyEntry.js"),/loadScript\("which-showdown","js\/whichShowdownIsLive\.js",\(\)=>root\.CareerModeWhichShowdownIsLive\)/);
-  const registry=JSON.parse(read("POS20_SUPPLEMENTAL_PRODUCT_TESTS.json"));
+  const registry=require("../support/pos20-registry.cjs").loadPos20Registry(ROOT);
   assert.ok(registry.tests.some(entry=>entry.path==="tests/contracts/which-showdown-is-live-contracts.cjs"));
 });
 

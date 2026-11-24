@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r91-boot-fail-contracts.cjs",
+  "patterns": [
+    "^index\\.html$",
+    "^js/app\\.js$",
+    "^js/(storage|showdown|scoring|screens|menuExperience|optionalModules)\\.js$",
+    "^tests/contracts/r91-boot-fail-contracts\\.cjs$",
+    "^tests/pos20-registry/r91\\-boot\\-fail\\-contracts\\.json$"
+  ]
+}

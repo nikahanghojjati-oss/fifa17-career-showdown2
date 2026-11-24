@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/trophy-tap-delegated-contracts.cjs",
+  "patterns": [
+    "^js/careerScreensV10\\.js$",
+    "^tests/contracts/trophy\\-tap\\-delegated\\-contracts\\.cjs$",
+    "^tests/pos20-registry/trophy\\-tap\\-delegated\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r94-crest-ball-contracts.cjs",
+  "patterns": [
+    "^js/visualIdentity\\.js$",
+    "^visual-assets/v10_1/crests/",
+    "^service\\-worker\\.js$",
+    "^tests/contracts/r94\\-crest\\-ball\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r94\\-crest\\-ball\\-contracts\\.json$"
+  ]
+}

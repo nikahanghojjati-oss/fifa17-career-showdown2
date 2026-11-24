@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/chat-audit-season-results-route-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedSeasonResultsRoute\\.js$",
+    "^tests/contracts/chat\\-audit\\-season\\-results\\-route\\-contracts\\.cjs$",
+    "^tests/pos20-registry/chat\\-audit\\-season\\-results\\-route\\-contracts\\.json$"
+  ]
+}

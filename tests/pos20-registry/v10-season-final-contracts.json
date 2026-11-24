@@ -1,0 +1,13 @@
+{
+  "path": "tests/contracts/v10-season-final-contracts.cjs",
+  "patterns": [
+    "^js/seasonFinalV10\\.js$",
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^js/v10Screens\\.js$",
+    "^js/ssjr\\.js$",
+    "^visual-assets/v10_1/",
+    "^service-worker\\.js$",
+    "^tests/contracts/v10-season-final-contracts\\.cjs$",
+    "^tests/pos20-registry/v10\\-season\\-final\\-contracts\\.json$"
+  ]
+}

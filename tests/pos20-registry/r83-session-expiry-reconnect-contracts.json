@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r83-session-expiry-reconnect-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedJourneyReconnect\\.js$",
+    "^js/sharedJourneyReconnect\\.js$",
+    "^js/sparkRemoteJoining\\.js$",
+    "^tests/contracts/r83-session-expiry-reconnect-contracts\\.cjs$",
+    "^tests/pos20-registry/r83\\-session\\-expiry\\-reconnect\\-contracts\\.json$"
+  ]
+}

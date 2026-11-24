@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r88-fable17-chamber-fold-browser-contracts.cjs",
+  "patterns": [
+    "^js/(chamberMen|chamberMenStep)\\.js$",
+    "^css/(chamberMen|app)\\.css$",
+    "^tests/contracts/r88\\-fable17\\-chamber\\-fold\\-browser\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r88\\-fable17\\-chamber\\-fold\\-browser\\-contracts\\.json$"
+  ]
+}

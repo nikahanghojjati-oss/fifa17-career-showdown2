@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/football-photo-retry-contracts.cjs",
+  "patterns": [
+    "^js/footballVisuals\\.js$",
+    "^tests/contracts/football-photo-retry-contracts\\.cjs$",
+    "^tests/pos20-registry/football\\-photo\\-retry\\-contracts\\.json$"
+  ]
+}

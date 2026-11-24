@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/sweep-online-career-live-refresh-contracts.cjs",
+  "patterns": [
+    "^js/careerScreensV10\\.js$",
+    "^js/rivalryLegacyV10\\.js$",
+    "^js/careerScreenSeam\\.js$",
+    "^tests/contracts/sweep-online-career-live-refresh-contracts\\.cjs$",
+    "^tests/pos20-registry/sweep\\-online\\-career\\-live\\-refresh\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/shared-canonical-scoring-provider-contracts.cjs",
+  "patterns": [
+    "^js/sharedCanonicalScoring\\.js$",
+    "^js/sparkSharedCanonicalScoring\\.js$",
+    "^js/sharedSeasonCommit\\.js$",
+    "^js/sparkSharedSeasonCommit\\.js$",
+    "^tests/contracts/shared-canonical-scoring-provider-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-canonical\\-scoring\\-provider\\-contracts\\.json$"
+  ]
+}

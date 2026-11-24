@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r98-league-roulette-wiring-contracts.cjs",
+  "patterns": [
+    "^js/(leagueRouletteScene3d|leagueRouletteStep|productionSharedShowdownPresentation|productionSharedShowdownSetup|sharedShowdownSetup|v10Setup|gfxTier)\\.js$",
+    "^service\\-worker\\.js$",
+    "^tests/contracts/r98\\-league\\-roulette\\-wiring\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r98\\-league\\-roulette\\-wiring\\-contracts\\.json$"
+  ]
+}

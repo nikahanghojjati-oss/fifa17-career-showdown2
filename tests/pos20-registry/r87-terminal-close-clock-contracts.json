@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r87-terminal-close-clock-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTerminalClose\\.js$",
+    "^js/sparkRemoteJoining\\.js$",
+    "^tests/contracts/r87\\-terminal\\-close\\-clock\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-terminal\\-close\\-clock\\-contracts\\.json$"
+  ]
+}

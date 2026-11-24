@@ -1,0 +1,14 @@
+{
+  "path": "tests/contracts/pairing-reconnect-bh11-contracts.cjs",
+  "patterns": [
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/sparkRemoteJoining\\.js$",
+    "^js/productionSharedJourneyReconnect\\.js$",
+    "^js/sharedJourneyReconnect\\.js$",
+    "^js/sharedMultiSeasonProgression\\.js$",
+    "^js/sparkPrivatePairing\\.js$",
+    "^js/productionSharedJourneyEntry\\.js$",
+    "^tests/contracts/pairing-reconnect-bh11-contracts\\.cjs$",
+    "^tests/pos20-registry/pairing\\-reconnect\\-bh11\\-contracts\\.json$"
+  ]
+}

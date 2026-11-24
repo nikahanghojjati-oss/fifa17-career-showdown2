@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/legacy-refresh-contracts.cjs",
+  "patterns": [
+    "^js/rivalryLegacyV10\\.js$",
+    "^tests/contracts/legacy-refresh-contracts\\.cjs$",
+    "^tests/pos20-registry/legacy\\-refresh\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/showdown-gate-l8-pos1m-contracts.cjs",
+  "patterns": [
+    "^\\.github/workflows/showdown\\-gate\\.yml$",
+    "^scripts/showdown\\-gate\\.mjs$",
+    "^tests/contracts/showdown\\-gate\\-l8\\-pos1m\\-contracts\\.cjs$",
+    "^tests/pos20-registry/showdown\\-gate\\-l8\\-pos1m\\-contracts\\.json$"
+  ]
+}

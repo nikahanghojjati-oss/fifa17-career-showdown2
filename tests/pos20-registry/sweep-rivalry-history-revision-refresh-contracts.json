@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/sweep-rivalry-history-revision-refresh-contracts.cjs",
+  "patterns": [
+    "^js/rivalryLegacyV10\\.js$",
+    "^js/productionSharedHistoryConvergence\\.js$",
+    "^tests/contracts/sweep-rivalry-history-revision-refresh-contracts\\.cjs$",
+    "^tests/pos20-registry/sweep\\-rivalry\\-history\\-revision\\-refresh\\-contracts\\.json$"
+  ]
+}

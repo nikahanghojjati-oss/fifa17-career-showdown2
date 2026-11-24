@@ -1,0 +1,15 @@
+{
+  "path": "tests/contracts/shared-history-convergence-production-contracts.cjs",
+  "patterns": [
+    "^js/sharedHistoryConvergence\\.js$",
+    "^js/sparkSharedHistoryConvergence\\.js$",
+    "^js/productionSharedHistoryConvergence\\.js$",
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^js/productionSharedCanonicalScoring\\.js$",
+    "^js/ssjr\\.js$",
+    "^tests/contracts/shared-history-convergence-production-contracts\\.cjs$",
+    "^tests/browser/shared-history-convergence-audit\\.cjs$",
+    "^package\\.json$",
+    "^tests/pos20-registry/shared\\-history\\-convergence\\-production\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "path": "tests/contracts/europa-league-compat-contracts.cjs",
+  "patterns": [
+    "^js/sharedCanonicalScoring\\.js$",
+    "^js/sharedSeasonResults\\.js$",
+    "^js/sparkSharedSeasonResults\\.js$",
+    "^js/sharedSeasonCommit\\.js$",
+    "^js/sparkSharedSeasonCommit\\.js$",
+    "^js/sparkTerminalClose\\.js$",
+    "^js/sparkCompletedShowdownReader\\.js$",
+    "^js/sharedHistoryConvergence\\.js$",
+    "^js/sharedActiveShowdownAdapter\\.js$",
+    "^js/sharedCareerAnalytics\\.js$",
+    "^tests/fixtures/saved\\-showdowns(\\-in\\-progress)?/",
+    "^tests/fixtures/data\\-contract\\-v1/",
+    "^tests/contracts/europa\\-league\\-compat\\-contracts\\.cjs$",
+    "^tests/pos20-registry/europa\\-league\\-compat\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/completed-showdown-wins-contracts.cjs",
+  "patterns": [
+    "^js/showdownUI\\.js$",
+    "^tests/contracts/completed-showdown-wins-contracts\\.cjs$",
+    "^tests/pos20-registry/completed\\-showdown\\-wins\\-contracts\\.json$"
+  ]
+}

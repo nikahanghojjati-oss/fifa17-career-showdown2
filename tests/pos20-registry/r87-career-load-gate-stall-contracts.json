@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r87-career-load-gate-stall-contracts.cjs",
+  "patterns": [
+    "^js/careerScreensV10\\.js$",
+    "^js/rivalryLegacyV10\\.js$",
+    "^tests/contracts/r87\\-career\\-load\\-gate\\-stall\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-career\\-load\\-gate\\-stall\\-contracts\\.json$"
+  ]
+}

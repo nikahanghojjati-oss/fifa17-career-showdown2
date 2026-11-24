@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r91-chamber-ladder-contracts.cjs",
+  "patterns": [
+    "^js/chamberMenScene3d\\.js$",
+    "^js/chamberMenStadium3d\\.js$",
+    "^js/gfxTier\\.js$",
+    "^docs/QUALITY_LEVELS\\.md$",
+    "^tests/contracts/r91\\-chamber\\-ladder\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r91\\-chamber\\-ladder\\-contracts\\.json$"
+  ]
+}

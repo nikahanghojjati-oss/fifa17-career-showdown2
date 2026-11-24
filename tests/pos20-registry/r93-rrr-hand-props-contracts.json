@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r93-rrr-hand-props-contracts.cjs",
+  "patterns": [
+    "^visual-assets/v10_1/roulette/index\\.html$",
+    "^visual-assets/v10_1/roulette/platemap\\.json$",
+    "^visual-assets/v10_1/roulette/assets/RR_HAND",
+    "^tests/contracts/r93\\-rrr\\-hand\\-props\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r93\\-rrr\\-hand\\-props\\-contracts\\.json$"
+  ]
+}

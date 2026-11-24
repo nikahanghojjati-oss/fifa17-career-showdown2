@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r87-fable-step-contracts.cjs",
+  "patterns": [
+    "^js/rosterRouletteStep\\.js$",
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^js/productionSharedCareerStart\\.js$",
+    "^tests/contracts/r87\\-fable\\-step\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-fable\\-step\\-contracts\\.json$"
+  ]
+}

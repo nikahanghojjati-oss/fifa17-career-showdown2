@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r89-chamber-men-3d-contracts.cjs",
+  "patterns": [
+    "^js/(chamberMenScene3d|chamberMenStep)\\.js$",
+    "^css/chamberMen\\.css$",
+    "^service-worker\\.js$",
+    "^visual-assets/v10_1/roulette/vendor/three-r187\\.min\\.js$",
+    "^tools/three-vendor/entry\\.mjs$",
+    "^tests/contracts/r89\\-chamber\\-men\\-3d\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r89\\-chamber\\-men\\-3d\\-contracts\\.json$"
+  ]
+}

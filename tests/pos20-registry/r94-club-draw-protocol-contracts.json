@@ -1,0 +1,13 @@
+{
+  "path": "tests/contracts/r94-club-draw-protocol-contracts.cjs",
+  "patterns": [
+    "^js/(sharedShowdownSetup|sparkSharedShowdownSetup|sparkCompletedShowdownReader|sparkSharedSeasonCommit|sparkSharedSeasonResults)\\.js$",
+    "^js/sharedShowdownCatalog\\.js$",
+    "^firestore\\.shared\\-setup\\-production\\.fragment\\.rules$",
+    "^tests/fixtures/club\\-draw\\-golden/",
+    "^tests/fixtures/saved\\-showdowns",
+    "^tests/firebase/r94\\-club\\-draw\\-rules\\-emulator\\.cjs$",
+    "^tests/contracts/r94\\-club\\-draw\\-protocol\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r94\\-club\\-draw\\-protocol\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r87-roulette-hits-contracts.cjs",
+  "patterns": [
+    "^js/(rosterRoulette|rosterRouletteStep|sparkSharedTransferChallenge|productionSharedTransferChallenge|productionSharedJourneyReconnect|sparkPrivatePairing)\\.js$",
+    "^(firestore\\.transfer-challenge-production\\.fragment\\.rules|scripts/build-production-firestore-rules\\.mjs)$",
+    "^tests/contracts/r87\\-roulette\\-hits\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-roulette\\-hits\\-contracts\\.json$"
+  ]
+}

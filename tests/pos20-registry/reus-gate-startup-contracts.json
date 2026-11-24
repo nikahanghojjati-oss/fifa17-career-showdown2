@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/reus-gate-startup-contracts.cjs",
+  "patterns": [
+    "^js/app\\.js$",
+    "^js/ssjr\\.js$",
+    "^js/v10Screens\\.js$",
+    "^js/homeScreensV10\\.js$",
+    "^css/homeV10\\.css$",
+    "^tests/contracts/reus\\-gate\\-startup\\-contracts\\.cjs$",
+    "^tests/pos20-registry/reus\\-gate\\-startup\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/career-start-plain-errors-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedCareerStart\\.js$",
+    "^tests/contracts/career-start-plain-errors-contracts\\.cjs$",
+    "^tests/pos20-registry/career\\-start\\-plain\\-errors\\-contracts\\.json$"
+  ]
+}

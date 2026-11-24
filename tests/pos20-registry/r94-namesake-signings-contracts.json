@@ -1,0 +1,13 @@
+{
+  "path": "tests/contracts/r94-namesake-signings-contracts.cjs",
+  "patterns": [
+    "^js/(squadSheet|squadSheetStep|rosterRoulette|playerSearch|sharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
+    "^data/(fifa17Players|rosterSquads|transferOptions)\\.js$",
+    "^data/fifa17/players\\-",
+    "^firestore\\.(season\\-results|transfer\\-challenge)\\-production\\.fragment\\.rules$",
+    "^tests/fixtures/r94\\-namesake/",
+    "^tests/fixtures/r93\\-mixed\\-versions/",
+    "^tests/contracts/r94\\-namesake\\-signings\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r94\\-namesake\\-signings\\-contracts\\.json$"
+  ]
+}

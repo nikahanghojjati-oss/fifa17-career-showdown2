@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/shared-multi-season-progression-provider-contracts.cjs",
+  "patterns": [
+    "^js/sharedMultiSeasonProgression\\.js$",
+    "^js/sparkSharedMultiSeasonProgression\\.js$",
+    "^js/sparkSharedHistoryConvergence\\.js$",
+    "^js/sparkSharedSeasonCommit\\.js$",
+    "^js/sparkSharedCanonicalScoring\\.js$",
+    "^tests/contracts/shared-multi-season-progression-provider-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-multi\\-season\\-progression\\-provider\\-contracts\\.json$"
+  ]
+}

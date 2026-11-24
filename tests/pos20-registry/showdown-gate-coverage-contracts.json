@@ -1,0 +1,17 @@
+{
+  "path": "tests/contracts/showdown-gate-coverage-contracts.cjs",
+  "patterns": [
+    "^\\.github/workflows/",
+    "^GATE_COVERAGE\\.json$",
+    "^scripts/showdown-gate\\.mjs$",
+    "^scripts/gate-watchdog\\.mjs$",
+    "^scripts/pos20-impact-router\\.mjs$",
+    "^scripts/pos10-proof-runner\\.mjs$",
+    "^POS10_IMPACT_GRAPH\\.json$",
+    "^CURRENT_PRODUCT_TEST_MANIFEST\\.json$",
+    "^package\\.json$",
+    "^tests/support/gha-workflow-parse\\.cjs$",
+    "^tests/contracts/showdown-gate-coverage-contracts\\.cjs$",
+    "^tests/pos20-registry/showdown\\-gate\\-coverage\\-contracts\\.json$"
+  ]
+}

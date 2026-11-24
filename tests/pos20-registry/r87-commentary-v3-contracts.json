@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r87-commentary-v3-contracts.cjs",
+  "patterns": [
+    "^js/(commentaryV3|commentaryEngine|seasonFinalV10)\\.js$",
+    "^data/commentaryLines\\.js$",
+    "^visual-assets/v10_1/content/content\\.css$",
+    "^service-worker\\.js$",
+    "^tests/contracts/r87\\-commentary\\-v3\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-commentary\\-v3\\-contracts\\.json$"
+  ]
+}

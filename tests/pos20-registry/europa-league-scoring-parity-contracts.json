@@ -1,0 +1,15 @@
+{
+  "path": "tests/contracts/europa-league-scoring-parity-contracts.cjs",
+  "patterns": [
+    "^js/sharedCanonicalScoring\\.js$",
+    "^js/sparkTerminalClose\\.js$",
+    "^js/sharedHistoryConvergence\\.js$",
+    "^js/scoring\\.js$",
+    "^js/analytics\\.js$",
+    "^js/legacy\\.js$",
+    "^visual\\-assets/v10_1/season\\-results/season\\-results\\.js$",
+    "^tests/support/career\\-fixture\\-helpers\\.cjs$",
+    "^tests/contracts/europa\\-league\\-scoring\\-parity\\-contracts\\.cjs$",
+    "^tests/pos20-registry/europa\\-league\\-scoring\\-parity\\-contracts\\.json$"
+  ]
+}

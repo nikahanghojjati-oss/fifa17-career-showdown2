@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r87-career-fixes-contracts.cjs",
+  "patterns": [
+    "^js/(legacy|settings|rivalryLegacyV10|careerScreensV10|careerScreenSeam|careerSummaryStore|sharedCareerAnalytics|touchlineGazette|seasonFinalV10)\\.js$",
+    "^visual-assets/v10_1/(standings|rivalry-statistics|trophy-room)/",
+    "^tests/contracts/r87\\-career\\-fixes\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-career\\-fixes\\-contracts\\.json$"
+  ]
+}

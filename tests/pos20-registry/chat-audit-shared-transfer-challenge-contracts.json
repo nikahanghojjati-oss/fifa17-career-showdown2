@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/chat-audit-shared-transfer-challenge-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^tests/contracts/chat\\-audit\\-shared\\-transfer\\-challenge\\-contracts\\.cjs$",
+    "^tests/pos20-registry/chat\\-audit\\-shared\\-transfer\\-challenge\\-contracts\\.json$"
+  ]
+}

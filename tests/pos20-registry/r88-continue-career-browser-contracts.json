@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r88-continue-career-browser-contracts.cjs",
+  "patterns": [
+    "^js/(chamberMenStep|iconGuessStep|menuExperience|clubAssignment|onlinePlayerIdentity)\\.js$",
+    "^css/v10Club\\.css$",
+    "^visual-assets/v10_1/club/club\\.css$",
+    "^visual-assets/v10_1/icon-guess/index\\.html$",
+    "^tests/contracts/r88\\-continue\\-career\\-browser\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r88\\-continue\\-career\\-browser\\-contracts\\.json$"
+  ]
+}

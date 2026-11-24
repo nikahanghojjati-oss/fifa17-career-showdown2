@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/flash-gate-always-contracts.cjs",
+  "patterns": [
+    "^scripts/pos20-impact-router\\.mjs$",
+    "^scripts/showdown-gate\\.mjs$",
+    "^tests/browser/v10-screen-flash-audit\\.cjs$",
+    "^tests/contracts/flash\\-gate\\-always\\-contracts\\.cjs$",
+    "^tests/pos20-registry/flash\\-gate\\-always\\-contracts\\.json$"
+  ]
+}

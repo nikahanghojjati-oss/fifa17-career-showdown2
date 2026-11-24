@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r87-fable11-roulette-contracts.cjs",
+  "patterns": [
+    "^js/rosterRoulette\\.js$",
+    "^js/rosterRouletteStep\\.js$",
+    "^js/ruleBook\\.js$",
+    "^visual-assets/v10_1/roulette/index\\.html$",
+    "^tests/contracts/r87\\-fable11\\-roulette\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-fable11\\-roulette\\-contracts\\.json$"
+  ]
+}

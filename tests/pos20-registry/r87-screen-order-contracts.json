@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r87-screen-order-contracts.cjs",
+  "patterns": [
+    "^js/(productionSharedTransferChallenge|rosterRouletteStep|iconGuessStep|showdownUI|productionSharedSeasonResultsRoute|productionSharedCareerStart|ruleBook|productionSharedMultiSeasonProgression|screens)\\.js$",
+    "^index\\.html$",
+    "^visual-assets/v10_1/icon-guess/index\\.html$",
+    "^tests/contracts/r87\\-screen\\-order\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-screen\\-order\\-contracts\\.json$"
+  ]
+}

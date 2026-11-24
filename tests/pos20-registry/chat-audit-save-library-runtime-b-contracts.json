@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/chat-audit-save-library-runtime-b-contracts.cjs",
+  "patterns": [
+    "^js/saveLibraryRuntime\\.js$",
+    "^tests/contracts/chat\\-audit\\-save\\-library\\-runtime\\-b\\-contracts\\.cjs$",
+    "^tests/pos20-registry/chat\\-audit\\-save\\-library\\-runtime\\-b\\-contracts\\.json$"
+  ]
+}

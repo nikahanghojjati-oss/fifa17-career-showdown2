@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/season-result-clash-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^js/productionSharedSeasonResults\\.js$",
+    "^tests/contracts/season-result-clash-contracts\\.cjs$",
+    "^tests/pos20-registry/season\\-result\\-clash\\-contracts\\.json$"
+  ]
+}

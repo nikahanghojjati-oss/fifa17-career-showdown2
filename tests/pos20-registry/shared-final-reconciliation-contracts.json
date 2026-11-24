@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/shared-final-reconciliation-contracts.cjs",
+  "patterns": [
+    "^js/sharedFinalReconciliation\\.js$",
+    "^js/sharedHistoryConvergence\\.js$",
+    "^js/sharedMultiSeasonProgression\\.js$",
+    "^tests/contracts/shared-final-reconciliation-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-final\\-reconciliation\\-contracts\\.json$"
+  ]
+}

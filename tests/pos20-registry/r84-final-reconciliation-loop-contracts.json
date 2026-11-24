@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r84-final-reconciliation-loop-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedFinalReconciliation\\.js$",
+    "^tests/contracts/r84\\-final\\-reconciliation\\-loop\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r84\\-final\\-reconciliation\\-loop\\-contracts\\.json$"
+  ]
+}

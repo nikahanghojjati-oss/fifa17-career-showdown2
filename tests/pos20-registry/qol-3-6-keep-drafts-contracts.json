@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/qol-3-6-keep-drafts-contracts.cjs",
+  "patterns": [
+    "^js/storage\\.js$",
+    "^js/productionSharedSeasonResults\\.js$",
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^js/productionSharedTerminalClose\\.js$",
+    "^tests/contracts/qol-3-6-keep-drafts-contracts\\.cjs$",
+    "^tests/pos20-registry/qol\\-3\\-6\\-keep\\-drafts\\-contracts\\.json$"
+  ]
+}

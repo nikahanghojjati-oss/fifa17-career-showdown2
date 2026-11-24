@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r87-prime-pack-totals-contracts.cjs",
+  "patterns": [
+    "^js/(iconGuess|careerScreenSeam|touchlineGazette|productionSharedTransferChallenge|commentaryEngine|rivalryLegacyV10|careerScreensV10|sharedCareerAnalytics|sharedHistoryConvergence|ruleBook)\\.js$",
+    "^tests/support/career-fixture-helpers\\.cjs$",
+    "^tests/contracts/r87\\-prime\\-pack\\-totals\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-prime\\-pack\\-totals\\-contracts\\.json$"
+  ]
+}

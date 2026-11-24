@@ -4,13 +4,8 @@ const { spawnSync } = require('node:child_process');
 
 const root = path.resolve(__dirname,'../..');
 const manifest = JSON.parse(fs.readFileSync(path.join(root,'CURRENT_PRODUCT_TEST_MANIFEST.json'),'utf8'));
-const supplemental = JSON.parse(fs.readFileSync(path.join(root,'POS20_SUPPLEMENTAL_PRODUCT_TESTS.json'),'utf8'));
-if(supplemental?.schemaVersion!==1||supplemental?.operatingSystem!=='POS20'||!Array.isArray(supplemental.tests)) throw new Error('Invalid POS20 supplemental product-test registry.');
-const supplementalPaths = supplemental.tests.map(entry=>entry&&entry.path);
-if(supplementalPaths.some(file=>typeof file!=='string'||!file.startsWith('tests/contracts/')||!file.endsWith('.cjs'))) throw new Error('Invalid POS20 supplemental product-test path.');
-if(new Set(supplementalPaths).size!==supplementalPaths.length) throw new Error('Duplicate POS20 supplemental product-test path.');
-const overlap = supplementalPaths.filter(file=>manifest.tests.includes(file));
-if(overlap.length) throw new Error(`POS20 supplemental tests duplicate the frozen POS10 manifest: ${overlap.join(', ')}`);
+const {loadPos20Registry} = require('./pos20-registry.cjs');
+const supplementalPaths = loadPos20Registry(root).tests.map(entry=>entry.path);
 const registered = [...manifest.tests,...supplementalPaths];
 const args = process.argv.slice(2);
 let selected = [];

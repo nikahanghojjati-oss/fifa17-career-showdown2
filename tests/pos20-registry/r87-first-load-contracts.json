@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r87-first-load-contracts.cjs",
+  "patterns": [
+    "^js/offlineApp\\.js$",
+    "^index\\.html$",
+    "^service-worker\\.js$",
+    "^assets/fonts/",
+    "^tests/contracts/r87\\-first\\-load\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-first\\-load\\-contracts\\.json$"
+  ]
+}

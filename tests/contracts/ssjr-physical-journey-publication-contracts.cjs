@@ -15,7 +15,7 @@ const validator=fs.readFileSync("scripts/validate-ssjr-physical-journey-evidence
 const guide=fs.readFileSync("SSJR2_PHYSICAL_RUN_GUIDE.md","utf8"),retired=fs.readFileSync("PHYSICAL_JOURNEY_ACCEPTANCE.md","utf8");
 const release=fs.readFileSync("RELEASE_V1.9.1_R20.md","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
-const supplemental=JSON.parse(fs.readFileSync("POS20_SUPPLEMENTAL_PRODUCT_TESTS.json","utf8"));
+const supplemental=require("../support/pos20-registry.cjs").loadPos20Registry();
 
 const currentRevision=(index.match(/meta name="app-asset-revision" content="([^"]+)"/)||[])[1];
 assert.match(currentRevision||"",new RegExp(`^${pkg.version.replace(/\./g,"\\.")}-r[1-9]\\d*$`));

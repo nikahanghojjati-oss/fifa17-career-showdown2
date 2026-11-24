@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r80-ce2pg-career-pages-contracts.cjs",
+  "patterns": [
+    "^js/settings\\.js$",
+    "^js/seasonFinalV10\\.js$",
+    "^js/rivalryLegacyV10\\.js$",
+    "^tests/fixtures/data\\-contract\\-v1/multi\\-showdown\\-career\\.json$",
+    "^tests/support/fake\\-dom\\.cjs$",
+    "^tests/contracts/r80\\-ce2pg\\-career\\-pages\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r80\\-ce2pg\\-career\\-pages\\-contracts\\.json$"
+  ]
+}

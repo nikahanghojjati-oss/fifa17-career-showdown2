@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/shared-history-convergence-contracts.cjs",
+  "patterns": [
+    "^js/sharedHistoryConvergence\\.js$",
+    "^js/sparkSharedHistoryConvergence\\.js$",
+    "^tests/contracts/shared-history-convergence-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-history\\-convergence\\-contracts\\.json$"
+  ]
+}

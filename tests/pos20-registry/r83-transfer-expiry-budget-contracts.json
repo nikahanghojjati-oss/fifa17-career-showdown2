@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r83-transfer-expiry-budget-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^tests/contracts/r83-transfer-expiry-budget-contracts\\.cjs$",
+    "^tests/pos20-registry/r83\\-transfer\\-expiry\\-budget\\-contracts\\.json$"
+  ]
+}

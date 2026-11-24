@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/career-start-open-timeout-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedCareerStart\\.js$",
+    "^tests/contracts/career-start-open-timeout-contracts\\.cjs$",
+    "^tests/pos20-registry/career\\-start\\-open\\-timeout\\-contracts\\.json$"
+  ]
+}

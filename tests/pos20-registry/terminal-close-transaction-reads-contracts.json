@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/terminal-close-transaction-reads-contracts.cjs",
+  "patterns": [
+    "^js/sparkTerminalClose\\.js$",
+    "^tests/contracts/terminal-close-transaction-reads-contracts\\.cjs$",
+    "^tests/pos20-registry/terminal\\-close\\-transaction\\-reads\\-contracts\\.json$"
+  ]
+}

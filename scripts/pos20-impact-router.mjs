@@ -1,11 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {createRequire} from 'node:module';
 import {routeFiles as pos10Route} from './pos10-impact-router.mjs';
 export const model='POS20';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const supplementalPath=path.join(root,'POS20_SUPPLEMENTAL_PRODUCT_TESTS.json');
-const supplementalRegistry=JSON.parse(fs.readFileSync(supplementalPath,'utf8'));
+// One file per contract in tests/pos20-registry/ (tests/support/pos20-registry.cjs validates it on load).
+const {loadPos20Registry}=createRequire(import.meta.url)('../tests/support/pos20-registry.cjs');
+const supplementalRegistry=loadPos20Registry(root);
 function uniq(a){return [...new Set(a||[])];}
 function superset(base,next,label){for(const item of base||[])if(!(next||[]).includes(item))throw new Error(`POS20 may not reduce POS10 ${label}: ${item}`);}
 function normalized(file){return String(file||'').replace(/\\/g,'/').replace(/^\.\//,'');}

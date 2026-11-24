@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r90-gfx-tier-contracts.cjs",
+  "patterns": [
+    "^js/gfxTier\\.js$",
+    "^service-worker\\.js$",
+    "^tests/contracts/r90\\-gfx\\-tier\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r90\\-gfx\\-tier\\-contracts\\.json$"
+  ]
+}

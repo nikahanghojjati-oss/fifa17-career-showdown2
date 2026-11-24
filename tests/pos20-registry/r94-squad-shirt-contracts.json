@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r94-squad-shirt-contracts.cjs",
+  "patterns": [
+    "^js/squadScreen\\.js$",
+    "^js/kits17\\.js$",
+    "^tests/contracts/r94\\-squad\\-shirt\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r94\\-squad\\-shirt\\-contracts\\.json$"
+  ]
+}

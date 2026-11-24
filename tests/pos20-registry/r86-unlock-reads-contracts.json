@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r86-unlock-reads-contracts.cjs",
+  "patterns": [
+    "^js/(sparkPrivatePairing|productionSharedSeasonCommit)\\.js$",
+    "^tests/contracts/r86\\-unlock\\-reads\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r86\\-unlock\\-reads\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/standings-this-showdown-midway-contracts.cjs",
+  "patterns": [
+    "^js/sharedActiveShowdownAdapter\\.js$",
+    "^js/sparkSharedMultiSeasonProgression\\.js$",
+    "^tests/contracts/standings\\-this\\-showdown\\-midway\\-contracts\\.cjs$",
+    "^tests/pos20-registry/standings\\-this\\-showdown\\-midway\\-contracts\\.json$"
+  ]
+}

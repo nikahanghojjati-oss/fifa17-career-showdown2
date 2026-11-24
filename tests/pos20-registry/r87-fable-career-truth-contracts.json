@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r87-fable-career-truth-contracts.cjs",
+  "patterns": [
+    "^js/(sharedHistoryConvergence|sharedCareerAnalytics|legacy|careerSummaryStore|analytics)\\.js$",
+    "^tests/contracts/r87\\-fable\\-career\\-truth\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-fable\\-career\\-truth\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r87-career-fixes-lane-c-browser-contracts.cjs",
+  "patterns": [
+    "^css/v10Shell\\.css$",
+    "^css/rivalryLegacyV10\\.css$",
+    "^js/careerScreensV10\\.js$",
+    "^js/specialPlayerChip\\.js$",
+    "^visual-assets/v10_1/(career-statistics|legacy)/",
+    "^tests/contracts/r87\\-career\\-fixes\\-lane\\-c\\-browser\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-career\\-fixes\\-lane\\-c\\-browser\\-contracts\\.json$"
+  ]
+}

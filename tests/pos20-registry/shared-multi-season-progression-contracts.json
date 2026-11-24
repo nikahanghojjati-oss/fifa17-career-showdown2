@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/shared-multi-season-progression-contracts.cjs",
+  "patterns": [
+    "^js/sharedMultiSeasonProgression\\.js$",
+    "^js/sharedHistoryConvergence\\.js$",
+    "^tests/contracts/shared-multi-season-progression-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-multi\\-season\\-progression\\-contracts\\.json$"
+  ]
+}

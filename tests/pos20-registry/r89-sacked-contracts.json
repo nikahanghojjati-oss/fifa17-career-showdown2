@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r89-sacked-contracts.cjs",
+  "patterns": [
+    "^js/(productionSharedSeasonResults|sharedHistoryConvergence|sharedMultiSeasonProgression|sharedFinalReconciliation|sharedTerminalClose|sparkTerminalClose|careerScreenSeam|sharedCareerAnalytics|touchlineGazette|seasonFinalV10|rivalryLegacyV10|commentaryV3|ruleBook)\\.js$",
+    "^data/gazetteSacked\\.js$",
+    "^index\\.html$",
+    "^service-worker\\.js$",
+    "^scripts/build-production-firestore-rules\\.mjs$",
+    "^tests/contracts/r89\\-sacked\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r89\\-sacked\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r86-billed-counter-contracts.cjs",
+  "patterns": [
+    "^js/(sparkPrivatePairing|settings)\\.js$",
+    "^tests/browser/support/(billed-meter|rules-lookups)\\.cjs$",
+    "^tests/browser/support/billed-reads-table\\.json$",
+    "^(firestore\\.[a-z0-9-]+\\.rules|scripts/build-production-firestore-rules(-with-persistent-pair)?\\.mjs)$",
+    "^tests/contracts/r86\\-billed\\-counter\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r86\\-billed\\-counter\\-contracts\\.json$"
+  ]
+}

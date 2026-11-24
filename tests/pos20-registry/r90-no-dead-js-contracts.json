@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r90-no-dead-js-contracts.cjs",
+  "patterns": [
+    "^js/.+\\.js$",
+    "^index\\.html$",
+    "^service-worker\\.js$",
+    "^visual-assets/.+\\.(?:html|js)$",
+    "^tests/contracts/r90\\-no\\-dead\\-js\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r90\\-no\\-dead\\-js\\-contracts\\.json$"
+  ]
+}

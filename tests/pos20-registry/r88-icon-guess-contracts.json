@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r88-icon-guess-contracts.cjs",
+  "patterns": [
+    "^js/iconGuess\\.js$",
+    "^tests/contracts/r88\\-icon\\-guess\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r88\\-icon\\-guess\\-contracts\\.json$"
+  ]
+}

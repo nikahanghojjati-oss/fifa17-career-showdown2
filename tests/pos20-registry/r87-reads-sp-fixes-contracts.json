@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r87-reads-sp-fixes-contracts.cjs",
+  "patterns": [
+    "^js/(sparkPrivatePairing|productionSharedCareerStart|sparkSharedTransferChallenge|productionSharedTransferChallenge)\\.js$",
+    "^tests/contracts/r87\\-reads\\-sp\\-fixes\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-reads\\-sp\\-fixes\\-contracts\\.json$"
+  ]
+}

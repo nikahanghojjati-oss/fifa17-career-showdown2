@@ -1,0 +1,14 @@
+{
+  "path": "tests/contracts/shared-canonical-scoring-production-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedCanonicalScoring\\.js$",
+    "^js/sparkSharedCanonicalScoring\\.js$",
+    "^js/sharedCanonicalScoring\\.js$",
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^js/ssjr\\.js$",
+    "^tests/contracts/shared-canonical-scoring-production-contracts\\.cjs$",
+    "^tests/browser/shared-canonical-scoring-audit\\.cjs$",
+    "^package\\.json$",
+    "^tests/pos20-registry/shared\\-canonical\\-scoring\\-production\\-contracts\\.json$"
+  ]
+}

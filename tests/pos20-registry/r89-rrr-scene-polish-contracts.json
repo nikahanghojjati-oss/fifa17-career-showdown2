@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r89-rrr-scene-polish-contracts.cjs",
+  "patterns": [
+    "^visual-assets/v10_1/roulette/index\\.html$",
+    "^visual-assets/v10_1/roulette/platemap\\.json$",
+    "^tests/contracts/r89\\-rrr\\-scene\\-polish\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r89\\-rrr\\-scene\\-polish\\-contracts\\.json$"
+  ]
+}

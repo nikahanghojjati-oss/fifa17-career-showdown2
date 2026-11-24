@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/hunt-1018-reconnect-authority-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedJourneyReconnect\\.js$",
+    "^js/sharedJourneyReconnect\\.js$",
+    "^js/sharedMultiSeasonProgression\\.js$",
+    "^tests/contracts/hunt-1018-reconnect-authority-contracts\\.cjs$",
+    "^tests/pos20-registry/hunt\\-1018\\-reconnect\\-authority\\-contracts\\.json$"
+  ]
+}

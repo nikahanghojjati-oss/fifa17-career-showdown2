@@ -1,0 +1,15 @@
+{
+  "path": "tests/contracts/firestore-budget-contracts.cjs",
+  "patterns": [
+    "^js/sparkPrivatePairing\\.js$",
+    "^js/productionShared[A-Za-z]+\\.js$",
+    "^js/onlinePlayerIdentity\\.js$",
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/sparkConnected[A-Za-z]+\\.js$",
+    "^js/sparkRemoteJoining\\.js$",
+    "^js/seasonFinalV10\\.js$",
+    "^js/rivalryLegacyV10\\.js$",
+    "^tests/contracts/firestore\\-budget\\-contracts\\.cjs$",
+    "^tests/pos20-registry/firestore\\-budget\\-contracts\\.json$"
+  ]
+}

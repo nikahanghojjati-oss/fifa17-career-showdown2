@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r87-roster-roulette-contracts.cjs",
+  "patterns": [
+    "^data/(rosterSquads|clubs)\\.js$",
+    "^js/rosterRoulette\\.js$",
+    "^tests/contracts/r87-roster-roulette-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-roster\\-roulette\\-contracts\\.json$"
+  ]
+}

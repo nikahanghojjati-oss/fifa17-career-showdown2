@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/champion-back-home-contracts.cjs",
+  "patterns": [
+    "^js/seasonFinalV10\\.js$",
+    "^js/screens\\.js$",
+    "^tests/contracts/champion\\-back\\-home\\-contracts\\.cjs$",
+    "^tests/pos20-registry/champion\\-back\\-home\\-contracts\\.json$"
+  ]
+}

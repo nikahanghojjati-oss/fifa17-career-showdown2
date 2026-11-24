@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/work-audit-optional-modules-b-contracts.cjs",
+  "patterns": [
+    "^js/optionalModules\\.js$",
+    "^tests/contracts/work\\-audit\\-optional\\-modules\\-b\\-contracts\\.cjs$",
+    "^tests/pos20-registry/work\\-audit\\-optional\\-modules\\-b\\-contracts\\.json$"
+  ]
+}
