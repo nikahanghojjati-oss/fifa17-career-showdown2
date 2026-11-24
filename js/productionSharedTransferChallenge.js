@@ -90,13 +90,21 @@
   function pstcMonotonicNow(){const value=Number(root.performance&&typeof root.performance.now==="function"?root.performance.now():Number.NaN);if(!Number.isFinite(value)||value<0)pstcFail("TRANSFER_CLOCK_UNAVAILABLE","A steady clock is not available here, and the Transfer War needs one.");return value;}
   function pstcClockReady(request){return Boolean(request&&clockContextKey===request.key&&Number.isFinite(clockServerEpochMs)&&clockServerEpochMs>0&&Number.isFinite(clockPerformanceMs));}
   function pstcAuthoritativeNow(request=pstcRequestContext()){if(!pstcClockReady(request))pstcFail("TRANSFER_CLOCK_UNAVAILABLE","The Transfer War has no server time yet. Try again in a moment.");return Math.floor(clockServerEpochMs+Math.max(0,pstcMonotonicNow()-clockPerformanceMs));}
+  function pstcAuthStoreHidden(error){return /Database is closing\/hidden/.test(String(error?.message||""))||root.document?.visibilityState==="hidden";}
+  // One bounded wait: resolves true once the page is shown, false after HIDDEN_WAIT_MS still hidden (nothing is read meanwhile).
+  const HIDDEN_WAIT_MS=15*60*1000;
+  function pstcPageShown(limitMs=HIDDEN_WAIT_MS){const doc=root.document;if(!doc||doc.visibilityState!=="hidden"||typeof doc.addEventListener!=="function")return Promise.resolve(true);return new Promise(resolve=>{let timer=null;const finish=shown=>{if(timer!==null)root.clearTimeout?.(timer);timer=null;doc.removeEventListener("visibilitychange",done);root.removeEventListener?.("pageshow",done);resolve(shown);};const done=()=>{if(doc.visibilityState!=="hidden")finish(true);};doc.addEventListener("visibilitychange",done);root.addEventListener?.("pageshow",done);timer=root.setTimeout?.(()=>finish(false),limitMs)??null;});}
   async function pstcEnsureServerClock(user,request){
     if(!request||!pstcRequestMatches(request))return false;
     const monotonicNow=pstcMonotonicNow();
     if(pstcClockReady(request)&&Number.isFinite(clockRefreshPerformanceMs)&&monotonicNow-clockRefreshPerformanceMs<CLOCK_REFRESH_MS)return true;
     if(!user||typeof user.getIdTokenResult!=="function")pstcFail("TRANSFER_CLOCK_UNAVAILABLE","Server time is not available right now.");
-    const requestPerformanceMs=pstcMonotonicNow();
-    const token=await user.getIdTokenResult(true);
+    let requestPerformanceMs=pstcMonotonicNow(),token;
+    // r100 W4: the remembered sign-in lives in Firebase's IndexedDB store, which Firebase closes while the page is hidden (a
+    // locked phone), so a fresh token cannot be stored then ("Database is closing/hidden"). Ask once more when the page is shown; a page
+    // that stays hidden, or a second failure, surfaces the error as before.
+    try{token=await user.getIdTokenResult(true);}
+    catch(error){if(!pstcAuthStoreHidden(error)||!await pstcPageShown())throw error;if(!pstcRequestMatches(request))return false;requestPerformanceMs=pstcMonotonicNow();token=await user.getIdTokenResult(true);}
     if(!pstcRequestMatches(request))return false;
     const issuedAtEpochMs=Date.parse(String(token?.issuedAtTime||""));
     if(!Number.isFinite(issuedAtEpochMs)||issuedAtEpochMs<=0)pstcFail("TRANSFER_CLOCK_UNAVAILABLE","The server sent a time the game cannot use.");

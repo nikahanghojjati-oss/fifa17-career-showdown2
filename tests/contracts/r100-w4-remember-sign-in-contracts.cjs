@@ -122,3 +122,44 @@ test("W4-6: the guards say the new truth and keep everything else: popup only, n
   assert.match(identity,/const before=accountSeenId;accountSeenId=seen\(next\);\/\*[^*]*\*\/if\(accountSignOutReloading\|\|!state\.accountId\|\|!before\|\|before!==state\.accountId\|\|accountSeenId===before\)return;accountSignOutReloading=true;[^}]*\}catch\(_\)\{\}root\.location\?\.reload\?\.\(\);/,"a tab whose account was signed out elsewhere starts again signed out");
   assert.doesNotMatch(controller,/addScope\(|signInWithRedirect|localStorage|sessionStorage|indexedDB|getIdToken|refreshToken/,"game code never stores or reads the sign-in itself");
 });
+
+// Gate L7 Ironman lock (#1599): Firebase closes its IndexedDB store while the page is hidden, so the Transfer War's forced
+// token refresh (the server clock) threw "Database is closing/hidden" on a locked phone and Daniel stayed on Career Start.
+// The real production helpers run here; only the page, the request check and the Firebase user are fakes.
+test("W4-7: a server-clock refresh cut by a locked phone waits (once, bounded) for the page to be shown and asks once more; other errors still fail",async()=>{
+  const vm=require("node:vm"),src=read("js/productionSharedTransferChallenge.js");
+  const pick=(re,name)=>{const m=src.match(re);assert.ok(m,`Transfer War must define ${name}`);return m[0];};
+  const helpers=[pick(/^  function pstcMonotonicNow\(\)[^\n]*$/m,"pstcMonotonicNow"),pick(/^  function pstcClockReady\(request\)[^\n]*$/m,"pstcClockReady"),
+    pick(/^  function pstcAuthStoreHidden\(error\)[^\n]*$/m,"pstcAuthStoreHidden"),pick(/^  function pstcPageShown\(limitMs=HIDDEN_WAIT_MS\)[^\n]*$/m,"pstcPageShown"),
+    pick(/^  async function pstcEnsureServerClock\(user,request\)\{[\s\S]*?^  \}/m,"pstcEnsureServerClock")].join("\n");
+  assert.match(src,/^  const HIDDEN_WAIT_MS=15\*60\*1000;$/m,"the wait is bounded: 15 minutes, the Transfer War's own clock");
+  const REQUEST={key:"w4-7:season-1"};
+  function harness(waitMs=900000){
+    const listeners=new Map(),doc={visibilityState:"hidden",addEventListener(t,f){listeners.set(t,(listeners.get(t)||new Set()).add(f));},removeEventListener(t,f){listeners.get(t)?.delete(f);}};
+    const page={matches:true,doc,show(){doc.visibilityState="visible";for(const f of [...(listeners.get("visibilitychange")||[])])f();},listening:()=>[...listeners.values()].reduce((n,s)=>n+s.size,0)};
+    const sandbox={root:{document:doc,performance:{now:()=>1000},addEventListener(){},removeEventListener(){},setTimeout,clearTimeout},pstcRequestMatches:()=>page.matches,
+      pstcFail:code=>{const e=new Error(code);e.code=code;throw e;},Date};
+    page.ensure=vm.runInNewContext(["const CLOCK_REFRESH_MS=300000;",`const HIDDEN_WAIT_MS=${waitMs};`,"let clockContextKey=\"\",clockServerEpochMs=0,clockPerformanceMs=0,clockRefreshPerformanceMs=0;",helpers,"pstcEnsureServerClock"].join("\n"),sandbox);
+    return page;
+  }
+  const hiddenError=()=>new Error("Database is closing/hidden");
+  // Locked phone: the first ask fails, nothing more is asked until the phone is unlocked, then one more ask lands the clock.
+  {const page=harness();let asks=0;const user={async getIdTokenResult(force){assert.equal(force,true);asks+=1;if(asks===1)throw hiddenError();return {issuedAtTime:"2026-11-24T16:00:00.250Z"};}};
+    let settled=false;const run=page.ensure(user,REQUEST).then(v=>{settled=true;return v;});
+    await new Promise(r=>setTimeout(r,20));assert.equal(asks,1,"no second ask while the phone is locked");assert.equal(settled,false,"the clock waits, it does not fail");
+    page.show();assert.equal(await run,true,"after unlock the clock is set");assert.equal(asks,2,"exactly one more ask");assert.equal(page.listening(),0,"the wait leaves no listener behind");}
+  // The Showdown moved on while the phone was locked: no second ask, the caller sees a stale request.
+  {const page=harness();let asks=0;const user={async getIdTokenResult(){asks+=1;throw hiddenError();}};
+    const run=page.ensure(user,REQUEST);await new Promise(r=>setTimeout(r,5));page.matches=false;page.show();
+    assert.equal(await run,false);assert.equal(asks,1);}
+  // A visible page with any other error fails as before (no wait, no retry).
+  {const page=harness();page.doc.visibilityState="visible";let asks=0;const user={async getIdTokenResult(){asks+=1;throw new Error("auth/network-request-failed");}};
+    await assert.rejects(page.ensure(user,REQUEST),/network-request-failed/);assert.equal(asks,1);}
+  // A phone that stays locked past the bound: no second ask, the original error surfaces (never a silent hang), no listener left.
+  {const page=harness(30);let asks=0;const user={async getIdTokenResult(){asks+=1;throw hiddenError();}};
+    await assert.rejects(page.ensure(user,REQUEST),/closing\/hidden/);assert.equal(asks,1);assert.equal(page.listening(),0);}
+  // Shown again but the refresh fails a second time: that error surfaces; there is no third ask.
+  {const page=harness();let asks=0;const user={async getIdTokenResult(){asks+=1;if(asks===1)throw hiddenError();throw new Error("auth/network-request-failed");}};
+    const run=page.ensure(user,REQUEST);await new Promise(r=>setTimeout(r,5));page.show();
+    await assert.rejects(run,/network-request-failed/);assert.equal(asks,2);}
+});

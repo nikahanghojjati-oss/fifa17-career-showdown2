@@ -59,7 +59,8 @@ async function assertNoSessionCodeOption(m){assert.equal(await m.page.locator("#
 const field=(doc,...keys)=>keys.reduce((v,k)=>v&&(v.mapValue?v.mapValue.fields[k]:v.fields?v.fields[k]:undefined),doc);
 const ids=arr=>(arr&&arr.arrayValue&&arr.arrayValue.values||[]).map(v=>v.stringValue);
 // Studio Z4: the pair's session pointer, read and written as a signed-in manager (their own emulator ID token).
-async function idToken(m){return m.page.evaluate(()=>{for(const k of Object.keys(sessionStorage))if(k.startsWith("firebase:authUser:"))return JSON.parse(sessionStorage.getItem(k)).stsTokenManager.accessToken;return null;});}
+// r100 W4: the sign-in is remembered in Firebase's own IndexedDB store (firebaseLocalStorageDb), no longer in sessionStorage.
+async function idToken(m){return m.page.evaluate(()=>new Promise(resolve=>{const open=indexedDB.open("firebaseLocalStorageDb");open.onerror=()=>resolve(null);open.onsuccess=()=>{const db=open.result;if(!db.objectStoreNames.contains("firebaseLocalStorage")){db.close();resolve(null);return;}const all=db.transaction("firebaseLocalStorage","readonly").objectStore("firebaseLocalStorage").getAll();all.onerror=()=>{db.close();resolve(null);};all.onsuccess=()=>{db.close();const row=(all.result||[]).find(r=>String(r?.fbase_key||"").startsWith("firebase:authUser:"));resolve(row?.value?.stsTokenManager?.accessToken||null);};};}));}
 async function offerGet(m,rid){const r=await fetch(docUrl(`rivalries/${rid}/sessionOffers/current`),{headers:{Authorization:`Bearer ${await idToken(m)}`}});return r.status;}
 async function offerWrite(m,rid,sessionId,uid,expiresAt){
   const name=`projects/${PROJECT}/databases/(default)/documents/rivalries/${rid}/sessionOffers/current`;

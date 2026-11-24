@@ -3541,6 +3541,8 @@
       "patterns": [
         "^js/productionFirebaseRuntime\\.js$",
         "^js/sparkConnectedAccount\\.js$",
+        "^js/productionSharedTransferChallenge\\.js$",
+        "^js/onlinePlayerIdentity\\.js$",
         "^CURRENT_PRODUCT_GUARDS\\.json$",
         "^SESSION_BOOTSTRAP\\.json$",
         "^POS10_PRODUCT_BASELINE\\.json$",
