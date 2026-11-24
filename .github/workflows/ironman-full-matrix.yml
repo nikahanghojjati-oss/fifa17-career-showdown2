@@ -48,10 +48,13 @@ on:
 permissions:
   contents: read
 
-# One run per branch at a time; a newer push waits for the running one (a 10-season matrix takes a while) instead of cancelling it.
+# Runner slots (lead 2026-11-24): the free plan runs about 20 jobs at once and every PR's Showdown Gate needs them, so this
+# matrix takes at most 4 (max-parallel). On pushes the newest head wins: a newer push cancels the older head's matrix. A manual
+# run (workflow_dispatch: the lead fires one at each freeze and on the release candidate) has its own group and is never
+# cancelled by a push.
 concurrency:
-  group: ironman-full-matrix-${{ github.ref }}
-  cancel-in-progress: false
+  group: ironman-full-matrix-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   leg:
@@ -60,6 +63,7 @@ jobs:
     timeout-minutes: 300
     strategy:
       fail-fast: false
+      max-parallel: 4
       matrix:
         leg: [none, network, lock, evict, reload, tabkill, twotabs, quota, coldoffline, ce2pg]
     steps:
