@@ -21,6 +21,8 @@
 //       another rivalry's mark, or a closed rivalry never arms; the close clears the mark; it rises at most once per page.
 //   FR7 the budget layer's tap: real fsbRunTransaction / listener deliveries reach observe(); the read meter, the copies and
 //       the transaction result are identical with and without the recorder, and a recorder that throws changes nothing.
+//   FR9 review fixes (Opus privacy review of #1581): public-path-only tap queue with back-off, the phoenix never over an open
+//       overlay and armed 15 s, quiet storage only, the Flight Recorder page keeps focus and scroll.
 //   FR8 zero reads and writes: the recorder source names no Firestore call, no fetch, and the module flags say so.
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -35,7 +37,10 @@ let checks=0;
 async function check(label,fn){await fn();checks+=1;console.log(`ok ${checks} ${label}`);}
 
 // ---- a fresh recorder realm (its own localStorage behind storage.js's helpers), as a page load ----
-function storageHelpers(storage){return {readStorageValue:k=>storage.getItem(k),writeStorageValue:(k,v)=>{storage.setItem(k,v);return true;},removeStorageValue:k=>{storage.removeItem(k);return true;}};}
+// storage.js's quiet helpers (they never raise the save notice); the loud ones count calls so a test can prove they are unused
+function storageHelpers(storage){const quiet=q=>{if(q!==true)throw new Error('the recorder called a storage helper without quiet=true (it could raise the save notice)');};
+  return {readStorageValue:(k,q)=>{quiet(q);return storage.getItem(k);},writeStorageValue:(k,v,q)=>{quiet(q);if(storage.blocked)return false;storage.setItem(k,v);return true;},
+    removeStorageValue:(k,q)=>{quiet(q);if(storage.blocked)return false;storage.removeItem(k);return true;}};}
 function memoryStorage(seed){const map=new Map(Object.entries(seed||{}));return {getItem:k=>map.has(k)?map.get(k):null,setItem:(k,v)=>map.set(k,String(v)),removeItem:k=>map.delete(k),dump:()=>Object.fromEntries(map)};}
 function realm(storage=memoryStorage()){
   const timers=[];
@@ -107,8 +112,8 @@ await check('FR3 privacy at every step: journal, saved copy and page hold no gue
 });
 
 await check('FR4 truth: each step once, in order, with who did it; exact server time at its own revision, "by" otherwise',()=>{
-  const r=realm();const {steps}=showdown(3);
-  for(const step of steps)r.api.observe(step.path,snap(step.data));
+  const r=realm();const {steps}=showdown(3);const seen=new Set();
+  for(const step of steps){if(!seen.has(step.path)){seen.add(step.path);r.api.observe(step.path,snap(null,{exists:false}));}r.api.observe(step.path,snap(step.data));}
   const list=r.api.steps().steps;
   const shape=Array.from(list,s=>`${s.season??'-'} ${s.who||'·'} ${s.text}`);
   assert.equal(list.length,6+2+3*(5+2+3)+1,'six set-up steps, two career starts, ten per season, the close');
@@ -124,8 +129,17 @@ await check('FR4 truth: each step once, in order, with who did it; exact server 
   const tw=late.api.steps().steps.filter(s=>s.kind==='transfer'&&s.season===2);
   assert.equal(tw.length,5);
   assert.equal(tw[0].exact,true,'the opening of the Transfer War uses startedAt');
-  assert.equal(tw[4].exact,true,'the last step carries the document time');
-  assert.ok(tw.slice(1,4).every(s=>!s.exact&&s.at===tw[4].at),'steps seen only later show "by" that later time');
+  assert.ok(tw.slice(1).every(s=>!s.exact&&s.at===tw[4].at),'a first look at a document gives "by" its time, its last step included');
+  // an envelope rewrite that moves updatedAt with no new step changes nothing; the next real step is exact
+  const env=realm();const doc=`rivalries/${RID}/seasonCommits/season_1`;
+  env.api.observe(`rivalries/${RID}`,snap(steps[0].data));
+  env.api.observe(doc,snap({revision:1,actorRoles:['playerOne'],updatedAt:ts(T0+100)}));
+  env.api.observe(doc,snap({revision:1,actorRoles:['playerOne'],updatedAt:ts(T0+900)}));
+  let cs=env.api.steps().steps;assert.equal(cs[0].exact,false);assert.equal(cs[0].at,T0+100,'a later updatedAt at the same revision never moves the time');
+  env.api.observe(doc,snap({revision:2,actorRoles:['playerOne','playerTwo'],updatedAt:ts(T0+2000)}));
+  cs=env.api.steps().steps;assert.equal(cs[1].exact,true,'a step whose revision grew in front of this page is exact');assert.equal(cs[1].at,T0+2000);
+  env.api.observe(`rivalries/${RID}`,snap({data:{connectionState:'closed'},updatedAt:ts(T0+3000)}));
+  assert.equal(env.api.steps().steps.at(-1).exact,true,'a close this page saw happen is exact');
   const c=fakeContainer();late.api.render(c);assert.match(c.textContent,/by /,'the page says "by"');
   // an own unsent write, malformed shapes and fuzz
   const f=realm();f.api.observe(`rivalries/${RID}`,snap({data:{connectionState:'active'},updatedAt:ts(T0)}));
@@ -163,7 +177,16 @@ await check('FR5 one Showdown: an older closed Showdown never replaces the live 
   assert.equal(reload.api.steps().rivalryId,NEXT);assert.equal(reload.api.steps().steps.length,0,'a new live Showdown starts a fresh journal');
   storage.setItem('careerModeShowdown.flightRecorder','{"schemaVersion":1,"rivalryId":"'+RID+'","steps":[{"kind":"results","season":1,"index":0,"type":"publish","actor":"playerOne","at":1,"exact":true,"result":9799},{"kind":"x"}]}');
   const odd=realm(storage);
-  assert.equal(odd.api.steps().steps.length,1,'a saved step of an unknown kind is dropped');
+  assert.equal(odd.api.steps().steps.length,0,'a saved step with an out-of-range time (1 ms after 1970) is dropped');
+  storage.setItem('careerModeShowdown.flightRecorder','{"schemaVersion":1,"rivalryId":"'+RID+'","steps":[{"kind":"results","season":1,"index":0,"type":"publish","actor":"playerOne","at":'+(T0+5)+',"exact":true,"result":9799},{"kind":"x"},{"kind":"results","season":1,"index":1,"type":"publish","actor":"playerTwo","at":1e300,"exact":true}]}');
+  const odd2=realm(storage);
+  assert.equal(odd2.api.steps().steps.length,1,'a saved step of an unknown kind, or with an absurd time, is dropped');
+  {const c=fakeContainer();odd2.api.render(c);assert.match(c.textContent,/Published/,'and the page still draws');}
+  // blocked or full storage: no save notice, the journal lives on in memory, and no write is tried again
+  const blocked=memoryStorage();blocked.blocked=true;const quiet=realm(blocked);
+  quiet.api.observe(`rivalries/${NEXT}`,snap({data:{connectionState:'active'},updatedAt:ts(T0)}));
+  quiet.api.observe(`rivalries/${NEXT}/seasonCommits/season_1`,snap({revision:1,actorRoles:['playerOne'],updatedAt:ts(T0+1)}));
+  assert.equal(quiet.api.steps().steps.length,1,'kept in memory');assert.deepEqual(Object.keys(blocked.dump()),[],'nothing was written');
   assert.doesNotMatch(JSON.stringify(odd.api.steps()),SECRET,'only known fields of a saved step are shown');
 });
 
@@ -188,7 +211,7 @@ await check('FR6 Phoenix Rebirth: arms once on a resumed live Showdown, never on
   assert.equal(other.api.phoenixState().armed,false,'a mark of another Showdown never arms');
   const end=realm(storage);end.api.observe(`rivalries/${RID}`,closed);
   assert.equal(end.api.phoenixState().armed,false,'a Showdown that closed while away never arms');
-  assert.equal(storage.getItem(end.api.markKey),null,'the close clears the mark');
+  assert.equal(JSON.parse(storage.getItem(end.api.markKey)).rivalryId,null,'the close clears the mark');
   const after=realm(storage);after.api.observe(`rivalries/${RID}`,live);
   assert.equal(after.api.phoenixState().armed,false,'after the close the next open is a first open again');
   for(const r of [cold,resumed,other,end,after])r.api._resetForTests();
@@ -226,6 +249,23 @@ await check('FR7 the budget layer taps server copies into observe(); meter, copi
   for(const site of ['function fsbRemember(db,ref,snapshot){','function fsbCtxDelivery(watch,snapshot){','function fsbWaitDelivery(wait,snapshot){'])
     assert.match(budget.slice(budget.indexOf(site),budget.indexOf(site)+900),/fsbTap\(/,`${site} taps the recorder`);
   assert.match(budget,/function fsbTap\(path,snapshot\)\{\s*try\{/,'the tap is guarded');
+});
+
+await check('FR9 review fixes: the tap hands on only the six public documents and backs off after a failed load; the phoenix checks nothing is over the chip; the Flight Recorder page keeps focus and scroll on refreshes',()=>{
+  const pairing=read('js/sparkPrivatePairing.js');
+  const rx=new RegExp(/const fsbFlightPath=\/(.*)\/;/.exec(pairing)[1].replace(/\\\//g,'/'));
+  for(const p of [`rivalries/${RID}`,`rivalries/${RID}/sharedSetup/authoritative`,`rivalries/${RID}/careerStart/authoritative`,`rivalries/${RID}/transferChallenges/season_3`,`rivalries/${RID}/seasonResults/season_10`,`rivalries/${RID}/seasonCommits/season_1`])assert.ok(rx.test(p),p);
+  for(const p of [`rivalries/${RID}/roles/playerOne`,`rivalries/${RID}/primePack/season_1`,`rivalries/${RID}/sessions/x`,`rivalries/${RID}/seasonResults/season_11`,`rivalries/${RID}/transferChallenges/season_1/roles/playerTwo`,`accounts/x`])assert.equal(rx.test(p),false,p);
+  assert.match(pairing,/fsbFlightAsked=false;fsbFlightQueue\.length=0;fsbFlightRetryAt=Date\.now\(\)\+60000;/,'a failed load drops the queue and backs off');
+  assert.match(RECORDER_SOURCE,/if\(!onTop\(chip,box\)\)return null;/,'the phoenix rises only where the chip is what is painted');
+  assert.match(RECORDER_SOURCE,/#settingsOverlay:not\(\.hidden\), dialog\[open\]/,'never with Settings, a dialog or a modal open');
+  assert.match(RECORDER_SOURCE,/ARM_MS=15000/,'armed for 15 s after the resume, never long after');
+  for(const m of RECORDER_SOURCE.matchAll(/root\.(?:read|write|remove)StorageValue\(((?:[^()]|\([^()]*\))*)\)/g))assert.match(m[1],/,true$/,'every storage call is the quiet one: '+m[0]);
+  assert.match(read('js/storage.js'),/function readStorageValue\(key,quiet\)\{try\{return localStorage\.getItem\(key\);\}catch\(error\)\{if\(!quiet\)reportStorageError/,'storage.js keeps the notice for every loud call');
+  const settings=read('js/settings.js');
+  assert.match(settings,/function refreshSettingsOfflinePanel\(\)\{\n    if\(!settingsContent\)\{ return false; \}\n[^\n]*\n    if\(settingsView === "flight"\)\{ return false; \}/,'an offline-state change leaves the Flight Recorder page alone');
+  assert.match(settings,/if\(settingsView === "flight"\)\{ return; \}\n                renderSettings\(\);/,'so does a preferences change');
+  assert.match(settings,/"\.settingsFlightRecorderBack",/,'BACK TO SETTINGS keeps focus across a redraw');
 });
 
 await check('FR8 zero Firebase reads or writes: the recorder names no Firestore call and no fetch',()=>{

@@ -774,6 +774,8 @@ function createOfflinePanel(){
 
 function refreshSettingsOfflinePanel(){
     if(!settingsContent){ return false; }
+    // the Flight Recorder page shows nothing of the offline state: it keeps its focus and scroll
+    if(settingsView === "flight"){ return false; }
     const applicationUpdate = settingsContent.querySelector(".settingsApplicationUpdateButton");
     if(applicationUpdate){
         const state = getSettingsOfflineState();
@@ -1134,7 +1136,7 @@ function settingsFlightRecorderHasSteps(){
 function ensureSettingsFlightRecorder(){
     if(getSettingsFlightRecorder() || typeof window.loadRuntimeScript !== "function"){ return; }
     let saved = null;
-    try{ saved = typeof readStorageValue === "function" ? readStorageValue(SETTINGS_FLIGHT_JOURNAL_KEY) : null; }catch(_error){ saved = null; }
+    try{ saved = typeof readStorageValue === "function" ? readStorageValue(SETTINGS_FLIGHT_JOURNAL_KEY, true) : null; }catch(_error){ saved = null; }
     if(!saved){ return; }
     window.loadRuntimeScript("flight-recorder", "js/flightRecorder.js", () => Boolean(window.CareerModeFlightRecorder))
         .then(() => {
@@ -1355,7 +1357,9 @@ function getSettingsFocusRestoreSelector(){
         ".settingsAudioToggle",
         ".settingsOfflineInstallButton",
         ".settingsOfflineUpdateButton",
-        ".settingsApplicationUpdateButton"
+        ".settingsApplicationUpdateButton",
+        ".settingsFlightRecorderBack",
+        ".settingsFlightRecorderButton"
     ]){
         if(active.matches(selector)){ return selector; }
     }
@@ -1522,6 +1526,8 @@ function initializeSettings(){
         settingsPreferenceListenerBound = true;
         window.addEventListener("career-mode-preferences-change", event => {
             if(settingsOverlay && !settingsOverlay.classList.contains("hidden")){
+                // the Flight Recorder page shows no preference: it keeps its focus and scroll
+                if(settingsView === "flight"){ return; }
                 renderSettings();
                 if(event && event.detail && event.detail.source === "user"){
                     focusSelectedSettingsMotionChoice();

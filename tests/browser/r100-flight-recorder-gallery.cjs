@@ -196,7 +196,13 @@ async function assertClearOfChrome(page, targets, label) {
           await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 20000 });
           await page.evaluate(() => loadRuntimeScript("flight-recorder", "js/flightRecorder.js", () => Boolean(window.CareerModeFlightRecorder)));
           await showChip();
+          // Settings is open over the header when the Showdown resumes: the phoenix waits, it never draws over an open overlay
+          await openSettings(page);
           await feed(page, [live]);
+          await page.waitForTimeout(1000);
+          assert.equal(await page.evaluate(() => document.querySelectorAll(".phoenixRise").length), 0, "no phoenix over open Settings");
+          assert.equal(await page.evaluate(() => document.documentElement.dataset.phoenixRose || null), null, "and it has not risen behind it");
+          await page.evaluate(() => window.closeSettings());
           await page.waitForSelector(".phoenixRise", { timeout: 3000 });
           await page.waitForTimeout(330);
           const mid = await page.evaluate(() => {

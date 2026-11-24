@@ -17,7 +17,7 @@
 // mark already there (a reload, a closed tab opened again, an evicted page) and then sees that same live rivalry is a resume:
 // a small gold phoenix rises once over the status line for about a second. A cold first open has no mark, so no phoenix.
 // The close of the Showdown clears the mark. Nothing here is on a game step's path: every entry point is guarded.
-const JOURNAL_KEY="careerModeShowdown.flightRecorder",MARK_KEY="careerModeShowdown.phoenixMark",MAX_STEPS=400,ARM_MS=600000;
+const JOURNAL_KEY="careerModeShowdown.flightRecorder",MARK_KEY="careerModeShowdown.phoenixMark",MAX_STEPS=400,ARM_MS=15000;
 const RIVALRY=/^pair_[0-9a-f]{64}$/,SEASON=/^season_([1-9]|10)$/;
 const ROLES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
 const SETUP_TYPES=Object.freeze(["open","commit-league","commit-clubs","commit-length","confirm"]);
@@ -32,12 +32,20 @@ const STEP_TEXT=Object.freeze({
   "results:publish":"Published the season's results","commit:commit":"Locked and confirmed the season","commit:acknowledge":"Confirmed the season",
   "close:close":"The Showdown closed"});
 
-let journal=null,loaded=false,resumeMark=undefined,phoenix={armed:false,rose:0,armedAt:0,rivalryId:null,timer:null};
+let journal=null,loaded=false,resumeMark=undefined,markHeld=null,phoenix={armed:false,rose:0,armedAt:0,rivalryId:null,timer:null};
 const listeners=new Set();
 
-// Saved through storage.js's own helpers (the only file that touches the browser's storage).
-function readJson(key){if(typeof root.readStorageValue!=="function")return null;try{const raw=root.readStorageValue(key);return raw?JSON.parse(raw):null;}catch(_error){return null;}}
-function writeJson(key,value){try{if(value===null){if(typeof root.removeStorageValue==="function")root.removeStorageValue(key);}else if(typeof root.writeStorageValue==="function")root.writeStorageValue(key,JSON.stringify(value));}catch(_error){}}
+// Saved through storage.js's helpers in their quiet form (quiet=true; storage.js is the only file that touches the browser's storage): a blocked or full
+// storage never raises the "may not have saved" notice in the middle of a step. After a failed write the journal stays in
+// memory only and no further write is tried on this page.
+let storageBroken=false;
+function readJson(key){if(typeof root.readStorageValue!=="function")return null;try{const raw=root.readStorageValue(key,true);return raw?JSON.parse(raw):null;}catch(_error){return null;}}
+function writeJson(key,value){
+  if(storageBroken||typeof root.writeStorageValue!=="function")return false;
+  let ok=false;try{ok=root.writeStorageValue(key,JSON.stringify(value),true)===true;}catch(_error){ok=false;}
+  if(!ok)storageBroken=true;
+  return ok;
+}
 
 function millis(value){
   let ms=null;
@@ -89,12 +97,12 @@ function loadJournal(){
   loaded=true;
   const stored=readJson(JOURNAL_KEY);
   journal=stored&&stored.schemaVersion===1&&RIVALRY.test(stored.rivalryId||"")&&Array.isArray(stored.steps)?{schemaVersion:1,rivalryId:stored.rivalryId,steps:stored.steps.filter(validStep).slice(0,MAX_STEPS).map(({kind,season,index,type,actor,at,exact})=>({kind,season,index,type,actor,at,exact}))}:null;
-  if(resumeMark===undefined){const mark=readJson(MARK_KEY);resumeMark=mark&&RIVALRY.test(mark.rivalryId||"")?mark.rivalryId:null;}
+  if(resumeMark===undefined){const mark=readJson(MARK_KEY);resumeMark=mark&&RIVALRY.test(mark.rivalryId||"")?mark.rivalryId:null;markHeld=resumeMark;}
 }
 function validStep(step){
   return step&&typeof step==="object"&&Object.hasOwn(KIND_ORDER,step.kind)&&(step.season===null||Number.isInteger(step.season)&&step.season>=1&&step.season<=10)&&
     Number.isInteger(step.index)&&step.index>=0&&step.index<64&&typeof step.type==="string"&&Object.hasOwn(STEP_TEXT,`${step.kind}:${step.type}`)&&
-    (step.actor===null||Object.hasOwn(ROLES,step.actor))&&(step.at===null||Number.isFinite(step.at))&&typeof step.exact==="boolean";
+    (step.actor===null||Object.hasOwn(ROLES,step.actor))&&(step.at===null||Number.isInteger(step.at)&&step.at>1577836800000&&step.at<4102444800000)&&typeof step.exact==="boolean";
 }
 function save(){if(journal)writeJson(JOURNAL_KEY,journal);}
 function notifyListeners(){for(const fn of listeners){try{fn();}catch(_error){}}}
@@ -113,6 +121,10 @@ function upsert(rivalryId,kind,season,index,type,actor,at,exact){
   return true;
 }
 
+// What this page has seen of each document (revision, or 0 when it saw the document missing) and of each rivalry (state):
+// a step's time is exact only when its document's revision just grew in front of this page, and the close only when this page
+// saw the rivalry live. A first look, or an envelope rewrite that moves updatedAt with no new step, gives "by" times.
+const seenRevision=new Map(),seenState=new Map();
 function observeData(path,data){
   loadJournal();
   const where=route(path);
@@ -125,11 +137,13 @@ function observeData(path,data){
     if(facts.state==="active"){
       if(!journal||journal.rivalryId!==where.rivalryId){journal={schemaVersion:1,rivalryId:where.rivalryId,steps:[]};changed=true;}
       markLive(where.rivalryId);armIfResumed(where.rivalryId);
-    }else{changed=upsert(where.rivalryId,"close",null,0,"close",null,facts.at,facts.at!==null);clearMark(where.rivalryId);}
+    }else{changed=upsert(where.rivalryId,"close",null,0,"close",null,facts.at,facts.at!==null&&seenState.get(where.rivalryId)==="active");clearMark(where.rivalryId);}
+    seenState.set(where.rivalryId,facts.state);
   }else{
-    const last=facts.ops.length-1;
+    const last=facts.ops.length-1,before=seenRevision.get(path),grew=before!==undefined&&facts.ops.length>before;
+    seenRevision.set(path,Math.max(before===undefined?0:before,facts.ops.length));
     facts.ops.forEach((op,index)=>{
-      let at=facts.at,exact=index===last&&facts.at!==null;
+      let at=facts.at,exact=grew&&index===last&&facts.at!==null;
       if(where.kind==="transfer"&&index===0&&op.type==="start-window"&&facts.startedAt!==null){at=facts.startedAt;exact=true;}
       if(upsert(where.rivalryId,where.kind,where.season,index,op.type,op.actor,at,exact))changed=true;
     });
@@ -144,7 +158,7 @@ function observe(path,snapshot){
   try{
     if(!route(path)||!snapshot||typeof snapshot!=="object")return false;
     if(snapshot.metadata&&snapshot.metadata.hasPendingWrites===true)return false;
-    if(typeof snapshot.exists==="function"&&!snapshot.exists())return false;
+    if(typeof snapshot.exists==="function"&&!snapshot.exists()){if(!seenRevision.has(path)&&route(path).kind!=="rivalry")seenRevision.set(path,0);return false;}
     const data=typeof snapshot.data==="function"?snapshot.data():null;
     return observeData(path,data);
   }catch(_error){return false;}
@@ -204,8 +218,9 @@ function onChange(fn){if(typeof fn==="function"){listeners.add(fn);return()=>lis
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // Phoenix Rebirth.
-function markLive(rivalryId){const mark=readJson(MARK_KEY);if(!mark||mark.rivalryId!==rivalryId)writeJson(MARK_KEY,{schemaVersion:1,rivalryId});}
-function clearMark(rivalryId){const mark=readJson(MARK_KEY);if(mark&&mark.rivalryId===rivalryId)writeJson(MARK_KEY,null);if(phoenix.rivalryId===rivalryId)disarm();}
+// The mark is read once (at load) and then held in memory: storage is touched only when it changes.
+function markLive(rivalryId){if(markHeld===rivalryId)return;markHeld=rivalryId;writeJson(MARK_KEY,{schemaVersion:1,rivalryId});}
+function clearMark(rivalryId){if(markHeld===rivalryId){markHeld=null;writeJson(MARK_KEY,{schemaVersion:1,rivalryId:null});}if(phoenix.rivalryId===rivalryId)disarm();}
 function disarm(){phoenix.armed=false;if(phoenix.timer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(phoenix.timer);phoenix.timer=null;}
 function armIfResumed(rivalryId){
   if(phoenix.rose||phoenix.armed||resumeMark!==rivalryId)return;
@@ -220,7 +235,17 @@ function statusLine(){
   if(!(box.width>0&&box.height>0)||box.bottom<=0||box.top>=(root.innerHeight||0))return null;
   for(let node=chip;node&&node.nodeType===1;node=node.parentElement){const style=root.getComputedStyle(node);if(style.display==="none"||style.visibility==="hidden"||Number(style.opacity)===0)return null;}
   if(document.visibilityState==="hidden")return null;
+  if(!onTop(chip,box))return null;
   return {chip,box};
+}
+// Nothing may be over the chip: no open overlay (Settings, a confirm, a reveal), and the chip itself is what is painted at its
+// centre. The phoenix never draws over anything that is open.
+function onTop(chip,box){
+  const document=root.document;
+  if(document.querySelector('#settingsOverlay:not(.hidden), dialog[open], [role="dialog"]:not([hidden]):not(.hidden), [aria-modal="true"]:not([hidden]):not(.hidden)'))return false;
+  if(typeof document.elementFromPoint!=="function")return false;
+  const hit=document.elementFromPoint(box.left+box.width/2,box.top+box.height/2);
+  return Boolean(hit&&(hit===chip||chip.contains(hit)));
 }
 function watchStatusLine(){
   if(!phoenix.armed||phoenix.rose)return;
@@ -247,6 +272,11 @@ function rise(line){
     const done=()=>{bird.remove();try{delete document.documentElement.dataset.phoenixRising;}catch(_error){}};
     document.documentElement.dataset.phoenixRising="1";
     if(typeof bird.animate==="function"){const run=bird.animate(frames,{duration:1000,easing:"ease-out",fill:"forwards"});run.onfinish=done;run.oncancel=done;}
+    // anything opened over the chip while it rises (Settings, a confirm, a reveal) takes the phoenix away at once (the bird
+    // itself takes no pointer, so elementFromPoint looks through it)
+    const guard=()=>{if(!bird.isConnected)return;let clear=false;try{clear=onTop(line.chip,line.chip.getBoundingClientRect());}catch(_error){clear=false;}
+      if(!clear){done();return;}if(typeof root.requestAnimationFrame==="function")root.requestAnimationFrame(guard);};
+    if(typeof root.requestAnimationFrame==="function")root.requestAnimationFrame(guard);
     if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(bird.isConnected)done();},1300);
   }catch(_error){}
 }
@@ -254,5 +284,5 @@ function phoenixState(){loadJournal();return Object.freeze({resumeMark:resumeMar
 
 return Object.freeze({contractVersion:1,feature:"r100-flight-recorder",providerReadRequired:false,providerWriteRequired:false,
   journalKey:JOURNAL_KEY,markKey:MARK_KEY,route,extract,observe,observeData,steps,render,onChange,phoenixState,
-  _resetForTests(){journal=null;loaded=false;resumeMark=undefined;disarm();phoenix={armed:false,rose:0,armedAt:0,rivalryId:null,timer:null};listeners.clear();}});
+  _resetForTests(){journal=null;loaded=false;resumeMark=undefined;markHeld=null;storageBroken=false;seenRevision.clear();seenState.clear();disarm();phoenix={armed:false,rose:0,armedAt:0,rivalryId:null,timer:null};listeners.clear();}});
 });

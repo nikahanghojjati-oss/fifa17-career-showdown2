@@ -1145,15 +1145,19 @@
   // holds (transaction and probe reads, listener deliveries, direct gets). It keeps only the public step ledger of the live
   // Showdown (never a role document, a pick, a guess, a signing or a score) and makes no read or write of its own. Until the
   // module has loaded, up to 128 copies wait here; any failure in it is swallowed, so no read, copy or result changes.
-  const fsbFlightQueue=[];let fsbFlightAsked=false;
+  // Only the six public ledger documents the recorder keeps are handed on or queued (role, Prime Pack and session documents never
+  // are); a failed load drops the queue and waits a minute before trying again.
+  const fsbFlightPath=/^rivalries\/[^/]+(?:\/(?:sharedSetup|careerStart)\/authoritative|\/(?:transferChallenges|seasonResults|seasonCommits)\/season_(?:[1-9]|10))?$/;
+  const fsbFlightQueue=[];let fsbFlightAsked=false,fsbFlightRetryAt=0;
   function fsbTap(path,snapshot){
     try{
-      if(typeof path!=="string"||!path.startsWith("rivalries/")||!snapshot||typeof snapshot!=="object"||Array.isArray(snapshot.docs))return;
+      if(typeof path!=="string"||!fsbFlightPath.test(path)||!snapshot||typeof snapshot!=="object"||Array.isArray(snapshot.docs))return;
       const recorder=root.CareerModeFlightRecorder;
       if(recorder&&typeof recorder.observe==="function"){fsbTapFlush(recorder);recorder.observe(path,snapshot);return;}
+      if(Date.now()<fsbFlightRetryAt)return;
       if(fsbFlightQueue.length>=128)fsbFlightQueue.shift();
       fsbFlightQueue.push([path,snapshot]);
-      if(!fsbFlightAsked&&typeof root.loadRuntimeScript==="function"){fsbFlightAsked=true;Promise.resolve().then(()=>root.loadRuntimeScript("flight-recorder","js/flightRecorder.js",()=>Boolean(root.CareerModeFlightRecorder))).then(()=>fsbTapFlush(root.CareerModeFlightRecorder),()=>{fsbFlightAsked=false;});}
+      if(!fsbFlightAsked&&typeof root.loadRuntimeScript==="function"){fsbFlightAsked=true;Promise.resolve().then(()=>root.loadRuntimeScript("flight-recorder","js/flightRecorder.js",()=>Boolean(root.CareerModeFlightRecorder))).then(()=>fsbTapFlush(root.CareerModeFlightRecorder),()=>{fsbFlightAsked=false;fsbFlightQueue.length=0;fsbFlightRetryAt=Date.now()+60000;});}
     }catch(_error){}
   }
   function fsbTapFlush(recorder){try{if(!recorder||typeof recorder.observe!=="function")return;while(fsbFlightQueue.length){const [path,snapshot]=fsbFlightQueue.shift();try{recorder.observe(path,snapshot);}catch(_error){}}}catch(_error){}}
