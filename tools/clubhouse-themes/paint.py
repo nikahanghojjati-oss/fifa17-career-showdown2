@@ -14,9 +14,13 @@ also the TALL upright (1179x2620) and its _590W where the game has one. TALL is 
 same picture down to the top of the counter and a longer counter below it, so the band is laid 1:1 above TALL_KNEE and the
 counter below is stretched to the TALL height (tall_rows; measured on the Wooden pairs, see `--check-tall`). CLUB's band
 becomes ENV_CLUB_PHONE_HC_V4 and LOADING's becomes assets/loading/<theme>/ENV_LOADING_PHONE_HC (+ _590W); neither has the
-men in it, so they take the painting as it is. The people-free League Roulette box (ENV_BOX_PHONE_HC_V4*, ENV_BOX_SIDEWAYS_HC_V4)
-and ENV_CLUB_SIDEWAYS_HC_V4 are other framings with nobody in them: a band with the men painted in cannot make them, so they
-keep their recoloured copies until Team V paints them (NOT_FROM_BAND).
+men in it, so they take the painting as it is.
+The other phone pictures have nobody in them, so they take their painting as it is too (no mask; OTHER_MASTERS):
+  ENV_BOX_PHONE_V4_<LOOK>_P1        (HO-162..164) -> ENV_BOX_PHONE_HC_V4 (+_590W) and its TALL (+_590W), same knee as BOX V3
+  ENV_BOX_PLATE_EMPTY_<LOOK>_P1_2X  (HO-165..167) -> ENV_BOX_SIDEWAYS_HC_V4: the empty desktop room cut to 2:1 (BOX_SIDE_CUT)
+  ENV_CLUB_SIDEWAYS_<LOOK>_P1       (HO-168..170) -> ENV_CLUB_SIDEWAYS_HC_V4 (its own picture, same size)
+  ENV_SLAB_<LOOK>_P1_2X             (HO-112/131/150) -> ENV_SLAB_PHONE_HC_V1 (+_590W): the desktop slab turned upright (rot90)
+B7 builds the desktop files from the same deliveries; this builds only the phone files.
 
 Every phone file is checked as it is written (paint_phone): the painting's alignment to the Wooden plate (phase correlation;
 a master off by a whole pixel is shifted, never the Wooden), 0 changed pixels in the fully Wooden core of the hero mask before
@@ -51,7 +55,19 @@ PHONE_ROOMS = ("HOME", "BOARD", "OFFICE", "HALL", "ARCHIVE", "BOX", "COACHES", "
 # The first TALL row that is not the 9:16 band's own row: the top of the counter's front face (Duet P1, 2026-11-24: measured
 # on the Wooden V3/TALL pairs by a monotone row match; above it the two Wooden plates differ by 0-1.4 levels, i.e. only WebP).
 TALL_KNEE = {"BOX": 1227, "COACHES": 827, "HALL": 1421}
-NOT_FROM_BAND = ("ENV_BOX_PHONE_HC_V4", "ENV_BOX_SIDEWAYS_HC_V4", "ENV_CLUB_SIDEWAYS_HC_V4")
+LOOKS = "(SILVER|BLACK|MATTE)"
+# kind: (room, Team V's file name, master size). Men-free phone pictures (Duet P1 lead answers 2026-11-24 19:15/19:35 UTC).
+OTHER_MASTERS = {
+    "lr_phone": ("BOX", re.compile(rf"^ENV_BOX_PHONE_V4_{LOOKS}_P1\.webp$"), (1179, 2096)),
+    "lr_desk": ("BOX", re.compile(rf"^ENV_BOX_PLATE_EMPTY_{LOOKS}_P1_2X\.webp$"), (3072, 1728)),
+    "club_side": ("CLUB", re.compile(rf"^ENV_CLUB_SIDEWAYS_{LOOKS}_P1\.webp$"), (2532, 1170)),
+    "slab": ("SLAB", re.compile(rf"^ENV_SLAB_{LOOKS}_P1_2X\.webp$"), (3072, 1728)),
+}
+# ENV_BOX_SIDEWAYS_HC_V4 is the Wooden empty desktop room (HO-097 ENV_BOX_PLATE_EMPTY_HC_V4_2X, 3072x1728) cut at
+# (left, top, right, bottom) and scaled to 2400x1200 (matched 2026-11-24: mean difference 1.24 levels against the Wooden file,
+# its WebP noise; 0.5 px either way doubles it).
+BOX_SIDE_CUT = (0, 60, 3072, 1596)
+# The phone slab is the desktop slab turned upright (ROTATE_90) and resized: 1.49 levels against Wooden ENV_SLAB_PHONE_HC_V1.
 
 def _plates(folder, pattern):
     return [g[:-5] for g in sorted(os.listdir(folder)) if re.match(pattern, g)] if os.path.isdir(folder) else []
@@ -67,6 +83,19 @@ def phone_out(room):
         out += [(SRC, n, f"ENV_{room}_PHONE_HC_V3_TALL", "tall") for n in _plates(SRC, rf"^ENV_{room}_PHONE_HC_V3_TALL(_590W)?\.webp$")]
     return out
 
+def other_out(kind):
+    """(folder, Wooden name, mask, framing) for a men-free picture's phone files."""
+    if kind == "lr_phone":
+        return ([(SRC, n, None, "band") for n in _plates(SRC, r"^ENV_BOX_PHONE_HC_V4(_590W)?\.webp$")] +
+                [(SRC, n, None, "tall") for n in _plates(SRC, r"^ENV_BOX_PHONE_HC_V4_TALL(_590W)?\.webp$")])
+    if kind == "lr_desk":
+        return [(SRC, n, None, "box_side") for n in _plates(SRC, r"^ENV_BOX_SIDEWAYS_HC_V4\.webp$")]
+    if kind == "club_side":
+        return [(SRC, n, None, "same") for n in _plates(SRC, r"^ENV_CLUB_SIDEWAYS_HC_V4\.webp$")]
+    if kind == "slab":
+        return [(SRC, n, None, "rot90") for n in _plates(SRC, r"^ENV_SLAB_PHONE_HC_V1(_590W)?\.webp$")]
+    raise KeyError(kind)
+
 def painted():
     """(theme, plate name, painting, room) for every plate a painting replaces (build.py skips these)."""
     return [t[:4] for t in _targets()]
@@ -81,12 +110,16 @@ def _targets(masters=None):
             m = NAME.match(f) or PHONE.match(f)
             if m:
                 masters[(m.group(1), THEME[m.group(2)], "desk" if m.re is NAME else "phone")] = os.path.join(PAINTINGS, f)
+                continue
+            for kind, (room, rx, _) in OTHER_MASTERS.items():
+                m = rx.match(f)
+                if m: masters[(room, THEME[m.group(1)], kind)] = os.path.join(PAINTINGS, f)
     for (room, theme, kind), path in sorted(masters.items()):
         if kind == "desk":
             for g in _plates(SRC, rf"^ENV_{room}_PLATE_HC_V3_(1920|1X|2X)\.webp$"):
                 out.append((theme, g, path, room, SRC, None, "desk", kind))
         else:
-            for folder, g, mask, framing in phone_out(room):
+            for folder, g, mask, framing in (phone_out(room) if kind == "phone" else other_out(kind)):
                 out.append((theme, g, path, room, folder, mask, framing, kind))
     return out
 
@@ -139,13 +172,18 @@ def phone_source(master, room, framing, size):
     if framing == "tall":
         band = master.resize((size[0], round(size[0] * master.height / master.width)), Image.LANCZOS)
         return tall_rows(band, room, size[1])
+    if framing == "box_side":
+        return master.resize(size, Image.LANCZOS, box=BOX_SIDE_CUT)
+    if framing == "rot90":
+        return master.transpose(Image.ROTATE_90).resize(size, Image.LANCZOS)
     return master if master.size == size else master.resize(size, Image.LANCZOS)
 
-def encode(img, limit):
-    """WebP at q90 method 6, stepping down to q76 until the file is within limit bytes."""
-    for q in range(90, 74, -2):
+def encode(img, limit, floor=76):
+    """WebP at q90 method 6, stepping down to q<floor> until the file is within limit bytes. Plates with faces stop at q76;
+    men-free plates may go to q40 (the phone slab at 590 wide needs about q46: its Wooden file is very soft)."""
+    for q in range(90, floor - 2, -2):
         buf = io.BytesIO(); img.save(buf, "WEBP", quality=q, method=6)
-        if buf.tell() <= limit or q == 76:
+        if buf.tell() <= limit or q == floor:
             return buf.getvalue(), q
 
 def face_crops(wood, new, m, dest):
@@ -171,18 +209,27 @@ def face_crops(wood, new, m, dest):
     sheet.save(dest, quality=92)
     return dest
 
-def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None, crops_root=None):
+def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None, crops_root=None, kind="phone"):
     wood = Image.open(os.path.join(folder, name + ".webp")).convert("RGB")
     master = Image.open(path).convert("RGB")
-    if master.size != (PHONE_W, 2096):
-        master = master.resize((PHONE_W, round(PHONE_W * master.height / master.width)), Image.LANCZOS)
-    # alignment against the Wooden 9:16 plate the band was painted over (Team V's Image 1)
-    ref_name = name.split("_TALL")[0] if framing == "tall" else name.replace("_590W", "")
-    ref = Image.open(os.path.join(folder, ref_name + ".webp")).convert("RGB")
-    ref = ref if ref.size == master.size else ref.resize(master.size, Image.LANCZOS)
-    dx, dy = shift_of(master, ref)
-    if dx or dy: master = shifted(master, dx, dy)
-    paint = np.asarray(phone_source(master, room, framing, wood.size), np.float32)
+    want = OTHER_MASTERS[kind][2] if kind in OTHER_MASTERS else (PHONE_W, 2096)
+    if master.size != want:
+        master = master.resize((want[0], round(want[0] * master.height / master.width)), Image.LANCZOS)
+    dx = dy = 0
+    if framing in ("band", "tall", "same"):
+        # alignment against the Wooden plate the picture was painted over (Team V's Image 1)
+        ref_name = name.split("_TALL")[0] if framing == "tall" else name.replace("_590W", "")
+        ref = Image.open(os.path.join(folder, ref_name + ".webp")).convert("RGB")
+        ref = ref if ref.size == master.size else ref.resize(master.size, Image.LANCZOS)
+        dx, dy = shift_of(master, ref)
+        if dx or dy: master = shifted(master, dx, dy)
+    src = phone_source(master, room, framing, wood.size)
+    if framing == "box_side":
+        # Image 1 (the empty desktop room) is not in the repo, so the cut is checked against the Wooden sideways plate
+        dx, dy = shift_of(src, wood)
+        if dx or dy: src = shifted(src, dx, dy)
+    # rot90 (the slab): a whole-surface repaint with nothing to align to (Team V resized it, not aligned)
+    paint = np.asarray(src, np.float32)
     m = phone_mask(mask, wood.size)
     w8 = np.asarray(wood); w = w8.astype(np.float32)
     out = np.clip(paint * (1 - m) + w * m + .5, 0, 255).astype(np.uint8)
@@ -190,7 +237,7 @@ def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None, 
     changed = int(np.any(out[core] != w8[core], axis=-1).sum()) if core.any() else 0
     assert changed == 0, f"{theme}/{name}: {changed} face pixels changed before encoding"
     wood_bytes = os.path.getsize(os.path.join(folder, name + ".webp"))
-    data, q = encode(Image.fromarray(out), int(wood_bytes * (1 + PHONE_SIZE_SLACK)))
+    data, q = encode(Image.fromarray(out), int(wood_bytes * (1 + PHONE_SIZE_SLACK)), 76 if core.any() else 40)
     dec = np.asarray(Image.open(io.BytesIO(data)).convert("RGB"), np.float32)
     drift = round(float(np.abs(dec[core] - w[core]).mean()), 3) if core.any() else None
     assert drift is None or drift <= FACE_DRIFT_MAX, f"{theme}/{name}: faces drift {drift} levels after WebP (max {FACE_DRIFT_MAX})"
@@ -207,8 +254,8 @@ def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None, 
 def build(masters=None, dest_root=None, crops_root=None):
     done = []
     for theme, name, painting, room, folder, mask, framing, kind in _targets(masters):
-        if kind == "phone":
-            done.append(paint_phone(theme, name, painting, room, folder, mask, framing, dest_root, crops_root))
+        if kind != "desk":
+            done.append(paint_phone(theme, name, painting, room, folder, mask, framing, dest_root, crops_root, kind))
             continue
         wood = Image.open(os.path.join(SRC, name + ".webp")).convert("RGB")
         paint = Image.open(painting).convert("RGB")

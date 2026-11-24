@@ -8,7 +8,8 @@ A DONE line on leads/relay names the branch, the commit and the path (project-do
   python3 tools/clubhouse-themes/intake.py <commit> ENV_HOME_PHONE_SILVER_P1 [more names...]
   python3 tools/clubhouse-themes/paint.py && python3 tools/clubhouse-themes/pin.py
 
-Refuses a name that is not a phone band, a file whose sha256 is not the one in SHA256.json, or a band that is not 1179x2096.
+Takes the phone bands, the men-free League Roulette phone room, the empty desktop League Roulette room (for BOX SIDEWAYS), the
+Club sideways room and the slab. Refuses any other name, a file whose sha256 is not the one in SHA256.json, or a file at another size than its Wooden plate.
 """
 import hashlib, io, json, os, re, subprocess, sys
 from PIL import Image
@@ -16,7 +17,13 @@ from PIL import Image
 HERE = os.path.dirname(__file__)
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 BASE = "project-documents/hc-art/ho-premium-full"
-BAND = re.compile(r"^ENV_[A-Z]+_PHONE_(SILVER|BLACK|MATTE)_P1$")
+L = "(SILVER|BLACK|MATTE)"
+# Team V file name -> the size it is delivered at (the phone bands and the men-free phone pictures, see paint.py)
+KINDS = ((re.compile(rf"^ENV_[A-Z]+_PHONE_{L}_P1$"), (1179, 2096)),
+         (re.compile(rf"^ENV_BOX_PHONE_V4_{L}_P1$"), (1179, 2096)),
+         (re.compile(rf"^ENV_BOX_PLATE_EMPTY_{L}_P1_2X$"), (3072, 1728)),
+         (re.compile(rf"^ENV_CLUB_SIDEWAYS_{L}_P1$"), (2532, 1170)),
+         (re.compile(rf"^ENV_SLAB_{L}_P1_2X$"), (3072, 1728)))
 
 def show(commit, path):
     r = subprocess.run(["git", "-C", ROOT, "show", f"{commit}:{path}"], capture_output=True)
@@ -24,15 +31,16 @@ def show(commit, path):
     return r.stdout
 
 def take(commit, name):
-    m = BAND.match(name)
-    if not m: raise SystemExit(f"{name}: not a phone band name (ENV_<ROOM>_PHONE_<SILVER|BLACK|MATTE>_P1)")
+    hit = [(m, size) for rx, size in KINDS for m in [rx.match(name)] if m]
+    if not hit: raise SystemExit(f"{name}: not a phone picture this builds (see KINDS)")
+    m, dims = hit[0]
     club = m.group(1).lower()
     data = show(commit, f"{BASE}/{club}/{name}.webp")
     want = json.loads(show(commit, f"{BASE}/{club}/SHA256.json")).get(name + ".webp")
     got = hashlib.sha256(data).hexdigest()
     if got != want: raise SystemExit(f"{name}: sha256 {got} is not Team V's {want}")
     size = Image.open(io.BytesIO(data)).size
-    if size != (1179, 2096): raise SystemExit(f"{name}: {size[0]}x{size[1]}, expected 1179x2096 (aligned to the Wooden phone plate)")
+    if size != dims: raise SystemExit(f"{name}: {size[0]}x{size[1]}, expected {dims[0]}x{dims[1]} (aligned to its Wooden plate)")
     dest = os.path.join(HERE, "paintings", name + ".webp")
     with open(dest, "wb") as fh: fh.write(data)
     print("took", os.path.relpath(dest, ROOT), got[:12])
