@@ -20,10 +20,11 @@ keep their recoloured copies until Team V paints them (NOT_FROM_BAND).
 
 Every phone file is checked as it is written (paint_phone): the painting's alignment to the Wooden plate (phase correlation;
 a master off by a whole pixel is shifted, never the Wooden), 0 changed pixels in the fully Wooden core of the hero mask before
-encoding (asserted), the decoded mean difference in that core after WebP, and the file size against the Wooden file (the
+encoding (asserted), the decoded mean difference in that core after WebP (at most FACE_DRIFT_MAX, asserted; 4x face crops
+against Wooden with --crops), and the file size against the Wooden file (the
 quality steps down from 90 until it is within PHONE_SIZE_SLACK of Wooden).
 
-  python3 tools/clubhouse-themes/paint.py                  # then: python3 tools/clubhouse-themes/pin.py
+  python3 tools/clubhouse-themes/paint.py [--crops DIR]    # then: python3 tools/clubhouse-themes/pin.py (DIR: 4x face crops)
   python3 tools/clubhouse-themes/paint.py --stand-in DIR   # prove the phone path on today's recoloured plates, into DIR
   python3 tools/clubhouse-themes/paint.py --check-tall     # how well the TALL row map fits the Wooden TALL plates
 """
@@ -43,6 +44,9 @@ PULL_IN = 3      # px at 1920 wide: the hero mask is pulled in this much, so no 
 FEATHER = 0.8    # px at 1920 wide
 PHONE_W = 1179   # the phone masters' width: phone pull-in and feather are the same px at this width
 PHONE_SIZE_SLACK = 0.10  # a phone plate may be at most this much bigger than the Wooden file it replaces
+# Lead decision 2026-11-24 19:15 UTC: small files win. After WebP the faces may drift up to this many levels (mean, inside the
+# fully Wooden core of the mask) as long as a 4x side-by-side of each face against Wooden shows no visible change (face_crops).
+FACE_DRIFT_MAX = 3.0
 PHONE_ROOMS = ("HOME", "BOARD", "OFFICE", "HALL", "ARCHIVE", "BOX", "COACHES", "TUNNEL", "CLUB", "LOADING")
 # The first TALL row that is not the 9:16 band's own row: the top of the counter's front face (Duet P1, 2026-11-24: measured
 # on the Wooden V3/TALL pairs by a monotone row match; above it the two Wooden plates differ by 0-1.4 levels, i.e. only WebP).
@@ -144,7 +148,30 @@ def encode(img, limit):
         if buf.tell() <= limit or q == 76:
             return buf.getvalue(), q
 
-def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None):
+def face_crops(wood, new, m, dest):
+    """4x zoom, nearest neighbour, of each man's head and face (the top of each half of the mask): Wooden left, new right."""
+    on = m[..., 0] > 0.5
+    if not on.any(): return None
+    W = on.shape[1]; tiles = []
+    for x0, x1 in ((0, W // 2), (W // 2, W)):
+        ys, xs = np.nonzero(on[:, x0:x1])
+        if not len(ys): continue
+        top, h = ys.min(), ys.max() - ys.min()
+        cols = np.nonzero(on[top:top + max(4, int(h * 0.08)), x0:x1].any(0))[0]  # the crown of the head
+        hw = cols.max() - cols.min() + 1; cx = x0 + (cols.min() + cols.max()) // 2; half = int(hw * 0.8)
+        box = (max(0, cx - half), top, min(W, cx + half), min(on.shape[0], top + int(hw * 1.9)))  # head, face and chin
+        a, b = wood.crop(box), new.crop(box)
+        z = 4 * min(1.0, 220 / max(a.size))
+        size = (max(1, round(a.width * z)), max(1, round(a.height * z)))
+        tiles += [a.resize(size, Image.NEAREST), b.resize(size, Image.NEAREST)]
+    sheet = Image.new("RGB", (sum(t.width for t in tiles) + 8 * len(tiles), max(t.height for t in tiles)), (255, 0, 255))
+    x = 0
+    for t in tiles: sheet.paste(t, (x, 0)); x += t.width + 8
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    sheet.save(dest, quality=92)
+    return dest
+
+def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None, crops_root=None):
     wood = Image.open(os.path.join(folder, name + ".webp")).convert("RGB")
     master = Image.open(path).convert("RGB")
     if master.size != (PHONE_W, 2096):
@@ -165,6 +192,9 @@ def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None):
     wood_bytes = os.path.getsize(os.path.join(folder, name + ".webp"))
     data, q = encode(Image.fromarray(out), int(wood_bytes * (1 + PHONE_SIZE_SLACK)))
     dec = np.asarray(Image.open(io.BytesIO(data)).convert("RGB"), np.float32)
+    drift = round(float(np.abs(dec[core] - w[core]).mean()), 3) if core.any() else None
+    assert drift is None or drift <= FACE_DRIFT_MAX, f"{theme}/{name}: faces drift {drift} levels after WebP (max {FACE_DRIFT_MAX})"
+    crop = face_crops(wood, Image.fromarray(dec.astype(np.uint8)), m, os.path.join(crops_root, theme, name + ".jpg")) if crops_root else None
     dest_dir = os.path.join(dest_root or folder, theme)
     os.makedirs(dest_dir, exist_ok=True)
     dest = os.path.join(dest_dir, name + ".webp")
@@ -172,13 +202,13 @@ def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None):
     return {"file": dest if dest_root else os.path.relpath(dest, ROOT), "shift": [dx, dy], "quality": q,
             "bytes": len(data), "wooden_bytes": wood_bytes, "size_vs_wooden": round(len(data) / wood_bytes - 1, 3),
             "core_px": int(core.sum()), "core_changed_pre_encode": changed,
-            "core_decoded_mean_diff": round(float(np.abs(dec[core] - w[core]).mean()), 3) if core.any() else None}
+            "core_decoded_mean_diff": drift, "face_crops": crop}
 
-def build(masters=None, dest_root=None):
+def build(masters=None, dest_root=None, crops_root=None):
     done = []
     for theme, name, painting, room, folder, mask, framing, kind in _targets(masters):
         if kind == "phone":
-            done.append(paint_phone(theme, name, painting, room, folder, mask, framing, dest_root))
+            done.append(paint_phone(theme, name, painting, room, folder, mask, framing, dest_root, crops_root))
             continue
         wood = Image.open(os.path.join(SRC, name + ".webp")).convert("RGB")
         paint = Image.open(painting).convert("RGB")
@@ -218,6 +248,8 @@ if __name__ == "__main__":
     if "--check-tall" in sys.argv:
         print(json.dumps(check_tall(), indent=1))
     elif "--stand-in" in sys.argv:
-        print(json.dumps(build(stand_in_masters(), sys.argv[sys.argv.index("--stand-in") + 1]), indent=1))
+        out = sys.argv[sys.argv.index("--stand-in") + 1]
+        print(json.dumps(build(stand_in_masters(), out, os.path.join(out, "face-crops")), indent=1))
     else:
-        for d in build(): print("painted", json.dumps(d))
+        crops = sys.argv[sys.argv.index("--crops") + 1] if "--crops" in sys.argv else None
+        for d in build(crops_root=crops): print("painted", json.dumps(d))
