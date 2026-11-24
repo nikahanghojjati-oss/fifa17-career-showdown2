@@ -156,7 +156,8 @@ async function screenWorld(screen,role,phase,options){
   for(const [file,wake] of BACKGROUND){
     const code=read(`js/${file}.js`),registration=code.match(/root\.setInterval\([^\n]*?,POLL_MS\)/);
     assert.ok(registration,`${file} keeps its existing timer`);
-    vm.runInNewContext(registration[0],{root:s,POLL_MS:15000,[wake]:()=>{if(w.document.visibilityState!=="hidden")void probe(RID);}});
+    // r100 B4: Multi Season's timed check also asks pmspPollDue(); on these Results/Review waits it is due (its own contract: r100-progression-poll-contracts.cjs).
+    vm.runInNewContext(registration[0],{root:s,POLL_MS:15000,pmspPollDue:()=>true,[wake]:()=>{if(w.document.visibilityState!=="hidden")void probe(RID);}});
   }
   await w.advance(9000);
   return {...w,s,probe,calls:()=>providerCalls,forbidden:()=>forbiddenWrites};

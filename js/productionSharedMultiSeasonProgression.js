@@ -251,8 +251,22 @@
   function pmspCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!pmspSharedMarker())return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;void pmspAdvance();}
   // r75: a wake that arrives while a refresh is running (Shared History converging, setup changing) runs once more right
   // after it instead of being dropped until the 15 s poll; the final season reached Final Winner up to 10 s late without it.
+  // r100 read cut (B4): the 15 s check re-read this season's commit (1 document + 1 Rules lookup per phone) on every
+  // screen, ~100 billed reads a season. The accepted count only moves when both managers commit and acknowledge a season,
+  // on the Season Results and Review screens, and that move also arrives as an event (wait context, history convergence,
+  // setup, visibility), which still wakes a read at once. So while this page already holds the season for this context and
+  // shows only a setup, Career Start, season-start (dashboard: Chamber Men, Prime Pack, Russian Roulette, squads) or Transfer
+  // War screen, the timed check stands down; on Season Results / Review, the summary and every other screen it runs as before.
+  const PMSP_QUIET_SCREENS=["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge"],PMSP_DUE_SCREENS=["seasonEntry","seasonSummary"];
+  function pmspShown(id){const el=pmspField(id);return Boolean(el&&!el.classList.contains("hidden"));}
+  function pmspPollDue(){
+    const request=pmspRequest();if(!request)return false;
+    if(!view?.state||contextKey!==request.key||String(view.rivalryId||"")!==request.rivalryId)return true;
+    if(PMSP_DUE_SCREENS.some(pmspShown))return true;
+    return !PMSP_QUIET_SCREENS.some(pmspShown);
+  }
   function pmspWake(){if(busy){wakePending=true;return;}if(!pmspSharedMarker()||root.document?.visibilityState==="hidden")return;void pmspRefresh();}
-  function pmspInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",pmspCapture,true);pmspObserveDashboard();for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-history-convergence-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"]){root.addEventListener?.(event,pmspWake);}root.document?.addEventListener?.("visibilitychange",pmspWake);if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.())pmspWake();},POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pmspWake,0);return true;}
+  function pmspInstall(){if(installed)return true;installed=true;if(root.document)root.document.addEventListener("click",pmspCapture,true);pmspObserveDashboard();for(const event of ["career-mode-shared-wait-context-change","career-mode-shared-history-convergence-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change"]){root.addEventListener?.(event,pmspWake);}root.document?.addEventListener?.("visibilitychange",pmspWake);if(typeof root.setInterval==="function")root.setInterval(()=>{if(!root.CareerModeProductionSharedSeasonCommit?.waitingListenerHealthy?.()&&pmspPollDue())pmspWake();},POLL_MS);if(typeof root.setTimeout==="function")root.setTimeout(pmspWake,0);return true;}
 
   // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
   try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["multi-season"]=()=>{view=null;contextKey="";exposedKey="";exposedSeason=0;announcedKey="";lastErrorCode="";lastErrorKey="";heldErrorKey="";heldSeason=null;};}catch(_error){}
