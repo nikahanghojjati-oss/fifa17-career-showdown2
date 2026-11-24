@@ -30,7 +30,19 @@ function assertArtifactFollowsSuccessfulBrowser(text, label){
 assertRerunSafeConcurrency(stability, "Stability");
 assertRerunSafeConcurrency(burnin, "Burn-In");
 assertMarkdownOnlySkip(stability, "Stability");
-assertMarkdownOnlySkip(burnin, "Burn-In");
+// r100 (Nik 2026-11-24): Burn-In, Final Polish and Football Visuals are manual only (the release PR's Gate runs
+// their proofs), and Stability's local jobs run only on dispatch; main push keeps the live-site jobs.
+for(const [file, label] of [["validate-v110-release-burnin.yml", "Burn-In"], ["validate-final-polish.yml", "Final Polish"], ["validate-football-visuals.yml", "Football Visuals"]]){
+  const text = read(`.github/workflows/${file}`);
+  const triggers = text.split(/\npermissions:|\nconcurrency:|\njobs:/)[0];
+  assert.match(triggers, /\non:\s*\n\s+workflow_dispatch:/, `${label} must keep a manual trigger.`);
+  assert.doesNotMatch(triggers, /\n\s+(push|pull_request|schedule|workflow_run):/, `${label} must be manual only.`);
+}
+for(const job of ["stability-contracts"]){
+  const block = stability.split(new RegExp(`\\n  ${job}:`))[1].split(/\n  [a-z0-9-]+:\n/)[0];
+  assert.match(block, /if:\s*\$\{\{\s*github\.event_name == 'workflow_dispatch'/, `${job} must run only on dispatch.`);
+}
+assert.match(stability.split(/\n  chromium-stability:/)[1], /^\s*\n?\s*needs: stability-contracts/, "chromium-stability stays behind stability-contracts, so it is dispatch-only too.");
 
 const localStability = stability.split(/\n\s{2}deployed-site-smoke:/)[0];
 assert.equal(occurrences(localStability, "npm run test:runtime-boundary"), 1, "Local Stability must run runtime provenance exactly once.");
