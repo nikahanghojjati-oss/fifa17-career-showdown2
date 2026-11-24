@@ -1,0 +1,9 @@
+{
+ "id": "F01-transfer-stale-copy-wins",
+ "law": "L2_NO_INVENTED_ACTION",
+ "title": "Transfer War writes over a stale copy of the round (read outside the transaction)",
+ "file": "js/sparkSharedTransferChallenge.js",
+ "find": "const publicValue=stspSnapshot(await transaction.get(refs.public))",
+ "replace": "const publicValue=stspSnapshot(await sdk.getDoc(refs.public))",
+ "why": "The round is read outside the transaction, so the commit no longer checks it changed: when both managers act at once, the later write is built on a stale copy and wipes the earlier one (a lost END tap, lock or spin mark). Each call alone still works, so a one-phone contract cannot see it."
+}

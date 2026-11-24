@@ -1,0 +1,147 @@
+# POS1M million: the full POS1M Ring 1 run (Phoenix 3.0, job B4), MANUAL ONLY.
+# The r99 lead's decision (2026-11-24): per PR the Showdown Gate runs a 20,000-story slice; the 50,000 and the full million
+# run only when the lead triggers this workflow (area freezes, the release candidate). Nik: no timed checks, so this
+# workflow has no schedule and no push or pull_request trigger (tests/operations/pos10-authority.test.mjs keeps Showdown
+# Gate the only pull_request workflow). Free GitHub runners only; no Firebase, no network beyond checkout and npm; no AI.
+# 20 shard jobs (each a pool of worker threads, one per core) -> planted bugs + saved replays -> the seal
+# (data/pos1m-seal.json, uploaded as an artifact; the lead commits it) and the merged failure memory (capped at 200).
+name: POS1M million
+
+on:
+  workflow_dispatch:
+    inputs:
+      stories:
+        description: 'Ring 1 stories in all (50000 or 1000000)'
+        required: true
+        default: '1000000'
+        type: choice
+        options: ['50000', '1000000']
+      first_seed:
+        description: 'First story seed (stories use first_seed .. first_seed + stories - 1)'
+        required: true
+        default: '1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pos1m-million-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  shard:
+    name: POS1M Ring 1 shard ${{ matrix.shard }}/20
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+      - name: Ring 1 shard (failures shrink to replay files and the failure memory)
+        env:
+          STORIES: ${{ inputs.stories }}
+          FIRST_SEED: ${{ inputs.first_seed }}
+          SHARD: ${{ matrix.shard }}
+        run: |
+          mkdir -p pos1m-out
+          node tests/pos1m/run.cjs --stories "$STORIES" --seed "$FIRST_SEED" --shard "$SHARD/20" --quiet --shrink --out "pos1m-out/ring1-shard-$SHARD.json"
+      - name: Keep the shard report, replays and memory
+        if: always()
+        run: |
+          mkdir -p pos1m-out/replays
+          cp tests/pos1m/memory.json "pos1m-out/memory-shard-${{ matrix.shard }}.json"
+          cp tests/pos1m/replays/*.json pos1m-out/replays/ 2>/dev/null || true
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always()
+        with:
+          name: pos1m-shard-${{ matrix.shard }}
+          path: pos1m-out/
+          retention-days: 30
+
+  planted:
+    name: POS1M planted bugs and saved replays
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    outputs:
+      replays: ${{ steps.replays.outputs.ok }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+      - name: Stand-in harshness contracts
+        run: node tests/pos1m/standin-contracts.cjs
+      - name: Every planted bug and ledger replay must be caught
+        run: |
+          mkdir -p pos1m-out
+          node tests/pos1m/planted.cjs --stories 300 --out pos1m-out/planted.json
+      - name: Every saved replay must pass (open ones wait for their fix)
+        id: replays
+        if: always()
+        run: |
+          if node tests/pos1m/replay.cjs; then echo "ok=true" >> "$GITHUB_OUTPUT"; else echo "ok=false" >> "$GITHUB_OUTPUT"; exit 1; fi
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always()
+        with:
+          name: pos1m-planted
+          path: pos1m-out/
+          retention-days: 30
+
+  seal:
+    name: POS1M seal
+    needs: [shard, planted]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          path: pos1m-in
+      - name: Seal (data/pos1m-seal.json) and merged failure memory (tests/pos1m/memory.json, cap 200)
+        env:
+          REPLAYS_OK: ${{ needs.planted.outputs.replays || 'false' }}
+          STORIES: ${{ inputs.stories }}
+        run: |
+          mkdir -p pos1m-reports pos1m-seal
+          find pos1m-in -name 'ring1-shard-*.json' -exec cp {} pos1m-reports/ \;
+          set +e
+          node tests/pos1m/seal.cjs --reports pos1m-reports --shards 20 --expect-stories "$STORIES" --planted pos1m-in/pos1m-planted/planted.json --replays-ok "$REPLAYS_OK" --memory pos1m-in --out pos1m-seal/pos1m-seal.json | tee pos1m-seal/seal.txt
+          code=${PIPESTATUS[0]}
+          cp tests/pos1m/memory.json pos1m-seal/memory.json
+          mkdir -p pos1m-seal/replays && find pos1m-in -path '*/replays/*.json' -exec cp {} pos1m-seal/replays/ \;
+          { echo '### POS1M seal'; echo; echo '```'; cat pos1m-seal/seal.txt; echo '```'; echo; echo '```json'; cat pos1m-seal/pos1m-seal.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          exit $code
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always()
+        with:
+          name: pos1m-seal
+          path: pos1m-seal/
+          retention-days: 90

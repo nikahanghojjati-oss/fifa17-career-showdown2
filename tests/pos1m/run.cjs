@@ -6,12 +6,14 @@
 const os=require("node:os");
 const fs=require("node:fs");
 const {Worker,isMainThread,parentPort,workerData}=require("node:worker_threads");
+const FAILURES_KEPT=200;// a report keeps the first 200 failing stories (every one is still counted in failed)
 
 function args(argv){
-  const out={stories:200,workers:Math.max(1,Math.min(os.availableParallelism?os.availableParallelism():os.cpus().length,8)),shard:"1/1",seed:1,out:null,kind:null,quiet:false};
+  const out={stories:200,workers:Math.max(1,Math.min(os.availableParallelism?os.availableParallelism():os.cpus().length,8)),shard:"1/1",seed:1,out:null,kind:null,quiet:false,shrink:false};
   for(let i=0;i<argv.length;i+=1){
     const key=argv[i].replace(/^--/,""),value=argv[i+1];
     if(key==="quiet"){out.quiet=true;continue;}
+    if(key==="shrink"){out.shrink=true;continue;}
     if(!(key in out))throw new Error(`unknown option ${argv[i]}`);
     out[key]=["stories","workers","seed"].includes(key)?Number(value):value;i+=1;
   }
@@ -19,6 +21,18 @@ function args(argv){
   if(!(n>=1&&k>=1&&k<=n))throw new Error(`bad --shard ${out.shard}`);
   out.shardIndex=k;out.shardCount=n;
   return out;
+}
+
+async function shrinkFailures(failures,kind=null){
+  const {execFileSync}=require("node:child_process");
+  const seen=new Set();
+  for(const f of failures){
+    const law=f.violations&&f.violations[0]?f.violations[0].law:null;
+    if(!law||seen.has(law)||seen.size>=5||!Number.isInteger(f.seed))continue;
+    seen.add(law);
+    try{console.log(execFileSync(process.execPath,[require("node:path").join(__dirname,"shrink.cjs"),"--seed",String(f.seed),"--law",law,...(kind?["--kind",kind]:[])],{encoding:"utf8",timeout:600_000}));}
+    catch(error){console.log(`shrink of seed ${f.seed} (${law}) failed: ${String(error.stdout||error.message).slice(-400)}`);}
+  }
 }
 
 if(isMainThread){
@@ -37,6 +51,8 @@ if(isMainThread){
     console.log(JSON.stringify({...brief,failures:brief.failures.slice(0,20)}));
     console.log(total.failed?`FAIL POS1M Ring 1: ${total.failed} of ${total.stories} stories broke a law`:`PASS POS1M Ring 1: ${total.stories} stories, every law held (${total.cells.size} coverage cells, ${(wallMs/1000).toFixed(0)} s)`);
     process.exitCode=total.failed?1:0;
+    // --shrink: the first failure of each law becomes a replay file + memory entry + fix brief (at most 5 per run).
+    if(options.shrink&&total.failed)shrinkFailures(total.failures,options.kind).catch(error=>{console.error(error);process.exitCode=1;});
   };
   for(let w=0;w<options.workers;w+=1){
     const slice=seeds.slice(w*per,(w+1)*per);
@@ -46,7 +62,7 @@ if(isMainThread){
     worker.on("message",m=>{
       total.stories+=1;total.kinds[m.kind]=(total.kinds[m.kind]||0)+1;total.playedMs+=m.ms;total.writes+=m.writes;total.transactions+=m.transactions;total.attempts+=m.attempts;
       for(const c of m.coverage)total.cells.add(c);
-      if(m.error||m.violations.length){total.failed+=1;total.failures.push({seed:m.seed,kind:m.kind,totalSeasons:m.totalSeasons,fromSeason:m.fromSeason,violations:m.violations,error:m.error});if(!options.quiet)console.log(JSON.stringify(total.failures[total.failures.length-1]).slice(0,1200));}
+      if(m.error||m.violations.length){total.failed+=1;if(total.failures.length<FAILURES_KEPT)total.failures.push({seed:m.seed,kind:m.kind,totalSeasons:m.totalSeasons,fromSeason:m.fromSeason,violations:m.violations,error:m.error});if(!options.quiet)console.log(JSON.stringify({seed:m.seed,violations:m.violations,error:m.error}).slice(0,1200));}
     });
     worker.on("error",error=>{total.failed+=1;total.failures.push({worker:w,error:String(error.stack||error)});});
     worker.on("exit",()=>{running-=1;if(!running)done();});

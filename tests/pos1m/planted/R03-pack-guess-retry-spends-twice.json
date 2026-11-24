@@ -1,0 +1,10 @@
+{
+ "id": "R03-pack-guess-retry-spends-twice",
+ "law": "L6_PRIME_PACK",
+ "title": "Ledger replay W12: a Prime Pack guess retried after a lost answer spends a second token",
+ "file": "js/iconGuessStep.js",
+ "find": "if(wrote&&record.chipsUsed[me]===wrote.chips&&(!correct||record.winner?.role===me))return {ok:true,correct,record,landed:true};",
+ "replace": "",
+ "why": "Re-plants the bug POS1M found itself (first real catch, fixed as W12 in #1583): the retried transaction no longer sees its own landed write, so one tap spends both tokens and a right guess's retry answers ROUND_OVER.",
+ "ledger": "W12 (POS1M first real catch, replay tests/pos1m/replays/L6_PRIME_PACK-70068-044dc9938e.json, fix #1583)"
+}

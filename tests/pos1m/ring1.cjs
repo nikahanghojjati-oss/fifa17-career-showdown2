@@ -19,6 +19,10 @@ const Setup=P("sparkSharedShowdownSetup.js"),Career=P("sparkSharedCareerStart.js
 const PROVIDERS={Setup,Career,Transfer,Results,Commit,Scoring,History,Multi};
 const Guess=require(path.join(W.ROOT,"js","iconGuess.js"));
 const {freshModule}=require("./fresh.cjs");
+const ProductionTransfer=require(path.join(W.ROOT,"js","productionSharedTransferChallenge.js"));
+const SetupProtocol=require(path.join(W.ROOT,"js","sharedShowdownSetup.js"));
+// The documents that ARE each provider's action (a side write such as sharedSetup/leagueProjection is not the action).
+const ACTION_DOCS={Setup:/\/sharedSetup\/authoritative$/,Career:/\/careerStart\/authoritative$/,Transfer:/\/transferChallenges\/season_\d+(\/roles\/\w+)?$/,Results:/\/seasonResults\/season_\d+(\/roles\/\w+)?$/,Commit:/\/seasonCommits\/season_\d+$/};
 
 const LENGTHS=[1,3,5,10];
 const NETWORK=new Set(["unavailable","deadline-exceeded","resource-exhausted","aborted","failed-precondition","internal","unknown","cancelled","permission-denied"]);
@@ -95,7 +99,11 @@ function intentFor(story,role,season){
   const teamCount=story.teamCount||18;
   const count=1+Math.floor(r()*3);
   const guesses=Array.from({length:count},(_,i)=>r()<0.5?{slot:i+1,type:"league",valueId:pick(LEAGUES)}:{slot:i+1,type:"nationality",valueId:pick(NATIONS)});
-  const signings=Array.from({length:1+Math.floor(r()*3)},(_,i)=>({slot:i+1,name:`${role==="playerOne"?"Daniel":"Nik"} S${season} P${i+1}`,position:pick(POSITIONS),overall:60+Math.floor(r()*30),leagueId:pick(LEAGUES),nationalityId:pick(NATIONS)}));
+  // Signings come from a small pool of men per manager, so a man can be wanted again in a later window (the same man:
+  // same league and nation). A man the rival guessed earlier may not be signed again: the LOCK check refuses him.
+  const who=role==="playerOne"?"Daniel":"Nik",pool=[0,1,2,3,4,5].sort(()=>r()-0.5),count2=1+Math.floor(r()*3);
+  const man=n=>{const m=new Sim((story.plan.seed*13_001)^(n*977)^(role==="playerOne"?0x51:0x52));return {name:`${who} Target ${n+1}`,position:m.pick(POSITIONS),overall:60+m.int(30),leagueId:m.pick(LEAGUES),nationalityId:m.pick(NATIONS)};};
+  const signings=pool.slice(0,count2).map((n,i)=>({slot:i+1,...man(n)}));
   // Results: sometimes the same as the rival's shape so equal totals (draws) happen often enough to test.
   const position=1+Math.floor(r()*Math.min(teamCount,6));
   const cl=r()<0.2,el=!cl&&r()<0.2;
@@ -150,7 +158,12 @@ class Manager{
     // A phone that just moved already holds the new state from its own answer; it reads again only after that.
     if(fn==="read"&&tab.fresh&&tab.fresh.key===`${provider}:${extra.seasonNumber||0}`){const fresh=tab.fresh.value;tab.fresh=null;return fresh;}
     tab.client.activeCall=`${provider}.${fn}`;// which tap a write came from (L14: a read never writes)
+    const log=this.story.world.server.writeLog,mark=log.length;
     const result=await PROVIDERS[provider][fn](this.opts(tab,extra,provider));
+    // L13: a tap whose write landed (its answer lost, the SDK ran it again) is answered with what it did, never a refusal.
+    if(result&&!result.ok&&laws.GAME_CODE.test(result.code||"")){
+      for(let i=mark;i<log.length;i+=1)if(log[i].client===tab.client.label&&log[i].call===`${provider}.${fn}`&&ACTION_DOCS[provider]&&ACTION_DOCS[provider].test(log[i].path)){this.story.violation("L13_REPEAT_ONCE",`${this.role} ${provider}.${fn} ${extra.operationId}: its write ${log[i].path.split("/").slice(2).join("/")} (seq ${log[i].seq}) landed but the tap was answered ${result.code}`);break;}
+    }
     if(fn!=="read"&&result&&result.ok&&result.state&&["Transfer","Results","Setup"].includes(provider)&&!result.replayed){
       tab.fresh={key:`${provider}:${extra.seasonNumber||0}`,value:{...result,revision:result.state.revision,...(provider==="Transfer"?{spunRoles:["playerOne","playerTwo"]}:{})}};
     }
@@ -199,11 +212,26 @@ class Manager{
       if(s&&s.phase==="SHOWDOWN_CONFIRMED"){k.setup=s;this.story.teamCountFor(s);}
       else{
         const rev=setup.revision||0,coordinator=role==="playerOne",phase=s?s.phase:null;
-        if(coordinator&&!s)return this.moved(await this.mutate(tab,"setup:open","Setup","mutate",rev,{type:"open"},"setup_op_"));
+        // The live 2.12.0 flow: open as draw 3 with the League Roulette; the coordinator's first ball is the league, then
+        // balls 2-4 turn by turn (js/sharedShowdownSetup.js rouletteDropRole); clubs only after ball 4; each confirm
+        // carries the manager's own wheel stop.
+        if(coordinator&&!s)return this.moved(await this.mutate(tab,"setup:open","Setup","mutate",rev,{type:"open",draw:3,roulette:true},"setup_op_"));
         if(coordinator&&phase==="SHARED_SETUP_OPEN")return this.moved(await this.mutate(tab,"setup:league","Setup","mutate",rev,{type:"commit-league"},"setup_op_"));
+        if(phase==="LEAGUE_WHEEL_COMMITTED"&&Number.isInteger(setup.drops)&&setup.drops<4){
+          const ball=setup.drops+1;
+          if(SetupProtocol.rouletteDropRole(s.coordinatorRole,ball)!==role){
+            // An early clubs tap while the rival still has a ball to drop: must be refused (R98-01).
+            if(coordinator&&!k.earlyClubs&&this.story.sim.chance(0.3)){k.earlyClubs=true;await this.mutate(tab,`setup:early-clubs:${tab.gen}`,"Setup","mutate",rev,{type:"commit-clubs"},"setup_op_");return true;}
+            return false;
+          }
+          const known=this.story.sim.chance(0.8)?{drops:setup.drops,revision:setup.revision,coordinatorRole:s.coordinatorRole}:null;
+          const dropped=await this.call(tab,"Setup","drop",{ball,managerRole:role,known});
+          if(dropped&&dropped.ok&&this.story.chaosRoll("repeat")){this.story.faultMoves+=1;const again=await this.call(tab,"Setup","drop",{ball,managerRole:role,known});this.story.recordRepeat(role,`setup:drop:${ball}`,"Setup","drop",{ball},dropped,again);}
+          return this.moved(dropped);
+        }
         if(coordinator&&phase==="LEAGUE_WHEEL_COMMITTED")return this.moved(await this.mutate(tab,"setup:clubs","Setup","mutate",rev,{type:"commit-clubs"},"setup_op_"));
         if(coordinator&&phase==="CLUB_ASSIGNMENTS_COMMITTED")return this.moved(await this.mutate(tab,"setup:length","Setup","mutate",rev,{type:"commit-length",totalSeasons:plan.totalSeasons},"setup_op_"));
-        if(phase==="SEASON_LENGTH_COMMITTED"&&!s.confirmedRoles.includes(role))return this.moved(await this.mutate(tab,"setup:confirm","Setup","mutate",rev,{type:"confirm"},"setup_op_"));
+        if(phase==="SEASON_LENGTH_COMMITTED"&&!s.confirmedRoles.includes(role))return this.moved(await this.mutate(tab,"setup:confirm","Setup","mutate",rev,{type:"confirm",stop:new Sim(plan.seed^(role==="playerOne"?0xa1:0xb2)).int(360)},"setup_op_"));
         return false;
       }
     }
@@ -228,6 +256,8 @@ class Manager{
       if(!transfer.ok)return false;
       const t=transfer.state;
       if(!t&&!transfer.spunRoles.includes(role)){const mark=await this.call(tab,"Transfer","markSpun",{seasonNumber:season,managerRole:role});return this.moved(mark);}
+      // An early START from a stale screen while the rival is still on his roulette: must be refused (RT5-FLOW-02).
+      if(!t&&role==="playerOne"&&!transfer.spunRoles.includes("playerTwo")&&!k.earlyStart&&this.story.sim.chance(0.4)){k.earlyStart=true;await this.mutate(tab,`transfer:early-start:${season}:${tab.gen}`,"Transfer","startWindow",0,{seasonNumber:season},"transfer_op_");return true;}
       // Roster Roulette -> Prime Pack -> Transfer War: this phone plays the Prime Pack before its Transfer War screen.
       if(!k.pack||k.pack.season!==season)k.pack={season,done:false,points:0,arrived:false,next:0};
       if(!k.pack.done)return this.primePack(tab,k.pack,season);
@@ -255,7 +285,11 @@ class Manager{
         return false;
       }
       if(t.phase==="SIGNING_ENTRY"){
-        if(!t.signingLockedRoles.includes(role))return this.moved(await this.mutate(tab,`transfer:sign:${season}`,"Transfer","lockSignings",base,{seasonNumber:season,signings:intent.signings},"transfer_op_"));
+        if(!t.signingLockedRoles.includes(role)){
+          const signings=await this.allowedSignings(tab,k,season,intent.signings);
+          if(!signings)return false;
+          return this.moved(await this.mutate(tab,`transfer:sign:${season}`,"Transfer","lockSignings",base,{seasonNumber:season,signings},"transfer_op_"));
+        }
         return false;
       }
       if(t.phase!=="COMPLETED")return false;
@@ -288,6 +322,23 @@ class Manager{
     if(commit.phase==="ACKNOWLEDGED"||acknowledged.length===2){k.season=null;return true;}
     return false;
   }
+  // The Transfer War LOCK check the screen runs (js/productionSharedTransferChallenge.js rouletteBlocked + blockedFor, the real
+  // functions): earlier windows' verdicts, read once per tab like the screen; a refused man is swapped for a new one.
+  async allowedSignings(tab,k,season,wanted){
+    k.verdicts=k.verdicts||{};
+    for(let s=1;s<season;s+=1){
+      if(k.verdicts[s])continue;
+      const earlier=await this.call(tab,"Transfer","read",{seasonNumber:s});
+      if(!earlier.ok||!earlier.verdicts)return null;
+      k.verdicts[s]=earlier.verdicts;
+    }
+    const map=ProductionTransfer.rouletteBlocked([null,...Array.from({length:season-1},(_,i)=>k.verdicts[i+1])],[null],season,this.role);
+    return wanted.map(row=>{
+      if(!ProductionTransfer.blockedFor(map,row.name,null))return row;
+      this.story.cell("Transfer.lock:refused-guessed");
+      return {...row,name:`${row.name} (new S${season})`};
+    });
+  }
   serverEstimate(tab){if(tab.serverEstimateMs===undefined)tab.serverEstimateMs=this.story.sim.int(3_001)-1_500;return this.story.sim.now+tab.serverEstimateMs;}
   // The Prime Pack through the real step module (js/iconGuessStep.js: arrive, applyGuess, pointsFor, record), one fresh copy
   // per tab. The screen's timers are this actor's sleeps; its listener is the rival's nudge plus a re-read.
@@ -316,6 +367,7 @@ class Manager{
     const windowStart=start+Guess.stageStarts[g.stage-1]+Guess.stages[g.stage-1].revealMs;
     if(at.beat<g.stage-1||at.phase!=="window"){await this.wait(Math.max(200,windowStart-now)+(g.late?1_500:story.sim.int(8_000)));return true;}
     pack.next+=1;
+    const taps=story.packTaps||(story.packTaps={});taps[`${season}:${role}`]=(taps[`${season}:${role}`]||0)+1;
     const guess=await attempt("guess",()=>step.applyGuess(io,ctx,g.correct));
     if(guess.ok&&guess.value&&guess.value.ok)this.moved({ok:true});
     return true;
@@ -327,7 +379,7 @@ class Manager{
 // Story
 // ---------------------------------------------------------------------------------------------------------------
 class Story{
-  constructor(plan,{trace=false,mutant=null}={}){
+  constructor(plan,{trace=process.env.POS1M_TRACE==="1",mutant=null}={}){
     this.plan=plan;this.mutant=mutant;
     this.sim=new Sim(plan.seed);this.sim.traceOn=trace;this.traceOn=trace;
     this.over=false;this.error=null;this.violations=[];this.moves=[];this.repeats=[];this.observations=[];
@@ -426,7 +478,9 @@ class Story{
         const history=accepted?await History.read(o({throughSeason:accepted})):null;
         const scoring=[];
         for(let season=1;season<=accepted;season+=1)scoring.push(await Scoring.read(o({seasonNumber:season,teamCount:this.teamCount||20})));
-        views[role]={multi,history,scoring};
+        const transfers=[];
+        for(let season=1;season<=accepted;season+=1)transfers.push(await Transfer.read(o({seasonNumber:season})));
+        views[role]={multi,history,scoring,transfers};
       }
     })().then(()=>{done=true;},e=>{error=e;done=true;});
     await sim.run(()=>done,{untilMs:sim.now+6*60*60*1000});

@@ -1,0 +1,10 @@
+{
+ "id": "F05-pack-guess-stale-copy",
+ "law": "L6_PRIME_PACK",
+ "title": "A Prime Pack guess is applied to a stale copy of the round",
+ "file": "js/iconGuessStep.js",
+ "find": "const snap=await tx.get(ref),data=snap.exists()?snap.data():null,record=igsRecord(data,ctx.season);",
+ "replace": "const snap=await io.sdk.getDoc(ref),data=snap.exists()?snap.data():null,record=igsRecord(data,ctx.season);",
+ "why": "The round is read outside the transaction, so a guess that races the rival's right guess is still accepted and can wipe the winner.",
+ "stories": 1600
+}
