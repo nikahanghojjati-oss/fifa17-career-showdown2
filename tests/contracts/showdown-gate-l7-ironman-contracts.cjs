@@ -69,6 +69,15 @@ async function run(){
 
   // 5. Workflow: the matrix runs the leg runner under the route, and records every leg.
   const gate=readWorkflow(root,'.github/workflows/showdown-gate.yml');
+  // Ironman full matrix runner slots (lead 2026-11-24): at most 4 jobs at once; a newer push cancels an older head's run,
+  // a manual run never.
+  {const full=readWorkflow(root,'.github/workflows/ironman-full-matrix.yml');
+    assert.equal(full.jobs.leg.strategy['max-parallel'],4,'the full matrix holds at most 4 runner slots');
+    assert.equal(full.concurrency.group,'ironman-full-matrix-${{ github.ref }}-${{ github.event_name }}','manual runs have their own group');
+    assert.equal(full.concurrency['cancel-in-progress'],"${{ github.event_name == 'push' }}",'the newest pushed head wins; a manual run is never cancelled');
+    assert.ok(full.on.workflow_dispatch&&full.on.push,'push and manual runs both stay');
+    const legStep=full.jobs.leg.steps.find(st=>/ironman-leg\.mjs/.test(String(st.run||'')));
+    assert.equal(legStep.env.IRONMAN_SEASONS,"${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.seasons || '10') || '3' }}",'pushes play 3 seasons, manual runs 10 by default');}
   const job=gate.jobs['l7-ironman'];
   const step=job.steps.find(s=>s.id==='ironman');
   assert.equal(step.if,"steps.route.outputs.l7_run == 'true'");
