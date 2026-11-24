@@ -1,0 +1,9 @@
+{
+ "id": "P11-spin-mark-lost",
+ "law": "L12_LIVENESS",
+ "title": "Nik's roulette spin mark is never stored",
+ "file": "js/sparkSharedTransferChallenge.js",
+ "find": "spins:{[role]:entry},updatedAt:stspServerTimestamp(sdk)},{merge:true});",
+ "replace": "spins:role===\"playerTwo\"?{}:{[role]:entry},updatedAt:stspServerTimestamp(sdk)},{merge:true});",
+ "why": "START waits for both spin marks, so the season can never start: a state with no fair way out."
+}

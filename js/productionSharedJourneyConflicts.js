@@ -44,6 +44,8 @@
   function pjcSubscribe(listener){if(typeof listener!=="function")return ()=>{};listeners.add(listener);return ()=>listeners.delete(listener);}
   function pjcInstall(){if(installed)return true;installed=true;void pjcEnsure().catch(error=>root.console?.warn?.("[Career Mode Showdown] Journey Conflicts guard unavailable.",error));return true;}
 
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["journey-conflicts"]=()=>{lastReceipt=null;};}catch(_error){}
   return Object.freeze({
     contractVersion:1,feature:"ssjr-production-shared-journey-conflicts",productionEnabled:true,runtimeRevision:RUNTIME_REVISION,
     providerAuthorityPreserved:true,nonAuthorizingReceipts:true,boundedStaleRetry:true,alteredReplayPreProviderDenied:true,

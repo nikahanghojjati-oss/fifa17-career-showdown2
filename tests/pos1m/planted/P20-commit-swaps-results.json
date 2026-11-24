@@ -1,0 +1,9 @@
+{
+ "id": "P20-commit-swaps-results",
+ "law": "L1_ONE_COMMIT",
+ "title": "The season commit records Daniel's result for Nik and Nik's for Daniel",
+ "file": "js/sharedSeasonCommit.js",
+ "find": "results:{playerOne:sscResult(ready.results.playerOne,teams),playerTwo:sscResult(ready.results.playerTwo,teams)}",
+ "replace": "results:{playerOne:sscResult(ready.results.playerTwo,teams),playerTwo:sscResult(ready.results.playerOne,teams)}",
+ "why": "The accepted record is not what the managers published. The game's own sealed hash check refuses it later (the Showdown stalls); the law names the cause."
+}

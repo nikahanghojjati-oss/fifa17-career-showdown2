@@ -1,0 +1,9 @@
+{
+ "id": "P09-sacked-not-ending",
+ "law": "L9_SACKED_ENDS",
+ "title": "A sacked season does not end the Showdown",
+ "file": "js/sharedMultiSeasonProgression.js",
+ "find": "terminal=acceptedSeasons===totalSeasons||sackedSeason===acceptedSeasons;",
+ "replace": "terminal=acceptedSeasons===totalSeasons;",
+ "why": "Sacked must end the Showdown after that season; here the next season is offered."
+}

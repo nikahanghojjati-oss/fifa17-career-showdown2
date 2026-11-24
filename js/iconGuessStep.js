@@ -100,17 +100,27 @@
   let igsPresenceChain=Promise.resolve();
   function igsPresence(task){const run=igsPresenceChain.then(task,task);igsPresenceChain=run.catch(()=>{});return run;}
   // One matched guess: this manager's used guesses +1, and the winner when it is right, on the latest record.
+  // Phoenix W12 (r100): one tap spends one guess. The SDK runs this transaction again when a commit's answer is lost
+  // (unavailable, deadline-exceeded) even though the write may have landed. The attempt that wrote remembers the count it
+  // wrote; a later attempt of the same tap that reads exactly that count (only this manager moves his own count, and this
+  // phone sends one guess at a time) knows its write landed and returns the stored round instead of spending again.
+  // No new field: the Rules keep the round's 11 keys.
   async function igsApplyGuess(io,ctx,correct){
-    const ref=igsRef(io,ctx.season),guess=igsGuess();
+    const ref=igsRef(io,ctx.season),guess=igsGuess(),me=ctx.managerRole;let wrote=null;
     return io.sdk.runTransaction(io.firestore,async tx=>{
       const snap=await tx.get(ref),data=snap.exists()?snap.data():null,record=igsRecord(data,ctx.season);
       if(!record)return {ok:false,reason:"BAD_RECORD"};
-      const next=guess.applyGuess(record,{role:ctx.managerRole,correct,atMs:io.now()});
+      if(wrote&&record.chipsUsed[me]===wrote.chips&&(!correct||record.winner?.role===me))return {ok:true,correct,record,landed:true};
+      const next=guess.applyGuess(record,{role:me,correct,atMs:io.now()});
       if(!next.ok)return next;
-      tx.update(ref,{[`chipsUsed.${ctx.managerRole}`]:next.record.chipsUsed[ctx.managerRole],namedBy:correct?ctx.managerRole:null,revision:data.revision+1,...igsStamp(io)});
+      wrote={chips:next.record.chipsUsed[me]};
+      tx.update(ref,{[`chipsUsed.${me}`]:next.record.chipsUsed[me],namedBy:correct?me:null,revision:data.revision+1,...igsStamp(io)});
       return next;
     });
   }
+  // This phone sends one guess at a time, in the order they were typed (a second tap waits for the first's answer).
+  let igsGuessChain=Promise.resolve();
+  function igsGuessInTurn(io,ctx,correct){const run=igsGuessChain.then(()=>igsApplyGuess(io,ctx,correct));igsGuessChain=run.catch(()=>{});return run;}
   // The listener on the round record (counted by the read meter); a timed transaction read when no listener is available.
   async function igsSnapshotApi(io){
     const meter=root.CareerModeFirestoreBudget?.meterSdk||(s=>s);
@@ -324,7 +334,7 @@
           const check=root.CareerModeIconNames.check(index,String(m.text||""),pick.answerId);
           if(check.status==="empty"||check.status==="not-in-list")return igsPost(frame,"cms-ig-feedback",{kind:"not-in-list"});
           if(check.status==="ambiguous")return igsPost(frame,"cms-ig-feedback",{kind:"ambiguous"});
-          igsApplyGuess(io,ctx,check.correct).then(next=>{
+          igsGuessInTurn(io,ctx,check.correct).then(next=>{
             if(!next.ok)return igsPost(frame,"cms-ig-feedback",{kind:next.reason==="NO_CHIPS"?"used":"late"});
             // A right guess: its stage, and so its points, is the SERVER time of the write (updatedAt), never this phone's clock
             // when the transaction read ran (Fable F12-01: a commit landing past a stage edge scores the later stage). Only the
@@ -355,6 +365,8 @@
     });
   }
 
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["prime-pack"]=()=>{wonMemo.clear();};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"cms-prime-pack-step",page:PAGE,stageId:STAGE_ID,panelId:PANEL_ID,collection:COLLECTION,doneKey:DONE_KEY,
     applies:igsApplies,wonPoints:ctx=>wonMemo.has(igsKey(ctx))?wonMemo.get(igsKey(ctx)):null,record:igsRecord,round:igsRound,suggestions:igsSuggestions,pointsFor:igsPointsFor,arrive:igsArrive,leave:igsLeave,applyGuess:igsApplyGuess,run:igsRun,close:igsClose,end:igsEnd,markDone:ctx=>igsMark(DONE_KEY,igsKey(ctx)),wentHome:()=>wentHome,ensure:igsEnsure,
     // Fable FJ12-03 (r98): the Prime Pack is at the managers' pace; Career Start's open limit waits while it runs.
