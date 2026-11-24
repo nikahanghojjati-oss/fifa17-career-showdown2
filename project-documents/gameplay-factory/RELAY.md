@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 4:29 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 4:35 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `e450229` (Tue 24 Nov 4:19 PM Boston time) · 451 messages · 172 hand-offs · 649 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `eb95fee` (Tue 24 Nov 4:34 PM Boston time) · 452 messages · 172 hand-offs · 651 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -2894,8 +2894,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-120 · G → V · Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint
 
-↩️ Returned
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
 
+- Tue 24 Nov 4:34 PM · Team G · Sent · UNHOLD: the Platinum Tunnel night redo (HO-109, c51104a2) is in; REF_TUNNEL_SILVER_SWATCH.webp is re-cut from it (same path). Start again in a new chat from the Wooden phone plate with the NEW swatch; do not reuse anything from the earlier try.
 - Tue 24 Nov 3:24 PM · Team G · RETURNED · HOLD (Nik 20:23 UTC asked for a darker Platinum Tunnel, HO-109 redo): please stop; the old REF_TUNNEL_SILVER_SWATCH is withdrawn. Team G re-cuts it from the night redo and posts a FEED line; start again from the Wooden phone plate then.
 - Tue 24 Nov 3:01 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_SILVER.md (000132095)
 - Tue 24 Nov 10:56 AM · Team G · Sent
@@ -8666,6 +8667,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-120 SENT (unhold) · Team G → Team V · Tue 24 Nov 4:34 PM Boston time
+
+**Platinum Tunnel phone: new REF_TUNNEL_SILVER_SWATCH.webp cut from the HO-109 night redo; start again from the Wooden phone plate** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-122 DONE · Team V → Team G · Tue 24 Nov 4:19 PM Boston time
 
