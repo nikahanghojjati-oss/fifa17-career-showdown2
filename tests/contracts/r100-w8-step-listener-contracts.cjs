@@ -17,7 +17,9 @@ function harness(file,watch,wait){
     onSnapshot:(ref,opts,next,error)=>{assert.deepEqual({...opts},{includeMetadataChanges:true});state.snap=next;return ()=>{state.unsubscribed+=1;};},
     runTransaction:async(_fs,fn)=>fn({get:async()=>{reads.n+=1;return {exists:()=>true,data:()=>({...state.server})};}})
   };
-  const sandbox={root:{},Promise,POLL_MS:2500,COLLECTION:"x",setTimeout:(fn,ms)=>{timers.push({fn,ms});}};
+  const clock={now:Date.parse("2026-11-24T09:00:00Z")};class FakeDate extends Date{static now(){return clock.now;}}
+  const root={document:{visibilityState:"visible"},navigator:{onLine:true}};
+  const sandbox={root,Promise,Date:FakeDate,POLL_MS:2500,BRIDGE_FAST_MS:2500,BRIDGE_FAST_FOR_MS:60000,BRIDGE_SLOW_MS:8000,BRIDGE_FAILED_MS:30000,COLLECTION:"x",setTimeout:(fn,ms)=>{timers.push({fn,ms});}};
   const code=`const ${wait}=ms=>new Promise(r=>setTimeout(r,ms));
     async function ${watch.replace("Watch","SnapshotApi")}(io){return io.sdk;}
     function ${watch.replace("Watch","Ref")}(io,season){return {season};}
@@ -27,8 +29,9 @@ function harness(file,watch,wait){
   const api=vm.runInNewContext(code,sandbox);
   const snap=(fromCache,data,pending=false)=>({metadata:{fromCache,hasPendingWrites:pending},exists:()=>Boolean(data),data:()=>data});
   const tick=async()=>{for(let i=0;i<6;i+=1)await new Promise(r=>setImmediate(r));};
-  const fire=async()=>{const t=timers.shift();assert.ok(t,"a bridge read is scheduled");assert.equal(t.ms,2500);t.fn();await tick();};
-  return {api,state,reads,timers,snap,tick,fire,io:{sdk,firestore:{},rivalryId:"r"}};
+  const fire=async(ms=2500)=>{const t=timers.shift();assert.ok(t,"a bridge read is scheduled");assert.equal(t.ms,ms);clock.now+=t.ms;t.fn();await tick();};
+  for(const name of ["BRIDGE_FAST_MS=2500","BRIDGE_FAST_FOR_MS=60000","BRIDGE_SLOW_MS=8000","BRIDGE_FAILED_MS=30000"])assert.ok(source.includes(name),`${file} sets ${name}`);
+  return {api,state,reads,timers,snap,tick,fire,root,clock,io:{sdk,firestore:{},rivalryId:"r"}};
 }
 (async()=>{
   for(const [file,watch,wait] of [["chamberMenStep.js","cmsWatch","cmsWait"],["iconGuessStep.js","igsWatch","igsWait"]]){
@@ -51,9 +54,20 @@ function harness(file,watch,wait){
     // A failed bridge read is tried again 2.5 s later; it never ends the step.
     const g=harness(file,watch,wait);const seen=[];let ended=0;await g.api.watch(g.io,{season:1},d=>seen.push(d),()=>{ended+=1;});
     g.state.snap(g.snap(true,null));await g.tick();const real=g.io.sdk.runTransaction;g.io.sdk.runTransaction=async()=>{throw Object.assign(new Error("offline"),{code:"unavailable"});};
-    await g.fire();assert.equal(ended,0);assert.equal(g.timers.length,1,"tried again");g.io.sdk.runTransaction=real;g.state.server={kicks:7};await g.fire();assert.deepEqual(seen.at(-1),{kicks:7});
+    await g.fire();assert.equal(ended,0);assert.equal(g.timers.length,1,"tried again");assert.equal(g.timers[0].ms,30000,"30 s after a failed read");g.io.sdk.runTransaction=real;g.state.server={kicks:7};await g.fire(30000);assert.deepEqual(seen.at(-1),{kicks:7});
+    // A failed read waits 30 s before the next (offline does not spin failed reads), then goes on.
+    assert.equal(g.timers.length,1);
+    // Budget (Spark): 2.5 s for the first minute, then 8 s; hidden or offline pages make no read; worst case for 5 minutes.
+    const b=harness(file,watch,wait);await b.api.watch(b.io,{season:1},()=>{},()=>{});b.state.snap(b.snap(true,null));await b.tick();
+    let elapsed=0;const at=[];while(elapsed<300000){const t=b.timers[0];if(!t)break;const before=b.reads.n;await b.fire(t.ms);elapsed+=t.ms;if(b.reads.n>before)at.push(elapsed);}
+    assert.ok(at.filter(x=>x<=60000).length<=24,"at most 24 reads in the first minute");
+    assert.ok(at.filter(x=>x>60000).every((x,i,a)=>i===0||x-a[i-1]===8000),"8 s apart after the first minute");
+    console.log(`  ${file}: reads for a stream dead 5 minutes on a visible page = ${b.reads.n}`);assert.ok(b.reads.n<=54,`a stream dead for 5 minutes costs ${b.reads.n} reads (at most 54)`);
+    b.root.document.visibilityState="hidden";const hiddenBefore=b.reads.n;for(let i=0;i<20;i+=1)await b.fire(b.timers[0].ms);assert.equal(b.reads.n,hiddenBefore,"no read while hidden");assert.equal(b.timers[0].ms,1000);
+    b.root.document.visibilityState="visible";b.root.navigator.onLine=false;for(let i=0;i<20;i+=1)await b.fire(1000);assert.equal(b.reads.n,hiddenBefore,"no read while offline");
+    b.root.navigator.onLine=true;await b.fire(1000);assert.equal(b.reads.n,hiddenBefore+1,"reads again within a second of coming back");
     assert.equal(errors,0);
-    ok(`${file}: a listener whose stream is down is bridged by one server read every 2.5 s; reads stop when it is live again or the step ends`);
+    ok(`${file}: a listener whose stream is down is bridged by server reads (2.5 s for a minute, then 8 s; none hidden or offline; 30 s after a failure; at most 54 in 5 minutes); they stop when it is live again or the step ends`);
   }
   console.log(`PASS r100 W8 step listener contracts: ${passed} checks`);
 })().catch(error=>{console.error(error);process.exit(1);});

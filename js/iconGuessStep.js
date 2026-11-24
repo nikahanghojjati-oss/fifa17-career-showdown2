@@ -13,6 +13,7 @@
   const STAGE_ID="igStage",PANEL_ID="igStepPanel",COLLECTION="primePackRounds";
   const DONE_KEY="careerModeShowdown.primePackDone.v1",KEYS_MAX=60;
   const LOAD_WAIT_MS=10000,READY_WAIT_MS=10000,TICK_MS=200,POLL_MS=2500,REJOIN_MS=3000;
+  const BRIDGE_FAST_MS=2500,BRIDGE_FAST_FOR_MS=60000,BRIDGE_SLOW_MS=8000,BRIDGE_FAILED_MS=30000;
   const ROLES=Object.freeze(["playerOne","playerTwo"]),NAMES=Object.freeze({playerOne:"Daniel",playerTwo:"Nik"});
   const wonMemo=new Map();
   // wentHome: the last run ended because the manager chose Showdown Home (not a fault), so the caller shows no error.
@@ -135,9 +136,15 @@
       const listenRef=api===io.sdk?ref:api.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,igsSeasonId(ctx.season));
       // Phoenix W8 (r100): a listener whose stream is down goes quiet (the SDK only marks its copy fromCache): B1's listener fault
       // (#1579) left a shootout waiting on the rival's kick for good. While the copy is from cache, the record is read from the
-      // server every POLL_MS (one billed read each) until the listener is back with a server copy; then the reads stop at once.
+      // server (one billed read each): every 2.5 s for the first minute (live turns stay smooth), then every 8 s; none while the
+      // page is hidden or the phone is offline, and 30 s after a failed read. The reads stop as soon as a server copy is back.
+      // Worst case, a stream dead for 5 minutes on a visible page: 24 + 30 = 54 reads on that phone.
       let stopped=false,live=true,bridging=false;
-      const bridge=async()=>{if(bridging)return;bridging=true;try{while(!stopped&&!live){await igsWait(POLL_MS);if(stopped||live)break;try{const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped)onData(data);}catch(_error){}}}finally{bridging=false;}};
+      const bridge=async()=>{if(bridging)return;bridging=true;const since=Date.now();let next=BRIDGE_FAST_MS;
+        try{while(!stopped&&!live){await igsWait(next);if(stopped||live)break;
+          if(root.document?.visibilityState==="hidden"||root.navigator?.onLine===false){next=1000;continue;}
+          try{const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped)onData(data);next=Date.now()-since<BRIDGE_FAST_FOR_MS?BRIDGE_FAST_MS:BRIDGE_SLOW_MS;}
+          catch(_error){next=BRIDGE_FAILED_MS;}}}finally{bridging=false;}};
       const off=api.onSnapshot(listenRef,{includeMetadataChanges:true},snap=>{if(stopped)return;if(snap.metadata?.fromCache){live=false;void bridge();return;}live=true;if(snap.metadata?.hasPendingWrites)return;onData(snap.exists()?snap.data():null);},onError);
       return ()=>{stopped=true;try{off();}catch(_error){}};
     }
