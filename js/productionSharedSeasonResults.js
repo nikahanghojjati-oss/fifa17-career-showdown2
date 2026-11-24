@@ -103,7 +103,7 @@
     if(!request)return null;
     const ctx=await pssrProviderContext(request,light);if(!pssrContextMatches(request))return null;
     const result=pssrResultError(await provider.read(ctx.options),"Season Results could not be loaded.");if(!pssrContextMatches(request))return null;
-    view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;pssrRender();
+    view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId,checkedAt:Date.now()};contextKey=request.key;pssrRender();
     if(result.ownResult||result.state?.phase==="RESULTS_READY")pssrSetError("");
     return view;
   }
@@ -162,7 +162,7 @@
   function pssrEntryMode(reviewing){const panel=pssrField("seasonReviewPanel"),grid=root.document?.querySelector?.("#seasonEntry .seasonEntryGrid"),hint=root.document?.querySelector?.("#seasonEntry .seasonEntryHint"),actions=pssrField("completeSeason")?.closest?.(".seasonEntryActions");pssrHidden(panel,!reviewing);pssrHidden(grid,reviewing);pssrHidden(hint,reviewing);pssrHidden(actions,reviewing);if(pssrField("seasonEntry"))pssrField("seasonEntry").dataset.sharedSeasonResults=reviewing?"review":"entry";}
   function pssrRenderReview(result,{waiting=false,ready=false}={}){
     const role=view?.managerRole,other=pssrOtherRole(role),one=pssrField("seasonReviewOne"),two=pssrField("seasonReviewTwo"),ownCard=role==="playerOne"?one:two,otherCard=role==="playerOne"?two:one,confirm=pssrField("confirmSeasonCompletion"),edit=pssrField("editSeasonResults"),overall=pssrField("seasonReviewOverallScore")?.closest?.(".seasonReviewOverall"),warning=root.document?.querySelector?.("#seasonReviewPanel .seasonReviewWarning");
-    pssrEntryMode(true);pssrHidden(overall,true);pssrText("seasonEntryTitle",`SEASON ${view?.seasonNumber||pssrSeason()} RESULTS`);pssrText("seasonReviewHeading",ready?"BOTH MANAGERS CONFIRMED":waiting?"YOUR RESULT IS CONFIRMED":"REVIEW YOUR SEASON RESULT");pssrText("seasonReviewStatusMeta",ready?"":waiting?"CONFIRMED · WAITING FOR YOUR RIVAL":"NOT CONFIRMED YET");pssrHidden(pssrField("seasonReviewStatusMeta")?.closest?.(".seasonReviewStatus"),ready);
+    pssrEntryMode(true);pssrHidden(overall,true);pssrText("seasonEntryTitle",`SEASON ${view?.seasonNumber||pssrSeason()} RESULTS`);pssrText("seasonReviewHeading",ready?"BOTH MANAGERS CONFIRMED":waiting?"YOUR RESULT IS CONFIRMED":"REVIEW YOUR SEASON RESULT");pssrText("seasonReviewStatusMeta",ready?"":waiting?pssrWaitLine(role):"NOT CONFIRMED YET");pssrHidden(pssrField("seasonReviewStatusMeta")?.closest?.(".seasonReviewStatus"),ready);
     pssrRenderReviewCard(ownCard,role,result);pssrHidden(ownCard,false);
     if(ready&&view?.opponentResult){pssrRenderReviewCard(otherCard,other,view.opponentResult);pssrHidden(otherCard,false);pssrText("seasonReviewResult","Both managers confirmed their FIFA 17 season results.");}
     else{pssrHidden(otherCard,true);pssrText("seasonReviewResult",waiting?`Your rival sees this only after confirming theirs. This screen updates by itself.${result?.sacked===true?pssrSackedUpdateHint(other):""}`:"Check your results. Once confirmed, they are final.");}
@@ -242,7 +242,7 @@
           // publishes and re-reads. A re-read that is itself contended, denied or offline keeps the bounded JOB-1611 retry.
           if(PSSR_CONTENTION_CODES.includes(published?.code)&&contentionRetries<PSSR_CONTENTION_RETRY_MS.length){await pssrWait(PSSR_CONTENTION_RETRY_MS[contentionRetries]);contentionRetries+=1;if(!pssrContextMatches(request))return false;const fresh=await provider.read(ctx.options);if(!pssrContextMatches(request))return false;if(!(fresh?.ok!==true&&PSSR_DENIED_CODES.includes(published.code)&&!PSSR_READ_RETRY_CODES.includes(fresh?.code))){if(fresh?.ok===true)current=fresh;continue;}}
           const result=pssrResultError(published,"Your season result could not be confirmed.");if(!pssrContextMatches(request))return true;
-          pssrDraftClear(publishRole,request);view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
+          pssrDraftClear(publishRole,request);view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId,checkedAt:Date.now()};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
         }
       });
     }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Confirming your season result failed.");pssrReport("Could not confirm your season result",error);}else failed=PSSR_BACK_FAILED;return false;}
@@ -295,7 +295,12 @@
   function pssrWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(pssrWaitingKey()||pssrLiveScreen()?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonResults/season_${request.seasonNumber}`:null)(pssrRequestContext()):null);}catch(_error){path=null;}let relaxed=false;try{relaxed=Boolean(path&&!pssrWaitingKey()&&pssrLiveScreen());}catch(_error){relaxed=false;}return budget.watchWaitPoint("season-results",path,pssrWaitWake,{relaxed});}
   function pssrWaitWake(){if(!busy){void pssrTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void pssrTick(true);},400);}
   function pssrWaitHealthy(){const request=pssrRequestContext(),live=root.CareerModeFirestoreBudget?.stats?.();return Boolean(request&&live?.watchHealthy&&live.watching===`rivalries/${request.rivalryId}/seasonResults/season_${request.seasonNumber}`);}
-  function pssrFastTick(){pssrWatchWait();if(pssrWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!pssrFastPollDue())return;void pssrTick(true);}
+  // Phoenix W8 (r100): the wait line names the rival and says how this phone is checking: LIVE while the listener is healthy,
+  // otherwise the time of the last server check (so a slow link never looks stuck). The 3 s tick redraws only that line.
+  function pssrCheckedAt(at){try{return new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit"}).format(new Date(at)).toUpperCase();}catch(_error){return "";}}
+  function pssrWaitLine(role){const rival=String(pssrManagerName(role==="playerOne"?"playerTwo":"playerOne")).toUpperCase(),at=Number(view?.checkedAt),time=Number.isFinite(at)&&at>0?pssrCheckedAt(at):"";return `CONFIRMED · WAITING FOR ${rival}${pssrWaitHealthy()?" · LIVE":time?` · CHECKED ${time}`:""}`;}
+  function pssrRefreshWaitLine(){const node=pssrField("seasonReviewStatusMeta");if(!node||!view||!view.ownResult||view.state?.phase==="RESULTS_READY"||!/^CONFIRMED · WAITING FOR /.test(String(node.textContent||"")))return;const line=pssrWaitLine(view.managerRole);if(node.textContent!==line)node.textContent=line;}
+  function pssrFastTick(){pssrWatchWait();pssrRefreshWaitLine();if(pssrWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!pssrFastPollDue())return;void pssrTick(true);}
   // r75: the 15 s check of the visible Season Results screen reads the shared results from the server (see Transfer).
   // r84: the listener also watches while Season Results is open and not yet RESULTS_READY (not only after this manager publishes):
   // 15 s fresh reads here were ~32 billed reads/min for both phones over a 30-90 minute results wait.
