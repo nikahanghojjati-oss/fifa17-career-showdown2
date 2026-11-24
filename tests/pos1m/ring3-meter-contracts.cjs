@@ -6,6 +6,8 @@
 //   T4 a change with no own tap is timed from the rival's last tap
 //   T5 step costs use only the play windows and price a listener attached on one step and delivered on the next once
 //   T6 the CONTINUE of season k counts for season k+1 in the minutes outside FIFA
+//   T7 a slow transition (31 s) is kept at its full duration, so a slower step can never improve the p90
+//   T8 timing budgets cover only the play windows: page-check transitions outside them do not dilute the p90
 const assert=require("node:assert/strict");
 const path=require("node:path");
 const fs=require("node:fs");
@@ -66,5 +68,20 @@ const boot=(user,t)=>({k:"boot",user,t});
   const phases=[{phase:"S-start",ms:60000},{phase:"S-setup",ms:60000},{phase:"S-S1-transfers",ms:60000},{phase:"S-S1-continue",ms:120000},{phase:"S-S2-results",ms:60000},{phase:"pages-S.S1",ms:600000}];
   assert.deepEqual(ring3.seasonMinutes(phases),[{season:"S/S1",minutes:3},{season:"S/S2",minutes:3}]);
   ok("T6","season k's CONTINUE counts for season k+1; page checks are left out");
+}
+{
+  const ev=[boot("daniel",0),st("daniel",10,"A"),tap("daniel",5000,"A"),st("daniel",36000,"B"),tap("daniel",40000,"B"),st("daniel",40050,"C")];
+  const r=ring3.summarize({events:ev});
+  assert.deepEqual(r.tapToReady["A -> B"],{n:1,median:31000,p90:31000,max:31000});
+  assert.equal(r.all.tapToReady.max,31000);
+  ok("T7","a 31 s transition is kept at 31 s (p90 31,000 ms, not dropped)");
+}
+{
+  const ev=[boot("daniel",0),st("daniel",10,"A"),tap("daniel",5000,"A"),st("daniel",6000,"B")];
+  let t=20000;for(let i=0;i<19;i++){ev.push(tap("daniel",t,i%2?"C":"B"),st("daniel",t+10,i%2?"B":"C"));t+=1000;}
+  const r=ring3.summarize({events:ev,playWindows:[[4000,10000]]});
+  assert.deepEqual(r.all.tapToReady,{n:1,median:1000,p90:1000,max:1000});
+  assert.equal(r.samples.tapToReady.length,20);
+  ok("T8","the play-window budget sees the one 1,000 ms game transition, not 19 page-check ones (all samples kept in the report)");
 }
 console.log(`PASS POS1M Ring 3 meter contracts (${n} checks)`);

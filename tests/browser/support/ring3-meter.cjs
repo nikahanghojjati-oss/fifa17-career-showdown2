@@ -2,10 +2,13 @@
 // POS1M Ring 3 meter (test-only): what a Showdown costs in time and in Firebase, per step, measured on the real game in CE2PG.
 // The page side records, on each phone, every trusted tap and every change of (active screen, Reus Gate loading screen shown)
 // with the wall clock (both phones run on this machine, so their clocks agree). summarize() turns that into:
-//   tapToReady   a tap that moves the phone to another screen -> that screen shown with the loading screen gone, per step
+//   tapToReady   a tap that moves the phone to another screen -> that screen shown with the loading screen gone, per step,
+//                at its full duration however long it takes
 //   reusHold     how long the loading screen (Reus Gate) stays up each time it shows, per screen it opens onto
-//   rivalToScreen  a phone moves to a new screen without its own tap (the rival's move carried it) -> time since the rival's
-//                  last tap, per screen
+//   rivalToScreen  a phone moves to a new screen after the rival's tap, not its own (the rival's move carried it) -> time
+//                  since that tap, per screen
+// The timings, like the Firebase figures, cover only the seasons' play windows (CE2PG meterEntry); the raw samples stay in
+// report.ring3.samples.
 //   seasons      minutes per season outside FIFA (the harness types the FIFA results at once, so FIFA time is stubbed out),
 //                billed reads (documents + Rules lookups) and writes per season, both phones, from the CE2PG meter
 //   steps        billed reads and writes per step (screen), both phones, per season played
@@ -60,7 +63,7 @@ function seasonMinutes(phases){
 function summarize({events,meterEvents=[],phases=[],meterEntries=[],playWindows=null,attribute=null}){
   if(!ENABLED)return null;
   const byUser={};for(const e of events)(byUser[e.user]||(byUser[e.user]=[])).push(e);
-  const taps=[],holds=[],rival=[],intervals=[];
+  const taps=[],holds=[],rival=[],timed=[],intervals=[];
   const users=Object.keys(byUser);
   for(const user of users){
     const list=byUser[user].sort((a,b)=>a.t-b.t);
@@ -70,7 +73,7 @@ function summarize({events,meterEvents=[],phases=[],meterEntries=[],playWindows=
       if(e.k==="boot"){bootAt=e.t;if(state&&since!==null)intervals.push({user,screen:state.screen,from:since,to:e.t});state=null;since=null;loadingFrom=null;settled=null;regated=null;continue;}
       if(e.k!=="state")continue;
       if(e.loading&&loadingFrom===null)loadingFrom=e.t;
-      if(!e.loading&&loadingFrom!==null){holds.push({user,screen:e.screen,ms:e.t-loadingFrom,boot:loadingFrom-bootAt<1000});loadingFrom=null;}
+      if(!e.loading&&loadingFrom!==null){holds.push({user,t:e.t,screen:e.screen,ms:e.t-loadingFrom,boot:loadingFrom-bootAt<1000});loadingFrom=null;}
       if(state&&since!==null&&e.screen!==state.screen)intervals.push({user,screen:state.screen,from:since,to:e.t});
       if(!state||e.screen!==state.screen)since=e.t;
       // A step is ready when its screen shows with the Reus Gate down. A screen change made under the gate counts when the gate
@@ -87,19 +90,19 @@ function summarize({events,meterEvents=[],phases=[],meterEntries=[],playWindows=
       state={screen:e.screen,loading:e.loading};
     }
     if(state&&since!==null)intervals.push({user,screen:state.screen,from:since,to:list.length?list[list.length-1].t:since});
-    // Tap -> next screen ready: the first screen change (loading gone) after the tap and before this phone's next tap.
+    // Who moved this phone: each ready change is timed from the last tap before it, on either phone. The phone's own last tap
+    // (with no rival tap after it) makes it tap -> ready at its full duration, however long; a rival's tap within 60 s makes it
+    // rival move -> screen; anything else (a game timer, a reload) is counted as timed, not budgeted.
     const own=list.filter(e=>e.k==="tap");
-    for(let i=0;i<own.length;i++){
-      const tap=own[i],next=own[i+1]?own[i+1].t:Infinity;
-      const c=changes.find(x=>x.t>tap.t&&x.t<=next&&x.t-tap.t<=30_000);
-      if(c)taps.push({user,step:`${c.from||"?"} -> ${c.to||"?"}`,ms:c.t-tap.t});
-    }
-    // Rival move -> screen: a change with no own tap in the 3 s before it, timed from the rival's last tap (within 60 s).
     const rivals=users.filter(u=>baseUser(u)!==baseUser(user)).flatMap(u=>byUser[u].filter(e=>e.k==="tap"));
+    let prev=-Infinity;
     for(const c of changes){
-      if(own.some(t=>t.t<=c.t&&c.t-t.t<3_000))continue;
-      const r=rivals.filter(t=>t.t<=c.t&&c.t-t.t<=60_000).sort((a,b)=>b.t-a.t)[0];
-      if(r)rival.push({user,step:c.to||"?",ms:c.t-r.t});
+      const mine=own.filter(t=>t.t>prev&&t.t<c.t).pop()||null;
+      const theirs=rivals.filter(t=>t.t<c.t).sort((a,b)=>a.t-b.t).pop()||null;
+      if(mine&&!(theirs&&theirs.t>mine.t))taps.push({user,t:c.t,step:`${c.from||"?"} -> ${c.to||"?"}`,ms:c.t-mine.t});
+      else if(theirs&&c.t-theirs.t<=60_000)rival.push({user,t:c.t,step:c.to||"?",ms:c.t-theirs.t});
+      else timed.push({user,t:c.t,step:c.to||"?"});
+      prev=c.t;
     }
   }
   const seasons=meterEntries.filter(e=>e.billed&&e.billed.measured).map(e=>({label:e.label,billed:e.billed.measured.billed,docReads:e.billed.measured.docReads,rulesLookups:e.billed.measured.rulesReads+(e.billed.measured.rulesOnWrites||0),writes:e.billed.measured.writes}));
@@ -118,15 +121,22 @@ function summarize({events,meterEvents=[],phases=[],meterEntries=[],playWindows=
     const out=attribute(all.filter(inPlay).sort((a,b)=>a.t-b.t),all,stepOf);
     steps=Object.fromEntries([...out.entries()].map(([k,v])=>[k,{billedPerSeason:+((v.docs+v.rules)/n).toFixed(1),writesPerSeason:+(v.writes/n).toFixed(1)}]).sort((a,b)=>b[1].billedPerSeason-a[1].billedPerSeason));
   }
+  // The budgets cover the seasons' play only, like the season totals: samples outside the play windows (sign-in, the career
+  // page checks, the end checks) are kept in the report but left out of every figure.
+  const inWindow=x=>!playWindows||playWindows.some(([a,b])=>x.t>=a&&x.t<b);
+  const T=taps.filter(inWindow),H=holds.filter(h=>!h.boot&&inWindow(h)),V=rival.filter(inWindow);
   return {
-    schema:1,
-    tapToReady:group(taps,r=>r.step,r=>r.ms),
-    reusHold:group(holds.filter(h=>!h.boot),r=>r.screen||"?",r=>r.ms),
+    schema:2,
+    scope:playWindows?"season play windows":"whole run",
+    tapToReady:group(T,r=>r.step,r=>r.ms),
+    reusHold:group(H,r=>r.screen||"?",r=>r.ms),
     reusHoldAtBoot:stat(holds.filter(h=>h.boot).map(h=>h.ms)),
-    rivalToScreen:group(rival,r=>r.step,r=>r.ms),
+    rivalToScreen:group(V,r=>r.step,r=>r.ms),
+    timedChanges:timed.filter(inWindow).length,
     seasons:{billed:seasons,minutesOutsideFifa:minutes},
     steps,
-    all:{tapToReady:stat(taps.map(r=>r.ms)),reusHold:stat(holds.filter(h=>!h.boot).map(h=>h.ms)),rivalToScreen:stat(rival.map(r=>r.ms))}
+    all:{tapToReady:stat(T.map(r=>r.ms)),reusHold:stat(H.map(h=>h.ms)),rivalToScreen:stat(V.map(r=>r.ms))},
+    samples:{tapToReady:taps,reusHold:holds,rivalToScreen:rival,timed}
   };
 }
 
