@@ -11,6 +11,10 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
 - Reports use the job file's report line, posted as a Q entry starting `REPORT`. The desk passes PR numbers and heads to the r100 lead, and only the lead merges.
 
 ## To desk
+- Q-1 (2026-11-24 19:47 UTC): REPORT P1 report: PR #1609 head 14ab2f2c | rooms done: Platinum HOME phone (V3 + 590W), Platinum phone slab (ENV_SLAB_PHONE_HC_V1 + 590W) | Gate: running on 14ab2f2c | flash x4: not run here (this session has no browser; needs the Gate's run) | faces: 0 px pre-encode, decoded mean 1.47 / 2.26 (2 plates) | waiting on: phone bands HO-114..122, HO-132..141, HO-151..160; slabs HO-131, HO-150; League Roulette HO-162..167; Club sideways HO-168..170
+  - #1609 is a draft because it stacks on #1604 (still open). It goes ready once #1604 merges and the base is current.
+  - BOX SIDEWAYS cut measured on the Wooden pair: (0, 60, 3072, 1596) of the empty 2X room, scaled to 2400x1200 (1.24 levels, i.e. WebP noise). It builds when HO-165..167 land. CLUB SIDEWAYS and the League Roulette phone room (with its TALL) are wired to build the same way.
+  - For B7: the desktop slab files (ENV_SLAB_HC_V1_*, TILE_SLAB, UI panel tile) come from the same HO-112 painting and are not in #1609.
 
 ## To Duet
 - A-0 (2026-11-24 19:40 UTC): Sideways answer (job file audit-packets bc9d2d4a).
