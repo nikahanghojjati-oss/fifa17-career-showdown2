@@ -1,18 +1,20 @@
 /* showdown-reset:begin */
 // Phoenix W5 (r100): the page never reloads between Showdowns, so every module that keeps a Showdown's data in memory adds one
 // clear to window.CareerModeShowdownClears (a plain object, name -> clear; a module may load before this file). The reset runs them all
-// when the permanent pair below reports a rivalry this page has not seen before (a new Showdown: Daniel's START, Nik's JOIN)
-// and when the ended Showdown is let go on Home (career-mode-permanent-pair-ended). A clear puts the module's Showdown data
+// when the permanent pair below reports a rivalry this page has not seen before (a new Showdown: Daniel's START, Nik's JOIN),
+// before anyone sees it. It does not run when a Showdown ends: closing is still at work then (Terminal Close takes this phone
+// Home with its notice, and the other phone's close may still be in flight), so the ended Showdown's data stays until the
+// next one starts, as it always has. A clear puts the module's Showdown data
 // back to what a freshly loaded page holds (no read, no write, no render). It only runs between Showdowns, so a clear may stop that
 // module's page work for the old Showdown (a wait listener, a setup poll, a 3D scene) as the module itself does when a Showdown
 // changes; install flags and API handles stay, and the next screen builds again. A clear that returns "skip" (its screen is busy
-// or on show) is reported as skipped. The ended reset runs once per closed rivalry. History, career and pairing caches are not
+// or on show) is reported as skipped. History, career and pairing caches are not
 // Showdown data and never register.
 // tests/contracts/r100-showdown-reset-contracts.cjs fails when a module keeps Showdown data and does not register.
 (function(root){
   "use strict";
   if(!root||root.CareerModeShowdownReset)return;
-  const RIVALRY=/^pair_[0-9a-f]{64}$/,seen=new Set(),ended=new Set();
+  const RIVALRY=/^pair_[0-9a-f]{64}$/,seen=new Set();
   let running=false,runs=0,last=null;
   function showdownResetClears(){const clears=root.CareerModeShowdownClears;return clears&&typeof clears==="object"?clears:(root.CareerModeShowdownClears={});}
   function showdownResetRun(reason){
@@ -30,15 +32,7 @@
     const earlier=seen.size>0;seen.add(id);if(!earlier)return false;
     showdownResetRun("new-showdown");return true;
   }
-  // The pair re-holds an ended rivalry (and fires the event again) whenever a later read still names it: reset once per closed
-  // rivalry, and never while a Showdown is live.
-  function showdownResetEnded(event){
-    const id=String(event?.detail?.closedRivalryId||"").trim().toLowerCase();if(!RIVALRY.test(id)||ended.has(id))return false;
-    let live=null;try{live=root.CareerModePersistentNikDanielPair?.getState?.()?.rivalryId||null;}catch(_error){live=null;}if(live)return false;
-    ended.add(id);showdownResetRun("showdown-ended");return true;
-  }
   showdownResetClears();
-  if(typeof root.addEventListener==="function")root.addEventListener("career-mode-permanent-pair-ended",showdownResetEnded);
   root.CareerModeShowdownReset=Object.freeze({contractVersion:1,feature:"cms-showdown-reset",noteRivalry:showdownResetNoteRivalry,reset:showdownResetRun,
     registered:()=>Object.freeze(Object.keys(showdownResetClears())),runs:()=>runs,lastRun:()=>last,providerReadRequired:false,providerWriteRequired:false});
 })(typeof globalThis!=="undefined"?globalThis:this);

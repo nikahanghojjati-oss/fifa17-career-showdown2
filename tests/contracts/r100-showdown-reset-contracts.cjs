@@ -73,11 +73,11 @@ function resetWorld(){
   const events=new Map(),pair={rivalryId:null},sandbox={Date,addEventListener:(type,fn)=>events.set(type,fn),CareerModePersistentNikDanielPair:{getState:()=>pair}};sandbox.window=sandbox;
   vm.runInNewContext(resetBlock(),sandbox);
   const api=sandbox.CareerModeShowdownReset;
-  return {api:{...api,register:(name,clear)=>{sandbox.CareerModeShowdownClears[name]=clear;return true;}},fire:(type,detail={})=>events.get(type)?.({detail}),pair,sandbox};
+  return {api:{...api,register:(name,clear)=>{sandbox.CareerModeShowdownClears[name]=clear;return true;}},fire:(type,detail={})=>events.get(type)?.({detail}),events,pair,sandbox};
 }
 const X='pair_'+'a'.repeat(64),Y='pair_'+'b'.repeat(64),Z='pair_'+'c'.repeat(64);
 {
-  const {api,fire,pair}=resetWorld(),calls=[];
+  const {api,fire,events}=resetWorld(),calls=[];
   assert.equal(api.register('one',reason=>calls.push(`one:${reason}`)),true);
   assert.equal(api.register('two',reason=>{calls.push(`two:${reason}`);throw new Error('boom');}),true);
   assert.equal(api.register('three',reason=>calls.push(`three:${reason}`)),true);
@@ -91,18 +91,16 @@ const X='pair_'+'a'.repeat(64),Y='pair_'+'b'.repeat(64),Z='pair_'+'c'.repeat(64)
   assert.deepEqual(calls,['one:new-showdown','two:new-showdown','three:new-showdown'],'every clear runs, in order, and one that throws never stops the rest');
   assert.deepEqual([...api.lastRun().cleared],['one','three']);assert.deepEqual([...api.lastRun().failed],['two']);
   calls.length=0;assert.equal(api.noteRivalry(X),false,'an earlier rivalry seen again never resets (no flapping)');assert.equal(api.noteRivalry(Y),false);assert.equal(calls.length,0);
-  const END='career-mode-permanent-pair-ended';
-  fire(END,{closedRivalryId:Y});assert.deepEqual(calls,['one:showdown-ended','two:showdown-ended','three:showdown-ended'],'the ended Showdown let go on Home clears too');
-  calls.length=0;fire(END,{closedRivalryId:Y});fire(END,{closedRivalryId:Y.toUpperCase().replace('PAIR_','pair_')});
-  assert.equal(calls.length,0,'the pair re-holding the same ended rivalry (a later read still names it) never resets again');
-  fire(END,{});fire(END,{closedRivalryId:'pair_xyz'});assert.equal(calls.length,0,'an ended event without a closed rivalry resets nothing');
-  pair.rivalryId=Z;fire(END,{closedRivalryId:X});assert.equal(calls.length,0,'never while a Showdown is live');pair.rivalryId=null;
-  assert.equal(api.runs(),2);
-  calls.length=0;assert.equal(api.noteRivalry(Z),true);assert.equal(calls.length,3);assert.equal(api.runs(),3);
+  // Not when a Showdown ends: closing is still at work then (L6 r79 R80g.2: an ended reset on Daniel's phone dropped Terminal
+  // Close's in-flight read, so the phone reached Home without its "ended for both players" notice). The next START/JOIN clears.
+  fire('career-mode-permanent-pair-ended',{closedRivalryId:Y});assert.equal(calls.length,0,'the ended Showdown let go on Home resets nothing');
+  assert.equal(events.size,0,'the reset listens to no event: only the pair, through noteRivalry');
+  assert.equal(api.runs(),1);
+  calls.length=0;assert.equal(api.noteRivalry(Z),true);assert.equal(calls.length,3);assert.equal(api.runs(),2);
   api.register('busy',()=>'skip');api.noteRivalry('pair_'+'d'.repeat(64));
   assert.deepEqual([...api.lastRun().skipped],['busy'],'a clear that returns "skip" (its screen is busy or on show) is reported as skipped, not cleared');
   assert.ok(!api.lastRun().cleared.includes('busy'));
-  ok('R1 the reset runs every clear for a new rivalry and once per ended Showdown (never while one is live), never for the first or an earlier rivalry; skipped clears are reported as skipped');
+  ok('R1 the reset runs every clear for a new rivalry, never for the first or an earlier rivalry, never when a Showdown ends; skipped clears are reported as skipped');
 }
 {
   // A module that loads before the pair file has already put its clear in the Map; the reset keeps it.
@@ -176,16 +174,16 @@ ok(`R4 all ${Object.keys(REGISTERED).length} clears load, run three times withou
   assert.doesNotMatch(champion,/closedHistoryReads|golden/,'History reads of finished Showdowns and the Golden marks stay');
   ok('R6 the clears keep History, career and pairing data, the close guards, install flags, API handles and timers (they run only between Showdowns)');
 }
-// 5. The review fixes (verify thread, #1577 at bbbb6d40): no Career Start poll on Home after the ended reset; a busy screen keeps its work.
+// 5. The review fixes (verify thread, #1577 at bbbb6d40): a busy screen keeps its work and says so.
 {
-  const start=clearBody(read('js/productionSharedCareerStart.js'),'career-start');
-  assert.match(start,/if\(reason==="new-showdown"\)pcstStartPolling\(\);/,'Career Start polls again only for a new Showdown, never on Home after the ended reset');
-  assert.equal((start.match(/pcstStartPolling/g)||[]).length,1);
+  const pair=read('js/persistentNikDanielPair.js');
+  assert.doesNotMatch(resetBlock(),/addEventListener\(/,'the reset adds no event listener (no ended reset, so no Career Start poll on Home and no repeat on a re-hold)');
+  assert.doesNotMatch(pair.slice(pair.indexOf('/* showdown-reset:end */')),/CareerModeShowdownReset\?*\.?reset\b|\.reset\?\.\(/,'the pair never calls reset() directly');
   const ball=clearBody(read('js/clubDrawStep.js'),'ball-game');
   assert.match(ball,/^if\(root\.getActiveScreenName\?\.\(\)==="clubWheelScreen"\)return "skip";/,'the Ball Game keeps an unsaved stop while the club wheel is up');
   const league=clearBody(read('js/leagueRouletteStep.js'),'league-roulette');
   assert.match(league,/^if\(root\.getActiveScreenName\?\.\(\)===SCREEN_ID\)return "skip";/);assert.match(league,/lrsFreshSync\(\);$/,'League Roulette forgets the old sync with its target');
   assert.match(clearBody(read('js/productionSharedLocalReconciliation.js'),'local-reconciliation'),/^if\(uiBusy\|\|previewInFlight\)return "skip";/);
-  ok('R7 review fixes: Career Start polls again only for a new Showdown; busy Ball Game, League Roulette and Local Reconciliation report skipped; League Roulette forgets its sync');
+  ok('R7 review fixes: no ended reset (so no repeat and no Career Start poll on Home); busy Ball Game, League Roulette and Local Reconciliation report skipped; League Roulette forgets its sync');
 }
 console.log(`r100 showdown reset contracts: ${passed} passed`);
