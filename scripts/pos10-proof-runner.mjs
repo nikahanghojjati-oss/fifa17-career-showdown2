@@ -42,6 +42,8 @@ const commands = {
   IDENTITY_SAFE_ANALYTICS_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/identity-safe-career-analytics-audit.cjs`,
   OFFLINE_BOUNDARY_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/offline-boundary-audit.cjs`,
   OFFLINE_CACHE_LIFECYCLE_BROWSER: `CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/offline-cache-lifecycle-v2-audit.cjs`,
+  // r100 B1: settings-layout-audit ran only in main-push chromium-stability; it is an L2 FULL proof now.
+  SETTINGS_LAYOUT_BROWSER: `CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/settings-layout-audit.cjs`,
   FULL_BROWSER_BUNDLE: `CMS_AUDIT_RUN="pos10-impact-full" npm run test:browser`
 };
 
