@@ -312,10 +312,12 @@
   // stop as long as the wait listener looks healthy, and "healthy" has no confirm window of its own (a cached copy ends it at
   // once, silence never does). So one late or lost delivery of the commit could hold CONFIRM SEASON back until the screen was
   // touched. During that wait the 15 s check keeps running and reads the commit from the server (readServerNext, so no copy the
-  // listener left behind is reused); the 3 s check stays held back. One light commit read per 15 s on the waiting phone, only
-  // while it waits; a delivery still wakes the screen at once.
+  // listener left behind is reused); the 3 s check stays held back. One light commit read per 15 s on the waiting phone for the
+  // first 3 minutes of the wait (FAST_POLL_WINDOW_MS), then one per 60 s (lead: ~19 reads in a 10-minute wait); a delivery still
+  // wakes the screen at once.
   function psscWaitCheckPath(){try{if(!psscWaitingKey())return "";const request=psscRequestContext();return request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`:"";}catch(_error){return "";}}
-  function psscWaitCheck(){const path=psscWaitCheckPath();if(!path||busy||root.document?.visibilityState==="hidden")return;try{root.CareerModeFirestoreBudget?.readServerNext?.(path);}catch(_error){}void psscTick();}
+  const WAIT_CHECK_SLOW_MS=60000;let waitCheckKey="",waitCheckSince=0,waitCheckLast=0;
+  function psscWaitCheck(){const path=psscWaitCheckPath();if(!path){waitCheckKey="";return;}if(busy||root.document?.visibilityState==="hidden")return;const key=psscWaitingKey(),now=Date.now();if(key!==waitCheckKey){waitCheckKey=key;waitCheckSince=now;waitCheckLast=0;}if(now-waitCheckSince>=FAST_POLL_WINDOW_MS&&now-waitCheckLast<WAIT_CHECK_SLOW_MS-1000)return;waitCheckLast=now;try{root.CareerModeFirestoreBudget?.readServerNext?.(path);}catch(_error){}void psscTick();}
   function psscFastTick(){psscWatchWait();psscRefreshWaitLine();if(psscWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!psscFastPollDue())return;void psscTick(true);}
   // r75: the 15 s check of the visible Season Commit screen reads the shared commit from the server (see Transfer).
   // r84: no commit exists before both results are published, so the fresh read starts then (before, it ran every check of the

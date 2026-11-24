@@ -171,9 +171,9 @@ async function check(label,fn){try{await fn();console.log(`PASS ${label}`);}catc
           const w=await screenWorld(screen,role,phase),watched=phase==="results"?RESULTS:COMMIT;
           // Phoenix r100 (B6's stall, lead thread): while playerTwo waits on the coordinator's commit, the 15 s check reads the
           // commit from the server even though the listener looks healthy (a silent listener must not hold CONFIRM SEASON back):
-          // one light read of the commit per 15 s (40 in ten minutes), plus the provider's own context check every 5 minutes (2 more
-          // reads), so at most 44. Every other healthy wait still reads nothing.
-          const waitCheck=phase==="commit"&&role==="playerTwo",idle=waitCheck?44:10;
+          // one light read of the commit per 15 s for 3 minutes, then per 60 s (19 in ten minutes), plus the provider's own context
+          // check every 5 minutes (2 more reads), so at most 23. Every other healthy wait still reads nothing.
+          const waitCheck=phase==="commit"&&role==="playerTwo",idle=waitCheck?23:10;
           assert.equal(w.budget.stats().watching,watched,"this screen attaches the exact document awaited");
           assert.equal(w.budget.stats().watchHealthy,true,"first server snapshot establishes health");
           const before={...w.meter},calls=w.calls(),commitBefore=w.readsByPath.get(COMMIT)||0;await w.advance(600000);
@@ -181,9 +181,9 @@ async function check(label,fn){try{await fn();console.log(`PASS ${label}`);}catc
           console.log(`MEASURE ${screen}/${role}/${phase}: ${reads} reads / 10 min, ${w.meter.transactions-before.transactions} server transactions`);
           assert.ok(reads<=idle,`healthy wait read ${reads} documents; maximum ${idle}`);
           if(waitCheck){
-            assert.ok(reads>=39,`the 15 s wait check reads the commit while the listener looks healthy (${reads} reads)`);
+            assert.ok(reads>=18,`the wait check reads the commit while the listener looks healthy (${reads} reads)`);
             const commitReads=(w.readsByPath.get(COMMIT)||0)-commitBefore;
-            assert.ok(commitReads>=39&&commitReads<=41,`one commit read per 15 s (${commitReads})`);
+            assert.ok(commitReads>=18&&commitReads<=20,`one commit read per 15 s for 3 minutes, then per 60 s (${commitReads})`);
             assert.ok(reads-commitReads<=4,`the wait check reads little besides the commit (${reads-commitReads})`);
           }else{
             assert.equal(w.meter.transactions-before.transactions,0,"healthy wait never repeats a server transaction");
