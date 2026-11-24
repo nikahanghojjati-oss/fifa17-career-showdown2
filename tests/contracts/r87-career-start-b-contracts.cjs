@@ -120,4 +120,15 @@ check('B6 r97 the small heading is never hidden at the tightest step, and a grow
   assert.equal((js.match(/pcstReachReset\(\);/g)||[]).length,3,'reset at each layout (stage and fallback) and when the stage goes');
 });
 
+check('B7 r99 the fallback dismisses only the Club screen\'s own load notice',()=>{
+  const src=/function pcstDismissClubNotice\(\)\{[\s\S]*?\n  \}/.exec(js);assert.ok(src,'pcstDismissClubNotice is in the file');
+  const run=(text,v10Screen)=>{let clicked=0;const notice={textContent:text,querySelector:()=>({click:()=>{clicked+=1;}})};
+    const root={document:{getElementById:()=>notice,documentElement:{dataset:{v10Screen}}},getActiveScreenName:()=>v10Screen};
+    new Function('root','STAGE_HOST',`${src[0]};pcstDismissClubNotice();`)(root,'clubWheelScreen');return clicked;};
+  assert.equal(run('This screen could not load. Your career is safe. Try again.','clubWheelScreen'),1,'the Club screen failed to load: the notice that would cover RETRY goes');
+  assert.equal(run('This screen could not load. Your career is safe. Try again.','trophyRoom'),0,'another screen\'s failure notice stays readable');
+  assert.equal(run('This screen could not update. Your career is safe. Try again.','clubWheelScreen'),0,'a code exception on a screen change is never hidden');
+  assert.equal(run('Team V screen could not load. Your career is safe. Try again.','trophyRoom'),1,'the older Club-specific wording still goes');
+});
+
 console.log(`PASS r87 Career Start option B contracts: ${checks} checks`);
