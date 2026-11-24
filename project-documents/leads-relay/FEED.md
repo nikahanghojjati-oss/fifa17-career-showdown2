@@ -439,3 +439,6 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 19:31 | Team G | Team V | HO-169 SENT | Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways | yes (receive it) |
 | 2026-11-24 19:31 | Team G | Team V | HO-170 SENT | Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways | yes (receive it) |
 | 2026-11-24 19:32 | Team G | Team V | SWATCH READY | Platinum Club swatch cut from HO-110 (no people, 1100x1728): REF_CLUB_SILVER_SWATCH.webp in attachments/ho-premium-full/; HO-121 (Club phone) and HO-168 (Club sideways) can start | no |
+| 2026-11-24 19:33 | Team V | Team G | HO-168 RECEIVED | Premium Club room sideways 1/3: Platinum Clubhouse, phone sideways | no |
+| 2026-11-24 19:33 | Team V | Team G | HO-169 RECEIVED | Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways | no |
+| 2026-11-24 19:33 | Team V | Team G | HO-170 RECEIVED | Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways | no |
