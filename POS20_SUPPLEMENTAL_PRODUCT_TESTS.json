@@ -3518,6 +3518,20 @@
         "^tests/contracts/r99\\-clubhouse\\-themes\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r100-turning-points-contracts.cjs",
+      "patterns": [
+        "^js/turningPoints\\.js$",
+        "^js/seasonFinalV10\\.js$",
+        "^js/sharedHistoryConvergence\\.js$",
+        "^js/sharedCanonicalScoring\\.js$",
+        "^service\\-worker\\.js$",
+        "^tests/support/career\\-fixture\\-helpers\\.cjs$",
+        "^tests/support/active\\-showdown\\-fixtures\\.cjs$",
+        "^tests/contracts/r100\\-turning\\-points\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

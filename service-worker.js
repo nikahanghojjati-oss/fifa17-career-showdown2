@@ -337,6 +337,7 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/final-winner/app-strings.json",
     "visual-assets/v10_1/standings/app-strings.json",
     "js/seasonFinalV10.js",
+    "js/turningPoints.js",
     "visual-assets/v10_1/season-results/app.css",
     "js/v10Screens.js",
     "js/homeScreensV10.js",
@@ -432,7 +433,7 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // HO-097 rooms are images, runtime-cached like every other plate.
 // r99 adds the metal panel marble of the themed clubhouses (R99-01, 4 KB); their room plates are images,
 // runtime-cached like every other plate.
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js","css/r78-marble-tile-metal.webp"]);
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js","js/turningPoints.js","css/r78-marble-tile-metal.webp"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks

@@ -40,8 +40,20 @@
       const trophies={};
       for(const [role,m] of [["playerOne","daniel"],["playerTwo","nik"]]){const rec=p.managerRecords[role];if(!["championsLeagues","europaLeagues","leagueTitles","domesticCups","totalTrophies"].every(k=>number(rec[k])))return freeze(frame);trophies[m]={championsLeague:rec.championsLeagues,europaLeague:rec.europaLeagues,leagueTitles:rec.leagueTitles,domesticCups:rec.domesticCups,total:rec.totalTrophies};}
       frame.trophies=trophies;frame.status="ready";frame.message="";
+      // r100 Phoenix: Turning Points read the same verified history (no read, no write). Any failure leaves them out.
+      const turning=sfTurningPoints(p,frame);if(turning)frame.turningPoints=turning;
     }
     return freeze(frame);
+  }
+  // r100 Phoenix (B5): the three moments that decided the Showdown (js/turningPoints.js, a pure function over the verified
+  // history this frame was checked against). It sits beside the screen, never between two steps: if the module is missing or
+  // throws, or its record does not add up to the frame's totals, the Final Winner is drawn exactly as before.
+  function sfTurningPoints(p,frame){
+    try{
+      const api=root.CareerModeTurningPoints||(typeof module!=="undefined"&&module.exports&&typeof require==="function"?require("./turningPoints.js"):null);
+      const tp=typeof api?.turningPoints==="function"?api.turningPoints(p,{totals:frame.totals}):null;
+      return tp&&Array.isArray(tp.lines)&&tp.lines.length?tp:null;
+    }catch(_){return null;}
   }
   // r93 Golden Showdown screen (Nik 2026-11-14; R93-01 part A, plan gameplay/r93/GOLDEN_SHOWDOWN_PLAN.md). The rule is the one
   // the career screens use (js/careerScreenSeam.js goldenShowdownManagers, G1-G3): a finished 10-season Showdown, all 10
@@ -335,6 +347,8 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   // r86 Special Player chip (js/specialPlayerChip.js, loaded in each screen's prepare step so the chip is in the first frame).
   const sfChip=()=>typeof module!=="undefined"&&module.exports&&typeof require==="function"?require("./specialPlayerChip.js"):root.CareerModeSpecialPlayerChip;
   function sfSpecial(pick){try{const chip=sfChip(),sp=chip?pick(chip):null;return sp&&sp.daniel&&sp.nik?{daniel:sp.daniel,nik:sp.nik}:null;}catch(_){return null;}}
+  // r100 Turning Points: loaded with the Final Winner's other files, behind the loading screen; a failed load only leaves them out.
+  function sfEnsureTurning(){if(root.CareerModeTurningPoints||typeof root.loadRuntimeScript!=="function")return Promise.resolve(Boolean(root.CareerModeTurningPoints));return Promise.resolve().then(()=>root.loadRuntimeScript("turning-points","js/turningPoints.js",()=>Boolean(root.CareerModeTurningPoints))).then(()=>true,()=>false);}
   function sfEnsureChip(){return Promise.resolve().then(()=>root.loadRuntimeScript("special-player-chip","js/specialPlayerChip.js",()=>Boolean(root.CareerModeSpecialPlayerChip))).then(()=>root.CareerModeSpecialPlayerChip.ensure()).catch(()=>false);}
   function sfGoldenCounts(career){
     try{const seam=root.CareerModeCareerScreenSeam,rows=career?.history?.showdowns;if(typeof seam?.goldenShowdownCounts!=="function"||!Array.isArray(rows))return null;
@@ -523,6 +537,35 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     const season=host.querySelector(".v10SeasonStage");if(season)season.hidden=true;host.classList.add("v10FinalMode");
     root.FINAL_WINNER_ROOT=final;root.FINAL_WINNER_FIXTURES={strings:strings["final-winner"],frames:{LIVE:frame}};root.ShowdownFinalWinnerBoot();
     sfSackedMarks(final,frame);
+    sfTurningMount(final,frame);
+  }
+  // r100 Turning Points on the Final Winner's own results panel: a third column on desktop, a third tab (TURNING POINTS) next to
+  // SUMMARY and HONOURS on phones, a full-width row on the upright tablet. Words only from the frame's lines; nothing is added
+  // when there are none, and a failure takes back what it added.
+  function sfTurningMount(final,frame){
+    const tp=frame?.turningPoints,panel=final?.querySelector?.(".finalWinnerResultsPanel");
+    if(!tp||!Array.isArray(tp.lines)||!tp.lines.length||!panel)return;
+    const doc=root.document,added=[];
+    try{
+      const honoursTab=panel.querySelector("#finalWinnerTabHonours"),tabs=panel.querySelector(".finalWinnerPhoneTabs");
+      if(honoursTab&&tabs){
+        const input=doc.createElement("input");input.type="radio";input.name=honoursTab.name;input.id="finalWinnerTabTurning";input.className="finalWinnerTabInput";
+        honoursTab.after(input);added.push(input);
+        const label=doc.createElement("label");label.htmlFor="finalWinnerTabTurning";label.setAttribute("role","tab");label.setAttribute("aria-controls","finalWinnerTurningPoints");label.textContent="TURNING POINTS";
+        tabs.appendChild(label);added.push(label);
+      }
+      const section=doc.createElement("section");section.id="finalWinnerTurningPoints";section.className="finalWinnerTurning";section.setAttribute("aria-label","Turning points");
+      const head=doc.createElement("h3");head.className="finalWinnerTurningHead";head.textContent="TURNING POINTS";
+      const list=doc.createElement("ol");list.className="finalWinnerTurningList";
+      for(const line of tp.lines.slice(0,3)){
+        const item=doc.createElement("li");item.className="finalWinnerTurningLine";item.dataset.kind=String(line.kind||"");
+        const kicker=doc.createElement("b");kicker.className="finalWinnerTurningKicker";kicker.textContent=String(line.kicker||"");
+        const text=doc.createElement("span");text.className="finalWinnerTurningText";text.textContent=String(line.text||"");
+        item.append(kicker,text);list.appendChild(item);
+      }
+      section.append(head,list);(panel.querySelector(".finalWinnerHonours")||panel.lastElementChild)?.after(section);added.push(section);
+      panel.classList.add("v10HasTurning");
+    }catch(error){for(const node of added)node.remove();panel.classList.remove("v10HasTurning");fail(error);}
   }
   // r93 Golden Showdown screen (part A; Nik's card 2026-11-14 16:33 UTC: right BEFORE Final Winner). When the verified final
   // result is Golden it is drawn in place of the Final Winner, with one button, SEE FINAL WINNER, which draws the Final Winner
@@ -2189,6 +2232,58 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
 }
 /* short windows (1280x650, 1366x768): the plaque rides a little higher so it clears the two buttons */
+/* r100 Phoenix (B5): Turning Points on the Final Winner's results panel. Added only when the lines exist (panel.v10HasTurning).
+   Desktop: a third column beside SUMMARY and HONOURS inside the same gold frame (no new position, nothing over the faces or
+   the exits). Phones upright and sideways, and the upright tablet: a third tab, TURNING POINTS, beside SUMMARY and HONOURS.
+   Three ids, so these rules sit above the Final Winner's own phone and tablet rules. */
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerTurning { display:none; min-width:0; box-sizing:border-box; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerTurningHead { margin:0; padding:0; font:800 11px/1 var(--sd-font-condensed,sans-serif); letter-spacing:.16em; color:var(--sd-gold-300,#f2c45b); text-align:center; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerTurningList { display:grid; grid-auto-rows:minmax(0,1fr); margin:0; padding:0; list-style:none; min-height:0; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerTurningLine { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; column-gap:10px; min-width:0; margin:0; padding:0; border-top:1px solid #c49d4944; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerTurningKicker { font:800 10px/1.1 var(--sd-font-condensed,sans-serif); letter-spacing:.12em; color:var(--sd-gold-300,#f2c45b); white-space:nowrap; }
+#app #seasonEntry.v10FinalMode #stage-root .finalWinnerTurningText { min-width:0; font:600 12px/1.25 var(--sd-font-condensed,sans-serif); letter-spacing:.02em; color:#f3ead2; overflow-wrap:break-word; }
+@media (min-width:901px) and (min-height:501px) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning { grid-template-columns:31% minmax(0,.9fr) minmax(0,1.1fr); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerTurning {
+  display:grid; grid-template-rows:auto minmax(0,1fr); row-gap:calc(var(--fwu,10px)*.25); grid-row:1/-1; grid-column:3; overflow:hidden;
+  padding:calc(var(--fwu,10px)*.5) calc(var(--fwu,10px)*.8) calc(var(--fwu,10px)*.3); border-left:1px solid #b38d414d;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerTurningHead { font-size:max(8.5px,calc(var(--fwu,10px)*.73)); letter-spacing:.09em; padding-bottom:calc(var(--fwu,10px)*.25); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerTurningKicker { font-size:max(9px,calc(var(--fwu,10px)*.66)); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerTurningText { font-size:max(12px,calc(var(--fwu,10px)*.9)); line-height:1.2; }
+}
+/* the upright tablet shows SUMMARY and HONOURS side by side; with Turning Points it takes the phone's three tabs instead */
+@media (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning { grid-template-columns:minmax(0,1fr); grid-template-rows:48px minmax(0,1fr); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerTabInput { display:block; position:absolute; width:1px; height:1px; margin:0; opacity:0; clip-path:inset(50%); pointer-events:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerPhoneTabs { position:relative; z-index:3; display:grid; grid-row:1; grid-column:1; height:48px; border-bottom:1px solid #d9b64e; background:rgb(6 8 11 / .9); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerPhoneTabs label { display:flex; align-items:center; justify-content:center; min-width:0; min-height:44px; color:var(--sd-text-secondary,#cfc6b0); font:700 13px/1 var(--sd-font-condensed,sans-serif); border-bottom:2px solid transparent; cursor:pointer; user-select:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning :is(.finalWinnerMetaStrip,.finalWinnerHonours,.finalWinnerTurning) { grid-row:2; grid-column:1; border-right:0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning #finalWinnerTabSummary:checked~.finalWinnerPhoneTabs label[for="finalWinnerTabSummary"],
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning #finalWinnerTabHonours:checked~.finalWinnerPhoneTabs label[for="finalWinnerTabHonours"] {
+  color:var(--sd-gold-300,#f2c45b); border-bottom-color:var(--sd-gold-300,#f2c45b); background:linear-gradient(180deg,rgb(242 196 91 / .1),transparent);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning #finalWinnerTabSummary:checked~:is(.finalWinnerHonours,.finalWinnerTurning),
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning #finalWinnerTabHonours:checked~:is(.finalWinnerMetaStrip,.finalWinnerTurning) { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerTurningText { font-size:16px !important; }
+}
+/* phones upright and sideways, and the tablet above: three tabs across; TURNING POINTS takes the panel like SUMMARY and HONOURS */
+@media (max-width:760px), (min-width:640px) and (min-height:340px) and (max-height:500px) and (orientation:landscape),
+       (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerPhoneTabs { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel.v10HasTurning .finalWinnerPhoneTabs label { letter-spacing:.06em; text-align:center; line-height:1.1; padding:0 2px; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerPhoneTabs label[for="finalWinnerTabTurning"] {
+  color:var(--sd-gold-300,#f2c45b); border-bottom-color:var(--sd-gold-300,#f2c45b); background:linear-gradient(180deg,rgb(242 196 91 / .1),transparent);
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~:is(.finalWinnerMetaStrip,.finalWinnerHonours) { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerTurning {
+  display:grid; grid-template-rows:minmax(0,1fr); grid-column:1/-1; min-height:0; overflow:auto; padding:2px 12px 6px;
+ }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerTurning .finalWinnerTurningHead { display:none; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerTurning .finalWinnerTurningLine { grid-template-columns:minmax(0,1fr); align-content:center; row-gap:2px; padding:6px 0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerTurning .finalWinnerTurningLine:first-child { border-top:0; }
+ #app #seasonEntry.v10FinalMode #stage-root .finalWinnerResultsPanel #finalWinnerTabTurning:checked~.finalWinnerTurning .finalWinnerTurningText { font-size:13px; }
+}
 /* r73 polish. Review: the projected overall bar is sized min(620px,92vw) by the old app sheet, wider than the review
    panel on phones, so it stops at the panel's inner edge; the review lines take the game's condensed face instead of the
    system font; the review heading is focused on open for screen readers only (tabindex -1), so it draws no ring. */
@@ -3051,7 +3146,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     if(installed)return true;installed=true;
     root.SEASON_RESULTS_APP=true;root.FINAL_WINNER_APP=true;root.STANDINGS_APP=true;
     const loader=root.CareerModeV10Screens.install();
-    loader.register("seasonEntry",{auto:false,hold:true,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner"),sfEnsureChip()]),frame:seasonScreenSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>{finalSeasonReview=false;restoreFinal(host);})});
+    loader.register("seasonEntry",{auto:false,hold:true,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner"),sfEnsureChip(),sfEnsureTurning()]),frame:seasonScreenSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>{finalSeasonReview=false;restoreFinal(host);})});
     loader.register("standings",{auto:false,hold:true,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules(),sfEnsureChip()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
     installStandingsRoute();installChampionBack();
     // r87 Touchline Gazette: its own page after Season Results (CONTINUE TO SEASON N+1) and after Final Winner (its exits).
