@@ -30,6 +30,10 @@ Tickets HO-104..HO-160 (Silver = Platinum 104-122, Metallic Black 123-141, Premi
 3. Work in batches as paintings land. One PR per clubhouse is fine, or one per batch. Open each PR as ready (not draft) only when its base is current. If it stacks on another open PR, open it as a draft until that one merges.
 4. Platinum: no player-visible text may say "Silver". The key `silver`, CSS hooks and `*_SILVER_*` file names stay.
 
+## Lead answers (2026-11-24 19:15 UTC)
+- **SIDEWAYS plates** derive in code from that room's painted DESKTOP plate (same landscape composition). They never keep the recoloured copy.
+- **League Roulette men-free phone rooms** get their own Team V tickets (one per clubhouse, filed by the lead). Build them when DONE lands, the same way as CLUB/LOADING (no mask). No recoloured copy ships in 3.0 where a painted room exists.
+
 ## Never
 - Never change a Wooden plate or any face pixel. Never dim, tint or blur the managers. Never let anything cover a face, a hand or a button.
 - Never add startup bytes. The startup gzip budget is nearly full, and plates load as images.
@@ -38,7 +42,7 @@ Tickets HO-104..HO-160 (Silver = Platinum 104-122, Metallic Black 123-141, Premi
 
 ## Proof on each PR's exact head
 - Showdown Gate green, including the clubhouse flash run: `npm run test:v10-flash:clubhouses` locally (Wooden, Platinum, Metallic Black, Premium Matte Black; needs `CMS_CHROMIUM_MULTI_CONTEXT=1`, as the npm script sets).
-- Face check: compare the masked face region of every phone plate with its Wooden plate. **0 changed pixels on the composite before WebP encoding.** After encoding, report the decoded mean difference inside the mask; the pilot measured under 1 level, so keep it there.
+- Face check: compare the masked face region of every phone plate with its Wooden plate. **0 changed pixels on the composite before WebP encoding.** After encoding, small files win: keep each phone plate within 10% of its Wooden plate, and allow a decoded mean difference inside the mask of up to 3 levels (of 255), as long as a 4x zoomed side-by-side of each face against Wooden shows no visible change. Put those crops in the PR. (Lead decision 2026-11-24 19:15 UTC.)
 - Phone gallery: 390x844 upright and 844x390 sideways for every changed room in each clubhouse, plus one desktop 1920x866 shot to show nothing changed there. Put the shots in the PR body (or a link), so Nik can judge them.
 - File sizes: each new phone plate within 10% of the Wooden plate it replaces.
 - `@codex review` on the PR. If Codex is out of usage, say so, and the lead gets a Claude review.
