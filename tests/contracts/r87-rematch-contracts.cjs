@@ -108,7 +108,7 @@ async function identityRun({managerId='daniel',decision,call,seasons=3}){
   for(const bad of [0,2,'x',null,11]){const r=await identityRun({decision:fresh,call:'rematch',seasons:bad});assert.equal(r.out,null);assert.equal(r.calls.which,0);assert.equal(r.calls.prepare.length,0);}
   // a Home START after a rematch is a plain START again (the length is handed over once)
   const src=read('js/onlinePlayerIdentity.js');
-  assert.match(src,/async function openCanonicalStart\(\)\{if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;const rematch=rematchSeasonsNext;rematchSeasonsNext=null;/);
+  assert.match(src,/async function openCanonicalStart\(options=\{\}\)\{if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;const rematch=rematchSeasonsNext;rematchSeasonsNext=null;/);
   assert.match(src,/if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;rematchSeasonsNext=seasons;return openCanonicalStart\(\);\}/,'a tap during a running START joins it and hands nothing over');
   ok('R3','Daniel\'s REMATCH = Home START\'s reads, then the seasons screen with the closed length picked (new or after the close); Nik and bad lengths start nothing');
 }

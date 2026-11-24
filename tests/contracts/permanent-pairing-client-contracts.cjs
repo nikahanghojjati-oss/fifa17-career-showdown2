@@ -758,7 +758,7 @@ await check("PC9 Codex #903: Nik's once-per-page record recovery (mirror of Dani
 
 await check("PC7 the identity sidecar reads the partner record once per load and the note only on Home shown / tab visible, never in render",async()=>{
   const identity=read("js/onlinePlayerIdentity.js");
-  assert.match(identity,/pair\.render\?\.\(\);void afterPersistentPairSync\(pair\);return pairState;/);
+  assert.match(identity,/pair\.render\?\.\(\);watchHomeTilePair\(\);void afterPersistentPairSync\(pair\);return pairState;/);
   assert.match(identity,/async function afterPersistentPairSync\(pair\)\{try\{if\(typeof pair\?\.readPartnerRecord!=="function"\)return;await pair\.readPartnerRecord\(\);await pair\.ensurePartnerRecord\?\.\(\);\/\*[^*]*\*\/if\(state\.managerId!=="daniel"\)await refreshJoinNoteOnHome\(\);/,"after the one partner read: the once-per-page record recovery (both managers), then Nik's note");
   assert.match(identity,/await root\.CareerModePersistentNikDanielPair\.readPartnerRecord\(\);\/\*[^*]*\*\/await refreshJoinNoteOnHome\(\{fresh:true\}\);/,"Nik's explicit tap reads the note fresh");
   assert.match(identity,/await pair\.readJoinNote\(\{fresh:options\.fresh===true\}\)/);
