@@ -11,12 +11,12 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T20:55:48Z", "by": "V", "status": "SENT", "note": ""}],
+ "evidence": ["PR #1612 (watchdog concurrency group) + 33 queued runs cancelled 2026-11-24 21:05 UTC"],
+ "log": [{"at": "2026-11-24T20:55:48Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-24T21:09:25Z", "by": "G", "status": "DONE", "note": "Team G cancelled 33 queued runs (32 Physio + 1 throwaway proof run). #1612 stops the Physio loop once it is on main. Remaining slowness: only ~3 jobs run at once on a public repo, likely GitHub-side."}],
  "from_session": "session_01GU43Q53Fzq53MAmD6ztZ5f",
- "sessions": {"V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
+ "sessions": {"V": "session_01GU43Q53Fzq53MAmD6ztZ5f", "G": "session_01GU43Q4PsDHyDroMYHA1MEH"}
 }
 ```
 
