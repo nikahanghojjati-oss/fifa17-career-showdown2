@@ -142,3 +142,20 @@ test("B6-10: the resend expires 10 minutes after the tap; later Home still offer
   await tapTile(nik);
   assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);assert.equal(nik.redeems,1);
 });
+
+test("B6-13: leaving Home while the tap's own check is still in flight also forgets it (Codex #1598): no join made by itself later",async()=>{
+  const {w,rid,nik,net}=await nikOnJoin();
+  // Hold the tap's first Firestore call until Nik has left Home and the network is gone; it then fails "unavailable".
+  const inner=w.sdk.runTransaction;let release=null,held=false;const gate=new Promise(resolve=>{release=resolve;});
+  w.sdk.runTransaction=async(...args)=>{if(!held){held=true;await gate;}return inner(...args);};
+  const flow=nik.tap();
+  for(let i=0;i<200&&!held;i++)await Promise.resolve();
+  assert.equal(held,true,"the tap's check is in flight");
+  await nik.screen("history");await net.down();release();await flow;await quiet(nik);
+  await nik.screen("mainMenu");
+  await net.up();await w.advance(10*1000);await quiet(nik);await w.advance(5*MINUTE);await quiet(nik);
+  assert.equal(nik.redeems,0,"the tap was forgotten when Nik left Home: nothing joins by itself");assert.notEqual(nik.pair.getState().connectionState,"active");
+  assert.equal(nik.fallbacks,0,"and no paste-a-code box opens over the screen he went to");
+  await tapTile(nik);
+  assert.equal(nik.pair.getState().connectionState,"active");assert.equal(nik.pair.getState().rivalryId,rid);assert.equal(nik.redeems,1,"his own tap on Home joins as before");
+});
