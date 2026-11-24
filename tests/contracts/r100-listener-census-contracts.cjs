@@ -75,6 +75,9 @@ for(const [file,counts] of Object.entries(found)){
   assert.equal(entry.sites.length,entry.listeners,`${file}: one census line per listener`);
 }
 for(const file of Object.keys(CENSUS))assert.ok(found[file],`${file} is in the census but has no listener any more: take it out`);
+// Every listener asks for metadata changes: without includeMetadataChanges the SDK never delivers the fromCache flip, so the
+// bridges above would never start and a dead stream would stay silent.
+for(const file of Object.keys(found)){const source=code(read(file));for(const match of source.matchAll(/\.onSnapshot\s*\(/g)){const call=source.slice(match.index,match.index+240);assert.match(call,/^\.onSnapshot\s*\([^,]+(?:\([^)]*\)[^,]*)?,\s*\{includeMetadataChanges:true\}/,`${file}: the listener at ${call.slice(0,80)} asks for includeMetadataChanges:true`);}}
 ok(`census: ${Object.values(found).reduce((n,c)=>n+c.listeners,0)} listeners in ${Object.keys(found).length} files, every one listed`);
 
 // C2: each line's bridge or reason is still true in the code, and its proof contract is there.

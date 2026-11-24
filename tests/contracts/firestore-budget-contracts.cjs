@@ -699,7 +699,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const onSnapshot=(ref,options,next,error)=>{listeners.active+=1;listeners.attached+=1;listeners.max=Math.max(listeners.max,listeners.active);let open=true;
       const off=world.sdk.onSnapshot(ref,options,snapshot=>{if(!open)return;serverReads[ref.path]=(serverReads[ref.path]||0)+1;next({...snapshot,data:()=>revive(snapshot.data())});},error);
       return()=>{if(open){open=false;listeners.active-=1;}off();};};
-    const sdk={...world.sdk,onSnapshot,doc:(_db,...segments)=>({path:segments.join("/")}),serverTimestamp:()=>({__serverTimestamp:true}),Timestamp:{fromMillis:ms=>({__ms:ms})},runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{const snapshot=await transaction.get(ref);serverReads[ref.path]=(serverReads[ref.path]||0)+1;return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)}))};
+    const sdk={...world.sdk,onSnapshot,doc:(_db,...segments)=>({path:segments.join("/")}),serverTimestamp:()=>({__serverTimestamp:true}),Timestamp:{fromMillis:ms=>({__ms:ms})},runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{const snapshot=await transaction.get(ref);if(world.readGate)await world.readGate;serverReads[ref.path]=(serverReads[ref.path]||0)+1;return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)}))};
     // No Connect Players screen on Home: the panel render finds nothing and draws nothing.
     Object.assign(world.document,{querySelector:()=>null,getElementById:()=>null,querySelectorAll:()=>[],dispatchEvent:()=>true});
     Object.assign(sandbox,{TextEncoder,crypto:require("node:crypto").webcrypto,
@@ -817,6 +817,15 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     {const w=await stallWorld();const [listener]=w.world.activeListeners();const next=listener.next;w.world.cacheDeliver(w.inbox);await w.world.advance(1000);
       next({exists:()=>false,data:()=>undefined,metadata:{fromCache:false,hasPendingWrites:false},ref:{path:w.inbox}});
       const before=w.reads();await w.world.advance(5*60000);assert.equal(w.reads(),before,"a live listener again: no bridge reads");}
+    // Codex #1588: a bridge read still out when the listener comes back with Daniel's note never takes the JOIN away
+    {const w=await stallWorld();const [listener]=w.world.activeListeners();const next=listener.next;w.stall();let release;w.world.readGate=new Promise(resolve=>{release=resolve;});
+      await w.world.advance(31000);  // the bridge read has read the old (empty) inbox and is held before it returns
+      const rivalryId=`pair_3${"5".repeat(63)}`,data={schemaVersion:1,rivalryId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:w.world.clock.now},expiresAt:{__ms:w.world.clock.now+20*60000}};
+      w.world.server.set(w.inbox,{data,version:99});
+      next({exists:()=>true,data:()=>JSON.parse(JSON.stringify(data)),metadata:{fromCache:false,hasPendingWrites:false},ref:{path:w.inbox}});
+      assert.equal(w.pair.getJoinNoteState(w.world.clock.now).note?.rivalryId,rivalryId,"the listener's copy shows JOIN");
+      w.world.readGate=null;release();await w.world.advance(1000);
+      assert.equal(w.pair.getJoinNoteState(w.world.clock.now).note?.rivalryId,rivalryId,"the older bridge read landing after it keeps JOIN");}
     // offline: the bridge waits for the browser to come back
     {const w=await stallWorld();w.world.sandbox.navigator={onLine:false};w.stall();const before=w.reads();await w.world.advance(3*60000);
       assert.equal(w.reads(),before,"offline: no bridge read");w.world.sandbox.navigator={onLine:true};await w.world.advance(2000);assert.equal(w.reads()-before,1,"back online: one read at once");}
