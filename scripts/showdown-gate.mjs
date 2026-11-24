@@ -49,6 +49,8 @@ export function l5Decision({event,baseRef,files}){
 // two-phone Showdown per job), so on a PR into a release branch it runs only when something the game or those journeys
 // load changed. The rule is fail-closed: a PR skips L7 only when EVERY changed file is plainly outside the game (notes,
 // the Story, planning files, Node-only contracts and their JSON registers). Anything else, including a new folder, runs it.
+// tapkill (B3's W3 tap-memory proof) runs in the full matrix and by hand; it joins the Gate with W3 (#1592), whose PR adds it here
+// and to the l7-ironman matrix, since without tap memory its six shared taps cannot land by themselves.
 export const L7_LEGS=Object.freeze(['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','swap','skew','double','listener','lostreply','ce2pg']);
 export const L7_SKIP_ONLY=Object.freeze([
   '*.md','**/*.md','chronicle/**','project-documents/**','authority-history/**','docs/**','audit/**','gameplay/**','owner-sns/**',

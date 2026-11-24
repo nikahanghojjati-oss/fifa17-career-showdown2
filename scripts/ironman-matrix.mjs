@@ -37,7 +37,7 @@ export function collect(dir){
 
 // Who a red point goes to (r100 Phoenix owners, lead 2026-11-24). Anything not listed goes to the lead to route.
 export const OWNERS=Object.freeze({
-  fault:{swap:'B3 (fresh-device resume)'},
+  fault:{swap:'B3 (fresh-device resume)',tapkill:'B3 (fresh-device resume)'},
   point:{'home-join':'B6 (JOIN survives offline)','unpair':'B6 (JOIN survives offline)','league-ball':'B2 (Ironman weak points)','chamber-kick':'B2 (Ironman weak points)','terminal-close':'B2 (Ironman weak points)'}
 });
 export function ownerOf({leg,point}){return OWNERS.fault[leg]||OWNERS.point[point]||'lead (route it)';}

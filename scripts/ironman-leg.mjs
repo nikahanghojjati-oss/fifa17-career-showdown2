@@ -15,7 +15,7 @@ import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-export const FIJ_FAULTS=Object.freeze(['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','swap','skew','double','listener','lostreply']);
+export const FIJ_FAULTS=Object.freeze(['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','swap','skew','double','listener','lostreply','tapkill']);
 export const LEGS=Object.freeze([...FIJ_FAULTS,'ce2pg']);
 export const SEASONS=Object.freeze([3,10]);
 
