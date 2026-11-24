@@ -12,8 +12,8 @@ const SOURCE=fs.readFileSync(path.join(root,"js/sharedTapMemory.js"),"utf8");
 const R="pair_"+"a".repeat(64),OTHER="pair_"+"b".repeat(64),OP="season_op_"+"1".repeat(32);
 let passed=0;const ok=(id,label)=>{passed++;console.log(`ok   ${id} ${label}`);};
 
-function load({clock=1_800_000_000_000,failWrites=false}={}){
-  const storage=new Map();const t={now:clock};
+function load({clock=1_800_000_000_000,failWrites=false,storage=new Map()}={}){
+  const t={now:clock};
   const ctx={console,JSON,Object,Array,Number,String,Boolean,Error,Map,Set,
     Date:{now:()=>t.now},
     readStorageValue:key=>storage.has(key)?storage.get(key):null,
@@ -24,15 +24,19 @@ function load({clock=1_800_000_000_000,failWrites=false}={}){
 }
 const scope=(over={})=>({rivalryId:R,season:3,step:"seasonPublish",role:"playerTwo",...over});
 
-// T1: note, then one resend while pending, never a second.
+// T1: note, then (after a reload: a new page on the same storage) one resend while pending, never a second.
 {
-  const {api}=load();
+  const {api,storage}=load();
   assert.equal(api.note(scope(),{operationId:OP,payload:{leaguePosition:1}}),true);
-  const first=api.takeForResend(scope(),{pending:true,live:{rivalryId:R,season:3}});
-  assert.equal(first.operationId,OP);assert.deepEqual(first.payload,{leaguePosition:1});
-  assert.equal(api.takeForResend(scope(),{pending:true,live:{rivalryId:R,season:3}}),null);
-  assert.equal(api.peek(scope()),null);
-  ok("T1","a noted tap is handed out once while pending, never twice");
+  assert.equal(api.takeForResend(scope(),{pending:true,live:{rivalryId:R,season:3}}),null,"never on the page that made the tap");
+  assert.ok(api.peek(scope()),"the note waits for a reload");
+  const {api:reloaded}=load({storage});
+  const first=reloaded.takeForResend(scope(),{pending:true,live:{rivalryId:R,season:3}});
+  assert.equal(first.operationId,OP);assert.equal(JSON.stringify(first.payload),JSON.stringify({leaguePosition:1}));
+  assert.equal(reloaded.takeForResend(scope(),{pending:true,live:{rivalryId:R,season:3}}),null);
+  const {api:again}=load({storage});assert.equal(again.takeForResend(scope(),{pending:true,live:{rivalryId:R,season:3}}),null,"a second reload never sends it a third time");
+  assert.equal(again.peek(scope()),null);
+  ok("T1","a noted tap is handed out once after a reload while pending, never on its own page, never twice");
 }
 // T2: the shared record shows the write landed: the note is dropped, nothing is sent.
 {

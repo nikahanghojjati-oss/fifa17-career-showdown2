@@ -171,7 +171,7 @@
     return true;
   }
   function pssrContinental(id){const match=/^(p[12])(ChampionsLeague|EuropaLeague)$/.exec(String(id||""));if(!match||pssrField(id)?.checked!==true)return;const other=pssrField(`${match[1]}${match[2]==="ChampionsLeague"?"EuropaLeague":"ChampionsLeague"}`);if(other?.checked)other.checked=false;}
-  function pssrDraftChange(event){const role=view?.managerRole,id=event?.target?.id;pssrContinental(id);if(!role||!id||!pssrSharedMarker()||!pssrDraftFieldIds(role).includes(id))return;pssrDraftSave();}
+  function pssrDraftChange(event){const role=view?.managerRole,id=event?.target?.id;pssrContinental(id);if(!role||!id||!pssrSharedMarker()||!pssrDraftFieldIds(role).includes(id))return;pssrTapClear(pssrRequestContext(),role);pssrDraftSave();}
   function pssrCard(role){const input=pssrField(`${pssrRolePrefix(role)}LeaguePosition`);return input&&input.closest?input.closest(".seasonResultCard"):null;}
   function pssrSetError(message=""){
     const value=String(message||"");
@@ -216,7 +216,7 @@
     if(!view||!view.managerRole)return false;if(view.ownResult){root.CareerModeSeasonFinalV10?.reviewFinalSeason?.();pssrRender();return true;}
     try{const result=pssrReadForm(view.managerRole);draft={contextKey,seasonNumber:view.seasonNumber,managerRole:view.managerRole,result,fingerprint:pssrFingerprint(result),operationId:null,baseRevision:null};pssrSetError("");pssrRenderReview(result);return true;}catch(error){draft=null;pssrSetError(error.message||error.code);return false;}
   }
-  function pssrEdit(){if(busy||view?.ownResult)return false;draft=null;pssrSetError("");pssrEntryMode(false);pssrRenderEntry();const input=pssrField(`${pssrRolePrefix(view.managerRole)}LeaguePosition`);input?.focus?.({preventScroll:true});return true;}
+  function pssrEdit(){if(busy||view?.ownResult)return false;pssrTapClear(pssrRequestContext(),view?.managerRole);draft=null;pssrSetError("");pssrEntryMode(false);pssrRenderEntry();const input=pssrField(`${pssrRolePrefix(view.managerRole)}LeaguePosition`);input?.focus?.({preventScroll:true});return true;}
   // Prime Pack: the manager who named this season's masked Icon first publishes his result with primePack:N, N = 4, 3, 2 or 1
   // by the stage of his right guess (the Rules accept it only when the round record names him and its server time gives N). Read once from the round record. A read that fails stops the publish (TRY AGAIN),
   // so a won point is never dropped by a bad connection.
@@ -277,7 +277,9 @@
         }
       });
     }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Confirming your season result failed.");pssrReport("Could not confirm your season result",error);}else failed=PSSR_BACK_FAILED;return false;}
-    finally{busy=false;if(pssrContextMatches(request))pssrRender();else pssrRenderWhenBack(request,failed);}
+    // Phoenix W3: this attempt got its answer on this page (landed, refused or failed): the note is done. It only ever serves a
+    // tab that died before the answer, so an edit after a failed publish can never be replaced by the old result.
+    finally{pssrTapClear(request,publishRole);busy=false;if(pssrContextMatches(request))pssrRender();else pssrRenderWhenBack(request,failed);}
   }
   // W1 (2.4.0): a publish can end while this phone has no connection and its Season Results context is not readable (the
   // Showdown's setup is unavailable offline). It then had nothing to draw on: the screen kept the CONFIRM button it drew as

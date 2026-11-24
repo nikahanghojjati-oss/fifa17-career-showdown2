@@ -11,6 +11,8 @@
 //   W4 Career Start (I STARTED AT): the same operationId once, only while he is not acknowledged and Career Start is not ready
 //   W5 a closed or ended Showdown forgets its notes (Terminal Close); no helper loaded means no note and no resend (as before)
 //   W6 no Firestore offline cache and no new read: the resend runs after the screen's own read, the write path is the tap's own
+//   W7 a tap answered on the page that made it (landed, refused or failed) is never sent again; an edit of what he tapped drops
+//      the note, so a reload after "publish failed, EDIT MY RESULT, change it" never sends the old result (lead review, #1592)
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
 const ROOT=path.resolve(__dirname,"../..");
 const read=p=>fs.readFileSync(path.join(ROOT,p),"utf8");
@@ -153,6 +155,44 @@ const req=season=>({key:`k${season}`,rivalryId:R,seasonNumber:season});
     assert.equal(page(storage).api.resend({...open,state:{phase:"WAITING_FOR_ACKNOWLEDGEMENTS",acknowledgedRoles:["playerOne","playerTwo"]}}),false,"acknowledged: never again");
     const s2=new Map();page(s2).api.note(OP);assert.equal(page(s2).api.resend({...open,state:{phase:"CAREER_START_READY",acknowledgedRoles:[]}}),false);}
   ok("W4","Career Start: I STARTED AT goes again once with the same operationId, only while he is not acknowledged");
+}
+// ---- W7 answered on its page, or edited: never sent again
+{
+  const sr=read("js/productionSharedSeasonResults.js"),tw=read("js/productionSharedTransferChallenge.js"),sc=read("js/productionSharedSeasonCommit.js"),cs=read("js/productionSharedCareerStart.js");
+  assert.match(sr,/finally\{pssrTapClear\(request,publishRole\);busy=false;/,"Season Results: any answer on this page ends the note");
+  assert.match(tw,/finally\{if\(PSTC_TAP_STEP\[method\]\)pstcTapClear\(method,request,tapRole\);busy=false;/,"Transfer War: any answer on this page ends the note");
+  assert.match(sc,/finally\{psscTapClear\(kind,request\);busy=false;/,"Season Commit: any answer on this page ends the note");
+  assert.match(cs,/\}finally\{\n[^\n]*\n\s*pcstTapClear\(pcstSetupState\(\)\);/,"Career Start: any answer on this page ends the note");
+  assert.match(body(sr,"pssrEdit"),/pssrTapClear\(pssrRequestContext\(\),view\?\.managerRole\);draft=null;/,"EDIT MY RESULT drops the note");
+  // Season Results, run for real: publish noted, the tab stays alive and the publish fails, he taps EDIT MY RESULT and changes
+  // his position, the tab reloads before he publishes again: nothing is sent behind him.
+  const fns=["pssrTapMemory","pssrTapMemoryLoad","pssrTapScope","pssrTapNote","pssrTapClear","pssrTapResend","pssrEdit","pssrDraftChange"].map(n=>body(sr,n)).join("\n");
+  const page=(storage,view)=>{
+    const sb=sandbox(storage,{sent:[],saved:[]});
+    vm.runInNewContext(`let tapMemoryLoading=null,tapResendKey="",busy=false,contextKey="k3",draft={};let view=${JSON.stringify(view)};
+      function pssrLoadScript(){return Promise.resolve(root.CareerModeSharedTapMemory);}function pssrContextMatches(){return true;}
+      function pssrRequestContext(){return {key:"k3",rivalryId:"${R}",seasonNumber:3};}function pssrSharedMarker(){return true;}
+      function pssrContinental(){}function pssrDraftFieldIds(){return ["p2LeaguePosition"];}function pssrDraftSave(){saved.push(1);}
+      function pssrSetError(){}function pssrEntryMode(){}function pssrRenderEntry(){}function pssrField(){return null;}function pssrRolePrefix(){return "p2";}
+      async function pssrPublish(note){sent.push(note);}
+      ${fns}
+      globalThis.api={note:(r,role,id,res)=>pssrTapNote(r,role,id,res),clear:(r,role)=>pssrTapClear(r,role),resend:r=>pssrTapResend(r),edit:()=>pssrEdit(),change:id=>pssrDraftChange({target:{id}})};`,sb);
+    return sb;
+  };
+  const OP="season_result_op_"+"7".repeat(32),RES={leaguePosition:2,leaguePoints:80};
+  const open={managerRole:"playerTwo",ownResult:null,state:{phase:"COLLECTING"}};
+  {const storage=new Map(),a=page(storage,open);a.api.note(req(3),"playerTwo",OP,RES);a.api.clear(req(3),"playerTwo");
+    const b=page(storage,open);assert.equal(b.api.resend(req(3)),false,"failed on a live page: the reload sends nothing");await b.flush();assert.equal(b.sent.length,0);}
+  {const storage=new Map(),a=page(storage,open);a.api.note(req(3),"playerTwo",OP,RES);assert.equal(a.api.edit(),true);
+    const b=page(storage,open);assert.equal(b.api.resend(req(3)),false,"EDIT MY RESULT then reload: the old result is never sent");}
+  {const storage=new Map(),a=page(storage,open);a.api.note(req(3),"playerTwo",OP,RES);a.api.change("p2LeaguePosition");assert.equal(a.saved.length,1);
+    const b=page(storage,open);assert.equal(b.api.resend(req(3)),false,"a changed field then reload: the old result is never sent");}
+  {const storage=new Map(),a=page(storage,open);a.api.note(req(3),"playerTwo",OP,RES);
+    const b=page(storage,open);assert.equal(b.api.resend(req(3)),true,"the tab died before any answer: sent once");}
+  // Transfer War: a changed guess or signing field drops that lock's note.
+  assert.match(body(tw,"pstcGuessDraftChange"),/pstcTapClear\("lockGuesses",pstcRequestContext\(\),role\);pstcSaveGuessDraft\(role\);/,"a changed guess drops the LOCK MY GUESSES note");
+  assert.match(body(tw,"pstcSigningDraftChange"),/\{pstcTapClear\("lockSignings",pstcRequestContext\(\),role\);pstcSaveSigningDraft\(role\);\}/,"a changed signing drops the LOCK MY SIGNINGS note");
+  ok("W7","a tap answered on its own page, or edited after, is never sent again; only a tab that died mid-write resends");
 }
 // ---- W5/W6
 {

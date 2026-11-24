@@ -233,7 +233,8 @@
         try{await psscRefreshNow(request);}catch(_error){psscRefresh().catch(()=>{});}return true;
       });
     }catch(error){if(psscContextMatches(request)){pendingErrorKind=stage;if(stage==="acknowledge"&&view&&contextKey===request.key&&!view.committed)view={...view,committed:true};psscSetError(error.message||error.code||"Confirming the season failed.");psscReport("Could not confirm the season",error);if(kind==="commit"&&stage==="acknowledge")void psscRefresh().catch(()=>{});}return false;}
-    finally{busy=false;if(psscContextMatches(request))psscRender();}
+    // Phoenix W3: the attempt got its answer on this page, so the note is done (it only serves a tab that died before it).
+    finally{psscTapClear(kind,request);busy=false;if(psscContextMatches(request))psscRender();}
   }
   function psscCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!psscSharedMarker())return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;const request=psscRequestContext();if(!request||contextKey!==request.key||!view||!psscResultsReady(request)){void psscRefresh().catch(()=>{});return;}void psscMutate(view.committed?"acknowledge":"commit");}
   // All three waiting screens share the same season authority; navigation does not end the partner wait.

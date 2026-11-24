@@ -287,7 +287,8 @@
         }
       });
     }catch(error){if(method==="advanceExpiredWindow")pstcExpiryPermissionRefused(error,request);if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The Transfer War did not update. Try again."));pstcReport("Could not update the Transfer War",error);}return false;}
-    finally{busy=false;if(pstcRequestMatches(request))pstcRender();}
+    // Phoenix W3: the attempt got its answer on this page, so the note is done (it only serves a tab that died before it).
+    finally{if(PSTC_TAP_STEP[method])pstcTapClear(method,request,tapRole);busy=false;if(pstcRequestMatches(request))pstcRender();}
   }
   // ---- F2-08: a lock that is saved while its verdicts are still loading ----
   let savedPendingKey="",savedRetryTimer=null,savedRetryCount=0;
@@ -556,7 +557,7 @@
     const target=event?.target,role=view?.managerRole;if(!target?.id||!role||!pstcSharedMarker())return;
     const prefix=pstcGuessPrefix(role);if(!new RegExp(`^${prefix}Guess[1-3](Type|Value)$`).test(target.id))return;
     if(view?.state?.phase!=="GUESS_ENTRY"||view.state.guessLockedRoles?.includes(role))return;
-    pstcSaveGuessDraft(role);
+    pstcTapClear("lockGuesses",pstcRequestContext(),role);pstcSaveGuessDraft(role);
     // The selector fills its canonical id in its own input handler, which runs after this capture handler; save once more when it has.
     if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(view?.managerRole===role)pstcSaveGuessDraft(role);},0);
   }
@@ -1102,7 +1103,7 @@
   // Red team R87-B-04: a second tab of the same signing entry saved a newer draft. This tab takes it over before its next
   // autosave, so a stale form never writes over the newer signings (the browser sends this event only to the other tabs).
   function pstcSigningDraftStorage(event){const role=view?.managerRole,key=role&&pstcSigningDraftKey(role);if(!key||event?.key!==key||!event.newValue)return;if(view?.state?.phase!=="SIGNING_ENTRY"||view.state.signingLockedRoles?.includes(role)||pstcReplayPhase())return;pstcRestoreSigningDraft(role,view.ownInputs||null,true);}
-  function pstcSigningDraftChange(event){const target=event?.target,role=view?.managerRole;if(!target?.id||!role||!target.id.startsWith(`${pstcRolePrefix(role)}Signing`))return;if(view?.state?.phase==="SIGNING_ENTRY"&&!view.state.signingLockedRoles?.includes(role))pstcSaveSigningDraft(role);}
+  function pstcSigningDraftChange(event){const target=event?.target,role=view?.managerRole;if(!target?.id||!role||!target.id.startsWith(`${pstcRolePrefix(role)}Signing`))return;if(view?.state?.phase==="SIGNING_ENTRY"&&!view.state.signingLockedRoles?.includes(role)){pstcTapClear("lockSignings",pstcRequestContext(),role);pstcSaveSigningDraft(role);}}
   function pstcTimerTick(){if(!pstcSharedMarker()||pstcReplayPhase()||pstcExpiryPaused())return;const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))pstcRenderTimer();}
   function pstcVisibilityChange(){
     if(!pstcSharedMarker())return;

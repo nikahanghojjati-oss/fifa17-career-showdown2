@@ -172,6 +172,8 @@
       pcstReport("Could not confirm Career Start",error);
       return false;
     }finally{
+      // Phoenix W3: the attempt got its answer on this page, so the note is done (it only serves a tab that died before it).
+      pcstTapClear(pcstSetupState());
       busy=false;pcstRender();if(pcstReady())pcstScheduleAutoContinue();
     }
   }
