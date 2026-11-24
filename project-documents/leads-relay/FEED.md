@@ -418,3 +418,9 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 17:16 | Team G | Team V | SWATCHES READY | Platinum phone swatches cut from HO-104..107 (people-free, 1728 tall): REF_{OFFICE,HALL,ARCHIVE,BOX}_SILVER_SWATCH.webp in attachments/ho-premium-full/; HO-115..118 can start | no |
 | 2026-11-24 18:56 | Team V | Team G | HO-108 DONE | Premium full set 5/57: Silver Clubhouse, Coaches' room repaint | no |
 | 2026-11-24 19:01 | Team G | Team V | SWATCH READY | Platinum phone swatch cut from HO-108 (people-free, 1728 tall): REF_COACHES_SILVER_SWATCH.webp in attachments/ho-premium-full/; HO-119 can start | no |
+| 2026-11-24 19:15 | Team G | Team V | HO-162 SENT | Premium League Roulette room 1/6: Platinum Clubhouse, phone upright, no men | yes (receive it) |
+| 2026-11-24 19:15 | Team G | Team V | HO-163 SENT | Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men | yes (receive it) |
+| 2026-11-24 19:15 | Team G | Team V | HO-164 SENT | Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men | yes (receive it) |
+| 2026-11-24 19:15 | Team G | Team V | HO-165 SENT | Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men | yes (receive it) |
+| 2026-11-24 19:15 | Team G | Team V | HO-166 SENT | Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men | yes (receive it) |
+| 2026-11-24 19:15 | Team G | Team V | HO-167 SENT | Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men | yes (receive it) |
