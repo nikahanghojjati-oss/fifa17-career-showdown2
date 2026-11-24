@@ -265,7 +265,9 @@ function watchStatusLine(){
   if(line){phoenix.armed=false;phoenix.timer=null;rise(line);return;}
   if(typeof root.setTimeout==="function")phoenix.timer=root.setTimeout(watchStatusLine,250);
 }
-const PHOENIX_SVG='<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><defs><linearGradient id="phoenixRiseGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1b8"/><stop offset=".45" stop-color="#e8c25a"/><stop offset="1" stop-color="#a8761e"/></linearGradient></defs><g fill="url(#phoenixRiseGold)"><path d="M31 29C25 21 17 16 6 6c4 10 7 17 13 23-6-2-10-2-16-4 6 7 14 11 23 11z"/><path d="M33 29c6-8 14-13 25-23-4 10-7 17-13 23 6-2 10-2 16-4-6 7-14 11-23 11z"/><path d="M32 21c3 4 4 10 2 18l-2 7-2-7c-2-8-1-14 2-18z"/><circle cx="32" cy="17.5" r="3.2"/><path d="M32 43c-2 6-6 10-11 15 6-1 9-3 11-6 2 3 5 5 11 6-5-5-9-9-11-15z"/></g></svg>';
+// A phoenix in flight: raised wings with flight feathers, a crested head in profile, five flame plumes for a tail; gold that
+// burns brightest at the heart. One small inline SVG (no file, no font).
+const PHOENIX_SVG='<svg viewBox="0 0 96 72" width="100%" height="100%" aria-hidden="true" focusable="false"><defs><radialGradient id="phoenixRiseGold" gradientUnits="userSpaceOnUse" cx="48" cy="28" r="52"><stop offset="0" stop-color="#fff6cf"/><stop offset=".3" stop-color="#f6d777"/><stop offset=".62" stop-color="#e2a83c"/><stop offset="1" stop-color="#b8661c"/></radialGradient></defs><g fill="url(#phoenixRiseGold)"><path d="M46 36C40 25 27 13 3 3c6 4 10 8 12 12-5-1-8-2-11-4 4 5 9 8 14 10-5 1-9 0-12-1 5 5 11 7 17 8-4 1-8 1-11 1 7 4 14 5 20 5-3 1-5 2-8 2 7 3 14 3 19 1-3 0-5 1-6 2 4 1 8 0 12-3z"/><path d="M50 36C56 25 69 13 93 3c-6 4-10 8-12 12 5-1 8-2 11-4-4 5-9 8-14 10 5 1 9 0 12-1-5 5-11 7-17 8 4 1 8 1 11 1-7 4-14 5-20 5 3 1 5 2 8 2-7 3-14 3-19 1 3 0 5 1 6 2-4 1-8 0-12-3z"/><path d="M48 49c-5-3-6-10-5-16 1-6 4-10 4-14 0-3-2-5-2-8 0-4 3-6 7-5 2 0 4 2 5 3l5 1-5 2c-1 3-3 5-4 8-1 4 0 9 1 13 1 6 0 12-6 16z"/><path d="M47 8c-3-3-7-4-11-3 3 1 5 2 6 4-3-1-7 0-9 2 3-1 7-1 9 1-2 0-4 1-5 3 3-2 7-2 10-1z"/><path d="M47 44c-1 8 0 14 3 20 1 3 0 5-2 8 6-3 7-8 5-13-2-5-3-10-2-16z"/><path d="M46 44c-5 6-12 9-15 16-2 4 0 8 3 9-1-4 0-7 3-9 5-3 9-8 11-14z"/><path d="M50 44c5 6 12 9 15 16 2 4 0 8-3 9 1-4 0-7-3-9-5-3-9-8-11-14z"/><path d="M45 44c-6 6-13 9-20 10-3 0-5 2-5 5 2-2 4-3 7-3 8-1 14-6 18-12z"/><path d="M51 44c6 6 13 9 20 10 3 0 5 2 5 5-2-2-4-3-7-3-8-1-14-6-18-12z"/></g><circle cx="51.5" cy="10" r=".9" fill="#5a3208"/></svg>';
 // How far the bird may travel: its whole path (glow included) stays inside the window and clear of every button, link, field
 // and the music player around the chip. With no room it rises in place (a fade and a small grow).
 const RISE_CLEAR=["button","a[href]","[role=\"button\"]","input","select","textarea","audio","video","[class*=\"music\" i]"].join(",");
@@ -288,11 +290,11 @@ function rise(line){
   try{document.documentElement.dataset.phoenixRose=String(phoenix.rose);}catch(_error){}
   try{
     const reduced=typeof root.isReducedMotionPreferred==="function"?Boolean(root.isReducedMotionPreferred()):Boolean(root.matchMedia&&root.matchMedia("(prefers-reduced-motion: reduce)").matches);
-    const size=Math.round(Math.max(22,Math.min(40,line.box.height*1.2)));
+    const size=Math.round(Math.max(24,Math.min(44,line.box.height*1.3))),wide=Math.round(size*4/3);  // the drawing is 4:3, wings spread
     const bird=document.createElement("span");
     bird.className="phoenixRise";bird.setAttribute("aria-hidden","true");bird.innerHTML=PHOENIX_SVG;
-    Object.assign(bird.style,{position:"fixed",left:`${Math.round(line.box.left+line.box.width/2-size/2)}px`,top:`${Math.round(line.box.top+line.box.height/2-size/2)}px`,
-      width:`${size}px`,height:`${size}px`,pointerEvents:"none",zIndex:"2147483000",opacity:"0",filter:"drop-shadow(0 0 6px rgba(240,200,90,.75))",contain:"strict"});
+    Object.assign(bird.style,{position:"fixed",left:`${Math.round(line.box.left+line.box.width/2-wide/2)}px`,top:`${Math.round(line.box.top+line.box.height/2-size/2)}px`,
+      width:`${wide}px`,height:`${size}px`,pointerEvents:"none",zIndex:"2147483000",opacity:"0",filter:"drop-shadow(0 0 6px rgba(240,200,90,.75))",contain:"strict"});
     document.body.appendChild(bird);
     const room=riseRoom(line.chip,bird.getBoundingClientRect(),size);
     const frames=reduced?[{opacity:0},{opacity:1,offset:.3},{opacity:1,offset:.7},{opacity:0}]:
