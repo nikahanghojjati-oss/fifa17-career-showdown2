@@ -162,18 +162,25 @@
   // leaves it for Home once and says so; History keeps it as Ended early. Phase names stay (DELETED).
   // 2.4.0: the Squad Management stage (#sqStage) sits over the game screens, so it is taken down first, also when Home already
   // shows under it; its open screen ends with no write (js/squadSheetStep.js end()).
-  function ptcLeaveEndedShowdown(rivalryId){
+  // Phoenix r100 (B2, twotabs end-showdown): the notice shows once per ended Showdown on this page, whichever path leaves it.
+  // leaveEnded(rivalryId) is Journey Entry's path: a CONTINUE tapped on Home as END SHOWDOWN landed had found Home showing at
+  // that moment (so nothing left it), then opened the ended Showdown's Career Start. Journey Entry calls it only after Terminal
+  // Close itself holds the rivalry DELETED (a server read); it leaves for Home even when Home shows under the entry's layers.
+  const endedNoticeShown=new Set();
+  function ptcEndedNotice(rivalryId){const id=String(rivalryId||"");if(endedNoticeShown.has(id))return;endedNoticeShown.add(id);root.showAppNotice?.("This Showdown was ended for both players. Legacy keeps it as Ended early.","info",8000);}
+  function ptcLeaveEnded(rivalryId){const held=ptcCurrentState();if(!held||held.phase!=="DELETED"||!rivalryId||held.rivalryId!==rivalryId)return false;ptcLeaveEndedShowdown(rivalryId,true);return true;}
+  function ptcLeaveEndedShowdown(rivalryId,fromEntry=false){
     // #1449 the Squad stage; E1 (2.4.0, Fable re-check 2) the Chamber Men stage, the roulette's panel and stage and the Prime
     // Pack takeover: each run on screen for this Showdown ends at once (no write after it) and its stage goes, so the notice
     // below and Home are never covered.
     for(const step of ["CareerModeSquadSheetStep","CareerModeChamberMenStep","CareerModeRosterRouletteStep","CareerModeIconGuessStep"])try{root[step]?.end?.(rivalryId);}catch(_error){}
     try{
       const home=root.document?.getElementById("mainMenu");
-      if(home&&!home.classList.contains("hidden"))return;
+      if(home&&!home.classList.contains("hidden")&&!fromEntry)return;
       root.stopTransferTimerLoop?.();root.resetTransientSelectionOperations?.();root.resetNavigationState?.();
       if(typeof root.showScreen==="function")root.showScreen("mainMenu",false);else void root.navigateTo?.("mainMenu",{addToHistory:false});
       root.refreshMainMenuExperience?.();
-      root.showAppNotice?.("This Showdown was ended for both players. Legacy keeps it as Ended early.","info",8000);
+      ptcEndedNotice(rivalryId);
     }catch(_error){}
   }
   function ptcClear(){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
@@ -421,6 +428,6 @@
     contractVersion:1,feature:"ssjr-production-shared-terminal-close",productionEnabled:true,runtimeRevision:"1.9.1-r18",pollIntervalMs:POLL_MS,
     requiresFinalReconciliation:true,requiresExactActiveSessionToClose:true,sameWitnessRetry:true,terminalReadAfterReload:true,terminalSessionResurrection:false,
     canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,
-    install:ptcInstall,refresh:ptcRefresh,reportUnlessClosed:ptcReportUnlessClosed,close:ptcClose,retry:ptcRetry,getState:ptcCurrentState,isBusy:()=>busy
+    install:ptcInstall,refresh:ptcRefresh,reportUnlessClosed:ptcReportUnlessClosed,close:ptcClose,retry:ptcRetry,getState:ptcCurrentState,isBusy:()=>busy,leaveEnded:ptcLeaveEnded
   });
 });

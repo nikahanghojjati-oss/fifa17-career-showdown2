@@ -111,7 +111,7 @@ assert.match(guard,/routesCareerStartAfterConfirmedSetup:true/,'guard diagnostic
 
 const entry=fs.readFileSync(path.resolve('js/productionSharedJourneyEntry.js'),'utf8');
 assert.match(entry,/snapshot&&snapshot\.ready===true&&snapshot\.setup&&snapshot\.setup\.phase==="SHOWDOWN_CONFIRMED"&&snapshot\.setup\.revision===6/,'resume entry must resolve exact confirmed Shared Setup before choosing a route');
-assert.match(entry,/if\(confirmed\)\{await openCareerStart\(\);applyLocalDrawLock\(\);return true;\}/,'confirmed Shared Setup must resume directly into Career Start instead of replaying league/club setup');
+assert.match(entry,/if\(confirmed\)\{await openCareerStart\(\);if\(await leaveIfEnded\(confirmed,false\)\)return true;applyLocalDrawLock\(\);return true;\}/,'confirmed Shared Setup must resume directly into Career Start instead of replaying league/club setup');
 assert.match(entry,/"CONTINUE CAREER"/,'The normal resume surface must use the single-product Continue Career language.');
 assert.doesNotMatch(entry,/confirmed\?"CONTINUE TO CAREER START":"CONTINUE TO LEAGUE WHEEL"|CONTINUE TO LEAGUE WHEEL/,'Routing must not depend on retired player-facing engineering labels.');
 assert.match(entry,/confirmedSetupResumesAtCareerStart:true/,'entry diagnostics must expose direct confirmed-setup Career Start resume');

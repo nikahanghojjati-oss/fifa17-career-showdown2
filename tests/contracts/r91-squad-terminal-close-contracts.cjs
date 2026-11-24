@@ -20,7 +20,8 @@ const read=file=>fs.readFileSync(path.join(ROOT,file),"utf8");
 let passed=0;const ok=label=>{passed+=1;console.log(`ok ${passed} ${label}`);};
 
 const tcSource=read("js/productionSharedTerminalClose.js");
-const leaveMatch=/\n  function ptcLeaveEndedShowdown\([^)]*\)\{[\s\S]*?\n  \}\n/.exec(tcSource);
+// Phoenix r100 (B2): the leave shares its once-only notice (endedNoticeShown, ptcEndedNotice) with Journey Entry's leaveEnded.
+const leaveMatch=/\n  const endedNoticeShown=new Set\(\);[\s\S]*?\n  function ptcLeaveEndedShowdown\([^)]*\)\{[\s\S]*?\n  \}\n/.exec(tcSource);
 assert.ok(leaveMatch,"Terminal Close keeps its leave-for-Home function");
 
 const RID="pair_"+"a".repeat(64),OTHER="pair_"+"b".repeat(64);

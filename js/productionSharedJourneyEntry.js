@@ -543,18 +543,46 @@
     if(NOT_CHAMPION_SCREENS.has(root.getActiveScreenName?.())||(careerStart&&!careerStart.classList.contains("hidden")))void openClosedShowdown();
     else if(closed===enteringRivalryId)championAfterEntryClosed(closed,root.CareerModePersistentNikDanielPair?.getState?.()||null);
   }
+  // Phoenix r100 (B2, twotabs end-showdown, Gate seed 2540913475): CONTINUE tapped on Home just as the other phone's END
+  // SHOWDOWN landed. Terminal Close had seen the Showdown DELETED (ended early) while Home showed, so it left nothing; the
+  // resume found no season to continue, showdownClosedNow counts only a finished (CLOSED) Showdown, and Career Start opened for
+  // the ended Showdown with nothing to take it away. Before (and right after) Career Start, an ended-early Showdown goes Home:
+  // only when Terminal Close holds this Setup's rivalry DELETED from its own read. That read is made here only when Career Start
+  // would be wrong or doubtful: this save already played a season, or the pair says this rivalry closed (the pair is never the
+  // answer, only the reason to ask). A fresh Showdown's first Career Start reads nothing more. A finished (CLOSED) Showdown
+  // keeps its Champion path above; History, Legacy and the totals are untouched (routing only).
+  function endedHere(rivalryId){try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();return Boolean(validRivalry(rivalryId)&&t&&t.phase==="DELETED"&&t.rivalryId===rivalryId);}catch(_error){return false;}}
+  async function leaveIfEnded(confirmed,mayRead){
+    const rivalryId=String(confirmed?.rivalryId||"");if(!validRivalry(rivalryId))return false;
+    let ended=endedHere(rivalryId);
+    if(!ended&&mayRead){
+      let doubt=localSeasonPlayed();try{doubt=doubt||pairSaysClosed(root.CareerModePersistentNikDanielPair?.getState?.(),rivalryId);}catch(_error){}
+      if(doubt){try{const close=await loadScript("ssjr-production-terminal-close","js/productionSharedTerminalClose.js",()=>root.CareerModeProductionSharedTerminalClose);close.install?.();await close.refresh();}catch(_error){}ended=endedHere(rivalryId);}
+    }
+    if(!ended)return false;
+    closePanel();try{root.CareerModeProductionSharedCareerStart?.closePanel?.();}catch(_error){}
+    try{if(root.CareerModeProductionSharedTerminalClose?.leaveEnded?.(rivalryId))return true;}catch(_error){}
+    if(typeof root.navigateTo==="function")await root.navigateTo("mainMenu",{addToHistory:false});
+    return true;
+  }
   async function openSharedExperience(){
-    closePanel();
+    closePanel();let confirmed=null;
     try{
       await ensureSaveAuthority();
-      const confirmed=await confirmedSetupSnapshot();
+      confirmed=await confirmedSetupSnapshot();
       if(confirmed&&await resumeAcceptedSeason()){applyLocalDrawLock();return true;}
       if(await showdownClosedNow()){await openClosedShowdown();return true;}
-      if(confirmed){await openCareerStart();applyLocalDrawLock();return true;}
+      if(confirmed&&await leaveIfEnded(confirmed,true))return true;
+      if(confirmed){await openCareerStart();if(await leaveIfEnded(confirmed,false))return true;applyLocalDrawLock();return true;}
       await loadScript("ssjr-polished-presentation","js/productionSharedShowdownPresentation.js",()=>root.CareerModeProductionSharedShowdownPresentation);
       const presentation=root.CareerModeProductionSharedShowdownPresentation;if(!presentation||typeof presentation.activate!=="function")throw new Error("Showdown presentation is unavailable.");
       await presentation.activate();applyLocalDrawLock();return true;
-    }catch(error){report("Could not enter the Showdown",error);await openPanel({routeToRemote:false});return false;}
+    }catch(error){
+      // An entry that failed because its Showdown was ended under it (the resume's reads or Career Start's own read hit the
+      // closed rivalry) goes Home too, instead of GET READY over the ended Showdown's Career Start.
+      try{if(confirmed&&await leaveIfEnded(confirmed,true))return true;}catch(_error){}
+      report("Could not enter the Showdown",error);await openPanel({routeToRemote:false});return false;
+    }
   }
   function remoteBoundToAuthority(remote,account,pairing,rivalry){return Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&rivalry&&rivalry.rivalryId&&remote.rivalryId===rivalry.rivalryId&&account&&account.accountId&&remote.accountId===account.accountId&&pairing&&pairing.deviceId&&remote.deviceId===pairing.deviceId&&Number.isFinite(remote.expiresAtEpochMs)&&Date.now()<remote.expiresAtEpochMs);}
   async function statusSnapshot(){
