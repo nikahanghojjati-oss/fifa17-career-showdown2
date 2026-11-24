@@ -128,11 +128,12 @@ jobs:
       - name: Seal (data/pos1m-seal.json) and merged failure memory (tests/pos1m/memory.json, cap 200)
         env:
           REPLAYS_OK: ${{ needs.planted.outputs.replays || 'false' }}
+          STORIES: ${{ inputs.stories }}
         run: |
           mkdir -p pos1m-reports pos1m-seal
           find pos1m-in -name 'ring1-shard-*.json' -exec cp {} pos1m-reports/ \;
           set +e
-          node tests/pos1m/seal.cjs --reports pos1m-reports --planted pos1m-in/pos1m-planted/planted.json --replays-ok "$REPLAYS_OK" --memory pos1m-in --out pos1m-seal/pos1m-seal.json | tee pos1m-seal/seal.txt
+          node tests/pos1m/seal.cjs --reports pos1m-reports --shards 20 --expect-stories "$STORIES" --planted pos1m-in/pos1m-planted/planted.json --replays-ok "$REPLAYS_OK" --memory pos1m-in --out pos1m-seal/pos1m-seal.json | tee pos1m-seal/seal.txt
           code=${PIPESTATUS[0]}
           cp tests/pos1m/memory.json pos1m-seal/memory.json
           mkdir -p pos1m-seal/replays && find pos1m-in -path '*/replays/*.json' -exec cp {} pos1m-seal/replays/ \;
