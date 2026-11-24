@@ -3526,6 +3526,15 @@
         "^tests/contracts/r100\\-showdown\\-reset\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r100-w8-step-listener-contracts.cjs",
+      "patterns": [
+        "^js/chamberMenStep\\.js$",
+        "^js/iconGuessStep\\.js$",
+        "^tests/contracts/r100\\-w8\\-step\\-listener\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }

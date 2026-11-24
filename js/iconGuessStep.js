@@ -133,7 +133,13 @@
     const api=await igsSnapshotApi(io),ref=igsRef(io,ctx.season);
     if(api){
       const listenRef=api===io.sdk?ref:api.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,igsSeasonId(ctx.season));
-      return api.onSnapshot(listenRef,{includeMetadataChanges:true},snap=>{if(snap.metadata?.hasPendingWrites||snap.metadata?.fromCache)return;onData(snap.exists()?snap.data():null);},onError);
+      // Phoenix W8 (r100): a listener whose stream is down goes quiet (the SDK only marks its copy fromCache): B1's listener fault
+      // (#1579) left a shootout waiting on the rival's kick for good. While the copy is from cache, the record is read from the
+      // server every POLL_MS (one billed read each) until the listener is back with a server copy; then the reads stop at once.
+      let stopped=false,live=true,bridging=false;
+      const bridge=async()=>{if(bridging)return;bridging=true;try{while(!stopped&&!live){await igsWait(POLL_MS);if(stopped||live)break;try{const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped)onData(data);}catch(_error){}}}finally{bridging=false;}};
+      const off=api.onSnapshot(listenRef,{includeMetadataChanges:true},snap=>{if(stopped)return;if(snap.metadata?.fromCache){live=false;void bridge();return;}live=true;if(snap.metadata?.hasPendingWrites)return;onData(snap.exists()?snap.data():null);},onError);
+      return ()=>{stopped=true;try{off();}catch(_error){}};
     }
     let stopped=false;
     const poll=async()=>{while(!stopped){try{const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped)onData(data);}catch(error){if(!stopped)onError(error);return;}await igsWait(POLL_MS);}};
