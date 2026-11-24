@@ -73,6 +73,14 @@ export function l7Seed(headSha){return sha(headSha)?Number.parseInt(headSha.slic
 export const l7Lane=leg=>`L7-${leg}`;
 export const isL7=lane=>typeof lane==='string'&&lane.startsWith('L7-');
 const l7Proof=leg=>`IRONMAN_${leg.toUpperCase()}`;
+// L8 POS1M Ring 1 (Phoenix B4 + B1): 20,000 seeded two-manager stories against the stand-in Rules model on every PR, 3 shard
+// jobs (every 3rd seed each), plus the planted-bug proof in each shard job (the engine must still catch every planted bug; it is short). Node only,
+// no emulator, no browser: it always runs (no skip, nothing to verify). The 50,000 and million runs stay manual (B4).
+export const L8_SHARDS=Object.freeze([1,2,3]);
+export const l8Lane=shard=>`L8-${shard}`;
+export const isL8=lane=>typeof lane==='string'&&lane.startsWith('L8-');
+// The lane argument a matrix job passes: its matrix value (L7-${{ matrix.leg }}, L8-${{ matrix.shard }}).
+export const laneArgOf=lane=>isL7(lane)?'L7-${{ matrix.leg }}':isL8(lane)?'L8-${{ matrix.shard }}':lane;
 
 // Exactly the list `node tests/support/run-selected-product-contracts.cjs --all` executes.
 export function registeredContracts(){
@@ -97,6 +105,8 @@ const LANE_DEFS={
 };
 // L7 is one matrix job (l7-ironman); each leg is its own lane record (showdown-gate-lane-L7-<leg>), checked like a lane.
 for(const leg of L7_LEGS)LANE_DEFS[l7Lane(leg)]={job:'l7-ironman',name:'L7 Ironman',leg,groups:[],fixed:[l7Proof(leg)],steps:{ironman:[l7Proof(leg)]}};
+for(const shard of L8_SHARDS)LANE_DEFS[l8Lane(shard)]={job:'l8-pos1m',name:'L8 POS1M',shard,groups:[],fixed:['POS1M_STANDIN',`POS1M_RING1_${shard}`,'POS1M_PLANTED'],
+  steps:{pos1m_standin:['POS1M_STANDIN'],pos1m_ring1:[`POS1M_RING1_${shard}`],pos1m_planted:['POS1M_PLANTED']}};
 export const LANES=Object.freeze(LANE_DEFS);
 export const LANE_IDS=Object.freeze(Object.keys(LANES));
 export const ALL_GROUPS=Object.freeze([...new Set(Object.values(graph.proofBundleGroups))].sort());
