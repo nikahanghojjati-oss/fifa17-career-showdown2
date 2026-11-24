@@ -1,6 +1,6 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-24T16:00:52.572Z",
+  "at": "2026-11-24T16:00:55.579Z",
   "state": "BARKING",
   "checks": [
     {
@@ -43,7 +43,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "5122c6f57d7eac8e471cd06c45fb495c804e0984",
       "pr": 1576,
-      "queued_minutes": 114.5,
+      "queued_minutes": 114.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -52,7 +52,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "cf2f6280a27e9c16780dc72e35fb4cdbd1482202",
       "pr": 1579,
-      "queued_minutes": 108.4,
+      "queued_minutes": 108.5,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -70,7 +70,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "1956814f68827360e14d9347b49571e530e6c24a",
       "pr": 1598,
-      "queued_minutes": 96.3,
+      "queued_minutes": 96.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -97,7 +97,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "6e410bef0f13b310a179aaa65e60fe80c60076b8",
       "pr": 1603,
-      "queued_minutes": 74.8,
+      "queued_minutes": 74.9,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -124,7 +124,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "42c25d3bf18e69fd85ed011aa16806baec16aa3d",
       "pr": 1599,
-      "queued_minutes": 34.7,
+      "queued_minutes": 34.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -151,7 +151,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "9ba575760b73d71ee9eeacd2c6da2aa30e346b32",
       "pr": 1605,
-      "queued_minutes": 16.6,
+      "queued_minutes": 16.7,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -160,7 +160,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "9fb69f929f71d93858c357206139ae0d189baec0",
       "pr": 1606,
-      "queued_minutes": 1.7,
+      "queued_minutes": 1.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
