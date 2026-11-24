@@ -82,11 +82,13 @@ export function runLeg({leg,seed,seasons=3,epilogue=true,out=null,command=null,e
     if(attempt===1)moveAttempt(outDir,1);
   }
   const verdict=verdictOf(attempts.map(a=>a.exit));
-  const failures=leg==='ce2pg'?[]:failuresOf({leg,seed,seasons,outDir,epilogue});
+  // A FLAKY leg's points are the failed first attempt's (its reports moved to attempt-1/; Codex on #1579), so the finding
+  // names the point, its owner and its own replay; a FAIL leg's are the last attempt's.
+  const failures=leg==='ce2pg'?[]:verdict==='FLAKY'?failuresOf({leg,seed,seasons,outDir:path.join(outDir,'attempt-1'),epilogue}).map(f=>({...f,attempt:1})):failuresOf({leg,seed,seasons,outDir,epilogue});
   const record={schema:'ironman-leg/v1',leg,seed,seasons,epilogue:leg==='ce2pg'?null:epilogue,verdict,attempts,replay:plan.replay,failures,finishedAt:new Date().toISOString()};
   if(out){fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});fs.writeFileSync(out,`${JSON.stringify(record,null,2)}\n`);}
   const failureLines=failures.map(f=>`- ${f.point} (${f.phone}): ${f.checks.join(', ')}. Replay: \`${f.replay}\``);
-  if(env.GITHUB_STEP_SUMMARY)fs.appendFileSync(env.GITHUB_STEP_SUMMARY,`### Ironman ${leg}: ${verdict}\n\nSeed ${seed}, ${seasons} seasons${leg==='ce2pg'?'':epilogue?', with the epilogue':', epilogue off (no pairing, Home, Settings or sync file changed)'}, ${attempts.length} attempt(s).\n\nReplay: \`${plan.replay}\`\n\n${failureLines.length?`Failed points (last attempt):\n\n${failureLines.join('\n')}\n\n`:''}`);
+  if(env.GITHUB_STEP_SUMMARY)fs.appendFileSync(env.GITHUB_STEP_SUMMARY,`### Ironman ${leg}: ${verdict}\n\nSeed ${seed}, ${seasons} seasons${leg==='ce2pg'?'':epilogue?', with the epilogue':', epilogue off (no pairing, Home, Settings or sync file changed)'}, ${attempts.length} attempt(s).\n\nReplay: \`${plan.replay}\`\n\n${failureLines.length?`Failed points (${verdict==='FLAKY'?'first attempt, passed on the rerun':'last attempt'}):\n\n${failureLines.join('\n')}\n\n`:''}`);
   for(const line of failureLines)log(`IRONMAN ${leg} failed point ${line.slice(2)}`);
   if(verdict==='FLAKY')log(`::warning title=Ironman FLAKY ${leg}::passed only on the rerun with seed ${seed}. File it and fix it. Replay: ${plan.replay}`);
   if(verdict==='FAIL')log(`::error title=Ironman FAIL ${leg}::failed twice with seed ${seed}. Replay: ${plan.replay}`);

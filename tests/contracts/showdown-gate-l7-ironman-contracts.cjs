@@ -93,11 +93,12 @@ async function run(){
   try{
     const counter=path.join(tmp,'count'),outDir=path.join(tmp,'test-results');
     // The fake leg fails on the first call when FAIL_FIRST is set, always when FAIL_ALWAYS is set; it checks the seed it was given.
-    const fake=[process.execPath,'-e',`const fs=require('fs');const f=${JSON.stringify(counter)};const n=fs.existsSync(f)?Number(fs.readFileSync(f,'utf8')):0;fs.writeFileSync(f,String(n+1));fs.mkdirSync(${JSON.stringify(outDir)},{recursive:true});fs.writeFileSync(require('path').join(${JSON.stringify(outDir)},'fij-lock-alt.json'),'{"n":'+n+'}');if(process.env.FIJ_SEED!=='9')process.exit(3);process.exit(process.env.FAIL_ALWAYS||(process.env.FAIL_FIRST&&n===0)?1:0);`];
+    const fake=[process.execPath,'-e',`const fs=require('fs');const f=${JSON.stringify(counter)};const n=fs.existsSync(f)?Number(fs.readFileSync(f,'utf8')):0;fs.writeFileSync(f,String(n+1));fs.mkdirSync(${JSON.stringify(outDir)},{recursive:true});fs.writeFileSync(require('path').join(${JSON.stringify(outDir)},'fij-lock-alt.json'),JSON.stringify({n,tool:'FIJ',points:[{point:'home-join',phone:'nik',pass:n>0,checks:[{id:'pair.joined',pass:n>0}]}],endChecks:[]}));if(process.env.FIJ_SEED!=='9')process.exit(3);process.exit(process.env.FAIL_ALWAYS||(process.env.FAIL_FIRST&&n===0)?1:0);`];
     const quiet=()=>{};
     const runFake=env=>{fs.rmSync(counter,{force:true});fs.rmSync(outDir,{recursive:true,force:true});return L.runLeg({leg:'lock',seed:9,command:fake,env:{...process.env,GITHUB_STEP_SUMMARY:'',...env},log:quiet,outDir,out:path.join(tmp,'result.json')});};
     let r=runFake({});assert.equal(r.verdict,'PASS');assert.equal(r.attempts.length,1);
     r=runFake({FAIL_FIRST:'1'});assert.equal(r.verdict,'FLAKY');assert.equal(r.attempts.length,2);
+    assert.deepEqual(r.failures,[{point:'home-join',phone:'nik',checks:['pair.joined'],replay:'FIJ_FAULT=lock FIJ_SEED=9 FIJ_SEASONS=3 FIJ_ONLY=home-join node tests/browser/fault-injection-journey.cjs',attempt:1}],'a FLAKY leg keeps the failed first attempt\'s point and replay (Codex on #1579)');
     assert.equal(JSON.parse(fs.readFileSync(path.join(outDir,'attempt-1','fij-lock-alt.json'),'utf8')).n,0,'the first attempt\'s report is kept in attempt-1/');
     assert.equal(JSON.parse(fs.readFileSync(path.join(outDir,'fij-lock-alt.json'),'utf8')).n,1,'the rerun writes its own report');
     r=runFake({FAIL_ALWAYS:'1'});assert.equal(r.verdict,'FAIL');assert.equal(r.attempts.length,2,'a failure reruns exactly once');

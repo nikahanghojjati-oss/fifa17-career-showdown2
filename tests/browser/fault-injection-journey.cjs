@@ -865,7 +865,10 @@ async function main(){
     {const m=nik;await m.page.reload({waitUntil:"domcontentloaded"}).catch(()=>{});
       const shown=await m.page.waitForFunction(()=>{const f=document.getElementById("finalWinnerScreen");return Boolean(f&&getComputedStyle(f).visibility!=="hidden"&&f.getClientRects().length>0&&!f.classList.contains("hidden"));},null,{timeout:45000}).then(()=>true,()=>false);
       const why=shown?"":await m.page.evaluate(()=>{const p=window.CareerModePersistentNikDanielPair?.getState?.();return JSON.stringify({marker:localStorage.getItem("cms.championPending.v1"),live:sessionStorage.getItem("careerModeShowdown.liveGame.v1"),entry:Boolean(window.CareerModeProductionSharedJourneyEntry),letGo:window.careerModeTabResumeLetGo===true,pair:p&&{status:p.status,rid:p.rivalryId,closed:p.closedRivalryId,conn:p.connectionState},term:window.CareerModeProductionSharedTerminalClose?.getState?.()?.phase||null,showdown:typeof currentShowdown!=="undefined"&&currentShowdown?{sj:currentShowdown.sharedJourney,save:currentShowdown.identity?.saveId}:null,lib:window.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.()?.activeSaveId||null,closedSave:p?.closedProviderSaveId||null,rivalry:(()=>{const r=window.CareerModeSparkConnectedRivalry?.getState?.();return r&&{attached:r.attached,rid:r.rivalryId,init:r.initialized,binding:r.binding};})()});}).catch(e=>String(e));
-      endCheck("champion.reloadAfterClose",shown,`after a reload past the close ${m.user} is on ${await describe(m,m.page).catch(()=>"?")} ${why}`);}
+      // B3 / lead (2026-11-24): a fresh device (swap) holds no Champion marker; the fresh-device Champion (F3) is out of 3.0, so
+      // Home is right there (Codex on #1579).
+      if(!shown&&m.page.__fijSwapped&&await visible(m.page,"#mainMenu"))report.notes.push(`end: ${m.user}'s fresh device reloads to Home after the close (fresh-device Champion is out of 3.0)`);
+      else endCheck("champion.reloadAfterClose",shown,`after a reload past the close ${m.user} is on ${await describe(m,m.page).catch(()=>"?")} ${why}`);}
     const screens=[];
     for(const m of both){
       const txt=await m.page.evaluate(()=>document.getElementById("finalWinnerScreen")?.innerText.replace(/\s+/g," ")||"").catch(()=>"");screens.push(txt);
