@@ -518,12 +518,12 @@ async function clubReducedMotionPass(browser, report, pageErrors){
         await browser.close();
     }
     for(const s of skipped) console.log(`SKIP ${s[0]}: ${s[1]}`);
-    const reportPath = path.join(resultsDirectory, `${runLabel}-report.json`);
+    const reportPath = path.join(resultsDirectory, `${runLabel}${CLUBHOUSE ? `-${CLUBHOUSE}` : ""}-report.json`);
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
     console.log(`Report: ${reportPath}`);
     assert.deepEqual(pageErrors, [], `page errors: ${pageErrors.join(" | ")}`);
     assert.equal(report.problems.length, 0, `${report.problems.length} flash problem(s):\n${report.problems.map(p => `- ${p.label} [${p.screen}]: ${p.reason}`).join("\n")}`);
-    console.log("v10 screen flash audit: PASS");
+    console.log(`v10 screen flash audit: PASS (${CLUBHOUSE || "wooden"} clubhouse)`);
 })().catch(error => {
     console.error(error && error.stack || error);
     process.exit(1);

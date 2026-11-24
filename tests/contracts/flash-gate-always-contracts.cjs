@@ -40,5 +40,11 @@ const FLASH="V10_FLASH_BROWSER";
     assert.match(line,/required:\s*true/,`${name} journey stays required`);
     assert.doesNotMatch(line,/reportOnly/,`${name} journey blocks (no reportOnly)`);
   }
+  // r100 B7: the Gate runs the flash guard in every clubhouse (Wooden, Silver, Metallic Black, Premium Matte Black).
+  const runner=fs.readFileSync(path.join(ROOT,"scripts/pos10-proof-runner.mjs"),"utf8");
+  assert.match(runner,/V10_FLASH_BROWSER:\s*`[^`]*npm run test:v10-flash:clubhouses`/,"the Gate flash proof runs all four clubhouses");
+  const all=JSON.parse(fs.readFileSync(path.join(ROOT,"package.json"),"utf8")).scripts["test:v10-flash:clubhouses"]||"";
+  for(const t of ["silver","black","matte"]) assert.ok(all.includes(`CMS_CLUBHOUSE=${t} npm run test:v10-flash`),`flash runs in the ${t} clubhouse`);
+  assert.ok(/^npm run test:v10-flash &&/.test(all),"flash runs in the Wooden clubhouse first");
   console.log("PASS flash gate always contracts: V10_FLASH_BROWSER is routed to L3B on doc-only, operations-only, small-JS and full-seal routes; Season Results and Final Winner block.");
 })().catch(error=>{console.error(error&&error.stack||error);process.exitCode=1;});

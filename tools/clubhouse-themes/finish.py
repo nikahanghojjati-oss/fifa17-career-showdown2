@@ -160,6 +160,15 @@ def block():
         if L["bevel"]: out.append(rule(t, BEVELS, L["bevel"]))
         if L["second"]: out.append(rule(t, SECOND, L["second"]))
         if L["chrome"]: out.append(rule(t, CHROME, L["chrome"]))
+        # The re-metalling filter replaces the hover/press brightness the screen sheets set (filter is one property), so a
+        # pressed second button would give no feedback. Chain the same feedback on top of the clubhouse filter.
+        for group, key in ((SECOND, "second"), (CHROME, "chrome")):
+            f = re.search(r"filter:\s*([^;]+);", L[key] or "")
+            if not f: continue
+            hov = [g + ":hover:not(:disabled)" for g in group]
+            act = [g + ":active:not(:disabled)" for g in group]
+            out.append(rule(t, hov, f"filter: {f.group(1)} brightness(1.08);"))
+            out.append(rule(t, act, f"filter: {f.group(1)} brightness(.88);"))
         if L["title"]: out.append(rule(t, TITLES, L["title"]))
         if L["label"]: out.append(rule(t, LABELS, L["label"]))
         if L.get("wall"): out.append(rule(t, WALLTEXT, L["wall"]))

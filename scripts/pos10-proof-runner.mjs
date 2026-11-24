@@ -37,7 +37,7 @@ const commands = {
   LOADING_VISUAL: `CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="pos10-impact-visual" npm run test:loading-visual`,
   FOOTBALL_VISUAL: `CMS_AUDIT_RUN="pos10-impact-visual" npm run test:football-visual`,
   SHARED_POLISHED_PRESENTATION_BROWSER: `CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="pos10-impact-visual" node tests/browser/shared-showdown-polished-presentation-audit.cjs`,
-  V10_FLASH_BROWSER: `CMS_AUDIT_RUN="pos10-impact-visual" npm run test:v10-flash`,
+  V10_FLASH_BROWSER: `CMS_AUDIT_RUN="pos10-impact-visual" npm run test:v10-flash:clubhouses`,
   RUNTIME_BOUNDARY_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" npm run test:runtime-boundary`,
   IDENTITY_SAFE_ANALYTICS_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/identity-safe-career-analytics-audit.cjs`,
   OFFLINE_BOUNDARY_BROWSER: `CMS_AUDIT_RUN="pos10-impact-full" node tests/browser/offline-boundary-audit.cjs`,
