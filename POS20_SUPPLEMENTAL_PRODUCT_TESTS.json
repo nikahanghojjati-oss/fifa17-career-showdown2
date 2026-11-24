@@ -3544,7 +3544,6 @@
         "^CURRENT_PRODUCT_GUARDS\\.json$",
         "^SESSION_BOOTSTRAP\\.json$",
         "^POS10_PRODUCT_BASELINE\\.json$",
-        "^SHARED_SHOWDOWN_JOURNEY_MODEL\\.json$",
         "^AGENTS\\.md$",
         "^tests/contracts/r100\\-w4\\-remember\\-sign\\-in\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"

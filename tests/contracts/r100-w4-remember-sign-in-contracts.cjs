@@ -110,7 +110,7 @@ test("W4-6: the guards say the new truth and keep everything else: popup only, n
   assert.equal(guards.provider.googleAuthPersistence,NEW_GUARD);assert.equal(guards.provider.firestoreBrowserPersistence,"memory-only");
   assert.equal(bootstrap.runtime.googleAuthPersistence,NEW_GUARD);assert.equal(bootstrap.liveRuntime.googleAuthPersistence,NEW_GUARD);
   assert.match(JSON.stringify(baseline),new RegExp(NEW_GUARD));
-  assert.match(read("SHARED_SHOWDOWN_JOURNEY_MODEL.json"),/"googleAuth": "popup-only-remembered-on-device-no-extra-scopes"/);
+  /* SHARED_SHOWDOWN_JOURNEY_MODEL.json is the frozen SSJR-1.1 model (byte-identical, tests/contracts/ssjr2-physical-run-credit-contracts.cjs): history, not a live guard */
   assert.match(read("AGENTS.md"),/Google Auth popup-only, remembered on the device \(indexedDBLocalPersistence, or browserLocalPersistence without IndexedDB; SIGN OUT ends it\), without extra scopes\./);
   const runtimeSource=read("js/productionFirebaseRuntime.js"),controller=read("js/sparkConnectedAccount.js");
   assert.doesNotMatch(runtimeSource,/browserSessionPersistence|inMemoryPersistence|signInWithRedirect|persistentLocalCache|enableIndexedDbPersistence/);
