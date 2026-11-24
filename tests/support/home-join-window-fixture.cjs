@@ -48,7 +48,7 @@ function world(){
       CareerModeCareerStartMarker:{readCurrentMarker:async()=>({status:"ready"})},
       CareerModeShowdownModes:{install(){},resolve:async()=>({mode:"real"}),getView:()=>({mode:"real"})},
       CareerModeSparkConnectedRivalry:{attachRivalry:async()=>({ok:true}),initialize:async()=>true},
-      CareerModeProductionSharedJourneyEntry:{install(){},openPanel:async()=>{entered++;return true;}},
+      CareerModeProductionSharedJourneyEntry:{install(){},openPanel:async()=>{entered++;return true;},/* START's CONTINUE of the live Showdown (r100 B6-16) */followStartDecision:async decision=>{assert.equal(decision.action,"continue","only a live Showdown is continued here");entered++;return "continue";}},
       CareerModeConnectPlayersScreenV10:{open:async()=>{fallbacks++;},close(){}}
     };
     vm.createContext(s);const load=file=>vm.runInContext(fs.readFileSync(`${ROOT}/js/${file}`,"utf8"),s,{filename:file});
