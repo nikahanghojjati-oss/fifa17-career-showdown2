@@ -3526,6 +3526,14 @@
         "^tests/contracts/r100\\-fresh\\-device\\-resume\\-contracts\\.cjs$",
         "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
       ]
+    },
+    {
+      "path": "tests/contracts/r100-fresh-device-champion-contracts.cjs",
+      "patterns": [
+        "^js/(productionSharedJourneyEntry|productionSharedTerminalClose|sparkTerminalClose)\\.js$",
+        "^tests/contracts/r100\\-fresh\\-device\\-champion\\-contracts\\.cjs$",
+        "^POS20_SUPPLEMENTAL_PRODUCT_TESTS\\.json$"
+      ]
     }
   ]
 }
