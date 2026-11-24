@@ -122,7 +122,7 @@
   // r87 shared reads meter: the season's ACKNOWLEDGED also tells the reads meter this phone's role and Firestore, so it writes this
   // phone's meter document once and reads the partner's (js/sparkPrivatePairing.js, fsbShareSeason). Season 1 is measured from
   // its Career Start (noteSeasonStart), never from the setup before it.
-  function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;const before=view&&contextKey===request.key?view.phase:null;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole,checkedAt:Date.now()};contextKey=request.key;readError="";readErrorKey="";psscRender();if(before&&before!=="ACKNOWLEDGED"&&view.phase==="ACKNOWLEDGED")psscNudgeHistory();if(view.phase==="ACKNOWLEDGED"){try{root.CareerModeFirestoreBudget?.noteSeasonDone?.(`${view.rivalryId}|${request.seasonNumber}`,Boolean(before&&before!=="ACKNOWLEDGED"),{role:ctx.setup.managerRole,season:request.seasonNumber,rivalryId:view.rivalryId,firestore:ctx.options?.firestore||null});}catch(_error){}}return true;}
+  function psscBind(result,ctx,request){if(!psscContextMatches(request))return false;const before=view&&contextKey===request.key?view.phase:null;view={...result,rivalryId:ctx.setup.rivalryId,coordinatorRole:result.coordinatorRole||ctx.setup.setup.coordinatorRole};contextKey=request.key;readError="";readErrorKey="";psscRender();if(before&&before!=="ACKNOWLEDGED"&&view.phase==="ACKNOWLEDGED")psscNudgeHistory();if(view.phase==="ACKNOWLEDGED"){try{root.CareerModeFirestoreBudget?.noteSeasonDone?.(`${view.rivalryId}|${request.seasonNumber}`,Boolean(before&&before!=="ACKNOWLEDGED"),{role:ctx.setup.managerRole,season:request.seasonNumber,rivalryId:view.rivalryId,firestore:ctx.options?.firestore||null});}catch(_error){}}return true;}
   // r75: the moment this page sees the season commit become ACKNOWLEDGED, Canonical Scoring and then Shared History check
   // once, in that order (History needs the reconciled score), instead of each waiting for its next 3 s check: nothing else
   // announces the commit change to them. The next season, the history screens and Final Winner follow from History's event.
@@ -301,7 +301,10 @@
   // Phoenix W8 (r100): the wait line says how this phone is checking: LIVE while the listener is healthy, otherwise the time of
   // the last server check (a slow link never looks stuck). The 3 s tick redraws only when that part changes.
   function psscCheckedAt(at){try{return new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit"}).format(new Date(at)).toUpperCase();}catch(_error){return "";}}
-  function psscWaitSuffix(){const at=Number(view?.checkedAt),time=Number.isFinite(at)&&at>0?psscCheckedAt(at):"";return psscWaitHealthy()?" · LIVE":time?` · CHECKED ${time}`:"";}
+  let checkedView=null,checkedAt=0;
+  // Every new view comes from a check (a read or this phone's own confirm), so its first showing is the time of that check.
+  function psscNoteChecked(){if(view&&view!==checkedView){checkedView=view;checkedAt=Date.now();}return checkedAt;}
+  function psscWaitSuffix(){const at=psscNoteChecked(),time=at>0?psscCheckedAt(at):"";return psscWaitHealthy()?" · LIVE":time?` · CHECKED ${time}`:"";}
   let psscShownSuffix=null;
   function psscRefreshWaitLine(){if(!view||!psscWaitingKey())return;const suffix=psscWaitSuffix();if(suffix===psscShownSuffix)return;psscShownSuffix=suffix;try{psscRender();}catch(_error){}}
   function psscFastTick(){psscWatchWait();psscRefreshWaitLine();if(psscWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!psscFastPollDue())return;void psscTick(true);}

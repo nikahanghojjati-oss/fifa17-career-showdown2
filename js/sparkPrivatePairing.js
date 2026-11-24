@@ -1426,8 +1426,8 @@
   const FSB_WAIT_CONFIRM_MS=30000,FSB_WAIT_LAG_MS=5000,FSB_WAIT_RETRY_MS=60000,FSB_WAIT_OWNER_MS=4500;
   // Phoenix W8 (r100): a listener that dies on a passing network error is built again soon (2 s, then 8 s, then 30 s), not
   // after a full minute, so the rival's move still shows within seconds; the screen is woken at once for one check meanwhile.
-  // A Rules refusal or the daily limit keeps the full minute. A healthy delivery starts the count again. When the listener
-  // is healthy nothing here runs, so it costs no read.
+  // A Rules refusal or the daily limit keeps the full minute. A listener that stays up a minute starts the count again.
+  // When the listener is healthy nothing here runs, so it costs no read.
   const FSB_WAIT_BACKOFF_MS=Object.freeze([2000,8000,30000]);
   const fsbWaitFailed=new Map(),fsbReturnWakes=new Map(),fsbWaitFailures=new Map();
   let fsbWaitReturn=null,fsbWait=null,fsbSnapshotApi=null,fsbSnapshotApiPromise=null;
@@ -1470,7 +1470,8 @@
   function fsbWaitFail(path,error){
     const wait=fsbWait&&fsbWait.path===path?fsbWait:null;fsbDetachWait();fsbStats.listenerFallbacks+=1;
     const code=String(error&&error.code||"").toLowerCase(),lasting=Boolean(error)&&(fsbIsQuotaError(error)||/permission|unauthenticated/.test(code));
-    const count=(fsbWaitFailures.get(path)||0)+1;fsbWaitFailures.set(path,count);
+    // A listener that stayed up a minute starts the count again; one that keeps dying right after it is built backs off.
+    const count=(wait&&wait.attachedAt&&fsbNow()-wait.attachedAt>=FSB_WAIT_RETRY_MS?0:(fsbWaitFailures.get(path)||0))+1;fsbWaitFailures.set(path,count);
     const delay=lasting?FSB_WAIT_RETRY_MS:(FSB_WAIT_BACKOFF_MS[count-1]??FSB_WAIT_RETRY_MS);
     fsbWaitFailed.set(path,fsbNow()+delay);fsbStats.listenerRebuildWaitMs=delay;
     // The screens that were waiting on it check once now (their own timers pick up the rebuilt listener after the delay).
@@ -1499,7 +1500,7 @@
     const serial=fsbSerial(snapshot),version=fsbVersion(snapshot);
     const before=wait.serial!==null?wait.serial:fsbSerial(fsbEntries.get(wait.path)&&fsbEntries.get(wait.path).snapshot);
     const changed=before!==null&&before!==serial;
-    wait.snapshot=snapshot;wait.serial=serial;wait.version=version;wait.healthy=true;wait.dirty=false;wait.confirmedAt=fsbNow();fsbWaitFailures.delete(wait.path);
+    wait.snapshot=snapshot;wait.serial=serial;wait.version=version;wait.healthy=true;wait.dirty=false;wait.confirmedAt=fsbNow();
     if(wait.lagUntil&&(fsbVersionCompare(version,wait.lagVersion)>=0&&version!==null||serial===wait.lagSerial)){wait.lagUntil=0;wait.lagVersion=null;wait.lagSerial=null;}
     fsbStats.listenerDeliveries+=1;fsbCountRead(fsbMeterUnits(snapshot,true),true,fsbReadLookups(wait.path));wait.priced=true;
     if(wait.returning){wait.returning=false;const listen=fsbListens.get(wait.path);if(listen){fsbListens.delete(wait.path);fsbStats.listenerServed+=1;listen.resolve(snapshot);}}
@@ -1536,7 +1537,7 @@
     const api=fsbSnapshotApi;
     if(!api){fsbLoadSnapshotApi();return release();}
     fsbDetachWait();
-    const wait={path,owners:new Map([[owner,{wake,seen:at,relaxed}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
+    const wait={path,attachedAt:at,owners:new Map([[owner,{wake,seen:at,relaxed}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
     fsbWait=wait;fsbStats.listenersAttached+=1;
     try{
       wait.unsubscribe=api.onSnapshot(api.doc(fsbFirestore,path),{includeMetadataChanges:true},snapshot=>fsbWaitDelivery(wait,snapshot),error=>{fsbCountRead(fsbMeterFailureUnits(error),true,wait.priced?0:fsbReadLookups(path));if(fsbWait!==wait)return;fsbWaitFail(path,error);if(fsbIsQuotaError(error))fsbTrip();fsbAuthorityDenied(error,path);});

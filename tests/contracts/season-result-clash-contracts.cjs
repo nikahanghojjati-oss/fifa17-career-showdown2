@@ -114,7 +114,7 @@ async function renderContracts(){
   }
   // B3. The waiting manager never sees it either; the button is the existing waiting state (disabled by role only).
   h=harness(result({domesticCup:true,championsLeague:true,leaguePosition:1}),result({domesticCup:true,championsLeague:true,leaguePosition:1}),{role:"playerTwo"});h.api.install();await h.api.refresh();await settle();
-  assert.equal(h.status(),"BOTH RESULTS ARE IN · WAITING FOR DANIEL TO LOCK THE SEASON","the waiting manager sees the unchanged waiting text");
+  assert.match(h.status(),/^BOTH RESULTS ARE IN · WAITING FOR DANIEL TO LOCK THE SEASON · CHECKED \d{1,2}:\d{2} [AP]M$/,"the waiting manager sees the waiting text, with no clash warning (W8: and the time of the last check)");
   assert.ok(!/CHECK RESULTS/.test(h.status()),"the waiting manager never sees CHECK RESULTS for both managers winning");
   assert.equal(h.action().textContent,"WAITING FOR DANIEL");
   // B4. Different results: nothing extra, and top scorer on both sides is not a clash.

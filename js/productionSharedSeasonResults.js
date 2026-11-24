@@ -103,7 +103,7 @@
     if(!request)return null;
     const ctx=await pssrProviderContext(request,light);if(!pssrContextMatches(request))return null;
     const result=pssrResultError(await provider.read(ctx.options),"Season Results could not be loaded.");if(!pssrContextMatches(request))return null;
-    view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId,checkedAt:Date.now()};contextKey=request.key;pssrRender();
+    view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;pssrRender();
     if(result.ownResult||result.state?.phase==="RESULTS_READY")pssrSetError("");
     return view;
   }
@@ -242,7 +242,7 @@
           // publishes and re-reads. A re-read that is itself contended, denied or offline keeps the bounded JOB-1611 retry.
           if(PSSR_CONTENTION_CODES.includes(published?.code)&&contentionRetries<PSSR_CONTENTION_RETRY_MS.length){await pssrWait(PSSR_CONTENTION_RETRY_MS[contentionRetries]);contentionRetries+=1;if(!pssrContextMatches(request))return false;const fresh=await provider.read(ctx.options);if(!pssrContextMatches(request))return false;if(!(fresh?.ok!==true&&PSSR_DENIED_CODES.includes(published.code)&&!PSSR_READ_RETRY_CODES.includes(fresh?.code))){if(fresh?.ok===true)current=fresh;continue;}}
           const result=pssrResultError(published,"Your season result could not be confirmed.");if(!pssrContextMatches(request))return true;
-          pssrDraftClear(publishRole,request);view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId,checkedAt:Date.now()};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
+          pssrDraftClear(publishRole,request);view={...result,setup:ctx.setup.setup,rivalryId:ctx.setup.rivalryId};contextKey=request.key;draft=null;try{await pssrRefreshNow(request);}catch(_error){pssrRefresh().catch(()=>{});}return true;
         }
       });
     }catch(error){if(pssrContextMatches(request)){pssrSetError(error.message||error.code||"Confirming your season result failed.");pssrReport("Could not confirm your season result",error);}else failed=PSSR_BACK_FAILED;return false;}
@@ -298,7 +298,10 @@
   // Phoenix W8 (r100): the wait line names the rival and says how this phone is checking: LIVE while the listener is healthy,
   // otherwise the time of the last server check (so a slow link never looks stuck). The 3 s tick redraws only that line.
   function pssrCheckedAt(at){try{return new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit"}).format(new Date(at)).toUpperCase();}catch(_error){return "";}}
-  function pssrWaitLine(role){const rival=String(pssrManagerName(role==="playerOne"?"playerTwo":"playerOne")).toUpperCase(),at=Number(view?.checkedAt),time=Number.isFinite(at)&&at>0?pssrCheckedAt(at):"";return `CONFIRMED · WAITING FOR ${rival}${pssrWaitHealthy()?" · LIVE":time?` · CHECKED ${time}`:""}`;}
+  let checkedView=null,checkedAt=0;
+  // Every new view comes from a check (a read or this phone's own publish), so its first showing is the time of that check.
+  function pssrNoteChecked(){if(view&&view!==checkedView){checkedView=view;checkedAt=Date.now();}return checkedAt;}
+  function pssrWaitLine(role){const rival=String(pssrManagerName(role==="playerOne"?"playerTwo":"playerOne")).toUpperCase(),at=pssrNoteChecked(),time=at>0?pssrCheckedAt(at):"";return `CONFIRMED · WAITING FOR ${rival}${pssrWaitHealthy()?" · LIVE":time?` · CHECKED ${time}`:""}`;}
   function pssrRefreshWaitLine(){const node=pssrField("seasonReviewStatusMeta");if(!node||!view||!view.ownResult||view.state?.phase==="RESULTS_READY"||!/^CONFIRMED · WAITING FOR /.test(String(node.textContent||"")))return;const line=pssrWaitLine(view.managerRole);if(node.textContent!==line)node.textContent=line;}
   function pssrFastTick(){pssrWatchWait();pssrRefreshWaitLine();if(pssrWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!pssrFastPollDue())return;void pssrTick(true);}
   // r75: the 15 s check of the visible Season Results screen reads the shared results from the server (see Transfer).
