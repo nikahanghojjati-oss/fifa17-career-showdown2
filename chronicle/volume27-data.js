@@ -1,4 +1,4 @@
-/* THE CHRONICLE · Volume 27 (Team G, r99 / 2.12.0): "From a fan, for the fans", Nik's headline (2026-11-24 02:44 and 02:46 UTC:
+/* THE CHRONICLE · Volume 27 (Team G, r99 / 2.12.0): "From a fan, for the fans.", Nik's headline (2026-11-24 02:44 and 02:46 UTC:
    he is a big fan of Career Mode and built this for all the fans, all football fans; no words beyond his); the four clubhouses
    (Wooden, Silver, Metallic Black, Premium Matte Black; heroes masked, per device, never Firebase, loading room too); the
    Gazette paper off the faces, Career Start buttons off the jackets, sideways crest names inside their packs; no Rules change,
@@ -9,7 +9,7 @@ window.CHRONICLE_VOLUME27={
  "capturedAt": "2026-11-24T03:30:00Z",
  "part": {
   "id": "for-the-fans",
-  "title": "From a Fan, for the Fans",
+  "title": "From a fan, for the fans.",
   "dek": "The twenty-third and twenty-fourth of November. Nik asks for the headline: he is a big fan of Career Mode, and he built this game for all the football fans. 2.12.0 gives the clubhouse four finishes and moves the paper off the faces.",
   "image": "home.webp"
  },
@@ -18,7 +18,7 @@ window.CHRONICLE_VOLUME27={
    "id": "r99-for-the-fans",
    "number": 220,
    "part": "for-the-fans",
-   "title": "From a fan, for the fans",
+   "title": "From a fan, for the fans.",
    "dek": "Nik asks for one headline above everything else in this release. He is a big fan of Career Mode, and he built this game for the fans. All the football fans.",
    "tags": [
     "2.12.0",

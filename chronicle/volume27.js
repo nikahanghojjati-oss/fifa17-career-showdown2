@@ -1,4 +1,4 @@
-/* THE CHRONICLE · Volume 27 (Team G, r99 / 2.12.0): adds "From a Fan, for the Fans" (volume27-data.js) to the book after
+/* THE CHRONICLE · Volume 27 (Team G, r99 / 2.12.0): adds "From a fan, for the fans." (volume27-data.js) to the book after
    Volume 26, the same way volume26.js adds Volume 26. Words and data only; book.js and novel.js draw it. */
 (()=>{
 'use strict';

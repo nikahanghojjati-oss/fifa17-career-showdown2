@@ -51,7 +51,7 @@ play a Showdown with a phone on 2.12.0. The habit that kept 2.11.0 safe stays an
 - **Rule Book** (this PR): one line in Connection & Recovery: "Settings also picks your clubhouse: Wooden, Silver, Metallic Black
   or Premium Matte Black. Each phone or laptop keeps its own; it changes only the look, never the game." (Nik's rule: every new
   feature goes in the Rule Book each release. `js/ruleBook.js` is lazy, outside the startup budget.)
-- **Story** (this PR). Volume 27, **"From a Fan, for the Fans"** (chapters 220 to 223, `chronicle/volume27-data.js` +
+- **Story** (this PR). Volume 27, **"From a fan, for the fans."** (chapters 220 to 223, `chronicle/volume27-data.js` +
   `volume27.js`; builder gameplay/r99/threads/bump/v27.py in project files). Nik asked (2026-11-24 02:44 and 02:46 UTC) for the
   next story to lead with him: he is just a big fan of Career Mode, and he built this for all the fans, all football fans; the
   headline is "From a fan, for the fans." It is the volume title, chapter 220, the 2.12.0 dispatch (`#latest/r99`, R99 SPOT
@@ -156,7 +156,21 @@ sensitive), not fixed here. Logs: gameplay/r99/threads/bump/m2110-3s.log and b21
 
 ## Tests on this branch
 
-FULL_CONTRACTS_SECTION
+- Full product contracts on a1dab071 (`node tests/support/run-selected-product-contracts.cjs --all`, 20 m 33 s, this record
+  included): **365/366 pass**. The one miss, `r87-career-load-gate-edges` G-06 ("two tabs open the career at once": tab A's
+  covered page lasted 1,235 ms against the gate's grace), is a timing check on a career page this release does not touch; run
+  alone it failed once and passed once on this container, and it passes in the Gate's L1 on GitHub (the same flake was seen on
+  #1571's local run). Log: gameplay/r99/threads/bump/full-contracts.log (project files).
+- The Gate's L1 on a1dab071 found one real miss this local run had already absorbed: `r98-league-roulette-wiring` still asked for
+  the two roulette files to be listed as added since PREVIOUS. From 2.12.0 they are in the retained 2.11.0 list, so that check now
+  reads them from `tests/fixtures/shell-paths/2.11.0-r98.json` and requires that they are not added again (fixed on this branch;
+  fails before the fix, passes after).
+- Bump contracts on the bump commit: r86-release, r87-upgrade-rollback-list (18), r78-marble-confirm, r79-modes-settings,
+  v10-club, v10-foundation, v10-rules-settings, r99-clubhouse-themes, composed-production-rules: all pass.
+- CE2PG 3 seasons on both builds and the real service-worker update probe (above). Story pages checked in Chromium (Story home,
+  `#latest`, `#latest/r99`, `#latest/r98`, `#volume/for-the-fans`, `#read/r99-for-the-fans` at desktop and phone,
+  `#read/r99-live`, `#contents`; no page errors).
+- Codex review on a1dab071: no major issues.
 
 ## What did not change
 
