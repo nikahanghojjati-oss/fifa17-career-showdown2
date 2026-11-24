@@ -299,12 +299,13 @@
   function psscWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(psscWaitScreen()&&psscResultsReady()&&view?.phase!=="ACKNOWLEDGED"?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`:null)(psscRequestContext()):null);}catch(_error){path=null;}return budget.watchWaitPoint("season-commit",path,psscWaitWake);}
   function psscWaitWake(){const inflight=refreshPromise;if(inflight){const again=()=>{if(!busy)void psscTick(true);};inflight.then(again,again);return;}if(!busy){void psscTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void psscTick(true);},400);}
   // Phoenix W8 (r100): the wait line says how this phone is checking: LIVE while the listener is healthy, otherwise the time of
-  // the last server check (a slow link never looks stuck). The 3 s tick redraws only when that part changes.
+  // the last server check (a slow link never looks stuck), kept together on one line when the line wraps. The 3 s tick redraws
+  // only when that part changes.
   function psscCheckedAt(at){try{return new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit"}).format(new Date(at)).toUpperCase();}catch(_error){return "";}}
   let checkedView=null,checkedAt=0;
   // Every new view comes from a check (a read or this phone's own confirm), so its first showing is the time of that check.
   function psscNoteChecked(){if(view&&view!==checkedView){checkedView=view;checkedAt=Date.now();}return checkedAt;}
-  function psscWaitSuffix(){const at=psscNoteChecked(),time=at>0?psscCheckedAt(at):"";return psscWaitHealthy()?" · LIVE":time?` · CHECKED ${time}`:"";}
+  function psscWaitSuffix(){const at=psscNoteChecked(),time=at>0?psscCheckedAt(at):"";return psscWaitHealthy()?" · LIVE":time?` · CHECKED\u00a0${time.replace(/\s/g,"\u00a0")}`:"";}
   let psscShownSuffix=null;
   function psscRefreshWaitLine(){if(!view||!psscWaitingKey())return;const suffix=psscWaitSuffix();if(suffix===psscShownSuffix)return;psscShownSuffix=suffix;try{psscRender();}catch(_error){}}
   function psscFastTick(){psscWatchWait();psscRefreshWaitLine();if(psscWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!psscFastPollDue())return;void psscTick(true);}

@@ -301,7 +301,7 @@
   let checkedView=null,checkedAt=0;
   // Every new view comes from a check (a read or this phone's own publish), so its first showing is the time of that check.
   function pssrNoteChecked(){if(view&&view!==checkedView){checkedView=view;checkedAt=Date.now();}return checkedAt;}
-  function pssrWaitLine(role){const rival=String(pssrManagerName(role==="playerOne"?"playerTwo":"playerOne")).toUpperCase(),at=pssrNoteChecked(),time=at>0?pssrCheckedAt(at):"";return `CONFIRMED · WAITING FOR ${rival}${pssrWaitHealthy()?" · LIVE":time?` · CHECKED ${time}`:""}`;}
+  function pssrWaitLine(role){const rival=String(pssrManagerName(role==="playerOne"?"playerTwo":"playerOne")).toUpperCase(),at=pssrNoteChecked(),time=at>0?pssrCheckedAt(at):"";return `CONFIRMED · WAITING FOR ${rival}${pssrWaitHealthy()?" · LIVE":time?` · CHECKED\u00a0${time.replace(/\s/g,"\u00a0")}`:""}`;}
   function pssrRefreshWaitLine(){const node=pssrField("seasonReviewStatusMeta");if(!node||!view||!view.ownResult||view.state?.phase==="RESULTS_READY"||!/^CONFIRMED · WAITING FOR /.test(String(node.textContent||"")))return;const line=pssrWaitLine(view.managerRole);if(node.textContent!==line)node.textContent=line;}
   function pssrFastTick(){pssrWatchWait();pssrRefreshWaitLine();if(pssrWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!pssrFastPollDue())return;void pssrTick(true);}
   // r75: the 15 s check of the visible Season Results screen reads the shared results from the server (see Transfer).
