@@ -210,6 +210,53 @@ const ts=ms=>({toMillis:()=>ms});
   ok("S12","leaving while the other manager has not arrived withdraws the arrival (Rules + step: BACK and a hidden phone), and coming back arrives again");
 }
 
-console.log(`PASS r87 Prime Pack step contracts: ${checks} checks.`);
-// The Fable job 13 fixes run the step itself against a fake page and record (its own file, run here so this entry covers it).
-require("node:child_process").execFileSync(process.execPath,[path.join(__dirname,"r87-prime-pack-f13-contracts.cjs")],{stdio:"inherit"});
+// S13 Phoenix W12 (r100, POS1M replay L6_PRIME_PACK-70068): one tap spends one guess. The SDK runs a transaction body again
+// when a commit's answer is lost, although the write landed; and a body also runs again after a real conflict, when it did not.
+async function s13(){
+  const T=1_900_000_000_000,later=T+4000;
+  const stored=()=>({schemaVersion:1,objectType:"sharedPrimePackRound",rivalryId:RID,seasonNumber:1,arrived:{playerOne:ts(T),playerTwo:ts(later)},chipsUsed:{playerOne:0,playerTwo:0},namedBy:null,revision:2,updatedAt:ts(later)});
+  // A one-document store with the SDK's retry: plan is a list of what happens to each commit ("ok", "lost" = landed but the
+  // answer is lost, "conflict" = refused before landing while the other manager's guess lands).
+  function world(plan){
+    let data=stored(),runs=0;const writes=[];
+    const sdk={doc:()=>({path:"round"}),serverTimestamp:()=>ts(later+6000),
+      runTransaction:async(_db,body)=>{
+        for(let attempt=1;attempt<=5;attempt+=1){
+          runs+=1;let pending=null;
+          const tx={get:async()=>({exists:()=>Boolean(data),data:()=>data}),update:(_ref,patch)=>{pending=patch;}};
+          const result=await body(tx);
+          const fate=plan.shift()||"ok";
+          if(!pending)return result;
+          if(fate==="conflict"){data={...data,chipsUsed:{...data.chipsUsed,playerTwo:data.chipsUsed.playerTwo+1},revision:data.revision+1};continue;}
+          const next={...data,chipsUsed:{...data.chipsUsed}};for(const [k,v] of Object.entries(pending)){if(k.startsWith("chipsUsed."))next.chipsUsed[k.slice(10)]=v;else next[k]=v;}
+          data=next;writes.push(pending);
+          if(fate==="lost")continue;
+          return result;
+        }
+        throw Object.assign(new Error("gave up"),{code:"unavailable"});
+      }};
+    return {io:{firestore:{},sdk,rivalryId:RID,sessionId:"s",deviceId:"d",now:()=>later+6000},get data(){return data;},get runs(){return runs;},writes};
+  }
+  const ctx={rivalryId:RID,managerRole:"playerOne",season:1,confirmedAtMs:T};
+  {const w=world(["lost"]);const r=await Step.applyGuess(w.io,ctx,false);
+   assert.equal(r.ok,true);assert.equal(w.runs,2,"the body ran twice");assert.equal(w.writes.length,1);assert.deepEqual(w.data.chipsUsed,{playerOne:1,playerTwo:0},"a wrong guess with a lost answer spends one chip");}
+  {const w=world(["lost","lost"]);const r=await Step.applyGuess(w.io,ctx,true);
+   assert.equal(r.ok,true,"a right guess with a lost answer is won, never late");assert.equal(r.record.winner.role,"playerOne");
+   assert.equal(w.writes.length,1);assert.deepEqual(w.data.chipsUsed,{playerOne:1,playerTwo:0});assert.equal(w.data.namedBy,"playerOne");}
+  {const w=world(["conflict"]);const r=await Step.applyGuess(w.io,ctx,false);
+   assert.equal(r.ok,true);assert.equal(w.writes.length,1,"after a conflict that did not land, the guess is written once");assert.deepEqual(w.data.chipsUsed,{playerOne:1,playerTwo:1});}
+  {const w=world(["conflict"]);w.io.now=()=>later+6000;const r=await Step.applyGuess(w.io,ctx,true);
+   assert.equal(r.ok,true);assert.equal(w.data.namedBy,"playerOne");assert.deepEqual(w.data.chipsUsed,{playerOne:1,playerTwo:1});}
+  {const w=world(["lost"]);await Step.applyGuess(w.io,ctx,false);const second=await Step.applyGuess(w.io,ctx,false);
+   assert.equal(second.ok,true);assert.deepEqual(w.data.chipsUsed,{playerOne:2,playerTwo:0},"a second tap is a second guess");
+   const third=await Step.applyGuess(w.io,ctx,false);assert.equal(third.ok,false);assert.equal(third.reason,"NO_CHIPS");}
+  const step=read("js/iconGuessStep.js");
+  assert.match(step,/igsGuessInTurn\(io,ctx,check\.correct\)\.then\(next=>\{/,"the screen sends one guess at a time");
+  assert.doesNotMatch(step,/[^n]igsApplyGuess\(io,ctx,check\.correct\)/);
+  ok("S13","one tap spends one guess: a lost answer (the body runs again after the write landed) never spends a second chip and a right guess reads as won; after a real conflict the guess is written once; taps go one at a time");
+}
+s13().then(()=>{
+  console.log(`PASS r87 Prime Pack step contracts: ${checks} checks.`);
+  // The Fable job 13 fixes run the step itself against a fake page and record (its own file, run here so this entry covers it).
+  require("node:child_process").execFileSync(process.execPath,[path.join(__dirname,"r87-prime-pack-f13-contracts.cjs")],{stdio:"inherit"});
+}).catch(error=>{console.error(error);process.exit(1);});

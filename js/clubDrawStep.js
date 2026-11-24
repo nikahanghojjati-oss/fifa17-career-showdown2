@@ -296,6 +296,8 @@
   }
   function cdsProbe(){return scene&&typeof scene.probe==="function"?{flat:Boolean(flat),started,landed:landed.slice(),...scene.probe()}:null;}
 
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["ball-game"]=()=>{if(root.getActiveScreenName?.()==="clubWheelScreen")return "skip";memoryPending=null;cdsDispose();};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"cms-club-draw-step",PENDING_KEY,STAGE_ID,
     isDraw:cdsIsDraw,candidates:cdsCandidates,digest:cdsDigest,clubFor:cdsClubFor,storedStops:cdsStoredStops,
     preload:cdsPreload,prepare:cdsPrepare,isReady:cdsIsReady,sync:cdsSync,canStop:cdsCanStop,tap:cdsTap,accepted:cdsAccepted,pending:cdsPending,sendable:cdsSendable,unsaved:cdsUnsaved,clearPending:cdsClearPending,phaseOf:cdsPhaseOf,hasLanded:cdsHasLanded,bothLanded:cdsBothLanded,on:cdsOn,dispose:cdsDispose,probe:cdsProbe});

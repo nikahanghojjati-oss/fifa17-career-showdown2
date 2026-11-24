@@ -616,6 +616,8 @@
   }
   function cmsActive(){return Boolean(running);}
 
+  // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["chamber-men"]=()=>{memo.clear();};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"cms-chamber-men-step",stageId:STAGE_ID,collection:COLLECTION,objectType:OBJECT_TYPE,doneKey:DONE_KEY,keptKey:KEPT_KEY,
     pickMs:PICK_MS,kickMs:KICK_MS,applies:cmsApplies,ensure:cmsEnsure,record:cmsRecord,send:cmsSend,readRecord:cmsReadRecord,cylinders:cmsCylinders,
     run:cmsRun,close:cmsClose,end:cmsEnd,active:cmsActive,wentHome:()=>wentHome,markDone:cmsMarkDone,isDone:cmsIsDone});

@@ -638,6 +638,22 @@ async function nikJoins(daniel,nik,code,{typed,length}){
   return rivalryId;
 }
 // The shared setup through the real UI: league, clubs, both confirm, both start their careers.
+// Phoenix W5 (r100): Showdowns played back to back on the same pages (no reload between them; CE2PG_RELOAD_EVERY=0 makes that
+// true for every season) never show or keep the earlier Showdown: no game module's state names the earlier rivalry, the
+// new-Showdown reset ran with no failed clear, and the screen shows none of the earlier clubs that are not in this Showdown.
+async function checkNoEarlierShowdown(m,where,{selector=null,clubs=[]}={}){
+  const prev=(ctxRef?.career||[]).filter(e=>e!==ctxRef.entry&&e.rivalryId).at(-1);if(!prev)return true;
+  const seen=await m.page.evaluate(({prevId,selector})=>{
+    const names=["ProductionSharedShowdownSetup","ProductionSharedCareerStart","ProductionSharedTransferChallenge","ProductionSharedSeasonResults","ProductionSharedSeasonCommit","ProductionSharedCanonicalScoring","ProductionSharedHistoryConvergence","ProductionSharedMultiSeasonProgression","ProductionSharedJourneyReconnect","ProductionSharedFinalReconciliation","ProductionSharedTerminalClose","ProductionSharedLocalReconciliation","ProductionSharedJourneyConflicts"];
+    const holding=[];for(const n of names){let s="";try{s=JSON.stringify(window["CareerMode"+n]?.getState?.()??null)||"";}catch(_e){s="";}if(s.includes(prevId))holding.push(n);}
+    const reset=window.CareerModeShowdownReset,node=selector?document.querySelector(selector):null;
+    return {holding,runs:reset?.runs?.()??null,last:reset?.lastRun?.()??null,text:node?node.innerText:""};
+  },{prevId:prev.rivalryId,selector}).catch(error=>({error:String(error&&error.message||error)}));
+  const text=String(seen.text||"").toUpperCase(),stale=(prev.clubs||[]).filter(c=>!clubs.includes(c)&&text.includes(String(c).toUpperCase()));
+  return check(m,`${showdownNow}.noEarlier.${where}`,`back to back without a reload: ${where} keeps and shows nothing of Showdown ${prev.name} (none of 13 modules' state names its rivalry, the reset ran${selector?", none of its clubs on screen":""})`,
+    !seen.error&&seen.holding.length===0&&Number(seen.runs)>=1&&Array.isArray(seen.last?.failed)&&seen.last.failed.length===0&&stale.length===0&&!(selector&&/BOTH MANAGERS STARTED/.test(text)),
+    JSON.stringify({error:seen.error,holding:seen.holding,runs:seen.runs,last:seen.last,stale,prevClubs:prev.clubs,clubs}).slice(0,1200),{screen:where});
+}
 async function playSetup(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
   await check(nik,`setup.${showdownNow}.leagueWait`,"Nik waits for Daniel on the league wheel",await nik.page.locator("#spinLeague").isDisabled(),"Nik can spin",{screen:"League wheel"});
@@ -656,6 +672,7 @@ async function playSetup(daniel,nik){
     JSON.stringify({held,clubs,kinds:clubs.kinds}),{screen:"Club Assignment"});
   console.log(`  club draw: ${clubs.join(" v ")} (drawn as ${clubs.kinds.join("/")})`);
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"visible",timeout:30000});
+  for(const m of [daniel,nik])await checkNoEarlierShowdown(m,"careerStart",{selector:"#productionSharedCareerStartOverlay",clubs:[...clubs]});
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
   await rosterRoulette.waitForTransfer([daniel.page,nik.page],45000);
@@ -1667,6 +1684,7 @@ async function playShowdown(ctx,spec){
     seasonNow=k;const final=k===(sackedAt||spec.length);
     await phase(`${spec.name}-S${k}-transfers`,()=>playTransfers(daniel,nik,`${spec.name}${k}`));
     const mode=await phase(`${spec.name}-S${k}-results`,()=>playSeasonResults(daniel,nik,k,plan[k-1]));
+    if(k===1)for(const m of [daniel,nik])await checkNoEarlierShowdown(m,"S1.results",{clubs:entry.clubs||[]});
     await phase(`${spec.name}-S${k}-commit`,()=>commitSeason(daniel,nik,k,plan[k-1],final));
     entry.seasons.push(plan[k-1]);
     if(OUTAGES){
