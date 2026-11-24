@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T20:01:12Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_SILVER.md (000132095)"}],
+ "evidence": ["claude/project-thread-ie3afv 7cd8a0fdc project-documents/hc-art/ho-premium-full/silver/ENV_LOADING_PHONE_SILVER_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T20:01:12Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_SILVER.md (000132095)"}, {"at": "2026-11-24T21:19:45Z", "by": "V", "status": "DONE", "note": "Platinum Loading phone band, try2 (framing locked, night like the clubhouse), 9/10, aligned 1179x2096"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
