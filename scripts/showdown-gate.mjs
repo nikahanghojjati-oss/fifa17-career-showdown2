@@ -45,6 +45,35 @@ export function l5Decision({event,baseRef,files}){
   return {l5_run:false,l5_reason:'non-main PR with no L5 input changes'};
 }
 
+// L7 Ironman (Phoenix W10): the fault-injection journey, one job per fault, plus a 3-season CE2PG. It is heavy (a real
+// two-phone Showdown per job), so on a PR into a release branch it runs only when something the game or those journeys
+// load changed. The rule is fail-closed: a PR skips L7 only when EVERY changed file is plainly outside the game (notes,
+// the Story, planning files, Node-only contracts and their JSON registers). Anything else, including a new folder, runs it.
+export const L7_LEGS=Object.freeze(['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','ce2pg']);
+export const L7_SKIP_ONLY=Object.freeze([
+  '*.md','**/*.md','chronicle/**','project-documents/**','authority-history/**','docs/**','audit/**','gameplay/**','owner-sns/**',
+  'pos10-recovery/**','WORK_ENVIRONMENT_ARCHIVE/**','acceptance/**','tools/**','tests/contracts/**','tests/operations/**',
+  'POS10_*.json','POS20_*.json','CURRENT_PRODUCT_*.json','DORMANT_*.json','GATE_COVERAGE.json','MILESTONE_*.json','SESSION_*.json',
+  'SHARED_SHOWDOWN_*.json','REMOTE_JOINING_READINESS.json','WORK_ENVIRONMENT_STATUS.json','PROJECT_OPERATING_SYSTEM_*.json'
+]);
+export function l7Affected(files){
+  if(!Array.isArray(files)||files.some(file=>typeof file!=='string'||!file))return true;
+  return files.some(file=>!L7_SKIP_ONLY.some(glob=>path.matchesGlob(file,glob)));
+}
+export function l7Decision({event,baseRef,files}){
+  if(event!=='pull_request')return {l7_run:true,l7_reason:'event is not pull_request'};
+  if(baseRef==='main')return {l7_run:true,l7_reason:'PR targets main'};
+  if(typeof baseRef!=='string'||!baseRef.trim())return {l7_run:true,l7_reason:'PR base ref is unknown'};
+  if(l7Affected(files))return {l7_run:true,l7_reason:'game or journey files changed, or changed-file evidence is invalid'};
+  return {l7_run:false,l7_reason:'non-main PR that changes no game or journey file'};
+}
+// The seed every L7 job of one head shares: the first 8 hex digits of the head (a new head explores new fault timings;
+// a rerun of the same head replays the same ones). FIJ_SEED / CE2PG run choice in scripts/ironman-leg.mjs.
+export function l7Seed(headSha){return sha(headSha)?Number.parseInt(headSha.slice(0,8),16):null;}
+export const l7Lane=leg=>`L7-${leg}`;
+export const isL7=lane=>typeof lane==='string'&&lane.startsWith('L7-');
+const l7Proof=leg=>`IRONMAN_${leg.toUpperCase()}`;
+
 // Exactly the list `node tests/support/run-selected-product-contracts.cjs --all` executes.
 export function registeredContracts(){
   const manifest=readJson('CURRENT_PRODUCT_TEST_MANIFEST.json');
@@ -54,7 +83,7 @@ export function registeredContracts(){
 
 // Lane definitions: workflow step id -> ids that step proves when its outcome is success.
 // '@contracts' expands to every registered contract; '@group:G' to the routed proofs of group G.
-export const LANES=Object.freeze({
+const LANE_DEFS={
   L1:{job:'l1-core',name:'L1 core',groups:['STATIC','INLINE'],fixed:['BENCHMARK','OPERATIONS_AUDIT','CONTRACTS_ALL','RULES_BUILD_ZERO_BILLING'],
     steps:{benchmark:['BENCHMARK'],operations:['OPERATIONS_AUDIT','OPERATIONS'],contracts:['CONTRACTS_ALL','@contracts'],rules:['RULES_BUILD_ZERO_BILLING'],proof_inline:['@group:INLINE'],proof_static:['@group:STATIC']}},
   L2:{job:'l2-browser-full',name:'L2 browser full',groups:['FULL'],fixed:[],steps:{proof_full:['@group:FULL']}},
@@ -65,7 +94,10 @@ export const LANES=Object.freeze({
   L4:{job:'l4-remote',name:'L4 remote',groups:['REMOTE'],fixed:[],steps:{proof_remote:['@group:REMOTE'],lifecycle_rules:['LIFECYCLE_COMPOSED_RULES_BUILD'],lifecycle:['LIFECYCLE_COMPOSED_1_3_5_10']}},
   L5:{job:'l5-rules-regression',name:'L5 rules regression',groups:[],fixed:['COMPOSED_RULES_REGRESSION','RULES_BUDGET_SWEEP'],steps:{regression:['COMPOSED_RULES_REGRESSION'],budget_sweep:['RULES_BUDGET_SWEEP']}},
   L6:{job:'l6-browser-journey',name:'L6 browser journey',groups:[],fixed:['JOURNEY_RULES_BUILD_ZERO_BILLING','TWO_MANAGER_BROWSER_JOURNEY','R79_TWO_PLAYER_JOURNEY'],steps:{rules:['JOURNEY_RULES_BUILD_ZERO_BILLING'],journey:['TWO_MANAGER_BROWSER_JOURNEY'],r79_journey:['R79_TWO_PLAYER_JOURNEY']}}
-});
+};
+// L7 is one matrix job (l7-ironman); each leg is its own lane record (showdown-gate-lane-L7-<leg>), checked like a lane.
+for(const leg of L7_LEGS)LANE_DEFS[l7Lane(leg)]={job:'l7-ironman',name:'L7 Ironman',leg,groups:[],fixed:[l7Proof(leg)],steps:{ironman:[l7Proof(leg)]}};
+export const LANES=Object.freeze(LANE_DEFS);
 export const LANE_IDS=Object.freeze(Object.keys(LANES));
 export const ALL_GROUPS=Object.freeze([...new Set(Object.values(graph.proofBundleGroups))].sort());
 
@@ -75,9 +107,10 @@ export function laneFlags(route){
   return Object.fromEntries([...ALL_GROUPS.map(group=>[`has_${group.toLowerCase()}`,groups.has(group)]),['lifecycle_routed',(route.proofs||[]).includes(LIFECYCLE_PROOF)]]);
 }
 // What a lane is responsible for on this route.
-export function selectedFor(lane,route,{l5Run=true}={}){
+export function selectedFor(lane,route,{l5Run=true,l7Run=true}={}){
   const def=LANES[lane];if(!def)throw new Error(`Unknown lane ${lane}`);
   if(lane==='L5'&&l5Run===false)return [];
+  if(isL7(lane)&&l7Run===false)return [];
   const ids=[...def.fixed,...routedProofs(route,def.groups)];
   if(lane==='L1'){ids.push(...(route.tests||[]));if(route.operations)ids.push('OPERATIONS');}
   if(lane==='L4'&&(route.proofs||[]).includes(LIFECYCLE_PROOF))ids.push('LIFECYCLE_COMPOSED_RULES_BUILD','LIFECYCLE_COMPOSED_1_3_5_10');
@@ -157,10 +190,12 @@ export function baseRefFromEnv(env=process.env){
   return env.GATE_BASE_REF||payload.pull_request?.base?.ref||null;
 }
 
-export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus,l5Run=true,l5Reason=null,files=null}){
-  const selected=route?selectedFor(lane,route,{l5Run}):[];
+export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus,l5Run=true,l5Reason=null,l7Run=true,l7Reason=null,files=null,ironman=null}){
+  const selected=route?selectedFor(lane,route,{l5Run,l7Run}):[];
   const ran=route?ranFor(lane,route,steps):[];
-  return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,base_sha:baseSha??null,run_id:runId==null?null:Number(runId),run_attempt:runAttempt==null?null:Number(runAttempt),route_profile:route?.profile??null,route_digest:routeDigest(route),selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown',...(lane==='L5'?{l5_run:l5Run,l5_reason:l5Reason,files}: {})};
+  // An L7 leg also carries its seed, its attempts and whether it only passed on the rerun (FLAKY: filed and fixed, never skipped).
+  const l7=isL7(lane)?{leg:LANES[lane].leg,l7_run:l7Run,l7_reason:l7Reason,files,ironman:ironman&&typeof ironman==='object'?{verdict:ironman.verdict??null,seed:ironman.seed??null,seasons:ironman.seasons??null,attempts:Array.isArray(ironman.attempts)?ironman.attempts.length:null,replay:ironman.replay??null}:null}:{};
+  return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,base_sha:baseSha??null,run_id:runId==null?null:Number(runId),run_attempt:runAttempt==null?null:Number(runAttempt),route_profile:route?.profile??null,route_digest:routeDigest(route),selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown',...(lane==='L5'?{l5_run:l5Run,l5_reason:l5Reason,files}: {}),...l7};
 }
 
 // Pure seal evaluation. needs: {jobId:{result}}; lanes: {L1:laneRecord|null}; classification: classifyRun output or null.
@@ -171,8 +206,9 @@ export function evaluateSeal({event,draft,headSha,baseSha=null,baseRef=null,file
     const job=LANES[lane].job;
     laneSummary[lane]={job,result:needs?.[job]?.result??'missing',selected:lanes?.[lane]?.selected?.length??0,ran:lanes?.[lane]?.ran?.length??0};
   }
+  const flaky=[];
   const ranIds=()=>[...new Set(LANE_IDS.flatMap(lane=>Array.isArray(lanes?.[lane]?.ran)?lanes[lane].ran:[]))].sort();
-  const summary=verdict=>({schema:SCHEMA,verdict,head_sha:headSha,base_sha:baseSha,event,run_id:runId,run_attempt:runAttempt,retries_used:positiveInteger(runAttempt)?runAttempt-1:null,route_profile:route?.profile??null,route_digest:routeDigest(route),lanes:laneSummary,failures,ran_ids:ranIds()});
+  const summary=verdict=>({schema:SCHEMA,verdict,head_sha:headSha,base_sha:baseSha,event,run_id:runId,run_attempt:runAttempt,retries_used:positiveInteger(runAttempt)?runAttempt-1:null,route_profile:route?.profile??null,route_digest:routeDigest(route),lanes:laneSummary,failures,flaky,ran_ids:ranIds()});
   if(event==='pull_request'&&draft){failures.push('draft: Showdown Gate does not run on draft pull requests');return summary('DRAFT');}
   if(event==='pull_request'&&!sha(prLiveHead)){failures.push('live PR head could not be resolved; refusing to seal');return summary('HEAD_UNKNOWN');}
   if(event==='pull_request'&&prLiveHead!==headSha){failures.push(`superseded: PR head moved to ${prLiveHead}`);return summary('SUPERSEDED');}
@@ -211,7 +247,16 @@ export function evaluateSeal({event,draft,headSha,baseSha=null,baseRef=null,file
         Array.isArray(record.files)&&JSON.stringify(record.files)===JSON.stringify(files);
       if(!l5Skip)failures.push('L5: regression did not pass and the independent input recompute did not verify the recorded skip');
     }
-    const expected=selectedFor(lane,route,{l5Run:!l5Skip});
+    let l7Skip=false;
+    if(isL7(lane)){
+      if(record.leg!==LANES[lane].leg)failures.push(`${lane}: leg identity ${record.leg} != ${LANES[lane].leg}`);
+      if(!record.ran.includes(LANES[lane].fixed[0])){
+        l7Skip=record.l7_run===false&&l7Decision({event,baseRef,files}).l7_run===false&&
+          Array.isArray(record.files)&&JSON.stringify(record.files)===JSON.stringify(files);
+        if(!l7Skip)failures.push(`${lane}: the Ironman leg did not pass and the independent input recompute did not verify the recorded skip`);
+      }else if(record.ironman?.verdict==='FLAKY')flaky.push(`${lane}: passed only on the rerun (seed ${record.ironman.seed}); replay: ${record.ironman.replay}`);
+    }
+    const expected=selectedFor(lane,route,{l5Run:!l5Skip,l7Run:!l7Skip});
     const missingSelection=expected.filter(id=>!(record.selected||[]).includes(id));
     if(missingSelection.length)failures.push(`${lane}: lane selected fewer ids than the route requires: ${missingSelection.join(', ')}`);
     const notRun=expected.filter(id=>!(record.ran||[]).includes(id));
@@ -261,11 +306,12 @@ async function cmdRoute(opts){
   if(lane&&!LANES[lane])throw new Error(`Unknown lane ${lane}`);
   const {event,files,route}=routeFromEnv();
   const l5=l5Decision({event,baseRef:baseRefFromEnv(),files});
-  const record={schema:'showdown-gate-route/v1',event,head_sha:process.env.GATE_HEAD_SHA,base_sha:baseFromEnv(),files,route,...l5};
+  const l7=l7Decision({event,baseRef:baseRefFromEnv(),files});
+  const record={schema:'showdown-gate-route/v1',event,head_sha:process.env.GATE_HEAD_SHA,base_sha:baseFromEnv(),files,route,...l5,...l7};
   if(opts.out)fs.writeFileSync(opts.out,`${JSON.stringify(record,null,2)}\n`);
-  const flags={...laneFlags(route),...(lane==='L5'?l5:{})};
+  const flags={...laneFlags(route),...(lane==='L5'?l5:{}),...(isL7(lane)?{...l7,seed:l7Seed(process.env.GATE_HEAD_SHA)}:{})};
   writeOutputs(opts['github-output'],{profile:route.profile,proofs_csv:route.proofs.join(','),...flags});
-  console.log(`Showdown Gate route ${route.profile}: ${route.testCount} tests, ${route.proofCount} proofs, groups ${JSON.stringify(route.proofGroups||[])}${lane?`; ${lane} selects ${selectedFor(lane,route,{l5Run:l5.l5_run}).length} ids`:''}`);
+  console.log(`Showdown Gate route ${route.profile}: ${route.testCount} tests, ${route.proofCount} proofs, groups ${JSON.stringify(route.proofGroups||[])}${lane?`; ${lane} selects ${selectedFor(lane,route,{l5Run:l5.l5_run,l7Run:l7.l7_run}).length} ids`:''}${isL7(lane)?` (${l7.l7_reason})`:''}`);
   console.log(JSON.stringify({files,profile:route.profile,proofs:route.proofs,flags}));
 }
 function readRouteRecord(file){
@@ -277,7 +323,9 @@ async function cmdFinalize(opts){
   let steps={};
   try{steps=JSON.parse(process.env.GATE_STEPS_JSON||'{}');}catch{steps={};}
   const routeRecord=readRouteRecord(opts.route);
-  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:routeRecord?.route,steps,jobStatus:process.env.GATE_JOB_STATUS,l5Run:routeRecord?.l5_run===false?false:true,l5Reason:routeRecord?.l5_reason,files:routeRecord?.files});
+  let ironman=null;
+  if(isL7(lane)&&opts.ironman&&fs.existsSync(opts.ironman)){try{ironman=JSON.parse(fs.readFileSync(opts.ironman,'utf8'));}catch{ironman=null;}}
+  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:routeRecord?.route,steps,jobStatus:process.env.GATE_JOB_STATUS,l5Run:routeRecord?.l5_run===false?false:true,l5Reason:routeRecord?.l5_reason,l7Run:routeRecord?.l7_run===false?false:true,l7Reason:routeRecord?.l7_reason,files:routeRecord?.files,ironman});
   const out=opts.out||'lane.json';
   fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});
   fs.writeFileSync(out,`${JSON.stringify(record,null,2)}\n`);
@@ -324,10 +372,11 @@ async function cmdSeal(opts){
   console.log(`SHOWDOWN_GATE_SUMMARY ${JSON.stringify(summary)}`);
   if(env.GITHUB_STEP_SUMMARY){
     const rows=LANE_IDS.map(lane=>`| ${lane} | ${summary.lanes[lane].job} | ${summary.lanes[lane].result} | ${summary.lanes[lane].selected} | ${summary.lanes[lane].ran} |`);
-    fs.appendFileSync(env.GITHUB_STEP_SUMMARY,[`### Showdown Gate seal: ${summary.verdict}`,'',`Head \`${headSha}\`, route \`${summary.route_profile}\`, attempt ${summary.run_attempt}, retries used ${summary.retries_used}.`,'','| lane | job | result | selected | ran |','|---|---|---|---|---|',...rows,'',...(summary.failures.length?['**Failures**','',...summary.failures.map(f=>`- ${f}`),'']:[]),'```json',JSON.stringify(summary,null,2),'```',''].join('\n'));
+    fs.appendFileSync(env.GITHUB_STEP_SUMMARY,[`### Showdown Gate seal: ${summary.verdict}`,'',`Head \`${headSha}\`, route \`${summary.route_profile}\`, attempt ${summary.run_attempt}, retries used ${summary.retries_used}.`,'','| lane | job | result | selected | ran |','|---|---|---|---|---|',...rows,'',...(summary.failures.length?['**Failures**','',...summary.failures.map(f=>`- ${f}`),'']:[]),...(summary.flaky.length?['**Flaky (passed on the rerun with the same seed: file it and fix it)**','',...summary.flaky.map(f=>`- ${f}`),'']:[]),'```json',JSON.stringify(summary,null,2),'```',''].join('\n'));
   }
   if(summary.verdict!=='PASS'){console.error(`Showdown Gate seal ${summary.verdict}: ${summary.failures.join(' | ')}`);process.exitCode=1;}
   else console.log('PASS Showdown Gate seal: every lane passed on this exact head and every routed id ran.');
+  for(const line of summary.flaky)console.log(`::warning title=Ironman FLAKY::${line}`);
 }
 
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
