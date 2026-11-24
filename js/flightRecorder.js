@@ -242,13 +242,24 @@ function statusLine(){
 // centre. The phoenix never draws over anything that is open.
 function onTop(chip,box){
   const document=root.document;
-  if(document.querySelector('#settingsOverlay:not(.hidden), dialog[open], [role="dialog"]:not([hidden]):not(.hidden), [aria-modal="true"]:not([hidden]):not(.hidden)'))return false;
+  for(const open of document.querySelectorAll('#settingsOverlay:not(.hidden), dialog[open], [role="dialog"]:not([hidden]):not(.hidden), [aria-modal="true"]:not([hidden]):not(.hidden)')){
+    const r=open.getBoundingClientRect();if(r.width>0&&r.height>0&&root.getComputedStyle(open).visibility!=="hidden")return false;  // drawn, so open
+  }
   if(typeof document.elementFromPoint!=="function")return false;
   const hit=document.elementFromPoint(box.left+box.width/2,box.top+box.height/2);
   return Boolean(hit&&(hit===chip||chip.contains(hit)));
 }
+// The 15 s window starts when the loading screen has gone (a slow resume still gets its phoenix): while it shows, the clock waits.
+function loadingShown(){
+  const el=root.document&&root.document.getElementById("loadingScreen");
+  if(!el||!el.isConnected||el.hidden||el.classList.contains("hidden"))return false;
+  const style=root.getComputedStyle(el),box=el.getBoundingClientRect();
+  return style.display!=="none"&&style.visibility!=="hidden"&&Number(style.opacity)>0&&box.width>0&&box.height>0;
+}
 function watchStatusLine(){
   if(!phoenix.armed||phoenix.rose)return;
+  let loading=false;try{loading=loadingShown();}catch(_error){loading=false;}
+  if(loading)phoenix.armedAt=Date.now();
   if(Date.now()-phoenix.armedAt>ARM_MS){disarm();return;}
   let line=null;try{line=statusLine();}catch(_error){line=null;}
   if(line){phoenix.armed=false;phoenix.timer=null;rise(line);return;}

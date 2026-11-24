@@ -259,7 +259,8 @@ await check('FR9 review fixes: the tap hands on only the six public documents an
   assert.match(pairing,/fsbFlightAsked=false;fsbFlightQueue\.length=0;fsbFlightRetryAt=Date\.now\(\)\+60000;/,'a failed load drops the queue and backs off');
   assert.match(RECORDER_SOURCE,/if\(!onTop\(chip,box\)\)return null;/,'the phoenix rises only where the chip is what is painted');
   assert.match(RECORDER_SOURCE,/#settingsOverlay:not\(\.hidden\), dialog\[open\]/,'never with Settings, a dialog or a modal open');
-  assert.match(RECORDER_SOURCE,/ARM_MS=15000/,'armed for 15 s after the resume, never long after');
+  assert.match(RECORDER_SOURCE,/ARM_MS=15000/,'armed for 15 s, never long after the resume');
+  assert.match(RECORDER_SOURCE,/if\(loading\)phoenix\.armedAt=Date\.now\(\);\n  if\(Date\.now\(\)-phoenix\.armedAt>ARM_MS\)/,'the 15 s start when the loading screen has gone');
   for(const m of RECORDER_SOURCE.matchAll(/root\.(?:read|write|remove)StorageValue\(((?:[^()]|\([^()]*\))*)\)/g))assert.match(m[1],/,true$/,'every storage call is the quiet one: '+m[0]);
   assert.match(read('js/storage.js'),/function readStorageValue\(key,quiet\)\{try\{return localStorage\.getItem\(key\);\}catch\(error\)\{if\(!quiet\)reportStorageError/,'storage.js keeps the notice for every loud call');
   const settings=read('js/settings.js');
