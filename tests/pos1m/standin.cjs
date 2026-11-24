@@ -345,7 +345,10 @@ class Listener{
       if(!initial&&sim.chance(faults.listenerStall)){this.stalled=true;return;}
       if(this.stalled)return;
       const stored=client.server.read(this.ref.path);
-      if(stored.version<=this.lastVersion&&!this.fromCache)return;// never older, never the same twice
+      // never older, never the same twice; except once after this phone's own write is acknowledged or fails, when the
+      // SDK delivers the server copy even if the listener already saw that version (Codex #1578: no stuck hasPendingWrites).
+      if(stored.version<=this.lastVersion&&!this.fromCache&&!this.redeliver)return;
+      this.redeliver=false;
       if(stored.version>this.lastVersion){client.server.meter.listenerReads+=1;client.server.meter.reads+=1;}
       this.lastVersion=stored.version;this.fromCache=false;
       this.known=stored.data===null?null:stored;
@@ -359,8 +362,8 @@ class Listener{
     this.pending={data,acked:false};
     this.emit(new DocumentSnapshot(this.ref,data===null?null:{data,version:this.lastVersion},{fromCache:!this.client.online,hasPendingWrites:true}));
   }
-  localAcked(){if(this.pending)this.pending.acked=true;this.schedule(false);}
-  localFailed(){this.pending=null;this.schedule(false);}
+  localAcked(){if(this.pending){this.pending.acked=true;this.redeliver=true;}this.schedule(false);}
+  localFailed(){if(this.pending)this.redeliver=true;this.pending=null;this.schedule(false);}
   offline(){if(!this.active)return;this.fromCache=true;if(this.includeMetadata&&this.known)this.emit(new DocumentSnapshot(this.ref,this.known,{fromCache:true}));}
   online(){if(!this.active)return;this.schedule(false);}
   heal(){if(!this.active)return;this.stalled=false;this.schedule(false);}

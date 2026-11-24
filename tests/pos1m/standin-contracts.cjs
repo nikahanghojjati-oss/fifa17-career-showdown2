@@ -207,6 +207,20 @@ const increment=(db,ref)=>runTransaction(db,async tx=>{const snap=await tx.get(r
     assert.equal(server.adminGet("c/b1"),null,"nothing from a failed batch lands");
   });
   ok("data: undefined, nested arrays, custom objects, misplaced deleteField and >1 MiB are refused; Date -> Timestamp; fresh copies; atomic batches");
+  // 12b. Codex #1578: a listener that saw the server change before its own write was acknowledged still delivers the
+  // acknowledged copy (hasPendingWrites false), as the SDK does; it never stays stuck on the pending local copy.
+  for(let seed=1;seed<=20;seed+=1)await inSim(seed,{latencyMs:[5,5],callError:0,lostAck:0,phantomAbort:0,contentionDenied:0,listenerDelayMs:0,listenerStall:0,listenerDeath:0},async({server})=>{
+    server.adminSet("c/l",{n:0});
+    const a=server.client({uid:"a",label:"A"}),seen=[];
+    const stop=onSnapshot(doc(a,"c/l"),{includeMetadataChanges:true},snap=>seen.push({n:snap.exists()?snap.data().n:null,pending:snap.metadata.hasPendingWrites}));
+    await new Promise(resolve=>setTimeout(resolve,100));
+    await updateDoc(doc(a,"c/l"),{n:1});
+    await new Promise(resolve=>setTimeout(resolve,1_000));
+    stop();
+    const last=seen[seen.length-1];
+    assert.deepEqual(last,{n:1,pending:false},`seed ${seed}: the listener ends on the acknowledged write, saw ${JSON.stringify(seen)}`);
+  });
+  ok("a listener delivers its own acknowledged write even when it already saw that version (never stuck pending)");
   // 13. Same seed, same story (the replay rule).
   {
     const run=async seed=>{const {server,sim}=await inSim(seed,{callError:0.1,lostAck:0.1,listenerDelayMs:2_000},async({server})=>{const a=server.client({uid:"a",label:"A"}),b=server.client({uid:"b",label:"B"});const out=await Promise.allSettled([1,2,3,4,5,6].map(i=>increment(i%2?a:b,doc(i%2?a:b,"c/x"))));return out.map(o=>o.status);});return JSON.stringify([server.snapshot(),server.meter,server.writeLog.map(w=>[w.at,w.client,w.path]),sim.now]);};
