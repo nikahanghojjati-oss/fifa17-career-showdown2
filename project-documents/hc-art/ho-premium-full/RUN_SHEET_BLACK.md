@@ -227,7 +227,7 @@ Keep image 1 exactly the same size and framing. Repaint the whole surface as one
 
 The stone: mirror-polished black granite, near true black, with a few very fine warm gold flecks and one faint soft warm reflection band; never grey, never blue.
 
-It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. No objects, no reflections of objects, no text, no logos.
+It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, perfectly even wash from edge to edge, with no brighter glow at the top or anywhere else. No objects, no reflections of objects, no text, no logos.
 
 Real stone as a mason would finish it, with clean sharp detail and no noise grain, no streaks, no repeating cells.
 

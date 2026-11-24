@@ -227,7 +227,7 @@ Keep image 1 exactly the same size and framing. Repaint the whole surface as one
 
 The stone: honed black slate with a dry stone surface like a slate blackboard and a few faint pale mineral lines, fully matte, no shine and no reflection.
 
-It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. No objects, no reflections of objects, no text, no logos.
+It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, perfectly even wash from edge to edge, with no brighter glow at the top or anywhere else. No objects, no reflections of objects, no text, no logos.
 
 Real stone as a mason would finish it, with clean sharp detail and no noise grain, no streaks, no repeating cells.
 
