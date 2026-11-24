@@ -45,3 +45,7 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   2. Merge the base into your PR only when GitHub shows a real conflict, because the Gate already tests against the current gameplay/r100. This narrows N-7: merge #1604's head into #1609 only if GitHub shows #1609 conflicting.
   3. If the lead asks you to hold pushes (more than about 60 jobs queued), keep working locally and push once the lead says go.
   The full Gate on the exact head is still required for every merge.
+- N-9 (2026-11-24 22:28 UTC, SCHEDULE CHANGE from Nik via the lead): The feature freeze moves one day earlier, to **Sun 29 Nov 12:00 noon Boston (17:00 UTC)**.
+  - **P1:** the phone rooms (#1609 and any later P1 PR) must be MERGED before Sun 29 noon Boston. Leave time for the Gate and the lead's merge, so aim to have it ready by Sat 28 evening Boston.
+  - **P2** (Story Vol 28, rule book, release note) still starts Sat 28 after 8 PM Boston, but it is now due **Sun 29 at 10 AM Boston (15:00 UTC)**, not Mon 30.
+  - Where the job files still say Mon 30, these dates win.
