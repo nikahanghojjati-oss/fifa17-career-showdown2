@@ -117,17 +117,25 @@
   // Date.now()+offset keeps running while the phone sleeps. Re-measured every 10 minutes; if it cannot be measured (offline,
   // no token) the phone's own clock is used, as before. Costs no Firestore read. Reads and expiry checks use the same offset.
   const SRJ_CLOCK_REFRESH_MS=10*60*1000;
-  let srjClock={known:false,offsetMs:0,at:0};
-  function srjClockNow(){return Date.now()+(srjClock.known?srjClock.offsetMs:0);}
+  // Phoenix W7 (r100): the offset holds only while the phone's clock runs evenly. If the phone clock is set or corrected
+  // (a jump of minutes), or the page slept, the wall clock and the steady page clock (performance.now) drift apart: then the
+  // offset is measured again before the next session write, and a quick check started for the reads, instead of stamping
+  // writes minutes off for up to 10 minutes (the Rules refuse those, and the Showdown would not close by itself).
+  const SRJ_CLOCK_DRIFT_MS=2000,SRJ_CLOCK_RECHECK_MS=30000;
+  let srjClock={known:false,offsetMs:0,at:0,steadyAt:0},srjClockUser=null,srjClockCheck=null,srjClockTriedAt=-Infinity;
+  function srjSteadyNow(){try{const now=root.performance?.now?.();return Number.isFinite(now)?now:null;}catch(_error){return null;}}
+  function srjClockDrifted(){if(!srjClock.known)return false;const steady=srjSteadyNow();if(steady===null||!srjClock.steadyAt)return false;return Math.abs((Date.now()-srjClock.at)-(steady-srjClock.steadyAt))>SRJ_CLOCK_DRIFT_MS;}
+  function srjClockNow(){if(srjClockDrifted()&&srjClockUser&&!srjClockCheck&&!(Math.abs((srjSteadyNow()??0)-srjClockTriedAt)<SRJ_CLOCK_RECHECK_MS)){srjClockCheck=srjServerNow(srjClockUser).catch(()=>{}).finally(()=>{srjClockCheck=null;});}return Date.now()+(srjClock.known?srjClock.offsetMs:0);}
   async function srjServerNow(user){
-    if(srjClock.known&&Math.abs(Date.now()-srjClock.at)<SRJ_CLOCK_REFRESH_MS)return srjClockNow();
+    if(user)srjClockUser=user;
+    if(srjClock.known&&Math.abs(Date.now()-srjClock.at)<SRJ_CLOCK_REFRESH_MS&&!srjClockDrifted())return Date.now()+srjClock.offsetMs;
     try{
       if(user&&typeof user.getIdTokenResult==="function"){
-        const sent=Date.now(),token=await user.getIdTokenResult(true),got=Date.now();
+        srjClockTriedAt=srjSteadyNow()??0;const sent=Date.now(),token=await user.getIdTokenResult(true),got=Date.now();
         const issued=Date.parse(String(token&&token.issuedAtTime||""));
         if(Number.isFinite(issued)&&issued>0&&got>=sent&&got-sent<30000){
           const server=issued+(issued%1000===0?500:0);
-          srjClock={known:true,offsetMs:server-Math.round((sent+got)/2),at:got};
+          srjClock={known:true,offsetMs:server-Math.round((sent+got)/2),at:got,steadyAt:srjSteadyNow()||0};
         }
       }
     }catch(_error){}
