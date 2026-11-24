@@ -28,6 +28,14 @@ function supplementalTests(files){
   const candidates=(files||[]).map(normalized);
   return supplementalRegistry.tests.filter(entry=>candidates.some(file=>entry.patterns.some(pattern=>new RegExp(pattern).test(file)))).map(entry=>entry.path);
 }
+// r100 B7: the flash audit in the three new clubhouses (V10_FLASH_CLUBHOUSES) runs when a file that can change a clubhouse's
+// look changes. It fails closed: no file list, a full seal or an escalation runs it too. Wooden (V10_FLASH_BROWSER) runs always.
+export const CLUBHOUSE_FLASH='V10_FLASH_CLUBHOUSES';
+export const CLUBHOUSE_FLASH_PATTERNS=Object.freeze(['^css/','^index\\.html$','^visual-assets/','^assets/loading/','^js/settings\\.js$','^js/v10Screens\\.js$','^tools/clubhouse-themes/','^tests/browser/v10-screen-flash-(?:audit|clubhouses)\\.cjs$','^tests/contracts/flash-gate-always-contracts\\.cjs$','^scripts/(?:pos10-proof-runner|pos20-impact-router|showdown-gate)\\.mjs$']);
+export function needsClubhouseFlash(files,route){
+  const list=(files||[]).map(normalized).filter(Boolean);
+  return !list.length||Boolean(route?.fullSeal)||list.some(file=>CLUBHOUSE_FLASH_PATTERNS.some(pattern=>new RegExp(pattern).test(file)));
+}
 export function routeFiles(files,context={}){
   const escalation=Boolean(context.forceFull||context.uncertainty==='HIGH'||Number(context.evidenceDebt||0)>=3||context.repeatedFailure===true||context.authorityChange===true);
   const base=pos10Route(files,{forceFull:false});
@@ -39,7 +47,7 @@ export function routeFiles(files,context={}){
   const reason=escalation
     ? `POS20 cognitive escalation requires complete inherited seal.${added.length?` Supplemental blocking tests added: ${added.join(', ')}.`:''}`
     : `POS20 preserves POS10 minimum proof and accepts its exact impact route. ${selected.reason}${added.length?` Supplemental blocking tests added: ${added.join(', ')}.`:''}`;
-  return {...selected,model,profile:escalation?'COGNITIVE_FULL_SEAL':`POS20_${selected.profile}`,reason,cognitiveEscalation:escalation,inheritedKernel:'POS10',tests,testsAddedByPos20:added,proofs:uniq([...selected.proofs,'V10_FLASH_BROWSER']),proofGroups:uniq([...(selected.proofGroups||[]),'VISUAL']).sort(),proofCount:uniq([...selected.proofs,'V10_FLASH_BROWSER']).length,testCount:tests.length};
+  return {...selected,model,profile:escalation?'COGNITIVE_FULL_SEAL':`POS20_${selected.profile}`,reason,cognitiveEscalation:escalation,inheritedKernel:'POS10',tests,testsAddedByPos20:added,proofs:uniq([...selected.proofs,'V10_FLASH_BROWSER',...(escalation||needsClubhouseFlash(files,selected)?[CLUBHOUSE_FLASH]:[])]),proofGroups:uniq([...(selected.proofGroups||[]),'VISUAL']).sort(),proofCount:uniq([...selected.proofs,'V10_FLASH_BROWSER',...(escalation||needsClubhouseFlash(files,selected)?[CLUBHOUSE_FLASH]:[])]).length,testCount:tests.length};
 }
 function output(result,file){const lines=[`profile=${result.profile}`,`tests_csv=${result.tests.join(',')}`,`proofs_csv=${result.proofs.join(',')}`,`proof_groups_json=${JSON.stringify(result.proofGroups||[])}`,`run_operations=${Boolean(result.operations)}`,`full_seal=${Boolean(result.fullSeal)}`,`test_count=${result.testCount||0}`,`proof_count=${result.proofCount||0}`,`selected_proof_cost=${result.selectedProofCost||0}`,`full_proof_cost=${result.fullProofCost||0}`,`proof_cost_saved_percent=${result.proofCostSavedPercent||0}`];fs.appendFileSync(path.resolve(file),`${lines.join('\n')}\n`);}
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){

@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r100-tap-memory-wiring-contracts.cjs",
+  "patterns": [
+    "^js/(sharedTapMemory|productionSharedSeasonCommit|productionSharedSeasonResults|productionSharedTransferChallenge|productionSharedCareerStart|productionSharedTerminalClose|productionFirebaseRuntime)\\.js$",
+    "^service\\-worker\\.js$",
+    "^tests/contracts/r100\\-tap\\-memory\\-wiring\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-tap\\-memory\\-wiring\\-contracts\\.json$"
+  ]
+}
