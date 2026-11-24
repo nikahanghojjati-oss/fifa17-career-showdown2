@@ -121,7 +121,7 @@
   // (a jump of minutes), or the page slept, the wall clock and the steady page clock (performance.now) drift apart: then the
   // offset is measured again before the next session write, and a quick check started for the reads, instead of stamping
   // writes minutes off for up to 10 minutes (the Rules refuse those, and the Showdown would not close by itself).
-  const SRJ_CLOCK_DRIFT_MS=2000,SRJ_CLOCK_RECHECK_MS=30000;
+  const SRJ_CLOCK_DRIFT_MS=2000,SRJ_CLOCK_RECHECK_MS=30000,SRJ_CLOCK_WAIT_MS=8000;
   let srjClock={known:false,offsetMs:0,at:0,steadyAt:0},srjClockUser=null,srjClockMeasure=null,srjClockTriedAt=-Infinity,srjClockFailed=false;
   function srjSteadyNow(){try{const now=root.performance?.now?.();return Number.isFinite(now)?now:null;}catch(_error){return null;}}
   // A failed measure (offline, no token) is not tried again for 30 s, by the writes or the running clock: on a bad connection
@@ -146,7 +146,9 @@
     if(user)srjClockUser=user;
     if(srjClock.known&&Math.abs(Date.now()-srjClock.at)<SRJ_CLOCK_REFRESH_MS&&!srjClockDrifted())return Date.now()+srjClock.offsetMs;
     if(!srjClockMeasure&&!srjClockHeldOff()&&user&&typeof user.getIdTokenResult==="function"){const run=srjMeasureClock(user);srjClockMeasure=run;run.finally(()=>{if(srjClockMeasure===run)srjClockMeasure=null;}).catch(()=>{});}
-    if(srjClockMeasure)await srjClockMeasure.catch(()=>{});
+    // A write waits at most 8 s for the measure (Auth's own timeout is ~30 s and would end on the old offset anyway); a measure
+    // that lands later still updates the offset for the writes after it.
+    if(srjClockMeasure){const measure=srjClockMeasure.catch(()=>{});if(typeof root.setTimeout==="function"){let timer=null;await Promise.race([measure,new Promise(resolve=>{timer=root.setTimeout(resolve,SRJ_CLOCK_WAIT_MS);})]);try{root.clearTimeout?.(timer);}catch(_error){}}else await measure;}
     return Date.now()+(srjClock.known?srjClock.offsetMs:0);
   }
   function srjOperationOptions(context,sessionId){

@@ -70,5 +70,22 @@ const near=(a,b,label)=>assert.ok(Math.abs(a-b)<=1500,`${label}: ${a-b} ms off`)
     near(await waiting,t.server+5*MIN,"a failed measure leaves the last offset");assert.equal(refreshes,2);
     await api.srjServerNow(user);assert.equal(refreshes,2,"held off for 30 s after a real failure");
     ok("W7-6 a write during a measure on its way waits for it (one shared refresh); only a real failure holds measures off for 30 s");}
+  // 7. Verify on #1586: a write waits at most 8 s for a slow measure, then stamps with the last offset (as a 30 s Auth timeout
+  // would have); the measure that lands later still sets the offset for the writes after it.
+  {const t={wall:SERVER,steady:1000,server:SERVER};const timers=[];
+    class PhoneDate extends Date{static now(){return t.wall;}}
+    const root={performance:{now:()=>t.steady},setTimeout:(fn,ms)=>{timers.push({fn,ms});return timers.length;},clearTimeout:()=>{}};
+    const api=vm.runInNewContext(`${block}\n({srjClockNow,srjServerNow})`,{root,Date:PhoneDate,Number,Math,String,Promise,Infinity});
+    let release=null,refreshes=0;const user={async getIdTokenResult(){refreshes+=1;if(refreshes>1)await new Promise(r=>{release=r;});return {issuedAtTime:new Date(t.server).toUTCString()};}};
+    const pass=ms=>{t.wall+=ms;t.steady+=ms;t.server+=ms;};
+    near(await api.srjServerNow(user),t.server,"first");pass(30000);t.wall+=5*MIN;
+    const write=api.srjServerNow(user);let settled=false;write.then(()=>{settled=true;});await new Promise(r=>setImmediate(r));
+    assert.equal(settled,false,"the write waits for the measure");const wait=timers[timers.length-1];assert.equal(wait?.ms,8000);assert.ok(wait,"bounded by an 8 s timer");
+    pass(8000);wait.fn();near(await write,t.server+5*MIN,"after 8 s the write goes with the last offset");
+    release();await new Promise(r=>setImmediate(r));await new Promise(r=>setImmediate(r));
+    // (a slow 8 s round trip measures to within half of it: far inside the Rules' server + 1 min / - 5 min)
+    const within=(a,b,label)=>assert.ok(Math.abs(a-b)<=4600,`${label}: ${a-b} ms off`);
+    within(api.srjClockNow(),t.server,"the late measure still sets the offset");within(await api.srjServerNow(user),t.server,"and the next write uses it");assert.equal(refreshes,2);
+    ok("W7-7 a write waits at most 8 s for a slow measure; a measure landing later still sets the offset for the next writes");}
   console.log(`PASS r100 W7 clock jump contracts: ${passed} checks`);
 })().catch(error=>{console.error(error);process.exit(1);});
