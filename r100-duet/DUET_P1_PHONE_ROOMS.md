@@ -31,7 +31,7 @@ Tickets HO-104..HO-160 (Silver = Platinum 104-122, Metallic Black 123-141, Premi
 4. Platinum: no player-visible text may say "Silver". The key `silver`, CSS hooks and `*_SILVER_*` file names stay.
 
 ## Lead answers (2026-11-24 19:15 UTC)
-- **SIDEWAYS plates** derive in code from that room's painted DESKTOP plate (same landscape composition). They never keep the recoloured copy.
+- **SIDEWAYS plates** (corrected 19:35 UTC): they are their own pictures, not the desktop rooms. BOX SIDEWAYS (the empty League Roulette room at 2:1) derives from the men-free desktop League Roulette paintings HO-165..167. CLUB SIDEWAYS gets its own Team V tickets HO-168..170 (leads/relay dc779a39). No SIDEWAYS plate keeps a recoloured copy in 3.0.
 - **League Roulette men-free phone rooms** get their own Team V tickets (one per clubhouse, filed by the lead). Build them when DONE lands, the same way as CLUB/LOADING (no mask). No recoloured copy ships in 3.0 where a painted room exists.
 
 ## Never
