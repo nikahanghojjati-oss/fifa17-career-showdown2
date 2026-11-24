@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-23 10:46 PM Boston time (EST)",
+ "generated": "2026-11-23 10:51 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 334,
@@ -3072,10 +3072,10 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear (from GitHub).",
-   "gate": "POS20 #304 7/7",
-   "source": "github"
+   "state": "barking",
+   "line": "Barking: Showdown Gate on #1574 has waited 10 min for a machine; Showdown Gate on #1575 has waited 9 min for a machine.",
+   "gate": "POS20 #304 6/16",
+   "source": "physio"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -3860,7 +3860,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 23081
+    "waiting_min": 23086
    },
    {
     "id": "HO-059",
