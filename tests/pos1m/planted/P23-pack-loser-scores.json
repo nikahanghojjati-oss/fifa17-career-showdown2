@@ -1,0 +1,9 @@
+{
+ "id": "P23-pack-loser-scores",
+ "law": "L6_PRIME_PACK",
+ "title": "The Prime Pack loser is given the winner's points too",
+ "file": "js/iconGuessStep.js",
+ "find": "const points=record&&record.winner?igsGuess().points(record)[ctx.managerRole]:0;",
+ "replace": "const points=record&&record.winner?Math.max(...Object.values(igsGuess().points(record))):0;",
+ "why": "Only the winner scores. Here both results carry primePack, the season total for the loser is wrong (in production the Rules would refuse that publish too: Ring 2)."
+}

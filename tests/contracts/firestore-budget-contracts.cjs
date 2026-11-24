@@ -59,7 +59,7 @@ function createWorld({storage=null,now=1_800_000_000_000}={}){
   // Fake Firestore server with SDK-like accounting.
   const server=new Map();let version=1;
   const meter={reads:0,commits:0,docWrites:0,verifyWrites:0,listenerReads:0,transactions:0};
-  let quota=false;
+  let quota=false,listenDown=false;
   function snapshotOf(pathName,fromCache=false){
     const record=server.get(pathName);
     const data=record?JSON.parse(JSON.stringify(record.data)):null;
@@ -96,7 +96,7 @@ function createWorld({storage=null,now=1_800_000_000_000}={}){
     onSnapshot(ref,_options,next,error){
       const listener={path:ref.path,next,error,active:true};
       docListeners.push(listener);
-      Promise.resolve().then(()=>{if(!listener.active)return;if(quota){listener.active=false;error(quotaError());return;}meter.listenerReads+=1;meter.reads+=1;next(snapshotOf(ref.path));});
+      Promise.resolve().then(()=>{if(!listener.active)return;if(quota){listener.active=false;error(quotaError());return;}if(listenDown){listener.active=false;const failure=new Error("listen stream down");failure.code="unavailable";error(failure);return;}meter.listenerReads+=1;meter.reads+=1;next(snapshotOf(ref.path));});
       return ()=>{listener.active=false;};
     }
   };
@@ -122,7 +122,7 @@ function createWorld({storage=null,now=1_800_000_000_000}={}){
   }
   const activeListeners=()=>docListeners.filter(listener=>listener.active);
   return {clock,budget,services,sdk,db,meter,server,serverWrite,advance,setVisible,events,document,sandbox,activeListeners,
-    setQuota(value){quota=value;},failListeners(){for(const listener of docListeners)if(listener.active){listener.active=false;listener.error(new Error("listen stream dropped"));}},
+    setQuota(value){quota=value;},setListenDown(value){listenDown=value;},failListeners(code){for(const listener of docListeners)if(listener.active){listener.active=false;const error=new Error("listen stream dropped");if(code)error.code=code;listener.error(error);}},
     input(){for(const fn of document.listeners.pointerdown||[])fn();},
     cacheDeliver(pathName){for(const listener of docListeners)if(listener.active&&listener.path===pathName)listener.next(snapshotOf(pathName,true));}};
 }
@@ -431,14 +431,54 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.ok(seenAt!==null&&seenAt-at<=3100,`after a dropped listener the 3 s check still delivers the update (${seenAt-at} ms)`);
     const rate=await perMinute(world,0.9);
     assert.ok(rate.reads<=BUDGET.waitingFallbackReadsPerMinute,`fallback reads ${rate.reads}/min (budget ${BUDGET.waitingFallbackReadsPerMinute})`);
-    assert.equal(world.activeListeners().length,0,"no re-attach inside the 60 s back-off");
+    // Phoenix W8 (r100): a passing error builds the listener again after 2 s (it was a full minute), so the fallback reads stop.
+    assert.equal(world.activeListeners().length,1,"W8: the listener is built again after the short back-off");
     await world.advance(15000);
-    assert.equal(world.activeListeners().length,1,"the listener comes back after the back-off");
+    assert.equal(world.activeListeners().length,1,"the listener stays");
     // A cached (offline) delivery never serves the watched document.
     world.cacheDeliver(TRANSFER);
     world.serverWrite(TRANSFER,{phase:"window",requests:{}});
     await world.advance(3100);
     assert.equal(screen.seen.phase,"window");
+    screen.stop();
+  });
+
+  await check("FB6c","W8: a dead listener is built again after 2 s, then 8 s, then 30 s, then each minute; a listener that stayed up a minute starts again at 2 s; a Rules refusal keeps the minute; the rival's move shows within 5 s",async()=>{
+    const world=createWorld();seed(world);
+    const screen=createScreen(world,{owner:"results",watched:RESULTS,context:[RIVALRY,SESSION],fast:true,slow:true});
+    screen.start();await world.advance(10000);
+    assert.equal(world.activeListeners().length,1,"waiting: one live listener");
+    // Past the 3 minute fast window only the 15 s poll reads; this is where a dead listener used to cost up to 15 s.
+    const healthy=await perMinute(world,4);
+    assert.ok(healthy.reads<=BUDGET.waitingVisibleReadsPerMinute,`no extra reads while the listener is healthy (${healthy.reads}/min)`);
+    const attachedBefore=world.budget.stats().listenersAttached;
+    world.failListeners("unavailable");
+    world.serverWrite(RESULTS,{published:{playerTwo:true}});
+    const at=world.clock.now;let seenAt=null;
+    for(let step=0;step<200&&seenAt===null;step+=1){await world.advance(50);if(screen.seen?.published?.playerTwo===true)seenAt=world.clock.now;}
+    assert.ok(seenAt!==null&&seenAt-at<=5000,`the rival's publish shows within 5 s of the listener dying (${seenAt===null?"never":seenAt-at} ms)`);
+    await world.advance(5100);
+    assert.equal(world.activeListeners().length,1,"rebuilt after the 2 s back-off (by the next 3 s check)");
+    assert.equal(world.budget.stats().listenersAttached,attachedBefore+1);
+    // Fails again at once: 8 s, then 30 s, then the minute.
+    for(const [wait,label] of [[8000,"8 s"],[30000,"30 s"],[60000,"a minute"]]){
+      world.failListeners("unavailable");
+      // Asked straight away by the screen's 3 s check, nothing attaches until the wait is over.
+      await world.advance(wait-500);
+      assert.equal(world.activeListeners().length,0,`still waiting out the ${label} back-off`);
+      await world.advance(3600);
+      assert.equal(world.activeListeners().length,1,`rebuilt after ${label}`);
+      assert.equal(world.budget.stats().listenerRebuildWaitMs,wait);
+    }
+    // A listener that stayed up a minute starts the count again.
+    await world.advance(61000);
+    world.failListeners("unavailable");await world.advance(5100);
+    assert.equal(world.activeListeners().length,1,"after a minute up, the next failure is 2 s again (the next 3 s check builds it)");assert.equal(world.budget.stats().listenerRebuildWaitMs,2000);
+    // A Rules refusal is not a passing error: the full minute, and no wake read for it.
+    world.failListeners("permission-denied");
+    await world.advance(30000);
+    assert.equal(world.activeListeners().length,0,"a refused listener keeps the full minute");
+    assert.equal(world.budget.stats().listenerRebuildWaitMs,60000);
     screen.stop();
   });
 
@@ -448,6 +488,8 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const ask=()=>world.budget.watchWaitPoint("results",TRANSFER,()=>{});
     await screen.tick();
     for(let index=0;index<4;index+=1){ask();await world.advance(2500);}
+    // W8: one drop is now rebuilt within seconds, so this check keeps the listen stream down (every rebuild fails at once).
+    world.setListenDown(true);
     world.failListeners();
     assert.equal(world.budget.stats().listenerFallbacks,1,"the wait listener was attached and dropped");
     await screen.tick();

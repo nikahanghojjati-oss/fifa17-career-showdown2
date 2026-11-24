@@ -208,6 +208,29 @@ const stamp=deviceId=>({activeSessionId:SID,updatedByDeviceId:deviceId,updatedAt
     await assertPlainDenial(updateDoc(roundRef(dbA,4),{"arrived.playerOne":null,revision:5,...stamp(DA)}),"Daniel withdraws after both arrived");
     checks.push("coming back arrives again (a fresh server time); once both are on the screen an arrival is never withdrawn");
 
+    // Phoenix W12 (r100): a lost answer. The real SDK runs a transaction again when a commit's answer is lost (unavailable,
+    // deadline-exceeded) even though the write landed. This SDK does exactly that once: the commit lands, then the same
+    // transaction body runs again. One tap must still spend one chip, and a right guess must still read as won.
+    const lostReplySdk=()=>({...plainSdk(),runTransaction:async(db,body)=>{await firestoreSdk.runTransaction(db,body);return firestoreSdk.runTransaction(db,body);}});
+    const lostIo=(db,deviceId)=>({...io(db,deviceId),sdk:lostReplySdk()});
+    assert.equal(await Step.arrive(io(dbA,DA),ctx("playerOne",5)),"created");
+    assert.equal(await Step.arrive(io(dbB,DB),ctx("playerTwo",5)),"arrived");
+    await wait(3200);
+    const lostWrong=await Step.applyGuess(lostIo(dbA,DA),ctx("playerOne",5),false);
+    assert.equal(lostWrong.ok,true,`Daniel's wrong guess with a lost answer: ${JSON.stringify(lostWrong)}`);
+    current=await read(5);assert.deepEqual(current.chipsUsed,{playerOne:1,playerTwo:0},"one tap, one chip, although the transaction ran twice");
+    assert.equal(current.revision,3);assert.equal(current.namedBy,null);
+    checks.push("a wrong guess whose answer is lost (the transaction runs again after the write landed) spends one chip, not two");
+    const lostRight=await Step.applyGuess(lostIo(dbA,DA),ctx("playerOne",5),true);
+    assert.equal(lostRight.ok,true,`Daniel's right guess with a lost answer reads as won, never late: ${JSON.stringify(lostRight)}`);
+    assert.equal(lostRight.record.winner?.role,"playerOne");
+    current=await read(5);assert.deepEqual(current.chipsUsed,{playerOne:2,playerTwo:0});assert.equal(current.namedBy,"playerOne");assert.equal(current.revision,4);
+    checks.push("a right guess whose answer is lost spends one chip and reads back as won (never shown late while the record names him)");
+    const nikAfter=await Step.applyGuess(lostIo(dbB,DB),ctx("playerTwo",5),true);
+    assert.equal(nikAfter.ok,false);assert.equal(nikAfter.reason,"ROUND_OVER");
+    current=await read(5);assert.deepEqual(current.chipsUsed,{playerOne:2,playerTwo:0},"the other manager's late guess spends nothing");
+    checks.push("after a lost-answer win the other manager's guess is late and spends nothing; one winner");
+
     // 3. The points.
     const publish=async(db,uid,deviceId,result,n,baseRevision,t)=>Results.publishResult({...base(db,uid,deviceId,now+t),seasonNumber:1,operationId:op("season_result_op_",n),baseRevision,result});
     const daniel=await publish(dbA,A,DA,{...SEVEN,primePack:4},31,0,900);

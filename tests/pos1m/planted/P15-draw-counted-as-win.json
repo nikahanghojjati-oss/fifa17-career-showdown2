@@ -1,0 +1,9 @@
+{
+ "id": "P15-draw-counted-as-win",
+ "law": "L3_NO_TIEBREAK",
+ "title": "History counts a drawn season as a win for Daniel",
+ "file": "js/sharedHistoryConvergence.js",
+ "find": "if(season.winner===role)record.seasonWins+=1;else if(season.winner===\"draw\")record.seasonDraws+=1;",
+ "replace": "if(season.winner===role||(season.winner===\"draw\"&&role===\"playerOne\"))record.seasonWins+=1;else if(season.winner===\"draw\")record.seasonDraws+=1;",
+ "why": "A hidden tiebreak in History: a draw becomes a Daniel win."
+}

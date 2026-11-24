@@ -1,0 +1,9 @@
+{
+ "id": "P14-invented-end-request",
+ "law": "L2_NO_INVENTED_ACTION",
+ "title": "One END tap also records the rival's END",
+ "file": "js/sparkSharedTransferChallenge.js",
+ "find": "if(next.endRequestedRoles.includes(ctx.role))stspFail(\"TRANSFER_END_ALREADY_REQUESTED\");next.endRequestedRoles.push(ctx.role);",
+ "replace": "if(next.endRequestedRoles.includes(ctx.role))stspFail(\"TRANSFER_END_ALREADY_REQUESTED\");next.endRequestedRoles.push(ctx.role);if(next.endRequestedRoles.length===1)next.endRequestedRoles.push(ctx.opponentRole);",
+ "why": "One phone writes the other manager's action."
+}

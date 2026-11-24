@@ -1,0 +1,19 @@
+{
+ "id": "P04-leaked-result",
+ "law": "L4_PRIVACY",
+ "title": "The rival's season result shows before this manager has published his own",
+ "file": "js/sparkSharedSeasonResults.js",
+ "find": "if(base.state&&base.state.phase===\"RESULTS_READY\")return ssrpProjection(await ssrpContext(options,transaction,{readOpponent:true}));",
+ "replace": "if(base.state&&base.state.publishedRoles.includes(base.opponentRole))return ssrpProjection(await ssrpContext(options,transaction,{readOpponent:true}));",
+ "also": [
+  {
+   "find": "if(readOpponent){if(!state||state.phase!==\"RESULTS_READY\")ssrpFail(\"SEASON_RESULTS_PRIVATE_READ_BLOCKED\");",
+   "replace": "if(readOpponent){"
+  },
+  {
+   "find": "opponentResult=ready&&ctx.opponent?",
+   "replace": "opponentResult=ctx.opponent?"
+  }
+ ],
+ "why": "Once the rival has published, the read fetches and shows his private result to a manager who has not published yet, so he could copy or react to it. (Production Rules would also refuse the read: Ring 2 covers that side.)"
+}

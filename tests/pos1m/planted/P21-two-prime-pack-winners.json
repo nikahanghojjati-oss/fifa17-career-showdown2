@@ -1,0 +1,9 @@
+{
+ "id": "P21-two-prime-pack-winners",
+ "law": "L6_PRIME_PACK",
+ "title": "A second right Prime Pack guess replaces the first winner",
+ "file": "js/iconGuess.js",
+ "find": "if(record.winner)return {ok:false,reason:\"ROUND_OVER\"};\n    const startMs=igStartMs(record);\n    if(startMs===null)return {ok:false,reason:\"NOT_STARTED\"};\n    if(record.chipsUsed[role]>=CHIPS)",
+ "replace": "const startMs=igStartMs(record);\n    if(startMs===null)return {ok:false,reason:\"NOT_STARTED\"};\n    if(record.chipsUsed[role]>=CHIPS)",
+ "why": "The round no longer closes on the first right guess, so the rival's late right guess takes the win (two winners in one season, Nik's rule says one)."
+}

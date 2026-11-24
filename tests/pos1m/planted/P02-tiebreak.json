@@ -1,0 +1,9 @@
+{
+ "id": "P02-tiebreak",
+ "law": "L3_NO_TIEBREAK",
+ "title": "Equal season totals are given to the better league position",
+ "file": "js/sharedCanonicalScoring.js",
+ "find": "if(scoring.playerTwo.total>scoring.playerOne.total)return \"playerTwo\";return \"draw\";}",
+ "replace": "if(scoring.playerTwo.total>scoring.playerOne.total)return \"playerTwo\";return results.playerOne.leaguePosition<=results.playerTwo.leaguePosition?\"playerOne\":\"playerTwo\";}",
+ "why": "A tiebreak on league position: Nik's rule is no tiebreak anywhere, equal is a draw."
+}
