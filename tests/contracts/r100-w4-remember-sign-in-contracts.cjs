@@ -119,6 +119,6 @@ test("W4-6: the guards say the new truth and keep everything else: popup only, n
   assert.match(controller,/authSdk\.signOut\(sparkConnectedServices\.auth\)/,"SIGN OUT goes through Firebase's own signOut (which clears the remembered user)");
   const identity=read("js/onlinePlayerIdentity.js");
   assert.match(identity,/await deps\.account\.initialize\(\);watchAccountSignOut\(deps\.account\);/,"every tab watches the remembered account (Codex #1599)");
-  assert.match(identity,/const out=next\.signedIn===false,other=Boolean\(next\.accountId\)&&next\.accountId!==state\.accountId;if\(!out&&!other\)return;accountSignOutReloading=true;[^}]*\}catch\(_\)\{\}root\.location\?\.reload\?\.\(\);/,"a tab whose account was signed out elsewhere starts again signed out");
+  assert.match(identity,/const before=accountSeenId;accountSeenId=seen\(next\);\/\*[^*]*\*\/if\(accountSignOutReloading\|\|!state\.accountId\|\|!before\|\|before!==state\.accountId\|\|accountSeenId===before\)return;accountSignOutReloading=true;[^}]*\}catch\(_\)\{\}root\.location\?\.reload\?\.\(\);/,"a tab whose account was signed out elsewhere starts again signed out");
   assert.doesNotMatch(controller,/addScope\(|signInWithRedirect|localStorage|sessionStorage|indexedDB|getIdToken|refreshToken/,"game code never stores or reads the sign-in itself");
 });
