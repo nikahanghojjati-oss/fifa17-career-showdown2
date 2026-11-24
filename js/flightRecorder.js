@@ -266,6 +266,22 @@ function watchStatusLine(){
   if(typeof root.setTimeout==="function")phoenix.timer=root.setTimeout(watchStatusLine,250);
 }
 const PHOENIX_SVG='<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><defs><linearGradient id="phoenixRiseGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1b8"/><stop offset=".45" stop-color="#e8c25a"/><stop offset="1" stop-color="#a8761e"/></linearGradient></defs><g fill="url(#phoenixRiseGold)"><path d="M31 29C25 21 17 16 6 6c4 10 7 17 13 23-6-2-10-2-16-4 6 7 14 11 23 11z"/><path d="M33 29c6-8 14-13 25-23-4 10-7 17-13 23 6-2 10-2 16-4-6 7-14 11-23 11z"/><path d="M32 21c3 4 4 10 2 18l-2 7-2-7c-2-8-1-14 2-18z"/><circle cx="32" cy="17.5" r="3.2"/><path d="M32 43c-2 6-6 10-11 15 6-1 9-3 11-6 2 3 5 5 11 6-5-5-9-9-11-15z"/></g></svg>';
+// How far the bird may travel: its whole path (glow included) stays inside the window and clear of every button, link, field
+// and the music player around the chip. With no room it rises in place (a fade and a small grow).
+const RISE_CLEAR=["button","a[href]","[role=\"button\"]","input","select","textarea","audio","video","[class*=\"music\" i]"].join(",");
+function riseRoom(chip,box,size){
+  const document=root.document,pad=Math.ceil(size*.03)+7,left=box.left-pad,right=box.right+pad,mid=box.top+box.height/2;
+  let ceiling=2,floor=(root.innerHeight||0)-2;
+  for(const el of document.querySelectorAll(RISE_CLEAR)){
+    if(el===chip||el.contains(chip)||chip.contains(el))continue;
+    const r=el.getBoundingClientRect();if(!(r.width>0&&r.height>0)||r.right<=left||r.left>=right)continue;
+    const style=root.getComputedStyle(el);if(style.visibility==="hidden"||style.display==="none")continue;
+    if(r.bottom<=mid)ceiling=Math.max(ceiling,r.bottom);else if(r.top>=mid)floor=Math.min(floor,r.top);else return {up:0,down:0};
+  }
+  const up=Math.max(0,Math.min(Math.round(size*.7),Math.floor(box.top-pad-ceiling)));
+  const down=Math.max(0,Math.min(Math.round(size*.45),Math.floor(floor-(box.bottom+pad))));
+  return {up,down};
+}
 function rise(line){
   const document=root.document;
   phoenix.rose+=1;
@@ -278,8 +294,9 @@ function rise(line){
     Object.assign(bird.style,{position:"fixed",left:`${Math.round(line.box.left+line.box.width/2-size/2)}px`,top:`${Math.round(line.box.top+line.box.height/2-size/2)}px`,
       width:`${size}px`,height:`${size}px`,pointerEvents:"none",zIndex:"2147483000",opacity:"0",filter:"drop-shadow(0 0 6px rgba(240,200,90,.75))",contain:"strict"});
     document.body.appendChild(bird);
+    const room=riseRoom(line.chip,bird.getBoundingClientRect(),size);
     const frames=reduced?[{opacity:0},{opacity:1,offset:.3},{opacity:1,offset:.7},{opacity:0}]:
-      [{opacity:0,transform:"translateY(45%) scale(.8)"},{opacity:1,transform:"translateY(0) scale(1)",offset:.35},{opacity:1,transform:"translateY(-30%) scale(1.04)",offset:.7},{opacity:0,transform:"translateY(-70%) scale(1.06)"}];
+      [{opacity:0,transform:`translateY(${room.down}px) scale(.8)`},{opacity:1,transform:"translateY(0) scale(1)",offset:.35},{opacity:1,transform:`translateY(${-Math.round(room.up*.45)}px) scale(1.03)`,offset:.7},{opacity:0,transform:`translateY(${-room.up}px) scale(1.03)`}];
     const done=()=>{bird.remove();try{delete document.documentElement.dataset.phoenixRising;}catch(_error){}};
     document.documentElement.dataset.phoenixRising="1";
     if(typeof bird.animate==="function"){const run=bird.animate(frames,{duration:1000,easing:"ease-out",fill:"forwards"});run.onfinish=done;run.oncancel=done;}

@@ -204,6 +204,26 @@ async function assertClearOfChrome(page, targets, label) {
           assert.equal(await page.evaluate(() => document.documentElement.dataset.phoenixRose || null), null, "and it has not risen behind it");
           await page.evaluate(() => window.closeSettings());
           await page.waitForSelector(".phoenixRise", { timeout: 3000 });
+          // every frame of the rise (paused and stepped, 0 to 1000 ms): clear of every button, link, field and the music
+          // player, and inside the window; then it plays on
+          const path_ = await page.evaluate(() => {
+            const bird = document.querySelector(".phoenixRise"), runs = bird.getAnimations(), out = [];
+            const clear = [...document.querySelectorAll("button, a[href], [role=button], input, select, textarea, audio, video, [class*='music' i]")].filter(el => { const r = el.getBoundingClientRect(); return el.id !== "seasonIndicator" && r.width && r.height && getComputedStyle(el).visibility !== "hidden"; });
+            for (const a of runs) a.pause();
+            for (let t = 0; t <= 1000; t += 50) {
+              for (const a of runs) a.currentTime = t;
+              const b = bird.getBoundingClientRect(), opacity = Number(getComputedStyle(bird).opacity);
+              const hit = clear.filter(el => { const q = el.getBoundingClientRect(); return q.x < b.right && b.x < q.right && q.y < b.bottom && b.y < q.bottom; }).map(el => (el.id || el.className || el.tagName).toString().slice(0, 30));
+              out.push({ t, opacity, top: b.top, bottom: b.bottom, left: b.left, right: b.right, hit });
+            }
+            for (const a of runs) { a.currentTime = 0; a.play(); }
+            return out;
+          });
+          for (const f of path_) {
+            if (f.opacity <= 0) continue;
+            assert.deepEqual(f.hit, [], `phoenix at ${f.t} ms clear of every button and the music player`);
+            assert.ok(f.top >= 0 && f.left >= 0 && f.bottom <= height && f.right <= width, `phoenix at ${f.t} ms inside the window`);
+          }
           await page.waitForTimeout(330);
           const mid = await page.evaluate(() => {
             const box = el => { const r = el.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; };
