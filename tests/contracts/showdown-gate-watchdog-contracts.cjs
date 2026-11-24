@@ -23,6 +23,7 @@ let checks=0;const ok=label=>{checks++;void label;};
   const C=await import(path.join(root,'scripts/gate-compare.mjs'));
   // Keep L5 routing contracts in the registered watchdog census without changing the POS20 registry.
   await require('./showdown-gate-l5-inputs-contracts.cjs')();
+  await require('./showdown-gate-l7-ironman-contracts.cjs')();
 
   const head='c'.repeat(40);
   const base='b'.repeat(40);const runId=100;
@@ -133,7 +134,8 @@ let checks=0;const ok=label=>{checks++;void label;};
     const pushFile=path.join(realTemp,'push.json');fs.writeFileSync(pushFile,JSON.stringify({before:previousHead,after:head}));
     assert.equal(S.baseFromEnv({GITHUB_EVENT_NAME:'push',GITHUB_EVENT_PATH:pushFile}),previousHead);
     const finalizeSteps=Object.values(readWorkflow(root,'.github/workflows/showdown-gate.yml').jobs).flatMap(job=>job.steps||[]).filter(step=>/showdown-gate\.mjs finalize/.test(String(step.run||'')));
-    assert.equal(finalizeSteps.length,S.LANE_IDS.length,'every lane records its result');
+    // One finalize step per lane job; the L7 matrix job's one step records every leg (--lane L7-${{ matrix.leg }}).
+    assert.equal(finalizeSteps.length,new Set(Object.values(S.LANES).map(def=>def.job)).size,'every lane records its result');
     for(const step of finalizeSteps){
       const env=step.env||{};
       assert.ok(!('GITHUB_EVENT_NAME' in env),'finalize keeps the runner-provided GITHUB_EVENT_NAME');
@@ -155,7 +157,8 @@ let checks=0;const ok=label=>{checks++;void label;};
   const gate=readWorkflow(root,'.github/workflows/showdown-gate.yml');
   assert.equal(gate.name,W.GATE_WORKFLOW_NAME);assert.ok(gate.jobs.seal&&gate.jobs.seal.name===W.SEAL_JOB_NAME);
   PS.GATE_LANES.forEach((name,i)=>assert.ok(name.startsWith(`${['L1','L2','L3A','L3B','L4','L5','L6'][i]} `),name));
-  assert.deepEqual(Object.values(gate.jobs).filter(j=>j.name!=='seal').map(j=>j.name),PS.GATE_LANES,'lane names are the gate job names');
+  // The Physio bar shows the seven single-job lanes; the L7 Ironman matrix (one job per leg) is read through the seal.
+  assert.deepEqual(Object.values(gate.jobs).filter(j=>j.name!=='seal'&&!/^L7 Ironman /.test(j.name)).map(j=>j.name),PS.GATE_LANES,'lane names are the gate job names');
   const coverageGates=JSON.parse(fs.readFileSync(path.join(root,'GATE_COVERAGE.json'),'utf8')).gates.map(g=>g.name);
   assert.deepEqual(PS.POS20_GATE_NAMES,coverageGates,'the Physio counts exactly the 16 gates of GATE_COVERAGE.json');
   assert.equal(W.MAX_ATTEMPTS,3);
