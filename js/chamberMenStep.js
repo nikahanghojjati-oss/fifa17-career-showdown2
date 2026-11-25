@@ -13,6 +13,12 @@
   const STAGE_ID="cmStage",COLLECTION="chamberMenRounds",OBJECT_TYPE="sharedChamberMenRound";
   const DONE_KEY="careerModeShowdown.chamberMenDone.v2",KEPT_KEY="careerModeShowdown.chamberMenKicks.v2",KEYS_MAX=60,SCHEMA=2;
   const PICK_MS=10000,KICK_MS=4600,TICK_MS=200,POLL_MS=2500,LOAD_WAIT_MS=10000,SEND_RETRY_MS=1500,NOTICE_MS=2500;
+  // Chamber Men keeps the 2.5 s pace (a kick's deadline is 14.6 s after the rival's kick, so a slower bridge would let the timer
+  // decide a turn) and waits 5 s after a failed read.
+  const BRIDGE_FAST_MS=2500,BRIDGE_FAST_FOR_MS=Infinity,BRIDGE_SLOW_MS=2500,BRIDGE_FAILED_MS=5000;
+  // Lead on #1588: a new listener often delivers a cached copy before its first server copy. Until the stream has delivered a
+  // server copy once, the first bridge read waits BRIDGE_FIRST_MS, so a healthy (slow) start never pays a bridge read.
+  const BRIDGE_FIRST_MS=5000;
   // Codex C2: past the rival's lock-in by the pick clock, the last kick's reveal and 2 s for the network, a pick lands as the
   // timeout '-'. The Rules hold 16.6 s (the 2.2.0 reveal); this phone's own limit is never longer.
   const LATE_MS=PICK_MS+KICK_MS+2000;
@@ -74,6 +80,9 @@
     return cmsEngine().record({playerOne:data.kicks.playerOne,playerTwo:data.kicks.playerTwo});
   }
   function cmsNow(io){try{return io.now();}catch(_error){return Date.now();}}
+  // Codex #1588: a bridge read must reach the server. Through the budget layer a read-only transaction may otherwise reuse a
+  // copy for up to 60 s (or 15 s under the read brake), so the rival's move could wait that long after the bridge read.
+  function cmsServerNext(io,season){try{root.CareerModeFirestoreBudget?.readServerNext?.(`rivalries/${io.rivalryId}/${COLLECTION}/${cmsSeasonId(season)}`);}catch(_error){}}
   function cmsRef(io,season){return io.sdk.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,cmsSeasonId(season));}
   function cmsStamp(io){return {activeSessionId:io.sessionId,updatedByDeviceId:io.deviceId,updatedAt:io.sdk.serverTimestamp()};}
   // This manager's letter for kick n, on the latest record: created with the first letter of all, or his string grown by
@@ -159,7 +168,19 @@
     const api=await cmsSnapshotApi(io),ref=cmsRef(io,ctx.season);
     if(api){
       const listenRef=api===io.sdk?ref:api.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,cmsSeasonId(ctx.season));
-      return api.onSnapshot(listenRef,{includeMetadataChanges:true},snap=>{if(snap.metadata?.hasPendingWrites||snap.metadata?.fromCache)return;onData(snap.exists()?snap.data():null);},onError);
+      // Phoenix W8 (r100): a listener whose stream is down goes quiet (the SDK only marks its copy fromCache): B1's listener fault
+      // (#1579) left a shootout waiting on the rival's kick for good. While the copy is from cache, the record is read from the
+      // server (one billed read each) every 2.5 s, as the kick clock needs; none while the page is hidden or the phone is offline,
+      // and 5 s after a failed read. The reads stop as soon as a server copy is back. Worst case, a stream dead for 5 minutes on a
+      // visible page: 120 reads on that phone (only during such a fault; a shootout lasts about 2-3 minutes).
+      let stopped=false,live=true,bridging=false,served=false;
+      const bridge=async()=>{if(bridging)return;bridging=true;const since=Date.now();let next=served?BRIDGE_FAST_MS:BRIDGE_FIRST_MS;
+        try{while(!stopped&&!live){await cmsWait(next);if(stopped||live)break;
+          if(root.document?.visibilityState==="hidden"||root.navigator?.onLine===false){next=1000;continue;}
+          try{cmsServerNext(io,ctx.season);const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped&&!live)onData(data);next=Date.now()-since<BRIDGE_FAST_FOR_MS?BRIDGE_FAST_MS:BRIDGE_SLOW_MS;}
+          catch(_error){next=BRIDGE_FAILED_MS;}}}finally{bridging=false;}};
+      const off=api.onSnapshot(listenRef,{includeMetadataChanges:true},snap=>{if(stopped)return;if(snap.metadata?.fromCache){live=false;void bridge();return;}live=true;served=true;if(snap.metadata?.hasPendingWrites)return;onData(snap.exists()?snap.data():null);},onError);
+      return ()=>{stopped=true;try{off();}catch(_error){}};
     }
     let stopped=false;
     const poll=async()=>{while(!stopped){try{const data=await io.sdk.runTransaction(io.firestore,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;});if(!stopped)onData(data);}catch(error){if(!stopped)onError(error);return;}await cmsWait(POLL_MS);}};

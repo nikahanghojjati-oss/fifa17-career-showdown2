@@ -320,13 +320,10 @@ check("S1 the skin API is small, frozen and points at Team V's copied files",()=
   assert.equal(Setup.SKIN_CLASS,SKIN);
   assert.deepEqual({...Setup.SCREENS},{createShowdown:"start",leagueWheelScreen:"league",dashboard:"start"});
   assert.ok(!Object.hasOwn(Setup.SCREENS,"clubWheelScreen"),"JOB-34: js/clubScreenV10.js owns the Club screen");
-  assert.ok(!Object.hasOwn(Setup.HEROES,"club"),"no club heroes in the setup skin");
+  assert.ok(!Object.hasOwn(Setup,"HEROES"),"r100 B7: no phone heroes in the setup skin (the clubhouse rooms paint both men)");
   assert.deepEqual([...Setup.STYLE],["v10-setup-ui","css/v10Setup.css"]);
   assert.deepEqual([...Setup.TRUTH_IDS],TRUTH_MD_IDS,"TRUTH ids as in start-join/TRUTH.md");
-  for(const skin of Object.values(Setup.SCREENS))for(const who of ["daniel","nik"]){
-    const file=Setup.BASE+Setup.HEROES[skin][who];
-    assert.ok(Object.hasOwn(TEAM_V_FILES,file),file);
-  }
+  assert.doesNotMatch(read("js/v10Setup.js"),/OVL_(?:SJ|LEAGUE)_(?:DANIEL|NIK)_PHONE_V1/,"r100 B7: the hidden phone heroes are never downloaded");
   for(const [file,hash] of Object.entries(TEAM_V_FILES)){
     assert.ok(fs.existsSync(path.join(ROOT,file)),file);
     assert.equal(sha256(file),hash,`${file} is Team V's file unchanged`);
@@ -374,19 +371,12 @@ check("S4 every TRUTH.md id and every setup id survives mount and unmount; produ
     assert.equal(root.CareerModeV10Screens.isMounted(screen),true,`${screen} mounted`);
     assert.equal(host.classList.contains(SKIN),true);
     assert.equal(root.document.documentElement.dataset.v10Setup,skin);
-    const art=host.children.filter(child=>child.classList.contains("v26Art"));
-    assert.equal(art.length,1,"one decorative art layer");
-    assert.equal(art[0].getAttribute("aria-hidden"),"true");
-    assert.equal(art[0].children.length,2,"Daniel and Nik");
-    assert.match(art[0].children[0].className,/v26Hero--daniel/,"Daniel left");
-    assert.match(art[0].children[1].className,/v26Hero--nik/,"Nik right");
-    assert.equal(art[0].children[0].children[0].getAttribute("srcset"),Setup.BASE+Setup.HEROES[skin].daniel);
-    assert.equal(art[0].children[0].children[0].getAttribute("media"),"(max-width: 900px)","phone-only art; desktop uses the plate");
+    assert.equal(host.children.filter(child=>child.classList.contains("v26Art")).length,0,"r100 B7: no hidden phone art layer");
     for(const id of ids)assert.ok(byId(root,id),`#${id} after mounting ${screen}`);
     assert.deepEqual(productSnapshot(root,{skipClassOf:skip}),before,`${screen}: product nodes untouched`);
     // The second mount of the same frame is a no-op.
     root.showScreen(screen);await flush();
-    assert.equal(host.children.filter(child=>child.classList.contains("v26Art")).length,1,"no double mount");
+    assert.equal(host.children.filter(child=>child.classList.contains("v26Art")).length,0,"no art layer on a second mount");
   }
   root.showScreen("mainMenu");await flush();
   for(const host of screenHosts(root)){

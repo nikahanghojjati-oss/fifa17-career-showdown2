@@ -446,9 +446,14 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;return supplied??(standingsCareerLoad?{status:"loading"}:root.CareerModeRivalryLegacyV10?.cachedCareerModel?.())??null;}catch(_){return null;}}
   // HO-068: Team V's markup still names the plates-v2 phone plate; the Final Winner phone picture is the board room now
   // (its 590 px copy at the smallest download size, html[data-assets="0"]).
+  // r100 B7: the old Season Results phone room, phone managers and desktop hands, and the Final Winner near arms, sit in
+  // layers that are hidden at every size, tier and fallback (the clubhouse rooms paint both men), so their pictures are
+  // taken out before the markup is used and the browser never downloads them.
   function sfRooms(text){
     const lean=root.document?.documentElement?.dataset?.assets==="0";
-    return text.split("plates-v2/ENV_FINAL_WINNER_PHONE_V2.webp").join("plates-hc/ENV_BOARD_PHONE_HC_V3"+(lean?"_590W":"")+".webp");
+    return text.split("plates-v2/ENV_FINAL_WINNER_PHONE_V2.webp").join("plates-hc/ENV_BOARD_PHONE_HC_V3"+(lean?"_590W":"")+".webp")
+      .replace(/[ \t]*<source[^>]*(?:OVL_SR_(?:DANIEL|NIK)_(?:HAND_V1_[12]X|PHONE_V1)|ENV_SR_PHONE_V1)\.webp[^>]*>\n?/g,"")
+      .replace(/ (?:src|srcset)="[^"]*OVL_FW_(?:DANIEL|NIK)_NEAR_ARM_V1_[12]X\.webp[^"]*"/g,"");
   }
   function stageElement(folder){const holder=root.document.createElement("div");holder.innerHTML=templates[folder];return holder.firstElementChild;}
   const fail=error=>root.console?.warn?.("[Career Mode Showdown] Season visual unavailable",error);
@@ -960,8 +965,6 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
   background:#090b0e;
  }
 
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"season-results/assets/ENV_SR_PHONE_V1.webp")}"); }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); }
 
  /* Leave 430px for the live card, tabs, actions, gaps and bottom inset. */
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
@@ -1078,14 +1081,14 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
   display:block; grid-column:1; grid-row:1/5; align-self:stretch;
   position:relative; z-index:1; min-width:0; min-height:0; margin:0;
   overflow:hidden; border-radius:5px; pointer-events:none;
-  background:#05070955 url("${assetUrl(BASE+"season-results/assets/ENV_SR_PHONE_V1.webp")}") center/cover;
+  background:#05070955;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before,
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
   content:""; position:absolute; pointer-events:none; background-repeat:no-repeat;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before {
-  inset:0; background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}");
+  inset:0; 
   background-position:left bottom 24%,right bottom 24%; background-size:55% 70%,55% 70%;
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
@@ -1205,12 +1208,12 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
   display:block; grid-column:1/-1; grid-row:1; position:relative;
   min-width:0; height:clamp(160px,calc(100svh - 740px),440px); min-height:160px; margin:0 -18px;
-  overflow:hidden; pointer-events:none; background:#090b0e url("${assetUrl(BASE+"season-results/assets/ENV_SR_PHONE_V1.webp")}") center/cover;
+  overflow:hidden; pointer-events:none; background:#090b0e;
  }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { content:""; position:absolute; pointer-events:none; background-repeat:no-repeat; }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { content:""; position:absolute; pointer-events:none; background-repeat:no-repeat; }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before {
-  inset:0; background-image:url("${assetUrl(BASE+"season-results/assets/OVL_SR_DANIEL_PHONE_V1.webp")}"),url("${assetUrl(BASE+"season-results/assets/OVL_SR_NIK_PHONE_V1.webp")}"); background-position:left bottom 13%,right bottom 13%; background-size:49% 85%,49% 85%;
+  inset:0;  background-position:left bottom 13%,right bottom 13%; background-size:49% 85%,49% 85%;
  }
 #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after { inset:73% 5% 3%; }
  /* Claude lane: the scene replaces the old hero band, so none of its reserved space stays in flow. */

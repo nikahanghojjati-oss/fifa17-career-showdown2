@@ -242,11 +242,15 @@ async function scenario(screen,owner,phase,reloaded){
     try{
       let w=await world(screen,"session",phase);
       if(reload)w=await world(screen,"session",phase,true);
-      const start=w.clock.now,before=w.meter.reads,stored=JSON.stringify([...w.server]);
+      // Phoenix r100: on the commit wait, Season Commit's own 15 s wait check may read the commit inside these 3 s (one light
+      // read, the same with or without the expiry); the expiry itself reads nothing else.
+      const start=w.clock.now,before=w.meter.reads,commitBefore=w.readsByPath.get(w.watched)||0,stored=JSON.stringify([...w.server]);
       w.setRemote({...w.remote(),expiresAtEpochMs:start-1});
       await w.advance(3000);
       assert.equal(w.api.getState()?.phase,"FRESH_SESSION_REQUIRED","clock expiry must expose recovery within 3000 ms");
-      assert.equal(w.meter.reads,before,"expired-session clock check reads nothing");
+      const waitChecks=phase==="commit"?(w.readsByPath.get(w.watched)||0)-commitBefore:0;
+      assert.ok(waitChecks<=1,"at most one Season Commit wait check in 3 s");
+      assert.equal(w.meter.reads-waitChecks,before,"expired-session clock check reads nothing");
       assert.equal(JSON.stringify([...w.server]),stored,"no server write drives clock expiry");
       console.log(`PASS ${label}: <=3000 ms, zero reads`);
     }catch(e){failures.push(`${label}: ${e.message}`);console.error(`FAIL ${label}: ${e.stack}`);}

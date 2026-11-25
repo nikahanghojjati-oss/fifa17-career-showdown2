@@ -114,7 +114,21 @@ const LISTED = {};
 const KNOWN_SHAPES = [];
 const SCENERY = /(ENV_|OVL_|_PLATE_|PACK_)/;
 const KNOWN_PLAIN_FETCH = /^$/;
-const CURRENT = /visual-assets\/v10_1\/plates-hc\//;
+// The clubhouse's own loading room is current too: the loading screen draws it at startup, before the screen under test shows.
+const CURRENT = new RegExp(`visual-assets/v10_1/plates-hc/|assets/loading/${THEME ? THEME + "/" : ""}ENV_LOADING_`);
+// Lead 2026-11-25 (Nik: never load what we don't show): a clubhouse downloads only its own loading room, never another's.
+// Lead 2026-11-25: retired pictures that no screen draws any more in any frame, tier or fallback; a download fails (A6).
+// Legacy, Trophy Room and Rivalry phone pictures; then Season Results hands and phone room, Final Winner near arms, the
+// Start and League phone heroes, the held-pack Club lounge (desktop and phone), and the Transfer TR2 locked plate and Nik's fingertip.
+const RETIRED_NEVER = new RegExp([
+  "plates-v2/ENV_LEGACY_PHONE_V2", "trophy-room/assets/ENV_TR_PHONE_V1",
+  "rivalry-statistics/assets/(?:ENV_RV_PHONE_V1|OVL_RV_(?:DANIEL|NIK)_PHONE_V1)",
+  "season-results/assets/(?:OVL_SR_(?:DANIEL|NIK)_HAND_V1_|ENV_SR_PHONE_V1|OVL_SR_(?:DANIEL|NIK)_PHONE_V1)",
+  "final-winner/assets/OVL_FW_(?:DANIEL|NIK)_NEAR_ARM_V1_[12]X",
+  "start-join/assets/OVL_SJ_(?:DANIEL|NIK)_PHONE_V1", "league/assets/OVL_LEAGUE_(?:DANIEL|NIK)_PHONE_V1",
+  "plates-v2/ENV_CLUB_PLATE_V2_", "plates-v2/ENV_CLUB_PHONE_V2", "/ENV_TR2_PLATE_G_LOCKED_V1_", "/OVL_NIK_FINGERTIP_V1_"
+].join("|"));
+const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte)\/ENV_LOADING_/;
 function drawnPictures(){
     const vw = innerWidth, vh = innerHeight, out = [];
     const urls = s => [...String(s || "").matchAll(/url\(["']?([^"')]+)["']?\)/g)].map(m => m[1]);
@@ -157,6 +171,8 @@ if(require.main === module){
             const drawn = await page.evaluate(drawnPictures);
             const findings = judge(key, drawn), known = KNOWN_SHAPES.find(k => k.match(w, h));
             if(THEME && requested) for(const u of requested) if(PLAIN_ROOM.test(u) && !KNOWN_PLAIN_FETCH.test(u)) findings.push(`A4 plain room ${u.replace(/^.*plates-hc\//, "")} downloaded in the ${THEME} clubhouse`);
+            if(requested) for(const u of requested) if(RETIRED_NEVER.test(u)) findings.push(`A6 retired picture ${u.replace(/^.*v10_1\//, "")} downloaded (no screen draws it)`);
+            if(requested) for(const u of requested) if(OTHER_LOADING.test(u)) findings.push(`A5 another clubhouse's loading room ${u.replace(/^.*assets\/loading\//, "")} downloaded in the ${THEME || "Wooden"} clubhouse`);
             if(known && findings.length){ console.log(`KNOWN ${key} ${w}x${h} (${known.name}; ${known.follow})${findings.map(f => "\n   " + f).join("")}`); return; }
             for(const what of findings) report.push({ screen: key, size: `${w}x${h}`, what });
             if(requested) for(const u of requested){ const shortName = u.replace(/^.*visual-assets\/v10_1\//, ""); if(SCENERY.test(u) && !CURRENT.test(u) && !(LISTED[key] && LISTED[key].allow.test(u)) && !drawn.some(d => d.url === u)) notes.set(`${key} ${shortName}`, (notes.get(`${key} ${shortName}`) || 0) + 1); }

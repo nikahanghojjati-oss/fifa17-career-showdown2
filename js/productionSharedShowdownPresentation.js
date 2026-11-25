@@ -80,7 +80,13 @@
   function ssjpAdoptState(next){
     const nextKey=ssjpContextKey(next);
     if(presentationContextKey&&nextKey&&nextKey!==presentationContextKey)ssjpResetWitnesses();
-    presentationContextKey=nextKey||presentationContextKey;state=next;return state;
+    presentationContextKey=nextKey||presentationContextKey;state=next;ssjpForgetHeldStop(next);return state;
+  }
+  // Phoenix (B1 tabkill seed 4, FLAKY draw.savedStopCleared): the STOP saved on this phone is forgotten as soon as Firebase holds
+  // this manager's stop, on every Setup state this page takes in, whatever the draw shows: its 3D scene may still be loading
+  // (the draw's own accept waits for it) or Career Start may already cover it. The ledger's stop always wins; no read, no write.
+  function ssjpForgetHeldStop(next){
+    try{const setup=next?.setup,role=next?.managerRole||"";if(!drawStep||!role||!drawStep.isDraw(setup)||drawStep.storedStops(setup)[role]===null)return false;drawStep.clearPending({rivalryId:String(next.rivalryId||""),role});return true;}catch(_error){return false;}
   }
   function ssjpActionBusy(){return Boolean(actionPromise)||busy;}
 
@@ -123,7 +129,7 @@
   function ssjpEnsureDrawStep(){
     if(drawStep)return Promise.resolve(drawStep);
     if(!drawStepPromise)drawStepPromise=ssjpLoadScript("club-draw-step","js/clubDrawStep.js",()=>root.CareerModeClubDrawStep).then(()=>{
-      drawStep=root.CareerModeClubDrawStep||null;
+      drawStep=root.CareerModeClubDrawStep||null;ssjpForgetHeldStop(state);
       // A ball reaching full speed (STOP opens) or coming to rest (its club is named) re-renders the screen.
       if(drawStep&&!drawListening){drawListening=true;drawStep.on(()=>{if(active&&ssjpPending()&&ssjpActiveScreen()==="clubWheelScreen")void ssjpRenderCurrent();});}
       return drawStep;
@@ -428,7 +434,9 @@
   // r75: during the league and club-pack setup one live listener watches the shared setup document; the 2.5 s check
   // below keeps running as the fallback and reads from the listener while it is healthy.
   function ssjpWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{const rivalryId=String(state?.rivalryId||"").trim();if(active&&rivalryId&&ssjpPending()&&root.document?.visibilityState!=="hidden")path=`rivalries/${rivalryId}/sharedSetup/authoritative`;}catch(_error){path=null;}budget.watchWaitPoint("shared-setup",path,()=>{if(!busy&&!pollBusy)void ssjpPoll();});}
-  async function ssjpPoll(){ssjpWatchWait();if(!active||!ssjpPending()||busy||pollBusy||root.document&&root.document.visibilityState==="hidden")return;pollBusy=true;try{await ssjpRefresh();}catch(_error){}finally{pollBusy=false;}}
+  // r100 B6 JOIN speed: Terminal Close's context listener (rivalry root + Session) serves this check's rivalry and Session reads.
+  function ssjpWatchContext(){if(!active||!ssjpPending())return;try{root.CareerModeProductionSharedTerminalClose?.watchContextEarly?.();}catch(_error){}}
+  async function ssjpPoll(){ssjpWatchWait();ssjpWatchContext();if(!active||!ssjpPending()||busy||pollBusy||root.document&&root.document.visibilityState==="hidden")return;pollBusy=true;try{await ssjpRefresh();}catch(_error){}finally{pollBusy=false;}}
   function ssjpStartPolling(){if(pollTimer!==null||typeof root.setInterval!=="function")return;pollTimer=root.setInterval(()=>void ssjpPoll(),POLL_MS);}
   function ssjpStopPolling(){if(pollTimer!==null){root.clearInterval(pollTimer);pollTimer=null;}}
   // r79 gallery: js/productionSharedShowdownSetup.js answers a write that landed with its own ready state (status "ready", no

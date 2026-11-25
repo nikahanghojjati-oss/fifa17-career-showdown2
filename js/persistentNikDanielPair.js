@@ -83,6 +83,15 @@
   // 3 minutes, then every 15 s, instead of waiting for a CHECK STATUS tap. Read-only; paused while the tab is hidden.
   const PAIR_WAIT_FAST_MS=4000,PAIR_WAIT_SLOW_MS=15000,PAIR_WAIT_WINDOW_MS=180000;
   let pairWaitTimer=null,pairWaitKey="",pairWaitSince=0,pairWaitEndedKey="",pairWaitLastLookKey="",pairWaitLastLookUntil=0;
+  /* r100 B6 JOIN speed: while Daniel's code waits, the budget layer's one wait listener watches the rivalry document that Nik's
+     JOIN writes, and its wake runs the same check at once. The poll stays as the fallback: while the listener is healthy it
+     stands down (a backstop check still runs every 30 s), so the wait costs no more reads than before (fewer). */
+  const PAIR_WAIT_BACKSTOP_MS=30000;
+  let pairWaitTicking=false,pairWaitWokenAgain=false,pairWaitCheckedAt=0;
+  function pairWaitPath(){return pairWaitingKey()&&Date.now()<pairWaitStopAt()&&pairWaitScreenShown()?`rivalries/${state.rivalryId}`:null;}
+  function pairWaitWatch(){const budget=root.CareerModeFirestoreBudget;if(typeof budget?.watchWaitPoint!=="function")return;let path=null;try{path=pairWaitPath();}catch(_error){path=null;}try{budget.watchWaitPoint("pair-wait",path,pairWaitWake);}catch(_error){}}
+  function pairWaitHealthy(){let path=null;try{path=pairWaitPath();}catch(_error){return false;}const live=root.CareerModeFirestoreBudget?.stats?.();return Boolean(path&&live?.watchHealthy===true&&live.watching===path);}
+  function pairWaitWake(){if(!pairWaitingKey())return;if(pairWaitTicking){pairWaitWokenAgain=true;return;}pairClearWaitingTimer();void pairWaitingPollTick(true);}
   // r87 Fable F4-03/F3-04/F4-04: the waiting code's own expiry (from createPairing, or after a reload from ONE invite read per
   // code and page) bounds the wait: the poll reads only while Home or Connect Players is on screen and stops a minute after the
   // code expired (30 minutes after the wait began when the expiry could not be read: no invite lives longer). An expired code
@@ -130,6 +139,7 @@
   /* r100 B6: the one last look is owed only for a code whose end this page knows (an open code expired, or one seen closed) */
   function pairWaitLastLookDue(key){return Boolean(key)&&pairWaitLastLookKey!==key&&Number.isFinite(pairCodeExpiresAt());}
   function pairSyncWaitingPoll(){
+    pairWaitWatch();
     const key=pairWaitingKey();if(!key){if(pairWaitKey)pairWaitEndedKey=pairWaitKey;pairWaitKey="";pairWaitSince=0;pairWaitLastLookKey="";pairWaitLastLookUntil=0;pairClearWaitingTimer();return;}
     if(key!==pairWaitKey){pairWaitKey=key;pairWaitSince=Date.now();pairWaitLastLookKey="";pairWaitLastLookUntil=0;}
     if(Date.now()>=pairWaitStopAt()){
@@ -150,13 +160,17 @@
   // an identity or online refresh), Daniel goes on into the Showdown by himself once the refresh settles. Any other
   // settled state (a different rivalry, an error, still pending) drops the remembered wait.
   function pairContinueAfterWaitEnded(){if(!pairWaitEndedKey||state.busy)return;const key=pairWaitEndedKey;pairWaitEndedKey="";if(state.connectionState==="active"&&state.status==="paired"&&`${state.accountId}|${state.rivalryId}`===key)void Promise.resolve().then(pairAutoContinueAfterConnect).catch(()=>{});}
-  async function pairWaitingPollTick(){
+  async function pairWaitingPollTick(woken=false){
+    if(pairWaitTicking){if(woken)pairWaitWokenAgain=true;return;}
     /* r87 Fable F4-04: the code just expired: redraw once (Home tile and panel say so), no read; the poll then stays stopped */
     if(pairWaitingKey()&&Date.now()>=pairWaitStopAt()&&!pairWaitLastLookDue(pairWaitingKey())){pairSetState({});return;}
-    let lastLook=false;
+    let lastLook=false;pairWaitTicking=true;
     try{
       const key=pairWaitingKey();
-      if(key&&!state.busy&&!pairInitializePromise&&pairWaitScreenShown()&&(Date.now()<pairWaitStopAt()||pairWaitLastLookDue(key))&&root.CareerModeSparkPrivatePairing?.getState?.()?.registered===true){
+      /* r100 B6 JOIN speed: a timed check stands down while the healthy listener watches the rivalry (its wake checks at once) */
+      pairWaitWatch();const standDown=!woken&&Date.now()<pairWaitStopAt()&&Date.now()-pairWaitCheckedAt<PAIR_WAIT_BACKSTOP_MS&&pairWaitHealthy();
+      if(key&&!standDown&&!state.busy&&!pairInitializePromise&&pairWaitScreenShown()&&(Date.now()<pairWaitStopAt()||pairWaitLastLookDue(key))&&root.CareerModeSparkPrivatePairing?.getState?.()?.registered===true){
+        pairWaitCheckedAt=Date.now();
         /* r100 B6: past the code's end this is the one last look; it is used up even if the read fails */
         if(Date.now()>=pairWaitStopAt()){pairWaitLastLookKey=key;lastLook=true;}
         // Same read as CHECK STATUS (pair link + rivalry); the panel is only re-rendered when the connection changed.
@@ -169,9 +183,12 @@
           if(state.connectionState==="active"&&state.status==="paired"&&`${state.accountId}|${state.rivalryId}`===key){/* r79 PR3: a real first pairing: Daniel writes his partner record (this read just saw the rivalry ACTIVE with Nik in playerTwo; the write re-reads it) alongside the auto-continue, so the continue is never delayed by it. */const recording=pairRecordRealPairing(state.rivalryId,"playerOne");await pairAutoContinueAfterConnect();await recording;}
         }
       }
-    }catch(_error){}
+    }catch(_error){/* r100 B6 JOIN speed: a check that failed lets no timed check stand down */pairWaitCheckedAt=0;}
+    finally{pairWaitTicking=false;}
     /* r100 B6: after the last look a code still waiting is drawn as expired (as the stop's redraw did) */
     if(lastLook&&pairWaitingKey()){pairSetState({});return;}
+    /* r100 B6 JOIN speed: a wake that came while this check ran is answered now, not on the next timed check */
+    if(pairWaitWokenAgain){pairWaitWokenAgain=false;if(pairWaitingKey()){pairClearWaitingTimer();void pairWaitingPollTick(true);return;}}
     pairSyncWaitingPoll();
   }
 
@@ -433,7 +450,7 @@ function pairContextualJoinMessage(error){const pairing=root.CareerModeSparkPriv
   const PARTNER_DOC_ID="current",JOIN_NOTE_MEMO_MS=30000,JOIN_NOTE_WATCH_WINDOW_MS=600000,PARTNER_RETRY_MS=30000,REAL_CODE_PREFIX="CMS17R-",CODE_PREFIX="CMS17-",PARTNER_EVENT="career-mode-permanent-pair-change";
   const PARTNER_KEYS="active,myRole,pairedAt,pairedViaRivalryId,partnerAccountId,schemaVersion,updatedAt",NOTE_KEYS="createdAt,expiresAt,fromAccountId,rivalryId,schemaVersion,totalSeasons";
   let partnerState=pairFreezeDeep({status:"unknown",accountId:null,record:null,code:null,checkedAt:0}),partnerReadPromise=null;
-  let joinNoteState=pairFreezeDeep({status:"unknown",accountId:null,note:null,code:null,checkedAt:0}),joinNotePromise=null,joinNoteExpiryTimer=null;
+  let joinNoteState=pairFreezeDeep({status:"unknown",accountId:null,note:null,code:null,checkedAt:0}),joinNotePromise=null,joinNoteExpiryTimer=null,joinNoteDeliveries=0;
   // The rivalry this page made with a CMS17R- code (Daniel) or joined with one (Nik): only that pairing writes partner records.
   let pairRealRivalryId=null;
   function pairPartnerReference(context,accountId){return context.services.firestoreSdk.doc(context.services.firestore,"accounts",accountId||context.accountId,"partner",PARTNER_DOC_ID);}
@@ -546,7 +563,7 @@ function pairContextualJoinMessage(error){const pairing=root.CareerModeSparkPriv
   function pairScheduleJoinNoteExpiry(){if(joinNoteExpiryTimer!==null){root.clearTimeout?.(joinNoteExpiryTimer);joinNoteExpiryTimer=null;}const note=joinNoteState.note,wait=note?note.expiresAtEpochMs-Date.now():-1;if(wait>0&&typeof root.setTimeout==="function"){/* re-render only (no read): an expired JOIN offers CHECK STATUS on Home */joinNoteExpiryTimer=root.setTimeout(()=>{joinNoteExpiryTimer=null;pairNotifyPartner();},Math.min(wait+50,2147483000));joinNoteExpiryTimer?.unref?.();}}
   // Nik's note read: only for an active playerTwo partner record, only while visible, at most once per 30 s (a failed read
   // counts too). Never throws; the result is page memory that render and whichShowdownIsLive read without another read.
-  async function pairReadJoinNote(options={}){let context;try{context=options.context||await pairResolveContext();}catch(_error){return joinNoteState;}const accountId=context.accountId,partner=pairPartnerRecordFor(accountId);if(!partner||partner.active!==true||partner.myRole!=="playerTwo"){if(joinNoteState.status!=="not-paired"||joinNoteState.accountId!==accountId){joinNoteState=pairFreezeDeep({status:"not-paired",accountId,note:null,code:null,checkedAt:0});pairScheduleJoinNoteExpiry();}return joinNoteState;}if(pairJoinNoteListening(accountId))return joinNoteState;/* the live listener already holds the server's copy */if(options.fresh!==true&&joinNoteState.accountId===accountId&&joinNoteState.checkedAt>0&&Date.now()-joinNoteState.checkedAt<JOIN_NOTE_MEMO_MS)return joinNoteState;/* Codex #903: an explicit tap (fresh) bypasses the memo; still one read in flight */if(joinNotePromise)return joinNotePromise;if(root.document?.visibilityState==="hidden")return joinNoteState;joinNotePromise=(async()=>{const ref=pairInboxReference(context,accountId);noteLastReadAt=Date.now();try{root.CareerModeFirestoreBudget?.wantFresh?.(ref.path);const note=await context.services.firestoreSdk.runTransaction(context.services.firestore,async transaction=>{const snapshot=await transaction.get(ref);return snapshot.exists()?pairParseJoinNote(snapshot.data(),partner.partnerAccountId):null;});joinNoteState=pairFreezeDeep({status:"ready",accountId,note,code:null,checkedAt:Date.now()});}catch(error){joinNoteState=pairFreezeDeep({status:"unavailable",accountId,note:null,code:error?.code||"JOIN_NOTE_UNAVAILABLE",checkedAt:Date.now()});}pairScheduleJoinNoteExpiry();pairNotifyPartner();return joinNoteState;})().finally(()=>{joinNotePromise=null;});return joinNotePromise;}
+  async function pairReadJoinNote(options={}){let context;try{context=options.context||await pairResolveContext();}catch(_error){return joinNoteState;}const accountId=context.accountId,partner=pairPartnerRecordFor(accountId);if(!partner||partner.active!==true||partner.myRole!=="playerTwo"){if(joinNoteState.status!=="not-paired"||joinNoteState.accountId!==accountId){joinNoteState=pairFreezeDeep({status:"not-paired",accountId,note:null,code:null,checkedAt:0});pairScheduleJoinNoteExpiry();}return joinNoteState;}if(pairJoinNoteListening(accountId))return joinNoteState;/* the live listener already holds the server's copy */if(options.fresh!==true&&joinNoteState.accountId===accountId&&joinNoteState.checkedAt>0&&Date.now()-joinNoteState.checkedAt<JOIN_NOTE_MEMO_MS)return joinNoteState;/* Codex #903: an explicit tap (fresh) bypasses the memo; still one read in flight */if(joinNotePromise)return joinNotePromise;if(root.document?.visibilityState==="hidden")return joinNoteState;joinNotePromise=(async()=>{const ref=pairInboxReference(context,accountId),deliveries=joinNoteDeliveries;noteLastReadAt=Date.now();try{root.CareerModeFirestoreBudget?.wantFresh?.(ref.path);const note=await context.services.firestoreSdk.runTransaction(context.services.firestore,async transaction=>{const snapshot=await transaction.get(ref);return snapshot.exists()?pairParseJoinNote(snapshot.data(),partner.partnerAccountId):null;});/* Codex #1588: a listener delivery that landed while this read was out is newer: the read is dropped */if(joinNoteDeliveries!==deliveries)return joinNoteState;joinNoteState=pairFreezeDeep({status:"ready",accountId,note,code:null,checkedAt:Date.now()});}catch(error){if(joinNoteDeliveries!==deliveries)return joinNoteState;joinNoteState=pairFreezeDeep({status:"unavailable",accountId,note:null,code:error?.code||"JOIN_NOTE_UNAVAILABLE",checkedAt:Date.now()});}pairScheduleJoinNoteExpiry();pairNotifyPartner();return joinNoteState;})().finally(()=>{joinNotePromise=null;});return joinNotePromise;}
   // Nik's call (2026-10-18, "check by itself"): while Nik's Home is shown and the tab is visible, ONE onSnapshot listener watches
   // accounts/{nikUid}/partnerInbox/current, so reads happen only on attach and when the note changes. It detaches when JOIN shows,
   // Home is left, the tab is hidden, or 10 minutes after the Home visit began; a new Home visit or the tab becoming visible
@@ -566,7 +583,12 @@ function pairContextualJoinMessage(error){const pairing=root.CareerModeSparkPriv
   function pairJoinNoteFallbackTick(){if(!pairJoinNoteWatchWanted())return pairJoinNoteWatchStop();const seq=noteWatch.seq;void pairReadJoinNote().finally(()=>{if(noteWatch.seq!==seq)return;if(!pairJoinNoteWatchWanted())return pairJoinNoteWatchStop();pairJoinNoteWatchTimer(Math.min(JOIN_NOTE_MEMO_MS,noteWatch.until-Date.now()),pairJoinNoteFallbackTick);});}
   function pairJoinNoteFallback(){if(typeof noteWatch.unsubscribe==="function"){try{noteWatch.unsubscribe();}catch(_error){}}noteWatch.unsubscribe=null;noteWatch.mode="fallback";noteWatch.delivered=false;noteWatch.first?.(false);noteWatch.first=null;pairJoinNoteWatchTimer(Math.max(0,JOIN_NOTE_MEMO_MS-(Date.now()-(joinNoteState.checkedAt||0))),pairJoinNoteFallbackTick);}
   async function pairJoinNoteSnapshotApi(context){/* r85: deliveries are counted by the budget layer's read meter */const meter=root.CareerModeFirestoreBudget?.meterSdk||(s=>s);const sdk=context.services.firestoreSdk;if(typeof sdk.onSnapshot==="function"&&typeof sdk.doc==="function")return meter(sdk);const url=root.CareerModeProductionFirebaseRuntime?.firebaseFirestoreModule;if(typeof url!=="string"||!url)return null;try{const module=await import(url);return module&&typeof module.onSnapshot==="function"&&typeof module.doc==="function"?meter(module):null;}catch(_error){return null;}}
-  function pairJoinNoteDelivery(seq,accountId,partnerAccountId,snapshot){if(noteWatch.seq!==seq||noteWatch.mode!=="listen")return;if(snapshot?.metadata?.fromCache)return;let note=null;try{note=snapshot&&snapshot.exists()?pairParseJoinNote(snapshot.data(),partnerAccountId):null;}catch(_error){note=null;}joinNoteState=pairFreezeDeep({status:"ready",accountId,note,code:null,checkedAt:Date.now(),via:"listener"});noteWatch.delivered=true;noteWatch.first?.(true);noteWatch.first=null;pairScheduleJoinNoteExpiry();pairNotifyPartner();if(!pairJoinNoteWatchWanted())pairJoinNoteWatchStop();}
+  function pairJoinNoteDelivery(seq,accountId,partnerAccountId,snapshot){if(noteWatch.seq!==seq||noteWatch.mode!=="listen")return;if(snapshot?.metadata?.fromCache){noteWatch.live=false;pairJoinNoteBridge(seq);return;}noteWatch.live=true;joinNoteDeliveries+=1;let note=null;try{note=snapshot&&snapshot.exists()?pairParseJoinNote(snapshot.data(),partnerAccountId):null;}catch(_error){note=null;}joinNoteState=pairFreezeDeep({status:"ready",accountId,note,code:null,checkedAt:Date.now(),via:"listener"});noteWatch.delivered=true;noteWatch.first?.(true);noteWatch.first=null;pairScheduleJoinNoteExpiry();pairNotifyPartner();if(!pairJoinNoteWatchWanted())pairJoinNoteWatchStop();}
+  // Phoenix W8 (r100) listener census: a note listener whose stream is down goes quiet (the SDK only marks its copy fromCache),
+  // so Daniel's JOIN note would never reach Nik's Home. While it is not live, the memoised read runs at its own pace (once per
+  // 30 s, JOIN_NOTE_MEMO_MS), only while the watch is still wanted, the tab visible and the browser online; a server delivery
+  // or the watch stopping ends it. Worst case 20 reads in the 10-minute Home window.
+  function pairJoinNoteBridge(seq){if(noteWatch.bridging===seq)return;noteWatch.bridging=seq;const end=()=>{if(noteWatch.seq===seq)noteWatch.bridging=null;},schedule=ms=>{if(typeof root.setTimeout!=="function")return end();const timer=root.setTimeout(tick,ms);timer?.unref?.();},tick=()=>{if(noteWatch.seq!==seq||noteWatch.mode!=="listen"||noteWatch.live!==false)return end();if(!pairJoinNoteWatchWanted()){end();return pairJoinNoteWatchStop();}if(root.navigator?.onLine===false)return schedule(1000);void pairReadJoinNote({fresh:true}).finally(()=>{if(noteWatch.seq!==seq||noteWatch.live!==false)return end();if(!pairJoinNoteWatchWanted()){end();return pairJoinNoteWatchStop();}schedule(JOIN_NOTE_MEMO_MS);});};schedule(Math.max(0,JOIN_NOTE_MEMO_MS-(Date.now()-noteLastReadAt)));}
   async function pairJoinNoteAttach(){const seq=noteWatch.seq;let context;try{context=await pairResolveContext();}catch(_error){if(noteWatch.seq===seq)pairJoinNoteFallback();return;}const partner=pairPartnerRecordFor(context.accountId),api=await pairJoinNoteSnapshotApi(context);if(noteWatch.seq!==seq)return;if(!partner||!pairJoinNoteWatchWanted())return pairJoinNoteWatchStop();if(!api)return pairJoinNoteFallback();try{const ref=api.doc(context.services.firestore,"accounts",context.accountId,"partnerInbox",PARTNER_DOC_ID);noteWatch.accountId=context.accountId;noteLastReadAt=Date.now();/* r79 PR5: a listener re-attached once the cache holds the note gets a first snapshot from the cache (ignored); metadata changes deliver the identical server copy */noteWatch.unsubscribe=api.onSnapshot(ref,{includeMetadataChanges:true},snapshot=>pairJoinNoteDelivery(seq,context.accountId,partner.partnerAccountId,snapshot),()=>{if(noteWatch.seq===seq&&noteWatch.mode==="listen")pairJoinNoteFallback();});}catch(_error){pairJoinNoteFallback();}}
   // Resolves true once the listener has delivered the note from the server (page memory is then current), false otherwise.
   function pairWatchJoinNote(options={}){if(typeof options.isHomeShown!=="function")return Promise.resolve(pairJoinNoteWatchStop());try{if(options.isHomeShown()===true)pairEndClosedOnHome();}catch(_error){}const now=Date.now(),resume=options.resume===true;if(!resume||!(noteVisitUntil>now))noteVisitUntil=now+JOIN_NOTE_WATCH_WINDOW_MS;noteWatch.isHomeShown=options.isHomeShown;noteWatch.until=noteVisitUntil;if(!pairJoinNoteWatchWanted())return Promise.resolve(pairJoinNoteWatchStop());
@@ -578,7 +600,7 @@ function pairContextualJoinMessage(error){const pairing=root.CareerModeSparkPriv
       void pairJoinNoteAttach();}
     if(!noteWatch.firstPromise||noteWatch.firstSeq!==noteWatch.seq){noteWatch.firstSeq=noteWatch.seq;noteWatch.firstPromise=new Promise(resolve=>{let done=false;const finish=value=>{if(done)return;done=true;resolve(value);};noteWatch.first=finish;if(typeof root.setTimeout==="function")root.setTimeout(()=>finish(false),JOIN_NOTE_FIRST_DELIVERY_MS);});}
     return noteWatch.firstPromise;}
-  function pairJoinNoteListening(accountId){return noteWatch.mode==="listen"&&noteWatch.delivered===true&&noteWatch.accountId===accountId&&joinNoteState.accountId===accountId;}
+  function pairJoinNoteListening(accountId){return noteWatch.mode==="listen"&&noteWatch.delivered===true&&noteWatch.live!==false&&noteWatch.accountId===accountId&&joinNoteState.accountId===accountId;}
   if(root.document?.addEventListener)root.document.addEventListener("visibilitychange",()=>{if(root.document.visibilityState==="hidden")pairJoinNoteWatchStop();});
   // Pure view of the memo: the note only while unexpired and not the Showdown this account already joined or closed.
   function pairJoinNoteView(nowEpochMs=Date.now()){const note=joinNoteState.status==="ready"&&joinNoteState.accountId===state.accountId?joinNoteState.note:null,valid=Boolean(note&&note.expiresAtEpochMs>nowEpochMs&&note.rivalryId!==state.rivalryId&&note.rivalryId!==state.closedRivalryId&&!pairRefusedJoinRivalryIds.has(note.rivalryId));return pairFreezeDeep({status:joinNoteState.status,checked:joinNoteState.status==="ready"&&joinNoteState.accountId===state.accountId,partnerActive:pairPartnerActiveFor("playerTwo"),watchPaused:!valid&&!noteWatch.mode&&Boolean(note&&note.expiresAtEpochMs<=nowEpochMs||noteVisitUntil>0&&nowEpochMs>=noteVisitUntil),note:valid?note:null});}

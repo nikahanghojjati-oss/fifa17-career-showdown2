@@ -90,10 +90,10 @@ await check("W3 read() reuses the identity sidecar's own pair read (one bounded 
 
 await check("W4 every START entry routes through the one canonical START",()=>{
   const identity=read("js/onlinePlayerIdentity.js"),entry=read("js/productionSharedJourneyEntry.js"),pairSource=read("js/persistentNikDanielPair.js"),hub=read("js/showdownUI.js");
-  assert.match(identity,/if\(gameplay\.id==="newShowdown"&&!gameplay\.disabled\)\{e\.preventDefault\(\);e\.stopImmediatePropagation\(\);void openHomeStart\(\);return;\}/,"Home tile (both managers)");assert.match(identity,/function openHomeStart\(\)\{if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;homeStartChecking=true;applyHomeStartChecking\(\);const flow=openCanonicalStart\(\);/,"Codex #904: the Home tile shows its busy state, then runs that same canonical START");
+  assert.match(identity,/if\(gameplay\.id==="newShowdown"&&!gameplay\.disabled\)\{e\.preventDefault\(\);e\.stopImmediatePropagation\(\);void openHomeStart\(\);return;\}/,"Home tile (both managers)");assert.match(identity,/function openHomeStart\(\)\{if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;[^\n]*?let liveTap=false;try\{liveTap=[^\n]*?\}catch\(_\)\{\}homeStartChecking=true;applyHomeStartChecking\(\);const flow=openCanonicalStart\(\{liveTap\}\);/,"Codex #904: the Home tile shows its busy state, then runs that same canonical START");
   assert.equal((identity.match(/gameplay\.id==="newShowdown"/g)||[]).length,1,"one Home tile route");
   assert.match(identity,/openStart:openCanonicalStart,openJoin:openCanonicalShowdownJoin/);
-  assert.match(identity,/async function openCanonicalStart\(\)\{if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;/,"a double tap on the Home tile shares one flow");
+  assert.match(identity,/async function openCanonicalStart\(options=\{\}\)\{if\(canonicalStartFlowPromise\)return canonicalStartFlowPromise;/,"a double tap on the Home tile shares one flow");
   assert.match(hub,/"NEW SHOWDOWN", \(\) => typeof window\.CareerModeOnlinePlayerIdentity\?\.openStart === "function"\s*\? window\.CareerModeOnlinePlayerIdentity\.openStart\(\)/,"completed hub NEW SHOWDOWN");
   assert.match(pairSource,/async function pairOpenCanonicalStart\(\)\{[\s\S]*identity\.openStart\(\)/,"recovery START OVER");
   assert.equal((pairSource.match(/await pairOpenCanonicalStart\(\)/g)||[]).length,2,"both START OVER exits");
@@ -113,7 +113,7 @@ await check("W5 no bounce: WAITING stays on the league wheel, no reverse trip to
 
 await check("W6 auto-continue after connect keeps START CAREER as the fallback and the createdShell rollback",()=>{
   const pairSource=read("js/persistentNikDanielPair.js");
-  const tick=pairSource.match(/async function pairWaitingPollTick\(\)\{[\s\S]*?\n  \}/)[0];
+  const tick=pairSource.match(/async function pairWaitingPollTick\(woken=false\)\{[\s\S]*?\n  \}/)[0];
   assert.match(tick,/await pairInitialize\(\{force:true\}\);[\s\S]*state\.connectionState==="active"&&state\.status==="paired"&&`\$\{state\.accountId\}\|\$\{state\.rivalryId\}`===key\)\{[^}]*\*\/const recording=pairRecordRealPairing\(state\.rivalryId,"playerOne"\);await pairAutoContinueAfterConnect\(\);await recording;\}/,"Daniel continues only for the rivalry he was waiting on (r79 PR3: a real first pairing is recorded alongside)");
   assert.match(pairSource,/async function pairJoinAndContinue\(capability,options=\{\}\)\{const wasActive=state\.connectionState==="active",joined=await pairJoinPairing\(capability,options\);if\(!wasActive&&options\.autoContinue!==false&&joined\?\.status==="paired"&&joined\.connectionState==="active"\)await pairAutoContinueAfterConnect\(\);return joined;\}/,"Nik continues after his own successful JOIN");
   assert.match(pairSource,/pairSyncWaitingPoll\(\);pairContinueAfterWaitEnded\(\);if\(endedHeldNow\)pairAnnounceEnded\(\);return state;\}/,"every settled state change can continue, not only the poll");
