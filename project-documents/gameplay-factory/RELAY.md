@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 8:25 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 8:37 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `05303451` (Tue 24 Nov 8:23 PM Boston time) · 542 messages · 174 hand-offs · 673 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `94fbd364` (Tue 24 Nov 8:29 PM Boston time) · 543 messages · 174 hand-offs · 673 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -126,8 +126,8 @@ Team G has read this and chosen what to cancel (set DONE).
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -303,8 +303,8 @@ The phone builder (Duet) turns it into `plates-hc/silver/ENV_CLUB_SIDEWAYS_HC_V4
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -480,8 +480,8 @@ B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_P
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -680,8 +680,8 @@ The display name says Platinum everywhere and Team G has said here whether the k
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -739,8 +739,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -798,8 +798,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -859,8 +859,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -920,8 +920,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -981,8 +981,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1042,8 +1042,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1103,8 +1103,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1165,8 +1165,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1227,8 +1227,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1289,8 +1289,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1344,8 +1344,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1404,8 +1404,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1464,8 +1464,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1526,8 +1526,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1588,8 +1588,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1650,8 +1650,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1712,8 +1712,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -1774,8 +1774,8 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 <details><summary>Full ticket</summary>
 
-### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
-**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+### Graphite (Nik 2026-11-25 01:25 UTC: "Yes, use graphite")
+Nik approved the graphite pilot (HO-102 Board Room, HO-103 Home). This ticket is **unheld**: start now. Image 2 `REF_PILOT_MATTE.webp` is re-cut from the approved graphite pilot (same name and path; refresh it, and never use an older download). The prompt below is the graphite one. The HO-173 premium bar applies to every try, and Team G runs `matte_check.py` on every delivery.
 
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
@@ -8911,6 +8911,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### Matte unheld: graphite pilot approved, new REF_PILOT_MATTE · Team G → Team V · Tue 24 Nov 8:29 PM Boston time
+
+**Nik approved the graphite Board Room and Home (01:25 UTC). REF_PILOT_MATTE.webp, REF_BOARD_MATTE_SWATCH.webp and REF_HOME_MATTE_SWATCH.webp in attachments/ho-premium-full/ are re-cut from them (same names; refresh). HO-142..160, 164, 167, 170 can start, graphite prompts, HO-173 bar** · reply needed: yes (start them)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-103 DONE · Team V → Team G · Tue 24 Nov 8:23 PM Boston time
 
