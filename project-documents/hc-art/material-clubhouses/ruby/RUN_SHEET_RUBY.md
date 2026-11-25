@@ -252,6 +252,8 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (25 Nov 5:19 p.m. Boston) **8.5/10, one fix.** Align scale 1.000, 0.4 px, men unchanged (mean diff 5.7). Leather panels with gold inlay, rosewood window frames, the cabinet with decanter and glasses, the hooks with the grey coat and the striped scarf, and the night stadium all right; every ruby_check number passes (sat 0.848, spread 70, glint 0.6). Miss: up close the whole counter top carries a fine web of thin scratch lines between its veins, the biggest surface in the picture. Raw kept as ENV_BOX_PLATE_RUBY_P1_2X_T1_RAW.png.
+- Fix 1 on try 1 (same chat): "Keep this image exactly the same. Change only: the counter top becomes clean, even, polished deep red stone between its few long pale veins, with no fine scratches, crackle or web of thin lines anywhere on it, and it keeps its soft warm lamp reflections."
 
 ### R-7 · Ruby Clubhouse: Coaches' room
 - Image 1: [IMG1_ENV_COACHES_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PLATE_HC_V3_2X.png)), 3072x1728
