@@ -57,7 +57,7 @@ Measured outside the dilated hero mask at 1536x864, as B7's matte_check does.
 | gold | <= 0.04 of the room | gold accents stay small |
 | luma | 14-60 | night (Graphite 34-47, Black 19-22, Platinum 68-87) |
 | glint | <= max(3, min(8, 0.6 x Black)) per 10k px | polished marble may reflect more than Graphite (0-3.4), never Black's stray hot spots (6.7-28) |
-| spread | >= max(Wooden, 0.75 x Black) | rich, not flat |
+| spread | >= max(Wooden, 0.75 x Black), room pixels | rich, not flat |
 | detail | >= 1.1 x Wooden | readable leather grain, stitching, marble veins |
 
 Reference numbers today (outside the men, same method): Board Wooden luma 31, spread 27, detail 2.4, sat 0.50;
@@ -69,3 +69,4 @@ Passing the numbers is necessary, never sufficient: the HO-173 eye check and Nik
 - 2026-11-25 07:35 UTC, R-1 Board try 1: sat upper limit 0.80 -> 0.90. The 0.80 was below the palette's own oxblood (#6E1423 = 0.82, #2A0A10 = 0.76); the painting measures 0.86 and reads deep wine red by eye, not neon. Every other limit unchanged.
 - 2026-11-25 07:37 UTC, Nik's seating decision: the Home exception (hue >= 0.35, brown <= 0.45, kept for brown armchairs and sofa) is removed; Home now uses the Ruby limits (hue >= 0.50, brown <= 0.25). R-2 try 1, which already had red seating, measures hue 0.93 and brown 0.04.
 - 2026-11-25 07:45 UTC, R-2 Home try 2: the vs-sibling and mw differences now leave out pixels that every existing look (Platinum, Metallic Black, Graphite) keeps within 10 levels of Wooden. In Home that is the stadium view through the window, 22% of the measured area, kept identical in every clubhouse by design, which diluted the vs-Black difference to 14.6 although the room reads unmistakably red against Black by eye. Room pixels only: vs Black 17.4. Board is unchanged (0.9% shared: 18.6 -> 18.7). The limit of 15 is unchanged.
+- 2026-11-25 08:20 UTC, R-3 Office try 2: spread is now measured on room pixels too, the same mask as diff and mw (07:45 entry). With the stadium view in (17.8% of Office, identical in every look by design) its floodlight sets the top of the range, so Ruby's darker wine mid tones read 144.8 vs Wooden 146.7 although the room has a real lamp pool and deep corners by eye. Room pixels only: Office Ruby 160.8 vs Wooden 153.4 (Black 177.9), Home 82.6 vs 67.7, Board 40.9 vs 36 (0.75 x Black). The limit itself is unchanged; a flat code recolour still fails it (Board, 0.9% shared).
