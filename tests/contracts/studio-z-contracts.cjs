@@ -88,6 +88,10 @@ check("Z7","upright touch tablets use the phone layout; sideways phones keep a u
   assert.equal(make({w:412,h:915,coarse:true,portrait:false}),"width=880","big Android sideways");
   assert.equal(make({w:390,h:844,coarse:true,portrait:false}),"width=device-width, initial-scale=1.0","phone sideways");
   assert.equal(make({w:932,h:430,coarse:false,portrait:false}),"width=device-width, initial-scale=1.0","short desktop window");
+  // r100 B7: a touch screen so wide and short that 880px would leave it under 340px tall keeps its own width (mouse layouts).
+  assert.equal(make({w:400,h:1040,coarse:true,portrait:false}),"width=device-width, initial-scale=1.0","1040x400 touch: 880 would read 880x338");
+  assert.equal(make({w:500,h:1366,coarse:true,portrait:false}),"width=device-width, initial-scale=1.0","1366x500 touch: 880 would read 880x322");
+  assert.equal(make({w:440,h:956,coarse:true,portrait:false}),"width=880","iPhone 16 Pro Max sideways (880x405)");
   const tcss=read("css/v10Transfer.css");
   assert.match(tcss,/grid-template-columns: calc\(var\(--k\) \* 16px\) minmax\(min\(72px, 26%\), 1\.22fr\) minmax\(100px, 1\.1fr\) minmax\(100px, 0\.92fr\);/,"desktop: the name keeps 72px beside the two 100px selectors");
   assert.match(tcss,/@media \(pointer: coarse\) \{\s*#transferChallenge \.tw-host \.signing-row\.signingRow:not\(\.is-readonly\) \{\s*grid-template-columns: calc\(var\(--k\) \* 16px\) minmax\(26%, 1\.22fr\) minmax\(min\(100px, 28%\), 1\.1fr\) minmax\(min\(100px, 28%\), 0\.92fr\);/,"touch: every field keeps a share of the row");
