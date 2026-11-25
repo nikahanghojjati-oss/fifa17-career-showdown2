@@ -80,7 +80,13 @@
   function ssjpAdoptState(next){
     const nextKey=ssjpContextKey(next);
     if(presentationContextKey&&nextKey&&nextKey!==presentationContextKey)ssjpResetWitnesses();
-    presentationContextKey=nextKey||presentationContextKey;state=next;return state;
+    presentationContextKey=nextKey||presentationContextKey;state=next;ssjpForgetHeldStop(next);return state;
+  }
+  // Phoenix (B1 tabkill seed 4, FLAKY draw.savedStopCleared): the STOP saved on this phone is forgotten as soon as Firebase holds
+  // this manager's stop, on every Setup state this page takes in, whatever the draw shows: its 3D scene may still be loading
+  // (the draw's own accept waits for it) or Career Start may already cover it. The ledger's stop always wins; no read, no write.
+  function ssjpForgetHeldStop(next){
+    try{const setup=next?.setup,role=next?.managerRole||"";if(!drawStep||!role||!drawStep.isDraw(setup)||drawStep.storedStops(setup)[role]===null)return false;drawStep.clearPending({rivalryId:String(next.rivalryId||""),role});return true;}catch(_error){return false;}
   }
   function ssjpActionBusy(){return Boolean(actionPromise)||busy;}
 
@@ -123,7 +129,7 @@
   function ssjpEnsureDrawStep(){
     if(drawStep)return Promise.resolve(drawStep);
     if(!drawStepPromise)drawStepPromise=ssjpLoadScript("club-draw-step","js/clubDrawStep.js",()=>root.CareerModeClubDrawStep).then(()=>{
-      drawStep=root.CareerModeClubDrawStep||null;
+      drawStep=root.CareerModeClubDrawStep||null;ssjpForgetHeldStop(state);
       // A ball reaching full speed (STOP opens) or coming to rest (its club is named) re-renders the screen.
       if(drawStep&&!drawListening){drawListening=true;drawStep.on(()=>{if(active&&ssjpPending()&&ssjpActiveScreen()==="clubWheelScreen")void ssjpRenderCurrent();});}
       return drawStep;
