@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r97-gfx-hold-per-screen-contracts.cjs",
+  "patterns": [
+    "^js/gfxTier\\.js$",
+    "^device\\-check\\.html$",
+    "^tests/contracts/r97\\-gfx\\-hold\\-per\\-screen\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r97\\-gfx\\-hold\\-per\\-screen\\-contracts\\.json$"
+  ]
+}

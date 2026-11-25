@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/job-1652-settings-motion-contracts.cjs",
+  "patterns": [
+    "^js/storage\\.js$",
+    "^js/settings\\.js$",
+    "^js/diagnostics\\.js$",
+    "^css/rulesSettingsV10\\.css$",
+    "^tests/contracts/job-1652-settings-motion-contracts\\.cjs$",
+    "^tests/pos20-registry/job\\-1652\\-settings\\-motion\\-contracts\\.json$"
+  ]
+}

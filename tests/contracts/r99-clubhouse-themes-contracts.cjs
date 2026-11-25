@@ -167,12 +167,50 @@ check("Settings offers the clubhouse on this device, beside nothing it moves", (
   const fn = (s.match(/function createClubhouseControl\(\)\{[^]*?\n\}/) || [])[0] || "";
   assert.ok(fn, "the Clubhouse row");
   const names = [...s.slice(s.indexOf("const SETTINGS_CLUBHOUSE_THEMES"), s.indexOf("];", s.indexOf("const SETTINGS_CLUBHOUSE_THEMES"))).matchAll(/\["(\w+)", "([^"]+)", "([^"]+)"\]/g)];
-  assert.deepEqual(names.map(m => [m[1], m[2]]), [["current", "Wooden Clubhouse"], ["silver", "Silver Clubhouse"], ["black", "Metallic Black Clubhouse"], ["matte", "Premium Matte Black Clubhouse"]], "Nik's four names, the Wooden Clubhouse (as painted) first");
+  assert.deepEqual(names.map(m => [m[1], m[2]]), [["current", "Wooden Clubhouse"], ["silver", "Platinum Clubhouse"], ["black", "Metallic Black Clubhouse"], ["matte", "Premium Matte Black Clubhouse"]], "Nik's four names, the Wooden Clubhouse (as painted) first; key silver is the Platinum Clubhouse (HO-161)");
   for(const m of names) assert.ok(m[3].length > 20 && m[3].length < 80, `${m[2]} has one short line on what the room is made of`);
   assert.match(fn, /hint\.textContent = settingsClubhouseHintText\(select\.value\)/, "the line follows the pick");
   assert.match(fn, /window\.cmsClubhouse\.set\(select\.value\)/);
   assert.doesNotMatch(fn, /firestore|Firestore|fetch\(/, "no network");
   assert.match(s, /panel\.append\(createClubhouseControl\(\)\);\n    return panel;/, "at the end of the Showdown data card");
+});
+
+// HO-161 (Nik 2026-11-24, 11:35 AM Boston): "we are going to call it platinum from now on". Only the words a player reads change:
+// the key stays "silver" (localStorage, data-clubhouse, CSS hooks) and so do the *_SILVER_* files and the silver/ art folders.
+check("the clubhouse with key silver is called Platinum everywhere a player reads it, never Silver", () => {
+  const s = read("js/settings.js");
+  const list = s.slice(s.indexOf("const SETTINGS_CLUBHOUSE_THEMES"), s.indexOf("];", s.indexOf("const SETTINGS_CLUBHOUSE_THEMES")));
+  const rows = [...list.matchAll(/\["(\w+)", "([^"]+)", "([^"]+)"\]/g)];
+  assert.equal(rows.length, 4, "four clubhouses");
+  assert.deepEqual(rows.find(m => m[1] === "silver").slice(2, 3), ["Platinum Clubhouse"], "key silver is shown as the Platinum Clubhouse");
+  for(const m of rows) assert.doesNotMatch(`${m[2]} ${m[3]}`, /silver/i, `${m[1]}: no Silver in its name or its line`);
+  assert.match(read("js/ruleBook.js"), /Settings also picks your clubhouse: Wooden, Platinum, Metallic Black or Premium Matte Black\./, "the Rule Book names Platinum");
+  // Every file a player can read: the game, its data, its styles and the Story. Comments are not read, so they are left out.
+  const files = [];
+  const walk = dir => { for(const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })){
+    const rel = `${dir}/${e.name}`;
+    if(e.isDirectory()){ if(dir === "chronicle" && e.name === "assets") continue; walk(rel); }
+    else if(/\.(?:js|html|css|json|md)$/.test(e.name)) files.push(rel);
+  } };
+  for(const dir of ["js", "data", "css", "chronicle"]) walk(dir);
+  files.push("index.html", "app.js", "manifest.webmanifest");
+  const NAME = [
+    /\bSilver Clubhouse\b/i,
+    /\bSilver\s*[,;]\s*(?:Metallic Black|Platinum|Premium Matte Black)/,
+    /\bWooden\b[^.]{0,40}?[,;]\s*Silver\b/,
+    /\bpicked Silver\b/,
+    /\bsit in silver\b/i,
+    /\bwood, silver, black metal\b/i
+  ];
+  let seen = 0;
+  for(const file of files){
+    if(!fs.existsSync(path.join(ROOT, file))) continue;
+    const text = read(file).replace(/\/\*[^]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "").replace(/<!--[^]*?-->/g, "");
+    seen++;
+    for(const re of NAME) assert.doesNotMatch(text, re, `${file} still calls the clubhouse Silver`);
+  }
+  assert.ok(seen > 50, `read the player-facing files (${seen})`);
+  for(const file of ["chronicle/volume27-data.js", "chronicle/november.js", "chronicle/index.html", "chronicle/book.js"]) assert.match(read(file), /Platinum/, `${file}: the Story names Platinum`);
 });
 
 check("the service worker precaches the metal marble the panels ask for by a relative url", () => {

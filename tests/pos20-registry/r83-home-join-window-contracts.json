@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r83-home-join-window-contracts.cjs",
+  "patterns": [
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/sparkPrivatePairing\\.js$",
+    "^js/onlinePlayerIdentity\\.js$",
+    "^js/whichShowdownIsLive\\.js$",
+    "^tests/contracts/r83-home-join-window-contracts\\.cjs$",
+    "^tests/pos20-registry/r83\\-home\\-join\\-window\\-contracts\\.json$",
+    "^tests/support/home-join-window-fixture\\.cjs$"
+  ]
+}

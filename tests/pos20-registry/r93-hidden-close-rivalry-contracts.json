@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r93-hidden-close-rivalry-contracts.cjs",
+  "patterns": [
+    "^js/(sharedActiveShowdownAdapter|rivalryLegacyV10|rivalryLegacyV10Markup|sharedTerminalClose|sharedHistoryConvergence|sharedFinalReconciliation|productionSharedMultiSeasonProgression)\\.js$",
+    "^visual-assets/v10_1/rivalry-statistics/rivalry-statistics\\.js$",
+    "^tests/support/(active-showdown-fixtures|career-fixture-helpers|fake-dom)\\.cjs$",
+    "^tests/contracts/r93\\-hidden\\-close\\-rivalry\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r93\\-hidden\\-close\\-rivalry\\-contracts\\.json$"
+  ]
+}

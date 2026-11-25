@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r87-upgrade-continue-hold-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^tests/contracts/r87\\-upgrade\\-continue\\-hold\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-upgrade\\-continue\\-hold\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r91-special-player-ladder-contracts.cjs",
+  "patterns": [
+    "^visual-assets/v10_1/special\\-player/index\\.html$",
+    "^js/gfxTier\\.js$",
+    "^docs/QUALITY_LEVELS\\.md$",
+    "^tests/contracts/r91\\-special\\-player\\-ladder\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r91\\-special\\-player\\-ladder\\-contracts\\.json$"
+  ]
+}

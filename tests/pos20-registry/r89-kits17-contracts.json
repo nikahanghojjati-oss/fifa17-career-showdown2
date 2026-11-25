@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r89-kits17-contracts.cjs",
+  "patterns": [
+    "^data/clubs\\.js$",
+    "^js/chamberMenScene3d\\.js$",
+    "^js/kits17\\.js$",
+    "^tests/contracts/r89\\-kits17\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r89\\-kits17\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/shared-terminal-close-rules-contracts.cjs",
+  "patterns": [
+    "^firestore\\.terminal-close-production\\.fragment\\.rules$",
+    "^scripts/build-production-firestore-rules\\.mjs$",
+    "^\\.github/workflows/deploy-firestore-rules-zero-billing\\.yml$",
+    "^tests/contracts/shared-terminal-close-rules-contracts\\.cjs$",
+    "^tests/firebase/shared-terminal-close-production-provider-emulator\\.cjs$",
+    "^tests/pos20-registry/shared\\-terminal\\-close\\-rules\\-contracts\\.json$"
+  ]
+}
