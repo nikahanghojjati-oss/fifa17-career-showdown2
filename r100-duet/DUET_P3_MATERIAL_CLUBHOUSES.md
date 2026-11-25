@@ -16,8 +16,8 @@ Picked by Nik on 2026-11-25, 06:56-07:01 UTC. In his words: Duet does the whole 
   6. **Rhodochrosite:** raspberry-pink stone with natural pale bands, dark walnut, champagne gold. Palette #3A0E1E / #A23B5C / #E07A95, champagne gold #CBB27A. Key `rhodochrosite`.
   7. **Viola (Calacatta Viola):** real Italian marble, white with wine-purple veins, aubergine velvet, dark ebony, soft brass. Marble #E9E4E6, veins #5A1F3D, deep #2A1020, brass #B08D57. Key `viola`.
 - **Full lineup (Nik 2026-11-25 07:09 UTC):** all seven are wanted (Viola added at 07:10 UTC). Go in this order as far as budget and clock allow. The lead (or the next lead) picks up whatever is left, so finish each clubhouse fully, never start two at once, and end with the hand-off note below.
-- **Names (Nik's pick, 2026-11-25 07:06 UTC, "Material names"):** the full Settings list is Wooden, Platinum, Black Steel, Graphite, Ruby, Emerald and Lapis Clubhouse.
-  - Yours are exactly **`Ruby Clubhouse`**, **`Emerald Clubhouse`**, **`Lapis Clubhouse`**, **`Rose Quartz Clubhouse`**, **`Amethyst Clubhouse`** **`Rhodochrosite Clubhouse`** and **`Viola Clubhouse`**.
+- **Names (Nik's pick, 2026-11-25 07:06-07:10 UTC, "Material names"):** the full Settings list is Wooden, Platinum, Black Steel, Graphite, Ruby, Emerald, Lapis, Rose Quartz, Amethyst, Rhodochrosite and Viola Clubhouse.
+  - Yours are exactly **`Ruby Clubhouse`**, **`Emerald Clubhouse`**, **`Lapis Clubhouse`**, **`Rose Quartz Clubhouse`**, **`Amethyst Clubhouse`**, **`Rhodochrosite Clubhouse`** and **`Viola Clubhouse`**.
   - B7 renames the existing four in its premium-only PR. Don't touch those labels.
   - The word "Premium" never appears in any text a player sees. Every new label and hint line must pass B7's new no-"Premium" contract (it lands with premium-only; run it on each PR).
   - Internal keys are `ruby`, `emerald`, `lapis`, `rosequartz`, `amethyst`, `rhodochrosite` and `viola` (lower-case a-z only).
@@ -38,11 +38,49 @@ Picked by Nik on 2026-11-25, 06:56-07:01 UTC. In his words: Duet does the whole 
 6. Skills: **showdown-astra-image-prompts** (route, prompt rules, scoring) and **showdown-likeness-image-ticket** (one asset per ticket, edit from the source, never an edit of an edit). Their rules are summarised below in case they don't load for you.
 7. `tools/clubhouse-themes/` on gameplay/r100 (paint.py, panel_tiles.py, pin.py, manifest.py, matte_check.py, finish.py, masks/), plus your own P1 work in paint.py.
 
-## Step 0, before any prompt: prove you can take Nik's pictures in
-Ask Nik for one test picture (any ChatGPT image). Then:
-- If you can find the attached file on disk, commit it to `claude-duet/p3-intake/inbox/` and delete it again. That proves the path.
-- **If you can't read attachments:** tell Nik in one line and use this path. Nik saves each picture to his phone or Chromebook, opens `https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/upload/claude-duet/p3-intake/inbox` in the browser, drops the files in and taps "Commit changes". You then fetch the branch. Create that branch with an `inbox/README.md` first so the link works.
-- **Every picture name** is the asset ID you gave in its prompt box (e.g. `ENV_HOME_PLATE_RUBY_P1_2X.png`). Ask Nik to rename only if the tool lets him. Otherwise match by order and say which file is which before using it.
+## The whole process, start to finish (per clubhouse)
+Who does each step is in brackets. Nik's only steps are marked **NIK**. Every other step is yours, without asking him.
+1. **Colour study** [you]: `COLOUR_STUDY.md` + `.png` and `<key>_check.py` (section "Colour study" below).
+2. **Pilot tickets** [you]: write R-1 Board and R-2 Home in `RUN_SHEET_<KEY>.md` (Team V prompt order, Colour lock, light rule, fix wording). Link Image 1 from the branch.
+3. **Send the pilot to Nik** [you]: one message per the "Picture ask" template below, both tickets, in run-sheet order. Also post a REPORT so the desk can give Nik the same link.
+4. **Run the prompts** [**NIK**]: new chat per ticket, attach Image 1, paste the box, send you the picture.
+5. **Take each picture in** [you]: commit it untouched as `<ASSET_ID>_RAW.png`, run align.py, then score it (scoring order below). Tell Nik the score in one line.
+6. **Below 9/10** [you]: write ONE fix ("Keep this image exactly the same. Change only: ...") or a new-chat prompt, and send it with the "Fix ask" template. Repeat per the redo loop. Never accept under 9.
+7. **Pilot look call** [you, then **NIK**]: when both pass, send the "Pilot OK ask": the two aligned pictures next to Wooden (blob links to the `.cmp.jpg`), their scores and the numbers. Nik answers OK or what to change. Until he says OK, write no more tickets.
+8. **Full set** [you]: copy the pilot's winning wording into every later ticket. Batches in this order: 8 desktop rooms + slab, then swatches, then 10 phone bands, then League Roulette and sideways, then sign-in. Same loop as steps 3-6 for each batch.
+9. **Wire it** [you]: the G side (paint.py, panel_tiles, pin, manifest, the new key everywhere), on the clubhouse branch from gameplay/r100 after premium-only merges.
+10. **Prove it** [you]: contracts, flash in every clubhouse, old-art audit, tiers, faces, sizes, then the board (5 screens x 4 sizes + sign-in).
+11. **Board OK** [**NIK**]: send him the board link with the "Board OK ask". Fix what he names.
+12. **PR ready** [you]: draft until ready, then ready in one push with `@codex review`; REPORT with the head. The lead merges. Then start the next clubhouse at step 1.
+
+## Message templates for Nik (use them word for word in shape)
+**Picture ask** (one block per ticket, in run-sheet order):
+```
+Ruby R-1 Board Room. New chat: ChatGPT Work mode, Astra 6, Extra High.
+Attach Image 1: <blob link>  (Image 2: <blob link> or "none")
+Paste the box below exactly. If ChatGPT offers a rewrite, reply: No, use my prompt exactly.
+Send me the picture here. It saves as ENV_BOARD_PLATE_RUBY_P1_2X.
+<prompt in its own copy box>
+```
+**Score line** (after each picture): `R-1 Board: 8.5/10. Walls perfect, counter still brown near the lamp. One fix below.` or `R-1 Board: 9.5/10. Accepted. Next: R-2.`
+**Fix ask:** `R-1 fix 1. Same chat, paste this:` then the one-line fix in a copy box. For a new chat, use the full Picture ask again.
+**Pilot OK ask:** `Ruby pilot ready: Board 9.5, Home 9/10. Side by side with Wooden: <link>, <link>. OK to paint the full Ruby set? Reply OK, or tell me what to change.`
+**Board OK ask:** `Ruby is wired and proven. Board: <link>. OK to merge? Reply OK, or name what to change.`
+Every ask fits on a phone: short plain sentences, Boston times, one copy box per thing Nik pastes.
+
+## How you work with Nik (read this before EVERY message to Nik)
+Nik is the hands, never the planner. He only does three things: paste a prompt you wrote into ChatGPT, send you back the picture, and say OK or not on a look. Everything else is yours.
+- **Never ask Nik for any picture without the full ticket in the same message:** the run sheet link to that ticket, Image 1 (and Image 2) links, the "Saves as" name, and the exact prompt in ONE copy box. No "send me any image", no "make a test picture", no "generate X" in words.
+- **Never ask Nik how Team V or Team G does something.** The answer is in this file, the teamv-kit, the b7-kit and the skills. If it truly isn't, ask the desk in the mailbox (Q-n), not Nik.
+- **Before each message to Nik, check:** does it carry a ready prompt box or a yes/no look call? If not, don't send it; do the work instead.
+- Ask Nik only for: the next picture(s) from a run sheet, his OK on a pilot, or a look call the desk passed to you.
+
+## Step 0 is folded into the pilot: no test picture
+Do NOT ask Nik for a throwaway test picture. The first real pilot picture (R-1 for Ruby) is the intake test:
+- Give Nik the pilot tickets straight away (run sheet link + prompt boxes).
+- When his first picture arrives, if you can read the attachment on disk, commit it untouched as `<ASSET_ID>_RAW.png` on your work branch. That proves the path.
+- **If you can't read attachments:** say so in one line and give Nik this link: `https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/upload/claude-duet/p3-intake/inbox`. He drops the picture there and taps "Commit changes". You fetch the branch.
+- **Every picture name** is the asset ID from its ticket. If Nik can't rename, match by order and say which file is which before using it.
 
 ## The V side: you are the Team V lead and its workers
 **Route:** ChatGPT **Work mode, Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses). Normal or incognito chats can't make images.
@@ -124,7 +162,7 @@ Score honestly, one line per issue, and tell Nik each score in one line.
 7. **Swatches gate the phones:** cut a people-free swatch `REF_<ROOM>_<LOOK>_SWATCH.webp` from each finished desktop painting. Take full height at the widest mask-free column run of `masks/ENV_<ROOM>_PLATE_HC_V3_1920.png`, 12 px in from each side, x1.6, WebP q90. Re-cut it under the same name if the desktop room is redone.
 
 ## Paintings per clubhouse (about 24)
-- **Pilot first:** HOME and BOARD desktop (mk_tickets). **Stop and get Nik's OK on the pilot on the board before writing any more tickets** (that's how Matte avoided a full wrong-colour set).
+- **Pilot first:** HOME and BOARD desktop (mk_tickets). **Stop and get Nik's OK on the pilot (process step 7) before writing any more tickets** (that's how Matte avoided a full wrong-colour set).
 - **Full set (mk_full):**
   - 8 desktop rooms: OFFICE HALL ARCHIVE BOX COACHES TUNNEL CLUB LOADING;
   - the material slab;
@@ -171,7 +209,7 @@ Passing the numbers is necessary but not sufficient. Your eye check against HO-1
 
 ## Proof on each PR's exact head
 - **Contracts:** r99, v10-foundation (F9c, F10), r86, r87 rollback, reus-gate-startup, static-app-release, final-polish (startup gzip budget), v10-home.
-- **Flash in EVERY clubhouse** (Wooden, Platinum, Metallic Black, Matte and each new key) **after every art or startup change.** Use `CMS_CLUBHOUSE=<key> npm run -s test:v10-flash` with Chrome 153 (`CMS_CHROMIUM_PATH=/opt/pw-browsers/chromium-1243/real/chrome-linux64/chrome`) and a static server on 4701, as B7's file says. If you can't run a browser, say so and rely on the Gate's run.
+- **Flash in EVERY clubhouse** (keys `wooden`, `silver`, `black`, `matte` and each new key) **after every art or startup change.** Use `CMS_CLUBHOUSE=<key> npm run -s test:v10-flash` with Chrome 153 (`CMS_CHROMIUM_PATH=/opt/pw-browsers/chromium-1243/real/chrome-linux64/chrome`) and a static server on 4701, as B7's file says. If you can't run a browser, say so and rely on the Gate's run.
 - **Old-art audit:** `CMS_CLUBHOUSE=<key> node tests/browser/r91-old-art-audit.cjs` passes with no A4/A5.
 - **Quality tiers:** every gfx tier (js/gfxTier.js) shows the painted rooms, never a recolour.
 - **Board for Nik:** 5 screens x 4 sizes (1920x866, 1920x1035, 390x844, 844x390) per clubhouse, plus the sign-in lounge. Publish it as one page Nik can open on his phone, as a claude.ai artifact if you can make one, otherwise an image sheet on the branch linked from the PR. Nik OKs the look before merge.
