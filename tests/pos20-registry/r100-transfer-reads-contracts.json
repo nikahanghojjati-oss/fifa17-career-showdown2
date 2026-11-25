@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r100-transfer-reads-contracts.cjs",
+  "patterns": [
+    "^js/sparkPrivatePairing\\.js$",
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^firestore\\.transfer\\-challenge\\-production\\.fragment\\.rules$",
+    "^tests/contracts/r100\\-transfer\\-reads\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-transfer\\-reads\\-contracts\\.json$"
+  ]
+}

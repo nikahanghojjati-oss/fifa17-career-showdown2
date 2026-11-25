@@ -1221,6 +1221,10 @@
       // (every update needs WINDOW_OPEN, GUESS_ENTRY or SIGNING_ENTRY before it) and cannot be deleted.
       if(/^rivalries\/[^/]+\/sharedSetup\/leagueProjection$/.test(path))return true;
       if(/^rivalries\/[^/]+\/transferChallenges\/[^/]+$/.test(path))return Boolean(value&&value.phase==="COMPLETED");
+      // r100 read cut B (B4): a manager's private Transfer War document is created by LOCK MY GUESSES and updated once, by LOCK
+      // MY SIGNINGS (the Rules allow an update only while signings and signingLockedAt are still empty, and no delete); once
+      // it holds both, it never changes again, so its copy is kept like the COMPLETED season document above.
+      if(/^rivalries\/[^/]+\/transferChallenges\/[^/]+\/roles\/(playerOne|playerTwo)$/.test(path))return Boolean(value&&value.objectType==="sharedTransferChallengeRole"&&value.signingLockedAt!==null&&value.signingLockedAt!==undefined&&Array.isArray(value.signings));
     }catch(_error){}
     return false;
   }
