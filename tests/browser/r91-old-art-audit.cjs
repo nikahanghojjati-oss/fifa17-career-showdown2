@@ -117,6 +117,8 @@ const KNOWN_PLAIN_FETCH = /^$/;
 // The clubhouse's own loading room is current too: the loading screen draws it at startup, before the screen under test shows.
 const CURRENT = new RegExp(`visual-assets/v10_1/plates-hc/|assets/loading/${THEME ? THEME + "/" : ""}ENV_LOADING_`);
 // Lead 2026-11-25 (Nik: never load what we don't show): a clubhouse downloads only its own loading room, never another's.
+// Lead 2026-11-25: retired phone pictures that no screen draws any more (Legacy, Trophy Room, Rivalry); a download fails (A6).
+const RETIRED_NEVER = /plates-v2\/ENV_LEGACY_PHONE_V2|trophy-room\/assets\/ENV_TR_PHONE_V1|rivalry-statistics\/assets\/(?:ENV_RV_PHONE_V1|OVL_RV_(?:DANIEL|NIK)_PHONE_V1)/;
 const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte)\/ENV_LOADING_/;
 function drawnPictures(){
     const vw = innerWidth, vh = innerHeight, out = [];
@@ -160,6 +162,7 @@ if(require.main === module){
             const drawn = await page.evaluate(drawnPictures);
             const findings = judge(key, drawn), known = KNOWN_SHAPES.find(k => k.match(w, h));
             if(THEME && requested) for(const u of requested) if(PLAIN_ROOM.test(u) && !KNOWN_PLAIN_FETCH.test(u)) findings.push(`A4 plain room ${u.replace(/^.*plates-hc\//, "")} downloaded in the ${THEME} clubhouse`);
+            if(requested) for(const u of requested) if(RETIRED_NEVER.test(u)) findings.push(`A6 retired picture ${u.replace(/^.*v10_1\//, "")} downloaded (no screen draws it)`);
             if(requested) for(const u of requested) if(OTHER_LOADING.test(u)) findings.push(`A5 another clubhouse's loading room ${u.replace(/^.*assets\/loading\//, "")} downloaded in the ${THEME || "Wooden"} clubhouse`);
             if(known && findings.length){ console.log(`KNOWN ${key} ${w}x${h} (${known.name}; ${known.follow})${findings.map(f => "\n   " + f).join("")}`); return; }
             for(const what of findings) report.push({ screen: key, size: `${w}x${h}`, what });
