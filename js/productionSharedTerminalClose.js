@@ -376,6 +376,11 @@
   // (see CareerModeFirestoreBudget.watchContext); a change to either wakes this module at once.
   let contextWatchKey="";
   function ptcContextWake(){ptcWake({type:"career-mode-shared-wait-context-change"});}
+  // r100 B6 JOIN speed: the shared setup screen (League Roulette, Ball Game) asks for this watch on each of its checks, so the
+  // listener is there as soon as this Showdown's rivalry binding is known instead of on the next 15 s wake: with the faster
+  // JOIN, League Roulette now opens before that wake, and its checks read the rivalry and Session from the server until then.
+  // Only the watch is attached here; no check runs and nothing loads.
+  function ptcWatchEarly(){if(contextWatchKey||root.document?.visibilityState==="hidden")return false;let request=null;try{request=ptcRequest();}catch(_error){request=null;}if(!request)return false;ptcWatchContext(request);return Boolean(contextWatchKey);}
   function ptcWatchContext(request){
     const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchContext!=="function")return;
     // A verified CLOSED (or deleted) Showdown never changes again: no context watch for it, so a phone unlock on the Champion
@@ -430,6 +435,6 @@
     contractVersion:1,feature:"ssjr-production-shared-terminal-close",productionEnabled:true,runtimeRevision:"1.9.1-r18",pollIntervalMs:POLL_MS,
     requiresFinalReconciliation:true,requiresExactActiveSessionToClose:true,sameWitnessRetry:true,terminalReadAfterReload:true,terminalSessionResurrection:false,
     canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,
-    install:ptcInstall,refresh:ptcRefresh,reportUnlessClosed:ptcReportUnlessClosed,close:ptcClose,retry:ptcRetry,getState:ptcCurrentState,isBusy:()=>busy,leaveEnded:ptcLeaveEnded
+    install:ptcInstall,watchContextEarly:ptcWatchEarly,refresh:ptcRefresh,reportUnlessClosed:ptcReportUnlessClosed,close:ptcClose,retry:ptcRetry,getState:ptcCurrentState,isBusy:()=>busy,leaveEnded:ptcLeaveEnded
   });
 });

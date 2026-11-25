@@ -67,7 +67,7 @@ function world(){
   return {page,docs,reads,writes,listeners,sdk,now:()=>now,jump:ms=>{now+=ms;},
     async advance(ms){const end=now+ms;for(;;){const due=[...timers].filter(([,t])=>t.at<=end).sort((a,b)=>a[1].at-b[1].at)[0];if(!due)break;timers.delete(due[0]);now=due[1].at;await due[1].fn();await settle();}now=end;await settle();},
     failListener(){for(const l of [...listeners])l.error(new Error("offline"));},
-    async start(){const daniel=page("daniel");await daniel.init();const waiting=await daniel.pair.startPairing({managerRole:"playerOne"});assert.equal(waiting.connectionState,"pending-pair",waiting.message);daniel.document.visibilityState="hidden";await settle();return waiting.rivalryId;}
+    async start(){const daniel=page("daniel");await daniel.init();const waiting=await daniel.pair.startPairing({managerRole:"playerOne"});assert.equal(waiting.connectionState,"pending-pair",waiting.message);/* Daniel's tab goes to the background as a browser does it (the event fires), so his waiting code lets its wait listener go (r100 B6 JOIN speed) */await daniel.visibility(false);await settle();return waiting.rivalryId;}
   };
 }
 

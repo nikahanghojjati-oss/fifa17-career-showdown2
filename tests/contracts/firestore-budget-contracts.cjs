@@ -1112,6 +1112,8 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
       await world.advance(10*60000);
       assert.equal(published(world),true,"it landed");
       sessions[SESSION_ID]="active";  // Nik joins well after the first 10 minutes
+      // r100 B6 JOIN speed: his join writes that session document (as the real provider does); Daniel's wait listener on it wakes his join check.
+      world.serverWrite(`rivalries/${RIVAL}/sessions/${SESSION_ID}`,{state:"active"});
       await world.advance(4100);
       assert.equal(remote.getState().sessionState,"active",`Daniel sees Nik join (${reopen?"after a reopen":"late landing"})`);}
 

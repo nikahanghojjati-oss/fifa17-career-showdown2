@@ -434,7 +434,9 @@
   // r75: during the league and club-pack setup one live listener watches the shared setup document; the 2.5 s check
   // below keeps running as the fallback and reads from the listener while it is healthy.
   function ssjpWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{const rivalryId=String(state?.rivalryId||"").trim();if(active&&rivalryId&&ssjpPending()&&root.document?.visibilityState!=="hidden")path=`rivalries/${rivalryId}/sharedSetup/authoritative`;}catch(_error){path=null;}budget.watchWaitPoint("shared-setup",path,()=>{if(!busy&&!pollBusy)void ssjpPoll();});}
-  async function ssjpPoll(){ssjpWatchWait();if(!active||!ssjpPending()||busy||pollBusy||root.document&&root.document.visibilityState==="hidden")return;pollBusy=true;try{await ssjpRefresh();}catch(_error){}finally{pollBusy=false;}}
+  // r100 B6 JOIN speed: Terminal Close's context listener (rivalry root + Session) serves this check's rivalry and Session reads.
+  function ssjpWatchContext(){if(!active||!ssjpPending())return;try{root.CareerModeProductionSharedTerminalClose?.watchContextEarly?.();}catch(_error){}}
+  async function ssjpPoll(){ssjpWatchWait();ssjpWatchContext();if(!active||!ssjpPending()||busy||pollBusy||root.document&&root.document.visibilityState==="hidden")return;pollBusy=true;try{await ssjpRefresh();}catch(_error){}finally{pollBusy=false;}}
   function ssjpStartPolling(){if(pollTimer!==null||typeof root.setInterval!=="function")return;pollTimer=root.setInterval(()=>void ssjpPoll(),POLL_MS);}
   function ssjpStopPolling(){if(pollTimer!==null){root.clearInterval(pollTimer);pollTimer=null;}}
   // r79 gallery: js/productionSharedShowdownSetup.js answers a write that landed with its own ready state (status "ready", no
