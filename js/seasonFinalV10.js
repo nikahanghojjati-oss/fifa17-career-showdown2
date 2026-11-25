@@ -1062,7 +1062,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 
 /* JOB-1598: adopted 1229 sideways composition only (740x360 and 844x390).
    Reuse the live form in document order. Review/errors expand in main's flow. */
-@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   overflow-y:auto; overflow-x:hidden;
  }
@@ -1077,7 +1077,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
   grid-template-rows:44px minmax(224px,1fr) auto 44px; gap:8px 14px;
   overflow:visible; background:#090b0e;
  }
- #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
+  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
   display:block; grid-column:1; grid-row:1/5; align-self:stretch;
   position:relative; z-index:1; min-width:0; min-height:0; margin:0;
   overflow:hidden; border-radius:5px; pointer-events:none;
@@ -1183,6 +1183,11 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage :is(input,button,label):focus-visible {
   outline:2px solid white; outline-offset:2px;
  }
+}
+/* r100 B7: 560-639 px wide (no sideways phone layout before: a black page with no room) keeps the panels' own 340px and
+   gives the room what is left, so nothing is cut off at the right edge. 640 px and wider are unchanged. */
+@media (min-width:560px) and (max-width:639px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+ #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { grid-template-columns:minmax(0,.8fr) minmax(340px,1.2fr); }
 }
 
 
@@ -1710,7 +1715,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* JOB-1700: finish the adopted entry compositions, using the live nodes only.
    Entry fits the first view; review, scoring and error states grow in main. */
 @media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
-       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
@@ -1770,9 +1775,16 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonResultCard { min-height:232px; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row button { letter-spacing:.5px;line-height:1.3; }
 }
-@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
   grid-template-rows:44px minmax(224px,1fr) auto;gap:8px 14px;
+ }
+ /* r100 B7: the title in the room's lower band was sized from the window width (css/r78-type.css), so below about 800 px
+    it ran past the room column and lost its first and last letters. It now also stays inside the column it stands in;
+    where it already fit (844 px and wider) the size is the same. */
+ #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene { container-type:inline-size; }
+ :root:not(#sa-f1):not(#sa-f2):not(#sa-f3):not(#sa-f4):not(#sa-f5) #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::after {
+  font-size:min(calc(.9 * min(calc(var(--hc-title-h) * .88), calc((100vw - 28px) / var(--hcw)))), calc((100cqw - 8px) / var(--hcw)));
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) .season-action-row { grid-row:3;padding:0; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .v10SeasonPhoneScene { grid-row:1/4; }
@@ -1809,8 +1821,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* r90: one rule for every landscape desktop window. The old list of exact size bands left gaps (1920x906 windowed
    Chromebook, 1280x900, 1366x900), where the board stayed absolute and an extra margin pushed it over Nik's face.
    r90 W9 (window sweep): no height cap either; above 1120px tall (1920x1200, 2560x1440, 3840x2160) the board stayed absolute
-   and scrolled inside itself. */
-@media (min-width:901px) and (min-height:501px) and (orientation:landscape) {
+   and scrolled inside itself.
+   r100 B7 (Verify F1): no height floor either. Below 501px tall (a Chromebook window dragged short) the board was squeezed
+   into the fixed stage: inputs overlapped, labels printed over each other, the cards covered the scoring panel and League
+   Position could not be clicked (1100x340). Every short window now uses this layout too, and main scrolls. */
+@media (min-width:901px) and (orientation:landscape) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
  }
@@ -1848,8 +1863,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #scoring-heading { font-size:clamp(17px,calc(var(--sru)*1.6),30px);margin:0 0 6px; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-rule { font-size:clamp(13px,calc(var(--sru)*.9),17px);line-height:1.25; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-trophy { max-height:16svh; }
+ /* r100 B7: under about 495px tall the room column (16:9 of the height) is too narrow for the rows, so the two cards keep
+    at least 640px, and every score box stays clear of the trophies column. align-self (not auto margins) centres
+    them, also when that floor is wider than the room column and when a later rule narrows them (ultrawide 14/5) */
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:not(.hidden) {
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3%;width:72.66%;min-width:0;margin:0 auto;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3%;width:max(72.66%,640px);min-width:0;margin:0;align-self:center;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel {
   position:relative;inset:auto;left:auto!important;width:100%!important;min-width:0;height:auto;min-height:max(220px,32svh);
@@ -1922,9 +1940,9 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
 }
 @media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
-       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait),
-       (min-width:901px) and (min-height:501px) and (orientation:landscape) {
+       (min-width:901px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close):active {
   filter:brightness(.88);box-shadow:inset 0 2px 4px #0008;
  }
@@ -2499,13 +2517,13 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background:none; }
 }
-@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
   background:#090b0e url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PHONE_V2.webp")}") center top/cover no-repeat;
  }
 }
 @media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
-       (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { content:none; }
 }
@@ -2536,7 +2554,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    Settings phones). The page still scrolls for the rest of the form and the review, and it ends with the band in its own
    place in the flow, so at the end of the scroll nothing sits under it. (:not(#seasonEntryError) only lifts the selector over
    the phone block's :is(...,#seasonEntryError) rule, which counts as an id.) */
-@media (max-width:760px), (max-width:1000px) and (orientation:landscape) and (max-height:520px) {
+@media (max-width:760px), (max-width:900px) and (orientation:landscape) and (max-height:520px) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row:not(.hidden):not(#seasonEntryError),
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-review-panel>.seasonReviewActions:has(>button:not(.hidden):not([hidden])) {
   position:sticky;bottom:0;z-index:8;align-self:stretch;box-sizing:border-box;
@@ -2547,7 +2565,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 /* r95 house (Lane B) sideways phone: the band sits in the right-hand column only; it runs to the window edge on the right and keeps
    the column's own left edge, with the same 16px gutter inside, and its track grows to fit so the buttons clear the bottom edge. */
-@media (max-width:1000px) and (orientation:landscape) and (max-height:520px) {
+@media (max-width:900px) and (orientation:landscape) and (max-height:520px) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row:not(.hidden):not(#seasonEntryError) {
   margin-left:0;padding-left:0;
  }
@@ -2595,7 +2613,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    FINAL (1024x768, 1536x864). Those windows now use the page-scroll layout 1366x768 and 1920x1080 already use (same cards,
    same order; main is the only scroller). Below 1240px the forms are wider than the gap between the two
    managers, so the cards stay in front of the cut-out and rim-light layers, as on the fixed stage. */
-@media (min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape) {
+@media (min-width:901px) and (max-width:1239px) and (max-height:800px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--ui { z-index:5; }
  /* the stadium plate fills the window from its top, as on the fixed stage (no black bands on 4:3 and 16:10 windows) */
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
@@ -2604,7 +2622,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 /* r90: windows wider than 16:9 (a windowed 1920x906 Chromebook, 2560x1080) fill the width with the stadium plate from its
    top instead of showing black bands at both sides; the faces keep their place across the width. */
-@media (min-width:901px) and (min-height:501px) and (min-aspect-ratio:16/9) and (orientation:landscape) {
+@media (min-width:901px) and (min-aspect-ratio:16/9) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
   top:0!important;width:100vw!important;height:56.25vw!important;
  }
@@ -2911,10 +2929,10 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 /* r91 L3 (1180x820, 1280x650, 1366x768): below 1500px the title picture is as wide as the gap between the two managers
    (they stand at 29.5% and 66.5% of the room), so its last letter stood on Nik's hair. It is centred between the faces
    (48% of the room) and narrowed to fit the gap; 1500px and wider keep the approved size. */
-@media (min-width:901px) and (max-width:1499px) and (min-height:501px) and (orientation:landscape) {
+@media (min-width:901px) and (max-width:1499px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #screen-title { left:29.8%; width:36.4%; }
 }
-@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3.webp")}"); }
  html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3_590W.webp")}"); }
 }
@@ -3045,10 +3063,10 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourseMark { flex:0 0 auto; width:10px; height:10px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#fff4c6,#e2b448 55%,#8a6418); box-shadow:0 0 0 1px rgba(255,231,163,.5); }
 #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourse { grid-column:1 / -1; width:max-content; max-width:100%; margin:0 0 8px; }
 #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourseLine { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); visibility:visible !important; }
-@media (min-width:901px) and (min-height:521px), (min-width:1001px) {
+@media (min-width:901px) {
  #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourse { display:none; }
 }
-@media (max-width:900px), (max-width:1000px) and (max-height:520px) {
+@media (max-width:900px) {
  #app #seasonEntry:not(.v10FinalMode) .v10SeasonStage .seasonGoldenCourseLine { display:none; }
 }
 #app #seasonEntry.v10FinalMode :is(.seasonGoldenCourse,.seasonGoldenCourseLine,.seasonGoldenCourseReview) { display:none; }

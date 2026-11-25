@@ -28,7 +28,7 @@ const Face = require("./phone-marble-facecheck-audit.cjs");
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const shotDir = process.env.CMS_OLD_ART_SHOTS || "";
 const reportFile = process.env.CMS_OLD_ART_REPORT || "";
-const touchSize = (w, h) => w < 900 || h < 500;
+const touchSize = (w, h, pointer) => pointer ? pointer === "touch" : w < 900 || h < 500;
 // R99-01 clubhouse themes: CMS_CLUBHOUSE=silver|black|matte opens every screen in that clubhouse (this device's pick, localStorage).
 // Every room drawn must then be that theme's copy (plates-hc/<theme>/), and no plain room may even be downloaded: a plain room
 // fetched first could paint for a moment before the themed one (A3, A4).
@@ -51,11 +51,16 @@ const GROUPS = {
     desk: ["1920x866", "1920x1035", "1363x936", "1024x768", "1280x1024", "3440x1440", "1080x1920", "900x700"],
     "touch-up": ["390x844", "820x1180"],
     "touch-side": ["844x390", "640x360"],
+    // r100 B7 (lead 2026-11-25): the short windows where Season Results lost its room (901-1000 x up to 520 with a mouse,
+    // 560-639 x 340-410) and Final Winner fell between layouts (touch screens so wide and short that the 880px big-phone
+    // zoom left them under 340 tall). "m" forces a mouse window and "t" a touch screen. The Gate runs it on Season Results
+    // and Final Winner only: CMS_OLD_ART_GROUP=short node tests/browser/r91-old-art-audit.cjs SEASON_ENTRY SEASON_REVIEW FINAL_WINNER
+    short: ["901x340m", "960x450m", "1000x520m", "560x400", "639x340", "639x410", "1040x400", "1366x500t"],
     full: [...new Set([...Object.values(NAMED).flat(), ...sweep(900, 0.4, 2.6, 0.05), ...sweep(400, 1.4, 2.6, 0.1)])]
 };
 const group = process.env.CMS_OLD_ART_GROUP || "desk";
 if(!process.env.CMS_OLD_ART_SIZES && !GROUPS[group]) throw new Error(`Unknown CMS_OLD_ART_GROUP ${group}`);
-const SIZES = [...new Set(process.env.CMS_OLD_ART_SIZES ? process.env.CMS_OLD_ART_SIZES.split(",") : GROUPS[group])].map(s => s.split("x").map(Number));
+const SIZES = [...new Set(process.env.CMS_OLD_ART_SIZES ? process.env.CMS_OLD_ART_SIZES.split(",") : GROUPS[group])].map(s => { const [w, h] = s.split("x").map(parseFloat); const size = [w, h]; if(/m$/.test(s)) size.pointer = "mouse"; else if(/t$/.test(s)) size.pointer = "touch"; return size; });
 
 // ---------- screens ----------
 const onHome = async page => {
@@ -181,7 +186,7 @@ if(require.main === module){
         };
         const watch = page => { const seen = new Set(); page.on("request", r => { const u = r.url(); if(u.startsWith(baseUrl.origin) && /\.(webp|png|jpe?g|avif)(\?|$)/.test(u)) seen.add(u.replace(baseUrl.origin + "/", "").replace(/\?.*$/, "")); }); return seen; };
         try{
-            const desk = SIZES.filter(([w, h]) => !touchSize(w, h)), touch = SIZES.filter(([w, h]) => touchSize(w, h));
+            const desk = SIZES.filter(size => !touchSize(size[0], size[1], size.pointer)), touch = SIZES.filter(size => touchSize(size[0], size[1], size.pointer));
             // desktop: open once per screen, then drag the window through every desktop size
             if(desk.length){
                 const context = await browser.newContext({ viewport: { width: desk[0][0], height: desk[0][1] }, serviceWorkers: "block" });

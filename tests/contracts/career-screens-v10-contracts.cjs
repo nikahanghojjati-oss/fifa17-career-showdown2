@@ -209,12 +209,17 @@ async function headlineCountUpAcrossMounts(){
           await page.addScriptTag({path:path.join(ROOT,"visual-assets/v10_1/shared/motion.js")});
           await page.addScriptTag({path:path.join(ROOT,"visual-assets/v10_1/career-statistics/career-statistics.js")});
           assert.equal(await page.evaluate(()=>window.ShowdownMotion.isReducedMotion()),false,"motion is on, so the count-up runs");
+          // Count every count-up that starts and every one that ends, so the check below waits for the animation itself
+          // (sdCountUp's own promise), never a fixed time: a busy runner slows the frames, not the outcome.
+          await page.evaluate(()=>{const run=window.sdCountUp;window.__cuPending=0;window.sdCountUp=(...args)=>{window.__cuPending++;return Promise.resolve(run(...args)).finally(()=>{window.__cuPending--;});};});
           // As v10Render: rewrite the host, set the frame, boot.
           const mount=frame=>page.evaluate(frame=>{document.getElementById("careerStatistics").innerHTML=window.__csMarkup;window.CAREER_STATISTICS_FIXTURES={strings:window.__csStrings,frames:{LIVE:frame}};window.ShowdownCareerStatisticsBoot();},frame);
           if(gapMs===0)await page.evaluate(({first,model})=>{for(const frame of [first,model]){document.getElementById("careerStatistics").innerHTML=window.__csMarkup;window.CAREER_STATISTICS_FIXTURES={strings:window.__csStrings,frames:{LIVE:frame}};window.ShowdownCareerStatisticsBoot();}},{first,model});
           else{await mount(first);await page.waitForTimeout(gapMs);await mount(model);}
           const label=`${id} (${first.status} then ${model.status}, ${gapMs} ms apart)`;
-          await page.waitForTimeout(1600);
+          // Settled: every headline number this mount drew has started its count-up (sd-count-up is set on entry) and no
+          // count-up of either boot is still running.
+          await page.waitForFunction(n=>{const els=[...document.querySelectorAll("#headlineTiles .headlineNumber, #headlineTiles .headlinePair b")];return els.length===n&&els.every(el=>el.classList.contains("sd-count-up"))&&window.__cuPending===0;},expected.length,{timeout:20000,polling:50}).catch(()=>{});
           const seen=await page.evaluate(()=>[...document.querySelectorAll("#headlineTiles .headlineNumber, #headlineTiles .headlinePair b")].map(el=>({text:el.textContent.trim(),counted:el.classList.contains("sd-count-up")})));
           assert.deepEqual(seen.map(x=>x.text),expected,`${label}: the headline lands on the career's numbers`);
           assert.ok(seen.every(x=>x.counted),`${label}: every headline number counted up`);
