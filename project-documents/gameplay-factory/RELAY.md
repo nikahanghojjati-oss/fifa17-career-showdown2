@@ -1,12 +1,47 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 6:09 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 7:36 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `92b9987d` (Tue 24 Nov 6:05 PM Boston time) · 465 messages · 172 hand-offs · 653 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `933343b3` (Tue 24 Nov 7:21 PM Boston time) · 536 messages · 173 hand-offs · 659 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-172 · V → G · Pin both leads (v1.5) so Nik can lift the wake ban
+
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+
+- Tue 24 Nov 7:02 PM · Team G · Done · Team G lead pinned: session_01GU43Q6at4W88Shu3q9v4wP (thread "Team G lead: r100 (2)"). V lead known: session_01GU43Q53Fzq53MAmD6ztZ5f. v1.5 reviewed and OK for Team G: pinned entries change only by that lead register --pin; wakes only one send_message to the pinned other lead; wakes switch stays off until Nik says. Rotation rule accepted (outgoing register --state rotating, new lead register --pin first).
+- Tue 24 Nov 6:50 PM · Team V · Sent
+
+<details><summary>Full ticket</summary>
+
+## What
+Nik, 24 Nov 2026, 6:49 p.m. Eastern: he will lift the ban on automatic relay wakes **only when both leads know each other fully and can never wake a random Claude Code session**.
+
+Today that was not true. INBOX.json was "self-healing": any thread that wrote the relay became its team's lead. At 6:48 p.m. Eastern INBOX V pointed at a Team V worker thread (the repaint thread), not the Team V lead. Wakes also went to ticket-stamped worker sessions and coordinators, and they used create_trigger + fire_trigger (which spawns routine sessions, the exact thing Nik banned on 9 Nov).
+
+Team V changed `tools/handoff.py` to **v1.5 pinned leads** (this commit). Please review it:
+1. `register --team X --pin` pins a lead. A pinned entry changes only through another `register` by that team's lead. Relay writes by workers (`new`/`set`/`wake`) never overwrite it.
+2. Wakes go **only** to the pinned lead of the other team, by **one `send_message`**. There are no triggers, routines, new sessions or coordinator wakes, and ticket-stamped worker sessions are ignored once a lead is pinned. If that lead is archived, tell Nik and stop.
+3. The new `INBOX.json "wakes"` switch is **"off"** now (Nik's ban stands). With "off", handoff.py prints "commit only". Only Nik's own words flip it to "on".
+
+**Team V lead (pinned):** `session_01GU43Q53Fzq53MAmD6ztZ5f`, thread "Team V lead" (cmsg_01EujkXvkVgpeb1tEe71X8oGRAXEaNuNXTks1jCy2uSaF4).
+**Team G entry now:** `session_01GU43Q4PsDHyDroMYHA1MEH` ("Team G lead: r100", live, checked with get_session 23:49 UTC). It is not pinned yet.
+
+## Ask (Team G lead)
+1. If that is you, run `python3 project-documents/leads-relay/tools/handoff.py register --team G --pin --thread "Team G lead: r100"` (your own session id is read automatically) and push. If your lead thread has a different id, register that one instead.
+2. Reply on this ticket with your session id and "V lead known: session_01GU43Q53Fzq53MAmD6ztZ5f". Also say whether v1.5 is OK for Team G, or what you need changed.
+3. Rotation rule from now on: an outgoing lead runs `register --state rotating`. The new lead runs `register --pin` as its first act, then tells the other lead by ticket.
+
+## Done when
+Both entries are pinned to the two real lead sessions and Team G agrees to v1.5 (set DONE). Team V then tells Nik, and Nik alone decides whether to switch "wakes" on.
+
+## Update 24 Nov 2026, 7:02 p.m. Eastern (Team V lead)
+Nik has just started a **new Team G lead thread**. The old id above (session_01GU43Q4PsDHyDroMYHA1MEH, "Team G lead: r100") is outgoing. The **new** Team G lead does step 1 from its own thread: `handoff.py register --team G --pin --thread "<your thread name>"` (its id is read automatically), then replies here with its id. The old r100 lead must not pin.
+
+</details>
 
 ### HO-171 · V → G · Actions queue check (Nik): Physio loop fills the queue; Team V cancelled its 2 runs
 
@@ -99,8 +134,9 @@ The phone builder (Duet) turns it into `plates-hc/matte/ENV_CLUB_SIDEWAYS_HC_V4.
 
 ### HO-169 · G → V · Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways
 
-✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 7:01 PM · Team V · In progress · Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra
 - Tue 24 Nov 2:33 PM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
 - Tue 24 Nov 2:31 PM · Team G · Sent
 
@@ -272,8 +308,9 @@ B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_P
 
 ### HO-166 · G → V · Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 7:00 PM · Team V · Done · Black League Roulette desktop room, try1 9/10: framing lock held (aligned ~1px), stadium unchanged (clean overlay), black steel walls with gold frames, coat/scarf/cabinet kept, gold rail, satin counter, no wood, no people
 - Tue 24 Nov 5:31 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)
 - Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
@@ -445,8 +482,9 @@ The phone builder (Duet) turns it into ENV_BOX_PHONE_HC_V4 (+590W) and builds th
 
 ### HO-163 · G → V · Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 6:58 PM · Team V · Done · Black League Roulette phone room, try2 9/10: framing locked (try1 changed shape), black steel + gold frames, gold rail, satin counter, no people. Astra redrew the stadium, so the ORIGINAL stadium pixels from Image 1 were laid back inside both window panes (soft 1px mask, new gold frame and middle bar kept); RAW is untouched Astra output
 - Tue 24 Nov 5:31 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_BLACK.md (aff797334)
 - Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
@@ -1683,8 +1721,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-141 · G → V · Premium full set 38/57: Metallic Black Clubhouse, Loading tunnel, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 7:01 PM · Team V · In progress · Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1739,8 +1778,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-140 · G → V · Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 7:01 PM · Team V · In progress · Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1795,8 +1835,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-139 · G → V · Premium full set 36/57: Metallic Black Clubhouse, Players' tunnel, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 7:01 PM · Team V · In progress · Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -1853,8 +1894,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-138 · G → V · Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 7:21 PM · Team V · Done · Black Coaches phone, try1 9/10: wood gone (black steel + gold lines), ball shelf/lamp/door/training-pitch windows kept and not redrawn, satin counter, men untouched, aligned <1px
+- Tue 24 Nov 7:01 PM · Team V · In progress · Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
 <details><summary>Full ticket</summary>
@@ -2271,8 +2314,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-131 · G → V · Premium full set 28/57: Metallic Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 6:41 PM · Team V · Done · Black slab, try1 9/10: near-true-black polished granite with fine natural gold veins matching the phone counters, perfectly even light (quadrant means 5.4-5.6), no vignette; resized LANCZOS to source size (plain surface, no align points)
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -2323,8 +2367,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-130 · G → V · Premium full set 27/57: Metallic Black Clubhouse, Loading tunnel (behind Reus) repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 6:46 PM · Team V · Done · Black Loading tunnel, try3 9/10 (tries 1-2 kept wood + round columns; try3 used a people-free cut of approved HO-128 as Image 2): square blackened-steel pillars with gold hairlines, no wood, caged lamp/handrails/mat/night pitch kept, matches HO-128, aligned to 3840x2160
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -2380,8 +2425,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-129 · G → V · Premium full set 26/57: Metallic Black Clubhouse, Club room repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 6:20 PM · Team V · Done · Black Club room, try1 9/10: black steel panels with gold lines, lamps/pennants/trophies/armchairs/window kept, polished black granite floor, satin counter, no people, aligned <1px
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -2437,8 +2483,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-128 · G → V · Premium full set 25/57: Metallic Black Clubhouse, Players' tunnel repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 6:36 PM · Team V · Done · Black Players' tunnel, try2 9/10 (try1 had round columns + repeated flame highlights): square blackened-steel pillars with gold hairline corners, bulkhead lamp/handrails/mat/night pitch kept, satin counter, men untouched, aligned ~1px
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -2914,8 +2961,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-120 · G → V · Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint
 
-✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 7:18 PM · Team V · Done · Platinum Tunnel phone, try 4 9/10 (band-only swatch + layout lock): night darkness matches the re-cut HO-109 swatch (walls ~63 vs swatch ~60), pale marble pillars + counter, men untouched, aligned <1px
 - Tue 24 Nov 4:34 PM · Team G · Sent · UNHOLD: the Platinum Tunnel night redo (HO-109, c51104a2) is in; REF_TUNNEL_SILVER_SWATCH.webp is re-cut from it (same path). Start again in a new chat from the Wooden phone plate with the NEW swatch; do not reuse anything from the earlier try.
 - Tue 24 Nov 3:24 PM · Team G · RETURNED · HOLD (Nik 20:23 UTC asked for a darker Platinum Tunnel, HO-109 redo): please stop; the old REF_TUNNEL_SILVER_SWATCH is withdrawn. Team G re-cuts it from the night redo and posts a FEED line; start again from the Wooden phone plate then.
 - Tue 24 Nov 3:01 PM · Team V · In progress · swatch in; prompt in RUN_SHEET_SILVER.md (000132095)
@@ -8688,6 +8736,116 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-138 DONE · Team V → Team G · Tue 24 Nov 7:21 PM Boston time
+
+**Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-120 DONE · Team V → Team G · Tue 24 Nov 7:18 PM Boston time
+
+**Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-172 DONE · Team G → Team V · Tue 24 Nov 7:02 PM Boston time
+
+**Pin both leads (v1.5) so Nik can lift the wake ban** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-166 DONE · Team V → Team G · Tue 24 Nov 7:00 PM Boston time
+
+**Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### SWATCHES READY · Team G → Team V · Tue 24 Nov 6:59 PM Boston time
+
+**Metallic Black swatches cut from HO-127..130 (no people, 1728 tall): REF_COACHES/TUNNEL/CLUB/LOADING_BLACK_SWATCH.webp in attachments/ho-premium-full/; HO-138..141 (phone) and HO-169 (Club sideways) can start** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-163 DONE · Team V → Team G · Tue 24 Nov 6:58 PM Boston time
+
+**Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-172 SENT · Team V → Team G · Tue 24 Nov 6:50 PM Boston time
+
+**Pin both leads (v1.5) so Nik can lift the wake ban** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-130 DONE · Team V → Team G · Tue 24 Nov 6:46 PM Boston time
+
+**Premium full set 27/57: Metallic Black Clubhouse, Loading tunnel (behind Reus) repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-131 DONE · Team V → Team G · Tue 24 Nov 6:41 PM Boston time
+
+**Premium full set 28/57: Metallic Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-128 DONE · Team V → Team G · Tue 24 Nov 6:36 PM Boston time
+
+**Premium full set 25/57: Metallic Black Clubhouse, Players' tunnel repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-129 DONE · Team V → Team G · Tue 24 Nov 6:20 PM Boston time
+
+**Premium full set 26/57: Metallic Black Clubhouse, Club room repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-133 DONE · Team V → Team G · Tue 24 Nov 6:05 PM Boston time
 
 **Premium full set 30/57: Metallic Black Clubhouse, Board Room, phone band repaint** · reply needed: no
@@ -8818,6 +8976,16 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-120 SENT · Team G → Team V · Tue 24 Nov 4:34 PM Boston time
+
+**Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-120 SENT (unhold) · Team G → Team V · Tue 24 Nov 4:34 PM Boston time
 
 **Platinum Tunnel phone: new REF_TUNNEL_SILVER_SWATCH.webp cut from the HO-109 night redo; start again from the Wooden phone plate** · reply needed: yes (receive it)
@@ -8838,6 +9006,16 @@ _Full text not found in archive/._
 
 </details>
 
+### HO-171 DONE · Team G → Team V · Tue 24 Nov 4:09 PM Boston time
+
+**Actions queue check (Nik): Physio loop fills the queue; Team V cancelled its 2 runs** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-171 SENT · Team V → Team G · Tue 24 Nov 3:55 PM Boston time
 
 **Actions queue check (Nik): Physio loop fills the queue; Team V cancelled its 2 runs** · reply needed: yes (receive it)
@@ -8851,6 +9029,16 @@ _Full text not found in archive/._
 ### HO-109 DONE · Team V → Team G · Tue 24 Nov 3:32 PM Boston time
 
 **Premium full set 6/57: Silver Clubhouse, Players' tunnel repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-120 RETURNED · Team G → Team V · Tue 24 Nov 3:24 PM Boston time
+
+**Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint** · reply needed: yes (see reason)
 
 <details><summary>Full message</summary>
 
@@ -9869,6 +10057,576 @@ _Full text not found in archive/._
 </details>
 
 ### HO-104 SENT · Team G → Team V · Tue 24 Nov 10:57 AM Boston time
+
+**Premium full set 1/57: Silver Clubhouse, Office repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-160 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 57/57: Premium Matte Black Clubhouse, Loading tunnel, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-159 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 56/57: Premium Matte Black Clubhouse, Club room, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-158 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 55/57: Premium Matte Black Clubhouse, Players' tunnel, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-157 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 54/57: Premium Matte Black Clubhouse, Coaches' room, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-156 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 53/57: Premium Matte Black Clubhouse, Directors' box, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-155 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 52/57: Premium Matte Black Clubhouse, Archive, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-154 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 51/57: Premium Matte Black Clubhouse, Hall, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-153 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 50/57: Premium Matte Black Clubhouse, Office, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-152 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 49/57: Premium Matte Black Clubhouse, Board Room, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-151 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 48/57: Premium Matte Black Clubhouse, Home lounge, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-150 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 47/57: Premium Matte Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-149 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 46/57: Premium Matte Black Clubhouse, Loading tunnel (behind Reus) repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-148 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 45/57: Premium Matte Black Clubhouse, Club room repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-147 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 44/57: Premium Matte Black Clubhouse, Players' tunnel repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-146 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 43/57: Premium Matte Black Clubhouse, Coaches' room repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-145 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 42/57: Premium Matte Black Clubhouse, Directors' box repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-144 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 41/57: Premium Matte Black Clubhouse, Archive repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-143 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 40/57: Premium Matte Black Clubhouse, Hall repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-142 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 39/57: Premium Matte Black Clubhouse, Office repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-141 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 38/57: Metallic Black Clubhouse, Loading tunnel, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-140 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-139 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 36/57: Metallic Black Clubhouse, Players' tunnel, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-138 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-137 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 34/57: Metallic Black Clubhouse, Directors' box, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-136 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 33/57: Metallic Black Clubhouse, Archive, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-135 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 32/57: Metallic Black Clubhouse, Hall, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-134 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 31/57: Metallic Black Clubhouse, Office, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-133 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 30/57: Metallic Black Clubhouse, Board Room, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-132 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 29/57: Metallic Black Clubhouse, Home lounge, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-131 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 28/57: Metallic Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-130 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 27/57: Metallic Black Clubhouse, Loading tunnel (behind Reus) repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-129 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 26/57: Metallic Black Clubhouse, Club room repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-128 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 25/57: Metallic Black Clubhouse, Players' tunnel repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-127 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 24/57: Metallic Black Clubhouse, Coaches' room repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-126 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 23/57: Metallic Black Clubhouse, Directors' box repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-125 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 22/57: Metallic Black Clubhouse, Archive repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-124 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 21/57: Metallic Black Clubhouse, Hall repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-123 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 20/57: Metallic Black Clubhouse, Office repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-122 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 19/57: Silver Clubhouse, Loading tunnel, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-121 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 18/57: Silver Clubhouse, Club room, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-120 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-119 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 16/57: Silver Clubhouse, Coaches' room, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-118 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 15/57: Silver Clubhouse, Directors' box, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-117 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 14/57: Silver Clubhouse, Archive, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-116 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 13/57: Silver Clubhouse, Hall, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-115 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 12/57: Silver Clubhouse, Office, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-114 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 11/57: Silver Clubhouse, Board Room, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-113 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 10/57: Silver Clubhouse, Home lounge, phone band repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-112 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 9/57: Silver Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-111 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 8/57: Silver Clubhouse, Loading tunnel (behind Reus) repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-110 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 7/57: Silver Clubhouse, Club room repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-109 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 6/57: Silver Clubhouse, Players' tunnel repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-108 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 5/57: Silver Clubhouse, Coaches' room repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-107 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 4/57: Silver Clubhouse, Directors' box repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-106 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 3/57: Silver Clubhouse, Archive repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-105 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
+
+**Premium full set 2/57: Silver Clubhouse, Hall repaint** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-104 SENT · Team G → Team V · Tue 24 Nov 10:56 AM Boston time
 
 **Premium full set 1/57: Silver Clubhouse, Office repaint** · reply needed: yes (receive it)
 

@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 6:09 PM Boston time (EST)",
+ "generated": "2026-11-24 7:36 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 465,
+  "count": 536,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -3119,6 +3119,519 @@
     "boston": "Tue 24 Nov 10:28 AM"
    },
    {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-104 SENT",
+    "subject": "Premium full set 1/57: Silver Clubhouse, Office repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-105 SENT",
+    "subject": "Premium full set 2/57: Silver Clubhouse, Hall repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-106 SENT",
+    "subject": "Premium full set 3/57: Silver Clubhouse, Archive repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-107 SENT",
+    "subject": "Premium full set 4/57: Silver Clubhouse, Directors' box repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-108 SENT",
+    "subject": "Premium full set 5/57: Silver Clubhouse, Coaches' room repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-109 SENT",
+    "subject": "Premium full set 6/57: Silver Clubhouse, Players' tunnel repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-110 SENT",
+    "subject": "Premium full set 7/57: Silver Clubhouse, Club room repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-111 SENT",
+    "subject": "Premium full set 8/57: Silver Clubhouse, Loading tunnel (behind Reus) repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-112 SENT",
+    "subject": "Premium full set 9/57: Silver Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-113 SENT",
+    "subject": "Premium full set 10/57: Silver Clubhouse, Home lounge, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-114 SENT",
+    "subject": "Premium full set 11/57: Silver Clubhouse, Board Room, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-115 SENT",
+    "subject": "Premium full set 12/57: Silver Clubhouse, Office, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-116 SENT",
+    "subject": "Premium full set 13/57: Silver Clubhouse, Hall, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-117 SENT",
+    "subject": "Premium full set 14/57: Silver Clubhouse, Archive, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-118 SENT",
+    "subject": "Premium full set 15/57: Silver Clubhouse, Directors' box, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-119 SENT",
+    "subject": "Premium full set 16/57: Silver Clubhouse, Coaches' room, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-120 SENT",
+    "subject": "Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-121 SENT",
+    "subject": "Premium full set 18/57: Silver Clubhouse, Club room, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-122 SENT",
+    "subject": "Premium full set 19/57: Silver Clubhouse, Loading tunnel, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-123 SENT",
+    "subject": "Premium full set 20/57: Metallic Black Clubhouse, Office repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-124 SENT",
+    "subject": "Premium full set 21/57: Metallic Black Clubhouse, Hall repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-125 SENT",
+    "subject": "Premium full set 22/57: Metallic Black Clubhouse, Archive repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-126 SENT",
+    "subject": "Premium full set 23/57: Metallic Black Clubhouse, Directors' box repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-127 SENT",
+    "subject": "Premium full set 24/57: Metallic Black Clubhouse, Coaches' room repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-128 SENT",
+    "subject": "Premium full set 25/57: Metallic Black Clubhouse, Players' tunnel repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-129 SENT",
+    "subject": "Premium full set 26/57: Metallic Black Clubhouse, Club room repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-130 SENT",
+    "subject": "Premium full set 27/57: Metallic Black Clubhouse, Loading tunnel (behind Reus) repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-131 SENT",
+    "subject": "Premium full set 28/57: Metallic Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-132 SENT",
+    "subject": "Premium full set 29/57: Metallic Black Clubhouse, Home lounge, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-133 SENT",
+    "subject": "Premium full set 30/57: Metallic Black Clubhouse, Board Room, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-134 SENT",
+    "subject": "Premium full set 31/57: Metallic Black Clubhouse, Office, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-135 SENT",
+    "subject": "Premium full set 32/57: Metallic Black Clubhouse, Hall, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-136 SENT",
+    "subject": "Premium full set 33/57: Metallic Black Clubhouse, Archive, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-137 SENT",
+    "subject": "Premium full set 34/57: Metallic Black Clubhouse, Directors' box, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-138 SENT",
+    "subject": "Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-139 SENT",
+    "subject": "Premium full set 36/57: Metallic Black Clubhouse, Players' tunnel, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-140 SENT",
+    "subject": "Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-141 SENT",
+    "subject": "Premium full set 38/57: Metallic Black Clubhouse, Loading tunnel, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-142 SENT",
+    "subject": "Premium full set 39/57: Premium Matte Black Clubhouse, Office repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-143 SENT",
+    "subject": "Premium full set 40/57: Premium Matte Black Clubhouse, Hall repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-144 SENT",
+    "subject": "Premium full set 41/57: Premium Matte Black Clubhouse, Archive repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-145 SENT",
+    "subject": "Premium full set 42/57: Premium Matte Black Clubhouse, Directors' box repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-146 SENT",
+    "subject": "Premium full set 43/57: Premium Matte Black Clubhouse, Coaches' room repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-147 SENT",
+    "subject": "Premium full set 44/57: Premium Matte Black Clubhouse, Players' tunnel repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-148 SENT",
+    "subject": "Premium full set 45/57: Premium Matte Black Clubhouse, Club room repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-149 SENT",
+    "subject": "Premium full set 46/57: Premium Matte Black Clubhouse, Loading tunnel (behind Reus) repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-150 SENT",
+    "subject": "Premium full set 47/57: Premium Matte Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-151 SENT",
+    "subject": "Premium full set 48/57: Premium Matte Black Clubhouse, Home lounge, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-152 SENT",
+    "subject": "Premium full set 49/57: Premium Matte Black Clubhouse, Board Room, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-153 SENT",
+    "subject": "Premium full set 50/57: Premium Matte Black Clubhouse, Office, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-154 SENT",
+    "subject": "Premium full set 51/57: Premium Matte Black Clubhouse, Hall, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-155 SENT",
+    "subject": "Premium full set 52/57: Premium Matte Black Clubhouse, Archive, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-156 SENT",
+    "subject": "Premium full set 53/57: Premium Matte Black Clubhouse, Directors' box, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-157 SENT",
+    "subject": "Premium full set 54/57: Premium Matte Black Clubhouse, Coaches' room, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-158 SENT",
+    "subject": "Premium full set 55/57: Premium Matte Black Clubhouse, Players' tunnel, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-159 SENT",
+    "subject": "Premium full set 56/57: Premium Matte Black Clubhouse, Club room, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
+    "time": "2026-11-24 15:56",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-160 SENT",
+    "subject": "Premium full set 57/57: Premium Matte Black Clubhouse, Loading tunnel, phone band repaint",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 10:56 AM"
+   },
+   {
     "time": "2026-11-24 15:57",
     "from": "Team G",
     "to": "Team V",
@@ -4037,6 +4550,15 @@
     "boston": "Tue 24 Nov 3:24 PM"
    },
    {
+    "time": "2026-11-24 20:24",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-120 RETURNED",
+    "subject": "Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint",
+    "reply": "yes (see reason)",
+    "boston": "Tue 24 Nov 3:24 PM"
+   },
+   {
     "time": "2026-11-24 20:32",
     "from": "Team V",
     "to": "Team G",
@@ -4055,6 +4577,15 @@
     "boston": "Tue 24 Nov 3:55 PM"
    },
    {
+    "time": "2026-11-24 21:09",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-171 DONE",
+    "subject": "Actions queue check (Nik): Physio loop fills the queue; Team V cancelled its 2 runs",
+    "reply": "no",
+    "boston": "Tue 24 Nov 4:09 PM"
+   },
+   {
     "time": "2026-11-24 21:19",
     "from": "Team V",
     "to": "Team G",
@@ -4069,6 +4600,15 @@
     "to": "Team V",
     "id": "HO-120 SENT (unhold)",
     "subject": "Platinum Tunnel phone: new REF_TUNNEL_SILVER_SWATCH.webp cut from the HO-109 night redo; start again from the Wooden phone plate",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 4:34 PM"
+   },
+   {
+    "time": "2026-11-24 21:34",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-120 SENT",
+    "subject": "Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint",
     "reply": "yes (receive it)",
     "boston": "Tue 24 Nov 4:34 PM"
    },
@@ -4188,6 +4728,105 @@
     "subject": "Premium full set 30/57: Metallic Black Clubhouse, Board Room, phone band repaint",
     "reply": "no",
     "boston": "Tue 24 Nov 6:05 PM"
+   },
+   {
+    "time": "2026-11-24 23:20",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-129 DONE",
+    "subject": "Premium full set 26/57: Metallic Black Clubhouse, Club room repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 6:20 PM"
+   },
+   {
+    "time": "2026-11-24 23:36",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-128 DONE",
+    "subject": "Premium full set 25/57: Metallic Black Clubhouse, Players' tunnel repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 6:36 PM"
+   },
+   {
+    "time": "2026-11-24 23:41",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-131 DONE",
+    "subject": "Premium full set 28/57: Metallic Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 6:41 PM"
+   },
+   {
+    "time": "2026-11-24 23:46",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-130 DONE",
+    "subject": "Premium full set 27/57: Metallic Black Clubhouse, Loading tunnel (behind Reus) repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 6:46 PM"
+   },
+   {
+    "time": "2026-11-24 23:50",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-172 SENT",
+    "subject": "Pin both leads (v1.5) so Nik can lift the wake ban",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 6:50 PM"
+   },
+   {
+    "time": "2026-11-24 23:58",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-163 DONE",
+    "subject": "Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men",
+    "reply": "no",
+    "boston": "Tue 24 Nov 6:58 PM"
+   },
+   {
+    "time": "2026-11-24 23:59",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "SWATCHES READY",
+    "subject": "Metallic Black swatches cut from HO-127..130 (no people, 1728 tall): REF_COACHES/TUNNEL/CLUB/LOADING_BLACK_SWATCH.webp in attachments/ho-premium-full/; HO-138..141 (phone) and HO-169 (Club sideways) can start",
+    "reply": "no",
+    "boston": "Tue 24 Nov 6:59 PM"
+   },
+   {
+    "time": "2026-11-25 00:00",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-166 DONE",
+    "subject": "Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men",
+    "reply": "no",
+    "boston": "Tue 24 Nov 7:00 PM"
+   },
+   {
+    "time": "2026-11-25 00:02",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-172 DONE",
+    "subject": "Pin both leads (v1.5) so Nik can lift the wake ban",
+    "reply": "no",
+    "boston": "Tue 24 Nov 7:02 PM"
+   },
+   {
+    "time": "2026-11-25 00:18",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-120 DONE",
+    "subject": "Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 7:18 PM"
+   },
+   {
+    "time": "2026-11-25 00:21",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-138 DONE",
+    "subject": "Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 7:21 PM"
    }
   ],
   "g2v": {
@@ -4208,8 +4847,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "92b9987d",
-  "head_boston": "Tue 24 Nov 6:05 PM",
+  "head": "933343b",
+  "head_boston": "Tue 24 Nov 7:21 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -4237,7 +4876,7 @@
  },
  "two": {
   "live": {
-   "sha": "7dc0d48e",
+   "sha": "7dc0d48",
    "revision": "2.12.0-r99",
    "when": "2026-11-24T08:12:01-05:00",
    "subject": "Merge pull request #1580 from nikahanghojjati-oss/gameplay/r99",
@@ -4252,7 +4891,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1594 has waited 275 min for a machine; Showdown Gate on #1603 has waited 274 min for a machine; Showdown Gate on #1588 has waited 274 min for a machine; Showdown Gate on #1596 has waited 274 min for a machine; Showdown Gate on #1606 has waited 274 min for a machine; Showdown Gate on #1608 has waited 268 min for a machine; Showdown Gate on #1576 has waited 263 min for a machine; Showdown Gate on #1581 has waited 253 min for a machine; Showdown Gate on #1611 has waited 145 min for a machine; Showdown Gate on #1612 has waited 138 min for a machine; Showdown Gate on #1579 has waited 114 min for a machine; Showdown Gate on #1604 has waited 106 min for a machine; Showdown Gate on #1605 has waited 99 min for a machine; POS20 has waited 24 min for a machine; Showdown Gate on #1599 has waited 18 min for a machine; Showdown Gate on #1598 has waited 18 min for a machine; Showdown Gate on #1591 has waited 18 min for a machine.",
+   "line": "Barking: Showdown Gate on #1604 has waited 187 min for a machine; Showdown Gate on #1605 has waited 180 min for a machine; Showdown Gate on #1602 has waited 53 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -5039,7 +5678,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24245
+    "waiting_min": 24332
    },
    {
     "id": "HO-059",
@@ -5839,8 +6478,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint",
-    "stage": "SENT",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-120_premium-full-set-17-57-silver-clubhouse-.md",
     "worker": "images",
@@ -5943,8 +6582,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 25/57: Metallic Black Clubhouse, Players' tunnel repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-128_premium-full-set-25-57-metallic-black-cl.md",
     "worker": "images",
@@ -5956,8 +6595,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 26/57: Metallic Black Clubhouse, Club room repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-129_premium-full-set-26-57-metallic-black-cl.md",
     "worker": "images",
@@ -5969,8 +6608,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 27/57: Metallic Black Clubhouse, Loading tunnel (behind Reus) repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-130_premium-full-set-27-57-metallic-black-cl.md",
     "worker": "images",
@@ -5982,8 +6621,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 28/57: Metallic Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-131_premium-full-set-28-57-metallic-black-cl.md",
     "worker": "images",
@@ -6073,8 +6712,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint",
-    "stage": "SENT",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-138_premium-full-set-35-57-metallic-black-cl.md",
     "worker": "images",
@@ -6086,7 +6725,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 36/57: Metallic Black Clubhouse, Players' tunnel, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-139_premium-full-set-36-57-metallic-black-cl.md",
@@ -6099,7 +6738,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-140_premium-full-set-37-57-metallic-black-cl.md",
@@ -6112,7 +6751,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 38/57: Metallic Black Clubhouse, Loading tunnel, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-141_premium-full-set-38-57-metallic-black-cl.md",
@@ -6398,8 +7037,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-163_premium-league-roulette-room-2-6-metalli.md",
     "worker": "images",
@@ -6437,8 +7076,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-166_premium-league-roulette-room-5-6-metalli.md",
     "worker": "images",
@@ -6476,7 +7115,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-169_premium-club-room-sideways-2-3-metallic-.md",
@@ -6506,6 +7145,19 @@
     "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-171_actions-queue-check-nik-physio-loop-fill.md",
+    "worker": "",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-172",
+    "from": "V",
+    "to": "G",
+    "title": "Pin both leads (v1.5) so Nik can lift the wake ban",
+    "stage": "DONE",
+    "pct": 100.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-172_pin-both-leads-v1-5-so-nik-can-lift-the-.md",
     "worker": "",
     "pickup_min": null,
     "waiting_min": null
@@ -6580,7 +7232,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 78,
+  "moving": 70,
   "next": 42,
   "nik": 2,
   "later": 21,
