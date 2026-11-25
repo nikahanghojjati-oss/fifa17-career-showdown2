@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T03:13:31Z", "by": "V", "status": "WORKING", "note": "graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv 21ebe0e74 project-documents/hc-art/ho-premium-full/matte/ENV_TUNNEL_PHONE_MATTE_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T03:13:31Z", "by": "V", "status": "WORKING", "note": "graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra"}, {"at": "2026-11-25T04:28:24Z", "by": "V", "status": "DONE", "note": "Matte (graphite) Tunnel phone: try 1 at 9/10; same framing (align ~identity, 1316 inliers), no wood left, square matte pillars, herringbone flannel side panels (warmth only under the small panel lights), satin titanium handrails and rail, slate slab (sat 0.09); men untouched"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
