@@ -83,6 +83,15 @@
   // 3 minutes, then every 15 s, instead of waiting for a CHECK STATUS tap. Read-only; paused while the tab is hidden.
   const PAIR_WAIT_FAST_MS=4000,PAIR_WAIT_SLOW_MS=15000,PAIR_WAIT_WINDOW_MS=180000;
   let pairWaitTimer=null,pairWaitKey="",pairWaitSince=0,pairWaitEndedKey="",pairWaitLastLookKey="",pairWaitLastLookUntil=0;
+  /* r100 B6 JOIN speed: while Daniel's code waits, the budget layer's one wait listener watches the rivalry document that Nik's
+     JOIN writes, and its wake runs the same check at once. The poll stays as the fallback: while the listener is healthy it
+     stands down (a backstop check still runs every 30 s), so the wait costs no more reads than before (fewer). */
+  const PAIR_WAIT_BACKSTOP_MS=30000;
+  let pairWaitTicking=false,pairWaitWokenAgain=false,pairWaitCheckedAt=0;
+  function pairWaitPath(){return pairWaitingKey()&&Date.now()<pairWaitStopAt()&&pairWaitScreenShown()?`rivalries/${state.rivalryId}`:null;}
+  function pairWaitWatch(){const budget=root.CareerModeFirestoreBudget;if(typeof budget?.watchWaitPoint!=="function")return;let path=null;try{path=pairWaitPath();}catch(_error){path=null;}try{budget.watchWaitPoint("pair-wait",path,pairWaitWake);}catch(_error){}}
+  function pairWaitHealthy(){let path=null;try{path=pairWaitPath();}catch(_error){return false;}const live=root.CareerModeFirestoreBudget?.stats?.();return Boolean(path&&live?.watchHealthy===true&&live.watching===path);}
+  function pairWaitWake(){if(!pairWaitingKey())return;if(pairWaitTicking){pairWaitWokenAgain=true;return;}pairClearWaitingTimer();void pairWaitingPollTick(true);}
   // r87 Fable F4-03/F3-04/F4-04: the waiting code's own expiry (from createPairing, or after a reload from ONE invite read per
   // code and page) bounds the wait: the poll reads only while Home or Connect Players is on screen and stops a minute after the
   // code expired (30 minutes after the wait began when the expiry could not be read: no invite lives longer). An expired code
@@ -130,6 +139,7 @@
   /* r100 B6: the one last look is owed only for a code whose end this page knows (an open code expired, or one seen closed) */
   function pairWaitLastLookDue(key){return Boolean(key)&&pairWaitLastLookKey!==key&&Number.isFinite(pairCodeExpiresAt());}
   function pairSyncWaitingPoll(){
+    pairWaitWatch();
     const key=pairWaitingKey();if(!key){if(pairWaitKey)pairWaitEndedKey=pairWaitKey;pairWaitKey="";pairWaitSince=0;pairWaitLastLookKey="";pairWaitLastLookUntil=0;pairClearWaitingTimer();return;}
     if(key!==pairWaitKey){pairWaitKey=key;pairWaitSince=Date.now();pairWaitLastLookKey="";pairWaitLastLookUntil=0;}
     if(Date.now()>=pairWaitStopAt()){
@@ -150,13 +160,17 @@
   // an identity or online refresh), Daniel goes on into the Showdown by himself once the refresh settles. Any other
   // settled state (a different rivalry, an error, still pending) drops the remembered wait.
   function pairContinueAfterWaitEnded(){if(!pairWaitEndedKey||state.busy)return;const key=pairWaitEndedKey;pairWaitEndedKey="";if(state.connectionState==="active"&&state.status==="paired"&&`${state.accountId}|${state.rivalryId}`===key)void Promise.resolve().then(pairAutoContinueAfterConnect).catch(()=>{});}
-  async function pairWaitingPollTick(){
+  async function pairWaitingPollTick(woken=false){
+    if(pairWaitTicking){if(woken)pairWaitWokenAgain=true;return;}
     /* r87 Fable F4-04: the code just expired: redraw once (Home tile and panel say so), no read; the poll then stays stopped */
     if(pairWaitingKey()&&Date.now()>=pairWaitStopAt()&&!pairWaitLastLookDue(pairWaitingKey())){pairSetState({});return;}
-    let lastLook=false;
+    let lastLook=false;pairWaitTicking=true;
     try{
       const key=pairWaitingKey();
-      if(key&&!state.busy&&!pairInitializePromise&&pairWaitScreenShown()&&(Date.now()<pairWaitStopAt()||pairWaitLastLookDue(key))&&root.CareerModeSparkPrivatePairing?.getState?.()?.registered===true){
+      /* r100 B6 JOIN speed: a timed check stands down while the healthy listener watches the rivalry (its wake checks at once) */
+      pairWaitWatch();const standDown=!woken&&Date.now()<pairWaitStopAt()&&Date.now()-pairWaitCheckedAt<PAIR_WAIT_BACKSTOP_MS&&pairWaitHealthy();
+      if(key&&!standDown&&!state.busy&&!pairInitializePromise&&pairWaitScreenShown()&&(Date.now()<pairWaitStopAt()||pairWaitLastLookDue(key))&&root.CareerModeSparkPrivatePairing?.getState?.()?.registered===true){
+        pairWaitCheckedAt=Date.now();
         /* r100 B6: past the code's end this is the one last look; it is used up even if the read fails */
         if(Date.now()>=pairWaitStopAt()){pairWaitLastLookKey=key;lastLook=true;}
         // Same read as CHECK STATUS (pair link + rivalry); the panel is only re-rendered when the connection changed.
@@ -169,9 +183,12 @@
           if(state.connectionState==="active"&&state.status==="paired"&&`${state.accountId}|${state.rivalryId}`===key){/* r79 PR3: a real first pairing: Daniel writes his partner record (this read just saw the rivalry ACTIVE with Nik in playerTwo; the write re-reads it) alongside the auto-continue, so the continue is never delayed by it. */const recording=pairRecordRealPairing(state.rivalryId,"playerOne");await pairAutoContinueAfterConnect();await recording;}
         }
       }
-    }catch(_error){}
+    }catch(_error){/* r100 B6 JOIN speed: a check that failed lets no timed check stand down */pairWaitCheckedAt=0;}
+    finally{pairWaitTicking=false;}
     /* r100 B6: after the last look a code still waiting is drawn as expired (as the stop's redraw did) */
     if(lastLook&&pairWaitingKey()){pairSetState({});return;}
+    /* r100 B6 JOIN speed: a wake that came while this check ran is answered now, not on the next timed check */
+    if(pairWaitWokenAgain){pairWaitWokenAgain=false;if(pairWaitingKey()){pairClearWaitingTimer();void pairWaitingPollTick(true);return;}}
     pairSyncWaitingPoll();
   }
 

@@ -59,6 +59,9 @@ const WAIT_SCREENS={
   "js/productionSharedSeasonResults.js":/function pssrWaitHealthy\(\)\{[^\n]*live\?\.watchHealthy&&live\.watching===/,
   "js/productionSharedTransferChallenge.js":/function pstcWaitHealthy\(\)\{[^\n]*live\?\.watchHealthy&&live\.watching===/,
   "js/productionSharedSeasonCommit.js":/function psscWaitHealthy\(\)\{[^\n]*live\?\.watchHealthy&&waited\)/,
+  // r100 B6 JOIN speed: the JOIN waits stand down only while the listener on their exact path is healthy (30 s backstop)
+  "js/persistentNikDanielPair.js":/function pairWaitHealthy\(\)\{[^\n]*live\?\.watchHealthy===true&&live\.watching===path/,
+  "js/sparkRemoteJoining.js":/function srjWatchHealthy\(path\)\{[^\n]*live\?\.watchHealthy===true&&live\.watching===path/,
   // these two never hold back their checks on the listener: a delivery only wakes them sooner
   "js/productionSharedCanonicalScoring.js":"polls",
   "js/productionSharedShowdownPresentation.js":"polls"

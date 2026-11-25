@@ -287,7 +287,7 @@ await check("PC1d first real pairing (Daniel): CMS17R- code, no note; his waitin
   await assert.rejects(h.pair.writePartnerRecord({rivalryId:OLD,managerRole:"playerOne"}),/not connected/);
   h.docs.set(`rivalries/${OLD}`,rivalryDoc(OLD,"pending-pair",{nik:false}));
   await assert.rejects(h.pair.writePartnerRecord({rivalryId:OLD,managerRole:"playerOne"}),/not connected/);
-  const poll=pairSource.match(/async function pairWaitingPollTick\(\)\{[\s\S]*?\n  \}/)[0];
+  const poll=pairSource.match(/async function pairWaitingPollTick\(woken=false\)\{[\s\S]*?\n  \}/)[0];
   assert.match(poll,/const recording=pairRecordRealPairing\(state\.rivalryId,"playerOne"\);await pairAutoContinueAfterConnect\(\);await recording;/,"the record write starts once the tick read ACTIVE and runs alongside the existing auto-continue (never delaying it); the tick waits for both");
 });
 
