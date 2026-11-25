@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T03:13:31Z", "by": "V", "status": "WORKING", "note": "graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv 1797ba03e project-documents/hc-art/ho-premium-full/matte/ENV_ARCHIVE_PHONE_MATTE_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T03:13:31Z", "by": "V", "status": "WORKING", "note": "graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra"}, {"at": "2026-11-25T03:37:49Z", "by": "V", "status": "DONE", "note": "Matte (graphite) Archive phone: try 2 at 9/10 (try 1 used the Hall Image 1); same framing (align ~identity, 1429 inliers), matte slate vault and pillars, herringbone side walls, both lit niches with ball and scarf kept, no lamps added, neutral (sat 0.07-0.08); men untouched"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
