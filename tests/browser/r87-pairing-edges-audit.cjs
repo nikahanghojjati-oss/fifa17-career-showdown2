@@ -168,7 +168,9 @@ async function main(){
     await installMarbleConfirmAnswers(tab2.page,{answer:true});
     await tab2.page.goto(urlFor("nik"),{waitUntil:"domcontentloaded"});
     await tab2.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
-    // The emulator switch keeps sign-in per tab, so the second tab signs in to the same Google account (no player choice).
+    // r100 W4: the phone remembers sign-in, so the second tab normally comes up signed in as Nik by itself (give the remembered
+    // sign-in time to restore); only if it does not, it signs in to the same Google account (no player choice).
+    await tab2.page.waitForFunction(()=>window.CareerModeOnlinePlayerIdentity?.getState?.()?.status==="ready",null,{timeout:20000}).catch(()=>{});
     if(await tab2.page.evaluate(()=>window.CareerModeOnlinePlayerIdentity?.getState?.()?.status!=="ready")){
       await tab2.page.locator("#newShowdown").click();
       await tab2.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"}).click({timeout:30000});

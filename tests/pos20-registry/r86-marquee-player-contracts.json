@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r86-marquee-player-contracts.cjs",
+  "patterns": [
+    "^data/marqueePlayers\\.js$",
+    "^js/[A-Za-z0-9]+\\.js$",
+    "^tests/contracts/r86-marquee-player-contracts\\.cjs$",
+    "^tests/fixtures/data-contract-v1/multi-showdown-career\\.json$",
+    "^tests/pos20-registry/r86\\-marquee\\-player\\-contracts\\.json$"
+  ]
+}

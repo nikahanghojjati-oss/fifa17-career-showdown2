@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r100-tap-memory-contracts.cjs",
+  "patterns": [
+    "^js/sharedTapMemory\\.js$",
+    "^tests/contracts/r100\\-tap\\-memory\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-tap\\-memory\\-contracts\\.json$"
+  ]
+}

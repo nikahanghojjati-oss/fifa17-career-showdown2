@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/shared-tap-race-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^js/productionSharedCareerStart\\.js$",
+    "^js/productionSharedShowdownSetup\\.js$",
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^tests/contracts/shared-tap-race-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-tap\\-race\\-contracts\\.json$"
+  ]
+}
