@@ -476,3 +476,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 23:50 | Team V | Team G | HO-172 SENT | Pin both leads (v1.5) so Nik can lift the wake ban | yes (receive it) |
 | 2026-11-24 23:58 | Team V | Team G | HO-163 DONE | Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men | no |
 | 2026-11-24 23:59 | Team G | Team V | SWATCHES READY | Metallic Black swatches cut from HO-127..130 (no people, 1728 tall): REF_COACHES/TUNNEL/CLUB/LOADING_BLACK_SWATCH.webp in attachments/ho-premium-full/; HO-138..141 (phone) and HO-169 (Club sideways) can start | no |
+| 2026-11-25 00:00 | Team V | Team G | HO-166 DONE | Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men | no |
