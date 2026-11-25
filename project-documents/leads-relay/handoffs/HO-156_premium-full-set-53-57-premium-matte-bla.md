@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T03:13:31Z", "by": "V", "status": "WORKING", "note": "graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv 88427775d project-documents/hc-art/ho-premium-full/matte/ENV_BOX_PHONE_MATTE_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T03:13:31Z", "by": "V", "status": "WORKING", "note": "graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra"}, {"at": "2026-11-25T04:10:44Z", "by": "V", "status": "DONE", "note": "Matte (graphite) Box phone: try 3 at 9/10; size and positions pinned in numbers fixed the 814x1932 reshape (align ~identity, 1467 inliers, rail at 58%), stadium window kept, herringbone flannel walls neutral (sat 0.13), titanium rail, slate slab; men untouched"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
