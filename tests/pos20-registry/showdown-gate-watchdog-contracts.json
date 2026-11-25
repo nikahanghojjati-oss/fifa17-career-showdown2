@@ -1,0 +1,20 @@
+{
+  "path": "tests/contracts/showdown-gate-watchdog-contracts.cjs",
+  "patterns": [
+    "^\\.github/workflows/showdown-gate\\.yml$",
+    "^\\.github/workflows/gate-watchdog\\.yml$",
+    "^\\.github/workflows/factory-board-tick\\.yml$",
+    "^scripts/gate-watchdog\\.mjs$",
+    "^scripts/showdown-gate\\.mjs$",
+    "^scripts/gate-yield\\.mjs$",
+    "^scripts/gate-preempt\\.mjs$",
+    "^scripts/physio-status\\.mjs$",
+    "^scripts/gate-compare\\.mjs$",
+    "^scripts/pos20-impact-router\\.mjs$",
+    "^POS10_IMPACT_GRAPH\\.json$",
+    "^tests/fixtures/showdown-gate/",
+    "^tests/support/gha-workflow-parse\\.cjs$",
+    "^tests/contracts/showdown-gate-watchdog-contracts\\.cjs$",
+    "^tests/pos20-registry/showdown\\-gate\\-watchdog\\-contracts\\.json$"
+  ]
+}

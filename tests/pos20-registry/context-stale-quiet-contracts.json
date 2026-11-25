@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/context-stale-quiet-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedCanonicalScoring\\.js$",
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^js/productionSharedHistoryConvergence\\.js$",
+    "^tests/contracts/context-stale-quiet-contracts\\.cjs$",
+    "^tests/pos20-registry/context\\-stale\\-quiet\\-contracts\\.json$"
+  ]
+}
