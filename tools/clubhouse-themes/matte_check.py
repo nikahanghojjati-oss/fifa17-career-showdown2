@@ -2,6 +2,7 @@
 """r100 B7: numeric premium-bar check for Premium Matte Black paintings (HO-173, Nik 2026-11-25 01:05 UTC).
 
   python3 tools/clubhouse-themes/matte_check.py [ROOM ...]   # default: every room with a Matte master; exit 1 on any FAIL
+                                                             # LR = the empty League Roulette room (ENV_BOX_PLATE_EMPTY_*)
 
 Compares each Matte master in paintings/ with the Metallic Black master and the Wooden plate of the same room,
 outside the hero mask (dilated), at 1536x864. A room that fails goes back to Team V as a REDO; passing is
@@ -44,6 +45,8 @@ ACCEPTED = {
 
 
 def wooden(room):
+    if room == "LR":
+        return os.path.join(ROOT, "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_2X.webp")
     if room == "LOADING":
         return os.path.join(ROOT, "assets/loading/ENV_LOADING_PLATE_HC_2X.webp")
     if room == "SLAB":
@@ -52,6 +55,8 @@ def wooden(room):
 
 
 def master(room, look):
+    if room == "LR":
+        return os.path.join(PAINT, f"ENV_BOX_PLATE_EMPTY_{look}_P1_2X.webp")
     return os.path.join(PAINT, f"ENV_SLAB_{look}_P1_2X.webp" if room == "SLAB" else f"ENV_{room}_PLATE_{look}_P1_2X.webp")
 
 
@@ -64,7 +69,8 @@ def luma(a):
 
 
 def free_of(room):
-    p = os.path.join(HERE, "masks", f"ENV_{room}_PLATE_HC_V3_1920.png")
+    p = os.path.join(HERE, "masks", "ENV_BOX_PLATE_HC_V4_1920.png" if room == "LR"
+                     else f"ENV_{room}_PLATE_HC_V3_1920.png")
     if not os.path.exists(p):
         return np.ones(SIZE[::-1], bool)
     m = Image.open(p).convert("L").filter(ImageFilter.MaxFilter(9)).resize(SIZE)
@@ -132,6 +138,8 @@ def check(room):
 def main():
     rooms = sys.argv[1:] or sorted({f.split("_")[1] for f in os.listdir(PAINT)
                                     if f.endswith("_P1_2X.webp") and "_MATTE_" in f and "EMPTY" not in f})
+    if not sys.argv[1:] and os.path.exists(master("LR", "MATTE")):
+        rooms.append("LR")
     bad = False
     for r in rooms:
         ok, text = check(r)
