@@ -19,7 +19,7 @@ plate and with every existing clubhouse master of the same room in --sib (defaul
   luma    room brightness                                                            inside LOOK luma range  "night"
   glint   new specular hot spots per 10k px (matte_check's definition)  <= max(3, min(8, 0.6 x Metallic Black))
           polished stone may show a few more than Graphite (0.0-3.4) but never Black's 6.7-28
-  spread  luma p95 - p5                                       >= max(Wooden, 0.75 x Metallic Black)   rich, not flat
+  spread  luma p95 - p5 (room)                                   >= max(Wooden, 0.75 x Metallic Black)   rich, not flat
   detail  mean |luma - blur(2)|                               >= 1.1 x Wooden                         readable materials
 
 Every limit is necessary, never sufficient: the eye check against HO-173 and Nik's OK on the board decide.
@@ -100,12 +100,13 @@ def in_band(h, band):
     return (h >= lo) & (h <= hi) if lo <= hi else (h >= lo) | (h <= hi)
 
 
-def stats(a, free, lit):
+def stats(a, free, lit, room_px=None):
     L = luma(a)
     v = L[free]
+    vs = L[free if room_px is None else room_px]
     return dict(luma=float(v.mean()),
                 glint=float((((L > 200) & ((L - blur(L, 6)) > 60)) & free & ~lit).sum() / L.size * 1e4),
-                spread=float(np.percentile(v, 95) - np.percentile(v, 5)),
+                spread=float(np.percentile(vs, 95) - np.percentile(vs, 5)),
                 detail=float(np.abs(L - blur(L, 2))[free].mean()))
 
 
@@ -118,15 +119,15 @@ def check(key, room, d, sib):
     free = free_of(room)
     M, W = load(m), load(w)
     lit = lit_in(W)
-    sm, sw = stats(M, free, lit), stats(W, free, lit)
-    rows = []
-    # Room pixels only for diff and mw: leave out what every existing look keeps identical to Wooden (the stadium
-    # view through the window, kept by design in every clubhouse), so a shared view can't dilute the difference.
+    # Room pixels only for diff, mw and spread: leave out what every existing look keeps identical to Wooden (the
+    # stadium view through the window, kept by design in every clubhouse), so a shared view can't dilute or set them.
     shared = np.zeros_like(free)
     sl = [load(master(sib, room, s)) for s in SIBLINGS if os.path.exists(master(sib, room, s))]
     if sl:
         shared = np.max([np.abs(S - W).mean(-1) for S in sl], 0) < 10
     room_px = free & ~shared
+    sm, sw = stats(M, free, lit, room_px), stats(W, free, lit, room_px)
+    rows = []
     sibs = SIBLINGS + [o for o in ORDER[:ORDER.index(look)]]
     sb = None
     for s in sibs:
@@ -135,7 +136,7 @@ def check(key, room, d, sib):
             continue
         S = load(p)
         if s == "BLACK":
-            sb = stats(S, free, lit)
+            sb = stats(S, free, lit, room_px)
         diff = float(np.abs(M - S).mean(-1)[room_px].mean())
         rows.append((f"vs {s.lower()}", diff, diff >= 15, ">= 15"))
     mw = float(np.abs(M - W).mean(-1)[room_px].mean())
