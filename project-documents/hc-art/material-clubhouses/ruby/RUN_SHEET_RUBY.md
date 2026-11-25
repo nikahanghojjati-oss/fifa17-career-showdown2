@@ -105,3 +105,280 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
 ```
 - Try 2 (25 Nov 2:42 a.m. Boston) **9/10, accepted.** Align: scale 1.0010, shift 0.2 px, men unchanged (mean diff 5.4). All three panes clear glass full height with the stadium as in Image 1, no door, oxblood leather walls with grain and seams, Rosso Levanto pillars and counter with long pale veins, red-black rosewood sideboard with a gold edge, and the armchairs and sofa in oxblood leather (Nik's seating rule) with the plaid, ball, whisky, throw and rug in their own colours. ruby_check PASS (vs Black 17.4 on room pixels; see the calibration log). Small notes, not worth a redo: the counter marble carries fine busy red under-veining beside its long pale veins, and the wall above the lounge is a plain dark field. Side by side: [ENV_HOME_PLATE_RUBY_P1_2X.cmp.jpg](ENV_HOME_PLATE_RUBY_P1_2X.cmp.jpg).
+
+## Batch 1: the 8 desktop rooms and the material slab (Ruby 3-11)
+Image 2 for every ticket here: the people-free cut of the two approved pilot rooms.
+
+### R-3 · Ruby Clubhouse: Office
+- Image 1: [IMG1_ENV_OFFICE_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PLATE_HC_V3_2X.png)), 3072x1728
+- Image 2: [IMG2_REF_PILOT_RUBY.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png))
+- Saves as `ENV_OFFICE_PLATE_RUBY_P1_2X`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the wide desk filling the lower half with its front edge at exactly the same height, the two leather desk blotters, the old leather ball, the coffee cup and saucer and the bundle of papers tied with string on the left, the table lamp with its pleated shade on the right, the olive tree in its pot behind, the wall panel at the far left, and the tall dark window behind with the night stadium and its floodlight.
+
+The room: A private members' club at night in red stone and leather: Rosso Levanto marble, oxblood leather, rosewood and antique gold, handcrafted.
+The wall panel becomes upholstered deep oxblood red leather with a fine natural grain and neat stitched seams, framed in thin polished rosewood mouldings so dark they read red-black, each with a hairline antique gold inlay, keeping the same panel layout. The window frames become red-black rosewood with a thin antique gold inner line. The lamp base and stem become antique gold with a soft satin finish; the shade stays warm cream and lit. The desk top becomes one solid slab of polished Rosso Levanto marble in the same deep wine red with the same few long calm pale veins, holding a soft dim reflection of the lamps. The plant pot becomes polished Rosso Levanto marble: deep wine-red stone with a few long, calm, softly curving pale cream veins.
+
+Every wall, door, frame, shelf, panel and pillar takes one of these materials (oxblood leather, Rosso Levanto marble, red-black rosewood or antique gold); no light wood is left anywhere in the room.
+
+Light: It is night. Ruby is deep oxblood leather and red Rosso Levanto marble at night: rich like dark red wine held to candlelight, never pink, never cherry, never orange. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Each lamp casts a soft warm pool on the leather or stone around it, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat. Behind each man the wall is a rich mid oxblood red, clearly lighter than the black suits, so both men read crisply against it. The marble carries a soft polished sheen with dim reflections only; antique gold appears only as small accents with a soft glow, never a hard glint. Up close you see the grain of the leather, the stitched seams, the rosewood grain and the veins of the marble, all sharp. The two men stay lit exactly as they are now.
+
+Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep ruby red, exactly the reds of image 2: oxblood (#6E1423) on the walls, Rosso Levanto red (#9B2335) where the stone is lit, wine near-black (#2A0A10) in the shadows, corners and ceiling, and rosewood so dark it reads red-black (#3A1416). The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or brown there, even near the lamps. Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels and no gold walls. The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice.
+
+All other objects keep their identity and their own colours (the old leather ball, the white cup, the paper bundle and string, the leather blotters, the olive tree) and are relit by the new room, each with a real soft contact shadow on the desk.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+Tries:
+
+### R-4 · Ruby Clubhouse: Hall
+- Image 1: [IMG1_ENV_HALL_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PLATE_HC_V3_2X.png)), 3072x1728
+- Image 2: [IMG2_REF_PILOT_RUBY.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png))
+- Saves as `ENV_HALL_PLATE_RUBY_P1_2X`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the staircase on the left with its railing and the leather bag on the steps, the stone pillars, the tall double door in the middle with its arched fanlight, the small side table beside the door with its table lamp and book, the patterned runner rug, the wall lamp with its pleated shade at the top right, and the counter strip along the bottom at exactly the same height.
+
+The room: A private members' club at night in red stone and leather: Rosso Levanto marble, oxblood leather, rosewood and antique gold, handcrafted.
+The pillars keep their exact round shape and become smooth polished Rosso Levanto marble: deep wine-red stone with a few long, calm, softly curving pale cream veins, polished and even all the way round, with the veins running calmly down them. The walls become polished Rosso Levanto marble: deep wine-red stone with a few long, calm, softly curving pale cream veins, with wall panels in upholstered deep oxblood red leather with a fine natural grain and neat stitched seams, framed in thin polished rosewood mouldings so dark they read red-black, each with a hairline antique gold inlay, keeping the same panel layout. The double door becomes the same oxblood leather panel in a red-black rosewood frame, with a small antique gold handle, and the fanlight frame becomes red-black rosewood with a thin antique gold inner line. The stair railing becomes red-black rosewood with small antique gold brackets. The side table becomes red-black rosewood with a Rosso Levanto marble top and a thin antique gold edge. The floor becomes polished dark Rosso Levanto marble with soft dim reflections of the lamps and real contact shadows. The lamp arms and bases become antique gold with a soft satin finish; the shades stay warm cream and lit. The counter strip becomes one solid slab of polished Rosso Levanto marble in the same deep wine red with the same few long calm pale veins, holding a soft dim reflection of the lamps.
+
+Every wall, door, frame, shelf, panel and pillar takes one of these materials (oxblood leather, Rosso Levanto marble, red-black rosewood or antique gold); no light wood is left anywhere in the room.
+
+Light: It is night. Ruby is deep oxblood leather and red Rosso Levanto marble at night: rich like dark red wine held to candlelight, never pink, never cherry, never orange. Light comes only from the same warm lamps in the same places. Each lamp casts a soft warm pool on the leather or stone around it, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat. Behind each man the wall is a rich mid oxblood red, clearly lighter than the black suits, so both men read crisply against it. The marble carries a soft polished sheen with dim reflections only; antique gold appears only as small accents with a soft glow, never a hard glint. Up close you see the grain of the leather, the stitched seams, the rosewood grain and the veins of the marble, all sharp. The two men stay lit exactly as they are now.
+
+Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep ruby red, exactly the reds of image 2: oxblood (#6E1423) on the walls, Rosso Levanto red (#9B2335) where the stone is lit, wine near-black (#2A0A10) in the shadows, corners and ceiling, and rosewood so dark it reads red-black (#3A1416). The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or brown there, even near the lamps. Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels and no gold walls. The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice.
+
+All other objects keep their identity and their own colours (the leather bag, the book, the runner rug with its pattern) and are relit by the new room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+Tries:
+
+### R-5 · Ruby Clubhouse: Archive
+- Image 1: [IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png)), 3072x1728
+- Image 2: [IMG2_REF_PILOT_RUBY.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png))
+- Saves as `ENV_ARCHIVE_PLATE_RUBY_P1_2X`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the vaulted corridor of arches receding to the middle, the shelves along both sides, the two lit display niches on the left and right walls (an old ball in the left one, books in the right one), and the counter with its thin rail along the top edge, at exactly the same height, filling the lower part.
+
+The room: A private members' club at night in red stone and leather: Rosso Levanto marble, oxblood leather, rosewood and antique gold, handcrafted.
+The arches and vault become polished Rosso Levanto marble: deep wine-red stone with a few long, calm, softly curving pale cream veins, and the wall panels become upholstered deep oxblood red leather with a fine natural grain and neat stitched seams, framed in thin polished rosewood mouldings so dark they read red-black, each with a hairline antique gold inlay, keeping the same panel layout. The shelves become red-black rosewood with a Rosso Levanto marble top and a thin antique gold edge. The display niches become red-black rosewood frames with a thin antique gold edge and Rosso Levanto marble shelves, lit warm from inside. The corridor floor becomes polished dark Rosso Levanto marble with soft dim reflections of the lamps and real contact shadows. The rail along the counter becomes antique gold with a soft satin sheen and one small warm highlight. The counter becomes one solid slab of polished Rosso Levanto marble in the same deep wine red with the same few long calm pale veins, holding a soft dim reflection of the lamps.
+
+Every wall, door, frame, shelf, panel and pillar takes one of these materials (oxblood leather, Rosso Levanto marble, red-black rosewood or antique gold); no light wood is left anywhere in the room.
+
+Light: It is night. Ruby is deep oxblood leather and red Rosso Levanto marble at night: rich like dark red wine held to candlelight, never pink, never cherry, never orange. No wall lamps are visible in this room: light comes only from the lights inside the two display niches and a soft glow along the vault. Add no lamps, sconces or wall lights anywhere; the far end of the corridor stays plain. Each niche casts a soft warm pool on the leather or stone around it, and the red falls off to wine near-black in the corners and toward the vault, so the room has depth and never looks flat. Behind each man the wall is a rich mid oxblood red, clearly lighter than the black suits, so both men read crisply against it. The marble carries a soft polished sheen with dim reflections only; antique gold appears only as small accents with a soft glow, never a hard glint. Up close you see the grain of the leather, the stitched seams, the rosewood grain and the veins of the marble, all sharp. The two men stay lit exactly as they are now.
+
+Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep ruby red, exactly the reds of image 2: oxblood (#6E1423) on the walls, Rosso Levanto red (#9B2335) where the stone is lit, wine near-black (#2A0A10) in the shadows, corners and ceiling, and rosewood so dark it reads red-black (#3A1416). The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or brown there, even near the lamps. Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels and no gold walls. The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice.
+
+The old ball and the books in the niches keep their identity and their own colours and are relit by the niche light.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+Tries:
+
+### R-6 · Ruby Clubhouse: Directors' box
+- Image 1: [IMG1_ENV_BOX_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png)), 3072x1728
+- Image 2: [IMG2_REF_PILOT_RUBY.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png))
+- Saves as `ENV_BOX_PLATE_RUBY_P1_2X`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the big three-pane window across the middle with the night stadium, the crowd, the small ceiling spots and the green pitch exactly as they are, the coat hooks on the left with the grey coat and the yellow and black striped scarf, the glass wall cabinet on the right with the decanter and glasses, and the thin rail along the top of the counter at exactly the same height.
+
+The room: A private members' club at night in red stone and leather: Rosso Levanto marble, oxblood leather, rosewood and antique gold, handcrafted.
+The wall panels become upholstered deep oxblood red leather with a fine natural grain and neat stitched seams, framed in thin polished rosewood mouldings so dark they read red-black, each with a hairline antique gold inlay, keeping the same panel layout. The window frames become red-black rosewood with a thin antique gold inner line. The wall cabinet becomes red-black rosewood frames with a thin antique gold edge and Rosso Levanto marble shelves. The coat hooks become antique gold with a soft satin finish. The rail becomes antique gold with a soft satin sheen and one small warm highlight. The counter becomes one solid slab of polished Rosso Levanto marble in the same deep wine red with the same few long calm pale veins, holding a soft dim reflection of the lamps.
+
+Every wall, door, frame, shelf, panel and pillar takes one of these materials (oxblood leather, Rosso Levanto marble, red-black rosewood or antique gold); no light wood is left anywhere in the room.
+
+Light: It is night. Ruby is deep oxblood leather and red Rosso Levanto marble at night: rich like dark red wine held to candlelight, never pink, never cherry, never orange. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Each lamp casts a soft warm pool on the leather or stone around it, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat. Behind each man the wall is a rich mid oxblood red, clearly lighter than the black suits, so both men read crisply against it. The marble carries a soft polished sheen with dim reflections only; antique gold appears only as small accents with a soft glow, never a hard glint. Up close you see the grain of the leather, the stitched seams, the rosewood grain and the veins of the marble, all sharp. The two men stay lit exactly as they are now.
+
+Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep ruby red, exactly the reds of image 2: oxblood (#6E1423) on the walls, Rosso Levanto red (#9B2335) where the stone is lit, wine near-black (#2A0A10) in the shadows, corners and ceiling, and rosewood so dark it reads red-black (#3A1416). The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or brown there, even near the lamps. Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels and no gold walls. The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice.
+
+All other objects keep their identity and their own colours (the grey coat, the yellow and black striped scarf, the amber decanter and the glasses) and are relit by the new room.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+Tries:
+
+### R-7 · Ruby Clubhouse: Coaches' room
+- Image 1: [IMG1_ENV_COACHES_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PLATE_HC_V3_2X.png)), 3072x1728
+- Image 2: [IMG2_REF_PILOT_RUBY.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png))
+- Saves as `ENV_COACHES_PLATE_RUBY_P1_2X`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the long dark window across the middle with the floodlit pitch and the two goals, the shelf at the top left with three old leather balls, the display niche at the top right with the old boots, the small wall lamp on the left, the bundle of papers on the window sill, the door at the right, and the thin rail along the top of the counter at exactly the same height.
+
+The room: A private members' club at night in red stone and leather: Rosso Levanto marble, oxblood leather, rosewood and antique gold, handcrafted.
+The wall panels become upholstered deep oxblood red leather with a fine natural grain and neat stitched seams, framed in thin polished rosewood mouldings so dark they read red-black, each with a hairline antique gold inlay, keeping the same panel layout. The window frames become red-black rosewood with a thin antique gold inner line. The top shelf becomes red-black rosewood with a Rosso Levanto marble top and a thin antique gold edge. The boot niche becomes red-black rosewood frames with a thin antique gold edge and Rosso Levanto marble shelves. The door becomes the same oxblood leather panel in a red-black rosewood frame, with a small antique gold handle. The lamp arm becomes antique gold with a soft satin finish; the shade stays warm cream and lit. The rail becomes antique gold with a soft satin sheen and one small warm highlight. The counter becomes one solid slab of polished Rosso Levanto marble in the same deep wine red with the same few long calm pale veins, holding a soft dim reflection of the lamps.
+
+Every wall, door, frame, shelf, panel and pillar takes one of these materials (oxblood leather, Rosso Levanto marble, red-black rosewood or antique gold); no light wood is left anywhere in the room.
+
+Light: It is night. Ruby is deep oxblood leather and red Rosso Levanto marble at night: rich like dark red wine held to candlelight, never pink, never cherry, never orange. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Each lamp casts a soft warm pool on the leather or stone around it, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat. Behind each man the wall is a rich mid oxblood red, clearly lighter than the black suits, so both men read crisply against it. The marble carries a soft polished sheen with dim reflections only; antique gold appears only as small accents with a soft glow, never a hard glint. Up close you see the grain of the leather, the stitched seams, the rosewood grain and the veins of the marble, all sharp. The two men stay lit exactly as they are now.
+
+Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep ruby red, exactly the reds of image 2: oxblood (#6E1423) on the walls, Rosso Levanto red (#9B2335) where the stone is lit, wine near-black (#2A0A10) in the shadows, corners and ceiling, and rosewood so dark it reads red-black (#3A1416). The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or brown there, even near the lamps. Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels and no gold walls. The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice.
+
+All other objects keep their identity and their own colours (the old leather balls, the old boots, the paper bundle) and are relit by the new room.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+Tries:
+
+### R-8 · Ruby Clubhouse: Players' tunnel
+- Image 1: [IMG1_ENV_TUNNEL_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PLATE_HC_V3_2X.png)), 3072x1728
+- Image 2: [IMG2_REF_PILOT_RUBY.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png))
+- Saves as `ENV_TUNNEL_PLATE_RUBY_P1_2X`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the tunnel receding to the steps and the floodlit pitch with the goal at the far end, the ribbed pillars and wall panels on both sides, the handrails, the caged bulkhead lamp on the right wall, the ribbed floor mat, and the counter strip along the bottom at exactly the same height.
+
+The room: A private members' club at night in red stone and leather: Rosso Levanto marble, oxblood leather, rosewood and antique gold, handcrafted.
+The wall panels become upholstered deep oxblood red leather with a fine natural grain and neat stitched seams, framed in thin polished rosewood mouldings so dark they read red-black, each with a hairline antique gold inlay, keeping the same panel layout, and the pillars become polished Rosso Levanto marble: deep wine-red stone with a few long, calm, softly curving pale cream veins. The pillars keep their exact square shape, with flat faces and straight corners, never round columns. The handrails become red-black rosewood with small antique gold brackets. The bulkhead lamp cage becomes antique gold with a soft satin finish; its glass stays warm and lit. The floor becomes a ribbed rubber floor mat in deep wine near-black with thin antique gold edge strips. The counter strip becomes one solid slab of polished Rosso Levanto marble in the same deep wine red with the same few long calm pale veins, holding a soft dim reflection of the lamps.
+
+Every wall, door, frame, shelf, panel and pillar takes one of these materials (oxblood leather, Rosso Levanto marble, red-black rosewood or antique gold); no light wood is left anywhere in the room.
+
+Light: It is night. Ruby is deep oxblood leather and red Rosso Levanto marble at night: rich like dark red wine held to candlelight, never pink, never cherry, never orange. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Each lamp casts a soft warm pool on the leather or stone around it, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat. Behind each man the wall is a rich mid oxblood red, clearly lighter than the black suits, so both men read crisply against it. The marble carries a soft polished sheen with dim reflections only; antique gold appears only as small accents with a soft glow, never a hard glint. Up close you see the grain of the leather, the stitched seams, the rosewood grain and the veins of the marble, all sharp. The two men stay lit exactly as they are now.
+
+Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep ruby red, exactly the reds of image 2: oxblood (#6E1423) on the walls, Rosso Levanto red (#9B2335) where the stone is lit, wine near-black (#2A0A10) in the shadows, corners and ceiling, and rosewood so dark it reads red-black (#3A1416). The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or brown there, even near the lamps. Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels and no gold walls. The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice.
+
+The far end stays a real night pitch: green grass, white goal, floodlit stands, exactly as they are.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+Tries:
+
+### R-9 · Ruby Clubhouse: Club room
+- Image 1: [IMG1_ENV_CLUB_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PLATE_HC_V3_2X.png)), 3072x1728
+- Image 2: [IMG2_REF_PILOT_RUBY.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png))
+- Saves as `ENV_CLUB_PLATE_RUBY_P1_2X`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep in the same places and at the same sizes: the two wall lamps with pleated shades at the left and right, the two hanging pennant banners below them, the trophies and old leather balls on the low shelves at the lower left and right, the wide window across the top with the floodlit stadium, the two leather armchairs and the low table in the middle of the room, and the counter strip along the bottom at exactly the same height. The room is empty of people.
+
+The room: A private members' club at night in red stone and leather: Rosso Levanto marble, oxblood leather, rosewood and antique gold, handcrafted.
+The wall panels and pillars become upholstered deep oxblood red leather with a fine natural grain and neat stitched seams, framed in thin polished rosewood mouldings so dark they read red-black, each with a hairline antique gold inlay, keeping the same panel layout. The back wall below the window becomes upholstered deep oxblood red leather with a fine natural grain and neat stitched seams, framed in thin polished rosewood mouldings so dark they read red-black, each with a hairline antique gold inlay, keeping the same panel layout. The window frames become red-black rosewood with a thin antique gold inner line. The low shelves become red-black rosewood with a Rosso Levanto marble top and a thin antique gold edge. The banner rods and lamp arms become antique gold with a soft satin finish; the shades stay warm cream and lit. The floor becomes polished dark Rosso Levanto marble with soft dim reflections of the lamps and real contact shadows. The counter strip becomes one solid slab of polished Rosso Levanto marble in the same deep wine red with the same few long calm pale veins, holding a soft dim reflection of the lamps. The two armchairs keep exactly their shape, size, cushions, seams and place, and are reupholstered in the same deep oxblood red leather as the walls, with a fine natural grain and neat stitched seams, a touch lighter where the lamp light falls so they read clearly against the walls.
+
+Every wall, door, frame, shelf, panel and pillar takes one of these materials (oxblood leather, Rosso Levanto marble, red-black rosewood or antique gold); no light wood is left anywhere in the room.
+
+Light: It is night. Ruby is deep oxblood leather and red Rosso Levanto marble at night: rich like dark red wine held to candlelight, never pink, never cherry, never orange. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Each lamp casts a soft warm pool on the leather or stone around it, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat. The marble carries a soft polished sheen with dim reflections only; antique gold appears only as small accents with a soft glow, never a hard glint. Up close you see the grain of the leather, the stitched seams, the rosewood grain and the veins of the marble, all sharp.
+
+Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep ruby red, exactly the reds of image 2: oxblood (#6E1423) on the walls, Rosso Levanto red (#9B2335) where the stone is lit, wine near-black (#2A0A10) in the shadows, corners and ceiling, and rosewood so dark it reads red-black (#3A1416). The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or brown there, even near the lamps. Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels and no gold walls. The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice.
+
+All other objects keep their identity and their own colours (the gold trophies, the old leather balls, the dark banners) and are relit by the new room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+Tries:
+
+### R-10 · Ruby Clubhouse: Loading tunnel (behind Reus)
+- Image 1: [IMG1_ENV_LOADING_PLATE_HC_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PLATE_HC_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PLATE_HC_2X.png)), 3840x2160
+- Image 2: [IMG2_REF_PILOT_RUBY.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png))
+- Saves as `ENV_LOADING_PLATE_RUBY_P1_2X`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
+
+Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep in the same places and at the same sizes: the tunnel receding to the steps and the floodlit pitch with the goal at the far end, the ribbed pillars and wall panels on both sides, the handrails, the caged bulkhead lamp on the right wall, the ribbed floor mat, and the counter strip along the bottom at exactly the same height. The tunnel is empty of people.
+
+The room: A private members' club at night in red stone and leather: Rosso Levanto marble, oxblood leather, rosewood and antique gold, handcrafted.
+The wall panels become upholstered deep oxblood red leather with a fine natural grain and neat stitched seams, framed in thin polished rosewood mouldings so dark they read red-black, each with a hairline antique gold inlay, keeping the same panel layout, and the pillars become polished Rosso Levanto marble: deep wine-red stone with a few long, calm, softly curving pale cream veins. The pillars keep their exact square shape, with flat faces and straight corners, never round columns. The handrails become red-black rosewood with small antique gold brackets. The bulkhead lamp cage becomes antique gold with a soft satin finish; its glass stays warm and lit. The floor becomes a ribbed rubber floor mat in deep wine near-black with thin antique gold edge strips. The counter strip becomes one solid slab of polished Rosso Levanto marble in the same deep wine red with the same few long calm pale veins, holding a soft dim reflection of the lamps.
+
+Every wall, door, frame, shelf, panel and pillar takes one of these materials (oxblood leather, Rosso Levanto marble, red-black rosewood or antique gold); no light wood is left anywhere in the room.
+
+Light: It is night. Ruby is deep oxblood leather and red Rosso Levanto marble at night: rich like dark red wine held to candlelight, never pink, never cherry, never orange. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Each lamp casts a soft warm pool on the leather or stone around it, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat. The marble carries a soft polished sheen with dim reflections only; antique gold appears only as small accents with a soft glow, never a hard glint. Up close you see the grain of the leather, the stitched seams, the rosewood grain and the veins of the marble, all sharp.
+
+Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep ruby red, exactly the reds of image 2: oxblood (#6E1423) on the walls, Rosso Levanto red (#9B2335) where the stone is lit, wine near-black (#2A0A10) in the shadows, corners and ceiling, and rosewood so dark it reads red-black (#3A1416). The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or brown there, even near the lamps. Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels and no gold walls. The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice.
+
+The far end stays a real night pitch: green grass, white goal, floodlit stands, exactly as they are.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
+Tries:
+
+### R-11 · Ruby Clubhouse: Material slab
+- Image 1: [IMG1_ENV_SLAB_HC_V1_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SLAB_HC_V1_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SLAB_HC_V1_2X.png)), 3072x1728
+- Image 2: [IMG2_REF_PILOT_RUBY.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_RUBY.png))
+- Saves as `ENV_SLAB_RUBY_P1_2X`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
+
+Keep image 1 exactly the same size and framing. Repaint the whole surface as one new stone, seen straight on.
+
+The stone: polished Rosso Levanto marble: a deep wine-red stone, oxblood (#6E1423) to lit red (#9B2335) with wine near-black (#2A0A10) in its deepest tones, with a few long, calm, softly curving pale cream veins (#D8C8B4) flowing in gentle diagonals like brush strokes.
+
+It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. The stone stays a rich deep ruby red, exactly the red of the marble in image 2: the light only brightens it, it never tints it pink, cherry, orange or brown, and the veins stay few, long and calm, never jagged or cracked like ice. No objects, no reflections of objects, no text, no logos.
+
+Real stone as a mason would finish it, with clean sharp detail and no noise grain, no streaks, no repeating cells.
+
+Same 16:9 framing as the original, largest size available.
+```
+
+Tries:
+
