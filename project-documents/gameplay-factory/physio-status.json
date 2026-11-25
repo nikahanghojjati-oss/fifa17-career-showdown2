@@ -1,22 +1,13 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-25T06:01:55.334Z",
+  "at": "2026-11-25T06:28:30.401Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
-      "head_sha": "6d87a8fcdf054082d217f01274c6581818aa4e31",
-      "pr": 1614,
-      "queued_minutes": 72.6,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
       "head_sha": "90295d63c8020d71d5ddf9908c09d1d199aefade",
       "pr": 1588,
-      "queued_minutes": 57.1,
+      "queued_minutes": 83.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -25,16 +16,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "50a30409de51ef65e4bdb17c260008f66375dd4a",
       "pr": 1603,
-      "queued_minutes": 52.5,
-      "action": "none",
-      "attempt": 0,
-      "max_attempts": 2
-    },
-    {
-      "workflow": "Showdown Gate",
-      "head_sha": "1ee944c23d306a0dd26adcf46151c7ed7b78e8b9",
-      "pr": 1596,
-      "queued_minutes": 52.5,
+      "queued_minutes": 79.1,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -43,7 +25,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "d3191749e9c34c210729496381d9c3dcc6a2d591",
       "pr": 1613,
-      "queued_minutes": 50.8,
+      "queued_minutes": 77.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -52,7 +34,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "2f0437a9d8b57740c0f747c88510bd509917f17e",
       "pr": 1611,
-      "queued_minutes": 50.8,
+      "queued_minutes": 77.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -61,16 +43,16 @@
       "workflow": "Showdown Gate",
       "head_sha": "0353d2d1a6ca910c40db0c076895c24791bb22e5",
       "pr": 1581,
-      "queued_minutes": 49.2,
+      "queued_minutes": 75.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
     },
     {
       "workflow": "Showdown Gate",
-      "head_sha": "635f8a6f9d5af0e40f8d92006e3e04a9a3949e1f",
-      "pr": 1609,
-      "queued_minutes": 44.8,
+      "head_sha": "21091d0b3a1a5255282dae518080c7f5a269297a",
+      "pr": 1620,
+      "queued_minutes": 7.9,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
