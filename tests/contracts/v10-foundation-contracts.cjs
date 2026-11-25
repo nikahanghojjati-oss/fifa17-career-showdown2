@@ -791,7 +791,6 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/silver/ENV_BOX_PLATE_HC_V4_1X.webp":"1b043c55780cad7a338ad9e18f0e989e328501f46822221830ef9bebb693e096",
     "visual-assets/v10_1/plates-hc/silver/ENV_BOX_PLATE_HC_V4_2X.webp":"0f5c0170124f42fc9c0c0ced53dfe8f226a9ed5b67cedfa07b7f6a9fc86d652f",
     "visual-assets/v10_1/plates-hc/silver/ENV_BOX_SIDEWAYS_HC_V4.webp":"3d3e0da9d1af7ab35bd2addd3ce273b645b5323553c824c854da4848d9103e15",
-    "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_PHONE_HC_V3.webp":"eba02928049d8149968a4a91c6a612d2f59edc0044216dd5dddaed4f61da3875",
     "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_PHONE_HC_V4.webp":"719d1fb5c988180afd6ffb135f6e63805eb92575a263d2d70afc23013bc51ba0",
     "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_PLATE_HC_V3_1X.webp":"4c011aa78775e3961e3a8c4dc3a486ab32cbfb173cf1ed97e4547711008f6251",
     "visual-assets/v10_1/plates-hc/silver/ENV_CLUB_PLATE_HC_V3_2X.webp":"6f4e7787430c99fd95f74af8e50a318bbe81156fb1d765a1d8e9a9576ce79963",
@@ -854,7 +853,6 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/black/ENV_BOX_PLATE_HC_V4_1X.webp":"5fd52b2f817a6ab5d825a4e60cb1f0167c7db95d79714f5915884a04e6289a5f",
     "visual-assets/v10_1/plates-hc/black/ENV_BOX_PLATE_HC_V4_2X.webp":"206c0bf806b5fc00d4e3c9eb7a28cd1d12918557435b90c6d6bd829c9265090b",
     "visual-assets/v10_1/plates-hc/black/ENV_BOX_SIDEWAYS_HC_V4.webp":"fc7ee4f76ad8a54a487b30b5fe550fc1fe0b09000d99a87b61c2eab4ca44ab08",
-    "visual-assets/v10_1/plates-hc/black/ENV_CLUB_PHONE_HC_V3.webp":"cdc494171a567f7d65b5ece5812c3fa5b71333284063387b1b403af8cf231e96",
     "visual-assets/v10_1/plates-hc/black/ENV_CLUB_PHONE_HC_V4.webp":"69c5b40889bb8fdd5b520a33c9563c9c6ac800c9d3aa387dfc1c32f50695d835",
     "visual-assets/v10_1/plates-hc/black/ENV_CLUB_PLATE_HC_V3_1X.webp":"70c6666babdfd36b329d07f1fe828efedb481829137f6cfff1fb9d177e733727",
     "visual-assets/v10_1/plates-hc/black/ENV_CLUB_PLATE_HC_V3_2X.webp":"665367b6cdfd48392e34d4d622fbc6e5f948d3fe610a777ec69f21c0689298b6",
@@ -917,7 +915,6 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_1X.webp":"007a98181a81e7c0417d133b604f69ec0847b335d9fc008dcb07138c7c72323d",
     "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_2X.webp":"557a3161574f7d94e410387e7680fcf7ed70567cf287e5107e37d872531bca74",
     "visual-assets/v10_1/plates-hc/matte/ENV_BOX_SIDEWAYS_HC_V4.webp":"6684ee5af5e687e9f9da78e1dc78d0bd02a787005bd7372de55d5934570ed60b",
-    "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_PHONE_HC_V3.webp":"b90a2c9785da4b750c745db1ec8fccc6e22aa03bdda8bb61b54187307cf489d5",
     "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_PHONE_HC_V4.webp":"822575e7986d47902a9611def43683d646370bbb6f6c664679b3d70bd3b3c513",
     "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_PLATE_HC_V3_1X.webp":"2aee1a6fb103f423a5e4d68aeae5a11d20d5f8f17280b331500588fdd70aea92",
     "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_PLATE_HC_V3_2X.webp":"ed3e455bbcfdab1b4655cb1ca26b4115de80694fbd6c8e6fd39fae2967e91a9a",
@@ -1607,7 +1604,6 @@ const V10_IMAGES={
     // HO-094 (Team V, Nik OK 2026-11-16): the empty handcrafted club lounge behind the Club Assignment draw. Loaded on demand.
     "visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_1X.webp":"94ede8cb779c0145d0fdd34366532d7f694a26d244a344d3fd40dea1c3c3d98b",
     "visual-assets/v10_1/plates-hc/ENV_CLUB_PLATE_HC_V3_2X.webp":"e13f759d41020906dc9b1e41604defdf81982b322333d28943e177c49fb74e53",
-    "visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V3.webp":"e3e8aedb6a904c119da2608d135bae4c0a83c524a692bba863354fb127e64375",
     // HO-095 (Team V, Nik OK 2026-11-17): the phone crops of the same room, upright and sideways. Loaded on demand.
     "visual-assets/v10_1/plates-hc/ENV_CLUB_PHONE_HC_V4.webp":"068c48aa2dec2b11e482aa7e76549ecdd94b96ba71d7cc31f7954da028cb71f0",
     "visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp":"488bf0e1cef4a27b5171f71504fd1e15ea48c7f9561ee1e6587e845e54c80280",
