@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r86-commentary-engine-contracts.cjs",
+  "patterns": [
+    "^js/(commentaryEngine|sharedCanonicalScoring|scoring|marqueePlayer|visualIdentity)\\.js$",
+    "^data/(commentarySituations\\.json|commentaryLines\\.js|marqueePlayers\\.js|clubs\\.js)$",
+    "^tests/contracts/r86-commentary-engine-contracts\\.cjs$",
+    "^tests/pos20-registry/r86\\-commentary\\-engine\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "path": "tests/contracts/r99-clubhouse-themes-contracts.cjs",
+  "patterns": [
+    "^index\\.html$",
+    "^js/settings\\.js$",
+    "^service\\-worker\\.js$",
+    "^css/",
+    "^visual\\-assets/v10_1/plates\\-hc/",
+    "^tools/clubhouse\\-themes/",
+    "^tests/contracts/r99\\-clubhouse\\-themes\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r99\\-clubhouse\\-themes\\-contracts\\.json$"
+  ]
+}

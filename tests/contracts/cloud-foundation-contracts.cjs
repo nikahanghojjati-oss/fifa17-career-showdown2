@@ -128,7 +128,7 @@ assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudRunAllowed,false);
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudFunctionsAllowed,false);
 assert.equal(bootstrap.liveRuntime?.appCheckEnforcement,false);
 assert.equal(bootstrap.liveRuntime?.firestorePersistence,"memory-only");
-assert.match(bootstrap.liveRuntime?.googleAuthPersistence||"",/browserSessionPersistence-popup-only-no-extra-scopes/i);
+assert.match(bootstrap.liveRuntime?.googleAuthPersistence||"",/remembered-on-device-popup-only-no-extra-scopes/i);
 
 // Provider-authoritative and owner-production evidence remain independently protected.
 assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i);

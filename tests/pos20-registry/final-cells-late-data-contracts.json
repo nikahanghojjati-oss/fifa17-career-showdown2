@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/final-cells-late-data-contracts.cjs",
+  "patterns": [
+    "^js/seasonFinalV10\\.js$",
+    "^tests/contracts/final-cells-late-data-contracts\\.cjs$",
+    "^tests/pos20-registry/final\\-cells\\-late\\-data\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r100-season-commit-wait-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^tests/browser/fault\\-injection\\-journey\\.cjs$",
+    "^tests/browser/support/fij\\-silent\\-commit\\.js$",
+    "^tests/contracts/r100\\-season\\-commit\\-wait\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-season\\-commit\\-wait\\-contracts\\.json$"
+  ]
+}

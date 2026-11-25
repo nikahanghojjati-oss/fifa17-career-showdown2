@@ -31,6 +31,13 @@ def plates():
             names.append(f[:-5])
     return names
 
+# r100 B7: plates Team V repainted for a clubhouse are built by paint.py from paintings/, never recoloured here.
+def painted_names():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("paint", os.path.join(os.path.dirname(__file__), "paint.py"))
+    mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+    return {(theme, name) for theme, name, _p, _r in mod.painted()}
+
 # Rooms with no manager in them: no mask.
 NO_HEROES = ("ENV_LOADING_", "ENV_CLUB_", "ENV_SLAB_", "TILE_", "ENV_BOX_PHONE_HC_V4", "ENV_BOX_SIDEWAYS_HC_V4")
 
@@ -288,7 +295,10 @@ def build(name, folder=SRC):
     objects = object_mask(name, src.size) * (1 - hero)  # Daniel and Nik and the stadium are never touched
     keep_out = np.maximum(hero, objects)
     rgb = np.asarray(src)
+    skip = painted_names()
     for theme in THEMES:
+        if (theme, name) in skip:
+            continue  # repainted by Team V: built by paint.py
         out_dir = os.path.join(folder, theme)
         os.makedirs(out_dir, exist_ok=True)
         Image.fromarray(recolor(rgb, keep_out, theme, objects)).save(os.path.join(out_dir, name + ".webp"), quality=90, method=6)

@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r100-fresh-device-champion-contracts.cjs",
+  "patterns": [
+    "^js/(productionSharedJourneyEntry|productionSharedTerminalClose|sparkTerminalClose|persistentNikDanielPair|sparkConnectedRivalry|sparkRemoteJoining)\\.js$",
+    "^tests/contracts/r100\\-fresh\\-device\\-champion\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-fresh\\-device\\-champion\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r83-home-join-expiry-contracts.cjs",
+  "patterns": [
+    "^js/(persistentNikDanielPair|onlinePlayerIdentity)\\.js$",
+    "^tests/(contracts/r83-home-join-expiry-contracts|support/home-join-window-fixture)\\.cjs$",
+    "^tests/pos20-registry/r83\\-home\\-join\\-expiry\\-contracts\\.json$"
+  ]
+}

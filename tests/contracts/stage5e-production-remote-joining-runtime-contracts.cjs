@@ -15,7 +15,7 @@ assert.equal(/<script[^>]+src=["\'][^"\']*sparkRemoteJoining\.js/i.test(html),fa
 assert.match(html,/id="remoteJoiningButton"[^>]*hidden[^>]*aria-hidden="true"[^>]*tabindex="-1"/i,"The legacy runtime hook may remain in the shell only when permanently hidden and non-focusable.");
 assert.ok(entry.includes('js/sparkRemoteJoining.js')&&entry.includes('css/remoteJoining.css'),"The canonical Showdown entry must retain lazy access to the proven connection runtime.");
 assert.ok(worker.includes('"js/sparkRemoteJoining.js"')&&worker.includes('"css/remoteJoining.css"')&&worker.includes('"js/sparkStandardAuthPrivateSession.js"'),"Recovery cache must retain the current Stage 5E runtime and standard-auth session adapter.");
-assert.match(runtime,/async function ensureSparkAccountServices[\s\S]+browserSessionPersistence[\s\S]+memoryLocalCache|async function ensureSparkAccountServices[\s\S]+memoryLocalCache/,"Connection dependencies must remain on the reviewed session-auth/memory-only Firebase path.");
+assert.match(runtime,/async function ensureSparkAccountServices[\s\S]+rememberedPersistence[\s\S]+memoryLocalCache|async function ensureSparkAccountServices[\s\S]+memoryLocalCache/,"Connection dependencies must remain on the reviewed remembered-auth/memory-only Firebase path.");
 
 const calls={services:0,account:0,pairing:0,rivalry:0,open:[],join:[],read:[],revoke:[],close:[]};
 const sessionA=`session_${"a".repeat(64)}`,sessionB=`session_${"b".repeat(64)}`,rivalryId=`pair_${"c".repeat(64)}`,deviceId=`device_${"d".repeat(32)}`;

@@ -1,0 +1,18 @@
+{
+  "path": "tests/contracts/shared-journey-conflicts-production-contracts.cjs",
+  "patterns": [
+    "^js/sharedJourneyConflicts\\.js$",
+    "^js/productionSharedJourneyConflicts\\.js$",
+    "^js/productionSharedShowdownSetup\\.js$",
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^js/sparkSharedShowdownSetup\\.js$",
+    "^js/sparkSharedSeasonCommit\\.js$",
+    "^js/ssjr\\.js$",
+    "^tests/contracts/shared-journey-conflicts-contracts\\.cjs$",
+    "^tests/contracts/shared-journey-conflicts-production-contracts\\.cjs$",
+    "^tests/browser/shared-journey-conflicts-audit\\.cjs$",
+    "^package\\.json$",
+    "^tests/pos20-registry/shared\\-journey\\-conflicts\\-production\\-contracts\\.json$",
+    "^service-worker\\.js$"
+  ]
+}
