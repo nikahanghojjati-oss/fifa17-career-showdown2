@@ -85,7 +85,14 @@
       Object.freeze({key:"dmxWhereTheHoodAtCryJaxx",title:"WHERE THE HOOD AT (CRYJAXX COVER)",artist:"DMX, covered by CryJaxx ft. Junior Charles",audiusTrackId:"R0ZRqWG"}),
       Object.freeze({key:"dmxXGonGiveItToYaRossy",title:"X GON' GIVE IT TO YA (ROSSY TRIBUTE EDIT)",artist:"DMX x N.EON",audiusTrackId:"17pVr"}),
       Object.freeze({key:"dmxPartyUpNoizfiend",title:"PARTY UP (NOIZFIEND EDIT)",artist:"DMX x Sumthin Sumthin",audiusTrackId:"9p77o"}),
-      Object.freeze({key:"dmxRuffRydersAnthem",title:"RUFF RYDERS ANTHEM",artist:"DMX",audiusTrackId:"vJWoRxV"})
+      Object.freeze({key:"dmxRuffRydersAnthem",title:"RUFF RYDERS ANTHEM",artist:"DMX",audiusTrackId:"vJWoRxV"}),
+      Object.freeze({key:"xxxChanges",title:"CHANGES",artist:"XXXTentacion",audiusTrackId:"YKVGv"}),
+      Object.freeze({key:"xxxMoonlight",title:"MOONLIGHT",artist:"XXXTentacion",audiusTrackId:"Ra2B1"}),
+      Object.freeze({key:"xxxJocelynFlores",title:"JOCELYN FLORES",artist:"XXXTentacion",audiusTrackId:"72JEEg9"}),
+      Object.freeze({key:"xxxRevenge",title:"REVENGE",artist:"XXXTentacion",audiusTrackId:"dKG0K"}),
+      Object.freeze({key:"xxxLookAtMe",title:"LOOK AT ME!",artist:"XXXTentacion",audiusTrackId:"bbr2MEM"}),
+      Object.freeze({key:"xxxLookAtMeKoolBread",title:"LOOK AT ME! X BACK ONCE AGAIN (KOOLBREAD MASHUP)",artist:"XXXTentacion x Zomboy",audiusTrackId:"AA3W7"}),
+      Object.freeze({key:"xxxJocelynFloresSlowed",title:"JOCELYN FLORES (SLOWED + REVERB)",artist:"XXXTentacion",audiusTrackId:"8599p"})
     ]),
     defaultTrack:"song2",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
