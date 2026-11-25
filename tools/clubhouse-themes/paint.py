@@ -58,8 +58,9 @@ FEATHER = 0.8    # px at 1920 wide
 PHONE_W = 1179   # the phone masters' width: phone pull-in and feather are the same px at this width
 PHONE_SIZE_SLACK = 0.10  # a phone plate may be at most this much bigger than the Wooden file it replaces
 # Lead exception (mailbox A-13, 2026-11-25 04:58 UTC): premium flannel walls. These plates are runtime-cached and load only in
-# Matte, so they skip the size ceiling and are encoded at the sibling Matte phone plates' quality (q80) to keep the flannel sharp.
-PHONE_SIZE_EXCEPTIONS = {("matte", "CLUB"): 80, ("matte", "COACHES"): 80}
+# Matte, so they skip the size ceiling. q75 (lead 2026-11-25 07:04 UTC; was q80): 153 KB lighter on phones, flannel and
+# floor side by side at 390x844@3 show no visible loss.
+PHONE_SIZE_EXCEPTIONS = {("matte", "CLUB"): 75, ("matte", "COACHES"): 75}
 # Lead decision 2026-11-24 19:15 UTC: small files win. After WebP the faces may drift up to this many levels (mean, inside the
 # fully Wooden core of the mask) as long as a 4x side-by-side of each face against Wooden shows no visible change (face_crops).
 FACE_DRIFT_MAX = 3.0

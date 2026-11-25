@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 "use strict";
 // R99-01 clubhouse themes (Nik 2026-11-23): "3 club house themes: current one, silver one and black metallic one" (23:21 UTC: a fourth,
-// Premium Matte Black; Metal Black renamed Metallic Black), switched in Settings, keeping every element of every screen including the heroes. The pick lives on this device only (localStorage).
-// A theme draws each room plate from plates-hc/<theme>/ (the same room recoloured, Daniel and Nik held out by a mask,
-// tools/clubhouse-themes/build.py) and the panel marble from css/r78-marble-tile-metal.webp; index.html sets it before anything
+// Premium Matte Black; Metal Black renamed Metallic Black; 2026-11-25 renamed Black Steel and Graphite), switched in Settings, keeping every element of every screen including the heroes. The pick lives on this device only (localStorage).
+// A theme draws each room plate from plates-hc/<theme>/ (the premium painting of the room, Daniel and Nik held out by a mask,
+// tools/clubhouse-themes/paint.py, listed in PREMIUM_FILES.json) and the panel marble from css/r78-marble-tile-<theme>.webp; index.html sets it before anything
 // loads. The browser half (every screen draws and downloads only its themed room, desktop and phones) is
 // CMS_CLUBHOUSE=silver|black|matte node tests/browser/r91-old-art-audit.cjs.
 const assert = require("node:assert/strict");
@@ -29,7 +29,7 @@ function webpSize(file){
 const PLATES = path.join(ROOT, "visual-assets/v10_1/plates-hc");
 const plain = fs.readdirSync(PLATES).filter(f => /^(ENV|TILE)_.*\.webp$/.test(f) && !/_HC_V2/.test(f));
 
-check("every room plate in use has a Silver, a Metallic Black and a Premium Matte Black copy of the same size", () => {
+check("every room plate in use has a Silver, a Black Steel and a Graphite copy of the same size", () => {
   assert.ok(plain.length >= 60, `the room plates are found (${plain.length})`);
   for(const theme of ["silver", "black", "matte"]){
     const dir = path.join(PLATES, theme);
@@ -42,8 +42,11 @@ check("every room plate in use has a Silver, a Metallic Black and a Premium Matt
   const walk = dir => { for(const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })){ const rel = `${dir}/${e.name}`; if(e.isDirectory()) walk(rel); else if(/\.(css|js|html)$/.test(e.name)) for(const m of read(rel).matchAll(/plates-hc\/((?:ENV|TILE)_[A-Z0-9_]+\.webp)/g)) named.add(m[1]); } };
   ["css", "js", "visual-assets/v10_1"].forEach(walk);
   for(const f of named) assert.ok(plain.includes(f), `${f} (named by a screen) has themed copies`);
-  assert.ok(fs.existsSync(path.join(ROOT, "css/r78-marble-tile-metal.webp")), "the metal panel marble is there");
-  assert.deepEqual(webpSize(path.join(ROOT, "css/r78-marble-tile-metal.webp")), webpSize(path.join(ROOT, "css/r78-marble-tile.webp")), "the metal marble tiles like the old one");
+  for(const theme of ["silver", "black", "matte"]){
+    assert.ok(fs.existsSync(path.join(ROOT, `css/r78-marble-tile-${theme}.webp`)), `the ${theme} panel marble is there`);
+    assert.deepEqual(webpSize(path.join(ROOT, `css/r78-marble-tile-${theme}.webp`)), webpSize(path.join(ROOT, "css/r78-marble-tile.webp")), `the ${theme} marble tiles like the Wooden one`);
+  }
+  assert.ok(!fs.existsSync(path.join(ROOT, "css/r78-marble-tile-metal.webp")), "the old shared metal marble is gone, so no clubhouse can draw it");
 });
 
 const html = read("index.html");
@@ -63,7 +66,7 @@ check("index.html sets the theme before any sheet or picture is asked for, from 
   const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)/g)].map(m => m[1]);
   assert.deepEqual(refs, ["css/app.css", "js/storage.js", "js/showdown.js", "js/scoring.js", "js/screens.js", "js/menuExperience.js", "js/optionalModules.js", "js/app.js"], "no start-up file added (the start-up budget is unchanged)");
   const style = html.slice(html.indexOf("\n<style>") + 8, html.indexOf("</style>"));
-  for(const line of style.split("\n").filter(l => l.includes("{"))) assert.match(line, /^(?:@media [^{]+\{)?html\[data-clubhouse="(?:silver|black|matte)"\]/, "the inline style only touches the Silver, Metallic Black and Premium Matte Black clubhouses (Wooden stays as it is)");
+  for(const line of style.split("\n").filter(l => l.includes("{"))) assert.match(line, /^(?:@media [^{]+\{)?html\[data-clubhouse="(?:silver|black|matte)"\]/, "the inline style only touches the Silver, Black Steel and Graphite clubhouses (Wooden stays as it is)");
   // the loading room: drawn from assets/loading/<theme>/ at every size the Wooden one comes in, its files there, never in the shell
   for(const t of ["silver", "black", "matte"]) for(const f of ["ENV_LOADING_PLATE_HC_1X", "ENV_LOADING_PLATE_HC_2X", "ENV_LOADING_PHONE_HC_590W", "ENV_LOADING_PHONE_HC"]){
     assert.ok(style.includes(`url("assets/loading/${t}/${f}.webp")`), `${t} ${f} drawn`);
@@ -119,7 +122,33 @@ check("the current clubhouse runs nothing: no attribute, no observer, no DOM hoo
   assert.equal(runtime("purple").window.cmsClubhouse.theme(), "current", "an unknown saved value is the current clubhouse");
 });
 
-check("Silver, Metallic Black and Premium Matte Black draw the themed rooms and the metal marble, and switching back restores the plain rooms", () => {
+// Nik 2026-11-25: "the game never accidentally load a, those low quality versions again". Every file in a premium clubhouse
+// folder is a premium painting's output, listed with its hash in tools/clubhouse-themes/PREMIUM_FILES.json (manifest.py).
+check("every Platinum, Black Steel and Graphite room file is a listed premium painting, unchanged", () => {
+  const crypto = require("node:crypto");
+  const sha = rel => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex");
+  const man = JSON.parse(read("tools/clubhouse-themes/PREMIUM_FILES.json"));
+  const LOOK = { silver: "SILVER", black: "BLACK", matte: "MATTE" };
+  const found = [];
+  for(const theme of Object.keys(LOOK))
+    for(const dir of [`visual-assets/v10_1/plates-hc/${theme}`, `assets/loading/${theme}`])
+      for(const f of fs.readdirSync(path.join(ROOT, dir))) found.push(`${dir}/${f}`);
+  for(const f of fs.readdirSync(path.join(ROOT, "css"))) if(/^r78-marble-tile-.+\.webp$/.test(f)) found.push(`css/${f}`); // the panel marble
+  assert.ok(found.length >= 190, `the premium folders are found (${found.length})`);
+  assert.deepEqual(found.slice().sort(), Object.keys(man.files).sort(), "the premium folders hold exactly the listed premium files, nothing older or extra");
+  for(const [rel, e] of Object.entries(man.files)){
+    assert.equal(sha(rel), e.sha256, `${rel} is the premium file that was painted (re-run paint.py, pin.py, manifest.py)`);
+    const theme = rel.startsWith("css/") ? rel.match(/tile-(\w+)\.webp$/)[1] : rel.split("/").slice(-2)[0];
+    assert.ok(path.basename(e.painting).includes(`_${LOOK[theme]}_`), `${rel} comes from a ${LOOK[theme]} painting (${e.painting})`);
+    assert.ok(e.painting in man.paintings, `${e.painting} is listed`);
+  }
+  for(const [rel, h] of Object.entries(man.paintings)){
+    assert.ok(fs.existsSync(path.join(ROOT, rel)), `${rel} (a premium painting) is in the repo`);
+    assert.equal(sha(rel), h, `${rel} is the approved painting`);
+  }
+});
+
+check("Silver, Black Steel and Graphite draw the themed rooms and their own panel marble, and switching back restores the plain rooms", () => {
   const r = runtime("silver"), api = r.window.cmsClubhouse;
   assert.equal(api.theme(), "silver");
   assert.equal(r.docEl.getAttribute("data-clubhouse"), "silver");
@@ -127,7 +156,7 @@ check("Silver, Metallic Black and Premium Matte Black draw the themed rooms and 
   assert.ok(r.listeners.some(l => l.type === "load" && l.capture === true), "sheets are rewritten in the capture phase of their load, before their own handlers");
   const plate = "image-set(url('visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_1920.webp') 1.25x)";
   assert.equal(api.fix(plate), "image-set(url('visual-assets/v10_1/plates-hc/silver/ENV_BOX_PLATE_HC_V4_1920.webp') 1.25x)");
-  assert.equal(api.fix('url("r78-marble-tile.webp")'), 'url("r78-marble-tile-metal.webp")');
+  assert.equal(api.fix('url("r78-marble-tile.webp")'), 'url("r78-marble-tile-silver.webp")');
   const pack = "url(visual-assets/v10_1/plates-hc/PACK_CLUB_HC_V1_1X.webp)";
   assert.equal(api.fix(pack), pack, "the club pack is not a room");
   // markup and pictures are themed as they are set (before the picture starts to load)
@@ -140,7 +169,7 @@ check("Silver, Metallic Black and Premium Matte Black draw the themed rooms and 
   // a room set through style.setProperty (the Touchline Gazette's --tgz-plate-desktop) is themed too
   const decl = new r.CSSStyleDeclaration(); decl.setProperty("--tgz-plate-phone", 'url("https://x/visual-assets/v10_1/plates-hc/ENV_BOARD_PHONE_HC_V3.webp")');
   assert.match(decl["--tgz-plate-phone"], /plates-hc\/silver\/ENV_BOARD_PHONE_HC_V3\.webp/);
-  // switching: Metallic Black, then the current clubhouse; the pick is saved on this device
+  // switching: Black Steel, then the current clubhouse; the pick is saved on this device
   assert.equal(api.set("black"), "black"); assert.equal(r.store.get("cmsClubhouseTheme"), "black");
   assert.match(r.rule.style.getPropertyValue("background-image"), /plates-hc\/black\/ENV_HOME_PLATE_HC_V3_1X/, "a loaded sheet follows the switch");
   // the colour round a room follows the clubhouse (no brown bars beside a silver or black room), with its own priority
@@ -153,8 +182,10 @@ check("Silver, Metallic Black and Premium Matte Black draw the themed rooms and 
   assert.equal(r.docEl.getAttribute("data-clubhouse"), "matte");
   assert.match(r.rule.style.getPropertyValue("background-image"), /plates-hc\/matte\/ENV_HOME_PLATE_HC_V3_1X/);
   assert.equal(r.framed.style.getPropertyValue("background-color"), BASE.matte);
-  assert.equal(api.fix('url("r78-marble-tile.webp")'), 'url("r78-marble-tile-metal.webp")');
+  assert.equal(api.fix('url("r78-marble-tile.webp")'), 'url("r78-marble-tile-matte.webp")');
+  assert.equal(api.fix('url("r78-marble-tile-silver.webp")'), 'url("r78-marble-tile-matte.webp")', "a sheet themed earlier follows the switch");
   assert.equal(api.set("black"), "black");
+  assert.equal(api.fix('url("r78-marble-tile-matte.webp")'), 'url("r78-marble-tile-black.webp")');
   assert.equal(api.fix(plate.replace("plates-hc/", "plates-hc/matte/")), plate.replace("plates-hc/", "plates-hc/black/"));
   assert.equal(api.set("current"), "current"); assert.equal(r.store.has("cmsClubhouseTheme"), false);
   assert.equal(r.docEl.getAttribute("data-clubhouse"), null);
@@ -162,12 +193,30 @@ check("Silver, Metallic Black and Premium Matte Black draw the themed rooms and 
   assert.equal(r.framed.style.getPropertyValue("background-color"), "rgb(29, 26, 22)", "and its own colour round it");
 });
 
+// Lead 2026-11-25 (Nik: never load what we don't show): the loading room's markup is written by script through the theme's fix(),
+// so the preload scanner never sees the Wooden tunnel and a premium clubhouse downloads only its own.
+check("the loading room is written in the stored clubhouse's look, so a premium clubhouse never downloads the Wooden tunnel", () => {
+  const html = read("index.html");
+  const outside = html.replace(/<script>[^]*?<\/script>/g, "").replace(/<!--[^]*?-->/g, "");
+  assert.doesNotMatch(outside, /assets\/loading\/ENV_LOADING_/, "no loading room url sits in plain markup (the preload scanner would fetch it)");
+  const writes = [...html.matchAll(/<script>(?:\(window\.cmsRoomWrite=[^`]*\)\(|cmsRoomWrite\()`([^`]*)`\);<\/script>/g)].map(m => m[1]);
+  assert.equal(writes.length, 3, "the two room preloads and the two room pictures are written by script");
+  assert.match(writes[0], /<link rel="preload" as="image" href="assets\/loading\/ENV_LOADING_PHONE_HC_590W[^>]*>\n<link rel="preload" as="image" href="assets\/loading\/ENV_LOADING_PLATE_HC_1X/);
+  for(const w of writes.slice(1)) assert.match(w, /^<picture>\n[^]*<img class="startupRoom"[^]*<\/picture>$/);
+  assert.match(html, /window\.cmsRoomWrite=function\(h\)\{var c=window\.cmsClubhouse;document\.write\(c&&c\.fix\?c\.fix\(h\):h\);\}/, "Wooden (or no theme script) writes the markup unchanged");
+  const r = runtime("matte"), api = r.window.cmsClubhouse;
+  assert.equal(api.fix(writes[0]), writes[0].replace(/assets\/loading\/ENV_LOADING_/g, "assets/loading/matte/ENV_LOADING_"));
+  assert.equal(api.fix('srcset="assets/loading/REUS_P_590W.webp"'), 'srcset="assets/loading/REUS_P_590W.webp"', "Reus is the same in every clubhouse");
+  api.set("current");
+  assert.equal(api.fix("assets/loading/matte/ENV_LOADING_PLATE_HC_1X.webp"), "assets/loading/ENV_LOADING_PLATE_HC_1X.webp", "switching back to Wooden puts the Wooden room back");
+});
+
 check("Settings offers the clubhouse on this device, beside nothing it moves", () => {
   const s = read("js/settings.js");
   const fn = (s.match(/function createClubhouseControl\(\)\{[^]*?\n\}/) || [])[0] || "";
   assert.ok(fn, "the Clubhouse row");
   const names = [...s.slice(s.indexOf("const SETTINGS_CLUBHOUSE_THEMES"), s.indexOf("];", s.indexOf("const SETTINGS_CLUBHOUSE_THEMES"))).matchAll(/\["(\w+)", "([^"]+)", "([^"]+)"\]/g)];
-  assert.deepEqual(names.map(m => [m[1], m[2]]), [["current", "Wooden Clubhouse"], ["silver", "Platinum Clubhouse"], ["black", "Metallic Black Clubhouse"], ["matte", "Premium Matte Black Clubhouse"]], "Nik's four names, the Wooden Clubhouse (as painted) first; key silver is the Platinum Clubhouse (HO-161)");
+  assert.deepEqual(names.map(m => [m[1], m[2]]), [["current", "Wooden Clubhouse"], ["silver", "Platinum Clubhouse"], ["black", "Black Steel Clubhouse"], ["matte", "Graphite Clubhouse"]], "Nik's four names, the Wooden Clubhouse (as painted) first; key silver is the Platinum Clubhouse (HO-161)");
   for(const m of names) assert.ok(m[3].length > 20 && m[3].length < 80, `${m[2]} has one short line on what the room is made of`);
   assert.match(fn, /hint\.textContent = settingsClubhouseHintText\(select\.value\)/, "the line follows the pick");
   assert.match(fn, /window\.cmsClubhouse\.set\(select\.value\)/);
@@ -184,7 +233,7 @@ check("the clubhouse with key silver is called Platinum everywhere a player read
   assert.equal(rows.length, 4, "four clubhouses");
   assert.deepEqual(rows.find(m => m[1] === "silver").slice(2, 3), ["Platinum Clubhouse"], "key silver is shown as the Platinum Clubhouse");
   for(const m of rows) assert.doesNotMatch(`${m[2]} ${m[3]}`, /silver/i, `${m[1]}: no Silver in its name or its line`);
-  assert.match(read("js/ruleBook.js"), /Settings also picks your clubhouse: Wooden, Platinum, Metallic Black or Premium Matte Black\./, "the Rule Book names Platinum");
+  assert.match(read("js/ruleBook.js"), /Settings also picks your clubhouse: Wooden, Platinum, Black Steel or Graphite\./, "the Rule Book names Platinum");
   // Every file a player can read: the game, its data, its styles and the Story. Comments are not read, so they are left out.
   const files = [];
   const walk = dir => { for(const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })){
@@ -196,7 +245,7 @@ check("the clubhouse with key silver is called Platinum everywhere a player read
   files.push("index.html", "app.js", "manifest.webmanifest");
   const NAME = [
     /\bSilver Clubhouse\b/i,
-    /\bSilver\s*[,;]\s*(?:Metallic Black|Platinum|Premium Matte Black)/,
+    /\bSilver\s*[,;]\s*(?:Metallic Black|Black Steel|Platinum|Premium Matte Black|Graphite)/,
     /\bWooden\b[^.]{0,40}?[,;]\s*Silver\b/,
     /\bpicked Silver\b/,
     /\bsit in silver\b/i,
@@ -213,10 +262,38 @@ check("the clubhouse with key silver is called Platinum everywhere a player read
   for(const file of ["chronicle/volume27-data.js", "chronicle/november.js", "chronicle/index.html", "chronicle/book.js"]) assert.match(read(file), /Platinum/, `${file}: the Story names Platinum`);
 });
 
-check("the service worker precaches the metal marble the panels ask for by a relative url", () => {
+// Nik 2026-11-25 (naming card): Wooden, Platinum, Black Steel and Graphite Clubhouse. "Premium" is gone from every name a player
+// reads, and so are Metallic Black and Matte Black. Keys, CSS hooks, files and folders stay (black, matte).
+check("the clubhouses are Wooden, Platinum, Black Steel and Graphite wherever a player reads them, never Premium or Metallic/Matte Black", () => {
+  const s = read("js/settings.js");
+  const list = s.slice(s.indexOf("const SETTINGS_CLUBHOUSE_THEMES"), s.indexOf("];", s.indexOf("const SETTINGS_CLUBHOUSE_THEMES")));
+  assert.deepEqual([...list.matchAll(/\["(\w+)", "([^"]+)"/g)].map(m => [m[1], m[2]]), [["current", "Wooden Clubhouse"], ["silver", "Platinum Clubhouse"], ["black", "Black Steel Clubhouse"], ["matte", "Graphite Clubhouse"]]);
+  const files = [];
+  const walk = dir => { for(const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })){
+    const rel = `${dir}/${e.name}`;
+    if(e.isDirectory()){ if(dir === "chronicle" && e.name === "assets") continue; walk(rel); }
+    else if(/\.(?:js|html|css|json|md)$/.test(e.name)) files.push(rel);
+  } };
+  for(const dir of ["js", "data", "css", "chronicle"]) walk(dir);
+  files.push("index.html", "app.js", "manifest.webmanifest");
+  const OLD = [/\bMetallic Black\b/i, /\bMatte Black\b/i, /\bPremium (?:Matte|Clubhouse|clubhouse)/, /\bpremium clubhouses?\b/i];
+  let seen = 0;
+  for(const file of files){
+    if(!fs.existsSync(path.join(ROOT, file))) continue;
+    const text = read(file).replace(/\/\*[^]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "").replace(/<!--[^]*?-->/g, "");
+    seen++;
+    for(const re of OLD) assert.doesNotMatch(text, re, `${file}: a player reads an old clubhouse name (${re})`);
+  }
+  assert.ok(seen > 50, `read the player-facing files (${seen})`);
+});
+
+check("the service worker precaches each clubhouse's panel marble the panels ask for by a relative url", () => {
   const sw = read("service-worker.js");
   const list = name => (sw.match(new RegExp(`const ${name} = (?:Object\\.freeze\\(\\[|new Set\\(\\[)([^]*?)\\]\\)`)) || [])[1] || "";
-  for(const name of ["SHELL_PATHS", "UNVERSIONED_SHELL_ASSET_PATHS", "SHELL_PATHS_ADDED_SINCE_PREVIOUS"]) assert.match(list(name), /"css\/r78-marble-tile-metal\.webp"/, `${name} names the metal marble`);
+  for(const name of ["SHELL_PATHS", "UNVERSIONED_SHELL_ASSET_PATHS", "SHELL_PATHS_ADDED_SINCE_PREVIOUS"]){
+    for(const theme of ["silver", "black", "matte"]) assert.match(list(name), new RegExp(`"css/r78-marble-tile-${theme}\\.webp"`), `${name} names the ${theme} marble`);
+    assert.doesNotMatch(list(name), /r78-marble-tile-metal/, `${name} no longer names the old metal marble`);
+  }
   assert.match(sw, /THEMED_LOADING_PATH = \/\^assets\\\/loading\\\/\(\?:silver\|black\|matte\)/, "the themed loading rooms are runtime-cached");
   assert.ok(!/"assets\/loading\/(?:silver|black|matte)\//.test(sw), "and never precached");
   assert.match(sw, /V10_IMAGE_PATH = \/\^visual-assets\\\/v10_1\\\/\.\+\\\./, "the themed rooms are runtime-cached like every plate");

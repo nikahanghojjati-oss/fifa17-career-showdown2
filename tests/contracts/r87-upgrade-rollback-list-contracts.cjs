@@ -159,7 +159,7 @@ test("UR18 the 2.11.0 fixture is 2.10.0's list plus the two League Roulette file
   assert.equal(r98.length,262);
   assert.deepEqual(r98.filter(p=>!r97.includes(p)),["js/leagueRouletteStep.js","js/leagueRouletteScene3d.js"],"r98 added the League Roulette board and its step");
   assert.deepEqual(r97.filter(p=>!r98.includes(p)),[],"r98 removed no shell path");
-  assert.deepEqual(w.added,["js/sharedTapMemory.js","js/turningPoints.js","js/flightRecorder.js","css/r78-marble-tile-metal.webp"],"r99 adds the themed clubhouses' metal panel marble; r100 the shared tap memory, the Turning Points engine and the Flight Recorder");
+  assert.deepEqual(w.added,["js/sharedTapMemory.js","js/turningPoints.js","js/flightRecorder.js","css/r78-marble-tile-silver.webp","css/r78-marble-tile-black.webp","css/r78-marble-tile-matte.webp"],"r99/r100 add each premium clubhouse's panel marble; r100 the shared tap memory and the Turning Points engine");
   assert.deepEqual(w.removed,[],"r99 removes no shell path");
   assert.ok(!w.shell.some(p=>/(?:^|\/)(?:silver|black|matte)\//.test(p)),"themed room plates and themed loading rooms are runtime-cached, never precached");
 });
