@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/shared-season-commit-provider-contracts.cjs",
+  "patterns": [
+    "^js/sharedSeasonCommit\\.js$",
+    "^js/sparkSharedSeasonCommit\\.js$",
+    "^js/sharedSeasonResults\\.js$",
+    "^tests/contracts/shared-season-commit-provider-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-season\\-commit\\-provider\\-contracts\\.json$"
+  ]
+}

@@ -299,7 +299,9 @@ async function partB(){
   // F2-14: phases this phone did not see are set to replay before the transfer screen shows (no live frame first).
   {
     let replayAtShow="unset";const s=fakeStep();
-    const state={phase:"SIGNING_ENTRY",revision:3,startedAtEpochMs:Date.now()-120000,endedAtEpochMs:Date.now()-60000,endRequestedRoles:[],guessLockedRoles:["playerOne","playerTwo"],signingLockedRoles:[]};
+    // Phoenix W2: a phase this manager acted in (his own lock) was on his screen, so the unseen phase here is the window
+    // before guesses he has not locked yet.
+    const state={phase:"GUESS_ENTRY",revision:2,startedAtEpochMs:Date.now()-120000,endedAtEpochMs:Date.now()-60000,endRequestedRoles:[],guessLockedRoles:[],signingLockedRoles:[]};
     let doc=null;
     const p=await phone({confirmedAtMs:R87,step:s.step,state,navigateTo:async id=>{const screen=doc.getElementById(id);replayAtShow=screen.dataset.sharedTransferReplay;screen.classList.remove("hidden");return true;}});
     doc=p.page.doc;

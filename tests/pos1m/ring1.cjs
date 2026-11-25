@@ -24,6 +24,8 @@ const SetupProtocol=require(path.join(W.ROOT,"js","sharedShowdownSetup.js"));
 // The documents that ARE each provider's action (a side write such as sharedSetup/leagueProjection is not the action).
 const ACTION_DOCS={Setup:/\/sharedSetup\/authoritative$/,Career:/\/careerStart\/authoritative$/,Transfer:/\/transferChallenges\/season_\d+(\/roles\/\w+)?$/,Results:/\/seasonResults\/season_\d+(\/roles\/\w+)?$/,Commit:/\/seasonCommits\/season_\d+$/};
 
+// What a provider answered, for the Ring 2 differential: accepted or refused (and the game's code), and whether a repeat.
+function outcomeOf(result){if(!result||typeof result!=="object")return {ok:Boolean(result)};return {ok:result.ok!==false,code:result.ok===false?result.code||null:null,replayed:result.replayed===true};}
 const LENGTHS=[1,3,5,10];
 const NETWORK=new Set(["unavailable","deadline-exceeded","resource-exhausted","aborted","failed-precondition","internal","unknown","cancelled","permission-denied"]);
 const LEAGUES=["england-premier-league","spain-primera-division","germany-bundesliga","italy-serie-a","france-ligue-1","brazil-serie-a","argentina-primera-division"];
@@ -117,6 +119,8 @@ function intentFor(story,role,season){
 // race the server must settle with one winner).
 function packPlanFor(story,season){
   const sim=new Sim((story.plan.seed*7_000_003)^(season*104_729));
+  // Ring 2 (plan.packShort): one right guess in stage 1, so a real-time replay waits seconds, not the whole round.
+  if(story.plan.packShort){const winner=sim.pick(W.ROLES),guesses={playerOne:[],playerTwo:[]};guesses[winner].push({stage:1,correct:true});return {winner,stage:1,guesses};}
   const winner=sim.chance(0.7)?sim.pick(W.ROLES):null,stage=1+sim.int(4);
   const guesses={playerOne:[],playerTwo:[]};
   for(const role of W.ROLES){
@@ -157,6 +161,18 @@ class Manager{
   async call(tab,provider,fn,extra,label){
     // A phone that just moved already holds the new state from its own answer; it reads again only after that.
     if(fn==="read"&&tab.fresh&&tab.fresh.key===`${provider}:${extra.seasonNumber||0}`){const fresh=tab.fresh.value;tab.fresh=null;return fresh;}
+    // Ring 2 recording (plan.serial): one provider call at a time across both phones, so the order the calls finish in is
+    // the order the server ran them, and tests/pos1m/ring2.cjs can run the same calls on the emulator in that order.
+    if(!this.story.plan.serial)return this.callNow(tab,provider,fn,extra,label);
+    return this.story.serially(async()=>{
+      let result,threw=null;
+      try{result=await this.callNow(tab,provider,fn,extra,label);}catch(error){threw=error;}
+      this.story.record({role:this.role,tab:tab.client.label,deviceId:tab.deviceId,provider,fn,extra,out:threw?{threw:threw.code||String(threw.message||threw)}:outcomeOf(result)});
+      if(threw)throw threw;
+      return result;
+    });
+  }
+  async callNow(tab,provider,fn,extra,label){
     tab.client.activeCall=`${provider}.${fn}`;// which tap a write came from (L14: a read never writes)
     const log=this.story.world.server.writeLog,mark=log.length;
     const result=await PROVIDERS[provider][fn](this.opts(tab,extra,provider));
@@ -347,7 +363,13 @@ class Manager{
     const ctx={rivalryId:W.RIVALRY,managerRole:role,season,confirmedAtMs:story.confirmedAtMs()};
     if(!step.applies(ctx)){pack.done=true;story.cell("Pack:skipped");return true;}
     const io={firestore:tab.client,sdk:story.world.sdk,rivalryId:W.RIVALRY,sessionId:W.SESSION,deviceId:tab.deviceId,now:()=>this.serverEstimate(tab)};
-    const attempt=async(label,fn)=>{tab.client.activeCall=`Pack.${label}`;try{const value=await fn();story.cell(`Pack.${label}:ok`);return {ok:true,value};}catch(error){story.cell(`Pack.${label}:${error.code||"error"}`);return {ok:false,error};}};
+    const attemptNow=async(label,fn)=>{tab.client.activeCall=`Pack.${label}`;try{const value=await fn();story.cell(`Pack.${label}:ok`);return {ok:true,value};}catch(error){story.cell(`Pack.${label}:${error.code||"error"}`);return {ok:false,error};}};
+    // Ring 2 recording: the Prime Pack calls too (reads of the round are not recorded; the replay reads its own round).
+    const attempt=(label,fn,detail={})=>!story.plan.serial?attemptNow(label,fn):story.serially(async()=>{
+      const r=await attemptNow(label,fn);
+      if(label!=="read")story.record({role,tab:tab.client.label,deviceId:tab.deviceId,provider:"Pack",fn:label,extra:{season,...detail},out:r.ok?{ok:r.value&&typeof r.value==="object"?r.value.ok!==false:true,value:label==="pointsFor"?r.value:typeof r.value==="string"?r.value:undefined,reason:r.value&&r.value.reason}:{threw:r.error&&(r.error.code||String(r.error.message))}});
+      return r;
+    });
     if(!pack.arrived){const r=await attempt("arrive",()=>step.arrive(io,ctx));if(!r.ok)return false;pack.arrived=true;this.moved({ok:true});return true;}
     const ref=story.world.sdk.doc(tab.client,"rivalries",W.RIVALRY,"primePackRounds",`season_${season}`);
     const read=await attempt("read",()=>story.world.sdk.runTransaction(tab.client,async tx=>{const snap=await tx.get(ref);return snap.exists()?snap.data():null;}));
@@ -368,7 +390,7 @@ class Manager{
     if(at.beat<g.stage-1||at.phase!=="window"){await this.wait(Math.max(200,windowStart-now)+(g.late?1_500:story.sim.int(8_000)));return true;}
     pack.next+=1;
     const taps=story.packTaps||(story.packTaps={});taps[`${season}:${role}`]=(taps[`${season}:${role}`]||0)+1;
-    const guess=await attempt("guess",()=>step.applyGuess(io,ctx,g.correct));
+    const guess=await attempt("guess",()=>step.applyGuess(io,ctx,g.correct),{stage:g.stage,correct:g.correct,offsetMs:Math.max(0,now-windowStart)});
     if(guess.ok&&guess.value&&guess.value.ok)this.moved({ok:true});
     return true;
   }
@@ -386,6 +408,9 @@ class Story{
     this.finished=new Set();this.teamCount=null;this.faultMoves=0;
     this.coverage=new Set();
   }
+  // Ring 2: run fn alone (no other provider call in flight), and keep the recorded calls.
+  serially(fn){const prev=this.serialChain||Promise.resolve();let release;this.serialChain=new Promise(resolve=>{release=resolve;});return prev.then(fn).finally(release);}
+  record(entry){(this.recording||(this.recording=[])).push(JSON.parse(JSON.stringify({seq:(this.recording||[]).length+1,at:this.sim.now,...entry})));}
   teamCountFor(setupState){
     if(this.teamCount)return this.teamCount;
     const catalog=require(path.join(W.ROOT,"js/sharedShowdownCatalog.js")).catalog;
@@ -503,7 +528,7 @@ async function runStory(seed,options={}){
   return summary;
 }
 
-module.exports={runStory,planFor,intentFor,Story,Manager,PROVIDERS};
+module.exports={runStory,planFor,intentFor,Story,Manager,PROVIDERS,packPlanFor,outcomeOf};
 
 if(require.main===module){
   (async()=>{

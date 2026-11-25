@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r90-offline-pack-contracts.cjs",
+  "patterns": [
+    "^service-worker\\.js$",
+    "^js/offlineApp\\.js$",
+    "^index\\.html$",
+    "^tests/contracts/r90\\-offline\\-pack\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r90\\-offline\\-pack\\-contracts\\.json$"
+  ]
+}

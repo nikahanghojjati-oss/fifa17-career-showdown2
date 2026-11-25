@@ -58,11 +58,9 @@ async function page(device,role,{season=1,rivalry="pair_1",locked=false}={}){
   // Phases this device already witnessed are stored (r83 Job 5) and are not replayed after a reload.
   const witnessed=[...device.keys()].some(key=>key.includes(`cms.transferViews.v1:${rivalry}:${season}:${role}`));
   const api=sandbox.CareerModeProductionSharedTransferChallenge;api.install();await api.open();
-  if(!witnessed){
-    // First visit: return through the historical transfer window and guess replay.
-    assert.equal(screen.dataset.sharedTransferReplay,"WINDOW_OPEN");
-    for(const phase of ["GUESS_ENTRY",undefined]){node("continueFromTransfers").dispatchEvent(new Event("click",{bubbles:true}));await settle();assert.equal(screen.dataset.sharedTransferReplay,phase);}
-  }else assert.equal(screen.dataset.sharedTransferReplay,undefined);
+  // Phoenix W2: his own locked guesses (guessLockedRoles) prove he saw the window and the guesses, so even a first visit on
+  // this device (no witnessed note) never replays them; the device note stays a speed-up only.
+  void witnessed;assert.equal(screen.dataset.sharedTransferReplay,undefined);
   assert.equal(api.getState().state.phase,"SIGNING_ENTRY");
   const prefix=role==="playerOne"?"p1":"p2";
   return {api,calls,sandbox,field:suffix=>node(`${prefix}Signing1${suffix}`),

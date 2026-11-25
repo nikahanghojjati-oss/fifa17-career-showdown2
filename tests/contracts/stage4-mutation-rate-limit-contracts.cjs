@@ -11,7 +11,7 @@ assert.match(runtime,/serverTimestamp:firestoreModule\.serverTimestamp/);
 assert.match(runtime,/"memoryLocalCache","serverTimestamp","doc","runTransaction"/);
 assert.match(runtime,/firestoreSdk:Object\.freeze\(\{Timestamp:sdk\.Timestamp,serverTimestamp:sdk\.serverTimestamp,doc:sdk\.doc,runTransaction:sdk\.runTransaction\}\)/);
 assert.match(runtime,/persistentFirestoreCache:false/);
-assert.match(runtime,/authPersistence:"browserSessionPersistence"/);
+assert.match(runtime,/authPersistence:"remembered-on-device"/);
 assert.match(runtime,/enforcementEnabled:false/);
 assert.match(runtime,/billingRequired:false/);
 

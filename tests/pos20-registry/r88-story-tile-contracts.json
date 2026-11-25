@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r88-story-tile-contracts.cjs",
+  "patterns": [
+    "^js/(homeScreensV10|screens|v10Screens|productionSharedShowdownPresentation|startJoinViewModel)\\.js$",
+    "^css/homeV10\\.css$",
+    "^service-worker\\.js$",
+    "^\\.github/workflows/deploy-github-pages\\.yml$",
+    "^chronicle/",
+    "^tests/contracts/r88\\-story\\-tile\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r88\\-story\\-tile\\-contracts\\.json$"
+  ]
+}

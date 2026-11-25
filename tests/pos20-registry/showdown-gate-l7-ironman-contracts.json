@@ -1,0 +1,13 @@
+{
+  "path": "tests/contracts/showdown-gate-l7-ironman-contracts.cjs",
+  "patterns": [
+    "^\\.github/workflows/showdown\\-gate\\.yml$",
+    "^\\.github/workflows/ironman\\-full\\-matrix\\.yml$",
+    "^scripts/showdown\\-gate\\.mjs$",
+    "^scripts/ironman\\-leg\\.mjs$",
+    "^scripts/ironman\\-matrix\\.mjs$",
+    "^GATE_COVERAGE\\.json$",
+    "^tests/contracts/showdown\\-gate\\-l7\\-ironman\\-contracts\\.cjs$",
+    "^tests/pos20-registry/showdown\\-gate\\-l7\\-ironman\\-contracts\\.json$"
+  ]
+}
