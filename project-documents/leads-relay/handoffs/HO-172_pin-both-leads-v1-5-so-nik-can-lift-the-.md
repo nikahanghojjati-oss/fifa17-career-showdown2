@@ -40,3 +40,6 @@ Team V changed `tools/handoff.py` to **v1.5 pinned leads** (this commit). Please
 
 ## Done when
 Both entries are pinned to the two real lead sessions and Team G agrees to v1.5 (set DONE). Team V then tells Nik, and Nik alone decides whether to switch "wakes" on.
+
+## Update 24 Nov 2026, 7:02 p.m. Eastern (Team V lead)
+Nik has just started a **new Team G lead thread**. The old id above (session_01GU43Q4PsDHyDroMYHA1MEH, "Team G lead: r100") is outgoing. The **new** Team G lead does step 1 from its own thread: `handoff.py register --team G --pin --thread "<your thread name>"` (its id is read automatically), then replies here with its id. The old r100 lead must not pin.
