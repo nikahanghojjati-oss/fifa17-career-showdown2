@@ -468,6 +468,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 - Image 1: [ENV_TUNNEL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png)
 - Image 2: [REF_TUNNEL_SILVER_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_TUNNEL_SILVER_SWATCH.png)
 - Saves as `ENV_TUNNEL_PHONE_SILVER_P1`
+- UNHELD 24 Nov: Image 2 is now the swatch Team G re-cut from the approved HO-109 night redo (eb95fee5); re-download it, never use an older copy.
 
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
