@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 25 Nov, 1:29 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 25 Nov, 1:42 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.12.0-r99** (main `7dc0d48`, Tue 24 Nov 8:12 AM)
 
-🐕 **Barking: Showdown Gate on #1588 has waited 84 min for a machine; Showdown Gate on #1603 has waited 79 min for a machine; Showdown Gate on #1613 has waited 77 min for a machine; Showdown Gate on #1611 has waited 77 min for a machine; Showdown Gate on #1581 has waited 76 min for a machine; Showdown Gate on #1620 has waited 8 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1588 has waited 93 min for a machine; Showdown Gate on #1603 has waited 88 min for a machine; Showdown Gate on #1613 has waited 86 min for a machine; Showdown Gate on #1611 has waited 86 min for a machine; Showdown Gate on #1581 has waited 85 min for a machine; Showdown Gate on #1620 has waited 17 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -42,7 +42,7 @@ Updated Wed 25 Nov, 1:29 AM Boston time. Bug hunting only, no new features until
 
 **#7 · 1732** `G` Legacy: upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 1049 h ago
+🟢 Team green · model not set · worker working, draft PR #780 · CI 6 of 7 passed · last move 1050 h ago
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
@@ -54,7 +54,7 @@ Updated Wed 25 Nov, 1:29 AM Boston time. Bug hunting only, no new features until
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 973 h ago
+⚪ Team white · model not set · worker working, draft PR #855 · CI 7 of 8 passed · last move 974 h ago
 
 **#11 · 1824** `G` Measure Firestore reads and writes per season, and predict seasons per day (emulator only)  
 `████░░░░░░` **40.0000 %**  
