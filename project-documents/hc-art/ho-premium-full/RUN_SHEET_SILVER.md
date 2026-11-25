@@ -466,15 +466,16 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ## HO-120 · Platinum Clubhouse, Players' tunnel, phone band repaint
 
 - Image 1: [ENV_TUNNEL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png)
-- Image 2: [REF_TUNNEL_SILVER_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_TUNNEL_SILVER_SWATCH.png)
+- Image 2 (NEW for try 4): [REF_TUNNEL_SILVER_SWATCH_BAND.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_TUNNEL_SILVER_SWATCH_BAND.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_TUNNEL_SILVER_SWATCH_BAND.png)): only the middle band of Team G's night swatch (pillars, opening, steps), so Astra cannot copy the full-height tunnel framing
 - Saves as `ENV_TUNNEL_PHONE_SILVER_P1`
+- Try 3 (24 Nov 7:11 p.m. Eastern, two pictures) scored 5/10: right darkness, but both came back 916x1717 and re-framed like Image 2 (full-height tunnel, counter pushed to the bottom, men moved down). Cause: Image 2 is a full-height tunnel, so Astra copied its framing. Try 4 uses a band-only crop of the swatch + a layout lock. Nik allowed one try past the cap.
 - Try 2 (24 Nov 7:05 p.m. Eastern) scored 7/10: right framing, men untouched, but the tunnel came back as a bright silver lounge (walls about twice as bright as the approved night tunnel, ceiling six times), because the old light line said "a bright lounge after dark, not a dark room". Try 3 uses the night-tunnel light line from the approved HO-109 redo. LAST try (3 max).
 - UNHELD 24 Nov: Image 2 is now the swatch Team G re-cut from the approved HO-109 night redo (eb95fee5); re-download it, never use an older copy.
 
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
 
-Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop, extend or move the camera, and keep the same tall 9:16 shape. The layout of image 1 stays exactly as it is: a dark ceiling strip along the very top, the tunnel band with the two men in the upper third, the counter edge just above the middle of the picture, and the plain counter stone filling the whole lower half. The two men stay exactly where they are; their heads near the top, the counter edge across their waists. Do not show more of the tunnel floor or steps than image 1 shows. Change only the materials and finish of the room itself.
 
 Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
 
