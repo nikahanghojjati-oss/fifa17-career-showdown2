@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-25 1:10 AM Boston time (EST)",
+ "generated": "2026-11-25 1:18 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 573,
+  "count": 581,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -5160,6 +5160,78 @@
     "subject": "Sign-in lounge repaint x8 (Wooden, Platinum, Metallic Black, Premium Matte Black; desktop + phone), Nik 05:57 UTC: handcrafted, each clubhouse's colours, same view and furniture; new REF_PILOT_WOODEN",
     "reply": "yes: run in Astra",
     "boston": "Wed 25 Nov 1:05 AM"
+   },
+   {
+    "time": "2026-11-25 06:11",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-174 RECEIVED",
+    "subject": "Sign-in lounge 1/8: Wooden Clubhouse, desktop",
+    "reply": "no",
+    "boston": "Wed 25 Nov 1:11 AM"
+   },
+   {
+    "time": "2026-11-25 06:11",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-175 RECEIVED",
+    "subject": "Sign-in lounge 2/8: Platinum Clubhouse, desktop",
+    "reply": "no",
+    "boston": "Wed 25 Nov 1:11 AM"
+   },
+   {
+    "time": "2026-11-25 06:11",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-176 RECEIVED",
+    "subject": "Sign-in lounge 3/8: Metallic Black Clubhouse, desktop",
+    "reply": "no",
+    "boston": "Wed 25 Nov 1:11 AM"
+   },
+   {
+    "time": "2026-11-25 06:11",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-177 RECEIVED",
+    "subject": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
+    "reply": "no",
+    "boston": "Wed 25 Nov 1:11 AM"
+   },
+   {
+    "time": "2026-11-25 06:11",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-178 RECEIVED",
+    "subject": "Sign-in lounge 5/8: Wooden Clubhouse, phone upright",
+    "reply": "no",
+    "boston": "Wed 25 Nov 1:11 AM"
+   },
+   {
+    "time": "2026-11-25 06:11",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-179 RECEIVED",
+    "subject": "Sign-in lounge 6/8: Platinum Clubhouse, phone upright",
+    "reply": "no",
+    "boston": "Wed 25 Nov 1:11 AM"
+   },
+   {
+    "time": "2026-11-25 06:11",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-180 RECEIVED",
+    "subject": "Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright",
+    "reply": "no",
+    "boston": "Wed 25 Nov 1:11 AM"
+   },
+   {
+    "time": "2026-11-25 06:11",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-181 RECEIVED",
+    "subject": "Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright",
+    "reply": "no",
+    "boston": "Wed 25 Nov 1:11 AM"
    }
   ],
   "g2v": {
@@ -5180,8 +5252,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "788ed02",
-  "head_boston": "Wed 25 Nov 1:01 AM",
+  "head": "450bce1",
+  "head_boston": "Wed 25 Nov 1:13 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5217,10 +5289,10 @@
    "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1614 has waited 73 min for a machine; Showdown Gate on #1588 has waited 57 min for a machine; Showdown Gate on #1603 has waited 52 min for a machine; Showdown Gate on #1596 has waited 52 min for a machine; Showdown Gate on #1613 has waited 51 min for a machine; Showdown Gate on #1611 has waited 51 min for a machine; Showdown Gate on #1581 has waited 49 min for a machine; Showdown Gate on #1609 has waited 45 min for a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "state": "clear",
+   "line": "All clear (from GitHub).",
+   "gate": "POS20 #304 7/7",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -6005,7 +6077,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24666
+    "waiting_min": 24674
    },
    {
     "id": "HO-059",
@@ -7507,12 +7579,12 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 1/8: Wooden Clubhouse, desktop",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-174_sign-in-lounge-1-8-wooden-clubhouse-desk.md",
     "worker": "images",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    },
    {
@@ -7520,12 +7592,12 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 2/8: Platinum Clubhouse, desktop",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-175_sign-in-lounge-2-8-platinum-clubhouse-de.md",
     "worker": "images",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    },
    {
@@ -7533,12 +7605,12 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 3/8: Metallic Black Clubhouse, desktop",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-176_sign-in-lounge-3-8-metallic-black-clubho.md",
     "worker": "images",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    },
    {
@@ -7546,12 +7618,12 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-177_sign-in-lounge-4-8-premium-matte-black-c.md",
     "worker": "images",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    },
    {
@@ -7559,12 +7631,12 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 5/8: Wooden Clubhouse, phone upright",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-178_sign-in-lounge-5-8-wooden-clubhouse-phon.md",
     "worker": "images",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    },
    {
@@ -7572,12 +7644,12 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 6/8: Platinum Clubhouse, phone upright",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-179_sign-in-lounge-6-8-platinum-clubhouse-ph.md",
     "worker": "images",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    },
    {
@@ -7585,12 +7657,12 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-180_sign-in-lounge-7-8-metallic-black-clubho.md",
     "worker": "images",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    },
    {
@@ -7598,12 +7670,12 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-181_sign-in-lounge-8-8-premium-matte-black-c.md",
     "worker": "images",
-    "pickup_min": null,
+    "pickup_min": 0,
     "waiting_min": null
    }
   ],
