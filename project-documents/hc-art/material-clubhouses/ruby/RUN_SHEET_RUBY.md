@@ -469,6 +469,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (25 Nov 6:42 p.m. Boston) **8.5/10, one fix.** Align: scale 1.001, 1.2 px, men unchanged (mean diff 6.6). Oxblood leather walls, Rosso Levanto pillar and counter slab with stone veins, gold lamp, counter edge in place. ruby_check HOME_PHONE PASS (vs Black 15.3, sat 0.889). Miss: the top half of the two window panes behind the men became leather panels, so the window is cut in half; Image 1 and every other look keep clear glass to the top frame. Fix 1 (same chat): "Keep this image exactly the same. Change only: the two window panes behind the men are clear glass all the way up to their top frames, showing the dark night sky above the floodlit stands, exactly like the right-hand pane and like image 1; there are no leather panels inside any window frame." Raw kept as ENV_HOME_PHONE_RUBY_P1_T1_RAW.png.
 
 ### R-13 · Ruby Clubhouse: Board Room, phone
 - Image 1: [IMG1_ENV_BOARD_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOARD_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOARD_PHONE_HC_V3.png)), 1179x2096

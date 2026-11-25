@@ -22,6 +22,9 @@ plate and with every existing clubhouse master of the same room in --sib (defaul
   spread  luma p95 - p5 (room)                                   >= max(Wooden, 0.75 x Metallic Black)   rich, not flat
   detail  mean |luma - blur(2)|                               >= 1.05 x Wooden                        readable materials
 
+Phone bands: name the room <ROOM>_PHONE (e.g. HOME_PHONE). The master is ENV_<ROOM>_PHONE_<LOOK>_P1.webp, Wooden is
+the live phone plate (CLUB V4, LOADING assets/loading), the mask is masks/ENV_<ROOM>_PHONE_HC_V3.png, at 590x1048.
+
 Every limit is necessary, never sufficient: the eye check against HO-173 and Nik's OK on the board decide.
 Limits marked in LOOKS as provisional are re-calibrated on the approved pilot; any change is written in that
 clubhouse's COLOUR_STUDY.md with its reason. Exit 1 on any FAIL.
@@ -46,7 +49,19 @@ LOOKS = {
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
 
+PHONE_SIZE = (590, 1048)  # phone bands (ROOM_PHONE): 1179x2096 masters, checked at half size
+
+
+def is_phone(room):
+    return room.endswith("_PHONE")
+
+
 def wooden(room):
+    if is_phone(room):
+        r = room[:-6]
+        if r == "LOADING":
+            return os.path.join(ROOT, "assets/loading/ENV_LOADING_PHONE_HC.webp")
+        return os.path.join(ROOT, f"visual-assets/v10_1/plates-hc/ENV_{r}_PHONE_HC_{'V4' if r == 'CLUB' else 'V3'}.webp")
     if room == "LR":
         return os.path.join(ROOT, "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_2X.webp")
     if room == "LOADING":
@@ -57,13 +72,18 @@ def wooden(room):
 
 
 def master(d, room, look):
+    if is_phone(room):
+        return os.path.join(d, f"ENV_{room}_{look}_P1.webp")
     if room == "LR":
         return os.path.join(d, f"ENV_BOX_PLATE_EMPTY_{look}_P1_2X.webp")
     return os.path.join(d, f"ENV_SLAB_{look}_P1_2X.webp" if room == "SLAB" else f"ENV_{room}_PLATE_{look}_P1_2X.webp")
 
 
 def load(p):
-    return np.asarray(Image.open(p).convert("RGB").resize(SIZE, Image.LANCZOS), dtype=np.float32)
+    return np.asarray(Image.open(p).convert("RGB").resize(CUR[0], Image.LANCZOS), dtype=np.float32)
+
+
+CUR = [SIZE]
 
 
 def luma(a):
@@ -75,10 +95,11 @@ def blur(L, r):
 
 
 def free_of(room):
-    p = os.path.join(THEMES, "masks", "ENV_BOX_PLATE_HC_V4_1920.png" if room == "LR" else f"ENV_{room}_PLATE_HC_V3_1920.png")
+    p = os.path.join(THEMES, "masks", "ENV_BOX_PLATE_HC_V4_1920.png" if room == "LR" else
+                     f"ENV_{room}_HC_V3.png" if is_phone(room) else f"ENV_{room}_PLATE_HC_V3_1920.png")
     if not os.path.exists(p):
-        return np.ones(SIZE[::-1], bool)
-    m = Image.open(p).convert("L").filter(ImageFilter.MaxFilter(9)).resize(SIZE)
+        return np.ones(CUR[0][::-1], bool)
+    m = Image.open(p).convert("L").filter(ImageFilter.MaxFilter(9)).resize(CUR[0])
     return ~(np.asarray(m) > 8)
 
 
@@ -112,6 +133,7 @@ def stats(a, free, lit, room_px=None):
 
 def check(key, room, d, sib):
     look = key.upper()
+    CUR[0] = PHONE_SIZE if is_phone(room) else SIZE
     cfg = dict(LOOKS[look]); cfg.update(cfg.get("rooms", {}).get(room, {}))
     m, w = master(d, room, look), wooden(room)
     if not os.path.exists(m):
