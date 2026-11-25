@@ -60,6 +60,7 @@
   async function pstcEnsureDependencies(){
     if(typeof root.ensureGameplayModules==="function")await root.ensureGameplayModules();
     else if(typeof root.ensureGameplayRuntime==="function")await root.ensureGameplayRuntime();
+    pstcTapMemoryLoad();
     await pstcLoadScript("ssjr-production-setup","js/productionSharedShowdownSetup.js",()=>root.CareerModeProductionSharedShowdownSetup);
     await pstcLoadScript("ssjr-production-career-start","js/productionSharedCareerStart.js",()=>root.CareerModeProductionSharedCareerStart);
     await pstcLoadScript("ssjr-transfer-protocol","js/sharedTransferChallenge.js",()=>root.CareerModeSharedTransferChallenge);
@@ -187,7 +188,7 @@
     if(!request)return null;
     const ctx=await pstcProviderOptions(request,light,expiryOnly);if(!ctx||!pstcRequestMatches(request,ctx)||(expiryOnly&&pstcExpiryPaused()))return null;
     const result=pstcResultError(await provider.read(ctx.options),"The Transfer War could not load.");if(!pstcRequestMatches(request,ctx))return null;
-    if(!pstcBindView(result,ctx,request))return null;if(pstcTransferScreenVisible())pstcPrepareReplay();pstcSetError("");pstcRender();pstcDecorateDashboard();return view;
+    if(!pstcBindView(result,ctx,request))return null;if(pstcTransferScreenVisible())pstcPrepareReplay();pstcSetError("");pstcRender();pstcDecorateDashboard();pstcTapResend(request);return view;
   }
   // Routine polls and concurrent-expiry reconciliation must not replenish the automatic retry budget. A poll that lands while
   // a wake refresh failed still counts as the fresh authority that wake was waiting for, so expiry cannot stay paused forever.
@@ -231,8 +232,36 @@
   const PLAIN_PROVIDER_CODES=Object.freeze({TRANSFER_ROULETTE_PENDING:"Both managers spin the roulette before the Transfer War opens.",TRANSFER_SIGNINGS_INVALID:"Check each signing: a player name (80 characters at most), a previous league and a nationality.",TRANSFER_GUESSES_INVALID:"Check each guess: choose a FIFA 17 league or nationality."});
   function pstcCapSigningNames(){if(!root.document)return;for(const prefix of ["p1","p2"])for(let i=1;i<=3;i+=1){const input=pstcField(`${prefix}Signing${i}Name`);if(input&&typeof input.setAttribute==="function")input.setAttribute("maxlength",String(SIGNING_NAME_MAX));}}
   function pstcErrorText(error,fallback){const quota=root.CareerModeFirestoreBudget?.quotaMessage?.(error);if(quota)return quota;if(error&&error.repeatedRefusal===true)return PSTC_REFUSED_TEXT;const code=String(error?.code||""),message=String(error?.message||"");if(error&&error.plain===true&&message)return message;if(error&&error.providerResult!==true&&message&&message!==code&&!/\b\w+(?:[-_/]\w+)+\b|[(){}]|undefined|null/.test(message))return message;if(PLAIN_PROVIDER_CODES[code])return PLAIN_PROVIDER_CODES[code];if(/unavailable|deadline|offline|network|aborted/i.test(code))return PSTC_CONNECTION_TEXT;if(/permission/i.test(code))return PSTC_SESSION_TEXT;/* r87: never a raw code on screen */return fallback;}
-  async function pstcMutate(method,payload={}){
-    const request=pstcRequestContext();if(!request||busy||pstcReplayPhase()||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;busy=true;pstcSetError("");pstcRender();
+  // Phoenix W3 (one shared tap memory, js/sharedTapMemory.js): LOCK MY GUESSES and LOCK MY SIGNINGS are noted on this phone
+  // before they are sent, with what was locked. If the tab dies before the lock is known to have landed, the reopened screen
+  // sends the same lock once by itself after its own read, only while that read shows this manager's lock still open in that
+  // same phase (the Rules still judge it by server time, so a late lock is refused exactly as a tap would be). A note never
+  // outlives its season or its Showdown. Without the helper every tap works exactly as before.
+  const PSTC_TAP_STEP=Object.freeze({lockGuesses:"transferGuess",lockSignings:"transferSigning"});
+  function pstcTapMemory(){try{return root.CareerModeSharedTapMemory||null;}catch(_error){return null;}}
+  let tapMemoryLoading=null,tapResendKey="";
+  function pstcTapMemoryLoad(){if(!tapMemoryLoading)tapMemoryLoading=pstcLoadScript("shared-tap-memory","js/sharedTapMemory.js",()=>root.CareerModeSharedTapMemory).then(()=>pstcTapMemory(),()=>{tapMemoryLoading=null;return null;});return tapMemoryLoading;}
+  function pstcTapScope(method,request,role=view?.managerRole){return request&&PSTC_TAP_STEP[method]&&(role==="playerOne"||role==="playerTwo")?{rivalryId:request.rivalryId,season:request.seasonNumber,step:PSTC_TAP_STEP[method],role}:null;}
+  function pstcTapNote(method,request,payload){try{const scope=pstcTapScope(method,request);if(scope)pstcTapMemory()?.note?.(scope,{operationId:pstcRandomOperationId().replace(/^transfer_op_/,"tap_"),payload});}catch(_error){}}
+  function pstcTapClear(method,request,role){try{const scope=pstcTapScope(method,request,role);if(scope)pstcTapMemory()?.clear?.(scope);}catch(_error){}}
+  function pstcTapPending(method){const state=view?.state,role=view?.managerRole;if(!state||!role)return false;if(method==="lockGuesses")return state.phase==="GUESS_ENTRY"&&!state.guessLockedRoles?.includes(role);if(method==="lockSignings")return state.phase==="SIGNING_ENTRY"&&!state.signingLockedRoles?.includes(role);return false;}
+  function pstcTapResend(request){
+    if(!request||!view||viewContextKey!==request.key||!view.managerRole||busy||pstcReplayPhase())return false;
+    const memory=pstcTapMemory();if(!memory){void pstcTapMemoryLoad().then(loaded=>{if(loaded&&pstcRequestMatches(request))pstcTapResend(request);});return false;}
+    try{memory.moveOn?.({rivalryId:request.rivalryId,season:request.seasonNumber});}catch(_error){}
+    for(const method of ["lockGuesses","lockSignings"]){
+      const scope=pstcTapScope(method,request);if(!scope||!memory.peek?.(scope))continue;
+      const note=memory.takeForResend(scope,{pending:pstcTapPending(method),live:{rivalryId:request.rivalryId,season:request.seasonNumber}});
+      const key=method==="lockGuesses"?"guesses":"signings";
+      if(!note||!note.payload||!Array.isArray(note.payload[key]))continue;
+      const once=`${request.key}|${method}`;if(tapResendKey===once)return false;tapResendKey=once;
+      if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(pstcRequestMatches(request))void pstcMutate(method,{[key]:note.payload[key]},{resend:true});},0);
+      return true;
+    }
+    return false;
+  }
+  async function pstcMutate(method,payload={},{resend=false}={}){
+    const request=pstcRequestContext();if(!request||busy||pstcReplayPhase()||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;if(!resend)pstcTapNote(method,request,payload);const tapRole=view?.managerRole;busy=true;pstcSetError("");pstcRender();
     try{
       return await pstcQueueProvider(async()=>{
         for(let attempt=0;;attempt+=1){
@@ -240,6 +269,7 @@
           const ctx=await pstcProviderOptions(request,false,method==="advanceExpiredWindow");if(!ctx||!pstcRequestMatches(request,ctx)||(method==="advanceExpiredWindow"&&pstcExpiryPaused()))return false;
           const current=pstcResultError(await provider.read(ctx.options),"The Transfer War did not refresh. Try again.");if(!pstcRequestMatches(request,ctx))return false;
           if(method==="advanceExpiredWindow"&&pstcExpiryPaused())return false;
+          if(pstcTapScope(method,request,tapRole)&&pstcOutcomeShown(method,current))pstcTapClear(method,request,tapRole);
           if(attempt>0&&pstcOutcomeShown(method,current)){if(pstcBindView(current,ctx,request)){pstcSetError("");if(pstcTransferScreenVisible())pstcPrepareReplay();pstcRender();pstcDecorateDashboard();}return true;}
           const options={...ctx.options,nowEpochMs:pstcAuthoritativeNow(request),operationId:pstcRandomOperationId(),baseRevision:Number(current.revision||0),...payload};
           let result;
@@ -250,6 +280,7 @@
             if(method==="advanceExpiredWindow"){try{if(!pstcExpiryPaused())await pstcRefreshNow(request,false,true);}catch(_refreshError){}pstcExpiryPermissionRefused(error,request);return true;}
             continue;
           }
+          pstcTapClear(method,request,tapRole);
           if(!pstcRequestMatches(request,ctx))return true;
           // F2-08 (Fable job 2): the write result carries the public state only. Keep this manager's own inputs (the read at the
           // top plus what was just locked) so the sealed rows stay on screen, and the rival's as last read.
@@ -264,7 +295,8 @@
         }
       });
     }catch(error){if(method==="advanceExpiredWindow")pstcExpiryPermissionRefused(error,request);if(pstcRequestMatches(request)){pstcSetError(pstcErrorText(error,"The Transfer War did not update. Try again."));pstcReport("Could not update the Transfer War",error);}return false;}
-    finally{busy=false;if(pstcRequestMatches(request))pstcRender();}
+    // Phoenix W3: the attempt got its answer on this page, so the note is done (it only serves a tab that died before it).
+    finally{if(PSTC_TAP_STEP[method])pstcTapClear(method,request,tapRole);busy=false;if(pstcRequestMatches(request))pstcRender();}
   }
   // ---- F2-08: a lock that is saved while its verdicts are still loading ----
   let savedPendingKey="",savedRetryTimer=null,savedRetryCount=0;
@@ -533,7 +565,7 @@
     const target=event?.target,role=view?.managerRole;if(!target?.id||!role||!pstcSharedMarker())return;
     const prefix=pstcGuessPrefix(role);if(!new RegExp(`^${prefix}Guess[1-3](Type|Value)$`).test(target.id))return;
     if(view?.state?.phase!=="GUESS_ENTRY"||view.state.guessLockedRoles?.includes(role))return;
-    pstcSaveGuessDraft(role);
+    pstcTapClear("lockGuesses",pstcRequestContext(),role);pstcSaveGuessDraft(role);
     // The selector fills its canonical id in its own input handler, which runs after this capture handler; save once more when it has.
     if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(view?.managerRole===role)pstcSaveGuessDraft(role);},0);
   }
@@ -1089,7 +1121,7 @@
   // Red team R87-B-04: a second tab of the same signing entry saved a newer draft. This tab takes it over before its next
   // autosave, so a stale form never writes over the newer signings (the browser sends this event only to the other tabs).
   function pstcSigningDraftStorage(event){const role=view?.managerRole,key=role&&pstcSigningDraftKey(role);if(!key||event?.key!==key||!event.newValue)return;if(view?.state?.phase!=="SIGNING_ENTRY"||view.state.signingLockedRoles?.includes(role)||pstcReplayPhase())return;pstcRestoreSigningDraft(role,view.ownInputs||null,true);}
-  function pstcSigningDraftChange(event){const target=event?.target,role=view?.managerRole;if(!target?.id||!role||!target.id.startsWith(`${pstcRolePrefix(role)}Signing`))return;if(view?.state?.phase==="SIGNING_ENTRY"&&!view.state.signingLockedRoles?.includes(role))pstcSaveSigningDraft(role);}
+  function pstcSigningDraftChange(event){const target=event?.target,role=view?.managerRole;if(!target?.id||!role||!target.id.startsWith(`${pstcRolePrefix(role)}Signing`))return;if(view?.state?.phase==="SIGNING_ENTRY"&&!view.state.signingLockedRoles?.includes(role)){pstcTapClear("lockSignings",pstcRequestContext(),role);pstcSaveSigningDraft(role);}}
   function pstcTimerTick(){if(!pstcSharedMarker()||pstcReplayPhase()||pstcExpiryPaused())return;const active=root.document&&root.document.getElementById("transferChallenge");if(active&&!active.classList.contains("hidden"))pstcRenderTimer();}
   function pstcVisibilityChange(){
     if(!pstcSharedMarker())return;

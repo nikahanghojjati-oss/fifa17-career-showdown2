@@ -1,0 +1,14 @@
+{
+  "path": "tests/contracts/browser-journey-emulator-switch-contracts.cjs",
+  "patterns": [
+    "^tests/browser/support/emulator-runtime-switch\\.js$",
+    "^tests/browser/support/firebase\\.browser-journey\\.json$",
+    "^js/[^/]+\\.js$",
+    "^index\\.html$",
+    "^service-worker\\.js$",
+    "^manifest\\.webmanifest$",
+    "^\\.github/workflows/deploy-github-pages\\.yml$",
+    "^tests/contracts/browser-journey-emulator-switch-contracts\\.cjs$",
+    "^tests/pos20-registry/browser\\-journey\\-emulator\\-switch\\-contracts\\.json$"
+  ]
+}

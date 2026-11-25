@@ -143,7 +143,7 @@ const closedPair={status:"unpaired",rivalryId:null,connectionState:null,closedRi
     const commit=read("js/productionSharedSeasonCommit.js");
     const body=commit.match(/  function psscMarkChampionDueIfFinal\(request\)\{[\s\S]*?\n  \}\n/);
     assert.ok(body,"psscMarkChampionDueIfFinal exists");
-    assert.match(commit,/async function psscMutate\(kind\)\{\n    if\(busy\)return false;const request=psscRequestContext\(\);if\(!request\)return false;psscMarkChampionDueIfFinal\(request\);busy=true;/,"noted at the tap, before the commit or acknowledgement write");
+    assert.match(commit,/async function psscMutate\(kind(?:,\{resend=false\}=\{\})?\)\{\n    if\(busy\)return false;const request=psscRequestContext\(\);if\(!request\)return false;psscMarkChampionDueIfFinal\(request\);(?:if\(!resend\)psscTapNote\(kind,request\);)?busy=true;/,"noted at the tap, before the commit or acknowledgement write");
     const run=({season,total,own=null,opp=null,held=""})=>{const store=new Map();if(held)store.set("cms.championPending.v1",held);
       const sandbox={root:{writeStorageValue:(k,v)=>store.set(k,v),readStorageValue:k=>store.has(k)?store.get(k):null},psscSetupState:()=>({setup:{totalSeasons:total}}),psscResultsState:()=>({ownResult:own,opponentResult:opp})};
       vm.createContext(sandbox);const fn=vm.runInContext(`(${body[0].trim()})`,sandbox);return {out:fn({rivalryId:R,seasonNumber:season}),note:store.get("cms.championPending.v1")||""};};
