@@ -306,7 +306,7 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
 
 /* JOB-1020 / JOB-1041: Team V phone Season Results, one page scroll in both orientations.
    Keep these overrides after the desktop port, which also matches wide landscape phones. */
-@media(max-width:760px), (max-width:1000px) and (orientation:landscape) and (max-height:520px){
+@media(max-width:760px), (max-width:900px) and (orientation:landscape) and (max-height:520px){
  /* 1. One scroll: the app's <main>. The screen grows with its content instead of clipping at 100%. */
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode){height:auto;overflow:visible}
  #app #seasonEntry.seasonScreenV10>.v10SeasonStage{--sr-hero:min(28svh,180px);position:relative;inset:auto;height:auto;min-height:100%;max-height:none;overflow:visible}
@@ -366,17 +366,13 @@ html #app #topHeader{color:var(--f17-ink);font-family:var(--f17-ui)}
  #app #seasonEntry .v10SeasonStage #season-phone-tab-nik:checked~.season-phone-toolbar .season-phone-tab--nik{color:#111;background:#f2c45b}
  #app #seasonEntry .v10SeasonStage :is(.season-phone-tab-input,.season-phone-sheet-toggle):focus-visible~.season-phone-toolbar{outline:3px solid #f2c45b;outline-offset:2px}
 }
-@media(max-width:1000px) and (orientation:landscape) and (max-height:520px){
+@media(max-width:900px) and (orientation:landscape) and (max-height:520px){
  #app #seasonEntry.seasonScreenV10>.v10SeasonStage{--sr-hero:0px}
  #app #seasonEntry .v10SeasonStage :is(.season-phone-hero,.sd-stage__layer--plate,.sd-stage__layer--atmosphere,.sd-stage__layer--cutout,.sd-stage__layer--light){display:none}
  #app #seasonEntry .v10SeasonStage .season-title-block{margin-top:12px}
  #app #seasonEntry.seasonScreenV10 .season-review-panel .seasonReviewGrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
  #app #seasonEntry.seasonScreenV10 #seasonReviewOne{grid-column:1}
  #app #seasonEntry.seasonScreenV10 #seasonReviewTwo{grid-column:2}
-}
-@media(min-width:901px) and (max-width:1000px) and (orientation:landscape) and (max-height:520px){
- /* The wider phone layout retains the existing 52px desktop navigation bar. */
- html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.v10FinalMode)){padding-top:52px}
 }
 
 /* HO-043 (Team V, 29 Oct 2026) · item 6b: on a 1440x900 laptop the review box words were 10-12 px. On laptop widths (901-1599px)
