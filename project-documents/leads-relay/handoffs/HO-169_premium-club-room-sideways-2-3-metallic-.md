@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T19:31:35Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:33:14Z", "by": "V", "status": "RECEIVED", "note": "Owned by Team V thread Finish premium clubhouse repaints"}, {"at": "2026-11-25T00:01:31Z", "by": "V", "status": "WORKING", "note": "Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv 3c9a460d8 project-documents/hc-art/ho-premium-full/black/ENV_CLUB_SIDEWAYS_BLACK_P1.webp"],
+ "log": [{"at": "2026-11-24T19:31:35Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:33:14Z", "by": "V", "status": "RECEIVED", "note": "Owned by Team V thread Finish premium clubhouse repaints"}, {"at": "2026-11-25T00:01:31Z", "by": "V", "status": "WORKING", "note": "Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra"}, {"at": "2026-11-25T01:51:50Z", "by": "V", "status": "DONE", "note": "Black Club sideways, try1 9/10: layout identical to Image 1 (overlay clean), wood -> black steel with gold lines, lamps/pennant/trophy/ball/armchairs/window kept, stadium not redrawn, polished black floor, satin counter, no people, matches HO-129"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
