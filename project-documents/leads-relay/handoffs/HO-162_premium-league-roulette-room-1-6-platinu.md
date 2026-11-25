@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T19:15:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:17:29Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-11-24T19:17:29Z", "by": "V", "status": "WORKING", "note": "Platinum run sheet entry with updated Platinum wording; scoring in thread Finish premium clubhouse repaints"}],
+ "evidence": ["claude/project-thread-ie3afv 8ddbd0aa3 project-documents/hc-art/ho-premium-full/silver/ENV_BOX_PHONE_V4_SILVER_P1.webp"],
+ "log": [{"at": "2026-11-24T19:15:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:17:29Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-11-24T19:17:29Z", "by": "V", "status": "WORKING", "note": "Platinum run sheet entry with updated Platinum wording; scoring in thread Finish premium clubhouse repaints"}, {"at": "2026-11-25T02:25:49Z", "by": "V", "status": "DONE", "note": "Platinum League Roulette phone, no men: try 3 at 9/10; rail pinned in numbers fixed the drop (rail within 1% of Image 1), shape/window/bar/floodlights and stadium kept (align ~identity, 1072 inliers, window diff 6). Second try-3 image (814x1933, zoomed) rejected."}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
- "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
+ "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
 ```
 
