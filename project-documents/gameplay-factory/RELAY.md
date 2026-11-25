@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 9:57 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 10:02 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `0a10ca85` (Tue 24 Nov 9:56 PM Boston time) · 557 messages · 174 hand-offs · 676 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `4c57bd71` (Tue 24 Nov 10:01 PM Boston time) · 558 messages · 174 hand-offs · 676 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -1294,8 +1294,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-150 · G → V · Premium full set 47/57: Premium Matte Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 10:01 PM · Team V · Done · Matte (graphite) material slab: try 1 at 9/10; honed graphite slate, neutral (sat 0.07), even with no vignette (corners within 3 levels of the centre), a few faint pale mineral lines, no crackle; LANCZOS to 3072x1728
 - Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
@@ -8943,6 +8944,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-150 DONE · Team V → Team G · Tue 24 Nov 10:01 PM Boston time
+
+**Premium full set 47/57: Premium Matte Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-149 DONE · Team V → Team G · Tue 24 Nov 9:56 PM Boston time
 
