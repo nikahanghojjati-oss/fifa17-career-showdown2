@@ -49,6 +49,7 @@ D = [
  ("OFFICE", dict(name="Office", img1="IMG1_ENV_OFFICE_PLATE_HC_V3_2X.png", men=True, win=True,
   keep="Keep in the same places and at the same sizes: the wide desk filling the lower half with its front edge at exactly the same height, the two leather desk blotters, the old leather ball, the coffee cup and saucer and the bundle of papers tied with string on the left, the table lamp with its pleated shade on the right, the olive tree in its pot behind, the wall panel at the far left, and the tall dark window behind with the night stadium and its floodlight.",
   room="The wall panel becomes {wall}. The window frames become {frame}. The lamp base and stem become {metal}; the shade stays warm cream and lit. The desk top becomes {counter}. The plant pot becomes {stone}.",
+  lightx=" The table lamp casts a soft warm pool of light on the polished marble desk top around its base, with a dim soft reflection of the lit shade in the stone, fading back to deep wine red within a short distance (Ruby R-3 try 1: the desk stayed dark).",
   objs="All other objects keep their identity and their own colours (the old leather ball, the white cup, the paper bundle and string, the leather blotters, the olive tree) and are relit by the new room, each with a real soft contact shadow on the desk.")),
  ("HALL", dict(name="Hall", img1="IMG1_ENV_HALL_PLATE_HC_V3_2X.png", men=True, win=False,
   keep="Keep in the same places and at the same sizes: the staircase on the left with its railing and the leather bag on the steps, the stone pillars, the tall double door in the middle with its arched fanlight, the small side table beside the door with its table lamp and book, the patterned runner rug, the wall lamp with its pleated shade at the top right, and the counter strip along the bottom at exactly the same height.",
@@ -98,7 +99,7 @@ def desktop(L, rm, R):
                "Each niche casts a soft warm pool on the leather or stone around it, and the red falls off to wine near-black in "
                "the corners and toward the vault, so the room has depth and never looks flat.")
     else:
-        src = f"Light comes only from the same warm lamps in the same places{STADIUM if R['win'] else ''}. {L['pools']}"
+        src = f"Light comes only from the same warm lamps in the same places{STADIUM if R['win'] else ''}. {L['pools']}" + R.get("lightx", "").split(" (Ruby")[0] + ("." if R.get("lightx") else "")
     light = (f"Light: It is night. {L['light_rule']} {src}{L['men'] if R['men'] else ''} {L['sheen']}"
              + (" The two men stay lit exactly as they are now." if R["men"] else ""))
     people = "no people other than the two men" if R["men"] else "no people"
