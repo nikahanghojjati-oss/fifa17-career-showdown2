@@ -250,13 +250,15 @@
     srjWatchJoinWait(sessionId,generation);
     return true;
   }
-  /* r100 B6 JOIN speed: one join check at a time, as for the offer (a wake during a check runs one more right after it) */
-  let srjJoinCheckRunning=null,srjJoinCheckAgain=false,srjJoinCheckFor={sessionId:null,generation:0};
+  /* r100 B6 JOIN speed: one join check at a time for the same wait (a wake during a check runs one more right after it). A check
+     of a retired wait (the page woke, a new window began) is never waited for: the new wait checks at once, as before. */
+  let srjJoinCheck=null;
   function srjCheckForJoin(sessionId,generation){
-    srjJoinCheckFor={sessionId,generation};
-    if(srjJoinCheckRunning){srjJoinCheckAgain=true;return srjJoinCheckRunning;}
-    srjJoinCheckRunning=(async()=>{try{do{srjJoinCheckAgain=false;const ask=srjJoinCheckFor;await srjCheckForJoinOnce(ask.sessionId,ask.generation);}while(srjJoinCheckAgain&&srjJoinCheckFor.generation===srjWaitGeneration&&!srjState.busy&&srjHostWaitingForJoin(srjJoinCheckFor.sessionId));}finally{srjJoinCheckRunning=null;srjJoinCheckAgain=false;}})();
-    return srjJoinCheckRunning;
+    const running=srjJoinCheck;
+    if(running&&running.generation===generation&&running.sessionId===sessionId){running.again=true;return running.promise;}
+    const run={sessionId,generation,again:false,promise:null};srjJoinCheck=run;
+    run.promise=(async()=>{try{do{run.again=false;await srjCheckForJoinOnce(sessionId,generation);}while(run.again&&srjJoinCheck===run&&generation===srjWaitGeneration&&!srjState.busy&&srjHostWaitingForJoin(sessionId));}finally{if(srjJoinCheck===run)srjJoinCheck=null;}})();
+    return run.promise;
   }
   async function srjCheckForJoinOnce(sessionId,generation){
     srjJoinCheckedAt=Date.now();
@@ -489,14 +491,16 @@
   function srjPauseWait(message=srjState.message){
     srjSetState({auto:"waiting",waitRetry:true,message});
   }
-  /* r100 B6 JOIN speed: one offer check at a time. A wake or timed check that comes while one runs waits for it and, if the
-     wait is still open, runs one more right after it (two at once could each try to join the same session). */
-  let srjOfferCheckRunning=null,srjOfferCheckAgain=false,srjOfferCheckGeneration=0;
+  /* r100 B6 JOIN speed: one offer check at a time for the same wait. A wake or timed check that comes while one runs waits for
+     it and, if the wait is still open, runs one more right after it (two at once could each try to join the same session).
+     A check of a retired wait (the page woke, a new window began) is never waited for: the new wait checks at once, as before. */
+  let srjOfferCheck=null;
   function srjCheckForOffer(generation){
-    srjOfferCheckGeneration=generation;
-    if(srjOfferCheckRunning){srjOfferCheckAgain=true;return srjOfferCheckRunning;}
-    srjOfferCheckRunning=(async()=>{try{do{srjOfferCheckAgain=false;await srjCheckForOfferOnce(srjOfferCheckGeneration);}while(srjOfferCheckAgain&&srjOfferCheckGeneration===srjWaitGeneration&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession());}finally{srjOfferCheckRunning=null;srjOfferCheckAgain=false;}})();
-    return srjOfferCheckRunning;
+    const running=srjOfferCheck;
+    if(running&&running.generation===generation){running.again=true;return running.promise;}
+    const run={generation,again:false,promise:null};srjOfferCheck=run;
+    run.promise=(async()=>{try{do{run.again=false;await srjCheckForOfferOnce(generation);}while(run.again&&srjOfferCheck===run&&generation===srjWaitGeneration&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession());}finally{if(srjOfferCheck===run)srjOfferCheck=null;}})();
+    return run.promise;
   }
   async function srjCheckForOfferOnce(generation){
     srjOfferCheckedAt=Date.now();
