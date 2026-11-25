@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 8:54 PM Boston time (EST)",
+ "generated": "2026-11-24 9:40 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 547,
+  "count": 551,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -4926,6 +4926,42 @@
     "subject": "Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways",
     "reply": "no",
     "boston": "Tue 24 Nov 8:51 PM"
+   },
+   {
+    "time": "2026-11-25 02:20",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-165 DONE",
+    "subject": "Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men",
+    "reply": "no",
+    "boston": "Tue 24 Nov 9:20 PM"
+   },
+   {
+    "time": "2026-11-25 02:25",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-162 DONE",
+    "subject": "Premium League Roulette room 1/6: Platinum Clubhouse, phone upright, no men",
+    "reply": "no",
+    "boston": "Tue 24 Nov 9:25 PM"
+   },
+   {
+    "time": "2026-11-25 02:31",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-142 DONE",
+    "subject": "Premium full set 39/57: Premium Matte Black Clubhouse, Office repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 9:31 PM"
+   },
+   {
+    "time": "2026-11-25 02:38",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-143 DONE",
+    "subject": "Premium full set 40/57: Premium Matte Black Clubhouse, Hall repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 9:38 PM"
    }
   ],
   "g2v": {
@@ -4946,8 +4982,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "8b3077a",
-  "head_boston": "Tue 24 Nov 8:51 PM",
+  "head": "a19675b",
+  "head_boston": "Tue 24 Nov 9:38 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -4990,7 +5026,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1617 has waited 18 min for a machine; Showdown Gate on #1599 has waited 13 min for a machine; Showdown Gate on #1598 has waited 13 min for a machine; Showdown Gate on #1591 has waited 13 min for a machine; Showdown Gate on #1608 has waited 3 min for a machine.",
+   "line": "Barking: Showdown Gate on #1599 has waited 55 min for a machine; Showdown Gate on #1598 has waited 55 min for a machine; Showdown Gate on #1591 has waited 55 min for a machine; Showdown Gate on #1608 has waited 45 min for a machine; Showdown Gate on #1576 has waited 41 min for a machine; Showdown Gate on #1617 has waited 36 min for a machine; Showdown Gate on #1618 has waited 33 min for a machine; Showdown Gate on #1619 has waited 8 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -5777,7 +5813,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24410
+    "waiting_min": 24456
    },
    {
     "id": "HO-059",
@@ -6863,8 +6899,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 39/57: Premium Matte Black Clubhouse, Office repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-142_premium-full-set-39-57-premium-matte-bla.md",
     "worker": "images",
@@ -6876,8 +6912,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 40/57: Premium Matte Black Clubhouse, Hall repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-143_premium-full-set-40-57-premium-matte-bla.md",
     "worker": "images",
@@ -7123,8 +7159,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium League Roulette room 1/6: Platinum Clubhouse, phone upright, no men",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-162_premium-league-roulette-room-1-6-platinu.md",
     "worker": "images",
@@ -7162,8 +7198,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-165_premium-league-roulette-room-4-6-platinu.md",
     "worker": "images",
@@ -7344,7 +7380,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 67,
+  "moving": 63,
   "next": 42,
   "nik": 2,
   "later": 21,

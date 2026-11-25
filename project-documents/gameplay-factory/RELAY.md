@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 8:54 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 9:40 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `8b3077a0` (Tue 24 Nov 8:51 PM Boston time) · 547 messages · 174 hand-offs · 674 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `a19675b2` (Tue 24 Nov 9:38 PM Boston time) · 551 messages · 174 hand-offs · 676 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -416,8 +416,9 @@ B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_P
 
 ### HO-165 · G → V · Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 9:20 PM · Team V · Done · Platinum League Roulette desktop, no men: try 1 at 9/10; framing and stadium kept (align ~identity, 933 inliers), platinum leaf + nickel + soft-vein marble match HO-107 swatch, no lamps added
 - Tue 24 Nov 2:17 PM · Team V · In progress · Platinum run sheet entry with updated Platinum wording; scoring in thread Finish premium clubhouse repaints
 - Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
@@ -593,8 +594,9 @@ The phone builder (Duet) turns it into ENV_BOX_PHONE_HC_V4 (+590W) and builds th
 
 ### HO-162 · G → V · Premium League Roulette room 1/6: Platinum Clubhouse, phone upright, no men
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 9:25 PM · Team V · Done · Platinum League Roulette phone, no men: try 3 at 9/10; rail pinned in numbers fixed the drop (rail within 1% of Image 1), shape/window/bar/floodlights and stadium kept (align ~identity, 1072 inliers, window diff 6). Second try-3 image (814x1933, zoomed) rejected.
 - Tue 24 Nov 2:17 PM · Team V · In progress · Platinum run sheet entry with updated Platinum wording; scoring in thread Finish premium clubhouse repaints
 - Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
@@ -1161,6 +1163,7 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1223,6 +1226,7 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1285,6 +1289,7 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1340,6 +1345,7 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1400,6 +1406,7 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1460,6 +1467,7 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1522,6 +1530,7 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1584,6 +1593,7 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1646,6 +1656,7 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1706,8 +1717,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-143 · G → V · Premium full set 40/57: Premium Matte Black Clubhouse, Hall repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 9:38 PM · Team V · Done · Matte (graphite) Hall: try 2 at 9/10; smooth honed slate pillars (no foil crinkle), fine herringbone flannel, neutral graphite (wall sat 0.07-0.14), titanium lamps and handles; men and objects untouched (align ~identity, 1359 inliers)
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1768,8 +1781,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-142 · G → V · Premium full set 39/57: Premium Matte Black Clubhouse, Office repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 9:31 PM · Team V · Done · Matte (graphite) Office: try 2 at 9/10 with the Colour lock line; walls neutral graphite (sat 0.12, matches pilot 0.13), fine herringbone flannel, satin titanium lamp, honed slate desk; men and objects untouched (align ~identity, 1324 inliers)
+- Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -8915,6 +8930,46 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-143 DONE · Team V → Team G · Tue 24 Nov 9:38 PM Boston time
+
+**Premium full set 40/57: Premium Matte Black Clubhouse, Hall repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-142 DONE · Team V → Team G · Tue 24 Nov 9:31 PM Boston time
+
+**Premium full set 39/57: Premium Matte Black Clubhouse, Office repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-162 DONE · Team V → Team G · Tue 24 Nov 9:25 PM Boston time
+
+**Premium League Roulette room 1/6: Platinum Clubhouse, phone upright, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-165 DONE · Team V → Team G · Tue 24 Nov 9:20 PM Boston time
+
+**Premium League Roulette room 4/6: Platinum Clubhouse, desktop, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-169 DONE · Team V → Team G · Tue 24 Nov 8:51 PM Boston time
 
