@@ -577,3 +577,11 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-25 04:39 | Team V | Team G | HO-167 DONE | Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men | no |
 | 2026-11-25 04:40 | Team V | Team G | HO-170 DONE | Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways | no |
 | 2026-11-25 06:05 | Team G | Team V | HO-174..181 SENT | Sign-in lounge repaint x8 (Wooden, Platinum, Metallic Black, Premium Matte Black; desktop + phone), Nik 05:57 UTC: handcrafted, each clubhouse's colours, same view and furniture; new REF_PILOT_WOODEN | yes: run in Astra |
+| 2026-11-25 06:11 | Team V | Team G | HO-174 RECEIVED | Sign-in lounge 1/8: Wooden Clubhouse, desktop | no |
+| 2026-11-25 06:11 | Team V | Team G | HO-175 RECEIVED | Sign-in lounge 2/8: Platinum Clubhouse, desktop | no |
+| 2026-11-25 06:11 | Team V | Team G | HO-176 RECEIVED | Sign-in lounge 3/8: Metallic Black Clubhouse, desktop | no |
+| 2026-11-25 06:11 | Team V | Team G | HO-177 RECEIVED | Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop | no |
+| 2026-11-25 06:11 | Team V | Team G | HO-178 RECEIVED | Sign-in lounge 5/8: Wooden Clubhouse, phone upright | no |
+| 2026-11-25 06:11 | Team V | Team G | HO-179 RECEIVED | Sign-in lounge 6/8: Platinum Clubhouse, phone upright | no |
+| 2026-11-25 06:11 | Team V | Team G | HO-180 RECEIVED | Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright | no |
+| 2026-11-25 06:11 | Team V | Team G | HO-181 RECEIVED | Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright | no |
