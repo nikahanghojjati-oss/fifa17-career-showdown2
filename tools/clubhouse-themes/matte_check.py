@@ -36,6 +36,10 @@ SIZE = (1536, 864)
 ACCEPTED = {
     "HOME": "Nik OK 2026-11-25 01:25 UTC (graphite pilot); mw 11.1 because the lounge objects (leather chairs, sofa, "
             "blankets, ball) keep their own colours by design",
+    "HALL": "Nik OK 2026-11-25 03:25 UTC (board, 'Accept both'); spread 56 vs 59 and detail 3.5 vs 4.1 because the "
+            "charcoal carpet and plain lacquer door read quieter than the Wooden marble",
+    "TUNNEL": "Nik OK 2026-11-25 03:25 UTC (board, 'Accept both'); mw 10.7 because the Wooden tunnel was already dark "
+              "grey and the ribbed floor stays",
 }
 
 
