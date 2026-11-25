@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 24 Nov, 9:40 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 24 Nov, 9:57 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.12.0-r99** (main `7dc0d48`, Tue 24 Nov 8:12 AM)
 
-🐕 **Barking: Showdown Gate on #1599 has waited 55 min for a machine; Showdown Gate on #1598 has waited 55 min for a machine; Showdown Gate on #1591 has waited 55 min for a machine; Showdown Gate on #1608 has waited 45 min for a machine; Showdown Gate on #1576 has waited 41 min for a machine; Showdown Gate on #1617 has waited 36 min for a machine; Showdown Gate on #1618 has waited 33 min for a machine; Showdown Gate on #1619 has waited 8 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1591 has waited 85 min for a machine; Showdown Gate on #1599 has waited 85 min for a machine; Showdown Gate on #1598 has waited 85 min for a machine; Showdown Gate on #1608 has waited 75 min for a machine; Showdown Gate on #1576 has waited 71 min for a machine; Showdown Gate on #1617 has waited 66 min for a machine; Showdown Gate on #1618 has waited 63 min for a machine; Showdown Gate on #1614 has waited 61 min for a machine; Showdown Gate on #1619 has waited 38 min for a machine; Showdown Gate on #1609 has waited 17 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -46,11 +46,11 @@ Updated Tue 24 Nov, 9:40 PM Boston time. Bug hunting only, no new features until
 
 **#8 · 1802** `G` CE2PG harness on the r76 base, plus baseline runs  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 1016 h ago
+⚪ Team white · model not set · worker working, draft PR #836 · CI 7 of 8 passed · last move 1017 h ago
 
 **#9 · 1816** `G` Integration branch of all r76 PRs, plus full checks  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 973 h ago
+⚪ Team white · model not set · worker working, draft PR #854 · CI 7 of 8 passed · last move 974 h ago
 
 **#10 · 1819** `G` r76 gallery: every screen rendered from the integration branch, desktop and phone  
 `████░░░░░░` **40.0000 %**  
@@ -1989,8 +1989,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`████████░░` **83.9080 %**  
-Team V hand-offs: 146 of 174 done
+`█████████░` **87.3563 %**  
+Team V hand-offs: 152 of 174 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  

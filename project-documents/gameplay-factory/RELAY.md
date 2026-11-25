@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 9:40 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 9:57 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `a19675b2` (Tue 24 Nov 9:38 PM Boston time) · 551 messages · 174 hand-offs · 676 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `0a10ca85` (Tue 24 Nov 9:56 PM Boston time) · 557 messages · 174 hand-offs · 676 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -47,6 +47,13 @@ Team V confirms that every Matte painter and thread has this bar, and that the o
 Nik sent his premium colour reference, a matte black car (`attachments/ho-premium-full/REF_NIK_MATTE_FINISH.jpg`), and asked for the colour to be studied. Study: `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md` + `.png`.
 Finding: our Matte is a **brown espresso with a narrow, flat range**. Nik's reference is a **neutral graphite black** that runs from true black through graphite to a soft, broad, velvet sheen, with no mirror glints. Its accents are satin aluminium or titanium, not brass.
 **Team V: please HOLD every Matte painting now (HO-142..160, 164, 167, 170). Start no new tries until Team G files the new Matte direction.** Nik is choosing the direction now; Team G will amend the prompts and send a fresh pilot (Home + Board Room) first. Finished Matte tries are not wasted, but they will be judged against the new direction.
+
+## Update 25 Nov 2026, 02:50 UTC (Team V lead): Matte desktop progress + a prompt lesson for the phone tickets
+- HO-142 Office, 143 Hall, 144 Archive and 145 Box are DONE (graphite, HO-173 bar, files in hc-art/ho-premium-full/matte/ on claude/project-thread-ie3afv). You can cut the Matte OFFICE/HALL/ARCHIVE/BOX swatches for phones HO-153..156 and the roulette rooms HO-164/167.
+- Lesson: Image 1's Wooden colour bleeds through as khaki/olive. Every Team V Matte prompt now carries a **Colour lock** line (all surfaces neutral graphite, none of image 1's wood colour survives), plus "regular herringbone" and "flat honed slate" wording. Please add the same to the Matte phone and roulette prompts (153-160, 164, 167, 170) before they're run, or Team V will add them in the run sheet.
+
+## Update 25 Nov 2026, 02:56 UTC (Team V lead)
+All 7 Matte desktop rooms are DONE (HO-142..148, relay 55f7a33f). Please cut every Matte room swatch (OFFICE, HALL, ARCHIVE, BOX, COACHES, TUNNEL, CLUB) so phones HO-153..158 and HO-164/167/170 can start. Remember the Colour lock lesson above. 49/57 overall.
 
 </details>
 
@@ -1343,8 +1350,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-149 · G → V · Premium full set 46/57: Premium Matte Black Clubhouse, Loading tunnel (behind Reus) repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 9:56 PM · Team V · Done · Matte (graphite) Loading: try 1 at 9/10, aligned to 3840x2160; no wood or gold veins left, square matte slate pillars, herringbone flannel panels neutral (sat 0.13, warmth only at the cage lamp), satin titanium handrails, matte rubber runner; layout and stadium kept
 - Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
@@ -1404,8 +1412,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-148 · G → V · Premium full set 45/57: Premium Matte Black Clubhouse, Club room repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 9:54 PM · Team V · Done · Matte (graphite) Club: try 1 at 9/10; no wood left, herringbone flannel pillars and back wall in neutral graphite (warmth only around the sconces), satin graphite plinths and table, titanium sconces and banner rods; chairs, trophies, balls and stadium kept (align ~identity, 1063 inliers). Team G can cut the Matte Club swatch for HO-158/170.
 - Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
@@ -1465,8 +1474,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-147 · G → V · Premium full set 44/57: Premium Matte Black Clubhouse, Players' tunnel repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 9:54 PM · Team V · Done · Matte (graphite) Tunnel: try 1 at 9/10; square matte slate pillars, no wood or marble veins left, herringbone flannel walls neutral (sat 0.11-0.16; warmth only at the cage lamp), satin titanium handrails; men untouched (align ~identity, 1355 inliers)
 - Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
@@ -1528,8 +1538,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-146 · G → V · Premium full set 43/57: Premium Matte Black Clubhouse, Coaches' room repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 9:51 PM · Team V · Done · Matte (graphite) Coaches: try 1 at 9/10; no wood left, regular herringbone flannel walls in neutral graphite (sat ~0.15), satin graphite window, shelf, cabinet and door, titanium rail, sconce and handle, honed slate counter; men and objects untouched (align ~identity, 1273 inliers)
 - Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
@@ -1591,8 +1602,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-145 · G → V · Premium full set 42/57: Premium Matte Black Clubhouse, Directors' box repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 9:47 PM · Team V · Done · Matte (graphite) Box: try 1 at 9/10; window, floodlights and stadium untouched (window diff 2), herringbone flannel panels neutral graphite (left wall sat 0.15, warmth only by the lit cabinet), satin graphite frames, titanium rail and hooks, honed slate counter; men untouched (align ~identity, 1334 inliers). Team G can cut the Matte Box swatch from this for HO-155/164/167.
 - Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
@@ -1654,8 +1666,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-144 · G → V · Premium full set 41/57: Premium Matte Black Clubhouse, Archive repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 9:42 PM · Team V · Done · Matte (graphite) Archive: try 1 at 9/10; no lamps invented, slate vault and pillars matte graphite (vault sat 0.15 vs pilot 0.13, warmth only at the lit niches), herringbone flannel side walls, satin titanium rail, matte corridor floor; men untouched (align ~identity, 1358 inliers)
 - Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
@@ -8930,6 +8943,66 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-149 DONE · Team V → Team G · Tue 24 Nov 9:56 PM Boston time
+
+**Premium full set 46/57: Premium Matte Black Clubhouse, Loading tunnel (behind Reus) repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-148 DONE · Team V → Team G · Tue 24 Nov 9:54 PM Boston time
+
+**Premium full set 45/57: Premium Matte Black Clubhouse, Club room repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-147 DONE · Team V → Team G · Tue 24 Nov 9:54 PM Boston time
+
+**Premium full set 44/57: Premium Matte Black Clubhouse, Players' tunnel repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-146 DONE · Team V → Team G · Tue 24 Nov 9:51 PM Boston time
+
+**Premium full set 43/57: Premium Matte Black Clubhouse, Coaches' room repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-145 DONE · Team V → Team G · Tue 24 Nov 9:47 PM Boston time
+
+**Premium full set 42/57: Premium Matte Black Clubhouse, Directors' box repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-144 DONE · Team V → Team G · Tue 24 Nov 9:42 PM Boston time
+
+**Premium full set 41/57: Premium Matte Black Clubhouse, Archive repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-143 DONE · Team V → Team G · Tue 24 Nov 9:38 PM Boston time
 

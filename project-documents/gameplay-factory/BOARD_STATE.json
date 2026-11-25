@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 9:40 PM Boston time (EST)",
+ "generated": "2026-11-24 9:57 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 551,
+  "count": 556,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -4962,6 +4962,51 @@
     "subject": "Premium full set 40/57: Premium Matte Black Clubhouse, Hall repaint",
     "reply": "no",
     "boston": "Tue 24 Nov 9:38 PM"
+   },
+   {
+    "time": "2026-11-25 02:42",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-144 DONE",
+    "subject": "Premium full set 41/57: Premium Matte Black Clubhouse, Archive repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 9:42 PM"
+   },
+   {
+    "time": "2026-11-25 02:47",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-145 DONE",
+    "subject": "Premium full set 42/57: Premium Matte Black Clubhouse, Directors' box repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 9:47 PM"
+   },
+   {
+    "time": "2026-11-25 02:51",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-146 DONE",
+    "subject": "Premium full set 43/57: Premium Matte Black Clubhouse, Coaches' room repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 9:51 PM"
+   },
+   {
+    "time": "2026-11-25 02:54",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-147 DONE",
+    "subject": "Premium full set 44/57: Premium Matte Black Clubhouse, Players' tunnel repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 9:54 PM"
+   },
+   {
+    "time": "2026-11-25 02:54",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-148 DONE",
+    "subject": "Premium full set 45/57: Premium Matte Black Clubhouse, Club room repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 9:54 PM"
    }
   ],
   "g2v": {
@@ -4982,8 +5027,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "a19675b",
-  "head_boston": "Tue 24 Nov 9:38 PM",
+  "head": "c1f9499",
+  "head_boston": "Tue 24 Nov 9:55 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5026,7 +5071,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1599 has waited 55 min for a machine; Showdown Gate on #1598 has waited 55 min for a machine; Showdown Gate on #1591 has waited 55 min for a machine; Showdown Gate on #1608 has waited 45 min for a machine; Showdown Gate on #1576 has waited 41 min for a machine; Showdown Gate on #1617 has waited 36 min for a machine; Showdown Gate on #1618 has waited 33 min for a machine; Showdown Gate on #1619 has waited 8 min for a machine.",
+   "line": "Barking: Showdown Gate on #1591 has waited 85 min for a machine; Showdown Gate on #1599 has waited 85 min for a machine; Showdown Gate on #1598 has waited 85 min for a machine; Showdown Gate on #1608 has waited 75 min for a machine; Showdown Gate on #1576 has waited 71 min for a machine; Showdown Gate on #1617 has waited 66 min for a machine; Showdown Gate on #1618 has waited 63 min for a machine; Showdown Gate on #1614 has waited 61 min for a machine; Showdown Gate on #1619 has waited 38 min for a machine; Showdown Gate on #1609 has waited 17 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -5813,7 +5858,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24456
+    "waiting_min": 24472
    },
    {
     "id": "HO-059",
@@ -6925,8 +6970,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 41/57: Premium Matte Black Clubhouse, Archive repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-144_premium-full-set-41-57-premium-matte-bla.md",
     "worker": "images",
@@ -6938,8 +6983,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 42/57: Premium Matte Black Clubhouse, Directors' box repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-145_premium-full-set-42-57-premium-matte-bla.md",
     "worker": "images",
@@ -6951,8 +6996,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 43/57: Premium Matte Black Clubhouse, Coaches' room repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-146_premium-full-set-43-57-premium-matte-bla.md",
     "worker": "images",
@@ -6964,8 +7009,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 44/57: Premium Matte Black Clubhouse, Players' tunnel repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-147_premium-full-set-44-57-premium-matte-bla.md",
     "worker": "images",
@@ -6977,8 +7022,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 45/57: Premium Matte Black Clubhouse, Club room repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-148_premium-full-set-45-57-premium-matte-bla.md",
     "worker": "images",
@@ -6990,8 +7035,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 46/57: Premium Matte Black Clubhouse, Loading tunnel (behind Reus) repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-149_premium-full-set-46-57-premium-matte-bla.md",
     "worker": "images",
@@ -7380,7 +7425,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 63,
+  "moving": 57,
   "next": 42,
   "nik": 2,
   "later": 21,
