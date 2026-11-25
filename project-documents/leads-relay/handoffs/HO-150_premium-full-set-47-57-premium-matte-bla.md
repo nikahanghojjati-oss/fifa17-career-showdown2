@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:59Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-25T02:15:31Z", "by": "V", "status": "WORKING", "note": "Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv 725815dc3 project-documents/hc-art/ho-premium-full/matte/ENV_SLAB_MATTE_P1_2X.webp"],
+ "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:59Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-25T02:15:31Z", "by": "V", "status": "WORKING", "note": "Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra"}, {"at": "2026-11-25T03:01:41Z", "by": "V", "status": "DONE", "note": "Matte (graphite) material slab: try 1 at 9/10; honed graphite slate, neutral (sat 0.07), even with no vignette (corners within 3 levels of the centre), a few faint pale mineral lines, no crackle; LANCZOS to 3072x1728"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
