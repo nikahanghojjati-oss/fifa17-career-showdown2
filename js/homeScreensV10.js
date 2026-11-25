@@ -59,7 +59,16 @@
       Object.freeze({key:"runawayRiot",title:"RUNAWAY (U & I) (RIOT REMIX)",artist:"Galantis",audiusTrackId:"YZy2r"}),
       Object.freeze({key:"levelsPartywithray",title:"LEVELS (PARTYWITHRAY FLIP)",artist:"Avicii",audiusTrackId:"VEz9r"}),
       Object.freeze({key:"oneMoreTimeXavi",title:"ONE MORE TIME (XAVI REMIX)",artist:"Daft Punk",audiusTrackId:"6RXVM"}),
-      Object.freeze({key:"nineteenOhOneDlid",title:"1901 (DLID REMIX)",artist:"Phoenix",audiusTrackId:"ygxaZ"})
+      Object.freeze({key:"nineteenOhOneDlid",title:"1901 (DLID REMIX)",artist:"Phoenix",audiusTrackId:"ygxaZ"}),
+      Object.freeze({key:"fiftyJustALilBitFenk",title:"50 CENT - JUST A LIL BIT (FENK REMIX)",artist:"50 Cent",audiusTrackId:"J8d8z"}),
+      Object.freeze({key:"fiftyJustALilBitRemiDaze",title:"50 CENT - JUST A LIL BIT (REMIDAZE FLIP)",artist:"50 Cent",audiusTrackId:"NP8b4jp"}),
+      Object.freeze({key:"fiftyBackDownHexed",title:"50 CENT - BACK DOWN (HEXED FLIP)",artist:"50 Cent",audiusTrackId:"51yoNNJ"}),
+      Object.freeze({key:"fiftyPimpGloomy",title:"50 CENT - P.I.M.P. (GLOOMY REMIX)",artist:"50 Cent",audiusTrackId:"4kPaJgj"}),
+      Object.freeze({key:"fiftyWankstaFreewavez",title:"50 CENT - WANKSTA (FREEWAVEZ REMIX)",artist:"50 Cent",audiusTrackId:"aAk3ldE"}),
+      Object.freeze({key:"candyShopHottestDay",title:"CANDY SHOP BUT IT'S THE HOTTEST DAY OF THE YEAR",artist:"Culls",audiusTrackId:"9bXko"}),
+      Object.freeze({key:"candyShopLiluzi",title:"CANDY SHOP (LILUZI STYLE)",artist:"Beats",audiusTrackId:"QQgRv"}),
+      Object.freeze({key:"ayoTechnologyMoji",title:"AYO TECHNOLOGY (MOJI REMIX)",artist:"MOJI",audiusTrackId:"Kb7Q9"}),
+      Object.freeze({key:"soAmazing50Cent",title:"SO AMAZING (50 CENT, MARCUS D) REMIX",artist:"Turbo prod.",audiusTrackId:"6ENaM"})
     ]),
     defaultTrack:"song2",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
