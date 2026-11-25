@@ -1038,7 +1038,7 @@ function safetyContracts(){
   const career=read("js/productionSharedCareerStart.js");
   assert.doesNotMatch(career.match(/async function pcstAutoContinue\(\)\{[\s\S]*?\n  \}/)[0],/acknowledge/,"Career Start auto-continue never acknowledges");
   for(const file of ["js/persistentNikDanielPair.js"]){
-    const src=read(file),tick=src.match(/async function (pairWaitingPollTick)\(\)\{[\s\S]*?\n  \}/)[0];
+    const src=read(file),tick=src.match(/async function (pairWaitingPollTick)\(woken=false\)\{[\s\S]*?\n  \}/)[0];
     assert.doesNotMatch(tick,/createPairing|redeemPairing|openSession|joinSession|closeSession|revokeSession|pairStartPairing|pairJoinPairing|srjHostSession|srjJoinSession/,`${file} waiting poll is read-only`);
   }
   const html=read("index.html");
