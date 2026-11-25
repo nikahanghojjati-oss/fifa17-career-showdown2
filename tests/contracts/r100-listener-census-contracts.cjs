@@ -41,7 +41,7 @@ const CENSUS={
     reason:"They only hold back the timed checks while the budget layer's wait listener is healthy (psscWaitHealthy needs watchHealthy, and drops them after a 10 s grace); a read that waits on them gets the server after 5 s (fsbListens). A cached copy marks them not ready, so the timed checks run.",
     pins:[/snapshot\.metadata\?\.fromCache\|\|snapshot\.metadata\?\.hasPendingWrites\)\{held\.ready=false;pending\.add\(path\);return;\}/,
       /function psscWaitHealthy\(\)\{[^\n]*live\?\.watchHealthy&&waited\)/,/WAIT_PENDING_GRACE_MS=10000/]}]},
-  "js/sparkPrivatePairing.js":{listeners:2,fromCache:4,sites:[
+  "js/sparkPrivatePairing.js":{listeners:2,fromCache:5,sites:[
     {name:"budget context listeners (fsbCtxAttach: rivalry root and current Session)",kind:"reason",proof:"context",
       reason:"They only save reads: a copy is served only while healthy and confirmed in the last window (fsbCtxServe). A cached copy marks the watch unhealthy, so every module reads the server itself as it did before; a read that waits on a returning listener gets the server after 5 s.",
       pins:[/function fsbCtxDelivery\(watch,snapshot\)\{\n\s*if\(fsbCtxWatches\.get\(watch\.path\)!==watch\)return;\n\s*if\(!snapshot\|\|!snapshot\.metadata\|\|snapshot\.metadata\.fromCache\|\|snapshot\.metadata\.hasPendingWrites\)\{watch\.healthy=false;return;\}/,
@@ -51,7 +51,10 @@ const CENSUS={
       pins:[/function fsbWaitDelivery\(wait,snapshot\)\{\n\s*if\(fsbWait!==wait\)return;\n\s*if\(!snapshot\|\|!snapshot\.metadata\|\|snapshot\.metadata\.fromCache\|\|snapshot\.metadata\.hasPendingWrites\)\{wait\.healthy=false;return;\}/,
         /if\(!wait\|\|!wait\.healthy\|\|wait\.dirty\)return false;/,/function fsbWaitHealthy\(\)\{return fsbWaitLive\(\)&&fsbNow\(\)-fsbWait\.confirmedAt<=/]}],
     // the read meter's own fromCache tests (a cached delivery bills nothing) are not listeners
-    meterOnly:[/if\(meta&&meta\.fromCache===true\)return 0;/,/snapshot\.metadata\.fromCache===false\)served=true/]}
+    meterOnly:[/if\(meta&&meta\.fromCache===true\)return 0;/,/snapshot\.metadata\.fromCache===false\)served=true/],
+    // the Flight Recorder tap (r100 Phoenix B5): a delivery the read meter already counted is handed on only when it is a server
+    // copy; it is not a listener, and the recorder makes no read or write of its own (checked below)
+    recorderOnly:[/fsbCountRead\(units,true,first\|\|units\?fsbReadLookups\(path\):0\);if\(snapshot&&snapshot\.metadata&&snapshot\.metadata\.fromCache===false\)fsbTap\(path,snapshot\);return fn\.apply\(this,arguments\);/]}
 };
 // Every screen that asks for the wait listener must hold back its timed checks only on watchHealthy (the reason above).
 const WAIT_SCREENS={
@@ -95,7 +98,10 @@ for(const [file,entry] of Object.entries(CENSUS)){
     if(site.kind==="bridged")bridged+=1;else reasoned+=1;
   }
   for(const pin of entry.meterOnly||[])assert.match(source,pin,`${file}: the meter's fromCache test is where it was`);
+  for(const pin of entry.recorderOnly||[])assert.match(source,pin,`${file}: the Flight Recorder's fromCache test is where it was`);
 }
+// The Flight Recorder only keeps copies it is handed: no read, write or listener of its own.
+assert.doesNotMatch(code(read("js/flightRecorder.js")),/\b(?:getDocs?|getDocFromServer|runTransaction|setDoc|updateDoc|deleteDoc|addDoc|writeBatch|onSnapshot)\b/,"js/flightRecorder.js reads, writes or listens nothing itself");
 ok(`${bridged} bridged, ${reasoned} with a reason, each pinned to its code and proof`);
 
 // C3: a bridged step reads only while its copy is from cache, never while hidden or offline, and never applies a read that
