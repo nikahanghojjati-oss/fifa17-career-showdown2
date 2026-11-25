@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r96-final-resume-contracts.cjs",
+  "patterns": [
+    "^js/(productionSharedJourneyEntry|productionSharedSeasonCommit|productionSharedMultiSeasonProgression|persistentNikDanielPair|productionSharedTerminalClose|onlinePlayerIdentity|sparkRemoteJoining)\\.js$",
+    "^tests/contracts/r96\\-final\\-resume\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r96\\-final\\-resume\\-contracts\\.json$"
+  ]
+}

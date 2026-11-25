@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/optional-open-same-screen-rerender-contracts.cjs",
+  "patterns": [
+    "^js/optionalModules\\.js$",
+    "^tests/contracts/optional\\-open\\-same\\-screen\\-rerender\\-contracts\\.cjs$",
+    "^tests/pos20-registry/optional\\-open\\-same\\-screen\\-rerender\\-contracts\\.json$"
+  ]
+}

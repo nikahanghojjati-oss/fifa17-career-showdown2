@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/shared-career-analytics-contracts.cjs",
+  "patterns": [
+    "^js/sharedCareerAnalytics\\.js$",
+    "^js/sharedHistoryConvergence\\.js$",
+    "^tests/support/career-fixture-helpers\\.cjs$",
+    "^tests/contracts/shared-career-analytics-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-career\\-analytics\\-contracts\\.json$"
+  ]
+}
