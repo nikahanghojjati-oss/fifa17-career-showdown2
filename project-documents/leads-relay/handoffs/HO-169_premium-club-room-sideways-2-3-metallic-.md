@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "RECEIVED",
+ "status": "WORKING",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-24T19:31:35Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:33:14Z", "by": "V", "status": "RECEIVED", "note": "Owned by Team V thread Finish premium clubhouse repaints"}],
+ "log": [{"at": "2026-11-24T19:31:35Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:33:14Z", "by": "V", "status": "RECEIVED", "note": "Owned by Team V thread Finish premium clubhouse repaints"}, {"at": "2026-11-25T00:01:31Z", "by": "V", "status": "WORKING", "note": "Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
- "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
+ "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
 ```
 
