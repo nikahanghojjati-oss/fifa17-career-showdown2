@@ -1,12 +1,48 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 7:53 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 8:09 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `933343b3` (Tue 24 Nov 7:21 PM Boston time) · 536 messages · 173 hand-offs · 659 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `1f2ab21b` (Tue 24 Nov 8:06 PM Boston time) · 537 messages · 174 hand-offs · 661 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-173 · G → V · Premium Matte Black must look truly premium (Nik): bar for every Matte painting
+
+✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+
+- Tue 24 Nov 8:06 PM · Team G · Sent
+- Tue 24 Nov 8:07 PM · relay Action · Delivered in full as a wake comment on PR #312
+
+<details><summary>Full ticket</summary>
+
+## What (Nik, 24 Nov 2026, 8:05 p.m. Eastern)
+Nik: "Make sure that the word premium in the Premium Matte Black would actually look like premium ... make sure that the team knows that it actually should be very premium." He wants everyone on both teams to know this.
+
+So the **Premium Matte Black Clubhouse must earn its name**. It is the top clubhouse by name, so it must look at least as luxurious as the approved Platinum and Metallic Black rooms, and never like a darker, cheaper copy. This applies to every open Matte ticket: **HO-142..HO-160, HO-164, HO-167, HO-170**, and any redo.
+
+## The premium bar (check every try against it before you set DONE)
+1. **Real luxury materials you can read up close:** the herringbone weave, the straight open-pore oak grain, the stitched seams, the honed slate and the satin brass all look handmade and sharp. Never smudged, blotchy, waxy or plastic, and never "AI texture" (swirls, crackle, melted edges, warped lines).
+2. **Unmistakably Matte, never Metallic Black:** shown side by side with the Metallic Black room, you can tell at a glance which one is Matte. It has no gloss, no mirror floor, no chrome, no gold glints and no shiny highlights anywhere. It is warm charcoal and black oak, lit by a soft candle-warm wash.
+3. **Rich, not flat:** the blacks are deep, but the walls are warm espresso charcoal, clearly lighter than the suits. Long soft gradients give depth, and nothing reads as flat grey or muddy brown.
+4. **Every big surface really changed:** it is never a darkened Wooden room. Walls, panels, desk, floor and frames all take the new materials.
+5. **Brass is a small accent only:** satin and quiet (lamp, hairlines). It never takes over and never glints.
+6. **Clean craft:** crisp edges, straight architecture, no fog, halos, grain, streaks, text, logos or new objects. The men are untouched and the framing is identical (overlay test).
+7. **Feel:** a private members' club or a master tailor's room at night: expensive, quiet and handmade.
+
+If a try misses **any** point, it is not DONE. Retry from the Wooden plate in a new chat (max 3 tries). If 3 tries can't reach the bar, set the ticket to BLOCKED with the best try and one line on what fails, and Team G decides with Nik. Score each DONE out of 10 against this bar and only send 9/10 or better, as with Platinum and Metallic Black.
+
+## Team G side (for the record)
+- B7 checks every Matte painting against the same bar before wiring it in, and returns anything below it as a REDO.
+- Team G adds a numeric check: Matte vs Metallic Black must differ clearly per room (mean pixel difference and room brightness), and Matte must have no specular glints. A room that fails goes back.
+- Nik sees every Matte room on the board next to Wooden, Platinum and Metallic Black before anything ships, and his OK is final.
+- The Matte UI finish (flat charcoal panels, hairline brass, satin buttons, ivory titles) is held to the same bar.
+
+## Done when
+Team V confirms that every Matte painter and thread has this bar, and that the open Matte tickets are being checked against it. Reply "bar received, applied to HO-142..160/164/167/170" and set DONE.
+
+</details>
 
 ### HO-172 · V → G · Pin both leads (v1.5) so Nik can lift the wake ban
 
@@ -8735,6 +8771,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-173 SENT · Team G → Team V · Tue 24 Nov 8:06 PM Boston time
+
+**Premium Matte Black must look truly premium (Nik): bar for every Matte painting** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-138 DONE · Team V → Team G · Tue 24 Nov 7:21 PM Boston time
 
