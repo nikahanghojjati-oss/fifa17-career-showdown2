@@ -268,5 +268,69 @@
   "core_changed_pre_encode": 0,
   "core_decoded_mean_diff": 0.929,
   "face_crops": "/tmp/claude-0/-home-user/70d68a18-45fd-5196-ab57-3441f0614665/scratchpad/crops/matte/ENV_TUNNEL_PHONE_HC_V3_590W.jpg"
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_PHONE_HC_V4.webp",
+  "shift": [
+   0,
+   -1
+  ],
+  "quality": 80,
+  "bytes": 274728,
+  "wooden_bytes": 59320,
+  "size_vs_wooden": 3.631,
+  "core_px": 0,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": null,
+  "face_crops": null,
+  "lead_exception": "A-13 premium flannel; runtime-cached, Matte-only"
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 80,
+  "bytes": 124712,
+  "wooden_bytes": 74770,
+  "size_vs_wooden": 0.668,
+  "core_px": 90075,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": 1.208,
+  "face_crops": "/tmp/claude-0/-home-user/70d68a18-45fd-5196-ab57-3441f0614665/scratchpad/crops/matte/ENV_COACHES_PHONE_HC_V3.jpg",
+  "lead_exception": "A-13 premium flannel; runtime-cached, Matte-only"
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3_590W.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 80,
+  "bytes": 29024,
+  "wooden_bytes": 26350,
+  "size_vs_wooden": 0.101,
+  "core_px": 20763,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": 1.679,
+  "face_crops": "/tmp/claude-0/-home-user/70d68a18-45fd-5196-ab57-3441f0614665/scratchpad/crops/matte/ENV_COACHES_PHONE_HC_V3_590W.jpg",
+  "lead_exception": "A-13 premium flannel; runtime-cached, Matte-only"
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3_TALL.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 80,
+  "bytes": 134574,
+  "wooden_bytes": 84796,
+  "size_vs_wooden": 0.587,
+  "core_px": 104959,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": 1.366,
+  "face_crops": "/tmp/claude-0/-home-user/70d68a18-45fd-5196-ab57-3441f0614665/scratchpad/crops/matte/ENV_COACHES_PHONE_HC_V3_TALL.jpg",
+  "lead_exception": "A-13 premium flannel; runtime-cached, Matte-only"
  }
 ]
