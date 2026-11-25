@@ -1,0 +1,17 @@
+{
+  "path": "tests/contracts/shared-local-reconciliation-production-contracts.cjs",
+  "patterns": [
+    "^js/sharedLocalReconciliation\\.js$",
+    "^js/productionSharedLocalReconciliation\\.js$",
+    "^js/sparkConnectedRivalry\\.js$",
+    "^js/restore\\.js$",
+    "^js/ssjr\\.js$",
+    "^service-worker\\.js$",
+    "^tests/contracts/stage4-remote-local-reconciliation-contracts\\.cjs$",
+    "^tests/contracts/shared-local-reconciliation-contracts\\.cjs$",
+    "^tests/contracts/shared-local-reconciliation-production-contracts\\.cjs$",
+    "^tests/browser/shared-local-reconciliation-audit\\.cjs$",
+    "^package\\.json$",
+    "^tests/pos20-registry/shared\\-local\\-reconciliation\\-production\\-contracts\\.json$"
+  ]
+}

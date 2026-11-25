@@ -25,6 +25,7 @@
   async function psscEnsureDependencies(){
     if(typeof root.ensureGameplayModules==="function")await root.ensureGameplayModules();
     else if(typeof root.ensureGameplayRuntime==="function")await root.ensureGameplayRuntime();
+    psscTapMemoryLoad();
     await psscLoadScript("ssjr-production-setup","js/productionSharedShowdownSetup.js",()=>root.CareerModeProductionSharedShowdownSetup);
     await psscLoadScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);
     await psscLoadScript("ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js",()=>root.CareerModeSharedShowdownCatalog);
@@ -137,7 +138,7 @@
     const ctx=await psscProviderContext(request,light);if(!psscContextMatches(request))return null;const result=psscResultError(await provider.read(ctx.options),"The season could not be checked.");if(!psscContextMatches(request))return null;
     if(generation&&generation!==readGeneration)return null;
     if(pendingErrorKind&&psscSatisfied(pendingErrorKind,result)){psscSetError("");pendingErrorKind="";}
-    psscBind(result,ctx,request);return view;
+    psscBind(result,ctx,request);psscTapResend(request);return view;
   }
   function psscRefresh(light=false){
     const request=psscRequestContext();if(!request)return Promise.resolve(null);
@@ -186,15 +187,44 @@
       return true;
     }catch(_error){return false;}
   }
-  async function psscMutate(kind){
-    if(busy)return false;const request=psscRequestContext();if(!request)return false;psscMarkChampionDueIfFinal(request);busy=true;readGeneration+=1;psscSetError("");pendingErrorKind="";psscRender();
+  // Phoenix W3 (one shared tap memory, js/sharedTapMemory.js): LOCK & CONFIRM SEASON and CONFIRM SEASON are noted on this
+  // phone before they are sent. If the tab dies before the write is known to have landed, the reopened screen sends the same
+  // tap once by itself, after its own read, and only while that read still shows this manager's step open (psscMutate reads
+  // first and never writes a step that is already done, so a repeat is a replay). A note never outlives its season.
+  const PSSC_TAP_STEP=Object.freeze({commit:"seasonCommit",acknowledge:"seasonAck"});
+  function psscTapMemory(){try{return root.CareerModeSharedTapMemory||null;}catch(_error){return null;}}
+  // Loaded beside the other dependencies, never waited for by a tap: without it every tap works exactly as before.
+  let tapMemoryLoading=null;
+  function psscTapMemoryLoad(){if(!tapMemoryLoading)tapMemoryLoading=psscLoadScript("shared-tap-memory","js/sharedTapMemory.js",()=>root.CareerModeSharedTapMemory).then(()=>psscTapMemory(),()=>{tapMemoryLoading=null;return null;});return tapMemoryLoading;}
+  function psscTapScope(kind,request,role=view?.managerRole){return request&&PSSC_TAP_STEP[kind]&&(role==="playerOne"||role==="playerTwo")?{rivalryId:request.rivalryId,season:request.seasonNumber,step:PSSC_TAP_STEP[kind],role}:null;}
+  function psscTapNote(kind,request){try{const scope=psscTapScope(kind,request);if(scope)psscTapMemory()?.note?.(scope,{operationId:psscRandomOperationId().replace(/^season_commit_op_/,"tap_")});}catch(_error){}}
+  function psscTapClear(kind,request){try{const scope=psscTapScope(kind,request);if(scope)psscTapMemory()?.clear?.(scope);}catch(_error){}}
+  // Codex #1592: LOCK & CONFIRM SEASON is one tap with two writes, so its note stays open until his own acknowledgement is there.
+  function psscTapPending(kind,current){if(!current||current.phase==="ACKNOWLEDGED")return false;if(kind==="commit")return current.managerRole===current.coordinatorRole&&(!current.committed||!current.ownAcknowledged);return Boolean(current.committed)&&!current.ownAcknowledged;}
+  let tapResendKey="";
+  function psscTapResend(request){
+    if(!request||!view||contextKey!==request.key||busy)return false;
+    const memory=psscTapMemory();if(!memory){void psscTapMemoryLoad().then(loaded=>{if(loaded&&psscContextMatches(request))psscTapResend(request);});return false;}
+    try{memory.moveOn?.({rivalryId:request.rivalryId,season:request.seasonNumber});}catch(_error){}
+    for(const kind of ["commit","acknowledge"]){
+      const scope=psscTapScope(kind,request);if(!scope||!memory.peek?.(scope))continue;
+      const note=memory.takeForResend(scope,{pending:psscTapPending(kind,view)&&psscResultsReady(request),live:{rivalryId:request.rivalryId,season:request.seasonNumber}});
+      if(!note)continue;
+      const once=`${request.key}|${kind}`;if(tapResendKey===once)return false;tapResendKey=once;
+      if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(psscContextMatches(request))void psscMutate(kind,{resend:true});},0);
+      return true;
+    }
+    return false;
+  }
+  async function psscMutate(kind,{resend=false}={}){
+    if(busy)return false;const request=psscRequestContext();if(!request)return false;psscMarkChampionDueIfFinal(request);if(!resend)psscTapNote(kind,request);busy=true;readGeneration+=1;psscSetError("");pendingErrorKind="";psscRender();
     let stage=kind;
     try{
       return await psscQueue(async()=>{
         const ctx=await psscProviderContext(request);if(!psscContextMatches(request))return false;let current=psscResultError(await provider.read(ctx.options));
         if(!psscContextMatches(request))return false;
         if(!psscSatisfied(kind,current)){if(!await psscWrite(kind,ctx,request,current))return false;if(kind==="commit")stage="acknowledge";current=psscResultError(await provider.read(ctx.options));if(!psscContextMatches(request))return false;}
-        psscBind(current,ctx,request);
+        psscBind(current,ctx,request);if(kind!=="commit"||psscSatisfied("acknowledge",current))psscTapClear(kind,request);
         // One tap for the coordinator: COMMIT & ACKNOWLEDGE records his own acknowledgement right after the commit (each write keeps its own operationId and stale retry).
         // If this second half fails, the committed view shows the existing CONFIRM SEASON button (only this R7 case re-reads
         // at once; a manager's own ACKNOWLEDGE failure keeps its error until the next read, exactly as before).
@@ -204,7 +234,8 @@
         try{await psscRefreshNow(request);}catch(_error){psscRefresh().catch(()=>{});}return true;
       });
     }catch(error){if(psscContextMatches(request)){pendingErrorKind=stage;if(stage==="acknowledge"&&view&&contextKey===request.key&&!view.committed)view={...view,committed:true};psscSetError(error.message||error.code||"Confirming the season failed.");psscReport("Could not confirm the season",error);if(kind==="commit"&&stage==="acknowledge")void psscRefresh().catch(()=>{});}return false;}
-    finally{busy=false;if(psscContextMatches(request))psscRender();}
+    // Phoenix W3: the attempt got its answer on this page, so the note is done (it only serves a tab that died before it).
+    finally{psscTapClear(kind,request);busy=false;if(psscContextMatches(request))psscRender();}
   }
   function psscCapture(event){const target=event.target&&event.target.closest&&event.target.closest("button");if(!target||target.id!==ACTION_ID||!psscSharedMarker())return;const screen=psscField("seasonEntry");if(!screen||screen.classList.contains("hidden"))return;event.preventDefault();event.stopPropagation();if(typeof event.stopImmediatePropagation==="function")event.stopImmediatePropagation();if(target.disabled)return;const request=psscRequestContext();if(!request||contextKey!==request.key||!view||!psscResultsReady(request)){void psscRefresh().catch(()=>{});return;}void psscMutate(view.committed?"acknowledge":"commit");}
   // All three waiting screens share the same season authority; navigation does not end the partner wait.
@@ -298,6 +329,16 @@
   // timer checks stop while that listener is healthy; deliveries still wake the provider immediately.
   function psscWatchWait(){const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchWaitPoint!=="function")return;let path=null;try{path=root.document?.visibilityState==="hidden"?null:(psscWaitScreen()&&psscResultsReady()&&view?.phase!=="ACKNOWLEDGED"?(request=>request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`:null)(psscRequestContext()):null);}catch(_error){path=null;}return budget.watchWaitPoint("season-commit",path,psscWaitWake);}
   function psscWaitWake(){const inflight=refreshPromise;if(inflight){const again=()=>{if(!busy)void psscTick(true);};inflight.then(again,again);return;}if(!busy){void psscTick(true);return;}if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!busy)void psscTick(true);},400);}
+  // Phoenix r100 (B6's one-off stall, lead thread): while this phone waits on the rival's lock or confirm, both timed checks
+  // stop as long as the wait listener looks healthy, and "healthy" has no confirm window of its own (a cached copy ends it at
+  // once, silence never does). So one late or lost delivery of the commit could hold CONFIRM SEASON back until the screen was
+  // touched. During that wait the 15 s check keeps running and reads the commit from the server (readServerNext, so no copy the
+  // listener left behind is reused); the 3 s check stays held back. One light commit read per 15 s on the waiting phone for the
+  // first 3 minutes of the wait (FAST_POLL_WINDOW_MS), then one per 60 s (lead: ~19 reads in a 10-minute wait); a delivery still
+  // wakes the screen at once.
+  function psscWaitCheckPath(){try{if(!psscWaitingKey())return "";const request=psscRequestContext();return request&&request.rivalryId&&Number.isInteger(request.seasonNumber)?`rivalries/${request.rivalryId}/seasonCommits/season_${request.seasonNumber}`:"";}catch(_error){return "";}}
+  const WAIT_CHECK_SLOW_MS=60000;let waitCheckKey="",waitCheckSince=0,waitCheckLast=0;
+  function psscWaitCheck(){const path=psscWaitCheckPath();if(!path){waitCheckKey="";return;}if(busy||root.document?.visibilityState==="hidden"||root.navigator?.onLine===false)return;const key=psscWaitingKey(),now=Date.now();if(key!==waitCheckKey){waitCheckKey=key;waitCheckSince=now;waitCheckLast=0;}if(now-waitCheckSince>=FAST_POLL_WINDOW_MS&&now-waitCheckLast<WAIT_CHECK_SLOW_MS-1000)return;waitCheckLast=now;try{root.CareerModeFirestoreBudget?.readServerNext?.(path);}catch(_error){}void psscTick();}
   // Phoenix (r100, Nik 2026-11-24 15:35 UTC): the W8 "· LIVE" / "· CHECKED h:mm PM" wait-line words are dropped; Phoenix stays in
   // the background. The W8 listener rebuild (back-off) is unchanged.
   function psscFastTick(){psscWatchWait();if(psscWaitHealthy()||root.document?.visibilityState==="hidden"||busy||!psscFastPollDue())return;void psscTick(true);}
@@ -311,7 +352,7 @@
     headingObserver=new root.MutationObserver(()=>void psscTick());headingObserver.observe(heading,{childList:true,characterData:true,subtree:true});return true;
   }
   function psscInstallObservers(){if(psscAttachHeadingObserver()||!root.MutationObserver||!root.document?.documentElement)return;bootstrapObserver=new root.MutationObserver(()=>{if(psscAttachHeadingObserver()){bootstrapObserver.disconnect();bootstrapObserver=null;}});bootstrapObserver.observe(root.document.documentElement,{childList:true,subtree:true});}
-  function psscInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-connected-account-state-change","career-mode-firestore-quota"])root.addEventListener?.(event,()=>psscDropWaitContext());root.addEventListener?.("career-mode-shared-wait-context-change",()=>void psscTick());root.document?.addEventListener?.("visibilitychange",()=>{if(root.document.visibilityState==="hidden")psscDropWaitContext(true);else psscWaitReturn();});if(root.document)root.document.addEventListener("click",psscCapture,true);psscInstallObservers();root.addEventListener?.("career-mode-shared-season-cursor-change",()=>void psscTick());if(typeof root.setInterval==="function"){root.setInterval(()=>{if(!psscWaitHealthy())void psscTick();},POLL_MS);root.setInterval(psscFastTick,FAST_POLL_MS);}if(typeof root.setTimeout==="function")root.setTimeout(()=>void psscTick(),0);return true;}
+  function psscInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-connected-account-state-change","career-mode-firestore-quota"])root.addEventListener?.(event,()=>psscDropWaitContext());root.addEventListener?.("career-mode-shared-wait-context-change",()=>void psscTick());root.document?.addEventListener?.("visibilitychange",()=>{if(root.document.visibilityState==="hidden")psscDropWaitContext(true);else psscWaitReturn();});if(root.document)root.document.addEventListener("click",psscCapture,true);psscInstallObservers();root.addEventListener?.("career-mode-shared-season-cursor-change",()=>void psscTick());if(typeof root.setInterval==="function"){root.setInterval(()=>{if(!psscWaitHealthy())void psscTick();else psscWaitCheck();},POLL_MS);root.setInterval(psscFastTick,FAST_POLL_MS);}if(typeof root.setTimeout==="function")root.setTimeout(()=>void psscTick(),0);return true;}
 
   // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
   try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["season-commit"]=()=>{psscDropWaitContext();waitSettled.clear();view=null;contextKey="";refreshRequestKey="";errorMessage="";pendingErrorKind="";readError="";readErrorKey="";readGeneration+=1;heldReportKey="";fastWaitKey="";fastWaitSince=0;waitFailures={key:"",count:0};};}catch(_error){}

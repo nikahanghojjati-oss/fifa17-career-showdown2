@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/job-1055-league-size-cap-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedSeasonResults\\.js$",
+    "^tests/contracts/job-1055-league-size-cap-contracts\\.cjs$",
+    "^tests/pos20-registry/job\\-1055\\-league\\-size\\-cap\\-contracts\\.json$"
+  ]
+}

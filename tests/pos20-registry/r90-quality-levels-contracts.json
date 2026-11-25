@@ -1,0 +1,13 @@
+{
+  "path": "tests/contracts/r90-quality-levels-contracts.cjs",
+  "patterns": [
+    "^js/.+\\.js$",
+    "^visual-assets/.+\\.(?:html|js|css)$",
+    "^css/.+\\.css$",
+    "^index\\.html$",
+    "^device-check(?:-chamber)?\\.html$",
+    "^docs/QUALITY_LEVELS\\.md$",
+    "^tests/contracts/r90\\-quality\\-levels\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r90\\-quality\\-levels\\-contracts\\.json$"
+  ]
+}

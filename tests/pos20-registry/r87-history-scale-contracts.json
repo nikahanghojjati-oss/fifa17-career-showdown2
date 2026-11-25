@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r87-history-scale-contracts.cjs",
+  "patterns": [
+    "^js/rivalryLegacyV10\\.js$",
+    "^css/rivalryLegacyV10\\.css$",
+    "^visual-assets/v10_1/legacy/",
+    "^tests/contracts/r87\\-history\\-scale\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-history\\-scale\\-contracts\\.json$"
+  ]
+}

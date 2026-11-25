@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r83-remove-test-mode-contracts.cjs",
+  "patterns": [
+    "^js/(showdownModes|onlinePlayerIdentity|productionSharedJourneyEntry|persistentNikDanielPair|careerStartMarker|sparkClosedShowdownCareerLoader|sparkCompletedShowdownReader|sharedClosedShowdownAdapter|rivalryLegacyV10)\\.js$",
+    "^tests/(contracts/r83-remove-test-mode-contracts|support/real-pair-fixture|support/showdown-settings-fixture)\\.cjs$",
+    "^tests/pos20-registry/r83\\-remove\\-test\\-mode\\-contracts\\.json$"
+  ]
+}

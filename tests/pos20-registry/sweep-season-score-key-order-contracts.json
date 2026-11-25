@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/sweep-season-score-key-order-contracts.cjs",
+  "patterns": [
+    "^js/sparkSharedSeasonCommit\\.js$",
+    "^js/sharedSeasonCommit\\.js$",
+    "^js/sharedSeasonResults\\.js$",
+    "^js/sharedShowdownSetup\\.js$",
+    "^js/sharedShowdownCatalog\\.js$",
+    "^tests/contracts/sweep-season-score-key-order-contracts\\.cjs$",
+    "^tests/pos20-registry/sweep\\-season\\-score\\-key\\-order\\-contracts\\.json$"
+  ]
+}
