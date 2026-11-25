@@ -27,6 +27,7 @@ X = {  # Ruby words that grew past batch 1's dictionary (R-6 to R-11 lessons)
          "The marble veins are a few long, smooth, softly curving lines of pale cream stone, never gold, never wavy stripes, never jagged, broken or cracked like ice.")),
 }
 
+FLOOR = {"HOME"}  # rooms whose image 1 shows a floor strip under the counter
 # room: (image 1, keep sentence, counter edge % of the height or None, window?, men?, swatch, extra light)
 R = {
  "HOME": ("IMG1_ENV_HOME_PHONE_HC_V3.png", "the window with the night stadium and pitch, the wall lamp on the pillar, the counter edge", 50, True, True, "HOME", ""),
@@ -80,6 +81,12 @@ def prompt(key, rm):
         keepl += " stays at exactly the same height." if rm == "COACHES" else "."
         if edge:
             keepl += f" Everything below the counter edge is one plain, calm slab of the same polished Rosso Levanto marble as the counter."
+        if win:
+            # R-12 try 1 (25 Nov): Astra filled the top half of two window panes with leather.
+            keepl += " Every window pane stays clear glass from its bottom frame all the way up to its top frame, showing the night outside exactly as in image 1, with no leather or panel inside any window frame."
+        if rm in FLOOR:
+            # R-12 fix 2 (25 Nov): an edit let the counter slab swallow the floor strip at the bottom.
+            keepl += " Below the counter slab, the thin strip of floor along the very bottom edge stays exactly where it is in image 1, in dark polished red stone."
         if not men:
             keepl += " The room is empty of people."
     room = (f"The room: {L['feel']}\n"
