@@ -11,12 +11,12 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "RECEIVED",
  "steps": [],
  "evidence": [],
- "log": [{"at": "2026-11-25T01:06:06Z", "by": "G", "status": "SENT", "note": ""}],
+ "log": [{"at": "2026-11-25T01:06:06Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T01:13:34Z", "by": "V", "status": "RECEIVED", "note": "Matte hold passed to Finish premium clubhouse repaints thread 8:14 p.m. Eastern; no Matte DONE yet (142-152 WORKING, 153-160 SENT, 164/167/170 RECEIVED)"}],
  "from_session": "session_01GU43Q6at4W88Shu3q9v4wP",
- "sessions": {"G": "session_01GU43Q6at4W88Shu3q9v4wP"}
+ "sessions": {"G": "session_01GU43Q6at4W88Shu3q9v4wP", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
 }
 ```
 
