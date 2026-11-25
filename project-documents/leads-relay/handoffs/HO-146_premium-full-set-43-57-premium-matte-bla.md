@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:59Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-25T02:15:31Z", "by": "V", "status": "WORKING", "note": "Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv 28c054804 project-documents/hc-art/ho-premium-full/matte/ENV_COACHES_PLATE_MATTE_P1_2X.webp"],
+ "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:59Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-25T02:15:31Z", "by": "V", "status": "WORKING", "note": "Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra"}, {"at": "2026-11-25T02:51:05Z", "by": "V", "status": "DONE", "note": "Matte (graphite) Coaches: try 1 at 9/10; no wood left, regular herringbone flannel walls in neutral graphite (sat ~0.15), satin graphite window, shelf, cabinet and door, titanium rail, sconce and handle, honed slate counter; men and objects untouched (align ~identity, 1273 inliers)"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
