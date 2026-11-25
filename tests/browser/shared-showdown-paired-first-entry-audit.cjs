@@ -91,7 +91,17 @@ const SAVE_KEY="careerModeShowdown.saveLibrary";
     assert.deepEqual(await page.evaluate(()=>[window.__freshStartAbandonCount,window.__closeOffered||0]),[0,0],"START never closes or offers to close a live Showdown");
     await page.locator("#connectPlayersScreen .connectPlayersBack").click();
     // Once that Showdown is closed (Settings or START OVER), Home START goes straight to the seasons screen: no Connect Players hop.
+    // The fixture closes it behind Home's back (the real pair redraws Home when it closes), so Home still shows the old LIVE tile.
+    // Phoenix B2 (#1614): a tap on a LIVE tile is a CONTINUE, so when START's read finds nothing live it stays on Home, which
+    // redraws as START A SHOWDOWN; it never opens a new Showdown's seasons screen from that stale tile.
     await page.evaluate(()=>{window.__freshStartPairState="closed";});
+    assert.equal(await page.locator("#newShowdown .menuTileCode").textContent(),"LIVE","the fixture's Home still shows the closed Showdown as LIVE");
+    await page.locator("#newShowdown").click();
+    await page.waitForFunction(()=>document.querySelector("#newShowdown .menuTileLabel")?.textContent==="START A SHOWDOWN"&&document.querySelector("#newShowdown")?.getAttribute("aria-busy")!=="true",null,{timeout:5000});
+    assert.equal(await page.locator("#createShowdown").isVisible(),false,"a stale LIVE tile never opens the seasons screen");
+    assert.equal(await page.locator("#connectPlayersScreen").isVisible(),false,"nor Connect Players");
+    assert.equal(await page.locator("#mainMenu").isVisible(),true,"it stays on Home");
+    // Home now shows nothing live: the next START goes straight to the seasons screen, as before.
     await page.locator("#newShowdown").click();
     await page.locator("#createShowdown").waitFor({state:"visible",timeout:5000});
     assert.equal(await page.locator("#connectPlayersScreen").isVisible(),false,"Daniel's Home START goes straight to NEW SHOWDOWN");
