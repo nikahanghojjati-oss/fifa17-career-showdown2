@@ -759,7 +759,7 @@ async function startAndJoin(daniel,nik,length){
   for(const m of [daniel,nik])await m.page.waitForFunction(id=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.connectionState==="active"&&s.rivalryId===id);},rivalryId,{timeout:45000});
   return rivalryId;
 }
-async function fillCombo(page,id,value){await page.locator(`#${id}`).fill(value);await page.waitForFunction(fieldId=>Boolean(document.getElementById(fieldId)?.dataset.canonicalId),id,{timeout:5000});}
+async function fillCombo(page,id,value,timeout){await page.locator(`#${id}`).fill(value,timeout?{timeout}:undefined);await page.waitForFunction(fieldId=>Boolean(document.getElementById(fieldId)?.dataset.canonicalId),id,{timeout:5000});}
 const tcState=page=>page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()||null).catch(()=>null);
 const onTransfer=async page=>await visible(page,"#transferChallenge")&&!(await page.locator("#sqStage, #rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
 const atPrime=async page=>await visible(page,"#igStage")||await visible(page,"#igStepPanel");
@@ -1300,7 +1300,7 @@ async function transfersWithFaults(ctx,R,season){
   await daniel.page.waitForFunction(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()?.state?.endRequestedRoles?.includes("playerOne")===true,null,{timeout:30000});
   await nik.page.locator("#endTransferTimer").click({timeout:30000});
   for(const m of both)await drive(m,async p=>await transferPhase(p)==="guess_entry",{label:"guesses"});
-  const fillGuess=async(m,page)=>{if(m===daniel){await page.locator("#p2Guess1Type").selectOption("league");await fillCombo(page,"p2Guess1Value","Premier League");}else{await page.locator("#p1Guess1Type").selectOption("nationality");await fillCombo(page,"p1Guess1Value","Brazil");}};
+  const fillGuess=async(m,page,timeout)=>{const o=timeout?{timeout}:undefined;if(m===daniel){await page.locator("#p2Guess1Type").selectOption("league",o);await fillCombo(page,"p2Guess1Value","Premier League",timeout);}else{await page.locator("#p1Guess1Type").selectOption("nationality",o);await fillCombo(page,"p1Guess1Value","Brazil",timeout);}};
   const lockBtn=(page,name)=>page.getByRole("button",{name,exact:true});
   // QA S2 (twotabs seed 3): #completeTransferChallenge turns from LOCK MY GUESSES into LOCK MY SIGNINGS in the same element,
   // so a click aimed at one label could land on the other (and the auto-accepted confirm then locked empty signings).
@@ -1325,7 +1325,9 @@ async function transfersWithFaults(ctx,R,season){
     const ready=async p=>await transferPhase(p)==="guess_entry"&&await lockBtn(p,"LOCK MY GUESSES").isVisible();
     await writePoint(ctx,"tw-guess",{writer:X,landed:async()=>{const t=docData(await admin(R(`transferChallenges/season_${season}`)));return Boolean(t&&Array.isArray(t.guessLockedRoles)&&t.guessLockedRoles.includes(ROLE[X.account]));},ready,tap:async p=>{await fillGuess(X,p);await lockClick(p,"LOCK MY GUESSES",10000);},
       settle:(m,page)=>drive(m,async p=>await transferPhase(p)==="signing_entry",{page,label:"signings",stepTaps:async p=>{
-        if(await transferPhase(p)==="guess_entry"&&!has(await tcState(p),"guessLockedRoles",ROLE[m.account])&&await lockBtn(p,"LOCK MY GUESSES").isVisible()){await fillGuess(m,p).catch(()=>{});return await lockClick(p,"LOCK MY GUESSES",5000)?"re-lock guesses":"";}return "";}}),
+        // B4: the own lock is still in flight while the guess fields are disabled (the phone reaches the signings about 3 s
+        // after the tap); a re-lock then waited out Playwright's 30 s on the disabled select. Re-lock only with the fields open.
+        if(await transferPhase(p)==="guess_entry"&&!has(await tcState(p),"guessLockedRoles",ROLE[m.account])&&await lockBtn(p,"LOCK MY GUESSES").isVisible()&&await p.locator(m===daniel?"#p2Guess1Type":"#p1Guess1Type").isEnabled().catch(()=>false)){await fillGuess(m,p,3000).catch(()=>{});return await lockClick(p,"LOCK MY GUESSES",5000)?"re-lock guesses":"";}return "";}}),
       checks:async(check)=>{for(const m of both){const s=await tcState(m.page);await check(m,"guesses.both",has(s,"guessLockedRoles","playerOne")&&has(s,"guessLockedRoles","playerTwo"),JSON.stringify(s?.state?.guessLockedRoles));}}});
   }
   const fillSigning=async(m,page)=>{
