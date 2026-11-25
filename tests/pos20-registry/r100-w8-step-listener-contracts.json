@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r100-w8-step-listener-contracts.cjs",
+  "patterns": [
+    "^js/chamberMenStep\\.js$",
+    "^js/iconGuessStep\\.js$",
+    "^js/squadSheetStep\\.js$",
+    "^tests/contracts/r100\\-w8\\-step\\-listener\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-w8\\-step\\-listener\\-contracts\\.json$"
+  ]
+}

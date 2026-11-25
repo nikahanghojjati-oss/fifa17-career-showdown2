@@ -1089,7 +1089,7 @@
       if(fsbPaused())return Promise.reject(fsbQuotaError());
       const lookups=fsbReadLookups(fsbPathOf(args[0]),true);
       try{pending=get.apply(this,args);}catch(error){fsbGetFailed(error,lookups);throw error;}
-      return Promise.resolve(pending).then(snapshot=>{const units=fsbMeterUnits(snapshot);fsbStats.directReads+=units;fsbCountRead(units,false,lookups,true);return snapshot;},error=>{fsbGetFailed(error,lookups);throw error;});
+      return Promise.resolve(pending).then(snapshot=>{const units=fsbMeterUnits(snapshot);fsbStats.directReads+=units;fsbCountRead(units,false,lookups,true);fsbTap(fsbPathOf(args[0]),snapshot);return snapshot;},error=>{fsbGetFailed(error,lookups);throw error;});
     };
     fsbMetered.add(metered);
     return metered;
@@ -1099,7 +1099,7 @@
     if(typeof listen!=="function"||fsbMetered.has(listen))return listen;
     const metered=function(ref,...rest){
       let served=false;const path=fsbPathOf(ref);
-      const next=fn=>function(snapshot){const units=fsbMeterUnits(snapshot,true,served),first=!served;if(units||snapshot&&snapshot.metadata&&snapshot.metadata.fromCache===false)served=true;fsbCountRead(units,true,first||units?fsbReadLookups(path):0);return fn.apply(this,arguments);};
+      const next=fn=>function(snapshot){const units=fsbMeterUnits(snapshot,true,served),first=!served;if(units||snapshot&&snapshot.metadata&&snapshot.metadata.fromCache===false)served=true;fsbCountRead(units,true,first||units?fsbReadLookups(path):0);if(snapshot&&snapshot.metadata&&snapshot.metadata.fromCache===false)fsbTap(path,snapshot);return fn.apply(this,arguments);};
       const fail=fn=>function(error){fsbCountRead(fsbMeterFailureUnits(error),true,served?0:fsbReadLookups(path));return fn.apply(this,arguments);};
       let functions=0;
       const args=rest.map(arg=>{
@@ -1141,6 +1141,26 @@
 
   function fsbNow(){return Date.now();}
   function fsbPathOf(ref){return ref&&typeof ref.path==="string"?ref.path:"";}
+  // r100 Phoenix B5: the Flight Recorder (js/flightRecorder.js) sees each server copy of a rivalry document this layer already
+  // holds (transaction and probe reads, listener deliveries, direct gets). It keeps only the public step ledger of the live
+  // Showdown (never a role document, a pick, a guess, a signing or a score) and makes no read or write of its own. Until the
+  // module has loaded, up to 128 copies wait here; any failure in it is swallowed, so no read, copy or result changes.
+  // Only the six public ledger documents the recorder keeps are handed on or queued (role, Prime Pack and session documents never
+  // are); a failed load drops the queue and waits a minute before trying again.
+  const fsbFlightPath=/^rivalries\/[^/]+(?:\/(?:sharedSetup|careerStart)\/authoritative|\/(?:transferChallenges|seasonResults|seasonCommits)\/season_(?:[1-9]|10))?$/;
+  const fsbFlightQueue=[];let fsbFlightAsked=false,fsbFlightRetryAt=0;
+  function fsbTap(path,snapshot){
+    try{
+      if(typeof path!=="string"||!fsbFlightPath.test(path)||!snapshot||typeof snapshot!=="object"||Array.isArray(snapshot.docs))return;
+      const recorder=root.CareerModeFlightRecorder;
+      if(recorder&&typeof recorder.observe==="function"){fsbTapFlush(recorder);recorder.observe(path,snapshot);return;}
+      if(Date.now()<fsbFlightRetryAt)return;
+      if(fsbFlightQueue.length>=128)fsbFlightQueue.shift();
+      fsbFlightQueue.push([path,snapshot]);
+      if(!fsbFlightAsked&&typeof root.loadRuntimeScript==="function"){fsbFlightAsked=true;Promise.resolve().then(()=>root.loadRuntimeScript("flight-recorder","js/flightRecorder.js",()=>Boolean(root.CareerModeFlightRecorder))).then(()=>fsbTapFlush(root.CareerModeFlightRecorder),()=>{fsbFlightAsked=false;fsbFlightQueue.length=0;fsbFlightRetryAt=Date.now()+60000;});}
+    }catch(_error){}
+  }
+  function fsbTapFlush(recorder){try{if(!recorder||typeof recorder.observe!=="function")return;while(fsbFlightQueue.length){const [path,snapshot]=fsbFlightQueue.shift();try{recorder.observe(path,snapshot);}catch(_error){}}}catch(_error){}}
   function fsbIsQuotaError(error){
     for(let item=error,depth=0;item&&typeof item==="object"&&depth<3;item=item.cause,depth+=1){
       const code=String(item.code||"").toLowerCase(),message=String(item.message||"");
@@ -1221,6 +1241,10 @@
       // (every update needs WINDOW_OPEN, GUESS_ENTRY or SIGNING_ENTRY before it) and cannot be deleted.
       if(/^rivalries\/[^/]+\/sharedSetup\/leagueProjection$/.test(path))return true;
       if(/^rivalries\/[^/]+\/transferChallenges\/[^/]+$/.test(path))return Boolean(value&&value.phase==="COMPLETED");
+      // r100 read cut B (B4): a manager's private Transfer War document is created by LOCK MY GUESSES and updated once, by LOCK
+      // MY SIGNINGS (the Rules allow an update only while signings and signingLockedAt are still empty, and no delete); once
+      // it holds both, it never changes again, so its copy is kept like the COMPLETED season document above.
+      if(/^rivalries\/[^/]+\/transferChallenges\/[^/]+\/roles\/(playerOne|playerTwo)$/.test(path))return Boolean(value&&value.objectType==="sharedTransferChallengeRole"&&value.signingLockedAt!==null&&value.signingLockedAt!==undefined&&Array.isArray(value.signings));
     }catch(_error){}
     return false;
   }
@@ -1311,6 +1335,7 @@
     if(db!==fsbFirestore)return;
     const path=fsbPathOf(ref);
     if(!path)return;
+    fsbTap(path,snapshot);
     const before=fsbEntries.get(path);
     fsbEntries.delete(path);
     const entry={snapshot,at:fsbNow(),dirty:false,immutable:fsbImmutable(path,snapshot)};
@@ -1367,6 +1392,7 @@
   function fsbCtxDelivery(watch,snapshot){
     if(fsbCtxWatches.get(watch.path)!==watch)return;
     if(!snapshot||!snapshot.metadata||snapshot.metadata.fromCache||snapshot.metadata.hasPendingWrites){watch.healthy=false;return;}
+    fsbTap(watch.path,snapshot);
     const serial=fsbSerial(snapshot),known=fsbEntries.get(watch.path);
     const before=watch.serial!==null?watch.serial:(known?fsbSerial(known.snapshot):null);
     watch.snapshot=snapshot;watch.serial=serial;watch.healthy=true;watch.dirty=false;watch.confirmedAt=fsbNow();
@@ -1497,6 +1523,7 @@
   function fsbWaitDelivery(wait,snapshot){
     if(fsbWait!==wait)return;
     if(!snapshot||!snapshot.metadata||snapshot.metadata.fromCache||snapshot.metadata.hasPendingWrites){wait.healthy=false;return;}
+    fsbTap(wait.path,snapshot);
     const serial=fsbSerial(snapshot),version=fsbVersion(snapshot);
     const before=wait.serial!==null?wait.serial:fsbSerial(fsbEntries.get(wait.path)&&fsbEntries.get(wait.path).snapshot);
     const changed=before!==null&&before!==serial;

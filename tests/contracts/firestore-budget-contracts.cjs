@@ -699,7 +699,7 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     const onSnapshot=(ref,options,next,error)=>{listeners.active+=1;listeners.attached+=1;listeners.max=Math.max(listeners.max,listeners.active);let open=true;
       const off=world.sdk.onSnapshot(ref,options,snapshot=>{if(!open)return;serverReads[ref.path]=(serverReads[ref.path]||0)+1;next({...snapshot,data:()=>revive(snapshot.data())});},error);
       return()=>{if(open){open=false;listeners.active-=1;}off();};};
-    const sdk={...world.sdk,onSnapshot,doc:(_db,...segments)=>({path:segments.join("/")}),serverTimestamp:()=>({__serverTimestamp:true}),Timestamp:{fromMillis:ms=>({__ms:ms})},runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{const snapshot=await transaction.get(ref);serverReads[ref.path]=(serverReads[ref.path]||0)+1;return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)}))};
+    const sdk={...world.sdk,onSnapshot,doc:(_db,...segments)=>({path:segments.join("/")}),serverTimestamp:()=>({__serverTimestamp:true}),Timestamp:{fromMillis:ms=>({__ms:ms})},runTransaction:(db,fn)=>world.sdk.runTransaction(db,transaction=>fn({get:async ref=>{const snapshot=await transaction.get(ref);if(world.readGate)await world.readGate;serverReads[ref.path]=(serverReads[ref.path]||0)+1;return{...snapshot,data:()=>revive(snapshot.data())};},set:(ref,value)=>transaction.set(ref,value)}))};
     // No Connect Players screen on Home: the panel render finds nothing and draws nothing.
     Object.assign(world.document,{querySelector:()=>null,getElementById:()=>null,querySelectorAll:()=>[],dispatchEvent:()=>true});
     Object.assign(sandbox,{TextEncoder,crypto:require("node:crypto").webcrypto,
@@ -789,6 +789,79 @@ async function check(id,label,fn){await fn();results.push(id);console.log(`ok ${
     assert.ok(listeners.max<=1,"never a second listener");
     world.setVisible(false);const before=reads();await world.advance(5*60000);assert.equal(reads(),before,"fallback: none while hidden");world.setVisible(true);
     pair.stopJoinNoteWatch();home=false;const off=reads();await world.advance(5*60000);assert.equal(reads(),off,"fallback: none off Home");
+  });
+
+  await check("FB11w8","Phoenix W8 listener census: a note listener whose stream is down (it only turns fromCache) still brings Daniel's JOIN to Nik's Home, by the memoised read once per 30 s, and stops when a server copy is back",async()=>{
+    const stallWorld=async()=>{const w=await nikPairWorld();let home=true;w.isHomeShown=()=>home;w.leave=()=>{home=false;};w.reads=()=>w.serverReads[w.inbox]||0;
+      await w.pair.readPartnerRecord();assert.equal(await w.pair.watchJoinNote({isHomeShown:w.isHomeShown}),true);assert.equal(w.reads(),1);
+      // the stream goes down: the SDK marks its copy fromCache and delivers nothing more, not even an error
+      w.stall=()=>{w.world.cacheDeliver(w.inbox);for(const listener of w.world.activeListeners())listener.next=()=>{};};return w;};
+    // Daniel's START writes the note while Nik's listener is down: JOIN shows within one memo window, with one read
+    {const w=await stallWorld();w.stall();await w.world.advance(1000);const before=w.reads(),rivalryId=`pair_3${"4".repeat(63)}`;
+      w.world.serverWrite(w.inbox,{schemaVersion:1,rivalryId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:w.world.clock.now},expiresAt:{__ms:w.world.clock.now+20*60000}});
+      let seen=null;for(let t=0;t<=35000&&seen===null;t+=1000){if(w.pair.getJoinNoteState(w.world.clock.now).note?.rivalryId===rivalryId)seen=t;else await w.world.advance(1000);}
+      assert.ok(seen!==null&&seen<=30000,`Daniel's note reaches Nik's Home while the listener is down (${seen} ms)`);
+      assert.equal(w.reads()-before,1,"one read found it");assert.ok(w.listeners.max<=1,"never a second listener");
+      assert.equal(w.listeners.active,0,"JOIN showing: the watch stops");
+      await w.world.advance(5*60000);assert.equal(w.reads()-before,1,"nothing more is read while JOIN shows");}
+    // a quiet stall for the whole 10-minute Home window: at most one read per 30 s, none hidden, none off Home
+    {const w=await stallWorld();w.stall();const before=w.reads();
+      for(let t=0;t<10*60000;t+=5000){await w.pair.watchJoinNote({isHomeShown:w.isHomeShown,resume:true});await w.world.advance(5000);}
+      const quiet=w.reads()-before;assert.ok(quiet>=15&&quiet<=21,`10 stalled minutes on Home: ${quiet} note reads (once per 30 s)`);
+      await w.world.advance(5*60000);assert.equal(w.reads()-before,quiet,"the 10-minute window ends the reads");}
+    {const w=await stallWorld();w.stall();await w.world.advance(1000);w.world.setVisible(false);const before=w.reads();await w.world.advance(5*60000);
+      assert.equal(w.reads(),before,"hidden: no bridge read");w.world.setVisible(true);}
+    {const w=await stallWorld();w.stall();await w.world.advance(1000);w.pair.stopJoinNoteWatch();w.leave();const before=w.reads();await w.world.advance(5*60000);
+      assert.equal(w.reads(),before,"off Home: no bridge read");}
+    // the stream comes back before the first bridge read: its server copy ends the bridge, nothing extra is read
+    {const w=await stallWorld();const [listener]=w.world.activeListeners();const next=listener.next;w.world.cacheDeliver(w.inbox);await w.world.advance(1000);
+      next({exists:()=>false,data:()=>undefined,metadata:{fromCache:false,hasPendingWrites:false},ref:{path:w.inbox}});
+      const before=w.reads();await w.world.advance(5*60000);assert.equal(w.reads(),before,"a live listener again: no bridge reads");}
+    // Codex #1588: a bridge read still out when the listener comes back with Daniel's note never takes the JOIN away
+    {const w=await stallWorld();const [listener]=w.world.activeListeners();const next=listener.next;w.stall();let release;w.world.readGate=new Promise(resolve=>{release=resolve;});
+      await w.world.advance(31000);  // the bridge read has read the old (empty) inbox and is held before it returns
+      const rivalryId=`pair_3${"5".repeat(63)}`,data={schemaVersion:1,rivalryId,totalSeasons:3,fromAccountId:"daniel",createdAt:{__ms:w.world.clock.now},expiresAt:{__ms:w.world.clock.now+20*60000}};
+      w.world.server.set(w.inbox,{data,version:99});
+      next({exists:()=>true,data:()=>JSON.parse(JSON.stringify(data)),metadata:{fromCache:false,hasPendingWrites:false},ref:{path:w.inbox}});
+      assert.equal(w.pair.getJoinNoteState(w.world.clock.now).note?.rivalryId,rivalryId,"the listener's copy shows JOIN");
+      w.world.readGate=null;release();await w.world.advance(1000);
+      assert.equal(w.pair.getJoinNoteState(w.world.clock.now).note?.rivalryId,rivalryId,"the older bridge read landing after it keeps JOIN");}
+    // offline: the bridge waits for the browser to come back
+    {const w=await stallWorld();w.world.sandbox.navigator={onLine:false};w.stall();const before=w.reads();await w.world.advance(3*60000);
+      assert.equal(w.reads(),before,"offline: no bridge read");w.world.sandbox.navigator={onLine:true};await w.world.advance(2000);assert.equal(w.reads()-before,1,"back online: one read at once");}
+  });
+
+  await check("FB-W8-STEP","Codex #1588: a step bridge read through the budget layer reaches the server every time (readServerNext), so the rival's move shows within one bridge interval even past the first minute, when the 8 s pace is too slow for the fast-check window",async()=>{
+    for(const [file,watch,wait,ids,collection] of [["js/iconGuessStep.js","igsWatch","igsWait","igs","primePackRounds"],["js/chamberMenStep.js","cmsWatch","cmsWait","cms","chamberMenRounds"]]){
+      const world=createWorld(),src=fs.readFileSync(path.join(ROOT,file),"utf8");
+      const start=src.indexOf(`  async function ${watch}(io,ctx,onData,onError){`);assert.ok(start>0,`${watch} is where it was`);const body=src.slice(start,src.indexOf("\n  }\n",start)+4);
+      const helper=src.match(new RegExp(`  function ${ids}ServerNext\\(io,season\\)\\{[^\\n]*\\n`));assert.ok(helper,`${file} asks the budget layer for a server read`);
+      const pace=src.match(/const BRIDGE_FAST_MS=[^;]+;/);assert.ok(pace,`${file} sets its bridge pace`);
+      const realCollection=(src.match(/COLLECTION="([^"]+)"/)||[])[1];assert.ok(realCollection,`${file} names its collection`);
+      const rivalryId=`pair_9${"0".repeat(63)}`,docPath=`rivalries/${rivalryId}/${realCollection}/season_1`;
+      world.serverWrite(docPath,{revision:1,mark:"first"});
+      const sdk=world.services.firestoreSdk;
+      const io={sdk:{...sdk,onSnapshot:world.sdk.onSnapshot,doc:(_db,...segments)=>({path:segments.join("/")})},firestore:world.db,rivalryId};
+      const seen=[];
+      const code=`${pace[0].replace("const ","var ")}var COLLECTION=${JSON.stringify(realCollection)},POLL_MS=2500;const root=globalThis;
+        const ${wait}=ms=>new Promise(r=>setTimeout(r,ms));
+        function ${ids}SeasonId(s){return "season_"+s;}
+        async function ${watch.replace("Watch","SnapshotApi")}(io){return io.sdk;}
+        function ${ids}Ref(io,season){return io.sdk.doc(io.firestore,"rivalries",io.rivalryId,COLLECTION,${ids}SeasonId(season));}
+        ${helper[0]}${body}
+        (${watch})`;
+      const run=vm.runInContext(code,world.sandbox);
+      const off=await run(io,{season:1,managerRole:"playerOne"},data=>{seen.push(data&&data.mark);},()=>{});
+      await world.advance(100);assert.equal(seen.at(-1),"first",`${watch}: the listener's first server copy`);
+      // the stream goes down: one cached copy, then silence
+      world.cacheDeliver(docPath);for(const listener of world.activeListeners())listener.next=()=>{};
+      await world.advance(70000);   // past the first minute: Prime Pack is on its 8 s pace now
+      world.server.set(docPath,{data:{revision:2,mark:"rival moved"},version:999});const movedAt=world.clock.now;
+      let shownAt=null;for(let t=0;t<=20000&&shownAt===null;t+=500){if(seen.at(-1)==="rival moved")shownAt=world.clock.now-movedAt;else await world.advance(500);}
+      const step=file.includes("iconGuess")?8000:2500;
+      assert.ok(shownAt!==null&&shownAt<=step+500,`${watch}: the rival's move shows within one bridge interval through the budget layer (${shownAt} ms, interval ${step} ms)`);
+      off();
+    }
   });
 
   await check("FB11d","Codex #903: a miss the listener delivered is never served as the 30 s memo once the listener is gone (Daniel may write right after)",async()=>{
