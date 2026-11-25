@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 10:11 PM Boston time (EST)",
+ "generated": "2026-11-24 10:16 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 560,
+  "count": 561,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -5036,6 +5036,15 @@
     "boston": "Tue 24 Nov 10:06 PM"
    },
    {
+    "time": "2026-11-25 03:11",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-152 DONE",
+    "subject": "Premium full set 49/57: Premium Matte Black Clubhouse, Board Room, phone band repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 10:11 PM"
+   },
+   {
     "time": "2026-11-25 03:25",
     "from": "Team G",
     "to": "Team V",
@@ -5063,8 +5072,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "fefc9ab",
-  "head_boston": "Tue 24 Nov 10:06 PM",
+  "head": "b9e4c54",
+  "head_boston": "Tue 24 Nov 10:13 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5106,10 +5115,10 @@
    ]
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear (from GitHub).",
-   "gate": "POS20 #304 7/7",
-   "source": "github"
+   "state": "barking",
+   "line": "Barking: Showdown Gate on #1598 has waited 104 min for a machine; Showdown Gate on #1591 has waited 104 min for a machine; Showdown Gate on #1608 has waited 94 min for a machine; Showdown Gate on #1576 has waited 90 min for a machine; Showdown Gate on #1617 has waited 85 min for a machine; Showdown Gate on #1618 has waited 82 min for a machine; Showdown Gate on #1614 has waited 80 min for a machine; Showdown Gate on #1619 has waited 58 min for a machine.",
+   "gate": "POS20 #304 6/16",
+   "source": "physio"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -5894,7 +5903,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24487
+    "waiting_min": 24492
    },
    {
     "id": "HO-059",
@@ -7123,7 +7132,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 50/57: Premium Matte Black Clubhouse, Office, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-153_premium-full-set-50-57-premium-matte-bla.md",
@@ -7136,7 +7145,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 51/57: Premium Matte Black Clubhouse, Hall, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-154_premium-full-set-51-57-premium-matte-bla.md",
@@ -7149,7 +7158,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 52/57: Premium Matte Black Clubhouse, Archive, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-155_premium-full-set-52-57-premium-matte-bla.md",
@@ -7162,7 +7171,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 53/57: Premium Matte Black Clubhouse, Directors' box, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-156_premium-full-set-53-57-premium-matte-bla.md",
@@ -7175,7 +7184,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 54/57: Premium Matte Black Clubhouse, Coaches' room, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-157_premium-full-set-54-57-premium-matte-bla.md",
@@ -7188,7 +7197,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 55/57: Premium Matte Black Clubhouse, Players' tunnel, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-158_premium-full-set-55-57-premium-matte-bla.md",
@@ -7201,7 +7210,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 56/57: Premium Matte Black Clubhouse, Club room, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-159_premium-full-set-56-57-premium-matte-bla.md",
@@ -7214,7 +7223,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 57/57: Premium Matte Black Clubhouse, Loading tunnel, phone band repaint",
-    "stage": "SENT",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-160_premium-full-set-57-57-premium-matte-bla.md",
@@ -7266,7 +7275,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-164_premium-league-roulette-room-3-6-premium.md",
@@ -7305,7 +7314,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-167_premium-league-roulette-room-6-6-premium.md",
@@ -7344,7 +7353,7 @@
     "from": "G",
     "to": "V",
     "title": "Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways",
-    "stage": "RECEIVED",
+    "stage": "WORKING",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-170_premium-club-room-sideways-3-3-premium-m.md",
