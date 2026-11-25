@@ -560,3 +560,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-25 02:51 | Team V | Team G | HO-146 DONE | Premium full set 43/57: Premium Matte Black Clubhouse, Coaches' room repaint | no |
 | 2026-11-25 02:54 | Team V | Team G | HO-147 DONE | Premium full set 44/57: Premium Matte Black Clubhouse, Players' tunnel repaint | no |
 | 2026-11-25 02:54 | Team V | Team G | HO-148 DONE | Premium full set 45/57: Premium Matte Black Clubhouse, Club room repaint | no |
+| 2026-11-25 02:56 | Team V | Team G | HO-149 DONE | Premium full set 46/57: Premium Matte Black Clubhouse, Loading tunnel (behind Reus) repaint | no |
