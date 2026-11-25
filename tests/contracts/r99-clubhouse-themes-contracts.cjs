@@ -2,8 +2,8 @@
 "use strict";
 // R99-01 clubhouse themes (Nik 2026-11-23): "3 club house themes: current one, silver one and black metallic one" (23:21 UTC: a fourth,
 // Premium Matte Black; Metal Black renamed Metallic Black), switched in Settings, keeping every element of every screen including the heroes. The pick lives on this device only (localStorage).
-// A theme draws each room plate from plates-hc/<theme>/ (the same room recoloured, Daniel and Nik held out by a mask,
-// tools/clubhouse-themes/build.py) and the panel marble from css/r78-marble-tile-metal.webp; index.html sets it before anything
+// A theme draws each room plate from plates-hc/<theme>/ (the premium painting of the room, Daniel and Nik held out by a mask,
+// tools/clubhouse-themes/paint.py, listed in PREMIUM_FILES.json) and the panel marble from css/r78-marble-tile-metal.webp; index.html sets it before anything
 // loads. The browser half (every screen draws and downloads only its themed room, desktop and phones) is
 // CMS_CLUBHOUSE=silver|black|matte node tests/browser/r91-old-art-audit.cjs.
 const assert = require("node:assert/strict");
@@ -117,6 +117,31 @@ check("the current clubhouse runs nothing: no attribute, no observer, no DOM hoo
   const u = "url(visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_1X.webp)";
   assert.equal(r.window.cmsClubhouse.fix(u), u);
   assert.equal(runtime("purple").window.cmsClubhouse.theme(), "current", "an unknown saved value is the current clubhouse");
+});
+
+// Nik 2026-11-25: "the game never accidentally load a, those low quality versions again". Every file in a premium clubhouse
+// folder is a premium painting's output, listed with its hash in tools/clubhouse-themes/PREMIUM_FILES.json (manifest.py).
+check("every Platinum, Metallic Black and Premium Matte Black room file is a listed premium painting, unchanged", () => {
+  const crypto = require("node:crypto");
+  const sha = rel => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex");
+  const man = JSON.parse(read("tools/clubhouse-themes/PREMIUM_FILES.json"));
+  const LOOK = { silver: "SILVER", black: "BLACK", matte: "MATTE" };
+  const found = [];
+  for(const theme of Object.keys(LOOK))
+    for(const dir of [`visual-assets/v10_1/plates-hc/${theme}`, `assets/loading/${theme}`])
+      for(const f of fs.readdirSync(path.join(ROOT, dir))) found.push(`${dir}/${f}`);
+  assert.ok(found.length >= 190, `the premium folders are found (${found.length})`);
+  assert.deepEqual(found.slice().sort(), Object.keys(man.files).sort(), "the premium folders hold exactly the listed premium files, nothing older or extra");
+  for(const [rel, e] of Object.entries(man.files)){
+    assert.equal(sha(rel), e.sha256, `${rel} is the premium file that was painted (re-run paint.py, pin.py, manifest.py)`);
+    const theme = rel.split("/").slice(-2)[0];
+    assert.ok(path.basename(e.painting).includes(`_${LOOK[theme]}_`), `${rel} comes from a ${LOOK[theme]} painting (${e.painting})`);
+    assert.ok(e.painting in man.paintings, `${e.painting} is listed`);
+  }
+  for(const [rel, h] of Object.entries(man.paintings)){
+    assert.ok(fs.existsSync(path.join(ROOT, rel)), `${rel} (a premium painting) is in the repo`);
+    assert.equal(sha(rel), h, `${rel} is the approved painting`);
+  }
 });
 
 check("Silver, Metallic Black and Premium Matte Black draw the themed rooms and the metal marble, and switching back restores the plain rooms", () => {
