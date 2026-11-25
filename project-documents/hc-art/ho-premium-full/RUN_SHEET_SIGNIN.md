@@ -1,0 +1,233 @@
+# Run sheet: Sign-in lounge HO-174..181 (all four clubhouses)
+
+Built 25 Nov 2026 1:20 a.m. Eastern from Team G's tickets (leads/relay 788ed026) plus Team V locks: exact pixel size, image 1's gold crack-net marble and blown-out light bars gone, calm veins (HO-108 lesson), clean ceiling, unbroken walls. Platinum stays bright platinum (Nik 24 Nov).
+Nik 25 Nov 12:57 a.m. Eastern: keep the view, the furniture and the reflective marble; match each clubhouse's colours; clean ceiling, unbroken walls, natural marble veins; handcrafted, not AI. No men in these pictures.
+One brand-new chat per ticket, Work mode Astra 6 Extra High. Attach Image 1 then Image 2 (download the PNG fresh). Paste the prompt exactly; if ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+
+## HO-174 · Sign-in lounge 1/8: Wooden Clubhouse, desktop
+
+- Image 1: [ENV_SETTINGS_PLATE_V2_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PLATE_V2_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PLATE_V2_2X.png))
+- Image 2: [REF_PILOT_WOODEN.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_WOODEN.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_WOODEN.png))
+- Saves as `ENV_SIGNIN_PLATE_WOODEN_P1_2X` in `wooden/`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. The output is exactly the same size and shape as image 1 (3072 by 1728 pixels), never narrower, wider or taller: do not zoom in, zoom out, crop or move the camera, and nothing in it moves or changes size. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies, gold balls and books, the dark stone pillar beside them, the potted plant in its tall pot, the floor lamp, the tall windows with the night city skyline, the panel with the crown emblem between the windows, the second potted plant, the long tufted leather sofa with its cushions, the round coffee table with the small gold crown and the gold cup, the round side table in the front right with the books and the gold crown, the armchair in the front right, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A private members' lounge in the Wooden clubhouse at night: real dark walnut, real black marble and real aged brass, handcrafted.
+The wall panels, the pillar faces and the shelving become dark walnut with a fine straight grain and a hand-rubbed satin finish, in the same panel layout, with thin aged-brass inlay lines where the gold light strips are now. The stone pillar and the stone table tops become black marble with fine, soft, natural grey-gold veins. All trims, light strips, table legs and lamp metal become aged brass with a soft satin glow. The floor becomes large polished black marble tiles with fine natural grey-gold veins, laid in straight even rows, holding soft true reflections of the lamps. The ceiling becomes a dark walnut coffered ceiling with straight even beams. The sofa and armchair become deep brown leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Image 1 lock: image 1's stone is covered in a spider-web net of thin glowing gold cracks; that net is gone completely from every pillar, cabinet, table top and floor tile. Marble veins: the black marble carries only a few long, smooth, softly curving grey-gold veins that drift gently across each slab like brush strokes, and each floor tile has its own calm veins. No jagged, broken, branching or net-like lines anywhere, nothing that looks like cracked ice or lightning, and no vein glows. The glowing gold light bars of image 1 become thin solid trims with a gentle, even light: no blown-out bars of light and no bloom. The ceiling and the dark soffit at the top are one plain, flat, straight surface with clean recessed cove lines, no repeating light panels and no melted shapes. Every wall panel, pillar and window mullion is solid and continuous from floor to ceiling, with straight edges that meet cleanly.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. The walnut glows warm and deep near the lamps and falls to dark brown-black in the corners; brass catches soft warm highlights; the marble floor holds calm, true reflections.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-175 · Sign-in lounge 2/8: Platinum Clubhouse, desktop
+
+- Image 1: [ENV_SETTINGS_PLATE_V2_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PLATE_V2_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PLATE_V2_2X.png))
+- Image 2: [REF_PILOT_SILVER.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_SILVER.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_SILVER.png))
+- Saves as `ENV_SIGNIN_PLATE_SILVER_P1_2X` in `silver/`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. The output is exactly the same size and shape as image 1 (3072 by 1728 pixels), never narrower, wider or taller: do not zoom in, zoom out, crop or move the camera, and nothing in it moves or changes size. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies, gold balls and books, the dark stone pillar beside them, the potted plant in its tall pot, the floor lamp, the tall windows with the night city skyline, the panel with the crown emblem between the windows, the second potted plant, the long tufted leather sofa with its cushions, the round coffee table with the small gold crown and the gold cup, the round side table in the front right with the books and the gold crown, the armchair in the front right, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A platinum members' lounge at night: real metal leaf, real polished nickel, real pale stone, handcrafted.
+The wall panels, the pillar faces and the shelving become hand-laid silver leaf with a fine straight brushed grain, set in polished nickel mouldings, in the same panel layout; the gold light strips become thin polished nickel strips lit warm. The stone pillar and the stone table tops become pale grey marble with soft darker grey veins (light stone with dark veins, never dark stone with white cracks). All trims, light strips, table legs and lamp metal become polished nickel that mirrors the room. The floor becomes large polished pale grey marble tiles with soft darker grey veins, laid in straight even rows, holding clear true reflections of the lamps. The ceiling becomes a deep graphite plaster ceiling with clean straight recessed coves. The sofa and armchair become deep charcoal leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Image 1 lock: image 1's stone is covered in a spider-web net of thin glowing gold cracks; that net is gone completely from every pillar, cabinet, table top and floor tile. Marble veins: the pale grey marble carries only a few long, smooth, softly curving darker grey veins that drift gently across each slab like brush strokes, and each floor tile has its own calm veins. No jagged, broken, branching or net-like lines anywhere, nothing that looks like cracked ice or lightning, and no vein glows. The glowing gold light bars of image 1 become thin solid trims with a gentle, even light: no blown-out bars of light and no bloom. The ceiling and the dark soffit at the top are one plain, flat, straight surface with clean recessed cove lines, no repeating light panels and no melted shapes. Every wall panel, pillar and window mullion is solid and continuous from floor to ceiling, with straight edges that meet cleanly. The room reads as bright platinum at night, exactly like image 2: never near-black, never beige, taupe or brown.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows: bright and mirror-like near the lamps, pewter and graphite in the corners, never blue.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-176 · Sign-in lounge 3/8: Metallic Black Clubhouse, desktop
+
+- Image 1: [ENV_SETTINGS_PLATE_V2_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PLATE_V2_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PLATE_V2_2X.png))
+- Image 2: [REF_PILOT_BLACK.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_BLACK.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_BLACK.png))
+- Saves as `ENV_SIGNIN_PLATE_BLACK_P1_2X` in `black/`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. The output is exactly the same size and shape as image 1 (3072 by 1728 pixels), never narrower, wider or taller: do not zoom in, zoom out, crop or move the camera, and nothing in it moves or changes size. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies, gold balls and books, the dark stone pillar beside them, the potted plant in its tall pot, the floor lamp, the tall windows with the night city skyline, the panel with the crown emblem between the windows, the second potted plant, the long tufted leather sofa with its cushions, the round coffee table with the small gold crown and the gold cup, the round side table in the front right with the books and the gold crown, the armchair in the front right, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+The wall panels, the pillar faces and the shelving become gun-blued blackened steel with fine shadow gaps and machined chamfered edges, in the same panel layout; the gold light strips stay as thin polished gold lines. The stone pillar and the stone table tops become black granite, near true black, with a few very fine warm gold flecks. All trims, light strips, table legs and lamp metal become polished gold. The floor becomes large mirror-polished black granite tiles laid in straight even rows, near true black, with dim true reflections of the lamps. The ceiling becomes a deep black ceiling with clean straight recessed coves. The sofa and armchair become black leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Image 1 lock: image 1's stone is covered in a spider-web net of thin glowing gold cracks; that net is gone completely from every pillar, cabinet, table top and floor tile. Granite: the black granite has no veins at all, only a few very fine warm flecks, and each floor tile is one calm, even, near-black slab. No jagged, broken, branching or net-like lines anywhere, nothing that looks like cracked ice or lightning, and no vein glows. The glowing gold light bars of image 1 become thin solid trims with a gentle, even light: no blown-out bars of light and no bloom. The ceiling and the dark soffit at the top are one plain, flat, straight surface with clean recessed cove lines, no repeating light panels and no melted shapes. Every wall panel, pillar and window mullion is solid and continuous from floor to ceiling, with straight edges that meet cleanly.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. Every large surface stays near true black; only small, sharp, warm gold highlights and true reflections show where the light falls.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-177 · Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop
+
+- Image 1: [ENV_SETTINGS_PLATE_V2_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PLATE_V2_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PLATE_V2_2X.png))
+- Image 2: [REF_PILOT_MATTE.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_MATTE.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_MATTE.png))
+- Saves as `ENV_SIGNIN_PLATE_MATTE_P1_2X` in `matte/`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. The output is exactly the same size and shape as image 1 (3072 by 1728 pixels), never narrower, wider or taller: do not zoom in, zoom out, crop or move the camera, and nothing in it moves or changes size. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies, gold balls and books, the dark stone pillar beside them, the potted plant in its tall pot, the floor lamp, the tall windows with the night city skyline, the panel with the crown emblem between the windows, the second potted plant, the long tufted leather sofa with its cushions, the round coffee table with the small gold crown and the gold cup, the round side table in the front right with the books and the gold crown, the armchair in the front right, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A private members' lounge in neutral graphite velvet: low-gloss fine herringbone wool flannel, honed slate and satin titanium, handcrafted.
+The wall panels and the pillar faces become upholstered fine herringbone wool flannel in a neutral graphite with no brown, with visible stitched seams, framed in thin satin graphite lacquer mouldings, in the same panel layout; the shelving becomes satin graphite lacquer; the gold light strips become thin brushed satin titanium lines lit softly warm. The stone pillar and the stone table tops become flat honed charcoal slate with a few faint straight pale mineral lines. All trims, light strips, table legs and lamp metal become brushed satin titanium with a dull, even sheen. The floor becomes large honed graphite slate tiles laid in straight even rows, with a soft low sheen that holds broad, gentle reflections of the lamps (never mirror-sharp). The ceiling becomes a soft near-black plaster ceiling with clean straight recessed coves. The sofa and armchair become deep graphite leather with a soft low sheen, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are soft, broad and true to what is above them.
+
+Image 1 lock: image 1's stone is covered in a spider-web net of thin glowing gold cracks; that net is gone completely from every pillar, cabinet, table top and floor tile. Slate: the honed slate has no veins, only a few faint straight pale mineral lines, and each floor tile is one calm, even graphite slab. No jagged, broken, branching or net-like lines anywhere, nothing that looks like cracked ice or lightning, and no vein glows. The glowing gold light bars of image 1 become thin solid trims with a gentle, even light: no blown-out bars of light and no bloom. The ceiling and the dark soffit at the top are one plain, flat, straight surface with clean recessed cove lines, no repeating light panels and no melted shapes. Every wall panel, pillar and window mullion is solid and continuous from floor to ceiling, with straight edges that meet cleanly.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. The lamps cast warm pools of light, but every material itself stays a neutral graphite grey-black: never brown, never espresso, never a warm cast over a whole wall. The finish is velvet low gloss: broad soft pale-grey sheens, no sharp highlight and no glint anywhere. Tones are layered dark on dark.
+
+Colour lock: the walls, panels, flannel, slate and trims are a cool neutral charcoal grey, the grey of a dark grey wool suit, exactly the grey of image 2; all surfaces are neutral graphite and none of image 1's gold or brown survives on the room itself. The herringbone is a regular herringbone, fine, tight and low-contrast, seen only up close: neat, perfectly regular rows of tiny straight V shapes, never a bold zigzag, maze or squiggle. Every slate surface is flat honed slate, dry like a honed blackboard: no crinkle, crackle, ripple or crumpled-foil texture anywhere.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-178 · Sign-in lounge 5/8: Wooden Clubhouse, phone upright
+
+- Image 1: [ENV_SETTINGS_PHONE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png))
+- Image 2: [REF_PILOT_WOODEN.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_WOODEN.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_WOODEN.png))
+- Saves as `ENV_SIGNIN_PHONE_WOODEN_P1` in `wooden/`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. The output is exactly the same size and shape as image 1 (1179 by 2096 pixels), never narrower, wider or taller: do not zoom in, zoom out, crop or move the camera, and nothing in it moves or changes size. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies and books, the dark stone pillar beside them, the potted plants, the tall windows with the night city skyline, the tufted leather sofa, the round coffee tables with their small objects, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A private members' lounge in the Wooden clubhouse at night: real dark walnut, real black marble and real aged brass, handcrafted.
+The wall panels, the pillar faces and the shelving become dark walnut with a fine straight grain and a hand-rubbed satin finish, in the same panel layout, with thin aged-brass inlay lines where the gold light strips are now. The stone pillar and the stone table tops become black marble with fine, soft, natural grey-gold veins. All trims, light strips, table legs and lamp metal become aged brass with a soft satin glow. The floor becomes large polished black marble tiles with fine natural grey-gold veins, laid in straight even rows, holding soft true reflections of the lamps. The ceiling becomes a dark walnut coffered ceiling with straight even beams. The sofa and armchair become deep brown leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Image 1 lock: image 1's stone is covered in a spider-web net of thin glowing gold cracks; that net is gone completely from every pillar, cabinet, table top and floor tile. Marble veins: the black marble carries only a few long, smooth, softly curving grey-gold veins that drift gently across each slab like brush strokes, and each floor tile has its own calm veins. No jagged, broken, branching or net-like lines anywhere, nothing that looks like cracked ice or lightning, and no vein glows. The glowing gold light bars of image 1 become thin solid trims with a gentle, even light: no blown-out bars of light and no bloom. The ceiling and the dark soffit at the top are one plain, flat, straight surface with clean recessed cove lines, no repeating light panels and no melted shapes. Every wall panel, pillar and window mullion is solid and continuous from floor to ceiling, with straight edges that meet cleanly.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. The walnut glows warm and deep near the lamps and falls to dark brown-black in the corners; brass catches soft warm highlights; the marble floor holds calm, true reflections.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-179 · Sign-in lounge 6/8: Platinum Clubhouse, phone upright
+
+- Image 1: [ENV_SETTINGS_PHONE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png))
+- Image 2: [REF_PILOT_SILVER.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_SILVER.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_SILVER.png))
+- Saves as `ENV_SIGNIN_PHONE_SILVER_P1` in `silver/`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. The output is exactly the same size and shape as image 1 (1179 by 2096 pixels), never narrower, wider or taller: do not zoom in, zoom out, crop or move the camera, and nothing in it moves or changes size. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies and books, the dark stone pillar beside them, the potted plants, the tall windows with the night city skyline, the tufted leather sofa, the round coffee tables with their small objects, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A platinum members' lounge at night: real metal leaf, real polished nickel, real pale stone, handcrafted.
+The wall panels, the pillar faces and the shelving become hand-laid silver leaf with a fine straight brushed grain, set in polished nickel mouldings, in the same panel layout; the gold light strips become thin polished nickel strips lit warm. The stone pillar and the stone table tops become pale grey marble with soft darker grey veins (light stone with dark veins, never dark stone with white cracks). All trims, light strips, table legs and lamp metal become polished nickel that mirrors the room. The floor becomes large polished pale grey marble tiles with soft darker grey veins, laid in straight even rows, holding clear true reflections of the lamps. The ceiling becomes a deep graphite plaster ceiling with clean straight recessed coves. The sofa and armchair become deep charcoal leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Image 1 lock: image 1's stone is covered in a spider-web net of thin glowing gold cracks; that net is gone completely from every pillar, cabinet, table top and floor tile. Marble veins: the pale grey marble carries only a few long, smooth, softly curving darker grey veins that drift gently across each slab like brush strokes, and each floor tile has its own calm veins. No jagged, broken, branching or net-like lines anywhere, nothing that looks like cracked ice or lightning, and no vein glows. The glowing gold light bars of image 1 become thin solid trims with a gentle, even light: no blown-out bars of light and no bloom. The ceiling and the dark soffit at the top are one plain, flat, straight surface with clean recessed cove lines, no repeating light panels and no melted shapes. Every wall panel, pillar and window mullion is solid and continuous from floor to ceiling, with straight edges that meet cleanly. The room reads as bright platinum at night, exactly like image 2: never near-black, never beige, taupe or brown.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows: bright and mirror-like near the lamps, pewter and graphite in the corners, never blue.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-180 · Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright
+
+- Image 1: [ENV_SETTINGS_PHONE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png))
+- Image 2: [REF_PILOT_BLACK.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_BLACK.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_BLACK.png))
+- Saves as `ENV_SIGNIN_PHONE_BLACK_P1` in `black/`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. The output is exactly the same size and shape as image 1 (1179 by 2096 pixels), never narrower, wider or taller: do not zoom in, zoom out, crop or move the camera, and nothing in it moves or changes size. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies and books, the dark stone pillar beside them, the potted plants, the tall windows with the night city skyline, the tufted leather sofa, the round coffee tables with their small objects, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+The wall panels, the pillar faces and the shelving become gun-blued blackened steel with fine shadow gaps and machined chamfered edges, in the same panel layout; the gold light strips stay as thin polished gold lines. The stone pillar and the stone table tops become black granite, near true black, with a few very fine warm gold flecks. All trims, light strips, table legs and lamp metal become polished gold. The floor becomes large mirror-polished black granite tiles laid in straight even rows, near true black, with dim true reflections of the lamps. The ceiling becomes a deep black ceiling with clean straight recessed coves. The sofa and armchair become black leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Image 1 lock: image 1's stone is covered in a spider-web net of thin glowing gold cracks; that net is gone completely from every pillar, cabinet, table top and floor tile. Granite: the black granite has no veins at all, only a few very fine warm flecks, and each floor tile is one calm, even, near-black slab. No jagged, broken, branching or net-like lines anywhere, nothing that looks like cracked ice or lightning, and no vein glows. The glowing gold light bars of image 1 become thin solid trims with a gentle, even light: no blown-out bars of light and no bloom. The ceiling and the dark soffit at the top are one plain, flat, straight surface with clean recessed cove lines, no repeating light panels and no melted shapes. Every wall panel, pillar and window mullion is solid and continuous from floor to ceiling, with straight edges that meet cleanly.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. Every large surface stays near true black; only small, sharp, warm gold highlights and true reflections show where the light falls.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-181 · Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright
+
+- Image 1: [ENV_SETTINGS_PHONE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png))
+- Image 2: [REF_PILOT_MATTE.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_MATTE.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_MATTE.png))
+- Saves as `ENV_SIGNIN_PHONE_MATTE_P1` in `matte/`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. The output is exactly the same size and shape as image 1 (1179 by 2096 pixels), never narrower, wider or taller: do not zoom in, zoom out, crop or move the camera, and nothing in it moves or changes size. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies and books, the dark stone pillar beside them, the potted plants, the tall windows with the night city skyline, the tufted leather sofa, the round coffee tables with their small objects, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A private members' lounge in neutral graphite velvet: low-gloss fine herringbone wool flannel, honed slate and satin titanium, handcrafted.
+The wall panels and the pillar faces become upholstered fine herringbone wool flannel in a neutral graphite with no brown, with visible stitched seams, framed in thin satin graphite lacquer mouldings, in the same panel layout; the shelving becomes satin graphite lacquer; the gold light strips become thin brushed satin titanium lines lit softly warm. The stone pillar and the stone table tops become flat honed charcoal slate with a few faint straight pale mineral lines. All trims, light strips, table legs and lamp metal become brushed satin titanium with a dull, even sheen. The floor becomes large honed graphite slate tiles laid in straight even rows, with a soft low sheen that holds broad, gentle reflections of the lamps (never mirror-sharp). The ceiling becomes a soft near-black plaster ceiling with clean straight recessed coves. The sofa and armchair become deep graphite leather with a soft low sheen, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are soft, broad and true to what is above them.
+
+Image 1 lock: image 1's stone is covered in a spider-web net of thin glowing gold cracks; that net is gone completely from every pillar, cabinet, table top and floor tile. Slate: the honed slate has no veins, only a few faint straight pale mineral lines, and each floor tile is one calm, even graphite slab. No jagged, broken, branching or net-like lines anywhere, nothing that looks like cracked ice or lightning, and no vein glows. The glowing gold light bars of image 1 become thin solid trims with a gentle, even light: no blown-out bars of light and no bloom. The ceiling and the dark soffit at the top are one plain, flat, straight surface with clean recessed cove lines, no repeating light panels and no melted shapes. Every wall panel, pillar and window mullion is solid and continuous from floor to ceiling, with straight edges that meet cleanly.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. The lamps cast warm pools of light, but every material itself stays a neutral graphite grey-black: never brown, never espresso, never a warm cast over a whole wall. The finish is velvet low gloss: broad soft pale-grey sheens, no sharp highlight and no glint anywhere. Tones are layered dark on dark.
+
+Colour lock: the walls, panels, flannel, slate and trims are a cool neutral charcoal grey, the grey of a dark grey wool suit, exactly the grey of image 2; all surfaces are neutral graphite and none of image 1's gold or brown survives on the room itself. The herringbone is a regular herringbone, fine, tight and low-contrast, seen only up close: neat, perfectly regular rows of tiny straight V shapes, never a bold zigzag, maze or squiggle. Every slate surface is flat honed slate, dry like a honed blackboard: no crinkle, crackle, ripple or crumpled-foil texture anywhere.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
