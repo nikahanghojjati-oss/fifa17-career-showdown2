@@ -114,7 +114,10 @@ const LISTED = {};
 const KNOWN_SHAPES = [];
 const SCENERY = /(ENV_|OVL_|_PLATE_|PACK_)/;
 const KNOWN_PLAIN_FETCH = /^$/;
-const CURRENT = /visual-assets\/v10_1\/plates-hc\//;
+// The clubhouse's own loading room is current too: the loading screen draws it at startup, before the screen under test shows.
+const CURRENT = new RegExp(`visual-assets/v10_1/plates-hc/|assets/loading/${THEME ? THEME + "/" : ""}ENV_LOADING_`);
+// Lead 2026-11-25 (Nik: never load what we don't show): a clubhouse downloads only its own loading room, never another's.
+const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte)\/ENV_LOADING_/;
 function drawnPictures(){
     const vw = innerWidth, vh = innerHeight, out = [];
     const urls = s => [...String(s || "").matchAll(/url\(["']?([^"')]+)["']?\)/g)].map(m => m[1]);
@@ -157,6 +160,7 @@ if(require.main === module){
             const drawn = await page.evaluate(drawnPictures);
             const findings = judge(key, drawn), known = KNOWN_SHAPES.find(k => k.match(w, h));
             if(THEME && requested) for(const u of requested) if(PLAIN_ROOM.test(u) && !KNOWN_PLAIN_FETCH.test(u)) findings.push(`A4 plain room ${u.replace(/^.*plates-hc\//, "")} downloaded in the ${THEME} clubhouse`);
+            if(requested) for(const u of requested) if(OTHER_LOADING.test(u)) findings.push(`A5 another clubhouse's loading room ${u.replace(/^.*assets\/loading\//, "")} downloaded in the ${THEME || "Wooden"} clubhouse`);
             if(known && findings.length){ console.log(`KNOWN ${key} ${w}x${h} (${known.name}; ${known.follow})${findings.map(f => "\n   " + f).join("")}`); return; }
             for(const what of findings) report.push({ screen: key, size: `${w}x${h}`, what });
             if(requested) for(const u of requested){ const shortName = u.replace(/^.*visual-assets\/v10_1\//, ""); if(SCENERY.test(u) && !CURRENT.test(u) && !(LISTED[key] && LISTED[key].allow.test(u)) && !drawn.some(d => d.url === u)) notes.set(`${key} ${shortName}`, (notes.get(`${key} ${shortName}`) || 0) + 1); }

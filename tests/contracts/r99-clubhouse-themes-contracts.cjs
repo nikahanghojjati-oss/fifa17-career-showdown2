@@ -193,6 +193,24 @@ check("Silver, Metallic Black and Premium Matte Black draw the themed rooms and 
   assert.equal(r.framed.style.getPropertyValue("background-color"), "rgb(29, 26, 22)", "and its own colour round it");
 });
 
+// Lead 2026-11-25 (Nik: never load what we don't show): the loading room's markup is written by script through the theme's fix(),
+// so the preload scanner never sees the Wooden tunnel and a premium clubhouse downloads only its own.
+check("the loading room is written in the stored clubhouse's look, so a premium clubhouse never downloads the Wooden tunnel", () => {
+  const html = read("index.html");
+  const outside = html.replace(/<script>[^]*?<\/script>/g, "").replace(/<!--[^]*?-->/g, "");
+  assert.doesNotMatch(outside, /assets\/loading\/ENV_LOADING_/, "no loading room url sits in plain markup (the preload scanner would fetch it)");
+  const writes = [...html.matchAll(/<script>(?:\(window\.cmsRoomWrite=[^`]*\)\(|cmsRoomWrite\()`([^`]*)`\);<\/script>/g)].map(m => m[1]);
+  assert.equal(writes.length, 3, "the two room preloads and the two room pictures are written by script");
+  assert.match(writes[0], /<link rel="preload" as="image" href="assets\/loading\/ENV_LOADING_PHONE_HC_590W[^>]*>\n<link rel="preload" as="image" href="assets\/loading\/ENV_LOADING_PLATE_HC_1X/);
+  for(const w of writes.slice(1)) assert.match(w, /^<picture>\n[^]*<img class="startupRoom"[^]*<\/picture>$/);
+  assert.match(html, /window\.cmsRoomWrite=function\(h\)\{var c=window\.cmsClubhouse;document\.write\(c&&c\.fix\?c\.fix\(h\):h\);\}/, "Wooden (or no theme script) writes the markup unchanged");
+  const r = runtime("matte"), api = r.window.cmsClubhouse;
+  assert.equal(api.fix(writes[0]), writes[0].replace(/assets\/loading\/ENV_LOADING_/g, "assets/loading/matte/ENV_LOADING_"));
+  assert.equal(api.fix('srcset="assets/loading/REUS_P_590W.webp"'), 'srcset="assets/loading/REUS_P_590W.webp"', "Reus is the same in every clubhouse");
+  api.set("current");
+  assert.equal(api.fix("assets/loading/matte/ENV_LOADING_PLATE_HC_1X.webp"), "assets/loading/ENV_LOADING_PLATE_HC_1X.webp", "switching back to Wooden puts the Wooden room back");
+});
+
 check("Settings offers the clubhouse on this device, beside nothing it moves", () => {
   const s = read("js/settings.js");
   const fn = (s.match(/function createClubhouseControl\(\)\{[^]*?\n\}/) || [])[0] || "";
