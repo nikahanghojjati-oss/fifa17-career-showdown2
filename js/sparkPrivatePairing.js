@@ -1529,7 +1529,7 @@
     const at=fsbNow(),relaxed=Boolean(options&&options.relaxed===true);
     if(fsbWait){for(const [key,info] of [...fsbWait.owners])if(key!==owner&&at-info.seen>FSB_WAIT_OWNER_MS)fsbWait.owners.delete(key);if(!fsbWait.owners.size)fsbDetachWait();}
     const release=()=>{if(fsbWait&&fsbWait.owners.delete(owner)&&!fsbWait.owners.size)fsbDetachWait();return false;};
-    if(typeof path!=="string"||!/^rivalries\/[^/]+(?:\/[^/]+\/[^/]+)+$/.test(path)){fsbWaitAsks.delete(owner);if(!fsbHidden())fsbReturnWakes.delete(owner);return release();}
+    /* r100 B6 JOIN speed: the rivalry document itself may be watched too (Daniel waiting on Nik's JOIN) */if(typeof path!=="string"||!/^rivalries\/[^/]+(?:\/[^/]+\/[^/]+)*$/.test(path)){fsbWaitAsks.delete(owner);if(!fsbHidden())fsbReturnWakes.delete(owner);return release();}
     fsbWaitAsks.set(owner,{path,at});if(typeof wake==="function")fsbReturnWakes.set(owner,wake);
     if(fsbPaused()||fsbHidden()||!fsbFirestore||(fsbWaitFailed.get(path)||0)>at)return release();
     if(fsbWait&&fsbWait.path===path){fsbWait.owners.set(owner,{wake,seen:at,relaxed});return fsbWaitLive();}

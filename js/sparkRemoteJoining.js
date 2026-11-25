@@ -237,17 +237,29 @@
     const timer=root.setTimeout(async()=>{
       if(srjJoinWatchTimer!==timer)return;
       srjJoinWatchTimer=null;srjJoinWatchSessionId=null;
-      if(generation!==srjWaitGeneration||!srjHostWaitingForJoin(sessionId))return;
-      if(Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS){srjPauseWait();return;}
-      if(!srjState.busy&&root.document.visibilityState!=="hidden"){
+      if(generation!==srjWaitGeneration||!srjHostWaitingForJoin(sessionId)){srjWatchJoinWait(sessionId,generation);return;}
+      if(Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS){srjPauseWait();srjWatchJoinWait(sessionId,-1);return;}
+      const watched=srjWatchJoinWait(sessionId,generation),standDown=Date.now()-srjJoinCheckedAt<SRJ_WAIT_BACKSTOP_MS&&srjWatchHealthy(watched);
+      if(!standDown&&!srjState.busy&&!srjJoinWaking&&root.document.visibilityState!=="hidden"){
         await srjCheckForJoin(sessionId,generation);
       }
-      if(generation===srjWaitGeneration)srjWatchForJoin(sessionId,startedAt,generation);
+      if(generation===srjWaitGeneration&&srjWatchForJoin(sessionId,startedAt,generation))return;
+      srjWatchJoinWait(sessionId,generation);
     },SRJ_JOIN_WATCH_MS);
     srjJoinWatchTimer=timer;
+    srjWatchJoinWait(sessionId,generation);
     return true;
   }
-  async function srjCheckForJoin(sessionId,generation){
+  /* r100 B6 JOIN speed: one join check at a time, as for the offer (a wake during a check runs one more right after it) */
+  let srjJoinCheckRunning=null,srjJoinCheckAgain=false,srjJoinCheckFor={sessionId:null,generation:0};
+  function srjCheckForJoin(sessionId,generation){
+    srjJoinCheckFor={sessionId,generation};
+    if(srjJoinCheckRunning){srjJoinCheckAgain=true;return srjJoinCheckRunning;}
+    srjJoinCheckRunning=(async()=>{try{do{srjJoinCheckAgain=false;const ask=srjJoinCheckFor;await srjCheckForJoinOnce(ask.sessionId,ask.generation);}while(srjJoinCheckAgain&&srjJoinCheckFor.generation===srjWaitGeneration&&!srjState.busy&&srjHostWaitingForJoin(srjJoinCheckFor.sessionId));}finally{srjJoinCheckRunning=null;srjJoinCheckAgain=false;}})();
+    return srjJoinCheckRunning;
+  }
+  async function srjCheckForJoinOnce(sessionId,generation){
+    srjJoinCheckedAt=Date.now();
     try{
       root.CareerModeFirestoreBudget?.wantFresh?.();
       const context=await srjResolveContext();
@@ -385,6 +397,28 @@
   const SRJ_OFFER_POLL_MS=3000,SRJ_OFFER_POLL_LIMIT_MS=10*60*1000,SRJ_OFFER_MIN_LIFE_MS=60*1000;
   let srjAutoPromise=null,srjOfferTimer=null,srjPublishTimer=null,srjPublishRetry=null;
   let srjWaitGeneration=0,srjResumePromise=null;
+  /* r100 B6 JOIN speed: while Nik waits for Daniel's session offer, and while Daniel's session waits for Nik to join, the budget
+     layer's one wait listener watches the exact document the other phone writes (the offer pointer; the session), and its wake
+     runs the same check at once. The timed checks stay as the fallback: while the listener is healthy they stand down (a
+     backstop check still runs every 30 s), so each wait costs no more reads than before (fewer). */
+  const SRJ_WAIT_BACKSTOP_MS=30000;
+  let srjOfferWaitRivalryId=null,srjOfferCheckedAt=0,srjOfferWaking=false,srjJoinCheckedAt=0,srjJoinWaking=false;
+  function srjBudget(){const budget=root.CareerModeFirestoreBudget;return budget&&typeof budget.watchWaitPoint==="function"?budget:null;}
+  function srjWatchHealthy(path){const live=root.CareerModeFirestoreBudget?.stats?.();return Boolean(path&&live?.watchHealthy===true&&live.watching===path);}
+  function srjOfferWaitPath(generation){return srjOfferWaitRivalryId&&generation===srjWaitGeneration&&srjState.auto==="waiting"&&!srjHasNonterminalSession()&&root.document?.visibilityState!=="hidden"?`rivalries/${srjOfferWaitRivalryId}/sessionOffers/current`:null;}
+  function srjWatchOfferWait(generation){const budget=srjBudget();if(!budget)return null;let path=null;try{path=srjOfferWaitPath(generation);}catch(_error){path=null;}try{budget.watchWaitPoint("remote-join-offer",path,()=>srjOfferWake(generation));}catch(_error){}return path;}
+  function srjOfferWake(generation){
+    if(generation!==srjWaitGeneration||srjState.busy||srjState.auto!=="waiting"||srjHasNonterminalSession())return;
+    srjOfferWaking=true;
+    void srjCheckForOffer(generation).finally(()=>{srjOfferWaking=false;if(generation===srjWaitGeneration)srjWatchOfferWait(generation);});
+  }
+  function srjJoinWaitPath(sessionId){return srjHostWaitingForJoin(sessionId)&&srjState.rivalryId&&root.document?.visibilityState!=="hidden"?`rivalries/${srjState.rivalryId}/sessions/${sessionId}`:null;}
+  function srjWatchJoinWait(sessionId,generation){const budget=srjBudget();if(!budget)return null;let path=null;try{path=generation===srjWaitGeneration?srjJoinWaitPath(sessionId):null;}catch(_error){path=null;}try{budget.watchWaitPoint("remote-join-session",path,()=>srjJoinWake(sessionId,generation));}catch(_error){}return path;}
+  function srjJoinWake(sessionId,generation){
+    if(generation!==srjWaitGeneration||srjState.busy||!srjHostWaitingForJoin(sessionId))return;
+    srjJoinWaking=true;
+    void srjCheckForJoin(sessionId,generation).finally(()=>{srjJoinWaking=false;if(generation===srjWaitGeneration)srjWatchJoinWait(sessionId,generation);});
+  }
   function srjOfferRef(context){return context.services.firestoreSdk.doc(context.services.firestore,"rivalries",context.rivalryId,"sessionOffers","current");}
   // r79 gallery (Nik's JOIN after a deleted Showdown): the pointer is what a waiting phone polls for, so the budget layer must
   // not answer it from a copy. With any healthy wait-point listener on the page (the previous Showdown's shared setup kept one)
@@ -400,6 +434,7 @@
     return Object.freeze({sessionId:data.sessionId,hostAccountId:data.hostAccountId,expiresAtEpochMs:expiresAt});
   }
   async function srjReadOffer(context){
+    srjOfferWaitRivalryId=context.rivalryId||null;
     root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${context.rivalryId}/sessionOffers/current`);
     const sdk=context.services.firestoreSdk;
     return sdk.runTransaction(context.services.firestore,async transaction=>srjOfferFromSnapshot(await transaction.get(srjOfferRef(context))));
@@ -454,7 +489,17 @@
   function srjPauseWait(message=srjState.message){
     srjSetState({auto:"waiting",waitRetry:true,message});
   }
-  async function srjCheckForOffer(generation){
+  /* r100 B6 JOIN speed: one offer check at a time. A wake or timed check that comes while one runs waits for it and, if the
+     wait is still open, runs one more right after it (two at once could each try to join the same session). */
+  let srjOfferCheckRunning=null,srjOfferCheckAgain=false,srjOfferCheckGeneration=0;
+  function srjCheckForOffer(generation){
+    srjOfferCheckGeneration=generation;
+    if(srjOfferCheckRunning){srjOfferCheckAgain=true;return srjOfferCheckRunning;}
+    srjOfferCheckRunning=(async()=>{try{do{srjOfferCheckAgain=false;await srjCheckForOfferOnce(srjOfferCheckGeneration);}while(srjOfferCheckAgain&&srjOfferCheckGeneration===srjWaitGeneration&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession());}finally{srjOfferCheckRunning=null;srjOfferCheckAgain=false;}})();
+    return srjOfferCheckRunning;
+  }
+  async function srjCheckForOfferOnce(generation){
+    srjOfferCheckedAt=Date.now();
     try{
       const context=await srjResolveContext(),offer=await srjReadOffer(context);
       if(generation===srjWaitGeneration&&offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>srjClockNow()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession()){
@@ -469,12 +514,15 @@
     const timer=root.setTimeout(async()=>{
       if(srjOfferTimer!==timer)return;
       srjOfferTimer=null;
-      if(generation!==srjWaitGeneration||srjHasNonterminalSession()||srjState.auto!=="waiting")return;
-      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPauseWait();return;}
-      if(!srjState.busy&&(!root.document||root.document.visibilityState!=="hidden"))await srjCheckForOffer(generation);
+      if(generation!==srjWaitGeneration||srjHasNonterminalSession()||srjState.auto!=="waiting"){srjWatchOfferWait(generation);return;}
+      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPauseWait();srjWatchOfferWait(generation);return;}
+      const watched=srjWatchOfferWait(generation),standDown=Date.now()-srjOfferCheckedAt<SRJ_WAIT_BACKSTOP_MS&&srjWatchHealthy(watched);
+      if(!standDown&&!srjState.busy&&!srjOfferWaking&&(!root.document||root.document.visibilityState!=="hidden"))await srjCheckForOffer(generation);
       if(generation===srjWaitGeneration&&!srjHasNonterminalSession()&&srjState.auto==="waiting")srjWaitForOffer(startedAt,generation);
+      else srjWatchOfferWait(generation);
     },SRJ_OFFER_POLL_MS);
     srjOfferTimer=timer;
+    srjWatchOfferWait(generation);
   }
   // JOB-1 F2: a wake or retry owns one immediate read and a new ten-minute window. Retired callbacks cannot re-arm it.
   // Codex #974: an offer publish retry whose own window ran out while asleep gets a fresh window too.
