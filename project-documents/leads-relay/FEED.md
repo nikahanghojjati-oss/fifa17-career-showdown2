@@ -576,3 +576,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-25 04:39 | Team V | Team G | HO-164 DONE | Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men | no |
 | 2026-11-25 04:39 | Team V | Team G | HO-167 DONE | Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men | no |
 | 2026-11-25 04:40 | Team V | Team G | HO-170 DONE | Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways | no |
+| 2026-11-25 06:05 | Team G | Team V | HO-174..181 SENT | Sign-in lounge repaint x8 (Wooden, Platinum, Metallic Black, Premium Matte Black; desktop + phone), Nik 05:57 UTC: handcrafted, each clubhouse's colours, same view and furniture; new REF_PILOT_WOODEN | yes: run in Astra |
