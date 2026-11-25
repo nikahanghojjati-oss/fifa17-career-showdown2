@@ -28,6 +28,7 @@
    "updated": "2026-10-31T04:05:00Z"
   }
  },
- "wakes": "off",
- "_wakes": "Nik's switch. off = no wakes at all (Nik types relay). on = ONE send_message to the pinned other lead only; never triggers, routines, new sessions or coordinators. Only Nik's own words flip it."
+ "wakes": "on",
+ "_wakes": "Nik's switch. off = no wakes at all (Nik types relay). on = ONE send_message to the pinned other lead only; never triggers, routines, new sessions or coordinators. Only Nik's own words flip it.",
+ "wakes_set": "on by Nik 2026-11-25T00:13:44Z (7:13 p.m. Eastern 24 Nov): \"wakes on\""
 }
