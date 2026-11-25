@@ -133,11 +133,12 @@ check("every Platinum, Metallic Black and Premium Matte Black room file is a lis
   for(const theme of Object.keys(LOOK))
     for(const dir of [`visual-assets/v10_1/plates-hc/${theme}`, `assets/loading/${theme}`])
       for(const f of fs.readdirSync(path.join(ROOT, dir))) found.push(`${dir}/${f}`);
+  for(const f of fs.readdirSync(path.join(ROOT, "css"))) if(/^r78-marble-tile-.+\.webp$/.test(f)) found.push(`css/${f}`); // the panel marble
   assert.ok(found.length >= 190, `the premium folders are found (${found.length})`);
   assert.deepEqual(found.slice().sort(), Object.keys(man.files).sort(), "the premium folders hold exactly the listed premium files, nothing older or extra");
   for(const [rel, e] of Object.entries(man.files)){
     assert.equal(sha(rel), e.sha256, `${rel} is the premium file that was painted (re-run paint.py, pin.py, manifest.py)`);
-    const theme = rel.split("/").slice(-2)[0];
+    const theme = rel.startsWith("css/") ? rel.match(/tile-(\w+)\.webp$/)[1] : rel.split("/").slice(-2)[0];
     assert.ok(path.basename(e.painting).includes(`_${LOOK[theme]}_`), `${rel} comes from a ${LOOK[theme]} painting (${e.painting})`);
     assert.ok(e.painting in man.paintings, `${e.painting} is listed`);
   }

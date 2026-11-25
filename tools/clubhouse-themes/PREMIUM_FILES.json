@@ -61,6 +61,21 @@
    "painting": "tools/clubhouse-themes/paintings/ENV_LOADING_PLATE_SILVER_P1_2X.webp",
    "room": "LOADING"
   },
+  "css/r78-marble-tile-black.webp": {
+   "sha256": "810dcee6be432a09eaa6d3c0c52d89b4963ed17f320432ff1be22947e9961b6b",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SLAB_BLACK_P1_2X.webp",
+   "room": "PANEL_MARBLE"
+  },
+  "css/r78-marble-tile-matte.webp": {
+   "sha256": "22e78aba70e2b3331b1786740282257baac9d8d28a43d37e9c7b905ae193bfb1",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SLAB_MATTE_P1_2X.webp",
+   "room": "PANEL_MARBLE"
+  },
+  "css/r78-marble-tile-silver.webp": {
+   "sha256": "589fd637c5ac27edd40c2760ad925600b0bda0a97663e9ad73b1b2dba1aec5f3",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SLAB_SILVER_P1_2X.webp",
+   "room": "PANEL_MARBLE"
+  },
   "visual-assets/v10_1/plates-hc/black/ENV_ARCHIVE_PHONE_HC_V3.webp": {
    "sha256": "a5f6933d603dc401fd8c54bc00308c35f2a82b8646b1e7e9eb92243b2a965cd8",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PHONE_BLACK_P1.webp",
