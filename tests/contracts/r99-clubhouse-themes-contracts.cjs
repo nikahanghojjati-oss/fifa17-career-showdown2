@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 // R99-01 clubhouse themes (Nik 2026-11-23): "3 club house themes: current one, silver one and black metallic one" (23:21 UTC: a fourth,
-// Premium Matte Black; Metal Black renamed Metallic Black), switched in Settings, keeping every element of every screen including the heroes. The pick lives on this device only (localStorage).
+// Premium Matte Black; Metal Black renamed Metallic Black; 2026-11-25 renamed Black Steel and Graphite), switched in Settings, keeping every element of every screen including the heroes. The pick lives on this device only (localStorage).
 // A theme draws each room plate from plates-hc/<theme>/ (the premium painting of the room, Daniel and Nik held out by a mask,
 // tools/clubhouse-themes/paint.py, listed in PREMIUM_FILES.json) and the panel marble from css/r78-marble-tile-<theme>.webp; index.html sets it before anything
 // loads. The browser half (every screen draws and downloads only its themed room, desktop and phones) is
@@ -29,7 +29,7 @@ function webpSize(file){
 const PLATES = path.join(ROOT, "visual-assets/v10_1/plates-hc");
 const plain = fs.readdirSync(PLATES).filter(f => /^(ENV|TILE)_.*\.webp$/.test(f) && !/_HC_V2/.test(f));
 
-check("every room plate in use has a Silver, a Metallic Black and a Premium Matte Black copy of the same size", () => {
+check("every room plate in use has a Silver, a Black Steel and a Graphite copy of the same size", () => {
   assert.ok(plain.length >= 60, `the room plates are found (${plain.length})`);
   for(const theme of ["silver", "black", "matte"]){
     const dir = path.join(PLATES, theme);
@@ -66,7 +66,7 @@ check("index.html sets the theme before any sheet or picture is asked for, from 
   const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)/g)].map(m => m[1]);
   assert.deepEqual(refs, ["css/app.css", "js/storage.js", "js/showdown.js", "js/scoring.js", "js/screens.js", "js/menuExperience.js", "js/optionalModules.js", "js/app.js"], "no start-up file added (the start-up budget is unchanged)");
   const style = html.slice(html.indexOf("\n<style>") + 8, html.indexOf("</style>"));
-  for(const line of style.split("\n").filter(l => l.includes("{"))) assert.match(line, /^(?:@media [^{]+\{)?html\[data-clubhouse="(?:silver|black|matte)"\]/, "the inline style only touches the Silver, Metallic Black and Premium Matte Black clubhouses (Wooden stays as it is)");
+  for(const line of style.split("\n").filter(l => l.includes("{"))) assert.match(line, /^(?:@media [^{]+\{)?html\[data-clubhouse="(?:silver|black|matte)"\]/, "the inline style only touches the Silver, Black Steel and Graphite clubhouses (Wooden stays as it is)");
   // the loading room: drawn from assets/loading/<theme>/ at every size the Wooden one comes in, its files there, never in the shell
   for(const t of ["silver", "black", "matte"]) for(const f of ["ENV_LOADING_PLATE_HC_1X", "ENV_LOADING_PLATE_HC_2X", "ENV_LOADING_PHONE_HC_590W", "ENV_LOADING_PHONE_HC"]){
     assert.ok(style.includes(`url("assets/loading/${t}/${f}.webp")`), `${t} ${f} drawn`);
@@ -124,7 +124,7 @@ check("the current clubhouse runs nothing: no attribute, no observer, no DOM hoo
 
 // Nik 2026-11-25: "the game never accidentally load a, those low quality versions again". Every file in a premium clubhouse
 // folder is a premium painting's output, listed with its hash in tools/clubhouse-themes/PREMIUM_FILES.json (manifest.py).
-check("every Platinum, Metallic Black and Premium Matte Black room file is a listed premium painting, unchanged", () => {
+check("every Platinum, Black Steel and Graphite room file is a listed premium painting, unchanged", () => {
   const crypto = require("node:crypto");
   const sha = rel => crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex");
   const man = JSON.parse(read("tools/clubhouse-themes/PREMIUM_FILES.json"));
@@ -148,7 +148,7 @@ check("every Platinum, Metallic Black and Premium Matte Black room file is a lis
   }
 });
 
-check("Silver, Metallic Black and Premium Matte Black draw the themed rooms and their own panel marble, and switching back restores the plain rooms", () => {
+check("Silver, Black Steel and Graphite draw the themed rooms and their own panel marble, and switching back restores the plain rooms", () => {
   const r = runtime("silver"), api = r.window.cmsClubhouse;
   assert.equal(api.theme(), "silver");
   assert.equal(r.docEl.getAttribute("data-clubhouse"), "silver");
@@ -169,7 +169,7 @@ check("Silver, Metallic Black and Premium Matte Black draw the themed rooms and 
   // a room set through style.setProperty (the Touchline Gazette's --tgz-plate-desktop) is themed too
   const decl = new r.CSSStyleDeclaration(); decl.setProperty("--tgz-plate-phone", 'url("https://x/visual-assets/v10_1/plates-hc/ENV_BOARD_PHONE_HC_V3.webp")');
   assert.match(decl["--tgz-plate-phone"], /plates-hc\/silver\/ENV_BOARD_PHONE_HC_V3\.webp/);
-  // switching: Metallic Black, then the current clubhouse; the pick is saved on this device
+  // switching: Black Steel, then the current clubhouse; the pick is saved on this device
   assert.equal(api.set("black"), "black"); assert.equal(r.store.get("cmsClubhouseTheme"), "black");
   assert.match(r.rule.style.getPropertyValue("background-image"), /plates-hc\/black\/ENV_HOME_PLATE_HC_V3_1X/, "a loaded sheet follows the switch");
   // the colour round a room follows the clubhouse (no brown bars beside a silver or black room), with its own priority
@@ -216,7 +216,7 @@ check("Settings offers the clubhouse on this device, beside nothing it moves", (
   const fn = (s.match(/function createClubhouseControl\(\)\{[^]*?\n\}/) || [])[0] || "";
   assert.ok(fn, "the Clubhouse row");
   const names = [...s.slice(s.indexOf("const SETTINGS_CLUBHOUSE_THEMES"), s.indexOf("];", s.indexOf("const SETTINGS_CLUBHOUSE_THEMES"))).matchAll(/\["(\w+)", "([^"]+)", "([^"]+)"\]/g)];
-  assert.deepEqual(names.map(m => [m[1], m[2]]), [["current", "Wooden Clubhouse"], ["silver", "Platinum Clubhouse"], ["black", "Metallic Black Clubhouse"], ["matte", "Premium Matte Black Clubhouse"]], "Nik's four names, the Wooden Clubhouse (as painted) first; key silver is the Platinum Clubhouse (HO-161)");
+  assert.deepEqual(names.map(m => [m[1], m[2]]), [["current", "Wooden Clubhouse"], ["silver", "Platinum Clubhouse"], ["black", "Black Steel Clubhouse"], ["matte", "Graphite Clubhouse"]], "Nik's four names, the Wooden Clubhouse (as painted) first; key silver is the Platinum Clubhouse (HO-161)");
   for(const m of names) assert.ok(m[3].length > 20 && m[3].length < 80, `${m[2]} has one short line on what the room is made of`);
   assert.match(fn, /hint\.textContent = settingsClubhouseHintText\(select\.value\)/, "the line follows the pick");
   assert.match(fn, /window\.cmsClubhouse\.set\(select\.value\)/);
@@ -233,7 +233,7 @@ check("the clubhouse with key silver is called Platinum everywhere a player read
   assert.equal(rows.length, 4, "four clubhouses");
   assert.deepEqual(rows.find(m => m[1] === "silver").slice(2, 3), ["Platinum Clubhouse"], "key silver is shown as the Platinum Clubhouse");
   for(const m of rows) assert.doesNotMatch(`${m[2]} ${m[3]}`, /silver/i, `${m[1]}: no Silver in its name or its line`);
-  assert.match(read("js/ruleBook.js"), /Settings also picks your clubhouse: Wooden, Platinum, Metallic Black or Premium Matte Black\./, "the Rule Book names Platinum");
+  assert.match(read("js/ruleBook.js"), /Settings also picks your clubhouse: Wooden, Platinum, Black Steel or Graphite\./, "the Rule Book names Platinum");
   // Every file a player can read: the game, its data, its styles and the Story. Comments are not read, so they are left out.
   const files = [];
   const walk = dir => { for(const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })){
@@ -245,7 +245,7 @@ check("the clubhouse with key silver is called Platinum everywhere a player read
   files.push("index.html", "app.js", "manifest.webmanifest");
   const NAME = [
     /\bSilver Clubhouse\b/i,
-    /\bSilver\s*[,;]\s*(?:Metallic Black|Platinum|Premium Matte Black)/,
+    /\bSilver\s*[,;]\s*(?:Metallic Black|Black Steel|Platinum|Premium Matte Black|Graphite)/,
     /\bWooden\b[^.]{0,40}?[,;]\s*Silver\b/,
     /\bpicked Silver\b/,
     /\bsit in silver\b/i,
@@ -260,6 +260,31 @@ check("the clubhouse with key silver is called Platinum everywhere a player read
   }
   assert.ok(seen > 50, `read the player-facing files (${seen})`);
   for(const file of ["chronicle/volume27-data.js", "chronicle/november.js", "chronicle/index.html", "chronicle/book.js"]) assert.match(read(file), /Platinum/, `${file}: the Story names Platinum`);
+});
+
+// Nik 2026-11-25 (naming card): Wooden, Platinum, Black Steel and Graphite Clubhouse. "Premium" is gone from every name a player
+// reads, and so are Metallic Black and Matte Black. Keys, CSS hooks, files and folders stay (black, matte).
+check("the clubhouses are Wooden, Platinum, Black Steel and Graphite wherever a player reads them, never Premium or Metallic/Matte Black", () => {
+  const s = read("js/settings.js");
+  const list = s.slice(s.indexOf("const SETTINGS_CLUBHOUSE_THEMES"), s.indexOf("];", s.indexOf("const SETTINGS_CLUBHOUSE_THEMES")));
+  assert.deepEqual([...list.matchAll(/\["(\w+)", "([^"]+)"/g)].map(m => [m[1], m[2]]), [["current", "Wooden Clubhouse"], ["silver", "Platinum Clubhouse"], ["black", "Black Steel Clubhouse"], ["matte", "Graphite Clubhouse"]]);
+  const files = [];
+  const walk = dir => { for(const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })){
+    const rel = `${dir}/${e.name}`;
+    if(e.isDirectory()){ if(dir === "chronicle" && e.name === "assets") continue; walk(rel); }
+    else if(/\.(?:js|html|css|json|md)$/.test(e.name)) files.push(rel);
+  } };
+  for(const dir of ["js", "data", "css", "chronicle"]) walk(dir);
+  files.push("index.html", "app.js", "manifest.webmanifest");
+  const OLD = [/\bMetallic Black\b/i, /\bMatte Black\b/i, /\bPremium (?:Matte|Clubhouse|clubhouse)/, /\bpremium clubhouses?\b/i];
+  let seen = 0;
+  for(const file of files){
+    if(!fs.existsSync(path.join(ROOT, file))) continue;
+    const text = read(file).replace(/\/\*[^]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "").replace(/<!--[^]*?-->/g, "");
+    seen++;
+    for(const re of OLD) assert.doesNotMatch(text, re, `${file}: a player reads an old clubhouse name (${re})`);
+  }
+  assert.ok(seen > 50, `read the player-facing files (${seen})`);
 });
 
 check("the service worker precaches each clubhouse's panel marble the panels ask for by a relative url", () => {

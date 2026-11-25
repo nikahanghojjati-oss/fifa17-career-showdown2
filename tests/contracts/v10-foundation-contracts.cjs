@@ -915,13 +915,13 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_1X.webp":"007a98181a81e7c0417d133b604f69ec0847b335d9fc008dcb07138c7c72323d",
     "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_2X.webp":"557a3161574f7d94e410387e7680fcf7ed70567cf287e5107e37d872531bca74",
     "visual-assets/v10_1/plates-hc/matte/ENV_BOX_SIDEWAYS_HC_V4.webp":"6684ee5af5e687e9f9da78e1dc78d0bd02a787005bd7372de55d5934570ed60b",
-    "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_PHONE_HC_V4.webp":"822575e7986d47902a9611def43683d646370bbb6f6c664679b3d70bd3b3c513",
+    "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_PHONE_HC_V4.webp":"8d97859aa3df8f715f0fcb14ac6da801ac1bf1fa3056c9a88c7a16f8465cf4b4",
     "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_PLATE_HC_V3_1X.webp":"2aee1a6fb103f423a5e4d68aeae5a11d20d5f8f17280b331500588fdd70aea92",
     "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_PLATE_HC_V3_2X.webp":"ed3e455bbcfdab1b4655cb1ca26b4115de80694fbd6c8e6fd39fae2967e91a9a",
     "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_SIDEWAYS_HC_V4.webp":"12d552ae320969cb107a86ce3442fb9ee6cd391ca7bbc1c466f94f26176b419f",
-    "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3.webp":"bc5700dc977ec6ef2a311a4152b02e2192a7332cf1dc0f47ac2616834a6214fe",
-    "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3_590W.webp":"5b4f607c472480fb819075d688b5f8a5ac12ff7e5d1b9de2ea87d3af15938a24",
-    "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3_TALL.webp":"ae41182fa813939f7aabed1287ae7fe6c6361a73eb27df4e12f19ab9d4d1164c",
+    "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3.webp":"3e1d0fe6ce0dd7190e81f5cc6f8e43659e82311d38352f428a4c1e8ecd249df0",
+    "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3_590W.webp":"3878033d65166be62b68cb95d368c40cada2d24b02268564954dcb7f8a163e42",
+    "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3_TALL.webp":"8fecc8405d8b81c5ae1c763f85d567dd93dfad9e3855b31f1a1ae0df7a51f142",
     "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PLATE_HC_V3_1920.webp":"5a55413640a65b94859f84f112d6de4e07aa9e105fc7d10e4a3538ecd062c11b",
     "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PLATE_HC_V3_1X.webp":"d949f97e06dfb554f1ae1a599e4f86a2a3d7cea622cbb51b218e591d487f0b57",
     "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PLATE_HC_V3_2X.webp":"cb4366f8e2172f6acb95120986f64779337e7abc5fea816d782296218bc00767",
@@ -1731,7 +1731,8 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // (r78-marble-tile-<theme>.webp) instead of the shared metal one; the theme script's comment and marble line, nothing else.
   // Then (lead 2026-11-25): the loading room's preloads and pictures are written by script through the theme's fix(), so a
   // premium clubhouse never downloads the Wooden tunnel; the markup itself is unchanged.
-  assert.equal(sha256("index.html"),"27d8f710f87bfddf6b5fb4e7cdd77b30f0e7a4ed3052080a9641cbef35f6ae9f","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, r100 per-clubhouse panel marble and loading room, 2.12.0-r99 pins)");
+  // And Nik's naming card (2026-11-25): the head comments name Black Steel and Graphite; no code changed.
+  assert.equal(sha256("index.html"),"1e018b511bf2218ee49336277b1683be4a6ec7c898fbd3b7a183da327597e593","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, r100 per-clubhouse panel marble and loading room, 2.12.0-r99 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);

@@ -6,7 +6,7 @@
 <meta name="app-asset-revision" content="2.12.0-r99">
 <title>Career Mode Showdown</title>
 <script>
-/* R99-01 clubhouse themes (Nik 2026-11-23): the clubhouse is Wooden (no attribute), Silver, Metallic Black or Premium Matte Black (key matte), picked in Settings and
+/* R99-01 clubhouse themes (Nik 2026-11-23): the clubhouse is Wooden (no attribute), Silver, Black Steel or Graphite (key matte), picked in Settings and
    kept by each phone or laptop for itself (localStorage; never Firestore, never sent to the other phone). A theme draws each room plate from
    plates-hc/<theme>/ (the premium painting of the room; Daniel and Nik untouched, tools/clubhouse-themes) and the panel marble
    from css/r78-marble-tile-<theme>.webp (cut from that clubhouse's painted slab). It is set here, before any sheet or picture is asked for, so no room paints in the wrong
@@ -58,8 +58,8 @@ if(was!==cur)all();if(!cur&&mo){mo.disconnect();mo=null;}return cur||"current";}
 </script>
 <style>
 /* Silver rooms are light, and a title can sit on the silver wall or on a manager's black suit (phones, small windows). So the words
-   that sit straight on the room keep their colour (gold titles, light lines) and get a thin dark edge that reads on both. Metallic Black
-   and Premium Matte Black keep them as they are: gold and ivory already read on black. */
+   that sit straight on the room keep their colour (gold titles, light lines) and get a thin dark edge that reads on both. Black Steel
+   and Graphite keep them as they are: gold and ivory already read on black. */
 html[data-clubhouse="silver"] :is(#loadingScreen :is(.startupSaveNote,.startupStatus,.startupPhotoCredit),.hc-live-title>span,#clubWheelScreen .clubTitleFallback,.fifaMenuHeading,.fifaMenuHeading *,.ruleBookSummary,#app>footer,#finalWinnerHeading,.finalWinnerTotals *,.heroPlinth>*,.connectPlayersTagline,#selectedLeague,.sqHeader>span,#cmStage :is(.cmHeader *,.cmStatus,.cmRowLabel,.cmCylStrip)){text-shadow:0 0 1px #0b0c0e,0 1px 1px #0b0c0e,0 0 .08em rgba(11,12,14,.9),0 .04em .3em rgba(11,12,14,.55),0 0 .7em rgba(11,12,14,.38)!important}
 html[data-clubhouse="silver"] :is(img.hc-logo-img,#loadingScreen img.startupIdentity){filter:drop-shadow(0 0 1px rgba(11,12,14,.85)) drop-shadow(0 2px 2px rgba(0,0,0,.75)) drop-shadow(0 0 14px rgba(0,0,0,.42))!important}
 /* The ground some rooms stand on (seen beside the picture on wide windows, or behind it while it loads) follows the clubhouse too. */
