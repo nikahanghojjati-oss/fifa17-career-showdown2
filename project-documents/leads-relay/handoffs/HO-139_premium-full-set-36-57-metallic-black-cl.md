@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T00:01:30Z", "by": "V", "status": "WORKING", "note": "Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv cfdbe18fa project-documents/hc-art/ho-premium-full/black/ENV_TUNNEL_PHONE_BLACK_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T00:01:30Z", "by": "V", "status": "WORKING", "note": "Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra"}, {"at": "2026-11-25T01:45:22Z", "by": "V", "status": "DONE", "note": "Black Tunnel phone, try1 9/10: square blackened-steel pillars with gold hairlines (matches HO-128), no wood, handrails/pitch/steps kept, satin counter, men untouched, aligned (scale 0.5%)"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
