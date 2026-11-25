@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 24 Nov, 10:17 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 24 Nov, 10:19 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.12.0-r99** (main `7dc0d48`, Tue 24 Nov 8:12 AM)
 
-🐕 **Barking: Showdown Gate on #1598 has waited 104 min for a machine; Showdown Gate on #1591 has waited 104 min for a machine; Showdown Gate on #1608 has waited 94 min for a machine; Showdown Gate on #1576 has waited 90 min for a machine; Showdown Gate on #1617 has waited 85 min for a machine; Showdown Gate on #1618 has waited 82 min for a machine; Showdown Gate on #1614 has waited 80 min for a machine; Showdown Gate on #1619 has waited 58 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1598 has waited 106 min for a machine; Showdown Gate on #1608 has waited 96 min for a machine; Showdown Gate on #1576 has waited 92 min for a machine; Showdown Gate on #1617 has waited 87 min for a machine; Showdown Gate on #1618 has waited 84 min for a machine; Showdown Gate on #1614 has waited 82 min for a machine; Showdown Gate on #1619 has waited 60 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -22,7 +22,7 @@ Updated Tue 24 Nov, 10:17 PM Boston time. Bug hunting only, no new features unti
 
 **#2 · 1727** `G` Connect Players (start and join): sideways phone study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
-🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 1046 h ago
+🟢 Team green · model not set · worker working, draft PR #773 · CI 6 of 7 passed · last move 1047 h ago
 
 **#3 · 1728** `G` Connect Players (start and join): upright tablet study, re-run (stage 4)  
 `████░░░░░░` **40.0000 %**  
