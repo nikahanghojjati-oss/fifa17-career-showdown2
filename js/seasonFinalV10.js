@@ -1821,8 +1821,11 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* r90: one rule for every landscape desktop window. The old list of exact size bands left gaps (1920x906 windowed
    Chromebook, 1280x900, 1366x900), where the board stayed absolute and an extra margin pushed it over Nik's face.
    r90 W9 (window sweep): no height cap either; above 1120px tall (1920x1200, 2560x1440, 3840x2160) the board stayed absolute
-   and scrolled inside itself. */
-@media (min-width:901px) and (min-height:501px) and (orientation:landscape) {
+   and scrolled inside itself.
+   r100 B7 (Verify F1): no height floor either. Below 501px tall (a Chromebook window dragged short) the board was squeezed
+   into the fixed stage: inputs overlapped, labels printed over each other, the cards covered the scoring panel and League
+   Position could not be clicked (1100x340). Every short window now uses this layout too, and main scrolls. */
+@media (min-width:901px) and (orientation:landscape) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
  }
@@ -1860,8 +1863,10 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #scoring-heading { font-size:clamp(17px,calc(var(--sru)*1.6),30px);margin:0 0 6px; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-rule { font-size:clamp(13px,calc(var(--sru)*.9),17px);line-height:1.25; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-trophy { max-height:16svh; }
+ /* r100 B7: under about 495px tall the room column (16:9 of the height) is too narrow for the rows, so the two cards keep
+    at least 640px, centred, and every score box stays clear of the trophies column */
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:not(.hidden) {
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3%;width:72.66%;min-width:0;margin:0 auto;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3%;width:max(72.66%,640px);min-width:0;margin:0 calc((100% - max(72.66%,640px)) / 2);
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel {
   position:relative;inset:auto;left:auto!important;width:100%!important;min-width:0;height:auto;min-height:max(220px,32svh);
@@ -1936,7 +1941,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 @media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
        (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait),
-       (min-width:901px) and (min-height:501px) and (orientation:landscape) {
+       (min-width:901px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close):active {
   filter:brightness(.88);box-shadow:inset 0 2px 4px #0008;
  }
@@ -2607,7 +2612,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
    FINAL (1024x768, 1536x864). Those windows now use the page-scroll layout 1366x768 and 1920x1080 already use (same cards,
    same order; main is the only scroller). Below 1240px the forms are wider than the gap between the two
    managers, so the cards stay in front of the cut-out and rim-light layers, as on the fixed stage. */
-@media (min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape) {
+@media (min-width:901px) and (max-width:1239px) and (max-height:800px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__layer--ui { z-index:5; }
  /* the stadium plate fills the window from its top, as on the fixed stage (no black bands on 4:3 and 16:10 windows) */
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
@@ -2616,7 +2621,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 }
 /* r90: windows wider than 16:9 (a windowed 1920x906 Chromebook, 2560x1080) fill the width with the stadium plate from its
    top instead of showing black bands at both sides; the faces keep their place across the width. */
-@media (min-width:901px) and (min-height:501px) and (min-aspect-ratio:16/9) and (orientation:landscape) {
+@media (min-width:901px) and (min-aspect-ratio:16/9) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .sd-stage__registered {
   top:0!important;width:100vw!important;height:56.25vw!important;
  }
@@ -2923,7 +2928,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 /* r91 L3 (1180x820, 1280x650, 1366x768): below 1500px the title picture is as wide as the gap between the two managers
    (they stand at 29.5% and 66.5% of the room), so its last letter stood on Nik's hair. It is centred between the faces
    (48% of the room) and narrowed to fit the gap; 1500px and wider keep the approved size. */
-@media (min-width:901px) and (max-width:1499px) and (min-height:501px) and (orientation:landscape) {
+@media (min-width:901px) and (max-width:1499px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #screen-title { left:29.8%; width:36.4%; }
 }
 @media (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
