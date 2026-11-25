@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 8:20 PM Boston time (EST)",
+ "generated": "2026-11-24 8:23 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 540,
+  "count": 541,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -4863,6 +4863,15 @@
     "subject": "Premium Matte Black prompts now graphite (neutral graphite velvet, satin titanium, no brown/brass/glint); each ticket has a HOLD box at the top: do not start until Nik OKs the HO-102/103 graphite redos and Team G re-cuts REF_PILOT_MATTE",
     "reply": "no",
     "boston": "Tue 24 Nov 8:14 PM"
+   },
+   {
+    "time": "2026-11-25 01:21",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-102 DONE",
+    "subject": "Premium pilot 5/6: Premium Matte Black Board Room repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 8:21 PM"
    }
   ],
   "g2v": {
@@ -4883,8 +4892,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "cffeb284",
-  "head_boston": "Tue 24 Nov 8:14 PM",
+  "head": "d363701",
+  "head_boston": "Tue 24 Nov 8:22 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -4912,7 +4921,7 @@
  },
  "two": {
   "live": {
-   "sha": "7dc0d48e",
+   "sha": "7dc0d48",
    "revision": "2.12.0-r99",
    "when": "2026-11-24T08:12:01-05:00",
    "subject": "Merge pull request #1580 from nikahanghojjati-oss/gameplay/r99",
@@ -5714,7 +5723,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24376
+    "waiting_min": 24379
    },
    {
     "id": "HO-059",
@@ -6280,8 +6289,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium pilot 5/6: Premium Matte Black Board Room repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-102_premium-pilot-5-6-premium-matte-black-bo.md",
     "worker": "images",
@@ -6293,8 +6302,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium pilot 6/6: Premium Matte Black Home repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-103_premium-pilot-6-6-premium-matte-black-ho.md",
     "worker": "images",
@@ -7281,7 +7290,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 73,
+  "moving": 71,
   "next": 42,
   "nik": 2,
   "later": 21,

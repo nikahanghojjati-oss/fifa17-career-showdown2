@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 8:20 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 8:23 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `cffeb284` (Tue 24 Nov 8:14 PM Boston time) · 540 messages · 174 hand-offs · 669 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `e1d1a20e` (Tue 24 Nov 8:23 PM Boston time) · 542 messages · 174 hand-offs · 671 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -4116,8 +4116,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-103 · G → V · Premium pilot 6/6: Premium Matte Black Home repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 8:23 PM · Team V · Done · Graphite redo 9/10: neutral graphite herringbone, slate pillars/counter, titanium lamp metal, warm lamp pools on the walls (2nd edit), no glints, leather kept brown as asked. Pair preview review/MATTE_GRAPHITE_PAIR.jpg. Waiting on Nik's OK.
 - Tue 24 Nov 8:14 PM · Team V · In progress · Graphite redo started 8:20 p.m. Eastern in Team V lead thread; one word change: felt -> fine herringbone wool flannel (pilot lesson: Astra turns felt into swirl/maze)
 - Tue 24 Nov 8:12 PM · Team G · RETURNED · REDO graphite (Nik 01:11 UTC 'Yes, graphite like my car'): new chat from the Wooden plate only, prompt in the REDO section; same asset name; HO-173 bar; top priority
 - Tue 24 Nov 10:28 AM · Team V · Done · Team V gate 9/10 (Nik rule: each at least 9). Aligned 3072x1728 to Wooden V3 2X (ORB affine, <1px). Men NOT composited (Team G does). Prompt lessons for the 57: Astra paints a fine swirl/crackle on wall materials; name a straight real texture (brushed grain, herringbone, slate); forbid extra lamps; ask clean crisp reflections without haze. Upgraded prompts in ho-premium-pilot/prompts/*_V2.txt. Also: your Light line had a template leak {'' if rm=='HOME' else ''}; fix the generator.
@@ -4209,8 +4210,9 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 ### HO-102 · G → V · Premium pilot 5/6: Premium Matte Black Board Room repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 8:21 PM · Team V · Done · Graphite redo 9/10: neutral graphite herringbone (wall sat 0.12), slate pillars/counter, satin titanium rail (2nd edit removed chrome glint), no brown, clearly unlike Metallic Black. Waiting on Nik's look.
 - Tue 24 Nov 8:14 PM · Team V · In progress · Graphite redo started 8:20 p.m. Eastern in Team V lead thread; one word change: felt -> fine herringbone wool flannel (pilot lesson: Astra turns felt into swirl/maze)
 - Tue 24 Nov 8:12 PM · Team G · RETURNED · REDO graphite (Nik 01:11 UTC 'Yes, graphite like my car'): new chat from the Wooden plate only, prompt in the REDO section; same asset name; HO-173 bar; top priority
 - Tue 24 Nov 10:28 AM · Team V · Done · Team V gate 9/10 (Nik rule: each at least 9). Aligned 3072x1728 to Wooden V3 2X (ORB affine, <1px). Men NOT composited (Team G does). Prompt lessons for the 57: Astra paints a fine swirl/crackle on wall materials; name a straight real texture (brushed grain, herringbone, slate); forbid extra lamps; ask clean crisp reflections without haze. Upgraded prompts in ho-premium-pilot/prompts/*_V2.txt. Also: your Light line had a template leak {'' if rm=='HOME' else ''}; fix the generator.
@@ -4297,6 +4299,9 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
 ```
+
+## Nik OK (Team V lead, 25 Nov 01:22 UTC = 24 Nov 8:22 p.m. Eastern)
+Nik said "ok" to the graphite Board Room (ENV_BOARD_PLATE_MATTE_P1_2X, claude/project-thread-ie3afv 186e2aaa3). Home (HO-103) still in progress.
 
 </details>
 
@@ -8903,6 +8908,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-103 DONE · Team V → Team G · Tue 24 Nov 8:23 PM Boston time
+
+**Premium pilot 6/6: Premium Matte Black Home repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-102 DONE · Team V → Team G · Tue 24 Nov 8:21 PM Boston time
+
+**Premium pilot 5/6: Premium Matte Black Board Room repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-142..160, 164, 167, 170 re-worded for graphite, ON HOLD · Team G → Team V · Tue 24 Nov 8:14 PM Boston time
 
