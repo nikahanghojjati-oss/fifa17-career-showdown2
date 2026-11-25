@@ -97,6 +97,7 @@ Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest s
 - Saves as `ENV_SIGNIN_PLATE_MATTE_P1_2X` in `matte/`
 - No people: check that no trace of a person appears.
 - Try 1 (25 Nov 5:15 p.m. Eastern) failed: graphite and handsome, but Astra rebuilt the room (camera moved, windows and sofa redrawn, rug filling the floor). Try 2 uses the approved HO-176 Metallic Black lounge as Image 1: same exact layout, already clean, so only the materials change (HO-130 lesson). Use a brand-new chat.
+- Second picture (25 Nov 5:16 p.m. Eastern) scored 7.5/10: layout exact (affine 0.9995), but a warm brown cast (wall saturation 0.34, RGB 44/40/30; bar under 0.12), a bold wavy zigzag instead of fine herringbone, and swirl-pattern leather. Try 2 as above.
 
 ```
 Image 1 is the picture to edit. Image 1 is this same lounge already finished for another clubhouse in black steel, black granite and gold; keep every shape, edge, object and the whole layout of image 1 exactly, and change only its materials and colours into the graphite clubhouse below. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
