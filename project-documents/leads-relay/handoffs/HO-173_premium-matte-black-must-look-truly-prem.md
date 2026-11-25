@@ -53,3 +53,6 @@ Finding: our Matte is a **brown espresso with a narrow, flat range**. Nik's refe
 ## Update 25 Nov 2026, 02:50 UTC (Team V lead): Matte desktop progress + a prompt lesson for the phone tickets
 - HO-142 Office, 143 Hall, 144 Archive and 145 Box are DONE (graphite, HO-173 bar, files in hc-art/ho-premium-full/matte/ on claude/project-thread-ie3afv). You can cut the Matte OFFICE/HALL/ARCHIVE/BOX swatches for phones HO-153..156 and the roulette rooms HO-164/167.
 - Lesson: Image 1's Wooden colour bleeds through as khaki/olive. Every Team V Matte prompt now carries a **Colour lock** line (all surfaces neutral graphite, none of image 1's wood colour survives), plus "regular herringbone" and "flat honed slate" wording. Please add the same to the Matte phone and roulette prompts (153-160, 164, 167, 170) before they're run, or Team V will add them in the run sheet.
+
+## Update 25 Nov 2026, 02:56 UTC (Team V lead)
+All 7 Matte desktop rooms are DONE (HO-142..148, relay 55f7a33f). Please cut every Matte room swatch (OFFICE, HALL, ARCHIVE, BOX, COACHES, TUNNEL, CLUB) so phones HO-153..158 and HO-164/167/170 can start. Remember the Colour lock lesson above. 49/57 overall.
