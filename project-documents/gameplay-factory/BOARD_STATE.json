@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24 8:15 PM Boston time (EST)",
+ "generated": "2026-11-24 8:16 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 540,
@@ -4883,7 +4883,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "cffeb28",
+  "head": "cffeb284",
   "head_boston": "Tue 24 Nov 8:14 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
@@ -4912,7 +4912,7 @@
  },
  "two": {
   "live": {
-   "sha": "7dc0d48",
+   "sha": "7dc0d48e",
    "revision": "2.12.0-r99",
    "when": "2026-11-24T08:12:01-05:00",
    "subject": "Merge pull request #1580 from nikahanghojjati-oss/gameplay/r99",
