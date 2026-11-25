@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r100-terminal-wake-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^js/productionSharedTerminalClose\\.js$",
+    "^tests/contracts/r100\\-terminal\\-wake\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-terminal\\-wake\\-contracts\\.json$"
+  ]
+}
