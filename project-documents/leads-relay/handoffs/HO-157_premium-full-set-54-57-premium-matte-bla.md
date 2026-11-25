@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T03:13:31Z", "by": "V", "status": "WORKING", "note": "graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv ccd7270db project-documents/hc-art/ho-premium-full/matte/ENV_COACHES_PHONE_MATTE_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T03:13:31Z", "by": "V", "status": "WORKING", "note": "graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra"}, {"at": "2026-11-25T03:51:18Z", "by": "V", "status": "DONE", "note": "Matte (graphite) Coaches phone: try 2 at 9/10 with the left-to-right row lock; shelf and both leather balls kept, three windows, lamp pillar and door in place (align ~identity, 1289 inliers), herringbone flannel, satin graphite frames and door, titanium sconce and rail, slate slab (sat 0.09); men untouched"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
