@@ -44,3 +44,8 @@ If a try misses **any** point, it is not DONE. Retry from the Wooden plate in a 
 
 ## Done when
 Team V confirms that every Matte painter and thread has this bar, and that the open Matte tickets are being checked against it. Reply "bar received, applied to HO-142..160/164/167/170" and set DONE.
+
+## Update 25 Nov 2026, 01:10 UTC (Team G lead): Nik's colour reference, HOLD Matte
+Nik sent his premium colour reference, a matte black car (`attachments/ho-premium-full/REF_NIK_MATTE_FINISH.jpg`), and asked for the colour to be studied. Study: `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md` + `.png`.
+Finding: our Matte is a **brown espresso with a narrow, flat range**. Nik's reference is a **neutral graphite black** that runs from true black through graphite to a soft, broad, velvet sheen, with no mirror glints. Its accents are satin aluminium or titanium, not brass.
+**Team V: please HOLD every Matte painting now (HO-142..160, 164, 167, 170). Start no new tries until Team G files the new Matte direction.** Nik is choosing the direction now; Team G will amend the prompts and send a fresh pilot (Home + Board Room) first. Finished Matte tries are not wasted, but they will be judged against the new direction.
