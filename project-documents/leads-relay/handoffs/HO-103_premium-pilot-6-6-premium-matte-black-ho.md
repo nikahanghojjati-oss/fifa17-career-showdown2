@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "DONE",
+ "status": "RETURNED",
  "steps": [],
  "evidence": ["claude/project-thread-ie3afv a665597ec project-documents/hc-art/ho-premium-pilot/ENV_HOME_PLATE_MATTE_P1_2X.webp (+_RAW.png, SHA256.json)"],
- "log": [{"at": "2026-11-24T13:20:40Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T13:23:13Z", "by": "V", "status": "WORKING", "note": "Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src."}, {"at": "2026-11-24T15:28:41Z", "by": "V", "status": "DONE", "note": "Team V gate 9/10 (Nik rule: each at least 9). Aligned 3072x1728 to Wooden V3 2X (ORB affine, <1px). Men NOT composited (Team G does). Prompt lessons for the 57: Astra paints a fine swirl/crackle on wall materials; name a straight real texture (brushed grain, herringbone, slate); forbid extra lamps; ask clean crisp reflections without haze. Upgraded prompts in ho-premium-pilot/prompts/*_V2.txt. Also: your Light line had a template leak {'' if rm=='HOME' else ''}; fix the generator."}],
+ "log": [{"at": "2026-11-24T13:20:40Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T13:23:13Z", "by": "V", "status": "WORKING", "note": "Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src."}, {"at": "2026-11-24T15:28:41Z", "by": "V", "status": "DONE", "note": "Team V gate 9/10 (Nik rule: each at least 9). Aligned 3072x1728 to Wooden V3 2X (ORB affine, <1px). Men NOT composited (Team G does). Prompt lessons for the 57: Astra paints a fine swirl/crackle on wall materials; name a straight real texture (brushed grain, herringbone, slate); forbid extra lamps; ask clean crisp reflections without haze. Upgraded prompts in ho-premium-pilot/prompts/*_V2.txt. Also: your Light line had a template leak {'' if rm=='HOME' else ''}; fix the generator."}, {"at": "2026-11-25T01:12:35Z", "by": "G", "status": "RETURNED", "note": "REDO graphite (Nik 01:11 UTC 'Yes, graphite like my car'): new chat from the Wooden plate only, prompt in the REDO section; same asset name; HO-173 bar; top priority"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
 }
@@ -70,3 +70,31 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 ### After DONE (Team G, B7 premium clubhouses thread)
 Team G aligns the painting, lays the original Daniel and Nik pixels from the Wooden 2X plate back on top with the existing hero masks pulled in a few px (faces pixel-identical, hero-pixel contract unchanged), derives `_1920`, `_1X` and `_2X`, and puts it on the board for Nik. **Timing (Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release):** the pilot is due back today; as soon as Nik OKs the pilot, Team G sends the remaining 57 tickets (all three clubhouses, desktop first, then phone) and all of them must be DONE before the 3.0 freeze, Mon 30 Nov noon Boston. If the pilot needs a second round, only the failing rooms are redone.
+
+### REDO: graphite (Nik 2026-11-25 01:11 UTC: "Yes, graphite like my car")
+Nik wants the Premium Matte Black Clubhouse to truly look premium (HO-173), and he picked the **graphite** direction from his own matte black car reference (`attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`, d9b5a67). The first Home lounge came back as a brown espresso room, close to a darkened Wooden room (Team G's numeric check: saturation 0.33, change from Wooden 7-9 of 255, flat). This redo replaces it. **Top priority.** Every other Matte ticket waits for Nik's OK on these two redos.
+
+- **Route:** ChatGPT Work mode, **Astra 6, Extra High**. **Start a new chat from the Wooden plate** `visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp` (raw link above; convert to PNG if needed). **Attach that one file only.** Do not attach the car photos, because Astra would copy cars and logos. The finish is described in words below. Never attach the first try or any earlier result.
+- **Target palette (from Nik's reference):** recesses #000001-#050606; main surfaces #0e0e10-#292928; lit walls #22252b-#403e3c (lighter than the suits); soft sheen #42474f-#878079; accents are satin titanium or brushed aluminium. No brown: surface saturation stays under about 0.12. The warm lamps stay warm.
+- **Save as:** the same asset, `ENV_HOME_PLATE_MATTE_P1_2X`. It replaces your first delivery in `project-documents/hc-art/ho-premium-pilot/`. Update its line in `SHA256.json`, then set HO-103 DONE again.
+- **Check before saving:** the HO-173 premium bar (7 points; for point 2 read "neutral graphite velvet" where it says warm charcoal, and satin titanium where it says brass). Also put it next to the Metallic Black Home lounge: at a glance one is polished black and gold, the other velvet graphite and titanium. No brown anywhere on the walls. Score /10 and send only 9/10 or better. Max 3 tries, each in a new chat from the Wooden plate. If 3 tries can't reach the bar, set BLOCKED with the best try and one line on what fails.
+- **After DONE:** Team G runs `tools/clubhouse-themes/matte_check.py` (difference from Metallic Black, change from Wooden, glints, tonal spread, saturation, colour cast) and puts the room on the board next to Wooden, Platinum and Metallic Black for Nik. A FAIL comes back as a REDO.
+
+```
+Keep this image exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the lounge on the left (table lamp on the sideboard, folded plaid blankets, two brown leather armchairs, round table with the old leather ball in a bowl and the glass of whisky, the sofa with the grey throw, the rug), the big window across the middle and right with the night stadium, crowd, floodlights and green pitch exactly as they are, the wall lamp on the pillar at the right, and the counter along the bottom edge at exactly the same height.
+
+The room: A private members' lounge finished in neutral graphite velvet: low-gloss surfaces and satin titanium details, handcrafted.
+Repaint the lounge walls and panels as upholstered graphite wool felt with visible stitched seams, a neutral graphite with no brown, framed in thin satin graphite lacquer mouldings, with soft near-black plaster on the ceiling. The pillars beside the window become honed charcoal slate. The window frames become satin graphite lacquer with a thin brushed titanium edge. The lamp arms become brushed satin titanium; the shades stay warm cream and lit. The sideboard becomes satin graphite lacquer. The floor becomes neutral charcoal wool carpet with soft contact shadows under the chairs, the table and the sofa. The counter becomes honed graphite slate, fully matte.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the stadium glow through the window. The lamps cast warm pools of light, but every material itself stays a neutral graphite grey-black: never brown, never espresso, never a warm cast on the walls. The finish is velvet low gloss, like fine matte lacquer: where a surface turns toward a lamp it carries a broad, soft, pale-grey sheen that rolls across it in long gradients; nothing is mirror-like, and there is no sharp highlight and no glint anywhere. The tones are layered dark on dark: near-black in the recesses and corners, deep charcoal on the main surfaces, and lighter graphite on the lit walls. The lit walls are clearly lighter than the black suits, so both men read crisply against them. Up close the weave of the felt and the stitched seams are visible and sharp. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours (brown leather armchairs and sofa, plaid wool blankets, the old leather ball, the glass of whisky, the grey throw, the rug, the lamp shades) and are relit by the new room, each standing on the floor or table with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain and no streaks. No new objects, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```

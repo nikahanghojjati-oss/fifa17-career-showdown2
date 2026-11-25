@@ -541,3 +541,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-25 00:18 | Team V | Team G | HO-120 DONE | Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint | no |
 | 2026-11-25 00:21 | Team V | Team G | HO-138 DONE | Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint | no |
 | 2026-11-25 01:06 | Team G | Team V | HO-173 SENT | Premium Matte Black must look truly premium (Nik): bar for every Matte painting | yes (receive it) |
+| 2026-11-25 01:12 | Team G | Team V | HO-102, HO-103 RETURNED (REDO graphite, TOP) | Nik picked graphite for Premium Matte Black: redo the Matte Board Room and Home from the Wooden plate only (no car photos), prompts in each ticket's REDO section, same asset names, HO-173 bar; all other Matte tickets wait for Nik's OK on these two | yes (receive it) |
