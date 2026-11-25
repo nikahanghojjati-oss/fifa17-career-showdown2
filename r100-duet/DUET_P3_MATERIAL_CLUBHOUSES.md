@@ -1,4 +1,4 @@
-# Duet job P3: material clubhouses (Ruby, Emerald, Lapis), with Duet as both Team V and Team G
+# Duet job P3: material clubhouses (Ruby, Emerald, Lapis, Rose Quartz, Amethyst, Rhodochrosite), with Duet as both Team V and Team G
 
 Model: Opus 5.5, high effort or above. This is SENSITIVE work: the theme script and plates load at startup, so a mistake can flash, cover a face or break a screen. Never use Sonnet or Haiku for it, including in sub-teams.
 
@@ -11,11 +11,15 @@ Picked by Nik on 2026-11-25, 06:56-07:01 UTC. In his words: Duet does the whole 
   1. **Ruby:** Rosso Levanto marble, oxblood leather, rosewood, antique gold. Palette #2A0A10 / #6E1423 / #9B2335. Key `ruby`.
   2. **Emerald:** malachite, bottle-green leather, walnut, satin brass. Palette #0B2E22 / #145A3C / #2E8B57. Key `emerald`.
   3. **Lapis:** ultramarine lapis lazuli with gold flecks. Palette #10204A / #1F3A93, gold #C9A24D. Key `lapis`.
+  4. **Rose Quartz:** pink crystal slabs, plum velvet, amethyst accents, rose gold. Palette #2B1030 / #6B3F8C / #C77D9B, rose gold #B76E79. Key `rosequartz`.
+  5. **Amethyst:** deep violet crystal, plum leather, polished silver accents. Palette #1E0F2E / #4B2A6B / #7E57A8, silver #C0C0C8. Key `amethyst`.
+  6. **Rhodochrosite:** raspberry-pink stone with natural pale bands, dark walnut, champagne gold. Palette #3A0E1E / #A23B5C / #E07A95, champagne gold #CBB27A. Key `rhodochrosite`.
+- **Full lineup (Nik 2026-11-25 07:09 UTC):** all six are wanted. Go in this order as far as budget and clock allow. The lead (or the next lead) picks up whatever is left, so finish each clubhouse fully, never start two at once, and end with the hand-off note below.
 - **Names (Nik's pick, 2026-11-25 07:06 UTC, "Material names"):** the full Settings list is Wooden, Platinum, Black Steel, Graphite, Ruby, Emerald and Lapis Clubhouse.
-  - Your three are exactly **`Ruby Clubhouse`**, **`Emerald Clubhouse`** and **`Lapis Clubhouse`**.
+  - Yours are exactly **`Ruby Clubhouse`**, **`Emerald Clubhouse`**, **`Lapis Clubhouse`**, **`Rose Quartz Clubhouse`**, **`Amethyst Clubhouse`** and **`Rhodochrosite Clubhouse`**.
   - B7 renames the existing four in its premium-only PR. Don't touch those labels.
   - The word "Premium" never appears in any text a player sees. Every new label and hint line must pass B7's new no-"Premium" contract (it lands with premium-only; run it on each PR).
-  - Internal keys stay `ruby`, `emerald` and `lapis`.
+  - Internal keys are `ruby`, `emerald`, `lapis`, `rosequartz`, `amethyst` and `rhodochrosite` (lower-case a-z only).
 
 ## Who's who
 - **Repo:** nikahanghojjati-oss/fifa17-career-showdown2. **Base branch:** `gameplay/r100`, but start each clubhouse branch only once B7's `claude-gameplay/r100-premium-only` has merged into it (it adds the panel marble tile, the premium manifest and the scripted loading room, which the new keys need too). The desk tells you when that has happened.
@@ -64,6 +68,9 @@ Ask Nik for one test picture (any ChatGPT image). Then:
      - Ruby: deep oxblood and red marble at night, rich not pink, antique gold small.
      - Emerald: deep green stone and leather at night, never mint, brass small.
      - Lapis: deep ultramarine at night, never royal-blue plastic, gold flecks small.
+     - Rose Quartz: soft translucent pink crystal and deep plum at night, never candy or bubblegum, rose gold small.
+     - Amethyst: deep violet crystal and plum leather at night, never neon purple, silver small and polished.
+     - Rhodochrosite: raspberry stone with calm natural pale bands at night, never striped like candy, champagne gold small.
    - **(c) The fix wording from Team V's redo list (TEAM_V_METHOD §3) where the room needs it:**
      - straight real textures only, never "smooth";
      - calm long marble veins, never cracked ice;
@@ -181,3 +188,11 @@ Passing the numbers is necessary but not sufficient. Your eye check against HO-1
 ```
 P3 report: <key> | stage: study / pilot / full set / wired / PR #NNNN head <sha8> | pictures: <n accepted>/<n total>, avg score <x>/10, redos <n> | Gate: <state> | flash: <keys passed> | faces: 0 px pre-encode, decoded max <x> | sizes: <range vs Wooden> | spend so far: ~$<n> | next: <one line> | needs Nik: <prompts batch / board OK / nothing>
 ```
+
+## Hand-off when you stop (budget, clock or all six done)
+Write `r100-duet/P3_HANDOFF.md` on audit-packets and post a REPORT that links it. It holds:
+- each clubhouse's state (study / pilot / full set / wired / PR #, head, Gate, board OK, merged);
+- every open FLAG;
+- your spend;
+- for the NEXT clubhouse not started: its colour study, its `<key>_check.py` limits, its LOOKS entries for the generators, and its run sheet with the pilot prompts ready for Nik to paste.
+A new lead must be able to continue from that file alone.
