@@ -11,12 +11,12 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T19:15:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:17:29Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-11-24T19:17:30Z", "by": "V", "status": "WORKING", "note": "Platinum run sheet entry with updated Platinum wording; scoring in thread Finish premium clubhouse repaints"}],
+ "evidence": ["claude/project-thread-ie3afv 89625c7c2 project-documents/hc-art/ho-premium-full/silver/ENV_BOX_PLATE_EMPTY_SILVER_P1_2X.webp"],
+ "log": [{"at": "2026-11-24T19:15:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:17:29Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-11-24T19:17:30Z", "by": "V", "status": "WORKING", "note": "Platinum run sheet entry with updated Platinum wording; scoring in thread Finish premium clubhouse repaints"}, {"at": "2026-11-25T02:20:46Z", "by": "V", "status": "DONE", "note": "Platinum League Roulette desktop, no men: try 1 at 9/10; framing and stadium kept (align ~identity, 933 inliers), platinum leaf + nickel + soft-vein marble match HO-107 swatch, no lamps added"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
- "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
+ "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
 ```
 
