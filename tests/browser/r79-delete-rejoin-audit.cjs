@@ -156,6 +156,10 @@ async function main(){
 
     // Daniel starts the next Showdown with a different length (1 season); Nik goes Home and JOINs with one tap.
     if(!await daniel.page.locator("#mainMenu").isVisible().catch(()=>false))await goHome(daniel);
+    // Phoenix B2 (#1614): the real close (Settings END SHOWDOWN, through the pair's own state change) redraws Daniel's Home to
+    // START A SHOWDOWN before any tap (never a stale LIVE tile), and that one START tap reaches the seasons screen (danielStartsShowdown taps #newShowdown once, then waits for #createShowdown).
+    await daniel.page.waitForFunction(()=>(document.querySelector("#newShowdown .menuTileLabel")?.textContent||"").trim()==="START A SHOWDOWN",null,{timeout:15000});
+    assert.deepEqual((await homeTile(daniel)).slice(0,2),["NEW","START A SHOWDOWN"],"after END SHOWDOWN Daniel's Home shows START A SHOWDOWN, not LIVE");
     const code2=await danielStartsShowdown(daniel,1);
     const R2=code2.replace(/^CMS17R?-/,"");
     assert.notEqual(R2,R1);
