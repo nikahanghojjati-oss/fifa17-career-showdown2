@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/production-firestore-rules-deployment-path-contracts.cjs",
+  "patterns": [
+    "^PRODUCTION_FIRESTORE_RULES_DEPLOYMENT\\.md$",
+    "^firebase\\.json$",
+    "^firestore\\.rules$",
+    "^tests/contracts/production\\-firestore\\-rules\\-deployment\\-path\\-contracts\\.cjs$",
+    "^tests/pos20-registry/production\\-firestore\\-rules\\-deployment\\-path\\-contracts\\.json$"
+  ]
+}

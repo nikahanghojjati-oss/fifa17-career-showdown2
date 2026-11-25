@@ -96,7 +96,7 @@ assert.match(production,/ready\?"CONTINUE TO THE TRANSFER WAR"/,'Career Start re
 assert.match(production,/ready\?pcstOpenTransferChallenge\(\):pcstAcknowledge\(\)/,'the Career Start primary action must route ready state into Shared Transfer Challenge and non-ready state into acknowledgement');
 assert.match(production,/const opened=await transfer\.open\(\);/,'Career Start must delegate navigation to the authoritative Shared Transfer Challenge adapter');
 assert.match(production,/routesReadyStateToTransferChallenge:true/,'Career Start diagnostics must expose the gameplay handoff contract');
-assert.match(production,/const operationId=pcstRandomOperationId\(\);/,'Career Start acknowledgement recovery must retain one operation id across a bounded retry');
+assert.match(production,/const operationId=(?:resendOperationId\|\|)?pcstRandomOperationId\(\);/,'Career Start acknowledgement recovery must retain one operation id across a bounded retry');
 assert.match(production,/CAREER_START_STALE_BASE_REVISION","CAREER_START_ROLE_ALREADY_ACKNOWLEDGED","CAREER_START_ALREADY_READY/,'Career Start must explicitly reconcile concurrent, duplicate-role and already-ready outcomes');
 assert.match(production,/if\(current\?\.state\?\.phase==="CAREER_START_READY"\|\|pcstOwnAcknowledged\(current\)\)/,'Career Start must adopt authoritative already-recorded acknowledgement state instead of requiring another write');
 assert.match(production,/const statusText=lastError\|\|/,'Career Start must preserve provider failures in the rendered player-facing status instead of immediately erasing them');

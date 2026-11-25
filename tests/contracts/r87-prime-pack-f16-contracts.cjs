@@ -88,7 +88,7 @@ async function section(id,fn){
 // pssrWithPrimePack from the shipped file, run in a sandbox with a fake setup, loader and step.
 function seasonResultsPack({step=null,loadFails=false,confirmedAtMs=ELIGIBLE_MS}={}){
   const src=read("js/productionSharedSeasonResults.js");
-  const from=src.indexOf("  async function pssrWithPrimePack("),to=src.indexOf("  async function pssrPublish()");
+  const from=src.indexOf("  async function pssrWithPrimePack("),to=src.indexOf("  async function pssrPublish(");
   assert.ok(from>0&&to>from,"pssrWithPrimePack is where it was");
   const notes=[];
   const sandbox={root:{CareerModeIconGuessStep:loadFails?null:step,loadRuntimeScript:async()=>{if(loadFails)throw new Error("offline");},CareerModeFirestoreBudget:{noteError:e=>notes.push(e)}},

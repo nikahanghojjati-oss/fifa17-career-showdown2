@@ -1064,13 +1064,14 @@ async function runSettingsEndShowdown(button){
    are js/showdownModes.js. */
 
 // R99-01 (Nik 2026-11-23): the clubhouse look, on this device only. Wooden is the brown wood and marble the rooms were painted
-// in; Silver, Metallic Black and Premium Matte Black are the same rooms recoloured, with Daniel and Nik untouched. index.html
+// in; Platinum (key "silver"), Metallic Black and Premium Matte Black are the same rooms recoloured, with Daniel and Nik untouched. index.html
 // applies the pick before anything paints (window.cmsClubhouse) and keeps it in this browser; nothing is read from or written
-// to Firestore. Names Nik gave them (2026-11-23): Wooden Clubhouse (the rooms as painted), Silver Clubhouse, Metallic Black
+// to Firestore. Names Nik gave them (2026-11-23): Wooden Clubhouse (the rooms as painted), Platinum Clubhouse (key "silver"; Nik renamed
+// it from Silver on 2026-11-24, HO-161), Metallic Black
 // Clubhouse (key "black") and Premium Matte Black Clubhouse (key "matte"). Each has one line on what the room is made of.
 const SETTINGS_CLUBHOUSE_THEMES = [
     ["current", "Wooden Clubhouse", "Walnut panels and marble under warm lamplight, as the rooms were painted."],
-    ["silver", "Silver Clubhouse", "Polished silver panels in clean, cool daylight."],
+    ["silver", "Platinum Clubhouse", "Bright brushed platinum panels under cool night light."],
     ["black", "Metallic Black Clubhouse", "Brushed gunmetal and black marble, caught by gold lamplight."],
     ["matte", "Premium Matte Black Clubhouse", "Soft-touch matte black, quiet and deep, lit by warm gold."]
 ];

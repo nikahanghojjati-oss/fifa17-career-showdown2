@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/job-1005-final-season-cell-contracts.cjs",
+  "patterns": [
+    "^js/seasonFinalV10\\.js$",
+    "^visual-assets/v10_1/final-winner/(app-shell\\.html|app-strings\\.json|final-winner\\.(js|css))$",
+    "^tests/contracts/job-1005-final-season-cell-contracts\\.cjs$",
+    "^tests/pos20-registry/job\\-1005\\-final\\-season\\-cell\\-contracts\\.json$"
+  ]
+}

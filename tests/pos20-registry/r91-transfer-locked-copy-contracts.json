@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r91-transfer-locked-copy-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^tests/contracts/r91\\-transfer\\-locked\\-copy\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r91\\-transfer\\-locked\\-copy\\-contracts\\.json$"
+  ]
+}

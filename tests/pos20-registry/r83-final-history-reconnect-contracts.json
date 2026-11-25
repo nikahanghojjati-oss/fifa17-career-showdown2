@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r83-final-history-reconnect-contracts.cjs",
+  "patterns": [
+    "^js/seasonFinalV10\\.js$",
+    "^tests/contracts/r83\\-final\\-history\\-reconnect\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r83\\-final\\-history\\-reconnect\\-contracts\\.json$"
+  ]
+}

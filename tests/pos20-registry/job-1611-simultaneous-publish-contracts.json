@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/job-1611-simultaneous-publish-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedSeasonResults\\.js$",
+    "^js/sparkSharedSeasonResults\\.js$",
+    "^tests/contracts/job-1611-simultaneous-publish-contracts\\.cjs$",
+    "^tests/pos20-registry/job\\-1611\\-simultaneous\\-publish\\-contracts\\.json$"
+  ]
+}

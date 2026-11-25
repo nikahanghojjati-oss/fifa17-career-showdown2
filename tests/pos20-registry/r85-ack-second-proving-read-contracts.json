@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r85-ack-second-proving-read-contracts.cjs",
+  "patterns": [
+    "^js/sparkSharedSeasonCommit\\.js$",
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^js/sharedSeasonCommit\\.js$",
+    "^tests/contracts/r85-ack-second-proving-read-contracts\\.cjs$",
+    "^tests/pos20-registry/r85\\-ack\\-second\\-proving\\-read\\-contracts\\.json$"
+  ]
+}
