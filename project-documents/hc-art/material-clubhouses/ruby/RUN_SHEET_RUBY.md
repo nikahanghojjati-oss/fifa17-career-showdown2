@@ -431,3 +431,5 @@ Same 16:9 framing as the original, largest size available.
 
 Tries:
 
+- Try 1 (25 Nov 6:31 p.m. Boston) **9/10, accepted.** No align: a slab has no fixed framing (align.py rejected it as "framing changed" and its warp would crop), so the raw is a plain resize to 3072x1728. Deep wine-red Rosso Levanto with cloudy darker and lighter patches, three long diagonal veins of pale cream stone (not gold, no stripes, no ice cracks), and a faint red under-web typical of the stone. ruby_check PASS. Edges do not tile seamlessly, which is fine: every page uses the slab as one cover picture with no repeat (squadScreen.css, chamberMen.css, rulesSettingsV10.css, clubDraw.css); the repeating tile is a separate TILE_SLAB file. Small notes, not worth a redo: the corners are a touch darker than the centre (22 vs 24 luma, Image 1 is 26.5 vs 27.9), and up close the widest vein has soft blotches inside it. Side by side: [ENV_SLAB_RUBY_P1_2X.cmp.jpg](ENV_SLAB_RUBY_P1_2X.cmp.jpg).
+- **Ruby batch 1 complete: all 11 pictures at 9/10.**
