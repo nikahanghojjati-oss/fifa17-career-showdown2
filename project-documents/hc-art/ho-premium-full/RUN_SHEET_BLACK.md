@@ -528,12 +528,13 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ## HO-140 · Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint
 
 - Image 1: [ENV_CLUB_PHONE_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_CLUB_PHONE_HC_V4.png)
-- Image 2: [REF_CLUB_BLACK_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_CLUB_BLACK_SWATCH.png) (Team G swatch c1777bfa)
+- Image 2 (materials-only strip): [REF_CLUB_BLACK_SWATCH_MAT.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_CLUB_BLACK_SWATCH_MAT.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_CLUB_BLACK_SWATCH_MAT.png)), a narrow cut of Team G's Club swatch with only wall panels, window frame, floor and counter, so Astra cannot copy the desktop room layout
 - Saves as `ENV_CLUB_PHONE_BLACK_P1`
+- Try 1 (24 Nov 8:46 p.m. Eastern) scored 3/10: Astra copied the layout of the old Image 2 (the desktop Club room: one lamp, pennant, side window, armchair) instead of editing Image 1. Try 2 uses the materials-only strip as Image 2.
 - No people: check that no trace of a person appears.
 
 ```
-Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+Image 1 is the picture to edit. Image 2 is only a small sample of the finished materials and light of this clubhouse (black steel panels, gold-lined frames, polished black stone); match its materials, colours and light, and copy nothing else from it: not its layout, not its objects, not its framing. The picture keeps the layout of image 1.
 
 Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
 
@@ -584,12 +585,12 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ## HO-169 · Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways
 
 - Image 1: [ENV_CLUB_SIDEWAYS_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_CLUB_SIDEWAYS_HC_V4.png)
-- Image 2: [REF_CLUB_BLACK_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_CLUB_BLACK_SWATCH.png) (Team G swatch c1777bfa)
+- Image 2 (materials-only strip): [REF_CLUB_BLACK_SWATCH_MAT.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_CLUB_BLACK_SWATCH_MAT.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_CLUB_BLACK_SWATCH_MAT.png)), a narrow cut of Team G's Club swatch with only wall panels, window frame, floor and counter, so Astra cannot copy the desktop room layout
 - Saves as `ENV_CLUB_SIDEWAYS_BLACK_P1`
 - No people: check that no trace of a person appears.
 
 ```
-Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+Image 1 is the picture to edit. Image 2 is only a small sample of the finished materials and light of this clubhouse (black steel panels, gold-lined frames, polished black stone); match its materials, colours and light, and copy nothing else from it: not its layout, not its objects, not its framing. The picture keeps the layout of image 1.
 
 Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop or move the camera, and keep the same 16:9 wide shape. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
 
