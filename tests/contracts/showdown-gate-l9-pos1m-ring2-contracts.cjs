@@ -83,7 +83,9 @@ async function run(){
   const look=['README.md'],game=['js/onlineSync.js'];
   const needs=Object.fromEntries(Object.values(S.LANES).map(def=>[def.job,{result:'success'}]));
   const allSteps=lane=>Object.fromEntries(Object.keys(S.LANES[lane].steps).map(id=>[id,{outcome:'success'}]));
-  const record=(lane,files,extra={})=>S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:allSteps(lane),files,...(S.isL7(lane)?{ironman:{verdict:'PASS',seed:1,seasons:3,attempts:[{exit:0}],replay:'x'}}:{}),...extra});
+  // A shard's own Ring 2 report (what tests/pos1m/ring2.cjs writes with --out), as finalize reads it.
+  const ring2Of=(shard,over={})=>({engine:'POS1M',ring:2,stories:S.L9_STORIES,asked:S.L9_STORIES,firstSeed:S.l9Seed(shard),lastSeed:S.l9Seed(shard)+S.L9_STORIES-1,seedsOk:true,survived:S.L9_STORIES,...over});
+  const record=(lane,files,extra={})=>S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:allSteps(lane),files,...(S.isL7(lane)?{ironman:{verdict:'PASS',seed:1,seasons:3,attempts:[{exit:0}],replay:'x'}}:{}),...(S.isL9(lane)?{ring2:ring2Of(S.LANES[lane].shard)}:{}),...extra});
   const green=files=>Object.fromEntries(S.LANE_IDS.map(lane=>[lane,record(lane,files)]));
   const skip=(lanes,files)=>{for(const lane of S.LANE_IDS.filter(S.isL9))lanes[lane]=record(lane,files,{steps:{rules:{outcome:'skipped'},pos1m_ring2:{outcome:'skipped'}},l9Run:false,l9Reason:S.l9Decision({event:'pull_request',baseRef:'gameplay/r100',files}).l9_reason});return lanes;};
   const seal=(files,extra)=>S.evaluateSeal({event:'pull_request',draft:false,headSha:head,baseSha:base,baseRef:'gameplay/r100',files,prLiveHead:head,route,needs,lanes:green(files),runId,runAttempt:1,...extra});
@@ -101,7 +103,28 @@ async function run(){
   assert.equal(seal(game,{needs:{...needs,'l9-pos1m-ring2':{result:'failure'}}}).verdict,'FAIL_TEST','a red shard makes the matrix job red');
   ok();
 
-  console.log(`PASS Showdown Gate L9 POS1M Ring 2: 4 shard jobs x 50 stories (seeds 200000-200199) on the emulator under the composed Rules, heavy set and POS1M changes, fail-closed, verified skips, the seal fails closed on a red, missing or unverified shard (${checks} groups).`);
+  // 6. A shard that ran must have run its own 50 stories (Verify on #1627: "ran, 0 stories" passed the seal; --stories 0 or an
+  // empty route output gave zero seeds and a green 0 === 0).
+  const ranWith=(over,label)=>{const lanes=green(game);lanes['L9-2']=record('L9-2',game,{ring2:over===null?null:ring2Of(2,over)});const r=seal(game,{lanes});assert.equal(r.verdict,'FAIL_TEST',label);return r;};
+  {const r=ranWith({stories:0,asked:0,firstSeed:undefined,lastSeed:undefined,seedsOk:true,survived:0},'ran, 0 stories');assert.ok(r.failures.some(f=>/L9-2: POS1M Ring 2 ran 0 of 0 stories/.test(f)),JSON.stringify(r.failures));}
+  ranWith(null,'ran, but no shard report');
+  ranWith({stories:49,asked:49,lastSeed:S.l9Seed(2)+48,survived:49},'ran fewer stories than the shard holds');
+  ranWith({firstSeed:S.l9Seed(1),lastSeed:S.l9Seed(1)+S.L9_STORIES-1},'ran another shard\'s seeds');
+  ranWith({seedsOk:false},'a lost or doubled seed');
+  ranWith({survived:S.L9_STORIES-1},'a story that did not survive');
+  {const r=seal(game,{});assert.equal(r.verdict,'PASS',JSON.stringify(r.failures));}
+  // The finalize step hands the shard report to the lane record; ring2.cjs itself refuses to run zero stories.
+  assert.equal(job.steps.find(s=>/showdown-gate\.mjs finalize/.test(String(s.run||''))).run.trim(),'node scripts/showdown-gate.mjs finalize --lane L9-${{ matrix.shard }} --route "$RUNNER_TEMP/route.json" --ring2 "$RUNNER_TEMP/pos1m-ring2-${{ matrix.shard }}.json" --out "$RUNNER_TEMP/lane/lane.json"');
+  {
+    const {spawnSync}=require('node:child_process');
+    for(const argv of [['--stories','0'],['--stories',''],['--stories','-3'],['--stories','2.5'],['--seed','x']]){
+      const r=spawnSync(process.execPath,['tests/pos1m/ring2.cjs',...argv],{cwd:root,encoding:'utf8',env:{...process.env,FIRESTORE_EMULATOR_HOST:''}});
+      assert.equal(r.status,1,`ring2.cjs ${argv.join(' ')} must fail: ${r.stdout}${r.stderr}`);assert.match(r.stderr,/FAIL POS1M Ring 2: --stories must be/);
+    }
+  }
+  ok();
+
+  console.log(`PASS Showdown Gate L9 POS1M Ring 2: 4 shard jobs x 50 stories (seeds 200000-200199) on the emulator under the composed Rules, heavy set and POS1M changes, fail-closed, verified skips, the seal fails closed on a red, missing, unverified or short shard (${checks} groups).`);
 }
 
 module.exports=run;

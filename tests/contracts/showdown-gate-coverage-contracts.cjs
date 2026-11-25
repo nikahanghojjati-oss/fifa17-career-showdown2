@@ -302,7 +302,10 @@ let checks=0;const ok=()=>{checks++;};
     const finalize=(lane,failedStep=null,jobStatus='success')=>{
       env.GATE_JOB_STATUS=jobStatus;
       env.GATE_STEPS_JSON=JSON.stringify(Object.fromEntries(Object.keys(gateLib.LANES[lane].steps).map(id=>[id,{outcome:id===failedStep?'failure':'success'}])));
-      const result=cli(['finalize','--lane',lane,'--route',routeFile,'--out',path.join(lanesDir,`showdown-gate-lane-${lane}`,'lane.json')]);
+      // A ran L9 shard hands finalize its own 50-story Ring 2 report (tests/pos1m/ring2.cjs --out).
+      const ring2=[];if(gateLib.isL9(lane)){const shard=gateLib.LANES[lane].shard,file=path.join(sandbox,`${lane}-ring2.json`);
+        fs.writeFileSync(file,JSON.stringify({stories:gateLib.L9_STORIES,asked:gateLib.L9_STORIES,firstSeed:gateLib.l9Seed(shard),lastSeed:gateLib.l9Seed(shard)+gateLib.L9_STORIES-1,seedsOk:true,survived:gateLib.L9_STORIES}));ring2.push('--ring2',file);}
+      const result=cli(['finalize','--lane',lane,'--route',routeFile,...ring2,'--out',path.join(lanesDir,`showdown-gate-lane-${lane}`,'lane.json')]);
       assert.equal(result.status,0,result.stderr);
     };
     const seal=()=>{env.GATE_NEEDS_JSON=JSON.stringify(needs);return cli(['seal','--route',routeFile,'--lanes-dir',lanesDir,'--out',summaryFile]);};

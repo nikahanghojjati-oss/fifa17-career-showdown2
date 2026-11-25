@@ -53,7 +53,8 @@ async function run(){
   const route={profile:'L7_CONTRACT',tests:[],proofs:[],operations:false};
   const needs=Object.fromEntries(Object.values(S.LANES).map(def=>[def.job,{result:'success'}]));
   const allSteps=lane=>Object.fromEntries(Object.keys(S.LANES[lane].steps).map(id=>[id,{outcome:'success'}]));
-  const green=(extra={})=>Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:allSteps(lane),...(S.isL7(lane)?{files:outside,ironman:{verdict:'PASS',seed:S.l7Seed(head),seasons:3,attempts:[{exit:0}],replay:'x'}}:{}),...extra})]));
+  const ring2Of=shard=>({stories:S.L9_STORIES,asked:S.L9_STORIES,firstSeed:S.l9Seed(shard),lastSeed:S.l9Seed(shard)+S.L9_STORIES-1,seedsOk:true,survived:S.L9_STORIES});const l9Extra=lane=>S.isL9(lane)?{ring2:ring2Of(S.LANES[lane].shard)}:{};// a ran L9 shard carries its own 50-story report
+  const green=(extra={})=>Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:allSteps(lane),...l9Extra(lane),...(S.isL7(lane)?{files:outside,ironman:{verdict:'PASS',seed:S.l7Seed(head),seasons:3,attempts:[{exit:0}],replay:'x'}}:{}),...extra})]));
   const skipped=()=>{const lanes=green();for(const leg of S.L7_LEGS){const lane=S.l7Lane(leg);lanes[lane]=S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:{ironman:{outcome:'skipped'}},l7Run:false,l7Reason:decision({}).l7_reason,files:outside});}return lanes;};
   const seal=extra=>S.evaluateSeal({event:'pull_request',draft:false,headSha:head,baseSha:base,baseRef:'gameplay/r100',files:outside,prLiveHead:head,route,needs,lanes:green(),runId,runAttempt:1,...extra});
   assert.equal(seal({}).verdict,'PASS','every leg ran and passed');
@@ -185,7 +186,7 @@ async function run(){
     // Seal: with look-only files the heavy legs' skips verify and the others pass without the epilogue.
     const light=()=>{const lanes={};for(const lane of S.LANE_IDS){const leg=S.isL7(lane)?S.LANES[lane].leg:null;
       lanes[lane]=leg&&S.L7_HEAVY_LEGS.includes(leg)?S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:{ironman:{outcome:'skipped'}},l7Run:false,l7Reason:d(leg).l7_reason,l7Heavy:false,files:look})
-        :S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:allSteps(lane),...(leg?{files:look,l7Heavy:false,ironman:{verdict:'PASS',seed:1,seasons:3,epilogue:leg==='ce2pg'?null:false,attempts:[{exit:0}],replay:'x'}}:{})});}return lanes;};
+        :S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:allSteps(lane),...l9Extra(lane),...(leg?{files:look,l7Heavy:false,ironman:{verdict:'PASS',seed:1,seasons:3,epilogue:leg==='ce2pg'?null:false,attempts:[{exit:0}],replay:'x'}}:{})});}return lanes;};
     const sealOn=(files,lanes)=>S.evaluateSeal({event:'pull_request',draft:false,headSha:head,baseSha:base,baseRef:'gameplay/r100',files,prLiveHead:head,route,needs,lanes,runId,runAttempt:1});
     assert.equal(sealOn(look,light()).verdict,'PASS',`light set seals: ${JSON.stringify(sealOn(look,light()).failures)}`);
     {const lanes=light();for(const lane of S.LANE_IDS)if(S.isL7(lane))lanes[lane].files=[...look,'js/settings.js'];assert.equal(sealOn([...look,'js/settings.js'],lanes).verdict,'FAIL_TEST','a pairing file refuses the light set (skipped heavy legs and no epilogue)');}

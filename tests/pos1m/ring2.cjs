@@ -145,6 +145,12 @@ async function worker(opt){
 }
 
 async function parent(opt){
+  // A run proves nothing unless it ran stories: --stories must be a whole number above 0 and --seed a whole number (an empty
+  // route output shifts the options and gives NaN, which would mean zero seeds and a green 0 === 0; Verify on #1627).
+  if(!Number.isSafeInteger(opt.stories)||opt.stories<1||!Number.isSafeInteger(opt.seed)||opt.seed<0){
+    console.error(`FAIL POS1M Ring 2: --stories must be a whole number above 0 and --seed a whole number 0 or above (got stories ${opt.stories}, seed ${opt.seed})`);
+    process.exitCode=1;return;
+  }
   const seeds=Array.from({length:opt.stories},(_,i)=>opt.seed+i);
   const groups=Array.from({length:Math.min(opt.workers,seeds.length)},()=>[]);
   seeds.forEach((s,i)=>groups[i%groups.length].push(s));
@@ -156,16 +162,19 @@ async function parent(opt){
     child.on("close",code=>code===0?resolve():reject(new Error(`worker ${i+1} exited ${code}`)));
   })));
   reports.sort((a,b)=>a.seed-b.seed);
+  // Every asked seed reported exactly once, and nothing else: a lost or doubled worker line fails the run.
+  const seedsOk=reports.length===seeds.length&&reports.every((r,i)=>r.seed===seeds[i]);
   const alarms=reports.filter(r=>r.alarms.length),differ=reports.filter(r=>r.differences.length);
-  const summary={engine:"POS1M",ring:2,stories:reports.length,survived:reports.length-new Set([...alarms,...differ].map(r=>r.seed)).size,kinderStandinAlarms:alarms.length,differences:differ.length,calls:reports.reduce((n,r)=>n+(r.calls||0),0),wallMs:Date.now()-started,firstSeed:opt.seed,reports};
+  const summary={engine:"POS1M",ring:2,stories:reports.length,asked:seeds.length,firstSeed:seeds[0],lastSeed:seeds[seeds.length-1],seedsOk,survived:reports.length-new Set([...alarms,...differ].map(r=>r.seed)).size,kinderStandinAlarms:alarms.length,differences:differ.length,calls:reports.reduce((n,r)=>n+(r.calls||0),0),wallMs:Date.now()-started,firstSeed:opt.seed,reports};
   if(opt.out)fs.writeFileSync(opt.out,JSON.stringify(summary,null,1));
   console.log(alarms.length?`ALARM POS1M Ring 2: the stand-in was kinder than the production Rules in ${alarms.length} of ${reports.length} stories (Ring 1 is blind there; fix tests/pos1m/rules-model.cjs or the stand-in first)`:"no kinder-stand-in alarm");
-  console.log(summary.survived===reports.length?`PASS POS1M Ring 2: ${reports.length} stories on the emulator under the composed Rules matched the stand-in call for call (${summary.calls} calls, ${(summary.wallMs/1000).toFixed(0)} s)`:`FAIL POS1M Ring 2: ${reports.length-summary.survived} of ${reports.length} stories differ`);
-  process.exitCode=summary.survived===reports.length?0:1;
+  if(seedsOk)console.log(summary.survived===reports.length?`PASS POS1M Ring 2: ${reports.length} stories on the emulator under the composed Rules matched the stand-in call for call (${summary.calls} calls, ${(summary.wallMs/1000).toFixed(0)} s)`:`FAIL POS1M Ring 2: ${reports.length-summary.survived} of ${reports.length} stories differ`);
+  if(!seedsOk)console.log(`FAIL POS1M Ring 2: asked for ${seeds.length} stories (seeds ${seeds[0]}-${seeds[seeds.length-1]}), ${reports.length} reported${reports.length===seeds.length?" with other seeds":""}`);
+  process.exitCode=seedsOk&&summary.survived===reports.length?0:1;
   if(opt["self-test"]==="kinder"){
     const fired=alarms.length>0;
     console.log(fired?`PASS POS1M Ring 2 self-test: without its Rules model the stand-in is kinder, and the alarm fired in ${alarms.length} stories`:"FAIL POS1M Ring 2 self-test: the stand-in had no Rules model and no alarm fired");
-    process.exitCode=fired?0:1;
+    process.exitCode=fired&&seedsOk?0:1;
   }
 }
 

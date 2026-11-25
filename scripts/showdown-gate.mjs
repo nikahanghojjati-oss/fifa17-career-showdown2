@@ -247,12 +247,26 @@ export function baseRefFromEnv(env=process.env){
   return env.GATE_BASE_REF||payload.pull_request?.base?.ref||null;
 }
 
-export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus,l5Run=true,l5Reason=null,l7Run=true,l7Reason=null,l7Heavy=null,l9Run=true,l9Reason=null,files=null,ironman=null}){
+export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus,l5Run=true,l5Reason=null,l7Run=true,l7Reason=null,l7Heavy=null,l9Run=true,l9Reason=null,files=null,ironman=null,ring2=null}){
   const selected=route?selectedFor(lane,route,{l5Run,l7Run,l9Run}):[];
   const ran=route?ranFor(lane,route,steps):[];
   // An L7 leg also carries its seed, its attempts and whether it only passed on the rerun (FLAKY: filed and fixed, never skipped).
   const l7=isL7(lane)?{leg:LANES[lane].leg,l7_run:l7Run,l7_reason:l7Reason,l7_heavy:l7Heavy===true?true:l7Heavy===false?false:null,files,ironman:ironman&&typeof ironman==='object'?{verdict:ironman.verdict??null,seed:ironman.seed??null,seasons:ironman.seasons??null,epilogue:typeof ironman.epilogue==='boolean'?ironman.epilogue:null,attempts:Array.isArray(ironman.attempts)?ironman.attempts.length:null,replay:ironman.replay??null}:null}:{};
-  return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,base_sha:baseSha??null,run_id:runId==null?null:Number(runId),run_attempt:runAttempt==null?null:Number(runAttempt),route_profile:route?.profile??null,route_digest:routeDigest(route),selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown',...(lane==='L5'?{l5_run:l5Run,l5_reason:l5Reason,files}: {}),...(isL9(lane)?{shard:LANES[lane].shard,l9_run:l9Run,l9_reason:l9Reason,files}:{}),...l7};
+  return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,base_sha:baseSha??null,run_id:runId==null?null:Number(runId),run_attempt:runAttempt==null?null:Number(runAttempt),route_profile:route?.profile??null,route_digest:routeDigest(route),selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown',...(lane==='L5'?{l5_run:l5Run,l5_reason:l5Reason,files}: {}),...(isL9(lane)?{shard:LANES[lane].shard,l9_run:l9Run,l9_reason:l9Reason,files,ring2:ring2Summary(ring2)}:{}),...l7};
+}
+
+// The shard's own Ring 2 report, as finalize reads it: how many stories it ran, which seeds, how many survived (Verify on #1627:
+// a shard that ran 0 stories must not pass the seal).
+const ring2Summary=report=>report&&typeof report==='object'?{stories:report.stories??null,asked:report.asked??null,first_seed:report.firstSeed??null,last_seed:report.lastSeed??null,seeds_ok:report.seedsOk===true,survived:report.survived??null}:null;
+export function l9ReportFailures(lane,record){
+  const shard=LANES[lane].shard,first=l9Seed(shard),last=first+L9_STORIES-1,r=record.ring2;
+  if(!r||typeof r!=='object')return [`${lane}: POS1M Ring 2 ran but the lane record has no shard report`];
+  const out=[];
+  if(r.stories!==L9_STORIES||r.asked!==L9_STORIES)out.push(`${lane}: POS1M Ring 2 ran ${r.stories} of ${r.asked} stories, the shard needs ${L9_STORIES}`);
+  if(r.first_seed!==first||r.last_seed!==last)out.push(`${lane}: POS1M Ring 2 seeds ${r.first_seed}-${r.last_seed}, the shard needs ${first}-${last}`);
+  if(r.seeds_ok!==true)out.push(`${lane}: POS1M Ring 2 did not report every asked seed exactly once`);
+  if(r.survived!==L9_STORIES)out.push(`${lane}: POS1M Ring 2 survived ${r.survived} of ${L9_STORIES} stories`);
+  return out;
 }
 
 // Pure seal evaluation. needs: {jobId:{result}}; lanes: {L1:laneRecord|null}; classification: classifyRun output or null.
@@ -324,7 +338,7 @@ export function evaluateSeal({event,draft,headSha,baseSha=null,baseRef=null,file
         l9Skip=record.l9_run===false&&Array.isArray(files)&&l9Decision({event,baseRef,files}).l9_run===false&&
           Array.isArray(record.files)&&JSON.stringify(record.files)===JSON.stringify(files);
         if(!l9Skip)failures.push(`${lane}: POS1M Ring 2 did not pass and the independent input recompute did not verify the recorded skip`);
-      }
+      }else failures.push(...l9ReportFailures(lane,record));
     }
     const expected=selectedFor(lane,route,{l5Run:!l5Skip,l7Run:!l7Skip,l9Run:!l9Skip});
     const missingSelection=expected.filter(id=>!(record.selected||[]).includes(id));
@@ -396,7 +410,9 @@ async function cmdFinalize(opts){
   const routeRecord=readRouteRecord(opts.route);
   let ironman=null;
   if(isL7(lane)&&opts.ironman&&fs.existsSync(opts.ironman)){try{ironman=JSON.parse(fs.readFileSync(opts.ironman,'utf8'));}catch{ironman=null;}}
-  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:routeRecord?.route,steps,jobStatus:process.env.GATE_JOB_STATUS,l5Run:routeRecord?.l5_run===false?false:true,l5Reason:routeRecord?.l5_reason,l7Run:routeRecord?.l7_run===false?false:true,l7Reason:routeRecord?.l7_reason,l7Heavy:routeRecord?.l7_heavy,l9Run:routeRecord?.l9_run===false?false:true,l9Reason:routeRecord?.l9_reason,files:routeRecord?.files,ironman});
+  let ring2=null;
+  if(isL9(lane)&&typeof opts.ring2==='string'&&fs.existsSync(opts.ring2)){try{ring2=JSON.parse(fs.readFileSync(opts.ring2,'utf8'));}catch{ring2=null;}}
+  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:routeRecord?.route,steps,jobStatus:process.env.GATE_JOB_STATUS,l5Run:routeRecord?.l5_run===false?false:true,l5Reason:routeRecord?.l5_reason,l7Run:routeRecord?.l7_run===false?false:true,l7Reason:routeRecord?.l7_reason,l7Heavy:routeRecord?.l7_heavy,l9Run:routeRecord?.l9_run===false?false:true,l9Reason:routeRecord?.l9_reason,files:routeRecord?.files,ironman,ring2});
   const out=opts.out||'lane.json';
   fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});
   fs.writeFileSync(out,`${JSON.stringify(record,null,2)}\n`);
