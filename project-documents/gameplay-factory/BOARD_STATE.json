@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24 10:09 PM Boston time (EST)",
+ "generated": "2026-11-24 10:11 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 560,
@@ -5106,10 +5106,10 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1591 has waited 85 min for a machine; Showdown Gate on #1599 has waited 85 min for a machine; Showdown Gate on #1598 has waited 85 min for a machine; Showdown Gate on #1608 has waited 75 min for a machine; Showdown Gate on #1576 has waited 71 min for a machine; Showdown Gate on #1617 has waited 66 min for a machine; Showdown Gate on #1618 has waited 63 min for a machine; Showdown Gate on #1614 has waited 61 min for a machine; Showdown Gate on #1619 has waited 38 min for a machine; Showdown Gate on #1609 has waited 17 min for a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "state": "clear",
+   "line": "All clear (from GitHub).",
+   "gate": "POS20 #304 7/7",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -5894,7 +5894,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24484
+    "waiting_min": 24487
    },
    {
     "id": "HO-059",
@@ -7110,8 +7110,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 49/57: Premium Matte Black Clubhouse, Board Room, phone band repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-152_premium-full-set-49-57-premium-matte-bla.md",
     "worker": "images",
@@ -7461,7 +7461,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 55,
+  "moving": 54,
   "next": 42,
   "nik": 2,
   "later": 21,

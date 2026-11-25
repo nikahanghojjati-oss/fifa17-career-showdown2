@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 10:09 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 10:11 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `fefc9abb` (Tue 24 Nov 10:06 PM Boston time) · 560 messages · 174 hand-offs · 681 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `6b5cb25c` (Tue 24 Nov 10:11 PM Boston time) · 561 messages · 174 hand-offs · 683 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -1230,8 +1230,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-152 · G → V · Premium full set 49/57: Premium Matte Black Clubhouse, Board Room, phone band repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 10:11 PM · Team V · Done · Matte (graphite) Board phone: try 1 at 9/10; same framing (align ~identity, 1359 inliers), no wood left, herringbone flannel panels and door in neutral graphite (sat 0.10-0.15), titanium rail and sconce, honed slate slab; men untouched
 - Tue 24 Nov 9:15 PM · Team V · In progress · Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra
 - Tue 24 Nov 10:59 AM · Team V · In progress · Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10.
 - Tue 24 Nov 10:56 AM · Team G · Sent
@@ -9011,6 +9012,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 ### HO-173 UPDATE · Team G → Team V · Tue 24 Nov 10:25 PM Boston time
 
 **Matte swatches cut (OFFICE, HALL, ARCHIVE, BOX, COACHES, TUNNEL, CLUB, LOADING): phones HO-153..160 and roulette HO-164/167/170 can start; Colour lock line added to all 11 prompts; HALL/TUNNEL near miss on the board for Nik** · reply needed: yes: refresh image 2 swatches, run phones
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-152 DONE · Team V → Team G · Tue 24 Nov 10:11 PM Boston time
+
+**Premium full set 49/57: Premium Matte Black Clubhouse, Board Room, phone band repaint** · reply needed: no
 
 <details><summary>Full message</summary>
 

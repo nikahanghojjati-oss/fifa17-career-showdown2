@@ -6,11 +6,13 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Tue 24 Nov, 10:09 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Tue 24 Nov, 10:11 PM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+
+> ⚠ **Not fully current:** The Physio's own report is missing or older than 15 minutes; the check line comes straight from GitHub.
 
 🌐 **Live: 2.12.0-r99** (main `7dc0d48`, Tue 24 Nov 8:12 AM)
 
-🐕 **Barking: Showdown Gate on #1591 has waited 85 min for a machine; Showdown Gate on #1599 has waited 85 min for a machine; Showdown Gate on #1598 has waited 85 min for a machine; Showdown Gate on #1608 has waited 75 min for a machine; Showdown Gate on #1576 has waited 71 min for a machine; Showdown Gate on #1617 has waited 66 min for a machine; Showdown Gate on #1618 has waited 63 min for a machine; Showdown Gate on #1614 has waited 61 min for a machine; Showdown Gate on #1619 has waited 38 min for a machine; Showdown Gate on #1609 has waited 17 min for a machine.** · POS20 #304 6/16
+🩺 **All clear (from GitHub).** · POS20 #304 7/7
 
 ## Jobs
 
@@ -1989,8 +1991,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`█████████░` **88.5057 %**  
-Team V hand-offs: 154 of 174 done
+`█████████░` **89.0805 %**  
+Team V hand-offs: 155 of 174 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  
