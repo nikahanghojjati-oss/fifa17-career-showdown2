@@ -68,7 +68,12 @@
       Object.freeze({key:"candyShopHottestDay",title:"CANDY SHOP BUT IT'S THE HOTTEST DAY OF THE YEAR",artist:"Culls",audiusTrackId:"9bXko"}),
       Object.freeze({key:"candyShopLiluzi",title:"CANDY SHOP (LILUZI STYLE)",artist:"Beats",audiusTrackId:"QQgRv"}),
       Object.freeze({key:"ayoTechnologyMoji",title:"AYO TECHNOLOGY (MOJI REMIX)",artist:"MOJI",audiusTrackId:"Kb7Q9"}),
-      Object.freeze({key:"soAmazing50Cent",title:"SO AMAZING (50 CENT, MARCUS D) REMIX",artist:"Turbo prod.",audiusTrackId:"6ENaM"})
+      Object.freeze({key:"soAmazing50Cent",title:"SO AMAZING (50 CENT, MARCUS D) REMIX",artist:"Turbo prod.",audiusTrackId:"6ENaM"}),
+      Object.freeze({key:"californiaLoveSubCartel",title:"CALIFORNIA LOVE (SUB CARTEL REMIX)",artist:"Dr. Dre & 2Pac",audiusTrackId:"3AA2mbv"}),
+      Object.freeze({key:"lifeIsABitchSubsonic",title:"LIFE IS A B*TCH (SUBSONIC THUGBIRDZ REMIX)",artist:"Nas",audiusTrackId:"ZrBNq"}),
+      Object.freeze({key:"bucharestStateOfMind",title:"BUCHAREST STATE OF MIND (NY STATE OF MIND REMIX)",artist:"pvvl",audiusTrackId:"LWME9"}),
+      Object.freeze({key:"liabNasMastodon",title:"L.I.A.B (NAS X MASTODON)",artist:"super_tyte",audiusTrackId:"NPpyw"}),
+      Object.freeze({key:"mooyeParishoon",title:"MOOYE PARISHOON",artist:"Hichkas, Roya Arab & Dariush",audiusTrackId:"xkMAj"})
     ]),
     defaultTrack:"song2",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
