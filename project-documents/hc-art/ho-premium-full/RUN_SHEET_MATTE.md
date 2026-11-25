@@ -2,6 +2,8 @@
 Route for every one: **ChatGPT Work mode, Astra 6, Extra High. One new chat per picture.** Attach Image 1 then Image 2 (open each link, press and hold the picture, Save to Photos), paste the box exactly, and send the result to the Team V lead thread with its HO number. Bar: 9/10.
 Phone tickets for Office, Hall, Archive, Box, Coaches, Tunnel, Club and Loading are NOT here yet: they wait for Team G's swatch from the finished desktop room.
 
+> **ON HOLD (Nik, 24 Nov 8:13 p.m. Eastern, HO-173 leads/relay 89087f9): do not run any Matte prompt (HO-142..160, 164, 167, 170) until Team G files the new Matte direction. These prompts will be rewritten.**
+
 ## HO-142 · Premium Matte Black Clubhouse, Office repaint
 
 - Image 1: [ENV_OFFICE_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_OFFICE_PLATE_HC_V3_2X.png)
