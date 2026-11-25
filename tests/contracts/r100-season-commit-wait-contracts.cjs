@@ -12,7 +12,7 @@ let passed=0;const ok=label=>{passed+=1;console.log(`ok ${passed} ${label}`);};
 
 // S1: the 15 s check runs the wait check while the wait looks healthy; the 3 s check is unchanged.
 assert.match(source,/root\.setInterval\(\(\)=>\{if\(!psscWaitHealthy\(\)\)void psscTick\(\);else psscWaitCheck\(\);\},POLL_MS\);/,"the 15 s check runs the wait check while the wait looks healthy");
-assert.match(source,/function psscFastTick\(\)\{psscWatchWait\(\);psscRefreshWaitLine\(\);if\(psscWaitHealthy\(\)\|\|/,"the 3 s check still stops while the wait looks healthy");
+assert.match(source,/function psscFastTick\(\)\{psscWatchWait\(\);if\(psscWaitHealthy\(\)\|\|/,"the 3 s check still stops while the wait looks healthy");
 assert.match(source,/const POLL_MS=15000\b|POLL_MS=15000/,"the slow check is 15 s");
 const check=source.match(/  function psscWaitCheck\(\)\{[^\n]*\n/);assert.ok(check,"psscWaitCheck is where it was");
 assert.match(check[0],/if\(busy\|\|root\.document\?\.visibilityState==="hidden"\|\|root\.navigator\?\.onLine===false\)return;/,"nothing while busy, hidden or offline");
