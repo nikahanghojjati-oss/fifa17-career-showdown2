@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 10:33 PM Boston time (EST)",
+ "generated": "2026-11-24 10:36 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 561,
+  "count": 563,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -5052,6 +5052,24 @@
     "subject": "Matte swatches cut (OFFICE, HALL, ARCHIVE, BOX, COACHES, TUNNEL, CLUB, LOADING): phones HO-153..160 and roulette HO-164/167/170 can start; Colour lock line added to all 11 prompts; HALL/TUNNEL near miss on the board for Nik",
     "reply": "yes: refresh image 2 swatches, run phones",
     "boston": "Tue 24 Nov 10:25 PM"
+   },
+   {
+    "time": "2026-11-25 03:33",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-153 DONE",
+    "subject": "Premium full set 50/57: Premium Matte Black Clubhouse, Office, phone band repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 10:33 PM"
+   },
+   {
+    "time": "2026-11-25 03:33",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-154 DONE",
+    "subject": "Premium full set 51/57: Premium Matte Black Clubhouse, Hall, phone band repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 10:33 PM"
    }
   ],
   "g2v": {
@@ -5072,8 +5090,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "b9e4c54",
-  "head_boston": "Tue 24 Nov 10:13 PM",
+  "head": "1af03de",
+  "head_boston": "Tue 24 Nov 10:33 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5903,7 +5921,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24509
+    "waiting_min": 24511
    },
    {
     "id": "HO-059",
@@ -7145,8 +7163,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 51/57: Premium Matte Black Clubhouse, Hall, phone band repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-154_premium-full-set-51-57-premium-matte-bla.md",
     "worker": "images",
@@ -7470,7 +7488,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 53,
+  "moving": 52,
   "next": 42,
   "nik": 2,
   "later": 21,
