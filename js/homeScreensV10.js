@@ -73,7 +73,15 @@
       Object.freeze({key:"lifeIsABitchSubsonic",title:"LIFE IS A B*TCH (SUBSONIC THUGBIRDZ REMIX)",artist:"Nas",audiusTrackId:"ZrBNq"}),
       Object.freeze({key:"bucharestStateOfMind",title:"BUCHAREST STATE OF MIND (NY STATE OF MIND REMIX)",artist:"pvvl",audiusTrackId:"LWME9"}),
       Object.freeze({key:"liabNasMastodon",title:"L.I.A.B (NAS X MASTODON)",artist:"super_tyte",audiusTrackId:"NPpyw"}),
-      Object.freeze({key:"mooyeParishoon",title:"MOOYE PARISHOON",artist:"Hichkas, Roya Arab & Dariush",audiusTrackId:"xkMAj"})
+      Object.freeze({key:"mooyeParishoon",title:"MOOYE PARISHOON",artist:"Hichkas, Roya Arab & Dariush",audiusTrackId:"xkMAj"}),
+      Object.freeze({key:"loseYourselfSanHolo",title:"LOSE YOURSELF (SAN HOLO REMIX)",artist:"Eminem",audiusTrackId:"rG179"}),
+      Object.freeze({key:"tillICollapseTrapIntro",title:"TILL I COLLAPSE (TRAP INTRO DJ NEK)",artist:"Eminem",audiusTrackId:"BRomx"}),
+      Object.freeze({key:"notLikeUsCmvib3",title:"NOT LIKE US (CMVIB3 REMIX)",artist:"Kendrick Lamar",audiusTrackId:"wpRlox2"}),
+      Object.freeze({key:"trophiesCarmack",title:"TROPHIES (MR. CARMACK REMIX)",artist:"Drake",audiusTrackId:"n3yVD"}),
+      Object.freeze({key:"believeWhatISayFiveFootShort",title:"BELIEVE WHAT I SAY (FIVE FOOT SHORT REMIX)",artist:"Kanye West",audiusTrackId:"kGmpB"}),
+      Object.freeze({key:"popSmokeSkeptaFlip",title:"POP SMOKE X SKEPTA FLIP",artist:"HE$H",audiusTrackId:"lZAz6"}),
+      Object.freeze({key:"copsNRobbersHolly",title:"COPS N ROBBERS (HOLLY REMIX)",artist:"Sammy Virji x Skepta",audiusTrackId:"ogdxJKd"}),
+      Object.freeze({key:"wileyFlowMongo",title:"WILEY FLOW (MONGO BOOTLEG)",artist:"Stormzy",audiusTrackId:"7Mo47"})
     ]),
     defaultTrack:"song2",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
