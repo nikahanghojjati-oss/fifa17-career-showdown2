@@ -13,6 +13,10 @@ necessary, not sufficient: the eye check against the 7-point bar in HO-173 and N
   glint   sharp specular spots per 10k px            <= 1.25 x Wooden and <= 0.5 x Black   no gloss, no glints
   spread  luma p95 - p5                              >= max(Wooden, 0.75 x Black)          rich, not flat
   detail  mean |luma - blur(2)|                      >= 1.1 x Wooden                       readable materials
+  sat     median HSV saturation of surfaces (luma 6-140)   <= 0.22   neutral graphite, not brown espresso
+  cast    mean (R - B) / mean luma on the same pixels      <= 0.30   no warm-brown colour cast
+          (Nik's reference, MATTE_COLOUR_STUDY on leads/relay 89087f9: whole frame 0.125 / 0.14, car body
+          0.03-0.08; the limits leave room for the fixed warm lamps. The espresso pilot measures 0.33-0.34 / 0.40-0.45.)
 """
 import os, sys
 import numpy as np
@@ -65,6 +69,15 @@ def stats(a, free):
                 detail=float(np.abs(L - blur(L, 2))[free].mean()))
 
 
+def neutral(a, free):
+    L = luma(a)
+    sel = free & (L >= 6) & (L <= 140)
+    mx, mn = a.max(-1), a.min(-1)
+    sat = float(np.median(((mx - mn) / np.maximum(mx, 1))[sel]))
+    cast = float((a[..., 0] - a[..., 2])[sel].mean() / max(L[sel].mean(), 1))
+    return sat, cast
+
+
 def check(room):
     m, b, w = master(room, "MATTE"), master(room, "BLACK"), wooden(room)
     if not os.path.exists(b):
@@ -84,6 +97,9 @@ def check(room):
          f">= {max(sw['spread'], .75 * sb['spread']):.0f} (Wooden {sw['spread']:.0f}, Black {sb['spread']:.0f})"),
         ("detail", sm["detail"], sm["detail"] >= 1.1 * sw["detail"], f">= {1.1 * sw['detail']:.2f}"),
     ]
+    sat, cast = neutral(M, free)
+    rows += [("sat", sat, sat <= 0.22, "<= 0.22 (neutral graphite)"),
+             ("cast", cast, cast <= 0.30, "<= 0.30 (no brown cast)")]
     ok = all(r[2] for r in rows)
     lines = [f"{room}: {'PASS' if ok else 'FAIL'}"] + [f"  {'ok  ' if r[2] else 'MISS'} {r[0]:6s} {r[1]:7.2f}  {r[3]}" for r in rows]
     return ok, "\n".join(lines)
