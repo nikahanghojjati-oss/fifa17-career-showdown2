@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:59Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-25T02:15:31Z", "by": "V", "status": "WORKING", "note": "Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv 097535167 project-documents/hc-art/ho-premium-full/matte/ENV_TUNNEL_PLATE_MATTE_P1_2X.webp"],
+ "log": [{"at": "2026-11-24T15:56:48Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T15:59:59Z", "by": "V", "status": "WORKING", "note": "Team V lead: on Nik's run sheet (claude/project-thread-ie3afv project-documents/hc-art/ho-premium-full/RUN_SHEET_*.md); gate 9/10."}, {"at": "2026-11-25T02:15:31Z", "by": "V", "status": "WORKING", "note": "Graphite prompt with Team V lessons in RUN_SHEET_MATTE.md (claude/project-thread-ie3afv); Nik runs in Astra"}, {"at": "2026-11-25T02:54:46Z", "by": "V", "status": "DONE", "note": "Matte (graphite) Tunnel: try 1 at 9/10; square matte slate pillars, no wood or marble veins left, herringbone flannel walls neutral (sat 0.11-0.16; warmth only at the cage lamp), satin titanium handrails; men untouched (align ~identity, 1355 inliers)"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
