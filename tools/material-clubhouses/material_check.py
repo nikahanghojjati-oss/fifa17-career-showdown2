@@ -7,6 +7,7 @@ Built from B7's matte_check.py (claude-gameplay/r100-premium-only b41f5e1). Each
 (default tools/clubhouse-themes/paintings/) is compared, outside the dilated hero mask, at 1536x864, with the Wooden
 plate and with every existing clubhouse master of the same room in --sib (default: the same paintings folder).
 
+  (diff and mw leave out pixels that every existing look keeps within 10 levels of Wooden, e.g. the stadium view)
   diff    mean |new - sibling| per pixel for every existing look (Platinum, Metallic Black, Graphite and any
           finished material clubhouse)                                         >= 15   unmistakably a new clubhouse
   mw      mean |new - Wooden|                                                  >= 12   every big surface changed
@@ -119,6 +120,13 @@ def check(key, room, d, sib):
     lit = lit_in(W)
     sm, sw = stats(M, free, lit), stats(W, free, lit)
     rows = []
+    # Room pixels only for diff and mw: leave out what every existing look keeps identical to Wooden (the stadium
+    # view through the window, kept by design in every clubhouse), so a shared view can't dilute the difference.
+    shared = np.zeros_like(free)
+    sl = [load(master(sib, room, s)) for s in SIBLINGS if os.path.exists(master(sib, room, s))]
+    if sl:
+        shared = np.max([np.abs(S - W).mean(-1) for S in sl], 0) < 10
+    room_px = free & ~shared
     sibs = SIBLINGS + [o for o in ORDER[:ORDER.index(look)]]
     sb = None
     for s in sibs:
@@ -128,9 +136,9 @@ def check(key, room, d, sib):
         S = load(p)
         if s == "BLACK":
             sb = stats(S, free, lit)
-        diff = float(np.abs(M - S).mean(-1)[free].mean())
+        diff = float(np.abs(M - S).mean(-1)[room_px].mean())
         rows.append((f"vs {s.lower()}", diff, diff >= 15, ">= 15"))
-    mw = float(np.abs(M - W).mean(-1)[free].mean())
+    mw = float(np.abs(M - W).mean(-1)[room_px].mean())
     rows.append(("mw", mw, mw >= 12, ">= 12"))
     L = luma(M)
     h, s, _ = hsv(M)

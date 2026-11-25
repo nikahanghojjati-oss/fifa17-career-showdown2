@@ -104,4 +104,4 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
 ```
-
+- Try 2 (25 Nov 2:42 a.m. Boston) **9/10, accepted.** Align: scale 1.0010, shift 0.2 px, men unchanged (mean diff 5.4). All three panes clear glass full height with the stadium as in Image 1, no door, oxblood leather walls with grain and seams, Rosso Levanto pillars and counter with long pale veins, red-black rosewood sideboard with a gold edge, and the armchairs and sofa in oxblood leather (Nik's seating rule) with the plaid, ball, whisky, throw and rug in their own colours. ruby_check PASS (vs Black 17.4 on room pixels; see the calibration log). Small notes, not worth a redo: the counter marble carries fine busy red under-veining beside its long pale veins, and the wall above the lounge is a plain dark field. Side by side: [ENV_HOME_PLATE_RUBY_P1_2X.cmp.jpg](ENV_HOME_PLATE_RUBY_P1_2X.cmp.jpg).
