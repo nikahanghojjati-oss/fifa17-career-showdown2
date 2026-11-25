@@ -140,6 +140,7 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (25 Nov 3:11 a.m. Boston) **8.5/10, one fix.** Align fine (scale 1.001, 0.5 px, men unchanged, mean diff 6.1). Oxblood leather panel with stitched seams and gold hairline, red-black rosewood window frames, Rosso Levanto desk and plant pot, every object kept. ruby_check: all pass but spread 141 vs 147: the desk near the lamp stays dark, where Wooden and Black both show a warm pool and reflection. Fix 1 (same chat): "Keep this image exactly the same. Change only: the table lamp casts a soft warm pool of light on the polished marble desk top around its base, with a dim soft reflection of the lit shade in the stone, fading back to deep wine red within a short distance." Raw kept as ENV_OFFICE_PLATE_RUBY_P1_2X_T1_RAW.png.
 
 ### R-4 · Ruby Clubhouse: Hall
 - Image 1: [IMG1_ENV_HALL_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PLATE_HC_V3_2X.png)), 3072x1728
