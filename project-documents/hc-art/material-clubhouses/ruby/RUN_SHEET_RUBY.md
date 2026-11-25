@@ -330,6 +330,8 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 result (25 Nov 5:55 p.m. Boston) **8/10, two fixes.** Align scale 1.000, 0.1 px, men unchanged (mean diff 4.5). The colour is right (sat 0.870, brown 0.03), the walls are stitched oxblood leather, the counter is clean deep red stone, and the pitch holds. Misses: the light range is a little narrow, spread 61.4 vs its 63 floor (the lamp pool and the pitch glow are weak), and the pillar veins zigzag like cracks. The light is the number gate, so fix 1 is the light. Raw kept as ENV_TUNNEL_PLATE_RUBY_P1_2X_T1_RAW.png.
+- Fix 1 on try 1 (same chat; the light wording): "Keep this image exactly the same. Change only: the light from the wall lamp and the floodlit pitch at the far end is a little stronger: each throws a soft warm pool onto the leather and marble around it, and that light shows as soft warm reflections on the polished counter top and the tunnel floor, while the corners and the ceiling of the tunnel stay deep wine near-black."
 
 ### R-9 · Ruby Clubhouse: Club room
 - Image 1: [IMG1_ENV_CLUB_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PLATE_HC_V3_2X.png)), 3072x1728
