@@ -20,6 +20,8 @@
 //   R13 the connection went and came back while the round was failing: one more try at once, no card
 //   R14 no loop: a try that fails with no network change waits on the card (TRY AGAIN, BACK or the next return to online)
 //   R15 a hidden tab waits until shown; a quota pause never answers by itself; a tap or the step ending removes the listener
+//   R16 (Codex on #1626) a return to online during the failing round on a hidden tab is kept for when it is shown; a return
+//       that went offline again before the tab was shown waits for the connection (nothing is tried offline)
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -128,7 +130,7 @@ const request=s=>({rivalryId:"r1",seasonNumber:s,key:`r1|${s}`});
   }
   {
     // The Prime Pack step's own loop and card, run with the real igsRunNow and igsAsk.
-    const run=pick(igs,/  async function igsRunNow\(ctx,io\)\{[\s\S]*?\n  \}\n/),ask=pick(igs,/  function igsAsk\(\{heading,lines=\[\],buttons,onlineChoice=null\}\)\{[\s\S]*?\n  \}\n/);
+    const run=pick(igs,/  async function igsRunNow\(ctx,io\)\{[\s\S]*?\n  \}\n/),ask=pick(igs,/  function igsAsk\(\{heading,lines=\[\],buttons,onlineChoice=null,returned=false\}\)\{[\s\S]*?\n  \}\n/);
     const netReg=pick(igs,/  let igsNetSeq=0;\n  if\(typeof root\.addEventListener==="function"\)\{root\.addEventListener\("offline",\(\)=>\{igsNetSeq\+=1;\}\);root\.addEventListener\("online",\(\)=>\{igsNetSeq\+=1;\}\);\}\n/);
     const step=({quota=false,hidden=false}={})=>{
       const w={plays:0,results:[],listeners:{online:[],offline:[]},docListeners:{visibilitychange:[]},panels:0,removed:0,cards:[],during:null};
@@ -181,6 +183,13 @@ const request=s=>({rivalryId:"r1",seasonNumber:s,key:`r1|${s}`});
       const t=step();t.offline();t.results=[err,"continue"];const tapped=t.ctx.runNow({},{});await t.flush();await t.tap("TRY AGAIN");assert.equal(await tapped,true);assert.equal(t.listeners.online.length,1,"the tap removes the card's listener");assert.equal(t.docListeners.visibilitychange.length,0);
       const e=step();e.offline();e.results=[err];const ended=e.ctx.runNow({},{});await e.flush();e.ctx.endGen+=1;e.ctx.askEnd();assert.equal(await ended,false);assert.equal(e.listeners.online.length,1,"the step ending removes it");e.online();await e.flush();assert.equal(e.plays,1);
       ok("R15","a hidden tab waits until shown; a quota pause waits for a tap; a tap or the step ending removes the listener");
+    }
+    {
+      const h=step({hidden:true});h.results=[err,"continue"];h.during=()=>{h.offline();h.online();h.during=null;};const done=h.ctx.runNow({},{});await h.flush();
+      assert.equal(h.plays,1,"hidden: no try yet");assert.equal(h.panels,1,"the card waits");h.show();await h.flush();assert.equal(h.plays,2,"shown: the return is not lost");assert.equal(await done,true);
+      const o=step({hidden:true});o.offline();o.results=[err,"continue"];const later=o.ctx.runNow({},{});await o.flush();o.online();await o.flush();o.offline();await o.flush();
+      o.show();await o.flush();assert.equal(o.plays,1,"offline again when shown: nothing tried");o.online();await o.flush();assert.equal(o.plays,2,"the connection back and shown: one try");assert.equal(await later,true);
+      ok("R16","a return during the failing round on a hidden tab is kept until shown; offline again before it is shown waits for the connection");
     }
   }
   console.log(`PASS r100 prime pack retry contracts (${n} checks)`);

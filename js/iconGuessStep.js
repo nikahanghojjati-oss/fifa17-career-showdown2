@@ -191,11 +191,12 @@
   }
   // A plain choice card over the stage (the same look as the roulette's step panel when its styles are loaded).
   // onlineChoice: the button this card answers by itself when the connection comes back (once; a hidden page waits until it is shown).
-  function igsAsk({heading,lines=[],buttons,onlineChoice=null}){
+  // returned: the connection already came back (during the failing try) while the page was hidden: shown again, it answers.
+  function igsAsk({heading,lines=[],buttons,onlineChoice=null,returned=false}){
     if(igsEnded())return Promise.resolve("back");
     return new Promise(outer=>{
       let net=null;const resolve=value=>{if(net){root.removeEventListener?.("online",net);igsDoc()?.removeEventListener?.("visibilitychange",net);net=null;}outer(value);};
-      if(onlineChoice&&typeof root.addEventListener==="function"){let back=false;net=event=>{if(event?.type==="online")back=true;if(!back||igsDoc()?.visibilityState==="hidden"||askEnd===null)return;askEnd=null;igsRemove(PANEL_ID);resolve(onlineChoice);};root.addEventListener("online",net);igsDoc()?.addEventListener?.("visibilitychange",net);}
+      if(onlineChoice&&typeof root.addEventListener==="function"){let back=returned===true;net=event=>{if(event?.type==="online")back=true;if(!back||igsDoc()?.visibilityState==="hidden"||root.navigator?.onLine===false||askEnd===null)return;askEnd=null;igsRemove(PANEL_ID);resolve(onlineChoice);};root.addEventListener("online",net);igsDoc()?.addEventListener?.("visibilitychange",net);}
       igsRemove(PANEL_ID);askEnd=()=>{askEnd=null;igsRemove(PANEL_ID);resolve("back");};
       const overlay=igsEl("div","remoteJoiningOverlay rrStepOverlay");overlay.id=PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label",heading);
       overlay.style.cssText="position:fixed;inset:0;z-index:96;display:flex;align-items:center;justify-content:center;background:#050403;padding:16px";
@@ -276,8 +277,9 @@
       // Phoenix B2: the connection went and came back while this try was failing: one more try at once (no card); otherwise the
       // card answers TRY AGAIN by itself when the connection comes back. A quota pause is not a network cut: it waits for a tap.
       const quota=Boolean(root.CareerModeFirestoreBudget?.quotaMessage?.(result));
-      if(!quota&&netSeq!==igsNetSeq&&root.navigator?.onLine!==false&&igsDoc()?.visibilityState!=="hidden")continue;
-      const choice=await igsAsk({heading:"Prime Pack could not load",lines:[root.CareerModeFirestoreBudget?.quotaMessage?.(result)||"Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}],onlineChoice:quota?null:"retry"});
+      const returned=!quota&&netSeq!==igsNetSeq&&root.navigator?.onLine!==false;
+      if(returned&&igsDoc()?.visibilityState!=="hidden")continue;
+      const choice=await igsAsk({heading:"Prime Pack could not load",lines:[root.CareerModeFirestoreBudget?.quotaMessage?.(result)||"Check the connection and try again."],buttons:[{id:"retry",label:"TRY AGAIN",primary:true},{id:"back",label:"BACK TO SHOWDOWN HOME"}],onlineChoice:quota?null:"retry",returned});
       if(igsEnded())return false;
       if(choice==="back"){wentHome=true;return false;}
     }
