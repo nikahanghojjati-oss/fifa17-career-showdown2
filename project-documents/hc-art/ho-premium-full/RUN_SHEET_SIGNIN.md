@@ -122,6 +122,27 @@ Finish: real materials as a set builder and a stonemason would make them, handcr
 Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
 ```
 
+### HO-177 try 4: colour and weave fix of try 3
+
+Try 3 (25 Nov 5:19 p.m. Eastern): layout exact and clean, but still a warm brown cast (floor RGB 66/56/48, wall saturation 0.38; bar under 0.12) and a bold wavy herringbone. Try 4 edits try 3 itself with a short prompt that changes only colour and weave. Brand-new chat.
+
+- Image 1: [HO177_TRY3_MATTE.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_HO177_TRY3_MATTE.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_HO177_TRY3_MATTE.png))
+- Image 2: [REF_PILOT_MATTE.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_MATTE.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_PILOT_MATTE.png))
+
+```
+Image 1 is the picture to edit. Image 2 shows the exact materials and colours wanted; copy nothing else from it.
+
+Keep image 1 exactly the same: the same camera, framing, layout, every object, every edge and every light, and exactly the same size and shape as image 1, never narrower, wider or taller. Change only two things.
+
+1. Colour. Every wall panel, pillar, shelf, cabinet, floor tile, table and the ceiling becomes a cool neutral charcoal grey, exactly the grey of image 2, the grey of a dark grey wool suit; the sofa and armchair become a cool dark graphite leather. Remove every brown, bronze, khaki, olive and warm tint from them. Lamp light stays warm only in a small soft pool right around each light; everywhere else the room stays cool neutral grey. The gold trophies, gold balls, gold crowns, gold cup, books, plants and city lights keep their own colours.
+
+2. Weave. The upholstered wall panels become a fine, tight, low-contrast herringbone wool flannel: neat, perfectly regular rows of tiny straight V shapes like a herringbone suit cloth, seen only up close; never a bold zigzag, a wavy, leaf-like or maze pattern. The leather is smooth with soft natural creases and fine real grain: no embossed, swirl or crackle pattern on it.
+
+Nothing else changes. No new objects, no extra lamps, no text, no logos and no people. Clear air, no fog, no glow halo, no noise grain.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
 ## HO-178 · Sign-in lounge 5/8: Wooden Clubhouse, phone upright
 
 - Image 1: [ENV_SETTINGS_PHONE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png))
