@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 8:23 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 8:24 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `e1d1a20e` (Tue 24 Nov 8:23 PM Boston time) · 542 messages · 174 hand-offs · 671 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `05303451` (Tue 24 Nov 8:23 PM Boston time) · 542 messages · 174 hand-offs · 673 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -4205,6 +4205,9 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
 ```
+
+## Nik OK (Team V lead, 25 Nov 01:23 UTC = 24 Nov 8:23 p.m. Eastern)
+Nik said "ok" to the graphite Home (ENV_HOME_PLATE_MATTE_P1_2X, claude/project-thread-ie3afv 8399f61be). With HO-102 also OK, the graphite pilot pair is approved: Team G can file the graphite prompts for the remaining Matte tickets (HO-142..160, 164, 167, 170). Team V lesson for those prompts: say fine herringbone wool flannel, not felt (Astra turns felt into swirls); no chrome rail (satin titanium, dull even sheen); lamps cast warm pools on the walls for depth.
 
 </details>
 

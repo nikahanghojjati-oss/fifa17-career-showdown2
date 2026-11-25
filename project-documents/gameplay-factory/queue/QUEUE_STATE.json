@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-25T01:21:02Z",
+ "updated": "2026-11-25T01:25:16Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -4507,7 +4507,7 @@
    "pr": 553,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/553",
-   "branch": "qa/job-1514-spark-season-commit-2"
+   "branch": null
   },
   "1515": {
    "state": "merged",
