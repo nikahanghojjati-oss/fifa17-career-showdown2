@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r88-terminal-close-dropped-connection-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTerminalClose\\.js$",
+    "^js/sharedTerminalClose\\.js$",
+    "^tests/contracts/r88\\-terminal\\-close\\-dropped\\-connection\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r88\\-terminal\\-close\\-dropped\\-connection\\-contracts\\.json$"
+  ]
+}

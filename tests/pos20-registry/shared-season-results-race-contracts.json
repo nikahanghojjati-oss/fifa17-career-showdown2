@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/shared-season-results-race-contracts.cjs",
+  "patterns": [
+    "^js/sparkSharedSeasonResults\\.js$",
+    "^tests/contracts/shared-season-results-race-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-season\\-results\\-race\\-contracts\\.json$"
+  ]
+}

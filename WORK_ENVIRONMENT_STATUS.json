@@ -59,7 +59,7 @@
       "ADB-1 is dynamic from 2 through 20 and must shrink when context damage, broad red state, hard reconstruction or long-session risk appears; it is not a universal 20-attempt quota.",
       "Nonfunctional historical wording drift is archival/provenance audit material, not a product blocker; do not weaken a wording contract that is itself executable, security-sensitive, user-visible, schema/API authority or evidence input.",
       "Billing remains permanently OFF and Firebase remains Spark only; never enable Blaze, Cloud Billing, a billing account, Cloud Run or Cloud Functions.",
-      "App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
+      "App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Google Auth is popup-only and remembered on the device (indexedDBLocalPersistence, or browserLocalPersistence without IndexedDB; SIGN OUT ends it) with no extra scopes.",
       "Exactly two private managers; Connected Rivalry pairing plus exact ACTIVE precedes league or club authority.",
       "Candidate C remains sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
       "Preserve careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns, careerModeShowdown.preferences and SSJR-DUAL-FULL-SCREEN-1; no public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards."

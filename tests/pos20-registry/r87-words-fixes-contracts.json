@@ -1,0 +1,13 @@
+{
+  "path": "tests/contracts/r87-words-fixes-contracts.cjs",
+  "patterns": [
+    "^data/frontPages\\.js$",
+    "^js/careerScreenSeam\\.js$",
+    "^js/importAnalysis\\.js$",
+    "^js/showdownUI\\.js$",
+    "^js/transferScreenV10\\.js$",
+    "^js/trophyRoom\\.js$",
+    "^tests/contracts/r87\\-words\\-fixes\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-words\\-fixes\\-contracts\\.json$"
+  ]
+}

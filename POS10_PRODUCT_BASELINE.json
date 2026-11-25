@@ -83,6 +83,7 @@
     "IDENTITY_SAFE_ANALYTICS_BROWSER",
     "OFFLINE_BOUNDARY_BROWSER",
     "OFFLINE_CACHE_LIFECYCLE_BROWSER",
+    "SETTINGS_LAYOUT_BROWSER",
     "FULL_BROWSER_BUNDLE",
     "HOME_BOOTSTRAP_INLINE",
     "LEAGUE_CONFIRMATION_INLINE",
@@ -100,7 +101,7 @@
       "cloudFunctionsAllowed": false,
       "appCheckEnforcement": false,
       "firestoreBrowserPersistence": "memory-only",
-      "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
+      "googleAuthPersistence": "remembered-on-device-popup-only-no-extra-scopes",
       "productionRulesSource": "firestore.spark.rules"
     },
     "product": {

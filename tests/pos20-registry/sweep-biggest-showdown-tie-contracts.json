@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/sweep-biggest-showdown-tie-contracts.cjs",
+  "patterns": [
+    "^js/sharedCareerAnalytics\\.js$",
+    "^js/careerScreenSeam\\.js$",
+    "^tests/support/career-fixture-helpers\\.cjs$",
+    "^tests/contracts/sweep-biggest-showdown-tie-contracts\\.cjs$",
+    "^tests/pos20-registry/sweep\\-biggest\\-showdown\\-tie\\-contracts\\.json$"
+  ]
+}
