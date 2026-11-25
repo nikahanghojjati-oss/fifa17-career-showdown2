@@ -6,11 +6,11 @@
 
 ![Team G progress](board-chart.svg)
 
-Updated Wed 25 Nov, 12:52 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
+Updated Wed 25 Nov, 1:04 AM Boston time. Bug hunting only, no new features until further notice. The Team G and Team V Custom views and the board artifact show this same board. History of every job and bug report: [Board history](BOARD_ARCHIVE.md) · hand-offs between teams: [relay](RELAY.md).
 
 🌐 **Live: 2.12.0-r99** (main `7dc0d48`, Tue 24 Nov 8:12 AM)
 
-🐕 **Barking: Showdown Gate on #1614 has waited 55 min for a machine; Showdown Gate on #1588 has waited 39 min for a machine; Showdown Gate on #1603 has waited 34 min for a machine; Showdown Gate on #1596 has waited 34 min for a machine; Showdown Gate on #1613 has waited 33 min for a machine; Showdown Gate on #1611 has waited 33 min for a machine; Showdown Gate on #1581 has waited 31 min for a machine; Showdown Gate on #1609 has waited 27 min for a machine.** · POS20 #304 6/16
+🐕 **Barking: Showdown Gate on #1614 has waited 73 min for a machine; Showdown Gate on #1588 has waited 57 min for a machine; Showdown Gate on #1603 has waited 52 min for a machine; Showdown Gate on #1596 has waited 52 min for a machine; Showdown Gate on #1613 has waited 51 min for a machine; Showdown Gate on #1611 has waited 51 min for a machine; Showdown Gate on #1581 has waited 49 min for a machine; Showdown Gate on #1609 has waited 45 min for a machine.** · POS20 #304 6/16
 
 ## Jobs
 
@@ -70,7 +70,7 @@ Updated Wed 25 Nov, 12:52 AM Boston time. Bug hunting only, no new features unti
 
 **#14 · 1836** `G` CE2PG release run A: 1 and 3 seasons, 3 runs each, plus a draw  
 `████░░░░░░` **40.0000 %**  
-⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 946 h ago
+⚪ Team white · model not set · worker working, draft PR #872 · CI 7 of 8 passed · last move 947 h ago
 
 **#15 · 1837** `G` CE2PG release run B: 5 seasons, 3 runs  
 `████░░░░░░` **40.0000 %**  
@@ -1989,8 +1989,8 @@ Job 1845
 Numbered jobs: 56 done, 218 other open · Olympiad recheck: 23 of 23 settled, 0 still to fix · Sol's old leads: 0 open (0 real, 0 unsure)
 
 **2. Visual fixes** `after stage 1`  
-`██████████` **95.4023 %**  
-Team V hand-offs: 166 of 174 done
+`█████████░` **91.2088 %**  
+Team V hand-offs: 166 of 182 done
 
 **3. Match current desktop screens to the mockup** `after stage 2`  
 `█░░░░░░░░░` **6.2500 %**  

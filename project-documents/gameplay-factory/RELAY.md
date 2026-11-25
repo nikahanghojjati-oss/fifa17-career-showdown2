@@ -1,12 +1,456 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-25 12:51 AM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-25 1:03 AM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `80abf998` (Tue 24 Nov 11:40 PM Boston time) · 572 messages · 174 hand-offs · 710 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `788ed026` (Wed 25 Nov 1:01 AM Boston time) · 573 messages · 182 hand-offs · 710 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
+
+### HO-181 · G → V · Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Wed 25 Nov 1:01 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Nik 2026-11-25 05:57 UTC on the sign-in screen: he likes the view, the background, the furniture and the reflective marble, but it must match each clubhouse's colours, and the ceiling, the marble and the walls look AI-made (breaks); it must look handcrafted. This lounge is also the background of every error screen. Ticket 8 of 8 (4 clubhouses x desktop and phone). Same deadline as the full set: DONE before the 3.0 freeze. No men in this picture, so no likeness risk.
+
+### What
+- **Clubhouse:** Premium Matte Black Clubhouse (Settings key `matte`). **Picture:** sign-in lounge, phone upright.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the current sign-in lounge `visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp` (1179x2096), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try.
+  2. Image 2, `REF_PILOT_MATTE.webp`: the people-free reference Team G cut from this clubhouse's approved Home and Board Room, raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_PILOT_MATTE.webp
+- **Save the result as:** `ENV_SIGNIN_PHONE_MATTE_P1` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same view and layout as image 1 (overlay test: windows, sofa and shelves sit where they were); clean straight ceiling; solid unbroken walls; natural continuous marble veins; the colours match image 2; no person, text, logo, fog, halo or new object.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies and books, the dark stone pillar beside them, the potted plants, the tall windows with the night city skyline, the tufted leather sofa, the round coffee tables with their small objects, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A private members' lounge in neutral graphite velvet: low-gloss fine herringbone wool flannel, honed slate and satin titanium, handcrafted.
+The wall panels and the pillar faces become upholstered fine herringbone wool flannel in a neutral graphite with no brown, with visible stitched seams, framed in thin satin graphite lacquer mouldings, in the same panel layout; the shelving becomes satin graphite lacquer; the gold light strips become thin brushed satin titanium lines lit softly warm. The stone pillar and the stone table tops become flat honed charcoal slate with a few faint straight pale mineral lines. All trims, light strips, table legs and lamp metal become brushed satin titanium with a dull, even sheen. The floor becomes large honed graphite slate tiles laid in straight even rows, with a soft low sheen that holds broad, gentle reflections of the lamps (never mirror-sharp). The ceiling becomes a soft near-black plaster ceiling with clean straight recessed coves. The sofa and armchair become deep graphite leather with a soft low sheen, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. The lamps cast warm pools of light, but every material itself stays a neutral graphite grey-black: never brown, never espresso, never a warm cast over a whole wall. The finish is velvet low gloss: broad soft pale-grey sheens, no sharp highlight and no glint anywhere. Tones are layered dark on dark.
+
+Colour lock: the walls, panels, flannel, slate and trims are a cool neutral charcoal grey, the grey of a dark grey wool suit, exactly the grey of image 2; all surfaces are neutral graphite and none of image 1's gold or brown survives on the room itself. The herringbone is a regular herringbone, fine, tight and low-contrast, seen only up close: neat, perfectly regular rows of tiny straight V shapes, never a bold zigzag, maze or squiggle. Every slate surface is flat honed slate, dry like a honed blackboard: no crinkle, crackle, ripple or crumpled-foil texture anywhere.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/matte/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_SIGNIN_PHONE_MATTE_P1.webp` aligned to image 1 at 1179x2096, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game uses and puts the sign-in lounge of the picked clubhouse behind the sign-in and error screens. It goes on the board for Nik next to the old lounge.
+
+</details>
+
+### HO-180 · G → V · Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Wed 25 Nov 1:01 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Nik 2026-11-25 05:57 UTC on the sign-in screen: he likes the view, the background, the furniture and the reflective marble, but it must match each clubhouse's colours, and the ceiling, the marble and the walls look AI-made (breaks); it must look handcrafted. This lounge is also the background of every error screen. Ticket 7 of 8 (4 clubhouses x desktop and phone). Same deadline as the full set: DONE before the 3.0 freeze. No men in this picture, so no likeness risk.
+
+### What
+- **Clubhouse:** Metallic Black Clubhouse (Settings key `black`). **Picture:** sign-in lounge, phone upright.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the current sign-in lounge `visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp` (1179x2096), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try.
+  2. Image 2, `REF_PILOT_BLACK.webp`: the people-free reference Team G cut from this clubhouse's approved Home and Board Room, raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_PILOT_BLACK.webp
+- **Save the result as:** `ENV_SIGNIN_PHONE_BLACK_P1` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same view and layout as image 1 (overlay test: windows, sofa and shelves sit where they were); clean straight ceiling; solid unbroken walls; natural continuous marble veins; the colours match image 2; no person, text, logo, fog, halo or new object.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies and books, the dark stone pillar beside them, the potted plants, the tall windows with the night city skyline, the tufted leather sofa, the round coffee tables with their small objects, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+The wall panels, the pillar faces and the shelving become gun-blued blackened steel with fine shadow gaps and machined chamfered edges, in the same panel layout; the gold light strips stay as thin polished gold lines. The stone pillar and the stone table tops become black granite, near true black, with a few very fine warm gold flecks. All trims, light strips, table legs and lamp metal become polished gold. The floor becomes large mirror-polished black granite tiles laid in straight even rows, near true black, with dim true reflections of the lamps. The ceiling becomes a deep black ceiling with clean straight recessed coves. The sofa and armchair become black leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. Every large surface stays near true black; only small, sharp, warm gold highlights and true reflections show where the light falls.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/black/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_SIGNIN_PHONE_BLACK_P1.webp` aligned to image 1 at 1179x2096, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game uses and puts the sign-in lounge of the picked clubhouse behind the sign-in and error screens. It goes on the board for Nik next to the old lounge.
+
+</details>
+
+### HO-179 · G → V · Sign-in lounge 6/8: Platinum Clubhouse, phone upright
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Wed 25 Nov 1:01 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Nik 2026-11-25 05:57 UTC on the sign-in screen: he likes the view, the background, the furniture and the reflective marble, but it must match each clubhouse's colours, and the ceiling, the marble and the walls look AI-made (breaks); it must look handcrafted. This lounge is also the background of every error screen. Ticket 6 of 8 (4 clubhouses x desktop and phone). Same deadline as the full set: DONE before the 3.0 freeze. No men in this picture, so no likeness risk.
+
+### What
+- **Clubhouse:** Platinum Clubhouse (Settings key `silver`). **Picture:** sign-in lounge, phone upright.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the current sign-in lounge `visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp` (1179x2096), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try.
+  2. Image 2, `REF_PILOT_SILVER.webp`: the people-free reference Team G cut from this clubhouse's approved Home and Board Room, raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_PILOT_SILVER.webp
+- **Save the result as:** `ENV_SIGNIN_PHONE_SILVER_P1` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same view and layout as image 1 (overlay test: windows, sofa and shelves sit where they were); clean straight ceiling; solid unbroken walls; natural continuous marble veins; the colours match image 2; no person, text, logo, fog, halo or new object.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies and books, the dark stone pillar beside them, the potted plants, the tall windows with the night city skyline, the tufted leather sofa, the round coffee tables with their small objects, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A platinum members' lounge at night: real metal leaf, real polished nickel, real pale stone, handcrafted.
+The wall panels, the pillar faces and the shelving become hand-laid silver leaf with a fine straight brushed grain, set in polished nickel mouldings, in the same panel layout; the gold light strips become thin polished nickel strips lit warm. The stone pillar and the stone table tops become pale grey marble with soft darker grey veins (light stone with dark veins, never dark stone with white cracks). All trims, light strips, table legs and lamp metal become polished nickel that mirrors the room. The floor becomes large polished pale grey marble tiles with soft darker grey veins, laid in straight even rows, holding clear true reflections of the lamps. The ceiling becomes a deep graphite plaster ceiling with clean straight recessed coves. The sofa and armchair become deep charcoal leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows: bright and mirror-like near the lamps, pewter and graphite in the corners, never blue.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/silver/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_SIGNIN_PHONE_SILVER_P1.webp` aligned to image 1 at 1179x2096, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game uses and puts the sign-in lounge of the picked clubhouse behind the sign-in and error screens. It goes on the board for Nik next to the old lounge.
+
+</details>
+
+### HO-178 · G → V · Sign-in lounge 5/8: Wooden Clubhouse, phone upright
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Wed 25 Nov 1:01 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Nik 2026-11-25 05:57 UTC on the sign-in screen: he likes the view, the background, the furniture and the reflective marble, but it must match each clubhouse's colours, and the ceiling, the marble and the walls look AI-made (breaks); it must look handcrafted. This lounge is also the background of every error screen. Ticket 5 of 8 (4 clubhouses x desktop and phone). Same deadline as the full set: DONE before the 3.0 freeze. No men in this picture, so no likeness risk.
+
+### What
+- **Clubhouse:** Wooden Clubhouse (the default look, no Settings key). **Picture:** sign-in lounge, phone upright.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the current sign-in lounge `visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp` (1179x2096), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try.
+  2. Image 2, `REF_PILOT_WOODEN.webp`: the people-free reference Team G cut from this clubhouse's approved Home and Board Room, raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_PILOT_WOODEN.webp
+- **Save the result as:** `ENV_SIGNIN_PHONE_WOODEN_P1` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same view and layout as image 1 (overlay test: windows, sofa and shelves sit where they were); clean straight ceiling; solid unbroken walls; natural continuous marble veins; the colours match image 2; no person, text, logo, fog, halo or new object.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies and books, the dark stone pillar beside them, the potted plants, the tall windows with the night city skyline, the tufted leather sofa, the round coffee tables with their small objects, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A private members' lounge in the Wooden clubhouse at night: real dark walnut, real black marble and real aged brass, handcrafted.
+The wall panels, the pillar faces and the shelving become dark walnut with a fine straight grain and a hand-rubbed satin finish, in the same panel layout, with thin aged-brass inlay lines where the gold light strips are now. The stone pillar and the stone table tops become black marble with fine, soft, natural grey-gold veins. All trims, light strips, table legs and lamp metal become aged brass with a soft satin glow. The floor becomes large polished black marble tiles with fine natural grey-gold veins, laid in straight even rows, holding soft true reflections of the lamps. The ceiling becomes a dark walnut coffered ceiling with straight even beams. The sofa and armchair become deep brown leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. The walnut glows warm and deep near the lamps and falls to dark brown-black in the corners; brass catches soft warm highlights; the marble floor holds calm, true reflections.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/wooden/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_SIGNIN_PHONE_WOODEN_P1.webp` aligned to image 1 at 1179x2096, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game uses and puts the sign-in lounge of the picked clubhouse behind the sign-in and error screens. It goes on the board for Nik next to the old lounge.
+
+</details>
+
+### HO-177 · G → V · Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Wed 25 Nov 1:01 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Nik 2026-11-25 05:57 UTC on the sign-in screen: he likes the view, the background, the furniture and the reflective marble, but it must match each clubhouse's colours, and the ceiling, the marble and the walls look AI-made (breaks); it must look handcrafted. This lounge is also the background of every error screen. Ticket 4 of 8 (4 clubhouses x desktop and phone). Same deadline as the full set: DONE before the 3.0 freeze. No men in this picture, so no likeness risk.
+
+### What
+- **Clubhouse:** Premium Matte Black Clubhouse (Settings key `matte`). **Picture:** sign-in lounge, desktop.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the current sign-in lounge `visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp` (3072x1728), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try.
+  2. Image 2, `REF_PILOT_MATTE.webp`: the people-free reference Team G cut from this clubhouse's approved Home and Board Room, raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_PILOT_MATTE.webp
+- **Save the result as:** `ENV_SIGNIN_PLATE_MATTE_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same view and layout as image 1 (overlay test: windows, sofa and shelves sit where they were); clean straight ceiling; solid unbroken walls; natural continuous marble veins; the colours match image 2; no person, text, logo, fog, halo or new object.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies, gold balls and books, the dark stone pillar beside them, the potted plant in its tall pot, the floor lamp, the tall windows with the night city skyline, the panel with the crown emblem between the windows, the second potted plant, the long tufted leather sofa with its cushions, the round coffee table with the small gold crown and the gold cup, the round side table in the front right with the books and the gold crown, the armchair in the front right, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A private members' lounge in neutral graphite velvet: low-gloss fine herringbone wool flannel, honed slate and satin titanium, handcrafted.
+The wall panels and the pillar faces become upholstered fine herringbone wool flannel in a neutral graphite with no brown, with visible stitched seams, framed in thin satin graphite lacquer mouldings, in the same panel layout; the shelving becomes satin graphite lacquer; the gold light strips become thin brushed satin titanium lines lit softly warm. The stone pillar and the stone table tops become flat honed charcoal slate with a few faint straight pale mineral lines. All trims, light strips, table legs and lamp metal become brushed satin titanium with a dull, even sheen. The floor becomes large honed graphite slate tiles laid in straight even rows, with a soft low sheen that holds broad, gentle reflections of the lamps (never mirror-sharp). The ceiling becomes a soft near-black plaster ceiling with clean straight recessed coves. The sofa and armchair become deep graphite leather with a soft low sheen, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. The lamps cast warm pools of light, but every material itself stays a neutral graphite grey-black: never brown, never espresso, never a warm cast over a whole wall. The finish is velvet low gloss: broad soft pale-grey sheens, no sharp highlight and no glint anywhere. Tones are layered dark on dark.
+
+Colour lock: the walls, panels, flannel, slate and trims are a cool neutral charcoal grey, the grey of a dark grey wool suit, exactly the grey of image 2; all surfaces are neutral graphite and none of image 1's gold or brown survives on the room itself. The herringbone is a regular herringbone, fine, tight and low-contrast, seen only up close: neat, perfectly regular rows of tiny straight V shapes, never a bold zigzag, maze or squiggle. Every slate surface is flat honed slate, dry like a honed blackboard: no crinkle, crackle, ripple or crumpled-foil texture anywhere.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/matte/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_SIGNIN_PLATE_MATTE_P1_2X.webp` aligned to image 1 at 3072x1728, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game uses and puts the sign-in lounge of the picked clubhouse behind the sign-in and error screens. It goes on the board for Nik next to the old lounge.
+
+</details>
+
+### HO-176 · G → V · Sign-in lounge 3/8: Metallic Black Clubhouse, desktop
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Wed 25 Nov 1:01 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Nik 2026-11-25 05:57 UTC on the sign-in screen: he likes the view, the background, the furniture and the reflective marble, but it must match each clubhouse's colours, and the ceiling, the marble and the walls look AI-made (breaks); it must look handcrafted. This lounge is also the background of every error screen. Ticket 3 of 8 (4 clubhouses x desktop and phone). Same deadline as the full set: DONE before the 3.0 freeze. No men in this picture, so no likeness risk.
+
+### What
+- **Clubhouse:** Metallic Black Clubhouse (Settings key `black`). **Picture:** sign-in lounge, desktop.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the current sign-in lounge `visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp` (3072x1728), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try.
+  2. Image 2, `REF_PILOT_BLACK.webp`: the people-free reference Team G cut from this clubhouse's approved Home and Board Room, raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_PILOT_BLACK.webp
+- **Save the result as:** `ENV_SIGNIN_PLATE_BLACK_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same view and layout as image 1 (overlay test: windows, sofa and shelves sit where they were); clean straight ceiling; solid unbroken walls; natural continuous marble veins; the colours match image 2; no person, text, logo, fog, halo or new object.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies, gold balls and books, the dark stone pillar beside them, the potted plant in its tall pot, the floor lamp, the tall windows with the night city skyline, the panel with the crown emblem between the windows, the second potted plant, the long tufted leather sofa with its cushions, the round coffee table with the small gold crown and the gold cup, the round side table in the front right with the books and the gold crown, the armchair in the front right, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+The wall panels, the pillar faces and the shelving become gun-blued blackened steel with fine shadow gaps and machined chamfered edges, in the same panel layout; the gold light strips stay as thin polished gold lines. The stone pillar and the stone table tops become black granite, near true black, with a few very fine warm gold flecks. All trims, light strips, table legs and lamp metal become polished gold. The floor becomes large mirror-polished black granite tiles laid in straight even rows, near true black, with dim true reflections of the lamps. The ceiling becomes a deep black ceiling with clean straight recessed coves. The sofa and armchair become black leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. Every large surface stays near true black; only small, sharp, warm gold highlights and true reflections show where the light falls.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/black/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_SIGNIN_PLATE_BLACK_P1_2X.webp` aligned to image 1 at 3072x1728, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game uses and puts the sign-in lounge of the picked clubhouse behind the sign-in and error screens. It goes on the board for Nik next to the old lounge.
+
+</details>
+
+### HO-175 · G → V · Sign-in lounge 2/8: Platinum Clubhouse, desktop
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Wed 25 Nov 1:01 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Nik 2026-11-25 05:57 UTC on the sign-in screen: he likes the view, the background, the furniture and the reflective marble, but it must match each clubhouse's colours, and the ceiling, the marble and the walls look AI-made (breaks); it must look handcrafted. This lounge is also the background of every error screen. Ticket 2 of 8 (4 clubhouses x desktop and phone). Same deadline as the full set: DONE before the 3.0 freeze. No men in this picture, so no likeness risk.
+
+### What
+- **Clubhouse:** Platinum Clubhouse (Settings key `silver`). **Picture:** sign-in lounge, desktop.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the current sign-in lounge `visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp` (3072x1728), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try.
+  2. Image 2, `REF_PILOT_SILVER.webp`: the people-free reference Team G cut from this clubhouse's approved Home and Board Room, raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_PILOT_SILVER.webp
+- **Save the result as:** `ENV_SIGNIN_PLATE_SILVER_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same view and layout as image 1 (overlay test: windows, sofa and shelves sit where they were); clean straight ceiling; solid unbroken walls; natural continuous marble veins; the colours match image 2; no person, text, logo, fog, halo or new object.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies, gold balls and books, the dark stone pillar beside them, the potted plant in its tall pot, the floor lamp, the tall windows with the night city skyline, the panel with the crown emblem between the windows, the second potted plant, the long tufted leather sofa with its cushions, the round coffee table with the small gold crown and the gold cup, the round side table in the front right with the books and the gold crown, the armchair in the front right, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A platinum members' lounge at night: real metal leaf, real polished nickel, real pale stone, handcrafted.
+The wall panels, the pillar faces and the shelving become hand-laid silver leaf with a fine straight brushed grain, set in polished nickel mouldings, in the same panel layout; the gold light strips become thin polished nickel strips lit warm. The stone pillar and the stone table tops become pale grey marble with soft darker grey veins (light stone with dark veins, never dark stone with white cracks). All trims, light strips, table legs and lamp metal become polished nickel that mirrors the room. The floor becomes large polished pale grey marble tiles with soft darker grey veins, laid in straight even rows, holding clear true reflections of the lamps. The ceiling becomes a deep graphite plaster ceiling with clean straight recessed coves. The sofa and armchair become deep charcoal leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows: bright and mirror-like near the lamps, pewter and graphite in the corners, never blue.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/silver/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_SIGNIN_PLATE_SILVER_P1_2X.webp` aligned to image 1 at 3072x1728, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game uses and puts the sign-in lounge of the picked clubhouse behind the sign-in and error screens. It goes on the board for Nik next to the old lounge.
+
+</details>
+
+### HO-174 · G → V · Sign-in lounge 1/8: Wooden Clubhouse, desktop
+
+✅ **Sent** → ○ Delivered → ○ Received → ○ In progress → ○ Done
+
+- Wed 25 Nov 1:01 AM · Team G · Sent
+
+<details><summary>Full ticket</summary>
+
+### Read this first
+For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
+**Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
+Nik 2026-11-25 05:57 UTC on the sign-in screen: he likes the view, the background, the furniture and the reflective marble, but it must match each clubhouse's colours, and the ceiling, the marble and the walls look AI-made (breaks); it must look handcrafted. This lounge is also the background of every error screen. Ticket 1 of 8 (4 clubhouses x desktop and phone). Same deadline as the full set: DONE before the 3.0 freeze. No men in this picture, so no likeness risk.
+
+### What
+- **Clubhouse:** Wooden Clubhouse (the default look, no Settings key). **Picture:** sign-in lounge, desktop.
+- **Attach exactly these two files, in this order:**
+  1. Image 1, the current sign-in lounge `visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp` (3072x1728), raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/gameplay/r100/visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp (convert to PNG if ChatGPT refuses WebP). Never attach a previous try.
+  2. Image 2, `REF_PILOT_WOODEN.webp`: the people-free reference Team G cut from this clubhouse's approved Home and Board Room, raw: https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/leads/relay/project-documents/leads-relay/attachments/ho-premium-full/REF_PILOT_WOODEN.webp
+- **Save the result as:** `ENV_SIGNIN_PLATE_WOODEN_P1_2X` (exactly one asset).
+
+### Steps
+1. New chat in Work mode, Astra 6, Extra High. Attach as above.
+2. Paste the prompt below exactly. If ChatGPT offers a rewrite, reply `No, use my prompt exactly.`
+3. Check: same view and layout as image 1 (overlay test: windows, sofa and shelves sit where they were); clean straight ceiling; solid unbroken walls; natural continuous marble veins; the colours match image 2; no person, text, logo, fog, halo or new object.
+4. Save, or retry in a new chat from image 1. Max 3 tries.
+
+### Prompt
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials, colours and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing, layout and view. There are no people in this room; keep it empty of people. Keep in the same places and at the same sizes: the tall shelves on the left with the gold trophies, gold balls and books, the dark stone pillar beside them, the potted plant in its tall pot, the floor lamp, the tall windows with the night city skyline, the panel with the crown emblem between the windows, the second potted plant, the long tufted leather sofa with its cushions, the round coffee table with the small gold crown and the gold cup, the round side table in the front right with the books and the gold crown, the armchair in the front right, the soft dark rug and the tiled floor. The middle of the picture stays calm: a small sign-in card will sit there.
+
+Repaint the room by hand as a real built room. A private members' lounge in the Wooden clubhouse at night: real dark walnut, real black marble and real aged brass, handcrafted.
+The wall panels, the pillar faces and the shelving become dark walnut with a fine straight grain and a hand-rubbed satin finish, in the same panel layout, with thin aged-brass inlay lines where the gold light strips are now. The stone pillar and the stone table tops become black marble with fine, soft, natural grey-gold veins. All trims, light strips, table legs and lamp metal become aged brass with a soft satin glow. The floor becomes large polished black marble tiles with fine natural grey-gold veins, laid in straight even rows, holding soft true reflections of the lamps. The ceiling becomes a dark walnut coffered ceiling with straight even beams. The sofa and armchair become deep brown leather, with real tufting, real seams and soft natural creases.
+
+Fix what looks machine-made in image 1: the ceiling is one clean, solid, straight surface with no melted, broken or repeating shapes; every wall and pillar is solid and continuous, with straight edges and no breaks, seams that do not line up, or flickering lines; every marble or stone vein is a natural, continuous mineral vein that flows across the stone, never lightning-bolt cracks, never veins that stop or jump at a tile edge; the shelves are straight and level; reflections are true mirror images of what is above them.
+
+Light: It is night. Light comes from the warm lamps, the warm shelf lights and the city through the windows. The walnut glows warm and deep near the lamps and falls to dark brown-black in the corners; brass catches soft warm highlights; the marble floor holds calm, true reflections.
+
+Objects keep their identity and their own colours (the gold trophies and gold crowns, the books, the plants, the city lights) and are relit by the room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder and a stonemason would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no bloom around lights, no noise grain, no streaks and no swirl or crackle patterns. No new objects, no extra lamps, no text, no logos and no people.
+
+Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+### Deliver
+- Folder `project-documents/hc-art/ho-premium-full/wooden/` on your branch: the raw Astra output (PNG, untouched) **and** `ENV_SIGNIN_PLATE_WOODEN_P1_2X.webp` aligned to image 1 at 3072x1728, plus a line in `SHA256.json`.
+- Do not delete or replace any existing plate.
+
+### After DONE (Team G, B7 premium clubhouses thread)
+Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game uses and puts the sign-in lounge of the picked clubhouse behind the sign-in and error screens. It goes on the board for Nik next to the old lounge.
+
+</details>
 
 ### HO-173 · G → V · Premium Matte Black must look truly premium (Nik): bar for every Matte painting
 
@@ -9030,6 +9474,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-174..181 SENT · Team G → Team V · Wed 25 Nov 1:05 AM Boston time
+
+**Sign-in lounge repaint x8 (Wooden, Platinum, Metallic Black, Premium Matte Black; desktop + phone), Nik 05:57 UTC: handcrafted, each clubhouse's colours, same view and furniture; new REF_PILOT_WOODEN** · reply needed: yes: run in Astra
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-170 DONE · Team V → Team G · Tue 24 Nov 11:40 PM Boston time
 

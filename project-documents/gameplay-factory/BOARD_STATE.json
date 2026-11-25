@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-25 12:51 AM Boston time (EST)",
+ "generated": "2026-11-25 1:03 AM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 572,
+  "count": 573,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -5151,6 +5151,15 @@
     "subject": "Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways",
     "reply": "no",
     "boston": "Tue 24 Nov 11:40 PM"
+   },
+   {
+    "time": "2026-11-25 06:05",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-174..181 SENT",
+    "subject": "Sign-in lounge repaint x8 (Wooden, Platinum, Metallic Black, Premium Matte Black; desktop + phone), Nik 05:57 UTC: handcrafted, each clubhouse's colours, same view and furniture; new REF_PILOT_WOODEN",
+    "reply": "yes: run in Astra",
+    "boston": "Wed 25 Nov 1:05 AM"
    }
   ],
   "g2v": {
@@ -5171,8 +5180,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "80abf99",
-  "head_boston": "Tue 24 Nov 11:40 PM",
+  "head": "788ed02",
+  "head_boston": "Wed 25 Nov 1:01 AM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5209,7 +5218,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1614 has waited 55 min for a machine; Showdown Gate on #1588 has waited 39 min for a machine; Showdown Gate on #1603 has waited 34 min for a machine; Showdown Gate on #1596 has waited 34 min for a machine; Showdown Gate on #1613 has waited 33 min for a machine; Showdown Gate on #1611 has waited 33 min for a machine; Showdown Gate on #1581 has waited 31 min for a machine; Showdown Gate on #1609 has waited 27 min for a machine.",
+   "line": "Barking: Showdown Gate on #1614 has waited 73 min for a machine; Showdown Gate on #1588 has waited 57 min for a machine; Showdown Gate on #1603 has waited 52 min for a machine; Showdown Gate on #1596 has waited 52 min for a machine; Showdown Gate on #1613 has waited 51 min for a machine; Showdown Gate on #1611 has waited 51 min for a machine; Showdown Gate on #1581 has waited 49 min for a machine; Showdown Gate on #1609 has waited 45 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -5996,7 +6005,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24647
+    "waiting_min": 24659
    },
    {
     "id": "HO-059",
@@ -7492,6 +7501,110 @@
     "worker": "",
     "pickup_min": 6,
     "waiting_min": null
+   },
+   {
+    "id": "HO-174",
+    "from": "G",
+    "to": "V",
+    "title": "Sign-in lounge 1/8: Wooden Clubhouse, desktop",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-174_sign-in-lounge-1-8-wooden-clubhouse-desk.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-175",
+    "from": "G",
+    "to": "V",
+    "title": "Sign-in lounge 2/8: Platinum Clubhouse, desktop",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-175_sign-in-lounge-2-8-platinum-clubhouse-de.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-176",
+    "from": "G",
+    "to": "V",
+    "title": "Sign-in lounge 3/8: Metallic Black Clubhouse, desktop",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-176_sign-in-lounge-3-8-metallic-black-clubho.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-177",
+    "from": "G",
+    "to": "V",
+    "title": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-177_sign-in-lounge-4-8-premium-matte-black-c.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-178",
+    "from": "G",
+    "to": "V",
+    "title": "Sign-in lounge 5/8: Wooden Clubhouse, phone upright",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-178_sign-in-lounge-5-8-wooden-clubhouse-phon.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-179",
+    "from": "G",
+    "to": "V",
+    "title": "Sign-in lounge 6/8: Platinum Clubhouse, phone upright",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-179_sign-in-lounge-6-8-platinum-clubhouse-ph.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-180",
+    "from": "G",
+    "to": "V",
+    "title": "Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-180_sign-in-lounge-7-8-metallic-black-clubho.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
+   },
+   {
+    "id": "HO-181",
+    "from": "G",
+    "to": "V",
+    "title": "Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright",
+    "stage": "SENT",
+    "pct": 0.0,
+    "overdue": false,
+    "path": "project-documents/leads-relay/handoffs/HO-181_sign-in-lounge-8-8-premium-matte-black-c.md",
+    "worker": "images",
+    "pickup_min": null,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -7563,7 +7676,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 51,
   "next": 42,
   "nik": 2,
   "later": 21,
