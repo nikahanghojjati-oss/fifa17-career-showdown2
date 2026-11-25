@@ -1,0 +1,16 @@
+{
+  "path": "tests/contracts/full-gameplay-lifecycle-contracts.cjs",
+  "patterns": [
+    "^js/sharedCanonicalScoring\\.js$",
+    "^js/sharedCareerStart\\.js$",
+    "^js/sharedFinalReconciliation\\.js$",
+    "^js/sharedHistoryConvergence\\.js$",
+    "^js/sharedMultiSeasonProgression\\.js$",
+    "^js/sharedSeasonCommit\\.js$",
+    "^js/sharedSeasonResults\\.js$",
+    "^js/sharedTerminalClose\\.js$",
+    "^js/sharedTransferChallenge\\.js$",
+    "^tests/contracts/full\\-gameplay\\-lifecycle\\-contracts\\.cjs$",
+    "^tests/pos20-registry/full\\-gameplay\\-lifecycle\\-contracts\\.json$"
+  ]
+}

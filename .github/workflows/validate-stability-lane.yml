@@ -6,6 +6,16 @@ on:
     paths-ignore:
       - "**/*.md"
   workflow_dispatch:
+    inputs:
+      suite:
+        description: "local = contracts + Chromium stability; deployed = live-site smoke + journey only; all = both"
+        type: choice
+        options: [all, local, deployed]
+        default: all
+      deployed_ref:
+        description: "Ref whose bytes and tests the live-site jobs check (it must be what Pages serves)"
+        type: string
+        default: main
 
 permissions:
   contents: read
@@ -18,6 +28,7 @@ concurrency:
 
 jobs:
   stability-contracts:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.suite != 'deployed' }}
     runs-on: ubuntu-latest
     # r87 grew the contract suite to about 9-11 min on a runner (r86: 4.5 min); 8 min cancelled the 2.0.0 main run.
     timeout-minutes: 20
@@ -41,7 +52,8 @@ jobs:
   chromium-stability:
     needs: stability-contracts
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    # The canonical run outgrew 18 min after 2.4.0 and timed out on every main push from 2026-11-14.
+    timeout-minutes: 30
 
     steps:
       - name: Check out repository
@@ -85,14 +97,36 @@ jobs:
           retention-days: 14
 
   deployed-site-smoke:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: chromium-stability
+    # Runs on its own (no longer behind chromium-stability, whose timeouts skipped it on
+    # every release from 2.5.0 to 2.12.0). It is the only check that the live site serves
+    # the reviewed bytes and boots.
+    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && inputs.suite != 'local') }}
     runs-on: ubuntu-latest
-    timeout-minutes: 36
+    timeout-minutes: 30
+    env:
+      # Standing rule: no automation reads production Firestore. Every browser this job
+      # launches runs under the guard: Firestore/RTDB hosts cannot resolve, and any attempt
+      # is counted and fails the job in the final step. Set as NODE_OPTIONS on each browser
+      # step only (the runner refuses NODE_OPTIONS through GITHUB_ENV, and the checkout and
+      # setup actions must start before the guard file exists).
+      CMS_FIRESTORE_GUARD_PRELOAD: --require ${{ github.workspace }}/.proof-tools/tests/support/no-production-firestore-guard.cjs
+      CMS_FIRESTORE_GUARD_DIR: ${{ github.workspace }}/test-results/firestore-guard
 
     steps:
-      - name: Check out repository
+      - name: Check out the deployed ref
         uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.deployed_ref || github.sha }}
+
+      - name: Check out the Firestore guard from this run's commit
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: .proof-tools
+          sparse-checkout: |
+            tests/support/no-production-firestore-guard.cjs
+            scripts/assert-no-production-firestore.mjs
+          sparse-checkout-cone-mode: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v5
@@ -106,45 +140,137 @@ jobs:
       - name: Wait for Pages and verify every runtime byte
         env:
           CMS_DEPLOY_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
-          CMS_DEPLOY_TIMEOUT_MS: 480000
+          CMS_DEPLOY_TIMEOUT_MS: 900000
         run: npm run verify:deployment
 
       - name: Run runtime error provenance audit against deployed Pages
         env:
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+          CMS_FIRESTORE_GUARD_STEP: runtime-boundary
+          NODE_OPTIONS: ${{ env.CMS_FIRESTORE_GUARD_PRELOAD }}
         run: npm run test:runtime-boundary
 
       - name: Prove production App Check token path against deployed Pages
         env:
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+          CMS_FIRESTORE_GUARD_STEP: app-check
+          NODE_OPTIONS: ${{ env.CMS_FIRESTORE_GUARD_PRELOAD }}
         run: node tests/browser/production-app-check-runtime-audit.cjs
 
       - name: Run Home visual audit against deployed Pages
         env:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+          CMS_FIRESTORE_GUARD_STEP: home-visual
+          NODE_OPTIONS: ${{ env.CMS_FIRESTORE_GUARD_PRELOAD }}
         run: npm run test:home-visual
 
       - name: Run identity-safe Career Analytics audit against deployed Pages
         env:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+          CMS_FIRESTORE_GUARD_STEP: career-analytics
+          NODE_OPTIONS: ${{ env.CMS_FIRESTORE_GUARD_PRELOAD }}
         run: node tests/browser/identity-safe-career-analytics-audit.cjs
 
       - name: Run crop-safe football-photo audit against deployed Pages
         env:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+          CMS_FIRESTORE_GUARD_STEP: football-visual
+          NODE_OPTIONS: ${{ env.CMS_FIRESTORE_GUARD_PRELOAD }}
         run: npm run test:football-visual
 
       - name: Run install and offline boundary audit against deployed Pages
         env:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+          CMS_FIRESTORE_GUARD_STEP: offline-boundary
+          NODE_OPTIONS: ${{ env.CMS_FIRESTORE_GUARD_PRELOAD }}
         run: node tests/browser/offline-boundary-audit.cjs
+
+      - name: Prove zero production Firestore requests
+        if: ${{ !cancelled() }}
+        run: >-
+          node .proof-tools/scripts/assert-no-production-firestore.mjs
+          --dir "$CMS_FIRESTORE_GUARD_DIR" --out test-results/firestore-guard-smoke.json
+          --expect-step runtime-boundary --expect-step app-check --expect-step home-visual
+          --expect-step career-analytics --expect-step football-visual --expect-step offline-boundary
+
+      - name: Upload Firestore guard evidence
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: deployed-firestore-guard-smoke-${{ github.run_id }}
+          path: |
+            test-results/firestore-guard/
+            test-results/firestore-guard-smoke.json
+          if-no-files-found: warn
+          retention-days: 14
+
+  deployed-site-journey:
+    # The complete journey against the live site, split out so the quick smoke above
+    # reports within minutes and this long run has its own budget (17 min on 2026-11-11).
+    needs: deployed-site-smoke
+    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && inputs.suite != 'local') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      # Standing rule: no automation reads production Firestore. Every browser this job
+      # launches runs under the guard: Firestore/RTDB hosts cannot resolve, and any attempt
+      # is counted and fails the job in the final step. Set as NODE_OPTIONS on each browser
+      # step only (the runner refuses NODE_OPTIONS through GITHUB_ENV, and the checkout and
+      # setup actions must start before the guard file exists).
+      CMS_FIRESTORE_GUARD_PRELOAD: --require ${{ github.workspace }}/.proof-tools/tests/support/no-production-firestore-guard.cjs
+      CMS_FIRESTORE_GUARD_DIR: ${{ github.workspace }}/test-results/firestore-guard
+
+    steps:
+      - name: Check out the deployed ref
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.deployed_ref || github.sha }}
+
+      - name: Check out the Firestore guard from this run's commit
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: .proof-tools
+          sparse-checkout: |
+            tests/support/no-production-firestore-guard.cjs
+            scripts/assert-no-production-firestore.mjs
+          sparse-checkout-cone-mode: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install locked stability dependencies
+        run: npm ci
 
       - name: Run complete journey against deployed Pages
         env:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+          CMS_FIRESTORE_GUARD_STEP: journey
+          NODE_OPTIONS: ${{ env.CMS_FIRESTORE_GUARD_PRELOAD }}
         run: npm run test:browser
+
+      - name: Prove zero production Firestore requests
+        if: ${{ !cancelled() }}
+        run: >-
+          node .proof-tools/scripts/assert-no-production-firestore.mjs
+          --dir "$CMS_FIRESTORE_GUARD_DIR" --out test-results/firestore-guard-journey.json
+          --expect-step journey
+
+      - name: Upload Firestore guard evidence
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: deployed-firestore-guard-journey-${{ github.run_id }}
+          path: |
+            test-results/firestore-guard/
+            test-results/firestore-guard-journey.json
+          if-no-files-found: warn
+          retention-days: 14

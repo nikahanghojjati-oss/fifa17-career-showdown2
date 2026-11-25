@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r91-lazy-chain-retry-contracts.cjs",
+  "patterns": [
+    "^js/ssjr\\.js$",
+    "^js/optionalModules\\.js$",
+    "^index\\.html$",
+    "^tests/contracts/r91-lazy-chain-retry-contracts\\.cjs$",
+    "^tests/pos20-registry/r91\\-lazy\\-chain\\-retry\\-contracts\\.json$"
+  ]
+}
