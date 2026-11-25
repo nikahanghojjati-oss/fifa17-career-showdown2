@@ -113,7 +113,7 @@ await check("W5 no bounce: WAITING stays on the league wheel, no reverse trip to
 
 await check("W6 auto-continue after connect keeps START CAREER as the fallback and the createdShell rollback",()=>{
   const pairSource=read("js/persistentNikDanielPair.js");
-  const tick=pairSource.match(/async function pairWaitingPollTick\(\)\{[\s\S]*?\n  \}/)[0];
+  const tick=pairSource.match(/async function pairWaitingPollTick\(woken=false\)\{[\s\S]*?\n  \}/)[0];
   assert.match(tick,/await pairInitialize\(\{force:true\}\);[\s\S]*state\.connectionState==="active"&&state\.status==="paired"&&`\$\{state\.accountId\}\|\$\{state\.rivalryId\}`===key\)\{[^}]*\*\/const recording=pairRecordRealPairing\(state\.rivalryId,"playerOne"\);await pairAutoContinueAfterConnect\(\);await recording;\}/,"Daniel continues only for the rivalry he was waiting on (r79 PR3: a real first pairing is recorded alongside)");
   assert.match(pairSource,/async function pairJoinAndContinue\(capability,options=\{\}\)\{const wasActive=state\.connectionState==="active",joined=await pairJoinPairing\(capability,options\);if\(!wasActive&&options\.autoContinue!==false&&joined\?\.status==="paired"&&joined\.connectionState==="active"\)await pairAutoContinueAfterConnect\(\);return joined;\}/,"Nik continues after his own successful JOIN");
   assert.match(pairSource,/pairSyncWaitingPoll\(\);pairContinueAfterWaitEnded\(\);if\(endedHeldNow\)pairAnnounceEnded\(\);return state;\}/,"every settled state change can continue, not only the poll");
