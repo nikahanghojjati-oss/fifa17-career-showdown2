@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/shared-season-chip-contracts.cjs",
+  "patterns": [
+    "^js/menuExperience\\.js$",
+    "^js/showdownUI\\.js$",
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^tests/contracts/shared-season-chip-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-season\\-chip\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/free-limit-home-message-contracts.cjs",
+  "patterns": [
+    "^js/homeScreensV10\\.js$",
+    "^tests/contracts/free\\-limit\\-home\\-message\\-contracts\\.cjs$",
+    "^tests/pos20-registry/free\\-limit\\-home\\-message\\-contracts\\.json$"
+  ]
+}

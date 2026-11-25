@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/job-1058-transfer-clock-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^tests/contracts/job-1058-transfer-clock-contracts\\.cjs$",
+    "^tests/pos20-registry/job\\-1058\\-transfer\\-clock\\-contracts\\.json$"
+  ]
+}

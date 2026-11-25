@@ -2,7 +2,7 @@
 // POS1M vs today's Gate on the same planted bugs (brief bar: POS1M beats the Gate by at least 25 points).
 //   node tests/pos1m/gate-compare.cjs --pos1m <planted report.json> [--workers 4] [--only id,id] [--out file.json]
 // "Today's Gate" here is its contract lane: every registered product contract (CURRENT_PRODUCT_TEST_MANIFEST.json +
-// POS20_SUPPLEMENTAL_PRODUCT_TESTS.json, exactly what `run-selected-product-contracts.cjs --all` runs) that can see the
+// tests/pos20-registry/, exactly what `run-selected-product-contracts.cjs --all` runs) that can see the
 // changed file: a contract that names the changed file, or any game file that requires it (transitively). A contract
 // that names none of them loads none of them, so it cannot fail on the change. Each relevant contract first runs on the
 // unchanged copy; one that already fails there is reported and not counted for either side.
@@ -23,7 +23,7 @@ function args(argv){
 }
 function registered(){
   const manifest=JSON.parse(fs.readFileSync(path.join(ROOT,"CURRENT_PRODUCT_TEST_MANIFEST.json"),"utf8"));
-  const supplemental=JSON.parse(fs.readFileSync(path.join(ROOT,"POS20_SUPPLEMENTAL_PRODUCT_TESTS.json"),"utf8"));
+  const supplemental=require("../support/pos20-registry.cjs").loadPos20Registry(ROOT);
   return [...new Set([...manifest.tests,...supplemental.tests.map(entry=>entry.path)])];
 }
 // Game files that require each game file (require("./x.js") between js/*.js), closed transitively.

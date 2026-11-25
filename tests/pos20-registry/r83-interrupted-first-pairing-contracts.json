@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r83-interrupted-first-pairing-contracts.cjs",
+  "patterns": [
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/careerStartMarker\\.js$",
+    "^js/sparkPrivatePairing\\.js$",
+    "^tests/contracts/r83-interrupted-first-pairing-contracts\\.cjs$",
+    "^tests/pos20-registry/r83\\-interrupted\\-first\\-pairing\\-contracts\\.json$"
+  ]
+}
