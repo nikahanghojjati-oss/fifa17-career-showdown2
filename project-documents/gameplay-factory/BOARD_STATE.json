@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-25 5:58 PM Boston time (EST)",
+ "generated": "2026-11-25 6:05 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 585,
@@ -5288,7 +5288,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "53b9d6f8",
+  "head": "53b9d6f",
   "head_boston": "Wed 25 Nov 5:25 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
@@ -5317,7 +5317,7 @@
  },
  "two": {
   "live": {
-   "sha": "7dc0d48e",
+   "sha": "7dc0d48",
    "revision": "2.12.0-r99",
    "when": "2026-11-24T08:12:01-05:00",
    "subject": "Merge pull request #1580 from nikahanghojjati-oss/gameplay/r99",
@@ -6113,7 +6113,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 25673
+    "waiting_min": 25680
    },
    {
     "id": "HO-059",
