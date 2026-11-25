@@ -93,6 +93,8 @@ Light: It is night. No wall lamps are visible in this room: light comes only fro
 
 The old ball and the books in the niches keep their identity and their own colours and are relit by the niche light.
 
+Colour lock: the walls, panels, flannel and trims are a cool neutral charcoal grey, the grey of a dark grey wool suit, exactly the grey of image 2; the warm brown wood tones of image 1 must be gone completely. There is no brown, khaki, olive, bronze or espresso anywhere in the room's materials, even near the lamps: lamp light warms only a small soft pool right around each lamp, and everywhere else stays cool neutral grey. The herringbone is fine, tight and low-contrast, seen only up close, never a bold zigzag pattern.
+
 Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
 
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
@@ -184,6 +186,8 @@ Light: It is night. Light comes only from the same warm lamps in the same places
 
 The far end stays a real night pitch: green grass, white goal, floodlit stands, exactly as they are.
 
+Colour lock: the walls, panels, flannel and trims are a cool neutral charcoal grey, the grey of a dark grey wool suit, exactly the grey of image 2; the warm brown wood tones of image 1 must be gone completely. There is no brown, khaki, olive, bronze or espresso anywhere in the room's materials, even near the lamps: lamp light warms only a small soft pool right around each lamp, and everywhere else stays cool neutral grey. The herringbone is fine, tight and low-contrast, seen only up close, never a bold zigzag pattern.
+
 Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
 
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
@@ -240,6 +244,8 @@ Light: It is night. Light comes only from the same warm lamps in the same places
 
 The far end stays a real night pitch: green grass, white goal, floodlit stands, exactly as they are.
 
+Colour lock: the walls, panels, flannel and trims are a cool neutral charcoal grey, the grey of a dark grey wool suit, exactly the grey of image 2; the warm brown wood tones of image 1 must be gone completely. There is no brown, khaki, olive, bronze or espresso anywhere in the room's materials, even near the lamps: lamp light warms only a small soft pool right around each lamp, and everywhere else stays cool neutral grey. The herringbone is fine, tight and low-contrast, seen only up close, never a bold zigzag pattern.
+
 Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
 
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
@@ -258,7 +264,7 @@ Keep image 1 exactly the same size and framing. Repaint the whole surface as one
 
 The stone: honed graphite slate with a dry stone surface and a few faint pale mineral lines, a neutral graphite with no brown, fully matte, no shine and no reflection.
 
-It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. No objects, no reflections of objects, no text, no logos.
+It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. The stone stays a cool neutral charcoal grey, exactly the grey of image 2: the light only brightens it, it never tints it brown, khaki, olive or bronze. No objects, no reflections of objects, no text, no logos.
 
 Real stone as a mason would finish it, with clean sharp detail and no noise grain, no streaks, no repeating cells.
 
