@@ -583,6 +583,9 @@ async function fillCombo(page,id,value){await page.locator(`#${id}`).fill(value)
 const tcState=page=>page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()||null).catch(()=>null);
 const onTransfer=async page=>await visible(page,"#transferChallenge")&&!(await page.locator("#sqStage, #rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
 const atPrime=async page=>await visible(page,"#igStage")||await visible(page,"#igStepPanel");
+// Phoenix B2: the Prime Pack itself (or its waiting card), not its "could not load" card: after a network cut the phone gets
+// there by itself.
+const primeLoaded=async page=>await visible(page,"#igStage")||await visible(page,"#igStepPanel")&&!/could not load/i.test(await page.locator("#igStepPanel").innerText().catch(()=>""));
 const primeState=async page=>{const f=page.frames().find(fr=>/\/icon-guess\//.test(fr.url()));return f?await f.evaluate(()=>window.__ig?.state?.()||null).catch(()=>null):null;};
 const transferPhase=page=>page.evaluate(()=>document.getElementById("transferChallenge")?.dataset.transferPhase||"").catch(()=>"");
 const seasonIs=(page,k,total)=>page.evaluate(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${k} / ${total}`).catch(()=>false);
@@ -672,8 +675,11 @@ async function main(){
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
       await playChamberMenBoth(ctx,season);
       await playRouletteToEnd(first,season);
+      // Phoenix B2 (B1's network leg, seed 4181106201): a Prime Pack cut by the network is tried again by the phone itself once the
+      // connection is back; a tap on Career Start's CONTINUE / REFRESH or the dashboard's button here would hide that, so they are counted.
+      if(FAULT==="network")await X.page.evaluate(()=>{window.__fijPrimeRetryTaps=[];document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("button");if(!b)return;const t=(b.textContent||"").trim();if(b.id==="seasonPrimaryAction"||/^CONTINUE TO THE (PRIME PACK|TRANSFER WAR)$/.test(t)||t==="REFRESH"&&b.closest("#productionSharedCareerStartOverlay")||t==="TRY AGAIN"&&b.closest("#igStepPanel"))window.__fijPrimeRetryTaps.push(b.id||t);},true);}).catch(()=>{});
       await writePoint(ctx,point,{writer:X,ready:async page=>await rouletteFinalTapReady(page),tap:async page=>{await page.locator("#rrStepPanel .rrStepPrimary").click({timeout:10000});markRouletteFinished(X,season,true);},
-        settle:(m,page)=>drive(m,async p=>await atPrime(p)||await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} Prime Pack or transfer window with both marks`}),
+        settle:(m,page)=>drive(m,async p=>(FAULT==="network"&&m===X?await primeLoaded(p):await atPrime(p))||await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} Prime Pack or transfer window with both marks`}),
         checks:async(check)=>{
           const t=docData(await admin(R(`transferChallenges/season_${season}`)));
           await check(null,"db.spinMarks",Boolean(t),`transferChallenges/season_${season} ${JSON.stringify(t).slice(0,300)}`);
@@ -681,6 +687,8 @@ async function main(){
           const start=await daniel.page.evaluate(()=>{const b=document.getElementById("startTransferTimer");return b?{text:b.textContent,disabled:b.disabled,hidden:b.classList.contains("hidden")}:null;});
           // With the Prime Pack the phones stop at its round (the next point): START is checked after it, in primePoint.
           if(!await atPrime(daniel.page))await check(daniel,"start.enabled",start&&!start.disabled&&!start.hidden,`Daniel's START: ${JSON.stringify(start)}`);
+          // Phoenix B2: the cut phone reached its Prime Pack (or went past it) with no tap on a retry button.
+          if(FAULT==="network"){const taps=await X.page.evaluate(()=>window.__fijPrimeRetryTaps||null).catch(()=>null);await check(X,"prime.noTap",Array.isArray(taps)&&taps.length===0,`${X.user} needed ${JSON.stringify(taps)} to reach the Prime Pack after the network came back`);}
         }});
     };
     await spinMarkPoint("spin-mark",1);
