@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24 11:53 PM Boston time (EST)",
+ "generated": "2026-11-25 12:07 AM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 572,
@@ -5205,19 +5205,13 @@
    "when": "2026-11-24T08:12:01-05:00",
    "subject": "Merge pull request #1580 from nikahanghojjati-oss/gameplay/r99",
    "fixes": [],
-   "today": [
-    {
-     "pr": 1580,
-     "title": "Release 2.12.0 (r99): From a fan, for the fans; four clubhouses",
-     "merged": "2026-11-24T13:12:01Z"
-    }
-   ]
+   "today": []
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear (from GitHub).",
-   "gate": "POS20 #304 7/7",
-   "source": "github"
+   "state": "barking",
+   "line": "Barking: Showdown Gate on #1581 has waited 43 min for a machine; Showdown Gate on #1611 has waited 43 min for a machine; Showdown Gate on #1613 has waited 29 min for a machine.",
+   "gate": "POS20 #304 6/16",
+   "source": "physio"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -6002,7 +5996,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24589
+    "waiting_min": 24603
    },
    {
     "id": "HO-059",
