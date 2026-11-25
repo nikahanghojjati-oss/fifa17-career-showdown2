@@ -6,7 +6,7 @@
 // wait costs no more reads than before. No new onSnapshot. Two small helpers keep the reads level now that League Roulette
 // opens sooner: the first wait of a page attaches as soon as the listener module loads, and the shared setup screen asks
 // Terminal Close for its context listener (rivalry root + Session) on each check instead of waiting for its 15 s wake.
-// JS-1..4 run the real pairing, budget and permanent-pair modules (Home JOIN fixture); JS-5..7 and JS-10..14 run the real Remote Joining
+// JS-1..4 run the real pairing, budget and permanent-pair modules (Home JOIN fixture); JS-5..7 and JS-10..15 run the real Remote Joining
 // module against a recording budget; JS-8 runs the real budget layer with a fake listener module.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
 const {test}=require("node:test");
@@ -294,6 +294,21 @@ test("JS-14: when the ten-minute offer wait runs out the listener is let go, a l
   assert.equal(nik.calls.joins,1,"the resumed wait checks at once and joins");
 });
 
+test("JS-15: a check still running when the ten-minute wait pauses joins nothing under TRY AGAIN",async()=>{
+  const g=remoteGame(),nik=g.player("playerTwo"),daniel=g.player("playerOne");
+  assert.equal((await nik.remote.autoConnect()).kind,"waiting");
+  // A listener wake's read hangs, and a second wake queues one more pass; then the ten-minute window runs out.
+  const open=g.hold(true),wake=nik.ask("remote-join-offer").wake;wake();await drain();wake();
+  g.advance(10*60*1000+1);await nik.tick();
+  assert.equal(nik.remote.getState().waitRetry,true,"the wait paused (TRY AGAIN)");
+  assert.equal((await daniel.remote.autoConnect()).kind,"hosted");
+  open();await drain();
+  assert.equal(nik.calls.joins,0,"the check that ends after the pause adopts nothing, nor does its queued pass");
+  assert.equal(nik.remote.getState().waitRetry,true,"the screen still shows TRY AGAIN");
+  await nik.online();
+  assert.equal(nik.calls.joins,1,"TRY AGAIN (or coming back online) joins at once");
+});
+
 test("JS-9: the code says what the tests above rely on",()=>{
   const pair=read("js/persistentNikDanielPair.js"),remote=read("js/sparkRemoteJoining.js"),budget=read("js/sparkPrivatePairing.js");
   const close=read("js/productionSharedTerminalClose.js"),setup=read("js/productionSharedShowdownPresentation.js");
@@ -314,6 +329,9 @@ test("JS-9: the code says what the tests above rely on",()=>{
   assert.match(remote,/!srjState\.busy&&srjOfferWaking!==generation&&/);assert.match(remote,/!srjState\.busy&&srjJoinWaking!==generation&&/);
   assert.match(remote,/srjState\.auto==="waiting"&&!srjState\.waitRetry&&!srjHasNonterminalSession\(\)&&root\.document\?\.visibilityState!=="hidden"\?`rivalries/);
   assert.match(remote,/function srjJoinWaitPath\(sessionId\)\{return srjHostWaitingForJoin\(sessionId\)&&!srjState\.waitRetry&&/);
+  assert.match(remote,/SRJ_OFFER_MIN_LIFE_MS&&srjState\.auto==="waiting"&&!srjState\.waitRetry&&!srjState\.busy&&/);
+  assert.match(remote,/while\(run\.again&&srjOfferCheck===run&&generation===srjWaitGeneration&&srjState\.auto==="waiting"&&!srjState\.waitRetry&&/);
+  assert.match(remote,/while\(run\.again&&srjJoinCheck===run&&generation===srjWaitGeneration&&!srjState\.busy&&!srjState\.waitRetry&&/);
   // The rivalry document itself may be a wait path.
   assert.match(budget,/\/\^rivalries\\\/\[\^\/\]\+\(\?:\\\/\[\^\/\]\+\\\/\[\^\/\]\+\)\*\$\/\.test\(path\)/);
   // Terminal Close's early watch only attaches the context listener; the setup screen asks for it only while its setup is pending.

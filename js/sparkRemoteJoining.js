@@ -257,7 +257,7 @@
     const running=srjJoinCheck;
     if(running&&running.generation===generation&&running.sessionId===sessionId){running.again=true;return running.promise;}
     const run={sessionId,generation,again:false,promise:null};srjJoinCheck=run;
-    run.promise=(async()=>{try{do{run.again=false;await srjCheckForJoinOnce(sessionId,generation);}while(run.again&&srjJoinCheck===run&&generation===srjWaitGeneration&&!srjState.busy&&srjHostWaitingForJoin(sessionId));}finally{if(srjJoinCheck===run)srjJoinCheck=null;}})();
+    run.promise=(async()=>{try{do{run.again=false;await srjCheckForJoinOnce(sessionId,generation);}while(run.again&&srjJoinCheck===run&&generation===srjWaitGeneration&&!srjState.busy&&!srjState.waitRetry&&srjHostWaitingForJoin(sessionId));}finally{if(srjJoinCheck===run)srjJoinCheck=null;}})();
     return run.promise;
   }
   async function srjCheckForJoinOnce(sessionId,generation){
@@ -408,7 +408,8 @@
      backstop check still runs every 30 s), so each wait costs no more reads than before (fewer). */
   const SRJ_WAIT_BACKSTOP_MS=30000;
   /* Codex #1620: a wake's in-flight flag holds its own wait generation, so a read of a retired wait never silences the new
-     wait's timed checks; and a paused wait (its window ran out: TRY AGAIN) releases its listener until the wait resumes. */
+     wait's timed checks; and a paused wait (its window ran out: TRY AGAIN) releases its listener until the wait resumes, and a
+     check still running when the wait paused joins nothing. */
   let srjOfferWaitRivalryId=null,srjOfferCheckedAt=0,srjOfferWaking=null,srjJoinCheckedAt=0,srjJoinWaking=null;
   function srjBudget(){const budget=root.CareerModeFirestoreBudget;return budget&&typeof budget.watchWaitPoint==="function"?budget:null;}
   function srjWatchHealthy(path){const live=root.CareerModeFirestoreBudget?.stats?.();return Boolean(path&&live?.watchHealthy===true&&live.watching===path);}
@@ -504,7 +505,7 @@
     const running=srjOfferCheck;
     if(running&&running.generation===generation){running.again=true;return running.promise;}
     const run={generation,again:false,promise:null};srjOfferCheck=run;
-    run.promise=(async()=>{try{do{run.again=false;await srjCheckForOfferOnce(generation);}while(run.again&&srjOfferCheck===run&&generation===srjWaitGeneration&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession());}finally{if(srjOfferCheck===run)srjOfferCheck=null;}})();
+    run.promise=(async()=>{try{do{run.again=false;await srjCheckForOfferOnce(generation);}while(run.again&&srjOfferCheck===run&&generation===srjWaitGeneration&&srjState.auto==="waiting"&&!srjState.waitRetry&&!srjState.busy&&!srjHasNonterminalSession());}finally{if(srjOfferCheck===run)srjOfferCheck=null;}})();
     return run.promise;
   }
   async function srjCheckForOfferOnce(generation){
@@ -514,7 +515,7 @@
     let settled=false;
     try{
       const context=await srjResolveContext(),offer=await srjReadOffer(context);
-      if(generation===srjWaitGeneration&&offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>srjClockNow()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession()){
+      if(generation===srjWaitGeneration&&offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>srjClockNow()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjState.waitRetry&&!srjState.busy&&!srjHasNonterminalSession()){
         const adopted=await srjAdopt(context,offer.sessionId,"peer",true,generation);
         if(adopted){settled=true;srjSetState({auto:null,waitRetry:false});return;}
       }else settled=true;
