@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r80-nik-home-after-end-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedJourneyReconnect\\.js$",
+    "^js/productionSharedTerminalClose\\.js$",
+    "^tests/contracts/r80\\-nik\\-home\\-after\\-end\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r80\\-nik\\-home\\-after\\-end\\-contracts\\.json$"
+  ]
+}

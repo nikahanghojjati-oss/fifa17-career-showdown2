@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r89-chamber-men-scene-load-browser-contracts.cjs",
+  "patterns": [
+    "^js/(chamberMen|chamberMenStep|chamberMenScene3d)\\.js$",
+    "^tests/contracts/r89\\-chamber\\-men\\-scene\\-load\\-browser\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r89\\-chamber\\-men\\-scene\\-load\\-browser\\-contracts\\.json$"
+  ]
+}

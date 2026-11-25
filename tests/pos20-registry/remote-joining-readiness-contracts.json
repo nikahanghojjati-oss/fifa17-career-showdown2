@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/remote-joining-readiness-contracts.cjs",
+  "patterns": [
+    "^REMOTE_JOINING_READINESS\\.json$",
+    "^tests/contracts/remote\\-joining\\-readiness\\-contracts\\.cjs$",
+    "^tests/pos20-registry/remote\\-joining\\-readiness\\-contracts\\.json$"
+  ]
+}

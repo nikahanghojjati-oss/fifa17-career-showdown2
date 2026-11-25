@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/final-reconciliation-partner-close-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedFinalReconciliation\\.js$",
+    "^js/productionSharedTerminalClose\\.js$",
+    "^tests/contracts/final\\-reconciliation\\-partner\\-close\\-contracts\\.cjs$",
+    "^tests/pos20-registry/final\\-reconciliation\\-partner\\-close\\-contracts\\.json$"
+  ]
+}

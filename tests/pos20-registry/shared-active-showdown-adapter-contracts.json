@@ -1,0 +1,14 @@
+{
+  "path": "tests/contracts/shared-active-showdown-adapter-contracts.cjs",
+  "patterns": [
+    "^js/sharedActiveShowdownAdapter\\.js$",
+    "^js/sharedCareerAnalytics\\.js$",
+    "^js/sharedHistoryConvergence\\.js$",
+    "^js/sharedTerminalClose\\.js$",
+    "^js/sharedFinalReconciliation\\.js$",
+    "^tests/support/active-showdown-fixtures\\.cjs$",
+    "^tests/support/career-fixture-helpers\\.cjs$",
+    "^tests/contracts/shared-active-showdown-adapter-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-active\\-showdown\\-adapter\\-contracts\\.json$"
+  ]
+}

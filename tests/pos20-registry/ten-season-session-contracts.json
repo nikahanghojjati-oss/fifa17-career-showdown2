@@ -1,0 +1,14 @@
+{
+  "path": "tests/contracts/ten-season-session-contracts.cjs",
+  "patterns": [
+    "^js/sparkRemoteJoining\\.js$",
+    "^js/sparkPrivateSession\\.js$",
+    "^js/productionSharedTerminalClose\\.js$",
+    "^js/productionSharedJourneyReconnect\\.js$",
+    "^js/sparkSharedSeasonResults\\.js$",
+    "^tests/firebase/two-manager-journey-emulator\\.cjs$",
+    "^\\.github/workflows/validate-gameplay-fast\\.yml$",
+    "^tests/contracts/ten-season-session-contracts\\.cjs$",
+    "^tests/pos20-registry/ten\\-season\\-session\\-contracts\\.json$"
+  ]
+}

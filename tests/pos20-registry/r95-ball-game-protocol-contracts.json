@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r95-ball-game-protocol-contracts.cjs",
+  "patterns": [
+    "^js/(sharedShowdownSetup|sparkSharedShowdownSetup|sparkCompletedShowdownReader|sparkSharedSeasonCommit|sparkSharedSeasonResults)\\.js$",
+    "^js/sharedShowdownCatalog\\.js$",
+    "^firestore\\.shared\\-setup\\-production\\.fragment\\.rules$",
+    "^tests/fixtures/club\\-draw\\-golden/",
+    "^tests/firebase/r95\\-ball\\-game\\-rules\\-emulator\\.cjs$",
+    "^tests/contracts/r95\\-ball\\-game\\-protocol\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r95\\-ball\\-game\\-protocol\\-contracts\\.json$"
+  ]
+}

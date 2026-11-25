@@ -243,6 +243,7 @@ const SHELL_PATHS = Object.freeze([
     "js/sharedSeasonCommit.js",
     "js/sparkSharedSeasonCommit.js",
     "js/productionSharedSeasonCommit.js",
+    "js/sharedTapMemory.js",
     "js/sharedCanonicalScoring.js",
     "js/sparkSharedCanonicalScoring.js",
     "js/productionSharedCanonicalScoring.js",
@@ -430,7 +431,8 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // site is never precached.
 // r99 adds the metal panel marble of the themed clubhouses (R99-01, 4 KB). It removes no shell path; the themed room
 // plates and themed loading rooms are images, runtime-cached like every other plate (never precached).
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["css/r78-marble-tile-metal.webp"]);
+// r100 (Phoenix W3) adds the shared tap memory (js/sharedTapMemory.js).
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/sharedTapMemory.js","css/r78-marble-tile-metal.webp"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks

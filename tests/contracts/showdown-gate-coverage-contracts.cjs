@@ -154,7 +154,7 @@ let checks=0;const ok=()=>{checks++;};
   const pos20Route=old[POS20].jobs.route.steps.find(s=>s.id==='route').run;
   assert.match(pos20Route,/--force-full/);assert.match(pos20Route,/--files-file \/tmp\/pos20-changed-files\.txt/);
   // Registered contracts the lane records are exactly what --all runs.
-  const manifest=json('CURRENT_PRODUCT_TEST_MANIFEST.json');const supplemental=json('POS20_SUPPLEMENTAL_PRODUCT_TESTS.json');
+  const manifest=json('CURRENT_PRODUCT_TEST_MANIFEST.json');const supplemental=require('../support/pos20-registry.cjs').loadPos20Registry(root);
   assert.deepEqual(gateLib.registeredContracts(),[...new Set([...manifest.tests,...supplemental.tests.map(e=>e.path)])]);
   assert.ok(gateLib.registeredContracts().length>=131,'the census keeps the 129 floor plus the Showdown Gate contracts');
   ok();
