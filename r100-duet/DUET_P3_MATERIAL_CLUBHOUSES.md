@@ -11,7 +11,11 @@ Picked by Nik on 2026-11-25, 06:56-07:01 UTC. In his words: Duet does the whole 
   1. **Ruby:** Rosso Levanto marble, oxblood leather, rosewood, antique gold. Palette #2A0A10 / #6E1423 / #9B2335. Key `ruby`.
   2. **Emerald:** malachite, bottle-green leather, walnut, satin brass. Palette #0B2E22 / #145A3C / #2E8B57. Key `emerald`.
   3. **Lapis:** ultramarine lapis lazuli with gold flecks. Palette #10204A / #1F3A93, gold #C9A24D. Key `lapis`.
-- **Names:** players never see the word "Premium" anywhere. Nik is picking the display names on a card. Until the desk passes them on, use placeholders `Ruby Clubhouse`, `Emerald Clubhouse` and `Lapis Clubhouse`, and say they are placeholders in each PR.
+- **Names (Nik's pick, 2026-11-25 07:06 UTC, "Material names"):** the full Settings list is Wooden, Platinum, Black Steel, Graphite, Ruby, Emerald and Lapis Clubhouse.
+  - Your three are exactly **`Ruby Clubhouse`**, **`Emerald Clubhouse`** and **`Lapis Clubhouse`**.
+  - B7 renames the existing four in its premium-only PR. Don't touch those labels.
+  - The word "Premium" never appears in any text a player sees. Every new label and hint line must pass B7's new no-"Premium" contract (it lands with premium-only; run it on each PR).
+  - Internal keys stay `ruby`, `emerald` and `lapis`.
 
 ## Who's who
 - **Repo:** nikahanghojjati-oss/fifa17-career-showdown2. **Base branch:** `gameplay/r100`, but start each clubhouse branch only once B7's `claude-gameplay/r100-premium-only` has merged into it (it adds the panel marble tile, the premium manifest and the scripted loading room, which the new keys need too). The desk tells you when that has happened.
@@ -148,7 +152,7 @@ Passing the numbers is necessary but not sufficient. Your eye check against HO-1
 4. **New key in the game:** everywhere B7's section 3 lists:
    - index.html: theme script regexes, `use()`, the BASE map, the `html[data-clubhouse=...]` blocks. Then re-pin index.html in v10-foundation-contracts.
    - service-worker.js: the panel-tile precache lists and THEMED_LOADING_PATH; r86 R99_ADDED, r87 w.added.
-   - js/settings.js SETTINGS_CLUBHOUSE_THEMES: placeholder name plus one line on the materials.
+   - js/settings.js SETTINGS_CLUBHOUSE_THEMES: the name ("Ruby Clubhouse" etc.) plus one short line on the materials, with no "Premium".
    - js/ruleBook.js: the clubhouse sentence.
    - finish.py: the UI finish (panels, frames, buttons in the clubhouse's materials).
    - Every test that lists keys: r99-clubhouse-themes, flash-gate-always, the v10 flash audits, the r91 old-art audit.
