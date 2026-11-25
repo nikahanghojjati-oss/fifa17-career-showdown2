@@ -40,5 +40,33 @@ const FLASH="V10_FLASH_BROWSER";
     assert.match(line,/required:\s*true/,`${name} journey stays required`);
     assert.doesNotMatch(line,/reportOnly/,`${name} journey blocks (no reportOnly)`);
   }
+  // r100 B7: Wooden flash stays on every route, unchanged; the three new clubhouses (V10_FLASH_CLUBHOUSES) run when a
+  // clubhouse-look file changes, and fail closed (no file list, full seal, escalation, a push to a branch).
+  const CLUB="V10_FLASH_CLUBHOUSES";
+  assert.equal(gate.groupOf(CLUB),"VISUAL","V10_FLASH_CLUBHOUSES belongs to the VISUAL proof group");
+  const runner=fs.readFileSync(path.join(ROOT,"scripts/pos10-proof-runner.mjs"),"utf8");
+  assert.match(runner,/V10_FLASH_BROWSER:\s*`CMS_AUDIT_RUN="pos10-impact-visual" npm run test:v10-flash`,/,"Wooden flash command unchanged");
+  assert.match(runner,/V10_FLASH_CLUBHOUSES:\s*`CMS_AUDIT_RUN="pos10-impact-visual" npm run test:v10-flash:clubhouses`,/,"clubhouse flash command");
+  const scripts=JSON.parse(fs.readFileSync(path.join(ROOT,"package.json"),"utf8")).scripts;
+  assert.equal(scripts["test:v10-flash:clubhouses"],"node tests/browser/v10-screen-flash-clubhouses.cjs");
+  const wrapper=fs.readFileSync(path.join(ROOT,"tests/browser/v10-screen-flash-clubhouses.cjs"),"utf8");
+  assert.match(wrapper,/\["silver","black","matte"\]/,"the wrapper runs all three new clubhouses");
+  assert.doesNotMatch(wrapper,/\bbreak\b/,"the wrapper never stops at the first red clubhouse");
+  assert.match(wrapper,/if\(failed\.length\)/,"the wrapper fails at the end if any clubhouse failed");
+  const clubRoutes={
+    "doc-only":[["README.md"],false],"operations-only":[["NEXT_TASK.md"],false],"small JS":[["js/statistics.js"],false],
+    "screen css":[["css/v10Transfer.css"],true],"index.html":[["index.html"],true],"settings.js":[["js/settings.js"],true],
+    "visual-assets":[["visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp"],true],"loading plates":[["assets/loading/silver/ENV_LOADING_PLATE_HC_1X.webp"],true],
+    "clubhouse tools":[["tools/clubhouse-themes/finish.py"],true],"flash audit":[["tests/browser/v10-screen-flash-audit.cjs"],true],
+    "this contract":[["tests/contracts/flash-gate-always-contracts.cjs"],true],"release PR into main (version bump)":[["package.json","js/statistics.js"],true],
+    "full seal":[["js/ui.js"],true],"no file list":[[],true]
+  };
+  for(const [label,[files,want]] of Object.entries(clubRoutes)){
+    const route=router.routeFiles(files);
+    assert.ok(route.proofs.includes(FLASH),`${label}: Wooden flash on every route`);
+    assert.equal(route.proofs.includes(CLUB),want,`${label}: clubhouse flash ${want?"runs":"skipped"}`);
+    if(want){assert.ok(gate.selectedFor("L3B",route).includes(CLUB),`${label}: L3B runs the clubhouse flash`);assert.ok(gate.routedIds(route).includes(CLUB),`${label}: the seal requires it`);}
+  }
+  for(const ctx of [{forceFull:true},{uncertainty:"HIGH"}])assert.ok(router.routeFiles(["README.md"],ctx).proofs.includes(CLUB),`forced full seal (${JSON.stringify(ctx)}) runs the clubhouse flash`);
   console.log("PASS flash gate always contracts: V10_FLASH_BROWSER is routed to L3B on doc-only, operations-only, small-JS and full-seal routes; Season Results and Final Winner block.");
 })().catch(error=>{console.error(error&&error.stack||error);process.exitCode=1;});

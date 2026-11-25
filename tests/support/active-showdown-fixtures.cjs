@@ -24,10 +24,13 @@ module.exports={SESSION,identity,pair,multi,multiFor,history,finalReconciliation
 // JOB-1651: browser storage plus the existing read-only provider snapshot shape.
 // Local active state stays routable while remote completion is presented: remote
 // convergence never automatically applies completed state to the local save (Candidate C).
-function completedShowdownStorage(){
-  const own=result({leaguePosition:1,leaguePoints:101,leagueGoals:102,championsLeague:true});
-  const opponent=result({leaguePosition:2,leaguePoints:88,leagueGoals:90});
-  const p=projection({totalSeasons:1,seasons:[[own,opponent]]});
+// r100 Turning Points gallery: an optional longer finished Showdown ({totalSeasons, seasons:[[daniel, nik], ...]}); the last
+// season's pair is the one the Results review shows. With no argument the fixture is the unchanged 1-season game.
+function completedShowdownStorage(options={}){
+  const seasons=Array.isArray(options.seasons)&&options.seasons.length?options.seasons:null;
+  const own=seasons?seasons[seasons.length-1][0]:result({leaguePosition:1,leaguePoints:101,leagueGoals:102,championsLeague:true});
+  const opponent=seasons?seasons[seasons.length-1][1]:result({leaguePosition:2,leaguePoints:88,leagueGoals:90});
+  const p=projection({totalSeasons:options.totalSeasons||(seasons?seasons.length:1),seasons:seasons||[[own,opponent]]});
   const at="2026-10-01T12:00:00.000Z";
   const completed={schemaVersion:2,integrityWarnings:[],id:"flash-guard-completed",name:"Daniel vs Nik",managers:{playerOne:"Daniel",playerTwo:"Nik"},totalRounds:1,currentRound:1,status:"Completed",selectedLeague:{id:"premier_league",name:"Premier League"},clubs:{playerOne:"Arsenal",playerTwo:"Liverpool"},score:{playerOne:p.managerRecords.playerOne.totalPoints,playerTwo:p.managerRecords.playerTwo.totalPoints},transferChallenges:[{seasonNumber:1,status:"completed",signings:{playerOne:[],playerTwo:[]},guesses:{againstPlayerOne:[],againstPlayerTwo:[]}}],rounds:JSON.parse(JSON.stringify(p.seasonHistory)),createdAt:at,updatedAt:at,completedAt:at,archivedAt:at};
   const active={...completed,id:"flash-guard-results-ready",status:"Ready",rounds:[],score:{playerOne:0,playerTwo:0},completedAt:null,archivedAt:null};

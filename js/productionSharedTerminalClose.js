@@ -154,6 +154,8 @@
     if(state.phase==="CLOSED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     if(state.phase==="DELETED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     if(state.phase==="CLOSED"||state.phase==="DELETED")ptcNoteEnded(state.rivalryId||request.rivalryId);
+    // Phoenix W3: a closed or ended Showdown never sends a noted tap again (js/sharedTapMemory.js); nothing to load for it.
+    if(state.phase==="CLOSED"||state.phase==="DELETED")try{root.CareerModeSharedTapMemory?.forgetShowdown?.(state.rivalryId||request.rivalryId);}catch(_error){}
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
     if(state.phase==="DELETED"&&previousPhase!=="DELETED")ptcLeaveEndedShowdown(state.rivalryId||request.rivalryId);
     return state;
@@ -191,7 +193,7 @@
     if(protocol.sameWitness(terminalRead.terminalWitness,intent))return true;
     try{const witness=protocol.verifyIntent(terminalRead.terminalWitness),held=protocol.verifyIntent(intent);return protocol.sameWitness({...witness,sessionId:held.sessionId},held);}catch(_error){return false;}
   }
-  function ptcClosedState(request,terminalRead){const witness=protocol.verifyIntent(terminalRead.terminalWitness);return {phase:"CLOSED",rivalryId:request.rivalryId,sessionId:witness.sessionId,rivalryRevision:terminalRead.rivalryRevision,terminal:true,terminalWitness:ptcClone(witness),canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false};}
+  function ptcClosedState(request,terminalRead){const witness=protocol.verifyIntent(terminalRead.terminalWitness);return {phase:"CLOSED",rivalryId:request.rivalryId,sessionId:witness.sessionId,rivalryRevision:terminalRead.rivalryRevision,terminal:true,terminalWitness:ptcClone(witness),closedAtMs:Number.isFinite(terminalRead.closedAtMs)?terminalRead.closedAtMs:null,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false};}
   function ptcBootstrap(){return ptcEnsureDependencies().then(()=>{if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>ptcWake());});}
   function ptcOnOtherRivalry(request){try{const s=ptcRivalryApi()?.getState?.(),id=String(s?.rivalryId||"").trim().toLowerCase();return s?.attached===true&&/^pair_[0-9a-f]{64}$/.test(id)&&id!==request.rivalryId;}catch(_error){return false;}}
   // r80: right after END SHOWDOWN on this phone, START (or Nik's JOIN) opens a new save shell before its rivalry is attached.
