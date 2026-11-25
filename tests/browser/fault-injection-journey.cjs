@@ -363,6 +363,19 @@ async function pathForward(m,page=m.page){
 // Retry buttons a screen offers after a failed write or read (tapped only when neither the path forward nor the step applies).
 async function retryTap(m,page=m.page){
   for(const name of [/^\s*TRY AGAIN\s*$/,/^\s*RETRY\s*$/,/^\s*RELOAD\s*$/])if(await clickIf(page,page.locator("button:visible").filter({hasText:name})))return `retry:${name}`;
+  // The Prime Pack could not load (offline at the last roulette tap): the app shows Career Start in its ready state with "Prime
+  // Pack could not load. Check the connection and tap again.", and its gold CONTINUE TO THE TRANSFER WAR opens the Prime Pack
+  // again. A player taps it once the connection is back (lead, #1579 network seed 4181106201). Only with the connection back,
+  // only with that line showing, so it never hides a phone that is really stuck; every one is logged as a retry tap.
+  {const card=page.locator("#productionSharedCareerStartOverlay");
+    if(await card.isVisible().catch(()=>false)&&/Prime Pack could not load/i.test(await card.innerText().catch(()=>""))&&await page.evaluate(()=>navigator.onLine).catch(()=>false)){
+      const cont=card.locator("button:visible").filter({hasText:/^\s*CONTINUE TO THE TRANSFER WAR\s*$/}).first();
+      if(await clickIf(page,cont)){
+        console.log(`--- ${new Date().toISOString().slice(11,23)} ${m.user} [${pointNow}] retry tap: Career Start CONTINUE TO THE TRANSFER WAR after "Prime Pack could not load"`);
+        const note=`${pointNow}: ${m.user} retry tap on Career Start (Prime Pack could not load)`;if(!report.notes.includes(note))report.notes.push(note);
+        return "retry:prime-pack";
+      }
+    }}
   return "";
 }
 // The roulette on this phone, counted per season: a stage or panel seen after this season's roulette finished is a replay.
@@ -656,6 +669,9 @@ async function inject(ctx,X,tap,other,rec){
       if(rec.point==="season-results"){
         rec.detail=rec.detail.replace("then the next day","then the next day with the page kept open");
         try{if(!X.clockInstalled){await X.context.clock.install();X.clockInstalled=true;}await X.context.clock.fastForward("11:00");}catch(e){rec.detail+=` (clock: ${String(e.message).split("\n")[0]})`;}
+        // The clock stays 11 minutes ahead for the rest of this Showdown (putting it back at once leaves Daniel's page on CHECK
+        // AGAIN at season-commit: the page kept its own times from the jump). The epilogue puts it right first (newShowdown).
+        X.clockAhead=true;
       }else{rec.detail=rec.detail.replace("then the next day (clock +11 min)","then the next day (the app opened again)");await X.page.reload({waitUntil:"domcontentloaded"}).catch(()=>{});}
       break;
     }
@@ -1100,6 +1116,10 @@ async function main(){
     // A new Showdown of the same pair: Daniel STARTs from Home, the code shows; Nik's Home turns into JOIN by itself.
     const newShowdown=async length=>{
       for(const m of both){m.roulette={};for(const p of [m.page,...m.extra])p.__fijGone=new Set();}
+      // quota (B6 on #1579, seed 4181106201): a phone left 11 minutes ahead by the season-results jump gets its clock put right
+      // before the next Showdown (its last one is closed): the pair code's expiresAt (now + 25 min) would read as 36 min on the
+      // server and the Rules refuse anything past 30 (CREATE CODE FOR NIK refused), a harness artefact, not the game.
+      for(const m of both)if(m.clockAhead){m.clockAhead=false;await skewClock(m,0).catch(()=>{});}
       for(const m of both)await backHome(m);
       await daniel.page.locator("#newShowdown").click({timeout:30000});
       await daniel.page.locator("#createShowdown").waitFor({state:"visible",timeout:30000});
