@@ -580,17 +580,19 @@ Same wide framing as image 1 (about 2.16:1), nothing cropped or extended at any 
 - Image 2: [IMG2_REF_BOX_SILVER_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_BOX_SILVER_SWATCH.png)
 - Saves as `ENV_BOX_PLATE_EMPTY_SILVER_P1_2X`
 
+- Framing lock + no-lamps lines added before the first try (lesson from HO-163/HO-162).
+
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
 
-Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop, widen the windows or move the camera, and keep the same 16:9 shape. The three window panes stay the same size in the same places, with the floodlights above the stands; the coat and scarf on the left and the glass cabinet on the right stay where they are; the counter rail stays at the same height. The stadium, crowd and seats inside the windows stay exactly as they are, not redrawn. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
 
 Keep in the same places and at the same sizes: the big three-pane window across the middle with the night stadium, the crowd, the small ceiling spots and the green pitch exactly as they are, the coat hooks on the left with the grey coat and the yellow and black striped scarf, the glass wall cabinet on the right with the decanter and glasses, and the thin rail along the top of the counter at exactly the same height. The middle of the picture stays calm and uncluttered: a large roulette board will sit there.
 
 The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
 The wall panels become hand-laid square platinum leaves, exactly like image 2, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. The window frames become polished nickel that mirrors the room. The wall cabinet becomes satin nickel frames with pale grey-white marble shelves. The coat hooks become polished nickel. The rail becomes polished nickel with one small sharp warm highlight. The counter becomes honed pale grey-white marble with no streaks or brushed lines, and a few long, smooth, softly curving single grey veins that flow gently across the slab like brush strokes, with no braided, netted, jagged or cracked lines, exactly the stone of image 2, no brown or beige tint, holding a soft dim reflection of the lamps.
 
-Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Near each lamp the platinum glows a bright warm champagne silver; away from the lamps it settles to cool clear silver-grey, and only the far corners and the very top of the room fall into soft shadow, so it reads as a bright lounge after dark, not a dark room. The colour is neutral platinum with a trace of warmth: never beige, taupe, brown or blue. Stone is light with dark veins, never dark stone with white cracks.
+Light: It is night. This room has no lamps: light comes from the floodlit stadium glow through the window and a soft warm light from above. Add no lamps. Near the window the platinum glows a bright warm champagne silver; away from the lamps it settles to cool clear silver-grey, and only the far corners and the very top of the room fall into soft shadow, so it reads as a bright lounge after dark, not a dark room. The colour is neutral platinum with a trace of warmth: never beige, taupe, brown or blue. Stone is light with dark veins, never dark stone with white cracks.
 
 Objects keep their identity and their own colours (the grey coat, the yellow and black striped scarf, the amber decanter and the glasses) and are relit by the new room.
 
@@ -605,17 +607,19 @@ Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest s
 - Image 2: [IMG2_REF_BOX_SILVER_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_BOX_SILVER_SWATCH.png)
 - Saves as `ENV_BOX_PHONE_V4_SILVER_P1`
 
+- Try 1 (24 Nov 8:53 p.m. Eastern) scored 4/10: Astra changed the shape (814x1932), zoomed in, lost the middle window bar and floodlights, and redrew the stadium (same as Black HO-163 try 1). Try 2 uses the framing lock + no-lamps lines that fixed HO-163. Start a NEW chat.
+
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
 
-Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop, widen the window or move the camera, and keep the same tall 9:16 shape. The window stays the same size in the same place, with its one thin upright bar down the middle and the three small floodlights above the stands; the counter rail stays just below the middle of the picture, with the same amount of wall above the window and stone below the rail. The stadium, crowd and seats inside the window stay exactly as they are, not redrawn. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
 
 Keep in the same places and at the same sizes: the window with the night stadium, the crowd and the green pitch exactly as they are, the window frames, the counter rail, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter. The middle of the picture stays calm and uncluttered: a large roulette board will sit there.
 
 The room: A platinum members' lounge at night: real metal leaf, real polished nickel, real stone, handcrafted.
 Walls and panels: hand-laid square platinum leaves, exactly like image 2, each a thin sheet of real beaten metal with a fine straight brushed grain running in one direction, so the lamp light slides across it as a soft even gradient; the leaves differ only by slight tone, set in satin nickel mouldings that keep the same panel layout. Frames: polished nickel that mirrors the room. Lamp metal: polished nickel; shades stay warm cream and lit. The rail becomes polished nickel with one small sharp warm highlight. Counter: honed pale grey-white marble with no streaks or brushed lines, and a few long, smooth, softly curving single grey veins that flow gently across the slab like brush strokes, with no braided, netted, jagged or cracked lines, exactly the stone of image 2, no brown or beige tint, holding a soft dim reflection of the lamps.
 
-Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Near each lamp the platinum glows a bright warm champagne silver; away from the lamps it settles to cool clear silver-grey, and only the far corners and the very top of the room fall into soft shadow, so it reads as a bright lounge after dark, not a dark room. The colour is neutral platinum with a trace of warmth: never beige, taupe, brown or blue. Stone is light with dark veins, never dark stone with white cracks.
+Light: It is night. This room has no lamps: light comes from the floodlit stadium glow through the window and a soft warm light from above. Add no lamps. Near the window the platinum glows a bright warm champagne silver; away from the lamps it settles to cool clear silver-grey, and only the far corners and the very top of the room fall into soft shadow, so it reads as a bright lounge after dark, not a dark room. The colour is neutral platinum with a trace of warmth: never beige, taupe, brown or blue. Stone is light with dark veins, never dark stone with white cracks.
 
 Objects keep their identity and their own colours and are relit by the new room.
 
