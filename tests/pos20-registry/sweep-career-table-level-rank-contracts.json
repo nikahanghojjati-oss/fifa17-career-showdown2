@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/sweep-career-table-level-rank-contracts.cjs",
+  "patterns": [
+    "^js/careerScreenSeam\\.js$",
+    "^js/sharedCareerAnalytics\\.js$",
+    "^js/careerScreensV10\\.js$",
+    "^tests/contracts/sweep\\-career\\-table\\-level\\-rank\\-contracts\\.cjs$",
+    "^tests/pos20-registry/sweep\\-career\\-table\\-level\\-rank\\-contracts\\.json$"
+  ]
+}

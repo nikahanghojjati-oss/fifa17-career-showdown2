@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/optional-modules-retry-contracts.cjs",
+  "patterns": [
+    "^js/optionalModules\\.js$",
+    "^tests/contracts/optional-modules-retry-contracts\\.cjs$",
+    "^tests/pos20-registry/optional\\-modules\\-retry\\-contracts\\.json$"
+  ]
+}

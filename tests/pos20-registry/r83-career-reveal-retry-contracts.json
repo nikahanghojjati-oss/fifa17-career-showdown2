@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r83-career-reveal-retry-contracts.cjs",
+  "patterns": [
+    "^js/careerStartMarker\\.js$",
+    "^js/rivalryLegacyV10\\.js$",
+    "^js/sparkClosedShowdownCareerLoader\\.js$",
+    "^js/sparkCompletedShowdownReader\\.js$",
+    "^tests/fixtures/saved-showdowns/r79-1season-win\\.json$",
+    "^tests/contracts/r83-career-reveal-retry-contracts\\.cjs$",
+    "^tests/pos20-registry/r83\\-career\\-reveal\\-retry\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r93-verdicts-after-reload-contracts.cjs",
+  "patterns": [
+    "^js/(productionSharedSeasonResultsRoute|productionSharedTransferChallenge)\\.js$",
+    "^tests/support/fake-dom\\.cjs$",
+    "^tests/contracts/r93\\-verdicts\\-after\\-reload\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r93\\-verdicts\\-after\\-reload\\-contracts\\.json$"
+  ]
+}

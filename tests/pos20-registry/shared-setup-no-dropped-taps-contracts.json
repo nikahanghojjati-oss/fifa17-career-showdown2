@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/shared-setup-no-dropped-taps-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedShowdownSetup\\.js$",
+    "^js/productionSharedShowdownPresentation\\.js$",
+    "^tests/contracts/shared-setup-no-dropped-taps-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-setup\\-no\\-dropped\\-taps\\-contracts\\.json$"
+  ]
+}

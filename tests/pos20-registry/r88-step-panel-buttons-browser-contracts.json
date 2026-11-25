@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r88-step-panel-buttons-browser-contracts.cjs",
+  "patterns": [
+    "^js/(rosterRouletteStep|iconGuessStep|chamberMenStep|screens)\\.js$",
+    "^css/(v10Roulette|app)\\.css$",
+    "^tests/contracts/r88\\-step\\-panel\\-buttons\\-browser\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r88\\-step\\-panel\\-buttons\\-browser\\-contracts\\.json$"
+  ]
+}

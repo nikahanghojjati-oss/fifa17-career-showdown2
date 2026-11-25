@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r80-terminal-close-new-shell-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTerminalClose\\.js$",
+    "^js/sharedTerminalClose\\.js$",
+    "^tests/contracts/r80\\-terminal\\-close\\-new\\-shell\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r80\\-terminal\\-close\\-new\\-shell\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/pair-code-entry-race-contracts.cjs",
+  "patterns": [
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/onlinePlayerIdentity\\.js$",
+    "^tests/contracts/pair-code-entry-race-contracts\\.cjs$",
+    "^tests/pos20-registry/pair\\-code\\-entry\\-race\\-contracts\\.json$"
+  ]
+}

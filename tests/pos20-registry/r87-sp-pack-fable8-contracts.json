@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r87-sp-pack-fable8-contracts.cjs",
+  "patterns": [
+    "^visual-assets/v10_1/special-player/index\\.html$",
+    "^tests/contracts/r87-sp-pack-fable8-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-sp\\-pack\\-fable8\\-contracts\\.json$"
+  ]
+}

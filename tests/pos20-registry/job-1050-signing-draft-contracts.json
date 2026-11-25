@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/job-1050-signing-draft-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^tests/contracts/job-1050-signing-draft-contracts\\.cjs$",
+    "^tests/pos20-registry/job\\-1050\\-signing\\-draft\\-contracts\\.json$"
+  ]
+}

@@ -129,6 +129,8 @@ if(!process.env.FIRESTORE_EMULATOR_HOST){
 const {chromium}=require("playwright");
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 const {installFirestoreMeter,createMeter}=require("./support/firestore-meter.cjs");
+const ring3=require("./support/ring3-meter.cjs");// POS1M Ring 3: time and Firebase cost per step (CE2PG_RING3=0 turns it off)
+const ring3Events=[];
 const billedMeter=require("./support/billed-meter.cjs");
 const {installMarbleConfirmAnswers}=require("./support/marble-confirm.cjs");
 
@@ -477,6 +479,7 @@ async function openManager(browser,account,label=account,reuse=null){
   const context=await browser.newContext({viewport});
   const log=reuse?reuse.log:{pageErrors:[],consoleErrors:[],failedRequests:[],httpErrors:[],forbidden:[],productionRuntime:0,taps:[]};
   await context.exposeBinding("__cmsTap",(_source,tap)=>{log.taps.push(tap);});
+  await ring3.install(context,label,ring3Events);
   await context.addInitScript(()=>{window.addEventListener("click",event=>{if(!event.isTrusted)return;const b=event.target&&event.target.closest&&event.target.closest("button,.menuTile");if(b&&typeof window.__cmsTap==="function")void window.__cmsTap({id:b.id||"",text:(b.textContent||"").replace(/\s+/g," ").trim().slice(0,60)});},true);});
   await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,route=>{
     const name=route.request().url().match(/(firebase-[a-z-]+\.js)$/)[1];
@@ -1496,8 +1499,8 @@ async function killTab(m){
   await m.page.goto(urlFor(m.account),{waitUntil:"domcontentloaded"});
   await m.page.locator("#loadingScreen").waitFor({state:"hidden",timeout:45000});
   const last=[...outageRuns].reverse().find(o=>o.user===m.user);if(last)last.killed=true;
-  // Sign-in is session-only by design (browserSessionPersistence, set in js/sparkConnectedAccount.js), so a new tab
-  // asks for SIGN IN WITH GOOGLE once; the player is then known from the Google account.
+  // Since r100 W4 the phone remembers sign-in (js/sparkConnectedAccount.js), so a new tab normally comes back signed in; if it
+  // still asks for SIGN IN WITH GOOGLE (a browser that cleared it), the player signs in once and is known from the Google account.
   const label=NAMES[m.account];
   const sign=m.page.getByRole("button",{name:"SIGN IN WITH GOOGLE"});
   if(!(await sign.isVisible().catch(()=>false)))await m.page.locator("#newShowdown").click({timeout:10000}).catch(()=>{});
@@ -2014,6 +2017,7 @@ async function main(){
       }catch(error){console.log(`attribution failed: ${error&&error.stack||error}`);}
       report.billed={budget:BILLED_BUDGET,profiles:WAIT_PROFILES,realtime:REALTIME_PROFILE,sampleLongMin:SAMPLE_LONG_MIN,sampleShortMin:SAMPLE_SHORT_MIN,rulesSha256:billedModel?.rulesSha256||null,seasons:seasons.map(e=>({label:e.label,measured:e.billed.measured,profiles:e.billed.profiles,waits:e.billed.waits,topModules:e.billed.topModules,topPaths:e.billed.topPaths})),screens};
     }
+    try{report.ring3=ring3.summarize({events:ring3Events,meterEvents:meter.events,phases:report.timings.phases,meterEntries:report.meter,playWindows,attribute:billedModel?(evs,all,key)=>billedMeter.attribute(billedModel,evs,all,key):null});}catch(error){report.ring3={error:String(error&&error.message||error).slice(0,300)};}
     const failed=report.checks.some(c=>!c.pass)||Boolean(failure);
     report.verdict=failed?"FAIL":"PASS";
     writeReport();await stopFontSweeps();writeFontSweep();

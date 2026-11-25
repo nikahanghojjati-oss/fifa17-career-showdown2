@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r87-sizes-fixes-contracts.cjs",
+  "patterns": [
+    "^css/remoteJoining\\.css$",
+    "^js/careerScreenSeam\\.js$",
+    "^js/sharedCareerAnalytics\\.js$",
+    "^tests/contracts/r87\\-sizes\\-fixes\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-sizes\\-fixes\\-contracts\\.json$"
+  ]
+}

@@ -270,14 +270,16 @@
     return value;
   }
 
-  function crAssertActiveRivalryValue(value,rivalryId,accountId,binding){
+  function crAssertActiveRivalryValue(value,rivalryId,accountId,binding,{allowClosed=false}={}){
     if(!crIsEnvelopeValue(value,"rivalry",rivalryId)||value.lifecycleState!=="live"){
       throw crError("CONNECTED_RIVALRY_NOT_FOUND","The exact private rivalry is unavailable.");
     }
     const data=value.data||{};
     const slots=Array.isArray(data.managerSlots)?data.managerSlots:[];
     const authorized=Array.isArray(data.authorizedAccountIds)?data.authorizedAccountIds:[];
-    if(data.connectionState!=="active"||slots.length!==2||authorized.length!==2||!authorized.includes(accountId)){
+    // Phoenix F3: allowClosed (attachRivalry only) also accepts the Showdown that just closed, so a phone swapped right after
+    // the last CONFIRM can point at it and show its Champion. Same exact slot check; the attach still writes nothing remote.
+    if(!(data.connectionState==="active"||(allowClosed===true&&data.connectionState==="closed"))||slots.length!==2||authorized.length!==2||!authorized.includes(accountId)){
       throw crError("CONNECTED_RIVALRY_NOT_ACTIVE","This private rivalry is not an active two-manager connection.");
     }
     const slot=slots.find(item=>item&&item.slotId===binding.managerRole);
@@ -449,7 +451,7 @@
         const deviceSnapshot=await transaction.get(deviceRef);
         const rivalrySnapshot=await transaction.get(rivalryRef);
         crAssertActiveDeviceValue(deviceSnapshot.exists()?deviceSnapshot.data():null,deviceId);
-        crAssertActiveRivalryValue(rivalrySnapshot.exists()?rivalrySnapshot.data():null,rivalryId,accountId,binding);
+        crAssertActiveRivalryValue(rivalrySnapshot.exists()?rivalrySnapshot.data():null,rivalryId,accountId,binding,{allowClosed:options.allowClosed===true});
       });
       const pointer=Object.freeze({
         schemaVersion:CR_POINTER_SCHEMA_VERSION,
