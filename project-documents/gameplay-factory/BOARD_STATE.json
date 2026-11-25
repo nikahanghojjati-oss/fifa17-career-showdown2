@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 8:12 PM Boston time (EST)",
+ "generated": "2026-11-24 8:14 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 537,
+  "count": 539,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -4836,6 +4836,24 @@
     "subject": "Premium Matte Black must look truly premium (Nik): bar for every Matte painting",
     "reply": "yes (receive it)",
     "boston": "Tue 24 Nov 8:06 PM"
+   },
+   {
+    "time": "2026-11-25 01:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-102, HO-103 RETURNED (REDO graphite, TOP)",
+    "subject": "Nik picked graphite for Premium Matte Black: redo the Matte Board Room and Home from the Wooden plate only (no car photos), prompts in each ticket's REDO section, same asset names, HO-173 bar; all other Matte tickets wait for Nik's OK on these two",
+    "reply": "yes (receive it)",
+    "boston": "Tue 24 Nov 8:12 PM"
+   },
+   {
+    "time": "2026-11-25 01:13",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-173 RECEIVED",
+    "subject": "Premium Matte Black must look truly premium (Nik): bar for every Matte painting",
+    "reply": "no",
+    "boston": "Tue 24 Nov 8:13 PM"
    }
   ],
   "g2v": {
@@ -4856,8 +4874,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "d9b5a679",
-  "head_boston": "Tue 24 Nov 8:11 PM",
+  "head": "b87408d",
+  "head_boston": "Tue 24 Nov 8:13 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -4885,7 +4903,7 @@
  },
  "two": {
   "live": {
-   "sha": "7dc0d48e",
+   "sha": "7dc0d48",
    "revision": "2.12.0-r99",
    "when": "2026-11-24T08:12:01-05:00",
    "subject": "Merge pull request #1580 from nikahanghojjati-oss/gameplay/r99",
@@ -5687,7 +5705,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24367
+    "waiting_min": 24370
    },
    {
     "id": "HO-059",
@@ -6253,8 +6271,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium pilot 5/6: Premium Matte Black Board Room repaint",
-    "stage": "DONE",
-    "pct": 100.0,
+    "stage": "WORKING",
+    "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-102_premium-pilot-5-6-premium-matte-black-bo.md",
     "worker": "images",
@@ -6266,8 +6284,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium pilot 6/6: Premium Matte Black Home repaint",
-    "stage": "DONE",
-    "pct": 100.0,
+    "stage": "WORKING",
+    "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-103_premium-pilot-6-6-premium-matte-black-ho.md",
     "worker": "images",
@@ -7176,13 +7194,13 @@
     "from": "G",
     "to": "V",
     "title": "Premium Matte Black must look truly premium (Nik): bar for every Matte painting",
-    "stage": "DELIVERED",
+    "stage": "RECEIVED",
     "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-173_premium-matte-black-must-look-truly-prem.md",
     "worker": "",
-    "pickup_min": null,
-    "waiting_min": 5
+    "pickup_min": 6,
+    "waiting_min": null
    }
   ],
   "relay_ok": true
@@ -7254,7 +7272,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 71,
+  "moving": 73,
   "next": 42,
   "nik": 2,
   "later": 21,

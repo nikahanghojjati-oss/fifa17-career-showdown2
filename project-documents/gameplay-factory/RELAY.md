@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 8:12 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 8:14 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `d9b5a679` (Tue 24 Nov 8:11 PM Boston time) · 537 messages · 174 hand-offs · 661 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `826f4fba` (Tue 24 Nov 8:14 PM Boston time) · 539 messages · 174 hand-offs · 664 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-173 · G → V · Premium Matte Black must look truly premium (Nik): bar for every Matte painting
 
-✅ Sent → ✅ **Delivered** → ○ Received → ○ In progress → ○ Done
+✅ Sent → ✅ Delivered → ✅ **Received** → ○ In progress → ○ Done · picked up 6 min after delivery
 
+- Tue 24 Nov 8:13 PM · Team V · Received · Matte hold passed to Finish premium clubhouse repaints thread 8:14 p.m. Eastern; no Matte DONE yet (142-152 WORKING, 153-160 SENT, 164/167/170 RECEIVED)
 - Tue 24 Nov 8:06 PM · Team G · Sent
 - Tue 24 Nov 8:07 PM · relay Action · Delivered in full as a wake comment on PR #312
 
@@ -4049,8 +4050,10 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-103 · G → V · Premium pilot 6/6: Premium Matte Black Home repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 8:14 PM · Team V · In progress · Graphite redo started 8:20 p.m. Eastern in Team V lead thread; one word change: felt -> fine herringbone wool flannel (pilot lesson: Astra turns felt into swirl/maze)
+- Tue 24 Nov 8:12 PM · Team G · RETURNED · REDO graphite (Nik 01:11 UTC 'Yes, graphite like my car'): new chat from the Wooden plate only, prompt in the REDO section; same asset name; HO-173 bar; top priority
 - Tue 24 Nov 10:28 AM · Team V · Done · Team V gate 9/10 (Nik rule: each at least 9). Aligned 3072x1728 to Wooden V3 2X (ORB affine, <1px). Men NOT composited (Team G does). Prompt lessons for the 57: Astra paints a fine swirl/crackle on wall materials; name a straight real texture (brushed grain, herringbone, slate); forbid extra lamps; ask clean crisp reflections without haze. Upgraded prompts in ho-premium-pilot/prompts/*_V2.txt. Also: your Light line had a template leak {'' if rm=='HOME' else ''}; fix the generator.
 - Tue 24 Nov 8:23 AM · Team V · In progress · Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src.
 - Tue 24 Nov 8:20 AM · Team G · Sent
@@ -4108,12 +4111,42 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ### After DONE (Team G, B7 premium clubhouses thread)
 Team G aligns the painting, lays the original Daniel and Nik pixels from the Wooden 2X plate back on top with the existing hero masks pulled in a few px (faces pixel-identical, hero-pixel contract unchanged), derives `_1920`, `_1X` and `_2X`, and puts it on the board for Nik. **Timing (Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release):** the pilot is due back today; as soon as Nik OKs the pilot, Team G sends the remaining 57 tickets (all three clubhouses, desktop first, then phone) and all of them must be DONE before the 3.0 freeze, Mon 30 Nov noon Boston. If the pilot needs a second round, only the failing rooms are redone.
 
+### REDO: graphite (Nik 2026-11-25 01:11 UTC: "Yes, graphite like my car")
+Nik wants the Premium Matte Black Clubhouse to truly look premium (HO-173), and he picked the **graphite** direction from his own matte black car reference (`attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`, d9b5a67). The first Home lounge came back as a brown espresso room, close to a darkened Wooden room (Team G's numeric check: saturation 0.33, change from Wooden 7-9 of 255, flat). This redo replaces it. **Top priority.** Every other Matte ticket waits for Nik's OK on these two redos.
+
+- **Route:** ChatGPT Work mode, **Astra 6, Extra High**. **Start a new chat from the Wooden plate** `visual-assets/v10_1/plates-hc/ENV_HOME_PLATE_HC_V3_2X.webp` (raw link above; convert to PNG if needed). **Attach that one file only.** Do not attach the car photos, because Astra would copy cars and logos. The finish is described in words below. Never attach the first try or any earlier result.
+- **Target palette (from Nik's reference):** recesses #000001-#050606; main surfaces #0e0e10-#292928; lit walls #22252b-#403e3c (lighter than the suits); soft sheen #42474f-#878079; accents are satin titanium or brushed aluminium. No brown: surface saturation stays under about 0.12. The warm lamps stay warm.
+- **Save as:** the same asset, `ENV_HOME_PLATE_MATTE_P1_2X`. It replaces your first delivery in `project-documents/hc-art/ho-premium-pilot/`. Update its line in `SHA256.json`, then set HO-103 DONE again.
+- **Check before saving:** the HO-173 premium bar (7 points; for point 2 read "neutral graphite velvet" where it says warm charcoal, and satin titanium where it says brass). Also put it next to the Metallic Black Home lounge: at a glance one is polished black and gold, the other velvet graphite and titanium. No brown anywhere on the walls. Score /10 and send only 9/10 or better. Max 3 tries, each in a new chat from the Wooden plate. If 3 tries can't reach the bar, set BLOCKED with the best try and one line on what fails.
+- **After DONE:** Team G runs `tools/clubhouse-themes/matte_check.py` (difference from Metallic Black, change from Wooden, glints, tonal spread, saturation, colour cast) and puts the room on the board next to Wooden, Platinum and Metallic Black for Nik. A FAIL comes back as a REDO.
+
+```
+Keep this image exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the lounge on the left (table lamp on the sideboard, folded plaid blankets, two brown leather armchairs, round table with the old leather ball in a bowl and the glass of whisky, the sofa with the grey throw, the rug), the big window across the middle and right with the night stadium, crowd, floodlights and green pitch exactly as they are, the wall lamp on the pillar at the right, and the counter along the bottom edge at exactly the same height.
+
+The room: A private members' lounge finished in neutral graphite velvet: low-gloss surfaces and satin titanium details, handcrafted.
+Repaint the lounge walls and panels as upholstered graphite wool felt with visible stitched seams, a neutral graphite with no brown, framed in thin satin graphite lacquer mouldings, with soft near-black plaster on the ceiling. The pillars beside the window become honed charcoal slate. The window frames become satin graphite lacquer with a thin brushed titanium edge. The lamp arms become brushed satin titanium; the shades stay warm cream and lit. The sideboard becomes satin graphite lacquer. The floor becomes neutral charcoal wool carpet with soft contact shadows under the chairs, the table and the sofa. The counter becomes honed graphite slate, fully matte.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the stadium glow through the window. The lamps cast warm pools of light, but every material itself stays a neutral graphite grey-black: never brown, never espresso, never a warm cast on the walls. The finish is velvet low gloss, like fine matte lacquer: where a surface turns toward a lamp it carries a broad, soft, pale-grey sheen that rolls across it in long gradients; nothing is mirror-like, and there is no sharp highlight and no glint anywhere. The tones are layered dark on dark: near-black in the recesses and corners, deep charcoal on the main surfaces, and lighter graphite on the lit walls. The lit walls are clearly lighter than the black suits, so both men read crisply against them. Up close the weave of the felt and the stitched seams are visible and sharp. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours (brown leather armchairs and sofa, plaid wool blankets, the old leather ball, the glass of whisky, the grey throw, the rug, the lamp shades) and are relit by the new room, each standing on the floor or table with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain and no streaks. No new objects, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
+
 </details>
 
 ### HO-102 · G → V · Premium pilot 5/6: Premium Matte Black Board Room repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
 
+- Tue 24 Nov 8:14 PM · Team V · In progress · Graphite redo started 8:20 p.m. Eastern in Team V lead thread; one word change: felt -> fine herringbone wool flannel (pilot lesson: Astra turns felt into swirl/maze)
+- Tue 24 Nov 8:12 PM · Team G · RETURNED · REDO graphite (Nik 01:11 UTC 'Yes, graphite like my car'): new chat from the Wooden plate only, prompt in the REDO section; same asset name; HO-173 bar; top priority
 - Tue 24 Nov 10:28 AM · Team V · Done · Team V gate 9/10 (Nik rule: each at least 9). Aligned 3072x1728 to Wooden V3 2X (ORB affine, <1px). Men NOT composited (Team G does). Prompt lessons for the 57: Astra paints a fine swirl/crackle on wall materials; name a straight real texture (brushed grain, herringbone, slate); forbid extra lamps; ask clean crisp reflections without haze. Upgraded prompts in ho-premium-pilot/prompts/*_V2.txt. Also: your Light line had a template leak {'' if rm=='HOME' else ''}; fix the generator.
 - Tue 24 Nov 8:23 AM · Team V · In progress · Team V lead: prompts sent to Nik (fixed a template leak in the Light line: {'' if rm=='HOME' else ''} removed; Home gets ' and the stadium glow through the window'). Sources as PNG on claude/project-thread-ie3afv hc-art/ho-premium-pilot/src.
 - Tue 24 Nov 8:20 AM · Team G · Sent
@@ -4170,6 +4203,34 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 ### After DONE (Team G, B7 premium clubhouses thread)
 Team G aligns the painting, lays the original Daniel and Nik pixels from the Wooden 2X plate back on top with the existing hero masks pulled in a few px (faces pixel-identical, hero-pixel contract unchanged), derives `_1920`, `_1X` and `_2X`, and puts it on the board for Nik. **Timing (Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release):** the pilot is due back today; as soon as Nik OKs the pilot, Team G sends the remaining 57 tickets (all three clubhouses, desktop first, then phone) and all of them must be DONE before the 3.0 freeze, Mon 30 Nov noon Boston. If the pilot needs a second round, only the failing rooms are redone.
+
+### REDO: graphite (Nik 2026-11-25 01:11 UTC: "Yes, graphite like my car")
+Nik wants the Premium Matte Black Clubhouse to truly look premium (HO-173), and he picked the **graphite** direction from his own matte black car reference (`attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`, d9b5a67). The first Board Room came back as a brown espresso room, close to a darkened Wooden room (Team G's numeric check: saturation 0.33, change from Wooden 7-9 of 255, flat). This redo replaces it. **Top priority.** Every other Matte ticket waits for Nik's OK on these two redos.
+
+- **Route:** ChatGPT Work mode, **Astra 6, Extra High**. **Start a new chat from the Wooden plate** `visual-assets/v10_1/plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp` (raw link above; convert to PNG if needed). **Attach that one file only.** Do not attach the car photos, because Astra would copy cars and logos. The finish is described in words below. Never attach the first try or any earlier result.
+- **Target palette (from Nik's reference):** recesses #000001-#050606; main surfaces #0e0e10-#292928; lit walls #22252b-#403e3c (lighter than the suits); soft sheen #42474f-#878079; accents are satin titanium or brushed aluminium. No brown: surface saturation stays under about 0.12. The warm lamps stay warm.
+- **Save as:** the same asset, `ENV_BOARD_PLATE_MATTE_P1_2X`. It replaces your first delivery in `project-documents/hc-art/ho-premium-pilot/`. Update its line in `SHA256.json`, then set HO-102 DONE again.
+- **Check before saving:** the HO-173 premium bar (7 points; for point 2 read "neutral graphite velvet" where it says warm charcoal, and satin titanium where it says brass). Also put it next to the Metallic Black Board Room: at a glance one is polished black and gold, the other velvet graphite and titanium. No brown anywhere on the walls. Score /10 and send only 9/10 or better. Max 3 tries, each in a new chat from the Wooden plate. If 3 tries can't reach the bar, set BLOCKED with the best try and one line on what fails.
+- **After DONE:** Team G runs `tools/clubhouse-themes/matte_check.py` (difference from Metallic Black, change from Wooden, glints, tonal spread, saturation, colour cast) and puts the room on the board next to Wooden, Platinum and Metallic Black for Nik. A FAIL comes back as a REDO.
+
+```
+Keep this image exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the wall lamp on the left with its pleated shade, the door on the right with its handle, the tall stone pillars at the far left and far right edges, the panel layout of the wall, and the thin rail along the top of the counter with the counter filling the lower quarter. The rail stays at exactly the same height.
+
+The room: A private members' room finished in neutral graphite velvet: low-gloss surfaces and satin titanium details, handcrafted.
+Repaint the wall panels as upholstered graphite wool felt with visible stitched seams, a neutral graphite with no brown, framed in thin satin graphite lacquer mouldings that keep the same panel layout, with soft near-black plaster above. The door becomes satin graphite lacquer with a brushed satin titanium handle. The pillars at the far edges become honed charcoal slate. The lamp arm becomes brushed satin titanium; the shade stays warm cream and lit. The rail becomes brushed satin titanium with a soft dull sheen. The counter becomes honed graphite slate, fully matte, with soft contact shadows and no reflection.
+
+Light: It is night. Light comes only from the same warm lamps in the same places. The lamps cast warm pools of light, but every material itself stays a neutral graphite grey-black: never brown, never espresso, never a warm cast on the walls. The finish is velvet low gloss, like fine matte lacquer: where a surface turns toward a lamp it carries a broad, soft, pale-grey sheen that rolls across it in long gradients; nothing is mirror-like, and there is no sharp highlight and no glint anywhere. The tones are layered dark on dark: near-black in the recesses and corners, deep charcoal on the main surfaces, and lighter graphite on the lit walls. The lit walls are clearly lighter than the black suits, so both men read crisply against them. Up close the weave of the felt and the stitched seams are visible and sharp. The two men stay lit exactly as they are now.
+
+The lamp shade and the door handle keep their shape; the room holds no other objects.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo around lamps or people, no noise grain and no streaks. No new objects, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
+```
 
 </details>
 
@@ -8776,6 +8837,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-173 RECEIVED · Team V → Team G · Tue 24 Nov 8:13 PM Boston time
+
+**Premium Matte Black must look truly premium (Nik): bar for every Matte painting** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-102, HO-103 RETURNED (REDO graphite, TOP) · Team G → Team V · Tue 24 Nov 8:12 PM Boston time
+
+**Nik picked graphite for Premium Matte Black: redo the Matte Board Room and Home from the Wooden plate only (no car photos), prompts in each ticket's REDO section, same asset names, HO-173 bar; all other Matte tickets wait for Nik's OK on these two** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-173 SENT · Team G → Team V · Tue 24 Nov 8:06 PM Boston time
 
