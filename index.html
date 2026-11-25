@@ -8,12 +8,12 @@
 <script>
 /* R99-01 clubhouse themes (Nik 2026-11-23): the clubhouse is Wooden (no attribute), Silver, Metallic Black or Premium Matte Black (key matte), picked in Settings and
    kept by each phone or laptop for itself (localStorage; never Firestore, never sent to the other phone). A theme draws each room plate from
-   plates-hc/<theme>/ (the same room recoloured; Daniel and Nik untouched, tools/clubhouse-themes) and the panel marble from
-   css/r78-marble-tile-metal.webp. It is set here, before any sheet or picture is asked for, so no room paints in the wrong
+   plates-hc/<theme>/ (the premium painting of the room; Daniel and Nik untouched, tools/clubhouse-themes) and the panel marble
+   from css/r78-marble-tile-<theme>.webp (cut from that clubhouse's painted slab). It is set here, before any sheet or picture is asked for, so no room paints in the wrong
    colours. Sheets are rewritten as they load (capture phase, before their own load handlers), pictures as they are added.
    The current look runs none of it: no observer, nothing rewritten. */
-(function(w,d){var K="cmsClubhouseTheme",cur=null,mo=null,P=/plates-hc\/(?:(?:silver|black|matte)\/)?((?:ENV|TILE)_)/g,M=/r78-marble-tile(?:-metal)?\.webp/g;var BASE={silver:"#61656c",black:"#111314",matte:"#141312"},bg=new WeakMap();
-function fix(v){return v.replace(P,"plates-hc/"+(cur?cur+"/":"")+"$1").replace(M,cur?"r78-marble-tile-metal.webp":"r78-marble-tile.webp");}
+(function(w,d){var K="cmsClubhouseTheme",cur=null,mo=null,P=/plates-hc\/(?:(?:silver|black|matte)\/)?((?:ENV|TILE)_)/g,M=/r78-marble-tile(?:-[a-z]+)?\.webp/g;var BASE={silver:"#61656c",black:"#111314",matte:"#141312"},bg=new WeakMap();
+function fix(v){return v.replace(P,"plates-hc/"+(cur?cur+"/":"")+"$1").replace(M,cur?"r78-marble-tile-"+cur+".webp":"r78-marble-tile.webp");}
 function hit(v){return v&&(v.indexOf("plates-hc/")>=0||v.indexOf("r78-marble-tile")>=0);}
 function rules(list){for(var i=0;i<list.length;i++){var r=list[i];if(r.styleSheet)sheet(r.styleSheet);if(r.cssRules)rules(r.cssRules);var s=r.style;if(!s||!hit(s.cssText))continue;
 var ps=["background","mask","-webkit-mask"];for(var j=0;j<s.length;j++)ps.push(s[j]);

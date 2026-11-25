@@ -50,7 +50,9 @@ const SHELL_FRAME_NAVIGATION_PATHS = new Set([
 const UNVERSIONED_SHELL_ASSET_PATHS = new Set([
     "css/r78-marble-tile.webp",
     // R99-01: every themed clubhouse (Silver, Metallic Black, Premium Matte Black) draws the panels with its metal-black copy (index.html rewrites the url).
-    "css/r78-marble-tile-metal.webp",
+    "css/r78-marble-tile-silver.webp",
+    "css/r78-marble-tile-black.webp",
+    "css/r78-marble-tile-matte.webp",
     "css/r95-type.css",
     // r95: the Instrument Sans variable faces the r95 type sheet asks for by a relative url(), so the request has no ?v=
     "visual-assets/v10_1/shared/fonts/instrument-sans-latin-wdth-normal.woff2",
@@ -360,7 +362,9 @@ const SHELL_PATHS = Object.freeze([
     "visual-assets/v10_1/shared/fonts/OFL_InstrumentSans.txt",
     "css/r78-marble-surfaces.css",
     "css/r78-marble-tile.webp",
-    "css/r78-marble-tile-metal.webp",
+    "css/r78-marble-tile-silver.webp",
+    "css/r78-marble-tile-black.webp",
+    "css/r78-marble-tile-matte.webp",
     "js/showdownConfirm.js",
     "visual-assets/v10_1/shared/navbar/navbar.css",
     "visual-assets/v10_1/shared/navbar/navbar.js",
@@ -430,10 +434,10 @@ const INSTALL_LANES = 4, OFFLINE_PACK_LANES = 2, DEPLOYED_CHECK_MS = 60000;
 // A release that moves PREVIOUS_RUNTIME_REVISION again resets BOTH sets to what it adds and removes since that revision.
 // 2.12.0 (r99): PREVIOUS is the live 2.11.0-r98 (262 paths, tests/fixtures/shell-paths/2.11.0-r98.json, main fec8af69). The STORY
 // site is never precached.
-// r99 adds the metal panel marble of the themed clubhouses (R99-01, 4 KB); r100 adds the Turning Points engine (B5). It removes no shell path; the themed room
+// r99/r100 add the panel marble of each premium clubhouse (css/r78-marble-tile-<theme>.webp, 19 KB together); r100 adds the Turning Points engine (B5). It removes no shell path; the themed room
 // plates and themed loading rooms are images, runtime-cached like every other plate (never precached).
 // r100 (Phoenix W3) adds the shared tap memory (js/sharedTapMemory.js); B5 adds the Turning Points engine (js/turningPoints.js).
-const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/sharedTapMemory.js","js/turningPoints.js","css/r78-marble-tile-metal.webp"]);
+const SHELL_PATHS_ADDED_SINCE_PREVIOUS = new Set(["js/sharedTapMemory.js","js/turningPoints.js","css/r78-marble-tile-silver.webp","css/r78-marble-tile-black.webp","css/r78-marble-tile-matte.webp"]);
 const SHELL_PATHS_REMOVED_SINCE_PREVIOUS = new Set([]);
 // Arch audit D1 (2.0.0): acceptance-only scripts are not precached (no release since 2.0.0 lists them). After the r91 cut
 // one is left, loaded only behind ?ssjr-acceptance (js/ssjr.js). A request for it comes from the shell of the revision that asks

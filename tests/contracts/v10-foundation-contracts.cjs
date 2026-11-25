@@ -1727,7 +1727,9 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Re-pinned 2026-11-22 by the 2.11.0 release bump: that file with its 2.11.0-r98 pins and v2.11.0 footer, nothing else.
   // R99-01 re-pin (Nik 2026-11-23, clubhouse themes): the inline theme script and the Silver ink style in the head; nothing else changed.
   // Re-pinned 2026-11-24 by the 2.12.0 release bump: that file with its 2.12.0-r99 pins and v2.12.0 footer, nothing else.
-  assert.equal(sha256("index.html"),"75b6db05865c8cb436dc7ab68eb746335b32d77b6ca0b8df6014b16bc9090711","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, 2.12.0-r99 pins)");
+  // Re-pinned 2026-11-25 by r100 B7 (Nik: only the premium versions): each premium clubhouse draws its own panel marble
+  // (r78-marble-tile-<theme>.webp) instead of the shared metal one; the theme script's comment and marble line, nothing else.
+  assert.equal(sha256("index.html"),"0abb02b7178b74bc28e0a65cdb7ab38098868f8298904c195c2c9b5197daa48b","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, r100 per-clubhouse panel marble, 2.12.0-r99 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
