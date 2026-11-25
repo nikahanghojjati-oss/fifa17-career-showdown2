@@ -1,13 +1,13 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-25T00:42:07.445Z",
+  "at": "2026-11-25T00:42:31.508Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
       "head_sha": "095286919ede29e1ae4c9c5cb6e2c8e82b8a7b12",
       "pr": 1604,
-      "queued_minutes": 199.3,
+      "queued_minutes": 199.7,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -16,7 +16,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "60c8da86da3850ba2db9127f1faceb1c9d2a1a5c",
       "pr": 1605,
-      "queued_minutes": 192.2,
+      "queued_minutes": 192.6,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -25,7 +25,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "49b74bb02d4f5ad988dfb063e142a3fd31462679",
       "pr": 1602,
-      "queued_minutes": 65.4,
+      "queued_minutes": 65.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -34,7 +34,7 @@
       "workflow": "Validate POS20",
       "head_sha": "933343b3e5efc2d8296089f0f81a362b71934c70",
       "pr": 312,
-      "queued_minutes": 20.6,
+      "queued_minutes": 21,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
