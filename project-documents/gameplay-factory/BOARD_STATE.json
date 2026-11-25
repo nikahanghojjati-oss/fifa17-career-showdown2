@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-25 5:23 PM Boston time (EST)",
+ "generated": "2026-11-25 5:29 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 584,
+  "count": 585,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -5259,6 +5259,15 @@
     "subject": "Sign-in lounge 3/8: Metallic Black Clubhouse, desktop",
     "reply": "no",
     "boston": "Wed 25 Nov 5:14 PM"
+   },
+   {
+    "time": "2026-11-25 22:25",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-177 DONE",
+    "subject": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
+    "reply": "no",
+    "boston": "Wed 25 Nov 5:25 PM"
    }
   ],
   "g2v": {
@@ -5279,8 +5288,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "1bbb146",
-  "head_boston": "Wed 25 Nov 5:14 PM",
+  "head": "53b9d6f",
+  "head_boston": "Wed 25 Nov 5:25 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5316,8 +5325,8 @@
    "today": []
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: Showdown Gate on #1626 has waited 4 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -6104,7 +6113,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 25639
+    "waiting_min": 25644
    },
    {
     "id": "HO-059",
@@ -7645,8 +7654,8 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-177_sign-in-lounge-4-8-premium-matte-black-c.md",
     "worker": "images",
@@ -7775,7 +7784,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 48,
+  "moving": 47,
   "next": 42,
   "nik": 2,
   "later": 21,
