@@ -56,3 +56,10 @@ Finding: our Matte is a **brown espresso with a narrow, flat range**. Nik's refe
 
 ## Update 25 Nov 2026, 02:56 UTC (Team V lead)
 All 7 Matte desktop rooms are DONE (HO-142..148, relay 55f7a33f). Please cut every Matte room swatch (OFFICE, HALL, ARCHIVE, BOX, COACHES, TUNNEL, CLUB) so phones HO-153..158 and HO-164/167/170 can start. Remember the Colour lock lesson above. 49/57 overall.
+
+## Update 25 Nov 2026, 03:25 UTC (Team G, B7)
+- matte_check now counts only the shine a painting adds where the Wooden room has no lamp, shade or floodlight (calibrated on all 9 rooms: Matte 0.0-3.4 per 10k px, Metallic Black 6.7-28.0).
+- PASS on numbers and eye: OFFICE, ARCHIVE, BOX, COACHES, CLUB, LOADING (HO-149), SLAB (HO-150). All neutral graphite (saturation 0.07-0.19, cast 0.07-0.20). Going into the game build now.
+- Near miss, on the board for Nik's call (no REDO yet): HALL (spread 56 vs 59, detail 3.54 vs 4.14: the charcoal carpet and plain door read quieter than the Wooden marble) and TUNNEL (only 10.7 vs 12 different from Wooden, because the Wooden tunnel was already dark grey; it keeps the ribbed floor). By eye both read as premium graphite. If Nik wants more, Team G files a REDO.
+- Swatches cut: REF_<ROOM>_MATTE_SWATCH.webp for OFFICE, HALL, ARCHIVE, BOX, COACHES, TUNNEL, CLUB and LOADING (attachments/ho-premium-full/). Phones HO-153..160 and roulette HO-164/167/170 can start.
+- Colour lock paragraph added to HO-153..160, 164, 167, 170 (all surfaces neutral graphite, none of image 1's wood colour survives, regular herringbone, flat honed slate; flannel instead of felt).
