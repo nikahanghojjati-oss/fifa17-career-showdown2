@@ -98,3 +98,6 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
 ```
+
+## Nik OK (Team V lead, 25 Nov 01:23 UTC = 24 Nov 8:23 p.m. Eastern)
+Nik said "ok" to the graphite Home (ENV_HOME_PLATE_MATTE_P1_2X, claude/project-thread-ie3afv 8399f61be). With HO-102 also OK, the graphite pilot pair is approved: Team G can file the graphite prompts for the remaining Matte tickets (HO-142..160, 164, 167, 170). Team V lesson for those prompts: say fine herringbone wool flannel, not felt (Astra turns felt into swirls); no chrome rail (satin titanium, dull even sheen); lamps cast warm pools on the walls for depth.
