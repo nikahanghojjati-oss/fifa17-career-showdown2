@@ -34,6 +34,9 @@ to wine near-black in the corners. Antique gold appears only as small accents an
 - **Reflections:** the counter and pillar marble are polished and may show one soft dim reflection of the lamp and of
   the dark suits. No mirror floor, no chrome, no sparkle.
 
+## Seating (Nik's decision, 25 Nov 2026 07:36 UTC, standing for every material clubhouse)
+The Home lounge armchairs and sofa are reupholstered in the clubhouse's own material and colour (Ruby: deep oxblood leather like the walls, a touch lighter where lamp light falls so they read against the walls), keeping their exact shape, size, cushions, seams and place. In Nik's words: "I actually think that having the color of the sofa and chair to be matched with the overall color and theme of the clubhouse make it looks better." The plaid blankets, ball, whisky, grey throw, rug and lamp shades keep their own colours.
+
 ## What Ruby must never be
 - Pink, cherry, candy or orange-red (that is "pale" or wrong hue in the numbers).
 - Brown: none of Wooden's tan, honey or orange-brown wood may survive (rosewood must read red-black).
@@ -47,8 +50,8 @@ Measured outside the dilated hero mask at 1536x864, as B7's matte_check does.
 |---|---|---|
 | vs silver / black / matte | mean diff >= 15 each | unmistakably a new clubhouse (B7's mb rule, every sibling) |
 | mw (vs Wooden) | >= 12 | every big surface changed |
-| hue | >= 0.50 of coloured pixels in 330-12 deg (Home >= 0.35) | it reads red; Home keeps its brown leather armchairs, sofa and plaid by design |
-| brown | <= 0.25 in Wooden's 15-45 deg band (Home <= 0.45) | Wooden today measures 0.65 (Home) and 0.98 (Board) |
+| hue | >= 0.50 of coloured pixels in 330-12 deg | it reads red (Home included: its seating is Ruby leather too) |
+| brown | <= 0.25 in Wooden's 15-45 deg band | Wooden today measures 0.65 (Home) and 0.98 (Board) |
 | sat | median 0.35-0.90 | rich red, neither grey nor neon (deep reds carry high HSV saturation: the palette's own #6E1423 is 0.82) |
 | pale | <= 0.03 of the room | "rich, not pink": no washed-out pastel red |
 | gold | <= 0.04 of the room | gold accents stay small |
@@ -64,3 +67,4 @@ Passing the numbers is necessary, never sufficient: the HO-173 eye check and Nik
 
 ## Calibration log
 - 2026-11-25 07:35 UTC, R-1 Board try 1: sat upper limit 0.80 -> 0.90. The 0.80 was below the palette's own oxblood (#6E1423 = 0.82, #2A0A10 = 0.76); the painting measures 0.86 and reads deep wine red by eye, not neon. Every other limit unchanged.
+- 2026-11-25 07:50 UTC, Nik's seating decision: the Home exception (hue >= 0.35, brown <= 0.45, kept for brown armchairs and sofa) is removed; Home now uses the Ruby limits (hue >= 0.50, brown <= 0.25). R-2 try 1, which already had red seating, measures hue 0.93 and brown 0.04.
