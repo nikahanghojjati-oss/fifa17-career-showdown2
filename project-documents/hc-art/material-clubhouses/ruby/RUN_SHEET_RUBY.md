@@ -406,6 +406,8 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 result (25 Nov 6:20 p.m. Boston) **8/10, two fixes.** Align scale 1.000, 0.1 px (no hero mask; whole picture). The R-8 lessons took: stitched oxblood leather panels, cloudy red marble pillars with faint straight pale stone veins, a gentle step glow, glint 0.15, brown 0.04. Misses, both narrow: sat 0.909 vs 0.90 (the reds a touch pure) and spread 35.3 vs its 37 floor (the lamp pool is small). Light first, then colour, as on R-7, since the colour fix lowers spread. Raw kept as ENV_LOADING_PLATE_RUBY_P1_2X_T1_RAW.png.
+- Fix 1 on try 1 (same chat; the light wording): "Keep this image exactly the same. Change only: the light from the wall lamp and the floodlit pitch at the far end is a little stronger: each throws a soft warm pool onto the leather and marble around it, and that light shows as soft warm reflections on the polished counter top and the tunnel floor, while the corners and the ceiling of the tunnel stay deep wine near-black and the top step keeps a gentle glow with no hot bright line."
 
 ### R-11 · Ruby Clubhouse: Material slab
 - Image 1: [IMG1_ENV_SLAB_HC_V1_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SLAB_HC_V1_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SLAB_HC_V1_2X.png)), 3072x1728
