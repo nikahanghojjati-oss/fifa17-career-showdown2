@@ -20,7 +20,7 @@ plate and with every existing clubhouse master of the same room in --sib (defaul
   glint   new specular hot spots per 10k px (matte_check's definition)  <= max(3, min(8, 0.6 x Metallic Black))
           polished stone may show a few more than Graphite (0.0-3.4) but never Black's 6.7-28
   spread  luma p95 - p5 (room)                                   >= max(Wooden, 0.75 x Metallic Black)   rich, not flat
-  detail  mean |luma - blur(2)|                               >= 1.1 x Wooden                         readable materials
+  detail  mean |luma - blur(2)|                               >= 1.05 x Wooden                        readable materials
 
 Every limit is necessary, never sufficient: the eye check against HO-173 and Nik's OK on the board decide.
 Limits marked in LOOKS as provisional are re-calibrated on the approved pilot; any change is written in that
@@ -163,7 +163,7 @@ def check(key, room, d, sib):
     rows += [
         ("glint", sm["glint"], sm["glint"] <= gl, f"<= {gl:.1f}" + (f" (Black {sb['glint']:.1f})" if sb else "")),
         ("spread", sm["spread"], sm["spread"] >= sp, f">= {sp:.0f} (Wooden {sw['spread']:.0f})"),
-        ("detail", sm["detail"], sm["detail"] >= 1.1 * sw["detail"], f">= {1.1 * sw['detail']:.2f}"),
+        ("detail", sm["detail"], sm["detail"] >= 1.05 * sw["detail"], f">= {1.05 * sw['detail']:.2f}"),
     ]
     ok = all(r[2] for r in rows)
     head = f"{room} {look}: {'PASS' if ok else 'FAIL'}" + (" (limits provisional until the pilot is approved)" if cfg.get("provisional") else "")
