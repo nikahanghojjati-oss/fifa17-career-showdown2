@@ -97,7 +97,7 @@ assert.equal(bootstrap.ownerZeroBillingAuthorization?.blazeMayBeEnabled,false,"B
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudRunAllowed,false,"Cloud Run must remain forbidden under the zero-billing architecture.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudFunctionsAllowed,false,"Cloud Functions must remain forbidden under the zero-billing architecture.");
 assert.equal(bootstrap.liveRuntime?.firestorePersistence,"memory-only","Firestore persistence must remain memory-only.");
-assert.equal(bootstrap.liveRuntime?.googleAuthPersistence,"browserSessionPersistence-popup-only-no-extra-scopes","Google Auth persistence must remain popup-only browserSessionPersistence with no extra scopes.");
+assert.equal(bootstrap.liveRuntime?.googleAuthPersistence,"remembered-on-device-popup-only-no-extra-scopes","Google Auth persistence must remain popup-only browserSessionPersistence with no extra scopes.");
 assert.match(roadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
