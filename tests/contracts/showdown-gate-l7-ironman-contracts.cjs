@@ -22,7 +22,7 @@ async function run(){
   for(const leg of S.L7_LEGS)assert.ok(L.LEGS.includes(leg),`the leg runner knows the Gate leg ${leg}`);
   const fullMatrix=fs.readFileSync(path.join(root,'.github/workflows/ironman-full-matrix.yml'),'utf8');
   assert.deepEqual(fullMatrix.match(/^\s+leg: \[([^\]]+)\]$/m)[1].split(',').map(x=>x.trim()),[...L.LEGS],'the full matrix runs every leg');
-  for(const leg of S.L7_LEGS){const def=S.LANES[S.l7Lane(leg)];assert.equal(def.job,'l7-ironman');assert.equal(def.leg,leg);assert.deepEqual(def.fixed,[`IRONMAN_${leg.toUpperCase()}`]);}
+  for(const leg of S.L7_LEGS){const def=S.LANES[S.l7Lane(leg)];assert.equal(def.job,'l7-ironman');assert.equal(def.leg,leg);assert.deepEqual(def.fixed,leg==='ce2pg'?['IRONMAN_CE2PG','POS1M_RING3']:[`IRONMAN_${leg.toUpperCase()}`]);assert.deepEqual(def.steps.ring3,leg==='ce2pg'?['POS1M_RING3']:[]);}
   const fij=fs.readFileSync(path.join(root,'tests/browser/fault-injection-journey.cjs'),'utf8');
   const faults=JSON.parse(fij.match(/const ALL_FAULTS=(\[[^\]]+\])/)[1]);
   assert.deepEqual(L.FIJ_FAULTS.filter(leg=>leg!=='none'),faults,'the leg runner has one leg per fault of the journey');
@@ -58,7 +58,9 @@ async function run(){
   const seal=extra=>S.evaluateSeal({event:'pull_request',draft:false,headSha:head,baseSha:base,baseRef:'gameplay/r100',files:outside,prLiveHead:head,route,needs,lanes:green(),runId,runAttempt:1,...extra});
   assert.equal(seal({}).verdict,'PASS','every leg ran and passed');
   assert.equal(seal({lanes:skipped()}).verdict,'PASS','an independently verified skip passes');
-  for(const leg of S.L7_LEGS){const lane=S.l7Lane(leg);assert.deepEqual(skipped()[lane].selected,[]);assert.deepEqual(green()[lane].selected,[`IRONMAN_${leg.toUpperCase()}`]);}
+  for(const leg of S.L7_LEGS){const lane=S.l7Lane(leg);assert.deepEqual(skipped()[lane].selected,[]);assert.deepEqual(green()[lane].selected,S.LANES[lane].fixed);}
+  // The ce2pg leg that ran must also have run Ring 3: a skipped or red Ring 3 step fails the seal.
+  for(const outcome of ['failure','skipped']){const lanes=green();lanes['L7-ce2pg']=S.buildLaneRecord({lane:'L7-ce2pg',headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:{...allSteps('L7-ce2pg'),ring3:{outcome}},files:outside,ironman:{verdict:'PASS',seed:S.l7Seed(head),seasons:3,attempts:[{exit:0}],replay:'x'}});assert.equal(seal({lanes}).verdict,'FAIL_TEST',`a ${outcome} Ring 3 after a passing ce2pg leg fails the seal`);}
   for(const file of inside){const lanes=skipped();for(const leg of S.L7_LEGS)lanes[S.l7Lane(leg)].files=[...outside,file];assert.equal(seal({files:[...outside,file],lanes}).verdict,'FAIL_TEST',`seal refuses a skip with ${file}`);}
   for(const extra of [{event:'push'},{baseRef:'main'},{baseRef:null},{files:null}])assert.equal(seal({...extra,lanes:skipped()}).verdict,'FAIL_TEST',`no skip: ${JSON.stringify(extra)}`);
   for(const flag of [true,undefined,null,'false']){const lanes=skipped();lanes['L7-lock'].l7_run=flag;assert.equal(seal({lanes}).verdict,'FAIL_TEST','a skip needs an explicit boolean false');}
@@ -88,6 +90,17 @@ async function run(){
   assert.equal(step.env?.IRONMAN_SEED,'${{ steps.route.outputs.seed }}');
   assert.equal(step.env?.IRONMAN_EPILOGUE,'${{ steps.route.outputs.l7_heavy }}','the epilogue follows the route\'s heavy set');
   assert.equal(step.env?.CMS_CHROMIUM_MULTI_CONTEXT,'1');
+  // POS1M Ring 3 after the ce2pg leg: the leg's own CE2PG report (legPlan names it), hard budgets, ce2pg only, in the Gate and the full matrix.
+  {const ring3=job.steps.find(s=>s.id==='ring3');
+    assert.equal(ring3.if,"steps.route.outputs.l7_run == 'true' && matrix.leg == 'ce2pg'");
+    const cmd=`node tests/pos1m/ring3.cjs --after "$(node -p "require('./test-results/ironman-ce2pg.json').report")" --out test-results/pos1m-ring3.json`;
+    assert.equal(ring3.run,cmd);assert.ok(job.steps.indexOf(ring3)>job.steps.indexOf(step),'Ring 3 reads the leg\'s report, so it runs after the leg');
+    assert.ok(!('continue-on-error' in ring3),'a broken budget fails the leg');
+    assert.equal(L.legPlan({leg:'ce2pg',seed:4}).report,'test-results/ce2pg-single-3-2.json');assert.equal(L.legPlan({leg:'ce2pg',seed:5,seasons:10}).report,'test-results/ce2pg-single-10-3.json');
+    const fullJob=readWorkflow(root,'.github/workflows/ironman-full-matrix.yml').jobs.leg;
+    const fullRing3=fullJob.steps.find(s=>/tests\/pos1m\/ring3\.cjs/.test(String(s.run||'')));
+    assert.ok(fullRing3&&fullRing3.run===cmd&&fullRing3.if==="matrix.leg == 'ce2pg'",'the full matrix runs Ring 3 after its ce2pg leg too');
+    assert.ok(fullJob.steps.indexOf(fullRing3)>fullJob.steps.findIndex(s=>/ironman-leg\.mjs/.test(String(s.run||''))));}
   assert.ok(job.steps.some(s=>/firebase@12\.17\.0 /.test(String(s.run||''))),'L7 pins firebase@12.17.0 (12.17.1 breaks emulator sign-in in CE2PG)');
   assert.ok(gate.jobs.seal.needs.includes('l7-ironman'));
   ok();
@@ -137,8 +150,9 @@ async function run(){
     let t=M.table({legs,reports:[rep('network',1000000)],log:quiet});
     assert.equal(t.ok,false,'a matrix without the fault-free report is not green');assert.ok(t.missing.includes('none (journey report)'));
     const all=L.LEGS.filter(leg=>leg!=='ce2pg').map(leg=>rep(leg,leg==='none'?1000:1200));
-    t=M.table({legs,reports:all,log:quiet});assert.equal(t.ok,true,`every report present and in budget: ${JSON.stringify(t.missing)}`);
-    t=M.table({legs,reports:all.map(r=>r.fault==='network'?{...r,readsTotal:1000000}:r),log:quiet});assert.equal(t.ok,false,'the reads rule holds once the baseline is there');    // Every failed point comes with a one-command replay of that point alone (seed + fault + point).
+    const held={engine:'POS1M',ring:3,after:'x.json',pass:true,rows:[],warns:[]};
+    t=M.table({legs,reports:all,ring3:held,log:quiet});assert.equal(t.ok,true,`every report present and in budget: ${JSON.stringify(t.missing)}`);
+    t=M.table({legs,reports:all.map(r=>r.fault==='network'?{...r,readsTotal:1000000}:r),ring3:held,log:quiet});assert.equal(t.ok,false,'the reads rule holds once the baseline is there');    // Every failed point comes with a one-command replay of that point alone (seed + fault + point).
     const dir=fs.mkdtempSync(path.join(os.tmpdir(),'ironman-fail-'));
     try{
       fs.writeFileSync(path.join(dir,'fij-swap-alt.json'),JSON.stringify({tool:'FIJ',fault:'swap',points:[{point:'tw-lock',phone:'nik',pass:false,checks:[{id:'swap.straightBack',pass:false},{id:'reads',pass:true}]},{point:'tw-guess',phone:'daniel',pass:true,checks:[]}],endChecks:[]}));
@@ -191,6 +205,24 @@ async function run(){
     const md=M.redReport({legs,t:{missing:[],bad:[]},sha:'abcdef0123'});
     assert.match(md,/\*\*B6 \(JOIN survives offline\)\*\*\n- network FAIL at home-join \(nik\): pair\.joined\. Replay: `FIJ_FAULT=network FIJ_SEED=1 FIJ_SEASONS=10 FIJ_ONLY=home-join/);
     assert.match(md,/\*\*lead \(route it\)\*\*\n- reload FLAKY at \?/);assert.doesNotMatch(md,/- none /);
+    // Codex on #1579: a reads-rule red only the matrix sees (every leg PASS) is listed with its point, owner and replay.
+    {const pass={none:{leg:'none',verdict:'PASS'},network:{leg:'network',verdict:'PASS'}};
+      const rep=(fault,reads,pr)=>({tool:'FIJ',fault,phone:'alt',verdict:'PASS',seed:7,seasons:3,readsTotal:reads,points:[{point:'league-ball',phone:'daniel',pass:true,checks:[],readsPoint:pr}],endChecks:[]});
+      const t=M.table({legs:pass,reports:[rep('none',100,10),rep('network',120,1000)],log:()=>{}});
+      assert.equal(t.bad.length,1,'the matrix finds the reads red');
+      // POS1M Ring 3 (B1 L9): a passing ce2pg leg needs its Ring 3 report; a broken budget makes the matrix red and is listed.
+      {const legs3={...pass,ce2pg:{leg:'ce2pg',verdict:'PASS',replay:'CE2PG_PLAN=single CE2PG_SEASONS=3 CE2PG_RUN=1 node tests/browser/ce2pg-journey.cjs'}};
+        const reps=[rep('none',100,10),rep('network',100,10)];
+        const none=M.table({legs:legs3,reports:reps,log:()=>{}});
+        assert.ok(!none.ok&&none.missing.includes('ce2pg (POS1M Ring 3 report)'),'a passing ce2pg leg with no Ring 3 report is missing');
+        const ring3=pass=>({engine:'POS1M',ring:3,after:'test-results/ce2pg-single-3-1.json',pass,rows:[{name:'billed reads per season',before:980.3,after:pass?990:1200,limit:1049.32,unit:'billed reads/season',pass}],warns:[]});
+        {const held=M.table({legs:legs3,reports:reps,ring3:ring3(true),log:()=>{}});assert.ok(!held.ring3Red&&!held.missing.includes('ce2pg (POS1M Ring 3 report)'),'held budgets add no red');}
+        const red=M.table({legs:legs3,reports:reps,ring3:ring3(false),log:()=>{}});
+        assert.ok(!red.ok&&red.ring3Red,'a broken Ring 3 budget makes the matrix red');
+        assert.match(M.redReport({legs:legs3,t:red,sha:'abcdef0123'}),/\*\*lead \(route it\)\*\*\n- ce2pg RING3 billed reads per season: 980\.3 -> 1200 \(limit 1049\.32 billed reads\/season\)\. Replay: `CE2PG_PLAN=single CE2PG_SEASONS=3 CE2PG_RUN=1 node tests\/browser\/ce2pg-journey\.cjs` then `node tests\/pos1m\/ring3\.cjs --after test-results\/ce2pg-single-3-1\.json`/);
+        const dir=fs.mkdtempSync(path.join(os.tmpdir(),'ring3-collect-'));fs.writeFileSync(path.join(dir,'pos1m-ring3.json'),JSON.stringify(ring3(false)));
+        assert.equal(M.collect(dir).ring3?.pass,false,'collect reads pos1m-ring3.json');fs.rmSync(dir,{recursive:true,force:true});}
+      assert.match(M.redReport({legs:pass,t,sha:'abcdef0123'}),/\*\*B2 \(Ironman weak points\)\*\*\n- network READS at league-ball \(daniel\): 1000 reads at this point vs 10 without faults\. Replay: `FIJ_FAULT=network FIJ_SEED=7 FIJ_SEASONS=3 FIJ_ONLY=league-ball node tests\/browser\/fault-injection-journey\.cjs`/);}
     const full=readWorkflow(root,'.github/workflows/ironman-full-matrix.yml');
     assert.equal(full.jobs.table.permissions?.issues,'write');
     assert.ok(full.jobs.table.steps.some(s=>/--report red-report\.md/.test(String(s.run||''))));

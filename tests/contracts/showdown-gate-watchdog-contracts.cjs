@@ -25,6 +25,7 @@ let checks=0;const ok=label=>{checks++;void label;};
   await require('./showdown-gate-l5-inputs-contracts.cjs')();
   await require('./showdown-gate-l7-ironman-contracts.cjs')();
   await require('./showdown-gate-l8-pos1m-contracts.cjs')();
+  await require('./showdown-gate-l9-pos1m-ring2-contracts.cjs')();
 
   const head='c'.repeat(40);
   const base='b'.repeat(40);const runId=100;
@@ -160,7 +161,7 @@ let checks=0;const ok=label=>{checks++;void label;};
   PS.GATE_LANES.forEach((name,i)=>assert.ok(name.startsWith(`${['L1','L2','L3A','L3B','L4','L5','L6'][i]} `),name));
   // The Physio bar shows the seven single-job lanes; the L7 Ironman and L8 POS1M matrices (one job per leg or shard) are read
   // through the seal.
-  assert.deepEqual(Object.values(gate.jobs).filter(j=>j.name!=='seal'&&!/^L7 Ironman |^L8 POS1M /.test(j.name)).map(j=>j.name),PS.GATE_LANES,'lane names are the gate job names');
+  assert.deepEqual(Object.values(gate.jobs).filter(j=>j.name!=='seal'&&!/^L7 Ironman |^L8 POS1M |^L9 POS1M Ring 2 /.test(j.name)).map(j=>j.name),PS.GATE_LANES,'lane names are the gate job names');
   const coverageGates=JSON.parse(fs.readFileSync(path.join(root,'GATE_COVERAGE.json'),'utf8')).gates.map(g=>g.name);
   assert.deepEqual(PS.POS20_GATE_NAMES,coverageGates,'the Physio counts exactly the 16 gates of GATE_COVERAGE.json');
   assert.equal(W.MAX_ATTEMPTS,3);

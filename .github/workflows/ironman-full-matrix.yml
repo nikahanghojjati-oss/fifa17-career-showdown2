@@ -110,6 +110,11 @@ jobs:
           seed="$IRONMAN_SEED_INPUT"
           if [[ -z "$seed" ]]; then seed=$((16#${IRONMAN_SHA:0:8})); fi
           node scripts/ironman-leg.mjs --leg ${{ matrix.leg }} --seed "$seed" --seasons "$IRONMAN_SEASONS" --out "test-results/ironman-${{ matrix.leg }}.json"
+      # POS1M Ring 3 (Phoenix B1): the ce2pg leg's CE2PG report against the hard budgets of tests/pos1m/ring3-baseline.json
+      # (per season, so a 10-season manual run compares the same way). Its report rides in the leg's uploaded test-results.
+      - name: POS1M Ring 3 budgets (ce2pg leg)
+        if: matrix.leg == 'ce2pg'
+        run: node tests/pos1m/ring3.cjs --after "$(node -p "require('./test-results/ironman-ce2pg.json').report")" --out test-results/pos1m-ring3.json
       - name: Upload Ironman reports
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
