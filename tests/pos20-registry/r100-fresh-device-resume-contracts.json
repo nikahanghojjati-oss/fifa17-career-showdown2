@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r100-fresh-device-resume-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^tests/contracts/r100\\-fresh\\-device\\-resume\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-fresh\\-device\\-resume\\-contracts\\.json$"
+  ]
+}

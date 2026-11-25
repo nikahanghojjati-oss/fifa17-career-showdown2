@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/shared-local-reconciliation-contracts.cjs",
+  "patterns": [
+    "^js/sharedLocalReconciliation\\.js$",
+    "^tests/contracts/shared-local-reconciliation-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-local\\-reconciliation\\-contracts\\.json$"
+  ]
+}

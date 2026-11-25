@@ -114,7 +114,9 @@ const danielBinding=[{managerRole:"playerOne",saveId:SAVE,profileId:PROFILE}];
   h.dom.connect.className="";pending=h.timers.pending();before=h.io.gets.length;await h.timers.fire(pending[0]);
   assert.ok(h.io.gets.length>before,"Connect Players shown over that screen: the poll reads");
   h.screen="mainMenu";h.clock.now=START+11*MIN+1;pending=h.timers.pending();assert.equal(pending.length,1);before=h.io.gets.length;await h.timers.fire(pending[0]);
-  assert.equal(h.io.gets.length,before,"a minute after the code expired: no read");
+  /* r100 B6: past the code's end the poll makes ONE last look (the same two reads), because Nik's JOIN closes the code and a
+     refresh that read the pair link just before his join landed would otherwise stop Daniel's WAITING for good */
+  assert.deepEqual(h.io.gets.slice(before).sort(),["accounts/uid_daniel/pairLinks/current",`rivalries/${R}`].sort(),"a minute after the code expired: one last look, the pair link and the rivalry only");
   assert.equal(h.timers.pending().length,0,"and the poll stops for good");
   assert.equal(h.pair.getCodeExpiry().expired,true);
   assert.match(h.text(),/Your code expired\. Make a new one\./,"the panel says the code expired");

@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r87-fable-pairing-fixes-contracts.cjs",
+  "patterns": [
+    "^js/(persistentNikDanielPair|whichShowdownIsLive|showdownModes|settings|onlinePlayerIdentity)\\.js$",
+    "^tests/contracts/r87\\-fable\\-pairing\\-fixes\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-fable\\-pairing\\-fixes\\-contracts\\.json$"
+  ]
+}

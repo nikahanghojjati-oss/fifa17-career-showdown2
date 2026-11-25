@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r93-loan-records-contracts.cjs",
+  "patterns": [
+    "^js/(squadSheet|squadSheetStep|squadScreen)\\.js$",
+    "^data/(fifa17Players|rosterSquads)\\.js$",
+    "^firestore\\.season\\-results\\-production\\.fragment\\.rules$",
+    "^tests/fixtures/r93\\-loan\\-records/",
+    "^tests/contracts/r93\\-loan\\-records\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r93\\-loan\\-records\\-contracts\\.json$"
+  ]
+}

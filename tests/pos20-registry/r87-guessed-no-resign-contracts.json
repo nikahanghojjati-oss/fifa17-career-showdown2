@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r87-guessed-no-resign-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^tests/contracts/r87\\-guessed\\-no\\-resign\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-guessed\\-no\\-resign\\-contracts\\.json$"
+  ]
+}

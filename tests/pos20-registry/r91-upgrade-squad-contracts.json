@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r91-upgrade-squad-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^js/squadSheetStep\\.js$",
+    "^js/rosterRoulette\\.js$",
+    "^js/rosterRouletteStep\\.js$",
+    "^tests/contracts/r91-upgrade-squad-contracts\\.cjs$",
+    "^tests/pos20-registry/r91\\-upgrade\\-squad\\-contracts\\.json$"
+  ]
+}

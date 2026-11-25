@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r91-squad-sheet-contracts.cjs",
+  "patterns": [
+    "^js/squadSheet\\.js$",
+    "^js/(squadSheetStep|productionSharedTransferChallenge)\\.js$",
+    "^data/fifa17Players\\.js$",
+    "^data/rosterSquads\\.js$",
+    "^tests/contracts/r91\\-squad\\-sheet\\-contracts\\.cjs$",
+    "^tests/browser/support/roster\\-roulette\\.cjs$",
+    "^tests/pos20-registry/r91\\-squad\\-sheet\\-contracts\\.json$"
+  ]
+}

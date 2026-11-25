@@ -1,0 +1,15 @@
+{
+  "path": "tests/contracts/r100-w4-remember-sign-in-contracts.cjs",
+  "patterns": [
+    "^js/productionFirebaseRuntime\\.js$",
+    "^js/sparkConnectedAccount\\.js$",
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^js/onlinePlayerIdentity\\.js$",
+    "^CURRENT_PRODUCT_GUARDS\\.json$",
+    "^SESSION_BOOTSTRAP\\.json$",
+    "^POS10_PRODUCT_BASELINE\\.json$",
+    "^AGENTS\\.md$",
+    "^tests/contracts/r100\\-w4\\-remember\\-sign\\-in\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-w4\\-remember\\-sign\\-in\\-contracts\\.json$"
+  ]
+}
