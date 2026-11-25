@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T19:15:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:17:29Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-11-25T03:13:31Z", "by": "V", "status": "WORKING", "note": "graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv e98c8d9d0 project-documents/hc-art/ho-premium-full/matte/ENV_BOX_PLATE_EMPTY_MATTE_P1_2X.webp"],
+ "log": [{"at": "2026-11-24T19:15:49Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T19:17:29Z", "by": "V", "status": "RECEIVED", "note": ""}, {"at": "2026-11-25T03:13:31Z", "by": "V", "status": "WORKING", "note": "graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra"}, {"at": "2026-11-25T04:39:56Z", "by": "V", "status": "DONE", "note": "try 1: layout identical (affine 1.0009, 1028 inliers), coats/scarf/cabinet kept, graphite herringbone + honed slate + titanium rail, stadium unchanged, no people"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
